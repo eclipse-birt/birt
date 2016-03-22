@@ -461,6 +461,18 @@ public class TotalTest extends TestCase
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(!ag.getParameterDefn()[0].isOptional());
 
+        // null-value handling
+        {
+	        BigDecimal[] arr = new BigDecimal[] { null, null, new BigDecimal("1.0"), null, new BigDecimal("2.5") };
+	        ac.start();
+	        for(int i=0; i<arr.length; i++)
+	        {
+	            ac.onRow( new Object[] { arr[i] } );
+	        }
+	        ac.finish();
+	        assertEquals(3.5D, ac.getValue());
+        }
+
         ac.start();
         for(int i=0; i<doubleArray1.length; i++)
         {
@@ -483,11 +495,11 @@ public class TotalTest extends TestCase
             ac.onRow(new Object[]{str1[i]});
         }
         ac.finish();
-        assertEquals(new Double(69.0), ac.getValue());
+        assertEquals(69D, ac.getValue());
 
         ac.start();
         ac.finish();
-        assertEquals(new BigDecimal("0"), ac.getValue());
+        assertEquals(null, ac.getValue());
 
         ac.start();
         try
@@ -528,7 +540,14 @@ public class TotalTest extends TestCase
             } );
         }
         ac.finish( );
-        assertEquals( new BigDecimal( "82" ), ac.getValue( ) );
+        assertEquals( 82D, ac.getValue( ) );
+
+        ac.start( );
+        ac.onRow( new Object[]{
+                new BigDecimal("1.2")
+            } );
+        ac.finish( );
+        assertEquals( 1.2D, ac.getValue( ) );
 
         // test Total.sum() for heterogeneous Number array data
         {
@@ -583,7 +602,8 @@ public class TotalTest extends TestCase
             ac.onRow( new Object[]{ new BigDecimal( "0.3" ) } );
             ac.finish( );
             Number x = ( Number )ac.getValue( );
-            assertTrue( x instanceof Double && ( ( Double )x ).isInfinite( ) );
+            assertTrue( x instanceof Double);
+            assertTrue( ( ( Double )x ).isNaN( ) );
 
             ac.start( );
             ac.onRow( new Object[]{ Double.valueOf( "0.1" ), Double.valueOf( "0.2" ) } );
@@ -591,7 +611,8 @@ public class TotalTest extends TestCase
             ac.onRow( new Object[]{ -1D/0D } );
             ac.finish( );
             x = ( Number )ac.getValue( );
-            assertTrue( x instanceof Double && ( ( Double )x ).isInfinite( ) );
+            assertTrue( x instanceof Double);
+            assertTrue( ( ( Double )x ).isNaN( ) );
 
             ac.start( );
             ac.onRow( new Object[]{ Double.valueOf( "0.1" ) } );
@@ -599,7 +620,8 @@ public class TotalTest extends TestCase
             ac.onRow( new Object[]{ new BigDecimal( "0.3" ) } );
             ac.finish( );
             x = ( Number )ac.getValue( );
-            assertTrue( x instanceof Double && ( ( Double )x ).isInfinite( ) );
+            assertTrue( x instanceof Double);
+            assertTrue( ( ( Double )x ).isNaN( ) );
         }
     }
 
@@ -611,54 +633,64 @@ public class TotalTest extends TestCase
         assertEquals(IAggrFunction.RUNNING_AGGR, ag.getType());
         assertEquals(1, ag.getParameterDefn().length);
         assertTrue(!ag.getParameterDefn()[0].isOptional());
-        double sum = 0D;
-        ac.start( );
-        for ( int i = 0; i < doubleArray1.length; i++ )
+        
         {
-            ac.onRow( new Double[]{
-                new Double( doubleArray1[i] )
-            } );
-            sum += doubleArray1[i];
-            assertEquals( new Double( sum ), ac.getValue( ) );
+	        double sum = 0D;
+	        ac.start( );
+	        for ( int i = 0; i < doubleArray1.length; i++ )
+	        {
+	            ac.onRow( new Double[]{
+	                new Double( doubleArray1[i] )
+	            } );
+	            sum += doubleArray1[i];
+	            assertEquals( new Double( sum ), ac.getValue( ) );
+	        }
+	        ac.finish();
         }
-        ac.finish();
-        sum = 0D;
-        ac.start();
-        for(int i=0; i<doubleArray2.length; i++)
+        
         {
-            ac.onRow(new Double[]{new Double(doubleArray2[i])});
-            sum += doubleArray2[i];
-            assertEquals( new Double( sum ), ac.getValue( ) );
+	        double sum = 0D;
+	        ac.start();
+	        for(int i=0; i<doubleArray2.length; i++)
+	        {
+	            ac.onRow(new Double[]{new Double(doubleArray2[i])});
+	            sum += doubleArray2[i];
+	            assertEquals( new Double( sum ), ac.getValue( ) );
+	        }
+	        ac.finish();
         }
-        ac.finish();
-        sum = 0D;
 
-        ac.start();
-        for(int i=0; i<str1.length; i++)
         {
-            ac.onRow(new Object[]{str1[i]});
-            sum += new Double(str1[i]).doubleValue();
-            assertEquals( new Double( sum ), ac.getValue( ) );
+	        Double sum = 0.0D;
+	        ac.start();
+	        for(int i=0; i<str1.length; i++)
+	        {
+	            ac.onRow(new Object[]{str1[i]});
+	            sum += Double.valueOf(str1[i]);
+	            assertTrue(ac.getValue( ) instanceof Double);
+	            assertEquals( sum, ac.getValue( ) );
+	        }
+	        ac.finish();
         }
-        ac.finish();
-        sum = 0D;
 
-        ac.start();
-        ac.finish();
-        assertEquals(null, ac.getValue());
+        {
+	        ac.start();
+	        ac.finish();
+	        assertEquals(null, ac.getValue());
+        }
 
         // test Total.RUNNINGSUM() for BigDecimal data
-        BigDecimal bigSum = BigDecimal.ZERO;
+        Double bigSum = 0.0D;
         ac.start( );
         for ( int i = 0; i < bigDecimalArray.length; i++ )
         {
             ac.onRow( new Object[]{
                 bigDecimalArray[i]
             } );
-            bigSum = bigSum.add( bigDecimalArray[i] );
+            bigSum += bigDecimalArray[i].doubleValue();
             Object ret = ac.getValue( );
-            assertTrue( ret instanceof BigDecimal );
-            assertTrue( bigSum.compareTo( (BigDecimal) ret ) == 0 );
+            assertTrue( ret instanceof Double );
+            assertEquals( bigSum, ret );
         }
         ac.finish();
     }
@@ -721,8 +753,8 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
         Object ret = ac.getValue( );
-        assertTrue( ret instanceof BigDecimal );
-        assertTrue( new BigDecimal( "5.466666666666666666666666666666667" ).compareTo( (BigDecimal) ret ) == 0 );
+        assertTrue( ret instanceof Double );
+        assertEquals( 5.466666666666666666666666666666667D, ret );
     }
 
     public void testTotalFirst() throws Exception
@@ -1002,7 +1034,7 @@ public class TotalTest extends TestCase
             ac.onRow(new Object[]{str1[i]});
         }
         ac.finish();
-        assertEquals(new Double(3.5), ac.getValue());
+        assertEquals(new Double(3.5D), ac.getValue());
 
         ac.start();
         ac.finish();
@@ -1027,7 +1059,7 @@ public class TotalTest extends TestCase
             ac.onRow( new Object[]{dates[i]} );
         }
         ac.finish();
-        assertEquals( ac.getValue(), new Date(2500000L) );
+        assertEquals( 2500000D, ac.getValue() );
         //2:
         ac.start();
         for ( int i = 0; i < dates2.length; i++ )
@@ -1035,7 +1067,7 @@ public class TotalTest extends TestCase
             ac.onRow( new Object[]{dates2[i]} );
         }
         ac.finish();
-        assertEquals( ac.getValue(),  new Date(2000000L) );
+        assertEquals( 2000000D, ac.getValue() );
 
         // test Total.MEDIAN() for BigDecimal data
         ac.start( );
@@ -1047,8 +1079,8 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
         Object ret = ac.getValue( );
-        assertTrue( ret instanceof BigDecimal );
-        assertTrue( new BigDecimal( 5 ).compareTo( (BigDecimal) ret ) == 0 );
+        assertTrue( ret instanceof Double );
+        assertEquals( 5D, ret );
 
     }
 
@@ -1110,7 +1142,7 @@ public class TotalTest extends TestCase
             ac.onRow(new Object[]{str1[i]});
         }
         ac.finish();
-        assertEquals(new Double(4.0), ac.getValue());
+        assertEquals("4", ac.getValue());
 
         ac.start();
         ac.finish();
@@ -1180,7 +1212,7 @@ public class TotalTest extends TestCase
             ac.onRow(new Double[]{new Double(doubleArray1[i])});
         }
         ac.finish();
-        assertEquals(new Double(2.445598573141631), ac.getValue());
+        assertEquals(2.445598573141631D, ac.getValue());
 
         ac.start();
         for(int i=0; i<doubleArray2.length; i++)
@@ -1196,7 +1228,7 @@ public class TotalTest extends TestCase
             ac.onRow(new Object[]{str1[i]});
         }
         ac.finish();
-        assertEquals(new Double(26.560422510872147), ac.getValue());
+        assertEquals(26.560422510872147D, ac.getValue());
 
         ac.start();
         ac.finish();
@@ -1223,8 +1255,8 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
         Object ret = ac.getValue( );
-        assertTrue( ret instanceof BigDecimal );
-        assertTrue( new BigDecimal( "2.445598573141631" ).compareTo( (BigDecimal) ret ) == 0 );
+        assertTrue( ret instanceof Double );
+        assertEquals( 2.445598573141631D, ret );
 
     }
 
@@ -1244,7 +1276,7 @@ public class TotalTest extends TestCase
             ac.onRow(new Double[]{new Double(doubleArray1[i])});
         }
         ac.finish();
-        assertEquals(new Double(5.980952380952381), ac.getValue());
+        assertEquals(5.980952380952381D, ac.getValue());
 
         ac.start();
         for(int i=0; i<doubleArray2.length; i++)
@@ -1260,7 +1292,7 @@ public class TotalTest extends TestCase
             ac.onRow(new Object[]{str1[i]});
         }
         ac.finish();
-        assertEquals(new Double(705.4560439560439), ac.getValue());
+        assertEquals(705.4560439560439D, ac.getValue());
 
         ac.start();
         ac.finish();
@@ -1287,8 +1319,8 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
         Object ret = ac.getValue( );
-        assertTrue( ret instanceof BigDecimal );
-        assertTrue( new BigDecimal( "5.980952380952380952380952380952381" ).compareTo( (BigDecimal) ret ) == 0 );
+        assertTrue( ret instanceof Double );
+        assertEquals( 5.980952380952380952380952380952381D, ret );
     }
 
 
@@ -1327,7 +1359,7 @@ public class TotalTest extends TestCase
         }
         ac.finish();
 
-        assertEquals(new Double(3.236104279390063), ac.getValue());
+        assertEquals(3.236104279390063D, ac.getValue());
 
         ac.start();
         ac.onRow(new Object[]{new Double(1), new Double(1)});
@@ -1346,7 +1378,7 @@ public class TotalTest extends TestCase
         ac.onRow(new Object[]{new Double(1), new Double(3)});
         ac.onRow(new Object[]{new Double(1), new Double(-3)});
         ac.finish();
-        assertEquals(null, ac.getValue());
+        assertEquals(Double.NaN, ac.getValue());
 
         ac.start();
         ac.onRow(new Object[]{new Double(1), new Double(2)});
@@ -1379,15 +1411,15 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
         Object ret = ac.getValue( );
-        assertTrue( ret instanceof BigDecimal );
-        assertTrue( new BigDecimal( "5.343042071197411003236245954692557" ).compareTo( (BigDecimal) ret ) == 0 );
+        assertTrue( ret instanceof Double );
+        assertEquals( 5.343042071197409D, ret );
 
     }
 
     public void testTotalMovingAve() throws Exception
     {
         double[] values1 = new double[]{1.0, 2.0, 3.0, 3.25, 3.8, 4.5, 4.285714285714286, 4.25, 4.75, 5.25, 5.75, 6.5, 6.25, 6, 6.5};
-        double[] values2 = new double[]{4.0, -19.5, -11.666666666666666, -3.0, -5.4, -5.5, -5.5, 0.6666666666666666, 0.5, 7.1666666666666666, 15.1666666666666666, 15.1666666666666666, 10.6666666666666666, 17.3333333333333333};
+        String[] values2 = new String[]{"4", "-19.5", "-11.66666666666666666666666666666667", "-3", "-5.4", "-5.5", "-5.5", "0.6666666666666666666666666666666667", "0.5", "7.166666666666666666666666666666667", "15.16666666666666666666666666666667", "15.16666666666666666666666666666667", "10.66666666666666666666666666666667", "17.33333333333333333333333333333333"};
         IAggrFunction ag = buildInAggrFactory.getAggregation("movingAve");
         Accumulator ac = ag.newAccumulator();
         assertEquals(IBuildInAggregation.TOTAL_MOVINGAVE_FUNC, ag.getName());
@@ -1409,7 +1441,7 @@ public class TotalTest extends TestCase
         for(int i=0; i<doubleArray2.length; i++)
         {
             ac.onRow(new Object[]{new Double(doubleArray2[i]), new Integer(6)});
-            assertEquals(new Double(values2[i]), ac.getValue());
+            assertEquals(Double.valueOf(values2[i]), ac.getValue());
         }
         ac.finish();
 
@@ -1417,7 +1449,7 @@ public class TotalTest extends TestCase
         for(int i=0; i<str1.length; i++)
         {
             ac.onRow(new Object[]{str1[i], new Integer(6)});
-            assertEquals(new Double(values2[i]), ac.getValue());
+            assertEquals(Double.valueOf(values2[i]), ac.getValue());
         }
         ac.finish();
 
@@ -1451,8 +1483,8 @@ public class TotalTest extends TestCase
                     bigDecimalArray[i], 8
             } );
             Object ret = ac.getValue( );
-            assertTrue( ret instanceof BigDecimal );
-            assertTrue( expectResults[i].compareTo( (BigDecimal) ret ) == 0 );
+            assertTrue( ret instanceof Double );
+            assertEquals( expectResults[i].doubleValue(), ret );
         }
         ac.finish( );
 
@@ -1469,7 +1501,7 @@ public class TotalTest extends TestCase
             ac.onRow(new Object[]{dates[i]});
         }
         ac.finish();
-        assertEquals(new Date(2500000L), ac.getValue());
+        assertEquals(2500000D, ac.getValue());
 
     }
 
@@ -1943,7 +1975,7 @@ public class TotalTest extends TestCase
                 bigDecimalArray[i]
             } );
             Object ret = ac.getValue( );
-            assertTrue( ret instanceof BigDecimal );
+            assertTrue( ret instanceof Double );
             assertEquals( bigDecimalPercentSum[i],
                     new Double( ( ( (Number) ret ).doubleValue( ) * 1000 ) ).intValue( ) );
         }
@@ -2051,8 +2083,8 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
         Object ret = ac.getValue( );
-        assertTrue( ret instanceof BigDecimal );
-        assertTrue( new BigDecimal( "3.0" ).compareTo( (BigDecimal) ret ) == 0 );
+        assertTrue( ret instanceof Double );
+        assertEquals( 3.0D, ret );
      }
 
     public void testTotalQuartile() throws Exception
@@ -2131,8 +2163,8 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
         Object ret = ac.getValue( );
-        assertTrue( ret instanceof BigDecimal );
-        assertTrue( new BigDecimal( "4.0" ).compareTo( (BigDecimal) ret ) == 0 );
+        assertTrue( ret instanceof Double );
+        assertEquals( 4.0D, ret );
      }
 
     public void testTotalRunningCount() throws Exception

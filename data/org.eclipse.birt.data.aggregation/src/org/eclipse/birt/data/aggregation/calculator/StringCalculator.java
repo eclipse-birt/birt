@@ -11,138 +11,79 @@
 
 package org.eclipse.birt.data.aggregation.calculator;
 
-import java.text.ParseException;
-
-import org.eclipse.birt.core.exception.CoreException;
-import org.eclipse.birt.core.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.core.DataException;
 
-import com.ibm.icu.text.NumberFormat;
-import com.ibm.icu.util.ULocale;
+//import com.ibm.icu.util.ULocale;
 
 /**
- * 
+ * Calculator used when an operand is a string. The assumption is that any decimal
+ * string can be converted to a BigDecimal. Note that GetTypedObject() of this
+ * calculator returns BigDecimal as well.
  */
 
-public class StringCalculator extends NumberCalculator
+public class StringCalculator extends BigDecimalCalculator
 {
-	private static ULocale locale = ULocale.getDefault( );
+	//private static ULocale locale = ULocale.getDefault( );
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#add(java.lang.Object,
+	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#add(java.lang.Object,
 	 *      java.lang.Object)
 	 */
 	@Override
 	public Number add( Object a, Object b ) throws DataException
 	{
-		Number[] args = convert( a, b );
-		return super.add( args[0], args[1] );
+		return super.add( getTypedObject( a ), getTypedObject( b ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#divide(java.lang.Object,
+	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#divide(java.lang.Object,
 	 *      java.lang.Object)
 	 */
 	@Override
 	public Number divide( Object dividend, Object divisor )
 			throws DataException
 	{
-		Number[] args = convert( dividend, divisor );
-		return super.divide( args[0], args[1] );
+		return super.divide( getTypedObject( dividend ), getTypedObject( divisor ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#multiply(java.lang.Object,
+	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#multiply(java.lang.Object,
 	 *      java.lang.Object)
 	 */
 	@Override
 	public Number multiply( Object a, Object b ) throws DataException
 	{
-		Number[] args = convert( a, b );
-		return super.multiply( args[0], args[1] );
+		return super.multiply( getTypedObject( a ), getTypedObject( b ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#safeDivide(java.lang.Object,
+	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#safeDivide(java.lang.Object,
 	 *      java.lang.Object, java.lang.Number)
 	 */
 	@Override
 	public Number safeDivide( Object dividend, Object divisor, Number ifZero )
 			throws DataException
 	{
-		Number[] args = convert( dividend, divisor );
-		return super.safeDivide( args[0], args[1], ifZero );
+		return super.safeDivide( getTypedObject( dividend ), getTypedObject( divisor ), ifZero );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#subtract(java.lang.Object,
+	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#subtract(java.lang.Object,
 	 *      java.lang.Object)
 	 */
 	@Override
 	public Number subtract( Object a, Object b ) throws DataException
 	{
-		Number[] args = convert( a, b );
-		return super.subtract( args[0], args[1] );
+		return super.subtract( getTypedObject( a ), getTypedObject( b ) );
 	}
-
-	/**
-	 * @param a
-	 * @param b
-	 * @return
-	 */
-	private Number[] convert( Object a, Object b ) throws DataException
-	{
-		Number[] arguments = new Number[2];
-
-		arguments[0] = ( a instanceof String ) ? toDouble( (String) a )
-				: (Number) a;
-		arguments[1] = ( b instanceof String ) ? toDouble( (String) b )
-				: (Number) b;
-		return arguments;
-	}
-
-	/**
-	 * 
-	 * @param source
-	 * @return
-	 */
-	private Double toDouble( String source ) throws DataException
-	{
-		try
-		{
-			return Double.valueOf( (String) source );
-		}
-		catch ( NumberFormatException e )
-		{
-			try
-			{
-				Number number = NumberFormat.getInstance( locale )
-						.parse( (String) source );
-				if ( number != null )
-					return new Double( number.doubleValue( ) );
-
-				throw DataException.wrap( new CoreException( ResourceConstants.CONVERT_FAILS,
-						new Object[]{
-								source.toString( ), "Double" //$NON-NLS-1$
-						} ) );
-			}
-			catch ( ParseException e1 )
-			{
-				throw DataException.wrap( new CoreException( ResourceConstants.CONVERT_FAILS,
-						new Object[]{
-								source.toString( ), "Double" //$NON-NLS-1$
-						} ) );
-			}
-		}
-	}
-
 }

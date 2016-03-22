@@ -13,7 +13,6 @@
  */
 package org.eclipse.birt.data.aggregation.impl;
 
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 
@@ -95,7 +94,6 @@ public class TotalMode extends AggrFunction
 		private int maxCount;
 		private boolean multiMaxValue;
 
-
         public void start()
         {
             super.start();
@@ -115,7 +113,7 @@ public class TotalMode extends AggrFunction
             assert (args.length > 0);
             if (args[0] != null)
             {
-            	Object value = getTypedData( args[0] );
+            	Object value = args[0];
             	Object obj =  cacheMap.get( value );
             	int count = 1;
             	if( obj != null )

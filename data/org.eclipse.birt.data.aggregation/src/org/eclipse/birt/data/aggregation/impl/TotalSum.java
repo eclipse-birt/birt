@@ -15,9 +15,9 @@
 package org.eclipse.birt.data.aggregation.impl;
 
 import org.eclipse.birt.core.data.DataType;
-import java.math.BigDecimal;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
@@ -84,18 +84,24 @@ public class TotalSum extends AggrFunction
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( );
+		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
 	}
 
 	private static class MyAccumulator extends SummaryAccumulator
 	{
+		private Number sum = null;
 
-		private Number sum = BigDecimal.ZERO;
+		MyAccumulator( ICalculator calc )
+		{
+			super( calc );
+		}
 
 		public void start( )
 		{
 			super.start( );
-			sum = BigDecimal.ZERO;
+			// Initialize sum with null so TotalSum can actually be null.
+			// Calculators must be able to handle null-values appropriately.
+			sum = null;
 		}
 
 		/*
@@ -106,14 +112,9 @@ public class TotalSum extends AggrFunction
 		public void onRow( Object[] args ) throws DataException
 		{
 			assert ( args.length > 0 );
-			if ( args[0] != null )
+			if ( args[0] != null ) // ignore nulls in calculations
 			{
-				if ( calculator == null )
-				{
-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-				}
-
-				sum = calculator.add( sum, args[0] );
+				sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
 			}
 		}
 

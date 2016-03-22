@@ -17,6 +17,7 @@ package org.eclipse.birt.data.aggregation.impl;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
@@ -83,7 +84,7 @@ public class TotalRunningSum extends AggrFunction
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( );
+		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
 	}
 
 	private static class MyAccumulator extends RunningAccumulator
@@ -91,7 +92,12 @@ public class TotalRunningSum extends AggrFunction
 
 		private boolean isRowAvailable = false;
 
-		private Number sum = 0D;
+		private Number sum = null;
+
+		MyAccumulator( ICalculator calc )
+		{
+			super( calc );
+		}
 
 		/*
 		 * (non-Javadoc)
@@ -101,7 +107,7 @@ public class TotalRunningSum extends AggrFunction
 		public void start( ) throws DataException
 		{
 			super.start( );
-			sum = 0D;
+			sum = null;
 			isRowAvailable = false;
 		}
 
@@ -115,12 +121,7 @@ public class TotalRunningSum extends AggrFunction
 			assert ( args.length > 0 );
 			if ( args[0] != null )
 			{
-				if ( calculator == null )
-				{
-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-				}
-
-				sum = calculator.add( sum, args[0] );
+				sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
 				if ( !isRowAvailable )
 				{
 					isRowAvailable = true;

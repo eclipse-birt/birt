@@ -11,15 +11,21 @@
 
 package org.eclipse.birt.data.aggregation.calculator;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ * Calculator for type Date. Note that all operands are expected to be converted
+ * to Date before invoking any operation. Use method getTypedObject() to convert
+ * operands to the desired datatype.
+ * Operations are performed via BigDecimalCalculator facilities, which performs
+ * operations using Long date representation.
  */
 
-public class DateCalculator extends NumberCalculator
+public class DateCalculator extends BigDecimalCalculator
 {
 
 	/*
@@ -31,8 +37,7 @@ public class DateCalculator extends NumberCalculator
 	@Override
 	public Number add( Object a, Object b ) throws DataException
 	{
-		Number[] args = convert( a, b );
-		return super.add( args[0], args[1] );
+		return (Number) getTypedObject( super.add( a, b ) );
 	}
 
 	/*
@@ -45,8 +50,7 @@ public class DateCalculator extends NumberCalculator
 	public Number divide( Object dividend, Object divisor )
 			throws DataException
 	{
-		Number[] args = convert( dividend, divisor );
-		return super.divide( args[0], args[1] );
+		return (Number) getTypedObject( super.divide( dividend, divisor ) );
 	}
 
 	/*
@@ -58,8 +62,7 @@ public class DateCalculator extends NumberCalculator
 	@Override
 	public Number multiply( Object a, Object b ) throws DataException
 	{
-		Number[] args = convert( a, b );
-		return super.multiply( args[0], args[1] );
+		return (Number) getTypedObject( super.multiply( a, b ) );
 	}
 
 	/*
@@ -72,8 +75,7 @@ public class DateCalculator extends NumberCalculator
 	public Number safeDivide( Object dividend, Object divisor, Number ifZero )
 			throws DataException
 	{
-		Number[] args = convert( dividend, divisor );
-		return super.safeDivide( args[0], args[1], ifZero );
+		return (Number) getTypedObject( super.safeDivide( dividend, divisor, ifZero ) );
 	}
 
 	/*
@@ -85,21 +87,7 @@ public class DateCalculator extends NumberCalculator
 	@Override
 	public Number subtract( Object a, Object b ) throws DataException
 	{
-		Number[] args = convert( a, b );
-		return super.subtract( args[0], args[1] );
-	}
-
-	/**
-	 * @param a
-	 * @param b
-	 * @return
-	 */
-	private Number[] convert( Object a, Object b ) throws DataException
-	{
-		Number[] args = new Number[2];
-		args[0] = ( a instanceof Date ) ? ( (Date) a ).getTime( ) : (Number) a;
-		args[1] = ( b instanceof Date ) ? ( (Date) b ).getTime( ) : (Number) b;
-		return args;
+		return (Number) getTypedObject( super.subtract( a, b ) );
 	}
 
 	/* (non-Javadoc)
@@ -108,7 +96,14 @@ public class DateCalculator extends NumberCalculator
 	@Override
 	public Object getTypedObject( Object obj ) throws DataException
 	{
-		Double ret = (Double) super.getTypedObject( obj );
-		return new Date( ret.longValue( ) );
+		try
+		{
+			BigDecimal ret = (BigDecimal) super.getTypedObject( obj );
+			return new Date( ret.setScale( 0, BigDecimal.ROUND_HALF_UP ).longValueExact() );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 	}
 }

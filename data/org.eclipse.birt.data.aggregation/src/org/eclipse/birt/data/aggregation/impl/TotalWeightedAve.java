@@ -14,13 +14,13 @@
 
 package org.eclipse.birt.data.aggregation.impl;
 
-import java.math.BigDecimal;
-
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
+import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -87,21 +87,26 @@ public class TotalWeightedAve extends AggrFunction
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( );
+		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
 	}
 
 	private static class MyAccumulator extends SummaryAccumulator
 	{
 
-		private Number wsum = 0.0D;
+		private Number wsum = null;
 
-		private Number weightsum = 0.0D;
+		private Number weightsum = null;
+
+		MyAccumulator( ICalculator calc )
+		{
+			super( calc );
+		}
 
 		public void start( )
 		{
 			super.start( );
-			wsum = 0D;
-			weightsum = 0;
+			wsum = null;
+			weightsum = null;
 		}
 
 		/*
@@ -116,14 +121,9 @@ public class TotalWeightedAve extends AggrFunction
 			// Skip rows with either NULL value or weight
 			if ( args[0] != null && args[1] != null )
 			{
-				if ( calculator == null )
-				{
-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-				}
-
-				wsum = calculator.add( wsum, calculator.multiply( args[0],
-						args[1] ) );
-				weightsum = calculator.add( weightsum, args[1] );
+				wsum = calculator.add( wsum, calculator.multiply( calculator.getTypedObject( args[0] ),
+						calculator.getTypedObject( args[1] ) ) );
+				weightsum = calculator.add( weightsum, calculator.getTypedObject( args[1] ) );
 			}
 		}
 
@@ -132,27 +132,19 @@ public class TotalWeightedAve extends AggrFunction
 		 * 
 		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
 		 */
-		public Object getSummaryValue( )
+		public Object getSummaryValue( ) throws DataException
 		{
+			if( weightsum ==  null )
+				return null;
 			try
 			{
-				if ( weightsum instanceof Double )
-				{
-					Double ws = (Double) weightsum;
-					return ws != 0 ? calculator.divide( wsum, weightsum ) : null;
-				}
-				else if ( weightsum instanceof BigDecimal )
-				{
-					BigDecimal ws = (BigDecimal) weightsum;
-					return ws.compareTo( BigDecimal.ZERO ) != 0
-							? calculator.divide( wsum, weightsum ) : null;
-				}
+				return calculator.divide( wsum, weightsum );
 			}
 			catch ( BirtException e )
 			{
-				return null;
+				throw DataException.wrap( new AggrException( ResourceConstants.DATATYPEUTIL_ERROR,
+						e ) );
 			}
-			return null;
 		}
 
 	}

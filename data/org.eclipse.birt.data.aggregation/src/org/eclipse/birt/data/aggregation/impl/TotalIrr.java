@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
@@ -33,6 +34,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  */
 public class TotalIrr extends AggrFunction
 {
+//	private static Logger logger = Logger.getLogger( TotalIrr.class.getName( ) );
 
 	/*
 	 * (non-Javadoc)
@@ -88,17 +90,22 @@ public class TotalIrr extends AggrFunction
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( );
+		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
 	}
 
 	private static class MyAccumulator extends SummaryAccumulator
 	{
 
-		private ArrayList<Number> list;
+		private ArrayList list;
 
 		private double intrate = 0D;
 
 		private Number ret = null;
+
+		MyAccumulator( ICalculator calc )
+		{
+			super( calc );
+		}
 
 		public void start( )
 		{
@@ -118,10 +125,6 @@ public class TotalIrr extends AggrFunction
 			assert ( args.length > 1 );
 			if ( args[0] != null && args[1] != null )
 			{
-				if ( calculator == null )
-				{
-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-				}
 				try
 				{
 					if ( list.size( ) == 0 )
@@ -129,7 +132,7 @@ public class TotalIrr extends AggrFunction
 						intrate = DataTypeUtil.toDouble( args[1] )
 								.doubleValue( );
 					}
-					list.add( calculator.add( 0, args[0] ) );
+					list.add( calculator.getTypedObject( args[0] ) );
 				}
 				catch ( BirtException e )
 				{
@@ -152,6 +155,11 @@ public class TotalIrr extends AggrFunction
 				catch ( BirtException e )
 				{
 					throw DataException.wrap( e );
+					// Failed to calculate MIRR value, you may consider returning null
+					// instead of throwing exception directly
+//					logger.log( Level.WARNING, "Failed to calcualte IRR value", e ); //$NON-NLS-1$
+//					ret = null;
+					
 				}
 			}
 			super.finish( );

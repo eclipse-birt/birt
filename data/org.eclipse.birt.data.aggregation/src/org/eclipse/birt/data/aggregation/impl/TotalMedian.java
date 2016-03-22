@@ -20,6 +20,7 @@ import java.util.List;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
@@ -85,7 +86,7 @@ public class TotalMedian extends AggrFunction
 	 */
     public Accumulator newAccumulator()
     {
-        return new MyAccumulator();
+    	return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
     }
 
     private static class MyAccumulator extends SummaryAccumulator
@@ -93,6 +94,11 @@ public class TotalMedian extends AggrFunction
         private List list;
 
         private Object ret = null;
+
+        MyAccumulator( ICalculator calc )
+        {
+        	super( calc );
+        }
 
         public void start()
         {
@@ -111,10 +117,6 @@ public class TotalMedian extends AggrFunction
 			assert ( args.length > 0 );
 			if ( args[0] != null )
 			{
-				if ( calculator == null )
-				{
-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-				}
 				list.add( calculator.getTypedObject( args[0] ) );
 			}
 		}
@@ -131,13 +133,14 @@ public class TotalMedian extends AggrFunction
 				{
 					Object d1 = values[size / 2 - 1];
 					Object d2 = values[size / 2];
-					ret = calculator.divide( calculator.add( d1, d2 ), 2.0D );
+					ret = calculator.divide(
+							calculator.add( calculator.getTypedObject( d1 ), calculator.getTypedObject( d2 ) ),
+							calculator.getTypedObject( 2 ) );
 				}
 				else
 				{
-					ret = values[size / 2];
+					ret = calculator.getTypedObject( values[size / 2] );
 				}
-				ret = calculator.getTypedObject( ret );
 			}
 			super.finish( );
 		}

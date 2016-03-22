@@ -26,15 +26,23 @@ public abstract class RunningAccumulator extends Accumulator
 {
 
 	protected ICalculator calculator;
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#start()
+	
+	/**
+	 * Derived accumulator classes not using calculators will use the default
+	 * constructor.  
 	 */
-	@Override
-	public void start( ) throws DataException
+	public RunningAccumulator( )
 	{
 		calculator = null;
 	}
+	/**
+	 * An explicit constructor. Derived accumulator classes should use it
+	 * for constructing calculator based on the return aggregate function
+	 * value type (or other business logic).
+	 */
+	public RunningAccumulator( ICalculator calc )
+	{
+		calculator = calc;
+	}
+
 }
