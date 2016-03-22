@@ -15,14 +15,13 @@
 package org.eclipse.birt.data.aggregation.impl;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
@@ -35,7 +34,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  */
 public class TotalMirr extends AggrFunction
 {
-	private static Logger logger = Logger.getLogger( TotalMirr.class.getName( ) );
+//	private static Logger logger = Logger.getLogger( TotalMirr.class.getName( ) );
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -91,7 +90,7 @@ public class TotalMirr extends AggrFunction
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( );
+		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
 	}
 
 	private static class MyAccumulator extends SummaryAccumulator
@@ -104,6 +103,11 @@ public class TotalMirr extends AggrFunction
 		private double rrate = 0D;
 
 		private Number ret = null;
+		
+		MyAccumulator( ICalculator calc )
+		{
+			super( calc );
+		}
 
 		public void start( )
 		{
@@ -124,10 +128,6 @@ public class TotalMirr extends AggrFunction
 			assert ( args.length > 2 );
 			if ( args[0] != null  )
 			{
-				if ( calculator == null )
-				{
-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-				}
 				try
 				{
 					if ( list.size( ) == 0 )
@@ -143,7 +143,7 @@ public class TotalMirr extends AggrFunction
 							rrate = DataTypeUtil.toDouble( args[2] ).doubleValue( );
 						}
 					}
-					list.add( calculator.add( 0, args[0] ) );
+					list.add( calculator.add( calculator.getTypedObject( 0 ), calculator.getTypedObject( args[0] ) ) );
 				}
 				catch ( BirtException e )
 				{
@@ -171,9 +171,12 @@ public class TotalMirr extends AggrFunction
 				}
 				catch ( BirtException e )
 				{
-					//Failed to calculate MIRR value, return null instead of throwing exception directly
-					logger.log( Level.WARNING, "Failed to calcualte MIRR value", e ); //$NON-NLS-1$
-					ret = null;
+					
+					throw DataException.wrap( e );
+					// Failed to calculate MIRR value, you may consider returning null
+					// instead of throwing exception directly
+//					logger.log( Level.WARNING, "Failed to calcualte MIRR value", e ); //$NON-NLS-1$
+//					ret = null;
 				}
 			}
 			super.finish( );

@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.data.aggregation.calculator;
 
-import java.math.BigDecimal;
-import java.util.Date;
+import org.eclipse.birt.core.data.DataType;
 
 
 /**
@@ -25,27 +24,22 @@ public class CalculatorFactory
 	private CalculatorFactory( )
 	{
 	}
-
-	/**
-	 * 
-	 * @param dataType
-	 * @return
-	 */
-	public static ICalculator getCalculator( Class<?> clz )
+	
+	public static ICalculator getCalculator( int dataType )
 	{
-		if ( clz.equals( Boolean.class ) )
+		if ( dataType == DataType.BOOLEAN_TYPE )
 		{
 			return new BooleanCalculator( );
 		}
-		else if ( Date.class.isAssignableFrom( clz ) )
+		else if ( dataType == DataType.DATE_TYPE )
 		{
 			return new DateCalculator( );
 		}
-		else if ( clz.equals( String.class ) )
+		else if ( dataType == DataType.STRING_TYPE )
 		{
 			return new StringCalculator( );
 		}
-		else if ( clz.equals( BigDecimal.class ) )
+		else if ( dataType == DataType.DECIMAL_TYPE )
 		{
 			return new BigDecimalCalculator( );
 		}
@@ -54,5 +48,4 @@ public class CalculatorFactory
 			return new NumberCalculator( );
 		}
 	}
-
 }

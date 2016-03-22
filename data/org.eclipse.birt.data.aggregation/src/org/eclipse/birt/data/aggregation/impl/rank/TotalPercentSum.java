@@ -18,6 +18,7 @@ import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.impl.AggrFunction;
 import org.eclipse.birt.data.aggregation.impl.Constants;
@@ -98,7 +99,7 @@ public class TotalPercentSum extends AggrFunction
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( );
+		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
 	}
 
 	private static class MyAccumulator extends RunningAccumulator
@@ -107,6 +108,11 @@ public class TotalPercentSum extends AggrFunction
 		private Number sum = 0D;
 		private int passNo = 0;
 		private Object value;
+
+		MyAccumulator( ICalculator calc )
+		{
+			super( calc );
+		}
 
 		public void start( ) throws DataException
 		{
@@ -126,41 +132,19 @@ public class TotalPercentSum extends AggrFunction
 			{
 				if ( args[0] != null )
 				{
-					if ( calculator == null )
-					{
-						calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-					}
-					try
-					{
-						sum = calculator.add( sum, args[0] );
-					}
-					catch ( BirtException e )
-					{
-						throw DataException.wrap( e );
-					}
+					sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
 				}
 			}
 			else
 			{
 				if ( args[0] != null )
 				{
-					if ( calculator == null )
-					{
-						calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-					}
 					Double d = RankAggregationUtil.getNumericValue( args[0] );
 					if ( sum.equals( 0D ) || d == null )
 						value = new Integer( 0 ); //$NON-NLS-1$
 					else
 					{
-						try
-						{
-							value = calculator.divide( args[0], sum );
-						}
-						catch ( BirtException e )
-						{
-							throw DataException.wrap( e );
-						}
+						value = calculator.divide( calculator.getTypedObject( args[0] ), sum );
 					}
 				}
 				else

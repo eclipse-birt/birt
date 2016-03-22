@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
@@ -33,7 +34,6 @@ import org.eclipse.birt.data.engine.core.DataException;
  */
 public class TotalMovingAve extends AggrFunction
 {
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -89,7 +89,7 @@ public class TotalMovingAve extends AggrFunction
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( );
+		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
 	}
 
 	private static class MyAccumulator extends RunningAccumulator
@@ -99,7 +99,12 @@ public class TotalMovingAve extends AggrFunction
 
 		private int window = 1;
 
-		private Number sum = 0D;
+		private Number sum = null;
+		
+		MyAccumulator( ICalculator calc )
+		{
+			super( calc );
+		}
 
 		/*
 		 * (non-Javadoc)
@@ -109,7 +114,7 @@ public class TotalMovingAve extends AggrFunction
 		public void start( ) throws DataException
 		{
 			super.start( );
-			sum = 0D;
+			sum = null;
 			list = new LinkedList( );
 			window = 1;
 		}
@@ -124,10 +129,6 @@ public class TotalMovingAve extends AggrFunction
 			assert ( args.length > 1 );
 			if ( args[0] != null && args[1] != null )
 			{
-				if ( calculator == null )
-				{
-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-				}
 				try
 				{
 					if ( list.size( ) == 0 )
@@ -136,11 +137,11 @@ public class TotalMovingAve extends AggrFunction
 						assert ( window > 0 );
 					}
 					list.addLast( args[0] );
-					sum = calculator.add( sum, args[0] );
+					sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
 
 					if ( list.size( ) > window )
 					{
-						sum = calculator.subtract( sum, list.get( 0 ) );
+						sum = calculator.subtract( sum, calculator.getTypedObject( list.get( 0 ) ) );
 						list.remove( 0 );
 					}
 				}
@@ -157,21 +158,14 @@ public class TotalMovingAve extends AggrFunction
 		 * 
 		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#getValue()
 		 */
-		public Object getValue( )
+		public Object getValue( ) throws DataException
 		{
 			if ( list.size( ) == 0 )
 			{
 				return null;
 			}
 
-			try
-			{
-				return calculator.divide( sum, list.size( ) );
-			}
-			catch ( DataException e )
-			{
-				return null;
-			}
+			return calculator.divide( sum, calculator.getTypedObject( list.size( ) ) );
 		}
 
 	}

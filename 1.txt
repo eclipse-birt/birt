@@ -1,0 +1,2048 @@
+diff --git a/core/org.eclipse.birt.core/src/org/eclipse/birt/core/data/DataTypeUtil.java b/core/org.eclipse.birt.core/src/org/eclipse/birt/core/data/DataTypeUtil.java
+index 6b413061b5083eed8eb71917afa018a23d2e1b6b..3fc1f071e7062e2bb0d993d2c986e948fb5fc6bd 100644
+--- a/core/org.eclipse.birt.core/src/org/eclipse/birt/core/data/DataTypeUtil.java
++++ b/core/org.eclipse.birt.core/src/org/eclipse/birt/core/data/DataTypeUtil.java
+@@ -340,8 +340,8 @@ public final class DataTypeUtil
+ 		else if ( source instanceof Boolean )
+ 		{
+ 			if ( true == ( (Boolean) source ).booleanValue( ) )
+-				return new BigDecimal( 1d );
+-			return new BigDecimal( 0d );
++				return BigDecimal.ONE;
++			return BigDecimal.ZERO;
+ 		}
+ 		else if ( source instanceof Date )
+ 		{
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/BigDecimalCalculator.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/BigDecimalCalculator.java
+index fd22bdf51e429ec7d2224b0328950310a08bde23..1083cab1ae39892980e77499e4b7b8c7ada451a6 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/BigDecimalCalculator.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/BigDecimalCalculator.java
+@@ -16,15 +16,22 @@ import java.math.MathContext;
+ 
+ import org.eclipse.birt.core.data.DataTypeUtil;
+ import org.eclipse.birt.core.exception.BirtException;
++import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
++import org.eclipse.birt.data.aggregation.impl.AggrException;
+ import org.eclipse.birt.data.engine.core.DataException;
+ 
+ /**
+- * 
++ * Calculator primarily for type BigDecimal. Note that all operands are
++ * expected to be converted to BigDecimal before invoking any operation.
++ * Use method getTypedObject() to convert operands to the desired datatype. 
++ * Nulls are ignored in calculations. NaN and Infinity are NOT supported:
++ * method DataTypeUtil.toBigDecimal() used by the calculator converts NaN and
++ * Infinity values to null, so check for those conditions in the respective
++ * aggregate function if those have to be recognized.
+  */
+ 
+ public class BigDecimalCalculator implements ICalculator
+ {
+-
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+@@ -33,8 +40,13 @@ public class BigDecimalCalculator implements ICalculator
+ 	 */
+ 	public Number add( Object a, Object b ) throws DataException
+ 	{
+-		BigDecimal[] args = convert( a, b );
+-		return args[0].add( args[1] );
++		if( a == null && b == null )
++			return null;
++		if( a == null )
++			return (BigDecimal) b;
++		if( b == null )
++			return (BigDecimal) a;
++		return ( (BigDecimal) a ).add( (BigDecimal) b );
+ 	}
+ 
+ 	/*
+@@ -46,8 +58,11 @@ public class BigDecimalCalculator implements ICalculator
+ 	public Number divide( Object dividend, Object divisor )
+ 			throws DataException
+ 	{
+-		BigDecimal[] args = convert( dividend, divisor );
+-		return args[0].divide( args[1], MathContext.DECIMAL128 );
++		if( dividend == null )
++			return null;
++		if( divisor == null )
++			return (BigDecimal) dividend;
++		return ( (BigDecimal) dividend ).divide( (BigDecimal) divisor, MathContext.DECIMAL128 );
+ 	}
+ 
+ 	/*
+@@ -58,8 +73,13 @@ public class BigDecimalCalculator implements ICalculator
+ 	 */
+ 	public Number multiply( Object a, Object b ) throws DataException
+ 	{
+-		BigDecimal[] args = convert( a, b );
+-		return args[0].multiply( args[1] );
++		if( a == null && b == null )
++			return null;
++		if( a == null )
++			return (BigDecimal) b;
++		if( b == null )
++			return (BigDecimal) a;
++		return ( (BigDecimal) a ).multiply( (BigDecimal) b );
+ 	}
+ 
+ 	/*
+@@ -89,25 +109,13 @@ public class BigDecimalCalculator implements ICalculator
+ 	 */
+ 	public Number subtract( Object a, Object b ) throws DataException
+ 	{
+-		BigDecimal[] args = convert( a, b );
+-		return args[0].subtract( args[1] );
+-	}
+-
+-	/**
+-	 * @param a
+-	 * @param b
+-	 * @return
+-	 */
+-	private BigDecimal[] convert( Object a, Object b ) throws DataException
+-	{
+-		BigDecimal[] args = new BigDecimal[2];
+-		args[0] = ( !( a instanceof BigDecimal ) )
+-				? BigDecimal.valueOf( ( (Number) a ).doubleValue( ) )
+-				: (BigDecimal) a;
+-		args[1] = ( !( b instanceof BigDecimal ) )
+-				? BigDecimal.valueOf( ( (Number) b ).doubleValue( ) )
+-				: (BigDecimal) b;
+-		return args;
++		if( a == null && b == null )
++			return null;
++		if( a == null )
++			return BigDecimal.ZERO.subtract( (BigDecimal) b );
++		if( b == null )
++			return (BigDecimal) a;
++		return ( (BigDecimal) a ).subtract( (BigDecimal) b );
+ 	}
+ 
+ 	/*
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/BooleanCalculator.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/BooleanCalculator.java
+index 0d7fdb2088343005c54ca7f263730238e1908316..34f739ffe3fe0108a39c5598bc4820659ca9ff47 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/BooleanCalculator.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/BooleanCalculator.java
+@@ -11,95 +11,129 @@
+ 
+ package org.eclipse.birt.data.aggregation.calculator;
+ 
++import org.eclipse.birt.core.data.DataTypeUtil;
++import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.engine.core.DataException;
+ 
++import com.ibm.icu.math.BigDecimal;
++
+ /**
+- * 
++ * Calculator for type Boolean. Note that all operands are expected to be
++ * converted to Boolean before invoking any operation. Use method
++ * getTypedObject() to convert operands to the desired datatype. 
++ * Nulls are ignored in calculations.
+  */
+ 
+-public class BooleanCalculator extends NumberCalculator
++public class BooleanCalculator implements ICalculator
+ {
+-
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#add(java.lang.Object,
++	 * @see org.eclipse.birt.core.script.math.ICalculator#add(java.lang.Object,
+ 	 *      java.lang.Object)
+ 	 */
+-	@Override
+ 	public Number add( Object a, Object b ) throws DataException
+ 	{
+-		Number[] args = convert( a, b );
+-		return super.add( args[0], args[1] );
++		if( a == null && b == null )
++			return null;
++		if( a == null )
++			return convertToNumber( (Boolean) b );
++		if( b == null )
++			return convertToNumber( (Boolean) a );
++		return convertToNumber( ( (Boolean) a ) || ( (Boolean) b ) );
+ 	}
+ 
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#divide(java.lang.Object,
++	 * @see org.eclipse.birt.core.script.math.ICalculator#divide(java.lang.Object,
+ 	 *      java.lang.Object)
+ 	 */
+-	@Override
+ 	public Number divide( Object dividend, Object divisor )
+ 			throws DataException
+ 	{
+-		Number[] args = convert( dividend, divisor );
+-		return super.divide( args[0], args[1] );
++		if( dividend == null )
++			return null;
++		if( divisor == null )
++			return convertToNumber( (Boolean) dividend );
++		if( divisor == Boolean.FALSE )
++			return null; // division by 0
++		return convertToNumber( ( (Boolean) dividend ) && ( (Boolean) divisor ) );
+ 	}
+ 
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#multiply(java.lang.Object,
++	 * @see org.eclipse.birt.core.script.math.ICalculator#multiply(java.lang.Object,
+ 	 *      java.lang.Object)
+ 	 */
+-	@Override
+ 	public Number multiply( Object a, Object b ) throws DataException
+ 	{
+-		Number[] args = convert( a, b );
+-		return super.multiply( args[0], args[1] );
++		if( a == null && b == null )
++			return null;
++		if( a == null )
++			return convertToNumber( (Boolean) b );
++		if( b == null )
++			return convertToNumber( (Boolean) a );
++		return convertToNumber( ( (Boolean) a ) && ( (Boolean) b ) );
+ 	}
+ 
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#safeDivide(java.lang.Object,
+-	 *      java.lang.Object, java.lang.Number)
++	 * @see org.eclipse.birt.core.script.math.ICalculator#safeDivide(java.lang.Object,
++	 *      java.lang.Object, java.lang.Object)
+ 	 */
+-	@Override
+ 	public Number safeDivide( Object dividend, Object divisor, Number ifZero )
+ 			throws DataException
+ 	{
+-		Number[] args = convert( dividend, divisor );
+-		return super.safeDivide( args[0], args[1], ifZero );
++		try
++		{
++			return divide( dividend, divisor );
++		}
++		catch ( ArithmeticException e )
++		{
++			return ifZero;
++		}
+ 	}
+ 
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#subtract(java.lang.Object,
++	 * @see org.eclipse.birt.core.script.math.ICalculator#subtract(java.lang.Object,
+ 	 *      java.lang.Object)
+ 	 */
+-	@Override
+ 	public Number subtract( Object a, Object b ) throws DataException
+ 	{
+-		Number[] args = convert( a, b );
+-		return super.subtract( args[0], args[1] );
++		if( a == null && b == null )
++			return null;
++		if( a == null )
++			return convertToNumber( (Boolean) b );
++		if( b == null )
++			return convertToNumber( (Boolean) a );
++		return convertToNumber( ( (Boolean) a ) ^ ( (Boolean) b ) );
+ 	}
+ 
+-	/**
+-	 * @param a
+-	 * @param b
+-	 * @return
++	/*
++	 * (non-Javadoc)
++	 * 
++	 * @see org.eclipse.birt.data.engine.api.aggregation.ICalculator#getTypedObject(java.lang.Object)
+ 	 */
+-	private Number[] convert( Object a, Object b )
++	public Object getTypedObject( Object obj ) throws DataException
+ 	{
+-		Number[] args = new Number[2];
+-
+-		args[0] = ( a instanceof Boolean ) ? ( ( (Boolean) a ).booleanValue( )
+-				? 1D : 0D ) : (Number) a;
+-		args[1] = ( b instanceof Boolean ) ? ( ( (Boolean) b ).booleanValue( )
+-				? 1D : 0D ) : (Number) b;
+-		return args;
++		try
++		{
++			return DataTypeUtil.toBoolean( obj );
++		}
++		catch ( BirtException e )
++		{
++			throw DataException.wrap( e );
++		}
++	}
++	
++	private Number convertToNumber( Boolean a )
++	{
++		return a == Boolean.TRUE ? BigDecimal.ONE : BigDecimal.ZERO;
+ 	}
++
+ }
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/CalculatorFactory.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/CalculatorFactory.java
+index 21a698f9c99e5af86dc1321776ecbcb3b4f6b638..4c5c1bdba5c5413e9d865fdd4fc70893e9a270f3 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/CalculatorFactory.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/CalculatorFactory.java
+@@ -11,8 +11,7 @@
+ 
+ package org.eclipse.birt.data.aggregation.calculator;
+ 
+-import java.math.BigDecimal;
+-import java.util.Date;
++import org.eclipse.birt.core.data.DataType;
+ 
+ 
+ /**
+@@ -25,27 +24,22 @@ public class CalculatorFactory
+ 	private CalculatorFactory( )
+ 	{
+ 	}
+-
+-	/**
+-	 * 
+-	 * @param dataType
+-	 * @return
+-	 */
+-	public static ICalculator getCalculator( Class<?> clz )
++	
++	public static ICalculator getCalculator( int dataType )
+ 	{
+-		if ( clz.equals( Boolean.class ) )
++		if ( dataType == DataType.BOOLEAN_TYPE )
+ 		{
+ 			return new BooleanCalculator( );
+ 		}
+-		else if ( Date.class.isAssignableFrom( clz ) )
++		else if ( dataType == DataType.DATE_TYPE )
+ 		{
+ 			return new DateCalculator( );
+ 		}
+-		else if ( clz.equals( String.class ) )
++		else if ( dataType == DataType.STRING_TYPE )
+ 		{
+ 			return new StringCalculator( );
+ 		}
+-		else if ( clz.equals( BigDecimal.class ) )
++		else if ( dataType == DataType.DECIMAL_TYPE )
+ 		{
+ 			return new BigDecimalCalculator( );
+ 		}
+@@ -54,5 +48,4 @@ public class CalculatorFactory
+ 			return new NumberCalculator( );
+ 		}
+ 	}
+-
+ }
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/DateCalculator.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/DateCalculator.java
+index c6a8568eb4ef2b6c04ad5b3a6f1d48667c5ea22a..38bda805a7a520629ff7d58a1faf25e58fa92943 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/DateCalculator.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/DateCalculator.java
+@@ -11,15 +11,21 @@
+ 
+ package org.eclipse.birt.data.aggregation.calculator;
+ 
++import java.math.BigDecimal;
+ import java.util.Date;
+ 
++import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.engine.core.DataException;
+ 
+ /**
+- * 
++ * Calculator for type Date. Note that all operands are expected to be converted
++ * to Date before invoking any operation. Use method getTypedObject() to convert
++ * operands to the desired datatype.
++ * Operations are performed via BigDecimalCalculator facilities, which performs
++ * operations using Long date representation.
+  */
+ 
+-public class DateCalculator extends NumberCalculator
++public class DateCalculator extends BigDecimalCalculator
+ {
+ 
+ 	/*
+@@ -31,8 +37,7 @@ public class DateCalculator extends NumberCalculator
+ 	@Override
+ 	public Number add( Object a, Object b ) throws DataException
+ 	{
+-		Number[] args = convert( a, b );
+-		return super.add( args[0], args[1] );
++		return (Number) getTypedObject( super.add( a, b ) );
+ 	}
+ 
+ 	/*
+@@ -45,8 +50,7 @@ public class DateCalculator extends NumberCalculator
+ 	public Number divide( Object dividend, Object divisor )
+ 			throws DataException
+ 	{
+-		Number[] args = convert( dividend, divisor );
+-		return super.divide( args[0], args[1] );
++		return (Number) getTypedObject( super.divide( dividend, divisor ) );
+ 	}
+ 
+ 	/*
+@@ -58,8 +62,7 @@ public class DateCalculator extends NumberCalculator
+ 	@Override
+ 	public Number multiply( Object a, Object b ) throws DataException
+ 	{
+-		Number[] args = convert( a, b );
+-		return super.multiply( args[0], args[1] );
++		return (Number) getTypedObject( super.multiply( a, b ) );
+ 	}
+ 
+ 	/*
+@@ -72,8 +75,7 @@ public class DateCalculator extends NumberCalculator
+ 	public Number safeDivide( Object dividend, Object divisor, Number ifZero )
+ 			throws DataException
+ 	{
+-		Number[] args = convert( dividend, divisor );
+-		return super.safeDivide( args[0], args[1], ifZero );
++		return (Number) getTypedObject( super.safeDivide( dividend, divisor, ifZero ) );
+ 	}
+ 
+ 	/*
+@@ -85,21 +87,7 @@ public class DateCalculator extends NumberCalculator
+ 	@Override
+ 	public Number subtract( Object a, Object b ) throws DataException
+ 	{
+-		Number[] args = convert( a, b );
+-		return super.subtract( args[0], args[1] );
+-	}
+-
+-	/**
+-	 * @param a
+-	 * @param b
+-	 * @return
+-	 */
+-	private Number[] convert( Object a, Object b ) throws DataException
+-	{
+-		Number[] args = new Number[2];
+-		args[0] = ( a instanceof Date ) ? ( (Date) a ).getTime( ) : (Number) a;
+-		args[1] = ( b instanceof Date ) ? ( (Date) b ).getTime( ) : (Number) b;
+-		return args;
++		return (Number) getTypedObject( super.subtract( a, b ) );
+ 	}
+ 
+ 	/* (non-Javadoc)
+@@ -108,7 +96,14 @@ public class DateCalculator extends NumberCalculator
+ 	@Override
+ 	public Object getTypedObject( Object obj ) throws DataException
+ 	{
+-		Double ret = (Double) super.getTypedObject( obj );
+-		return new Date( ret.longValue( ) );
++		try
++		{
++			BigDecimal ret = (BigDecimal) super.getTypedObject( obj );
++			return new Date( ret.setScale( 0, BigDecimal.ROUND_HALF_UP ).longValueExact() );
++		}
++		catch ( BirtException e )
++		{
++			throw DataException.wrap( e );
++		}
+ 	}
+ }
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/NumberCalculator.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/NumberCalculator.java
+index 071c63c8fa214c6bceee7682ee80b76e85cde88d..15b38d7c920a098aac9b00735c49808873158423 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/NumberCalculator.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/NumberCalculator.java
+@@ -16,9 +16,12 @@ import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.engine.core.DataException;
+ 
+ /**
+- * Calculator for Double objects. Note we assume both of the operands are
+- * instances of Number( Byte, Short, Integer, Long, Float, Double, except
+- * BigDecimal ) and not be null.
++ * Calculator primarily for type Double. Note that all operands are expected to be
++ * converted to Double before invoking any operation. Use getTypedObject() method
++ * to convert operands to the desired datatype. 
++ * Nulls are ignored in calculations. NaN and Infinity are supported: if one of the
++ * operands is NaN Then the result is NaN as well. If you need to override this
++ * behavior do so in the respective aggregate function implementation.
+  */
+ 
+ public class NumberCalculator implements ICalculator
+@@ -32,7 +35,15 @@ public class NumberCalculator implements ICalculator
+ 	 */
+ 	public Number add( Object a, Object b ) throws DataException
+ 	{
+-		return ( (Number) a ).doubleValue( ) + ( (Number) b ).doubleValue( );
++		if( a == null && b == null )
++			return null;
++		if( a == null )
++			return (Double) b;
++		if( b == null )
++			return (Double) a;
++		if( isNaNorInfinity( a, b ) )
++			return Double.NaN;
++		return (Double) a + (Double) b;
+ 	}
+ 
+ 	/*
+@@ -43,7 +54,15 @@ public class NumberCalculator implements ICalculator
+ 	 */
+ 	public Number subtract( Object a, Object b ) throws DataException
+ 	{
+-		return ( (Number) a ).doubleValue( ) - ( (Number) b ).doubleValue( );
++		if( a == null && b == null )
++			return null;
++		if( a == null )
++			return 0.0D - (Double) b;
++		if( b == null )
++			return (Double) a;
++		if( isNaNorInfinity( a, b ) )
++			return Double.NaN;
++		return (Double) a - (Double) b;
+ 	}
+ 
+ 	/*
+@@ -54,7 +73,15 @@ public class NumberCalculator implements ICalculator
+ 	 */
+ 	public Number multiply( Object a, Object b ) throws DataException
+ 	{
+-		return ( (Number) a ).doubleValue( ) * ( (Number) b ).doubleValue( );
++		if( a == null && b == null )
++			return null;
++		if( a == null )
++			return (Double) b;
++		if( b == null )
++			return (Double) a;
++		if( isNaNorInfinity( a, b ) )
++			return Double.NaN;
++		return (Double) a * (Double) b;
+ 	}
+ 
+ 	/*
+@@ -66,8 +93,13 @@ public class NumberCalculator implements ICalculator
+ 	public Number divide( Object dividend, Object divisor )
+ 			throws DataException
+ 	{
+-		return ( (Number) dividend ).doubleValue( )
+-				/ ( (Number) divisor ).doubleValue( );
++		if( dividend == null )
++			return null;
++		if( divisor == null )
++			return (Double) dividend;
++		if( isNaNorInfinity( dividend, divisor ) )
++			return Double.NaN;
++		return (Double) dividend / (Double) divisor;
+ 	}
+ 
+ 	/*
+@@ -105,4 +137,18 @@ public class NumberCalculator implements ICalculator
+ 			throw DataException.wrap( e );
+ 		}
+ 	}
++
++	protected boolean isNaNorInfinity( Object a, Object b )
++	{
++		return isNaNorInfinity( a ) || isNaNorInfinity( b );
++	}
++
++	protected boolean isNaNorInfinity( Object a )
++	{
++		return ( a instanceof Double
++					&& ( ( (Double) a ).isInfinite( ) || ( (Double) a ).isNaN( ) ) 
++				|| a instanceof Float
++					&& ( ( (Float) a ).isInfinite( ) || ( (Float) a ).isNaN( ) )
++				);
++	}
+ }
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/StringCalculator.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/StringCalculator.java
+index feee33c8afd7f90b32c10c934bf4294ba6916ce2..7c08045aa3ddf544a421deac04fe2bac8925ea09 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/StringCalculator.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/calculator/StringCalculator.java
+@@ -11,138 +11,79 @@
+ 
+ package org.eclipse.birt.data.aggregation.calculator;
+ 
+-import java.text.ParseException;
+-
+-import org.eclipse.birt.core.exception.CoreException;
+-import org.eclipse.birt.core.i18n.ResourceConstants;
+ import org.eclipse.birt.data.engine.core.DataException;
+ 
+-import com.ibm.icu.text.NumberFormat;
+-import com.ibm.icu.util.ULocale;
++//import com.ibm.icu.util.ULocale;
+ 
+ /**
+- * 
++ * Calculator used when an operand is a string. The assumption is that any decimal
++ * string can be converted to a BigDecimal. Note that GetTypedObject() of this
++ * calculator returns BigDecimal as well.
+  */
+ 
+-public class StringCalculator extends NumberCalculator
++public class StringCalculator extends BigDecimalCalculator
+ {
+-	private static ULocale locale = ULocale.getDefault( );
++	//private static ULocale locale = ULocale.getDefault( );
++
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#add(java.lang.Object,
++	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#add(java.lang.Object,
+ 	 *      java.lang.Object)
+ 	 */
+ 	@Override
+ 	public Number add( Object a, Object b ) throws DataException
+ 	{
+-		Number[] args = convert( a, b );
+-		return super.add( args[0], args[1] );
++		return super.add( getTypedObject( a ), getTypedObject( b ) );
+ 	}
+ 
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#divide(java.lang.Object,
++	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#divide(java.lang.Object,
+ 	 *      java.lang.Object)
+ 	 */
+ 	@Override
+ 	public Number divide( Object dividend, Object divisor )
+ 			throws DataException
+ 	{
+-		Number[] args = convert( dividend, divisor );
+-		return super.divide( args[0], args[1] );
++		return super.divide( getTypedObject( dividend ), getTypedObject( divisor ) );
+ 	}
+ 
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#multiply(java.lang.Object,
++	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#multiply(java.lang.Object,
+ 	 *      java.lang.Object)
+ 	 */
+ 	@Override
+ 	public Number multiply( Object a, Object b ) throws DataException
+ 	{
+-		Number[] args = convert( a, b );
+-		return super.multiply( args[0], args[1] );
++		return super.multiply( getTypedObject( a ), getTypedObject( b ) );
+ 	}
+ 
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#safeDivide(java.lang.Object,
++	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#safeDivide(java.lang.Object,
+ 	 *      java.lang.Object, java.lang.Number)
+ 	 */
+ 	@Override
+ 	public Number safeDivide( Object dividend, Object divisor, Number ifZero )
+ 			throws DataException
+ 	{
+-		Number[] args = convert( dividend, divisor );
+-		return super.safeDivide( args[0], args[1], ifZero );
++		return super.safeDivide( getTypedObject( dividend ), getTypedObject( divisor ), ifZero );
+ 	}
+ 
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#subtract(java.lang.Object,
++	 * @see org.eclipse.birt.data.aggregation.impl.calculator.BigDecimalCalculator#subtract(java.lang.Object,
+ 	 *      java.lang.Object)
+ 	 */
+ 	@Override
+ 	public Number subtract( Object a, Object b ) throws DataException
+ 	{
+-		Number[] args = convert( a, b );
+-		return super.subtract( args[0], args[1] );
+-	}
+-
+-	/**
+-	 * @param a
+-	 * @param b
+-	 * @return
+-	 */
+-	private Number[] convert( Object a, Object b ) throws DataException
+-	{
+-		Number[] arguments = new Number[2];
+-
+-		arguments[0] = ( a instanceof String ) ? toDouble( (String) a )
+-				: (Number) a;
+-		arguments[1] = ( b instanceof String ) ? toDouble( (String) b )
+-				: (Number) b;
+-		return arguments;
+-	}
+-
+-	/**
+-	 * 
+-	 * @param source
+-	 * @return
+-	 */
+-	private Double toDouble( String source ) throws DataException
+-	{
+-		try
+-		{
+-			return Double.valueOf( (String) source );
+-		}
+-		catch ( NumberFormatException e )
+-		{
+-			try
+-			{
+-				Number number = NumberFormat.getInstance( locale )
+-						.parse( (String) source );
+-				if ( number != null )
+-					return new Double( number.doubleValue( ) );
+-
+-				throw DataException.wrap( new CoreException( ResourceConstants.CONVERT_FAILS,
+-						new Object[]{
+-								source.toString( ), "Double" //$NON-NLS-1$
+-						} ) );
+-			}
+-			catch ( ParseException e1 )
+-			{
+-				throw DataException.wrap( new CoreException( ResourceConstants.CONVERT_FAILS,
+-						new Object[]{
+-								source.toString( ), "Double" //$NON-NLS-1$
+-						} ) );
+-			}
+-		}
++		return super.subtract( getTypedObject( a ), getTypedObject( b ) );
+ 	}
+-
+ }
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/RunningAccumulator.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/RunningAccumulator.java
+index ac2bd3eaf0d723e76b36dab602ce3cfbb5ad94c7..4e550c13b13983ef710163ddec9d91210ee18410 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/RunningAccumulator.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/RunningAccumulator.java
+@@ -26,6 +26,24 @@ public abstract class RunningAccumulator extends Accumulator
+ {
+ 
+ 	protected ICalculator calculator;
++	
++	/**
++	 * Derived accumulator classes not using calculators will use the default
++	 * constructor.  
++	 */
++	public RunningAccumulator( )
++	{
++		calculator = null;
++	}
++	/**
++	 * An explicit constructor. Derived accumulator classes should use it
++	 * for constructing calculator based on the return aggregate function
++	 * value type (or other business logic).
++	 */
++	public RunningAccumulator( ICalculator calc )
++	{
++		calculator = calc;
++	}
+ 
+ 	/*
+ 	 * (non-Javadoc)
+@@ -35,6 +53,6 @@ public abstract class RunningAccumulator extends Accumulator
+ 	@Override
+ 	public void start( ) throws DataException
+ 	{
+-		calculator = null;
++		int i = 0;
+ 	}
+ }
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/SummaryAccumulator.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/SummaryAccumulator.java
+index a23d9bc9d040f4e562c1812004fe2a19a44e8938..e4a313ffbb1ebef9af7bc897bee542fe3bc934ec 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/SummaryAccumulator.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/SummaryAccumulator.java
+@@ -14,36 +14,54 @@
+ 
+ package org.eclipse.birt.data.aggregation.impl;
+ 
+-import java.math.BigDecimal;
+-import java.util.Date;
+-
+-import org.eclipse.birt.core.data.DataType;
+-import org.eclipse.birt.core.data.DataTypeUtil;
+-import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+ import org.eclipse.birt.data.engine.core.DataException;
+-import org.eclipse.birt.data.engine.i18n.ResourceConstants;
+ 
+ /**
+  * Represents the built-in summary accumulator
+  */
+ public abstract class SummaryAccumulator extends Accumulator
+ {
+-
+-	protected int dataType = DataType.UNKNOWN_TYPE;
+-
+ 	protected boolean isFinished = false;
+-	
++
+ 	protected ICalculator calculator;
+ 
++	/**
++	 * Derived accumulator classes not using calculators will use the default
++	 * constructor.  
++	 */
++	public SummaryAccumulator( )
++	{
++		calculator = null;
++	}
++	/**
++	 * An explicit constructor. Derived accumulator classes should use it
++	 * for constructing calculator based on the return aggregate function
++	 * value type (or other business logic).
++	 */
++	public SummaryAccumulator( ICalculator calc )
++	{
++		calculator = calc;
++	}
++
++	/*
++	 * (non-Javadoc)
++	 * 
++	 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#start()
++	 */
++	@Override
+ 	public void start( )
+ 	{
+ 		isFinished = false;
+-		dataType = DataType.UNKNOWN_TYPE;
+-		calculator = null;
+ 	}
+ 
++	/*
++	 * (non-Javadoc)
++	 * 
++	 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#finish()
++	 */
++	@Override
+ 	public void finish( ) throws DataException
+ 	{
+ 		isFinished = true;
+@@ -52,6 +70,7 @@ public abstract class SummaryAccumulator extends Accumulator
+ 	/* (non-Javadoc)
+ 	 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#getValue()
+ 	 */
++	@Override
+ 	public Object getValue( ) throws DataException
+ 	{
+ 		if ( !isFinished )
+@@ -61,57 +80,6 @@ public abstract class SummaryAccumulator extends Accumulator
+ 		return getSummaryValue( );
+ 	}
+ 
+-	/**
+-	 * convert <code>obj</code> to Date or Double object.
+-	 */
+-	protected Object getTypedData( Object obj ) throws DataException
+-	{
+-		Object value = obj;
+-		switch ( dataType )
+-		{
+-			case DataType.UNKNOWN_TYPE :
+-				if ( obj instanceof Date )
+-				{
+-					dataType = DataType.DATE_TYPE;
+-				}
+-				else if ( obj instanceof BigDecimal )
+-				{
+-					dataType = DataType.DECIMAL_TYPE;
+-				}
+-				else
+-				{
+-					value = toDouble( obj );
+-					dataType = DataType.DOUBLE_TYPE;
+-				}
+-				break;
+-			case DataType.DOUBLE_TYPE :
+-				value = toDouble( obj );
+-				break;
+-		}
+-		return value;
+-	}
+-
+-	/**
+-	 * try to convert <code>obj</code> to Double object.
+-	 * if it fails, a DataException will be thrown.
+-	 * @param obj
+-	 * @return
+-	 * @throws DataException
+-	 */
+-	protected Object toDouble( Object obj ) throws DataException
+-	{
+-		Object value = null;
+-		try
+-		{
+-			value = DataTypeUtil.toDouble( obj );
+-		}
+-		catch ( BirtException e )
+-		{
+-			throw new DataException( ResourceConstants.DATATYPEUTIL_ERROR, e );
+-		}
+-		return value;
+-	}
+-
+ 	abstract public Object getSummaryValue( ) throws DataException;
+ 
+ }
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalAve.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalAve.java
+index 04c970d9bc013b59e13c2474788ac8febb87a50b..5858c21b1546be1c76ef1784108af40d989aa376 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalAve.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalAve.java
+@@ -17,6 +17,7 @@ package org.eclipse.birt.data.aggregation.impl;
+ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+@@ -66,20 +67,25 @@ public class TotalAve extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends SummaryAccumulator
+ 	{
+ 
+-		private Number sum = 0.0D;
++		private Number sum = null;
+ 
+ 		private int count = 0;
+-
++		
++		MyAccumulator( ICalculator calc )
++        {
++        	super( calc );
++        }
++		
+ 		public void start( )
+ 		{
+ 			super.start( );
+-			sum = 0.0D;
++			sum = null;
+ 			count = 0;
+ 		}
+ 
+@@ -93,9 +99,7 @@ public class TotalAve extends AggrFunction
+ 			assert ( args.length > 0 );
+ 			if ( args[0] != null )
+ 			{
+-				if ( calculator == null )
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				sum = calculator.add( sum, args[0] );
++				sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
+ 				count++;
+ 			}
+ 		}
+@@ -105,20 +109,11 @@ public class TotalAve extends AggrFunction
+ 		 * 
+ 		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
+ 		 */
+-		public Object getSummaryValue( )
++		public Object getSummaryValue( ) throws DataException
+ 		{
+ 			if ( count > 0 )
+ 			{
+-				Number ret = null;
+-				try
+-				{
+-					ret = calculator.divide( sum, count );
+-					return calculator.getTypedObject( ret );
+-				}
+-				catch ( DataException e )
+-				{
+-					return null;
+-				}
++				return calculator.divide( sum, calculator.getTypedObject( count ) );
+ 			}
+ 			else
+ 			{
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalIrr.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalIrr.java
+index 7b1989e8c257ebbad2fd618c4907f83264edbcda..d3e484208d49d09deae614a0ec29c99fc74c079a 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalIrr.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalIrr.java
+@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
+ import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+@@ -33,6 +34,7 @@ import org.eclipse.birt.data.engine.core.DataException;
+  */
+ public class TotalIrr extends AggrFunction
+ {
++//	private static Logger logger = Logger.getLogger( TotalIrr.class.getName( ) );
+ 
+ 	/*
+ 	 * (non-Javadoc)
+@@ -88,18 +90,23 @@ public class TotalIrr extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends SummaryAccumulator
+ 	{
+ 
+-		private ArrayList<Number> list;
++		private ArrayList list;
+ 
+ 		private double intrate = 0D;
+ 
+ 		private Number ret = null;
+ 
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
++
+ 		public void start( )
+ 		{
+ 			super.start( );
+@@ -118,10 +125,6 @@ public class TotalIrr extends AggrFunction
+ 			assert ( args.length > 1 );
+ 			if ( args[0] != null && args[1] != null )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+ 				try
+ 				{
+ 					if ( list.size( ) == 0 )
+@@ -129,7 +132,7 @@ public class TotalIrr extends AggrFunction
+ 						intrate = DataTypeUtil.toDouble( args[1] )
+ 								.doubleValue( );
+ 					}
+-					list.add( calculator.add( 0, args[0] ) );
++					list.add( calculator.getTypedObject( args[0] ) );
+ 				}
+ 				catch ( BirtException e )
+ 				{
+@@ -152,6 +155,11 @@ public class TotalIrr extends AggrFunction
+ 				catch ( BirtException e )
+ 				{
+ 					throw DataException.wrap( e );
++					// Failed to calculate MIRR value, you may consider returning null
++					// instead of throwing exception directly
++//					logger.log( Level.WARNING, "Failed to calcualte IRR value", e ); //$NON-NLS-1$
++//					ret = null;
++					
+ 				}
+ 			}
+ 			super.finish( );
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMedian.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMedian.java
+index fedf3368523225a70915a1eaec73aef75928c31f..30bf92da2c1e5091d5a40ef46f2927e927fb32bc 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMedian.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMedian.java
+@@ -20,6 +20,7 @@ import java.util.List;
+ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+@@ -85,7 +86,7 @@ public class TotalMedian extends AggrFunction
+ 	 */
+     public Accumulator newAccumulator()
+     {
+-        return new MyAccumulator();
++    	return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+     }
+ 
+     private static class MyAccumulator extends SummaryAccumulator
+@@ -94,6 +95,11 @@ public class TotalMedian extends AggrFunction
+ 
+         private Object ret = null;
+ 
++        MyAccumulator( ICalculator calc )
++        {
++        	super( calc );
++        }
++
+         public void start()
+         {
+             super.start();
+@@ -111,10 +117,6 @@ public class TotalMedian extends AggrFunction
+ 			assert ( args.length > 0 );
+ 			if ( args[0] != null )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+ 				list.add( calculator.getTypedObject( args[0] ) );
+ 			}
+ 		}
+@@ -131,13 +133,14 @@ public class TotalMedian extends AggrFunction
+ 				{
+ 					Object d1 = values[size / 2 - 1];
+ 					Object d2 = values[size / 2];
+-					ret = calculator.divide( calculator.add( d1, d2 ), 2.0D );
++					ret = calculator.divide(
++							calculator.add( calculator.getTypedObject( d1 ), calculator.getTypedObject( d2 ) ),
++							calculator.getTypedObject( 2 ) );
+ 				}
+ 				else
+ 				{
+-					ret = values[size / 2];
++					ret = calculator.getTypedObject( values[size / 2] );
+ 				}
+-				ret = calculator.getTypedObject( ret );
+ 			}
+ 			super.finish( );
+ 		}
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMirr.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMirr.java
+index 766ea7174a33e1c85192eb692f92d8ad992f5206..3506d37572dc23b2bf31fb499c59802a0f958df6 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMirr.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMirr.java
+@@ -15,14 +15,13 @@
+ package org.eclipse.birt.data.aggregation.impl;
+ 
+ import java.util.ArrayList;
+-import java.util.logging.Level;
+-import java.util.logging.Logger;
+ 
+ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.core.data.DataTypeUtil;
+ import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+@@ -35,7 +34,7 @@ import org.eclipse.birt.data.engine.core.DataException;
+  */
+ public class TotalMirr extends AggrFunction
+ {
+-	private static Logger logger = Logger.getLogger( TotalMirr.class.getName( ) );
++//	private static Logger logger = Logger.getLogger( TotalMirr.class.getName( ) );
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+@@ -91,7 +90,7 @@ public class TotalMirr extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends SummaryAccumulator
+@@ -104,6 +103,11 @@ public class TotalMirr extends AggrFunction
+ 		private double rrate = 0D;
+ 
+ 		private Number ret = null;
++		
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
+ 
+ 		public void start( )
+ 		{
+@@ -124,10 +128,6 @@ public class TotalMirr extends AggrFunction
+ 			assert ( args.length > 2 );
+ 			if ( args[0] != null  )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+ 				try
+ 				{
+ 					if ( list.size( ) == 0 )
+@@ -143,7 +143,7 @@ public class TotalMirr extends AggrFunction
+ 							rrate = DataTypeUtil.toDouble( args[2] ).doubleValue( );
+ 						}
+ 					}
+-					list.add( calculator.add( 0, args[0] ) );
++					list.add( calculator.add( calculator.getTypedObject( 0 ), calculator.getTypedObject( args[0] ) ) );
+ 				}
+ 				catch ( BirtException e )
+ 				{
+@@ -171,9 +171,12 @@ public class TotalMirr extends AggrFunction
+ 				}
+ 				catch ( BirtException e )
+ 				{
+-					//Failed to calculate MIRR value, return null instead of throwing exception directly
+-					logger.log( Level.WARNING, "Failed to calcualte MIRR value", e ); //$NON-NLS-1$
+-					ret = null;
++					
++					throw DataException.wrap( e );
++					// Failed to calculate MIRR value, you may consider returning null
++					// instead of throwing exception directly
++//					logger.log( Level.WARNING, "Failed to calcualte MIRR value", e ); //$NON-NLS-1$
++//					ret = null;
+ 				}
+ 			}
+ 			super.finish( );
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMode.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMode.java
+index c99d1d9c168ef05358c4acd66bba2b623b0f50c8..20125a992fe8d6b097276190a9894cb3795c8ae1 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMode.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMode.java
+@@ -13,7 +13,6 @@
+  */
+ package org.eclipse.birt.data.aggregation.impl;
+ 
+-import java.util.HashMap;
+ import java.util.Iterator;
+ import java.util.LinkedHashMap;
+ 
+@@ -95,7 +94,6 @@ public class TotalMode extends AggrFunction
+ 		private int maxCount;
+ 		private boolean multiMaxValue;
+ 
+-
+         public void start()
+         {
+             super.start();
+@@ -115,7 +113,7 @@ public class TotalMode extends AggrFunction
+             assert (args.length > 0);
+             if (args[0] != null)
+             {
+-            	Object value = getTypedData( args[0] );
++            	Object value = args[0];
+             	Object obj =  cacheMap.get( value );
+             	int count = 1;
+             	if( obj != null )
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMovingAve.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMovingAve.java
+index 3e1d111224cad6228a441f361301f98791aae4f0..8bff557018d1e5294cab0920c235466dd914266a 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMovingAve.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalMovingAve.java
+@@ -21,6 +21,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
+ import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+@@ -33,7 +34,6 @@ import org.eclipse.birt.data.engine.core.DataException;
+  */
+ public class TotalMovingAve extends AggrFunction
+ {
+-
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * 
+@@ -89,7 +89,7 @@ public class TotalMovingAve extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends RunningAccumulator
+@@ -99,7 +99,12 @@ public class TotalMovingAve extends AggrFunction
+ 
+ 		private int window = 1;
+ 
+-		private Number sum = 0D;
++		private Number sum = null;
++		
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
+ 
+ 		/*
+ 		 * (non-Javadoc)
+@@ -109,7 +114,7 @@ public class TotalMovingAve extends AggrFunction
+ 		public void start( ) throws DataException
+ 		{
+ 			super.start( );
+-			sum = 0D;
++			sum = null;
+ 			list = new LinkedList( );
+ 			window = 1;
+ 		}
+@@ -124,10 +129,6 @@ public class TotalMovingAve extends AggrFunction
+ 			assert ( args.length > 1 );
+ 			if ( args[0] != null && args[1] != null )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+ 				try
+ 				{
+ 					if ( list.size( ) == 0 )
+@@ -136,11 +137,11 @@ public class TotalMovingAve extends AggrFunction
+ 						assert ( window > 0 );
+ 					}
+ 					list.addLast( args[0] );
+-					sum = calculator.add( sum, args[0] );
++					sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
+ 
+ 					if ( list.size( ) > window )
+ 					{
+-						sum = calculator.subtract( sum, list.get( 0 ) );
++						sum = calculator.subtract( sum, calculator.getTypedObject( list.get( 0 ) ) );
+ 						list.remove( 0 );
+ 					}
+ 				}
+@@ -157,21 +158,14 @@ public class TotalMovingAve extends AggrFunction
+ 		 * 
+ 		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#getValue()
+ 		 */
+-		public Object getValue( )
++		public Object getValue( ) throws DataException
+ 		{
+ 			if ( list.size( ) == 0 )
+ 			{
+ 				return null;
+ 			}
+ 
+-			try
+-			{
+-				return calculator.divide( sum, list.size( ) );
+-			}
+-			catch ( DataException e )
+-			{
+-				return null;
+-			}
++			return calculator.divide( sum, calculator.getTypedObject( list.size( ) ) );
+ 		}
+ 
+ 	}
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalNpv.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalNpv.java
+index 1ee3ea9561f9a830753430341a49d6dc51c0db98..9be9bd3f94b6d005c71c4184c0eb8b79f523c573 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalNpv.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalNpv.java
+@@ -19,6 +19,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
+ import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+@@ -87,17 +88,22 @@ public class TotalNpv extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends SummaryAccumulator
+ 	{
+ 
+-		private Number npv = 0.0D;
++		private Number npv = null;
+ 
+ 		private double rate = 0D;
+ 
+ 		private int count = 1;
++		
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
+ 
+ 		/*
+ 		 * (non-Javadoc)
+@@ -106,7 +112,7 @@ public class TotalNpv extends AggrFunction
+ 		public void start( )
+ 		{
+ 			super.start( );
+-			npv = 0D;
++			npv = null;
+ 			count = 1;
+ 		}
+ 
+@@ -121,10 +127,6 @@ public class TotalNpv extends AggrFunction
+ 
+ 			if ( args[0] != null )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+ 				try
+ 				{
+ 					if ( count == 1 )
+@@ -135,8 +137,8 @@ public class TotalNpv extends AggrFunction
+ 						else
+ 							rate = DataTypeUtil.toDouble( 0 );
+ 					}
+-					npv = calculator.add( npv, calculator.divide( args[0],
+-							Math.pow( ( 1 + rate ), (double) count++ ) ) );
++					npv = calculator.add( npv, calculator.divide( calculator.getTypedObject( args[0] ),
++							calculator.getTypedObject( Math.pow( ( 1 + rate ), (double) count++ ) ) ) );
+ 				}
+ 				catch ( BirtException e )
+ 				{
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalRunningNpv.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalRunningNpv.java
+index e891047a859e6a7eeb6bbdecf3b7e60641e78288..e32d22572406783ad84a15822c44c546d535df6b 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalRunningNpv.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalRunningNpv.java
+@@ -19,6 +19,7 @@ import org.eclipse.birt.core.data.DataTypeUtil;
+ import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+@@ -86,22 +87,27 @@ public class TotalRunningNpv extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends RunningAccumulator
+ 	{
+ 
+-		private Object npv = 0.0D;
++		private Object npv = null;
+ 
+ 		private double rate = 0D;
+ 
+ 		private int count = 1;
+ 
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
++
+ 		public void start( ) throws DataException
+ 		{
+ 			super.start( );
+-			npv = 0D;
++			npv = null;
+ 			count = 1;
+ 		}
+ 
+@@ -116,10 +122,6 @@ public class TotalRunningNpv extends AggrFunction
+ 
+ 			if ( args[0] != null )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+ 				try
+ 				{
+ 					if ( count == 1 )
+@@ -130,8 +132,8 @@ public class TotalRunningNpv extends AggrFunction
+ 						else
+ 							rate = DataTypeUtil.toDouble( 0 );
+ 					}
+-					npv = calculator.add( npv, calculator.divide( args[0],
+-							Math.pow( ( 1 + rate ), (double) count++ ) ) );
++					npv = calculator.add( npv, calculator.divide( calculator.getTypedObject( args[0] ),
++							calculator.getTypedObject( Math.pow( ( 1 + rate ), (double) count++ ) ) ) );
+ 				}
+ 				catch ( BirtException e )
+ 				{
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalRunningSum.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalRunningSum.java
+index 2cc3429b9ef6c717e30426004512ee4edcbd92e3..ba06b23b7e9ee89b87c3688f83070d267baf26ab 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalRunningSum.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalRunningSum.java
+@@ -17,6 +17,7 @@ package org.eclipse.birt.data.aggregation.impl;
+ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+@@ -83,7 +84,7 @@ public class TotalRunningSum extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends RunningAccumulator
+@@ -91,7 +92,12 @@ public class TotalRunningSum extends AggrFunction
+ 
+ 		private boolean isRowAvailable = false;
+ 
+-		private Number sum = 0D;
++		private Number sum = null;
++
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
+ 
+ 		/*
+ 		 * (non-Javadoc)
+@@ -101,7 +107,7 @@ public class TotalRunningSum extends AggrFunction
+ 		public void start( ) throws DataException
+ 		{
+ 			super.start( );
+-			sum = 0D;
++			sum = null;
+ 			isRowAvailable = false;
+ 		}
+ 
+@@ -115,12 +121,7 @@ public class TotalRunningSum extends AggrFunction
+ 			assert ( args.length > 0 );
+ 			if ( args[0] != null )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+-
+-				sum = calculator.add( sum, args[0] );
++				sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
+ 				if ( !isRowAvailable )
+ 				{
+ 					isRowAvailable = true;
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalStdDev.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalStdDev.java
+index a91ed8f550a6b2716c9749cb6dc282968968b64b..b166f4ef12d4c16f62cdbe5332104c5478a08644 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalStdDev.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalStdDev.java
+@@ -17,6 +17,7 @@ package org.eclipse.birt.data.aggregation.impl;
+ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+@@ -83,7 +84,7 @@ public class TotalStdDev extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends SummaryAccumulator
+@@ -93,6 +94,11 @@ public class TotalStdDev extends AggrFunction
+ 		private Number squareSum = 0.0D;
+ 		private int count = 0;
+ 
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
++
+ 		public void start( )
+ 		{
+ 			super.start( );
+@@ -111,14 +117,10 @@ public class TotalStdDev extends AggrFunction
+ 			assert ( args.length > 0 );
+ 			if ( args[0] != null )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+-
+-				sum = calculator.add( sum, args[0] );
++				Object obj = calculator.getTypedObject( args[0] );
++				sum = calculator.add( sum, obj );
+ 				squareSum = calculator.add( squareSum,
+-						calculator.multiply( args[0], args[0] ) );
++						calculator.multiply( obj, obj ) );
+ 				count++;
+ 			}
+ 		}
+@@ -128,24 +130,16 @@ public class TotalStdDev extends AggrFunction
+ 		 * 
+ 		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
+ 		 */
+-		public Object getSummaryValue( )
++		public Object getSummaryValue( ) throws DataException
+ 		{
+ 			if ( count <= 1 )
+ 				return null;
+ 			Number ret = null;
+-			try
+-			{
+-				ret = calculator.divide( calculator.subtract( calculator.multiply( count,
+-						squareSum ),
+-						calculator.multiply( sum, sum ) ),
+-						calculator.multiply( count, calculator.subtract( count,
+-								1 ) ) );
+-				return calculator.add( 0, Math.sqrt( ret.doubleValue( ) ) );
+-			}
+-			catch ( DataException e )
+-			{
+-				return null;
+-			}
++			Object cnt = calculator.getTypedObject( count );
++			ret = calculator.divide(
++					calculator.subtract( calculator.multiply( cnt, squareSum ), calculator.multiply( sum, sum ) ),
++					calculator.multiply( cnt, calculator.subtract( cnt, calculator.getTypedObject( 1 ) ) ) );
++			return calculator.add( calculator.getTypedObject( 0 ), calculator.getTypedObject( Math.sqrt( ret.doubleValue( ) ) ) );
+ 		}
+ 
+ 	}
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalSum.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalSum.java
+index ca36fdcb4ebe724663fd463132640348857b2d77..259be866af60545d780507247f2585f3cffd43fb 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalSum.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalSum.java
+@@ -15,9 +15,9 @@
+ package org.eclipse.birt.data.aggregation.impl;
+ 
+ import org.eclipse.birt.core.data.DataType;
+-import java.math.BigDecimal;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+@@ -84,18 +84,24 @@ public class TotalSum extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends SummaryAccumulator
+ 	{
++		private Number sum = null;
+ 
+-		private Number sum = BigDecimal.ZERO;
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
+ 
+ 		public void start( )
+ 		{
+ 			super.start( );
+-			sum = BigDecimal.ZERO;
++			// Initialize sum with null so TotalSum can actually be null.
++			// Calculators must be able to handle null-values appropriately.
++			sum = null;
+ 		}
+ 
+ 		/*
+@@ -106,14 +112,9 @@ public class TotalSum extends AggrFunction
+ 		public void onRow( Object[] args ) throws DataException
+ 		{
+ 			assert ( args.length > 0 );
+-			if ( args[0] != null )
++			if ( args[0] != null ) // ignore nulls in calculations
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+-
+-				sum = calculator.add( sum, args[0] );
++				sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
+ 			}
+ 		}
+ 
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalVariance.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalVariance.java
+index 29bcc8a169dd3bba6b7301f7318d441158ffde3a..808c22cfeefe2befb2aca75ff457a5a7b4131f9f 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalVariance.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalVariance.java
+@@ -18,6 +18,7 @@ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+@@ -84,7 +85,7 @@ public class TotalVariance extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends SummaryAccumulator
+@@ -96,6 +97,11 @@ public class TotalVariance extends AggrFunction
+ 
+ 		private int count = 0;
+ 
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
++
+ 		public void start( )
+ 		{
+ 			super.start( );
+@@ -114,14 +120,10 @@ public class TotalVariance extends AggrFunction
+ 			assert ( args.length > 0 );
+ 			if ( args[0] != null )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+-
+-				sum = calculator.add( sum, args[0] );
++				Object obj = calculator.getTypedObject( args[0] );
++				sum = calculator.add( sum, obj );
+ 				squareSum = calculator.add( squareSum,
+-						calculator.multiply( args[0], args[0] ) );
++						calculator.multiply( obj, obj ) );
+ 				count++;
+ 			}
+ 		}
+@@ -131,22 +133,14 @@ public class TotalVariance extends AggrFunction
+ 		 * 
+ 		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
+ 		 */
+-		public Object getSummaryValue( )
++		public Object getSummaryValue( ) throws DataException
+ 		{
+ 			if ( count <= 1 )
+ 				return null;
+-			try
+-			{
+-				return calculator.divide( calculator.subtract( calculator.multiply( count,
+-						squareSum ),
+-						calculator.multiply( sum, sum ) ),
+-						calculator.multiply( count, calculator.subtract( count,
+-								1 ) ) );
+-			}
+-			catch ( BirtException e )
+-			{
+-				return null;
+-			}
++			Object cnt = calculator.getTypedObject( count );
++			return calculator.divide(
++					calculator.subtract( calculator.multiply( cnt, squareSum ), calculator.multiply( sum, sum ) ),
++					calculator.multiply( cnt, calculator.subtract( cnt, calculator.getTypedObject( 1 ) ) ) );
+ 		}
+ 	}
+ 
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalWeightedAve.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalWeightedAve.java
+index 2bcfe6802c9bd9155d52f9fb34753d7649a08dd9..2050921ed143091fd2958e6a1e4a57ab24bc500d 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalWeightedAve.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/TotalWeightedAve.java
+@@ -14,13 +14,13 @@
+ 
+ package org.eclipse.birt.data.aggregation.impl;
+ 
+-import java.math.BigDecimal;
+-
+ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
++import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
+ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
+ import org.eclipse.birt.data.engine.core.DataException;
+@@ -87,21 +87,26 @@ public class TotalWeightedAve extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends SummaryAccumulator
+ 	{
+ 
+-		private Number wsum = 0.0D;
++		private Number wsum = null;
++
++		private Number weightsum = null;
+ 
+-		private Number weightsum = 0.0D;
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
+ 
+ 		public void start( )
+ 		{
+ 			super.start( );
+-			wsum = 0D;
+-			weightsum = 0;
++			wsum = null;
++			weightsum = null;
+ 		}
+ 
+ 		/*
+@@ -116,14 +121,9 @@ public class TotalWeightedAve extends AggrFunction
+ 			// Skip rows with either NULL value or weight
+ 			if ( args[0] != null && args[1] != null )
+ 			{
+-				if ( calculator == null )
+-				{
+-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-				}
+-
+-				wsum = calculator.add( wsum, calculator.multiply( args[0],
+-						args[1] ) );
+-				weightsum = calculator.add( weightsum, args[1] );
++				wsum = calculator.add( wsum, calculator.multiply( calculator.getTypedObject( args[0] ),
++						calculator.getTypedObject( args[1] ) ) );
++				weightsum = calculator.add( weightsum, calculator.getTypedObject( args[1] ) );
+ 			}
+ 		}
+ 
+@@ -132,27 +132,19 @@ public class TotalWeightedAve extends AggrFunction
+ 		 * 
+ 		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
+ 		 */
+-		public Object getSummaryValue( )
++		public Object getSummaryValue( ) throws DataException
+ 		{
++			if( weightsum ==  null )
++				return null;
+ 			try
+ 			{
+-				if ( weightsum instanceof Double )
+-				{
+-					Double ws = (Double) weightsum;
+-					return ws != 0 ? calculator.divide( wsum, weightsum ) : null;
+-				}
+-				else if ( weightsum instanceof BigDecimal )
+-				{
+-					BigDecimal ws = (BigDecimal) weightsum;
+-					return ws.compareTo( BigDecimal.ZERO ) != 0
+-							? calculator.divide( wsum, weightsum ) : null;
+-				}
++				return calculator.divide( wsum, weightsum );
+ 			}
+ 			catch ( BirtException e )
+ 			{
+-				return null;
++				throw DataException.wrap( new AggrException( ResourceConstants.DATATYPEUTIL_ERROR,
++						e ) );
+ 			}
+-			return null;
+ 		}
+ 
+ 	}
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/PercentileAccumulator.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/PercentileAccumulator.java
+index 5f4793e0ab2dbe563f2384990db336486d1b22e1..37219073827fb108bbcf3ea84e63d1a623fac252 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/PercentileAccumulator.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/PercentileAccumulator.java
+@@ -15,6 +15,7 @@ import java.util.ArrayList;
+ import java.util.List;
+ 
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+ import org.eclipse.birt.data.aggregation.impl.AggrException;
+ import org.eclipse.birt.data.aggregation.impl.SummaryAccumulator;
+@@ -38,9 +39,13 @@ abstract class PercentileAccumulator extends SummaryAccumulator
+ {
+ 
+ 	//
+-	private double pct;
++	private Double pct;
+ 	private List cachedValues;
+ 
++	public PercentileAccumulator( ICalculator calc )
++	{
++		super( calc );
++	}
+ 	/*
+ 	 * (non-Javadoc)
+ 	 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#start()
+@@ -49,7 +54,7 @@ abstract class PercentileAccumulator extends SummaryAccumulator
+ 	{
+ 		super.start( );
+ 
+-		pct = -1;
++		pct = -1D;
+ 		cachedValues = new ArrayList( );
+ 	}
+ 
+@@ -63,11 +68,7 @@ abstract class PercentileAccumulator extends SummaryAccumulator
+ 		assert ( args.length == 2 );
+ 		if ( args[0] != null )
+ 		{
+-			if ( calculator == null )
+-			{
+-				calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-			}
+-			Number d = calculator.add( 0, args[0] );
++			Number d = calculator.add( calculator.getTypedObject( 0 ), calculator.getTypedObject( args[0] ) );
+ 			if ( d != null )
+ 				cachedValues.add( d );
+ 		}
+@@ -100,11 +101,11 @@ abstract class PercentileAccumulator extends SummaryAccumulator
+ 		Number adjustment = 0;
+ 		if ( fraction != 0 )
+ 		{
+-			adjustment = calculator.multiply( fraction,
+-					calculator.subtract( sortedObjs[k], sortedObjs[k - 1] ) );
++			adjustment = calculator.multiply( calculator.getTypedObject( fraction ),
++					calculator.subtract( calculator.getTypedObject( sortedObjs[k] ), calculator.getTypedObject( sortedObjs[k - 1] ) ) );
+ 		}
+ 
+-		return calculator.add( sortedObjs[k - 1], adjustment );
++		return calculator.add( calculator.getTypedObject( sortedObjs[k - 1] ), calculator.getTypedObject( adjustment ) );
+ 	}
+ 
+ }
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalPercentSum.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalPercentSum.java
+index 8159a33fa0077a545c6c1981982ad5a94ee5b825..a929e4ff324df510990f7ee3cd043804558ddf58 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalPercentSum.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalPercentSum.java
+@@ -18,6 +18,7 @@ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.core.exception.BirtException;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+ import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.aggregation.impl.AggrFunction;
+ import org.eclipse.birt.data.aggregation.impl.Constants;
+@@ -98,7 +99,7 @@ public class TotalPercentSum extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends RunningAccumulator
+@@ -108,6 +109,11 @@ public class TotalPercentSum extends AggrFunction
+ 		private int passNo = 0;
+ 		private Object value;
+ 
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
++
+ 		public void start( ) throws DataException
+ 		{
+ 			super.start( );
+@@ -126,41 +132,19 @@ public class TotalPercentSum extends AggrFunction
+ 			{
+ 				if ( args[0] != null )
+ 				{
+-					if ( calculator == null )
+-					{
+-						calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-					}
+-					try
+-					{
+-						sum = calculator.add( sum, args[0] );
+-					}
+-					catch ( BirtException e )
+-					{
+-						throw DataException.wrap( e );
+-					}
++					sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
+ 				}
+ 			}
+ 			else
+ 			{
+ 				if ( args[0] != null )
+ 				{
+-					if ( calculator == null )
+-					{
+-						calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
+-					}
+ 					Double d = RankAggregationUtil.getNumericValue( args[0] );
+ 					if ( sum.equals( 0D ) || d == null )
+ 						value = new Integer( 0 ); //$NON-NLS-1$
+ 					else
+ 					{
+-						try
+-						{
+-							value = calculator.divide( args[0], sum );
+-						}
+-						catch ( BirtException e )
+-						{
+-							throw DataException.wrap( e );
+-						}
++						value = calculator.divide( calculator.getTypedObject( args[0] ), sum );
+ 					}
+ 				}
+ 				else
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalPercentile.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalPercentile.java
+index b9e86465f172bf01de84fe566c95ca75c5799ce3..72e6b08f9cbe592b9361332d109b0a07c74df699 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalPercentile.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalPercentile.java
+@@ -16,6 +16,8 @@ package org.eclipse.birt.data.aggregation.impl.rank;
+ 
+ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
++import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+ import org.eclipse.birt.data.aggregation.impl.AggrException;
+@@ -88,11 +90,15 @@ public class TotalPercentile extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	private static class MyAccumulator extends PercentileAccumulator
+ 	{
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
+ 
+ 		protected double getPctValue( Double d ) throws DataException
+ 		{
+diff --git a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalQuartile.java b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalQuartile.java
+index ef0c51ef4115555a630314c81f2e97b0d80dca09..0de71760f2bccf6516c1f813f579b916a9fd2d5c 100644
+--- a/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalQuartile.java
++++ b/data/org.eclipse.birt.data.aggregation/src/org/eclipse/birt/data/aggregation/impl/rank/TotalQuartile.java
+@@ -16,6 +16,8 @@ package org.eclipse.birt.data.aggregation.impl.rank;
+ 
+ import org.eclipse.birt.core.data.DataType;
+ import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
++import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
++import org.eclipse.birt.data.aggregation.calculator.ICalculator;
+ import org.eclipse.birt.data.aggregation.i18n.Messages;
+ import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+ import org.eclipse.birt.data.aggregation.impl.AggrException;
+@@ -88,7 +90,7 @@ public class TotalQuartile extends AggrFunction
+ 	 */
+ 	public Accumulator newAccumulator( )
+ 	{
+-		return new MyAccumulator( );
++		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+ 	}
+ 
+ 	/**
+@@ -97,6 +99,10 @@ public class TotalQuartile extends AggrFunction
+ 	 */
+ 	private static class MyAccumulator extends PercentileAccumulator
+ 	{
++		MyAccumulator( ICalculator calc )
++		{
++			super( calc );
++		}
+ 
+ 		/*
+ 		 * (non-Javadoc)

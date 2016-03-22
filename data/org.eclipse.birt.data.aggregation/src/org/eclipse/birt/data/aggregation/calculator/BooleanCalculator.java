@@ -11,95 +11,129 @@
 
 package org.eclipse.birt.data.aggregation.calculator;
 
+import java.math.BigDecimal;
+
+import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ * Calculator for type Boolean. Note that all operands are expected to be
+ * converted to Boolean before invoking any operation. Use method
+ * getTypedObject() to convert operands to the desired datatype. 
+ * Nulls are ignored in calculations.
  */
 
-public class BooleanCalculator extends NumberCalculator
+public class BooleanCalculator implements ICalculator
 {
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#add(java.lang.Object,
+	 * @see org.eclipse.birt.core.script.math.ICalculator#add(java.lang.Object,
 	 *      java.lang.Object)
 	 */
-	@Override
 	public Number add( Object a, Object b ) throws DataException
 	{
-		Number[] args = convert( a, b );
-		return super.add( args[0], args[1] );
+		if( a == null && b == null )
+			return null;
+		if( a == null )
+			return convertToNumber( (Boolean) b );
+		if( b == null )
+			return convertToNumber( (Boolean) a );
+		return convertToNumber( ( (Boolean) a ) || ( (Boolean) b ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#divide(java.lang.Object,
+	 * @see org.eclipse.birt.core.script.math.ICalculator#divide(java.lang.Object,
 	 *      java.lang.Object)
 	 */
-	@Override
 	public Number divide( Object dividend, Object divisor )
 			throws DataException
 	{
-		Number[] args = convert( dividend, divisor );
-		return super.divide( args[0], args[1] );
+		if( dividend == null )
+			return null;
+		if( divisor == null )
+			return convertToNumber( (Boolean) dividend );
+		if( divisor == Boolean.FALSE )
+			return null; // division by 0
+		return convertToNumber( ( (Boolean) dividend ) && ( (Boolean) divisor ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#multiply(java.lang.Object,
+	 * @see org.eclipse.birt.core.script.math.ICalculator#multiply(java.lang.Object,
 	 *      java.lang.Object)
 	 */
-	@Override
 	public Number multiply( Object a, Object b ) throws DataException
 	{
-		Number[] args = convert( a, b );
-		return super.multiply( args[0], args[1] );
+		if( a == null && b == null )
+			return null;
+		if( a == null )
+			return convertToNumber( (Boolean) b );
+		if( b == null )
+			return convertToNumber( (Boolean) a );
+		return convertToNumber( ( (Boolean) a ) && ( (Boolean) b ) );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#safeDivide(java.lang.Object,
-	 *      java.lang.Object, java.lang.Number)
+	 * @see org.eclipse.birt.core.script.math.ICalculator#safeDivide(java.lang.Object,
+	 *      java.lang.Object, java.lang.Object)
 	 */
-	@Override
 	public Number safeDivide( Object dividend, Object divisor, Number ifZero )
 			throws DataException
 	{
-		Number[] args = convert( dividend, divisor );
-		return super.safeDivide( args[0], args[1], ifZero );
+		try
+		{
+			return divide( dividend, divisor );
+		}
+		catch ( ArithmeticException e )
+		{
+			return ifZero;
+		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.aggregation.impl.calculator.NumberCalculator#subtract(java.lang.Object,
+	 * @see org.eclipse.birt.core.script.math.ICalculator#subtract(java.lang.Object,
 	 *      java.lang.Object)
 	 */
-	@Override
 	public Number subtract( Object a, Object b ) throws DataException
 	{
-		Number[] args = convert( a, b );
-		return super.subtract( args[0], args[1] );
+		if( a == null && b == null )
+			return null;
+		if( a == null )
+			return convertToNumber( (Boolean) b );
+		if( b == null )
+			return convertToNumber( (Boolean) a );
+		return convertToNumber( ( (Boolean) a ) ^ ( (Boolean) b ) );
 	}
 
-	/**
-	 * @param a
-	 * @param b
-	 * @return
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.api.aggregation.ICalculator#getTypedObject(java.lang.Object)
 	 */
-	private Number[] convert( Object a, Object b )
+	public Object getTypedObject( Object obj ) throws DataException
 	{
-		Number[] args = new Number[2];
-
-		args[0] = ( a instanceof Boolean ) ? ( ( (Boolean) a ).booleanValue( )
-				? 1D : 0D ) : (Number) a;
-		args[1] = ( b instanceof Boolean ) ? ( ( (Boolean) b ).booleanValue( )
-				? 1D : 0D ) : (Number) b;
-		return args;
+		try
+		{
+			return DataTypeUtil.toBoolean( obj );
+		}
+		catch ( BirtException e )
+		{
+			throw DataException.wrap( e );
+		}
 	}
+	
+	private Number convertToNumber( Boolean a )
+	{
+		return a == Boolean.TRUE ? BigDecimal.ONE : BigDecimal.ZERO;
+	}
+
 }

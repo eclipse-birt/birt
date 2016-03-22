@@ -340,8 +340,8 @@ public final class DataTypeUtil
 		else if ( source instanceof Boolean )
 		{
 			if ( true == ( (Boolean) source ).booleanValue( ) )
-				return new BigDecimal( 1d );
-			return new BigDecimal( 0d );
+				return BigDecimal.ONE;
+			return BigDecimal.ZERO;
 		}
 		else if ( source instanceof Date )
 		{
