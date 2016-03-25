@@ -479,6 +479,14 @@ public final class DataTypeUtil
 		{
 			return toDate( (String) source );
 		}
+		else if ( source instanceof Double )
+		{
+			// Rounding Double to the nearest Long.
+			// This should be a relatively safe operation since this type
+			// of conversion is usually done for representing aggregate
+			// function results as Date.
+			return new Date( Math.round( (Double) source ) );
+		}
 		else
 		{
 			throw new CoreException(
