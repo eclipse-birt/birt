@@ -633,26 +633,28 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					// function
 
 					IAggrFunction aggFunc = getAggregationManager( ).getAggregation( column.getAggregateFunction( ) );
-
-					if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
+					if (aggFunc != null) 
 					{
-						// for running aggregation functions, it does not
-						// support
-						// direct calculation on measure, so we reset the func
-						// to default func.
-						cubeMeasure = measureView.getCubeMeasure( );
-						if ( !CrosstabUtil.measureHasItsOwnAggregation( crosstab, cubeMeasure ) )
+						if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
 						{
-							column.setAggregateFunction( defaultFunction );
+							// for running aggregation functions, it does not
+							// support
+							// direct calculation on measure, so we reset the func
+							// to default func.
+							cubeMeasure = measureView.getCubeMeasure( );
+							if ( !CrosstabUtil.measureHasItsOwnAggregation( crosstab, cubeMeasure ) )
+							{
+								column.setAggregateFunction( defaultFunction );
+							}
 						}
-					}
-					else
-					{
-						String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
-
-						if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+						else
 						{
-							column.setDataType( targetType );
+							String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
+	
+							if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+							{
+								column.setDataType( targetType );
+							}
 						}
 					}
 				}
@@ -725,16 +727,18 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 							try
 							{
 								IAggrFunction aggFunc = getAggregationManager( ).getAggregation( binding.getAggregateFunction( ) );
-
-								// TODO we ignore any existing running type
-								// aggregation binding here, logic need be
-								// refined and moved out.
-								if ( aggFunc.getType( ) != IAggrFunction.RUNNING_AGGR 
-										&& isMeasureDataItem(crosstab, measureName, (DataItemHandle) item, binding) )
+								if (aggFunc != null)
 								{
-									( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
-
-									break;
+									// TODO we ignore any existing running type
+									// aggregation binding here, logic need be
+									// refined and moved out.
+									if ( aggFunc.getType( ) != IAggrFunction.RUNNING_AGGR 
+											&& isMeasureDataItem(crosstab, measureName, (DataItemHandle) item, binding) )
+									{
+										( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
+	
+										break;
+									}
 								}
 							}
 							catch ( BirtException e )
@@ -947,22 +951,24 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				// function
 
 				IAggrFunction aggFunc = getAggregationManager( ).getAggregation( column.getAggregateFunction( ) );
-
-				if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
+				if (aggFunc != null )
 				{
-					// for running aggregation functions, it does not
-					// support
-					// direct calculation on measure, so we reset the func
-					// to default func.
-					column.setAggregateFunction( defaultFunction );
-				}
-				else
-				{
-					String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
-
-					if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+					if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
 					{
-						column.setDataType( targetType );
+						// for running aggregation functions, it does not
+						// support
+						// direct calculation on measure, so we reset the func
+						// to default func.
+						column.setAggregateFunction( defaultFunction );
+					}
+					else
+					{
+						String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
+	
+						if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+						{
+							column.setDataType( targetType );
+						}
 					}
 				}
 			}
