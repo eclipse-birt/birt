@@ -705,6 +705,14 @@ public class TotalTest extends TestCase
         assertTrue(!ag.getParameterDefn()[0].isOptional());
 
         ac.start();
+        for ( int i = 0; i < dates.length; i++ )
+        {
+            ac.onRow( new Object[]{dates[i]} );
+        }
+        ac.finish();
+        assertEquals( 2500000D, ac.getValue() );
+
+        ac.start();
         for(int i=0; i<doubleArray1.length; i++)
         {
             ac.onRow(new Double[]{new Double(doubleArray1[i])});
