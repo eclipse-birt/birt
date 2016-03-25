@@ -545,6 +545,12 @@ public final class DataTypeUtil
                 }
             }
         }
+        else if ( source instanceof Double )
+		{
+        	// Rounding to the nearest Long is safe here since the Long value
+        	// represents milliseconds
+        	return toSqlTime( new Date( Math.round( (Double) source ) ) );
+		}
 
         throw new CoreException(
                     ResourceConstants.CONVERT_FAILS,
@@ -721,6 +727,12 @@ public final class DataTypeUtil
                 }
             }
         }
+        else if ( source instanceof Double )
+		{
+        	// Rounding to the nearest Long is safe here since the Long value
+        	// represents milliseconds
+        	return toSqlDate( new Date( Math.round( (Double) source ) ) );
+		}
 
         throw new CoreException(
                     ResourceConstants.CONVERT_FAILS,

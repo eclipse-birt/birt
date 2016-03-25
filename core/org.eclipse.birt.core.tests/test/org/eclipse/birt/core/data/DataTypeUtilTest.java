@@ -56,7 +56,7 @@ public class DataTypeUtilTest extends TestCase
 	public Object[] testObjectDouble;
 	public Object[] resultObjectDouble;
 	
-	private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.SHORT, Locale.getDefault( ));
+	private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault( ));
 	
 	/*
 	 * @see TestCase#setUp()
@@ -115,8 +115,8 @@ public class DataTypeUtilTest extends TestCase
 				new Exception( "" ),
 				new Exception( "" ),
 				( new GregorianCalendar( 2004 + 1900, 1, 1 ) ).getTime( ),
-				new Exception( "" ),
-				new Exception( "" ),
+				new Date( 1L ),
+				new Date( 0L ),
 				null,
 				new Exception( "" ),
 				new Exception( "" ),
@@ -431,35 +431,37 @@ public class DataTypeUtilTest extends TestCase
 
 	public void testToSqlDate( ) throws BirtException
 	{
-		java.sql.Date date = DataTypeUtil.toSqlDate( "1999-2-11" );
 		Calendar cal = Calendar.getInstance( );
-		cal.clear( );
-		cal.set( 1999, 1, 11 );
-		cal.getTime( );
-		assertEquals ( cal.getTime( ), date );
-		
-		try
+		cal.clear();
 		{
+			
+			java.sql.Date date = DataTypeUtil.toSqlDate( "1999-2-11" );
+			cal.set( 1999, 1, 11 );
+			assertEquals ( cal.getTime( ), date );
+		}
+		
+		{
+
 			java.sql.Date date1 = DataTypeUtil.toSqlDate( "99-2-11" );
 			cal.set( 99, 1, 11 );
 			assertEquals ( cal.getTime( ), date1 );
-		}
-		catch ( BirtException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		try
 		{
 			java.sql.Date date1 = DataTypeUtil.toSqlDate( "9921111" );
-			assertEquals ( cal.getTime( ), date1 );
 			fail("Should not arrive here");
 		}
 		catch ( BirtException e )
 		{
-			// TODO Auto-generated catch block
+			// exception expected
 			e.printStackTrace();
+		}
+		
+		{
+			java.sql.Date date1 = DataTypeUtil.toSqlDate( 100000000000.123D );
+			cal.set( 1973, 2, 3 );
+			assertEquals ( cal.getTime(), date1 );
 		}
 	}
 	
@@ -491,6 +493,18 @@ public class DataTypeUtilTest extends TestCase
 		failSqlTimeString( "1:11:25 pmm" );
 		failSqlTimeString( "1:11:65 am" );
 		failSqlTimeString( "1:61:25 pm" );
+		
+		time = DataTypeUtil.toSqlTime( 0D );
+		assertEquals ( getTime( 16,0,0,0 ), time );
+		
+		time = DataTypeUtil.toSqlTime( 1000D );
+		assertEquals ( getTime( 16,0,1,0 ), time );
+		
+		time = DataTypeUtil.toSqlTime( 999.789D );
+		assertEquals ( getTime( 16,0,1,0 ), time );
+		
+		time = DataTypeUtil.toSqlTime( 100000000000.123D );
+		assertEquals ( getTime( 1,46,40,0 ), time );
 	}
 	
 	private Time getTime( int hour, int minute, int second, int millis )
@@ -866,11 +880,17 @@ public class DataTypeUtilTest extends TestCase
 				if ( testObject[i] instanceof Double )
 				{
 					result = DataTypeUtil.toDouble( result ).toString( );
-				}else if ( testObject[i] instanceof Integer || testObject[i] instanceof BigDecimal )
+				}
+				else if ( testObject[i] instanceof Integer || testObject[i] instanceof BigDecimal )
 				{
 					result = DataTypeUtil.toInteger( result ).toString( );
 				}
-				assertEquals( result, resultString[i] );
+				else if ( testObject[i] instanceof Date )
+				{
+					result = df.format( DataTypeUtil.toDate( result ) );
+				}
+				Object expected = resultString[i];
+				assertEquals( expected, result );
 			}
 			catch ( BirtException e )
 			{
