@@ -251,7 +251,8 @@ public class AppServerWrapper
 
 		IWebAppInfo webAppInfo = WebViewer.getCurrentWebApp();
 		Bundle webAppBundle = Platform.getBundle(webAppInfo.getID());
-		viewerApp = new ViewerWebApp(webAppBundle, webAppInfo.getWebAppPath(), webAppInfo.getWebAppContextPath());
+        viewerApp = new ViewerWebApp( webAppBundle, webAppInfo.getWebAppPath( ), webAppInfo.getWebAppContextPath( ),
+                webAppInfo.getURIEncoding( ) );
 		viewerApp.start();
 	}
 

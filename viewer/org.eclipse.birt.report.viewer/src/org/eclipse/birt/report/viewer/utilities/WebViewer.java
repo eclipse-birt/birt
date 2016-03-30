@@ -292,6 +292,12 @@ public class WebViewer
 				return false;
 			}
 
+            public String getURIEncoding( )
+            {
+                /* default to utf-8 */
+                return null;
+            }
+
 		} );
 	}
 
