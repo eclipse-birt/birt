@@ -93,6 +93,8 @@ public class ReportDesignWriter
 
 		Document document;
 		Element element;
+		
+		final static String JTIDY_ATTRIBUTE = "is-jtidy";
 
 		/**
 		 * constructor.
@@ -313,6 +315,11 @@ public class ReportDesignWriter
 							}
 							if ( isPrimitiveType( v ) )
 							{
+								if ( JTIDY_ATTRIBUTE.equals( attrName )
+										&& Boolean.parseBoolean( v.toString( ) ) )
+								{
+									continue;
+								}
 								attribute( attrName, v.toString( ) );
 							}
 							else
