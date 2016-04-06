@@ -34,8 +34,8 @@ import com.ibm.icu.text.NumberFormat.SimpleNumberFormatFactory;
 public class RenderTaskTest extends EngineCase
 {
 
-//	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/render_task_design.xml";
-	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/render_performance.rptdesign";
+	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/render_task_design.xml"; //$NON-NLS-1$
+//	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/render_performance.rptdesign";
 
 	public void setUp( )
 	{
