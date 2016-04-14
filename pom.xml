@@ -29,7 +29,7 @@
                 <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.8.0/S-3.8.0M5-20160202064558/repository/</wtp.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
-                <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
+                <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.13/1.13.0.201603142002/repository</dtp.repo.url>
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.9.v20150224</jetty.repo.url>
 			</properties>
 		</profile>
