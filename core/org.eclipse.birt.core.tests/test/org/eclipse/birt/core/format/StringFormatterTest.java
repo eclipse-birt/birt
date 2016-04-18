@@ -13,7 +13,11 @@ package org.eclipse.birt.core.format;
 
 import java.text.ParseException;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * StringFormatterTest.
@@ -22,12 +26,13 @@ import junit.framework.TestCase;
  * translate the string according to the format string
  * 
  */
-public class StringFormatterTest extends TestCase
+public class StringFormatterTest
 {
 
 	//test function StringFormatter.applyPattern &
 	// StringFormatter.applyPattern()
-	public void testApplyPattern( )
+	@Test
+    public void testApplyPattern( )
 	{
 		StringFormatter sampleStr = new StringFormatter( );
 		sampleStr.applyPattern( "@@@@&&@@@<<<>>>!@@@&>" );
@@ -35,7 +40,8 @@ public class StringFormatterTest extends TestCase
 	}
 
 	//test function StringFormatter.format(String Str)
-	public void testFormat( )
+	@Test
+    public void testFormat( )
 	{
 		StringFormatter sampleStr = new StringFormatter( );
 		assertEquals( "", sampleStr.getPattern( ) );
@@ -131,8 +137,8 @@ public class StringFormatterTest extends TestCase
 		assertEquals( "(650)-837-2345", sampleStr.format( "6508372345" ) );
 
 	}
-	
-	public void testParser( ) throws Exception
+	@Test
+    public void testParser( ) throws Exception
 	{
 		StringFormatter sampleStr = new StringFormatter( );
 		assertEquals( "", sampleStr.getPattern( ) );
@@ -249,8 +255,8 @@ public class StringFormatterTest extends TestCase
 		assertEquals( "346508372345", sampleStr.parser( "34(650)-837-2345" ) );
 
 	}
-	
-	public void testTrim()
+	@Test
+    public void testTrim()
 	{
 		StringFormatter sampleStr = new StringFormatter( "Zip Code + 4");
 		assertEquals( "650837-2000", sampleStr.format( "6508372000" ) );

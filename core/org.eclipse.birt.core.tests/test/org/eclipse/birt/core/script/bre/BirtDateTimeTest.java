@@ -19,13 +19,17 @@ import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  *
  */
 
-public class BirtDateTimeTest extends TestCase
+public class BirtDateTimeTest
 {
 
 	private Context cx;
@@ -37,7 +41,8 @@ public class BirtDateTimeTest extends TestCase
 	 *
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void setUp() throws Exception
 	{
 		/*
 		 * Creates and enters a Context. The Context stores information about
@@ -60,7 +65,8 @@ public class BirtDateTimeTest extends TestCase
 	 *
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		Context.exit( );
 	}
@@ -68,7 +74,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_today()'
 	 */
-	public void testYear( )
+	@Test
+    public void testYear( )
 	{
 		/*assertTrue( NativeBirtDateTime.jsStaticFunction_year( new Date(105, 10, 15) ) == 2005);
 		assertTrue( NativeBirtDateTime.jsStaticFunction_year( new Date(0, 10, 15) ) == 1900);
@@ -86,7 +93,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_today()'
 	 */
-	public void testQuarter( )
+	@Test
+    public void testQuarter( )
 	{
 		String script1 = "BirtDateTime.quarter(\"1905-10-11\")";
 		String script2 = "BirtDateTime.quarter( new Date( 05,11,15))";
@@ -117,7 +125,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_today()'
 	 */
-	public void testMonthDate( )
+	@Test
+    public void testMonthDate( )
 	{
 		String script1 = "BirtDateTime.month(new Date(75,0,15),1)";
 		String script2 = "BirtDateTime.month( new Date( 105,11,15),1)";
@@ -148,7 +157,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_today()'
 	 */
-	public void testWeek( ) throws BirtException
+	@Test
+    public void testWeek( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.week(new Date(2006, 0, 1) )",
@@ -183,7 +193,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_today()'
 	 */
-	public void testDay( ) throws BirtException
+	@Test
+    public void testDay( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.day(new Date(2006, 0, 1) )",
@@ -210,7 +221,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_today()'
 	 */
-	public void testWeekDayDate( ) throws BirtException
+	@Test
+    public void testWeekDayDate( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.weekDay(new Date(2006, 0, 1), 1 )",
@@ -281,7 +293,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_today()'
 	 */
-	public void testToday( )
+	@Test
+    public void testToday( )
 	{
 		Calendar c = Calendar.getInstance( );
 		c.clear( );
@@ -300,7 +313,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_now()'
 	 */
-	public void testNow( )
+	@Test
+    public void testNow( )
 	{
 		Calendar c = Calendar.getInstance( );
 		c.clear( );
@@ -320,7 +334,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffYear(Date, Date)'
 	 */
-	public void testDiffYear( ) throws BirtException
+	@Test
+    public void testDiffYear( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.diffYear(new Date(2005, 10, 15),new Date(2007, 0, 15) )",
@@ -347,7 +362,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffMonth(Date, Date)'
 	 */
-	public void testDiffMonth( ) throws BirtException
+	@Test
+    public void testDiffMonth( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.diffMonth(new Date(2005, 10, 15),new Date(2007, 0, 8) )",
@@ -374,7 +390,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffQuarter(Date, Date)'
 	 */
-	public void testDiffQuarter( ) throws BirtException
+	@Test
+    public void testDiffQuarter( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.diffQuarter(new Date(2005, 10, 15),new Date(2007, 0, 8) )",
@@ -401,7 +418,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffWeek(Date, Date)'
 	 */
-	public void testDiffWeek( ) throws BirtException
+	@Test
+    public void testDiffWeek( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.diffWeek(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
@@ -450,7 +468,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffDay(Date, Date) throws BirtException'
 	 */
-	public void testDiffDay( ) throws BirtException
+	@Test
+    public void testDiffDay( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.diffDay(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
@@ -479,7 +498,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffHour(Date, Date)'
 	 */
-	public void testDiffHour( ) throws BirtException
+	@Test
+    public void testDiffHour( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.diffHour(new Date(1900, 0, 8),new Date(1900, 0, 6) )",
@@ -514,7 +534,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffMinute(Date, Date)'
 	 */
-	public void testDiffMinute( ) throws BirtException
+	@Test
+    public void testDiffMinute( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.diffMinute(\"1930-1-8 12:1:1\",\"1930-1-8 12:2:58\" )",
@@ -550,7 +571,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_diffSecond(Date, Date)'
 	 */
-	public void testDiffSecond( ) throws BirtException
+	@Test
+    public void testDiffSecond( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.diffSecond(new Date(1900, 0, 8,12,1,1),new Date(1900, 0, 8,12,2,58) )",
@@ -582,7 +604,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addMonth(Date, int)'
 	 */
-	public void testAddYear( ) throws BirtException
+	@Test
+    public void testAddYear( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addYear(new Date(2005, 10, 15),10 )",
@@ -629,7 +652,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addMonth(Date, int)'
 	 */
-	public void testAddMonth( ) throws BirtException
+	@Test
+    public void testAddMonth( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addMonth(new Date(2005, 10, 15),10 )",
@@ -676,7 +700,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addQuarter(Date, int)'
 	 */
-	public void testAddQuarter( ) throws BirtException
+	@Test
+    public void testAddQuarter( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addQuarter(new Date(2005, 10, 15),2 )",
@@ -723,7 +748,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addWeek(Date, int)'
 	 */
-	public void testAddWeek( ) throws BirtException
+	@Test
+    public void testAddWeek( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addWeek(new Date(2005, 10, 15),1 )",
@@ -770,7 +796,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addDay(Date, int)'
 	 */
-	public void testAddDay( ) throws BirtException
+	@Test
+    public void testAddDay( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addDay(new Date(2005, 10, 15),7 )",
@@ -817,7 +844,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addDay(Date, int)'
 	 */
-	public void testAddHour( ) throws BirtException
+	@Test
+    public void testAddHour( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addHour(new Date(2005, 10, 15),7*24 )",
@@ -872,7 +900,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addMinute(Date, int)'
 	 */
-	public void testAddMinute( ) throws BirtException
+	@Test
+    public void testAddMinute( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addMinute(new Date(2005, 10, 15),7*24*60 )",
@@ -922,7 +951,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_addSecond(Date, int)'
 	 */
-	public void testAddSecond( ) throws BirtException
+	@Test
+    public void testAddSecond( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.addSecond(new Date(2005, 10, 15),7*24*60*60 )",
@@ -972,7 +1002,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_firstDayOfYear(Date)'
 	 */
-	public void testFirstDayOfYear( ) throws BirtException
+	@Test
+    public void testFirstDayOfYear( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfYear(new Date(2005, 10, 15) )",
@@ -1015,7 +1046,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_firstDayOfQuarter(Date)'
 	 */
-	public void testFirstDayOfQuarter( ) throws BirtException
+	@Test
+    public void testFirstDayOfQuarter( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfQuarter(new Date(2005, 9, 15) )",
@@ -1059,7 +1091,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_firstDayOfMonth(Date)'
 	 */
-	public void testFirstDayOfMonth( ) throws BirtException
+	@Test
+    public void testFirstDayOfMonth( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfMonth(new Date(2005, 9, 15) )",
@@ -1103,7 +1136,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_firstDayOfWeek(Date)'
 	 */
-	public void testFirstDayOfWeek( ) throws BirtException
+	@Test
+    public void testFirstDayOfWeek( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfWeek(new Date(2011, 7, 25) )",
@@ -1152,7 +1186,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_dayOfWeek(Date)'
 	 */
-	public void testDayOfWeek( ) throws BirtException
+	@Test
+    public void testDayOfWeek( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.dayOfWeek(new Date(2015, 4, 1) )",
@@ -1179,7 +1214,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_dayOfYeark(Date)'
 	 */
-	public void testDayOfYear( ) throws BirtException
+	@Test
+    public void testDayOfYear( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.dayOfYear(new Date(2012, 0, 1) )",
@@ -1208,7 +1244,8 @@ public class BirtDateTimeTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtDateTime.jsStaticFunction_weekOfMonth(Date)'
 	 */
-	public void testWeekOfMonth( ) throws BirtException
+	@Test
+    public void testWeekOfMonth( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.weekOfMonth(new Date(2015, 4, 1) )",
@@ -1244,7 +1281,8 @@ public class BirtDateTimeTest extends TestCase
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalYear</code>
 	 */
-	public void testFiscalYear( ) throws BirtException
+	@Test
+    public void testFiscalYear( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.fiscalYear(new Date(2015, 6, 1), new Date(2012, 6, 1 ))",// leap year
@@ -1275,7 +1313,8 @@ public class BirtDateTimeTest extends TestCase
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalQuarter</code>
 	 */
-	public void testFiscalQuarter( ) throws BirtException
+	@Test
+    public void testFiscalQuarter( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.fiscalQuarter(new Date(2015, 8, 15), new Date(2015, 6, 1 ))",
@@ -1305,7 +1344,8 @@ public class BirtDateTimeTest extends TestCase
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalMonth</code>
 	 */
-	public void testFiscalMonth( ) throws BirtException
+	@Test
+    public void testFiscalMonth( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.fiscalMonth(new Date(2015, 8, 15), new Date(2015, 6, 1 ))",
@@ -1335,7 +1375,8 @@ public class BirtDateTimeTest extends TestCase
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalWeek</code>
 	 */
-	public void testFiscalWeek( ) throws BirtException
+	@Test
+    public void testFiscalWeek( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.fiscalWeek(new Date(2011, 6, 2), new Date(2015, 6, 1 ))",
@@ -1368,7 +1409,8 @@ public class BirtDateTimeTest extends TestCase
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalDay</code>
 	 */
-	public void testFiscalDay( ) throws BirtException
+	@Test
+    public void testFiscalDay( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.fiscalDay(new Date(2015, 6, 15), new Date(2015, 6, 1 ))",
@@ -1398,7 +1440,8 @@ public class BirtDateTimeTest extends TestCase
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FirstDayOfFiscalYear</code>
 	 */
-	public void testFirstDayOfFiscalYear( ) throws BirtException
+	@Test
+    public void testFirstDayOfFiscalYear( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfFiscalYear(2015)",
@@ -1435,7 +1478,8 @@ public class BirtDateTimeTest extends TestCase
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FirstDayOfFiscalMonth</code>
 	 */
-	public void testFirstDayOfFiscalMonth( ) throws BirtException
+	@Test
+    public void testFirstDayOfFiscalMonth( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfFiscalMonth(new Date(2015, 5, 15))",
@@ -1478,7 +1522,8 @@ public class BirtDateTimeTest extends TestCase
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FirstDayOfFiscalQuarter</code>
 	 */
-	public void testFirstDayOfFiscalQuarter( ) throws BirtException
+	@Test
+    public void testFirstDayOfFiscalQuarter( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfFiscalQuarter(new Date(2015, 5, 15))",
@@ -1519,7 +1564,8 @@ public class BirtDateTimeTest extends TestCase
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FirstDayOfFiscalWeek</code>
 	 */
-	public void testFirstDayOfFiscalWeek( ) throws BirtException
+	@Test
+    public void testFirstDayOfFiscalWeek( ) throws BirtException
 	{
 		String[] scripts = new String[]{
 				"BirtDateTime.firstDayOfFiscalWeek(new Date(2015, 5, 15))",
@@ -1553,8 +1599,8 @@ public class BirtDateTimeTest extends TestCase
 		c.set( year, month, day );
 		return c.getTime( );
 	}
-	
-	public void testFiscalYearStartDate( )
+	@Test
+    public void testFiscalYearStartDate( )
 	{
 		String PROPERTY_FISCAL_YEAR_START_DATE = "FISCAL_YEAR_START_DATE";
 		System.setProperty( PROPERTY_FISCAL_YEAR_START_DATE,

@@ -7,6 +7,12 @@ import java.io.RandomAccessFile;
 
 import org.junit.Ignore;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class ArchivePerformanceTest
 {
 
@@ -18,7 +24,8 @@ public class ArchivePerformanceTest
 	long writeSize = 0;
 
 	@Ignore("ignore performance test")
-	public void testPerformance( ) throws IOException
+	@Test
+    public void testPerformance( ) throws IOException
 	{
 		for ( int i = 0; i < 5; i++ )
 		{

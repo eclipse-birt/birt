@@ -5,9 +5,13 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
-public class DocumentArchiveTest extends TestCase
+public class DocumentArchiveTest
 {
 
 	static final String ARCHIVE_DOCUMENT_NAME = "org.eclipse.birt.core.archive.archive.zip"; //$NON-NLS-1$
@@ -18,11 +22,10 @@ public class DocumentArchiveTest extends TestCase
 	 */
 	public DocumentArchiveTest( String name )
 	{
-		super( name );
 		delete( new File( ARCHIVE_DOCUMENT_NAME ) );
 	}
-
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		File file = new File( ARCHIVE_DOCUMENT_NAME );
 		if ( file.exists( ) )
@@ -79,8 +82,8 @@ public class DocumentArchiveTest extends TestCase
 	static final String Random1StreamContent = "This is string for testing random stream 1.";	//$NON-NLS-1$
 	static final String Random2StreamContent = "This is string for testing random stream 2.";	//$NON-NLS-1$
 	static final String ContentStreamContent = "This is string for testing nested folder.";		//$NON-NLS-1$
-
-	public void testArchiveWriterAndArchiveReader() throws Exception
+	@Test
+    public void testArchiveWriterAndArchiveReader() throws Exception
 	{
 		///////////////// Testing FileArchiveWriter /////////////////////////////
 		FileArchiveWriter compoundWriter = new FileArchiveWriter( fileArchiveName );
@@ -226,8 +229,8 @@ public class DocumentArchiveTest extends TestCase
 	int runningThread;
 	int THREAD_COUNT = 5;
 	int VALUE_COUNT = 10000;
-
-	public void testReadMutipleThreads( ) throws IOException
+	@Test
+    public void testReadMutipleThreads( ) throws IOException
 	{
 		// create a stream
 		FileArchiveWriter writer = new FileArchiveWriter( fileArchiveName );

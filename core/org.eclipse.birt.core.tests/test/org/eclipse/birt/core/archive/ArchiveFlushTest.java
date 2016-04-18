@@ -25,6 +25,12 @@ import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.junit.Ignore;
 import org.junit.Test;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class ArchiveFlushTest
 {
 
@@ -45,7 +51,7 @@ public class ArchiveFlushTest
      * <li>read the data from the input stream, same.</li>
      * </ol>
      */
-    @Test
+	@Test
     public void testFlush( ) throws IOException
     {
 
@@ -81,7 +87,7 @@ public class ArchiveFlushTest
     /**
      * Demonstrate how to use the archive entry and input/output stream
      */
-    @Test
+	@Test
     public void testReadWrite( ) throws IOException
     {
         ArchiveFile af = new ArchiveFile( "test.dat", "rw+" );
@@ -128,8 +134,8 @@ public class ArchiveFlushTest
      *
      * @throws IOException
      */
-    @Test
     @Ignore("Ignore long run test")
+	@Test
     public void testMultipleThread( ) throws IOException
     {
         final Boolean[] hasErrors = new Boolean[]{Boolean.FALSE, Boolean.FALSE};

@@ -4,9 +4,13 @@ package org.eclipse.birt.core.archive.compound;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
-public class ArchiveFileTest extends TestCase
+public class ArchiveFileTest
 {
 
 	static final String ARCHIVE_FOLDER = "./utest/";
@@ -14,14 +18,14 @@ public class ArchiveFileTest extends TestCase
 	static final String TRANSIENT_ARCHIVE_FILE = ARCHIVE_FOLDER
 			+ "t_archive.rptdocument";
 	static final String TEMP_ARCHIVE_FOLDER = "./utest_temp/";
-
-	public void setUp( )
+	@Before
+    public void setUp()
 	{
 		new File( ARCHIVE_FOLDER ).mkdirs( );
 		new File( TEMP_ARCHIVE_FOLDER ).mkdirs( );
 	}
-
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		new File( TRANSIENT_ARCHIVE_FILE ).delete( );
 		new File( ARCHIVE_FILE ).delete( );
@@ -34,8 +38,8 @@ public class ArchiveFileTest extends TestCase
 		}
 		tempFolder.delete( );
 	}
-
-	public void testArchiveFile( ) throws IOException
+	@Test
+    public void testArchiveFile( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
 		archive.setCacheSize( 0 );
@@ -51,8 +55,8 @@ public class ArchiveFileTest extends TestCase
 		checkArchive( archive );
 		archive.close( );
 	}
-
-	public void testArchiveFileNoCache( ) throws IOException
+	@Test
+    public void testArchiveFileNoCache( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
 		archive.setCacheSize( 0 );
@@ -74,8 +78,8 @@ public class ArchiveFileTest extends TestCase
 		archive.close( );
 		assertTrue( archive.getUsedCache( ) == 0 );
 	}
-
-	public void testTransient( ) throws IOException
+	@Test
+    public void testTransient( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( TRANSIENT_ARCHIVE_FILE, "rwt" );
 		createArchive( archive );
@@ -84,8 +88,8 @@ public class ArchiveFileTest extends TestCase
 		assertTrue( !new File( TRANSIENT_ARCHIVE_FILE ).exists( ) );
 
 	}
-
-	public void testAppend( ) throws IOException
+	@Test
+    public void testAppend( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
 		createArchive( archive );
@@ -113,8 +117,8 @@ public class ArchiveFileTest extends TestCase
 		entry.close( );
 		archive.close( );
 	}
-
-	public void testSaveAs( ) throws IOException
+	@Test
+    public void testSaveAs( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( TRANSIENT_ARCHIVE_FILE, "rwt" );
 		createArchive( archive );
@@ -126,8 +130,8 @@ public class ArchiveFileTest extends TestCase
 		archive.close( );
 
 	}
-
-	public void testFlush( ) throws IOException
+	@Test
+    public void testFlush( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( TRANSIENT_ARCHIVE_FILE, "rw" );
 		createArchive( archive );
@@ -169,8 +173,8 @@ public class ArchiveFileTest extends TestCase
 			}
 		}
 	}
-	
-	public void testSetTempFileFolder( ) throws IOException
+	@Test
+    public void testSetTempFileFolder( ) throws IOException
 	{
 		ArchiveFile.setTempFileFolder( TEMP_ARCHIVE_FOLDER );
 		ArchiveFile archive = new ArchiveFile( TRANSIENT_ARCHIVE_FILE, "rwz" );

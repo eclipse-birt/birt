@@ -10,18 +10,22 @@
  *******************************************************************************/
 package org.eclipse.birt.core.script.bre;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * 
  */
-public class BirtCompTest extends TestCase
+public class BirtCompTest
 {
 	private Context cx;
 	private Scriptable scope;
@@ -30,7 +34,8 @@ public class BirtCompTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void setUp() throws Exception
 	{
 		/*
 		 * Creates and enters a Context. The Context stores information about
@@ -62,7 +67,8 @@ public class BirtCompTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		Context.exit( );
 	}
@@ -71,7 +77,8 @@ public class BirtCompTest extends TestCase
 	 * 
 	 *
 	 */
-	public void testAnyOf()
+	@Test
+    public void testAnyOf()
 	{
 		/*String script1 = "var array = new Array(4);array[0] = 100; array[1] = \"ABC\"; array[2] = \"1999-11-10\"; array[3] = null;";*/
 		String script2 = "BirtComp.anyOf(100,100,\"ABC\", \"1999-11-10\",null);";
@@ -130,8 +137,8 @@ public class BirtCompTest extends TestCase
 				1,
 				null ) ).booleanValue( ) );
 	}
-	
-	public void testBetween()
+	@Test
+    public void testBetween()
 	{
 		String script1 = "BirtComp.between(\"1923-10-11\",new Date(10,11,11),new Date(33,11,11))";
 
@@ -154,7 +161,8 @@ public class BirtCompTest extends TestCase
 	 * 
 	 *
 	 */
-	public void testNotBetween()
+	@Test
+    public void testNotBetween()
 	{
 		String script1 = "BirtComp.notBetween(\"1923-10-11\",new Date(10,11,11),new Date(33,11,11))";
 
@@ -177,7 +185,8 @@ public class BirtCompTest extends TestCase
 	 * 
 	 *
 	 */
-	public void testCompare()
+	@Test
+    public void testCompare()
 	{
 		Object[][] tests = new Object[][]{
 				//Equal to
@@ -245,7 +254,8 @@ public class BirtCompTest extends TestCase
 	 * 
 	 *
 	 */
-	public void testMatch()
+	@Test
+    public void testMatch()
 	{
 		String[] script = new String[]{
 				//Equal to
@@ -274,7 +284,8 @@ public class BirtCompTest extends TestCase
 	 * 
 	 *
 	 */
-	public void testLike()
+	@Test
+    public void testLike()
 	{
 		String[] script = new String[]{
 				//Equal to
@@ -333,7 +344,8 @@ public class BirtCompTest extends TestCase
 	 * 
 	 *
 	 */
-	public void testNotLike()
+	@Test
+    public void testNotLike()
 	{
 		String[] script = new String[]{
 				//Equal to
@@ -382,7 +394,8 @@ public class BirtCompTest extends TestCase
 	 * Test BirtComp.compareString function
 	 * 
 	 */
-	public void testCompareString( )
+	@Test
+    public void testCompareString( )
 	{
 		String[] script = new String[]{
 				"BirtComp.compareString(null,null)",

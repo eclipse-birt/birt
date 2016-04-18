@@ -16,6 +16,12 @@ import java.io.File;
 import org.junit.Assert;
 import org.junit.Ignore;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class DocArchiveLockManagerTest
 {
 
@@ -23,12 +29,13 @@ public class DocArchiveLockManagerTest
     static final int THREAD_COUNT = 20;
 
     @Ignore("ignore multple thread test")
+	@Test
     public void testThread( )
     {
         TestTask task = new TestTask( );
         task.doTest( );
-        Assert.assertTrue( task.errorThreads == 0 );
-        Assert.assertTrue( !new File( LOCK_FILE_NAME ).exists( ) );
+        assertTrue( task.errorThreads == 0 );
+        assertTrue( !new File( LOCK_FILE_NAME ).exists( ) );
     }
 
     static void sleep( long millis )

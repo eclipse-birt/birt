@@ -14,9 +14,13 @@ package org.eclipse.birt.core.archive.compound;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
-public class ArchiveFileFactoryTest extends TestCase
+public class ArchiveFileFactoryTest
 {
 
 	static final int TEST_COUNT = 50;
@@ -26,20 +30,20 @@ public class ArchiveFileFactoryTest extends TestCase
 	static final String VIEW_FILE = TEST_FOLDER + "viewFileName";
 	static final String ARCHIVE_ID = "archiveId";
 	static final String VIEW_ID = "viewId";
-
-	public void setUp( )
+	@Before
+    public void setUp()
 	{
 		new File( TEST_FOLDER ).mkdirs( );
 	}
-
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		new File( ARCHIVE_FILE ).delete( );
 		new File( VIEW_FILE ).delete( );
 		new File( TEST_FOLDER ).delete( );
 	}
-
-	public void testCreateAndOpenArchive( ) throws IOException
+	@Test
+    public void testCreateAndOpenArchive( ) throws IOException
 	{
 		IArchiveFileFactory factory = new ArchiveFileFactory( );
 		IArchiveFile writeArchive = factory.createArchive( ARCHIVE_ID );
@@ -64,8 +68,8 @@ public class ArchiveFileFactoryTest extends TestCase
 		}
 		readArchive.close( );
 	}
-
-	public void testCreateAndOpenView( ) throws IOException
+	@Test
+    public void testCreateAndOpenView( ) throws IOException
 	{
 		IArchiveFileFactory factory = new ArchiveFileFactory( );
 		IArchiveFile dependArchive = factory.createArchive( ARCHIVE_ID );

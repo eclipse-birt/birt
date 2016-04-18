@@ -36,13 +36,17 @@ import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * Test case for IOUtil
  * @see org.eclipse.birt.core.util.IOUtil
  */
-public class IOUtilTest extends TestCase
+public class IOUtilTest
 {
 	// test value
 	private Object[] testValues = new Object[]{
@@ -68,7 +72,8 @@ public class IOUtilTest extends TestCase
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.writeInt(OutputStream,
 	 * int)'
 	 */
-	public void testRWInt( ) throws IOException
+	@Test
+    public void testRWInt( ) throws IOException
 	{
 		int[] testValues = new int[]{
 				1, 1000, 0, -1, -1000
@@ -93,7 +98,8 @@ public class IOUtilTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.readBool(InputStream)'
 	 */
-	public void testRWBool( ) throws IOException
+	@Test
+    public void testRWBool( ) throws IOException
 	{
 		boolean[] testValues = new boolean[]{
 				false, true
@@ -118,7 +124,8 @@ public class IOUtilTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.readFloat(DataInputStream)'
 	 */
-	public void testRWFloat( ) throws IOException
+	@Test
+    public void testRWFloat( ) throws IOException
 	{
 		float[] testValues = new float[]{
 				(float) 1.1, 0, -1, (float) -1.1
@@ -147,7 +154,8 @@ public class IOUtilTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.readDouble(DataInputStream)'
 	 */
-	public void testRWDouble( ) throws IOException
+	@Test
+    public void testRWDouble( ) throws IOException
 	{
 		double[] testValues = new double[]{
 				(double) 1.1, 0, -1, (double) -1.1
@@ -176,7 +184,8 @@ public class IOUtilTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.readLong(DataInputStream)'
 	 */
-	public void testRWLong( ) throws IOException
+	@Test
+    public void testRWLong( ) throws IOException
 	{
 		long[] testValues = new long[]{
 				1, 1000, 0, -1
@@ -204,7 +213,8 @@ public class IOUtilTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.readString(DataInputStream)'
 	 */
-	public void testRWString( ) throws IOException
+	@Test
+    public void testRWString( ) throws IOException
 	{
 		String[] testValues = new String[]{
 				null, "", "G", "GU", "GUI"
@@ -231,7 +241,8 @@ public class IOUtilTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.readString(DataInputStream)'
 	 */
-	public void testRWBytes( ) throws IOException
+	@Test
+    public void testRWBytes( ) throws IOException
 	{
 		byte[] testValues = new byte[]{
 				1,2,3,4,5,6,7,8,9,10
@@ -262,7 +273,8 @@ public class IOUtilTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.readObject(DataInputStream)'
 	 */
-	public void testRWObject( ) throws IOException
+	@Test
+    public void testRWObject( ) throws IOException
 	{
 		final int size = 1000;
 		ByteArrayOutputStream bos = null;
@@ -301,7 +313,8 @@ public class IOUtilTest extends TestCase
 	 * Test method for 'org.eclipse.birt.core.util.IOUtil.writeObject(DataInputStream)'
 	 * particularly, the read and write object is a String with length more than 65535
 	 */
-	public void testRWLongString( ) throws IOException, FileNotFoundException
+	@Test
+    public void testRWLongString( ) throws IOException, FileNotFoundException
 	{
 		String begin = "��������The first several words for test";
 		StringBuffer buffer = new StringBuffer( begin );
@@ -376,7 +389,8 @@ public class IOUtilTest extends TestCase
 	 * Test method for
 	 * 'org.eclipse.birt.core.util.IOUtil.readList(DataInputStream)'
 	 */
-	public void testRWList( ) throws IOException
+	@Test
+    public void testRWList( ) throws IOException
 	{
 		List list = new ArrayList( );
 		for ( int i = 0; i < testValues.length; i++ )
@@ -423,7 +437,8 @@ public class IOUtilTest extends TestCase
 	 * Test method for
 	 * 'org.eclipse.birt.core.util.IOUtil.readMap(DataInputStream)'
 	 */
-	public void testRWMap( ) throws IOException
+	@Test
+    public void testRWMap( ) throws IOException
 	{
 		Object[] testKeys = this.testValues;
 		
@@ -475,7 +490,8 @@ public class IOUtilTest extends TestCase
 	 * Test java script object I/O
 	 * @throws IOException
 	 */
-	public void testNativeDate( ) throws IOException
+	@Test
+    public void testNativeDate( ) throws IOException
 	{
 		final int size = 1000;
 		ByteArrayOutputStream bos = null;
@@ -509,7 +525,8 @@ public class IOUtilTest extends TestCase
 	 * Test java script object I/O
 	 * @throws IOException
 	 */
-	public void testNativeJavaObject( ) throws IOException
+	@Test
+    public void testNativeJavaObject( ) throws IOException
 	{
 		final int size = 1000;
 		ByteArrayOutputStream bos = null;

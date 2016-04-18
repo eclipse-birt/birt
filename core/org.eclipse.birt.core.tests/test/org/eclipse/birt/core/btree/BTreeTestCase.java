@@ -19,9 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Random;
 
-import junit.framework.TestCase;
-
-abstract public class BTreeTestCase extends TestCase
+abstract public class BTreeTestCase
 {
 
 	static final String BTREE_INPUT_RESOURCE = "org/eclipse/birt/core/btree/btree.input.txt";

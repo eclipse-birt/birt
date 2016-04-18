@@ -14,11 +14,15 @@ package org.eclipse.birt.core.script;
 import java.util.Calendar;
 import java.util.Date;
 
-import junit.framework.TestCase;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * @Created on Dec 27, 2004
@@ -27,7 +31,7 @@ import org.mozilla.javascript.ScriptableObject;
  * 
  * This class is the unit test for class NativeDateTimeSpan.
  */
-public class NativeDateTimeSpanTest extends TestCase
+public class NativeDateTimeSpanTest
 {
 
 	/**
@@ -48,7 +52,8 @@ public class NativeDateTimeSpanTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void setUp() throws Exception
 	{
 		/*
 		 * Creates and enters a Context. The Context stores information about
@@ -72,7 +77,8 @@ public class NativeDateTimeSpanTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		Context.exit( );
 	}
@@ -103,8 +109,8 @@ public class NativeDateTimeSpanTest extends TestCase
 		cal.clear( );
 		return cal;
 	}
-
-	public void testYears( )
+	@Test
+    public void testYears( )
 	{
 		/*
 		 * Just one day off a whole year
@@ -141,8 +147,8 @@ public class NativeDateTimeSpanTest extends TestCase
 		assertEquals( 1, ( (Integer) value5 ).intValue( ) );
 
 	}
-
-	public void testMonths( )
+	@Test
+    public void testMonths( )
 	{
 		/*
 		 * Just one day off twelve months.
@@ -209,8 +215,8 @@ public class NativeDateTimeSpanTest extends TestCase
 		assertEquals( 0, ( (Integer) value10 ).intValue( ) );
 
 	}
-
-	public void testDays( )
+	@Test
+    public void testDays( )
 	{
 		/*
 		 * Just a whole day.
@@ -289,8 +295,8 @@ public class NativeDateTimeSpanTest extends TestCase
 			assertEquals( 333, ( (Integer) value13 ).intValue( ) );
 
 	}
-
-	public void testHours( )
+	@Test
+    public void testHours( )
 	{
 		/*
 		 * A whole day in the normal year
@@ -389,8 +395,8 @@ public class NativeDateTimeSpanTest extends TestCase
 		}
 
 	}
-
-	public void testMinutes( )
+	@Test
+    public void testMinutes( )
 	{
 		/*
 		 * Just a whole hour, 60 minutes
@@ -506,8 +512,8 @@ public class NativeDateTimeSpanTest extends TestCase
 			assertEquals( 1198, ( (Integer) value6 ).intValue( ) );
 
 	}
-
-	public void testSeconds( )
+	@Test
+    public void testSeconds( )
 	{
 		/*
 		 * Just one second.
@@ -604,8 +610,8 @@ public class NativeDateTimeSpanTest extends TestCase
 		if ( value5 instanceof Integer )
 			assertEquals( 3535, ( (Integer) value5 ).intValue( ) );
 	}
-
-	public void testAddDate( )
+	@Test
+    public void testAddDate( )
 	{
 		/*
 		 * Add a single year
@@ -718,8 +724,8 @@ public class NativeDateTimeSpanTest extends TestCase
 		assertEquals( 31, cal.get( Calendar.DATE ) );
 		System.out.println( "9" );
 	}
-
-	public void testAddTime( )
+	@Test
+    public void testAddTime( )
 	{
 		Calendar dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 44 );
@@ -807,8 +813,8 @@ public class NativeDateTimeSpanTest extends TestCase
 		assertEquals( 43, cal.get( Calendar.SECOND ) );
 		System.out.println( "6" );
 	}
-
-	public void testSubDate( )
+	@Test
+    public void testSubDate( )
 	{
 		/*
 		 * Add a single year
@@ -872,8 +878,8 @@ public class NativeDateTimeSpanTest extends TestCase
 		System.out.println( "4" );
 		
 	}
-
-	public void testSubTime( )
+	@Test
+    public void testSubTime( )
 	{
 		Calendar dateCal = getCalendarInstance( );
 		dateCal.set( 2008, 8, 13, 20, 1, 44 );
