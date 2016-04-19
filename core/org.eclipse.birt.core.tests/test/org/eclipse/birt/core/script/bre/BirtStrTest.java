@@ -11,18 +11,22 @@
  *******************************************************************************/
 package org.eclipse.birt.core.script.bre;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class BirtStrTest extends TestCase
+public class BirtStrTest
 {
 	String str = " I am a test    string";
 	
@@ -33,7 +37,8 @@ public class BirtStrTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void setUp() throws Exception
 	{
 		/*
 		 * Creates and enters a Context. The Context stores information about
@@ -57,7 +62,8 @@ public class BirtStrTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		Context.exit( );
 	}
@@ -65,7 +71,8 @@ public class BirtStrTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_left(String, int)'
 	 */
-	public void testLeftStringInt( )
+	@Test
+    public void testLeftStringInt( )
 	{
 		String script1 = "BirtStr.left(\"" + str + "\",5)";
 		
@@ -79,7 +86,8 @@ public class BirtStrTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_right(String, int)'
 	 */
-	public void testRightStringInt( )
+	@Test
+    public void testRightStringInt( )
 	{
 		try
 		{
@@ -125,7 +133,8 @@ public class BirtStrTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_toUpper(String)'
 	 */
-	public void testToUpper( )
+	@Test
+    public void testToUpper( )
 	{
 		String script1 = "BirtStr.toUpper(\"" + str + "\")";
 		String script2 = "BirtStr.toUpper(" + null + ")";
@@ -166,7 +175,8 @@ public class BirtStrTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_toLower(String)'
 	 */
-	public void testToLower( )
+	@Test
+    public void testToLower( )
 	{
 		String script1 = "BirtStr.toLower(\"" + str + "\")";
 		String script2 = "BirtStr.toLower(" + null + ")";
@@ -227,7 +237,8 @@ public class BirtStrTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_trim(String)'
 	 */
-	public void testTrim( )
+	@Test
+    public void testTrim( )
 	{
 		String script1 = "BirtStr.trim(\"" + str + "\")";
 		String script2 = "BirtStr.trim(" + null + ")";
@@ -247,7 +258,8 @@ public class BirtStrTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_trimLeft(String)'
 	 */
-	public void testTrimLeft( )
+	@Test
+    public void testTrimLeft( )
 	{
 		String script1 = "BirtStr.trimLeft(\"" + str + "\")";
 		String script2 = "BirtStr.trimLeft(" + null + ")";
@@ -267,7 +279,8 @@ public class BirtStrTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_trimRight(String)'
 	 */
-	public void testTrimRight( )
+	@Test
+    public void testTrimRight( )
 	{
 		String script1 = "BirtStr.trimRight(\"" + str + "      \")";
 		String script2 = "BirtStr.trimRight(" + null + ")";
@@ -294,7 +307,8 @@ public class BirtStrTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_indexOf(String, String, int)'
 	 */
-	public void testIndexOfStringStringInt( )
+	@Test
+    public void testIndexOfStringStringInt( )
 	{
 		String script1 = "BirtStr.indexOf(\"a\",\"" + str + "\",1)";
 		String script2 = "BirtStr.indexOf(\"a\",\"" + str + "\",4)";
@@ -315,7 +329,8 @@ public class BirtStrTest extends TestCase
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_search(String,
 	 * String, int)'
 	 */
-	public void testSearchStringStringInt( )
+	@Test
+    public void testSearchStringStringInt( )
 	{
 		assertEquals( ( (Integer) cx.evaluateString( scope,
 				"BirtStr.search(\"a test\",\" I am a test    string\",0)",
@@ -361,8 +376,8 @@ public class BirtStrTest extends TestCase
 				1,
 				null ) ) , new Integer(0) );
 	}
-
-	public void testSearchStringString( )
+	@Test
+    public void testSearchStringString( )
 	{
 		assertEquals( ( cx.evaluateString( scope,
 				"BirtStr.search(\"a?t\",\" I am a test    string\")",
@@ -417,7 +432,8 @@ public class BirtStrTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.core.script.bre.NativeBirtStr.jsStaticFunction_charLength(String)'
 	 */
-	public void testCharLength( )
+	@Test
+    public void testCharLength( )
 	{
 
 	}
@@ -426,6 +442,7 @@ public class BirtStrTest extends TestCase
      * Test if ConString can be convert to String.
      * 
      */
+	@Test
     public void testConString( )
     {
         assertEquals( ( cx.evaluateString( scope, "BirtStr.toUpper('a' + new java.lang.String('b'))",

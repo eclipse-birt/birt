@@ -11,11 +11,15 @@
 
 package org.eclipse.birt.core.script;
 
-import junit.framework.TestCase;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * Created on Nov 12, 2004 NativeFinanceTest.
@@ -45,7 +49,7 @@ import org.mozilla.javascript.ScriptableObject;
  *          <li>testIrr()</li>
  *          <li>testMirr()</li>
  */
-public class NativeFinanceTest extends TestCase
+public class NativeFinanceTest
 {
 
 	/**
@@ -67,7 +71,8 @@ public class NativeFinanceTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void setUp() throws Exception
 	{
 		/*
 		 * Creates and enters a Context. The Context stores information about
@@ -91,7 +96,8 @@ public class NativeFinanceTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		Context.exit( );
 	}
@@ -116,8 +122,8 @@ public class NativeFinanceTest extends TestCase
 			return Double.NaN;
 		}
 	}
-
-	public void testDdb( )
+	@Test
+    public void testDdb( )
 	{
 		//ddb(1400, 200, 10, 1) == 280
 		double value = eval( "Finance.ddb(1400, '200', '10', '1')" );
@@ -132,8 +138,8 @@ public class NativeFinanceTest extends TestCase
 		eval( "Finance.ddb( 1400, 200, -10, 1 )" );
 		assertTrue(hasException);
 	}
-
-	public void testSln( )
+	@Test
+    public void testSln( )
 	{
 		//sln(1400, 200, 10) == 120
 		double value = eval( "Finance.sln( 1400, 200, 10 )" );
@@ -143,8 +149,8 @@ public class NativeFinanceTest extends TestCase
 		assertEquals(-120, value, Double.MIN_VALUE);
 		
 	}
-
-	public void testSyd( )
+	@Test
+    public void testSyd( )
 	{
 		double value = eval( "Finance.syd( 1400, 200, 2, 1 )" );
 		assertEquals( 800, value, Double.MIN_VALUE );
@@ -153,8 +159,8 @@ public class NativeFinanceTest extends TestCase
 		assertEquals( -800, value, Double.MIN_VALUE );
 
 	}
-
-	public void testFv( )
+	@Test
+    public void testFv( )
 	{
 
 		String script1 = "Finance.fv( 0.057 / 365, 18 * 365, 0, -10000, 1 )";
@@ -173,8 +179,8 @@ public class NativeFinanceTest extends TestCase
 		String script3 = "Finance.fv( 0.057 / 12, 18 * 12, -55, -10000, 3 )";
 		eval( script3 );
 	}
-
-	public void testPmt( )
+	@Test
+    public void testPmt( )
 	{
 
 		String script1 = " Finance.pmt( 0.115 / 12, 36, -20000, 0, 1 )";
@@ -188,8 +194,8 @@ public class NativeFinanceTest extends TestCase
 		String script3 = "Finance.pmt( 0.115 / 12, 36, -20000, 0, -1 )";
 		eval( script3 );
 	}
-
-	public void testIpmt( )
+	@Test
+    public void testIpmt( )
 	{
 
 		String script1 = "Finance.ipmt( 0.115 / 12, 5, 36, -20000, 0, 1 )";
@@ -206,8 +212,8 @@ public class NativeFinanceTest extends TestCase
 		String script3 = "Finance.ipmt( 0.115 / 12, 3, 36, -20000, 0, 8 )";
 		eval( script3 );
 	}
-
-	public void testPpmt( )
+	@Test
+    public void testPpmt( )
 	{
 
 		String script1 = " Finance.ppmt( 0.115 / 12, 5, 36, -20000, 0, 1 )";
@@ -224,8 +230,8 @@ public class NativeFinanceTest extends TestCase
 		String script3 = "Finance.ppmt( 0.115 / 12, 5, 36, -20000, 0, 7 )";
 		eval( script3 );
 	}
-
-	public void testNPer( )
+	@Test
+    public void testNPer( )
 	{
 		double value = eval( "Finance.nper( 0.01, -2000, 20000, 0, 1 )" );
 		assertEquals( 10.478, value, 0.001 );
@@ -233,8 +239,8 @@ public class NativeFinanceTest extends TestCase
 		value = eval( "Finance.nper( 0.01, -2000, 20000, 0, 0 )" );
 		assertEquals( 10.588, value, 0.001 );
 	}
-
-	public void testPv( )
+	@Test
+    public void testPv( )
 	{
 		String script1 = "Finance.pv( 0.105 / 12, 3 * 12, -325, 11000, 1 )";
 		double value1 = eval( script1 );
@@ -246,8 +252,8 @@ public class NativeFinanceTest extends TestCase
 		String script3 = "Finance.nPer( 0.115 / 12, -4, 20000, 0, 1 )";
 		eval( script3 );
 	}
-
-	public void testRate( )
+	@Test
+    public void testRate( )
 	{
 		String script1 = "Finance.rate( 3 * 12, -653.26, 20000, 0, 1, 0.1 ) * 12";
 		double value1 = eval( script1 );
@@ -261,8 +267,8 @@ public class NativeFinanceTest extends TestCase
 		eval( script2 );
 
 	}
-
-	public void testPercent( )
+	@Test
+    public void testPercent( )
 	{
 		String script1 = "Finance.percent( 20, 50 )";
 		double value1 = eval( script1 );
@@ -279,16 +285,16 @@ public class NativeFinanceTest extends TestCase
 		//double value7 = eval( script7 );
 		//assertEquals( 1000, value7, Double.MIN_VALUE );
 	}
-
-	public void testNpv( )
+	@Test
+    public void testNpv( )
 	{
 		String script1 = "var array=new Array(4);array[0]=-10000;array[1]=3000;array[2]=4200;array[3]=6800;"
 				+ "Finance.npv( 0.1, array )";
 		double value1 = eval( script1 );
 		assertEquals( 1188.44, value1, 0.01 );
 	}
-
-	public void testIrr( )
+	@Test
+    public void testIrr( )
 	{
 		//use double array to test this case
 		double a[] = new double[]{-70000, 12000, 15000};
@@ -312,8 +318,8 @@ public class NativeFinanceTest extends TestCase
 		assertFalse( hasException );
 
 	}
-
-	public void testMirr( )
+	@Test
+    public void testMirr( )
 	{
 		//If the value of the guess is far from the correct answer, application
 		// can't get the correct result and will report error

@@ -15,17 +15,21 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.exception.BirtException;
 
-public class ScriptableParametersTest extends TestCase
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
+public class ScriptableParametersTest
 {
 
 	ScriptContext context;
 	Map params;
-	
-	public void setUp( )
+	@Before
+    public void setUp()
 	{
 		context = new ScriptContext( );
 		params = new HashMap( );
@@ -37,13 +41,13 @@ public class ScriptableParametersTest extends TestCase
 	{
 		params.put( name, new ParameterAttribute( value, displayText ) );
 	}
-
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		context.close( );
 	}
-
-	public void testAssign( ) throws BirtException
+	@Test
+    public void testAssign( ) throws BirtException
 	{
 		// change to a exits parameters
 		eval( "params['string'] = 'abcd'" );
@@ -68,8 +72,8 @@ public class ScriptableParametersTest extends TestCase
 		assertTrue(num instanceof Double);
 
 	}
-
-	public void testReterive( ) throws BirtException
+	@Test
+    public void testReterive( ) throws BirtException
 	{
 		// access the none exist paramter will return null directl
 		try
@@ -93,8 +97,8 @@ public class ScriptableParametersTest extends TestCase
 		assertEquals( "bbc", eval( "var value = params['string'];"
 				+ "value.replace('a', 'b')" ) );
 	}
-
-	public void testEval( ) throws BirtException
+	@Test
+    public void testEval( ) throws BirtException
 	{
 		addParameter( "jsDate", "", "" );
 		eval( "params['jsDate']=new Date();" );

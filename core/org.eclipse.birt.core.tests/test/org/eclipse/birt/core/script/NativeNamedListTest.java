@@ -3,13 +3,17 @@ package org.eclipse.birt.core.script;
 import java.util.Date;
 import java.util.HashMap;
 
-import junit.framework.TestCase;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
-public class NativeNamedListTest extends TestCase
+
+public class NativeNamedListTest
 {
 	/**
 	 * Create a Context instance
@@ -30,7 +34,8 @@ public class NativeNamedListTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void setUp() throws Exception
 	{
 		/*
 		 * Creates and enters a Context. The Context stores information about
@@ -56,7 +61,8 @@ public class NativeNamedListTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		Context.exit( );
 	}
@@ -96,8 +102,8 @@ public class NativeNamedListTest extends TestCase
 		scope.put("params", scope, params);
 		scope.put("buffer", scope, Context.javaToJS(buffer,scope));
 	}
-	
-	public void testIn()
+	@Test
+    public void testIn()
 	{
 		String script = "for (var a in params) { buffer.append(a); }";
 		buffer.setLength(0);
@@ -105,39 +111,40 @@ public class NativeNamedListTest extends TestCase
 		assertTrue(!hasException);
 		assertEquals("abcd", buffer.toString());
 	}
-	
-	public void testLength()
+	@Test
+    public void testLength()
 	{
 		String script = "params.length";
 		Object value = evaluate(script);
 		assertTrue(!hasException);
 		assertEquals(4, ((Number)value).intValue());
 	}
-	
-	public void testNameAccess()
+	@Test
+    public void testNameAccess()
 	{
 		String script = "params['a'] + params.b";
 		Object value = evaluate(script);
 		assertTrue(!hasException);
 		assertEquals("123STRING", value.toString());
 	}
-	
-	public void testIndexAccess()
+	@Test
+    public void testIndexAccess()
 	{
 		String script = "params[0] + params[params.length-3]";
 		Object value = evaluate(script);
 		assertTrue(!hasException);
 		assertEquals("123STRING", value.toString());
 	}
-	
-	public void testEntryName()
+	@Test
+    public void testEntryName()
 	{
 		String script = "params[0].name";
 		Object value = evaluate(script);
 		assertTrue(!hasException);
 		assertEquals("a", value.toString());
 	}
-	public void testEntryValue()
+	@Test
+    public void testEntryValue()
 	{
 		String script = "params[0].value + params[0]";
 		Object value = evaluate(script);

@@ -14,9 +14,13 @@ package org.eclipse.birt.core.archive;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
-public class ArchiveUtilTest extends TestCase
+public class ArchiveUtilTest
 {
 
     static final String ARCHIVE_FILE = "./utest/test.file";
@@ -34,7 +38,7 @@ public class ArchiveUtilTest extends TestCase
         }
         file.delete( );
     }
-
+	@Test
     public void testArchive( ) throws IOException
     {
         removeFile( new File( ARCHIVE_FOLDER ) );
@@ -53,7 +57,7 @@ public class ArchiveUtilTest extends TestCase
         reader.close( );
 
     }
-
+	@Test
     public void testExpand( ) throws IOException
     {
         removeFile( new File( ARCHIVE_FOLDER ) );
@@ -89,7 +93,7 @@ public class ArchiveUtilTest extends TestCase
     {
         RAInputStream in = reader.getStream( "/core.txt" );
         assertTrue( in != null );
-        assertEquals( 100, in.readLong( ) );
+        org.junit.Assert.assertEquals( 100, in.readLong( ) );
         in.seek( 1024 * 1024 );
         assertEquals( 100, in.readLong( ) );
         in.close( );
@@ -99,18 +103,18 @@ public class ArchiveUtilTest extends TestCase
         assertEquals( 100, in.readLong( ) );
         in.close( );
     }
-    
+	@Test
     public void testSplit()
     {
-        assertEquals(new String[]{""}, ArchiveUtil.split("", '/'));
-        assertEquals(new String[]{"",""}, ArchiveUtil.split("/", '/'));
-        assertEquals(new String[]{"","",""}, ArchiveUtil.split("//", '/'));
-        assertEquals(new String[]{"abc"}, ArchiveUtil.split("abc", '/'));
-        assertEquals(new String[]{"abc", ""}, ArchiveUtil.split("abc/", '/'));
-        assertEquals(new String[]{"","abc" }, ArchiveUtil.split("/abc", '/'));
-        assertEquals(new String[]{"","abc", "" }, ArchiveUtil.split("/abc/", '/'));
+        assertEQ(new String[]{""}, ArchiveUtil.split("", '/'));
+        assertEQ(new String[]{"",""}, ArchiveUtil.split("/", '/'));
+        assertEQ(new String[]{"","",""}, ArchiveUtil.split("//", '/'));
+        assertEQ(new String[]{"abc"}, ArchiveUtil.split("abc", '/'));
+        assertEQ(new String[]{"abc", ""}, ArchiveUtil.split("abc/", '/'));
+        assertEQ(new String[]{"","abc" }, ArchiveUtil.split("/abc", '/'));
+        assertEQ(new String[]{"","abc", "" }, ArchiveUtil.split("/abc/", '/'));
     }
-
+	@Test
     public void testRelativePath( )
     {
         String[][] tests = new String[][]{new String[]{"/test", "/", "/test"},
@@ -132,7 +136,7 @@ public class ArchiveUtilTest extends TestCase
             assertEquals( relative, ArchiveUtil.getRelativePath( root, path ) );
         }
     }
-
+	@Test
     public void testFullPath( )
     {
         String[][] tests = new String[][]{new String[]{"/root/", "/root", "/"},
@@ -154,7 +158,7 @@ public class ArchiveUtilTest extends TestCase
             assertEquals( path, ArchiveUtil.getFullPath( root, relative ) );
         }
     }
-
+	@Test
     public void testEntryToFile( )
     {
         assertEquals( "/", ArchiveUtil.getFilePath( "/" ) );
@@ -170,7 +174,7 @@ public class ArchiveUtilTest extends TestCase
         assertEquals( "/%2F/", ArchiveUtil.getFilePath( "//" ) );
         assertEquals( "/%2F/%2F/", ArchiveUtil.getFilePath( "///" ) );
     }
-
+	@Test
     public void testFileToEntry( )
     {
         assertEquals( "/", ArchiveUtil.getEntryName( "/" ) );
@@ -184,7 +188,7 @@ public class ArchiveUtilTest extends TestCase
         assertEquals( "///", ArchiveUtil.getEntryName( "/%2F/%2F/" ) );
     }
 
-    private void assertEquals( String[] v1, String[] v2 )
+    private void assertEQ( String[] v1, String[] v2 )
     {
         assertEquals( v1.length, v2.length );
         for ( int i = 0; i < v1.length; i++ )

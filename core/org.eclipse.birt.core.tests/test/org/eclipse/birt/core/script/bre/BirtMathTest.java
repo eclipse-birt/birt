@@ -18,14 +18,18 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class BirtMathTest extends TestCase
+public class BirtMathTest
 {
 	private Context cx;
 	private Scriptable scope;
@@ -34,7 +38,8 @@ public class BirtMathTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void setUp() throws Exception
 	{
 		/*
 		 * Creates and enters a Context. The Context stores information about
@@ -58,12 +63,13 @@ public class BirtMathTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		Context.exit( );
 	}
-	
-	public void testAdd()
+	@Test
+    public void testAdd()
 	{
 		String script1 = "BirtMath.add( null, 1 )";
 		String script2 = "BirtMath.add( 1,  null)";
@@ -87,8 +93,8 @@ public class BirtMathTest extends TestCase
 				1,
 				null )).doubleValue( ) ,2,0 );
 	}
-	
-	public void testRound()
+	@Test
+    public void testRound()
 	{
 		String[] scripts = new String[]
 		{
@@ -117,8 +123,8 @@ public class BirtMathTest extends TestCase
 		}
 		
 	}
-	
-	public void testRoundUp() throws IllegalAccessException, InstantiationException, InvocationTargetException
+	@Test
+    public void testRoundUp() throws IllegalAccessException, InstantiationException, InvocationTargetException
 	{
 		String[] scripts = new String[]
   		{
@@ -155,8 +161,8 @@ public class BirtMathTest extends TestCase
   		}
 
 	}
-	
-	public void testRoundDown()
+	@Test
+    public void testRoundDown()
 	{
 		String[] scripts = new String[]
 		{
@@ -192,8 +198,8 @@ public class BirtMathTest extends TestCase
 				null )).doubleValue( ) ,values[i],0 );
 		}
 	}
-	
-	public void testCeiling()
+	@Test
+    public void testCeiling()
 	{
 		String[] scripts = new String[]
 		{
@@ -250,8 +256,8 @@ public class BirtMathTest extends TestCase
 		
 
 	}
-	
-	public void testMod()
+	@Test
+    public void testMod()
 	{
 		String[] scripts = new String[]
   		{
@@ -299,8 +305,8 @@ public class BirtMathTest extends TestCase
 			
 		}
 	}
-	
-	public void testSafeDivide( )
+	@Test
+    public void testSafeDivide( )
 	{
 		String[] scripts = new String[]{
 				"BirtMath.safeDivide( 0, 10,-1 )",

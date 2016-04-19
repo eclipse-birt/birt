@@ -4,26 +4,30 @@ package org.eclipse.birt.core.archive.compound;
 import java.io.File;
 import java.io.IOException;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
-public class ArchiveRemoveTest extends TestCase
+public class ArchiveRemoveTest
 {
 
 	static final String ARCHIVE_FOLDER = "./utest/";
 	static final String ARCHIVE_FILE = ARCHIVE_FOLDER + "archive.rptdocument";
-
-	public void setUp( )
+	@Before
+    public void setUp()
 	{
 		new File( ARCHIVE_FOLDER ).mkdirs( );
 	}
-
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		new File( ARCHIVE_FILE ).delete( );
 		new File( ARCHIVE_FOLDER ).delete( );
 	}
-
-	public void testArchiveFileRemove( ) throws IOException
+	@Test
+    public void testArchiveFileRemove( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
 		archive.setCacheSize( 64 * 1024 );
@@ -56,8 +60,8 @@ public class ArchiveRemoveTest extends TestCase
 			archive.close( );
 		}
 	}
-
-	public void testArchiveFileRandomRemove( ) throws IOException
+	@Test
+    public void testArchiveFileRandomRemove( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "rw" );
 		archive.setCacheSize( 64 * 1024 );

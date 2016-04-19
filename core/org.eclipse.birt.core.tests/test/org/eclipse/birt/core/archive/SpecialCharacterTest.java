@@ -12,6 +12,12 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class SpecialCharacterTest
 {
 
@@ -40,7 +46,7 @@ public class SpecialCharacterTest
             RAInputStream rs = reader.getInputStream( fileName );
             byte[] b = new byte[rs.available( )];
             rs.read( b );
-            Assert.assertEquals( new String( b, "utf-8" ), fileName );
+            assertEquals( new String( b, "utf-8" ), fileName );
         }
     }
 
@@ -50,8 +56,7 @@ public class SpecialCharacterTest
     {
         ArchiveUtil.deleteAllFiles( new File( "./utest" ) );
     }
-
-    @Test
+	@Test
     public void testFolderReaderWriter( ) throws IOException
     {
         FolderArchiveWriter writer = new FolderArchiveWriter(
@@ -68,8 +73,7 @@ public class SpecialCharacterTest
             writer.close( );
         }
     }
-
-    @Test
+	@Test
     public void testFolderArchive( ) throws IOException
     {
         FolderArchive archive = new FolderArchive( "./utest/folder.archive" );
@@ -83,8 +87,7 @@ public class SpecialCharacterTest
         }
 
     }
-
-    @Test
+	@Test
     public void testFileArchive( ) throws IOException
     {
         ArchiveFile af = new ArchiveFile( "./utest/archive.test", "rwt" );

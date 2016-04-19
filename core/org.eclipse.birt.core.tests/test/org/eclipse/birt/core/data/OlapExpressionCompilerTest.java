@@ -8,11 +8,15 @@ import java.util.Set;
 
 import org.eclipse.birt.core.exception.CoreException;
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
-public class OlapExpressionCompilerTest extends TestCase
+public class OlapExpressionCompilerTest
 {
-
+	@Test
     public void testGetDimLevels( ) throws CoreException
     {
         //assertEquals( "dim1", getDimLevels( "dimension[\"dim1\"]" ) );
@@ -21,7 +25,7 @@ public class OlapExpressionCompilerTest extends TestCase
         assertEquals( "dim1/level1,dim2/level2", getDimLevels( "dimension['dim1']['level1'] * dimension['dim2']['level2']" ) );
         assertEquals( "dim1/level1", getDimLevels( "func(dimension['dim1']['level1'])" ) );
     }
-
+	@Test
     public void testGetReferencedMeasures( )
     {
         assertEquals( "m1", getMeasureNames( "measure.m1" ) );
