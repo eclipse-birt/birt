@@ -29,7 +29,7 @@ public class ChartVariableHelperTest extends TestCase
 
 	private String fSeriesExpr = "row[\"CREDILIMIT\"]"; //$NON-NLS-1$
 
-	private String fSeriesName = "Series 1"; //$NON-NLS-1$
+	private String fSeriesName = "\"Series 1\""; //$NON-NLS-1$
 
 	Object[] fParams = new String[4];
 

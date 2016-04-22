@@ -62,7 +62,7 @@ public class ImageRenderTest
 		Properties p = System.getProperties();
 		//This is a standlone test
 		PlatformConfig config = new PlatformConfig( );
-		config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
+		//config.setProperty( "STANDALONE", "true" ); //$NON-NLS-1$ //$NON-NLS-2$
 		ChartEngine.instance( config );
 		fixedDir = File.separator+"src"+File.separator+"org"//$NON-NLS-1$ //$NON-NLS-2$
 		+File.separator+"eclipse"+File.separator+"birt"+File.separator+"chart"//$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
@@ -74,7 +74,7 @@ public class ImageRenderTest
 
 	public static Test suite( )
 	{
-		TestSuite suite = new TestSuite( "Test for render devices" );//$NON-NLS-1$
+		TestSuite suite = new TestSuite( "ImageRenderTest: Test for render devices" );//$NON-NLS-1$
 		ImageRenderTest processSuite =  new ImageRenderTest(suite);
 		try {
 			processSuite.process();
