@@ -1969,6 +1969,15 @@ public class SwtRendererImpl extends DeviceAdapter
 		{
 			getDisplayServer( ).setDpiResolution( ( (Integer) oValue ).intValue( ) );
 		}
+		else if ( sProperty.equals( IDeviceRenderer.EXPECTED_BOUNDS ) )
+		{
+			Bounds bo = (Bounds)oValue;
+			int x = (int)Math.round( bo.getLeft( ) );
+			int y = (int)Math.round( bo.getTop( ) );
+			int width = (int)Math.round( bo.getWidth( ) );
+			int height = (int)Math.round( bo.getHeight( ) );
+			this._gc.setClipping( x, y, width, height );
+		}
 	}
 
 	/**
