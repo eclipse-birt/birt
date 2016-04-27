@@ -88,8 +88,17 @@
     <copy todir="${STAGE_DIR}" file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/runtime_readme.txt"/>
   </target>
   <target name="build-webviewer-war">
+  	<!-- Use original web.xml without jsp precompile classes-->
+    <copy todir="${VIEWER_DIR}/WEB-INF/">
+      <fileset dir="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/WEB-INF/">
+        <include name="web.xml"/>
+      </fileset>
+    </copy>
+  	<!-- Remove precompiled jsp classes-->
     <jar destfile="./target/package/birt.war">
-      <fileset dir="${VIEWER_DIR}"/>
+      <fileset dir="${VIEWER_DIR}">
+      	<exclude name="WEB-INF/lib/jsp.jar"/>
+      </fileset>
     </jar>
   </target>
 </project>

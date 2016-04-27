@@ -68,7 +68,6 @@
       <import plugin="org.eclipse.datatools.enablement.postgresql"/>
       <import plugin="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition"/>
       <import plugin="org.eclipse.datatools.enablement.sap.maxdb"/>
-
    </requires>
 
    <plugin
@@ -208,14 +207,14 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.eclipse.orbit.mongodb"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="javax.wsdl"
          download-size="0"
@@ -245,7 +244,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.derby.core"
+         id="org.apache.derby"
          download-size="0"
          install-size="0"
          version="0.0.0"/>
@@ -637,5 +636,12 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
+   <plugin
+         id="org.eclipse.update.configurator"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
 </feature>
