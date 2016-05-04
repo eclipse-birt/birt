@@ -46,8 +46,8 @@ public class SetConstraintCommandTest extends CmdBaseTestCase
 	public void testSetConstraintImageCmd( ) throws SemanticException
 	{
 		ImageHandle newImage = getElementFactory( ).newImage( "Test Image" );
-		newImage.setWidth( 150 );
-		newImage.setHeight( 180 );
+		newImage.setWidth( "150px" );
+		newImage.setHeight( "180px" );
 		assertEquals( 150, (int) newImage.getWidth( ).getMeasure( ) );
 		assertEquals( 180, (int) newImage.getHeight( ).getMeasure( ) );
 
