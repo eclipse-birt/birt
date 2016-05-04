@@ -11,6 +11,9 @@
 	<artifactId>birt-integration-test</artifactId>
 	<version>4.6.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
+	<properties>
+		<birtpackages.basedir>${project.parent.basedir}</birtpackages.basedir>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>

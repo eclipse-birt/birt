@@ -5,6 +5,7 @@
 		<antrun.version>1.8</antrun.version>
 		<!-- just for filenames beneath this directory -->
 		<maven.build.timestamp.format>yyyyMMdd</maven.build.timestamp.format>
+		<birtpackages.basedir>${project.basedir}</birtpackages.basedir>
 	</properties>
     
 	<parent>
@@ -34,5 +35,6 @@
 		<module>birt-source</module>
 		<module>birt-nl</module>
 		<module>birt-publish</module>
+		<module>birt-integration-test</module>
 	</modules>
 </project>
