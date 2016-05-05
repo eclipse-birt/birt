@@ -16,17 +16,22 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-import junit.framework.TestCase;
 
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * Test case for callableStatement
  * 
  */
-public class CallStatementTest extends TestCase
-{
+@Ignore("Ignore tests that cannot be executed in JUnit plugin mode")
+public class CallStatementTest {
 
 	private Connection conn = null;
 
@@ -38,9 +43,10 @@ public class CallStatementTest extends TestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void callStatementSetUp() throws Exception
 	{
-		super.setUp( );
+
 		TestUtil.createTestData( );
 		TestUtil.createTestProcedure( );
 		conn = TestUtil.openConnection( );
@@ -52,7 +58,8 @@ public class CallStatementTest extends TestCase
 	/*
 	 * Class under test for IIResultSetMetaData getMetaData()
 	 */
-	public void testGetMetaData( ) throws Exception
+	@Test
+    public void testGetMetaData( ) throws Exception
 	{
 		try
 		{
@@ -69,7 +76,8 @@ public class CallStatementTest extends TestCase
 	/*
 	 * Class under test for void setBigDecimal(int, BigDecimal)
 	 */
-	public void testSetBigDecimalintBigDecimal( ) throws Exception
+	@Test
+    public void testSetBigDecimalintBigDecimal( ) throws Exception
 	{
 		stmt.prepare( "call testProc0(?,?)" );
 		stmt.setBigDecimal( 1, new BigDecimal( "1111" ) );
@@ -82,7 +90,8 @@ public class CallStatementTest extends TestCase
 	/*
 	 * Class under test for void setDate(int, Date)
 	 */
-	public void testSetDateintDate( ) throws Exception
+	@Test
+    public void testSetDateintDate( ) throws Exception
 	{
 		stmt.prepare("call testProc1(?,?)");
 		stmt.setDate(1, Date.valueOf("2000-01-01"));
@@ -95,7 +104,8 @@ public class CallStatementTest extends TestCase
 	/*
 	 * Class under test for void setDouble(int, double)
 	 */
-	public void testSetDoubleintdouble( ) throws Exception
+	@Test
+    public void testSetDoubleintdouble( ) throws Exception
 	{
 		stmt.prepare( "call testProc2(?,?)" );
 		stmt.setDouble( 1, 0.0 );
@@ -108,7 +118,8 @@ public class CallStatementTest extends TestCase
 	/*
 	 * Class under test for void setInt(int, int)
 	 */
-	public void testSetIntintint( ) throws Exception
+	@Test
+    public void testSetIntintint( ) throws Exception
 	{
 		stmt.prepare( "call testProc3(?,?)" );
 		stmt.setInt( 1, 0 );
@@ -121,7 +132,8 @@ public class CallStatementTest extends TestCase
 	/*
 	 * Class under test for void setString(int, String)
 	 */
-	public void testSetStringintString( ) throws Exception
+	@Test
+    public void testSetStringintString( ) throws Exception
 	{
 		stmt.prepare( "call testProc4(?,?)" );
 		stmt.setString( 1, "00" );
@@ -134,7 +146,8 @@ public class CallStatementTest extends TestCase
 	/*
 	 * Class under test for void setTime(int, Time)
 	 */
-	public void testSetTimeintTime( ) throws Exception
+	@Test
+    public void testSetTimeintTime( ) throws Exception
 	{
 		stmt.prepare("call testProc5(?,?)");
 		stmt.setTime( 1, Time.valueOf( "12:00:00" ) );
@@ -147,7 +160,8 @@ public class CallStatementTest extends TestCase
 	/*
 	 * Class under test for void setTimestamp(int, Timestamp)
 	 */
-	public void testSetTimestampintTimestamp( ) throws Exception
+	@Test
+    public void testSetTimestampintTimestamp( ) throws Exception
 	{
 		stmt.prepare( "call testProc6(?,?)" );
 		stmt.setTimestamp( 1, Timestamp.valueOf("2000-01-01 12:00:00.0000"));
@@ -156,8 +170,8 @@ public class CallStatementTest extends TestCase
 		stmt.executeQuery( );
         assert stmt.getTimestamp(2).equals(Timestamp.valueOf("2000-01-02 12:00:00.0000"));
 	}
-
-	public void testGetParameterMetaData( ) throws Exception
+	@Test
+    public void testGetParameterMetaData( ) throws Exception
 	{
 		stmt.prepare( "call testProc0(?,?)" );
 		
@@ -170,8 +184,8 @@ public class CallStatementTest extends TestCase
 					jdbcPrepStmt.getParameterMetaData( ).getParameterType( i ) );
 		}*/
 	}
-
-	public void testClearInParameters() throws Exception
+	@Test
+    public void testClearInParameters() throws Exception
 	{
 		stmt.prepare( "call testProc3(?,?)" );
 		stmt.setInt( 1, 0 );

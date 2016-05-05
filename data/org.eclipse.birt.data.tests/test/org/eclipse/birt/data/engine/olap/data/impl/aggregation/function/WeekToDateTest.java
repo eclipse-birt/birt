@@ -11,6 +11,12 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.WeekToDa
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * this class test week to date function, you can refer to WeekToDateFunction
  * for details
@@ -20,8 +26,8 @@ import testutil.BaseTestCase;
  */
 public class WeekToDateTest extends BaseTestCase
 {
-
-	public void testWTD1( ) throws IOException
+	@Test
+    public void testWTD1( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 4, 39, 5, 22, 265
@@ -44,8 +50,8 @@ public class WeekToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testWTD2( ) throws IOException
+	@Test
+    public void testWTD2( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 20, 5
@@ -65,8 +71,8 @@ public class WeekToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testWTD3( ) throws IOException
+	@Test
+    public void testWTD3( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 1, 2, 1, 7
@@ -88,8 +94,8 @@ public class WeekToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testWTD4( ) throws IOException
+	@Test
+    public void testWTD4( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 1, 2, 1

@@ -20,24 +20,26 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class PreparedStatementTest extends ConnectionTest
 {
 
 	private PreparedStatement m_statement;
-
-	protected void setUp( ) throws Exception
+	@Before
+    public void preparedStatementSetUp() throws Exception
 	{
-		super.setUp( );
-
 		String command = "select * from \"testtable\" where \"intColumn\" > ?"; //$NON-NLS-1$
 		reprepareStatement( command );
 	}
-
-	protected void tearDown( ) throws Exception
+	@After
+    public void preparedStatementTearDown() throws Exception
 	{
 		m_statement.close( );
-
-		super.tearDown( );
 	}
 
 	public final void testFindInParameter( ) throws DataException

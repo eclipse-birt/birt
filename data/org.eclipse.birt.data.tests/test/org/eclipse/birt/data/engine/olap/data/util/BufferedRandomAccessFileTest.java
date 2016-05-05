@@ -18,14 +18,18 @@ import java.util.Date;
 
 import org.eclipse.birt.data.engine.olap.data.util.BufferedRandomAccessFile;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  */
 
-public class BufferedRandomAccessFileTest extends TestCase
-{
+public class BufferedRandomAccessFileTest {
 	private static final String tmpPath = System.getProperty( "java.io.tmpdir" );
 	
 	/*
@@ -33,20 +37,11 @@ public class BufferedRandomAccessFileTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testBytes( ) throws IOException
+@Test
+    public void testBytes( ) throws IOException
 	{
 		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
 				tmpPath + File.separatorChar + "BufferedRandomAccessFile"),
@@ -68,8 +63,8 @@ public class BufferedRandomAccessFileTest extends TestCase
 		assertEquals(bytes[1], 2);
 		file.close( );
 	}
-	
-	public void testBytes11( ) throws IOException
+	@Test
+    public void testBytes11( ) throws IOException
 	{
 		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
 				tmpPath + File.separatorChar + "Buffer123"),
@@ -91,8 +86,8 @@ public class BufferedRandomAccessFileTest extends TestCase
 		assertEquals(bytes[1], 2);
 		file.close( );
 	}
-	
-	public void testBytes2( ) throws IOException
+	@Test
+    public void testBytes2( ) throws IOException
 	{
 		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
 				tmpPath + File.separatorChar + "BufferedRandomAccessFile"),
@@ -114,8 +109,8 @@ public class BufferedRandomAccessFileTest extends TestCase
 		assertEquals(bytes[1], 2);
 		file.close( );
 	}
-
-	public void testInteger( ) throws IOException
+	@Test
+    public void testInteger( ) throws IOException
 	{
 		int objectNumber = 1001;
 		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
@@ -142,8 +137,8 @@ public class BufferedRandomAccessFileTest extends TestCase
 		assertEquals( file.readInt( ), 1000001 );
 		file.close( );
 	}
-
-	public void testString( ) throws IOException
+	@Test
+    public void testString( ) throws IOException
 	{
 		int objectNumber = 3000;
 		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
@@ -160,8 +155,8 @@ public class BufferedRandomAccessFileTest extends TestCase
 		}
 		file.close( );
 	}
-
-	public void testBigDecimal( ) throws IOException
+	@Test
+    public void testBigDecimal( ) throws IOException
 	{
 		int objectNumber = 3000;
 		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
@@ -179,8 +174,8 @@ public class BufferedRandomAccessFileTest extends TestCase
 		}
 		file.close( );
 	}
-
-	public void testDate( ) throws IOException
+	@Test
+    public void testDate( ) throws IOException
 	{
 		int objectNumber = 4101;
 		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(
@@ -197,8 +192,8 @@ public class BufferedRandomAccessFileTest extends TestCase
 		}
 		file.close( );
 	}
-
-	public void testMixed( ) throws IOException
+	@Test
+    public void testMixed( ) throws IOException
 	{
 		int objectNumber = 1001;
 		BufferedRandomAccessFile file = new BufferedRandomAccessFile(new File(

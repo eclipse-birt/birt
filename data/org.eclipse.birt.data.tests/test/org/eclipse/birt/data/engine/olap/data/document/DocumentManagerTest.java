@@ -21,34 +21,28 @@ import org.eclipse.birt.data.engine.olap.data.document.IDocumentManager;
 import org.eclipse.birt.data.engine.olap.data.document.IDocumentObject;
 
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  */
 
-public class DocumentManagerTest extends TestCase
-{
+public class DocumentManagerTest {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	public void testFilesDocumentManager( ) throws IOException, DataException
+@Test
+    public void testFilesDocumentManager( ) throws IOException, DataException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		assertTrue( documentManager.createDocumentObject( "dimension_student" )!=null );
@@ -73,8 +67,8 @@ public class DocumentManagerTest extends TestCase
 		documentObject.close( );
 		documentManager.close( );
 	}
-
-	public void testFilesDocumentManager2( ) throws IOException, DataException
+	@Test
+    public void testFilesDocumentManager2( ) throws IOException, DataException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		assertTrue( documentManager.createDocumentObject( "dimension_student" )!=null );
@@ -86,8 +80,8 @@ public class DocumentManagerTest extends TestCase
 		documentObject.close( );
 		documentManager.close( );
 	}
-	
-	public void testFilesDocumentManager3( ) throws IOException, DataException
+	@Test
+    public void testFilesDocumentManager3( ) throws IOException, DataException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		assertTrue( documentManager.createDocumentObject( "dimension_student" )!=null );
@@ -99,8 +93,8 @@ public class DocumentManagerTest extends TestCase
 		documentObject.close( );
 		documentManager.close( );
 	}
-	
-	public void testFilesDocumentManager4( ) throws IOException, DataException
+	@Test
+    public void testFilesDocumentManager4( ) throws IOException, DataException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		assertTrue( documentManager.createDocumentObject( "dimension_student" )!=null );

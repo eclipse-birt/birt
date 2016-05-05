@@ -85,6 +85,12 @@ import org.eclipse.birt.data.engine.olap.impl.query.IncrementExecutionHint;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * 
@@ -108,7 +114,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Test use all dimension levels.
 	 * @throws Exception
 	 */
-	public void testBasic( ) throws Exception
+	@Test
+    public void testBasic( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -202,7 +209,8 @@ public class CubeIVTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testQueryWithoutEdge( ) throws Exception
+	@Test
+    public void testQueryWithoutEdge( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		
@@ -267,7 +275,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Test adding nest aggregations cube operation	
 	 * @throws Exception
 	 */
-	public void testIVWithAddingNestAggregations( ) throws Exception
+	@Test
+    public void testIVWithAddingNestAggregations( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -412,7 +421,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Test use all dimension levels.
 	 * @throws Exception
 	 */
-	public void testBasicIV( ) throws Exception
+	@Test
+    public void testBasicIV( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -519,8 +529,8 @@ public class CubeIVTest extends BaseTestCase
 		reader.close( );
 		engine.shutdown( );
 	}
-	
-	public void testIVWithIncrementSorts( ) throws Exception
+	@Test
+    public void testIVWithIncrementSorts( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -639,7 +649,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Test use part of dimension levels.
 	 * @throws Exception
 	 */
-	public void testBasic1( ) throws Exception
+	@Test
+    public void testBasic1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -723,7 +734,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Filter1, filter out all level11 == CN.
 	 * @throws Exception
 	 */
-	public void testFilter1( ) throws Exception
+	@Test
+    public void testFilter1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -810,7 +822,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Filter2, filter out all level11 = CN and level21 > 2000.
 	 * @throws Exception
 	 *//*
-	public void testFilter2( ) throws Exception
+	@Test
+    public void testFilter2( ) throws Exception
 	{
 		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
@@ -874,7 +887,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Simple sort on 1 level
 	 * @throws Exception
 	 *//*
-	public void testSort1( ) throws Exception
+	@Test
+    public void testSort1( ) throws Exception
 	{
 		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
@@ -934,7 +948,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Complex sort on multiple levels
 	 * @throws Exception
 	 *//*
-	public void testSort2( ) throws Exception
+	@Test
+    public void testSort2( ) throws Exception
 	{
 		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
@@ -1008,7 +1023,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Test grand total
 	 * @throws Exception
 	 *//*
-	public void testGrandTotal( ) throws Exception
+	@Test
+    public void testGrandTotal( ) throws Exception
 	{
 		this.createCube( );
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
@@ -1100,7 +1116,8 @@ public class CubeIVTest extends BaseTestCase
 	 * Test grand total
 	 * @throws Exception
 	 */
-	public void testAggrSort( ) throws Exception
+	@Test
+    public void testAggrSort( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1213,7 +1230,8 @@ public class CubeIVTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNestedCrossTab( ) throws Exception
+	@Test
+    public void testNestedCrossTab( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1876,8 +1894,8 @@ public class CubeIVTest extends BaseTestCase
 		
 		return output;
 	}
-	
-	public void testIVWithIncrementNoAggrUpdateFilter1( ) throws Exception
+	@Test
+    public void testIVWithIncrementNoAggrUpdateFilter1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2002,8 +2020,8 @@ public class CubeIVTest extends BaseTestCase
 		
 		engine.shutdown( );
 	}
-	
-	public void testIVWithIncrementNoAggrUpdateFilter2( ) throws Exception
+	@Test
+    public void testIVWithIncrementNoAggrUpdateFilter2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2129,8 +2147,8 @@ public class CubeIVTest extends BaseTestCase
 		
 		engine.shutdown( );
 	}
-
-	public void testIVWithIncrementNoAggrUpdateFilter3( ) throws Exception
+	@Test
+    public void testIVWithIncrementNoAggrUpdateFilter3( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2271,8 +2289,8 @@ public class CubeIVTest extends BaseTestCase
 
 		engine.shutdown( );
 	}
-	
-	public void testIVWithIncrementNoAggrUpdateFilter4( ) throws Exception
+	@Test
+    public void testIVWithIncrementNoAggrUpdateFilter4( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName);
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );

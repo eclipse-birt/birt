@@ -21,18 +21,22 @@ import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class QueryTest extends TestCase
-{
+public class QueryTest {
 
 	@SuppressWarnings("nls")
-	public void testGetParameterMetaData( ) throws OdaException
+	@Test
+    public void testGetParameterMetaData( ) throws OdaException
 	{
 		PojoQuery pq = PojoQueryCreator.createWithParameters( );
 		Query q = new Query( null );

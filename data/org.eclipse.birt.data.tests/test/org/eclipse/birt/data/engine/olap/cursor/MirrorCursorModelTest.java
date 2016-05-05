@@ -35,6 +35,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 public class MirrorCursorModelTest  extends BaseTestCase
 {
@@ -48,10 +54,9 @@ public class MirrorCursorModelTest  extends BaseTestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void mirrorCursorModelSetUp() throws Exception
 	{
-		super.setUp( );
-
 		this.scope = new ImporterTopLevel( );
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				scope,
@@ -65,8 +70,8 @@ public class MirrorCursorModelTest  extends BaseTestCase
 		cube1 = creator.getCube( CubeUtility.cubeName, de );
 		cube2 = creator.getCube( CubeUtility.timeCube, de );
 	}
-	
-	protected void tearDown( ) throws Exception
+	@After
+    public void mirrorCursorModelTearDown() throws Exception
 	{
 		cube1.close( );
 		cube2.close( );
@@ -81,7 +86,8 @@ public class MirrorCursorModelTest  extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorModel1( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModel1( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinition( "cube", true );
 		
@@ -152,7 +158,8 @@ public class MirrorCursorModelTest  extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorModelNoBreakHierarchy( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModelNoBreakHierarchy( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinition( "timeCube",
 				false );
@@ -225,7 +232,8 @@ public class MirrorCursorModelTest  extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorOnCountry( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorOnCountry( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinition( "cube",
 				true );
@@ -277,8 +285,8 @@ public class MirrorCursorModelTest  extends BaseTestCase
 			fail( "fail to get here!" );
 		}
 	}
-	
-	public void testCursorOnPageEdge( ) throws Exception
+	@Test
+    public void testCursorOnPageEdge( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinitionWithPage( );
 		

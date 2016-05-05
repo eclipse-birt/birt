@@ -11,15 +11,19 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.cache;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class ResultSetUtilTest extends TestCase
-{
+public class ResultSetUtilTest {
 /*	public void testCreateLeadingBytes( )
 	{
 		byte[] indicator1 = {0,0,0,0,0};
@@ -56,8 +60,8 @@ public class ResultSetUtilTest extends TestCase
 					-105,1,-128
 				} ) );
 	}
-	
-	public void testReadLeadingBytes( )
+	@Test
+    public void testReadLeadingBytes( )
 	{
 		byte[] indicator1 = new byte[]{0};
 		assertTrue( twoByteArrayEqual( ResultSetUtil.readLeadingBytes( indicator1, 5 ),

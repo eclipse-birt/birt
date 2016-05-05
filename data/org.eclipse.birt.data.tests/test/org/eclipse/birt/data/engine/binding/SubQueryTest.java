@@ -25,6 +25,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * Test table schema and data:
@@ -53,7 +59,8 @@ public class SubQueryTest extends APITestCase
 	 * Normal case: add subquery to GroupDefinition
 	 * @throws Exception
 	 */
-	public void test( ) throws Exception
+	@Test
+    public void test( ) throws Exception
 	{
 		// 1 prepare query execution
 		Context cx = Context.enter( );
@@ -99,7 +106,8 @@ public class SubQueryTest extends APITestCase
 	 *  outer query.
 	 * @throws Exception
 	 */
-	public void test2( ) throws Exception
+	@Test
+    public void test2( ) throws Exception
 	{
 		// execute query and return sub query
 		IResultIterator resultIt = executeQuery( getAnotherSubQuery( ) );
@@ -119,7 +127,8 @@ public class SubQueryTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test3( ) throws Exception
+	@Test
+    public void test3( ) throws Exception
 	{
 		// execute query and return sub query
 		IResultIterator resultIt = executeQuery( getAnotherSubQuery( ) );
@@ -135,7 +144,8 @@ public class SubQueryTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void test4( ) throws Exception
+	@Test
+    public void test4( ) throws Exception
 	{
 		// execute query and return sub query
 		IResultIterator resultIt = executeQuery( getAnotherSubQuery( false ) );
@@ -150,8 +160,9 @@ public class SubQueryTest extends APITestCase
 	
 	/**
 	 * @return
+	 * @throws DataException 
 	 */
-	private QueryDefinition getAnotherSubQuery( )
+	private QueryDefinition getAnotherSubQuery( ) throws DataException
 	{
 		return getAnotherSubQuery( true );
 	}
@@ -160,8 +171,9 @@ public class SubQueryTest extends APITestCase
 	 * Create another subquery
 	 * 
 	 * @return
+	 * @throws DataException 
 	 */
-	private QueryDefinition getAnotherSubQuery( boolean onGroup )
+	private QueryDefinition getAnotherSubQuery( boolean onGroup ) throws DataException
 	{
 		// prepare query and sub query
 		QueryDefinition queryDefn = (QueryDefinition) getDefaultQueryDefn( dataSet.getName( ) );
@@ -223,7 +235,8 @@ public class SubQueryTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testMaxRow( ) throws Exception
+	@Test
+    public void testMaxRow( ) throws Exception
 	{
 		// prepare query and sub query
 		QueryDefinition queryDefn = (QueryDefinition) getDefaultQueryDefn( dataSet.getName( ) );
@@ -293,7 +306,8 @@ public class SubQueryTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testUseParentColumnBindings( ) throws Exception
+	@Test
+    public void testUseParentColumnBindings( ) throws Exception
 	{
 		this.useParentColumnBindings( false );
 		checkOutputFile( );
@@ -302,7 +316,8 @@ public class SubQueryTest extends APITestCase
 	/**
 	 * 
 	 */
-	public void testUseParentColumnBindingWithAggregation( )
+	@Test
+    public void testUseParentColumnBindingWithAggregation( )
 	{
 		try
 		{

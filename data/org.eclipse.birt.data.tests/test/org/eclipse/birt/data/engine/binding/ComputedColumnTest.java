@@ -33,6 +33,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test case for Computed Column feature
  */
@@ -61,7 +67,8 @@ public class ComputedColumnTest extends APITestCase
 	/**
 	 * Test whether duplicated name exception can be found
 	 */
-	public void testNameDuplicate( ) throws Exception
+	@Test
+    public void testNameDuplicate( ) throws Exception
 	{	
 		ccName = new String[] { "col0Addcol1", "col0Addcol1" };
 		ccExpr = new String[] { "row.COL0+row.COL1",
@@ -86,7 +93,8 @@ public class ComputedColumnTest extends APITestCase
 	/**
 	 * Test whether empty column name exception can be found
 	 */
-	public void testNameEmpty1( ) throws Exception
+	@Test
+    public void testNameEmpty1( ) throws Exception
 	{
 		ccName = new String[] { null, "col0Addcol2" };
 		ccExpr = new String[] { "row.COL0+row.COL1",
@@ -111,7 +119,8 @@ public class ComputedColumnTest extends APITestCase
 	/**
 	 * Test whether empty column name exception can be found
 	 */
-	public void testNameEmpty2( ) throws Exception
+	@Test
+    public void testNameEmpty2( ) throws Exception
 	{
 		ccName = new String[] { "col0Addcol", "" };
 		ccExpr = new String[] { "row.COL0+row.COL1",
@@ -132,7 +141,8 @@ public class ComputedColumnTest extends APITestCase
 	/**
 	 * Test whether invalid expression exception can be found
 	 */
-	public void testInvalidExpr1( ) throws Exception
+	@Test
+    public void testInvalidExpr1( ) throws Exception
 	{
 		ccName = new String[] { "col0Addcol1", "col0Addcol2" };
 		ccExpr = new String[] { "row.COL00row.COL1",
@@ -158,7 +168,8 @@ public class ComputedColumnTest extends APITestCase
 	 * Same as testInvalidExpr1
 	 * @throws Exception
 	 */
-	public void testInvalidExpr2( ) throws Exception
+	@Test
+    public void testInvalidExpr2( ) throws Exception
 	{
 		ccName = new String[] { "col0Addcol1", "col0Addcol2" };
 		ccExpr = new String[] { "row.COL++row.COL1",
@@ -183,7 +194,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testInvalidExpr3( ) throws Exception
+	@Test
+    public void testInvalidExpr3( ) throws Exception
 	{
 		ccName = new String[]{
 				"col"
@@ -213,7 +225,8 @@ public class ComputedColumnTest extends APITestCase
 	 * trimmed to length of zero.
 	 * @throws Exception
 	 */
-	public void testA() throws Exception {
+	@Test
+    public void testA() throws Exception {
 		ccName = new String[] { "col" };
 		ccExpr = new String[] { "new String(\"abc\")" };
 		for (int i = 0; i < ccName.length; i++) {
@@ -235,7 +248,8 @@ public class ComputedColumnTest extends APITestCase
 	 * test sort on computed column
 	 * @throws Exception
 	 */
-	public void testSortOnComputedColumn() throws Exception {
+	@Test
+    public void testSortOnComputedColumn() throws Exception {
 		ccName = new String[] { "ccc", "ccc2" };
 		ccExpr = new String[] { "row.COL0+row.COL1",
 				"row.COL1+10" };
@@ -284,7 +298,8 @@ public class ComputedColumnTest extends APITestCase
 	 * test computed column with script sort expression
 	 * @throws Exception
 	 */
-	public void testSortOnComputedColumn1() throws Exception {
+	@Test
+    public void testSortOnComputedColumn1() throws Exception {
 		ccName = new String[] { "cc" };
 		ccExpr = new String[] { "(row.COL0%2==0?1:2)" };
 
@@ -330,7 +345,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilterOnComputedColumn( ) throws Exception
+	@Test
+    public void testFilterOnComputedColumn( ) throws Exception
 	{
 		ccName = new String[]{
 				"ccc", "ccc2"
@@ -384,7 +400,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnComputedColumn( ) throws Exception
+	@Test
+    public void testGroupOnComputedColumn( ) throws Exception
 	{
 		ccName = new String[] { "ccc", "ccc2" };
 		ccExpr = new String[] { "row.COL0+row.COL1",
@@ -440,7 +457,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNewAggregationOnComputedColumnWithFilter( ) throws Exception
+	@Test
+    public void testNewAggregationOnComputedColumnWithFilter( ) throws Exception
 	{
 		ccName = new String[] { "cc1" };
 		ccExpr = new String[] {
@@ -486,7 +504,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNewAggregationOnComputedColumnWithOtherComputedColumns( ) throws Exception
+	@Test
+    public void testNewAggregationOnComputedColumnWithOtherComputedColumns( ) throws Exception
 	{
 		
 		ccName = new String[] { "cc1", "cc2" };
@@ -537,7 +556,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggregationOnComputedColumn( ) throws Exception
+	@Test
+    public void testAggregationOnComputedColumn( ) throws Exception
 	{
 		ccName = new String[] { "cc1", "cc2", "cc3", "cc4" };
 		ccExpr = new String[] {
@@ -587,7 +607,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggregationOnComputedColumn2( ) throws Exception
+	@Test
+    public void testAggregationOnComputedColumn2( ) throws Exception
 	{
 		ccName = new String[] { "cc1", "cc2", "cc3" };
 		ccExpr = new String[] {
@@ -648,7 +669,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNewAggregationOnComputedColumn( ) throws Exception
+	@Test
+    public void testNewAggregationOnComputedColumn( ) throws Exception
 	{
 		ccName = new String[] { "cc1", "cc2", "cc3", "cc4", "cc5" };
 		ccExpr = new String[] {
@@ -722,7 +744,8 @@ public class ComputedColumnTest extends APITestCase
 	 * test nested aggregation computed column
 	 * @throws Exception
 	 */
-	public void testNestedAggregationOnComputedColumn( ) throws Exception
+	@Test
+    public void testNestedAggregationOnComputedColumn( ) throws Exception
 	{
 		ccName = new String[] { "cc1", "cc2", "cc3" };
 		ccExpr = new String[] {
@@ -768,7 +791,8 @@ public class ComputedColumnTest extends APITestCase
 	 * test nested computed column
 	 * @throws Exception
 	 */
-	public void testNestedComputedColumn( ) throws Exception
+	@Test
+    public void testNestedComputedColumn( ) throws Exception
 	{
 		ccName = new String[] { "cc1", "cc2", "cc3" };
 		ccExpr = new String[] {
@@ -815,7 +839,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilterOnAggregationColumn() throws Exception {
+	@Test
+    public void testFilterOnAggregationColumn() throws Exception {
 		ccName = new String[] { "cc1", "cc2", "cc3" };
 		ccExpr = new String[] { "row.COL0+row.COL1",
 				"Total.runningSum(row.cc1,row.COL0==0,0)",
@@ -860,7 +885,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupFilterOnComputedColumnsWithAggregations( ) throws Exception
+	@Test
+    public void testGroupFilterOnComputedColumnsWithAggregations( ) throws Exception
 	{
 		ccName = new String[] { "cc1", "cc2", "cc3", "cc4" };
 		ccExpr = new String[] {
@@ -921,7 +947,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testWrongDataType( ) throws Exception
+	@Test
+    public void testWrongDataType( ) throws Exception
 	{
 		ccName = new String[] { "ccc", "ccc2" };
 		ccExpr = new String[] { "'abc'+row.COL0+row.COL1+'abc'",
@@ -966,7 +993,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRowIndex( ) throws Exception
+	@Test
+    public void testRowIndex( ) throws Exception
 	{
 		ccName = new String[] { "ccc" };
 		ccExpr = new String[] { "row[0]" };
@@ -1006,7 +1034,8 @@ public class ComputedColumnTest extends APITestCase
 	 * function nestings are supported.
 	 * @throws Exception
 	 */
-	public void testMultipass_Sort() throws Exception
+	@Test
+    public void testMultipass_Sort() throws Exception
 	{
 		ccName = new String[]{
 				"cc1", "cc2"
@@ -1066,7 +1095,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testMultiPass_Group() throws Exception {
+	@Test
+    public void testMultiPass_Group() throws Exception {
 		ccName = new String[] { "cc1", "cc2" };
 		ccExpr = new String[] {
 				"row.COL0+row.COL1+row.COL2+row.COL3",
@@ -1120,7 +1150,8 @@ public class ComputedColumnTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testWrongColumnName( ) throws Exception
+	@Test
+    public void testWrongColumnName( ) throws Exception
 	{
 		ccName = new String[] { "ccc", "ccc2" };
 		ccExpr = new String[] { "row.COL0+row.COL1",

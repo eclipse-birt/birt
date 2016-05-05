@@ -13,37 +13,32 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.Row4Aggregation;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
 
-public class Row4AggregationTest  extends TestCase
-{
+public class Row4AggregationTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testDiskIndexBytes( ) throws IOException, DataException
+@Test
+    public void testDiskIndexBytes( ) throws IOException, DataException
 	{
 		int keyNumber = 120;
 		BufferedStructureArray keyList = new BufferedStructureArray( Row4Aggregation.getCreator( ),

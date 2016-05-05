@@ -39,39 +39,32 @@ import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  */
 
-public class ResultSetTest extends TestCase
-{
+public class ResultSetTest {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	@Override
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	@Override
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	@SuppressWarnings("unchecked")
-	public void testPojosFromAppContext( ) throws OdaException
+@SuppressWarnings("unchecked")
+	@Test
+    public void testPojosFromAppContext( ) throws OdaException
 	{
 		PojoQuery query = PojoQueryCreator.createWithA1tonMap( );
 		List<Teacher> ts = PojoInstancesUtil.createTeachers( );
@@ -88,8 +81,8 @@ public class ResultSetTest extends TestCase
 		verifyResultSetTeacherStudent( rs, studentCompound );
 		rs.close( );
 	}
-
-	public void testPojosFromPojoDataSetClass( ) throws OdaException, URISyntaxException
+	@Test
+    public void testPojosFromPojoDataSetClass( ) throws OdaException, URISyntaxException
 	{
 		PojoQuery query = PojoQueryCreator.createWithA1tonMap( );
 		query.setDataSetClass( TeacherDataSet.class.getName( ) );
@@ -108,7 +101,8 @@ public class ResultSetTest extends TestCase
 	}
 	
 	@SuppressWarnings("nls")
-	public void testQueryWithParameters( ) throws OdaException, URISyntaxException
+	@Test
+    public void testQueryWithParameters( ) throws OdaException, URISyntaxException
 	{
 		PojoQuery query = PojoQueryCreator.createWithParameters( );
 		query.setDataSetClass( TeacherDataSet.class.getName( ) );
@@ -152,8 +146,8 @@ public class ResultSetTest extends TestCase
 		rs.close( );
 		q.close( );
 	}
-
-	public void testPojosFromCustomDataSetClass( ) throws OdaException
+	@Test
+    public void testPojosFromCustomDataSetClass( ) throws OdaException
 	{
 		PojoQuery query = PojoQueryCreator.createWithA1tonMap( );
 		query.setDataSetClass( CustomTeacherDataSet.class.getName( ) );
@@ -170,8 +164,8 @@ public class ResultSetTest extends TestCase
 		verifyResultSetTeacherStudent( rs, studentCompound );
 		rs.close( );
 	}
-
-	public void testCheckNoPojoProvider( ) throws OdaException
+	@Test
+    public void testCheckNoPojoProvider( ) throws OdaException
 	{
 		PojoQuery query = PojoQueryCreator.createWithA1tonMap( );
 
@@ -200,7 +194,8 @@ public class ResultSetTest extends TestCase
 	}
 
 	@SuppressWarnings("unchecked")
-	public void testMulti1TonMaps( ) throws OdaException
+	@Test
+    public void testMulti1TonMaps( ) throws OdaException
 	{
 		PojoQuery query = PojoQueryCreator.createWithMulti1tonMaps( );
 		List<Teacher> ts = PojoInstancesUtil.createTeachers( );
@@ -224,7 +219,8 @@ public class ResultSetTest extends TestCase
 	@SuppressWarnings({
 			"unchecked", "nls"
 	})
-	public void testCheckInvalidMulti1TonMaps( ) throws OdaException
+	@Test
+    public void testCheckInvalidMulti1TonMaps( ) throws OdaException
 	{
 		PojoQuery query = PojoQueryCreator.createWithA1tonMap( );
 
@@ -410,7 +406,8 @@ public class ResultSetTest extends TestCase
 	}
 
 	@SuppressWarnings("unchecked")
-	public void testMaxRows( ) throws OdaException
+	@Test
+    public void testMaxRows( ) throws OdaException
 	{
 		PojoQuery query = PojoQueryCreator.createWithA1tonMap( );
 		List<Teacher> ts = PojoInstancesUtil.createTeachers( );

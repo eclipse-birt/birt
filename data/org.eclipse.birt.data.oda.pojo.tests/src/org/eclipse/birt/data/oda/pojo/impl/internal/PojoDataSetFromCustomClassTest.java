@@ -17,20 +17,25 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.data.oda.pojo.api.IPojoDataSet;
 import org.eclipse.birt.data.oda.pojo.impl.internal.PojoDataSetFromCustomClass;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class PojoDataSetFromCustomClassTest extends TestCase
-{
+public class PojoDataSetFromCustomClassTest {
 
 	@SuppressWarnings({
 			"unchecked", "nls"
 	})
-	public void testNext( ) throws OdaException
+	@Test
+    public void testNext( ) throws OdaException
 	{
 		Class c = CustomDataSetClass.class;
 		IPojoDataSet pds = new PojoDataSetFromCustomClass( c );

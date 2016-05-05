@@ -11,17 +11,26 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.odaconsumer;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.odaconsumer.testutil.TestSetup;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.Ignore;
+import org.junit.rules.TestName;
+
+import static org.junit.Assert.*;
 
 /**
  * Base class for ODA consumer test cases.
  */
 
-public class OdaconsumerTestCase extends TestCase {
+public class OdaconsumerTestCase {
+	
+	@Rule public TestName testName = new TestName();
 
     static
 	{
@@ -46,7 +55,13 @@ public class OdaconsumerTestCase extends TestCase {
 			e.printStackTrace( );
 		}
 	}
-    
+
+    // return test case name
+	public String getTestName( )
+	{
+		return this.testName.getMethodName( );
+	}
+
     // dummy test case to avoid warning on empty test
     public final void testDummy()
     {        

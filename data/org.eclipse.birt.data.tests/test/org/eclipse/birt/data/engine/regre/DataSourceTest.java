@@ -28,6 +28,12 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 78069: Error message pops up when click on preview result in data set editor
  */
@@ -45,11 +51,10 @@ public class DataSourceTest extends APITestCase
 		context.setTmpdir( this.getTempDir( ) );
 		myDataEngine = DataEngine.newDataEngine( context );
 	}
-	
-	protected void tearDown( ) throws Exception
+	@After
+    public void tearDown() throws Exception
 	{
 		myDataEngine.shutdown();
-		super.tearDown( );
 	}
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
@@ -64,7 +69,8 @@ public class DataSourceTest extends APITestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testDefineDataSource( ) throws BirtException
+	@Test
+    public void testDefineDataSource( ) throws BirtException
 	{
 		ScriptExpression expr;
 		IQueryDefinition queryDefn;

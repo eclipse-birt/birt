@@ -19,6 +19,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
@@ -37,6 +38,13 @@ import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
 import testutil.ConfigText;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
 
 /**
  * Test cache feature for oda result set.
@@ -58,9 +66,10 @@ public class DataSetCacheTest extends APITestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void dataSetCacheSetUp() throws Exception
 	{
-		super.setUp( );		
+		
 		expectedValue = new ArrayList( );
 		appContextMap.put(DataEngine.DATASET_CACHE_OPTION, "true");
 		dataEngine = newDataEngine( );
@@ -70,13 +79,13 @@ public class DataSetCacheTest extends APITestCase
 	/*
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( ) throws Exception
+	@After
+    public void dataSetCacheTearDown() throws Exception
 	{
 		getDataSetCacheManager( dataEngine ) .resetForTest( );
 		dataEngine.shutdown( );
 		if( myDataEngine!= null )
 			myDataEngine.shutdown( );
-		super.tearDown( );
 	}
 	
 	/**
@@ -103,7 +112,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test feature of whether cache will be used
 	 * @throws BirtException
 	 */
-	public void testUseCache( ) throws BirtException
+	@Test
+    public void testUseCache( ) throws BirtException
 	{
 		this.dataSet.setCacheRowCount(4);
 		
@@ -129,7 +139,8 @@ public class DataSetCacheTest extends APITestCase
 	 * @throws BirtException
 	 * @throws IOException 
 	 */
-	public void testUseCacheWithMemoryCache( ) throws BirtException, IOException
+	@Test
+    public void testUseCacheWithMemoryCache( ) throws BirtException, IOException
 	{
 		Map appContext = new HashMap( );
 		appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, 7 );
@@ -196,7 +207,8 @@ public class DataSetCacheTest extends APITestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testClearCache( ) throws BirtException
+	@Test
+    public void testClearCache( ) throws BirtException
 	{
 		this.dataSet.setCacheRowCount(4);
 		DataEngineImpl myDataEngine = newDataEngine( );
@@ -224,7 +236,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of enable cache
 	 * @throws Exception
 	 */
-	public void testEnableCache( ) throws Exception
+	@Test
+    public void testEnableCache( ) throws Exception
 	{
 		DataEngineImpl myDataEngine = newDataEngine( );
 		getDataSetCacheManager( myDataEngine ).resetForTest( );
@@ -254,15 +267,19 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of always cache.
 	 * @throws BirtException
 	 */
-	public void testAlwaysCache( ) throws BirtException
+	@Test
+    public void testAlwaysCache( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		context.setCacheOption( DataEngineContext.CACHE_USE_ALWAYS, 4 );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( platformConfig, context );
 		myDataEngine2.defineDataSource( this.dataSource );
 		myDataEngine2.defineDataSet( this.dataSet );
 		QueryDefinition qd = newReportQuery( );
@@ -282,15 +299,19 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of always cache.
 	 * @throws BirtException
 	 */
-	public void testSerializableJavaObjectCache( ) throws BirtException
+	@Test
+    public void testSerializableJavaObjectCache( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		context.setCacheOption( DataEngineContext.CACHE_USE_ALWAYS, 4 );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( platformConfig, context );
 		myDataEngine2.defineDataSource( this.dataSource );
 		myDataEngine2.defineDataSet( this.dataSet );
 		QueryDefinition qd = newReportQuery( );
@@ -315,15 +336,19 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of always cache.
 	 * @throws BirtException
 	 */
-	public void testUnserializableJavaObjectCache( ) throws BirtException
+	@Test
+    public void testUnserializableJavaObjectCache( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		context.setCacheOption( DataEngineContext.CACHE_USE_ALWAYS, 4 );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( platformConfig, context );
 		myDataEngine2.defineDataSource( this.dataSource );
 		myDataEngine2.defineDataSet( this.dataSet );
 		QueryDefinition qd = newReportQuery( );
@@ -348,15 +373,19 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of disable cache.
 	 * @throws BirtException
 	 */
-	public void testDisableCache( ) throws BirtException
+	@Test
+    public void testDisableCache( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		context.setCacheOption( DataEngineContext.CACHE_USE_DISABLE, 4 );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngineImpl myDataEngine2 = (DataEngineImpl) DataEngine.newDataEngine( platformConfig, context );
 		myDataEngine2.defineDataSource( this.dataSource );
 		myDataEngine2.defineDataSet( this.dataSet );
 		QueryDefinition qd = newReportQuery( );
@@ -376,7 +405,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of cache. Check the data in between the cache use is corret.
 	 *@throws BirtException
 	 */
-	public void testOdaCache( ) throws BirtException
+	@Test
+    public void testOdaCache( ) throws BirtException
 	{
 		genCache( );
 		useCache( );
@@ -423,7 +453,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of cache. Check the data in between the cache use is corret.
 	 *@throws BirtException
 	 */
-	public void testOdaCache2( ) throws BirtException
+	@Test
+    public void testOdaCache2( ) throws BirtException
 	{
 		genCache( );
 		useCache3( );
@@ -498,7 +529,8 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testJointDataSetCache( ) throws Exception
+	@Test
+    public void testJointDataSetCache( ) throws Exception
 	{
 		QueryDefinition queryDefn = prepareForJointDataSet( false );
 
@@ -531,7 +563,8 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws Exception 
 	 */
-	public void testJointDataSetCacheWithFilter( ) throws Exception
+	@Test
+    public void testJointDataSetCacheWithFilter( ) throws Exception
 	{
 		QueryDefinition queryDefn = prepareForJointDataSet( false);
 
@@ -574,7 +607,8 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws Exception 
 	 */
-	public void testJointDataSetCacheWithGroup( ) throws Exception
+	@Test
+    public void testJointDataSetCacheWithGroup( ) throws Exception
 	{
 		QueryDefinition queryDefn = prepareForJointDataSet( true );
 
@@ -643,12 +677,15 @@ public class DataSetCacheTest extends APITestCase
 		BaseDataSetDesign dataSet2 = newDateSet( (OdaDataSetDesign) ( this.dataSet ) );
 
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		context.setCacheOption( DataEngineContext.CACHE_USE_ALWAYS, 400 );
 		context.setTmpdir( this.getTempDir( ) );
-		myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		myDataEngine = (DataEngineImpl) DataEngine.newDataEngine( platformConfig, context );
 		myDataEngine.defineDataSource( this.dataSource );
 		myDataEngine.defineDataSet( this.dataSet );
 		myDataEngine.defineDataSet( dataSet2 );
@@ -709,7 +746,8 @@ public class DataSetCacheTest extends APITestCase
 	 * @throws BirtException 
 	 * 
 	 */
-	public void testScriptedCache( ) throws BirtException
+	@Test
+    public void testScriptedCache( ) throws BirtException
 	{
 		genCache2( );
 		useCache2( );
@@ -721,12 +759,15 @@ public class DataSetCacheTest extends APITestCase
 	private void genCache2( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		context.setCacheOption( DataEngineContext.CACHE_USE_ALWAYS, 4 );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine myDataEngine2 = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine myDataEngine2 = DataEngine.newDataEngine( platformConfig, context );
 		IResultIterator ri = getResultIterator2( myDataEngine2 );
 		while ( ri.next( ) )
 		{
@@ -743,12 +784,15 @@ public class DataSetCacheTest extends APITestCase
 	private void useCache2( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		context.setCacheOption( DataEngineContext.CACHE_USE_ALWAYS, 4 );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine myDataEngine2 = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine myDataEngine2 = DataEngine.newDataEngine( platformConfig, context );
 		IResultIterator ri = getResultIterator2( myDataEngine2 );
 		
 		checkResult( ri );
@@ -828,11 +872,14 @@ public class DataSetCacheTest extends APITestCase
 	private DataEngineImpl newDataEngine( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngineImpl myDataEngine = (DataEngineImpl)DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngineImpl myDataEngine = (DataEngineImpl)DataEngine.newDataEngine( platformConfig, context );
 		
 		OdaDataSetDesign odaDesign = new OdaDataSetDesign( "Test DataSet2" );
 		odaDesign.setExtensionID( ( (OdaDataSetDesign) this.dataSet ).getExtensionID( ) );
@@ -851,12 +898,15 @@ public class DataSetCacheTest extends APITestCase
 	private DataEngine newDataEngine2( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		
 		context.setTmpdir( this.getTempDir() );
-		DataEngine myDataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine myDataEngine = DataEngine.newDataEngine( platformConfig, context );
 		
 		myDataEngine.defineDataSource( this.dataSource );
 		

@@ -36,6 +36,12 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test for FilterByRow
  */
@@ -56,7 +62,8 @@ public class FilterByRowTest extends APITestCase
 	 * Test FilterByRow#testAccept case 1
 	 * @throws Exception
 	 */
-	public void testAccept1( ) throws Exception
+	@Test
+    public void testAccept1( ) throws Exception
 	{
 
 		String[] bindingNameFilter = new String[3];
@@ -97,7 +104,8 @@ public class FilterByRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAccept1WithCache( ) throws Exception
+	@Test
+    public void testAccept1WithCache( ) throws Exception
 	{
 
 		String[] bindingNameFilter = new String[3];
@@ -144,7 +152,8 @@ public class FilterByRowTest extends APITestCase
 	 * Test FilterByRow#testAccept case 2
 	 * @throws Exception
 	 */
-	public void testAccept2( ) throws Exception
+	@Test
+    public void testAccept2( ) throws Exception
 	{
 		FilterDefinition[] filterDefn = new FilterDefinition[]{
 			new FilterDefinition( new ScriptExpression( "row.ROW_COL0 + row.ROW_COL1 > row.ROW_COL2" ) )
@@ -167,7 +176,8 @@ public class FilterByRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAccept2WithCache( ) throws Exception
+	@Test
+    public void testAccept2WithCache( ) throws Exception
 	{
 		FilterDefinition[] filterDefn = new FilterDefinition[]{
 			new FilterDefinition( new ScriptExpression( "row.ROW_COL0 + row.ROW_COL1 > row.ROW_COL2" ) )
@@ -195,7 +205,8 @@ public class FilterByRowTest extends APITestCase
 	 * Test FilterByRow#testAccept case 3
 	 * @throws Exception
 	 */
-	public void testAccept3( ) throws Exception
+	@Test
+    public void testAccept3( ) throws Exception
 	{
 		FilterDefinition[] filterDefn = new FilterDefinition[]{
 			new FilterDefinition( new ScriptExpression( "row.ROW_COL0 * row.ROW_COL1 > row.ROW_COL2" ) )
@@ -220,7 +231,8 @@ public class FilterByRowTest extends APITestCase
 	 * Test FilterByRow#testAccept case 3
 	 * @throws Exception
 	 */
-	public void testAccept3WithCache( ) throws Exception
+	@Test
+    public void testAccept3WithCache( ) throws Exception
 	{
 		FilterDefinition[] filterDefn = new FilterDefinition[]{
 			new FilterDefinition( new ScriptExpression( "row.ROW_COL0 * row.ROW_COL1 > row.ROW_COL2" ) )
@@ -251,7 +263,8 @@ public class FilterByRowTest extends APITestCase
 	 * Test FilterByRow#testAccept case 4
 	 * @throws Exception
 	 */
-	public void testAccept4( ) throws Exception
+	@Test
+    public void testAccept4( ) throws Exception
 	{
 	
 		FilterDefinition[] filterDefn = new FilterDefinition[]{
@@ -277,7 +290,8 @@ public class FilterByRowTest extends APITestCase
 	 * Test FilterByRow#testAccept case 4
 	 * @throws Exception
 	 */
-	public void testAccept4WithCache( ) throws Exception
+	@Test
+    public void testAccept4WithCache( ) throws Exception
 	{
 	
 		FilterDefinition[] filterDefn = new FilterDefinition[]{
@@ -308,7 +322,8 @@ public class FilterByRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testJSFilter( ) throws Exception
+	@Test
+    public void testJSFilter( ) throws Exception
 	{
 		String[] bindingNameRow = new String[4];
 		bindingNameRow[0] = "ROW_COL0";
@@ -344,7 +359,8 @@ public class FilterByRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testJSFilterWithCache( ) throws Exception
+	@Test
+    public void testJSFilterWithCache( ) throws Exception
 	{
 		String[] bindingNameRow = new String[4];
 		bindingNameRow[0] = "ROW_COL0";
@@ -385,7 +401,8 @@ public class FilterByRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBooleanFilterOnDataRows( ) throws Exception
+	@Test
+    public void testBooleanFilterOnDataRows( ) throws Exception
 	{
 
 		String[] ccName = new String[]{
@@ -440,7 +457,8 @@ public class FilterByRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testTopNFilter( ) throws Exception
+	@Test
+    public void testTopNFilter( ) throws Exception
 	{
 		String[] bindingNameRow = new String[2];
 		bindingNameRow[0] = "ROW_COL0";
@@ -503,7 +521,8 @@ public class FilterByRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testInvalidFilterDefinition( ) throws Exception
+	@Test
+    public void testInvalidFilterDefinition( ) throws Exception
 	{
 		String[] bindingNameRow = new String[2];
 		bindingNameRow[0] = "ROW_COL0";
@@ -547,7 +566,8 @@ public class FilterByRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testInvalidFilterDefinition2( ) throws Exception
+	@Test
+    public void testInvalidFilterDefinition2( ) throws Exception
 	{
 		String[] bindingNameRow = new String[2];
 		bindingNameRow[0] = "ROW_COL0";
@@ -647,7 +667,8 @@ public class FilterByRowTest extends APITestCase
 	 * Please refer to SCR #77518
 	 * Filter Expression does not allow "null" value  
 	 */
-	public void testSCR77518() throws BirtException
+	@Test
+    public void testSCR77518() throws BirtException
 	{
 		// Create script data set and data source
 		ScriptDataSourceDesign dsource = new ScriptDataSourceDesign( "JUST as place folder" );
@@ -696,8 +717,8 @@ public class FilterByRowTest extends APITestCase
 		ri.close();
 		qr.close();
 	}
-	
-	public void testConstantWithNull() throws BirtException
+	@Test
+    public void testConstantWithNull() throws BirtException
 	{
 		// Create script data set and data source
 		ScriptDataSourceDesign dsource = new ScriptDataSourceDesign( "JUST as place folder" );

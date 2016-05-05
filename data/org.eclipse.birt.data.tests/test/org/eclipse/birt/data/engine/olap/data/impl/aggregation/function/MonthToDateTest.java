@@ -10,6 +10,12 @@ import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * this class test month to date funciton, you can refer to MonthToDateFunction
  * for details
@@ -19,8 +25,8 @@ import testutil.BaseTestCase;
  */
 public class MonthToDateTest extends BaseTestCase
 {
-
-	public void testMTD1( ) throws IOException
+	@Test
+    public void testMTD1( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 21
@@ -35,8 +41,8 @@ public class MonthToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testMTD2( ) throws IOException
+	@Test
+    public void testMTD2( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 1, 3, 21
@@ -52,8 +58,8 @@ public class MonthToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testMTD3( ) throws IOException
+	@Test
+    public void testMTD3( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 4
@@ -75,8 +81,8 @@ public class MonthToDateTest extends BaseTestCase
 		checkOutputFile( );
 
 	}
-
-	public void testMTD4( ) throws IOException
+	@Test
+    public void testMTD4( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 1, 2, 4
@@ -98,8 +104,8 @@ public class MonthToDateTest extends BaseTestCase
 		checkOutputFile( );
 
 	}
-
-	public void testMTD5( ) throws IOException
+	@Test
+    public void testMTD5( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 100
@@ -113,8 +119,8 @@ public class MonthToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testMTD6( ) throws IOException
+	@Test
+    public void testMTD6( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 4, 39, 5, 22, 265
@@ -139,8 +145,8 @@ public class MonthToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testMTD7( ) throws IOException
+	@Test
+    public void testMTD7( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 8
@@ -155,8 +161,8 @@ public class MonthToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-	
-	public void testMTD8( ) throws IOException
+	@Test
+    public void testMTD8( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 6
@@ -174,8 +180,8 @@ public class MonthToDateTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-	
-	public void testMTD9( ) throws IOException
+	@Test
+    public void testMTD9( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 4, 10, 2

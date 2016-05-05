@@ -31,16 +31,22 @@ import testutil.ConfigText;
 
 import com.ibm.icu.util.Calendar;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  *  
  */
 public class GroupOnRowTest extends APITestCase
 {
 	private Calendar calendar = Calendar.getInstance( );
-	
-	public void setUp( ) throws Exception
+	@Before
+    public void groupOnRowSetUp() throws Exception
 	{
-		super.setUp( );
+
 		calendar = Calendar.getInstance( );
 		calendar.clear( );
 	}
@@ -53,8 +59,8 @@ public class GroupOnRowTest extends APITestCase
 				ConfigText.getString( "Api.TestData2.TableSQL" ),
 				ConfigText.getString( "Api.TestData2.TestDataFileName" ) );
 	}
-	
-	public void testValidateInterval()
+	@Test
+    public void testValidateInterval()
 	{
 		QueryDefinition qd = populateNumericGroupQueryDefinition(-1, 0);
 		try
@@ -86,8 +92,8 @@ public class GroupOnRowTest extends APITestCase
 		{
 		}
 	}
-	
-	public void testValidateIntervalRange()
+	@Test
+    public void testValidateIntervalRange()
 	{
 		QueryDefinition qd = populateNumericGroupQueryDefinition(IGroupDefinition.NUMERIC_INTERVAL, -1);
 		try
@@ -99,18 +105,18 @@ public class GroupOnRowTest extends APITestCase
 		{
 		}
 	}
-	
-	public void testGroupOnRowKeyCount0() throws Exception
+	@Test
+    public void testGroupOnRowKeyCount0() throws Exception
 	{
 		groupOnRowKeyCount(0);
 	}
-	
-	public void testGroupOnRowKeyCount1() throws Exception
+	@Test
+    public void testGroupOnRowKeyCount1() throws Exception
 	{
 		groupOnRowKeyCount(1);
 	}
-	
-	public void testGroupOnRowKeyCount3() throws Exception
+	@Test
+    public void testGroupOnRowKeyCount3() throws Exception
 	{
 		groupOnRowKeyCount(3);
 	}
@@ -276,7 +282,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnHour(  ) throws Exception
+	@Test
+    public void testGroupOnHour(  ) throws Exception
 	{
 		calendar.set( 2005, 0, 1 );
 		groupOnHour( calendar.getTime( ) );
@@ -287,7 +294,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnHour1(  ) throws Exception
+	@Test
+    public void testGroupOnHour1(  ) throws Exception
 	{
 		groupOnHour( null );
 	}
@@ -351,7 +359,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnMinute(  ) throws Exception
+	@Test
+    public void testGroupOnMinute(  ) throws Exception
 	{
 		groupOnMinute( "2005-1-1" );
 	}	
@@ -361,7 +370,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnMinute1(  ) throws Exception
+	@Test
+    public void testGroupOnMinute1(  ) throws Exception
 	{
 		groupOnMinute( null );
 	}
@@ -424,7 +434,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnSecond(  ) throws Exception
+	@Test
+    public void testGroupOnSecond(  ) throws Exception
 	{
 		groupOnSecond( "2005-1-1" );
 		
@@ -435,7 +446,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnSecond1(  ) throws Exception
+	@Test
+    public void testGroupOnSecond1(  ) throws Exception
 	{
 		groupOnSecond( null );
 	}
@@ -498,7 +510,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSortOnKeyIndex( ) throws Exception
+	@Test
+    public void testSortOnKeyIndex( ) throws Exception
 	{
 		// add expression based on group defintion
 		
@@ -567,7 +580,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnRowPosition( ) throws Exception
+	@Test
+    public void testGroupOnRowPosition( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[3];
 		bindingNameGroup[0] = "GROUP_ID";
@@ -636,7 +650,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnRowPosition2( ) throws Exception
+	@Test
+    public void testGroupOnRowPosition2( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[3];
 		bindingNameGroup[0] = "GROUP_ID";
@@ -705,7 +720,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnRowPosition3( ) throws Exception
+	@Test
+    public void testGroupOnRowPosition3( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_ID";
@@ -772,7 +788,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnRowPosition4( ) throws Exception
+	@Test
+    public void testGroupOnRowPosition4( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[3];
 		bindingNameGroup[0] = "GROUP_ID";
@@ -834,7 +851,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnRowPosition5( ) throws Exception
+	@Test
+    public void testGroupOnRowPosition5( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[1];
 		bindingNameGroup[0] = "GROUP_ID";
@@ -882,7 +900,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnWeek(  ) throws Exception
+	@Test
+    public void testGroupOnWeek(  ) throws Exception
 	{
 		/*Calendar calendar = Calendar.getInstance( );*/
 		calendar.set( 2005, 0, 1 );
@@ -894,12 +913,13 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnWeek1(  ) throws Exception
+	@Test
+    public void testGroupOnWeek1(  ) throws Exception
 	{
 		groupOnWeek( null );
 	}
-	
-	public void testGroupOnWeek2(  ) throws Exception
+	@Test
+    public void testGroupOnWeek2(  ) throws Exception
 	{
 		groupOnWeek2( null );
 	}
@@ -1017,7 +1037,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnYear(  ) throws Exception
+	@Test
+    public void testGroupOnYear(  ) throws Exception
 	{
 		calendar.set( 2005, 0, 1 );
 		groupOnYear( calendar.getTime( ) );
@@ -1028,7 +1049,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnYear1(  ) throws Exception
+	@Test
+    public void testGroupOnYear1(  ) throws Exception
 	{
 		groupOnYear( null );
 	}
@@ -1090,7 +1112,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnMonth(  ) throws Exception
+	@Test
+    public void testGroupOnMonth(  ) throws Exception
 	{
 		/*Calendar calendar = Calendar.getInstance( );*/
 		calendar.set( 2005, 0, 1 );
@@ -1102,7 +1125,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnMonthWithCache(  ) throws Exception
+	@Test
+    public void testGroupOnMonthWithCache(  ) throws Exception
 	{
 		/*Calendar calendar = Calendar.getInstance( );*/
 		calendar.set( 2005, 0, 1 );
@@ -1114,7 +1138,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnMonth1(  ) throws Exception
+	@Test
+    public void testGroupOnMonth1(  ) throws Exception
 	{
 		groupOnMonth( null );
 	}
@@ -1234,7 +1259,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnQuarter( ) throws Exception
+	@Test
+    public void testGroupOnQuarter( ) throws Exception
 	{
 		/*Calendar calendar = Calendar.getInstance( );*/
 		calendar.set( 2005, 2, 1 );
@@ -1246,7 +1272,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnQuarter1( ) throws Exception
+	@Test
+    public void testGroupOnQuarter1( ) throws Exception
 	{
 		groupOnQuarter( null );
 	}
@@ -1458,7 +1485,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnDay(  ) throws Exception
+	@Test
+    public void testGroupOnDay(  ) throws Exception
 	{
 		calendar.set( 2005, 0, 1, 10, 0, 0 );
 		groupOnDay( calendar.getTime( ));
@@ -1469,7 +1497,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnDay1(  ) throws Exception
+	@Test
+    public void testGroupOnDay1(  ) throws Exception
 	{
 		groupOnDay( null );
 	}
@@ -1479,7 +1508,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnDayWithCache(  ) throws Exception
+	@Test
+    public void testGroupOnDayWithCache(  ) throws Exception
 	{
 		groupOnDayWithCache( null );
 	}
@@ -1594,7 +1624,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnNumber(  ) throws Exception
+	@Test
+    public void testGroupOnNumber(  ) throws Exception
 	{
 		groupOnNumber( new Integer(10), 3 );
 		
@@ -1605,7 +1636,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnNumber0(  ) throws Exception
+	@Test
+    public void testGroupOnNumber0(  ) throws Exception
 	{
 		groupOnNumber( null, 0 );
 	}
@@ -1615,7 +1647,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnNumber1(  ) throws Exception
+	@Test
+    public void testGroupOnNumber1(  ) throws Exception
 	{
 		groupOnNumber( null, 3 );
 	}
@@ -1675,7 +1708,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnString(  ) throws Exception
+	@Test
+    public void testGroupOnString(  ) throws Exception
 	{
 		groupOnString( "13" );
 	}
@@ -1685,7 +1719,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnString0(  ) throws Exception
+	@Test
+    public void testGroupOnString0(  ) throws Exception
 	{
 		groupOnString( null, 0 );
 	}
@@ -1695,7 +1730,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnString1(  ) throws Exception
+	@Test
+    public void testGroupOnString1(  ) throws Exception
 	{
 		groupOnString( null );
 	}
@@ -1704,7 +1740,8 @@ public class GroupOnRowTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGroupOnString2( ) throws Exception
+	@Test
+    public void testGroupOnString2( ) throws Exception
 	{
 		groupOnString( null, 3 );
 	}

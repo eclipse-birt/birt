@@ -33,6 +33,12 @@ import org.mozilla.javascript.Context;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Nested query test. This test can be used to demonstrate how
  * nested query are constructed and run.
@@ -54,9 +60,10 @@ public class NestedQueryTest extends APITestCase
 	/* 
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void nestedQuerySetUp() throws Exception
 	{
-		super.setUp( );
+
 		
 		prepareDataSet( new DataSourceInfo( ConfigText.getString( "Api.TestDataCalls.TableName" ),
 				ConfigText.getString( "Api.TestDataCalls.TableSQL" ),
@@ -80,7 +87,8 @@ public class NestedQueryTest extends APITestCase
 	 * , which will be prepared.
 	 * @throws Exception
 	 */
-	public void test1( ) throws Exception
+	@Test
+    public void test1( ) throws Exception
 	{
 		queryDefnCustomer = createCustomerQueryDefn( );
 		
@@ -101,7 +109,8 @@ public class NestedQueryTest extends APITestCase
 	 * The inner query with a parameter row.CustomerID of outer query.
 	 * @throws Exception
 	 */
-	public void test2( ) throws Exception
+	@Test
+    public void test2( ) throws Exception
 	{
 		queryDefnCustomer = createCustomerQueryDefn( );
 		
@@ -123,7 +132,8 @@ public class NestedQueryTest extends APITestCase
 	 * , which will not be prepared.
 	 * @throws Exception
 	 */
-	public void test3( ) throws Exception
+	@Test
+    public void test3( ) throws Exception
 	{
 		queryDefnCustomer = createCustomerQueryDefn( );
 		
@@ -145,7 +155,8 @@ public class NestedQueryTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test4( ) throws Exception
+	@Test
+    public void test4( ) throws Exception
 	{
 		queryDefnCustomer = createCustomerQueryDefn();
 
@@ -173,7 +184,8 @@ public class NestedQueryTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test5( ) throws Exception
+	@Test
+    public void test5( ) throws Exception
 	{
 		queryDefnCustomer = createCustomerQueryDefn();
 
@@ -205,7 +217,8 @@ public class NestedQueryTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test6( ) throws Exception
+	@Test
+    public void test6( ) throws Exception
 	{
 		queryDefnCustomer = createCustomerQueryDefn();
 
@@ -226,7 +239,8 @@ public class NestedQueryTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test7( ) throws Exception
+	@Test
+    public void test7( ) throws Exception
 	{
 		queryDefnCustomer = createCustomerQueryDefn();
 
@@ -247,8 +261,8 @@ public class NestedQueryTest extends APITestCase
 		// run query
 		runNestedQuery();
 	}
-	
-	public void test8( ) throws Exception
+	@Test
+    public void test8( ) throws Exception
 	{
 		queryDefnCustomer = createCustomerQueryDefn( );
 		queryDefnCustomer.getGroups( ).clear( );

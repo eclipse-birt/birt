@@ -16,25 +16,25 @@ import java.io.IOException;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class CubePosFilterTest extends TestCase
-{
+public class CubePosFilterTest {
 	/*
 	 * (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp()
-	{
-		
-	}
-	
-	public void testValidFilter1() throws DataException, IOException
+@Test
+    public void testValidFilter1() throws DataException, IOException
 	{
 		ValidCubePosFilter validCubePosFilter = new ValidCubePosFilter( new String[]{ "country", "year", "product" });
 		SimpleDiskList[] simpleDiskLists = new SimpleDiskList[3];
@@ -60,8 +60,8 @@ public class CubePosFilterTest extends TestCase
 		assertFalse( validCubePosFilter.getFilterResult( new int[]{1,119,69} ) );
 		assertFalse( validCubePosFilter.getFilterResult( new int[]{1,11,12} ) );
 	}
-	
-	public void testInvalidFilter1() throws DataException, IOException
+	@Test
+    public void testInvalidFilter1() throws DataException, IOException
 	{
 		InvalidCubePosFilter invalidCubePosFilter = new InvalidCubePosFilter( new String[]{ "country", "year", "product" });
 		SimpleDiskList[] simpleDiskLists = new SimpleDiskList[3];

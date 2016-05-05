@@ -13,6 +13,10 @@ package org.eclipse.birt.data.engine.api;
 
 import java.util.Map;
 
+import org.eclipse.birt.core.archive.IDocArchiveReader;
+import org.eclipse.birt.core.archive.IDocArchiveWriter;
+import org.eclipse.birt.core.framework.PlatformConfig;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
@@ -28,6 +32,13 @@ import testutil.BaseTestCase;
 import testutil.JDBCDataSource;
 import testutil.JDBCOdaDataSource;
 import testutil.TestDataSource;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
 
 /**
  * Base class for test cases that work with Data Engine public API
@@ -56,14 +67,14 @@ abstract public class APITestCase extends BaseTestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void apiSetUp() throws Exception
 	{
-		super.setUp( );
-		
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				jsScope,
-				null,
-				null );
+				this.scriptContext,
+				(IDocArchiveReader) null,
+				(IDocArchiveWriter) null,
+				(ClassLoader) null );
 		context.setTmpdir( this.getTempDir() );
 		dataEngine = DataEngine.newDataEngine( context );
 		prepareDataSource( );
@@ -72,12 +83,11 @@ abstract public class APITestCase extends BaseTestCase
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void apiTearDown() throws Exception
 	{
 		dataEngine.shutdown( );
 		closeDataSource( );
-		
-		super.tearDown( );
 	}
 	
 	/**

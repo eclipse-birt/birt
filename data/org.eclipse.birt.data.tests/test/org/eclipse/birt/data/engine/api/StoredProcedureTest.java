@@ -26,19 +26,25 @@ import testutil.ConfigText;
 import testutil.JDBCDataSource;
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * to test stored procedure in derby database
  */
+@Ignore("Ignore tests that require manual setup")
 public class StoredProcedureTest extends APITestCase
 {
 
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void storedProcedureSetUp() throws Exception
 	{
-		super.setUp( );
-
 		createTestProcedure( );
 	}
 
@@ -69,7 +75,8 @@ public class StoredProcedureTest extends APITestCase
 	 * execute the procedure with inputparameter
 	 *
 	 */
-	public void test1( )
+	@Test
+    public void test1( )
 	{
 		try
 		{

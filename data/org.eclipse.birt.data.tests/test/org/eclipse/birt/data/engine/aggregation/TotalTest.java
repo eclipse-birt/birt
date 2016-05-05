@@ -7,7 +7,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.impl.BuildInAggregationFactory;
@@ -15,12 +14,17 @@ import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 import org.eclipse.birt.data.engine.core.DataException;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  *
  * test total aggregation function
  */
-public class TotalTest extends TestCase
-{
+public class TotalTest {
     private double[] weight = {1.2, 1.4, 2, 0.5, 1.4, 2.4, 1.5, 2.5, 3.7, 1.4, 1.03, 0.5, 0.2, 0.6, 1.3, 1.5, 12.4};
     private double[] doubleArray1 = {1, 3, 5, 4, 6, 8, 3, 4, 5, 7, 9, 10, 4, 6, 7};
     private boolean[] doubleArray1TopBottom = {false, false, false,false,false,true,false,false,false,true,true,true,false,false,true};
@@ -129,19 +133,10 @@ public class TotalTest extends TestCase
     /*
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-    }
-
-    /*
+/*
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-    }
-
+@Test
     public void testTotalConcatenate( ) throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation( "concatenate" );
@@ -384,7 +379,7 @@ public class TotalTest extends TestCase
         assertEquals( result, ac.getValue( ) );
 
     }
-
+	@Test
     public void testTotalCount() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("count");
@@ -451,7 +446,7 @@ public class TotalTest extends TestCase
             assertTrue(true);
         }
     }
-
+	@Test
     public void testTotalSum() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("sum");
@@ -624,7 +619,7 @@ public class TotalTest extends TestCase
             assertTrue( ( ( Double )x ).isNaN( ) );
         }
     }
-
+	@Test
     public void testTotalRunningSum() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("RUNNINGSUM");
@@ -694,7 +689,7 @@ public class TotalTest extends TestCase
         }
         ac.finish();
     }
-
+	@Test
     public void testTotalAve() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("ave");
@@ -764,7 +759,7 @@ public class TotalTest extends TestCase
         assertTrue( ret instanceof Double );
         assertEquals( 5.466666666666666666666666666666667D, ret );
     }
-
+	@Test
     public void testTotalFirst() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("first");
@@ -826,7 +821,7 @@ public class TotalTest extends TestCase
         assertTrue( ret instanceof BigDecimal );
         assertTrue( new BigDecimal( 1 ).compareTo( (BigDecimal) ret ) == 0 );
     }
-
+	@Test
     public void testTotalLast() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("last");
@@ -887,7 +882,7 @@ public class TotalTest extends TestCase
         assertTrue( ret instanceof BigDecimal );
         assertTrue( new BigDecimal( 7 ).compareTo( (BigDecimal) ret ) == 0 );
     }
-
+	@Test
     public void testTotalMax() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("max");
@@ -948,7 +943,7 @@ public class TotalTest extends TestCase
         assertTrue( ret instanceof BigDecimal );
         assertTrue( new BigDecimal( 10 ).compareTo( (BigDecimal) ret ) == 0 );
     }
-
+	@Test
     public void testTotalMin() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("min");
@@ -1010,7 +1005,7 @@ public class TotalTest extends TestCase
         assertTrue( ret instanceof BigDecimal );
         assertTrue( new BigDecimal( 1 ).compareTo( (BigDecimal) ret ) == 0 );
     }
-
+	@Test
     public void testTotalMedian() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("median");
@@ -1091,7 +1086,7 @@ public class TotalTest extends TestCase
         assertEquals( 5D, ret );
 
     }
-
+	@Test
     public void testTotalMode() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("mode");
@@ -1204,7 +1199,7 @@ public class TotalTest extends TestCase
         assertTrue( ret instanceof BigDecimal );
         assertTrue( new BigDecimal( 4 ).compareTo( (BigDecimal) ret ) == 0 );
     }
-
+	@Test
     public void testTotalStdDev() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("stddev");
@@ -1267,8 +1262,7 @@ public class TotalTest extends TestCase
         assertEquals( 2.445598573141631D, ret );
 
     }
-
-
+	@Test
     public void testTotalVariance() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("variance");
@@ -1330,8 +1324,7 @@ public class TotalTest extends TestCase
         assertTrue( ret instanceof Double );
         assertEquals( 5.980952380952380952380952380952381D, ret );
     }
-
-
+	@Test
     public void testTotalWeightedAva() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("weightedAve");
@@ -1423,7 +1416,7 @@ public class TotalTest extends TestCase
         assertEquals( 5.343042071197409D, ret );
 
     }
-
+	@Test
     public void testTotalMovingAve() throws Exception
     {
         double[] values1 = new double[]{1.0, 2.0, 3.0, 3.25, 3.8, 4.5, 4.285714285714286, 4.25, 4.75, 5.25, 5.75, 6.5, 6.25, 6, 6.5};
@@ -1497,7 +1490,7 @@ public class TotalTest extends TestCase
         ac.finish( );
 
     }
-
+	@Test
     public void testTotalAveDate() throws Exception
     {
 
@@ -1512,8 +1505,7 @@ public class TotalTest extends TestCase
         assertEquals(2500000D, ac.getValue());
 
     }
-
-
+	@Test
     public void testTotalMaxDate() throws Exception
     {                                
         IAggrFunction ag = buildInAggrFactory.getAggregation("max");
@@ -1527,7 +1519,7 @@ public class TotalTest extends TestCase
         assertEquals(new Date(4000000L), ac.getValue());
 
     }
-
+	@Test
     public void testTotalMinDate() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("min");
@@ -1541,7 +1533,7 @@ public class TotalTest extends TestCase
         assertEquals(new Date(1000000L), ac.getValue());
 
     }
-
+	@Test
     public void testTotalMaxString() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("max");
@@ -1554,7 +1546,7 @@ public class TotalTest extends TestCase
         ac.finish();
         assertEquals("test", ac.getValue());
     }
-
+	@Test
     public void testTotalMinString() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("min");
@@ -1567,7 +1559,7 @@ public class TotalTest extends TestCase
         ac.finish();
         assertEquals("aggregation", ac.getValue());
     }
-
+	@Test
     public void testTotalTop() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("isTopN");
@@ -1698,6 +1690,7 @@ public class TotalTest extends TestCase
      * test top n aggregation with null values. Note: the null values will not
      * be considered as the candidates for the result.
      */
+	@Test
     public void testTotalTop2() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("isTopN");
@@ -1723,7 +1716,7 @@ public class TotalTest extends TestCase
         }
         ac.finish();
     }
-
+	@Test
     public void testTotalBottom() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("isBottomN");
@@ -1813,7 +1806,7 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
     }
-
+	@Test
     public void testTotalRank() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("rank");
@@ -1876,7 +1869,7 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
      }
-
+	@Test
     public void testTotalPercentRank() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("percentrank");
@@ -1921,7 +1914,7 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
      }
-
+	@Test
     public void testTotalPercentSum() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("percentsum");
@@ -1989,7 +1982,7 @@ public class TotalTest extends TestCase
         }
         ac.finish( );
     }
-
+	@Test
     public void testTotalPercentile() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("percentile");
@@ -2094,7 +2087,7 @@ public class TotalTest extends TestCase
         assertTrue( ret instanceof Double );
         assertEquals( 3.0D, ret );
      }
-
+	@Test
     public void testTotalQuartile() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory.getAggregation("quartile");
@@ -2174,7 +2167,7 @@ public class TotalTest extends TestCase
         assertTrue( ret instanceof Double );
         assertEquals( 4.0D, ret );
      }
-
+	@Test
     public void testTotalRunningCount() throws Exception
     {
         IAggrFunction ag = buildInAggrFactory .getAggregation("runningcount");

@@ -19,9 +19,16 @@ import org.eclipse.birt.data.engine.odaconsumer.testdriver.TestAdvQueryImpl;
 import org.eclipse.birt.data.engine.odaconsumer.testutil.OdaTestDriverCase;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  *  Test cases for handling multiple result sets.
  */
+@Ignore("Ignore tests that require manual setup")
 @SuppressWarnings("nls")
 public class MultipleResultSetsTest extends OdaTestDriverCase
 {
@@ -43,6 +50,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
     /**
      * Get the first result set's metadata, then get the result set.
      */
+	@Test
     public void testGetSequentialResultSetMetaData() throws Exception
     {
         try
@@ -56,7 +64,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
             fail( "testGetSequentialResultSetMetaData failed: " + e1.toString() ); //$NON-NLS-1$
         }
     }
-
+	@Test
     public void testGetMoreResultSetMetaData() throws Exception
     {
         try
@@ -90,6 +98,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
     /**
      * First get result set, then get its metadata.
      */
+	@Test
     public void testGetSequentialResultSet() throws Exception
     {       
         try
@@ -103,7 +112,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
             fail( "testGetSequentialResultSet failed: " + e1.toString() ); //$NON-NLS-1$
         }
     }
-    
+	@Test
     public void testGetMoreResultSet() throws Exception
     {       
         try
@@ -144,6 +153,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
     /**
      * Get multiple result sets in sequential order.
      */
+	@Test
     public void testGetSequentialResultSets() throws Exception
     {       
         try
@@ -158,7 +168,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
             fail( "testGetSequentialResultSets failed: " + e1.toString() ); //$NON-NLS-1$
         }
     }
-    
+	@Test
     public void testGetFirstResultSetWithCustomColumn() throws Exception
     {       
         try
@@ -184,7 +194,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
             fail( "testGetFirstResultSetWithCustomColumn() failed: " + e1.toString() ); //$NON-NLS-1$
         }
     }
-    
+	@Test
     public void testGetSequentialResultSetsWithCustomColumn() throws Exception
     {       
         try
@@ -214,7 +224,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
     }
     
     // Negative test cases for sequential result set w/o projected columns
-
+	@Test
     public void testGetSequentialResultSetBeforeExecute() throws Exception
     {       
         boolean hasExpectedException = false;
@@ -232,7 +242,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         }
         assert( hasExpectedException );
     }
-
+	@Test
     public void testGetOutOfRangeResultSet() throws Exception
     {       
         final String methodName = "testGetOutOfRangeResultSet"; //$NON-NLS-1$
@@ -259,7 +269,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         }
         assert( hasExpectedException );
     }
-    
+	@Test
     public void testGetReverseSequenceResultSets() throws Exception
     {       
         final String methodName = "testGetReverseSequenceResultSets"; //$NON-NLS-1$
@@ -293,20 +303,21 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
     /**
      * Test setting projected columns before getting result set and metadata
      */
+	@Test
     public void testProjectedColumnsResultSet( ) throws Exception
     {
         PreparedStatement hostStmt = getSequentialRSPreparedStatement();            
         hostStmt.execute();
         getProjectedColumnsResultSet( hostStmt, 2, false );
     }
-    
+	@Test
     public void testSetProjectedColumnsOnResultSet1BeforeExecute( ) throws Exception
     {
         PreparedStatement hostStmt = getSequentialRSPreparedStatement();            
         // do not call execute first, which is ok for getting the first result set
         getProjectedColumnsResultSet( hostStmt, 1, true );
     }
-    
+	@Test
     public void testSetProjectedColumnsOnMoreResultSetBeforeExecute( ) throws Exception
     {
         PreparedStatement hostStmt = getSequentialRSPreparedStatement();            
@@ -314,7 +325,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
         // before getting result set and metadata
         getProjectedColumnsResultSet( hostStmt, 3, true );
     }
-    
+	@Test
     public void testSetProjectedCustomColumnsOnMoreResultSetBeforeExecute( ) throws Exception
     {
         PreparedStatement hostStmt = getSequentialRSPreparedStatement();            
@@ -341,7 +352,7 @@ public class MultipleResultSetsTest extends OdaTestDriverCase
     }
 
     // Negative test cases for sequential result set w/ projected columns
-    
+	@Test
     public void testProjectedMoreColumnsResultSetBeforeExecute( ) throws Exception
     {
         PreparedStatement hostStmt = getSequentialRSPreparedStatement();            

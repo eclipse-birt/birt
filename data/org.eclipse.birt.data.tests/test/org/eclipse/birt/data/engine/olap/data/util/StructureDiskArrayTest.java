@@ -17,34 +17,29 @@ import java.util.Date;
 
 import org.eclipse.birt.data.engine.olap.data.util.StructureDiskArray;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class StructureDiskArrayTest extends TestCase
-{
+public class StructureDiskArrayTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testMemberForTest( ) throws IOException
+@Test
+    public void testMemberForTest( ) throws IOException
 	{
 		int objectNumber = 1001;
 		StructureDiskArray array = new StructureDiskArray( MemberForTest.getMemberCreator( ) );
@@ -59,8 +54,8 @@ public class StructureDiskArrayTest extends TestCase
 		}
 		array.close( );
 	}
-	
-	public void testMemberForTest1( ) throws IOException
+	@Test
+    public void testMemberForTest1( ) throws IOException
 	{
 		int objectNumber = 1001;
 		StructureDiskArray array = new StructureDiskArray( MemberForTest.getMemberCreator( ) );
@@ -80,8 +75,8 @@ public class StructureDiskArrayTest extends TestCase
 		}
 		array.close( );
 	}
-	
-	public void testMemberForTest2( ) throws IOException
+	@Test
+    public void testMemberForTest2( ) throws IOException
 	{
 		int objectNumber = 1001;
 		StructureDiskArray array = new StructureDiskArray( MemberForTest.getMemberCreator( ) );

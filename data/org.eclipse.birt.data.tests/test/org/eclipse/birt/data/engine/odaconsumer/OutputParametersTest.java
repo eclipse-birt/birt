@@ -19,13 +19,20 @@ import org.eclipse.birt.data.engine.odaconsumer.testdriver.TestAdvQueryImpl;
 import org.eclipse.birt.data.engine.odaconsumer.testdriver.TestParamMetaDataImpl;
 import org.eclipse.birt.data.engine.odaconsumer.testutil.OdaTestDriverCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test ODA Consumer handling of output parameters, 
  * by index or native name.
  */
+@Ignore("Ignore tests that require manual setup")
 public class OutputParametersTest extends OdaTestDriverCase
 {
-    
+	@Test
     public void testOutputParamDataTypeMapping()
     {
         PreparedStatement hostStmt = null;
@@ -62,7 +69,7 @@ public class OutputParametersTest extends OdaTestDriverCase
         assertTrue( outParam3Value != null );
         assertTrue( outParam3Value instanceof String );
     } 
-    
+	@Test
     public void testGetParameterByNativeName() throws Exception
     {
         PreparedStatement hostStmt = null;
@@ -114,7 +121,7 @@ public class OutputParametersTest extends OdaTestDriverCase
         assertTrue( ((String)outParam3Value).startsWith( 
                 TestParamMetaDataImpl.TEST_PARAM_NATIVE_NAME_PREFIX ) );
     }
-    
+	@Test
     public void testGetParameterWithNativeNameInHints() throws Exception
     {
         PreparedStatement hostStmt = null;
@@ -174,7 +181,7 @@ public class OutputParametersTest extends OdaTestDriverCase
         assertTrue( ((String)outParam3Value).startsWith( 
                 TestParamMetaDataImpl.TEST_PARAM_NATIVE_NAME_PREFIX ) );
     }
-    
+	@Test
     public void testGetParameterWithPositionInHints() throws Exception
     {
         PreparedStatement hostStmt = null;

@@ -36,6 +36,12 @@ import com.ibm.icu.util.Calendar;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test case for aggregate JSExpression
  */
@@ -53,7 +59,8 @@ public class AggregationTest extends APITestCase
 	}
 	
 	// A test case with some mixed aggregate functions at different levels
-	public void test1( ) throws Exception
+	@Test
+    public void test1( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 		
@@ -164,7 +171,8 @@ public class AggregationTest extends APITestCase
 	}*/
 
 	// Test aggregates on empty result set
-	public void test3( ) throws Exception
+	@Test
+    public void test3( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
@@ -369,7 +377,8 @@ public class AggregationTest extends APITestCase
 //	}
 
 	// Test equality comparison
-	public void test4( ) throws Exception
+	@Test
+    public void test4( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
@@ -432,7 +441,8 @@ public class AggregationTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test5( ) throws Exception
+	@Test
+    public void test5( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
@@ -484,7 +494,8 @@ public class AggregationTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test6( ) throws Exception
+	@Test
+    public void test6( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
@@ -552,7 +563,8 @@ public class AggregationTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test7( ) throws Exception
+	@Test
+    public void test7( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
@@ -613,7 +625,8 @@ public class AggregationTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test8( ) throws Exception
+	@Test
+    public void test8( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
@@ -684,7 +697,8 @@ public class AggregationTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test9( ) throws Exception
+	@Test
+    public void test9( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
@@ -744,7 +758,8 @@ public class AggregationTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test10( ) throws Exception
+	@Test
+    public void test10( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
@@ -802,9 +817,9 @@ public class AggregationTest extends APITestCase
 	 * Please refer to SCR #74988
 	 * The value of static property "Total.OVERALL" has not been set up correctly.  
 	 */
-	public void testSCR74988( ) throws Exception
+	@Test
+    public void testSCR74988( ) throws Exception
 	{
-		this.setUp();
 		QueryDefinition query = newReportQuery( );
 
 		ScriptExpression e1 = new ScriptExpression( "dataSetRow.CITY" );
@@ -871,7 +886,8 @@ public class AggregationTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testTed49051( ) throws Exception
+	@Test
+    public void testTed49051( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 

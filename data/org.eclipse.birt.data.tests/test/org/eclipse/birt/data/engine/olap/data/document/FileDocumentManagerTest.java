@@ -16,17 +16,21 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  */
 
-public class FileDocumentManagerTest extends TestCase
-{
+public class FileDocumentManagerTest {
 
 	protected IDocumentManager documentManager;
 	private static final String DOCUMENT_OBJECT = "docObj";
@@ -64,19 +68,15 @@ public class FileDocumentManagerTest extends TestCase
 		for ( int i = 0; i < bytes.length; i++ )
 			bytes[i] = new Bytes( generateBytes( generateRandomInt( 100 ) ) );
 	}
-
-	protected void setUp( ) throws Exception
+	@Before
+    public void fileDocumentManagerSetUp() throws Exception
 	{
-		super.setUp( );
-
 		documentManager = DocumentManagerFactory.createFileDocumentManager( );
 	}
-
-	protected void tearDown( ) throws Exception
+	@After
+    public void fileDocumentManagerTearDown() throws Exception
 	{
 		documentManager.close( );
-
-		super.tearDown( );
 	}
 
 	private IDocumentObject[] generateDocumentObjects( int length )
@@ -134,8 +134,8 @@ public class FileDocumentManagerTest extends TestCase
 	{
 		return new Double( Math.random( ) * limits ).intValue( );
 	}
-
-	public void testEOFException( ) throws IOException
+	@Test
+    public void testEOFException( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -155,8 +155,8 @@ public class FileDocumentManagerTest extends TestCase
 		}
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testZero( ) throws IOException
+	@Test
+    public void testZero( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -177,8 +177,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testMinusOne( ) throws IOException
+	@Test
+    public void testMinusOne( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		byte[] in = new byte[5];
@@ -188,8 +188,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testDouble( ) throws IOException
+	@Test
+    public void testDouble( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -204,8 +204,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testInt( ) throws IOException
+	@Test
+    public void testInt( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -220,8 +220,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testString( ) throws IOException
+	@Test
+    public void testString( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -236,8 +236,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testBoolean( ) throws IOException
+	@Test
+    public void testBoolean( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -252,8 +252,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testDate( ) throws IOException
+	@Test
+    public void testDate( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -269,8 +269,8 @@ public class FileDocumentManagerTest extends TestCase
 		closeDocumentObjects( docObjs );
 
 	}
-
-	public void testBigDecimal( ) throws IOException
+	@Test
+    public void testBigDecimal( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -286,8 +286,8 @@ public class FileDocumentManagerTest extends TestCase
 		closeDocumentObjects( docObjs );
 
 	}
-
-	public void testBytes( ) throws IOException
+	@Test
+    public void testBytes( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -302,8 +302,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testShort( ) throws IOException
+	@Test
+    public void testShort( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -318,8 +318,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testMixed( ) throws IOException
+	@Test
+    public void testMixed( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		long pointer = docObjs[0].getFilePointer( );
@@ -352,8 +352,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testFilePointer( ) throws IOException
+	@Test
+    public void testFilePointer( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 1 );
 		byte[] out = generateBytes( 1023 );
@@ -366,8 +366,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testBuffer( ) throws IOException
+	@Test
+    public void testBuffer( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 2 );
 
@@ -395,8 +395,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testChunk( ) throws IOException
+	@Test
+    public void testChunk( ) throws IOException
 	{
 		IDocumentObject[] docObjs = generateDocumentObjects( 2 );
 		long pointer0 = docObjs[0].getFilePointer( );
@@ -419,8 +419,8 @@ public class FileDocumentManagerTest extends TestCase
 
 		closeDocumentObjects( docObjs );
 	}
-
-	public void testStressVariable( ) throws IOException
+	@Test
+    public void testStressVariable( ) throws IOException
 	{
 		int length = 50;	//
 		IDocumentObject[] docObjs = generateDocumentObjects( length );
@@ -444,8 +444,8 @@ public class FileDocumentManagerTest extends TestCase
 			docObjs[i].close( );
 		}
 	}
-
-	public void testStressFixed( ) throws IOException
+	@Test
+    public void testStressFixed( ) throws IOException
 	{
 		int length = 100;	//10000
 		IDocumentObject[] docObjs = generateDocumentObjects( length );
@@ -468,8 +468,8 @@ public class FileDocumentManagerTest extends TestCase
 			docObjs[i].close( );
 		}
 	}
-
-	public void testLoadFileDocumentManager( ) throws IOException,
+	@Test
+    public void testLoadFileDocumentManager( ) throws IOException,
 			DataException
 	{
 		documentManager.createDocumentObject( DOCUMENT_OBJECT );

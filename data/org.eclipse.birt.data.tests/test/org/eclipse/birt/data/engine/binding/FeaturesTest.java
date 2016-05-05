@@ -46,6 +46,12 @@ import testutil.ConfigText;
 
 import com.ibm.icu.text.DateFormat;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * DtE features test.
  */
@@ -66,7 +72,8 @@ public class FeaturesTest extends APITestCase
 	 * A standard report, test feature of: 
 	 * 		group, sort, filter.
 	 */
-	public void test1( ) throws Exception
+	@Test
+    public void test1( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -133,7 +140,8 @@ public class FeaturesTest extends APITestCase
 	 * A standard report, test feature of: 
 	 * 		group, sort, filter.
 	 */
-	public void test2( ) throws Exception
+	@Test
+    public void test2( ) throws Exception
 	{
 		String[] bindingNameSort = new String[1];
 		bindingNameSort[0] = "SORT_SALE_DATE";
@@ -180,7 +188,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of
 	 * 		group.
 	 */
-	public void test3( ) throws Exception
+	@Test
+    public void test3( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -223,7 +232,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of
 	 * 		group, without pre-sorting.
 	 */
-	public void test31( ) throws Exception
+	@Test
+    public void test31( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -272,7 +282,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of
 	 * 		incorrect sort key, throw exception
 	 */
-	public void test4( ) throws Exception
+	@Test
+    public void test4( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -329,7 +340,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature
 	 * 		without any group, sort, filter
 	 */
-	public void test6( ) throws Exception
+	@Test
+    public void test6( ) throws Exception
 	{
 		String[] bindingNameRow = new String[4];		
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -361,7 +373,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of
 	 * 		incorrect filter expression, throw exception
 	 */
-	public void test7( ) throws Exception
+	@Test
+    public void test7( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -418,7 +431,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of
 	 * 		group, sort, ConditionalExpression
 	 */
-	public void test8( ) throws Exception
+	@Test
+    public void test8( ) throws Exception
 	{		
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -491,7 +505,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of
 	 * 		group, sort, ConditionalExpression
 	 */
-	public void test19( ) throws Exception
+	@Test
+    public void test19( ) throws Exception
 	{		
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -625,7 +640,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of
 	 * 		group, sort, filter
 	 */
-	public void test9( ) throws Exception
+	@Test
+    public void test9( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -686,7 +702,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of
 	 * 		duplicate column name from different tables
 	 */
-	public void test10_DuplicateColName() throws Exception
+	@Test
+    public void test10_DuplicateColName() throws Exception
 	{
 		// Test a SQL with duplicate column name (quite common with join data sets)
 		String testSQL = "select COUNTRY, COUNTRY, CITY from "
@@ -725,7 +742,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * Test aggregation with similar features.
 	 */
-	public void test11( ) throws Exception
+	@Test
+    public void test11( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -772,7 +790,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * Test aggregation with similar features.
 	 */
-	public void test12( ) throws Exception
+	@Test
+    public void test12( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[2];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -883,7 +902,8 @@ public class FeaturesTest extends APITestCase
 	 * Test filters in data sets and queries. The dataset filters should 
 	 * always be applied before the query filters.
 	 */
-	public void test14( ) throws Exception
+	@Test
+    public void test14( ) throws Exception
 	{
 		this.dataSet.addFilter( new FilterDefinition(
 				new ConditionalExpression( "row.AMOUNT",
@@ -949,7 +969,8 @@ public class FeaturesTest extends APITestCase
 	 * Test filters in data sets and query with . The dataset filters should 
 	 * always be applied before the query filters.
 	 */
-	public void test15( ) throws Exception
+	@Test
+    public void test15( ) throws Exception
 	{
 		this.dataSet.addFilter( new FilterDefinition(
 				new ConditionalExpression( "row.AMOUNT",
@@ -1012,7 +1033,8 @@ public class FeaturesTest extends APITestCase
 	 * In java script expression, all the java type should be convert to java
 	 * script type.
 	 */
-	public void test16( ) throws Exception
+	@Test
+    public void test16( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -1071,7 +1093,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * 
 	 */
-	public void test17( )
+	@Test
+    public void test17( )
 	{
 		try
 		{
@@ -1108,7 +1131,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature
 	 * 		with 1 group, the group key is an expression.
 	 */
-	public void test18( ) throws Exception
+	@Test
+    public void test18( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[1];
 		bindingNameGroup[0] = "GROUP_COUNTRY";
@@ -1150,7 +1174,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * A summary table
 	 */
-	public void testSummaryTable( ) throws Exception
+	@Test
+    public void testSummaryTable( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -1198,7 +1223,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * A summary table
 	 */
-	public void testSummaryTableWithSub( ) throws Exception
+	@Test
+    public void testSummaryTableWithSub( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -1274,7 +1300,8 @@ public class FeaturesTest extends APITestCase
 	 * 		GetParameterMetaData
 	 * @throws Exception
 	 */
-	public void testBasicGetParameterMetaData( ) throws Exception
+	@Test
+    public void testBasicGetParameterMetaData( ) throws Exception
 	{
 		String sql = "select COUNTRY, CITY from "
 				+ getTestTableName( ) + " where city = ?";
@@ -1304,7 +1331,8 @@ public class FeaturesTest extends APITestCase
 	 * 		GetParameterMetaData1
 	 * @throws Exception
 	 */
-	public void testBasicGetParameterMetaData1() throws Exception
+	@Test
+    public void testBasicGetParameterMetaData1() throws Exception
 	{
 		String sql = "select COUNTRY, CITY from "
 				+ getTestTableName( ) + " where city = ?";
@@ -1343,7 +1371,8 @@ public class FeaturesTest extends APITestCase
 	 * 		GetParameterMetaDataDefaultValue
 	 * @throws Exception
 	 */
-	public void testBasicGetParameterMetaDataDefaultValue() throws Exception
+	@Test
+    public void testBasicGetParameterMetaDataDefaultValue() throws Exception
 	{
 		String sql = "select COUNTRY, CITY from "
 				+ getTestTableName( ) + " where city = ?";
@@ -1401,7 +1430,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testPassThruContext() throws Exception
+	@Test
+    public void testPassThruContext() throws Exception
 	{
 		String testSQL =  "select COUNTRY, CITY from " + getTestTableName( );
 		((OdaDataSetDesign)this.dataSet).setQueryText( testSQL );
@@ -1445,7 +1475,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of the usage of Expression Data Type
 	 * @throws Exception
 	 */
-	public void testAggrExprAndInconvertibleDataType( ) throws Exception
+	@Test
+    public void testAggrExprAndInconvertibleDataType( ) throws Exception
 	{
 		Object[] expectedValue = new Object[]{
 				"CHINA",
@@ -1540,7 +1571,8 @@ public class FeaturesTest extends APITestCase
 	 * Test of invalid filter expression row[0]
 	 * @throws Exception
 	 */
-	public void testRow0( ) throws Exception
+	@Test
+    public void testRow0( ) throws Exception
 	{
 		String[] bindingNameFilter = new String[]{
 			"ROW_0"
@@ -1580,7 +1612,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * Tests BEFORE_FIRST_ROW and AFTER_LAST_ROW expressions
 	 */
-	public void testExprTiming() throws Exception
+	@Test
+    public void testExprTiming() throws Exception
 	{
 		String[] bindingNameRow = new String[]{
 				"ROW_COUNTRY",
@@ -1646,7 +1679,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature of
 	 * 		group.
 	 */
-	public void testMoveto( ) throws Exception
+	@Test
+    public void testMoveto( ) throws Exception
 	{
 		String[] bindingNameRow = new String[]{
 				"ROW_COUNTRY", "ROW_CITY", "ROW_SALE_DATE", "ROW_AMOUNT",
@@ -1697,7 +1731,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testResultIteratorFindGroup( ) throws Exception
+	@Test
+    public void testResultIteratorFindGroup( ) throws Exception
 	{
 		ComputedColumn computedColumn = new ComputedColumn( "\"doubleQuo\"",
 				"row.CITY",
@@ -1802,7 +1837,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * 
 	 */
-	public void testResultIteratorFindGroup2() throws Exception
+	@Test
+    public void testResultIteratorFindGroup2() throws Exception
 	{
 		String[] bindingNameGroup = new String[]{
 				"GROUP_COUNTRY", "GROUP_AMOUNT"
@@ -1872,7 +1908,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * 
 	 */
-	public void testResultIteratorFindGroup3( ) throws Exception
+	@Test
+    public void testResultIteratorFindGroup3( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[]{
 				"GROUP_SALE_DATE", "GROUP_AMOUNT"
@@ -1946,7 +1983,8 @@ public class FeaturesTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testResultSetIteratorIsEmptyFalse( ) throws Exception
+	@Test
+    public void testResultSetIteratorIsEmptyFalse( ) throws Exception
 	{
 		String[] bindingNameRow = new String[6];
 		bindingNameRow[0] = "ROW_0";
@@ -1984,7 +2022,8 @@ public class FeaturesTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testResultSetIteratorIsEmptyTrue( ) throws Exception
+	@Test
+    public void testResultSetIteratorIsEmptyTrue( ) throws Exception
 	{
 		String[] bindingNameFilter = new String[1];
 		bindingNameFilter[0] = "FILTER_AMOUNT";
@@ -2030,7 +2069,8 @@ public class FeaturesTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNestedDummyQuery( ) throws Exception
+	@Test
+    public void testNestedDummyQuery( ) throws Exception
 	{
 		String[] bindingNameFilter = new String[1];
 		bindingNameFilter[0] = "FILTER_AMOUNT";
@@ -2081,7 +2121,8 @@ public class FeaturesTest extends APITestCase
 	/**
 	 * Bug 153006
 	 */
-	public void testGroupWithNoDetails( ) throws Exception
+	@Test
+    public void testGroupWithNoDetails( ) throws Exception
 	{
 		String[] bindingNameGroup = new String[]{
 			"GROUP_ROW_COUNTRY"
@@ -2152,7 +2193,8 @@ public class FeaturesTest extends APITestCase
 	 * Test feature
 	 * 		without any group, sort, filter
 	 */
-	public void testRowIndex( ) throws Exception
+	@Test
+    public void testRowIndex( ) throws Exception
 	{
 		String[] bindingNameRow = new String[1];		
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -2180,7 +2222,8 @@ public class FeaturesTest extends APITestCase
 	 * zero, which indicate no limit at all.
 	 * @throws Exception
 	 */
-	public void testFetchRowLimit1() throws Exception
+	@Test
+    public void testFetchRowLimit1() throws Exception
 	{
 		this.fetchRowLimit( 0 );
 	}
@@ -2191,7 +2234,8 @@ public class FeaturesTest extends APITestCase
 	 * 3, which indicate to max three rows should be fetched from data source.
 	 * @throws Exception
 	 */
-	public void testFetchRowLimit2() throws Exception
+	@Test
+    public void testFetchRowLimit2() throws Exception
 	{
 		this.fetchRowLimit( 3 );
 	}
@@ -2202,7 +2246,8 @@ public class FeaturesTest extends APITestCase
 	 * negative number, which indicate no limit at all.
 	 * @throws Exception
 	 */
-	public void testFetchRowLimit3() throws Exception
+	@Test
+    public void testFetchRowLimit3() throws Exception
 	{
 		this.fetchRowLimit( -10 );
 	}
@@ -2236,8 +2281,8 @@ public class FeaturesTest extends APITestCase
 		
 		checkOutputFile();
 	}
-	
-	public void testRefToInvalidDataSetColumn( )
+	@Test
+    public void testRefToInvalidDataSetColumn( )
 	{
 		String[] bindingNameRow = new String[1];		
 		bindingNameRow[0] = "ROW_COUNTRY";

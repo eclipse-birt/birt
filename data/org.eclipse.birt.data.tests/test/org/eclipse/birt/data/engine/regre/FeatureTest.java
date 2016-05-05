@@ -38,6 +38,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test DtE featurs.
  */
@@ -61,10 +67,9 @@ public class FeatureTest extends APITestCase
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void featureSetUp() throws Exception
 	{
-		super.setUp( );
-
 		prepareDataSet( new DataSourceInfo( ConfigText.getString( "Api.TestDataCalls.TableName" ),
 				ConfigText.getString( "Api.TestDataCalls.TableSQL" ),
 				ConfigText.getString( "Api.TestDataCalls.TestDataFileName" ) ) );
@@ -90,7 +95,8 @@ public class FeatureTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAllFeatures( ) throws Exception
+	@Test
+    public void testAllFeatures( ) throws Exception
 	{
 		Collection inputParamDefns = new ArrayList( );
 		Collection inputParamBindings = new ArrayList( );

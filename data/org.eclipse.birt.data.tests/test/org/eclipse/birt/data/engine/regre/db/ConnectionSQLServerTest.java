@@ -12,6 +12,12 @@ package org.eclipse.birt.data.engine.regre.db;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 
 /**
@@ -19,19 +25,21 @@ import testutil.ConfigText;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
+@Ignore("Ignore tests that require manual setup")
 public class ConnectionSQLServerTest extends ConnectionTest
 {
 
 	/*
 	 * @see ConnectionTest#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void connectionSQLServerSetUp() throws Exception
 	{
 		DriverClass = ConfigText.getString( "Regre.SQLServer.DriverClass" );
 		URL = ConfigText.getString( "Regre.SQLServer.URL" );
 		User = ConfigText.getString( "Regre.SQLServer.User" );
 		Password = ConfigText.getString( "Regre.SQLServer.Password" );
-		super.setUp( );
+
 	}
 
 }

@@ -21,18 +21,21 @@ import org.eclipse.birt.data.oda.pojo.util.ClassLister;
 import org.eclipse.core.runtime.FileLocator;
 
 
-
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class ClassListerTest extends TestCase
-{
+public class ClassListerTest {
 	@SuppressWarnings("nls")
-	public void testListPublicClasses( ) throws IOException
+	@Test
+    public void testListPublicClasses( ) throws IOException
 	{
 		URL classFolderURL = C1.class.getResource( "." );
 		if ( !classFolderURL.getProtocol( ).equals( "file" ))

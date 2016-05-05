@@ -15,6 +15,12 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.binding.NestedQueryTest;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  *
@@ -25,13 +31,14 @@ public class CacheNestedQueryTest extends NestedQueryTest
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void cacheNestedQuerySetUp() throws Exception
 	{
-		super.setUp( );
+
 		System.setProperty( "birt.data.engine.test.memcachesize", "20000" );
 	}
-	
-	public void test6() throws Exception
+	@Test
+    public void test6() throws Exception
 	{
 		System.setProperty( "birt.data.engine.test.memcachesize", "20000" );
 		super.test6();

@@ -24,6 +24,12 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
@@ -44,7 +50,8 @@ public class DefineDataSourceTest extends APITestCase
 	/**
 	 * @throws Exception 
 	 */
-	public void testDefineDataSource( ) throws Exception
+	@Test
+    public void testDefineDataSource( ) throws Exception
 	{
 		DataEngine testEngine = new DataEngineImpl( DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,

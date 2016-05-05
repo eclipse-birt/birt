@@ -17,33 +17,28 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionKey;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.FactTableRow;
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  */
 
-public class FactTableRowTest extends TestCase
-{
+public class FactTableRowTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testSaveAndLoad() throws IOException
+@Test
+    public void testSaveAndLoad() throws IOException
 	{
 		final int rowLen = 100000;
 		final int FACT_TABLE_BUFFER_SIZE = 40000;
@@ -61,8 +56,8 @@ public class FactTableRowTest extends TestCase
 		}
 		result.close( );
 	}
-	
-	public void testSaveAndLoad2() throws IOException
+	@Test
+    public void testSaveAndLoad2() throws IOException
 	{
 		final int rowLen = 100000;
 		final int FACT_TABLE_BUFFER_SIZE = 40000;

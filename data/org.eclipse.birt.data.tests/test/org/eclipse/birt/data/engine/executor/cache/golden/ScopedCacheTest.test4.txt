@@ -7,17 +7,17 @@ S:1 E:0 US
 
 Cache Complete
 *****A new Report Start!*****
-S:0 E:1 CHINA    1234.56    
-S:1 E:1 US    1234.56    
-S:1 E:1 CHINA    1234.56    
-S:1 E:1 US    1234.56    
-S:1 E:0 US    1234.56    
+S:0 E:1 CHINA    7000.0    
+S:1 E:1 US    100.0    
+S:1 E:1 CHINA    100.0    
+S:1 E:1 US    700.0    
+S:1 E:0 US    100.0    
 
 Clear Cache
 *****A new Report Start!*****
-S:0 E:1 CHINA    7000    
-S:1 E:1 US    100    
-S:1 E:1 CHINA    100    
-S:1 E:1 US    700    
-S:1 E:0 US    100    
+S:0 E:1 CHINA    7000.0    
+S:1 E:1 US    100.0    
+S:1 E:1 CHINA    100.0    
+S:1 E:1 US    700.0    
+S:1 E:0 US    100.0    
 

@@ -20,6 +20,12 @@ import java.sql.SQLException;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class ConnectionTest extends ConnectionManagerTest
 {
 
@@ -29,20 +35,16 @@ public class ConnectionTest extends ConnectionManagerTest
 	{
 		return m_connection;
 	}
-
-	protected void setUp( ) throws Exception
+	@Before
+    public void connectionSetUp() throws Exception
 	{
-		super.setUp( );
-
 		Properties connProperties = getJdbcConnProperties();		
 		m_connection = getManager( ).openConnection( JDBCOdaDataSource.DATA_SOURCE_TYPE, connProperties, null );
 	}
-
-	protected void tearDown( ) throws Exception
+	@After
+    public void connectionTearDown() throws Exception
 	{
 		m_connection.close( );
-
-		super.tearDown( );
 	}
 
 	Connection getMySqlConnection( ) throws DataException

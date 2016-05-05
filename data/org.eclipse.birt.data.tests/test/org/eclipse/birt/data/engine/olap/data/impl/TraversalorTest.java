@@ -16,39 +16,34 @@ import java.io.IOException;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class TraversalorTest extends TestCase
-{
+public class TraversalorTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	/**
+/**
 	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testTraversalor( ) throws IOException,
+	@Test
+    public void testTraversalor( ) throws IOException,
 			BirtException
 	{
 		int[] lengthArray = { 1, 1, 1};

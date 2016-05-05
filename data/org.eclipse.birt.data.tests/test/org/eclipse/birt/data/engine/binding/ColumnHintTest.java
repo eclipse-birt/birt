@@ -19,6 +19,12 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test feature of ColumnHint 
  */
@@ -30,9 +36,10 @@ public class ColumnHintTest extends APITestCase
 	/* 
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void columnHintSetUp() throws Exception
 	{
-		super.setUp( );
+
 				
 		prepareDataSet( new DataSourceInfo( ConfigText.getString( "Api.TestDataCalls.TableName" ),
 				ConfigText.getString( "Api.TestDataCalls.TableSQL" ),
@@ -56,7 +63,8 @@ public class ColumnHintTest extends APITestCase
 	/**
 	 * Test feature of duplicate column name from different tables
 	 */	
-	public void testDuplicateColName( ) throws Exception
+	@Test
+    public void testDuplicateColName( ) throws Exception
 	{
 
 		String testSQL = "select "

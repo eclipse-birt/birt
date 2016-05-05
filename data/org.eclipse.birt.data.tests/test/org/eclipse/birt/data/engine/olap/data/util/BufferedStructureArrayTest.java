@@ -17,34 +17,29 @@ import java.util.Date;
 
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class BufferedStructureArrayTest extends TestCase
-{
+public class BufferedStructureArrayTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testMemberForTest( ) throws IOException
+@Test
+    public void testMemberForTest( ) throws IOException
 	{
 		int objectNumber = 1001;
 		BufferedStructureArray list = new BufferedStructureArray( MemberForTest.getMemberCreator( ),200 );
@@ -59,8 +54,8 @@ public class BufferedStructureArrayTest extends TestCase
 		}
 		list.close( );
 	}
-	
-	public void testMemberForTest1( ) throws IOException
+	@Test
+    public void testMemberForTest1( ) throws IOException
 	{
 		int objectNumber = 10001;
 		BufferedStructureArray list = new BufferedStructureArray( MemberForTest.getMemberCreator( ),200 );
@@ -83,8 +78,8 @@ public class BufferedStructureArrayTest extends TestCase
 		}
 		list.close( );
 	}
-	
-	public void testMemberForTest2( ) throws IOException
+	@Test
+    public void testMemberForTest2( ) throws IOException
 	{
 		int objectNumber1 = 5401;
 		int objectNumber2 = 2000;
@@ -109,8 +104,8 @@ public class BufferedStructureArrayTest extends TestCase
 		}
 		list.close( );
 	}
-	
-	public void testMemberForTest3( ) throws IOException
+	@Test
+    public void testMemberForTest3( ) throws IOException
 	{
 		int objectNumber = 10001;
 		BufferedStructureArray list = new BufferedStructureArray( MemberForTest.getMemberCreator( ),200 );
@@ -122,8 +117,8 @@ public class BufferedStructureArrayTest extends TestCase
 		}
 		list.close( );
 	}
-	
-	public void testStress( ) throws IOException
+	@Test
+    public void testStress( ) throws IOException
 	{
 		long startTime = System.currentTimeMillis( );
 		int objectNumber = 100000;

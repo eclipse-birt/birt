@@ -14,19 +14,24 @@ package org.eclipse.birt.data.engine.olap.util;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  */
 
-public class OlapExpressionUtilTest extends TestCase
-{
+public class OlapExpressionUtilTest {
 	/**
 	 * @throws DataException 
 	 * 
 	 */
-	public void testGetTargetLevel( ) throws DataException
+	@Test
+    public void testGetTargetLevel( ) throws DataException
 	{
 		assertEquals( "level1",
 				OlapExpressionUtil.getTargetDimLevel( "dimension[\"dim1\"][\"level1\"]" ).getLevelName() );
@@ -39,8 +44,8 @@ public class OlapExpressionUtilTest extends TestCase
 					ex.getErrorCode());
 		}
 	}
-	
-	public void testComplexDimensionExpression( ) 
+	@Test
+    public void testComplexDimensionExpression( ) 
 	{
 		String expr = "var kind = dimension[\"Group1\"][\"Field1\"][\"Attribute1\"]\n"
 				+ "var numerator = data[\"Data Column Binding1\"]\n"
