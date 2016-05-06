@@ -13,6 +13,7 @@
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
 		<!--<build>v${maven.build.timestamp}</build>-->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
+		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -209,7 +210,17 @@
 						<archive>
 						  <addMavenDescriptor>false</addMavenDescriptor>
 						</archive>
+						<sourceReferences>
+							<generate>true</generate>
+						</sourceReferences>
 					</configuration>
+					<dependencies>
+						<dependency>
+							<groupId>org.eclipse.tycho.extras</groupId>
+							<artifactId>tycho-sourceref-jgit</artifactId>
+							<version>${tycho.version}</version>
+						</dependency>
+					</dependencies>
 				</plugin>
 				<plugin>
 					<groupId>org.eclipse.tycho.extras</groupId>
