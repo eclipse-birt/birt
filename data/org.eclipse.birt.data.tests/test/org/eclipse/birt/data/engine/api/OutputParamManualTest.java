@@ -14,6 +14,7 @@ package org.eclipse.birt.data.engine.api;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.data.engine.api.querydefn.InputParameterBinding;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
@@ -22,6 +23,13 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 import testutil.BaseTestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
 
 /**
  * Derby does not support DatabaseMetaData in Connection, and then
@@ -149,9 +157,10 @@ public class OutputParamManualTest extends BaseTestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void outputParamManualSetUp() throws Exception
 	{
-		super.setUp( );
+
 
 		System.setProperty( "BIRT_HOME", "./test" );
 		System.setProperty( "PROPERTY_RUN_UNDER_ECLIPSE", "false" );
@@ -159,20 +168,25 @@ public class OutputParamManualTest extends BaseTestCase
 	}
 
 	/**
-	 * Test disk based feature
-	 * 
-	 * @throws BirtException
-	 * @throws Exception
+	 * Test disk based feature.
+	 * This test is using net.sourceforge.jtds.jdbc.Driver to access SQL server which is not
+	 * included in default package. The JDBC driver has to installed in order for the test
+	 * to pass. 
 	 */
-	public void testOutputParameter( ) throws BirtException, Exception
+	@Ignore("Test must be run manually")
+	@Test
+    public void testOutputParameter( ) throws BirtException, Exception
 	{
 		// prepare
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
 				null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine de = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine de = DataEngine.newDataEngine( platformConfig, context );
 		de.defineDataSource( this.getDataSource( ) );
 		de.defineDataSet( this.getDataSet( ) );
 

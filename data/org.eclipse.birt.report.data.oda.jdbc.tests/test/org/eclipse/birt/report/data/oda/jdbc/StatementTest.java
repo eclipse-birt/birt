@@ -16,17 +16,21 @@ import java.sql.Date;
 import java.sql.Time;
 import java.sql.Timestamp;
 
-import junit.framework.TestCase;
 
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * Test case for Statement
  * 
  */
-public class StatementTest extends TestCase
-{
+public class StatementTest {
 
 	private final static String SELECT_SQL = "select * from "
 			+ TestUtil.TABLE_NAME;
@@ -57,9 +61,10 @@ public class StatementTest extends TestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void statementSetUp() throws Exception
 	{
-		super.setUp( );
+
 		TestUtil.createTestData( );
 		conn = TestUtil.openConnection( );
 		stmt = (Statement) conn.newQuery( "" );
@@ -71,7 +76,8 @@ public class StatementTest extends TestCase
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void statementTearDown() throws Exception
 	{
 		stmt.close( );
 		conn.close( );
@@ -79,7 +85,6 @@ public class StatementTest extends TestCase
 		jdbcPrepStmt.close( );
 		jdbcConn.close( );
 		TestUtil.deleteTestData( );
-		super.tearDown( );
 	}
 
 	/**
@@ -87,18 +92,15 @@ public class StatementTest extends TestCase
 	 * 
 	 * @param arg0
 	 */
-	public StatementTest( String arg0 )
-	{
-		super( arg0 );
-	}
 
-	public void testPrepare( ) throws Exception
+	@Test
+    public void testPrepare( ) throws Exception
 	{
 		stmt.prepare( SELECT_SQL );
 		assertTrue( stmt.execute( ) );
 	}
-
-	public void testClose( )
+	@Test
+    public void testClose( )
 	{
 		try
 		{
@@ -131,8 +133,8 @@ public class StatementTest extends TestCase
 		{
 		}
 	}
-
-	public void testSetGetMaxRows( ) throws Exception
+	@Test
+    public void testSetGetMaxRows( ) throws Exception
 	{
 		assertEquals( stmt.getMaxRows( ), -1 );
 		stmt.setMaxRows( 1 );
@@ -146,7 +148,8 @@ public class StatementTest extends TestCase
 	/*
 	 * Class under test for IResultSetMetaData getMetaData()
 	 */
-	public void testGetMetaData( ) throws Exception
+	@Test
+    public void testGetMetaData( ) throws Exception
 	{
 		try
 		{
@@ -164,7 +167,8 @@ public class StatementTest extends TestCase
 	/*
 	 * Class under test for IResultSet executeQuery()
 	 */
-	public void testExecuteQuery( ) throws Exception
+	@Test
+    public void testExecuteQuery( ) throws Exception
 	{
 		stmt.prepare( SELECT_SQL );
 		assertNotNull( stmt.executeQuery( ) );
@@ -174,7 +178,8 @@ public class StatementTest extends TestCase
 	/*
 	 * Class under test for void setInt(int, int)
 	 */
-	public void testSetIntintint( ) throws Exception
+	@Test
+    public void testSetIntintint( ) throws Exception
 	{
 		stmt.prepare( SELECT_SQL + " where col3 = ?" );
 		stmt.setInt( 1, 0 );
@@ -185,7 +190,8 @@ public class StatementTest extends TestCase
 	/*
 	 * Class under test for void setDouble(int, double)
 	 */
-	public void testSetDoubleintdouble( ) throws Exception
+	@Test
+    public void testSetDoubleintdouble( ) throws Exception
 	{
 		stmt.prepare( SELECT_SQL + " where col2 = ?" );
 		stmt.setDouble( 1, 0.0 );
@@ -196,7 +202,8 @@ public class StatementTest extends TestCase
 	/*
 	 * Class under test for void setBigDecimal(int, BigDecimal)
 	 */
-	public void testSetBigDecimalintBigDecimal( ) throws Exception
+	@Test
+    public void testSetBigDecimalintBigDecimal( ) throws Exception
 	{
 		stmt.prepare( SELECT_SQL + " where col0 = ?" );
 		stmt.setBigDecimal( 1, new BigDecimal( "1111" ) );
@@ -207,7 +214,8 @@ public class StatementTest extends TestCase
 	/*
 	 * Class under test for void setString(int, String)
 	 */
-	public void testSetStringintString( ) throws Exception
+	@Test
+    public void testSetStringintString( ) throws Exception
 	{
 		stmt.prepare( SELECT_SQL + " where col4 = ?" );
 		stmt.setString( 1, "00" );
@@ -218,7 +226,8 @@ public class StatementTest extends TestCase
 	/*
 	 * Class under test for void setDate(int, Date)
 	 */
-	public void testSetDateintDate( ) throws Exception
+	@Test
+    public void testSetDateintDate( ) throws Exception
 	{
 		stmt.prepare(SELECT_SQL + " where col1 = ?");
 		stmt.setDate(1, Date.valueOf("2000-01-01"));
@@ -229,7 +238,8 @@ public class StatementTest extends TestCase
 	/*
 	 * Class under test for void setTime(int, Time)
 	 */
-	public void testSetTimeintTime( ) throws Exception
+	@Test
+    public void testSetTimeintTime( ) throws Exception
 	{
 		stmt.prepare(SELECT_SQL + " where col5 = ?");
 		stmt.setTime(1, Time.valueOf("12:00:01"));
@@ -240,15 +250,16 @@ public class StatementTest extends TestCase
 	/*
 	 * Class under test for void setTimestamp(int, Timestamp)
 	 */
-	public void testSetTimestampintTimestamp( ) throws Exception
+	@Test
+    public void testSetTimestampintTimestamp( ) throws Exception
 	{
 		stmt.prepare( SELECT_SQL + " where col6 = ?" );
 		stmt.setTimestamp( 1, Timestamp.valueOf("2000-01-01 12:00:00.0000"));
 		ResultSet rs = (ResultSet) stmt.executeQuery( );
 		assertTrue( rs.next( ) );
 	}
-
-	public void testGetParameterMetaData( ) throws Exception
+	@Test
+    public void testGetParameterMetaData( ) throws Exception
 	{
 		stmt.prepare( SELECT_SQL_W_PARAMS );
 		jdbcPrepStmt = jdbcConn.prepareStatement( SELECT_SQL_W_PARAMS );
@@ -262,8 +273,8 @@ public class StatementTest extends TestCase
 					jdbcPrepStmt.getParameterMetaData( ).getParameterType( i ) );
 		}
 	}
-
-	public void testClearInParameters() throws Exception
+	@Test
+    public void testClearInParameters() throws Exception
 	{
 		stmt.prepare( SELECT_SQL + " where col6 = ?" );
 		stmt.setTimestamp( 1, Timestamp.valueOf("2000-01-01 12:00:00.0000") );

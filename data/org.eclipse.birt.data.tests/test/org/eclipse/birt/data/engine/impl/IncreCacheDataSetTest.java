@@ -37,6 +37,12 @@ import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
@@ -61,9 +67,10 @@ public class IncreCacheDataSetTest extends APITestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void increCacheDataSetSetUp() throws Exception
 	{
-		super.setUp( );
+
 		defineDataSourceAndDataSet( );
 		String configName = "testIncreCacheConfig.txt";
 		URL url = this.getClass( ).getResource( "input/" + configName );
@@ -73,13 +80,13 @@ public class IncreCacheDataSetTest extends APITestCase
 	/*
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( ) throws Exception
+	@After
+    public void increCacheDataSetTearDown() throws Exception
 	{
 		dataEngine.shutdown( );
 		// clear persistent cache to void conflict with other test cases
 		getDataSetCacheManager( dataEngine ).clearCache( dataSource, dataSet );
 		getDataSetCacheManager( (DataEngineImpl) dataEngine ).resetForTest( );
-		super.tearDown( );
 	}
 
 	/**
@@ -181,7 +188,8 @@ public class IncreCacheDataSetTest extends APITestCase
 	/**
 	 * Test feature of whether incremental cache will be used
 	 */
-	public void testBasicIncreCache( )
+	@Test
+    public void testBasicIncreCache( )
 	{
 		try
 		{
@@ -198,7 +206,8 @@ public class IncreCacheDataSetTest extends APITestCase
 	/**
 	 * 
 	 */
-	public void testUpdateIncreCache( )
+	@Test
+    public void testUpdateIncreCache( )
 	{
 		try
 		{

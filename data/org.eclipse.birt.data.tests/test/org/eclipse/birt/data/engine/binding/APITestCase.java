@@ -14,10 +14,12 @@ package org.eclipse.birt.data.engine.binding;
 import java.util.Map;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
@@ -26,6 +28,7 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
@@ -33,6 +36,7 @@ import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
+import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.BaseTestCase;
 import testutil.JDBCDataSource;
@@ -41,6 +45,13 @@ import testutil.TestDataSource;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
 
 /**
  * Base class for test cases that work with Data Engine public API
@@ -71,31 +82,35 @@ abstract public class APITestCase extends BaseTestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void apiSetUp() throws Exception
 	{
-		super.setUp( );
+
 		
 		defaultTimeZone = TimeZone.getDefault( );
 		TimeZone.setDefault( TimeZone.getTimeZone( "GMT" ) );
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				jsScope,
+				this.scriptContext,
+				null,
 				null,
 				null );
 		context.setTmpdir( this.getTempDir( ) );
-		dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig cfg = new PlatformConfig();
+		cfg.setTempDir(this.getTempDir( ));
+		dataEngine = DataEngine.newDataEngine( cfg, context );
 		prepareDataSource( );
 	}
 	
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void apiTearDown() throws Exception
 	{
 		dataEngine.shutdown( );
 		closeDataSource( );
 		
 		TimeZone.setDefault( defaultTimeZone );
-		super.tearDown( );
 	}
 	
 	/**
@@ -425,8 +440,9 @@ abstract public class APITestCase extends BaseTestCase
 	 * 
 	 * @param dataSetName
 	 * @return default query definition
+	 * @throws DataException 
 	 */
-	protected IQueryDefinition getDefaultQueryDefn( String dataSetName )
+	protected IQueryDefinition getDefaultQueryDefn( String dataSetName ) throws DataException
 	{
 		return Util.instance.getDefaultQueryDefn( dataSetName );
 	}
@@ -435,9 +451,10 @@ abstract public class APITestCase extends BaseTestCase
 	 * Return default query definition with subquery
 	 * @param dataSetName
 	 * @return default query definition with subquery
+	 * @throws DataException 
 	 */
 	protected IQueryDefinition getDefaultQueryDefnWithSubQuery(
-			String dataSetName )
+			String dataSetName ) throws DataException
 	{
 		return Util.instance.getDefaultQueryDefnWithSubQuery( dataSetName );
 	}
@@ -470,8 +487,9 @@ abstract public class APITestCase extends BaseTestCase
 		 * Create a general Query with groups,sorts and subquery
 		 * @param dataSetName
 		 * @return queryDefn
+		 * @throws DataException 
 		 */
-		protected IQueryDefinition getDefaultQueryDefn( String dataSetName ) 
+		protected IQueryDefinition getDefaultQueryDefn( String dataSetName ) throws DataException 
 		{	
 			
 			String[] bindingNameGroup = new String[3];
@@ -524,6 +542,7 @@ abstract public class APITestCase extends BaseTestCase
 				SortDefinition[] sortDefn, String[] bindingNameFilter,
 				IBaseExpression[] bindingExprFilter, FilterDefinition[] filterDefn,
 				String[] bindingNameRow, IBaseExpression[] bindingExprRow, String dataSetName )
+						throws DataException
 		{
 			QueryDefinition queryDefn = new QueryDefinition();
 			queryDefn.setDataSetName(dataSetName);
@@ -533,7 +552,9 @@ abstract public class APITestCase extends BaseTestCase
 			{
 				if ( bindingNameGroup != null )
 					for ( int i = 0; i < bindingNameGroup.length; i++ )
-						queryDefn.addResultSetExpression( bindingNameGroup[i],
+						APITestCase.addResultSetExpression(
+								queryDefn,
+								bindingNameGroup[i],
 								bindingExprGroup[i] );
 				for ( int i = 0; i < groupDefn.length; i++ )
 					queryDefn.addGroup( groupDefn[i] );
@@ -543,7 +564,9 @@ abstract public class APITestCase extends BaseTestCase
 			{
 				if ( bindingNameSort != null )
 					for ( int i = 0; i < bindingNameSort.length; i++ )
-						queryDefn.addResultSetExpression( bindingNameSort[i],
+						APITestCase.addResultSetExpression(
+								queryDefn,
+								bindingNameSort[i],
 								bindingExprSort[i] );
 				for ( int i = 0; i < sortDefn.length; i++ )
 					queryDefn.addSort( sortDefn[i] );
@@ -552,7 +575,9 @@ abstract public class APITestCase extends BaseTestCase
 			// add value retrive tansformation
 			if (bindingNameRow != null)
 				for (int i = 0; i < bindingNameRow.length; i++)
-					queryDefn.addResultSetExpression(bindingNameRow[i],
+					APITestCase.addResultSetExpression(
+							queryDefn,
+							bindingNameRow[i],
 							expressions[i]);
 			return queryDefn;
 
@@ -561,8 +586,9 @@ abstract public class APITestCase extends BaseTestCase
 		/**
 		 * Get query definition with sub query
 		 * @return queryDefn
+		 * @throws DataException 
 		 */
-		protected IQueryDefinition getDefaultQueryDefnWithSubQuery( String dataSetName )
+		protected IQueryDefinition getDefaultQueryDefnWithSubQuery( String dataSetName ) throws DataException
 		{
 			IQueryDefinition queryDefn = getDefaultQueryDefn( dataSetName );
 			
@@ -585,8 +611,10 @@ abstract public class APITestCase extends BaseTestCase
 			for (int k = 0; k < subGroupDefn.length; k++) {
 				if (bindingNameGroup != null)
 					for (int i = 0; i < bindingNameGroup.length; i++)
-						subqueryDefn.addResultSetExpression(
-								bindingNameGroup[i], bindingExprGroup[i]);
+						APITestCase.addResultSetExpression(
+								subqueryDefn,
+								bindingNameGroup[i],
+								bindingExprGroup[i]);
 				
 				for (int i = 0; i < subGroupDefn.length; i++)
 					subqueryDefn.addGroup(subGroupDefn[i]);
@@ -610,8 +638,10 @@ abstract public class APITestCase extends BaseTestCase
 				{
 					if ( bindingNameGroup != null )
 						for ( int i = 0; i < bindingNameGroup.length; i++ )
-							subSubqueryDefn.addResultSetExpression( bindingNameGroup[i],
-								bindingExprGroup[i] );
+							APITestCase.addResultSetExpression(
+									subqueryDefn,
+									bindingNameGroup[i],
+									bindingExprGroup[i] );
 
 					for ( int i = 0; i < subSubGroupDefn.length; i++ )
 						subSubqueryDefn.addGroup( subSubGroupDefn[i] );
@@ -711,7 +741,9 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			if ( bindingNameGroup != null )
 				for ( int i = 0; i < bindingNameGroup.length; i++ )
-					queryDefn.addResultSetExpression( bindingNameGroup[i],
+					this.addResultSetExpression(
+							queryDefn,
+							bindingNameGroup[i],
 							bindingExprGroup[i] );
 			for ( int i = 0; i < groupDefn.length; i++ )
 				queryDefn.addGroup( groupDefn[i] );
@@ -721,7 +753,9 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			if ( bindingNameSort != null )
 				for ( int i = 0; i < bindingNameSort.length; i++ )
-					queryDefn.addResultSetExpression( bindingNameSort[i],
+					this.addResultSetExpression( 
+							queryDefn,
+							bindingNameSort[i],
 							bindingExprSort[i] );
 			for ( int i = 0; i < sortDefn.length; i++ )
 				queryDefn.addSort( sortDefn[i] );
@@ -731,7 +765,9 @@ abstract public class APITestCase extends BaseTestCase
 		{
 			if ( bindingNameFilter != null )
 				for ( int i = 0; i < bindingNameFilter.length; i++ )
-					queryDefn.addResultSetExpression( bindingNameFilter[i],
+					this.addResultSetExpression(
+							queryDefn,
+							bindingNameFilter[i],
 							bindingExprFilter[i] );
 			for ( int i = 0; i < filterDefn.length; i++ )
 				queryDefn.addFilter( filterDefn[i] );
@@ -740,10 +776,23 @@ abstract public class APITestCase extends BaseTestCase
 		// add value retrive tansformation
 		if ( bindingNameRow != null )
 			for ( int i = 0; i < bindingNameRow.length; i++ )
-				queryDefn.addResultSetExpression( bindingNameRow[i],
+				this.addResultSetExpression(
+						queryDefn,
+						bindingNameRow[i],
 						bindingExprRow[i] );
 
 		return queryDefn;
 	}
+	
+	private static void addResultSetExpression(IBaseQueryDefinition definition, String name, IBaseExpression expression) throws DataException
+	{
+		Binding binding = new Binding( name );
+		binding.setExpression(expression );
+		if ( expression != null )
+			binding.setDataType( expression.getDataType( ) );
+		definition.addBinding( binding );
+	}
+	
+	
 	
 }

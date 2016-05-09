@@ -17,30 +17,36 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
-public class ConnectionTest extends APITestCase
+abstract public class ConnectionTest extends APITestCase
 {
 	
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void connectionSetUp() throws Exception
 	{
 		System.setProperty( "DTETest.otherDB", "true" );
-		super.setUp( );
 	}
 	
 	/*
 	 *  (non-Javadoc)
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void connectionTearDown() throws Exception
 	{
-		super.tearDown( );		
 		System.setProperty( "DTETest.otherDB","false");
 	}
 	
@@ -57,7 +63,8 @@ public class ConnectionTest extends APITestCase
 	/*
 	 * An Empyt ReportQueryDefn
 	 */
-	public void testConnection( ) throws Exception
+	@Test
+    public void testConnection( ) throws Exception
 	{
 		IBaseExpression[] expressions = new IBaseExpression[]{
 				new ScriptExpression( "dataSetRow.CLIENTID", 0 ),

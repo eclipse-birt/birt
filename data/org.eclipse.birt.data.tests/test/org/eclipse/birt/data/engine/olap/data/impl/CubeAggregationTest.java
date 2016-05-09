@@ -74,6 +74,12 @@ import org.mozilla.javascript.ImporterTopLevel;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
@@ -105,7 +111,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp() throws Exception
+	@Before
+    public void cubeAggregationSetUp() throws Exception
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
@@ -118,17 +125,17 @@ public class CubeAggregationTest extends BaseTestCase
 		createCube1( documentManager );
 		cx = new ScriptContext();
 		createCube1QueryDefn( );
-		super.setUp( );
+
 	}
 	
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void cubeAggregationTearDown() throws Exception
 	{		
 		documentManager.close( );
 		engine.shutdown( );
-		super.tearDown( );
 	}
 	
 	
@@ -148,7 +155,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testRAAggregation1( ) throws IOException, BirtException
+	@Test
+    public void testRAAggregation1( ) throws IOException, BirtException
 	{
 		IDocArchiveWriter writer = createRAWriter( );
 		materializer.saveCubeToReportDocument( "cube1", writer , new StopSign( ) );
@@ -321,9 +329,8 @@ public class CubeAggregationTest extends BaseTestCase
 		cube.create( CubeUtility.getKeyColNames(dimensions), dimensions, factTable2, measureColumnName, new StopSign( ) );
 		documentManager.flush( );
 	}
-
-	
-	public void testCube1Aggregation( ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1Aggregation( ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -446,8 +453,8 @@ public class CubeAggregationTest extends BaseTestCase
 			resultSet[i].close( );
 		}
 	}
-	
-	public void testCube1AggregationWithFunctionFilter( ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggregationWithFunctionFilter( ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -483,8 +490,8 @@ public class CubeAggregationTest extends BaseTestCase
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(20) );
 		
 	}
-	
-	public void testCube1AggregationWithMeasureFilter( ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggregationWithMeasureFilter( ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -523,8 +530,8 @@ public class CubeAggregationTest extends BaseTestCase
 		assertEquals( resultSet[0].getAggregationValue( 0 ), new Double(20) );
 		
 	}
-	
-	public void testEmptyAggregation( ) throws IOException, DataException, BirtException
+	@Test
+    public void testEmptyAggregation( ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -572,8 +579,8 @@ public class CubeAggregationTest extends BaseTestCase
 			resultSet[i].close( );
 		}
 	}
-	
-	public void testCube1AggregationWithColPara( ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggregationWithColPara( ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -624,7 +631,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter1(  ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter1(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -675,7 +683,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter2( ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter2( ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -755,7 +764,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter3(  ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter3(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -808,7 +818,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter4(  ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter4(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -866,7 +877,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter5( ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter5( ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -935,7 +947,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter6(  ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter6(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -1017,7 +1030,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter7(  ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter7(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -1099,7 +1113,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter8(  ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter8(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -1155,7 +1170,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter9(  ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter9(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -1216,7 +1232,8 @@ public class CubeAggregationTest extends BaseTestCase
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public void testCube1AggrFilter10(  ) throws IOException, DataException, BirtException
+	@Test
+    public void testCube1AggrFilter10(  ) throws IOException, DataException, BirtException
 	{
 		//query
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( 
@@ -1303,8 +1320,8 @@ public class CubeAggregationTest extends BaseTestCase
 		documentManager.flush( );	
 		
 	}
-	
-	public void testCube2Aggregation( ) throws IOException, BirtException
+	@Test
+    public void testCube2Aggregation( ) throws IOException, BirtException
 	{
 		createCube2( );
 		CubeQueryExecutorHelper cubeQueryExcutorHelper = new CubeQueryExecutorHelper( CubeQueryExecutorHelper.loadCube( "cube2",

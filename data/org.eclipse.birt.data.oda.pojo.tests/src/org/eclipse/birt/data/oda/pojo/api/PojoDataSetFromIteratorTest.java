@@ -19,18 +19,23 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.birt.data.oda.pojo.api.IPojoDataSet;
 import org.eclipse.birt.data.oda.pojo.api.PojoDataSetFromIterator;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class PojoDataSetFromIteratorTest extends TestCase
-{
+public class PojoDataSetFromIteratorTest {
 
 	@SuppressWarnings("nls")
-	public void testNext( ) throws OdaException
+	@Test
+    public void testNext( ) throws OdaException
 	{
 		IPojoDataSet pds = new PojoDataSetFromIterator( )
 		{

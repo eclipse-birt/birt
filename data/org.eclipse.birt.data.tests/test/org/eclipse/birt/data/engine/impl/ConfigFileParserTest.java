@@ -11,6 +11,12 @@ import org.eclipse.birt.data.engine.impl.ConfigFileParser.Node;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * the test class that test whether class Node can work properly
  * 
@@ -28,7 +34,8 @@ public class ConfigFileParserTest extends BaseTestCase
 	 * 
 	 * @throws IOException
 	 */
-	public void testParseXML2DOM( ) throws IOException
+	@Test
+    public void testParseXML2DOM( ) throws IOException
 	{
 		parser = new ConfigFileParser( this.getInputFolder( "testDomTree.txt" ) );
 		node = parser.getNode( );
@@ -77,7 +84,8 @@ public class ConfigFileParserTest extends BaseTestCase
 	 * @throws IOException 
 	 * @throws DataException 
 	 */
-	public void testGetQueryTextByID( ) throws IOException, DataException
+	@Test
+    public void testGetQueryTextByID( ) throws IOException, DataException
 	{
 		initConfigFileParser();
 		assertEquals( "getQueryTextByID() failed!!!",
@@ -91,7 +99,8 @@ public class ConfigFileParserTest extends BaseTestCase
 	 * @throws IOException 
 	 * @throws DataException 
 	 */
-	public void testGetModeByID( ) throws IOException, DataException
+	@Test
+    public void testGetModeByID( ) throws IOException, DataException
 	{
 		initConfigFileParser();
 		assertEquals( "getModeByID() failed!!!",
@@ -109,7 +118,8 @@ public class ConfigFileParserTest extends BaseTestCase
 	 * @throws IOException 
 	 * @throws DataException 
 	 */
-	public void testGetTimeStampColumnByID( ) throws IOException, DataException
+	@Test
+    public void testGetTimeStampColumnByID( ) throws IOException, DataException
 	{
 		initConfigFileParser();
 		assertEquals( "getTimeStampColumnByID() failed!!!",
@@ -127,7 +137,8 @@ public class ConfigFileParserTest extends BaseTestCase
 	 * @throws IOException 
 	 * @throws DataException 
 	 */
-	public void testGetParametersByID( ) throws IOException
+	@Test
+    public void testGetParametersByID( ) throws IOException
 	{
 		initConfigFileParser();
 		assertEquals( "getParametersByID() failed!!!",
@@ -145,7 +156,8 @@ public class ConfigFileParserTest extends BaseTestCase
 	 * @throws IOException 
 	 * @throws DataException 
 	 */
-	public void testGetTSFormatByID( ) throws IOException, DataException
+	@Test
+    public void testGetTSFormatByID( ) throws IOException, DataException
 	{
 		initConfigFileParser();
 		assertEquals( "getTSFormatByID() failed!!!",

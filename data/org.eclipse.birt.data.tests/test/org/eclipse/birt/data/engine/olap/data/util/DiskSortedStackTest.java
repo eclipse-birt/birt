@@ -17,34 +17,29 @@ import java.util.Date;
 
 import org.eclipse.birt.data.engine.olap.data.util.DiskSortedStack;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class DiskSortedStackTest extends TestCase
-{
+public class DiskSortedStackTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testDistinctAsc( ) throws IOException
+@Test
+    public void testDistinctAsc( ) throws IOException
 	{
 		try
 		{
@@ -76,8 +71,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	
-	public void testDistinctAsc1( ) throws IOException
+	@Test
+    public void testDistinctAsc1( ) throws IOException
 	{
 		try
 		{
@@ -112,8 +107,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	
-	public void testDistinctAsc2( ) throws IOException
+	@Test
+    public void testDistinctAsc2( ) throws IOException
 	{
 		try
 		{
@@ -145,8 +140,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	
-	public void testDistinctAsc3( ) throws IOException
+	@Test
+    public void testDistinctAsc3( ) throws IOException
 	{
 		try
 		{
@@ -178,8 +173,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	
-	public void testNotDistinctAsc3( ) throws IOException
+	@Test
+    public void testNotDistinctAsc3( ) throws IOException
 	{
 		try
 		{
@@ -220,7 +215,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	public void testStess( ) throws IOException
+	@Test
+    public void testStess( ) throws IOException
 	{
 		try
 		{
@@ -248,8 +244,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	
-	public void testDistinctDesc( ) throws IOException
+	@Test
+    public void testDistinctDesc( ) throws IOException
 	{
 		try
 		{
@@ -281,8 +277,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	
-	public void testDistinctDesc1( ) throws IOException
+	@Test
+    public void testDistinctDesc1( ) throws IOException
 	{
 		try
 		{
@@ -307,8 +303,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	
-	public void testNotDistinctAsc( ) throws IOException
+	@Test
+    public void testNotDistinctAsc( ) throws IOException
 	{
 		try
 		{
@@ -346,8 +342,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	
-	public void testNotDistinctDesc( ) throws IOException
+	@Test
+    public void testNotDistinctDesc( ) throws IOException
 	{
 		try
 		{
@@ -385,8 +381,8 @@ public class DiskSortedStackTest extends TestCase
 			e.printStackTrace( );
 		}
 	}
-	
-	public void testNotDistinctDesc1( ) throws IOException
+	@Test
+    public void testNotDistinctDesc1( ) throws IOException
 	{
 		try
 		{

@@ -30,6 +30,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class MirrorCursorNavigatorTest extends BaseTestCase
 {
 
@@ -41,10 +47,9 @@ public class MirrorCursorNavigatorTest extends BaseTestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void mirrorCursorNavigatorSetUp() throws Exception
 	{
-		super.setUp( );
-
 		this.scope = new ImporterTopLevel( );
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				scope,
@@ -56,8 +61,8 @@ public class MirrorCursorNavigatorTest extends BaseTestCase
 		creator.createCube( de );
 		cube = creator.getCube( CubeUtility.cubeName, de );
 	}
-	
-	protected void tearDown( ) throws Exception
+	@After
+    public void mirrorCursorNavigatorTearDown() throws Exception
 	{
 		cube.close( );
 		if( de!= null )
@@ -66,8 +71,8 @@ public class MirrorCursorNavigatorTest extends BaseTestCase
 			de = null;
 		}
 	}
-
-	public void testNavigator( ) throws DataException, OLAPException
+	@Test
+    public void testNavigator( ) throws DataException, OLAPException
 	{
 		ICubeQueryDefinition cqd = creator.createMirroredQueryDefinition( "cube",
 				true );

@@ -19,6 +19,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class ResultSetTest extends QueryTest
 {
 
@@ -36,20 +42,16 @@ public class ResultSetTest extends QueryTest
 	{
 		return m_resultSet;
 	}
-
-	protected void setUp( ) throws Exception
+	@Before
+    public void resultSetSetUp() throws Exception
 	{
-		super.setUp( );
-
 		getStatement( ).execute( );
 		m_resultSet = getStatement( ).getResultSet( );
 	}
-
-	protected void tearDown( ) throws Exception
+	@After
+    public void resultSetTearDown() throws Exception
 	{
 		m_resultSet.close( );
-
-		super.tearDown( );
 	}
 
 	public final void testGetResultSetMetaData( ) throws DataException
@@ -172,8 +174,7 @@ public class ResultSetTest extends QueryTest
         // dont' have a test jdbc driver that does not have runtime result set metadata;
         // so use negative test here to check that a native data type gets ignored
         getStatement( ).close();    // do not use default setup
-        
-        super.setUp();  // prepare statement
+  // prepare statement
         
         ColumnHint columnHint = new ColumnHint( "intColumn" );
         columnHint.setDataType( Integer.class );

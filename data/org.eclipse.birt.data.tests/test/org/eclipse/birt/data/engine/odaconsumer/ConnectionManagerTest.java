@@ -29,6 +29,12 @@ import org.eclipse.datatools.connectivity.oda.util.logging.Level;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class ConnectionManagerTest extends OdaconsumerTestCase
 {
 	private ConnectionManager sm_manager;
@@ -42,13 +48,11 @@ public class ConnectionManagerTest extends OdaconsumerTestCase
 	        sm_manager = ConnectionManager.getInstance();
 		return sm_manager;
 	}
-	
-	protected void setUp() throws Exception
+	@Before
+    public void connectionManagerSetUp() throws Exception
 	{		
-		super.setUp();
-		
 		// setup below only when running the test case from own test class
-	    if( getName().equals( "testPassThruContext" ) &&
+	    if( this.getTestName().equals( "testPassThruContext" ) &&
 	        getClass().getName().endsWith( "ConnectionManagerTest" ) )
 	    {
 	        // set up test log config; clean up files in logdir
@@ -57,11 +61,11 @@ public class ConnectionManagerTest extends OdaconsumerTestCase
             TraceLogTesterUtil.getInstance().clearDirectory( m_logDir );
 	    }
 	}
-
-	protected void tearDown() throws Exception
+	@After
+    public void connectionManagerTearDown() throws Exception
 	{
 		// tear down below only when running the test case from own test class
-	    if( getName().equals( "testPassThruContext" ) &&
+	    if( this.getTestName().equals( "testPassThruContext" ) &&
 		    getClass().getName().endsWith( "ConnectionManagerTest" ) )
 	    {
 	        // turn off OdaDriver's logging
@@ -86,8 +90,6 @@ public class ConnectionManagerTest extends OdaconsumerTestCase
     	    m_testerLogConfig = null;
     	    m_logDir = null;
 	    }
-
-	    super.tearDown();
 	}
 	
 	public final void testGetInstance()
@@ -116,7 +118,7 @@ public class ConnectionManagerTest extends OdaconsumerTestCase
 	    if( ! testClassName.endsWith( "ConnectionManagerTest" ) )
 	        return;
 	    
-	    // assure the test number matches that used in setUp() 
+	    // assure the test number matches that used in connectionManagerSetUp() 
 	    assertNotNull( m_testerLogConfig );
 	    assertNotNull( m_logDir );
 	    

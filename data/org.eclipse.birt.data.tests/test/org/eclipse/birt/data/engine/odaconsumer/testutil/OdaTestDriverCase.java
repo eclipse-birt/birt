@@ -20,10 +20,14 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odaconsumer.Connection;
 import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
 
-import junit.framework.TestCase;
 
-public class OdaTestDriverCase extends TestCase
-{
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
+public abstract class OdaTestDriverCase {
     protected final String TEST_DRIVER_ID = 
         "org.eclipse.birt.data.engine.odaconsumer.testdriver";
 
@@ -49,9 +53,10 @@ public class OdaTestDriverCase extends TestCase
     /* (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception
+	@Before
+    public void odaTestDriverSetUp() throws Exception
     {
-        super.setUp();
+
         if( sm_connManager == null )
             sm_connManager = ConnectionManager.getInstance();
     }
@@ -59,7 +64,8 @@ public class OdaTestDriverCase extends TestCase
     /* (non-Javadoc)
      * @see junit.framework.TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
+	@After
+    public void odaTestDriverTearDown() throws Exception
     {
         try
         {
@@ -71,7 +77,6 @@ public class OdaTestDriverCase extends TestCase
             ex.printStackTrace();
         }
         ConnectionManager.releaseInstance();
-        super.tearDown();
     }
     
     protected ConnectionManager getConnectionManager()

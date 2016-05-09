@@ -15,17 +15,22 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.olap.data.util.OrderedDiskArray;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class OrderedDiskArrayTest extends TestCase
-{
+public class OrderedDiskArrayTest {
 	int N = 100;
-	public void testAddObject1( )
+	@Test
+    public void testAddObject1( )
 	{
 		List list = new OrderedDiskArray( );
 		for ( int i = 0; i < N; i++ )
@@ -38,8 +43,8 @@ public class OrderedDiskArrayTest extends TestCase
 			assertEquals( new Integer( i ), list.get( i ) );
 		}
 	}
-	
-	public void testAddObject2( )
+	@Test
+    public void testAddObject2( )
 	{
 		List list = new OrderedDiskArray( 10, true);
 		for ( int i = N - 1; i >= 0; i-- )
@@ -52,8 +57,8 @@ public class OrderedDiskArrayTest extends TestCase
 			assertEquals( new Integer( 90 + i ), list.get( i ) );
 		}
 	}
-	
-	public void testAddObject3( )
+	@Test
+    public void testAddObject3( )
 	{
 		List list = new OrderedDiskArray( 10, false);
 		for ( int i = 0; i < N; i++ )
@@ -66,8 +71,8 @@ public class OrderedDiskArrayTest extends TestCase
 			assertEquals( new Integer( i ), list.get( i ) );
 		}
 	}
-	
-	public void testAddObject4( )
+	@Test
+    public void testAddObject4( )
 	{
 		List list = new OrderedDiskArray( 10, false);
 		for ( int i = 0; i < N; i++ )

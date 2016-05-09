@@ -65,6 +65,12 @@ import org.mozilla.javascript.ScriptableObject;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  *  
  */
@@ -82,26 +88,16 @@ public class FactTableHelperTest2 extends BaseTestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	
-	/**
+/**
 	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableSaveAndLoad( ) throws IOException, BirtException
+	@Test
+    public void testFactTableSaveAndLoad( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
@@ -255,7 +251,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableSaveAndLoad2( ) throws IOException, BirtException
+	@Test
+    public void testFactTableSaveAndLoad2( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
@@ -388,7 +385,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableSaveAndLoad3( ) throws IOException, BirtException
+	@Test
+    public void testFactTableSaveAndLoad3( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
@@ -574,7 +572,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableSaveAndLoad4( ) throws IOException, BirtException
+	@Test
+    public void testFactTableSaveAndLoad4( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
@@ -718,7 +717,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableSaveAndLoad5( ) throws IOException, BirtException
+	@Test
+    public void testFactTableSaveAndLoad5( ) throws IOException, BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
@@ -886,8 +886,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 		assertEquals( resultSet[1].getAggregationValue( 0 ), new Double(7) );
 		closeResultSets( resultSet );
 	}
-	
-	public void testMaxAggregation() throws IOException, BirtException
+	@Test
+    public void testMaxAggregation() throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		
@@ -1013,7 +1013,8 @@ public class FactTableHelperTest2 extends BaseTestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testNestAggregation( ) throws IOException, BirtException
+	@Test
+    public void testNestAggregation( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		

@@ -10,7 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.perf;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
@@ -27,6 +26,12 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * Provide an example to use PerfTestUtil to do bench mark test.
@@ -34,8 +39,8 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
  * 
  * Make sure your defined datasource is available when running test.
  */
-public class APIPerfTest2 extends TestCase
-{
+@Ignore("ignore performance test")
+public class APIPerfTest2 {
 	/** instance of performance test utility */
 	private APIPerfTestUtil perfTest = APIPerfTestUtil.newInstance( );
 	
@@ -46,7 +51,8 @@ public class APIPerfTest2 extends TestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp()
+	@Before
+    public void apiPerfSetUp()
 	{
 		System.setProperty( "BIRT_HOME", "./test" );
 	}
@@ -56,7 +62,8 @@ public class APIPerfTest2 extends TestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testQueryWithJDBC( )
+	@Test
+    public void testQueryWithJDBC( )
 	{
 		/**
 		 * Basic info for this data set is:
@@ -235,7 +242,8 @@ public class APIPerfTest2 extends TestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testQueryWithScript( )
+	@Test
+    public void testQueryWithScript( )
 	{
 		/**
 		 * Basic info for this data set is:

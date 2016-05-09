@@ -47,36 +47,34 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
 
 import com.ibm.icu.util.ULocale;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class CubeQueryDefinitionIOUtilTest extends TestCase
-{
+public class CubeQueryDefinitionIOUtilTest {
 	private File tempFile;
 	private String queryResultID = "qurs0"; //$NON-NLS-1$
-	
-	
-	@Override
-	protected void setUp( ) throws Exception
+	@Before
+    public void cubeQueryDefinitionIOUtilSetUp() throws Exception
 	{
-		super.setUp( );
 		tempFile = File.createTempFile( CubeQueryDefinitionIOUtilTest.class.getSimpleName( ), null );
 		tempFile.deleteOnExit( );
 	}
-
-	@Override
-	protected void tearDown( ) throws Exception
+	@After
+    public void cubeQueryDefinitionIOUtilTearDown() throws Exception
 	{
-		// TODO Auto-generated method stub
-		super.tearDown( );
 		tempFile.delete( );
 	}
-
-	public void testSaveAndLoad( ) throws IOException, BirtException
+	@Test
+    public void testSaveAndLoad( ) throws IOException, BirtException
 	{
 		IDocArchiveWriter writer = new FileArchiveWriter( tempFile.getAbsolutePath( ));
 		ICubeQueryDefinition toSave = createQueryDefn( );

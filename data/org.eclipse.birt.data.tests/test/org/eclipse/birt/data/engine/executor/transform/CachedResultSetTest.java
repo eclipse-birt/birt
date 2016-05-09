@@ -18,6 +18,12 @@ import org.eclipse.birt.data.engine.i18n.DataResourceHandle;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.impl.Util;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * The test case for class
  * "org.eclipse.birt.data.engine.executor.CachedResultSet"
@@ -30,19 +36,20 @@ public class CachedResultSetTest extends Util.CachedResultSetTestHelper
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void cachedResultSetSetUp() throws Exception
 	{
-		super.setUp();
+
 		rs = this.getDefaultCachedResultSet( );
 	}
 
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void cachedResultSetTearDown() throws Exception
 	{
 		rs.close( );
-		super.tearDown();
 	}
 
 	/**
@@ -50,7 +57,8 @@ public class CachedResultSetTest extends Util.CachedResultSetTestHelper
 	 * 
 	 * @throws DataException
 	 */
-	public void testFirst( ) throws DataException
+	@Test
+    public void testFirst( ) throws DataException
 	{
 		for ( int i = 0; i < 3; i++ )
 			for ( int j = 0; j < 3; j++ )
@@ -117,7 +125,8 @@ public class CachedResultSetTest extends Util.CachedResultSetTestHelper
 	 * 
 	 * @throws DataException
 	 */
-	public void testLast( ) throws DataException
+	@Test
+    public void testLast( ) throws DataException
 	{
 		for ( int i = 0; i < 3; i++ )
 			for ( int j = 0; j < 3; j++ )
@@ -188,7 +197,8 @@ public class CachedResultSetTest extends Util.CachedResultSetTestHelper
 	 * 
 	 * @throws DataException
 	 */
-	public void testGetCurrentResult( ) throws Exception
+	@Test
+    public void testGetCurrentResult( ) throws Exception
 	{
 		for ( int i = 0; i < 3; i++ )
 			for ( int j = 0; j < 3; j++ )
@@ -220,7 +230,8 @@ public class CachedResultSetTest extends Util.CachedResultSetTestHelper
 	 * 
 	 * @throws Exception
 	 */
-	public void testGetCurrentResultIndex( ) throws Exception
+	@Test
+    public void testGetCurrentResultIndex( ) throws Exception
 	{
 		int i = 0;
 		while ( rs.next( ) )
@@ -235,7 +246,8 @@ public class CachedResultSetTest extends Util.CachedResultSetTestHelper
 	 * 
 	 * @throws DataException
 	 */
-	public void testGetStartingGroupLevel( ) throws DataException
+	@Test
+    public void testGetStartingGroupLevel( ) throws DataException
 	{
 		int[] expectedResult = this.prepareTestDataForGetStartingGroupLevel( );
 
@@ -265,7 +277,8 @@ public class CachedResultSetTest extends Util.CachedResultSetTestHelper
 	 * 
 	 * @throws DataException
 	 */
-	public void testGetEndingGroupLevel( ) throws DataException
+	@Test
+    public void testGetEndingGroupLevel( ) throws DataException
 	{
 		int[] expectedResult = this.prepareTestDataForGetEndingGroupLevel( );
 		int counter = 0;
@@ -292,7 +305,8 @@ public class CachedResultSetTest extends Util.CachedResultSetTestHelper
 	 * 
 	 * @throws DataException
 	 *//*
-	public void testGetGroupCount( ) throws DataException
+	@Test
+    public void testGetGroupCount( ) throws DataException
 	{
 		for ( int i = 0; i < 3; i++ )
 			for ( int j = 0; j < 3; j++ )
@@ -309,7 +323,8 @@ public class CachedResultSetTest extends Util.CachedResultSetTestHelper
 	 * 
 	 * @throws Exception
 	 */
-	public void testGetGroupData( ) throws Exception
+	@Test
+    public void testGetGroupData( ) throws Exception
 	{
 		CachedResultSet rs2 = this.getDefaultSubQueryCachedResultSet( );
 		for ( int i = 0; i < 3; i++ )

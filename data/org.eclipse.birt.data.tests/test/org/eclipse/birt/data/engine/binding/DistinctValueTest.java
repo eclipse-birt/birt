@@ -19,6 +19,12 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
@@ -38,16 +44,11 @@ public class DistinctValueTest extends APITestCase
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#setUp()
 	 */
-	public void setUp() throws Exception
-	{
-		super.setUp( );
-		
-	}
-	
-	/**
+/**
 	 * @throws Exception
 	 */
-	public void testBasic( ) throws Exception
+	@Test
+    public void testBasic( ) throws Exception
 	{
 		this.dataSet.setDistinctValue( true );
 		QueryDefinition queryDefn = newReportQuery( );
@@ -87,8 +88,8 @@ public class DistinctValueTest extends APITestCase
 		
 		checkOutputFile( );
 	}
-	
-	public void testQueryDistinct( ) throws Exception
+	@Test
+    public void testQueryDistinct( ) throws Exception
 	{
 		this.dataSet.setDistinctValue( false );
 		QueryDefinition queryDefn = newReportQuery( );

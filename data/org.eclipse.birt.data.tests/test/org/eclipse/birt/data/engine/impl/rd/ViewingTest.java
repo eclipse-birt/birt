@@ -43,6 +43,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
 * Test case for interactive viewing
 */
@@ -87,9 +93,10 @@ public class ViewingTest extends RDTestCase
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void viewingSetUp() throws Exception
 	{
-		super.setUp( );
+
 
 		expectedValue = new ArrayList( );
 		
@@ -112,7 +119,8 @@ public class ViewingTest extends RDTestCase
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#tearDown()
 	 */
-	public void tearDown() throws Exception
+	@After
+    public void viewingTearDown() throws Exception
 	{
 		if( myPreDataEngine != null )
 		{
@@ -126,13 +134,13 @@ public class ViewingTest extends RDTestCase
 			myPreDataEngine2.clearCache( dataSource, dataSet );
 			myPreDataEngine2 = null;
 		}
-		super.tearDown( );
 	}
 	
 	/**
 	 * @throws BirtException
 	 */
-	public void testBasicIV( ) throws Exception
+	@Test
+    public void testBasicIV( ) throws Exception
 	{
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
@@ -152,7 +160,8 @@ public class ViewingTest extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testBasicIV2( ) throws Exception
+	@Test
+    public void testBasicIV2( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.genBasicIV( );
@@ -173,7 +182,8 @@ public class ViewingTest extends RDTestCase
 	 * With group
 	 * @throws BirtException
 	 */
-	public void testBasicIV3( ) throws Exception
+	@Test
+    public void testBasicIV3( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.genBasicIV( );
@@ -195,7 +205,8 @@ public class ViewingTest extends RDTestCase
 	 * With group and filter
 	 * @throws BirtException
 	 */
-	public void testBasicIV4( ) throws Exception
+	@Test
+    public void testBasicIV4( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -218,7 +229,8 @@ public class ViewingTest extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testBasicIV5( ) throws Exception
+	@Test
+    public void testBasicIV5( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -241,7 +253,8 @@ public class ViewingTest extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testSourceQueryIV1( ) throws Exception
+	@Test
+    public void testSourceQueryIV1( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -271,8 +284,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testSourceQueryIV1withDistinct4( ) throws Exception
+	@Test
+    public void testSourceQueryIV1withDistinct4( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -307,8 +320,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testSourceQueryIV1withMaxRow( ) throws Exception
+	@Test
+    public void testSourceQueryIV1withMaxRow( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -340,8 +353,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testSourceQueryIV1withDistinct( ) throws Exception
+	@Test
+    public void testSourceQueryIV1withDistinct( ) throws Exception
 	{
 		this.genNotDistinctBasicIV( );
 		this.closeArchiveWriter( );
@@ -376,8 +389,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testSourceQueryIV1withDistinct1( ) throws Exception
+	@Test
+    public void testSourceQueryIV1withDistinct1( ) throws Exception
 	{
 		this.genNotDistinctBasicIV( );
 		this.closeArchiveWriter( );
@@ -428,8 +441,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testSourceQueryIV1withDistinct2( ) throws Exception
+	@Test
+    public void testSourceQueryIV1withDistinct2( ) throws Exception
 	{
 		this.genNotDistinctBasicIV( );
 		this.closeArchiveWriter( );
@@ -479,8 +492,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testSourceQueryIV1withDistinct3( ) throws Exception
+	@Test
+    public void testSourceQueryIV1withDistinct3( ) throws Exception
 	{
 		this.genNotDistinctBasicIV( );
 		this.closeArchiveWriter( );
@@ -513,8 +526,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testSourceQueryIVLikeFilter( ) throws Exception
+	@Test
+    public void testSourceQueryIVLikeFilter( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -546,7 +559,8 @@ public class ViewingTest extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testSourceQueryIV2( ) throws Exception
+	@Test
+    public void testSourceQueryIV2( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -579,7 +593,8 @@ public class ViewingTest extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testSourceQueryIVWithGroup( ) throws Exception
+	@Test
+    public void testSourceQueryIVWithGroup( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = false;
@@ -613,8 +628,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testSourceSubQueryIV( ) throws Exception
+	@Test
+    public void testSourceSubQueryIV( ) throws Exception
 	{
 		this.GEN_add_filter = false;
 		this.GEN_add_group = true;
@@ -684,7 +699,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.genBasicIV( );
@@ -711,7 +727,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV1( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV1( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.genBasicIV( );
@@ -738,7 +755,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV_testAggr1( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testAggr1( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -769,7 +787,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV2( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV2( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -797,7 +816,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV_testAggr2( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testAggr2( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -828,7 +848,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV3( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV3( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -857,7 +878,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV_testAggr3( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testAggr3( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -889,7 +911,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV4( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV4( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -913,8 +936,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testFilterByGroupInstanceIV_testAggr4( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testAggr4( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -947,7 +970,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV5( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV5( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -971,8 +995,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testFilterByGroupInstanceIV_testAggr5( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testAggr5( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -1005,7 +1029,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV6( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV6( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_useDetail = false;
@@ -1028,8 +1053,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testFilterByGroupInstanceIV_testAggr6( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testAggr6( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -1061,7 +1086,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV7( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV7( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -1086,9 +1112,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	
-	public void testFilterByGroupInstanceIV_testAggr7( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testAggr7( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -1121,7 +1146,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV8( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV8( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_useDetail = false;
@@ -1148,7 +1174,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV9( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV9( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_useDetail = true;
@@ -1170,8 +1197,8 @@ public class ViewingTest extends RDTestCase
 		this._preBasicIV( query );
 		this.closeArchiveReader( );
 	}
-	
-	public void testSummaryTable( ) throws Exception
+	@Test
+    public void testSummaryTable( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		QueryDefinition genquery = this.newGenIVReportQuery( );
@@ -1196,8 +1223,8 @@ public class ViewingTest extends RDTestCase
 
 		this.checkOutputFile( );
 	}
-	
-	public void testFilterByGroupInstanceIV_testAggr( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testAggr( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -1229,7 +1256,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV10( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV10( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -1258,7 +1286,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV_testDataExtr1( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testDataExtr1( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -1296,7 +1325,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance, add a filter 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV_testDataExtr2( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testDataExtr2( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -1338,7 +1368,8 @@ public class ViewingTest extends RDTestCase
 	 * Test filter by group instance, add a filter 
 	 * @throws BirtException
 	 */
-	public void testFilterByGroupInstanceIV_testDataExtr3( ) throws Exception
+	@Test
+    public void testFilterByGroupInstanceIV_testDataExtr3( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_secondGroup = true;
@@ -1407,7 +1438,8 @@ public class ViewingTest extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testBasicIV6() throws Exception {
+	@Test
+    public void testBasicIV6() throws Exception {
 		this.GEN_add_filter = false;
 		this.GEN_add_group = false;
 		this.genBasicIV();
@@ -1482,8 +1514,8 @@ public class ViewingTest extends RDTestCase
 		qr.close( );
 		myGenDataEngine.shutdown( );
 	}
-	
-	public void testSourceQueryWithDistinctAndAutoBinding( ) throws BirtException
+	@Test
+    public void testSourceQueryWithDistinctAndAutoBinding( ) throws BirtException
 	{
 		QueryDefinition sourceQuery = newReportQuery( true );
 		
@@ -1911,7 +1943,8 @@ public class ViewingTest extends RDTestCase
 	 * With group and filter
 	 * @throws BirtException
 	 */
-	public void testBasicIVSubQuery( ) throws Exception
+	@Test
+    public void testBasicIVSubQuery( ) throws Exception
 	{
 		this.GEN_add_filter = false;
 		this.GEN_add_group = true;

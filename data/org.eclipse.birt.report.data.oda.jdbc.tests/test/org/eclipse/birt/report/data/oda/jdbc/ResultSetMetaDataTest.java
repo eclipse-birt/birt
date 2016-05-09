@@ -13,15 +13,19 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.Types;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  * Test case for ResultSetMetaData
  * 
  */
-public class ResultSetMetaDataTest extends TestCase
-{
+public class ResultSetMetaDataTest {
 
 	/** Connection object, used to create statement stmt1*/
 	private Connection conn1 = null;
@@ -68,7 +72,8 @@ public class ResultSetMetaDataTest extends TestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void resultSetMetaDataSetUp() throws Exception
 	{
 		TestUtil.createTestData( );
 
@@ -94,13 +99,14 @@ public class ResultSetMetaDataTest extends TestCase
 
 		jdbcPreparedStmt = jdbcConn2.prepareStatement( sql );
 		jdbcRsmd_PreparedStmt = jdbcPreparedStmt.getMetaData( );
-		super.setUp( );
+
 	}
 
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void resultSetMetaDataTearDown() throws Exception
 	{
 		rs.close( );
 		stmt1.close( );
@@ -114,16 +120,15 @@ public class ResultSetMetaDataTest extends TestCase
 		jdbcConn2.close( );
 
 		TestUtil.deleteTestData( );
-		super.tearDown( );
 	}
-
-	public void testGetColumnCount_ResultSet( ) throws Exception
+	@Test
+    public void testGetColumnCount_ResultSet( ) throws Exception
 	{
 		assertEquals( rsmd_ResultSet.getColumnCount( ), jdbcRsmd_ResultSet
 				.getColumnCount( ) );
 	}
-
-	public void testGetColumnName_ResultSet( ) throws Exception
+	@Test
+    public void testGetColumnName_ResultSet( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_ResultSet.getColumnCount( ) + 1; i++ )
 		{
@@ -134,8 +139,8 @@ public class ResultSetMetaDataTest extends TestCase
 					.getColumnName( i ) );
 		}
 	}
-
-	public void testGetColumnLabel_ResultSet( ) throws Exception
+	@Test
+    public void testGetColumnLabel_ResultSet( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_ResultSet.getColumnCount( ) + 1; i++ )
 		{
@@ -143,8 +148,8 @@ public class ResultSetMetaDataTest extends TestCase
 					jdbcRsmd_ResultSet.getColumnLabel( i ) );
 		}
 	}
-
-	public void testGetColumnType_ResultSet( ) throws Exception
+	@Test
+    public void testGetColumnType_ResultSet( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_ResultSet.getColumnCount( ) + 1; i++ )
 		{
@@ -162,8 +167,8 @@ public class ResultSetMetaDataTest extends TestCase
 			}
 		}
 	}
-
-	public void testGetColumnTypeName_ResultSet( ) throws Exception
+	@Test
+    public void testGetColumnTypeName_ResultSet( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_ResultSet.getColumnCount( ) + 1; i++ )
 		{
@@ -171,8 +176,8 @@ public class ResultSetMetaDataTest extends TestCase
 					jdbcRsmd_ResultSet.getColumnTypeName( i ) );
 		}
 	}
-
-	public void testGetColumnDisplayLength_ResultSet( ) throws Exception
+	@Test
+    public void testGetColumnDisplayLength_ResultSet( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_ResultSet.getColumnCount( ) + 1; i++ )
 		{
@@ -180,8 +185,8 @@ public class ResultSetMetaDataTest extends TestCase
 					jdbcRsmd_ResultSet.getColumnDisplaySize( i ) );
 		}
 	}
-
-	public void testGetPrecision_ResultSet( ) throws Exception
+	@Test
+    public void testGetPrecision_ResultSet( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_ResultSet.getColumnCount( ) + 1; i++ )
 		{
@@ -189,8 +194,8 @@ public class ResultSetMetaDataTest extends TestCase
 					.getPrecision( i ) );
 		}
 	}
-
-	public void testGetScale_ResultSet( ) throws Exception
+	@Test
+    public void testGetScale_ResultSet( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_ResultSet.getColumnCount( ) + 1; i++ )
 		{
@@ -198,8 +203,8 @@ public class ResultSetMetaDataTest extends TestCase
 					.getScale( i ) );
 		}
 	}
-
-	public void testIsNullable_ResultSet( ) throws Exception
+	@Test
+    public void testIsNullable_ResultSet( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_ResultSet.getColumnCount( ) + 1; i++ )
 		{
@@ -207,14 +212,14 @@ public class ResultSetMetaDataTest extends TestCase
 					.isNullable( i ) );
 		}
 	}
-
-	public void testGetColumnCount_Statment( ) throws Exception
+	@Test
+    public void testGetColumnCount_Statment( ) throws Exception
 	{
 		assertEquals( rsmd_Statement.getColumnCount( ), jdbcRsmd_PreparedStmt
 				.getColumnCount( ) );
 	}
-
-	public void testGetColumnName_Statment( ) throws Exception
+	@Test
+    public void testGetColumnName_Statment( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_Statement.getColumnCount( ) + 1; i++ )
 		{
@@ -222,8 +227,8 @@ public class ResultSetMetaDataTest extends TestCase
 					jdbcRsmd_PreparedStmt.getColumnName( i ) );
 		}
 	}
-
-	public void testGetColumnLabel_Statment( ) throws Exception
+	@Test
+    public void testGetColumnLabel_Statment( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_Statement.getColumnCount( ) + 1; i++ )
 		{
@@ -231,8 +236,8 @@ public class ResultSetMetaDataTest extends TestCase
 					jdbcRsmd_PreparedStmt.getColumnLabel( i ) );
 		}
 	}
-
-	public void testGetColumnType_Statment( ) throws Exception
+	@Test
+    public void testGetColumnType_Statment( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_Statement.getColumnCount( ) + 1; i++ )
 		{
@@ -268,8 +273,8 @@ public class ResultSetMetaDataTest extends TestCase
 
 		return reType;
 	}
-
-	public void testGetColumnTypeName_Statment( ) throws Exception
+	@Test
+    public void testGetColumnTypeName_Statment( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_Statement.getColumnCount( ) + 1; i++ )
 		{
@@ -277,8 +282,8 @@ public class ResultSetMetaDataTest extends TestCase
 					jdbcRsmd_PreparedStmt.getColumnTypeName( i ) );
 		}
 	}
-
-	public void testGetColumnDisplayLength_Statment( ) throws Exception
+	@Test
+    public void testGetColumnDisplayLength_Statment( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_Statement.getColumnCount( ) + 1; i++ )
 		{
@@ -286,8 +291,8 @@ public class ResultSetMetaDataTest extends TestCase
 					jdbcRsmd_PreparedStmt.getColumnDisplaySize( i ) );
 		}
 	}
-
-	public void testGetPrecision_Statment( ) throws Exception
+	@Test
+    public void testGetPrecision_Statment( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_Statement.getColumnCount( ) + 1; i++ )
 		{
@@ -295,8 +300,8 @@ public class ResultSetMetaDataTest extends TestCase
 					jdbcRsmd_PreparedStmt.getPrecision( i ) );
 		}
 	}
-
-	public void testGetScale_Statment( ) throws Exception
+	@Test
+    public void testGetScale_Statment( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_Statement.getColumnCount( ) + 1; i++ )
 		{
@@ -304,8 +309,8 @@ public class ResultSetMetaDataTest extends TestCase
 					.getScale( i ) );
 		}
 	}
-
-	public void testIsNullable_Statment( ) throws Exception
+	@Test
+    public void testIsNullable_Statment( ) throws Exception
 	{
 		for ( int i = 1; i < rsmd_Statement.getColumnCount( ) + 1; i++ )
 		{

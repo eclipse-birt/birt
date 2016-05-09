@@ -25,12 +25,19 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * Test bench mark of DtE by using DtE API.
  * 
  * The test data is input from text file, and then can be done independently. 
  */
+@Ignore("Ignore performance test")
 public class APIPerfTest extends APITestCase
 {
 	/** defined query defintion */
@@ -60,7 +67,8 @@ public class APIPerfTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testQuery( ) throws Exception
+	@Test
+    public void testQuery( ) throws Exception
 	{
 		// Define queryInfo needs to be tested
 		/**
@@ -106,7 +114,8 @@ public class APIPerfTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testQueryWithFilter( ) throws Exception
+	@Test
+    public void testQueryWithFilter( ) throws Exception
 	{
 		// Define queryInfo needs to be tested
 		QueryInfo queryInfo = new QueryInfo( ) {

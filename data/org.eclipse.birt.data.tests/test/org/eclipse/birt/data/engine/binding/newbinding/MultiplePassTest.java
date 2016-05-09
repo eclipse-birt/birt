@@ -31,6 +31,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
@@ -51,7 +57,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * Test TopN and BottomN filters
 	 */
-	public void testTopBottomN( ) throws Exception
+	@Test
+    public void testTopBottomN( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = null;
@@ -142,7 +149,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * Test TopPercent and BottomPercent filters
 	 */
-	public void testTopBottomPercent( ) throws Exception
+	@Test
+    public void testTopBottomPercent( ) throws Exception
 	{
 		//		 --- begin binding
 		String[] bindingNameGroup = null;
@@ -200,7 +208,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * Test TopN and BottomN filters
 	 */
-	public void testTopBottmNwithOtherFilters( ) throws Exception
+	@Test
+    public void testTopBottmNwithOtherFilters( ) throws Exception
 	{
 		//		 --- begin binding
 		String[] bindingNameGroup = null;
@@ -270,7 +279,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * Test TopPercent and BottomPercent filters
 	 */
-	public void testTopBottmPercentWithOtherFilters( ) throws Exception
+	@Test
+    public void testTopBottmPercentWithOtherFilters( ) throws Exception
 	{
 		
 		//		 --- begin binding
@@ -328,7 +338,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * Test TopN and BottomN filters
 	 */
-	public void testInvalidFilter( ) throws Exception
+	@Test
+    public void testInvalidFilter( ) throws Exception
 	{
 		//		 --- begin binding
 		String[] bindingNameGroup = null;
@@ -401,7 +412,8 @@ public class MultiplePassTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrFilter1() throws IOException, Exception
+	@Test
+    public void testAggrFilter1() throws IOException, Exception
 	{
 		String[] bindingNameRow = new String[5];
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -453,7 +465,8 @@ public class MultiplePassTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrFilter2() throws IOException, Exception
+	@Test
+    public void testAggrFilter2() throws IOException, Exception
 	{
 		String[] bindingNameRow = new String[6];
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -516,7 +529,8 @@ public class MultiplePassTest extends APITestCase
 	 * Test feature of
 	 * 		group filtering.
 	 */
-	public void testGroupFiltering( ) throws Exception
+	@Test
+    public void testGroupFiltering( ) throws Exception
 	{
 		//		 --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -581,7 +595,8 @@ public class MultiplePassTest extends APITestCase
 	 * Test feature of
 	 * 		group sorting.
 	 */
-	public void testGroupSorting( ) throws Exception
+	@Test
+    public void testGroupSorting( ) throws Exception
 	{
 		//		 --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -649,7 +664,8 @@ public class MultiplePassTest extends APITestCase
 	 * Test feature of
 	 * 		group sorting.
 	 */
-	public void testGroupSorting2( ) throws Exception
+	@Test
+    public void testGroupSorting2( ) throws Exception
 	{
 		//		 --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -703,7 +719,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * Test feature of group filtering + sorting.
 	 */
-	public void testGroupFilteringSorting1( ) throws Exception
+	@Test
+    public void testGroupFilteringSorting1( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -764,7 +781,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * Test feature of group filtering + sorting.
 	 */
-	public void testGroupFilteringSorting2( ) throws Exception
+	@Test
+    public void testGroupFilteringSorting2( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -842,7 +860,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * Test feature of group filtering + sorting.
 	 */
-	public void testGroupFilteringSorting3( ) throws Exception
+	@Test
+    public void testGroupFilteringSorting3( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[1];
@@ -902,7 +921,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * This test is to fix a topN related bug with bugzilla bug#124447
 	 */
-	public void testGroupFilteringSorting4( ) throws Exception
+	@Test
+    public void testGroupFilteringSorting4( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[1];
@@ -969,7 +989,8 @@ public class MultiplePassTest extends APITestCase
 	 * For bug 54826, we change the logic of filters in group, 
 	 * now we first execute the simple filter then execute the multipass filter(topN, bottom N)
 	 */
-	public void testGroupFilteringSorting5( ) throws Exception
+	@Test
+    public void testGroupFilteringSorting5( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[1];
@@ -1035,7 +1056,8 @@ public class MultiplePassTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testMixedFiltering() throws Exception
+	@Test
+    public void testMixedFiltering() throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[1];
@@ -1101,8 +1123,8 @@ public class MultiplePassTest extends APITestCase
 
 		
 	}
-	
-	public void testTotalCount() throws Exception
+	@Test
+    public void testTotalCount() throws Exception
 	{
 		String[] bindingNameRow = new String[2];
 		bindingNameRow[0] = "amount";
@@ -1127,7 +1149,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testIndirectNestedTotal() throws Exception
+	@Test
+    public void testIndirectNestedTotal() throws Exception
 	{
 		String[] bindingNameRow = new String[5];
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -1156,8 +1179,8 @@ public class MultiplePassTest extends APITestCase
 				null, null,null,
 				bindingNameRow, bindingExprRow, expressions, null, null, null);
 	}
-	
-	public void testSimpleNestedTotal() throws Exception
+	@Test
+    public void testSimpleNestedTotal() throws Exception
 	{
 		String[] bindingNameRow = new String[5];
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -1208,7 +1231,8 @@ public class MultiplePassTest extends APITestCase
 	 * @throws IOException 
 	 *
 	 */
-	public void testNestedTotal() throws IOException, Exception
+	@Test
+    public void testNestedTotal() throws IOException, Exception
 	{
 		String[] bindingNameRow = new String[16];
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -1435,7 +1459,8 @@ public class MultiplePassTest extends APITestCase
 	 * @throws IOException 
 	 *
 	 */
-	public void testNestedTotal1() throws IOException, Exception
+	@Test
+    public void testNestedTotal1() throws IOException, Exception
 	{
 		String[] bindingNameRow = new String[16];
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -1623,7 +1648,8 @@ public class MultiplePassTest extends APITestCase
 	 * @throws IOException 
 	 *
 	 */
-	public void testNestedTotal2() throws IOException, Exception
+	@Test
+    public void testNestedTotal2() throws IOException, Exception
 	{
 		String[] bindingNameRow = new String[16];
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -1817,7 +1843,8 @@ public class MultiplePassTest extends APITestCase
 	 * @throws IOException 
 	 *
 	 */
-	public void testNestedTotal3() throws IOException, Exception
+	@Test
+    public void testNestedTotal3() throws IOException, Exception
 	{
 		String[] bindingNameRow = new String[5];
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -1871,7 +1898,8 @@ public class MultiplePassTest extends APITestCase
 	 * @throws IOException 
 	 *
 	 */
-	public void testNestedTotal4() throws IOException, Exception
+	@Test
+    public void testNestedTotal4() throws IOException, Exception
 	{
 		String[] bindingNameRow = new String[6];
 		bindingNameRow[0] = "ROW_COUNTRY";
@@ -1942,7 +1970,8 @@ public class MultiplePassTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testMixedMultipassFilting() throws Exception
+	@Test
+    public void testMixedMultipassFilting() throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[1];
@@ -2016,7 +2045,8 @@ public class MultiplePassTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testTop_Bottom_FilteringInGroupInstance_1() throws Exception
+	@Test
+    public void testTop_Bottom_FilteringInGroupInstance_1() throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -2075,7 +2105,8 @@ public class MultiplePassTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testTop_Bottom_FilteringInGroupInstance_2() throws Exception
+	@Test
+    public void testTop_Bottom_FilteringInGroupInstance_2() throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];
@@ -2134,7 +2165,8 @@ public class MultiplePassTest extends APITestCase
 	/**
 	 * Test multipass with column alias.
 	 */
-	public void testMultipassWithAlias( ) throws Exception
+	@Test
+    public void testMultipassWithAlias( ) throws Exception
 	{
 		ColumnDefinition cd = new ColumnDefinition("AMOUNT");
 		cd.setAlias( "A" );
@@ -2210,7 +2242,8 @@ public class MultiplePassTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testIN_FilteringInGroup( ) throws Exception
+	@Test
+    public void testIN_FilteringInGroup( ) throws Exception
 	{
 		// --- begin binding
 		String[] bindingNameGroup = new String[2];

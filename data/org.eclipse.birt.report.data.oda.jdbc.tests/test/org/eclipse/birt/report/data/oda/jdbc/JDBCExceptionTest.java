@@ -17,18 +17,22 @@ import com.ibm.icu.util.ULocale;
 import org.eclipse.birt.report.data.oda.i18n.JdbcResourceHandle;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
-import junit.framework.Assert;
-import junit.framework.TestCase;
+
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  * The class implements the unit test for JDBCException
  * 
  */
-public class JDBCExceptionTest extends TestCase
-{
-
-	public void testJDBCException( )
+public class JDBCExceptionTest {
+	@Test
+    public void testJDBCException( )
 	{
 		JdbcResourceHandle resourceHandle = new JdbcResourceHandle( ULocale.getDefault( ) );
 		
@@ -57,7 +61,7 @@ public class JDBCExceptionTest extends TestCase
 		assertEquals( je.getMessage( ),
 				resourceHandle.getMessage( ResourceConstants.DRIVER_MISSING_PROPERTIES ) );
 		/* verify the sqlState is null. */
-		Assert.assertNull( je.getSQLState( ) );
+		assertNull( je.getSQLState( ) );
 		/* verify the errorcode is what's definied. */
 		assertEquals( je.getErrorCode( ), 1111 );
 	}

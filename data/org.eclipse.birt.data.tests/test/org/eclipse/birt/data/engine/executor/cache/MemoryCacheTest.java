@@ -20,19 +20,24 @@ import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * Test next and fetch function of MemoryCacheTest
  */
-public class MemoryCacheTest extends TestCase
-{
+public class MemoryCacheTest {
 	private IResultObject[] resultObjects;
 	
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws DataException
+	@Before
+    public void memoryCacheSetUp() throws DataException
 	{
 		List columnsList = new ArrayList( );
 		ResultFieldMetadata columnMetaData = new ResultFieldMetadata( 1,
@@ -56,7 +61,8 @@ public class MemoryCacheTest extends TestCase
 	/**
 	 * Test next function
 	 */
-	public void testNext( ) throws DataException
+	@Test
+    public void testNext( ) throws DataException
 	{		
 		MemoryCache memoryCache = new MemoryCache( resultObjects,
 				resultObjects[0].getResultClass( ),
@@ -94,7 +100,8 @@ public class MemoryCacheTest extends TestCase
 	/**
 	 * Test fetch function
 	 */
-	public void testFetch( ) throws DataException
+	@Test
+    public void testFetch( ) throws DataException
 	{
 		MemoryCache memoryCache = new MemoryCache( resultObjects,
 				resultObjects[0].getResultClass( ),

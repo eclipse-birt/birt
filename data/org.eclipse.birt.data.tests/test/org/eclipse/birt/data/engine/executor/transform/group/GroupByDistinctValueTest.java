@@ -10,7 +10,7 @@
  *******************************************************************************/
 
 package org.eclipse.birt.data.engine.executor.transform.group;
-import junit.framework.TestCase;
+
 
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
@@ -18,26 +18,32 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupBy;
 import org.eclipse.birt.data.engine.odi.IQuery;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * JUnit test for GroupByDistinctValue
  */
 
-public class GroupByDistinctValueTest extends TestCase
-{
+public class GroupByDistinctValueTest {
 	protected GroupDefinition groupDefn;
 	protected GroupBy groupBy;
 	
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void groupByDistinctValueSetUp() throws Exception
 	{
 		groupDefn = new GroupDefinition();
 		groupDefn.setInterval(IGroupDefinition.NO_INTERVAL);
 		groupDefn.setIntervalRange(0);
 		
 		groupBy = this.getInstance( groupDefn );
-		super.setUp( );
+
 	}
 
 	/**
@@ -45,7 +51,8 @@ public class GroupByDistinctValueTest extends TestCase
 	 * @throws DataException
 	 *
 	 */
-	public void testIsInSameGroup( ) throws DataException
+	@Test
+    public void testIsInSameGroup( ) throws DataException
 	{
 		Object currentGroupKey;
 		Object previousGroupKey;

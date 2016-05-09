@@ -13,14 +13,18 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.SQLException;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * Test case for ResultSet
  *  
  */
-public class ResultSetTest extends TestCase
-{
+public class ResultSetTest {
 
 	private Connection conn = null;
 
@@ -39,9 +43,9 @@ public class ResultSetTest extends TestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void resultSetSetUp() throws Exception
 	{
-		super.setUp( );
 		TestUtil.createTestData( );
 		conn = TestUtil.openConnection( );
 		stmt = (Statement) conn.newQuery( "" );
@@ -57,7 +61,8 @@ public class ResultSetTest extends TestCase
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void resultSetTearDown() throws Exception
 	{
 		try
 		{
@@ -74,7 +79,6 @@ public class ResultSetTest extends TestCase
 		jdbcStmt.close( );
 		jdbcConn.close( );
 		TestUtil.deleteTestData( );
-		super.tearDown( );
 	}
 
 	/**
@@ -82,10 +86,7 @@ public class ResultSetTest extends TestCase
 	 * 
 	 * @param arg0
 	 */
-	public ResultSetTest( String arg0 )
-	{
-		super( arg0 );
-	}
+
 
 	/**
 	 * Including next(), getRow(), getDATATYPE(index), wasNull(). Compare with
@@ -93,7 +94,8 @@ public class ResultSetTest extends TestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testResultValuesByIndex( ) throws Exception
+	@Test
+    public void testResultValuesByIndex( ) throws Exception
 	{
 		assertEquals( rs.getRow( ), jdbcRs.getRow( ) );
 		/*
@@ -142,7 +144,8 @@ public class ResultSetTest extends TestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testResultValuesByColName( ) throws Exception
+	@Test
+    public void testResultValuesByColName( ) throws Exception
 	{
 		int i = 0;
 		while ( rs.next( ) )
@@ -153,13 +156,13 @@ public class ResultSetTest extends TestCase
 			assertEquals( rs.getString( colName ), jdbcRs.getString( colName ) );
 		}
 	}
-
-	public void testGetMetaData( ) throws Exception
+	@Test
+    public void testGetMetaData( ) throws Exception
 	{
 		assertNotNull( rs.getMetaData( ) );
 	}
-
-	public void testClose( ) throws Exception
+	@Test
+    public void testClose( ) throws Exception
 	{
 		rs.close( );
 		jdbcRs.close( );
@@ -189,7 +192,8 @@ public class ResultSetTest extends TestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSetMaxRows( ) throws Exception
+	@Test
+    public void testSetMaxRows( ) throws Exception
 	{
 		// test max = 0
 		int max = 0;
@@ -256,8 +260,8 @@ public class ResultSetTest extends TestCase
 		assertFalse( rs.next( ) );
 
 	}
-
-	public void testFindColumn( ) throws Exception
+	@Test
+    public void testFindColumn( ) throws Exception
 	{
 		int columnCount = jdbcRs.getMetaData( ).getColumnCount( );
 		for ( int i = 0; i < columnCount; i++ )

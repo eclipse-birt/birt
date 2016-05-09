@@ -16,6 +16,7 @@ import java.util.List;
 import org.eclipse.birt.core.archive.FileArchiveWriter;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
@@ -26,6 +27,13 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
 
 
 public class NoUpdateAggrFilterTest extends APITestCase
@@ -73,8 +81,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		
 		return query;
 	}
-	
-	public void testRowFilter1( ) throws Exception
+	@Test
+    public void testRowFilter1( ) throws Exception
 	{
 		QueryDefinition query = createQuery( );
 		
@@ -106,8 +114,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testRowFilter2( ) throws Exception
+	@Test
+    public void testRowFilter2( ) throws Exception
 	{
 		QueryDefinition query = createQuery( );
 		
@@ -139,8 +147,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testRowFilter3( ) throws Exception
+	@Test
+    public void testRowFilter3( ) throws Exception
 	{
 		QueryDefinition query = createQuery( );
 		
@@ -180,8 +188,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testRowFilter4( ) throws Exception
+	@Test
+    public void testRowFilter4( ) throws Exception
 	{
 		QueryDefinition query = createQuery( );
 		
@@ -227,8 +235,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testRowFilter5( ) throws Exception
+	@Test
+    public void testRowFilter5( ) throws Exception
 	{
 		QueryDefinition query = createQuery( );
 		
@@ -277,8 +285,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testRowFilter6( ) throws Exception
+	@Test
+    public void testRowFilter6( ) throws Exception
 	{
 		QueryDefinition query = createQuery( );
 		
@@ -312,8 +320,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testRowFilter7( ) throws Exception
+	@Test
+    public void testRowFilter7( ) throws Exception
 	{
 		QueryDefinition query = createQuery( );
 		
@@ -354,9 +362,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	
-	public void testGroupFilter1( ) throws Exception
+	@Test
+    public void testGroupFilter1( ) throws Exception
 	{
 		QueryDefinition query = super.newReportQuery( );
 		query.addBinding( new Binding( "ID", new ScriptExpression( "dataSetRow[\"ID\"]" ) ) );
@@ -425,8 +432,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testGroupFilter2( ) throws Exception
+	@Test
+    public void testGroupFilter2( ) throws Exception
 	{
 		QueryDefinition query = super.newReportQuery( );
 		query.addBinding( new Binding( "ID", new ScriptExpression( "dataSetRow[\"ID\"]" ) ) );
@@ -495,8 +502,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testGroupFilter3( ) throws Exception
+	@Test
+    public void testGroupFilter3( ) throws Exception
 	{
 		QueryDefinition query = super.newReportQuery( );
 		query.addBinding( new Binding( "ID", new ScriptExpression( "dataSetRow[\"ID\"]" ) ) );
@@ -563,8 +570,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testGroupFilter4( ) throws Exception
+	@Test
+    public void testGroupFilter4( ) throws Exception
 	{
 		QueryDefinition query = super.newReportQuery( );
 		query.addBinding( new Binding( "ID", new ScriptExpression( "dataSetRow[\"ID\"]" ) ) );
@@ -631,8 +638,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testGroupFilter5( ) throws Exception
+	@Test
+    public void testGroupFilter5( ) throws Exception
 	{
 		QueryDefinition query = super.newReportQuery( );
 		query.addBinding( new Binding( "ID", new ScriptExpression( "dataSetRow[\"ID\"]" ) ) );
@@ -699,8 +706,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testGroupFilter6( ) throws Exception
+	@Test
+    public void testGroupFilter6( ) throws Exception
 	{
 		QueryDefinition query = super.newReportQuery( );
 		query.addBinding( new Binding( "ID", new ScriptExpression( "dataSetRow[\"ID\"]" ) ) );
@@ -770,8 +777,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testGroupFilter7( ) throws Exception
+	@Test
+    public void testGroupFilter7( ) throws Exception
 	{
 		QueryDefinition query = super.newReportQuery( );
 		query.addBinding( new Binding( "ID", new ScriptExpression( "dataSetRow[\"ID\"]" ) ) );
@@ -844,8 +851,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testGroupFilter8( ) throws Exception
+	@Test
+    public void testGroupFilter8( ) throws Exception
 	{
 		QueryDefinition query = super.newReportQuery( );
 		query.addBinding( new Binding( "ID", new ScriptExpression( "dataSetRow[\"ID\"]" ) ) );
@@ -915,8 +922,8 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testGroupFilter9( ) throws Exception
+	@Test
+    public void testGroupFilter9( ) throws Exception
 	{
 		QueryDefinition query = super.newReportQuery( );
 		query.addBinding( new Binding( "ID", new ScriptExpression( "dataSetRow[\"ID\"]" ) ) );
@@ -986,19 +993,22 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void testIV1( ) throws Exception
+	@Test
+    public void testIV1( ) throws Exception
 	{
 		// Generation
 		String fileName = getOutputFolder( ) + "testIV1";
 		ArchiveWriter writer = new FileArchiveWriter( fileName );
 		writer.initialize( );
 		DataEngineContext dteContext = DataEngineContext.newInstance( DataEngineContext.MODE_GENERATION,
+				this.scriptContext,
 				null,
-				null,
-				writer );
+				writer,
+				null );
 		dteContext.setTmpdir( getTempDir( ) );
-		DataEngine dte = DataEngine.newDataEngine( dteContext );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dte = DataEngine.newDataEngine( platformConfig, dteContext );
 		dte.defineDataSource( this.dataSource );
 		dte.defineDataSet( this.dataSet );
 
@@ -1028,11 +1038,12 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		// IV add the second no update filter
 		ArchiveReader reader = new ArchiveReader( writer.getArchive( ) );
 		dteContext = DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
-				null,
+				this.scriptContext,
 				reader,
-				writer );
+				writer,
+				null );
 		dteContext.setTmpdir( getTempDir( ) );
-		dte = DataEngine.newDataEngine( dteContext );
+		dte = DataEngine.newDataEngine( platformConfig, dteContext );
 		dte.defineDataSource( this.dataSource );
 		dte.defineDataSet( this.dataSet );
 
@@ -1053,11 +1064,12 @@ public class NoUpdateAggrFilterTest extends APITestCase
 		// IV add another no update filter
 		reader = new ArchiveReader( writer.getArchive( ) );
 		dteContext = DataEngineContext.newInstance( DataEngineContext.MODE_UPDATE,
-				null,
+				this.scriptContext,
 				reader,
-				writer );
+				writer,
+				null );
 		dteContext.setTmpdir( getTempDir( ) );
-		dte = DataEngine.newDataEngine( dteContext );
+		dte = DataEngine.newDataEngine( platformConfig, dteContext );
 		dte.defineDataSource( this.dataSource );
 		dte.defineDataSet( this.dataSet );
 

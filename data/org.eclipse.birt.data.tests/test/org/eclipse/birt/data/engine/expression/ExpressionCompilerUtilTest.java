@@ -11,15 +11,19 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * test case for expression parser
  * @author Administrator
  *
  */
-public class ExpressionCompilerUtilTest extends TestCase
-{
+public class ExpressionCompilerUtilTest {
 
 	String[] oldExpressions = new String[]{
 			null,
@@ -36,8 +40,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			Messages.getString( "ExpressionUtilTest.old.10" ),
 			Messages.getString( "ExpressionUtilTest.old.11" )
 	};
-
-	public void testExpression1( )
+	@Test
+    public void testExpression1( )
 	{
 		String expression = oldExpressions[1];
 		try
@@ -50,8 +54,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testExpression2( )
+	@Test
+    public void testExpression2( )
 	{
 		String expression = oldExpressions[2];
 		try
@@ -64,8 +68,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testExpression3( )
+	@Test
+    public void testExpression3( )
 	{
 		String expression = oldExpressions[3];
 		try
@@ -78,8 +82,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testExpression4( )
+	@Test
+    public void testExpression4( )
 	{
 		String expression = oldExpressions[4];
 		try
@@ -91,8 +95,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 		{
 		}
 	}
-
-	public void testExpression5( )
+	@Test
+    public void testExpression5( )
 	{
 		String expression = oldExpressions[5];
 		try
@@ -104,8 +108,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 		{
 		}
 	}
-
-	public void testExpression6( )
+	@Test
+    public void testExpression6( )
 	{
 		String expression = oldExpressions[6];
 		try
@@ -118,8 +122,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testExpression7( )
+	@Test
+    public void testExpression7( )
 	{
 		String expression = oldExpressions[7];
 		try
@@ -131,8 +135,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 		{
 		}
 	}
-
-	public void testExpression8( )
+	@Test
+    public void testExpression8( )
 	{
 		String expression = oldExpressions[8];
 		try
@@ -145,8 +149,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testExpression9( )
+	@Test
+    public void testExpression9( )
 	{
 		String expression = oldExpressions[9];
 		try
@@ -159,8 +163,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testExpression10( )
+	@Test
+    public void testExpression10( )
 	{
 		String expression = oldExpressions[10];
 		try
@@ -173,8 +177,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testExpression11( )
+	@Test
+    public void testExpression11( )
 	{
 		String expression = oldExpressions[11];
 		try
@@ -187,8 +191,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testExpression12( )
+	@Test
+    public void testExpression12( )
 	{
 		String expression = oldExpressions[12];
 		try
@@ -201,8 +205,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testAggregationExpression13( )
+	@Test
+    public void testAggregationExpression13( )
 	{
 		String expression = "row[\"customer\"].replace(\"aa\",\"bb\")";
 		String expression2 = "( row[\"customer\"]+ row.customer ).replace(\"aa\",\"bb\")";
@@ -221,8 +225,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 			fail( "An exception occurs" );
 		}
 	}
-
-	public void testConditionalExpression( )
+	@Test
+    public void testConditionalExpression( )
 	{
 		IConditionalExpression ce1 = new ConditionalExpression( "row[\"abc\"]",
 				1,
@@ -253,7 +257,8 @@ public class ExpressionCompilerUtilTest extends TestCase
 	 * test whether there is columnReference in aggregation expression
 	 * 
 	 */
-	public void testHasRowExprInAggregation( )
+	@Test
+    public void testHasRowExprInAggregation( )
 	{
 		String expression1 = "row[\"customer\"].replace( Total.sum( row.aa ),\"bb\")";
 		String expression2 = "Total.sum( row.aaa + row.bbb )+ ccc";

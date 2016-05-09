@@ -19,6 +19,12 @@ import org.eclipse.datatools.connectivity.oda.IDriver;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class DriverManagerTest extends OdaconsumerTestCase
 {
 	public final void testGetInstance()

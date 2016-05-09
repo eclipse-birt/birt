@@ -38,6 +38,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 public class CursorNavigatorTest extends BaseTestCase
 {
@@ -49,10 +55,9 @@ public class CursorNavigatorTest extends BaseTestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void cursorNavigatorSetUp() throws Exception
 	{
-		super.setUp( );
-
 		this.scope = new ImporterTopLevel( );
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				scope,
@@ -64,8 +69,8 @@ public class CursorNavigatorTest extends BaseTestCase
 		creator.createCube( de );
 		cube = creator.getCube( CubeUtility.cubeName, de );
 	}
-	
-	protected void tearDown( ) throws Exception
+	@After
+    public void cursorNavigatorTearDown() throws Exception
 	{
 		cube.close( );
 		if( de!= null )
@@ -80,7 +85,8 @@ public class CursorNavigatorTest extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorModel1( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModel1( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
@@ -283,8 +289,8 @@ public class CursorNavigatorTest extends BaseTestCase
 		assertTrue( countryCursor.getEdgeEnd( ) == -1 );
 		close( dataCursor );
 	}
-	
-	public void testNavigator( ) throws DataException, OLAPException, IOException
+	@Test
+    public void testNavigator( ) throws DataException, OLAPException, IOException
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
@@ -346,8 +352,8 @@ public class CursorNavigatorTest extends BaseTestCase
 		checkOutputFile( );
 		close( dataCursor );
 	}
-	
-	public void testNavigatorOnSubCursor( ) throws DataException, OLAPException, IOException
+	@Test
+    public void testNavigatorOnSubCursor( ) throws DataException, OLAPException, IOException
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
@@ -451,8 +457,8 @@ public class CursorNavigatorTest extends BaseTestCase
 		
 		close( dataCursor );
 	}
-	
-	public void testNavigatorOnPage( ) throws Exception
+	@Test
+    public void testNavigatorOnPage( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefintionWithPage1( );
 		

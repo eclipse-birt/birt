@@ -18,34 +18,29 @@ import java.util.Date;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.Bytes;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class BufferedPrimitiveDiskArrayTest extends TestCase
-{
+public class BufferedPrimitiveDiskArrayTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	public void testInteger( ) throws IOException
+@Test
+    public void testInteger( ) throws IOException
 	{
 		int objectNumber = 1001;
 		BufferedPrimitiveDiskArray list = new BufferedPrimitiveDiskArray( 1 );
@@ -85,8 +80,8 @@ public class BufferedPrimitiveDiskArrayTest extends TestCase
 		list.clear( );
 		list.close( );
 	}
-	
-	public void testSpecial( ) throws IOException
+	@Test
+    public void testSpecial( ) throws IOException
 	{
 		int objectNumber = 801;
 		BufferedPrimitiveDiskArray list = new BufferedPrimitiveDiskArray( 800 );
@@ -118,8 +113,8 @@ public class BufferedPrimitiveDiskArrayTest extends TestCase
 		list.clear( );
 		list.close( );
 	}
-	
-	public void testStress( ) throws IOException
+	@Test
+    public void testStress( ) throws IOException
 	{
 		int objectNumber = 10000;
 		BufferedPrimitiveDiskArray list = new BufferedPrimitiveDiskArray( 40000 );
@@ -135,8 +130,8 @@ public class BufferedPrimitiveDiskArrayTest extends TestCase
 		list.clear( );
 		list.close( );
 	}
-
-	public void testDouble( ) throws IOException
+	@Test
+    public void testDouble( ) throws IOException
 	{
 		int objectNumber = 1001;
 		BufferedPrimitiveDiskArray list = new BufferedPrimitiveDiskArray( 700 );
@@ -151,8 +146,8 @@ public class BufferedPrimitiveDiskArrayTest extends TestCase
 		}
 		list.close( );
 	}
-
-	public void testBoolean( ) throws IOException
+	@Test
+    public void testBoolean( ) throws IOException
 	{
 		int objectNumber = 1001;
 		BufferedPrimitiveDiskArray list = new BufferedPrimitiveDiskArray( 500 );
@@ -181,8 +176,8 @@ public class BufferedPrimitiveDiskArrayTest extends TestCase
 		}
 		list.close( );
 	}
-
-	public void testString( ) throws IOException
+	@Test
+    public void testString( ) throws IOException
 	{
 		int objectNumber = 200;
 		BufferedPrimitiveDiskArray list = new BufferedPrimitiveDiskArray( 300 );
@@ -197,8 +192,8 @@ public class BufferedPrimitiveDiskArrayTest extends TestCase
 		}
 		list.close( );
 	}
-	
-	public void testBytes( ) throws IOException
+	@Test
+    public void testBytes( ) throws IOException
 	{
 		int objectNumber = 100;
 		byte[] b = null;
@@ -221,8 +216,8 @@ public class BufferedPrimitiveDiskArrayTest extends TestCase
 		}
 		list.close( );
 	}
-
-	public void testBigDecimal( ) throws IOException
+	@Test
+    public void testBigDecimal( ) throws IOException
 	{
 		int objectNumber = 3000;
 		BufferedPrimitiveDiskArray list = new BufferedPrimitiveDiskArray( 300 );
@@ -238,8 +233,8 @@ public class BufferedPrimitiveDiskArrayTest extends TestCase
 		}
 		list.close( );
 	}
-
-	public void testDate( ) throws IOException
+	@Test
+    public void testDate( ) throws IOException
 	{
 		int objectNumber = 4101;
 		BufferedPrimitiveDiskArray list = new BufferedPrimitiveDiskArray( 500 );

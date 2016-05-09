@@ -24,6 +24,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test case for DistinctValue feature
  */
@@ -64,7 +70,8 @@ public class UsesDetailFalseTest extends APITestCase
 	 * @throws Exception 
 	 * @throws Exception
 	 */
-	public void test( ) throws Exception
+	@Test
+    public void test( ) throws Exception
 	{
 		// step1: prepare querydefn, get IReportQueryDefn
 		IQueryDefinition queryDefn = prepareReportQueryDefn( dataSet.getName( ) );
@@ -87,7 +94,8 @@ public class UsesDetailFalseTest extends APITestCase
 	 * @throws Exception 
 	 * @throws Exception
 	 */
-	public void test2( ) throws Exception
+	@Test
+    public void test2( ) throws Exception
 	{
 		// step1: prepare querydefn, get IReportQueryDefn
 		IQueryDefinition queryDefn = prepareReportQueryDefn( dataSet.getName( ) );

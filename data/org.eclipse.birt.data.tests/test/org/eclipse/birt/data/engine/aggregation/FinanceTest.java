@@ -1,39 +1,32 @@
 package org.eclipse.birt.data.engine.aggregation;
 
 
-
-import junit.framework.TestCase;
-
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.impl.BuildInAggregationFactory;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IAggrFunction;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  *
  * test Finance aggregation function
  */
-public class FinanceTest extends TestCase
-{
+public class FinanceTest {
 
     private BuildInAggregationFactory buildInAggrFactory = new BuildInAggregationFactory();
 
 	/*
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
-    {
-        super.setUp();
-    }
-
-    /*
+/*
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
-    {
-        super.tearDown();
-    }
-    
+@Test
     public void testIrr( ) throws Exception
 	{
 		double b[] = new double[]{-70000d, 12000d, 15000d, 18000d, 21000d,
@@ -78,7 +71,7 @@ public class FinanceTest extends TestCase
 			} );
 		}
 		ac.finish( );
-		assertEquals( Double.NaN, ( (Double) ac.getValue( ) ).doubleValue( ) );
+		assertEquals( Double.NaN, ( (Double) ac.getValue( ) ).doubleValue( ), 0.01 );
 
         ac.start();
         for(int i=0; i<c.length; i++)
@@ -112,8 +105,8 @@ public class FinanceTest extends TestCase
         }
 
 	}
-
-	public void testMirr( ) throws Exception
+	@Test
+    public void testMirr( ) throws Exception
 	{
 		//If the value of the guess is far from the correct answer, application
 		// can't get the correct result and will report error
@@ -163,8 +156,8 @@ public class FinanceTest extends TestCase
 
 
 	}
-	
-	public void testNpv( ) throws Exception
+	@Test
+    public void testNpv( ) throws Exception
 	{
 	    
 	    IAggrFunction ag = buildInAggrFactory .getAggregation("npv");
@@ -201,8 +194,8 @@ public class FinanceTest extends TestCase
             assertTrue(true);
         }
 	}
-	
-	public void testRunningNpv() throws Exception
+	@Test
+    public void testRunningNpv() throws Exception
 	{
 	    IAggrFunction ag = buildInAggrFactory.getAggregation("runningnpv");
         Accumulator ac = ag.newAccumulator();

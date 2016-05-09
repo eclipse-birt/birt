@@ -14,21 +14,27 @@ package org.eclipse.birt.data.engine.impl.document.stream;
 import java.io.IOException;
 import java.util.Arrays;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
- * 
+ * Class DummyOutputStream is deprecated
  */
 
-public class DummyOutputStreamTest extends TestCase
-{
+@Ignore("Class DummyOutputStream is deprecated")
+public class DummyOutputStreamTest {
 
 	/**
 	 * 
 	 * @throws IOException
 	 */
-	public void testGetContent( ) throws IOException
+	@Test
+    public void testGetContent( ) throws IOException
 	{
 		byte[] b = new byte[12345];
 		Arrays.fill( b, (byte)3 );

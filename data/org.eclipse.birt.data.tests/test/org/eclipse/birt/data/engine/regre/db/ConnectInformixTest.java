@@ -12,9 +12,16 @@ package org.eclipse.birt.data.engine.regre.db;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  *  Run a query based on Informix database 
  */
+@Ignore("Ignore tests that require manual setup")
 public class ConnectInformixTest extends ConnectionTest
 {
 
@@ -22,14 +29,14 @@ public class ConnectInformixTest extends ConnectionTest
 	 *  (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void connectInformixSetUp() throws Exception
 	{
 		DriverClass = ConfigText.getString( "Regre.Informix.DriverClass" );
 		URL = ConfigText.getString( "Regre.Informix.URL" );
 		User = ConfigText.getString( "Regre.Informix.User" );
 		Password = ConfigText.getString( "Regre.Informix.Password" );
-		
-		super.setUp();
+
 	}
 
 }

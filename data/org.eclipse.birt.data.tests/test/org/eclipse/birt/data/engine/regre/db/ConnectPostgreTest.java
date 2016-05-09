@@ -12,12 +12,19 @@ package org.eclipse.birt.data.engine.regre.db;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * 
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
+@Ignore("Ignore tests that require manual setup")
 public class ConnectPostgreTest extends ConnectionTest
 {
 
@@ -25,13 +32,13 @@ public class ConnectPostgreTest extends ConnectionTest
 	 *  (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void connectPostgreSetUp() throws Exception
 	{
 		DriverClass = ConfigText.getString( "Regre.Postgre.DriverClass" );
 		URL = ConfigText.getString( "Regre.Postgre.URL" );
 		User = ConfigText.getString( "Regre.Postgre.User" );
 		Password = ConfigText.getString( "Regre.Postgre.Password" );
-		
-		super.setUp();
+
 	}
 }

@@ -12,10 +12,17 @@ package org.eclipse.birt.data.engine.regre.db;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  *  Run a query based on DB2 database 
  */
+@Ignore("Ignore tests that require manual setup")
 public class ConnectDB2Test extends ConnectionTest
 {
 
@@ -23,13 +30,13 @@ public class ConnectDB2Test extends ConnectionTest
 	 *  (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void connectDB2SetUp() throws Exception
 	{
 		DriverClass = ConfigText.getString( "Regre.DB2.DriverClass" );
 		URL = ConfigText.getString( "Regre.DB2.URL" );
 		User = ConfigText.getString( "Regre.DB2.User" );
 		Password = ConfigText.getString( "Regre.DB2.Password" );
-		
-		super.setUp();
+
 	}
 }

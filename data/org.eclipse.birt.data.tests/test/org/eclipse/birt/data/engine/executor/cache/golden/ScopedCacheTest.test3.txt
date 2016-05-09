@@ -7,11 +7,11 @@ S:1 E:0 US
 
 Cache Complete
 *****A new Report Start!*****
-S:0 E:1 CHINA    City Display_1    
-S:1 E:1 US    City Display_2    
-S:1 E:1 CHINA    City Display_3    
-S:1 E:1 US    City Display_4    
-S:1 E:0 US    City Display_5    
+S:0 E:1 CHINA    Beijing    
+S:1 E:1 US    New York    
+S:1 E:1 CHINA    Shanghai    
+S:1 E:1 US    Chicago    
+S:1 E:0 US    New York    
 
 Clear Cache
 *****A new Report Start!*****

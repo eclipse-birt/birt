@@ -39,6 +39,12 @@ import org.osgi.framework.Bundle;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Tests for BLOB and CLOB support in the BIRT ODA consumer, DTP-to-BIRT ODA
  * adapter, flat file driver, and JDBC driver.
@@ -63,11 +69,9 @@ public class LargeObjectTest extends ConnectionTest
     private static String sm_dtpFlatfileId = DTP_FLATFILE_DATASOURCE_ID;
     private static String sm_birtFlatfileId = BIRT_FLATFILE_DATASOURCE_ID;
     private static boolean sm_pluginTest = org.eclipse.core.runtime.Platform.isRunning();
-    
-    protected void setUp() throws Exception
+    @Before
+    public void largeObjectSetUp() throws Exception
     {
-        super.setUp();
-        
         setupDirectories();
         
         // only the last two runs require custom plugin manifests
@@ -78,13 +82,13 @@ public class LargeObjectTest extends ConnectionTest
         // set up flatfile test tables
         TestUtil.createTestFile();
         Properties prop = new Properties();
-        prop.setProperty( TestUtil.CONN_HOME_DIR_PROP, "testdatabase" );
+        prop.setProperty( TestUtil.CONN_HOME_DIR_PROP, new File("testdatabase").getAbsolutePath() );
         prop.setProperty( TestUtil.CONN_CHARSET, TestUtil.CHARSET );
         m_flatFileConnection = ConnectionManager.getInstance().openConnection(
-                DTP_FLATFILE_DATASOURCE_ID, prop );
+                DTP_FLATFILE_DATASOURCE_ID, prop, null );
     }
-
-    protected void tearDown() throws Exception
+	@After
+    public void largeObjectTearDown() throws Exception
     {       
         m_flatFileConnection.close();
 
@@ -93,7 +97,6 @@ public class LargeObjectTest extends ConnectionTest
              getName().equals( "testFlatfileGetClob" ) )
         	restorePluginFile();
 */        
-        super.tearDown();
     }
 
     /*
@@ -101,6 +104,7 @@ public class LargeObjectTest extends ConnectionTest
      * The jdbc plugin.xml file does not have any data type mapping specified
      * for blob and clob, so they will be mapped to the java class String.
      */
+	@Test
     public void testJdbc() throws Exception
     {
         String command = "select * from \"testtable_lob\"";
@@ -189,6 +193,7 @@ public class LargeObjectTest extends ConnectionTest
 	 * Tests implementation of blob data type in flatfile driver. The blob
 	 * native type is mapped to the oda data type String.
 	 */
+	@Test
     public void testFlatfileBlob() throws Exception
     {
 
@@ -219,6 +224,7 @@ public class LargeObjectTest extends ConnectionTest
      * Tests implementation of clob data type in flatfile driver.
      * The clob native type is mapped to the oda data type String.
      */
+	@Test
     public void testFlatfileClob() throws Exception
     {
         String command = "select clob_col from table1";
@@ -252,6 +258,7 @@ public class LargeObjectTest extends ConnectionTest
      * by hardcoding an IBlob value returned from the resultset.
      * The blob native type is mapped to the oda data type Blob.
      */
+	@Test
     public void testFlatfileGetBlob() throws Exception
     {
 /*      TODO - replace with customized test driver, instead of
@@ -293,6 +300,7 @@ public class LargeObjectTest extends ConnectionTest
      * by hardcoding an IClob value returned from the resultset.
      * The clob native type is mapped to the oda data type Clob.
      */
+	@Test
     public void testFlatfileGetClob() throws Exception
     { 
 /*      TODO - replace with customized test driver, instead of

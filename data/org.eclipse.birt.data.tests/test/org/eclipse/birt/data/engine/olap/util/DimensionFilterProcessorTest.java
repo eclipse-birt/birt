@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -34,43 +33,31 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * 
  */
 
-public class DimensionFilterProcessorTest extends TestCase
-{
+public class DimensionFilterProcessorTest {
 	private Scriptable baseScope;
 	private ICubeQueryDefinition cubeQuery;
 	private ScriptContext cx;
-	public void setUp( )
+	@Before
+    public void dimensionFilterProcessorSetUp()
 	{
-		try
-		{
-			super.setUp( );
-		}
-		catch ( Exception e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		cx = new ScriptContext();
 		this.baseScope = new ImporterTopLevel( );
 		this.cubeQuery = createCubeQueryDefinition( );
 	}
-
-	public void tearDown( )
+	@After
+    public void dimensionFilterProcessorTearDown()
 	{
-		try
-		{
-			super.tearDown( );
-		}
-		catch ( Exception e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
 		cx.close( );
 	}
 	private ICubeQueryDefinition createCubeQueryDefinition()
@@ -81,79 +68,68 @@ public class DimensionFilterProcessorTest extends TestCase
 		IDimensionDefinition dimension1 = columnEdge.createDimension( "dim1" );
 		IHierarchyDefinition hier1 = dimension1.createHierarchy( "hier1" );
 		hier1.createLevel( "level1" );
-				
+
 		return cubeQuery;
 	}
-	
-	public void testBasicFilter() throws DataException
+	@Test
+    public void testBasicFilter() throws DataException
 	{
-		
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level1\"] * 2 + 2 == 6");
 		CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
 		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( null, this.baseScope, cx, this.cubeQuery, cubeFilter );
-		
-		List levelNames = new ArrayList();
-		levelNames.add( "level1" );
-		
 		List resultRows = this.getResultRows1( );
-		boolean[] booleanResult = this.getBooleanResult1( );
-		for ( int i = 0; i < booleanResult.length; i++ )
+		for ( int i = 0; i < resultRows.size(); i++ )
 		{
-			assertEquals( booleanResult[i], helper.evaluateFilter( (IResultRow)resultRows.get( i )));
+			assertEquals( i == 2, helper.evaluateFilter( (IResultRow)resultRows.get( i )));
 		}
-		
+
 		helper.close( );
-		
+
 		try
 		{
-			for ( int i = 0; i < booleanResult.length; i++ )
+			for ( int i = 0; i < resultRows.size(); i++ )
 			{
-				assertEquals( booleanResult[i], helper.evaluateFilter( 
+				assertEquals( i == 2, helper.evaluateFilter( 
 						(IResultRow) resultRows.get( i ) ) );
 			}
 			fail( "should not arrive here" );
 		}
-		catch ( Exception e )
+		catch ( NullPointerException e1 )
 		{
+			// exception is expected after helper.close()
 		}
 	}
-	
-	public void testBasicFilter1() throws DataException
+	@Test
+    public void testBasicFilter1() throws DataException
 	{
 		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level1\"][\"attr1\"] * 2 + 2 == 6");
 		CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
 		
 		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( null, this.baseScope, cx, this.cubeQuery, cubeFilter );
-		List levelNames = new ArrayList();
-		levelNames.add( "level1" );
-		
 		List resultRows = this.getResultRows1( );
-		boolean[] booleanResult = this.getBooleanResult1( );
-		for ( int i = 0; i < booleanResult.length; i++ )
+		for ( int i = 0; i < resultRows.size(); i++ )
 		{
-			assertEquals( booleanResult[i], helper.evaluateFilter( (IResultRow)resultRows.get( i )));
+			assertEquals( i == 2, helper.evaluateFilter( (IResultRow)resultRows.get( i )));
 		}
 	}
-	
-	public void testBasicFilter3( ) throws DataException
+	@Test
+    public void testBasicFilter3( )
 	{
-		IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level2\"][\"attr1\"] * 2 + 2 == 6" );
-		CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
-		DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( null, this.baseScope, cx, this.cubeQuery, cubeFilter );
-		List levelNames = new ArrayList( );
-		levelNames.add( "level1" );
-		List resultRows = this.getResultRows1( );
-		boolean[] booleanResult = this.getBooleanResult1( );
 		try
 		{
-			for ( int i = 0; i < booleanResult.length; i++ )
+			IBaseExpression expr = new ScriptExpression( "dimension[\"dim1\"][\"level2\"][\"attr1\"] * 2 + 2 == 6" );
+			CubeFilterDefinition cubeFilter = new CubeFilterDefinition(expr);
+			DimensionFilterEvalHelper helper = new DimensionFilterEvalHelper( null, this.baseScope, cx, this.cubeQuery, cubeFilter );
+			List resultRows = this.getResultRows1( );
+			for ( int i = 0; i < resultRows.size(); i++ )
 			{
-				assertEquals( booleanResult[i], helper.evaluateFilter( (IResultRow) resultRows.get( i ) ) );
+				assertEquals( i == 2, helper.evaluateFilter( (IResultRow) resultRows.get( i ) ) );
 			}
 			fail( "Should not arrive here" );
 		}
-		catch ( Exception e )
+		catch (DataException e1)
 		{
+			// exception is expected for level2
 		}
 	}
 	
@@ -164,23 +140,9 @@ public class DimensionFilterProcessorTest extends TestCase
 		for ( int i = 0; i < 5; i++ )
 		{	
 			Map map = new HashMap();
-			map.put( "level1", new Integer(i) );
-			map.put( "attr1", new Integer(i) );
+			map.put( "dim1/level1", new Integer(i) );
+			map.put( "dim1/level1/attr1", new Integer(i) );
 			result.add( new TempResultRow( map ) );
-		}
-		return result;
-	}
-	
-	private boolean[] getBooleanResult1()
-	{
-		boolean[] result = new boolean[5];
-		
-		for ( int i = 0; i < 5; i++ )
-		{
-			if( i!= 2)
-				result[i] = false;
-			else
-				result[i] = true;
 		}
 		return result;
 	}
@@ -209,12 +171,18 @@ public class DimensionFilterProcessorTest extends TestCase
 
 		public Object getFieldValue( String name ) throws DataException
 		{
+			String[] list = name.split("/");
+			if(list.length >= 2 && list[list.length - 1].equals(list[list.length - 2]))
+			{
+				String test = name.substring(0, name.lastIndexOf("/") );
+				Object x = this.nameValuePair.get( name.substring(0, name.lastIndexOf("/") ) );
+				return this.nameValuePair.get( name.substring(0, name.lastIndexOf("/") ) );
+			}
 			return this.nameValuePair.get( name );
 		}
 
 		public boolean isTimeDimensionRow()
 		{
-			// TODO Auto-generated method stub
 			return false;
 		}
 		

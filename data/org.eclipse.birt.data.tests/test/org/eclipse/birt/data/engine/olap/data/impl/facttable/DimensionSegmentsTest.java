@@ -16,39 +16,34 @@ import java.io.IOException;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivision;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class DimensionSegmentsTest extends TestCase
-{
+public class DimensionSegmentsTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	/**
+/**
 	 * 
 	 * @throws IOException
 	 * @throws BirtException 
 	 */
-	public void testDimensionSegments( ) throws IOException, BirtException
+	@Test
+    public void testDimensionSegments( ) throws IOException, BirtException
 	{
 		DimensionDivision dimSegments = new DimensionDivision( 2, 1 );
 		assertEquals( dimSegments.getRanges().length, 1 );

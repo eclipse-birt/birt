@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -35,32 +34,27 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
 
-public class FactTableRowIteratorWithFilterTest extends TestCase
-{
+public class FactTableRowIteratorWithFilterTest {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	private static String[] distinct( String[] sValues )
+private static String[] distinct( String[] sValues )
 	{
 		Arrays.sort( sValues );
 		List tempList = new ArrayList( );
@@ -85,7 +79,8 @@ public class FactTableRowIteratorWithFilterTest extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableSaveAndLoad1( ) throws IOException, BirtException
+	@Test
+    public void testFactTableSaveAndLoad1( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testFactTableSaveAndLoad1( documentManager );

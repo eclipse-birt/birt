@@ -23,7 +23,9 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
+import org.eclipse.birt.data.engine.api.CollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
+import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
@@ -147,6 +149,10 @@ public class ExpressionCompilerUtil
             {
                 extractColumnExpression( existingBindings, (IExpressionCollection) expression, indicators );
             }
+            else if ( expression instanceof ICollectionConditionalExpression )
+            {
+                extractColumnExpression( existingBindings, (ICollectionConditionalExpression) expression, indicators );
+            }
             else
             {
                 throw new RuntimeException( "unknown expresion type:" + expression );
@@ -204,6 +210,25 @@ public class ExpressionCompilerUtil
         {
             Collection<IBaseExpression> exprs = expression.getExpressions( );
             for ( IBaseExpression expr : exprs )
+            {
+                extractColumnExpression( existingBindings, expr, indicators );
+            }
+        }
+    }
+
+    /**
+	 * 
+	 * @param expression
+	 * @return
+	 * @throws DataException
+	 */
+    private static void extractColumnExpression( Set<String> existingBindings, ICollectionConditionalExpression expression,
+            String[] indicators ) throws DataException
+    {
+        if ( expression != null )
+        {
+            Collection<IScriptExpression> exprs = expression.getExpr();
+            for ( IScriptExpression expr : exprs )
             {
                 extractColumnExpression( existingBindings, expr, indicators );
             }

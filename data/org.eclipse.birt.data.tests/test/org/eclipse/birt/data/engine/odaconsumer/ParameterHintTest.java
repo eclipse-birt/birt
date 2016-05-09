@@ -25,22 +25,18 @@ import org.eclipse.datatools.connectivity.oda.IClob;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class ParameterHintTest extends ConnectionTest
 {
 
 	private DataResourceHandle resourceHandle = DataResourceHandle.getInstance( );
-	
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	public void testNameToPositionInSingleParameterHint( ) throws Exception
+@Test
+    public void testNameToPositionInSingleParameterHint( ) throws Exception
 	{
 		PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
@@ -60,8 +56,8 @@ public class ParameterHintTest extends ConnectionTest
 
 		assertEquals( 1, count );
 	}
-
-	public void testNameToPositionInParameterHints( ) throws Exception
+	@Test
+    public void testNameToPositionInParameterHints( ) throws Exception
 	{
 		String command = "select \"intColumn\" from \"testtable\" where \"intColumn\" = ? OR \"stringColumn\" = ?";
 		PreparedStatement statement = getConnection( ).prepareStatement( command,
@@ -87,8 +83,8 @@ public class ParameterHintTest extends ConnectionTest
 
 		assertEquals( 2, count );
 	}
-
-	public void testValidateParameterHints1( ) throws Exception
+	@Test
+    public void testValidateParameterHints1( ) throws Exception
 	{
 		try
 		{
@@ -116,8 +112,8 @@ public class ParameterHintTest extends ConnectionTest
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
-
-	public void testValidateInputParameterHints2( ) throws Exception
+	@Test
+    public void testValidateInputParameterHints2( ) throws Exception
 	{
 		PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
@@ -144,8 +140,8 @@ public class ParameterHintTest extends ConnectionTest
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
-
-	public void testValidateOutputParameterHints( ) throws Exception
+	@Test
+    public void testValidateOutputParameterHints( ) throws Exception
 	{
 		PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
@@ -172,7 +168,7 @@ public class ParameterHintTest extends ConnectionTest
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
-
+	@Test
     public void testValidateInputParameterHintsSucceed( ) throws Exception
     {
         PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
@@ -199,8 +195,8 @@ public class ParameterHintTest extends ConnectionTest
             fail( );
         }
     }
-
-	public void testGetParameterMetaData1( ) throws Exception
+	@Test
+    public void testGetParameterMetaData1( ) throws Exception
 	{
 		PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
@@ -217,8 +213,8 @@ public class ParameterHintTest extends ConnectionTest
 			checkDefaultMetaData( metadata, 1 );
 		}
 	}
-
-	public void testGetParameterMetaData2( ) throws Exception
+	@Test
+    public void testGetParameterMetaData2( ) throws Exception
 	{
 		PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" < ? AND \"intColumn\" > ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
@@ -253,8 +249,8 @@ public class ParameterHintTest extends ConnectionTest
 		assertEquals( null, metadata.isOptional( ) );
 		assertEquals( Boolean.TRUE, metadata.isNullable( ) );
 	}
-
-	public void testGetParameterMetaData3( ) throws Exception
+	@Test
+    public void testGetParameterMetaData3( ) throws Exception
 	{
 		PreparedStatement statement = getConnection( ).prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
 				JDBCOdaDataSource.DATA_SET_TYPE );
@@ -295,8 +291,9 @@ public class ParameterHintTest extends ConnectionTest
 			assertEquals( Boolean.TRUE, metadata.isNullable( ) );
 		}
 	}
-
-	public void testUnsupportedRuntimeParameterMetaData( ) throws Exception
+	@Ignore("Ignore tests that require manual setup")
+	@Test
+    public void testUnsupportedRuntimeParameterMetaData( ) throws Exception
 	{
         // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
@@ -363,8 +360,9 @@ public class ParameterHintTest extends ConnectionTest
 			}
 		}
 	}
-
-	public void testMultipleHintsOnSameParameterName( ) throws Exception
+	@Ignore("Ignore tests that require manual setup")
+	@Test
+    public void testMultipleHintsOnSameParameterName( ) throws Exception
 	{
 		Connection connection = getMySqlConnection( );
 		PreparedStatement statement = connection.prepareStatement( "SELECT \"intColumn\", \"doubleColumn\" FROM \"testtable\" WHERE \"intColumn\" > ?",
@@ -441,8 +439,9 @@ public class ParameterHintTest extends ConnectionTest
 			}
 		}
 	}
-
-	public void testUnsupportedRuntimeParameterMetaData2( ) throws Exception
+	@Ignore("Ignore tests that require manual setup")
+	@Test
+    public void testUnsupportedRuntimeParameterMetaData2( ) throws Exception
 	{
         // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
@@ -511,8 +510,8 @@ public class ParameterHintTest extends ConnectionTest
 			}
 		}
 	}
-	
-	public void testUnsupportedParameterDataTypes( ) throws Exception
+	@Test
+    public void testUnsupportedParameterDataTypes( ) throws Exception
 	{
 		ParameterHint inputHint = new ParameterHint( "InputParameter", true, true );
 
@@ -538,8 +537,9 @@ public class ParameterHintTest extends ConnectionTest
         }
 	    assertTrue( isErrorCaught );
 	}
-
-	public void testMergeParamHints( ) throws Exception
+	@Ignore("Ignore tests that require manual setup")
+	@Test
+    public void testMergeParamHints( ) throws Exception
 	{
         // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
@@ -577,8 +577,9 @@ public class ParameterHintTest extends ConnectionTest
 			assertEquals( Boolean.TRUE, metadata.isNullable( ) );
 		}
 	}
-
-	public void testMergeParamHints1( ) throws Exception
+	@Ignore("Ignore tests that require manual setup")
+	@Test
+    public void testMergeParamHints1( ) throws Exception
 	{
         // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
@@ -617,8 +618,9 @@ public class ParameterHintTest extends ConnectionTest
 			assertEquals( Boolean.TRUE, metadata.isNullable( ) );
 		}
 	}
-
-	public void testConflictingParamHints( ) throws Exception
+	@Ignore("Ignore tests that require manual setup")
+	@Test
+    public void testConflictingParamHints( ) throws Exception
 	{
 		try
 		{
@@ -648,8 +650,9 @@ public class ParameterHintTest extends ConnectionTest
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
-
-	public void testMergeParamHints3( ) throws Exception
+	@Ignore("Ignore tests that require manual setup")
+	@Test
+    public void testMergeParamHints3( ) throws Exception
 	{
         // uses mySQL that does not provide runtime parameterMetaData
 		Connection connection = getMySqlConnection( );
@@ -685,8 +688,8 @@ public class ParameterHintTest extends ConnectionTest
 			assertEquals( Boolean.TRUE, metadata.isNullable( ) );
 		}
 	}
-
-	public void testMergeParamHintsWithRuntimeMd() throws Exception 
+	@Test
+    public void testMergeParamHintsWithRuntimeMd() throws Exception 
 	{
         PreparedStatement statement = 
             getConnection().prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?", 
@@ -725,8 +728,8 @@ public class ParameterHintTest extends ConnectionTest
             assertEquals( Boolean.TRUE, metadata.isNullable() ); 
         } 
     }
-	
-	public void testMergeParamHintsWithDefaultValue() throws Exception {
+	@Test
+    public void testMergeParamHintsWithDefaultValue() throws Exception {
 		PreparedStatement statement = 
 			getConnection().prepareStatement( "select \"intColumn\" from \"testtable\" where \"intColumn\" = ?",
 											  JDBCOdaDataSource.DATA_SET_TYPE ); 
@@ -767,7 +770,8 @@ public class ParameterHintTest extends ConnectionTest
 	// Test that the LOB data type specified in a ParameterHint
 	// for an output parameter gets merged with the
 	// runtime parameter metadata.
-	public void testMergeParamHintOnLOB( ) throws Exception
+	@Test
+    public void testMergeParamHintOnLOB( ) throws Exception
 	{
         String queryText = "select * from \"testtable_lob\" where \"clob1\" like ? ";
 		PreparedStatement statement = getConnection( ).prepareStatement( queryText,

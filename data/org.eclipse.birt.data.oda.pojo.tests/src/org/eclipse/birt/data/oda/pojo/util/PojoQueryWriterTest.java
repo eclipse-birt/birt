@@ -20,17 +20,20 @@ import org.eclipse.birt.data.oda.pojo.util.PojoQueryWriter;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class PojoQueryWriterTest extends TestCase
-{
-
-	public void testWrite( ) throws IOException, OdaException
+public class PojoQueryWriterTest {
+	@Test
+    public void testWrite( ) throws IOException, OdaException
 	{
 		InputStream in = InputFileOpener.openFile( InputFileOpener.SIMPLE_QUERY_FILE );
 		

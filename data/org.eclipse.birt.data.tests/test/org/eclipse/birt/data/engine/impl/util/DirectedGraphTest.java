@@ -16,13 +16,17 @@ import java.util.Set;
 
 import org.eclipse.birt.data.engine.impl.util.DirectedGraph.CycleFoundException;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
-public class DirectedGraphTest extends TestCase
-{
-
-	public void testValidateCycle( )
+public class DirectedGraphTest {
+	@Test
+    public void testValidateCycle( )
 	{
 		///////////////////////////////////////////
 		GraphNode foundNode = null;
@@ -166,8 +170,8 @@ public class DirectedGraphTest extends TestCase
 		}
 		assert foundNode != null && foundNode.getValue( ).equals( "d" );
 	}
-	
-	public void testFlattenNodesByDependency( ) throws Exception
+	@Test
+    public void testFlattenNodesByDependency( ) throws Exception
 	{
 		///////////////////////////////////////////
 		DirectedGraph graph

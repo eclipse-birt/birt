@@ -18,7 +18,6 @@ import java.sql.Timestamp;
 import java.util.Date;
 import java.util.Random;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -32,28 +31,34 @@ import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.GregorianCalendar;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Tests script evaluation
  */
-public class ScriptEvalTest extends TestCase
-{
+public class ScriptEvalTest {
 	private Scriptable scope;
 	private ScriptContext scontext;
-	
-	protected void setUp() throws Exception
+	@Before
+    public void scriptEvalSetUp() throws Exception
 	{
 		scontext = new ScriptContext();
 		scope = Context.enter( ).initStandardObjects();
 	}
-	
-	protected void tearDown() throws Exception
+	@After
+    public void scriptEvalTearDown() throws Exception
 	{
 		Context.exit( );
 		scontext.close( );
 	}
 	
 	// Test javascript regular expression
-	public void testJSRE( ) throws Exception
+	@Test
+    public void testJSRE( ) throws Exception
 	{
 		String test = "/^Mini/.test(\"Minia\")";
 		Object result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, test, "", 0 );
@@ -61,7 +66,8 @@ public class ScriptEvalTest extends TestCase
 	}
 	
 	// Makes sure JS evaluation returns the correct data type
-	public void testDataType() throws Exception
+	@Test
+    public void testDataType() throws Exception
 	{
 		String script = "1 + 2 ";
 		Object result = ScriptEvalUtil.evaluateJSAsExpr( scontext, scope, script, "", 0 );
@@ -122,7 +128,8 @@ public class ScriptEvalTest extends TestCase
 	}
 	
 	// Tests error handling
-	public void testErrHandling() throws Exception
+	@Test
+    public void testErrHandling() throws Exception
 	{
 		// Syntax error; repeat the same expression multiple times to make sure that 
 		// script caching does not affect accuracy of error reporting
@@ -182,7 +189,8 @@ public class ScriptEvalTest extends TestCase
 	
 
 	/*
-	public void test_ANY( )
+	@Test
+    public void test_ANY( )
 	{
 		try
 		{
@@ -199,7 +207,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * 
 	 */
-	public void test_BOTTOM_PERCENT( )
+	@Test
+    public void test_BOTTOM_PERCENT( )
 	{
 		try
 		{
@@ -216,7 +225,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * 
 	 */
-	public void test_TOP_PERCENT( )
+	@Test
+    public void test_TOP_PERCENT( )
 	{
 		try
 		{
@@ -233,7 +243,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * 
 	 */
-	public void test_BOTTOM_N( )
+	@Test
+    public void test_BOTTOM_N( )
 	{
 		try
 		{
@@ -250,7 +261,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * 
 	 */
-	public void test_TOP_N( )
+	@Test
+    public void test_TOP_N( )
 	{
 		//OP_TOP_N
 		try
@@ -268,7 +280,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_LIKE( ) throws DataException
+	@Test
+    public void test_LIKE( ) throws DataException
 	{
 		final Object[] cases = {
 			//     String, Pattern, TRUE/FALSE
@@ -305,8 +318,8 @@ public class ScriptEvalTest extends TestCase
 			assertEquals( result, expected );
 		}
 	}
-
-	public void test_MATCH( ) throws DataException
+	@Test
+    public void test_MATCH( ) throws DataException
 	{
 		final Object[] cases = {
 			//     String, Pattern, TRUE/FALSE/ null for exception
@@ -360,7 +373,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_NOT_LIKE( ) throws DataException
+	@Test
+    public void test_NOT_LIKE( ) throws DataException
 	{
 		final Object[] cases = {
 			//     String, Pattern, TRUE/FALSE
@@ -397,8 +411,8 @@ public class ScriptEvalTest extends TestCase
 			assertEquals( result, new Boolean(!expected.booleanValue( )) );
 		}
 	}
-
-	public void test_NOT_MATCH( ) throws DataException
+	@Test
+    public void test_NOT_MATCH( ) throws DataException
 	{
 		final Object[] cases = {
 			//     String, Pattern, TRUE/FALSE/ null for exception
@@ -452,7 +466,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_FALSE( ) throws DataException
+	@Test
+    public void test_FALSE( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "true",
@@ -471,7 +486,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_TRUE( ) throws DataException
+	@Test
+    public void test_TRUE( ) throws DataException
 	{	
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "true",
@@ -494,7 +510,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_NOT_NULL( ) throws DataException
+	@Test
+    public void test_NOT_NULL( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "true",
@@ -509,7 +526,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_NULL( ) throws DataException
+	@Test
+    public void test_NULL( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "true",
@@ -524,7 +542,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_NOT_BETWEEN( ) throws DataException
+	@Test
+    public void test_NOT_BETWEEN( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( 
@@ -559,7 +578,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_BETWEEN( ) throws DataException
+	@Test
+    public void test_BETWEEN( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( 
@@ -630,7 +650,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_GT( ) throws DataException
+	@Test
+    public void test_GT( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( new Integer(10),
@@ -649,7 +670,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_GE( ) throws DataException
+	@Test
+    public void test_GE( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( new BigDecimal(10),
@@ -668,7 +690,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_LE( ) throws DataException
+	@Test
+    public void test_LE( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( new BigDecimal(10),
@@ -687,7 +710,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_LTtest( ) throws DataException
+	@Test
+    public void test_LTtest( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( new Integer(10),
@@ -706,7 +730,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_NE( ) throws DataException
+	@Test
+    public void test_NE( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "aaaaab",
@@ -721,7 +746,8 @@ public class ScriptEvalTest extends TestCase
 	/**
 	 * @throws DataException
 	 */
-	public void test_EQ( ) throws DataException
+	@Test
+    public void test_EQ( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "aaaaab",
@@ -737,7 +763,8 @@ public class ScriptEvalTest extends TestCase
 	 * 
 	 * @throws DataException
 	 */
-	public void test_IN( ) throws DataException
+	@Test
+    public void test_IN( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "100",
@@ -766,7 +793,8 @@ public class ScriptEvalTest extends TestCase
 	 * 
 	 * @throws DataException
 	 */
-	public void test_NOT_IN( ) throws DataException
+	@Test
+    public void test_NOT_IN( ) throws DataException
 	{
 		Object result;
 		result = ScriptEvalUtil.evalConditionalExpr( "100",

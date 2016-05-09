@@ -17,34 +17,29 @@ import java.util.Date;
 
 import org.eclipse.birt.data.engine.olap.data.util.PrimitiveDiskArray;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  */
 
-public class PrimaryDiskArrayTest extends TestCase
-{
+public class PrimaryDiskArrayTest {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	public void testInteger( ) throws IOException
+@Test
+    public void testInteger( ) throws IOException
 	{
 		int objectNumber = 1001;
 		PrimitiveDiskArray array = new PrimitiveDiskArray( );
@@ -59,8 +54,8 @@ public class PrimaryDiskArrayTest extends TestCase
 		}
 		array.close( );
 	}
-
-	public void testDouble( ) throws IOException
+	@Test
+    public void testDouble( ) throws IOException
 	{
 		int objectNumber = 1001;
 		PrimitiveDiskArray array = new PrimitiveDiskArray( );
@@ -75,8 +70,8 @@ public class PrimaryDiskArrayTest extends TestCase
 		}
 		array.close( );
 	}
-
-	public void testBoolean( ) throws IOException
+	@Test
+    public void testBoolean( ) throws IOException
 	{
 		int objectNumber = 1001;
 		PrimitiveDiskArray array = new PrimitiveDiskArray( );
@@ -105,8 +100,8 @@ public class PrimaryDiskArrayTest extends TestCase
 		}
 		array.close( );
 	}
-
-	public void testString( ) throws IOException
+	@Test
+    public void testString( ) throws IOException
 	{
 		int objectNumber = 200;
 		PrimitiveDiskArray array = new PrimitiveDiskArray( );
@@ -121,8 +116,8 @@ public class PrimaryDiskArrayTest extends TestCase
 		}
 		array.close( );
 	}
-
-	public void testBigDecimal( ) throws IOException
+	@Test
+    public void testBigDecimal( ) throws IOException
 	{
 		int objectNumber = 3000;
 		PrimitiveDiskArray array = new PrimitiveDiskArray( );
@@ -138,8 +133,8 @@ public class PrimaryDiskArrayTest extends TestCase
 		}
 		array.close( );
 	}
-
-	public void testDate( ) throws IOException
+	@Test
+    public void testDate( ) throws IOException
 	{
 		int objectNumber = 4101;
 		PrimitiveDiskArray array = new PrimitiveDiskArray( );

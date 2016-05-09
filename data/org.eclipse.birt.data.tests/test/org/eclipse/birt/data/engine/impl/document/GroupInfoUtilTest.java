@@ -6,10 +6,14 @@ import java.util.List;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.transform.group.GroupInfo;
 
-import junit.framework.TestCase;
 
-public class GroupInfoUtilTest extends TestCase 
-{
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
+public class GroupInfoUtilTest {
 	static final int SOURCE = 1;
 	static final int TARGET = 2;
 	
@@ -42,7 +46,8 @@ public class GroupInfoUtilTest extends TestCase
 	/*
 	 * Test method for 'org.eclipse.birt.data.engine.impl.document.GroupInfoUtil.getGroup(List[])'
 	 */
-	public void testGetGroup() 
+	@Test
+    public void testGetGroup() 
 	{
 		List[] source = getTest1( SOURCE );
 		List[] target = getTest1( TARGET );
@@ -867,8 +872,8 @@ public class GroupInfoUtilTest extends TestCase
 		info.firstChild = child;
 		return info;
 	}
-	
-	public void testInvalidGroupIndex( ) throws Exception
+	@Test
+    public void testInvalidGroupIndex( ) throws Exception
 	{
 		List[] groups = getExampleGroupList( );
 		int[] indexArray = {
@@ -890,7 +895,8 @@ public class GroupInfoUtilTest extends TestCase
 	 * test remove one group item , not entire group
 	 * @throws BirtException
 	 */
-	public void testRemoveOneGroupItem( ) throws Exception
+	@Test
+    public void testRemoveOneGroupItem( ) throws Exception
 	{
 		List[] groups = getExampleGroupList( );
 		int[] indexArray = {
@@ -910,8 +916,8 @@ public class GroupInfoUtilTest extends TestCase
 		assertTrue(twoListEqual( expectedList, refactorList ));
 		
 	}
-	
-	public void testEntireGroup( ) throws Exception
+	@Test
+    public void testEntireGroup( ) throws Exception
 	{
 		List[] groups = getExampleGroupList( );
 		int[] indexArray = {
@@ -929,8 +935,8 @@ public class GroupInfoUtilTest extends TestCase
 		
 		assertTrue(twoListEqual( expectedList, refactorList ));
 	}
-	
-	public void testMultipleEntireGroup( ) throws Exception
+	@Test
+    public void testMultipleEntireGroup( ) throws Exception
 	{
 		List[] groups = getExampleGroupList( );
 		int[] indexArray = {
@@ -952,7 +958,8 @@ public class GroupInfoUtilTest extends TestCase
 	 * 
 	 * @throws DataException
 	 */
-	public void testGetGroupInfo( ) throws DataException
+	@Test
+    public void testGetGroupInfo( ) throws DataException
 	{
 		List[] groups = getTest0(SOURCE);
 		int[] indexArray = {0,1,4,5};

@@ -7,25 +7,20 @@ import org.eclipse.birt.data.engine.api.timefunction.IParallelPeriod;
 import org.eclipse.birt.data.engine.api.timefunction.ReferenceDate;
 import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
-public class PreviousNPeriodsFunctionTest extends TestCase
-{
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+public class PreviousNPeriodsFunctionTest {
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testFunctions1( ) throws IOException
+@Test
+    public void testFunctions1( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 8, 7
@@ -49,8 +44,8 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		assertEquals( resultMember.getMemberValue( )[2], result[2] );
 		assertEquals( resultMember.getMemberValue( )[3], result[3] );
 	}
-	
-	public void testFunctions2( ) throws IOException
+	@Test
+    public void testFunctions2( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 8, 7
@@ -72,8 +67,8 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		assertEquals( resultMember.getMemberValue( )[2], result[2] );
 		assertEquals( resultMember.getMemberValue( )[3], result[3] );
 	}
-	
-	public void testFunctions3( ) throws IOException
+	@Test
+    public void testFunctions3( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 8, 7
@@ -95,8 +90,8 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		assertEquals( resultMember.getMemberValue( )[2], result[2] );
 		assertEquals( resultMember.getMemberValue( )[3], result[3] );
 	}
-	
-	public void testFunctions4( ) throws IOException
+	@Test
+    public void testFunctions4( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 8, 7
@@ -118,8 +113,8 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		assertEquals( resultMember.getMemberValue( )[2], result[2] );
 		assertEquals( resultMember.getMemberValue( )[3], result[3] );
 	}
-	
-	public void testFunctions5( ) throws IOException
+	@Test
+    public void testFunctions5( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 8, 7
@@ -141,8 +136,8 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		assertEquals( resultMember.getMemberValue( )[2], result[2] );
 		assertEquals( resultMember.getMemberValue( )[3], result[3] );
 	}
-	
-	public void testFunctions6( ) throws IOException
+	@Test
+    public void testFunctions6( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 8, 7
@@ -162,8 +157,8 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		assertEquals( resultMember.getMemberValue( )[1], result[1] );
 		assertEquals( resultMember.getMemberValue( )[2], result[2] );
 	}
-	
-	public void testFunctions7( ) throws IOException
+	@Test
+    public void testFunctions7( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 8, 4
@@ -188,8 +183,8 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		assertEquals( resultMember.getMemberValue( )[1], result[1] );
 		assertEquals( resultMember.getMemberValue( )[2], result[2] );
 	}
-	
-	public void testFunctions8( ) throws IOException
+	@Test
+    public void testFunctions8( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 125
@@ -207,8 +202,8 @@ public class PreviousNPeriodsFunctionTest extends TestCase
 		assertEquals( resultMember.getMemberValue( )[0], result[0] );
 		assertEquals( resultMember.getMemberValue( )[1], result[1] );
 	}
-	
-	public void testFunctions9( ) throws IOException
+	@Test
+    public void testFunctions9( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 23

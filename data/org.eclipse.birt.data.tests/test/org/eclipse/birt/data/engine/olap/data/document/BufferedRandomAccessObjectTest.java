@@ -25,15 +25,19 @@ import org.eclipse.birt.data.engine.olap.data.document.IObjectAllocTable;
 import org.eclipse.birt.data.engine.olap.data.document.SimpleRandomAccessObject;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedRandomAccessFile;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class BufferedRandomAccessObjectTest extends TestCase
-{
+public class BufferedRandomAccessObjectTest {
 	private static final String tmpPath = System.getProperty( "java.io.tmpdir" );
 	
 	IDocumentManager documentManager = null;
@@ -43,22 +47,22 @@ public class BufferedRandomAccessObjectTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void bufferedRandomAccessObjectSetUp() throws Exception
 	{
-		super.setUp( );
 		documentManager = DocumentManagerFactory.createFileDocumentManager( );
 	}
 
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void bufferedRandomAccessObjectTearDown() throws Exception
 	{
 		documentManager.close( );
-		super.tearDown( );
 	}
-	
-	public void testInteger( ) throws IOException
+	@Test
+    public void testInteger( ) throws IOException
 	{
 		int objectNumber = 1001;
 		assertTrue(documentManager.createDocumentObject( "testInteger" )!=null);
@@ -84,8 +88,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		assertEquals( documentObject.readInt( ), 1000001 );
 		documentObject.close( );
 	}
-
-	public void testInteger1( ) throws IOException
+	@Test
+    public void testInteger1( ) throws IOException
 	{
 		int objectNumber = 1001;
 		BufferedRandomDataAccessObject documentObject = 
@@ -113,8 +117,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		assertEquals( documentObject.readInt( ), 1000001 );
 		documentObject.close( );
 	}
-	
-	public void testLong( ) throws IOException
+	@Test
+    public void testLong( ) throws IOException
 	{
 		int objectNumber = 1001;
 		BufferedRandomDataAccessObject documentObject = 
@@ -142,8 +146,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		assertEquals( documentObject.readLong( ), 1000001 );
 		documentObject.close( );
 	}
-	
-	public void testInteger2( ) throws IOException
+	@Test
+    public void testInteger2( ) throws IOException
 	{
 		BlockRandomAccessObject documentObject = new BlockRandomAccessObject(
 				new BufferedRandomAccessFile(new File(tmpPath
@@ -166,8 +170,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		assertEquals(bytes[1], 2);
 		documentObject.close( );
 	}
-	
-	public void testInteger3( ) throws IOException
+	@Test
+    public void testInteger3( ) throws IOException
 	{
 		BlockRandomAccessObject documentObject = new BlockRandomAccessObject(
 				new BufferedRandomAccessFile(new File(tmpPath
@@ -186,8 +190,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		assertEquals(documentObject.read( bytes, 0, bytes.length ), -1);
 		documentObject.close( );
 	}
-	
-	public void testByteA( ) throws IOException
+	@Test
+    public void testByteA( ) throws IOException
 	{
 		BlockRandomAccessObject documentObject = new BlockRandomAccessObject(
 				new BufferedRandomAccessFile(new File(tmpPath
@@ -218,8 +222,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		}
 		documentObject.close( );
 	}
-
-	public void testString( ) throws IOException
+	@Test
+    public void testString( ) throws IOException
 	{
 		int objectNumber = 3000;
 		assertTrue(documentManager.createDocumentObject( "testString" )!=null);
@@ -235,8 +239,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		}
 		documentObject.close( );
 	}
-
-	public void testBigDecimal( ) throws IOException
+	@Test
+    public void testBigDecimal( ) throws IOException
 	{
 		int objectNumber = 3000;
 		assertTrue(documentManager.createDocumentObject( "testBigDecimal" )!=null);
@@ -253,8 +257,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		}
 		documentObject.close( );
 	}
-
-	public void testDate( ) throws IOException
+	@Test
+    public void testDate( ) throws IOException
 	{
 		int objectNumber = 4101;
 		assertTrue(documentManager.createDocumentObject( "testDate" )!=null);
@@ -270,8 +274,8 @@ public class BufferedRandomAccessObjectTest extends TestCase
 		}
 		documentObject.close( );
 	}
-
-	public void testMixed( ) throws IOException
+	@Test
+    public void testMixed( ) throws IOException
 	{
 		int objectNumber = 1001;
 		assertTrue(documentManager.createDocumentObject( "testMixed" )!=null);

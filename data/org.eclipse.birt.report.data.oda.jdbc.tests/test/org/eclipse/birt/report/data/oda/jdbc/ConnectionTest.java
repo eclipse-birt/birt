@@ -13,54 +13,46 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.util.Properties;
 
-import junit.framework.TestCase;
 
 import org.eclipse.datatools.connectivity.oda.OdaException;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  * The class implements the unit test for Connection
  * 
  */
-public class ConnectionTest extends TestCase
-{
+public class ConnectionTest {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-
-	public void setUp( ) throws Exception
+	@Before
+    public void connectionSetUp() throws Exception
 	{
-		super.setUp( );
 		TestUtil.createTestData( );
-
 	}
 
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void connectionTearDown() throws Exception
 	{
-		super.tearDown( );
 		TestUtil.deleteTestData( );
-
-	}
-
-	/**
-	 * Constructor for ConnectionTest.
-	 * 
-	 * @param arg0
-	 */
-	public ConnectionTest( String arg0 ) throws Exception
-	{
-		super( arg0 );
 
 	}
 
 	/*
 	 * Class under test for constructor Connection()
 	 */
-	public void testConnection( ) throws Exception
+	@Test
+    public void testConnection( ) throws Exception
 	{
 		Connection conn = new Connection( );
 		assertFalse( conn.isOpen( ) );
@@ -69,7 +61,8 @@ public class ConnectionTest extends TestCase
 	/*
 	 * Class under test for void close()
 	 */
-	public void testClose( ) throws Exception
+	@Test
+    public void testClose( ) throws Exception
 	{
 		Connection conn = TestUtil.openConnection( );
 		conn.close( );
@@ -96,7 +89,8 @@ public class ConnectionTest extends TestCase
 	/*
 	 * Class under test for void commit()
 	 */
-	public void testCommit( ) throws Exception
+	@Test
+    public void testCommit( ) throws Exception
 	{
 		Connection conn = TestUtil.openConnection( );
 		Statement stmt = (Statement) conn.newQuery( "" );
@@ -132,7 +126,8 @@ public class ConnectionTest extends TestCase
 	/*
 	 * Class under test for IQuery createStatement()
 	 */
-	public void testCreateStatement( ) throws Exception
+	@Test
+    public void testCreateStatement( ) throws Exception
 	{
 		Connection conn = TestUtil.openConnection( );
 		assertNotNull( conn.newQuery( "" ) );
@@ -159,7 +154,8 @@ public class ConnectionTest extends TestCase
 	/*
 	 * Class under test for IDataSourceMetaData getMetaData(String)
 	 */
-	public void testGetMetaDataString( ) throws Exception
+	@Test
+    public void testGetMetaDataString( ) throws Exception
 	{
 		Connection conn = TestUtil.openConnection( );
 		assertNotNull( conn.getMetaData( "" ) );
@@ -170,7 +166,8 @@ public class ConnectionTest extends TestCase
 	/*
 	 * Class under test for boolean isOpen()
 	 */
-	public void testIsOpen( ) throws Exception
+	@Test
+    public void testIsOpen( ) throws Exception
 	{
 		Connection conn = TestUtil.openConnection( );
 		assertTrue( conn.isOpen( ) );
@@ -181,7 +178,8 @@ public class ConnectionTest extends TestCase
 	/*
 	 * Class under test for void open(Properties)
 	 */
-	public void testOpen( ) throws Exception
+	@Test
+    public void testOpen( ) throws Exception
 	{
 		//TODO should have more sets of properties. one is for normal, others
 		// for special scenarios.
@@ -268,7 +266,8 @@ public class ConnectionTest extends TestCase
 	/*
 	 * Class under test for void rollback()
 	 */
-	public void testRollback( ) throws Exception
+	@Test
+    public void testRollback( ) throws Exception
 	{
 		//auto commit, rollback will not work. Just test if there are Exceptions.
 		Connection conn = TestUtil.openConnection();

@@ -24,6 +24,12 @@ import org.eclipse.birt.data.engine.perf.util.TimeUtil;
 import org.eclipse.birt.data.engine.perf.util.SizeOfUtil.SizePoint;
 import org.eclipse.birt.data.engine.perf.util.TimeUtil.TimePoint;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * interface of Query info provider
  */

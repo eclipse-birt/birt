@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.olap.data.impl.dimension;
 import java.io.IOException;
 import java.util.Date;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -33,13 +32,18 @@ import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * 
  */
 
-public class DimensionTest2 extends TestCase
-{
+public class DimensionTest2 {
 	
 	private DimLevel dimLevel12;
 	private DimLevel dimLevel11;
@@ -49,25 +53,16 @@ public class DimensionTest2 extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	/**
+/**
 	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testDimensionCreateAndFind( ) throws IOException, BirtException
+	@Test
+    public void testDimensionCreateAndFind( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionCreateAndFind( documentManager );
@@ -208,7 +203,8 @@ public class DimensionTest2 extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testDimensionCreateAndFind2( ) throws IOException, BirtException
+	@Test
+    public void testDimensionCreateAndFind2( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionCreateAndFind2( documentManager );
@@ -220,7 +216,8 @@ public class DimensionTest2 extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testDimensionCreateAndFind3( ) throws IOException, BirtException
+	@Test
+    public void testDimensionCreateAndFind3( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		try
@@ -243,7 +240,8 @@ public class DimensionTest2 extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testDimensionIterator( ) throws IOException, BirtException
+	@Test
+    public void testDimensionIterator( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testDimensionIterator( documentManager );

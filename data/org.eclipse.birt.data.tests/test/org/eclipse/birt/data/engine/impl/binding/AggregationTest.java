@@ -31,6 +31,12 @@ import testutil.ConfigText;
 
 import com.ibm.icu.util.Calendar;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test case for aggregate JSExpression
  */
@@ -48,7 +54,8 @@ public class AggregationTest extends APITestCase
 	}
 	
 	// A test case with some mixed aggregate functions at different levels
-	public void test1( ) throws Exception
+	@Test
+    public void test1( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 		
@@ -124,8 +131,8 @@ public class AggregationTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void test2( ) throws Exception
+	@Test
+    public void test2( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 		
@@ -206,8 +213,8 @@ public class AggregationTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void test4( ) throws Exception
+	@Test
+    public void test4( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 		
@@ -291,7 +298,8 @@ public class AggregationTest extends APITestCase
 	}
 	
 	// add for ted 56549
-	public void test8( ) throws Exception
+	@Test
+    public void test8( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 		
@@ -366,8 +374,8 @@ public class AggregationTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void test6( ) throws Exception
+	@Test
+    public void test6( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 		
@@ -449,8 +457,8 @@ public class AggregationTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void test7( ) throws Exception
+	@Test
+    public void test7( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 		
@@ -532,8 +540,8 @@ public class AggregationTest extends APITestCase
 		outputQueryResult( executeQuery( query ), exprs );
 		checkOutputFile();
 	}
-	
-	public void test11( ) throws Exception
+	@Test
+    public void test11( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 		
@@ -619,7 +627,8 @@ public class AggregationTest extends APITestCase
 	}
 
 	// Test aggregates on empty result set
-	public void test3( ) throws Exception
+	@Test
+    public void test3( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
@@ -646,7 +655,8 @@ public class AggregationTest extends APITestCase
 	// When there is exception thrown by the calculator of aggregation,it
 	// caused by "expression is invalid", "filter is invalid" etc, but it should
 	// not affect latter aggregations caculation.
-	public void test5( ) throws Exception
+	@Test
+    public void test5( ) throws Exception
 	{
 		QueryDefinition query = newReportQuery( );
 
