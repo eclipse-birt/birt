@@ -144,6 +144,9 @@ public class DimensionUtil
 			else if ( DesignChoiceConstants.UNITS_PC
 					.equalsIgnoreCase( fromUnits ) )
 				targetMeasure = measure * POINTS_PER_PICA;
+			else if ( DesignChoiceConstants.UNITS_PX
+					.equalsIgnoreCase( fromUnits ) )
+				targetMeasure = measure * POINTS_PER_INCH / DEFAULT_DPI;
 			else
 				throw new IllegalArgumentException(
 						"\"fromUnits\"" + ILLEGAL_UNIT ); //$NON-NLS-1$
