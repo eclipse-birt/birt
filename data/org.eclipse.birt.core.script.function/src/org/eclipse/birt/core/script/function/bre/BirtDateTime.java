@@ -45,13 +45,12 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static final long serialVersionUID = 1L;
 	
 	static private ThreadLocal<List<SimpleDateFormat>> threadSDFArray = new ThreadLocal<List<SimpleDateFormat>>();
-	private static ThreadLocal<ULocale> threadLocale = new ThreadLocal<ULocale>();
+	private static ThreadLocal<ULocale> threadLocale = new ThreadLocal<ULocale>( );
+	private static ThreadLocal<TimeZone> threadTimeZone = new ThreadLocal<TimeZone>( );
 
 	private IScriptFunctionExecutor executor;
 
 	private IScriptFunctionContext scriptContext;
-	private static ULocale defaultLocale = null;
-	private static TimeZone timeZone = null;
 	
 	// Constant is defined in: EngineConstants.PROPERTY_FISCAL_YEAR_START_DATE
 	public static final String PROPERTY_FISCAL_YEAR_START_DATE = "FISCAL_YEAR_START_DATE"; //$NON-NLS-1$
@@ -653,7 +652,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static Date today( )
 	{
-		Calendar calendar = Calendar.getInstance( timeZone );
+		Calendar calendar = Calendar.getInstance( threadTimeZone.get( ) );
 		calendar.set( Calendar.HOUR_OF_DAY, 0 );
 		calendar.clear( Calendar.MINUTE );
 		calendar.clear( Calendar.SECOND );
@@ -902,9 +901,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static long diffDay( Date d1, Date d2 )
 	{
-		Calendar c1 = Calendar.getInstance( timeZone );
+		Calendar c1 = Calendar.getInstance( threadTimeZone.get( ) );
 		c1.setTime( d1 );
-		Calendar c2 = Calendar.getInstance( timeZone );
+		Calendar c2 = Calendar.getInstance( threadTimeZone.get( ) );
 		c2.setTime( d2 );
 		if ( c1.after( c2 ) )
 		{
@@ -1006,22 +1005,6 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static long diffMinute( Date d1, Date d2 )
 	{
 		return diffSecond( d1, d2 ) / 60;
-	}
-
-	/**
-	 * The Calendar by default will give you an instance of
-	 * current time. This is however not expected. The method clear()
-	 * has to be invoked to re-init the Calendar instance.
-	 * @return
-	 */
-	private static Calendar getClearedCalendarInstance(int year, int month, int date )
-	{
-		Calendar c = Calendar.getInstance( timeZone );
-
-		c.clear( );
-
-		c.set( year, month, date );
-		return c;
 	}
 
 	/**
@@ -1909,16 +1892,16 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static Calendar getCalendar( Date d )
 	{
 		Calendar c = null;
-		if( d instanceof java.sql.Date )
+		if ( d instanceof java.sql.Date )
 		{
-			c = Calendar.getInstance( TimeZone.getDefault( ), defaultLocale );
+			c = Calendar.getInstance( TimeZone.getDefault( ),
+					threadLocale.get( ) );
 		}
 		else
 		{
-			c = Calendar.getInstance( timeZone, defaultLocale );
+			c = Calendar.getInstance( threadTimeZone.get( ),
+					threadLocale.get( ) );
 		}
-		//Fix for ted 38388
-		c.setMinimalDaysInFirstWeek( 1 );
 		if ( d == null )
 		{
 			c.clear( );
@@ -1955,23 +1938,37 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		scriptContext = context;
 		if ( scriptContext != null )
 		{
-			ULocale locale = (ULocale) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE );
+			Object locale = scriptContext.findProperty(
+					org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE );
+			if ( !( locale instanceof ULocale ) )
+			{
+				locale = ULocale.getDefault( );
+			}
 			if ( threadLocale.get( ) != locale )
 			{
-				threadLocale.set( locale );
-				List<SimpleDateFormat> sdfList = new ArrayList<SimpleDateFormat>();
-				sdfList.add( new SimpleDateFormat( "MMM", threadLocale.get( ) ) );
-				sdfList.add( new SimpleDateFormat( "MMMM", threadLocale.get( ) ) );
-				sdfList.add( new SimpleDateFormat( "EEE", threadLocale.get( ) ) );
-				sdfList.add( new SimpleDateFormat( "EEEE", threadLocale.get( ) ) );
-			    threadSDFArray.set( sdfList );
+				threadLocale.set( (ULocale) locale );
+				List<SimpleDateFormat> sdfList = new ArrayList<SimpleDateFormat>( );
+				sdfList.add(
+						new SimpleDateFormat( "MMM", threadLocale.get( ) ) );
+				sdfList.add(
+						new SimpleDateFormat( "MMMM", threadLocale.get( ) ) );
+				sdfList.add(
+						new SimpleDateFormat( "EEE", threadLocale.get( ) ) );
+				sdfList.add(
+						new SimpleDateFormat( "EEEE", threadLocale.get( ) ) );
+				threadSDFArray.set( sdfList );
 			}
 
-			timeZone = (TimeZone) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE );
-		}
-		if( timeZone == null )
-		{
-			timeZone = TimeZone.getDefault( );
+			Object timeZone = scriptContext.findProperty(
+					org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE );
+			if ( !( timeZone instanceof TimeZone ) )
+			{
+				timeZone = TimeZone.getDefault( );
+			}
+			if ( threadTimeZone.get( ) != timeZone )
+			{
+				threadTimeZone.set( (TimeZone) timeZone );
+			}
 		}
 		return this.executor.execute( arguments, context );
 	}
