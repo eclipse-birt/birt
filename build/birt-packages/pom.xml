@@ -11,7 +11,7 @@
 	<parent>
 		<groupId>org.eclipse.birt.build</groupId>
 		<artifactId>org.eclipse.birt.build-parent</artifactId>
-        <version>0.0.1-SNAPSHOT</version>
+		<version>4.6.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 
@@ -35,6 +35,7 @@
 		<module>birt-source</module>
 		<module>birt-nl</module>
 		<module>birt-publish</module>
+		<module>birt-runtime-test</module>
 		<module>birt-integration-test</module>
 	</modules>
 </project>
