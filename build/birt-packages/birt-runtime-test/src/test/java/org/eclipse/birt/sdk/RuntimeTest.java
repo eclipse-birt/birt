@@ -37,13 +37,53 @@ public class RuntimeTest
     @Test
     public void testMain( ) throws Exception
     {
-        new File( "./output.html" ).delete( );
-        int result = run( new String[]{"-o", "./output.html", "-m", "RunAndRender",
+        String output = "./target/output.html";
+        new File( output ).delete( );
+        int result = run( new String[]{"-o", output, "-m", "RunAndRender",
                 "./target/birt-runtime/ReportEngine/samples/hello_world.rptdesign"} );
         Assert.assertEquals( 0, result );
-        Assert.assertTrue( new File( "./output.html" ).exists( ) );
-        Assert.assertTrue( new String( Files.readAllBytes( Paths.get( "./output.html" ) ), StandardCharsets.UTF_8 )
+        Assert.assertTrue( new File( output ).exists( ) );
+        Assert.assertTrue( new String( Files.readAllBytes( Paths.get( output ) ), StandardCharsets.UTF_8 )
                 .contains( "If you can see this report, it means that the BIRT viewer is installed correctly." ) );
+    }
+
+    @Test
+    public void testTable( ) throws Exception
+    {
+        String output = "./target/table.html";
+        new File( output ).delete( );
+        int result = run( new String[]{"-o", output, "-m", "RunAndRender", "./src/test/resources/table.rptdesign"} );
+        Assert.assertEquals( 0, result );
+        Assert.assertTrue( new File( output ).exists( ) );
+        //USA's customer count is 36
+        Assert.assertTrue(
+                new String( Files.readAllBytes( Paths.get( output ) ), StandardCharsets.UTF_8 ).contains( "36" ) );
+    }
+
+    @Test
+    public void testXtab( ) throws Exception
+    {
+        String output = "./target/xtab.html";
+        new File( output ).delete( );
+        int result = run( new String[]{"-o", output, "-m", "RunAndRender", "./src/test/resources/xtab.rptdesign"} );
+        Assert.assertEquals( 0, result );
+        Assert.assertTrue( new File( output ).exists( ) );
+        //USA's customer count is 36
+        Assert.assertTrue(
+                new String( Files.readAllBytes( Paths.get( output ) ), StandardCharsets.UTF_8 ).contains( "36" ) );
+    }
+
+    @Test
+    public void testChart( ) throws Exception
+    {
+        String output = "./target/chart.html";
+        new File( output ).delete( );
+        int result = run( new String[]{"-o", output, "-m", "RunAndRender", "./src/test/resources/chart.rptdesign"} );
+        Assert.assertEquals( 0, result );
+        Assert.assertTrue( new File( output ).exists( ) );
+        //there is a svg image output as type="image/svg+xml"
+        Assert.assertTrue( new String( Files.readAllBytes( Paths.get( output ) ), StandardCharsets.UTF_8 )
+                .contains( "image/svg+xml" ) );
     }
 
     private File[] listJars( String folder )
