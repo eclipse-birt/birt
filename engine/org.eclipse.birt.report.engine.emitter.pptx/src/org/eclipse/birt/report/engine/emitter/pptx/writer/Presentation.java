@@ -52,6 +52,8 @@ public class Presentation extends Component
 
 	private static final String TAG_SLIDE_MASTER_ID_LIST = "p:sldMasterIdLst";
 	
+	public static final int MAX_SLIDE_HEIGHT = 51206400;
+	
 	private final PPTXBookmarkManager bmkmanager;
 
 	private int slideMasterId = 1;
@@ -181,12 +183,16 @@ public class Presentation extends Component
 		writer.openTag( TAG_SLIDE_SZ );
 		// Set default page size to A4.
 		if ( width == 0 )
-		{
 			width = 612;
+		if ( height == 0 )
 			height = 792;
-		}
+
+
 		long convertedWidth = OOXmlUtil.convertPointerToEmus( width );
 		long convertedHeight = OOXmlUtil.convertPointerToEmus( height );
+		
+		if ( convertedHeight > MAX_SLIDE_HEIGHT )
+			convertedHeight = MAX_SLIDE_HEIGHT;
 		writer.attribute( TAG_CX, convertedWidth );
 		writer.attribute( TAG_CY, convertedHeight );
 		writer.closeTag( TAG_SLIDE_SZ );

@@ -11,19 +11,22 @@
 
 package org.eclipse.birt.core.script.bre;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.Calendar;
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-
+import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  *
@@ -57,6 +60,16 @@ public class BirtDateTimeTest
 		 * use in later calls.
 		 */
 		scope = cx.initStandardObjects( );
+		scope.put( IScriptFunctionContext.FUNCTION_BEAN_NAME,
+				scope,
+				new IScriptFunctionContext( ) {
+
+					@Override
+					public Object findProperty( String name )
+					{
+						return null;
+					}
+				} );
 		new CoreJavaScriptInitializer().initialize( cx, scope );
 	}
 
@@ -180,6 +193,39 @@ public class BirtDateTimeTest
 				1, 1, 1, 2, 2, 1, 2, 2, 3, 7, 11, 16, 20
 		};
 
+		for ( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ) ).intValue( ), values[i] );
+		}
+		
+		// Test France locale
+		ULocale.setDefault( ULocale.FRANCE );
+		scripts = new String[]{
+				"BirtDateTime.week(new Date(2016, 0, 1) )",
+				"BirtDateTime.week(new Date(2016, 0, 3) )",
+				"BirtDateTime.week(new Date(2016, 0, 7) )"
+		};
+		values = new int[]{
+				53, 53, 1
+		};
+		for ( int i = 0; i < values.length; i++ )
+		{
+			assertEquals( ( (Number) cx.evaluateString( scope,
+					scripts[i],
+					"inline",
+					1,
+					null ) ).intValue( ), values[i] );
+		}
+		
+		// Test US Locale
+		ULocale.setDefault( ULocale.US );
+		values = new int[]{
+				1, 2, 2
+		};
 		for ( int i = 0; i < values.length; i++ )
 		{
 			assertEquals( ( (Number) cx.evaluateString( scope,
