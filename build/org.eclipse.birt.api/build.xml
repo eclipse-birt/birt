@@ -131,7 +131,9 @@
                 //java.lang.System.out.println(fileName);
                 var last = fileName.lastIndexOf('/');
                 if ( last != -1) {
-                    return fileName.substring(0, last).replace('/', '.');
+                    var pkg = fileName.substring(0, last).replaceAll('/', '.');
+        			//java.lang.System.out.println(pkg);
+        			return pkg;
                 }
             }
             return null;

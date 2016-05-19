@@ -95,8 +95,10 @@ public class DiskDataSetCacheObject implements IDataSetCacheObject
 	public boolean isCachedDataReusable( int requiredCapability )
 	{
 		assert requiredCapability > 0;
-		return FileSecurity.fileExist( getDataFile())
-				&& FileSecurity.fileExist( getMetaFile())
+		// Only check if meta data file exists, because empty data file should
+		// be still valid and cached.
+		// Removed: FileSecurity.fileExist( getDataFile()) &&
+		return FileSecurity.fileExist( getMetaFile( ) )
 				&& cacheCapability >= requiredCapability;
 	}
 

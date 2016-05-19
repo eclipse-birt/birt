@@ -2,4 +2,4 @@ stringColumn,integerColumn,dateColumn,decimalColumn
 myString1,5,"Aug 8, 2008 10:30 AM",25.689
 ,-12,,
 "my,str;in	g|3",,"Jan 1, 2007 3:30 PM",-987.654321
-ü你ßé,0,,0.0
+ü你ßé,0,,0

@@ -7,7 +7,7 @@ Bundle-Version: 4.6.0.qualifier
 Bundle-Activator: org.eclipse.birt.data.tests.plugin.Activator
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.data,
- org.apache.derby.core,
+ org.apache.derby,
  org.eclipse.birt.data.aggregation,
  org.junit;bundle-version="4.8.1"
 Bundle-ActivationPolicy: lazy

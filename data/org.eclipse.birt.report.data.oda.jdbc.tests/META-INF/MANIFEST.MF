@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.junit;bundle-version="4.8.1",
  org.eclipse.birt.report.data.oda.jdbc,
  org.eclipse.datatools.connectivity.oda,
- org.apache.derby.core
+ org.apache.derby
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Eclipse BIRT Project

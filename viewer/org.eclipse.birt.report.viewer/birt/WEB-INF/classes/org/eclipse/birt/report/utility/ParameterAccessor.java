@@ -716,7 +716,7 @@ public class ParameterAccessor
 			title = BirtResources.getMessage( ResourceConstants.BIRT_VIEWER_TITLE );
 		}
 
-		return htmlEncode( title );
+		return title;
 	}
 
 	/**
@@ -971,6 +971,16 @@ public class ParameterAccessor
 
 		// Use icu4j to normalize the locale string
 		ULocale ulocale = new ULocale( locale );
+
+		// In case locale string has garbage characters from xss attack
+		// We ignore the locale if it is not one of the recognized available locales
+		ULocale[] availableLocales = ULocale.getAvailableLocales( );
+		List<ULocale> list = Arrays.asList( availableLocales );
+		if ( !list.contains( ulocale ) )
+		{
+			return null;
+		}
+
 		return ulocale.toLocale( );
 	}
 

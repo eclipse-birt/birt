@@ -181,9 +181,9 @@
       </table>
       <label id="64" text="Action"/>
       <label id="65" text="Visibility"/>
-      <text id="88" text="AUTO TEXT" text-type="auto"/>
-      <text id="89" text="HTML TEXT" text-type="html"/>
-      <text id="90" text="PLAIN TEXT" text-type="plain"/>
+      <text id="88" is-jtidy="true" text="AUTO TEXT" text-type="auto"/>
+      <text id="89" is-jtidy="true" text="HTML TEXT" text-type="html"/>
+      <text id="90" is-jtidy="true" text="PLAIN TEXT" text-type="plain"/>
       <label id="91" text="label with key"/>
       <image id="92" image-source="0" is-fit-to-container="false" is-proportional-scale="false">
          <action action-type="3" target-window="_self">
@@ -250,13 +250,13 @@
             </entry>
          </user-properties>
       </data>
-      <text-data content-type="html" id="111"/>
+      <text-data content-type="html" id="111" is-jtidy="true"/>
    </contents>
    <page-setup>
       <master-pages>
          <simple-master-page bottom-margin="1in" footer-height="1cm" header-height="1cm" id="2" left-margin="1.25in" name="Simple MasterPage" page-height="11in" page-type="us-letter" page-width="8.5in" right-margin="1.25in" top-margin="1in">
             <footers>
-               <text id="3" text="&lt;value-of&gt;new Date()&lt;/value-of&gt;" text-type="html"/>
+               <text id="3" is-jtidy="true" text="&lt;value-of&gt;new Date()&lt;/value-of&gt;" text-type="html"/>
             </footers>
          </simple-master-page>
       </master-pages>

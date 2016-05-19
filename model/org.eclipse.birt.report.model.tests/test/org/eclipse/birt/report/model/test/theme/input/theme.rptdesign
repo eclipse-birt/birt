@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.3.v20140518-0431 Build &lt;4.2.3.v20140518-0431></property>
+    <property name="units">in</property>
+    <property name="theme">theme1</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="layoutPreference">auto layout</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <themes>
+        <report-item-theme type="Table" name="Table-theme1" id="57"/>
+        <report-item-theme type="Data" name="Data-theme1" id="58"/>
+        <theme name="theme1" id="59"/>
+    </themes>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="orientation">auto</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="9">
+            <property name="theme">Table-theme1</property>
+            <column id="22"/>
+            <column id="23"/>
+            <column id="24"/>
+            <header>
+                <row id="10">
+                    <cell id="11"/>
+                    <cell id="12"/>
+                    <cell id="13"/>
+                </row>
+            </header>
+            <detail>
+                <row id="14">
+                    <cell id="15"/>
+                    <cell id="16"/>
+                    <cell id="17"/>
+                </row>
+            </detail>
+            <footer>
+                <row id="18">
+                    <cell id="19"/>
+                    <cell id="20"/>
+                    <cell id="21"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>
