@@ -18,6 +18,7 @@ import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.birt.report.designer.ui.views.attributes.AttributeView;
 import org.eclipse.birt.report.designer.ui.views.data.DataView;
 import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.gef.ui.views.palette.PaletteView;
 import org.eclipse.jface.dialogs.IDialogSettings;
@@ -272,20 +273,24 @@ public class ReportPerspective implements IPerspectiveFactory
 		}
 
 		// Do not display log for OK and Info level.
-		IDialogSettings settings = ( (AbstractUIPlugin) Platform
-				.getPlugin( "org.eclipse.ui.views.log" ) ).getDialogSettings( ); //$NON-NLS-1$
-		String className = "org.eclipse.ui.internal.views.log.LogView"; //$NON-NLS-1$
-		if ( settings.getSection( className ) == null )
+		Plugin plugin = Platform.getPlugin( "org.eclipse.ui.views.log" );
+		if ( plugin != null )
 		{
-			settings = settings.addNewSection( className );
+			IDialogSettings settings = ( (AbstractUIPlugin) plugin )
+					.getDialogSettings( ); // $NON-NLS-1$
+			String className = "org.eclipse.ui.internal.views.log.LogView"; //$NON-NLS-1$
+			if ( settings.getSection( className ) == null )
+			{
+				settings = settings.addNewSection( className );
+			}
+			else
+			{
+				settings = settings.getSection( className );
+			}
+			settings.put( "info", false ); //$NON-NLS-1$
+			settings.put( "ok", false ); //$NON-NLS-1$
+			settings.put( "warning", true ); //$NON-NLS-1$
+			settings.put( "error", true ); //$NON-NLS-1$
 		}
-		else
-		{
-			settings = settings.getSection( className );
-		}
-		settings.put( "info", false ); //$NON-NLS-1$
-		settings.put( "ok", false ); //$NON-NLS-1$
-		settings.put( "warning", true ); //$NON-NLS-1$
-		settings.put( "error", true ); //$NON-NLS-1$
 	}
 }
