@@ -594,6 +594,10 @@ public class CubeQueryExecutorHelper implements ICubeQueryExcutorHelper
 	
 	private int[] getKeyLevelIndexs( DimLevel[] keyLevels, IAggregationResultSet rs ) throws DataException
 	{
+		if ( ( keyLevels == null ) || ( keyLevels.length == 0 ) )
+		{
+			return new int[0];
+		}
 		int[] keyLevelIndexes = new int[keyLevels.length];
 		DimLevel[] allLevels = rs.getAllLevels( );
 		for ( int i = 0; i < keyLevels.length; i++ )
