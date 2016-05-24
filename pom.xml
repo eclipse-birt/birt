@@ -341,6 +341,9 @@
 						<jdk>
 							<id>JavaSE-1.7</id>
 						</jdk>
+						<jdk>
+							<id>JavaSE-1.8</id>
+						</jdk>
 					</toolchains>
 				</configuration>
 			</plugin>
