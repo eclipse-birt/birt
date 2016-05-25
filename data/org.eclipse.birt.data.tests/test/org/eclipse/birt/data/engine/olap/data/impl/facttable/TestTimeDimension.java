@@ -99,8 +99,8 @@ private static String[] distinct( String[] sValues )
 	
 	/**
 	 * 
-	 * @throws Exception 
 	 */
+	@Ignore("Ignoring since TimeDimension is not currently used if the product is used in a normal way")
 	@Test
     public void testTimeDimension( ) throws Exception
 	{
