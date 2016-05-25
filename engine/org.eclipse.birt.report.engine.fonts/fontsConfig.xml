@@ -178,6 +178,8 @@
 		<path path="/usr/share/fonts/zh_CN/TrueType" />
 		<path path="/usr/share/fonts/zh_TW/TrueType" />
 		<path path="/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType" />
+		<path path="/usr/share/fonts/TTF" />
+		<path path="/usr/share/fonts/OTF" />
 	</font-paths>
 <!--
 	For <font-encodings> section,
