@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 
 import javax.servlet.ServletOutputStream;
+import javax.servlet.WriteListener;
 
 /**
  * This class extends and mocks an abstract ServletOutputStream class for Viewer
@@ -56,4 +57,18 @@ public class ServletOutputStreamSimulator extends ServletOutputStream
 	{
 		out.write( b );
 	}
+
+    @Override
+    public boolean isReady( )
+    {
+        // TODO Auto-generated method stub
+        return false;
+    }
+
+    @Override
+    public void setWriteListener( WriteListener arg0 )
+    {
+        // TODO Auto-generated method stub
+        
+    }
 }

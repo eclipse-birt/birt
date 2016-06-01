@@ -79,7 +79,7 @@ public abstract class BaseTestCase extends TestCase
 						.getAbsolutePath( ) );
 		context.setInitParameter(
 				ParameterAccessor.INIT_PARAM_CONFIG_FILE,
-				(new File("birt" + File.separator + IBirtConstants.DEFAULT_VIEWER_CONFIG_FILE)).getAbsolutePath( )				
+				(new File("../org.eclipse.birt.report.viewer/birt" + File.separator + IBirtConstants.DEFAULT_VIEWER_CONFIG_FILE)).getAbsolutePath( )				
 		);
 		
 
