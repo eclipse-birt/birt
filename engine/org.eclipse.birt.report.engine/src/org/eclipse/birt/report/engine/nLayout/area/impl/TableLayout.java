@@ -789,7 +789,7 @@ public class TableLayout
 	
 	protected boolean isSpecifiedHeight( RowArea area )
 	{
-		IContent content = (IContent) area.getContent( );
+		IContent content = area.getContent( );
 		if ( content != null )
 		{
 			DimensionType cHeight = content.getHeight( );
@@ -801,6 +801,19 @@ public class TableLayout
 			}
 		}
 		return false;
+	}
+	
+	private boolean isEmptyRow( RowArea rowArea )
+	{
+		for ( int i = startCol; i <= endCol; i++ )
+		{
+			CellArea cell = rowArea.getCell( i );
+			if ( cell != null && cell.getChildrenCount( ) > 0 )
+			{
+				return false;
+			}
+		}
+		return true;
 	}
 
 	/**
@@ -834,7 +847,8 @@ public class TableLayout
 			lastRow = (RowArea) rows.getCurrent( );
 		}
 		currentRow = rowArea;
-		int sheight = rowArea.getSpecifiedHeight( );
+		// Do not use specified height if row is empty to avoid endless page break
+		int sheight = isEmptyRow( rowArea ) ? 0 : rowArea.getSpecifiedHeight( );
 		int height = sheight;
 		/*
 		 * In this case, the row should be the first row of new page. 1. this
