@@ -11,7 +11,15 @@
 
 package org.eclipse.birt.chart.tests.util;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.List;
 
 /**
  * 
@@ -27,14 +35,26 @@ public class FileUtil {
  * @return true if the contents match; otherwise, false is returned.
  * @throws Exception thrown if io errors occur
  */
+	public static boolean compareFiles(InputStream left, InputStream right, boolean ignoreLineBreaks)
+			throws Exception {
+		
+		int leftChar, rightChar;
+		do {
+			do {
+				leftChar = left.read();
+			} while(ignoreLineBreaks && (leftChar == 0x0D || leftChar == 0x0A));
+			do {
+				rightChar = right.read();
+			} while(ignoreLineBreaks && (rightChar == 0x0D || rightChar == 0x0A));
+			if(leftChar != rightChar) {
+				return false;
+			}
+		} while(leftChar != -1 && rightChar != -1);
+		return true;
+	}
+
 	public static boolean compareFiles(InputStream left, InputStream right)
 			throws Exception {
-		int leftChar = -1;
-		while ((leftChar = left.read()) != -1){
-			if (leftChar != right.read())
-				return false;
-			
-		}
-		return true;
+		return compareFiles(left, right, false);
 	}
 }

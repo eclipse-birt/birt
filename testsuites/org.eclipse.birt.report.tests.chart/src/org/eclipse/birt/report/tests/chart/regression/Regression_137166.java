@@ -53,7 +53,7 @@ import org.eclipse.birt.report.tests.chart.ChartTestCase;
  * </p>
  * Test description:
  * <p>
- * Chart with have value of 0 and only one row£¬ render the chart, verify if Y
+ * Chart with have value of 0 and only one rowï¿½ï¿½ render the chart, verify if Y
  * Axis tick label is displayed correclty.
  * </p>
  */
@@ -144,7 +144,7 @@ public class Regression_137166 extends ChartTestCase
 	public void test_regression_137166( ) throws Exception
 	{
 		Regression_137166 st = new Regression_137166( );
-		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareImages( GOLDEN, OUTPUT ) );
 	}
 
 	/**

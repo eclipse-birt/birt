@@ -139,7 +139,7 @@ public class Regression_109641 extends ChartTestCase
 	public void test_regression_109641( ) throws Exception
 	{
 		Regression_109641 st = new Regression_109641( );
-		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareImages( GOLDEN, OUTPUT ) );
 	}
 
 	private void bindGroupingData( Chart chart )

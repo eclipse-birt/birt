@@ -187,7 +187,7 @@ public	Regression_285009( )
 	public void test_regression_285009( ) throws Exception
 	{
 		Regression_285009 st = new Regression_285009( );
-		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareImages( GOLDEN, OUTPUT ) );
 	}
 }
 
