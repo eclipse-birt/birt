@@ -8,6 +8,7 @@
 
 package org.eclipse.birt.report.tests.chart;
 
+import java.awt.Image;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -20,6 +21,7 @@ import java.security.CodeSource;
 import java.security.ProtectionDomain;
 
 import junit.framework.TestCase;
+import utility.ImageUtil;
 
 /**
  * Base chart test case.
@@ -486,4 +488,16 @@ public class ChartTestCase extends TestCase
 
 		}
 	}
+
+	protected boolean compareImages( String golden, String output )
+			throws Exception
+	{
+		Image result = ImageUtil.compare(golden, output);
+		if(result == null) {
+			return true;
+		}
+		ImageUtil.saveJPG(result, output + ".diff");
+		return false;
+	}
+	
 }
