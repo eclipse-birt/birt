@@ -137,7 +137,7 @@ public class Regression_145473 extends ChartTestCase
 	public void test_regression_145473( ) throws Exception
 	{
 		Regression_145473 st = new Regression_145473( );
-		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareImages( GOLDEN, OUTPUT ) );
 	}
 
 	/**

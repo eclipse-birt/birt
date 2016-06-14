@@ -139,7 +139,7 @@ public class Regression_121383 extends ChartTestCase
 	public void test_regression_121383( ) throws Exception
 	{
 		Regression_121383 st = new Regression_121383( );
-		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareImages( GOLDEN, OUTPUT ) );
 	}
 
 	/**
