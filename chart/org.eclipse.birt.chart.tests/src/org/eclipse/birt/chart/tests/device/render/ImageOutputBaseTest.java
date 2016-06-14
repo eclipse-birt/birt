@@ -66,7 +66,8 @@ public class ImageOutputBaseTest extends TestCase {
 		Image result =
 			ImageUtil.compare(
 				workspaceDir+File.separator+ImageRenderTest.CONTROLDIR+dirName+File.separator+filename+".png", //$NON-NLS-1$
-				workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".png"); //$NON-NLS-1$
+				workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".png",
+				params); //$NON-NLS-1$
 		if(result != null) {
 			ImageUtil.savePNG(result, workspaceDir+File.separator+ImageRenderTest.OUTDIR+dirName+File.separator+filename+".diff.png");
 			fail();
