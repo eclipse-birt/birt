@@ -29,7 +29,7 @@ public class AllTests
 		
 		/* in package: org.eclipse.birt.report.engine.emitter.prototype.excel */
 		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.prototype.excel.DateSymbolTest.class );
-		
+		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.prototype.excel.ExcelWriterTest.class );
 		//$JUnit-END$
 		return suite;
 	}
