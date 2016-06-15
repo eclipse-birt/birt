@@ -90,6 +90,8 @@ public final class PieRenderer
 	private static final int MORE = 1;
 
 	private static final int EQUAL = 0;
+	
+	private static final int MAX_NUMBER_SLICE = 100;
 
 	private final Position lpDataPoint;
 
@@ -346,7 +348,8 @@ public final class PieRenderer
 		}
 		else
 		{
-			for ( int i = 0; i < da.length; i++ )
+			// Set max slice number to avoid unnecessary computation and memory
+			for ( int i = 0; i < da.length && i < MAX_NUMBER_SLICE; i++ )
 			{
 				// filter null values.
 				if ( Double.isNaN( da[i] ) )
