@@ -19,9 +19,12 @@ import java.io.InputStream;
 import java.net.URL;
 import java.security.CodeSource;
 import java.security.ProtectionDomain;
+import java.util.HashMap;
+import java.util.Map;
 
 import junit.framework.TestCase;
 import utility.ImageUtil;
+import utility.ImageUtil.ImageCompParam;
 
 /**
  * Base chart test case.
@@ -44,7 +47,7 @@ public class ChartTestCase extends TestCase
 		}
 		return "_" + name; //$NON-NLS-1$
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -136,16 +139,16 @@ public class ChartTestCase extends TestCase
 			String outputFrom = this.genOutputFile( output );
 			String outputTo = this.getOutputResourceFolder( ) + "/" + this.getFullQualifiedClassName( ) + "/diffOutput/" + output;
 
-			
+
 			File parentOutput = new File( outputTo ).getParentFile( );
-			
+
 			if ( parentOutput != null )
 			{
 				parentOutput.mkdirs( );
 			}
-			
+
 			this.copyFile( outputFrom, outputTo );
-			
+
 			File parentGolden = new File( goldenTo ).getParentFile( );
 
 			if ( parentGolden != null )
@@ -492,12 +495,36 @@ public class ChartTestCase extends TestCase
 	protected boolean compareImages( String golden, String output )
 			throws Exception
 	{
-		Image result = ImageUtil.compare(golden, output);
+		String goldenFile =
+			TEST_FOLDER +
+			File.separator +
+			getFullQualifiedClassName( ).replace( '.', '/' ) +
+			File.separator +
+			GOLDEN_FOLDER +
+			File.separator +
+			golden;
+
+		String outputFile =
+			genOutputFolder() +
+			File.separator +
+			output;
+
+//		System.out.println("Golden: " + new File(goldenFile).getAbsolutePath());
+//		System.out.println("Output: " + new File(outputFile).getAbsolutePath());
+
+		Map<ImageCompParam, Integer> params = new HashMap<ImageCompParam, Integer>();
+		params.put(ImageCompParam.TOLERANCE, 4);
+
+		Image result =
+			ImageUtil.compare(
+				new File(goldenFile).getAbsolutePath(),
+				new File(outputFile).getAbsolutePath(),
+				params);
 		if(result == null) {
 			return true;
 		}
-		ImageUtil.saveJPG(result, output + ".diff");
+		ImageUtil.saveJPG(result, new File(outputFile + ".diff").getAbsolutePath());
 		return false;
 	}
-	
+
 }
