@@ -509,9 +509,6 @@ public class ChartTestCase extends TestCase
 			File.separator +
 			output;
 
-//		System.out.println("Golden: " + new File(goldenFile).getAbsolutePath());
-//		System.out.println("Output: " + new File(outputFile).getAbsolutePath());
-
 		Map<ImageCompParam, Integer> params = new HashMap<ImageCompParam, Integer>();
 		params.put(ImageCompParam.TOLERANCE, 4);
 
