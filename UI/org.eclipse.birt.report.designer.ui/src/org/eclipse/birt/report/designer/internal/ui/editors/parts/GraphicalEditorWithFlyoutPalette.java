@@ -481,6 +481,11 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 					super.run( );
 			}
 
+			@Override
+			public String getText()
+			{
+				return Messages.getString( "DeleteAction.text" ); //$NON-NLS-1$
+			}
 		} );
 
 		SaveAction saveAction = new SaveAction( this );
