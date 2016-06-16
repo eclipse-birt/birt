@@ -104,6 +104,10 @@ public class ImageUtil {
 	}
 
 	public static Image compare(String golden, String actual, Map<ImageCompParam, Integer> params) throws IOException {
+		if (mergeDefaultCompParams(params).get(ImageCompParam.DEBUG) > 0) {
+			System.out.print("Golden: " + golden);
+			System.out.print("Actual: " + actual);
+		}
 		return compare(loadImageFromFile(golden), loadImageFromFile(actual), params);
 	}
 
