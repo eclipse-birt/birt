@@ -3212,7 +3212,7 @@
       <Argument name="this" tagID="Element.Table.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.ITableInstance"/>
       <Argument name="reportContext" tagID="Element.Table.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
- 	<PropertyVisibility name="isSummaryTable" visibility="hide"/>      
+ 	<!--<PropertyVisibility name="isSummaryTable" visibility="hide"/>-->   
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.TableGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableGroup" name="TableGroup" nameSpace="none" since="1.0" xmlName="group">
     <Slot displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" name="header" selector="table-group-header" since="1.0" xmlName="header">
