@@ -130,7 +130,7 @@ public class RenderTaskTest extends EngineCase
 		PrintWriter writer;
 		try
 		{
-			writer = new PrintWriter( new FileOutputStream( "d:/test.csv", false ) );
+			writer = new PrintWriter( new FileOutputStream( "./test.csv", false ) );
 			writer.println( "string1,string2,string3,date1,date2,date3,int1,int2,int3,float1,float2,float3");
 			StringBuilder builder = new StringBuilder( );
 			for ( int i = 0; i < 100000; i++ )
@@ -184,7 +184,7 @@ public class RenderTaskTest extends EngineCase
 		createReportDocument1( data );
 		long time1 = 0;
 		long time2 = 0;
-		PrintWriter writer = new PrintWriter( new FileOutputStream( "d:/performance.txt", true ) );
+		PrintWriter writer = new PrintWriter( new FileOutputStream( "./performance.txt", true ) );
 		for( int i = 0; i < 50; i++ )
 		{
 		   time1 += doRenderTest1( false );
@@ -226,7 +226,7 @@ public class RenderTaskTest extends EngineCase
 		// get the page number
 		IRenderOption option = new HTMLRenderOption( );
 		option.setOutputFormat( "html" ); //$NON-NLS-1$
-		OutputStream out = new FileOutputStream( "d:/test.html" );
+		OutputStream out = new FileOutputStream( "./test.html" );
 		if( usingFilterStream )
 		{
 			out = new CounterOutputStream( out );
