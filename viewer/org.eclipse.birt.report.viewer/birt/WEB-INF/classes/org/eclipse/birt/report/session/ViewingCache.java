@@ -120,10 +120,10 @@ public class ViewingCache implements Serializable
 		String folder = ""; //$NON-NLS-1$
 		if ( sessionId != null )
 		{
-			folder = ( prefix + sessionId ) + File.separator;
+			folder = ( prefix + File.separator + sessionId.hashCode() ) + File.separator;
 			if ( subSessionId != null )
 			{
-				folder += subSessionId + File.separator;
+				folder += subSessionId.hashCode() + File.separator;
 			}
 		}
 		else
