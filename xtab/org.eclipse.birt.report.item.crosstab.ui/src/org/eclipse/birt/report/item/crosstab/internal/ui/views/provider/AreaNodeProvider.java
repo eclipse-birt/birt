@@ -83,7 +83,7 @@ public class AreaNodeProvider extends CrosstabWrapperNodeProvider
 		if ( propertyName.equals( ICrosstabReportItemConstants.MEASURES_PROP ) )
 			return Messages.getString("AreaNodeProvider.DetailArea"); //$NON-NLS-1$
 		if ( propertyName.equals( ICrosstabReportItemConstants.HEADER_PROP ) )
-			return "Headers"; //$NON-NLS-1$
+			return Messages.getString("AreaNodeProvider.Headers"); //$NON-NLS-1$
 
 		return null;
 	}
