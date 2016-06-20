@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: %plugin.name
+Bundle-SymbolicName: org.eclipse.birt.data.oda.mongodb3;singleton:=true
+Bundle-Version: 4.5.0.qualifier
+Bundle-ClassPath: .,
+ lib/mongo-java-driver-3.2.2.jar,
+ lib/commons-codec-1.9.jar
+Bundle-Activator: org.eclipse.birt.data.oda.mongodb3.Activator
+Bundle-Vendor: Eclipse BIRT Project
+Bundle-Localization: plugin
+Export-Package: org.eclipse.birt.data.oda.mongodb3.impl,
+ org.eclipse.birt.data.oda.mongodb3.internal.impl;x-friends:="org.eclipse.birt.data.oda.mongodb3.ui"
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.datatools.connectivity.oda;bundle-version="[3.3.0,4.0.0)",
+ org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.0,4.0.0)"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-ActivationPolicy: lazy
