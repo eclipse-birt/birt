@@ -310,6 +310,9 @@ public class DataExtractionTaskTest extends EngineCase
 		assertEquals( "CITY", columnName );
 	}
 	
+	/**
+	 *   JSON dataextraction not supported for open source
+
     public void testDataExtractionToJSON( ) throws Exception
     {
         dataExTask.selectResultSet( "ELEMENT_219" );
@@ -354,7 +357,7 @@ public class DataExtractionTaskTest extends EngineCase
             fail( e.getMessage( ) );
         }
     }
-
+*/
 	public void testFilters( ) throws BirtException
 	{
 		dataExTask.selectResultSet( "ELEMENT_219" );
