@@ -18,8 +18,6 @@
 		<module>org.eclipse.birt.integration.wtp.ui</module>
 		<module>org.eclipse.birt.jetty.overlay</module>
 		<module>org.eclipse.birt.report.viewer</module>
-		<!--
 		<module>org.eclipse.birt.report.viewer.tests</module>
-		-->
 	</modules>
 </project>

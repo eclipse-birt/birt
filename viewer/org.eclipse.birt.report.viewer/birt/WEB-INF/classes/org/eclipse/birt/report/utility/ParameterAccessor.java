@@ -795,7 +795,8 @@ public class ParameterAccessor
 
 	public static int getMaxRows( HttpServletRequest request )
 	{
-		return ParameterAccessor.getParameterAsInt( request, PARAM_MAXROWS );
+		int maxRows = ParameterAccessor.getParameterAsInt( request, PARAM_MAXROWS );
+		return maxRows == -1 ? ParameterAccessor.maxRows : maxRows;
 	}
 
 	/**
@@ -962,27 +963,16 @@ public class ParameterAccessor
 	 *            locale string
 	 * @return report locale
 	 */
-	public static Locale getLocaleFromString( String locale )
-	{
-		if ( locale == null || locale.length( ) <= 0 )
-		{
-			return null;
-		}
-
-		// Use icu4j to normalize the locale string
-		ULocale ulocale = new ULocale( locale );
-
-		// In case locale string has garbage characters from xss attack
-		// We ignore the locale if it is not one of the recognized available locales
-		ULocale[] availableLocales = ULocale.getAvailableLocales( );
-		List<ULocale> list = Arrays.asList( availableLocales );
-		if ( !list.contains( ulocale ) )
-		{
-			return null;
-		}
-
-		return ulocale.toLocale( );
-	}
+    public static Locale getLocaleFromString( String locale )
+    {
+        if ( locale == null || locale.length( ) <= 0 )
+        {
+            return null;
+        }
+        //remove all '<' character to avoid xss attack
+        locale = locale.replace( '<', ' ' );
+        return new ULocale( locale ).toLocale( );
+    }
 
 	/**
 	 * Get report locale in string.

@@ -13,8 +13,6 @@ package org.eclipse.birt.report.item.crosstab.core.re;
 
 import java.util.HashMap;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -28,15 +26,17 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.IDesignEngine;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
+import org.junit.Ignore;
 
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.TestCase;
 
 /**
  * TestPerformance
  */
+@Ignore("performance testing shouldn't be define in utest level")
 public class TestPerformance extends TestCase implements ICrosstabConstants
 {
 
@@ -91,10 +91,10 @@ public class TestPerformance extends TestCase implements ICrosstabConstants
 
 		HTMLRenderOption options = new HTMLRenderOption( );
 		options.setOutputFormat( format );
-		options.setOutputFileName( "c:\\test." + format ); //$NON-NLS-1$
+		options.setOutputFileName( "./target/utest." + format ); //$NON-NLS-1$
 		options.setHtmlPagination( true );
 		options.setImageHandler( new HTMLCompleteImageHandler( ) );
-		options.setImageDirectory( "./images" ); //$NON-NLS-1$
+		options.setImageDirectory( "./target/images" ); //$NON-NLS-1$
 		task.setRenderOption( options );
 
 		HashMap params = new HashMap( );

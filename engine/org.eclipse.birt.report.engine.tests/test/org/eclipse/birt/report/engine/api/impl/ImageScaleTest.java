@@ -40,7 +40,7 @@ public class ImageScaleTest extends EngineCase
 				}, {
 						"2.083in", "1.604in"
 				}, {
-						"1.354in", "1.604in"
+						"1.353in", "1.604in"
 				}, {
 						"0.833in", "2.469in"
 				}, {
