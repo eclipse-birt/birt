@@ -37,7 +37,14 @@
       <arg value="${ENGINE_DIR}/lib"/>
       <arg value="${ENGINE_DIR}"/>
     </exec>
-    <exec executable="${GEN_REPORT_GENERATOR}" osfamily="unix">
+    <!-- Remove \r characters from the shell script file on Unix/Linux -->
+    <exec executable="sed" osfamily="unix">
+      <arg value="-i"/>
+      <arg value="s/\r$//"/>
+      <arg value="${GEN_REPORT_GENERATOR}"/>
+    </exec>
+    <exec executable="sh" osfamily="unix">
+      <arg value="${GEN_REPORT_GENERATOR}"/>
       <arg value="${ENGINE_DIR}/lib/"/>
       <arg value="${ENGINE_DIR}"/>
     </exec>
