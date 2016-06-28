@@ -31,14 +31,22 @@
     <copy file="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/test.rptdesign" tofile="${ENGINE_DIR}/samples/hello_world.rptdesign"/>
     <property name="GEN_REPORT_GENERATOR" location="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReportGenerator.sh"/>
     <!-- Remove \r characters from the shell script file since sh command does not like them -->
-    <exec executable="sed">
+    <exec executable="cmd" osfamily="windows">
+      <arg value="/c"/>
+      <arg value="sed"/>
+      <arg value="-i"/>
+	  <arg value="s/\r$//"/>
+	  <arg value="${GEN_REPORT_GENERATOR}"/>
+    </exec>
+    <exec executable="sed" osfamily="unix">
       <arg value="-i"/>
       <arg value="s/\r$//"/>
       <arg value="${GEN_REPORT_GENERATOR}"/>
     </exec>
+	<!-- Generate genReport.sh and genReport.bat -->
     <exec executable="cmd" osfamily="windows">
       <arg value="/c"/>
-      <arg value="sh.exe"/>
+      <arg value="sh"/>
       <arg value="${GEN_REPORT_GENERATOR}"/>
       <arg value="${ENGINE_DIR}/lib"/>
       <arg value="${ENGINE_DIR}"/>
