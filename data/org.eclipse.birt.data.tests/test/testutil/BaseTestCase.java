@@ -223,7 +223,7 @@ abstract public class BaseTestCase {
 	{
 		InputStream golden = this.getClass().getResourceAsStream( GOLDEN_FOLDER + File.separator + goldenFileName );
 		File outputFile = new File( getOutputFolder(),  outputFileName);
-		assertTrue( compareTextFile( golden, outputFile ));
+		compareTextFile( golden, outputFile );
 	}
 
 	/**
@@ -236,37 +236,32 @@ abstract public class BaseTestCase {
 	 *            the 2nd file name to be compared.
 	 * @return True if two text file is same line by line
 	 */
-	private boolean compareTextFile( InputStream golden, File outputFile )
+	private void compareTextFile( InputStream golden, File outputFile )
 			throws IOException
 	{
-		boolean same = true;
-	
 		InputStreamReader readerA = new InputStreamReader( golden );
 		FileReader readerB = new FileReader( outputFile );
 		BufferedReader	lineReaderA = new BufferedReader( readerA );
 		BufferedReader	lineReaderB = new BufferedReader( readerB );
-	
-		String strA = lineReaderA.readLine( ).trim( );
-		String strB = lineReaderB.readLine( ).trim( );
-		while ( strA != null && strB != null )
+
+		String strA, strB;
+		try
 		{
-			same = strA.trim( ).equals( strB.trim( ) );
-			if ( !same )
+			do
 			{
-				break;
-			}
-	
-			strA = lineReaderA.readLine( );
-			strB = lineReaderB.readLine( );
+				strA = lineReaderA.readLine( );
+				strB = lineReaderB.readLine( );
+				assertEquals(strA != null?strA.trim( ):null, strB != null?strB.trim( ):null);
+			} while ( strA != null && strB != null );
 		}
-		same = strA == null && strB == null;
-		golden.close();	
-		readerA.close( );
-		readerB.close( );
-		lineReaderA.close( );
-		lineReaderB.close( );
-	
-		return same;
+		finally
+		{
+			golden.close();	
+			readerA.close( );
+			readerB.close( );
+			lineReaderA.close( );
+			lineReaderB.close( );
+		}
 	}
 	
 	/** print to console and stream */

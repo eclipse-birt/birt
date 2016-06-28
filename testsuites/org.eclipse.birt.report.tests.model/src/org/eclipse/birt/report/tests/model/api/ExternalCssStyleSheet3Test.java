@@ -74,12 +74,14 @@ public class ExternalCssStyleSheet3Test extends BaseTestCase {
 		ArrayList styleList = new ArrayList();
 		styleList.add(0, style1);
 		styleList.add(1, style3);
-		assertEquals(2,styleList.size());
 		
+		assertEquals(0, designHandle.getStyles().getCount());
 		//import a external style sheet into a report design
 		designHandle.importCssStyles(stylesheet, styleList);
-		//assert that exists four styles style1, style2, crosstab and crosstab-cell
-		assertEquals(4,designHandle.getStyles().getCount());
+		// two styles must be copied: style1 and style3
+		assertEquals(2, designHandle.getStyles().getCount());
+		assertEquals("STYLE1", designHandle.getStyles().get(0).getName());
+		assertEquals("style3", designHandle.getStyles().get(1).getName());
 	}
 
 	/**

@@ -302,8 +302,9 @@ public class NumberFormatterTest
 		String[] patterns = {"General Number",
 				"General Number{DigitSubstitution=true}"};
 		double[] values = {123.12, 902.023};
-		String[][] araGoldens = new String[][]{{"123.12", "902.023"},
-				{"١٢٣٫١٢", "٩٠٢٫٠٢٣"}};
+		String[][] araGoldens = new String[][]{
+			{ "123.12", "902.023" },
+			{ "\u0661\u0662\u0663\u066b\u0661\u0662", "\u0669\u0660\u0662\u066b\u0660\u0662\u0663" } };
 		String[][] engGoldens = new String[][]{{"123.12", "902.023"},
 				{"123.12", "902.023"}};
 		NumberFormatter nf = null;
@@ -316,7 +317,7 @@ public class NumberFormatterTest
 				double value = values[vindex];
 				String res = nf.format( value );
 				try {
-					assertTrue( ( new String( res.getBytes( "UTF-8" ), "Windows-1252" ) ).equals( araGoldens[pindex][vindex] ) );
+					assertEquals( araGoldens[pindex][vindex], new String( res.getBytes( "UTF-8" ), "UTF-8" ) );
 				} catch ( Exception e1 ) {
 					fail( e1.toString( ) );
 				}

@@ -578,18 +578,22 @@ public abstract class BaseTestCase extends TestCase {
 
 	protected void openDesign(String fileName, ULocale locale,
 			boolean inSingleJarMode) throws DesignFileException {
+		String file;
 		if (inSingleJarMode)
-			fileName = INPUT_FOLDER + "/" + fileName;
-
+			file = INPUT_FOLDER + "/" + fileName;
+		else
+			file = fileName;
 		sessionHandle = new DesignEngine(new DesignConfig())
 				.newSessionHandle(locale);
 		assertNotNull(sessionHandle);
 
-		if (inSingleJarMode)
-			designHandle = sessionHandle.openDesign(getResource(fileName)
-					.toString());
-		else
-			designHandle = sessionHandle.openDesign(fileName);
+		if (inSingleJarMode) {
+			URL url = getResource(file);
+			System.out.println("URL = " + url);
+			designHandle = sessionHandle.openDesign(url.toString());
+		} else {
+			designHandle = sessionHandle.openDesign(file);
+		}
 
 		design = (ReportDesign) designHandle.getModule();
 	}

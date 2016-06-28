@@ -206,31 +206,39 @@ public class ReportEngineTest extends EngineCase
 
 	public void testGetEmitterInfos( )
 	{
+		String[][] expected = {
+			{ "uk.co.spudsoft.birt.emitters.excel.XlsxEmitter", "xlsx", null, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "page-break-pagination" },
+			{ "org.eclipse.birt.report.engine.emitter.pdf", "pdf", null, "application/pdf", "paper-size-pagination" },
+			{ "org.eclipse.birt.report.engine.emitter.postscript", "postscript", null, "application/postscript", "paper-size-pagination" },
+			{ "org.eclipse.birt.report.engine.emitter.word", "doc", null, "application/msword", "page-break-pagination" },
+			{ "org.eclipse.birt.report.engine.emitter.docx", "docx", null, "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "page-break-pagination" },
+			{ "org.eclipse.birt.report.engine.emitter.html", "html", null, "text/html", "page-break-pagination" },
+			{ "org.eclipse.birt.report.engine.emitter.prototype.ods", "ods", "resource/ODS.gif", "application/vnd.oasis.opendocument.spreadsheet", "no-pagination" },
+			{ "org.eclipse.birt.report.engine.emitter.ppt", "ppt", null, "application/vnd.ms-powerpoint", "paper-size-pagination" },
+			{ "org.eclipse.birt.report.engine.emitter.pptx", "pptx", null, "application/vnd.openxmlformats-officedocument.presentationml.presentation", "paper-size-pagination" },
+			{ "org.eclipse.birt.report.engine.emitter.odt", "odt", "resource/ODT.gif", "application/vnd.oasis.opendocument.text", "page-break-pagination" },
+			{ "uk.co.spudsoft.birt.emitters.excel.XlsEmitter", "xls_spudsoft", null, "application/vnd.ms-excel", "page-break-pagination" }
+		};
 		EngineConfig config = new EngineConfig( );
 		ReportEngine engine = new ReportEngine( config );
 		EmitterInfo[] emitters = engine.getEmitterInfo( );
-		boolean found = false;
-		for ( int i = 0; i < emitters.length; i++ )
+		assertNotNull(emitters);
+		for ( int i = 0; i < expected.length; i++ )
 		{
-			if ( emitters[i] != null
-					&& emitters[i]
-							.getID( )
-							.equalsIgnoreCase(
-									"org.eclipse.birt.report.tests.engine.emitter.html" ) )
+			String found = "";
+			for ( int j = 0; j < emitters.length; j++ )
 			{
-				found = true;
-				assertEquals( "emitter_html", emitters[i].getFormat( ) );
-				assertEquals( "resource/test_emitter.gif", emitters[i]
-						.getIcon( ) );
-				assertEquals( "text/html", emitters[i].getMimeType( ) );
-				assertEquals(
-						"org.eclipse.birt.report.tests.engine.emitter.html",
-						emitters[i].getNamespace( ) );
-				assertEquals( "page-break-pagination", emitters[i]
-						.getPagination( ) );
-				break;
+				if( expected[i][0].equals(emitters[j].getID()))
+				{
+					found = emitters[j].getID();
+					assertEquals( expected[i][1], emitters[j].getFormat( ) );
+					assertEquals( expected[i][2], emitters[j].getIcon( ) );
+					assertEquals( expected[i][3], emitters[j].getMimeType( ) );
+					assertEquals( expected[i][4], emitters[j].getPagination( ) );
+					break;
+				}
 			}
+			assertEquals(expected[i][0], found);
 		}
-		assertTrue( found );
 	}
 }

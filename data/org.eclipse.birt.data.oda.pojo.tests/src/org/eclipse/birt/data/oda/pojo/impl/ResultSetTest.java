@@ -451,10 +451,10 @@ public class ResultSetTest {
 			return null;
 		String result = f.getAbsolutePath( );
 		
-		//when run in "JUnit Plugin Test", not locate to the "bin" dir
-		if ( !result.endsWith( "bin" ) )
+		//when run in "JUnit Plugin Test" point to "bin" dir
+		if ( !result.endsWith( "classes" ) && !result.endsWith( "bin" ) ) //$NON-NLS-1$
 		{
-			result += "\\bin";
+			result += "/bin"; //$NON-NLS-1$
 		}
 		return result;
 	}

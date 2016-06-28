@@ -140,7 +140,7 @@ public class Regression_150779_Count extends ChartTestCase
 	public void test_regression_150779_Count( ) throws Exception
 	{
 		Regression_150779_Count st = new Regression_150779_Count( );
-		assertTrue( st.compareBytes( GOLDEN, OUTPUT ) );
+		assertTrue( st.compareImages( GOLDEN, OUTPUT ) );
 	}
 
 	private void bindGroupingData( Chart chart )
