@@ -54,7 +54,8 @@ public class Regression_148761 extends BaseTestCase
 {
 
 	private final static String TEMPLATE = "regression_148761_template.xml"; //$NON-NLS-1$
-	private final static String filename = "Regression_148761.xml"; //$NON-NLS-1$
+	private final static String filename = "regression_148761.xml"; //$NON-NLS-1$
+	private String tempTemplatePath, tempFilePath;
 
 	/**
 	 * @throws DesignFileException
@@ -65,7 +66,11 @@ public class Regression_148761 extends BaseTestCase
 		super.setUp( );
 		removeResource( );
 		//copyResource_INPUT( TEMPLATE , TEMPLATE );
-		copyInputToFile ( INPUT_FOLDER + "/" + TEMPLATE );
+		//copyInputToFile ( INPUT_FOLDER + "/" + TEMPLATE );
+		tempTemplatePath = copyInputToFile( INPUT_FOLDER + "/" + TEMPLATE );
+		tempFilePath = copyInputToFile( INPUT_FOLDER + "/" + filename );
+		System.out.println("Template location: " + tempTemplatePath);
+		System.out.println("File location: " + tempFilePath);
 	}
 	
 	public void tearDown( )
@@ -79,8 +84,7 @@ public class Regression_148761 extends BaseTestCase
 		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
 		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
 
-		String inputPath = getTempFolder()+"/"+INPUT_FOLDER+"/";
-		ReportDesignHandle template = session.openDesign(inputPath + TEMPLATE );
+		ReportDesignHandle template = session.openDesign( tempTemplatePath );
 		
 		//System.out.println (template);
 		
@@ -100,7 +104,7 @@ public class Regression_148761 extends BaseTestCase
 
 		// paste the text to a new report, make sure it is correctly
 		// copy/pasted.
-		openDesign( filename );
+		openDesign( tempFilePath, false );
 
 		ReportDesignHandle newDesignHandle = session.createDesign( );
 		newDesignHandle.getBody( ).paste( text2.copy( ).getHandle( design ) );

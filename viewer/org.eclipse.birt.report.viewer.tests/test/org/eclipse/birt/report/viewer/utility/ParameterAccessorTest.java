@@ -332,13 +332,13 @@ public class ParameterAccessorTest extends BaseTestCase
 	public void testGetConfigFileName( )
 	{
 		// preview a report
-		String reportFile = "D:\\test\\reports\\test.rptdesign"; //$NON-NLS-1$
-		String configFile = "D:\\test\\reports\\test.rptconfig"; //$NON-NLS-1$
+		String reportFile = System.getProperty("java.io.tmpdir") + "/test.rptdesign"; //$NON-NLS-1$ //$NON-NLS-2$
+		String configFile = System.getProperty("java.io.tmpdir") + "/test.rptconfig"; //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( configFile, ParameterAccessor
 				.getConfigFileName( reportFile ) );
 
 		// preview a template report
-		String templateFile = "D:\\test\\reports\\test.rpttemplate"; //$NON-NLS-1$
+		String templateFile = System.getProperty("java.io.tmpdir") + "/test.rpttemplate"; //$NON-NLS-1$ //$NON-NLS-2$
 		assertEquals( configFile, ParameterAccessor
 				.getConfigFileName( templateFile ) );
 	}
@@ -746,7 +746,7 @@ public class ParameterAccessorTest extends BaseTestCase
 				.getResourceFolder( request ) );
 
 		// Set in request
-		String resourceFolder = "D:\\test\\resource"; //$NON-NLS-1$
+		String resourceFolder = System.getProperty("java.io.tmpdir") + "/resource"; //$NON-NLS-1$ //$NON-NLS-2$
 		request.addParameter( ParameterAccessor.PARAM_RESOURCE_FOLDER,
 				resourceFolder );
 		assertEquals( resourceFolder, ParameterAccessor
@@ -766,7 +766,7 @@ public class ParameterAccessorTest extends BaseTestCase
 	 */
 	public void testIsValidFilePath( )
 	{
-		String reportFile = "C:\\reports\\report1.rptdesign"; //$NON-NLS-1$
+		String reportFile = System.getProperty("java.io.tmpdir") + "/report1.rptdesign"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY is false
 		assertTrue( ParameterAccessor.isValidFilePath(request, reportFile ) );
@@ -798,7 +798,7 @@ public class ParameterAccessorTest extends BaseTestCase
 	public void testGetReport( )
 	{
 		// Absolute path
-		String reportFile = "C:\\reports\\report1.rptdesign"; //$NON-NLS-1$
+		String reportFile = System.getProperty("java.io.tmpdir") + "/report1.rptdesign"; //$NON-NLS-1$ //$NON-NLS-2$ 
 		request.addParameter( ParameterAccessor.PARAM_REPORT, reportFile );
 		assertEquals( reportFile, ParameterAccessor.getReport( request, null ) );
 
@@ -827,7 +827,7 @@ public class ParameterAccessorTest extends BaseTestCase
 	public void testGetReportDocument( )
 	{
 		// Absolute path
-		String documentFile = "C:\\reports\\report1.rptdocument"; //$NON-NLS-1$
+		String documentFile = System.getProperty("java.io.tmpdir") + "/report1.rptdocument"; //$NON-NLS-1$ //$NON-NLS-2$
 		request.addParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT,
 				documentFile );
 		try {

@@ -20,12 +20,12 @@ public class DocumentArchiveTest
 	/**
 	 * @param name
 	 */
-	public DocumentArchiveTest( String name )
+	public DocumentArchiveTest()
 	{
 		delete( new File( ARCHIVE_DOCUMENT_NAME ) );
 	}
 	@After
-    public void tearDown()
+    public void documentArchiveTestTearDown()
 	{
 		File file = new File( ARCHIVE_DOCUMENT_NAME );
 		if ( file.exists( ) )

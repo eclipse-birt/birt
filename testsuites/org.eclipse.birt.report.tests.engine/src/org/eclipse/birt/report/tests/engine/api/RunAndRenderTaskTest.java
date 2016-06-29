@@ -80,14 +80,18 @@ public class RunAndRenderTaskTest extends EngineCase
 			e.printStackTrace( );
 		}
 	}
+	
+	static final String cancelMessage = "This task has been cancelled in testCancelRunAndRenderTask";
 
 	/*
 	 * Cancel RunAndRenderTask in another thread with cancel method.
 	 */
 	public void testCancelRunAndRenderTask( )
 	{
+		// this report sleeps for 2 seconds after creation,
+		// which allows separate test threads to cancel it
 		String input = this.genInputFile( "pages9.rptdesign" );
-		long bTime, eTime, timeSpan1 = 0, timeSpan2 = 0, timeSpan3 = 0;
+
 		try
 		{
 			IReportRunnable runnable = engine
@@ -104,49 +108,42 @@ public class RunAndRenderTaskTest extends EngineCase
 				task.setAppContext( new HashMap( ) );
 				task.run( );
 				task.close( );
+				assertEquals(task.STATUS_SUCCEEDED, task.getStatus());
+				assertEquals(0, task.getErrors().size());
 			}
 
-			for ( int i = 0; i < 10; i++ )
-			{
-				task = engine.createRunAndRenderTask( runnable );
-				task.setRenderOption( option );
-				task.setAppContext( new HashMap( ) );
-				engine.getConfig( ).getAppContext( ).put( "taskToCancel", task );
+			task = engine.createRunAndRenderTask( runnable );
+			task.setRenderOption( option );
+			task.setAppContext( new HashMap( ) );
+			engine.getConfig( ).getAppContext( ).put( "taskToCancel", task );
+			engine.getConfig( ).getAppContext( ).put( "taskToCancelWithSignal", null );
+			CancelTask cancelThread = new CancelTask( "cancelThread", task );
+			cancelThread.start( );
+			task.run( );
+			assertEquals(task.STATUS_CANCELLED, task.getStatus());
+			assertEquals(0, task.getErrors().size());
+			task.close( );
 
-				bTime = System.currentTimeMillis( );
-				task.run( );
-				eTime = System.currentTimeMillis( );
-				task.close( );
-				timeSpan1 += eTime - bTime;
+			task = engine.createRunAndRenderTask( runnable );
+			engine.getConfig( ).getAppContext( ).put( "taskToCancel", null );
+			engine.getConfig( ).getAppContext( ).put( "taskToCancelWithSignal", task );
+			task.setRenderOption( option );
+			CancelWithFlagTask cancelWithFlagTask = new CancelWithFlagTask( "cancelWithFlagTask", task );
+			cancelWithFlagTask.start( );
+			task.run( );
+			assertEquals(task.STATUS_CANCELLED, task.getStatus());
+			assertEquals(1, task.getErrors().size());
+			assertEquals(((EngineException)task.getErrors().get(0)).getMessage(), cancelMessage);
+			task.close( );
 
-				task = engine.createRunAndRenderTask( runnable );
-				engine.getConfig( ).getAppContext( ).put(
-						"taskToCancelWithSignal",
-						task );
-				task.setRenderOption( option );
-
-				bTime = System.currentTimeMillis( );
-				task.run( );
-				eTime = System.currentTimeMillis( );
-				task.close( );
-				timeSpan2 += eTime - bTime;
-
-				task = engine.createRunAndRenderTask( runnable );
-				engine.getConfig( ).getAppContext( ).put( "taskToCancel", null );
-				engine.getConfig( ).getAppContext( ).put(
-						"taskToCancelWithSignal",
-						null );
-				task.setRenderOption( option );
-
-				bTime = System.currentTimeMillis( );
-				task.run( );
-				eTime = System.currentTimeMillis( );
-				task.close( );
-				timeSpan3 += eTime - bTime;
-			}
-
-			assertTrue( "timeSpan3 > timeSpan1", timeSpan3 > timeSpan1 );
-			assertTrue( "timeSpan3 > timeSpan2", timeSpan3 > timeSpan2 );
+			task = engine.createRunAndRenderTask( runnable );
+			engine.getConfig( ).getAppContext( ).put( "taskToCancel", null );
+			engine.getConfig( ).getAppContext( ).put( "taskToCancelWithSignal", null );
+			task.setRenderOption( option );
+			task.run( );
+			assertEquals(task.STATUS_SUCCEEDED, task.getStatus());
+			assertEquals(0, task.getErrors().size());
+			task.close( );
 		}
 		catch ( Exception e )
 		{
@@ -174,7 +171,7 @@ public class RunAndRenderTaskTest extends EngineCase
 		{
 			try
 			{
-				Thread.currentThread( ).sleep( 100 );
+				Thread.currentThread( ).sleep( 500 );
 				runTask.cancel( );
 			}
 			catch ( Exception e )
@@ -204,13 +201,13 @@ public class RunAndRenderTaskTest extends EngineCase
 		{
 			try
 			{
-				Thread.currentThread( ).sleep( 100 );
-				runTask.cancel( );
+				Thread.currentThread( ).sleep( 500 );
+				runTask.cancel( cancelMessage );
 			}
 			catch ( Exception e )
 			{
 				e.printStackTrace( );
-				fail( "RunAndRenderTask.cancel() failed!" );
+				fail( "RunAndRenderTask.cancel(String) failed!" );
 			}
 		}
 

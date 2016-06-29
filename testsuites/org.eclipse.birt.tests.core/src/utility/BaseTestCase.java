@@ -99,4 +99,12 @@ public class BaseTestCase extends TestCase
 		return classes;
 	}
 	
+	/*
+	 * A null-test for suppressing warnings in the build
+	 */
+	public void testNullTest( )
+	{
+		assertTrue( true );
+	}
+	
 }

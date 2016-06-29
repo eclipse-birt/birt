@@ -439,7 +439,7 @@ public class RenderTaskTest extends EngineCase
 	{
 		String design = "org/eclipse/birt/report/engine/api/testCloseOnExit.rptdesign";
 		IReportDocument document = createReportDocument( design );
-		String[] formats = {"html", "pdf", "postscript", "ppt", "doc", "xls"};
+		String[] formats = {"html", "pdf", "postscript", "ppt", "doc", "docx", "xlsx"};
 		for ( String format : formats )
 		{
 			assertEquals( false, isRenderTaskCloseStreamOnExit( document,
