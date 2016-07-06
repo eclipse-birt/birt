@@ -9,6 +9,7 @@ Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.data,
  org.apache.derby,
  org.eclipse.birt.data.aggregation,
+ org.eclipse.datatools.connectivity.oda.flatfile,
  org.junit;bundle-version="4.8.1"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

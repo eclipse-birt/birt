@@ -256,11 +256,13 @@ public class ConnectionTest {
 			conn.open( props );
 			fail( "Open Connection with wrong property should throw exception" );
 		}
-		catch ( OdaException e )
+		catch ( Throwable e1 )
 		{
-
+			if ( !( e1 instanceof OdaException || e1 instanceof NoClassDefFoundError ) )
+			{
+				throw new OdaException(e1);
+			}
 		}
-
 	}
 
 	/*
