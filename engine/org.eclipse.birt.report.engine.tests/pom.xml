@@ -34,6 +34,15 @@
 					</dependency-resolution>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-surefire-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+					<testSuite>org.eclipse.birt.report.engine</testSuite>
+					<testClass>org.eclipse.birt.report.engine.AllTests</testClass>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>

@@ -8,7 +8,7 @@
  *
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
- *  
+ *
  *************************************************************************
  */
 
@@ -29,6 +29,7 @@ import org.eclipse.birt.data.engine.executor.ResultClass;
 import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.datatools.connectivity.oda.IBlob;
 import org.eclipse.datatools.connectivity.oda.IClob;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -40,7 +41,9 @@ import org.osgi.framework.Bundle;
 import testutil.JDBCOdaDataSource;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 import org.junit.Ignore;
 import static org.junit.Assert.*;
@@ -52,16 +55,11 @@ import static org.junit.Assert.*;
 public class LargeObjectTest extends ConnectionTest
 {
 
-    private static final String DTP_FLATFILE_DATASET_ID = 
-        "org.eclipse.datatools.connectivity.oda.flatfile.dataSet";
+    private static final String DTP_FLATFILE_DATASET_ID = "org.eclipse.datatools.connectivity.oda.flatfile.dataSet";
+    private static final String DTP_FLATFILE_DATASOURCE_ID = "org.eclipse.datatools.connectivity.oda.flatfile";
+    private static final String BIRT_FLATFILE_DATASOURCE_ID = "org.eclipse.birt.report.data.oda.flatfile";
 
-    private static final String DTP_FLATFILE_DATASOURCE_ID = 
-        "org.eclipse.datatools.connectivity.oda.flatfile";
-
-    private static final String BIRT_FLATFILE_DATASOURCE_ID = 
-        "org.eclipse.birt.report.data.oda.flatfile";
-
-    private Connection m_flatFileConnection = null;
+    private static Connection m_flatFileConnection = null;
 
     private static String sm_pluginFile = null;
     private static String sm_manifestsDir = null;
@@ -69,34 +67,44 @@ public class LargeObjectTest extends ConnectionTest
     private static String sm_dtpFlatfileId = DTP_FLATFILE_DATASOURCE_ID;
     private static String sm_birtFlatfileId = BIRT_FLATFILE_DATASOURCE_ID;
     private static boolean sm_pluginTest = org.eclipse.core.runtime.Platform.isRunning();
-    @Before
-    public void largeObjectSetUp() throws Exception
+
+    private static final Bundle dataBundle =  org.eclipse.core.runtime.Platform.getBundle( "org.eclipse.birt.data" );
+    private static final Bundle driverBundle = org.eclipse.core.runtime.Platform.getBundle( sm_dtpFlatfileId );
+
+    @BeforeClass
+    public static void largeObjectSetUp() throws Exception
     {
         setupDirectories();
-        
+
         // only the last two runs require custom plugin manifests
 /*        if ( getName().equals( "testFlatfileGetBlob" ) ||
              getName().equals( "testFlatfileGetClob" ) )
         	setPluginFile();
-*/        
+*/
         // set up flatfile test tables
         TestUtil.createTestFile();
         Properties prop = new Properties();
+        System.out.println("Test database: " + new File("testdatabase").getAbsolutePath());
         prop.setProperty( TestUtil.CONN_HOME_DIR_PROP, new File("testdatabase").getAbsolutePath() );
         prop.setProperty( TestUtil.CONN_CHARSET, TestUtil.CHARSET );
         m_flatFileConnection = ConnectionManager.getInstance().openConnection(
                 DTP_FLATFILE_DATASOURCE_ID, prop, null );
     }
-	@After
-    public void largeObjectTearDown() throws Exception
-    {       
-        m_flatFileConnection.close();
+
+	@AfterClass
+    public static void largeObjectTearDown() throws Exception
+    {
+		if( m_flatFileConnection != null && m_flatFileConnection.isOpen( ) )
+		{
+			m_flatFileConnection.close( );
+		}
+
 
         // if a backup plugin manifest exists, restore it
 /*        if ( getName().equals( "testFlatfileGetBlob" ) ||
              getName().equals( "testFlatfileGetClob" ) )
         	restorePluginFile();
-*/        
+*/
     }
 
     /*
@@ -129,15 +137,15 @@ public class LargeObjectTest extends ConnectionTest
         assertEquals( "CLOB", resultClass.getFieldNativeTypeName( 2 ) );
         assertEquals( IBlob.class, resultClass.getFieldValueClass( 1 ) );
         assertEquals( IClob.class, resultClass.getFieldValueClass( 2 ) );
-        
+
         Object obj = resultObject.getFieldValue( 1 );
         assertNull( obj );
-        
+
         obj = resultObject.getFieldValue( 2 );
 		assertTrue( obj instanceof String );
 		assertEquals( "abcdefg", obj.toString( ) );
-		assertEquals( "bcd", obj.toString( ).substring( 1, 4 ) );        
-        
+		assertEquals( "bcd", obj.toString( ).substring( 1, 4 ) );
+
         stmt.close();
     }
 
@@ -159,7 +167,7 @@ public class LargeObjectTest extends ConnectionTest
 //		}
 //		return subString;
 //	}
-//    
+//
 //    private String getClobValue( IClob clob )
 //	{
 //		BufferedReader in = null;
@@ -188,7 +196,7 @@ public class LargeObjectTest extends ConnectionTest
 //		}
 //		return buffer.toString( );
 //	}
-    
+
     /*
 	 * Tests implementation of blob data type in flatfile driver. The blob
 	 * native type is mapped to the oda data type String.
@@ -211,12 +219,12 @@ public class LargeObjectTest extends ConnectionTest
         assertEquals( "blob_col", names[0] );
         assertEquals( "BLOB", resultClass.getFieldNativeTypeName( 1 ) );
         assertEquals( String.class, resultClass.getFieldValueClass( 1 ) );
-        
+
         IResultObject resultObject = resultSet.fetch();
         Object obj = resultObject.getFieldValue( 1 );
         assertTrue( obj instanceof String );
         assertEquals( "0123456789", obj.toString() );
-        
+
         stmt.close();
     }
 
@@ -245,14 +253,14 @@ public class LargeObjectTest extends ConnectionTest
         assertEquals( "CLOB", resultClass.getFieldNativeTypeName( 1 ) );
 
         assertEquals( String.class, resultClass.getFieldValueClass( 1 ) );
-        
+
         Object obj = resultObject.getFieldValue( 1 );
         assertTrue( obj instanceof String );
         assertEquals( "abcdefghijklmnopqrstuvwxyz", obj.toString() );
-        
+
         stmt.close();
-    }   
-    
+    }
+
     /*
      * Tests implementation of blob data type in flatfile driver
      * by hardcoding an IBlob value returned from the resultset.
@@ -262,7 +270,7 @@ public class LargeObjectTest extends ConnectionTest
     public void testFlatfileGetBlob() throws Exception
     {
 /*      TODO - replace with customized test driver, instead of
- * 			   using a testing plugin.xml 
+ * 			   using a testing plugin.xml
         String command = "select blob_col from table1";
         PreparedStatement stmt = m_flatFileConnection.prepareStatement(
                 command, DTP_FLATFILE_DATASET_ID );
@@ -282,16 +290,16 @@ public class LargeObjectTest extends ConnectionTest
 
         assertEquals( org.eclipse.datatools.connectivity.oda.IBlob.class,
                 resultClass.getFieldValueClass( 1 ) );
-        
+
         Object obj = resultObject.getFieldValue( 1 );
         assertTrue( obj instanceof byte[] );
         byte[] objValue = (byte[]) obj;
 		for ( int i = 0; i < objValue.length; i += 1 )
-			assertEquals( i, objValue[i] );  
+			assertEquals( i, objValue[i] );
 //        IBlob blob = (IBlob) obj;
 //        InputStream stream = blob.getBinaryStream();
 //        for( int i = 0 , c = stream.read(); c != -1; i += 1, c = stream.read() )
-//            assertEquals( i, c );        
+//            assertEquals( i, c );
         stmt.close();
 */    }
 
@@ -302,9 +310,9 @@ public class LargeObjectTest extends ConnectionTest
      */
 	@Test
     public void testFlatfileGetClob() throws Exception
-    { 
+    {
 /*      TODO - replace with customized test driver, instead of
- * 			   using a testing plugin.xml 
+ * 			   using a testing plugin.xml
  		String command = "select clob_col from table1";
         PreparedStatement stmt = m_flatFileConnection.prepareStatement(
                 command, DTP_FLATFILE_DATASET_ID );
@@ -324,7 +332,7 @@ public class LargeObjectTest extends ConnectionTest
 
         assertEquals( org.eclipse.datatools.connectivity.oda.IClob.class,
                 resultClass.getFieldValueClass( 1 ) );
-        
+
         Object obj = resultObject.getFieldValue( 1 );
 		assertTrue( obj instanceof String );
 		char[] chs = obj.toString( ).toCharArray( );
@@ -332,10 +340,10 @@ public class LargeObjectTest extends ConnectionTest
 		{
 			assertEquals( 'a' + i, chs[i] );
 		}
-        
+
 //        assertTrue( obj instanceof IClob );
 //        IClob clob = (IClob) obj;
-//        Reader reader = clob.getCharacterStream();       
+//        Reader reader = clob.getCharacterStream();
 //        assertEquals( 26, clob.length() );
 //        for ( int i = 0; i < clob.length(); i += 1)
 //        {
@@ -345,38 +353,36 @@ public class LargeObjectTest extends ConnectionTest
         stmt.close();
 */    }
 
-    private void setupDirectories() throws IOException
+    private static void setupDirectories() throws IOException
     {
         String dataDir;
 
         if ( sm_pluginFile != null && sm_manifestsDir != null )
             return; // already set, so return early
-        
-        if ( sm_pluginTest )
-        {       	
-        	// set directory where test plugin.xml files are stored 
-            Bundle dataBundle =  org.eclipse.core.runtime.Platform.getBundle( "org.eclipse.birt.data" );
-    	    URL url = dataBundle.getEntry( "/" );
-    	    dataDir = org.eclipse.core.runtime.Platform.asLocalURL( url ).getPath();
 
-    	    // set location where plugin.xml will be parsed 	
-    	    Bundle driverBundle = org.eclipse.core.runtime.Platform.getBundle( sm_dtpFlatfileId );
+        if ( sm_pluginTest )
+        {
+        	// set directory where test plugin.xml files are stored
+    	    URL url = dataBundle.getEntry( "/" );
+    	    dataDir = FileLocator.toFileURL( url ).getPath();
+
+    	    // set location where plugin.xml will be parsed
 		    URL jdbcUrl = driverBundle.getEntry( "/" );
-		    sm_pluginFile = org.eclipse.core.runtime.Platform.asLocalURL( jdbcUrl ).getPath() + sm_pluginFileName;
+		    sm_pluginFile = FileLocator.toFileURL( jdbcUrl ).getPath() + sm_pluginFileName;
         }
         else
         {
         	// set directory where test plugin.xml files are stored
         	dataDir = ".";
-        	
+
         	// set location where plugin.xml will be parsed
             sm_pluginFile = dataDir + "/test/plugins/" + sm_dtpFlatfileId + "/" + sm_pluginFileName;
-            System.setProperty( "BIRT_HOME", dataDir + "/test" );  
+            System.setProperty( "BIRT_HOME", dataDir + "/test" );
         }
 
         sm_manifestsDir = dataDir + "/test/plugins/" + sm_birtFlatfileId + "/manifests/";
     }
-    
+
     /*
      * This class is used to access the protected member variable 'platform' in
      * the Platform class. This testclass uses the 'setPlatform' method to create
@@ -389,40 +395,40 @@ public class LargeObjectTest extends ConnectionTest
 //            platform = p;
 //        }
 //    }
-    
+
     /*
      * ResultSetLob test class for hard-coded BLOB and CLOB values
      */
     private class ResultSetLob extends ResultSet
     {
         private IResultClass m_resultClass = null;
-        
+
         public ResultSetLob( IResultClass resultClass )
         {
             // create a placeholder IResultSet object,
             // which isn't used in this test
             super( new SimpleResultSet(), resultClass );
-            
+
             m_resultClass = resultClass;
         }
-        
+
        public IResultObject fetch() throws DataException
-       {          
+       {
    		int columnCount = m_resultClass.getFieldCount();
-   		int[] driverPositions = 
+   		int[] driverPositions =
    			( (ResultClass) m_resultClass ).getFieldDriverPositions();
    		assert( columnCount == driverPositions.length );
-   		
+
    		Object[] fields = new Object[ columnCount ];
-   		
+
    		for( int i = 1; i <= columnCount; i++ )
    		{
    			if ( m_resultClass.isCustomField( i ) == true )
    				continue;
-   			
+
    			Class dataType = m_resultClass.getFieldValueClass( i );
    			Object colValue = null;
-   			
+
    			if( dataType == IClob.class )
    				colValue = getClob();
    			else if( dataType == IBlob.class )
@@ -432,24 +438,24 @@ public class LargeObjectTest extends ConnectionTest
 
    			fields[i - 1] = colValue;
    		}
-   		
+
    		IResultObject ret = new ResultObject( m_resultClass, fields );
 
    		return ret;
        }
-       
+
        private Object getBlob()
        {
            byte[] bytes = new byte[] { 0x0, 0x1, 0x2, 0x3, 0x4, 0x5, 0x6, 0x7, 0x8, 0x9 };
            return new Blob( bytes );
        }
-       
+
        private Object getClob()
        {
-          return new Clob( "abcdefghijklmnopqrstuvwxyz" ); 
+          return new Clob( "abcdefghijklmnopqrstuvwxyz" );
        }
     }
-    
+
     /*
      * TestUtil class for generating test data, taken from flatfile test package
      */
