@@ -126,6 +126,13 @@ public interface ICrosstabConstants
 	 * @since 2.6.1
 	 */
 	String COLUMN_PAGE_BREAK_INTERVAL_PROP = "columnPageBreakInterval"; //$NON-NLS-1$
+	
+	/**
+	 * Name of the hide detail property. Value can be either row or column.
+	 * 
+	 * @since 4.6
+	 */
+	String HIDE_DETAIL_PROP = "hideDetail";//$NON-NLS-1$
 
 	/**
 	 * Aggregation location constants.
