@@ -53,6 +53,8 @@ import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator;
 import org.eclipse.birt.chart.ui.swt.interfaces.IFormatSpecifierHandler;
 import org.eclipse.birt.chart.ui.swt.interfaces.IImageServiceProvider;
 import org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider;
+import org.eclipse.birt.chart.ui.swt.type.BarChart;
+import org.eclipse.birt.chart.ui.swt.type.PieChart;
 import org.eclipse.birt.chart.ui.swt.wizard.ApplyButtonHandler;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartAdapter;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizard;
@@ -79,7 +81,6 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
-import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -401,6 +402,9 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 	{
 		// Revise chart version to current.
 		ChartUtil.reviseVersion( cm );
+		
+		// Change model to make it compatible with UI
+		normalizeModel( cm );
 
 		// Make it compatible with old model
 		if ( cm.getInteractivity( ) == null )
@@ -471,6 +475,20 @@ public class ChartReportItemBuilderImpl extends ReportItemBuilderUI implements
 			}
 
 			cm.setSampleData( sampleData );
+		}
+	}
+	
+	private void normalizeModel( Chart cm )
+	{
+		// Change model to make it compatible with UI
+		String chartType = cm.getType( );
+		if ( "Column Chart".equals( chartType ) ) //$NON-NLS-1$
+		{
+			cm.setType( BarChart.TYPE_LITERAL );
+		}
+		else if ( "Doughnut Chart".equals( chartType ) ) //$NON-NLS-1$
+		{
+			cm.setType( PieChart.TYPE_LITERAL );
 		}
 	}
 
