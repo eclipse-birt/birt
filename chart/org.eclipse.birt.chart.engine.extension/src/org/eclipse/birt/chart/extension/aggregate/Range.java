@@ -49,7 +49,8 @@ public class Range extends AggregateFunctionAdapter
 		switch ( getDataType( ) )
 		{
 			case NUMBER :
-				return new Double( ( (double) max ) - (double) min );
+				return new Double( ( (Number) max ).doubleValue( )
+						- ( (Number) min ).doubleValue( ) );
 
 			case BIGDECIMAL :
 				return ( (BigDecimal) max ).subtract( (BigDecimal) min );
