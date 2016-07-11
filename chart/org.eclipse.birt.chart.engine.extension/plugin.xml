@@ -146,7 +146,11 @@
       <aggregateFunction
             displayName="%Quartile.displayName"
             function="org.eclipse.birt.chart.extension.aggregate.Quartile"
-            name="Quartile"/>   
+            name="Quartile"/>
+      <aggregateFunction
+            displayName="%Range.displayName"
+            function="org.eclipse.birt.chart.extension.aggregate.Range"
+            name="Range"/>              
       <!-- The Running Aggregates -->      
 	  <aggregateFunction
             displayName="%MovingAverage.displayName"

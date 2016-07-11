@@ -36,8 +36,8 @@ import org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory;
 public class BuildInAggregationFactory implements IAggregationFactory
 {
 
-	private Map aggrMap = new HashMap( );
-	private List aggregations = new ArrayList( );
+	private Map<String, IAggrFunction> aggrMap = new HashMap<String, IAggrFunction>( );
+	private List<IAggrFunction> aggregations = new ArrayList<IAggrFunction>( );
 
 	/**
 	 * 
@@ -140,6 +140,10 @@ public class BuildInAggregationFactory implements IAggregationFactory
 		final TotalConcatenate totalConcatenate = new TotalConcatenate( );
 		aggrMap.put( IBuildInAggregation.TOTAL_CONCATENATE_FUNC, totalConcatenate );
 		aggregations.add( totalConcatenate );
+		
+		final TotalRange totalRange = new TotalRange( );
+		aggrMap.put( IBuildInAggregation.TOTAL_RANGE_FUNC, totalRange );
+		aggregations.add( totalRange );
 	}
 
 	/**
@@ -150,16 +154,12 @@ public class BuildInAggregationFactory implements IAggregationFactory
 		populateAggregations( );
 	}
 
-
-
-
-
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregationFactory#getAggregations()
 	 */
-	public List getAggregations( )
+	public List<IAggrFunction> getAggregations( )
 	{
 		return aggregations;
 	}
@@ -171,6 +171,6 @@ public class BuildInAggregationFactory implements IAggregationFactory
 	 */
 	public IAggrFunction getAggregation( String name )
 	{
-		return (IAggrFunction) aggrMap.get( name.toUpperCase( ) );
+		return aggrMap.get( name.toUpperCase( ) );
 	}
 }

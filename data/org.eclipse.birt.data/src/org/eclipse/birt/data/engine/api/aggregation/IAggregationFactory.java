@@ -24,15 +24,15 @@ public interface IAggregationFactory
 	 * returns a list of <code>IAggrFunction</code> instances that current
 	 * factory produces.
 	 * 
-	 * @return
+	 * @return list of aggregate functions
 	 */
-	public List getAggregations( );
+	public List<IAggrFunction> getAggregations( );
 
 	/**
 	 * get an IAggrFunction instance whos's name is <code>name</code>.
 	 * 
 	 * @param name
-	 * @return
+	 * @return aggregate function
 	 */
 	public IAggrFunction getAggregation( String name );
 

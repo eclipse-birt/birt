@@ -1005,6 +1005,76 @@ public class TotalTest {
         assertTrue( ret instanceof BigDecimal );
         assertTrue( new BigDecimal( 1 ).compareTo( (BigDecimal) ret ) == 0 );
     }
+	
+	@Test
+	public void testTotalRange( ) throws Exception
+	{
+		IAggrFunction ag = buildInAggrFactory.getAggregation( "range" );
+		Accumulator ac = ag.newAccumulator( );
+		assertEquals( IBuildInAggregation.TOTAL_RANGE_FUNC, ag.getName( ) );
+		assertEquals( IAggrFunction.SUMMARY_AGGR, ag.getType( ) );
+		assertEquals( 1, ag.getParameterDefn( ).length );
+		assertTrue( !ag.getParameterDefn( )[0].isOptional( ) );
+
+		ac.start( );
+		for ( int i = 0; i < doubleArray1.length; i++ )
+		{
+			ac.onRow( new Double[]{
+					new Double( doubleArray1[i] )
+			} );
+		}
+		ac.finish( );
+		assertEquals( new Double( 9.0 ), ac.getValue( ) );
+
+		ac.start( );
+		for ( int i = 0; i < doubleArray2.length; i++ )
+		{
+			ac.onRow( new Double[]{
+					new Double( doubleArray2[i] )
+			} );
+		}
+		ac.finish( );
+		assertEquals( new Double( 106 ), ac.getValue( ) );
+
+		ac.start( );
+		for ( int i = 0; i < str1.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					str1[i]
+			} );
+		}
+		ac.finish( );
+		assertEquals( 78d, ac.getValue( ) );
+
+		ac.start( );
+		ac.finish( );
+		assertEquals( null, ac.getValue( ) );
+
+		ac.start( );
+		try
+		{
+			ac.getValue( );
+			assertTrue( false );
+		}
+		catch ( RuntimeException e )
+		{
+			assertTrue( true );
+		}
+
+		// test Total.RANGE() for BigDecimal data
+		ac.start( );
+		for ( int i = 0; i < bigDecimalArray.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					bigDecimalArray[i]
+			} );
+		}
+		ac.finish( );
+		Object ret = ac.getValue( );
+		assertTrue( ret instanceof Double );
+		assertEquals( 9D, ret );
+	}
+	
 	@Test
     public void testTotalMedian() throws Exception
     {

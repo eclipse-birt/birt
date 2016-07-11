@@ -48,5 +48,6 @@ public interface IBuildInAggregation
 	public static final String TOTAL_PERCENTSUM_FUNC = "PERCENTSUM";//$NON-NLS-1$
 	public static final String TOTAL_RUNNINGCOUNT_FUNC = "RUNNINGCOUNT";//$NON-NLS-1$
 	public static final String TOTAL_CONCATENATE_FUNC = "CONCATENATE";//$NON-NLS-1$
+	public static final String TOTAL_RANGE_FUNC = "RANGE";//$NON-NLS-1$
 
 }

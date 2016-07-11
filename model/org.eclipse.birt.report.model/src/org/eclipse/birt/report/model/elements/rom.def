@@ -556,7 +556,8 @@
     <Choice displayNameID="Choices.aggregationFunction.percentile" name="percentile" />    
     <Choice displayNameID="Choices.aggregationFunction.quartile" name="quartile" />       
     <Choice displayNameID="Choices.aggregationFunction.percent-sum" name="percent-sum" />
-    <Choice displayNameID="Choices.aggregationFunction.rank" name="rank" />       
+    <Choice displayNameID="Choices.aggregationFunction.rank" name="rank" />
+    <Choice displayNameID="Choices.aggregationFunction.range" name="range" />
   </ChoiceType>
   <ChoiceType name="levelType">
     <Choice displayNameID="Choices.levelType.dynamic" name="dynamic"/>
