@@ -13,6 +13,7 @@ package org.eclipse.birt.report.item.crosstab.core.re;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.extension.ReportItemPreparationBase;
+import org.eclipse.birt.report.item.crosstab.core.CrosstabException;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
@@ -21,6 +22,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.core.script.internal.handler.CrosstabPreparationHandler;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
@@ -56,8 +58,26 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 				.getProperty( ICrosstabConstants.HIDE_DETAIL_PROP );
 		if ( hideDetail != null )
 		{
-			hideDetail( crosstab,
-					hideDetail.toString( ).toLowerCase( ).equals( "row" ) ); //$NON-NLS-1$
+			if ( hideDetail.toString( ).toLowerCase( ).equals(
+					ICrosstabConstants.HIDE_DETAIL_ROW ) )
+			{
+				hideDetail( crosstab, true );
+			}
+			else if ( hideDetail.toString( ).toLowerCase( ).equals(
+					ICrosstabConstants.HIDE_DETAIL_COLUMN ) )
+			{
+				hideDetail( crosstab, false );
+			}
+			else
+			{
+				throw new CrosstabException( Messages.getString(
+						"CrosstabReportItemPreparation.Exception.HideDetailPropertyValueIsWrong", //$NON-NLS-1$
+						new String[]{
+								ICrosstabConstants.HIDE_DETAIL_PROP,
+								ICrosstabConstants.HIDE_DETAIL_ROW,
+								ICrosstabConstants.HIDE_DETAIL_COLUMN
+						} ) );
+			}
 		}
 
 		ExtendedItemHandle modelHandle = (ExtendedItemHandle) crosstab
