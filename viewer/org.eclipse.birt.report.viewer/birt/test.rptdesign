@@ -71,7 +71,7 @@
             <property name="contentType">html</property>
             <text-property name="content"><![CDATA[<b>Congratulations!</b>
 <br><br>
-If you can see this report, it means that the BIRT viewer is installed correctly.
+If you can see this report, it means that the BIRT Engine is installed correctly.
 <br><br>]]></text-property>
         </text>
         <grid id="18">
