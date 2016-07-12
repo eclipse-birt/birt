@@ -36,7 +36,7 @@ public abstract class BaseTestTemplate
         Assert.assertEquals( 0, result );
         Assert.assertTrue( new File( output ).exists( ) );
         Assert.assertTrue( new String( Files.readAllBytes( Paths.get( output ) ), StandardCharsets.UTF_8 )
-                .contains( "If you can see this report, it means that the BIRT viewer is installed correctly." ) );
+                .contains( "If you can see this report, it means that the BIRT Engine is installed correctly." ) );
     }
 
     @Test
