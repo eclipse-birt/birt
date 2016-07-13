@@ -3837,7 +3837,7 @@
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Measure" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Measure" name="Measure" nameSpace="cube" since="2.2" xmlName="measure">
   	<Property detailType="aggregationFunction" displayNameID="Element.Measure.function" name="function" runtimeSettable="false" since="2.2" type="choice">
   	  <Default>sum</Default>
-  	  <Allowed>sum,average,max,min,first,last,count,count-distinct</Allowed>	
+  	  <Allowed>sum,average,max,min,first,last,count,count-distinct,range</Allowed>
   	</Property>
   	<Property displayNameID="Element.Measure.measureExpression" name="measureExpression" runtimeSettable="false" since="2.2" type="expression" />
   	<Property displayNameID="Element.Measure.isCalculated" name="isCalculated" runtimeSettable="false" since="2.2" type="boolean" >
