@@ -460,30 +460,6 @@ public class CallStatement implements IAdvancedQuery
 		}
 	}
 	
-	/*
-	 * The method is for retrieving resultSet from database-specific
-	 * outPutParams. Note in 2.2.0M2 only the first resultSet will be returned
-	 * due to single IResultSet policy, assuming there is one or more. null will
-	 * be returned otherwise for a pseudo resultSet.
-	 */
-	private java.sql.ResultSet getOutputParamResultSet( ) throws OdaException,
-			SQLException
-	{
-		if ( parameterDefn != null )
-		{
-			for ( int i = 1; i <= parameterDefn.getParameterCount( ); i++ )
-			{
-				if ( parameterDefn.getParameterMode( i ) == IParameterMetaData.parameterModeOut )
-				{
-					Object expected = callStat.getObject( i );
-					if ( expected instanceof java.sql.ResultSet )
-						return (java.sql.ResultSet) expected;
-				}
-			}
-		}
-
-		return null;
-	}
 	
 	private void populateOutputParamResultSet( )
 			throws OdaException, SQLException
@@ -1136,7 +1112,6 @@ public class CallStatement implements IAdvancedQuery
     public void setObject( String parameterName, Object value )
             throws OdaException
     {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
@@ -1145,7 +1120,6 @@ public class CallStatement implements IAdvancedQuery
      */
     public void setObject( int parameterId, Object value ) throws OdaException
     {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
@@ -1731,7 +1705,6 @@ public class CallStatement implements IAdvancedQuery
      */
     public Object getObject( int parameterId ) throws OdaException
     {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
@@ -1740,7 +1713,6 @@ public class CallStatement implements IAdvancedQuery
      */
     public Object getObject( String parameterName ) throws OdaException
     {
-        // TODO Auto-generated method stub
         throw new UnsupportedOperationException();
     }
 
@@ -1903,8 +1875,8 @@ public class CallStatement implements IAdvancedQuery
 			return this.cachedParameterMetaData;
 		int[] positionArray = paramUtil.getParameterPositions( );
 
-		List paramMetaList1 = this.getCallableParamMetaData( );
-		List paramMetaList2 = new ArrayList( );
+		List<ParameterDefn> paramMetaList1 = this.getCallableParamMetaData( );
+		List<ParameterDefn> paramMetaList2 = new ArrayList<ParameterDefn>( );
 		
 		int containsReturnValue = 0;
 		if ( paramMetaList1.size( ) > 0 )
@@ -1933,14 +1905,16 @@ public class CallStatement implements IAdvancedQuery
 	/**
 	 * get parameter metadata from database matadata
 	 */
-	private java.util.List getCallableParamMetaData( )
+	private List<ParameterDefn> getCallableParamMetaData( ) throws OdaException
 	{
-		java.util.List paramMetaDataList = new ArrayList( );
+		List<ParameterDefn> params = new ArrayList<ParameterDefn>( );
+
 		try
 		{
 			DatabaseMetaData metaData = conn.getMetaData( );
-			String cataLog = conn.getCatalog( );
-			String procedureNamePattern = getNamePattern( this.paramUtil.getProcedure( ) );
+			String catalog = conn.getCatalog( );
+			String procedureNamePattern = getNamePattern(
+					this.paramUtil.getProcedure( ) );
 			String schemaPattern = null;
 			if ( this.paramUtil.getSchema( ) != null )
 			{
@@ -1949,16 +1923,58 @@ public class CallStatement implements IAdvancedQuery
 
 			// handles schema.package.storedprocedure for databases such as
 			// Oracle
-			if ( !metaData.supportsCatalogsInProcedureCalls( ) )
+			if ( !metaData.supportsCatalogsInProcedureCalls( )
+					&& this.paramUtil.getPackage( ) != null )
 			{
-				if (this.paramUtil.getPackage( ) != null)
-				{
-					cataLog = getNamePattern( this.paramUtil.getPackage( ) );
-				}
+				catalog = getNamePattern( this.paramUtil.getPackage( ) );
 			}
 
-			java.sql.ResultSet rs = null;
-			rs = metaData.getProcedureColumns( cataLog,
+			queryProcedureParams( schemaPattern,
+					catalog,
+					procedureNamePattern,
+					params );
+
+			if ( params.isEmpty( ) && catalog == null && schemaPattern != null )
+			{
+				// Deals with special case when calling "abc.proc()". Earlier
+				// code assumes "abc" is the name
+				// of the schema, which results in no match if it is actually a
+				// package name in the user's schema.
+				// For DBs like Oracle (when using Oracle thin JDBC driver), we
+				// should also search the
+				// current user's schema (using "" as schema name) using "abc"
+				// as package (i.e., catalog) name
+				queryProcedureParams( "",
+						schemaPattern,
+						procedureNamePattern,
+						params );
+			}
+		}
+		catch ( SQLException e )
+		{
+			logger.log( Level.SEVERE, "Fail to get SP paramters", e );
+		}
+		return params;
+	}
+	
+	/**
+	 * 	Calls JDBC DatabaseMetaData to find parameter definitions for a stored procedure
+	 * @param schemaPattern Pattern for matching schema name. If null, matches any schema. If empty, matches current user's schema
+	 * @param catalog Pattern for matching catalog. If null, matches any catalog
+	 * @param procedureNamePattern Pattern for matching procedure name
+	 * @param params Definitions of parameters are added to the list, in call order
+	 * @throws SQLException
+	 */
+	private void queryProcedureParams( String schemaPattern, String catalog,
+			String procedureNamePattern, List<ParameterDefn> params )
+			throws SQLException
+	{
+
+		DatabaseMetaData metaData = conn.getMetaData( );
+		java.sql.ResultSet rs = null;
+		try
+		{
+			rs = metaData.getProcedureColumns( catalog,
 					schemaPattern,
 					procedureNamePattern,
 					null );
@@ -1974,19 +1990,16 @@ public class CallStatement implements IAdvancedQuery
 				p.setIsNullable( rs.getInt( "NULLABLE" ) );
 				if ( p.getParamType( ) == Types.OTHER )
 					correctParamType( p );
-				paramMetaDataList.add( p );
+				params.add( p );
 			}
-			rs.close( );
 		}
-		catch ( SQLException e )
+		finally
 		{
-			logger.log( Level.SEVERE, "Fail to get SP paramters", e );
+			// Make sure result set is closed in case of error
+			if ( rs != null )
+				rs.close( );
 		}
-		catch( JDBCException ex)
-		{
-			logger.log( Level.SEVERE, "Fail to get SP paramters", ex );
-		}
-		return paramMetaDataList;
+
 	}
 	
 	private String getNamePattern( SPElement spElement ) throws SQLException
@@ -2081,7 +2094,6 @@ public class CallStatement implements IAdvancedQuery
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#setSpecification(org.eclipse.datatools.connectivity.oda.spec.QuerySpecification)
      */
-    @SuppressWarnings("restriction")
     public void setSpecification( QuerySpecification querySpec )
             throws OdaException, UnsupportedOperationException
     {
@@ -2098,7 +2110,6 @@ public class CallStatement implements IAdvancedQuery
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#getSpecification()
      */
-    @SuppressWarnings("restriction")
     public QuerySpecification getSpecification()
     {
         return null;
