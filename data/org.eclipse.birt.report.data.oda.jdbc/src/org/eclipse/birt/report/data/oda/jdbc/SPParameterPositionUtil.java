@@ -15,6 +15,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.datatools.connectivity.oda.OdaException;
@@ -244,23 +246,37 @@ public final class SPParameterPositionUtil
 		}
 		
 		String name = sqlTxt.substring( start + 4, end ).trim( );
-		String[] pattern = name.split( "\\Q.\\E" );
-		spElements = new SPElement[pattern.length];
-		for( int i=0; i< pattern.length; i++ )
-		{
-			if (pattern[i].startsWith( identifierQuoteString ) 
-					&& pattern[i].endsWith( identifierQuoteString ))
-			{
-				String pureName = pattern[i].substring( identifierQuoteString.length( ), 
-						pattern[i].length( ) - identifierQuoteString.length( ) );
-				spElements[i] = new SPElement( pureName, true );
+
+		// Split name into period-separated elements. Note that quotes can be used to enclose an element that contains periods. 
+		// E.g.,   
+		//   schema.package.function  ==>   ["schema", "package", "function"]
+		//   schema."package.function"  ==>  ["schema", "package.function"]
+		//   "schema"."package"."function"  ==>  ["schema", "package", "function"]
+		// Some drivers such as DataDirect for Oracle handles packages by giving us composite name such as "package.proc"
+		// as a stored proc name. In order to us to correctly parse the SQL, such composite names must always be identity quoted.
+		
+		String idq = Pattern.quote(identifierQuoteString);
+		// To explain the following pattern: the group matches either of these:
+		//   (a) a unquoted name (doesn't start with quote, and greedily matches all characters until the next period)
+		//   (b) a quoted name (starts with a quote, then reluctantly matches all characters until the next quote)
+		// Groups are separated by period character.
+		String patternStr =   "([^" + idq + "][^\\.]*|"  + idq + ".*?"  + idq + ")\\.{0,1}";
+
+		Matcher matcher = Pattern.compile(patternStr).matcher(name);
+		ArrayList<SPElement> elemList= new ArrayList<SPElement>();
+		while ( matcher.find() ) {
+			String elem = matcher.group(1);
+			if ( elem.startsWith(identifierQuoteString) && elem.endsWith(identifierQuoteString) ) {
+				// Strip quotes at both ends
+				elem = elem.substring(identifierQuoteString.length(), 
+							elem.length() - identifierQuoteString.length());
+				elemList.add( new SPElement(elem, true) );
+			} else {
+				elemList.add( new SPElement(elem, false) );
 			}
-			else
-			{
-				spElements[i] = new SPElement( pattern[i], false);
-			}
-		}
-	}
+		}	
+
+		spElements = elemList.toArray( new SPElement[elemList.size()]);	}
 	
 	
 	/**
