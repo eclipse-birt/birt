@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product uid="org.eclipse.birt.report.designer.rcp" 
-	application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" 
-	useFeatures="true" 
-	includeLaunchers="true">
+<product name="BIRT Report Designer RCP" uid="org.eclipse.birt.report.designer.rcp" application="org.eclipse.birt.report.designer.ui.rcp.DesignerApplication" version="4.6.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
