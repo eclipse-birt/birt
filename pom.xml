@@ -9,7 +9,7 @@
 	<properties>
 		<birt.version>4.6.0</birt.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<tycho.version>0.21.0</tycho.version>
+		<tycho.version>0.25.0</tycho.version>
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
 		<!--<build>v${maven.build.timestamp}</build>-->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
