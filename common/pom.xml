@@ -14,7 +14,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>org.apache.derby.core</module>
 		<module>org.w3c.sac</module>
 	</modules>
 </project>
