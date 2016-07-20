@@ -36,7 +36,6 @@
       <import plugin="org.apache.batik.pdf"/>
       <import plugin="org.apache.commons.discovery"/>
       <import plugin="org.apache.commons.logging"/>
-      <import plugin="org.apache.derby.core"/>
       <import plugin="org.apache.jasper.glassfish"/>
       <import plugin="org.apache.lucene.analysis"/>
       <import plugin="org.apache.lucene.core"/>
