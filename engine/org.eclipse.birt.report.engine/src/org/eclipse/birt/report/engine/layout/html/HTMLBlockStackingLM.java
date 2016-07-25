@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.layout.html;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
+import org.eclipse.birt.report.engine.content.impl.TableBandContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.ILayoutManager;
 
@@ -59,6 +60,7 @@ public class HTMLBlockStackingLM extends HTMLStackingLM
 			}
 		}
 		// then layout the next content
+		boolean firstIteration = true;
 		while ( executor.hasNextChild( ) && !context.getCancelFlag( ) )
 		{
 			childExecutor = (IReportItemExecutor) executor.getNextChild( );
@@ -67,8 +69,23 @@ public class HTMLBlockStackingLM extends HTMLStackingLM
 			{
 				childLayout = engine.createLayoutManager( this, childContent,
 						childExecutor, emitter );
-				hasNext = childLayout.layout( );
 
+				if ( childContent instanceof TableBandContent )
+				{
+					if ( !executor.hasNextChild( ) )
+					{
+						( (TableBandContent) childContent )
+								.setLastTableBand( true );
+					}
+					if ( firstIteration )
+					{
+						( (TableBandContent) childContent )
+								.setFirstTableBand( true );
+					}
+				}
+				firstIteration = false;
+				hasNext = childLayout.layout( );
+	
 				if ( hasNext )
 				{
 					if ( childLayout.isFinished( ) )
