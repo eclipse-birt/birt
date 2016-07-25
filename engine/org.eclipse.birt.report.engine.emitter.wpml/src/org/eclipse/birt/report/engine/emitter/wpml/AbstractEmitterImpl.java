@@ -56,6 +56,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.TableBandContent;
 import org.eclipse.birt.report.engine.content.impl.TextContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
@@ -69,7 +70,6 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
-import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
@@ -198,8 +198,20 @@ public abstract class AbstractEmitterImpl
 	private boolean fixedLayout;
 
 	protected int reportDpi;
+	
+	private int tableColCount = 0;
 
 	protected static final String EMPTY_FOOTER = " ";
+	
+	protected static final String NO_STYLE = "none";  //$NON-NLS-1$
+	
+	protected final int RIGHT = 0;
+
+	protected final int LEFT = 1;
+
+	protected final int TOP = 2;
+
+	protected final int BOTTOM = 3;
 
 	public void initialize( IEmitterServices service ) throws EngineException
 	{
@@ -501,7 +513,39 @@ public abstract class AbstractEmitterImpl
 		int cellWidth = context.getCellWidth( columnId, columnSpan );
 
 		IStyle style = computeStyle( cell.getComputedStyle( ) );
+//		style.get
+		
+		IStyle tableStyle = context.getTableStyle( );
+		int rowId = cell.getRow( );  // does not work!
+		String[] borderStyles = new String[4];
+		if ( isFirstBand( cell ) && hasBorder( tableStyle.getBorderTopStyle( ) )
+				&& hasBorder( style.getBorderTopStyle( ) ) )
+		{
+			borderStyles[TOP] = style.getBorderTopStyle( );
+			style.setBorderTopStyle( NO_STYLE );
+		}
 
+		if ( columnId == 0 && hasBorder( tableStyle.getBorderLeftStyle( ) )
+				&& hasBorder( style.getBorderLeftStyle( ) ) )// first column
+		{
+			borderStyles[LEFT] = style.getBorderLeftStyle( );
+			style.setBorderLeftStyle( NO_STYLE );
+		}
+		if ( columnId == tableColCount - 1
+				&& hasBorder( tableStyle.getBorderRightStyle( ) )
+				&& hasBorder( style.getBorderRightStyle( ) ) )
+		{
+			borderStyles[RIGHT] = style.getBorderRightStyle( );
+			style.setBorderRightStyle( NO_STYLE );
+		}
+		if ( isLastBand( cell )
+				&& hasBorder( tableStyle.getBorderBottomStyle( ) )
+				&& hasBorder( style.getBorderBottomStyle( ) ) )
+		{
+			borderStyles[BOTTOM] = style.getBorderBottomStyle( );
+			style.setBorderBottomStyle( NO_STYLE );
+		}
+			
 		if ( rowSpan > 1 )
 		{
 			context.addSpan( columnId, columnSpan, cellWidth, rowSpan, style );
@@ -521,6 +565,48 @@ public abstract class AbstractEmitterImpl
 		{
 			drawDiagonalLine( cell, WordUtil.twipToPt( cellWidth ) );
 		}
+		// return to original
+		if ( borderStyles[RIGHT] != null )
+		{
+			style.setBorderRightStyle( borderStyles[RIGHT] );
+		}
+		if ( borderStyles[LEFT] != null )
+		{
+			style.setBorderLeftStyle( borderStyles[LEFT] );
+		}
+		if ( borderStyles[TOP] != null )
+		{
+			style.setBorderTopStyle( borderStyles[TOP] );
+		}
+		if ( borderStyles[BOTTOM] != null )
+		{
+			style.setBorderBottomStyle( borderStyles[BOTTOM] );
+		}
+	}
+	
+	private boolean isLastBand( ICellContent cell )
+	{
+		IContent tableBand = (IContent) ( (IContent) cell.getParent( ) ).getParent( );
+		if( tableBand instanceof TableBandContent )
+		{
+			return ( (TableBandContent) tableBand).isLastTableBand( );
+		}
+		return false;
+	}
+	
+	private boolean isFirstBand( ICellContent cell )
+	{
+		IContent tableBand = (IContent) ( (IContent) cell.getParent( ) ).getParent( );
+		if( tableBand instanceof TableBandContent )
+		{
+			return ( (TableBandContent) tableBand).isFirstTableBand( );
+		}
+		return false;
+	}
+
+	private boolean hasBorder( String borderStyle )
+	{
+		return !( borderStyle == null || "none".equalsIgnoreCase( borderStyle ) );
 	}
 
 	private void drawDiagonalLine( ICellContent cell, double cellWidth )
@@ -565,6 +651,7 @@ public abstract class AbstractEmitterImpl
 
 	public void startTable( ITableContent table )
 	{
+		tableColCount = table.getColumnCount( );
 		adjustInline( );
 		styles.push( table.getComputedStyle( ) );
 
