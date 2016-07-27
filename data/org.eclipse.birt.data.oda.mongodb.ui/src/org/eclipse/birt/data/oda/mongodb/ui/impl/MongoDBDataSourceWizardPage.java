@@ -19,40 +19,47 @@ import org.eclipse.birt.data.oda.mongodb.ui.util.UIHelper;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage;
 import org.eclipse.swt.widgets.Composite;
 
-public class MongoDBDataSourceWizardPage extends DataSourceWizardPage {
+public class MongoDBDataSourceWizardPage extends DataSourceWizardPage
+{
 
 	private Properties properties;
-	private String DEFAULT_MESSAGE = Messages.getString("MongoDBDataSourceWizardPage.message.default"); //$NON-NLS-1$
+	private String DEFAULT_MESSAGE = Messages
+			.getString( "MongoDBDataSourceWizardPage.message.default" ); //$NON-NLS-1$
 
 	// MongoDBDataSourcePageHelper is in charge of layouting the page controls
 	private MongoDBDataSourcePageHelper pageHelper;
 
-	public MongoDBDataSourceWizardPage(String pageName) {
-		super(pageName);
-		setMessage(DEFAULT_MESSAGE);
-		pageHelper = new MongoDBDataSourcePageHelper(this);
+	public MongoDBDataSourceWizardPage( String pageName )
+	{
+		super( pageName );
+		setMessage( DEFAULT_MESSAGE );
+		pageHelper = new MongoDBDataSourcePageHelper( this );
 	}
 
-	public Properties collectCustomProperties() {
-		return pageHelper.collectCustomProperties(properties);
+	public Properties collectCustomProperties( )
+	{
+		return pageHelper.collectCustomProperties( properties );
 	}
 
-	public void setInitialProperties(Properties dataSourceProps) {
+	public void setInitialProperties( Properties dataSourceProps )
+	{
 		properties = dataSourceProps;
-		if (pageHelper == null)
+		if ( pageHelper == null )
 			return; // ignore, wait till createPageCustomControl to initialize
 
-		pageHelper.initPageInfos(properties);
+		pageHelper.initPageInfos( properties );
 	}
 
-	public void createPageCustomControl(Composite parent) {
-		if (pageHelper == null)
-			pageHelper = new MongoDBDataSourcePageHelper(this);
+	public void createPageCustomControl( Composite parent )
+	{
+		if ( pageHelper == null )
+			pageHelper = new MongoDBDataSourcePageHelper( this );
 
-		pageHelper.createPageControls(parent);
-		pageHelper.refreshPageControls();
+		pageHelper.createPageControls( parent );
+		pageHelper.refreshPageControls( );
 
-		UIHelper.setSystemHelp(getControl(), IHelpConstants.CONTEXT_ID_WIZARD_DATASOURCE_MONGODB);
+		UIHelper.setSystemHelp( getControl( ),
+				IHelpConstants.CONTEXT_ID_WIZARD_DATASOURCE_MONGODB );
 
 	}
 
@@ -61,22 +68,26 @@ public class MongoDBDataSourceWizardPage extends DataSourceWizardPage {
 	 * 
 	 * @see org.eclipse.jface.dialogs.DialogPage#setVisible(boolean)
 	 */
-	public void setVisible(boolean visible) {
-		super.setVisible(visible);
-		pageHelper.setFocus();
+	public void setVisible( boolean visible )
+	{
+		super.setVisible( visible );
+		pageHelper.setFocus( );
 	}
 
 	@Override
-	public void refresh() {
+	public void refresh( )
+	{
 		// enable/disable all controls on page based on the session editable
 		// state
-		if (pageHelper != null) {
-			boolean isSessionEditable = isSessionEditable();
-			pageHelper.refresh();
-			enableAllControls(getControl(), isSessionEditable);
-			if (isSessionEditable) {
-				pageHelper.resetURIEditControlStatus();
-				pageHelper.handleKerberosAuthenticationSelection();
+		if ( pageHelper != null )
+		{
+			boolean isSessionEditable = isSessionEditable( );
+			pageHelper.refresh( );
+			enableAllControls( getControl( ), isSessionEditable );
+			if ( isSessionEditable )
+			{
+				pageHelper.resetURIEditControlStatus( );
+				pageHelper.handleKerberosAuthenticationSelection( );
 			}
 		}
 	}

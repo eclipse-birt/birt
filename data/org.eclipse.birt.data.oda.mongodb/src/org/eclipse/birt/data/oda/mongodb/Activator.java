@@ -18,11 +18,13 @@ import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class Activator implements BundleActivator {
+public class Activator implements BundleActivator
+{
 
 	private static BundleContext context;
 
-	static BundleContext getContext() {
+	static BundleContext getContext( )
+	{
 		return context;
 	}
 
@@ -33,7 +35,8 @@ public class Activator implements BundleActivator {
 	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
 	 * )
 	 */
-	public void start(BundleContext bundleContext) throws Exception {
+	public void start( BundleContext bundleContext ) throws Exception
+	{
 		Activator.context = bundleContext;
 	}
 
@@ -43,9 +46,10 @@ public class Activator implements BundleActivator {
 	 * @see
 	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop(BundleContext bundleContext) throws Exception {
+	public void stop( BundleContext bundleContext ) throws Exception
+	{
 		Activator.context = null;
-		MongoDBDriver.close();
+		MongoDBDriver.close( );
 	}
 
 }

@@ -20,22 +20,29 @@ import org.eclipse.swt.widgets.Shell;
 
 import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryModel;
 
-public class MDBQueryExpressionBuilder extends MongoDBExpressionBuilder {
+public class MDBQueryExpressionBuilder extends MongoDBExpressionBuilder
+{
 
-	public MDBQueryExpressionBuilder(Shell parent) {
-		super(parent);
+	public MDBQueryExpressionBuilder( Shell parent )
+	{
+		super( parent );
 	}
 
-	protected void initDialogTitle() {
-		setTitle(Messages.getString("MongoDBExpressionBuilder.QueryExpression.DialogTitle")); //$NON-NLS-1$
+	protected void initDialogTitle( )
+	{
+		setTitle( Messages.getString(
+				"MongoDBExpressionBuilder.QueryExpression.DialogTitle" ) ); //$NON-NLS-1$
 	}
 
-	protected void createDialogHelper(Composite composite) {
-		UIHelper.setSystemHelp(composite, IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_QUERY_EXPRESSION);
+	protected void createDialogHelper( Composite composite )
+	{
+		UIHelper.setSystemHelp( composite,
+				IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_QUERY_EXPRESSION );
 	}
 
-	protected void doValidateExpressionSyntax() throws OdaException {
-		QueryModel.validateQuerySyntax(expression);
+	protected void doValidateExpressionSyntax( ) throws OdaException
+	{
+		QueryModel.validateQuerySyntax( expression );
 	}
 
 }

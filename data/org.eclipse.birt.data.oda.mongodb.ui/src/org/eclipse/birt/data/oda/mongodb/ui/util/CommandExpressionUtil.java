@@ -18,7 +18,8 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 
-public class CommandExpressionUtil {
+public class CommandExpressionUtil
+{
 
 	/**
 	 * Fetch the string text from the file with the given file name.
@@ -27,8 +28,10 @@ public class CommandExpressionUtil {
 	 * @return
 	 * @throws IOException
 	 */
-	public static String getCommandExpressionText(String fileName) throws IOException {
-		return getCommandExpressionText(new File(fileName));
+	public static String getCommandExpressionText( String fileName )
+			throws IOException
+	{
+		return getCommandExpressionText( new File( fileName ) );
 	}
 
 	/**
@@ -38,16 +41,19 @@ public class CommandExpressionUtil {
 	 * @return
 	 * @throws IOException
 	 */
-	public static String getCommandExpressionText(File file) throws IOException {
-		BufferedReader reader = new BufferedReader(new FileReader(file));
-		StringBuffer buffer = new StringBuffer((int) file.length());
+	public static String getCommandExpressionText( File file )
+			throws IOException
+	{
+		BufferedReader reader = new BufferedReader( new FileReader( file ) );
+		StringBuffer buffer = new StringBuffer( (int) file.length( ) );
 		String line;
-		while ((line = reader.readLine()) != null) {
-			buffer.append(line).append("\n"); //$NON-NLS-1$
+		while ( ( line = reader.readLine( ) ) != null )
+		{
+			buffer.append( line ).append( "\n" ); //$NON-NLS-1$
 		}
-		reader.close();
+		reader.close( );
 
-		return buffer.toString();
+		return buffer.toString( );
 	}
 
 	/**
@@ -58,14 +64,20 @@ public class CommandExpressionUtil {
 	 * @return
 	 * @throws IOException
 	 */
-	public static boolean exportToFile(String fileName, String text) throws IOException {
+	public static boolean exportToFile( String fileName, String text )
+			throws IOException
+	{
 		boolean success = true;
-		BufferedWriter writer = new BufferedWriter(new FileWriter(fileName));
-		try {
-			writer.write(text);
-			writer.flush();
-			writer.close();
-		} catch (IOException ex) {
+		BufferedWriter writer = new BufferedWriter(
+				new FileWriter( fileName ) );
+		try
+		{
+			writer.write( text );
+			writer.flush( );
+			writer.close( );
+		}
+		catch ( IOException ex )
+		{
 			success = false;
 		}
 		return success;

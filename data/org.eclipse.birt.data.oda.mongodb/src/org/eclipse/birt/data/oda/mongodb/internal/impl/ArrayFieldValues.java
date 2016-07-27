@@ -27,7 +27,9 @@ import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData
  * from a nested collection. It servers to handle projection of additional
  * result set sub-rows, flattening collection of nested documents.
  */
-public class ArrayFieldValues {
+public class ArrayFieldValues
+{
+
 	// Map key is a fully-qualified field name;
 	// and Map value may be a list of field values, such as an array of scalar
 	// values,
@@ -38,107 +40,127 @@ public class ArrayFieldValues {
 	private int m_subRowIndex = 0; // initialize to first subrow; 0-based index
 	private int m_maxSubRows = 0;
 
-	ArrayFieldValues(String containingDocName) {
-		m_fieldValues = new LinkedHashMap<String, Object>(5);
+	ArrayFieldValues( String containingDocName )
+	{
+		m_fieldValues = new LinkedHashMap<String, Object>( 5 );
 		m_containingDocName = containingDocName;
 	}
 
-	boolean hasFieldValue(String fieldName) {
-		return m_fieldValues.containsKey(fieldName);
+	boolean hasFieldValue( String fieldName )
+	{
+		return m_fieldValues.containsKey( fieldName );
 	}
 
-	Object getFieldValue(String fieldName) {
-		return m_fieldValues.get(fieldName);
+	Object getFieldValue( String fieldName )
+	{
+		return m_fieldValues.get( fieldName );
 	}
 
-	void addFieldValue(FieldMetaData fieldMD, List<?> value) {
-		String fieldName = fieldMD.getFullName();
-		addFieldValue(fieldName, value, true); // default is to iterate over
-												// each element in value list
+	void addFieldValue( FieldMetaData fieldMD, List<?> value )
+	{
+		String fieldName = fieldMD.getFullName( );
+		addFieldValue( fieldName, value, true ); // default is to iterate over
+													// each element in value
+													// list
 	}
 
-	void addFieldValue(String fieldName, Object value, boolean iterateListElements) {
-		m_fieldValues.put(fieldName, value);
+	void addFieldValue( String fieldName, Object value,
+			boolean iterateListElements )
+	{
+		m_fieldValues.put( fieldName, value );
 
 		int valueRowCount = 1;
-		if (iterateListElements && value instanceof List<?>)
-			valueRowCount = ((List<?>) value).size();
-		if (m_maxSubRows < valueRowCount)
+		if ( iterateListElements && value instanceof List<?> )
+			valueRowCount = ( (List<?>) value ).size( );
+		if ( m_maxSubRows < valueRowCount )
 			m_maxSubRows = valueRowCount;
 	}
 
-	boolean hasContainerDocs() {
-		return hasFieldValue(m_containingDocName);
+	boolean hasContainerDocs( )
+	{
+		return hasFieldValue( m_containingDocName );
 	}
 
-	void addContainerDocs(Object value) {
-		addFieldValue(m_containingDocName, value, true);
+	void addContainerDocs( Object value )
+	{
+		addFieldValue( m_containingDocName, value, true );
 	}
 
-	void clearContainerDocs() {
+	void clearContainerDocs( )
+	{
 		// defer clearing of top-level container cache till the end of
 		// iterating top-level row in ResultDataHandler#next()
-		if (ResultDataHandler.TOP_LEVEL_PARENT.equals(m_containingDocName))
+		if ( ResultDataHandler.TOP_LEVEL_PARENT.equals( m_containingDocName ) )
 			return;
 
-		if (!m_fieldValues.isEmpty())
-			m_fieldValues.remove(m_containingDocName);
-		resetRowCount();
+		if ( !m_fieldValues.isEmpty( ) )
+			m_fieldValues.remove( m_containingDocName );
+		resetRowCount( );
 	}
 
-	Object getCurrentValue(String fieldName) {
-		Object value = getFieldValue(fieldName);
-		if (value == null)
+	Object getCurrentValue( String fieldName )
+	{
+		Object value = getFieldValue( fieldName );
+		if ( value == null )
 			return null;
 
-		if (!(value instanceof List<?>))
+		if ( !( value instanceof List<?> ) )
 			return value;
 
 		List<?> fieldValuesList = (List<?>) value;
-		if (m_subRowIndex < 0 || m_subRowIndex >= fieldValuesList.size())
+		if ( m_subRowIndex < 0 || m_subRowIndex >= fieldValuesList.size( ) )
 			return null;
 
-		return fieldValuesList.get(m_subRowIndex);
+		return fieldValuesList.get( m_subRowIndex );
 	}
 
-	Document getCurrentContainerDoc() {
-		Object currentDoc = getCurrentValue(m_containingDocName);
+	Document getCurrentContainerDoc( )
+	{
+		Object currentDoc = getCurrentValue( m_containingDocName );
 		return currentDoc instanceof Document ? (Document) currentDoc : null;
 	}
 
-	boolean next() {
+	boolean next( )
+	{
 		// iterate over this cache
-		if (m_subRowIndex + 1 < m_maxSubRows) // 0-based index
+		if ( m_subRowIndex + 1 < m_maxSubRows ) // 0-based index
 		{
 			++m_subRowIndex;
 			return true;
 		}
 
-		resetIterator();
+		resetIterator( );
 		return false;
 	}
 
-	private void resetIterator() {
+	private void resetIterator( )
+	{
 		m_subRowIndex = 0; // re-initialize to first subrow
 	}
 
-	void clear() {
-		if (!m_fieldValues.isEmpty())
-			m_fieldValues.clear();
-		resetRowCount();
+	void clear( )
+	{
+		if ( !m_fieldValues.isEmpty( ) )
+			m_fieldValues.clear( );
+		resetRowCount( );
 	}
 
-	private void resetRowCount() {
-		if (m_fieldValues.isEmpty()) {
+	private void resetRowCount( )
+	{
+		if ( m_fieldValues.isEmpty( ) )
+		{
 			m_maxSubRows = 0;
-			resetIterator();
+			resetIterator( );
 			return;
 		}
 
 		// reset count based on remaining field values
-		for (Object fieldValue : m_fieldValues.values()) {
-			int valueRowCount = fieldValue instanceof List<?> ? ((List<?>) fieldValue).size() : 1;
-			if (m_maxSubRows < valueRowCount)
+		for ( Object fieldValue : m_fieldValues.values( ) )
+		{
+			int valueRowCount = fieldValue instanceof List<?>
+					? ( (List<?>) fieldValue ).size( )
+					: 1;
+			if ( m_maxSubRows < valueRowCount )
 				m_maxSubRows = valueRowCount;
 		}
 	}

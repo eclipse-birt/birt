@@ -16,7 +16,9 @@ package org.eclipse.birt.data.oda.mongodb.nls;
 
 import org.eclipse.osgi.util.NLS;
 
-public class Messages extends NLS {
+public class Messages extends NLS
+{
+
 	private static final String BUNDLE_NAME = "org.eclipse.birt.data.oda.mongodb.nls.messages"; //$NON-NLS-1$
 
 	public static String mDbConnection_failedToOpenConn;
@@ -73,11 +75,13 @@ public class Messages extends NLS {
 
 	public static String resultDataHandler_invalidFieldName;
 
-	static {
+	static
+	{
 		// initialize resource bundle
-		NLS.initializeMessages(BUNDLE_NAME, Messages.class);
+		NLS.initializeMessages( BUNDLE_NAME, Messages.class );
 	}
 
-	private Messages() {
+	private Messages( )
+	{
 	}
 }

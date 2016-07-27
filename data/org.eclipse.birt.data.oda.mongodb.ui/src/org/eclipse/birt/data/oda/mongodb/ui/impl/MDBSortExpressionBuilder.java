@@ -20,26 +20,34 @@ import org.eclipse.swt.widgets.Shell;
 
 import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryModel;
 
-public class MDBSortExpressionBuilder extends MongoDBExpressionBuilder {
+public class MDBSortExpressionBuilder extends MongoDBExpressionBuilder
+{
 
-	public MDBSortExpressionBuilder(Shell parent) {
-		super(parent);
+	public MDBSortExpressionBuilder( Shell parent )
+	{
+		super( parent );
 	}
 
-	protected void initDialogTitle() {
-		setTitle(Messages.getString("MongoDBExpressionBuilder.SortExpression.DialogTitle")); //$NON-NLS-1$
+	protected void initDialogTitle( )
+	{
+		setTitle( Messages.getString(
+				"MongoDBExpressionBuilder.SortExpression.DialogTitle" ) ); //$NON-NLS-1$
 	}
 
-	protected void createDialogHelper(Composite composite) {
-		UIHelper.setSystemHelp(composite, IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_SORT_EXPRESSION);
+	protected void createDialogHelper( Composite composite )
+	{
+		UIHelper.setSystemHelp( composite,
+				IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_SORT_EXPRESSION );
 	}
 
-	protected void doValidateExpressionSyntax() throws OdaException {
-		QueryModel.validateSortExprSyntax(expression);
+	protected void doValidateExpressionSyntax( ) throws OdaException
+	{
+		QueryModel.validateSortExprSyntax( expression );
 	}
 
-	protected void validateStatus() {
-		updateStatus(getOKStatus());
+	protected void validateStatus( )
+	{
+		updateStatus( getOKStatus( ) );
 
 	}
 

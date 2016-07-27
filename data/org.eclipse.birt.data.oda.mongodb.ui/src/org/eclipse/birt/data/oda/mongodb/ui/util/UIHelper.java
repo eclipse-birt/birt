@@ -27,7 +27,8 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-public class UIHelper {
+public class UIHelper
+{
 
 	/**
 	 * Set context-sensitive help
@@ -35,8 +36,10 @@ public class UIHelper {
 	 * @param control
 	 * @param contextId
 	 */
-	public static void setSystemHelp(Control control, String contextId) {
-		PlatformUI.getWorkbench().getHelpSystem().setHelp(control, contextId);
+	public static void setSystemHelp( Control control, String contextId )
+	{
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( control,
+				contextId );
 	}
 
 	/**
@@ -48,26 +51,37 @@ public class UIHelper {
 	 * @throws IOException
 	 * @see #setImageCached(boolean )
 	 */
-	public static Image getImage(String sPluginRelativePath) throws IOException {
-		ImageRegistry registry = JFaceResources.getImageRegistry();
-		Image image = registry.get(sPluginRelativePath);
-		if (image == null) {
-			image = createImage(sPluginRelativePath);
-			registry.put(sPluginRelativePath, image);
+	public static Image getImage( String sPluginRelativePath )
+			throws IOException
+	{
+		ImageRegistry registry = JFaceResources.getImageRegistry( );
+		Image image = registry.get( sPluginRelativePath );
+		if ( image == null )
+		{
+			image = createImage( sPluginRelativePath );
+			registry.put( sPluginRelativePath, image );
 		}
 		return image;
 	}
 
-	private static Image createImage(String sPluginRelativePath) throws IOException {
+	private static Image createImage( String sPluginRelativePath )
+			throws IOException
+	{
 		Image img = null;
-		try {
-			img = new Image(Display.getCurrent(), getURL(sPluginRelativePath).openStream());
-		} catch (MalformedURLException e1) {
-			img = new Image(Display.getCurrent(), new FileInputStream(getURL(sPluginRelativePath).toString()));
+		try
+		{
+			img = new Image( Display.getCurrent( ),
+					getURL( sPluginRelativePath ).openStream( ) );
+		}
+		catch ( MalformedURLException e1 )
+		{
+			img = new Image( Display.getCurrent( ), new FileInputStream(
+					getURL( sPluginRelativePath ).toString( ) ) );
 		}
 		// If still can't load, return a dummy image.
-		if (img == null) {
-			img = new Image(Display.getCurrent(), 1, 1);
+		if ( img == null )
+		{
+			img = new Image( Display.getCurrent( ), 1, 1 );
 		}
 		return img;
 	}
@@ -81,12 +95,19 @@ public class UIHelper {
 	 *            The path to the resource relative to the plugin location.
 	 * @return URL representing the location of the resource.
 	 */
-	public static URL getURL(String sPluginRelativePath) throws MalformedURLException {
+	public static URL getURL( String sPluginRelativePath )
+			throws MalformedURLException
+	{
 		URL url = null;
-		if (Platform.getExtensionRegistry() != null) {
-			url = new URL(Activator.getDefault().getBundle().getEntry("/"), sPluginRelativePath); //$NON-NLS-1$
-		} else {
-			url = new URL("file:///" + new File(sPluginRelativePath).getAbsolutePath()); //$NON-NLS-1$
+		if ( Platform.getExtensionRegistry( ) != null )
+		{
+			url = new URL( Activator.getDefault( ).getBundle( ).getEntry( "/" ), //$NON-NLS-1$
+					sPluginRelativePath );
+		}
+		else
+		{
+			url = new URL( "file:///" //$NON-NLS-1$
+					+ new File( sPluginRelativePath ).getAbsolutePath( ) );
 		}
 
 		return url;
@@ -100,10 +121,11 @@ public class UIHelper {
 	 * @param ex
 	 * @return
 	 */
-	public static String getUserErrorMessage(String userMsgKey, Exception ex) {
-		String msg = userMsgKey != null ? Messages.getString(userMsgKey) : ""; //$NON-NLS-1$
-		String exMsg = ex.getLocalizedMessage();
-		if (exMsg != null)
+	public static String getUserErrorMessage( String userMsgKey, Exception ex )
+	{
+		String msg = userMsgKey != null ? Messages.getString( userMsgKey ) : ""; //$NON-NLS-1$
+		String exMsg = ex.getLocalizedMessage( );
+		if ( exMsg != null )
 			msg += "\n" + exMsg; //$NON-NLS-1$
 		return msg;
 	}
@@ -114,8 +136,9 @@ public class UIHelper {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Image getEmbeddedWarningImage() throws IOException {
-		return getImage("icons/warning.gif"); //$NON-NLS-1$
+	public static Image getEmbeddedWarningImage( ) throws IOException
+	{
+		return getImage( "icons/warning.gif" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -124,8 +147,9 @@ public class UIHelper {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Image getDatabaseDisplayImage() throws IOException {
-		return getImage("icons/database.gif"); //$NON-NLS-1$
+	public static Image getDatabaseDisplayImage( ) throws IOException
+	{
+		return getImage( "icons/database.gif" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -134,8 +158,9 @@ public class UIHelper {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Image getCollectionDisplayImage() throws IOException {
-		return getImage("icons/collection.gif"); //$NON-NLS-1$
+	public static Image getCollectionDisplayImage( ) throws IOException
+	{
+		return getImage( "icons/collection.gif" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -144,8 +169,9 @@ public class UIHelper {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Image getFieldDisplayImage() throws IOException {
-		return getImage("icons/field.gif"); //$NON-NLS-1$
+	public static Image getFieldDisplayImage( ) throws IOException
+	{
+		return getImage( "icons/field.gif" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -155,8 +181,9 @@ public class UIHelper {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Image getDocumentDisplayImage() throws IOException {
-		return getImage("icons/document.gif"); //$NON-NLS-1$
+	public static Image getDocumentDisplayImage( ) throws IOException
+	{
+		return getImage( "icons/document.gif" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -165,8 +192,9 @@ public class UIHelper {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Image getSelectedDocumentDisplayImage() throws IOException {
-		return getImage("icons/document_selected.gif"); //$NON-NLS-1$
+	public static Image getSelectedDocumentDisplayImage( ) throws IOException
+	{
+		return getImage( "icons/document_selected.gif" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -175,8 +203,9 @@ public class UIHelper {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Image getSelectedFieldDisplayImage() throws IOException {
-		return getImage("icons/field_selected.gif"); //$NON-NLS-1$
+	public static Image getSelectedFieldDisplayImage( ) throws IOException
+	{
+		return getImage( "icons/field_selected.gif" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -185,8 +214,9 @@ public class UIHelper {
 	 * @return
 	 * @throws IOException
 	 */
-	public static Image getSyntaxValidationImage() throws IOException {
-		return getImage("icons/validate.gif"); //$NON-NLS-1$
+	public static Image getSyntaxValidationImage( ) throws IOException
+	{
+		return getImage( "icons/validate.gif" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -195,12 +225,14 @@ public class UIHelper {
 	 * @param text
 	 * @return
 	 */
-	public static boolean isNumber(String text) {
-		if (isEmptyString(text)) {
+	public static boolean isNumber( String text )
+	{
+		if ( isEmptyString( text ) )
+		{
 			return false;
 		}
 
-		return text.matches("^[0-9]*[1-9][0-9]*$"); //$NON-NLS-1$
+		return text.matches( "^[0-9]*[1-9][0-9]*$" ); //$NON-NLS-1$
 	}
 
 	/**
@@ -209,12 +241,14 @@ public class UIHelper {
 	 * @param text
 	 * @return
 	 */
-	public static boolean isNumberOrZero(String text) {
-		if (isEmptyString(text)) {
+	public static boolean isNumberOrZero( String text )
+	{
+		if ( isEmptyString( text ) )
+		{
 			return false;
 		}
 
-		return text.matches("^[0-9]*[1-9][0-9]*$") || text.matches("0"); //$NON-NLS-1$ //$NON-NLS-2$
+		return text.matches( "^[0-9]*[1-9][0-9]*$" ) || text.matches( "0" ); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
@@ -223,8 +257,9 @@ public class UIHelper {
 	 * @param text
 	 * @return
 	 */
-	public static boolean isEmptyString(String text) {
-		return text == null || text.trim().length() == 0;
+	public static boolean isEmptyString( String text )
+	{
+		return text == null || text.trim( ).length( ) == 0;
 	}
 
 }
