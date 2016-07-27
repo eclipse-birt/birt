@@ -3,7 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.data.oda.mongodb;singleton:=true
 Bundle-Version: 4.6.0.qualifier
-Bundle-ClassPath: .
+Bundle-ClassPath: .,
+ lib/mongo-java-driver-3.2.2.jar,
+ lib/commons-codec-1.9.jar
 Bundle-Activator: org.eclipse.birt.data.oda.mongodb.Activator
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
@@ -15,6 +17,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Import-Package: com.mongodb;version="2.10.1",
+ com.mongodb.client;version="3.2.2",
  com.mongodb.util;version="2.10.1",
  org.bson;version="2.10.1",
  org.bson.types;version="2.10.1"
