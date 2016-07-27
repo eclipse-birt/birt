@@ -73,9 +73,6 @@ public class MDbQuery implements IQuery
 			m_model.addQuerySpec( getSpecification( ) );
 		}
 
-		// #prepare may be called multiple times;
-		// defer format of prepared query content till call to
-		// #getEffectiveQueryText
 	}
 
 	private boolean hasValidModel( )

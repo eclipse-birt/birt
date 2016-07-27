@@ -640,10 +640,8 @@ public class MDbResultSet implements IResultSet
 	private static Object tryConvertToDataType( Object value,
 			Class<?> toDataType ) throws OdaException
 	{
-		if ( value == null || toDataType.isInstance( value ) ) // already in
-																// specified
-																// data
-																// type
+		if ( value == null || toDataType.isInstance( value ) ) // already in specified
+																// data type
 			return value;
 
 		try

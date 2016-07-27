@@ -118,22 +118,7 @@ public class MongoDBDataSourcePageHelper
 			}
 
 		} );
-		/*
-		 * requestSessionCheckbox = new Button( settingsGroup, SWT.CHECK );
-		 * requestSessionCheckbox.setText( Messages.getString(
-		 * "MongoDBDataSourceWizardPage.checkbox.label.RequestSession" ) );
-		 * //$NON-NLS-1$ requestSessionCheckbox.addSelectionListener( new
-		 * SelectionListener( ) {
-		 * 
-		 * public void widgetSelected( SelectionEvent e ) { requestSession =
-		 * requestSessionCheckbox.getSelection( ); }
-		 * 
-		 * public void widgetDefaultSelected( SelectionEvent e ) {
-		 * 
-		 * }
-		 * 
-		 * } );
-		 */
+		
 	}
 
 	/**
@@ -347,24 +332,7 @@ public class MongoDBDataSourcePageHelper
 
 				} );
 
-		/*
-		 * kerberosCredentialsElementGroup = new Group(
-		 * kerberosSettingComposite4, SWT.NONE );
-		 * kerberosCredentialsElementGroup.setText(Messages.getString(
-		 * "MongoDBDataSourceWizardPage.RadioButton.label.KerberosCredentials"
-		 * )); //$NON-NLS-1$ kerberosCredentialsElementGroup.setLayout( new
-		 * GridLayout( 2, false ) ); GridData credentialsGroupGridData = new
-		 * GridData( GridData.FILL_HORIZONTAL );
-		 * kerberosCredentialsElementGroup.setLayoutData(
-		 * credentialsGroupGridData );
-		 * 
-		 * Label kerberosPasswordLabel = new Label(
-		 * kerberosCredentialsElementGroup, SWT.NONE );
-		 * kerberosPasswordLabel.setText( Messages.getString(
-		 * "MongoDBDataSourceWizardPage.text.label.KerberosPassword" ) );
-		 * //$NON-NLS-1$
-		 */
-
+	
 		// Kerberos password
 		kerberosPasswordText = new Text( kerberosSettingComposite4,
 				SWT.BORDER );
@@ -669,12 +637,7 @@ public class MongoDBDataSourcePageHelper
 		{
 			socketAlive = false;
 		}
-		/*
-		 * if ( dataSourceProps.getProperty( MongoDBDriver.REQUEST_SESSION_PROP
-		 * ) != null ) { requestSession = Boolean.parseBoolean(
-		 * dataSourceProps.getProperty( MongoDBDriver.REQUEST_SESSION_PROP ) );
-		 * } else { requestSession = false; }
-		 */
+		
 
 		// Kerberos
 		useKerberosAuthentication = Boolean.valueOf( dataSourceProps

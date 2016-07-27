@@ -168,50 +168,13 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		} );
 
-		/*
-		 * Label indexExprLabel = new Label( parent, SWT.NONE );
-		 * indexExprLabel.setText( Messages.getString(
-		 * "MongoDBAdvancedSettingsDialog.Label.IndexHintExpression" ) );
-		 * //$NON-NLS-1$ indexExprLabel.setToolTipText( Messages.getString(
-		 * "MongoDBAdvancedSettingsDialog.Tooltip.IndexHintExpression" ) );
-		 * //$NON-NLS-1$
-		 * 
-		 * indexExprText = new Text( parent, SWT.BORDER );
-		 * indexExprText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL )
-		 * ); indexExprText.addModifyListener( new ModifyListener( ) {
-		 * 
-		 * public void modifyText( ModifyEvent e ) { indexExpr =
-		 * indexExprText.getText( ).trim( ); validatePageStatus( );
-		 * 
-		 * }
-		 * 
-		 * } );
-		 */
 		createQueryPreferenceGroup( parent );
 
 		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		gd.verticalIndent = 8;
 
-		/*
-		 * noTimeOutCheckbox = new Button( parent, SWT.CHECK | SWT.WRAP );
-		 * noTimeOutCheckbox.setText( Messages.getString(
-		 * "MongoDBAdvancedSettingsDialog.Button.text.NoCursorTimeOut" ) );
-		 * //$NON-NLS-1$ noTimeOutCheckbox.setToolTipText( Messages.getString(
-		 * "MongoDBAdvancedSettingsDialog.Button.tooltip.NoCursorTimeOut" ) );
-		 * //$NON-NLS-1$ noTimeOutCheckbox.setLayoutData( gd );
-		 * noTimeOutCheckbox.addSelectionListener( new SelectionListener( ) {
-		 * 
-		 * public void widgetSelected( SelectionEvent e ) { noTimeOut =
-		 * noTimeOutCheckbox.getSelection( ); }
-		 * 
-		 * public void widgetDefaultSelected( SelectionEvent e ) {
-		 * 
-		 * }
-		 * 
-		 * } );
-		 */
-
+		
 		allowPartialResultsCheckbox = new Button( parent,
 				SWT.CHECK | SWT.WRAP );
 		allowPartialResultsCheckbox.setText( Messages.getString(
