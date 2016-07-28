@@ -63,8 +63,7 @@ public class MDbResultSet implements IResultSet
 
 	private static Logger sm_logger = DriverUtil.getLogger( );
 
-	public MDbResultSet( Iterator<Document> resultsIterator,
-			MDbResultSetMetaData rsmd, QueryProperties queryProps )
+	public MDbResultSet( Iterator<Document> resultsIterator, MDbResultSetMetaData rsmd, QueryProperties queryProps )
 	{
 		if ( resultsIterator == null || rsmd == null )
 			throw new IllegalArgumentException( "null DBCursor" ); //$NON-NLS-1$
@@ -73,9 +72,7 @@ public class MDbResultSet implements IResultSet
 		// if( resultsIterator instanceof DBCursor )
 		// m_mongoCursor = (DBCursor)resultsIterator;
 		m_metadata = rsmd;
-		m_queryProps = queryProps != null
-				? queryProps
-				: QueryProperties.defaultValues( );
+		m_queryProps = queryProps != null ? queryProps : QueryProperties.defaultValues( );
 		if ( projectsFlattenedRows( ) )
 			m_dataHandler = new ResultDataHandler( m_metadata );
 	}
@@ -189,8 +186,7 @@ public class MDbResultSet implements IResultSet
 		if ( columnValue instanceof String )
 			return (String) columnValue;
 
-		if ( columnValue instanceof List
-				&& !( columnValue instanceof BasicDBList ) )
+		if ( columnValue instanceof List && !( columnValue instanceof BasicDBList ) )
 		{
 			// convert generic List to JSON-formattable list
 			List<?> fromList = (List<?>) columnValue;
@@ -230,19 +226,15 @@ public class MDbResultSet implements IResultSet
 		columnValue = tryConvertToDataType( columnValue, Integer.class );
 
 		if ( columnValue instanceof List )
-			columnValue = getFirstFieldValue( (List<?>) columnValue,
-					Integer.class, columnName );
+			columnValue = getFirstFieldValue( (List<?>) columnValue, Integer.class, columnName );
 		if ( columnValue instanceof Integer )
 			return (Integer) columnValue;
 
 		// not convertible
 		if ( columnValue != null )
 		{
-			String errMsg = Messages.bind(
-					Messages.mDbResultSet_cannotConvertFieldData,
-					new Object[]{columnName, columnValue,
-							columnValue.getClass( ).getSimpleName( ),
-							"integer"} ); //$NON-NLS-1$
+			String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+					new Object[]{columnName, columnValue, columnValue.getClass( ).getSimpleName( ), "integer"} ); //$NON-NLS-1$
 			getLogger( ).severe( errMsg );
 			throw new OdaException( errMsg );
 		}
@@ -270,19 +262,15 @@ public class MDbResultSet implements IResultSet
 		columnValue = tryConvertToDataType( columnValue, Double.class );
 
 		if ( columnValue instanceof List )
-			columnValue = getFirstFieldValue( (List<?>) columnValue,
-					Double.class, columnName );
+			columnValue = getFirstFieldValue( (List<?>) columnValue, Double.class, columnName );
 		if ( columnValue instanceof Double )
 			return (Double) columnValue;
 
 		// not convertible
 		if ( columnValue != null )
 		{
-			String errMsg = Messages.bind(
-					Messages.mDbResultSet_cannotConvertFieldData,
-					new Object[]{columnName, columnValue,
-							columnValue.getClass( ).getSimpleName( ),
-							"double"} ); //$NON-NLS-1$
+			String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+					new Object[]{columnName, columnValue, columnValue.getClass( ).getSimpleName( ), "double"} ); //$NON-NLS-1$
 			getLogger( ).severe( errMsg );
 			throw new OdaException( errMsg );
 		}
@@ -312,17 +300,13 @@ public class MDbResultSet implements IResultSet
 			return (BigDecimal) columnValue;
 
 		if ( columnValue instanceof List )
-			return (BigDecimal) getFirstFieldValue( (List<?>) columnValue,
-					BigDecimal.class, columnName );
+			return (BigDecimal) getFirstFieldValue( (List<?>) columnValue, BigDecimal.class, columnName );
 
 		// not convertible
 		if ( columnValue != null )
 		{
-			String errMsg = Messages.bind(
-					Messages.mDbResultSet_cannotConvertFieldData,
-					new Object[]{columnName, columnValue,
-							columnValue.getClass( ).getSimpleName( ),
-							"BigDecimal"} ); //$NON-NLS-1$
+			String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+					new Object[]{columnName, columnValue, columnValue.getClass( ).getSimpleName( ), "BigDecimal"} ); //$NON-NLS-1$
 			getLogger( ).severe( errMsg );
 			throw new OdaException( errMsg );
 		}
@@ -350,17 +334,13 @@ public class MDbResultSet implements IResultSet
 			return (Date) columnValue;
 
 		if ( columnValue instanceof List )
-			return (Date) getFirstFieldValue( (List<?>) columnValue, Date.class,
-					columnName );
+			return (Date) getFirstFieldValue( (List<?>) columnValue, Date.class, columnName );
 
 		// not convertible
 		if ( columnValue != null )
 		{
-			String errMsg = Messages
-					.bind( Messages.mDbResultSet_cannotConvertFieldData,
-							new Object[]{columnName, columnValue,
-									columnValue.getClass( ).getSimpleName( ),
-									"Date"} ); //$NON-NLS-1$
+			String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+					new Object[]{columnName, columnValue, columnValue.getClass( ).getSimpleName( ), "Date"} ); //$NON-NLS-1$
 			getLogger( ).severe( errMsg );
 			throw new OdaException( errMsg );
 		}
@@ -407,19 +387,15 @@ public class MDbResultSet implements IResultSet
 		columnValue = tryConvertToDataType( columnValue, Timestamp.class );
 
 		if ( columnValue instanceof List )
-			columnValue = getFirstFieldValue( (List<?>) columnValue,
-					Timestamp.class, columnName );
+			columnValue = getFirstFieldValue( (List<?>) columnValue, Timestamp.class, columnName );
 		if ( columnValue instanceof Timestamp )
 			return (Timestamp) columnValue;
 
 		// not convertible
 		if ( columnValue != null )
 		{
-			String errMsg = Messages.bind(
-					Messages.mDbResultSet_cannotConvertFieldData,
-					new Object[]{columnName, columnValue,
-							columnValue.getClass( ).getSimpleName( ),
-							"Timestamp"} ); //$NON-NLS-1$
+			String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+					new Object[]{columnName, columnValue, columnValue.getClass( ).getSimpleName( ), "Timestamp"} ); //$NON-NLS-1$
 			getLogger( ).severe( errMsg );
 			throw new OdaException( errMsg );
 		}
@@ -445,19 +421,15 @@ public class MDbResultSet implements IResultSet
 		columnValue = tryConvertToDataType( columnValue, byte[].class );
 
 		if ( columnValue instanceof List )
-			columnValue = getFirstFieldValue( (List<?>) columnValue,
-					byte[].class, columnName );
+			columnValue = getFirstFieldValue( (List<?>) columnValue, byte[].class, columnName );
 		if ( columnValue instanceof byte[] )
 			return new Blob( (byte[]) columnValue );
 
 		// not convertible
 		if ( columnValue != null )
 		{
-			String errMsg = Messages
-					.bind( Messages.mDbResultSet_cannotConvertFieldData,
-							new Object[]{columnName, columnValue,
-									columnValue.getClass( ).getSimpleName( ),
-									"Blob"} ); //$NON-NLS-1$
+			String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+					new Object[]{columnName, columnValue, columnValue.getClass( ).getSimpleName( ), "Blob"} ); //$NON-NLS-1$
 			getLogger( ).severe( errMsg );
 			throw new OdaException( errMsg );
 		}
@@ -505,19 +477,15 @@ public class MDbResultSet implements IResultSet
 		columnValue = tryConvertToDataType( columnValue, Boolean.class );
 
 		if ( columnValue instanceof List )
-			columnValue = getFirstFieldValue( (List<?>) columnValue,
-					Boolean.class, columnName );
+			columnValue = getFirstFieldValue( (List<?>) columnValue, Boolean.class, columnName );
 		if ( columnValue instanceof Boolean )
 			return (Boolean) columnValue;
 
 		// not convertible
 		if ( columnValue != null )
 		{
-			String errMsg = Messages.bind(
-					Messages.mDbResultSet_cannotConvertFieldData,
-					new Object[]{columnName, columnValue,
-							columnValue.getClass( ).getSimpleName( ),
-							"boolean"} ); //$NON-NLS-1$
+			String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+					new Object[]{columnName, columnValue, columnValue.getClass( ).getSimpleName( ), "boolean"} ); //$NON-NLS-1$
 			getLogger( ).severe( errMsg );
 			throw new OdaException( errMsg );
 		}
@@ -583,8 +551,7 @@ public class MDbResultSet implements IResultSet
 		if ( !projectsFlattenedRows( ) )
 		{
 			FieldMetaData fieldMD = m_metadata.getColumnMetaData( columnName );
-			return ResultDataHandler.fetchFieldValues( columnName, fieldMD,
-					m_currentRow );
+			return ResultDataHandler.fetchFieldValues( columnName, fieldMD, m_currentRow );
 		}
 
 		// flatten array of nested documents' field values, if exists, and
@@ -597,38 +564,31 @@ public class MDbResultSet implements IResultSet
 	 * nested arrays. Returns a null value if not able to return value in the
 	 * specified valueDataType.
 	 */
-	private Object getFirstFieldValue( List<?> valuesList,
-			Class<?> valueDataType, String logColumnName ) throws OdaException
+	private Object getFirstFieldValue( List<?> valuesList, Class<?> valueDataType, String logColumnName ) throws OdaException
 	{
 		Object value = getFirstElementFromList( valuesList, logColumnName );
 		value = tryConvertToDataType( value, valueDataType );
 		if ( valueDataType.isInstance( value ) )
 			return value;
 		if ( value instanceof List ) // nested array
-			return getFirstFieldValue( (List<?>) value, valueDataType,
-					logColumnName );
+			return getFirstFieldValue( (List<?>) value, valueDataType, logColumnName );
 
 		// not convertible
 		if ( value != null && getLogger( ).isLoggable( Level.FINE ) )
-			getLogger( ).fine( Messages.bind(
-					"Unable to get the '{0}' field's first array value ({1}) in {2} data type as a {3} value.", //$NON-NLS-1$
-					new Object[]{logColumnName, value,
-							value.getClass( ).getSimpleName( ),
-							valueDataType.getSimpleName( )} ) );
+			getLogger( ).fine( Messages.bind( "Unable to get the '{0}' field's first array value ({1}) in {2} data type as a {3} value.", //$NON-NLS-1$
+					new Object[]{logColumnName, value, value.getClass( ).getSimpleName( ), valueDataType.getSimpleName( )} ) );
 
 		m_wasNull = true;
 		return null;
 	}
 
-	private static Object getFirstElementFromList( List<?> valuesList,
-			String columnName )
+	private static Object getFirstElementFromList( List<?> valuesList, String columnName )
 	{
 		if ( valuesList.size( ) == 0 )
 			return null;
 		Object firstValue = null;
 		if ( valuesList instanceof BasicDBList )
-			firstValue = ( (BasicDBList) valuesList )
-					.get( String.valueOf( 0 ) );
+			firstValue = ( (BasicDBList) valuesList ).get( String.valueOf( 0 ) );
 		else
 			firstValue = valuesList.get( 0 );
 
@@ -637,8 +597,7 @@ public class MDbResultSet implements IResultSet
 		return firstValue;
 	}
 
-	private static Object tryConvertToDataType( Object value,
-			Class<?> toDataType ) throws OdaException
+	private static Object tryConvertToDataType( Object value, Class<?> toDataType ) throws OdaException
 	{
 		if ( value == null || toDataType.isInstance( value ) ) // already in
 																// specified
@@ -695,11 +654,8 @@ public class MDbResultSet implements IResultSet
 		}
 		catch ( Exception ex )
 		{
-			String errMsg = Messages.bind(
-					Messages.mDbResultSet_cannotConvertFieldData,
-					new Object[]{DriverUtil.EMPTY_STRING, value,
-							value.getClass( ).getSimpleName( ),
-							toDataType.getSimpleName( )} );
+			String errMsg = Messages.bind( Messages.mDbResultSet_cannotConvertFieldData,
+					new Object[]{DriverUtil.EMPTY_STRING, value, value.getClass( ).getSimpleName( ), toDataType.getSimpleName( )} );
 			getLogger( ).severe( errMsg );
 
 			OdaException odaEx = new OdaException( errMsg );
@@ -716,9 +672,7 @@ public class MDbResultSet implements IResultSet
 		if ( value instanceof Number )
 			return Integer.valueOf( ( (Number) value ).intValue( ) );
 		if ( value instanceof Boolean )
-			return ( (Boolean) value )
-					? Integer.valueOf( 1 )
-					: Integer.valueOf( 0 );
+			return ( (Boolean) value ) ? Integer.valueOf( 1 ) : Integer.valueOf( 0 );
 		return value; // not able to convert; return value as is
 	}
 
@@ -727,18 +681,14 @@ public class MDbResultSet implements IResultSet
 		if ( value instanceof Number )
 			return Double.valueOf( ( (Number) value ).doubleValue( ) );
 		if ( value instanceof Boolean )
-			return ( (Boolean) value )
-					? Double.valueOf( 1d )
-					: Double.valueOf( 0d );
+			return ( (Boolean) value ) ? Double.valueOf( 1d ) : Double.valueOf( 0d );
 		return value; // not able to convert; return value as is
 	}
 
 	private static Object tryConvertToBoolean( Object value )
 	{
 		if ( value instanceof Number )
-			return ( (Number) value ).doubleValue( ) != 0
-					? Boolean.TRUE
-					: Boolean.FALSE;
+			return ( (Number) value ).doubleValue( ) != 0 ? Boolean.TRUE : Boolean.FALSE;
 		return value; // not able to convert; return value as is
 	}
 
@@ -754,8 +704,7 @@ public class MDbResultSet implements IResultSet
 			// log and continue; note that Base64Codec#decode might be
 			// unavailable in some versions
 			if ( getLogger( ).isLoggable( Level.FINE ) )
-				getLogger( ).fine( Messages.bind(
-						"Unable to convert the String field value ({0}) to a bytes[] value.\n Cause: {1}", //$NON-NLS-1$
+				getLogger( ).fine( Messages.bind( "Unable to convert the String field value ({0}) to a bytes[] value.\n Cause: {1}", //$NON-NLS-1$
 						stringValue, ex.getMessage( ) ) );
 		}
 		return stringValue; // not able to convert; return value as is
@@ -774,13 +723,11 @@ public class MDbResultSet implements IResultSet
 		}
 	}
 
-	private static void logFetchedFirstElementFromArray( String columnName,
-			int arraySize )
+	private static void logFetchedFirstElementFromArray( String columnName, int arraySize )
 	{
 		// log that only first value in set is returned
 		if ( arraySize > 1 && getLogger( ).isLoggable( Level.FINER ) )
-			getLogger( ).finer( Messages.bind(
-					"Fetching only the first value out of {0} for the field {1}.", //$NON-NLS-1$
+			getLogger( ).finer( Messages.bind( "Fetching only the first value out of {0} for the field {1}.", //$NON-NLS-1$
 					Integer.valueOf( arraySize ), columnName ) );
 	}
 

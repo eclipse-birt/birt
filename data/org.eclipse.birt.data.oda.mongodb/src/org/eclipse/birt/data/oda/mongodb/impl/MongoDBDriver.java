@@ -54,39 +54,25 @@ public class MongoDBDriver implements IDriver
 														// now
 	private static final String MONGODB_PREFIX = "mongodb://";
 
-	public static final String IGNORE_URI_PROP = MONGO_PROP_PREFIX
-			.concat( "ignoreURI" ); //$NON-NLS-1$
-	public static final String MONGO_URI_PROP = MONGO_PROP_PREFIX
-			.concat( "mongoURI" ); //$NON-NLS-1$
+	public static final String IGNORE_URI_PROP = MONGO_PROP_PREFIX.concat( "ignoreURI" ); //$NON-NLS-1$
+	public static final String MONGO_URI_PROP = MONGO_PROP_PREFIX.concat( "mongoURI" ); //$NON-NLS-1$
 
-	public static final String SERVER_HOST_PROP = MONGO_PROP_PREFIX
-			.concat( "serverHost" ); //$NON-NLS-1$
-	public static final String SERVER_PORT_PROP = MONGO_PROP_PREFIX
-			.concat( "serverPort" ); //$NON-NLS-1$
-	public static final String DBNAME_PROP = MONGO_PROP_PREFIX
-			.concat( "databaseName" ); //$NON-NLS-1$
-	public static final String USERNAME_PROP = MONGO_PROP_PREFIX
-			.concat( "userName" ); //$NON-NLS-1$
-	public static final String PASSWORD_PROP = MONGO_PROP_PREFIX
-			.concat( "password" ); //$NON-NLS-1$
+	public static final String SERVER_HOST_PROP = MONGO_PROP_PREFIX.concat( "serverHost" ); //$NON-NLS-1$
+	public static final String SERVER_PORT_PROP = MONGO_PROP_PREFIX.concat( "serverPort" ); //$NON-NLS-1$
+	public static final String DBNAME_PROP = MONGO_PROP_PREFIX.concat( "databaseName" ); //$NON-NLS-1$
+	public static final String USERNAME_PROP = MONGO_PROP_PREFIX.concat( "userName" ); //$NON-NLS-1$
+	public static final String PASSWORD_PROP = MONGO_PROP_PREFIX.concat( "password" ); //$NON-NLS-1$
 
 	// Kerberos Authentication
-	public static final String USE_KERBEROS_PROP = MONGO_PROP_PREFIX
-			.concat( "useKerberosAuthentication" ); //$NON-NLS-1$
-	public static final String KERBEROS_PRINCIPAL_PROP = MONGO_PROP_PREFIX
-			.concat( "kerberosPrincipal" ); //$NON-NLS-1$
-	public static final String KERBEROS_GSSAPI_SERVICENAME_PROP = MONGO_PROP_PREFIX
-			.concat( "gssapiServiceName" ); //$NON-NLS-1$
-	public static final String KERBEROS_KRB5CONFIG_FILE_PROP = MONGO_PROP_PREFIX
-			.concat( "krb5config" ); //$NON-NLS-1$
-	public static final String KERBEROS_GSS_JAAS_CONFIG_FILE_PROP = MONGO_PROP_PREFIX
-			.concat( "gssJAASConfig" ); //$NON-NLS-1$
-	public static final String KERBEROS_PASSWORD_PROP = MONGO_PROP_PREFIX
-			.concat( "kerberosPassword" ); //$NON-NLS-1$
+	public static final String USE_KERBEROS_PROP = MONGO_PROP_PREFIX.concat( "useKerberosAuthentication" ); //$NON-NLS-1$
+	public static final String KERBEROS_PRINCIPAL_PROP = MONGO_PROP_PREFIX.concat( "kerberosPrincipal" ); //$NON-NLS-1$
+	public static final String KERBEROS_GSSAPI_SERVICENAME_PROP = MONGO_PROP_PREFIX.concat( "gssapiServiceName" ); //$NON-NLS-1$
+	public static final String KERBEROS_KRB5CONFIG_FILE_PROP = MONGO_PROP_PREFIX.concat( "krb5config" ); //$NON-NLS-1$
+	public static final String KERBEROS_GSS_JAAS_CONFIG_FILE_PROP = MONGO_PROP_PREFIX.concat( "gssJAASConfig" ); //$NON-NLS-1$
+	public static final String KERBEROS_PASSWORD_PROP = MONGO_PROP_PREFIX.concat( "kerberosPassword" ); //$NON-NLS-1$
 
 	// supported MongoOptions that are not covered in MongoURI
-	public static final String SOCKET_KEEP_ALIVE_PROP = MONGO_PROP_PREFIX
-			.concat( "socketKeepAlive" ); //$NON-NLS-1$
+	public static final String SOCKET_KEEP_ALIVE_PROP = MONGO_PROP_PREFIX.concat( "socketKeepAlive" ); //$NON-NLS-1$
 
 	private static final MongoDBDriver sm_factory = new MongoDBDriver( );
 
@@ -124,8 +110,7 @@ public class MongoDBDriver implements IDriver
 		}
 	}
 
-	private static MongoClient getMongoNodeInstance(
-			ServerNodeKey serverNodeKey ) throws OdaException
+	private static MongoClient getMongoNodeInstance( ServerNodeKey serverNodeKey ) throws OdaException
 	{
 		// first check if a cached node already exists and reuse
 		MongoClient mongoNode = getMongoServerNodes( ).get( serverNodeKey );
@@ -135,13 +120,12 @@ public class MongoDBDriver implements IDriver
 		// now try get mongo node based on server host/port and supported
 		// options
 		mongoNode = createMongoNode( serverNodeKey );
-		MongoClient existingNode = getMongoServerNodes( )
-				.putIfAbsent( serverNodeKey, mongoNode ); // cache
-															// the
-															// new
-															// mongo
-															// server
-															// node
+		MongoClient existingNode = getMongoServerNodes( ).putIfAbsent( serverNodeKey, mongoNode ); // cache
+																									// the
+																									// new
+																									// mongo
+																									// server
+																									// node
 
 		if ( existingNode == null ) // the new one got in
 			return mongoNode;
@@ -152,8 +136,7 @@ public class MongoDBDriver implements IDriver
 		return existingNode;
 	}
 
-	static MongoClient getMongoNode( Properties connProperties )
-			throws OdaException
+	static MongoClient getMongoNode( Properties connProperties ) throws OdaException
 	{
 		ServerNodeKey nodeKey = createServerNodeKey( connProperties );
 		return getMongoNodeInstance( nodeKey );
@@ -164,8 +147,7 @@ public class MongoDBDriver implements IDriver
 	 * org.eclipse.datatools.connectivity.oda.IDriver#getConnection(java.lang.
 	 * String)
 	 */
-	public IConnection getConnection( String dataSourceType )
-			throws OdaException
+	public IConnection getConnection( String dataSourceType ) throws OdaException
 	{
 		// driver supports only one type of data source,
 		// ignores the specified dataSourceType
@@ -177,8 +159,7 @@ public class MongoDBDriver implements IDriver
 	 * org.eclipse.datatools.connectivity.oda.IDriver#setLogConfiguration(org.
 	 * eclipse.datatools.connectivity.oda.LogConfiguration)
 	 */
-	public void setLogConfiguration( LogConfiguration logConfig )
-			throws OdaException
+	public void setLogConfiguration( LogConfiguration logConfig ) throws OdaException
 	{
 		// not supported
 	}
@@ -211,8 +192,7 @@ public class MongoDBDriver implements IDriver
 	 */
 	static ExtensionManifest getManifest( ) throws OdaException
 	{
-		return ManifestExplorer.getInstance( )
-				.getExtensionManifest( ODA_DATA_SOURCE_ID );
+		return ManifestExplorer.getInstance( ).getExtensionManifest( ODA_DATA_SOURCE_ID );
 	}
 
 	/**
@@ -225,11 +205,9 @@ public class MongoDBDriver implements IDriver
 	 * @throws OdaException
 	 *             if lookup fails
 	 */
-	static String getNativeDataTypeName( int nativeDataTypeCode )
-			throws OdaException
+	static String getNativeDataTypeName( int nativeDataTypeCode ) throws OdaException
 	{
-		DataTypeMapping typeMapping = getManifest( ).getDataSetType( null )
-				.getDataTypeMapping( nativeDataTypeCode );
+		DataTypeMapping typeMapping = getManifest( ).getDataSetType( null ).getDataTypeMapping( nativeDataTypeCode );
 		if ( typeMapping != null )
 			return typeMapping.getNativeType( );
 		return Messages.mDbDriver_nonDefinedDataType;
@@ -247,14 +225,11 @@ public class MongoDBDriver implements IDriver
 		}
 
 		public static ReadPreferenceChoice DEFAULT = PRIMARY;
-		public static ReadPreference DEFAULT_PREFERENCE = ReadPreference
-				.primary( );
+		public static ReadPreference DEFAULT_PREFERENCE = ReadPreference.primary( );
 
-		public static ReadPreference getMongoReadPreference(
-				String readPrefChoiceLiteral )
+		public static ReadPreference getMongoReadPreference( String readPrefChoiceLiteral )
 		{
-			if ( readPrefChoiceLiteral == null
-					|| readPrefChoiceLiteral.trim( ).isEmpty( ) )
+			if ( readPrefChoiceLiteral == null || readPrefChoiceLiteral.trim( ).isEmpty( ) )
 				return null; // use MongoDB default
 
 			try
@@ -268,8 +243,7 @@ public class MongoDBDriver implements IDriver
 			return DEFAULT_PREFERENCE; // default
 		}
 
-		public static ReadPreferenceChoice getReadPreferenceChoice(
-				ReadPreference readPref )
+		public static ReadPreferenceChoice getReadPreferenceChoice( ReadPreference readPref )
 		{
 			if ( readPref == null )
 				return PRIMARY; // default
@@ -280,8 +254,7 @@ public class MongoDBDriver implements IDriver
 				return PRIMARY_PREFERRED;
 			if ( readPrefName == ReadPreference.secondary( ).getName( ) )
 				return SECONDARY;
-			if ( readPrefName == ReadPreference.secondaryPreferred( )
-					.getName( ) )
+			if ( readPrefName == ReadPreference.secondaryPreferred( ).getName( ) )
 				return SECONDARY_PREFERRED;
 			if ( readPrefName == ReadPreference.nearest( ).getName( ) )
 				return NEAREST;
@@ -305,8 +278,7 @@ public class MongoDBDriver implements IDriver
 		}
 	}
 
-	private static MongoClient createMongoNode( ServerNodeKey serverNodeKey )
-			throws OdaException
+	private static MongoClient createMongoNode( ServerNodeKey serverNodeKey ) throws OdaException
 	{
 
 		Properties connProperties = serverNodeKey.getConnectionProperties( );
@@ -320,10 +292,8 @@ public class MongoDBDriver implements IDriver
 			MongoClient mongoClient;
 			// first check if user-defined URL exists, which takes precedence
 			// if not flagged to ignore by the ignoreURI property
-			MongoClientOptions.Builder clientOptionsBuilder = createDefaultClientOptionsBuilder(
-					connProperties );
-			MongoClientURI clientURI = getMongoURI( connProperties,
-					clientOptionsBuilder );
+			MongoClientOptions.Builder clientOptionsBuilder = createDefaultClientOptionsBuilder( connProperties );
+			MongoClientURI clientURI = getMongoURI( connProperties, clientOptionsBuilder );
 
 			if ( clientURI != null ) // has user-defined MongoURI
 			{
@@ -335,34 +305,23 @@ public class MongoDBDriver implements IDriver
 			}
 			else
 			{
-				MongoClientOptions clientOptions = clientOptionsBuilder
-						.build( );
-				String serverHost = getStringPropValue( connProperties,
-						SERVER_HOST_PROP );
-				Integer serverPort = getIntegerPropValue( connProperties,
-						SERVER_PORT_PROP );
+				MongoClientOptions clientOptions = clientOptionsBuilder.build( );
+				String serverHost = getStringPropValue( connProperties, SERVER_HOST_PROP );
+				Integer serverPort = getIntegerPropValue( connProperties, SERVER_PORT_PROP );
 				String userName = getUserName( connProperties );
 				String databaseName = getDatabaseName( connProperties );
 				String password = getPassword( connProperties );
 
 				List<MongoCredential> mongoCredentials = new ArrayList<MongoCredential>( );
-				MongoCredential mongoCredential = MongoCredential
-						.createCredential( userName, databaseName,
-								( password == null
-										? null
-										: password.toCharArray( ) ) );
+				MongoCredential mongoCredential = MongoCredential.createCredential( userName, databaseName,
+						( password == null ? null : password.toCharArray( ) ) );
 				mongoCredentials.add( mongoCredential );
-				ServerAddress serverAddr = serverPort != null
-						? new ServerAddress( serverHost, serverPort )
-						: new ServerAddress( serverHost );
-				mongoClient = new MongoClient( serverAddr, mongoCredentials,
-						clientOptions );
+				ServerAddress serverAddr = serverPort != null ? new ServerAddress( serverHost, serverPort ) : new ServerAddress( serverHost );
+				mongoClient = new MongoClient( serverAddr, mongoCredentials, clientOptions );
 				// trace logging
 				if ( getLogger( ).isLoggable( Level.FINEST ) )
-					getLogger( ).finest( Messages.bind(
-							"{0}: hosts= {1}, port= {2}, user= {3}, database= {4}", //$NON-NLS-1$
-							new Object[]{"createMongoNode", serverHost,
-									serverPort, userName, databaseName} ) );
+					getLogger( ).finest( Messages.bind( "{0}: hosts= {1}, port= {2}, user= {3}, database= {4}", //$NON-NLS-1$
+							new Object[]{"createMongoNode", serverHost, serverPort, userName, databaseName} ) );
 			}
 			return mongoClient;
 		}
@@ -372,8 +331,7 @@ public class MongoDBDriver implements IDriver
 		}
 	}
 
-	private static ServerNodeKey createServerNodeKey(
-			Properties connProperties )
+	private static ServerNodeKey createServerNodeKey( Properties connProperties )
 	{
 		return sm_factory.new ServerNodeKey( connProperties );
 	}
@@ -389,8 +347,7 @@ public class MongoDBDriver implements IDriver
 			m_connProperties = new Properties( );
 			for ( String propertyName : connProperties.stringPropertyNames( ) )
 			{
-				m_connProperties.setProperty( propertyName,
-						connProperties.getProperty( propertyName ) );
+				m_connProperties.setProperty( propertyName, connProperties.getProperty( propertyName ) );
 			}
 		}
 
@@ -404,11 +361,9 @@ public class MongoDBDriver implements IDriver
 
 			// compare the attribute values
 			ServerNodeKey thatKey = (ServerNodeKey) obj;
-			if ( this.m_connProperties == null
-					&& thatKey.m_connProperties != null )
+			if ( this.m_connProperties == null && thatKey.m_connProperties != null )
 				return false;
-			if ( this.m_connProperties != null && !this.m_connProperties
-					.equals( thatKey.m_connProperties ) )
+			if ( this.m_connProperties != null && !this.m_connProperties.equals( thatKey.m_connProperties ) )
 				return false;
 
 			return true;
@@ -431,8 +386,7 @@ public class MongoDBDriver implements IDriver
 		}
 	}
 
-	private static MongoClientOptions.Builder createDefaultClientOptionsBuilder(
-			Properties connProperties )
+	private static MongoClientOptions.Builder createDefaultClientOptionsBuilder( Properties connProperties )
 	{
 		Builder clientOptionsBuilder = new MongoClientOptions.Builder( );
 		if ( connProperties != null )
@@ -449,8 +403,7 @@ public class MongoDBDriver implements IDriver
 
 	private static Boolean hasKeepSocketAlive( Properties connProperties )
 	{
-		String keepSocketAlivePropValue = getStringPropValue( connProperties,
-				SOCKET_KEEP_ALIVE_PROP );
+		String keepSocketAlivePropValue = getStringPropValue( connProperties, SOCKET_KEEP_ALIVE_PROP );
 		if ( keepSocketAlivePropValue == null ) // supported option is not
 												// defined
 			return Boolean.FALSE;
@@ -487,8 +440,7 @@ public class MongoDBDriver implements IDriver
 		return getMongoURI( connProps, null );
 	}
 
-	private static MongoClientURI getMongoURI( Properties connProps,
-			MongoClientOptions.Builder clientOptionsBuilder )
+	private static MongoClientURI getMongoURI( Properties connProps, MongoClientOptions.Builder clientOptionsBuilder )
 	{
 		// check if explicitly indicated not to use URI, even if URI value
 		// exists
@@ -514,8 +466,7 @@ public class MongoDBDriver implements IDriver
 		catch ( Exception ex )
 		{
 			// log and ignore
-			getLogger( ).log( Level.INFO,
-					Messages.bind( "Invalid Mongo Database URI: {0}", uri ), //$NON-NLS-1$
+			getLogger( ).log( Level.INFO, Messages.bind( "Invalid Mongo Database URI: {0}", uri ), //$NON-NLS-1$
 					ex );
 		}
 		return null;
@@ -534,8 +485,7 @@ public class MongoDBDriver implements IDriver
 		// validate that the mininum required URI part exists
 		String serverHost = getStringPropValue( connProps, SERVER_HOST_PROP );
 		if ( serverHost == null || serverHost.isEmpty( ) )
-			throw new IllegalArgumentException(
-					Messages.mDbDriver_missingValueServerHost );
+			throw new IllegalArgumentException( Messages.mDbDriver_missingValueServerHost );
 
 		StringBuffer buf = new StringBuffer( MONGODB_PREFIX );
 
@@ -606,9 +556,8 @@ public class MongoDBDriver implements IDriver
 		catch ( NumberFormatException ex )
 		{
 			// log and ignore
-			getLogger( ).log( Level.INFO,
-					"MongoDBDriver#getIntegerPropValue ignoring exception: " //$NON-NLS-1$
-							+ ex );
+			getLogger( ).log( Level.INFO, "MongoDBDriver#getIntegerPropValue ignoring exception: " //$NON-NLS-1$
+					+ ex );
 		}
 		return null;
 	}

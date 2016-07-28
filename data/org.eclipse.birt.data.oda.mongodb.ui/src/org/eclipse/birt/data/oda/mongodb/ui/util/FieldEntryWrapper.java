@@ -33,8 +33,7 @@ public class FieldEntryWrapper
 		dmd = null;
 	}
 
-	public FieldEntryWrapper( String collectionName, MDbMetaData metaData,
-			int searchLimit, QueryProperties queryProps )
+	public FieldEntryWrapper( String collectionName, MDbMetaData metaData, int searchLimit, QueryProperties queryProps )
 	{
 		this.collectionName = collectionName;
 		this.metaData = metaData;
@@ -85,8 +84,7 @@ public class FieldEntryWrapper
 	{
 		if ( dmd == null && this.metaData != null )
 		{
-			dmd = this.metaData.getAvailableFields( collectionName, searchLimit,
-					queryProps );
+			dmd = this.metaData.getAvailableFields( collectionName, searchLimit, queryProps );
 		}
 		return dmd;
 	}

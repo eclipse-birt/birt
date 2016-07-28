@@ -30,14 +30,12 @@ public class MDBSortExpressionBuilder extends MongoDBExpressionBuilder
 
 	protected void initDialogTitle( )
 	{
-		setTitle( Messages.getString(
-				"MongoDBExpressionBuilder.SortExpression.DialogTitle" ) ); //$NON-NLS-1$
+		setTitle( Messages.getString( "MongoDBExpressionBuilder.SortExpression.DialogTitle" ) ); //$NON-NLS-1$
 	}
 
 	protected void createDialogHelper( Composite composite )
 	{
-		UIHelper.setSystemHelp( composite,
-				IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_SORT_EXPRESSION );
+		UIHelper.setSystemHelp( composite, IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_SORT_EXPRESSION );
 	}
 
 	protected void doValidateExpressionSyntax( ) throws OdaException

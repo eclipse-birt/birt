@@ -42,24 +42,18 @@ public class MongoDBDataSourcePageHelper
 	private WizardPage wizardPage;
 	private PreferencePage propertyPage;
 
-	private Button URIElementsRadioBtn, URIRadioBtn, socketAliveCheckbox,
-			useKerberosAuthenticationCheckBox, kerberosConfigurationRadioBtn,
+	private Button URIElementsRadioBtn, URIRadioBtn, socketAliveCheckbox, useKerberosAuthenticationCheckBox, kerberosConfigurationRadioBtn,
 			kerberosCredentialsRadioBtn;
 	private Group URIElementsGroup, kerberosConfigElementGroup;
-	private Text serverHostText, serverPortText, databaseNameText, userNameText,
-			passwordText, databaseURIText, gssapiServiceNameText,
-			kerberosConfigurationFileText, gssAPIConfigurationFileText,
-			kerberosPrincipalText, kerberosPasswordText;
+	private Text serverHostText, serverPortText, databaseNameText, userNameText, passwordText, databaseURIText, gssapiServiceNameText,
+			kerberosConfigurationFileText, gssAPIConfigurationFileText, kerberosPrincipalText, kerberosPasswordText;
 
-	private boolean isPropertyPage, isURITextFieldFoucs, socketAlive,
-			useKerberosAuthentication, isKerberosPasswordFieldFoucs;
-	private String dbURI, serverHost, serverPort, dbName, userName, password,
-			gssapiServiceName, kerberosConfigurationFile,
-			gssAPIConfigurationFile, kerberosPrincipal, kerberosPassword;
+	private boolean isPropertyPage, isURITextFieldFoucs, socketAlive, useKerberosAuthentication, isKerberosPasswordFieldFoucs;
+	private String dbURI, serverHost, serverPort, dbName, userName, password, gssapiServiceName, kerberosConfigurationFile, gssAPIConfigurationFile,
+			kerberosPrincipal, kerberosPassword;
 
 	// page default message
-	private String DEFAULT_MESSAGE = Messages
-			.getString( "MongoDBDataSourceWizardPage.message.default" ); //$NON-NLS-1$
+	private String DEFAULT_MESSAGE = Messages.getString( "MongoDBDataSourceWizardPage.message.default" ); //$NON-NLS-1$
 
 	public MongoDBDataSourcePageHelper( WizardPage page )
 	{
@@ -96,15 +90,13 @@ public class MongoDBDataSourcePageHelper
 	private void createClientSettingsArea( Composite composite )
 	{
 		Group settingsGroup = new Group( composite, SWT.NONE );
-		settingsGroup.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.GroupTitle.SupplementalSetting" ) ); //$NON-NLS-1$
+		settingsGroup.setText( Messages.getString( "MongoDBDataSourceWizardPage.GroupTitle.SupplementalSetting" ) ); //$NON-NLS-1$
 		settingsGroup.setLayout( new GridLayout( 1, false ) );
 		GridData groupGridData = new GridData( GridData.FILL_HORIZONTAL );
 		settingsGroup.setLayoutData( groupGridData );
 
 		socketAliveCheckbox = new Button( settingsGroup, SWT.CHECK );
-		socketAliveCheckbox.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.checkbox.label.SocketAlive" ) ); //$NON-NLS-1$
+		socketAliveCheckbox.setText( Messages.getString( "MongoDBDataSourceWizardPage.checkbox.label.SocketAlive" ) ); //$NON-NLS-1$
 		socketAliveCheckbox.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -130,56 +122,43 @@ public class MongoDBDataSourcePageHelper
 	{
 
 		Group kerberosSettingsGroup = new Group( composite, SWT.NONE );
-		kerberosSettingsGroup.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.GroupTitle.KerberosSetting" ) ); //$NON-NLS-1$
+		kerberosSettingsGroup.setText( Messages.getString( "MongoDBDataSourceWizardPage.GroupTitle.KerberosSetting" ) ); //$NON-NLS-1$
 		kerberosSettingsGroup.setLayout( new GridLayout( 1, false ) );
 		GridData groupGridData = new GridData( GridData.FILL_HORIZONTAL );
 		kerberosSettingsGroup.setLayoutData( groupGridData );
 
-		Composite kerberosSettingComposite1 = new Composite(
-				kerberosSettingsGroup, SWT.NONE );
+		Composite kerberosSettingComposite1 = new Composite( kerberosSettingsGroup, SWT.NONE );
 		kerberosSettingComposite1.setLayout( new GridLayout( 1, false ) );
-		kerberosSettingComposite1
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		kerberosSettingComposite1.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		useKerberosAuthenticationCheckBox = new Button(
-				kerberosSettingComposite1, SWT.CHECK );
-		useKerberosAuthenticationCheckBox.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.checkbox.label.KerberosAuthentication" ) ); //$NON-NLS-1$
-		useKerberosAuthenticationCheckBox
-				.addSelectionListener( new SelectionListener( ) {
+		useKerberosAuthenticationCheckBox = new Button( kerberosSettingComposite1, SWT.CHECK );
+		useKerberosAuthenticationCheckBox.setText( Messages.getString( "MongoDBDataSourceWizardPage.checkbox.label.KerberosAuthentication" ) ); //$NON-NLS-1$
+		useKerberosAuthenticationCheckBox.addSelectionListener( new SelectionListener( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						useKerberosAuthentication = useKerberosAuthenticationCheckBox
-								.getSelection( );
-						handleKerberosAuthenticationSelection( );
-						validatePageProperties( );
-					}
+			public void widgetSelected( SelectionEvent e )
+			{
+				useKerberosAuthentication = useKerberosAuthenticationCheckBox.getSelection( );
+				handleKerberosAuthenticationSelection( );
+				validatePageProperties( );
+			}
 
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
 
-					}
+			}
 
-				} );
+		} );
 
-		Composite kerberosSettingComposite2 = new Composite(
-				kerberosSettingsGroup, SWT.NONE );
+		Composite kerberosSettingComposite2 = new Composite( kerberosSettingsGroup, SWT.NONE );
 		kerberosSettingComposite2.setLayout( new GridLayout( 2, false ) );
-		kerberosSettingComposite2
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		kerberosSettingComposite2.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		// Principal
-		Label kerberosPrincipalLabel = new Label( kerberosSettingComposite2,
-				SWT.NONE );
-		kerberosPrincipalLabel.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.text.label.KerberosPrincipal" ) ); //$NON-NLS-1$
+		Label kerberosPrincipalLabel = new Label( kerberosSettingComposite2, SWT.NONE );
+		kerberosPrincipalLabel.setText( Messages.getString( "MongoDBDataSourceWizardPage.text.label.KerberosPrincipal" ) ); //$NON-NLS-1$
 
-		kerberosPrincipalText = new Text( kerberosSettingComposite2,
-				SWT.BORDER );
-		kerberosPrincipalText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		kerberosPrincipalText = new Text( kerberosSettingComposite2, SWT.BORDER );
+		kerberosPrincipalText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		kerberosPrincipalText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -191,15 +170,11 @@ public class MongoDBDataSourcePageHelper
 		} );
 
 		// gssapiServiceName
-		Label gssapiServiceNameLabel = new Label( kerberosSettingComposite2,
-				SWT.NONE );
-		gssapiServiceNameLabel.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.text.label.GssapiServiceName" ) ); //$NON-NLS-1$
+		Label gssapiServiceNameLabel = new Label( kerberosSettingComposite2, SWT.NONE );
+		gssapiServiceNameLabel.setText( Messages.getString( "MongoDBDataSourceWizardPage.text.label.GssapiServiceName" ) ); //$NON-NLS-1$
 
-		gssapiServiceNameText = new Text( kerberosSettingComposite2,
-				SWT.BORDER );
-		gssapiServiceNameText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		gssapiServiceNameText = new Text( kerberosSettingComposite2, SWT.BORDER );
+		gssapiServiceNameText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		gssapiServiceNameText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -210,133 +185,108 @@ public class MongoDBDataSourcePageHelper
 
 		} );
 
-		Composite kerberosSettingComposite3 = new Composite(
-				kerberosSettingsGroup, SWT.NONE );
+		Composite kerberosSettingComposite3 = new Composite( kerberosSettingsGroup, SWT.NONE );
 		kerberosSettingComposite3.setLayout( new GridLayout( 2, false ) );
-		kerberosSettingComposite3
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		kerberosSettingComposite3.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		// Configuration radio button
-		kerberosConfigurationRadioBtn = new Button( kerberosSettingComposite3,
-				SWT.RADIO );
+		kerberosConfigurationRadioBtn = new Button( kerberosSettingComposite3, SWT.RADIO );
 		GridData radioBtnData = new GridData( );
 		radioBtnData.verticalAlignment = SWT.TOP;
 		kerberosConfigurationRadioBtn.setLayoutData( radioBtnData );
-		kerberosConfigurationRadioBtn
-				.addSelectionListener( new SelectionListener( ) {
+		kerberosConfigurationRadioBtn.addSelectionListener( new SelectionListener( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						if ( kerberosConfigurationRadioBtn.getSelection( ) )
-						{
-							isKerberosPasswordFieldFoucs = false;
-							handleKerberosRadioButtonSelection( );
-							validatePageProperties( );
-						}
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( kerberosConfigurationRadioBtn.getSelection( ) )
+				{
+					isKerberosPasswordFieldFoucs = false;
+					handleKerberosRadioButtonSelection( );
+					validatePageProperties( );
+				}
 
-					}
+			}
 
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
 
-					}
+			}
 
-				} );
+		} );
 
 		// Configuration group
-		kerberosConfigElementGroup = new Group( kerberosSettingComposite3,
-				SWT.NONE );
-		kerberosConfigElementGroup.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.RadioButton.label.KerberosConfiguration" ) ); //$NON-NLS-1$
+		kerberosConfigElementGroup = new Group( kerberosSettingComposite3, SWT.NONE );
+		kerberosConfigElementGroup.setText( Messages.getString( "MongoDBDataSourceWizardPage.RadioButton.label.KerberosConfiguration" ) ); //$NON-NLS-1$
 		kerberosConfigElementGroup.setLayout( new GridLayout( 2, false ) );
-		GridData elementGroupGridData = new GridData(
-				GridData.FILL_HORIZONTAL );
+		GridData elementGroupGridData = new GridData( GridData.FILL_HORIZONTAL );
 		kerberosConfigElementGroup.setLayoutData( elementGroupGridData );
 
 		// Kerberos configuration file
-		Label kerberosConfigurationFileLabel = new Label(
-				kerberosConfigElementGroup, SWT.NONE );
-		kerberosConfigurationFileLabel.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.text.label.KerberosConfigurationFile" ) ); //$NON-NLS-1$
+		Label kerberosConfigurationFileLabel = new Label( kerberosConfigElementGroup, SWT.NONE );
+		kerberosConfigurationFileLabel.setText( Messages.getString( "MongoDBDataSourceWizardPage.text.label.KerberosConfigurationFile" ) ); //$NON-NLS-1$
 
-		kerberosConfigurationFileText = new Text( kerberosConfigElementGroup,
-				SWT.BORDER );
-		kerberosConfigurationFileText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		kerberosConfigurationFileText = new Text( kerberosConfigElementGroup, SWT.BORDER );
+		kerberosConfigurationFileText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		kerberosConfigurationFileText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
-				kerberosConfigurationFile = kerberosConfigurationFileText
-						.getText( ).trim( );
+				kerberosConfigurationFile = kerberosConfigurationFileText.getText( ).trim( );
 				validatePageProperties( );
 			}
 
 		} );
 
 		// GSS API configuration file
-		Label gssAPIConfigurationFileLabel = new Label(
-				kerberosConfigElementGroup, SWT.NONE );
-		gssAPIConfigurationFileLabel.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.text.label.GssAPIConfigurationFile" ) ); //$NON-NLS-1$
+		Label gssAPIConfigurationFileLabel = new Label( kerberosConfigElementGroup, SWT.NONE );
+		gssAPIConfigurationFileLabel.setText( Messages.getString( "MongoDBDataSourceWizardPage.text.label.GssAPIConfigurationFile" ) ); //$NON-NLS-1$
 
-		gssAPIConfigurationFileText = new Text( kerberosConfigElementGroup,
-				SWT.BORDER );
-		gssAPIConfigurationFileText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		gssAPIConfigurationFileText = new Text( kerberosConfigElementGroup, SWT.BORDER );
+		gssAPIConfigurationFileText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		gssAPIConfigurationFileText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
 			{
-				gssAPIConfigurationFile = gssAPIConfigurationFileText.getText( )
-						.trim( );
+				gssAPIConfigurationFile = gssAPIConfigurationFileText.getText( ).trim( );
 				validatePageProperties( );
 			}
 
 		} );
 
 		// Credentials radio button
-		Composite kerberosSettingComposite4 = new Composite(
-				kerberosSettingsGroup, SWT.NONE );
+		Composite kerberosSettingComposite4 = new Composite( kerberosSettingsGroup, SWT.NONE );
 		kerberosSettingComposite4.setLayout( new GridLayout( 2, false ) );
-		kerberosSettingComposite4
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		kerberosSettingComposite4.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		kerberosCredentialsRadioBtn = new Button( kerberosSettingComposite4,
-				SWT.RADIO );
+		kerberosCredentialsRadioBtn = new Button( kerberosSettingComposite4, SWT.RADIO );
 		// GridData credentialRadioBtnData = new GridData( );
 		// radioBtnData.verticalAlignment = SWT.TOP;
 		// kerberosCredentialsRadioBtn.setLayoutData( credentialRadioBtnData );
-		kerberosCredentialsRadioBtn.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.RadioButton.label.KerberosPassword" ) ); //$NON-NLS-1$
+		kerberosCredentialsRadioBtn.setText( Messages.getString( "MongoDBDataSourceWizardPage.RadioButton.label.KerberosPassword" ) ); //$NON-NLS-1$
 
-		kerberosCredentialsRadioBtn
-				.addSelectionListener( new SelectionListener( ) {
+		kerberosCredentialsRadioBtn.addSelectionListener( new SelectionListener( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						if ( kerberosCredentialsRadioBtn.getSelection( ) )
-						{
-							isKerberosPasswordFieldFoucs = true;
-							handleKerberosRadioButtonSelection( );
-							kerberosPassword = kerberosPasswordText.getText( )
-									.trim( );
-							validatePageProperties( );
-						}
-					}
+			public void widgetSelected( SelectionEvent e )
+			{
+				if ( kerberosCredentialsRadioBtn.getSelection( ) )
+				{
+					isKerberosPasswordFieldFoucs = true;
+					handleKerberosRadioButtonSelection( );
+					kerberosPassword = kerberosPasswordText.getText( ).trim( );
+					validatePageProperties( );
+				}
+			}
 
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
 
-					}
+			}
 
-				} );
+		} );
 
 		// Kerberos password
-		kerberosPasswordText = new Text( kerberosSettingComposite4,
-				SWT.BORDER );
-		kerberosPasswordText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		kerberosPasswordText = new Text( kerberosSettingComposite4, SWT.BORDER );
+		kerberosPasswordText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		kerberosPasswordText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -380,19 +330,16 @@ public class MongoDBDataSourcePageHelper
 		} );
 
 		URIElementsGroup = new Group( URIComposite1, SWT.NONE );
-		URIElementsGroup.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.GroupTitle.URIElements" ) ); //$NON-NLS-1$
+		URIElementsGroup.setText( Messages.getString( "MongoDBDataSourceWizardPage.GroupTitle.URIElements" ) ); //$NON-NLS-1$
 		URIElementsGroup.setLayout( new GridLayout( 2, false ) );
 		GridData groupGridData = new GridData( GridData.FILL_HORIZONTAL );
 		URIElementsGroup.setLayoutData( groupGridData );
 
 		Label serverHostLabel = new Label( URIElementsGroup, SWT.NONE );
-		serverHostLabel.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.text.label.ServerHost" ) ); //$NON-NLS-1$
+		serverHostLabel.setText( Messages.getString( "MongoDBDataSourceWizardPage.text.label.ServerHost" ) ); //$NON-NLS-1$
 
 		serverHostText = new Text( URIElementsGroup, SWT.BORDER );
-		serverHostText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		serverHostText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		serverHostText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -404,12 +351,10 @@ public class MongoDBDataSourcePageHelper
 		} );
 
 		Label serverPortLabel = new Label( URIElementsGroup, SWT.NONE );
-		serverPortLabel.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.text.label.ServerPort" ) ); //$NON-NLS-1$
+		serverPortLabel.setText( Messages.getString( "MongoDBDataSourceWizardPage.text.label.ServerPort" ) ); //$NON-NLS-1$
 
 		serverPortText = new Text( URIElementsGroup, SWT.BORDER );
-		serverPortText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		serverPortText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		serverPortText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -421,12 +366,10 @@ public class MongoDBDataSourcePageHelper
 		} );
 
 		Label databaseNameLabel = new Label( URIElementsGroup, SWT.NONE );
-		databaseNameLabel.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.text.label.DatabaseName" ) ); //$NON-NLS-1$
+		databaseNameLabel.setText( Messages.getString( "MongoDBDataSourceWizardPage.text.label.DatabaseName" ) ); //$NON-NLS-1$
 
 		databaseNameText = new Text( URIElementsGroup, SWT.BORDER );
-		databaseNameText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		databaseNameText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		databaseNameText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -438,8 +381,7 @@ public class MongoDBDataSourcePageHelper
 		} );
 
 		Label userNameLabel = new Label( URIElementsGroup, SWT.NONE );
-		userNameLabel.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.text.label.UserName" ) ); //$NON-NLS-1$
+		userNameLabel.setText( Messages.getString( "MongoDBDataSourceWizardPage.text.label.UserName" ) ); //$NON-NLS-1$
 
 		userNameText = new Text( URIElementsGroup, SWT.BORDER );
 		userNameText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -454,8 +396,7 @@ public class MongoDBDataSourcePageHelper
 		} );
 
 		Label passwordLabel = new Label( URIElementsGroup, SWT.NONE );
-		passwordLabel.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.text.label.Password" ) ); //$NON-NLS-1$
+		passwordLabel.setText( Messages.getString( "MongoDBDataSourceWizardPage.text.label.Password" ) ); //$NON-NLS-1$
 
 		passwordText = new Text( URIElementsGroup, SWT.BORDER | SWT.PASSWORD );
 		passwordText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -474,8 +415,7 @@ public class MongoDBDataSourcePageHelper
 		URIComposite2.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		URIRadioBtn = new Button( URIComposite2, SWT.RADIO );
-		URIRadioBtn.setText( Messages.getString(
-				"MongoDBDataSourceWizardPage.RadioButton.label.DatabaseURI" ) ); //$NON-NLS-1$
+		URIRadioBtn.setText( Messages.getString( "MongoDBDataSourceWizardPage.RadioButton.label.DatabaseURI" ) ); //$NON-NLS-1$
 		URIRadioBtn.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
@@ -497,8 +437,7 @@ public class MongoDBDataSourcePageHelper
 		} );
 
 		databaseURIText = new Text( URIComposite2, SWT.BORDER );
-		databaseURIText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		databaseURIText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		databaseURIText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -513,8 +452,7 @@ public class MongoDBDataSourcePageHelper
 
 	protected void handleKerberosAuthenticationSelection( )
 	{
-		if ( kerberosPasswordText != null
-				&& !kerberosPasswordText.isDisposed( ) )
+		if ( kerberosPasswordText != null && !kerberosPasswordText.isDisposed( ) )
 		{
 
 			kerberosPrincipalText.setEnabled( useKerberosAuthentication );
@@ -536,10 +474,8 @@ public class MongoDBDataSourcePageHelper
 
 	private void handleKerberosRadioButtonSelection( )
 	{
-		kerberosConfigurationRadioBtn
-				.setSelection( !isKerberosPasswordFieldFoucs );
-		kerberosCredentialsRadioBtn
-				.setSelection( isKerberosPasswordFieldFoucs );
+		kerberosConfigurationRadioBtn.setSelection( !isKerberosPasswordFieldFoucs );
+		kerberosCredentialsRadioBtn.setSelection( isKerberosPasswordFieldFoucs );
 		setKerberosConfigElementGroupEnabled( !isKerberosPasswordFieldFoucs );
 		kerberosPasswordText.setEnabled( isKerberosPasswordFieldFoucs );
 	}
@@ -600,11 +536,9 @@ public class MongoDBDataSourcePageHelper
 
 		dbURI = dataSourceProps.getProperty( MongoDBDriver.MONGO_URI_PROP );
 
-		serverHost = dataSourceProps
-				.getProperty( MongoDBDriver.SERVER_HOST_PROP );
+		serverHost = dataSourceProps.getProperty( MongoDBDriver.SERVER_HOST_PROP );
 
-		serverPort = dataSourceProps
-				.getProperty( MongoDBDriver.SERVER_PORT_PROP );
+		serverPort = dataSourceProps.getProperty( MongoDBDriver.SERVER_PORT_PROP );
 
 		if ( serverPort == null || serverPort.trim( ).length( ) == 0 )
 		{
@@ -620,17 +554,14 @@ public class MongoDBDataSourcePageHelper
 		isURITextFieldFoucs = !UIHelper.isEmptyString( dbURI );
 		if ( isURITextFieldFoucs )
 		{
-			boolean ignoreURI = Boolean.valueOf( dataSourceProps
-					.getProperty( MongoDBDriver.IGNORE_URI_PROP ) );
+			boolean ignoreURI = Boolean.valueOf( dataSourceProps.getProperty( MongoDBDriver.IGNORE_URI_PROP ) );
 			if ( ignoreURI )
 				isURITextFieldFoucs = false;
 		}
 
-		if ( dataSourceProps
-				.getProperty( MongoDBDriver.SOCKET_KEEP_ALIVE_PROP ) != null )
+		if ( dataSourceProps.getProperty( MongoDBDriver.SOCKET_KEEP_ALIVE_PROP ) != null )
 		{
-			socketAlive = Boolean.parseBoolean( dataSourceProps
-					.getProperty( MongoDBDriver.SOCKET_KEEP_ALIVE_PROP ) );
+			socketAlive = Boolean.parseBoolean( dataSourceProps.getProperty( MongoDBDriver.SOCKET_KEEP_ALIVE_PROP ) );
 		}
 		else
 		{
@@ -638,20 +569,13 @@ public class MongoDBDataSourcePageHelper
 		}
 
 		// Kerberos
-		useKerberosAuthentication = Boolean.valueOf( dataSourceProps
-				.getProperty( MongoDBDriver.USE_KERBEROS_PROP ) );
-		kerberosPrincipal = dataSourceProps
-				.getProperty( MongoDBDriver.KERBEROS_PRINCIPAL_PROP );
-		gssapiServiceName = dataSourceProps
-				.getProperty( MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP );
-		kerberosConfigurationFile = dataSourceProps
-				.getProperty( MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP );
-		gssAPIConfigurationFile = dataSourceProps.getProperty(
-				MongoDBDriver.KERBEROS_GSS_JAAS_CONFIG_FILE_PROP );
-		kerberosPassword = dataSourceProps
-				.getProperty( MongoDBDriver.KERBEROS_PASSWORD_PROP );
-		isKerberosPasswordFieldFoucs = !UIHelper
-				.isEmptyString( kerberosPassword );
+		useKerberosAuthentication = Boolean.valueOf( dataSourceProps.getProperty( MongoDBDriver.USE_KERBEROS_PROP ) );
+		kerberosPrincipal = dataSourceProps.getProperty( MongoDBDriver.KERBEROS_PRINCIPAL_PROP );
+		gssapiServiceName = dataSourceProps.getProperty( MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP );
+		kerberosConfigurationFile = dataSourceProps.getProperty( MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP );
+		gssAPIConfigurationFile = dataSourceProps.getProperty( MongoDBDriver.KERBEROS_GSS_JAAS_CONFIG_FILE_PROP );
+		kerberosPassword = dataSourceProps.getProperty( MongoDBDriver.KERBEROS_PASSWORD_PROP );
+		isKerberosPasswordFieldFoucs = !UIHelper.isEmptyString( kerberosPassword );
 
 	}
 
@@ -688,8 +612,7 @@ public class MongoDBDataSourcePageHelper
 	{
 		databaseURIText.setText( dbURI == null ? EMPTY_STRING : dbURI );
 
-		serverHostText
-				.setText( serverHost == null ? EMPTY_STRING : serverHost );
+		serverHostText.setText( serverHost == null ? EMPTY_STRING : serverHost );
 
 		if ( serverPort != null )
 		{
@@ -697,8 +620,7 @@ public class MongoDBDataSourcePageHelper
 		}
 		else
 		{
-			serverPortText
-					.setText( String.valueOf( MDbMetaData.defaultPort( ) ) );
+			serverPortText.setText( String.valueOf( MDbMetaData.defaultPort( ) ) );
 		}
 
 		databaseNameText.setText( dbName == null ? EMPTY_STRING : dbName );
@@ -713,28 +635,16 @@ public class MongoDBDataSourcePageHelper
 		// requestSessionCheckbox.setSelection( requestSession );
 
 		// Kerberos
-		useKerberosAuthenticationCheckBox
-				.setSelection( useKerberosAuthentication );
+		useKerberosAuthenticationCheckBox.setSelection( useKerberosAuthentication );
 		if ( useKerberosAuthentication )
 		{
-			kerberosPrincipalText.setText( kerberosPrincipal == null
-					? EMPTY_STRING
-					: kerberosPrincipal );
-			gssapiServiceNameText.setText( gssapiServiceName == null
-					? EMPTY_STRING
-					: gssapiServiceName );
+			kerberosPrincipalText.setText( kerberosPrincipal == null ? EMPTY_STRING : kerberosPrincipal );
+			gssapiServiceNameText.setText( gssapiServiceName == null ? EMPTY_STRING : gssapiServiceName );
 
-			kerberosConfigurationFileText
-					.setText( kerberosConfigurationFile == null
-							? EMPTY_STRING
-							: kerberosConfigurationFile );
-			gssAPIConfigurationFileText.setText( gssAPIConfigurationFile == null
-					? EMPTY_STRING
-					: gssAPIConfigurationFile );
+			kerberosConfigurationFileText.setText( kerberosConfigurationFile == null ? EMPTY_STRING : kerberosConfigurationFile );
+			gssAPIConfigurationFileText.setText( gssAPIConfigurationFile == null ? EMPTY_STRING : gssAPIConfigurationFile );
 
-			kerberosPasswordText.setText( kerberosPassword == null
-					? EMPTY_STRING
-					: kerberosPassword );
+			kerberosPasswordText.setText( kerberosPassword == null ? EMPTY_STRING : kerberosPassword );
 		}
 		handleKerberosAuthenticationSelection( );
 
@@ -765,8 +675,7 @@ public class MongoDBDataSourcePageHelper
 				isValid = false;
 			}
 		}
-		else if ( serverHostText.getText( ).trim( ).length( ) == 0
-				|| serverPortText.getText( ).trim( ).length( ) == 0
+		else if ( serverHostText.getText( ).trim( ).length( ) == 0 || serverPortText.getText( ).trim( ).length( ) == 0
 				|| databaseNameText.getText( ).trim( ).length( ) == 0 )
 		{
 			isValid = false;
@@ -780,8 +689,7 @@ public class MongoDBDataSourcePageHelper
 			{
 				isValid = false;
 			}
-			else if ( isKerberosPasswordFieldFoucs
-					&& kerberosPasswordText.getText( ).trim( ).length( ) == 0 )
+			else if ( isKerberosPasswordFieldFoucs && kerberosPasswordText.getText( ).trim( ).length( ) == 0 )
 			{
 				isValid = false;
 			}
@@ -791,14 +699,12 @@ public class MongoDBDataSourcePageHelper
 		{
 			if ( isPropertyPage )
 			{
-				propertyPage.setMessage( Messages.getString(
-						"MongoDBDataSourceWizardPage.error.MissingConnectionProperty" ), //$NON-NLS-1$
+				propertyPage.setMessage( Messages.getString( "MongoDBDataSourceWizardPage.error.MissingConnectionProperty" ), //$NON-NLS-1$
 						IMessageProvider.ERROR );
 			}
 			else
 			{
-				wizardPage.setMessage( Messages.getString(
-						"MongoDBDataSourceWizardPage.error.MissingConnectionProperty" ), //$NON-NLS-1$
+				wizardPage.setMessage( Messages.getString( "MongoDBDataSourceWizardPage.error.MissingConnectionProperty" ), //$NON-NLS-1$
 						IMessageProvider.ERROR );
 			}
 		}
@@ -829,12 +735,10 @@ public class MongoDBDataSourcePageHelper
 		}
 
 		if ( serverHost != null )
-			properties.setProperty( MongoDBDriver.SERVER_HOST_PROP,
-					serverHost );
+			properties.setProperty( MongoDBDriver.SERVER_HOST_PROP, serverHost );
 
 		if ( serverPort != null )
-			properties.setProperty( MongoDBDriver.SERVER_PORT_PROP,
-					serverPort );
+			properties.setProperty( MongoDBDriver.SERVER_PORT_PROP, serverPort );
 
 		if ( dbName != null )
 			properties.setProperty( MongoDBDriver.DBNAME_PROP, dbName );
@@ -849,44 +753,33 @@ public class MongoDBDataSourcePageHelper
 			properties.setProperty( MongoDBDriver.MONGO_URI_PROP, dbURI );
 
 		properties.setProperty( MongoDBDriver.IGNORE_URI_PROP,
-				Boolean.toString( URIElementsRadioBtn.getSelection( )
-						|| UIHelper.isEmptyString( dbURI ) ) );
+				Boolean.toString( URIElementsRadioBtn.getSelection( ) || UIHelper.isEmptyString( dbURI ) ) );
 
-		properties.setProperty( MongoDBDriver.SOCKET_KEEP_ALIVE_PROP,
-				String.valueOf( socketAlive ) );
+		properties.setProperty( MongoDBDriver.SOCKET_KEEP_ALIVE_PROP, String.valueOf( socketAlive ) );
 
 		// Kerberos
-		properties.setProperty( MongoDBDriver.USE_KERBEROS_PROP,
-				Boolean.toString( useKerberosAuthentication ) );
+		properties.setProperty( MongoDBDriver.USE_KERBEROS_PROP, Boolean.toString( useKerberosAuthentication ) );
 		if ( useKerberosAuthentication )
 		{
 			if ( kerberosPrincipal != null )
 			{
-				properties.setProperty( MongoDBDriver.KERBEROS_PRINCIPAL_PROP,
-						kerberosPrincipal );
+				properties.setProperty( MongoDBDriver.KERBEROS_PRINCIPAL_PROP, kerberosPrincipal );
 			}
 			if ( gssapiServiceName != null )
 			{
-				properties.setProperty(
-						MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP,
-						gssapiServiceName );
+				properties.setProperty( MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP, gssapiServiceName );
 			}
 			if ( kerberosConfigurationFile != null )
 			{
-				properties.setProperty(
-						MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP,
-						kerberosConfigurationFile );
+				properties.setProperty( MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP, kerberosConfigurationFile );
 			}
 			if ( gssAPIConfigurationFile != null )
 			{
-				properties.setProperty(
-						MongoDBDriver.KERBEROS_GSS_JAAS_CONFIG_FILE_PROP,
-						gssAPIConfigurationFile );
+				properties.setProperty( MongoDBDriver.KERBEROS_GSS_JAAS_CONFIG_FILE_PROP, gssAPIConfigurationFile );
 			}
 			if ( kerberosPassword != null )
 			{
-				properties.setProperty( MongoDBDriver.KERBEROS_PASSWORD_PROP,
-						kerberosPassword );
+				properties.setProperty( MongoDBDriver.KERBEROS_PASSWORD_PROP, kerberosPassword );
 			}
 		}
 

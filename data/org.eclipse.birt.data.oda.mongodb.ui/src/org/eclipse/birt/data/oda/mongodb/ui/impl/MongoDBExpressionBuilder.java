@@ -47,8 +47,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
-	private String dialogTitle = Messages
-			.getString( "MongoDBExpressionBuilder.dialogTitle.default" ); //$NON-NLS-1$
+	private String dialogTitle = Messages.getString( "MongoDBExpressionBuilder.dialogTitle.default" ); //$NON-NLS-1$
 
 	protected String expression;
 
@@ -98,8 +97,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 
 		Label exprTextLabel = new Label( composite, SWT.NONE );
-		exprTextLabel.setText( Messages
-				.getString( "MongoDBExpressionBuilder.ExprssionText.label" ) ); //$NON-NLS-1$
+		exprTextLabel.setText( Messages.getString( "MongoDBExpressionBuilder.ExprssionText.label" ) ); //$NON-NLS-1$
 		GridData gd = new GridData( );
 		gd.horizontalIndent = 6;
 		exprTextLabel.setLayoutData( gd );
@@ -128,8 +126,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 		gd.horizontalSpan = 2;
 		editorArea.setLayoutData( gd );
 
-		exprText = new Text( editorArea, SWT.NONE | SWT.MULTI | SWT.BORDER
-				| SWT.V_SCROLL | SWT.H_SCROLL );
+		exprText = new Text( editorArea, SWT.NONE | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL );
 		exprText.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		exprText.addModifyListener( new ModifyListener( ) {
 
@@ -152,10 +149,8 @@ public class MongoDBExpressionBuilder extends StatusDialog
 		btnArea.setLayoutData( new GridData( ) );
 
 		importBtn = new Button( btnArea, SWT.PUSH );
-		importBtn.setText( Messages
-				.getString( "MongoDBExpressionBuilder.Button.import" ) ); //$NON-NLS-1$
-		importBtn.setToolTipText( Messages.getString(
-				"MongoDBExpressionBuilder.Button.tooltip.import" ) ); //$NON-NLS-1$
+		importBtn.setText( Messages.getString( "MongoDBExpressionBuilder.Button.import" ) ); //$NON-NLS-1$
+		importBtn.setToolTipText( Messages.getString( "MongoDBExpressionBuilder.Button.tooltip.import" ) ); //$NON-NLS-1$
 
 		importBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -173,17 +168,14 @@ public class MongoDBExpressionBuilder extends StatusDialog
 		} );
 
 		exportBtn = new Button( btnArea, SWT.PUSH );
-		exportBtn.setText( Messages
-				.getString( "MongoDBExpressionBuilder.Button.export" ) ); //$NON-NLS-1$
-		exportBtn.setToolTipText( Messages.getString(
-				"MongoDBExpressionBuilder.Button.tooltip.export" ) ); //$NON-NLS-1$
+		exportBtn.setText( Messages.getString( "MongoDBExpressionBuilder.Button.export" ) ); //$NON-NLS-1$
+		exportBtn.setToolTipText( Messages.getString( "MongoDBExpressionBuilder.Button.tooltip.export" ) ); //$NON-NLS-1$
 
 		exportBtn.addSelectionListener( new SelectionListener( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				FileDialog dialog = new FileDialog( getShell( ),
-						SWT.SINGLE | SWT.SAVE );
+				FileDialog dialog = new FileDialog( getShell( ), SWT.SINGLE | SWT.SAVE );
 				dialog.setFilterExtensions( new String[]{"*.*" //$NON-NLS-1$ ,
 																// $NON-NLS-2$
 				} );
@@ -225,8 +217,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 		}
 		validateSyntaxBtn.setLayoutData( btnGd );
 
-		validateSyntaxBtn.setToolTipText( Messages.getString(
-				"MongoDBExpressionBuilder.Button.tooltip.ValidateSyntax" ) ); //$NON-NLS-1$
+		validateSyntaxBtn.setToolTipText( Messages.getString( "MongoDBExpressionBuilder.Button.tooltip.ValidateSyntax" ) ); //$NON-NLS-1$
 
 		validateSyntaxBtn.addSelectionListener( new SelectionListener( ) {
 
@@ -301,8 +292,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 		{
 			try
 			{
-				expression = CommandExpressionUtil
-						.getCommandExpressionText( fileName );
+				expression = CommandExpressionUtil.getCommandExpressionText( fileName );
 
 				exprText.setText( expression );
 
@@ -327,8 +317,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 
 	protected Status getMiscStatus( int severity, String message )
 	{
-		return new Status( severity, PlatformUI.PLUGIN_ID, severity, message,
-				null );
+		return new Status( severity, PlatformUI.PLUGIN_ID, severity, message, null );
 	}
 
 	protected Status getOKStatus( )
@@ -338,24 +327,19 @@ public class MongoDBExpressionBuilder extends StatusDialog
 
 	protected void validateExpressionSyntax( )
 	{
-		String msgDialogTitle = Messages.getString(
-				"MongoDBExpressionBuilder.InfoDialog.title.validateSyntax" ); //$NON-NLS-1$
+		String msgDialogTitle = Messages.getString( "MongoDBExpressionBuilder.InfoDialog.title.validateSyntax" ); //$NON-NLS-1$
 		try
 		{
 			doValidateExpressionSyntax( );
 
-			String infoMsg = Messages.getString(
-					"MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.IsValid" );//$NON-NLS-1$
-			MessageDialog.openInformation( getShell( ), msgDialogTitle,
-					infoMsg );
+			String infoMsg = Messages.getString( "MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.IsValid" );//$NON-NLS-1$
+			MessageDialog.openInformation( getShell( ), msgDialogTitle, infoMsg );
 		}
 		catch ( OdaException e1 )
 		{
-			String errorMsg = UIHelper.getUserErrorMessage(
-					"MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.Invalid", //$NON-NLS-1$
+			String errorMsg = UIHelper.getUserErrorMessage( "MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.Invalid", //$NON-NLS-1$
 					e1 );
-			ExceptionHandler.showException( getShell( ), msgDialogTitle,
-					errorMsg, e1 );
+			ExceptionHandler.showException( getShell( ), msgDialogTitle, errorMsg, e1 );
 		}
 	}
 

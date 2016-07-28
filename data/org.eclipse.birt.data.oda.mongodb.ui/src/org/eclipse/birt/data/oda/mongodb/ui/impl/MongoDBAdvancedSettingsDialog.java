@@ -43,17 +43,13 @@ import org.eclipse.ui.PlatformUI;
 public class MongoDBAdvancedSettingsDialog extends StatusDialog
 {
 
-	private static String DIALOG_TITLE = Messages
-			.getString( "MongoDBAdvancedSettingsDialog.dialogTitle" ); //$NON-NLS-1$
+	private static String DIALOG_TITLE = Messages.getString( "MongoDBAdvancedSettingsDialog.dialogTitle" ); //$NON-NLS-1$
 
-	private String batchSizeValue, docSearchLimitValue, maxSkipDocValue,
-			indexExpr, queryPreferenceMode, tagSetValue;
+	private String batchSizeValue, docSearchLimitValue, maxSkipDocValue, indexExpr, queryPreferenceMode, tagSetValue;
 
 	private Combo queryPreferenceModeCombo;
-	private Text batchSizeText, docSearchLimitText, maxSkipDocText,
-			indexExprText, tagSetText;
-	private Button noTimeOutCheckbox, allowPartialResultsCheckbox,
-			flattenNestedDocCheckbox;
+	private Text batchSizeText, docSearchLimitText, maxSkipDocText, indexExprText, tagSetText;
+	private Button noTimeOutCheckbox, allowPartialResultsCheckbox, flattenNestedDocCheckbox;
 	private boolean noTimeOut, allowsPartialResults, flattenNestedDocument;
 
 	public MongoDBAdvancedSettingsDialog( Shell parent )
@@ -100,8 +96,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		initDialogControls( );
 
-		UIHelper.setSystemHelp( composite,
-				IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_ADVANCED_SETTING );
+		UIHelper.setSystemHelp( composite, IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_ADVANCED_SETTING );
 
 		return composite;
 
@@ -110,10 +105,8 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 	private void createMainArea( Composite parent )
 	{
 		Label maxResObjLabel = new Label( parent, SWT.NONE );
-		maxResObjLabel.setText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Label.MaxResultObjects" ) ); //$NON-NLS-1$
-		maxResObjLabel.setToolTipText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Tooltip.MaxResultObjects" ) ); //$NON-NLS-1$
+		maxResObjLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.MaxResultObjects" ) ); //$NON-NLS-1$
+		maxResObjLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.MaxResultObjects" ) ); //$NON-NLS-1$
 
 		batchSizeText = new Text( parent, SWT.BORDER );
 		batchSizeText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -129,14 +122,11 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 		} );
 
 		Label maxSearchDocLabel = new Label( parent, SWT.NONE );
-		maxSearchDocLabel.setText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSearch" ) ); //$NON-NLS-1$
-		maxSearchDocLabel.setToolTipText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSearch" ) ); //$NON-NLS-1$
+		maxSearchDocLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSearch" ) ); //$NON-NLS-1$
+		maxSearchDocLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSearch" ) ); //$NON-NLS-1$
 
 		docSearchLimitText = new Text( parent, SWT.BORDER );
-		docSearchLimitText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		docSearchLimitText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		docSearchLimitText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -149,14 +139,11 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 		} );
 
 		Label maxSkipDocLabel = new Label( parent, SWT.NONE );
-		maxSkipDocLabel.setText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSkip" ) ); //$NON-NLS-1$
-		maxSkipDocLabel.setToolTipText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSkip" ) ); //$NON-NLS-1$
+		maxSkipDocLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.MaxDocumentsToSkip" ) ); //$NON-NLS-1$
+		maxSkipDocLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.MaxDocumentsToSkip" ) ); //$NON-NLS-1$
 
 		maxSkipDocText = new Text( parent, SWT.BORDER );
-		maxSkipDocText
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		maxSkipDocText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 		maxSkipDocText.addModifyListener( new ModifyListener( ) {
 
 			public void modifyText( ModifyEvent e )
@@ -174,99 +161,81 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 		gd.horizontalSpan = 2;
 		gd.verticalIndent = 8;
 
-		allowPartialResultsCheckbox = new Button( parent,
-				SWT.CHECK | SWT.WRAP );
-		allowPartialResultsCheckbox.setText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Button.text.AllowPartialResults" ) ); //$NON-NLS-1$
-		allowPartialResultsCheckbox.setToolTipText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Button.tooltip.AllowPartialResults" ) ); //$NON-NLS-1$
+		allowPartialResultsCheckbox = new Button( parent, SWT.CHECK | SWT.WRAP );
+		allowPartialResultsCheckbox.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Button.text.AllowPartialResults" ) ); //$NON-NLS-1$
+		allowPartialResultsCheckbox.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Button.tooltip.AllowPartialResults" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		allowPartialResultsCheckbox.setLayoutData( gd );
-		allowPartialResultsCheckbox
-				.addSelectionListener( new SelectionListener( ) {
+		allowPartialResultsCheckbox.addSelectionListener( new SelectionListener( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						allowsPartialResults = allowPartialResultsCheckbox
-								.getSelection( );
-					}
+			public void widgetSelected( SelectionEvent e )
+			{
+				allowsPartialResults = allowPartialResultsCheckbox.getSelection( );
+			}
 
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
 
-					}
+			}
 
-				} );
+		} );
 
 		flattenNestedDocCheckbox = new Button( parent, SWT.CHECK | SWT.WRAP );
-		flattenNestedDocCheckbox.setText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Button.text.FlattenNestedDocuments" ) ); //$NON-NLS-1$
-		flattenNestedDocCheckbox.setToolTipText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Button.tooltip.FlattenNestedDocuments" ) ); //$NON-NLS-1$
+		flattenNestedDocCheckbox.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Button.text.FlattenNestedDocuments" ) ); //$NON-NLS-1$
+		flattenNestedDocCheckbox.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Button.tooltip.FlattenNestedDocuments" ) ); //$NON-NLS-1$
 		gd = new GridData( GridData.FILL_HORIZONTAL );
 		gd.horizontalSpan = 2;
 		flattenNestedDocCheckbox.setLayoutData( gd );
-		flattenNestedDocCheckbox
-				.addSelectionListener( new SelectionListener( ) {
+		flattenNestedDocCheckbox.addSelectionListener( new SelectionListener( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						flattenNestedDocument = flattenNestedDocCheckbox
-								.getSelection( );
-					}
+			public void widgetSelected( SelectionEvent e )
+			{
+				flattenNestedDocument = flattenNestedDocCheckbox.getSelection( );
+			}
 
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
 
-					}
+			}
 
-				} );
+		} );
 
 	}
 
 	private void createQueryPreferenceGroup( Composite parent )
 	{
 		Group group = new Group( parent, SWT.NONE );
-		group.setText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Group.text.QueryCursorPreference" ) ); //$NON-NLS-1$
+		group.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Group.text.QueryCursorPreference" ) ); //$NON-NLS-1$
 		group.setLayout( new GridLayout( 2, false ) );
 		GridData groupGd = new GridData( GridData.FILL_HORIZONTAL );
 		groupGd.horizontalSpan = 2;
 		group.setLayoutData( groupGd );
 
 		Label modeLabel = new Label( group, SWT.NONE );
-		modeLabel.setText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.Mode" ) ); //$NON-NLS-1$
-		modeLabel.setToolTipText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.Mode" ) ); //$NON-NLS-1$
+		modeLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.Mode" ) ); //$NON-NLS-1$
+		modeLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.Mode" ) ); //$NON-NLS-1$
 
-		queryPreferenceModeCombo = new Combo( group,
-				SWT.BORDER | SWT.READ_ONLY );
-		queryPreferenceModeCombo
-				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		queryPreferenceModeCombo
-				.addSelectionListener( new SelectionListener( ) {
+		queryPreferenceModeCombo = new Combo( group, SWT.BORDER | SWT.READ_ONLY );
+		queryPreferenceModeCombo.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		queryPreferenceModeCombo.addSelectionListener( new SelectionListener( ) {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						queryPreferenceMode = queryPreferenceModeCombo
-								.getText( ).trim( );
-						updateTagSetTextStatus( );
-					}
+			public void widgetSelected( SelectionEvent e )
+			{
+				queryPreferenceMode = queryPreferenceModeCombo.getText( ).trim( );
+				updateTagSetTextStatus( );
+			}
 
-					public void widgetDefaultSelected( SelectionEvent e )
-					{
+			public void widgetDefaultSelected( SelectionEvent e )
+			{
 
-					}
+			}
 
-				} );
+		} );
 
 		Label tagSetLabel = new Label( group, SWT.NONE );
-		tagSetLabel.setText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.TagSet" ) ); //$NON-NLS-1$
-		tagSetLabel.setToolTipText( Messages.getString(
-				"MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.TagSet" ) ); //$NON-NLS-1$
+		tagSetLabel.setText( Messages.getString( "MongoDBAdvancedSettingsDialog.Label.QueryCursorPreference.TagSet" ) ); //$NON-NLS-1$
+		tagSetLabel.setToolTipText( Messages.getString( "MongoDBAdvancedSettingsDialog.Tooltip.QueryCursorPreference.TagSet" ) ); //$NON-NLS-1$
 
 		tagSetText = new Text( group, SWT.BORDER );
 		tagSetText.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
@@ -284,47 +253,35 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 	private void initQueryCursorPreferenceSelection( )
 	{
-		queryPreferenceModeCombo
-				.add( ReadPreferenceChoice.PRIMARY.displayName( ) );
-		queryPreferenceModeCombo
-				.add( ReadPreferenceChoice.PRIMARY_PREFERRED.displayName( ) );
-		queryPreferenceModeCombo
-				.add( ReadPreferenceChoice.SECONDARY.displayName( ) );
-		queryPreferenceModeCombo
-				.add( ReadPreferenceChoice.SECONDARY_PREFERRED.displayName( ) );
-		queryPreferenceModeCombo
-				.add( ReadPreferenceChoice.NEAREST.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.PRIMARY.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.PRIMARY_PREFERRED.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.SECONDARY.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.SECONDARY_PREFERRED.displayName( ) );
+		queryPreferenceModeCombo.add( ReadPreferenceChoice.NEAREST.displayName( ) );
 
 		queryPreferenceModeCombo.select( 0 );
 	}
 
 	private void updateTagSetTextStatus( )
 	{
-		tagSetText.setEnabled( !ReadPreferenceChoice.PRIMARY.displayName( )
-				.equals( queryPreferenceModeCombo.getText( ).trim( ) ) );
+		tagSetText.setEnabled( !ReadPreferenceChoice.PRIMARY.displayName( ).equals( queryPreferenceModeCombo.getText( ).trim( ) ) );
 	}
 
 	private void validatePageStatus( )
 	{
 		Status status = null;
 
-		if ( !UIHelper.isEmptyString( batchSizeValue )
-				&& !UIHelper.isNumber( batchSizeValue ) )
+		if ( !UIHelper.isEmptyString( batchSizeValue ) && !UIHelper.isNumber( batchSizeValue ) )
 		{
-			status = getMiscStatus( IStatus.ERROR, Messages.getString(
-					"MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxResultObjects" ) ); //$NON-NLS-1$
+			status = getMiscStatus( IStatus.ERROR, Messages.getString( "MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxResultObjects" ) ); //$NON-NLS-1$
 		}
-		else if ( !UIHelper.isEmptyString( docSearchLimitValue )
-				&& !UIHelper.isNumber( docSearchLimitValue ) )
+		else if ( !UIHelper.isEmptyString( docSearchLimitValue ) && !UIHelper.isNumber( docSearchLimitValue ) )
 		{
-			status = getMiscStatus( IStatus.ERROR, Messages.getString(
-					"MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch" ) ); //$NON-NLS-1$
+			status = getMiscStatus( IStatus.ERROR, Messages.getString( "MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSearch" ) ); //$NON-NLS-1$
 		}
-		else if ( !UIHelper.isEmptyString( maxSkipDocValue )
-				&& !UIHelper.isNumberOrZero( maxSkipDocValue ) )
+		else if ( !UIHelper.isEmptyString( maxSkipDocValue ) && !UIHelper.isNumberOrZero( maxSkipDocValue ) )
 		{
-			status = getMiscStatus( IStatus.ERROR, Messages.getString(
-					"MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip" ) ); //$NON-NLS-1$
+			status = getMiscStatus( IStatus.ERROR, Messages.getString( "MongoDBAdvancedSettingsDialog.error.NotNumberFormat.MaxDocumentsToSkip" ) ); //$NON-NLS-1$
 		}
 		else
 		{
@@ -339,8 +296,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 	private Status getMiscStatus( int severity, String message )
 	{
-		return new Status( severity, PlatformUI.PLUGIN_ID, severity, message,
-				null );
+		return new Status( severity, PlatformUI.PLUGIN_ID, severity, message, null );
 	}
 
 	private Status getOKStatus( )
@@ -403,8 +359,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		if ( queryProps.hasRuntimeMetaDataSearchLimit( ) )
 		{
-			this.docSearchLimitValue = String
-					.valueOf( queryProps.getRuntimeMetaDataSearchLimit( ) );
+			this.docSearchLimitValue = String.valueOf( queryProps.getRuntimeMetaDataSearchLimit( ) );
 		}
 		if ( queryProps.hasBatchSize( ) )
 		{
@@ -412,18 +367,15 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 		}
 		if ( queryProps.hasNumDocsToSkip( ) )
 		{
-			this.maxSkipDocValue = String
-					.valueOf( queryProps.getNumDocsToSkip( ) );
+			this.maxSkipDocValue = String.valueOf( queryProps.getNumDocsToSkip( ) );
 		}
 		if ( queryProps.getQueryReadPreference( ) != null )
 		{
-			this.queryPreferenceMode = String
-					.valueOf( queryProps.getQueryReadPreference( ) );
+			this.queryPreferenceMode = String.valueOf( queryProps.getQueryReadPreference( ) );
 		}
 		else
 		{
-			this.queryPreferenceMode = ReadPreferenceChoice.DEFAULT
-					.displayName( );
+			this.queryPreferenceMode = ReadPreferenceChoice.DEFAULT.displayName( );
 		}
 
 		tagSetValue = queryProps.getQueryReadPreferenceTags( );
@@ -460,8 +412,7 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 
 		if ( hasDocumentSearchLimit( ) )
 		{
-			queryProps
-					.setRuntimeMetaDataSearchLimit( getDocumentSearchLimit( ) );
+			queryProps.setRuntimeMetaDataSearchLimit( getDocumentSearchLimit( ) );
 		}
 		else
 		{

@@ -28,8 +28,7 @@ public class CommandExpressionUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static String getCommandExpressionText( String fileName )
-			throws IOException
+	public static String getCommandExpressionText( String fileName ) throws IOException
 	{
 		return getCommandExpressionText( new File( fileName ) );
 	}
@@ -41,8 +40,7 @@ public class CommandExpressionUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static String getCommandExpressionText( File file )
-			throws IOException
+	public static String getCommandExpressionText( File file ) throws IOException
 	{
 		BufferedReader reader = new BufferedReader( new FileReader( file ) );
 		StringBuffer buffer = new StringBuffer( (int) file.length( ) );
@@ -64,12 +62,10 @@ public class CommandExpressionUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static boolean exportToFile( String fileName, String text )
-			throws IOException
+	public static boolean exportToFile( String fileName, String text ) throws IOException
 	{
 		boolean success = true;
-		BufferedWriter writer = new BufferedWriter(
-				new FileWriter( fileName ) );
+		BufferedWriter writer = new BufferedWriter( new FileWriter( fileName ) );
 		try
 		{
 			writer.write( text );
