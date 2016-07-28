@@ -44,8 +44,8 @@ public class ResultDataHandler
 
 	private MDbResultSetMetaData m_rsMetaData;
 	private List<String> m_flattenableLevelFields; // tracks the sequence of
-													// nested levels being
-													// flattened
+	// nested levels being
+	// flattened
 	private Map<String, FieldMetaData> m_intermediateFieldMDs; // quick map to
 																// optimize
 																// lookup of
@@ -395,8 +395,7 @@ public class ResultDataHandler
 				{
 					getLogger( ).finest( Messages.bind(
 							">> Cached container documents for {0}:\n {1}", //$NON-NLS-1$
-							levelFullName,
-							firstLevelDocs ) );
+							levelFullName, firstLevelDocs ) );
 				}
 			}
 			currentContainerDoc = firstLevelValues.getCurrentContainerDoc( );

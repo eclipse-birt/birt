@@ -174,7 +174,6 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 		gd.horizontalSpan = 2;
 		gd.verticalIndent = 8;
 
-		
 		allowPartialResultsCheckbox = new Button( parent,
 				SWT.CHECK | SWT.WRAP );
 		allowPartialResultsCheckbox.setText( Messages.getString(

@@ -574,11 +574,9 @@ public class QueryProperties
 			catch ( OdaException ex )
 			{
 				// log and ignore
-				getLogger( ).log( Level.INFO,
-						Messages.bind(
-								"Ignoring invalid Selected Fields expression: {0}", //$NON-NLS-1$
-								propValue ),
-						ex );
+				getLogger( ).log( Level.INFO, Messages.bind(
+						"Ignoring invalid Selected Fields expression: {0}", //$NON-NLS-1$
+						propValue ), ex );
 				return Collections.emptyList( );
 			}
 
@@ -705,11 +703,9 @@ public class QueryProperties
 		catch ( OdaException ex )
 		{
 			// log and ignore
-			getLogger( ).log( Level.INFO,
-					Messages.bind(
-							"Ignoring invalid Read Preference Tags expression: {0}", //$NON-NLS-1$
-							tagsExpr ),
-					ex );
+			getLogger( ).log( Level.INFO, Messages.bind(
+					"Ignoring invalid Read Preference Tags expression: {0}", //$NON-NLS-1$
+					tagsExpr ), ex );
 		}
 		return null;
 	}
@@ -998,11 +994,9 @@ public class QueryProperties
 		catch ( NumberFormatException ex )
 		{
 			// log and ignore
-			getLogger( ).log( Level.INFO,
-					Messages.bind(
-							"Invalid integer value ({0}) found in the {1} property.", //$NON-NLS-1$
-							propValue, propertyName ),
-					ex );
+			getLogger( ).log( Level.INFO, Messages.bind(
+					"Invalid integer value ({0}) found in the {1} property.", //$NON-NLS-1$
+					propValue, propertyName ), ex );
 		}
 		return null;
 	}

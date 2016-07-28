@@ -118,7 +118,7 @@ public class MongoDBDataSourcePageHelper
 			}
 
 		} );
-		
+
 	}
 
 	/**
@@ -332,7 +332,6 @@ public class MongoDBDataSourcePageHelper
 
 				} );
 
-	
 		// Kerberos password
 		kerberosPasswordText = new Text( kerberosSettingComposite4,
 				SWT.BORDER );
@@ -637,7 +636,6 @@ public class MongoDBDataSourcePageHelper
 		{
 			socketAlive = false;
 		}
-		
 
 		// Kerberos
 		useKerberosAuthentication = Boolean.valueOf( dataSourceProps
