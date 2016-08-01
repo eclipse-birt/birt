@@ -29,7 +29,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
-import org.eclipse.birt.report.model.util.CssPropertyConstants;
 
 /**
  * CrosstabReportItemPreparation
@@ -105,7 +104,7 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 		{
 			AggregationCellHandle cell = mv.getCell( );
 			cell.getModelHandle( ).setProperty( hideRow
-					? CssPropertyConstants.HEIGHT : CssPropertyConstants.WIDTH,
+					? IStyleModel.HEIGHT_PROP : IStyleModel.WIDTH_PROP,
 					ZERO );
 
 			// If hiding row, have to remove all items in the measure cell and
@@ -172,7 +171,24 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 			cell.getModelHandle( ).setProperty(
 					IStyleModel.BORDER_BOTTOM_STYLE_PROP,
 					DesignChoiceConstants.LINE_STYLE_NONE );
-			
+			cell.getModelHandle( ).setProperty(
+					IStyleModel.BORDER_LEFT_STYLE_PROP,
+					DesignChoiceConstants.LINE_STYLE_NONE );
+			cell.getModelHandle( ).setProperty(
+					IStyleModel.BORDER_RIGHT_STYLE_PROP,
+					DesignChoiceConstants.LINE_STYLE_NONE );
+
+			// No padding
+			final String ZERO = "0pt"; //$NON-NLS-1$
+			cell.getModelHandle( ).setProperty( IStyleModel.PADDING_TOP_PROP,
+					ZERO );
+			cell.getModelHandle( ).setProperty( IStyleModel.PADDING_BOTTOM_PROP,
+					ZERO );
+			cell.getModelHandle( ).setProperty( IStyleModel.PADDING_LEFT_PROP,
+					ZERO );
+			cell.getModelHandle( ).setProperty( IStyleModel.PADDING_RIGHT_PROP,
+					ZERO );
+
 			// No contents
 			for ( Object child : cell.getContents( ) )
 			{
