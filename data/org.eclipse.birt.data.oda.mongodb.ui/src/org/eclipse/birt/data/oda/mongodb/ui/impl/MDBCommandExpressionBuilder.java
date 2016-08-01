@@ -43,13 +43,13 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 	protected void initDialogTitle( )
 	{
 		setTitle( Messages.getString(
-				"MongoDBExpressionBuilder.CommandExpression.DialogTitle" ) ); //$NON-NLS-1$
+		        "MongoDBExpressionBuilder.CommandExpression.DialogTitle" ) ); //$NON-NLS-1$
 	}
 
 	protected void createDialogHelper( Composite composite )
 	{
 		UIHelper.setSystemHelp( composite,
-				IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_COMMAND_EXPRESSION );
+		        IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_COMMAND_EXPRESSION );
 	}
 
 	protected void doValidateExpressionSyntax( ) throws OdaException
@@ -64,7 +64,7 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 		if ( expression.trim( ).length( ) == 0 )
 		{
 			status = getMiscStatus( IStatus.ERROR, Messages.getString(
-					"MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression" ) ); //$NON-NLS-1$
+			        "MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression" ) ); //$NON-NLS-1$
 		}
 		else
 		{
