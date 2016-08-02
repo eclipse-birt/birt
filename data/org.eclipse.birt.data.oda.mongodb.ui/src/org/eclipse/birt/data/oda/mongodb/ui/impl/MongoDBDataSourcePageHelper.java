@@ -259,9 +259,6 @@ public class MongoDBDataSourcePageHelper
 		kerberosSettingComposite4.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		kerberosCredentialsRadioBtn = new Button( kerberosSettingComposite4, SWT.RADIO );
-		// GridData credentialRadioBtnData = new GridData( );
-		// radioBtnData.verticalAlignment = SWT.TOP;
-		// kerberosCredentialsRadioBtn.setLayoutData( credentialRadioBtnData );
 		kerberosCredentialsRadioBtn.setText( Messages.getString( "MongoDBDataSourceWizardPage.RadioButton.label.KerberosPassword" ) ); //$NON-NLS-1$
 
 		kerberosCredentialsRadioBtn.addSelectionListener( new SelectionListener( ) {

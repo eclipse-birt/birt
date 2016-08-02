@@ -48,8 +48,8 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 	private String batchSizeValue, docSearchLimitValue, maxSkipDocValue, indexExpr, queryPreferenceMode, tagSetValue;
 
 	private Combo queryPreferenceModeCombo;
-	private Text batchSizeText, docSearchLimitText, maxSkipDocText, indexExprText, tagSetText;
-	private Button noTimeOutCheckbox, allowPartialResultsCheckbox, flattenNestedDocCheckbox;
+	private Text batchSizeText, docSearchLimitText, maxSkipDocText, tagSetText;
+	private Button  allowPartialResultsCheckbox, flattenNestedDocCheckbox;
 	private boolean noTimeOut, allowsPartialResults, flattenNestedDocument;
 
 	public MongoDBAdvancedSettingsDialog( Shell parent )
@@ -321,11 +321,6 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 			maxSkipDocText.setText( maxSkipDocValue );
 		}
 
-		if ( indexExpr != null && indexExprText != null )
-		{
-			indexExprText.setText( indexExpr );
-		}
-
 		if ( queryPreferenceMode != null )
 		{
 			queryPreferenceModeCombo.setText( queryPreferenceMode );
@@ -342,10 +337,6 @@ public class MongoDBAdvancedSettingsDialog extends StatusDialog
 			docSearchLimitText.setText( docSearchLimitValue );
 		}
 
-		if ( noTimeOutCheckbox != null )
-		{
-			noTimeOutCheckbox.setSelection( noTimeOut );
-		}
 		allowPartialResultsCheckbox.setSelection( allowsPartialResults );
 		flattenNestedDocCheckbox.setSelection( flattenNestedDocument );
 
