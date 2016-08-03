@@ -87,8 +87,8 @@ public class AggregationManager
 			"MIN", //$NON-NLS-1$
 			"FIRST", //$NON-NLS-1$
 			"LAST", //$NON-NLS-1$
-			"COUNT", //$NON-NLS-1$
-			"RANGE", //$NON-NLS-1$
+			"COUNT" //$NON-NLS-1$
+//			"RANGE", //$NON-NLS-1$
 //			"COUNTDISTINCT"//$NON-NLS-1$	// Temporarily remove count distinct aggregation function. 
 	};
 
