@@ -28,14 +28,13 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 	private CommandOperationType opType;
 
 	/**
-	 * The only constructor which needs 2 parameters to build up the dialog.
-	 * The CommandOperationType instance is needed.
+	 * The only constructor which needs 2 parameters to build up the dialog. The
+	 * CommandOperationType instance is needed.
 	 * 
 	 * @param parent
 	 * @param opType
 	 */
-	public MDBCommandExpressionBuilder( Shell parent,
-			CommandOperationType opType )
+	public MDBCommandExpressionBuilder( Shell parent, CommandOperationType opType )
 	{
 		super( parent );
 		this.opType = opType;
@@ -48,8 +47,7 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 
 	protected void createDialogHelper( Composite composite )
 	{
-		UIHelper.setSystemHelp( composite,
-				IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_COMMAND_EXPRESSION );
+		UIHelper.setSystemHelp( composite, IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_COMMAND_EXPRESSION );
 	}
 
 	protected void doValidateExpressionSyntax( ) throws OdaException
@@ -63,8 +61,7 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 
 		if ( expression.trim( ).length( ) == 0 )
 		{
-			status = getMiscStatus( IStatus.ERROR,
-					Messages.getString( "MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression" ) ); //$NON-NLS-1$
+			status = getMiscStatus( IStatus.ERROR, Messages.getString( "MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression" ) ); //$NON-NLS-1$
 		}
 		else
 		{

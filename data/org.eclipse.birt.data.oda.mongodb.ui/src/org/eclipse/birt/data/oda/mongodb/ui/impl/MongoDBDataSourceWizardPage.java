@@ -19,13 +19,12 @@ import org.eclipse.birt.data.oda.mongodb.ui.util.UIHelper;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage;
 import org.eclipse.swt.widgets.Composite;
 
-
 public class MongoDBDataSourceWizardPage extends DataSourceWizardPage
 {
 
 	private Properties properties;
 	private String DEFAULT_MESSAGE = Messages.getString( "MongoDBDataSourceWizardPage.message.default" ); //$NON-NLS-1$
-	
+
 	// MongoDBDataSourcePageHelper is in charge of layouting the page controls
 	private MongoDBDataSourcePageHelper pageHelper;
 
@@ -58,8 +57,7 @@ public class MongoDBDataSourceWizardPage extends DataSourceWizardPage
 		pageHelper.createPageControls( parent );
 		pageHelper.refreshPageControls( );
 
-		UIHelper.setSystemHelp( getControl( ),
-				IHelpConstants.CONTEXT_ID_WIZARD_DATASOURCE_MONGODB );
+		UIHelper.setSystemHelp( getControl( ), IHelpConstants.CONTEXT_ID_WIZARD_DATASOURCE_MONGODB );
 
 	}
 
@@ -87,6 +85,7 @@ public class MongoDBDataSourceWizardPage extends DataSourceWizardPage
 			if ( isSessionEditable )
 			{
 				pageHelper.resetURIEditControlStatus( );
+				pageHelper.handleKerberosAuthenticationSelection( );
 			}
 		}
 	}

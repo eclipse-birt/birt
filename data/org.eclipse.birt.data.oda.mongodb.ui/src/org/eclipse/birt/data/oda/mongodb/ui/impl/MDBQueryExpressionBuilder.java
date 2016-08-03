@@ -35,8 +35,7 @@ public class MDBQueryExpressionBuilder extends MongoDBExpressionBuilder
 
 	protected void createDialogHelper( Composite composite )
 	{
-		UIHelper.setSystemHelp( composite,
-				IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_QUERY_EXPRESSION );
+		UIHelper.setSystemHelp( composite, IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_QUERY_EXPRESSION );
 	}
 
 	protected void doValidateExpressionSyntax( ) throws OdaException

@@ -126,8 +126,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 		gd.horizontalSpan = 2;
 		editorArea.setLayoutData( gd );
 
-		exprText = new Text( editorArea, SWT.NONE
-				| SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL );
+		exprText = new Text( editorArea, SWT.NONE | SWT.MULTI | SWT.BORDER | SWT.V_SCROLL | SWT.H_SCROLL );
 		exprText.setLayoutData( new GridData( GridData.FILL_BOTH ) );
 		exprText.addModifyListener( new ModifyListener( ) {
 
@@ -176,10 +175,9 @@ public class MongoDBExpressionBuilder extends StatusDialog
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				FileDialog dialog = new FileDialog( getShell( ), SWT.SINGLE
-						| SWT.SAVE );
-				dialog.setFilterExtensions( new String[]{
-					"*.*" //$NON-NLS-1$, $NON-NLS-2$
+				FileDialog dialog = new FileDialog( getShell( ), SWT.SINGLE | SWT.SAVE );
+				dialog.setFilterExtensions( new String[]{"*.*" //$NON-NLS-1$ ,
+																// $NON-NLS-2$
 				} );
 				dialog.setOverwrite( true );
 
@@ -285,8 +283,8 @@ public class MongoDBExpressionBuilder extends StatusDialog
 	private void doImportCommandExpression( )
 	{
 		FileDialog dialog = new FileDialog( getShell( ), SWT.SINGLE );
-		dialog.setFilterExtensions( new String[]{
-			"*.*" //$NON-NLS-1$, $NON-NLS-2$
+		dialog.setFilterExtensions( new String[]{"*.*" //$NON-NLS-1$ ,
+														// $NON-NLS-2$
 		} );
 
 		String fileName = dialog.open( );
@@ -309,7 +307,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 	}
 
 	/**
-	 * Method to validate the dialog status and need to be overwritten 
+	 * Method to validate the dialog status and need to be overwritten
 	 * 
 	 */
 	protected void validateStatus( )
@@ -319,11 +317,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 
 	protected Status getMiscStatus( int severity, String message )
 	{
-		return new Status( severity,
-				PlatformUI.PLUGIN_ID,
-				severity,
-				message,
-				null );
+		return new Status( severity, PlatformUI.PLUGIN_ID, severity, message, null );
 	}
 
 	protected Status getOKStatus( )
@@ -343,11 +337,9 @@ public class MongoDBExpressionBuilder extends StatusDialog
 		}
 		catch ( OdaException e1 )
 		{
-			String errorMsg = UIHelper.getUserErrorMessage( "MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.Invalid", e1 ); //$NON-NLS-1$
-			ExceptionHandler.showException( getShell( ),
-					msgDialogTitle,
-					errorMsg,
+			String errorMsg = UIHelper.getUserErrorMessage( "MongoDBExpressionBuilder.Expression.DialogMessage.ValidateSyntax.Invalid", //$NON-NLS-1$
 					e1 );
+			ExceptionHandler.showException( getShell( ), msgDialogTitle, errorMsg, e1 );
 		}
 	}
 

@@ -27,7 +27,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
-
 public class UIHelper
 {
 
@@ -39,9 +38,7 @@ public class UIHelper
 	 */
 	public static void setSystemHelp( Control control, String contextId )
 	{
-		PlatformUI.getWorkbench( )
-				.getHelpSystem( )
-				.setHelp( control, contextId );
+		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( control, contextId );
 	}
 
 	/**
@@ -53,8 +50,7 @@ public class UIHelper
 	 * @throws IOException
 	 * @see #setImageCached(boolean )
 	 */
-	public static Image getImage( String sPluginRelativePath )
-			throws IOException
+	public static Image getImage( String sPluginRelativePath ) throws IOException
 	{
 		ImageRegistry registry = JFaceResources.getImageRegistry( );
 		Image image = registry.get( sPluginRelativePath );
@@ -66,19 +62,16 @@ public class UIHelper
 		return image;
 	}
 
-	private static Image createImage( String sPluginRelativePath )
-			throws IOException
+	private static Image createImage( String sPluginRelativePath ) throws IOException
 	{
 		Image img = null;
 		try
 		{
-			img = new Image( Display.getCurrent( ),
-					getURL( sPluginRelativePath ).openStream( ) );
+			img = new Image( Display.getCurrent( ), getURL( sPluginRelativePath ).openStream( ) );
 		}
 		catch ( MalformedURLException e1 )
 		{
-			img = new Image( Display.getCurrent( ),
-					new FileInputStream( getURL( sPluginRelativePath ).toString( ) ) );
+			img = new Image( Display.getCurrent( ), new FileInputStream( getURL( sPluginRelativePath ).toString( ) ) );
 		}
 		// If still can't load, return a dummy image.
 		if ( img == null )
@@ -97,37 +90,39 @@ public class UIHelper
 	 *            The path to the resource relative to the plugin location.
 	 * @return URL representing the location of the resource.
 	 */
-	public static URL getURL( String sPluginRelativePath )
-			throws MalformedURLException
+	public static URL getURL( String sPluginRelativePath ) throws MalformedURLException
 	{
 		URL url = null;
 		if ( Platform.getExtensionRegistry( ) != null )
 		{
-			url = new URL( Activator.getDefault( ).getBundle( ).getEntry( "/" ), sPluginRelativePath ); //$NON-NLS-1$
+			url = new URL( Activator.getDefault( ).getBundle( ).getEntry( "/" ), //$NON-NLS-1$
+					sPluginRelativePath );
 		}
 		else
 		{
-			url = new URL( "file:///" + new File( sPluginRelativePath ).getAbsolutePath( ) ); //$NON-NLS-1$
+			url = new URL( "file:///" //$NON-NLS-1$
+					+ new File( sPluginRelativePath ).getAbsolutePath( ) );
 		}
 
 		return url;
 	}
 
 	/**
-	 * Appends the localized exception message to the specified msgKey for use as an 
-	 * user error message.
+	 * Appends the localized exception message to the specified msgKey for use
+	 * as an user error message.
+	 * 
 	 * @param userMsgKey
 	 * @param ex
 	 * @return
 	 */
-    public static String getUserErrorMessage( String userMsgKey, Exception ex )
-    {
-        String msg = userMsgKey != null ? Messages.getString( userMsgKey ) : ""; //$NON-NLS-1$
-        String exMsg = ex.getLocalizedMessage();
-        if( exMsg != null )
-            msg += "\n" + exMsg; //$NON-NLS-1$
-        return msg;
-    }
+	public static String getUserErrorMessage( String userMsgKey, Exception ex )
+	{
+		String msg = userMsgKey != null ? Messages.getString( userMsgKey ) : ""; //$NON-NLS-1$
+		String exMsg = ex.getLocalizedMessage( );
+		if ( exMsg != null )
+			msg += "\n" + exMsg; //$NON-NLS-1$
+		return msg;
+	}
 
 	/**
 	 * Utility method to get the warning icon.
@@ -174,7 +169,8 @@ public class UIHelper
 	}
 
 	/**
-	 * Utility method to get the item icon of a document that has not been selected.
+	 * Utility method to get the item icon of a document that has not been
+	 * selected.
 	 * 
 	 * @return
 	 * @throws IOException
