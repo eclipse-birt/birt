@@ -30,6 +30,7 @@ public class TotalTest {
     private boolean[] doubleArray1TopBottom = {false, false, false,false,false,true,false,false,false,true,true,true,false,false,true};
     private double[] doubleArray2 = {4, -43, 4, 23, -15, -6, 4, -6, 3, 63, 33, -6, -23, 34};
     private Double[] doubleArray3 = {Double.valueOf( "100" ),Double.valueOf( "20" ),null,Double.valueOf( "300" ),null,Double.valueOf( "40" ),Double.valueOf( "10" ), Double.valueOf( "10" )};
+    private Double[] doubleArrayNull = {null,null};
     private boolean[] doubleArray3TopBottom = {true,false,false,true,false,false,false, false};
     private int[] doubleArray3RankDec = {2, 4, 7, 1, 7, 3, 5, 5 };
     private int[] doubleArray3RankAsc = {7, 5, 1, 8, 1, 6, 3, 3 };
@@ -1036,6 +1037,7 @@ public class TotalTest {
 		ac.finish( );
 		assertEquals( new Double( 106 ), ac.getValue( ) );
 
+		// String data type returns 0
 		ac.start( );
 		for ( int i = 0; i < str1.length; i++ )
 		{
@@ -1044,8 +1046,20 @@ public class TotalTest {
 			} );
 		}
 		ac.finish( );
-		assertEquals( 78d, ac.getValue( ) );
+		assertEquals( 0d, ac.getValue( ) );
+		
+		// Null data returns null
+		ac.start( );
+		for ( int i = 0; i < doubleArrayNull.length; i++ )
+		{
+			ac.onRow( new Object[]{
+					doubleArrayNull[i]
+			} );
+		}		
+		ac.finish( );
+		assertEquals( null, ac.getValue( ) );
 
+		// No data returns null
 		ac.start( );
 		ac.finish( );
 		assertEquals( null, ac.getValue( ) );
