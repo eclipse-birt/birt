@@ -27,7 +27,7 @@
                 <tycho.version>0.25.0</tycho.version>
                 <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.6milestones/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones/</emf.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
                 <wtp.repo.url>http://download.eclipse.org/webtools/repository/neon/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
@@ -47,7 +47,7 @@
             	<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.11/</emf.repo.url>
                 <wtp.repo.url>http://download.eclipse.org/webtools/repository/mars/</wtp.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/milestones/</gef.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.9.v20150224</jetty.repo.url>
