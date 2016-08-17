@@ -27,8 +27,6 @@ public class TableBandContent extends AbstractBandContent
 		implements
 			ITableBandContent
 {
-	private boolean lastTableBand = false;
-	private boolean firstTableBand = false;
 	
 	TableBandContent( ITableBandContent band )
 	{
@@ -62,23 +60,4 @@ public class TableBandContent extends AbstractBandContent
 		return new TableBandContent(this);
 	}
 
-	public void setLastTableBand( boolean lastTableBand )
-	{
-		this.lastTableBand = lastTableBand;
-	}
-
-	public boolean isLastTableBand( )
-	{
-		return lastTableBand;
-	}
-	
-	public void setFirstTableBand( boolean firstTableBand )
-	{
-		this.firstTableBand = firstTableBand;
-	}
-
-	public boolean isFirstTableBand( )
-	{
-		return firstTableBand;
-	}
 }
