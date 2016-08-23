@@ -155,8 +155,8 @@ public class ReportPlatformUIImages
 				+ "new_report.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NEW_LIBRARY, ICONS_PATH
-				+ OBJ16_PATH
-				+ "new_library.gif" ); //$NON-NLS-1$
+				+ EVIEW16_PATH
+				+ "library.gif" ); //$NON-NLS-1$
 
 		declareImage( IReportGraphicConstants.ICON_NEW_FOLDER, ICONS_PATH
 				+ OBJ16_PATH
