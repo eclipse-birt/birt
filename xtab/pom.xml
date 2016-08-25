@@ -10,7 +10,6 @@
 
 	<groupId>org.eclipse.birt.xtab</groupId>
 	<artifactId>org.eclipse.birt.xtab-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>

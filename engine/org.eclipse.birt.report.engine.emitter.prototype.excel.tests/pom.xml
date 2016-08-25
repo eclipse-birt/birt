@@ -9,7 +9,6 @@
 	</parent>
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.report.engine.emitter.prototype.excel.tests</artifactId>
-	<version>4.6.0-SNAPSHOT</version>
 	<packaging>eclipse-test-plugin</packaging>
 	<build>
 		<plugins>

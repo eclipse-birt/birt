@@ -11,7 +11,6 @@
 
 	<groupId>org.eclipse.birt.nl</groupId>
 	<artifactId>org.eclipse.birt.nl-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>
