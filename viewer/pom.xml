@@ -10,7 +10,6 @@
 
 	<groupId>org.eclipse.birt.viewer</groupId>
 	<artifactId>org.eclipse.birt.viewer-parent</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<modules>

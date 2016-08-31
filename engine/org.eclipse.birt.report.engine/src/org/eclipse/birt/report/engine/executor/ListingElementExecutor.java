@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.executor;
 
 import java.util.Map;
-import java.util.logging.Level;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
@@ -374,7 +373,7 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 
 	}
 
-	public void onPageBreak( boolean isHorizontalPageBreak, boolean isFixedlayoutPageBreak )
+	public void onPageBreak( boolean isHorizontalPageBreak, boolean isSizeOverflowPageBreak )
 	{
 		//FIXME refactor
 		if ( !isHorizontalPageBreak )
@@ -387,7 +386,9 @@ public abstract class ListingElementExecutor extends QueryItemExecutor
 			}
 			else
 			{
-				if ( isFixedlayoutPageBreak )
+				// Move cursor to reduce row count in this page only if the page
+				// break is triggered by last page content size overflow
+				if ( isSizeOverflowPageBreak )
 				{
 					next( );
 				}

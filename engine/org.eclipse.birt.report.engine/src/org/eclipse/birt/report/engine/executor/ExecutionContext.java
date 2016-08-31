@@ -2140,15 +2140,23 @@ public class ExecutionContext
 
 	/**
 	 * Notify page break listeners that page is broken.
+	 * 
+	 * @param isHorizontalPageBreak
+	 *            indicates if it's horizontal page break
+	 * @param isSizeOverflowPageBreak
+	 *            indicates if the page break is triggered by content size
+	 *            exceeding page size
 	 */
-	public void firePageBreakEvent( boolean isHorizontalPageBreak, boolean isFixedLayoutPageBreak )
+	public void firePageBreakEvent( boolean isHorizontalPageBreak,
+			boolean isSizeOverflowPageBreak )
 	{
 		if ( pageBreakListeners != null )
 		{
 			for ( int i = 0; i < pageBreakListeners.size( ); i++ )
 			{
 				( (IPageBreakListener) pageBreakListeners.get( i ) )
-						.onPageBreak( isHorizontalPageBreak, isFixedLayoutPageBreak );
+						.onPageBreak( isHorizontalPageBreak,
+								isSizeOverflowPageBreak );
 			}
 		}
 	}

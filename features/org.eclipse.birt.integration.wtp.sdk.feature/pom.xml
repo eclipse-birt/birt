@@ -9,6 +9,5 @@
 	</parent>
 	<groupId>org.eclipse.birt.features</groupId>
 	<artifactId>org.eclipse.birt.integration.wtp.sdk</artifactId>
-	<version>4.6.0-SNAPSHOT</version>
 	<packaging>eclipse-feature</packaging>
 </project>

@@ -109,8 +109,18 @@ public class TotalRange extends AggrFunction
 
 		public Object getSummaryValue( ) throws DataException
 		{
-			return calculator.subtract( calculator.getTypedObject( max ),
-					calculator.getTypedObject( min ) );
+			// Null data returns null
+			if ( max == null || min == null )
+			{
+				return null;
+			}
+			if ( max instanceof Number && min instanceof Number )
+			{
+				return calculator.subtract( calculator.getTypedObject( max ),
+						calculator.getTypedObject( min ) );
+			}
+			// Non numeric data returns 0
+			return 0d;
 		}
 
 		@SuppressWarnings({

@@ -51,7 +51,9 @@ public class LayoutContext
 	
 	protected boolean autoPageBreak = true;
 	
-	protected String supportedImageFormats = "PNG;GIF;JPG;BMP;SVG";
+	private boolean sizeOverflowPageBreak = false;
+	
+	protected String supportedImageFormats = "PNG;GIF;JPG;BMP;SVG"; //$NON-NLS-1$
 	
 	protected boolean finished = false;
 	
@@ -539,6 +541,33 @@ public class LayoutContext
 	public void setTotalPage( long totalPage )
 	{
 		this.totalPage = totalPage;
+	}
+
+	/**
+	 * Indicates if the page break is triggered by content size exceeding page
+	 * size.
+	 * 
+	 * @return true when the page break is triggered by content size exceeding
+	 *         page size
+	 * @since 4.6
+	 */
+	public boolean isSizeOverflowPageBreak( )
+	{
+		return sizeOverflowPageBreak;
+	}
+
+	/**
+	 * Sets the state if the page break is triggered by content size exceeding
+	 * page size.
+	 * 
+	 * @param sizeOverflowPageBreak
+	 *            true when the page break is triggered by content size
+	 *            exceeding page size
+	 * @since 4.6
+	 */
+	public void setSizeOverflowPageBreak( boolean sizeOverflowPageBreak )
+	{
+		this.sizeOverflowPageBreak = sizeOverflowPageBreak;
 	}
 
 }

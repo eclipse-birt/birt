@@ -4,13 +4,12 @@
 	<parent>
 		<groupId>org.eclipse.birt.build.package</groupId>
 		<artifactId>org.eclipse.birt.build.package-parent</artifactId>
-		<version>4.6.0-SNAPSHOT</version>
+		<version>0.0.1-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>birt-wtp-integration-sdk</artifactId>
-	<version>4.6.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
 
 	<build>

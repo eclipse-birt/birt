@@ -161,7 +161,7 @@ class NameExecutorImpl
 			}
 
 			// try the module
-			if ( module.getDefn( ).isKindOf( holderDefn ) )
+			if ( module != null && module.getDefn( ).isKindOf( holderDefn ) )
 			{
 				nameHelper = module.getNameHelper( );
 				return;
