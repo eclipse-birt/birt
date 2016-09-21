@@ -19,4 +19,5 @@ Import-Package: com.mongodb;version="3.2.2",
  com.mongodb.util;version="3.2.2",
  org.apache.commons.codec.binary;version="1.6.0",
  org.bson;version="3.2.2",
+ org.bson.conversions;version="3.2.2",
  org.bson.types;version="3.2.2"
