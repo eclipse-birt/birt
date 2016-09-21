@@ -731,24 +731,29 @@ public class MongoDBDataSourcePageHelper
 			properties = new Properties( );
 		}
 
-		if ( serverHost != null )
-			properties.setProperty( MongoDBDriver.SERVER_HOST_PROP, serverHost );
+		if ( URIElementsRadioBtn.getSelection( ) == true )
+		{
+			if ( serverHost != null )
+				properties.setProperty( MongoDBDriver.SERVER_HOST_PROP, serverHost );
 
-		if ( serverPort != null )
-			properties.setProperty( MongoDBDriver.SERVER_PORT_PROP, serverPort );
+			if ( serverPort != null )
+				properties.setProperty( MongoDBDriver.SERVER_PORT_PROP, serverPort );
 
-		if ( dbName != null )
-			properties.setProperty( MongoDBDriver.DBNAME_PROP, dbName );
+			if ( dbName != null )
+				properties.setProperty( MongoDBDriver.DBNAME_PROP, dbName );
 
-		if ( userName != null )
-			properties.setProperty( MongoDBDriver.USERNAME_PROP, userName );
+			if ( userName != null )
+				properties.setProperty( MongoDBDriver.USERNAME_PROP, userName );
 
-		if ( password != null )
-			properties.setProperty( MongoDBDriver.PASSWORD_PROP, password );
-
-		if ( dbURI != null )
-			properties.setProperty( MongoDBDriver.MONGO_URI_PROP, dbURI );
-
+			if ( password != null )
+				properties.setProperty( MongoDBDriver.PASSWORD_PROP, password );
+		}
+		else if ( URIElementsRadioBtn.getSelection( ) == false )
+		{
+			if ( dbURI != null )
+				properties.setProperty( MongoDBDriver.MONGO_URI_PROP, dbURI );
+		}
+		
 		properties.setProperty( MongoDBDriver.IGNORE_URI_PROP,
 				Boolean.toString( URIElementsRadioBtn.getSelection( ) || UIHelper.isEmptyString( dbURI ) ) );
 

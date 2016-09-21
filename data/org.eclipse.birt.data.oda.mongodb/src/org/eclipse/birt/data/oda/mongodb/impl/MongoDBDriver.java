@@ -437,10 +437,17 @@ public class MongoDBDriver implements IDriver
 
 	private static MongoClientURI getMongoURI( Properties connProps )
 	{
-		return getMongoURI( connProps, null );
+		try
+		{
+			return getMongoURI( connProps, null );
+		}
+		catch ( Exception e )
+		{
+			return null;
+		}
 	}
 
-	private static MongoClientURI getMongoURI( Properties connProps, MongoClientOptions.Builder clientOptionsBuilder )
+	private static MongoClientURI getMongoURI( Properties connProps, MongoClientOptions.Builder clientOptionsBuilder ) throws Exception
 	{
 		// check if explicitly indicated not to use URI, even if URI value
 		// exists
@@ -468,8 +475,9 @@ public class MongoDBDriver implements IDriver
 			// log and ignore
 			getLogger( ).log( Level.INFO, Messages.bind( "Invalid Mongo Database URI: {0}", uri ), //$NON-NLS-1$
 					ex );
+			throw ex;
 		}
-		return null;
+		//return null;
 	}
 
 	/*
