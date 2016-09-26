@@ -103,6 +103,11 @@ public class DataExtractionTaskV0 extends EngineTask
 	protected ISortDefinition[] sortExpressions = null;
 
 	/**
+	 * over ride existing sorts
+	 */
+	protected boolean overrideExistingSorts = false;
+
+	/**
 	 * maximum rows
 	 */
 	protected int maxRows = -1;
@@ -618,6 +623,10 @@ public class DataExtractionTaskV0 extends EngineTask
 					// add sort
 					if ( sortExpressions != null )
 					{
+						if ( overrideExistingSorts )
+						{
+							query.getSorts( ).clear( );
+						}
 						for ( int iNum = 0; iNum < sortExpressions.length; iNum++ )
 						{
 							query.getSorts( ).add( sortExpressions[iNum] );
@@ -711,6 +720,10 @@ public class DataExtractionTaskV0 extends EngineTask
 				// add sort
 				if ( sortExpressions != null )
 				{
+					if ( overrideExistingSorts )
+					{
+						query.getSorts( ).clear( );
+					}
 					for ( int iNum = 0; iNum < sortExpressions.length; iNum++ )
 					{
 						query.getSorts( ).add( sortExpressions[iNum] );
@@ -760,7 +773,7 @@ public class DataExtractionTaskV0 extends EngineTask
 					filterExpressions = null;
 				}
 
-				// add sort
+				// remove sort
 				if ( sortExpressions != null )
 				{
 					for ( int iNum = 0; iNum < sortExpressions.length; iNum++ )
@@ -897,7 +910,15 @@ public class DataExtractionTaskV0 extends EngineTask
 	 */
 	public void setSorts( ISortDefinition[] simpleSortExpression )
 	{
-		sortExpressions = simpleSortExpression;
+		setSorts( simpleSortExpression, false );
+	}
+
+	@Override
+	public void setSorts( ISortDefinition[] simpleSortExpression,
+			boolean overrideExistingSorts )
+	{
+		this.sortExpressions = simpleSortExpression;
+		this.overrideExistingSorts = overrideExistingSorts;
 	}
 
 	/**
@@ -1000,4 +1021,5 @@ public class DataExtractionTaskV0 extends EngineTask
 	{
 		return this.isCubeExportEnabled;
 	}
+
 }
