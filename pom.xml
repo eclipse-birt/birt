@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt-parent</artifactId>
-	<version>4.6.0-SNAPSHOT</version>
+	<version>4.7.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
-		<birt.version>4.6.0</birt.version>
+		<birt.version>4.7.0</birt.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
 		<!--<build>v${maven.build.timestamp}</build>-->
@@ -21,12 +21,31 @@
             <id>master</id>
             <activation>
             	<activeByDefault>true</activeByDefault>
-            </activation>
+            </activation>            
+            <properties>
+                <eclipse.release.name>oxygen</eclipse.release.name>
+                <tycho.version>0.25.0</tycho.version>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.7milestones/</eclipse.repo.url>
+                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12/</emf.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
+                <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
+                <wtp.repo.url>http://download.eclipse.org/webtools/repository/neon/</wtp.repo.url>
+                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbit.repo.url>
+                <!-- https://eclipse.org/datatools/downloads.php  -->
+                <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.13/1.13.0.201603142002/repository</dtp.repo.url>
+                <!-- http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/ -->
+                <!-- <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url> -->
+                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.13.v20150730</jetty.repo.url>
+            </properties>
+        </profile>	
+	    <profile>
+            <id>neon</id>
             <properties>
                 <eclipse.release.name>neon</eclipse.release.name>
                 <tycho.version>0.25.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.6milestones/</eclipse.repo.url>
-                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12milestones/</emf.repo.url>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.6/</eclipse.repo.url>
+                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12/</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
                 <wtp.repo.url>http://download.eclipse.org/webtools/repository/neon/</wtp.repo.url>

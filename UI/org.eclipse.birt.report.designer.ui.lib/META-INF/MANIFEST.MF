@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Designer UI for Library
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.lib; singleton:=true
-Bundle-Version: 4.6.0.qualifier
+Bundle-Version: 4.7.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.ui.LibraryPlugin
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
