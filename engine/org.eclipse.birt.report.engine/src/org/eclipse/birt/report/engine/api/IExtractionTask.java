@@ -23,6 +23,14 @@ public interface IExtractionTask extends IEngineTask
 	void setSorts( ISortDefinition[] sorts );
 
 	/**
+	 * set sorting conditions
+	 * 
+	 * @param simpleSortExpression
+	 * @param overrideExistingSorts
+	 */
+	void setSorts( ISortDefinition[] simpleSortExpression, boolean overrideExistingSorts );
+	
+	/**
 	 * execute this extraction task
 	 * 
 	 * @return the extraction result
@@ -38,4 +46,5 @@ public interface IExtractionTask extends IEngineTask
 	 * @throws BirtException
 	 */
 	void extract( IExtractionOption option ) throws BirtException;
+
 }

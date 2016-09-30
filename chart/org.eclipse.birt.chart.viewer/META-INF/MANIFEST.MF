@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart viewer
 Bundle-SymbolicName: org.eclipse.birt.chart.viewer;singleton:=true
-Bundle-Version: 4.6.0.qualifier
+Bundle-Version: 4.7.0.qualifier
 Bundle-ClassPath: .,
  WebContent/WEB-INF/lib/
 Bundle-Vendor: Eclipse BIRT Project

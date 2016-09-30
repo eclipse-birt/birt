@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Device SWT Extension
 Bundle-SymbolicName: org.eclipse.birt.chart.device.swt; singleton:=true
-Bundle-Version: 4.6.0.qualifier
+Bundle-Version: 4.7.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.device.swt.ChartDeviceSwtActivator
 Bundle-Localization: plugin
 Require-Bundle: org.apache.commons.codec;bundle-version="[1.3.0,2.0.0)",

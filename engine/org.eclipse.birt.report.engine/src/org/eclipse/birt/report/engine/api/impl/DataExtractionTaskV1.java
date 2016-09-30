@@ -129,6 +129,11 @@ public class DataExtractionTaskV1 extends EngineTask
 	protected ISortDefinition[] sortExpressions = null;
 
 	/**
+	 * simple sort expression
+	 */
+	protected boolean overrideExistingSorts = false;
+
+	/**
 	 * maximum rows
 	 */
 	protected int maxRows = -1;
@@ -952,6 +957,10 @@ public class DataExtractionTaskV1 extends EngineTask
 		// add sort
 		if ( sortExpressions != null )
 		{
+			if ( this.overrideExistingSorts )
+			{
+				query.getSorts( ).clear( );
+			}
 			for ( int iNum = 0; iNum < sortExpressions.length; iNum++ )
 			{
 				query.getSorts( ).add( sortExpressions[iNum] );
@@ -1331,7 +1340,15 @@ public class DataExtractionTaskV1 extends EngineTask
 	 */
 	public void setSorts( ISortDefinition[] simpleSortExpression )
 	{
-		sortExpressions = simpleSortExpression;
+		setSorts( simpleSortExpression, false );
+	}
+
+	@Override
+	public void setSorts( ISortDefinition[] simpleSortExpression,
+			boolean overrideExistingSorts )
+	{
+		this.sortExpressions = simpleSortExpression;
+		this.overrideExistingSorts = overrideExistingSorts;
 	}
 
 	/**
