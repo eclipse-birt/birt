@@ -18,7 +18,7 @@
 	<feature url="features/org.eclipse.birt.source_4.7.0.qualifier.jar" id="org.eclipse.birt.source" version="4.7.0.qualifier">
 		<category name="source"/>
 	</feature>
-	<category-def name="source" label="BIRT 4.6.0 Source"/>
+	<category-def name="source" label="BIRT Source"/>
 </site>
 <!--newline-->
  

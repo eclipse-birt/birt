@@ -80,10 +80,10 @@
     <feature id="org.eclipse.birt.nl">
       <category name="BirtNL"/>
    </feature>
-  <category-def name="Birt" label="BIRT 4.6.0 Reporting SDK"/>
-   <category-def name="Chart" label="BIRT 4.6.0 Charting SDK"/>
-   <category-def name="OSGi" label="BIRT 4.6.0 Engine OSGi Runtime SDK"/>
-   <category-def name="wtpIntegration" label="BIRT 4.6.0 WTP Integration SDK"/>
+  <category-def name="Birt" label="BIRT Reporting SDK"/>
+   <category-def name="Chart" label="BIRT Charting SDK"/>
+   <category-def name="OSGi" label="BIRT Engine OSGi Runtime SDK"/>
+   <category-def name="wtpIntegration" label="BIRT WTP Integration SDK"/>
    <category-def name="birtTest" label="Birt Unit Test"/>
    <category-def name="BirtNL" label="BIRT Language Package"/>
 </site>

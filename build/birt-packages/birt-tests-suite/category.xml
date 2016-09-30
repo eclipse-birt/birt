@@ -7,5 +7,5 @@
       <category name="testSuites"/>
    </feature>
   
-  <category-def name="testSuites" label="BIRT 4.6.0 testSuites"/>
+  <category-def name="testSuites" label="BIRT testSuites"/>
 </site>
