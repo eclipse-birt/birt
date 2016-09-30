@@ -317,4 +317,11 @@ public class DataExtractionTask implements IDataExtractionTask
 	{
 		task.setStatusHandler( handler );
 	}
+
+	@Override
+	public void setSorts( ISortDefinition[] simpleSortExpression,
+			boolean overrideExistingSorts )
+	{
+		task.setSorts( simpleSortExpression, overrideExistingSorts );
+	}
 }
