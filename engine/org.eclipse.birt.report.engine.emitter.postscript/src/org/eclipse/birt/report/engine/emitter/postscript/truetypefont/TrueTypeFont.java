@@ -176,6 +176,8 @@ public class TrueTypeFont
     static final int WE_HAVE_AN_X_AND_Y_SCALE = 64;
     static final int WE_HAVE_A_TWO_BY_TWO = 128;
     
+    static private final int NBSP = 160;
+    static private final int SPACE = 32;
 	/**
 	 * The components of table 'head'.
 	 */
@@ -1214,6 +1216,10 @@ public class TrueTypeFont
 	public int getGlyphIndex( char c )
 	{
 		int[] glyphIndexs = (int[]) getCMap( ).get( (int) c );
+		if( glyphIndexs == null && c == NBSP )
+		{
+			glyphIndexs = getCMap( ).get( SPACE );
+		}
 		return glyphIndexs[0];
 	}
 
