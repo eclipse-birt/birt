@@ -52,6 +52,10 @@ org.eclipse.platform
 
    <features>
       <feature id="org.eclipse.birt"/>
+      <feature id="org.eclipse.platform"/>
+      <feature id="org.eclipse.pde"/>
+      <feature id="org.eclipse.rcp"/>
+      <feature id="org.eclipse.jdt"/>
    </features>
 
    <configurations>
