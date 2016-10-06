@@ -28,7 +28,6 @@ import org.eclipse.birt.report.data.bidi.utils.core.BidiTransform;
 import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.oda.jdbc.bidi.BidiCallStatement;
 import org.eclipse.birt.report.data.oda.jdbc.bidi.BidiStatement;
-import org.eclipse.birt.report.data.oda.jdbc.utils.ResourceLocator;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
@@ -211,7 +210,6 @@ public class Connection implements IConnection
 		String driverClass = connProperties.getProperty( Constants.ODADriverClass );
         String jndiNameUrl = connProperties.getProperty( Constants.ODAJndiName );
 
-        ResourceLocator.resolveConnectionProperties( props, driverClass, this.appContext );
 		try
 		{
 			if ( ( jndiNameUrl == null || jndiNameUrl.trim( ).length( ) == 0 )
