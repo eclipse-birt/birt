@@ -44,7 +44,8 @@ public class MDbResultSetMetaData implements IResultSetMetaData
 	private DocumentsMetaData m_docsMetaData;
 	private boolean m_isAutoFlattening;
 
-	public MDbResultSetMetaData( Iterable<Document> resultCursor, List<String> resultFieldNames, boolean isAutoFlattening )
+	public MDbResultSetMetaData( Iterable<Document> resultCursor,
+			List<String> resultFieldNames, boolean isAutoFlattening )
 	{
 		// expects caller to have already applied all settings, such as
 		// searchLimit,
@@ -53,7 +54,8 @@ public class MDbResultSetMetaData implements IResultSetMetaData
 		init( resultFieldNames, isAutoFlattening );
 	}
 
-	public MDbResultSetMetaData( Iterable<Document> resultObjs, int searchLimit, List<String> resultFieldNames, boolean isAutoFlattening )
+	public MDbResultSetMetaData( Iterable<Document> resultObjs, int searchLimit,
+			List<String> resultFieldNames, boolean isAutoFlattening )
 	{
 		m_docsMetaData = MDbMetaData.getMetaData( resultObjs, searchLimit );
 		init( resultFieldNames, isAutoFlattening );
@@ -61,13 +63,15 @@ public class MDbResultSetMetaData implements IResultSetMetaData
 
 	private void init( List<String> resultFieldNames, boolean isAutoFlattening )
 	{
-		m_resultFieldsMD = mapResultFieldsMetaData( resultFieldNames, m_docsMetaData );
+		m_resultFieldsMD = mapResultFieldsMetaData( resultFieldNames,
+				m_docsMetaData );
 		m_isAutoFlattening = isAutoFlattening;
 		if ( m_isAutoFlattening )
 			m_docsMetaData.setFlattenableFields( m_resultFieldsMD, true );
 	}
 
-	private static Map<String, FieldMetaData> mapResultFieldsMetaData( List<String> resultFieldNames, DocumentsMetaData fromDocMetaData )
+	private static Map<String, FieldMetaData> mapResultFieldsMetaData(
+			List<String> resultFieldNames, DocumentsMetaData fromDocMetaData )
 	{
 		if ( resultFieldNames == null || resultFieldNames.isEmpty( ) ) // no
 																		// specific
@@ -79,7 +83,8 @@ public class MDbResultSetMetaData implements IResultSetMetaData
 		}
 
 		// only get metadata for the specified list of fields
-		return MDbMetaData.flattenFieldsMetaData( resultFieldNames, fromDocMetaData );
+		return MDbMetaData.flattenFieldsMetaData( resultFieldNames,
+				fromDocMetaData );
 	}
 
 	private List<String> getFieldFullNames( )
@@ -88,7 +93,8 @@ public class MDbResultSetMetaData implements IResultSetMetaData
 		{
 			if ( m_resultFieldsMD == null )
 				return Collections.emptyList( );
-			m_resultFieldFullNames = new ArrayList<String>( m_resultFieldsMD.keySet( ) );
+			m_resultFieldFullNames = new ArrayList<String>(
+					m_resultFieldsMD.keySet( ) );
 		}
 		return m_resultFieldFullNames;
 	}
@@ -99,7 +105,8 @@ public class MDbResultSetMetaData implements IResultSetMetaData
 		{
 			if ( m_resultFieldsMD == null )
 				return Collections.emptyList( );
-			m_resultFieldDataTypes = new ArrayList<Integer>( m_resultFieldsMD.size( ) );
+			m_resultFieldDataTypes = new ArrayList<Integer>(
+					m_resultFieldsMD.size( ) );
 			for ( int i = 0; i < m_resultFieldsMD.size( ); i++ )
 				m_resultFieldDataTypes.add( null ); // initialize size
 		}
@@ -223,7 +230,8 @@ public class MDbResultSetMetaData implements IResultSetMetaData
 			// field in a document,
 			// and is tracked in containing DocumentsMetaData
 			String arrayAncestorName = columnMD.getArrayAncestorName( );
-			if ( arrayAncestorName != null && !isFlattenableNestedField( columnMD ) )
+			if ( arrayAncestorName != null
+					&& !isFlattenableNestedField( columnMD ) )
 				return BSON.STRING;
 		}
 		else if ( columnMD.isArrayOfScalarValues( ) ) // top-level array of
@@ -234,8 +242,10 @@ public class MDbResultSetMetaData implements IResultSetMetaData
 			// value
 			if ( !m_isAutoFlattening )
 				return BSON.STRING;
-			String flattenableFieldName = m_docsMetaData.getFlattenableFieldName( );
-			if ( flattenableFieldName != null && !flattenableFieldName.equals( columnMD.getFullName( ) ) )
+			String flattenableFieldName = m_docsMetaData
+					.getFlattenableFieldName( );
+			if ( flattenableFieldName != null
+					&& !flattenableFieldName.equals( columnMD.getFullName( ) ) )
 				return BSON.STRING;
 		}
 

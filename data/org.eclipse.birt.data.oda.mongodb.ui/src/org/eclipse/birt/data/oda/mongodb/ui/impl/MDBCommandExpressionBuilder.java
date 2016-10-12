@@ -34,7 +34,8 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 	 * @param parent
 	 * @param opType
 	 */
-	public MDBCommandExpressionBuilder( Shell parent, CommandOperationType opType )
+	public MDBCommandExpressionBuilder( Shell parent,
+			CommandOperationType opType )
 	{
 		super( parent );
 		this.opType = opType;
@@ -42,12 +43,14 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 
 	protected void initDialogTitle( )
 	{
-		setTitle( Messages.getString( "MongoDBExpressionBuilder.CommandExpression.DialogTitle" ) ); //$NON-NLS-1$
+		setTitle( Messages.getString(
+				"MongoDBExpressionBuilder.CommandExpression.DialogTitle" ) ); //$NON-NLS-1$
 	}
 
 	protected void createDialogHelper( Composite composite )
 	{
-		UIHelper.setSystemHelp( composite, IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_COMMAND_EXPRESSION );
+		UIHelper.setSystemHelp( composite,
+				IHelpConstants.CONTEXT_ID_DIALOG_MONGODB_DATASET_COMMAND_EXPRESSION );
 	}
 
 	protected void doValidateExpressionSyntax( ) throws OdaException
@@ -61,7 +64,9 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 
 		if ( expression.trim( ).length( ) == 0 )
 		{
-			status = getMiscStatus( IStatus.ERROR, Messages.getString( "MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression" ) ); //$NON-NLS-1$
+			status = getMiscStatus( IStatus.ERROR,
+					Messages.getString(
+							"MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression" ) ); //$NON-NLS-1$
 		}
 		else
 		{

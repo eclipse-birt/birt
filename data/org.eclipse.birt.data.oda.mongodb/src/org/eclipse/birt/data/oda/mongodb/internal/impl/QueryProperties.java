@@ -48,23 +48,38 @@ public class QueryProperties
 																				// prefix
 
 	// query components
-	private static final String COLLECTION_NAME_PROP = MONGO_PROP_PREFIX.concat( "collectionName" ); //$NON-NLS-1$
-	private static final String QUERY_OPERATION_TYPE_PROP = MONGO_PROP_PREFIX.concat( "operationType" ); //$NON-NLS-1$
-	private static final String QUERY_OPERATION_EXPR_PROP = MONGO_PROP_PREFIX.concat( "operationExpr" ); //$NON-NLS-1$
-	private static final String SELECTED_FIELDS_PROP = MONGO_PROP_PREFIX.concat( "selectedFields" ); //$NON-NLS-1$
-	private static final String FIND_QUERY_EXPR_PROP = MONGO_PROP_PREFIX.concat( "findQueryExpr" ); //$NON-NLS-1$
-	private static final String SORT_EXPR_PROP = MONGO_PROP_PREFIX.concat( "sortExpr" ); //$NON-NLS-1$
+	private static final String COLLECTION_NAME_PROP = MONGO_PROP_PREFIX
+			.concat( "collectionName" ); //$NON-NLS-1$
+	private static final String QUERY_OPERATION_TYPE_PROP = MONGO_PROP_PREFIX
+			.concat( "operationType" ); //$NON-NLS-1$
+	private static final String QUERY_OPERATION_EXPR_PROP = MONGO_PROP_PREFIX
+			.concat( "operationExpr" ); //$NON-NLS-1$
+	private static final String SELECTED_FIELDS_PROP = MONGO_PROP_PREFIX
+			.concat( "selectedFields" ); //$NON-NLS-1$
+	private static final String FIND_QUERY_EXPR_PROP = MONGO_PROP_PREFIX
+			.concat( "findQueryExpr" ); //$NON-NLS-1$
+	private static final String SORT_EXPR_PROP = MONGO_PROP_PREFIX
+			.concat( "sortExpr" ); //$NON-NLS-1$
 
 	// advanced runtime properties
-	private static final String QUERY_READ_PREF_PROP = MONGO_PROP_PREFIX.concat( "queryReadPreference" ); //$NON-NLS-1$
-	private static final String QUERY_READ_PREF_TAGS_PROP = MONGO_PROP_PREFIX.concat( "queryReadPreferenceTags" ); //$NON-NLS-1$
-	private static final String RT_META_DATA_SEARCH_LIMIT = MONGO_PROP_PREFIX.concat( "rtMDSearchLimit" ); //$NON-NLS-1$
-	private static final String CURSOR_BATCH_SIZE_PROP = MONGO_PROP_PREFIX.concat( "batchSize" ); //$NON-NLS-1$
-	private static final String SKIP_NUM_DOCS_PROP = MONGO_PROP_PREFIX.concat( "numSkipDocuments" ); //$NON-NLS-1$
-	private static final String AUTO_FLATTENING_PROP = MONGO_PROP_PREFIX.concat( "flattenCollections" ); //$NON-NLS-1$
-	private static final String INDEX_HINTS_PROP = MONGO_PROP_PREFIX.concat( "indexHints" ); //$NON-NLS-1$
-	private static final String NO_TIMEOUT_PROP = MONGO_PROP_PREFIX.concat( "noTimeOut" ); //$NON-NLS-1$
-	private static final String PARTIAL_RESULTS_PROP = MONGO_PROP_PREFIX.concat( "allowsPartialResults" ); //$NON-NLS-1$
+	private static final String QUERY_READ_PREF_PROP = MONGO_PROP_PREFIX
+			.concat( "queryReadPreference" ); //$NON-NLS-1$
+	private static final String QUERY_READ_PREF_TAGS_PROP = MONGO_PROP_PREFIX
+			.concat( "queryReadPreferenceTags" ); //$NON-NLS-1$
+	private static final String RT_META_DATA_SEARCH_LIMIT = MONGO_PROP_PREFIX
+			.concat( "rtMDSearchLimit" ); //$NON-NLS-1$
+	private static final String CURSOR_BATCH_SIZE_PROP = MONGO_PROP_PREFIX
+			.concat( "batchSize" ); //$NON-NLS-1$
+	private static final String SKIP_NUM_DOCS_PROP = MONGO_PROP_PREFIX
+			.concat( "numSkipDocuments" ); //$NON-NLS-1$
+	private static final String AUTO_FLATTENING_PROP = MONGO_PROP_PREFIX
+			.concat( "flattenCollections" ); //$NON-NLS-1$
+	private static final String INDEX_HINTS_PROP = MONGO_PROP_PREFIX
+			.concat( "indexHints" ); //$NON-NLS-1$
+	private static final String NO_TIMEOUT_PROP = MONGO_PROP_PREFIX
+			.concat( "noTimeOut" ); //$NON-NLS-1$
+	private static final String PARTIAL_RESULTS_PROP = MONGO_PROP_PREFIX
+			.concat( "allowsPartialResults" ); //$NON-NLS-1$
 
 	public static final int DEFAULT_RUNTIME_METADATA_SEARCH_LIMIT = 10;
 	public static final int DEFAULT_CURSOR_BATCH_SIZE = 101; // default used by
@@ -81,15 +96,20 @@ public class QueryProperties
 		{
 		}
 
-		public static CommandOperationType getType( String operationTypeLiteral )
+		public static CommandOperationType getType(
+				String operationTypeLiteral )
 		{
-			if ( operationTypeLiteral == null || operationTypeLiteral.isEmpty( ) )
+			if ( operationTypeLiteral == null
+					|| operationTypeLiteral.isEmpty( ) )
 				return DYNAMIC_QUERY;
-			if ( operationTypeLiteral.equals( AGGREGATE.displayName( ) ) || operationTypeLiteral.equals( AGGREGATE.name( ) ) )
+			if ( operationTypeLiteral.equals( AGGREGATE.displayName( ) )
+					|| operationTypeLiteral.equals( AGGREGATE.name( ) ) )
 				return AGGREGATE;
-			if ( operationTypeLiteral.equals( MAP_REDUCE.displayName( ) ) || operationTypeLiteral.equals( MAP_REDUCE.name( ) ) )
+			if ( operationTypeLiteral.equals( MAP_REDUCE.displayName( ) )
+					|| operationTypeLiteral.equals( MAP_REDUCE.name( ) ) )
 				return MAP_REDUCE;
-			if ( operationTypeLiteral.equals( RUN_DB_COMMAND.displayName( ) ) || operationTypeLiteral.equals( RUN_DB_COMMAND.name( ) ) )
+			if ( operationTypeLiteral.equals( RUN_DB_COMMAND.displayName( ) )
+					|| operationTypeLiteral.equals( RUN_DB_COMMAND.name( ) ) )
 				return RUN_DB_COMMAND;
 
 			return DYNAMIC_QUERY; // default
@@ -109,7 +129,8 @@ public class QueryProperties
 		}
 	}
 
-	private static final Map<String, Object> sm_defaultPropsMap = ( new QueryProperties( ) ).getPropertiesMap( );
+	private static final Map<String, Object> sm_defaultPropsMap = ( new QueryProperties( ) )
+			.getPropertiesMap( );
 
 	private Map<String, Object> m_propertiesMap;
 
@@ -142,7 +163,8 @@ public class QueryProperties
 
 	// @SuppressWarnings("unchecked")
 	@SuppressWarnings("unchecked")
-	public static QueryProperties deserialize( String serializedContent ) throws OdaException
+	public static QueryProperties deserialize( String serializedContent )
+			throws OdaException
 	{
 		if ( serializedContent == null || serializedContent.trim( ).isEmpty( ) )
 			return new QueryProperties( (Map<String, Object>) null );
@@ -160,7 +182,9 @@ public class QueryProperties
 		}
 
 		// not able to de-serialize
-		OdaException odaEx = new OdaException( Messages.bind( Messages.queryProperties_errDeSerializeDBObject, serializedContent ) );
+		OdaException odaEx = new OdaException(
+				Messages.bind( Messages.queryProperties_errDeSerializeDBObject,
+						serializedContent ) );
 		if ( caughtEx != null )
 			odaEx.initCause( caughtEx );
 		throw odaEx;
@@ -168,7 +192,8 @@ public class QueryProperties
 
 	public String serialize( )
 	{
-		Map<String, Object> definedPropsMap = copyNonDefaultProperties( getPropertiesMap( ) );
+		Map<String, Object> definedPropsMap = copyNonDefaultProperties(
+				getPropertiesMap( ) );
 
 		// convert property values not serializable by BSON serializer
 		externalizePropValues( definedPropsMap );
@@ -204,7 +229,8 @@ public class QueryProperties
 
 	void setNonNullValues( Map<String, Object> propertiesMap )
 	{
-		Map<String, Object> nonNullPropsMap = copyNonNullProperties( propertiesMap );
+		Map<String, Object> nonNullPropsMap = copyNonNullProperties(
+				propertiesMap );
 		// override existing value with the specified Map entry value
 		setInternalProperties( nonNullPropsMap );
 	}
@@ -228,25 +254,30 @@ public class QueryProperties
 			setOperationType( (String) propValue );
 	}
 
-	private static void externalizePropValues( Map<String, Object> propertiesMap )
+	private static void externalizePropValues(
+			Map<String, Object> propertiesMap )
 	{
 		// convert property value object not serializable by BSON serializer
 		// to its string representation
 		Object propValue = propertiesMap.get( QUERY_READ_PREF_PROP );
 		if ( propValue instanceof ReadPreference )
-			propertiesMap.put( QUERY_READ_PREF_PROP, ( (ReadPreference) propValue ).getName( ) );
+			propertiesMap.put( QUERY_READ_PREF_PROP,
+					( (ReadPreference) propValue ).getName( ) );
 
 		propValue = propertiesMap.get( QUERY_OPERATION_TYPE_PROP );
 		if ( propValue instanceof CommandOperationType )
-			propertiesMap.put( QUERY_OPERATION_TYPE_PROP, propValue.toString( ) );
+			propertiesMap.put( QUERY_OPERATION_TYPE_PROP,
+					propValue.toString( ) );
 	}
 
-	private static Map<String, Object> copyNonNullProperties( Map<String, Object> propertiesMap )
+	private static Map<String, Object> copyNonNullProperties(
+			Map<String, Object> propertiesMap )
 	{
 		if ( propertiesMap == null || propertiesMap.isEmpty( ) )
 			return Collections.emptyMap( ); // done; nothing to copy
 
-		Map<String, Object> propsCopy = new HashMap<String, Object>( propertiesMap.size( ) );
+		Map<String, Object> propsCopy = new HashMap<String, Object>(
+				propertiesMap.size( ) );
 		for ( Entry<String, Object> propEntry : propertiesMap.entrySet( ) )
 		{
 			Object propValue = propEntry.getValue( );
@@ -257,13 +288,15 @@ public class QueryProperties
 		return propsCopy;
 	}
 
-	private static Map<String, Object> copyNonDefaultProperties( Map<String, Object> propertiesMap )
+	private static Map<String, Object> copyNonDefaultProperties(
+			Map<String, Object> propertiesMap )
 	{
 		if ( propertiesMap == null || propertiesMap.isEmpty( ) )
 			return Collections.emptyMap( ); // done; nothing to copy
 
 		// copy map entries that contains non-null and non-default values
-		Map<String, Object> propsCopy = new HashMap<String, Object>( propertiesMap.size( ) );
+		Map<String, Object> propsCopy = new HashMap<String, Object>(
+				propertiesMap.size( ) );
 		for ( Entry<String, Object> propEntry : propertiesMap.entrySet( ) )
 		{
 			Object propValue = propEntry.getValue( );
@@ -278,7 +311,9 @@ public class QueryProperties
 				if ( ( (String) propValue ).isEmpty( ) )
 					continue; // skip empty value in entry
 
-				if ( defaultValue instanceof Boolean || defaultValue instanceof Integer || defaultValue instanceof ReadPreference )
+				if ( defaultValue instanceof Boolean
+						|| defaultValue instanceof Integer
+						|| defaultValue instanceof ReadPreference )
 					defaultValue = defaultValue.toString( );
 			}
 			if ( propValue.equals( defaultValue ) )
@@ -310,7 +345,8 @@ public class QueryProperties
 
 	public void setOperationType( String opTypeLiteral )
 	{
-		setOperationType( CommandOperationType.getType( opTypeLiteral.trim( ) ) );
+		setOperationType(
+				CommandOperationType.getType( opTypeLiteral.trim( ) ) );
 	}
 
 	public void setOperationType( CommandOperationType opType )
@@ -320,26 +356,30 @@ public class QueryProperties
 
 	public CommandOperationType getOperationType( )
 	{
-		CommandOperationType value = getOperationTypeImpl( getPropertiesMap( ) );
+		CommandOperationType value = getOperationTypeImpl(
+				getPropertiesMap( ) );
 		if ( value == null )
 			value = getOperationTypeImpl( sm_defaultPropsMap ); // get default
 																// value instead
 		return value;
 	}
 
-	private static CommandOperationType getOperationTypeImpl( Map<String, Object> propMap )
+	private static CommandOperationType getOperationTypeImpl(
+			Map<String, Object> propMap )
 	{
 		Object propValue = propMap.get( QUERY_OPERATION_TYPE_PROP );
 		if ( propValue instanceof CommandOperationType )
 			return (CommandOperationType) propValue;
 		if ( propValue instanceof String )
-			return CommandOperationType.getType( ( (String) propValue ).trim( ) );
+			return CommandOperationType
+					.getType( ( (String) propValue ).trim( ) );
 		return null; // non-recognized data type
 	}
 
 	public boolean hasValidCommandOperation( )
 	{
-		return hasAggregateCommand( ) || hasMapReduceCommand( ) || hasRunCommand( );
+		return hasAggregateCommand( )
+				|| hasMapReduceCommand( ) || hasRunCommand( );
 	}
 
 	public boolean hasAggregateCommand( )
@@ -374,7 +414,8 @@ public class QueryProperties
 		return getStringPropOrEmptyValue( QUERY_OPERATION_EXPR_PROP );
 	}
 
-	DBObject getOperationExprAsParsedObject( boolean addArrayMarkers ) throws OdaException
+	DBObject getOperationExprAsParsedObject( boolean addArrayMarkers )
+			throws OdaException
 	{
 		String cmdOpExprText = getOperationExpression( );
 		if ( cmdOpExprText.isEmpty( ) )
@@ -389,10 +430,13 @@ public class QueryProperties
 
 	static String addArrayMarkers( String expr )
 	{
-		if ( !expr.startsWith( ARRAY_BEGIN_MARKER ) && !expr.endsWith( ARRAY_END_MARKER ) )
+		if ( !expr.startsWith( ARRAY_BEGIN_MARKER )
+				&& !expr.endsWith( ARRAY_END_MARKER ) )
 		{
 			StringBuilder strBldr = new StringBuilder( expr.length( ) + 2 );
-			strBldr.append( ARRAY_BEGIN_MARKER ).append( expr ).append( ARRAY_END_MARKER );
+			strBldr.append( ARRAY_BEGIN_MARKER )
+					.append( expr )
+					.append( ARRAY_END_MARKER );
 			return strBldr.toString( );
 		}
 
@@ -420,7 +464,8 @@ public class QueryProperties
 				}
 				else if ( obj instanceof BasicDBList )
 				{
-					List<Document> childrenList = getObjectsAsDocumentList( (DBObject) obj );
+					List<Document> childrenList = getObjectsAsDocumentList(
+							(DBObject) obj );
 					if ( childrenList != null )
 					{
 						documentList.addAll( childrenList );
@@ -469,7 +514,8 @@ public class QueryProperties
 			return null;
 
 		// return the second and remaining DBObject(s) from the list
-		List<DBObject> secondaryObjList = new ArrayList<DBObject>( objList.size( ) - 1 );
+		List<DBObject> secondaryObjList = new ArrayList<DBObject>(
+				objList.size( ) - 1 );
 		for ( int i = 1; i < objList.size( ); i++ )
 		{
 			Object value = objList.get( i );
@@ -481,18 +527,21 @@ public class QueryProperties
 
 		if ( secondaryObjList.isEmpty( ) )
 			return null;
-		return (DBObject[]) secondaryObjList.toArray( new DBObject[secondaryObjList.size( )] );
+		return (DBObject[]) secondaryObjList
+				.toArray( new DBObject[secondaryObjList.size( )] );
 	}
 
 	private static final void logInvalidTagValue( Object tagValue )
 	{
-		getLogger( ).info( Messages.bind( "Ignoring the tag value ({0}).  A Read Preference Tag Set must be specified as a document.", //$NON-NLS-1$
+		getLogger( ).info( Messages.bind(
+				"Ignoring the tag value ({0}).  A Read Preference Tag Set must be specified as a document.", //$NON-NLS-1$
 				tagValue ) );
 	}
 
 	public void setSelectedFields( List<FieldMetaData> selectedFields )
 	{
-		List<String> fieldNames = new ArrayList<String>( selectedFields.size( ) );
+		List<String> fieldNames = new ArrayList<String>(
+				selectedFields.size( ) );
 		for ( FieldMetaData fieldMd : selectedFields )
 		{
 			fieldNames.add( fieldMd.getFullName( ) );
@@ -526,13 +575,17 @@ public class QueryProperties
 			catch ( OdaException ex )
 			{
 				// log and ignore
-				getLogger( ).log( Level.INFO, Messages.bind( "Ignoring invalid Selected Fields expression: {0}", //$NON-NLS-1$
-						propValue ), ex );
+				getLogger( ).log( Level.INFO,
+						Messages.bind(
+								"Ignoring invalid Selected Fields expression: {0}", //$NON-NLS-1$
+								propValue ),
+						ex );
 				return Collections.emptyList( );
 			}
 
 			// extract the included fields to a list of selected fields
-			List<String> selectedFieldNames = new ArrayList<String>( projectionKeys.keySet( ).size( ) );
+			List<String> selectedFieldNames = new ArrayList<String>(
+					projectionKeys.keySet( ).size( ) );
 			for ( String key : projectionKeys.keySet( ) )
 			{
 				Object value = projectionKeys.get( key );
@@ -541,10 +594,11 @@ public class QueryProperties
 					if ( (Integer) value == 0 ) // field is being excluded
 						continue;
 				}
-				else if ( value instanceof Boolean && (Boolean) value == Boolean.FALSE ) // field
-																							// is
-																							// being
-																							// excluded
+				else if ( value instanceof Boolean
+						&& (Boolean) value == Boolean.FALSE ) // field
+																// is
+																// being
+																// excluded
 					continue;
 
 				selectedFieldNames.add( key );
@@ -581,7 +635,9 @@ public class QueryProperties
 			if ( !( projectObj instanceof BasicDBObject ) )
 			{
 				throw new OdaException(
-						Messages.bind( "Unexpected data type ({0}) in {1}", projectObj.getClass( ).getSimpleName( ), SELECTED_FIELDS_PROP ) );
+						Messages.bind( "Unexpected data type ({0}) in {1}",
+								projectObj.getClass( ).getSimpleName( ),
+								SELECTED_FIELDS_PROP ) );
 			}
 			return (BasicDBObject) projectObj;
 
@@ -589,8 +645,10 @@ public class QueryProperties
 
 		// non-recognized data type; log and ignore
 		if ( propValue != null )
-			getLogger( ).log( Level.INFO, Messages.bind( "Unexpected data type ({0}) in Selected Fields property value.", //$NON-NLS-1$
-					propValue.getClass( ).getName( ) ) );
+			getLogger( ).log( Level.INFO,
+					Messages.bind(
+							"Unexpected data type ({0}) in Selected Fields property value.", //$NON-NLS-1$
+							propValue.getClass( ).getName( ) ) );
 
 		return new BasicDBObject( );
 	}
@@ -620,9 +678,11 @@ public class QueryProperties
 														// type; use default
 	}
 
-	private static ReadPreference toReadPreference( String readPrefChoiceLiteral )
+	private static ReadPreference toReadPreference(
+			String readPrefChoiceLiteral )
 	{
-		return MongoDBDriver.ReadPreferenceChoice.getMongoReadPreference( readPrefChoiceLiteral );
+		return MongoDBDriver.ReadPreferenceChoice
+				.getMongoReadPreference( readPrefChoiceLiteral );
 	}
 
 	public void setQueryReadPreferenceTags( String tagsExpr )
@@ -647,8 +707,11 @@ public class QueryProperties
 		catch ( OdaException ex )
 		{
 			// log and ignore
-			getLogger( ).log( Level.INFO, Messages.bind( "Ignoring invalid Read Preference Tags expression: {0}", //$NON-NLS-1$
-					tagsExpr ), ex );
+			getLogger( ).log( Level.INFO,
+					Messages.bind(
+							"Ignoring invalid Read Preference Tags expression: {0}", //$NON-NLS-1$
+							tagsExpr ),
+					ex );
 		}
 		return null;
 	}
@@ -722,7 +785,8 @@ public class QueryProperties
 
 	public boolean hasRuntimeMetaDataSearchLimit( )
 	{
-		return hasIntPropertyValue( getPropertiesMap( ), RT_META_DATA_SEARCH_LIMIT );
+		return hasIntPropertyValue( getPropertiesMap( ),
+				RT_META_DATA_SEARCH_LIMIT );
 	}
 
 	public void setBatchSize( Integer batchSize )
@@ -737,7 +801,8 @@ public class QueryProperties
 
 	public boolean hasBatchSize( )
 	{
-		return hasIntPropertyValue( getPropertiesMap( ), CURSOR_BATCH_SIZE_PROP );
+		return hasIntPropertyValue( getPropertiesMap( ),
+				CURSOR_BATCH_SIZE_PROP );
 	}
 
 	public void setNumDocsToSkip( Integer numDocsToSkip )
@@ -787,8 +852,11 @@ public class QueryProperties
 		catch ( OdaException ex )
 		{
 			// log and ignore
-			getLogger( ).log( Level.INFO, Messages.bind( "Ignoring invalid Index Hint expression: {0}", //$NON-NLS-1$
-					hintValue ), ex );
+			getLogger( ).log( Level.INFO,
+					Messages.bind(
+							"Ignoring invalid Index Hint expression: {0}", //$NON-NLS-1$
+							hintValue ),
+					ex );
 		}
 		return null;
 	}
@@ -833,7 +901,9 @@ public class QueryProperties
 		if ( !( queryObj instanceof BasicDBObject ) )
 		{
 			throw new OdaException(
-					Messages.bind( "Unexpected data type ({0}) in {1}", queryObj.getClass( ).getSimpleName( ), FIND_QUERY_EXPR_PROP ) );
+					Messages.bind( "Unexpected data type ({0}) in {1}",
+							queryObj.getClass( ).getSimpleName( ),
+							FIND_QUERY_EXPR_PROP ) );
 		}
 
 		return (BasicDBObject) queryObj;
@@ -859,7 +929,10 @@ public class QueryProperties
 		DBObject sortObj = parseExprToDBObject( sortExprText );
 		if ( !( sortObj instanceof BasicDBObject ) )
 		{
-			throw new OdaException( Messages.bind( "Unexpected data type ({0}) in {1}", sortObj.getClass( ).getSimpleName( ), SORT_EXPR_PROP ) );
+			throw new OdaException( Messages.bind(
+					"Unexpected data type ({0}) in {1}",
+					sortObj.getClass( ).getSimpleName( ),
+					SORT_EXPR_PROP ) );
 		}
 
 		return (BasicDBObject) sortObj;
@@ -873,23 +946,27 @@ public class QueryProperties
 		return value != null ? value : DriverUtil.EMPTY_STRING;
 	}
 
-	private static String getStringPropertyValue( Map<String, Object> propertiesMap, String propertyName )
+	private static String getStringPropertyValue(
+			Map<String, Object> propertiesMap, String propertyName )
 	{
 		Object propValue = propertiesMap.get( propertyName );
-		return propValue instanceof String ? ( (String) propValue ).trim( ) : null;
+		return propValue instanceof String ? ( (String) propValue ).trim( )
+				: null;
 
 	}
 
 	private Boolean getBooleanPropOrDefaultValue( String propName )
 	{
-		Boolean value = getBooleanPropertyValue( getPropertiesMap( ), propName );
+		Boolean value = getBooleanPropertyValue( getPropertiesMap( ),
+				propName );
 		if ( value == null ) // no property value defined, get default value
 								// instead
 			value = getBooleanPropertyValue( sm_defaultPropsMap, propName );
 		return value;
 	}
 
-	private static Boolean getBooleanPropertyValue( Map<String, Object> propertiesMap, String propertyName )
+	private static Boolean getBooleanPropertyValue(
+			Map<String, Object> propertiesMap, String propertyName )
 	{
 		Object propValue = propertiesMap.get( propertyName );
 		if ( propValue instanceof Boolean )
@@ -908,31 +985,39 @@ public class QueryProperties
 		return value;
 	}
 
-	private static Integer getIntPropertyValue( Map<String, Object> propertiesMap, String propertyName )
+	private static Integer getIntPropertyValue(
+			Map<String, Object> propertiesMap, String propertyName )
 	{
 		Object propValue = propertiesMap.get( propertyName );
 		try
 		{
 			if ( propValue instanceof Integer )
 				return (Integer) propValue;
-			if ( propValue instanceof String && !( (String) propValue ).isEmpty( ) )
+			if ( propValue instanceof String
+					&& !( (String) propValue ).isEmpty( ) )
 				return Integer.valueOf( (String) propValue );
 		}
 		catch ( NumberFormatException ex )
 		{
 			// log and ignore
-			getLogger( ).log( Level.INFO, Messages.bind( "Invalid integer value ({0}) found in the {1} property.", //$NON-NLS-1$
-					propValue, propertyName ), ex );
+			getLogger( ).log( Level.INFO,
+					Messages.bind(
+							"Invalid integer value ({0}) found in the {1} property.", //$NON-NLS-1$
+							propValue,
+							propertyName ),
+					ex );
 		}
 		return null;
 	}
 
-	private static boolean hasIntPropertyValue( Map<String, Object> propertiesMap, String propertyName )
+	private static boolean hasIntPropertyValue(
+			Map<String, Object> propertiesMap, String propertyName )
 	{
 		return getIntPropertyValue( propertiesMap, propertyName ) != null;
 	}
 
-	private static final DBObject parseExprToDBObject( String jsonExpr ) throws OdaException
+	private static final DBObject parseExprToDBObject( String jsonExpr )
+			throws OdaException
 	{
 		return DriverUtil.parseExprToDBObject( jsonExpr );
 	}
