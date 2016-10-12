@@ -104,7 +104,8 @@ public class MDbQuery implements IQuery
 	public IResultSetMetaData getMetaData( ) throws OdaException
 	{
 		if ( !hasValidModel( ) )
-			throw new OdaException( new IllegalStateException( Messages.mDbQuery_invalidQueryGetMD ) );
+			throw new OdaException( new IllegalStateException(
+					Messages.mDbQuery_invalidQueryGetMD ) );
 
 		return m_model.getResultSetMetaData( );
 	}
@@ -180,7 +181,8 @@ public class MDbQuery implements IQuery
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setDouble(java.lang.String,
 	 * double)
 	 */
-	public void setDouble( String parameterName, double value ) throws OdaException
+	public void setDouble( String parameterName, double value )
+			throws OdaException
 	{
 		throw sm_unSupportedOpEx;
 	}
@@ -198,7 +200,8 @@ public class MDbQuery implements IQuery
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(java.lang.
 	 * String, java.math.BigDecimal)
 	 */
-	public void setBigDecimal( String parameterName, BigDecimal value ) throws OdaException
+	public void setBigDecimal( String parameterName, BigDecimal value )
+			throws OdaException
 	{
 		throw sm_unSupportedOpEx;
 	}
@@ -207,7 +210,8 @@ public class MDbQuery implements IQuery
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBigDecimal(int,
 	 * java.math.BigDecimal)
 	 */
-	public void setBigDecimal( int parameterId, BigDecimal value ) throws OdaException
+	public void setBigDecimal( int parameterId, BigDecimal value )
+			throws OdaException
 	{
 		throw sm_unSupportedOpEx;
 	}
@@ -217,7 +221,8 @@ public class MDbQuery implements IQuery
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setString(java.lang.String,
 	 * java.lang.String)
 	 */
-	public void setString( String parameterName, String value ) throws OdaException
+	public void setString( String parameterName, String value )
+			throws OdaException
 	{
 		throw sm_unSupportedOpEx;
 	}
@@ -274,7 +279,8 @@ public class MDbQuery implements IQuery
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(java.lang.
 	 * String, java.sql.Timestamp)
 	 */
-	public void setTimestamp( String parameterName, Timestamp value ) throws OdaException
+	public void setTimestamp( String parameterName, Timestamp value )
+			throws OdaException
 	{
 		throw sm_unSupportedOpEx;
 	}
@@ -283,7 +289,8 @@ public class MDbQuery implements IQuery
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setTimestamp(int,
 	 * java.sql.Timestamp)
 	 */
-	public void setTimestamp( int parameterId, Timestamp value ) throws OdaException
+	public void setTimestamp( int parameterId, Timestamp value )
+			throws OdaException
 	{
 		throw sm_unSupportedOpEx;
 	}
@@ -294,7 +301,8 @@ public class MDbQuery implements IQuery
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.
 	 * String, boolean)
 	 */
-	public void setBoolean( String parameterName, boolean value ) throws OdaException
+	public void setBoolean( String parameterName, boolean value )
+			throws OdaException
 	{
 		throw sm_unSupportedOpEx;
 	}
@@ -317,7 +325,8 @@ public class MDbQuery implements IQuery
 	 * org.eclipse.datatools.connectivity.oda.IQuery#setObject(java.lang.String,
 	 * java.lang.Object)
 	 */
-	public void setObject( String parameterName, Object value ) throws OdaException
+	public void setObject( String parameterName, Object value )
+			throws OdaException
 	{
 		throw sm_unSupportedOpEx;
 	}
@@ -399,7 +408,8 @@ public class MDbQuery implements IQuery
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setSpecification(org.
 	 * eclipse.datatools.connectivity.oda.spec.QuerySpecification)
 	 */
-	public void setSpecification( QuerySpecification querySpec ) throws OdaException, UnsupportedOperationException
+	public void setSpecification( QuerySpecification querySpec )
+			throws OdaException, UnsupportedOperationException
 	{
 		m_querySpec = querySpec;
 	}

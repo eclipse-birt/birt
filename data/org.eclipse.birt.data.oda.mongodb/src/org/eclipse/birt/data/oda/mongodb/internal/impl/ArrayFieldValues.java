@@ -64,7 +64,8 @@ public class ArrayFieldValues
 													// list
 	}
 
-	void addFieldValue( String fieldName, Object value, boolean iterateListElements )
+	void addFieldValue( String fieldName, Object value,
+			boolean iterateListElements )
 	{
 		m_fieldValues.put( fieldName, value );
 
@@ -156,7 +157,8 @@ public class ArrayFieldValues
 		// reset count based on remaining field values
 		for ( Object fieldValue : m_fieldValues.values( ) )
 		{
-			int valueRowCount = fieldValue instanceof List<?> ? ( (List<?>) fieldValue ).size( ) : 1;
+			int valueRowCount = fieldValue instanceof List<?>
+					? ( (List<?>) fieldValue ).size( ) : 1;
 			if ( m_maxSubRows < valueRowCount )
 				m_maxSubRows = valueRowCount;
 		}

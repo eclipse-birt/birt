@@ -34,7 +34,8 @@ public final class DriverUtil
 	public static final String EMPTY_STRING = ""; //$NON-NLS-1$
 
 	// trace logging
-	private static Logger sm_logger = Logger.getLogger( MongoDBDriver.ODA_DATA_SOURCE_ID );
+	private static Logger sm_logger = Logger
+			.getLogger( MongoDBDriver.ODA_DATA_SOURCE_ID );
 
 	public static Logger getLogger( )
 	{
@@ -49,7 +50,8 @@ public final class DriverUtil
 		}
 		catch ( JSONParseException ex )
 		{
-			String errMsg = Messages.bind( Messages.driverUtil_parsingError, jsonExpr );
+			String errMsg = Messages.bind( Messages.driverUtil_parsingError,
+					jsonExpr );
 			DriverUtil.getLogger( ).log( Level.INFO, errMsg, ex ); // caller may
 																	// choose to
 																	// ignore
@@ -69,7 +71,8 @@ public final class DriverUtil
 		Object parsedObj = parseJSONExpr( jsonExpr );
 		if ( parsedObj instanceof DBObject )
 			return (DBObject) parsedObj;
-		throw new OdaException( Messages.bind( Messages.driverUtil_invalidExpr, parsedObj.getClass( ).getSimpleName( ) ) );
+		throw new OdaException( Messages.bind( Messages.driverUtil_invalidExpr,
+				parsedObj.getClass( ).getSimpleName( ) ) );
 	}
 
 }

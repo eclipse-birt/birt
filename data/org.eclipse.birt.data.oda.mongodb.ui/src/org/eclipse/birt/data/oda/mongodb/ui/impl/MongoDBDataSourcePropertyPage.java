@@ -26,7 +26,8 @@ public class MongoDBDataSourcePropertyPage extends DefaultDataSourcePropertyPage
 		super( );
 	}
 
-	protected void createAndInitCustomControl( Composite parent, Properties profileProps )
+	protected void createAndInitCustomControl( Composite parent,
+			Properties profileProps )
 	{
 		pageHelper = new MongoDBDataSourcePageHelper( this );
 		pageHelper.createPageControls( parent );
