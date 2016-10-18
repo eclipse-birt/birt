@@ -11,12 +11,29 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.DriverManager;
 import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Date;
 import java.util.Properties;
+import java.sql.SQLException;
+import java.sql.SQLFeatureNotSupportedException;
+import java.util.Hashtable;
+import java.util.Objects;
+import java.util.logging.Logger;
+
+import javax.naming.Binding;
+import javax.naming.Context;
+import javax.naming.InitialContext;
+import javax.naming.Name;
+import javax.naming.NameClassPair;
+import javax.naming.NameParser;
+import javax.naming.NamingEnumeration;
+import javax.naming.NamingException;
+import javax.naming.spi.InitialContextFactory;
+import javax.sql.DataSource;
 
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
@@ -26,6 +43,203 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
  */
 public class TestUtil
 {
+	
+	public static final class SimpleContext implements Context
+	{
+
+		private String name;
+		private Object obj;
+
+		@Override
+		public Object lookup( Name name ) throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public Object lookup( String name ) throws NamingException
+		{
+			return this.name != null
+					? ( this.name.equals( name ) ? obj : null )
+					: null;
+		}
+
+		@Override
+		public void bind( Name name, Object obj ) throws NamingException
+		{
+		}
+
+		@Override
+		public void bind( String name, Object obj ) throws NamingException
+		{
+			Objects.requireNonNull( name );
+			this.name = name;
+			this.obj = obj;
+		}
+
+		@Override
+		public void rebind( Name name, Object obj ) throws NamingException
+		{
+		}
+
+		@Override
+		public void rebind( String name, Object obj ) throws NamingException
+		{
+		}
+
+		@Override
+		public void unbind( Name name ) throws NamingException
+		{
+		}
+
+		@Override
+		public void unbind( String name ) throws NamingException
+		{
+		}
+
+		@Override
+		public void rename( Name oldName, Name newName ) throws NamingException
+		{
+		}
+
+		@Override
+		public void rename( String oldName, String newName )
+				throws NamingException
+		{
+		}
+
+		@Override
+		public NamingEnumeration<NameClassPair> list( Name name )
+				throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public NamingEnumeration<NameClassPair> list( String name )
+				throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public NamingEnumeration<Binding> listBindings( Name name )
+				throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public NamingEnumeration<Binding> listBindings( String name )
+				throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public void destroySubcontext( Name name ) throws NamingException
+		{
+		}
+
+		@Override
+		public void destroySubcontext( String name ) throws NamingException
+		{
+		}
+
+		@Override
+		public Context createSubcontext( Name name ) throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public Context createSubcontext( String name ) throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public Object lookupLink( Name name ) throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public Object lookupLink( String name ) throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public NameParser getNameParser( Name name ) throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public NameParser getNameParser( String name ) throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public Name composeName( Name name, Name prefix ) throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public String composeName( String name, String prefix )
+				throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public Object addToEnvironment( String propName, Object propVal )
+				throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public Object removeFromEnvironment( String propName )
+				throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public Hashtable<?, ?> getEnvironment( ) throws NamingException
+		{
+			return null;
+		}
+
+		@Override
+		public void close( ) throws NamingException
+		{
+		}
+
+		@Override
+		public String getNameInNamespace( ) throws NamingException
+		{
+			return null;
+		}
+
+	}
+
+	public static final class SimpleInitialContextFactory implements InitialContextFactory {
+
+		private static final SimpleContext SIMPLE_CONTEXT = new SimpleContext();
+
+		@Override
+		public Context getInitialContext( Hashtable<?, ?> environment )
+				throws NamingException
+		{
+			return SIMPLE_CONTEXT;
+		}
+		
+	}
 
 	/** Default JDBC Driver class name */
 	final static String DEFAULT_DRIVER_CLASS = "net.sourceforge.jtds.jdbc.Driver";
@@ -60,6 +274,98 @@ public class TestUtil
 		props.setProperty( Connection.Constants.ODADriverClass, getDriverClassName( ) );
 		props.setProperty( Connection.Constants.ODAUser, getUser( ) );
 		props.setProperty( Connection.Constants.ODAPassword, getPassword( ) );
+		conn.open( props );
+		return conn;
+	}
+
+	static Connection openJndiConnection( ) throws OdaException
+	{
+		String jndiName = getJndiName( );
+		try
+		{
+			System.setProperty( Context.INITIAL_CONTEXT_FACTORY,
+					SimpleInitialContextFactory.class.getName( ) );
+			InitialContext ic = new InitialContext( );
+            ic.bind(jndiName, new DataSource( ) {
+
+				private PrintWriter _logWriter;
+
+				@Override
+				public <T> T unwrap( Class<T> iface ) throws SQLException
+				{
+					throw new SQLException( "This is not a wrapper." );
+				}
+
+				@Override
+				public boolean isWrapperFor( Class<?> iface )
+						throws SQLException
+				{
+					return false;
+				}
+
+				@Override
+				public void setLoginTimeout( int seconds ) throws SQLException
+				{
+					throw new UnsupportedOperationException(
+							"Login timeout is not supported." );
+				}
+
+				@Override
+				public void setLogWriter( PrintWriter out ) throws SQLException
+				{
+					this._logWriter = out;
+
+				}
+
+				@Override
+				public Logger getParentLogger( )
+						throws SQLFeatureNotSupportedException
+				{
+					return Logger.getLogger( TestUtil.class.getName( )
+							.substring( 0, TestUtil.class.getName( )
+									.lastIndexOf( "." ) ) );
+				}
+
+				@Override
+				public int getLoginTimeout( ) throws SQLException
+				{
+					throw new UnsupportedOperationException(
+							"Login timeout is not supported." );
+				}
+
+				@Override
+				public PrintWriter getLogWriter( ) throws SQLException
+				{
+					return this._logWriter;
+				}
+
+				@Override
+				public java.sql.Connection getConnection( String username,
+						String password ) throws SQLException
+				{
+					return getConnection( );
+				}
+
+				@Override
+				public java.sql.Connection getConnection( ) throws SQLException
+				{
+					try
+					{
+						return TestUtil.openJDBCConnection( );
+					}
+					catch ( Exception e )
+					{
+					}
+					return null;
+				}
+			});
+		}
+		catch ( Exception e )
+		{
+		}
+		Connection conn = new Connection( );
+		Properties props = new Properties( );
+		props.setProperty( Connection.Constants.ODAJndiName, jndiName );
 		conn.open( props );
 		return conn;
 	}
@@ -223,6 +529,15 @@ public class TestUtil
 		String database = System.getProperty( "DTETest.database" );
 		if ( database != null )
 			return database;
+		else
+			return "DTETest";
+	}
+	
+	static String getJndiName( )
+	{
+		String jndiName = System.getProperty( "DTETest.jndiname" );
+		if ( jndiName != null )
+			return jndiName;
 		else
 			return "DTETest";
 	}

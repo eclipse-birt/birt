@@ -175,6 +175,15 @@ public class ConnectionTest {
 		assertFalse( conn.isOpen( ) );
 	}
 
+	@Test
+    public void testJndiConnection( ) throws Exception
+	{
+		Connection conn = TestUtil.openJndiConnection( );
+		assertTrue( conn.isOpen( ) );
+		conn.close( );
+		assertFalse( conn.isOpen( ) );
+	}
+
 	/*
 	 * Class under test for void open(Properties)
 	 */

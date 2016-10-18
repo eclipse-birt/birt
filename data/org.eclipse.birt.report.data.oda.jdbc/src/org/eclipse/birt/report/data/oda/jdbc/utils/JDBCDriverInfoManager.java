@@ -52,7 +52,7 @@ public class JDBCDriverInfoManager
 	public JDBCDriverInformation getDriversInfo( String driverClassName )
 	{
 		JDBCDriverInformation[] infos = getDriversInfo( );
-    	for( JDBCDriverInformation info: infos )
+    	if (driverClassName != null) for( JDBCDriverInformation info: infos )
     	{
     		if( driverClassName.equals( info.getDriverClassName( )) )
 			{
