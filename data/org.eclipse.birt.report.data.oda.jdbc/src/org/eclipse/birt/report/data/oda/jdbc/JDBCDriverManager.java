@@ -197,7 +197,8 @@ public class JDBCDriverManager
 	public  Connection getConnection( String driverClass, String url, 
 			String user, String password, Collection<String> driverClassPath, Properties props ) throws SQLException, OdaException
 	{
-		validateConnectionProperties( driverClass, url, null );
+		String jndiName = props.getProperty( org.eclipse.birt.report.data.oda.jdbc.Connection.Constants.ODAJndiName );
+		validateConnectionProperties( driverClass, url, jndiName );
 		if ( logger.isLoggable( Level.FINEST ) )
 			logger.fine( "Request JDBC Connection: driverClass=" //$NON-NLS-1$
 					+ ( driverClass == null ? EMPTY_STRING : driverClass ) + "; URL=" //$NON-NLS-1$
@@ -207,7 +208,7 @@ public class JDBCDriverManager
 		// Construct a Properties list with user/password properties
 		props = addUserAuthenticationProperties( props, user, password );
         
-        return doConnect( driverClass, url, null, props, driverClassPath );
+        return doConnect( driverClass, url, jndiName, props, driverClassPath );
 	}
 
     /**
