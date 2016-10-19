@@ -187,7 +187,6 @@ public class Connection implements IConnection
 			throws OdaException
 	{
 		assert connProperties != null;
-		assert url != null;
 
 		// Copy connProperties to props; skip property starting with
 		// "oda"; those are properties read by this driver
