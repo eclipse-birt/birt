@@ -45,21 +45,17 @@
       <plugin id="javax.xml.soap"/>
       <plugin id="javax.xml.stream"/>
       <plugin id="org.apache.axis"/>
-      <plugin id="org.apache.batik.bridge"  version="1.6.0.qualifier"/>
-      <plugin id="org.apache.batik.css" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.bridge"  version="1.7.0.qualifier"/>
       <plugin id="org.apache.batik.css" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.dom" version="1.6.0.qualifier"/>
-      <plugin id="org.apache.batik.dom.svg" version="1.6.0.qualifier"/>
-      <plugin id="org.apache.batik.ext.awt" version="1.6.0.qualifier"/>
-      <plugin id="org.apache.batik.parser" version="1.6.0.qualifier"/>
-      <plugin id="org.apache.batik.pdf" version="1.6.0.qualifier"/>
-      <plugin id="org.apache.batik.svggen" version="1.6.0.qualifier"/>
-      <plugin id="org.apache.batik.transcoder" version="1.6.0.qualifier"/>
-      <plugin id="org.apache.batik.util" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.dom" version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.dom.svg" version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.ext.awt" version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.parser" version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.svggen" version="1.7.0.qualifier"/>
+      <plugin id="org.apache.batik.transcoder" version="1.7.0.qualifier"/>
       <plugin id="org.apache.batik.util" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.util.gui" version="1.6.0.qualifier"/>
       <plugin id="org.apache.batik.util.gui" version="1.7.0.qualifier"/>
-      <plugin id="org.apache.batik.xml" version="1.6.0.qualifier"/>
+      <plugin id="org.apache.batik.xml" version="1.7.0.qualifier"/>
       <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.commons.discovery"/>
       <plugin id="org.apache.commons.logging"/>

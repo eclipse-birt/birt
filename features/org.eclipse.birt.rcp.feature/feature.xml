@@ -33,7 +33,6 @@
       <import plugin="javax.xml.soap"/>
       <import plugin="javax.xml.stream"/>
       <import plugin="org.apache.axis"/>
-      <import plugin="org.apache.batik.pdf"/>
       <import plugin="org.apache.commons.discovery"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.apache.jasper.glassfish"/>
