@@ -181,7 +181,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 				{
 					String errorMsg = UIHelper.getUserErrorMessage( "MongoDBDataSetWizardPage.MessageDialog.ErrorMessage.InitPage", e ); //$NON-NLS-1$
 					ExceptionHandler.showException( sComposite.getShell( ),
-							Messages.getString(	"MongoDBDataSetWizardPage.MessageDialog.title.GeneralError" ), //$NON-NLS-1$
+							Messages.getString( "MongoDBDataSetWizardPage.MessageDialog.title.GeneralError" ), //$NON-NLS-1$
 							errorMsg,
 							e );
 				}
@@ -305,7 +305,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 		} );
 
 	}
-
+	
 	private void synchronizeSearchLimit( ) throws OdaException
 	{
 		if ( !queryProps.hasRuntimeMetaDataSearchLimit( ) )
@@ -1012,7 +1012,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 
 		};
 		addCollectionComboListeners( );
-
+		
 		refreshBtn = new Button( collGroup, SWT.PUSH );
 		refreshBtn.setText( Messages.getString( "MongoDBDataSetWizardPage.Button.Refresh" ) ); //$NON-NLS-1$
 		refreshBtn.addSelectionListener( new SelectionListener( ) {
@@ -1030,7 +1030,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 
 				resetCollectionComboItems( );
 				collectionName = collectionCombo.getText( ).trim( );
-				resetOpTypeComboItems( );
+				resetOpTypeComboItems( );				
 				validateData( );
 			}
 
@@ -1046,7 +1046,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 	private void resetCollectionComboItems( )
 	{
 		removeCollectionComboListeners( );
-
+		
 		oldCollectionName = collectionCombo.getText( ).trim( );
 		collectionCombo.removeAll( ); // clear the collection combo items list
 
@@ -1063,7 +1063,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 		{
 			collectionCombo.setText( EMPTY_STRING );
 		}
-
+		
 		addCollectionComboListeners( );
 	}
 
@@ -1096,7 +1096,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 					selectionListeners[i] );
 		}
 	}
-
+	
 	private void createCommandOpArea( Composite topArea )
 	{
 		commandOpArea = new Group( topArea, SWT.NONE );
@@ -1313,7 +1313,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 				: collectionName );
 
 		resetOpTypeComboItems( );
-
+		
 		opTypeCombo.setText( opType == null ? EMPTY_STRING
 				: opType.displayName( ) );
 		handleCommandOperationSelection( );
@@ -1380,7 +1380,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 						searchLimit,
 						queryProps );
 				availableFieldsViewer.setInput( new FieldEntryWrapper[]{
-						treeEntry
+					treeEntry
 				} );
 			}
 			else if ( availableFieldsViewer.getInput( ) == null )
@@ -1388,7 +1388,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 				treeEntry.setCollectionName( collectionName );
 				treeEntry.setMetaData( metaData );
 				availableFieldsViewer.setInput( new FieldEntryWrapper[]{
-						treeEntry
+					treeEntry
 				} );
 			}
 			else
@@ -1578,7 +1578,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 		}
 		return false;
 	}
-
+	
 	private boolean containsUnselectedItem( TreeItem[] items )
 	{
 		if ( items.length > 0

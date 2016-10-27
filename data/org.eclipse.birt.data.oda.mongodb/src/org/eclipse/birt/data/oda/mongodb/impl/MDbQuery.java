@@ -31,63 +31,63 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.SortSpec;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
+
 /**
  * Implementation class of IQuery for the MongoDB ODA runtime driver.
  */
 public class MDbQuery implements IQuery
 {
-
-	public static final String ODA_DATA_SET_ID = "org.eclipse.birt.data.oda.mongodb.dataSet"; //$NON-NLS-1$
+    public static final String ODA_DATA_SET_ID = "org.eclipse.birt.data.oda.mongodb.dataSet";  //$NON-NLS-1$
     static UnsupportedOperationException sm_unSupportedOpEx = new UnsupportedOperationException();
 
-	private MDbConnection m_mdbConn;
+    private MDbConnection m_mdbConn;
 
-	private QueryModel m_model;
-	private QuerySpecification m_querySpec;
-	private int m_maxRows;
+    private QueryModel m_model;
+    private QuerySpecification m_querySpec;
+    private int m_maxRows;
 
     
-	MDbQuery( MDbConnection mdbConn )
-	{
+    MDbQuery( MDbConnection mdbConn )
+    {
         if( mdbConn == null )
-			throw new NullPointerException( "null connection" ); //$NON-NLS-1$
-		m_mdbConn = mdbConn;
-	}
-
+            throw new NullPointerException( "null connection" ); //$NON-NLS-1$
+        m_mdbConn = mdbConn;
+    }
+	    
     private void resetPreparedQuery()
-	{
-		m_model = null;
-	}
+    {
+        m_model = null;
+    }
 
-	/*
+    /*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#prepare(java.lang.String)
 	 */
 	public void prepare( String queryText ) throws OdaException
 	{
 	    resetPreparedQuery();
-
-		QueryProperties queryProps = QueryProperties.deserialize( queryText );
+	    
+	    QueryProperties queryProps = QueryProperties.deserialize( queryText );
 	    m_model = new QueryModel( queryProps, m_mdbConn.getConnectedDB() );
         if( hasValidModel() )
-		{
+        {
             m_model.addQuerySpec( getSpecification() );
-		}
+        }
 
         // #prepare may be called multiple times;
         // defer format of prepared query content till call to #getEffectiveQueryText	    
 	}
 
     private boolean hasValidModel()
-	{
+    {
         return m_model != null && m_model.isValid();
-	}
-
+    }
+	
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setAppContext(java.lang.Object)
 	 */
 	public void setAppContext( Object context ) throws OdaException
 	{
-		// do nothing; no support for pass-through context
+	    // do nothing; no support for pass-through context
 	}
 
 	/*
@@ -104,9 +104,9 @@ public class MDbQuery implements IQuery
 	public IResultSetMetaData getMetaData() throws OdaException
 	{
         if( ! hasValidModel() )
-			throw new OdaException( new IllegalStateException(
+            throw new OdaException( new IllegalStateException( 
                     Messages.mDbQuery_invalidQueryGetMD ));
-
+        
         return m_model.getResultSetMetaData();
 	}
 
@@ -116,11 +116,11 @@ public class MDbQuery implements IQuery
 	public IResultSet executeQuery() throws OdaException
 	{
 	    if( ! hasValidModel() )
-			throw new OdaException( Messages.mDbQuery_invalidQueryExecQuery );
+	        throw new OdaException( Messages.mDbQuery_invalidQueryExecQuery );
 
 	    IResultSet resultSet = m_model.execute();
         resultSet.setMaxRows( getMaxRows() );
-		return resultSet;
+        return resultSet;
 	}
 
 	/*
@@ -128,7 +128,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setProperty( String name, String value ) throws OdaException
 	{
-		// do nothing; only supports setting data set properties once
+        // do nothing; only supports setting data set properties once 
         // via #setSpecification(QuerySpecification), which is called before #prepare
 	}
 
@@ -137,7 +137,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setMaxRows( int max ) throws OdaException
 	{
-		m_maxRows = max;
+	    m_maxRows = max;
 	}
 
 	/*
@@ -153,7 +153,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void clearInParameters() throws OdaException
 	{
-		// do nothing; input parameter is not supported
+        // do nothing; input parameter is not supported
 	}
 
 	/*
@@ -161,7 +161,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setInt( String parameterName, int value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -169,7 +169,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setInt( int parameterId, int value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -177,7 +177,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setDouble( String parameterName, double value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -185,7 +185,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setDouble( int parameterId, double value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -193,7 +193,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setBigDecimal( String parameterName, BigDecimal value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -201,7 +201,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setBigDecimal( int parameterId, BigDecimal value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -209,7 +209,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setString( String parameterName, String value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -217,7 +217,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setString( int parameterId, String value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -225,7 +225,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setDate( String parameterName, Date value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -233,7 +233,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setDate( int parameterId, Date value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -241,7 +241,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setTime( String parameterName, Time value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -249,7 +249,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setTime( int parameterId, Time value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -257,7 +257,7 @@ public class MDbQuery implements IQuery
 	 */
 	public void setTimestamp( String parameterName, Timestamp value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
 	/*
@@ -265,59 +265,59 @@ public class MDbQuery implements IQuery
 	 */
 	public void setTimestamp( int parameterId, Timestamp value ) throws OdaException
 	{
-		throw sm_unSupportedOpEx;
+        throw sm_unSupportedOpEx;
 	}
 
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(java.lang.String, boolean)
-	 */
-	public void setBoolean( String parameterName, boolean value )
-			throws OdaException
-	{
-		throw sm_unSupportedOpEx;
-	}
+     */
+    public void setBoolean( String parameterName, boolean value )
+            throws OdaException
+    {
+        throw sm_unSupportedOpEx;
+    }
 
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#setBoolean(int, boolean)
-	 */
+     */
     public void setBoolean( int parameterId, boolean value )
             throws OdaException
-	{
-		throw sm_unSupportedOpEx;
-	}
+    {
+        throw sm_unSupportedOpEx;
+    }
 
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(java.lang.String, java.lang.Object)
-	 */
-	public void setObject( String parameterName, Object value )
-			throws OdaException
-	{
-		throw sm_unSupportedOpEx;
-	}
-
+     */
+    public void setObject( String parameterName, Object value )
+            throws OdaException
+    {
+        throw sm_unSupportedOpEx;
+    }
+    
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#setObject(int, java.lang.Object)
-	 */
-	public void setObject( int parameterId, Object value ) throws OdaException
-	{
-		throw sm_unSupportedOpEx;
-	}
-
+     */
+    public void setObject( int parameterId, Object value ) throws OdaException
+    {
+        throw sm_unSupportedOpEx;
+    }
+    
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(java.lang.String)
-	 */
-	public void setNull( String parameterName ) throws OdaException
-	{
-		throw sm_unSupportedOpEx;
-	}
+     */
+    public void setNull( String parameterName ) throws OdaException
+    {
+        throw sm_unSupportedOpEx;
+    }
 
     /* (non-Javadoc)
-	 * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
-	 */
-	public void setNull( int parameterId ) throws OdaException
-	{
-		throw sm_unSupportedOpEx;
-	}
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#setNull(int)
+     */
+    public void setNull( int parameterId ) throws OdaException
+    {
+        throw sm_unSupportedOpEx;
+    }
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IQuery#findInParameter(java.lang.String)
@@ -355,48 +355,48 @@ public class MDbQuery implements IQuery
 
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#setSpecification(org.eclipse.datatools.connectivity.oda.spec.QuerySpecification)
-	 */
-	public void setSpecification( QuerySpecification querySpec )
-			throws OdaException, UnsupportedOperationException
-	{
-		m_querySpec = querySpec;
-	}
+     */
+    public void setSpecification( QuerySpecification querySpec )
+            throws OdaException, UnsupportedOperationException
+    {
+        m_querySpec = querySpec;
+    }
 
     /* (non-Javadoc)
-	 * @see org.eclipse.datatools.connectivity.oda.IQuery#getSpecification()
-	 */
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#getSpecification()
+     */
     public QuerySpecification getSpecification()
-	{
-		return m_querySpec;
-	}
+    {
+        return m_querySpec;
+    }
 
     /* (non-Javadoc)
      * @see org.eclipse.datatools.connectivity.oda.IQuery#getEffectiveQueryText()
-	 */
+     */
     public String getEffectiveQueryText()
-	{
+    {
         if( ! hasValidModel() )
-			return DriverUtil.EMPTY_STRING;
+            return DriverUtil.EMPTY_STRING;
 
         return m_model.getEffectiveQueryText();
-	}
+    }
 
     /* (non-Javadoc)
-	 * @see org.eclipse.datatools.connectivity.oda.IQuery#cancel()
-	 */
+     * @see org.eclipse.datatools.connectivity.oda.IQuery#cancel()
+     */
     public void cancel() throws OdaException, UnsupportedOperationException
-	{
-		// does not support cancel while executing a query
+    {
+        // does not support cancel while executing a query
         throw new UnsupportedOperationException();
-	}
+    }
 
-	/*
-	 * For internal use only.
-	 */
-	public void setMetaDataSearchLimit( int searchLimit )
-	{
+    /*
+     * For internal use only.
+     */
+    public void setMetaDataSearchLimit( int searchLimit )
+    {
         if( m_model != null )
-			m_model.setMetaDataSearchLimit( searchLimit );
-	}
-
+            m_model.setMetaDataSearchLimit( searchLimit );
+    }
+    
 }

@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.oda.mongodb.ui.i18n;
 
+
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;

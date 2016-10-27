@@ -309,7 +309,7 @@ public class MongoDBExpressionBuilder extends StatusDialog
 	}
 
 	/**
-	 * Method to validate the dialog status and need to be overwritten
+	 * Method to validate the dialog status and need to be overwritten 
 	 * 
 	 */
 	protected void validateStatus( )

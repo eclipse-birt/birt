@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
 
+
 public class UIHelper
 {
 
@@ -119,14 +120,14 @@ public class UIHelper
 	 * @param ex
 	 * @return
 	 */
-	public static String getUserErrorMessage( String userMsgKey, Exception ex )
-	{
-		String msg = userMsgKey != null ? Messages.getString( userMsgKey ) : ""; //$NON-NLS-1$
+    public static String getUserErrorMessage( String userMsgKey, Exception ex )
+    {
+        String msg = userMsgKey != null ? Messages.getString( userMsgKey ) : ""; //$NON-NLS-1$
         String exMsg = ex.getLocalizedMessage();
         if( exMsg != null )
-			msg += "\n" + exMsg; //$NON-NLS-1$
-		return msg;
-	}
+            msg += "\n" + exMsg; //$NON-NLS-1$
+        return msg;
+    }
 
 	/**
 	 * Utility method to get the warning icon.
