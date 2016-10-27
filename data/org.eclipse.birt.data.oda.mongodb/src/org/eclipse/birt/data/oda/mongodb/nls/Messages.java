@@ -75,13 +75,14 @@ public class Messages extends NLS
 
 	public static String resultDataHandler_invalidFieldName;
 
+    
 	static
 	{
 		// initialize resource bundle
 		NLS.initializeMessages( BUNDLE_NAME, Messages.class );
 	}
 
-	private Messages( )
+    private Messages()
 	{
 	}
 }

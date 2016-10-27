@@ -38,8 +38,9 @@ public class UIHelper
 	 */
 	public static void setSystemHelp( Control control, String contextId )
 	{
-		PlatformUI.getWorkbench( ).getHelpSystem( ).setHelp( control,
-				contextId );
+		PlatformUI.getWorkbench( )
+				.getHelpSystem( )
+				.setHelp( control, contextId );
 	}
 
 	/**
@@ -76,8 +77,7 @@ public class UIHelper
 		catch ( MalformedURLException e1 )
 		{
 			img = new Image( Display.getCurrent( ),
-					new FileInputStream(
-							getURL( sPluginRelativePath ).toString( ) ) );
+					new FileInputStream( getURL( sPluginRelativePath ).toString( ) ) );
 		}
 		// If still can't load, return a dummy image.
 		if ( img == null )
@@ -102,22 +102,19 @@ public class UIHelper
 		URL url = null;
 		if ( Platform.getExtensionRegistry( ) != null )
 		{
-			url = new URL( Activator.getDefault( ).getBundle( ).getEntry( "/" ), //$NON-NLS-1$
-					sPluginRelativePath );
+			url = new URL( Activator.getDefault( ).getBundle( ).getEntry( "/" ), sPluginRelativePath ); //$NON-NLS-1$
 		}
 		else
 		{
-			url = new URL( "file:///" //$NON-NLS-1$
-					+ new File( sPluginRelativePath ).getAbsolutePath( ) );
+			url = new URL( "file:///" + new File( sPluginRelativePath ).getAbsolutePath( ) ); //$NON-NLS-1$
 		}
 
 		return url;
 	}
 
 	/**
-	 * Appends the localized exception message to the specified msgKey for use
-	 * as an user error message.
-	 * 
+	 * Appends the localized exception message to the specified msgKey for use as an 
+	 * user error message.
 	 * @param userMsgKey
 	 * @param ex
 	 * @return
@@ -125,8 +122,8 @@ public class UIHelper
 	public static String getUserErrorMessage( String userMsgKey, Exception ex )
 	{
 		String msg = userMsgKey != null ? Messages.getString( userMsgKey ) : ""; //$NON-NLS-1$
-		String exMsg = ex.getLocalizedMessage( );
-		if ( exMsg != null )
+        String exMsg = ex.getLocalizedMessage();
+        if( exMsg != null )
 			msg += "\n" + exMsg; //$NON-NLS-1$
 		return msg;
 	}
@@ -176,8 +173,7 @@ public class UIHelper
 	}
 
 	/**
-	 * Utility method to get the item icon of a document that has not been
-	 * selected.
+	 * Utility method to get the item icon of a document that has not been selected.
 	 * 
 	 * @return
 	 * @throws IOException

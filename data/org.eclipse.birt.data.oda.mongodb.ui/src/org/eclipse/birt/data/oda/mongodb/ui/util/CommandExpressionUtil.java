@@ -68,8 +68,7 @@ public class CommandExpressionUtil
 			throws IOException
 	{
 		boolean success = true;
-		BufferedWriter writer = new BufferedWriter(
-				new FileWriter( fileName ) );
+		BufferedWriter writer = new BufferedWriter( new FileWriter( fileName ) );
 		try
 		{
 			writer.write( text );

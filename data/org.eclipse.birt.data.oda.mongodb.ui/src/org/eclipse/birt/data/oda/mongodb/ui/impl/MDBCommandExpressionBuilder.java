@@ -28,8 +28,8 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 	private CommandOperationType opType;
 
 	/**
-	 * The only constructor which needs 2 parameters to build up the dialog. The
-	 * CommandOperationType instance is needed.
+	 * The only constructor which needs 2 parameters to build up the dialog.
+	 * The CommandOperationType instance is needed.
 	 * 
 	 * @param parent
 	 * @param opType
@@ -43,8 +43,7 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 
 	protected void initDialogTitle( )
 	{
-		setTitle( Messages.getString(
-				"MongoDBExpressionBuilder.CommandExpression.DialogTitle" ) ); //$NON-NLS-1$
+		setTitle( Messages.getString( "MongoDBExpressionBuilder.CommandExpression.DialogTitle" ) ); //$NON-NLS-1$
 	}
 
 	protected void createDialogHelper( Composite composite )
@@ -65,8 +64,7 @@ public class MDBCommandExpressionBuilder extends MongoDBExpressionBuilder
 		if ( expression.trim( ).length( ) == 0 )
 		{
 			status = getMiscStatus( IStatus.ERROR,
-					Messages.getString(
-							"MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression" ) ); //$NON-NLS-1$
+					Messages.getString( "MongoDBExpressionBuilder.CommandExpression.error.EmptyExpression" ) ); //$NON-NLS-1$
 		}
 		else
 		{

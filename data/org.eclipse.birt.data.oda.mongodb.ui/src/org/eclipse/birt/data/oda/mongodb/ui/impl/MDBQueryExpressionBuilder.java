@@ -30,8 +30,7 @@ public class MDBQueryExpressionBuilder extends MongoDBExpressionBuilder
 
 	protected void initDialogTitle( )
 	{
-		setTitle( Messages.getString(
-				"MongoDBExpressionBuilder.QueryExpression.DialogTitle" ) ); //$NON-NLS-1$
+		setTitle( Messages.getString( "MongoDBExpressionBuilder.QueryExpression.DialogTitle" ) ); //$NON-NLS-1$
 	}
 
 	protected void createDialogHelper( Composite composite )

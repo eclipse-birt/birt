@@ -30,8 +30,7 @@ public class MDBSortExpressionBuilder extends MongoDBExpressionBuilder
 
 	protected void initDialogTitle( )
 	{
-		setTitle( Messages.getString(
-				"MongoDBExpressionBuilder.SortExpression.DialogTitle" ) ); //$NON-NLS-1$
+		setTitle( Messages.getString( "MongoDBExpressionBuilder.SortExpression.DialogTitle" ) ); //$NON-NLS-1$
 	}
 
 	protected void createDialogHelper( Composite composite )
