@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.report.designer.editor.xml.wtp"
       label="%featureName"
-      version="4.6.0.qualifier"
+      version="4.7.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.report.designer.ui.editor.xml.wtp"
       image="eclipse_update_120.jpg">
@@ -205,13 +205,6 @@
 
    <plugin
          id="org.w3c.dom.svg"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.apache.batik.pdf"
          download-size="0"
          install-size="0"
          version="0.0.0"

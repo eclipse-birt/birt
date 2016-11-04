@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.rcp"
       label="%featureName"
-      version="4.6.0.qualifier"
+      version="4.7.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -33,7 +33,6 @@
       <import plugin="javax.xml.soap"/>
       <import plugin="javax.xml.stream"/>
       <import plugin="org.apache.axis"/>
-      <import plugin="org.apache.batik.pdf"/>
       <import plugin="org.apache.commons.discovery"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.apache.jasper.glassfish"/>
@@ -733,5 +732,20 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-
+         
+   <plugin
+         id="org.w3c.dom.svg.extension"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
+   <plugin
+         id="org.apache.batik.ext.awt.extension"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>          
 </feature>

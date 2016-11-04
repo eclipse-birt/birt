@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.osgi.runtime"
       label="%featureName"
-      version="4.6.0.qualifier"
+      version="4.7.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -327,13 +327,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.apache.batik.pdf"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.apache.batik.svggen"
          download-size="0"
          install-size="0"
@@ -652,5 +645,21 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
+         
+   <plugin
+         id="org.w3c.dom.svg.extension"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.apache.batik.ext.awt.extension"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/> 
          
 </feature>

@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.birt.tests_4.6.0.qualifier.jar" id="org.eclipse.birt.tests" version="4.6.0.qualifier">
+   <feature url="features/org.eclipse.birt.tests_4.7.0.qualifier.jar" id="org.eclipse.birt.tests" version="4.7.0.qualifier">
       <category name="testSuites"/>
    </feature>
-   <feature url="features/org.eclipse.birt.testhelper_4.6.0.qualifier.jar" id="org.eclipse.birt.testhelper" version="4.6.0.qualifier">
+   <feature url="features/org.eclipse.birt.testhelper_4.7.0.qualifier.jar" id="org.eclipse.birt.testhelper" version="4.7.0.qualifier">
       <category name="testSuites"/>
    </feature>
   
-  <category-def name="testSuites" label="BIRT 4.6.0 testSuites"/>
+  <category-def name="testSuites" label="BIRT testSuites"/>
 </site>

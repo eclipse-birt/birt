@@ -19,7 +19,6 @@
 				<configuration>
 					<excludes>
 						<plugin id="org.apache.axis"/>
-						<plugin id="org.apache.batik.pdf"/>
 						<plugin id="org.apache.commons.discovery"/>
 						<plugin id="org.apache.xerces"/>
 						<plugin id="org.apache.xml.resolver"/>

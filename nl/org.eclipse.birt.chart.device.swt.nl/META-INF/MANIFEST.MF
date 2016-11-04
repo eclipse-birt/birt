@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Device SWT Extension NLS Support
 Bundle-SymbolicName: org.eclipse.birt.chart.device.swt.nl1
-Bundle-Version: 4.6.0.qualifier
+Bundle-Version: 4.7.0.qualifier
 Fragment-Host: org.eclipse.birt.chart.device.swt;bundle-version="[2.1.0,5.0.0)"
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: nl_fragment

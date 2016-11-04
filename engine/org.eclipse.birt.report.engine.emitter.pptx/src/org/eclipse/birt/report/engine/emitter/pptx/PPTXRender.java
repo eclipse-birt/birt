@@ -38,6 +38,7 @@ import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.BlockTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ImageBlockContainer;
+import org.eclipse.birt.report.engine.nLayout.area.impl.LineArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TableArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
@@ -78,6 +79,7 @@ public class PPTXRender extends PageDeviceRender
 	private boolean editMode;
 	private boolean isRTL = false;
 	private boolean isTextWrap = true;
+	private int currentLineAreaX = 0;
 
 	public PPTXRender( IEmitterServices services ) throws EngineException
 	{
@@ -205,6 +207,10 @@ public class PPTXRender extends PageDeviceRender
 	@Override
 	public void visitContainer( IContainerArea container )
 	{
+		if ( container instanceof LineArea )
+		{
+			currentLineAreaX = 0;
+		}
 		if ( container instanceof PageArea )
 		{
 			if( editMode )
@@ -308,6 +314,7 @@ public class PPTXRender extends PageDeviceRender
 		if ( editMode )
 		{
 			int x = currentX + getX( text );
+			x = Math.max( x, currentLineAreaX );
 			int y = currentY + getY( text );
 			int width = getWidth( text );
 			int height = getHeight( text );
@@ -315,6 +322,7 @@ public class PPTXRender extends PageDeviceRender
 			tw.setLink( PPTUtil.getHyperlink( text, services, reportRunnable,
 					context ) );
 			tw.writeTextBlock( x, y, width, height, text );
+			currentLineAreaX = x + width;
 		}
 		else
 		{

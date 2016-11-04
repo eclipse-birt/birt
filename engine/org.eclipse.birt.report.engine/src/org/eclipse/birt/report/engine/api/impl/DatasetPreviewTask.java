@@ -71,6 +71,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected IFilterDefinition[] filterExpressions = null;
 
 	protected ISortDefinition[] sortExpressions = null;
+	protected boolean overrideExistingSorts = false;
 	
 	protected String[] selectedColumns;
 	
@@ -256,7 +257,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 
 	public void setSorts( ISortDefinition[] simpleSortExpression )
 	{
-		sortExpressions = simpleSortExpression;
+		setSorts( simpleSortExpression, false );
 	}
 	
 	protected ModuleHandle getHandle( )
@@ -427,6 +428,10 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		// add sort
 		if ( sortExpressions != null )
 		{
+			if ( this.overrideExistingSorts )
+			{
+				query.getSorts( ).clear( );
+			}
 			for ( int i = 0; i < sortExpressions.length; i++ )
 			{
 				query.getSorts( ).add( sortExpressions[i] );
@@ -587,6 +592,14 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	public void setQuery( QueryDefinition query )
 	{
 		this.query = query;
+	}
+
+	@Override
+	public void setSorts( ISortDefinition[] simpleSortExpression,
+			boolean overrideExistingSorts )
+	{
+		this.sortExpressions = simpleSortExpression;
+		this.overrideExistingSorts = overrideExistingSorts;
 	}
 
 
