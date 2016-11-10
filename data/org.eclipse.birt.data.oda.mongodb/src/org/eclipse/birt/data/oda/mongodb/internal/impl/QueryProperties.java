@@ -379,7 +379,8 @@ public class QueryProperties
 	public boolean hasValidCommandOperation( )
 	{
 		return hasAggregateCommand( )
-				|| hasMapReduceCommand( ) || hasRunCommand( );
+				|| hasMapReduceCommand( )
+				|| hasRunCommand( );
 	}
 
 	public boolean hasAggregateCommand( )

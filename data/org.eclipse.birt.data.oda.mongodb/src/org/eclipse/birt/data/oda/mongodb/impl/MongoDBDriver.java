@@ -322,32 +322,38 @@ public class MongoDBDriver implements IDriver
 			MongoClient mongoClient = null;
 			// first check if user-defined URL exists, which takes precedence
 			// if not flagged to ignore by the ignoreURI property
-			
+
 			String useKerberos = getUseKerberos( connProperties );
 			String kerberosPrincipal = getKerberosPrincipal( connProperties );
 			String serviceName = getServiceName( connProperties );
 			String kerberosConfig = getKerberosConfig( connProperties );
-			String gssapiConfig = getGssapiConfig( connProperties );			
-			
+			String gssapiConfig = getGssapiConfig( connProperties );
+
 			if ( useKerberos.equals( "true" ) )
 			{
 				if ( kerberosPrincipal == null || kerberosPrincipal.isEmpty( ) )
-					throw new OdaException( Messages.mDbConnection_missingValueKrbPrinc );
+					throw new OdaException(
+							Messages.mDbConnection_missingValueKrbPrinc );
 				if ( kerberosConfig == null || kerberosConfig.isEmpty( ) )
-					throw new OdaException( Messages.mDbConnection_missingValueKrbConf );
+					throw new OdaException(
+							Messages.mDbConnection_missingValueKrbConf );
 				if ( gssapiConfig == null || gssapiConfig.isEmpty( ) )
-					throw new OdaException( Messages.mDbConnection_missingValueJaasConf );
-				
-				System.setProperty("javax.security.auth.useSubjectCredsOnly","false" );
-		        System.setProperty("java.security.auth.login.config",gssapiConfig);
-		        System.setProperty("java.security.krb5.conf",kerberosConfig);
-				
+					throw new OdaException(
+							Messages.mDbConnection_missingValueJaasConf );
+
+				System.setProperty( "javax.security.auth.useSubjectCredsOnly",
+						"false" );
+				System.setProperty( "java.security.auth.login.config",
+						gssapiConfig );
+				System.setProperty( "java.security.krb5.conf", kerberosConfig );
+
 			}
-			
-			MongoClientOptions.Builder clientOptionsBuilder = createDefaultClientOptionsBuilder(connProperties );
-			MongoClientURI clientURI = getMongoURI( connProperties);
+
+			MongoClientOptions.Builder clientOptionsBuilder = createDefaultClientOptionsBuilder(
+					connProperties );
+			MongoClientURI clientURI = getMongoURI( connProperties );
 			if ( clientURI != null ) // has user-defined MongoURI
-			{			
+			{
 				mongoClient = new MongoClient( clientURI );
 				// trace logging
 				if ( getLogger( ).isLoggable( Level.FINEST ) )
@@ -360,12 +366,13 @@ public class MongoDBDriver implements IDriver
 			{
 				MongoClientOptions clientOptions = clientOptionsBuilder
 						.build( );
-				String serverHost = getStringPropValue( connProperties,	SERVER_HOST_PROP );
-				Integer serverPort = getIntegerPropValue( connProperties, SERVER_PORT_PROP );
+				String serverHost = getStringPropValue( connProperties,
+						SERVER_HOST_PROP );
+				Integer serverPort = getIntegerPropValue( connProperties,
+						SERVER_PORT_PROP );
 				String userName = getUserName( connProperties );
 				String databaseName = getDatabaseName( connProperties );
 				String password = getPassword( connProperties );
-				
 
 				InetAddress addr = InetAddress.getByName( kerberosPrincipal );
 
@@ -373,20 +380,25 @@ public class MongoDBDriver implements IDriver
 				MongoCredential mongoCredential = null;
 				if ( useKerberos.equals( "true" ) )
 				{
-					mongoCredential = MongoCredential.createGSSAPICredential( userName );
-					
-					if ( serviceName != null || serviceName.isEmpty( ))
+					mongoCredential = MongoCredential
+							.createGSSAPICredential( userName );
+
+					if ( serviceName != null || serviceName.isEmpty( ) )
 					{
-						mongoCredential = mongoCredential.withMechanismProperty("SERVICE_NAME",serviceName );							          
-					}else
-					{
-						mongoCredential = mongoCredential.withMechanismProperty("SERVICE_NAME","mongodb");     
+						mongoCredential = mongoCredential.withMechanismProperty(
+								"SERVICE_NAME", serviceName );
 					}
-					mongoCredential = mongoCredential.withMechanismProperty("CANONICALIZE_HOST_NAME", true);
+					else
+					{
+						mongoCredential = mongoCredential.withMechanismProperty(
+								"SERVICE_NAME", "mongodb" );
+					}
+					mongoCredential = mongoCredential.withMechanismProperty(
+							"CANONICALIZE_HOST_NAME", true );
 				}
 				else
 				{
-					if(userName !=null && !userName.isEmpty( ))
+					if ( userName != null && !userName.isEmpty( ) )
 					{
 						mongoCredential = MongoCredential.createCredential(
 								userName,
@@ -395,18 +407,20 @@ public class MongoDBDriver implements IDriver
 										: password.toCharArray( ) ) );
 					}
 				}
-				
+
 				ServerAddress serverAddr = serverPort != null
 						? new ServerAddress( serverHost, serverPort )
 						: new ServerAddress( serverHost );
-						
-				if(mongoCredential != null)
+
+				if ( mongoCredential != null )
 				{
 					mongoCredentials.add( mongoCredential );
-					mongoClient = new MongoClient( serverAddr, mongoCredentials);
-				}else
+					mongoClient = new MongoClient( serverAddr,
+							mongoCredentials );
+				}
+				else
 					mongoClient = new MongoClient( serverAddr, clientOptions );
-				
+
 				// trace logging
 				if ( getLogger( ).isLoggable( Level.FINEST ) )
 					getLogger( ).finest( Messages.bind(
@@ -551,27 +565,29 @@ public class MongoDBDriver implements IDriver
 	{
 		return getStringPropValue( connProps, USE_KERBEROS_PROP );
 	}
-	
+
 	static String getKerberosPrincipal( Properties connProps )
 	{
 		return getStringPropValue( connProps, KERBEROS_PRINCIPAL_PROP );
 	}
-	
+
 	static String getServiceName( Properties connProps )
 	{
-		return getStringPropValue( connProps, KERBEROS_GSSAPI_SERVICENAME_PROP );
+		return getStringPropValue( connProps,
+				KERBEROS_GSSAPI_SERVICENAME_PROP );
 	}
-	
+
 	static String getKerberosConfig( Properties connProps )
 	{
 		return getStringPropValue( connProps, KERBEROS_KRB5CONFIG_FILE_PROP );
 	}
-	
+
 	static String getGssapiConfig( Properties connProps )
 	{
-		return getStringPropValue( connProps, KERBEROS_GSS_JAAS_CONFIG_FILE_PROP );
+		return getStringPropValue( connProps,
+				KERBEROS_GSS_JAAS_CONFIG_FILE_PROP );
 	}
-	
+
 	private static MongoClientURI getMongoURI( Properties connProps )
 	{
 		try

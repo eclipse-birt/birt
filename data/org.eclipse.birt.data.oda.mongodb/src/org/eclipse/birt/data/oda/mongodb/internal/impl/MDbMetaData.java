@@ -314,7 +314,8 @@ public class MDbMetaData
 			int fromIndex, int toIndex )
 	{
 		if ( fromIndex < 0
-				|| toIndex >= fieldLevelNames.length || fromIndex > toIndex )
+				|| toIndex >= fieldLevelNames.length
+				|| fromIndex > toIndex )
 			throw new IllegalArgumentException(
 					"MDbMetaData#formatFieldLevelNames: Index argument(s) out of range." ); //$NON-NLS-1$
 
@@ -600,18 +601,19 @@ public class MDbMetaData
 			if ( documentObj == null )
 				return;
 			Document doc = null;
-			if ( documentObj instanceof List<?>)
+			if ( documentObj instanceof List<?> )
 			{
 				List<Document> docList = (List<Document>) documentObj;
-				if(docList.size( )>0)
+				if ( docList.size( ) > 0 )
 					doc = ( (List<Document>) documentObj ).get( 0 );
 			}
 			else
 			{
 				doc = (Document) documentObj;
 			}
-			
-			if(doc!=null){
+
+			if ( doc != null )
+			{
 				Set<String> fieldNames = doc.keySet( );
 				for ( String fieldName : fieldNames )
 				{

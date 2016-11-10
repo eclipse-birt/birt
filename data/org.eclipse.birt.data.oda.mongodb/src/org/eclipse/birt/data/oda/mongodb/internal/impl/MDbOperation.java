@@ -255,7 +255,8 @@ public class MDbOperation
 			mapReduceIterable = (MapReduceIterable<Document>) mongoIterable;
 		}
 		if ( findIterable == null
-				&& aggregateIterable == null && mapReduceIterable == null )
+				&& aggregateIterable == null
+				&& mapReduceIterable == null )
 		{
 			// Unknown type, return
 		}

@@ -341,7 +341,8 @@ public class ResultDataHandler
 		String firstLevelName = fieldLevelNames[0];
 		String levelFullName = priorLevelName != null
 				? priorLevelName
-						+ MDbMetaData.FIELD_FULL_NAME_SEPARATOR + firstLevelName
+						+ MDbMetaData.FIELD_FULL_NAME_SEPARATOR
+						+ firstLevelName
 				: firstLevelName;
 
 		Document currentContainerDoc = null;

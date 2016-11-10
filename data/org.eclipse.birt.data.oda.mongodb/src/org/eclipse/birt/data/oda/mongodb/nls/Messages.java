@@ -25,14 +25,14 @@ public class Messages extends NLS
     public static String mDbConnection_missingValueDBName;
     public static String mDbConnection_noConnection;
 
-    public static String mDbDriver_missingValueServerHost;
-    public static String mDbDriver_nonDefinedDataType;
-    public static String mDbDriver_readPrefNearest;
-    public static String mDbDriver_readPrefPrimary;
-    public static String mDbDriver_readPrefPrimaryPreferred;
-    public static String mDbDriver_readPrefSecondary;
-    public static String mDbDriver_readPrefSecondaryPreferred;
-    public static String mDbConnection_missingValueJaasConf;
+	public static String mDbDriver_missingValueServerHost;
+	public static String mDbDriver_nonDefinedDataType;
+	public static String mDbDriver_readPrefNearest;
+	public static String mDbDriver_readPrefPrimary;
+	public static String mDbDriver_readPrefPrimaryPreferred;
+	public static String mDbDriver_readPrefSecondary;
+	public static String mDbDriver_readPrefSecondaryPreferred;
+	public static String mDbConnection_missingValueJaasConf;
 	public static String mDbConnection_missingValueKrbConf;
 	public static String mDbConnection_missingValueKrbPrinc;
 

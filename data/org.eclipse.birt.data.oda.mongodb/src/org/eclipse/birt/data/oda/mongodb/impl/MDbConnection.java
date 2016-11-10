@@ -86,7 +86,9 @@ public class MDbConnection implements IConnection
 		{
 			MongoDBDriver.getLogger( ).log( Level.SEVERE,
 					"Unable to get Database "
-							+ dbName + ". " + ex.getMessage( ),
+							+ dbName
+							+ ". "
+							+ ex.getMessage( ),
 					ex );
 			throw new OdaException( ex );
 		}
