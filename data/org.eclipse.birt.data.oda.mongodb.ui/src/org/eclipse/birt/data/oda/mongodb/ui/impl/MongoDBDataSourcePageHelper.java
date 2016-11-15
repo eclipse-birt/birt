@@ -530,15 +530,14 @@ public class MongoDBDataSourcePageHelper
 	{
 		kerberosConfigurationRadioBtn
 				.setSelection( !isKerberosPasswordFieldFoucs );
-		kerberosCredentialsRadioBtn
-				.setSelection( isKerberosPasswordFieldFoucs );
-		setKerberosConfigElementGroupEnabled( !isKerberosPasswordFieldFoucs );
-		kerberosPasswordText.setEnabled( isKerberosPasswordFieldFoucs );
+		//kerberosCredentialsRadioBtn.setSelection( isKerberosPasswordFieldFoucs );
+		//setKerberosConfigElementGroupEnabled( !isKerberosPasswordFieldFoucs );
+		//kerberosPasswordText.setEnabled( isKerberosPasswordFieldFoucs );
 	}
 
 	private void disableKerberosConfigAndCredentialEditControl( )
 	{
-		kerberosPasswordText.setEnabled( false );
+		//kerberosPasswordText.setEnabled( false );
 		setKerberosConfigElementGroupEnabled( false );
 	}
 
