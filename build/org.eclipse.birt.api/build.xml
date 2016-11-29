@@ -63,7 +63,7 @@
       <globmapper from="org.mozilla.javascript_*.jar" to="js.jar"/>
     </copy>
     <antcall target="build-odadesign-api"/>
-    <antcall target="build-odaconnectivity-api"/>
+    <!--<antcall target="build-odaconnectivity-api"/>-->
     <copy todir="${LIB_DIR}">
       <fileset dir="${PRODUCT_DIR}/plugins">
         <include name="org.apache.commons.codec_*.jar"/>
