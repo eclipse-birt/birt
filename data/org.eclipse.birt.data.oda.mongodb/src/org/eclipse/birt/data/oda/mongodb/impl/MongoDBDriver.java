@@ -340,17 +340,25 @@ public class MongoDBDriver implements IDriver
 			{	
 				
 				if ( kerberosPrincipal == null || kerberosPrincipal.isEmpty( ) )
-					throw new OdaException( Messages.mDbConnection_missingValueKrbPrinc );
+					throw new OdaException(
+							Messages.mDbConnection_missingValueKrbPrinc );
 				if ( kerberosConfig == null || kerberosConfig.isEmpty( ) )
-					throw new OdaException( Messages.mDbConnection_missingValueKrbConf );
+					throw new OdaException(
+							Messages.mDbConnection_missingValueKrbConf );
 				if ( gssapiConfig == null || gssapiConfig.isEmpty( ) )
-					throw new OdaException( Messages.mDbConnection_missingValueJaasConf );
+					throw new OdaException(
+							Messages.mDbConnection_missingValueJaasConf );
 				System.setProperty( "sun.security.krb5.principal", userName );
-				System.setProperty( "javax.security.auth.useSubjectCredsOnly", "false" );
-				if ( null != gssapiConfig && !( gssapiConfig.trim( ).length( ) == 0 ) )
-					System.setProperty( "java.security.auth.login.config", gssapiConfig );
-				if ( null != kerberosConfig && !( kerberosConfig.trim( ).length( ) == 0 ) )
-					System.setProperty( "java.security.krb5.conf", kerberosConfig );
+				System.setProperty( "javax.security.auth.useSubjectCredsOnly",
+						"false" );
+				if ( null != gssapiConfig
+						&& !( gssapiConfig.trim( ).length( ) == 0 ) )
+					System.setProperty( "java.security.auth.login.config",
+							gssapiConfig );
+				if ( null != kerberosConfig
+						&& !( kerberosConfig.trim( ).length( ) == 0 ) )
+					System.setProperty( "java.security.krb5.conf",
+							kerberosConfig );
 				
 			}
 		
@@ -360,11 +368,14 @@ public class MongoDBDriver implements IDriver
 				// trace logging
 				if ( getLogger( ).isLoggable( Level.FINEST ) )
 					getLogger( ).finest( Messages.bind( "{0}: uri= {1}", //$NON-NLS-1$
-							new Object[]{"createMongoNode", clientURI} ) );
+							new Object[]{
+									"createMongoNode", clientURI
+							} ) );
 			}
 			else
 			{
-				MongoClientOptions clientOptions = clientOptionsBuilder.build( );
+				MongoClientOptions clientOptions = clientOptionsBuilder
+						.build( );
 				InetAddress addr = InetAddress.getByName( kerberosPrincipal );
 				List<MongoCredential> mongoCredentials = new ArrayList<MongoCredential>( );
 				MongoCredential mongoCredential = null;
@@ -379,29 +390,43 @@ public class MongoDBDriver implements IDriver
 					{
 						mongoCredential = mongoCredential.withMechanismProperty( "SERVICE_NAME", "mongodb" );
 					}
-					mongoCredential = mongoCredential.withMechanismProperty( "CANONICALIZE_HOST_NAME", true );
+					mongoCredential = mongoCredential.withMechanismProperty(
+							"CANONICALIZE_HOST_NAME", true );
 				}
 				else
 				{
 					if ( userName != null && !userName.isEmpty( ) )
 					{
-						mongoCredential = MongoCredential.createCredential( userName, databaseName,
-								( password == null ? null : password.toCharArray( ) ) );
+						mongoCredential = MongoCredential.createCredential(
+								userName,
+								databaseName,
+								( password == null ? null
+										: password.toCharArray( ) ) );
 					}
 				}
-				ServerAddress serverAddr = serverPort != null ? new ServerAddress( serverHost, serverPort ) : new ServerAddress( serverHost );
+				ServerAddress serverAddr = serverPort != null
+						? new ServerAddress( serverHost, serverPort )
+						: new ServerAddress( serverHost );
 				if ( mongoCredential != null )
 				{
 					mongoCredentials.add( mongoCredential );
-					mongoClient = new MongoClient( serverAddr, mongoCredentials );
+					mongoClient = new MongoClient( serverAddr,
+							mongoCredentials );
 				}
 				else
 					mongoClient = new MongoClient( serverAddr, clientOptions );
 
 				// trace logging
 				if ( getLogger( ).isLoggable( Level.FINEST ) )
-					getLogger( ).finest( Messages.bind( "{0}: hosts= {1}, port= {2}, user= {3}, database= {4}", //$NON-NLS-1$
-							new Object[]{"createMongoNode", serverHost, serverPort, userName, databaseName} ) );
+					getLogger( ).finest( Messages.bind(
+							"{0}: hosts= {1}, port= {2}, user= {3}, database= {4}", //$NON-NLS-1$
+							new Object[]{
+									"createMongoNode",
+									serverHost,
+									serverPort,
+									userName,
+									databaseName
+							} ) );
 			}
 			return mongoClient;
 		}
