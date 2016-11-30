@@ -63,7 +63,7 @@
       <globmapper from="org.mozilla.javascript_*.jar" to="js.jar"/>
     </copy>
     <antcall target="build-odadesign-api"/>
-    <!--<antcall target="build-odaconnectivity-api"/>-->
+    <antcall target="build-odaconnectivity-api"/>
     <copy todir="${LIB_DIR}">
       <fileset dir="${PRODUCT_DIR}/plugins">
         <include name="org.apache.commons.codec_*.jar"/>
@@ -111,7 +111,7 @@
     <jar destfile="${LIB_DIR}/odaconnectivity.jar">
         <fileset dir="./target/unpack/classes/oda">
           <include name="org/eclipse/datatools/connectivity/oda/util/ResourceIdentifiers*.class"/>
-          <include name="org/eclipse/datatools/connectivity/oda/OdaException.class"/>
+          <!--<include name="org/eclipse/datatools/connectivity/oda/OdaException.class"/>-->
       </fileset>
     </jar>
   </target>
