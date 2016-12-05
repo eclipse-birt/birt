@@ -18,7 +18,7 @@
   </target>
   <target name="build-report-engine">
     <property name="BIRTAPI_DIR" location="${ROOT_DIR}/build/org.eclipse.birt.api/"/>
-    <copy todir="${ENGINE_DIR}/plugins">
+    <copy todir="${ENGINE_DIR}/platform/plugins">
         <fileset dir="${PRODUCT_DIR}/plugins"/>
         <fileset dir="${BIRTAPI_DIR}/target/">
             <include name="org.eclipse.birt.api_*.jar"/>
@@ -27,7 +27,7 @@
     <copy todir="${ENGINE_DIR}/lib">
       <fileset dir="${BIRTAPI_DIR}/target/lib"/>
     </copy>
-    <copy file="./config.ini" todir="${ENGINE_DIR}/configuration"/>
+    <copy file="./config.ini" todir="${ENGINE_DIR}/platform/configuration"/>
     <copy file="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/test.rptdesign" tofile="${ENGINE_DIR}/samples/hello_world.rptdesign"/>
     <copy file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReport.sh" todir="${ENGINE_DIR}"/>
     <copy file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReport.bat" todir="${ENGINE_DIR}"/>
@@ -43,14 +43,13 @@
     <copy todir="${VIEWER_DIR}/WEB-INF/lib">
       <fileset dir="${ENGINE_DIR}/lib"/>
     </copy>
-    <copy todir="${VIEWER_DIR}/WEB-INF/platform">
+    <copy todir="${VIEWER_DIR}/WEB-INF">
       <fileset dir="${ENGINE_DIR}">
-        <include name="configuration/"/>
-        <include name="plugins/"/>
+        <include name="platform/"/>
       </fileset>
     </copy>
     <copy todir="${VIEWER_DIR}/WEB-INF/lib">
-      <fileset dir="${ENGINE_DIR}/plugins">
+      <fileset dir="${ENGINE_DIR}/platform/plugins">
         <include name="javax.wsdl_*.jar"/>
       </fileset>
       <fileset dir="${DESIGNER_DIR}/plugins">

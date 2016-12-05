@@ -39,11 +39,9 @@
 
 # echo set common variables
 export BIRT_HOME=$PWD/platform
-export BIRT_API=$PWD/lib/actuate-birt-api.jar
 export WORK_DIR=$PWD
 
 echo BIRT_HOME=$BIRT_HOME
-echo BIRT_API=$BIRT_API
 echo WORK_DIR=$WORK_DIR
 
 if [ "$BIRT_HOME" = "" ]
@@ -57,6 +55,6 @@ org_eclipse_datatools_workspacepath=$java_io_tmpdir/workspace_dtp
 mkdir -p $org_eclipse_datatools_workspacepath
 
 JAVACMD='java';
-$JAVACMD -Djava.awt.headless=true -cp "$BIRT_API" -DBIRT_HOME="$BIRT_HOME" -Dorg.eclipse.datatools_workspacepath="$org_eclipse_datatools_workspacepath" org.eclipse.birt.report.engine.api.ReportRunner ${1+"$@"}
+$JAVACMD -Djava.awt.headless=true -cp "$BIRTCLASSPATH" -DBIRT_HOME="$BIRT_HOME" -Dorg.eclipse.datatools_workspacepath="$org_eclipse_datatools_workspacepath" org.eclipse.birt.report.engine.api.ReportRunner ${1+"$@"}
 
 fi

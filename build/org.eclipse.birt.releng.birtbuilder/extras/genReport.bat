@@ -39,24 +39,30 @@ REM ################## USAGE OF REPORT ENGINE END ################
 
 REM set common variables
 SET BIRT_HOME=%~dp0\platform
-SET BIRT_API=%~dp0\lib\actuate-birt-api.jar
 SET WORK_DIR=%~dp0
 
 ECHO BIRT_HOME=%BIRT_HOME%
-ECHO BIRT_API=%BIRT_API%
 ECHO WORK_DIR=%WORK_DIR%
 
 IF not "%BIRT_HOME%" == "" GOTO runBirt
-ECHO "BIRT_HOME must be set before ReportRunner can run"
+ECHO "Please set BIRT_HOME first."
 GOTO end
-
 :runBirt
+
 
 SET java.io.tmpdir=%WORK_DIR%\tmpdir
 SET org.eclipse.datatools_workspacepath=%java.io.tmpdir%\workspace_dtp
 
+
 IF not exist %java.io.tmpdir% mkdir %java.io.tmpdir%
 IF not exist %org.eclipse.datatools_workspacepath% mkdir %org.eclipse.datatools_workspacepath%
+
+
+REM set the birt class path.
+setlocal enabledelayedexpansion
+set BIRTCLASSPATH=
+for %%i in (%WORK_DIR%\lib\*.jar) do set BIRTCLASSPATH=%%i;!BIRTCLASSPATH!
+
 
 REM set command
 SET JAVACMD=java
@@ -90,6 +96,6 @@ set p18=%9
 shift
 set p19=%9
 
-%JAVACMD% -cp "%BIRT_API%" -DBIRT_HOME="%BIRT_HOME%" org.eclipse.birt.report.engine.api.ReportRunner %p1% %p2% %p3% %p4% %p5% %p6% %p7% %p8% %p9% %p10% %p11% %p12% %p13% %p14% %p15% %p16% %p17% %p18% %p19%
+%JAVACMD% -cp "%BIRTCLASSPATH%" -DBIRT_HOME="%BIRT_HOME%" org.eclipse.birt.report.engine.api.ReportRunner %p1% %p2% %p3% %p4% %p5% %p6% %p7% %p8% %p9% %p10% %p11% %p12% %p13% %p14% %p15% %p16% %p17% %p18% %p19%
 
 :end
