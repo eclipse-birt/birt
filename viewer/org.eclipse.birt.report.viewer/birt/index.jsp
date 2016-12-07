@@ -10,8 +10,8 @@
 		</STYLE>
 	<%
 		String javaVersion = System.getProperty("java.version");
-		String viewerVersion = "4.5.0";
-		String engineVersion = "4.5.0";
+		String viewerVersion = "4.7.0";
+		String engineVersion = "4.7.0";
 	%>
 	</HEAD>
 	<BODY>
