@@ -10,4 +10,18 @@
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt</artifactId>
 	<packaging>eclipse-plugin</packaging>
+	<build>
+		<plugins>
+			<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-source-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<includes>
+							<include>about.html</include>
+						</includes>
+					</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
