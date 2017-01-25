@@ -103,10 +103,14 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 		for ( MeasureViewHandle mv : crosstab.getAllMeasures( ) )
 		{
 			AggregationCellHandle cell = mv.getCell( );
-			
-			if(hideRow)
+			cell.getModelHandle( ).setProperty( hideRow
+					? IStyleModel.HEIGHT_PROP : IStyleModel.WIDTH_PROP,
+					ZERO );
+
+			// If hiding row, have to remove all items in the measure cell and
+			// grand total cell
+			if ( hideRow )
 			{
-				// Remove all items in the measure cell and grand total cell
 				clearCellContents( cell );
 				clearCellContents( mv.getAggregationCell(
 						cell.getDimensionName(
@@ -115,15 +119,11 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 						null,
 						null ) );
 			}
-			else
-			{
-				cell.getModelHandle( ).setProperty( IStyleModel.WIDTH_PROP,ZERO);
-			}
 		}
-		
-		if(hideRow)
-		{		
-			// Remove all items in the dimension cell
+
+		// If hiding row, have to remove all items in the dimension cell
+		if ( hideRow )
+		{
 			int dimCount = crosstab
 					.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE );
 			for ( int i = 0; i < dimCount; i++ )
@@ -136,13 +136,7 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 					clearCellContents( level.getCell( ) );
 				}
 			}
-				
-			// Hide measure header to avoid meaningless header
-			handle.setProperty(
-					ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP,
-					true );
 		}
-
 
 		// Set big pageBreakInterval to avoid page break
 		final int NO_PAGE_BREAK = 10000;
@@ -151,12 +145,18 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 						: ICrosstabConstants.COLUMN_PAGE_BREAK_INTERVAL_PROP,
 				NO_PAGE_BREAK );
 
+		// If hiding row, hide measure header to avoid meaningless header
+		if ( hideRow )
+		{
+			handle.setProperty(
+					ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP,
+					true );
+		}
 
 		// Fixed Layout to avoid white space
 		( (ReportDesignHandle) crosstab.getModuleHandle( ) )
 				.setLayoutPreference(
 						DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT );
-		
 	}
 
 	private void clearCellContents( CrosstabCellHandle cell )
@@ -164,8 +164,6 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 	{
 		if ( cell != null )
 		{
-			
-			
 			// No outline
 			cell.getModelHandle( ).setProperty(
 					IStyleModel.BORDER_TOP_STYLE_PROP,
@@ -190,13 +188,13 @@ public class CrosstabReportItemPreparation extends ReportItemPreparationBase
 					ZERO );
 			cell.getModelHandle( ).setProperty( IStyleModel.PADDING_RIGHT_PROP,
 					ZERO );
+
 			// No contents
 			for ( Object child : cell.getContents( ) )
 			{
 				if ( child instanceof DesignElementHandle )
 				{
-					DesignElementHandle designElement = (DesignElementHandle) child;
-					designElement.setProperty(IStyleModel.DISPLAY_PROP, "none");			
+					( (DesignElementHandle) child ).dropAndClear( );
 				}
 			}
 		}
