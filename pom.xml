@@ -29,7 +29,7 @@
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.13milestones/</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
-                <wtp.repo.url>http://download.eclipse.org/webtools/repository/neon/</wtp.repo.url>
+                <wtp.repo.url>http://download.eclipse.org/webtools/repository/oxygen/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
@@ -108,7 +108,7 @@
 					<plugin>
 						<groupId>org.eclipse.cbi.maven.plugins</groupId>
 						<artifactId>eclipse-jarsigner-plugin</artifactId>
-						<version>1.1.2</version>
+						<version>1.1.3</version>
 						<executions>
 							<execution>
 								<id>sign</id>
