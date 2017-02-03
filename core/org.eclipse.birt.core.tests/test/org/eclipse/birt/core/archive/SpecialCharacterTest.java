@@ -8,17 +8,12 @@ import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-public class SpecialCharacterTest
+public class SpecialCharacterTest extends TestCase
 {
 
     /**

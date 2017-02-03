@@ -16,18 +16,16 @@ import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.util.Locale;
 
+import org.junit.Test;
+
 import com.ibm.icu.util.ULocale;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 /**
  * 
  */
-public class NumberFormatterTest
+public class NumberFormatterTest extends TestCase
 {
 	@Test
     public void testNumericFormat( )

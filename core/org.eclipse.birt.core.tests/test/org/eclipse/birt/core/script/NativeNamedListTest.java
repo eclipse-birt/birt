@@ -3,17 +3,16 @@ package org.eclipse.birt.core.script;
 import java.util.Date;
 import java.util.HashMap;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+
+import junit.framework.TestCase;
 
 
-public class NativeNamedListTest
+public class NativeNamedListTest extends TestCase
 {
 	/**
 	 * Create a Context instance

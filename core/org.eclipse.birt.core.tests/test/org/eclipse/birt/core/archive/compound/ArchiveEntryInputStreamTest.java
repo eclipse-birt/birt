@@ -6,14 +6,11 @@ import java.io.IOException;
 import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class ArchiveEntryInputStreamTest
+import junit.framework.TestCase;
+
+public class ArchiveEntryInputStreamTest extends TestCase
 {
 
 	long STREAM_SIZE = 40960;

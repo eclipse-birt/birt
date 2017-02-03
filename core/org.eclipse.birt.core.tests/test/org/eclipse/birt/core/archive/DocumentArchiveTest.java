@@ -6,12 +6,11 @@ import java.io.File;
 import java.io.IOException;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class DocumentArchiveTest
+import junit.framework.TestCase;
+
+public class DocumentArchiveTest extends TestCase
 {
 
 	static final String ARCHIVE_DOCUMENT_NAME = "org.eclipse.birt.core.archive.archive.zip"; //$NON-NLS-1$

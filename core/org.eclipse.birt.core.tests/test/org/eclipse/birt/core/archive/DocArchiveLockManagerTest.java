@@ -13,16 +13,12 @@ package org.eclipse.birt.core.archive;
 
 import java.io.File;
 
-import org.junit.Assert;
 import org.junit.Ignore;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class DocArchiveLockManagerTest
+import junit.framework.TestCase;
+
+public class DocArchiveLockManagerTest extends TestCase
 {
 
     static final String LOCK_FILE_NAME = "./utest/lock.lck";

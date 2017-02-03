@@ -15,17 +15,16 @@ import java.text.DateFormat;
 import java.util.ArrayList;
 
 import org.eclipse.birt.core.exception.BirtException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+
+import junit.framework.TestCase;
 
 /**
  * 
  */
-public class ScriptContextTest
+public class ScriptContextTest extends TestCase
 {
 
 	ScriptContext context;

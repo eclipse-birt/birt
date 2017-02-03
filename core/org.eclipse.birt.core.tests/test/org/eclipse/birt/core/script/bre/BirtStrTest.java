@@ -12,21 +12,20 @@
 package org.eclipse.birt.core.script.bre;
 
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+
+import junit.framework.TestCase;
 
 
 /**
  * 
  */
 
-public class BirtStrTest
+public class BirtStrTest extends TestCase
 {
 	String str = " I am a test    string";
 	

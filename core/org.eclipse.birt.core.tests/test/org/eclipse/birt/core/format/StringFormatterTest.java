@@ -13,11 +13,9 @@ package org.eclipse.birt.core.format;
 
 import java.text.ParseException;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+
+import junit.framework.TestCase;
 
 /**
  * StringFormatterTest.
@@ -26,7 +24,7 @@ import static org.junit.Assert.*;
  * translate the string according to the format string
  * 
  */
-public class StringFormatterTest
+public class StringFormatterTest extends TestCase
 {
 
 	//test function StringFormatter.applyPattern &

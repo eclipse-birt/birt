@@ -7,14 +7,11 @@ import java.util.Collection;
 import java.util.Set;
 
 import org.eclipse.birt.core.exception.CoreException;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class OlapExpressionCompilerTest
+import junit.framework.TestCase;
+
+public class OlapExpressionCompilerTest extends TestCase
 {
 	@Test
     public void testGetDimLevels( ) throws CoreException

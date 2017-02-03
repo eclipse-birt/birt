@@ -11,9 +11,6 @@
 
 package org.eclipse.birt.core.script.bre;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import java.util.Calendar;
 import java.util.Date;
 
@@ -28,11 +25,13 @@ import org.mozilla.javascript.Scriptable;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.TestCase;
+
 /**
  *
  */
 
-public class BirtDateTimeTest
+public class BirtDateTimeTest extends TestCase
 {
 
 	private Context cx;

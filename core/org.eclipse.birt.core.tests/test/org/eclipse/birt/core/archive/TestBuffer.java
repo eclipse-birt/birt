@@ -19,7 +19,9 @@ import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 
-public class TestBuffer
+import junit.framework.TestCase;
+
+public class TestBuffer extends TestCase
 {
 
 	static int TEST_COUNT = 1024;

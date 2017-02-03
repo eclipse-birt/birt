@@ -14,14 +14,11 @@ import org.eclipse.birt.core.template.TextTemplate.ExpressionValueNode;
 import org.eclipse.birt.core.template.TextTemplate.ImageNode;
 import org.eclipse.birt.core.template.TextTemplate.TextNode;
 import org.eclipse.birt.core.template.TextTemplate.ValueNode;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class TemplateParserTest
+import junit.framework.TestCase;
+
+public class TemplateParserTest extends TestCase
 {
 	@Test
     public void testValueOf( )
