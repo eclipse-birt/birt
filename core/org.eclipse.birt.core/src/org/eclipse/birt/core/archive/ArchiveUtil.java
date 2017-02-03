@@ -220,7 +220,13 @@ public class ArchiveUtil
 			{
 				path = path.replaceAll( "\\.", "%2E" ); //$NON-NLS-1$ //$NON-NLS-2$
 			}
-            return path;
+			// handle case /abc*/ where the File Object will remove "*"
+			// unexpectedly by encoding * to %2A
+			if ( path.contains( "*" ) ) //$NON-NLS-1$
+			{
+				path = path.replaceAll( "\\*", "%2A" ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+			return path;
         }
         catch ( UnsupportedEncodingException ex )
         {
