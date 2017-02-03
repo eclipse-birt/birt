@@ -17,10 +17,10 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class ArchiveFileFactoryTest
+import junit.framework.TestCase;
+
+public class ArchiveFileFactoryTest extends TestCase
 {
 
 	static final int TEST_COUNT = 50;

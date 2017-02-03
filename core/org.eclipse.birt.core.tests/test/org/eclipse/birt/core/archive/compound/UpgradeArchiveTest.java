@@ -8,14 +8,13 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.eclipse.birt.core.archive.ArchiveUtil;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class UpgradeArchiveTest
+import junit.framework.TestCase;
+
+public class UpgradeArchiveTest extends TestCase
 {
 	@Before
     public void setUp()

@@ -7,10 +7,10 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class FolderArchiveTest
+import junit.framework.TestCase;
+
+public class FolderArchiveTest extends TestCase
 {
 
     static final String ARCHIVE_NAME = "./utest/test.archive.folder/";

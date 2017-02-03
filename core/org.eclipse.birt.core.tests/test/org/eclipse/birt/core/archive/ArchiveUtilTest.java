@@ -14,13 +14,11 @@ package org.eclipse.birt.core.archive;
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class ArchiveUtilTest
+import junit.framework.TestCase;
+
+public class ArchiveUtilTest extends TestCase
 {
 
     static final String ARCHIVE_FILE = "./utest/test.file";

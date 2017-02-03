@@ -7,10 +7,10 @@ import java.io.IOException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class ArchiveRemoveTest
+import junit.framework.TestCase;
+
+public class ArchiveRemoveTest extends TestCase
 {
 
 	static final String ARCHIVE_FOLDER = "./utest/";

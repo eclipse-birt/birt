@@ -15,12 +15,11 @@ import java.io.File;
 import java.io.FileOutputStream;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class FileConfigVarManagerTest
+import junit.framework.TestCase;
+
+public class FileConfigVarManagerTest extends TestCase
 {
 	@After
     public void tearDown()

@@ -17,14 +17,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
+import org.junit.Test;
+
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 /**
  * DateFormatterTest.
@@ -35,7 +33,7 @@ import static org.junit.Assert.*;
  * we add in the subclss.
  * 
  */
-public class DateFormatterTest
+public class DateFormatterTest extends TestCase
 {
 
 	/*

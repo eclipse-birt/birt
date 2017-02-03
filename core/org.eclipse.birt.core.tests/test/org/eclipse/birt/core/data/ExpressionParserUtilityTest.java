@@ -4,19 +4,15 @@ package org.eclipse.birt.core.data;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.core.data.IColumnBinding;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+
+import junit.framework.TestCase;
 
 /**
  * test case for expression parser
  *
  */
-public class ExpressionParserUtilityTest
+public class ExpressionParserUtilityTest extends TestCase
 {
 
 	String[] oldExpressions = new String[]{

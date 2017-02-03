@@ -16,14 +16,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class ScriptableParametersTest
+import junit.framework.TestCase;
+
+public class ScriptableParametersTest extends TestCase
 {
 
 	ScriptContext context;
