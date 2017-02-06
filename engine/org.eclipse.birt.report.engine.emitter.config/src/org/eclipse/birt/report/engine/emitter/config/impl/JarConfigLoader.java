@@ -11,10 +11,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.report.engine.emitter.config.AbstractEmitterDescriptor;
 import org.eclipse.birt.report.engine.emitter.config.IDefaultConfigLoader;
 import org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor;
@@ -116,7 +116,7 @@ public class JarConfigLoader implements IDefaultConfigLoader
             final Map<String, RenderOptionDefn> options ) throws Exception
     {
 
-        final SAXParser parser = SAXParserFactory.newInstance( ).newSAXParser( );
+        final SAXParser parser = CommonUtil.createSAXParser( );
         try
         {
             parser.parse( in, new RenderOptionHandler( descriptor, options ) );

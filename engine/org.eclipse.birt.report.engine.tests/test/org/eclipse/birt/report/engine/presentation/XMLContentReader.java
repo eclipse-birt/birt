@@ -4,11 +4,11 @@ package org.eclipse.birt.report.engine.presentation;
 import java.io.InputStream;
 
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
 import org.eclipse.birt.core.framework.parser.AbstractParseState;
 import org.eclipse.birt.core.framework.parser.XMLParserException;
 import org.eclipse.birt.core.framework.parser.XMLParserHandler;
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.report.engine.content.ContentFactory;
 import org.eclipse.birt.report.engine.content.ICellContent;
 import org.eclipse.birt.report.engine.content.IContent;
@@ -31,7 +31,7 @@ public class XMLContentReader
 		{
 			IReportContent reportContent = ContentFactory
 					.createReportContent( null );
-			SAXParser parser = SAXParserFactory.newInstance( ).newSAXParser( );
+			SAXParser parser = CommonUtil.createSAXParser( );
 			if ( in != null )
 			{
 				parser.parse( in, new XMLContentParser( reportContent ) );
