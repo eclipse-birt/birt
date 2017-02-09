@@ -45,6 +45,8 @@ public abstract class AbstractWordXmlWriter
 	public static final char SPACE = ' ';
 	
 	public static final String EMPTY_STRING = "";
+	
+	public static final int INDEX_NOTFOUND = -1;
 
 	protected int imageId = 75;
 
@@ -1145,6 +1147,8 @@ public abstract class AbstractWordXmlWriter
 		}
 		else
 		{
+			// get text attribute overflow hidden
+			// and run the function to emulate if true
 			if ( CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE
 					.equals( style.getOverflow( ) ) )
 			{
@@ -1163,28 +1167,35 @@ public abstract class AbstractWordXmlWriter
 	
 	/**
 	 * function emulate the overflow hidden behavior on table cell
-	 * @param text  String to check
-	 * @param style style of the text
-	 * @param fontFamily fond of the text
-	 * @param cellWidth the width of the container in points
+	 * 
+	 * @param text
+	 *            String to check
+	 * @param style
+	 *            style of the text
+	 * @param fontFamily
+	 *            fond of the text
+	 * @param cellWidth
+	 *            the width of the container in points
 	 * @return String with truncated words that surpasses the cell width
 	 */
-	public String cropOverflowString( String text, IStyle style, String fontFamily, int cellWidth )
-	{//TODO: retrieve font type and replace plain with corresponding
-				Font font = new Font( fontFamily, Font.PLAIN,
-						WordUtil.parseFontSize( PropertyUtil
-								.getDimensionValue( style.getProperty(
-										StyleConstants.STYLE_FONT_SIZE ) ) ) );
+	public String cropOverflowString( String text, IStyle style,
+			String fontFamily, int cellWidth )
+	{// TODO: retrieve font type and replace plain with corresponding
+		Font font = new Font( fontFamily, Font.PLAIN,
+				WordUtil.parseFontSize( PropertyUtil.getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_FONT_SIZE ) ) ) );
 		Canvas c = new Canvas( );
 		FontMetrics fm = c.getFontMetrics( font );
-		//conversion from point to advancement point from sample linear regression:
-		int cellWidthInPointAdv = (cellWidth * (int) WordUtil.PT_TWIPS - 27) / 11;
+		// conversion from point to advancement point from sample linear
+		// regression:
+		int cellWidthInPointAdv = ( cellWidth * (int) WordUtil.PT_TWIPS - 27 )
+				/ 11;
 		StringBuilder sb = new StringBuilder( text.length( ) + 1 );
-		int wordEnd = -1;
+		int wordEnd = INDEX_NOTFOUND;
 		do
 		{
 			wordEnd = text.indexOf( SPACE );
-			if ( wordEnd != -1 ) //space found
+			if ( wordEnd != INDEX_NOTFOUND ) // space found
 			{
 				String word = text.substring( 0, wordEnd );
 				word = cropOverflowWord( word, fm, cellWidthInPointAdv );
@@ -1192,25 +1203,31 @@ public abstract class AbstractWordXmlWriter
 				sb.append( SPACE );
 				text = text.substring( wordEnd + 1 );
 			}
-		} while ( wordEnd != -1 && !EMPTY_STRING.equals( text ) );
+		} while ( wordEnd != INDEX_NOTFOUND && !EMPTY_STRING.equals( text ) );
 		sb.append( cropOverflowWord( text, fm, cellWidthInPointAdv ) );
 		return sb.toString( );
 	}
 	
 	/**
-	 *  crop words according to the given container point advance
-	 * @param text  it is a given word
-	 * @param fm the Font metrics
+	 * crop words according to the given container point advance
+	 * 
+	 * @param text
+	 *            it is a given word
+	 * @param fm
+	 *            the Font metrics
 	 * @param containerPointAdvWidth
 	 * @return the word is cropped if longer than container width
 	 */
-	private String cropOverflowWord( String word, FontMetrics fm, int containerPointAdvWidth )
+	private String cropOverflowWord( String word, FontMetrics fm,
+			int containerPointAdvWidth )
 	{
 		int wordlength = fm.stringWidth( word );
 		if ( wordlength > containerPointAdvWidth )
 		{
-			int cropEnd = ( containerPointAdvWidth * word.length( ) ) / wordlength;
-			if ( cropEnd == 0 ) return "";
+			int cropEnd = ( containerPointAdvWidth * word.length( ) )
+					/ wordlength;
+			if ( cropEnd == 0 )
+				return "";
 			return word.substring( 0, cropEnd );
 		}
 		return word;
