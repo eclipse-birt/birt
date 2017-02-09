@@ -11,6 +11,10 @@
 
 package org.eclipse.birt.report.engine.emitter.wpml.writer;
 
+import java.awt.Canvas;
+import java.awt.Font;
+import java.awt.FontMetrics;
+
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -37,6 +41,10 @@ public abstract class AbstractWordXmlWriter
 	protected final String TOP = "top";
 
 	protected final String BOTTOM = "bottom";
+	
+	public static final char SPACE = ' ';
+	
+	public static final String EMPTY_STRING = "";
 
 	protected int imageId = 75;
 
@@ -1137,6 +1145,12 @@ public abstract class AbstractWordXmlWriter
 		}
 		else
 		{
+			if ( CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE
+					.equals( style.getOverflow( ) ) )
+			{
+				txt = cropOverflowString( txt, style, fontFamily,
+						paragraphWidth );
+			}
 			writeString( txt, style );
 		}
 		writer.closeTag( "w:r" );
@@ -1145,6 +1159,61 @@ public abstract class AbstractWordXmlWriter
 			writeField( false, style, fontFamily );
 		}
 		closeHyperlink( info );
+	}
+	
+	/**
+	 * function emulate the overflow hidden behavior on table cell
+	 * @param text  String to check
+	 * @param style style of the text
+	 * @param fontFamily fond of the text
+	 * @param cellWidth the width of the container in points
+	 * @return String with truncated words that surpasses the cell width
+	 */
+	public String cropOverflowString( String text, IStyle style, String fontFamily, int cellWidth )
+	{//TODO: retrieve font type and replace plain with corresponding
+				Font font = new Font( fontFamily, Font.PLAIN,
+						WordUtil.parseFontSize( PropertyUtil
+								.getDimensionValue( style.getProperty(
+										StyleConstants.STYLE_FONT_SIZE ) ) ) );
+		Canvas c = new Canvas( );
+		FontMetrics fm = c.getFontMetrics( font );
+		//conversion from point to advancement point from sample linear regression:
+		int cellWidthInPointAdv = (cellWidth * (int) WordUtil.PT_TWIPS - 27) / 11;
+		StringBuilder sb = new StringBuilder( text.length( ) + 1 );
+		int wordEnd = -1;
+		do
+		{
+			wordEnd = text.indexOf( SPACE );
+			if ( wordEnd != -1 ) //space found
+			{
+				String word = text.substring( 0, wordEnd );
+				word = cropOverflowWord( word, fm, cellWidthInPointAdv );
+				sb.append( word );
+				sb.append( SPACE );
+				text = text.substring( wordEnd + 1 );
+			}
+		} while ( wordEnd != -1 && !EMPTY_STRING.equals( text ) );
+		sb.append( cropOverflowWord( text, fm, cellWidthInPointAdv ) );
+		return sb.toString( );
+	}
+	
+	/**
+	 *  crop words according to the given container point advance
+	 * @param text  it is a given word
+	 * @param fm the Font metrics
+	 * @param containerPointAdvWidth
+	 * @return the word is cropped if longer than container width
+	 */
+	private String cropOverflowWord( String word, FontMetrics fm, int containerPointAdvWidth )
+	{
+		int wordlength = fm.stringWidth( word );
+		if ( wordlength > containerPointAdvWidth )
+		{
+			int cropEnd = ( containerPointAdvWidth * word.length( ) ) / wordlength;
+			if ( cropEnd == 0 ) return "";
+			return word.substring( 0, cropEnd );
+		}
+		return word;
 	}
 
 	public void writeTextInRun( int type, String txt, IStyle style,
