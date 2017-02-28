@@ -1291,6 +1291,17 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 							.getStyle( );
 					if ( style.getProperty( IStyleModel.HEIGHT_PROP ) != null )
 					{
+						
+						//Copy semantic triggers from SourceTriggers to StyleTriggers while replacing the style property  
+						//BIRT-674
+						IPropertyDefn propertyDefn = style.getProperty( IStyleModel.HEIGHT_PROP );
+						List<SemanticTriggerDefn> sourceTriggers = ((PropertyDefn)sourcePropertyDefn).getTriggerDefnSet().getTriggerList();
+						
+						for(SemanticTriggerDefn semanticTrigger : sourceTriggers )
+						{
+							((PropertyDefn)propertyDefn).getTriggerDefnSet().add(semanticTrigger);
+						}
+						
 						cachedProperties.put( IStyleModel.HEIGHT_PROP,
 								style.getProperty( IStyleModel.HEIGHT_PROP ) );
 					}
@@ -1306,6 +1317,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 							.getStyle( );
 					if ( style.getProperty( IStyleModel.WIDTH_PROP ) != null )
 					{
+						//Copy semantic triggers from SourceTriggers to StyleTriggers while replacing the style property
+						//BIRT-674
+						IElementPropertyDefn propertyDefn = style.getProperty( IStyleModel.WIDTH_PROP );
+						List<SemanticTriggerDefn> sourceTriggers = ((PropertyDefn)sourcePropertyDefn).getTriggerDefnSet().getTriggerList();
+						
+						for(SemanticTriggerDefn semanticTrigger : sourceTriggers )
+						{
+							((PropertyDefn)propertyDefn).getTriggerDefnSet().add(semanticTrigger);
+						}
 						cachedProperties.put( IStyleModel.WIDTH_PROP,
 								style.getProperty( IStyleModel.WIDTH_PROP ) );
 					}
@@ -1924,6 +1944,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 			if ( styleDefn.properties.containsKey( property.getName( ) ) )
 			{
+				Object obj = styleDefn.properties.get( property.getName( ) );
 				// Ted 43511
 				if( IStyleModel.HEIGHT_PROP.equals( property.getName( ) ) || IStyleModel.WIDTH_PROP.equals( property.getName( )))
 				{
