@@ -1297,6 +1297,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 						IPropertyDefn propertyDefn = style.getProperty( IStyleModel.HEIGHT_PROP );
 						List<SemanticTriggerDefn> sourceTriggers = ((PropertyDefn)sourcePropertyDefn).getTriggerDefnSet().getTriggerList();
 						
+						//Adding source defined semantic triggers to style properties and adding them to chachedProperties
 						for(SemanticTriggerDefn semanticTrigger : sourceTriggers )
 						{
 							((PropertyDefn)propertyDefn).getTriggerDefnSet().add(semanticTrigger);
@@ -1322,6 +1323,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 						IElementPropertyDefn propertyDefn = style.getProperty( IStyleModel.WIDTH_PROP );
 						List<SemanticTriggerDefn> sourceTriggers = ((PropertyDefn)sourcePropertyDefn).getTriggerDefnSet().getTriggerList();
 						
+						//Adding source defined semantic triggers to style properties and adding them to chachedProperties
 						for(SemanticTriggerDefn semanticTrigger : sourceTriggers )
 						{
 							((PropertyDefn)propertyDefn).getTriggerDefnSet().add(semanticTrigger);
@@ -1944,7 +1946,6 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 
 			if ( styleDefn.properties.containsKey( property.getName( ) ) )
 			{
-				Object obj = styleDefn.properties.get( property.getName( ) );
 				// Ted 43511
 				if( IStyleModel.HEIGHT_PROP.equals( property.getName( ) ) || IStyleModel.WIDTH_PROP.equals( property.getName( )))
 				{
