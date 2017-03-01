@@ -2547,10 +2547,12 @@
     <Property displayNameID="Element.SimpleMasterPage.headerHeight" name="headerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
     	<DefaultUnit>in</DefaultUnit>
     	<Default>0.5</Default>
+    	<AllowedUnits>in,cm,mm,pt,pc,em,ex,px</AllowedUnits>    	
     </Property>
 	<Property displayNameID="Element.SimpleMasterPage.footerHeight" name="footerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
 		<DefaultUnit>in</DefaultUnit>	  
-		<Default>0.5</Default>	    
+		<Default>0.5</Default>
+		<AllowedUnits>in,cm,mm,pt,pc,em,ex,px</AllowedUnits>			    
 	</Property>	
   	<PropertyVisibility name="floatingFooter" visibility="hide"/>    	    
 	<Slot displayNameID="Element.SimpleMasterPage.slot.pageHeader" multipleCardinality="false" name="pageHeader" xmlName="page-header">
