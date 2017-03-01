@@ -1287,22 +1287,27 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				if ( sourcePropertyDefn instanceof IElementPropertyDefn
 						&& !( (IElementPropertyDefn) sourcePropertyDefn ).isStyleProperty( ) )
 				{
-					ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance( )
-							.getStyle( );
+					ElementDefn style = (ElementDefn) MetaDataDictionary
+							.getInstance( ).getStyle( );
 					if ( style.getProperty( IStyleModel.HEIGHT_PROP ) != null )
 					{
-						
-						//Copy semantic triggers from SourceTriggers to StyleTriggers while replacing the style property  
-						//BIRT-674
-						IPropertyDefn propertyDefn = style.getProperty( IStyleModel.HEIGHT_PROP );
-						List<SemanticTriggerDefn> sourceTriggers = ((PropertyDefn)sourcePropertyDefn).getTriggerDefnSet().getTriggerList();
-						
-						//Adding source defined semantic triggers to style properties and adding them to chachedProperties
-						for(SemanticTriggerDefn semanticTrigger : sourceTriggers )
+
+						// Copy semantic triggers from SourceTriggers to
+						// StyleTriggers while replacing the style property
+						// BIRT-674
+						IPropertyDefn propertyDefn = style
+								.getProperty( IStyleModel.HEIGHT_PROP );
+						List<SemanticTriggerDefn> sourceTriggers = ( (PropertyDefn) sourcePropertyDefn )
+								.getTriggerDefnSet( ).getTriggerList( );
+
+						// Adding source defined semantic triggers to style
+						// properties and adding them to chachedProperties
+						for ( SemanticTriggerDefn semanticTrigger : sourceTriggers )
 						{
-							((PropertyDefn)propertyDefn).getTriggerDefnSet().add(semanticTrigger);
+							( (PropertyDefn) propertyDefn ).getTriggerDefnSet( )
+									.add( semanticTrigger );
 						}
-						
+
 						cachedProperties.put( IStyleModel.HEIGHT_PROP,
 								style.getProperty( IStyleModel.HEIGHT_PROP ) );
 					}
@@ -1314,19 +1319,24 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				if ( sourcePropertyDefn instanceof IElementPropertyDefn
 						&& !( (IElementPropertyDefn) sourcePropertyDefn ).isStyleProperty( ) )
 				{
-					ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance( )
-							.getStyle( );
+					ElementDefn style = (ElementDefn) MetaDataDictionary
+							.getInstance( ).getStyle( );
 					if ( style.getProperty( IStyleModel.WIDTH_PROP ) != null )
 					{
-						//Copy semantic triggers from SourceTriggers to StyleTriggers while replacing the style property
-						//BIRT-674
-						IElementPropertyDefn propertyDefn = style.getProperty( IStyleModel.WIDTH_PROP );
-						List<SemanticTriggerDefn> sourceTriggers = ((PropertyDefn)sourcePropertyDefn).getTriggerDefnSet().getTriggerList();
-						
-						//Adding source defined semantic triggers to style properties and adding them to chachedProperties
-						for(SemanticTriggerDefn semanticTrigger : sourceTriggers )
+						// Copy semantic triggers from SourceTriggers to
+						// StyleTriggers while replacing the style property
+						// BIRT-674
+						IElementPropertyDefn propertyDefn = style
+								.getProperty( IStyleModel.WIDTH_PROP );
+						List<SemanticTriggerDefn> sourceTriggers = ( (PropertyDefn) sourcePropertyDefn )
+								.getTriggerDefnSet( ).getTriggerList( );
+
+						// Adding source defined semantic triggers to style
+						// properties and adding them to chachedProperties
+						for ( SemanticTriggerDefn semanticTrigger : sourceTriggers )
 						{
-							((PropertyDefn)propertyDefn).getTriggerDefnSet().add(semanticTrigger);
+							( (PropertyDefn) propertyDefn ).getTriggerDefnSet( )
+									.add( semanticTrigger );
 						}
 						cachedProperties.put( IStyleModel.WIDTH_PROP,
 								style.getProperty( IStyleModel.WIDTH_PROP ) );
