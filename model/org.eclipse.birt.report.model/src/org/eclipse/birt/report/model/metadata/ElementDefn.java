@@ -1281,7 +1281,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		// Ted 43511
 		if ( hasStyle( ) )
 		{
-			if ( cachedProperties.get( IStyleModel.HEIGHT_PROP ) != null )
+			if ( cachedProperties.get( IStyleModel.HEIGHT_PROP ) != null && !this.getName( ).equalsIgnoreCase( IStyleModel.MASTER_PAGE_PROP ) )
 			{
 				IPropertyDefn sourcePropertyDefn = cachedProperties.get( IStyleModel.HEIGHT_PROP );
 				if ( sourcePropertyDefn instanceof IElementPropertyDefn
@@ -1315,7 +1315,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 					}
 				}
 			}
-			if ( cachedProperties.get( IStyleModel.WIDTH_PROP ) != null )
+			if ( cachedProperties.get( IStyleModel.WIDTH_PROP ) != null && !this.getName( ).equalsIgnoreCase( IStyleModel.MASTER_PAGE_PROP ) )
 			{			
 				IPropertyDefn sourcePropertyDefn = cachedProperties.get( IStyleModel.WIDTH_PROP );
 				if ( sourcePropertyDefn instanceof IElementPropertyDefn
