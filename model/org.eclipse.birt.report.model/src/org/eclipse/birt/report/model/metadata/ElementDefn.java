@@ -1281,7 +1281,7 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 		// Ted 43511
 		if ( hasStyle( ) )
 		{
-			if ( cachedProperties.get( IStyleModel.HEIGHT_PROP ) != null && !this.getName( ).equalsIgnoreCase( IStyleModel.MASTER_PAGE_PROP ) )
+			if ( cachedProperties.get( IStyleModel.HEIGHT_PROP ) != null )
 			{
 				IPropertyDefn sourcePropertyDefn = cachedProperties.get( IStyleModel.HEIGHT_PROP );
 				if ( sourcePropertyDefn instanceof IElementPropertyDefn
@@ -1307,13 +1307,15 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 							( (PropertyDefn) propertyDefn ).getTriggerDefnSet( )
 									.add( semanticTrigger );
 						}
-
-						cachedProperties.put( IStyleModel.HEIGHT_PROP,
-								style.getProperty( IStyleModel.HEIGHT_PROP ) );
+						if ( !IStyleModel.MASTER_PAGE_PROP.equalsIgnoreCase( this.getName( ) ) )
+						{
+							cachedProperties.put( IStyleModel.HEIGHT_PROP,
+									style.getProperty( IStyleModel.HEIGHT_PROP ) );
+						}
 					}
 				}
 			}
-			if ( cachedProperties.get( IStyleModel.WIDTH_PROP ) != null && !this.getName( ).equalsIgnoreCase( IStyleModel.MASTER_PAGE_PROP ) )
+			if ( cachedProperties.get( IStyleModel.WIDTH_PROP ) != null )
 			{			
 				IPropertyDefn sourcePropertyDefn = cachedProperties.get( IStyleModel.WIDTH_PROP );
 				if ( sourcePropertyDefn instanceof IElementPropertyDefn
@@ -1338,8 +1340,11 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 							( (PropertyDefn) propertyDefn ).getTriggerDefnSet( )
 									.add( semanticTrigger );
 						}
-						cachedProperties.put( IStyleModel.WIDTH_PROP,
-								style.getProperty( IStyleModel.WIDTH_PROP ) );
+						if ( !IStyleModel.MASTER_PAGE_PROP.equalsIgnoreCase( this.getName( ) ) )
+						{
+							cachedProperties.put( IStyleModel.WIDTH_PROP,
+									style.getProperty( IStyleModel.WIDTH_PROP ) );
+						}
 					}
 				}
 			}
