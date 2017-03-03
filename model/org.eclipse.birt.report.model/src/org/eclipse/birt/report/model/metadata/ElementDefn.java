@@ -1289,7 +1289,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				{
 					ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance( )
 							.getStyle( );
-					if ( style.getProperty( IStyleModel.HEIGHT_PROP ) != null )
+					if ( style.getProperty( IStyleModel.HEIGHT_PROP ) != null 
+							&& IStyleModel.MASTER_PAGE_PROP.equalsIgnoreCase( this.getName( ) ) )
 					{
 						cachedProperties.put( IStyleModel.HEIGHT_PROP,
 								style.getProperty( IStyleModel.HEIGHT_PROP ) );
@@ -1304,7 +1305,8 @@ public class ElementDefn extends ObjectDefn implements IElementDefn
 				{
 					ElementDefn style = (ElementDefn) MetaDataDictionary.getInstance( )
 							.getStyle( );
-					if ( style.getProperty( IStyleModel.WIDTH_PROP ) != null )
+					if ( style.getProperty( IStyleModel.WIDTH_PROP ) != null 
+							&& IStyleModel.MASTER_PAGE_PROP.equalsIgnoreCase( this.getName( ) ) )
 					{
 						cachedProperties.put( IStyleModel.WIDTH_PROP,
 								style.getProperty( IStyleModel.WIDTH_PROP ) );
