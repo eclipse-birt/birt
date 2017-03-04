@@ -39,6 +39,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
 import org.eclipse.birt.report.model.api.metadata.IStructureDefn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
+import org.eclipse.birt.report.model.metadata.ChoiceSet;
 
 /**
  * ChoiceSetFactory provides common interface to access all kinds of collection
@@ -197,10 +198,60 @@ public class ChoiceSetFactory
 	public static IChoiceSet getStructChoiceSet( String structName,
 			String property )
 	{
+		return getStructChoiceSet( structName, property, false );
+	}
+	
+	/**
+	 * Gets the collection that given structure property value can selected from
+	 * them.
+	 * @param structName
+	 *             The name of the element.
+	 * @param property
+	 * 			   DE Property key.
+	 * @param removeNoSupportFilters
+	 * 			   indicate to shorter the choices excluding Top/Bottom N and others
+	 * @return The ChoiceSet instance contains all the allowed values.
+	 */
+	public static IChoiceSet getStructChoiceSet( String structName,
+			String property , boolean removeNoSupportFilters )
+	{
 		IPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
 				.getStructure( structName )
 				.findProperty( property );
-		return propertyDefn.getAllowedChoices( );
+		IChoiceSet cs = propertyDefn.getAllowedChoices( );
+		if( removeNoSupportFilters )
+		{
+			return removeNoSupportedChoices( cs );
+		}
+		return cs;
+	}
+
+	private static IChoiceSet removeNoSupportedChoices( IChoiceSet cs )
+	{
+		if ( cs == null )
+		{
+			return null;
+		}
+		ArrayList<String> notSupportedList = new ArrayList<String>( );
+		notSupportedList.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_N );
+		notSupportedList.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N );
+		notSupportedList
+				.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT );
+		notSupportedList
+				.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT );
+		IChoice[] choiceList = cs.getChoices( );
+		ArrayList<IChoice> newChoiceList = new ArrayList<IChoice>( );
+		for ( int i = 0; i < choiceList.length; i++ )
+		{
+			if ( !notSupportedList.contains( choiceList[i].getName( ) ) )
+			{
+				newChoiceList.add( choiceList[i] );
+			}
+		}
+		ChoiceSet newcs = new ChoiceSet( cs.getName( ) );
+		newcs.setChoices(
+				newChoiceList.toArray( new IChoice[newChoiceList.size( )] ) );
+		return newcs;
 	}
 
 	/**

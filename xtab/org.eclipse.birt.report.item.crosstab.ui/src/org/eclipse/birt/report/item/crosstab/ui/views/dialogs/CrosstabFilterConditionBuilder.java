@@ -190,7 +190,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	static
 	{
 		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
-				FilterCondition.OPERATOR_MEMBER );
+				FilterCondition.OPERATOR_MEMBER, true );
 		IChoice[] chs = chset.getChoices( new AlphabeticallyComparator( ) );
 		OPERATOR = new String[chs.length][2];
 
