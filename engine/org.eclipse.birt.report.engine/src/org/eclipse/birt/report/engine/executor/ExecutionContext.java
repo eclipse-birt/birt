@@ -530,8 +530,8 @@ public class ExecutionContext
 		// task = null;
 		executor = null;
 		tocBuilder = null;
-		// runnable = null;
-		// originalRunnable = null;
+		runnable = null;
+		originalRunnable = null;
 		configs = null;
 		params = null;
 		persistentBeans = null;

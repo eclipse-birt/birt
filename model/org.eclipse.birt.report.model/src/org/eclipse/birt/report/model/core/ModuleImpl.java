@@ -635,10 +635,14 @@ public abstract class ModuleImpl extends DesignElement
 	 * Close this module.
 	 */
 
-	public final void close( )
+	public void close( )
 	{
 		isValid = false;
-
+		
+		if ( options != null )
+		{
+			options.close( );
+		}
 		if ( !isReadOnly( ) )
 		{
 			saveState = activityStack.getCurrentTransNo( );

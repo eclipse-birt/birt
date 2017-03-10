@@ -49,8 +49,6 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static ThreadLocal<TimeZone> threadTimeZone = new ThreadLocal<TimeZone>( );
 
 	private IScriptFunctionExecutor executor;
-
-	private IScriptFunctionContext scriptContext;
 	
 	// Constant is defined in: EngineConstants.PROPERTY_FISCAL_YEAR_START_DATE
 	public static final String PROPERTY_FISCAL_YEAR_START_DATE = "FISCAL_YEAR_START_DATE"; //$NON-NLS-1$
@@ -1932,10 +1930,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return false;
 	}
 
-	public Object execute( Object[] arguments, IScriptFunctionContext context )
+	public Object execute( Object[] arguments, IScriptFunctionContext scriptContext )
 			throws BirtException
 	{
-		scriptContext = context;
 		if ( scriptContext != null )
 		{
 			Object locale = scriptContext.findProperty(
@@ -1970,7 +1967,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				threadTimeZone.set( (TimeZone) timeZone );
 			}
 		}
-		return this.executor.execute( arguments, context );
+		return this.executor.execute( arguments, scriptContext );
 	}
 	
 	private static Calendar getDefaultFiscalYearStartDate(
