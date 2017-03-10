@@ -59,6 +59,7 @@ public class TextStyle  extends AreaConstants
 		this.overLine = style.overLine;
 		this.lineThrough = style.lineThrough;
 		this.direction = style.direction;
+		this.hasHyperlink = style.isHasHyperlink( );
 	}
 
 	
