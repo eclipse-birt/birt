@@ -208,7 +208,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			newRunnable = new ReportRunnable( engine, newDesign );
 			newRunnable.setReportName( runnable.getReportName( ) );
 			newRunnable.cachedScripts = runnable.cachedScripts;
-			newDesign.getModule( ).close( );
+			newDesign.getModule( ).tidy( );
 		}
 		catch ( Exception ex )
 		{
