@@ -236,11 +236,11 @@ public abstract class AbstractWordXmlWriter
 	{
 		writer.openTag( "w:tbl" );
 		writer.openTag( "w:tblPr" );
-		writeTableIndent( );
+		writeTableIndent( style );
 		writeAttrTag( "w:tblStyle", "TableGrid" );
 		writeAttrTag( "w:tblOverlap", "Never" );
 		writeBidiTable( );
-		writeTableWidth( tablewidth );
+		writeTableWidth( style, tablewidth );
 		writeAttrTag( "w:tblLook", "01E0" );
 		writeTableLayout( );
 		writeTableBorders( style );
@@ -299,12 +299,23 @@ public abstract class AbstractWordXmlWriter
 		writer.closeTag( "w:tblW" );
 	}
 
-	private void writeTableIndent( )
+	private void writeTableIndent( IStyle style )
 	{
 		writer.openTag( "w:tblInd" );
-		writer.attribute( "w:w", 0 );
+		writer.attribute( "w:w",
+				WordUtil.milliPt2Twips( PropertyUtil.getDimensionValue( style
+						.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) ) ) );
 		writer.attribute( "w:type", "dxa" );
 		writer.closeTag( "w:tblInd" );
+	}
+
+	private void writeTableWidth( IStyle style, int tablewidth )
+	{
+		int leftSpace = WordUtil.milliPt2Twips( PropertyUtil.getDimensionValue(
+				style.getProperty( StyleConstants.STYLE_MARGIN_LEFT ) ) );
+		int rightSpace = WordUtil.milliPt2Twips( PropertyUtil.getDimensionValue(
+				style.getProperty( StyleConstants.STYLE_MARGIN_RIGHT ) ) );
+		writeTableWidth( tablewidth - leftSpace - rightSpace );
 	}
 
 	protected void writeBorders( IStyle style, int bottomMargin, int topMargin,
