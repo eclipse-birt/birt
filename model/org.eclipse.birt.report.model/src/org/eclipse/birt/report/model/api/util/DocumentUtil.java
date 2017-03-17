@@ -65,8 +65,9 @@ public class DocumentUtil
 			// multiple thread issues.
 
 			Module copy = (Module) designHandle.copy( );
-			new DocumentWriter( (ReportDesign) copy ).write( out );
-			return designHandle;
+			ReportDesign clonedDesign = (ReportDesign) copy;
+			new DocumentWriter( clonedDesign ).write( out );
+			return clonedDesign.handle( );
 		}
 
 		target = localizeDesign( source );
