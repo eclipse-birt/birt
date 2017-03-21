@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.report.engine">
+<schema targetNamespace="org.eclipse.birt.report.engine" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.birt.report.engine" id="emitters" name="Emitters that Support Report Rendering"/>
@@ -12,6 +12,9 @@
 
    <element name="extension">
       <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
          <documentation>
             root element for the emitters extension
          </documentation>
@@ -134,6 +137,13 @@
             <annotation>
                <documentation>
                   Represents if the emitter needs to output query result set.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="isFormatDeprecated" type="boolean">
+            <annotation>
+               <documentation>
+                  Indicates if format is deprecated
                </documentation>
             </annotation>
          </attribute>
