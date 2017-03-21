@@ -104,25 +104,6 @@
 	                     value="false">
 	               </choice>
 	            </property>
-	            <property
-	                  allowsEmptyValueAsNull="true"
-	                  canInherit="true"
-	                  defaultDisplayName="%datasource.property.useRequestSession"
-	                  defaultValue="false"
-	                  isEncryptable="false"
-	                  name="useRequestSession"
-	                  type="choice">
-	 	              <choice
-		                     defaultDisplayName="yes"
-		                     name="true"
-		                     value="true">
-		              </choice>
-		              <choice
-		                     defaultDisplayName="no"
-		                     name="false"
-		                     value="false">
-		              </choice>
-	            </property>
             </propertyGroup>
          </properties>
       </dataSource>

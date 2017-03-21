@@ -87,6 +87,7 @@ public class MongoDBDataSourceWizardPage extends DataSourceWizardPage
 			if ( isSessionEditable )
 			{
 				pageHelper.resetURIEditControlStatus( );
+				pageHelper.handleKerberosAuthenticationSelection( );
 			}
 		}
 	}
