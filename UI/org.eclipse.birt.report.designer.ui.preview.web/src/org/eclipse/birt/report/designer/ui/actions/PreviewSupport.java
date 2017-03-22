@@ -184,7 +184,7 @@ abstract class PreviewSupport
 			previewOption.setText(  Messages.getFormattedString( fullLabel ? "designer.preview.previewaction.label" //$NON-NLS-1$
 							: "designer.preview.run", //$NON-NLS-1$
 							new Object[]{
-								format.toUpperCase( ) + Messages.getString( "designer.preview.deprecated.label" )
+								format.toUpperCase( ) + " " + Messages.getString( "designer.preview.deprecated.label" )
 							} ) );
 
 			previewOption.setImage( getFormatIcon( format, emits ) );
