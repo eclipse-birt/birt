@@ -36,8 +36,9 @@ public class GroupInfoUpdator
 		this.level = level;
 		this.originGroups = groups;
 		this.lastIndex = last;
-		this.newGroups = new BasicCachedList( tempDir,
-				DataEngineSession.getCurrentClassLoader( ) );
+		this.newGroups = new CachedList( tempDir,
+				DataEngineSession.getCurrentClassLoader( ),
+				GroupInfo.getCreator( ) );
 		this.aggrUpdator = aggrValues;
 	}
 	
