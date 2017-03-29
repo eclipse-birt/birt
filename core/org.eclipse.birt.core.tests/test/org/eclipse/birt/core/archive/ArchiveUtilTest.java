@@ -158,6 +158,7 @@ public class ArchiveUtilTest
             assertEquals( path, ArchiveUtil.getFullPath( root, relative ) );
         }
     }
+	
 	@Test
     public void testEntryToFile( )
     {
@@ -170,22 +171,24 @@ public class ArchiveUtilTest
         assertEquals( "/%2E", ArchiveUtil.getFilePath( "/." ) );
         assertEquals( "/%2E%2E", ArchiveUtil.getFilePath( ".." ) );
         assertEquals( "/%2E%2E", ArchiveUtil.getFilePath( "/.." ) );
-        assertEquals( "/...", ArchiveUtil.getFilePath( "/..." ) );
+        assertEquals( "/%2E%2E%2E", ArchiveUtil.getFilePath( "/..." ) );
         assertEquals( "/%2F/", ArchiveUtil.getFilePath( "//" ) );
         assertEquals( "/%2F/%2F/", ArchiveUtil.getFilePath( "///" ) );
     }
+	
 	@Test
     public void testFileToEntry( )
     {
-        assertEquals( "/", ArchiveUtil.getEntryName( "/" ) );
-        assertEquals( "/.", ArchiveUtil.getEntryName( "/%2E" ) );
-        assertEquals( "/..", ArchiveUtil.getEntryName( "/%2E%2E" ) );
-        assertEquals( "/./", ArchiveUtil.getEntryName( "/%2E/" ) );
-        assertEquals( "/../", ArchiveUtil.getEntryName( "/%2E%2E/" ) );
-        assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/" ) );
-//      assertEquals( "/", ArchiveUtil.getEntryName( "/%2F" ) );  invalid entry name
-//      assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/%2F" ) ); invalid entry name
-        assertEquals( "///", ArchiveUtil.getEntryName( "/%2F/%2F/" ) );
+		assertEquals( "/", ArchiveUtil.getEntryName( "/" ) );
+		assertEquals( "/.", ArchiveUtil.getEntryName( "/%2E" ) );
+		assertEquals( "/..", ArchiveUtil.getEntryName( "/%2E%2E" ) );
+		assertEquals( "/./", ArchiveUtil.getEntryName( "/%2E/" ) );
+		assertEquals( "/../", ArchiveUtil.getEntryName( "/%2E%2E/" ) );
+		assertEquals( "/...", ArchiveUtil.getEntryName( "/%2E%2E%2E" ) );
+		assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/" ) );
+		assertEquals( "/", ArchiveUtil.getEntryName( "/%2F" ) );
+		assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/%2F" ) );
+		assertEquals( "///", ArchiveUtil.getEntryName( "/%2F/%2F/" ) );
     }
 
     private void assertEQ( String[] v1, String[] v2 )

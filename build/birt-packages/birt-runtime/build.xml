@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project basedir=".">
-  <property name="BIRT_VERSION" value="4.5.0"/>
+  <property name="BIRT_VERSION" value="4.7.0"/>
   <property name="RUNTIME_DIR" location="../birt-runtime-osgi/target/package"/>
   <property name="ROOT_DIR" location="../../.."/>
   <property name="TARGET_DIR" location="./target"/>
@@ -19,14 +19,13 @@
       <fileset dir="${RUNTIME_DIR}">
         <exclude name="WebViewerExample/WEB-INF/platform/**"/>
         <exclude name="birt.war"/>
-        <exclude name="ReportEngine/configuration/**"/>
-        <exclude name="ReportEngine/plugins/**"/>
+        <exclude name="ReportEngine/platform/**"/>
         <exclude name="ReportEngine/lib/**"/>
       </fileset>
     </copy>
     <!-- copy other plugins to lib folder -->
     <copy todir="${STAGE_DIR}/ReportEngine/lib">
-      <fileset dir="${RUNTIME_DIR}/ReportEngine/plugins">
+      <fileset dir="${RUNTIME_DIR}/ReportEngine/platform/plugins">
         <exclude name="org.eclipse.birt.*/**"/>
         <exclude name="uk.co.spudsoft.birt.*/**"/>
         <include name="**/*.jar"/>
@@ -46,7 +45,7 @@
     <taskdef name="buildJar" classname="org.eclipse.birt.build.ant.PackTask" classpathref="lib.path"/>
     <!-- copy all birt plugins to temp folder-->
     <copy todir="${TARGET_DIR}/org.eclipse.birt.runtime">
-      <fileset dir="${RUNTIME_DIR}/ReportEngine/plugins">
+      <fileset dir="${RUNTIME_DIR}/ReportEngine/platform/plugins">
         <include name="org.eclipse.birt.*/**"/>
         <include name="uk.co.spudsoft.birt.*/**"/>
         <exclude name="org.eclipse.birt.api_*.jar"/>

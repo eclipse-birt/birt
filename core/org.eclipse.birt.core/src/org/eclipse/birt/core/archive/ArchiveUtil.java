@@ -213,7 +213,14 @@ public class ArchiveUtil
         }
         try
         {
-            return URLEncoder.encode( name, "utf-8" );
+        	String path = URLEncoder.encode( name, "UTF-8" ); //$NON-NLS-1$
+			// handle case /abc./ where the File Object will remove "."
+			// unexpectedly by encoding . to %2E
+			if ( path.contains( "." ) ) //$NON-NLS-1$
+			{
+				path = path.replaceAll( "\\.", "%2E" ); //$NON-NLS-1$ //$NON-NLS-2$
+			}
+            return path;
         }
         catch ( UnsupportedEncodingException ex )
         {

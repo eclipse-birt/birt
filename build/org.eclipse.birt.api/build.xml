@@ -111,7 +111,7 @@
     <jar destfile="${LIB_DIR}/odaconnectivity.jar">
         <fileset dir="./target/unpack/classes/oda">
           <include name="org/eclipse/datatools/connectivity/oda/util/ResourceIdentifiers*.class"/>
-          <include name="org/eclipse/datatools/connectivity/oda/OdaException.class"/>
+          <!--<include name="org/eclipse/datatools/connectivity/oda/OdaException.class"/>-->
       </fileset>
     </jar>
   </target>
