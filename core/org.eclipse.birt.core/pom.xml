@@ -47,7 +47,7 @@
               <include>org/eclipse/birt/core/script/*.class</include>
               <include>org/eclipse/birt/core/script/functionservice/*.class</include>
               <include>org/eclipse/birt/core/script/functionservice/impl/*.class</include>
-              <include>org/eclipse/birt/core/util/IOUtil*.class</include>
+              <include>org/eclipse/birt/core/util/*.class</include>
           </includes>
             </configuration>
           </execution>

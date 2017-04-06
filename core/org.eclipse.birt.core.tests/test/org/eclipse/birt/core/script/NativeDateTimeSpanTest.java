@@ -11,18 +11,19 @@
 
 package org.eclipse.birt.core.script;
 
+import static org.junit.Assert.assertEquals;
+
 import java.util.Calendar;
 import java.util.Date;
-
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+
+import junit.framework.TestCase;
 
 /**
  * @Created on Dec 27, 2004
@@ -31,7 +32,7 @@ import static org.junit.Assert.*;
  * 
  * This class is the unit test for class NativeDateTimeSpan.
  */
-public class NativeDateTimeSpanTest
+public class NativeDateTimeSpanTest extends TestCase
 {
 
 	/**

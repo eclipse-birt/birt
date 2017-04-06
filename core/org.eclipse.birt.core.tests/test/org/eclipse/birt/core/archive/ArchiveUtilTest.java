@@ -11,16 +11,17 @@
 
 package org.eclipse.birt.core.archive;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.io.File;
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class ArchiveUtilTest
+import junit.framework.TestCase;
+
+public class ArchiveUtilTest extends TestCase
 {
 
     static final String ARCHIVE_FILE = "./utest/test.file";
@@ -174,8 +175,10 @@ public class ArchiveUtilTest
         assertEquals( "/%2E%2E%2E", ArchiveUtil.getFilePath( "/..." ) );
         assertEquals( "/%2F/", ArchiveUtil.getFilePath( "//" ) );
         assertEquals( "/%2F/%2F/", ArchiveUtil.getFilePath( "///" ) );
+        assertEquals( "/%2A", ArchiveUtil.getFilePath( "*" ) );
+        assertEquals( "/%40%23%24%25%5E%26%2A%3E", ArchiveUtil.getFilePath( "/@#$%^&*>" ) );
     }
-	
+
 	@Test
     public void testFileToEntry( )
     {
@@ -189,7 +192,17 @@ public class ArchiveUtilTest
 		assertEquals( "/", ArchiveUtil.getEntryName( "/%2F" ) );
 		assertEquals( "//", ArchiveUtil.getEntryName( "/%2F/%2F" ) );
 		assertEquals( "///", ArchiveUtil.getEntryName( "/%2F/%2F/" ) );
+		assertEquals( "/*", ArchiveUtil.getEntryName( "/%2A" ) );
+		assertEquals( "/@#$%^&*>", ArchiveUtil.getEntryName( "/%40%23%24%25%5E%26%2A%3E" ) );
     }
+
+	@Test
+	public void testFolderCreation( )
+	{
+		String EncodedFileName = ArchiveUtil.getFilePath( "/@#$%^&*>" );
+		File createdFile = new File( ARCHIVE_FOLDER + EncodedFileName );
+		assertEquals( EncodedFileName.substring( 1 ), createdFile.getName( ) );
+	}
 
     private void assertEQ( String[] v1, String[] v2 )
     {

@@ -83,6 +83,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.Accessible;
@@ -915,6 +916,11 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		categoryTable = new TableViewer( listArea, style );
 		subCategoryTable = new TreeViewer( listArea, style );
 		functionTable = new TableViewer( listArea, style );
+
+		// sort table items in alphabetical order
+		categoryTable.setComparator( new ViewerComparator( ) );
+		subCategoryTable.setComparator( new ViewerComparator( ) );
+		functionTable.setComparator( new ViewerComparator( ) );
 
 		functionTable.getControl( ).addKeyListener( new KeyListener( ) {
 

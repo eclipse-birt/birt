@@ -35,6 +35,6 @@
 		<module>birt-nl</module>
 		<module>birt-publish</module>
 		<module>birt-runtime-test</module>
-		<module>birt-integration-test</module>
+		<!--<module>birt-integration-test</module>-->
 	</modules>
 </project>

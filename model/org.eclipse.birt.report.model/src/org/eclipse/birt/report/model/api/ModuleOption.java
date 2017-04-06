@@ -290,6 +290,16 @@ public class ModuleOption implements IModuleOption
 			return;
 		this.options.putAll( options );
 	}
+	
+	/**
+	 * Clears all options.
+	 * 
+	 * @since 4.7
+	 */
+	public void close( )
+	{
+		this.options.clear( );
+	}
 
 	/**
 	 * return whether support unknown version

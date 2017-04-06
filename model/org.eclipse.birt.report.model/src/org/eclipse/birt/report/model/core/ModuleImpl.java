@@ -638,11 +638,24 @@ public abstract class ModuleImpl extends DesignElement
 	public final void close( )
 	{
 		isValid = false;
-
+		
 		if ( !isReadOnly( ) )
 		{
 			saveState = activityStack.getCurrentTransNo( );
 			session.drop( getModule( ) );
+		}
+	}
+	
+	/**
+	 * Tidy unnecessary references or data.
+	 * 
+	 * @since 4.7
+	 */
+	public void tidy( )
+	{
+		if ( options != null )
+		{
+			options.close( );
 		}
 	}
 

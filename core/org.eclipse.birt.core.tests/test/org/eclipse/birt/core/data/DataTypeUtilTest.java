@@ -19,6 +19,9 @@ import java.util.Locale;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.BaseScriptable;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 
@@ -27,17 +30,13 @@ import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 /**
  * 
  * Test case for DataTypeUtil
  */
-public class DataTypeUtilTest
+public class DataTypeUtilTest extends TestCase
 {
 
 	public Object[] testObject;

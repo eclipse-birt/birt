@@ -32,6 +32,7 @@ import org.eclipse.birt.report.engine.emitter.HTMLWriter;
 import org.eclipse.birt.report.engine.emitter.html.util.HTMLEmitterUtil;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.w3c.dom.css.CSSValue;
 
 /**
@@ -50,8 +51,8 @@ public abstract class HTMLEmitter
 	/**
 	 * The <code>containerDisplayStack</code> that stores the display value of container.
 	 */
-	protected Stack containerDisplayStack = new Stack( );
-	private static final DecimalFormat FORMATTER = new DecimalFormat( "#.###",
+	protected Stack<Integer> containerDisplayStack = new Stack<Integer>( );
+	private static final DecimalFormat FORMATTER = new DecimalFormat( "#.###", //$NON-NLS-1$
 			new DecimalFormatSymbols( Locale.ENGLISH ) );
 
 	public HTMLEmitter( HTMLReportEmitter reportEmitter, HTMLWriter writer,
@@ -160,39 +161,43 @@ public abstract class HTMLEmitter
 	{
 		if ( value != null )
 		{
+			boolean percentageUnit = value.getUnits( ).equals(
+					DesignChoiceConstants.UNITS_PERCENTAGE );
 			String size = formatSize( value );
 			if ( HTMLTags.ATTR_MIN_HEIGHT.equals( name ) )
 			{
-				//To solve the problem that IE do not support min-height.
-				//Use this way to make Firefox and IE both work well.
-				if ( fixedReport )
+				// Percentage unit cannot use auto
+				if ( fixedReport || percentageUnit )
 				{
-					content.append( " height: " );
+					content.append( " height: " ); //$NON-NLS-1$
 					content.append( size );
 					content.append( ';' );
 				}
 				else
 				{
-					content.append( " height: auto !important; height: " );
+					//To solve the problem that IE do not support min-height.
+					//Use this way to make Firefox and IE both work well.
+					content.append( " height: auto !important; height: " ); //$NON-NLS-1$
 					content.append( size );
-					content.append( "; min-height: " );
+					content.append( "; min-height: " ); //$NON-NLS-1$
 					content.append( size );
 					content.append( ';' );
 				}
 			}
 			else if ( HTMLTags.ATTR_MIN_WIDTH.equals( name ) )
 			{
-				if ( fixedReport )
+				// Percentage unit cannot use auto
+				if ( fixedReport || percentageUnit )
 				{
-					content.append( " width: " );
+					content.append( " width: " ); //$NON-NLS-1$
 					content.append( size );
 					content.append( ';' );
 				}
 				else
 				{
-					content.append( " width: auto !important; width: " );
+					content.append( " width: auto !important; width: " ); //$NON-NLS-1$
 					content.append( size );
-					content.append( "; min-width: " );
+					content.append( "; min-width: " ); //$NON-NLS-1$
 					content.append( size );
 					content.append( ';' );
 				}
@@ -201,7 +206,7 @@ public abstract class HTMLEmitter
 			{
 				content.append( ' ' );
 				content.append( name );
-				content.append( ": " );
+				content.append( ": " ); //$NON-NLS-1$
 				content.append( size );
 				content.append( ';' );
 			}
@@ -695,7 +700,7 @@ public abstract class HTMLEmitter
 	public void closeContainerTag( )
 	{
 		writer.closeTag( HTMLTags.TAG_DIV );
-		int display = ( (Integer) containerDisplayStack.pop( ) ).intValue( );
+		int display = containerDisplayStack.pop( );
 		if ( !reportEmitter.browserSupportsInlineBlock )
 		{
 			if ( ( ( display & HTMLEmitterUtil.DISPLAY_INLINE ) > 0 )
@@ -718,9 +723,9 @@ public abstract class HTMLEmitter
 		// only the Firefox1.5 and Firefox2 can identify the
 		// "-moz-inline-box".
 		writer.attribute( HTMLTags.ATTR_STYLE,
-				" display:-moz-inline-box; display:inline-block; *+display:inline;" );
+				" display:-moz-inline-box; display:inline-block; *+display:inline;" ); //$NON-NLS-1$
 		writer.openTag( HTMLTags.TAG_TABLE );
-		writer.attribute( HTMLTags.ATTR_STYLE, " display:table !important; display:inline;" );
+		writer.attribute( HTMLTags.ATTR_STYLE, " display:table !important; display:inline;" ); //$NON-NLS-1$
 		writer.openTag( HTMLTags.TAG_TR );
 		writer.openTag( HTMLTags.TAG_TD );
 	}
@@ -796,7 +801,7 @@ public abstract class HTMLEmitter
 			// implement vertical align.
 			writer.openTag( HTMLTags.TAG_TABLE );
 			StringBuffer nestingTableStyleBuffer = new StringBuffer( );
-			nestingTableStyleBuffer.append( " width:100%; height:" );
+			nestingTableStyleBuffer.append( " width:100%; height:" ); //$NON-NLS-1$
 			nestingTableStyleBuffer.append( height.toString( ) );
 			writer.attribute( HTMLTags.ATTR_STYLE,
 					nestingTableStyleBuffer.toString( ) );
@@ -804,9 +809,9 @@ public abstract class HTMLEmitter
 			writer.openTag( HTMLTags.TAG_TD );
 
 			StringBuffer textStyleBuffer = new StringBuffer( );
-			textStyleBuffer.append( " vertical-align:" );
+			textStyleBuffer.append( " vertical-align:" ); //$NON-NLS-1$
 			textStyleBuffer.append( vAlign.getCssText( ) );
-			textStyleBuffer.append( ";" );
+			textStyleBuffer.append( ";" ); //$NON-NLS-1$
 			writer.attribute( HTMLTags.ATTR_STYLE, textStyleBuffer.toString( ) );
 		}
 	}

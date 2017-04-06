@@ -18,14 +18,13 @@ import java.io.InputStream;
 
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class ArchiveViewTest
+import junit.framework.TestCase;
+
+public class ArchiveViewTest extends TestCase
 {
 
 	static final String TEST_FOLDER = "./utest/";

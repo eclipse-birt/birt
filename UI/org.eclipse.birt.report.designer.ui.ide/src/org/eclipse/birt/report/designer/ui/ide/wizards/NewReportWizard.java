@@ -643,6 +643,7 @@ public class NewReportWizard extends Wizard implements
 			if (isUseDefaultLibrary)
 			{
 				UIUtil.includeLibrary( handle, DEUtil.DEFAULT_LIBRARY,true );
+				DEUtil.setDefaultTheme( handle );
 			}
 			// bidi_hcg end
 			handle.saveAs( file.getLocation( ).toOSString( ) );

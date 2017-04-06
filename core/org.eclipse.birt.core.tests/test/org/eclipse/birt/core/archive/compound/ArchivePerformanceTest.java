@@ -6,14 +6,11 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 import org.junit.Ignore;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class ArchivePerformanceTest
+import junit.framework.TestCase;
+
+public class ArchivePerformanceTest extends TestCase
 {
 
 	int STREAM_COUNT = 127;

@@ -11,19 +11,17 @@
 
 package org.eclipse.birt.core.data;
 
+import org.junit.Test;
+
 import com.ibm.icu.util.ULocale;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 /**
  * 
  */
 
-public class DateUtilThreadTest
+public class DateUtilThreadTest extends TestCase
 {
 	@Test
     public void test() throws InterruptedException

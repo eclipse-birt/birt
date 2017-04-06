@@ -16,14 +16,13 @@ import java.io.File;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class InputStreamRefreshTest
+import junit.framework.TestCase;
+
+public class InputStreamRefreshTest extends TestCase
 {
 
 	static final String ARCHIVE_NAME = "./utest/test.archive";

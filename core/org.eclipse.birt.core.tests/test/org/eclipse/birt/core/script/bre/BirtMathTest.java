@@ -14,22 +14,20 @@ package org.eclipse.birt.core.script.bre;
 import java.lang.reflect.InvocationTargetException;
 
 import org.eclipse.birt.core.script.CoreJavaScriptInitializer;
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
-
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+
+import junit.framework.TestCase;
 
 
 /**
  * 
  */
 
-public class BirtMathTest
+public class BirtMathTest extends TestCase
 {
 	private Context cx;
 	private Scriptable scope;
