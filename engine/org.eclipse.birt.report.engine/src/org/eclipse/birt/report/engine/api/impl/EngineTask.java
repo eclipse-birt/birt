@@ -359,6 +359,10 @@ public abstract class EngineTask implements IEngineTask
 		{
 			appContext.put( EngineConstants.USER_ACL_KEY, userAcls );
 		}
+		
+		// Allow this task to be accessed from AppContext
+		appContext.put( EngineConstants.APPCONTEXT_ENGINE_TASK, this );
+		
 		executionContext.setAppContext( appContext );
 
 		StringBuffer logStr = null;
