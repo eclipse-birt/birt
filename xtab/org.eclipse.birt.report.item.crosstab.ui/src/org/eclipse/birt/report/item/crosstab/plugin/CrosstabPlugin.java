@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.structures.Action;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.jface.dialogs.MessageDialogWithToggle;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
@@ -124,7 +125,9 @@ public class CrosstabPlugin extends AbstractUIPlugin
 							.newLabel( null );
 					try
 					{
-						labelHandle.setText( ( (MeasureViewHandle) cellHandle.getContainer( ) ).getCubeMeasureName( ) );
+						MeasureViewHandle measureViewHandle = ( (MeasureViewHandle) cellHandle.getContainer( ) );
+						MeasureHandle measure = measureViewHandle.getCubeMeasure( );						
+						labelHandle.setText( measure.getDisplayName( ) != null ? measure.getDisplayName( ) : measureViewHandle.getCubeMeasureName( ) );
 
 						cellHandle.addContent( labelHandle );
 					}

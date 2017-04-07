@@ -168,7 +168,7 @@ public class CrosstabAdaptUtil
 	{
 		ComputedColumn bindingColumn = createLevelDisplayComputedColumn( owner,
 				levelHandle );
-
+		bindingColumn.setDisplayName( levelHandle.getDisplayName( ) );
 		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( bindingColumn.getDataType( ) ) )
 		{
 			bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
@@ -234,7 +234,7 @@ public class CrosstabAdaptUtil
 	{
 		ComputedColumn bindingColumn = createLevelDisplayComputedColumn( owner,
 				levelHandle );
-
+		bindingColumn.setDisplayName( levelHandle.getDisplayName( ) );
 		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( bindingColumn.getDataType( ) ) )
 		{
 			bindingColumn.setDataType( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING );
