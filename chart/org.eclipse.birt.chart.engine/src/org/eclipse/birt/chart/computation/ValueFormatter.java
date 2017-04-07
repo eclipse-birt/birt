@@ -607,4 +607,30 @@ public final class ValueFormatter
 		}
 		return df;
 	}
+
+	public static Number normalizeDouble( Double dValue, String pattern )
+	{
+		Number value = null;
+		if ( pattern != null && pattern.trim( ).length( ) > 0 )
+		{
+			NumberFormat df = new DecimalFormat( pattern );
+
+			String sValue = df.format( dValue );
+
+			try
+			{
+				value = df.parse( sValue );
+			}
+			catch ( ParseException e )
+			{
+				logger.log( e );;
+			}
+
+		}
+		else
+		{
+			value = normalizeDouble( dValue );
+		}
+		return value;
+	}
 }
