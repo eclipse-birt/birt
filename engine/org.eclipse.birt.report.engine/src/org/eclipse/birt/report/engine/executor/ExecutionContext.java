@@ -511,21 +511,18 @@ public class ExecutionContext
 			}
 			dataSource = null;
 		}
-		
-		IStatusHandler handler = task.getStatusHandler( );
-		if ( handler != null )
-		{
-			handler.finish( );
-		}
 
-		// This should be the last one to close since it clears out appContext, which 
-		// could be used by status handlers
 		if ( closeClassLoader
 				&& applicationClassLoader instanceof ApplicationClassLoader )
 		{
 			( (ApplicationClassLoader) applicationClassLoader ).close( );
 		}
 
+		IStatusHandler handler = task.getStatusHandler( );
+		if ( handler != null )
+		{
+			handler.finish( );
+		}
 		// RELEASE ALL THE MEMBERS EXPLICTLY AS THIS OBJECT MAY BE REFERENCED BY
 		// THE SCRIPT OBJECT WHICH IS HOLDED IN THE FININALIZER QUEUE
 		applicationClassLoader = null;
