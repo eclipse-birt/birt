@@ -2703,6 +2703,41 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// action
 		String tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 		
+		
+		// append script which changes display of div to table from default 
+		//when no width is specified for HTML button item
+		if (tagName.equalsIgnoreCase( HTMLTags.TAG_DIV ) 
+				&& width == null 
+				&& foreign.getRawValue( ) != null )
+		{
+			String text = foreign.getRawValue( ).toString( );
+			if(text.contains("<button") )
+			{
+				int beginIndex = text.indexOf("<button id=\"");
+				if( beginIndex != -1)
+				{	
+					//Add the characters count of 12 for start index of (<button id=")
+					beginIndex = beginIndex + 12;
+					int endIndex = text.indexOf("\"", beginIndex);
+					String buttonID = text.substring(beginIndex, endIndex);
+					StringBuilder builder = new StringBuilder(text);
+					
+					builder.append( "<script type=\"text/javascript\">\n" );
+					builder.append( "var x = document.getElementById(\"" );
+					builder.append( buttonID );
+					builder.append( "\").parentNode;\n" );
+					builder.append( "if(x.nodeName.toUpperCase() == \"DIV\"){\n" );
+					builder.append( "if(x.style.width == \"\" || x.style.width == 'undefined'){\n");
+					builder.append( "x.style.display = \"table\";\n" );
+					builder.append( "}\n");
+					builder.append( "}\n");
+					builder.append( "</script>\n" );
+					
+					foreign.setRawValue(builder.toString());
+				}
+			}			
+		}
+		
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
 		{
