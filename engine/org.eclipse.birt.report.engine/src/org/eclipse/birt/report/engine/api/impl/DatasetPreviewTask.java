@@ -23,7 +23,6 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
@@ -45,6 +44,7 @@ import org.eclipse.birt.report.engine.api.IRunnable;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -473,8 +473,8 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 				try
 				{
 					IScriptExpression scriptExpr = script;
-					// convert BRE expression into javascript expression
-					if ( "bre".equals( script.getScriptId( ) ) )
+					// convert non-JavaScript expression into JS expression
+					if ( ! Expression.SCRIPT_JAVASCRIPT.equals( script.getScriptId( ) ) )
 					{
 						IModelAdapter adapter = getModelAdapter( );
 						scriptExpr = adapter.adaptJSExpression(
