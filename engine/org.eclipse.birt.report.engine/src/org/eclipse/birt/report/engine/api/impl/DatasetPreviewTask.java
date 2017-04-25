@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
@@ -468,47 +469,51 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		if ( expr instanceof IScriptExpression )
 		{
 			IScriptExpression script = (IScriptExpression) expr;
-			if ( script != null )
+			try
 			{
-				try
+				IScriptExpression scriptExpr = script;
+				String scriptId = script.getScriptId();
+				if ( BaseExpression.constantId.equals( scriptId ))
 				{
-					IScriptExpression scriptExpr = script;
-					// convert non-JavaScript expression into JS expression
-					if ( ! Expression.SCRIPT_JAVASCRIPT.equals( script.getScriptId( ) ) )
+					// Constant expression can't refer to columns
+					return;
+				}
+				// convert non-JavaScript expression into JS expression
+				if ( ! Expression.SCRIPT_JAVASCRIPT.equals( scriptId ) )
+				{
+					IModelAdapter adapter = getModelAdapter( );
+					scriptExpr = adapter.adaptJSExpression(
+							script.getText( ), script.getScriptId( ) );
+				}
+
+				// find referenced binding names
+				// the script text may be null value, for example: a value
+				// list which contains a none value.
+				if ( scriptExpr != null )
+				{
+					List<IColumnBinding> columns = ExpressionUtil
+							.extractColumnExpressions( scriptExpr.getText( ) );
+					for ( IColumnBinding col : columns )
 					{
-						IModelAdapter adapter = getModelAdapter( );
-						scriptExpr = adapter.adaptJSExpression(
-								script.getText( ), script.getScriptId( ) );
+						referencedRows.add( col.getResultSetColumnName( ) );
 					}
 
-					// find referenced binding names
-					// the script text may be null value, for example: a value
-					// list which contains a none value.
-					if ( scriptExpr != null )
+					if ( referencedDSRows != null )
 					{
-						List<IColumnBinding> columns = ExpressionUtil
-								.extractColumnExpressions( scriptExpr.getText( ) );
+						columns = ExpressionUtil.extractColumnExpressions(
+								scriptExpr.getText( ),
+								ExpressionUtil.DATASET_ROW_INDICATOR );
 						for ( IColumnBinding col : columns )
 						{
-							referencedRows.add( col.getResultSetColumnName( ) );
-						}
-
-						if ( referencedDSRows != null )
-						{
-							columns = ExpressionUtil.extractColumnExpressions(
-									scriptExpr.getText( ),
-									ExpressionUtil.DATASET_ROW_INDICATOR );
-							for ( IColumnBinding col : columns )
-							{
-								referencedDSRows.add( col
-										.getResultSetColumnName( ) );
-							}
+							referencedDSRows.add( col
+									.getResultSetColumnName( ) );
 						}
 					}
 				}
-				catch ( BirtException e )
-				{
-				}
+			}
+			catch ( BirtException e )
+			{
+				log.log(Level.WARNING, "Error processing script: " + script.getText(), e);
 			}
 		}
 		else if ( expr instanceof IConditionalExpression )
