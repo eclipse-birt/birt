@@ -217,11 +217,12 @@ public class MongoDBDataSourcePageHelper
 				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
 		// Configuration radio button
-		kerberosConfigurationRadioBtn = new Button( kerberosSettingComposite3,
+		/*kerberosConfigurationRadioBtn = new Button( kerberosSettingComposite3,
 				SWT.RADIO );
 		GridData radioBtnData = new GridData( );
 		radioBtnData.verticalAlignment = SWT.TOP;
-		kerberosConfigurationRadioBtn.setLayoutData( radioBtnData );
+		
+		//kerberosConfigurationRadioBtn.setLayoutData( radioBtnData );
 		kerberosConfigurationRadioBtn
 				.addSelectionListener( new SelectionListener( ) {
 
@@ -241,7 +242,7 @@ public class MongoDBDataSourcePageHelper
 
 					}
 
-				} );
+				} );*/
 
 		// Configuration group
 		kerberosConfigElementGroup = new Group( kerberosSettingComposite3,
