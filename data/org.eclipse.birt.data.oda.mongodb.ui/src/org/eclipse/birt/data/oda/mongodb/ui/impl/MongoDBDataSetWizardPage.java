@@ -216,8 +216,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				MDBQueryExpressionBuilder queryExprDialog = new MDBQueryExpressionBuilder( Display.getDefault( )
-						.getActiveShell( ) );
+				MDBQueryExpressionBuilder queryExprDialog = new MDBQueryExpressionBuilder( Display.getDefault( ).getActiveShell( ) );
 				queryExprDialog.setExpressionText( queryExpr );
 				if ( queryExprDialog.open( ) == Window.OK )
 				{
@@ -245,8 +244,7 @@ public class MongoDBDataSetWizardPage extends DataSetWizardPage
 
 			public void widgetSelected( SelectionEvent e )
 			{
-				MDBSortExpressionBuilder sortExprDialog = new MDBSortExpressionBuilder( Display.getDefault( )
-						.getActiveShell( ) );
+				MDBSortExpressionBuilder sortExprDialog = new MDBSortExpressionBuilder( Display.getDefault( ).getActiveShell( ) );
 				sortExprDialog.setExpressionText( sortExpr );
 				if ( sortExprDialog.open( ) == Window.OK )
 				{
