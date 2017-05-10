@@ -24,19 +24,19 @@
             </activation>            
             <properties>
                 <eclipse.release.name>oxygen</eclipse.release.name>
-                <tycho.version>0.25.0</tycho.version>
+                <tycho.version>1.0.0</tycho.version>
                 <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.7milestones/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.13milestones/</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
                 <wtp.repo.url>http://download.eclipse.org/webtools/repository/oxygen/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbit.repo.url>
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.13/1.13.0.201603142002/repository</dtp.repo.url>
-                <!-- http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/ -->
-                <!-- <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url> -->
-                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.13.v20150730</jetty.repo.url>
+                <jetty.version>9.4.1.v20170120</jetty.version>
+                <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
+                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
             </properties>
         </profile>	
 	    <profile>
@@ -53,9 +53,9 @@
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.13/1.13.0.201603142002/repository</dtp.repo.url>
-                <!-- http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/ -->
-                <!-- <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url> -->
-                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.13.v20150730</jetty.repo.url>
+                <jetty.version>9.2.13.v20150730</jetty.version>
+                <!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url-->
+                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
             </properties>
         </profile>
         <profile>
@@ -69,9 +69,10 @@
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
-                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.2.9.v20150224</jetty.repo.url>
-	    </properties>
-	</profile>
+				<jetty.version>9.2.9.v20150224</jetty.version>
+                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+            </properties>
+        </profile>
 		<profile>
 			<id>localdeps</id>
 			<properties>
@@ -325,6 +326,100 @@
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
+					<filters>
+						<!-- restrict Jetty bundles to specific version only -->
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.continuation</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.deploy</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.http</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.io</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.jndi</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.osgi.boot</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.plus</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.security</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.server</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.servlet</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.util</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.webapp</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.jetty.xml</id>
+							<restrictTo>
+								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+					</filters>
 				</configuration>
 			</plugin>
 
