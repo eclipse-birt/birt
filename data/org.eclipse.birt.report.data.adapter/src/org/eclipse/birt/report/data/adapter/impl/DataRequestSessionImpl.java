@@ -803,6 +803,37 @@ public class DataRequestSessionImpl extends DataRequestSession
 		}
 	}
 
+	// Appcontext entries that may be temporarily modified during createCube call
+	private static final String[] APPCONTEXT_BACKUP_KEYS = {
+				DataEngine.MEMORY_DATA_SET_CACHE,
+				DataEngine.DATA_SET_CACHE_ROW_LIMIT };
+	
+	/**
+	 * Create a backup of app context values that may be changed during cube creation
+	 */
+	private Map<Object,Object> backupAppContextForCube(Map<Object,Object> originalAppContext) 
+	{
+		Map<Object, Object> backup = new HashMap<Object, Object>();
+		for ( String key : APPCONTEXT_BACKUP_KEYS ) 
+		{
+			if ( originalAppContext.containsKey( key ))
+				backup.put( key, originalAppContext.get( key ) );
+		}
+		return backup;
+	}
+	
+	/**
+	 * Restore appcontext value based on backup taken with backupAppContextForCube
+	 */
+	private void restoreAppContext(Map<Object,Object> appContext, Map<Object,Object> backup)
+	{
+		for ( String key : APPCONTEXT_BACKUP_KEYS ) 
+		{
+			appContext.remove( key );
+		}
+		appContext.putAll( backup );
+	}
+	
 	/**
 	 *
 	 * @param cubeHandle
@@ -813,21 +844,21 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws BirtException
 	 * @throws DataException
 	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
 	private void createCube( TabularCubeHandle cubeHandle,
 			CubeMaterializer cubeMaterializer, Map appContext ) throws BirtException
 	{
 		SecurityListener sl = new SecurityListener( this );
 		sl.start( cubeHandle );
 
-
-		Map<?,?> backupAppContext = new HashMap();
-		if( appContext == null )
-			appContext = new HashMap();
 		//Please note that we should always use original application context during query execution,
 		//rather than create a new one with same properties.Application Context is sometimes used as cross-query
 		//information carrier.
-
-		backupAppContext.putAll( appContext );
+		// Also make sure that the backup/restore steps don't alter appcontext values updated/added by 
+		// downstream components
+		if( appContext == null )
+			appContext = new HashMap();
+		Map<Object,Object> backupAppContext = backupAppContextForCube(appContext);
 
 		List measureNames = new ArrayList( );
 		Map calculatedMeasure = new HashMap( );
@@ -1081,8 +1112,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 		sl.end( );
 
-		appContext.clear( );
-		appContext.putAll( backupAppContext );
+		restoreAppContext( appContext, backupAppContext );
 	}
 
 	public static long computeMemoryBufferSize( Map appContext )
