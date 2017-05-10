@@ -9,7 +9,7 @@ Bundle-ClassPath: ., viewer.jar,
 Bundle-Activator: org.eclipse.birt.report.viewer.ViewerPlugin
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: javax.servlet;version="2.4.0",
  javax.servlet.http;version="2.4.0",
  javax.servlet.jsp;version="2.0.0",
@@ -45,12 +45,18 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
  org.apache.xerces;bundle-version="[2.8.0,3.0.0)";resolution:=optional,
  org.eclipse.birt.report.item.crosstab.core;bundle-version="[2.2.0,5.0.0)";resolution:=optional,
  org.eclipse.birt.report.designer.core,
- org.eclipse.jetty.osgi.boot;bundle-version="9.2.9",
- org.eclipse.jetty.server;bundle-version="9.2.9",
- org.eclipse.jetty.util;bundle-version="9.2.9",
- org.eclipse.jetty.webapp;bundle-version="9.2.9",
- org.eclipse.jetty.servlet;bundle-version="9.2.9",
+ org.eclipse.jetty.osgi.boot,
+ org.eclipse.jetty.server,
+ org.eclipse.jetty.util,
+ org.eclipse.jetty.webapp,
+ org.eclipse.jetty.plus,
+ org.eclipse.jetty.servlet,
+ org.eclipse.jetty.http,
  org.apache.jasper.glassfish;bundle-version="2.2.2"
 Eclipse-LazyStart: true
 Eclipse-BuddyPolicy: registered
 Eclipse-BundleShape: dir
+Jetty-WarFolderPath: birt
+Jetty-WarResourcePath: birt
+Web-ContextPath: /viewer
+managedServerName: org.eclipse.birt.report.viewer.server
