@@ -189,12 +189,12 @@ public class URLParser
 			{
 				result = new File( location ).toURI( )
 						.toASCIIString( )
-						.replace( new File( "/" ).toURI( ).toASCIIString( ), "/" );				
+						.replaceFirst( new File( "/" ).toURI( ).toASCIIString( ), "/" );				
 			}
 			else
 				result = new File( location ).toURI( )
 					.toASCIIString( )
-					.replace( new File( "" ).toURI( ).toASCIIString( ), "" );
+					.replaceFirst( new File( "" ).toURI( ).toASCIIString( ), "" );
 		}
 		catch ( Exception e )
 		{
