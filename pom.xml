@@ -31,7 +31,8 @@
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
                 <wtp.repo.url>http://download.eclipse.org/webtools/repository/neon/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbit.repo.url>
+                <!--<orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20160520211859/repository/</orbit.repo.url>-->
+				<orbit.repo.url>http://download.eclipse.org/tools/orbit/R-builds/R20170307180635/repository</orbit.repo.url>				
                 <!-- https://eclipse.org/datatools/downloads.php  -->
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.13/1.13.0.201603142002/repository</dtp.repo.url>
                 <!-- http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/ -->
