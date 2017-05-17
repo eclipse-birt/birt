@@ -83,9 +83,9 @@ Require-Bundle: org.w3c.css.sac,
  com.lowagie.text;bundle-version="[1.3.0,3.0.0)";resolution:=optional,
  org.eclipse.birt.report.engine.fonts;bundle-version="[2.1.0,5.0.0)";resolution:=optional,
  org.eclipse.birt.report.data.adapter,
- org.apache.batik.transcoder,
- org.apache.batik.css,
- org.apache.batik.util
+ org.apache.batik.transcoder;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.css;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.util;bundle-version="[1.7.0,1.8.0)"
 Eclipse-LazyStart: true
 Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
