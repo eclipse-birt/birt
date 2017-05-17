@@ -42,7 +42,6 @@
         <include name="org.eclipse.datatools.enablement.*/**"/>
       	<include name="org.eclipse.datatools.modelbase.*/**"/>
         <include name="org.eclipse.datatools.sqltools.*/**"/>
-        <include name="org.eclipse.equinox.p2.*/**"/>
       </fileset>
       <flattenmapper/>
     </copy>
