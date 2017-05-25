@@ -314,7 +314,8 @@ public class ModuleOption implements IModuleOption
 	private boolean isPrimitiveType( Object obj )
 	{
 		// check if class name is like java.lang.String,Integer,Long
-		return obj.getClass( ).getName( ).startsWith( "java.lang." ); //$NON-NLS-1$
+		return obj == null
+				|| obj.getClass( ).getName( ).startsWith( "java.lang." ); //$NON-NLS-1$
 	}
 
 	/**
