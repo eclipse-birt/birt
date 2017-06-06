@@ -313,8 +313,8 @@ public class ModuleOption implements IModuleOption
 
 	private boolean isPrimitiveType( Object obj )
 	{
-		// check if class name is like java.lang.String,Integer,Long
-		return obj == null
+		// check if instance of ULocale or class name is like java.lang.String,Integer,Long
+		return obj == null || (obj instanceof ULocale)
 				|| obj.getClass( ).getName( ).startsWith( "java.lang." ); //$NON-NLS-1$
 	}
 
