@@ -638,11 +638,24 @@ public abstract class ModuleImpl extends DesignElement
 	public final void close( )
 	{
 		isValid = false;
-
+		
 		if ( !isReadOnly( ) )
 		{
 			saveState = activityStack.getCurrentTransNo( );
 			session.drop( getModule( ) );
+		}
+	}
+	
+	/**
+	 * Tidy unnecessary references or data.
+	 * 
+	 * @since 4.7
+	 */
+	public void tidy( )
+	{
+		if ( options != null )
+		{
+			options.close( );
 		}
 	}
 
@@ -920,8 +933,7 @@ public abstract class ModuleImpl extends DesignElement
 
 		// find it in the linked resource file.
 
-		List<Object> baseNameList = getListProperty( getModule( ),
-				INCLUDE_RESOURCE_PROP );
+		List<Object> baseNameList = getIncludedResources( );
 		if ( baseNameList == null || baseNameList.size( ) == 0 )
 			return null;
 
@@ -939,6 +951,16 @@ public abstract class ModuleImpl extends DesignElement
 		}
 
 		return msg;
+	}
+	
+	/**
+	 * Finds all included resources in current module
+	 * 
+	 * @return 4.7
+	 */
+	public List<Object> getIncludedResources( )
+	{
+		return getListProperty( getModule( ), INCLUDE_RESOURCE_PROP );
 	}
 
 	/**

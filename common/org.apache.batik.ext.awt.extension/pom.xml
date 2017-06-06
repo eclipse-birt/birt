@@ -11,4 +11,16 @@
 	<artifactId>org.apache.batik.ext.awt.extension</artifactId>
 	<version>1.7.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.cbi.maven.plugins</groupId>
+				<artifactId>eclipse-jarsigner-plugin</artifactId>
+				<version>1.1.3</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

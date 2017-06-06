@@ -29,8 +29,8 @@ import java.util.List;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.eclipse.birt.report.model.api.core.IAccessControl;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -46,7 +46,6 @@ import org.eclipse.birt.report.model.api.util.XPathUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.core.NameSpace;
 import org.eclipse.birt.report.model.core.StructureContext;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ImageItem;
@@ -281,8 +280,7 @@ public class ModuleUtil
 		try
 		{
 			ModelUtil.checkUTFSignature( streamData, filename );
-			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
-			SAXParser parser = saxParserFactory.newSAXParser( );
+			SAXParser parser = CommonUtil.createSAXParser( );
 			InputSource inputSource = new InputSource( streamData );
 			inputSource.setEncoding( UnicodeUtil.SIGNATURE_UTF_8 );
 			parser.parse( inputSource, handler );

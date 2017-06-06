@@ -15,7 +15,6 @@ import java.io.BufferedOutputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.util.Dictionary;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -209,6 +208,7 @@ public class ReportDocumentWriter implements ReportDocumentConstants
 			newRunnable = new ReportRunnable( engine, newDesign );
 			newRunnable.setReportName( runnable.getReportName( ) );
 			newRunnable.cachedScripts = runnable.cachedScripts;
+			newDesign.getModule( ).tidy( );
 		}
 		catch ( Exception ex )
 		{

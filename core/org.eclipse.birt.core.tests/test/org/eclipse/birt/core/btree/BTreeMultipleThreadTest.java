@@ -15,13 +15,11 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class BTreeMultipleThreadTest
+import junit.framework.TestCase;
+
+public class BTreeMultipleThreadTest extends TestCase
 {
 
 	static int KEY_COUNT = 10000;

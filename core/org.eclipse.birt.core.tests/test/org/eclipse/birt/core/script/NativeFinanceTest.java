@@ -11,15 +11,18 @@
 
 package org.eclipse.birt.core.script;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
-import org.mozilla.javascript.ScriptableObject;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
+import org.mozilla.javascript.ScriptableObject;
+
+import junit.framework.TestCase;
 
 /**
  * Created on Nov 12, 2004 NativeFinanceTest.
@@ -49,7 +52,7 @@ import static org.junit.Assert.*;
  *          <li>testIrr()</li>
  *          <li>testMirr()</li>
  */
-public class NativeFinanceTest
+public class NativeFinanceTest extends TestCase
 {
 
 	/**

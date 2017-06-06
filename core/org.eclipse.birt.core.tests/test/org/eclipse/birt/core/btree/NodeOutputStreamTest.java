@@ -17,13 +17,11 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class NodeOutputStreamTest
+import junit.framework.TestCase;
+
+public class NodeOutputStreamTest extends TestCase
 {
 	@Test
     public void testEmptyOutputStream( ) throws IOException

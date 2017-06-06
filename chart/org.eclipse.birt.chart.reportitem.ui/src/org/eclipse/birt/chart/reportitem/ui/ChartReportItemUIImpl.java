@@ -141,15 +141,18 @@ public class ChartReportItemUIImpl extends ReportItemFigureProvider
 				// Mark this figure need resize to auto fit container if chart
 				// model bounds is empty but handle bounds is default value
 				final Chart cm = (Chart) iri.getProperty( ChartReportItemConstants.PROPERTY_CHART );
-				final Bounds bo = cm.getBlock( ).getBounds( );
-				final NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
-				if ( ( bo == null || bo.getWidth( ) == 0 || bo.getHeight( ) == 0 )
-						&& ( nf.format( ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH ) + "pt" ).equals( eih.getWidth( ) //$NON-NLS-1$
-								.getStringValue( ) )
-						&& ( nf.format( ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT ) + "pt" ).equals( eih.getHeight( ) //$NON-NLS-1$
-								.getStringValue( ) ) )
+				if(cm != null)
 				{
-					dr.needFitContainer = true;
+					final Bounds bo = cm.getBlock( ).getBounds( );
+					final NumberFormat nf = ChartUIUtil.getDefaultNumberFormatInstance( );
+					if ( ( bo == null || bo.getWidth( ) == 0 || bo.getHeight( ) == 0 )
+							&& ( nf.format( ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH ) + "pt" ).equals( eih.getWidth( ) //$NON-NLS-1$
+									.getStringValue( ) )
+							&& ( nf.format( ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT ) + "pt" ).equals( eih.getHeight( ) //$NON-NLS-1$
+									.getStringValue( ) ) )
+					{
+						dr.needFitContainer = true;
+					}
 				}
 			}
 

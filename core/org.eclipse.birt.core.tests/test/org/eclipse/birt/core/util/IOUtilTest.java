@@ -14,10 +14,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Time;
@@ -30,23 +27,19 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.IdScriptableObject;
 import org.mozilla.javascript.ImporterTopLevel;
-import org.mozilla.javascript.NativeJavaObject;
 import org.mozilla.javascript.Scriptable;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
 /**
  * Test case for IOUtil
  * @see org.eclipse.birt.core.util.IOUtil
  */
-public class IOUtilTest
+public class IOUtilTest extends TestCase
 {
 	// test value
 	private Object[] testValues = new Object[]{

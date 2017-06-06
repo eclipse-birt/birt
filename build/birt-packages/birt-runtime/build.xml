@@ -23,12 +23,25 @@
         <exclude name="ReportEngine/lib/**"/>
       </fileset>
     </copy>
-    <!-- copy other plugins to lib folder -->
+    <!-- copy necessary jars to lib folder -->
     <copy todir="${STAGE_DIR}/ReportEngine/lib">
       <fileset dir="${RUNTIME_DIR}/ReportEngine/platform/plugins">
         <exclude name="org.eclipse.birt.*/**"/>
-        <exclude name="uk.co.spudsoft.birt.*/**"/>
+        <exclude name="org.eclipse.datatools.enablement.*/**"/>
+      	<exclude name="org.eclipse.datatools.modelbase.*/**"/>
+        <exclude name="org.eclipse.datatools.sqltools.*/**"/>
+        <exclude name="org.eclipse.equinox.p2.*/**"/>
+      	<exclude name="uk.co.spudsoft.birt.*/**"/>
         <include name="**/*.jar"/>
+      </fileset>
+      <flattenmapper/>
+    </copy>
+  	<!-- copy other jars to addons folder -->
+    <copy todir="${STAGE_DIR}/ReportEngine/addons">
+      <fileset dir="${RUNTIME_DIR}/ReportEngine/platform/plugins">
+        <include name="org.eclipse.datatools.enablement.*/**"/>
+      	<include name="org.eclipse.datatools.modelbase.*/**"/>
+        <include name="org.eclipse.datatools.sqltools.*/**"/>
       </fileset>
       <flattenmapper/>
     </copy>

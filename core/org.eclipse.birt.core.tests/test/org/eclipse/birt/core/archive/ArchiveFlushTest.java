@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.core.archive;
 
-import static org.junit.Assert.assertEquals;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,13 +23,9 @@ import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-public class ArchiveFlushTest
+public class ArchiveFlushTest extends TestCase
 {
 
     /**

@@ -1,18 +1,20 @@
 
 package org.eclipse.birt.core.script;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 
-import org.mozilla.javascript.Context;
-import org.mozilla.javascript.Scriptable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
+import org.mozilla.javascript.Context;
+import org.mozilla.javascript.Scriptable;
 
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-public class NativeJavaMapTest
+public class NativeJavaMapTest extends TestCase
 {
 
 	/**

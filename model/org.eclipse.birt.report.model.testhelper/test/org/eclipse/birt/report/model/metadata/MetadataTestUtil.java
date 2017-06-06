@@ -14,7 +14,8 @@ package org.eclipse.birt.report.model.metadata;
 import java.io.InputStream;
 
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
+
+import org.eclipse.birt.core.util.CommonUtil;
 
 /**
  * Wrapper class for all core tests to access some members and methods, which
@@ -400,8 +401,7 @@ public class MetadataTestUtil
 
 		try
 		{
-			SAXParserFactory saxParserFactory = SAXParserFactory.newInstance( );
-			SAXParser parser = saxParserFactory.newSAXParser( );
+			SAXParser parser = CommonUtil.createSAXParser( );
 			parser.parse( internalStream, handler );
 		}
 		catch ( Exception e )

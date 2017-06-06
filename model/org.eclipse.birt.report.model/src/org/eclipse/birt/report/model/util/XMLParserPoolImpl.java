@@ -23,8 +23,8 @@ import java.util.logging.Logger;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
 
+import org.eclipse.birt.core.util.CommonUtil;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 
@@ -174,10 +174,7 @@ class XMLParserPoolImpl implements XMLParserPool
 	private SAXParser createParser( Map<String, ?> properties )
 			throws ParserConfigurationException, SAXException
 	{
-
-		SAXParserFactory factory = SAXParserFactory.newInstance( );
-		SAXParser parser = factory.newSAXParser( );
-		
+		SAXParser parser = CommonUtil.createSAXParser( );
 		logger.log( Level.FINEST, "created a new SAX parser" ); //$NON-NLS-1$
 		return parser;
 	}

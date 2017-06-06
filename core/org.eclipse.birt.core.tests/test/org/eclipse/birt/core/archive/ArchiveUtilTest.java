@@ -19,7 +19,9 @@ import java.io.IOException;
 
 import org.junit.Test;
 
-public class ArchiveUtilTest
+import junit.framework.TestCase;
+
+public class ArchiveUtilTest extends TestCase
 {
 
     static final String ARCHIVE_FILE = "./utest/test.file";

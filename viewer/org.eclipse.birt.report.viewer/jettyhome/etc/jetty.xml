@@ -65,6 +65,11 @@
     <!-- =========================================================== -->
     <!-- jetty-jndi by default                                       -->
     <!-- =========================================================== -->
+<!-- There is no need in modifying the default configuration sequence since
+     it already includes those items. The following section is commented out
+     and kept here for hystorical and testing reasons since it was used with
+     Jetty 9.2. -->
+<!--
     <Call class="org.eclipse.jetty.webapp.Configuration$ClassList" name="setServerDefault">
       <Arg><Ref refid="Server" /></Arg>
       <Call name="addAfter">
@@ -73,11 +78,11 @@
           <Array type="String">
             <Item>org.eclipse.jetty.plus.webapp.EnvConfiguration</Item>
             <Item>org.eclipse.jetty.plus.webapp.PlusConfiguration</Item>
-            <Item>org.eclipse.jetty.annotations.AnnotationConfiguration</Item>
           </Array>
         </Arg>
       </Call>
     </Call>
+-->
 
     <Call class="java.lang.System" name="setProperty">
       <Arg>java.naming.factory.initial</Arg>

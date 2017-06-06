@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.core.archive;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -8,17 +10,12 @@ import java.util.List;
 import org.eclipse.birt.core.archive.compound.ArchiveEntry;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+import junit.framework.TestCase;
 
-public class FolderToArchiveTest
+public class FolderToArchiveTest extends TestCase
 {
 
     @Before

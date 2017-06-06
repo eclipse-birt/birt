@@ -33,8 +33,13 @@ public class CoreJavaScriptWrapper implements IJavascriptWrapper
 		}
 		if ( javaObject instanceof List )
 		{
-			return new NativeJavaList( scope, javaObject, staticType );
+			// latest change in Rhino implements List interface
+			if ( !( javaObject instanceof org.mozilla.javascript.NativeArray ) )
+			{
+				return new NativeJavaList( scope, javaObject, staticType );
+			}
 		}
+
 		return javaObject;
 	}
 

@@ -13,16 +13,14 @@ package org.eclipse.birt.core.exception;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
+
+import junit.framework.TestCase;
 
 /**
  *
  */
-public class BirtExceptionTest
+public class BirtExceptionTest extends TestCase
 {
 
     private static String FATAL_ERROR_KEY = "Fatal_Error";

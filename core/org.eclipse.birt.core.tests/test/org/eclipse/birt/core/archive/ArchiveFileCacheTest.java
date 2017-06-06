@@ -17,14 +17,11 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.compound.ArchiveEntry;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
-
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
-public class ArchiveFileCacheTest
+import junit.framework.TestCase;
+
+public class ArchiveFileCacheTest extends TestCase
 {
 	@Test
     public void testMemoryCache( ) throws IOException
