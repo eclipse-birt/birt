@@ -24,6 +24,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.bson.BSON;
+import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbResultSetMetaData;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.DocumentsMetaData;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData;
@@ -31,10 +32,10 @@ import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 import com.mongodb.BasicDBList;
-import com.mongodb.BasicDBObject;
+
 import com.mongodb.Bytes;
 import com.mongodb.DBObject;
-import com.mongodb.DBRefBase;
+
 
 /**
  * Internal class delegated by MDbResultSet to
@@ -48,10 +49,10 @@ public class ResultDataHandler
     
     // cached values for each current top-level document
     private Map<String,ArrayFieldValues> m_nestedValues;    // key is top-level row, and field name of each level of nested collection being flattened
-    private Map<String,DBObject> m_currentContainingDocs;   // key is top-level row, and name of a result set field; mapped to the current parent document that holds its value
+    private Map<String,Document> m_currentContainingDocs;   // key is top-level row, and name of a result set field; mapped to the current parent document that holds its value
     
     static final String TOP_LEVEL_PARENT = ""; //$NON-NLS-1$
-    private static final DBObject NULL_VALUE_FIELD = (new BasicDBObject()).append( "NULL", Boolean.TRUE ); //$NON-NLS-1$
+    private static final Document NULL_VALUE_FIELD = (new Document()).append( "NULL", Boolean.TRUE ); //$NON-NLS-1$
 
     private static Logger sm_logger = DriverUtil.getLogger();
     
@@ -61,7 +62,7 @@ public class ResultDataHandler
         m_flattenableLevelFields = new ArrayList<String>(3);
         m_intermediateFieldMDs = new HashMap<String,FieldMetaData>(3);
         m_nestedValues = new HashMap<String,ArrayFieldValues>(3);
-        m_currentContainingDocs = new HashMap<String,DBObject>(8);
+        m_currentContainingDocs = new HashMap<String,Document>(8);
 
         // initialize all flattenable nested level cached field names
         initializeNestedLevels();
@@ -187,7 +188,7 @@ public class ResultDataHandler
      * This method flattens array(s) of sub-documents, if exists and designated in the metadata,  
      * and projects the sub-documents in an array into multiple ODA result set rows.
      */
-    public Object getFieldValue( String fieldName, DBObject currentRow )
+    public Object getFieldValue( String fieldName, Document currentRow )
         throws OdaException
     {
         FieldMetaData fieldMD = getFieldMetaData( fieldName );
@@ -214,7 +215,7 @@ public class ResultDataHandler
         }
 
         // handling other types of field or flattening nested collection of documents
-        DBObject containerDoc = getContainerDocument( fieldName, fieldMD, currentRow );
+        Document containerDoc = getContainerDocument( fieldName, fieldMD, currentRow );
         if( containerDoc == NULL_VALUE_FIELD )  // no value under the field or its intermediate parents
             return null;
         if( containerDoc == null )          // no nested parent container doc
@@ -257,18 +258,18 @@ public class ResultDataHandler
         return value;
     }
     
-    private DBObject getContainerDocument( String fieldFullName, FieldMetaData fieldMD, DBObject documentObj )
+    private Document getContainerDocument( String fieldFullName, FieldMetaData fieldMD, Document documentObj )
     {
         if( m_currentContainingDocs.containsKey( fieldFullName ) )
             return m_currentContainingDocs.get( fieldFullName );   // may have null value
         
-        DBObject containingDoc = doGetContainerDocument( fieldFullName, fieldMD, documentObj, null );
+        Document containingDoc = doGetContainerDocument( fieldFullName, fieldMD, documentObj, null );
         m_currentContainingDocs.put( fieldFullName, containingDoc );   // cache for repeated lookup
         return containingDoc;
     }
     
-    private DBObject doGetContainerDocument( String fieldFullName, FieldMetaData fieldMD,
-                        DBObject documentObj, String priorLevelName )
+    private Document doGetContainerDocument( String fieldFullName, FieldMetaData fieldMD,
+                        Document documentObj, String priorLevelName )
     {
         String[] fieldLevelNames = fieldMD != null ?
                                 fieldMD.getLevelNames() :
@@ -281,7 +282,7 @@ public class ResultDataHandler
                                 priorLevelName + MDbMetaData.FIELD_FULL_NAME_SEPARATOR + firstLevelName :
                                 firstLevelName;
 
-        DBObject currentContainerDoc = null;
+        Document currentContainerDoc = null;
         if( ! m_currentContainingDocs.containsKey( levelFullName ) )
         {
             FieldMetaData firstLevelMD = 
@@ -320,7 +321,7 @@ public class ResultDataHandler
             if( ! firstLevelValues.hasContainerDocs() )
             {
                 Object value = documentObj.get( firstLevelName );
-                DBObject firstLevelDocs = value != null ? 
+                Object firstLevelDocs = value != null ? 
                                             fetchFieldDocument( value ) : 
                                             NULL_VALUE_FIELD;
                 firstLevelValues.addContainerDocs( firstLevelDocs );
@@ -393,12 +394,13 @@ public class ResultDataHandler
 
     // Utility methods
 
-    static DBObject fetchFieldDocument( Object fieldValue )
+    static Object fetchFieldDocument( Object fieldValue )
     {
         return fetchFieldDocument( fieldValue, BSON.UNDEFINED );
     }
 
-    static DBObject fetchFieldDocument( Object fieldValue, byte fieldNativeDataType )
+	@SuppressWarnings("unchecked")
+    static Object fetchFieldDocument( Object fieldValue, byte fieldNativeDataType )
     {
         if( fieldNativeDataType == BSON.UNDEFINED )
             fieldNativeDataType = Bytes.getType( fieldValue );
@@ -409,61 +411,55 @@ public class ResultDataHandler
                 return null;
 
             // fetch nested document, if exists, for each element in array
-            BasicDBList dbObjsList = new BasicDBList();
+            List<Document> documentList = new ArrayList<Document>( );
             for( Object valueInList : (List<?>)fieldValue )
             {
-                DBObject listElementObj = fetchFieldDocument( valueInList );
+                Object listElementObj = fetchFieldDocument( valueInList );
                 if( listElementObj == null )   // at least one element in array is not a nested doc
                     return null;
                 if( listElementObj instanceof List )
-                    dbObjsList.addAll( (List<?>)listElementObj );   // collapse into the same list
+                    documentList.addAll( (List<Document>)listElementObj );   // collapse into the same list
                 else
-                    dbObjsList.add( listElementObj );
+                    documentList.add( (Document)listElementObj );
             }
-            return dbObjsList;  // return nested documents in an array
+            return documentList;  // return nested documents in an array
         }
 
-        DBObject fieldObjValue = null;
-        if( fieldNativeDataType == BSON.OBJECT )
+        Document fieldObjValue = null;
+        if( fieldValue instanceof Document )
         {
-            if( fieldValue instanceof DBObject )
-                fieldObjValue = (DBObject)fieldValue;
-            else if( fieldValue instanceof DBRefBase )
-            {
-                try
-                {
-                    fieldObjValue = ((DBRefBase)fieldValue).fetch();
-                }
-                catch( Exception ex )
-                {
-                    // log and ignore
-                    getLogger().log( Level.INFO, "Ignoring error in fetching a DBRefBase object." ); //$NON-NLS-1$
-                }
-            }
+            fieldObjValue = (Document) fieldValue;
+            
+		}else 
+        {
+			// log and ignore
+			getLogger().log( Level.INFO, "Ignoring error in fetching of unsupported BSON.OBJECT type"+ fieldValue ); //$NON-NLS-1$			           
         }
         return fieldObjValue;
     }
     
-    public static Object fetchFieldValues( String fieldFullName, DBObject documentObj )
+    public static Object fetchFieldValues( String fieldFullName, Object documentObj )
     {
         return fetchFieldValues( fieldFullName, null, documentObj );
     }
     
-    public static Object fetchFieldValues( String fieldFullName, FieldMetaData fieldMD, DBObject documentObj )
+	@SuppressWarnings("unchecked")
+    public static Object fetchFieldValues( String fieldFullName, FieldMetaData fieldMD, Object documentObj )
     {
-        if( documentObj instanceof BasicDBList )
-            return fetchFieldValuesFromList( fieldFullName, (BasicDBList)documentObj );
+        if( documentObj instanceof List<?> )
+            return fetchFieldValuesFromList( fieldFullName, (List<Document>)documentObj );
 
+		Document document = (Document) documentObj;
         String[] fieldLevelNames = fieldMD != null ?
                             fieldMD.getLevelNames() :
                             MDbMetaData.splitFieldName( fieldFullName );
         if( fieldLevelNames.length == 0 )
             return null;
 
-        Object value = documentObj.get( fieldLevelNames[0] );
+        Object value = document.get( fieldLevelNames[0] );
         if( value == null )     // no data in document under the specified field name
             return null;
-        DBObject fieldDoc = fetchFieldDocument( value );
+        Object fieldDoc = fetchFieldDocument( value );
 
         if( fieldLevelNames.length == 1 )
              return fieldDoc != null ? fieldDoc : value;
@@ -481,19 +477,19 @@ public class ResultDataHandler
         return fetchFieldValues( childFullName, fieldDoc );
     }
 
-    private static BasicDBList fetchFieldValuesFromList( String fieldFullName, BasicDBList fromDBList )
+    private static BasicDBList fetchFieldValuesFromList( String fieldFullName, List<Document> documentList )
     {
-        if( fromDBList == null || fromDBList.size() == 0 )
+        if( documentList == null || documentList.size() == 0 )
             return null;
 
         // get the named field value from each element in given array list
         BasicDBList fieldValuesList = new BasicDBList();
-        if( fromDBList.isPartialObject() )
-            fieldValuesList.markAsPartialObject();
+        //if( documentList.isPartialObject() )
+        //    fieldValuesList.markAsPartialObject();
 
-        for( int index=0; index < fromDBList.size(); index++ )
+        for( int index=0; index < documentList.size(); index++ )
         {
-            Object listElementObj = fromDBList.get( String.valueOf(index) );
+            Object listElementObj = documentList.get( index );
             if( listElementObj instanceof DBObject )    // nested complex object, e.g. document
                 listElementObj = fetchFieldValues( fieldFullName, (DBObject)listElementObj );
             fieldValuesList.put( index, listElementObj );
@@ -509,7 +505,7 @@ public class ResultDataHandler
         return null;    // all values in list is null
     }
 
-    private Object getSubFieldValues( String fieldFullName, FieldMetaData fieldMD, DBObject documentObj )
+    private Object getSubFieldValues( String fieldFullName, FieldMetaData fieldMD, Document documentObj )
     {
         String[] fieldLevelNames = fieldMD != null ?
                     fieldMD.getLevelNames() :
