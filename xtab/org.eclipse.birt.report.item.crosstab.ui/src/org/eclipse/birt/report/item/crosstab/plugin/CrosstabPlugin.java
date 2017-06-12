@@ -126,8 +126,14 @@ public class CrosstabPlugin extends AbstractUIPlugin
 					try
 					{
 						MeasureViewHandle measureViewHandle = ( (MeasureViewHandle) cellHandle.getContainer( ) );
-						MeasureHandle measure = measureViewHandle.getCubeMeasure( );						
-						labelHandle.setText( measure.getDisplayName( ) != null ? measure.getDisplayName( ) : measureViewHandle.getCubeMeasureName( ) );
+						MeasureHandle measure = measureViewHandle.getCubeMeasure( );
+						String labelName = measureViewHandle.getCubeMeasureName( );
+						//ComputedMeasureViews doesn't hold reference to measure , if they don't have their own aggregation.
+						if(measure != null && measure.getDisplayName( ) != null )
+						{
+							labelName =  measure.getDisplayName( );
+						}
+						labelHandle.setText(labelName);
 
 						cellHandle.addContent( labelHandle );
 					}
