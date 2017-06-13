@@ -32,9 +32,6 @@ public class Messages extends NLS
     public static String mDbDriver_readPrefPrimaryPreferred;
     public static String mDbDriver_readPrefSecondary;
     public static String mDbDriver_readPrefSecondaryPreferred;
-	public static String mDbConnection_missingValueJaasConf;
-	public static String mDbConnection_missingValueKrbConf;
-	public static String mDbConnection_missingValueKrbPrinc;
 
     public static String mDbDSMetaData_dataSourceName;
 

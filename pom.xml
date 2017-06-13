@@ -30,8 +30,8 @@
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
                 <wtp.repo.url>http://download.eclipse.org/webtools/repository/oxygen/</wtp.repo.url>
-                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->                
-				<orbit.repo.url>http://download.eclipse.org/tools/orbit/R-builds/R20170307180635/repository</orbit.repo.url>				
+                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.13/1.13.0.201603142002/repository</dtp.repo.url>
                 <jetty.version>9.4.5.v20170502</jetty.version>

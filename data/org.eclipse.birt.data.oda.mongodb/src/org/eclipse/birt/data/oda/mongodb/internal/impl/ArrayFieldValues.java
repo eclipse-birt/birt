@@ -18,10 +18,9 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData;
 
-
+import com.mongodb.DBObject;
 
 /**
  * Internal class to cache and handle a logical row's multiple values.
@@ -79,7 +78,7 @@ public class ArrayFieldValues
         return hasFieldValue( m_containingDocName );
     }
     
-    void addContainerDocs( Object value )
+    void addContainerDocs( DBObject value )
     {
         addFieldValue( m_containingDocName, value, true );
     }
@@ -112,10 +111,10 @@ public class ArrayFieldValues
         return fieldValuesList.get( m_subRowIndex );
     }
         
-    Document getCurrentContainerDoc()
+    DBObject getCurrentContainerDoc()
     {
         Object currentDoc = getCurrentValue( m_containingDocName );
-        return currentDoc instanceof Document ? (Document)currentDoc : null; 
+        return currentDoc instanceof DBObject ? (DBObject)currentDoc : null; 
     }
 
     boolean next()

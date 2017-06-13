@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
-
+import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,7 +29,6 @@ import java.util.Set;
 import java.util.logging.Level;
 
 import org.bson.BSON;
-import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbConnection;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbQuery;
 import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
@@ -39,12 +38,13 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
 import com.mongodb.Bytes;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MapReduceOutput;
 import com.mongodb.MongoException;
 import com.mongodb.ServerAddress;
-import com.mongodb.client.FindIterable;
-import com.mongodb.client.MongoCollection;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoIterable;
 
 /**
  * Utility class to retrieve the metadata of a MongoDB database and collections.
@@ -52,8 +52,7 @@ import com.mongodb.client.MongoIterable;
 public class MDbMetaData
 {
     public static final int DEFAULT_META_DATA_SEARCH_LIMIT = 1;
-	public static int count = 0;
-	
+
     private static final MDbMetaData sm_factory = new MDbMetaData();
     private static final DocumentsMetaData sm_emptyFields = sm_factory.new DocumentsMetaData();
     private static final FieldMetaData sm_emptyFieldMetaData =
@@ -73,15 +72,14 @@ public class MDbMetaData
     private static final Integer ARRAY_NATIVE_DATA_TYPE = Integer.valueOf(BSON.ARRAY);
     private static final Integer OBJECT_NATIVE_DATA_TYPE = Integer.valueOf(BSON.OBJECT);
 
-    private MongoDatabase m_connectedDB;
-	private ArrayList<String> collectionNames = new ArrayList<String>( );
+    private DB m_connectedDB;
     
     public MDbMetaData( Properties connProperties ) throws OdaException
     {
         m_connectedDB = MDbConnection.getMongoDatabase( connProperties );
     }
 
-    public MDbMetaData( MongoDatabase connectedDB )
+    public MDbMetaData( DB connectedDB )
     {
         if( connectedDB == null )
             throw new IllegalArgumentException( "null" ); //$NON-NLS-1$
@@ -116,24 +114,18 @@ public class MDbMetaData
      */
     public List<String> getCollectionsList( boolean excludeSystemCollections )
     {
-        if ( collectionNames.isEmpty( ) )
-		{
-			try
-			{
-				MongoIterable<String> collectionNamesIterable = m_connectedDB
-						.listCollectionNames( );
-				for ( final String collectionName : collectionNamesIterable )
-				{
-					collectionNames.add( collectionName );
-				}
-			}
-			catch( MongoException ex )
-			{
-				// log and ignore
-				DriverUtil.getLogger().log( Level.INFO, "Ignoring error to get collection names from database.", ex ); //$NON-NLS-1$
-				return Collections.emptyList();
-			}
-		}
+        Set<String> collectionNames;
+        try
+        {
+            collectionNames = m_connectedDB.getCollectionNames();
+        }
+        catch( MongoException ex )
+        {
+            // log and ignore
+            DriverUtil.getLogger().log( Level.INFO, "Ignoring error to get collection names from database.", ex ); //$NON-NLS-1$
+            return Collections.emptyList();
+        }
+
         if( excludeSystemCollections )
         {
             List<String> filteredNames = new ArrayList<String>(collectionNames.size());
@@ -146,33 +138,14 @@ public class MDbMetaData
         }
 
         // return the complete list returned by mongoDB, which is already sorted
-		List<String> collectionNamesCopy = new ArrayList<String>(
-				Collections.nCopies( collectionNames.size( ), " " ) );
-		Collections.copy( collectionNamesCopy, collectionNames );
-        return new ArrayList<String>( collectionNamesCopy );
+        return new ArrayList<String>( collectionNames );
     }
-	
-	public boolean collectionExists( String collectionName )
-	{
-		if ( collectionNames.isEmpty( ) )
-		{
-			getCollectionsList( );
-		}
-		for ( String name : collectionNames )
-		{
-			if ( name.equalsIgnoreCase( collectionName ) )
-			{
-				return true;
-			}
-		}
-		return false;
-	}
-	
-    public MongoCollection<Document> getCollection( String collectionName )
+
+    public DBCollection getCollection( String collectionName )
     {
-        if( ! collectionExists( collectionName ) )
+        if( ! m_connectedDB.collectionExists( collectionName ) )
             return null;
-        return m_connectedDB.getCollection( collectionName );
+        return m_connectedDB.getCollectionFromString( collectionName );
     }
 
     /**
@@ -192,7 +165,7 @@ public class MDbMetaData
             int searchLimit, QueryProperties runtimeProps )
         throws OdaException
     {
-        MongoCollection<Document> collection = getCollection( collectionName );
+        DBCollection collection = getCollection( collectionName );
         if( collection == null && ! runtimeProps.hasRunCommand() )
         {
             if( runtimeProps.getOperationType() == CommandOperationType.RUN_DB_COMMAND &&
@@ -213,12 +186,13 @@ public class MDbMetaData
             QueryModel.validateCommandSyntax( runtimeProps.getOperationType(), 
                                 runtimeProps.getOperationExpression() );
 
-            Iterable<Document> commandResults = null;
+            Iterable<DBObject> commandResults = null;
             if( runtimeProps.hasAggregateCommand() )
                 commandResults = MDbOperation.callAggregateCmd( collection, runtimeProps );
             else if( runtimeProps.hasMapReduceCommand() )
             {
-                commandResults  = MDbOperation.callMapReduceCmd( collection, runtimeProps );                
+                MapReduceOutput mapReduceOut = MDbOperation.callMapReduceCmd( collection, runtimeProps );
+                commandResults = mapReduceOut.results();
                 // skip running $query on output collection in discovering metadata
             }
             else if( runtimeProps.hasRunCommand() )
@@ -230,7 +204,7 @@ public class MDbMetaData
         }
 
         // run search query operation by default
-        FindIterable<Document> rowsCursor = collection.find();
+        DBCursor rowsCursor = collection.find();
 
         if( searchLimit > 0 )
             rowsCursor.limit( searchLimit );
@@ -306,7 +280,14 @@ public class MDbMetaData
         FieldMetaData firstLevelMd = fromDocMetaData.getFieldMetaData( nameFragments[0] );
         if( nameFragments.length == 1 )  // specified field has only 1 level
             return firstLevelMd;
-       
+
+        // Sanity check for multiple-level no-data case:
+        // getFieldMetaData() currently returns empty-field-metadata if metadata
+        // is not found by the field name. So if field has more than two levels,
+        // but the first level MD points to the static empty-field-metadata instance,
+        // then return the first level MD (empty-field-metadata) like in 1-level case.
+        if( firstLevelMd == sm_emptyFieldMetaData )
+        	return firstLevelMd;
 
         // expects the first level to be a parent field
         if( ! firstLevelMd.hasChildDocuments() )
@@ -387,41 +368,41 @@ public class MDbMetaData
      * An internal utility method.
      * Discover and return the metadata of one or more documents in the specified MongoDB cursor, 
      * up to the searchLimit count.
-     * @param iterable  an inactive MongoDB cursor, before having executed query, to iterate the results
+     * @param resultCursor  an inactive MongoDB cursor, before having executed query, to iterate the results
      *                      expects caller to have already set searchLimit and other options on the result cursor
      * @return  a DocumentsMetaData representing all the fields and corresponding metadata 
      *          found in the specified iterated cursor
      */
-    public static DocumentsMetaData getMetaData( Iterable<Document> iterable )
+    public static DocumentsMetaData getMetaData( DBCursor resultCursor )
     {
-        if( iterable == null )
+        if( resultCursor == null )
             return sm_emptyFields;
         
         DocumentsMetaData newMetaData = sm_factory.new DocumentsMetaData();
-        for ( Document document : iterable )
-		{
-			newMetaData.addDocumentMetaData( document, null ); // top-level doc
-																// has no parent
-		}
+        // iterate thru available documents to discover metadata
+        while( resultCursor.hasNext() )
+        {        
+            DBObject doc = resultCursor.next();
+            newMetaData.addDocumentMetaData( doc, null );   // top-level doc has no parent
+        }
         return newMetaData;
     }
 
-    public static DocumentsMetaData getMetaData( Iterable<Document> iterable,
+    public static DocumentsMetaData getMetaData( Iterable<DBObject> resultObjs,
             int searchLimit )
     {
-        if( iterable == null )
+        if( resultObjs == null )
             return sm_emptyFields;
         
         DocumentsMetaData newMetaData = sm_factory.new DocumentsMetaData();
         // iterate thru searchLimit documents to discover metadata
         int count = 1;
-		for ( Document document : iterable )
-		{
-			if ( !( searchLimit <= 0 || count <= searchLimit ) )
-			{
-				break;
-			}
-            newMetaData.addDocumentMetaData( document, null );   // top-level doc has no parent
+        Iterator<DBObject> resultObjItr = resultObjs.iterator();
+        while( resultObjItr.hasNext() && 
+               ( searchLimit <= 0 || count <= searchLimit ) )
+        {        
+            DBObject doc = resultObjItr.next();
+            newMetaData.addDocumentMetaData( doc, null );   // top-level doc has no parent
             count++;
         }
         return newMetaData;
@@ -499,32 +480,17 @@ public class MDbMetaData
         // and is tracked in this variable to ensure consistency in metadata and fetching result set
         private String m_nestedCollFieldName;    
  
-	    @SuppressWarnings("unchecked")
-        private void addDocumentMetaData( Object documentObj, FieldMetaData parentMd )
+        private void addDocumentMetaData( DBObject doc, FieldMetaData parentMd )
         {
-            if( documentObj == null )
+            if( doc == null )
                 return;
-			Document doc = null;
-			if ( documentObj instanceof List<?> )
-			{
-				List<Document> docList = (List<Document>) documentObj;
-				if ( docList.size( ) > 0 )
-					doc = ( (List<Document>) documentObj ).get( 0 );
-			}
-			else
-			{
-				doc = (Document) documentObj;
-			}
 
-			if ( doc != null )
-			{
-				Set<String> fieldNames = doc.keySet( );
-				for ( String fieldName : fieldNames )
-				{
-					Object value = doc.get( fieldName );
-					addDataTypeOfFieldValue( fieldName, value, parentMd );
-				}
-			} 
+            Set<String> fieldNames = doc.keySet();
+            for( String fieldName : fieldNames )
+            {
+                Object value = doc.get( fieldName );
+                addDataTypeOfFieldValue( fieldName, value, parentMd );
+            }  
         }
        
         private FieldMetaData addDataTypeOfFieldValue( String fieldName, Object fieldValue,
@@ -771,13 +737,6 @@ public class MDbMetaData
             byte nativeBSonDataTypeCode = Bytes.getType( fieldValue );
             if( m_nativeDataTypes == null )
                 m_nativeDataTypes = new HashSet<Integer>(2);
-			if ( nativeBSonDataTypeCode == -1 )
-			{
-				if ( fieldValue instanceof Document )
-				{
-					nativeBSonDataTypeCode = Bytes.OBJECT;
-				}
-			}
             m_nativeDataTypes.add( Integer.valueOf( nativeBSonDataTypeCode ) );
 
             // check if field value contains a document,
@@ -796,7 +755,7 @@ public class MDbMetaData
                 }
             }
 
-            Object fieldObjValue = 
+            DBObject fieldObjValue = 
                     ResultDataHandler.fetchFieldDocument( fieldValue, nativeBSonDataTypeCode );
             
             if( fieldObjValue != null ) // contains nested document
