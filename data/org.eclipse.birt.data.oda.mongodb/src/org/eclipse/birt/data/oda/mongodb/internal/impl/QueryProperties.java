@@ -23,6 +23,7 @@ import java.util.Map.Entry;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
 import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver.ReadPreferenceChoice;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData;
@@ -33,6 +34,8 @@ import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.ReadPreference;
+import com.mongodb.Tag;
+import com.mongodb.TagSet;
 import com.mongodb.util.JSON;
 
 /**
@@ -401,6 +404,44 @@ public class QueryProperties
 
         return expr;
     }
+	
+	static Document getDocument( BasicDBObject dbObject )
+	{
+		return Document.parse( dbObject.toJson( ) );
+	}
+
+	static List<Document> getObjectsAsDocumentList( DBObject exprObj )
+	{
+		if ( exprObj == null )
+			return null;
+		List<Document> documentList = new ArrayList<Document>( );
+		if ( exprObj instanceof BasicDBList )
+		{
+			BasicDBList dbList = (BasicDBList) exprObj;
+			for ( Object obj : dbList )
+			{
+				if ( obj instanceof DBObject )
+				{
+					documentList.add( getDocument( (BasicDBObject) obj ) );
+				}
+				else if ( obj instanceof BasicDBList )
+				{
+					List<Document> childrenList = getObjectsAsDocumentList(
+							(DBObject) obj );
+					if ( childrenList != null )
+					{
+						documentList.addAll( childrenList );
+					}
+				}
+			}
+		}
+		else if ( exprObj instanceof DBObject )
+		{
+			documentList.add( getDocument( (BasicDBObject) exprObj ) );
+		}
+		return documentList;
+	}
+
 
     static DBObject getFirstObjectSet( DBObject exprObj )
     {
@@ -519,7 +560,7 @@ public class QueryProperties
         return Collections.emptyList();    // null or non-recognized data type
     }
 
-    DBObject getSelectedFieldsAsProjectionKeys() throws OdaException
+    BasicDBObject getSelectedFieldsAsProjectionKeys() throws OdaException
     {
         Object propValue = getPropertiesMap().get( SELECTED_FIELDS_PROP );
         if( propValue instanceof List<?> )
@@ -541,7 +582,15 @@ public class QueryProperties
         if( propValue instanceof String )
         {
             // user-defined projection expression
-            return parseExprToDBObject( (String)propValue );
+			DBObject projectObj = parseExprToDBObject( (String) propValue );
+			if ( !( projectObj instanceof BasicDBObject ) )
+			{
+				throw new OdaException(
+						Messages.bind( "Unexpected data type ({0}) in {1}",
+								projectObj.getClass( ).getSimpleName( ),
+								SELECTED_FIELDS_PROP ) );
+			}
+			return (BasicDBObject) projectObj;
         }
 
         // non-recognized data type; log and ignore
@@ -609,24 +658,55 @@ public class QueryProperties
         return null;
     }
 
+	private static TagSet toTags( DBObject tagsDocument )
+	{
+		List<Tag> tagList = new ArrayList<Tag>( );
+		for ( String key : tagsDocument.keySet( ) )
+		{
+			tagList.add( new Tag( key, tagsDocument.get( key ).toString( ) ) );
+		}
+		return new TagSet( tagList );
+	}
+	
     ReadPreference getTaggableReadPreference()
     {
         ReadPreference readPref = getQueryReadPreference();
         if( readPref == ReadPreference.primary() )
             return readPref;    // primary read preference mode does not apply tags
         
-        DBObject tagSets = getReadPreferenceTagsAsParsedObject();
-        DBObject firstTagSet = getFirstObjectSet( tagSets );
-        if( firstTagSet == null )
+        DBObject tagObjects = getReadPreferenceTagsAsParsedObject();
+        
+        if( tagObjects == null )
             return readPref;    // no tags in read preference
 
-        DBObject[] remainingTagSets = getSecondaryObjectSets( tagSets );        
+		List<TagSet> tagsList = new ArrayList<TagSet>( );
+		if ( tagObjects instanceof BasicDBList )
+		{
+			BasicDBList tagObjectList = (BasicDBList) tagObjects;
+			for ( Object obj : tagObjectList )
+			{
+				if ( obj instanceof DBObject )
+				{
+					tagsList.add( toTags( (DBObject) obj ) );
+				}
+				else
+				{ // ignore elements that are not DBObject
+					logInvalidTagValue( obj );
+				}
+			}
+		}
+		else
+		{
+			tagsList.add( toTags( tagObjects ) );
+		}
+		if ( tagsList.size( ) == 0 )
+		{
+			return readPref;
+		}
         
         try
         {
-            return ( remainingTagSets != null ) ?
-                ReadPreference.valueOf( readPref.getName(), firstTagSet, remainingTagSets ) :
-                ReadPreference.valueOf( readPref.getName(), firstTagSet );
+            return ReadPreference.valueOf( readPref.getName( ), tagsList );
         }
         catch( RuntimeException ex )
         {
@@ -749,13 +829,23 @@ public class QueryProperties
         return getStringPropOrEmptyValue( FIND_QUERY_EXPR_PROP );
     }
     
-    DBObject getFindQueryExprAsParsedObject() throws OdaException
+    BasicDBObject getFindQueryExprAsParsedObject() throws OdaException
     {
         String queryExprText = getFindQueryExpr();
         if( queryExprText.isEmpty() )
             return null;
         
-        return parseExprToDBObject( queryExprText );
+        DBObject queryObj = parseExprToDBObject( queryExprText );
+		if ( !( queryObj instanceof BasicDBObject ) )
+		{
+			throw new OdaException(
+					Messages.bind( "Unexpected data type ({0}) in {1}",
+							queryObj.getClass( ).getSimpleName( ),
+							FIND_QUERY_EXPR_PROP ) );
+		}
+
+		return (BasicDBObject) queryObj;
+
     }
 
     public void setSortExpr( String sortExpr )
@@ -768,13 +858,22 @@ public class QueryProperties
         return getStringPropOrEmptyValue( SORT_EXPR_PROP );
     }
     
-    DBObject getSortExprAsParsedObject() throws OdaException
+    BasicDBObject getSortExprAsParsedObject() throws OdaException
     {
         String sortExprText = getSortExpr();
         if( sortExprText.isEmpty() )
             return null;
         
-        return parseExprToDBObject( sortExprText );
+        DBObject sortObj = parseExprToDBObject( sortExprText );
+		if ( !( sortObj instanceof BasicDBObject ) )
+		{
+			throw new OdaException( Messages.bind(
+					"Unexpected data type ({0}) in {1}",
+					sortObj.getClass( ).getSimpleName( ),
+					SORT_EXPR_PROP ) );
+		}
+
+		return (BasicDBObject) sortObj;
     }
 
     // Utility methods
