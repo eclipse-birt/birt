@@ -74,6 +74,12 @@
         <attribute name="Manifest-Version" value="1.0"/>
       </manifest>
     </buildJar>
+    <!-- it's surprisingly hard to keep eclipse-jarsigner-plugin off jars -->
+    <exec executable="zip">
+        <arg value="-d"/>
+        <arg value="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar"/>
+        <arg value="META-INF/ECLIPSE_.*"/>
+    </exec>
   </target>
   <target name="build-webviewer">
     <copy todir="${STAGE_DIR}/WebViewerExample/WEB-INF/lib">
