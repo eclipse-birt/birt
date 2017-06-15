@@ -65,7 +65,8 @@
       </fileset>
     </copy>
     <!-- create org.eclipse.birt.runtime.jar -->
-    <buildJar basedir="${TARGET_DIR}/org.eclipse.birt.runtime" output="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar">
+    <buildJar basedir="${TARGET_DIR}/org.eclipse.birt.runtime"
+              output="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar">
       <manifest>
         <attribute name="Bundle-Version" value="${BIRT_VERSION}"/>
         <attribute name="Bundle-Name" value="BIRT Runtime SDK"/>
@@ -75,11 +76,11 @@
       </manifest>
     </buildJar>
     <!-- it's surprisingly hard to keep eclipse-jarsigner-plugin off jars -->
-    <exec executable="zip">
-        <arg value="-d"/>
-        <arg value="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar"/>
-        <arg value="META-INF/ECLIPSE_.*"/>
-    </exec>
+    <jar destfile="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar">
+        <zipfileset src="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar"
+                    excludes="META-INF/ECLIPSE_.*"/>
+    </jar>
+    <delete file="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar"/>
   </target>
   <target name="build-webviewer">
     <copy todir="${STAGE_DIR}/WebViewerExample/WEB-INF/lib">
