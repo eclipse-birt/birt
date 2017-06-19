@@ -37,6 +37,7 @@
                 <jetty.version>9.4.5.v20170502</jetty.version>
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+                <mongodb.version>2.10.1.v20130422-1135</mongodb.version>
             </properties>
         </profile>	
 	    <profile>
@@ -56,6 +57,7 @@
                 <jetty.version>9.2.13.v20150730</jetty.version>
                 <!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url-->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+                <mongodb.version>2.10.1.v20130422-1135</mongodb.version>
             </properties>
         </profile>
         <profile>
@@ -71,6 +73,7 @@
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
 				<jetty.version>9.2.9.v20150224</jetty.version>
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+                <mongodb.version>2.10.1.v20130422-1135</mongodb.version>
             </properties>
         </profile>
 		<profile>
@@ -417,6 +420,14 @@
 							<id>org.eclipse.jetty.xml</id>
 							<restrictTo>
 								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<!-- Restrict MongoDB to specific version to allow only one version included in plugins -->
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.orbit.mongodb</id>
+							<restrictTo>
+								<version>${mongodb.version}</version>
 							</restrictTo>
 						</filter>
 					</filters>
