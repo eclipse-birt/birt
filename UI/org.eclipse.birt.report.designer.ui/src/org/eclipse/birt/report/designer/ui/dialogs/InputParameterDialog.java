@@ -1227,7 +1227,8 @@ abstract class SelectionParameterControlHelper extends
 		boolean containsBlank = false;
 		boolean containsNull = false;
 
-		for ( Object o : parameter.getValueList( ) )
+		List localValueList = parameter.getValueList( );
+		for ( Object o : localValueList )
 		{
 			Object choiceValue = ( (IParameterSelectionChoice) o ).getValue( );
 			if ( InputParameterSelectionChoice.BLANKVALUECHOICE.getValue( )
@@ -1241,7 +1242,7 @@ abstract class SelectionParameterControlHelper extends
 		{
 			valueList.add( InputParameterSelectionChoice.BLANKVALUECHOICE );
 		}
-		valueList.addAll( parameter.getValueList( ) );
+		valueList.addAll( localValueList );
 
 		dealCascade( );
 
