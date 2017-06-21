@@ -76,10 +76,10 @@
       </manifest>
     </buildJar>
     <!-- it's surprisingly hard to keep eclipse-jarsigner-plugin off jars -->
-    <jar destfile="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar">
+    <zip destfile="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar">
         <zipfileset src="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar"
                     excludes="META-INF/ECLIPSE_.*"/>
-    </jar>
+    </zip>
     <delete file="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar"/>
   </target>
   <target name="build-webviewer">
