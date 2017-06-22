@@ -47,7 +47,6 @@ public class MongoDBDataSourcePropertyPage
 		if ( isSessionEditable && pageHelper != null )
 		{
 			pageHelper.resetURIEditControlStatus( );
-			pageHelper.handleKerberosAuthenticationSelection( );
 		}
     }
     

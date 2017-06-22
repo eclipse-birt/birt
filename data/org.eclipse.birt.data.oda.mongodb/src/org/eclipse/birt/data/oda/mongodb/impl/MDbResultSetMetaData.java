@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.bson.BSON;
-import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.DriverUtil;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.DocumentsMetaData;
@@ -28,6 +27,8 @@ import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData.FieldMetaData
 import org.eclipse.datatools.connectivity.oda.IResultSetMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
 
 /**
  * Implementation class of IResultSetMetaData for the MongoDB ODA runtime driver.
@@ -40,7 +41,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData
     private DocumentsMetaData m_docsMetaData;
     private boolean m_isAutoFlattening;
     
-    public MDbResultSetMetaData( Iterable<Document> resultCursor, 
+    public MDbResultSetMetaData( DBCursor resultCursor, 
             List<String> resultFieldNames,
             boolean isAutoFlattening )
     {
@@ -50,7 +51,7 @@ public class MDbResultSetMetaData implements IResultSetMetaData
         init( resultFieldNames, isAutoFlattening );
     }
 
-    public MDbResultSetMetaData( Iterable<Document> resultObjs, 
+    public MDbResultSetMetaData( Iterable<DBObject> resultObjs, 
             int searchLimit, List<String> resultFieldNames,
             boolean isAutoFlattening )
     {

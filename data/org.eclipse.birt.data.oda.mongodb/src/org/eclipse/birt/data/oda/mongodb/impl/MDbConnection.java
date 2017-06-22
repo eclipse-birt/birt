@@ -15,9 +15,7 @@
 package org.eclipse.birt.data.oda.mongodb.impl;
 
 import java.util.Properties;
-import java.util.logging.Level;
 
-import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
@@ -25,11 +23,10 @@ import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 import com.ibm.icu.util.ULocale;
-import com.mongodb.MongoClient;
+import com.mongodb.CommandResult;
+import com.mongodb.DB;
+import com.mongodb.Mongo;
 import com.mongodb.MongoException;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoIterable;
-
 
 /**
  * Implementation class of IConnection for the MongoDB ODA runtime driver.
@@ -39,7 +36,8 @@ import com.mongodb.client.MongoIterable;
 public class MDbConnection implements IConnection
 {
 
-    private MongoDatabase m_mongoDbInstance;    
+    private DB m_mongoDbInstance;
+    private boolean m_useRequestSession = false;    // default is false
         
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IConnection#open(java.util.Properties)
@@ -49,15 +47,30 @@ public class MDbConnection implements IConnection
         if( isOpen() )
             return;     // already open
         
-        MongoDatabase dbInstance = getMongoDatabase( connProperties );
+        DB dbInstance = getMongoDatabase( connProperties );
        
         // no exception thrown thus far; accept the db instance for use
         m_mongoDbInstance = dbInstance;
+        
+        // check and apply the request session property setting
+        Boolean useRequestSession = MongoDBDriver.getBooleanPropValue( connProperties, MongoDBDriver.REQUEST_SESSION_PROP );
+        m_useRequestSession = useRequestSession != null ? 
+                                useRequestSession.booleanValue() : false;   // reset to default
+        if( m_mongoDbInstance != null )
+        {
+            // DB instance may be re-used from connection pool
+            if( m_useRequestSession )
+                m_mongoDbInstance.requestStart();   // starts a request session, if not already started
+            else
+                m_mongoDbInstance.requestDone();    // ends a request session, in case previously started but never closed
+        }
  	}
 
-	public static MongoDatabase getMongoDatabase( Properties connProperties ) throws OdaException
+	public static DB getMongoDatabase( Properties connProperties ) throws OdaException
 	{
-        MongoClient mongoClient = MongoDBDriver.getMongoNode( connProperties );        
+        Mongo mongoInstance = MongoDBDriver.getMongoNode( connProperties );
+        if( ! mongoInstance.getConnector().isOpen() )
+            throw new OdaException( Messages.mDbConnection_failedToOpenConn );
         
         // to avoid potential conflict in shared DB, ReadPreference is exposed
         // as cursorReadPreference in data set property
@@ -65,29 +78,18 @@ public class MDbConnection implements IConnection
         String dbName = MongoDBDriver.getDatabaseName( connProperties );
         if( dbName == null || dbName.isEmpty() )
             throw new OdaException( Messages.mDbConnection_missingValueDBName );
-		
-		MongoDatabase dbInstance = null;
-        try
-		{
-			Boolean dbExists = existsDatabase( mongoClient, dbName, connProperties );
-			if( dbExists != null && !dbExists  )    // does not exist for sure
-			{
-				// do not proceed to create new database instance
-				 throw new OdaException( 
-						 Messages.bind( Messages.mDbConnection_invalidDatabaseName, dbName )); 
-			}
 
-			dbInstance = mongoClient.getDatabase( dbName );
-			authenticateDB( dbInstance, connProperties );
-		}
-		catch ( Exception ex )
-		{
-			MongoDBDriver.getLogger( ).log( Level.SEVERE,
-					"Unable to get Database "
-							+ dbName + ". " + ex.getMessage( ),
-					ex );
-			throw new OdaException( ex );
-		}	
+        // validate whether dbName exists
+        Boolean dbExists = existsDatabase( mongoInstance, dbName, connProperties );
+        if( dbExists != null && !dbExists  )    // does not exist for sure
+        {
+            // do not proceed to create new database instance
+             throw new OdaException( 
+                     Messages.bind( Messages.mDbConnection_invalidDatabaseName, dbName )); 
+        }
+
+        DB dbInstance = mongoInstance.getDB( dbName );
+        authenticateDB( dbInstance, connProperties );
         return dbInstance;	    
 	}
 
@@ -104,6 +106,9 @@ public class MDbConnection implements IConnection
 	 */
 	public void close() throws OdaException
 	{
+        if( m_useRequestSession && m_mongoDbInstance != null )
+            m_mongoDbInstance.requestDone();
+
         m_mongoDbInstance = null;
 	}
 
@@ -169,23 +174,40 @@ public class MDbConnection implements IConnection
         // do nothing; no locale support
     }
     
-    MongoDatabase getConnectedDB()
+    DB getConnectedDB()
     {
         return m_mongoDbInstance;
     }
 
-    static void authenticateDB( MongoDatabase mongoDb, Properties connProps )
+    static void authenticateDB( DB mongoDb, Properties connProps )
         throws OdaException
     {
+        if( mongoDb.isAuthenticated() )
+            return;     // already authenticated
         
+        String username = MongoDBDriver.getUserName( connProps );
+        if( username == null || username.isEmpty() )
+            return;     // nothing to authenticate
+        
+        String passwd = MongoDBDriver.getPassword( connProps );
+        char[] passwdChars = passwd != null ? 
+                passwd.toCharArray() : new char[0];
+
+        CommandResult result = null;
         try
         {
-            mongoDb.runCommand( new Document( "ping", 1 ) );
+            result = mongoDb.authenticateCommand( username, passwdChars );
         }
         catch( Exception ex )
         {
-            OdaException odaEx = new OdaException( ex );
-            String username = MongoDBDriver.getUserName( connProps );   
+            OdaException odaEx = null;
+            if( result != null )
+            {
+                odaEx = new OdaException( result.getErrorMessage() );
+                odaEx.initCause( ex );
+            }
+            else
+                odaEx = new OdaException( ex );
             
             MongoDBDriver.getLogger().info( 
                     Messages.bind( "Unable to authenticate user (${0}) in database (${1}).\n ${2}",  //$NON-NLS-1$
@@ -194,38 +216,35 @@ public class MDbConnection implements IConnection
         }
     }
 
-    private static Boolean existsDatabase( MongoClient mongoClient,
+    private static Boolean existsDatabase( Mongo mongoInstance,
             String dbName, Properties connProps ) 
         throws OdaException
     {
-        if ( dbName == null )
-		{
-			return false;
-		}
-		try
-		{
-			MongoIterable<String> databaseNameIterable = mongoClient
-					.listDatabaseNames( );
-			for ( String databaseName : databaseNameIterable )
-			{
-				if ( dbName.equals( databaseName ) )
-				{
-					return true;
-				}
-			}
-		}
-		catch ( MongoException ex )
-		{
-			MongoDBDriver.getLogger( ).log( Level.SEVERE,
-					"Unable to get listDatabaseNames",
-					ex ); // unable
-							// to
-							// get
-							// db
-							// names
-			// user may not have permission for listDatabaseName, return true,
-			// let the getDatabase() handle it.
-		}
-		return false;
-	}
+        // check if user authentication is needed
+        String username = MongoDBDriver.getUserName( connProps );
+        if( username != null && ! username.isEmpty() )
+        {
+            DB adminDb = mongoInstance.getDB( "admin" ); //$NON-NLS-1$
+            try
+            {
+                // login to admin db, so to get the existing database names
+                authenticateDB( adminDb, connProps );
+            }
+            catch( OdaException ex )
+            {
+                // not able to determine if db exists; specified user is probably not a valid login user in admin db
+                return null;    
+            }
+        }
+        
+        try
+        {
+            return mongoInstance.getDatabaseNames().contains( dbName );
+        }
+        catch( MongoException ex )
+        {
+            throw new OdaException( ex );   // unable to get db names
+        }
+    }
+
 }

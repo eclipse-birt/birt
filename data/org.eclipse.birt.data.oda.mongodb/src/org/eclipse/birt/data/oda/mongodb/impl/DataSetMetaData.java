@@ -20,7 +20,7 @@ import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IResultSet;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-
+import com.mongodb.Mongo;
 
 /**
  * Implementation class of IDataSetMetaData for the MongoDB ODA runtime driver.
@@ -55,9 +55,7 @@ public class DataSetMetaData implements IDataSetMetaData
 	 */
 	public int getDataSourceMajorVersion() throws OdaException
 	{
-		// Mongo Java driver doesn't provide the version any more
-		// https://jira.mongodb.org/browse/JAVA-1605 Remove Mongo#getVersion
-		return 3;
+		return Mongo.getMajorVersion();     // Mongo Java client version
 	}
 
 	/*
@@ -65,7 +63,7 @@ public class DataSetMetaData implements IDataSetMetaData
 	 */
 	public int getDataSourceMinorVersion() throws OdaException
 	{
-		return 2; // see Major version comment
+		return Mongo.getMinorVersion();     // Mongo Java client version
 	}
 
 	/*
