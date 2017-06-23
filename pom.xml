@@ -37,7 +37,7 @@
                 <jetty.version>9.4.5.v20170502</jetty.version>
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
-                <mongodb.version>2.10.1.v20130422-1135</mongodb.version>
+                <mongodb.version>3.2.2.v20170222-2110</mongodb.version>
             </properties>
         </profile>	
 	    <profile>
@@ -69,11 +69,11 @@
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.11/</emf.repo.url>
                 <wtp.repo.url>http://download.eclipse.org/webtools/repository/mars/</wtp.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</orbit.repo.url>
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
 				<jetty.version>9.2.9.v20150224</jetty.version>
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
-                <mongodb.version>2.10.1.v20130422-1135</mongodb.version>
+                <mongodb.version>3.2.2.v20170222-2110</mongodb.version>
             </properties>
         </profile>
 		<profile>
