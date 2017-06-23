@@ -25,6 +25,8 @@ import java.util.logging.Logger;
 
 import javax.xml.bind.DatatypeConverter;
 
+import org.apache.commons.codec.binary.Base64;
+import org.bson.Document;
 import org.bson.types.BSONTimestamp;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.DriverUtil;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties;
@@ -40,8 +42,7 @@ import org.eclipse.datatools.connectivity.oda.impl.Blob;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.util.Base64Codec;
+
 
 /**
  * Implementation class of IResultSet for the MongoDB ODA runtime driver.
@@ -49,12 +50,12 @@ import com.mongodb.util.Base64Codec;
 @SuppressWarnings("deprecation")
 public class MDbResultSet implements IResultSet
 {
-    private Iterator<DBObject> m_resultsIterator;
+    private Iterator<Document> m_resultsIterator;
     private DBCursor m_mongoCursor;
     private MDbResultSetMetaData m_metadata;
     private QueryProperties m_queryProps;
     
-    private DBObject m_currentRow;
+    private Document m_currentRow;
     private int m_currentRowId = 0;     // 1-based index
     private int m_maxRows = 0;  // no limit by default
     private boolean m_wasNull = true;
@@ -62,15 +63,15 @@ public class MDbResultSet implements IResultSet
 
     private static Logger sm_logger = DriverUtil.getLogger();
     
-    public MDbResultSet( Iterator<DBObject> resultsIterator, MDbResultSetMetaData rsmd,
+    public MDbResultSet( Iterator<Document> resultsIterator, MDbResultSetMetaData rsmd,
             QueryProperties queryProps )
     {
         if( resultsIterator == null || rsmd == null )
             throw new IllegalArgumentException( "null DBCursor" ); //$NON-NLS-1$
 
         m_resultsIterator = resultsIterator;
-        if( resultsIterator instanceof DBCursor )
-            m_mongoCursor = (DBCursor)resultsIterator;
+        //if( resultsIterator instanceof DBCursor )
+        //    m_mongoCursor = (DBCursor)resultsIterator;
         m_metadata = rsmd;
         m_queryProps = queryProps != null ? 
                         queryProps : 
@@ -689,7 +690,7 @@ public class MDbResultSet implements IResultSet
         catch( Exception ex )
         {
             // DatatypeConverter could be un-initialized; retry with Base64Codec
-            return (new Base64Codec()).encode( value );
+            return ( new String( Base64.encodeBase64( value ) ) );
         }
     }
 
