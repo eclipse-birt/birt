@@ -152,73 +152,87 @@ public abstract class ScalarParameter implements IParameter
 	public String getDefaultValue( )
 	{
 		IGetParameterDefinitionTask task = createParameterDefinitionTask( );
-		Object obj = task.getDefaultValue( handle.getName( ) );
-		if (obj == null)
+		try
 		{
-			return null;
-		}
-		if (obj instanceof Object[] )
-		{
-			Object[] objs = (Object[])obj;
-			if (objs.length > 0)
-			{
-				oriDefaultValue = objs[0];
-				return objs[0] != null ? objs[0].toString( ) : null;
-			}
-			else
+			Object obj = task.getDefaultValue( handle.getName( ) );
+			if (obj == null)
 			{
 				return null;
 			}
+			if (obj instanceof Object[] )
+			{
+				Object[] objs = (Object[])obj;
+				if (objs.length > 0)
+				{
+					oriDefaultValue = objs[0];
+					return objs[0] != null ? objs[0].toString( ) : null;
+				}
+				else
+				{
+					return null;
+				}
+			}
+			oriDefaultValue = obj;
+			if (obj instanceof Date)
+			{
+				try
+				{
+					return DataTypeUtil.toString( obj );
+				}
+				catch ( BirtException e )
+				{
+					//return toString
+				}
+			}
+			return obj.toString( );
 		}
-		oriDefaultValue = obj;
-		if (obj instanceof Date)
+		finally
 		{
-			try
-			{
-				return DataTypeUtil.toString( obj );
-			}
-			catch ( BirtException e )
-			{
-				//return toString
-			}
+			if ( task != null )
+				task.close();
 		}
-		return obj.toString( );
-		//return handle.getDefaultValue( );
 	}
 	
 	public List getDefaultValues( )
 	{
 		IGetParameterDefinitionTask task = createParameterDefinitionTask( );
 
-		Object obj =  task.getDefaultValue( handle.getName( ) );
-		List retValue = new ArrayList();
-		if (obj == null)
+		try
 		{
+			Object obj =  task.getDefaultValue( handle.getName( ) );
+			List retValue = new ArrayList();
+			if (obj == null)
+			{
+				return retValue;
+			}
+			if (obj instanceof Object[])
+			{
+				Object[] objs = (Object[])obj;
+				for (int i=0; i<objs.length; i++)
+				{
+					retValue.add( objs[i] );
+				}
+			}
+			else if (obj instanceof Collection)
+			{
+				Collection collection = (Collection)obj;
+				Iterator itor = collection.iterator( );
+				while(itor.hasNext( ))
+				{
+					retValue.add( itor.next( ) );
+				}
+			}
+			else
+			{
+				retValue.add( obj );
+			}
 			return retValue;
 		}
-		if (obj instanceof Object[])
+		finally
 		{
-			Object[] objs = (Object[])obj;
-			for (int i=0; i<objs.length; i++)
-			{
-				retValue.add( objs[i] );
-			}
+			if ( task != null )
+				task.close();
 		}
-		else if (obj instanceof Collection)
-		{
-			Collection collection = (Collection)obj;
-			Iterator itor = collection.iterator( );
-			while(itor.hasNext( ))
-			{
-				retValue.add( itor.next( ) );
-			}
-		}
-		else
-		{
-			retValue.add( obj );
-		}
-		return retValue;
-		//return handle.getDefaultValueList( );
 	}
 
 	/**
