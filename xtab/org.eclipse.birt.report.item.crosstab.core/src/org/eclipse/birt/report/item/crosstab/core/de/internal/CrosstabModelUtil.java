@@ -603,6 +603,13 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				return;
 			}
 
+			MeasureHandle cubeMeasure = measureView.getCubeMeasure( );
+			// ComputedMeasureViews doesn't hold reference to measure , if they
+			// don't have their own aggregation.
+			if ( cubeMeasure != null && cubeMeasure.getDisplayName( ) != null )
+			{
+				column.setDisplayName( cubeMeasure.getDisplayName( ) );
+			}
 			String dataType = measureView.getDataType( );
 			column.setDataType( dataType );
 				
@@ -616,7 +623,6 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				dataType = DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
 				column.setDataType( dataType );
 			}
-			MeasureHandle cubeMeasure = measureView.getCubeMeasure( );
 			if ( !CrosstabUtil.measureHasItsOwnAggregation( crosstab, cubeMeasure ) )
 			{
 				column.setAggregateFunction( function != null ? function
@@ -928,6 +934,12 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 		String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 
 		MeasureHandle cubeMeasure = measureView.getCubeMeasure( );
+		// ComputedMeasureViews doesn't hold reference to measure , if they
+		// don't have their own aggregation.
+		if ( cubeMeasure != null && cubeMeasure.getDisplayName( ) != null )
+		{
+			column.setDisplayName( cubeMeasure.getDisplayName( ) );
+		}
 		if ( !CrosstabUtil.measureHasItsOwnAggregation( crosstab, cubeMeasure ) )
 		{
 			column.setAggregateFunction(

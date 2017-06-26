@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.ui.views;
 import java.lang.reflect.Proxy;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -319,6 +320,10 @@ public class ElementAdapterManager
 
 	private static Set getAdapters( Object adaptableObject )
 	{
+		if ( adaptableObject == null )
+		{
+			return Collections.emptySet( );
+		}
 		Set keys = adaptersMap.keySet( );
 		ElementAdapterSet adapters = null;
 		for ( Iterator iter = keys.iterator( ); iter.hasNext( ); )
