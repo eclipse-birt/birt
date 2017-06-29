@@ -441,11 +441,13 @@ public class MongoDBDriver implements IDriver
 								+ connProperties.getProperty( propertyName ) );
 				m_connProperties.setProperty( propertyName,
 						connProperties.getProperty( propertyName ) );
-				/*
-				 * if(propertyName.equals( "mongoURI" ) ) {
-				 * if(connProperties.getProperty( propertyName ).trim( ) !="")
-				 * break; }
-				 */
+				
+				if(propertyName.equals( "mongoURI" ) ) 
+			    {
+			    	MongoClientURI mongoUri = getMongoURI( connProperties );
+			    	if(mongoUri.getUsername()!=null)
+			    		m_connProperties.setProperty(USERNAME_PROP,mongoUri.getUsername());
+				}
 			}
         }
 
