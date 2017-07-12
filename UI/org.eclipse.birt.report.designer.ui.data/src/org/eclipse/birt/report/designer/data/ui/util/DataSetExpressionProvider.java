@@ -91,7 +91,7 @@ public class DataSetExpressionProvider extends ExpressionProvider
 		}
 		else if ( element instanceof DataSetViewData )
 		{
-			return ( (DataSetViewData) element ).getDisplayName( );
+			return ( (DataSetViewData) element ).getName( );
 		}
 		return super.getDisplayText( element );
 	}

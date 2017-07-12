@@ -25,9 +25,9 @@
             <properties>
                 <eclipse.release.name>oxygen</eclipse.release.name>
                 <tycho.version>1.0.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.7milestones/</eclipse.repo.url>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.7/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.13/</emf.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
                 <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.9.0/R-3.9.0-20170613094504/repository/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
