@@ -1004,9 +1004,22 @@ public class DataProcessor
 						if ( sExpression == null )
 							sExpression = IConstants.UNDEFINED_STRING;
 						// TODO format the group key.
-						seOrthogonalRuntimeSeries.setSeriesIdentifier( rsw.getGroupKey( k,
+						Object seriesIdentifier = rsw.getGroupKey( k,
 								sExpression,
-								aggExp ) );
+								aggExp );
+						if ( seriesIdentifier instanceof String )
+						{
+							String prefixedWithSeperator = ChartUtil
+									.prefixExternalizeSeperator(
+											(String) seriesIdentifier );
+							seOrthogonalRuntimeSeries.setSeriesIdentifier(
+									prefixedWithSeperator );
+						}
+						else
+						{
+							seOrthogonalRuntimeSeries
+									.setSeriesIdentifier( seriesIdentifier );
+						}
 						sdOrthogonal.getSeries( )
 								.add( seOrthogonalRuntimeSeries );
 
