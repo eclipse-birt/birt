@@ -213,11 +213,12 @@ public class MDbConnection implements IConnection
 					return true;
 				}
 			}
+			return false;
 		}
 		catch ( MongoException ex )
 		{
 			MongoDBDriver.getLogger( ).log( Level.SEVERE,
-					"Unable to get listDatabaseNames",
+					"Unable to connect host",
 					ex ); // unable
 							// to
 							// get
@@ -225,7 +226,7 @@ public class MDbConnection implements IConnection
 							// names
 			// user may not have permission for listDatabaseName, return true,
 			// let the getDatabase() handle it.
+			throw new OdaException( ex );
 		}
-		return false;
 	}
 }
