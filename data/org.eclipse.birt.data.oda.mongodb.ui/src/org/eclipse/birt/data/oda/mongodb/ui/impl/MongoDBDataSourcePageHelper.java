@@ -13,16 +13,21 @@ package org.eclipse.birt.data.oda.mongodb.ui.impl;
 
 import java.util.Properties;
 
+import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
+import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData;
 import org.eclipse.birt.data.oda.mongodb.ui.i18n.Messages;
 import org.eclipse.birt.data.oda.mongodb.ui.util.UIHelper;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.PreferencePage;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
+import org.eclipse.swt.custom.ScrolledComposite;
 import org.eclipse.swt.events.ModifyEvent;
 import org.eclipse.swt.events.ModifyListener;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
+import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
@@ -31,9 +36,6 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Group;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
-
-import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
-import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData;
 
 public class MongoDBDataSourcePageHelper
 {
@@ -73,7 +75,14 @@ public class MongoDBDataSourcePageHelper
 
 	public Composite createPageControls( Composite parent )
 	{
-		Composite composite = new Composite( parent, SWT.NONE );
+		ScrolledComposite scrolledComposite = new ScrolledComposite( parent,
+				SWT.V_SCROLL | SWT.H_SCROLL );
+		scrolledComposite.setAlwaysShowScrollBars( false );
+		scrolledComposite.setExpandHorizontal(true);
+		scrolledComposite.setExpandVertical(true);
+		scrolledComposite.setLayout( new FillLayout( ) );
+		
+		Composite composite = new Composite( scrolledComposite, SWT.NONE );
 		composite.setLayout( new GridLayout( ) );
 
 		createURIRadioButtonsArea( composite );
@@ -81,7 +90,12 @@ public class MongoDBDataSourcePageHelper
 		createClientSettingsArea( composite );
 		
 		createKerberosSettingsArea( composite );
-
+		
+		Point size = composite.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+		scrolledComposite.setMinWidth( size.x + 250 );
+		scrolledComposite.setMinHeight( size.y + 20 );
+		scrolledComposite.setContent( composite );
+		
 		return composite;
 
 	}
