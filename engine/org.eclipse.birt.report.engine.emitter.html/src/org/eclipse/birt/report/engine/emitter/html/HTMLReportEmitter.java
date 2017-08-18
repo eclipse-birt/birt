@@ -321,7 +321,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected int browserVersion;
 	// The browser supports the inline-block or not. The default state is true;
 	protected boolean browserSupportsInlineBlock = true;
-	
+	// The browser supports the broken image icon.
+		protected boolean browserSupportsBrokenImageIcon = false;	
 	protected int imageDpi = -1;
 	
 	protected HTMLEmitter htmlEmitter;
@@ -448,6 +449,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					|| browserVersion == HTMLEmitterUtil.BROWSER_FIREFOX2 )
 			{
 				browserSupportsInlineBlock = false;
+			}
+//  Single Metric: Dont provide alt attribute to the img element in single metric			
+			if(browserVersion==HTMLEmitterUtil.BROWSER_FIREFOX
+			 ||browserVersion==HTMLEmitterUtil.BROWSER_FIREFOX1
+			 ||browserVersion==HTMLEmitterUtil.BROWSER_FIREFOX2)
+			{
+				browserSupportsBrokenImageIcon=true;
 			}
 		}
 	}
@@ -3122,7 +3130,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			String altText = image.getAltText( );
 			if ( altText == null )
 			{
+//				#BIRT-3336 : Single Metric: Dont provide alt attribute to the img element in single metric
+				if(!browserSupportsBrokenImageIcon)
+				{
 				writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
+				}
 			}
 			else
 			{
