@@ -737,6 +737,7 @@ public final class Bar extends AxesRenderer
 									ChartException.RENDERING,
 									ex );
 						}
+						dBaseLocation = dZeroLocation;
 						dY = au.getLastPosition( dValue );
 					}
 				}
