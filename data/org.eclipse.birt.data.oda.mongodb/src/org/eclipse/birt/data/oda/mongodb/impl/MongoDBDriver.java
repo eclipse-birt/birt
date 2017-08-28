@@ -435,17 +435,14 @@ public class MongoDBDriver implements IDriver
 			m_connProperties = new Properties( );
 			for ( String propertyName : connProperties.stringPropertyNames( ) )
 			{
-				System.out.println( "propertyName :: " + propertyName );
-				System.out.println(
-						"connProperties.getProperty( propertyName ) :: "
-								+ connProperties.getProperty( propertyName ) );
+				
 				m_connProperties.setProperty( propertyName,
 						connProperties.getProperty( propertyName ) );
 				
 				if ( propertyName.equals( MONGO_URI_PROP ) )
 				{
 					MongoClientURI mongoUri = getMongoURI( connProperties );
-					if ( mongoUri.getUsername( ) != null )
+					if ( mongoUri != null && mongoUri.getUsername( ) != null )
 					{
 						m_connProperties.setProperty( USERNAME_PROP,
 								mongoUri.getUsername( ) );
