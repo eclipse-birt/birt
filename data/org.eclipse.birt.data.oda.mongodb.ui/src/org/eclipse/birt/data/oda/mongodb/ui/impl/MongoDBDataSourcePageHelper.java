@@ -488,6 +488,11 @@ public class MongoDBDataSourcePageHelper
 	
 	protected void handleKerberosAuthenticationSelection( )
 	{
+		// Added an if block to disable/enable the text fields based on kerberos
+		// check box selection
+		if ( kerberosPrincipalText != null
+				&& !kerberosPrincipalText.isDisposed( ) )
+			resetKerberosAuthenticationEditControlStatus( );
 		if ( kerberosPasswordText != null
 				&& !kerberosPasswordText.isDisposed( ) )
 		{
@@ -507,6 +512,16 @@ public class MongoDBDataSourcePageHelper
 				kerberosCredentialsRadioBtn.setEnabled( false );
 			}
 		}
+	}
+
+	// To disable/enable the text fields based on Kerberos Authentication Check
+	// box selection
+	protected void resetKerberosAuthenticationEditControlStatus( )
+	{
+		kerberosPrincipalText.setEnabled( useKerberosAuthentication );
+		gssapiServiceNameText.setEnabled( useKerberosAuthentication );
+		kerberosConfigurationFileText.setEnabled( useKerberosAuthentication );
+		gssAPIConfigurationFileText.setEnabled( useKerberosAuthentication );
 	}
 
 	private void handleKerberosRadioButtonSelection( )
@@ -684,22 +699,18 @@ public class MongoDBDataSourcePageHelper
 		// Kerberos
 		useKerberosAuthenticationCheckBox
 				.setSelection( useKerberosAuthentication );
-		if ( useKerberosAuthentication )
-		{
-			kerberosPrincipalText.setText( kerberosPrincipal == null
-					? EMPTY_STRING : kerberosPrincipal );
-			gssapiServiceNameText.setText( gssapiServiceName == null
-					? EMPTY_STRING : gssapiServiceName );
+		kerberosPrincipalText.setText(
+				kerberosPrincipal == null ? EMPTY_STRING : kerberosPrincipal );
+		gssapiServiceNameText.setText(
+				gssapiServiceName == null ? EMPTY_STRING : gssapiServiceName );
 
-			kerberosConfigurationFileText
-					.setText( kerberosConfigurationFile == null ? EMPTY_STRING
-							: kerberosConfigurationFile );
-			gssAPIConfigurationFileText.setText( gssAPIConfigurationFile == null
-					? EMPTY_STRING : gssAPIConfigurationFile );
+		kerberosConfigurationFileText.setText( kerberosConfigurationFile == null
+				? EMPTY_STRING : kerberosConfigurationFile );
+		gssAPIConfigurationFileText.setText( gssAPIConfigurationFile == null
+				? EMPTY_STRING : gssAPIConfigurationFile );
 
-			// kerberosPasswordText.setText( kerberosPassword == null ?
-			// EMPTY_STRING : kerberosPassword );
-		}
+		// kerberosPasswordText.setText( kerberosPassword == null ?
+		// EMPTY_STRING : kerberosPassword );
 		handleKerberosAuthenticationSelection( );
 
 		if ( isURITextFieldFoucs )
@@ -858,6 +869,15 @@ public class MongoDBDataSourcePageHelper
 				properties.setProperty( MongoDBDriver.KERBEROS_PASSWORD_PROP,
 						kerberosPassword );
 			}
+		}
+		else // to disable properties based on kerberos check box selection
+		{
+			properties.remove( MongoDBDriver.KERBEROS_PRINCIPAL_PROP );
+			properties.remove( MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP );
+			properties.remove( MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP );
+			properties
+					.remove( MongoDBDriver.KERBEROS_GSS_JAAS_CONFIG_FILE_PROP );
+			properties.remove( MongoDBDriver.KERBEROS_PASSWORD_PROP );
 		}
 
 		return properties;
