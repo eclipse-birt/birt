@@ -357,11 +357,12 @@ public class MongoDBDriver implements IDriver
 			{
 				MongoClientOptions clientOptions = clientOptionsBuilder
 						.build( );
-				InetAddress addr = InetAddress.getByName( kerberosPrincipal );
 				List<MongoCredential> mongoCredentials = new ArrayList<MongoCredential>( );
 				MongoCredential mongoCredential = null;
 				if ( useKerberos.equals( "true" ) )
 				{
+					InetAddress addr = InetAddress
+							.getByName( kerberosPrincipal );
 					mongoCredential = MongoCredential
 							.createGSSAPICredential( userName );
 					if ( serviceName != null && !serviceName.isEmpty( ) )
