@@ -533,7 +533,7 @@ public class SimpleResultSet implements IResultIterator
 	public void doSave( StreamWrapper streamsWrapper, boolean isSubQuery )
 			throws DataException
 	{
-		assert streamsWrapper == null;
+		assert streamsWrapper != null;
 		this.streamsWrapper = streamsWrapper;
 		this.auxiliaryIndexCreators = streamsWrapper.getAuxiliaryIndexCreators( );
 		this.groupCalculator.doSave( streamsWrapper.getStreamManager( ) );
