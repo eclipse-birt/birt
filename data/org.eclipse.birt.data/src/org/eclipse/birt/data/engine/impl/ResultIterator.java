@@ -367,6 +367,10 @@ public class ResultIterator implements IResultIterator
 			throws DataException
 	{
 		Set validDataSetColumnNames = populateValidDataSetColumnNameSet( ); 
+		if(validDataSetColumnNames.isEmpty()){
+			return;
+		}
+		
 		Iterator it = exprs.entrySet( ).iterator( );
 		while( it.hasNext() )
 		{
