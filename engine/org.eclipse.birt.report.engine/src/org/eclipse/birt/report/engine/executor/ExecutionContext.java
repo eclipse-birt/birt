@@ -921,6 +921,11 @@ public class ExecutionContext
 		}
 	}
 
+	public boolean isDataEngineInitialized( )
+	{
+		return dataEngine != null;
+	}
+
 	/**
 	 * @param name
 	 * @param value
