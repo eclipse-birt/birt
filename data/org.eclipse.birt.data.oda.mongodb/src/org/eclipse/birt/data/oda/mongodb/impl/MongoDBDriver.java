@@ -430,13 +430,38 @@ public class MongoDBDriver implements IDriver
     {
         private Properties m_connProperties;        
         
-        ServerNodeKey( Properties connProperties )
-        {
-           
+		ServerNodeKey( Properties connProperties )
+		{
+
 			m_connProperties = new Properties( );
+			String useKerberos = getStringPropValue( connProperties,
+					USE_KERBEROS_PROP );
+			String ignoreMongoUri = getStringPropValue( connProperties,
+					IGNORE_URI_PROP );
+			// to disable properties based on MongoUri radio button selection
+			if ( ignoreMongoUri.equals( "false" ) )
+			{
+				connProperties.remove( MongoDBDriver.SERVER_HOST_PROP );
+				connProperties.remove( MongoDBDriver.SERVER_PORT_PROP );
+				connProperties.remove( MongoDBDriver.DBNAME_PROP );
+				connProperties.remove( MongoDBDriver.USERNAME_PROP );
+				connProperties.remove( MongoDBDriver.PASSWORD_PROP );
+			}
+			// to disable properties based on kerberos check box selection
+			if ( useKerberos.equals( "false" ) )
+			{
+				connProperties.remove( MongoDBDriver.KERBEROS_PRINCIPAL_PROP );
+				connProperties.remove(
+						MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP );
+				connProperties
+						.remove( MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP );
+				connProperties.remove(
+						MongoDBDriver.KERBEROS_GSS_JAAS_CONFIG_FILE_PROP );
+				connProperties.remove( MongoDBDriver.KERBEROS_PASSWORD_PROP );
+			}
 			for ( String propertyName : connProperties.stringPropertyNames( ) )
 			{
-				
+
 				m_connProperties.setProperty( propertyName,
 						connProperties.getProperty( propertyName ) );
 				
