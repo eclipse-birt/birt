@@ -23,13 +23,13 @@ import java.util.logging.Logger;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.eclipse.birt.core.framework.IBundle;
-import org.eclipse.birt.core.framework.IConfigurationElement;
-import org.eclipse.birt.core.framework.IExtension;
+import org.eclipse.birt.core.framework.IExtensionPoint;
 import org.eclipse.birt.core.framework.IExtensionRegistry;
 import org.eclipse.birt.core.framework.IPlatform;
 import org.eclipse.birt.core.framework.IPlatformPath;
 import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.core.framework.eclipse.EclipseExtensionRegistry;
+import org.eclipse.birt.core.framework.eclipse.EclipsePlatform;
 import org.eclipse.core.internal.runtime.AdapterManager;
 import org.eclipse.core.runtime.IAdapterManager;
 import org.eclipse.core.runtime.Platform;
@@ -98,18 +98,12 @@ public class ServicePlatform implements IPlatform
 			IExtensionRegistry registry = getExtensionRegistry( );
 			String extensionPointId = "org.eclipse.birt.core."
 					+ IPlatform.EXTENSION_POINT_FACTORY_SERVICE;
-			IExtension factoryExt = registry.getExtension( extensionPointId,
-					extensionId );
-			if ( factoryExt != null )
+			IExtensionPoint extPoint = registry.getExtensionPoint(extensionPointId);
+			if ( extPoint != null )
 			{
-				IConfigurationElement[] configs = factoryExt
-						.getConfigurationElements( );
-				if ( configs != null && configs.length > 0 )
-				{
-					IConfigurationElement config = configs[0];
-					Object factory = config.createExecutableExtension( "class" );
-					return factory;
-				}
+				// Use the helper implementation to instantiate the highest priority factory
+				return EclipsePlatform.createFactoryObjectForExtension( 
+						extPoint.getExtensions( ), extensionId );
 			}
 		}
 		catch ( Exception ex )
