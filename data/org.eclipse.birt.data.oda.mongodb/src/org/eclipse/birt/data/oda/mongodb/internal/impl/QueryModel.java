@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbResultSet;
 import org.eclipse.birt.data.oda.mongodb.impl.MDbResultSetMetaData;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.QueryProperties.CommandOperationType;
@@ -27,9 +28,10 @@ import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
-import com.mongodb.DB;
-import com.mongodb.DBCollection;
+
 import com.mongodb.DBObject;
+import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoDatabase;
 
 /**
  * Represents the model of a MongoDB query.
@@ -46,7 +48,10 @@ public class QueryModel
     private static final String EVAL_KEY = "eval"; //$NON-NLS-1$
     private static final String NOLOCK_KEY = "nolock"; //$NON-NLS-1$
 
-    private static final String[] REQUIRED_MAPREDUCE_KEYS = new String[]{ "map", "reduce", "out" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	static final String MAP_REDUCE_MAP_FUNCTION = "map";
+	static final String MAP_REDUCE_REDUCE_FUNCTION = "reduce";	
+    private static final String[] REQUIRED_MAPREDUCE_KEYS = new String[]{ MAP_REDUCE_MAP_FUNCTION, MAP_REDUCE_REDUCE_FUNCTION, "out" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	
     static final String MAP_REDUCE_CMD_KEY = "mapreduce"; //$NON-NLS-1$
     static final String MAP_REDUCE_CMD_KEY2 = "mapReduce"; //$NON-NLS-1$
 
@@ -59,13 +64,13 @@ public class QueryModel
     };
     
     private QueryProperties m_queryProps;
-    private DB m_connectedDB;    
-    private DBCollection m_dbCollection;
+    private MongoDatabase m_connectedDB;    
+    private MongoCollection<Document> m_dbCollection;
     private Integer m_metaDataSearchLimit;
 
     private MDbOperation m_operation;
     
-    public QueryModel( QueryProperties queryProps, DB connectedDB ) throws OdaException
+    public QueryModel( QueryProperties queryProps, MongoDatabase connectedDB ) throws OdaException
     {
         if( connectedDB == null )
             throw new OdaException( new IllegalArgumentException("null com.mongodb.DB") ); //$NON-NLS-1$
@@ -115,12 +120,12 @@ public class QueryModel
         return m_queryProps;
     }
 
-    DB getConnectedDB()
+    MongoDatabase getConnectedDB()
     {
         return m_connectedDB;
     }
 
-    DBCollection getCollection()
+    MongoCollection<Document> getCollection()
     {
         return m_dbCollection;
     }

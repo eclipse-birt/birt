@@ -114,6 +114,7 @@ public class ChartUtil
 	 * represent the value of chart max row number.
 	 */
 	public static final String CHART_MAX_ROW = "CHART_MAX_ROW"; //$NON-NLS-1$	
+	public static final String SEPARATOR = "=";
 	
 	private static final NumberFormat DEFAULT_NUMBER_FORMAT = initDefaultNumberFormat( );
 	
@@ -2807,5 +2808,16 @@ public class ChartUtil
 				av.setLabel( l );
 			}
 		}
+	}
+	
+	public static String prefixExternalizeSeperator( String sCurrentValue )
+	{
+
+		if ( sCurrentValue != null && sCurrentValue.contains( SEPARATOR ) )
+		{
+			return SEPARATOR + sCurrentValue;
+		}
+
+		return sCurrentValue;
 	}
 }

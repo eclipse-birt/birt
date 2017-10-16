@@ -123,7 +123,6 @@
       <feature id="org.eclipse.mylyn.monitor"/>
       <feature id="org.eclipse.mylyn.tasks.ide"/>
       <feature id="org.eclipse.mylyn.team_feature"/>
-      <feature id="org.eclipse.mylyn.wikitext_feature"/>
       <feature id="org.eclipse.mylyn_feature"/>
       <feature id="org.eclipse.pde"/>
       <feature id="org.eclipse.platform"/>

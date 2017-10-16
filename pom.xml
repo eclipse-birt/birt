@@ -25,11 +25,11 @@
             <properties>
                 <eclipse.release.name>oxygen</eclipse.release.name>
                 <tycho.version>1.0.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.7milestones/</eclipse.repo.url>
-                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.13milestones/</emf.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.7/</eclipse.repo.url>
+                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.13/</emf.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
-                <wtp.repo.url>http://download.eclipse.org/webtools/repository/oxygen/</wtp.repo.url>
+                <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.9.0/R-3.9.0-20170613094504/repository/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
@@ -37,6 +37,7 @@
                 <jetty.version>9.4.5.v20170502</jetty.version>
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+                <mongodb.version>3.2.2.v20170222-2110</mongodb.version>
             </properties>
         </profile>	
 	    <profile>
@@ -46,7 +47,7 @@
                 <tycho.version>0.25.0</tycho.version>
                 <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.6/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12/</emf.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
                 <wtp.repo.url>http://download.eclipse.org/webtools/repository/neon/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
@@ -56,6 +57,7 @@
                 <jetty.version>9.2.13.v20150730</jetty.version>
                 <!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url-->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+                <mongodb.version>2.10.1.v20130422-1135</mongodb.version>
             </properties>
         </profile>
         <profile>
@@ -66,11 +68,12 @@
             	<eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.5/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.11/</emf.repo.url>
                 <wtp.repo.url>http://download.eclipse.org/webtools/repository/mars/</wtp.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/releases/</gef.repo.url>
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20150821153341/repository/</orbit.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</orbit.repo.url>
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.12</dtp.repo.url>
 				<jetty.version>9.2.9.v20150224</jetty.version>
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+                <mongodb.version>3.2.2.v20170222-2110</mongodb.version>
             </properties>
         </profile>
 		<profile>
@@ -417,6 +420,14 @@
 							<id>org.eclipse.jetty.xml</id>
 							<restrictTo>
 								<version>${jetty.version}</version>
+							</restrictTo>
+						</filter>
+						<!-- Restrict MongoDB to specific version to allow only one version included in plugins -->
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.eclipse.orbit.mongodb</id>
+							<restrictTo>
+								<version>${mongodb.version}</version>
 							</restrictTo>
 						</filter>
 					</filters>

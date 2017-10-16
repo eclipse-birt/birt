@@ -62,25 +62,32 @@ public abstract class ListingParameter extends ScalarParameter
 		String name = handle.getName( );
 		IGetParameterDefinitionTask task = createParameterDefinitionTask( );
 
-		if ( isCascading )
+		try 
 		{
-			values = getCascadingValues( values, task );
-		}
-		else
+			if ( isCascading )
+			{
+				values = getCascadingValues( values, task );
+			}
+			else
+			{
+				List selectionList = (List) task.getSelectionList( name );
+				/*
+				 * Iterator iterator = selectionList.iterator( ); while (
+				 * iterator.hasNext( ) ) { IParameterSelectionChoice choice =
+				 * (IParameterSelectionChoice) iterator .next( ); values.add(
+				 * choice.getValue( ) ); }
+				 */
+	
+				// TODO change IParameterSelectionChoice to parameter choice.
+				values.addAll( selectionList );
+			}
+			return values;
+		} 
+		finally 
 		{
-			List selectionList = (List) task.getSelectionList( name );
-			/*
-			 * Iterator iterator = selectionList.iterator( ); while (
-			 * iterator.hasNext( ) ) { IParameterSelectionChoice choice =
-			 * (IParameterSelectionChoice) iterator .next( ); values.add(
-			 * choice.getValue( ) ); }
-			 */
-
-			// TODO change IParameterSelectionChoice to parameter choice.
-			values.addAll( selectionList );
+			if ( task != null )
+				task.close();
 		}
-
-		return values;
 	}
 
 	/**

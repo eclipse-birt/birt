@@ -1,10 +1,10 @@
 # BIRT
 The open source Eclipse BIRT reporting and data visualization project. 
 
+## Building BIRT
+BIRT is built with [Apache Maven](http://maven.apache.org).
 
-##Building BIRT
-BIRT is build using [Apache Maven] (http://maven.apache.org).
-To build BIRT with latest Eclipse platform, run:
+To build BIRT with the latest Eclipse platform, run:
 
     mvn package -DskipTests 
     
@@ -16,8 +16,7 @@ To build BIRT with Eclipse Mars, run:
 
     mvn package -Pmars -DskipTests
     
-###Building environment
-JDK 1.8
-
-Maven 3.3.1 or 3.3.3
+### Building environment
+* JDK 1.8
+* Maven 3.3.1 or 3.3.3
 

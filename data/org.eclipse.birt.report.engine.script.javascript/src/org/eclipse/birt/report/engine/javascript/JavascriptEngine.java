@@ -282,7 +282,8 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 			ICompiledScript compiledScript ) throws BirtException
 	{
 		assert ( compiledScript instanceof CompiledJavascript );
-		String source = ( (CompiledJavascript) compiledScript ).getScriptText( );
+		// String source = ( (CompiledJavascript) compiledScript )
+		// .getScriptText( );
 		try
 		{
 			Script script = ( (CompiledJavascript) compiledScript )
@@ -292,8 +293,13 @@ public class JavascriptEngine implements IScriptEngine, IDataScriptEngine
 		}
 		catch ( Throwable e )
 		{
-			throw new CoreException( ResourceConstants.JAVASCRIPT_COMMON_ERROR,
-					new Object[]{source, e.getMessage( )}, e );
+			// Do not include javascript source code
+			// throw new CoreException(
+			// ResourceConstants.JAVASCRIPT_COMMON_ERROR,
+			// new Object[]{source, e.getMessage( )}, e );
+			throw new CoreException( ResourceConstants.INVALID_EXPRESSION,
+					e.getMessage( ),
+					e );
 		}
 	}
 
