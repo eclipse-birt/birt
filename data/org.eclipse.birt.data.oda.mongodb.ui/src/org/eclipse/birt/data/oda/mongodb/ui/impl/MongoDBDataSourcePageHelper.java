@@ -817,30 +817,30 @@ public class MongoDBDataSourcePageHelper
 			properties = new Properties( );
 		}
 
-		if ( URIElementsRadioBtn.getSelection( ) == true )
+		if ( serverHost != null )
+			properties.setProperty( MongoDBDriver.SERVER_HOST_PROP,
+					serverHost );
+
+		if ( serverPort != null )
+			properties.setProperty( MongoDBDriver.SERVER_PORT_PROP,
+					serverPort );
+
+		if ( dbName != null )
+			properties.setProperty( MongoDBDriver.DBNAME_PROP, dbName );
+
+		if ( userName != null )
+			properties.setProperty( MongoDBDriver.USERNAME_PROP, userName );
+
+		if ( password != null )
+			properties.setProperty( MongoDBDriver.PASSWORD_PROP, password );
+
+		if ( dbURI != null )
 		{
-			if ( serverHost != null )
-				properties.setProperty( MongoDBDriver.SERVER_HOST_PROP, serverHost );
-
-			if ( serverPort != null )
-				properties.setProperty( MongoDBDriver.SERVER_PORT_PROP, serverPort );
-
-			if ( dbName != null )
-				properties.setProperty( MongoDBDriver.DBNAME_PROP, dbName );
-
-			if ( userName != null )
-				properties.setProperty( MongoDBDriver.USERNAME_PROP, userName );
-
-			if ( password != null )
-				properties.setProperty( MongoDBDriver.PASSWORD_PROP, password );
+			properties.setProperty( MongoDBDriver.MONGO_URI_PROP, dbURI );
 		}
-		else if ( URIElementsRadioBtn.getSelection( ) == false )
-		{
-			if ( dbURI != null )
-				properties.setProperty( MongoDBDriver.MONGO_URI_PROP, dbURI );
-		}
+
 		// URIElementsRadioBtn.getSelection( ) );
-		properties.setProperty( MongoDBDriver.IGNORE_URI_PROP,
+		properties.setProperty(MongoDBDriver.IGNORE_URI_PROP,
 				Boolean.toString( URIElementsRadioBtn.getSelection( )
 						|| UIHelper.isEmptyString( dbURI ) ) );
 
@@ -850,45 +850,33 @@ public class MongoDBDataSourcePageHelper
 		// Kerberos
 		properties.setProperty( MongoDBDriver.USE_KERBEROS_PROP,
 				Boolean.toString( useKerberosAuthentication ) );
-		if ( useKerberosAuthentication )
+
+		if ( kerberosPrincipal != null )
 		{
-			if ( kerberosPrincipal != null )
-			{
-				properties.setProperty( MongoDBDriver.KERBEROS_PRINCIPAL_PROP,
-						kerberosPrincipal );
-			}
-			if ( gssapiServiceName != null )
-			{
-				properties.setProperty(
-						MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP,
-						gssapiServiceName );
-			}
-			if ( kerberosConfigurationFile != null )
-			{
-				properties.setProperty(
-						MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP,
-						kerberosConfigurationFile );
-			}
-			if ( gssAPIConfigurationFile != null )
-			{
-				properties.setProperty(
-						MongoDBDriver.KERBEROS_GSS_JAAS_CONFIG_FILE_PROP,
-						gssAPIConfigurationFile );
-			}
-			if ( kerberosPassword != null )
-			{
-				properties.setProperty( MongoDBDriver.KERBEROS_PASSWORD_PROP,
-						kerberosPassword );
-			}
+			properties.setProperty( MongoDBDriver.KERBEROS_PRINCIPAL_PROP,
+					kerberosPrincipal );
 		}
-		else // to disable properties based on kerberos check box selection
+		if ( gssapiServiceName != null )
 		{
-			properties.remove( MongoDBDriver.KERBEROS_PRINCIPAL_PROP );
-			properties.remove( MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP );
-			properties.remove( MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP );
-			properties
-					.remove( MongoDBDriver.KERBEROS_GSS_JAAS_CONFIG_FILE_PROP );
-			properties.remove( MongoDBDriver.KERBEROS_PASSWORD_PROP );
+			properties.setProperty(
+					MongoDBDriver.KERBEROS_GSSAPI_SERVICENAME_PROP,
+					gssapiServiceName );
+		}
+		if ( kerberosConfigurationFile != null )
+		{
+			properties.setProperty( MongoDBDriver.KERBEROS_KRB5CONFIG_FILE_PROP,
+					kerberosConfigurationFile );
+		}
+		if ( gssAPIConfigurationFile != null )
+		{
+			properties.setProperty(
+					MongoDBDriver.KERBEROS_GSS_JAAS_CONFIG_FILE_PROP,
+					gssAPIConfigurationFile );
+		}
+		if ( kerberosPassword != null )
+		{
+			properties.setProperty( MongoDBDriver.KERBEROS_PASSWORD_PROP,
+					kerberosPassword );
 		}
 
 		return properties;
