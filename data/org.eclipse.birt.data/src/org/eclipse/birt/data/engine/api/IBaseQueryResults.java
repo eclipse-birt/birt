@@ -39,5 +39,7 @@ public interface IBaseQueryResults extends INamedObject
      * @throws BirtException 
      */
     public void close( ) throws BirtException;
+    
+    public void setID(String queryResultsId);
 
 }

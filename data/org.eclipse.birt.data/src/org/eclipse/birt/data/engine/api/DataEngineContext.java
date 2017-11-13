@@ -165,6 +165,14 @@ public class DataEngineContext
 	
 	public final static int QUERY_ID_BASED_VERSIONING_STREAM = 130;
 	
+	public final static int DATAMODEL_TABULAR_CURSOR_DATA_STREAM = 131;
+	
+	public final static int DATAMODEL_TABULAR_CURSOR_INDEX_STREAM = 132;
+	
+	public final static int DATAMODEL_TABULAR_CURSOR_GROUP_INFO_STREAM = 133;
+	
+	public final static int DATAMODEL_IV_STREAM = 134;
+	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;
@@ -767,7 +775,18 @@ public class DataEngineContext
 				break;
 			case QUERY_ID_BASED_VERSIONING_STREAM:
 				return "/DataEngine/QueryIdBasedVersioningStream";
-			
+			case DATAMODEL_TABULAR_CURSOR_DATA_STREAM:	
+				relativePath = "TabularCursorData";
+				break;
+			case DATAMODEL_TABULAR_CURSOR_INDEX_STREAM:
+				relativePath = "TabularCursorDataIndex";
+				break;
+			case DATAMODEL_TABULAR_CURSOR_GROUP_INFO_STREAM:
+				relativePath = "TabularCursorDataRowId2BreakGroupLevel";
+				break;
+			case DATAMODEL_IV_STREAM:
+				relativePath = "IV";
+				break;
 			default :
 				assert false; // impossible
 		}
