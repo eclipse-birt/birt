@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -333,7 +334,7 @@ public class QueryDefnIOUtil
 	{
 		DataInputStream dis = new DataInputStream( inputStream );
 
-		Map exprMap = new HashMap( );
+		Map exprMap = new LinkedHashMap( );
 		int size = IOUtil.readInt( dis );
 
 		for ( int i = 0; i < size; i++ )

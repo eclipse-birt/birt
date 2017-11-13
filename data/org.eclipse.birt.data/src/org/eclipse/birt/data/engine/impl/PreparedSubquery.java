@@ -129,7 +129,7 @@ class PreparedSubquery implements IPreparedQueryService
 	 * @return
 	 * @throws DataException
 	 */
-	QueryResults execute( IResultIterator parentIterator, IQueryExecutor parentExecutor, Scriptable scope ) 
+	IQueryResults execute( IResultIterator parentIterator, IQueryExecutor parentExecutor, Scriptable scope ) 
 		throws DataException
 	{
 		logger.logp( Level.FINER,
