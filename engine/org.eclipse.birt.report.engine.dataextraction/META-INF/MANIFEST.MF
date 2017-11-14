@@ -10,5 +10,4 @@ Export-Package: org.eclipse.birt.report.engine.dataextraction,
  org.eclipse.birt.report.engine.dataextraction.i18n,
  org.eclipse.birt.report.engine.dataextraction.impl
 Bundle-ActivationPolicy: lazy
-Import-Package: com.ibm.icu.util;version="3.4.4"
 

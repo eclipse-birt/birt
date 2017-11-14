@@ -11,7 +11,5 @@ Export-Package: org.eclipse.birt.core.script.function.bre;x-friends:="org.eclips
  org.eclipse.birt.core.script.function.i18n;x-friends:="org.eclipse.birt.core"
 Bundle-Localization: plugin
 Bundle-ClassPath: .
-Import-Package: com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"
 Bundle-Vendor: Eclipse BIRT Project
 

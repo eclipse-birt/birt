@@ -14,4 +14,3 @@ Export-Package: org.eclipse.birt.chart.examples.radar.i18n,
  org.eclipse.birt.chart.examples.radar.model.type.util,
  org.eclipse.birt.chart.examples.radar.render
 Bundle-ActivationPolicy: lazy
-Import-Package: com.ibm.icu.util;version="3.4.4"

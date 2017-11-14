@@ -54,5 +54,3 @@ Require-Bundle: org.w3c.css.sac;bundle-version="[1.3.0,2.0.0)",
  org.w3c.sac;bundle-version="[1.3.0,2.0.0)"
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"

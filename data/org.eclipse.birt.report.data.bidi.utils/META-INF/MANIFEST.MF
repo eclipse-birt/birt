@@ -9,5 +9,4 @@ Export-Package: org.eclipse.birt.report.data.bidi.utils.core,
  org.eclipse.birt.report.data.bidi.utils.i18n
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ActivationPolicy: lazy
-Import-Package: com.ibm.icu.lang;version="3.4.4",
- com.ibm.icu.text;version="3.4.4"
+Require-Bundle: org.eclipse.birt.core;bundle-version="4.7.0"

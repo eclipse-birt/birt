@@ -19,6 +19,3 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.odp.plugin.OdpEmitterPl
 Export-Package: org.eclipse.birt.report.engine.emitter.odp,
  org.eclipse.birt.report.engine.emitter.odp.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.ibm.icu.lang;version="3.4.4",
- org.eclipse.birt.report.engine.odf,
- org.eclipse.birt.report.engine.odf.writer

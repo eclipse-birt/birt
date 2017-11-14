@@ -17,4 +17,3 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.odt.plugin.OdtEmitterPl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.engine.emitter.odt,
  org.eclipse.birt.report.engine.emitter.odt.writer
-Import-Package: com.ibm.icu.util;version="3.4.4"

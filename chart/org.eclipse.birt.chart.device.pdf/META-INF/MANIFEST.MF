@@ -23,7 +23,6 @@ Require-Bundle: org.eclipse.birt.chart.device.svg;bundle-version="4.7.0",
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.chart.device.pdf
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.ibm.icu.util;version="3.4.4"
 Bundle-ClassPath: .,
  lib/fop-2.1.jar
 

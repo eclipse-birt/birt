@@ -51,7 +51,3 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.2.0,3.0.0)";visibility:
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEnginePlugin
-Import-Package: com.ibm.icu.lang;version="3.4.4",
- com.ibm.icu.math;version="3.4.4",
- com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"

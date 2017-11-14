@@ -17,4 +17,3 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.wpml.plugin.Wordemitter
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.engine.emitter.wpml,
  org.eclipse.birt.report.engine.emitter.wpml.writer
-Import-Package: com.ibm.icu.util;version="3.4.4"

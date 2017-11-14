@@ -13,4 +13,3 @@ Bundle-Vendor: Eclipse BIRT Project
 Export-Package: org.eclipse.birt.chart.device.swt,
  org.eclipse.birt.chart.device.swt.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.ibm.icu.util;version="3.4.4"
