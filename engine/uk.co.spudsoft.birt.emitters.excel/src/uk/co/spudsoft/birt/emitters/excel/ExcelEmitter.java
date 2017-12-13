@@ -442,11 +442,6 @@ public abstract class ExcelEmitter implements IContentEmitter {
 		handlerState.getHandler().endListGroup(handlerState,group);
 		log.removePrefix( 'G' );
 	}
-
-	@Override
-	public boolean isMultiplePagesEnabled() {
-		return true;
-	}
 	
 	
 	
