@@ -51,7 +51,7 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 	/**
 	 * the emitter used to output the table content
 	 */
-	protected final IContentEmitter emitter;
+	protected IContentEmitter emitter;
 
 	/**
 	 * the current table layout
@@ -632,7 +632,11 @@ public class HTMLTableLayoutEmitter extends ContentEmitterAdapter
 				if ( hasDropCell( ) )
 				{
 					// Page break only if multiple page is enabled and cache exceed max limit
-					if ( emitter.isMultiplePagesEnabled( ) && layout.exceedMaxCache( ) )
+					if ( emitter instanceof ContentEmitterAdapter && !((ContentEmitterAdapter)emitter).isMultiplePagesEnabled( ) )
+					{
+						return;
+					}
+					if ( layout.exceedMaxCache( ) )
 					{
 						context.softRowBreak = true;
 					}

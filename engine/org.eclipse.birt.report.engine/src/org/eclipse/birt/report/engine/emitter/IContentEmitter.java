@@ -123,12 +123,4 @@ public interface IContentEmitter
 	void startListGroup( IListGroupContent group ) throws BirtException;
 
 	void endListGroup( IListGroupContent group ) throws BirtException;
-
-	/**
-	 * Indicates if multiple page is enabled in current emitter.
-	 * 
-	 * @since 4.7
-	 * @return true means multiple page is enabled
-	 */
-	boolean isMultiplePagesEnabled( );
 }
