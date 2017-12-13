@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 1
+Bundle-Name: BIRT JDBC API
+Bundle-SymbolicName: org.eclipse.birt.report.data.oda.jdbc.api;singleton:=true
+Bundle-Version: 4.7.0.qualifier
+Bundle-Vendor: Eclipse BIRT Project
+Bundle-ClassPath: .
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
