@@ -129,6 +129,15 @@ public class ResultClass implements IResultClass
 			{
 				nameToIdMapping.put( upperCaseAlias, index );
 			}
+			
+			String lable = column.getLabel( );
+			if ( lable != null
+					&& lable.length( ) > 0
+					&& !nameToIdMapping.containsKey( lable ) )
+			{
+				nameToIdMapping.put( lable, index );
+			}
+			
 		}
 		// Best effort to support jdbc alias
 		for ( int i = 0; i < projectedCols.length; i++ )
@@ -393,7 +402,7 @@ public class ResultClass implements IResultClass
 	public int getFieldIndex( String fieldName )
 	{
 		Integer i = 
-			(Integer) nameToIdMapping.get( fieldName );//.toUpperCase( ) );
+			(Integer) nameToIdMapping.get( fieldName);//.toUpperCase( ) );
 		return ( i == null ) ? -1 : i.intValue();
 	}
 	
