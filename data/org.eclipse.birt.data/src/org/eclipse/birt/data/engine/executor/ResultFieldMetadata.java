@@ -67,6 +67,18 @@ public class ResultFieldMetadata
 		this.m_compressedColumn = compressedColumn;
 	}
 	
+	public ResultFieldMetadata( int driverPosition, String name, 
+	 		String label,String alias, Class dataType,
+			String nativeTypeName, boolean isCustom, int analysisType, String analysisColumn, boolean indexColumn, boolean compressedColumn )
+	{
+		this( driverPosition, name, label, dataType, nativeTypeName, isCustom );
+		this.m_analysisType = analysisType;
+		this.m_analysisColumn = analysisColumn;
+		this.m_indexColumn = indexColumn;
+		this.m_compressedColumn = compressedColumn;
+		this.m_alias = alias;
+	}
+	
 	public int getAnalysisType( )
 	{
 		return this.m_analysisType;
