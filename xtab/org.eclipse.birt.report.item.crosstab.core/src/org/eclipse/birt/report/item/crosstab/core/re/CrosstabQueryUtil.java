@@ -337,7 +337,7 @@ public class CrosstabQueryUtil implements ICrosstabConstants
 		if( measureBindingName != null )
 		{
 			IMeasureDefinition mDef = cubeQuery.createMeasure( measureBindingName );
-			mDef.setAggrFunction( DataAdapterUtil.getRollUpAggregationName( aggrFunc ) );
+			mDef.setAggrFunction(  aggrFunc  );
 		}
 	}
 	
