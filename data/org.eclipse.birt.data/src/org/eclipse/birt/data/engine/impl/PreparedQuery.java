@@ -471,7 +471,7 @@ public final class PreparedQuery
 				this.baseQueryDefn,
 				this.exprManager ) );
 		//Only the host query need the cache id.
-		if( this.baseQueryDefn.cacheQueryResults() && this.baseQueryDefn instanceof IQueryDefinition )
+		if( cacheQueryResults( ) )
 		{
 			result.setID( this.session.getQueryResultIDUtil().nextID( ) );
 			((QueryDefinition) this.baseQueryDefn).setQueryResultsID( result.getID( ) );
@@ -572,4 +572,9 @@ public final class PreparedQuery
 		return aggrTable;
 	}
 	
+	public boolean cacheQueryResults( )
+	{
+		return baseQueryDefn.cacheQueryResults() && baseQueryDefn instanceof IQueryDefinition;
+	}
+
 }
