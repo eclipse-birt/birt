@@ -713,7 +713,8 @@ class ResultSetProcessUtil extends RowProcessUtil
 			{
 				ResultFieldMetadata field = new ResultFieldMetadata( 0,
 						meta.getFieldName( i ),
-						meta.getFieldLabel( i ),
+						meta.getFieldLabels(i),
+						meta.getFieldAlias( i ),
 						meta.getFieldValueClass( i ),
 						meta.getFieldNativeTypeName( i ),
 						meta.isCustomField( i ),

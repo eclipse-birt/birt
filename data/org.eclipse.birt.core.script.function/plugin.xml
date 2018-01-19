@@ -374,6 +374,24 @@
 		<Argument name="date">
 			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
 	<Function
+          desc="%FunctionDesc.hour"
+          name="hour">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
+          desc="%FunctionDesc.minute"
+          name="minute">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
+          desc="%FunctionDesc.second"
+          name="second">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.weekOfMonth"
           name="weekOfMonth">
 		<DataType value="%dataType.Integer"></DataType>

@@ -130,12 +130,13 @@ public class ResultClass implements IResultClass
 				nameToIdMapping.put( upperCaseAlias, index );
 			}
 			
-			String lable = column.getLabel( );
-			if ( lable != null
-					&& lable.length( ) > 0
-					&& !nameToIdMapping.containsKey( lable ) )
-			{
-				nameToIdMapping.put( lable, index );
+			List<String> labels = column.getLabels( );
+			if (labels != null) {
+				for (String label : labels) {
+					if (label != null && label.length() > 0 && !nameToIdMapping.containsKey(label)) {
+						nameToIdMapping.put(label, index);
+					}
+				}
 			}
 			
 		}
@@ -441,6 +442,11 @@ public class ResultClass implements IResultClass
 	public String getFieldLabel( int index ) throws DataException
 	{
 		return projectedCols[index - 1].getLabel();
+	}
+	
+	public List<String> getFieldLabels( int index ) throws DataException
+	{
+		return projectedCols[index - 1].getLabels();
 	}
 	
 	public String getFieldNativeTypeName( int index ) throws DataException 
