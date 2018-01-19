@@ -13,6 +13,8 @@
 
 package org.eclipse.birt.data.engine.odi;
 
+import java.util.List;
+
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.ResultFieldMetadata;
 
@@ -128,6 +130,7 @@ public interface IResultClass
 	 * @throws DataException	if given index is invalid.
 	 */
 	public String getFieldLabel( int index ) throws DataException;
+	public List<String> getFieldLabels( int index ) throws DataException;
 
 	/**
 	 * Gets the native type name of the field at the specified index 
