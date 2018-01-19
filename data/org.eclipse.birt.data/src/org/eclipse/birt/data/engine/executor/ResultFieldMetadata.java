@@ -35,6 +35,7 @@ public class ResultFieldMetadata
 	private boolean accessible = true;
 	private float m_compressThrehold;
 	private int m_customPosition;
+	private List<String> labels;
 	
 	// A consolidated list of all alternate bindings to the column
 	private Set<String> bindings;
@@ -266,6 +267,5 @@ public class ResultFieldMetadata
     public Set<String> getBindings(){
     	return this.bindings;
     }
-    
     
 }

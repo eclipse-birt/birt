@@ -137,6 +137,7 @@ public interface IResultClass
 	 */
 	public Set<String> getFieldBindings( int index ) throws DataException;
 
+
 	/**
 	 * Gets the native type name of the field at the specified index 
 	 * position.
