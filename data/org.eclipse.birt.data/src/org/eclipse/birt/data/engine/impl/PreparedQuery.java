@@ -572,4 +572,9 @@ public final class PreparedQuery
 		return aggrTable;
 	}
 	
+	public boolean cacheQueryResults( )
+	{
+		return baseQueryDefn.cacheQueryResults() && baseQueryDefn instanceof IQueryDefinition;
+	 }
+	
 }
