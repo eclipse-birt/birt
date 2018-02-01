@@ -13,7 +13,9 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.compound.IArchiveFile;
@@ -28,11 +30,17 @@ public class DocumentUtil
 {
 
 	public static void copy( IArchiveFile source, IArchiveFile target,
-			IReportRunnable runnable ) throws EngineException
+			IReportRunnable runnable) throws EngineException
+	{
+		copy(source, target, runnable, new HashMap<String,String>());
+	}
+	
+	public static void copy( IArchiveFile source, IArchiveFile target,
+			IReportRunnable runnable, Map<String, String> transformations ) throws EngineException
 	{
 		try
 		{
-			ArchiveUtil.copy( source, target );
+			ArchiveUtil.copy( source, target, transformations );
 		}
 		catch ( IOException ex )
 		{
