@@ -27,10 +27,15 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipException;
 import java.util.zip.ZipFile;
@@ -47,6 +52,9 @@ public class ArchiveUtil
 {
 
 	private static final Logger logger = Logger.getLogger( ArchiveUtil.class.getName( ) );
+	
+	private static final String IDENTITY_MAPPING = "I";
+	private static final String DELETION_MAPPING = "D";
 	
 	// We need this because the report document should be platform neutral. Here
 	// we define the neutral as unix separator.
@@ -594,13 +602,25 @@ public class ArchiveUtil
 	public static void copy( IArchiveFile inArchive, IArchiveFile outArchive )
 			throws IOException
 	{
+		copy(inArchive, outArchive, new HashMap<String, String>());
+	}
+	
+	public static void copy( IArchiveFile inArchive, IArchiveFile outArchive, Map<String, String> transformations )
+			throws IOException
+	{
 		if ( inArchive == null || outArchive == null )
 		{
 			throw new IOException(
 					CoreMessages.getString( ResourceConstants.NULL_SOURCE ) );
 		}
-
-		copy( new ArchiveReader( inArchive ), new ArchiveWriter( outArchive ) );
+		if (transformations == null || transformations.isEmpty( ))
+		{
+			copy( new ArchiveReader( inArchive ), new ArchiveWriter( outArchive ) );
+		}
+		else
+		{
+			copy( new ArchiveReader( inArchive ), new ArchiveWriter( outArchive ), transformations );
+		}
 	}
 
 	static public void copy( IDocArchiveReader reader, IDocArchiveWriter writer )
@@ -629,6 +649,118 @@ public class ArchiveUtil
 				in.close( );
 			}
 		}
+	}
+
+
+	static public void copy( IDocArchiveReader reader, IDocArchiveWriter writer, Map<String, String> transformations)
+			throws IOException
+	{
+		List<String> streamList = reader.listAllStreams( );
+		
+		// Build a map of src to target paths. The special value '1' stands for identify mapping
+		
+		Map<String, String> normalizedStreamMappings = new HashMap<String, String>();
+		List<String> overridenStreams = new ArrayList<String>();
+		
+		String srcStreamPath = null;
+		String targetStreamPath = null;
+		
+		for ( int i = 0; i < streamList.size( ); i++ )
+		{
+			srcStreamPath = streamList.get( i );
+			targetStreamPath = getTransformedPath(srcStreamPath, transformations);
+			
+			if (targetStreamPath != DELETION_MAPPING)
+			{
+				normalizedStreamMappings.put(srcStreamPath, targetStreamPath);
+				if (targetStreamPath != IDENTITY_MAPPING)
+				{
+					// Add the target stream path to the overriden streams.
+					overridenStreams.add(targetStreamPath);
+				}
+			}
+		}
+		
+		// Remove the overriden Streams if present from the copy list
+		for(String streamPath: overridenStreams)
+		{
+			normalizedStreamMappings.remove( streamPath );	
+		}
+		
+		for(Map.Entry<String, String> entry: normalizedStreamMappings.entrySet( ))
+		{
+			srcStreamPath = entry.getKey( );
+			targetStreamPath = entry.getValue( );
+			if (targetStreamPath == IDENTITY_MAPPING)
+			{
+				targetStreamPath = srcStreamPath;
+			}
+			RAInputStream in = reader.getStream( srcStreamPath );
+			try
+			{
+				RAOutputStream out = writer
+						.createRandomAccessStream( targetStreamPath );
+				try
+				{
+					copyStream( in, out );
+				}
+				finally
+				{
+					out.close( );
+				}
+			}
+			finally
+			{
+				in.close( );
+			}
+		}
+	}
+	
+	private static String getTransformedPath(String srcStreamPath, Map<String, String> transformations)
+	{
+		Set<Map.Entry<String, String>> transformationSet = transformations.entrySet( );
+		
+		String srcPatternExpr = null;
+		String targetPath = null;
+		Pattern pattern = null;
+		Matcher matcher = null;
+		
+		for(Map.Entry<String, String> entry : transformationSet)
+		{
+			srcPatternExpr = entry.getKey( );
+			
+			pattern = Pattern.compile( srcPatternExpr );
+			matcher = pattern.matcher( srcStreamPath );
+			int groupCount = 0;
+			String groupStr = null;
+			String groupToken = null;
+			
+			if (matcher.find( ))
+			{
+				targetPath = entry.getValue();
+				if (targetPath == null || targetPath.trim( ).length() == 0)
+				{
+					// This stream is to be skipped.
+					targetPath = DELETION_MAPPING;
+				}
+				else
+				{
+					groupCount = matcher.groupCount( );
+					for (int i = 1; i <= groupCount; i++)
+					{
+						groupStr = matcher.group(i);
+						groupToken = "\\\\" + i;
+						targetPath = targetPath.replaceAll( groupToken, groupStr );
+					}
+				}
+				break;
+			}
+		}
+		if (targetPath == null)
+		{
+			targetPath = IDENTITY_MAPPING;
+		}
+		return targetPath;
 	}
 
 	static private void copyStream( RAInputStream in, RAOutputStream out )
