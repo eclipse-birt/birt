@@ -130,6 +130,11 @@ public class ResultClass implements IResultClass
 				nameToIdMapping.put( upperCaseAlias, index );
 			}
 			
+			
+			if (column.getLabel() != null && !nameToIdMapping.containsKey(column.getLabel())) {
+				nameToIdMapping.put(column.getLabel(), index);
+			}
+			
 			List<String> labels = column.getLabels( );
 			if (labels != null) {
 				for (String label : labels) {
