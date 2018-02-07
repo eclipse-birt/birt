@@ -12,7 +12,9 @@
 package org.eclipse.birt.report.designer.ui.actions;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -56,6 +58,9 @@ abstract class PreviewSupport
 	protected static final String TYPE_HTML = "html"; //$NON-NLS-1$
 
 	private static final Map<String, String> typeMap = new HashMap<String, String>( );
+	
+	private static final String[] OBSOLETE_FORMAT = {"doc", "ppt", "xls"};
+	private static final HashSet<String> obsoleteFormat = new HashSet<String>(Arrays.asList(OBSOLETE_FORMAT));
 
 	private static final String IMG_FILE_DEFAULT = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
 	private static final String IMG_FILE_WEB = "icons/etool16/preview_web.gif"; //$NON-NLS-1$
@@ -176,6 +181,10 @@ abstract class PreviewSupport
 		for ( Entry<String, List<EmitterInfo>> ent : deprecatedFormats.entrySet( ) )
 		{
 			final String format = ent.getKey( );
+			if ( obsoleteFormat.contains(format) )
+			{
+				continue;
+			}
 			final List<EmitterInfo> emits = ent.getValue( );
 
 			MenuItem previewOption = new MenuItem( menu,
