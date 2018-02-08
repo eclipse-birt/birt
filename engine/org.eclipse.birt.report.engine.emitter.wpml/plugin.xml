@@ -11,6 +11,7 @@
               id="org.eclipse.birt.report.engine.emitter.word"
               pagination="page-break-pagination"
               mimeType="application/msword"
-              isFormatDeprecated="true"/>
+              isFormatDeprecated="true"
+              isHidden="true"/>
   	</extension>  
 </plugin>
