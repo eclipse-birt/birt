@@ -12,6 +12,7 @@
               pagination="paper-size-pagination"
               id="org.eclipse.birt.report.engine.emitter.ppt"
               mimeType="application/vnd.ms-powerpoint"
-              isFormatDeprecated="true"/>
+              isFormatDeprecated="true"
+              isHidden="true"/>
   </extension>  
 </plugin>
