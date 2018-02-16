@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Debug UI Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.debug.ui; singleton:=true
-Bundle-Version: 4.7.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.debug.internal.script.model,

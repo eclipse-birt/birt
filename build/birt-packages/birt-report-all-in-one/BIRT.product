@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product name="BIRT Report Designer All-in-one" uid="org.eclipse.birt.report.designer.all" application="org.eclipse.ui.ide.workbench" version="4.7.0.qualifier" useFeatures="true" includeLaunchers="true">
+<product name="BIRT Report Designer All-in-one" uid="org.eclipse.birt.report.designer.all" application="org.eclipse.ui.ide.workbench" version="4.8.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>

@@ -166,4 +166,8 @@ public class ConfigurationElement implements IConfigurationElement
 		return true;
 	}
 
+	public int getHandleId( )
+	{
+		return 11;
+	}
 }
