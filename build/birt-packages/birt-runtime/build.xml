@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project basedir=".">
-  <property name="BIRT_VERSION" value="4.7.0"/>
+  <property name="BIRT_VERSION" value="4.8.0"/>
   <property name="RUNTIME_DIR" location="../birt-runtime-osgi/target/package"/>
   <property name="ROOT_DIR" location="../../.."/>
   <property name="TARGET_DIR" location="./target"/>

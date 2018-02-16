@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test Fragment
 Bundle-SymbolicName: org.eclipse.birt.report.item.crosstab.core.tests;singleton:=true
-Bundle-Version: 4.7.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Fragment-Host: org.eclipse.birt.report.item.crosstab.core;bundle-version="1.0.0"
 Require-Bundle: org.junit
 Bundle-Vendor: Eclipse BIRT Project
