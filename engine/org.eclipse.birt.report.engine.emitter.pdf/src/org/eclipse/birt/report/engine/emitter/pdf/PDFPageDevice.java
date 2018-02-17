@@ -13,8 +13,13 @@ package org.eclipse.birt.report.engine.emitter.pdf;
 
 import java.awt.Color;
 import java.io.BufferedOutputStream;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 import java.util.logging.Level;
@@ -33,7 +38,12 @@ import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 import com.ibm.icu.util.ULocale;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
+import com.lowagie.text.Rectangle;
+import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.PdfContentByte;
+import com.lowagie.text.pdf.PdfImportedPage;
 import com.lowagie.text.pdf.PdfOutline;
+import com.lowagie.text.pdf.PdfReader;
 import com.lowagie.text.pdf.PdfTemplate;
 import com.lowagie.text.pdf.PdfWriter;
 
@@ -168,6 +178,63 @@ public class PDFPageDevice implements IPageDevice
 			// to ensure we create a PDF file
 			doc.open( );
 		}
+		
+		//modified here. This will grab a global variable called 
+		//appendPDF, and take a list of strings of PDF files to 
+		//append to the end.
+		//this iswhere we will test the merge
+		List<InputStream> pdfs = new ArrayList<InputStream>();
+		
+		String list = (String) context.getReportRunnable().getProperty("AppendList");
+		
+		//check that the report variable AppendList is set, and actually has value
+		if (list != null)
+		{
+			if (list.length() > 0)
+			{
+				//iterate over the list, and create a fileinputstream for each file location. 
+				for (String s : list.split(","))
+				{
+					//If there is an exception creating the input stream, don't stop execution.
+					//Just graceffully let the user know that there was an error with the variable.
+					try {
+						FileInputStream fis = new FileInputStream( s.trim() );
+						
+						pdfs.add(fis);
+					} catch (Exception e) {
+						System.err.println("Error in append list");
+						e.printStackTrace();
+					}
+				}
+			}
+		}
+		
+		//check that we assigned a parameter for appending PDF's
+		Object appendPDF = context.getGlobalVariable("appendPDF");
+		
+		if (appendPDF != null)
+		{
+			ArrayList<String> pdfList = (ArrayList<String>) appendPDF;
+			
+			for (String fileName : pdfList)
+			{
+				//If there is an exception creating the input stream, don't stop execution.
+				//Just graceffully let the user know that there was an error with the variable.
+				try {
+					FileInputStream fis = new FileInputStream( fileName.trim() );
+					
+					pdfs.add(fis);
+				} catch (Exception e) {
+					System.err.println("Error in append list");
+					e.printStackTrace();
+				}
+			}
+		}
+		
+	    concatPDFs(pdfs, true);
+	    
+	    //End Modification
+			    
 		writer.setPageEmpty( false );
 		if ( doc.isOpen( ) )
 		{
@@ -241,4 +308,81 @@ public class PDFPageDevice implements IPageDevice
 	{
 		return new TOCHandler( root, outline, bookmarks );
 	}
+	
+	/**
+	 * Patched PDF to Combine PDF Files
+	 * 
+	 * Given a list of PDF Files
+	 * When a user wants to append PDf files to a PDF emitter output
+	 * Then Append the PDF files to the output stream or output file
+	 * 
+	 * @param streamOfPDFFiles
+	 * @param paginate
+	 */
+	 public void concatPDFs(List<InputStream> streamOfPDFFiles, boolean paginate) {
+
+		    Document document = doc;
+		    try {
+		      List<InputStream> pdfs = streamOfPDFFiles;
+		      List<PdfReader> readers = new ArrayList<PdfReader>();
+		      int totalPages = 0;
+		      Iterator<InputStream> iteratorPDFs = pdfs.iterator();
+
+		      // Create Readers for the pdfs.
+		      while (iteratorPDFs.hasNext()) {
+		        InputStream pdf = iteratorPDFs.next();
+		        PdfReader pdfReader = new PdfReader(pdf);
+		        readers.add(pdfReader);
+		        
+		        int n = pdfReader.getNumberOfPages();
+		              
+		        totalPages += n;
+		      }
+		      // Create a writer for the outputstream
+		      PdfWriter writer = this.writer;
+
+		      BaseFont bf = BaseFont.createFont(BaseFont.HELVETICA, BaseFont.CP1252, BaseFont.NOT_EMBEDDED);
+		      PdfContentByte cb = writer.getDirectContent(); // Holds the PDF
+		      
+		      PdfImportedPage page;
+		      int currentPageNumber = 0;
+		      int pageOfCurrentReaderPDF = 0;
+		      Iterator<PdfReader> iteratorPDFReader = readers.iterator();
+
+		      // Loop through the PDF files and add to the output.
+		      while (iteratorPDFReader.hasNext()) {
+		        PdfReader pdfReader = iteratorPDFReader.next();
+
+		        // Create a new page in the target for each source page.
+		        while (pageOfCurrentReaderPDF < pdfReader.getNumberOfPages()) {
+		          pageOfCurrentReaderPDF++;
+		          currentPageNumber++;
+		          
+		          //note: page size has to be set before new page created. current page is already initialized
+		          Rectangle sourcePageSize = pdfReader.getPageSize(pageOfCurrentReaderPDF);
+		          document.setPageSize(sourcePageSize);
+		        	
+		          document.newPage();
+		                    
+		          page = writer.getImportedPage(pdfReader, pageOfCurrentReaderPDF);
+		                    
+		          cb.addTemplate(page, 0, 0);
+
+		          // Code for pagination.
+		          if (paginate) {
+		            cb.beginText();
+		            cb.setFontAndSize(bf, 9);
+		            cb.showTextAligned(PdfContentByte.ALIGN_CENTER, "" + currentPageNumber + " of " + totalPages, 520, 5, 0);
+		            cb.endText();
+		          }
+		        }
+		        pageOfCurrentReaderPDF = 0;
+		      }
+		      //outputStream.flush();
+		      //document.close();
+		      //outputStream.close();
+		    } catch (Exception e) {
+		      e.printStackTrace();  
+		    }
+		  }	
 }
