@@ -135,7 +135,7 @@ public class ResultClass implements IResultClass
 				nameToIdMapping.put(column.getLabel(), index);
 			}
 			
-			List<String> labels = column.getLabels( );
+			Set<String> labels = column.getBindings( );
 			if (labels != null) {
 				for (String label : labels) {
 					if (label != null && label.length() > 0 && !nameToIdMapping.containsKey(label)) {
@@ -449,9 +449,9 @@ public class ResultClass implements IResultClass
 		return projectedCols[index - 1].getLabel();
 	}
 	
-	public List<String> getFieldLabels( int index ) throws DataException
+	public Set<String> getFieldBindings( int index ) throws DataException
 	{
-		return projectedCols[index - 1].getLabels();
+		return projectedCols[index - 1].getBindings();
 	}
 	
 	public String getFieldNativeTypeName( int index ) throws DataException 
