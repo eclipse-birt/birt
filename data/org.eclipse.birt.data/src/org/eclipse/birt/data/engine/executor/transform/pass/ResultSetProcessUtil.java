@@ -675,7 +675,6 @@ class ResultSetProcessUtil extends RowProcessUtil
 	/**
 	 * Clean the temporary data.
 	 * 
-	 * @param stopSign
 	 * @throws DataException
 	 */
 	private void cleanTempColumns( ) throws DataException
@@ -713,8 +712,8 @@ class ResultSetProcessUtil extends RowProcessUtil
 			{
 				ResultFieldMetadata field = new ResultFieldMetadata( 0,
 						meta.getFieldName( i ),
-						meta.getFieldLabels(i),
 						meta.getFieldAlias( i ),
+						meta.getFieldBindings( i ),
 						meta.getFieldValueClass( i ),
 						meta.getFieldNativeTypeName( i ),
 						meta.isCustomField( i ),
