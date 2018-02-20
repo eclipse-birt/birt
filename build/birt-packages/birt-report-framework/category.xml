@@ -1,27 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.birt.chart.cshelp_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.cshelp_4.7.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.7.0.qualifier">
       <category name="BRF"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime_4.7.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime" version="4.7.0.qualifier">
       <category name="BRF"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart_4.8.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart_4.7.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.7.0.qualifier">
       <category name="BRF"/>
    </feature>
-   <feature url="features/org.eclipse.birt.cshelp_4.8.0.qualifier.jar" id="org.eclipse.birt.cshelp" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.cshelp_4.7.0.qualifier.jar" id="org.eclipse.birt.cshelp" version="4.7.0.qualifier">
       <category name="BRF"/>
    </feature>
-   <feature url="features/org.eclipse.birt.doc_4.8.0.qualifier.jar" id="org.eclipse.birt.doc" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.doc_4.7.0.qualifier.jar" id="org.eclipse.birt.doc" version="4.7.0.qualifier">
       <category name="BRF"/>
    </feature>
-   <feature url="features/org.eclipse.birt.example_4.8.0.qualifier.jar" id="org.eclipse.birt.example" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.example_4.7.0.qualifier.jar" id="org.eclipse.birt.example" version="4.7.0.qualifier">
       <category name="BRF"/>
    </feature>
-   <feature url="features/org.eclipse.birt.report.designer.editor.xml.wtp_4.8.0.qualifier.jar" id="org.eclipse.birt.report.designer.editor.xml.wtp" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.report.designer.editor.xml.wtp_4.7.0.qualifier.jar" id="org.eclipse.birt.report.designer.editor.xml.wtp" version="4.7.0.qualifier">
       <category name="BRF"/>
    </feature>
-   <feature url="features/org.eclipse.birt_4.8.0.qualifier.jar" id="org.eclipse.birt" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt_4.7.0.qualifier.jar" id="org.eclipse.birt" version="4.7.0.qualifier">
       <category name="BRF"/>
    </feature>
    <category-def name="BRF" label="BIRT Reporting Framework"/>

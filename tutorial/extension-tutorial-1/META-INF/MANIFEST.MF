@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT extension tutorial_1 Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.extension.tutorial_1;singleton:=true
-Bundle-Version: 4.8.0.qualifier
+Bundle-Version: 4.7.0.qualifier
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse.org

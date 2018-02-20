@@ -251,6 +251,6 @@
         createManifest(template, manifest, packages);
         ]]></script>
     <!-- update manifest version -->
-    <replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.8.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}"/>
+    <replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.7.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}"/>
   </target>
 </project>
