@@ -333,7 +333,7 @@ public class PreparedDummyQuery implements IPreparedQuery
 		/**
 		 * @param queryResultID
 		 */
-		public void setID( String queryResultID )
+		private void setID( String queryResultID )
 		{
 			this.queryResultID = queryResultID;
 		}

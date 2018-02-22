@@ -53,7 +53,10 @@ public class ArchiveUtil
 
 	private static final Logger logger = Logger.getLogger( ArchiveUtil.class.getName( ) );
 	
+	// Stream transformation flat used  during copy to indicate that the stream is to be copied as is
 	private static final String IDENTITY_MAPPING = "I";
+	
+	// Stream transformation flag used during copy to indicate that the specified stream should not be copied to target.
 	private static final String DELETION_MAPPING = "D";
 	
 	// We need this because the report document should be platform neutral. Here
@@ -605,6 +608,17 @@ public class ArchiveUtil
 		copy(inArchive, outArchive, new HashMap<String, String>());
 	}
 	
+	/**
+	 *
+	 * @param inArchive Source Archive
+	 * @param outArchive Destination Archive
+	 * @param transformations Optional transformations of streams specified via java regex patterns.
+	 * The map is keyed in by a regex pattern and the value will be the replacement expression which may refer
+	 * capturing groups in the key. While copying the streams, if any of the key regex patterns matches the current source stream path
+	 * being copied, the replacement expression is used to transform the source stream path to a target stream path.
+	 *
+	 * @throws IOException
+	 */
 	public static void copy( IArchiveFile inArchive, IArchiveFile outArchive, Map<String, String> transformations )
 			throws IOException
 	{
@@ -651,13 +665,19 @@ public class ArchiveUtil
 		}
 	}
 
-
+	/**
+	 *
+	 * @param reader Source
+	 * @param writer Destination
+	 * @param transformations Optional Stream Transformations specified using Java regex patterns
+	 * @throws IOException
+	 */
 	static public void copy( IDocArchiveReader reader, IDocArchiveWriter writer, Map<String, String> transformations)
 			throws IOException
 	{
 		List<String> streamList = reader.listAllStreams( );
 		
-		// Build a map of src to target paths. The special value '1' stands for identify mapping
+		// Build a map of src to target paths. The special value '1' stands for identity mapping
 		
 		Map<String, String> normalizedStreamMappings = new HashMap<String, String>();
 		List<String> overridenStreams = new ArrayList<String>();
@@ -716,6 +736,14 @@ public class ArchiveUtil
 		}
 	}
 	
+	/*
+	 * Utility method that transforms the given source stream path by running it through the specified
+	 * transformations map. The Key of the map is a regex pattern and the value is the replacement string.
+	 * The method iterates over the supplied transformations and if any of the key pattern matches the src stream path
+	 * it transforms the source stream path to a target stream path using the replacement string. The key pattern may capture
+	 * groups which may be referred to in the replacement string.
+	 *
+	 */
 	private static String getTransformedPath(String srcStreamPath, Map<String, String> transformations)
 	{
 		Set<Map.Entry<String, String>> transformationSet = transformations.entrySet( );
@@ -740,7 +768,7 @@ public class ArchiveUtil
 				targetPath = entry.getValue();
 				if (targetPath == null || targetPath.trim( ).length() == 0)
 				{
-					// This stream is to be skipped.
+					// Null transformation - this stream is to be skipped.
 					targetPath = DELETION_MAPPING;
 				}
 				else
@@ -758,6 +786,7 @@ public class ArchiveUtil
 		}
 		if (targetPath == null)
 		{
+			// No transformation specified for this source stream path. Copy it as is in the target stream
 			targetPath = IDENTITY_MAPPING;
 		}
 		return targetPath;

@@ -164,7 +164,7 @@ class PreparedIVDataSourceQuery extends PreparedDataSourceQuery
 			IBaseQueryResults outerResults, Scriptable scope )
 			throws DataException
 	{
-		IQueryResults queryResults = preparedQuery.doPrepare( outerResults,
+		QueryResults queryResults = preparedQuery.doPrepare( outerResults,
 				scope,
 				newExecutor( ),
 				this );

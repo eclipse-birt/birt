@@ -32,9 +32,17 @@ public class DocumentUtil
 	public static void copy( IArchiveFile source, IArchiveFile target,
 			IReportRunnable runnable) throws EngineException
 	{
-		copy(source, target, runnable, new HashMap<String,String>());
+		copy(source, target, runnable, null);
 	}
 	
+	/**
+	 *
+	 * @param source The source archive file to copy
+	 * @param target The destination archive file to copy to
+	 * @param runnable
+	 * @param transformations Optional transformations to apply when copying archive streams from source to destination archive
+	 * @throws EngineException
+	 */
 	public static void copy( IArchiveFile source, IArchiveFile target,
 			IReportRunnable runnable, Map<String, String> transformations ) throws EngineException
 	{
