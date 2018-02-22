@@ -108,7 +108,7 @@ public class PreparedNoRecalculateIVQuery extends PreparedIVQuerySourceQuery
 			IBaseQueryResults outerResults, Scriptable scope )
 			throws DataException
 	{
-		IQueryResults queryResults = preparedQuery.doPrepare( outerResults,
+		QueryResults queryResults = preparedQuery.doPrepare( outerResults,
 				scope,
 				newExecutor( ),
 				this );

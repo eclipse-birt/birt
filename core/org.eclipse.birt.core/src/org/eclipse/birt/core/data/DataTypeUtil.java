@@ -1400,42 +1400,6 @@ public final class DataTypeUtil
 	
 	public static Class fromApiDataTypeToJavaClass( int apiDataType )
 	{
-		/*
-		if ( clazz == null )
-			return DataType.UNKNOWN_TYPE;
-
-		if ( clazz == DataType.AnyType.class )
-			return DataType.ANY_TYPE;
-		else if ( Integer.class.isAssignableFrom( clazz ) )
-			return DataType.INTEGER_TYPE;
-		else if ( Double.class.isAssignableFrom( clazz ) )
-			return DataType.DOUBLE_TYPE;
-		else if ( String.class.isAssignableFrom( clazz ) )
-			return DataType.STRING_TYPE;
-		else if ( BigDecimal.class.isAssignableFrom( clazz ) )
-			return DataType.DECIMAL_TYPE;
-		else if ( clazz == java.sql.Date.class )
-			return DataType.SQL_DATE_TYPE;
-		else if ( clazz == java.sql.Time.class )
-			return DataType.SQL_TIME_TYPE;
-		else if ( Date.class.isAssignableFrom( clazz ) )
-			return DataType.DATE_TYPE;
-		else if ( byte[].class.isAssignableFrom( clazz ) )
-			return DataType.BINARY_TYPE;
-		else if ( Clob.class.isAssignableFrom( clazz )
-				|| clazz.getName( )
-						.equals( "org.eclipse.datatools.connectivity.oda.IClob" ) )
-			return DataType.STRING_TYPE;
-		else if ( Blob.class.isAssignableFrom( clazz )
-				|| clazz.getName( )
-						.equals( "org.eclipse.datatools.connectivity.oda.IBlob" ) )
-			return DataType.BLOB_TYPE;
-		else if ( clazz == Boolean.class )
-			return DataType.BOOLEAN_TYPE;
-        else if ( clazz == Object.class )
-            return DataType.JAVA_OBJECT_TYPE;
-            */
-		
 		switch ( apiDataType )
 		{
 			case DataType.ANY_TYPE:

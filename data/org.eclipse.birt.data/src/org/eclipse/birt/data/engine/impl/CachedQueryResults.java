@@ -144,10 +144,4 @@ public class CachedQueryResults implements IQueryResults
 		return name;
 	}
 
-	@Override
-	public void setID( String queryResultsId )
-	{
-		throw new UnsupportedOperationException();
-	}
-
 }

@@ -439,7 +439,7 @@ public final class PreparedQuery
 	 * @param executor
 	 * @parem dataSourceQuery
 	 */
-	public IQueryResults doPrepare( IBaseQueryResults outerResults,
+	public QueryResults doPrepare( IBaseQueryResults outerResults,
 			Scriptable scope, QueryExecutor executor,
 			PreparedDataSourceQuery dataSourceQuery ) throws DataException
 	{
@@ -465,7 +465,7 @@ public final class PreparedQuery
 		logger.finer( "Finish preparing the execution." );
 		
 		// Give an opportunity to the QueryExecutor to construct and compose the instance of IQueryResults to use.
-		IQueryResults result = null; 
+		QueryResults result = null; 
 	
 		result = executor.buildQueryResults(new ServiceForQueryResults( this.session,
 				executor.getQueryScope( ),

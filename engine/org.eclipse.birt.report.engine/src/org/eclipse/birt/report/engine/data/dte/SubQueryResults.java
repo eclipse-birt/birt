@@ -72,10 +72,4 @@ public class SubQueryResults implements IQueryResults
 	{
 		throw new UnsupportedOperationException();
 	}
-
-	@Override
-	public void setID( String queryResultsId )
-	{
-		throw new UnsupportedOperationException( );
-	}
 }

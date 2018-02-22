@@ -1513,7 +1513,7 @@ public abstract class QueryExecutor implements IQueryExecutor
 	 * @param exprManager
 	 * @return
 	 */
-	public IQueryResults buildQueryResults(IServiceForQueryResults serviceForQueryResults)
+	public QueryResults buildQueryResults(IServiceForQueryResults serviceForQueryResults)
 	{
 		return null;
 	}
