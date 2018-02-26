@@ -43,6 +43,13 @@ public class DataEngineContext
 	public final static int DIRECT_PRESENTATION  = 3;
 	
 	/**
+	 * flow mode is required to check if the request received is from regular
+	 * report execution,interactive viewing session or for data extraction
+	 */
+	public static enum DataEngineFlowMode{NORMAL,IV,DATA_EXTRACTION}
+	private DataEngineFlowMode flowMode = DataEngineFlowMode.NORMAL;
+	
+	/**
 	 * this is a special mode, that a query which is running on a report
 	 * document also needs to be stored into the same report document. This is a
 	 * update operation, and it is a combination mode of presentation and
@@ -825,4 +832,12 @@ public class DataEngineContext
 	{
 		return this.bundleVersion;
 	}	
+	
+	public void setFlowMode(DataEngineFlowMode flowMode){
+		this.flowMode = flowMode;
+	}
+	
+	public DataEngineFlowMode getFlowMode(){
+		return flowMode;
+	}
 }
