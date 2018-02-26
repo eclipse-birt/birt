@@ -142,7 +142,6 @@ public class ResultClass implements IResultClass
 						nameToIdMapping.put(label, index);
 					}
 				}
-
 			}
 			
 		}
