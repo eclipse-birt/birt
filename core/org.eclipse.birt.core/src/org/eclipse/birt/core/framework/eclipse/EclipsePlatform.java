@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
+import org.eclipse.birt.core.framework.FrameworkException;
 import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.birt.core.framework.IConfigurationElement;
 import org.eclipse.birt.core.framework.IExtension;
@@ -353,25 +354,67 @@ public class EclipsePlatform implements IPlatform
 		return TracingHandlerHolder.tracingHandler;
 	}
 
+	/**
+	 * Create factory object for an extension by picking the highest priority factory
+	 * extension
+	 * @throws FrameworkException 
+	 */
+	public static Object createFactoryObjectForExtension(IExtension[] extensions, String extensionId) 
+			throws FrameworkException
+	{
+		if (extensions == null || extensionId == null)
+			return null;
+		
+		// Find extension with highest priority
+		int hiPriority = Integer.MIN_VALUE;
+		IConfigurationElement hiConfig = null;
+		for (IExtension ext : extensions )
+		{
+			if ( extensionId.equals( ext.getUniqueIdentifier( ) ))
+			{
+				IConfigurationElement[] ces = ext.getConfigurationElements( );
+				if (ces != null && ces.length >0 )
+				{
+					// We only expect one config element "factory"
+					String priStr = ces[0].getAttribute( "priority" );
+					int priority = 0;
+					try
+					{
+						if (priStr!= null && !priStr.isEmpty( )) 
+							priority = Integer.parseInt( priStr );
+					}
+					catch (NumberFormatException e) {}
+	
+					if (priority > hiPriority)
+					{
+						hiPriority = priority;
+						hiConfig = ces[0];
+					}
+				}
+			}
+		}
+		
+		if ( hiConfig != null )
+		{
+			Object factory = hiConfig.createExecutableExtension( "class" );
+			return factory;
+		}
+		return null;
+	}
+	
 	public Object createFactoryObject( String extensionId )
 	{
 		try
 		{
 			IExtensionRegistry registry = getExtensionRegistry( );
-
-			IExtension factoryExt = registry.getExtension(
-					"org.eclipse.birt.core",
-					IPlatform.EXTENSION_POINT_FACTORY_SERVICE, extensionId );
-			if ( factoryExt != null )
+			// We allow multiple extensions with the same extensionId. In such a case
+			// the priority attribute on the factory element is used to pick the one we use
+			IExtensionPoint extPoint = registry.getExtensionPoint( "org.eclipse.birt.core",
+					IPlatform.EXTENSION_POINT_FACTORY_SERVICE);
+			if ( extPoint != null )
 			{
-				IConfigurationElement[] configs = factoryExt
-						.getConfigurationElements( );
-				if ( configs != null && configs.length > 0 )
-				{
-					IConfigurationElement config = configs[0];
-					Object factory = config.createExecutableExtension( "class" );
-					return factory;
-				}
+				return createFactoryObjectForExtension(
+						extPoint.getExtensions(), extensionId);
 			}
 		}
 		catch ( Exception ex )

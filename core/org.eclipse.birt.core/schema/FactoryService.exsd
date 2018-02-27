@@ -1,16 +1,21 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.core">
+<schema targetNamespace="org.eclipse.birt.core" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.birt.core" id="FactoryService" name="FactoryService"/>
       </appInfo>
       <documentation>
-         [Enter description of this extension point.]
+         Factory service to allow the client to obtain an instance of a factory object supplied by the extension.
       </documentation>
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
          <sequence>
             <element ref="factory"/>
@@ -47,7 +52,15 @@
          <attribute name="class" type="string">
             <annotation>
                <documentation>
-                  
+                  Name of the class of the factory object. The class must supply a constructor which takes no parameters.
+               </documentation>
+            </annotation>
+         </attribute>
+         <attribute name="priority" type="string">
+            <annotation>
+               <documentation>
+                  (Integer) Priority of this factory implementation. If omitted, the priority defaults to 0.
+If multiple extensions supply factories for the same extension ID, the extension with the highest priority number is used.
                </documentation>
             </annotation>
          </attribute>
@@ -90,13 +103,5 @@
       </documentation>
    </annotation>
 
-   <annotation>
-      <appInfo>
-         <meta.section type="copyright"/>
-      </appInfo>
-      <documentation>
-         
-      </documentation>
-   </annotation>
 
 </schema>
