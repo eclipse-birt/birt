@@ -52,6 +52,7 @@ public class OdaJdbcDriver implements IDriver
 		public static final String DRIVER_INFO_ATTR_NAME = "name";
 		public static final String DRIVER_INFO_ATTR_DRIVERCLASS= "driverClass";
 		public static final String DRIVER_INFO_ATTR_URLTEMPL = "urlTemplate";
+		public static final String DRIVER_INFO_ATTR_SELETORID = "selectorId";
 		public static final String DRIVER_INFO_ATTR_CONNFACTORY = "connectionFactory";
 		public static final String DRIVER_INFO_ELEM_JDBCDRIVER = "jdbcDriver";
 		public static final String DRIVER_INFO_ATTR_HIDE = "hide";
