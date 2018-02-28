@@ -129,6 +129,21 @@ public class ResultClass implements IResultClass
 			{
 				nameToIdMapping.put( upperCaseAlias, index );
 			}
+			
+			
+			if (column.getLabel() != null && !nameToIdMapping.containsKey(column.getLabel())) {
+				nameToIdMapping.put(column.getLabel(), index);
+			}
+			
+			Set<String> labels = column.getBindings( );
+			if (labels != null) {
+				for (String label : labels) {
+					if (label != null && label.length() > 0 && !nameToIdMapping.containsKey(label)) {
+						nameToIdMapping.put(label, index);
+					}
+				}
+			}
+			
 		}
 		// Best effort to support jdbc alias
 		for ( int i = 0; i < projectedCols.length; i++ )
@@ -393,7 +408,7 @@ public class ResultClass implements IResultClass
 	public int getFieldIndex( String fieldName )
 	{
 		Integer i = 
-			(Integer) nameToIdMapping.get( fieldName );//.toUpperCase( ) );
+			(Integer) nameToIdMapping.get( fieldName);//.toUpperCase( ) );
 		return ( i == null ) ? -1 : i.intValue();
 	}
 	
@@ -432,6 +447,11 @@ public class ResultClass implements IResultClass
 	public String getFieldLabel( int index ) throws DataException
 	{
 		return projectedCols[index - 1].getLabel();
+	}
+	
+	public Set<String> getFieldBindings( int index ) throws DataException
+	{
+		return projectedCols[index - 1].getBindings();
 	}
 	
 	public String getFieldNativeTypeName( int index ) throws DataException 

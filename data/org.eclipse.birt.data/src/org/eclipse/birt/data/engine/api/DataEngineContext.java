@@ -43,6 +43,13 @@ public class DataEngineContext
 	public final static int DIRECT_PRESENTATION  = 3;
 	
 	/**
+	 * flow mode is required to check if the request received is from regular
+	 * report execution,interactive viewing session or for data extraction
+	 */
+	public static enum DataEngineFlowMode{NORMAL,IV,DATA_EXTRACTION}
+	private DataEngineFlowMode flowMode = DataEngineFlowMode.NORMAL;
+	
+	/**
 	 * this is a special mode, that a query which is running on a report
 	 * document also needs to be stored into the same report document. This is a
 	 * update operation, and it is a combination mode of presentation and
@@ -164,6 +171,14 @@ public class DataEngineContext
 	public final static int PROGRESSIVE_VIEWING_GROUP_STREAM = 120;
 	
 	public final static int QUERY_ID_BASED_VERSIONING_STREAM = 130;
+	
+	public final static int DATAMODEL_TABULAR_CURSOR_DATA_STREAM = 131;
+	
+	public final static int DATAMODEL_TABULAR_CURSOR_INDEX_STREAM = 132;
+	
+	public final static int DATAMODEL_TABULAR_CURSOR_GROUP_INFO_STREAM = 133;
+	
+	public final static int DATAMODEL_IV_STREAM = 134;
 	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
@@ -767,7 +782,18 @@ public class DataEngineContext
 				break;
 			case QUERY_ID_BASED_VERSIONING_STREAM:
 				return "/DataEngine/QueryIdBasedVersioningStream";
-			
+			case DATAMODEL_TABULAR_CURSOR_DATA_STREAM:	
+				relativePath = "TabularCursorData";
+				break;
+			case DATAMODEL_TABULAR_CURSOR_INDEX_STREAM:
+				relativePath = "TabularCursorDataIndex";
+				break;
+			case DATAMODEL_TABULAR_CURSOR_GROUP_INFO_STREAM:
+				relativePath = "TabularCursorDataRowId2BreakGroupLevel";
+				break;
+			case DATAMODEL_IV_STREAM:
+				relativePath = "IV";
+				break;
 			default :
 				assert false; // impossible
 		}
@@ -806,4 +832,12 @@ public class DataEngineContext
 	{
 		return this.bundleVersion;
 	}	
+	
+	public void setFlowMode(DataEngineFlowMode flowMode){
+		this.flowMode = flowMode;
+	}
+	
+	public DataEngineFlowMode getFlowMode(){
+		return flowMode;
+	}
 }
