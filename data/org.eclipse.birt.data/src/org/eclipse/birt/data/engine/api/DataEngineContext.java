@@ -180,6 +180,12 @@ public class DataEngineContext
 	
 	public final static int DATAMODEL_IV_STREAM = 134;
 	
+	public final static int DATAMODEL_IV_TABULAR_CURSOR_DATA_STREAM = 135;
+
+	public final static int DATAMODEL_IV_TABULAR_CURSOR_INDEX_STREAM = 136;
+
+	public final static int DATAMODEL_IV_TABULAR_CURSOR_GROUP_INFO_STREAM = 137;
+	
 	private static Logger logger = Logger.getLogger( DataEngineContext.class.getName( ) );
 	
 	private ScriptContext scriptContext;
@@ -793,6 +799,17 @@ public class DataEngineContext
 				break;
 			case DATAMODEL_IV_STREAM:
 				relativePath = "IV";
+				break;
+			case DATAMODEL_IV_TABULAR_CURSOR_DATA_STREAM:
+				relativePath = "IV/TabularCursorData";
+				break;
+				
+			case DATAMODEL_IV_TABULAR_CURSOR_INDEX_STREAM:
+				relativePath = "IV/TabularCursorDataIndex";
+				break;
+				
+			case DATAMODEL_IV_TABULAR_CURSOR_GROUP_INFO_STREAM:
+				relativePath = "IV/TabularCursorDataRowId2BreakGroupLevel";
 				break;
 			default :
 				assert false; // impossible
