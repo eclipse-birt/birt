@@ -29,7 +29,7 @@ public class FunctionProvider
 
 	private static Logger logger = Logger.getLogger( FunctionProvider.class
 			.getName( ) );
-	private static String PROVIDER_CLASS = "org.eclipse.birt.core.internal.function.impl.FunctionProviderImpl";
+	private static String PROVIDER_CLASS = "org.eclipse.birt.core.internal.function.impl.FunctionProviderImpl"; //$NON-NLS-1$
 	private static IFunctionProvider instance;
 
 	/**
@@ -38,7 +38,14 @@ public class FunctionProvider
 	 */
 	public static void setFunctionProvider( IFunctionProvider provider )
 	{
-		FunctionProvider.instance = provider;
+		if ( FunctionProvider.instance == null )
+		{
+			FunctionProvider.instance = provider;
+		}
+		else
+		{
+			logger.warning( "FunctionProvider should not set twice." ); //$NON-NLS-1$
+		}
 	}
 
 	protected synchronized static IFunctionProvider getFunctionProvider( )
@@ -47,7 +54,7 @@ public class FunctionProvider
 		{
 			try
 			{
-				Class clazz = Class.forName( PROVIDER_CLASS );
+				Class<?> clazz = Class.forName( PROVIDER_CLASS );
 				if ( clazz != null )
 				{
 					instance = (IFunctionProvider) clazz.newInstance( );
@@ -56,7 +63,7 @@ public class FunctionProvider
 			catch ( Exception ex )
 			{
 				logger.log( Level.WARNING,
-						"failed to initialize IFunctionProvider instance", ex );
+						"failed to initialize IFunctionProvider instance", ex ); //$NON-NLS-1$
 			}
 		}
 
