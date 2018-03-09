@@ -167,6 +167,11 @@ public class GroupDefinition extends BaseTransform implements IGroupDefinition
 		this.keyExpr = keyExpr;
 		this.keyColumn = null;
 	}
+	
+	public IScriptExpression getKeyScriptExpression(){
+		return keyExpr;
+	}
+	
 	/**
 	 * @param sortDirection The sortDirection to set.
 	 */
