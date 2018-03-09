@@ -38,7 +38,7 @@ public class FunctionProvider
 	 */
 	public static void setFunctionProvider( IFunctionProvider provider )
 	{
-		if ( FunctionProvider.instance == null )
+		if ( !isLoaded( ) )
 		{
 			FunctionProvider.instance = provider;
 		}
@@ -46,6 +46,11 @@ public class FunctionProvider
 		{
 			logger.warning( "FunctionProvider should not set twice." ); //$NON-NLS-1$
 		}
+	}
+	
+	public static boolean isLoaded( )
+	{
+		return FunctionProvider.instance != null;
 	}
 
 	protected synchronized static IFunctionProvider getFunctionProvider( )
