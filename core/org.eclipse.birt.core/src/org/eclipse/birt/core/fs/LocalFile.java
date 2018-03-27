@@ -109,4 +109,10 @@ public class LocalFile implements IFile
 		return file.isAbsolute( );
 	}
 
+	@Override
+	public IFile getParent( )
+	{
+		return new LocalFile( file.getParentFile( ) );
+	}
+
 }

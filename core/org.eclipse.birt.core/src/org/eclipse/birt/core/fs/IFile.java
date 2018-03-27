@@ -92,6 +92,13 @@ public interface IFile
 	 * @return true if file path is absolute, otherwise false.
 	 */
 	boolean isAbsolute( );
+	
+	/**
+	 * Returns the parent folder.
+	 * 
+	 * @return parent folder
+	 */
+	IFile getParent();
 
 	/**
 	 * Returns all files under current folder.
