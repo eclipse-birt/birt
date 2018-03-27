@@ -17,6 +17,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
 import java.net.URL;
 
 /**
@@ -31,6 +32,12 @@ public class LocalFile implements IFile
 	public LocalFile( File localFile )
 	{
 		this.file = localFile;
+	}
+	
+	public LocalFile( URI uri )
+	{
+		this.file = uri.isAbsolute( ) ? new File( uri )
+				: new File( uri.toString( ) );
 	}
 
 	@Override

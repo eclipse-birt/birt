@@ -67,7 +67,7 @@ public class FileSystemFactory implements IFileSystemFactory
 	@Override
 	public IFile getFile( URI uri )
 	{
-		return getFile( uri.toString( ) );
+		return new LocalFile( uri );
 	}
 
 }
