@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.emitter.pdf;
 
 import java.awt.Color;
 import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -21,10 +22,12 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.ITOCTree;
 import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
@@ -32,6 +35,7 @@ import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.util.BundleVersionUtil;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 
@@ -82,6 +86,9 @@ public class PDFPageDevice implements IPageDevice
 
 	protected final static int MAX_PAGE_WIDTH = 14400000; // 200 inch
 	protected final static int MAX_PAGE_HEIGHT = 14400000; // 200 inch
+	
+	private static String APPEND_PROPERTY_NAME = "AppendList";
+	private static String PREPEND_PROPERTY_NAME = "PrependList";
 
 	public PDFPageDevice( OutputStream output, String title, String author,
 			String subject, String description, IReportContext context,
@@ -120,10 +127,109 @@ public class PDFPageDevice implements IPageDevice
 			{
 				doc.addHeader( "Description", description );
 			}
+			
+			//Add in prepending PDF's
+			//modified here. This will grab a global variable called 
+			//appendPDF, and take a list of strings of PDF files to 
+			//append to the end.
+			//this is where we will test the merge
+			List<InputStream> pdfs = new ArrayList<InputStream>();
+			
+			//removed using the runtime instance of the report and switched to using the designtime
+			//instance per request.
+			//String list = (String) context.getReportRunnable().getProperty("AppendList");
+			//String list = (String) context.getDesignHandle().getProperty("AppendList");
+			Map<String, Expression> props = report.getDesign().getUserProperties();
+			
+			//added null check
+			if (props != null)
+			{
+				Object listObject = props.get(PDFPageDevice.PREPEND_PROPERTY_NAME);
+				
+				if (listObject != null)
+				{
+					Expression exp = (Expression) listObject;
+					
+					Object result = context.evaluate(exp);
+					//there are two options here. 1 is the user property "AppendList" is a comma-seperated
+					//string list. If so, check that it is a String, and split it.
+					if (result instanceof String)
+					{
+						String list = (String) result;
+					
+						//check that the report variable AppendList is set, and actually has value
+						if (list != null)
+						{
+							if (list.length() > 0)
+							{
+								//iterate over the list, and create a fileinputstream for each file location. 
+								for (String s : list.split(","))
+								{
+									//If there is an exception creating the input stream, don't stop execution.
+									//Just graceffully let the user know that there was an error with the variable.
+									try {
+										String fileName = s.trim();
+										
+										File f = new File(fileName);
+										
+										if (f.exists())
+										{
+											FileInputStream fis = new FileInputStream( f );
+											
+											pdfs.add(fis);
+										}
+									} catch (Exception e) {
+										logger.log( Level.WARNING, e.getMessage( ), e );
+									}
+								}
+							}
+						}
+					}
+					
+					//The other is a "Named Expression", which is basically a user property that is the result
+					//of an expression instead of a string literal. This should be set as an arraylist through
+					//BIRT script
+					if (result instanceof ArrayList)
+					{
+						ArrayList<String> pdfList = (ArrayList<String>) result;
+						
+						for (String fileName : pdfList)
+						{
+							//If there is an exception creating the input stream, don't stop execution.
+							//Just graceffully let the user know that there was an error with the variable.
+							try {
+								File f = new File(fileName);
+								
+								if (f.exists())
+								{
+									FileInputStream fis = new FileInputStream( f );
+									
+									pdfs.add(fis);
+								}
+							} catch (Exception e) {
+								logger.log( Level.WARNING, e.getMessage( ), e );
+							}
+						}
+					}
+					
+					//check size of PDFs to make sure we aren't calling this on a 0 size array
+					if (pdfs.size() > 0)
+					{
+						//this hasn't been initialized yet, open the doc
+						if ( !this.doc.isOpen( ) )
+							this.doc.open( );
+						concatPDFs(pdfs, true);
+					}
+				}
+			}
+			//End Modification
 		}
 		catch ( DocumentException de )
 		{
 			logger.log( Level.SEVERE, de.getMessage( ), de );
+		} 
+		catch (BirtException be) {
+			logger.log( Level.SEVERE, be.getMessage( ), be );
 		}
 	}
 
@@ -182,58 +288,94 @@ public class PDFPageDevice implements IPageDevice
 		//modified here. This will grab a global variable called 
 		//appendPDF, and take a list of strings of PDF files to 
 		//append to the end.
-		//this iswhere we will test the merge
+		//this is where we will test the merge
 		List<InputStream> pdfs = new ArrayList<InputStream>();
 		
-		String list = (String) context.getReportRunnable().getProperty("AppendList");
+		//removed using the runtime instance of the report and switched to using the designtime
+		//instance per request.
+		//String list = (String) context.getReportRunnable().getProperty("AppendList");
+		//String list = (String) context.getDesignHandle().getProperty("AppendList");
+		Map<String, Expression> props = report.getDesign().getUserProperties();
 		
-		//check that the report variable AppendList is set, and actually has value
-		if (list != null)
+		//added null check
+		if (props != null)
 		{
-			if (list.length() > 0)
+			Object listObject = props.get(PDFPageDevice.APPEND_PROPERTY_NAME);
+			
+			if (listObject != null)
 			{
-				//iterate over the list, and create a fileinputstream for each file location. 
-				for (String s : list.split(","))
+				Expression exp = (Expression) listObject;
+				
+				Object result = context.evaluate(exp);
+				//there are two options here. 1 is the user property "AppendList" is a comma-seperated
+				//string list. If so, check that it is a String, and split it.
+				if (result instanceof String)
 				{
-					//If there is an exception creating the input stream, don't stop execution.
-					//Just graceffully let the user know that there was an error with the variable.
-					try {
-						FileInputStream fis = new FileInputStream( s.trim() );
-						
-						pdfs.add(fis);
-					} catch (Exception e) {
-						System.err.println("Error in append list");
-						e.printStackTrace();
+					String list = (String) result;
+				
+					//check that the report variable AppendList is set, and actually has value
+					if (list != null)
+					{
+						if (list.length() > 0)
+						{
+							//iterate over the list, and create a fileinputstream for each file location. 
+							for (String s : list.split(","))
+							{
+								//If there is an exception creating the input stream, don't stop execution.
+								//Just graceffully let the user know that there was an error with the variable.
+								try {
+									String fileName = s.trim();
+									
+									File f = new File(fileName);
+									
+									if (f.exists())
+									{
+										FileInputStream fis = new FileInputStream( f );
+										
+										pdfs.add(fis);
+									}
+								} catch (Exception e) {
+									logger.log( Level.WARNING, e.getMessage( ), e );
+								}
+							}
+						}
 					}
 				}
-			}
-		}
-		
-		//check that we assigned a parameter for appending PDF's
-		Object appendPDF = context.getGlobalVariable("appendPDF");
-		
-		if (appendPDF != null)
-		{
-			ArrayList<String> pdfList = (ArrayList<String>) appendPDF;
-			
-			for (String fileName : pdfList)
-			{
-				//If there is an exception creating the input stream, don't stop execution.
-				//Just graceffully let the user know that there was an error with the variable.
-				try {
-					FileInputStream fis = new FileInputStream( fileName.trim() );
+				
+				//The other is a "Named Expression", which is basically a user property that is the result
+				//of an expression instead of a string literal. This should be set as an arraylist through
+				//BIRT script
+				if (result instanceof ArrayList)
+				{
+					ArrayList<String> pdfList = (ArrayList<String>) result;
 					
-					pdfs.add(fis);
-				} catch (Exception e) {
-					System.err.println("Error in append list");
-					e.printStackTrace();
+					for (String fileName : pdfList)
+					{
+						//If there is an exception creating the input stream, don't stop execution.
+						//Just graceffully let the user know that there was an error with the variable.
+						try {
+							File f = new File(fileName);
+							
+							if (f.exists())
+							{
+								FileInputStream fis = new FileInputStream( f );
+								
+								pdfs.add(fis);
+							}
+						} catch (Exception e) {
+							logger.log( Level.WARNING, e.getMessage( ), e );
+						}
+					}
+				}
+				
+				//check size of PDFs to make sure we aren't calling this on a 0 size array
+				if (pdfs.size() > 0)
+				{
+					concatPDFs(pdfs, true);
 				}
 			}
 		}
-		
-	    concatPDFs(pdfs, true);
-	    
-	    //End Modification
+		//End Modification
 			    
 		writer.setPageEmpty( false );
 		if ( doc.isOpen( ) )
