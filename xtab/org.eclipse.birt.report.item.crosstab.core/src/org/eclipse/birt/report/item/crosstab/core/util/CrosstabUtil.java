@@ -1116,6 +1116,10 @@ public final class CrosstabUtil implements ICrosstabConstants
 		{
 			columnName = "[^\\]]+";
 		}
+		else
+		{
+			columnName = Pattern.quote( columnName );
+		}
 		
 		ExpressionHandle expr = column
 				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );		
