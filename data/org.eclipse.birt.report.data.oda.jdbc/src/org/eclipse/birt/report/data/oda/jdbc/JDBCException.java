@@ -164,6 +164,37 @@ public class JDBCException extends OdaException
 		return msg;
 	}
 	
+	public String getMessage( ULocale locale )
+	{
+		JdbcResourceHandle resourceHandle = new JdbcResourceHandle( locale );
+		String msg;
+		if ( argv == null )
+		{
+			msg = resourceHandle.getMessage( errorCode );
+		}
+		else
+		{
+			msg = resourceHandle.getMessage( errorCode, argv );
+		}
+
+		Throwable cause = getCause();
+		if ( cause != null )
+		{
+			String extraMsg;
+			if ( cause instanceof SQLException )
+			{
+				extraMsg = getSQLExceptionMesssage( (SQLException) cause);
+			}
+			else
+			{
+				extraMsg = cause.getLocalizedMessage();
+			}
+			if ( extraMsg != null && extraMsg.length() > 0 )
+				msg += "\n" + extraMsg;
+		}
+		return msg;
+	}
+
 	/**
 	 * Utility function to log a SQLException to provided logger. 
 	 */ 
