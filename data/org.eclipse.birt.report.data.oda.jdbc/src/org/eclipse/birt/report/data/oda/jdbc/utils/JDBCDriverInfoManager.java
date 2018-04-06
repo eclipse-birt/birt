@@ -125,7 +125,7 @@ public class JDBCDriverInfoManager
 		driverInfo.setUrlFormat( 
 				configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_URLTEMPL ) );
 		driverInfo.setSelectorId( 
-				configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_SELETORID ) );
+				configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_SELECTORID ) );
 		driverInfo.setHide( configElement.getAttribute( OdaJdbcDriver.Constants.DRIVER_INFO_ATTR_HIDE ) );
 		driverInfo.populateProperties( configElement );
 		return driverInfo;
