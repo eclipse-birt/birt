@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.data.engine.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -373,28 +374,52 @@ public class QueryCompUtil
 	{
 		if ( b1.getDataType( ) != b2.getDataType( ) )
 			return false;
-		if ( !isTwoExpressionEqual( b1.getExpression( ), b2.getExpression( ), true ) )
-			return false;
+		
 		if ( !isEqualString( b1.getAggrFunction( ), b2.getAggrFunction( ) ) )
 			return false;
+		
+		if(b1.getAggrFunction( ) != null && b2.getAggrFunction( ) != null)
+		{
+			if ( b1.getAggregatOns( ).size( ) != b2.getAggregatOns( ).size( ) )
+				return false;
+			for ( int i = 0; i < b1.getAggregatOns( ).size( ); i++ )
+			{
+				if ( !isEqualString( b1.getAggregatOns( ).get( i ).toString( ),
+						b2.getAggregatOns( ).get( i ).toString( ) ) )
+					return false;
+			}
+			
+			List b1Arguments = new ArrayList(b1.getArguments( ));
+			if(b1.getExpression( ) != null)
+			{
+				b1Arguments.add( 0, b1.getExpression( ) );
+			}
+			
+			List b2Arguments = new ArrayList(b2.getArguments( ));
+			if(b2.getExpression( ) != null)
+			{
+				b2Arguments.add( 0, b2.getExpression( ) );
+			}
+			
+			if ( b1Arguments.size( ) != b2Arguments.size( ) )
+				return false;
+			for ( int i = 0; i < b1Arguments.size( ); i++ )
+			{
+				if ( !isTwoExpressionEqual( (IBaseExpression) b1Arguments
+						.get( i ), (IBaseExpression) b2Arguments.get( i ), true ) )
+					return false;
+			}
+			
+		}else
+		{
+			if ( !isTwoExpressionEqual( b1.getExpression( ), b2.getExpression( ), true ) )
+				return false;
+		}
+		
+		
 		if ( !isTwoExpressionEqual( b1.getFilter( ), b2.getFilter( ), true ) )
 			return false;
-		if ( b1.getAggregatOns( ).size( ) != b2.getAggregatOns( ).size( ) )
-			return false;
-		for ( int i = 0; i < b1.getAggregatOns( ).size( ); i++ )
-		{
-			if ( !isEqualString( b1.getAggregatOns( ).get( i ).toString( ),
-					b2.getAggregatOns( ).get( i ).toString( ) ) )
-				return false;
-		}
-		if ( b1.getArguments( ).size( ) != b2.getArguments( ).size( ) )
-			return false;
-		for ( int i = 0; i < b1.getArguments( ).size( ); i++ )
-		{
-			if ( !isTwoExpressionEqual( (IBaseExpression) b1.getArguments( )
-					.get( i ), (IBaseExpression) b2.getArguments( ).get( i ), true ) )
-				return false;
-		}
+		
 		return true;
 	}
 
