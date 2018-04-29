@@ -156,6 +156,11 @@ public class ConditionalExpression extends BaseExpression implements IConditiona
 		super.setGroupName( groupName );
 	}
 	
+	public void setExpression( IScriptExpression expr )
+	{
+		this.expr = expr;
+	}
+	
 	/**
 	 * 
 	 * @param expr
