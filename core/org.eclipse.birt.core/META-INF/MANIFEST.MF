@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Core Package
 Bundle-SymbolicName: org.eclipse.birt.core; singleton:=true
-Bundle-Version: 4.7.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.core.internal.plugin.CorePlugin
 Bundle-Vendor: Eclipse BIRT Project
@@ -18,6 +18,7 @@ Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.framework,
  org.eclipse.birt.core.framework.osgi,
  org.eclipse.birt.core.framework.parser,
+ org.eclipse.birt.core.fs,
  org.eclipse.birt.core.i18n,
  org.eclipse.birt.core.plugin,
  org.eclipse.birt.core.preference,
@@ -27,10 +28,8 @@ Export-Package: org.eclipse.birt.core.archive,
  org.eclipse.birt.core.template,
  org.eclipse.birt.core.util
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
- org.mozilla.javascript;bundle-version="1.7.4";visibility:=reexport
+ org.mozilla.javascript;bundle-version="1.7.4";visibility:=reexport,
+ com.ibm.icu;bundle-version="3.4.4";visibility:=reexport
 Eclipse-LazyStart: true
 Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.ibm.icu.lang;version="3.4.4",
- com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"

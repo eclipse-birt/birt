@@ -130,6 +130,7 @@ public class WidthResolver
 		{
 			IColumn column = table.getColumn( colId + i );
 			DimensionType colWidth = column.getWidth( );
+			colWidth = colWidth == null ? PERCENTAGE_100 : colWidth;
 			if ( isPercentage( colWidth ) )
 			{
 				if ( tableWidth == null )

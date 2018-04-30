@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
+import org.eclipse.birt.report.model.api.elements.structures.PropertyBinding;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IPropertyType;
@@ -313,6 +314,7 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 				}
 
 			}
+			clearPropertyBindings();
 		}
 		catch ( SemanticException e )
 		{
@@ -322,6 +324,29 @@ public class SimpleGroupElementHandle extends GroupElementHandle
 
 		stack.commit( );
 
+	}
+	
+	//Clears property bindings for all selected items which are of DesignElementHandle type
+	private void clearPropertyBindings( ) throws SemanticException
+	{
+		List<PropertyBinding> propertyBindings;
+
+		for ( Object element : elements )
+		{
+			if ( element instanceof DesignElementHandle )
+			{
+
+				propertyBindings = ( (DesignElementHandle) element )
+						.getPropertyBindings( );
+
+				for ( PropertyBinding propertyBinding : propertyBindings )
+				{
+					( (DesignElementHandle) element ).setPropertyBinding(
+							propertyBinding.getName( ), (Expression) null );
+
+				}
+			}
+		}
 	}
 	
 	/*

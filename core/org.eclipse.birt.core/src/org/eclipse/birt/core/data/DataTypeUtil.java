@@ -1397,6 +1397,47 @@ public final class DataTypeUtil
 		// any other types are not recognized nor supported;
 		return DataType.UNKNOWN_TYPE;
 	}
+	
+	public static Class fromApiDataTypeToJavaClass( int apiDataType )
+	{
+		switch ( apiDataType )
+		{
+			case DataType.ANY_TYPE:
+				return DataType.AnyType.class;
+			case DataType.INTEGER_TYPE:
+				return Integer.class;
+			case DataType.DOUBLE_TYPE:
+				return Double.class;
+			case DataType.STRING_TYPE:
+				return String.class;
+			case DataType.DECIMAL_TYPE:
+				return BigDecimal.class;
+			case DataType.SQL_DATE_TYPE:
+				return java.sql.Date.class;
+			case DataType.SQL_TIME_TYPE:
+				return java.sql.Time.class;
+			case DataType.DATE_TYPE:
+				return java.util.Date.class;
+			case DataType.BINARY_TYPE:
+				return byte[].class;
+			case DataType.BOOLEAN_TYPE:
+				return Boolean.class;
+			case DataType.JAVA_OBJECT_TYPE:
+				return Object.class;
+			case DataType.BLOB_TYPE:
+				try
+				{
+					Class c = Class.forName("org.eclipse.datatools.connectivity.oda.IBlob");
+					return c;
+				}catch(Exception exp)
+				{
+					
+				}
+			default:
+				return DataType.AnyType.class;
+		}
+
+	}
 
 	/**
 	 * Converts an ODA data type code to its 

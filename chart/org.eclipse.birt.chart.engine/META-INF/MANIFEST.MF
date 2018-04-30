@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Engine
 Bundle-SymbolicName: org.eclipse.birt.chart.engine;singleton:=true
-Bundle-Version: 4.7.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.aggregate,
@@ -51,7 +51,3 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.2.0,3.0.0)";visibility:
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEnginePlugin
-Import-Package: com.ibm.icu.lang;version="3.4.4",
- com.ibm.icu.math;version="3.4.4",
- com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"

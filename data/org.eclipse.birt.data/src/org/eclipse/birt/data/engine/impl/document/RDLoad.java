@@ -134,7 +134,7 @@ public class RDLoad
 	 * @return
 	 * @throws DataException
 	 */
-	IExprResultSet loadExprResultSet( int rowIdStartingIndex, IBaseQueryDefinition qd ) throws DataException
+	public IExprResultSet loadExprResultSet( int rowIdStartingIndex, IBaseQueryDefinition qd ) throws DataException
 	{
 		if ( streamManager.isSecondRD( ) == true
 				&& streamManager.isSubquery( ) == true )
@@ -396,6 +396,8 @@ public class RDLoad
 		return loadQueryDefn( inputStream );
 	}
 	
+	
+	
 	/**
 	 * @param streamPos
 	 * @param streamScope
@@ -511,5 +513,20 @@ public class RDLoad
 			throw new DataException( e.getLocalizedMessage( ), e );
 		}
 		return false;
+	}
+
+	/**
+	 * @param streamPos
+	 * @param streamScope
+	 * @return query definition
+	 * @throws DataException
+	 */
+	public IBaseQueryDefinition loadQueryDefn(int streamType, int streamPos, int streamScope,String subname )
+			throws DataException
+	{
+		InputStream inputStream = streamManager.getInStream(streamType,
+				streamPos,
+				streamScope,subname );
+		return loadQueryDefn( inputStream );
 	}	
 }

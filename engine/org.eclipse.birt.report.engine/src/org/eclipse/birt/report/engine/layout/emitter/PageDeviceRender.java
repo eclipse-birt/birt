@@ -98,7 +98,7 @@ public abstract class PageDeviceRender implements IAreaVisitor
 	public abstract String getOutputFormat( );
 
 	public abstract IPageDevice createPageDevice( String title, String author, String subject,
-			String comments, IReportContext context, IReportContent report )
+			String description, IReportContext context, IReportContent report )
 			throws Exception;
 
 	/**
@@ -112,11 +112,11 @@ public abstract class PageDeviceRender implements IAreaVisitor
 		ReportDesignHandle designHandle = rc.getDesign( ).getReportDesign( );
 		String title = rc.getTitle( );
 		String author = designHandle.getAuthor( );
-		String comments = designHandle.getComments( );
+		String description = designHandle.getDescription( );
 		String subject = designHandle.getSubject( );
 		try
 		{
-			pageDevice = createPageDevice( title, author, subject, comments, context,
+			pageDevice = createPageDevice( title, author, subject, description, context,
 					rc );
 		}
 		catch ( Exception e )

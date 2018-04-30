@@ -824,6 +824,7 @@ public class ReportDocumentBuilder
 					try
 					{
 						IDocArchiveWriter archive = document.getArchive( );
+						writePageVariables( );
 						writeTotalPage( pageNumber );
 						document
 								.savePersistentObjects( ReportDocumentBuilder.this.executionContext
@@ -955,6 +956,7 @@ public class ReportDocumentBuilder
 					try
 					{
 						IDocArchiveWriter archive = document.getArchive( );
+						writePageVariables( );
 						writeTotalPage( pageNumber );
 						document
 								.savePersistentObjects( ReportDocumentBuilder.this.executionContext

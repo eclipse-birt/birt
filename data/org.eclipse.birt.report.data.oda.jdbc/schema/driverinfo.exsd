@@ -78,6 +78,13 @@
                </documentation>
             </annotation>
          </attribute>
+         <attribute name="selectorId" type="string">
+            <annotation>
+               <documentation>
+                  An attribute that is used in identifying a driver
+               </documentation>
+            </annotation>
+         </attribute>
          <attribute name="connectionFactory" type="string">
             <annotation>
                <documentation>

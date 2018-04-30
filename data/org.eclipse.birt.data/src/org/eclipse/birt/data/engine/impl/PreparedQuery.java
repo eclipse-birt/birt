@@ -37,6 +37,7 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IExpressionCollection;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
@@ -462,14 +463,30 @@ public final class PreparedQuery
 		logger.finer( "Start to prepare the execution." );
 		executor.prepareExecution( outerResults, scope );
 		logger.finer( "Finish preparing the execution." );
-		QueryResults result = new QueryResults( new ServiceForQueryResults( this.session,
+		
+		// Give an opportunity to the QueryExecutor to construct and compose the instance of IQueryResults to use.
+		QueryResults result = null; 
+	
+		result = executor.buildQueryResults(new ServiceForQueryResults( this.session,
 				executor.getQueryScope( ),
 				executor.getNestedLevel( ) + 1,
 				dataSourceQuery,
 				queryService,
 				executor,
 				this.baseQueryDefn,
-				this.exprManager ) );
+				this.exprManager ));
+		
+		if (result == null)
+		{
+			 result = new QueryResults( new ServiceForQueryResults( this.session,
+				executor.getQueryScope( ),
+				executor.getNestedLevel( ) + 1,
+				dataSourceQuery,
+				queryService,
+				executor,
+				this.baseQueryDefn,
+				this.exprManager ));
+		}
 		//Only the host query need the cache id.
 		if( this.baseQueryDefn.cacheQueryResults() && this.baseQueryDefn instanceof IQueryDefinition )
 		{
@@ -506,7 +523,7 @@ public final class PreparedQuery
 	 * @return
 	 * @throws DataException
 	 */
-	QueryResults execSubquery( IResultIterator iterator, IQueryExecutor executor, String subQueryName,
+	IQueryResults execSubquery( IResultIterator iterator, IQueryExecutor executor, String subQueryName,
 			Scriptable subScope ) throws DataException
 	{
 		assert subQueryName != null;
@@ -571,5 +588,10 @@ public final class PreparedQuery
 	{
 		return aggrTable;
 	}
+	
+	public boolean cacheQueryResults( )
+	{
+		return baseQueryDefn.cacheQueryResults() && baseQueryDefn instanceof IQueryDefinition;
+	 }
 	
 }

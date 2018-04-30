@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.data.engine.executor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * <code>ResultFieldMetadata</code> contains metadata about a 
  * column that is needed by <code>ResultClass</code>.
@@ -33,6 +36,9 @@ public class ResultFieldMetadata
 	private float m_compressThrehold;
 	private int m_customPosition;
 	
+	// A consolidated list of all alternate bindings to the column
+	private Set<String> bindings;
+		
 	public ResultFieldMetadata( int driverPosition, String name, 
 						 		String label, Class dataType,
 								String nativeTypeName, boolean isCustom )
@@ -46,6 +52,15 @@ public class ResultFieldMetadata
 		m_isCustom = isCustom;
 		m_driverProvidedDataType = null;
 		// initialize to unknown
+		bindings = new HashSet<String>();
+		if (name != null)
+		{
+			bindings.add( name );
+		}
+		if (label != null)
+		{
+			bindings.add( label );
+		}
 	}
 	
 	public ResultFieldMetadata( int driverPosition, String name, 
@@ -65,6 +80,18 @@ public class ResultFieldMetadata
 		this.m_analysisColumn = analysisColumn;
 		this.m_indexColumn = indexColumn;
 		this.m_compressedColumn = compressedColumn;
+	}
+	
+	public ResultFieldMetadata( int driverPosition, String name, 
+			String alias, Set<String> bindings, Class dataType,
+			String nativeTypeName, boolean isCustom, int analysisType, String analysisColumn, boolean indexColumn, boolean compressedColumn )
+	{
+		this( driverPosition, name, alias, dataType, nativeTypeName, isCustom );
+		this.m_analysisType = analysisType;
+		this.m_analysisColumn = analysisColumn;
+		this.m_indexColumn = indexColumn;
+		this.m_compressedColumn = compressedColumn;
+		this.bindings.addAll( bindings );
 	}
 	
 	public int getAnalysisType( )
@@ -121,7 +148,10 @@ public class ResultFieldMetadata
 	
 	public void setName( String name )
 	{
+		bindings.remove( m_name );
 		m_name = name;
+		bindings.add(m_name);
+		
 	}
 	
 	public String getAlias()
@@ -131,7 +161,9 @@ public class ResultFieldMetadata
 	
 	public void setAlias( String alias )
 	{
+		bindings.remove(m_alias);
 		m_alias = alias;
+		bindings.add( m_alias );
 	}
 	
 	public Class getDataType()
@@ -176,7 +208,9 @@ public class ResultFieldMetadata
 	
 	public void setLabel( String label )
 	{
+		bindings.remove(m_label);
 		this.m_label = label;
+		bindings.add( m_label );
 	}
 	
 	public String getLabel()
@@ -228,4 +262,9 @@ public class ResultFieldMetadata
     {
     	this.m_customPosition = pos;
     }
+    
+    public Set<String> getBindings(){
+    	return this.bindings;
+    }
+    
 }

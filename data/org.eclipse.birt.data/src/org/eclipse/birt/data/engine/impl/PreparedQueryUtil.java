@@ -134,16 +134,19 @@ public class PreparedQueryUtil
 					contextVisitor );   
 		}
 		
-		IPreparedQuery preparedQuery;
+		IPreparedQuery preparedQuery = null;
 		IBaseDataSetDesign dset = cloneDataSetDesign( dataEngine.getDataSetDesign( queryDefn.getDataSetName( ) ) , appContext);
 		
 		if ( queryDefn.getQueryResultsID( ) != null && !dataEngine.getContext( ).isDashBoardEnabled( ) )
 		{
-			preparedQuery = QueryPrepareUtil.preparePresentationQuery( dataEngine,
+			if (dataEngine.getSession( ).getEngineContext( ).getMode( ) == DataEngineContext.MODE_PRESENTATION)
+			{	
+				preparedQuery = QueryPrepareUtil.preparePresentationQuery( dataEngine,
 					queryDefn,
 					dset,
 					appContext,
 					contextVisitor );
+			}
 			if ( preparedQuery != null )
 				return preparedQuery;
 			
@@ -162,8 +165,11 @@ public class PreparedQueryUtil
 								? queryDefn.getQueryExecutionHints( )
 										.getTargetGroupInstances( ) : null );
 			}
-			
-			return newIVInstance( dataEngine, queryDefn, appContext );
+			return QueryPrepareUtil.prepareIVGenerationQuery( dataEngine,
+					queryDefn,
+					dset,
+					appContext,
+					contextVisitor );
 		}
 		
 		if( dset!= null )
@@ -655,61 +661,7 @@ public class PreparedQueryUtil
 		return adaptedDesign;
 	}
 
-	/**
-	 * @param dataEngine
-	 * @param queryDefn
-	 * @return
-	 * @throws DataException
-	 */
-	private static IPreparedQuery newIVInstance( DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn, Map appContext ) throws DataException
-	{
-		String queryResultID = queryDefn.getQueryResultsID( );
-
-		String rootQueryResultID = QueryResultIDUtil.get1PartID( queryResultID );
-		String parentQueryResultID = null;
-		if ( rootQueryResultID != null )
-			parentQueryResultID = QueryResultIDUtil.get2PartID( queryResultID );
-		else
-			rootQueryResultID = queryResultID;
-
-		QueryResultInfo queryResultInfo = new QueryResultInfo( rootQueryResultID,
-				parentQueryResultID,
-				null,
-				null,
-				-1 );
-		RDLoad rdLoad = RDUtil.newLoad( dataEngine.getSession( ).getTempDir( ), dataEngine.getContext( ),
-				queryResultInfo );
-
-		//Please Note We should use parent scope here, for the new query should be compared to the query being executed 
-		//immediately behind it rather than the root query.
-		IBaseQueryDefinition previousQueryDefn = rdLoad.loadQueryDefn( StreamManager.ROOT_STREAM,
-						StreamManager.PARENT_SCOPE );
 	
-		if( QueryCompUtil.isIVQueryDefnEqual( dataEngine.getContext( ).getMode( ), previousQueryDefn, queryDefn ))
-		{
-			return new DummyPreparedQuery( queryDefn,
-					dataEngine.getSession( ),
-					dataEngine.getContext( ),
-					PLSUtil.isPLSEnabled( queryDefn )? queryDefn.getQueryExecutionHints( )
-									.getTargetGroupInstances( ) : null );
-		}
-		else if ( NoRecalculateQueryUtil.isOptimizableIVQuery( previousQueryDefn, queryDefn, queryResultID ))
-		{
-			return NoRecalculateQueryUtil.getPreparedIVQuery( dataEngine, previousQueryDefn, queryDefn, queryResultID, appContext );
-		}
-		else
-		{
-			if ( queryDefn.isSummaryQuery( ) )
-			{
-				IResultClass rsMeta = rdLoad.loadResultClass( );
-				populateSummaryBinding( queryDefn, rsMeta );
-			}
-			return new PreparedIVDataSourceQuery( dataEngine, queryDefn, QueryContextVisitorUtil.createQueryContextVisitor( queryDefn,
-					appContext ) );
-		}	
-	}
-
 	/**
 	 * Whether query is running based on the result set of report document or
 	 * the data set.
@@ -759,7 +711,8 @@ public class PreparedQueryUtil
 		}		
 	}
 	
-	private static void populateSummaryBinding( IQueryDefinition queryDefn, IResultClass rsMeta ) throws DataException
+	
+	public static void populateSummaryBinding( IQueryDefinition queryDefn, IResultClass rsMeta ) throws DataException
 	{
 		Set<String> nameSet = new HashSet<String>( );
 
@@ -813,6 +766,7 @@ public class PreparedQueryUtil
 		}
 	}
 
+	
 	/**
 	 * @throws DataException 
 	 * 
@@ -1247,4 +1201,6 @@ class IncreCacheDataSetAdapter extends OdaDataSetAdapter
 		}
 		return null;
 	}
+
+	
 }

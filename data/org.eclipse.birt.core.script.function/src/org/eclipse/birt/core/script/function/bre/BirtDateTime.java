@@ -183,6 +183,16 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			this.executor = new Function_FirstDayOfFiscalMonth( );
 		else if( "firstDayOfFiscalWeek".equals( functionName ))
 			this.executor = new Function_FirstDayOfFiscalWeek( );
+		else if( "hour".equals( functionName ))
+			this.executor = new Function_Hour( );
+		else if( "minute".equals( functionName ))
+			this.executor = new Function_Minute( );
+		else if( "second".equals( functionName ))
+			this.executor = new Function_Second( );
+		else if ("weekOfYear".equals( functionName ))
+			this.executor = new Function_WeekOfYear();
+		else if ("dayOfMonth".equals( functionName))
+			this.executor = new Function_DayOfMonth();
 		else
 			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
@@ -436,6 +446,43 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		return getCalendar( d ).get( Calendar.WEEK_OF_MONTH );
 	}
+	
+	private static class Function_WeekOfYear extends Function_temp
+	{
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_WeekOfYear( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return Integer.valueOf( weekOfYear(DataTypeUtil.toDate(args[0])));
+		}
+	}
+
+	/**
+	 * Week number of the year (1 to 52) of date/time value d.
+	 *
+	 * @param d
+	 * @return
+	 */
+	private static int weekOfYear( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.WEEK_OF_YEAR );
+	}
 
 	private static class Function_Day extends Function_temp
 	{
@@ -581,6 +628,133 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 
 		return getCalendar( d ).get( Calendar.DAY_OF_YEAR );
+	}
+	
+	private static class Function_DayOfMonth extends Function_temp
+	{
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_DayOfMonth( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return dayOfMonth(DataTypeUtil.toDate(args[0]));
+		}
+	}
+
+	/**
+	 * Day of the Month. Return a number 1 to 31
+	 *
+	 * @param d
+	 * @return
+	 */
+	private static int dayOfMonth( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.DAY_OF_MONTH );
+	}
+	
+	private static class Function_Hour extends Function_temp
+	{
+		Function_Hour()
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return Integer.valueOf( hour(DataTypeUtil.toDate(args[0])));
+		}
+	}
+	
+	private static int hour( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.HOUR);
+	}
+	
+	private static class Function_Minute extends Function_temp
+	{
+		Function_Minute()
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return Integer.valueOf( minute(DataTypeUtil.toDate(args[0])));
+		}
+	}
+	
+	private static int minute( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.MINUTE);
+	}
+	
+	private static class Function_Second extends Function_temp
+	{
+		Function_Second()
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return Integer.valueOf( second(DataTypeUtil.toDate(args[0])));
+		}
+	}
+	
+	private static int second( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.SECOND);
 	}
 
 	private static class Function_DayOfWeek extends Function_temp
@@ -2014,4 +2188,5 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		}
 		return getDefaultFiscalYearStartDate( context );
 	}
+	
 }

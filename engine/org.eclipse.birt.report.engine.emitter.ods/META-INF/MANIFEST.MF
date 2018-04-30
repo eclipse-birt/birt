@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT OpenDocument Spreadsheet emitter
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.ods;singleton:=true
-Bundle-Version: 4.7.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.chart.engine,
@@ -15,5 +15,3 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.ods.plugin.OdsEmitterPl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.engine.emitter.ods,
  org.eclipse.birt.report.engine.emitter.ods.layout
-Import-Package: com.ibm.icu.text;version="3.4.4",
- com.ibm.icu.util;version="3.4.4"
