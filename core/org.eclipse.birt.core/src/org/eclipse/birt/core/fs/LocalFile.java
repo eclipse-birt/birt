@@ -61,7 +61,20 @@ public class LocalFile implements IFile
 	@Override
 	public boolean delete( )
 	{
-		return file.delete( );
+		return deleteFile( file );
+	}
+
+	private boolean deleteFile( File f )
+	{
+		if ( f.isDirectory( ) )
+		{
+			// Must delete children files before deleting folder
+			for ( File child : f.listFiles( ) )
+			{
+				deleteFile( child );
+			}
+		}
+		return f.delete( );
 	}
 
 	@Override
