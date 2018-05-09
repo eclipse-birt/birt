@@ -400,6 +400,14 @@
 		</Argument>
 	</Function>
 	<Function
+          desc="%FunctionDesc.weekOfYear"
+          name="weekOfYear">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+	</Function>
+	<Function
           desc="%FunctionDesc.day"
           name="day">
 		<DataType value="%dataType.Integer"></DataType>
@@ -428,6 +436,13 @@
 	<Function
           desc="%FunctionDesc.dayOfYear"
           name="dayOfYear">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+    </Function>
+    <Function
+          desc="%FunctionDesc.dayOfMonth"
+          name="dayOfMonth">
 		<DataType value="%dataType.Integer"></DataType>
 		<Argument name="date">
 			<DataType value="%dataType.DateTime"></DataType></Argument>

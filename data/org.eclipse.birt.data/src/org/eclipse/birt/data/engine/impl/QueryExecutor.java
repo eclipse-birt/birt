@@ -743,6 +743,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 			Object binding = this.baseQueryDefn.getBindings( ).get( bindingName );
 			if( binding != null )
 			{
+				if ( ( (IBinding) binding ).getAggrFunction( ) != null )
+				{
+					return null;
+				}
 				IBaseExpression expr = ( (IBinding) binding ).getExpression( );
 				if( expr != null && expr instanceof IScriptExpression )
 				{

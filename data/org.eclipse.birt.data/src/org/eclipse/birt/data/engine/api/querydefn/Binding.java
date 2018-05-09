@@ -54,7 +54,6 @@ public class Binding implements IBinding
 		this.expr = expr;
 		this.aggregateOn = new ArrayList<String>();
 		this.argument = new LinkedHashMap<String, IBaseExpression>();
-		this.orderedArgument = new ArrayList<IBaseExpression>();
 		if ( expr != null )
 			this.dataType = expr.getDataType( );
 		else
@@ -78,10 +77,17 @@ public class Binding implements IBinding
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.api.IBinding#addArgument(org.eclipse.birt.data.engine.api.IBaseExpression)
 	 */
+	@Deprecated
 	public void addArgument( IBaseExpression expr )
 	{
-		if( expr!= null )
+		if ( expr != null )
+		{
+			if ( orderedArgument == null )
+			{
+				orderedArgument = new ArrayList<IBaseExpression>( );
+			}
 			this.orderedArgument.add( expr );
+		}
 		
 	}
 	
@@ -95,6 +101,15 @@ public class Binding implements IBinding
 		{
 			this.argument.put( name, expr );
 		}
+		// orderedArgument list needs to be regenerated
+		orderedArgument = null;
+	}
+	
+	public void removeArgument(IBaseExpression expr)
+	{
+		this.argument.values().remove( expr );
+		// orderedArgument list needs to be regenerated
+		orderedArgument = null;
 	}
 
 	/*
@@ -121,19 +136,20 @@ public class Binding implements IBinding
 	 */
 	public List getArguments( ) throws DataException
 	{
+		if( this.orderedArgument != null)
+			// ordered list already computed;
+			return this.orderedArgument;
+
+		orderedArgument = new ArrayList<IBaseExpression>();
+		
 		if( this.aggrFunc == null )
 			return this.orderedArgument;
-		
-		if( this.orderedArgument.size() > 0 )
-			return this.orderedArgument;
-		
 		IAggrFunction info = AggregationManager.getInstance().getAggregation( this.aggrFunc );
 		
 		if( info == null )
 			return this.orderedArgument;
 		
 		IParameterDefn[] parameters =  info.getParameterDefn();
-		
 		if( parameters!= null )
 		{
 			for( int i = 0; i < parameters.length; i++ )
@@ -306,10 +322,15 @@ public class Binding implements IBinding
 		{
 			n.aggregateOn.add( o );
 		}
-		for ( IBaseExpression o : this.orderedArgument )
+		
+		if ( orderedArgument != null )
 		{
-			n.orderedArgument.add( o );
+			for ( IBaseExpression o : this.orderedArgument )
+			{
+				n.orderedArgument.add( o );
+			}
 		}
+		
 		for ( Map.Entry<String, IBaseExpression> o : this.argument.entrySet( ) )
 		{
 			n.argument.put( o.getKey( ), o.getValue( ) );

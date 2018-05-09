@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.core.script;
 
+import org.eclipse.birt.core.fs.LocalFileTest;
 import org.eclipse.birt.core.script.bre.BirtCompTest;
 import org.eclipse.birt.core.script.bre.BirtDateTimeTest;
 import org.eclipse.birt.core.script.bre.BirtDurationTest;
@@ -47,6 +48,7 @@ public class AllScriptTests
 		test.addTestSuite( BirtDurationTest.class );
 		test.addTestSuite( BirtMathTest.class );
 		test.addTestSuite( BirtStrTest.class );
+		test.addTestSuite( LocalFileTest.class );
 		// add all test classes here
 
 		return test;
