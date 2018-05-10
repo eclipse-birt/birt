@@ -21,7 +21,7 @@
             <id>master</id>
             <activation>
             	<activeByDefault>true</activeByDefault>
-            </activation>            
+            </activation>
             <properties>
                 <eclipse.release.name>photon</eclipse.release.name>
                 <tycho.version>1.0.0</tycho.version>
@@ -29,11 +29,11 @@
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
-                <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.9.0/R-3.9.0-20170613094504/repository/</wtp.repo.url>
+                <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.9.5/R-3.9.5-20180409100740/repository/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</orbit.repo.url>
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20180302171354/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
-                <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.13/1.13.0.201603142002/repository</dtp.repo.url>
+                <dtp.repo.url>http://download.eclipse.org/datatools/1.14.1.201712071719/repository/</dtp.repo.url>
                 <jetty.version>9.4.8.v20171121</jetty.version>
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
@@ -41,7 +41,7 @@
             </properties>
         </profile>
 	    <profile>
-            <id>oxygen</id>         
+            <id>oxygen</id>
             <properties>
                 <eclipse.release.name>oxygen</eclipse.release.name>
                 <tycho.version>1.0.0</tycho.version>
