@@ -25,7 +25,7 @@
             <properties>
                 <eclipse.release.name>photon</eclipse.release.name>
                 <tycho.version>1.0.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.8milestones/S-4.8M6-201803080630/</eclipse.repo.url>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.8milestones/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
@@ -34,7 +34,7 @@
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20180302171354/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
                 <dtp.repo.url>http://download.eclipse.org/datatools/1.14.1.201712071719/repository/</dtp.repo.url>
-                <jetty.version>9.4.8.v20171121</jetty.version>
+                <jetty.version>9.4.10.v20180503</jetty.version>
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
                 <mongodb.version>3.2.2.v20170222-2110</mongodb.version>
