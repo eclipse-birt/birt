@@ -21,6 +21,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultIterator;
@@ -59,6 +60,7 @@ import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.filterExtension.OdaFilterExprHelper;
 import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprDefinition;
+
 
 /**
  * Defines an engine task that handles parameter definition retrieval
@@ -624,15 +626,19 @@ public class GetParameterDefinitionTask extends EngineTask
 		return choices;
 	}
 
-	private DataRequestSession createDataSession( DataSetHandle dataSet ) throws EngineException
+	private DataRequestSession createDataSession( DataSetHandle dataSet ) throws BirtException
 	{
 		IDataEngine dataEngine = executionContext.getDataEngine( );
 		DataRequestSession dteSession = getDataSession();
+		
+		//Set flow mode to PARAM_EVALUATION_FLOW to exclude filers defined on data set in data engine execution.
+		dteSession.getDataSessionContext( ).getDataEngineContext( ).setFlowMode( DataEngineFlowMode.PARAM_EVALUATION_FLOW);
+		
 		// Define data source and data set
 		dataEngine.defineDataSet(dataSet);
 		return dteSession;
 	}
-	
+
 	private QueryDefinition createQueryDefinition( DataSetHandle dataSet )
 			throws EngineException
 	{

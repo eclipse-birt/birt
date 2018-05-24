@@ -13,6 +13,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -75,6 +76,12 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected boolean overrideExistingSorts = false;
 	
 	protected String[] selectedColumns;
+	
+	/**
+	 * Filter defined on data sets shall be ignored during evaluation of candidate values for report parameter.
+	 * PARAM_EVALUATION_FLOW Data Engine flow mode shall be used in this scenario in addition to the Data Engine mode. 
+	 */
+	private   DataEngineFlowMode dataEngineFlowMode = DataEngineFlowMode.NORMAL;
 	
 	protected DatasetPreviewTask( ReportEngine engine )
 	{
@@ -340,6 +347,9 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			throws BirtException
 	{
 		DataRequestSession session = executionContext.getDataEngine( ).getDTESession( );
+		
+		session.getDataSessionContext( ).getDataEngineContext( ).setFlowMode( this.dataEngineFlowMode);
+		
 		QueryDefinition newQuery = constructQuery( dataset, session );
 		ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
 				executionContext );
@@ -605,6 +615,11 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	{
 		this.sortExpressions = simpleSortExpression;
 		this.overrideExistingSorts = overrideExistingSorts;
+	}
+
+	public void setDataEngineFlowMode( DataEngineFlowMode dataEngineFlowMode )
+	{
+		this.dataEngineFlowMode = dataEngineFlowMode;
 	}
 
 

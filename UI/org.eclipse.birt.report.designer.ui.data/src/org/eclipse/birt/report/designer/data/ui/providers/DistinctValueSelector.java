@@ -24,6 +24,7 @@ import java.util.Set;
 import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
@@ -86,12 +87,26 @@ public class DistinctValueSelector
 		return getSelectValueList1( expression,
 				dataSetHandle.getRoot( ),
 				dataSetHandle,
-				useDataSetFilter );
+				useDataSetFilter,
+				DataEngineFlowMode.NORMAL );
 	}
 	
+	public static List getSelectValueList( Expression expression,
+			DataSetHandle dataSetHandle, DataEngineFlowMode flowMode )
+			throws BirtException
+	{
+
+		return getSelectValueList1( expression,
+				dataSetHandle.getRoot( ),
+				dataSetHandle,
+				false,
+				flowMode );
+	}
 	
-	private static List getSelectValueList1( Expression expression, ModuleHandle moduleHandle, 
-			DataSetHandle dataSetHandle, boolean useDataSetFilter ) throws BirtException
+	private static List getSelectValueList1( Expression expression,
+			ModuleHandle moduleHandle, DataSetHandle dataSetHandle,
+			boolean useDataSetFilter, DataEngineFlowMode flowMode )
+			throws BirtException
 	{
 		ScriptExpression expr = null;
 		DataSetHandle targetHandle = dataSetHandle;
@@ -150,7 +165,7 @@ public class DistinctValueSelector
 			appContext.put( resouceIDs,identifiers);
 		
 			AppContextPopulator.populateApplicationContext( targetHandle, appContext );
-			previewer.open( appContext, getEngineConfig( targetHandle.getModuleHandle( ) ) );
+			previewer.open( appContext, getEngineConfig( targetHandle.getModuleHandle( ) ), flowMode );
 			IResultIterator itr = previewer.preview( ) ;
 			
 			Set visitedValues = new HashSet( );
@@ -187,9 +202,12 @@ public class DistinctValueSelector
 	public static List getSelectValueList( Expression expression, ModuleHandle moduleHandle, 
 			DataSetHandle dataSetHandle, boolean useDataSetFilter ) throws BirtException
 	{
-		return getSelectValueList1( expression, moduleHandle, dataSetHandle, useDataSetFilter );
-	}
-			
+		return getSelectValueList1( expression,
+				moduleHandle,
+				dataSetHandle,
+				useDataSetFilter,
+				DataEngineFlowMode.NORMAL );
+	}	
 		
 	
 	private static EngineConfig getEngineConfig( ModuleHandle handle )
@@ -354,6 +372,5 @@ public class DistinctValueSelector
 				dataSetHandle, moduleHandle, binding,
 				groupIterator, useDataSetFilter );
 	}
-	
 	
 }

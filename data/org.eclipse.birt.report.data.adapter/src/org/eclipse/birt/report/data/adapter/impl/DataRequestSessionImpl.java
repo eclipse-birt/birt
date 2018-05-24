@@ -42,6 +42,7 @@ import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.engine.api.DataEngine;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
@@ -2152,7 +2153,10 @@ public class DataRequestSessionImpl extends DataRequestSession
 					break;
 				}
 			}
-			DefineDataSourceSetUtil.defineDataSourceAndDataSet( handle, dataEngine, this.modelAdaptor, null );
+			
+			QueryExecutionHelper.DataSetHandleProcessContext processContext = getDataSetProcessContext( handle );
+			
+			DefineDataSourceSetUtil.defineDataSourceAndDataSet( handle, dataEngine, this.modelAdaptor, processContext );
 			
 			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext,
 					dataEngine,
@@ -2161,6 +2165,35 @@ public class DataRequestSessionImpl extends DataRequestSession
 					this.registeredQueries,
 					this.interceptorContext );
 		}
+	}
+
+	private QueryExecutionHelper.DataSetHandleProcessContext getDataSetProcessContext(
+			DataSetHandle handle ) throws BirtException
+	{
+
+		QueryExecutionHelper.DataSetHandleProcessContext processContext = null;
+		if ( sessionContext != null
+				&& sessionContext.getDataEngineContext( )
+						.getFlowMode( ) == DataEngineFlowMode.PARAM_EVALUATION_FLOW )
+		{
+			/**
+			 * In PARAM_EVALUATION_FLOW filters defined on Data Set shall be
+			 * ignored during query execution. To achieve above objective create
+			 * a subclass of QueryExecutionHelper.DataSetHandleProcessContext
+			 * that clears filters.
+			 */
+			processContext = new QueryExecutionHelper.DataSetHandleProcessContext(
+					handle, false, false, false ) {
+
+				public void process( IBaseDataSetDesign baseDataSetDesign,
+						DataSetHandle current )
+				{
+					processFilters( baseDataSetDesign, current );
+				}
+			};
+
+		}
+		return processContext;
 	}
 
 	/**
