@@ -72,19 +72,19 @@
       <import feature="org.eclipse.draw2d" version="3.5.0" match="greaterOrEqual"/>
    </requires>
 
-   <!-- those two plugins are not owned by any feature, so included it into BIRT directly,
-        see https://bugs.eclipse.org/bugs/show_bug.cgi?id=483950
-   -->
-   <plugin id="javax.xml.stream"
-        download-size="0"
-        install-size="0"
-        version="0.0.0"
-        unpack="false"/>
-   <plugin id="org.eclipse.jetty.osgi.boot"
-        download-size="0"
-        install-size="0"
-        version="0.0.0"
-        unpack="false"/>
+   <plugin
+         id="javax.xml.stream"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.jetty.osgi.boot"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
    <plugin
          id="org.eclipse.birt"
@@ -188,77 +188,77 @@
          id="org.apache.batik.bridge"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.css"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.dom"
          download-size="0"
          install-size="0"
-         version="1.7.1.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.dom.svg"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.ext.awt"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.parser"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.svggen"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.transcoder"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.util"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.util.gui"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.xml"
          download-size="0"
          install-size="0"
-         version="1.7.0.qualifier"
+         version="1.9.1.qualifier"
          unpack="false"/>
 
    <plugin
@@ -850,7 +850,7 @@
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-         
+
    <plugin
          id="org.w3c.dom.svg.extension"
          download-size="0"
@@ -858,12 +858,12 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-         
+
    <plugin
-         id="org.apache.batik.ext.awt.extension"
+         id="org.w3c.dom.events"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         fragment="true"
-         unpack="false"/>          
+         unpack="false"/>
+
 </feature>

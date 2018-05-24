@@ -27,7 +27,10 @@
     <copy todir="${ENGINE_DIR}/lib">
       <fileset dir="${BIRTAPI_DIR}/target/lib"/>
     </copy>
-    <copy file="./config.ini" todir="${ENGINE_DIR}/platform/configuration"/>
+    <copy todir="${ENGINE_DIR}/platform/configuration">
+      <fileset dir="${PRODUCT_DIR}/configuration"/>
+    </copy>
+    <copy file="./config.ini" todir="${ENGINE_DIR}/platform/configuration" overwrite="true"/>
     <copy file="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/test.rptdesign" tofile="${ENGINE_DIR}/samples/hello_world.rptdesign"/>
     <copy file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReport.sh" todir="${ENGINE_DIR}"/>
     <copy file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReport.bat" todir="${ENGINE_DIR}"/>
