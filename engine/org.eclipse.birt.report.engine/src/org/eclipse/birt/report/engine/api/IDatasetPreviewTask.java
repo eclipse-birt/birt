@@ -1,5 +1,6 @@
 package org.eclipse.birt.report.engine.api;
 
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
@@ -32,5 +33,7 @@ public interface IDatasetPreviewTask extends IExtractionTask
 	 * @param query the query to be executed
 	 */
 	public void setQuery( QueryDefinition query );
+	
+	public void setDataEngineFlowMode( DataEngineFlowMode dataEngineFlowMode );
 	
 }

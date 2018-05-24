@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.BaseTimeFunction;
 import org.eclipse.birt.report.data.adapter.api.timeFunction.IArgumentInfo;
@@ -59,6 +60,15 @@ public class DefaultDataServiceProvider implements IDataServiceProvider
 		return DistinctValueSelector.getSelectValueList( expression,
 				dataSetHandle,
 				useDataSetFilter );
+	}
+	
+	public List getSelectValueList( Expression expression,
+			DataSetHandle dataSetHandle, DataEngineFlowMode flowMode )
+			throws BirtException
+	{
+		return DistinctValueSelector.getSelectValueList( expression,
+				dataSetHandle,
+				flowMode );
 	}
 
 	public List getSelectValueFromBinding( Expression expression,

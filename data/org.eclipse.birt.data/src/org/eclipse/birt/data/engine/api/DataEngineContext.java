@@ -45,8 +45,9 @@ public class DataEngineContext
 	/**
 	 * flow mode is required to check if the request received is from regular
 	 * report execution,interactive viewing session or for data extraction
+	 * or for report parameter evaluation
 	 */
-	public static enum DataEngineFlowMode{NORMAL,IV,DATA_EXTRACTION}
+	public static enum DataEngineFlowMode{NORMAL,IV,DATA_EXTRACTION,PARAM_EVALUATION_FLOW}
 	private DataEngineFlowMode flowMode = DataEngineFlowMode.NORMAL;
 	
 	/**
