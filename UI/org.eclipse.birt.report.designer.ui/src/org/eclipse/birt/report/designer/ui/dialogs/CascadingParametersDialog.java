@@ -25,6 +25,7 @@ import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
 import org.eclipse.birt.core.script.JavascriptEvalUtil;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.data.ui.dataset.DataSetUIUtil;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
@@ -1453,8 +1454,11 @@ public class CascadingParametersDialog extends BaseDialog
 		{
 			String queryExpr = selectedParameter.getValueExpr( );
 
-			valueList.addAll( SelectValueFetcher.getSelectValueList( queryExpr,
-					dataSet ) );
+			//Flow mode PARAM_EVALUATION_FLOW is propagated to data engine execution to exclude filters defined on data set.
+			valueList.addAll( SelectValueFetcher.getSelectValueList(
+					new Expression( queryExpr, ExpressionType.JAVASCRIPT ),
+					dataSet,
+					DataEngineFlowMode.PARAM_EVALUATION_FLOW ) );
 
 		}
 		catch ( Exception e )

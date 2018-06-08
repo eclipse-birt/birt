@@ -29,6 +29,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.format.DateFormatter;
 import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.core.format.StringFormatter;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.designer.data.ui.util.SelectValueFetcher;
@@ -71,12 +72,10 @@ import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.FormatValueHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.SelectionChoiceHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
-import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
@@ -366,7 +365,7 @@ public class ParameterDialog extends BaseTitleAreaDialog
 	private IDialogHelper controlTypeHelper;
 
 	private IDialogHelper startPointTypeHelper;
-
+	
 	private IStructuredContentProvider contentProvider = new IStructuredContentProvider( ) {
 
 		public void dispose( )
@@ -1490,9 +1489,11 @@ public class ParameterDialog extends BaseTitleAreaDialog
 			}
 			ArrayList valueList = new ArrayList( );
 
-			valueList.addAll( SelectValueFetcher.getSelectValueList( ExpressionButtonUtil.getExpression( columnChooser ),
+			//Flow mode PARAM_EVALUATION_FLOW is propagated to data engine execution to exclude filters defined on data set.
+			valueList.addAll( SelectValueFetcher.getSelectValueList(
+					ExpressionButtonUtil.getExpression( columnChooser ),
 					getDataSetHandle( ),
-					true ) );
+					DataEngineFlowMode.PARAM_EVALUATION_FLOW ) );
 			java.util.Collections.sort( valueList );
 			return valueList;
 		}

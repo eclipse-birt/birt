@@ -288,70 +288,70 @@
          id="org.apache.batik.bridge"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.css"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.dom"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.1.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.dom.svg"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.ext.awt"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.parser"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.svggen"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.util"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.util.gui"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
    <plugin
          id="org.apache.batik.xml"
          download-size="0"
          install-size="0"
-         version="0.0.0"
+         version="1.7.0.qualifier"
          unpack="false"/>
 
    <plugin
@@ -653,13 +653,5 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-
-   <plugin
-         id="org.apache.batik.ext.awt.extension"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/> 
          
 </feature>
