@@ -2,6 +2,7 @@
 package org.eclipse.birt.report.designer.ui.cubebuilder.dialog;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
@@ -912,11 +913,36 @@ public class GroupDialog extends TitleAreaDialog
 			return null;
 		String dataType = dataField.getDataType( );
 		if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME ) )
-			return OlapUtil.getDateTimeLevelTypeChoices( );
+		{
+			// Removing WeekOfQuarter and DayOfQuarter drill choices in Cube.
+			List choiceList = new ArrayList( );
+			choiceList.addAll( Arrays.asList( OlapUtil.getDateTimeLevelTypeChoices( ) ) );
+			for ( IChoice iChoice : OlapUtil.getDateTimeLevelTypeChoices( ) )
+			{
+				if ( iChoice.getName( ).equalsIgnoreCase( "week-of-quarter" )
+						|| iChoice.getName( ).equalsIgnoreCase( "day-of-quarter" ) )
+					choiceList.remove( iChoice );
+			}
+			return (IChoice[]) choiceList.toArray( new IChoice[0] );
+		}
+
 		else if ( dataType.equals( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE ) )
-			return OlapUtil.getDateLevelTypeChoices( );
+		{
+			// Removing WeekOfQuarter and DayOfQuarter drill choices in Cube.
+			List choiceList = new ArrayList( );
+			choiceList.addAll( Arrays.asList( OlapUtil.getDateLevelTypeChoices( ) ) );
+			for ( IChoice iChoice : OlapUtil.getDateLevelTypeChoices( ) )
+			{
+				if ( iChoice.getName( ).equalsIgnoreCase( "week-of-quarter" )
+						|| iChoice.getName( ).equalsIgnoreCase( "day-of-quarter" ) )
+					choiceList.remove( iChoice );
+			}
+			return (IChoice[]) choiceList.toArray( new IChoice[0] );
+		}
 		else
+		{
 			return OlapUtil.getTimeLevelTypeChoices( );
+		}
 	}
 
 	private boolean isDateType( TabularHierarchyHandle hierarchy,
