@@ -285,7 +285,8 @@ class AggregateCalculator
 		{
 			// Calculate arguments to the aggregate aggregationtion
 			IParameterDefn[] argDefs = aggrInfo.aggregation.getParameterDefn( );
-			assert argDefs.length == aggrArgs[aggrIndex].length;
+			assert ( "COUNT".equals(aggrInfo.aggregation.getName()) && aggrArgs[aggrIndex] == null )
+			|| argDefs.length == aggrArgs[aggrIndex].length;
 			try
 			{
 				calculateArguments( aggrIndex,
