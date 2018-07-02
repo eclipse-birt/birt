@@ -250,7 +250,7 @@ public class ResultSetPreviewPage extends AbstractPropertyPage
 			dataSetHandle = ( (DataSetEditor) getContainer( ) ).getHandle( );
 			
 			int maxRow = this.getMaxRowPreference( );
-			if( dataSetHandle.getRowFetchLimit( )<=0 || dataSetHandle.getRowFetchLimit( )> maxRow )
+			if( dataSetHandle.getRowFetchLimit( )<=0 )
 			{
 				ModuleHandle moduleHandle = ( (Module) dataSetHandle.getRoot( )
 						.copy( ) ).getModuleHandle( );
