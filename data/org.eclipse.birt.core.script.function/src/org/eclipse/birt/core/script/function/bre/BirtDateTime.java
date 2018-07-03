@@ -191,6 +191,10 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			this.executor = new Function_Second( );
 		else if ("weekOfYear".equals( functionName ))
 			this.executor = new Function_WeekOfYear();
+		else if ("weekOfQuarter".equals( functionName ))
+			this.executor = new Function_WeekOfQuarter();
+		else if ("dayOfQuarter".equals( functionName ))
+			this.executor = new Function_DayOfQuarter();
 		else if ("dayOfMonth".equals( functionName))
 			this.executor = new Function_DayOfMonth();
 		else
@@ -294,6 +298,138 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			default :
 				return -1;
 		}
+	}
+
+	private static class Function_WeekOfQuarter extends Function_temp
+	{
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_WeekOfQuarter( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			if ( args[0] instanceof Date )
+				return Integer.valueOf( weekOfQuarter( (Date) args[0] ) );
+			else
+				return Integer.valueOf(
+						weekOfQuarter( DataTypeUtil.toDate( args[0] ) ) );
+		}
+	}
+
+	private static int weekOfQuarter( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages
+					.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		int dayOfWeek = getCalendar( d ).get( Calendar.DAY_OF_WEEK );
+		int dayOfQtr = dayOfQuarter( d );
+		int quarter = quarter( d );
+		// Finding last nearest Sunday
+		int dayCountTillLastSunday = dayOfQtr - dayOfWeek + 1;
+		int weekOfQuater = 1;
+		while ( dayCountTillLastSunday > 1 )
+		{
+			dayCountTillLastSunday -= 7;
+			weekOfQuater++;
+		}
+		//Using a formula to represent each Week of a Year uniquely.
+	    //To handle aggregations done across years which includes a Leap Year
+        weekOfQuater = ( quarter * 100 ) + weekOfQuater;
+		return weekOfQuater;
+	}
+
+	private static class Function_DayOfQuarter extends Function_temp
+	{
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_DayOfQuarter( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			if ( args[0] instanceof Date )
+				return Integer.valueOf( dayOfQuarter( (Date) args[0] ) );
+			else
+				return Integer.valueOf(
+						dayOfQuarter( DataTypeUtil.toDate( args[0] ) ) );
+		}
+	}
+
+	private static int dayOfQuarter( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages
+					.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		int dayOfYear = getCalendar( d ).get( Calendar.DAY_OF_YEAR );
+		int quarter = quarter( d );
+		int year = getCalendar( d ).get( Calendar.YEAR );
+		int[] dayCountPerQtr_NLY = {
+				90, 91, 92, 92
+		};
+		int[] dayCountPerQtr_LY = {
+				91, 91, 92, 92
+		};
+		boolean isLeapYear = false;
+
+		int[] dayCountPerQtr = null;
+
+		if ( ( year % 4 == 0 ) && year % 100 != 0 )
+		{
+			isLeapYear = true;
+		}
+		else if ( year % 400 == 0 )
+		{
+			isLeapYear = true;
+		}
+		else
+		{
+			isLeapYear = false;
+		}
+
+		if ( isLeapYear )
+		{
+			dayCountPerQtr = dayCountPerQtr_LY;
+		}
+		else
+		{
+			dayCountPerQtr = dayCountPerQtr_NLY;
+		}
+
+		int totalDaysTillQtr = 0;
+		int dayOfQuarter = 0;
+		for ( int i = 0; i < quarter - 1; i++ )
+		{
+			totalDaysTillQtr += dayCountPerQtr[i];
+		}
+		//Using a formula to represent each day of a year uniquely.
+		//To handle aggregations done across years which includes a Leap Year
+		dayOfQuarter = ( quarter * 100 ) + ( dayOfYear - totalDaysTillQtr );
+		return dayOfQuarter;
 	}
 
 	private static class Function_Month extends Function_temp

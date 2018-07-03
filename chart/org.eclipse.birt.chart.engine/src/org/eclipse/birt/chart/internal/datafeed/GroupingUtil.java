@@ -62,6 +62,8 @@ public final class GroupingUtil
 				case GroupingUnitType.DAYS :
 				case GroupingUnitType.DAY_OF_MONTH :
 					return Calendar.DAY_OF_MONTH;
+				case GroupingUnitType.DAY_OF_QUARTER :
+					return CDateTime.DAY_OF_QUARTER;
 				case GroupingUnitType.DAY_OF_WEEK :
 					return Calendar.DAY_OF_WEEK;
 				case GroupingUnitType.DAY_OF_YEAR :
@@ -76,7 +78,9 @@ public final class GroupingUtil
 				case GroupingUnitType.QUARTERS :
 					return CDateTime.QUARTER;
 				case GroupingUnitType.YEARS :
-					return Calendar.YEAR;			
+					return Calendar.YEAR;
+				case GroupingUnitType.WEEK_OF_QUARTER :
+					return CDateTime.WEEK_OF_QUARTER;
 			}
 		}
 

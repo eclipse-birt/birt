@@ -56,6 +56,8 @@ public class CDateTime extends GregorianCalendar
 	};
 
 	public static final int QUARTER = 999;
+	public static final int WEEK_OF_QUARTER = 1001;
+	public static final int DAY_OF_QUARTER = 1002;
 	
 	private static int[] iaCalendarUnits = {
 			Calendar.SECOND,
@@ -912,9 +914,18 @@ public class CDateTime extends GregorianCalendar
 			int weekDay = get( DAY_OF_WEEK );
 			add( DATE, 1 - weekDay );
 		}
+		else if ( iUnit == WEEK_OF_QUARTER )
+		{
+			set( Calendar.MILLISECOND, 0 );
+			set( Calendar.SECOND, 0 );
+			set( Calendar.MINUTE, 0 );
+			set( Calendar.HOUR, 0 );
+			set( Calendar.AM_PM, AM );
+		}
 		else if ( iUnit == DATE
 				|| iUnit == DAY_OF_MONTH
 				|| iUnit == DAY_OF_WEEK
+				|| iUnit == DAY_OF_QUARTER
 				|| iUnit == DAY_OF_YEAR )
 		{
 			set( Calendar.MILLISECOND, 0 );

@@ -580,9 +580,11 @@
 	<Choice displayNameID="Choices.dateTimeLevelType.quarter" name="quarter"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.month" name="month"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.weekOfMonth" name="week-of-month"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.weekOfQuarter" name="week-of-quarter"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.weekOfYear" name="week-of-year"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.dayOfWeek" name="day-of-week"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.dayOfMonth" name="day-of-month"/>
+	<Choice displayNameID="Choices.dateTimeLevelType.dayOfQuarter" name="day-of-quarter"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.dayOfYear" name="day-of-year"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.hour" name="hour"/>
 	<Choice displayNameID="Choices.dateTimeLevelType.minute" name="minute"/>
