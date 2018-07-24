@@ -243,8 +243,9 @@ public final class DataTypeUtil
 			}
 			return Integer.valueOf( (int) longValue );
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
+			source = source.toString( );
 			try
 			{
 				return Integer.valueOf( (String) source );
@@ -348,9 +349,10 @@ public final class DataTypeUtil
 			long longValue = ( (Date) source ).getTime( );
 			return new BigDecimal( longValue );
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
 			//if empty string, return null
+			source = source.toString( );
 			if( ( (String) source ).length( )==0 )
 			{
 				return null;
@@ -422,8 +424,9 @@ public final class DataTypeUtil
 				return Boolean.FALSE;
 			return Boolean.TRUE;
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
+			source = source.toString( );
 			if ( ( (String) source ).equalsIgnoreCase( "true" ) )
 				return Boolean.TRUE;
 			else if ( ( (String) source ).equalsIgnoreCase( "false" ) )
@@ -475,9 +478,9 @@ public final class DataTypeUtil
 		{
 			return new Date( ( (Date) source ).getTime( ) );
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
-			return toDate( (String) source );
+			return toDate( source.toString( ) );
 		}
 		else if ( source instanceof Double )
 		{
@@ -527,8 +530,9 @@ public final class DataTypeUtil
         {
        		return toSqlTime( (Date)source);
         }
-        else if ( source instanceof String )
-        {
+        else if ( source instanceof CharSequence )
+		{
+			source = source.toString( );
             try
             {
                 return toSqlTime( toDate((String ) source) );
@@ -709,8 +713,9 @@ public final class DataTypeUtil
         {
     		return toSqlDate( (Date)source );
         }
-        else if ( source instanceof String )
-        {
+        else if ( source instanceof CharSequence )
+		{
+			source = source.toString( );
             try
             {
                 return toSqlDate( toDate((String ) source) );
@@ -1018,8 +1023,9 @@ public final class DataTypeUtil
 			double doubleValue = ( (Date) source ).getTime( );
 			return new Double( doubleValue );
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
+			source = source.toString( );
 			try
 			{
 				return Double.valueOf( (String) source );
@@ -1463,10 +1469,10 @@ public final class DataTypeUtil
 			return null;
 
 		Object value = null;
-		if ( evaValue instanceof String )
+		if ( evaValue instanceof CharSequence )
 		{
 			// 1: to Integer
-			String stringValue = (String) evaValue;
+			String stringValue = evaValue.toString( );
 			value = toIntegerValue( evaValue );
 			if ( value == null )
 			{
@@ -1508,7 +1514,7 @@ public final class DataTypeUtil
 	{
 		// to Integer
 		Integer value = null;
-		if ( evaValue instanceof String )
+		if ( evaValue instanceof CharSequence )
 		{
 			String stringValue = evaValue.toString( );
 			try
