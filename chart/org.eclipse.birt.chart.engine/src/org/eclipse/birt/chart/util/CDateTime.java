@@ -942,7 +942,7 @@ public class CDateTime extends GregorianCalendar
 	}
 	
 	/**
-	 * Reset year units for this datetime instance above a specified unit.
+	 * Reset all units for this datetime instance above a specified unit.
 	 * 
 	 * @param iUnit
 	 *            The unit above which year values are to be reset
@@ -953,7 +953,7 @@ public class CDateTime extends GregorianCalendar
 	}
 	
 	/**
-	 * Reset year units for this datetime instance above a specified unit.
+	 * Reset all units for this datetime instance above a specified unit.
 	 * 
 	 * @param iUnit
 	 *            The unit above which year values are to be reset
@@ -987,6 +987,30 @@ public class CDateTime extends GregorianCalendar
 		{
 			set( Calendar.YEAR, 2000 );
 		}
+		else if ( iUnit == HOUR_OF_DAY ||  iUnit == HOUR)
+		{
+			set( Calendar.YEAR, 2000 );
+			set( Calendar.MONTH, 0 );
+			set( Calendar.DATE, 1 );
+		}
+		else if ( iUnit == MINUTE )
+		{
+			set( Calendar.YEAR, 2000 );
+			set( Calendar.MONTH, 0 );
+			set( Calendar.DATE, 1 );
+			set( Calendar.AM_PM, AM );
+			set( Calendar.HOUR, 0 );
+		}
+		else if ( iUnit == SECOND )
+		{
+			set( Calendar.YEAR, 2000 );
+			set( Calendar.MONTH, 0 );
+			set( Calendar.DATE, 1 );
+			set( Calendar.AM_PM, AM );
+			set( Calendar.HOUR, 0 );
+			set( Calendar.MINUTE, 0 );
+		}
+		
 		return;
 	}
 	
