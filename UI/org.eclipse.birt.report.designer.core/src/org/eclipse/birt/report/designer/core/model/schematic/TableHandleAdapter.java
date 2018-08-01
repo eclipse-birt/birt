@@ -40,6 +40,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.draw2d.geometry.Dimension;
 
 /**
@@ -1717,6 +1718,10 @@ public class TableHandleAdapter extends ReportItemtHandleAdapter
 		while ( iter.hasNext( ) )
 		{
 			PropertyHandle handle = (PropertyHandle) iter.next( );
+			if ( handle.getDefn( ).getValueType( ) == IPropertyDefn.USER_PROPERTY )
+			{
+				continue;
+			}
 			String key = handle.getDefn( ).getName( );
 			if ( handle.isLocal( )
 					&& ( !( CellHandle.COL_SPAN_PROP.equals( key ) || CellHandle.ROW_SPAN_PROP.equals( key ) ) ) )
