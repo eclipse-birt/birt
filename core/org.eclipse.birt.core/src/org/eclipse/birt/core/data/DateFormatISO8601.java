@@ -20,6 +20,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
+import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.TimeZone;
 
@@ -43,16 +44,38 @@ public class DateFormatISO8601
 	public static Date parse( String source, TimeZone timeZone ) throws BirtException,
 			ParseException
 	{
+		DateFormat dateFormat = getDateFormat( source, timeZone );
+		Date resultDate = null;
+		try
+		{
+			if ( timeZone != null )
+			{
+				dateFormat.setTimeZone( timeZone );
+			}
+			resultDate = dateFormat.parse( source );
+			return resultDate;
+		}
+		catch ( ParseException e )
+		{
+			throw new CoreException( ResourceConstants.CONVERT_FAILS,
+					new Object[]{source.toString( ), "Date"} );
+		}
+	}
+
+	public static SimpleDateFormat getDateFormat( String source, TimeZone timeZone ) throws BirtException,
+			ParseException
+	{
 		if ( source == null || source.trim( ).length( ) == 0 )
 		{
 			return null;
 		}
+		SimpleDateFormat dateFormat = null;
 		Date resultDate = null;
 		source = cleanDate( source );
 		Object simpleDateFormatter = DateFormatFactory.getPatternInstance( PatternKey.getPatterKey( source ) );
 		if ( simpleDateFormatter != null )
 		{
-			SimpleDateFormat dateFormat = (SimpleDateFormat) simpleDateFormatter;
+			dateFormat = (SimpleDateFormat) simpleDateFormatter;
 			TimeZone savedTimeZone = null;
 			try
 			{
@@ -62,7 +85,7 @@ public class DateFormatISO8601
 					dateFormat.setTimeZone( timeZone );
 				}
 				resultDate = dateFormat.parse( source );
-				return resultDate;
+				return dateFormat;
 			}
 			catch ( ParseException e1 )
 			{
@@ -81,7 +104,7 @@ public class DateFormatISO8601
 		}
 
 		// never access here
-		return resultDate;
+		return dateFormat;
 	}
 	
 	/**
