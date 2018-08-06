@@ -37,6 +37,7 @@ public class DateFormatISO8601
 	
 	/**
 	 * Parse a date/time string.
+	 *
 	 * @param source
 	 * @return
 	 * @throws ParseException
@@ -44,7 +45,7 @@ public class DateFormatISO8601
 	public static Date parse( String source, TimeZone timeZone ) throws BirtException,
 			ParseException
 	{
-		DateFormat dateFormat = getDateFormat( source, timeZone );
+		DateFormat dateFormat = getSimpleDateFormat( source, timeZone );
 		Date resultDate = null;
 		try
 		{
@@ -62,7 +63,17 @@ public class DateFormatISO8601
 		}
 	}
 
-	public static SimpleDateFormat getDateFormat( String source, TimeZone timeZone ) throws BirtException,
+	/**
+	 * Get a date format object that can parse the given date/time string
+	 * @since 4.8
+	 *
+	 * @param source
+	 * @param timeZone
+	 * @return
+	 * @throws BirtException
+	 * @throws ParseException
+	 */
+	public static SimpleDateFormat getSimpleDateFormat( String source, TimeZone timeZone ) throws BirtException,
 			ParseException
 	{
 		if ( source == null || source.trim( ).length( ) == 0 )

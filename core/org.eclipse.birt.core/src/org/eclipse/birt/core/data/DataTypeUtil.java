@@ -813,7 +813,8 @@ public final class DataTypeUtil
 	}
 	
 	/**
-	 * 
+	 * Parses a date/time string
+	 *
 	 * @param source
 	 * @param locale
 	 * @param timeZone
@@ -823,7 +824,7 @@ public final class DataTypeUtil
 	public static Date toDate( String source, ULocale locale, TimeZone timeZone )
 			throws BirtException
 	{
-		DateFormat dateFormat = getDateFormat( source, locale, timeZone );
+		DateFormat dateFormat = getDateFormatObject( source, locale, timeZone );
 		Date resultDate = null;
 		try
 		{
@@ -840,7 +841,17 @@ public final class DataTypeUtil
 		}
 	}
 
-	public static DateFormat getDateFormat( String source, ULocale locale, TimeZone timeZone )
+	/**
+	 * Retrieve date format object that matches the given date/time string
+	 * @since 4.8
+	 *
+	 * @param source
+	 * @param locale
+	 * @param timeZone
+	 * @return
+	 * @throws BirtException
+	 */
+	public static DateFormat getDateFormatObject( String source, ULocale locale, TimeZone timeZone )
 			throws BirtException
 	{
 		if ( source == null )
@@ -1653,8 +1664,9 @@ public final class DataTypeUtil
 	}
 
 	/**
-	 * Find the date format pattern for a given datetime string without specified locale.
-	 * If fails to find a suitable pattern, returns null
+	 * Find the date format pattern string for a given datetime string without specified locale.
+	 * If a suitable date format cannot be found or the pattern string cannot be retrieved, returns null
+	 * @since 4.8
 	 *
 	 * @param source
 	 * @return
@@ -1666,20 +1678,20 @@ public final class DataTypeUtil
 		SimpleDateFormat sdf = null;
 		try
 		{
-			sdf = DateFormatISO8601.getDateFormat( source, null );
+			sdf = DateFormatISO8601.getSimpleDateFormat( source, null );
 		}
 		catch ( BirtException | ParseException e )
 		{
 			try
 			{
-				DateFormat dateformat = getDateFormat( source, JRE_DEFAULT_LOCALE, null );
+				DateFormat dateformat = getDateFormatObject( source, JRE_DEFAULT_LOCALE, null );
 				sdf = (SimpleDateFormat) dateformat;
 			}
 			catch ( BirtException use )
 			{
 				try
 				{
-					DateFormat dateformat = getDateFormat( source, DEFAULT_LOCALE, null );
+					DateFormat dateformat = getDateFormatObject( source, DEFAULT_LOCALE, null );
 					sdf = (SimpleDateFormat) dateformat;
 				}
 				catch ( BirtException de )
