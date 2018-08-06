@@ -813,7 +813,8 @@ public final class DataTypeUtil
 	}
 	
 	/**
-	 * 
+	 * Parses a date/time string
+	 *
 	 * @param source
 	 * @param locale
 	 * @param timeZone
@@ -821,6 +822,36 @@ public final class DataTypeUtil
 	 * @throws BirtException
 	 */
 	public static Date toDate( String source, ULocale locale, TimeZone timeZone )
+			throws BirtException
+	{
+		DateFormat dateFormat = getDateFormatObject( source, locale, timeZone );
+		Date resultDate = null;
+		try
+		{
+			resultDate = dateFormat.parse( source );
+			return resultDate;
+		}
+		catch ( ParseException e )
+		{
+			throw new CoreException(
+					ResourceConstants.CONVERT_FAILS,
+					new Object[]{
+							source.toString( ), "Date"
+					} );
+		}
+	}
+
+	/**
+	 * Retrieve date format object that matches the given date/time string
+	 * @since 4.8
+	 *
+	 * @param source
+	 * @param locale
+	 * @param timeZone
+	 * @return
+	 * @throws BirtException
+	 */
+	public static DateFormat getDateFormatObject( String source, ULocale locale, TimeZone timeZone )
 			throws BirtException
 	{
 		if ( source == null )
@@ -846,7 +877,7 @@ public final class DataTypeUtil
 				try
 				{
 					resultDate = dateFormat.parse( source );
-					return resultDate;
+					return dateFormat;
 				}
 				catch ( ParseException e1 )
 				{
@@ -871,7 +902,7 @@ public final class DataTypeUtil
 				try
 				{
 					resultDate = dateFormat.parse( source );
-					return resultDate;
+					return dateFormat;
 				}
 				catch ( ParseException e1 )
 				{
@@ -895,7 +926,7 @@ public final class DataTypeUtil
 		}
 
 		// never access here
-		return resultDate;
+		return dateFormat;
 	}
 
 	/**
@@ -1630,6 +1661,60 @@ public final class DataTypeUtil
 							source.toString( ), "Date"
 					} );
 		}
+	}
+
+	/**
+	 * Find the date format pattern string for a given datetime string without specified locale.
+	 * If a suitable date format cannot be found or the pattern string cannot be retrieved, returns null
+	 * @since 4.8
+	 *
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
+	public static String getDateFormat( String source ) throws BirtException
+	{
+		source = source.trim( );
+		SimpleDateFormat sdf = null;
+		try
+		{
+			sdf = DateFormatISO8601.getSimpleDateFormat( source, null );
+		}
+		catch ( BirtException | ParseException e )
+		{
+			try
+			{
+				DateFormat dateformat = getDateFormatObject( source, JRE_DEFAULT_LOCALE, null );
+				sdf = (SimpleDateFormat) dateformat;
+			}
+			catch ( BirtException use )
+			{
+				try
+				{
+					DateFormat dateformat = getDateFormatObject( source, DEFAULT_LOCALE, null );
+					sdf = (SimpleDateFormat) dateformat;
+				}
+				catch ( BirtException de )
+				{
+					try {
+						MysqlUSDateFormatter.parse( source );
+						return "M/d/yyyy HH:mm";
+					}
+					catch ( ParseException e1 )
+					{
+					}
+				}
+			}
+			catch ( ClassCastException ce )
+			{
+				// If a DateFormat cannot be cast to SimpleDateFormat, then
+				// it will not be able to return its format pattern string
+			}
+		}
+
+		if ( sdf != null )
+			return sdf.toPattern();
+		return null;
 	}
 	
 	/**
