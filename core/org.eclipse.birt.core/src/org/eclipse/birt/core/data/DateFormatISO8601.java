@@ -73,8 +73,7 @@ public class DateFormatISO8601
 	 * @throws BirtException
 	 * @throws ParseException
 	 */
-	public static SimpleDateFormat getSimpleDateFormat( String source, TimeZone timeZone ) throws BirtException,
-			ParseException
+	public static SimpleDateFormat getSimpleDateFormat( String source, TimeZone timeZone ) throws BirtException
 	{
 		if ( source == null || source.trim( ).length( ) == 0 )
 		{
