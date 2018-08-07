@@ -1680,7 +1680,7 @@ public final class DataTypeUtil
 		{
 			sdf = DateFormatISO8601.getSimpleDateFormat( source, null );
 		}
-		catch ( BirtException | ParseException e )
+		catch ( BirtException e )
 		{
 			try
 			{
