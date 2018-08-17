@@ -1,2 +1,6 @@
 bin/
 /.reviewboardrc
+
+target/
+.idea/
+*.iml
