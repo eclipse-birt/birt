@@ -52,4 +52,9 @@
 		<module>uk.co.spudsoft.birt.emitters.excel</module>
 		<module>uk.co.spudsoft.birt.emitters.excel.tests</module>
 	</modules>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+	</build>
 </project>

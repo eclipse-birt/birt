@@ -138,7 +138,6 @@
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-packaging-plugin</artifactId>
-					<version>${tycho.version}</version>
 					<configuration>
 						<!-- Notes: Ignore bin.includes -->
 						<strictBinIncludes>false</strictBinIncludes>

@@ -13,6 +13,7 @@
 		<!--<build>v${maven.build.timestamp}</build>-->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
+		<tycho.version>1.2.0</tycho.version>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -24,7 +25,6 @@
             </activation>
             <properties>
                 <eclipse.release.name>photon</eclipse.release.name>
-                <tycho.version>1.0.0</tycho.version>
                 <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.8/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
@@ -44,7 +44,6 @@
             <id>oxygen</id>
             <properties>
                 <eclipse.release.name>oxygen</eclipse.release.name>
-                <tycho.version>1.0.0</tycho.version>
                 <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.7/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.13/</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
@@ -64,7 +63,6 @@
             <id>neon</id>
             <properties>
                 <eclipse.release.name>neon</eclipse.release.name>
-                <tycho.version>1.0.0</tycho.version>
                 <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.6/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12/</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
@@ -195,19 +193,6 @@
 		</pluginRepository>
 	</pluginRepositories>
 
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-surefire-report-plugin</artifactId>
-				<version>2.19.1</version>
-				<configuration>
-					<aggregate>true</aggregate>
-				</configuration>
-			</plugin>
-		</plugins>
-	</reporting>
-
 	<modules>
 		<!-- build issue inside -->
 		<module>build</module>
@@ -239,9 +224,6 @@
 					<version>${tycho.version}</version>
 					<configuration>
 						<format>'v'yyyyMMddHHmm</format>
-						<archive>
-						  <addMavenDescriptor>false</addMavenDescriptor>
-						</archive>
 						<sourceReferences>
 							<generate>true</generate>
 						</sourceReferences>
@@ -439,7 +421,7 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>3.8.0</version>
 			</plugin>
 
 			<plugin>
@@ -509,48 +491,6 @@
 -->
 			</plugin>
 
-			<!-- generate code coverage report -->
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>0.7.6.201602180812</version>
-				<executions>
-					<execution>
-						<id>jacoco-prepare-agent</id>
-						<goals>
-							<goal>prepare-agent</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-prepare-agent-integration</id>
-						<goals>
-							<goal>prepare-agent-integration</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-report</id>
-						<goals>
-							<goal>report</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-integration</id>
-						<goals>
-							<goal>report-integration</goal>
-						</goals>
-					</execution>
-					<execution>
-						<id>jacoco-check</id>
-						<goals>
-							<goal>check</goal>
-						</goals>
-						<configuration>
-							<rules/>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-
            <plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-resources-plugin</artifactId>
@@ -585,7 +525,6 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-packaging-plugin</artifactId>
-				<version>${tycho.version}</version>
 				<configuration>
 					<additionalFileSets>
 						<fileSet>
