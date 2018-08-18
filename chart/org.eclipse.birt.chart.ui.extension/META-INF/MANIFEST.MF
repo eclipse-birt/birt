@@ -30,6 +30,6 @@ Export-Package: org.eclipse.birt.chart.ui.event,
  org.eclipse.birt.chart.ui.swt.wizard.format.series,
  org.eclipse.birt.chart.ui.swt.wizard.preview,
  org.eclipse.birt.chart.ui.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.ibm.icu.text;version="3.4.4",
  com.ibm.icu.util;version="3.4.4"

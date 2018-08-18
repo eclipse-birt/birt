@@ -6,7 +6,7 @@ Bundle-Version: 4.8.0.qualifier
 Bundle-ClassPath: library.jar,
  .
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
 Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[2.5.0,5.0.0)"

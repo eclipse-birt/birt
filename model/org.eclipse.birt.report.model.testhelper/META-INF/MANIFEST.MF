@@ -14,4 +14,4 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
  org.eclipse.birt.report.model.writer;x-friends:="org.eclipse.birt.report.model.tests,com.actuate.birt.report.model.tests"
 Bundle-ClassPath: tests.jar
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

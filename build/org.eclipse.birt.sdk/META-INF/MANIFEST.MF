@@ -5,5 +5,5 @@ Bundle-SymbolicName: org.eclipse.birt.sdk
 Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 

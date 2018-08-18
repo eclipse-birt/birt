@@ -19,4 +19,4 @@ Export-Package: org.eclipse.birt.report.data.adapter,
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ClassPath: library.jar,
  .
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

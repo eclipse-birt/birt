@@ -18,4 +18,4 @@ Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.odp.plugin.OdpEmitterPlugin
 Export-Package: org.eclipse.birt.report.engine.emitter.odp,
  org.eclipse.birt.report.engine.emitter.odp.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

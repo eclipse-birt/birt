@@ -49,5 +49,5 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.2.0,3.0.0)";visibility:
  org.eclipse.emf.ecore.xmi;bundle-version="[2.2.0,3.0.0)";visibility:=reexport,
  org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:=reexport
 Eclipse-LazyStart: true
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEnginePlugin

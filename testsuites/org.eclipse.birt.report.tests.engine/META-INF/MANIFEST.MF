@@ -15,4 +15,4 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.report.engine.emitter.html,
  org.eclipse.birt.report.model
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

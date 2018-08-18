@@ -17,4 +17,4 @@ Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.ppt.plugin.PPTEmitterPlugin
 Export-Package: org.eclipse.birt.report.engine.emitter.ppt,
  org.eclipse.birt.report.engine.emitter.ppt.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

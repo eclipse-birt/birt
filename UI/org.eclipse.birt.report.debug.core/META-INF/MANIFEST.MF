@@ -11,6 +11,6 @@ Export-Package: org.eclipse.birt.report.debug.core.i18n,
  org.eclipse.birt.report.debug.internal.core.vm,
  org.eclipse.birt.report.debug.internal.core.vm.js,
  org.eclipse.birt.report.debug.internal.core.vm.rm
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
 Import-Package: com.ibm.icu.util;version="3.4.4"

@@ -11,6 +11,6 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.datatools.connectivity.oda.design.ui;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.birt.report.data.oda.excel;bundle-version="[4.2.0,5.0.0)",
  org.eclipse.core.resources
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.excel.ui.wizards

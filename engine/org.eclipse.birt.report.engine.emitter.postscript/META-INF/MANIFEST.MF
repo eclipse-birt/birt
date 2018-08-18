@@ -11,4 +11,4 @@ Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[2.1.0,5.0.0)",
  org.apache.batik.transcoder;bundle-version="[1.6.0,2.0.0)"
 Export-Package: org.eclipse.birt.report.engine.emitter.postscript,
  org.eclipse.birt.report.engine.emitter.postscript.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

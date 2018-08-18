@@ -24,5 +24,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.poi;bundle-version="[3.8.0,4.0.0)",
  org.apache.xerces;bundle-version="2.9.0",
  org.eclipse.birt.core;bundle-version="4.8.0"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

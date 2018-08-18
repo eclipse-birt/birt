@@ -30,4 +30,4 @@ Export-Package: org.eclipse.birt.report.item.crosstab.internal.ui.editors.action
  org.eclipse.birt.report.item.crosstab.ui.preference,
  org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider,
  org.eclipse.birt.report.item.crosstab.ui.views.dialogs
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

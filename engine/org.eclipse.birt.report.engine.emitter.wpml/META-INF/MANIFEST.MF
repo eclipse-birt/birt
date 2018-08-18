@@ -14,6 +14,6 @@ Require-Bundle: org.eclipse.birt.report.engine,
 Bundle-Vendor: Eclipse BIRT Project
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.wpml.plugin.WordemitterPlugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.birt.report.engine.emitter.wpml,
  org.eclipse.birt.report.engine.emitter.wpml.writer

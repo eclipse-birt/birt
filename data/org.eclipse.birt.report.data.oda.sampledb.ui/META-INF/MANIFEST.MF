@@ -17,4 +17,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.sampledb.ui,
  org.eclipse.birt.report.data.oda.sampledb.ui.plugin,
  org.eclipse.birt.report.data.oda.sampledb.ui.profile
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

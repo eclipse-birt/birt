@@ -7,4 +7,4 @@ Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.help;bundle-version="[3.2.0,4.0.0)"
 Eclipse-LazyStart: true
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
