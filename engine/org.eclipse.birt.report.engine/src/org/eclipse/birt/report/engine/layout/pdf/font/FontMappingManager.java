@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
-import com.lowagie.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.BaseFont;
 
 public class FontMappingManager
 {

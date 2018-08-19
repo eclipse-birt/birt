@@ -137,7 +137,7 @@ public class ImageItemExecutor extends QueryItemExecutor
 		if ( imageDesign.isProportionalScale( )
 				&& width != null && height != null )
 		{
-			com.lowagie.text.Image imageData = EmitterUtil.getImage( imageContent );
+			com.itextpdf.text.Image imageData = EmitterUtil.getImage( imageContent );
 
 			if ( imageData != null )
 			{

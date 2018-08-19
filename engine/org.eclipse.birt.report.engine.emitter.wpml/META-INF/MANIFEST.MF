@@ -9,7 +9,6 @@ Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.core,
  org.eclipse.birt.report.model,
  org.apache.batik.transcoder,
- com.lowagie.text;bundle-version="[1.3.0,3.0.0)",
  org.apache.commons.codec;bundle-version="1.3.0"
 Bundle-Vendor: Eclipse BIRT Project
 Eclipse-LazyStart: true

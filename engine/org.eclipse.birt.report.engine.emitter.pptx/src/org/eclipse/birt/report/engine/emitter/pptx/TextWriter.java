@@ -26,7 +26,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;
 
-import com.lowagie.text.Font;
+import com.itextpdf.text.Font;
 
 public class TextWriter
 {

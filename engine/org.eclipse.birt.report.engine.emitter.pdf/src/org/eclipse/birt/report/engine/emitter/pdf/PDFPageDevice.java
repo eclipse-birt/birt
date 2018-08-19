@@ -31,11 +31,11 @@ import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 
 import com.ibm.icu.util.ULocale;
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.pdf.PdfOutline;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.pdf.PdfOutline;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class PDFPageDevice implements IPageDevice
 {

@@ -42,8 +42,8 @@ import org.eclipse.birt.report.engine.nLayout.area.ILayout;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 
 import com.ibm.icu.util.ULocale;
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Image;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Image;
 
 public class ImageAreaLayout implements ILayout
 {

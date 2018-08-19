@@ -37,7 +37,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
-import com.lowagie.text.Image;
+import com.itextpdf.text.Image;
 
 public class PageArea extends BlockContainerArea
 {

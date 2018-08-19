@@ -11,11 +11,12 @@ import junit.framework.TestCase;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.Border;
 import org.eclipse.birt.report.engine.layout.emitter.TableBorderEx.BorderSegment;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfWriter;
 
 //class CellArea
 //{
@@ -363,7 +364,7 @@ public class TableBorderExTest extends TestCase
 		cb.moveTo( startX, startY );
 		cb.setLineWidth( width );
 		cb.lineTo( endX, endY );
-		cb.setColorStroke( color );
+		cb.setColorStroke( new BaseColor(color.getRed(), color.getGreen(), color.getBlue()) );
 		cb.stroke( );
 	}
 

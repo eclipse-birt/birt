@@ -50,7 +50,7 @@ import org.eclipse.birt.report.engine.util.SvgFile;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
-import com.lowagie.text.Image;
+import com.itextpdf.text.Image;
 
 public class EmitterUtil
 {

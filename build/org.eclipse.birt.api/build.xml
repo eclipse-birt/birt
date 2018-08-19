@@ -16,10 +16,10 @@
   </target>
   <target name="copy-api-jars">
     <echo>copy API jars to "${LIB_DIR}</echo>
-    <copy file="${ROOT_DIR}/engine/org.eclipse.birt.report.engine/lib/commons-cli-1.0.jar" tofile="${LIB_DIR}/commons-cli-1.0.jar"/>
     <copy file="${ROOT_DIR}/common/org.w3c.sac/lib/flute.jar" tofile="${LIB_DIR}/flute.jar"/>
     <copy todir="${LIB_DIR}">
       <fileset dir="${ROOT_DIR}">
+        <include name="engine/org.eclipse.birt.report.engine/lib/*.jar"/>
         <include name="core/org.eclipse.birt.core/target/org.eclipse.birt.core-*-api.jar"/>
         <include name="data/org.eclipse.birt.data/target/org.eclipse.birt.data-*-api.jar"/>
         <include name="data/org.eclipse.birt.data.aggregation/target/org.eclipse.birt.data.aggregation-*-api.jar"/>

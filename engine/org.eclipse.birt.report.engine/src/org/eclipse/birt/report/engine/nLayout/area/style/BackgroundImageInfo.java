@@ -22,7 +22,7 @@ import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.Image;
+import com.itextpdf.text.Image;
 
 public class BackgroundImageInfo extends AreaConstants
 {

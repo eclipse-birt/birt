@@ -40,7 +40,7 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.Image;
+import com.itextpdf.text.Image;
 
 public abstract class ContainerArea extends AbstractArea
 		implements

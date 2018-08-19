@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/commons-cli-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-cli-1.4.jar" exported="true"/>
+	<classpathentry kind="lib" path="lib/jtidy-r938.jar" exported="true"/>
+    <classpathentry kind="lib" path="lib/itextpdf-5.5.13.jar" exported="true"/>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="lib/Tidy.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

@@ -38,21 +38,22 @@ import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.engine.util.SvgFile;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.Document;
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.Image;
-import com.lowagie.text.Rectangle;
-import com.lowagie.text.pdf.BaseFont;
-import com.lowagie.text.pdf.PdfAction;
-import com.lowagie.text.pdf.PdfAnnotation;
-import com.lowagie.text.pdf.PdfBorderDictionary;
-import com.lowagie.text.pdf.PdfContentByte;
-import com.lowagie.text.pdf.PdfDestination;
-import com.lowagie.text.pdf.PdfFileSpecification;
-import com.lowagie.text.pdf.PdfTemplate;
-import com.lowagie.text.pdf.PdfTextArray;
-import com.lowagie.text.pdf.PdfWriter;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.Document;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Image;
+import com.itextpdf.text.Rectangle;
+import com.itextpdf.text.pdf.BaseFont;
+import com.itextpdf.text.pdf.PdfAction;
+import com.itextpdf.text.pdf.PdfAnnotation;
+import com.itextpdf.text.pdf.PdfBorderDictionary;
+import com.itextpdf.text.pdf.PdfContentByte;
+import com.itextpdf.text.pdf.PdfDestination;
+import com.itextpdf.text.pdf.PdfFileSpecification;
+import com.itextpdf.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfTextArray;
+import com.itextpdf.text.pdf.PdfWriter;
 
 public class PDFPage extends AbstractPage
 {
@@ -130,7 +131,7 @@ public class PDFPage extends AbstractPage
 		}
 		y = transformY( y, height );
 		contentByte.saveState( );
-		contentByte.setColorFill( color );
+        contentByte.setColorFill(new BaseColor(color.getRed(), color.getGreen(), color.getBlue()));
 		contentByte.concatCTM( 1, 0, 0, 1, x, y );
 		contentByte.rectangle( 0, 0, width, height );
 		contentByte.fill( );
@@ -472,7 +473,7 @@ public class PDFPage extends AbstractPage
 		contentByte.lineTo( endX - startX, endY - startY );
 
 		contentByte.setLineWidth( width );
-		contentByte.setColorStroke( color );
+        contentByte.setColorStroke(new BaseColor(color.getRed(), color.getGreen(), color.getBlue()));
 		contentByte.stroke( );
 	}
 
@@ -485,8 +486,8 @@ public class PDFPage extends AbstractPage
 		contentByte.beginText( );
 		if ( null != color && !Color.BLACK.equals( color ) )
 		{
-			contentByte.setColorFill( color );
-			contentByte.setColorStroke( color );
+            contentByte.setColorFill(new BaseColor(color.getRed(), color.getGreen(), color.getBlue()));
+            contentByte.setColorStroke(new BaseColor(color.getRed(), color.getGreen(), color.getBlue()));
 		}
 		BaseFont font = getBaseFont( fontInfo );
 		float fontSize = fontInfo.getFontSize( );

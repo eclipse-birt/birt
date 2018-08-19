@@ -56,11 +56,12 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.DocumentException;
-import com.lowagie.text.Font;
-import com.lowagie.text.FontFactory;
-import com.lowagie.text.FontFactoryImp;
-import com.lowagie.text.pdf.BaseFont;
+import com.itextpdf.text.DocumentException;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.Font.FontFamily;
+import com.itextpdf.text.FontFactory;
+import com.itextpdf.text.FontFactoryImp;
+import com.itextpdf.text.pdf.BaseFont;
 
 public class PostscriptWriter
 {
@@ -138,7 +139,7 @@ public class PostscriptWriter
 	/**
 	 * The current font
 	 */
-	protected Font font = new Font( Font.HELVETICA, 12, Font.NORMAL );
+	protected Font font = new Font( FontFamily.HELVETICA, 12, Font.NORMAL );
 
 	/**
 	 * log

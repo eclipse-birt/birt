@@ -31,8 +31,8 @@ import org.eclipse.birt.report.engine.odf.style.StyleBuilder;
 import org.eclipse.birt.report.engine.odf.style.StyleConstant;
 import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.BaseFont;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.BaseFont;
 
 public class OdpPage extends AbstractPage
 {

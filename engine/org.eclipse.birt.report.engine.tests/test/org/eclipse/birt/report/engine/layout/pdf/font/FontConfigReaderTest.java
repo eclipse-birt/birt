@@ -23,8 +23,8 @@ import junit.framework.TestCase;
 
 import org.xml.sax.SAXException;
 
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.BaseFont;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.BaseFont;
 
 public class FontConfigReaderTest extends TestCase
 {

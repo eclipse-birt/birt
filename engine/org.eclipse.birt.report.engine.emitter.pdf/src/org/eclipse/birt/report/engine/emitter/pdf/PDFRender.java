@@ -36,7 +36,7 @@ import org.eclipse.birt.report.engine.nLayout.area.ITextArea;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
-import com.lowagie.text.pdf.PdfTemplate;
+import com.itextpdf.text.pdf.PdfTemplate;
 
 public class PDFRender extends PageDeviceRender
 {

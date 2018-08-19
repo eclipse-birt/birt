@@ -22,7 +22,6 @@
 
    <plugins>
       <plugin id="com.ibm.icu"/>
-      <plugin id="com.lowagie.itext"/>
       <plugin id="org.apache.batik"/>
       <plugin id="org.apache.commons.codec"/>
       <plugin id="org.apache.xerces"/>

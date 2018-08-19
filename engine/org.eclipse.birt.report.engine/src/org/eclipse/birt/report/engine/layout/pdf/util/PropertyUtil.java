@@ -37,7 +37,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
-import com.lowagie.text.Font;
+import com.itextpdf.text.Font;
 
 public class PropertyUtil
 {

@@ -14,8 +14,8 @@ package org.eclipse.birt.report.engine.layout.pdf.font;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.BaseFont;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.BaseFont;
 
 /**
  * 

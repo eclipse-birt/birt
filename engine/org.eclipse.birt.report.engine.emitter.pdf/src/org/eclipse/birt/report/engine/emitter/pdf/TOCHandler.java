@@ -19,8 +19,9 @@ import org.eclipse.birt.report.engine.api.TOCNode;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
-import com.lowagie.text.pdf.PdfAction;
-import com.lowagie.text.pdf.PdfOutline;
+import com.itextpdf.text.BaseColor;
+import com.itextpdf.text.pdf.PdfAction;
+import com.itextpdf.text.pdf.PdfOutline;
 
 public class TOCHandler
 {
@@ -111,7 +112,7 @@ public class TOCHandler
 			Color awtColor = PropertyUtil.getColor( color );
 			if ( awtColor != null )
 			{
-				outline.setColor( awtColor );
+                outline.setColor(new BaseColor( awtColor.getRed(), awtColor.getGreen(), awtColor.getBlue()) );
 			}
 			String fontStyle = style.getFontStyle( );
 			String fontWeight = style.getFontWeight( );

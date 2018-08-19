@@ -40,8 +40,8 @@ import org.eclipse.birt.report.engine.layout.area.impl.ImageArea;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.util.FlashFile;
 
-import com.lowagie.text.BadElementException;
-import com.lowagie.text.Image;
+import com.itextpdf.text.BadElementException;
+import com.itextpdf.text.Image;
 
 public class ImageLayout extends Layout
 {

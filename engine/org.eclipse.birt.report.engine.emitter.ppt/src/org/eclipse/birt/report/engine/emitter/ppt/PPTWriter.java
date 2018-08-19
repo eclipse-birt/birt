@@ -41,8 +41,8 @@ import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
 import com.ibm.icu.lang.UCharacter;
 import com.ibm.icu.lang.UCharacter.UnicodeBlock;
-import com.lowagie.text.Font;
-import com.lowagie.text.pdf.BaseFont;
+import com.itextpdf.text.Font;
+import com.itextpdf.text.pdf.BaseFont;
 
 public class PPTWriter
 {
