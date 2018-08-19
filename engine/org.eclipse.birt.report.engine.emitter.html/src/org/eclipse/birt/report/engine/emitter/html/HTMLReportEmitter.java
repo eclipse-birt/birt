@@ -27,6 +27,7 @@ import java.util.Stack;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -89,6 +90,7 @@ import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.birt.report.model.api.util.StringUtil;
@@ -2558,7 +2560,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see org.eclipse.birt.report.engine.emitter.IContentEmitter#endContainer(org.eclipse.birt.report.engine.content.IContainerContent)
 	 */
 	public void endContainer( IContainerContent container )
@@ -2711,11 +2713,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// action
 		String tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 		
-		
-		// append script which changes display of div to table from default 
+
+		// append script which changes display of div to table from default
 		//when no width is specified for HTML button item
-		if (tagName.equalsIgnoreCase( HTMLTags.TAG_DIV ) 
-				&& width == null 
+		if (tagName.equalsIgnoreCase( HTMLTags.TAG_DIV )
+				&& width == null
 				&& foreign.getRawValue( ) != null )
 		{
 			String text = foreign.getRawValue( ).toString( );
@@ -2723,13 +2725,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			{
 				int beginIndex = text.indexOf("<button id=\"");
 				if( beginIndex != -1)
-				{	
+				{
 					//Add the characters count of 12 for start index of (<button id=")
 					beginIndex = beginIndex + 12;
 					int endIndex = text.indexOf("\"", beginIndex);
 					String buttonID = text.substring(beginIndex, endIndex);
 					StringBuilder builder = new StringBuilder(text);
-					
+
 					builder.append( "<script type=\"text/javascript\">\n" );
 					builder.append( "var x = document.getElementById(\"" );
 					builder.append( buttonID );
@@ -2740,12 +2742,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					builder.append( "}\n");
 					builder.append( "}\n");
 					builder.append( "</script>\n" );
-					
+
 					foreign.setRawValue(builder.toString());
 				}
-			}			
+			}
 		}
-		
+
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
 		{
@@ -3635,6 +3637,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		ReportDesignHandle design = (ReportDesignHandle) runnable
 				.getDesignHandle( );
+		if (isBackground) {
+			EmbeddedImage embeddedImage = design.getModuleHandle().findImage(uri);
+			if (embeddedImage != null) {
+				StringBuilder builder = new StringBuilder("data:image;base64,");
+				byte[] base64 = Base64.encodeBase64(embeddedImage.getData(design.getModuleHandle().getModule()));
+				builder.append(new String(base64));
+				return builder.toString();
+			}
+		}
+		
 		URL url = design.findResource( uri, IResourceLocator.IMAGE,
 				reportContext.getAppContext( ) );
 		if ( url == null )

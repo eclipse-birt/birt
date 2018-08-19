@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -29,10 +28,7 @@ import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
-import org.eclipse.birt.report.engine.content.impl.TableBandContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -47,6 +43,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 
 public class TableArea extends RepeatableArea
 {
@@ -157,10 +154,11 @@ public class TableArea extends RepeatableArea
 				{
 					rl = exeContext.getResourceLocator( );
 				}
+				ModuleHandle moduleHandle = context.getReport( ).getDesign( ).getReportDesign( ).getModuleHandle();
 				BackgroundImageInfo backgroundImage = new BackgroundImageInfo(
 						getImageUrl( url ),
 						style.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0,
-						0, 0, rl );
+						0, 0, rl, moduleHandle );
 				boxStyle.setBackgroundImage( backgroundImage );
 			}
 			localProperties = new LocalProperties( );

@@ -35,6 +35,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 
 import com.itextpdf.text.Image;
@@ -276,8 +277,9 @@ public class PageArea extends BlockContainerArea
 			rl = exeContext.getResourceLocator( );
 		}
 		IStyle cs = pageContent.getComputedStyle( );
+		ModuleHandle moduleHandle = context.getReport( ).getDesign( ).getReportDesign( ).getModuleHandle();
 		BackgroundImageInfo backgroundImage = new BackgroundImageInfo( url, cs
-				.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0, 0, 0, rl );
+				.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0, 0, 0, rl, moduleHandle );
 		Image img = backgroundImage.getImageInstance( );
 		
 		IStyle style = pageContent.getStyle( );

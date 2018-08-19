@@ -36,6 +36,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
@@ -1141,10 +1142,11 @@ public abstract class ContainerArea extends AbstractArea
 			{
 				rl = exeContext.getResourceLocator( );
 			}
+			ModuleHandle moduleHandle = context.getReport( ).getDesign( ).getReportDesign( ).getModuleHandle();
 			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(
 					getImageUrl( url.getCssText( ) ),
 					style.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0,
-					0, 0, rl );
+					0, 0, rl, moduleHandle );
 			boxStyle.setBackgroundImage( backgroundImage );
 		}
 
@@ -1178,10 +1180,11 @@ public abstract class ContainerArea extends AbstractArea
 				{
 					rl = exeContext.getResourceLocator( );
 				}
+				ModuleHandle moduleHandle = context.getReport( ).getDesign( ).getReportDesign( ).getModuleHandle();
 				BackgroundImageInfo backgroundImage = new BackgroundImageInfo(
 						getImageUrl( url ),
 						cs.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0,
-						0, 0, rl );
+						0, 0, rl, moduleHandle );
 				boxStyle.setBackgroundImage( backgroundImage );
 			}
 			if ( !isInlineStacking )

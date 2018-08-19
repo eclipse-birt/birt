@@ -26,6 +26,7 @@ import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.DiagonalInfo;
 import org.eclipse.birt.report.engine.util.ResourceLocatorWrapper;
+import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.w3c.dom.css.CSSValue;
 
 public class CellArea extends BlockContainerArea implements IContainerArea
@@ -232,10 +233,11 @@ public class CellArea extends BlockContainerArea implements IContainerArea
 			{
 				rl = exeContext.getResourceLocator( );
 			}
+            ModuleHandle moduleHandle = context.getReport( ).getDesign( ).getReportDesign( ).getModuleHandle();
 			BackgroundImageInfo backgroundImage = new BackgroundImageInfo(
 					getImageUrl( url ),
 					style.getProperty( IStyle.STYLE_BACKGROUND_REPEAT ), 0, 0,
-					0, 0, rl );
+					0, 0, rl, moduleHandle );
 			boxStyle.setBackgroundImage( backgroundImage );
 		}
 		localProperties = new LocalProperties( );
