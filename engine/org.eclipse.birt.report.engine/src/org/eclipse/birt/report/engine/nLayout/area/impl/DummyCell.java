@@ -36,9 +36,15 @@ public class DummyCell extends CellArea
 	 */
 	protected int delta;
 	
+	/**
+	 * Save reference cell height in case we split container over this cell;
+	 */
+	protected int referenceCellHeight;
+	
 	public DummyCell(CellArea cell)
 	{
 		this.cell = cell;
+		this.referenceCellHeight = cell.getHeight();
 	}
 	
 	public BoxStyle getBoxStyle()
@@ -71,10 +77,20 @@ public class DummyCell extends CellArea
 		this.delta = delta;
 	}
 	
-	public CellArea cloneArea( )
-	{
+	public CellArea cloneArea()
+  {
 		CellArea cloneCell = cell.cloneArea( );
 		return cloneCell;
+	}
+ 
+	public int getReferenceCellHeight( )
+	{
+		return referenceCellHeight;
+	}
+	
+	public void setReferenceCellHeight( int referenceCellHeight )
+	{
+		this.referenceCellHeight = referenceCellHeight;
 	}
 	
 	public SplitResult split( int height, boolean force ) throws BirtException

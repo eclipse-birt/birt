@@ -610,8 +610,8 @@ public class TableLayout
 			{
 				DummyCell dummyCell = (DummyCell) cell;
 				int delta = dummyCell.getDelta( );
-				//FIXME 
-				//height = Math.max( height, dummyCell.getCell( ).getHeight( ) - delta );
+				int newRefCellHeight = dummyCell.getReferenceCellHeight();
+				height = Math.max(height, newRefCellHeight - delta);
 			}
 			else
 			{
@@ -660,6 +660,17 @@ public class TableLayout
 		}
 		row.setHeight( height );
 		return dValue;
+	}
+
+	private boolean isLastRowInLayout(RowArea row) {
+		int rowsCount = this.getRows().size();
+		RowArea lastAdded = (RowArea) this.rows.get(rowsCount - 1);
+		return row.equals(lastAdded);
+	}
+	
+	private boolean enoughtPlaceForDroppedCell(DummyCell dummyCell, int rowHeight) {
+		int droppedCellHeight = dummyCell.getCell().getHeight();
+		return dummyCell.getDelta() + rowHeight >= droppedCellHeight;
 	}
 
 	public int resolveBottomBorder( )
@@ -735,7 +746,7 @@ public class TableLayout
 	 */
 	public void addRow( RowArea rowArea, boolean isFixedLayout )
 	{
-		updateRow( rowArea, isFixedLayout );
+	        updateRow( rowArea, isFixedLayout );
 		rows.add( rowArea );
 	}
 	
@@ -789,7 +800,7 @@ public class TableLayout
 	
 	protected boolean isSpecifiedHeight( RowArea area )
 	{
-		IContent content = area.getContent( );
+		IContent content = (IContent) area.getContent( );
 		if ( content != null )
 		{
 			DimensionType cHeight = content.getHeight( );
@@ -801,19 +812,6 @@ public class TableLayout
 			}
 		}
 		return false;
-	}
-	
-	private boolean isEmptyRow( RowArea rowArea )
-	{
-		for ( int i = startCol; i <= endCol; i++ )
-		{
-			CellArea cell = rowArea.getCell( i );
-			if ( cell != null && cell.getChildrenCount( ) > 0 )
-			{
-				return false;
-			}
-		}
-		return true;
 	}
 
 	/**
@@ -847,8 +845,7 @@ public class TableLayout
 			lastRow = (RowArea) rows.getCurrent( );
 		}
 		currentRow = rowArea;
-		// Do not use specified height if row is empty to avoid endless page break
-		int sheight = isEmptyRow( rowArea ) ? 0 : rowArea.getSpecifiedHeight( );
+		int sheight = rowArea.getSpecifiedHeight( );
 		int height = sheight;
 		/*
 		 * In this case, the row should be the first row of new page. 1. this
@@ -1070,7 +1067,9 @@ public class TableLayout
 		if ( unresolvedRow != null )
 		{
 			CellArea cell = unresolvedRow.getCell( upperCell.getColumnID( ) );
-			rowSpan = cell.getRowSpan( ) - ( unresolvedRow.finished ? 1 : 0 );
+			if (cell != null) {
+			    rowSpan = cell.getRowSpan( ) - ( unresolvedRow.finished ? 1 : 0 );
+			}
 		}
 		dummyCell.setRowSpan( rowSpan  );
 		dummyCell.setColSpan( upperCell.getColSpan( ) );
@@ -1101,7 +1100,13 @@ public class TableLayout
 					{
 						CellArea refCell = ( (DummyCell) cell ).getCell( );
 						int delta = ( (DummyCell) cell ).getDelta( );
-						refCell.setHeight( delta + height );
+						if (refCell.getHeight() < (delta + height)) {
+						    refCell.setHeight( delta + height );
+						    ( (DummyCell)cell).setReferenceCellHeight(delta + height);
+						} else {
+						    height = refCell.getHeight() - delta;;
+						    row.setHeight(height);
+						}						
 						align( refCell );
 					}
 					else

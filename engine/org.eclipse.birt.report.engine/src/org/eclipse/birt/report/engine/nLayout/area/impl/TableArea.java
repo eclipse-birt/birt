@@ -1,4 +1,5 @@
 /***********************************************************************
+/***********************************************************************
  * Copyright (c) 2009 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -35,7 +36,6 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
-import org.eclipse.birt.report.engine.layout.LayoutUtil;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
@@ -950,7 +950,7 @@ public class TableArea extends RepeatableArea
 				endCol = i;
 				if ( w == null )
 				{
-					columns[i] = LayoutUtil.getColWidthFromCellInFirstRow( table, i );
+					columns[i] = null;
 				}
 				else
 				{
