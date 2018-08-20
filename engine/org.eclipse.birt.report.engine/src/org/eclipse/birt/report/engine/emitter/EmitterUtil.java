@@ -582,8 +582,6 @@ public class EmitterUtil
 			return "FF00FF";
 		else if ( color.equalsIgnoreCase( "Maroon" ) )
 			return "800000";
-		else if ( color.equalsIgnoreCase( "Orange" ) )
-			return "#FFA500";
 		String[] values = color.substring( color.indexOf( "(" ) + 1,
 				color.length( ) - 1 ).split( "," );
 		String value = "";
