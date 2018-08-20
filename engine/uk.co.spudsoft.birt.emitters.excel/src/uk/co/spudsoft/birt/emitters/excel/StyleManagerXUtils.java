@@ -247,11 +247,11 @@ public class StyleManagerXUtils extends StyleManagerUtils {
 		double footerHeight = 0.5;
 		if( ( page.getHeaderHeight() != null ) && isAbsolute( page.getHeaderHeight() ) ) {
 			headerHeight = page.getHeaderHeight().convertTo(DimensionType.UNITS_IN);
-			sheet.setMargin(Sheet.HeaderMargin, headerHeight);
+			sheet.setMargin(Sheet.HeaderMargin, page.getMarginTop().convertTo(DimensionType.UNITS_IN));
 		}
 		if( ( page.getFooterHeight() != null ) && isAbsolute( page.getFooterHeight() ) ) {
 			footerHeight = page.getFooterHeight().convertTo(DimensionType.UNITS_IN);
-			sheet.setMargin(Sheet.FooterMargin, footerHeight);
+			sheet.setMargin(Sheet.FooterMargin, page.getMarginBottom().convertTo(DimensionType.UNITS_IN));
 		}
 		if( ( page.getMarginBottom() != null ) && isAbsolute( page.getMarginBottom() ) ) {
 			sheet.setMargin(Sheet.BottomMargin, footerHeight + page.getMarginBottom().convertTo(DimensionType.UNITS_IN));

@@ -25,6 +25,7 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
@@ -68,6 +69,7 @@ public class StringCellHandler extends CellContentHandler {
 			contentVisitor.visitAutoText( (IAutoTextContent)obj, null );
 		}  else if( obj instanceof IForeignContent ) {
 			contentVisitor.visitForeign( (IForeignContent)obj, null );
+		} else if( obj instanceof ImageContent ) {
 		} else {
 			log.warn(0, "Not visiting " + obj.getClass(), null);
 		}
@@ -133,6 +135,8 @@ public class StringCellHandler extends CellContentHandler {
 
 	@Override
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
+		log.debug( "image:" + image.getName() );
+		emitContent(state, image, "&G", false);
 	}
 
 	@Override
