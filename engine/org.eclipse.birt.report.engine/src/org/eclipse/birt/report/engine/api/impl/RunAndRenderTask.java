@@ -159,9 +159,9 @@ public class RunAndRenderTask extends EngineTask implements IRunAndRenderTask
 				layoutPageHandler.addPageHandler( handle );
 				layoutPageHandler.addPageHandler( new ContextPageBreakHandler(
 						executionContext ) );
+				layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
 				if ( !ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 				{
-					layoutPageHandler.addPageHandler( new LayoutPageHandler( ) );
 					layoutEngine.setPageHandler( layoutPageHandler );
 				}
 				else
