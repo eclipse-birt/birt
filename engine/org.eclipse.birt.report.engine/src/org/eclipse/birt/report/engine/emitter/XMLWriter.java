@@ -191,8 +191,9 @@ public class XMLWriter
 			}
 		}
 		else
-		{
-			if ( bIndent && !bText )
+		{	
+		  //Ignoring formatting for a tag </a> because additional hidden symbols before a tag </a> are underlined on a html page
+			if ( bIndent && !bText && !HTMLTags.TAG_A.equals(tagName))
 			{
 				println( );
 				print( indent( ) );
