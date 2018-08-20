@@ -19,6 +19,8 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.RandomAccessFile;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -27,7 +29,6 @@ import java.util.Map.Entry;
 import org.eclipse.birt.core.archive.cache.CacheListener;
 import org.eclipse.birt.core.archive.cache.Cacheable;
 import org.eclipse.birt.core.archive.cache.FileCacheManager;
-import org.eclipse.birt.core.archive.cache.SystemCacheManager;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
@@ -656,7 +657,12 @@ public class Ext2FileSystem
 			Ext2Block block = (Ext2Block) cache;
 			try
 			{
+			if(block.getFileSystem().isFreeDiskSpaceAvailable()) {
 				block.flush( );
+			} else {
+				block.getFileSystem().releaseResources();
+				throw new RuntimeException("Report generation was interrupted due to the end of the free disk space");
+			}
 			}
 			catch ( IOException ex )
 			{
@@ -679,6 +685,24 @@ public class Ext2FileSystem
 					rf.setLength( 0 );
 				}
 			}
+		}
+	}
+
+	boolean isFreeDiskSpaceAvailable() {
+		try {
+			return Files.getFileStore(Paths.get(fileName)).getUsableSpace() > 0;
+		} catch (IOException e) {
+			return true;
+		}
+	}
+	
+	void releaseResources() {
+		try {
+			rf.getChannel().close();
+			rf.close();
+			Files.deleteIfExists(Paths.get(fileName));
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 
