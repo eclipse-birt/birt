@@ -13,6 +13,7 @@ package org.eclipse.birt.report.engine.executor;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -69,6 +70,10 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
 //TODO: can we reuse the content object instead of create different content object for the same report design element?
 public abstract class ReportItemExecutor implements IReportItemExecutor
 {
+	
+	private static final String RELATED_ENTITY_ID_NAMED_EXPRESSION_NAME = "relatedEntityId";
+	private static final String RELATED_ENTITY_ID_PROPERTY_KEY = "reportEngine.relatedEntityIdNamedExpression";
+
 	/**
 	 * executor manager used to create this executor.
 	 */
@@ -597,6 +602,26 @@ public abstract class ReportItemExecutor implements IReportItemExecutor
 			IContent content )
 	{
 		Map<String, Expression> exprs = design.getUserProperties( );
+		if (exprs == null) 
+		{
+			exprs = new HashMap<String, Expression>();
+		}
+		
+		Set allowedContent = new HashSet<>();
+		allowedContent.add(ExecutorManager.ROWITEM);
+		allowedContent.add(ExecutorManager.EXTENDEDITEM);
+		allowedContent.add(ExecutorManager.LISTBANDITEM);
+		allowedContent.add(ExecutorManager.LISTGROUPITEM);
+		allowedContent.add(ExecutorManager.EXTENDEDITEM);
+//		allowedContent.add(ExecutorManager.GRIDITEM);
+		//TODO should we somehow filer processed Content?
+		if (!exprs.containsKey(RELATED_ENTITY_ID_NAMED_EXPRESSION_NAME)) {
+			String expression = (String) getContext().getAppContext().get(RELATED_ENTITY_ID_PROPERTY_KEY);
+			if (expression != null) {
+				exprs.put(RELATED_ENTITY_ID_NAMED_EXPRESSION_NAME, Expression.newScript(expression ));
+			}
+		}
+		
 		if ( exprs != null )
 		{
 			HashMap<String, Object> values = new HashMap<String, Object>( exprs

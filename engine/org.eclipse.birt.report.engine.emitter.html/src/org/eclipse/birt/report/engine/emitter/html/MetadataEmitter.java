@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.engine.emitter.html;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -58,6 +61,10 @@ import com.ibm.icu.util.TimeZone;
  */
 public class MetadataEmitter
 {
+	private static final String IMAGE_TYPE_NAME = "IMAGE_TYPE";
+        private static final String RELATED_ENTITY_ID_NAME = "relatedEntityId";
+	private static final String CONFIG_DATA_NAME = "config";
+
 	/**
 	 * Stores row state used to check if current row is start of detail rows.
 	 */
@@ -470,6 +477,11 @@ public class MetadataEmitter
 							writer.attributeAllowEmpty( HTMLTags.ATTR_RAW_DATA, rawData );
 						}
 					}
+				} 
+				else if ("OUTPUT_USER_PROPERTY".equalsIgnoreCase(keyStr)) {
+				        outputRelatedData(element);
+					outputConfigData(element);
+					outputImageType(element);
 				}
 				else
 				{
@@ -498,6 +510,62 @@ public class MetadataEmitter
 		}
 
 		return bookmarkOutput;
+	}
+
+    private void outputImageType(Object element) {
+        if (element instanceof IImageContent) {
+            IImageContent content = (IImageContent) element;
+
+            if (content.getUserProperties() != null) {
+                Object imageType = content.getUserProperties().get(IMAGE_TYPE_NAME);
+                if (imageType != null) {
+                    try {
+                        URLEncoder.encode((String) imageType, "UTF-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }
+                    writer.attribute("data-imageType", imageType);
+                }
+            }
+        }
+
+    }
+
+    private void outputRelatedData(Object element) {
+		if (element instanceof IContent) {
+			IContent content = (IContent)element;
+			
+			if (content.getUserProperties() != null) {
+				Object relatedData = content.getUserProperties().get(RELATED_ENTITY_ID_NAME);
+				if (relatedData != null) {
+                                        try {
+                                            URLEncoder.encode((String) relatedData, "UTF-8");
+                                        } catch (UnsupportedEncodingException e) {
+                                            e.printStackTrace();
+                                        }
+					writer.attribute("data-relatedData", relatedData);
+				}
+			}
+		}
+		
+	}
+
+	private void outputConfigData(Object element) {
+		if (element instanceof IContent) {
+			IContent content = (IContent)element;
+			
+			if (content.getUserProperties() != null) {
+				Object configData = content.getUserProperties().get(CONFIG_DATA_NAME);
+				if (configData != null) {
+                                        try {
+                                            URLEncoder.encode((String) configData, "UTF-8");
+                                        } catch (UnsupportedEncodingException e) {
+                                            e.printStackTrace();
+                                        }
+					writer.attribute("data-config", configData);
+				}
+			}
+		}
 	}
 
 	/**
