@@ -182,7 +182,7 @@ public class HTMLTextParser
 					short nodeType = child.getNodeType( );
 					if ( nodeType == Node.ELEMENT_NODE )
 					{
-						if ( "script".equalsIgnoreCase( child.getNodeName( ) ) )
+						if ( "script".equalsIgnoreCase( child.getNodeName( ) ) ||  "style".equalsIgnoreCase( child.getNodeName( ) ))
 						{
 							// copy the element node
 							Element ele = null;
