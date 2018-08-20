@@ -12,15 +12,19 @@
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IBandContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IElement;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
+import org.eclipse.birt.report.engine.ir.ReportElementDesign;
 import org.eclipse.birt.report.engine.ir.RowDesign;
 import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 
@@ -48,7 +52,7 @@ public abstract class RepeatableArea extends BlockContainerArea
 		this.inHeaderBand = inHeaderBand;
 	}
 	
-	//TODO refactor 
+	//TODO refactor
 	protected boolean isFirstChildInHeaderBand()
 	{
 		//check if the first child is in head band;
@@ -151,7 +155,24 @@ public abstract class RepeatableArea extends BlockContainerArea
 				}
 			}
 		}
+
+    // we cannot render repeated header that is greater than height of root area
+		if (context.isFixedLayout()) {
+			int maxCellHeight = getMaxCellHeight();
+			if (context.getMaxBP() < maxCellHeight) {
+				ReportElementDesign red = (ReportElementDesign) this.getContent().getGenerateBy();
+				throw new EngineException(String.format("There is no enought place to render repetable area: [ID=%s, name=%s]", red.getID(), red.getName()));
+			}
+		}
 		return super.split( height, force );
+	}
+	
+	private int getMaxCellHeight() {
+		Stream<RowArea> rows = Stream.empty();
+		if (repeatList != null) {
+			rows = repeatList.stream().filter(r -> r instanceof RowArea).map(r -> (RowArea) r);
+		}
+		return rows.flatMap(row -> Arrays.stream(row.cells)).mapToInt(c -> c != null ? c.getCurrentBP() : 0).max().orElse(0);
 	}
 
 	protected boolean isValidResult( List result )
