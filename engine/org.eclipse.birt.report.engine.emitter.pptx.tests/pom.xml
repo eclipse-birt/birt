@@ -9,6 +9,7 @@
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.report.engine.emitter.pptx.tests</artifactId>
 	<packaging>eclipse-test-plugin</packaging>
+
 	<build>
 		<plugins>
 			<plugin>
@@ -16,45 +17,14 @@
 				<artifactId>maven-dependency-plugin</artifactId>
 				<executions>
 					<execution>
-						<id>download-jdbc</id>
-						<phase>process-sources</phase>
+						<id>copy-dependencies</id>
+						<phase>initialize</phase>
 						<goals>
-							<goal>copy</goal>
+							<goal>copy-dependencies</goal>
 						</goals>
 						<configuration>
-							<outputDirectory>${basedir}/libs</outputDirectory>
-							<artifactItems>
-								<artifactItem>
-									<groupId>org.apache.poi</groupId>
-									<artifactId>poi</artifactId>
-									<version>3.10-FINAL</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.apache.poi</groupId>
-									<artifactId>poi-ooxml-schemas</artifactId>
-									<version>3.10-FINAL</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.apache.poi</groupId>
-									<artifactId>poi-ooxml</artifactId>
-									<version>3.10-FINAL</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>dom4j</groupId>
-									<artifactId>dom4j</artifactId>
-									<version>1.6.1</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>org.apache.xmlbeans</groupId>
-									<artifactId>xmlbeans</artifactId>
-									<version>2.3.0</version>
-								</artifactItem>
-								<artifactItem>
-									<groupId>stax</groupId>
-									<artifactId>stax-api</artifactId>
-									<version>1.0.1</version>
-								</artifactItem>
-							</artifactItems>
+							<outputDirectory>${project.basedir}/lib</outputDirectory>
+							<includeGroupIds>org.apache.poi</includeGroupIds>
 						</configuration>
 					</execution>
 				</executions>

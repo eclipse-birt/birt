@@ -5,5 +5,6 @@ Bundle-SymbolicName: org.eclipse.birt.build
 Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
-Bundle-ClassPath: lib/dom4j-1.6.1.jar,.
-Require-Bundle: org.apache.ant
+Bundle-ClassPath: .
+Require-Bundle: org.apache.ant,
+ org.dom4j;bundle-version="1.6.1"

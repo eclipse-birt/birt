@@ -8,5 +8,5 @@ Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Eclipse-LazyStart: true
 Export-Package: org.apache.derby.jdbc
-Bundle-RequiredExecutionEnvironment: J2SE-1.4
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Eclipse-BundleShape: dir

@@ -25,7 +25,7 @@
 						<configuration>
 							<outputDirectory>${project.basedir}/lib</outputDirectory>
 							<includeGroupIds>
-								com.itextpdf,commons-cli,net.sf.jtidy
+								com.itextpdf,net.sf.jtidy
 							</includeGroupIds>
 						</configuration>
 					</execution>
