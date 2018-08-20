@@ -38,6 +38,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
@@ -59,9 +60,9 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
  * @author Jim Talbut
  *
  */
-public abstract class StyleManagerUtils {	
+public abstract class StyleManagerUtils {
 
-	protected Logger log;	
+	protected Logger log;
 	
 	protected static final FontRenderContext frc = new FontRenderContext(null, true, true);
 	
@@ -97,7 +98,7 @@ public abstract class StyleManagerUtils {
 	 * true is both objects are null or lhs.equals(rhs), otherwise false.
 	 */
 	public static boolean objectsEqual(Object lhs, Object rhs) {
-		return (lhs == null) ? (rhs == null) : lhs.equals(rhs);  
+		return (lhs == null) ? (rhs == null) : lhs.equals(rhs);
 	}
 	
 	public static boolean dataFormatsEquivalent( DataFormatValue dataFormat1, DataFormatValue dataFormat2 ) {
@@ -139,7 +140,7 @@ public abstract class StyleManagerUtils {
 	}
 	
 	/**
-	 * Convert a BIRT font size string (either a dimensioned string or "xx-small" - "xx-large") to a point size. 
+	 * Convert a BIRT font size string (either a dimensioned string or "xx-small" - "xx-large") to a point size.
 	 * @param fontSize
 	 * The BIRT font size.
 	 * @return
@@ -187,7 +188,7 @@ public abstract class StyleManagerUtils {
 	}
 	
 	/**
-	 * Obtain a POI column width from a BIRT DimensionType. 
+	 * Obtain a POI column width from a BIRT DimensionType.
 	 * @param dim
 	 * The BIRT dimension, which must be in absolute units.
 	 * @return
@@ -196,7 +197,7 @@ public abstract class StyleManagerUtils {
 	public int poiColumnWidthFromDimension( DimensionType dim ) {
 		if (dim != null) {
 			double mmWidth = dim.getMeasure();
-			if( ( DimensionType.UNITS_CM.equals( dim.getUnits() ) ) 
+			if( ( DimensionType.UNITS_CM.equals( dim.getUnits() ) )
 					|| ( DimensionType.UNITS_IN.equals( dim.getUnits() ) )
 					|| ( DimensionType.UNITS_PT.equals( dim.getUnits() ) )
 					|| ( DimensionType.UNITS_PC.equals( dim.getUnits() ) )
@@ -204,7 +205,7 @@ public abstract class StyleManagerUtils {
 				mmWidth = dim.convertTo( "mm" );
 			}
 			int result = ClientAnchorConversions.millimetres2WidthUnits(mmWidth);
-			// log.debug( "Column width in mm: ", mmWidth, "; converted result: ", result );			
+			// log.debug( "Column width in mm: ", mmWidth, "; converted result: ", result );
 			return result;
 		} else {
 			return 0;
@@ -296,7 +297,7 @@ public abstract class StyleManagerUtils {
 		if( cellStyle.getFillPattern() == CellStyle.NO_FILL ) {
 			return true;
 		}
-		return false;		
+		return false;
 	}
 	
 	/**
@@ -304,7 +305,7 @@ public abstract class StyleManagerUtils {
 	 * @param workbook
 	 * The workbook that contains the cell being styled.
 	 * @param style
-	 * The POI CellStyle that is to have the border applied to it. 
+	 * The POI CellStyle that is to have the border applied to it.
 	 * @param side
 	 * The side of the border that is to be applied.<br>
 	 * Note that although this value is from XSSFCellBorder it is equally valid for HSSFCellStyles.
@@ -337,30 +338,45 @@ public abstract class StyleManagerUtils {
 			return Workbook.PICTURE_TYPE_PNG;
 		} else if ( "image/bmp".equals( mimeType ) ) {
 			return Workbook.PICTURE_TYPE_DIB;
+		} else if ( "image/gif".equals( mimeType ) ) {
+			return XSSFWorkbook.PICTURE_TYPE_GIF;
 		} else {
 			if( null != data ) {
 				log.debug( "Data bytes: "
-						+ " " + Integer.toHexString( data[0] ).toUpperCase()  
-						+ " " + Integer.toHexString( data[1] ).toUpperCase()  
+						+ " " + Integer.toHexString( data[0] ).toUpperCase()
+						+ " " + Integer.toHexString( data[1] ).toUpperCase()
 						+ " " + Integer.toHexString( data[2] ).toUpperCase()
 						+ " " + Integer.toHexString( data[3] ).toUpperCase()
 						);
 				if( ( data.length > 2 )
 						&& ( data[0] == (byte)0xFF)
-						&& ( data[1] == (byte)0xD8) 
+						&& ( data[1] == (byte)0xD8)
 						&& ( data[2] == (byte)0xFF)
 						) {
 					return Workbook.PICTURE_TYPE_JPEG;
 				}
+        if( ( data.length > 2 )
+		        && ( data[0] == (byte)'B')
+            && ( data[1] == (byte)'M')
+            ) {
+					return XSSFWorkbook.PICTURE_TYPE_BMP;
+        }
 				if( ( data.length > 4 )
 						&& ( data[0] == (byte)0x89)
-						&& ( data[1] == (byte)'P') 
-						&& ( data[2] == (byte)'N') 
-						&& ( data[3] == (byte)'G') 
+						&& ( data[1] == (byte)'P')
+						&& ( data[2] == (byte)'N')
+						&& ( data[3] == (byte)'G')
 						) {
 					return Workbook.PICTURE_TYPE_PNG;
 				}
-			} 
+        if ((data.length > 2)
+            && (data[0] == (byte) 'G')
+            && (data[1] == (byte) 'I')
+            && (data[2] == (byte) 'F')
+            ) {
+                return XSSFWorkbook.PICTURE_TYPE_GIF;
+        }
+			}
 			return 0;
 		}
 	}
@@ -491,7 +507,7 @@ public abstract class StyleManagerUtils {
 		if( birtFormat.startsWith( ExcelEmitter.CUSTOM_NUMBER_FORMAT ) ) {
 			return birtFormat.substring(ExcelEmitter.CUSTOM_NUMBER_FORMAT.length());
 		}
-			
+		
 		birtFormat = birtFormat.replace("E00", "E+00");
 		birtFormat = birtFormat.replaceAll("^([^0#.\\-,E;%\u2030\u00A4']*)", "\"$1\"");
 		int brace = birtFormat.indexOf('{');
@@ -499,7 +515,7 @@ public abstract class StyleManagerUtils {
 			birtFormat = birtFormat.substring(0, brace);
 		}
 		return birtFormat;
-	}	
+	}
 
 	/**
 	 * <p>
@@ -542,7 +558,7 @@ public abstract class StyleManagerUtils {
 		CSSValue dataFormat = style.getProperty( StyleConstants.STYLE_DATA_FORMAT );
 		if( dataFormat instanceof DataFormatValue ) {
 			DataFormatValue dataFormatValue = (DataFormatValue)dataFormat;
-			return dataFormatValue.getNumberPattern();			
+			return dataFormatValue.getNumberPattern();
 		}
 		return null;
 	}
@@ -551,7 +567,7 @@ public abstract class StyleManagerUtils {
 		CSSValue dataFormat = style.getProperty( StyleConstants.STYLE_DATA_FORMAT );
 		if( dataFormat instanceof DataFormatValue ) {
 			DataFormatValue dataFormatValue = (DataFormatValue)dataFormat;
-			return dataFormatValue.getDatePattern();			
+			return dataFormatValue.getDatePattern();
 		}
 		return null;
 	}
@@ -560,7 +576,7 @@ public abstract class StyleManagerUtils {
 		CSSValue dataFormat = style.getProperty( StyleConstants.STYLE_DATA_FORMAT );
 		if( dataFormat instanceof DataFormatValue ) {
 			DataFormatValue dataFormatValue = (DataFormatValue)dataFormat;
-			return dataFormatValue.getDateTimePattern();			
+			return dataFormatValue.getDateTimePattern();
 		}
 		return null;
 	}
@@ -569,7 +585,7 @@ public abstract class StyleManagerUtils {
 		CSSValue dataFormat = style.getProperty( StyleConstants.STYLE_DATA_FORMAT );
 		if( dataFormat instanceof DataFormatValue ) {
 			DataFormatValue dataFormatValue = (DataFormatValue)dataFormat;
-			return dataFormatValue.getTimePattern();			
+			return dataFormatValue.getTimePattern();
 		}
 		return null;
 	}
@@ -584,7 +600,7 @@ public abstract class StyleManagerUtils {
 		return newValue;
 	}
 	
-	public static void setNumberFormat( BirtStyle style, String pattern, String locale ) {		
+	public static void setNumberFormat( BirtStyle style, String pattern, String locale ) {
 		DataFormatValue dfv = (DataFormatValue)style.getProperty( StyleConstants.STYLE_DATA_FORMAT );
 		if( dfv == null ) {
 			dfv = new DataFormatValue();
@@ -595,7 +611,7 @@ public abstract class StyleManagerUtils {
 		style.setProperty( StyleConstants.STYLE_DATA_FORMAT, dfv);
 	}
 	
-	public static void setDateFormat( BirtStyle style, String pattern, String locale ) {		
+	public static void setDateFormat( BirtStyle style, String pattern, String locale ) {
 		DataFormatValue dfv = (DataFormatValue)style.getProperty( StyleConstants.STYLE_DATA_FORMAT );
 		if( dfv == null ) {
 			dfv = new DataFormatValue();
@@ -606,7 +622,7 @@ public abstract class StyleManagerUtils {
 		style.setProperty( StyleConstants.STYLE_DATA_FORMAT, dfv);
 	}
 	
-	public static void setDateTimeFormat( BirtStyle style, String pattern, String locale ) {		
+	public static void setDateTimeFormat( BirtStyle style, String pattern, String locale ) {
 		DataFormatValue dfv = (DataFormatValue)style.getProperty( StyleConstants.STYLE_DATA_FORMAT );
 		if( dfv == null ) {
 			dfv = new DataFormatValue();
@@ -617,7 +633,7 @@ public abstract class StyleManagerUtils {
 		style.setProperty( StyleConstants.STYLE_DATA_FORMAT, dfv);
 	}
 	
-	public static void setTimeFormat( BirtStyle style, String pattern, String locale ) {		
+	public static void setTimeFormat( BirtStyle style, String pattern, String locale ) {
 		DataFormatValue dfv = (DataFormatValue)style.getProperty( StyleConstants.STYLE_DATA_FORMAT );
 		if( dfv == null ) {
 			dfv = new DataFormatValue();
@@ -668,7 +684,7 @@ public abstract class StyleManagerUtils {
 			poiStyle.setDataFormat(poiFormat.getFormat(dataFormat));
 		}
 	}
-		
+	
 	/**
 	 * Add font details to an AttributedString.
 	 * @param attrString
@@ -678,7 +694,7 @@ public abstract class StyleManagerUtils {
 	 * @param startIdx
 	 * The index of the first character to be attributed (inclusive).
 	 * @param endIdx
-	 * The index of the last character to be attributed (inclusive). 
+	 * The index of the last character to be attributed (inclusive).
 	 */
 	protected void addFontAttributes( AttributedString attrString, Font font, int startIdx, int endIdx) {
 		attrString.addAttribute(TextAttribute.FAMILY, font.getFontName(), startIdx, endIdx);
@@ -725,7 +741,7 @@ public abstract class StyleManagerUtils {
 	public float calculateTextHeightPoints( String sourceText, Font defaultFont, double widthMM, List< RichTextRun> richTextRuns ) {
 		log.debug( "Calculating height for ", sourceText);
 		
-		final float widthPt = (float)(72 * Math.max( 0, widthMM - 6 ) / 25.4); 
+		final float widthPt = (float)(72 * Math.max( 0, widthMM - 6 ) / 25.4);
 		
 		float totalHeight = 0;
 		String[] textLines = sourceText.split("\n");
@@ -735,7 +751,7 @@ public abstract class StyleManagerUtils {
 		for( String textLine : textLines ) {
 			if( lastLine != null ) {
 				lineStartIndex += lastLine.length() + 1;
-			} 
+			}
 			lastLine = textLine;
 			
 			AttributedString attrString = new AttributedString(textLine.isEmpty() ? " " : textLine);
@@ -766,10 +782,10 @@ public abstract class StyleManagerUtils {
 						addFontAttributes(attrString, run.font, startIdx, endIdx );
 					}
 				}
-			}		
+			}
 			
 			LineBreakMeasurer measurer = new LineBreakMeasurer( attrString.getIterator(), frc);
-		    
+		 
 			float heightAdjustment = 0.0F;
 			int lineLength = textLine.isEmpty() ? 1 : textLine.length();
 			while (measurer.getPosition() < lineLength) {
@@ -811,7 +827,7 @@ public abstract class StyleManagerUtils {
 			return new int[] { 0, 0, 0 };
 		}
 	}
-		
+	
 	protected int[] rgbOnly( byte rgb[] ) {
 		if( rgb == null ) {
 			return new int[] { 0, 0, 0 };
@@ -825,10 +841,10 @@ public abstract class StyleManagerUtils {
 			return new int[] { 0, 0, 0 };
 		}
 	}
-		
+	
 	int[] parseColour( String colour, String defaultColour ) {
 		if( ( colour == null )
-				|| ( CSSConstants.CSS_TRANSPARENT_VALUE.equals(colour) ) 
+				|| ( CSSConstants.CSS_TRANSPARENT_VALUE.equals(colour) )
 				|| ( CSSConstants.CSS_AUTO_VALUE.equals(colour) )
 				 ) {
 			return rgbOnly( ColorUtil.getRGBs( defaultColour ) );
@@ -869,7 +885,7 @@ public abstract class StyleManagerUtils {
 	 * @param rowHeight
 	 * The height of the row.
 	 * @return
-	 * A value suitable for use as an argument to setDy2() on ClientAnchor.	 * 
+	 * A value suitable for use as an argument to setDy2() on ClientAnchor.	 *
 	 */
 	public abstract int anchorDyFromPoints( float height, float rowHeight );
 
@@ -911,7 +927,7 @@ public abstract class StyleManagerUtils {
 		CSSValue borderStyleTop = borderStyle.getProperty( StyleConstants.STYLE_BORDER_TOP_STYLE );
 		CSSValue borderWidthTop = borderStyle.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH );
 		CSSValue borderColourTop = borderStyle.getProperty( StyleConstants.STYLE_BORDER_TOP_COLOR );
-				
+		
 /*		borderMsg.append( ", Bottom:" ).append( borderStyleBottom ).append( "/" ).append( borderWidthBottom ).append( "/" + borderColourBottom );
 		borderMsg.append( ", Left:" ).append( borderStyleLeft ).append( "/" ).append( borderWidthLeft ).append( "/" + borderColourLeft );
 		borderMsg.append( ", Right:" ).append( borderStyleRight ).append( "/" ).append( borderWidthRight ).append( "/" ).append( borderColourRight );
@@ -950,10 +966,10 @@ public abstract class StyleManagerUtils {
 				borderColourTop = null;
 		}
 		
-		if( ( borderStyleBottom != null ) || ( borderWidthBottom != null ) || ( borderColourBottom != null ) 
+		if( ( borderStyleBottom != null ) || ( borderWidthBottom != null ) || ( borderColourBottom != null )
 				|| ( borderStyleLeft != null ) || ( borderWidthLeft != null ) || ( borderColourLeft != null )
-				|| ( borderStyleRight != null ) || ( borderWidthRight != null ) || ( borderColourRight != null ) 
-				|| ( borderStyleTop != null ) || ( borderWidthTop != null ) || ( borderColourTop != null ) 
+				|| ( borderStyleRight != null ) || ( borderWidthRight != null ) || ( borderColourRight != null )
+				|| ( borderStyleTop != null ) || ( borderWidthTop != null ) || ( borderColourTop != null )
 				) {
 			for( int row = rowStart; row <= rowEnd; ++row ) {
 				Row styleRow = sheet.getRow(row);
@@ -995,7 +1011,7 @@ public abstract class StyleManagerUtils {
 	 * @param borderStyle
 	 * The BIRT border style to apply to the region.
 	 */
-	public void applyBottomBorderToRow( StyleManager sm, Sheet sheet, int colStart, int colEnd, int row, BirtStyle borderStyle ) {	
+	public void applyBottomBorderToRow( StyleManager sm, Sheet sheet, int colStart, int colEnd, int row, BirtStyle borderStyle ) {
 		CSSValue borderStyleBottom = borderStyle.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_STYLE );
 		CSSValue borderWidthBottom = borderStyle.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH );
 		CSSValue borderColourBottom = borderStyle.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_COLOR );
@@ -1019,7 +1035,7 @@ public abstract class StyleManagerUtils {
 					if( styleCell != null ) {
 						// log.debug( "Applying border to cell [R" + styleCell.getRowIndex() + "C" + styleCell.getColumnIndex() + "]");
 						CellStyle newStyle = sm.getStyleWithBorders( styleCell.getCellStyle()
-								, borderStyleBottom, borderWidthBottom, borderColourBottom 
+								, borderStyleBottom, borderWidthBottom, borderColourBottom
 								, null, null, null
 								, null, null, null
 								, null, null, null
