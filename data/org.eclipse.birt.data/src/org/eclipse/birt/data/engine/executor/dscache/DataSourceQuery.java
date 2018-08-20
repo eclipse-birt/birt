@@ -177,7 +177,8 @@ public class DataSourceQuery extends BaseQuery
 						eventHandler,
 						this.getGrouping( ),
 						this.session,
-						strategy == Strategy.SimpleLookingFoward);
+						strategy == Strategy.SimpleLookingFoward,
+						getOdaCacheResultSet( ));
 				
 				return simpleResult.getResultSetIterator( );
 			}

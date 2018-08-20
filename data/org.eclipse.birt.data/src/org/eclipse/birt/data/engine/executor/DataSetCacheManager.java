@@ -22,6 +22,7 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
+import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
@@ -282,7 +283,8 @@ public class DataSetCacheManager
 	public void clearCache( IBaseDataSourceDesign dataSourceDesign,
 			IBaseDataSetDesign dataSetDesign ) throws DataException
 	{
-		if ( dataSourceDesign == null || dataSetDesign == null )
+		// Clear cache for JointDataSetDesign. For JointDataSetDesign dataSourceDesign is null.
+	   if (dataSetDesign == null 	|| ( dataSourceDesign == null && !(dataSetDesign instanceof JointDataSetDesign)))
 			return;
 
 		DataSourceAndDataSet ds = DataSourceAndDataSet.newInstance( dataSourceDesign,

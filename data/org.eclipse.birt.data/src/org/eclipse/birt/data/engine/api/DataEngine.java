@@ -302,6 +302,8 @@ abstract public class DataEngine
 	 */
 	abstract public void clearCache( String cacheID ) throws BirtException;
 	
+	abstract public void clearCache() throws BirtException;
+	
 	/**
 	 * Verifies the elements of a report query spec
 	 * and provides a hint to the query to prepare and optimize 

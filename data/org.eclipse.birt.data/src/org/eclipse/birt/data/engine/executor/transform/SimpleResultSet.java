@@ -45,6 +45,7 @@ import org.eclipse.birt.data.engine.executor.cache.ResultSetCache;
 import org.eclipse.birt.data.engine.executor.cache.ResultSetUtil;
 import org.eclipse.birt.data.engine.executor.cache.RowResultSet;
 import org.eclipse.birt.data.engine.executor.cache.SmartCacheRequest;
+import org.eclipse.birt.data.engine.executor.dscache.DataSetFromCache;
 import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.impl.DataSetRuntime;
@@ -110,6 +111,8 @@ public class SimpleResultSet implements IResultIterator
 	
 	//TODO: refactor me. Add this for emergence -- release.
 	private boolean firstRowSaved = false;
+	// DataSetFromCache is needed for closing inputstream.
+	private DataSetFromCache dataSetFromCache;
 
 	
 	/**
@@ -207,6 +210,12 @@ public class SimpleResultSet implements IResultIterator
 				forceLookingForward );
 	}
 	
+	public SimpleResultSet(BaseQuery dataSourceQuery, IDataSetPopulator populator, IResultClass resultClass, IEventHandler handler,
+	                       GroupSpec[] groupSpecs, DataEngineSession session, boolean forceLookingForward, DataSetFromCache dataSetFromCache) throws DataException {
+		this(dataSourceQuery, populator, resultClass, handler, groupSpecs, session, forceLookingForward);
+		this.dataSetFromCache = dataSetFromCache;
+	}
+
 	private void initialize( BaseQuery baseQuery, IEventHandler handler,
 			SmartCacheRequest scRequest, IResultClass resultMetadata,
 			GroupSpec[] groupSpecs, DataEngineSession session,
@@ -350,6 +359,11 @@ public class SimpleResultSet implements IResultIterator
 	 */
 	public void close( ) throws DataException
 	{
+		if (dataSetFromCache != null) {
+			dataSetFromCache.close();
+			dataSetFromCache = null;
+		}
+	    	
 		if( this.isClosed )
 			return;
 		if ( this.closeable != null )

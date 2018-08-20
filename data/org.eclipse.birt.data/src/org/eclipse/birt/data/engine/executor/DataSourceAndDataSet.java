@@ -115,7 +115,7 @@ public class DataSourceAndDataSet
 		}
 
 		// data source compare
-		if ( isEqualDataSourceDesign( dataSourceDesign, dataSourceDesign2 ) == false )
+		if ( this.dataSourceDesign != dataSourceDesign2 && !isEqualDataSourceDesign( dataSourceDesign, dataSourceDesign2 ))
 			return false;
 
 		// data set compare

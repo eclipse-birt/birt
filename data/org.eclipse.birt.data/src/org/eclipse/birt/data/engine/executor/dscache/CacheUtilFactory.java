@@ -522,6 +522,7 @@ class CacheUtilFactory
 		private int rowCount;
 		private int currIndex;
 		private DataEngineSession session;
+		private boolean initInputStream = false;
 		/**
 		 * @param session 
 		 * @param file
@@ -549,7 +550,8 @@ class CacheUtilFactory
 		{			
 			if ( roUtil == null )
 				init( );
-			
+			// Initialize inputstream at first data reading.
+			if (initInputStream) initInputStream();
 			try
 			{
 				if ( currIndex == rowCount - 1 )
@@ -596,8 +598,7 @@ class CacheUtilFactory
 				if ( rowCount > 0 )
 				{
 					roUtil = ResultObjectUtil.newInstance( rsClass, session );
-					fis = FileSecurity.createFileInputStream( file );
-					bis = new BufferedInputStream( fis );
+					initInputStream = true;
 				}
 			}
 			catch ( FileNotFoundException e )
@@ -609,6 +610,16 @@ class CacheUtilFactory
 			{
 				throw new DataException( ResourceConstants.DATASETCACHE_LOAD_ERROR,
 						e );
+			}
+		}
+		
+		private void initInputStream() throws DataException {
+			try {
+				fis = FileSecurity.createFileInputStream(file);
+				bis = new BufferedInputStream(fis);
+				initInputStream = false;
+			} catch (FileNotFoundException e) {
+				throw new DataException(ResourceConstants.DATASETCACHE_LOAD_ERROR, e);
 			}
 		}
 		

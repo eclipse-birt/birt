@@ -35,6 +35,7 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IShutdownListener;
+import org.eclipse.birt.data.engine.api.querydefn.JointDataSetDesign;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 import org.eclipse.birt.data.engine.executor.DataSetCacheManager;
@@ -284,7 +285,8 @@ public class DataEngineImpl extends DataEngine
 	public void clearCache( IBaseDataSourceDesign dataSource,
 			IBaseDataSetDesign dataSet ) throws BirtException
 	{
-		if ( dataSource == null || dataSet == null )
+		if (dataSet == null 
+			|| (dataSource == null && !(dataSet instanceof JointDataSetDesign)))
 			return;
 
 		DataSetCacheManager dscManager = this.getSession( ).getDataSetCacheManager( );
@@ -292,6 +294,17 @@ public class DataEngineImpl extends DataEngine
 			return;
 		else
 			dscManager.clearCache( dataSource, dataSet );
+	}
+	
+	/**
+	 * Clear cache for all datasets
+	 */
+	@Override
+	public void clearCache() throws BirtException {
+		for (String dataSetName : dataSetDesigns.keySet()) {
+			IBaseDataSetDesign dataSet = dataSetDesigns.get(dataSetName);
+			clearCache(dataSourceDesigns.get(dataSet.getDataSourceName()), dataSet);
+		}
 	}
 	
 	/**
@@ -584,6 +597,11 @@ public class DataEngineImpl extends DataEngine
 				DataEngineImpl.class.getName( ),
 				"shutdown",
 				"Data engine shuts down" );
+
+		try {
+			clearCache();
+		} catch (BirtException e) {
+		}
 
 		dataSetDesigns = null;
 		dataSources = null;
