@@ -82,8 +82,8 @@ public class PDFPageDevice implements IPageDevice
 		doc = new Document( );
 		try
 		{
-			writer = PdfWriter.getInstance( doc, new BufferedOutputStream(
-					output ) );
+			writer = PdfWriter.getInstance( doc, 
+					output );
 			writer.setFullCompression( );
 			writer.setRgbTransparencyBlending( true );
 			EngineResourceHandle handle = new EngineResourceHandle(
