@@ -32,8 +32,6 @@ public class Formatter implements IScriptFunctionExecutor
 	private static final String FORMAT = "format";
 
 	private IScriptFunctionExecutor executor;
-	private ULocale locale = null;
-	private TimeZone timeZone = null;
 
 	/**
 	 * utilities used in the report execution.
@@ -74,9 +72,11 @@ public class Formatter implements IScriptFunctionExecutor
 		}
 	}
 
-	public DateFormatter getDateFormatter( String pattern )
+	public DateFormatter getDateFormatter( String pattern, IScriptFunctionContext scriptContext )
 	{
-		String key = pattern + ":" + locale.toString( );
+	  TimeZone timeZone = getTimeZone(scriptContext);
+	  ULocale locale = getLocale(scriptContext);
+		String key = pattern + ":" + locale.toString( ) + ":" + timeZone.getID();
 		DateFormatter fmt = dateFormatters.get( ).get( key );
 		if ( fmt == null )
 		{
@@ -86,25 +86,31 @@ public class Formatter implements IScriptFunctionExecutor
 		return fmt;
 	}
 
-	public Object execute( Object[] arguments, IScriptFunctionContext scriptContext )
-			throws BirtException
-	{
-		if ( scriptContext != null )
-		{
-			locale = (ULocale) scriptContext
-					.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE );
-			timeZone = (TimeZone) scriptContext
-					.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE );
-		}
-		if ( timeZone == null )
-		{
-			timeZone = TimeZone.getDefault( );
-		}
-		return executor.execute( arguments, scriptContext );
+  private TimeZone getTimeZone(IScriptFunctionContext scriptContext) {
+      TimeZone timeZone = null;
+      if (scriptContext != null) {
+          timeZone = (TimeZone) scriptContext
+                  .findProperty(org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE);
+      }
+      return timeZone != null ? timeZone : TimeZone.getDefault();
+  }
+
+  private ULocale getLocale(IScriptFunctionContext scriptContext) {
+      ULocale locale = null;
+      if (scriptContext != null) {
+          locale = (ULocale) scriptContext
+                  .findProperty(org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE);
+      }
+      return locale != null ? locale : ULocale.getDefault();
+  }
+
+	public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
+		return executor.execute(arguments, context);
 	}
 
-	public StringFormatter getStringFormatter( String pattern )
+	public StringFormatter getStringFormatter( String pattern, IScriptFunctionContext scriptContext )
 	{
+    ULocale locale = getLocale(scriptContext);
 		String key = pattern + ":" + locale.toString( );
 		StringFormatter fmt = stringFormatters.get( ).get( key );
 		if ( fmt == null )
@@ -115,8 +121,9 @@ public class Formatter implements IScriptFunctionExecutor
 		return fmt;
 	}
 
-	public NumberFormatter getNumberFormatter( String pattern )
+	public NumberFormatter getNumberFormatter( String pattern, IScriptFunctionContext scriptContext)
 	{
+    ULocale locale = getLocale(scriptContext);
 		String key = pattern + ":" + locale.toString( );
 		NumberFormatter fmt = numberFormatters.get( ).get( key );
 		if ( fmt == null )
@@ -155,19 +162,19 @@ public class Formatter implements IScriptFunctionExecutor
 				if ( args[0] instanceof Number )
 				{
 					NumberFormatter fmt = formatter
-							.getNumberFormatter( pattern );
+							.getNumberFormatter( pattern, context );
 					return fmt.format( (Number) args[0] );
 				}
 				else if ( args[0] instanceof String )
 				{
 					StringFormatter fmt = formatter
-							.getStringFormatter( pattern );
+							.getStringFormatter( pattern, context );
 					return fmt.format( (String) args[0] );
 
 				}
 				else if ( args[0] instanceof Date )
 				{
-					DateFormatter fmt = formatter.getDateFormatter( pattern );
+					DateFormatter fmt = formatter.getDateFormatter( pattern, context );
 					return fmt.format( (Date) args[0] );
 				}
 				else

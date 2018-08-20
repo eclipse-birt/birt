@@ -1,12 +1,12 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *  
+ *
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- * 
+ *
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -55,6 +56,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 
 	public static final String DEBUG = "ExcelEmitter.DEBUG";
 	public static final String REMOVE_BLANK_ROWS = "ExcelEmitter.RemoveBlankRows";
+	public static final String REMOVE_ZERO_HEIGHT_ROWS = "ExcelEmitter.RemoveZeroHeightRows";
 	public static final String ROTATION_PROP = "ExcelEmitter.Rotation";
 	public static final String FORCEAUTOCOLWIDTHS_PROP = "ExcelEmitter.ForceAutoColWidths";
 	public static final String SINGLE_SHEET = "ExcelEmitter.SingleSheet";
@@ -77,7 +79,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	public static final String PRINT_SCALE = "ExcelEmitter.PrintScale";
 	public static final String PRINT_PAGES_WIDE = "ExcelEmitter.PrintPagesWide";
 	public static final String PRINT_PAGES_HIGH = "ExcelEmitter.PrintPagesHigh";
-		
+	
 	public static final String DISPLAYFORMULAS_PROP = "ExcelEmitter.DisplayFormulas";
 	public static final String DISPLAYGRIDLINES_PROP = "ExcelEmitter.DisplayGridlines";
 	public static final String DISPLAYROWCOLHEADINGS_PROP = "ExcelEmitter.DisplayRowColHeadings";
@@ -119,7 +121,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 	private IRenderOption renderOptions;
 	/**
 	 * The last page seen, cached so it can be used to call endPage
-	 * 
+	 *
 	 */
 	private IPageContent lastPage;
 
@@ -177,7 +179,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 			throw new BirtException( EmitterServices.getPluginName()
 					, "Neither output stream nor output filename have been specified"
 					, null
-					);			
+					);
 		}
 	}
 
@@ -196,7 +198,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 				throw new BirtException( EmitterServices.getPluginName()
 						, "Unable locate template resource for " + templatePath
 						, ex
-						);			
+						);
 			}
 			try {
 				wb = openWorkbook( templateFile );
@@ -204,7 +206,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 				throw new BirtException( EmitterServices.getPluginName()
 						, "Unable to open template workbook for " + templateFile.toString()
 						, ex
-						);			
+						);
 			}
 		} else {
 		    wb = createWorkbook();
@@ -234,7 +236,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 		log.debug("end:", report);
 		
 		String reportTitle = report.getTitle();
-		if( ( handlerState.getWb().getNumberOfSheets() == 1 ) 
+		if( ( handlerState.getWb().getNumberOfSheets() == 1 )
 				&& ( reportTitle != null )) {
 			handlerState.getWb().setSheetName(0, reportTitle);
 		}
@@ -251,10 +253,10 @@ public abstract class ExcelEmitter implements IContentEmitter {
 								, "Unable to open file (\"{}\") for writing"
 								, new Object[] { reportOutputFilename }
 								, null
-								, ex 
+								, ex
 								);
 					}
-				} 
+				}
 			}
 			handlerState.getWb().write(outputStream);
 		} catch( Throwable ex ) {
@@ -265,7 +267,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 					, "Unable to save file (\"{}\")"
 					, new Object[] { reportOutputFilename }
 					, null
-					, ex 
+					, ex
 					);
 		} finally {
 			if( reportOutputStream == null ) {
@@ -276,7 +278,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 				}
 			}
 			handlerState = null;
-			reportOutputFilename = null;			
+			reportOutputFilename = null;
 			reportOutputStream = null;
 		}
 		
@@ -398,6 +400,9 @@ public abstract class ExcelEmitter implements IContentEmitter {
 
 	public void startImage( IImageContent image ) throws BirtException {
 		log.debug( handlerState, "startImage: " );
+		if (image.getParent() instanceof ContainerContent)	{
+			image.setParent(image.getParent().getParent());
+		}
 		handlerState.getHandler().emitImage(handlerState,image);
 	}
 

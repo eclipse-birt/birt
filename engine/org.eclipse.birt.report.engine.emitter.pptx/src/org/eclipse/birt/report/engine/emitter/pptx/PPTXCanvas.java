@@ -146,6 +146,7 @@ public class PPTXCanvas
 		writer.attribute( "rIns", "0" );
 		writer.attribute( "bIns", "0" );
 		writer.attribute( "rtlCol", "0" );
+		writer.attribute( "anchor", "b" );
 		writer.closeTag( "a:bodyPr" );
 		writer.openTag( "a:p" );
 		writer.openTag( "a:r" );
@@ -628,6 +629,11 @@ public class PPTXCanvas
 		writer.attribute( "pitchFamily", "18" );
 		writer.attribute( "charset", "0" );
 		writer.closeTag( "a:latin" );
+		writer.openTag( "a:ea" );
+		writer.attribute( "typeface", fontName );
+		writer.attribute( "pitchFamily", "18" );
+		writer.attribute( "charset", "0" );
+		writer.closeTag( "a:ea" );
 		writer.openTag( "a:cs" );
 		writer.attribute( "typeface", fontName );
 		writer.attribute( "pitchFamily", "18" );
