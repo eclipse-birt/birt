@@ -182,6 +182,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	public static final String EXTENSION_HTML_CLIENT_SCRIPTS = "html.clientScripts"; //$NON-NLS-1$
 
+	private static final String HTML_ON_CLICK_HANDLER_PROP = "htmlOnClickHandler";
+
 	/**
 	 * output stream
 	 */
@@ -763,7 +765,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_HTTP_EQUIV, "Content-Type" ); //$NON-NLS-1$ 
 		writer.attribute( HTMLTags.ATTR_CONTENT, getContentType( ) ); //$NON-NLS-1$ 
 		
-		boolean needCloseTag = !OUTPUT_FORMAT_HTML.equals( getOutputFormat( ) );
+		boolean needCloseTag = true;
 		if ( needCloseTag )
 		{// bugzilla 295062: ignore writing the close tag in HTML format
 			writer.closeTag( HTMLTags.TAG_META );
@@ -1646,6 +1648,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			// we need output the page header
 			if ( showPageHeader( page ) )
 			{
+				writer.openTag( HTMLTags.TAG_THEAD);
 				writer.openTag( HTMLTags.TAG_TR );
 				if ( outputMasterPageMargins )
 				{
@@ -1659,10 +1662,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					outputHMargin( page.getMarginRight( ) );
 				}
 				writer.closeTag( HTMLTags.TAG_TR );
+				writer.closeTag( HTMLTags.TAG_THEAD );
 			}
 		}
 
 		// output the page body
+
+		writer.openTag( HTMLTags.TAG_TBODY );
 		writer.openTag( HTMLTags.TAG_TR );
 		if ( !pageFooterFloatFlag )
 		{
@@ -1763,12 +1769,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			outputHMargin( page.getMarginRight( ) );
 		}
 		writer.closeTag( HTMLTags.TAG_TR );
+		writer.closeTag( HTMLTags.TAG_TBODY );
 
 		// output the footer and bottom margin
 		if ( page != null && outputMasterPageContent )
 		{
 			if ( showPageFooter( page ) )
 			{
+			        writer.openTag(HTMLTags.TAG_TFOOT);
 				writer.openTag( HTMLTags.TAG_TR );
 				if ( outputMasterPageMargins )
 				{
@@ -1782,6 +1790,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					outputHMargin( page.getMarginRight( ) );
 				}
 				writer.closeTag( HTMLTags.TAG_TR );
+				writer.closeTag( HTMLTags.TAG_TFOOT );
 			}
 			if ( outputMasterPageMargins )
 			{
@@ -2526,12 +2535,18 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	{
 		logger.log( Level.FINEST, "[HTMLReportEmitter] Start container" ); //$NON-NLS-1$
 
+		if(container.getHyperlinkAction() != null) {
+		    writer.openTag(HTMLTags.TAG_A);
+		    writer.attribute(HTMLTags.ATTR_HREF, container.getHyperlinkAction().getHyperlink());
+		    writer.attribute(HTMLTags.ATTR_CLASS, "container_link");
+		}
 		htmlEmitter.openContainerTag( container );
 
 		// output class attribute.
 		String styleClass = container.getStyleClass( );
 		setStyleName( styleClass, container );
-		
+		addEvent(container);
+
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
 		{
@@ -2558,6 +2573,16 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		htmlEmitter.handleContainerAlign( container );
 	}
 
+	private void addEvent(IContainerContent container) {
+		Map<String, Object> userProperties = container.getUserProperties();
+		if (userProperties != null) {
+			Object onClickHandler = container.getUserProperties().get(HTML_ON_CLICK_HANDLER_PROP);
+			if (onClickHandler != null) {
+				writer.attribute(HTMLTags.ATTR_ONCLICK, onClickHandler);
+			}
+		}
+	}
+
 	/*
 	 * (non-Javadoc)
 	 *
@@ -2566,6 +2591,9 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	public void endContainer( IContainerContent container )
 	{
 		htmlEmitter.closeContainerTag( );
+		if (container.getHyperlinkAction() != null) {
+			writer.closeTag(HTMLTags.TAG_A);
+		}
 
 		logger.log( Level.FINEST, "[HTMLContainerEmitter] End container" ); //$NON-NLS-1$
 	}
@@ -2712,41 +2740,6 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 		// action
 		String tagName = openTagByType( display, DISPLAY_FLAG_ALL );
-		
-
-		// append script which changes display of div to table from default
-		//when no width is specified for HTML button item
-		if (tagName.equalsIgnoreCase( HTMLTags.TAG_DIV )
-				&& width == null
-				&& foreign.getRawValue( ) != null )
-		{
-			String text = foreign.getRawValue( ).toString( );
-			if(text.contains("<button") )
-			{
-				int beginIndex = text.indexOf("<button id=\"");
-				if( beginIndex != -1)
-				{
-					//Add the characters count of 12 for start index of (<button id=")
-					beginIndex = beginIndex + 12;
-					int endIndex = text.indexOf("\"", beginIndex);
-					String buttonID = text.substring(beginIndex, endIndex);
-					StringBuilder builder = new StringBuilder(text);
-
-					builder.append( "<script type=\"text/javascript\">\n" );
-					builder.append( "var x = document.getElementById(\"" );
-					builder.append( buttonID );
-					builder.append( "\").parentNode;\n" );
-					builder.append( "if(x.nodeName.toUpperCase() == \"DIV\"){\n" );
-					builder.append( "if(x.style.width == \"\" || x.style.width == 'undefined'){\n");
-					builder.append( "x.style.display = \"table\";\n" );
-					builder.append( "}\n");
-					builder.append( "}\n");
-					builder.append( "</script>\n" );
-
-					foreign.setRawValue(builder.toString());
-				}
-			}
-		}
 
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
@@ -3646,7 +3639,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				return builder.toString();
 			}
 		}
-		
+
 		URL url = design.findResource( uri, IResourceLocator.IMAGE,
 				reportContext.getAppContext( ) );
 		if ( url == null )
