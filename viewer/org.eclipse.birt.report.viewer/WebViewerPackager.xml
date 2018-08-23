@@ -491,7 +491,7 @@
 				<include name="*.jar"/>
 			</fileset>
 			<fileset dir="${integrate.dir}/plugins">
-				<include name="com.lowagie.text_*/**" />
+				<include name="com.itextpdf.text_*/**" />
 			</fileset>
 			<!-- datatools plugins -->
 			<fileset dir="${baseLocation}/plugins">
@@ -641,7 +641,7 @@
 			<include name="org.apache.derby.core_*/**" />
 			<include name="org.w3c.sac_*/**" />
 			<include name="org.mozilla.javascript_*/**" />
-			<include name="com.lowagie.text_*/**" />
+			<include name="com.itextpdf.text_*/**" />
 			<!-- birt bundles -->
 			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
 			<include name="org.eclipse.birt.chart.device.svg_*.jar" />

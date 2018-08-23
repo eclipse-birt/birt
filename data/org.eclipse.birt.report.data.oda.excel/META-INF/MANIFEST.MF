@@ -4,10 +4,10 @@ Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.report.data.oda.excel; singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-ClassPath: .,
- lib/ooxml-schemas-1.1.jar,
  lib/poi-3.11.jar,
  lib/poi-ooxml-3.11.jar,
- lib/poi-ooxml-schemas-3.11.jar
+ lib/poi-ooxml-schemas-3.11.jar,
+ lib/ooxml-schemas-1.1.jar
 Bundle-Activator: org.eclipse.birt.report.data.oda.excel.Activator
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
@@ -24,6 +24,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.xmlbeans;bundle-version="2.3.0",
  org.dom4j;bundle-version="1.6.1",
  org.apache.xerces;bundle-version="2.9.0",
- org.eclipse.birt.core;bundle-version="4.8.0"
+ org.eclipse.birt.core;bundle-version="4.8.0",
+ org.apache.poi
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy

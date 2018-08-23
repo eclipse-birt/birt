@@ -197,6 +197,7 @@
 	</pluginRepositories>
 
 	<modules>
+		<module>plugins.external</module>
 		<!-- build issue inside -->
 		<module>build</module>
 		<module>chart</module>
@@ -230,6 +231,16 @@
 	<build>
 		<pluginManagement>
 			<plugins>
+				<plugin>
+					<groupId>org.eclipse.tycho</groupId>
+					<artifactId>tycho-compiler-plugin</artifactId>
+					<version>${tycho.version}</version>
+					<configuration>
+						<useProjectSettings>false</useProjectSettings>
+						<verbose>true</verbose>
+					</configuration>
+				</plugin>
+
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-packaging-plugin</artifactId>
@@ -522,6 +533,7 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-packaging-plugin</artifactId>
+				<version>${tycho.version}</version>
 				<configuration>
 					<additionalFileSets>
 						<fileSet>

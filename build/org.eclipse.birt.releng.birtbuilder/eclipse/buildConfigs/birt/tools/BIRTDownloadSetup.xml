@@ -154,7 +154,7 @@
 
 	<!-- obsolete feature list -->
 	<patternset id="third.party.features">
-		<exclude name="com.lowagie.itext_*/**" />
+		<exclude name="com.itextpdf.text_*/**" />
 		<exclude name="org.apache.commons.codec_*/**" />
 		<exclude name="org.w3c.sac_*/**" />
 		<exclude name="org.mozilla.javascript*/**" />

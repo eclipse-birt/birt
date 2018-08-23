@@ -113,7 +113,7 @@
 		</fileset>
 
 		<fileset dir="../">
-			<include name="com.lowagie.text_*.jar"/>
+			<include name="com.itextpdf.text_*.jar"/>
 			<include name="org.apache.commons.codec_*.jar"/>
 			<include name="org.w3c.css.sac_*.jar"/>
 			<include name="org.mozilla.javascript_*.jar"/>

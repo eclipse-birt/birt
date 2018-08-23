@@ -313,7 +313,7 @@
   <!-- reporting specific configuration -->
 
   <feature 
-    id="com.lowagie.itext" 
+    id="com.itextpdf.text" 
     version="latest">
   </feature>
   <feature 

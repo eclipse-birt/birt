@@ -127,10 +127,10 @@
          unpack="false"/>
 
    <plugin
-         id="com.lowagie.text"
+         id="com.itextpdf.text"
          download-size="0"
          install-size="0"
-         version="2.1.7.qualifier"
+         version="0.0.0"
          unpack="false"/>
 
    <plugin

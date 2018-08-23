@@ -16,6 +16,11 @@
 				<groupId>org.eclipse.tycho.extras</groupId>
 				<artifactId>tycho-source-feature-plugin</artifactId>
 				<version>${tycho.version}</version>
+				<configuration>
+					<excludes>
+						<plugin id="com.itextpdf.text"/>
+					</excludes>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>

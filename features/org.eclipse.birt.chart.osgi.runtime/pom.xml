@@ -12,7 +12,7 @@
 	<packaging>eclipse-feature</packaging>
 	<build>
 		<plugins>
-			<plugin>
+   			<plugin>
 				<groupId>org.eclipse.tycho.extras</groupId>
 				<artifactId>tycho-source-feature-plugin</artifactId>
 				<version>${tycho.version}</version>
