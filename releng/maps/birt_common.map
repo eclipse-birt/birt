@@ -1,2 +1,0 @@
-plugin@org.apache.derby.core=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=common/org.apache.derby.core
-plugin@org.w3c.sac=GIT,tag=v201501061437,repo=git://github.com/eclipse/birt.git,path=common/org.w3c.sac
