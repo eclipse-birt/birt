@@ -534,8 +534,6 @@
 			token="@FEATURE.BIRT.DOC@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.cshelp}"
 			token="@FEATURE.CHART.CSHELP@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.doc.isv}"
-			token="@FEATURE.CHART.DOC.ISV@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.source}"
 			token="@FEATURE.CHART.SOURCE@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.osgi.runtime.sdk}"

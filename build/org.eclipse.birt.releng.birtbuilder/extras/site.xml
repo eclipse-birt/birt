@@ -24,9 +24,6 @@
    <feature url="features/org.eclipse.birt.chart.cshelp_@FEATURE.CHART.CSHELP@.jar" id="org.eclipse.birt.chart.cshelp" version="@FEATURE.CHART.CSHELP@">
       <category name="Chart"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.doc.isv_@FEATURE.CHART.DOC.ISV@.jar" id="org.eclipse.birt.chart.doc.isv" version="@FEATURE.CHART.DOC.ISV@">
-      <category name="Chart"/>
-   </feature>
    <feature url="features/org.eclipse.birt.chart.source_@FEATURE.CHART.SOURCE@.jar" id="org.eclipse.birt.chart.source" version="@FEATURE.CHART.SOURCE@">
       <category name="Chart"/>
    </feature>

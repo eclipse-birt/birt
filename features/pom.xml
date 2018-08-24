@@ -13,7 +13,6 @@
 
 	<modules>
 		<module>org.eclipse.birt.chart.cshelp.feature</module>
-		<module>org.eclipse.birt.chart.doc.isv.feature</module>
 		<module>org.eclipse.birt.cshelp.feature</module>
 		<module>org.eclipse.birt.doc.feature</module>
 		<module>org.eclipse.birt.doc.isv.feature</module>

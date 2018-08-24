@@ -27,11 +27,6 @@
 			<fileset
 				dir="${buildDirectory}/source/features/org.eclipse.birt.chart.cshelp.feature" />
 		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart.doc.isv"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.chart.doc.isv.feature" />
-		</copy>
 		<copy
 			todir="${buildDirectory}/features/org.eclipse.birt.chart.integration.wtp"
 			failonerror="false">

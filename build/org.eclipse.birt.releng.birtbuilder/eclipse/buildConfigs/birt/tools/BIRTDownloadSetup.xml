@@ -447,7 +447,6 @@
 				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
-				<exclude name="org.eclipse.birt.chart.doc.isv_*.jar" />
 				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
 				<patternset refid="exclude.jars" />
 			</zipfileset>
@@ -460,7 +459,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
@@ -496,7 +494,6 @@
 				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
-				<exclude name="org.eclipse.birt.chart.doc.isv_*.jar" />
 				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
 				<patternset refid="exclude.jars" />
 			</zipfileset>
@@ -509,7 +506,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
@@ -537,14 +533,12 @@
 		<copy todir="${OutputDir}/tmp/eclipse/features" failonerror="false"
 			overwrite="true">
 			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.chart.doc.isv*/**" />
 				<include name="org.eclipse.birt.doc.isv*/**" />
 			</fileset>
 		</copy>
 		<copy todir="${OutputDir}/tmp/eclipse/plugins" failonerror="false"
 			overwrite="true">
 			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.eclipse.birt.chart.doc.isv_*.jar" />
 				<include name="org.eclipse.birt.doc.isv_*.jar" />
 			</fileset>
 		</copy>
@@ -564,14 +558,12 @@
 		<copy todir="${OutputDir}/tmp/eclipse/features" failonerror="false"
 			overwrite="true">
 			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.chart.doc.isv*/**" />
 				<include name="org.eclipse.birt.doc.isv*/**" />
 			</fileset>
 		</copy>
 		<copy todir="${OutputDir}/tmp/eclipse/plugins" failonerror="false"
 			overwrite="true">
 			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.eclipse.birt.chart.doc.isv_*.jar" />
 				<include name="org.eclipse.birt.doc.isv_*.jar" />
 			</fileset>
 		</copy>
@@ -607,7 +599,6 @@
 				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
-				<exclude name="org.eclipse.birt.chart.doc.isv_*.jar" />
 				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
 				<patternset refid="exclude.jars" />
 			</fileset>
@@ -625,7 +616,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
@@ -674,7 +664,6 @@
 				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
-				<exclude name="org.eclipse.birt.chart.doc.isv_*.jar" />
 				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
 				<patternset refid="exclude.jars" />
 			</fileset>
@@ -692,7 +681,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
@@ -724,14 +712,12 @@
 		<copy todir="${OutputDir}/tmp/eclipse/features" failonerror="false"
 			overwrite="true">
 			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.chart.doc.isv*/**" />
 				<include name="org.eclipse.birt.doc.isv*/**" />
 			</fileset>
 		</copy>
 		<copy todir="${OutputDir}/tmp/eclipse/plugins" failonerror="false"
 			overwrite="true">
 			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.eclipse.birt.chart.doc.isv_*.jar" />
 				<include name="org.eclipse.birt.doc.isv_*.jar" />
 			</fileset>
 		</copy>
@@ -1500,13 +1486,11 @@
 				<include name="org.eclipse.birt.chart.*source_*/**" />
 				<include name="org.eclipse.birt.doc_*/**" />
 				<include name="org.eclipse.birt.chart.cshelp_*/**" />
-				<include name="org.eclipse.birt.chart.doc.isv_*/**" />
 				<include name="org.eclipse.birt.chart.examples_*.jar" />
 			</fileset>
 		</copy>
 		<copy todir="${runtime.download.tmp}/ChartSDK/eclipse/features">
 			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.chart.doc.isv*/**" />
 				<include name="org.eclipse.birt.chart.cshelp*/**" />
 				<include name="org.eclipse.birt.chart.source*/**" />
 				<!--<include name="org.eclipse.birt.chart.integration*/**"/> -->

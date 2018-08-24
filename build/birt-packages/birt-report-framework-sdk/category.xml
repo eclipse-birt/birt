@@ -3,9 +3,6 @@
    <feature url="features/org.eclipse.birt.chart.cshelp_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.8.0.qualifier">
       <category name="BRFSDK"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.doc.isv_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.doc.isv" version="4.8.0.qualifier">
-      <category name="BRFSDK"/>
-   </feature>
    <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="4.8.0.qualifier">
       <category name="BRFSDK"/>
    </feature>

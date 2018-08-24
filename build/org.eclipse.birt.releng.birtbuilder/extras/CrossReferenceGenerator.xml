@@ -161,9 +161,6 @@
 			<property name="projectName" value="org.eclipse.birt.chart.device.swt" />
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.doc.isv" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.chart.engine" />
 		</projectInfo>
 		<projectInfo>

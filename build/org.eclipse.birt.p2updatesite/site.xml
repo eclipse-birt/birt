@@ -24,9 +24,6 @@
    <feature url="features/org.eclipse.birt.chart.cshelp_4.4.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.4.0.qualifier">
       <category name="Chart"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.doc.isv_4.4.0.qualifier.jar" id="org.eclipse.birt.chart.doc.isv" version="4.4.0.qualifier">
-      <category name="Chart"/>
-   </feature>
    <feature url="features/org.eclipse.birt.chart.source_4.4.0.qualifier.jar" id="org.eclipse.birt.chart.source" version="4.4.0.qualifier">
       <category name="Chart"/>
    </feature>
