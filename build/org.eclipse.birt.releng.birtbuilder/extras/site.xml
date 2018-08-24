@@ -12,9 +12,6 @@
    <feature url="features/org.eclipse.birt.example_@FEATURE.BIRT.EXAMPLE@.jar" id="org.eclipse.birt.example" version="@FEATURE.BIRT.EXAMPLE@">
       <category name="Birt"/>
    </feature>
-   <feature url="features/org.eclipse.birt.doc.isv_@FEATURE.BIRT.DOC.ISV@.jar" id="org.eclipse.birt.doc.isv" version="@FEATURE.BIRT.DOC.ISV@">
-      <category name="Birt"/>
-   </feature>
    <feature url="features/org.eclipse.birt.source_@FEATURE.BIRT.SOURCE@.jar" id="org.eclipse.birt.source" version="@FEATURE.BIRT.SOURCE@">
       <category name="Birt"/>
    </feature>

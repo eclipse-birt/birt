@@ -14,11 +14,6 @@
       <category name="Birt"/>
    </feature>
 
-   <!--
-   <feature url="features/org.eclipse.birt.doc.isv_4.8.0.qualifier.jar" id="org.eclipse.birt.doc.isv" version="4.8.0.qualifier">
-      <category name="Birt"/>
-   </feature>
-   -->
    <feature url="features/org.eclipse.birt.source_4.8.0.qualifier.jar" id="org.eclipse.birt.source" version="4.8.0.qualifier">
       <category name="Birt"/>
    </feature>

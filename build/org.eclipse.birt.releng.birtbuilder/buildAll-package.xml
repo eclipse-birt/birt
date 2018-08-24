@@ -514,8 +514,6 @@
 			token="@FEATURE.BIRT.CSHELP@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.example}"
 			token="@FEATURE.BIRT.EXAMPLE@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.doc.isv}"
-			token="@FEATURE.BIRT.DOC.ISV@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.source}"
 			token="@FEATURE.BIRT.SOURCE@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt}"

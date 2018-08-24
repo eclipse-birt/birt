@@ -250,13 +250,6 @@
 			<property name="cvs.options" value="" />
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.doc.isv" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildISVDoc.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
 	</projectList>
 	<projectList id="project.list.engine">
 		<projectInfo>

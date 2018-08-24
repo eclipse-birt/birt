@@ -54,11 +54,6 @@
 			<fileset
 				dir="${buildDirectory}/source/features/org.eclipse.birt.doc.feature" />
 		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.doc.isv"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.doc.isv.feature" />
-		</copy>
 		<copy todir="${buildDirectory}/features/org.eclipse.birt.example"
 			failonerror="false">
 			<fileset

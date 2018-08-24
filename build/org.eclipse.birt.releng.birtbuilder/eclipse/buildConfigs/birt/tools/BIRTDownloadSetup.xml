@@ -342,7 +342,6 @@
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.report.viewer_*/birt/ajax/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
-				<exclude name="org.eclipse.birt*doc.isv_*/**" />
 				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
@@ -353,7 +352,6 @@
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
 				<exclude name="org.eclipse.birt.rcp*/**" />
-				<exclude name="org.eclipse.birt*doc.isv_*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 			</zipfileset>
 			<zipfileset dir="${buildDirectory}/plugins" prefix="${ZipPrefix}">
@@ -447,7 +445,6 @@
 				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
-				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
 				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
@@ -459,7 +456,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
 			</zipfileset>
@@ -494,7 +490,6 @@
 				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
-				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
 				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
@@ -506,7 +501,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
 			</zipfileset>
@@ -530,18 +524,6 @@
 		<delete dir="${OutputDir}/tmp" failonerror="false" />
 		<unzip src="${OutputDir}/${allinone.zip.name}" dest="${OutputDir}/tmp" />
 		<delete file="${OutputDir}/${allinone.zip.name}" />
-		<copy todir="${OutputDir}/tmp/eclipse/features" failonerror="false"
-			overwrite="true">
-			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.doc.isv*/**" />
-			</fileset>
-		</copy>
-		<copy todir="${OutputDir}/tmp/eclipse/plugins" failonerror="false"
-			overwrite="true">
-			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.eclipse.birt.doc.isv_*.jar" />
-			</fileset>
-		</copy>
 		<zip destfile="${OutputDir}/${allinone.zip.name}">
 			<fileset dir="${OutputDir}/tmp">
 				<include name="eclipse/**" />
@@ -555,18 +537,6 @@
 		<delete dir="${OutputDir}/tmp" failonerror="false" />
 		<unzip src="${OutputDir}/${allinone_64.zip.name}" dest="${OutputDir}/tmp" />
 		<delete file="${OutputDir}/${allinone_64.zip.name}" />
-		<copy todir="${OutputDir}/tmp/eclipse/features" failonerror="false"
-			overwrite="true">
-			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.doc.isv*/**" />
-			</fileset>
-		</copy>
-		<copy todir="${OutputDir}/tmp/eclipse/plugins" failonerror="false"
-			overwrite="true">
-			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.eclipse.birt.doc.isv_*.jar" />
-			</fileset>
-		</copy>
 		<zip destfile="${OutputDir}/${allinone_64.zip.name}">
 			<fileset dir="${OutputDir}/tmp">
 				<include name="eclipse/**" />
@@ -599,7 +569,6 @@
 				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
-				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
 				<patternset refid="exclude.jars" />
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins">
@@ -616,7 +585,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
 			</fileset>
@@ -664,7 +632,6 @@
 				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
-				<exclude name="org.eclipse.birt.doc.isv_*.jar" />
 				<patternset refid="exclude.jars" />
 			</fileset>
 			<fileset dir="${buildDirectory}/plugins">
@@ -681,7 +648,6 @@
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.doc.isv*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
 			</fileset>
@@ -709,18 +675,6 @@
 		<untar src="${OutputDir}/${allinone.mac.zip.name}" dest="${OutputDir}/tmp" compression="gzip"/>
 		
 		<delete file="${OutputDir}/${allinone.mac.zip.name}" />
-		<copy todir="${OutputDir}/tmp/eclipse/features" failonerror="false"
-			overwrite="true">
-			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.doc.isv*/**" />
-			</fileset>
-		</copy>
-		<copy todir="${OutputDir}/tmp/eclipse/plugins" failonerror="false"
-			overwrite="true">
-			<fileset dir="${deposit}/eclipse/plugins">
-				<include name="org.eclipse.birt.doc.isv_*.jar" />
-			</fileset>
-		</copy>
 		<exec executable="chmod" dir="${OutputDir}/tmp/eclipse/Eclipse.app/Contents/MacOS">
 			<arg line="+x eclipse" />
 		</exec>
