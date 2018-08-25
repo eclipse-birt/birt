@@ -18,6 +18,7 @@
 				<version>${tycho.version}</version>
 				<configuration>
 					<excludes>
+						<plugin id="org.apache.poi"/>
 						<plugin id="com.itextpdf.text"/>
 					</excludes>
 				</configuration>

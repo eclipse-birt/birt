@@ -316,6 +316,10 @@
     id="com.itextpdf.text" 
     version="latest">
   </feature>
+  <feature
+    id="org.apache.poi"
+    version="latest">
+   </feature>
   <feature 
     id="org.apache.commons.codec" 
     version="latest">

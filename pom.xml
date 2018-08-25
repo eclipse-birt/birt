@@ -197,7 +197,7 @@
 	</pluginRepositories>
 
 	<modules>
-		<module>plugins.external</module>
+		<module>plugins-external</module>
 		<!-- build issue inside -->
 		<module>build</module>
 		<module>chart</module>

@@ -24,6 +24,7 @@
 						<plugin id="javax.xml.stream"/>
 						<plugin id="javax.xml.soap"/>
 						<plugin id="javax.wsdl"/>
+						<plugin id="org.apache.poi"/>
 						<plugin id="com.itextpdf.text"/>
 					</excludes>
 				</configuration>

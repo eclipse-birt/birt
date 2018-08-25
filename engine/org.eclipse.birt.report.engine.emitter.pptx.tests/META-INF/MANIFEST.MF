@@ -6,11 +6,8 @@ Bundle-Version: 4.8.0.qualifier
 Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.2.3",
  org.eclipse.birt.report.engine.emitter.pptx;bundle-version="4.5.0",
  org.apache.xmlbeans;bundle-version="2.3.0",
+ org.apache.poi;bundle-version="3.11.0",
  org.dom4j;bundle-version="1.6.1",
  org.junit,
  javax.xml.stream;bundle-version="1.0.1"
-Bundle-ClassPath: .,
- lib/ooxml-schemas-1.1.jar,
- lib/poi-3.11.jar,
- lib/poi-ooxml-3.11.jar,
- lib/poi-ooxml-schemas-3.11.jar
+Bundle-ClassPath: .

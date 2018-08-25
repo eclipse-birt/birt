@@ -10,15 +10,12 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.birt.report.engine,
  com.ibm.icu;bundle-version="4.4.2",
  org.apache.commons.codec;bundle-version="1.9.0",
+ org.apache.poi;bundle-version="3.11.0",
  org.apache.xmlbeans;bundle-version="2.3.0",
  org.dom4j;bundle-version="1.6.1",
  javax.xml.stream;bundle-version="1.0.1"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: .,
- lib/ooxml-schemas-1.1.jar,
- lib/poi-3.11.jar,
- lib/poi-ooxml-3.11.jar,
- lib/poi-ooxml-schemas-3.11.jar
+Bundle-ClassPath: .
 Import-Package: uk.co.spudsoft.birt.emitters.excel
 Eclipse-BundleShape: dir

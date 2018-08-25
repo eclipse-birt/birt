@@ -24,6 +24,7 @@
 						<plugin id="org.apache.xerces"/>
 						<plugin id="org.apache.xml.resolver"/>
 						<plugin id="org.apache.xml.serializer"/>
+						<plugin id="org.apache.poi"/>
 						<plugin id="com.itextpdf.text"/>
 					</excludes>
 				</configuration>

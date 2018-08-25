@@ -382,6 +382,7 @@
 				<include name="org.eclipse.birt.sdk*/**" />
 				<include name="org.eclipse.birt.integration.wtp.sdk*/**" />
 				<include name="com.itextpdf.text*/**" />
+				<include name="org.apache.poi*/**" />
 				<include name="org.apache.commons.codec*/**" />
 				<include name="org.apache.derby.core*/**" />
 				<include name="org.eclipse.birt.chart.runtime*/**" />

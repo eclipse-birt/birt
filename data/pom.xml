@@ -41,4 +41,9 @@
 		<module>org.eclipse.birt.data.tests</module>
 		<module>org.eclipse.birt.report.data.oda.jdbc.tests</module>
 	</modules>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+	</build>
 </project>

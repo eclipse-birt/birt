@@ -1,9 +1,9 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: %bundleName
+Bundle-Name: iText PDF
 Bundle-SymbolicName: com.itextpdf.text
 Bundle-Version: 5.5.13
-Bundle-ClassPath: target/lib/itextpdf-5.5.13.jar
+Bundle-ClassPath: target/itextpdf-5.5.13.jar
 Bundle-Localization: plugin
 Export-Package: com.itextpdf.text,
  com.itextpdf.text.exceptions,
