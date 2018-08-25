@@ -4,27 +4,29 @@
  *******************************************************************************/
 package org.eclipse.birt.sdk;
 
+import org.junit.Ignore;
+
 import java.io.File;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 
 /**
- * 
+ *
  */
-
+@Ignore
 public class RuntimeOSGiTest extends BaseTestTemplate
 {
     public int run( String[] args ) throws Exception
-    {    	
+    {
     	if ( mainClass == null )
     	{
 	        System.setProperty( "BIRT_HOME", new File("./target/birt-runtime-osgi/ReportEngine").getAbsolutePath() );
-	        loader = createClassLoader( "./target/birt-runtime-osgi/ReportEngine/lib" );  //$NON-NLS-1$
+	        loader = createClassLoader( "./target/birt-runtime-osgi/plugins" );  //$NON-NLS-1$
 	        mainClass = loader.loadClass( "org.eclipse.birt.report.engine.api.ReportRunner" );  //$NON-NLS-1$
     	}
         Constructor constructor = mainClass.getConstructor( String[].class );
         Object runner = constructor.newInstance( new Object[]{args} );
-        Method execute = mainClass.getMethod( "execute", null ); 
+        Method execute = mainClass.getMethod( "execute", null );
         Object result = execute.invoke( runner, null );
         return ( (Integer) result ).intValue( );
     }
