@@ -6,18 +6,14 @@
 		<groupId>org.eclipse.birt.features</groupId>
 		<artifactId>org.eclipse.birt.features-parent</artifactId>
 		<version>4.8.0-SNAPSHOT</version>
-
 	</parent>
-	<groupId>org.eclipse.birt.features</groupId>
 	<artifactId>org.eclipse.birt.engine.runtime</artifactId>
 	<packaging>eclipse-feature</packaging>
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho.extras</groupId>
 				<artifactId>tycho-source-feature-plugin</artifactId>
-				<version>${tycho.version}</version>
 				<configuration>
 					<excludes>
 						<plugin id="javax.wsdl"/>
@@ -32,7 +28,6 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-plugin</artifactId>
-				<version>${tycho.version}</version>
 			</plugin>
 		</plugins>
 	</build>

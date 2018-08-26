@@ -1,39 +1,94 @@
-<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-	<modelVersion>4.0.0</modelVersion>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
 
-	<parent>
-		<groupId>org.eclipse.birt</groupId>
-		<artifactId>org.eclipse.birt-parent</artifactId>
-		<version>4.8.0-SNAPSHOT</version>
-	</parent>
+    <parent>
+        <groupId>org.eclipse.birt</groupId>
+        <artifactId>org.eclipse.birt-parent</artifactId>
+        <version>4.8.0-SNAPSHOT</version>
+    </parent>
 
-	<groupId>org.eclipse.birt.features</groupId>
-	<artifactId>org.eclipse.birt.features-parent</artifactId>
-	<packaging>pom</packaging>
+    <groupId>org.eclipse.birt.features</groupId>
+    <artifactId>org.eclipse.birt.features-parent</artifactId>
+    <packaging>pom</packaging>
 
-	<modules>
-		<module>org.eclipse.birt.chart.cshelp.feature</module>
-		<module>org.eclipse.birt.cshelp.feature</module>
-		<module>org.eclipse.birt.doc.feature</module>
-		<module>org.eclipse.birt.nl.feature</module>
-		<module>org.eclipse.birt.rcp.nl.feature</module>
-		<module>org.eclipse.birt.wtp.nl.feature</module>
-		<module>org.eclipse.birt.sdk.feature</module>
-		<module>org.eclipse.birt.testhelper.feature</module>
-		<module>org.eclipse.birt.tests.feature</module>
-		<module>org.eclipse.birt.chart.feature</module>
-		<module>org.eclipse.birt.chart.integration.wtp.feature</module>
-		<module>org.eclipse.birt.chart.osgi.runtime</module>
-		<module>org.eclipse.birt.chart.osgi.runtime.sdk</module>
-		<module>org.eclipse.birt.example.feature</module>
-		<module>org.eclipse.birt.feature</module>
-		<module>org.eclipse.birt.integration.wtp.feature</module>
-		<module>org.eclipse.birt.integration.wtp.sdk.feature</module>
-		<module>org.eclipse.birt.osgi.runtime</module>
-		<module>org.eclipse.birt.osgi.runtime.sdk</module>
-		<module>org.eclipse.birt.report.designer.editor.xml.wtp.feature</module>
-		<module>org.eclipse.birt.rcp.feature</module>
-		<module>org.eclipse.birt.engine.runtime</module>
-		<module>org.eclipse.birt.chart.viewer.feature</module>
-	</modules>
+    <modules>
+        <module>org.eclipse.birt.chart.cshelp.feature</module>
+        <module>org.eclipse.birt.cshelp.feature</module>
+        <module>org.eclipse.birt.doc.feature</module>
+        <module>org.eclipse.birt.nl.feature</module>
+        <module>org.eclipse.birt.rcp.nl.feature</module>
+        <module>org.eclipse.birt.wtp.nl.feature</module>
+        <module>org.eclipse.birt.sdk.feature</module>
+        <module>org.eclipse.birt.testhelper.feature</module>
+        <module>org.eclipse.birt.tests.feature</module>
+        <module>org.eclipse.birt.chart.feature</module>
+        <module>org.eclipse.birt.chart.integration.wtp.feature</module>
+        <module>org.eclipse.birt.chart.osgi.runtime</module>
+        <module>org.eclipse.birt.chart.osgi.runtime.sdk</module>
+        <module>org.eclipse.birt.example.feature</module>
+        <module>org.eclipse.birt.feature</module>
+        <module>org.eclipse.birt.integration.wtp.feature</module>
+        <module>org.eclipse.birt.integration.wtp.sdk.feature</module>
+        <module>org.eclipse.birt.osgi.runtime</module>
+        <module>org.eclipse.birt.osgi.runtime.sdk</module>
+        <module>org.eclipse.birt.report.designer.editor.xml.wtp.feature</module>
+        <module>org.eclipse.birt.rcp.feature</module>
+        <module>org.eclipse.birt.engine.runtime</module>
+        <module>org.eclipse.birt.chart.viewer.feature</module>
+    </modules>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>org.eclipse.tycho.extras</groupId>
+                    <artifactId>tycho-source-feature-plugin</artifactId>
+                    <version>${tycho.version}</version>
+                    <configuration>
+                        <excludes>
+                            <plugin id="org.apache.axis"/>
+                            <plugin id="org.apache.commons.discovery"/>
+                            <plugin id="org.apache.poi"/>
+                            <plugin id="org.apache.xerces"/>
+                            <plugin id="org.apache.xml.resolver"/>
+                            <plugin id="org.apache.xml.serializer"/>
+                            <plugin id="javax.xml"/>
+                            <pluign id="javax.xml.stream"/>
+                            <plugin id="javax.xml.rpc"/>
+                            <plugin id="javax.xml.soap"/>
+                            <plugin id="javax.wsdl"/>
+                            <plugin id="com.itextpdf.text"/>
+                        </excludes>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>source-feature</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>source-feature</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <plugin>
+                    <groupId>org.eclipse.tycho</groupId>
+                    <artifactId>tycho-p2-plugin</artifactId>
+                    <version>${tycho.version}</version>
+                    <configuration>
+                        <defaultP2Metadata>false</defaultP2Metadata>
+                    </configuration>
+                    <executions>
+                        <execution>
+                            <id>attached-p2-metadata</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>p2-metadata</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 </project>
