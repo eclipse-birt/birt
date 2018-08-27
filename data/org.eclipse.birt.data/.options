@@ -1,4 +1,0 @@
-org.eclipse.birt.data/engine.impl.DataEngineImpl=true
-org.eclipse.birt.data/engine.impl.PreparedQuery=true
-org.eclipse.birt.data/engine.impl.QueryResults=true
-org.eclipse.birt.data/engine.impl.ResultIterator=true

@@ -1347,43 +1347,6 @@
 		</copy>
 	</target>
 
-	<target name="buildLanguagePack">
-		<antcall target="PrePackageNLPack1" />
-		<antcall target="PackageNLPack1" />
-	</target>
-	<target name="PrePackageNLPack1">
-		<echo message="Prepare NL1 Package" />
-		<mkdir dir="${buildDirectory}/${buildId}/language_pack" />
-		<unzip
-			src="${buildDirectory}/${buildId}/birt-all-nl-${package.version}.zip"
-			dest="${buildDirectory}/${buildId}/language_pack" />
-		<ant antfile="LanguagePackBuild.xml" dir="${eclipse.build.configs}/birt.nl/tools"
-			target="compileFeatureOverlay" inheritAll="true" />
-		<ant antfile="LanguagePackBuild.xml" dir="${eclipse.build.configs}/birt.nl/tools"
-			target="exportFeatureOverlay" inheritAll="true" />
-	</target>
-
-	<target name="PackageNLPack1">
-		<echo message="Start Packaging NL1 for full, framework and RCP" />
-		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1"
-			dir="${eclipse.build.configs}/birt/tools" inheritAll="false">
-			<property name="deposit" value="${buildDirectory}/${buildId}" />
-			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
-		</ant>
-		<echo message="Start Packaging NL1 for charts" />
-		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1Chart"
-			dir="${eclipse.build.configs}/birt/tools" inheritAll="false">
-			<property name="deposit" value="${buildDirectory}/${buildId}" />
-			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
-		</ant>
-		<echo message="Start Packaging NL1 for runtime" />
-		<ant antfile="BIRTDownloadSetup.xml" target="createNLGroup1Runtime"
-			dir="${eclipse.build.configs}/birt/tools" inheritAll="false">
-			<property name="deposit" value="${buildDirectory}/${buildId}" />
-			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
-		</ant>
-	</target>
-
 	<target name="getBuildMachine">
 		<condition property="fetchTag" value="HEAD">
 			<equals arg1="${buildType}" arg2="N" />

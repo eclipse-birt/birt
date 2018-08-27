@@ -79,22 +79,6 @@
 	<property name="sample.plugin.zip.name" value="birt-sample-plugins-${package.version}.zip" />
 	<property name="birt.dtp.integration.name" value="birt-dtp-integration-${package.version}.zip" />
 
-
-	<property name="nl.group1.zip.name.allinone"
-		value="NLpack1-birt-report-designer-all-in-one-${package.version}.zip" />
-	<property name="nl.group1.zip.name.runtime" value="NLpack1-birt-runtime-${package.version}.zip" />
-	<property name="nl.group1.zip.name.RCP"
-		value="NLpack1-birt-rcp-report-designer-${package.version}.zip" />
-	<property name="nl.group1.zip.name.framework"
-		value="NLpack1-birt-report-framework-${package.version}.zip" />
-
-	<property name="nl.group1.overlay.zip.name.SDK"
-		value="NLpack1_FeatureOverlay-birt-report-all-in-one-${package.version}.zip" />
-	<property name="nl.group1.overlay.zip.name.RCP"
-		value="NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip" />
-	<property name="nl.group1.overlay.zip.name.Framework"
-		value="NLpack1_FeatureOverlay-birt-report-framework-${package.version}.zip" />
-
 	<!--Define the engine runtime plugins -->
 	<patternset id="engine.runtime.plugins">
 		<include name="org.eclipse.birt.report.data.oda.jdbc*.jar" />

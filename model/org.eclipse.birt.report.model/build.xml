@@ -90,9 +90,6 @@
 		<unzip src="org.eclipse.birt.report.model.tests.zip"
 		       dest="${eclipse.home}/plugins/org.eclipse.birt.report.model.tests">
 		</unzip>
-		<unzip src="org.eclipse.birt.report.model.tests.nl.zip"
-		       dest="${eclipse.home}/plugins/org.eclipse.birt.report.model.tests.nl">
-		</unzip>
 	</target>
 
 	<!-- Run All Unit Tests -->
