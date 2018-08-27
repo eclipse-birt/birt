@@ -396,11 +396,6 @@
 
 		<!-- Test Plugins -->
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.report.tests.chart" />
-			<property name="windowTitle" value="QA Test Plugin - Chart" />
-			<property name="packagenames" value="org.eclipse.birt.report.tests.chart.*" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.tests.data" />
 			<property name="windowTitle" value="QA Test Plugin - Data" />
 			<property name="packagenames" value="org.eclipse.birt.tests.data.*" />

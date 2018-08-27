@@ -231,10 +231,6 @@
 
 	<target name="renameBirtPackage" unless="skip.rename.package">
 		<move
-			file="${postingDirectory}/${buildId}/birt-charts-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/birt-charts-${package.version}-${build.date}.zip"
-			failonerror="false" />
-		<move
 			file="${postingDirectory}/${buildId}/birt-database-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-database-${package.version}-${build.date}.zip"
 			failonerror="false" />
@@ -283,10 +279,6 @@
 
 	<target name="renameNLPackage" unless="skip.build.NL">
 		<move
-			file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}-${build.date}.zip"
-			failonerror="false" />
-		<move
 			file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}-${build.date}.zip"
 			failonerror="false" />
@@ -297,10 +289,6 @@
 		<move
 			file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}-${build.date}.zip"
-			failonerror="false" />
-		<move
-			file="${postingDirectory}/${buildId}/NLpack1-birt-charts-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1-birt-charts-${package.version}-${build.date}.zip"
 			failonerror="false" />
 		<move
 			file="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}.zip"

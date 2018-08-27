@@ -27,8 +27,6 @@
 		<antcall target="org.eclipse.birt.tests.data" />
 		<antcall target="org.eclipse.birt.report.tests.engine" />
 		<antcall target="org.eclipse.birt.report.tests.model" />
-		<antcall target="org.eclipse.birt.report.tests.chart" />
-		<!--<antcall target="org.eclipse.birt.report.tests"/> -->
 
 		<antcall target="org.eclipse.birt.report.designer.tests" />
 
@@ -220,20 +218,6 @@
 			<property name="jvm" value="${jvm.15.home}" />
 			<property name="test-output"
 				value="${test-output-dir}/org.eclipse.birt.report.tests.engine.AllTests.xml" />
-		</ant>
-	</target>
-	<target name="org.eclipse.birt.report.tests.chart" depends="init">
-		<echo message="Starting unit test for org.eclipse.birt.report.tests.chart" />
-		<ant
-			dir="${working.dir}/org.eclipse.birt.report.tests.chart_${org.eclipse.birt.report.tests.chart}"
-			antfile="test.xml">
-			<property name="os" value="${os}" />
-			<property name="eclipse-home" value="${eclipse-home}" />
-			<property name="jvm" value="${jvm.15.home}" />
-			<property name="vmargs"
-				value="  -Xms800M -Xmx800M -Djava.awt.headless=true" />
-			<property name="test-output"
-				value="${test-output-dir}/org.eclipse.birt.report.tests.chart.AllTests.xml" />
 		</ant>
 	</target>
 	<target name="org.eclipse.birt.report.tests" depends="init">

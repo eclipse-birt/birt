@@ -107,12 +107,6 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.eclipse.birt.report.tests.chart"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"/>
-
-   <plugin
          id="org.eclipse.birt.report.tests.model"
          download-size="0"
          install-size="0"

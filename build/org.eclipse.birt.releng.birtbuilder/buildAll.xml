@@ -236,9 +236,6 @@
 
 	<target name="renameBirtPackage" unless="skip.rename.package">
 		<move
-			file="${postingDirectory}/${buildId}/birt-charts-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/birt-charts-${package.version}-${build.date}.zip" />
-		<move
 			file="${postingDirectory}/${buildId}/birt-database-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-database-${package.version}-${build.date}.zip" />
 		<move
@@ -294,9 +291,6 @@
 
 	<target name="renameNLPackage" unless="skip.build.NL">
 		<move
-			file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-charts-${package.version}-${build.date}.zip" />
-		<move
 			file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}-${build.date}.zip" />
 		<move
@@ -305,9 +299,6 @@
 		<move
 			file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}-${build.date}.zip" />
-		<move
-			file="${postingDirectory}/${buildId}/NLpack1-birt-charts-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1-birt-charts-${package.version}-${build.date}.zip" />
 		<move
 			file="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}-${build.date}.zip" />
@@ -960,9 +951,6 @@
 		</exec>
 		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
 			<arg line="-o -q birt-osgi-${package.version}.zip -d ${tmpsite}" />
-		</exec>
-		<exec executable="unzip" dir="${buildDirectory}/${buildId}">
-			<arg line="-o -q birt-chart-osgi-${package.version}.zip -d ${tmpsite}" />
 		</exec>
 
 		<!-- Create birt non-osgi runtime package -->
