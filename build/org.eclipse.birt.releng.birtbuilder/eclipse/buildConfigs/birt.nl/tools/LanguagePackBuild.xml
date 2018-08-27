@@ -377,22 +377,6 @@
 		</projectInfo>
 
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.report.data.oda.hive.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.report.data.oda.hive.ui.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.data.oda.excel.nl" />
 			<property name="repositoryPath" value="source/nl" />
 			<property name="buildFileName" value="build.xml" />

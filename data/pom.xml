@@ -22,8 +22,6 @@
 		<module>org.eclipse.birt.report.data.bidi.utils.ui</module>
 		<module>org.eclipse.birt.report.data.oda.excel</module>
 		<module>org.eclipse.birt.report.data.oda.excel.ui</module>
-		<module>org.eclipse.birt.report.data.oda.hive</module>
-		<module>org.eclipse.birt.report.data.oda.hive.ui</module>
 		<module>org.eclipse.birt.report.data.oda.jdbc</module>
 		<module>org.eclipse.birt.report.data.oda.jdbc.dbprofile</module>
 		<module>org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb</module>

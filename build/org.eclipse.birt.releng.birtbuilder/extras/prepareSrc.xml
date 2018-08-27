@@ -627,18 +627,6 @@
 				dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.bidi.utils.nl" />
 		</copy>
 		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.oda.hive.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.oda.hive.nl" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.oda.hive.ui.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.report.data.oda.hive.ui.nl" />
-		</copy>
-		<copy
 			todir="${buildDirectory}/plugins/org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl1"
 			failonerror="false">
 			<fileset

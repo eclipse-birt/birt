@@ -40,8 +40,6 @@
 										<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar"/>
 										<include name="org.eclipse.birt.report.data.oda.excel.nl1_*.jar"/>
 										<include name="org.eclipse.birt.report.data.oda.excel.ui.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.oda.hive.nl1_*.jar"/>
-										<include name="org.eclipse.birt.report.data.oda.hive.ui.nl1_*.jar"/>
 										<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar"/>
 										<include name="org.eclipse.birt.report.data.oda.jdbc.ui.nl1_*.jar"/>
 										<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar"/>
