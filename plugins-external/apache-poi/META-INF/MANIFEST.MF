@@ -1,6 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
-Bundle-Name: iText PDF
+Bundle-Name: Apache POI
 Bundle-SymbolicName: org.apache.poi
 Bundle-Version: 3.11.0
 Bundle-ClassPath: target/ooxml-schemas-1.1.jar,
