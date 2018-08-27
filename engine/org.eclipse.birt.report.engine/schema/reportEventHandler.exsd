@@ -75,25 +75,6 @@
 
    <annotation>
       <appinfo>
-         <meta.section type="examples"/>
-      </appinfo>
-      <documentation>
-         The following is a sample usage of the reportEventHandler extension point:
-
-&lt;p&gt;
-&lt;pre&gt;
-&lt;extension point=&quot;org.eclipse.birt.report.engine.reportEventHandler&quot; 
-name=&quot;chart event handler extension&quot;&gt;
-  &lt;reportItem name=&quot;org.eclipse.birt.chart&quot;    
-  class=&quot;an event hanndler implementation from org.eclipse.birt.report.engine.extension.IReportEventHandler&quot; /&gt;
- &lt;/extension&gt;
- &lt;/pre&gt;
-&lt;/p&gt;
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appinfo>
          <meta.section type="apiInfo"/>
       </appinfo>
       <documentation>

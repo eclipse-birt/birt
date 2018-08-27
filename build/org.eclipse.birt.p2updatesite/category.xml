@@ -17,29 +17,11 @@
    <feature url="features/org.eclipse.birt.source_4.8.0.qualifier.jar" id="org.eclipse.birt.source" version="4.8.0.qualifier">
       <category name="Birt"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart_4.8.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.8.0.qualifier">
-      <category name="Chart"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.cshelp_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.8.0.qualifier">
-      <category name="Chart"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.source_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.source" version="4.8.0.qualifier">
-      <category name="Chart"/>
-   </feature>
    <feature url="features/org.eclipse.birt.engine.runtime_4.8.0.qualifier.jar" id="org.eclipse.birt.engine.runtime" version="4.8.0.qualifier">
       <category name="OSGi"/>
    </feature>
    <feature url="features/org.eclipse.birt.osgi.runtime.sdk_4.8.0.qualifier.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="4.8.0.qualifier">
       <category name="OSGi"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="4.8.0.qualifier">
-      <category name="OSGi"/>
-   </feature>   
-   <feature url="features/org.eclipse.birt.chart.integration.wtp_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp" version="4.8.0.qualifier">
-      <category name="wtpIntegration"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.integration.wtp.source_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp.source" version="4.8.0.qualifier">
-      <category name="wtpIntegration"/>
    </feature>
    <feature url="features/org.eclipse.birt.integration.wtp_4.8.0.qualifier.jar" id="org.eclipse.birt.integration.wtp" version="4.8.0.qualifier">
       <category name="wtpIntegration"/>
@@ -69,7 +51,6 @@
       <category name="BirtNL"/>
    </feature>
   <category-def name="Birt" label="BIRT Reporting SDK"/>
-   <category-def name="Chart" label="BIRT Charting SDK"/>
    <category-def name="OSGi" label="BIRT Engine OSGi Runtime SDK"/>
    <category-def name="wtpIntegration" label="BIRT WTP Integration SDK"/>
    <category-def name="BirtTest" label="Birt Unit Test"/>

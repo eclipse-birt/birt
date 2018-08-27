@@ -143,48 +143,6 @@
 			<property name="projectName" value="org.eclipse.birt" />
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.cshelp" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.extension" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.pdf" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.svg" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.swt" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.engine" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.engine.extension" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.examples" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.reportitem" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.reportitem.ui" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.runtime" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.ui" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.ui.extension" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.core" />
 		</projectInfo>
 		<projectInfo>
@@ -416,9 +374,6 @@
 		<projectInfo>
 			<property name="projectName"
 				value="org.eclipse.birt.report.engine.emitter.prototype.excel" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.integration.wtp.ui" />
 		</projectInfo>
 		<projectInfo>
 			<property name="projectName"

@@ -44,7 +44,7 @@
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  the unique name of the extended item, i.e., &quot;org.eclipse.birt.chart&quot; for BIRT supplied chart extension.
+                  the unique name of the extended item
                </documentation>
             </annotation>
          </attribute>
@@ -71,25 +71,6 @@
       </appInfo>
       <documentation>
          1.0
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appInfo>
-         <meta.section type="examples"/>
-      </appInfo>
-      <documentation>
-         The following is a sample usage of the reportItemPresentation extension point:
-
-&lt;p&gt;
-&lt;pre&gt;
-&lt;extension point=&quot;org.eclipse.birt.report.engine.reportitempresentation&quot; 
-name=&quot;chart presentation extension&quot;&gt;
-  &lt;reportItem name=&quot;org.eclipse.birt.chart&quot; class=&quot;org.eclipse.birt.report.chartitem.ChartPresentation&quot; 
-  supportedFormats=&quot;FO,HTML,PDF&quot;/&gt;
- &lt;/extension&gt;
- &lt;/pre&gt;
- &lt;p&gt;
       </documentation>
    </annotation>
 

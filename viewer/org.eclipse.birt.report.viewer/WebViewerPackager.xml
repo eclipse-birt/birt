@@ -87,7 +87,6 @@
 	<property name="plugin.equinox" value="org.eclipse.equinox" />
 
 	<!-- Component locations -->
-	<property name="chart-engine.dir" location="../org.eclipse.birt.chart.engine" />
 	<property name="data-extraction.dir" location="../org.eclipse.birt.report.engine.dataextraction" />
 	<property name="data-adapter-api.dir" location="../org.eclipse.birt.report.data.adapter" />
 
@@ -645,12 +644,6 @@
 			<include name="com.itextpdf.text_*/**" />
 			<include name="org.apache.poi_*/**" />
 			<!-- birt bundles -->
-			<include name="org.eclipse.birt.chart.device.extension_*.jar" />
-			<include name="org.eclipse.birt.chart.device.svg_*.jar" />
-			<include name="org.eclipse.birt.chart.engine_*.jar" />
-			<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
-			<include name="org.eclipse.birt.chart.reportitem_*.jar" />
-			<include name="org.eclipse.birt.chart.examples.core_*.jar" />
 			<include name="org.eclipse.birt.core_*.jar" />
 			<include name="org.eclipse.birt.core.script.function_*.jar" />
 			<include name="org.eclipse.birt.data_*.jar" />
@@ -747,12 +740,6 @@
         <fileset dir="../org.eclipse.birt.report.engine.emitter.config">
             <include name="emitterconfig.jar" />
         </fileset>
-        <fileset dir="../org.eclipse.birt.chart.reportitem">
-            <include name="chartitemapi.jar" />
-        </fileset>
-        <fileset dir="../org.eclipse.birt.chart.examples.core">
-            <include name="chartexamplescoreapi.jar" />
-        </fileset>
 		<fileset dir="../org.w3c.sac/lib">
 			<include name="*.jar" />
 		</fileset>
@@ -766,11 +753,6 @@
 		<fileset dir="${buildDirectory}/${buildId}/eclipse/plugins/">
 			<include name="org.eclipse.birt.axis.overlay_*.jar" />
 		</fileset>
-		</copy>
-
-		<copy todir="${export.dir}/lib">
-			<fileset dir="${integrate.dir}/plugins" />
-			<mapper type="regexp"  from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/>
 		</copy>
 
 		<copy todir="${export.dir}/lib">

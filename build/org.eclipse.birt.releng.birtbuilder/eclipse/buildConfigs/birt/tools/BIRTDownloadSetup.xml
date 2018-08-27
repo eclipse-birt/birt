@@ -57,15 +57,12 @@
 	<property name="runtime.zip.name" value="birt-runtime-${package.version}.zip" />
 	<property name="runtime.osgi.zip.name" value="birt-runtime-osgi-${package.version}.zip" />
 	<property name="wtp.runtime.zip.name" value="birt.zip" />
-	<property name="charts.zip.name" value="birt-charts-${package.version}.zip" />
 	<property name="iportal.lib.name" value="iportal-library.zip" />
 	<property name="wtp.integration.zip.name"
 		value="birt-wtp-integration-sdk-${package.version}.zip" />
 
 	<property name="runtime.tmp" value="${OutputDir}/runtime_tmp" />
-	<property name="runtime.download.tmp" value="${OutputDir}/chart_download_tmp" />
 	<property name="war.tmp" value="${OutputDir}/war_tmp" />
-	<property name="chart.tmp" value="${OutputDir}/chart_tmp" />
 	<property name="package.files.dir" value="${baseLocation}/../PackageFiles" />
 	<property name="template.dir" value="${package.files.dir}/template" />
 	<property name="all.in.one.file.dir" value="${package.files.dir}/AllInOne" />
@@ -75,7 +72,6 @@
 
 	<property name="birt.runtime.dir.prefix" value="birt-runtime-${package.version}" />
 	<property name="birt.runtime.osgi.dir.prefix" value="birt-runtime-osgi-${package.version}" />
-	<property name="chart.sdk.dir.prefix" value="birt-charts-${package.version}" />
 	<property name="birt.rcp.dir.prefix" value="birt-rcp-report-designer-${package.version}" />
 
 	<property name="birt.rcp.zip.name" value="birt-rcp-report-designer-${package.version}" />
@@ -87,7 +83,6 @@
 	<property name="nl.group1.zip.name.allinone"
 		value="NLpack1-birt-report-designer-all-in-one-${package.version}.zip" />
 	<property name="nl.group1.zip.name.runtime" value="NLpack1-birt-runtime-${package.version}.zip" />
-	<property name="nl.group1.zip.name.chart" value="NLpack1-birt-charts-${package.version}.zip" />
 	<property name="nl.group1.zip.name.RCP"
 		value="NLpack1-birt-rcp-report-designer-${package.version}.zip" />
 	<property name="nl.group1.zip.name.framework"
@@ -99,44 +94,9 @@
 		value="NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip" />
 	<property name="nl.group1.overlay.zip.name.Framework"
 		value="NLpack1_FeatureOverlay-birt-report-framework-${package.version}.zip" />
-	<property name="nl.group1.overlay.zip.name.Chart"
-		value="NLpack1_FeatureOverlay-birt-charts-${package.version}.zip" />
-
-	<!--Define chart runtime file set. -->
-	<patternset id="chart.runtime.jars">
-		<include name="org.eclipse.birt.chart.engine_*.jar" />
-		<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
-		<include name="org.eclipse.birt.chart.device.extension_*.jar" />
-		<include name="org.eclipse.birt.core_*.jar" />
-		<include name="org.eclipse.birt.chart.engine_*.jar" />
-		<include name="org.eclipse.birt.chart.device.svg_*.jar" />
-	</patternset>
-
-
-	<!--Define the engine runtime plugins -->
-	<patternset id="chart.runtime.plugins">
-		<include name="org.eclipse.birt.chart.device.extension_*.jar" />
-		<include name="org.eclipse.birt.chart.device.svg_*.jar" />
-		<include name="org.eclipse.birt.chart.device.swt_*.jar" />
-		<include name="org.eclipse.birt.chart.device.pdf_*.jar" />
-		<include name="org.eclipse.birt.chart.engine.extension_*.jar" />
-		<include name="org.eclipse.birt.chart.engine_*.jar" />
-		<include name="org.eclipse.birt.chart.runtime_*/**" />
-		<include name="org.eclipse.birt.chart.examples.core_*.jar" />
-		<include name="org.eclipse.birt.chart.ui.extension_*.jar" />
-		<include name="org.eclipse.birt.chart.ui_*.jar" />
-		<include name="org.eclipse.birt.chart_*/**" />
-		<include name="org.eclipse.birt.core_*.jar" />
-		<include name="org.eclipse.birt.core.ui_*.jar" />
-		<include name="org.mozilla.javascript_*/**" />
-		<include name="org.apache.commons.codec_*.jar" />
-	</patternset>
 
 	<!--Define the engine runtime plugins -->
 	<patternset id="engine.runtime.plugins">
-		<include name="org.eclipse.birt.chart.device.extension*.jar" />
-		<include name="org.eclipse.birt.chart.engine.extension*.jar" />
-		<include name="org.eclipse.birt.chart.reportitem*.jar" />
 		<include name="org.eclipse.birt.report.data.oda.jdbc*.jar" />
 		<include name="org.eclipse.birt.report.data.oda.sampledb*.jar" />
 		<include name="org.eclipse.birt.report.engine.emitter.pdf*.jar" />
@@ -160,7 +120,6 @@
 		<exclude name="org.w3c.sac_*/**" />
 		<exclude name="org.mozilla.javascript*/**" />
 		<exclude name="org.apache.derby.core_*/**" />
-		<exclude name="org.eclipse.birt.chart.runtime*/**" />
 		<exclude name="org.eclipse.birt.crosstab*/**" />
 		<exclude name="org.eclipse.birt.report.data.oda.jdbc*/**" />
 		<exclude name="org.eclipse.birt.report.designer_*/**" />
@@ -247,8 +206,6 @@
 
 		<antcall target="createBirtSourceBuild" />
 
-		<antcall target="createChartDownload" />
-
 		<property file="${builder.dir}/dtpURLmonitor.properties" />
 		<property file="${eclipse.build.configs}/../../config.properties" />
 		<replace file="${OutputDir}\${birt.info}" token="#buildType#"
@@ -291,7 +248,6 @@
 	</target>
 
 	<target name="createBirtNLFeatureOverlay">
-		<antcall target="createNLGroup1FeatureOverlayChart" />
 		<antcall target="createNLGroup1FeatureOverlayFramework" />
 		<antcall target="createNLGroup1FeatureOverlayRCP" />
 		<antcall target="createNLGroup1FeatureOverlaySDK" />
@@ -305,7 +261,6 @@
 				<exclude name="**/org.eclipse.birt.sample.reportitem.rotatedtext*.jar" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
 				<patternset refid="exclude.jars" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
@@ -313,7 +268,6 @@
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
 			</zipfileset>
@@ -337,7 +291,6 @@
 				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
 				<exclude name="**/org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="*.source_*/**" />
@@ -350,7 +303,6 @@
 				<exclude name="org.eclipse.birt.sdk*/**" />
 				<exclude name="org.eclipse.birt*source*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
@@ -439,11 +391,9 @@
 				<exclude name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp.ui*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*.jar" />
-				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
 				<patternset refid="exclude.jars" />
@@ -456,7 +406,6 @@
 				<exclude name="org.eclipse.birt.*.sdk*/**" />
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
 			</zipfileset>
@@ -484,11 +433,9 @@
 				<exclude name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp.ui*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*.jar" />
-				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
 				<patternset refid="exclude.jars" />
@@ -501,7 +448,6 @@
 				<exclude name="org.eclipse.birt.*.sdk*/**" />
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
 			</zipfileset>
@@ -565,9 +511,7 @@
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp.ui*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
-				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
 				<patternset refid="exclude.jars" />
@@ -585,7 +529,6 @@
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
 			</fileset>
@@ -628,9 +571,7 @@
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp.ui*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
-				<exclude name="org.eclipse.birt.chart.runtime_*/**" />
 				<exclude name="org.eclipse.birt.report.designer_*/**" />
 				<exclude name="org.eclipse.birt.report.runtime_*/**" />
 				<patternset refid="exclude.jars" />
@@ -648,7 +589,6 @@
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
 				<exclude name="org.eclipse.birt.rcp*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.osgi*/**" />
 				<patternset refid="third.party.features" />
 			</fileset>
@@ -875,13 +815,6 @@
 				includes="lib/**" />
 		</delete>
 
-		<!-- copy extra chartengine, emf has been copied by viewer plugin -->
-		<copy todir="${runtime.tmp}/WebViewerExample/WEB-INF/lib">
-			<fileset dir="${deposit}/eclipse/plugins" />
-			<mapper type="regexp" from="org.eclipse.birt.chart.engine_.*.jar"
-				to="chartengineapi.jar" />
-		</copy>
-
 		<zip destfile="${OutputDir}/${runtime.osgi.zip.name}">
 			<zipfileset dir="${runtime.tmp}" prefix="${birt.runtime.osgi.dir.prefix}"
 				filemode="755">
@@ -952,9 +885,6 @@
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.birt.sample.reportitem.rotatedtext_*.jar" />
 			</zipfileset>
-			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
-				<include name="org.eclipse.birt.chart.examples_*.jar" />
-			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
 				<exclude name="eclipse.ini" />
@@ -964,20 +894,6 @@
 
 	<target name="clean">
 		<delete dir="${test.suite.dir}" />
-	</target>
-
-	<target name="createChartViewer">
-		<!-- compile chart.viewer -->
-		<ant antfile="BuildChartWebViewer.xml"
-			dir="${buildDirectory}/plugins/org.eclipse.birt.chart.viewer" target="Jar">
-			<property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse" />
-		</ant>
-		<!-- export chart.viewer war -->
-		<ant antfile="BuildChartWebViewer.xml"
-			dir="${buildDirectory}/plugins/org.eclipse.birt.chart.viewer" target="Export">
-			<property name="export.dir" value="${runtime.tmp}" />
-			<property name="integrate.dir" value="${buildDirectory}/${buildId}/eclipse" />
-		</ant>
 	</target>
 
 	<target name="createWAR">
@@ -1071,7 +987,6 @@
 			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
 				<include name="*.nl1_*/**" />
 				<include name="*.nl1_*.jar" />
-				<exclude name="org.eclipse.birt.chart.integration.wtp.ui.nl1_*.jar" />
 				<exclude name="org.eclipse.birt.integration.wtp.ui.nl1_*.jar" />
 				<exclude name="org.eclipse.birt.report.designer.ui.ide.nl1_*.jar" />
 				<exclude name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl1_*.jar" />
@@ -1178,18 +1093,8 @@
 
 	<target name="createNLGroup1Runtime">
 		<zip destfile="${OutputDir}/${nl.group1.zip.name.runtime}">
-			<!-- <zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.runtime.dir.prefix}/ChartEngine"> 
-				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" /> <include 
-				name="org.eclipse.birt.chart.device.svg.nl1_*.jar" /> <include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" 
-				/> <include name="org.eclipse.birt.chart.engine.nl1_*.jar" /> <include name="org.eclipse.birt.core.nl1_*.jar" 
-				/> </zipfileset> -->
 			<zipfileset dir="${deposit}/language_pack/plugins"
 				prefix="${birt.runtime.dir.prefix}/ReportEngine/plugins">
-				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
@@ -1209,11 +1114,6 @@
 			</zipfileset>
 			<zipfileset dir="${deposit}/language_pack/plugins"
 				prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/platform/plugins">
-				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
@@ -1234,9 +1134,6 @@
 				prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/lib">
 				<include name="org.eclipse.birt.report.viewers.nl1_*.jar" />
 				<include name="org.eclipse.birt.core.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.examples.core.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.item.crosstab.core.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.data.adapter.nl1_*.jar" />
 				<include name="org.eclipse.birt.data.aggregation.nl1_*.jar" />
@@ -1244,47 +1141,6 @@
 				<include name="org.eclipse.birt.data.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
 				<include name="org.eclipse.birt.report.model.nl1_*.jar" />
-			</zipfileset>
-		</zip>
-	</target>
-	<target name="createNLGroup1Chart">
-		<zip destfile="${OutputDir}/${nl.group1.zip.name.chart}">
-			<zipfileset dir="${deposit}/language_pack/plugins" prefix="ChartSDK/${ZipPrefix}">
-				<include name="org.eclipse.birt.chart.integration.wtp.ui.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.pdf.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.examples.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.ui.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.ui.nl1_*.jar" />
-				<include name="org.eclipse.birt.core.nl1_*.jar" />
-				<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
-			</zipfileset>
-			<zipfileset dir="${deposit}/language_pack/plugins" prefix="ChartRuntime/${ZipPrefix}">
-				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.pdf.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.examples.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.ui.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.ui.nl1_*.jar" />
-				<include name="org.eclipse.birt.core.nl1_*.jar" />
-				<include name="org.eclipse.birt.core.ui.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar" />
-			</zipfileset>
-			<zipfileset dir="${deposit}/language_pack/plugins" prefix="DeploymentRuntime/ChartEngine">
-				<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar" />
-				<include name="org.eclipse.birt.chart.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.core.nl1_*.jar" />
 			</zipfileset>
 		</zip>
 	</target>
@@ -1312,15 +1168,6 @@
 			</zipfileset>
 		</zip>
 	</target>
-	<target name="createNLGroup1FeatureOverlayChart">
-		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.Chart}">
-			<zipfileset dir="${buildDirectory}/${buildLabel}/language_pack/features"
-				prefix="${FeautrePrefix}">
-				<include name="org.eclipse.birt.chart*/feature_*.properties" />
-				<include name="org.eclipse.birt.chart.runtime*/feature_*.properties" />
-			</zipfileset>
-		</zip>
-	</target>
 	<target name="createDatabase">
 		<copy todir="${OutputDir}">
 			<fileset dir="${template.dir}/database">
@@ -1343,7 +1190,6 @@
 				<exclude name="**/birt_web/**" />
 				<exclude name="*.doc/doc.zip" />
 				<exclude name="*.doc.isv/doc.zip" />
-				<exclude name="*.doc.isv/chart*/**" />
 				<exclude name=".project" />
 				<patternset refid="exclude.jars" />
 			</zipfileset>
@@ -1369,14 +1215,11 @@
 
 		<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
-				<include name="org.eclipse.birt.chart.integration.wtp.ui_*/**" />
-				<include name="org.eclipse.birt.chart.integration.wtp.ui.source_*.jar" />
 				<include name="org.eclipse.birt.integration.wtp.ui_*/**" />
 				<include name="org.eclipse.birt.integration.wtp.ui.source_*.jar" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.birt.integration.wtp*/*" />
-				<include name="org.eclipse.birt.chart.integration.wtp*/*" />
 			</zipfileset>
 			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
 				<include name="**/*" />
@@ -1384,121 +1227,6 @@
 			</zipfileset>
 		</zip>
 
-	</target>
-
-	<target name="createChartDownload" unless="skip.chart.package">
-		<!-- =============================================== Eclipse Charting Runtime 
-			contains same content as current chartengine package + emf plugins - examples 
-			(moved to SDK) ================================================ -->
-		<copy todir="${runtime.download.tmp}/ChartRuntime/eclipse/plugins">
-			<fileset dir="${deposit}/eclipse/plugins">
-				<patternset refid="chart.runtime.plugins" />
-				<patternset refid="exclude.jars" />
-			</fileset>
-			<fileset dir="${buildDirectory}/plugins">
-				<patternset refid="orbit.include.jars" />
-			</fileset>
-			<fileset dir="${baseLocation}/plugins">
-				<include name="org.apache.xerces_*.jar" />
-				<include name="org.apache.xml.resolver_*.jar" />
-				<include name="javax.xml_*.jar" />
-				<include name="org.apache.xml.serializer_*.jar" />
-			</fileset>
-			<fileset dir="${all.in.one.file.dir}/../jee/eclipse/plugins">
-				<include name="org.eclipse.draw2d_*.jar" />
-				<include name="org.eclipse.emf.common_*.jar" />
-				<include name="org.eclipse.emf.ecore.xmi_*.jar" />
-				<include name="org.eclipse.emf.ecore_*.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${runtime.download.tmp}/ChartRuntime/eclipse/features">
-			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.chart*/**" />
-				<exclude name="org.eclipse.birt.chart.runtime*/*" />
-				<exclude name="*.source*/*" />
-				<exclude name="*.doc.isv*/*" />
-				<exclude name="*.cshelp*/*" />
-				<exclude name="*.chart.integration*/*" />
-			</fileset>
-		</copy>
-		<copy todir="${runtime.download.tmp}/ChartRuntime/eclipse">
-			<fileset dir="${template.dir}/legal">
-				<include name="**/*" />
-				<exclude name="eclipse.ini" />
-			</fileset>
-		</copy>
-
-		<!-- =============================================== Eclipse Charting SDK 
-			contains eclipse runtime contents + source code + doc + examples + chart 
-			wtp plugin. Also packaged as eclipse dir with subfolders plugins and features. 
-			================================================ -->
-		<copy todir="${runtime.download.tmp}/ChartSDK" overwrite="true">
-			<fileset dir="${runtime.download.tmp}/ChartRuntime" includes="*/**" />
-		</copy>
-		<copy todir="${runtime.download.tmp}/ChartSDK/eclipse/plugins">
-			<fileset dir="${deposit}/eclipse/plugins">
-				<!--<include name="org.eclipse.birt.chart.integration.wtp.ui_*/**" /> -->
-				<include name="org.eclipse.birt.chart.*source_*/**" />
-				<include name="org.eclipse.birt.doc_*/**" />
-				<include name="org.eclipse.birt.chart.cshelp_*/**" />
-				<include name="org.eclipse.birt.chart.examples_*.jar" />
-			</fileset>
-		</copy>
-		<copy todir="${runtime.download.tmp}/ChartSDK/eclipse/features">
-			<fileset dir="${deposit}/eclipse/features">
-				<include name="org.eclipse.birt.chart.cshelp*/**" />
-				<include name="org.eclipse.birt.chart.source*/**" />
-				<!--<include name="org.eclipse.birt.chart.integration*/**"/> -->
-			</fileset>
-		</copy>
-		<copy todir="${runtime.download.tmp}/ChartSDK/eclipse" overwrite="true">
-			<fileset dir="${template.dir}/legal">
-				<include name="**/*" />
-				<exclude name="eclipse.ini" />
-			</fileset>
-		</copy>
-
-		<!-- =============================================== Deployment Runtime 
-			contains viewer war file + chartengine dir of current runtime package ================================================ -->
-		<mkdir dir="${runtime.download.tmp}/DeploymentRuntime" />
-		<antcall target="createChartViewer">
-			<param name="runtime.tmp" value="${runtime.download.tmp}/DeploymentRuntime" />
-		</antcall>
-
-		<!-- unzip chart-viewer-example.war for ChartEngine -->
-		<mkdir dir="${runtime.download.tmp}/DeploymentRuntime/chartviewersample" />
-		<exec executable="unzip" dir="${runtime.download.tmp}/DeploymentRuntime/">
-			<arg
-				line="-o -q chart-viewer-sample.war -d ${runtime.download.tmp}/DeploymentRuntime/chartviewersample" />
-		</exec>
-		<!-- copy WEB-INF/lib from chart-viewer-example to ChartEngine -->
-
-		<copy todir="${runtime.download.tmp}/DeploymentRuntime/ChartEngine"
-			flatten="false">
-			<fileset
-				dir="${runtime.download.tmp}/DeploymentRuntime/chartviewersample/WEB-INF/lib">
-				<include name="**/*" />
-				<exclude name="**/chart-viewer.jar" />
-			</fileset>
-		</copy>
-
-		<delete dir="${runtime.download.tmp}/DeploymentRuntime/chartviewersample"
-			failonerror="false" includeEmptyDirs="true" />
-
-		<copy todir="${runtime.download.tmp}/DeploymentRuntime/ChartEngine/docs">
-			<fileset dir="${template.dir}/chart.docs">
-				<include name="*.*" />
-			</fileset>
-		</copy>
-
-		<zip destfile="${OutputDir}/${charts.zip.name}">
-			<zipfileset dir="${runtime.download.tmp}" />
-			<zipfileset dir="${template.dir}/legal">
-				<include name="**/*" />
-				<exclude name="eclipse.ini" />
-			</zipfileset>
-		</zip>
-		<delete dir="${runtime.download.tmp}" failonerror="false" />
 	</target>
 
 	<target name="createGenReport">
@@ -1512,49 +1240,9 @@
 		</exec>
 	</target>
 
-	<target name="createChartRuntime">
-		<mkdir dir="${chart.tmp}" />
-		<copy todir="${chart.tmp}/plugins">
-			<fileset dir="${deposit}/eclipse/plugins">
-				<patternset refid="chart.runtime.plugins" />
-				<patternset refid="exclude.jars" />
-				<include name="org.eclipse.birt.chart.device.pdf*.jar" />
-			</fileset>
-			<fileset dir="${buildDirectory}/plugins">
-				<patternset refid="orbit.include.jars" />
-			</fileset>
-			<fileset dir="${baseLocation}/plugins">
-				<include name="org.apache.xerces_*.jar" />
-				<include name="org.apache.xml.resolver_*.jar" />
-				<include name="javax.xml_*.jar" />
-				<include name="org.apache.xml.serializer_*.jar" />
-			</fileset>
-		</copy>
-
-
-		<!-- Zip Chart runtime file -->
-		<zip destfile="${OutputDir}/${charts.zip.name}">
-			<zipfileset dir="${chart.tmp}" prefix="eclipse">
-			</zipfileset>
-			<zipfileset dir="${template.dir}/legal" prefix="eclipse">
-				<include name="**/*" />
-				<exclude name="eclipse.ini" />
-			</zipfileset>
-			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
-				<include name="org.eclipse.birt.chart*/*" />
-				<exclude name="*.source*/*" />
-			</zipfileset>
-		</zip>
-		<delete dir="${chart.tmp}" />
-	</target>
-
 	<!--//////////////////////////////////////////////////// -->
 	<!--//////////////////////////////////////////////////// -->
 	<!--//////////////////////////////////////////////////// -->
-	<target name="replace_chart" if="chartfailure">
-		<!--replace file="${workingDir}\${birt.info}" token="chartOK=true" value="${chartfailure}"> 
-			</replace -->
-	</target>
 	<target name="replace_engine" if="enginefailure">
 		<!--replace file="${workingDir}\${birt.info}" token="engineOK=true" value="${enginefailure}"> 
 			</replace -->

@@ -34,9 +34,6 @@
    </plugins>
 
    <features>
-      <feature id="org.eclipse.birt.chart.cshelp"/>
-      <feature id="org.eclipse.birt.chart.osgi.runtime"/>
-      <feature id="org.eclipse.birt.chart"/>
       <feature id="org.eclipse.birt.cshelp"/>
       <feature id="org.eclipse.birt.doc"/>
       <feature id="org.eclipse.birt.example"/>

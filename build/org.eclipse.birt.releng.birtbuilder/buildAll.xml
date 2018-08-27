@@ -37,14 +37,12 @@
 		<antcall target="prepareSrc" />
 		<antcall target="buildBirtFeature" />
 		<antcall target="buildBirtOSGI" />
-		<antcall target="buildBirtChartOSGI" />
 		<antcall target="fetchBirtWtpFeature" />
 		<antcall target="buildBirtTestFeature" />
 		<antcall target="fetchRCP" />
 		<antcall target="buildBirtRCPFeature" />
 		<antcall target="unpackUpdateJarsForPackaging" />
 		<antcall target="buildBirtWebViewer" />
-		<antcall target="BuildChartViewer" />
 		<antcall target="CreateDistribute" />
 
 		<antcall target="buildBirtNLFeature" />
@@ -166,18 +164,6 @@
 		</antcall>
 	</target>
 
-	<target name="buildBirtChartOSGI" unless="skip.build.OSGI">
-		<antcall target="logger">
-			<param name="message" value="BIRT Chart OSGI sdk feature build started" />
-		</antcall>
-		<ant antfile="build.xml" dir="${basedir}">
-			<property name="component" value="${eclipse.build.configs}/birt.chart.osgi" />
-		</ant>
-		<antcall target="logger">
-			<param name="message" value="BIRT Chart OSGI sdk feature build finished" />
-		</antcall>
-	</target>
-
 	<target name="CreateDistribute">
 		<antcall target="logger">
 			<param name="message" value="Packaging started" />
@@ -209,35 +195,6 @@
 				value="${buildDirectory}/plugins/org.eclipse.birt.integration.wtp.ui/runtime" />
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 		</ant>
-
-
-		<!-- copy chart runtime to ${buildDirectory}/${buildId}/eclipse/plugins/org.eclipse.birt.chart.integration.wtp.ui_${org.eclipse.birt.chart.integration.wtp.ui}/runtime -->
-		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools"
-			target="createChartViewer">
-			<property name="runtime.tmp"
-				value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime" />
-		</ant>
-
-
-		<!-- fix bugzilla bug 225500 -->
-
-		<property name="temp.dir"
-			value="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui/runtime" />
-		<mkdir dir="${temp.dir}/chart-viewer-sample" />
-		<exec executable="unzip" dir="${temp.dir}/">
-			<arg line="-q chart-viewer-sample.war -d ${temp.dir}/chart-viewer-sample" />
-		</exec>
-
-		<delete file="${temp.dir}/chart-viewer-sample.war" failonerror="false" />
-		<delete file="${temp.dir}/chart-viewer-sample/WEB-INF/web.xml"
-			failonerror="false" />
-
-		<zip destfile="${temp.dir}/chart.zip">
-			<zipfileset dir="${temp.dir}/chart-viewer-sample"
-				includes="**/*" />
-		</zip>
-
-		<delete dir="${temp.dir}/chart-viewer-sample" failonerror="false" />
 
 		<!-- create AllInOne,AllInOne for Linux, RCP, FrameworkSDK,Framework,Chart,BIRTSample,TestSuite,Database -->
 		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools"
@@ -402,7 +359,6 @@
 				<include name="org.apache.poi*/**" />
 				<include name="org.apache.commons.codec*/**" />
 				<include name="org.apache.derby.core*/**" />
-				<include name="org.eclipse.birt.chart.runtime*/**" />
 				<include name="org.eclipse.birt.crosstab*/**" />
 				<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile*/**" />
 				<include name="org.eclipse.birt.report.designer.debug*/**" />
@@ -416,8 +372,6 @@
 			</fileset>
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
 				<include name="*.thirdparty*/**" />
-				<include name="org.eclipse.birt.chart.runtime_*.jar" />
-				<include name="org.eclipse.birt.chart.runtime.source_*.jar" />
 				<include name="org.eclipse.birt.report.runtime_*.jar" />
 				<include name="org.eclipse.birt.report.runtime.source_*.jar" />
 				<include name="org.eclipse.birt.report.designer_*.jar" />
@@ -527,22 +481,10 @@
 			token="@FEATURE.BIRT.SOURCE@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt}"
 			token="@FEATURE.BIRT@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart}"
-			token="@FEATURE.CHART@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.doc}"
 			token="@FEATURE.BIRT.DOC@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.cshelp}"
-			token="@FEATURE.CHART.CSHELP@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.source}"
-			token="@FEATURE.CHART.SOURCE@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.osgi.runtime.sdk}"
 			token="@FEATURE.OSGI.RUNTIME.SDK@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.osgi.runtime.sdk}"
-			token="@FEATURE.CHART.OSGI.RUNTIME.SDK@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.chart.integration.wtp}"
-			token="@FEATURE.CHART.WTP@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml"
-			value="${org.eclipse.birt.chart.integration.wtp.source}" token="@FEATURE.CHART.WTP.SOURCE@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.integration.wtp}"
 			token="@FEATURE.BIRT.WTP@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.integration.wtp.source}"
@@ -718,11 +660,9 @@
 			failonerror="false">
 			<fileset dir="${buildDirectory}/source/build">
 				<include name="org.eclipse.birt/**" />
-				<include name="org.eclipse.birt.chart/**" />
 				<include name="org.eclipse.birt.example/**" />
 				<include name="org.eclipse.birt.sdk/**" />
 			</fileset>
-			<fileset dir="${buildDirectory}/source/chart" includes="**" />
 			<fileset dir="${buildDirectory}/source/common" includes="**" />
 			<fileset dir="${buildDirectory}/source/core" includes="**" />
 			<fileset dir="${buildDirectory}/source/data" includes="**" />
@@ -905,21 +845,6 @@
 		</ant>
 		<antcall target="logger">
 			<param name="message" value="Fetch birt rcp plugin finished" />
-		</antcall>
-	</target>
-
-	<target name="BuildChartViewer">
-		<antcall target="logger">
-			<param name="message" value="Fetch birt chart viewer started" />
-		</antcall>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="preBuild">
-			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
-		</ant>
-		<ant antfile="build.xml" dir="${eclipse.pdebuild.scripts}" target="fetch">
-			<property name="builder" value="${eclipse.build.configs}/birt.chart.viewer" />
-		</ant>
-		<antcall target="logger">
-			<param name="message" value="Fetch birt chart viewer finished" />
 		</antcall>
 	</target>
 
@@ -1297,12 +1222,6 @@
 
 		<buildJar basedir="${buildOutputDir.tmp}"
 			output="${outputDir}/org.eclipse.birt.runtime_${BranchVersion}.${buildId}.jar">
-			<bundle name="org.eclipse.birt.chart.device.extension" />
-			<bundle name="org.eclipse.birt.chart.device.svg" />
-			<bundle name="org.eclipse.birt.chart.engine" />
-			<bundle name="org.eclipse.birt.chart.engine.extension" />
-			<bundle name="org.eclipse.birt.chart.examples.core" />
-			<bundle name="org.eclipse.birt.chart.reportitem" />
 			<bundle name="org.eclipse.birt.core" />
 			<bundle name="org.eclipse.birt.core.script.function" />
 			<bundle name="org.eclipse.birt.data" />

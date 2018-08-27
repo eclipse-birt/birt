@@ -70,19 +70,6 @@
       <plugin id="org.apache.xml.serializer"/>
       <plugin id="org.eclipse.birt"/>
       <plugin id="org.eclipse.birt.axis.overlay" fragment="true"/>
-      <plugin id="org.eclipse.birt.chart.cshelp"/>
-      <plugin id="org.eclipse.birt.chart.device.extension"/>
-      <plugin id="org.eclipse.birt.chart.device.pdf"/>
-      <plugin id="org.eclipse.birt.chart.device.svg"/>
-      <plugin id="org.eclipse.birt.chart.device.swt"/>
-      <plugin id="org.eclipse.birt.chart.engine"/>
-      <plugin id="org.eclipse.birt.chart.engine.extension"/>
-      <plugin id="org.eclipse.birt.chart.examples"/>
-      <plugin id="org.eclipse.birt.chart.examples.core"/>
-      <plugin id="org.eclipse.birt.chart.reportitem"/>
-      <plugin id="org.eclipse.birt.chart.reportitem.ui"/>
-      <plugin id="org.eclipse.birt.chart.ui"/>
-      <plugin id="org.eclipse.birt.chart.ui.extension"/>
       <plugin id="org.eclipse.birt.core"/>
       <plugin id="org.eclipse.birt.core.script.function"/>
       <plugin id="org.eclipse.birt.core.ui"/>

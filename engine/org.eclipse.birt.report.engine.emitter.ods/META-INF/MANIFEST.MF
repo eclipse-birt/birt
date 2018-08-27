@@ -5,9 +5,6 @@ Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.ods;singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.report.engine,
- org.eclipse.birt.chart.engine,
- org.eclipse.birt.chart.engine.extension,
- org.eclipse.birt.chart.reportitem,
  org.eclipse.birt.report.engine.odf;bundle-version="[2.6.0,5.0.0)"
 Bundle-Vendor: Eclipse BIRT Project
 Eclipse-LazyStart: true

@@ -15,26 +15,8 @@
    <feature url="features/org.eclipse.birt.source_4.4.0.qualifier.jar" id="org.eclipse.birt.source" version="4.4.0.qualifier">
       <category name="Birt"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart_4.4.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.4.0.qualifier">
-      <category name="Chart"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.cshelp_4.4.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.4.0.qualifier">
-      <category name="Chart"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.source_4.4.0.qualifier.jar" id="org.eclipse.birt.chart.source" version="4.4.0.qualifier">
-      <category name="Chart"/>
-   </feature>
    <feature url="features/org.eclipse.birt.osgi.runtime.sdk_4.4.0.qualifier.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="4.4.0.qualifier">
       <category name="OSGi"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_4.4.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="4.4.0.qualifier">
-      <category name="OSGi"/>
-   </feature>   
-   <feature url="features/org.eclipse.birt.chart.integration.wtp_4.4.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp" version="4.4.0.qualifier">
-      <category name="wtpIntegration"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.integration.wtp.source_4.4.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp.source" version="4.4.0.qualifier">
-      <category name="wtpIntegration"/>
    </feature>
    <feature url="features/org.eclipse.birt.integration.wtp_4.4.0.qualifier.jar" id="org.eclipse.birt.integration.wtp" version="4.4.0.qualifier">
       <category name="wtpIntegration"/>

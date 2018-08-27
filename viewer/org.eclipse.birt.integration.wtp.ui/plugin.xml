@@ -27,7 +27,6 @@
 				<and>
 					<requires facet="jst.web" version="[2.3"/>
 					<requires facet="jst.java" version="[5.0"/>
-					<conflicts group="group.birt.chart.runtime"/>
 				</and>
 			</constraint>
 			<group-member id="group.birt.runtime"/>

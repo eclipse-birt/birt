@@ -3,9 +3,6 @@
 	<feature url="features/org.eclipse.birt_4.8.0.qualifier.jar" id="org.eclipse.birt" version="4.8.0.qualifier">
 		<category name="source"/>
 	</feature>
-	<feature url="features/org.eclipse.birt.chart.viewer_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.viewer" version="4.8.0.qualifier">
-		<category name="source"/>
-	</feature>
 	<feature url="features/org.eclipse.birt.rcp_4.8.0.qualifier.jar" id="org.eclipse.birt.rcp" version="4.8.0.qualifier">
 		<category name="source"/>
 	</feature>

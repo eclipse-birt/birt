@@ -29,17 +29,6 @@
 									dest="${project.build.directory}/p2updatesite"/>
 								<copy todir="${project.build.directory}/content/birt\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
-										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.device.swt.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.examples.core.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.examples.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.reportitem.ui.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.ui.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.ui.nl1_*.jar"/>
 										<include name="org.eclipse.birt.core.nl1_*.jar"/>
 										<include name="org.eclipse.birt.core.script.function.nl1_*.jar"/>
 										<include name="org.eclipse.birt.core.ui.nl1_*.jar"/>

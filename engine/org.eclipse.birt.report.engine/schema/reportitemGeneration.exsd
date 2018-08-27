@@ -46,8 +46,7 @@ maxOccurs="unbounded"/>
          <attribute name="name" type="string" use="required">
             <annotation>
                <documentation>
-                  the unique name of the extended item, i.e.,
-&quot;org.eclipse.birt.chart&quot; for chart extension.
+                  the unique name of the extended item
                </documentation>
             </annotation>
          </attribute>

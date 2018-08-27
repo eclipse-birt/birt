@@ -65,19 +65,6 @@ public abstract class BaseTestTemplate
                 new String( Files.readAllBytes( Paths.get( output ) ), StandardCharsets.UTF_8 ).contains( "36" ) );
     }
 
-    @Test
-    public void testChart( ) throws Exception
-    {
-        String output = "./target/chart.html";
-        new File( output ).delete( );
-        int result = run( new String[]{"-o", output, "-m", "RunAndRender", "./src/test/resources/chart.rptdesign"} );
-        Assert.assertEquals( 0, result );
-        Assert.assertTrue( new File( output ).exists( ) );
-        //there is a svg image output as type="image/svg+xml"
-        Assert.assertTrue( new String( Files.readAllBytes( Paths.get( output ) ), StandardCharsets.UTF_8 )
-                .contains( "image/svg+xml" ) );
-    }
-
     protected File[] listJars( String folder )
     {
         return new File( folder ).listFiles( new FilenameFilter( ) {

@@ -55,23 +55,12 @@ import org.w3c.dom.NodeList;
  * <p>
  * feature.xml include a plugin described bellow:
  * 
- * <pre>
- *                                 &amp;ltplugin
- *                                    id=&quot;org.eclipse.birt.chart.ui&quot;
- *                                    version=&quot;0.0.0&quot;/&amp;gt
- * </pre>
- * 
+ *
  * <p>
- * From the ${eclipse.home}\plugin we find that new version of
- * "org.eclipse.birt.chart.ui" is "2.0.1.v200604290849". After execution the
+ * From the ${eclipse.home}\plugin we find that new version. After execution the
  * feature.xml will be updated as:
  * 
- * <pre>
- *                                 &amp;ltplugin
- *                                    id=&quot;org.eclipse.birt.chart.ui&quot;
- *                                    version=&quot;2.0.1.v200604290849&quot;/&amp;gt
- * </pre>
- * 
+ *
  * @author Rock Yu
  * 
  */

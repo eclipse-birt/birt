@@ -679,14 +679,6 @@ The classes/interfaces to be extend/implement are:&lt;br&gt;
       </documentation>
    </annotation>
 
-   <annotation>
-      <appinfo>
-         <meta.section type="implementation"/>
-      </appinfo>
-      <documentation>
-         The plugin org.eclipse.birt.chart.reportitem, supplied with the BIRT installation, provides a good example for implementing an report item extension.
-      </documentation>
-   </annotation>
 
    <annotation>
       <appinfo>

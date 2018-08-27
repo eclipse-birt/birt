@@ -25,15 +25,6 @@
    </url>
 
    <requires>
-      <import plugin="org.eclipse.birt.chart.engine.extension" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.birt.chart.device.extension" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.birt.chart.device.svg" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.birt.chart.device.swt" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.birt.chart.ui" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.birt.chart.ui.extension" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.birt.chart.reportitem" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.birt.chart.reportitem.ui" version="2.1.0" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.birt.chart.examples.core" version="2.6.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.birt.report.model" version="2.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.birt.report.engine" version="2.1.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.birt.report.data.oda.jdbc" version="2.1.0" match="greaterOrEqual"/>
@@ -46,13 +37,6 @@
       <import feature="org.eclipse.datatools.connectivity.oda.feature" version="1.5.0" match="greaterOrEqual"/>
       <import feature="org.eclipse.datatools.doc.user" version="1.5.0" match="greaterOrEqual"/>
    </requires>
-
-   <plugin
-         id="org.eclipse.birt.chart.examples"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
 
    <plugin
          id="org.eclipse.birt.report.data.oda.sampledb"

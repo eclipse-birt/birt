@@ -27,69 +27,7 @@
 		classpathref="lib.path" loaderref="lib.path.loader" />
 
 	<projectList id="language.pack.list">
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.extension.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.svg.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.swt.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.engine.extension.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.engine.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.reportitem.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.reportitem.ui.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.ui.extension.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.ui.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
+
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.core.nl" />
 			<property name="repositoryPath" value="source/nl" />
@@ -298,21 +236,6 @@
 		<projectInfo>
 			<property name="projectName"
 				value="org.eclipse.birt.report.designer.ui.cubebuilder.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.examples.nl" />
-			<property name="repositoryPath" value="source/nl" />
-			<property name="buildFileName" value="build.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName"
-				value="org.eclipse.birt.chart.integration.wtp.ui.nl" />
 			<property name="repositoryPath" value="source/nl" />
 			<property name="buildFileName" value="build.xml" />
 			<property name="cvs.options" value="" />
@@ -1316,12 +1239,6 @@
 	</target>
 	<target name="exportFeatureOverlay">
 		<property file="${buildDirectory}/finalFeaturesVersions.properties" />
-		<copy
-			todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.chart_${org.eclipse.birt.chart}">
-			<fileset dir="${buildDirectory}/features/org.eclipse.birt.chart">
-				<include name="*_??_??.properties" />
-			</fileset>
-		</copy>
 		<copy
 			todir="${buildDirectory}/${buildLabel}/language_pack/features/org.eclipse.birt.doc_${org.eclipse.birt.doc}">
 			<fileset dir="${buildDirectory}/features/org.eclipse.birt.doc">

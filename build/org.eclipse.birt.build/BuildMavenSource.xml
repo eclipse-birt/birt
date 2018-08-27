@@ -116,12 +116,6 @@
 	
 	<target name="integrateSource">
 		<copy todir="${path}/${srcFolder}" overwrite="true">
-			<fileset dir="${path}/org.eclipse.birt.chart.device.extension/src" includes="**"/>
-			<fileset dir="${path}/org.eclipse.birt.chart.device.svg/src" includes="**"/>
-			<fileset dir="${path}/org.eclipse.birt.chart.engine/src" includes="**"/>
-			<fileset dir="${path}/org.eclipse.birt.chart.engine.extension/src" includes="**"/>
-			<fileset dir="${path}/org.eclipse.birt.chart.examples.core/src" includes="**"/>
-			<fileset dir="${path}/org.eclipse.birt.chart.reportitem/src" includes="**"/>
 			<fileset dir="${path}/org.eclipse.birt.core/src" includes="**"/>
 			<fileset dir="${path}/org.eclipse.birt.core.script.function/src" includes="**"/>
 			<fileset dir="${path}/org.eclipse.birt.data/src" includes="**"/>

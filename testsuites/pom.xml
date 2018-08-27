@@ -13,7 +13,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>org.eclipse.birt.report.tests.chart</module>
 		<module>org.eclipse.birt.report.tests.engine</module>
 		<module>org.eclipse.birt.report.tests.engine.emitter.html</module>
 		<module>org.eclipse.birt.report.tests.model</module>

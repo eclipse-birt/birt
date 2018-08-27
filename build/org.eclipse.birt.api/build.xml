@@ -31,9 +31,6 @@
         <include name="data/org.eclipse.birt.report.data.adapter/target/org.eclipse.birt.report.data.adapter-*-api.jar"/>
         <include name="xtab/org.eclipse.birt.report.item.crosstab.core/target/org.eclipse.birt.report.item.crosstab.core-*-api.jar"/>
         <include name="engine/org.eclipse.birt.report.engine.emitter.config/target/org.eclipse.birt.report.engine.emitter.config-*-api.jar"/>
-        <include name="chart/org.eclipse.birt.chart.engine/target/org.eclipse.birt.chart.engine-*-api.jar"/>
-        <include name="chart/org.eclipse.birt.chart.reportitem/target/org.eclipse.birt.chart.reportitem-*-api.jar"/>
-        <include name="chart/org.eclipse.birt.chart.examples.core/target/org.eclipse.birt.chart.examples.core-*-api.jar"/>
         <include name="viewer/org.eclipse.birt.report.viewer/birt/WEB-INF/lib/viewservlets.jar"/>
       </fileset>
       <chainedmapper>
@@ -50,9 +47,6 @@
           <globmapper from="org.eclipse.birt.report.data.adapter-*-api.jar" to="dataadapterapi.jar"/>
           <globmapper from="org.eclipse.birt.report.item.crosstab.core-*-api.jar" to="crosstabcoreapi.jar"/>
           <globmapper from="org.eclipse.birt.report.engine.emitter.config-*-api.jar" to="emitterconfig.jar"/>
-          <globmapper from="org.eclipse.birt.chart.engine-*-api.jar" to="chartitemapi.jar"/>
-          <globmapper from="org.eclipse.birt.chart.reportitem-*-api.jar" to="chartengineapi.jar"/>
-          <globmapper from="org.eclipse.birt.chart.examples.core-*-api.jar" to="chartexamplescoreapi.jar"/>
         </firstmatchmapper>
       </chainedmapper>
     </copy>

@@ -36,9 +36,6 @@
 									<tasks>
 										<mkdir dir="${release.package.path}"/>
 										<copy todir="${release.package.path}">
-											<fileset dir="../birt-charts/target"
-											         includes="birt-charts-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
 											<fileset dir="../birt-report-all-in-one/target/products"
 											         includes="birt-report-designer-all-in-one-*.zip" />
 											<fileset dir="../birt-report-rcp/target/products"

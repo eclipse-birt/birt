@@ -13,18 +13,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>org.eclipse.birt.chart.device.extension.nl</module>
-		<module>org.eclipse.birt.chart.device.svg.nl</module>
-		<module>org.eclipse.birt.chart.device.swt.nl</module>
-		<module>org.eclipse.birt.chart.engine.extension.nl</module>
-		<module>org.eclipse.birt.chart.engine.nl</module>
-		<module>org.eclipse.birt.chart.examples.core.nl</module>
-		<module>org.eclipse.birt.chart.examples.nl</module>
-		<module>org.eclipse.birt.chart.integration.wtp.ui.nl</module>
-		<module>org.eclipse.birt.chart.reportitem.nl</module>
-		<module>org.eclipse.birt.chart.reportitem.ui.nl</module>
-		<module>org.eclipse.birt.chart.ui.extension.nl</module>
-		<module>org.eclipse.birt.chart.ui.nl</module>
 		<module>org.eclipse.birt.core.nl</module>
 		<module>org.eclipse.birt.core.script.function.nl</module>
 		<module>org.eclipse.birt.core.ui.nl</module>

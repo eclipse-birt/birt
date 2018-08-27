@@ -12,7 +12,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>org.eclipse.birt.chart.cshelp</module>
 		<module>org.eclipse.birt.cshelp</module>
 		<module>org.eclipse.birt.doc</module>
 	</modules>

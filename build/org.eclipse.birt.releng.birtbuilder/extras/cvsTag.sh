@@ -14,14 +14,8 @@ ant -f $SrcDir/fetch_org.eclipse.birt.sdk.xml -propertyfile cvsTag.properties -D
 echo "================== Tagging OSGI feature ONLY =======================" > tagOSGI.log
 ant -f $SrcDir/fetch_org.eclipse.birt.osgi.runtime.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagOSGI.log
 
-echo "================== Tagging OSGI CHART feature ONLY =======================" > tagOSGIChart.log
-ant -f $SrcDir/fetch_org.eclipse.birt.chart.osgi.runtime.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeaturesRecursively=true >> tagOSGI.log
-
 echo "================== Tagging tests feature =======================" > tagTest.log
 ant -f $SrcDir/fetch_org.eclipse.birt.tests.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagTest.log
-
-echo "================== Tagging chart.viewer feature =======================" >tagChartViewer.log
-ant -f $SrcDir/fetch_org.eclipse.birt.chart.viewer.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagChartViewer.log
 
 echo "================== Tagging wtp integration feature =======================" > tagWTP.log
 ant -f $SrcDir/fetch_org.eclipse.birt.integration.wtp.sdk.xml -propertyfile cvsTag.properties -DfeatureOnly=true -DfeatureAndPlugins=true -DfeaturesRecursively=true >> tagWTP.log

@@ -349,9 +349,6 @@
 <!-- 
 this includes features:
 org.eclipse.birt_2.3.0.v20070920-7M7Y-3aXwVVXI4baBgi4xgfmFywM
-org.eclipse.birt.chart_2.3.0.v20070920-797D-2qtHFga30Gz01HHaz01z00z
-org.eclipse.birt.chart.cshelp_2.3.0.v20070920-12-XX-w31181_25
-org.eclipse.birt.chart.runtime_2.3.0.v20071227-7c974Pirwz0GGZz0z-z-xH0
 org.eclipse.birt.crosstab_2.3.0.v20070920-35-0r733I3539
 org.eclipse.birt.cshelp_2.3.0.v20070920-12-XX-w31181_25
 org.eclipse.birt.doc_2.3.0.v20070920-12-XX-w31181_29
@@ -361,9 +358,6 @@ org.eclipse.birt.report.runtime_2.3.0.v20071113-7V7n-Di2WYZYuaJ2141
 
 as mentioned in https://bugs.eclipse.org/bugs/show_bug.cgi?id=217791
 org.eclipse.birt_2.3.0
-org.eclipse.birt.chart_2.3.0
-org.eclipse.birt.chart.cshelp_2.3.0
-org.eclipse.birt.chart.runtime_2.3.0
 org.eclipse.birt.crosstab_2.3.0
 org.eclipse.birt.cshelp_2.3.0
 org.eclipse.birt.doc_2.3.0

@@ -29,15 +29,7 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.birt.chart.integration.wtp"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.birt.integration.wtp.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.birt.chart.integration.wtp.source"
          version="0.0.0"/>
 
 </feature>

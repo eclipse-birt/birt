@@ -32,10 +32,6 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.birt.chart.cshelp"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.birt.cshelp"
          version="0.0.0"/>
 
@@ -44,15 +40,7 @@
          version="0.0.0"/>
 
    <includes
-         id="org.eclipse.birt.chart"
-         version="0.0.0"/>
-
-   <includes
          id="org.eclipse.birt.source"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.birt.chart.source"
          version="0.0.0"/>
 
    <includes

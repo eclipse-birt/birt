@@ -36,13 +36,6 @@
 
 	<projectList id="project.list.data">
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.examples" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.data.oda" />
 			<property name="repositoryPath" value="source" />
 			<property name="buildFileName" value="BuildOda.xml" />
@@ -209,20 +202,6 @@
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.svg" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartDeviceSVG.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.swt" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartDeviceSwt.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.designer" />
 			<property name="repositoryPath" value="source" />
 			<property name="buildFileName" value="BuildReportDesigner.xml" />
@@ -240,13 +219,6 @@
 			<property name="projectName" value="org.eclipse.birt.cshelp" />
 			<property name="repositoryPath" value="source" />
 			<property name="buildFileName" value="BuildCSHelp.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.cshelp" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartCSHelp.xml" />
 			<property name="cvs.options" value="" />
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>
@@ -274,20 +246,6 @@
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.reportitem" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartReportItem.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.reportitem.ui" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartReportItemUI.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.engine" />
 			<property name="repositoryPath" value="source" />
 			<property name="buildFileName" value="BuildEngine.xml" />
@@ -298,41 +256,6 @@
 			<property name="projectName" value="org.eclipse.birt.report.engine.emitter.html" />
 			<property name="repositoryPath" value="source" />
 			<property name="buildFileName" value="BuildHtmlEmitter.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.engine" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartEngine.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.extension" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartDeviceExtension.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.engine.extension" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartEngineExtension.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.ui" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartUI.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.ui.extension" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartUIExtension.xml" />
 			<property name="cvs.options" value="" />
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>
@@ -388,13 +311,6 @@
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.runtime" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartRuntime.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.example" />
 			<property name="repositoryPath" value="source" />
 			<property name="buildFileName" value="BuildExample.xml" />
@@ -402,23 +318,9 @@
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChart.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.sdk" />
 			<property name="repositoryPath" value="source" />
 			<property name="buildFileName" value="BuildSDK.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.pdf" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildChartDevicePDF.xml" />
 			<property name="cvs.options" value="" />
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>

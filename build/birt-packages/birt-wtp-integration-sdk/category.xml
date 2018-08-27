@@ -1,8 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.birt.chart.integration.wtp_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp" version="4.8.0.qualifier">
-      <category name="org.eclipse.birt.wtp.integration.sdk"/>
-   </feature>
    <feature url="features/org.eclipse.birt.integration.wtp_4.8.0.qualifier.jar" id="org.eclipse.birt.integration.wtp" version="4.8.0.qualifier">
       <category name="org.eclipse.birt.wtp.integration.sdk"/>
    </feature>

@@ -16,7 +16,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>birt-charts</module>
 		<module>birt-rcp-report-designer</module>
 		<module>birt-report-designer-all-in-one</module>
 		<module>birt-report-framework</module>

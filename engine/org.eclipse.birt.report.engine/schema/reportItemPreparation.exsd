@@ -72,25 +72,6 @@
 
    <annotation>
       <appinfo>
-         <meta.section type="examples"/>
-      </appinfo>
-      <documentation>
-         The following is a sample usage of the reportItemPrepare extension point:
-
-&lt;p&gt;
-&lt;pre&gt;
-&lt;extension point=&quot;org.eclipse.birt.report.engine.reportItemPreparation&quot; 
-name=&quot;chart prepare extension&quot;&gt;
-  &lt;reportItem name=&quot;org.eclipse.birt.chart&quot;    
-  class=&quot;an event hanndler implementation from org.eclipse.birt.report.engine.extension.IReportItemPreparation&quot; /&gt;
- &lt;/extension&gt;
- &lt;/pre&gt;
-&lt;/p&gt;
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appinfo>
          <meta.section type="apiinfo"/>
       </appinfo>
       <documentation>

@@ -232,59 +232,6 @@
 				value="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.*" />
 		</projectInfo>
 
-		<!-- chart team -->
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.extension" />
-			<property name="windowTitle" value="BIRT Chart Device Extension Project" />
-			<property name="packagenames" value="org.eclipse.birt.chart.device.extension.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.pdf" />
-			<property name="windowTitle" value="BIRT Chart Device PDF Project" />
-			<property name="packagenames"
-				value="org.eclipse.birt.chart.event,org.eclipse.birt.chart.device,org.eclipse.birt.chart.datafeed,org.eclipse.birt.chart.exception" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.svg" />
-			<property name="windowTitle" value="BIRT Chart Device SVG Project" />
-			<property name="packagenames"
-				value="org.eclipse.birt.chart.event,org.eclipse.birt.chart.device,org.eclipse.birt.chart.datafeed,org.eclipse.birt.chart.exception" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.device.swt" />
-			<property name="windowTitle" value="BIRT Chart Device Swt Project" />
-			<property name="packagenames" value="org.eclipse.birt.chart.device.swt.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.engine.extension" />
-			<property name="windowTitle" value="BIRT Chart Engine Extensions Project" />
-			<property name="packagenames" value="org.eclipse.birt.chart.engine.extension.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.examples" />
-			<property name="windowTitle" value="BIRT Chart Engine Project" />
-			<property name="packagenames" value="org.eclipse.birt.chart.examples.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.reportitem" />
-			<property name="windowTitle" value="BIRT Chart Engine Project" />
-			<property name="packagenames" value="org.eclipse.birt.chart.reportitem.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.reportitem.ui" />
-			<property name="windowTitle" value="BIRT Chart Engine Project" />
-			<property name="packagenames" value="org.eclipse.birt.chart.reportitem.ui.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.ui" />
-			<property name="windowTitle" value="BIRT Chart UI Extension API (Provisional)" />
-			<property name="packagenames" value="org.eclipse.birt.chart.ui.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.ui.extension" />
-			<property name="windowTitle" value="BIRT Chart UI Extension Project" />
-			<property name="packagenames" value="org.eclipse.birt.chart.ui.extension.*" />
-		</projectInfo>
 		<!-- designer -->
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.designer.ui" />
@@ -348,11 +295,6 @@
 			<property name="projectName" value="org.eclipse.birt.report.debug.ui" />
 			<property name="windowTitle" value="Birt Designer Core API" />
 			<property name="packagenames" value="org.eclipse.birt.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.engine" />
-			<property name="windowTitle" value="Birt Chart Report Engine API" />
-			<property name="packagenames" value="org.eclipse.birt.chart.engine.*" />
 		</projectInfo>
 		<projectInfo>
 			<property name="projectName"
@@ -431,11 +373,6 @@
 			<property name="packagenames" value="org.eclipse.birt.report.model.adapter.oda.*" />
 		</projectInfo>
 
-		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.chart.integration.wtp.ui" />
-			<property name="windowTitle" value="Birt Web Viewer Project" />
-			<property name="packagenames" value="org.eclipse.birt.chart.integration.wtp.ui.*" />
-		</projectInfo>
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.integration.wtp.ui" />
 			<property name="windowTitle" value="Birt Web Viewer Project" />

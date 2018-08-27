@@ -4,10 +4,7 @@ Bundle-Name: BIRT Excel emitter
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.prototype.excel;singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Localization: plugin
-Require-Bundle: org.eclipse.birt.report.engine,
- org.eclipse.birt.chart.engine,
- org.eclipse.birt.chart.engine.extension,
- org.eclipse.birt.chart.reportitem
+Require-Bundle: org.eclipse.birt.report.engine
 Bundle-Vendor: Eclipse BIRT Project
 Eclipse-LazyStart: true
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.excel.plugin.ExcelemitterPlugin

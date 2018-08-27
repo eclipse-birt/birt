@@ -11,7 +11,6 @@ public class ExportManifestUtils
 {
 	static int package_count = 0;
 	static final String[] API_JAR_PATTERNS = new String[]{
-		"chartengineapi.jar",
 		"com.ibm.icu.*.jar",
 		"org.apache.commons.codec_.*.jar", 
 		"coreapi.jar", 
@@ -25,7 +24,6 @@ public class ExportManifestUtils
 		"modelapi.jar", 
 		"crosstabcoreapi.jar",
 		"dataextraction.jar",
-		"chartitemapi.jar",
 		"org.eclipse.emf.common_.*.jar",
 		"org.eclipse.emf.ecore.xmi_.*.jar", 
 		"org.eclipse.emf.ecore_.*.jar",
@@ -34,13 +32,11 @@ public class ExportManifestUtils
 		"modelodaapi.jar",
 		"odadesignapi.jar",
 		"javax.servlet_.*.jar",
-		"chartexamplescoreapi.jar",
 		"javax.servlet.jsp_.*.jar",
 		"org.eclipse.birt.axis.overlay_.*.jar"
 	};
 	
 	static final Boolean[] API_JAR_VERSIONS = new Boolean[]{
-		false, //"chartengineapi.jar",
 		true,//"com.ibm.icu.*.jar",
 		false,//"org.apache.commons.codec_.*.jar", 
 		false,//"coreapi.jar", 
@@ -54,7 +50,6 @@ public class ExportManifestUtils
 		false,//"modelapi.jar", 
 		false,//"crosstabcoreapi.jar",
 		false,//"dataextraction.jar",
-		false,//"chartitemapi.jar",
 		false,//"org.eclipse.emf.common_.*.jar",
 		false,//"org.eclipse.emf.ecore.xmi_.*.jar", 
 		false,//"org.eclipse.emf.ecore_.*.jar",
@@ -63,7 +58,6 @@ public class ExportManifestUtils
 		false,//"modelodaapi.jar",
 		false,//"odadesignapi.jar",
 		false,//"javax.servlet_.*.jar",
-		false,//"chartexamplescoreapi.jar"
 		false,//"javax.servlet.jsp_.*.jar"
 		false,//"org.eclipse.birt.axis.overlay_.*.jar"
 	};

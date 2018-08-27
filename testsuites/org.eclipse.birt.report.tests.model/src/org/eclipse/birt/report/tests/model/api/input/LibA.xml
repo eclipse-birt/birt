@@ -452,7 +452,6 @@ from root.Account</property>
  * This script syntax follows JavaScript specifications, the Java classes that are referred to
  * in the comments can be accessed as JavaScript classes. 
  *
- * Script examples are available in the org.eclipse.birt.chart.examples plugin
  */
 
 

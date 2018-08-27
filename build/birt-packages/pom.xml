@@ -19,7 +19,6 @@
 	<packaging>pom</packaging>
 
 	<modules>
-		<module>birt-charts</module>
 		<module>birt-epp</module>
 		<module>birt-report-rcp</module>
 		<module>birt-report-all-in-one</module>
@@ -34,6 +33,5 @@
 		<module>birt-nl</module>
 		<module>birt-publish</module>
 		<module>birt-runtime-test</module>
-		<!--<module>birt-integration-test</module>-->
 	</modules>
 </project>

@@ -1,7 +1,0 @@
-#<comments>
-org.eclipse.birt.chart.device.pdf/debug=false
-
-org.eclipse.birt.chart.device.pdf/trace=false
-
-org.eclipse.birt.chart.device.pdf/i18n=false
-org.eclipse.birt.chart.device.pdf/plugin=false

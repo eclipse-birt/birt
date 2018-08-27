@@ -1,5 +1,0 @@
-<plugin>
-  <extension point="org.eclipse.help.contexts">
-    <contexts file="contexts.xml" plugin="org.eclipse.birt.chart.cshelp" />
-  </extension>
-</plugin>

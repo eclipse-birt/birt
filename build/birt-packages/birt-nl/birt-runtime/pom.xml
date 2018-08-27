@@ -29,11 +29,6 @@
 									dest="${project.build.directory}/p2updatesite"/>
                                                                     <copy todir="${project.build.directory}/content/birt-runtime-{birt.version}\ReportEngine\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
-										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar"/>
 										<include name="org.eclipse.birt.core.nl1_*.jar"/>
 										<include name="org.eclipse.birt.data.nl1_*.jar"/>
 										<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar"/>
@@ -61,9 +56,6 @@
 								</copy>
                                                                 <copy todir="${project.build.directory}/content/birt-runtime-${birt.version}\WebViewerExample\WEB-INF\lib">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
-										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.examples.core.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar"/>
 										<include name="org.eclipse.birt.core.nl1_*.jar"/>
 										<include name="org.eclipse.birt.data.aggregation.nl1_*.jar"/>
 										<include name="org.eclipse.birt.data.nl1_*.jar"/>
@@ -77,11 +69,6 @@
 								</copy>
                                                                 <copy todir="${project.build.directory}/content/birt-runtime-${birt.version}\WebViewerExample\WEB-INF\platform\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">
-										<include name="org.eclipse.birt.chart.device.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.device.svg.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.extension.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.engine.nl1_*.jar"/>
-										<include name="org.eclipse.birt.chart.reportitem.nl1_*.jar"/>
 										<include name="org.eclipse.birt.core.nl1_*.jar"/>
 										<include name="org.eclipse.birt.data.nl1_*.jar"/>
 										<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar"/>

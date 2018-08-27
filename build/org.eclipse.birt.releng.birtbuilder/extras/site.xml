@@ -15,26 +15,8 @@
    <feature url="features/org.eclipse.birt.source_@FEATURE.BIRT.SOURCE@.jar" id="org.eclipse.birt.source" version="@FEATURE.BIRT.SOURCE@">
       <category name="Birt"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart_@FEATURE.CHART@.jar" id="org.eclipse.birt.chart" version="@FEATURE.CHART@">
-      <category name="Chart"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.cshelp_@FEATURE.CHART.CSHELP@.jar" id="org.eclipse.birt.chart.cshelp" version="@FEATURE.CHART.CSHELP@">
-      <category name="Chart"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.source_@FEATURE.CHART.SOURCE@.jar" id="org.eclipse.birt.chart.source" version="@FEATURE.CHART.SOURCE@">
-      <category name="Chart"/>
-   </feature>
    <feature url="features/org.eclipse.birt.osgi.runtime.sdk_@FEATURE.OSGI.RUNTIME.SDK@.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="@FEATURE.OSGI.RUNTIME.SDK@">
       <category name="OSGi"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_@FEATURE.CHART.OSGI.RUNTIME.SDK@.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="@FEATURE.CHART.OSGI.RUNTIME.SDK@">
-      <category name="OSGi"/>
-   </feature>   
-   <feature url="features/org.eclipse.birt.chart.integration.wtp_@FEATURE.CHART.WTP@.jar" id="org.eclipse.birt.chart.integration.wtp" version="@FEATURE.CHART.WTP@">
-      <category name="wtpIntegration"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.chart.integration.wtp.source_@FEATURE.CHART.WTP.SOURCE@.jar" id="org.eclipse.birt.chart.integration.wtp.source" version="@FEATURE.CHART.WTP.SOURCE@">
-      <category name="wtpIntegration"/>
    </feature>
    <feature url="features/org.eclipse.birt.integration.wtp_@FEATURE.BIRT.WTP@.jar" id="org.eclipse.birt.integration.wtp" version="@FEATURE.BIRT.WTP@">
       <category name="wtpIntegration"/>

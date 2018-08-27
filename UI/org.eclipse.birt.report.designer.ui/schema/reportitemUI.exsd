@@ -188,7 +188,7 @@
                <documentation>
                   Check if the element UI is to be shown in the Designer and the Designer&apos;s Palette by the preference setting. Its priority is higher than showInDesigner. 
 
-The input string format is &quot;Plugin Id&quot;/&quot;Prefenece Key&quot;, the plugin id is the id of plugin which contains the preference. For example: org.eclipse.birt.chart.reportitem.ui/enable_live.
+The input string format is &quot;Plugin Id&quot;/&quot;Prefenece Key&quot;, the plugin id is the id of plugin which contains the preference.
                </documentation>
             </annotation>
          </attribute>
@@ -246,40 +246,10 @@ The input string format is &quot;Plugin Id&quot;/&quot;Prefenece Key&quot;, the 
 
    <annotation>
       <appInfo>
-         <meta.section type="examples"/>
-      </appInfo>
-      <documentation>
-         The following is an example of the extented element UI extension point:
-&lt;p&gt;&lt;pre&gt;
-
-&lt;extension point=&quot;org.eclipse.birt.report.designer.reportitemUI&quot;&gt;
- &lt;model extensionName=&quot;chart&quot;/&gt;
- &lt;reportItemFigureUI  class==&quot;org.eclipse.birt.chart.ChartAdapterUI&quot;/&gt;
- &lt;palette icon=&quot;/icons/paletteimage.gif&quot; category=&quot;main&quot;/&gt;
- &lt;editor showInMasterPage=&quot;false&quot;/&gt;
- &lt;outline icon=&quot;/icons/outlineimage.gif&quot;/&gt;
-&lt;/extension&gt;
-
-&lt;/pre&gt;&lt;/p&gt;
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appInfo>
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
          The report item UI extension may implement the interfaces defined in the &lt;i&gt;org.eclipse.birt.report.designer.ui.extensions&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appInfo>
-         <meta.section type="implementation"/>
-      </appInfo>
-      <documentation>
-         The plugin &lt;i&gt;org.eclipse.birt.chart.reportitem&lt;/i&gt;, supplied with the BIRT installation, provides a good example for implementing a report item UI extension.
-&lt;br&gt;
       </documentation>
    </annotation>
 

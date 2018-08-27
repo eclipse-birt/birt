@@ -17,33 +17,6 @@
 			failonerror="false">
 			<fileset dir="${buildDirectory}/source/features/org.eclipse.birt.feature" />
 		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.chart.feature" />
-		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart.cshelp"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.chart.cshelp.feature" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/features/org.eclipse.birt.chart.integration.wtp"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.chart.integration.wtp.feature" />
-		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.chart.osgi.runtime"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.chart.osgi.runtime" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/features/org.eclipse.birt.chart.osgi.runtime.sdk"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.chart.osgi.runtime.sdk" />
-		</copy>
 		<copy todir="${buildDirectory}/features/org.eclipse.birt.cshelp"
 			failonerror="false">
 			<fileset
@@ -611,75 +584,7 @@
 	</target>
 
 	<target name="prepare.birt.nl">
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.chart.device.extension.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.device.extension.nl" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.chart.device.svg.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.device.svg.nl" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.chart.device.swt.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.device.swt.nl" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.chart.engine.extension.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.engine.extension.nl" />
-		</copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.engine.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.engine.nl" />
-		</copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.examples.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.examples.nl" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.chart.examples.core.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.examples.core.nl" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.chart.integration.wtp.ui.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.integration.wtp.ui.nl" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.chart.reportitem.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.reportitem.nl" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.chart.reportitem.ui.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.reportitem.ui.nl" />
-		</copy>
-		<copy
-			todir="${buildDirectory}/plugins/org.eclipse.birt.chart.ui.extension.nl1"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.ui.extension.nl" />
-		</copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.chart.ui.nl1"
-			failonerror="false">
-			<fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.chart.ui.nl" />
-		</copy>
-		<copy todir="${buildDirectory}/plugins/org.eclipse.birt.core.nl1"
+			<copy todir="${buildDirectory}/plugins/org.eclipse.birt.core.nl1"
 			failonerror="false">
 			<fileset dir="${buildDirectory}/source/nl/org.eclipse.birt.core.nl" />
 		</copy>

@@ -1,9 +1,0 @@
-#<comments>
-org.eclipse.birt.chart.reportitem/debug=false
-
-org.eclipse.birt.chart.reportitem/trace=false
-
-org.eclipse.birt.chart.reportitem/i18n=false
-org.eclipse.birt.chart.reportitem/plugin=false
-org.eclipse.birt.chart.reportitem/ui=false
-org.eclipse.birt.chart.reportitem/ui.widget=false

@@ -1,7 +1,0 @@
-#<comments>
-org.eclipse.birt.chart.device.svg/debug=false
-
-org.eclipse.birt.chart.device.svg/trace=false
-
-org.eclipse.birt.chart.device.svg/i18n=false
-org.eclipse.birt.chart.device.svg/plugin=false

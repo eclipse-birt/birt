@@ -59,16 +59,6 @@
 			<artifactId>org.eclipse.birt.report.engine.emitter.config</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>org.eclipse.birt</groupId>
-			<artifactId>org.eclipse.birt.chart.reportitem</artifactId>
-			<version>${project.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.birt</groupId>
-			<artifactId>org.eclipse.birt.chart.examples.core</artifactId>
-			<version>${project.version}</version>
-		</dependency>
 	</dependencies>
 
 	<!-- <include name="coreapi.jar" /> <include name="dteapi.jar" /> <include 
@@ -77,12 +67,10 @@
 		<include name="odadesignapi.jar" /> <include name="scriptapi.jar" /> <include 
 		name="dataextraction.jar" /> <include name="dataadapterapi.jar" /> <include 
 		name="crosstabcoreapi.jar" /> <include name="emitterconfig.jar" /> <include 
-		name="chartitemapi.jar" /> <include name="chartexamplescoreapi.jar" /> <fileset 
-		dir="../org.w3c.sac/lib"> <include name="*.jar" /> </fileset> <include name="com.ibm.icu_*.jar" 
+		dir="../org.w3c.sac/lib"> <include name="*.jar" /> </fileset> <include name="com.ibm.icu_*.jar"
 		/> <include name="org.eclipse.emf.common_*.jar" /> <include name="org.eclipse.emf.ecore.xmi_*.jar" 
 		/> <include name="org.eclipse.emf.ecore_*.jar" /> <include name="org.eclipse.birt.axis.overlay_*.jar" 
-		/> <mapper type="regexp" from="org.eclipse.birt.chart.engine_.*.jar" to="chartengineapi.jar"/> 
-		<mapper type="regexp" from="org.mozilla.javascript_.*.jar" to="js.jar"/> 
+		<mapper type="regexp" from="org.mozilla.javascript_.*.jar" to="js.jar"/>
 		<include name="javax.servlet*.jar"/> <include name="org.w3c.css.sac_*.jar"/> 
 		<include name="org.apache.commons.codec_*.jar"/> <include name="commons-cli*.jar" 
 		/> -->

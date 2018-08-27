@@ -75,39 +75,10 @@
 
    <annotation>
       <appInfo>
-         <meta.section type="examples"/>
-      </appInfo>
-      <documentation>
-         The following is an example of this extension point:
-&lt;p&gt;&lt;pre&gt;
-&lt;extension
- id=&quot;chart&quot;
-    name=&quot;The chart extension&quot;
-    point=&quot;org.eclipse.birt.report.designer.ui.menuBuilders&quot;&gt;
-    &lt;menuBuilder
-    class=&quot;org.eclipse.birt.chart.reportitem.ui.ChartMenuBuilder&quot;
-    elementName=&quot;Chart&quot;/&gt;
-&lt;/extension&gt;
-&lt;/pre&gt;&lt;/p&gt;
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appInfo>
          <meta.section type="apiInfo"/>
       </appInfo>
       <documentation>
          The context menu UI extension may implement the interfaces defined in the &lt;i&gt;org.eclipse.birt.report.designer.ui.extensions&lt;/i&gt; package. See the package&apos;s JavaDoc documentation and API interfaces for more information.
-      </documentation>
-   </annotation>
-
-   <annotation>
-      <appInfo>
-         <meta.section type="implementation"/>
-      </appInfo>
-      <documentation>
-         The plugin &lt;i&gt;org.eclipse.birt.chart.reportitem&lt;/i&gt;, supplied with the BIRT installation, provides a good example for implementing a context menu UI extension.
-&lt;br&gt;
       </documentation>
    </annotation>
 
