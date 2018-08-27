@@ -15,8 +15,6 @@
 		<module>org.eclipse.birt.core.script.function</module>
 		<module>org.eclipse.birt.data</module>
 		<module>org.eclipse.birt.data.aggregation</module>
-		<module>org.eclipse.birt.data.oda.mongodb</module>
-		<module>org.eclipse.birt.data.oda.mongodb.ui</module>
 		<module>org.eclipse.birt.data.oda.pojo</module>
 		<module>org.eclipse.birt.data.oda.pojo.ui</module>
 		<module>org.eclipse.birt.report.data.adapter</module>

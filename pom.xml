@@ -40,7 +40,6 @@
                 <jetty.version>9.4.10.v20180503</jetty.version>
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
-                <mongodb.version>3.2.2.v20170222-2110</mongodb.version>
             </properties>
         </profile>
 	</profiles>
@@ -272,14 +271,6 @@
 							<id>org.eclipse.jetty.xml</id>
 							<restrictTo>
 								<version>${jetty.version}</version>
-							</restrictTo>
-						</filter>
-						<!-- Restrict MongoDB to specific version to allow only one version included in plugins -->
-						<filter>
-							<type>eclipse-plugin</type>
-							<id>org.eclipse.orbit.mongodb</id>
-							<restrictTo>
-								<version>${mongodb.version}</version>
 							</restrictTo>
 						</filter>
 					</filters>

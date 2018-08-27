@@ -1307,7 +1307,6 @@
 			<bundle name="org.eclipse.birt.core.script.function" />
 			<bundle name="org.eclipse.birt.data" />
 			<bundle name="org.eclipse.birt.data.aggregation" />
-			<bundle name="org.eclipse.birt.data.oda.mongodb"/>
 			<bundle name="org.eclipse.birt.report.data.adapter" />
 			<bundle name="org.eclipse.birt.report.data.bidi.utils" />
 			<bundle name="org.eclipse.birt.report.data.oda.jdbc" />

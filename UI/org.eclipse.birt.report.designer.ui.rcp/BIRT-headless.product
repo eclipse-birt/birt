@@ -89,8 +89,6 @@
       <plugin id="org.eclipse.birt.cshelp"/>
       <plugin id="org.eclipse.birt.data"/>
       <plugin id="org.eclipse.birt.data.aggregation"/>
-      <plugin id="org.eclipse.birt.data.oda.mongodb"/>
-      <plugin id="org.eclipse.birt.data.oda.mongodb.ui"/>
       <plugin id="org.eclipse.birt.doc"/>
       <plugin id="org.eclipse.birt.example"/>
       <plugin id="org.eclipse.birt.report.data.adapter"/>
@@ -275,7 +273,6 @@
       <plugin id="org.eclipse.jface.databinding"/>
       <plugin id="org.eclipse.jface.text"/>
       <plugin id="org.eclipse.ltk.core.refactoring"/>
-      <plugin id="org.eclipse.orbit.mongodb"/>
       <plugin id="org.eclipse.osgi"/>
       <plugin id="org.eclipse.osgi.services"/>
       <plugin id="org.eclipse.swt"/>

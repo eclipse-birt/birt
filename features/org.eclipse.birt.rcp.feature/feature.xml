@@ -107,7 +107,6 @@
       <import plugin="org.eclipse.jetty.servlet"/>
       <import plugin="org.eclipse.jetty.util"/>
       <import plugin="org.eclipse.ltk.core.refactoring"/>
-      <import plugin="org.eclipse.orbit.mongodb"/>
       <import plugin="org.eclipse.ui.browser"/>
       <import plugin="org.eclipse.ui.navigator"/>
       <import plugin="org.eclipse.update.configurator"/>
@@ -247,22 +246,6 @@
 
    <plugin
          id="org.eclipse.birt.cshelp"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.data.oda.mongodb.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.data.oda.mongodb"
          download-size="0"
          install-size="0"
          version="0.0.0"

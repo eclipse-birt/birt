@@ -46,8 +46,6 @@
 										<include name="org.eclipse.birt.core.ui.nl1_*.jar"/>
 										<include name="org.eclipse.birt.data.aggregation.nl1_*.jar"/>
 										<include name="org.eclipse.birt.data.nl1_*.jar"/>
-										<include name="org.eclipse.birt.data.oda.mongodb.nl1_*.jar"/>
-										<include name="org.eclipse.birt.data.oda.mongodb.ui.nl1_*.jar"/>
 										<include name="org.eclipse.birt.data.oda.pojo.nl1_*.jar"/>
 										<include name="org.eclipse.birt.data.oda.pojo.ui.nl1_*.jar"/>
 										<include name="org.eclipse.birt.integration.wtp.ui.nl1_*.jar"/>

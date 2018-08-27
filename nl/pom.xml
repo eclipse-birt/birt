@@ -30,8 +30,6 @@
 		<module>org.eclipse.birt.core.ui.nl</module>
 		<module>org.eclipse.birt.data.aggregation.nl</module>
 		<module>org.eclipse.birt.data.nl</module>
-		<module>org.eclipse.birt.data.oda.mongodb.nl</module>
-		<module>org.eclipse.birt.data.oda.mongodb.ui.nl</module>
 		<module>org.eclipse.birt.data.oda.pojo.nl</module>
 		<module>org.eclipse.birt.data.oda.pojo.ui.nl</module>
 		<module>org.eclipse.birt.integration.wtp.ui.nl</module>

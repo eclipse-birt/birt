@@ -478,7 +478,6 @@
 				<include name="org.w3c.css.sac_*.jar"/>
 				<include name="org.apache.commons.codec_*.jar"/>
 				<include name="javax.xml.stream_*.jar"/>
-				<include name="org.eclipse.orbit.mongodb_*.jar"/>
 				<include name="org.apache.poi_*.jar"/>
 			</fileset>
 			<fileset dir="../org.eclipse.birt.report.engine/lib">
@@ -633,7 +632,6 @@
 			<include name="org.w3c.css.sac_*.jar"/>
 			<include name="org.apache.commons.codec_*.jar"/>
 			<include name="javax.xml.stream_*.jar"/>
-			<include name="org.eclipse.orbit.mongodb_*.jar"/>
 			<include name="org.apache.poi_*.jar"/>
 		</fileset>
 		</copy>
@@ -657,7 +655,6 @@
 			<include name="org.eclipse.birt.core.script.function_*.jar" />
 			<include name="org.eclipse.birt.data_*.jar" />
 			<include name="org.eclipse.birt.data.aggregation_*.jar" />
-			<include name="org.eclipse.birt.data.oda.mongodb_*.jar" />
 			<include name="org.eclipse.birt.report.data.adapter_*.jar"/>
 			<include name="org.eclipse.birt.report.data.bidi.utils_*.jar" />
 			<include name="org.eclipse.birt.data.oda_*/**" />

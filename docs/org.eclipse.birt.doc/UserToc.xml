@@ -25,19 +25,13 @@
   <topic label="Accessing Data" href="birt/con-ConnectingToADataSource.html" >
     <topic label="About BIRT data sources" href="birt/con-AboutBIRTDataSources.html" />
     <topic label="About data sets" href="birt/ds-AboutDataSets.html" >
-      <topic label="How to create a Cassandra data source" href="birt/con-HowToSpecifyConnectionInformationForCassandraDataSource.html" />
-      <topic label="How to specify what data to retrieve from a Cassandra data source" href="birt/ds-HowToSpecifyWhatDataToRetrieveDataFromCassandraDataSource.html" />
       <topic label="How to create an Excel data source" href="birt/con-HowToSpecifyConnectionInformationForExcelDataSource.html" />
       <topic label="How to specify what data to retrieve from an Excel workbook" href="birt/ds-HowToSpecifyWhatDataToRetrieveDataFromExcelDataSource.html" />
-      <topic label="How to create a Hive data source" href="birt/con-HowToSpecifyConnectionInformationForHiveDataSource.html" />
-      <topic label="How to specify what data to retrieve from a Hadoop system" href="birt/ds-HowToSpecifyWhatDataToRetrieveDataFromHadoopDataSource.html" />
       <topic label="How to specify the connection information for a database or other JDBC data source" href="birt/con-HowToSpecifyConnectionInformationForDatabaseOrOtherJDBCDataSource.html" />
       <topic label="How to add a JDBC driver" href="birt/con-HowToAddAJDBCDriver.html" />
       <topic label="How to delete JDBC drivers in a JAR file" href="birt/con-HowToDeleteJDBCDriversInAJARFile.html" />
       <topic label="How to create a SQL query to retrieve data from a JDBC data source" href="birt/ds-HowToCreateASQLQueryToRetrieveDataFromJDBCDataSource.html" />
       <topic label="How to use a stored procedure to retrieve data from a JDBC data source" href="birt/ds-HowToUseAStoredProcedureToRetrieveDataFromJDBCDataSource.html" />
-      <topic label="How to create a MongoDB data source" href="birt/con-HowToSpecifyConnectionInformationForMongoDBDataSource.html" />
-      <topic label="How to specify what data to retrieve from a MongoDB database" href="birt/ds-HowToSpecifyWhatDataToRetrieveDataFromMongoDBDataSource.html" />
       <topic label="How to create a POJO data source" href="birt/con-HowToSpecifyConnectionInformationForPOJODataSource.html" />
       <topic label="How to create a POJO data set" href="birt/ds-HowToCreatePOJODataSet.html" />
       <topic label="How to view and change output columns" href="birt/ds-HowToViewAndChangeOutputColumns.html" />

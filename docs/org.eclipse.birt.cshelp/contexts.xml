@@ -30,20 +30,6 @@ Create a report based on a template or start from a blank report.
 <topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/gs-TutT2CreateANewReport.html" label="Create a new report"/>
 </context>
 
-<context id="Wizard_MongoDB_Datasource_ID" title="Data Source - MongoDB Data Source">
-<!-- Added jaht 20130908 -->
-<description>
-Use this page to define the connection properties for a MongoDB data source.
-
-Type either the elements that make up the URI for the data source or the whole URI.
-
-Select Keep Socket Alive to keep the MongoDB connection alive through firewalls.
-
-Select Consistent Request Session to use the same MongoDB connection for all database operations within an ODA connection, ensuring that they occur in a fixed order with predictable results.
-</description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForMongoDBDataSource.html" label="How to create a MongoDB data source"/>
-</context>
-
 <context id="Wizard_Hive_Datasource_ID" title="Data Source - Hive Data Source">
 <!-- Added jaht 20130908 -->
 <description>
@@ -52,71 +38,6 @@ Use this page to define the connection properties for a Hive data source.
 Type the URI to access the Hive data source and the login credentials.
 
 Optionally, type one or more Add File statements to add script files to the Hadoop distributed cache. Separate each Add File statement with a semicolon.
-</description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/con-HowToSpecifyConnectionInformationForHiveDataSource.html" label="How to create a Hive data source"/>
-</context>
-
-<context id="Wizard_MongoDB_Dataset_ID" title="MongoDB Data Set - Query">
-<!-- Added jaht 20130908 -->
-<description>
-Use this page to define the data fields to retrieve from a MongoDB data source.
-
-Select the collection from which to retrieve data. Not required if you enter a Run Database Command expression
-
-Optionally select a command type. Choose Expression and type an expression in Command Expression Builder. The default command type is FindQuery.
-
-Type the number of documents for which to search for fields, then choose Find Fields. The fewer the number of documents to scan, the faster the response.
-
-Then, select the fields to use as data columns.
-</description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ds-HowToSpecifyWhatDataToRetrieveDataFromMongoDBDataSource.html" label="How to specify what data to retrieve from a MongoDB database"/>
-</context>
-
-<context id="MongoDB_DataSetCommandExprDialog_ID" title="MongoDB Data Set - Database Command Expression">
-<!-- Added jaht 20130908 -->
-<description>
-Use this page to define the database command expression to retrieve data from a MongoDB data source.
-
-Type an expression in Command Expression Builder. The default command type is FindQuery.
-</description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ds-HowToSpecifyWhatDataToRetrieveDataFromMongoDBDataSource.html" label="How to specify what data to retrieve from a MongoDB database"/>
-</context>
-
-<context id="MongoDB_DataSetQueryExprDialog_ID" title="MongoDB Data Set - Data Set Query Expression">
-<!-- Added jaht 20130908 -->
-<description>
-Use this page to define a data set query expression to retrieve data from a MongoDB data source.
-
-Type a Mongo JSON expression in Query Expression Builder or import the expression from a text file.
-
-BIRT supports creating Mongo JSON expressions for the following items:
-Run Database commands
-Aggregate commands
-MapReduce commands
-Query expressions
-Sort expressions
-</description>
-<topic filter="plugin=org.eclipse.birt.doc" href="../org.eclipse.birt.doc/birt/ds-HowToSpecifyWhatDataToRetrieveDataFromMongoDBDataSource.html" label="How to specify what data to retrieve from a MongoDB database"/>
-</context>
-
-<context id="MongoDB_DataSetSortExprDialog_ID" title="MongoDB Data Set - Data Set Sort Expression">
-<!-- Added jaht 20130908 -->
-<description>
-Use this page to define a data set sort expression for a MongoDB FindQuery or MapReduce database command.
-
-Type a Mongo JSON expression to describe a custom sort operation on the result cursor.
-
-For ascending order, use a positive value. For descending order, use a negative value.
-
-Use an indexed sort attribute or set a runtime limit on maxRows.
-</description>
-<topic href="http://docs.mongodb.org/manual/reference/method/cursor.sort/#cursor.sort" label="MongoDB cursor.sort()"/>
-</context>
-
-<context id="MongoDB_DataSetAdvancedPropertyDialog_ID" title="MongoDB Data Set - Advanced Data Set Run-Time Properties">
-<!-- Added jaht 20130908 -->
-<description>
-Use this page to define run-time connection properties for a MongoDB data source.
 </description>
 </context>
 
