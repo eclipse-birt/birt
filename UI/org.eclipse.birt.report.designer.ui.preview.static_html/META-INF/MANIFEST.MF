@@ -1,6 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Static HTML Plug-in
+Bundle-Vendor: Eclipse BIRT Project
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.preview.static_html;singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.ui.preview.static_html.StaticHTMLPrviewPlugin

@@ -143,6 +143,9 @@
 					<configuration>
 						<useProjectSettings>false</useProjectSettings>
 						<verbose>true</verbose>
+						<showWarnings>false</showWarnings>
+						<strictCompilerTarget>true</strictCompilerTarget>
+						<encoding>UTF-8</encoding>
 					</configuration>
 				</plugin>
 
