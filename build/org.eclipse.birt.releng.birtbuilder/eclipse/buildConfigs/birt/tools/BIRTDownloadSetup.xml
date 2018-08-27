@@ -75,7 +75,6 @@
 	<property name="birt.rcp.dir.prefix" value="birt-rcp-report-designer-${package.version}" />
 
 	<property name="birt.rcp.zip.name" value="birt-rcp-report-designer-${package.version}" />
-	<property name="birt.source.zip.name" value="birt-source-${package.version}.zip" />
 	<property name="sample.plugin.zip.name" value="birt-sample-plugins-${package.version}.zip" />
 	<property name="birt.dtp.integration.name" value="birt-dtp-integration-${package.version}.zip" />
 
@@ -107,7 +106,6 @@
 		<exclude name="org.eclipse.birt.crosstab*/**" />
 		<exclude name="org.eclipse.birt.report.data.oda.jdbc*/**" />
 		<exclude name="org.eclipse.birt.report.designer_*/**" />
-		<exclude name="org.eclipse.birt.report.designer.source_*/**" />
 		<exclude name="org.eclipse.birt.report.designer.debug*/**" />
 		<exclude name="org.eclipse.birt.report.runtime*/**" />
 	</patternset>
@@ -938,46 +936,11 @@
 		</copy>
 	</target>
 
-	<target name="createBirtSourceBuild">
-		<zip destfile="${OutputDir}/${birt.source.zip.name}">
-			<zipfileset dir="${buildDirectory}/plugins" prefix="plugins">
-				<include name="**" />
-				<exclude name="*test*/**" />
-				<exclude name="**/@dot/**" />
-				<exclude name="**/*src.zip" />
-				<exclude name="**/temp.folder/**" />
-				<exclude name="*.source/src/**" />
-				<exclude name="*birt*/*.jar" />
-				<exclude name="**/birt_web/**" />
-				<exclude name="*.doc/doc.zip" />
-				<exclude name="*.doc.isv/doc.zip" />
-				<exclude name=".project" />
-				<patternset refid="exclude.jars" />
-			</zipfileset>
-			<zipfileset dir="${buildDirectory}/features" prefix="features">
-				<include name="**" />
-				<exclude name="**/feature_??_??.properties" />
-				<exclude name="**/feature.temp.folder/**" />
-				<exclude name="*test*/**" />
-				<patternset refid="exclude.jars" />
-			</zipfileset>
-			<zipfileset dir="${buildDirectory}">
-				<include name="directory.txt" />
-				<include name="label.properties" />
-				<include name="fetch_*.xml" />
-				<include name="package.*.xml" />
-				<include name="assemble.*.xml" />
-				<include name="final*Versions.properties" />
-			</zipfileset>
-		</zip>
-	</target>
-
 	<target name="createWTPIntegration">
 
 		<zip destfile="${OutputDir}/${wtp.integration.zip.name}">
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="org.eclipse.birt.integration.wtp.ui_*/**" />
-				<include name="org.eclipse.birt.integration.wtp.ui.source_*.jar" />
 			</zipfileset>
 			<zipfileset dir="${deposit}/eclipse/features" prefix="${FeautrePrefix}">
 				<include name="org.eclipse.birt.integration.wtp*/*" />

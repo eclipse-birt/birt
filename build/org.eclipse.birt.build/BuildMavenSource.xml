@@ -71,8 +71,6 @@
 		<echo message="Getting birt-runtime file from qa-build..."/>
 		<scp file="${builder.user}:${builder.passwd}@${builder.host}:/home/adb/releng/BIRTOutput/${birt.output.dir}/${buildId}/birt-runtime-${package.version}-${currentDay}.zip" todir="${working.dir}" trust="true"/>
 		
-		<echo message="Getting birt-source file from qa-build..."/>
-		<scp file="${builder.user}:${builder.passwd}@${builder.host}:/home/adb/releng/BIRTOutput/${birt.output.dir}/${buildId}/birt-source-${package.version}-${currentDay}.zip" todir="${working.dir}" trust="true"/> 
 	</target>
 	
 	<!-- shortcut for users on the same machine as the builds -->
@@ -84,8 +82,6 @@
 		<echo message="Getting birt-runtime file from qa-build..."/>
 		<copy file="/home/adb/releng/BIRTOutput/${birt.output.dir}/${buildId}/birt-runtime-${package.version}-${currentDay}.zip" todir="${working.dir}" />
 		
-		<echo message="Getting birt-source file from qa-build..."/>
-		<copy file="/home/adb/releng/BIRTOutput/${birt.output.dir}/${buildId}/birt-source-${package.version}-${currentDay}.zip" todir="${working.dir}" />
 	</target>
 	
 	<target name="unzipPackages">
@@ -98,19 +94,8 @@
 			</patternset>
 		</unzip>
 		
-		<!-- unzip birt-sources-* packages -->	
-		<unzip src="${working.dir}/birt-source-${package.version}-${currentDay}.zip" dest="${working.dir}/source">
-			<patternset>
-				<include name="plugins/"/>
-				<exclude name="plugins/*.jar"/>
-				<exclude name="plugins/*.source_*/**"/>
-				<exclude name="plugins/*_?.?.?.*/**"/>
-			</patternset>
-		</unzip>
-		
 		<delete file="${working.dir}/birt-runtime-${package.version}-${currentDay}.zip" failonerror="false"/>
-		<delete file="${working.dir}/birt-source-${package.version}-${currentDay}.zip" failonerror="false"/>
-		
+
 	</target>
 	
 	<target name="integrateSource">

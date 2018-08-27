@@ -33,36 +33,6 @@
         <pluginManagement>
             <plugins>
                 <plugin>
-                    <groupId>org.eclipse.tycho.extras</groupId>
-                    <artifactId>tycho-source-feature-plugin</artifactId>
-                    <version>${tycho.version}</version>
-                    <configuration>
-                        <excludes>
-                            <plugin id="org.apache.axis"/>
-                            <plugin id="org.apache.commons.discovery"/>
-                            <plugin id="org.apache.poi"/>
-                            <plugin id="org.apache.xerces"/>
-                            <plugin id="org.apache.xml.resolver"/>
-                            <plugin id="org.apache.xml.serializer"/>
-                            <plugin id="javax.xml"/>
-                            <pluign id="javax.xml.stream"/>
-                            <plugin id="javax.xml.rpc"/>
-                            <plugin id="javax.xml.soap"/>
-                            <plugin id="javax.wsdl"/>
-                            <plugin id="com.itextpdf.text"/>
-                        </excludes>
-                    </configuration>
-                    <executions>
-                        <execution>
-                            <id>source-feature</id>
-                            <phase>package</phase>
-                            <goals>
-                                <goal>source-feature</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-                <plugin>
                     <groupId>org.eclipse.tycho</groupId>
                     <artifactId>tycho-p2-plugin</artifactId>
                     <version>${tycho.version}</version>

@@ -258,9 +258,6 @@
 			file="${postingDirectory}/${buildId}/birt-sample-plugins-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-sample-plugins-${package.version}-${build.date}.zip" />
 		<move
-			file="${postingDirectory}/${buildId}/birt-source-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/birt-source-${package.version}-${build.date}.zip" />
-		<move
 			file="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}-${build.date}.zip" />
 		<move
@@ -320,9 +317,7 @@
 				<include name="org.eclipse.birt.report.data.oda.jdbc.dbprofile*/**" />
 				<include name="org.eclipse.birt.report.designer.debug*/**" />
 				<include name="org.eclipse.birt.report.designer_*/**" />
-				<include name="org.eclipse.birt.report.designer.source_*/**" />
 				<include name="org.eclipse.birt.report.runtime_*/**" />
-				<include name="org.eclipse.birt.report.runtime.source_*/**" />
 				<include name="org.eclipse.birt.thirdparty*/**" />
 				<include name="org.mozilla.rhino*/**" />
 				<include name="org.w3c.sac*/**" />
@@ -330,9 +325,7 @@
 			<fileset dir="${updateJarWorkingDir}/eclipse/plugins">
 				<include name="*.thirdparty*/**" />
 				<include name="org.eclipse.birt.report.runtime_*.jar" />
-				<include name="org.eclipse.birt.report.runtime.source_*.jar" />
 				<include name="org.eclipse.birt.report.designer_*.jar" />
-				<include name="org.eclipse.birt.report.designer.source_*.jar" />
 			</fileset>
 		</delete>
 
@@ -434,8 +427,6 @@
 			token="@FEATURE.BIRT.CSHELP@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.example}"
 			token="@FEATURE.BIRT.EXAMPLE@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.source}"
-			token="@FEATURE.BIRT.SOURCE@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt}"
 			token="@FEATURE.BIRT@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.doc}"
@@ -444,8 +435,6 @@
 			token="@FEATURE.OSGI.RUNTIME.SDK@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.integration.wtp}"
 			token="@FEATURE.BIRT.WTP@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.integration.wtp.source}"
-			token="@FEATURE.BIRT.WTP.SOURCE@" />
 	</target>
 
 	<target name="GenUpdatesitePackage" unless="HQ.BIRT.skip">

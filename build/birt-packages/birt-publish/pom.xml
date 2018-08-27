@@ -56,9 +56,6 @@
 											<fileset dir="../birt-sample-plugins/target"
 											         includes="birt-sample-plugins-*.zip"
 											         excludes="birt-*-SNAPSHOT.zip" />
-											<fileset dir="../birt-source/target"
-											         includes="birt-source-*.zip"
-											         excludes="birt-*-SNAPSHOT.zip" />
 											<fileset dir="../birt-tests-suite/target"
 											         includes="birt-tests-suite-*.zip"
 											         excludes="birt-*-SNAPSHOT.zip" />

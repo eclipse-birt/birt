@@ -12,16 +12,10 @@
    <feature url="features/org.eclipse.birt.example_@FEATURE.BIRT.EXAMPLE@.jar" id="org.eclipse.birt.example" version="@FEATURE.BIRT.EXAMPLE@">
       <category name="Birt"/>
    </feature>
-   <feature url="features/org.eclipse.birt.source_@FEATURE.BIRT.SOURCE@.jar" id="org.eclipse.birt.source" version="@FEATURE.BIRT.SOURCE@">
-      <category name="Birt"/>
-   </feature>
    <feature url="features/org.eclipse.birt.osgi.runtime.sdk_@FEATURE.OSGI.RUNTIME.SDK@.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="@FEATURE.OSGI.RUNTIME.SDK@">
       <category name="OSGi"/>
    </feature>
    <feature url="features/org.eclipse.birt.integration.wtp_@FEATURE.BIRT.WTP@.jar" id="org.eclipse.birt.integration.wtp" version="@FEATURE.BIRT.WTP@">
-      <category name="wtpIntegration"/>
-   </feature>
-   <feature url="features/org.eclipse.birt.integration.wtp.source_@FEATURE.BIRT.WTP.SOURCE@.jar" id="org.eclipse.birt.integration.wtp.source" version="@FEATURE.BIRT.WTP.SOURCE@">
       <category name="wtpIntegration"/>
    </feature>
    <category-def name="Birt" label="BIRT 4.2 Reporting SDK"/>

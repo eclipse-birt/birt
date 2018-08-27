@@ -11,22 +11,6 @@
 	<build>
 		<plugins>
 			<plugin>
-				<groupId>org.eclipse.tycho.extras</groupId>
-				<artifactId>tycho-source-feature-plugin</artifactId>
-				<configuration>
-					<excludes>
-						<plugin id="org.apache.axis"/>
-						<plugin id="org.apache.commons.discovery"/>
-						<plugin id="javax.xml.rpc"/>
-						<plugin id="javax.xml.stream"/>
-						<plugin id="javax.xml.soap"/>
-						<plugin id="javax.wsdl"/>
-						<plugin id="org.apache.poi"/>
-						<plugin id="com.itextpdf.text"/>
-					</excludes>
-				</configuration>
-			</plugin>
-			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-plugin</artifactId>
 			</plugin>
