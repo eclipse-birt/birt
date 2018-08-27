@@ -149,7 +149,6 @@ do
 		 		 -sign) sign="-Dsign=true";;
 		 		 -prepareSrc) prepareSrc="-Dprepare.src.flag=true";;
                  -CheckNewJars) CheckNewJars="-DCheckNewJars=true";;
-                 -skipNL) skipNL="-Dskip.build.NL=true";;
 		 		 -*)
 		 		 		 echo >&2 $usage
 		 		 		 exit 1;;

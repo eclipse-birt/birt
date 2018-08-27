@@ -108,8 +108,6 @@
 		<!-- sdk/test features build issue, test features installation -->
 		<module>features</module>
 		<module>model</module>
-		<!-- build issue inside -->
-		<module>nl</module>
 		<!-- report.viewer.tests build issue, and how to run tests.xxx plugins -->
 		<module>testsuites</module>
 		<module>UI</module>

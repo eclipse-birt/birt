@@ -6,9 +6,6 @@
 	<property name="dtp.mapVersionTag" value="master" />
 
 	<target name="prepareSrc">
-		<antcall target="prepare.birt.nl" />
-		<antcall target="checkout.dtp.nl" />
-		<antcall target="copy.dtp.nl" />
 		<antcall target="prepare.features" />
 	</target>
 
@@ -53,11 +50,6 @@
 			<fileset
 				dir="${buildDirectory}/source/features/org.eclipse.birt.osgi.runtime.sdk" />
 		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.rcp.nl"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.rcp.nl.feature" />
-		</copy>
 		<copy
 			todir="${buildDirectory}/features/org.eclipse.birt.report.designer.editor.xml.wtp"
 			failonerror="false">
@@ -79,23 +71,6 @@
 			<fileset
 				dir="${buildDirectory}/source/features/org.eclipse.birt.tests.feature" />
 		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.nl"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.nl.feature" />
-		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.wtp.nl"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.wtp.nl.feature" />
-		</copy>
-
-		<!--copy todir="${buildDirectory}/features/org.eclipse.birt.dtp.nl" failonerror="false" 
-			> <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.dtp.nl.feature" 
-			/> </copy> <copy todir="${buildDirectory}/features/org.eclipse.birt.dtp.sybase.nl" 
-			failonerror="false" > <fileset dir="${buildDirectory}/source/features/org.eclipse.birt.dtp.sybase.nl.feature" 
-			/> </copy -->
-
 	</target>
 
 	<target name="checkout.dtp.nl">

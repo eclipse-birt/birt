@@ -247,12 +247,6 @@
 
 	</target>
 
-	<target name="createBirtNLFeatureOverlay">
-		<antcall target="createNLGroup1FeatureOverlayFramework" />
-		<antcall target="createNLGroup1FeatureOverlayRCP" />
-		<antcall target="createNLGroup1FeatureOverlaySDK" />
-	</target>
-
 	<target name="createBirtSDK">
 		<!-- Make BIRT SDK ZIP file -->
 		<zip destfile="${OutputDir}/${sdk.zip.name}" duplicate="preserve">
@@ -371,12 +365,6 @@
 		<zip destfile="${OutputDir}/${iportal.lib.name}">
 			<zipfileset dir="${iportal.tmp}">
 				<include name="**/*" />
-			</zipfileset>
-			<!-- include nl bundles except designers into ipotal packages -->
-			<zipfileset dir="${deposit}/language_pack/plugins">
-				<include name="*.nl*.jar" />
-				<exclude name="*.designer.*nl*.jar" />
-				<exclude name="*debug.ui*nl*.jar" />
 			</zipfileset>
 		</zip>
 		<delete dir="${iportal.tmp}" />
@@ -641,9 +629,6 @@
 				<exclude name="images/**" />
 				<exclude name="pages/**" />
 				<exclude name="styles/**" />
-				<exclude name="**/*.nl1_*/**" />
-				<exclude name="**/*.nl/**" />
-				<exclude name="**/*.nl1_*.jar" />
 				<exclude name="**/org.junit*/**" />
 				<exclude name="WEB-INF/platform/**" />
 			</fileset>
@@ -758,9 +743,6 @@
 			<fileset
 				dir="${deposit}/birt_web_OSGI/org.eclipse.birt.report.viewer/birt_web_OSGI/WEB-INF/platform">
 				<patternset refid="exclude.jars" />
-				<exclude name="**/*.nl1_*/**" />
-				<exclude name="**/*.nl/**" />
-				<exclude name="**/*.nl1_*.jar" />
 				<exclude name="**/org.junit*/**" />
 			</fileset>
 		</copy>
@@ -784,9 +766,6 @@
 				<exclude name="images/**" />
 				<exclude name="pages/**" />
 				<exclude name="styles/**" />
-				<exclude name="**/*.nl1_*/**" />
-				<exclude name="**/*.nl/**" />
-				<exclude name="**/*.nl1_*.jar" />
 				<exclude name="**/org.junit*/**" />
 				<exclude name="**/org.eclipse.birt.runtime_*.jar" />
 			</fileset>
@@ -941,9 +920,6 @@
 				dir="${deposit}/birt_web_OSGI/org.eclipse.birt.report.viewer/birt_web_OSGI">
 				<exclude name="plugins/**" />
 				<patternset refid="exclude.jars" />
-				<exclude name="**/*.nl1_*/**" />
-				<exclude name="**/*.nl/**" />
-				<exclude name="**/*.nl1_*.jar" />
 				<exclude name="**/org.eclipse.birt.runtime_*.jar" />
 			</fileset>
 		</copy>
@@ -970,204 +946,6 @@
 		<delete dir="${war.tmp}" />
 	</target>
 
-	<target name="createNLGroup1">
-		<!-- package NL for Report Designer Full Eclipse Install -->
-		<zip destfile="${OutputDir}/${nl.group1.zip.name.allinone}">
-			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${ZipPrefix}">
-				<include name="*.nl1_*/**" />
-				<include name="*.nl1_*.jar" />
-				<exclude name="org.eclipse.birt.report.designer.ui.rcp.nl1_*.jar" />
-			</zipfileset>
-		</zip>
-		<!-- package NL for Report Designer Full Eclipse Install -->
-		<copy file="${OutputDir}/${nl.group1.zip.name.allinone}" tofile="${OutputDir}/${nl.group1.zip.name.framework}" />
-
-		<!-- package NL for RCP -->
-		<zip destfile="${OutputDir}/${nl.group1.zip.name.RCP}">
-			<zipfileset dir="${deposit}/language_pack/plugins" prefix="${birt.rcp.dir.prefix}/plugins">
-				<include name="*.nl1_*/**" />
-				<include name="*.nl1_*.jar" />
-				<exclude name="org.eclipse.birt.integration.wtp.ui.nl1_*.jar" />
-				<exclude name="org.eclipse.birt.report.designer.ui.ide.nl1_*.jar" />
-				<exclude name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.birt.report.data.oda.jdbc.dbprofile.ui.nl1_*.jar" />
-				<exclude name="org.eclipse.birt.report.debug.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.birt.report.designer.ui.editor.script.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.birt.report.designer.ui.editor.xml.wtp.nl1_*.jar" />
-				<exclude name="org.eclipse.birt.report.designer.ui.preview.nl1_*.jar" />
-				<exclude name="org.eclipse.birt.report.designer.ui.samples.ide.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.connectivity.apache.derby.dbdefinition.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.connectivity.apache.derby.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.connectivity.apache.derby.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.connectivity.console.profile.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.connectivity.db.generic.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.connectivity.dbdefinition.genericJDBC.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.connectivity.oda.template.ui.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.connectivity.sqm.core.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.connectivity.sqm.server.ui.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.connectivity.ui.dse.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.hsqldb.dbdefinition.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.hsqldb.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.hsqldb.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.ibm.db2.iseries.dbdefinition.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.ibm.db2.iseries.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.ibm.db2.iseries.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.ibm.db2.luw.dbdefinition.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.ibm.db2.luw.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.ibm.db2.luw.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.ibm.db2.zseries.dbdefinition.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.ibm.db2.zseries.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.ibm.db2.zseries.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.ibm.informix.dbdefinition.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.ibm.informix.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.ibm.informix.ui.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.ibm.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.msft.sqlserver.dbdefinition.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.msft.sqlserver.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.msft.sqlserver.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.mysql.dbdefinition.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.mysql.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.mysql.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.oracle.dbdefinition.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.oracle.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.oracle.ui.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.postgresql.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.postgresql.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.sap.maxdb.dbdefinition.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.sap.maxdb.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.sap.maxdb.ui.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.sybase.asa.models.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.sybase.asa.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.enablement.sybase.ase.dbdefinition.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.sybase.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.enablement.sybase.ui.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.modelbase.derby.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.modelbase.sql.edit.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.modelbase.sql.query.edit.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.modelbase.sql.query.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.modelbase.sql.xml.query.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.common.ui.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.db.derby.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.db.generic.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.editor.core.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.parsers.sql.nl1_*.jar" />
-				<exclude
-					name="org.eclipse.datatools.sqltools.parsers.sql.query.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.plan.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.result.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.sql.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.sqlbuilder.nl1_*.jar" />
-				<exclude name="org.eclipse.datatools.sqltools.sqleditor.nl1_*.jar" />
-			</zipfileset>
-		</zip>
-	</target>
-
-	<target name="createNLGroup1Runtime">
-		<zip destfile="${OutputDir}/${nl.group1.zip.name.runtime}">
-			<zipfileset dir="${deposit}/language_pack/plugins"
-				prefix="${birt.runtime.dir.prefix}/ReportEngine/plugins">
-				<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
-				<include name="org.eclipse.birt.data.nl1_*.jar" />
-				<include name="org.eclipse.birt.core.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.model.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.engine.emitter.config.*.nl1_*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.nl1*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.profile.nl1*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.design.nl1*.jar" />
-				<include name="org.eclipse.datatools.enablement.oda.xml.nl1*.jar" />
-				<include name="org.eclipse.birt.report.viewers.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar" />
-			</zipfileset>
-			<zipfileset dir="${deposit}/language_pack/plugins"
-				prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/platform/plugins">
-				<include name="org.eclipse.birt.report.data.oda.jdbc.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.data.oda.sampledb.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.data.oda.xml.nl1_*.jar" />
-				<include name="org.eclipse.birt.data.nl1_*.jar" />
-				<include name="org.eclipse.birt.core.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.model.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.engine.emitter.config.*.nl1_*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.nl1*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.consumer.nl1*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.flatfile.nl1*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.profile.nl1*.jar" />
-				<include name="org.eclipse.datatools.connectivity.oda.design.nl1*.jar" />
-				<include name="org.eclipse.datatools.enablement.oda.xml.nl1*.jar" />
-				<include name="org.eclipse.birt.report.data.bidi.utils.nl1_*.jar" />
-			</zipfileset>
-			<zipfileset dir="${deposit}/language_pack/plugins"
-				prefix="${birt.runtime.dir.prefix}/WebViewerExample/WEB-INF/lib">
-				<include name="org.eclipse.birt.report.viewers.nl1_*.jar" />
-				<include name="org.eclipse.birt.core.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.item.crosstab.core.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.data.adapter.nl1_*.jar" />
-				<include name="org.eclipse.birt.data.aggregation.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.engine.dataextraction.nl1_*.jar" />
-				<include name="org.eclipse.birt.data.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.engine.nl1_*.jar" />
-				<include name="org.eclipse.birt.report.model.nl1_*.jar" />
-			</zipfileset>
-		</zip>
-	</target>
-	<target name="createNLGroup1FeatureOverlaySDK">
-		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.SDK}">
-			<zipfileset dir="${buildDirectory}/${buildLabel}/language_pack/features"
-				prefix="${FeautrePrefix}">
-				<include name="**/feature_*.properties" />
-			</zipfileset>
-		</zip>
-	</target>
-	<target name="createNLGroup1FeatureOverlayRCP">
-		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.RCP}">
-			<zipfileset dir="${buildDirectory}/${buildLabel}/language_pack/features"
-				prefix="${birt.rcp.dir.prefix}/features">
-				<include name="**/feature_*.properties" />
-			</zipfileset>
-		</zip>
-	</target>
-	<target name="createNLGroup1FeatureOverlayFramework">
-		<zip destfile="${OutputDir}/${nl.group1.overlay.zip.name.Framework}">
-			<zipfileset dir="${buildDirectory}/${buildLabel}/language_pack/features"
-				prefix="${FeautrePrefix}">
-				<include name="**/feature_*.properties" />
-			</zipfileset>
-		</zip>
-	</target>
 	<target name="createDatabase">
 		<copy todir="${OutputDir}">
 			<fileset dir="${template.dir}/database">
@@ -1181,7 +959,6 @@
 			<zipfileset dir="${buildDirectory}/plugins" prefix="plugins">
 				<include name="**" />
 				<exclude name="*test*/**" />
-				<exclude name="*.nl/**" />
 				<exclude name="**/@dot/**" />
 				<exclude name="**/*src.zip" />
 				<exclude name="**/temp.folder/**" />

@@ -1382,12 +1382,6 @@
 			<property name="deposit" value="${buildDirectory}/${buildId}" />
 			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
 		</ant>
-		<!-- Create NL FeatureOverlay packages -->
-		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools"
-			target="createBirtNLFeatureOverlay">
-			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
-			<property name="deposit" value="${buildDirectory}/${buildId}" />
-		</ant>
 	</target>
 
 	<target name="getBuildMachine">

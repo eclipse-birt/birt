@@ -45,7 +45,6 @@
 		<antcall target="buildBirtWebViewer" />
 		<antcall target="CreateDistribute" />
 
-		<antcall target="buildBirtNLFeature" />
 		<antcall target="iPortalSetup" />
 		<antcall target="buildBirtWtpFeature" />
 
@@ -226,13 +225,6 @@
 		<ant antfile="${eclipse.build.configs}/../helper.xml" target="InformQA" />
 	</target>
 
-	<target name="iPortalSetup" unless="skip.build.NL">
-		<ant antfile="BIRTDownloadSetup.xml" dir="${eclipse.build.configs}/birt/tools"
-			target="createIpotalLib">
-			<property name="OutputDir" value="${postingDirectory}/${buildId}" />
-			<property name="deposit" value="${buildDirectory}/${buildId}" />
-		</ant>
-	</target>
 
 	<target name="renameBirtPackage" unless="skip.rename.package">
 		<move
@@ -277,8 +269,6 @@
 
 		<antcall target="renameOSGIruntimePackage" />
 
-		<antcall target="renameNLPackage" />
-
 		<antcall target="removeBirtAllForNightly" />
 
 	</target>
@@ -287,30 +277,6 @@
 		<move
 			file="${postingDirectory}/${buildId}/birt-runtime-osgi-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-runtime-osgi-${package.version}-${build.date}.zip" />
-	</target>
-
-	<target name="renameNLPackage" unless="skip.build.NL">
-		<move
-			file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-rcp-report-designer-${package.version}-${build.date}.zip" />
-		<move
-			file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-all-in-one-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-all-in-one-${package.version}-${build.date}.zip" />
-		<move
-			file="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1_FeatureOverlay-birt-report-framework-${package.version}-${build.date}.zip" />
-		<move
-			file="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1-birt-rcp-report-designer-${package.version}-${build.date}.zip" />
-		<move
-			file="${postingDirectory}/${buildId}/NLpack1-birt-report-designer-all-in-one-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1-birt-report-designer-all-in-one-${package.version}-${build.date}.zip" />
-		<move
-			file="${postingDirectory}/${buildId}/NLpack1-birt-report-framework-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1-birt-report-framework-${package.version}-${build.date}.zip" />
-		<move
-			file="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/NLpack1-birt-runtime-${package.version}-${build.date}.zip" />
 	</target>
 
 	<target name="installWTPpackage" unless="HQ.BIRT.skip">
@@ -837,100 +803,6 @@
 		<antcall target="logger">
 			<param name="message" value="Fetch birt rcp plugin finished" />
 		</antcall>
-	</target>
-
-	<target name="buildBirtNLFeature" unless="skip.build.NL">
-		<antcall target="logger">
-			<param name="message" value="BIRT nl feature build started" />
-		</antcall>
-		<property name="NLtmpsite" value="${buildDirectory}/NLtmpsite" />
-		<ant antfile="build.xml" dir="${basedir}">
-			<property name="component" value="${eclipse.build.configs}/birt.nl" />
-			<property name="fetchTag" value="CVS=HEAD,GIT=${mapVersionTag}" />
-			<property name="forceContextQualifier" value="${buildId}" />
-			<property name="generateFeatureVersionSuffix" value="false" />
-		</ant>
-		<antcall target="logger">
-			<param name="message" value="BIRT nl feature build finished" />
-		</antcall>
-		<antcall target="logger">
-			<param name="message" value="BIRT RCP nl feature build started" />
-		</antcall>
-
-		<ant antfile="build.xml" dir="${basedir}">
-			<property name="component" value="${eclipse.build.configs}/birt.rcp.nl" />
-			<property name="fetchTag" value="CVS=HEAD,GIT=${mapVersionTag}" />
-			<property name="forceContextQualifier" value="${buildId}" />
-			<property name="generateFeatureVersionSuffix" value="false" />
-		</ant>
-		<antcall target="logger">
-			<param name="message" value="BIRT RCP feature build finished" />
-		</antcall>
-
-		<antcall target="logger">
-			<param name="message" value="BIRT WTP nl feature build started" />
-		</antcall>
-		<ant antfile="build.xml" dir="${basedir}">
-			<property name="component" value="${eclipse.build.configs}/birt.wtp.nl" />
-			<property name="fetchTag" value="CVS=HEAD,GIT=${mapVersionTag}" />
-			<property name="forceContextQualifier" value="${buildId}" />
-			<property name="generateFeatureVersionSuffix" value="false" />
-		</ant>
-		<antcall target="logger">
-			<param name="message" value="BIRT WTP feature build finished" />
-		</antcall>
-
-		<antcall target="logger">
-			<param name="message" value="DTP nl feature build started" />
-		</antcall>
-
-		<ant antfile="build.xml" dir="${basedir}">
-			<property name="component" value="${eclipse.build.configs}/birt.dtp.nl" />
-			<property name="fetchTag" value="CVS=HEAD,GIT=${dtp.mapVersionTag}" />
-			<property name="forceContextQualifier" value="${buildId}" />
-			<property name="generateFeatureVersionSuffix" value="false" />
-		</ant>
-
-		<antcall target="logger">
-			<param name="message" value="DTP nl feature build finished" />
-		</antcall>
-		<antcall target="logger">
-			<param name="message" value="DTP sybase nl feature build started" />
-		</antcall>
-
-		<ant antfile="build.xml" dir="${basedir}">
-			<property name="component" value="${eclipse.build.configs}/birt.dtp.sybase.nl" />
-			<property name="fetchTag" value="CVS=HEAD,GIT=${dtp.mapVersionTag}" />
-			<property name="forceContextQualifier" value="${buildId}" />
-			<property name="generateFeatureVersionSuffix" value="false" />
-		</ant>
-		<antcall target="logger">
-			<param name="message" value="DTP sybase nl feature build finished" />
-		</antcall>
-
-		<mkdir dir="${NLtmpsite}" />
-		<mkdir dir="${NLtmpsite}/new" />
-		<unzip src="${buildDirectory}/${buildId}/birt-nl-${package.version}.zip"
-			dest="${NLtmpsite}" />
-		<unzip
-			src="${buildDirectory}/${buildId}/birt-dtp-nl-${package.version}.zip"
-			dest="${NLtmpsite}" />
-		<unzip
-			src="${buildDirectory}/${buildId}/birt-rcp-nl-${package.version}.zip"
-			dest="${NLtmpsite}" />
-		<unzip
-			src="${buildDirectory}/${buildId}/birt-dtp-sybase-nl-${package.version}.zip"
-			dest="${NLtmpsite}" />
-		<unzip
-			src="${buildDirectory}/${buildId}/birt-wtp-nl-${package.version}.zip"
-			dest="${NLtmpsite}" />
-
-		<unpackUpdateJars site="${NLtmpsite}/eclipse" output="${NLtmpsite}/new/eclipse" />
-		<zip destfile="${buildDirectory}/${buildId}/birt-all-nl-${package.version}.zip">
-			<fileset dir="${NLtmpsite}/new/eclipse" includes="features/**" />
-			<fileset dir="${NLtmpsite}/new/eclipse" includes="plugins/**" />
-		</zip>
-		<ant antfile="${eclipse.build.configs}/../helper.xml" target="buildLanguagePack" />
 	</target>
 
 	<target name="buildUpdateSite" if="updateSite">

@@ -103,7 +103,6 @@
 			<patternset>
 				<include name="plugins/"/>
 				<exclude name="plugins/*.jar"/>
-				<exclude name="plugins/*.nl1/**"/>
 				<exclude name="plugins/*.source_*/**"/>
 				<exclude name="plugins/*_?.?.?.*/**"/>
 			</patternset>

@@ -43,17 +43,8 @@
     <feature url="features/org.eclipse.birt.tests_4.8.0.qualifier.jar" id="org.eclipse.birt.tests" version="4.8.0.qualifier">
       <category name="birtTest"/>
    </feature>
-   <!-- 
-    <feature url="features/org.eclipse.birt.tests.source_4.8.0.qualifier.jar" id="org.eclipse.birt.tests.source" version="4.8.0.qualifier">
-      <category name="birtTest"/>
-   </feature>
-    -->
-    <feature id="org.eclipse.birt.nl">
-      <category name="BirtNL"/>
-   </feature>
   <category-def name="Birt" label="BIRT Reporting SDK"/>
    <category-def name="OSGi" label="BIRT Engine OSGi Runtime SDK"/>
    <category-def name="wtpIntegration" label="BIRT WTP Integration SDK"/>
    <category-def name="birtTest" label="Birt Unit Test"/>
-   <category-def name="BirtNL" label="BIRT Language Package"/>
 </site>
