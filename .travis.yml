@@ -2,6 +2,6 @@ language: java
 cache:
   directories:
     - ~/.m2
-script: mvn -B clean install
+script: mvn -B clean package
 install:
     -
