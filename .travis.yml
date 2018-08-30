@@ -1,0 +1,7 @@
+language: java
+cache:
+  directories:
+    - ~/.m2
+script: mvn -B clean install
+install:
+    -
