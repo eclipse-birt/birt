@@ -255,9 +255,6 @@
 			file="${postingDirectory}/${buildId}/birt-runtime-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-runtime-${package.version}-${build.date}.zip" />
 		<move
-			file="${postingDirectory}/${buildId}/birt-sample-plugins-${package.version}.zip"
-			tofile="${postingDirectory}/${buildId}/birt-sample-plugins-${package.version}-${build.date}.zip" />
-		<move
 			file="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}.zip"
 			tofile="${postingDirectory}/${buildId}/birt-tests-suite-${package.version}-${build.date}.zip" />
 		<move
@@ -425,8 +422,6 @@
 		<!-- replace the feature version in site.xml -->
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.cshelp}"
 			token="@FEATURE.BIRT.CSHELP@" />
-		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.example}"
-			token="@FEATURE.BIRT.EXAMPLE@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt}"
 			token="@FEATURE.BIRT@" />
 		<replace file="${updateJarWorkingDir}/packed/site.xml" value="${org.eclipse.birt.doc}"
@@ -606,7 +601,6 @@
 			failonerror="false">
 			<fileset dir="${buildDirectory}/source/build">
 				<include name="org.eclipse.birt/**" />
-				<include name="org.eclipse.birt.example/**" />
 				<include name="org.eclipse.birt.sdk/**" />
 			</fileset>
 			<fileset dir="${buildDirectory}/source/common" includes="**" />

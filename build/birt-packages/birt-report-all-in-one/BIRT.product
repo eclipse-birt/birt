@@ -36,7 +36,6 @@
    <features>
       <feature id="org.eclipse.birt.cshelp"/>
       <feature id="org.eclipse.birt.doc"/>
-      <feature id="org.eclipse.birt.example"/>
       <feature id="org.eclipse.birt.report.designer.editor.xml.wtp"/>
       <feature id="org.eclipse.birt"/>
       <feature id="org.eclipse.cvs"/>

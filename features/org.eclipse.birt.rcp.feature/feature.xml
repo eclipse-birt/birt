@@ -173,14 +173,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.example"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.report.data.bidi.utils.ui"
          download-size="0"
          install-size="0"
@@ -261,14 +253,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.report.designer.samplereports"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.report.designer.ui.cubebuilder"
          download-size="0"
          install-size="0"
@@ -286,22 +270,6 @@
 
    <plugin
          id="org.eclipse.birt.report.designer.ui.preview.web"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.report.designer.ui.samples.rcp"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.report.designer.ui.samplesview"
          download-size="0"
          install-size="0"
          version="0.0.0"

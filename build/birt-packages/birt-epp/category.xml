@@ -10,10 +10,6 @@
       <category name="Birt"/>
    </feature>
  
-   <feature url="features/org.eclipse.birt.example_4.8.0.qualifier.jar" id="org.eclipse.birt.example" version="4.8.0.qualifier">
-      <category name="Birt"/>
-   </feature>
-
    <feature url="features/org.eclipse.birt.engine.runtime_4.8.0.qualifier.jar" id="org.eclipse.birt.engine.runtime" version="4.8.0.qualifier">
       <category name="OSGi"/>
    </feature>

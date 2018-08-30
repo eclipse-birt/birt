@@ -14,7 +14,6 @@
 	<modules>
 		<module>org.eclipse.birt.p2updatesite</module>
 
-		<module>org.eclipse.birt.example</module>
 		<module>org.eclipse.birt</module>
 		<module>org.eclipse.birt.api</module>
 		<module>org.eclipse.birt.build</module>

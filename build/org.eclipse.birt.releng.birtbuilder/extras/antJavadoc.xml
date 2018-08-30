@@ -339,27 +339,6 @@
 			<property name="packagenames"
 				value="org.eclipse.birt.report.designer.ui.editor.script.*" />
 		</projectInfo>
-		<projectInfo>
-			<property name="projectName"
-				value="org.eclipse.birt.report.designer.ui.samples.ide" />
-			<property name="windowTitle" value="Birt Designer Ui Samples Ide API" />
-			<property name="packagenames"
-				value="org.eclipse.birt.report.designer.ui.samples.ide.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName"
-				value="org.eclipse.birt.report.designer.ui.samples.rcp" />
-			<property name="windowTitle" value="Birt Designer Ui Samples Rcp API" />
-			<property name="packagenames"
-				value="org.eclipse.birt.report.designer.ui.samples.rcp.*" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName"
-				value="org.eclipse.birt.report.designer.ui.samplesview" />
-			<property name="windowTitle" value="Birt Designer Ui Samplesview API" />
-			<property name="packagenames"
-				value="org.eclipse.birt.report.designer.ui.samplesview.*" />
-		</projectInfo>
 
 		<!-- model & viewer -->
 		<projectInfo>

@@ -170,9 +170,6 @@
 			<property name="projectName" value="org.eclipse.birt.doc" />
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.example" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.integration.wtp.ui" />
 		</projectInfo>
 		<projectInfo>
@@ -223,10 +220,6 @@
 		</projectInfo>
 		<projectInfo>
 			<property name="projectName"
-				value="org.eclipse.birt.report.designer.samplereports" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName"
 				value="org.eclipse.birt.report.designer.example.samplereport" />
 		</projectInfo>
 		<projectInfo>
@@ -269,18 +262,6 @@
 		</projectInfo>
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.designer.ui.rcp" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName"
-				value="org.eclipse.birt.report.designer.ui.samples.ide" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName"
-				value="org.eclipse.birt.report.designer.ui.samples.rcp" />
-		</projectInfo>
-		<projectInfo>
-			<property name="projectName"
-				value="org.eclipse.birt.report.designer.ui.samplesview" />
 		</projectInfo>
 		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.report.designer.ui.views" />

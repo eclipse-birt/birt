@@ -9,9 +9,6 @@
    <feature url="features/org.eclipse.birt.doc_@FEATURE.BIRT.DOC@.jar" id="org.eclipse.birt.doc" version="@FEATURE.BIRT.DOC@">
       <category name="Birt"/>
    </feature>
-   <feature url="features/org.eclipse.birt.example_@FEATURE.BIRT.EXAMPLE@.jar" id="org.eclipse.birt.example" version="@FEATURE.BIRT.EXAMPLE@">
-      <category name="Birt"/>
-   </feature>
    <feature url="features/org.eclipse.birt.osgi.runtime.sdk_@FEATURE.OSGI.RUNTIME.SDK@.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="@FEATURE.OSGI.RUNTIME.SDK@">
       <category name="OSGi"/>
    </feature>

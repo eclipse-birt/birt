@@ -311,13 +311,6 @@
 			<property name="cvsRoot" value="${cvs.root}" />
 		</projectInfo>
 		<projectInfo>
-			<property name="projectName" value="org.eclipse.birt.example" />
-			<property name="repositoryPath" value="source" />
-			<property name="buildFileName" value="BuildExample.xml" />
-			<property name="cvs.options" value="" />
-			<property name="cvsRoot" value="${cvs.root}" />
-		</projectInfo>
-		<projectInfo>
 			<property name="projectName" value="org.eclipse.birt.sdk" />
 			<property name="repositoryPath" value="source" />
 			<property name="buildFileName" value="BuildSDK.xml" />

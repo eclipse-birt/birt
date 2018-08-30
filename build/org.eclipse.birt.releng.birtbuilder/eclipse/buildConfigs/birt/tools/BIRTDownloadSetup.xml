@@ -75,7 +75,6 @@
 	<property name="birt.rcp.dir.prefix" value="birt-rcp-report-designer-${package.version}" />
 
 	<property name="birt.rcp.zip.name" value="birt-rcp-report-designer-${package.version}" />
-	<property name="sample.plugin.zip.name" value="birt-sample-plugins-${package.version}.zip" />
 	<property name="birt.dtp.integration.name" value="birt-dtp-integration-${package.version}.zip" />
 
 	<!--Define the engine runtime plugins -->
@@ -265,7 +264,6 @@
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="**/*" />
 				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
-				<exclude name="**/org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.sdk*/**" />
@@ -358,7 +356,6 @@
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="**/*" />
 				<exclude name="org.eclipse.birt.report.designer.ui.rcp*/**" />
-				<exclude name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
@@ -400,7 +397,6 @@
 			<zipfileset dir="${deposit}/eclipse/plugins" prefix="${ZipPrefix}">
 				<include name="**/*" />
 				<exclude name="org.eclipse.birt.report.designer.ui.rcp*/**" />
-				<exclude name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="org.eclipse.birt.thirdparty*/**" />
 				<exclude name="org.eclipse.birt.integration.wtp.ui*/**" />
@@ -476,7 +472,6 @@
 			<fileset dir="${deposit}/eclipse/plugins">
 				<include name="**/*" />
 				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
-				<exclude name="**/org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*/**" />
@@ -536,7 +531,6 @@
 			<fileset dir="${deposit}/eclipse/plugins">
 				<include name="**/*" />
 				<exclude name="**/org.eclipse.birt.report.designer.ui.rcp*/**" />
-				<exclude name="**/org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 				<exclude name="org.eclipse.birt.sample.reportitem.rotatedtext*/**" />
 				<exclude name="*.source_*/**" />
 				<exclude name="org.eclipse.birt.sdk_*/**" />
@@ -832,7 +826,6 @@
 		<copy todir="${deposit}/eclipse/plugins">
 			<fileset dir="${OutputDir}/${birt.rcp.zip.name}/plugins">
 				<include name="org.eclipse.birt.report.designer.ui.rcp*/**" />
-				<include name="org.eclipse.birt.report.designer.ui.samples.rcp_*/**" />
 			</fileset>
 		</copy>
 

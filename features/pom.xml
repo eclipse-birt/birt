@@ -18,7 +18,6 @@
         <module>org.eclipse.birt.sdk.feature</module>
         <module>org.eclipse.birt.testhelper.feature</module>
         <module>org.eclipse.birt.tests.feature</module>
-        <module>org.eclipse.birt.example.feature</module>
         <module>org.eclipse.birt.feature</module>
         <module>org.eclipse.birt.integration.wtp.feature</module>
         <module>org.eclipse.birt.integration.wtp.sdk.feature</module>

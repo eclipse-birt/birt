@@ -26,7 +26,6 @@
 		<module>birt-report-framework-sdk</module>
 		<module>birt-runtime</module>
 		<module>birt-runtime-osgi</module>
-		<module>birt-sample-plugins</module>
 		<module>birt-tests-suite</module>
 		<module>birt-wtp-integration-sdk</module>
 		<module>birt-publish</module>

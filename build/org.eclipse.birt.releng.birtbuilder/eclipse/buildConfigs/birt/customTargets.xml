@@ -272,11 +272,6 @@
 			<fileset
 				dir="${buildDirectory}/features/org.eclipse.birt.integration.wtp/feature.temp.folder" />
 		</copy>
-		<copy todir="${postingDirectory}/${buildLabel}/compilelogs"
-			overwrite="true" failonerror="false">
-			<fileset
-				dir="${buildDirectory}/features/org.eclipse.birt.example/feature.temp.folder" />
-		</copy>
 	</target>
 
 	<target name="clean" unless="noclean">

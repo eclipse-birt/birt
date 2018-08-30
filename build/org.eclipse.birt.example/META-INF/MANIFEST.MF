@@ -1,9 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Example
-Bundle-SymbolicName: org.eclipse.birt.example
-Bundle-Version: 4.8.0.qualifier
-Bundle-Vendor: Eclipse BIRT Project
-Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-

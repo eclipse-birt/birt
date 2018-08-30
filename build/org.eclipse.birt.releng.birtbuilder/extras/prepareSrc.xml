@@ -24,11 +24,6 @@
 			<fileset
 				dir="${buildDirectory}/source/features/org.eclipse.birt.doc.feature" />
 		</copy>
-		<copy todir="${buildDirectory}/features/org.eclipse.birt.example"
-			failonerror="false">
-			<fileset
-				dir="${buildDirectory}/source/features/org.eclipse.birt.example.feature" />
-		</copy>
 		<copy todir="${buildDirectory}/features/org.eclipse.birt.integration.wtp"
 			failonerror="false">
 			<fileset
