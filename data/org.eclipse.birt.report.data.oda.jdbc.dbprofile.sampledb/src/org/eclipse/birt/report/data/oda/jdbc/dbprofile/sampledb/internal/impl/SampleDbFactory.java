@@ -179,10 +179,15 @@ public class SampleDbFactory implements IExecutableExtension
             File entryFile = new File( dbDir, entry.getName() );
             if ( entry.isDirectory() )
             {
-                entryFile.mkdir();
+                entryFile.mkdirs();
             }
             else
             {
+                File parent = entryFile.getParentFile();
+                if (parent != null)
+                {
+                    parent.mkdirs();
+                }
                 // Copy zip entry to local file
                 OutputStream os = new FileOutputStream( entryFile );
                 byte[] buf = new byte[4000];
