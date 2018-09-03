@@ -8,6 +8,8 @@ Bundle-ClassPath: target/ooxml-schemas-1.1.jar,
  target/poi-ooxml-3.11.jar,
  target/poi-ooxml-schemas-3.11.jar
 Bundle-Localization: plugin
+Require-Bundle: org.apache.commons.codec;bundle-version="1.9.0",
+ org.apache.xmlbeans;bundle-version="2.3.0"
 Export-Package: org.apache.poi,
  org.apache.poi.common.usermodel,
  org.apache.poi.ddf,
