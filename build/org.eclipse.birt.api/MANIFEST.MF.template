@@ -1,7 +1,0 @@
-Manifest-Version: 1.0
-Bundle-ManifestVersion: 2
-Bundle-Name: BIRT Report Engine API Fragment
-Bundle-SymbolicName: org.eclipse.birt.api
-Bundle-Version: 4.5.0.qualifier
-Bundle-Vendor: Eclipse.org
-Fragment-Host: system.bundle;extension:=framework
