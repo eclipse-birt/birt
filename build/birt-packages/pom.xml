@@ -20,7 +20,6 @@
 
 	<modules>
 		<module>birt-epp</module>
-		<module>birt-report-rcp</module>
 		<module>birt-runtime</module>
 		<module>birt-runtime-osgi</module>
 		<module>birt-tests-suite</module>
