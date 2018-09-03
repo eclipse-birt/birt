@@ -49,7 +49,6 @@ public class ViewservletRepoGen
 	private final File templateSnapshotPomFile;
 	private final File templateReleasePomFile;
 	private final String rootFileName;
-	private final File readmeFile;
 	private final String viewservletsVersion;
 	private final File sourceDir;
 	private final String externalFileName = "./externalRepo-viewservlets.properties";
@@ -58,12 +57,11 @@ public class ViewservletRepoGen
 
 	private ViewservletRepoGen(final File libDir, final File repoParentDir, final String groupId,
 			final String passphrase, final boolean snapshot, final boolean release,
-			final boolean clean, final String rootFileName, final String readmeFilePath, final String viewservletsV, final File sourceDir) throws IOException
+			final boolean clean, final String rootFileName, final String viewservletsV, final File sourceDir) throws IOException
 	{
 		this.libDir = libDir;
 		this.groupId = groupId;
 		this.passphrase = passphrase;
-		this.readmeFile = new File(readmeFilePath);
 		this.viewservletsVersion = viewservletsV;
 		this.sourceDir = sourceDir;
 		
@@ -148,15 +146,14 @@ public class ViewservletRepoGen
 		final boolean genSnapshot = "true".equalsIgnoreCase(properties.getProperty("snapshot"));
 		final boolean genRelease = "true".equalsIgnoreCase(properties.getProperty("release"));
 		final String rootFileName = properties.getProperty("viewServletsFile");
-		final String readmeFilePath = properties.getProperty("readmeFile");
-		final String viewservletsV= properties.getProperty("viewServletsVersion");	
+		final String viewservletsV= properties.getProperty("viewServletsVersion");
 		final String sourceDir = properties.getProperty("sourceDir");
 		System.out.println("libDir: " + libDirName);
 		System.out.println("servlets version: " + viewservletsV);
 		System.out.println("servlets root file: " + rootFileName);
 		
 		final ViewservletRepoGen repoGen = new ViewservletRepoGen(new File(libDirName), new File(repoDirName), groupId,
-				passphrase, genSnapshot, genRelease, clean, rootFileName,readmeFilePath, viewservletsV, new File(sourceDir));
+				passphrase, genSnapshot, genRelease, clean, rootFileName, viewservletsV, new File(sourceDir));
 		
 		repoGen.generate();
 	}
@@ -418,10 +415,10 @@ public class ViewservletRepoGen
 		else
 		{
 			System.out.println("Creating fake source bundles for " + fileInfo.getArtifactId());
-			createJar( sourceFileTarget, new File[]{readmeFile} );
+			createJar( sourceFileTarget, new File[]{} );
 		}
 		
-		createJar( javadocFileTarget, new File[]{readmeFile} );
+		createJar( javadocFileTarget, new File[]{} );
 		
 		createPomFile(fileInfo, snapshot, pomFile, dependsOn, externalDependencies);
 		createAntFile(new File(versionDir, "build.xml"), pomFile, fileInfo.getArtifactId(),

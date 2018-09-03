@@ -23,14 +23,6 @@ code.</span></font></p>
 <a href="#setup">Setup</a><br>
 　</font></p>
 <p><font face="Tahoma"><b><a name="description">Description</a></b></font></p>
-<p><font face="Tahoma">Ant script WebViewerPackager.xml under 
-org.eclipse.birt.report.viewer can be used to help building web viewer.<br>
-The web viewer depends on BIRT releng tools org.eclipse.birt.releng.birtbuilder.<br>
-Api jar under WEB-INF/lib will be generated during the process of running 
-org.eclipse.birt.releng.birtbuilder.</font></p>
-<p><font face="Tahoma">Please refer to Readme.html under project 
-org.eclipse.birt.releng.birtbuilder first.<br>
-　</font></p>
 <p><font face="Tahoma"><b><a name="prereq">Prerequisites</a></b></font></p>
 <p><font face="Tahoma">1. Install Eclipse platform/GEF/EMF/DTP projects</font></p>
 <p><font face="Tahoma">2. Download Obit release(
@@ -60,19 +52,9 @@ org.w3c.dom.smil</font><br>
 　</p>
 <p><font face="Tahoma"><b><a name="setup">Setup</a><br>
 　</b></font></p>
-<p><font face="Tahoma">1. Download project org.eclipse.birt.releng.birtbuilder. 
-Follow the steps in Readme.html under it to create birt-report-framework 
-package. The api jars will be created in this process which are needed by 
-following steps. <br>
-After the build finished, extract the generated birt-report-framework-*.zip 
+After the build finished, extract the generated birt-report-framework-*.zip
 <span lang="zh-cn">and birt-third-party*.zip </span>to 
 directory &lt;integrated.dir&gt;</font></p>
-<p><font face="Tahoma"><br>
-Note: BIRT source code do not need to be checked out manually. They will be 
-checked out during build process of org.eclipse.birt.releng.birtbuilder.<br>
-And users can import projects &lt;buildDirectory&gt;/plugins into workspace for 
-modification directly. The rerun of the build won't overwrite the changes made 
-in the &lt;buildDirectory&gt;/plugins.</font></p>
 <p><font face="Tahoma"><br>
 2. Switch to the &lt;buildDirectory&gt;/plugins/org.eclipse.birt.report.viewer 
 directory. &lt;buildDirectory&gt; is the working dir of Step 1.</font></p>

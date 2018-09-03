@@ -49,7 +49,6 @@ public class RepoGen
 	private final File templateSnapshotPomFile;
 	private final File templateReleasePomFile;
 	private final String rootFileName;
-	private final File readmeFile;
 	private final File sourceDir;
 	private final String externalFileName = "./externalRepo.properties";
 	
@@ -57,12 +56,11 @@ public class RepoGen
 
 	private RepoGen(final File libDir, final File repoParentDir, final String groupId,
 			final String passphrase, final boolean snapshot, final boolean release,
-			final boolean clean, final String rootFileName, final String readmeFilePath , final File sourceDir) throws IOException
+			final boolean clean, final String rootFileName, final File sourceDir) throws IOException
 	{
 		this.libDir = libDir;
 		this.groupId = groupId;
 		this.passphrase = passphrase;
-		this.readmeFile = new File(readmeFilePath);
 		this.sourceDir = sourceDir;
 		
 		repoDir = new File(repoParentDir, "repository");
@@ -147,11 +145,10 @@ public class RepoGen
 		final boolean genSnapshot = "true".equalsIgnoreCase(properties.getProperty("snapshot"));
 		final boolean genRelease = "true".equalsIgnoreCase(properties.getProperty("release"));
 		final String rootFileName = properties.getProperty("rootFile");
-		final String readmeFilePath = properties.getProperty("readmeFile");
 		final String sourceDir = properties.getProperty("sourceDir");
 		
 		final RepoGen repoGen = new RepoGen(new File(libDirName), new File(repoDirName), groupId,
-				passphrase, genSnapshot, genRelease, clean, rootFileName, readmeFilePath, new File(sourceDir));
+				passphrase, genSnapshot, genRelease, clean, rootFileName, new File(sourceDir));
 		repoGen.generate();
 	}
 
@@ -425,10 +422,10 @@ public class RepoGen
 		else
 		{
 			System.out.println("Creating fake source bundles for " + fileInfo.getArtifactId());
-			createJar( sourceFileTarget, new File[]{readmeFile} );
+			createJar( sourceFileTarget, new File[]{} );
 		}
 		
-		createJar( javadocFile, new File[]{readmeFile} );
+		createJar( javadocFile, new File[]{} );
 		
 		createPomFile(fileInfo, snapshot, pomFile, dependsOn, externalDependencies);
 		createAntFile(new File(versionDir, "build.xml"), pomFile, fileInfo.getArtifactId(),
