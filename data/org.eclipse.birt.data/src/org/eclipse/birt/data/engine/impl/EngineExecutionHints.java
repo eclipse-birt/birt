@@ -71,9 +71,6 @@ public class EngineExecutionHints implements IEngineExecutionHints
 					{
 						IBaseDataSetDesign design = dataEngine.getDataSetDesign( dataSetName );
 
-						if( design instanceof IScriptDataSetDesign)
-							continue;
-
 						if( design instanceof ICacheable  )
 							DataSetDesignHelper.populateDataSetNames( dataEngine.getDataSetDesign( dataSetName ), dataEngine, temp2 );
 												
