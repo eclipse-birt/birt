@@ -28,7 +28,6 @@
 		<module>birt-runtime-osgi</module>
 		<module>birt-tests-suite</module>
 		<module>birt-wtp-integration-sdk</module>
-		<module>birt-publish</module>
 		<module>birt-runtime-test</module>
 	</modules>
 </project>
