@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project default="plugin_export" name="build">
-	<target name="plugin_export">
-		<pde.exportPlugins destination="C:\Temp\eclipse" exportSource="false" exportType="directory" plugins="uk.co.spudsoft.birt.emitters.excel" useJARFormat="true"/>
-	</target>
-</project>
