@@ -10,46 +10,4 @@
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.report.model</artifactId>
 	<packaging>eclipse-plugin</packaging>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>api</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<classifier>api</classifier>
-							<excludes>
-								<exclude>org/eclipse/birt/report/model/plugin/</exclude>
-								<exclude>org/eclipse/birt/report/model/api/impl/</exclude>
-								<exclude>org/eclipse/birt/report/model/api/filterExtension/FilterExprDefinition*.class</exclude>
-								<exclude>org/eclipse/birt/report/model/api/filterExtension/ODAFilterExprProvider.class</exclude>
-								<exclude>org/eclipse/birt/report/model/simpleapi/</exclude>
-								<exclude>**/*Test.class</exclude>
-								<exclude>**/*Test$*.class</exclude>
-								<exclude>**/*TestCase.class</exclude>
-								<exclude>**/*TestCase$*.class</exclude>
-								<exclude>**/AllTests.class</exclude>
-								<exclude>"**/Messages_aa.properties</exclude>
-								<exclude>romdoc/**</exclude>
-								<exclude>org/eclipse/birt/report/model/library/</exclude>
-								<exclude>**/input/</exclude>
-								<exclude>**/golden/</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<archive>
-						<manifestFile>api/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

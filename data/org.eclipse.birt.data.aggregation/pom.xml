@@ -9,33 +9,4 @@
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.data.aggregation</artifactId>
 	<packaging>eclipse-plugin</packaging>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>api</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<classifier>api</classifier>
-							<includes>
-								<include>org/eclipse/birt/data/aggregation/api/**/*.class</include>
-								<include>org/eclipse/birt/data/aggregation/api/i18n/*.*</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<archive>
-						<manifestFile>api/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

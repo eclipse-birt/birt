@@ -31,65 +31,6 @@
 					</execution>
 				</executions>
 			</plugin>
-			<!-- build engine-api.jar, see customerBuildCallbacks.xml -->
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>engineapi</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<classifier>api</classifier>
-							<archive>
-								<manifestFile>api/engineapi/MANIFEST.MF</manifestFile>
-							</archive>
-							<excludes>
-								<exclude>**/*Test.class</exclude>
-								<exclude>**/*Test.class</exclude>
-							</excludes>
-							<includes>
-								<include>org/eclipse/birt/report/engine/api/*.class</include>
-								<include>org/eclipse/birt/report/engine/util/ExportManifestUtils.class</include>
-								<include>org/eclipse/birt/report/engine/util/FastPool.class</include>
-								<include>org/eclipse/birt/report/engine/util/FileUtil*.class</include>
-								<include>org/eclipse/birt/report/engine/i18n/*.class</include>
-								<include>org/eclipse/birt/report/engine/i18n/*.properties</include>
-								<include>org/eclipse/birt/report/engine/ir/Expression*.class</include>
-								<include>org/eclipse/birt/report/engine/api/impl/CascadingParameterGroupDefn.class</include>
-								<include>org/eclipse/birt/report/engine/api/impl/ParameterDefn.class</include>
-								<include>org/eclipse/birt/report/engine/api/impl/ParameterDefnBase.class</include>
-								<include>org/eclipse/birt/report/engine/api/impl/ParameterGroupDefn.class</include>
-								<include>org/eclipse/birt/report/engine/api/impl/ParameterSelectionChoice.class</include>
-								<include>org/eclipse/birt/report/engine/api/impl/ScalarParameterDefn.class</include>
-								<include>org/eclipse/birt/report/engine/api/impl/SelectionChoiceComparator.class</include>
-							</includes>
-						</configuration>
-					</execution>
-					<execution>
-						<id>scriptapi</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<classifier>scriptapi</classifier>
-							<archive>
-								<manifestFile>api/scriptapi/MANIFEST.MF</manifestFile>
-							</archive>
-							<excludes>
-								<exclude>**/api/script/**/*Test.class</exclude>
-							</excludes>
-							<includes>
-								<include>**/api/script/**/*.class</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
 		</plugins>
 	</build>
 </project>

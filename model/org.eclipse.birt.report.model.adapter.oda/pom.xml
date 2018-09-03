@@ -10,35 +10,4 @@
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.report.model.adapter.oda</artifactId>
 	<packaging>eclipse-plugin</packaging>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>api</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<classifier>api</classifier>
-							<excludes>
-								<exclude>org/eclipse/birt/report/model/adapter/oda/plugin/"</exclude>
-								<exclude>org/eclipse/birt/report/model/adapter/oda/impl/"</exclude>
-								<exclude>org/eclipse/birt/report/model/adapter/oda/model/"</exclude>
-								<exclude>org/eclipse/birt/report/model/adapter/oda/util/"</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<archive>
-						<manifestFile>api/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

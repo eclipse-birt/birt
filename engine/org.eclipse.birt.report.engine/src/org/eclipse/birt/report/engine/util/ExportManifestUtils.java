@@ -13,25 +13,15 @@ public class ExportManifestUtils
 	static final String[] API_JAR_PATTERNS = new String[]{
 		"com.ibm.icu.*.jar",
 		"org.apache.commons.codec_.*.jar", 
-		"coreapi.jar", 
-		"dataadapterapi.jar",
-		"dteapi.jar", 
-		"engineapi.jar", 
-		"flute.jar", 
+		"flute.jar",
 		"js.jar",
-		"modelapi.jar", 
-		"crosstabcoreapi.jar",
 		"org.eclipse.emf.common_.*.jar",
 		"org.eclipse.emf.ecore.xmi_.*.jar", 
 		"org.eclipse.emf.ecore_.*.jar",
 		"org.w3c.css.sac_.*.jar", 
-		"scriptapi.jar",
-		"modelodaapi.jar",
-		"odadesignapi.jar",
 		"javax.servlet_.*.jar",
 		"javax.servlet.jsp_.*.jar",
 		"org.eclipse.birt.report.engine.dataextraction_*.jar",
-		"dataaggregationapi.jar",
 		"emitterconfig.jar"
 	};
 

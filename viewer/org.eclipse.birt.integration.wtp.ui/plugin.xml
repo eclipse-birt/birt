@@ -263,13 +263,6 @@
 				<file name="org.eclipse.emf.ecore.xmi_"/>
 				<file name="org.eclipse.emf.ecore_"/>
 				<file name="org.eclipse.birt"/>
-				<file name="coreapi.jar"/>
-				<file name="dataadapterapi.jar"/>
-				<file name="dataextraction.jar"/>
-				<file name="dteapi.jar"/>
-				<file name="engineapi.jar"/>
-				<file name="modelapi.jar"/>
-				<file name="scriptapi.jar"/>
 				<file name="viewservlets.jar"/>
 			</folder>
 		</conflict>	

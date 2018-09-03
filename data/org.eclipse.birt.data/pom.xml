@@ -9,42 +9,4 @@
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.data</artifactId>
 	<packaging>eclipse-plugin</packaging>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>api</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<classifier>api</classifier>
-							<includes>
-								<include>org/eclipse/birt/data/engine/api/**/*.class</include>
-								<include>org/eclipse/birt/data/engine/olap/api/**/*.class</include>
-								<include>javax/olap/**/*.class</include>
-								<include>org/eclipse/birt/data/engine/core/DataException.class</include>
-								<include>org/eclipse/birt/data/engine/core/security/*.class</include>
-								<include>org/eclipse/birt/data/engine/i18n/*.*</include>
-							</includes>
-							<excludes>
-								<exclude>org/eclipse/birt/data/engine/api/**/*Test*.class</exclude>
-								<exclude>org/eclipse/birt/data/engine/olap/api/**/*Test*.class</exclude>
-								<exclude>org/eclipse/birt/data/engine/i18n/package.html</exclude>
-							</excludes>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<archive>
-						<manifestFile>api/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>

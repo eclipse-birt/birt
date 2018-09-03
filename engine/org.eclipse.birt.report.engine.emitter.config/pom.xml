@@ -9,32 +9,4 @@
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.report.engine.emitter.config</artifactId>
 	<packaging>eclipse-plugin</packaging>
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<executions>
-					<execution>
-						<id>api</id>
-						<phase>package</phase>
-						<goals>
-							<goal>jar</goal>
-						</goals>
-						<configuration>
-							<classifier>api</classifier>
-							<includes>
-								<include>org/eclipse/birt/report/engine/emitter/config/*.class</include>
-							</includes>
-						</configuration>
-					</execution>
-				</executions>
-				<configuration>
-					<archive>
-						<manifestFile>api/MANIFEST.MF</manifestFile>
-					</archive>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
