@@ -14,6 +14,6 @@
 	<modules>
 		<module>org.eclipse.birt</module>
 		<module>org.eclipse.birt.build</module>
-		<module>birt-packages</module>
+		<module>birt-epp</module>
 	</modules>
 </project>
