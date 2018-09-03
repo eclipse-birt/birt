@@ -97,9 +97,11 @@
 
 	<modules>
 		<module>plugins-external</module>
-		<!-- build issue inside -->
-		<module>build</module>
 		<module>common</module>
+
+		<module>build-birt-plugin</module>
+		<module>build-birt-epp</module>
+
 		<module>core</module>
 		<module>data</module>
 		<!-- build issue inside -->

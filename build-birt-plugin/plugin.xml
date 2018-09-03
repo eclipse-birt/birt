@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.0"?>
 <plugin>
-   <extension
-	        point="org.eclipse.ui.activities">
+   <extension point="org.eclipse.ui.activities">
 	     <activity
 	         description="%org.eclipse.birt.activity.description"
 	         id="org.eclipse.birt.activity"
