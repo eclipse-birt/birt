@@ -20,6 +20,5 @@
 
 	<modules>
 		<module>birt-epp</module>
-		<module>birt-wtp-integration-sdk</module>
 	</modules>
 </project>
