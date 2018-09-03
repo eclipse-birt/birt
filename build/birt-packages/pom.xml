@@ -20,7 +20,6 @@
 
 	<modules>
 		<module>birt-epp</module>
-		<module>birt-tests-suite</module>
 		<module>birt-wtp-integration-sdk</module>
 	</modules>
 </project>
