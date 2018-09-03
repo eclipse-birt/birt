@@ -27,12 +27,4 @@
          id="org.eclipse.birt"
          version="0.0.0"/>
 
-   <includes
-         id="org.eclipse.birt.cshelp"
-         version="0.0.0"/>
-
-   <includes
-         id="org.eclipse.birt.doc"
-         version="0.0.0"/>
-
 </feature>

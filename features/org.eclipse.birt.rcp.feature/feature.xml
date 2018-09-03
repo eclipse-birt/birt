@@ -141,14 +141,6 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.birt.cshelp"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
          id="org.eclipse.birt.data.oda.pojo.ui"
          download-size="0"
          install-size="0"
@@ -158,14 +150,6 @@
 
    <plugin
          id="org.eclipse.birt.data.oda.pojo"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         fragment="true"
-         unpack="false"/>
-
-   <plugin
-         id="org.eclipse.birt.doc"
          download-size="0"
          install-size="0"
          version="0.0.0"

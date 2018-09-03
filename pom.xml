@@ -103,7 +103,6 @@
 		<module>core</module>
 		<module>data</module>
 		<!-- build issue inside -->
-		<module>docs</module>
 		<module>engine</module>
 		<!-- sdk/test features build issue, test features installation -->
 		<module>features</module>
