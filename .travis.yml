@@ -5,3 +5,5 @@ cache:
   directories:
     - ~/.m2
 script: mvn -B --global-toolchains travis-maven-toolchain.xml clean package -DskipTests
+install:
+  -
