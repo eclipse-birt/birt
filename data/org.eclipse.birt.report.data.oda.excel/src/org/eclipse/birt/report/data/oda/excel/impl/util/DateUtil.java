@@ -37,7 +37,9 @@ public final class DateUtil
 	// Defalult Locale, if we have any problem parse string to date for Locale.getDefault()
 	// we will try to parse it for Locale.US
 	private static ULocale DEFAULT_LOCALE = ULocale.US;
-	private static ULocale JRE_DEFAULT_LOCALE = ULocale.getDefault( );
+	
+	//JRE Default Locale used for formatting Date 
+	private static ULocale JRE_DEFAULT_LOCALE = ULocale.getDefault(ULocale.Category.FORMAT);
 	
 	private static SimpleDateFormat MysqlUSDateFormatter = new SimpleDateFormat( "M/d/yyyy HH:mm" );
 

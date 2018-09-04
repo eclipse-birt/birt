@@ -23,6 +23,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.report.debug.internal.core.launcher.IReportLaunchConstants;
@@ -72,6 +73,8 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 	int taskType;
 	int listenPort;
 
+	private static final Logger logger = Logger.getLogger( ReportLaunchHelper.class.getName( ) );
+	
 	void init( ILaunchConfiguration configuration ) throws CoreException
 	{
 		fileName = covertVariables( configuration.getAttribute( ATTR_REPORT_FILE_NAME,
@@ -316,35 +319,14 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 	 * @param params
 	 * @return
 	 */
-	private static boolean getParameterValues( List params, Map paramValues )
+	private static boolean getParameterValues( String reportDesignFile,
+			int taskType, IReportEngine engine, Map paramValues )
 	{
-		if ( params != null && params.size( ) > 0 )
-		{
-			InputParameterDialog dialog = new InputParameterDialog( DebugUI.getShell( ),
-					params,
-					paramValues );
-			if ( dialog.open( ) == Window.OK )
-			{
-				paramValues.clear( );
-				paramValues.putAll( dialog.getParameters( ) );
-				return true;
-			}
-			else
-			{
-				return false;
-			}
-		}
-		else
-		{
-			return true;
-		}
-	}
-
-	private static List getInputParameters( String reportDesignFile,
-			int taskType, IReportEngine engine )
-	{
+		
 		IGetParameterDefinitionTask task = null;
 		IReportDocument document = null;
+		boolean launch = false;
+		
 		try
 		{
 			if ( taskType == TASK_TYPE_RENDER )
@@ -358,23 +340,45 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 				task = engine.createGetParameterDefinitionTask( engine.openReportDesign( reportDesignFile ) );
 			}
 			ParameterFactory factory = new ParameterFactory( task );
-			List parameters = factory.getRootChildren( false );
-			task.close( );
-			if (document != null)
+			List params = factory.getRootChildren( false );
+			
+			if ( params != null && params.size( ) > 0 )
 			{
-				document.close();
+				InputParameterDialog dialog = new InputParameterDialog( DebugUI.getShell( ),
+						params,
+						paramValues );
+				// InputParameterDailog uses reportrunnable set in
+				// GetParameterDefinitionTask execution context.Close
+				// GetParameterDefinitionTask after InputParameterDialog
+				// completes reading the default values for the report
+				// parameters.   
+				if ( dialog.open( ) == Window.OK )
+				{
+					paramValues.clear( );
+					paramValues.putAll( dialog.getParameters( ) );
+					launch = true;
+				}
 			}
-			task = null;
-			return parameters;
+			else
+			{
+				launch = true;
+			}
 		}
 		catch ( EngineException e )
 		{
+			logger.log( Level.SEVERE, e.getMessage( ), e);
+		}finally{
 			if ( task != null )
 			{
 				task.close( );
 			}
+			if (document != null)
+			{
+				document.close();
+			}
 		}
-		return null;
+		
+		return launch;
 	}
 
 	boolean finalLaunchCheck( final ILaunchConfiguration configuration,
@@ -401,9 +405,9 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 		Display display = DebugUI.getStandardDisplay( );
 		if ( display.getThread( ).equals( Thread.currentThread( ) ) )
 		{
-			return getParameterValues( getInputParameters( fileName,
+			return getParameterValues(fileName,
 					taskType,
-					engine ), paramValues );
+					engine, paramValues );
 		}
 
 		final Object[] result = new Object[]{
@@ -414,9 +418,9 @@ public class ReportLaunchHelper implements IReportLaunchConstants
 
 			public void run( )
 			{
-				result[0] = Boolean.valueOf( getParameterValues( getInputParameters( fileName,
+				result[0] = Boolean.valueOf( getParameterValues( fileName,
 						taskType,
-						engine ),
+						engine ,
 						paramValues ) );
 			}
 		};
