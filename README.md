@@ -1,4 +1,4 @@
-# BIRT
+# BIRT [![Build Status](https://travis-ci.org/zaplatynski/birt.svg?branch=master)](https://travis-ci.org/zaplatynski/birt)
 The open source Eclipse BIRT reporting and data visualization project. 
 
 ## Building BIRT
