@@ -17,11 +17,14 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 
+import org.junit.Ignore;
+
 /**
  * Test case for DOM parser.
  * 
  * @version $Revision: 1.3 $ $Date: 2007/02/06 09:51:36 $
  */
+@Ignore
 public class TextParserTest extends TestCase
 {
 

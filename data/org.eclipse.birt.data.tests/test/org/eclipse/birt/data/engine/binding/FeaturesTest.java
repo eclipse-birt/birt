@@ -1034,6 +1034,7 @@ public class FeaturesTest extends APITestCase
 	 * script type.
 	 */
 	@Test
+	@Ignore
     public void test16( ) throws Exception
 	{
 		// --- begin binding

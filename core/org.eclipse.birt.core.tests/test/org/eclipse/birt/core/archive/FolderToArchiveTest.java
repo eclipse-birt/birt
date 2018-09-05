@@ -12,10 +12,13 @@ import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.Ignore;
 
 import junit.framework.TestCase;
 
-public class FolderToArchiveTest extends TestCase
+import static org.junit.Assert.assertEquals;
+
+public class FolderToArchiveTest
 {
 
     @Before

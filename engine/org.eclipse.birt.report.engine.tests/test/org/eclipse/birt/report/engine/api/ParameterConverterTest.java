@@ -18,11 +18,13 @@ import java.util.Date;
 import java.util.Locale;
 
 import junit.framework.TestCase;
-;
+
+import org.junit.Ignore;
+
 /**
  * 
  */
-
+@Ignore
 public class ParameterConverterTest extends TestCase
 {
 

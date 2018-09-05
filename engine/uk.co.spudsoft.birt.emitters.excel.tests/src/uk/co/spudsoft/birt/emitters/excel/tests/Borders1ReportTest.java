@@ -27,7 +27,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class Borders1ReportTest extends ReportRunner {
 
 	private void assertSingleBorder( Sheet sheet, int row, String border, short expected, short actual ) {

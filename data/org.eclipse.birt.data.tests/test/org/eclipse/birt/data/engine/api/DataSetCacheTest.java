@@ -530,6 +530,7 @@ public class DataSetCacheTest extends APITestCase
 	 * @throws Exception
 	 */
 	@Test
+	@Ignore
     public void testJointDataSetCache( ) throws Exception
 	{
 		QueryDefinition queryDefn = prepareForJointDataSet( false );

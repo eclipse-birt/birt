@@ -24,6 +24,9 @@ import java.util.regex.Pattern;
 
 import junit.framework.TestCase;
 
+import org.junit.Ignore;
+
+@Ignore
 public class EngineLoggerTest extends TestCase
 {
 

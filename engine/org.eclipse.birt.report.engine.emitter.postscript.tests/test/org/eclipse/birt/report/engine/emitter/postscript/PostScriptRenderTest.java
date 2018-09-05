@@ -16,6 +16,9 @@ import java.io.File;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 
+import org.junit.Ignore;
+
+@Ignore
 public class PostScriptRenderTest extends EngineCase
 {
 

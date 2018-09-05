@@ -42,7 +42,7 @@ public class AllArchiveTests
 		test.addTestSuite( ArchiveEntryInputStreamTest.class );
 		test.addTestSuite( ArchiveFileFactoryTest.class );
 		test.addTestSuite( ArchiveFileTest.class );
-		test.addTestSuite( ArchivePerformanceTest.class );
+		//test.addTestSuite( ArchivePerformanceTest.class );
 		test.addTestSuite( ArchiveRemoveTest.class );
 		test.addTestSuite( ArchiveViewTest.class );
 		test.addTestSuite( UpgradeArchiveTest.class );
@@ -54,10 +54,10 @@ public class AllArchiveTests
 		test.addTestSuite( DocumentArchiveTest.class );
 		test.addTestSuite( FileArchiveTest.class );
 		test.addTestSuite( FolderArchiveTest.class );
-		test.addTestSuite( FolderToArchiveTest.class );
+		//test.addTestSuite( FolderToArchiveTest.class );
 		test.addTestSuite( InputStreamRefreshTest.class );
 		test.addTestSuite( SpecialCharacterTest.class );
-		test.addTestSuite( TestBuffer.class );
+		//test.addTestSuite( TestBuffer.class );
 		// add all test classes here
 
 		return test;

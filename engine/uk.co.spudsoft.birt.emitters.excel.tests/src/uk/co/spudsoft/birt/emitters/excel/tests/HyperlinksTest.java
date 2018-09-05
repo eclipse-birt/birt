@@ -32,7 +32,9 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class HyperlinksTest extends CellRangeTester {
 	
 	private void validateNamedRange( Workbook workbook, int index, String name, int sheetIndex, int row1, int col1, int row2, int col2 ) {

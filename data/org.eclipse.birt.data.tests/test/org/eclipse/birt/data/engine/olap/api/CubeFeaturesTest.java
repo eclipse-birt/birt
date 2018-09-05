@@ -316,6 +316,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * @throws Exception
 	 */
 	@Test
+	@Ignore
     public void testBasic3( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -743,6 +744,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * @throws Exception
 	 */
 	@Test
+	@Ignore
     public void testCubeRankAggregation( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -1323,6 +1325,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * @throws Exception
 	 */
 	@Test
+	@Ignore
     public void testBasic4( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -1405,6 +1408,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * @throws Exception
 	 */
 	@Test
+	@Ignore
     public void testBasic5( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -1500,6 +1504,7 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * @throws Exception
 	 */
 	@Test
+	@Ignore
     public void testBasic6( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );

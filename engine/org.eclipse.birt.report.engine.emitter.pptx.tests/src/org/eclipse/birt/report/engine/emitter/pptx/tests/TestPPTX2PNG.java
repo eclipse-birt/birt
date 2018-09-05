@@ -8,7 +8,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class TestPPTX2PNG
 {
 

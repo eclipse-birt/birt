@@ -30,7 +30,9 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class PageLayoutTest extends ReportRunner {
 
 	@Test

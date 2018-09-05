@@ -29,7 +29,7 @@ public class AllFormatTests
 	{
 		TestSuite test = new TestSuite( );
 
-		test.addTestSuite( DateFormatterTest.class );
+		//test.addTestSuite( DateFormatterTest.class );
 		test.addTestSuite( NumberFormatterTest.class );
 		test.addTestSuite( StringFormatterTest.class );
 

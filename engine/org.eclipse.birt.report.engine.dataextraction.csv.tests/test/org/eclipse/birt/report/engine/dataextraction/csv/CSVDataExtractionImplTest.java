@@ -43,10 +43,17 @@ import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.ICommonDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.csv.mock.MockExtractionResults;
 
-import junit.framework.TestCase;
+import org.junit.Test;
+import org.junit.Before;
+import org.junit.After;
+
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
+
 import org.eclipse.birt.core.data.DataType;
 
-public class CSVDataExtractionImplTest extends TestCase
+public class CSVDataExtractionImplTest
 {
 	/**
 	 * Test locale used in the test files.
@@ -150,7 +157,8 @@ public class CSVDataExtractionImplTest extends TestCase
 	private CSVDataExtractionOption option;
 	private IExtractionResults results;
 	private DateFormat inputDateFormat;
-	
+
+	@Before	
 	public void setUp()
 	{		
 		Locale.setDefault( new Locale( TEST_LOCALE_LANGUAGE, TEST_LOCALE_COUNTRY ) );
@@ -191,7 +199,8 @@ public class CSVDataExtractionImplTest extends TestCase
 				TEST_DATA
 		);		
 	}
-	
+
+	@After	
 	public void tearDown()
 	{
 		try
@@ -206,6 +215,8 @@ public class CSVDataExtractionImplTest extends TestCase
 		option = null;
 	}
 
+	@Test
+	@Ignore
 	public void testOutputDefaults( ) throws Exception
 	{
 		IDataExtractionOption option = new DataExtractionOption();
@@ -213,7 +224,9 @@ public class CSVDataExtractionImplTest extends TestCase
 		option.setOutputFormat( "csv" ); //$NON-NLS-1$		
 		subtestRegular( option, "testDefaults.csv"); //$NON-NLS-1$
 	}
-	
+
+	@Test
+	@Ignore
 	public void testOutputRegular( ) throws Exception
 	{
 		option.setLocale( Locale.FRANCE ); // must be ignored because of locale neutral
@@ -221,6 +234,8 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestRegular( option, "testRegular.csv"); //$NON-NLS-1$
 	}
 
+	@Test
+	@Ignore
 	public void testOutputLocalized( ) throws Exception
 	{
 		option.setLocale( Locale.FRANCE );
@@ -228,6 +243,7 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestRegular( option, "testLocalized.csv"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testOutputEncoding( ) throws Exception
 	{
 		option.setLocale( Locale.ENGLISH );
@@ -255,7 +271,8 @@ public class CSVDataExtractionImplTest extends TestCase
 		String testFile = ROOT_FOLDER + "testEncoding.csv"; //$NON-NLS-1$
 		assertFileContent(testFile, out.toByteArray( ));
 	}
-	
+
+	@Test
 	public void testOutputDateFormatWithLocaleNeutral( ) throws Exception
 	{
 		option.setLocale( Locale.FRENCH );
@@ -265,6 +282,7 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestDateFormat("testLocaleNeutralDateFormat.csv"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testOutputDateFormatWithLocale( ) throws Exception
 	{
 		option.setLocale( Locale.FRENCH );
@@ -276,6 +294,8 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestDateFormat( "testDateFormat.csv" ); //$NON-NLS-1$
 	}
 	
+	@Test
+	@Ignore
 	public void testOutputDefaultDateFormatWithLocale( ) throws Exception
 	{
 		option.setLocale( Locale.FRENCH );
@@ -284,6 +304,8 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestDateFormat( "testDefaultDateFormat.csv" ); //$NON-NLS-1$
 	}
 
+	@Test
+	@Ignore
 	public void testOutputWithTimeZone( ) throws Exception
 	{
 		option.setLocale( Locale.FRENCH );
@@ -296,6 +318,7 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestDateFormat( "testTimeZone.csv" ); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testOutputDateFormatWithTimeZone( ) throws Exception
 	{
 		option.setLocale( Locale.FRENCH );
@@ -354,6 +377,8 @@ public class CSVDataExtractionImplTest extends TestCase
 	}
 	
 	
+	@Test
+	@Ignore
 	public void testOutputWithSelectedColumns() throws Exception
 	{
 		option.setSelectedColumns( TEST_SELECT_COLUMNS );
@@ -364,12 +389,15 @@ public class CSVDataExtractionImplTest extends TestCase
 	 * Test will ignore the invalid column and output only valid ones without
 	 * exception
 	 */
+	@Test
+	@Ignore
 	public void testOutputWithInvalidColumn() throws Exception
 	{
 		option.setSelectedColumns( TEST_INVALID_COLUMNS );
 		subtestRegular( option, "testSelectInvalidColumn.csv"); //$NON-NLS-1$
 	}
 
+	@Test
 	public void testOutputQuoting() throws Exception
 	{
 		CSVDataExtractionImpl extract = createExtraction( out, option );		
@@ -384,6 +412,7 @@ public class CSVDataExtractionImplTest extends TestCase
 		assertFileContent(testFile, out.toByteArray( ));
 	}
 
+	@Test
 	public void testOutputDataTypes() throws Exception
 	{
 		option.setLocale( Locale.FRENCH );
@@ -391,6 +420,8 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestDataTypes( "testDataTypes.csv" ); //$NON-NLS-1$
 	}
 
+	@Test
+	@Ignore
 	public void testOutputDataTypesLocalized() throws Exception
 	{
 		option.setLocale( Locale.FRENCH );
@@ -487,12 +518,16 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestRegular( option, fileName);
 	}
 	
+	@Test
+	@Ignore
 	public void testOutputWithoutColumnType() throws Exception
 	{
 		option.setExportDataType( false );
 		subtestRegular( option, "testNoColumnType.csv" ); //$NON-NLS-1$
 	}
 
+	@Test
+	@Ignore
 	public void testOutputWithPipeSeparator() throws Exception
 	{
 		option.setLocaleNeutralFormat( true );
@@ -500,13 +535,17 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestRegular( option, "testRegularPipe.csv" ); //$NON-NLS-1$
 	}
 
+	@Test
+	@Ignore
 	public void testOutputWithSemicolonSeparator() throws Exception
 	{
 		option.setLocaleNeutralFormat( true );
 		option.setSeparator( ICSVDataExtractionOption.SEPARATOR_SEMICOLON );
 		subtestRegular( option, "testRegularSemicolon.csv" ); //$NON-NLS-1$
 	}
-	
+
+	@Test
+	@Ignore
 	public void testOutputWithTabSeparator() throws Exception
 	{
 		option.setLocaleNeutralFormat( true );
@@ -524,6 +563,7 @@ public class CSVDataExtractionImplTest extends TestCase
 		assertFileContent( ROOT_FOLDER + testFile, out.toByteArray( ));
 	}	
 	
+	@Test
 	public void testException()
 	{
 		// use a dummy extraction results class which throws exceptions

@@ -17,10 +17,12 @@ import static org.junit.Assert.*;
 
 import org.eclipse.core.runtime.Platform;
 import org.junit.Test;
+import org.junit.Ignore;
 import org.osgi.framework.Bundle;
 
 public class ActivationTest {
 
+	@Ignore
 	@Test
 	public void test() {
 		Bundle bundle = Platform.getBundle("uk.co.spudsoft.birt.emitters.excel");

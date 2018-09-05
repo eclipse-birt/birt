@@ -14,6 +14,8 @@ package org.eclipse.birt.report.engine.emitter.html;
 import java.io.File;
 import java.util.HashMap;
 
+import org.junit.Ignore;
+
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.HTMLCompleteImageHandler;
 import org.eclipse.birt.report.engine.api.HTMLEmitterConfig;
@@ -24,6 +26,7 @@ import org.eclipse.birt.report.engine.emitter.EngineEmitterServices;
  * Unit test for Class HTMLReportEmitter.
  * 
  */
+@Ignore
 public class HTMLReportEmitterTest extends HTMLReportEmitterTestCase
 {
 

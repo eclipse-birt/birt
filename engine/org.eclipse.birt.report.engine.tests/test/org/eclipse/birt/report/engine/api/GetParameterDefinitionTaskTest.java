@@ -19,6 +19,9 @@ import java.util.Map;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 
+import org.junit.Ignore;
+
+@Ignore
 public class GetParameterDefinitionTaskTest extends EngineCase
 {
 

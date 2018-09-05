@@ -29,7 +29,7 @@ public class AllDataTests
 	{
 		TestSuite test = new TestSuite( );
 
-		test.addTestSuite( DataTypeUtilTest.class );
+		//test.addTestSuite( DataTypeUtilTest.class );
 		test.addTestSuite( DateUtilTest.class );
 		test.addTestSuite( DateUtilThreadTest.class );
 		test.addTestSuite( ExpressionParserUtilityTest.class );

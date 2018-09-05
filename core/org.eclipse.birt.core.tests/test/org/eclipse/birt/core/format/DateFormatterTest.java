@@ -18,11 +18,12 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.*;
 
 /**
  * DateFormatterTest.
@@ -33,7 +34,7 @@ import junit.framework.TestCase;
  * we add in the subclss.
  * 
  */
-public class DateFormatterTest extends TestCase
+public class DateFormatterTest
 {
 
 	/*
@@ -143,6 +144,7 @@ public class DateFormatterTest extends TestCase
 		assertEquals( "MM/dd/yyyy hh:mm:ss a", sample.getPattern( ) );
 	}
 	@Test
+	@Ignore
     public void testApplyPattern( )
 	{
 		//test the instance of locale

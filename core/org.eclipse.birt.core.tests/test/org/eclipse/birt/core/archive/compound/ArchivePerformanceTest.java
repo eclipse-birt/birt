@@ -10,7 +10,7 @@ import org.junit.Test;
 
 import junit.framework.TestCase;
 
-public class ArchivePerformanceTest extends TestCase
+public class ArchivePerformanceTest
 {
 
 	int STREAM_COUNT = 127;

@@ -23,7 +23,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class BigCrosstabTest extends ReportRunner {
 
 	@Test

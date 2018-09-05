@@ -27,7 +27,9 @@ import org.apache.poi.xssf.usermodel.XSSFColor;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class NestedTables2ReportTest extends ReportRunner {
 	
 	@Test

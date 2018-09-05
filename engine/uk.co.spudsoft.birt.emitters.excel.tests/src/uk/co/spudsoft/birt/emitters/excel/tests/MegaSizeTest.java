@@ -20,7 +20,9 @@ import java.io.InputStream;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class MegaSizeTest extends ReportRunner {
 	
 	@Test

@@ -24,7 +24,9 @@ import org.apache.poi.xssf.usermodel.XSSFName;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
+import org.junit.Ignore;
 
+@Ignore
 public class AutoFilterTest extends ReportRunner {
 	
 	@Test

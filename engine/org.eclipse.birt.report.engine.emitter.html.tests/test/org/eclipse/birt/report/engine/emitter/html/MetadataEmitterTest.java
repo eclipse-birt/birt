@@ -23,7 +23,9 @@ import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
 import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 
+import org.junit.Ignore;
 
+@Ignore
 public class MetadataEmitterTest extends HTMLReportEmitterTestCase
 {
 	static String noMetadata1 = "<div([^<>]* id=\"";

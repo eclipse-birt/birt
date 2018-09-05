@@ -26,6 +26,9 @@ import org.xml.sax.SAXException;
 import com.itextpdf.text.Font;
 import com.itextpdf.text.pdf.BaseFont;
 
+import org.junit.Ignore;
+
+@Ignore
 public class FontConfigReaderTest extends TestCase
 {
 

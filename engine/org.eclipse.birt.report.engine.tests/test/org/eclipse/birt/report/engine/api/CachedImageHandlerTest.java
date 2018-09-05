@@ -7,9 +7,12 @@ import java.util.HashMap;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 
+import org.junit.Ignore;
+
 /**
  * unit test used to test if the cached image handle is called.
  */
+@Ignore
 public class CachedImageHandlerTest extends EngineCase
 {
 

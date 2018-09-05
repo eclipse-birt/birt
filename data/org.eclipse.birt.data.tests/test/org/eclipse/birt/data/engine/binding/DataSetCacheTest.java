@@ -413,6 +413,7 @@ public class DataSetCacheTest extends APITestCase
 	 *
 	 */
 	@Test
+	@Ignore
     public void testUseCachedMeta1() throws BirtException
 	{
 		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( 1 ) );
@@ -490,6 +491,7 @@ public class DataSetCacheTest extends APITestCase
 	 *
 	 */
 	@Test
+	@Ignore
     public void testUseMemoryCachedMeta1() throws BirtException
 	{
 		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 1 ) );
@@ -533,6 +535,7 @@ public class DataSetCacheTest extends APITestCase
 	 * @throws BirtException
 	 */
 	@Test
+	@Ignore
     public void testUseCache3( ) throws BirtException
 	{
 		this.dataSet.setCacheRowCount( 4 );
@@ -689,6 +692,7 @@ public class DataSetCacheTest extends APITestCase
 	 * @throws BirtException
 	 */
 	@Test
+	@Ignore
     public void testClearCache( ) throws BirtException
 	{
 		this.dataSet.setCacheRowCount( 4 );

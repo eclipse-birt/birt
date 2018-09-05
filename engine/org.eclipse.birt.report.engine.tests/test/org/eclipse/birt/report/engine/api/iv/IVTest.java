@@ -20,6 +20,9 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 
+import org.junit.Ignore;
+
+@Ignore
 public class IVTest extends EngineCase
 {
 
