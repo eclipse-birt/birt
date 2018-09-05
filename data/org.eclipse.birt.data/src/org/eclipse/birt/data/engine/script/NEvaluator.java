@@ -6,6 +6,7 @@ import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
+import org.eclipse.birt.data.engine.api.script.BaseNEvaluator;
 import org.eclipse.birt.data.engine.cache.BasicCachedArray;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.expression.ExprEvaluateUtil;
@@ -18,7 +19,7 @@ import org.mozilla.javascript.Scriptable;
  * @author lzhu
  *
  */
-public abstract class NEvaluator
+public abstract class NEvaluator extends BaseNEvaluator
 {
 	private BasicCachedArray valueList; 
 	private BasicCachedArray rowIdList;
@@ -83,7 +84,16 @@ public abstract class NEvaluator
 		return instance;
 	}
 	
-	
+
+	/**
+	 * Evaluate the given value when no DataSetRuntime object is present
+	 */
+	@Override
+	public boolean evaluate( ScriptContext cx, Scriptable scope ) throws DataException
+	{
+		return evaluate( cx, scope, null );
+	}
+
 	/**
 	 * Evaluate the given value
 	 * @param value
