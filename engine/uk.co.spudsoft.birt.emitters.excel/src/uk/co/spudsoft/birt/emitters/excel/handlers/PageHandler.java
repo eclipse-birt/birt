@@ -299,7 +299,7 @@ public class PageHandler extends AbstractHandler {
 	        log.debug( "Image size: ", image.getWidth(), " translates as mmWidth = ", mmWidth );
 	        if( mmWidth > 0) {
 	            double mmAccumulatedWidth = 0;
-	            int endColLimit = cellImage.spanColumns ? 256 : mergedRegion.getLastColumn();
+	            int endColLimit = cellImage.spanColumns ? cell.getColumnIndex() + 256 : mergedRegion.getLastColumn();
 	            for( endCol = cell.getColumnIndex(); mmAccumulatedWidth < mmWidth && endCol < endColLimit; ++ endCol ) {
 	                lastColWidth = ClientAnchorConversions.widthUnits2Millimetres( (short)state.currentSheet.getColumnWidth( endCol ) )
 	                		+ 2.0;
