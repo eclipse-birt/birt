@@ -12,9 +12,9 @@ To build BIRT with Eclipse Neon, run:
 
     mvn package -Pneon -DskipTests
 
-To build BIRT with Eclipse Mars, run:
+To build BIRT with Eclipse Oxygen, run:
 
-    mvn package -Pmars -DskipTests
+    mvn package -Poxygen -DskipTests
     
 ### Building environment
 * JDK 1.8
