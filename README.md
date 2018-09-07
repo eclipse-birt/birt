@@ -1,4 +1,4 @@
-# BIRT
+# BIRT [![Build Status](https://travis-ci.org/eclipse/birt.svg?branch=master)](https://travis-ci.org/eclipse/birt)
 The open source Eclipse BIRT reporting and data visualization project. 
 
 ## Building BIRT
@@ -18,5 +18,6 @@ To build BIRT with Eclipse Mars, run:
     
 ### Building environment
 * JDK 1.8
-* Maven 3.3.1 or 3.3.3
+* Maven 3.5+
+* toolchains.xml with Java-SE-1.8
 

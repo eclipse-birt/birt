@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.eclipse.birt.build.package</groupId>
 		<artifactId>org.eclipse.birt.build.package-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>4.8.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt.birt-packages.birt-charts</groupId>
