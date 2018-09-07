@@ -4,8 +4,8 @@
 	<parent>
 		<groupId>org.eclipse.birt.nl</groupId>
 		<artifactId>org.eclipse.birt.nl-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
-		<relativePath>../</relativePath>
+		<version>4.8.0-SNAPSHOT</version>
+
 	</parent>
 	<groupId>org.eclipse.birt.nl</groupId>
 	<artifactId>org.eclipse.birt.report.data.oda.jdbc.nl1</artifactId>
