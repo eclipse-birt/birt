@@ -9,20 +9,40 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  **************************************************************************/ 
-package org.eclipse.birt.data.engine.expression;
+package org.eclipse.birt.data.engine.api;
 
 import java.util.Comparator;
 
-import org.eclipse.birt.data.engine.api.BaseCompareHints;
-
 /**
- * Code implementation moved to API class BaseCompareHints
+ * This class is used to indicate the hints when doing the comparison.
+ *	@since 4.8
  */
-public class CompareHints extends BaseCompareHints
+public class BaseCompareHints
 {
+	private Comparator comparator;
+	private String nullStringType;
 
-	public CompareHints(Comparator comparator, String nullStringType) {
-		super(comparator, nullStringType);
+	public BaseCompareHints( Comparator comparator, String nullStringType )
+	{
+		this.comparator = comparator;
+		this.nullStringType = nullStringType;
 	}
 
+	/**
+	 * 
+	 * @return
+	 */
+	public Comparator getComparator( )
+	{
+		return this.comparator;
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getNullType( )
+	{
+		return this.nullStringType;
+	}
 }
