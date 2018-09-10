@@ -53,14 +53,6 @@
 		<module>uk.co.spudsoft.birt.emitters.excel.tests</module>
 	</modules>
 
-	<dependencies>
-		<dependency>
-			<groupId>net.sf.jtidy</groupId>
-			<artifactId>jtidy</artifactId>
-			<version>r938</version>
-		</dependency>
-	</dependencies>
-
 	<build>
 		<sourceDirectory>src</sourceDirectory>
 		<testSourceDirectory>test</testSourceDirectory>

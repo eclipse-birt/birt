@@ -96,7 +96,6 @@
 	</pluginRepositories>
 
 	<modules>
-		<module>plugins-external</module>
 		<module>common</module>
 
 		<module>build-birt-plugin</module>

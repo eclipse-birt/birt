@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: JTidy
+Bundle-SymbolicName: net.sf.jtidy
+Bundle-Version: 9.3.8.qualifier
+Bundle-ClassPath: target/jtidy-r938.jar
+Bundle-Localization: plugin
+Export-Package: org.w3c.tidy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

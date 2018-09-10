@@ -7,11 +7,13 @@
 		<version>4.8.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.eclipse.birt.common</groupId>
 	<artifactId>org.eclipse.birt.common-parent</artifactId>
 	<packaging>pom</packaging>
 
 	<modules>
+		<module>apache-poi</module>
+		<module>itextpdf</module>
+		<module>jtidy</module>
 		<module>org.w3c.sac</module>
 		<module>org.w3c.dom.svg.extension</module>
 		<module>org.apache.batik.ext.awt.extension</module>

@@ -3,34 +3,19 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
-		<artifactId>plugins-external</artifactId>
+		<artifactId>org.eclipse.birt.common-parent</artifactId>
 		<version>4.8.0-SNAPSHOT</version>
 	</parent>
 
-	<artifactId>org.apache.poi</artifactId>
-	<version>3.11.0</version>
+	<artifactId>net.sf.jtidy</artifactId>
+	<version>9.3.8-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
 
 	<dependencies>
 		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi</artifactId>
-			<version>3.11</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml</artifactId>
-			<version>3.11</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>poi-ooxml-schemas</artifactId>
-			<version>3.11</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.poi</groupId>
-			<artifactId>ooxml-schemas</artifactId>
-			<version>1.1</version>
+			<groupId>net.sf.jtidy</groupId>
+			<artifactId>jtidy</artifactId>
+			<version>r938</version>
 		</dependency>
 	</dependencies>
 
@@ -48,7 +33,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.build.directory}</outputDirectory>
-							<includeGroupIds>org.apache.poi</includeGroupIds>
+							<includeGroupIds>net.sf.jtidy</includeGroupIds>
 						</configuration>
 					</execution>
 				</executions>

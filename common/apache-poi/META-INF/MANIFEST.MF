@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI
 Bundle-SymbolicName: org.apache.poi
-Bundle-Version: 3.11.0
+Bundle-Version: 3.11.0.qualifier
 Bundle-ClassPath: target/ooxml-schemas-1.1.jar,
  target/poi-3.11.jar,
  target/poi-ooxml-3.11.jar,
