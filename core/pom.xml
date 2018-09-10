@@ -7,14 +7,17 @@
 		<version>4.8.0-SNAPSHOT</version>
 	</parent>
 
-	<groupId>org.eclipse.birt.core</groupId>
 	<artifactId>org.eclipse.birt.core-parent</artifactId>
 	<packaging>pom</packaging>
 
 	<modules>
 		<module>org.eclipse.birt.core</module>
 		<module>org.eclipse.birt.core.ui</module>
-		<module>org.eclipse.birt.core.testhelper</module>
 		<module>org.eclipse.birt.core.tests</module>
 	</modules>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+	</build>
 </project>
