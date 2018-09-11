@@ -113,6 +113,7 @@
 		<module>UI</module>
 		<module>viewer</module>
 		<module>xtab</module>
+		<module>birt-maven-bundle</module>
 	</modules>
 
 	<dependencies>

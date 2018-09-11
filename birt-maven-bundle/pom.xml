@@ -1,0 +1,920 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd"
+         xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.eclipse.birt</groupId>
+    <artifactId>org.eclipse.birt-maven-bundle</artifactId>
+    <version>4.8.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <properties>
+        <birt.version>${project.version}</birt.version>
+        <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>${maven-dependency-plugin.version}</version>
+                <executions>
+                    <execution>
+                        <id>unpack</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+
+                                <!-- CORE -->
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.core</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/core/**/**,
+                                        **/schema/**/**
+                                    </includes>
+                                </artifactItem>
+
+                                <!-- ENGINE -->
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/**/**,
+                                        **/schema/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.dataextraction</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/dataextraction/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.dataextraction.csv</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/dataextraction/csv/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.fonts</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/fontsConfig.xml,
+                                        **/fontsConfig_linux.xml,
+                                        **/fontsConfig_pdf.xml,
+                                        **/fontsConfig_win32.xml
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.odf</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/odf/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.ooxml</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/ooxml/**/**
+                                    </includes>
+                                </artifactItem>
+
+                                <!-- ENGINE :: EMITTER CONFIG -->
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/**/**,
+                                        **/schema/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.docx</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/docx/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.excel</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/excel/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.html</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/html/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.odp</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/odp/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.ods</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/ods/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.odt</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/odt/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.pdf</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/pdf/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.postscript</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/postscript/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.ppt</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/ppt/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.pptx</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/pptx/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.config.wpml</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/config/wpml/**/**
+                                    </includes>
+                                </artifactItem>
+
+                                <!-- ENGINE :: EMITTER -->
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.docx</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/docx/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.html</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/html/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.odp</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/odp/**/**,
+                                        **/resource/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.ods</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/ods/**/**,
+                                        **/resource/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.odt</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/odt/**/**,
+                                        **/resource/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.pdf</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/pdf/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.postscript</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/postscript/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.ppt</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/ppt/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.pptx</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/pptx/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.prototype.excel</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.emitter.wpml</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/emitter/wpml/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>uk.co.spudsoft.birt.emitters.excel</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/apache/poi/xssf/usermodel/**/**,
+                                        **/uk/co/spudsoft/birt/emitters/excel/**/**
+                                    </includes>
+                                </artifactItem>
+
+                                <!-- MODEL -->
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.model</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/model/**/**,
+                                        **/schema/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.model.adapter.oda</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/model/adapter/oda/**/**,
+                                        **/schema/**/**
+                                    </includes>
+                                </artifactItem>
+
+                                <!-- DATA -->
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.data</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/javax/olap/**/**,
+                                        **/org/eclipse/birt/data/engine/**/**,
+                                        **/schema/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.core.script.function</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/core/script/function/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.data.aggregation</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/data/aggregation/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.data.oda.pojo</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/data/oda/pojo/**/**,
+                                        **/schema/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.data.adapter</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/data/adapter/**/**,
+                                        **/schema/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.data.bidi.utils</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/data/bidi/utils/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.data.oda.excel</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/data/oda/excel/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.data.oda.jdbc</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/data/oda/**/**,
+                                        **/schema/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.data.oda.jdbc.dbprofile</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/data/oda/jdbc/dbprofile/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/data/oda/jdbc/dbprofile/sampledb/**/**
+                                    </includes>
+                                </artifactItem>
+                                <!-- org.eclipse.birt.report.data.oda.sampledb removed, no useful classes -->
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.data.oda.xml</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/data/oda/xml/**/**
+                                    </includes>
+                                </artifactItem>
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.engine.script.javascript</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/engine/javascript/**/**
+                                    </includes>
+                                </artifactItem>
+
+                                <!-- CROSSTAB -->
+                                <artifactItem>
+                                    <groupId>org.eclipse.birt</groupId>
+                                    <artifactId>org.eclipse.birt.report.item.crosstab.core</artifactId>
+                                    <version>${birt.version}</version>
+                                    <type>jar</type>
+                                    <overWrite>false</overWrite>
+                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
+                                    <includes>
+                                        **/org/eclipse/birt/report/item/crosstab/core/**/**
+                                    </includes>
+                                </artifactItem>
+
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <archive>
+                        <manifestEntries>
+                            <Bundle-Version>4.8.0-20180909</Bundle-Version>
+                            <Bundle-Name>BIRT Runtime SDK</Bundle-Name>
+                            <Bundle-SymbolicName>org.eclipse.birt.runtime</Bundle-SymbolicName>
+                            <Bundle-Vendor>Eclipse.org</Bundle-Vendor>
+                        </manifestEntries>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+
+
+        <!--
+                org.mozilla.javascript_1.7.5.v201504281450.jar
+                org.mozilla.javascript;bundle-version="1.7.4"
+                org.mozilla.javascript;bundle-version="[1.6.0,2.0.0)"
+         -->
+        <!-- !!!MUST NOT BE UPDATED!!! -->
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.mozilla.javascript</artifactId>
+            <version>1.7.5.v201504281450</version> <!-- do not update to rhino latest -->
+        </dependency>
+
+        <!-- DO NOT USE -->
+        <!--<dependency>
+            <groupId>org.mozilla</groupId>
+            <artifactId>rhino</artifactId>
+            <version>1.7.10</version>
+        </dependency>
+        -->
+
+        <!--
+         com.ibm.icu;bundle-version="3.4.4"
+         com.ibm.icu.text;version="3.4.4",
+         com.ibm.icu.util;version="3.4.4"
+        -->
+        <dependency>
+            <groupId>com.ibm.icu</groupId>
+            <artifactId>icu4j</artifactId>
+            <version>62.1</version> <!-- 56.1 -->
+        </dependency>
+
+        <dependency>
+            <groupId>net.sf.jtidy</groupId>
+            <artifactId>jtidy</artifactId>
+            <version>r938</version> <!-- latest -->
+        </dependency>
+
+        <!-- com.itextpdf.text;bundle-version="[5.5.13,5.6.0)" -->
+        <dependency>
+            <groupId>com.itextpdf</groupId>
+            <artifactId>itextpdf</artifactId>
+            <version>5.5.13</version> <!-- latest -->
+        </dependency>
+
+        <!-- TODO: Try to update POI to version 3.17 and test -->
+
+        <!-- org.apache.poi;bundle-version="3.11.0" -->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>3.11</version> <!-- 3.17 -->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.11</version> <!-- 3.17 -->
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>3.11</version> <!-- 3.17 -->
+        </dependency>
+        <!-- added for back compability (Apache POI - Java API To Access Microsoft Format Files) -->
+        <!--<dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-scratchpad</artifactId>
+            <version>3.11</version> <!- 3.17 ->
+        </dependency>-->
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>ooxml-schemas</artifactId>
+            <version>1.1</version> <!-- 1.4 -->
+        </dependency>
+
+        <!-- org.apache.commons.codec;bundle-version="1.9.0" -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+            <version>1.11</version> <!-- 1.9 -->
+        </dependency>
+
+        <!-- org.apache.commons.lang3;bundle-version="3.1.0" -->
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-lang3</artifactId>
+            <version>3.8</version> <!-- 3.1 -->
+        </dependency>
+
+        <!--  org.apache.commons.cli;bundle-version="1.2.0"-->
+        <dependency>
+            <groupId>commons-cli</groupId>
+            <artifactId>commons-cli</artifactId>
+            <version>1.4</version> <!-- 1.2 -->
+        </dependency>
+
+        <!-- org.apache.xmlbeans;bundle-version="2.3.0" -->
+        <dependency>
+            <groupId>org.apache.xmlbeans</groupId>
+            <artifactId>xmlbeans</artifactId>
+            <version>2.6.0</version> <!-- 2.3.0 -->
+        </dependency>
+
+        <!--  org.apache.xerces;bundle-version="2.9.0" -->
+        <dependency>
+            <groupId>xerces</groupId>
+            <artifactId>xercesImpl</artifactId>
+            <version>2.12.0</version> <!-- 2.9.0 -->
+        </dependency>
+
+        <!-- org.dom4j;bundle-version="1.6.1" -->
+        <dependency>
+            <groupId>dom4j</groupId>
+            <artifactId>dom4j</artifactId>
+            <version>1.6.1</version> <!-- no latest version -->
+        </dependency>
+
+        <!-- org.apache.xml.serializer;bundle-version="[2.7.1,3.0.0)" -->
+        <dependency>
+            <groupId>xalan</groupId>
+            <artifactId>serializer</artifactId>
+            <version>2.7.2</version> <!-- 2.7.1 -->
+        </dependency>
+
+        <!-- TODO: check and cleanup batic inner deps to
+         batik-svg-dom,batik-ext,batik-parser,batik-svggen,batik-bridge,batik-dom,batik-gui-util,batik-xml-->
+
+        <!--
+         org.apache.batik.transcoder;bundle-version="[1.6.0,2.0.0)"
+         org.apache.batik.transcoder;bundle-version="[1.7.0,1.8.0)"
+        -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-transcoder</artifactId>
+            <version>1.10</version> <!-- 1.6.1 -->
+        </dependency>
+        <!-- org.apache.batik.css;bundle-version="[1.7.0,1.8.0)" -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-css</artifactId>
+            <version>1.10</version> <!-- 1.6.1 -->
+        </dependency>
+        <!-- org.apache.batik.util;bundle-version="[1.7.0,1.8.0)" -->
+        <dependency>
+            <groupId>org.apache.xmlgraphics</groupId>
+            <artifactId>batik-util</artifactId>
+            <version>1.10</version> <!-- 1.6.1 -->
+        </dependency>
+
+        <!-- org.w3c.css.sac;bundle-version="1.3.1" -->
+        <!-- org.w3c.css.sac;bundle-version="[1.3.0,2.0.0)" -->
+        <dependency>
+            <groupId>org.w3c.css</groupId>
+            <artifactId>sac</artifactId>
+            <version>1.3</version>  <!-- latest? -->
+        </dependency>
+
+	<!-- TODO extract lib/flute.jar from common/org.w3c.sac -->
+	<!--
+	Bundle-SymbolicName: org.w3c.sac
+	Bundle-ClassPath: lib/flute.jar
+	-->
+	<dependency>
+    	    <groupId>org.milyn</groupId>
+    	    <artifactId>flute</artifactId>
+    	    <version>1.3</version> <!-- latest -->
+	</dependency>
+
+        <!-- javax.xml.stream;bundle-version="1.0.1" -->
+        <dependency>
+            <groupId>javax.xml.stream</groupId>
+            <artifactId>stax-api</artifactId>
+            <version>1.0-2</version> <!-- latest -->
+        </dependency>
+
+        <!-- TODO: Check this if can be removed -->
+        <!-- org.apache.commons.logging;bundle-version="[1.0.4,2.0.0)"-->
+        <dependency>
+            <groupId>commons-logging</groupId>
+            <artifactId>commons-logging</artifactId>
+            <version>1.2</version> <!-- 1.0.4 -->
+        </dependency>
+
+        <!-- Removed dependency to junit:junit:4.8.1 -->
+
+
+        <!--
+        org.eclipse.core.runtime;bundle-version="[3.2.0,5.0.0)"
+        org.eclipse.core.runtime;bundle-version="[3.3.0,4.0.0)"
+        org.eclipse.core.runtime_3.14.0.v20180417-0825.jar
+        -->
+        <!-- TODO: partially work with org.eclipse.platform 3.14.0 maven dependencies, research needed (if possible) -->
+
+        <!-- BIRT 4.8 eclipse maven original dependencies-->
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.emf.ecore.xmi</artifactId>
+            <version>2.12.0.v20160420-0247</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.emf.ecore</artifactId>
+            <version>2.12.0.v20160420-0247</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.datatools.connectivity.oda</artifactId>
+            <version>3.5.0.201603142002</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.datatools.connectivity.sqm.core</artifactId>
+            <version>1.3.0.201603142002</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.datatools.connectivity.oda.consumer</artifactId>
+            <version>3.3.0.201603142002</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.emf.ecore.change</artifactId>
+            <version>2.11.0.v20160420-0247</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.datatools.connectivity.oda.design</artifactId>
+            <version>3.4.0.201603142002</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.datatools.connectivity.oda.flatfile</artifactId>
+            <version>3.2.0.201603142002</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.datatools.connectivity</artifactId>
+            <version>1.13.0.201603142002</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.datatools.connectivity.oda.profile</artifactId>
+            <version>3.3.0.201603142002</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.osgi.services</artifactId>
+            <version>3.5.100.v20160504-1419</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.equinox.app</artifactId>
+            <version>1.3.400.v20150715-1528</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.datatools.modelbase.dbdefinition</artifactId>
+            <version>1.1.0.201603142002</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.update.configurator</artifactId>
+            <version>3.3.400.v20160506-0750</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.datatools.connectivity.db.generic</artifactId>
+            <version>1.1.0.201603142002</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.birt.runtime</groupId>
+            <artifactId>org.eclipse.emf.common</artifactId>
+            <version>2.12.0.v20160420-0247</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.core.runtime</artifactId>
+            <version>3.12.0.v20160606-1342</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.equinox.preferences</artifactId>
+            <version>3.6.0.v20160120-1756</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.equinox.registry</artifactId>
+            <version>3.6.100.v20160223-2218</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.core.contenttype</artifactId>
+            <version>3.5.100.v20160418-1621</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.equinox.common</artifactId>
+            <version>3.8.0.v20160509-1230</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.core.expressions</artifactId>
+            <version>3.5.100.v20160418-1621</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.osgi</artifactId>
+            <version>3.11.0.v20160603-1336</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.core.filesystem</artifactId>
+            <version>1.6.0.v20160503-1608</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.core.resources</artifactId>
+            <version>3.11.0.v20160503-1608</version>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.scout.sdk.deps</groupId>
+            <artifactId>org.eclipse.core.jobs</artifactId>
+            <version>3.8.0.v20160509-0411</version>
+        </dependency>
+    </dependencies>
+
+</project>

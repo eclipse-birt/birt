@@ -1,0 +1,2340 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!--This config copied from org.eclipse.birt.runtime:org.eclipse.birt.runtime:4.6.0-20160607_patched-20180802 and commented all lines related to "Chart" functionality-->
+<plugin><!--import from org.eclipse.birt.report.data.oda.jdbc-->
+     <extension-point id="org.eclipse.birt.report.data.oda.jdbc.driverinfo" name="JDBC Driver Information Extension" schema="schema/driverinfo.exsd"/>
+   			
+   <extension point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource defaultDisplayName="JDBC Data Source" driverClass="org.eclipse.birt.report.data.oda.jdbc.OdaJdbcDriver" id="org.eclipse.birt.report.data.oda.jdbc" odaVersion="3.1" setThreadContextClassLoader="false">
+         <properties>
+            <propertyGroup defaultDisplayName="Connection Properties" name="connectionProperties">
+               <property canInherit="true" defaultDisplayName="JDBC Driver &amp;Class" name="odaDriverClass" type="string"/>
+               <property canInherit="true" defaultDisplayName="JDBC Driver U&amp;RL" name="odaURL" type="string"/>
+               <property canInherit="true" defaultDisplayName="Data Source" name="odaDataSource" type="string"/>
+               <property canInherit="true" defaultDisplayName="User &amp;Name" name="odaUser" type="string"/>
+               <property canInherit="true" defaultDisplayName="&amp;Auto Commit" name="odaAutoCommit" type="choice">
+         			<choice defaultDisplayName="false" name="false" value="false"/>
+               		<choice defaultDisplayName="true" name="true" value="true"/>
+               	</property>
+               <property canInherit="true" defaultDisplayName="&amp;Isolation Mode" name="odaIsolationMode" type="choice">
+					<choice defaultDisplayName="read-uncommitted" name="read-uncommitted" value="1"/>
+               		<choice defaultDisplayName="read-committed" name="read-committed" value="2"/>
+               		<choice defaultDisplayName="repeatable-read" name="repeatable-read" value="4"/>
+               		<choice defaultDisplayName="serializable" name="serializable" value="8"/>
+                 </property>
+               <property canInherit="true" defaultDisplayName="Pass&amp;word" isEncryptable="true" name="odaPassword" type="string"/>
+               <property canInherit="true" defaultDisplayName="&amp;JNDI URL" name="odaJndiName" type="string"/>
+               <property canInherit="true" defaultDisplayName="TrustStorePasswor&amp;d:" isEncryptable="true" name="TrustStorePassword" type="string"/>
+                <property canInherit="true" defaultDisplayName="Ke&amp;yStorePassword:" isEncryptable="true" name="KeyStorePassword" type="string"/>
+            </propertyGroup>
+            <propertyVisibility name="odaDataSource" visibility="hide"/>
+            <propertyVisibility name="TrustStorePassword" visibility="hide"/>
+            <propertyVisibility name="KeyStorePassword" visibility="hide"/>
+         </properties>
+      </dataSource>
+      <dataSet defaultDisplayName="SQL Select Query" id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+         <dataTypeMapping nativeDataType="BIT" nativeDataTypeCode="-7" odaScalarDataType="Integer"/>
+         <dataTypeMapping nativeDataType="TINYINT" nativeDataTypeCode="-6" odaScalarDataType="Integer"/>
+         <dataTypeMapping nativeDataType="SMALLINT" nativeDataTypeCode="5" odaScalarDataType="Integer"/>
+         <dataTypeMapping nativeDataType="INTEGER" nativeDataTypeCode="4" odaScalarDataType="Integer"/>
+         <dataTypeMapping nativeDataType="BIGINT" nativeDataTypeCode="-5" odaScalarDataType="Decimal"/>
+         <dataTypeMapping nativeDataType="FLOAT" nativeDataTypeCode="6" odaScalarDataType="Double"/>
+         <dataTypeMapping nativeDataType="REAL" nativeDataTypeCode="7" odaScalarDataType="Double"/>
+         <dataTypeMapping nativeDataType="DOUBLE" nativeDataTypeCode="8" odaScalarDataType="Double"/>
+         <dataTypeMapping nativeDataType="NUMERIC" nativeDataTypeCode="2" odaScalarDataType="Decimal"/>
+         <dataTypeMapping nativeDataType="DECIMAL" nativeDataTypeCode="3" odaScalarDataType="Decimal"/>
+         <dataTypeMapping nativeDataType="CHAR" nativeDataTypeCode="1" odaScalarDataType="String"/>
+         <dataTypeMapping nativeDataType="VARCHAR" nativeDataTypeCode="12" odaScalarDataType="String"/>
+         <dataTypeMapping nativeDataType="LONGVARCHAR" nativeDataTypeCode="-1" odaScalarDataType="String"/>
+         <dataTypeMapping nativeDataType="DATE" nativeDataTypeCode="91" odaScalarDataType="Date"/>
+         <dataTypeMapping nativeDataType="TIME" nativeDataTypeCode="92" odaScalarDataType="Time"/>
+         <dataTypeMapping nativeDataType="TIMESTAMP" nativeDataTypeCode="93" odaScalarDataType="Timestamp"/>
+               
+         <!--For Oracle TIMESTAMPTZ type -->
+         <dataTypeMapping nativeDataType="TIMESTAMPTZ" nativeDataTypeCode="-101" odaScalarDataType="Timestamp"/>
+         <!--For Oracle TIMESTAMPLTZ type -->
+         <dataTypeMapping nativeDataType="TIMESTAMPLTZ" nativeDataTypeCode="-102" odaScalarDataType="Timestamp"/>
+         <dataTypeMapping nativeDataType="BOOLEAN" nativeDataTypeCode="16" odaScalarDataType="Boolean"/>
+         <dataTypeMapping nativeDataType="BINARY" nativeDataTypeCode="-2" odaScalarDataType="Blob"/>
+         <dataTypeMapping nativeDataType="VARBINARY" nativeDataTypeCode="-3" odaScalarDataType="Blob"/>
+         <dataTypeMapping nativeDataType="LONGVARBINARY" nativeDataTypeCode="-4" odaScalarDataType="Blob"/>
+         <dataTypeMapping nativeDataType="BLOB" nativeDataTypeCode="2004" odaScalarDataType="Blob"/>
+         <dataTypeMapping nativeDataType="CLOB" nativeDataTypeCode="2005" odaScalarDataType="Clob"/>
+         <properties>
+            <propertyGroup defaultDisplayName="Query Properties" name="queryProperties">
+               <property canInherit="true" defaultDisplayName="&amp;Query Time Out (in seconds)" name="queryTimeOut" type="string"/>
+               <property canInherit="false" defaultDisplayName="&amp;Row Fetch Size" name="rowFetchSize" type="string"/>
+            </propertyGroup>
+         </properties>
+      </dataSet>
+      <dataSet defaultDisplayName="SQL Stored Procedure Query" id="org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet">
+         <dataTypeMapping nativeDataType="BIT" nativeDataTypeCode="-7" odaScalarDataType="Integer"/>
+         <dataTypeMapping nativeDataType="TINYINT" nativeDataTypeCode="-6" odaScalarDataType="Integer"/>
+         <dataTypeMapping nativeDataType="SMALLINT" nativeDataTypeCode="5" odaScalarDataType="Integer"/>
+         <dataTypeMapping nativeDataType="INTEGER" nativeDataTypeCode="4" odaScalarDataType="Integer"/>
+         <dataTypeMapping nativeDataType="BIGINT" nativeDataTypeCode="-5" odaScalarDataType="Decimal"/>
+         <dataTypeMapping nativeDataType="FLOAT" nativeDataTypeCode="6" odaScalarDataType="Double"/>
+         <dataTypeMapping nativeDataType="REAL" nativeDataTypeCode="7" odaScalarDataType="Double"/>
+         <dataTypeMapping nativeDataType="DOUBLE" nativeDataTypeCode="8" odaScalarDataType="Double"/>
+         <dataTypeMapping nativeDataType="NUMERIC" nativeDataTypeCode="2" odaScalarDataType="Decimal"/>
+         <dataTypeMapping nativeDataType="DECIMAL" nativeDataTypeCode="3" odaScalarDataType="Decimal"/>
+         <dataTypeMapping nativeDataType="CHAR" nativeDataTypeCode="1" odaScalarDataType="String"/>
+         <dataTypeMapping nativeDataType="VARCHAR" nativeDataTypeCode="12" odaScalarDataType="String"/>
+         <dataTypeMapping nativeDataType="LONGVARCHAR" nativeDataTypeCode="-1" odaScalarDataType="String"/>
+         <dataTypeMapping nativeDataType="DATE" nativeDataTypeCode="91" odaScalarDataType="Date"/>
+         <dataTypeMapping nativeDataType="TIME" nativeDataTypeCode="92" odaScalarDataType="Time"/>
+         <dataTypeMapping nativeDataType="TIMESTAMP" nativeDataTypeCode="93" odaScalarDataType="Timestamp"/>
+         <!--For Oracle TIMESTAMPTZ type -->
+         <dataTypeMapping nativeDataType="TIMESTAMPTZ" nativeDataTypeCode="-101" odaScalarDataType="Timestamp"/>
+         <dataTypeMapping nativeDataType="BOOLEAN" nativeDataTypeCode="16" odaScalarDataType="Boolean"/>
+         <dataTypeMapping nativeDataType="BINARY" nativeDataTypeCode="-2" odaScalarDataType="Blob"/>
+         <dataTypeMapping nativeDataType="VARBINARY" nativeDataTypeCode="-3" odaScalarDataType="Blob"/>
+         <dataTypeMapping nativeDataType="LONGVARBINARY" nativeDataTypeCode="-4" odaScalarDataType="Blob"/>
+         <dataTypeMapping nativeDataType="BLOB" nativeDataTypeCode="2004" odaScalarDataType="Blob"/>
+         <dataTypeMapping nativeDataType="CLOB" nativeDataTypeCode="2005" odaScalarDataType="Clob"/>
+         <dataTypeMapping nativeDataType="REF CURSOR" nativeDataTypeCode="-10" odaScalarDataType="String"/>
+         <properties>
+            <propertyGroup defaultDisplayName="Query Properties" name="queryProperties">
+               <property canInherit="true" defaultDisplayName="&amp;Query Time Out (in seconds)" name="queryTimeOut" type="string"/>
+                <property canInherit="true" defaultDisplayName="&amp;Row Fetch Size" name="rowFetchSize" type="string"/>
+            </propertyGroup>
+         </properties>
+      </dataSet>
+
+   </extension>
+        <extension point="org.eclipse.datatools.connectivity.connectionProfile">
+      <category id="org.eclipse.birt.report.data.oda.jdbc" name="JDBC Data Source" parentCategory="org.eclipse.datatools.connectivity.oda.profileCategory"/>
+      <connectionProfile category="org.eclipse.birt.report.data.oda.jdbc" id="org.eclipse.birt.report.data.oda.jdbc" name="BIRT JDBC Data Source Connection Profile" pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"/>
+      <connectionFactory class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory" id="org.eclipse.datatools.connectivity.oda.IConnection" name="ODA Connection Factory" profile="org.eclipse.birt.report.data.oda.jdbc"/>
+   </extension>
+   
+   <extension point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
+      <jdbcDriver driverClass="org.apache.derby.jdbc.EmbeddedDriver" name="Apache Derby Embedded Driver" urlTemplate="jdbc:derby:[subsubprotocol:]DATABASE[;ATTRIBUTE=VALUE]*"/>
+   </extension>
+<!--import from org.eclipse.birt.report.engine.emitter.config.docx-->
+
+     <extension name="Docx Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.docx.DocxEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.docx"/>
+  </extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.ppt-->
+
+     <extension name="Engine PPT Emitters" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.ppt.PPTEmitter" format="ppt" id="org.eclipse.birt.report.engine.emitter.ppt" mimeType="application/vnd.ms-powerpoint" pagination="paper-size-pagination"/>
+  </extension>  
+<!--import from org.eclipse.birt.chart.engine-->
+
+     <!-- Engine Framework Extension Points -->
+   <!-- 
+   		Model Renderer Extension Point. 
+   		Use this to register a custom Model Renderer.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.engine.extension plug-in.
+   -->
+   <!--<extension-point id="org.eclipse.birt.chart.engine.modelrenderers" name="Contains definition of chart model renderers" schema="schema/modelrenderers.exsd"/>-->
+   <!--
+   		DataSet Processor Extension Point.
+   		Use this extension point to register data set processors for series that use custom data elements.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.engine.extension plug-in.
+   -->
+   <!--<extension-point id="org.eclipse.birt.chart.engine.datasetprocessors" name="Contains definition of chart data set processors" schema="schema/datasetprocessors.exsd"/>-->
+   
+   <!-- Device related Extension Points -->
+   <!-- 
+   		XServer Extension Point.
+   		Use this extension point to register a custom Display Server.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.device.extension plug-in.
+   -->
+   <!--<extension-point id="org.eclipse.birt.chart.engine.displayservers" name="Contains definition of chart display servers" schema="schema/displayservers.exsd"/>-->
+   <!-- 
+   		Device Renderer Extension Point.
+   		Use this extension point to register a custom Device Renderer.
+   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.device.extension plug-in.
+   -->
+   <extension-point id="org.eclipse.birt.chart.engine.devicerenderers" name="Contains definition of chart device renderers" schema="schema/devicerenderers.exsd"/>
+   <extension-point id="org.eclipse.birt.chart.engine.aggregatefunctions" name="Contains definition of chart aggregate functions" schema="schema/aggregatefunctions.exsd"/>
+   <extension-point id="org.eclipse.birt.chart.engine.datapointdefinitions" name="Contains definitions of data point display" schema="schema/datapointdefinitions.exsd"/>
+   <extension-point id="org.eclipse.birt.chart.engine.charttypes" name="charttypes" schema="schema/charttypes.exsd"/>
+<!--import from org.eclipse.birt.report.engine.emitter.prototype.excel-->
+	<extension name="excel emitter" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.excel.ExcelEmitter" format="xls" id="org.eclipse.birt.report.engine.emitter.prototype.excel" mimeType="application/vnd.ms-excel" pagination="no-pagination"/>
+  	</extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.config.wpml-->
+
+     <extension name="Word Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.wpml.WordEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.word"/>
+  </extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.pdf-->
+
+     <extension name="Engine PDF Emitters" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.pdf.PDFEmitter" format="pdf" id="org.eclipse.birt.report.engine.emitter.pdf" mimeType="application/pdf" pagination="paper-size-pagination" supportedImageFormats="PNG;GIF;JPG;BMP;SVG"/>
+  </extension>  
+<!--import from org.eclipse.birt.data.oda.mongodb-->
+
+   <extension id="org.eclipse.birt.data.oda.mongodb" point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource defaultDisplayName="MongoDB Data Source" driverClass="org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver" id="org.eclipse.birt.data.oda.mongodb" odaVersion="3.2" setThreadContextClassLoader="false">
+         <properties>
+            <property allowsEmptyValueAsNull="true" defaultDisplayName="&amp;Mongo Database URI" isEncryptable="false" name="mongoURI" type="string">
+            </property>
+            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Ignore URI" defaultValue="false" isEncryptable="false" name="ignoreURI" type="choice">
+               <choice defaultDisplayName="yes" name="true" value="true">
+               </choice>
+               <choice defaultDisplayName="no" name="false" value="false">
+               </choice>
+            </property>
+            <propertyGroup defaultDisplayName="Mongo Database URI &amp;Elements" name="org.eclipse.birt.data.oda.mongodb.uriElements">
+	            <property allowsEmptyValueAsNull="true" defaultDisplayName="Server &amp;Host" isEncryptable="false" name="serverHost" type="string">
+	            </property>
+	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Server P&amp;ort" defaultValue="27017" isEncryptable="false" name="serverPort" type="string">
+	            </property>
+	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Database Name" isEncryptable="false" name="databaseName" type="string">
+	            </property>
+	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="U&amp;ser Name" isEncryptable="false" name="userName" type="string">
+	            </property>
+	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Pass&amp;word" isEncryptable="true" name="password" type="string">
+	            </property>
+            </propertyGroup>
+            <propertyGroup defaultDisplayName="Supplemental Client &amp;Setting(s)" name="org.eclipse.birt.data.oda.mongodb.options">
+	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Keep Socket &amp;Alive" defaultValue="false" isEncryptable="false" name="socketKeepAlive" type="choice">
+	               <choice defaultDisplayName="yes" name="true" value="true">
+	               </choice>
+	               <choice defaultDisplayName="no" name="false" value="false">
+	               </choice>
+	            </property>
+	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Consistent &amp;Request Session" defaultValue="false" isEncryptable="false" name="useRequestSession" type="choice">
+	 	              <choice defaultDisplayName="yes" name="true" value="true">
+		              </choice>
+		              <choice defaultDisplayName="no" name="false" value="false">
+		              </choice>
+	            </property>
+            </propertyGroup>
+         </properties>
+      </dataSource>
+      <dataSet defaultDisplayName="MongoDB Data Set" id="org.eclipse.birt.data.oda.mongodb.dataSet">
+         <properties>
+            <propertyGroup name="org.eclipse.birt.data.oda.mongodb.dataSet.query">
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Collection name" isEncryptable="false" name="collectionName" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Command &amp;operation type" isEncryptable="false" name="operationType" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Command &amp;expression" isEncryptable="false" name="operationExpr" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Se&amp;lected fields" isEncryptable="false" name="selectedFields" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Query expression" isEncryptable="false" name="findQueryExpr" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Sort expression" isEncryptable="false" name="sortExpr" type="string">
+               </property>
+            </propertyGroup>
+            <propertyGroup name="org.eclipse.birt.data.oda.mongodb.dataSet.options">
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Maximum result objects in a &amp;batch" isEncryptable="false" name="batchSize" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Maximum documents to search for runtime &amp;metadata" isEncryptable="false" name="rtMDSearchLimit" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Maximum documents to s&amp;kip" isEncryptable="false" name="numSkipDocuments" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Index &amp;hint expression" isEncryptable="false" name="indexHints" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Query cursor &amp;read preference" isEncryptable="false" name="queryReadPreference" type="choice">
+                  <choice defaultDisplayName="primary" name="readPreference.primary" value="primary">
+                  </choice>
+                  <choice defaultDisplayName="primaryPreferred" name="readPreference.primaryPreferred" value="primaryPreferred">
+                  </choice>
+                  <choice defaultDisplayName="secondary" name="readPreference.secondary" value="secondary">
+                  </choice>
+                  <choice defaultDisplayName="secondaryPreferred" name="readPreference.secondaryPreferred" value="secondaryPreferred">
+                  </choice>
+                  <choice defaultDisplayName="nearest" name="readPreference.nearest" value="nearest">
+                  </choice>
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Read preference ta&amp;g set(s)" isEncryptable="false" name="queryReadPreferenceTags" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;No cursor time out" isEncryptable="false" name="noTimeOut" type="choice">
+                  <choice defaultDisplayName="yes" name="true" value="true">
+                  </choice>
+                  <choice defaultDisplayName="no" name="false" value="false">
+                  </choice>
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Allows &amp;partial results" isEncryptable="false" name="allowsPartialResults" type="choice">
+                  <choice defaultDisplayName="yes" name="true" value="true">
+                  </choice>
+                  <choice defaultDisplayName="no" name="false" value="false">
+                  </choice>
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Flatten nested collections" isEncryptable="false" name="flattenCollections" type="choice">
+	               	 <choice defaultDisplayName="yes" name="true" value="true">
+	               	 </choice>
+	               	 <choice defaultDisplayName="no" name="false" value="false">
+	               	 </choice>
+               </property>
+            </propertyGroup>
+         </properties>
+         <dataTypeMapping nativeDataType="Number" nativeDataTypeCode="1" odaScalarDataType="Double">
+            <alternativeOdaDataType odaScalarDataType="Decimal">
+            </alternativeOdaDataType>
+            <alternativeOdaDataType odaScalarDataType="Integer">
+            </alternativeOdaDataType>
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="String" nativeDataTypeCode="2" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Object" nativeDataTypeCode="3" odaScalarDataType="JavaObject">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Array" nativeDataTypeCode="4" odaScalarDataType="JavaObject">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Binary" nativeDataTypeCode="5" odaScalarDataType="Blob">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Object Id" nativeDataTypeCode="7" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Boolean" nativeDataTypeCode="8" odaScalarDataType="Boolean">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Date" nativeDataTypeCode="9" odaScalarDataType="Date">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Null" nativeDataTypeCode="10" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Regular Expression" nativeDataTypeCode="11" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="JavaScript" nativeDataTypeCode="13" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Symbol" nativeDataTypeCode="14" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="JavaScript with scope" nativeDataTypeCode="15" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="32-bit integer" nativeDataTypeCode="16" odaScalarDataType="Integer">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Timestamp" nativeDataTypeCode="17" odaScalarDataType="Timestamp">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="64-bit integer" nativeDataTypeCode="18" odaScalarDataType="String">
+            <alternativeOdaDataType odaScalarDataType="Decimal">
+            </alternativeOdaDataType>
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Min key" nativeDataTypeCode="255" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Max key" nativeDataTypeCode="127" odaScalarDataType="String">
+         </dataTypeMapping>
+      </dataSet>
+   </extension>
+   <extension point="org.eclipse.datatools.connectivity.connectionProfile">
+      <category id="org.eclipse.birt.data.oda.mongodb" name="MongoDB Data Source" parentCategory="org.eclipse.datatools.connectivity.oda.profileCategory">
+      </category>
+      <connectionProfile category="org.eclipse.birt.data.oda.mongodb" id="org.eclipse.birt.data.oda.mongodb" name="MongoDB Data Source Connection Profile" pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory">
+      </connectionProfile>
+      <connectionFactory class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory" id="org.eclipse.datatools.connectivity.oda.IConnection" name="ODA Connection Factory" profile="org.eclipse.birt.data.oda.mongodb">
+      </connectionFactory>
+   </extension>
+
+
+<!--import from org.eclipse.birt.core.script.function-->
+   <extension id="org.eclipse.birt.core.script.function.BirtScriptFunction" name="BirtScriptFunction" point="org.eclipse.birt.core.ScriptFunctionService">
+   <Category desc="Provides String operation functions." factoryclass="org.eclipse.birt.core.script.function.bre.BirtStrFunctionFactory" name="BirtStr">
+	<Function desc="Returns the number of characters in string." name="charLength">
+		<Argument name="source">
+			<DataType value="String"/></Argument>
+		<DataType value="Integer"/></Function>
+	<Function desc="Returns a string concatenated by all the given strings." name="concat" variableArguments="true">
+		<Argument name="source">
+			<DataType value="String"/></Argument>
+		<DataType value="String"/></Function>
+	<Function desc="Searches for target in the string source and returns the index of first occurrence of pattern. &#10;Search starts at position start. All index values are 0-based.&#10;If start is omitted, a value of 0 is assumed. &#10;String search is case sensitive." name="indexOf">
+		<Argument name="target"/>
+		<Argument name="source"/>
+		<Argument isOptional="true" name="start"/>
+		<DataType value="Integer"/></Function>
+	<Function desc="Returns the first n characters of the string str. &#10;If n is 0, an empty string is returned. &#10;If n is greater than the length of str, the entire string is returned. &#10;If n is omitted, a value of 1 is used." name="left">
+		<Argument name="source">
+			<DataType value="String"/></Argument>
+		<Argument isOptional="true" name="n">
+			<DataType value="Integer"/></Argument>
+		<DataType value="String"/></Function>
+	<Function desc="Returns the last n characters of the string str. &#10;If n is 0, an empty string is returned. If n is greater than the length of str, the entire string is returned. &#10;If n is omitted, a value of 1 is used." name="right">
+		<Argument name="source">
+			<DataType value="String"/></Argument>
+		<Argument isOptional="true" name="n">
+			<DataType value="Integer"/></Argument>
+		<DataType value="String"/></Function>
+	<Function desc="Similar to indexOf function, except that: &#10;(1) string comparison is case-insensitive &#10;(2) pattern string can contain wildcard characters: &#10;* matches any sequence of characters (including empty); &#10;? matches any single character." name="search">
+		<Argument name="pattern">
+			<DataType value="String"/></Argument>
+		<Argument name="source">
+			<DataType value="String"/></Argument>
+		<Argument isOptional="true" name="index">
+			<DataType value="Integer"/></Argument>
+		<DataType value="Integer"/></Function>
+	<Function desc="Converts all of the characters in the String source to lower case." name="toLower">
+		<Argument name="source">
+			<DataType value="String"/></Argument>
+		<DataType value="String"/></Function>
+	<Function desc="Converts all of the characters in the String source to upper case." name="toUpper">
+		<Argument name="source">
+			<DataType value="String"/>
+		</Argument>
+		<DataType value="String"/>
+	</Function>
+	<Function desc="Removes all leading and trailing blank characters (space, TAB etc.).&#10;Also, all consecutive blank characters are consolidated into one." name="trim">
+		<Argument name="source">
+			<DataType value="String"/></Argument>
+		<DataType value="String"/></Function>
+	<Function desc="Removes all leading blanks. Trailing blanks and blanks between words are not removed." name="trimLeft">
+		<Argument name="source">
+			<DataType value="String"/></Argument>
+		<DataType value="String"/></Function>
+	<Function desc="Removes all trailing blanks. Leading blanks and blanks between words are not removed." name="trimRight">
+		<Argument name="source">
+			<DataType value="String"/></Argument>
+		<DataType value="String"/></Function></Category>
+   <Category desc="Provide comparion functions." factoryclass="org.eclipse.birt.core.script.function.bre.BirtCompFunctionFactory" name="BirtComp">
+	<Function desc="source is in the target range" name="anyOf" variableArguments="true">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target">
+			<DataType value="Any"/></Argument>
+	</Function>
+	<Function desc="TRUE if source is between target1 and target2. FALSE otherwise" name="between">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target1">
+			<DataType value="Any"/></Argument>
+		<Argument name="target2">
+			<DataType value="Any"/></Argument></Function>
+	<Function desc="TRUE if source is not between target1 and target2. FALSE otherwise" name="notBetween">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target1">
+			<DataType value="Any"/></Argument>
+		<Argument name="target2">
+			<DataType value="Any"/></Argument></Function>
+	<Function desc="source is equal to target" name="equalTo">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target">
+			<DataType value="Any"/></Argument></Function>
+	<Function desc="source is greater than target" name="greaterThan">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target">
+			<DataType value="Any"/></Argument>
+	</Function>
+	<Function desc="source is less than target" name="lessThan">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target">
+			<DataType value="Any"/></Argument>
+	</Function>
+	<Function desc="source is greater than or equal to target" name="greaterOrEqual">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target">
+			<DataType value="Any"/></Argument>
+	</Function>
+	<Function desc="source is less than or equal to target" name="lessOrEqual">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target">
+			<DataType value="Any"/></Argument>
+	</Function>
+	<Function desc="source is not equal to target" name="notEqual">
+		<DataType value="Boolean"/>
+            <Argument name="source">
+               <DataType value="Any">
+               </DataType>
+            </Argument>
+            <Argument name="target">
+               <DataType value="Any">
+               </DataType>
+            </Argument></Function>
+	<Function desc="source matches SQL pattern target" name="like">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target">
+			<DataType value="Any"/></Argument>
+		<Argument isOptional="true" name="ignoreCase">
+			<DataType value="Boolean"/></Argument>
+	</Function>
+	<Function desc="source does not match SQL pattern target" name="notLike">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target">
+			<DataType value="Any"/></Argument>
+	</Function>
+	<Function desc="source matches Javascript pattern target" name="match">
+		<DataType value="Boolean"/>
+		<Argument name="source">
+			<DataType value="Any"/></Argument>
+		<Argument name="target">
+			<DataType value="Any"/></Argument>
+	</Function>
+	<Function desc="compare the two strings by the specified conditions" name="compareString">
+		<DataType value="Boolean"/>
+		<Argument name="source1">
+			<DataType value="String"/>
+		</Argument>
+		<Argument name="source2">
+			<DataType value="String"/>
+		</Argument>
+		<Argument isOptional="true" name="ignoreCase">
+			<DataType value="Boolean"/></Argument>
+		<Argument isOptional="true" name="trim">
+			<DataType value="Boolean"/></Argument></Function>
+   </Category>
+   <Category desc="Provide math functions." factoryclass="org.eclipse.birt.core.script.function.bre.BirtMathFunctionFactory" name="BirtMath">
+	<Function desc="Sum of the two numbers n1 and n2." name="add">
+		<DataType value="Number"/>
+		<Argument name="n1">
+			<DataType value="Number"/>
+		</Argument>
+		<Argument name="n2">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="n1 subtracts n2" name="subtract">
+		<DataType value="Number"/>
+		<Argument name="n1">
+			<DataType value="Number"/>
+		</Argument>
+		<Argument name="n2">
+			<DataType value="Number"/></Argument></Function>
+         <Function desc="n1 multiplies n2. This function is only used for the backward compatibility of the function &quot;multiply&quot;." isVisible="false" name="multiple">
+         </Function>
+	<Function desc="n1 multiplies n2" name="multiply">
+		<DataType value="Number"/>
+		<Argument name="n1">
+			<DataType value="Number"/>
+		</Argument>
+		<Argument name="n2">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="dividend is divided by divisor" name="divide">
+		<DataType value="Number"/>
+		<Argument name="dividend">
+			<DataType value="Number"/>
+		</Argument>
+		<Argument name="divisor">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="Rounds a number to the specified number of digits. &#10;dec is an integer and can be negative. &#10;Default value for dec is 0 when omitted" name="round">
+		<DataType value="Number"/>
+		<Argument name="number">
+			<DataType value="Number"/>
+		</Argument>
+		<Argument isOptional="true" name="dec">
+			<DataType value="Number"/>
+		</Argument></Function>
+	<Function desc="Rounds a number up, away from 0, to the specified number of digits. &#10;Default for dec is 0." name="roundUp">
+		<DataType value="Number"/>
+		<Argument name="number">
+			<DataType value="Number"/>
+		</Argument>
+		<Argument isOptional="true" name="dec">
+			<DataType value="Number"/>
+		</Argument></Function>
+	<Function desc="Rounds a number down, toward 0, to the specified number of digits. &#10;Default for dec is 0." name="roundDown">
+		<DataType value="Number"/>
+		<Argument name="n">
+			<DataType value="Number"/>
+		</Argument>
+		<Argument isOptional="true" name="divisor">
+			<DataType value="Number"/>
+		</Argument></Function>
+	<Function desc="Rounds a number up, away from zero, to the nearest multiple of significance." name="ceiling">
+		<DataType value="Number"/>
+		<Argument name="n">
+			<DataType value="Number"/></Argument>
+		<Argument name="significance">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="Remainder after number is divided by divisor. The result has the same sign as the divisor." name="mod">
+		<DataType value="Number"/>
+		<Argument name="number">
+			<DataType value="Number"/></Argument>
+		<Argument name="divisor">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="If the result from the dividend divided by the divisor is not zero or infinite then returns the result. &#10;Otherwise returns the given if Zero." name="safeDivide">
+		<DataType value="Number"/>
+		<Argument name="dividend">
+			<DataType value="Number"/></Argument>
+		<Argument name="divisor">
+			<DataType value="Number"/></Argument>
+		<Argument name="ifZero">
+			<DataType value="Any"/>
+		</Argument></Function>
+   </Category>
+   <Category desc="Provide DateTime operation functions." factoryclass="org.eclipse.birt.core.script.function.bre.BirtDateTimeFunctionFactory" name="BirtDateTime">
+	<Function desc="Returns a Date object initialized with the given year, month, day, hours, minutes and seconds. &#10;(year, month, day are necessary; hours, minutes, seconds are optional) " name="date">
+		<DataType value="DateTime"/>
+		<Argument name="year">
+			<DataType value="Integer"/></Argument>
+		<Argument name="month">
+			<DataType value="Integer"/></Argument>
+		<Argument name="day">
+			<DataType value="Integer"/></Argument>
+		<Argument name="hours">
+			<DataType value="Integer"/></Argument>
+		<Argument name="minutes">
+			<DataType value="Integer"/></Argument>	
+		<Argument name="seconds">
+			<DataType value="Integer"/></Argument>		
+	</Function>
+	<Function desc="4-digit year number of the given date/time value" name="year">
+		<DataType value="Integer"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Quarter number (1 to 4) of the given date/time value" name="quarter">
+		<DataType value="Integer"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Month of date/time value. Option is an integer value:&#10;1 (default): return month number (1-12);&#10;2: return full month name as per user locale (e.g., January to December for English locale);&#10;3: return short month name as per user locale (e.g., Jan to Dec for English locale)" name="month">
+		<DataType value="Integer"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+       <Argument isOptional="true" name="option">
+         <DataType value="Integer">
+         </DataType>
+      </Argument></Function>
+	<Function desc="Week number of the year (1 to 52) of date/time value d." name="week">
+		<DataType value="Integer"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Week number of the month of date/time value d ( (1 to 6)." name="weekOfMonth">
+		<DataType value="Integer"/>
+		<Argument name="date">
+			<DataType value="DateTime"/>
+		</Argument>
+	</Function>
+	<Function desc="Day number of the month(1 to 31)." name="day">
+		<DataType value="Integer"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Day the week. Option is an integer value&#10;1: return a number 1 (Sunday) to 7 (Saturday);&#10;2: return a number 1 (Monday) to 7 (Sunday);&#10;3: return a number 0 (Monday) to 6 (Sunday);&#10;4: return the weekday name as per user locale(e.g., Sunday to Saturday for English);&#10;5: return the abbreviated weekday name as per user locale(e.g.,Sun to Sat for English)" name="weekDay">
+		<DataType value="String"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+       <Argument isOptional="true" name="option">
+         <DataType value="Integer">
+         </DataType>
+     </Argument></Function>
+	<Function desc="Day number of the week (1 to 7)." name="dayOfWeek">
+		<DataType value="Integer"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+    </Function>
+	<Function desc="Day number of the year (1 to 366)." name="dayOfYear">
+		<DataType value="Integer"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+    </Function>
+	<Function desc="Returns a timestamp value which is midnight of the current date." name="today">
+            <DataType value="DateTime">
+            </DataType></Function>
+	<Function desc="Returns the current timestamp." name="now">
+		<DataType value="DateTime"/></Function>
+	<Function desc="Return difference in number of years." name="diffYear">
+		<DataType value="Integer"/>
+		<Argument name="date1">
+			<DataType value="DateTime"/>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Return difference in number of months." name="diffMonth">
+		<DataType value="Integer"/>
+		<Argument name="date1">
+			<DataType value="DateTime"/>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Return difference in number of quarters." name="diffQuarter">
+		<DataType value="Integer"/>
+		<Argument name="date1">
+			<DataType value="DateTime"/>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Return difference in number of weeks." name="diffWeek">
+		<DataType value="Integer"/>
+		<Argument name="date1">
+			<DataType value="DateTime"/>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Return difference in number of days" name="diffDay">
+		<DataType value="Integer"/>
+		<Argument name="date1">
+			<DataType value="DateTime"/>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Return difference in number of hours." name="diffHour">
+		<DataType value="Integer"/>
+		<Argument name="date1">
+			<DataType value="DateTime"/>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Return difference in number of minutes." name="diffMinute">
+		<DataType value="Integer"/>
+		<Argument name="date1">
+			<DataType value="DateTime"/>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Return difference in number of seconds." name="diffSecond">
+		<DataType value="Integer"/>
+		<Argument name="date1">
+			<DataType value="DateTime"/>
+		</Argument>
+		<Argument name="date2">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Add n year(s) to the date" name="addYear">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="n">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="Add n month(s) to the date" name="addMonth">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="n">
+			<DataType value="Number"/></Argument>
+	</Function>
+	<Function desc="Add n quarter(s) to the date" name="addQuarter">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="n">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="Add n week(s) to the date" name="addWeek">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="n">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="Add n day(s) to the date" name="addDay">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="n">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="Add n hour(s) to the date" name="addHour">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="n">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="Add n minute(s) to the date" name="addMinute">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="n">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="Add n second(s) to the date" name="addSecond">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="n">
+			<DataType value="Number"/></Argument></Function>
+	<Function desc="Returns the first day of year which the date falls." name="firstDayOfYear">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Returns the first day of quarter which the date falls." name="firstDayOfQuarter">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Returns the first day of month which the date falls." name="firstDayOfMonth">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument></Function>
+	<Function desc="Returns the first day of week which the date falls." name="firstDayOfWeek">
+		<DataType value="DateTime"/>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument></Function>
+			
+		<Function desc="Returns the fiscal year for given date." name="fiscalYear">
+			<DataType value="Integer"/>
+			<Argument name="date">
+				<DataType value="DateTime"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>
+		<Function desc="Returns the quarter of fiscal year for given date." name="fiscalQuarter">
+			<DataType value="Integer"/>
+			<Argument name="date">
+				<DataType value="DateTime"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>
+		<Function desc="Returns the month of fiscal year for given date." name="fiscalMonth">
+			<DataType value="Integer"/>
+			<Argument name="date">
+				<DataType value="DateTime"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>
+		<Function desc="Returns the week of fiscal year for given date." name="fiscalWeek">
+			<DataType value="Integer"/>
+			<Argument name="date">
+				<DataType value="DateTime"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>
+		<Function desc="Returns the day of fiscal year for given date." name="fiscalDay">
+			<DataType value="Integer"/>
+			<Argument name="date">
+				<DataType value="DateTime"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>
+		<Function desc="Returns the first day of fiscal year which the date falls." name="firstDayOfFiscalYear">
+			<DataType value="DateTime"/>
+			<Argument name="date">
+				<DataType value="DateTime"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>
+		<Function desc="Returns the first day of fiscal year which the date falls." name="firstDayOfFiscalYear">
+			<DataType value="DateTime"/>
+			<Argument name="year">
+				<DataType value="Integer"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>		
+		<Function desc="Returns the first day of fiscal week which the date falls." name="firstDayOfFiscalQuarter">
+			<DataType value="DateTime"/>
+			<Argument name="date">
+				<DataType value="DateTime"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>
+		<Function desc="Returns the first day of fiscal week which the date falls." name="firstDayOfFiscalQuarter">
+			<DataType value="DateTime"/>
+			<Argument name="quarter">
+				<DataType value="Integer"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>		
+		<Function desc="Returns the first day of fiscal month which the date falls." name="firstDayOfFiscalMonth">
+			<DataType value="DateTime"/>
+			<Argument name="date">
+				<DataType value="DateTime"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>
+		<Function desc="Returns the first day of fiscal month which the date falls." name="firstDayOfFiscalMonth">
+			<DataType value="DateTime"/>
+			<Argument name="month">
+				<DataType value="Integer"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>		
+		<Function desc="Returns the first day of fiscal week which the date falls." name="firstDayOfFiscalWeek">
+			<DataType value="DateTime"/>
+			<Argument name="date">
+				<DataType value="DateTime"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>
+		<Function desc="Returns the first day of fiscal week which the date falls." name="firstDayOfFiscalWeek">
+			<DataType value="DateTime"/>
+			<Argument name="weekOfYear">
+				<DataType value="Integer"/>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="DateTime"/>
+			</Argument>
+		</Function>		
+   </Category>
+   <Category factoryclass="org.eclipse.birt.core.script.function.general.BirtFinanceFunctionFactory" name="Finance">
+	<Function desc="The depreciation of an asset for a given , single period using the double-declining balance method." name="ddb">
+		<DataType value="Double"/>
+		<Argument name="cost">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="salvage">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="life">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="period">
+			<DataType value="Integer"/>
+		</Argument>
+	</Function>
+		<Function desc="the future value of an annuity based on periodic , constant payments, and on an unvarying interest rate." name="fv">
+		<DataType value="Double"/>
+		<Argument name="rate">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="nPer">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="pmt">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="due">
+			<DataType value="Integer"/>
+		</Argument>
+	</Function>
+
+		<Function desc="The interest payment for a given period of an annuity, &#10;based on periodic , constant payments, and on an unvarying interest rate." name="ipmt">
+		<DataType value="Double"/>
+		<Argument name="rate">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="per">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="nPer">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="due">
+			<DataType value="Integer"/>
+		</Argument>
+	</Function>
+		<Function desc="Internal rate of return of a series of periodic cash flows, payments and receipts, in an existing array" name="irr">
+		<DataType value="Double"/>
+		<Argument name="cash">
+			<DataType value="Double[]"/>
+		</Argument>
+		<Argument name="intrate">
+			<DataType value="Double"/>
+		</Argument>
+	</Function>
+			<Function desc="The modified rate of return for a series of periodic cash flows (payments and receipts) in an existing array." name="mirr">
+		<DataType value="Double"/>
+		<Argument name="arptr">
+			<DataType value="Double[]"/>
+		</Argument>
+		<Argument name="frate">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument isOptional="true" name="rrate">
+			<DataType value="Double"/>
+		</Argument>
+			</Function>
+			<Function desc="Number of periods for an annuity based on periodic, constant payments, and on an unvarying interest rate." name="nper">
+		<DataType value="Double"/>
+		<Argument name="rate">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="pmt">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="due">
+			<DataType value="Integer"/>
+		</Argument>
+	</Function>
+			<Function desc="The net present value of a varying series of periodic cash flows, both positive and negative, at a given interest rate." name="npv">
+		<DataType value="Double"/>
+		<Argument name="rate">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="arptr">
+			<DataType value="Double[]"/>
+		</Argument>
+	</Function>
+				<Function desc="Computes the percentage of the two numbers" name="percent">
+		<DataType value="Double"/>
+		<Argument name="denom">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="num">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument isOptional="true" name="valueIfZero">
+			<DataType value="Double"/>
+		</Argument>
+				</Function>
+				<Function desc="The payment for an annuity, based on periodic , constant payments, and on an unvarying interest rate." name="pmt">
+		<DataType value="Double"/>
+		<Argument name="rate">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="nper">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="due">
+			<DataType value="Integer"/>
+		</Argument>
+	</Function>
+		<Function desc="The principal payment for a given period of an annuity, based on an interest rate and a constant payment schedule." name="ppmt">
+		<DataType value="Double"/>
+		<Argument name="rate">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="per">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="nPer">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="due">
+			<DataType value="Integer"/>
+		</Argument>
+	</Function>
+		<Function desc="The present value of an annuity based on periodic, constant payments to be paid in the future,and on an unvarying interest rate." name="pv">
+		<DataType value="Double"/>
+		<Argument name="rate">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="nPer">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="pmt">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="due">
+			<DataType value="Integer"/>
+		</Argument>
+	</Function>
+		<Function desc="The interest rate per period for an annuity." name="rate">
+		<DataType value="Double"/>
+		<Argument name="nper">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="pmt">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="pv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="fv">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="due">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="guess">
+			<DataType value="Double"/>
+		</Argument>
+	</Function>
+				<Function desc="Straight-line depreciation of an asset for a single period." name="sln">
+		<DataType value="Double"/>
+		<Argument name="cost">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="salvage">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="life">
+			<DataType value="Double"/>
+		</Argument>
+	</Function>
+	<Function desc="Sum-of-years'-digits depreciation of an asset for a specified period." name="syd">
+		<DataType value="Double"/>
+		<Argument name="cost">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="salvage">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="life">
+			<DataType value="Double"/>
+		</Argument>
+		<Argument name="period">
+			<DataType value="Integer"/>
+		</Argument>
+	</Function>
+   </Category>
+   <Category factoryclass="org.eclipse.birt.core.script.function.general.BirtDateTimeSpanFunctionFactory" isVisible="false" name="DateTimeSpan">
+	<Function desc="Returns a date that results from adding the years, months, and days to the start date." name="addDate">
+		<DataType value="DateTime"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/>
+		</Argument>
+		<Argument name="years">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="months">
+			<DataType value="Integer"/>
+		</Argument>
+		<Argument name="days">
+			<DataType value="Integer"/>
+		</Argument>
+	</Function>
+	<Function desc="Returns a date that results adding the hours, minutes, seconds to the start date." name="addTime">
+		<DataType value="DateTime"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="hours">
+			<DataType value="Integer"/></Argument>
+		<Argument name="minutes">
+			<DataType value="Integer"/></Argument>
+		<Argument name="seconds">
+			<DataType value="Integer"/></Argument>
+	</Function>
+		<Function desc="Returns a date that results from subtract the years, months, and days from the start date." name="subDate">
+		<DataType value="DateTime"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="years">
+			<DataType value="Integer"/></Argument>
+		<Argument name="months">
+			<DataType value="Integer"/></Argument>
+		<Argument name="days">
+			<DataType value="Integer"/></Argument>
+	</Function>
+	<Function desc="Returns a date that results subtracting the hours, minutes, seconds from the start date." name="subTime">
+		<DataType value="DateTime"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="hours">
+			<DataType value="Integer"/></Argument>
+		<Argument name="minutes">
+			<DataType value="Integer"/></Argument>
+		<Argument name="seconds">
+			<DataType value="Integer"/></Argument>
+	</Function>
+	<Function desc="The number of the days between two dates" name="days">
+		<DataType value="Integer"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="endDate">
+			<DataType value="DateTime"/></Argument>
+	</Function>
+		<Function desc="The number of the hours between two dates" name="hours">
+		<DataType value="Integer"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="endDate">
+			<DataType value="DateTime"/></Argument>
+	</Function>
+		<Function desc="The number of the minutes between two dates" name="minutes">
+		<DataType value="Integer"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="endDate">
+			<DataType value="DateTime"/></Argument>
+	</Function>
+		<Function desc="The number of the months between two dates" name="months">
+		<DataType value="Integer"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="endDate">
+			<DataType value="DateTime"/></Argument>
+	</Function>
+		<Function desc="The number of the seconds between two dates" name="seconds">
+		<DataType value="Integer"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="endDate">
+			<DataType value="DateTime"/></Argument>
+	</Function>
+			<Function desc="The number of the years between two dates" name="years">
+		<DataType value="Integer"/>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+		<Argument name="endDate">
+			<DataType value="DateTime"/></Argument>
+	</Function>
+   </Category>
+    <Category factoryclass="org.eclipse.birt.core.script.function.bre.BirtDurationFunctionFactory" name="BirtDuration">
+	<Function desc="Obtains the value of the YEARS field as an integer value,* or 0 if not present.&#10;The lexicalDuration is the duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="year">
+		<DataType value="Integer"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Obtains the value of the MONTHS field as an integer value,* or 0 if not present.&#10;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="month">
+		<DataType value="Integer"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Obtains the value of the DAYS field as an integer value,* or 0 if not present.&#10;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="day">
+		<DataType value="Integer"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+	</Function>
+	<Function desc="Obtains the value of the HOURS field as an integer value,* or 0 if not present.&#10;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="hour">
+		<DataType value="Integer"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+	</Function>
+	<Function desc="Obtains the value of the MINUTES field as an integer value,* or 0 if not present.&#10;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="minute">
+		<DataType value="Integer"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Obtains the value of the SECONDS field as integer value,* or 0 if not present.&#10;The lexicalDuration is duration string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="second">
+		<DataType value="Integer"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Returns the length of the duration in milli-seconds.&#10;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#10;The startDate argument is used to disambiguate this variance" name="timeInMills">
+		<DataType value="Number"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+		<Argument name="startDate">
+			<DataType value="DateTime"/></Argument>
+	</Function>
+		<Function desc="Checks if this lexicalDuration1 is strictly longer than another lexicalDuration2.&#10;For example, &quot;P1D&quot;(one day) &gt; &quot;PT12H&quot;(12 hours) and &quot;P2Y&quot; (two years) &gt; &quot;P23M&quot; (23 months)" name="isLongerThan">
+		<DataType value="Boolean"/>
+		<Argument name="lexicalDuration1">
+			<DataType value="String"/></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Checks if lexicalDuration1 is strictly shorter than another lexicalDuration2.&#10;For example,&quot;PT12H&quot;(12 hours) &lt; &quot;P1D&quot;(one day)." name="isShorterThan">
+		<DataType value="Boolean"/>
+		<Argument name="lexicalDuration1">
+			<DataType value="String"/></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Computes a new duration whose value is lexicalDuration1+lexicalDuration2.&#10;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="add">
+		<DataType value="String"/>
+		<Argument name="lexicalDuration1">
+			<DataType value="String"/></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Computes a new duration whose value is lexicalDuration1-lexicalDuration2.&#10;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="subtract">
+		<DataType value="String"/>
+		<Argument name="lexicalDuration1">
+			<DataType value="String"/></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Computes a new duration whose value is factor times longer than the value of lexicalDuration.&#10;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#10;Factor is the times longer of new Duration to create" name="multiply">
+		<DataType value="String"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+		<Argument name="factor">
+			<DataType value="Integer"/></Argument>
+	</Function>
+		<Function desc="Returns a new Duration object whose value is -lexicalDuration.&#10;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="negate">
+		<DataType value="String"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Returns the sign of this duration in -1,0, or 1.&#10;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="getSign">
+		<DataType value="Integer"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Partial order relation between lexicalDuration1 and lexicalDuration2.&#10;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )" name="compare">
+		<DataType value="Integer"/>
+		<Argument name="lexicalDuration1">
+			<DataType value="String"/></Argument>
+		<Argument name="lexicalDuration2">
+			<DataType value="String"/></Argument>
+	</Function>
+		<Function desc="Adds this duration to a Date object.&#10;The lexicalDuration is the string presentation, &quot;PnYnMnDTnHnMnS&quot;(e.g. P5Y2M15DT4H40M20S )&#10;The given Date argument is used to be modified" name="addTo">
+		<DataType value="DateTime"/>
+		<Argument name="lexicalDuration">
+			<DataType value="String"/></Argument>
+		<Argument name="date">
+			<DataType value="DateTime"/></Argument>
+	</Function>
+   </Category>
+    <Category factoryclass="org.eclipse.birt.core.script.function.bre.FormatterFunctionFactory" name="Formatter">
+       <Function desc="Obtains the formatted string from specified object and pattern." name="format">
+          <DataType value="Any">
+          </DataType>
+          <Argument name="value">
+             <DataType value="Any">
+             </DataType>
+          </Argument>
+          <Argument name="pattern">
+             <DataType value="String">
+             </DataType>
+          </Argument>
+       </Function>
+    </Category>
+  </extension>
+<!--import from uk.co.spudsoft.birt.emitters.excel-->
+   <extension id="uk.co.spudsoft.birt.emitters.excel" name="SpudSoft BIRT Emitters" point="org.eclipse.birt.report.engine.emitters">
+      <emitter class="uk.co.spudsoft.birt.emitters.excel.XlsxEmitter" format="xlsx" id="uk.co.spudsoft.birt.emitters.excel.XlsxEmitter" mimeType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" pagination="page-break-pagination">
+      </emitter>
+      <emitter class="uk.co.spudsoft.birt.emitters.excel.XlsEmitter" format="xls_spudsoft" id="uk.co.spudsoft.birt.emitters.excel.XlsEmitter" mimeType="application/vnd.ms-excel" pagination="page-break-pagination">
+      </emitter>
+   </extension>
+
+<!--import from org.eclipse.birt.core-->
+   
+     <extension-point id="org.eclipse.birt.core.FactoryService" name="FactoryService" schema="schema/FactoryService.exsd"/>
+     <extension-point id="org.eclipse.birt.core.ScriptFunctionService" name="ScriptFunctionService" schema="schema/ScriptFunctionService.exsd"/>
+     <extension-point id="org.eclipse.birt.core.ScriptEngineFactory" name="ScriptEngineFactory" schema="schema/ScriptEngineFactory.exsd"/>
+<!--import from org.eclipse.birt.report.engine.emitter.config.excel-->
+
+     <extension name="Excel Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.excel.ExcelEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.prototype.excel">
+        </descriptor>
+  </extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.wpml-->
+	<extension name="Engine Word Emitters" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.wpml.DocEmitter" format="doc" id="org.eclipse.birt.report.engine.emitter.word" mimeType="application/msword" pagination="page-break-pagination"/>
+  	</extension>  
+<!--import from org.eclipse.birt.report.engine.dataextraction.csv-->
+   <extension point="org.eclipse.birt.report.engine.dataExtraction">
+         <dataExtraction class="org.eclipse.birt.report.engine.dataextraction.csv.CSVDataExtractionImpl" format="csv" id="org.eclipse.birt.report.engine.dataextraction.csv" mimeType="text/csv" name="CSV"/>
+   </extension>
+<!--import from org.eclipse.birt.data.oda.pojo-->
+
+   <extension id="org.eclipse.birt.data.oda.pojo" point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource defaultDisplayName="POJO Data Source" driverClass="org.eclipse.birt.data.oda.pojo.impl.Driver" id="org.eclipse.birt.data.oda.pojo" odaVersion="3.1" setThreadContextClassLoader="false">
+         <properties>
+            <propertyGroup name="org.eclipse.birt.data.oda.pojo.propertyGroup2">
+            	<property allowsEmptyValueAsNull="true" defaultDisplayName="Shared &amp;Location of Custom POJO Data Set Classes" isEncryptable="false" name="pojoDataSetClassPath" type="string">
+            	</property>
+            	<property allowsEmptyValueAsNull="true" defaultDisplayName="Shared Location of POJO Classes" isEncryptable="false" name="pojoClassPath" type="string">
+            	</property>
+            </propertyGroup>
+            <propertyVisibility name="pojoClassPath" visibility="hide"/>
+         </properties>
+      </dataSource>
+      <dataSet defaultDisplayName="POJO Data Set" id="org.eclipse.birt.data.oda.pojo.dataSet">
+         <properties>
+            <propertyGroup name="org.eclipse.birt.data.oda.pojo.propertyGroup1">
+               <property allowsEmptyValueAsNull="true" canInherit="true" isEncryptable="false" name="pojoRootClass" type="string">
+               </property>
+               <property allowsEmptyValueAsNull="true" canInherit="true" isEncryptable="false" name="methodNameRegex" type="string">
+               </property>
+            </propertyGroup>
+            <propertyVisibility name="pojoRootClass" visibility="hide"/>
+            <propertyVisibility name="methodNameRegex" visibility="hide"/>
+         </properties>
+         <dataTypeMapping nativeDataType="String" nativeDataTypeCode="1" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Integer" nativeDataTypeCode="4" odaScalarDataType="Integer">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Double" nativeDataTypeCode="8" odaScalarDataType="Double">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Decimal" nativeDataTypeCode="3" odaScalarDataType="Decimal">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Date" nativeDataTypeCode="91" odaScalarDataType="Date">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Time" nativeDataTypeCode="92" odaScalarDataType="Time">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Timestamp" nativeDataTypeCode="93" odaScalarDataType="Timestamp">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Boolean" nativeDataTypeCode="16" odaScalarDataType="Boolean">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Blob" nativeDataTypeCode="2004" odaScalarDataType="Blob">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Clob" nativeDataTypeCode="2005" odaScalarDataType="Clob">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="Java Object" nativeDataTypeCode="2000" odaScalarDataType="JavaObject">
+         </dataTypeMapping>
+      </dataSet>
+   </extension>
+   <extension point="org.eclipse.datatools.connectivity.connectionProfile">
+      <category id="org.eclipse.birt.data.oda.pojo" name="POJO Data Source" parentCategory="org.eclipse.datatools.connectivity.oda.profileCategory">
+      </category>
+      <connectionProfile category="org.eclipse.birt.data.oda.pojo" id="org.eclipse.birt.data.oda.pojo" name="POJO Data Source Connection Profile" pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory">
+      </connectionProfile>
+      <connectionFactory class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory" id="org.eclipse.datatools.connectivity.oda.IConnection" name="ODA Connection Factory" profile="org.eclipse.birt.data.oda.pojo">
+      </connectionFactory>
+   </extension>
+
+<!--import from org.eclipse.birt.data.aggregation-->
+	<extension id="org.eclipse.birt.aggregation" name="BuildInAggregations" point="org.eclipse.birt.data.aggregation">
+		<Aggregations>
+			<AggregationFactory class="org.eclipse.birt.data.aggregation.impl.BuildInAggregationFactory"/>
+		</Aggregations>
+	</extension>
+<!--import from org.eclipse.birt.report.data.oda.jdbc.dbprofile-->
+
+   <extension id="org.eclipse.birt.report.data.oda.jdbc.dbprofile" point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource defaultDisplayName="JDBC Database Connection for Query Builder" driverClass="org.eclipse.birt.report.data.oda.jdbc.dbprofile.impl.Driver" id="org.eclipse.birt.report.data.oda.jdbc.dbprofile" odaVersion="3.2" overrideExplorerFiltering="true" setThreadContextClassLoader="false">
+         <properties>
+            <property allowsEmptyValueAsNull="false" canInherit="true" defaultDisplayName="&amp;Database" isEncryptable="false" name="databaseName" type="string">
+            </property>
+            <property allowsEmptyValueAsNull="false" canInherit="true" defaultDisplayName="User &amp;Name" isEncryptable="false" name="username" type="string">
+            </property>
+            <property allowsEmptyValueAsNull="false" canInherit="true" defaultDisplayName="Pass&amp;word" isEncryptable="true" name="password" type="string">
+            </property>
+            <property allowsEmptyValueAsNull="false" canInherit="true" defaultDisplayName="JDBC Driver U&amp;RL" isEncryptable="false" name="URL" type="string">
+            </property>
+            <property allowsEmptyValueAsNull="false" canInherit="true" defaultDisplayName="JDBC Driver &amp;Class" isEncryptable="false" name="driverClass" type="string">
+            </property>
+            <property allowsEmptyValueAsNull="false" canInherit="true" defaultDisplayName="JDBC Driver &amp;JAR List" isEncryptable="false" name="jarList" type="string">
+            </property>
+         </properties>
+
+         <relationship relatedId="org.eclipse.datatools.connectivity.db.category" type="wrapperOf">
+         </relationship>
+
+      </dataSource>
+      <dataSet defaultDisplayName="SQL Select Query [Query Builder]" id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sqbDataSet">
+         <properties>
+         	<propertyGroup defaultDisplayName="Query Properties" name="queryProperties">
+          		 <property canInherit="true" defaultDisplayName="BIRT JDBC Parameter MetaData" name="parameterMetaData" type="string"/>
+         	</propertyGroup>
+         	<propertyVisibility name="parameterMetaData" visibility="hide">
+         	</propertyVisibility>
+         </properties>
+         <dataTypeMapping nativeDataType="CHARACTER" nativeDataTypeCode="1" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="INTEGER" nativeDataTypeCode="4" odaScalarDataType="Integer">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="DOUBLE" nativeDataTypeCode="8" odaScalarDataType="Double">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="FLOAT" nativeDataTypeCode="6" odaScalarDataType="Double">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="DECIMAL" nativeDataTypeCode="3" odaScalarDataType="Decimal">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="DATE" nativeDataTypeCode="91" odaScalarDataType="Date">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="TIME" nativeDataTypeCode="92" odaScalarDataType="Time">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="TIMESTAMP" nativeDataTypeCode="93" odaScalarDataType="Timestamp">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="BOOLEAN" nativeDataTypeCode="16" odaScalarDataType="Boolean">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="VARCHAR" nativeDataTypeCode="12" odaScalarDataType="String">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="SMALLINT" nativeDataTypeCode="5" odaScalarDataType="Integer">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="BIGINT" nativeDataTypeCode="-5" odaScalarDataType="Integer">
+            <alternativeOdaDataType odaScalarDataType="String">
+            </alternativeOdaDataType>
+            <alternativeOdaDataType odaScalarDataType="Decimal">
+            </alternativeOdaDataType>
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="REAL" nativeDataTypeCode="7" odaScalarDataType="Double">
+            <alternativeOdaDataType odaScalarDataType="Decimal">
+            </alternativeOdaDataType>
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="NUMERIC" nativeDataTypeCode="2" odaScalarDataType="Decimal">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="LONGVARCHAR" nativeDataTypeCode="-1" odaScalarDataType="String">
+            <alternativeOdaDataType odaScalarDataType="Clob">
+            </alternativeOdaDataType>
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="VARBINARY" nativeDataTypeCode="-3" odaScalarDataType="Blob">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="BINARY" nativeDataTypeCode="-2" odaScalarDataType="Blob">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="LONGVARBINARY" nativeDataTypeCode="-4" odaScalarDataType="Blob">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="BLOB" nativeDataTypeCode="2004" odaScalarDataType="Blob">
+         </dataTypeMapping>
+         <dataTypeMapping nativeDataType="CLOB" nativeDataTypeCode="2005" odaScalarDataType="Clob">
+         </dataTypeMapping>
+      </dataSet>
+   </extension>
+   
+   <extension point="org.eclipse.datatools.connectivity.connectionProfile">
+      <connectionProfile category="org.eclipse.datatools.connectivity.db.category" id="org.eclipse.birt.report.data.oda.jdbc.dbprofile" name="BIRT JDBC Database Connection Profile" pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory">
+      </connectionProfile>
+      <connectionFactory class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory" id="org.eclipse.datatools.connectivity.oda.IConnection" name="ODA Connection Factory" profile="org.eclipse.birt.report.data.oda.jdbc.dbprofile">
+      </connectionFactory>
+      <category id="org.eclipse.birt.report.data.oda.jdbc.dbprofile" name="JDBC Database Connection for Query Builder" parentCategory="org.eclipse.datatools.connectivity.db.category">
+      </category>
+   </extension>
+
+<!--import from org.eclipse.birt.report.engine.emitter.config.html-->
+
+     <extension name="HTML Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.html.HTMLEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.html"/>
+  </extension>  
+<!--import from org.eclipse.birt.data-->
+     <extension-point id="org.eclipse.birt.data.aggregation" name="Custom Aggregation Extension" schema="schema/aggregation.exsd"/>
+     
+     <extension id="org.eclipse.birt.data.DataEngineFactory" name="DataEngineFactory" point="org.eclipse.birt.core.FactoryService">
+   		<factory class="org.eclipse.birt.data.engine.impl.DataEngineFactory"/>
+	 </extension>
+	 
+	 <extension id="org.eclipse.birt.data.TimeFunctionCreatorFactory" name="TimeFunctionCreatorFactory" point="org.eclipse.birt.core.FactoryService">
+   		<factory class="org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunctionCreatorFactory"/>
+	 </extension>
+	 
+   
+<!--import from org.eclipse.birt.chart.reportitem-->
+
+   <!--<extension id="org.eclipse.birt.chart.reportitem.chart" name="The chart extension" point="org.eclipse.birt.report.model.reportItemModel">
+      <reportItem class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl" defaultStyle="chart" displayNameID="Element.Chart" extendsFrom="ReportItem" extensionName="Chart" hasStyle="true" isNameRequired="false" themeType="Chart">
+         <style displayNameID="Element.Chart" name="chart" type="Chart"/>
+         <property displayNameID="Element.Chart.xmlRepresentation" name="xmlRepresentation" type="xml"/>
+         <propertyVisibility name="xmlRepresentation" visibility="hide"/>
+         <property displayNameID="Element.Chart.outputFormat" name="outputFormat" type="string"/>
+         <propertyVisibility name="outputFormat" visibility="hide"/>
+         <property detailType="Action" displayNameID="Element.Chart.action" isList="true" name="action" type="structure"/>
+    	<property detailType="SortKey" displayNameID="Element.ListingGroup.sort" isList="true" name="sort" type="structure"/>
+         <overrideProperty allowedUnits="in,cm,mm,pt,px,pc,%" propertyName="width">
+         </overrideProperty>
+         <overrideProperty allowedUnits="in,cm,mm,pt,px,pc,%" propertyName="height">
+         </overrideProperty>
+         <property detailType="FilterCondition" displayNameID="Element.ExtendedItem.filter" isList="true" name="filter" type="structure">
+         </property>
+         <property detailType="FilterConditionElement" isList="true" name="cubeFilter" type="contentElement">
+            <elementType name="FilterConditionElement">
+            </elementType>
+         </property>
+         <property canInherit="true" detailType="Chart" isEncryptable="false" isList="false" name="hostChart" type="elementRef">
+         </property>
+         <propertyVisibility name="hostChart" visibility="hide">
+         </propertyVisibility>
+         <property canInherit="true" isEncryptable="false" isList="false" name="chartType" type="string">
+         </property>
+         <propertyVisibility name="chartType" visibility="hide">
+         </propertyVisibility>
+         <property canInherit="true" defaultValue="true" isEncryptable="false" isList="false" name="inheritColumns" type="boolean">
+         </property>
+         <propertyVisibility name="inheritColumns" visibility="hide">
+         </propertyVisibility>
+         <property canInherit="true" defaultDisplayName="PDF tag type" defaultValue="Figure" isEncryptable="false" isList="false" name="tagType" type="string">
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="false" name="url" type="string">
+         </property>         
+      </reportItem>
+   </extension>
+   <extension id="org.eclipse.birt.chart.reportitem.chart" name="The chart extension" point="org.eclipse.birt.report.engine.reportitemPresentation">
+      <reportItem class="org.eclipse.birt.chart.reportitem.ChartReportItemPresentationProxy" name="Chart" supportedFormats="jpeg; png; gif; bmp"/>
+   </extension>
+   <extension point="org.eclipse.birt.report.engine.reportitemGeneration">
+      <reportItem class="org.eclipse.birt.chart.reportitem.ChartReportItemGenerationProxy" name="Chart"/>
+   </extension>
+   <extension point="org.eclipse.birt.report.engine.reportitemQuery">
+      <reportItem class="org.eclipse.birt.chart.reportitem.ChartReportItemQueryImpl" getAllRows="true" name="Chart">
+      </reportItem>
+   </extension>
+   <extension point="org.eclipse.birt.report.model.IScriptableObjectClassInfo">
+      <scriptableClassInfo class="org.eclipse.birt.chart.reportitem.ChartScriptableClassInfo" extensionName="Chart">
+      </scriptableClassInfo>
+   </extension>-->
+   
+<!--import from org.eclipse.birt.report.engine.emitter.odp-->
+
+     <extension name="OpenDocument Presentation Emitters" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.odp.OdpEmitter" format="odp" icon="resource/ODP.gif" id="org.eclipse.birt.report.engine.emitter.odp" mimeType="application/vnd.oasis.opendocument.presentation" pagination="paper-size-pagination"/>
+  </extension>  
+<!--import from org.eclipse.birt.chart.engine.extension-->
+
+<!--
+     <extension point="org.eclipse.birt.chart.engine.modelrenderers">
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Area" series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Bar" series="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Dial" series="org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"/>
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Line" series="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Pie" series="org.eclipse.birt.chart.model.type.impl.PieSeriesImpl"/>
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Stock" series="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"/>
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Scatter" series="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Bubble" series="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Gantt" series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
+      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Difference" series="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>
+   </extension>
+   <extension point="org.eclipse.birt.chart.engine.datasetprocessors">
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.component.impl.SeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.PieSeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.StockDataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.BubbleDataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.GanttDataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DifferenceDataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>
+   </extension>
+-->
+<!--
+   <extension point="org.eclipse.birt.chart.engine.aggregatefunctions">
+      <aggregateFunction displayName="Sum" function="org.eclipse.birt.chart.extension.aggregate.Sum" name="Sum"/>
+      <aggregateFunction displayName="Average" function="org.eclipse.birt.chart.extension.aggregate.Average" name="Average"/>
+      <aggregateFunction displayName="Count" function="org.eclipse.birt.chart.extension.aggregate.Count" name="Count"/>
+      <aggregateFunction displayName="Distinct Count" function="org.eclipse.birt.chart.extension.aggregate.DistinctCount" name="DistinctCount"/>
+      <aggregateFunction displayName="First" function="org.eclipse.birt.chart.extension.aggregate.First" name="First"/>
+      <aggregateFunction displayName="Last" function="org.eclipse.birt.chart.extension.aggregate.Last" name="Last"/>
+      <aggregateFunction displayName="Minimum" function="org.eclipse.birt.chart.extension.aggregate.Min" name="Min"/>
+      <aggregateFunction displayName="Maximum" function="org.eclipse.birt.chart.extension.aggregate.Max" name="Max"/>
+      <aggregateFunction displayName="Weighted Average" function="org.eclipse.birt.chart.extension.aggregate.WeightedAverage" name="WeightedAverage"/>
+      <aggregateFunction displayName="Median" function="org.eclipse.birt.chart.extension.aggregate.Median" name="Median"/>
+      <aggregateFunction displayName="Mode" function="org.eclipse.birt.chart.extension.aggregate.Mode" name="Mode"/>
+      <aggregateFunction displayName="STDDEV" function="org.eclipse.birt.chart.extension.aggregate.StdDev" name="STDDEV"/>
+      <aggregateFunction displayName="Variance" function="org.eclipse.birt.chart.extension.aggregate.Variance" name="Variance"/>
+      <aggregateFunction displayName="Irr" function="org.eclipse.birt.chart.extension.aggregate.Irr" name="Irr"/>
+      <aggregateFunction displayName="Mirr" function="org.eclipse.birt.chart.extension.aggregate.Mirr" name="Mirr"/>
+     <aggregateFunction displayName="NPV" function="org.eclipse.birt.chart.extension.aggregate.Npv" name="NPV"/>
+      <aggregateFunction displayName="Percentile" function="org.eclipse.birt.chart.extension.aggregate.Percentile" name="Percentile"/>
+      <aggregateFunction displayName="Quartile" function="org.eclipse.birt.chart.extension.aggregate.Quartile" name="Quartile"/>   
+	  <aggregateFunction displayName="Moving Average" function="org.eclipse.birt.chart.extension.aggregate.MovingAverage" name="MovingAverage"/>
+      <aggregateFunction displayName="Running Sum" function="org.eclipse.birt.chart.extension.aggregate.RunningSum" name="RunningSum"/>
+	  <aggregateFunction displayName="Running NPV" function="org.eclipse.birt.chart.extension.aggregate.RunningNpv" name="RunningNPV"/>                                   
+	  <aggregateFunction displayName="Rank" function="org.eclipse.birt.chart.extension.aggregate.Rank" name="Rank"/>
+	  <aggregateFunction displayName="Is-Top-N" function="org.eclipse.birt.chart.extension.aggregate.Top" name="Top"/>
+	  <aggregateFunction displayName="Is-Top-N-Percent" function="org.eclipse.birt.chart.extension.aggregate.TopPercent" name="TopPercent"/>
+	  <aggregateFunction displayName="Is-Bottom-N" function="org.eclipse.birt.chart.extension.aggregate.Bottom" name="Bottom"/>
+	  <aggregateFunction displayName="Is-Bottom-N-Percent" function="org.eclipse.birt.chart.extension.aggregate.BottomPercent" name="BottomPercent"/>
+	  <aggregateFunction displayName="Percent Rank" function="org.eclipse.birt.chart.extension.aggregate.PercentRank" name="PercentRank"/>
+	  <aggregateFunction displayName="Percent Sum" function="org.eclipse.birt.chart.extension.aggregate.PercentSum" name="PercentSum"/>
+	  <aggregateFunction displayName="Running Count" function="org.eclipse.birt.chart.extension.aggregate.RunningCount" name="RunningCount"/>            
+   </extension>
+   <extension point="org.eclipse.birt.chart.engine.datapointdefinitions">
+      <datapointDefinition definition="org.eclipse.birt.chart.extension.datafeed.StockDataPointDefinition" series="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"/>
+      <datapointDefinition definition="org.eclipse.birt.chart.extension.datafeed.GanttDataPointDefinition" series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
+      <datapointDefinition definition="org.eclipse.birt.chart.extension.datafeed.BubbleDataPointDefinition" series="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
+      <datapointDefinition definition="org.eclipse.birt.chart.extension.datafeed.DifferenceDataPointDefinition" series="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>                                  
+   </extension>
+-->
+<!--import from org.eclipse.birt.report.engine.emitter.config.postscript-->
+
+     <extension name="Postscript Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.postscript.PostscriptEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.postscript"/>
+  </extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.pptx-->
+
+     <extension name="Engine PPTX Emitters" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.pptx.PPTXEmitter" format="pptx" id="org.eclipse.birt.report.engine.emitter.pptx" mimeType="application/vnd.openxmlformats-officedocument.presentationml.presentation" pagination="paper-size-pagination"/>
+  </extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.config.ods-->
+
+     <extension name="OpenDocument Spreadsheet Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.ods.OdsEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.prototype.ods">
+        </descriptor>
+  </extension>  
+<!--import from org.eclipse.birt.report.data.oda.excel-->
+
+   <extension point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource defaultDisplayName="Excel Data Source" driverClass="org.eclipse.birt.report.data.oda.excel.impl.Driver" id="org.eclipse.birt.report.data.oda.excel" odaVersion="3.2" setThreadContextClassLoader="false">
+         <properties>
+            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="U&amp;RI" isEncryptable="false" name="URI" type="string">
+            </property>
+            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Use First Line as Column &amp;Name Indicator" defaultValue="yes" isEncryptable="false" name="INCLCOLUMNNAME" type="choice">
+                  <choice defaultDisplayName="NO" name="no" value="no"/>
+                  <choice defaultDisplayName="YES" name="yes" value="yes"/>
+            </property>
+            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Use Second Line as &amp;Data Type Indicator" defaultValue="no" isEncryptable="false" name="INCLTYPELINE" type="choice">
+                  <choice defaultDisplayName="YES" name="no" value="no"/>
+                  <choice defaultDisplayName="NO" name="yes" value="yes"/>
+            </property>
+         </properties>
+      </dataSource>
+      <dataSet defaultDisplayName="Excel Data Set" id="org.eclipse.birt.report.data.oda.excel.dataSet">
+            <dataTypeMapping nativeDataType="INT" nativeDataTypeCode="4" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="DOUBLE" nativeDataTypeCode="8" odaScalarDataType="Double"/>
+            <dataTypeMapping nativeDataType="STRING" nativeDataTypeCode="12" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="DATE" nativeDataTypeCode="91" odaScalarDataType="Date"/>
+            <dataTypeMapping nativeDataType="TIME" nativeDataTypeCode="92" odaScalarDataType="Time"/>
+            <dataTypeMapping nativeDataType="DATETIME" nativeDataTypeCode="93" odaScalarDataType="Timestamp"/>
+            <dataTypeMapping nativeDataType="TIMESTAMP" nativeDataTypeCode="93" odaScalarDataType="Timestamp"/>
+            <dataTypeMapping nativeDataType="BIGDECIMAL" nativeDataTypeCode="2" odaScalarDataType="Decimal"/>
+            <dataTypeMapping nativeDataType="BOOLEAN" nativeDataTypeCode="16" odaScalarDataType="Boolean"/>
+         <properties>
+            <propertyGroup defaultDisplayName="Dataset Properties" name="dateset properties">
+            <property canInherit="true" defaultDisplayName="Works&amp;heet(s)" name="WORKSHEETS" type="string"/>
+         </propertyGroup>
+            <propertyVisibility name="WORKSHEETS" visibility="change"/>
+
+         </properties>
+      </dataSet>
+   </extension>
+   <extension point="org.eclipse.datatools.connectivity.connectionProfile">
+      <category id="org.eclipse.birt.report.data.oda.excel" name="Excel Data Source" parentCategory="org.eclipse.datatools.connectivity.oda.profileCategory">
+      </category>
+      <connectionProfile category="org.eclipse.birt.report.data.oda.excel" id="org.eclipse.birt.report.data.oda.excel" name="Excel Data Source Connection Profile" pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory">
+      </connectionProfile>
+      <connectionFactory class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory" id="org.eclipse.datatools.connectivity.oda.IConnection" name="ODA Connection Factory" profile="org.eclipse.birt.report.data.oda.excel">
+      </connectionFactory>
+   </extension>
+
+<!--import from org.eclipse.birt.chart.examples.core-->
+<!--
+   <extension point="org.eclipse.birt.chart.engine.modelrenderers">
+      <modelRenderer renderer="org.eclipse.birt.chart.examples.radar.render.Radar" series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
+   </extension>
+      <extension point="org.eclipse.birt.chart.engine.datasetprocessors">
+      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
+      </extension>
+      <extension point="org.eclipse.birt.chart.engine.charttypes">
+         <chartType modelLoader="org.eclipse.birt.chart.examples.radar.model.RadarModelLoader" namespaceURI="http://www.birt.eclipse.org/RadarChartModelType" packageLoader="org.eclipse.birt.chart.examples.radar.model.RadarTypePackageLoader" typePackage="org.eclipse.birt.chart.examples.radar.model.RadarTypePackageLoader">
+         </chartType>
+      </extension>
+-->
+      
+
+<!--import from org.eclipse.birt.report.data.bidi.utils-->
+   <!--import from org.eclipse.birt.report.engine.emitter.config-->
+   <extension-point id="org.eclipse.birt.report.engine.emitter.config" name="Emitter Descriptor" schema="schema/org.eclipse.birt.report.engine.emitter.config.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.emitter.config.DefaultConfigLoader" name="Default Config Loader" schema="schema/org.eclipse.birt.report.engine.emitter.config.defaultconfigloader.exsd"/>
+   <extension id="org.eclipse.birt.report.engine.emitter.config.EmitterConfigurationManagerFactory" name="EmitterConfigurationManagerFactory" point="org.eclipse.birt.core.FactoryService">
+      <factory class="org.eclipse.birt.report.engine.emitter.config.impl.EmitterConfigurationManagerFactory">
+      </factory>
+   </extension>
+   <extension id="org.eclipse.birt.report.engine.emitter.config.DefaultConfigLoader" name="DefaultConfigLoader" point="org.eclipse.birt.report.engine.emitter.config.DefaultConfigLoader">
+         <descriptor class="org.eclipse.birt.report.engine.emitter.config.impl.JarConfigLoader" id="DefaultJarConfigLoader"/>
+   </extension>
+<!--import from org.eclipse.birt.report.item.crosstab.core-->
+   <extension id="org.eclipse.birt.report.item.crosstab.core.crosstab" name="The Crosstab Extension" point="org.eclipse.birt.report.model.reportItemModel">
+      <reportItem class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory" defaultStyle="crosstab" displayNameID="Element.Crosstab" extendsFrom="ReportItem" extensionName="Crosstab" hasStyle="true" isNameRequired="false" themeType="Crosstab">
+         <property canInherit="true" displayNameID="Element.Caption" isEncryptable="false" name="caption" type="string">
+         </property>
+         <property canInherit="true" displayNameID="Element.CaptionID" isEncryptable="false" name="captionID" type="resourceKey">
+         </property>
+         <property canInherit="true" defaultValue="horizontal" displayNameID="Element.MeasureDirection" isEncryptable="false" name="measureDirection" type="choice">
+            <choice displayNameID="Element.Direction.Horizontal" name="horizontal" value="horizontal">
+            </choice>
+            <choice displayNameID="Element.Direction.Vertical" name="vertical" value="vertical">
+            </choice></property>
+         <property canInherit="true" displayNameID="Element.Summary" hasOwnModel="false" isEncryptable="false" isList="false" name="summary" type="string">
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="measures" type="element">
+            <elementType name="MeasureView">
+            </elementType>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="false" name="rows" type="element">
+            <elementType name="CrosstabView">
+            </elementType>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="false" name="columns" type="element">
+            <elementType name="CrosstabView">
+            </elementType>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="header" type="element">
+            <elementType name="CrosstabCell">
+            </elementType>
+         </property>
+         <property canInherit="true" defaultValue="Table" displayNameID="Element.TagType" isEncryptable="false" name="tagType" type="string">
+         </property>                  
+         <propertyVisibility name="dataSet" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="measures" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="rows" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="columns" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="measureDirection" visibility="hide">
+         </propertyVisibility>
+         <style displayNameID="Element.Crosstab" name="crosstab" type="Crosstab">
+         </style>
+         <style name="crosstab-header" type="Crosstab">
+         </style>
+         <style name="crosstab-detail" type="Crosstab">
+         </style>
+         <style name="crosstab-row-header" type="Crosstab">
+         </style>
+         <property canInherit="true" defaultValue="true" displayNameID="Element.RepeatColumnHeader" hasOwnModel="true" isEncryptable="false" isList="false" name="repeatColumnHeader" subType="string" type="boolean">
+         </property>
+         <propertyVisibility name="pageLayout" visibility="hide">
+         </propertyVisibility>
+         <property canInherit="true" defaultValue="true" displayNameID="Element.RepeatRowHeader" hasOwnModel="true" isEncryptable="false" isList="false" name="repeatRowHeader" subType="string" type="boolean">
+         </property>
+         <property canInherit="true" defaultValue="over then down" displayNameID="Element.PageLayout" isEncryptable="false" name="pageLayout" type="choice">
+            <choice name="down then over" value="down then over">
+            </choice>
+            <choice name="over then down" value="over then down">
+            </choice>
+         </property>
+         <property canInherit="true" displayNameID="Element.EmptyCellValue" isEncryptable="false" name="emptyCellValue" type="literalString">
+         </property>
+         <property defaultValue="false" displayNameID="Element.HideMeasureHeader" isList="false" name="hideMeasureHeader" type="boolean">
+         </property>
+         <method context="startup" displayNameID="Method.onPrepare" isStatic="false" name="onPrepare">
+         </method>
+         <method context="factory" displayNameID="Method.onCreate" isStatic="false" name="onCreate">
+         </method>
+         <method context="presentation" displayNameID="Method.onRender" isStatic="false" name="onRender">
+         </method>
+         <property canInherit="true" isEncryptable="false" isList="true" name="filter" type="contentElement">
+            <elementType name="FilterConditionElement">
+            </elementType>
+         </property>
+         <style name="crosstab-column-header" type="Crosstab">
+         </style>
+         <style name="crosstab-row-grand-total" type="Crosstab">
+         </style>
+         <style name="crosstab-column-grand-total" type="Crosstab">
+         </style>
+         <style name="crosstab-row-sub-total" type="Crosstab">
+         </style>
+         <style name="crosstab-column-sub-total" type="Crosstab">
+         </style>
+         <property canInherit="false" displayNameID="Element.RowPageBreakInterval" isEncryptable="false" name="rowPageBreakInterval" type="integer">
+         </property>
+         <property canInherit="false" displayNameID="Element.ColumnPageBreakInterval" isEncryptable="false" name="columnPageBreakInterval" type="integer">
+         </property>
+         <style displayNameID="Element.CrosstabCell" name="crosstab-cell" type="Crosstab">
+         </style>
+         <!--method
+               context="presentation"
+               displayNameID="Method.onPageBreak"
+               isStatic="false"
+               name="onPageBreak">
+         </method-->
+      </reportItem>
+      <reportItem class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory" displayNameID="Element.CrosstabView" extendsFrom="ReportElement" extensionName="CrosstabView" hasStyle="false" isNameRequired="false">
+         <property canInherit="true" isEncryptable="false" isList="false" name="grandTotal" type="element">
+            <elementType name="CrosstabCell">
+            </elementType>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="views" type="element">
+            <elementType name="DimensionView">
+            </elementType>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="members" type="contentElement">
+            <elementType name="MemberValue">
+            </elementType>
+         </property>
+         <propertyVisibility name="grandTotal" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="views" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="members" visibility="hide">
+         </propertyVisibility>
+         <property canInherit="true" detailType="Level" displayNameID="Element.MirrorStartingLevel" isEncryptable="false" name="mirrorStartingLevel" type="elementRef">
+         </property>
+         <property canInherit="true" defaultValue="after" displayNameID="Element.GrandTotalLocation" isEncryptable="false" name="grandTotalLocation" type="choice">
+            <choice displayNameID="Element.choice.before" name="before" value="before">
+            </choice>
+            <choice displayNameID="Element.choice.after" name="after" value="after">
+            </choice>
+         </property>
+      </reportItem>
+      <reportItem class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory" displayNameID="Element.DimensionView" extendsFrom="ReportElement" extensionName="DimensionView" hasStyle="false" isNameRequired="false">
+         <property canInherit="true" detailType="Dimension" displayNameID="Element.Dimension" isEncryptable="false" name="dimension" type="elementRef">
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="levels" type="element">
+            <elementType name="LevelView">
+            </elementType>
+         </property>
+         <propertyVisibility name="levels" visibility="hide">
+         </propertyVisibility></reportItem>
+      <reportItem class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory" displayNameID="Element.LevelView" extendsFrom="ReportElement" extensionName="LevelView" hasStyle="false" isNameRequired="true">
+         <property canInherit="true" displayNameID="Element.DisplayField" name="displayField" type="string">
+         </property>
+         <property canInherit="true" detailType="Level" displayNameID="Element.Level" isEncryptable="false" name="level" type="elementRef">
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="filter" type="contentElement">
+            <elementType name="FilterConditionElement">
+            </elementType>
+         </property>
+         <property canInherit="true" defaultValue="none" detailType="sortType" displayNameID="Element.SortType" isEncryptable="false" name="sortType" type="choice">
+         </property>
+         <property canInherit="true" defaultValue="asc" detailType="sortDirection" displayNameID="Element.SortDirection" isEncryptable="false" name="sortDirection" type="choice">
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="sort" type="contentElement">
+            <elementType name="SortElement">
+            </elementType>
+         </property>
+         <property canInherit="false" defaultValue="auto" detailType="pageBreakBefore" displayNameID="Element.PageBreakBefore" isEncryptable="false" name="pageBreakBefore" type="choice">
+         </property>
+         <property canInherit="false" defaultValue="auto" detailType="pageBreakAfter" displayNameID="Element.PageBreakAfter" isEncryptable="false" name="pageBreakAfter" type="choice">
+         </property>
+         <property canInherit="true" defaultValue="after" displayNameID="Element.AggregationHeaderLocation" isEncryptable="false" name="aggregationHeaderLocation" type="choice">
+            <choice displayNameID="Element.choice.before" name="before" value="before">
+            </choice>
+            <choice displayNameID="Element.choice.after" name="after" value="after">
+            </choice>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="false" name="member" type="element">
+            <elementType name="CrosstabCell">
+            </elementType>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="false" name="aggregationHeader" type="element">
+            <elementType name="CrosstabCell">
+            </elementType>
+         </property>
+         <propertyVisibility name="member" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="aggregationHeader" visibility="hide">
+         </propertyVisibility>
+         <property canInherit="false" displayNameID="Element.PageBreakInterval" isEncryptable="false" name="pageBreakInterval" type="integer">
+         </property>
+         <property canInherit="false" defaultValue="auto" detailType="pageBreakInside" displayNameID="Element.PageBreakInside" isEncryptable="false" name="pageBreakInside" type="choice">
+         </property>
+      </reportItem>
+      <reportItem class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory" displayNameID="Element.MeasureView" extendsFrom="ReportElement" extensionName="MeasureView" hasStyle="false" isNameRequired="false">
+         <property canInherit="true" detailType="Measure" displayNameID="Element.Measure" isEncryptable="false" name="measure" type="elementRef">
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="false" name="detail" type="element">
+            <elementType name="AggregationCell">
+            </elementType>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="filter" type="contentElement">
+            <elementType name="FilterConditionElement">
+            </elementType>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="aggregations" type="element">
+            <elementType name="AggregationCell">
+            </elementType>
+         </property>
+         <property canInherit="true" isEncryptable="false" isList="true" name="header" type="element">
+            <elementType name="CrosstabCell">
+            </elementType>
+         </property>
+         <propertyVisibility name="detail" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="aggregations" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="header" visibility="hide">
+         </propertyVisibility>
+      </reportItem>
+      <reportItem class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory" displayNameID="Element.ComputedMeasureView" extendsFrom="MeasureView" extensionName="ComputedMeasureView" hasStyle="false" isNameRequired="true">
+         <property canInherit="false" displayNameID="Element.MeasureName" isEncryptable="false" name="measureName" type="string">
+         </property>
+      </reportItem>
+      <reportItem class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory" displayNameID="Element.CrosstabCell" extendsFrom="Cell" extensionName="CrosstabCell" hasStyle="true" isNameRequired="false">
+         <property canInherit="true" isEncryptable="false" isList="true" name="content" type="element">
+            <elementType name="Label">
+            </elementType>
+            <elementType name="Data">
+            </elementType>
+            <elementType name="Text">
+            </elementType>
+            <elementType name="Image">
+            </elementType>
+            <elementType name="Grid">
+            </elementType>
+            <elementType name="TextData">
+            </elementType>
+            <elementType name="List">
+            </elementType>
+            <elementType name="Table">
+            </elementType>
+            <elementType name="FreeForm">
+            </elementType>
+            <elementType name="ExtendedItem">
+            </elementType>
+         </property>      
+         <propertyVisibility name="content" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="drop" visibility="readonly">
+         </propertyVisibility>
+         <propertyVisibility name="colSpan" visibility="hide">
+         </propertyVisibility>
+         <propertyVisibility name="rowSpan" visibility="hide">
+         </propertyVisibility>
+         <overrideProperty propertyName="highlightRules" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontFamily" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontSize" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontStyle" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontWeight" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontVariant" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="color" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="textUnderline" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="textOverline" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="textLineThrough" useOwnSearch="true">
+         </overrideProperty>
+      </reportItem>
+      <reportItem class="org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory" displayNameID="Element.CrosstabAggregationCell" extendsFrom="CrosstabCell" extensionName="AggregationCell" hasStyle="true" isNameRequired="false">
+         <property canInherit="true" detailType="Level" displayNameID="Element.AggregationOnRow" isEncryptable="false" name="aggregationOnRow" type="elementRef">
+         </property>
+         <property canInherit="true" detailType="Level" displayNameID="Element.AggregationOnColumn" isEncryptable="false" name="aggregationOnColumn" type="elementRef">
+         </property>       
+         <overrideProperty propertyName="highlightRules" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontFamily" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontSize" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontStyle" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontWeight" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="fontVariant" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="color" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="textUnderline" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="textOverline" useOwnSearch="true">
+         </overrideProperty>
+         <overrideProperty propertyName="textLineThrough" useOwnSearch="true">
+         </overrideProperty>
+         <property canInherit="true" detailType="Level" displayNameID="Element.SpanOverOnColumn" hasOwnModel="true" isEncryptable="false" isList="false" name="spanOverOnColumn" subType="string" type="elementRef">
+         </property>
+         <property canInherit="true" detailType="Level" displayNameID="Element.SpanOverOnRow" isEncryptable="false" name="spanOverOnRow" type="elementRef">
+         </property>
+      </reportItem>
+    </extension>
+   
+   <extension point="org.eclipse.birt.report.engine.extendedItemFactory">
+      <itemFactory class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabExtendedItemFactory" id="Crosstab" name="Crosstab">
+      </itemFactory>
+   </extension>
+   <extension point="org.eclipse.birt.report.engine.extendedItemFactory">
+      <itemFactory class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabExtendedItemFactory" id="CrosstabCell" name="CrosstabCell">
+      </itemFactory>
+   </extension>
+   <extension point="org.eclipse.birt.report.engine.extendedItemFactory">
+      <itemFactory class="org.eclipse.birt.report.item.crosstab.core.re.CrosstabExtendedItemFactory" id="AggregationCell" name="AggregationCell">
+      </itemFactory>
+   </extension>
+<!--import from org.eclipse.birt.report.engine.emitter.config.ppt-->
+
+     <extension name="PPT Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.ppt.PPTEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.ppt"/>
+  </extension>  
+<!--import from org.eclipse.birt.chart.device.svg-->
+<!--
+     <extension point="org.eclipse.birt.chart.engine.devicerenderers">
+      <deviceRenderer description="Scalable Vector Graphics" device="org.eclipse.birt.chart.device.svg.SVGRendererImpl" format="SVG" name="dv.SVG"/>            
+   </extension>
+   <extension point="org.eclipse.birt.chart.engine.displayservers">
+      <displayserver name="ds.SVG" server="org.eclipse.birt.chart.device.svg.SVGDisplayServer"/>
+   </extension>
+-->
+
+<!--import from org.eclipse.birt.report.engine-->
+   <extension-point id="org.eclipse.birt.report.engine.reportitemGeneration" name="Extended Item Generation-Time Support" schema="schema/reportitemGeneration.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.reportitemPresentation" name="Extended Item Presentation-Time Support" schema="schema/reportitemPresentation.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.emitters" name="Emitters that Support Report Rendering" schema="schema/emitters.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.reportitemQuery" name="Extended Item DTE Prepare-Time support" schema="schema/reportitemQuery.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.reportEventHandler" name="Extended Item Java Event Handler" schema="schema/reportEventHandler.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.reportItemPreparation" name="Extended Item Preparation Support" schema="schema/reportItemPreparation.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.dataExtraction" name="Data Extraction Support" schema="schema/dataExtraction.exsd"/>
+   <extension-point id="org.eclipse.birt.report.engine.extendedItemFactory" name="Extended Item Factory" schema="schema/extendedItemFactory.exsd"/>
+   <extension id="org.eclipse.birt.report.engine.ReportExecutor" name="BIRT Report Design Executor" point="org.eclipse.core.runtime.applications">
+      <application>
+         <run class="org.eclipse.birt.report.engine.plugin.ReportExecutor"/>
+      </application>
+   </extension>
+   <extension id="org.eclipse.birt.report.engine.ReportEngineSDK" point="org.eclipse.core.runtime.products">
+      <product application="org.eclipse.birt.report.engine.ReportExecutor" name="Report Engine SDK"/>
+   </extension>
+   <extension id="org.eclipse.birt.report.engine.ReportEngineFactory" name="ReportEngineFactory" point="org.eclipse.birt.core.FactoryService">
+      <factory class="org.eclipse.birt.report.engine.api.impl.ReportEngineFactory"/>
+   </extension>
+   <extension point="org.eclipse.birt.report.model.IScriptableObjectClassInfo">
+      <scriptableClassInfo class="org.eclipse.birt.report.engine.api.script.EngineScriptableClassInfo" extensionName="BIRT_ROM"/>
+   </extension>
+<!--import from org.eclipse.birt.report.engine.emitter.config.pdf-->
+
+     <extension name="PDF Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.pdf.PDFEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.pdf"/>
+  </extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.ods-->
+	<extension name="OpenDocument Spreadsheet Emitters" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.ods.OdsEmitter" format="ods" icon="resource/ODS.gif" id="org.eclipse.birt.report.engine.emitter.prototype.ods" mimeType="application/vnd.oasis.opendocument.spreadsheet" pagination="no-pagination"/>
+  	</extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.config.odt-->
+
+     <extension name="OpenDocument Text Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.odt.OdtEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.odt"/>
+  </extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.odt-->
+	<extension name="OpenDocument Text Emitters" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.odt.OdtEmitter" format="odt" icon="resource/ODT.gif" id="org.eclipse.birt.report.engine.emitter.odt" mimeType="application/vnd.oasis.opendocument.text" pagination="page-break-pagination"/>
+  	</extension>  
+<!--import from org.eclipse.birt.report.engine.emitter.html-->
+
+   <extension name="Engine html Emitters" point="org.eclipse.birt.report.engine.emitters">
+	 	<emitter class="org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter" format="html" id="org.eclipse.birt.report.engine.emitter.html" mimeType="text/html" outputDisplayNone="true" pagination="page-break-pagination" supportedImageFormats="PNG;GIF;JPG;BMP;SWF;SVG">
+	 	</emitter>
+   </extension>
+<!--import from org.eclipse.birt.chart.device.extension-->
+
+<!--
+     <extension point="org.eclipse.birt.chart.engine.devicerenderers">
+      <deviceRenderer device="org.eclipse.birt.chart.device.swing.SwingRendererImpl" name="dv.SWING"/>
+      <deviceRenderer description="Deprecated, use PNG instead" device="org.eclipse.birt.chart.device.image.PngRendererImpl" name="dv.PNG24"/>
+      <deviceRenderer description="Deprecated, use PNG instead" device="org.eclipse.birt.chart.device.image.GifRendererImpl" name="dv.GIF8"/>
+      <deviceRenderer description="Portable Network Graphics" device="org.eclipse.birt.chart.device.image.PngRendererImpl" format="PNG" name="dv.PNG"/>
+      <deviceRenderer description="Deprecated, use PNG instead" device="org.eclipse.birt.chart.device.image.GifRendererImpl" name="dv.GIF"/>
+      <deviceRenderer device="org.eclipse.birt.chart.device.image.JpegRendererImpl" name="dv.JPEG"/>
+      <deviceRenderer device="org.eclipse.birt.chart.device.image.JpegRendererImpl" format="JPG" name="dv.JPG"/>
+      <deviceRenderer device="org.eclipse.birt.chart.device.image.BmpRendererImpl" format="BMP" name="dv.BMP"/>
+   </extension>
+   <extension point="org.eclipse.birt.chart.engine.displayservers">
+      <displayserver name="ds.SWING" server="org.eclipse.birt.chart.device.swing.SwingDisplayServer"/>
+   </extension>
+-->
+<!--import from org.eclipse.birt.report.model-->
+     <extension-point id="org.eclipse.birt.report.model.reportItemModel" name="reportItemModel" schema="schema/reportItem.exsd"/>
+   <extension-point id="org.eclipse.birt.report.model.encryptionHelper" name="encryptionHelper" schema="schema/encryptionHelper.exsd"/>
+   <extension-point id="org.eclipse.birt.report.model.IScriptableObjectClassInfo" name="IScriptableObjectClassInfo" schema="schema/IScriptableObjectClassInfo.exsd"/>
+	
+   <extension id="org.eclipse.birt.report.model.DesignEngineFactory" name="DesignEngineFactory" point="org.eclipse.birt.core.FactoryService">
+      <factory class="org.eclipse.birt.report.model.api.impl.DesignEngineFactory"/>
+   </extension>
+<!--import from org.eclipse.birt.report.data.oda.xml-->
+     <extension point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSet defaultDisplayName="BIRT 2.1.x XML Data Set" id="org.eclipse.birt.report.data.oda.xml.dataSet">
+          <properties>
+         <propertyGroup defaultDisplayName="Dataset Properties" name="dateset properties">
+            <property canInherit="true" defaultDisplayName="max row" name="MAX_ROW" type="string"/>           
+            <property canInherit="true" defaultDisplayName="xml file" name="XML_FILE" type="string"/> 
+         </propertyGroup>
+         <propertyVisibility name="queryText" visibility="hide"/>
+         <propertyVisibility name="MAX_ROW" visibility="hide"/>
+         <propertyVisibility name="XML_FILE" visibility="hide"/>
+         </properties>
+            <dataTypeMapping nativeDataType="BIT" nativeDataTypeCode="-7" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="TINYINT" nativeDataTypeCode="-6" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="SMALLINT" nativeDataTypeCode="5" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="INTEGER" nativeDataTypeCode="4" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="BIGINT" nativeDataTypeCode="-5" odaScalarDataType="Decimal"/>
+            <dataTypeMapping nativeDataType="FLOAT" nativeDataTypeCode="6" odaScalarDataType="Double"/>
+            <dataTypeMapping nativeDataType="REAL" nativeDataTypeCode="7" odaScalarDataType="Double"/>
+            <dataTypeMapping nativeDataType="DOUBLE" nativeDataTypeCode="8" odaScalarDataType="Double"/>
+            <dataTypeMapping nativeDataType="NUMERIC" nativeDataTypeCode="2" odaScalarDataType="Decimal"/>
+            <dataTypeMapping nativeDataType="DECIMAL" nativeDataTypeCode="3" odaScalarDataType="Decimal"/>
+            <dataTypeMapping nativeDataType="CHAR" nativeDataTypeCode="1" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="VARCHAR" nativeDataTypeCode="12" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="LONGVARCHAR" nativeDataTypeCode="-1" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="DATE" nativeDataTypeCode="91" odaScalarDataType="Date"/>
+            <dataTypeMapping nativeDataType="TIME" nativeDataTypeCode="92" odaScalarDataType="Time"/>
+            <dataTypeMapping nativeDataType="TIMESTAMP" nativeDataTypeCode="93" odaScalarDataType="Timestamp"/>
+            <dataTypeMapping nativeDataType="BINARY" nativeDataTypeCode="-2" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="VARBINARY" nativeDataTypeCode="-3" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="LONGVARBINARY" nativeDataTypeCode="-4" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="BOOLEAN" nativeDataTypeCode="16" odaScalarDataType="Boolean"/>
+            <relationship relatedId="org.eclipse.datatools.enablement.oda.xml.dataSet" type="replacedBy"/>
+      </dataSet>
+	  <dataSource defaultDisplayName="Legacy BIRT 2.1.x XML Data Source" driverClass="org.eclipse.birt.report.data.oda.xml.impl.Driver" id="org.eclipse.birt.report.data.oda.xml" odaVersion="3.0.0" setThreadContextClassLoader="false">
+         <properties>
+         <propertyGroup defaultDisplayName="Connection Properties" name="connectionProperties">
+            <property canInherit="true" defaultDisplayName="XML Data Source File" name="FILELIST" type="string"/>
+            <property canInherit="true" defaultDisplayName="XML Schema File" name="SCHEMAFILELIST" type="string"/>          
+         </propertyGroup>
+         </properties>
+         <relationship relatedId="org.eclipse.datatools.enablement.oda.xml" type="replacedBy"/>
+      </dataSource>
+   </extension>
+<!--import from org.eclipse.birt.report.engine.emitter.config.odp-->
+
+     <extension name="OpenDocument Presentation Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.odp.ODPEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.odp"/>
+  </extension>  
+<!--import from org.eclipse.birt.report.model.adapter.oda-->
+    
+   <extension id="org.eclipse.birt.report.model.adapter.oda.AdapterFactory" name="AdapterFactory" point="org.eclipse.birt.core.FactoryService">
+      <factory class="org.eclipse.birt.report.model.adapter.oda.impl.AdapterFactory"/>
+   </extension>
+   
+<!--import from org.eclipse.birt.report.engine.emitter.docx-->
+	<extension name="Engine Docx Emitters" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.docx.DocxEmitter" format="docx" id="org.eclipse.birt.report.engine.emitter.docx" mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document" pagination="page-break-pagination"/>
+  	</extension>  
+<!--import from org.eclipse.birt.me.prettyprint.hector-->
+   <extension id="org.eclipse.birt.me.prettyprint.hector" name="Hector client library for Cassandra" point="org.eclipse.birt.core.ScriptFunctionService">
+      <JSLib location="lib/">
+      </JSLib>
+   </extension>
+
+<!--import from org.eclipse.birt.report.data.oda.sampledb-->
+
+     <extension point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource defaultDisplayName="Classic Models Inc. Sample Database" driverClass="org.eclipse.birt.report.data.oda.sampledb.SampleDBDriver" id="org.eclipse.birt.report.data.oda.sampledb" odaVersion="3.1" setThreadContextClassLoader="false">
+            <properties>
+            <propertyGroup defaultDisplayName="Connection Properties" name="connectionProperties">
+               <property canInherit="true" defaultDisplayName="JDBC Driver Class" name="odaDriverClass" type="string"/>
+               <property canInherit="true" defaultDisplayName="JDBC Driver URL" name="odaURL" type="string"/>
+               <property canInherit="true" defaultDisplayName="Data Source" name="odaDataSource" type="string"/>
+               <property canInherit="true" defaultDisplayName="User Name" name="odaUser" type="string"/>
+               <property canInherit="true" defaultDisplayName="Password" isEncryptable="true" name="odaPassword" type="string"/>
+            </propertyGroup>
+            <propertyVisibility name="odaDataSource" visibility="hide"/>
+         </properties>
+      </dataSource>   
+      <dataSet defaultDisplayName="SQL Select Query" id="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet">
+            <dataTypeMapping nativeDataType="BIT" nativeDataTypeCode="-7" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="TINYINT" nativeDataTypeCode="-6" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="SMALLINT" nativeDataTypeCode="5" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="INTEGER" nativeDataTypeCode="4" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="BIGINT" nativeDataTypeCode="-5" odaScalarDataType="Decimal"/>
+            <dataTypeMapping nativeDataType="FLOAT" nativeDataTypeCode="6" odaScalarDataType="Double"/>
+            <dataTypeMapping nativeDataType="REAL" nativeDataTypeCode="7" odaScalarDataType="Double"/>
+            <dataTypeMapping nativeDataType="DOUBLE" nativeDataTypeCode="8" odaScalarDataType="Double"/>
+            <dataTypeMapping nativeDataType="NUMERIC" nativeDataTypeCode="2" odaScalarDataType="Decimal"/>
+            <dataTypeMapping nativeDataType="DECIMAL" nativeDataTypeCode="3" odaScalarDataType="Decimal"/>
+            <dataTypeMapping nativeDataType="CHAR" nativeDataTypeCode="1" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="VARCHAR" nativeDataTypeCode="12" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="LONGVARCHAR" nativeDataTypeCode="-1" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="DATE" nativeDataTypeCode="91" odaScalarDataType="Date"/>
+            <dataTypeMapping nativeDataType="TIME" nativeDataTypeCode="92" odaScalarDataType="Time"/>
+            <dataTypeMapping nativeDataType="TIMESTAMP" nativeDataTypeCode="93" odaScalarDataType="Timestamp"/>
+            <dataTypeMapping nativeDataType="BOOLEAN" nativeDataTypeCode="16" odaScalarDataType="Boolean"/>
+            <dataTypeMapping nativeDataType="BINARY" nativeDataTypeCode="-2" odaScalarDataType="String"/><!--Blob"/>-->
+            <dataTypeMapping nativeDataType="VARBINARY" nativeDataTypeCode="-3" odaScalarDataType="String"/><!--Blob"/>-->
+            <dataTypeMapping nativeDataType="LONGVARBINARY" nativeDataTypeCode="-4" odaScalarDataType="String"/><!--Blob"/>-->
+            <properties>
+            	<propertyGroup defaultDisplayName="Query Properties" name="queryProperties">
+               		<property canInherit="true" defaultDisplayName="&amp;Query Time Out (in seconds)" name="queryTimeOut" type="string"/>
+                     <property canInherit="false" defaultDisplayName="&amp;Row Fetch Size" name="rowFetchSize" type="string"/>
+           		 </propertyGroup>
+         	</properties>
+      </dataSet>
+
+   </extension>
+        <extension point="org.eclipse.datatools.connectivity.connectionProfile">
+      <category id="org.eclipse.birt.report.data.oda.sampledb" name="Classic Models Inc. Sample Database" parentCategory="org.eclipse.datatools.connectivity.oda.profileCategory"/>
+      <connectionProfile category="org.eclipse.birt.report.data.oda.sampledb" id="org.eclipse.birt.report.data.oda.sampledb" name="BIRT Sample DB Data Source Connection Profile" pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"/>
+      <connectionFactory class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory" id="org.eclipse.datatools.connectivity.oda.IConnection" name="ODA Connection Factory" profile="org.eclipse.birt.report.data.oda.sampledb"/>
+   </extension>
+   
+   <extension point="org.eclipse.birt.report.data.oda.jdbc.driverinfo">
+      <jdbcDriver connectionFactory="org.eclipse.birt.report.data.oda.sampledb.SampleDBJDBCConnectionFactory" driverClass="org.eclipse.birt.report.data.oda.sampledb.Driver" name="Classic Models Inc. SampleDB Driver" urlTemplate="jdbc:classicmodels:sampledb"/>
+   </extension>
+
+<!--import from org.eclipse.birt.report.engine.emitter.postscript-->
+
+     <extension name="Engine PostScript Emitters" point="org.eclipse.birt.report.engine.emitters">
+
+        <emitter class="org.eclipse.birt.report.engine.emitter.postscript.PostscriptEmitter" format="postscript" id="org.eclipse.birt.report.engine.emitter.postscript" mimeType="application/postscript" pagination="paper-size-pagination"/>
+  </extension>  
+<!--import from org.eclipse.birt.report.data.adapter-->
+   <extension-point id="org.eclipse.birt.report.data.adapter.DataSetInterceptor" name="Data Set Interceptor" schema="schema/DataSetInterceptor.exsd"/>
+   <extension-point id="org.eclipse.birt.report.data.adapter.CubeInterceptor" name="Cube Interceptor" schema="schema/CubeInterceptor.exsd"/>
+     
+     <extension id="org.eclipse.birt.report.data.adapter.DataAdapterFactory" name="DataAdapterFactory" point="org.eclipse.birt.core.FactoryService">
+   		<factory class="org.eclipse.birt.report.data.adapter.impl.DataAdapterFactory"/>
+	 </extension>
+   
+<!--import from org.eclipse.birt.report.engine.emitter.config.pptx-->
+
+     <extension name="PPTX Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
+
+        <descriptor class="org.eclipse.birt.report.engine.emitter.config.pptx.PPTXEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.pptx"/>
+  </extension>  
+<!--import from org.eclipse.birt.report.engine.script.javascript-->
+   <extension point="org.eclipse.birt.core.ScriptEngineFactory">
+      <scriptEngineFactory factoryClass="org.eclipse.birt.report.engine.javascript.JavascriptEngineFactory" scriptID="org.eclipse.birt.report.engine.javascript" scriptName="javascript">
+      </scriptEngineFactory>
+   </extension>
+
+<!--import from org.eclipse.birt.report.data.oda.hive-->
+
+     <extension point="org.eclipse.datatools.connectivity.oda.dataSource">
+      <dataSource defaultDisplayName="Hive Data Source" driverClass="org.eclipse.birt.report.data.oda.hive.HiveDriver" id="org.eclipse.birt.report.data.oda.hive" odaVersion="3.1" setThreadContextClassLoader="false">
+            <properties>
+            <propertyGroup defaultDisplayName="Connection Properties" name="connectionProperties">
+               <property canInherit="true" defaultDisplayName="JDBC Driver Class" name="odaDriverClass" type="string"/>
+               <property canInherit="true" defaultDisplayName="JDBC Driver URL" name="odaURL" type="string"/>
+               <property canInherit="true" defaultDisplayName="Data Source" name="odaDataSource" type="string"/>
+               <property canInherit="true" defaultDisplayName="User Name" name="odaUser" type="string"/>
+               <property canInherit="true" defaultDisplayName="Password" isEncryptable="true" name="odaPassword" type="string"/>
+               <property canInherit="false" defaultDisplayName="&amp;Add List File" name="addListFile" type="string"/>
+            </propertyGroup>
+            <propertyVisibility name="odaDataSource" visibility="hide"/>
+         </properties>
+      </dataSource>   
+      <dataSet defaultDisplayName="HQL Select Query" id="org.eclipse.birt.report.data.oda.hive.JdbcSelectDataSet">
+            <dataTypeMapping nativeDataType="tinyint" nativeDataTypeCode="-6" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="smallint" nativeDataTypeCode="5" odaScalarDataType="Integer"/>
+         	<dataTypeMapping nativeDataType="int" nativeDataTypeCode="4" odaScalarDataType="Integer"/>
+            <dataTypeMapping nativeDataType="bigint" nativeDataTypeCode="-5" odaScalarDataType="Decimal"/>
+         	<dataTypeMapping nativeDataType="float" nativeDataTypeCode="6" odaScalarDataType="Double"/>
+            <dataTypeMapping nativeDataType="double" nativeDataTypeCode="8" odaScalarDataType="Double"/>
+            <dataTypeMapping nativeDataType="string" nativeDataTypeCode="12" odaScalarDataType="String"/>
+            <dataTypeMapping nativeDataType="boolean" nativeDataTypeCode="16" odaScalarDataType="Boolean"/>
+            <properties>
+            	<propertyGroup defaultDisplayName="Query Properties" name="queryProperties">
+               		<property canInherit="true" defaultDisplayName="&amp;Query Time Out (in seconds)" name="queryTimeOut" type="string"/>
+                     <property canInherit="false" defaultDisplayName="&amp;Row Fetch Size" name="rowFetchSize" type="string"/>
+                    <property canInherit="false" defaultDisplayName="&amp;Add List File" name="addListFile" type="string"/>
+           		 </propertyGroup>
+         	</properties>
+      </dataSet>
+
+   </extension>
+        <extension point="org.eclipse.datatools.connectivity.connectionProfile">
+      <category id="org.eclipse.birt.report.data.oda.hive" name="Hive Data Source" parentCategory="org.eclipse.datatools.connectivity.oda.profileCategory"/>
+      <connectionProfile category="org.eclipse.birt.report.data.oda.hive" id="org.eclipse.birt.report.data.oda.hive" name="Hive Data Source Connection Profile" pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"/>
+      <connectionFactory class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory" id="org.eclipse.datatools.connectivity.oda.IConnection" name="ODA Connection Factory" profile="org.eclipse.birt.report.data.oda.hive"/>
+   </extension>
+
+<!--import from org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb-->
+   
+   <extension point="org.eclipse.datatools.connectivity.driverExtension">
+      <driverTemplate createDefault="false" defaultDefinitionName="BIRT SampleDb Derby Embedded Driver" emptyJarListIsOK="false" id="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverTemplate" jarList="derby.jar" name="BIRT SampleDb Derby Embedded JDBC Driver" parentCategory="org.eclipse.datatools.connectivity.db.derby.10_2.driverCategory" valuesProvider="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.internal.impl.SampleDbValuesProvider">
+         <properties>
+            <property generated="false" id="org.eclipse.datatools.connectivity.db.driverClass" name="Driver class" required="true" value="org.apache.derby.jdbc.EmbeddedDriver" visible="false"/>
+            <property generated="false" id="org.eclipse.datatools.connectivity.db.vendor" name="Vendor" required="true" value="Derby" visible="true"/>
+            <property generated="false" id="org.eclipse.datatools.connectivity.db.version" name="Version" required="true" value="10.2" visible="false"/>   
+            <property generated="false" id="org.eclipse.datatools.connectivity.db.databaseName" name="Database" required="true" value="BirtSample" visible="true"/>                             
+            <property generated="false" id="org.eclipse.datatools.connectivity.db.URL" name="Connection URL" required="true" value="jdbc:derby:Plugin_State_Location/db/BirtSample" visible="true"/>
+            <property generated="false" id="org.eclipse.datatools.connectivity.db.username" name="User name" required="false" value="ClassicModels" visible="false"/>
+            <property generated="false" id="org.eclipse.datatools.connectivity.db.password" name="Password" required="false" visible="false"/>
+            <property generated="false" id="org.eclipse.datatools.connectivity.db.savePWD" name="Save password" required="true" value="true" visible="false">
+            </property>
+         </properties>
+      </driverTemplate>
+   </extension>
+
+   <extension point="org.eclipse.datatools.connectivity.ProfileManagerInitializationProvider">
+      <connection connectionInitializer="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.internal.impl.SampleDbFactory" connectionProfileID="org.eclipse.datatools.connectivity.db.derby.embedded.connectionProfile" connectionProfileName="BIRT Classic Models Sample Database" driverDefinitionName="BIRT SampleDb Derby Embedded Driver" driverTemplateID="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverTemplate">
+         <property id="org.eclipse.datatools.connectivity.db.URL" value="jdbc:derby:Plugin_State_Location/db/BirtSample">
+         </property>
+      </connection>
+   </extension>
+
+   <extension point="org.eclipse.datatools.connectivity.oda.consumer.propertyProvider">
+      <dataSourcePropertyService consumerApplicationId="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.driverTemplate" providerClass="org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.internal.impl.SampleDbPropertyProvider">
+      </dataSourcePropertyService>
+   </extension>
+
+</plugin>
