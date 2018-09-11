@@ -15,9 +15,16 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-jspc-maven-plugin</artifactId>
-				<!--<version>9.0.2.v20130417</version>-->
+				<version>9.0.2.v20130417</version>
+				<!-- FIXME build from root path, local build is OK:
+[ERROR] Failed to execute goal org.eclipse.jetty:jetty-jspc-maven-plugin:9.2.26.v20180806:jspc (pre-compile-jsp) on project org.eclipse.birt.report.viewer: Failure processing jsps: org.apache.jasper.JasperException: Unable to compile class for JSP:
+[ERROR]
+[ERROR] An error occurred at line: [14] in the generated java file: [C:\Projects\BIRT\ascendix-birt\birt\viewer\org.eclipse.birt.report.viewer\target\jsp\classes\org\apache\jsp\webcontent\birt\pages\common\Error_jsp.java]
+[ERROR] Only a type can be imported. org.eclipse.birt.core.exception.BirtException resolves to a package
+-->
+
 				<!--<version>9.1.6.v20160112</version>-->
-				<version>9.2.26.v20180806</version>
+				<!--<version>9.2.26.v20180806</version>-->
 				<!--<version>${jetty.version}</version>-->
 				<executions>
 					<execution>
