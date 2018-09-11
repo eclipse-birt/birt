@@ -26,7 +26,6 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-surefire-plugin</artifactId>
-				<version>${tycho.version}</version>
 				<!--
 				<configuration>
 					<includes>**/AllTests.java</includes>
@@ -36,7 +35,6 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
-				<version>${tycho.version}</version>
 				<configuration>
 					<dependency-resolution>
 						<extraRequirements>
