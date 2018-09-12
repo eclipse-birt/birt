@@ -87,10 +87,7 @@
                                     <overWrite>false</overWrite>
                                     <outputDirectory>${project.build.directory}/classes</outputDirectory>
                                     <includes>
-                                        **/fontsConfig.xml,
-                                        **/fontsConfig_linux.xml,
-                                        **/fontsConfig_pdf.xml,
-                                        **/fontsConfig_win32.xml
+                                        **/fontsConfig.xml
                                     </includes>
                                 </artifactItem>
                                 <artifactItem>
