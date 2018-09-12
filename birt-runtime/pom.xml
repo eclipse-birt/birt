@@ -4,13 +4,14 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.eclipse.birt</groupId>
-    <artifactId>org.eclipse.birt-maven-bundle</artifactId>
+    <artifactId>birt-runtime</artifactId>
     <version>4.8.0-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
     <properties>
-        <birt.version>${project.version}</birt.version>
+        <birt.version>4.8.0-SNAPSHOT</birt.version>
         <maven-dependency-plugin.version>3.1.1</maven-dependency-plugin.version>
+        <maven-jar-plugin.version>3.1.0</maven-jar-plugin.version>
+        <maven.deploy.skip>false</maven.deploy.skip>
     </properties>
 
     <build>
@@ -574,7 +575,7 @@
             </plugin>
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
+                <version>${maven-jar-plugin.version}</version>
                 <configuration>
                     <archive>
                         <manifestEntries>

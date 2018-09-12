@@ -122,38 +122,7 @@
 
         <emitter class="org.eclipse.birt.report.engine.emitter.ppt.PPTEmitter" format="ppt" id="org.eclipse.birt.report.engine.emitter.ppt" mimeType="application/vnd.ms-powerpoint" pagination="paper-size-pagination"/>
   </extension>  
-<!--import from org.eclipse.birt.chart.engine-->
 
-     <!-- Engine Framework Extension Points -->
-   <!-- 
-   		Model Renderer Extension Point. 
-   		Use this to register a custom Model Renderer.
-   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.engine.extension plug-in.
-   -->
-   <!--<extension-point id="org.eclipse.birt.chart.engine.modelrenderers" name="Contains definition of chart model renderers" schema="schema/modelrenderers.exsd"/>-->
-   <!--
-   		DataSet Processor Extension Point.
-   		Use this extension point to register data set processors for series that use custom data elements.
-   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.engine.extension plug-in.
-   -->
-   <!--<extension-point id="org.eclipse.birt.chart.engine.datasetprocessors" name="Contains definition of chart data set processors" schema="schema/datasetprocessors.exsd"/>-->
-   
-   <!-- Device related Extension Points -->
-   <!-- 
-   		XServer Extension Point.
-   		Use this extension point to register a custom Display Server.
-   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.device.extension plug-in.
-   -->
-   <!--<extension-point id="org.eclipse.birt.chart.engine.displayservers" name="Contains definition of chart display servers" schema="schema/displayservers.exsd"/>-->
-   <!-- 
-   		Device Renderer Extension Point.
-   		Use this extension point to register a custom Device Renderer.
-   		To see how this extension point can be used, take a look at the extensions defined in org.eclipse.birt.chart.device.extension plug-in.
-   -->
-   <extension-point id="org.eclipse.birt.chart.engine.devicerenderers" name="Contains definition of chart device renderers" schema="schema/devicerenderers.exsd"/>
-   <extension-point id="org.eclipse.birt.chart.engine.aggregatefunctions" name="Contains definition of chart aggregate functions" schema="schema/aggregatefunctions.exsd"/>
-   <extension-point id="org.eclipse.birt.chart.engine.datapointdefinitions" name="Contains definitions of data point display" schema="schema/datapointdefinitions.exsd"/>
-   <extension-point id="org.eclipse.birt.chart.engine.charttypes" name="charttypes" schema="schema/charttypes.exsd"/>
 <!--import from org.eclipse.birt.report.engine.emitter.prototype.excel-->
 	<extension name="excel emitter" point="org.eclipse.birt.report.engine.emitters">
 
@@ -171,159 +140,6 @@
 
         <emitter class="org.eclipse.birt.report.engine.emitter.pdf.PDFEmitter" format="pdf" id="org.eclipse.birt.report.engine.emitter.pdf" mimeType="application/pdf" pagination="paper-size-pagination" supportedImageFormats="PNG;GIF;JPG;BMP;SVG"/>
   </extension>  
-<!--import from org.eclipse.birt.data.oda.mongodb-->
-
-   <extension id="org.eclipse.birt.data.oda.mongodb" point="org.eclipse.datatools.connectivity.oda.dataSource">
-      <dataSource defaultDisplayName="MongoDB Data Source" driverClass="org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver" id="org.eclipse.birt.data.oda.mongodb" odaVersion="3.2" setThreadContextClassLoader="false">
-         <properties>
-            <property allowsEmptyValueAsNull="true" defaultDisplayName="&amp;Mongo Database URI" isEncryptable="false" name="mongoURI" type="string">
-            </property>
-            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Ignore URI" defaultValue="false" isEncryptable="false" name="ignoreURI" type="choice">
-               <choice defaultDisplayName="yes" name="true" value="true">
-               </choice>
-               <choice defaultDisplayName="no" name="false" value="false">
-               </choice>
-            </property>
-            <propertyGroup defaultDisplayName="Mongo Database URI &amp;Elements" name="org.eclipse.birt.data.oda.mongodb.uriElements">
-	            <property allowsEmptyValueAsNull="true" defaultDisplayName="Server &amp;Host" isEncryptable="false" name="serverHost" type="string">
-	            </property>
-	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Server P&amp;ort" defaultValue="27017" isEncryptable="false" name="serverPort" type="string">
-	            </property>
-	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Database Name" isEncryptable="false" name="databaseName" type="string">
-	            </property>
-	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="U&amp;ser Name" isEncryptable="false" name="userName" type="string">
-	            </property>
-	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Pass&amp;word" isEncryptable="true" name="password" type="string">
-	            </property>
-            </propertyGroup>
-            <propertyGroup defaultDisplayName="Supplemental Client &amp;Setting(s)" name="org.eclipse.birt.data.oda.mongodb.options">
-	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Keep Socket &amp;Alive" defaultValue="false" isEncryptable="false" name="socketKeepAlive" type="choice">
-	               <choice defaultDisplayName="yes" name="true" value="true">
-	               </choice>
-	               <choice defaultDisplayName="no" name="false" value="false">
-	               </choice>
-	            </property>
-	            <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Consistent &amp;Request Session" defaultValue="false" isEncryptable="false" name="useRequestSession" type="choice">
-	 	              <choice defaultDisplayName="yes" name="true" value="true">
-		              </choice>
-		              <choice defaultDisplayName="no" name="false" value="false">
-		              </choice>
-	            </property>
-            </propertyGroup>
-         </properties>
-      </dataSource>
-      <dataSet defaultDisplayName="MongoDB Data Set" id="org.eclipse.birt.data.oda.mongodb.dataSet">
-         <properties>
-            <propertyGroup name="org.eclipse.birt.data.oda.mongodb.dataSet.query">
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Collection name" isEncryptable="false" name="collectionName" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Command &amp;operation type" isEncryptable="false" name="operationType" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Command &amp;expression" isEncryptable="false" name="operationExpr" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Se&amp;lected fields" isEncryptable="false" name="selectedFields" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Query expression" isEncryptable="false" name="findQueryExpr" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Sort expression" isEncryptable="false" name="sortExpr" type="string">
-               </property>
-            </propertyGroup>
-            <propertyGroup name="org.eclipse.birt.data.oda.mongodb.dataSet.options">
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Maximum result objects in a &amp;batch" isEncryptable="false" name="batchSize" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Maximum documents to search for runtime &amp;metadata" isEncryptable="false" name="rtMDSearchLimit" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Maximum documents to s&amp;kip" isEncryptable="false" name="numSkipDocuments" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Index &amp;hint expression" isEncryptable="false" name="indexHints" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Query cursor &amp;read preference" isEncryptable="false" name="queryReadPreference" type="choice">
-                  <choice defaultDisplayName="primary" name="readPreference.primary" value="primary">
-                  </choice>
-                  <choice defaultDisplayName="primaryPreferred" name="readPreference.primaryPreferred" value="primaryPreferred">
-                  </choice>
-                  <choice defaultDisplayName="secondary" name="readPreference.secondary" value="secondary">
-                  </choice>
-                  <choice defaultDisplayName="secondaryPreferred" name="readPreference.secondaryPreferred" value="secondaryPreferred">
-                  </choice>
-                  <choice defaultDisplayName="nearest" name="readPreference.nearest" value="nearest">
-                  </choice>
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Read preference ta&amp;g set(s)" isEncryptable="false" name="queryReadPreferenceTags" type="string">
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;No cursor time out" isEncryptable="false" name="noTimeOut" type="choice">
-                  <choice defaultDisplayName="yes" name="true" value="true">
-                  </choice>
-                  <choice defaultDisplayName="no" name="false" value="false">
-                  </choice>
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="Allows &amp;partial results" isEncryptable="false" name="allowsPartialResults" type="choice">
-                  <choice defaultDisplayName="yes" name="true" value="true">
-                  </choice>
-                  <choice defaultDisplayName="no" name="false" value="false">
-                  </choice>
-               </property>
-               <property allowsEmptyValueAsNull="true" canInherit="true" defaultDisplayName="&amp;Flatten nested collections" isEncryptable="false" name="flattenCollections" type="choice">
-	               	 <choice defaultDisplayName="yes" name="true" value="true">
-	               	 </choice>
-	               	 <choice defaultDisplayName="no" name="false" value="false">
-	               	 </choice>
-               </property>
-            </propertyGroup>
-         </properties>
-         <dataTypeMapping nativeDataType="Number" nativeDataTypeCode="1" odaScalarDataType="Double">
-            <alternativeOdaDataType odaScalarDataType="Decimal">
-            </alternativeOdaDataType>
-            <alternativeOdaDataType odaScalarDataType="Integer">
-            </alternativeOdaDataType>
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="String" nativeDataTypeCode="2" odaScalarDataType="String">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Object" nativeDataTypeCode="3" odaScalarDataType="JavaObject">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Array" nativeDataTypeCode="4" odaScalarDataType="JavaObject">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Binary" nativeDataTypeCode="5" odaScalarDataType="Blob">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Object Id" nativeDataTypeCode="7" odaScalarDataType="String">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Boolean" nativeDataTypeCode="8" odaScalarDataType="Boolean">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Date" nativeDataTypeCode="9" odaScalarDataType="Date">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Null" nativeDataTypeCode="10" odaScalarDataType="String">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Regular Expression" nativeDataTypeCode="11" odaScalarDataType="String">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="JavaScript" nativeDataTypeCode="13" odaScalarDataType="String">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Symbol" nativeDataTypeCode="14" odaScalarDataType="String">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="JavaScript with scope" nativeDataTypeCode="15" odaScalarDataType="String">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="32-bit integer" nativeDataTypeCode="16" odaScalarDataType="Integer">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Timestamp" nativeDataTypeCode="17" odaScalarDataType="Timestamp">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="64-bit integer" nativeDataTypeCode="18" odaScalarDataType="String">
-            <alternativeOdaDataType odaScalarDataType="Decimal">
-            </alternativeOdaDataType>
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Min key" nativeDataTypeCode="255" odaScalarDataType="String">
-         </dataTypeMapping>
-         <dataTypeMapping nativeDataType="Max key" nativeDataTypeCode="127" odaScalarDataType="String">
-         </dataTypeMapping>
-      </dataSet>
-   </extension>
-   <extension point="org.eclipse.datatools.connectivity.connectionProfile">
-      <category id="org.eclipse.birt.data.oda.mongodb" name="MongoDB Data Source" parentCategory="org.eclipse.datatools.connectivity.oda.profileCategory">
-      </category>
-      <connectionProfile category="org.eclipse.birt.data.oda.mongodb" id="org.eclipse.birt.data.oda.mongodb" name="MongoDB Data Source Connection Profile" pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory">
-      </connectionProfile>
-      <connectionFactory class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory" id="org.eclipse.datatools.connectivity.oda.IConnection" name="ODA Connection Factory" profile="org.eclipse.birt.data.oda.mongodb">
-      </connectionFactory>
-   </extension>
-
 
 <!--import from org.eclipse.birt.core.script.function-->
    <extension id="org.eclipse.birt.core.script.function.BirtScriptFunction" name="BirtScriptFunction" point="org.eclipse.birt.core.ScriptFunctionService">
@@ -1501,135 +1317,13 @@
    		<factory class="org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.TimeFunctionCreatorFactory"/>
 	 </extension>
 	 
-   
-<!--import from org.eclipse.birt.chart.reportitem-->
-
-   <!--<extension id="org.eclipse.birt.chart.reportitem.chart" name="The chart extension" point="org.eclipse.birt.report.model.reportItemModel">
-      <reportItem class="org.eclipse.birt.chart.reportitem.ChartReportItemFactoryImpl" defaultStyle="chart" displayNameID="Element.Chart" extendsFrom="ReportItem" extensionName="Chart" hasStyle="true" isNameRequired="false" themeType="Chart">
-         <style displayNameID="Element.Chart" name="chart" type="Chart"/>
-         <property displayNameID="Element.Chart.xmlRepresentation" name="xmlRepresentation" type="xml"/>
-         <propertyVisibility name="xmlRepresentation" visibility="hide"/>
-         <property displayNameID="Element.Chart.outputFormat" name="outputFormat" type="string"/>
-         <propertyVisibility name="outputFormat" visibility="hide"/>
-         <property detailType="Action" displayNameID="Element.Chart.action" isList="true" name="action" type="structure"/>
-    	<property detailType="SortKey" displayNameID="Element.ListingGroup.sort" isList="true" name="sort" type="structure"/>
-         <overrideProperty allowedUnits="in,cm,mm,pt,px,pc,%" propertyName="width">
-         </overrideProperty>
-         <overrideProperty allowedUnits="in,cm,mm,pt,px,pc,%" propertyName="height">
-         </overrideProperty>
-         <property detailType="FilterCondition" displayNameID="Element.ExtendedItem.filter" isList="true" name="filter" type="structure">
-         </property>
-         <property detailType="FilterConditionElement" isList="true" name="cubeFilter" type="contentElement">
-            <elementType name="FilterConditionElement">
-            </elementType>
-         </property>
-         <property canInherit="true" detailType="Chart" isEncryptable="false" isList="false" name="hostChart" type="elementRef">
-         </property>
-         <propertyVisibility name="hostChart" visibility="hide">
-         </propertyVisibility>
-         <property canInherit="true" isEncryptable="false" isList="false" name="chartType" type="string">
-         </property>
-         <propertyVisibility name="chartType" visibility="hide">
-         </propertyVisibility>
-         <property canInherit="true" defaultValue="true" isEncryptable="false" isList="false" name="inheritColumns" type="boolean">
-         </property>
-         <propertyVisibility name="inheritColumns" visibility="hide">
-         </propertyVisibility>
-         <property canInherit="true" defaultDisplayName="PDF tag type" defaultValue="Figure" isEncryptable="false" isList="false" name="tagType" type="string">
-         </property>
-         <property canInherit="true" isEncryptable="false" isList="false" name="url" type="string">
-         </property>         
-      </reportItem>
-   </extension>
-   <extension id="org.eclipse.birt.chart.reportitem.chart" name="The chart extension" point="org.eclipse.birt.report.engine.reportitemPresentation">
-      <reportItem class="org.eclipse.birt.chart.reportitem.ChartReportItemPresentationProxy" name="Chart" supportedFormats="jpeg; png; gif; bmp"/>
-   </extension>
-   <extension point="org.eclipse.birt.report.engine.reportitemGeneration">
-      <reportItem class="org.eclipse.birt.chart.reportitem.ChartReportItemGenerationProxy" name="Chart"/>
-   </extension>
-   <extension point="org.eclipse.birt.report.engine.reportitemQuery">
-      <reportItem class="org.eclipse.birt.chart.reportitem.ChartReportItemQueryImpl" getAllRows="true" name="Chart">
-      </reportItem>
-   </extension>
-   <extension point="org.eclipse.birt.report.model.IScriptableObjectClassInfo">
-      <scriptableClassInfo class="org.eclipse.birt.chart.reportitem.ChartScriptableClassInfo" extensionName="Chart">
-      </scriptableClassInfo>
-   </extension>-->
-   
 <!--import from org.eclipse.birt.report.engine.emitter.odp-->
 
      <extension name="OpenDocument Presentation Emitters" point="org.eclipse.birt.report.engine.emitters">
 
         <emitter class="org.eclipse.birt.report.engine.emitter.odp.OdpEmitter" format="odp" icon="resource/ODP.gif" id="org.eclipse.birt.report.engine.emitter.odp" mimeType="application/vnd.oasis.opendocument.presentation" pagination="paper-size-pagination"/>
   </extension>  
-<!--import from org.eclipse.birt.chart.engine.extension-->
 
-<!--
-     <extension point="org.eclipse.birt.chart.engine.modelrenderers">
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Area" series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Bar" series="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Dial" series="org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"/>
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Line" series="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Pie" series="org.eclipse.birt.chart.model.type.impl.PieSeriesImpl"/>
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Stock" series="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"/>
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Scatter" series="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Bubble" series="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Gantt" series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
-      <modelRenderer renderer="org.eclipse.birt.chart.extension.render.Difference" series="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>
-   </extension>
-   <extension point="org.eclipse.birt.chart.engine.datasetprocessors">
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.component.impl.SeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.BarSeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.LineSeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.AreaSeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.DialSeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.PieSeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.StockDataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.BubbleDataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.GanttDataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DifferenceDataSetProcessorImpl" series="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>
-   </extension>
--->
-<!--
-   <extension point="org.eclipse.birt.chart.engine.aggregatefunctions">
-      <aggregateFunction displayName="Sum" function="org.eclipse.birt.chart.extension.aggregate.Sum" name="Sum"/>
-      <aggregateFunction displayName="Average" function="org.eclipse.birt.chart.extension.aggregate.Average" name="Average"/>
-      <aggregateFunction displayName="Count" function="org.eclipse.birt.chart.extension.aggregate.Count" name="Count"/>
-      <aggregateFunction displayName="Distinct Count" function="org.eclipse.birt.chart.extension.aggregate.DistinctCount" name="DistinctCount"/>
-      <aggregateFunction displayName="First" function="org.eclipse.birt.chart.extension.aggregate.First" name="First"/>
-      <aggregateFunction displayName="Last" function="org.eclipse.birt.chart.extension.aggregate.Last" name="Last"/>
-      <aggregateFunction displayName="Minimum" function="org.eclipse.birt.chart.extension.aggregate.Min" name="Min"/>
-      <aggregateFunction displayName="Maximum" function="org.eclipse.birt.chart.extension.aggregate.Max" name="Max"/>
-      <aggregateFunction displayName="Weighted Average" function="org.eclipse.birt.chart.extension.aggregate.WeightedAverage" name="WeightedAverage"/>
-      <aggregateFunction displayName="Median" function="org.eclipse.birt.chart.extension.aggregate.Median" name="Median"/>
-      <aggregateFunction displayName="Mode" function="org.eclipse.birt.chart.extension.aggregate.Mode" name="Mode"/>
-      <aggregateFunction displayName="STDDEV" function="org.eclipse.birt.chart.extension.aggregate.StdDev" name="STDDEV"/>
-      <aggregateFunction displayName="Variance" function="org.eclipse.birt.chart.extension.aggregate.Variance" name="Variance"/>
-      <aggregateFunction displayName="Irr" function="org.eclipse.birt.chart.extension.aggregate.Irr" name="Irr"/>
-      <aggregateFunction displayName="Mirr" function="org.eclipse.birt.chart.extension.aggregate.Mirr" name="Mirr"/>
-     <aggregateFunction displayName="NPV" function="org.eclipse.birt.chart.extension.aggregate.Npv" name="NPV"/>
-      <aggregateFunction displayName="Percentile" function="org.eclipse.birt.chart.extension.aggregate.Percentile" name="Percentile"/>
-      <aggregateFunction displayName="Quartile" function="org.eclipse.birt.chart.extension.aggregate.Quartile" name="Quartile"/>   
-	  <aggregateFunction displayName="Moving Average" function="org.eclipse.birt.chart.extension.aggregate.MovingAverage" name="MovingAverage"/>
-      <aggregateFunction displayName="Running Sum" function="org.eclipse.birt.chart.extension.aggregate.RunningSum" name="RunningSum"/>
-	  <aggregateFunction displayName="Running NPV" function="org.eclipse.birt.chart.extension.aggregate.RunningNpv" name="RunningNPV"/>                                   
-	  <aggregateFunction displayName="Rank" function="org.eclipse.birt.chart.extension.aggregate.Rank" name="Rank"/>
-	  <aggregateFunction displayName="Is-Top-N" function="org.eclipse.birt.chart.extension.aggregate.Top" name="Top"/>
-	  <aggregateFunction displayName="Is-Top-N-Percent" function="org.eclipse.birt.chart.extension.aggregate.TopPercent" name="TopPercent"/>
-	  <aggregateFunction displayName="Is-Bottom-N" function="org.eclipse.birt.chart.extension.aggregate.Bottom" name="Bottom"/>
-	  <aggregateFunction displayName="Is-Bottom-N-Percent" function="org.eclipse.birt.chart.extension.aggregate.BottomPercent" name="BottomPercent"/>
-	  <aggregateFunction displayName="Percent Rank" function="org.eclipse.birt.chart.extension.aggregate.PercentRank" name="PercentRank"/>
-	  <aggregateFunction displayName="Percent Sum" function="org.eclipse.birt.chart.extension.aggregate.PercentSum" name="PercentSum"/>
-	  <aggregateFunction displayName="Running Count" function="org.eclipse.birt.chart.extension.aggregate.RunningCount" name="RunningCount"/>            
-   </extension>
-   <extension point="org.eclipse.birt.chart.engine.datapointdefinitions">
-      <datapointDefinition definition="org.eclipse.birt.chart.extension.datafeed.StockDataPointDefinition" series="org.eclipse.birt.chart.model.type.impl.StockSeriesImpl"/>
-      <datapointDefinition definition="org.eclipse.birt.chart.extension.datafeed.GanttDataPointDefinition" series="org.eclipse.birt.chart.model.type.impl.GanttSeriesImpl"/>
-      <datapointDefinition definition="org.eclipse.birt.chart.extension.datafeed.BubbleDataPointDefinition" series="org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"/>
-      <datapointDefinition definition="org.eclipse.birt.chart.extension.datafeed.DifferenceDataPointDefinition" series="org.eclipse.birt.chart.model.type.impl.DifferenceSeriesImpl"/>                                  
-   </extension>
--->
 <!--import from org.eclipse.birt.report.engine.emitter.config.postscript-->
 
      <extension name="Postscript Emitter Descriptor" point="org.eclipse.birt.report.engine.emitter.config">
@@ -1694,22 +1388,7 @@
       </connectionFactory>
    </extension>
 
-<!--import from org.eclipse.birt.chart.examples.core-->
-<!--
-   <extension point="org.eclipse.birt.chart.engine.modelrenderers">
-      <modelRenderer renderer="org.eclipse.birt.chart.examples.radar.render.Radar" series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
-   </extension>
-      <extension point="org.eclipse.birt.chart.engine.datasetprocessors">
-      <datasetProcessor processor="org.eclipse.birt.chart.extension.datafeed.DataSetProcessorImpl" series="org.eclipse.birt.chart.examples.radar.model.type.impl.RadarSeriesImpl"/>
-      </extension>
-      <extension point="org.eclipse.birt.chart.engine.charttypes">
-         <chartType modelLoader="org.eclipse.birt.chart.examples.radar.model.RadarModelLoader" namespaceURI="http://www.birt.eclipse.org/RadarChartModelType" packageLoader="org.eclipse.birt.chart.examples.radar.model.RadarTypePackageLoader" typePackage="org.eclipse.birt.chart.examples.radar.model.RadarTypePackageLoader">
-         </chartType>
-      </extension>
--->
-      
 
-<!--import from org.eclipse.birt.report.data.bidi.utils-->
    <!--import from org.eclipse.birt.report.engine.emitter.config-->
    <extension-point id="org.eclipse.birt.report.engine.emitter.config" name="Emitter Descriptor" schema="schema/org.eclipse.birt.report.engine.emitter.config.exsd"/>
    <extension-point id="org.eclipse.birt.report.engine.emitter.config.DefaultConfigLoader" name="Default Config Loader" schema="schema/org.eclipse.birt.report.engine.emitter.config.defaultconfigloader.exsd"/>
@@ -2032,15 +1711,6 @@
 
         <descriptor class="org.eclipse.birt.report.engine.emitter.config.ppt.PPTEmitterDescriptor" id="org.eclipse.birt.report.engine.emitter.ppt"/>
   </extension>  
-<!--import from org.eclipse.birt.chart.device.svg-->
-<!--
-     <extension point="org.eclipse.birt.chart.engine.devicerenderers">
-      <deviceRenderer description="Scalable Vector Graphics" device="org.eclipse.birt.chart.device.svg.SVGRendererImpl" format="SVG" name="dv.SVG"/>            
-   </extension>
-   <extension point="org.eclipse.birt.chart.engine.displayservers">
-      <displayserver name="ds.SVG" server="org.eclipse.birt.chart.device.svg.SVGDisplayServer"/>
-   </extension>
--->
 
 <!--import from org.eclipse.birt.report.engine-->
    <extension-point id="org.eclipse.birt.report.engine.reportitemGeneration" name="Extended Item Generation-Time Support" schema="schema/reportitemGeneration.exsd"/>
@@ -2093,23 +1763,7 @@
 	 	<emitter class="org.eclipse.birt.report.engine.emitter.html.HTMLReportEmitter" format="html" id="org.eclipse.birt.report.engine.emitter.html" mimeType="text/html" outputDisplayNone="true" pagination="page-break-pagination" supportedImageFormats="PNG;GIF;JPG;BMP;SWF;SVG">
 	 	</emitter>
    </extension>
-<!--import from org.eclipse.birt.chart.device.extension-->
 
-<!--
-     <extension point="org.eclipse.birt.chart.engine.devicerenderers">
-      <deviceRenderer device="org.eclipse.birt.chart.device.swing.SwingRendererImpl" name="dv.SWING"/>
-      <deviceRenderer description="Deprecated, use PNG instead" device="org.eclipse.birt.chart.device.image.PngRendererImpl" name="dv.PNG24"/>
-      <deviceRenderer description="Deprecated, use PNG instead" device="org.eclipse.birt.chart.device.image.GifRendererImpl" name="dv.GIF8"/>
-      <deviceRenderer description="Portable Network Graphics" device="org.eclipse.birt.chart.device.image.PngRendererImpl" format="PNG" name="dv.PNG"/>
-      <deviceRenderer description="Deprecated, use PNG instead" device="org.eclipse.birt.chart.device.image.GifRendererImpl" name="dv.GIF"/>
-      <deviceRenderer device="org.eclipse.birt.chart.device.image.JpegRendererImpl" name="dv.JPEG"/>
-      <deviceRenderer device="org.eclipse.birt.chart.device.image.JpegRendererImpl" format="JPG" name="dv.JPG"/>
-      <deviceRenderer device="org.eclipse.birt.chart.device.image.BmpRendererImpl" format="BMP" name="dv.BMP"/>
-   </extension>
-   <extension point="org.eclipse.birt.chart.engine.displayservers">
-      <displayserver name="ds.SWING" server="org.eclipse.birt.chart.device.swing.SwingDisplayServer"/>
-   </extension>
--->
 <!--import from org.eclipse.birt.report.model-->
      <extension-point id="org.eclipse.birt.report.model.reportItemModel" name="reportItemModel" schema="schema/reportItem.exsd"/>
    <extension-point id="org.eclipse.birt.report.model.encryptionHelper" name="encryptionHelper" schema="schema/encryptionHelper.exsd"/>
@@ -2179,11 +1833,6 @@
 
         <emitter class="org.eclipse.birt.report.engine.emitter.docx.DocxEmitter" format="docx" id="org.eclipse.birt.report.engine.emitter.docx" mimeType="application/vnd.openxmlformats-officedocument.wordprocessingml.document" pagination="page-break-pagination"/>
   	</extension>  
-<!--import from org.eclipse.birt.me.prettyprint.hector-->
-   <extension id="org.eclipse.birt.me.prettyprint.hector" name="Hector client library for Cassandra" point="org.eclipse.birt.core.ScriptFunctionService">
-      <JSLib location="lib/">
-      </JSLib>
-   </extension>
 
 <!--import from org.eclipse.birt.report.data.oda.sampledb-->
 
@@ -2264,47 +1913,6 @@
    <extension point="org.eclipse.birt.core.ScriptEngineFactory">
       <scriptEngineFactory factoryClass="org.eclipse.birt.report.engine.javascript.JavascriptEngineFactory" scriptID="org.eclipse.birt.report.engine.javascript" scriptName="javascript">
       </scriptEngineFactory>
-   </extension>
-
-<!--import from org.eclipse.birt.report.data.oda.hive-->
-
-     <extension point="org.eclipse.datatools.connectivity.oda.dataSource">
-      <dataSource defaultDisplayName="Hive Data Source" driverClass="org.eclipse.birt.report.data.oda.hive.HiveDriver" id="org.eclipse.birt.report.data.oda.hive" odaVersion="3.1" setThreadContextClassLoader="false">
-            <properties>
-            <propertyGroup defaultDisplayName="Connection Properties" name="connectionProperties">
-               <property canInherit="true" defaultDisplayName="JDBC Driver Class" name="odaDriverClass" type="string"/>
-               <property canInherit="true" defaultDisplayName="JDBC Driver URL" name="odaURL" type="string"/>
-               <property canInherit="true" defaultDisplayName="Data Source" name="odaDataSource" type="string"/>
-               <property canInherit="true" defaultDisplayName="User Name" name="odaUser" type="string"/>
-               <property canInherit="true" defaultDisplayName="Password" isEncryptable="true" name="odaPassword" type="string"/>
-               <property canInherit="false" defaultDisplayName="&amp;Add List File" name="addListFile" type="string"/>
-            </propertyGroup>
-            <propertyVisibility name="odaDataSource" visibility="hide"/>
-         </properties>
-      </dataSource>   
-      <dataSet defaultDisplayName="HQL Select Query" id="org.eclipse.birt.report.data.oda.hive.JdbcSelectDataSet">
-            <dataTypeMapping nativeDataType="tinyint" nativeDataTypeCode="-6" odaScalarDataType="Integer"/>
-            <dataTypeMapping nativeDataType="smallint" nativeDataTypeCode="5" odaScalarDataType="Integer"/>
-         	<dataTypeMapping nativeDataType="int" nativeDataTypeCode="4" odaScalarDataType="Integer"/>
-            <dataTypeMapping nativeDataType="bigint" nativeDataTypeCode="-5" odaScalarDataType="Decimal"/>
-         	<dataTypeMapping nativeDataType="float" nativeDataTypeCode="6" odaScalarDataType="Double"/>
-            <dataTypeMapping nativeDataType="double" nativeDataTypeCode="8" odaScalarDataType="Double"/>
-            <dataTypeMapping nativeDataType="string" nativeDataTypeCode="12" odaScalarDataType="String"/>
-            <dataTypeMapping nativeDataType="boolean" nativeDataTypeCode="16" odaScalarDataType="Boolean"/>
-            <properties>
-            	<propertyGroup defaultDisplayName="Query Properties" name="queryProperties">
-               		<property canInherit="true" defaultDisplayName="&amp;Query Time Out (in seconds)" name="queryTimeOut" type="string"/>
-                     <property canInherit="false" defaultDisplayName="&amp;Row Fetch Size" name="rowFetchSize" type="string"/>
-                    <property canInherit="false" defaultDisplayName="&amp;Add List File" name="addListFile" type="string"/>
-           		 </propertyGroup>
-         	</properties>
-      </dataSet>
-
-   </extension>
-        <extension point="org.eclipse.datatools.connectivity.connectionProfile">
-      <category id="org.eclipse.birt.report.data.oda.hive" name="Hive Data Source" parentCategory="org.eclipse.datatools.connectivity.oda.profileCategory"/>
-      <connectionProfile category="org.eclipse.birt.report.data.oda.hive" id="org.eclipse.birt.report.data.oda.hive" name="Hive Data Source Connection Profile" pingFactory="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory"/>
-      <connectionFactory class="org.eclipse.datatools.connectivity.oda.profile.OdaConnectionFactory" id="org.eclipse.datatools.connectivity.oda.IConnection" name="ODA Connection Factory" profile="org.eclipse.birt.report.data.oda.hive"/>
    </extension>
 
 <!--import from org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb-->

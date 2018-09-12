@@ -17,6 +17,7 @@
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
 		<tycho.version>1.2.0</tycho.version>
+		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -98,22 +99,21 @@
 	<modules>
 		<module>common</module>
 
+		<module>core</module>
+		<module>data</module>
+		<module>engine</module>
+		<module>model</module>
+		<module>birt-runtime</module>
+
+		<module>viewer</module>
+		<module>UI</module>
+		<module>xtab</module>
+
+		<module>features</module>
 		<module>build-birt-plugin</module>
 		<module>build-birt-epp</module>
 
-		<module>core</module>
-		<module>data</module>
-		<!-- build issue inside -->
-		<module>engine</module>
-		<!-- sdk/test features build issue, test features installation -->
-		<module>features</module>
-		<module>model</module>
-		<!-- report.viewer.tests build issue, and how to run tests.xxx plugins -->
 		<module>testsuites</module>
-		<module>UI</module>
-		<module>viewer</module>
-		<module>xtab</module>
-		<module>birt-maven-bundle</module>
 	</modules>
 
 	<dependencies>
