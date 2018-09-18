@@ -12,8 +12,6 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
 		<sonar.skip>true</sonar.skip>
 	</properties>
 
@@ -27,6 +25,8 @@
 	</modules>
 
 	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>

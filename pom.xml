@@ -23,7 +23,8 @@
         <sonar.host.url>https://sonarcloud.io</sonar.host.url>
         <sonar.organization>ascendix-github</sonar.organization>
 		<sonar.java.binaries>target/classes</sonar.java.binaries>
-		<sonar.exclusions>**/*.xml,**/*.jsp</sonar.exclusions>
+        <sonar.inclusions>**/*.java</sonar.inclusions>
+        <sonar.cfamily.build-wrapper-output.bypass>true</sonar.cfamily.build-wrapper-output.bypass>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->

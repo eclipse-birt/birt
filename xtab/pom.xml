@@ -11,8 +11,6 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
 		<sonar.skip>true</sonar.skip>
 	</properties>
 
@@ -21,4 +19,9 @@
 		<module>org.eclipse.birt.report.item.crosstab.ui</module>
 		<module>org.eclipse.birt.report.item.crosstab.core.tests</module>
 	</modules>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+	</build>
 </project>

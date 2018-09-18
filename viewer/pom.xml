@@ -11,8 +11,6 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<sourceDirectory>src</sourceDirectory>
-		<testSourceDirectory>test</testSourceDirectory>
 		<sonar.skip>true</sonar.skip>
 	</properties>
 
@@ -23,4 +21,9 @@
 		<module>org.eclipse.birt.report.viewer</module>
 		<module>org.eclipse.birt.report.viewer.tests</module>
 	</modules>
+
+	<build>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+	</build>
 </project>
