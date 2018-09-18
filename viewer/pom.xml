@@ -11,6 +11,8 @@
 	<packaging>pom</packaging>
 
 	<properties>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
 		<sonar.skip>true</sonar.skip>
 	</properties>
 

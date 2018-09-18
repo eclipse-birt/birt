@@ -10,6 +10,11 @@
 	<artifactId>model-parent</artifactId>
 	<packaging>pom</packaging>
 
+	<properties>
+		<sourceDirectory>src</sourceDirectory>
+		<testSourceDirectory>test</testSourceDirectory>
+	</properties>
+
 	<modules>
 		<module>org.eclipse.birt.report.model</module>
 		<module>org.eclipse.birt.report.model.adapter.oda</module>
