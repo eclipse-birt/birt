@@ -2,7 +2,7 @@
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.birt</groupId>
-	<artifactId>org.eclipse.birt-parent</artifactId>
+	<artifactId>birt-parent</artifactId>
 	<version>4.8.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
@@ -18,6 +18,11 @@
 		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
 		<tycho.version>1.2.0</tycho.version>
 		<maven.deploy.skip>true</maven.deploy.skip>
+
+        <!--Sonar Configuration-->
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
+        <sonar.organization>ascendix-github</sonar.organization>
+		<sonar.java.binaries>target/classes</sonar.java.binaries>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -176,6 +181,20 @@
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-antrun-plugin</artifactId>
 					<version>1.8</version>
+				</plugin>
+
+				<plugin>
+					<groupId>org.sonarsource.scanner.maven</groupId>
+					<artifactId>sonar-maven-plugin</artifactId>
+					<version>3.5.0.1254</version>
+					<executions>
+						<execution>
+							<phase>verify</phase>
+							<goals>
+								<goal>sonar</goal>
+							</goals>
+						</execution>
+					</executions>
 				</plugin>
 			</plugins>
 		</pluginManagement>
