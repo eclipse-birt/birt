@@ -48,6 +48,6 @@ public abstract class NAccumulator extends BaseTopBottomAccumulator
 	 */
 	protected int adjustNValue( double N )
 	{
-		return (int)N;
+		return (int)( N < 0 ? 0 : N );
 	}
 }
