@@ -10,10 +10,6 @@
 	<artifactId>core-parent</artifactId>
 	<packaging>pom</packaging>
 
-	<properties>
-		<sonar.skip>true</sonar.skip>
-	</properties>
-
 	<modules>
 		<module>org.eclipse.birt.core</module>
 		<module>org.eclipse.birt.core.ui</module>
