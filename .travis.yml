@@ -5,6 +5,7 @@ jdk:
 cache:
   directories:
   - ~/.m2/repository
+  - ~/.p2
   - ~/.sonar/cache
 addons:
   sonarcloud:
