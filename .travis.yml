@@ -12,6 +12,8 @@ cache:
 addons:
   sonarcloud:
     organization: "ascendix-github"
+    token:
+      secure: "xu11cgncNJKNvhTDDJomOkB+QyDDV3G2lDRM9BdfkLh5RwTNSi0lpNDMNmcGAvWBCnIjFa0bFRjTVuZ0xPGft129ZkqL/1NlEjHkQMfqar556m2Btpg8gKAOCYrKjb+1s7XLKAMZc+cegEHgc6biQG3h4ZuxxJrOKzKUnrJl/UgNkgWdlv8SkNLU4aW9911W023ZAHK8s53mz49T7v4tI5Xgg6r7I+7QHBaKhyY0wAOEWFT0w21BCx1TeYjTEDtQkpTTp+cztIflyQWgqVZ0laOA44GP80qifTGbomwD/+1ov9g5K/UwjDXHj+28CtYVprm0S23oFJhsA2vye/AWbqDfWXI/P5nWPToKhqa92twoXHAtDRmNsK0tVE67WXz/A6q0G9jgJRJgT/kOoRN8IcXKTHe14Kwa/X/iAR0HiGYTM0h3+SiopA7WfdREfrjqvKIjl9dn+zSJdqRNQSdY+6Vh7/oG5HY1kRAJmdMmm1s/aKBDMj+qGKnUlDKZY7G2TM9t2R7sq8xuTgF3+5R0ZILWz450OmITcGeOXXY1Hi2YFIoddFxOz4H715qMdfQwfeYRNNRKqb9h99e6FzwxPQ5Q1m3zhEnp3l1OsWrgff3nVjlL1AksU55kUh5Ou1wf9YXQ2j6QJRGZU0gXqDf9tvh9UBU8ISp2sQY1cX5uTWg="
 script: mvn -B clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar
 install:
   -
