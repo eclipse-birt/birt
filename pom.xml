@@ -31,7 +31,7 @@
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
                 <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.9.5/R-3.9.5-20180409100740/repository/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20180330011457/repository/</orbit.repo.url>
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/S20180504181223/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
                 <dtp.repo.url>http://download.eclipse.org/datatools/1.14.1.201712071719/repository/</dtp.repo.url>
                 <jetty.version>9.4.10.v20180503</jetty.version>
@@ -51,7 +51,7 @@
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
                 <wtp.repo.url>http://download.eclipse.org/webtools/downloads/drops/R3.9.0/R-3.9.0-20170613094504/repository/</wtp.repo.url>
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20180330011457/repository/</orbit.repo.url>
+                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
                 <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.13/1.13.0.201603142002/repository</dtp.repo.url>
                 <jetty.version>9.4.5.v20170502</jetty.version>
