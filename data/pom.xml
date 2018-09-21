@@ -10,10 +10,6 @@
 	<artifactId>data-parent</artifactId>
 	<packaging>pom</packaging>
 
-	<properties>
-		<sonar.skip>true</sonar.skip>
-	</properties>
-
 	<modules>
 		<module>org.eclipse.birt.core.script.function</module>
 		<module>org.eclipse.birt.data</module>
