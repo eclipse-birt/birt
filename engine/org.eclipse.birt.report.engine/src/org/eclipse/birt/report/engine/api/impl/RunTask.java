@@ -230,9 +230,10 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		startFactory( );
 		openReportDocument( );
 		ArrayList<String> errList = new ArrayList<String>( );
+		ReportRunnable newRunnable = null;
 		try
 		{
-			ReportRunnable newRunnable = writer.saveDesign( executionContext
+			newRunnable = writer.saveDesign( executionContext
 					.getRunnable( ), executionContext.getOriginalRunnable( ) );
 			executionContext.updateRunnable( newRunnable );
 			writer.saveReportIR( executionContext.getReport( ) );
@@ -282,6 +283,11 @@ public class RunTask extends AbstractRunTask implements IRunTask
 		}
 		finally
 		{
+			if ( newRunnable != null )
+			{
+				newRunnable.getReport( ).getModule( ).tidy( );
+			}
+			
 			documentBuilder = null;
 			closeFactory();
 
