@@ -123,7 +123,9 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 
 		// If width and height of chart is set to 0, doesn't process it.
 		Bounds bo = cm.getBlock( ).getBounds( );
-		if ( bo.getWidth( ) == 0 && bo.getHeight( ) == 0 )
+		if ( bo.getWidth( ) == 0
+				&& bo.getHeight( ) == 0
+				&& ( bo.isSetHeight( ) || bo.isSetWidth( ) ) )
 		{
 			return;
 		}
@@ -141,10 +143,12 @@ public class ChartReportItemGenerationImpl extends ReportItemGenerationBase
 				new BIRTScriptClassLoader( appClassLoader ),
 				ULocale.getDefault( ) );
 
-		// check
+		// check empty case
 		if ( results == null
-				|| results.length != 1
-				|| ChartReportItemUtil.isEmpty( results[0] ) || queries == null
+				|| results.length == 0
+				|| ChartReportItemUtil.isEmpty( results[0] )
+				|| queries == null
+				|| queries.length == 0
 				|| queries[0] == null )
 		{
 			// if the Data rows are null/empty, do nothing.
