@@ -12,6 +12,7 @@
 
 	<properties>
 		<sonar.skip>true</sonar.skip>
+		<maven.deploy.skip>false</maven.deploy.skip>
 	</properties>
 
 	<build>
