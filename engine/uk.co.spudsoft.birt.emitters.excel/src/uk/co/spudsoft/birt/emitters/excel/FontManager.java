@@ -22,7 +22,6 @@ import org.apache.poi.ss.usermodel.FontUnderline;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.ListValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
@@ -106,12 +105,12 @@ public class FontManager {
 	}
 	
 	static int COMPARE_CSS_PROPERTIES[] = {
-		StyleConstants.STYLE_FONT_FAMILY,
-		StyleConstants.STYLE_FONT_SIZE,
-		StyleConstants.STYLE_FONT_WEIGHT,
-		StyleConstants.STYLE_FONT_STYLE,
-		StyleConstants.STYLE_TEXT_UNDERLINE,
-		StyleConstants.STYLE_COLOR,
+		StylePropertyIndexes.STYLE_FONT_FAMILY,
+		StylePropertyIndexes.STYLE_FONT_SIZE,
+		StylePropertyIndexes.STYLE_FONT_WEIGHT,
+		StylePropertyIndexes.STYLE_FONT_STYLE,
+		StylePropertyIndexes.STYLE_TEXT_UNDERLINE,
+		StylePropertyIndexes.STYLE_COLOR,
 	};
 
 	/**
@@ -149,33 +148,33 @@ public class FontManager {
 		Font font = workbook.createFont();
 		
 		// Family
-		String fontName = smu.poiFontNameFromBirt(cleanupQuotes(birtStyle.getProperty( StyleConstants.STYLE_FONT_FAMILY )));
+		String fontName = smu.poiFontNameFromBirt(cleanupQuotes(birtStyle.getProperty( StylePropertyIndexes.STYLE_FONT_FAMILY )));
 		if( fontName == null ) {
 			fontName = "Calibri";
 		}
 		font.setFontName(fontName);
 		// Size
-		short fontSize = smu.fontSizeInPoints(cleanupQuotes(birtStyle.getProperty( StyleConstants.STYLE_FONT_SIZE )));
+		short fontSize = smu.fontSizeInPoints(cleanupQuotes(birtStyle.getProperty( StylePropertyIndexes.STYLE_FONT_SIZE )));
 		if(fontSize > 0) {
 			font.setFontHeightInPoints(fontSize);
 		}
 		// Weight
-		short fontWeight = smu.poiFontWeightFromBirt(cleanupQuotes(birtStyle.getProperty( StyleConstants.STYLE_FONT_WEIGHT )));
+		short fontWeight = smu.poiFontWeightFromBirt(cleanupQuotes(birtStyle.getProperty( StylePropertyIndexes.STYLE_FONT_WEIGHT )));
 		if(fontWeight > 0) {
 			font.setBoldweight(fontWeight);
 		}
 		// Style
-		String fontStyle = cleanupQuotes(birtStyle.getProperty( StyleConstants.STYLE_FONT_STYLE ) );
+		String fontStyle = cleanupQuotes(birtStyle.getProperty( StylePropertyIndexes.STYLE_FONT_STYLE ) );
 		if( CSSConstants.CSS_ITALIC_VALUE.equals(fontStyle) || CSSConstants.CSS_OBLIQUE_VALUE.equals(fontStyle)) {
 			font.setItalic(true);
 		}
 		// Underline
-		String fontUnderline = cleanupQuotes(birtStyle.getProperty( StyleConstants.STYLE_TEXT_UNDERLINE ) );
+		String fontUnderline = cleanupQuotes(birtStyle.getProperty( StylePropertyIndexes.STYLE_TEXT_UNDERLINE ) );
 		if( CSSConstants.CSS_UNDERLINE_VALUE.equals(fontUnderline) ) {
 			font.setUnderline(FontUnderline.SINGLE.getByteValue());
 		}
 		// Colour
-		smu.addColourToFont( workbook, font, cleanupQuotes( birtStyle.getProperty( StyleConstants.STYLE_COLOR ) ) );
+		smu.addColourToFont( workbook, font, cleanupQuotes( birtStyle.getProperty( StylePropertyIndexes.STYLE_COLOR ) ) );
 						
 		fonts.add(new FontPair(birtStyle, font));
 		return font;
@@ -211,12 +210,12 @@ public class FontManager {
 			return getDefaultFont();
 		}
 		
-		if( ( birtStyle.getProperty( StyleConstants.STYLE_FONT_FAMILY ) == null )
-				&& ( birtStyle.getProperty( StyleConstants.STYLE_FONT_SIZE ) == null )
-				&& ( birtStyle.getProperty( StyleConstants.STYLE_FONT_WEIGHT ) == null )
-				&& ( birtStyle.getProperty( StyleConstants.STYLE_FONT_STYLE ) == null )
-				&& ( birtStyle.getProperty( StyleConstants.STYLE_TEXT_UNDERLINE ) == null )
-				&& ( birtStyle.getProperty( StyleConstants.STYLE_COLOR ) == null )
+		if( ( birtStyle.getProperty( StylePropertyIndexes.STYLE_FONT_FAMILY ) == null )
+				&& ( birtStyle.getProperty( StylePropertyIndexes.STYLE_FONT_SIZE ) == null )
+				&& ( birtStyle.getProperty( StylePropertyIndexes.STYLE_FONT_WEIGHT ) == null )
+				&& ( birtStyle.getProperty( StylePropertyIndexes.STYLE_FONT_STYLE ) == null )
+				&& ( birtStyle.getProperty( StylePropertyIndexes.STYLE_TEXT_UNDERLINE ) == null )
+				&& ( birtStyle.getProperty( StylePropertyIndexes.STYLE_COLOR ) == null )
 				) {
 			return getDefaultFont();
 		}

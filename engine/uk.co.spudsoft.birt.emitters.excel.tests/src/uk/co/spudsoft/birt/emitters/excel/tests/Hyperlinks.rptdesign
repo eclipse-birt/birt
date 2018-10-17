@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301221637 Build &lt;4.2.2.v20130206-1509></property>
     <text-property name="title">Number Formats Test Report</text-property>
     <property name="units">in</property>
     <method name="initialize"><![CDATA[var rowCount = 0;
@@ -304,6 +304,7 @@ if( rowCount < 2000 ) {
                     <expression name="bookmark" type="javascript">"BK" + row["Integer"]</expression>
                     <cell id="60">
                         <data id="61">
+                            <expression name="bookmark" type="javascript">row["Integer"] + "_" + row["Name"]</expression>
                             <property name="resultSetColumn">Name</property>
                             <list-property name="action">
                                 <structure>

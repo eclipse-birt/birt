@@ -19,6 +19,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.streaming.SXSSFWorkbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
@@ -40,7 +41,11 @@ public class XlsxEmitter extends ExcelEmitter {
 	}
 
 	protected Workbook createWorkbook() {
-		return new XSSFWorkbook();
+		if( extractMode ) {
+			return new SXSSFWorkbook();
+		} else {
+			return new XSSFWorkbook();
+		}
 	}
 	
 	protected Workbook openWorkbook( File templateFile ) throws IOException {

@@ -26,9 +26,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
-import org.junit.Ignore;
 
-@Ignore
 public class FontsReportTest extends ReportRunner {
 
 	private void assertFontCell( Sheet sheet, int row, int col, String contents, String fontName, int fontHeight ) {

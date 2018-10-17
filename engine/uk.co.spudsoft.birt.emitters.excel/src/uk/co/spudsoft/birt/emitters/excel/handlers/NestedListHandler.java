@@ -13,8 +13,10 @@
 
 package uk.co.spudsoft.birt.emitters.excel.handlers;
 
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IListContent;
 
+import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class NestedListHandler extends TopLevelListHandler {
@@ -22,5 +24,17 @@ public class NestedListHandler extends TopLevelListHandler {
 	public NestedListHandler(Logger log, IHandler parent, IListContent list) {
 		super(log, parent, list);
 	}
+
+	@Override
+	public void startList(HandlerState state, IListContent list) throws BirtException {
+		String name = list.getName();
+		if( ( name != null ) && ! name.isEmpty() ) {
+			state.sheetName = name;
+		}
+		super.startList(state, list);
+		
+	}
+	
+	
 
 }

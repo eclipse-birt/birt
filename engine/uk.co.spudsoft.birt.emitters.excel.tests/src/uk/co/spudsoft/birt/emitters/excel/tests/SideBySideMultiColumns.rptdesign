@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301221637 Build &lt;4.2.2.v20130206-1509></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -2442,6 +2442,13 @@ CLASSICMODELS.CUSTOMERS]]></xml-property>
             </row>
         </grid>
         <table id="38">
+            <list-property name="userProperties">
+                <structure>
+                    <property name="name">ExcelEmitter.AutoFilter</property>
+                    <property name="type">boolean</property>
+                </structure>
+            </list-property>
+            <property name="ExcelEmitter.AutoFilter">true</property>
             <property name="dataSet">Data Set 3</property>
             <list-property name="boundDataColumns">
                 <structure>

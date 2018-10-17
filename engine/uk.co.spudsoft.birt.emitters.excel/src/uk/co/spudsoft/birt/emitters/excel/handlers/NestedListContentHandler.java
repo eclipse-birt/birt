@@ -21,12 +21,12 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 
 import uk.co.spudsoft.birt.emitters.excel.Coordinate;
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
+import uk.co.spudsoft.birt.emitters.excel.StylePropertyIndexes;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class NestedListContentHandler extends CellContentHandler {
@@ -43,13 +43,13 @@ public class NestedListContentHandler extends CellContentHandler {
 	public void emitText(HandlerState state, ITextContent text) throws BirtException {
 		String textText = text.getText();
 		log.debug( "text:", textText );
-		emitContent(state,text,textText, ( ! "inline".equals( getStyleProperty(text, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state,text,textText, ( ! "inline".equals( getStyleProperty(text, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 		state.setHandler(parent);
 	}
 
 	@Override
 	public void emitData(HandlerState state, IDataContent data) throws BirtException {
-		emitContent(state,data,data.getValue(), ( ! "inline".equals( getStyleProperty(data, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state,data,data.getValue(), ( ! "inline".equals( getStyleProperty(data, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 		state.setHandler(parent);
 	}
 
@@ -58,13 +58,13 @@ public class NestedListContentHandler extends CellContentHandler {
 		// String labelText = ( label.getLabelText() != null ) ? label.getLabelText() : label.getText();
 		String labelText = ( label.getText() != null ) ? label.getText() : label.getLabelText();
 		log.debug( "labelText:", labelText );
-		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block") ) ));
+		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ));
 		state.setHandler(parent);
 	}
 
 	@Override
 	public void emitAutoText(HandlerState state, IAutoTextContent autoText) throws BirtException {
-		emitContent(state,autoText,autoText.getText(), ( ! "inline".equals( getStyleProperty(autoText, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state,autoText,autoText.getText(), ( ! "inline".equals( getStyleProperty(autoText, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 		state.setHandler(parent);
 	}
 

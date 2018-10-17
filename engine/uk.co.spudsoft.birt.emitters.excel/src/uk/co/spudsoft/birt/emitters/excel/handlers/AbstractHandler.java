@@ -38,11 +38,11 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.w3c.dom.css.CSSValue;
 
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
+import uk.co.spudsoft.birt.emitters.excel.StylePropertyIndexes;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class AbstractHandler implements IHandler {
@@ -90,7 +90,7 @@ public class AbstractHandler implements IHandler {
 			return backgroundColour;
 		}
 		if( element != null ) {
-			CSSValue elemColour = element.getComputedStyle().getProperty( StyleConstants.STYLE_BACKGROUND_COLOR );
+			CSSValue elemColour = element.getComputedStyle().getProperty( StylePropertyIndexes.STYLE_BACKGROUND_COLOR );
 			if( ( elemColour != null ) && ! CSSConstants.CSS_TRANSPARENT_VALUE.equals( elemColour.getCssText() ) ) {
 				backgroundColour = elemColour;
 			}
@@ -112,6 +112,10 @@ public class AbstractHandler implements IHandler {
 	
 	protected static String prepareName( String name ) {
 		char c = name.charAt(0);
+		if( Character.isDigit(c) ) {
+			name = "_" + name;
+		}
+		
 		boolean requirePreparation = (!(c == '_' || Character.isLetter(c)) || name.indexOf(' ') != -1);
 		if( !requirePreparation ) {
 			for( int i = 1; i < name.length(); ++i ) {

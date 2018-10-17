@@ -40,10 +40,6 @@ public class TopLevelTableHandler extends AbstractRealTableHandler {
 	public void startTable(HandlerState state, ITableContent table) throws BirtException {
 		state.colNum = 0;
 		super.startTable(state, table);
-		String name = table.getName();
-		if( ( name != null ) && ! name.isEmpty() ) {
-			state.sheetName = name;
-		}
 
 		String password = EmitterServices.stringOption( state.getRenderOptions(), table, ExcelEmitter.SHEET_PASSWORD, null);
 		if( ( password != null ) && ! password.isEmpty() ) {
@@ -71,6 +67,8 @@ public class TopLevelTableHandler extends AbstractRealTableHandler {
 		}
 		
 		state.setHandler(parent);
+		
+		state.colNum = 0;
 	}
 
 	@Override
@@ -78,7 +76,7 @@ public class TopLevelTableHandler extends AbstractRealTableHandler {
 		state.setHandler(new TopLevelTableRowHandler(log, this, row));
 		state.getHandler().startRow(state, row);
 	}
-
+	
 	@Override
 	public void startTableGroup(HandlerState state, ITableGroupContent group) throws BirtException {
 		log.debug( "startTableGroup @" + state.rowNum + " called " + group.getBookmark() );

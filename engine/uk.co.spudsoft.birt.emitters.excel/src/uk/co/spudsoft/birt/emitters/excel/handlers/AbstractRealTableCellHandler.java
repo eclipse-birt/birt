@@ -29,7 +29,6 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.TableContent;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
@@ -39,6 +38,7 @@ import uk.co.spudsoft.birt.emitters.excel.Coordinate;
 import uk.co.spudsoft.birt.emitters.excel.EmitterServices;
 import uk.co.spudsoft.birt.emitters.excel.ExcelEmitter;
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
+import uk.co.spudsoft.birt.emitters.excel.StylePropertyIndexes;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class AbstractRealTableCellHandler extends CellContentHandler {
@@ -113,6 +113,10 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 			Area area = null;
 			
 			if(( cell.getColSpan() > 1 )||( cell.getRowSpan() > 1 )) {
+				
+				if( state.getEmitter().isExtractMode() ) {
+					throw new IllegalArgumentException( "Merged cells encountered in extract mode, not currently supported" );
+				}
 
                 int endRow = state.rowNum + cell.getRowSpan() - 1;
 				int endCol = state.colNum + cell.getColSpan() - 1;
@@ -158,16 +162,16 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 	
 	@Override
 	public void startContainer(HandlerState state, IContainerContent container) throws BirtException {
-		// log.debug( "Container display = " + getStyleProperty( container, StyleConstants.STYLE_DISPLAY, "block") );
-		if( ! "inline".equals( getStyleProperty( container, StyleConstants.STYLE_DISPLAY, "block") ) ) {
+		// log.debug( "Container display = " + getStyleProperty( container, StylePropertyIndexes.STYLE_DISPLAY, "block") );
+		if( ! "inline".equals( getStyleProperty( container, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) {
 			lastCellContentsWasBlock = true;
 		}
 	}
 	
 	@Override
 	public void endContainer(HandlerState state, IContainerContent container) throws BirtException {
-		// log.debug( "Container display = " + getStyleProperty( container, StyleConstants.STYLE_DISPLAY, "block") );
-		if( ! "inline".equals( getStyleProperty( container, StyleConstants.STYLE_DISPLAY, "block") ) ) {
+		// log.debug( "Container display = " + getStyleProperty( container, StylePropertyIndexes.STYLE_DISPLAY, "block") );
+		if( ! "inline".equals( getStyleProperty( container, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) {
 			lastCellContentsWasBlock = true;
 		}
 	}
@@ -189,6 +193,8 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 		
 		if( ( tableHandler != null ) 
 				&& ( tableHandler.getColumnCount() == colSpan )
+				&& ( table.getParent() instanceof CellContent )
+				&& ( ( (CellContent)table.getParent() ).getGenerateBy() instanceof CellDesign )
 				&& ( 1 == ( (CellDesign)( (CellContent)table.getParent() ).getGenerateBy()).getContentCount() )
 				) {
 			// Parent row contains only one item
@@ -266,25 +272,25 @@ public class AbstractRealTableCellHandler extends CellContentHandler {
 	public void emitText(HandlerState state, ITextContent text) throws BirtException {
 		String textText = text.getText();
 		log.debug( "text:", textText );
-		emitContent(state,text,textText, ( ! "inline".equals( getStyleProperty(text, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state,text,textText, ( ! "inline".equals( getStyleProperty(text, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 	}
 
 	@Override
 	public void emitData(HandlerState state, IDataContent data) throws BirtException {
-		emitContent(state,data,data.getValue(), ( ! "inline".equals( getStyleProperty(data, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state,data,data.getValue(), ( ! "inline".equals( getStyleProperty(data, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 	}
-
+	
 	@Override
 	public void emitLabel(HandlerState state, ILabelContent label) throws BirtException {
 		// String labelText = ( label.getLabelText() != null ) ? label.getLabelText() : label.getText();
 		String labelText = ( label.getText() != null ) ? label.getText() : label.getLabelText();
 		log.debug( "labelText:", labelText );
-		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block") ) ));
+		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ));
 	}
 
 	@Override
 	public void emitAutoText(HandlerState state, IAutoTextContent autoText) throws BirtException {
-		emitContent(state,autoText,autoText.getText(), ( ! "inline".equals( getStyleProperty(autoText, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state,autoText,autoText.getText(), ( ! "inline".equals( getStyleProperty(autoText, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 	}
 
 	@Override

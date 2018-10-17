@@ -14,14 +14,12 @@
 
 package uk.co.spudsoft.birt.emitters.excel;
 
-import java.util.BitSet;
 import java.util.Map;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.AbstractStyle;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
 import org.eclipse.birt.report.engine.css.engine.value.FloatValue;
 import org.eclipse.birt.report.engine.css.engine.value.StringValue;
@@ -33,75 +31,9 @@ import org.w3c.dom.css.CSSValue;
 
 public class BirtStyle {
 	
-	public static final int NUMBER_OF_STYLES = StyleConstants.NUMBER_OF_STYLE + 1;
-	public static final int TEXT_ROTATION = StyleConstants.NUMBER_OF_STYLE;
-
-	protected static final String cssProperties[] = {
-		     "margin-left"
-		   , "margin-right"
-		   , "margin-top"
-		   , "DATA_FORMAT"
-		   , "border-right-color"
-		   , "direction"
-		   , "border-top-width"
-		   , "padding-left"
-		   , "border-right-width"
-		   , "padding-bottom"
-		   , "padding-top"
-		   , "NUMBER_ALIGN"
-		   , "padding-right"
-		   , "CAN_SHRINK"
-		   , "border-top-color"
-		   , "background-repeat"
-		   , "margin-bottom"
-		   , "background-width"
-		   , "background-height"
-		   , "border-right-style"
-		   , "border-bottom-color"
-		   , "text-indent"
-		   , "line-height"
-		   , "border-bottom-width"
-		   , "text-align"
-		   , "background-color"
-		   , "color"
-		   , "overflow"
-		   , "TEXT_LINETHROUGH"
-		   , "border-left-color"
-		   , "widows"
-		   , "border-left-width"
-		   , "border-bottom-style"
-		   , "font-weight"
-		   , "font-variant"
-		   , "text-transform"
-		   , "white-space"
-		   , "TEXT_OVERLINE"
-		   , "vertical-align"
-		   , "BACKGROUND_POSITION_X"
-		   , "border-left-style"
-		   , "VISIBLE_FORMAT"
-		   , "MASTER_PAGE"
-		   , "orphans"
-		   , "font-size"
-		   , "font-style"
-		   , "border-top-style"
-		   , "page-break-before"
-		   , "SHOW_IF_BLANK"
-		   , "background-image"
-		   , "BACKGROUND_POSITION_Y"
-		   , "word-spacing"
-		   , "background-attachment"
-		   , "TEXT_UNDERLINE"
-		   , "display"
-		   , "font-family"
-		   , "letter-spacing"
-		   , "page-break-inside"
-		   , "page-break-after"
-		   
-		   , "Rotation"
-	   };		
+	public static final int NUMBER_OF_STYLES = StylePropertyIndexes.NUMBER_OF_BIRT_PROPERTIES + 1;
+	public static final int TEXT_ROTATION = StylePropertyIndexes.NUMBER_OF_BIRT_PROPERTIES;
 	
-	
-	private IStyle elemStyle;
 	private CSSValue[] propertyOverride = new CSSValue[ BirtStyle.NUMBER_OF_STYLES ]; 
 	private CSSEngine cssEngine;
 	
@@ -110,7 +42,7 @@ public class BirtStyle {
 	}
 	
 	public BirtStyle(IContent element) {
-		elemStyle = element.getComputedStyle();
+		IStyle elemStyle = element.getComputedStyle();
 		
 		if( elemStyle instanceof AbstractStyle ) {
 			cssEngine = ((AbstractStyle)elemStyle).getCSSEngine();
@@ -128,14 +60,75 @@ public class BirtStyle {
 			int prop = StyleManager.COMPARE_CSS_PROPERTIES[ i ];
 			propertyOverride[ prop ] = elemStyle.getProperty( prop ); 
 		}
-		propertyOverride[ StyleConstants.STYLE_DATA_FORMAT ] = elemStyle.getProperty( StyleConstants.STYLE_DATA_FORMAT ); 
+		propertyOverride[ StylePropertyIndexes.STYLE_DATA_FORMAT ] = elemStyle.getProperty( StylePropertyIndexes.STYLE_DATA_FORMAT ); 
 		for( int i = 0; i < FontManager.COMPARE_CSS_PROPERTIES.length; ++i ) {
 			int prop = FontManager.COMPARE_CSS_PROPERTIES[ i ];
 			propertyOverride[ prop ] = elemStyle.getProperty( prop ); 
 		}
-
 	}
 	
+	
+		
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		for( int i = 0; i < propertyOverride.length; ++i ) {
+			CSSValue value = propertyOverride[ i ]; 
+			if( value != null ) {
+				if( value instanceof DataFormatValue ) {
+					result = prime * result + StyleManagerUtils.dataFormatHash( (DataFormatValue)value );
+				} else {
+					String cssText = value.getCssText();
+					if ( cssText != null ) {
+						result = prime * result + cssText.hashCode();
+					}
+				}
+			}
+		}
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BirtStyle other = (BirtStyle) obj;
+
+		for( int i = 0; i < StyleManager.COMPARE_CSS_PROPERTIES.length; ++i ) {
+			int prop = StyleManager.COMPARE_CSS_PROPERTIES[ i ];
+			CSSValue value1 = getProperty( prop );
+			CSSValue value2 = other.getProperty( prop );
+			if( ! StyleManagerUtils.objectsEqual( value1, value2 ) ) {
+				// System.out.println( "Differ on " + i + " because " + value1 + " != " + value2 );
+				return false;
+			}
+		}
+		if( ! StyleManagerUtils.objectsEqual( getProperty( BirtStyle.TEXT_ROTATION ), other.getProperty( BirtStyle.TEXT_ROTATION ) ) ) {
+			// System.out.println( "Differ on BirtStyle.TEXT_ROTATION because " + getProperty( BirtStyle.TEXT_ROTATION ) + " != " + other.getProperty( BirtStyle.TEXT_ROTATION ) );
+			return false;
+		}
+		
+		
+		// Number format
+		if( ! StyleManagerUtils.dataFormatsEquivalent( (DataFormatValue)getProperty( StylePropertyIndexes.STYLE_DATA_FORMAT )
+				, (DataFormatValue)other.getProperty( StylePropertyIndexes.STYLE_DATA_FORMAT ) ) ) {
+			// System.out.println( "Differ on DataFormat" );
+			return false;
+		}		
+        
+		// Font
+		if( ! FontManager.fontsEquivalent( this, other ) ) {
+			// System.out.println( "Differ on font" );
+			return false;
+		}
+		return true;
+	}
+
 	private static Float extractRotation(IContent element) {
 		Object generatorObject = element.getGenerateBy();
 		if( generatorObject instanceof ReportElementDesign ) {
@@ -155,10 +148,7 @@ public class BirtStyle {
 	}
 	
 	public void setProperty( int propIndex, CSSValue newValue ) {
-		if( propertyOverride == null ) {
-			propertyOverride = new CSSValue[ BirtStyle.NUMBER_OF_STYLES ];
-		}
-		propertyOverride[ propIndex ] = newValue; 
+		propertyOverride[ propIndex ] = newValue;
 	}
 	
 	public CSSValue getProperty( int propIndex ) {
@@ -168,7 +158,7 @@ public class BirtStyle {
 				&& ( propertyOverride[ propIndex ] != null ) ) {
 			return propertyOverride[ propIndex ];
 		}
-		if( ( elemStyle != null ) && ( propIndex < StyleConstants.NUMBER_OF_STYLE ) ) {
+		if( ( elemStyle != null ) && ( propIndex < StylePropertyIndexes.NUMBER_OF_STYLE ) ) {
 			return elemStyle.getProperty( propIndex );
 		} else {
 			return null;
@@ -177,18 +167,11 @@ public class BirtStyle {
 	}
 	
 	public void setFloat( int propIndex, short units, float newValue ) {
-		if( propertyOverride == null ) {
-			propertyOverride = new CSSValue[ BirtStyle.NUMBER_OF_STYLES ];
-		}
 		propertyOverride[ propIndex ] = new FloatValue( units, newValue );
 	}
 	
 	public void parseString( int propIndex, String newValue ) {
-		if( propertyOverride == null ) {
-			propertyOverride = new CSSValue[ BirtStyle.NUMBER_OF_STYLES ];
-		}
-			
-		if( propIndex < StyleConstants.NUMBER_OF_STYLE ) {
+		if( propIndex < StylePropertyIndexes.NUMBER_OF_BIRT_PROPERTIES ) {
 			propertyOverride[ propIndex ] = cssEngine.parsePropertyValue( propIndex , newValue );
 		} else {
 			propertyOverride[ propIndex ] = new StringValue( StringValue.CSS_STRING, newValue);
@@ -224,25 +207,25 @@ public class BirtStyle {
 		return result;
 	}
 
-	private static final BitSet SPECIAL_OVERLAY_PROPERTIES = PrepareSpecialOverlayProperties();
+	private static final boolean[] SPECIAL_OVERLAY_PROPERTIES = PrepareSpecialOverlayProperties();
 	
-	private static BitSet PrepareSpecialOverlayProperties() {
-		BitSet result = new BitSet( BirtStyle.NUMBER_OF_STYLES );
-		result.set( StyleConstants.STYLE_BACKGROUND_COLOR );
-		result.set( StyleConstants.STYLE_BORDER_BOTTOM_STYLE );
-		result.set( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH );
-		result.set( StyleConstants.STYLE_BORDER_BOTTOM_COLOR );
-		result.set( StyleConstants.STYLE_BORDER_LEFT_STYLE );
-		result.set( StyleConstants.STYLE_BORDER_LEFT_WIDTH );
-		result.set( StyleConstants.STYLE_BORDER_LEFT_COLOR );
-		result.set( StyleConstants.STYLE_BORDER_RIGHT_STYLE );
-		result.set( StyleConstants.STYLE_BORDER_RIGHT_WIDTH );
-		result.set( StyleConstants.STYLE_BORDER_RIGHT_COLOR );
-		result.set( StyleConstants.STYLE_BORDER_TOP_STYLE );
-		result.set( StyleConstants.STYLE_BORDER_TOP_WIDTH );
-		result.set( StyleConstants.STYLE_BORDER_TOP_COLOR );
-		result.set( StyleConstants.STYLE_VERTICAL_ALIGN );
-		result.set( StyleConstants.STYLE_DATA_FORMAT );		
+	private static boolean[] PrepareSpecialOverlayProperties() {
+		boolean[] result = new boolean[ BirtStyle.NUMBER_OF_STYLES ];
+		result[ StylePropertyIndexes.STYLE_BACKGROUND_COLOR ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_BOTTOM_STYLE ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_BOTTOM_WIDTH ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_BOTTOM_COLOR ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_LEFT_STYLE ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_LEFT_WIDTH ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_LEFT_COLOR ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_RIGHT_STYLE ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_RIGHT_WIDTH ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_RIGHT_COLOR ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_TOP_STYLE ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_TOP_WIDTH ] = true;
+		result[ StylePropertyIndexes.STYLE_BORDER_TOP_COLOR ] = true;
+		result[ StylePropertyIndexes.STYLE_VERTICAL_ALIGN ] = true;
+		result[ StylePropertyIndexes.STYLE_DATA_FORMAT ] = true;
 		return result;
 	}
 	
@@ -265,45 +248,40 @@ public class BirtStyle {
 		// System.out.println( "overlay: Before - " + this.toString() );
 		
 		IStyle style = element.getComputedStyle();
-		for(int propIndex = 0; propIndex < StyleConstants.NUMBER_OF_STYLE; ++propIndex ) {
-			if( ! SPECIAL_OVERLAY_PROPERTIES.get(propIndex) ) {
+		for(int propIndex = 0; propIndex < StylePropertyIndexes.NUMBER_OF_BIRT_PROPERTIES; ++propIndex ) {
+			if( ! SPECIAL_OVERLAY_PROPERTIES[ propIndex ] ) {
 				CSSValue overlayValue = style.getProperty( propIndex );
-				CSSValue localValue = getProperty( propIndex );
-				if( ( overlayValue != null ) && ! overlayValue.equals( localValue ) ) {
+				if( overlayValue != null ) {
 					setProperty( propIndex, overlayValue );
 				}
 			}	
 		}
 		
 		// Background colour, only overlay if not null and not transparent
-		CSSValue overlayBgColour = style.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR );
-		CSSValue localBgColour = getProperty( StyleConstants.STYLE_BACKGROUND_COLOR );
+		CSSValue overlayBgColour = style.getProperty( StylePropertyIndexes.STYLE_BACKGROUND_COLOR );
 		if( ( overlayBgColour != null ) 
 				&& ( ! CSSConstants.CSS_TRANSPARENT_VALUE.equals( overlayBgColour.getCssText() ) )
-				&& ( ! overlayBgColour.equals( localBgColour ) ) ) {
-			setProperty( StyleConstants.STYLE_BACKGROUND_COLOR, overlayBgColour );
+				) {
+			setProperty( StylePropertyIndexes.STYLE_BACKGROUND_COLOR, overlayBgColour );
 		}
 		
 		// Borders, only overlay if all three components are not null - and then overlay all three
-		overlayBorder( style, StyleConstants.STYLE_BORDER_BOTTOM_STYLE, StyleConstants.STYLE_BORDER_BOTTOM_WIDTH, StyleConstants.STYLE_BORDER_BOTTOM_COLOR );
-		overlayBorder( style, StyleConstants.STYLE_BORDER_LEFT_STYLE, StyleConstants.STYLE_BORDER_LEFT_WIDTH, StyleConstants.STYLE_BORDER_LEFT_COLOR );
-		overlayBorder( style, StyleConstants.STYLE_BORDER_RIGHT_STYLE, StyleConstants.STYLE_BORDER_RIGHT_WIDTH, StyleConstants.STYLE_BORDER_RIGHT_COLOR );
-		overlayBorder( style, StyleConstants.STYLE_BORDER_TOP_STYLE, StyleConstants.STYLE_BORDER_TOP_WIDTH, StyleConstants.STYLE_BORDER_TOP_COLOR );
+		overlayBorder( style, StylePropertyIndexes.STYLE_BORDER_BOTTOM_STYLE, StylePropertyIndexes.STYLE_BORDER_BOTTOM_WIDTH, StylePropertyIndexes.STYLE_BORDER_BOTTOM_COLOR );
+		overlayBorder( style, StylePropertyIndexes.STYLE_BORDER_LEFT_STYLE, StylePropertyIndexes.STYLE_BORDER_LEFT_WIDTH, StylePropertyIndexes.STYLE_BORDER_LEFT_COLOR );
+		overlayBorder( style, StylePropertyIndexes.STYLE_BORDER_RIGHT_STYLE, StylePropertyIndexes.STYLE_BORDER_RIGHT_WIDTH, StylePropertyIndexes.STYLE_BORDER_RIGHT_COLOR );
+		overlayBorder( style, StylePropertyIndexes.STYLE_BORDER_TOP_STYLE, StylePropertyIndexes.STYLE_BORDER_TOP_WIDTH, StylePropertyIndexes.STYLE_BORDER_TOP_COLOR );
 		
 		// Vertical align, not computed safely, so only check immediate style
-		CSSValue verticalAlign = element.getStyle().getProperty( StyleConstants.STYLE_VERTICAL_ALIGN );
+		CSSValue verticalAlign = element.getStyle().getProperty( StylePropertyIndexes.STYLE_VERTICAL_ALIGN );
 		if( verticalAlign != null ) {
-			CSSValue localValue = getProperty( StyleConstants.STYLE_VERTICAL_ALIGN );
-			if( ! verticalAlign.equals( localValue ) ) {
-				setProperty( StyleConstants.STYLE_VERTICAL_ALIGN, verticalAlign );
-			}
+			setProperty( StylePropertyIndexes.STYLE_VERTICAL_ALIGN, verticalAlign );
 		}
 				
 		// Data format
-		CSSValue overlayDataFormat = style.getProperty( StyleConstants.STYLE_DATA_FORMAT );
-		CSSValue localDataFormat = getProperty( StyleConstants.STYLE_DATA_FORMAT );
+		CSSValue overlayDataFormat = style.getProperty( StylePropertyIndexes.STYLE_DATA_FORMAT );
+		CSSValue localDataFormat = getProperty( StylePropertyIndexes.STYLE_DATA_FORMAT );
 		if( ! StyleManagerUtils.dataFormatsEquivalent((DataFormatValue)overlayDataFormat, (DataFormatValue)localDataFormat) ) {
-			setProperty( StyleConstants.STYLE_DATA_FORMAT, StyleManagerUtils.cloneDataFormatValue((DataFormatValue)overlayDataFormat) );
+			setProperty( StylePropertyIndexes.STYLE_DATA_FORMAT, StyleManagerUtils.cloneDataFormatValue((DataFormatValue)overlayDataFormat) );
 		}
 		
 		// Rotation
@@ -311,7 +289,7 @@ public class BirtStyle {
 		if( rotation != null ) {
 			setFloat(TEXT_ROTATION, CSSPrimitiveValue.CSS_DEG, rotation);
 		}
-		
+	
 		// System.out.println( "overlay: After - " + this.toString() );
 	}
 
@@ -322,9 +300,9 @@ public class BirtStyle {
 			CSSValue val = getProperty( i );
 			if( val != null ) {
 				try {
-					result.append(cssProperties[i]).append(':').append(val.getCssText()).append("; ");
+					result.append(StylePropertyIndexes.getPropertyName(i)).append(':').append(val.getCssText()).append("; ");
 				} catch(Exception ex) {
-					result.append(cssProperties[i]).append(":{").append(ex.getMessage()).append("}; ");						
+					result.append(StylePropertyIndexes.getPropertyName(i)).append(":{").append(ex.getMessage()).append("}; ");						
 				}
 			}
 		}

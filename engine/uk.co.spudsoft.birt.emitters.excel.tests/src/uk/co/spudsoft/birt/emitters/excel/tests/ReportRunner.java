@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -51,8 +52,11 @@ import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.model.api.IResourceLocator;
+import org.junit.Rule;
+import org.junit.rules.TestName;
 
 import uk.co.spudsoft.birt.emitters.bugfix.FixedRenderTask;
+import uk.co.spudsoft.birt.emitters.bugfix.FixedRunTask;
 import uk.co.spudsoft.birt.emitters.excel.ExcelEmitter;
 import uk.co.spudsoft.birt.emitters.excel.tests.framework.Activator;
 
@@ -66,6 +70,10 @@ public class ReportRunner {
 	protected boolean nestTableInLastCell;
 	protected boolean autoFilter;
 	protected boolean blankLineAfterTopLevelTable;
+	protected boolean extractMode;
+	protected boolean noStyles;
+	protected boolean forceRecalcuation;
+
 	
 	protected Boolean displayFormulas = null;
 	protected Boolean displayGridlines = null;
@@ -79,10 +87,15 @@ public class ReportRunner {
 	
 	protected String templateFile = null;
 	
+	protected Locale defaultLocale = Locale.UK;
+	
 	protected Map<String,Object> parameters = new HashMap<String, Object>();
 	protected long startTime;
 	protected long runTime;
 	protected long renderTime;
+	
+	@Rule 
+	public TestName testName = new TestName();	
 	
 	private static byte[] getBytesFromFile(File file) throws IOException {
 	    InputStream is = new FileInputStream(file);
@@ -175,7 +188,9 @@ public class ReportRunner {
 	
 	protected InputStream runAndRenderReportDefaultTask( String filename, String outputFormat ) throws BirtException, IOException {
 
-        IReportEngine reportEngine = createReportEngine();
+		Locale.setDefault(defaultLocale);
+
+		IReportEngine reportEngine = createReportEngine();
 		
 		String filepath = deriveFilepath(filename);
 
@@ -236,7 +251,9 @@ public class ReportRunner {
 
 	protected InputStream runAndRenderReportFileNotStream( String filename, String outputFormat ) throws BirtException, IOException {
 
-        IReportEngine reportEngine = createReportEngine();
+		Locale.setDefault(defaultLocale);
+
+		IReportEngine reportEngine = createReportEngine();
 		
 		String filepath = deriveFilepath(filename);
 
@@ -295,6 +312,8 @@ public class ReportRunner {
 
 	protected InputStream runAndRenderReportAsOne( String filename, String outputFormat ) throws BirtException, IOException {
 
+		Locale.setDefault(defaultLocale);
+		
         IReportEngine reportEngine = createReportEngine();
 		
 		String filepath = deriveFilepath(filename);
@@ -345,7 +364,9 @@ public class ReportRunner {
 
 	protected InputStream runAndRenderReportCustomTask( String filename, String outputFormat ) throws BirtException, IOException {
 
-        IReportEngine reportEngine = createReportEngine();
+		Locale.setDefault(defaultLocale);
+
+		IReportEngine reportEngine = createReportEngine();
 		
 		String filepath = deriveFilepath(filename);
 
@@ -363,7 +384,8 @@ public class ReportRunner {
 			assertNotNull(tempDoc);
 			
 			try {
-				IRunTask reportRunTask = reportEngine.createRunTask( reportRunnable );
+				IRunTask reportRunTask = new FixedRunTask((ReportEngine)reportEngine, reportRunnable); 
+						// reportEngine.createRunTask( reportRunnable );
 
 				// reportRunTask.enableProgressiveViewing(true);
 				
@@ -377,14 +399,13 @@ public class ReportRunner {
 					IReportDocument reportDocument = runReport(reportEngine,
 							reportRunTask, tempDoc);
 					runTime = System.currentTimeMillis();
-			        System.err.println( "Run " + baseFilename( filename ) + " : " + ((runTime - startTime) / 1000.0) + "s");
+			        System.err.println( "Initial run " + baseFilename( filename ) + " : " + ((runTime - startTime) / 1000.0) + "s");
 			        
 			        // IRenderTask renderTask = reportEngine.createRenderTask( reportDocument );
 			        IRenderTask renderTask = new FixedRenderTask( (ReportEngine)reportEngine, reportRunnable, reportDocument );
 			        assertNotNull(renderTask);
 			        try {
 			        	File tempOutput = createTempFile(baseFilename( filename ), "." + outputFormat);
-			        	System.err.println( tempOutput );
 			        	FileOutputStream outputStream = new FileOutputStream( tempOutput ); 
 			        	
 				        assertNotNull(outputStream);
@@ -397,8 +418,9 @@ public class ReportRunner {
 					        assertEquals(0, renderTask.getErrors().size());					        
 				        } finally {
 							renderTime = System.currentTimeMillis();
-					        System.err.println( "Run " + baseFilename( filename ) + " : " + ((runTime - startTime) / 1000.0) + "s");
-					        System.err.println( "Render " + baseFilename( filename ) + " : " + ((renderTime - runTime) / 1000.0) + "s");
+					        System.err.println( "File " + testName.getMethodName() + ": " + baseFilename( filename ) + " : " + tempOutput );
+					        System.err.println( "Run " + testName.getMethodName() + ": " + baseFilename( filename ) + " : " + ((runTime - startTime) / 1000.0) + "s");
+					        System.err.println( "Render " + testName.getMethodName() + ": " + baseFilename( filename ) + " : " + ((renderTime - runTime) / 1000.0) + "s");
 				        	outputStream.close();
 				        }
 				        
@@ -504,6 +526,11 @@ public class ReportRunner {
 		if( outputStream != null ) {
 			renderOptions.setOutputStream( outputStream );
 		}
+		if( "xls".equals(outputFormat)) {
+			renderOptions.setEmitterID("uk.co.spudsoft.birt.emitters.excel.XlsEmitter");
+		} else if ( "xlsx".equals(outputFormat)) {
+			renderOptions.setEmitterID("uk.co.spudsoft.birt.emitters.excel.XlsxEmitter");
+		}
 		if( debug ) {
 			renderOptions.setOption( "ExcelEmitter.DEBUG", Boolean.TRUE);
 			debug = false;
@@ -555,6 +582,15 @@ public class ReportRunner {
 		}
 		if( templateFile != null ) {
 			renderOptions.setOption( ExcelEmitter.TEMPLATE_FILE, templateFile );
+		}
+		if( extractMode ) {
+			renderOptions.setOption( ExcelEmitter.EXTRACT_MODE, true );
+		}
+		if( noStyles ) {
+			renderOptions.setOption( ExcelEmitter.NO_STYLES, true );
+		}
+		if( forceRecalcuation ) {
+			renderOptions.setOption( ExcelEmitter.FORCE_RECALCULATION, true );
 		}
 		
 		return renderOptions;

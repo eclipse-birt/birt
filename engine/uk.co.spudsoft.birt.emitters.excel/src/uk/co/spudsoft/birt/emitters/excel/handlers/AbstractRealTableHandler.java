@@ -16,13 +16,18 @@ package uk.co.spudsoft.birt.emitters.excel.handlers;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.ss.util.SheetUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
+import org.eclipse.birt.report.engine.ir.ExtendedItemDesign;
 import org.eclipse.birt.report.engine.ir.GridItemDesign;
+import org.eclipse.birt.report.engine.ir.TableItemDesign;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 import uk.co.spudsoft.birt.emitters.excel.AreaBorders;
 import uk.co.spudsoft.birt.emitters.excel.BirtStyle;
@@ -38,12 +43,17 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 	protected int startCol;
 	protected int startDetailsRow = -1;
 	protected int endDetailsRow;
+	protected int startHeaderRow = -1;
 	
+	@SuppressWarnings("unused")
 	private ITableGroupContent currentGroup;
+	@SuppressWarnings("unused")
 	private ITableBandContent currentBand;
 	
 	private BirtStyle tableStyle;
 	private AreaBorders borderDefn;
+	
+	private boolean repeatHeader = false;
 	
 	private List< NestedTableHandler > nestedTables;
 
@@ -97,6 +107,29 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		
 		log.debug( "startTable @ [", startRow, ",", startCol, "]" );
 
+		repeatHeader = false;
+		Object genBy = ((IContent)table).getGenerateBy();
+		if( genBy instanceof TableItemDesign ) {
+			TableItemDesign design = (TableItemDesign)genBy;
+			repeatHeader = ( design.getPageBreakInterval() == 0 ) && design.isRepeatHeader();
+		} else if( genBy instanceof ExtendedItemDesign ) {
+			ExtendedItemDesign extDesign = (ExtendedItemDesign)genBy;
+			DesignElementHandle handle = extDesign.getHandle();
+			Object rowPageBreakInterval = handle.getProperty( "rowPageBreakInterval" );
+			if( rowPageBreakInterval == null ) {
+				rowPageBreakInterval = 40;
+			}
+			Object repeatRowHeader      = handle.getProperty( "repeatRowHeader" );
+			if( repeatRowHeader == null ) {
+				repeatRowHeader = Boolean.TRUE;
+			}
+			
+			if( ( rowPageBreakInterval instanceof Integer ) && ( repeatRowHeader instanceof Boolean ) ) {
+				repeatHeader = (((Integer)rowPageBreakInterval).intValue() == 0) && (((Boolean)repeatRowHeader).booleanValue());
+			}
+		}
+		
+		
 		for( int col = 0; col < table.getColumnCount(); ++col ) {
 			DimensionType width = table.getColumn(col).getWidth();
 			if( width != null ) {
@@ -123,7 +156,7 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 	@Override
 	public void endTable(HandlerState state, ITableContent table) throws BirtException {
 		if( table.getGenerateBy() instanceof GridItemDesign ) {
-			endDetailsRow = state.rowNum;
+			endDetailsRow = state.rowNum - 1;
 		}
 		
 		log.debug( "Applying bottom border to [", state.rowNum - 1, ",", startCol, "] - [", state.rowNum - 1, ",", startCol + table.getColumnCount() - 1, "]" );
@@ -135,12 +168,21 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		
 		log.debug( "Details rows from ", startDetailsRow, " to ", endDetailsRow );
 		
-		if( ( startDetailsRow > 0 ) && ( endDetailsRow > startDetailsRow ) ) {
+		int autoWidthStartRow = startDetailsRow;
+		if( EmitterServices.booleanOption( state.getRenderOptions(), table, ExcelEmitter.AUTO_COL_WIDTHS_HEADER, false ) ) {
+			autoWidthStartRow = startRow;
+		}
+		int autoWidthEndRow = endDetailsRow;
+		if( EmitterServices.booleanOption( state.getRenderOptions(), table, ExcelEmitter.AUTO_COL_WIDTHS_FOOTER, false ) ) {
+			autoWidthEndRow = state.rowNum - 1;
+		}
+		
+		if( ( autoWidthStartRow >= 0 ) && ( autoWidthEndRow > autoWidthStartRow ) ) {
 			boolean forceAutoColWidths = EmitterServices.booleanOption( state.getRenderOptions(), table, ExcelEmitter.FORCEAUTOCOLWIDTHS_PROP, false );
 			for( int col = 0; col < table.getColumnCount(); ++col ) {
 				int oldWidth = state.currentSheet.getColumnWidth(col);
 				if( forceAutoColWidths || ( oldWidth == 256 * state.currentSheet.getDefaultColumnWidth() ) ) {
-					FilteredSheet filteredSheet = new FilteredSheet( state.currentSheet, startDetailsRow, Math.min(endDetailsRow, startDetailsRow + 12) );
+					FilteredSheet filteredSheet = new FilteredSheet( state.currentSheet, autoWidthStartRow, Math.min(autoWidthEndRow, autoWidthStartRow + 12) );
 			        double calcWidth = SheetUtil.getColumnWidth( filteredSheet, col, false );
 
 			        if (calcWidth > 1.0) {
@@ -172,13 +214,16 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 		}
 		if( ! EmitterServices.booleanOption( state.getRenderOptions(), table, ExcelEmitter.DISPLAYZEROS_PROP, true ) ) {
 			state.currentSheet.setDisplayZeros(false);
-		}
+		}		
 	}
 
 	@Override
 	public void startTableBand(HandlerState state, ITableBandContent band) throws BirtException {
 		if( ( band.getBandType() == ITableBandContent.BAND_DETAIL ) && ( startDetailsRow < 0 ) ) {
 			startDetailsRow = state.rowNum;
+		}
+		if( ( band.getBandType() == ITableBandContent.BAND_HEADER ) && ( startHeaderRow < 0 )) {
+			startHeaderRow = state.rowNum;
 		}
 		currentBand = band;
 	}
@@ -187,6 +232,15 @@ public class AbstractRealTableHandler extends AbstractHandler implements ITableH
 	public void endTableBand(HandlerState state, ITableBandContent band) throws BirtException {
 		if( band.getBandType() == ITableBandContent.BAND_DETAIL ) {
 			endDetailsRow = state.rowNum - 1;
+		}
+		if( ( band.getBandType() == ITableBandContent.BAND_HEADER ) && repeatHeader && (state.rowNum > startHeaderRow) ) {
+			int endHeaderRow = state.rowNum - 1;
+			
+			if( state.currentSheet.getRepeatingRows() == null ) {
+				CellRangeAddress repeatingRows = new CellRangeAddress(startHeaderRow, endHeaderRow, -1, -1);
+				// repeatingRows = CellRangeAddress.valueOf( Integer.toString(startHeaderRow+1) + ":" + Integer.toString(endHeaderRow+1) );
+				state.currentSheet.setRepeatingRows(repeatingRows);
+			}
 		}
 		currentBand = null;
 	}

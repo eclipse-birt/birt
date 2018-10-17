@@ -41,11 +41,11 @@ public class Issue61SheetNameWithGroups extends ReportRunner {
 			Sheet firstSheet = workbook.getSheetAt(0);
 			assertEquals( 7, this.firstNullRow(firstSheet));
 		
-			assertEquals( "10100", firstSheet.getSheetName() );
+			assertEquals( "Sheet +10100", firstSheet.getSheetName() );
 			
 			for( Sheet sheet : workbook ) {
 				if( ! "Sheet326".equals( sheet.getSheetName() ) ) {
-					assertEquals( Integer.toString( (int)sheet.getRow(1).getCell(0).getNumericCellValue() ), sheet.getSheetName() );
+					assertEquals( "Sheet +" + Integer.toString( (int)sheet.getRow(1).getCell(0).getNumericCellValue() ), sheet.getSheetName() );
 				}
 			}
 			

@@ -1,44 +1,32 @@
 /*************************************************************************************
  * Copyright (c) 2011, 2012, 2013 James Talbut.
  *  jim-emitters@spudsoft.co.uk
- *
+ *  
  * All rights reserved. This program and the accompanying materials 
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
  * http://www.eclipse.org/legal/epl-v10.html
- *
+ * 
  * Contributors:
  *     James Talbut - Initial implementation.
  ************************************************************************************/
 
 package uk.co.spudsoft.birt.emitters.excel.handlers;
 
-import java.text.DecimalFormat;
-import java.text.DecimalFormatSymbols;
 import java.util.Collection;
+import java.util.regex.Pattern;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.POIXMLRelation;
-import org.apache.poi.hssf.usermodel.HSSFHeader;
-import org.apache.poi.openxml4j.opc.PackagePartName;
-import org.apache.poi.openxml4j.opc.PackageRelationship;
-import org.apache.poi.openxml4j.opc.PackageRelationshipTypes;
-import org.apache.poi.openxml4j.opc.TargetMode;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.Drawing;
-import org.apache.poi.ss.usermodel.Footer;
 import org.apache.poi.ss.usermodel.HeaderFooter;
 import org.apache.poi.ss.usermodel.PrintSetup;
+import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.xssf.usermodel.XSSFFactory;
-import org.apache.poi.xssf.usermodel.XSSFPictureData;
-import org.apache.poi.xssf.usermodel.XSSFSheet;
-import org.apache.poi.xssf.usermodel.XSSFVMLHeaderFooterImage;
-import org.apache.poi.xssf.usermodel.XSSFVMLHeaderFooterImage.ImageLocation;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IDataContent;
@@ -51,11 +39,8 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
-import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.util.ColorUtil;
 
 import uk.co.spudsoft.birt.emitters.excel.CellImage;
 import uk.co.spudsoft.birt.emitters.excel.ClientAnchorConversions;
@@ -68,8 +53,10 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class PageHandler extends AbstractHandler {
 	
-	private String vmlHFImageDrawingId;
-
+	private static Pattern INVALID_CHARS_REGEX = Pattern.compile( "[/\\\\*'?\\[\\]:]+" );
+	
+	boolean created;
+	
 	public PageHandler(Logger log, IPageContent page) {
 		super(log, null, page);
 	}
@@ -86,7 +73,7 @@ public class PageHandler extends AbstractHandler {
 	
 	private String contentAsString( HandlerState state, Object obj ) throws BirtException {
 		
-		StringCellHandler stringCellHandler = new StringCellHandler( state.getEmitter(), log, this,
+		StringCellHandler stringCellHandler = new StringCellHandler( state.getEmitter(), log, this, 
 				obj instanceof CellContent ? (CellContent)obj : null );
 		
 		state.setHandler(stringCellHandler);
@@ -98,7 +85,7 @@ public class PageHandler extends AbstractHandler {
 		return stringCellHandler.getString();
 	}
 	
-	@SuppressWarnings("rawtypes")
+	@SuppressWarnings("rawtypes") 
 	private void processHeaderFooter( HandlerState state, Collection birtHeaderFooter, HeaderFooter poiHeaderFooter ) throws BirtException {
 		boolean handledAsGrid = false;
 		for( Object ftrObject : birtHeaderFooter ) {
@@ -111,16 +98,16 @@ public class PageHandler extends AbstractHandler {
 						if( ftrTable.getColumnCount() <= 3 ) {
 							Object[] cellObjects = row.getChildren().toArray();
 							if( ftrTable.getColumnCount() == 1 ) {
-								setLeftFooterHeader( state, poiHeaderFooter, cellObjects[0]);
+								poiHeaderFooter.setLeft( contentAsString( state, cellObjects[ 0 ] ) );
 								handledAsGrid = true;
 							} else if( ftrTable.getColumnCount() == 2 ) {
-								setLeftFooterHeader(state, poiHeaderFooter, cellObjects[0]);
-								setRightFooterHeader(state, poiHeaderFooter, cellObjects[1]);
+								poiHeaderFooter.setLeft( contentAsString( state, cellObjects[ 0 ] ) );
+								poiHeaderFooter.setRight( contentAsString( state, cellObjects[ 1 ] ) );
 								handledAsGrid = true;
 							} else if( ftrTable.getColumnCount() == 3 ) {
-								setLeftFooterHeader(state, poiHeaderFooter, cellObjects[0]);
-								setCenterFooterHeader(state, poiHeaderFooter, cellObjects[1]);
-								setRightFooterHeader(state, poiHeaderFooter, cellObjects[2]);
+								poiHeaderFooter.setLeft( contentAsString( state, cellObjects[ 0 ] ) );
+								poiHeaderFooter.setCenter( contentAsString( state, cellObjects[ 1 ] ) );
+								poiHeaderFooter.setRight( contentAsString( state, cellObjects[ 2 ] ) );
 								handledAsGrid = true;
 							}
 						}
@@ -131,135 +118,6 @@ public class PageHandler extends AbstractHandler {
 				poiHeaderFooter.setLeft( contentAsString( state, ftrObject ) );
 			}
 		}
-	}
-
-	private void setLeftFooterHeader(HandlerState state, HeaderFooter poiHeaderFooter, Object cellObject) throws BirtException {
-		String style = getStyle((IContent) cellObject);
-		poiHeaderFooter.setLeft(contentAsStringWithStyle(state, cellObject, style));
-		addHeaderFooterImage(state, (IContent) cellObject, ImageLocation.getLeft(isFooter(poiHeaderFooter)));
-	}
-
-	private void setCenterFooterHeader(HandlerState state, HeaderFooter poiHeaderFooter, Object cellObject) throws BirtException {
-		String style = getStyle((IContent) cellObject);
-		poiHeaderFooter.setCenter(contentAsStringWithStyle(state, cellObject, style));
-		addHeaderFooterImage(state, (IContent) cellObject, ImageLocation.getCenter(isFooter(poiHeaderFooter)));
-	}
-
-	private void setRightFooterHeader(HandlerState state, HeaderFooter poiHeaderFooter, Object cellObject) throws BirtException {
-		String style = getStyle((IContent) cellObject);
-		poiHeaderFooter.setRight(contentAsStringWithStyle(state, cellObject, style));
-		addHeaderFooterImage(state, (IContent) cellObject, ImageLocation.getRight(isFooter(poiHeaderFooter)));
-	}
-
-	private String contentAsStringWithStyle(HandlerState state, Object cellObject, String style) throws BirtException {
-		String content = contentAsString(state, cellObject);
-		if (StringUtils.isEmpty(content) || "&G".equalsIgnoreCase(content)) {
-			return content;
-		} else {
-			return Character.isDigit(content.charAt(0)) ? style + " " + content : style + content;
-		}
-	}
-
-	private String getStyle(IContent content) {
-		return getHeaderFont(content) + getHeaderFontSize(content) + getHeaderBoldStyle(content) + getHeaderColor(content);
-	}
-
-	private String getHeaderBoldStyle(IContent content) {
-		if ("bold".equalsIgnoreCase(content.getComputedStyle().getFontWeight())) {
-			return HSSFHeader.startBold();
-		} else {
-			return "";
-		}
-	}
-
-	private String getHeaderColor(IContent content) {
-		String colorRRGGBBFormat = ColorUtil.format(content.getComputedStyle().getColor(), ColorUtil.HTML_FORMAT).substring(1);
-		return "000000".equals(colorRRGGBBFormat) ? "" : "&K" + colorRRGGBBFormat;
-	}
-
-	private String getHeaderFont(IContent content) {
-		String font = content.getComputedStyle().getFontFamily().replaceAll("^\"|\"$", "");
-		String style = content.getComputedStyle().getFontStyle();
-		return HSSFHeader.font(font, style);
-	}
-
-	private String getHeaderFontSize(IContent content) {
-		String fontSize = content.getComputedStyle().getFontSize();
-		double fontSizeInPt = DimensionType.parserUnit(fontSize).convertTo(DimensionType.UNITS_PT);
-		return HSSFHeader.fontSize((short) fontSizeInPt);
-	}
-
-	private boolean isFooter(HeaderFooter poiHeaderFooter) {
-		return poiHeaderFooter instanceof Footer;
-	}
-
-	@SuppressWarnings("unchecked")
-	private void addHeaderFooterImage(HandlerState state, IContent content, ImageLocation imageLocation) {
-		ImageContent image = (ImageContent) content.getChildren().stream().filter(c -> c instanceof ImageContent).findFirst().orElse(null);
-		if (image != null) {
-			Sheet sheet = state.currentSheet;
-			if (sheet instanceof XSSFSheet) {
-				addHeaderFooterImage(state, imageLocation, image, (XSSFSheet) sheet);
-			}
-		}
-	}
-
-	private void addHeaderFooterImage(HandlerState state, ImageLocation imageLocation, ImageContent image, XSSFSheet sheet) {
-		XSSFPictureData xssfPicture = addPicture(sheet.getWorkbook(), image, state);
-
-		XSSFVMLHeaderFooterImage vmlHFImageDrawing = getHFImageVmlDrawing(sheet);
-		PackagePartName pnIMG = xssfPicture.getPackagePart().getPartName();
-		PackageRelationship imageRelation = vmlHFImageDrawing.getPackagePart().addRelationship(pnIMG, TargetMode.INTERNAL,
-				PackageRelationshipTypes.IMAGE_PART);
-
-		vmlHFImageDrawing.newHeaderFooterImageShape(imageLocation, getHFImageStyle(image), imageRelation.getId());
-
-	}
-
-	private String getHFImageStyle(ImageContent image) {
-		DecimalFormat formatter = new DecimalFormat("#0.00");
-		DecimalFormatSymbols newDecimalSeparator = formatter.getDecimalFormatSymbols();
-		newDecimalSeparator.setDecimalSeparator('.');
-		formatter.setDecimalFormatSymbols(newDecimalSeparator);
-		String widthInPt = convertToPtExceptPx(image.getWidth(), formatter);
-		String heightInPt = convertToPtExceptPx(image.getHeight(), formatter);
-		return String.format("position:absolute;margin-left:0;margin-top:0;width:%s;height:%s;z-index:1", widthInPt, heightInPt);
-	}
-
-	private String convertToPtExceptPx(DimensionType dimension, DecimalFormat formatter) {
-		String result = "";
-		if (DesignChoiceConstants.UNITS_PX.equalsIgnoreCase(dimension.getUnits())) {
-			result = formatter.format(dimension.getMeasure()) + "px";
-		} else {
-			result = formatter.format(dimension.convertTo(DimensionType.UNITS_PT)) + "pt";
-		}
-		return result;
-	}
-
-	private XSSFVMLHeaderFooterImage getHFImageVmlDrawing(XSSFSheet sheet) {
-		if (vmlHFImageDrawingId == null) {
-			POIXMLRelation vmlDrawingNewRelation = new POIXMLRelation("application/vnd.openxmlformats-officedocument.vmlDrawing",
-					"http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing", "/xl/drawings/vmlDrawing#.vml",
-					XSSFVMLHeaderFooterImage.class) {
-			};
-			XSSFVMLHeaderFooterImage vmlHFImageDrawing = (XSSFVMLHeaderFooterImage) sheet.createRelationship(vmlDrawingNewRelation,
-					XSSFFactory.getInstance());
-			vmlHFImageDrawingId = sheet.getRelationId(vmlHFImageDrawing);
-			sheet.getCTWorksheet().addNewLegacyDrawingHF();
-			sheet.getCTWorksheet().getLegacyDrawingHF().setId(vmlHFImageDrawingId);
-			return vmlHFImageDrawing;
-		} else {
-			return (XSSFVMLHeaderFooterImage) sheet.getRelationById(vmlHFImageDrawingId);
-		}
-
-	}
-
-	private XSSFPictureData addPicture(Workbook workbook, ImageContent image, HandlerState state) {
-		byte[] data = image.getData();
-		String mimeType = image.getMIMEType();
-		int imageType = state.getSmu().poiImageTypeFromMimeType(mimeType, data);
-		int pictureId = workbook.addPicture(data, imageType);
-		return (XSSFPictureData) workbook.getAllPictures().get(pictureId);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -273,8 +131,20 @@ public class PageHandler extends AbstractHandler {
 		
 	}
 	
+	private void cleanSheet( Sheet sheet ) {
+		for( int i = 0; i < sheet.getNumMergedRegions(); ++i ) {
+			sheet.removeMergedRegion(i);
+		}
+		while( sheet.getPhysicalNumberOfRows() > 0 ) {
+			Row row = sheet.getRow(sheet.getLastRowNum());
+			sheet.removeRow(row);
+		}
+	}
+	
 	@Override
 	public void startPage(HandlerState state, IPageContent page) throws BirtException {
+		
+		element = page;
 		
 		if( state.getWb().getNumberOfSheets() > 0 ) {
 			if( EmitterServices.booleanOption( state.getRenderOptions(), page, ExcelEmitter.SINGLE_SHEET_PAGE_BREAKS, false ) ) {
@@ -285,7 +155,56 @@ public class PageHandler extends AbstractHandler {
 			}
 		}
 		
-	    state.currentSheet = state.getWb().createSheet();
+	    state.currentSheet = null;
+	    created = false;
+	}
+	
+	private void createSheet(HandlerState state, IContent newElement) throws BirtException {
+		if( created ) {
+			return ;
+		}
+		IPageContent page = (IPageContent)element;
+		if( EmitterServices.booleanOption( state.getRenderOptions(), page, ExcelEmitter.SINGLE_SHEET, false )  
+				&& state.getWb().getNumberOfSheets() > 0 ) {
+			return ;
+		}		
+		
+		String pageLabel = null;
+		IReportContext reportContext = page.getReportContent().getReportContext();
+		if( reportContext != null ) {
+			Object pageLabelObject = reportContext.getPageVariable( IReportContext.PAGE_VAR_PAGE_LABEL );
+			if( pageLabelObject instanceof String ) {
+				pageLabel = (String)pageLabel;
+			}
+		}
+		if( pageLabel == null ) {
+			String name = newElement.getName();
+			if( ( name != null ) && ! name.isEmpty() ) {
+				pageLabel = name;
+			}
+		}
+		if( pageLabel == null ) {
+			String name = page.getReportContent().getTitle();
+			if( ( name != null ) && ! name.isEmpty() ) {
+				pageLabel = name;
+			}
+		}
+			
+		if( pageLabel != null ) {
+			state.sheetName = null;
+			String sheetName = prepareSheetName(state, pageLabel);
+			int sheetIndex = findNamedSheetIndex( state.getWb(), sheetName );
+			if( sheetIndex >= 0 ) {
+				state.currentSheet = state.getWb().getSheetAt( sheetIndex );
+				cleanSheet( state.currentSheet );
+			} else {
+				state.currentSheet = state.getWb().createSheet( sheetName );
+			}
+		} else {
+			state.currentSheet = state.getWb().createSheet();
+		}
+		created = true;
+		
 		log.debug("Page type: ", page.getPageType());
 		
 		if( page.getPageType() != null ) {
@@ -319,65 +238,90 @@ public class PageHandler extends AbstractHandler {
 			state.currentSheet.getPrintSetup().setScale((short)printScale);
 		}
 		
-		if( EmitterServices.booleanOption( state.getRenderOptions(), page, ExcelEmitter.STRUCTURED_HEADER, false ) ) {
+		boolean structuredHeader =
+				! state.getEmitter().isExtractMode()
+				&& EmitterServices.booleanOption( state.getRenderOptions(), page, ExcelEmitter.STRUCTURED_HEADER, false );
+		if( structuredHeader ) {
 			outputStructuredHeaderFooter(state, page.getHeader());
 		} else {
 			processHeaderFooter(state, page.getHeader(), state.currentSheet.getHeader() );
 			processHeaderFooter(state, page.getFooter(), state.currentSheet.getFooter() );
-		}
+		} 
 		
-		state.getSmu().prepareMarginDimensions(state.currentSheet, page);
+		state.getSmu().prepareMarginDimensions(state.currentSheet, page, !structuredHeader);
 	}
 	
-	private String prepareSheetName( HandlerState state ) {
-		if( state.sheetName != null ) {
-			String preparedName = state.sheetName;
-			Integer nameCount = state.sheetNames.get(preparedName);
-			if( nameCount != null ) {
-				++nameCount;
-				state.sheetNames.put(preparedName, nameCount);
-				preparedName = preparedName + " " + nameCount;
-			} else {
-				state.sheetNames.put(preparedName,1);
+	private String prepareSheetName( HandlerState state, String proposedName ) {
+		// Strip invalid chars
+		proposedName = INVALID_CHARS_REGEX.matcher(proposedName).replaceAll(" ");
+		
+		String preparedName = proposedName.length() > 31 ? proposedName.substring(0,31) : proposedName;
+		
+		// Check whether there are really any sheets with that name
+		boolean found = false;
+		Workbook wb = state.getWb();
+		for( int i = 0; i < wb.getNumberOfSheets(); ++i ) {
+			if( wb.getSheetName( i ).startsWith( preparedName ) ) {
+				found = true;
+				break;
 			}
-			return preparedName;
 		}
-		return null;
+		if( ! found ) {
+			state.sheetNames.remove(preparedName);
+		}
+				
+		Integer nameCount = state.sheetNames.get(preparedName);
+		if( nameCount != null ) {
+			++nameCount;
+			String suffix = " " + nameCount;			
+			state.sheetNames.put(preparedName, nameCount);
+			if( preparedName.length() > 31 - suffix.length() ) {
+				preparedName = preparedName.substring(0,31 - suffix.length()) + " " + nameCount;
+			} else {
+				preparedName = preparedName + " " + nameCount;
+			}
+		} else {
+			state.sheetNames.put(preparedName,1);
+		}
+		return preparedName;
+	}
+	
+	private int findNamedSheetIndex( Workbook workbook, String sheetName ) {
+		for( int i = 0; i < workbook.getNumberOfSheets(); ++i ) {
+			if( workbook.getSheetName(i).equalsIgnoreCase(sheetName)) {
+				log.debug("Found matching sheet at ", i, " \"", workbook.getSheetName(i), "\"" );
+				return i;
+			}
+		}
+		return -1;
+	}
+	
+	private int sheetIndex( Workbook workbook, Sheet sheet ) {
+		for( int i = 0; i < workbook.getNumberOfSheets(); ++i ) {
+			if( workbook.getSheetAt(i) == sheet ) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	@Override
 	public void endPage(HandlerState state, IPageContent page) throws BirtException {
 		
-		if( EmitterServices.booleanOption( state.getRenderOptions(), page, ExcelEmitter.SINGLE_SHEET, false )
+		if( ( state.sheetName != null ) && ! state.sheetName.isEmpty() ) {
+			String newSheetName = prepareSheetName( state, state.sheetName );
+			state.getWb().setSheetName( sheetIndex( state.getWb(), state.currentSheet ), newSheetName );
+		}
+		
+		if( EmitterServices.booleanOption( state.getRenderOptions(), page, ExcelEmitter.SINGLE_SHEET, false )  
 			&& ! state.reportEnding ) {
 			return ;
-		}
+		}		
 		
 		if( EmitterServices.booleanOption( state.getRenderOptions(), page, ExcelEmitter.STRUCTURED_HEADER, false ) ) {
 			outputStructuredHeaderFooter(state, page.getFooter());
-		}
+		} 
 		
-		String sheetName = prepareSheetName( state );
-		if( sheetName != null ) {
-			log.debug("Attempting to name sheet ", ( state.getWb().getNumberOfSheets() - 1 ), " \"", sheetName, "\" ");
-			int existingSheetIndex = -1;
-			for( int i = 0; i < state.getWb().getNumberOfSheets() - 1; ++i ) {
-				if( state.getWb().getSheetName(i).equals(sheetName)) {
-					log.debug("Found matching sheet at ", i, " \"", state.getWb().getSheetName(i), "\"" );
-					existingSheetIndex = i;
-					break;
-				}
-			}
-			if (existingSheetIndex >= 0) {
-				log.debug("Deleting sheet at ", existingSheetIndex, " \"", state.getWb().getSheetName(existingSheetIndex), "\"" );
-				state.getWb().removeSheetAt(existingSheetIndex);
-			}
-			state.getWb().setSheetName(state.getWb().getNumberOfSheets() - 1, sheetName);
-			if (existingSheetIndex >= 0) {
-				state.getWb().setSheetOrder(sheetName,existingSheetIndex);
-			}
-			state.sheetName = null;
-		}
 		if( state.sheetPassword != null ) {
 			log.debug("Attempting to protect sheet ", ( state.getWb().getNumberOfSheets() - 1 ) );
 			state.currentSheet.protectSheet( state.sheetPassword );
@@ -388,12 +332,6 @@ public class PageHandler extends AbstractHandler {
 		if( ! state.images.isEmpty() ) {
 			drawing = state.currentSheet.createDrawingPatriarch();
 		}
-
-		boolean removeZeroHeightRows = EmitterServices.booleanOption(state.getRenderOptions(), page, ExcelEmitter.REMOVE_ZERO_HEIGHT_ROWS, true);
-		if (removeZeroHeightRows) {
-			removeZeroHeightRows(state);
-		}
-
 		for( CellImage cellImage : state.images ) {
 			processCellImage(state,drawing,cellImage);
 		}
@@ -403,23 +341,11 @@ public class PageHandler extends AbstractHandler {
 		state.clearRowSpans();
 		state.areaBorders.clear();
 		
+		created = false;		
 		state.currentSheet = null;
+		state.sheetName = null;
 	}
 	
-	private void removeZeroHeightRows(HandlerState state) {
-		Sheet sheet = state.currentSheet;
-		for (int j = 0; j < sheet.getLastRowNum(); j++) {
-			if (sheet.getRow(j).getHeight() == 0) {
-				sheet.shiftRows(j + 1, sheet.getLastRowNum(), -1, true, false);
-				int curentColumn = j;
-				state.images.stream().filter(image -> image.location.getRow() > curentColumn)
-						.forEach(image -> image.location.setRow(image.location.getRow() - 1));
-				--j;
-			}
-		}
-
-	}
-
 	private CellRangeAddress getMergedRegionBegunBy( Sheet sheet, int row, int col ) {
 		for( int i = 0; i < sheet.getNumMergedRegions(); ++i ) {
 			CellRangeAddress range = sheet.getMergedRegion(i);
@@ -442,9 +368,15 @@ public class PageHandler extends AbstractHandler {
 	private void processCellImage( HandlerState state, Drawing drawing, CellImage cellImage ) {
 		Coordinate location = cellImage.location;
 		
+		if( state.currentSheet.getRow( location.getRow() ) == null ) {
+			state.currentSheet.createRow( location.getRow() );
+		}
+		if( state.currentSheet.getRow( location.getRow() ).getCell( location.getCol() ) == null ) {
+			state.currentSheet.getRow( location.getRow() ).createCell( location.getCol() );
+		}
 		Cell cell = state.currentSheet.getRow( location.getRow() ).getCell( location.getCol() );
 
-		IImageContent image = cellImage.image;
+		IImageContent image = cellImage.image;		
 		
 		StyleManagerUtils smu = state.getSmu();
 		float ptHeight = cell.getRow().getHeightInPoints();
@@ -456,20 +388,20 @@ public class PageHandler extends AbstractHandler {
 		int endCol = cell.getColumnIndex();
         double lastColWidth = ClientAnchorConversions.widthUnits2Millimetres( (short)state.currentSheet.getColumnWidth( endCol ) )
         		+ 2.0;
-        int dx = smu.anchorDxFromMM( lastColWidth, lastColWidth );
         double mmWidth = 0.0;
         if( smu.isAbsolute(image.getWidth())) {
             mmWidth = image.getWidth().convertTo(DimensionType.UNITS_MM);
         } else if(smu.isPixels(image.getWidth())) {
             mmWidth = ClientAnchorConversions.pixels2Millimetres( image.getWidth().getMeasure() );
         }
+        int dx = smu.anchorDxFromMM( mmWidth, lastColWidth );
 		// Allow image to span multiple columns
 		CellRangeAddress mergedRegion = getMergedRegionBegunBy( state.currentSheet, location.getRow(), location.getCol() );
 		if( (cellImage.spanColumns) || ( mergedRegion != null ) ) {
 	        log.debug( "Image size: ", image.getWidth(), " translates as mmWidth = ", mmWidth );
 	        if( mmWidth > 0) {
 	            double mmAccumulatedWidth = 0;
-	            int endColLimit = cellImage.spanColumns ? cell.getColumnIndex() + 256 : mergedRegion.getLastColumn();
+	            int endColLimit = cellImage.spanColumns ? 256 : mergedRegion.getLastColumn();
 	            for( endCol = cell.getColumnIndex(); mmAccumulatedWidth < mmWidth && endCol < endColLimit; ++ endCol ) {
 	                lastColWidth = ClientAnchorConversions.widthUnits2Millimetres( (short)state.currentSheet.getColumnWidth( endCol ) )
 	                		+ 2.0;
@@ -483,9 +415,6 @@ public class PageHandler extends AbstractHandler {
 	                dx = smu.anchorDxFromMM( mmShort, lastColWidth );
 	            }
 	        }
-		} else {
-			float widthRatio = (float)(mmWidth / lastColWidth);
-			ptHeight = ptHeight / widthRatio;
 		}
 
 		int rowsSpanned = state.findRowsSpanned( cell.getRowIndex(), cell.getColumnIndex() );
@@ -493,7 +422,9 @@ public class PageHandler extends AbstractHandler {
 		
 		for( int i = 0; i < rowsSpanned; ++i ) {
 			int rowIndex = cell.getRowIndex() + 1 + i;
-			neededRowHeightPoints -= state.currentSheet.getRow(rowIndex).getHeightInPoints();
+			if( state.currentSheet.getRow(rowIndex) != null ) {
+				neededRowHeightPoints -= state.currentSheet.getRow(rowIndex).getHeightInPoints();
+			}
 		}
 		
 		if( neededRowHeightPoints > cell.getRow().getHeightInPoints()) {
@@ -515,48 +446,56 @@ public class PageHandler extends AbstractHandler {
 	
 	@Override
 	public void startList(HandlerState state, IListContent list) throws BirtException {
+		createSheet( state, list );
 		state.setHandler(new TopLevelListHandler(log,this,list));
 		state.getHandler().startList(state, list);
 	}
 
 	@Override
 	public void startTable(HandlerState state, ITableContent table) throws BirtException {
+		createSheet( state, table );
 		state.setHandler(new TopLevelTableHandler(log,this,table));
 		state.getHandler().startTable(state, table);
 	}
 
 	@Override
 	public void emitText(HandlerState state, ITextContent text) throws BirtException {
+		createSheet( state, text );
 		state.setHandler(new TopLevelContentHandler(state.getEmitter(), log, this));
 		state.getHandler().emitText(state, text);
 	}
 
 	@Override
 	public void emitData(HandlerState state, IDataContent data) throws BirtException {
+		createSheet( state, data );
 		state.setHandler(new TopLevelContentHandler(state.getEmitter(), log, this));
 		state.getHandler().emitData(state, data);
 	}
 
 	@Override
 	public void emitLabel(HandlerState state, ILabelContent label) throws BirtException {
+		createSheet( state, label );
 		state.setHandler(new TopLevelContentHandler(state.getEmitter(), log, this));
 		state.getHandler().emitLabel(state, label);
 	}
 
 	@Override
 	public void emitAutoText(HandlerState state, IAutoTextContent autoText) throws BirtException {
+		createSheet( state, autoText );
 		state.setHandler(new TopLevelContentHandler(state.getEmitter(), log, this));
 		state.getHandler().emitAutoText(state, autoText);
 	}
 
 	@Override
 	public void emitForeign(HandlerState state, IForeignContent foreign) throws BirtException {
+		createSheet( state, foreign );
 		state.setHandler(new TopLevelContentHandler(state.getEmitter(), log, this));
 		state.getHandler().emitForeign(state, foreign);
 	}
 
 	@Override
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
+		createSheet( state, image );
 		state.setHandler(new TopLevelContentHandler(state.getEmitter(), log, this));
 		state.getHandler().emitImage(state, image);
 	}

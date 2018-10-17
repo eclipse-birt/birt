@@ -589,6 +589,7 @@ public class FixedRenderTask extends EngineTask implements IRenderTask
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
 				LayoutEngine pdfEmitter = new LayoutEngine(
+						executor,
 						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
 						emitter,
 						renderOptions, executionContext,
@@ -740,6 +741,7 @@ public class FixedRenderTask extends EngineTask implements IRenderTask
 			if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( pagination ) )
 			{
 				emitter = new LayoutEngine(
+						executor,
 						( (HTMLReportLayoutEngine) layoutEngine ).getContext( ),
 						emitter, renderOptions, executionContext,
 						getDocumentTotalPage( ) );

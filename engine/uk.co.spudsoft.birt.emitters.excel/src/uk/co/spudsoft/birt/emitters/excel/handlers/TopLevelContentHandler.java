@@ -20,12 +20,12 @@ import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 
 import uk.co.spudsoft.birt.emitters.excel.Coordinate;
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
+import uk.co.spudsoft.birt.emitters.excel.StylePropertyIndexes;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class TopLevelContentHandler extends CellContentHandler {
@@ -40,10 +40,10 @@ public class TopLevelContentHandler extends CellContentHandler {
 		log.debug( "Creating row ", state.rowNum, " for text" );
 		state.currentSheet.createRow( state.rowNum );
 
-		emitContent(state, text, text.getText(), ( ! "inline".equals( getStyleProperty(text, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state, text, text.getText(), ( ! "inline".equals( getStyleProperty(text, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 
 		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell( 0 );
-		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		// currentCell.setCellType(Cell.CELL_TYPE_BLANK);
 				
 		endCellContent(state, null, text, currentCell, null);
 
@@ -56,10 +56,10 @@ public class TopLevelContentHandler extends CellContentHandler {
 		log.debug( "Creating row ", state.rowNum, " for data" );
 		state.currentSheet.createRow( state.rowNum );
 
-		emitContent(state, data, data.getValue(), ( ! "inline".equals( getStyleProperty(data, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state, data, data.getValue(), ( ! "inline".equals( getStyleProperty(data, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 
 		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell( 0 );
-		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		// currentCell.setCellType(Cell.CELL_TYPE_BLANK);
 				
 		endCellContent(state, null, data, currentCell, null);
 
@@ -73,10 +73,10 @@ public class TopLevelContentHandler extends CellContentHandler {
 		state.currentSheet.createRow( state.rowNum );
 
 		String labelText = ( label.getLabelText() != null ) ? label.getLabelText() : label.getText();
-		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block") ) ));
+		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ));
 
 		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell( 0 );
-		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		// currentCell.setCellType(Cell.CELL_TYPE_BLANK);
 				
 		endCellContent(state, null, label, currentCell, null);
 
@@ -104,7 +104,7 @@ public class TopLevelContentHandler extends CellContentHandler {
 
 		recordImage(state, new Coordinate( state.rowNum, 0 ), image, true);
 		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell( 0 );
-		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
+		// currentCell.setCellType(Cell.CELL_TYPE_BLANK);
 				
 		endCellContent(state, null, image, currentCell, null);
 

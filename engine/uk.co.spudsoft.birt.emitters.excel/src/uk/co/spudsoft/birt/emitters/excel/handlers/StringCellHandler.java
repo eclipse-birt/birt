@@ -25,13 +25,12 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
-import org.eclipse.birt.report.engine.content.impl.ImageContent;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.layout.pdf.util.HTML2Content;
 
 import uk.co.spudsoft.birt.emitters.excel.Area;
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
+import uk.co.spudsoft.birt.emitters.excel.StylePropertyIndexes;
 import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class StringCellHandler extends CellContentHandler {
@@ -69,7 +68,6 @@ public class StringCellHandler extends CellContentHandler {
 			contentVisitor.visitAutoText( (IAutoTextContent)obj, null );
 		}  else if( obj instanceof IForeignContent ) {
 			contentVisitor.visitForeign( (IForeignContent)obj, null );
-		} else if( obj instanceof ImageContent ) {
 		} else {
 			log.warn(0, "Not visiting " + obj.getClass(), null);
 		}
@@ -102,24 +100,24 @@ public class StringCellHandler extends CellContentHandler {
 	public void emitText(HandlerState state, ITextContent text) throws BirtException {
 		String textText = text.getText();
 		log.debug( "text:", textText );
-		emitContent(state,text,textText, ( ! "inline".equals( getStyleProperty(text, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state,text,textText, ( ! "inline".equals( getStyleProperty(text, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 	}
 
 	@Override
 	public void emitData(HandlerState state, IDataContent data) throws BirtException {
-		emitContent(state,data,data.getValue(), ( ! "inline".equals( getStyleProperty(data, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state,data,data.getValue(), ( ! "inline".equals( getStyleProperty(data, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 	}
 
 	@Override
 	public void emitLabel(HandlerState state, ILabelContent label) throws BirtException {
 		String labelText = ( label.getLabelText() != null ) ? label.getLabelText() : label.getText();
 		log.debug( "labelText:" + labelText );
-		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block") ) ));
+		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ));
 	}
 
 	@Override
 	public void emitAutoText(HandlerState state, IAutoTextContent autoText) throws BirtException {
-		emitContent(state,autoText,autoText.getText(), ( ! "inline".equals( getStyleProperty(autoText, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state,autoText,autoText.getText(), ( ! "inline".equals( getStyleProperty(autoText, StylePropertyIndexes.STYLE_DISPLAY, "block") ) ) );
 	}
 
 	@Override
@@ -135,13 +133,11 @@ public class StringCellHandler extends CellContentHandler {
 
 	@Override
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
-		log.debug( "image:" + image.getName() );
-		emitContent(state, image, "&G", false);
 	}
 
 	@Override
 	public void endContainer(HandlerState state, IContainerContent container) throws BirtException {
-		lastCellContentsWasBlock = ( ! "inline".equals( getStyleProperty(container, StyleConstants.STYLE_DISPLAY, "block") ) );
+		lastCellContentsWasBlock = ( ! "inline".equals( getStyleProperty(container, StylePropertyIndexes.STYLE_DISPLAY, "block") ) );
 	}
 			
 	

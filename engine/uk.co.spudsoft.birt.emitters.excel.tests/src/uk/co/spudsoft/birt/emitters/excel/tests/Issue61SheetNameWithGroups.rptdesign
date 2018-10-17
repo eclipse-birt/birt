@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 3.7.2.v20120213 Build &lt;3.7.2.v20120214-1408></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.3.0.v201306041519 Build &lt;4.3.0.v20130611-1045></property>
     <property name="units">in</property>
     <property name="iconFile">/templates/blank_report.gif</property>
     <property name="bidiLayoutOrientation">ltr</property>
@@ -447,7 +447,7 @@ from orderdetails]]></xml-property>
                 <expression name="keyExpr" type="javascript">row["ORDERNUMBER"]</expression>
                 <expression name="bookmark" type="javascript">row["ORDERNUMBER"]</expression>
                 <structure name="toc">
-                    <expression name="expressionValue" type="javascript">row["ORDERNUMBER"]</expression>
+                    <expression name="expressionValue" type="javascript">'Sheet[/\\*\'?[\]:]+' + row["ORDERNUMBER"]</expression>
                 </structure>
                 <property name="hideDetail">false</property>
                 <property name="pageBreakAfter">always</property>

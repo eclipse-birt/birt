@@ -13,7 +13,6 @@
 
 package uk.co.spudsoft.birt.emitters.excel;
 
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.w3c.dom.css.CSSValue;
 
@@ -51,18 +50,18 @@ public class AreaBorders {
 	
 	public static AreaBorders create(boolean isMergedCells, int bottom, int left, int right, int top, BirtStyle borderStyle) {
 		
-		CSSValue borderStyleBottom = borderStyle.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_STYLE );
-		CSSValue borderWidthBottom = borderStyle.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_WIDTH );
-		CSSValue borderColourBottom = borderStyle.getProperty( StyleConstants.STYLE_BORDER_BOTTOM_COLOR );
-		CSSValue borderStyleLeft = borderStyle.getProperty( StyleConstants.STYLE_BORDER_LEFT_STYLE );
-		CSSValue borderWidthLeft = borderStyle.getProperty( StyleConstants.STYLE_BORDER_LEFT_WIDTH );
-		CSSValue borderColourLeft = borderStyle.getProperty( StyleConstants.STYLE_BORDER_LEFT_COLOR );
-		CSSValue borderStyleRight = borderStyle.getProperty( StyleConstants.STYLE_BORDER_RIGHT_STYLE );
-		CSSValue borderWidthRight = borderStyle.getProperty( StyleConstants.STYLE_BORDER_RIGHT_WIDTH );
-		CSSValue borderColourRight = borderStyle.getProperty( StyleConstants.STYLE_BORDER_RIGHT_COLOR );
-		CSSValue borderStyleTop = borderStyle.getProperty( StyleConstants.STYLE_BORDER_TOP_STYLE );
-		CSSValue borderWidthTop = borderStyle.getProperty( StyleConstants.STYLE_BORDER_TOP_WIDTH );
-		CSSValue borderColourTop = borderStyle.getProperty( StyleConstants.STYLE_BORDER_TOP_COLOR );
+		CSSValue borderStyleBottom = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_BOTTOM_STYLE );
+		CSSValue borderWidthBottom = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_BOTTOM_WIDTH );
+		CSSValue borderColourBottom = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_BOTTOM_COLOR );
+		CSSValue borderStyleLeft = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_LEFT_STYLE );
+		CSSValue borderWidthLeft = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_LEFT_WIDTH );
+		CSSValue borderColourLeft = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_LEFT_COLOR );
+		CSSValue borderStyleRight = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_RIGHT_STYLE );
+		CSSValue borderWidthRight = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_RIGHT_WIDTH );
+		CSSValue borderColourRight = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_RIGHT_COLOR );
+		CSSValue borderStyleTop = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_TOP_STYLE );
+		CSSValue borderWidthTop = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_TOP_WIDTH );
+		CSSValue borderColourTop = borderStyle.getProperty( StylePropertyIndexes.STYLE_BORDER_TOP_COLOR );
 				
 /*		borderMsg.append( ", Bottom:" ).append( borderStyleBottom ).append( "/" ).append( borderWidthBottom ).append( "/" + borderColourBottom );
 		borderMsg.append( ", Left:" ).append( borderStyleLeft ).append( "/" ).append( borderWidthLeft ).append( "/" + borderColourLeft );

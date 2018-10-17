@@ -23,6 +23,7 @@ import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IListContent;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
+import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
@@ -36,6 +37,14 @@ public class FlattenedListHandler extends AbstractHandler {
 		super(log, parent, element);
 		this.contentHandler = contentHandler;
 	}
+
+
+	@Override
+	public void startTable(HandlerState state, ITableContent table) throws BirtException {
+		state.setHandler(new FlattenedTableHandler(contentHandler, log, this, table));
+		state.getHandler().startTable(state, table);
+	}
+
 
 	@Override
 	public void startList(HandlerState state, IListContent list) throws BirtException {

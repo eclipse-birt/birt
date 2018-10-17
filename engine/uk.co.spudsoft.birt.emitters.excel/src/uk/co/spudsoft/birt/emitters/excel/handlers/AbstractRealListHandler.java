@@ -30,18 +30,33 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class AbstractRealListHandler extends AbstractHandler implements NestedTableContainer {
 
-	protected int startRow;
-	protected int startCol;
+	protected int startRow = -1;
+	protected int startCol = -1;
 	
+	@SuppressWarnings("unused")
 	private IListGroupContent currentGroup;
+	@SuppressWarnings("unused")
 	private IListBandContent currentBand;
 	
 	private AreaBorders borderDefn;
 
 	private List< NestedTableHandler > nestedTables;
+	private NestedTableHandler lastNestedTable;
 	
 	public AbstractRealListHandler(Logger log, IHandler parent, IListContent list) {
 		super(log, parent, list);
+	}
+	
+	@Override
+	public void notifyHandler(HandlerState state) {
+		super.notifyHandler(state);
+		if( startCol >= 0 ) {
+			state.colNum = startCol;
+			if( lastNestedTable != null ) {
+				state.rowNum = lastNestedTable.endDetailsRow + 1;
+				lastNestedTable = null;
+			}
+		}
 	}
 
 	public void addNestedTable( NestedTableHandler nestedTableHandler ) {
@@ -50,6 +65,7 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 		}
 		log.debug( "Adding nested table: ", nestedTableHandler );
 		nestedTables.add(nestedTableHandler);
+		lastNestedTable = nestedTableHandler;
 	}
 	
 	public boolean rowHasNestedTable( int rowNum ) {
@@ -109,7 +125,7 @@ public class AbstractRealListHandler extends AbstractHandler implements NestedTa
 			state.removeBorderOverload(borderDefn);
 		}
 		
-		if( list.getBookmark() != null ) {
+		if( ( list.getBookmark() != null ) && ( state.rowNum > startRow ) ) {
 			createName(state, prepareName( list.getBookmark() ), startRow, 0, state.rowNum - 1, 0);
 		}
 		

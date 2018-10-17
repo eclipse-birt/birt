@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301221637 Build &lt;4.2.2.v20130206-1509></property>
     <text-property name="title">Page Layout Test</text-property>
     <property name="units">cm</property>
     <property name="iconFile">/templates/blank_report.gif</property>
@@ -56,6 +56,7 @@
             <property name="footerHeight">1cm</property>
             <page-header>
                 <label id="7">
+                    <property name="backgroundColor">orange</property>
                     <text-property name="text">Header</text-property>
                 </label>
             </page-header>
@@ -68,6 +69,7 @@
     </page-setup>
     <body>
         <label id="9">
+            <property name="backgroundColor">green</property>
             <text-property name="text">Top</text-property>
         </label>
     </body>

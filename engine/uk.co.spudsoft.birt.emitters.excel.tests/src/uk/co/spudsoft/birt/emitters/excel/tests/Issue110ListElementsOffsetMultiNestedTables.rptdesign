@@ -1,0 +1,1098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301221637 Build &lt;4.2.2.v20130206-1509></property>
+    <list-property name="userProperties">
+        <structure>
+            <property name="name">Data Cube.Data Set.x</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+        <structure>
+            <property name="name">Data Cube.Data Set.y</property>
+            <property name="type">integer</property>
+            <property name="isVisible">false</property>
+        </structure>
+    </list-property>
+    <property name="Data Cube.Data Set.x">135</property>
+    <property name="Data Cube.Data Set.y">80</property>
+    <property name="units">in</property>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">72</property>
+    <data-sources>
+        <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="Data Source" id="7">
+            <list-property name="privateDriverProperties">
+                <ex-property>
+                    <name>contentBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+                <ex-property>
+                    <name>metadataBidiFormatStr</name>
+                    <value>ILYNN</value>
+                </ex-property>
+            </list-property>
+            <property name="odaDriverClass">org.eclipse.birt.report.data.oda.sampledb.Driver</property>
+            <property name="odaURL">jdbc:classicmodels:sampledb</property>
+            <property name="odaUser">ClassicModels</property>
+        </oda-data-source>
+    </data-sources>
+    <data-sets>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="Data Set" id="9">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">LINE</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">LINE</text-property>
+                    <text-property name="heading">LINE</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">NAME</property>
+                    <property name="analysis">dimension</property>
+                    <text-property name="displayName">NAME</text-property>
+                    <text-property name="heading">NAME</text-property>
+                </structure>
+                <structure>
+                    <property name="columnName">PERCENT</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">PERCENT</text-property>
+                    <text-property name="heading">PERCENT</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">LINE</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">NAME</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">PERCENT</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">LINE</property>
+                    <property name="nativeName">LINE</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">NAME</property>
+                    <property name="nativeName">NAME</property>
+                    <property name="dataType">string</property>
+                    <property name="nativeDataType">12</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">PERCENT</property>
+                    <property name="nativeName">PERCENT</property>
+                    <property name="dataType">float</property>
+                    <property name="nativeDataType">8</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select 
+productline as line,
+productname as name,
+buyprice/100 as percent
+from 
+products
+where productline = 'Motorcycles' and productscale = '1:10']]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ORDERNUMBER</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ORDERNUMBER</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ORDERNUMBER</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PRODUCTCODE</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>15</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PRODUCTCODE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PRODUCTCODE</design:label>
+            <design:formattingHints>
+              <design:displaySize>15</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>QUANTITYORDERED</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>QUANTITYORDERED</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>QUANTITYORDERED</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PRICEEACH</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>15</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PRICEEACH</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PRICEEACH</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ORDERLINENUMBER</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>5</design:nativeDataTypeCode>
+            <design:precision>5</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ORDERLINENUMBER</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ORDERLINENUMBER</design:label>
+            <design:formattingHints>
+              <design:displaySize>6</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+        <oda-data-set extensionID="org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" name="list-ds" id="1512">
+            <property name="nullsOrdering">nulls lowest</property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">CUSTOMERNUMBER</property>
+                    <property name="analysis">measure</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                    <text-property name="heading">CUSTOMERNUMBER</text-property>
+                </structure>
+            </list-property>
+            <list-property name="parameters"/>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">CUSTOMERNUMBER</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <list-property name="resultSet">
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <property name="nativeName">CUSTOMERNUMBER</property>
+                    <property name="dataType">integer</property>
+                    <property name="nativeDataType">4</property>
+                </structure>
+            </list-property>
+            <xml-property name="queryText"><![CDATA[select 
+customernumber
+from 
+customers
+where customernumber=103]]></xml-property>
+            <xml-property name="designerValues"><![CDATA[<?xml version="1.0" encoding="UTF-8"?>
+<model:DesignValues xmlns:design="http://www.eclipse.org/datatools/connectivity/oda/design" xmlns:model="http://www.eclipse.org/birt/report/model/adapter/odaModel">
+  <Version>2.0</Version>
+  <design:ResultSets derivedMetaData="true">
+    <design:resultSetDefinitions>
+      <design:resultSetColumns>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CUSTOMERNUMBER</design:name>
+              <design:position>1</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CUSTOMERNUMBER</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CUSTOMERNUMBER</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CUSTOMERNAME</design:name>
+              <design:position>2</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CUSTOMERNAME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CUSTOMERNAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CONTACTLASTNAME</design:name>
+              <design:position>3</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CONTACTLASTNAME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CONTACTLASTNAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CONTACTFIRSTNAME</design:name>
+              <design:position>4</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CONTACTFIRSTNAME</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CONTACTFIRSTNAME</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>PHONE</design:name>
+              <design:position>5</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>PHONE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>PHONE</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ADDRESSLINE1</design:name>
+              <design:position>6</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ADDRESSLINE1</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ADDRESSLINE1</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>ADDRESSLINE2</design:name>
+              <design:position>7</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>ADDRESSLINE2</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>ADDRESSLINE2</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CITY</design:name>
+              <design:position>8</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CITY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CITY</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>STATE</design:name>
+              <design:position>9</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>STATE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>STATE</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>POSTALCODE</design:name>
+              <design:position>10</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>15</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>POSTALCODE</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>POSTALCODE</design:label>
+            <design:formattingHints>
+              <design:displaySize>15</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>COUNTRY</design:name>
+              <design:position>11</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>12</design:nativeDataTypeCode>
+            <design:precision>50</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>COUNTRY</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>COUNTRY</design:label>
+            <design:formattingHints>
+              <design:displaySize>50</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>SALESREPEMPLOYEENUMBER</design:name>
+              <design:position>12</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>4</design:nativeDataTypeCode>
+            <design:precision>10</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>SALESREPEMPLOYEENUMBER</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>SALESREPEMPLOYEENUMBER</design:label>
+            <design:formattingHints>
+              <design:displaySize>11</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+        <design:resultColumnDefinitions>
+          <design:attributes>
+            <design:identifier>
+              <design:name>CREDITLIMIT</design:name>
+              <design:position>13</design:position>
+            </design:identifier>
+            <design:nativeDataTypeCode>8</design:nativeDataTypeCode>
+            <design:precision>15</design:precision>
+            <design:scale>0</design:scale>
+            <design:nullability>Nullable</design:nullability>
+            <design:uiHints>
+              <design:displayName>CREDITLIMIT</design:displayName>
+            </design:uiHints>
+          </design:attributes>
+          <design:usageHints>
+            <design:label>CREDITLIMIT</design:label>
+            <design:formattingHints>
+              <design:displaySize>22</design:displaySize>
+            </design:formattingHints>
+          </design:usageHints>
+        </design:resultColumnDefinitions>
+      </design:resultSetColumns>
+      <design:criteria/>
+    </design:resultSetDefinitions>
+  </design:ResultSets>
+</model:DesignValues>]]></xml-property>
+        </oda-data-set>
+    </data-sets>
+    <cubes>
+        <tabular-cube name="Data Cube" id="61">
+            <property name="dimensions">
+                <tabular-dimension name="Group" id="62">
+                    <property name="defaultHierarchy">NewTabularHierarchy</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy" id="63">
+                            <property name="levels">
+                                <tabular-level name="NAME" id="64">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">NAME</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+                <tabular-dimension name="line" id="83">
+                    <property name="defaultHierarchy">NewTabularHierarchy1</property>
+                    <property name="hierarchies">
+                        <tabular-hierarchy name="NewTabularHierarchy1" id="84">
+                            <property name="levels">
+                                <tabular-level name="LINE" id="85">
+                                    <property name="dataType">string</property>
+                                    <property name="columnName">LINE</property>
+                                </tabular-level>
+                            </property>
+                        </tabular-hierarchy>
+                    </property>
+                </tabular-dimension>
+            </property>
+            <property name="measureGroups">
+                <tabular-measure-group name="Summary Field" id="65">
+                    <property name="measures">
+                        <tabular-measure name="PERCENT" id="66">
+                            <expression name="measureExpression" type="javascript">dataSetRow["PERCENT"]</expression>
+                            <property name="dataType">float</property>
+                        </tabular-measure>
+                    </property>
+                </tabular-measure-group>
+            </property>
+            <property name="dataSet">Data Set</property>
+        </tabular-cube>
+    </cubes>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <list id="1513">
+            <property name="dataSet">list-ds</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">CUSTOMERNUMBER</property>
+                    <text-property name="displayName">CUSTOMERNUMBER</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["CUSTOMERNUMBER"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+            </list-property>
+            <header>
+                <label id="124">
+                    <text-property name="text">With List</text-property>
+                </label>
+            </header>
+            <detail>
+                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="1514">
+                    <property name="cube">Data Cube</property>
+                    <property name="measures">
+                        <extended-item extensionName="MeasureView" id="1515">
+                            <property name="measure">PERCENT</property>
+                            <property name="detail">
+                                <extended-item extensionName="AggregationCell" id="1516">
+                                    <property name="aggregationOnRow">line/LINE</property>
+                                    <property name="content">
+                                        <data id="1517">
+                                            <structure name="numberFormat">
+                                                <property name="category">Percent</property>
+                                                <property name="pattern">###0.00%{RoundingMode=HALF_UP}</property>
+                                            </structure>
+                                            <property name="resultSetColumn">PERCENT_line/LINE</property>
+                                        </data>
+                                    </property>
+                                </extended-item>
+                            </property>
+                            <property name="header">
+                                <extended-item extensionName="CrosstabCell" id="1518">
+                                    <property name="content">
+                                        <label id="1519">
+                                            <text-property name="text">PERCENT</text-property>
+                                        </label>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="rows">
+                        <extended-item extensionName="CrosstabView" id="1520">
+                            <property name="views">
+                                <extended-item extensionName="DimensionView" id="1521">
+                                    <property name="dimension">Group</property>
+                                    <property name="levels">
+                                        <extended-item extensionName="LevelView" name="NewLevel View111" id="1522">
+                                            <property name="level">Group/NAME</property>
+                                            <property name="member">
+                                                <extended-item extensionName="CrosstabCell" id="1523">
+                                                    <property name="content">
+                                                        <data name="NAME111" id="1524">
+                                                            <property name="resultSetColumn">NAME</property>
+                                                        </data>
+                                                    </property>
+                                                </extended-item>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="DimensionView" id="1525">
+                                    <property name="dimension">line</property>
+                                    <property name="levels">
+                                        <extended-item extensionName="LevelView" name="NewLevel View211" id="1526">
+                                            <property name="level">line/LINE</property>
+                                            <property name="member">
+                                                <extended-item extensionName="CrosstabCell" id="1527">
+                                                    <property name="content">
+                                                        <data name="LINE11" id="1528">
+                                                            <property name="resultSetColumn">LINE</property>
+                                                        </data>
+                                                    </property>
+                                                </extended-item>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="1529">
+                            <property name="content">
+                                <label id="1530">
+                                    <text-property name="text">NAME</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="CrosstabCell" id="1531">
+                            <property name="content">
+                                <label id="1532">
+                                    <text-property name="text">LINE</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">NAME</property>
+                            <expression name="expression">dimension["Group"]["NAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">LINE</property>
+                            <expression name="expression">dimension["line"]["LINE"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">PERCENT_line/LINE</property>
+                            <property name="dataType">float</property>
+                            <property name="aggregateFunction">AVE</property>
+                            <list-property name="arguments">
+                                <structure>
+                                    <property name="name">Expression</property>
+                                    <expression name="value" type="javascript">measure["PERCENT"]</expression>
+                                </structure>
+                            </list-property>
+                        </structure>
+                    </list-property>
+                </extended-item>
+                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="1533">
+                    <property name="cube">Data Cube</property>
+                    <property name="measures">
+                        <extended-item extensionName="MeasureView" id="1534">
+                            <property name="measure">PERCENT</property>
+                            <property name="detail">
+                                <extended-item extensionName="AggregationCell" id="1535">
+                                    <property name="aggregationOnRow">line/LINE</property>
+                                    <property name="content">
+                                        <data id="1536">
+                                            <structure name="numberFormat">
+                                                <property name="category">Percent</property>
+                                                <property name="pattern">###0.00%{RoundingMode=HALF_UP}</property>
+                                            </structure>
+                                            <property name="resultSetColumn">PERCENT_line/LINE</property>
+                                        </data>
+                                    </property>
+                                </extended-item>
+                            </property>
+                            <property name="header">
+                                <extended-item extensionName="CrosstabCell" id="1537">
+                                    <property name="content">
+                                        <label id="1538">
+                                            <text-property name="text">PERCENT</text-property>
+                                        </label>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="rows">
+                        <extended-item extensionName="CrosstabView" id="1539">
+                            <property name="views">
+                                <extended-item extensionName="DimensionView" id="1540">
+                                    <property name="dimension">Group</property>
+                                    <property name="levels">
+                                        <extended-item extensionName="LevelView" name="NewLevel View1111" id="1541">
+                                            <property name="level">Group/NAME</property>
+                                            <property name="member">
+                                                <extended-item extensionName="CrosstabCell" id="1542">
+                                                    <property name="content">
+                                                        <data name="NAME1111" id="1543">
+                                                            <property name="resultSetColumn">NAME</property>
+                                                        </data>
+                                                    </property>
+                                                </extended-item>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="DimensionView" id="1544">
+                                    <property name="dimension">line</property>
+                                    <property name="levels">
+                                        <extended-item extensionName="LevelView" name="NewLevel View2111" id="1545">
+                                            <property name="level">line/LINE</property>
+                                            <property name="member">
+                                                <extended-item extensionName="CrosstabCell" id="1546">
+                                                    <property name="content">
+                                                        <data name="LINE111" id="1547">
+                                                            <property name="resultSetColumn">LINE</property>
+                                                        </data>
+                                                    </property>
+                                                </extended-item>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="1548">
+                            <property name="content">
+                                <label id="1549">
+                                    <text-property name="text">NAME</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="CrosstabCell" id="1550">
+                            <property name="content">
+                                <label id="1551">
+                                    <text-property name="text">LINE</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">NAME</property>
+                            <expression name="expression">dimension["Group"]["NAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">LINE</property>
+                            <expression name="expression">dimension["line"]["LINE"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">PERCENT_line/LINE</property>
+                            <property name="dataType">float</property>
+                            <property name="aggregateFunction">AVE</property>
+                            <list-property name="arguments">
+                                <structure>
+                                    <property name="name">Expression</property>
+                                    <expression name="value" type="javascript">measure["PERCENT"]</expression>
+                                </structure>
+                            </list-property>
+                        </structure>
+                    </list-property>
+                </extended-item>
+                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="1552">
+                    <property name="cube">Data Cube</property>
+                    <property name="measures">
+                        <extended-item extensionName="MeasureView" id="1553">
+                            <property name="measure">PERCENT</property>
+                            <property name="detail">
+                                <extended-item extensionName="AggregationCell" id="1554">
+                                    <property name="aggregationOnRow">line/LINE</property>
+                                    <property name="content">
+                                        <data id="1555">
+                                            <structure name="numberFormat">
+                                                <property name="category">Percent</property>
+                                                <property name="pattern">###0.00%{RoundingMode=HALF_UP}</property>
+                                            </structure>
+                                            <property name="resultSetColumn">PERCENT_line/LINE</property>
+                                        </data>
+                                    </property>
+                                </extended-item>
+                            </property>
+                            <property name="header">
+                                <extended-item extensionName="CrosstabCell" id="1556">
+                                    <property name="content">
+                                        <label id="1557">
+                                            <text-property name="text">PERCENT</text-property>
+                                        </label>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="rows">
+                        <extended-item extensionName="CrosstabView" id="1558">
+                            <property name="views">
+                                <extended-item extensionName="DimensionView" id="1559">
+                                    <property name="dimension">Group</property>
+                                    <property name="levels">
+                                        <extended-item extensionName="LevelView" name="NewLevel View1112" id="1560">
+                                            <property name="level">Group/NAME</property>
+                                            <property name="member">
+                                                <extended-item extensionName="CrosstabCell" id="1561">
+                                                    <property name="content">
+                                                        <data name="NAME1112" id="1562">
+                                                            <property name="resultSetColumn">NAME</property>
+                                                        </data>
+                                                    </property>
+                                                </extended-item>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="DimensionView" id="1563">
+                                    <property name="dimension">line</property>
+                                    <property name="levels">
+                                        <extended-item extensionName="LevelView" name="NewLevel View2112" id="1564">
+                                            <property name="level">line/LINE</property>
+                                            <property name="member">
+                                                <extended-item extensionName="CrosstabCell" id="1565">
+                                                    <property name="content">
+                                                        <data name="LINE112" id="1566">
+                                                            <property name="resultSetColumn">LINE</property>
+                                                        </data>
+                                                    </property>
+                                                </extended-item>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="1567">
+                            <property name="content">
+                                <label id="1568">
+                                    <text-property name="text">NAME</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="CrosstabCell" id="1569">
+                            <property name="content">
+                                <label id="1570">
+                                    <text-property name="text">LINE</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">NAME</property>
+                            <expression name="expression">dimension["Group"]["NAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">LINE</property>
+                            <expression name="expression">dimension["line"]["LINE"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">PERCENT_line/LINE</property>
+                            <property name="dataType">float</property>
+                            <property name="aggregateFunction">AVE</property>
+                            <list-property name="arguments">
+                                <structure>
+                                    <property name="name">Expression</property>
+                                    <expression name="value" type="javascript">measure["PERCENT"]</expression>
+                                </structure>
+                            </list-property>
+                        </structure>
+                    </list-property>
+                </extended-item>
+                <extended-item extensionName="Crosstab" extensionVersion="3.7.0" id="1571">
+                    <property name="cube">Data Cube</property>
+                    <property name="measures">
+                        <extended-item extensionName="MeasureView" id="1572">
+                            <property name="measure">PERCENT</property>
+                            <property name="detail">
+                                <extended-item extensionName="AggregationCell" id="1573">
+                                    <property name="aggregationOnRow">line/LINE</property>
+                                    <property name="content">
+                                        <data id="1574">
+                                            <structure name="numberFormat">
+                                                <property name="category">Percent</property>
+                                                <property name="pattern">###0.00%{RoundingMode=HALF_UP}</property>
+                                            </structure>
+                                            <property name="resultSetColumn">PERCENT_line/LINE</property>
+                                        </data>
+                                    </property>
+                                </extended-item>
+                            </property>
+                            <property name="header">
+                                <extended-item extensionName="CrosstabCell" id="1575">
+                                    <property name="content">
+                                        <label id="1576">
+                                            <text-property name="text">PERCENT</text-property>
+                                        </label>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="rows">
+                        <extended-item extensionName="CrosstabView" id="1577">
+                            <property name="views">
+                                <extended-item extensionName="DimensionView" id="1578">
+                                    <property name="dimension">Group</property>
+                                    <property name="levels">
+                                        <extended-item extensionName="LevelView" name="NewLevel View1113" id="1579">
+                                            <property name="level">Group/NAME</property>
+                                            <property name="member">
+                                                <extended-item extensionName="CrosstabCell" id="1580">
+                                                    <property name="content">
+                                                        <data name="NAME1113" id="1581">
+                                                            <property name="resultSetColumn">NAME</property>
+                                                        </data>
+                                                    </property>
+                                                </extended-item>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                                <extended-item extensionName="DimensionView" id="1582">
+                                    <property name="dimension">line</property>
+                                    <property name="levels">
+                                        <extended-item extensionName="LevelView" name="NewLevel View2113" id="1583">
+                                            <property name="level">line/LINE</property>
+                                            <property name="member">
+                                                <extended-item extensionName="CrosstabCell" id="1584">
+                                                    <property name="content">
+                                                        <data name="LINE113" id="1585">
+                                                            <property name="resultSetColumn">LINE</property>
+                                                        </data>
+                                                    </property>
+                                                </extended-item>
+                                            </property>
+                                        </extended-item>
+                                    </property>
+                                </extended-item>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <property name="header">
+                        <extended-item extensionName="CrosstabCell" id="1586">
+                            <property name="content">
+                                <label id="1587">
+                                    <text-property name="text">NAME</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                        <extended-item extensionName="CrosstabCell" id="1588">
+                            <property name="content">
+                                <label id="1589">
+                                    <text-property name="text">LINE</text-property>
+                                </label>
+                            </property>
+                        </extended-item>
+                    </property>
+                    <list-property name="boundDataColumns">
+                        <structure>
+                            <property name="name">NAME</property>
+                            <expression name="expression">dimension["Group"]["NAME"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">LINE</property>
+                            <expression name="expression">dimension["line"]["LINE"]</expression>
+                            <property name="dataType">string</property>
+                        </structure>
+                        <structure>
+                            <property name="name">PERCENT_line/LINE</property>
+                            <property name="dataType">float</property>
+                            <property name="aggregateFunction">AVE</property>
+                            <list-property name="arguments">
+                                <structure>
+                                    <property name="name">Expression</property>
+                                    <expression name="value" type="javascript">measure["PERCENT"]</expression>
+                                </structure>
+                            </list-property>
+                        </structure>
+                    </list-property>
+                </extended-item>
+            </detail>
+        </list>
+    </body>
+</report>

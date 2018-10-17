@@ -24,15 +24,12 @@ import org.apache.poi.xssf.usermodel.XSSFName;
 import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
-import org.junit.Ignore;
 
-@Ignore
 public class AutoFilterTest extends ReportRunner {
 	
 	@Test
 	public void autoFilter() throws Exception {
 		debug = false;
-		autoFilter = true;
 		InputStream inputStream = runAndRenderReport("SideBySideMultiColumns.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
@@ -65,7 +62,7 @@ public class AutoFilterTest extends ReportRunner {
 			
 			XSSFName name = workbook.getName( XSSFName.BUILTIN_FILTER_DB );
 			assertEquals( 0, name.getSheetIndex() );
-			assertEquals( "Sheet0!$A$1:$M$2", name.getRefersToFormula() );
+			assertEquals( "Sheet0!$A$2:$M$124", name.getRefersToFormula() );
 		} finally {
 			inputStream.close();
 		}
@@ -125,7 +122,7 @@ public class AutoFilterTest extends ReportRunner {
 			assertEquals( "Number Formats Test Report", workbook.getSheetAt(0).getSheetName());
 			
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals(22, this.firstNullRow(sheet));
+			assertEquals(26, this.firstNullRow(sheet));
 			
 			assertEquals( 3035,                    sheet.getColumnWidth( 0 ) );
 			assertEquals( 3913,                    sheet.getColumnWidth( 1 ) );

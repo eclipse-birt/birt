@@ -26,9 +26,7 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
-import org.junit.Ignore;
 
-@Ignore
 public class Borders2ReportTest extends ReportRunner {
 
 	/**
@@ -54,9 +52,6 @@ public class Borders2ReportTest extends ReportRunner {
 		CellStyle styleDown = ( cellDown == null ) ? null : cellDown.getCellStyle();
 		CellStyle styleLeft = ( cellLeft == null ) ? null : cellLeft.getCellStyle();
 		CellStyle styleRight = ( cellRight == null ) ? null : cellRight.getCellStyle();
-		
-		System.out.println( "style == " + style );
-		System.out.println( "style == " + style );
 		
 		if( ( top != style.getBorderTop() ) && 
 				( ( styleUp == null ) || ( top != styleUp.getBorderBottom() ) ) ) {

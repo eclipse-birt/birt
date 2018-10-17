@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301221637 Build &lt;4.2.2.v20130206-1509></property>
+    <text-property name="title">Number Formats Test Report</text-property>
+    <property name="units">in</property>
+    <method name="initialize"><![CDATA[var rowCount = 0;
+// java.lang.System.out.println( "rowCount: " + rowCount );
+]]></method>
+    <property name="iconFile">/templates/blank_report.gif</property>
+    <property name="bidiLayoutOrientation">ltr</property>
+    <property name="imageDPI">96</property>
+    <data-sources>
+        <script-data-source name="Data Source" id="39"/>
+    </data-sources>
+    <data-sets>
+        <script-data-set name="Data Set" id="40">
+            <list-property name="resultSetHints">
+                <structure>
+                    <property name="position">0</property>
+                    <property name="name">Name</property>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="position">1</property>
+                    <property name="name">Integer</property>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="position">2</property>
+                    <property name="name">DateTime</property>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="position">3</property>
+                    <property name="name">Decimal</property>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="position">4</property>
+                    <property name="name">Float</property>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="position">5</property>
+                    <property name="name">Boolean</property>
+                    <property name="dataType">boolean</property>
+                </structure>
+                <structure>
+                    <property name="position">6</property>
+                    <property name="name">Date</property>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="position">7</property>
+                    <property name="name">Time</property>
+                    <property name="dataType">time</property>
+                </structure>
+            </list-property>
+            <list-property name="columnHints">
+                <structure>
+                    <property name="columnName">Name</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Integer</property>
+                </structure>
+                <structure>
+                    <property name="columnName">DateTime</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Decimal</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Float</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Boolean</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Date</property>
+                </structure>
+                <structure>
+                    <property name="columnName">Time</property>
+                </structure>
+            </list-property>
+            <structure name="cachedMetaData">
+                <list-property name="resultSet">
+                    <structure>
+                        <property name="position">1</property>
+                        <property name="name">Name</property>
+                        <property name="dataType">string</property>
+                    </structure>
+                    <structure>
+                        <property name="position">2</property>
+                        <property name="name">Integer</property>
+                        <property name="dataType">integer</property>
+                    </structure>
+                    <structure>
+                        <property name="position">3</property>
+                        <property name="name">DateTime</property>
+                        <property name="dataType">date-time</property>
+                    </structure>
+                    <structure>
+                        <property name="position">4</property>
+                        <property name="name">Decimal</property>
+                        <property name="dataType">decimal</property>
+                    </structure>
+                    <structure>
+                        <property name="position">5</property>
+                        <property name="name">Float</property>
+                        <property name="dataType">float</property>
+                    </structure>
+                    <structure>
+                        <property name="position">6</property>
+                        <property name="name">Boolean</property>
+                        <property name="dataType">boolean</property>
+                    </structure>
+                    <structure>
+                        <property name="position">7</property>
+                        <property name="name">Date</property>
+                        <property name="dataType">date</property>
+                    </structure>
+                    <structure>
+                        <property name="position">8</property>
+                        <property name="name">Time</property>
+                        <property name="dataType">time</property>
+                    </structure>
+                </list-property>
+            </structure>
+            <property name="dataSource">Data Source</property>
+            <method name="fetch"><![CDATA[// java.lang.System.out.println( "fetch" );
+// java.lang.System.out.println( "rowCount: " + ( rowCount == null ? "<null>" : rowCount ) );
+if( rowCount < 2 ) {
+	++rowCount;
+	
+	var pi = 3.1415926535897932384626433832795;
+	
+	row[ "Name" ] = "Row " + rowCount;
+	row[ "Integer" ] = rowCount;
+	row[ "Float" ] = rowCount * pi;
+	row[ "Decimal" ] = rowCount * pi;
+	row[ "Boolean" ] = (rowCount % 2 == 0);
+	row[ "DateTime" ] = new Date(pi * 500000000000);
+	row[ "Date" ] = new Date(pi * 500000000000);
+	row[ "Time" ] = new Date(pi * 500000000000);
+	
+	// java.lang.System.out.println( "Date: " + row[ "Date" ] + " / " + row["Date"].getTime());
+	
+	return true;
+} else {
+	// java.lang.System.out.println( "rowCount: " + rowCount );
+	return false;
+}
+]]></method>
+        </script-data-set>
+    </data-sets>
+    <styles>
+        <style name="report" id="4">
+            <property name="fontFamily">sans-serif</property>
+            <property name="fontSize">10pt</property>
+        </style>
+        <style name="crosstab-cell" id="5">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="crosstab" id="6">
+            <property name="borderBottomColor">#CCCCCC</property>
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">1pt</property>
+            <property name="borderLeftColor">#CCCCCC</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">1pt</property>
+            <property name="borderRightColor">#CCCCCC</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">1pt</property>
+            <property name="borderTopColor">#CCCCCC</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">1pt</property>
+        </style>
+        <style name="table-detail-cell" id="93">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderBottomWidth">thin</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderLeftWidth">thin</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderRightWidth">thin</property>
+            <property name="borderTopStyle">solid</property>
+            <property name="borderTopWidth">thin</property>
+        </style>
+        <style name="table-header-cell" id="94">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopStyle">solid</property>
+        </style>
+        <style name="table" id="95">
+            <property name="borderBottomStyle">solid</property>
+            <property name="borderLeftStyle">solid</property>
+            <property name="borderRightStyle">solid</property>
+            <property name="borderTopStyle">solid</property>
+        </style>
+    </styles>
+    <page-setup>
+        <simple-master-page name="Simple MasterPage" id="2">
+            <property name="type">a4</property>
+            <property name="topMargin">0.5cm</property>
+            <property name="leftMargin">0.5cm</property>
+            <property name="bottomMargin">0.5cm</property>
+            <property name="rightMargin">0.5cm</property>
+            <page-footer>
+                <text id="3">
+                    <property name="contentType">html</property>
+                    <text-property name="content"><![CDATA[<value-of>new Date()</value-of>]]></text-property>
+                </text>
+            </page-footer>
+        </simple-master-page>
+    </page-setup>
+    <body>
+        <table id="41">
+            <property name="width">7.614583333333333in</property>
+            <property name="dataSet">Data Set</property>
+            <list-property name="boundDataColumns">
+                <structure>
+                    <property name="name">Name</property>
+                    <text-property name="displayName">Name</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Name"]</expression>
+                    <property name="dataType">string</property>
+                </structure>
+                <structure>
+                    <property name="name">Integer</property>
+                    <text-property name="displayName">Integer</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Integer"]</expression>
+                    <property name="dataType">integer</property>
+                </structure>
+                <structure>
+                    <property name="name">DateTime</property>
+                    <text-property name="displayName">DateTime</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["DateTime"]</expression>
+                    <property name="dataType">date-time</property>
+                </structure>
+                <structure>
+                    <property name="name">Decimal</property>
+                    <text-property name="displayName">Decimal</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Decimal"]</expression>
+                    <property name="dataType">decimal</property>
+                </structure>
+                <structure>
+                    <property name="name">Float</property>
+                    <text-property name="displayName">Float</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Float"]</expression>
+                    <property name="dataType">float</property>
+                </structure>
+                <structure>
+                    <property name="name">Boolean</property>
+                    <text-property name="displayName">Boolean</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Boolean"]</expression>
+                    <property name="dataType">boolean</property>
+                </structure>
+                <structure>
+                    <property name="name">Date</property>
+                    <text-property name="displayName">Date</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Date"]</expression>
+                    <property name="dataType">date</property>
+                </structure>
+                <structure>
+                    <property name="name">Time</property>
+                    <text-property name="displayName">Time</text-property>
+                    <expression name="expression" type="javascript">dataSetRow["Time"]</expression>
+                    <property name="dataType">time</property>
+                </structure>
+            </list-property>
+            <column id="85">
+                <property name="width">0.8645833333333334in</property>
+            </column>
+            <column id="86">
+                <property name="width">0.6145833333333334in</property>
+            </column>
+            <column id="87">
+                <property name="width">2in</property>
+            </column>
+            <column id="88">
+                <property name="width">1.1979166666666667in</property>
+            </column>
+            <column id="89">
+                <property name="width">0.9895833333333334in</property>
+            </column>
+            <column id="90">
+                <property name="width">0.8125in</property>
+            </column>
+            <column id="91">
+                <property name="width">1in</property>
+            </column>
+            <column id="92">
+                <property name="width">0.8229166666666666in</property>
+            </column>
+            <header>
+                <row id="42">
+                    <cell id="43">
+                        <label id="44">
+                            <text-property name="text">Name</text-property>
+                        </label>
+                    </cell>
+                    <cell id="45">
+                        <label id="46">
+                            <text-property name="text">Integer</text-property>
+                        </label>
+                    </cell>
+                    <cell id="47">
+                        <label id="48">
+                            <text-property name="text">DateTime</text-property>
+                        </label>
+                    </cell>
+                    <cell id="49">
+                        <label id="50">
+                            <text-property name="text">Decimal</text-property>
+                        </label>
+                    </cell>
+                    <cell id="51">
+                        <label id="52">
+                            <text-property name="text">Float</text-property>
+                        </label>
+                    </cell>
+                    <cell id="53">
+                        <label id="54">
+                            <text-property name="text">Boolean</text-property>
+                        </label>
+                    </cell>
+                    <cell id="55">
+                        <label id="56">
+                            <text-property name="text">Date</text-property>
+                        </label>
+                    </cell>
+                    <cell id="57">
+                        <label id="58">
+                            <text-property name="text">Time</text-property>
+                        </label>
+                    </cell>
+                </row>
+            </header>
+            <detail>
+                <row id="59">
+                    <cell id="60">
+                        <data id="61">
+                            <property name="resultSetColumn">Name</property>
+                        </data>
+                    </cell>
+                    <cell id="62">
+                        <data id="63">
+                            <property name="resultSetColumn">Integer</property>
+                        </data>
+                    </cell>
+                    <cell id="64">
+                        <data id="65">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Custom</property>
+                                <property name="pattern">yyyy-MM-dd hh:mm:ss</property>
+                            </structure>
+                            <property name="resultSetColumn">DateTime</property>
+                        </data>
+                    </cell>
+                    <cell id="66">
+                        <data id="67">
+                            <property name="resultSetColumn">Decimal</property>
+                        </data>
+                    </cell>
+                    <cell id="68">
+                        <data id="69">
+                            <structure name="numberFormat">
+                                <property name="category">Unformatted</property>
+                            </structure>
+                            <property name="resultSetColumn">Float</property>
+                        </data>
+                    </cell>
+                    <cell id="70">
+                        <data id="71">
+                            <property name="resultSetColumn">Boolean</property>
+                        </data>
+                    </cell>
+                    <cell id="72">
+                        <data id="73">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Medium Date</property>
+                                <property name="pattern">Medium Date</property>
+                            </structure>
+                            <property name="resultSetColumn">Date</property>
+                        </data>
+                    </cell>
+                    <cell id="74">
+                        <data id="75">
+                            <structure name="dateTimeFormat">
+                                <property name="category">Medium Time</property>
+                                <property name="pattern">Medium Time</property>
+                            </structure>
+                            <property name="resultSetColumn">Time</property>
+                        </data>
+                    </cell>
+                </row>
+            </detail>
+            <footer>
+                <row id="76">
+                    <property name="borderTopColor">#0000FF</property>
+                    <property name="borderTopStyle">solid</property>
+                    <cell id="77">
+                        <label id="96">
+                            <text-property name="text">The End</text-property>
+                        </label>
+                    </cell>
+                    <cell id="78">
+                        <label id="366">
+                            <list-property name="userProperties">
+                                <structure>
+                                    <property name="name">ExcelEmitter.ValueAsFormula</property>
+                                    <property name="type">boolean</property>
+                                </structure>
+                            </list-property>
+                            <property name="ExcelEmitter.ValueAsFormula">true</property>
+                            <text-property name="text">=b2+b3</text-property>
+                        </label>
+                    </cell>
+                    <cell id="79"/>
+                    <cell id="80">
+                        <label id="367">
+                            <list-property name="userProperties">
+                                <structure>
+                                    <property name="name">ExcelEmitter.Formula</property>
+                                    <property name="type">string</property>
+                                </structure>
+                            </list-property>
+                            <property name="ExcelEmitter.Formula">=D2+D3</property>
+                        </label>
+                    </cell>
+                    <cell id="81"/>
+                    <cell id="82"/>
+                    <cell id="83"/>
+                    <cell id="84"/>
+                </row>
+            </footer>
+        </table>
+    </body>
+</report>

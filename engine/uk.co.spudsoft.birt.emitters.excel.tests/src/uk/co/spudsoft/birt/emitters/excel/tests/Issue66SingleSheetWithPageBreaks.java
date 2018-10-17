@@ -155,7 +155,7 @@ public class Issue66SingleSheetWithPageBreaks extends ReportRunner {
 			assertEquals( 2, workbook.getSheetAt(0).getRowBreaks().length );
 			assertEquals( 3, workbook.getSheetAt(0).getRowBreaks()[0] );
 			assertEquals( 7, workbook.getSheetAt(0).getRowBreaks()[1] );
-			assertEquals( "Number Formats Test Report", workbook.getSheetAt(0).getSheetName());
+			assertEquals( "Sheet0", workbook.getSheetAt(0).getSheetName());
 			
 			assertEquals(11, firstNullRow(workbook.getSheetAt(0)));
 		} finally {

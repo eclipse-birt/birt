@@ -76,11 +76,10 @@ public abstract class AbstractRealTableRowHandler extends AbstractHandler {
 		log.debug( "Resume row at ", state.rowNum );
 
 		myRow = state.rowNum;
-		if( state.currentSheet.getRow(state.rowNum) == null ) {
+		currentRow = state.currentSheet.getRow(state.rowNum);
+		if( currentRow == null ) {
 			log.debug( "Creating row ", state.rowNum );
 			currentRow = state.currentSheet.createRow( state.rowNum );
-		} else {
-			currentRow = state.currentSheet.getRow( state.rowNum );
 		}
 		state.requiredRowHeightInPoints = 0;		
 		

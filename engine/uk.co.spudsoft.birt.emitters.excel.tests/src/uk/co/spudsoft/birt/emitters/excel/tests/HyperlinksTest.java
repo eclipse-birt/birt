@@ -23,6 +23,8 @@ import java.util.regex.Matcher;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Font;
+import org.apache.poi.ss.usermodel.IndexedColors;
 import org.apache.poi.ss.usermodel.Name;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -32,9 +34,7 @@ import org.apache.poi.ss.util.CellReference;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
-import org.junit.Ignore;
 
-@Ignore
 public class HyperlinksTest extends CellRangeTester {
 	
 	private void validateNamedRange( Workbook workbook, int index, String name, int sheetIndex, int row1, int col1, int row2, int col2 ) {
@@ -159,7 +159,7 @@ public class HyperlinksTest extends CellRangeTester {
             }
             assertEquals( 7, rangesValidated );
             
-            assertEquals( 18, workbook.getNumberOfNames() );
+            assertEquals( 18, workbook.getNumberOfNames() );            
             int index = 0;
             
             validateNamedRange( workbook, index++, "DataItemOne", -1, 1, 0, 1, 0 );
@@ -201,11 +201,17 @@ public class HyperlinksTest extends CellRangeTester {
 	
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals( 2002, this.firstNullRow(sheet));
+			assertEquals( 8, workbook.getNumCellStyles() );
+
+			assertTrue( Font.U_SINGLE != workbook.getFontAt( sheet.getRow(0).getCell(1).getCellStyle().getFontIndex() ).getUnderline() );
+			assertTrue( IndexedColors.BLUE.getIndex() != workbook.getFontAt( sheet.getRow(0).getCell(1).getCellStyle().getFontIndex() ).getColor() );
 
 			for(int i = 1; i < 2000; ++i ) {
 				assertEquals( "http://www.spudsoft.co.uk/?p=" + i,              sheet.getRow(i).getCell(0).getHyperlink().getAddress());
 
 				assertEquals( "_BK" + (i + 1000), sheet.getRow(i).getCell(1).getHyperlink().getAddress());
+				assertEquals( Font.U_SINGLE, workbook.getFontAt( sheet.getRow(i).getCell(1).getCellStyle().getFontIndex() ).getUnderline() );
+				assertEquals( "FF0000FF", workbook.getFontAt( sheet.getRow(i).getCell(1).getCellStyle().getFontIndex() ).getXSSFColor().getARGBHex() );
 			}
 		
 		} finally {
@@ -227,11 +233,17 @@ public class HyperlinksTest extends CellRangeTester {
 	
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals( 2002, this.firstNullRow(sheet));
+			assertEquals( 28, workbook.getNumCellStyles() );
+
+			assertTrue( Font.U_SINGLE != workbook.getFontAt( sheet.getRow(0).getCell(1).getCellStyle().getFontIndex() ).getUnderline() );
+			assertTrue( IndexedColors.BLUE.getIndex() != workbook.getFontAt( sheet.getRow(0).getCell(1).getCellStyle().getFontIndex() ).getColor() );
 
 			for(int i = 1; i < 2000; ++i ) {
 				assertEquals( "http://www.spudsoft.co.uk/?p=" + i,              sheet.getRow(i).getCell(0).getHyperlink().getAddress());
 
 				assertEquals( "_BK" + (i + 1000), sheet.getRow(i).getCell(1).getHyperlink().getAddress());
+				assertEquals( Font.U_SINGLE, workbook.getFontAt( sheet.getRow(i).getCell(1).getCellStyle().getFontIndex() ).getUnderline() );
+				assertEquals( IndexedColors.BLUE.getIndex(), workbook.getFontAt( sheet.getRow(i).getCell(1).getCellStyle().getFontIndex() ).getColor() );
 			}
 		
 		} finally {

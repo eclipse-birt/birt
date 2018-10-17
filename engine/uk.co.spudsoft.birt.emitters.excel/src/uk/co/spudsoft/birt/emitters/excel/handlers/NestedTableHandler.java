@@ -66,12 +66,11 @@ public class NestedTableHandler extends AbstractRealTableHandler {
 		topLeft = new Coordinate(state.rowNum, state.colNum);
 		log.debug( "startTable called with topLeft = [", topLeft.getRow(), ", ", topLeft.getCol(), "]" );
 		super.startTable(state, table);
-		if( ( state.sheetName == null ) || state.sheetName.isEmpty() ) {
-			String name = table.getName();
-			if( ( name != null ) && ! name.isEmpty() ) {
-				state.sheetName = name;
-			}
+		String name = table.getName();
+		if( ( name != null ) && ! name.isEmpty() ) {
+			state.sheetName = name;
 		}
+		
 		if( ( state.sheetPassword == null ) || state.sheetPassword.isEmpty() ) {
 			String password = EmitterServices.stringOption( state.getRenderOptions(), table, ExcelEmitter.SHEET_PASSWORD, null);
 			if( ( password != null ) && ! password.isEmpty() ) {

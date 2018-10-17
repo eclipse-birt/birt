@@ -38,7 +38,7 @@ public class SideBySide extends ReportRunner {
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals(1, this.firstNullRow(sheet));
 			
-			assertEquals( 305,                     sheet.getRow( 0 ).getHeightInPoints(), 1.0 );
+			assertEquals( 297,                     sheet.getRow( 0 ).getHeightInPoints(), 1.0 );
 			assertEquals( 19346,                   sheet.getColumnWidth( 0 ) );
 			assertEquals( 19346,                   sheet.getColumnWidth( 1 ) );
 		} finally {

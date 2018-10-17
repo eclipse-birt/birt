@@ -25,15 +25,13 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
-import org.junit.Ignore;
 
-@Ignore
 public class NumberFormatsTest extends ReportRunner {
 	
 	@Test
 	public void testRunReport() throws BirtException, IOException {
 
-		debug = false;
+		debug = true;
 		InputStream inputStream = runAndRenderReport("NumberFormats.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
@@ -45,7 +43,7 @@ public class NumberFormatsTest extends ReportRunner {
 			assertEquals( "Number Formats Test Report", workbook.getSheetAt(0).getSheetName());
 			
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals(22, this.firstNullRow(sheet));
+			assertEquals(26, this.firstNullRow(sheet));
 			
 			assertEquals( 3035,                    sheet.getColumnWidth( 0 ) );
 			assertEquals( 3913,                    sheet.getColumnWidth( 1 ) );
@@ -143,6 +141,32 @@ public class NumberFormatsTest extends ReportRunner {
 			assertEquals( sheet.getRow(18).getCell(5).getStringCellValue(),        sheet.getRow(19).getCell(5).getCellStyle().getDataFormatString());
 			assertEquals( sheet.getRow(18).getCell(6).getStringCellValue(),        sheet.getRow(19).getCell(6).getCellStyle().getDataFormatString());
 			assertEquals( sheet.getRow(18).getCell(7).getStringCellValue(),        sheet.getRow(19).getCell(7).getCellStyle().getDataFormatString());
+			
+			assertEquals( "\"\"#,##0.00",              sheet.getRow(23).getCell(3).getCellStyle().getDataFormatString());
+			assertEquals( "\"\"###0.00",               sheet.getRow(23).getCell(4).getCellStyle().getDataFormatString());
+			assertEquals( "\"\"###0.00%",              sheet.getRow(23).getCell(5).getCellStyle().getDataFormatString());
+			assertEquals( "\"\"0.00E+00",               sheet.getRow(23).getCell(6).getCellStyle().getDataFormatString());
+			
+			assertEquals( "\"\"#,##0.00",              sheet.getRow(24).getCell(3).getCellStyle().getDataFormatString());
+			assertEquals( "\"\"###0.00",               sheet.getRow(24).getCell(4).getCellStyle().getDataFormatString());
+			assertEquals( "\"\"###0.00%",              sheet.getRow(24).getCell(5).getCellStyle().getDataFormatString());
+			assertEquals( "\"\"0.00E+00",               sheet.getRow(24).getCell(6).getCellStyle().getDataFormatString());
+
+			assertEquals( "3.1415926536",          formatter.formatCellValue(sheet.getRow(23).getCell(1)));
+			assertEquals( "3.1415926536",          formatter.formatCellValue(sheet.getRow(23).getCell(2)));
+			assertEquals( "3.14",                  formatter.formatCellValue(sheet.getRow(23).getCell(3)));
+			assertEquals( "3.14",                  formatter.formatCellValue(sheet.getRow(23).getCell(4)));
+			assertEquals( "314.16%",               formatter.formatCellValue(sheet.getRow(23).getCell(5)));
+			assertEquals( "3.14E00",               formatter.formatCellValue(sheet.getRow(23).getCell(6)));
+			assertEquals( "3.14E00",               formatter.formatCellValue(sheet.getRow(23).getCell(7)));
+			
+			assertEquals( "6.2831853072",          formatter.formatCellValue(sheet.getRow(24).getCell(1)));
+			assertEquals( "6.2831853072",          formatter.formatCellValue(sheet.getRow(24).getCell(2)));
+			assertEquals( "6.28",                  formatter.formatCellValue(sheet.getRow(24).getCell(3)));
+			assertEquals( "6.28",                  formatter.formatCellValue(sheet.getRow(24).getCell(4)));
+			assertEquals( "628.32%",               formatter.formatCellValue(sheet.getRow(24).getCell(5)));
+			assertEquals( "6.28E00",               formatter.formatCellValue(sheet.getRow(24).getCell(6)));
+			assertEquals( "6.28E00",               formatter.formatCellValue(sheet.getRow(24).getCell(7)));
 			
 		} finally {
 			inputStream.close();

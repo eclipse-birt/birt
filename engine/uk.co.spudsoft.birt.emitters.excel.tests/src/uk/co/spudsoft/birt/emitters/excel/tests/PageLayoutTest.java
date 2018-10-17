@@ -30,9 +30,7 @@ import org.apache.poi.xssf.usermodel.XSSFSheet;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
-import org.junit.Ignore;
 
-@Ignore
 public class PageLayoutTest extends ReportRunner {
 
 	@Test
@@ -52,8 +50,8 @@ public class PageLayoutTest extends ReportRunner {
 			XSSFPrintSetup printSetup = sheet0.getPrintSetup();
 			assertEquals( PaperSize.A4_PAPER,  printSetup.getPaperSizeEnum() );
 			assertEquals( PrintOrientation.LANDSCAPE, printSetup.getOrientation() );
-			assertEquals( 1.0 / 2.54, printSetup.getHeaderMargin(), 0.01 );
-			assertEquals( 1.0 / 2.54, printSetup.getFooterMargin(), 0.01 );
+			assertEquals( 0.7 / 2.54, printSetup.getHeaderMargin(), 0.01 );
+			assertEquals( 0.7 / 2.54, printSetup.getFooterMargin(), 0.01 );
 			assertEquals( 0.7 / 2.54, sheet0.getMargin( Sheet.LeftMargin ), 0.01 );
 			assertEquals( 0.7 / 2.54, sheet0.getMargin( Sheet.RightMargin ), 0.01 );
 			assertEquals( 1.7 / 2.54, sheet0.getMargin( Sheet.TopMargin ), 0.01 );
@@ -81,8 +79,8 @@ public class PageLayoutTest extends ReportRunner {
 			HSSFPrintSetup printSetup = sheet0.getPrintSetup();
 			assertEquals( HSSFPrintSetup.A4_PAPERSIZE,  printSetup.getPaperSize() );
 			assertEquals( true, printSetup.getLandscape() );
-			assertEquals( 1.0 / 2.54, printSetup.getHeaderMargin(), 0.01 );
-			assertEquals( 1.0 / 2.54, printSetup.getFooterMargin(), 0.01 );
+			assertEquals( 0.7 / 2.54, printSetup.getHeaderMargin(), 0.01 );
+			assertEquals( 0.7 / 2.54, printSetup.getFooterMargin(), 0.01 );
 			assertEquals( 0.7 / 2.54, sheet0.getMargin( Sheet.LeftMargin ), 0.01 );
 			assertEquals( 0.7 / 2.54, sheet0.getMargin( Sheet.RightMargin ), 0.01 );
 			assertEquals( 1.7 / 2.54, sheet0.getMargin( Sheet.TopMargin ), 0.01 );
@@ -92,7 +90,7 @@ public class PageLayoutTest extends ReportRunner {
 			inputStream.close();
 		}
 	}
-	
+		
 	@Test
 	public void testRunReportPixelsXlsx() throws BirtException, IOException {
 

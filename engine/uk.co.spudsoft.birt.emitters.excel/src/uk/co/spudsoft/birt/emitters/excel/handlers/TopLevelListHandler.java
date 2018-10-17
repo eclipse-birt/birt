@@ -47,10 +47,6 @@ public class TopLevelListHandler extends AbstractRealListHandler {
 	public void startList(HandlerState state, IListContent list) throws BirtException {
 		log.debug( "Call startList on ", this );
 		super.startList(state, list);
-		String name = list.getName();
-		if( ( name != null ) && ! name.isEmpty() ) {
-			state.sheetName = name;
-		}
 
 		String password = EmitterServices.stringOption( state.getRenderOptions(), list, ExcelEmitter.SHEET_PASSWORD, null);
 		if( ( password != null ) && ! password.isEmpty() ) {
@@ -74,7 +70,6 @@ public class TopLevelListHandler extends AbstractRealListHandler {
 			groupStarts = new Stack<Integer>();
 		}
 		groupStarts.push(state.rowNum);
-		
 		
 		Object groupDesignObject = group.getGenerateBy();
 		if( groupDesignObject instanceof ListGroupDesign ) {

@@ -15,6 +15,7 @@ package uk.co.spudsoft.birt.emitters.excel.tests;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileOutputStream;
@@ -22,6 +23,7 @@ import java.io.InputStream;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.report.engine.api.RenderOption;
 import org.junit.Test;
@@ -35,7 +37,6 @@ public class Issue87PrintSettings extends ReportRunner {
 	@Override
 	protected RenderOption prepareRenderOptions(String outputFormat,
 			FileOutputStream outputStream) {
-		// TODO Auto-generated method stub
 		RenderOption options = super.prepareRenderOptions(outputFormat, outputStream);
 		if( scale ) { 
 			options.setOption( ExcelEmitter.PRINT_SCALE, 27 );
@@ -76,6 +77,13 @@ public class Issue87PrintSettings extends ReportRunner {
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals( 236, firstNullRow(sheet));
 			
+			CellRangeAddress repCols = sheet.getRepeatingColumns();
+			CellRangeAddress repRows = sheet.getRepeatingRows();
+			assertNull( repCols );
+//			assertNotNull( repRows );
+//			assertEquals( 1, repCols.getFirstRow() );
+//			assertEquals( 2, repCols.getLastRow() );
+			
 			assertEquals(28, greatestNumColumns(sheet));
 			
 		} finally {
@@ -112,6 +120,13 @@ public class Issue87PrintSettings extends ReportRunner {
 			
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals( 236, firstNullRow(sheet));
+
+			CellRangeAddress repCols = sheet.getRepeatingColumns();
+			CellRangeAddress repRows = sheet.getRepeatingRows();
+			assertNull( repCols );
+			assertNotNull( repRows );
+			assertEquals( 1, repRows.getFirstRow() );
+			assertEquals( 2, repRows.getLastRow() );
 			
 			assertEquals(28, greatestNumColumns(sheet));
 			
@@ -150,6 +165,13 @@ public class Issue87PrintSettings extends ReportRunner {
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals( 236, firstNullRow(sheet));
 			
+			CellRangeAddress repCols = sheet.getRepeatingColumns();
+			CellRangeAddress repRows = sheet.getRepeatingRows();
+			assertNull( repCols );
+//			assertNotNull( repRows );
+//			assertEquals( 1, repRows.getFirstRow() );
+//			assertEquals( 2, repRows.getLastRow() );
+			
 			assertEquals(28, greatestNumColumns(sheet));
 			
 		} finally {
@@ -185,6 +207,13 @@ public class Issue87PrintSettings extends ReportRunner {
 			
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals( 236, firstNullRow(sheet));
+			
+			CellRangeAddress repCols = sheet.getRepeatingColumns();
+			CellRangeAddress repRows = sheet.getRepeatingRows();
+			assertNotNull( repRows );
+			assertNull( repCols );
+			assertEquals( 1, repRows.getFirstRow() );
+			assertEquals( 2, repRows.getLastRow() );
 			
 			assertEquals(28, greatestNumColumns(sheet));
 			

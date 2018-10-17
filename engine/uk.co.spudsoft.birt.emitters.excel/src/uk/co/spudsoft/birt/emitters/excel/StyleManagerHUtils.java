@@ -22,13 +22,10 @@ import org.apache.poi.hssf.util.HSSFColor;
 import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Font;
 import org.apache.poi.ss.usermodel.RichTextString;
-import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
-import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.css.dom.AreaStyle;
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.model.api.util.ColorUtil;
 import org.w3c.dom.css.CSSValue;
@@ -224,7 +221,7 @@ public class StyleManagerHUtils extends StyleManagerUtils {
 	public Font correctFontColorIfBackground(FontManager fm, Workbook wb, BirtStyle birtStyle, Font font) {
 		HSSFPalette palette = ((HSSFWorkbook)wb).getCustomPalette();		
 		
-		CSSValue bgColour = birtStyle.getProperty( StyleConstants.STYLE_BACKGROUND_COLOR );
+		CSSValue bgColour = birtStyle.getProperty( StylePropertyIndexes.STYLE_BACKGROUND_COLOR );
 		int bgRgb[] = parseColour( bgColour == null ? null : bgColour.getCssText(), "white" );
 
 		short fgRgb[] = HSSFColor.BLACK.triplet;
@@ -258,30 +255,4 @@ public class StyleManagerHUtils extends StyleManagerUtils {
         return (int)( 255.0 * height / rowHeight );
 	}
 
-	@Override
-	public void prepareMarginDimensions(Sheet sheet, IPageContent page) {
-		double headerHeight = 0.5;
-		double footerHeight = 0.5;
-		if( ( page.getHeaderHeight() != null ) && isAbsolute( page.getHeaderHeight() ) ) {
-			headerHeight = page.getHeaderHeight().convertTo(DimensionType.UNITS_IN);
-			sheet.getPrintSetup().setHeaderMargin(headerHeight);
-		}
-		if( ( page.getFooterHeight() != null ) && isAbsolute( page.getFooterHeight() ) ) {
-			footerHeight = page.getFooterHeight().convertTo(DimensionType.UNITS_IN);
-			sheet.getPrintSetup().setFooterMargin(footerHeight);
-		}
-		if( ( page.getMarginBottom() != null ) && isAbsolute( page.getMarginBottom() ) ) {
-			sheet.setMargin(Sheet.BottomMargin, footerHeight + page.getMarginBottom().convertTo(DimensionType.UNITS_IN));
-		}
-		if( ( page.getMarginLeft() != null ) && isAbsolute( page.getMarginLeft() ) ) {
-			sheet.setMargin(Sheet.LeftMargin, page.getMarginLeft().convertTo(DimensionType.UNITS_IN));
-		}
-		if( ( page.getMarginRight() != null ) && isAbsolute( page.getMarginRight() ) ) {
-			sheet.setMargin(Sheet.RightMargin, page.getMarginRight().convertTo(DimensionType.UNITS_IN));
-		}
-		if( ( page.getMarginTop() != null ) && isAbsolute( page.getMarginTop() ) ) {
-			sheet.setMargin(Sheet.TopMargin, headerHeight + page.getMarginTop().convertTo(DimensionType.UNITS_IN));
-		}
-	}
-	
 }

@@ -22,9 +22,7 @@ import java.io.InputStream;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
-import org.junit.Ignore;
 
-@Ignore
 public class MultiSheetsReportTest extends ReportRunner {
 
 	@Test
@@ -167,7 +165,7 @@ public class MultiSheetsReportTest extends ReportRunner {
 			assertNotNull(workbook);
 			
 			assertEquals( 2, workbook.getNumberOfSheets() );
-			assertEquals( "Number Formats 2", workbook.getSheetAt(0).getSheetName());
+			assertEquals( "Number Formats 1", workbook.getSheetAt(0).getSheetName());
 			assertEquals( "Number Formats 3", workbook.getSheetAt(1).getSheetName());
 			
 			assertEquals(8, firstNullRow(workbook.getSheetAt(0)));

@@ -74,7 +74,7 @@ public class Issue76ExistingWorkbook extends ReportRunner {
 			assertEquals( 3, workbook.getNumberOfSheets() );
 			assertTrue( workbook.getSheetAt(0) instanceof XSSFChartSheet );
 			assertEquals( 280, firstNullRow( workbook.getSheetAt(1) ) );
-			assertEquals( 5, firstNullRow( workbook.getSheetAt(2) ) );
+			// Can't check any more here because the pivot table isn't updated until Excel loads it :(
 		} finally {
 			inputStream.close();
 		}

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 4.2.1.v201209101448 Build &lt;4.2.1.v20120912-1721></property>
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301221637 Build &lt;4.2.2.v20130206-1509></property>
     <text-property name="title">Big Crosstab Report 1</text-property>
     <method name="beforeFactory"><![CDATA[var path;
 if( reportContext.getHttpServletRequest() != null ) {
@@ -17,7 +17,10 @@ if( path!= null){
 	}
 }
 // java.lang.System.err.println( "resourcePath = " + path );
-this.getDataSource( "Mission Data Source" ).setPrivateDriverProperty( "HOME", path );]]></method>
+this.getDataSource( "Mission Data Source" ).setPrivateDriverProperty( "HOME", path );
+]]></method>
+    <method name="onPageStart"><![CDATA[
+reportContext.setPageVariable( reportContext.PAGE_VAR_PAGE_LABEL, "RawData" );]]></method>
     <data-sources>
         <oda-data-source extensionID="org.eclipse.datatools.connectivity.oda.flatfile" name="Mission Data Source" id="6">
             <property name="HOME">.</property>

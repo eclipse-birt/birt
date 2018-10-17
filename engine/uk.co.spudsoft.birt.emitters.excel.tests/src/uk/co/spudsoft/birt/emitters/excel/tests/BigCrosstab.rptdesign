@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.22" id="1">
-    <property name="createdBy">Eclipse BIRT Designer Version 3.7.1.v20110905 Build &lt;3.7.1.v20110905-1820></property>
+<report xmlns="http://www.eclipse.org/birt/2005/design" version="3.2.23" id="1">
+    <property name="createdBy">Eclipse BIRT Designer Version 4.2.2.v201301221637 Build &lt;4.2.2.v20130206-1509></property>
     <text-property name="title">Big Crosstab Report 1</text-property>
     <method name="beforeFactory"><![CDATA[var path;
 if( reportContext.getHttpServletRequest() != null ) {
@@ -468,7 +468,7 @@ this.getDataSource( "Mission Data Source" ).setPrivateDriverProperty( "HOME", pa
             </list-property>
             <text-property name="text">Reporting for duty!</text-property>
         </label>
-        <extended-item extensionName="Crosstab" extensionVersion="2.5.0" name="LaunchCrosstab"
+        <extended-item extensionName="Crosstab" extensionVersion="3.7.0" name="LaunchCrosstab"
  id="24">
             <property name="cube">Mission Cube</property>
             <property name="measures">
@@ -612,6 +612,7 @@ this.getDataSource( "Mission Data Source" ).setPrivateDriverProperty( "HOME", pa
             <property name="header">
                 <extended-item extensionName="CrosstabCell" id="25"/>
             </property>
+            <property name="rowPageBreakInterval">0</property>
             <list-property name="boundDataColumns">
                 <structure>
                     <property name="name">LaunchVehicle_LaunchVehicle</property>
