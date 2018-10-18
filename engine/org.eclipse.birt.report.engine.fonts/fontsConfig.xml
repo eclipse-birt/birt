@@ -120,6 +120,32 @@
     </composite-font>
 
     <!--
+	In this section, you can set the font path you want PDF layout engine to read, ranging from one font
+	file to a whole font folder.
+		for example:
+		add a font folder
+		<path path="c:/windows/fonts"/>
+		add a font file
+		<path path="/usr/X11R6/lib/X11/fonts/TTF/arial.ttf"/>
+
+	But please NOTE:
+ 		If this section is set, PDF layout engine will ONLY load the font files in these paths and ignore
+	the system defined font folder. If you want to use the system font folder as well, please include
+	it in this section.
+
+ 	On some systems, BIRT PDF layout engine may not recognize the system defined font folder. If you encounter
+	this issue, please add the font path to this section.
+    -->
+    <font-paths>
+        <path path="C:/birt-fonts" />
+        <path path="D:/birt-fonts" />
+        <path path="E:/birt-fonts" />
+        <path path="F:/birt-fonts" />
+        <path path="~/birt-fonts" />
+        <path path="/usr/share/birt-fonts" />
+    </font-paths>
+
+    <!--
         For <font-encodings> section,
         In most cases, you need not use this section, unless you are trying to use a non true-type font for
         PDF rendering.

@@ -82,17 +82,6 @@
                                 </artifactItem>
                                 <artifactItem>
                                     <groupId>org.eclipse.birt</groupId>
-                                    <artifactId>org.eclipse.birt.report.engine.fonts</artifactId>
-                                    <version>${birt.version}</version>
-                                    <type>jar</type>
-                                    <overWrite>false</overWrite>
-                                    <outputDirectory>${project.build.directory}/classes</outputDirectory>
-                                    <includes>
-                                        **/fontsConfig.xml
-                                    </includes>
-                                </artifactItem>
-                                <artifactItem>
-                                    <groupId>org.eclipse.birt</groupId>
                                     <artifactId>org.eclipse.birt.report.engine.odf</artifactId>
                                     <version>${birt.version}</version>
                                     <type>jar</type>
