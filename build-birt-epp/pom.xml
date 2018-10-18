@@ -21,7 +21,7 @@
 				<artifactId>tycho-p2-repository-plugin</artifactId>
 				<configuration>
 					<includeAllDependencies>true</includeAllDependencies>
-					<finalName>birt-epp-${birt.version}-${maven.build.timestamp}</finalName>
+					<finalName>birt-epp-${project.parent.version}</finalName>
 				</configuration>
 			</plugin>
 		</plugins>
