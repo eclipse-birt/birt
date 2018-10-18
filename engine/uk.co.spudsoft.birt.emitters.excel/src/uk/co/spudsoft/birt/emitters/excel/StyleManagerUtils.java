@@ -39,6 +39,7 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.apache.poi.xssf.usermodel.extensions.XSSFCellBorder.BorderSide;
 import org.eclipse.birt.report.engine.content.IPageContent;
 import org.eclipse.birt.report.engine.css.engine.value.DataFormatValue;
@@ -359,6 +360,10 @@ public abstract class StyleManagerUtils {
 			return Workbook.PICTURE_TYPE_JPEG;
 		} else if( "image/png".equals(mimeType) ) {
 			return Workbook.PICTURE_TYPE_PNG;
+		} else if ( "image/bmp".equals( mimeType ) ) {
+			return Workbook.PICTURE_TYPE_DIB;
+		} else if ( "image/gif".equals( mimeType ) ) {
+			return XSSFWorkbook.PICTURE_TYPE_GIF;
 		} else {
 			if( null != data ) {
 				log.debug( "Data bytes: "
@@ -374,6 +379,12 @@ public abstract class StyleManagerUtils {
 						) {
 					return Workbook.PICTURE_TYPE_JPEG;
 				}
+       			 if( ( data.length > 2 ) 
+						&& ( data[0] == (byte)'B')
+						&& ( data[1] == (byte)'M')
+            			) {
+					return XSSFWorkbook.PICTURE_TYPE_BMP;
+        }
 				if( ( data.length > 4 )
 						&& ( data[0] == (byte)0x89)
 						&& ( data[1] == (byte)'P') 
@@ -382,7 +393,14 @@ public abstract class StyleManagerUtils {
 						) {
 					return Workbook.PICTURE_TYPE_PNG;
 				}
-			} 
+        		if ((data.length > 2)
+            			&& (data[0] == (byte) 'G')
+            			&& (data[1] == (byte) 'I')
+            			&& (data[2] == (byte) 'F')
+            			) {
+                	return XSSFWorkbook.PICTURE_TYPE_GIF;
+        		}
+			}
 			return 0;
 		}
 	}

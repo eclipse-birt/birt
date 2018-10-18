@@ -14,6 +14,7 @@
 package uk.co.spudsoft.birt.emitters.excel;
 
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.poi.hssf.util.PaneInformation;
 import org.apache.poi.ss.usermodel.AutoFilter;
@@ -164,6 +165,10 @@ public class FilteredSheet implements Sheet {
 		return sheet.getColumnWidth(columnIndex);
 	}
 
+	@Override
+	public float getColumnWidthInPixels(int columnIndex) {
+		return sheet.getColumnWidthInPixels(columnIndex);
+	}
 
 	public void setDefaultColumnWidth(int width) {
 		sheet.setDefaultColumnWidth(width);
@@ -384,6 +389,10 @@ public class FilteredSheet implements Sheet {
 		return sheet.getLeftCol();
 	}
 
+	@Override
+	public void showInPane(int toprow, int leftcol) {
+		sheet.showInPane(toprow, leftcol);
+	}
 
 	public void showInPane(short toprow, short leftcol) {
 		sheet.showInPane(toprow, leftcol);
@@ -580,6 +589,10 @@ public class FilteredSheet implements Sheet {
 		return sheet.getDataValidationHelper();
 	}
 
+	@Override
+	public List<? extends DataValidation> getDataValidations() {
+		return sheet.getDataValidations();
+	}
 
 	public void addValidationData(DataValidation dataValidation) {
 		sheet.addValidationData(dataValidation);

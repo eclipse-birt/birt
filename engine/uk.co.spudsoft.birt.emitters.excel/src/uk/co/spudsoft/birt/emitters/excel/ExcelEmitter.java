@@ -44,6 +44,7 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
+import org.eclipse.birt.report.engine.content.impl.ContainerContent;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
@@ -56,6 +57,7 @@ public abstract class ExcelEmitter implements IContentEmitter {
 
 	public static final String DEBUG = "ExcelEmitter.DEBUG";
 	public static final String REMOVE_BLANK_ROWS = "ExcelEmitter.RemoveBlankRows";
+	public static final String REMOVE_ZERO_HEIGHT_ROWS = "ExcelEmitter.RemoveZeroHeightRows";
 	public static final String ROTATION_PROP = "ExcelEmitter.Rotation";
 	public static final String FORCEAUTOCOLWIDTHS_PROP = "ExcelEmitter.ForceAutoColWidths";
 	public static final String AUTO_COL_WIDTHS_HEADER = "ExcelEmitter.AutoColWidthsIncludeTableHeader";
@@ -439,6 +441,9 @@ public abstract class ExcelEmitter implements IContentEmitter {
 
 	public void startImage( IImageContent image ) throws BirtException {
 		log.debug( handlerState, "startImage: " );
+		if (image.getParent() instanceof ContainerContent)	{
+			image.setParent(image.getParent().getParent());
+		}
 		if( ! extractMode ) {
 			handlerState.getHandler().emitImage(handlerState,image);
 		}

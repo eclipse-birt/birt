@@ -13,18 +13,33 @@
 
 package uk.co.spudsoft.birt.emitters.excel.handlers;
 
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 import java.util.Collection;
 import java.util.regex.Pattern;
 
+import org.apache.commons.lang3.StringUtils;
+import org.apache.poi.POIXMLRelation;
+import org.apache.poi.hssf.usermodel.HSSFHeader;
+import org.apache.poi.openxml4j.opc.PackagePartName;
+import org.apache.poi.openxml4j.opc.PackageRelationship;
+import org.apache.poi.openxml4j.opc.PackageRelationshipTypes;
+import org.apache.poi.openxml4j.opc.TargetMode;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.ClientAnchor;
 import org.apache.poi.ss.usermodel.Drawing;
+import org.apache.poi.ss.usermodel.Footer;
 import org.apache.poi.ss.usermodel.HeaderFooter;
 import org.apache.poi.ss.usermodel.PrintSetup;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.util.CellRangeAddress;
+import org.apache.poi.xssf.usermodel.XSSFFactory;
+import org.apache.poi.xssf.usermodel.XSSFPictureData;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFVMLHeaderFooterImage;
+import org.apache.poi.xssf.usermodel.XSSFVMLHeaderFooterImage.ImageLocation;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IAutoTextContent;
@@ -39,8 +54,11 @@ import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.content.ITextContent;
 import org.eclipse.birt.report.engine.content.impl.CellContent;
+import org.eclipse.birt.report.engine.content.impl.ImageContent;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
+import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+import org.eclipse.birt.report.model.api.util.ColorUtil;
 
 import uk.co.spudsoft.birt.emitters.excel.CellImage;
 import uk.co.spudsoft.birt.emitters.excel.ClientAnchorConversions;
@@ -53,6 +71,8 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 
 public class PageHandler extends AbstractHandler {
 	
+	private String vmlHFImageDrawingId;
+
 	private static Pattern INVALID_CHARS_REGEX = Pattern.compile( "[/\\\\*'?\\[\\]:]+" );
 	
 	boolean created;
@@ -98,16 +118,16 @@ public class PageHandler extends AbstractHandler {
 						if( ftrTable.getColumnCount() <= 3 ) {
 							Object[] cellObjects = row.getChildren().toArray();
 							if( ftrTable.getColumnCount() == 1 ) {
-								poiHeaderFooter.setLeft( contentAsString( state, cellObjects[ 0 ] ) );
+								setLeftFooterHeader( state, poiHeaderFooter, cellObjects[0]);
 								handledAsGrid = true;
 							} else if( ftrTable.getColumnCount() == 2 ) {
-								poiHeaderFooter.setLeft( contentAsString( state, cellObjects[ 0 ] ) );
-								poiHeaderFooter.setRight( contentAsString( state, cellObjects[ 1 ] ) );
+								setLeftFooterHeader(state, poiHeaderFooter, cellObjects[0]);
+								setRightFooterHeader(state, poiHeaderFooter, cellObjects[1]);
 								handledAsGrid = true;
 							} else if( ftrTable.getColumnCount() == 3 ) {
-								poiHeaderFooter.setLeft( contentAsString( state, cellObjects[ 0 ] ) );
-								poiHeaderFooter.setCenter( contentAsString( state, cellObjects[ 1 ] ) );
-								poiHeaderFooter.setRight( contentAsString( state, cellObjects[ 2 ] ) );
+								setLeftFooterHeader(state, poiHeaderFooter, cellObjects[0]);
+								setCenterFooterHeader(state, poiHeaderFooter, cellObjects[1]);
+								setRightFooterHeader(state, poiHeaderFooter, cellObjects[2]);
 								handledAsGrid = true;
 							}
 						}
@@ -118,6 +138,135 @@ public class PageHandler extends AbstractHandler {
 				poiHeaderFooter.setLeft( contentAsString( state, ftrObject ) );
 			}
 		}
+	}
+
+	private void setLeftFooterHeader(HandlerState state, HeaderFooter poiHeaderFooter, Object cellObject) throws BirtException {
+		String style = getStyle((IContent) cellObject);
+		poiHeaderFooter.setLeft(contentAsStringWithStyle(state, cellObject, style));
+		addHeaderFooterImage(state, (IContent) cellObject, ImageLocation.getLeft(isFooter(poiHeaderFooter)));
+	}
+
+	private void setCenterFooterHeader(HandlerState state, HeaderFooter poiHeaderFooter, Object cellObject) throws BirtException {
+		String style = getStyle((IContent) cellObject);
+		poiHeaderFooter.setCenter(contentAsStringWithStyle(state, cellObject, style));
+		addHeaderFooterImage(state, (IContent) cellObject, ImageLocation.getCenter(isFooter(poiHeaderFooter)));
+	}
+
+	private void setRightFooterHeader(HandlerState state, HeaderFooter poiHeaderFooter, Object cellObject) throws BirtException {
+		String style = getStyle((IContent) cellObject);
+		poiHeaderFooter.setRight(contentAsStringWithStyle(state, cellObject, style));
+		addHeaderFooterImage(state, (IContent) cellObject, ImageLocation.getRight(isFooter(poiHeaderFooter)));
+	}
+
+	private String contentAsStringWithStyle(HandlerState state, Object cellObject, String style) throws BirtException {
+		String content = contentAsString(state, cellObject);
+		if (StringUtils.isEmpty(content) || "&G".equalsIgnoreCase(content)) {
+			return content;
+		} else {
+			return Character.isDigit(content.charAt(0)) ? style + " " + content : style + content;
+		}
+	}
+
+	private String getStyle(IContent content) {
+		return getHeaderFont(content) + getHeaderFontSize(content) + getHeaderBoldStyle(content) + getHeaderColor(content);
+	}
+
+	private String getHeaderBoldStyle(IContent content) {
+		if ("bold".equalsIgnoreCase(content.getComputedStyle().getFontWeight())) {
+			return HSSFHeader.startBold();
+		} else {
+			return "";
+		}
+	}
+
+	private String getHeaderColor(IContent content) {
+		String colorRRGGBBFormat = ColorUtil.format(content.getComputedStyle().getColor(), ColorUtil.HTML_FORMAT).substring(1);
+		return "000000".equals(colorRRGGBBFormat) ? "" : "&K" + colorRRGGBBFormat;
+	}
+
+	private String getHeaderFont(IContent content) {
+		String font = content.getComputedStyle().getFontFamily().replaceAll("^\"|\"$", "");
+		String style = content.getComputedStyle().getFontStyle();
+		return HSSFHeader.font(font, style);
+	}
+
+	private String getHeaderFontSize(IContent content) {
+		String fontSize = content.getComputedStyle().getFontSize();
+		double fontSizeInPt = DimensionType.parserUnit(fontSize).convertTo(DimensionType.UNITS_PT);
+		return HSSFHeader.fontSize((short) fontSizeInPt);
+	}
+
+	private boolean isFooter(HeaderFooter poiHeaderFooter) {
+		return poiHeaderFooter instanceof Footer;
+	}
+
+	@SuppressWarnings("unchecked")
+	private void addHeaderFooterImage(HandlerState state, IContent content, ImageLocation imageLocation) {
+		ImageContent image = (ImageContent) content.getChildren().stream().filter(c -> c instanceof ImageContent).findFirst().orElse(null);
+		if (image != null) {
+			Sheet sheet = state.currentSheet;
+			if (sheet instanceof XSSFSheet) {
+				addHeaderFooterImage(state, imageLocation, image, (XSSFSheet) sheet);
+			}
+		}
+	}
+
+	private void addHeaderFooterImage(HandlerState state, ImageLocation imageLocation, ImageContent image, XSSFSheet sheet) {
+		XSSFPictureData xssfPicture = addPicture(sheet.getWorkbook(), image, state);
+
+		XSSFVMLHeaderFooterImage vmlHFImageDrawing = getHFImageVmlDrawing(sheet);
+		PackagePartName pnIMG = xssfPicture.getPackagePart().getPartName();
+		PackageRelationship imageRelation = vmlHFImageDrawing.getPackagePart().addRelationship(pnIMG, TargetMode.INTERNAL,
+				PackageRelationshipTypes.IMAGE_PART);
+
+		vmlHFImageDrawing.newHeaderFooterImageShape(imageLocation, getHFImageStyle(image), imageRelation.getId());
+
+	}
+
+	private String getHFImageStyle(ImageContent image) {
+		DecimalFormat formatter = new DecimalFormat("#0.00");
+		DecimalFormatSymbols newDecimalSeparator = formatter.getDecimalFormatSymbols();
+		newDecimalSeparator.setDecimalSeparator('.');
+		formatter.setDecimalFormatSymbols(newDecimalSeparator);
+		String widthInPt = convertToPtExceptPx(image.getWidth(), formatter);
+		String heightInPt = convertToPtExceptPx(image.getHeight(), formatter);
+		return String.format("position:absolute;margin-left:0;margin-top:0;width:%s;height:%s;z-index:1", widthInPt, heightInPt);
+	}
+
+	private String convertToPtExceptPx(DimensionType dimension, DecimalFormat formatter) {
+		String result = "";
+		if (DesignChoiceConstants.UNITS_PX.equalsIgnoreCase(dimension.getUnits())) {
+			result = formatter.format(dimension.getMeasure()) + "px";
+		} else {
+			result = formatter.format(dimension.convertTo(DimensionType.UNITS_PT)) + "pt";
+		}
+		return result;
+	}
+
+	private XSSFVMLHeaderFooterImage getHFImageVmlDrawing(XSSFSheet sheet) {
+		if (vmlHFImageDrawingId == null) {
+			POIXMLRelation vmlDrawingNewRelation = new POIXMLRelation("application/vnd.openxmlformats-officedocument.vmlDrawing",
+					"http://schemas.openxmlformats.org/officeDocument/2006/relationships/vmlDrawing", "/xl/drawings/vmlDrawing#.vml",
+					XSSFVMLHeaderFooterImage.class) {
+			};
+			XSSFVMLHeaderFooterImage vmlHFImageDrawing = (XSSFVMLHeaderFooterImage) sheet.createRelationship(vmlDrawingNewRelation,
+					XSSFFactory.getInstance());
+			vmlHFImageDrawingId = sheet.getRelationId(vmlHFImageDrawing);
+			sheet.getCTWorksheet().addNewLegacyDrawingHF();
+			sheet.getCTWorksheet().getLegacyDrawingHF().setId(vmlHFImageDrawingId);
+			return vmlHFImageDrawing;
+		} else {
+			return (XSSFVMLHeaderFooterImage) sheet.getRelationById(vmlHFImageDrawingId);
+		}
+
+	}
+
+	private XSSFPictureData addPicture(Workbook workbook, ImageContent image, HandlerState state) {
+		byte[] data = image.getData();
+		String mimeType = image.getMIMEType();
+		int imageType = state.getSmu().poiImageTypeFromMimeType(mimeType, data);
+		int pictureId = workbook.addPicture(data, imageType);
+		return (XSSFPictureData) workbook.getAllPictures().get(pictureId);
 	}
 
 	@SuppressWarnings("rawtypes")
@@ -320,8 +469,8 @@ public class PageHandler extends AbstractHandler {
 		
 		if( EmitterServices.booleanOption( state.getRenderOptions(), page, ExcelEmitter.STRUCTURED_HEADER, false ) ) {
 			outputStructuredHeaderFooter(state, page.getFooter());
-		} 
-		
+		}
+
 		if( state.sheetPassword != null ) {
 			log.debug("Attempting to protect sheet ", ( state.getWb().getNumberOfSheets() - 1 ) );
 			state.currentSheet.protectSheet( state.sheetPassword );
@@ -332,6 +481,12 @@ public class PageHandler extends AbstractHandler {
 		if( ! state.images.isEmpty() ) {
 			drawing = state.currentSheet.createDrawingPatriarch();
 		}
+
+		boolean removeZeroHeightRows = EmitterServices.booleanOption(state.getRenderOptions(), page, ExcelEmitter.REMOVE_ZERO_HEIGHT_ROWS, true);
+		if (removeZeroHeightRows) {
+			removeZeroHeightRows(state);
+		}
+
 		for( CellImage cellImage : state.images ) {
 			processCellImage(state,drawing,cellImage);
 		}
@@ -346,6 +501,20 @@ public class PageHandler extends AbstractHandler {
 		state.sheetName = null;
 	}
 	
+	private void removeZeroHeightRows(HandlerState state) {
+		Sheet sheet = state.currentSheet;
+		for (int j = 0; j < sheet.getLastRowNum(); j++) {
+			if (sheet.getRow(j).getHeight() == 0) {
+				sheet.shiftRows(j + 1, sheet.getLastRowNum(), -1, true, false);
+				int curentColumn = j;
+				state.images.stream().filter(image -> image.location.getRow() > curentColumn)
+						.forEach(image -> image.location.setRow(image.location.getRow() - 1));
+				--j;
+			}
+		}
+
+	}
+
 	private CellRangeAddress getMergedRegionBegunBy( Sheet sheet, int row, int col ) {
 		for( int i = 0; i < sheet.getNumMergedRegions(); ++i ) {
 			CellRangeAddress range = sheet.getMergedRegion(i);
@@ -401,7 +570,7 @@ public class PageHandler extends AbstractHandler {
 	        log.debug( "Image size: ", image.getWidth(), " translates as mmWidth = ", mmWidth );
 	        if( mmWidth > 0) {
 	            double mmAccumulatedWidth = 0;
-	            int endColLimit = cellImage.spanColumns ? 256 : mergedRegion.getLastColumn();
+	            int endColLimit = cellImage.spanColumns ? cell.getColumnIndex() + 256 : mergedRegion.getLastColumn();
 	            for( endCol = cell.getColumnIndex(); mmAccumulatedWidth < mmWidth && endCol < endColLimit; ++ endCol ) {
 	                lastColWidth = ClientAnchorConversions.widthUnits2Millimetres( (short)state.currentSheet.getColumnWidth( endCol ) )
 	                		+ 2.0;

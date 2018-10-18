@@ -133,6 +133,8 @@ public class StringCellHandler extends CellContentHandler {
 
 	@Override
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
+		log.debug( "image:" + image.getName() );
+		emitContent(state, image, "&G", false);
 	}
 
 	@Override

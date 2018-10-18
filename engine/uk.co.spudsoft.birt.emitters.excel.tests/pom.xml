@@ -24,6 +24,14 @@
 							</requirement>
 						</extraRequirements>
 					</dependency-resolution>
+				</configuration>	
+			</plugin>
+			<plugin>
+              <groupId>org.eclipse.tycho</groupId>
+              <artifactId>tycho-compiler-plugin</artifactId>
+				<configuration>
+					<compilerArgument>-warn:none</compilerArgument>     
+					<compilerArgument>-err:none</compilerArgument>      
 				</configuration>
 			</plugin>
 		</plugins>
