@@ -136,14 +136,57 @@
  	On some systems, BIRT PDF layout engine may not recognize the system defined font folder. If you encounter
 	this issue, please add the font path to this section.
     -->
-    <font-paths>
-        <path path="C:/birt-fonts" />
-        <path path="D:/birt-fonts" />
-        <path path="E:/birt-fonts" />
-        <path path="F:/birt-fonts" />
-        <path path="~/birt-fonts" />
-        <path path="/usr/share/birt-fonts" />
-    </font-paths>
+
+	<font-paths>
+		<path path="C:/windows/fonts" />
+		<path path="d:/windows/fonts" />
+		<path path="e:/windows/fonts" />
+		<path path="f:/windows/fonts" />
+		<path path="g:/windows/fonts" />
+		<path path="C:/WINNT/fonts" />
+		<path path="d:/WINNT/fonts" />
+		<path path="e:/WINNT/fonts" />
+		<path path="f:/WINNT/fonts" />
+		<path path="g:/WINNT/fonts" />
+		<path path="/usr/X/lib/X11/fonts/TrueType" />
+		<path path="/usr/share/fonts/default/TrueType" />
+		<path path="/usr/openwin/lib/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/euro_fonts/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_2/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_5/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_7/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_8/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_9/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_13/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/iso_8859_15/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/ar/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/hi_IN.UTF-8/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/ja/X11/fonts/TT" />
+		<path path="/usr/openwin/lib/locale/ko/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/ko.UTF-8/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/KOI8-R/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/ru.ansi-1251/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/th_TH/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/zh_TW/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/zh_TW.BIG5/X11/fonts/TT" />
+		<path path="/usr/openwin/lib/locale/zh_HK.BIG5HK/X11/fonts/TT" />
+		<path path="/usr/openwin/lib/locale/zh_CN.GB18030/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/zh/X11/fonts/TrueType" />
+		<path path="/usr/openwin/lib/locale/zh.GBK/X11/fonts/TrueType" />
+		<path path="/usr/X11R6/lib/X11/fonts/TrueType" />
+		<path path="/usr/X11R6/lib/X11/fonts/truetype" />
+		<path path="/usr/X11R6/lib/X11/fonts/tt" />
+		<path path="/usr/X11R6/lib/X11/fonts/TTF" />
+		<path path="/usr/X11R6/lib/X11/fonts/OTF" />
+		<path path="/usr/share/fonts/ja/TrueType" />
+		<path path="/usr/share/fonts/truetype" />
+		<path path="/usr/share/fonts/ko/TrueType" />
+		<path path="/usr/share/fonts/zh_CN/TrueType" />
+		<path path="/usr/share/fonts/zh_TW/TrueType" />
+		<path path="/var/lib/defoma/x-ttcidfont-conf.d/dirs/TrueType" />
+		<path path="/usr/share/fonts/TTF" />
+		<path path="/usr/share/fonts/OTF" />
+	</font-paths>
 
     <!--
         For <font-encodings> section,
