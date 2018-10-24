@@ -19,6 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.olap.cursor.CubeCursor;
+
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
@@ -56,6 +58,7 @@ import org.eclipse.birt.report.data.adapter.api.IModelAdapter.ExpressionLocation
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IHTMLImageHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
+import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.extension.ICubeResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
@@ -251,8 +254,12 @@ public class ChartReportItemUtil extends ChartItemUtil
 		if ( set instanceof IQueryResultSet )
 		{
 			return ( (IQueryResultSet) set ).isEmpty( );
+		}  else if ( set instanceof CubeResultSet )
+		{
+			  CubeCursor cursor = (( (CubeResultSet) set ).getCubeCursor());
+			  return cursor.getOrdinateEdge().size() != 0;
 		}
-		// TODO add code to check empty for ICubeResultSet
+
 		return false;
 	}
 
