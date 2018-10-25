@@ -256,7 +256,11 @@ public class ChartReportItemUtil extends ChartItemUtil
 		}  else if ( set instanceof ICubeResultSet )
 		{
 			  CubeCursor cursor = (( (ICubeResultSet) set ).getCubeCursor());
-			  return cursor.getOrdinateEdge().size() != 0;
+			  if(cursor != null)
+			  {
+				  List edges = cursor.getOrdinateEdge();
+				  return edges != null && !edges.isEmpty();
+			  }
 		}
 
 		return false;
