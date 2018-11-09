@@ -60,7 +60,7 @@ public class TextAreaLayout extends ContainerLayout
 			comp = new TextCompositor( textContent, context.getFontManager( ),
 					context.getBidiProcessing( ),
 					context.getFontSubstitution( ), context.getTextWrapping( ),
-					context.isEnableHyphenation( ), context.getLocale( ) );
+					context.isEnableWordbreak( ), context.getLocale( ) );
 			// checks whether the current line is empty or not.
 			ContainerLayout ancestor = parentLM;
 			do
