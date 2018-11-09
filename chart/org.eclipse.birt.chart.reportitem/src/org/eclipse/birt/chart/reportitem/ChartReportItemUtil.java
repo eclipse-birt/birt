@@ -259,10 +259,10 @@ public class ChartReportItemUtil extends ChartItemUtil
 			  if(cursor != null)
 			  {
 				  List edges = cursor.getOrdinateEdge();
-				  return edges != null && !edges.isEmpty();
+				  return edges == null || edges.isEmpty();
 			  }
 		}
-
+		
 		return false;
 	}
 
