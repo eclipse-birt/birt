@@ -450,6 +450,8 @@ enabled, by default it's true.</xsd:documentation>
 			<xsd:enumeration value="DayOfWeek"></xsd:enumeration>
 			<xsd:enumeration value="DayOfMonth"></xsd:enumeration>
 			<xsd:enumeration value="DayOfYear"></xsd:enumeration>
+			<xsd:enumeration value="WeekOfQuarter"></xsd:enumeration>
+			<xsd:enumeration value="DayOfQuarter"></xsd:enumeration>
 		</xsd:restriction>
 	</xsd:simpleType>
 	<xsd:simpleType name="UnitsOfMeasurement">
