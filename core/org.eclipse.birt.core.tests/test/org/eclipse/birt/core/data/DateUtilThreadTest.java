@@ -11,9 +11,11 @@
 
 package org.eclipse.birt.core.data;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.TestCase;
 
 /**
  * 
@@ -21,8 +23,8 @@ import com.ibm.icu.util.ULocale;
 
 public class DateUtilThreadTest extends TestCase
 {
-
-	public void test() throws InterruptedException
+	@Test
+    public void test() throws InterruptedException
 	{
 		TestThread[] tt = new TestThread[20];
 

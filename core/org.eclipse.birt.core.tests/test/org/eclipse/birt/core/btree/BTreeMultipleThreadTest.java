@@ -15,14 +15,16 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 public class BTreeMultipleThreadTest extends TestCase
 {
 
 	static int KEY_COUNT = 10000;
-
-	public void testCursor( ) throws Exception
+	@Test
+    public void testCursor( ) throws Exception
 	{
 		new File( "./utest/btree.dat" ).delete( );
 		FileBTreeFile file = new FileBTreeFile( "./utest/btree.dat" );

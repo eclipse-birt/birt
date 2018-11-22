@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.olap.data.util;
 import java.io.IOException;
 import java.util.Date;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.*;
@@ -26,32 +25,28 @@ import org.eclipse.birt.data.engine.olap.data.util.DiskIndex;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.IndexKey;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
 
-public class DiskIndexTest extends TestCase
-{
+public class DiskIndexTest {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testDiskIndexBytes( ) throws IOException, DataException
+@Test
+    public void testDiskIndexBytes( ) throws IOException, DataException
 	{
 		int keyNumber = 100;
 		BufferedStructureArray keyList = new BufferedStructureArray( IndexKey.getCreator( ),
@@ -97,8 +92,8 @@ public class DiskIndexTest extends TestCase
 		b[2] = (byte) ( i + 2 );
 		return new Bytes( b );
 	}
-
-	public void testDiskIndexDate( ) throws IOException, DataException
+	@Test
+    public void testDiskIndexDate( ) throws IOException, DataException
 	{
 		for ( int i = 1; i < 10; i++ )
 			DiskIndexDateTest( i );
@@ -143,8 +138,8 @@ public class DiskIndexTest extends TestCase
 		keyList.close( );
 		
 	}
-	
-	public void testDiskIndexInteger( ) throws IOException, DataException
+	@Test
+    public void testDiskIndexInteger( ) throws IOException, DataException
 	{
 		int keyNumber = 10000;
 		BufferedStructureArray keyList = new BufferedStructureArray( IndexKey.getCreator( ),
@@ -189,8 +184,8 @@ public class DiskIndexTest extends TestCase
 		keyList.clear( );
 		keyList.close( );
 	}
-	
-	public void testDiskIndexInteger1( ) throws IOException, DataException
+	@Test
+    public void testDiskIndexInteger1( ) throws IOException, DataException
 	{
 		integerTestForDiskIndex( 1 );
 		integerTestForDiskIndex( 2 );
@@ -238,8 +233,8 @@ public class DiskIndexTest extends TestCase
 		keyList.clear( );
 		keyList.close( );
 	}
-
-	public void testDiskIndexInteger2( ) throws IOException, DataException
+	@Test
+    public void testDiskIndexInteger2( ) throws IOException, DataException
 	{
 		int keyNumber = 3000;
 		BufferedStructureArray keyList = new BufferedStructureArray( IndexKey.getCreator( ),
@@ -319,8 +314,8 @@ public class DiskIndexTest extends TestCase
 				+ System.currentTimeMillis( ) / 100 );
 		
 	}
-	
-	public void testDiskIndexInteger3( ) throws IOException, DataException
+	@Test
+    public void testDiskIndexInteger3( ) throws IOException, DataException
 	{
 		int keyNumber = 3000;
 		BufferedStructureArray keyList = new BufferedStructureArray( IndexKey.getCreator( ),
@@ -382,8 +377,8 @@ public class DiskIndexTest extends TestCase
 		System.out.println( "search finished   :"
 				+ System.currentTimeMillis( ) / 100 );
 	}
-	
-	public void testDiskIndexInteger4( ) throws IOException, DataException
+	@Test
+    public void testDiskIndexInteger4( ) throws IOException, DataException
 	{
 		int keyNumber = 100000;
 		BufferedStructureArray keyList = new BufferedStructureArray( IndexKey.getCreator( ),
@@ -498,8 +493,8 @@ public class DiskIndexTest extends TestCase
 		keyList.clear( );
 		keyList.close( );
 	}
-	
-	public void testDiskIndexInteger5( ) throws IOException, DataException
+	@Test
+    public void testDiskIndexInteger5( ) throws IOException, DataException
 	{
 		int keyNumber = 1000;
 		BufferedStructureArray keyList = new BufferedStructureArray( IndexKey.getCreator( ),
@@ -567,8 +562,8 @@ public class DiskIndexTest extends TestCase
 		keyList.clear( );
 		keyList.close( );
 	}
-	
-	public void testDiskIndexTopBottom( ) throws IOException, DataException
+	@Test
+    public void testDiskIndexTopBottom( ) throws IOException, DataException
 	{
 		int keyNumber = 1000;
 		BufferedStructureArray keyList = new BufferedStructureArray( IndexKey.getCreator( ),
@@ -669,10 +664,8 @@ public class DiskIndexTest extends TestCase
 		keyList.clear( );
 		keyList.close( );
 	}
-	
-	
-	
-	public void testDiskIndexString4( ) throws IOException, DataException
+	@Test
+    public void testDiskIndexString4( ) throws IOException, DataException
 	{
 		int keyNumber = 100000;
 		BufferedStructureArray keyList = new BufferedStructureArray( IndexKey.getCreator( ),

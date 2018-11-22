@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Engine
 Bundle-SymbolicName: org.eclipse.birt.report.engine; singleton:=true
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-ClassPath: enginetesthelper.jar,
  .,
  lib/Tidy.jar,
@@ -76,16 +76,16 @@ Export-Package: org.eclipse.birt.report.engine.adapter,
  org.eclipse.birt.report.engine.toc,
  org.eclipse.birt.report.engine.toc.document,
  org.eclipse.birt.report.engine.util
-Require-Bundle: org.w3c.css.sac,
+Require-Bundle: org.w3c.css.sac;bundle-version="1.3.1",
  org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:=reexport,
  org.eclipse.birt.report.model;bundle-version="[2.1.0,5.0.0)";visibility:=reexport,
  org.eclipse.birt.data;bundle-version="[2.1.0,5.0.0)",
  com.lowagie.text;bundle-version="[1.3.0,3.0.0)";resolution:=optional,
  org.eclipse.birt.report.engine.fonts;bundle-version="[2.1.0,5.0.0)";resolution:=optional,
  org.eclipse.birt.report.data.adapter,
- org.apache.batik.transcoder,
- org.apache.batik.css,
- org.apache.batik.util
+ org.apache.batik.transcoder;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.css;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.util;bundle-version="[1.7.0,1.8.0)"
 Eclipse-LazyStart: true
 Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

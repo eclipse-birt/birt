@@ -12,7 +12,6 @@
 package org.eclipse.birt.data.engine.expression;
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.data.DataTypeUtil;
@@ -23,11 +22,16 @@ import org.eclipse.birt.data.engine.impl.aggregation.AggregateRegistry;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test case for ExpressionCompiler
  */
-public class ExpressionCompilerTest extends TestCase
-{
+public class ExpressionCompilerTest {
 
 	private ExpressionCompiler compiler;
 	
@@ -49,9 +53,10 @@ public class ExpressionCompilerTest extends TestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void expressionCompilerSetUp() throws Exception
 	{
-		super.setUp( );
+
 		compiler = new ExpressionCompiler( );
 		
 		// Test cases can share one context because they are executed on the same test thread
@@ -63,13 +68,13 @@ public class ExpressionCompilerTest extends TestCase
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void expressionCompilerTearDown() throws Exception
 	{
 		cx.close( );
-		super.tearDown( );
 	}
-
-	public void testDirectColRefByName( ) throws Exception
+	@Test
+    public void testDirectColRefByName( ) throws Exception
 	{
 		CompiledExpression expr;
 		int type;
@@ -104,8 +109,8 @@ public class ExpressionCompilerTest extends TestCase
 		assertEquals( type, CompiledExpression.TYPE_COMPLEX_EXPR );
 		
 	}
-
-	public void testDirectColRefByName1( ) throws Exception
+	@Test
+    public void testDirectColRefByName1( ) throws Exception
 	{
 		CompiledExpression expr;
 		int type;
@@ -118,8 +123,8 @@ public class ExpressionCompilerTest extends TestCase
 		assertEquals( "col", strColumnName );
 		
 	}
-
-	public void testDirectColRefByIndex( ) throws Exception
+	@Test
+    public void testDirectColRefByIndex( ) throws Exception
 	{
 		CompiledExpression expr;
 		int type;
@@ -130,7 +135,8 @@ public class ExpressionCompilerTest extends TestCase
 	}
 	
 	// Test aggregate expressions
-	public void testAggregateExpression() throws Exception
+	@Test
+    public void testAggregateExpression() throws Exception
 	{
 		CompiledExpression expr, arg1, arg2, arg3, arg4;
 		AggregateExpression aggr; 
@@ -214,7 +220,8 @@ public class ExpressionCompilerTest extends TestCase
 	}
 	
 	// Test expressions that contain multiple statements
-	public void testMultiExpression() throws Exception
+	@Test
+    public void testMultiExpression() throws Exception
 	{
 		this.aggrExprs.clear();
 		CompiledExpression expr = compiler.compile(
@@ -246,7 +253,8 @@ public class ExpressionCompilerTest extends TestCase
 	 * Please refer to SCR #75905
 	 * Exception thrown out when choose "select value" without expression if set filter  
 	 */
-	public void testSCR75905()
+	@Test
+    public void testSCR75905()
 	{
 		ExpressionCompiler compiler = new ExpressionCompiler( );
 

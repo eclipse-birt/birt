@@ -92,6 +92,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  *  
  */
@@ -107,7 +113,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasic( ) throws Exception
+	@Test
+    public void testBasic( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -178,7 +185,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testQueryWithoutMeasure( ) throws Exception
+	@Test
+    public void testQueryWithoutMeasure( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -246,7 +254,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasic1( ) throws Exception
+	@Test
+    public void testBasic1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -306,7 +315,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasic3( ) throws Exception
+	@Test
+    public void testBasic3( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -381,7 +391,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Test adding nest aggregations cube operation	
 	 * @throws Exception
 	 */
-	public void testAddingNestAggregations( ) throws Exception
+	@Test
+    public void testAddingNestAggregations( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -493,7 +504,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Test adding nest aggregations cube operation	
 	 * @throws Exception
 	 */
-	public void testAddingNestAggregationsWithExpression( ) throws Exception
+	@Test
+    public void testAddingNestAggregationsWithExpression( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -608,7 +620,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Test adding nest aggregations cube operation	
 	 * @throws Exception
 	 */
-	public void testAddingNestAggregationsWithExpressionFromBindings( ) throws Exception
+	@Test
+    public void testAddingNestAggregationsWithExpressionFromBindings( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -729,7 +742,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Test adding nest aggregations cube operation	
 	 * @throws Exception
 	 */
-	public void testCubeRankAggregation( ) throws Exception
+	@Test
+    public void testCubeRankAggregation( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -831,7 +845,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Test adding nest aggregations cube operation	 and filter on this nested aggregation.
 	 * @throws Exception
 	 */
-	public void testCubeRankAggregation2( ) throws Exception
+	@Test
+    public void testCubeRankAggregation2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -937,8 +952,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		cursor.close( );
 		engine.shutdown( );
 	}
-	
-	public void testValidateBinding( ) throws Exception
+	@Test
+    public void testValidateBinding( ) throws Exception
 	{
 		checkDuplicateBindingName( );
 		checkInexistentReference( );
@@ -1142,7 +1157,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Boundary test for adding nest aggregations cube operation	
 	 * @throws Exception
 	 */
-	public void testAddingNestAggregationsBoundary( ) throws Exception
+	@Test
+    public void testAddingNestAggregationsBoundary( ) throws Exception
 	{
 		checkNonexistentDimensionException();
 		checkNonexistentLevelException();
@@ -1306,7 +1322,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasic4( ) throws Exception
+	@Test
+    public void testBasic4( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1387,7 +1404,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasic5( ) throws Exception
+	@Test
+    public void testBasic5( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1481,7 +1499,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasic6( ) throws Exception
+	@Test
+    public void testBasic6( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1575,7 +1594,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testInvalidBinding( ) throws Exception
+	@Test
+    public void testInvalidBinding( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1646,7 +1666,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter1( ) throws Exception
+	@Test
+    public void testFilter1( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -1706,8 +1727,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		engine.shutdown( );
 
 	}
-
-	public void testDimensionQuery1( ) throws Exception
+	@Test
+    public void testDimensionQuery1( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -1742,8 +1763,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		engine.shutdown( );
 
 	}
-	
-	public void testDimensionQuery2( ) throws Exception
+	@Test
+    public void testDimensionQuery2( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -1774,8 +1795,8 @@ public class CubeFeaturesTest extends BaseTestCase
 		engine.shutdown( );
 
 	}
-	
-	public void testDimensionQuery3( ) throws Exception
+	@Test
+    public void testDimensionQuery3( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -1821,7 +1842,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter2( ) throws Exception
+	@Test
+    public void testFilter2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1891,7 +1913,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter3( ) throws Exception
+	@Test
+    public void testFilter3( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -1961,7 +1984,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter4( ) throws Exception
+	@Test
+    public void testFilter4( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2026,7 +2050,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter5( ) throws Exception
+	@Test
+    public void testFilter5( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -2089,7 +2114,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter6( ) throws Exception
+	@Test
+    public void testFilter6( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -2158,7 +2184,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Test collection IN filter
 	 * @throws Exception
 	 */
-	public void testFilter7( ) throws Exception
+	@Test
+    public void testFilter7( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -2237,7 +2264,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Test collection NOTIN filter
 	 * @throws Exception
 	 */
-	public void testFilter8( ) throws Exception
+	@Test
+    public void testFilter8( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -2317,7 +2345,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter9( ) throws Exception
+	@Test
+    public void testFilter9( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2420,7 +2449,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter10( ) throws Exception
+	@Test
+    public void testFilter10( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2482,7 +2512,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter11( ) throws Exception
+	@Test
+    public void testFilter11( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2553,7 +2584,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter12( ) throws Exception
+	@Test
+    public void testFilter12( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2628,7 +2660,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 *
 	 * @throws Exception
 	 */
-	public void testFilter13( ) throws Exception
+	@Test
+    public void testFilter13( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2693,7 +2726,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrFilter( ) throws Exception
+	@Test
+    public void testAggrFilter( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2789,8 +2823,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				"measure1" );
 		engine.shutdown( );
 	}
-
-	public void testAggrFilter1( ) throws Exception
+	@Test
+    public void testAggrFilter1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2875,7 +2909,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrFilter2( ) throws Exception
+	@Test
+    public void testAggrFilter2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2934,7 +2969,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testMeasureFilter( ) throws Exception
+	@Test
+    public void testMeasureFilter( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -2990,7 +3026,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * Top N measure filter
 	 * @throws Exception
 	 */
-	public void testMeasureFilter1( ) throws Exception
+	@Test
+    public void testMeasureFilter1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -3051,7 +3088,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSort1( ) throws Exception
+	@Test
+    public void testSort1( ) throws Exception
 	{
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
@@ -3118,7 +3156,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSort2( ) throws Exception
+	@Test
+    public void testSort2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -3196,7 +3235,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSort3( ) throws Exception
+	@Test
+    public void testSort3( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -3277,7 +3317,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSort4( ) throws Exception
+	@Test
+    public void testSort4( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -3334,7 +3375,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSortWithExpr( ) throws Exception
+	@Test
+    public void testSortWithExpr( ) throws Exception
 	{
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
@@ -3403,7 +3445,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	/**
 	 * expression sort on attribute
 	 */
-	public void testSortWithExpr1( ) throws Exception
+	@Test
+    public void testSortWithExpr1( ) throws Exception
 	{
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
@@ -3474,7 +3517,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSortWithExpr2( ) throws Exception
+	@Test
+    public void testSortWithExpr2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -3542,9 +3586,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				"measure1" );
 		engine.shutdown( );
 	}
-
-	
-	public void testSortWithExpr3( ) throws Exception
+	@Test
+    public void testSortWithExpr3( ) throws Exception
 	{
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
 		this.createCube( engine );
@@ -3613,7 +3656,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGrandTotal( ) throws Exception
+	@Test
+    public void testGrandTotal( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -3718,7 +3762,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testQueryWithoutEdge( ) throws Exception
+	@Test
+    public void testQueryWithoutEdge( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 
@@ -3748,7 +3793,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGrandTotal1( ) throws Exception
+	@Test
+    public void testGrandTotal1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -3855,7 +3901,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort( ) throws Exception
+	@Test
+    public void testAggrSort( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -3970,7 +4017,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort1( ) throws Exception
+	@Test
+    public void testAggrSort1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4026,7 +4074,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort2( ) throws Exception
+	@Test
+    public void testAggrSort2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4095,7 +4144,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort3( ) throws Exception
+	@Test
+    public void testAggrSort3( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4176,7 +4226,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort5( ) throws Exception
+	@Test
+    public void testAggrSort5( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4236,7 +4287,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort6( ) throws Exception
+	@Test
+    public void testAggrSort6( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4319,7 +4371,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBindingRowReference( ) throws Exception
+	@Test
+    public void testBindingRowReference( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4440,7 +4493,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testComputedMeasure( ) throws Exception
+	@Test
+    public void testComputedMeasure( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4512,7 +4566,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNestedComputedMeasure( ) throws Exception
+	@Test
+    public void testNestedComputedMeasure( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4586,7 +4641,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGrandTotalWithComputedMeasure( ) throws Exception
+	@Test
+    public void testGrandTotalWithComputedMeasure( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4697,7 +4753,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testInvalidComputedMeasure1( ) throws Exception
+	@Test
+    public void testInvalidComputedMeasure1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4761,7 +4818,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasicCache( ) throws Exception
+	@Test
+    public void testBasicCache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4835,7 +4893,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasic1Cache( ) throws Exception
+	@Test
+    public void testBasic1Cache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4902,7 +4961,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testTwoCaches( ) throws Exception
+	@Test
+    public void testTwoCaches( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -4997,7 +5057,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter1Cache( ) throws Exception
+	@Test
+    public void testFilter1Cache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5070,7 +5131,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilter2Cache( ) throws Exception
+	@Test
+    public void testFilter2Cache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5148,7 +5210,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSort1Cache( ) throws Exception
+	@Test
+    public void testSort1Cache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5221,7 +5284,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSort2Cache( ) throws Exception
+	@Test
+    public void testSort2Cache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5307,7 +5371,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testGrandTotalCache( ) throws Exception
+	@Test
+    public void testGrandTotalCache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5416,7 +5481,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSortCache( ) throws Exception
+	@Test
+    public void testAggrSortCache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5528,7 +5594,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort1Cache( ) throws Exception
+	@Test
+    public void testAggrSort1Cache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5592,7 +5659,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort2Cache( ) throws Exception
+	@Test
+    public void testAggrSort2Cache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5670,7 +5738,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort3Cache( ) throws Exception
+	@Test
+    public void testAggrSort3Cache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5760,7 +5829,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggrSort5Cache( ) throws Exception
+	@Test
+    public void testAggrSort5Cache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5829,7 +5899,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBindingRowReferenceCache( ) throws Exception
+	@Test
+    public void testBindingRowReferenceCache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -5955,7 +6026,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testComputedMeasureCache( ) throws Exception
+	@Test
+    public void testComputedMeasureCache( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6035,7 +6107,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggregationOnCalculatedMeasure( ) throws Exception
+	@Test
+    public void testAggregationOnCalculatedMeasure( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6120,7 +6193,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testAggregationOnDerivedMeasure( ) throws Exception
+	@Test
+    public void testAggregationOnDerivedMeasure( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6205,7 +6279,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNestedCrossTab( ) throws Exception
+	@Test
+    public void testNestedCrossTab( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6322,7 +6397,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNestedCrossTab1( ) throws Exception
+	@Test
+    public void testNestedCrossTab1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6413,7 +6489,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNestedCrossTab2( ) throws Exception
+	@Test
+    public void testNestedCrossTab2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6521,7 +6598,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNestedCrossTab3( ) throws Exception
+	@Test
+    public void testNestedCrossTab3( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6606,7 +6684,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNestedCrossTab4( ) throws Exception
+	@Test
+    public void testNestedCrossTab4( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6709,7 +6788,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNestedCrossTab5( ) throws Exception
+	@Test
+    public void testNestedCrossTab5( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6863,7 +6943,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testMirroredCrosstab( ) throws Exception
+	@Test
+    public void testMirroredCrosstab( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -6924,8 +7005,8 @@ public class CubeFeaturesTest extends BaseTestCase
 				"measure1" );
 		engine.shutdown( );
 	}
-	
-	public void testSubQueryWithNestAggregation( ) throws BirtException, IOException, OLAPException
+	@Test
+    public void testSubQueryWithNestAggregation( ) throws BirtException, IOException, OLAPException
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -7015,7 +7096,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSubQuery1( ) throws Exception
+	@Test
+    public void testSubQuery1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -7280,7 +7362,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSubQuery2( ) throws Exception
+	@Test
+    public void testSubQuery2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -7521,7 +7604,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSubQuery3( ) throws Exception
+	@Test
+    public void testSubQuery3( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
@@ -7633,7 +7717,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod1() throws Exception {
+	@Test
+    public void testRelativeTimePeriod1() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -7705,7 +7790,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod2() throws Exception {
+	@Test
+    public void testRelativeTimePeriod2() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -7774,7 +7860,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod3() throws Exception {
+	@Test
+    public void testRelativeTimePeriod3() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -7843,7 +7930,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod12() throws Exception {
+	@Test
+    public void testRelativeTimePeriod12() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -7912,7 +8000,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod5() throws Exception {
+	@Test
+    public void testRelativeTimePeriod5() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -7979,7 +8068,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod9() throws Exception {
+	@Test
+    public void testRelativeTimePeriod9() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8046,7 +8136,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod6() throws Exception {
+	@Test
+    public void testRelativeTimePeriod6() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8113,7 +8204,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod13() throws Exception {
+	@Test
+    public void testRelativeTimePeriod13() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8181,7 +8273,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod14() throws Exception {
+	@Test
+    public void testRelativeTimePeriod14() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8269,7 +8362,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod15() throws Exception {
+	@Test
+    public void testRelativeTimePeriod15() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8355,7 +8449,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * test add two time functions
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod16() throws Exception {
+	@Test
+    public void testRelativeTimePeriod16() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8443,7 +8538,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * test add two time functions
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod17() throws Exception {
+	@Test
+    public void testRelativeTimePeriod17() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8557,7 +8653,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod18() throws Exception {
+	@Test
+    public void testRelativeTimePeriod18() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8626,7 +8723,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * add two time functions, one use fixed date, one use last member
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod19() throws Exception
+	@Test
+    public void testRelativeTimePeriod19() throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
@@ -8715,7 +8813,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod7() throws Exception {
+	@Test
+    public void testRelativeTimePeriod7() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8784,7 +8883,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod10() throws Exception {
+	@Test
+    public void testRelativeTimePeriod10() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8853,7 +8953,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod8() throws Exception {
+	@Test
+    public void testRelativeTimePeriod8() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd
@@ -8920,7 +9021,8 @@ public class CubeFeaturesTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRelativeTimePeriod11() throws Exception {
+	@Test
+    public void testRelativeTimePeriod11() throws Exception {
 		ICubeQueryDefinition cqd = new CubeQueryDefinition(DateCube.cubeName);
 
 		IEdgeDefinition rowEdge = cqd

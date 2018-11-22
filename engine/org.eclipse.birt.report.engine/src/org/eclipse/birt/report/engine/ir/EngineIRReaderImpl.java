@@ -1297,6 +1297,10 @@ public class EngineIRReaderImpl implements IOConstants
 				boolean hasExpr = IOUtil.readBool( in );
 				design.setHasExpression( hasExpr );
 				break;
+            case FIELD_JTIDY :
+                boolean jTidy = IOUtil.readBool( in );
+                design.setJTidy( jTidy );
+                break;
 			default :
 				readReportItemField( in, design, fieldType );
 		}
@@ -1325,6 +1329,9 @@ public class EngineIRReaderImpl implements IOConstants
 				Expression content = readExpression( in );
 				design.setContent( content );
 				break;
+            case FIELD_JTIDY :
+                boolean jTidy = IOUtil.readBool( in );
+                design.setJTidy( jTidy );
 			default :
 				readReportItemField( in, design, fieldType );
 		}

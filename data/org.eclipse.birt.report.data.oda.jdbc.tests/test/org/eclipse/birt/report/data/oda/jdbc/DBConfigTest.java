@@ -11,11 +11,16 @@
 
 package org.eclipse.birt.report.data.oda.jdbc;
 
-import junit.framework.TestCase;
 
-public class DBConfigTest extends TestCase
-{
-	public void testPoicyQulification()
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
+public class DBConfigTest {
+	@Test
+    public void testPoicyQulification()
 	{
 		//Policy 0
 		String[] policy0Drivers = new String[]{

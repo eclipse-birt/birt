@@ -4,13 +4,39 @@
 	<parent>
 		<groupId>org.eclipse.birt</groupId>
 		<artifactId>org.eclipse.birt-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>4.8.0-SNAPSHOT</version>
 		<relativePath>../../</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt.report.viewer</artifactId>
-	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-plugin</packaging>
+	<profiles>
+        <profile>
+       	    <id>mars</id>
+            <!-- Jetty server connector property 'jetty.host' and 'jetty.port' was replaced by 'jetty.http.host' and 'jetty.http.port' in Jetty 9.3+ -->
+            <build>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-antrun-plugin</artifactId>
+                        <executions>
+                            <execution>
+                                <phase>process-resources</phase>
+                                <configuration>
+                                    <tasks>
+                                        <replace token="jetty.http.host" value="jetty.host" file="jettyhome/etc/jetty-selector.xml"/>
+                                        <replace token="jetty.http.port" value="jetty.port" file="jettyhome/etc/jetty-selector.xml"/>
+                                    </tasks>
+                                </configuration>
+                                <goals>
+                                    <goal>run</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+	</profiles>
 	<build>
 		<plugins>
 			<plugin>

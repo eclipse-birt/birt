@@ -187,6 +187,7 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	 * Usable operators for building map rule conditions.
 	 */
 	protected static final String[][] OPERATOR;
+	protected static final ArrayList<String>  NOT_SUPPORTED_LIST;
 	static
 	{
 		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
@@ -199,6 +200,14 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			OPERATOR[i][0] = chs[i].getDisplayName( );
 			OPERATOR[i][1] = chs[i].getName( );
 		}
+		NOT_SUPPORTED_LIST = new ArrayList<String>( );
+		NOT_SUPPORTED_LIST.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_N );
+		NOT_SUPPORTED_LIST
+				.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N );
+		NOT_SUPPORTED_LIST
+				.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT );
+		NOT_SUPPORTED_LIST
+				.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT );
 	}
 
 	/**
@@ -938,8 +947,14 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 
 		operator = new CCombo( parentControl, SWT.READ_ONLY | SWT.BORDER );
 		operator.setVisibleItemCount( 30 );
+		boolean isDataModel = CrosstabUtil.isBoundToLinkedDataSet(
+				getCrosstab( (ExtendedItemHandle) designHandle ) );
 		for ( int i = 0; i < OPERATOR.length; i++ )
 		{
+			if ( isDataModel && NOT_SUPPORTED_LIST.contains( OPERATOR[i][1] ) )
+			{
+				continue;
+			}
 			operator.add( OPERATOR[i][0] );
 		}
 		operator.addSelectionListener( operatorSelection );

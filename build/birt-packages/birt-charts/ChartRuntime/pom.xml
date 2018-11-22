@@ -4,13 +4,12 @@
 	<parent>
 		<groupId>org.eclipse.birt.build.package</groupId>
 		<artifactId>org.eclipse.birt.build.package-parent</artifactId>
-		<version>4.5.0-SNAPSHOT</version>
+		<version>4.8.0-SNAPSHOT</version>
 		<relativePath>../..</relativePath>
 	</parent>
 
 	<groupId>org.eclipse.birt.birt-packages.birt-charts</groupId>
 	<artifactId>ChartRuntime</artifactId>
-	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-repository</packaging>
 
 	<!-- http://codeandme.blogspot.com/2012/12/tycho-build-5-building-p2-update-sites.html -->

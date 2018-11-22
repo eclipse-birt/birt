@@ -667,23 +667,23 @@ public class EngineIRVisitor extends DesignVisitor
 		setCurrentElement( container );
 	}
 
-	public void visitTextDataItem( TextDataHandle handle )
-	{
-		DynamicTextItemDesign dynamicTextItem = new DynamicTextItemDesign( );
+    public void visitTextDataItem( TextDataHandle handle )
+    {
+        DynamicTextItemDesign dynamicTextItem = new DynamicTextItemDesign( );
 
-		setupReportItem( dynamicTextItem, handle );
+        setupReportItem( dynamicTextItem, handle );
 
-		ExpressionHandle valueExprHandle = handle
-				.getExpressionProperty( TextDataHandle.VALUE_EXPR_PROP );
-		Expression valueExpr = createExpression( valueExprHandle );
-		String contentType = handle.getContentType( );;
-		dynamicTextItem.setContent( valueExpr );
-		dynamicTextItem.setContentType( contentType );
-		setupHighlight( dynamicTextItem, valueExpr );
-		setupMap( dynamicTextItem, valueExpr );
+        ExpressionHandle valueExprHandle = handle.getExpressionProperty( TextDataHandle.VALUE_EXPR_PROP );
+        Expression valueExpr = createExpression( valueExprHandle );
+        String contentType = handle.getContentType( );;
+        dynamicTextItem.setContent( valueExpr );
+        dynamicTextItem.setContentType( contentType );
+        dynamicTextItem.setJTidy( handle.isJTidy( ) );
+        setupHighlight( dynamicTextItem, valueExpr );
+        setupMap( dynamicTextItem, valueExpr );
 
-		setCurrentElement( dynamicTextItem );
-	}
+        setCurrentElement( dynamicTextItem );
+    }
 
 	public void visitLabel( LabelHandle handle )
 	{
@@ -1656,23 +1656,24 @@ public class EngineIRVisitor extends DesignVisitor
 		setCurrentElement( tableGroup );
 	}
 
-	public void visitTextItem( TextItemHandle handle )
-	{
-		// Create Text Item
-		TextItemDesign textItem = new TextItemDesign( );
-		setupReportItem( textItem, handle );
+    public void visitTextItem( TextItemHandle handle )
+    {
+        // Create Text Item
+        TextItemDesign textItem = new TextItemDesign( );
+        setupReportItem( textItem, handle );
 
-		String contentType = handle.getContentType( );
-		if ( contentType != null )
-		{
-			textItem.setTextType( contentType );
-		}
-		textItem.setText( handle.getContentKey( ), handle.getContent( ) );
+        String contentType = handle.getContentType( );
+        if ( contentType != null )
+        {
+            textItem.setTextType( contentType );
+        }
+        textItem.setText( handle.getContentKey( ), handle.getContent( ) );
 
-		textItem.setHasExpression( handle.hasExpression( ) );
+        textItem.setHasExpression( handle.hasExpression( ) );
+        textItem.setJTidy( handle.isJTidy( ) );
 
-		currentElement = textItem;
-	}
+        currentElement = textItem;
+    }
 
 	/*
 	 * (non-Javadoc)

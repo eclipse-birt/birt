@@ -562,7 +562,10 @@ public class ChartItemUtil extends ChartExpressionUtil implements
 		{
 			return IBuildInAggregation.TOTAL_RUNNINGCOUNT_FUNC;
 		}
-
+		else if ( PluginSettings.DefaultAggregations.RANGE.equals( agg ) )
+		{
+			return IBuildInAggregation.TOTAL_RANGE_FUNC;
+		}
 		return null;
 	}
 

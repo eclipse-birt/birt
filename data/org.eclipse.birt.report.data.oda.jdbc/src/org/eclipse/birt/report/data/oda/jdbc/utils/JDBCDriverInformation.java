@@ -37,6 +37,7 @@ public final class JDBCDriverInformation
     private int majorVersion = 0;
     private int minorVersion = 0;
     private String urlFormat = null;
+    private String selectorId = null;
     private String driverDisplayName = null;
     private boolean hide = false; 
     private List<PropertyGroup> propertyGroup=new ArrayList<PropertyGroup>( );
@@ -140,6 +141,14 @@ public final class JDBCDriverInformation
         return urlFormat;
     }
     
+    /**
+     * @return Returns the SelectorId.
+     */
+	public String getSelectorId( )
+	{
+		return selectorId;
+	}
+
 	public boolean hasProperty( )
 	{
 		if ( this.propertyGroup==null )
@@ -157,6 +166,14 @@ public final class JDBCDriverInformation
         this.urlFormat = urlFormat;
     }
     
+    /**
+     * @param The selector_id to be set.
+     */
+	public void setSelectorId( String selectorId )
+	{
+		this.selectorId = selectorId;
+	}
+
 	/**
 	 * @return Returns the displayName.
 	 */

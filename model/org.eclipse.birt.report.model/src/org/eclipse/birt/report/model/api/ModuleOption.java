@@ -13,6 +13,7 @@ package org.eclipse.birt.report.model.api;
 
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
@@ -29,7 +30,7 @@ public class ModuleOption implements IModuleOption
 	 * Maps to store the key/value pairs.
 	 */
 
-	protected Map options = new HashMap( );	
+	protected Map<String, Object> options = new HashMap<String, Object>( );
 
 	/**
 	 * Default constructor.
@@ -289,6 +290,32 @@ public class ModuleOption implements IModuleOption
 		if ( options == null || options.isEmpty( ) )
 			return;
 		this.options.putAll( options );
+	}
+	
+	/**
+	 * Clears all options for non-primitive values.
+	 * 
+	 * @since 4.7
+	 */
+	public void close( )
+	{
+		Iterator<Map.Entry<String, Object>> iterator = options.entrySet( )
+				.iterator( );
+		while ( iterator.hasNext( ) )
+		{
+			Map.Entry<String, Object> entry = iterator.next( );
+			if ( !isPrimitiveType( entry.getValue( ) ) )
+			{
+				iterator.remove( );
+			}
+		}
+	}
+
+	private boolean isPrimitiveType( Object obj )
+	{
+		// check if instance of ULocale or class name is like java.lang.String,Integer,Long
+		return obj == null || (obj instanceof ULocale)
+				|| obj.getClass( ).getName( ).startsWith( "java.lang." ); //$NON-NLS-1$
 	}
 
 	/**

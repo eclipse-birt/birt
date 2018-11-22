@@ -16,6 +16,8 @@ package org.eclipse.birt.data.aggregation.impl.rank;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
+import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
 import org.eclipse.birt.data.aggregation.impl.AggrException;
@@ -88,11 +90,15 @@ public class TotalPercentile extends AggrFunction
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( );
+		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
 	}
 
 	private static class MyAccumulator extends PercentileAccumulator
 	{
+		MyAccumulator( ICalculator calc )
+		{
+			super( calc );
+		}
 
 		protected double getPctValue( Double d ) throws DataException
 		{

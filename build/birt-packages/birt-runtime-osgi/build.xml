@@ -18,7 +18,7 @@
   </target>
   <target name="build-report-engine">
     <property name="BIRTAPI_DIR" location="${ROOT_DIR}/build/org.eclipse.birt.api/"/>
-    <copy todir="${ENGINE_DIR}/plugins">
+    <copy todir="${ENGINE_DIR}/platform/plugins">
         <fileset dir="${PRODUCT_DIR}/plugins"/>
         <fileset dir="${BIRTAPI_DIR}/target/">
             <include name="org.eclipse.birt.api_*.jar"/>
@@ -27,20 +27,13 @@
     <copy todir="${ENGINE_DIR}/lib">
       <fileset dir="${BIRTAPI_DIR}/target/lib"/>
     </copy>
-    <copy file="./config.ini" todir="${ENGINE_DIR}/configuration"/>
+    <copy todir="${ENGINE_DIR}/platform/configuration">
+      <fileset dir="${PRODUCT_DIR}/configuration"/>
+    </copy>
+    <copy file="./config.ini" todir="${ENGINE_DIR}/platform/configuration" overwrite="true"/>
     <copy file="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/test.rptdesign" tofile="${ENGINE_DIR}/samples/hello_world.rptdesign"/>
-    <property name="GEN_REPORT_GENERATOR" location="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReportGenerator.sh"/>
-    <exec executable="cmd" osfamily="windows">
-      <arg value="/c"/>
-      <arg value="sh.exe"/>
-      <arg value="${GEN_REPORT_GENERATOR}"/>
-      <arg value="${ENGINE_DIR}/lib"/>
-      <arg value="${ENGINE_DIR}"/>
-    </exec>
-    <exec executable="${GEN_REPORT_GENERATOR}" osfamily="unix">
-      <arg value="${ENGINE_DIR}/lib/"/>
-      <arg value="${ENGINE_DIR}"/>
-    </exec>
+    <copy file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReport.sh" todir="${ENGINE_DIR}"/>
+    <copy file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/genReport.bat" todir="${ENGINE_DIR}"/>
   </target>
   <target name="build-webviewer">
     <property name="VIEWER_PLUGIN" location="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer"/>
@@ -53,14 +46,13 @@
     <copy todir="${VIEWER_DIR}/WEB-INF/lib">
       <fileset dir="${ENGINE_DIR}/lib"/>
     </copy>
-    <copy todir="${VIEWER_DIR}/WEB-INF/platform">
+    <copy todir="${VIEWER_DIR}/WEB-INF">
       <fileset dir="${ENGINE_DIR}">
-        <include name="configuration/"/>
-        <include name="plugins/"/>
+        <include name="platform/"/>
       </fileset>
     </copy>
     <copy todir="${VIEWER_DIR}/WEB-INF/lib">
-      <fileset dir="${ENGINE_DIR}/plugins">
+      <fileset dir="${ENGINE_DIR}/platform/plugins">
         <include name="javax.wsdl_*.jar"/>
       </fileset>
       <fileset dir="${DESIGNER_DIR}/plugins">
@@ -88,8 +80,14 @@
     <copy todir="${STAGE_DIR}" file="${ROOT_DIR}/build/org.eclipse.birt.releng.birtbuilder/extras/runtime_readme.txt"/>
   </target>
   <target name="build-webviewer-war">
+  	<!-- Use original web.xml without jsp precompile classes-->
+    <copy file="${ROOT_DIR}/viewer/org.eclipse.birt.report.viewer/birt/WEB-INF/web-war.xml" tofile="${VIEWER_DIR}/WEB-INF/web.xml" overwrite="true"/>
+  	<!-- Remove precompiled jsp classes-->
     <jar destfile="./target/package/birt.war">
-      <fileset dir="${VIEWER_DIR}"/>
+      <fileset dir="${VIEWER_DIR}">
+      	<exclude name="WEB-INF/lib/jsp.jar"/>
+      	<exclude name="WEB-INF/web-war.xml"/>
+      </fileset>
     </jar>
   </target>
 </project>

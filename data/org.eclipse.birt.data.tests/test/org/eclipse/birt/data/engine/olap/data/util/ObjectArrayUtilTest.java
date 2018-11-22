@@ -13,33 +13,28 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import org.eclipse.birt.data.engine.olap.data.util.ObjectArrayUtil;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  */
 
-public class ObjectArrayUtilTest extends TestCase
-{
+public class ObjectArrayUtilTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testObjectArrayUtil( )
+@Test
+    public void testObjectArrayUtil( )
 	{
 		Object[][] objectArrays = new Object[3][];
 		objectArrays[0] = new Object[2];

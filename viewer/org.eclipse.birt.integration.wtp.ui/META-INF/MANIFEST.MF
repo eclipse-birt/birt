@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT WTP Integration Plug-in
 Bundle-SymbolicName: org.eclipse.birt.integration.wtp.ui;singleton:=true
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-ClassPath: birtwtp.jar,.
 Bundle-Activator: org.eclipse.birt.integration.wtp.ui.BirtWTPUIPlugin
 Bundle-Localization: plugin

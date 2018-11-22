@@ -29,6 +29,12 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test case for scripted data source/data set
  */
@@ -77,10 +83,9 @@ public class ScriptedDSTest extends APITestCase
 	private ScriptDataSourceDesign dsource;
 	
 	private ScriptDataSetDesign dset;
-	
-	public void setUp() throws Exception
+	@Before
+    public void scriptedDSSetUp() throws Exception
 	{
-		super.setUp( );
 		this.ADD_ALIAS = true;
 	}
 	
@@ -208,7 +213,8 @@ public class ScriptedDSTest extends APITestCase
 	 * Test getMetaData function of script data set; uses static metadata
 	 * @throws Exception
 	 */
-	public void testGetMetaDataStatic( ) throws Exception
+	@Test
+    public void testGetMetaDataStatic( ) throws Exception
 	{
 		getMetadataTestImpl( false );
 	}
@@ -217,7 +223,8 @@ public class ScriptedDSTest extends APITestCase
 	 * Test getMetaData function of script data set; uses dynamic metadata
 	 * @throws Exception
 	 */
-	public void testGetMetaDataDynamic( ) throws Exception
+	@Test
+    public void testGetMetaDataDynamic( ) throws Exception
 	{
 		getMetadataTestImpl( true );
 	}
@@ -263,7 +270,8 @@ public class ScriptedDSTest extends APITestCase
 	 * Test SetMaxRow function of script data set
 	 * @throws Exception
 	 */
-	public void testMaxRows( ) throws Exception
+	@Test
+    public void testMaxRows( ) throws Exception
 	{
 		init(false);
 		IQueryDefinition rqDefn = getReportQueryDefn( TEST_MAXROW );
@@ -287,12 +295,13 @@ public class ScriptedDSTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFetch1( ) throws Exception
+	@Test
+    public void testFetch1( ) throws Exception
 	{
 		fetch1_test_impl(false);
 	}
-	
-	public void testFetch1Dynamic() throws Exception
+	@Test
+    public void testFetch1Dynamic() throws Exception
 	{
 		this.ADD_ALIAS = false;
 		fetch1_test_impl(true);
@@ -334,7 +343,8 @@ public class ScriptedDSTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFetchWithAlias( ) throws Exception
+	@Test
+    public void testFetchWithAlias( ) throws Exception
 	{
 		init(false);
 		IQueryDefinition rqDefn = getReportQueryDefn( TEST_GROUP );
@@ -372,7 +382,8 @@ public class ScriptedDSTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFetch2( ) throws Exception
+	@Test
+    public void testFetch2( ) throws Exception
 	{
 		init(false);
 		IQueryDefinition rqDefn = getReportQueryDefn( TEST_GROUP );
@@ -421,7 +432,8 @@ public class ScriptedDSTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFetch3( ) throws Exception
+	@Test
+    public void testFetch3( ) throws Exception
 	{
 		init(false);
 		IQueryDefinition rqDefn = getReportQueryDefn( TEST_TOPN_FILTER );
@@ -458,7 +470,8 @@ public class ScriptedDSTest extends APITestCase
 	 * 
 	 *
 	 */
-	public void testFetchLimit1( ) throws Exception
+	@Test
+    public void testFetchLimit1( ) throws Exception
 	{
 		this.testFetchLimit( -1 );
 	}
@@ -468,7 +481,8 @@ public class ScriptedDSTest extends APITestCase
 	 * 
 	 *
 	 */
-	public void testFetchLimit2( ) throws Exception
+	@Test
+    public void testFetchLimit2( ) throws Exception
 	{
 		this.testFetchLimit( 0 );
 	}
@@ -478,7 +492,8 @@ public class ScriptedDSTest extends APITestCase
 	 * 
 	 *
 	 */
-	public void testFetchLimit3( ) throws Exception
+	@Test
+    public void testFetchLimit3( ) throws Exception
 	{
 		this.testFetchLimit( 2 );
 	}
@@ -524,7 +539,8 @@ public class ScriptedDSTest extends APITestCase
 	 * Test feature of
 	 * 		import packages from java.
 	 */
-	public void testImportPackage() throws Exception
+	@Test
+    public void testImportPackage() throws Exception
 	{
 		// Test a SQL with duplicate column name (quite common with join data
 		// sets)
@@ -547,7 +563,8 @@ public class ScriptedDSTest extends APITestCase
 	 * Test feature of
 	 * 		Global variable defined in datasource and used in datasets
 	 */
-	public void testGlobalVariable() throws Exception
+	@Test
+    public void testGlobalVariable() throws Exception
 	{
 		init(false);
 		try
@@ -565,7 +582,8 @@ public class ScriptedDSTest extends APITestCase
 	 * Test feature of
 	 * 		Global variable defined in datasource and used in datasets
 	 */
-	public void testMultipleDataSource() throws Exception
+	@Test
+    public void testMultipleDataSource() throws Exception
 	{
 		init(false);
 		ScriptDataSetDesign dset1 = newDataSet("dset1", false);
@@ -601,7 +619,8 @@ public class ScriptedDSTest extends APITestCase
 	/**
 	 * Tests get/set/manipulate date/time values. Verifies fixes to bugzilla 122860, 123153
 	 */
-	public void testDateTimeValues() throws Exception
+	@Test
+    public void testDateTimeValues() throws Exception
 	{
 		// Create script data set and data source
 		dsource = new ScriptDataSourceDesign( "data source" );

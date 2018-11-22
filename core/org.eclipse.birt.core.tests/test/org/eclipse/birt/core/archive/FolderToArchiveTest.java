@@ -1,6 +1,8 @@
 
 package org.eclipse.birt.core.archive;
 
+import static org.junit.Assert.assertArrayEquals;
+
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -8,11 +10,12 @@ import java.util.List;
 import org.eclipse.birt.core.archive.compound.ArchiveEntry;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FolderToArchiveTest
+import junit.framework.TestCase;
+
+public class FolderToArchiveTest extends TestCase
 {
 
     @Before
@@ -27,8 +30,7 @@ public class FolderToArchiveTest
      * 
      * @throws Exception
      */
-
-    @Test
+	@Test
     public void testSave( ) throws IOException
     {
         createFolderArchive( "utest/test.folder" );
@@ -73,20 +75,20 @@ public class FolderToArchiveTest
         ArchiveFile af = new ArchiveFile( file, "r" );
         try
         {
-            Assert.assertEquals( "systemId", af.getSystemId( ) );
-            Assert.assertEquals( "dependedId", af.getDependId( ) );
+            assertEquals( "systemId", af.getSystemId( ) );
+            assertEquals( "dependedId", af.getDependId( ) );
             List<String> entries = af.listEntries( "/" );
-            Assert.assertEquals( entryNames.length, entries.size( ) );
+            assertEquals( entryNames.length, entries.size( ) );
             for ( String entryName : entryNames )
             {
                 ArchiveEntry entry = af.openEntry( entryName );
                 try
                 {
                     byte[] golden = entryName.getBytes( "utf-8" );
-                    Assert.assertEquals( golden.length, entry.getLength( ) );
+                    assertEquals( golden.length, entry.getLength( ) );
                     byte[] bytes = new byte[golden.length];
                     entry.read( 0, bytes, 0, bytes.length );
-                    Assert.assertArrayEquals( golden, bytes );
+                    assertArrayEquals( golden, bytes );
                 }
                 finally
                 {

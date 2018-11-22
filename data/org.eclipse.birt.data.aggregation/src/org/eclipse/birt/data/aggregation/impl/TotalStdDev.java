@@ -17,6 +17,7 @@ package org.eclipse.birt.data.aggregation.impl;
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.Messages;
 import org.eclipse.birt.data.engine.api.aggregation.Accumulator;
 import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
@@ -83,7 +84,7 @@ public class TotalStdDev extends AggrFunction
 	 */
 	public Accumulator newAccumulator( )
 	{
-		return new MyAccumulator( );
+		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
 	}
 
 	private static class MyAccumulator extends SummaryAccumulator
@@ -92,6 +93,11 @@ public class TotalStdDev extends AggrFunction
 		private Number sum = 0.0D;
 		private Number squareSum = 0.0D;
 		private int count = 0;
+
+		MyAccumulator( ICalculator calc )
+		{
+			super( calc );
+		}
 
 		public void start( )
 		{
@@ -111,14 +117,10 @@ public class TotalStdDev extends AggrFunction
 			assert ( args.length > 0 );
 			if ( args[0] != null )
 			{
-				if ( calculator == null )
-				{
-					calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-				}
-
-				sum = calculator.add( sum, args[0] );
+				Object obj = calculator.getTypedObject( args[0] );
+				sum = calculator.add( sum, obj );
 				squareSum = calculator.add( squareSum,
-						calculator.multiply( args[0], args[0] ) );
+						calculator.multiply( obj, obj ) );
 				count++;
 			}
 		}
@@ -128,24 +130,16 @@ public class TotalStdDev extends AggrFunction
 		 * 
 		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
 		 */
-		public Object getSummaryValue( )
+		public Object getSummaryValue( ) throws DataException
 		{
 			if ( count <= 1 )
 				return null;
 			Number ret = null;
-			try
-			{
-				ret = calculator.divide( calculator.subtract( calculator.multiply( count,
-						squareSum ),
-						calculator.multiply( sum, sum ) ),
-						calculator.multiply( count, calculator.subtract( count,
-								1 ) ) );
-				return calculator.add( 0, Math.sqrt( ret.doubleValue( ) ) );
-			}
-			catch ( DataException e )
-			{
-				return null;
-			}
+			Object cnt = calculator.getTypedObject( count );
+			ret = calculator.divide(
+					calculator.subtract( calculator.multiply( cnt, squareSum ), calculator.multiply( sum, sum ) ),
+					calculator.multiply( cnt, calculator.subtract( cnt, calculator.getTypedObject( 1 ) ) ) );
+			return calculator.add( calculator.getTypedObject( 0 ), calculator.getTypedObject( Math.sqrt( ret.doubleValue( ) ) ) );
 		}
 
 	}

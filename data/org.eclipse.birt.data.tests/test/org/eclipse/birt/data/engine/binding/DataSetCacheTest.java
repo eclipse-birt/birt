@@ -48,6 +48,12 @@ import org.mozilla.javascript.ScriptableObject;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test cache feature for oda result set.
  */
@@ -70,9 +76,10 @@ public class DataSetCacheTest extends APITestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void datasetCacheSetUp() throws Exception
 	{
-		super.setUp( );
+
 		Context context = Context.enter( );
 		scope = context.initStandardObjects( );
 		Context.exit( );
@@ -85,14 +92,14 @@ public class DataSetCacheTest extends APITestCase
 	/*
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( ) throws Exception
+	@After
+    public void datasetCacheTearDown() throws Exception
 	{
-		super.tearDown( );
 		myDataEngine.clearCache( this.dataSource, this.dataSet );
 		myDataEngine.shutdown( );
 	}
-	
-	public void testCacheIsRealDataSetLevel( ) throws BirtException
+	@Test
+    public void testCacheIsRealDataSetLevel( ) throws BirtException
 	{
 		this.dataSource.setBeforeOpenScript( "i=0" );
 		this.dataSet.addComputedColumn( new ComputedColumn("cc1", "++i", DataType.INTEGER_TYPE) );
@@ -196,7 +203,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test feature of whether cache will be used
 	 * @throws BirtException
 	 */
-	public void testUseCache( ) throws BirtException
+	@Test
+    public void testUseCache( ) throws BirtException
 	{
 		this.dataSet.setCacheRowCount( 4 );
 		myDataEngine = newDataEngine( );
@@ -268,7 +276,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test feature of whether cache will be used
 	 * @throws BirtException
 	 */
-	public void testUseCache1( ) throws BirtException, Exception
+	@Test
+    public void testUseCache1( ) throws BirtException, Exception
 	{
 		this.dataSet.setCacheRowCount( 100 );
 		myDataEngine = newDataEngine( );
@@ -329,7 +338,8 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testUseAppContextCacheRowLimit1( ) throws BirtException, Exception
+	@Test
+    public void testUseAppContextCacheRowLimit1( ) throws BirtException, Exception
 	{
 		this.dataSet.setCacheRowCount( 100 );
 		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
@@ -352,7 +362,8 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testUseAppContextCacheRowLimit2( ) throws BirtException, Exception
+	@Test
+    public void testUseAppContextCacheRowLimit2( ) throws BirtException, Exception
 	{
 		this.dataSet.setCacheRowCount( 2 );
 		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
@@ -375,7 +386,8 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testUseAppContextCacheRowLimit3( ) throws BirtException, Exception
+	@Test
+    public void testUseAppContextCacheRowLimit3( ) throws BirtException, Exception
 	{
 		this.dataSet.setCacheRowCount( 100 );
 		this.dataSet.setBeforeOpenScript( "a = 0;" );
@@ -400,7 +412,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test acquire saved cache result meta 
 	 *
 	 */
-	public void testUseCachedMeta1() throws BirtException
+	@Test
+    public void testUseCachedMeta1() throws BirtException
 	{
 		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( 1 ) );
 		this.genCache();
@@ -414,7 +427,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test acqurire inexist save cache result meta 
 	 *
 	 */
-	public void testUseCachedMeta2() throws BirtException
+	@Test
+    public void testUseCachedMeta2() throws BirtException
 	{
 		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( 0 ) );
 		this.genCache();
@@ -426,7 +440,8 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testUseAppContextMemoryCache1( ) throws BirtException, Exception
+	@Test
+    public void testUseAppContextMemoryCache1( ) throws BirtException, Exception
 	{
 		this.dataSet.setCacheRowCount( 7 );
 		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
@@ -449,7 +464,8 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testUseAppContextMemoryCache2( ) throws BirtException, Exception
+	@Test
+    public void testUseAppContextMemoryCache2( ) throws BirtException, Exception
 	{
 		this.dataSet.setCacheRowCount( 2 );
 		DataEngineContext dec = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
@@ -473,7 +489,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test acqurire save cache result meta 
 	 *
 	 */
-	public void testUseMemoryCachedMeta1() throws BirtException
+	@Test
+    public void testUseMemoryCachedMeta1() throws BirtException
 	{
 		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 1 ) );
 		this.genCache();
@@ -487,7 +504,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test acqurire inexist save cache result meta 
 	 *
 	 */
-	public void testUseMemoryCachedMeta2() throws BirtException
+	@Test
+    public void testUseMemoryCachedMeta2() throws BirtException
 	{
 		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 0 ) );
 		myDataEngine = newDataEngine( );
@@ -514,7 +532,8 @@ public class DataSetCacheTest extends APITestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testUseCache3( ) throws BirtException
+	@Test
+    public void testUseCache3( ) throws BirtException
 	{
 		this.dataSet.setCacheRowCount( 4 );
 
@@ -669,7 +688,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of clear cache
 	 * @throws BirtException
 	 */
-	public void testClearCache( ) throws BirtException
+	@Test
+    public void testClearCache( ) throws BirtException
 	{
 		this.dataSet.setCacheRowCount( 4 );
 
@@ -705,7 +725,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of enable cache
 	 * @throws Exception
 	 */
-	public void testEnableCache( ) throws Exception
+	@Test
+    public void testEnableCache( ) throws Exception
 	{
 		DataEngineImpl myDataEngine = newDataEngine( );
 		getDataSetCacheManager( myDataEngine ).resetForTest( );
@@ -740,7 +761,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of always cache.
 	 * @throws BirtException
 	 */
-	public void testAlwaysCache( ) throws BirtException
+	@Test
+    public void testAlwaysCache( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
@@ -768,7 +790,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of disable cache.
 	 * @throws BirtException
 	 */
-	public void testDisableCache( ) throws BirtException
+	@Test
+    public void testDisableCache( ) throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				null,
@@ -796,7 +819,8 @@ public class DataSetCacheTest extends APITestCase
 	 * Test the feature of cache. Check the data in between the cache use is corret.
 	 *@throws BirtException
 	 */
-	public void testOdaCache( ) throws BirtException
+	@Test
+    public void testOdaCache( ) throws BirtException
 	{
 		genCache( );
 		useCache( );
@@ -805,7 +829,8 @@ public class DataSetCacheTest extends APITestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testSubqueryCache( ) throws BirtException
+	@Test
+    public void testSubqueryCache( ) throws BirtException
 	{
 		genCache3( );
 		useCache3( );
@@ -956,7 +981,8 @@ public class DataSetCacheTest extends APITestCase
 	 * @throws BirtException 
 	 * 
 	 */
-	public void testScriptedCache( ) throws BirtException
+	@Test
+    public void testScriptedCache( ) throws BirtException
 	{
 		genCache2( );
 		useCache2( );

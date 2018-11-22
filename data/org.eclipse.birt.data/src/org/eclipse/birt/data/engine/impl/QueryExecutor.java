@@ -39,7 +39,9 @@ import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
 import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
+import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
+import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IResultMetaData;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
@@ -741,6 +743,10 @@ public abstract class QueryExecutor implements IQueryExecutor
 			Object binding = this.baseQueryDefn.getBindings( ).get( bindingName );
 			if( binding != null )
 			{
+				if ( ( (IBinding) binding ).getAggrFunction( ) != null )
+				{
+					return null;
+				}
 				IBaseExpression expr = ( (IBinding) binding ).getExpression( );
 				if( expr != null && expr instanceof IScriptExpression )
 				{
@@ -1498,5 +1504,21 @@ public abstract class QueryExecutor implements IQueryExecutor
 	public DataEngineSession getSession()
 	{
 		return this.session;
+	}
+	
+	/**
+	 * 
+	 * @param serviceForQueryResults
+	 * @param scope
+	 * @param level
+	 * @param preparedQuery
+	 * @param queryService
+	 * @param queryDefn
+	 * @param exprManager
+	 * @return
+	 */
+	public QueryResults buildQueryResults(IServiceForQueryResults serviceForQueryResults)
+	{
+		return null;
 	}
 }

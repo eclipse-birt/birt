@@ -4,11 +4,13 @@
  *******************************************************************************/
 package org.eclipse.birt.report.viewer.utilities;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.Dictionary;
 import java.util.Hashtable;
 
 import org.eclipse.birt.report.viewer.ViewerPlugin;
+import org.eclipse.core.runtime.FileLocator;
 import org.eclipse.jetty.osgi.boot.OSGiServerConstants;
 import org.eclipse.jetty.server.Server;
 import org.osgi.framework.Bundle;
@@ -61,24 +63,45 @@ public class ViewerWebServer {
 	 * 
 	 * @return
 	 */
-	private String getJettyConfigURLs() {
-		String[] configFiles = new String[] { "/jettyhome/etc/jetty.xml", //$NON-NLS-1$
+	private String getJettyConfigURLs( )
+	{
+		String[] configFiles = new String[]{
+				"/jettyhome/etc/jetty.xml", //$NON-NLS-1$
 				"/jettyhome/etc/jetty-selector.xml", //$NON-NLS-1$
 				"/jettyhome/etc/jetty-deployer.xml", //$NON-NLS-1$
-				"/jettyhome/etc/jetty-special.xml" }; //$NON-NLS-1$
+				"/jettyhome/etc/jetty-special.xml" //$NON-NLS-1$
+		};
 
-		Bundle bundle = ViewerPlugin.getDefault().getBundle();
-		StringBuilder sb = new StringBuilder();
-		for (String configFile : configFiles) {
-			URL url = bundle.getEntry(configFile);
-			if (url != null) {
-				sb.append(url.toExternalForm());
-				sb.append(","); //$NON-NLS-1$
+		Bundle bundle = ViewerPlugin.getDefault( ).getBundle( );
+		StringBuilder sb = new StringBuilder( );
+		for ( String configFile : configFiles )
+		{
+			String strURL = null;
+			try
+			{
+				URL url = bundle.getEntry( configFile );
+				if ( url != null )
+				{
+					// Avoid invalid characters like white space in URI
+					strURL = FileLocator.toFileURL( url ).toExternalForm( );
+					strURL = strURL.replaceAll( " ", "%20" );  //$NON-NLS-1$//$NON-NLS-2$
+				}
 			}
+			catch ( IOException ex )
+			{
+
+			}
+			if ( strURL != null )
+			{
+				sb.append( strURL );
+				sb.append( "," ); //$NON-NLS-1$
+			}
+			
 		}
-		if (sb.length() > 0) {
-			sb.setLength(sb.length() - 1);
+		if ( sb.length( ) > 0 )
+		{
+			sb.setLength( sb.length( ) - 1 );
 		}
-		return sb.toString();
+		return sb.toString( );
 	}
 }

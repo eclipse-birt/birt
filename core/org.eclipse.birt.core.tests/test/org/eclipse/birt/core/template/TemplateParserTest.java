@@ -10,57 +10,58 @@ package org.eclipse.birt.core.template;
 
 import java.util.Iterator;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.template.TextTemplate.ExpressionValueNode;
 import org.eclipse.birt.core.template.TextTemplate.ImageNode;
 import org.eclipse.birt.core.template.TextTemplate.TextNode;
 import org.eclipse.birt.core.template.TextTemplate.ValueNode;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class TemplateParserTest extends TestCase
 {
-
-	public void testValueOf( )
+	@Test
+    public void testValueOf( )
 	{
 		String input = "<value-of>script</value-of>";
 		String golden = "<value-of>script</value-of>";
 		TextTemplate template = new TemplateParser( ).parse( input );
-		assertEquals( golden, template );
+		assertEQ( golden, template );
 	}
-
-	public void testViewTimeValueOf( )
+	@Test
+    public void testViewTimeValueOf( )
 	{
 		String input = "<viewtime-value-of>script</viewtime-value-of>";
 		String golden = "<viewtime-value-of>script</viewtime-value-of>";
 		TextTemplate template = new TemplateParser( ).parse( input );
-		assertEquals( golden, template );
+		assertEQ( golden, template );
 	}
-
-	public void testImage( )
+	@Test
+    public void testImage( )
 	{
 		String input = "<image>script</image>";
 		String golden = "<image>script</image>";
 		TextTemplate template = new TemplateParser( ).parse( input );
-		assertEquals( golden, template );
+		assertEQ( golden, template );
 	}
-
-	public void testImageTag( )
+	@Test
+    public void testImageTag( )
 	{
 		String input = "<image name=\"ABC\"/>";
 		String golden = "<image name=\"ABC\"></image>";
 		TextTemplate template = new TemplateParser( ).parse( input );
-		assertEquals( golden, template );
+		assertEQ( golden, template );
 	}
-
-	public void testText( )
+	@Test
+    public void testText( )
 	{
 		String input = "text any text";
 		String golden = "<text>text any text</text>";
 		TextTemplate template = new TemplateParser( ).parse( input );
-		assertEquals( golden, template );
+		assertEQ( golden, template );
 	}
 
-	protected void assertEquals( String golden, TextTemplate template )
+	protected void assertEQ( String golden, TextTemplate template )
 	{
 		StringBuffer buffer = new StringBuffer( );
 		TextTemplateWriter.write( template, buffer );

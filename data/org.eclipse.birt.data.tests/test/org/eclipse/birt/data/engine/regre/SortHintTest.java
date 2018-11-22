@@ -12,6 +12,12 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 public class SortHintTest extends APITestCase
 {
@@ -48,7 +54,8 @@ public class SortHintTest extends APITestCase
 	 * <P>
 	 * Expected: Optimize sorting
 	 */
-	public void testSortHintTableSort()
+	@Test
+    public void testSortHintTableSort()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
@@ -108,7 +115,8 @@ public class SortHintTest extends APITestCase
 	/**
 	 * Expected: Optimize sorting
 	 */
-	public void testSortHintTableSort2()
+	@Test
+    public void testSortHintTableSort2()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
@@ -150,7 +158,8 @@ public class SortHintTest extends APITestCase
 	/**
 	 * Expected: No optimize
 	 */
-	public void testSortHintTableSort3()
+	@Test
+    public void testSortHintTableSort3()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
@@ -192,7 +201,8 @@ public class SortHintTest extends APITestCase
 	 * <P>
 	 * Expected: No optimize
 	 */
-	public void testSortHintTableSort4()
+	@Test
+    public void testSortHintTableSort4()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
@@ -232,7 +242,8 @@ public class SortHintTest extends APITestCase
 	/**
 	 * Expected: Optimize sorting
 	 */
-	public void testSortHintTableSort5()
+	@Test
+    public void testSortHintTableSort5()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
@@ -291,7 +302,8 @@ public class SortHintTest extends APITestCase
 	/**
 	 * Expected: No optimize
 	 */
-	public void testSortHintTableSort6()
+	@Test
+    public void testSortHintTableSort6()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
@@ -355,7 +367,8 @@ public class SortHintTest extends APITestCase
 	/**
 	 * Expected: Optimize sorting
 	 */
-	public void testSortHintTableSort7()
+	@Test
+    public void testSortHintTableSort7()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
@@ -413,7 +426,8 @@ public class SortHintTest extends APITestCase
 	/**
 	 * Expected: Optimize sorting
 	 */
-	public void testSortHintTableSort8()
+	@Test
+    public void testSortHintTableSort8()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
@@ -481,7 +495,8 @@ public class SortHintTest extends APITestCase
 	 * <P>
 	 * Expected: No optimize
 	 */
-	public void testSortHintNoEffect()
+	@Test
+    public void testSortHintNoEffect()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		
@@ -542,7 +557,8 @@ public class SortHintTest extends APITestCase
 	 * <p>
 	 * Expected: Optimize sorting
 	 */
-	public void testSortHintResolve()
+	@Test
+    public void testSortHintResolve()
 	{
 		QueryDefinition queryDefn = getQueryDefn();
 		queryDefn.addResultSetExpression( "REFERCOL", new ScriptExpression("row[\"ID\"]") );
@@ -599,7 +615,8 @@ public class SortHintTest extends APITestCase
 	 * Expected: Optimize sorting; If the output is sorted by desc
 	 * order, test failed.
 	 */
-	public void testSortHintResolveColumnAlias( )
+	@Test
+    public void testSortHintResolveColumnAlias( )
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 

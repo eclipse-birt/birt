@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -26,6 +27,13 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
+
 
 /**
  * 
@@ -33,12 +41,16 @@ import testutil.BaseTestCase;
 
 public class DteLevelDataSetCacheTest extends BaseTestCase
 {
-	public void testDataSetWithDteLevelCache() throws BirtException
+	@Test
+    public void testDataSetWithDteLevelCache() throws BirtException
 	{
-		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
@@ -68,9 +80,9 @@ public class DteLevelDataSetCacheTest extends BaseTestCase
 		QueryDefinition[1] = qd1;
 		dataEngine.registerQueries( QueryDefinition );
 		Map appContextMap = new HashMap( );
+		appContextMap.put(DataEngine.MEMORY_DATA_SET_CACHE, "100");
 		IResultIterator ri1 = dataEngine.prepare( qd, appContextMap ).execute( null ).getResultIterator( );
 		IResultIterator ri2 = dataEngine.prepare( qd1, appContextMap ).execute( null ).getResultIterator( );
-		
 		assertTrue(((DataEngineImpl)dataEngine).getSession( ).getDataSetCacheManager( ).doesLoadFromCache( ) );
 		while ( ri1.next( ) )
 		{
@@ -80,13 +92,16 @@ public class DteLevelDataSetCacheTest extends BaseTestCase
 		dataEngine.shutdown( );
 		
 	}
-	
-	public void testDataSetWithoutCache() throws BirtException
+	@Test
+    public void testDataSetWithoutCache() throws BirtException
 	{
-		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
@@ -120,18 +135,21 @@ public class DteLevelDataSetCacheTest extends BaseTestCase
 		dataEngine.shutdown( );
 		
 	}
-	
-	public void testDataSetWithJVMCache() throws BirtException
+	@Test
+    public void testDataSetWithJVMCache() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
 		ScriptDataSetDesign dataSet = new ScriptDataSetDesign( "test" );
-		dataSet.setCacheRowCount( 100 );
+		//dataSet.setCacheRowCount( 100 );
 		dataSet.setDataSource( "ds" );
 
 		dataSet.addResultSetHint( new ColumnDefinition( "column1" ) );

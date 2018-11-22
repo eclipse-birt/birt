@@ -4,12 +4,11 @@
 	<parent>
 		<groupId>org.eclipse.birt.features</groupId>
 		<artifactId>org.eclipse.birt.features-parent</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>4.8.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt.features</groupId>
 	<artifactId>org.eclipse.birt</artifactId>
-	<version>4.5.0-SNAPSHOT</version>
 	<packaging>eclipse-feature</packaging>
 	<build>
 		<plugins>
@@ -20,7 +19,6 @@
 				<configuration>
 					<excludes>
 						<plugin id="org.apache.axis"/>
-						<plugin id="org.apache.batik.pdf"/>
 						<plugin id="org.apache.commons.discovery"/>
 						<plugin id="javax.xml.rpc"/>
 						<plugin id="javax.xml.stream"/>

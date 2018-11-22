@@ -35,7 +35,9 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 	
 	protected String altText;
 	protected String altTextKey;
-	
+
+    private boolean jTidy = true;
+
 	ForeignContent(IForeignContent foreign)
 	{
 		super(foreign);
@@ -183,11 +185,22 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		this.altText = altText;
 	}
 
+    public void setJTidy( boolean jTidy )
+    {
+        this.jTidy = jTidy;
+    }
+
+    public boolean isJTidy( )
+    {
+        return jTidy;
+    }
+
 	static final protected short FIELD_RAW_TYPE = 400;
 	static final protected short FIELD_RAWVALUE = 401;
 	static final protected short FIELD_ALTTEXT = 402;
 	static final protected short FIELD_ALTTEXTKEY = 403;
 	static final protected short FIELD_RAWKEY = 404;
+	static final protected short FIELD_JTIDY = 405;
 
 	protected void writeFields( DataOutputStream out ) throws IOException
 	{
@@ -217,6 +230,11 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 			IOUtil.writeShort( out, FIELD_RAWKEY );
 			IOUtil.writeString( out, rawKey );
 		}
+        if ( jTidy != true )
+        {
+            IOUtil.writeShort( out, FIELD_JTIDY );
+            IOUtil.writeBool( out, jTidy );
+        }
 	}
 
 	protected void readField( int version, int filedId, DataInputStream in,
@@ -243,6 +261,9 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 			case FIELD_RAWKEY :
 				rawKey = IOUtil.readString( in );
 				break;
+			case FIELD_JTIDY:
+			    jTidy = IOUtil.readBool( in );
+			    break;
 			default :
 				super.readField( version, filedId, in, loader );
 		}
@@ -262,6 +283,10 @@ public class ForeignContent extends AbstractContent implements IForeignContent
 		{
 			return true;
 		}
+        if ( jTidy == false )
+        {
+            return true;
+        }
 		return super.needSave( );
 	}
 	

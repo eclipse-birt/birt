@@ -62,10 +62,10 @@ public interface IPDFRenderOption extends IRenderOption
 	public static final String PDF_TEXT_WRAPPING = "pdfRenderOption.textWrapping";
 	
 	/**
-	 * If it is set to false, no hyphenation is used. 
+	 * If it is set to false, no word break is used. 
 	 * The word longer than the line width will be clipped at the line boundary.
 	 */
-	public static final String PDF_HYPHENATION = "pdfRenderOption.hyphenation";
+	public static final String PDF_WORDBREAK = "pdfRenderOption.wordBreak";
 	
 	/**
 	 * If it is set to false, we needn't check if the character exists in the selected font.

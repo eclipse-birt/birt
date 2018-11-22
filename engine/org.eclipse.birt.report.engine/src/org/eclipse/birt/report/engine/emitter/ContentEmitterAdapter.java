@@ -207,4 +207,8 @@ public class ContentEmitterAdapter implements IContentEmitter
 		startGroup(group);
 	}
 
+	public boolean isMultiplePagesEnabled( )
+	{
+		return true;
+	}
 }

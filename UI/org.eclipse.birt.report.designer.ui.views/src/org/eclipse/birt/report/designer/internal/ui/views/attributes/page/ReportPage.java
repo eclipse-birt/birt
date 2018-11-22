@@ -20,7 +20,7 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.Du
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.TextPropertyDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.ComboSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.DualRadioButtonSection;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndTwoButtonSection;
+import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextAndButtonSection;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.TextSection;
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.dialogs.ThumbnailBuilder;
@@ -43,7 +43,7 @@ import org.eclipse.swt.widgets.Composite;
 public class ReportPage extends ModulePage
 {
 
-	private TextAndTwoButtonSection prvImageSection;
+	private TextAndButtonSection prvImageSection;
 
 	public void buildUI( Composite parent )
 	{
@@ -77,11 +77,11 @@ public class ReportPage extends ModulePage
 
 		TextPropertyDescriptorProvider prvImageProvider = new TextPropertyDescriptorProvider( ReportDesignHandle.ICON_FILE_PROP,
 				ReportDesignConstants.REPORT_DESIGN_ELEMENT );
-		prvImageSection = new TextAndTwoButtonSection( prvImageProvider.getDisplayName( ),
+		prvImageSection = new TextAndButtonSection( prvImageProvider.getDisplayName( ),
 				container,
 				true );
 		prvImageSection.setProvider( prvImageProvider );
-		prvImageSection.addSecondSelectionListener( new SelectionAdapter( ) {
+		prvImageSection.addSelectionListener( new SelectionAdapter( ) {
 
 			public void widgetSelected( SelectionEvent e )
 			{
@@ -165,8 +165,8 @@ public class ReportPage extends ModulePage
 		prvImageSection.setGridPlaceholder( 1, true );
 		// prvImageSection.setFristButtonText( Messages.getString(
 		// "ReportPage.text.Browse" ) );
-		prvImageSection.setSecondButtonText( "..." ); //$NON-NLS-1$
-		prvImageSection.setSecondButtonTooltipText( Messages.getString( "ReportPage.PreviewImage.Button.ToolTip" ) ); //$NON-NLS-1$
+		prvImageSection.setButtonText( "..." ); //$NON-NLS-1$
+		prvImageSection.setButtonTooltipText( Messages.getString( "ReportPage.PreviewImage.Button.ToolTip" ) ); //$NON-NLS-1$
 
 		addSection( PageSectionId.REPORT_PRVIMAGE, prvImageSection );
 

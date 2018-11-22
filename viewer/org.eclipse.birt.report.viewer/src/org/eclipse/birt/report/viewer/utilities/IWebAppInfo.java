@@ -45,4 +45,11 @@ public interface IWebAppInfo {
 	String getWebAppPath();
 
 	boolean useCustomParamHandling();
+	
+    /**
+     * the request URL encoding
+     * 
+     * @return encoding for request URL
+     */
+    String getURIEncoding( );
 }

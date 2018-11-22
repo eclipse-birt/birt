@@ -251,6 +251,10 @@
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/DayOfMonth"/>
     <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=14"
         outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/DayOfYear"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=15"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/WeekOfQuarter"/>
+    <nested inputs="../../xsd/attribute.xsd#//GroupingUnitType;XSDSimpleTypeDefinition=29/XSDEnumerationFacet=16"
+        outputs="org.eclipse.birt.chart.model.attribute.ecore#//GroupingUnitType/DayOfQuarter"/>
   </nested>
   <nested inputs="../../xsd/data.xsd#//DataElement;XSDComplexTypeDefinition=9" outputs="org.eclipse.birt.chart.model.data.ecore#//DataElement"/>
   <nested inputs="../../xsd/attribute.xsd#//DataType;XSDSimpleTypeDefinition=28" outputs="org.eclipse.birt.chart.model.attribute.ecore#//DataType">

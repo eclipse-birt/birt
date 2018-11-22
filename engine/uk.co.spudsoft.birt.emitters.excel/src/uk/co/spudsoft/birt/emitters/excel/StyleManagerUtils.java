@@ -335,6 +335,8 @@ public abstract class StyleManagerUtils {
 			return Workbook.PICTURE_TYPE_JPEG;
 		} else if( "image/png".equals(mimeType) ) {
 			return Workbook.PICTURE_TYPE_PNG;
+		} else if ( "image/bmp".equals( mimeType ) ) {
+			return Workbook.PICTURE_TYPE_DIB;
 		} else {
 			if( null != data ) {
 				log.debug( "Data bytes: "

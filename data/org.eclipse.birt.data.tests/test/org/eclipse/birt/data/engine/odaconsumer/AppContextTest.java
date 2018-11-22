@@ -26,10 +26,17 @@ import org.eclipse.datatools.connectivity.oda.IDriver;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  *  Test ODA Consumer handling of passing thru application context objects
  *  to an underlying ODA driver.
  */
+@Ignore("Ignore tests that require manual setup")
 public class AppContextTest extends OdaTestDriverCase
 {
     private Properties sm_appContextMap;
@@ -37,9 +44,10 @@ public class AppContextTest extends OdaTestDriverCase
     /* (non-Javadoc)
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp() throws Exception
+	@Before
+    public void appContextSetUp() throws Exception
     {
-        super.setUp();
+
 	    if( sm_appContextMap == null )
 	    {
 	        sm_appContextMap = new Properties();
@@ -51,9 +59,9 @@ public class AppContextTest extends OdaTestDriverCase
     /* (non-Javadoc)
      * @see junit.framework.TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
+	@After
+    public void appContextTearDown() throws Exception
     {
-        super.tearDown();
         sm_appContextMap.put( TestDriverImpl.TEST_DRIVER_CONN_STATE, "" );
     }
 
@@ -62,6 +70,7 @@ public class AppContextTest extends OdaTestDriverCase
      * to an ODA driver's IDriver, IConnection and IQuery setAppContext calls
      * in the normal ODA calls sequence.
      */
+	@Test
     public void testSetAppContext()
     {
         String testCase = TestAdvQueryImpl.TEST_CASE_OUTPUTPARAM;
@@ -99,6 +108,7 @@ public class AppContextTest extends OdaTestDriverCase
      * Test that setAppContext is passed thru to an opened connection,
      * i.e. the driver's IConnection.isOpen returns true *before* IConnection.open is called.
      */
+	@Test
     public void testSetAppContextOpenConnection()
     {
         // indicate to test driver to set connection state to isOpen() == true

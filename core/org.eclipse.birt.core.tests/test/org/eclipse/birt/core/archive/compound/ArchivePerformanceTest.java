@@ -6,8 +6,11 @@ import java.io.IOException;
 import java.io.RandomAccessFile;
 
 import org.junit.Ignore;
+import org.junit.Test;
 
-public class ArchivePerformanceTest
+import junit.framework.TestCase;
+
+public class ArchivePerformanceTest extends TestCase
 {
 
 	int STREAM_COUNT = 127;
@@ -18,7 +21,8 @@ public class ArchivePerformanceTest
 	long writeSize = 0;
 
 	@Ignore("ignore performance test")
-	public void testPerformance( ) throws IOException
+	@Test
+    public void testPerformance( ) throws IOException
 	{
 		for ( int i = 0; i < 5; i++ )
 		{

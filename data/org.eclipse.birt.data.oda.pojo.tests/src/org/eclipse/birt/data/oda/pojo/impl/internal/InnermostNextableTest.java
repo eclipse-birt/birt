@@ -18,19 +18,24 @@ import java.util.List;
 import org.eclipse.birt.data.oda.pojo.impl.internal.InnermostNextable;
 import org.eclipse.birt.data.oda.pojo.impl.internal.Nextable;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class InnermostNextableTest extends TestCase
-{
+public class InnermostNextableTest {
 	@SuppressWarnings({
 			"unchecked", "nls"
 	})
-	public void testInnermostNextable( )
+	@Test
+    public void testInnermostNextable( )
 	{
 		InnermostNextable in = new InnermostNextable( null );
 		assertFalse( in.next( ) );

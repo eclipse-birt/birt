@@ -78,4 +78,8 @@ public interface IForeignContent extends IContent
 	public void setAltText( String altText );
 
 	public void setAltTextKey( String key );
+
+    public void setJTidy( boolean jTidy );
+
+    public boolean isJTidy( );
 }

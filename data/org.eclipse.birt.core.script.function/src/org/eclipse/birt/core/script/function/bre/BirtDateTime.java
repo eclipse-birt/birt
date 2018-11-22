@@ -12,16 +12,21 @@
 package org.eclipse.birt.core.script.function.bre;
 
 import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.function.i18n.Messages;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
+import org.mozilla.javascript.UniqueTag;
 
+import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
@@ -40,14 +45,17 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static final long serialVersionUID = 1L;
 	
 	static private ThreadLocal<List<SimpleDateFormat>> threadSDFArray = new ThreadLocal<List<SimpleDateFormat>>();
-	private static ThreadLocal<ULocale> threadLocale = new ThreadLocal<ULocale>();
+	private static ThreadLocal<ULocale> threadLocale = new ThreadLocal<ULocale>( );
+	private static ThreadLocal<TimeZone> threadTimeZone = new ThreadLocal<TimeZone>( );
 
 	private IScriptFunctionExecutor executor;
+	
+	// Constant is defined in: EngineConstants.PROPERTY_FISCAL_YEAR_START_DATE
+	public static final String PROPERTY_FISCAL_YEAR_START_DATE = "FISCAL_YEAR_START_DATE"; //$NON-NLS-1$
+	
+	private static final DateFormat FISCAL_YEAR_DATE_FORMAT = new SimpleDateFormat( "yyyy-MM-dd" ); //$NON-NLS-1$
 
-	private IScriptFunctionContext scriptContext;
-	private static ULocale defaultLocale = null;
-	private static TimeZone timeZone = null;
-
+	static protected Logger logger = Logger.getLogger( BirtDateTime.class.getName() );
 	
 	/**
 	 *
@@ -175,6 +183,20 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			this.executor = new Function_FirstDayOfFiscalMonth( );
 		else if( "firstDayOfFiscalWeek".equals( functionName ))
 			this.executor = new Function_FirstDayOfFiscalWeek( );
+		else if( "hour".equals( functionName ))
+			this.executor = new Function_Hour( );
+		else if( "minute".equals( functionName ))
+			this.executor = new Function_Minute( );
+		else if( "second".equals( functionName ))
+			this.executor = new Function_Second( );
+		else if ("weekOfYear".equals( functionName ))
+			this.executor = new Function_WeekOfYear();
+		else if ("weekOfQuarter".equals( functionName ))
+			this.executor = new Function_WeekOfQuarter();
+		else if ("dayOfQuarter".equals( functionName ))
+			this.executor = new Function_DayOfQuarter();
+		else if ("dayOfMonth".equals( functionName))
+			this.executor = new Function_DayOfMonth();
 		else
 			throw new BirtException( "org.eclipse.birt.core.script.function.bre",
 					null,
@@ -276,6 +298,190 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			default :
 				return -1;
 		}
+	}
+
+	private static class Function_WeekOfQuarter extends Function_temp
+	{
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_WeekOfQuarter( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			if ( args[0] instanceof Date )
+				return Integer.valueOf( weekOfQuarter( (Date) args[0] ) );
+			else
+				return Integer.valueOf(
+						weekOfQuarter( DataTypeUtil.toDate( args[0] ) ) );
+		}
+	}
+
+	private static int weekOfQuarter( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages
+					.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		int dayOfWeek = getCalendar( d ).get( Calendar.DAY_OF_WEEK );
+		int dayOfQtr = getDayOfQuarter( d );
+		int quarter = quarter( d );
+		// Finding last nearest Sunday
+		int dayCountTillLastSunday = dayOfQtr - dayOfWeek + 1;
+		int weekOfQuarter = 1;
+		while ( dayCountTillLastSunday > 1 )
+		{
+			dayCountTillLastSunday -= 7;
+			weekOfQuarter++;
+		}
+		//Using a formula to represent each Week of a Year uniquely.
+	    //To handle aggregations done across years which includes a Leap Year
+		weekOfQuarter = ( quarter * 100 ) + weekOfQuarter;
+		return weekOfQuarter;
+	}
+
+	private static class Function_DayOfQuarter extends Function_temp
+	{
+
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_DayOfQuarter( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if ( existNullValue( args ) )
+			{
+				return null;
+			}
+			if ( args[0] instanceof Date )
+				return Integer.valueOf( dayOfQuarter( (Date) args[0] ) );
+			else
+				return Integer.valueOf(
+						dayOfQuarter( DataTypeUtil.toDate( args[0] ) ) );
+		}
+	}
+
+	private static int dayOfQuarter( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages
+					.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		int dayOfYear = getCalendar( d ).get( Calendar.DAY_OF_YEAR );
+		int quarter = quarter( d );
+		int year = getCalendar( d ).get( Calendar.YEAR );
+		int[] dayCountPerQtr_NLY = {
+				90, 91, 92, 92
+		};
+		int[] dayCountPerQtr_LY = {
+				91, 91, 92, 92
+		};
+		boolean isLeapYear = false;
+
+		int[] dayCountPerQtr = null;
+
+		if ( ( year % 4 == 0 ) && year % 100 != 0 )
+		{
+			isLeapYear = true;
+		}
+		else if ( year % 400 == 0 )
+		{
+			isLeapYear = true;
+		}
+		else
+		{
+			isLeapYear = false;
+		}
+
+		if ( isLeapYear )
+		{
+			dayCountPerQtr = dayCountPerQtr_LY;
+		}
+		else
+		{
+			dayCountPerQtr = dayCountPerQtr_NLY;
+		}
+
+		int totalDaysTillQtr = 0;
+		int dayOfQuarter = 0;
+		for ( int i = 0; i < quarter - 1; i++ )
+		{
+			totalDaysTillQtr += dayCountPerQtr[i];
+		}
+		dayOfQuarter = ( dayOfYear - totalDaysTillQtr );
+		//Using a formula to represent each day of a year uniquely.
+		//To handle aggregations done across years which includes a Leap Year
+		dayOfQuarter = ( quarter * 100 ) + dayOfQuarter;
+		return dayOfQuarter;
+	}
+
+	private static int getDayOfQuarter( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages
+					.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		int dayOfYear = getCalendar( d ).get( Calendar.DAY_OF_YEAR );
+		int quarter = quarter( d );
+		int year = getCalendar( d ).get( Calendar.YEAR );
+		int[] dayCountPerQtr_NLY = {
+				90, 91, 92, 92
+		};
+		int[] dayCountPerQtr_LY = {
+				91, 91, 92, 92
+		};
+		boolean isLeapYear = false;
+
+		int[] dayCountPerQtr = null;
+
+		if ( ( year % 4 == 0 ) && year % 100 != 0 )
+		{
+			isLeapYear = true;
+		}
+		else if ( year % 400 == 0 )
+		{
+			isLeapYear = true;
+		}
+		else
+		{
+			isLeapYear = false;
+		}
+
+		if ( isLeapYear )
+		{
+			dayCountPerQtr = dayCountPerQtr_LY;
+		}
+		else
+		{
+			dayCountPerQtr = dayCountPerQtr_NLY;
+		}
+
+		int totalDaysTillQtr = 0;
+		int dayOfQuarter = 0;
+		for ( int i = 0; i < quarter - 1; i++ )
+		{
+			totalDaysTillQtr += dayCountPerQtr[i];
+		}
+		dayOfQuarter = ( dayOfYear - totalDaysTillQtr );
+		return dayOfQuarter;
 	}
 
 	private static class Function_Month extends Function_temp
@@ -428,6 +634,43 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		return getCalendar( d ).get( Calendar.WEEK_OF_MONTH );
 	}
+	
+	private static class Function_WeekOfYear extends Function_temp
+	{
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_WeekOfYear( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return Integer.valueOf( weekOfYear(DataTypeUtil.toDate(args[0])));
+		}
+	}
+
+	/**
+	 * Week number of the year (1 to 52) of date/time value d.
+	 *
+	 * @param d
+	 * @return
+	 */
+	private static int weekOfYear( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.WEEK_OF_YEAR );
+	}
 
 	private static class Function_Day extends Function_temp
 	{
@@ -574,6 +817,133 @@ public class BirtDateTime implements IScriptFunctionExecutor
 
 		return getCalendar( d ).get( Calendar.DAY_OF_YEAR );
 	}
+	
+	private static class Function_DayOfMonth extends Function_temp
+	{
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		Function_DayOfMonth( )
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return dayOfMonth(DataTypeUtil.toDate(args[0]));
+		}
+	}
+
+	/**
+	 * Day of the Month. Return a number 1 to 31
+	 *
+	 * @param d
+	 * @return
+	 */
+	private static int dayOfMonth( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.DAY_OF_MONTH );
+	}
+	
+	private static class Function_Hour extends Function_temp
+	{
+		Function_Hour()
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return Integer.valueOf( hour(DataTypeUtil.toDate(args[0])));
+		}
+	}
+	
+	private static int hour( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.HOUR);
+	}
+	
+	private static class Function_Minute extends Function_temp
+	{
+		Function_Minute()
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return Integer.valueOf( minute(DataTypeUtil.toDate(args[0])));
+		}
+	}
+	
+	private static int minute( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.MINUTE);
+	}
+	
+	private static class Function_Second extends Function_temp
+	{
+		Function_Second()
+		{
+			minParamCount = 1;
+			maxParamCount = 1;
+		}
+		/**
+		 *
+		 */
+		private static final long serialVersionUID = 1L;
+
+		protected Object getValue( Object[] args ) throws BirtException
+		{
+			if( existNullValue( args ) )
+			{
+				return null;
+			}
+			return Integer.valueOf( second(DataTypeUtil.toDate(args[0])));
+		}
+	}
+	
+	private static int second( Date d )
+	{
+		if ( d == null )
+			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
+
+		return getCalendar( d ).get( Calendar.SECOND);
+	}
 
 	private static class Function_DayOfWeek extends Function_temp
 	{
@@ -642,7 +1012,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static Date today( )
 	{
-		Calendar calendar = Calendar.getInstance( timeZone );
+		Calendar calendar = Calendar.getInstance( threadTimeZone.get( ) );
 		calendar.set( Calendar.HOUR_OF_DAY, 0 );
 		calendar.clear( Calendar.MINUTE );
 		calendar.clear( Calendar.SECOND );
@@ -891,9 +1261,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	 */
 	private static long diffDay( Date d1, Date d2 )
 	{
-		Calendar c1 = Calendar.getInstance( timeZone );
+		Calendar c1 = Calendar.getInstance( threadTimeZone.get( ) );
 		c1.setTime( d1 );
-		Calendar c2 = Calendar.getInstance( timeZone );
+		Calendar c2 = Calendar.getInstance( threadTimeZone.get( ) );
 		c2.setTime( d2 );
 		if ( c1.after( c2 ) )
 		{
@@ -995,22 +1365,6 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static long diffMinute( Date d1, Date d2 )
 	{
 		return diffSecond( d1, d2 ) / 60;
-	}
-
-	/**
-	 * The Calendar by default will give you an instance of
-	 * current time. This is however not expected. The method clear()
-	 * has to be invoked to re-init the Calendar instance.
-	 * @return
-	 */
-	private static Calendar getClearedCalendarInstance(int year, int month, int date )
-	{
-		Calendar c = Calendar.getInstance( timeZone );
-
-		c.clear( );
-
-		c.set( year, month, date );
-		return c;
 	}
 
 	/**
@@ -1520,23 +1874,20 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
 				return null;
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-			if ( args.length > 1 )
+			Calendar start = getFiscalYearStateDate( context, args );
+			if ( start.get( Calendar.DAY_OF_YEAR ) > 1 )
 			{
-				Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
-				if ( start.get( Calendar.DAY_OF_YEAR ) > 1 )
-				{
-					adjustFiscalYear( current, start );
-					// Fiscal year should return next year of first day, except
-					// Jan. 1
-					return current.get( Calendar.YEAR ) + 1;
-				}
+				adjustFiscalYear( current, start );
+				// Fiscal year should return next year of first day, except
+				// Jan. 1
+				return current.get( Calendar.YEAR ) + 1;
 			}
 			return current.get( Calendar.YEAR );
 		}
@@ -1553,18 +1904,16 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
 				return null;
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-			if ( args.length > 1 )
-			{
-				adjustFiscalYear( current, args[1] );
-			}
+			Calendar start = getFiscalYearStateDate( context, args );
 			// Quarter starts with 1
+			adjustFiscalYear( current, start );
 			return current.get( Calendar.MONTH ) / 3 + 1;
 		}
 	}
@@ -1580,18 +1929,16 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
 				return null;
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-			if ( args.length > 1 )
-			{
-				adjustFiscalYear( current, args[1] );
-			}
+			Calendar start = getFiscalYearStateDate( context, args );
 			// Month starts with 1
+			adjustFiscalYear( current, start );
 			return current.get( Calendar.MONTH ) + 1;
 		}
 	}
@@ -1607,7 +1954,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
@@ -1615,30 +1962,26 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
 			int currentWeek = current.get( Calendar.WEEK_OF_YEAR );
-			if ( args.length > 1 )
+			Calendar start = getFiscalYearStateDate( context, args );
+			start.set( Calendar.YEAR, current.get( Calendar.YEAR ) );
+			int startWeek = start.get( Calendar.WEEK_OF_YEAR );
+			if ( currentWeek >= startWeek )
 			{
-				Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
-				start.set( Calendar.YEAR, current.get( Calendar.YEAR ) );
-				int startWeek = start.get( Calendar.WEEK_OF_YEAR );
-				if ( currentWeek >= startWeek )
-				{
-					return currentWeek - startWeek + 1;
-				}
-				
-				// Go to last year to add weeks together
-				start.set( Calendar.YEAR, current.get( Calendar.YEAR ) - 1 );
-				Calendar lastYearLastWeek = getCalendar( new Date( start.get( Calendar.YEAR ) - 1,
-						11,
-						31 ) );
-				// Last week may return 1 as week of year
-				while ( lastYearLastWeek.get( Calendar.WEEK_OF_YEAR ) == 1 )
-				{
-					lastYearLastWeek.add( Calendar.DAY_OF_MONTH, -1 );
-				}
-				return lastYearLastWeek.get( Calendar.WEEK_OF_YEAR )
-						- start.get( Calendar.WEEK_OF_YEAR ) + 1 + currentWeek;
+				return currentWeek - startWeek + 1;
 			}
-			return currentWeek;
+			
+			// Go to last year to add weeks together
+			start.set( Calendar.YEAR, current.get( Calendar.YEAR ) - 1 );
+			Calendar lastYearLastWeek = getCalendar( new Date( start.get( Calendar.YEAR ) - 1,
+					11,
+					31 ) );
+			// Last week may return 1 as week of year
+			while ( lastYearLastWeek.get( Calendar.WEEK_OF_YEAR ) == 1 )
+			{
+				lastYearLastWeek.add( Calendar.DAY_OF_MONTH, -1 );
+			}
+			return lastYearLastWeek.get( Calendar.WEEK_OF_YEAR )
+					- start.get( Calendar.WEEK_OF_YEAR ) + 1 + currentWeek;
 		}
 	}
 	
@@ -1653,17 +1996,15 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
 				return null;
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-			if ( args.length > 1 )
-			{
-				adjustFiscalYear( current, args[1] );
-			}
+			Calendar start = getFiscalYearStateDate( context, args );
+			adjustFiscalYear( current, start );
 			return current.get( Calendar.DAY_OF_YEAR );
 		}
 	}
@@ -1679,32 +2020,29 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
 				return null;
 			}
-			Calendar current = getCalendar( null );
-			if ( args[0] instanceof Integer )
+			Calendar current;
+			if ( args[0] instanceof Number )
 			{
-				current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				current = getFiscalYearStateDate( context, args );
 				// Month starts with 1
-				current.add( Calendar.MONTH, (Integer) args[0] - 1 );
+				current.add( Calendar.MONTH,
+						( (Number) args[0] ).intValue( ) - 1 );
 			}
 			else
 			{
-				current.setTime( DataTypeUtil.toDate( args[0] ) );
-				if ( args.length > 1 )
-				{
-					Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
-					adjustFiscalMonth( current, start );
-					current.set( Calendar.DATE, start.get( Calendar.DATE ) );
-				}
-				else
-				{
-					current.set( Calendar.DATE, 1 );
-				}
+				current = getCalendar( DataTypeUtil.toDate( args[0] ) );
+				Calendar start = getFiscalYearStateDate( context, args );
+				adjustFiscalMonth( current, start );
+				// Do not exceed the max days of current month
+				current.set( Calendar.DATE,
+						Math.min( start.get( Calendar.DATE ),
+								current.getActualMaximum( Calendar.DATE ) ) );
 			}
 			return current.getTime( );
 		}
@@ -1721,37 +2059,32 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
 				return null;
 			}
-			Calendar current = getCalendar( null );
-			if ( args[0] instanceof Integer )
+			Calendar current;
+			if ( args[0] instanceof Number )
 			{
-				current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				current = getFiscalYearStateDate( context, args );
 				// Quarter starts with 1
-				current.add( Calendar.MONTH, ( (Integer) args[0] - 1 ) * 3 );
+				current.add( Calendar.MONTH,
+						( ( (Number) args[0] ).intValue( ) - 1 ) * 3 );
 			}
 			else
 			{
-				current.setTime( DataTypeUtil.toDate( args[0] ) );
-				if ( args.length > 1 )
-				{
-					Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
-					adjustFiscalMonth( current, start );
-					int monthRemaindary = ( current.get( Calendar.MONTH )
-							- start.get( Calendar.MONTH ) + 12 ) % 3;
-					current.add( Calendar.MONTH, -monthRemaindary );
-					current.set( Calendar.DATE, start.get( Calendar.DATE ) );
-				}
-				else
-				{
-					current.set( Calendar.MONTH,
-							current.get( Calendar.MONTH ) / 3 * 3 );
-					current.set( Calendar.DATE, 1 );
-				}
+				current = getCalendar( DataTypeUtil.toDate( args[0] ) );
+				Calendar start = getFiscalYearStateDate( context, args );
+				adjustFiscalMonth( current, start );
+				int monthRemaindary = ( current.get( Calendar.MONTH )
+						- start.get( Calendar.MONTH ) + 12 ) % 3;
+				current.add( Calendar.MONTH, -monthRemaindary );
+				// Do not exceed the max days of current month
+				current.set( Calendar.DATE,
+						Math.min( start.get( Calendar.DATE ),
+								current.getActualMaximum( Calendar.DATE ) ) );
 			}
 			return current.getTime( );
 		}
@@ -1768,22 +2101,23 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
 				return null;
 			}
-			Calendar current = getCalendar( null );
-			if ( args[0] instanceof Integer )
+			Calendar current;
+			if ( args[0] instanceof Number )
 			{
-				current = getCalendar( DataTypeUtil.toDate( args[1] ) );
+				current = getFiscalYearStateDate( context, args );
 				// Week starts with 1
-				current.add( Calendar.WEEK_OF_YEAR, (Integer) args[0] - 1 );
+				current.add( Calendar.WEEK_OF_YEAR,
+						( (Number) args[0] ).intValue( ) - 1 );
 			}
 			else
 			{
-				current.setTime( DataTypeUtil.toDate( args[0] ) );
+				current = getCalendar( DataTypeUtil.toDate( args[0] ) );
 			}
 			current.set( Calendar.DAY_OF_WEEK, current.getFirstDayOfWeek( ) );
 			return current.getTime( );
@@ -1801,20 +2135,17 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			maxParamCount = 2;
 		}
 
-		protected Object getValue( Object[] args ) throws BirtException
+		protected Object getValue( Object[] args, IScriptFunctionContext context ) throws BirtException
 		{
 			if ( existNullValue( args ) )
 			{
 				return null;
 			}
-			Calendar current = getCalendar( null );
-			if ( args[0] instanceof Integer )
+			Calendar current = null;
+			if ( args[0] instanceof Number )
 			{
-				if ( args.length > 1 )
-				{
-					current = getCalendar( DataTypeUtil.toDate( args[1] ) );
-				}
-				current.set( Calendar.YEAR, (Integer) args[0] );
+				current = getFiscalYearStateDate( context, args );
+				current.set( Calendar.YEAR, ( (Number) args[0] ).intValue( ) );
 				if ( current.get( Calendar.DAY_OF_YEAR ) > 1 )
 				{
 					current.add( Calendar.YEAR, -1 );
@@ -1822,19 +2153,15 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			}
 			else
 			{
-				current.setTime( DataTypeUtil.toDate( args[0] ) );
-				if ( args.length > 1 )
-				{
-					Calendar start = getCalendar( DataTypeUtil.toDate( args[1] ) );
-					adjustFiscalYear( current, start );
-					current.set( Calendar.MONTH, start.get( Calendar.MONTH ) );
-					current.set( Calendar.DATE, start.get( Calendar.DATE ) );
-				}
-				else
-				{
-					current.set( Calendar.MONTH, 0 );
-					current.set( Calendar.DATE, 1 );
-				}
+				current = getCalendar( DataTypeUtil.toDate( args[0] ) );
+				Calendar start = getFiscalYearStateDate( context, args );
+				adjustFiscalYear( current, start );
+				current.set( Calendar.MONTH, start.get( Calendar.MONTH ) );
+				// Do not exceed the max days of current month
+				current.set( Calendar.DATE,
+						Math.min( start.get( Calendar.DATE ),
+								current.getActualMaximum(
+										Calendar.DATE ) ) );
 			}
 			return current.getTime( );
 		}
@@ -1925,16 +2252,16 @@ public class BirtDateTime implements IScriptFunctionExecutor
 	private static Calendar getCalendar( Date d )
 	{
 		Calendar c = null;
-		if( d instanceof java.sql.Date )
+		if ( d instanceof java.sql.Date )
 		{
-			c = Calendar.getInstance( TimeZone.getDefault( ), defaultLocale );
+			c = Calendar.getInstance( TimeZone.getDefault( ),
+					threadLocale.get( ) );
 		}
 		else
 		{
-			c = Calendar.getInstance( timeZone, defaultLocale );
+			c = Calendar.getInstance( threadTimeZone.get( ),
+					threadLocale.get( ) );
 		}
-		//Fix for ted 38388
-		c.setMinimalDaysInFirstWeek( 1 );
 		if ( d == null )
 		{
 			c.clear( );
@@ -1965,31 +2292,89 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return false;
 	}
 
-	public Object execute( Object[] arguments, IScriptFunctionContext context )
+	public Object execute( Object[] arguments, IScriptFunctionContext scriptContext )
 			throws BirtException
 	{
-		scriptContext = context;
 		if ( scriptContext != null )
 		{
-			ULocale locale = (ULocale) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE );
+			Object locale = scriptContext.findProperty(
+					org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.LOCALE );
+			if ( !( locale instanceof ULocale ) )
+			{
+				locale = ULocale.getDefault( );
+			}
 			if ( threadLocale.get( ) != locale )
 			{
-				threadLocale.set( locale );
-				List<SimpleDateFormat> sdfList = new ArrayList<SimpleDateFormat>();
-				sdfList.add( new SimpleDateFormat( "MMM", threadLocale.get( ) ) );
-				sdfList.add( new SimpleDateFormat( "MMMM", threadLocale.get( ) ) );
-				sdfList.add( new SimpleDateFormat( "EEE", threadLocale.get( ) ) );
-				sdfList.add( new SimpleDateFormat( "EEEE", threadLocale.get( ) ) );
-			    threadSDFArray.set( sdfList );
+				threadLocale.set( (ULocale) locale );
+				List<SimpleDateFormat> sdfList = new ArrayList<SimpleDateFormat>( );
+				sdfList.add(
+						new SimpleDateFormat( "MMM", threadLocale.get( ) ) );
+				sdfList.add(
+						new SimpleDateFormat( "MMMM", threadLocale.get( ) ) );
+				sdfList.add(
+						new SimpleDateFormat( "EEE", threadLocale.get( ) ) );
+				sdfList.add(
+						new SimpleDateFormat( "EEEE", threadLocale.get( ) ) );
+				threadSDFArray.set( sdfList );
 			}
 
-			timeZone = (TimeZone) scriptContext.findProperty( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE );
+			Object timeZone = scriptContext.findProperty(
+					org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.TIMEZONE );
+			if ( !( timeZone instanceof TimeZone ) )
+			{
+				timeZone = TimeZone.getDefault( );
+			}
+			if ( threadTimeZone.get( ) != timeZone )
+			{
+				threadTimeZone.set( (TimeZone) timeZone );
+			}
 		}
-		if( timeZone == null )
+		return this.executor.execute( arguments, scriptContext );
+	}
+	
+	private static Calendar getDefaultFiscalYearStartDate(
+			IScriptFunctionContext context )
+	{
+		// Get customized value from appContext or system
+		Object property = context == null ? null
+				: context.findProperty( PROPERTY_FISCAL_YEAR_START_DATE );
+		if ( property == null || property == UniqueTag.NOT_FOUND )
 		{
-			timeZone = TimeZone.getDefault( );
+			property = System.getProperty( PROPERTY_FISCAL_YEAR_START_DATE );
 		}
-		return this.executor.execute( arguments, context );
+		Calendar start = Calendar.getInstance( );
+		if ( property != null )
+		{
+				try
+			{
+				Date date = FISCAL_YEAR_DATE_FORMAT.parse( property.toString( ) );
+				start.setTime( date );
+				return start;
+			}
+			catch ( ParseException e )
+			{
+				logger.log( Level.WARNING, e.getLocalizedMessage( ) );
+			}
+		}
+
+		// Default value is July 1 of current year
+		start.set( Calendar.MONTH, 6 );
+		start.set( Calendar.DAY_OF_MONTH, 1 );
+		start.set( Calendar.HOUR_OF_DAY, 0 );
+		start.set( Calendar.MINUTE, 0 );
+		start.set( Calendar.SECOND, 0 );
+		start.set( Calendar.MILLISECOND, 0 );
+		return start;
 	}
 
+	private static Calendar getFiscalYearStateDate(
+			IScriptFunctionContext context, Object[] args ) throws BirtException
+	{
+		if ( args.length > 1 )
+		{
+			return getCalendar( DataTypeUtil.toDate( args[1] ) );
+		}
+		return getDefaultFiscalYearStartDate( context );
+	}
+	
 }

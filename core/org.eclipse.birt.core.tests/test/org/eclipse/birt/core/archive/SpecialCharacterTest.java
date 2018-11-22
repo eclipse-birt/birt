@@ -8,11 +8,12 @@ import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-public class SpecialCharacterTest
+import junit.framework.TestCase;
+
+public class SpecialCharacterTest extends TestCase
 {
 
     /**
@@ -40,7 +41,7 @@ public class SpecialCharacterTest
             RAInputStream rs = reader.getInputStream( fileName );
             byte[] b = new byte[rs.available( )];
             rs.read( b );
-            Assert.assertEquals( new String( b, "utf-8" ), fileName );
+            assertEquals( new String( b, "utf-8" ), fileName );
         }
     }
 
@@ -50,8 +51,7 @@ public class SpecialCharacterTest
     {
         ArchiveUtil.deleteAllFiles( new File( "./utest" ) );
     }
-
-    @Test
+	@Test
     public void testFolderReaderWriter( ) throws IOException
     {
         FolderArchiveWriter writer = new FolderArchiveWriter(
@@ -68,8 +68,7 @@ public class SpecialCharacterTest
             writer.close( );
         }
     }
-
-    @Test
+	@Test
     public void testFolderArchive( ) throws IOException
     {
         FolderArchive archive = new FolderArchive( "./utest/folder.archive" );
@@ -83,8 +82,7 @@ public class SpecialCharacterTest
         }
 
     }
-
-    @Test
+	@Test
     public void testFileArchive( ) throws IOException
     {
         ArchiveFile af = new ArchiveFile( "./utest/archive.test", "rwt" );

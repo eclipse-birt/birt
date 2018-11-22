@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <project basedir=".">
-  <property name="BIRT_VERSION" value="4.5.0"/>
+  <property name="BIRT_VERSION" value="4.8.0"/>
   <property name="RUNTIME_DIR" location="../birt-runtime-osgi/target/package"/>
   <property name="ROOT_DIR" location="../../.."/>
   <property name="TARGET_DIR" location="./target"/>
@@ -19,17 +19,29 @@
       <fileset dir="${RUNTIME_DIR}">
         <exclude name="WebViewerExample/WEB-INF/platform/**"/>
         <exclude name="birt.war"/>
-        <exclude name="ReportEngine/configuration/**"/>
-        <exclude name="ReportEngine/plugins/**"/>
+        <exclude name="ReportEngine/platform/**"/>
         <exclude name="ReportEngine/lib/**"/>
       </fileset>
     </copy>
-    <!-- copy other plugins to lib folder -->
+    <!-- copy necessary jars to lib folder -->
     <copy todir="${STAGE_DIR}/ReportEngine/lib">
-      <fileset dir="${RUNTIME_DIR}/ReportEngine/plugins">
+      <fileset dir="${RUNTIME_DIR}/ReportEngine/platform/plugins">
         <exclude name="org.eclipse.birt.*/**"/>
-        <exclude name="uk.co.spudsoft.birt.*/**"/>
+        <exclude name="org.eclipse.datatools.enablement.*/**"/>
+      	<exclude name="org.eclipse.datatools.modelbase.*/**"/>
+        <exclude name="org.eclipse.datatools.sqltools.*/**"/>
+        <exclude name="org.eclipse.equinox.p2.*/**"/>
+      	<exclude name="uk.co.spudsoft.birt.*/**"/>
         <include name="**/*.jar"/>
+      </fileset>
+      <flattenmapper/>
+    </copy>
+  	<!-- copy other jars to addons folder -->
+    <copy todir="${STAGE_DIR}/ReportEngine/addons">
+      <fileset dir="${RUNTIME_DIR}/ReportEngine/platform/plugins">
+        <include name="org.eclipse.datatools.enablement.*/**"/>
+      	<include name="org.eclipse.datatools.modelbase.*/**"/>
+        <include name="org.eclipse.datatools.sqltools.*/**"/>
       </fileset>
       <flattenmapper/>
     </copy>
@@ -46,14 +58,15 @@
     <taskdef name="buildJar" classname="org.eclipse.birt.build.ant.PackTask" classpathref="lib.path"/>
     <!-- copy all birt plugins to temp folder-->
     <copy todir="${TARGET_DIR}/org.eclipse.birt.runtime">
-      <fileset dir="${RUNTIME_DIR}/ReportEngine/plugins">
+      <fileset dir="${RUNTIME_DIR}/ReportEngine/platform/plugins">
         <include name="org.eclipse.birt.*/**"/>
         <include name="uk.co.spudsoft.birt.*/**"/>
         <exclude name="org.eclipse.birt.api_*.jar"/>
       </fileset>
     </copy>
     <!-- create org.eclipse.birt.runtime.jar -->
-    <buildJar basedir="${TARGET_DIR}/org.eclipse.birt.runtime" output="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar">
+    <buildJar basedir="${TARGET_DIR}/org.eclipse.birt.runtime"
+              output="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar">
       <manifest>
         <attribute name="Bundle-Version" value="${BIRT_VERSION}"/>
         <attribute name="Bundle-Name" value="BIRT Runtime SDK"/>
@@ -62,6 +75,12 @@
         <attribute name="Manifest-Version" value="1.0"/>
       </manifest>
     </buildJar>
+    <!-- it's surprisingly hard to keep eclipse-jarsigner-plugin off jars -->
+    <zip destfile="${STAGE_DIR}/ReportEngine/lib/org.eclipse.birt.runtime_${BIRT_VERSION}.jar">
+        <zipfileset src="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar"
+                    excludes="META-INF/ECLIPSE_.*"/>
+    </zip>
+    <delete file="${STAGE_DIR}/ReportEngine/lib/tmp.birt.runtime.jar"/>
   </target>
   <target name="build-webviewer">
     <copy todir="${STAGE_DIR}/WebViewerExample/WEB-INF/lib">

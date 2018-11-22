@@ -26,8 +26,6 @@ import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.api.util.DimensionUtil;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience
@@ -206,19 +204,18 @@ public class ColumnHandleAdapter extends DesignElementHandleAdapter
 	 *  Column width
 	 * @throws SemanticException
 	 */
-	public void setWidth( int columnWidth, String units ) throws SemanticException
+	public void setWidth( int columnWidth, String units )
+			throws SemanticException
 	{
-		double value = MetricUtility.pixelToPixelInch( columnWidth );
-		DimensionValue dimensionValue = DimensionUtil.convertTo( value, DesignChoiceConstants.UNITS_IN, units );
-		getColumnHandle( ).getWidth( ).setValue(dimensionValue);
-		//getColumnHandle(
-		// ).getWidth().setStringValue(String.valueOf(rowHeight) +
-		// DesignChoiceConstants.UNITS_PX);
+		MetricUtility.updateDimension( getColumnHandle( ).getWidth( ),
+				columnWidth,
+				units );
 	}
-	
+
 	public void setWidth( int columnWidth ) throws SemanticException
 	{
-		setWidth( columnWidth, DesignChoiceConstants.UNITS_IN );
+		MetricUtility.updateDimension( getColumnHandle( ).getWidth( ),
+				columnWidth );
 	}
 
 	/**

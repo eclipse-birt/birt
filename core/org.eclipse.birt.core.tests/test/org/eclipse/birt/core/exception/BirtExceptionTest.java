@@ -13,12 +13,15 @@ package org.eclipse.birt.core.exception;
 import java.util.Enumeration;
 import java.util.ResourceBundle;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 /**
  *
  */
-public class BirtExceptionTest extends TestCase {
+public class BirtExceptionTest extends TestCase
+{
 
     private static String FATAL_ERROR_KEY = "Fatal_Error";
     private static String CONCATENATED_ERROR_KEY = "Recoverable_Error";
@@ -35,17 +38,10 @@ public class BirtExceptionTest extends TestCase {
     /*
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
-    /*
+/*
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-    
+@Test
     public void testNoRBException( )
 	{
 		String errorCode = "No RB {0}";
@@ -55,7 +51,7 @@ public class BirtExceptionTest extends TestCase {
 		assertEquals( error, e.getLocalizedMessage( ) );
 		assertEquals( error, e.getMessage( ) );
 	}
-    
+	@Test
     public void testCorruptFormatException()
     {
 		String errorCode = "No RB {0";
@@ -65,7 +61,7 @@ public class BirtExceptionTest extends TestCase {
 		assertEquals( error, e.getLocalizedMessage( ) );
 		assertEquals( error, e.getMessage( ) );
     }
-    
+	@Test
     public void testBirtException()
     {
         // Tests for simple getters

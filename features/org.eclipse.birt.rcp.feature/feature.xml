@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.rcp"
       label="%featureName"
-      version="4.5.0.qualifier"
+      version="4.8.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -33,10 +33,8 @@
       <import plugin="javax.xml.soap"/>
       <import plugin="javax.xml.stream"/>
       <import plugin="org.apache.axis"/>
-      <import plugin="org.apache.batik.pdf"/>
       <import plugin="org.apache.commons.discovery"/>
       <import plugin="org.apache.commons.logging"/>
-      <import plugin="org.apache.derby.core"/>
       <import plugin="org.apache.jasper.glassfish"/>
       <import plugin="org.apache.lucene.analysis"/>
       <import plugin="org.apache.lucene.core"/>
@@ -46,8 +44,6 @@
       <import plugin="org.apache.xml.serializer"/>
       <import plugin="org.eclipse.core.filebuffers"/>
       <import plugin="org.eclipse.core.net"/>
-      <import plugin="org.eclipse.core.runtime.compatibility.registry"/>
-      <import plugin="org.eclipse.core.runtime.compatibility"/>
       <import plugin="org.eclipse.datatools.connectivity.db.generic"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.design.ui"/>
       <import plugin="org.eclipse.datatools.connectivity.oda.design"/>
@@ -118,6 +114,7 @@
       <import plugin="org.sat4j.core"/>
       <import plugin="org.sat4j.pb"/>
       <import plugin="uk.co.spudsoft.birt.emitters.excel"/>
+      <import plugin="org.eclipse.equinox.p2.reconciler.dropins"/>
    </requires>
 
    <plugin
@@ -127,537 +124,621 @@
          version="0.0.0"
          fragment="true"
          unpack="false"/>
-   <plugin
-id="org.eclipse.birt.axis.overlay"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.cshelp"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.device.extension"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.device.pdf"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.device.svg"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.device.swt"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.engine.extension"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.engine"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.examples.core"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.examples"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.reportitem.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.reportitem"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.ui.extension"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.chart.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.core.script.function"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.cshelp"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.data.oda.mongodb.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.data.oda.mongodb"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.data.oda.pojo.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.data.oda.pojo"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.doc"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.example"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.me.prettyprint.hector"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.bidi.utils.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.bidi.utils"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.excel.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.excel"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.hive.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.hive"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.jdbc.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.jdbc"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.sampledb.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.sampledb"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.xml.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.data.oda.xml"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.designer.samplereports"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.designer.ui.cubebuilder"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.designer.ui.data"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.designer.ui.preview.web"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.designer.ui.samples.rcp"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.designer.ui.samplesview"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.dataextraction.csv"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.dataextraction"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.docx"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.excel"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.html"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.odp"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.ods"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.odt"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.pdf"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.postscript"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.pptx"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.ppt"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config.wpml"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.config"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.docx"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.html"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.odp"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.ods"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.odt"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.pdf"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.postscript"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.pptx"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.ppt"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.prototype.excel"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.emitter.wpml"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.fonts"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.odf"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.ooxml"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.engine.script.javascript"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.item.crosstab.core"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.item.crosstab.ui"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.model.adapter.oda"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.report.viewer"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt.resources"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
-   <plugin
-id="org.eclipse.birt"
-download-size="0"
-install-size="0"
-version="0.0.0"
-fragment="true"
-unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.axis.overlay"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.cshelp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.device.extension"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.device.pdf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.device.svg"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.device.swt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.engine.extension"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.engine"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.examples.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.examples"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.reportitem.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.reportitem"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.ui.extension"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.chart.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.core.script.function"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.cshelp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.data.oda.mongodb.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.data.oda.mongodb"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.data.oda.pojo.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.data.oda.pojo"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.doc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.example"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.me.prettyprint.hector"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.bidi.utils.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.bidi.utils"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.excel.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.excel"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.hive.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.hive"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.jdbc.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.jdbc"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.sampledb.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.sampledb"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.xml.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.data.oda.xml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.samplereports"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.ui.cubebuilder"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.ui.data"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.ui.preview.web"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.ui.samples.rcp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.designer.ui.samplesview"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.dataextraction.csv"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.dataextraction"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.docx"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.excel"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.html"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.odp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.ods"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.odt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.pdf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.postscript"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.pptx"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.ppt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config.wpml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.config"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.docx"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.html"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.odp"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.ods"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.odt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.pdf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.postscript"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.pptx"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.ppt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.prototype.excel"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.emitter.wpml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.fonts"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.odf"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.ooxml"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.engine.script.javascript"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.item.crosstab.core"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.item.crosstab.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.model.adapter.oda"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.report.viewer"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt.resources"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+
+   <plugin
+         id="org.eclipse.birt"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
+         
+   <plugin
+         id="org.w3c.dom.svg.extension"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         fragment="true"
+         unpack="false"/>
 
 </feature>

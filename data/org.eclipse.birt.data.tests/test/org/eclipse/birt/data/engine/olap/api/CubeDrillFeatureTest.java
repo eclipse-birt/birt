@@ -37,6 +37,12 @@ import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class CubeDrillFeatureTest extends BaseTestCase
 {
 
@@ -47,7 +53,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	 * Drill on the first dimension
 	 * @throws Exception
 	 */
-	public void testBasicDrillUpOperation( ) throws Exception
+	@Test
+    public void testBasicDrillUpOperation( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -166,7 +173,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	 * Drill on the first dimension with duplicated second dimension
 	 * @throws Exception
 	 */
-	public void testBasicDrillOperation2( ) throws Exception
+	@Test
+    public void testBasicDrillOperation2( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -257,7 +265,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	 * Drill on the second dimension
 	 * @throws Exception
 	 */
-	public void testBasicDrillUpOperation3( ) throws Exception
+	@Test
+    public void testBasicDrillUpOperation3( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -363,7 +372,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	 * Drill on the first and second dimension
 	 * @throws Exception
 	 */
-	public void testBasicDrillUpOperation4( ) throws Exception
+	@Test
+    public void testBasicDrillUpOperation4( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -479,7 +489,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	 * Drill on the first, second, third dimension
 	 * @throws Exception
 	 */
-	public void testBasicDrillOperation5( ) throws Exception
+	@Test
+    public void testBasicDrillOperation5( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -610,7 +621,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	 * Drill on the first, second and the sub total.
 	 * @throws Exception
 	 */
-	public void testBasicDrillOperation6( ) throws Exception
+	@Test
+    public void testBasicDrillOperation6( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -749,7 +761,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	 * Drill coexists nested aggregation with running aggregation
 	 * @throws Exception
 	 */
-	public void testBasicDrillOperation7( ) throws Exception
+	@Test
+    public void testBasicDrillOperation7( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -893,7 +906,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	 * Drill coexists nested aggregation with normal aggregation
 	 * @throws Exception
 	 */
-	public void testBasicDrillOperation8( ) throws Exception
+	@Test
+    public void testBasicDrillOperation8( ) throws Exception
 	{
 
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
@@ -1041,7 +1055,8 @@ public class CubeDrillFeatureTest extends BaseTestCase
 	 * Test the getExtend from dimension cursor.
 	 * @throws Exception
 	 */
-	public void testDimensionExtend( ) throws Exception
+	@Test
+    public void testDimensionExtend( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );

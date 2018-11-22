@@ -43,6 +43,12 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
@@ -62,22 +68,23 @@ public class JointDataSetTest extends APITestCase
 				ConfigText.getString( "Impl.TestJointDataSet.TableSQL" ),
 				ConfigText.getString( "Impl.TestJointDataSet.TestDataFileName" ) );
 	}
-	public void setUp() throws Exception
+	@Before
+    public void jointDataSetSetUp() throws Exception
 	{
-		super.setUp();
+
 		cx = new ScriptContext();
 	}
-	
-	public void tearDown() throws Exception
+	@After
+    public void jointDataSetTearDown() throws Exception
 	{
-		super.tearDown( );
 		cx.close();
 	}
 	/**
 	 * Basic test to get MD for all columns
 	 * @throws Exception
 	 */
-	public void testInnerJoin_DEFAULT( ) throws Exception
+	@Test
+    public void testInnerJoin_DEFAULT( ) throws Exception
 	{
 		String s = basicJoinTest( IJointDataSetDesign.INNER_JOIN, CARTESIAN_POPULATOR );
 		this.testPrint( s );
@@ -88,7 +95,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testLeftOuterJoin_DEFAULT( ) throws Exception
+	@Test
+    public void testLeftOuterJoin_DEFAULT( ) throws Exception
 	{
 		
 		String s = basicJoinTest( IJointDataSetDesign.LEFT_OUTER_JOIN, CARTESIAN_POPULATOR );
@@ -100,7 +108,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRightOuterJoin_DEFAULT( ) throws Exception
+	@Test
+    public void testRightOuterJoin_DEFAULT( ) throws Exception
 	{
 		
 		String s = basicJoinTest( IJointDataSetDesign.RIGHT_OUTER_JOIN, CARTESIAN_POPULATOR );
@@ -112,7 +121,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFullOuterJoin_DEFAULT( ) throws Exception
+	@Test
+    public void testFullOuterJoin_DEFAULT( ) throws Exception
 	{
 		
 		String s = basicJoinTest( IJointDataSetDesign.FULL_OUTER_JOIN, CARTESIAN_POPULATOR );
@@ -123,7 +133,8 @@ public class JointDataSetTest extends APITestCase
 	/**
 	 * Basic test to get MD for all columns
 	 */
-	public void testInnerJoin_BINARY( ) throws Exception
+	@Test
+    public void testInnerJoin_BINARY( ) throws Exception
 	{
 		
 		String s = basicJoinTest( IJointDataSetDesign.INNER_JOIN, BINARY_TREE_POPULATOR );
@@ -135,7 +146,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testLeftOuterJoin_BINARY( ) throws Exception
+	@Test
+    public void testLeftOuterJoin_BINARY( ) throws Exception
 	{
 		
 		String s = basicJoinTest( IJointDataSetDesign.LEFT_OUTER_JOIN, BINARY_TREE_POPULATOR );
@@ -147,7 +159,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRightOuterJoin_BINARY( ) throws Exception
+	@Test
+    public void testRightOuterJoin_BINARY( ) throws Exception
 	{
 		
 		String s = basicJoinTest( IJointDataSetDesign.RIGHT_OUTER_JOIN, BINARY_TREE_POPULATOR );
@@ -159,7 +172,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testComplexInnerJoin( ) throws Exception
+	@Test
+    public void testComplexInnerJoin( ) throws Exception
 	{
 		String s = complexJoinTest( IJointDataSetDesign.INNER_JOIN );
 		this.testPrint( s );
@@ -170,7 +184,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testComplexLeftOuterJoin() throws Exception
+	@Test
+    public void testComplexLeftOuterJoin() throws Exception
 	{
 		String s = complexJoinTest( IJointDataSetDesign.LEFT_OUTER_JOIN);
 		this.testPrint( s );
@@ -181,7 +196,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testComplexRightOuterJoin() throws Exception
+	@Test
+    public void testComplexRightOuterJoin() throws Exception
 	{
 		String s = complexJoinTest( IJointDataSetDesign.RIGHT_OUTER_JOIN );
 		this.testPrint( s );
@@ -192,7 +208,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testComplexFullOuterJoin() throws Exception
+	@Test
+    public void testComplexFullOuterJoin() throws Exception
 	{
 		String s = complexJoinTest( IJointDataSetDesign.FULL_OUTER_JOIN );
 		this.testPrint( s );
@@ -203,7 +220,8 @@ public class JointDataSetTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRowFetchLimit() throws Exception
+	@Test
+    public void testRowFetchLimit() throws Exception
 	{
 		ADD_FETCH_LIMIT = true;
 		this.testPrint( this.basicJoinTest( IJointDataSetDesign.INNER_JOIN, BINARY_TREE_POPULATOR ));
@@ -291,22 +309,22 @@ public class JointDataSetTest extends APITestCase
 		System.out.println(count + ":" + (System.currentTimeMillis( ) - start));
 		return s;
 	}
-
-	public void testSelfInnerJoin( ) throws Exception
+	@Test
+    public void testSelfInnerJoin( ) throws Exception
 	{
 		String s = selfJoinTest( IJointDataSetDesign.INNER_JOIN );
 		this.testPrint( s );
 		checkOutputFile();
 	}
-
-	public void testSelfLeftOuterJoin() throws Exception
+	@Test
+    public void testSelfLeftOuterJoin() throws Exception
 	{
 		String s = selfJoinTest( IJointDataSetDesign.LEFT_OUTER_JOIN);
 		this.testPrint( s );
 		checkOutputFile();
 	}
-	
-	public void testSelfRightOuterJoin() throws Exception
+	@Test
+    public void testSelfRightOuterJoin() throws Exception
 	{
 		String s = selfJoinTest( IJointDataSetDesign.RIGHT_OUTER_JOIN );
 		this.testPrint( s );
@@ -440,8 +458,8 @@ public class JointDataSetTest extends APITestCase
 		System.out.println(count + ":" + (System.currentTimeMillis( ) - start));
 		return s;
 	}
-	
-	public void testAlias( ) throws Exception
+	@Test
+    public void testAlias( ) throws Exception
 	{
 		String fieldName = "dset2::CITY";
 		OdaDataSetDesign dset = newDataSet( "dset",

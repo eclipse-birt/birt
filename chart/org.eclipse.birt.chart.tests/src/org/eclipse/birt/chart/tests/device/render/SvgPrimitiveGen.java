@@ -73,6 +73,8 @@ public class SvgPrimitiveGen {
 	protected void startup(){
 		renderer = new SVGRendererImpl();
 		renderer.setProperty(IDeviceRenderer.FILE_IDENTIFIER, outFile);
+		// Initialize dpi to avoid error using svg gc
+		renderer.getDisplayServer( ).getDpiResolution( );
 		renderer.setProperty(IDeviceRenderer.EXPECTED_BOUNDS, BoundsImpl.create(0, 0 , 500, 500));
 	}
 	/**

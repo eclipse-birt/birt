@@ -38,12 +38,12 @@ import org.eclipse.jface.viewers.CheckStateChangedEvent;
 import org.eclipse.jface.viewers.CheckboxTreeViewer;
 import org.eclipse.jface.viewers.ICheckStateListener;
 import org.eclipse.jface.viewers.ITreeContentProvider;
+import org.eclipse.jface.viewers.Viewer;
 import org.eclipse.pde.core.plugin.IPluginModelBase;
 import org.eclipse.pde.internal.core.plugin.WorkspacePluginModelBase;
 import org.eclipse.pde.internal.ui.PDELabelProvider;
 import org.eclipse.pde.internal.ui.PDEPlugin;
 import org.eclipse.pde.internal.ui.PDEPluginImages;
-import org.eclipse.pde.internal.ui.elements.DefaultContentProvider;
 import org.eclipse.pde.internal.ui.elements.NamedElement;
 import org.eclipse.pde.internal.ui.util.SWTUtil;
 import org.eclipse.pde.internal.ui.wizards.ListUtil;
@@ -85,7 +85,7 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	private Button fSelectAllButton;
 	private Button fDeselectButton;
 
-	class PluginContentProvider extends DefaultContentProvider implements
+	class PluginContentProvider implements
 			ITreeContentProvider
 	{
 
@@ -132,6 +132,16 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		{
 			// return ( new Object[]{fWorkspacePlugins} );
 			return fWorkspacePlugins;
+		}
+
+		@Override
+		public void dispose()
+		{
+		}
+
+		@Override
+		public void inputChanged(Viewer arg0, Object arg1, Object arg2)
+		{
 		}
 
 	}

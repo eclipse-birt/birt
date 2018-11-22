@@ -512,17 +512,19 @@ public class ExecutionContext
 			dataSource = null;
 		}
 
+		IStatusHandler handler = task.getStatusHandler( );
+		if ( handler != null )
+		{
+			handler.finish( );
+		}
+		
+		// Do this last since it destroys the appContext which may be used by status handlers
 		if ( closeClassLoader
 				&& applicationClassLoader instanceof ApplicationClassLoader )
 		{
 			( (ApplicationClassLoader) applicationClassLoader ).close( );
 		}
 
-		IStatusHandler handler = task.getStatusHandler( );
-		if ( handler != null )
-		{
-			handler.finish( );
-		}
 		// RELEASE ALL THE MEMBERS EXPLICTLY AS THIS OBJECT MAY BE REFERENCED BY
 		// THE SCRIPT OBJECT WHICH IS HOLDED IN THE FININALIZER QUEUE
 		applicationClassLoader = null;
@@ -530,8 +532,8 @@ public class ExecutionContext
 		// task = null;
 		executor = null;
 		tocBuilder = null;
-		// runnable = null;
-		// originalRunnable = null;
+		runnable = null;
+		originalRunnable = null;
 		configs = null;
 		params = null;
 		persistentBeans = null;
@@ -917,6 +919,11 @@ public class ExecutionContext
 			dataEngine.shutdown( );
 			dataEngine = null;
 		}
+	}
+
+	public boolean isDataEngineInitialized( )
+	{
+		return dataEngine != null;
 	}
 
 	/**
@@ -2140,15 +2147,23 @@ public class ExecutionContext
 
 	/**
 	 * Notify page break listeners that page is broken.
+	 * 
+	 * @param isHorizontalPageBreak
+	 *            indicates if it's horizontal page break
+	 * @param isSizeOverflowPageBreak
+	 *            indicates if the page break is triggered by content size
+	 *            exceeding page size
 	 */
-	public void firePageBreakEvent( boolean isHorizontalPageBreak, boolean isFixedLayoutPageBreak )
+	public void firePageBreakEvent( boolean isHorizontalPageBreak,
+			boolean isSizeOverflowPageBreak )
 	{
 		if ( pageBreakListeners != null )
 		{
 			for ( int i = 0; i < pageBreakListeners.size( ); i++ )
 			{
 				( (IPageBreakListener) pageBreakListeners.get( i ) )
-						.onPageBreak( isHorizontalPageBreak, isFixedLayoutPageBreak );
+						.onPageBreak( isHorizontalPageBreak,
+								isSizeOverflowPageBreak );
 			}
 		}
 	}

@@ -15,14 +15,15 @@ import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.compound.ArchiveEntry;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class ArchiveFileCacheTest extends TestCase
 {
-
+	@Test
     public void testMemoryCache( ) throws IOException
     {
         long used1 = ArchiveFile.getTotalUsedCache( );

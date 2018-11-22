@@ -18,24 +18,23 @@ import java.math.BigDecimal;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class ResultSetMetaDataTest extends QueryTest
 {
 
 	private IResultClass m_metadata;
-
-	protected void setUp( ) throws Exception
+	@Before
+    public void resultSetMetaDataSetUp() throws Exception
 	{
-		super.setUp( );
-
 		m_metadata = getStatement( ).getMetaData( );
 	}
 
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	public final void testGetColumnCount( )
+    public final void testGetColumnCount( )
 	{
 		checkColumnCount( m_metadata );
 	}

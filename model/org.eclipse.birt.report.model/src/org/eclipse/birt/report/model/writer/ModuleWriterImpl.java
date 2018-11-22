@@ -1890,6 +1890,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		property( obj, ITextDataItemModel.VALUE_EXPR_PROP );
 		property( obj, ITextDataItemModel.CONTENT_TYPE_PROP );
 		property( obj, ITextDataItemModel.HAS_EXPRESSION_PROP );
+        property( obj, ITextDataItemModel.JTIDY_PROP );
 		
 		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );
@@ -2053,6 +2054,7 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		resourceKeyCDATA( obj, ITextItemModel.CONTENT_RESOURCE_KEY_PROP,
 				ITextItemModel.CONTENT_PROP );
 		property( obj, ITextItemModel.HAS_EXPRESSION_PROP );
+        property( obj, ITextDataItemModel.JTIDY_PROP );
 		
 		property( obj, IReportItemModel.TAG_TYPE_PROP );
 		property( obj, IReportItemModel.LANGUAGE_PROP );

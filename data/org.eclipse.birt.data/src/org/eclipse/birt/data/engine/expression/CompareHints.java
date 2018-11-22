@@ -13,36 +13,16 @@ package org.eclipse.birt.data.engine.expression;
 
 import java.util.Comparator;
 
+import org.eclipse.birt.data.engine.api.BaseCompareHints;
+
 /**
- * This class is used to indicate the hints when doing the comparison.
- *
+ * Code implementation moved to API class BaseCompareHints
  */
-public class CompareHints
+public class CompareHints extends BaseCompareHints
 {
-	private Comparator comparator;
-	private String nullStringType;
 
-	public CompareHints( Comparator comparator, String nullStringType )
-	{
-		this.comparator = comparator;
-		this.nullStringType = nullStringType;
+	public CompareHints(Comparator comparator, String nullStringType) {
+		super(comparator, nullStringType);
 	}
 
-	/**
-	 * 
-	 * @return
-	 */
-	public Comparator getComparator( )
-	{
-		return this.comparator;
-	}
-
-	/**
-	 * 
-	 * @return
-	 */
-	public String getNullType( )
-	{
-		return this.nullStringType;
-	}
 }

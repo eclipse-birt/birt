@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 
+import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
+import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.viewer.ViewerPlugin;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.equinox.http.jetty.JettyConfigurator;
@@ -119,6 +121,11 @@ public class AppServerWrapper
 
 		// TODO check dup port
 		ports.put( webappName, port );
+		
+		// Set default fiscal year start date via System config in Designer.
+		// Finally it will set into appContext
+		System.setProperty( EngineConstants.PROPERTY_FISCAL_YEAR_START_DATE,
+				UIUtil.getFiscalYearStart( ) );
 	}
 
 	/**
@@ -244,7 +251,8 @@ public class AppServerWrapper
 
 		IWebAppInfo webAppInfo = WebViewer.getCurrentWebApp();
 		Bundle webAppBundle = Platform.getBundle(webAppInfo.getID());
-		viewerApp = new ViewerWebApp(webAppBundle, webAppInfo.getWebAppPath(), webAppInfo.getWebAppContextPath());
+        viewerApp = new ViewerWebApp( webAppBundle, webAppInfo.getWebAppPath( ), webAppInfo.getWebAppContextPath( ),
+                webAppInfo.getURIEncoding( ) );
 		viewerApp.start();
 	}
 

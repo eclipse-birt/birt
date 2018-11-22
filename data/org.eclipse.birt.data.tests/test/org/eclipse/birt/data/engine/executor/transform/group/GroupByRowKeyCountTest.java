@@ -14,11 +14,15 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
-public class GroupByRowKeyCountTest extends TestCase
-{
+public class GroupByRowKeyCountTest {
 	private String[] sortedRowKeys = new String[] {
 			null,
 			null,
@@ -86,8 +90,8 @@ public class GroupByRowKeyCountTest extends TestCase
 			new String[] {null},
 			new String[] {null},
 		};
-	
-	public void testGroupByRowKeyCount()
+	@Test
+    public void testGroupByRowKeyCount()
 	{
 		for (int i = 0; i < groupBys.length; i++)
 		{

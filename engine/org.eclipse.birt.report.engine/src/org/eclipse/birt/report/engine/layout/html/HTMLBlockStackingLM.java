@@ -61,14 +61,15 @@ public class HTMLBlockStackingLM extends HTMLStackingLM
 		// then layout the next content
 		while ( executor.hasNextChild( ) && !context.getCancelFlag( ) )
 		{
-			childExecutor = (IReportItemExecutor) executor.getNextChild( );
+			childExecutor = executor.getNextChild( );
 			childContent = childExecutor.execute( );
 			if ( childContent != null )
 			{
 				childLayout = engine.createLayoutManager( this, childContent,
 						childExecutor, emitter );
-				hasNext = childLayout.layout( );
 
+				hasNext = childLayout.layout( );
+	
 				if ( hasNext )
 				{
 					if ( childLayout.isFinished( ) )

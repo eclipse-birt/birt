@@ -279,9 +279,9 @@ public final class CrosstabUtil implements ICrosstabConstants
 					&& measure.getContainer() != null )
 			{
 				DesignElementHandle deh = measure.getContainer().getContainer();
-				if( deh != null && deh instanceof CubeHandle )
+				if( deh != null )
 				{
-					String cubeName = ((CubeHandle)deh).getName();
+					String cubeName = deh.getName();
 					if( cubeName != null && cubeName.equals(currentCube.getName()) )
 					{
 						for ( int i = 0; i < crosstab.getMeasureCount( ); i++ )
@@ -997,8 +997,22 @@ public final class CrosstabUtil implements ICrosstabConstants
 			{
 				if ( crosstab.getHeader( count ).getContents( ).get( 0 ) instanceof LabelHandle)
 				{
-					LabelHandle labelHandle = (LabelHandle)crosstab.getHeader( count ).getContents( ).get( 0 );
-					labelHandle.setText(levelHandle.getDisplayField( ) == null? levelHandle.getCubeLevel( ).getName( ): levelHandle.getDisplayField( ));
+					LabelHandle labelHandle = (LabelHandle) crosstab
+							.getHeader( count ).getContents( ).get( 0 );
+					String displayName = levelHandle.getCubeLevel( )
+							.getDisplayName( );
+					if ( displayName != null && !displayName.equals( "" ) )
+					{
+						labelHandle.setText( displayName );
+					}
+					else
+					{
+						labelHandle
+								.setText( levelHandle.getDisplayField( ) == null
+										? levelHandle.getCubeLevel( )
+												.getName( )
+										: levelHandle.getDisplayField( ) );
+					}
 					if ( labelDisplayNameKey != null )
 					{
 						labelHandle.setTextKey( labelDisplayNameKey );
@@ -1270,9 +1284,12 @@ public final class CrosstabUtil implements ICrosstabConstants
 		if( mv instanceof ComputedMeasureViewHandle )
 		{
 			ComputedColumnHandle ch = getMeasureBindingColumnHandle( mv );
-			if( ch != null 
-					&& ch.getAggregateFunction() != null 
-					&& !ch.getAggregateFunction().isEmpty() )
+			if ( ch != null
+					&& ( ( ch.getAggregateFunction( ) != null
+							&& !ch.getAggregateFunction( ).isEmpty( ) )
+							|| CrosstabUtil.measureHasItsOwnAggregation(
+									mv.getCrosstab( ),
+									mv.getCubeMeasure( ) ) ) )
 			{	
 				if( ignoreRTP && ch.getCalculationType( ) != null )
 				{
@@ -1310,7 +1327,11 @@ public final class CrosstabUtil implements ICrosstabConstants
 					Pattern p = null;
 					if( ExpressionType.JAVASCRIPT.equalsIgnoreCase( expr.getType( ) ) )
 					{
-						p = Pattern.compile( ExpressionUtil.DATASET_ROW_INDICATOR + "\\[\\s*\\\"([^\\]]+)\\\"\\s*\\]" );						
+						p = Pattern.compile( ExpressionUtil.DATASET_ROW_INDICATOR + "\\[\\s*\\\"([^\\]]+)\\\"\\s*\\]" );
+						if ( CrosstabUtil.measureHasItsOwnAggregation( mv.getCrosstab( ), mv.getCubeMeasure( ) ) )
+						{
+							p = Pattern.compile( ExpressionUtil.MEASURE_INDICATOR + "\\[\\s*\\\"([^\\]]+)\\\"\\s*\\]" );
+						}
 					}
 					else
 					{
@@ -1332,7 +1353,7 @@ public final class CrosstabUtil implements ICrosstabConstants
 		
 		return refColumnName;
 	}
-	
+
 	public static void setLabelDisplayNameKey( String key )
 	{
 		labelDisplayNameKey = key;
@@ -1341,5 +1362,29 @@ public final class CrosstabUtil implements ICrosstabConstants
 	public static void clearLabelDisplayNameKey( )
 	{
 		labelDisplayNameKey = null;
+	}
+
+	public static boolean measureHasItsOwnAggregation(
+			CrosstabReportItemHandle crosstabItem, MeasureHandle cubeMeasure )
+	{
+		boolean isMeasureFromLinkedDataSet = false;
+		try
+		{
+			if( crosstabItem != null )
+			{
+				boolean isBoundToLinkedDataSet = LinkedDataSetUtil.bindToLinkedDataSet( (ReportItemHandle) crosstabItem.getCrosstabHandle( ));
+				if ( isBoundToLinkedDataSet )
+				{
+					// Possibly we can simply look to see if there is aggregate function property
+					isMeasureFromLinkedDataSet = LinkedDataSetUtil.measureHasItsOwnAggregation( (ReportItemHandle) crosstabItem.getCrosstabHandle( ),
+							cubeMeasure);
+				}
+			}
+		}
+		catch( Exception e )
+		{
+		}
+		
+		return isMeasureFromLinkedDataSet;
 	}
 }

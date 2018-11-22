@@ -14,9 +14,12 @@ package org.eclipse.birt.core.script;
 import java.text.DateFormat;
 import java.util.ArrayList;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.exception.BirtException;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 /**
  * 
@@ -25,13 +28,13 @@ public class ScriptContextTest extends TestCase
 {
 
 	ScriptContext context;
-
-	public void setUp( )
+	@Before
+    public void setUp()
 	{
 		context = new ScriptContext( );
 	}
-
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		context.close( );
 	}
@@ -39,7 +42,8 @@ public class ScriptContextTest extends TestCase
 	/**
 	 * test if the enterScope & exitScope is correct.
 	 */
-	public void testScope( ) throws BirtException
+	@Test
+    public void testScope( ) throws BirtException
 	{
 		//register A in root
 		context.setAttribute( "A", new Integer( 10 ) );
@@ -77,7 +81,8 @@ public class ScriptContextTest extends TestCase
 	/**
 	 * Test if we can use NativeJavaObject as scope.
 	 */
-	public void testJavaScope() throws BirtException
+	@Test
+    public void testJavaScope() throws BirtException
 	{
 		StringBuffer buffer = new StringBuffer();
 		//define a function in the root
@@ -101,7 +106,8 @@ public class ScriptContextTest extends TestCase
 	 * 
 	 * the same code running in different scope reutrns different values.
 	 */
-	public void testCompiledScript() throws BirtException
+	@Test
+    public void testCompiledScript() throws BirtException
 	{
 		ScriptContext context1 = context.newContext( null );
 		eval(context1, "function getText() { return 'A'}");
@@ -125,7 +131,8 @@ public class ScriptContextTest extends TestCase
 	/**
 	 * Test if the defineClass/definePackage is supported by script.
 	 */
-	public void testGlobal() throws BirtException
+	@Test
+    public void testGlobal() throws BirtException
 	{
 		eval(context, "importPackage(java.util)");
 		eval(context, "importClass(java.text.DateFormat)");
@@ -139,7 +146,8 @@ public class ScriptContextTest extends TestCase
 	/**
 	 * context shares the object in the root scope 
 	 */
-	public void testRootScope( ) throws BirtException
+	@Test
+    public void testRootScope( ) throws BirtException
 	{
 		context.setAttribute( "share", "ABCDEFG" );
 		Object result = eval( context, "share + 'c'" );
@@ -151,7 +159,8 @@ public class ScriptContextTest extends TestCase
 	 * In javascript, the "this" always point to the 
 	 * current scope.
 	 */
-	public void testThisObject() throws BirtException
+	@Test
+    public void testThisObject() throws BirtException
 	{
 		context.setAttribute("A", "ABCDE");
 		

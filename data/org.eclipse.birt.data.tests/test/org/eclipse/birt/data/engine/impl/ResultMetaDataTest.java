@@ -25,6 +25,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Result metadata test case 1
  */
@@ -42,7 +48,8 @@ public class ResultMetaDataTest extends APITestCase
 	}
 
 	// Basic test to get MD for all columns
-	public void test1_SelectAll( ) throws Exception
+	@Test
+    public void test1_SelectAll( ) throws Exception
 	{
 		OdaDataSetDesign dset = newDataSet( "dset1", "Select * FROM "
 				+ this.getTestTableName( ) );
@@ -90,7 +97,8 @@ public class ResultMetaDataTest extends APITestCase
 	}
 
 	// Test with setting column hints
-	public void test2_ResultHints( ) throws Exception
+	@Test
+    public void test2_ResultHints( ) throws Exception
 	{
 		OdaDataSetDesign dset = newDataSet( "dset2", "Select * FROM "
 				+ this.getTestTableName( ) );
@@ -165,7 +173,8 @@ public class ResultMetaDataTest extends APITestCase
 	}
 */
 	// Test column projection
-	public void test4_ProjectedCol( ) throws Exception
+	@Test
+    public void test4_ProjectedCol( ) throws Exception
 	{
 		// Construct query that selects all columns
 		OdaDataSetDesign dset = newDataSet( "dset4", "Select * FROM "

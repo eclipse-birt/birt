@@ -13,6 +13,8 @@ package org.eclipse.birt.data.engine.api;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
+import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSetDesign;
@@ -21,6 +23,13 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 import testutil.BaseTestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
 
 /**
  * 
@@ -50,17 +59,13 @@ public class GroupLevelTest extends BaseTestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/**
+/**
 	 * The row count is 10
 	 * 
 	 * @throws BirtException
 	 */
-	public void testGroupLevelValue( ) throws BirtException
+	@Test
+    public void testGroupLevelValue( ) throws BirtException
 	{
 		int rowCount = 10;
 		this.prepare( rowCount );
@@ -114,7 +119,8 @@ public class GroupLevelTest extends BaseTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testGroupLevelValue2( ) throws BirtException
+	@Test
+    public void testGroupLevelValue2( ) throws BirtException
 	{
 		int rowCount = 1;
 		this.prepare( rowCount );
@@ -155,7 +161,8 @@ public class GroupLevelTest extends BaseTestCase
 	 *  
 	 * @throws BirtException
 	 */
-	public void testGroupLevelValue3( ) throws BirtException
+	@Test
+    public void testGroupLevelValue3( ) throws BirtException
 	{
 		int rowCount = 0;
 		this.prepare( rowCount );
@@ -184,7 +191,8 @@ public class GroupLevelTest extends BaseTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testValueOnNullResult( ) throws BirtException
+	@Test
+    public void testValueOnNullResult( ) throws BirtException
 	{
 		int rowCount = 0;
 		this.prepare( rowCount );
@@ -232,11 +240,14 @@ public class GroupLevelTest extends BaseTestCase
 		}
 
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
+				this.scriptContext,
 				null,
 				null,
-				null );
+				null);
 		context.setTmpdir( this.getTempDir() );
-		dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		dataEngine = DataEngine.newDataEngine( platformConfig, context );
 		dataEngine.defineDataSource( dataSource );
 		dataEngine.defineDataSet( dataSet );
 

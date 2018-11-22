@@ -6,12 +6,11 @@
 	<parent>
 		<groupId>org.eclipse.birt.build.package.nl</groupId>
 		<artifactId>org.eclipse.birt.build.package.nl-parent</artifactId>
-		<version>4.5.0-SNAPSHOT</version>
+		<version>4.8.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
 	<groupId>org.eclipse.birt.nl</groupId>
 	<artifactId>NLpack1-birt-report-designer-all-in-one</artifactId>
-	<version>4.5.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<build>
 		<plugins>
@@ -27,7 +26,7 @@
 						</goals>
 						<configuration>
 							<tasks>
-								<unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-4.5.0-SNAPSHOT.zip"
+                                                            <unzip src="..\..\..\org.eclipse.birt.p2updatesite\target\org.eclipse.birt.p2updatesite-${birt.version}-SNAPSHOT.zip"
 									dest="${project.build.directory}/p2updatesite"/>
 								<copy todir="${project.build.directory}/content/eclipse\plugins">
 									<fileset dir="${project.build.directory}/p2updatesite/plugins">

@@ -13,10 +13,12 @@ package org.eclipse.birt.core.data;
 
 import java.text.ParseException;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.TestCase;
 
 
 /**
@@ -27,7 +29,8 @@ public class DateUtilTest extends TestCase
 	/**
 	 * Test DataTypeUtil#checkValid
 	 */
-	public void testCheckValid( )
+	@Test
+    public void testCheckValid( )
 	{
 		ULocale locale;
 		DateFormat df;	

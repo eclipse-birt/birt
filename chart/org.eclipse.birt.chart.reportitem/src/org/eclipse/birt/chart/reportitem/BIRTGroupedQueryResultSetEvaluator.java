@@ -15,7 +15,6 @@ import org.eclipse.birt.chart.exception.ChartException;
 import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IResultIterator;
-import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.extension.IQueryResultSet;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
@@ -111,7 +110,7 @@ public class BIRTGroupedQueryResultSetEvaluator
 			{
 				return exprCodec.getExpression( );
 			}
-			return ( (QueryResultSet) fQueryResultSet ).evaluate( exprCodec.getType( ),
+			return fQueryResultSet.evaluate( exprCodec.getType( ),
 					exprCodec.getExpression( ) );
 		}
 		catch ( BirtException e )

@@ -18,12 +18,14 @@ import java.io.DataOutput;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 public class NodeInputStreamTest extends TestCase
 {
-
-	public void testInputStream( ) throws IOException
+	@Test
+    public void testInputStream( ) throws IOException
 	{
 		NodeFile file = createNodeFile( );
 		NodeInputStream in = new NodeInputStream( file, 0 );

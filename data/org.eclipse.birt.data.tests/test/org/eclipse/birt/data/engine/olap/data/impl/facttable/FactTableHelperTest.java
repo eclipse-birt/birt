@@ -18,7 +18,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.impl.StopSign;
@@ -40,37 +39,33 @@ import org.eclipse.birt.data.engine.olap.data.util.BufferedPrimitiveDiskArray;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
 
-public class FactTableHelperTest extends TestCase
-{
+public class FactTableHelperTest {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	/**
+/**
 	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableDocumentObjectNameUtil( ) throws IOException,
+	@Test
+    public void testFactTableDocumentObjectNameUtil( ) throws IOException,
 			BirtException
 	{
 		int[] i1 = {
@@ -100,7 +95,8 @@ public class FactTableHelperTest extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testCombinedPositionCalculator( ) throws IOException,
+	@Test
+    public void testCombinedPositionCalculator( ) throws IOException,
 			BirtException
 	{
 		DimensionDivision[] subDimensions;
@@ -131,7 +127,8 @@ public class FactTableHelperTest extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testCombinedPositionCalculator1( ) throws IOException,
+	@Test
+    public void testCombinedPositionCalculator1( ) throws IOException,
 			BirtException
 	{
 		DimensionDivision[] subDimensions;
@@ -161,7 +158,8 @@ public class FactTableHelperTest extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testCombinedPositionCalculator2( ) throws IOException,
+	@Test
+    public void testCombinedPositionCalculator2( ) throws IOException,
 			BirtException
 	{
 		DimensionDivision[] subDimensions;
@@ -222,7 +220,8 @@ public class FactTableHelperTest extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableSaveAndLoad1( ) throws IOException, BirtException
+	@Test
+    public void testFactTableSaveAndLoad1( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testFactTableSaveAndLoad1( documentManager );
@@ -333,7 +332,8 @@ public class FactTableHelperTest extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableSaveAndLoad2( ) throws IOException, BirtException
+	@Test
+    public void testFactTableSaveAndLoad2( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testFactTableSaveAndLoad2( documentManager );
@@ -443,7 +443,8 @@ public class FactTableHelperTest extends TestCase
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	public void testFactTableSaveAndLoad3( ) throws IOException, BirtException
+	@Test
+    public void testFactTableSaveAndLoad3( ) throws IOException, BirtException
 	{
 		IDocumentManager documentManager = DocumentManagerFactory.createFileDocumentManager( );
 		testFactTableSaveAndLoad3( documentManager );

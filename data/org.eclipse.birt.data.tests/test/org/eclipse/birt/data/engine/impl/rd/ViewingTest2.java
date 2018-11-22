@@ -42,6 +42,12 @@ import testutil.ConfigText;
 
 import com.ibm.icu.util.TimeZone;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test whehter the query running on report document can be saved into another
  * report document.
@@ -129,9 +135,10 @@ public class ViewingTest2 extends RDTestCase
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void viewing2SetUp() throws Exception
 	{
-		super.setUp( );
+
 		
 		this.notIncludeAggr = false;
 		
@@ -192,7 +199,8 @@ public class ViewingTest2 extends RDTestCase
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#tearDown()
 	 */
-	public void tearDown() throws Exception
+	@After
+    public void viewing2TearDown() throws Exception
 	{
 		if( myPreDataEngine != null )
 		{
@@ -206,7 +214,6 @@ public class ViewingTest2 extends RDTestCase
 			myPreDataEngine2.clearCache( dataSource, dataSet );
 			myPreDataEngine2 = null;
 		}
-		super.tearDown( );
 		TimeZone.setDefault( this.currentTimeZone  );
 	}
 	
@@ -214,7 +221,8 @@ public class ViewingTest2 extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testBasic( ) throws Exception
+	@Test
+    public void testBasic( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_print = true;
@@ -248,7 +256,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Without filter
 	 * @throws BirtException
 	 */
-	public void testBasic1( ) throws Exception
+	@Test
+    public void testBasic1( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.genBasicIV( );
@@ -275,7 +284,8 @@ public class ViewingTest2 extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testNestedQuery( ) throws Exception
+	@Test
+    public void testNestedQuery( ) throws Exception
 	{
 		List ids = this.genBasicNestedQuery();
 
@@ -287,7 +297,8 @@ public class ViewingTest2 extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testComplexNestedQuery( ) throws Exception
+	@Test
+    public void testComplexNestedQuery( ) throws Exception
 	{
 		List ids = this.genComplexNestedQuery();
 
@@ -300,7 +311,8 @@ public class ViewingTest2 extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testBasic2( ) throws Exception
+	@Test
+    public void testBasic2( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.genBasicIV( );
@@ -330,7 +342,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Without execute query.
 	 * @throws BirtException
 	 */
-	public void testBasic3( ) throws Exception
+	@Test
+    public void testBasic3( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.genBasicIV( );
@@ -358,8 +371,8 @@ public class ViewingTest2 extends RDTestCase
 
 		this.checkOutputFile();
 	}
-	
-	public void testBasic4( ) throws Exception
+	@Test
+    public void testBasic4( ) throws Exception
 	{
 		QueryDefinition qd = this.newReportQuery();
 		// generation
@@ -416,7 +429,8 @@ public class ViewingTest2 extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testBasic5( ) throws Exception
+	@Test
+    public void testBasic5( ) throws Exception
 	{
 		this.GEN_add_filter = false;
 		this.GEN_print = true;
@@ -454,7 +468,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Test add a filter in presentation mode.
 	 * @throws Exception
 	 */
-	public void testBasic6( ) throws Exception
+	@Test
+    public void testBasic6( ) throws Exception
 	{
 		this.GEN_print = true;
 		this.GEN_add_filter = false;
@@ -478,7 +493,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Without filter
 	 * @throws BirtException
 	 */
-	public void testBasic7( ) throws Exception
+	@Test
+    public void testBasic7( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_group1 = true;
@@ -501,7 +517,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Without filter
 	 * @throws BirtException
 	 */
-	public void testBasic8( ) throws Exception
+	@Test
+    public void testBasic8( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_group1 = true;
@@ -525,7 +542,8 @@ public class ViewingTest2 extends RDTestCase
 	 * same initial position between run and render task
 	 * @throws BirtException
 	 */
-	public void testBasic9( ) throws Exception
+	@Test
+    public void testBasic9( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.GEN_add_group1 = true;
@@ -576,7 +594,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Test the feature of Skip to
 	 * @throws Exception
 	 */
-	public void testBasic31( ) throws Exception
+	@Test
+    public void testBasic31( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.genBasicIV( );
@@ -612,7 +631,8 @@ public class ViewingTest2 extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testBasicNotDetail( ) throws Exception
+	@Test
+    public void testBasicNotDetail( ) throws Exception
 	{
 		this.usesDetails = false;
 		this.GEN_add_filter = true;
@@ -643,7 +663,8 @@ public class ViewingTest2 extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testBasicNotDetail2( ) throws Exception
+	@Test
+    public void testBasicNotDetail2( ) throws Exception
 	{
 		this.usesDetails = false;
 		this.GEN_add_group = true;
@@ -677,7 +698,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testBasicNotDetail3( ) throws Exception
+	@Test
+    public void testBasicNotDetail3( ) throws Exception
 	{
 		this.usesDetails = false;
 		this.genBasicIV( );
@@ -708,7 +730,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Sort when update, then sort+group in presentation.
 	 * @throws Exception
 	 */
-	public void testBasicNotDetail4( ) throws Exception
+	@Test
+    public void testBasicNotDetail4( ) throws Exception
 	{
 		this.GEN_add_filter = false;
 		this.GEN_add_group = false;
@@ -780,7 +803,8 @@ public class ViewingTest2 extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testAggregationOnRow( ) throws Exception
+	@Test
+    public void testAggregationOnRow( ) throws Exception
 	{
 		this.USE_ROW_IN_AGGREGATION = true;
 		this.GEN_add_filter = false;
@@ -813,7 +837,8 @@ public class ViewingTest2 extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testIsEmptyTrue( ) throws Exception
+	@Test
+    public void testIsEmptyTrue( ) throws Exception
 	{
 		this.TEST_ISEMPTY = true;
 		this.GEN_add_filter = true;
@@ -835,7 +860,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Test the feature of update new column binding
 	 * @throws Exception
 	 */
-	public void testUpdateNewColumnBinding( ) throws Exception
+	@Test
+    public void testUpdateNewColumnBinding( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.genBasicIV( );
@@ -871,7 +897,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Test the feature of update new aggregate column binding
 	 * @throws Exception
 	 */
-	public void testUpdateNewAggrBinding( ) throws Exception
+	@Test
+    public void testUpdateNewAggrBinding( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.genBasicIV( );
@@ -907,7 +934,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Test the feature of adding multi update.
 	 *
 	 */
-	public void testMultiUpdate( ) throws Exception
+	@Test
+    public void testMultiUpdate( ) throws Exception
 	{
 		this.GEN_add_group = true;
 		this.genBasicIV( );
@@ -950,7 +978,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Test the feature of adding multi update.
 	 *
 	 */
-	public void testMultiUpdate2( ) throws Exception
+	@Test
+    public void testMultiUpdate2( ) throws Exception
 	{
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
@@ -1015,7 +1044,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testFilters1( ) throws Exception
+	@Test
+    public void testFilters1( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.genBasicIV( );
@@ -1047,7 +1077,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testFilters2( ) throws Exception
+	@Test
+    public void testFilters2( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.genBasicIV( );
@@ -1080,7 +1111,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testFilters3( ) throws Exception
+	@Test
+    public void testFilters3( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.genBasicIV( );
@@ -1115,7 +1147,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testFilters4( ) throws Exception
+	@Test
+    public void testFilters4( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.genBasicIV( );
@@ -1150,7 +1183,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testFilters5( ) throws Exception
+	@Test
+    public void testFilters5( ) throws Exception
 	{
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
@@ -1181,7 +1215,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testFilters6( ) throws Exception
+	@Test
+    public void testFilters6( ) throws Exception
 	{
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
@@ -1211,7 +1246,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testFilters7( ) throws Exception
+	@Test
+    public void testFilters7( ) throws Exception
 	{
 		this.GEN_add_topN_filter = true;
 		this.GEN_print = true;
@@ -1241,7 +1277,8 @@ public class ViewingTest2 extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testGroup( ) throws Exception
+	@Test
+    public void testGroup( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -1275,7 +1312,8 @@ public class ViewingTest2 extends RDTestCase
 	 * Sort when update, then sort+group in presentation.
 	 * @throws Exception
 	 */
-	public void testSortGroup( ) throws Exception
+	@Test
+    public void testSortGroup( ) throws Exception
 	{
 		this.GEN_add_filter = false;
 		this.GEN_add_group = false;
@@ -1311,7 +1349,8 @@ public class ViewingTest2 extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testSubQuery( ) throws Exception
+	@Test
+    public void testSubQuery( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -1348,7 +1387,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSubQuery2( ) throws Exception
+	@Test
+    public void testSubQuery2( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -1386,7 +1426,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSubQuery3() throws Exception {
+	@Test
+    public void testSubQuery3() throws Exception {
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
 		this.GEN_add_subquery = true;
@@ -1423,7 +1464,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSubQuery4() throws Exception {
+	@Test
+    public void testSubQuery4() throws Exception {
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
 		this.GEN_add_subquery = true;
@@ -1460,7 +1502,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSubQuery5() throws Exception {
+	@Test
+    public void testSubQuery5() throws Exception {
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
 		this.GEN_add_subquery = true;
@@ -1497,7 +1540,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSubQuery6() throws Exception {
+	@Test
+    public void testSubQuery6() throws Exception {
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
 		this.GEN_add_subquery = false;
@@ -1531,7 +1575,8 @@ public class ViewingTest2 extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testSubQuery7( ) throws Exception
+	@Test
+    public void testSubQuery7( ) throws Exception
 	{
 		this.GEN_add_filter = true;
 		this.GEN_add_group = true;
@@ -1567,7 +1612,8 @@ public class ViewingTest2 extends RDTestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testSubQuery8( ) throws Exception
+	@Test
+    public void testSubQuery8( ) throws Exception
 	{
 		this.add_subquery_on_query = true;
 		this.notIncludeAggr = true;
@@ -1601,7 +1647,8 @@ public class ViewingTest2 extends RDTestCase
 	 * With invalid column
 	 * @throws BirtException
 	 */
-	public void testInvalidColumn( ) throws Exception
+	@Test
+    public void testInvalidColumn( ) throws Exception
 	{
 		try
 		{
@@ -1622,7 +1669,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testDiskCacheColumnBinding( ) throws Exception
+	@Test
+    public void testDiskCacheColumnBinding( ) throws Exception
 	{
 		String initialStr = System.getProperty( "birt.data.engine.test.memcachesize" );
 		System.setProperty( "birt.data.engine.test.memcachesize", "2" );
@@ -1640,7 +1688,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testMemoryCacheColumnBinding( ) throws Exception
+	@Test
+    public void testMemoryCacheColumnBinding( ) throws Exception
 	{
 		incomprehensiveColumnBinding( );
 	}
@@ -1692,8 +1741,8 @@ public class ViewingTest2 extends RDTestCase
 		this.checkOutputFile( );
 		myPreDataEngine.shutdown( );
 	}
-		
-	public void testEmptyResult( ) throws BirtException
+	@Test
+    public void testEmptyResult( ) throws BirtException
 	{
 		try
 		{
@@ -1926,7 +1975,8 @@ public class ViewingTest2 extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testDummyQuery( ) throws Exception
+	@Test
+    public void testDummyQuery( ) throws Exception
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.addResultSetExpression("abc", new ScriptExpression("1"));
@@ -2006,7 +2056,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testDummyQueryWithSubQuery1( ) throws Exception
+	@Test
+    public void testDummyQueryWithSubQuery1( ) throws Exception
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.addResultSetExpression("abc", new ScriptExpression("1"));
@@ -2123,7 +2174,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testDummyQueryWithSubQuery2( ) throws Exception
+	@Test
+    public void testDummyQueryWithSubQuery2( ) throws Exception
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.addResultSetExpression("abc", new ScriptExpression("1"));
@@ -2240,7 +2292,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testDummyQueryWithSubQuery3( ) throws Exception
+	@Test
+    public void testDummyQueryWithSubQuery3( ) throws Exception
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.addResultSetExpression("abc", new ScriptExpression("1"));
@@ -2356,7 +2409,8 @@ public class ViewingTest2 extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testDummyQueryWithSubQuery4( ) throws Exception
+	@Test
+    public void testDummyQueryWithSubQuery4( ) throws Exception
 	{
 		QueryDefinition qd = new QueryDefinition( );
 		qd.addResultSetExpression("abc", new ScriptExpression("1"));

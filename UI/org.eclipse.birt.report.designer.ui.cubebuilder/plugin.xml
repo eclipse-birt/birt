@@ -30,7 +30,7 @@
     </adapter>
    </adaptable>
    <adaptable
-         class="org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle">
+         class="org.eclipse.birt.report.model.api.olap.MeasureGroupHandle">
       <adapter
             class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularMeasureGroupNodeProvider"
             id="MeasureGroupHandle.NodeProvider"
@@ -57,7 +57,7 @@
     </adapter>
    </adaptable>
    <adaptable
-         class="org.eclipse.birt.report.model.api.olap.TabularMeasureHandle">
+         class="org.eclipse.birt.report.model.api.olap.MeasureHandle">
       <adapter
             class="org.eclipse.birt.report.designer.ui.cubebuilder.provider.TabularMeasureNodeProvider"
             id="MeasureHandle.NodeProvider"

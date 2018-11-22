@@ -29,6 +29,7 @@ import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.core.IDesignElement;
 import org.eclipse.birt.report.model.api.util.CopyUtil;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.gef.commands.Command;
 
 /**
@@ -268,10 +269,27 @@ public class PasteCommand extends Command
 			}
 			else if ( newContainer instanceof DesignElementHandle )
 			{
-				CopyUtil.paste( (IElementCopy) cloneElement,
+				ContainerContext cc = DNDUtil.getContainerContext(
 						containerHandle,
-						DEUtil.getDefaultContentName( newContainer ),
-						position );
+						( (IElementCopy) cloneElement ).getHandle(
+								containerHandle.getModuleHandle( ) ) );
+				if ( cc == null )
+				{
+					CopyUtil.paste( (IElementCopy) cloneElement,
+							containerHandle,
+							DEUtil.getDefaultContentName( newContainer ),
+							position );
+				}
+				else if ( cc.getPropertyName( ) != null )
+				{
+					CopyUtil.paste( (IElementCopy) cloneElement,
+							containerHandle, cc.getPropertyName( ), position );
+				}
+				else if ( cc.getSlotID( ) != -1 )
+				{
+					CopyUtil.paste( (IElementCopy) cloneElement,
+							containerHandle, cc.getSlotID( ), position );
+				}
 			}
 		}
 		else if ( newHandle != null )

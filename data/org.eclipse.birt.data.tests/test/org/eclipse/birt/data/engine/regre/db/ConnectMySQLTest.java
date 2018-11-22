@@ -12,6 +12,12 @@ package org.eclipse.birt.data.engine.regre.db;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 
 
@@ -20,6 +26,7 @@ import testutil.ConfigText;
  * TODO To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
+@Ignore("Ignore tests that require manual setup")
 public class ConnectMySQLTest extends ConnectionTest
 {
 
@@ -27,13 +34,13 @@ public class ConnectMySQLTest extends ConnectionTest
 	 *  (non-Javadoc)
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void connectMySQLSetUp() throws Exception
 	{
 		DriverClass = ConfigText.getString( "Regre.MySQL.DriverClass" );
 		URL = ConfigText.getString( "Regre.MySQL.URL" );
 		User = ConfigText.getString( "Regre.MySQL.User" );
 		Password = ConfigText.getString( "Regre.MySQL.Password" );
-		
-		super.setUp();
+
 	}
 }

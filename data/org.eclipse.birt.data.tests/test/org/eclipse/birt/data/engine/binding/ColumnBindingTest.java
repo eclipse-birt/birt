@@ -49,6 +49,12 @@ import testutil.ConfigText;
 
 import com.ibm.icu.util.TimeZone;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Notice:
  * 
@@ -72,9 +78,10 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * 
 	 */
-	public void setUp() throws Exception
+	@Before
+    public void columnBindingSetUp() throws Exception
 	{
-		super.setUp( );
+
 		
 		TimeZone.setDefault( TimeZone.getTimeZone("GMT+0")  );
 	}
@@ -83,9 +90,9 @@ public class ColumnBindingTest extends APITestCase
 	 * @throws Exception 
 	 * 
 	 */
-	public void tearDown() throws Exception
+	@After
+    public void columnBindingTearDown() throws Exception
 	{
-		super.tearDown();
 		TimeZone.setDefault( this.currentTimeZone  );
 	}
 	
@@ -104,7 +111,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasic( ) throws Exception
+	@Test
+    public void testBasic( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -141,7 +149,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasic1( ) throws Exception
+	@Test
+    public void testBasic1( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -169,7 +178,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testBasic2( ) throws Exception
+	@Test
+    public void testBasic2( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -204,7 +214,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testBindingNameWithDoubleQuote( ) throws Exception
+	@Test
+    public void testBindingNameWithDoubleQuote( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -241,7 +252,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilterOnDataSet( ) throws Exception
+	@Test
+    public void testFilterOnDataSet( ) throws Exception
 	{
 		IBaseExpression baseExpr = new ScriptExpression( "row.AMOUNT > 100" );
 		IFilterDefinition filterDefn = new FilterDefinition( baseExpr );
@@ -282,7 +294,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilterOnDateType( ) throws Exception
+	@Test
+    public void testFilterOnDateType( ) throws Exception
 	{
 		
 		FilterDefinition filterDefn = new FilterDefinition( new ConditionalExpression( "row.SALE_DATE",
@@ -326,7 +339,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilterOnDataSet2( ) throws Exception
+	@Test
+    public void testFilterOnDataSet2( ) throws Exception
 	{
 	}
 	
@@ -335,7 +349,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testComputedOnDataSet( ) throws Exception
+	@Test
+    public void testComputedOnDataSet( ) throws Exception
 	{
 		IComputedColumn cc = new ComputedColumn( "AMOUNT2", "row.AMOUNT*2" );
 		this.dataSet.addComputedColumn( cc );
@@ -376,7 +391,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testComputedOnDataSet2( ) throws Exception
+	@Test
+    public void testComputedOnDataSet2( ) throws Exception
 	{		
 	}
 	
@@ -384,7 +400,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testCombinedFilterOnTable( ) throws Exception
+	@Test
+    public void testCombinedFilterOnTable( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -429,7 +446,8 @@ public class ColumnBindingTest extends APITestCase
 	 * Test Filter_In operator with Object array.
 	 * @throws Exception
 	 */
-	public void testCombinedFilterOnTable2( ) throws Exception
+	@Test
+    public void testCombinedFilterOnTable2( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -477,7 +495,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testFilterOnTable( ) throws Exception
+	@Test
+    public void testFilterOnTable( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -517,7 +536,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNoDataSet( ) throws Exception
+	@Test
+    public void testNoDataSet( ) throws Exception
 	{
 		String[] name = new String[]{
 				"testColumn1", "testColumn2"
@@ -540,7 +560,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNoDataSet2( ) throws Exception
+	@Test
+    public void testNoDataSet2( ) throws Exception
 	{
 		String[] name = new String[]{
 				"testColumn1", "testColumn2"
@@ -563,7 +584,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testNoDataSet3( ) throws Exception
+	@Test
+    public void testNoDataSet3( ) throws Exception
 	{
 		String[] name = new String[]{
 			"testColumn1"
@@ -624,7 +646,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testNoDataSetWithNestedQuery( ) throws Exception
+	@Test
+    public void testNoDataSetWithNestedQuery( ) throws Exception
 	{
 		// outer query without data set
 		String[] name = new String[]{
@@ -684,7 +707,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testNoDataSetWithSubQuery( ) throws Exception
+	@Test
+    public void testNoDataSetWithSubQuery( ) throws Exception
 	{
 		// outer query without data set
 		int[] dataType = new int[]{
@@ -745,7 +769,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testAutoBinding( ) throws Exception
+	@Test
+    public void testAutoBinding( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( true );
 		this.dataSet.addComputedColumn( new ComputedColumn("COUN\"TRY", "row[\"COUNTRY\"]") );
@@ -775,7 +800,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testAccessGroupColumn( ) throws Exception
+	@Test
+    public void testAccessGroupColumn( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -819,7 +845,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testSpecialExpression( ) throws Exception
+	@Test
+    public void testSpecialExpression( ) throws Exception
 	{
 		IComputedColumn cc = new ComputedColumn( "AMOUNT2", "row.AMOUNT*2" );
 		this.dataSet.addComputedColumn( cc );
@@ -867,7 +894,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testSpecialExpression2( ) throws Exception
+	@Test
+    public void testSpecialExpression2( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -904,7 +932,8 @@ public class ColumnBindingTest extends APITestCase
 	 * 
 	 * 
 	 */
-	public void testSpecialExpression3( ) throws Exception
+	@Test
+    public void testSpecialExpression3( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 		// column mapping
@@ -940,7 +969,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testGroup( ) throws Exception
+	@Test
+    public void testGroup( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -992,7 +1022,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testInvalidBinding( ) throws Exception
+	@Test
+    public void testInvalidBinding( ) throws Exception
 	{
 		QueryDefinition queryDefn = newReportQuery( );
 
@@ -1023,7 +1054,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testBlankExpression( ) throws Exception
+	@Test
+    public void testBlankExpression( ) throws Exception
 	{
 
 		QueryDefinition queryDefn = newReportQuery( );
@@ -1070,7 +1102,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testBasicReportDocument( ) throws Exception
+	@Test
+    public void testBasicReportDocument( ) throws Exception
 	{
 		String fileName = getOutputFolder( ) + "testData";
 		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
@@ -1153,7 +1186,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testDummy1Document( ) throws Exception
+	@Test
+    public void testDummy1Document( ) throws Exception
 	{
 		String fileName = getOutputFolder( ) + "testData";
 		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
@@ -1246,7 +1280,8 @@ public class ColumnBindingTest extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testDummy2Document( ) throws Exception
+	@Test
+    public void testDummy2Document( ) throws Exception
 	{
 		String fileName = getOutputFolder( ) + "testData";
 		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,

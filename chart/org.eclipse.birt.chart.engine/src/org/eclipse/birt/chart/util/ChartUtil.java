@@ -114,6 +114,7 @@ public class ChartUtil
 	 * represent the value of chart max row number.
 	 */
 	public static final String CHART_MAX_ROW = "CHART_MAX_ROW"; //$NON-NLS-1$	
+	public static final String SEPARATOR = "=";
 	
 	private static final NumberFormat DEFAULT_NUMBER_FORMAT = initDefaultNumberFormat( );
 	
@@ -128,9 +129,11 @@ public class ChartUtil
 		mapPattern.put( CDateTime.QUARTER, "QQQ" ); //$NON-NLS-1$
 		mapPattern.put( Calendar.MONTH, "MMM" ); //$NON-NLS-1$
 		mapPattern.put( Calendar.WEEK_OF_MONTH, "W" ); //$NON-NLS-1$
+		mapPattern.put( CDateTime.WEEK_OF_QUARTER, TEXT_WEEK + "C" ); //$NON-NLS-1$
 		mapPattern.put( Calendar.WEEK_OF_YEAR, "w" ); //$NON-NLS-1$
 		mapPattern.put( Calendar.DAY_OF_WEEK, "E" ); //$NON-NLS-1$
 		mapPattern.put( Calendar.DAY_OF_MONTH, "d" ); //$NON-NLS-1$
+		mapPattern.put( CDateTime.DAY_OF_QUARTER, TEXT_DAY + "c" ); //$NON-NLS-1$
 		mapPattern.put( Calendar.DAY_OF_YEAR, "D" ); //$NON-NLS-1$
 		mapPattern.put( Calendar.HOUR_OF_DAY, "HH" ); //$NON-NLS-1$
 		mapPattern.put( Calendar.MINUTE, "mm" ); //$NON-NLS-1$
@@ -143,10 +146,12 @@ public class ChartUtil
 		mapPatternHierarchy.put( Calendar.WEEK_OF_MONTH, TEXT_WEEK
 				+ "W MMM, yyyy" ); //$NON-NLS-1$
 		mapPatternHierarchy.put( Calendar.WEEK_OF_YEAR, TEXT_WEEK + "w, yyyy" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( CDateTime.WEEK_OF_QUARTER, TEXT_WEEK + "C QQQ, yyyy" ); //$NON-NLS-1$
 		mapPatternHierarchy.put( Calendar.DAY_OF_WEEK, "E " //$NON-NLS-1$
 				+ TEXT_WEEK
 				+ "W MMM, yyyy" ); //$NON-NLS-1$
 		mapPatternHierarchy.put( Calendar.DAY_OF_MONTH, "MMM dd, yyyy" ); //$NON-NLS-1$
+		mapPatternHierarchy.put( CDateTime.DAY_OF_QUARTER, TEXT_DAY + "c QQQ, yyyy" ); //$NON-NLS-1$
 		mapPatternHierarchy.put( Calendar.DAY_OF_YEAR, TEXT_DAY + "D, yyyy" ); //$NON-NLS-1$
 		mapPatternHierarchy.put( Calendar.HOUR_OF_DAY, "HH:mm" ); //$NON-NLS-1$
 		mapPatternHierarchy.put( Calendar.MINUTE, "HH:mm:ss" ); //$NON-NLS-1$
@@ -2807,5 +2812,16 @@ public class ChartUtil
 				av.setLabel( l );
 			}
 		}
+	}
+	
+	public static String prefixExternalizeSeperator( String sCurrentValue )
+	{
+
+		if ( sCurrentValue != null && sCurrentValue.contains( SEPARATOR ) )
+		{
+			return SEPARATOR + sCurrentValue;
+		}
+
+		return sCurrentValue;
 	}
 }

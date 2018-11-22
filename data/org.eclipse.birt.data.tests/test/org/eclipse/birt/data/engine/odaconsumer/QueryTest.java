@@ -20,6 +20,12 @@ import org.eclipse.datatools.connectivity.oda.SortSpec;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class QueryTest extends ConnectionTest
 {
 
@@ -29,21 +35,17 @@ public class QueryTest extends ConnectionTest
 	{
 		return m_statement;
 	}
-
-	protected void setUp( ) throws Exception
+	@Before
+    public void querySetUp() throws Exception
 	{
-		super.setUp( );
-
 		String command = "select * from \"testtable\"";
 		m_statement = getConnection( ).prepareStatement( command,
 				JDBCOdaDataSource.DATA_SET_TYPE );
 	}
-
-	protected void tearDown( ) throws Exception
+	@After
+    public void queryTearDown() throws Exception
 	{
 		m_statement.close( );
-
-		super.tearDown( );
 	}
 
 	public final void testSortSpecMessages( )

@@ -238,7 +238,7 @@ public class ReportDocumentBuilder
 			HTMLLayoutContext htmlContext = ( (HTMLReportLayoutEngine) engine )
 					.getContext( );
 			htmlContext.setFixedLayout( true );
-			LayoutEngine pdfEmitter = new LayoutEngine( executor, htmlContext,
+			LayoutEngine pdfEmitter = new LayoutEngine( htmlContext,
 					outputEmitters, null, /* renderOptions */
 					executionContext, 0/* totalpage */);
 			pdfEmitter.setPageHandler( layoutPageHandler );
@@ -824,6 +824,7 @@ public class ReportDocumentBuilder
 					try
 					{
 						IDocArchiveWriter archive = document.getArchive( );
+						writePageVariables( );
 						writeTotalPage( pageNumber );
 						document
 								.savePersistentObjects( ReportDocumentBuilder.this.executionContext
@@ -955,6 +956,7 @@ public class ReportDocumentBuilder
 					try
 					{
 						IDocArchiveWriter archive = document.getArchive( );
+						writePageVariables( );
 						writeTotalPage( pageNumber );
 						document
 								.savePersistentObjects( ReportDocumentBuilder.this.executionContext

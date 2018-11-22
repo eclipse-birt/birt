@@ -182,4 +182,30 @@ public class TextItemHandle extends ReportItemHandle implements ITextItemModel
 	{
 		setBooleanProperty( HAS_EXPRESSION_PROP, hasExpression );
 	}
+
+    /**
+     * set if jTidy need to be used to validate the HTML content.
+     * 
+     * If jTidy is set to false, the HTML content is used directly without any
+     * validation. The user needs ensure the content is well formed.
+     * 
+     * @param useJTidy
+     *            true, use jTidy to validate the content.
+     * @throws SemanticException
+     */
+    public void setJTidy( boolean useJTidy ) throws SemanticException
+    {
+        setBooleanProperty( ITextItemModel.JTIDY_PROP, useJTidy );
+    }
+
+    /**
+     * return if jTIdy is used to validate the HTML content.
+     * 
+     * @return true, jTidy is used to validate the content.
+     */
+    public boolean isJTidy( )
+    {
+        return getBooleanProperty( ITextItemModel.JTIDY_PROP );
+    }
+
 }

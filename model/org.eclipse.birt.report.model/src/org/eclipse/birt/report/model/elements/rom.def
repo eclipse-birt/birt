@@ -556,7 +556,8 @@
     <Choice displayNameID="Choices.aggregationFunction.percentile" name="percentile" />    
     <Choice displayNameID="Choices.aggregationFunction.quartile" name="quartile" />       
     <Choice displayNameID="Choices.aggregationFunction.percent-sum" name="percent-sum" />
-    <Choice displayNameID="Choices.aggregationFunction.rank" name="rank" />       
+    <Choice displayNameID="Choices.aggregationFunction.rank" name="rank" />
+    <Choice displayNameID="Choices.aggregationFunction.range" name="range" />
   </ChoiceType>
   <ChoiceType name="levelType">
     <Choice displayNameID="Choices.levelType.dynamic" name="dynamic"/>
@@ -1156,6 +1157,14 @@
       <Argument name="s" tagID="Class.Global.unescape.s" type="String"/>
     </Method>
   </Class>  
+  <Class displayNameID="Class.JSON" name="JSON" native="true" toolTipID="Class.JSON.toolTip">
+    <Method displayNameID="Class.JSON.parse" isStatic="true" name="parse" returnType="Object" toolTipID="Class.JSON.parse.toolTip">
+      <Argument name="text" tagID="Class.JSON.parse.text" type="String"/>
+    </Method>
+    <Method displayNameID="Class.JSON.stringify" isStatic="true" name="stringify" returnType="String" toolTipID="Class.JSON.stringify.toolTip">
+      <Argument name="value" tagID="Class.JSON.stringify.value" type="Object"/>
+    </Method>
+  </Class> 
   <Class displayNameID="Class.Total" name="Total" toolTipID="Class.Total.toolTip">	
 	<Member dataType="String" displayNameID="Class.Total.OVERALL" isStatic="true" name="OVERALL" toolTipID="Class.Total.OVERALL.toolTip"/>						
 	<Member dataType="String" displayNameID="Class.Total.NO_FILTER" isStatic="true" name="NO_FILTER" toolTipID="Class.Total.NO_FILTER.toolTip"/>						
@@ -2538,10 +2547,12 @@
     <Property displayNameID="Element.SimpleMasterPage.headerHeight" name="headerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
     	<DefaultUnit>in</DefaultUnit>
     	<Default>0.5</Default>
+    	<AllowedUnits>in,cm,mm,pt,pc,em,ex,px</AllowedUnits>    	
     </Property>
 	<Property displayNameID="Element.SimpleMasterPage.footerHeight" name="footerHeight" since="1.0" type="dimension" validator="NonNegativeValueValidator">
 		<DefaultUnit>in</DefaultUnit>	  
-		<Default>0.5</Default>	    
+		<Default>0.5</Default>
+		<AllowedUnits>in,cm,mm,pt,pc,em,ex,px</AllowedUnits>			    
 	</Property>	
   	<PropertyVisibility name="floatingFooter" visibility="hide"/>    	    
 	<Slot displayNameID="Element.SimpleMasterPage.slot.pageHeader" multipleCardinality="false" name="pageHeader" xmlName="page-header">
@@ -2891,6 +2902,9 @@
     <Property displayNameID="Element.Text.hasExpression" name="hasExpression" since="2.5" type="boolean">
       <Default>true</Default>
     </Property>
+    <Property displayNameID="Element.TextData.jTidy" name="jTidy" since="4.6" type="boolean">
+    	<Default>true</Default>
+    </Property>
     <Property displayNameID="Element.Text.tagType" name="tagType" since="4.3" type="string">
     	<Default>p</Default>
     </Property>
@@ -3201,7 +3215,7 @@
       <Argument name="this" tagID="Element.Table.onPageBreak.this" type="org.eclipse.birt.report.engine.api.script.instance.ITableInstance"/>
       <Argument name="reportContext" tagID="Element.Table.onPageBreak.reportContext" type="org.eclipse.birt.report.engine.api.script.IReportContext"/>
     </Method>
- 	<PropertyVisibility name="isSummaryTable" visibility="hide"/>      
+ 	<!--<PropertyVisibility name="isSummaryTable" visibility="hide"/>-->   
   </Element>
   <Element allowsUserProperties="true" canExtend="false" displayNameID="Element.TableGroup" extends="ListingGroup" hasStyle="false" isAbstract="false" javaClass="org.eclipse.birt.report.model.elements.TableGroup" name="TableGroup" nameSpace="none" since="1.0" xmlName="group">
     <Slot displayNameID="Element.TableGroup.slot.header" multipleCardinality="true" name="header" selector="table-group-header" since="1.0" xmlName="header">
@@ -3599,6 +3613,9 @@
     <Property displayNameID="Element.TextData.hasExpression" name="hasExpression" since="2.5" type="boolean">
     	<Default>true</Default>
     </Property>
+    <Property displayNameID="Element.TextData.jTidy" name="jTidy" since="4.6" type="boolean">
+    	<Default>true</Default>
+    </Property>
     <Property displayNameID="Element.TextData.tagType" name="tagType" since="4.3" type="string">
     	<Default>p</Default>
     </Property>
@@ -3822,7 +3839,7 @@
   <Element allowsUserProperties="false" canExtend="true" displayNameID="Element.Measure" extends="ReportElement" hasStyle="false" isAbstract="true" isNameRequired="true" javaClass="org.eclipse.birt.report.model.elements.olap.Measure" name="Measure" nameSpace="cube" since="2.2" xmlName="measure">
   	<Property detailType="aggregationFunction" displayNameID="Element.Measure.function" name="function" runtimeSettable="false" since="2.2" type="choice">
   	  <Default>sum</Default>
-  	  <Allowed>sum,average,max,min,first,last,count,count-distinct</Allowed>	
+  	  <Allowed>sum,average,max,min,first,last,count,count-distinct,range</Allowed>
   	</Property>
   	<Property displayNameID="Element.Measure.measureExpression" name="measureExpression" runtimeSettable="false" since="2.2" type="expression" />
   	<Property displayNameID="Element.Measure.isCalculated" name="isCalculated" runtimeSettable="false" since="2.2" type="boolean" >

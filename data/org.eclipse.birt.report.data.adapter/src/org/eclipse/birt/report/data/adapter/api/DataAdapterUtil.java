@@ -52,8 +52,8 @@ import com.ibm.icu.util.ULocale;
 
 public class DataAdapterUtil
 {
-	private static Map aggrAdapterMap = new HashMap( );
-	private static Map filterOptMap = new HashMap( );
+	private static Map<String, String> aggrAdapterMap = new HashMap<String, String>( );
+	private static Map<String, Integer> filterOptMap = new HashMap<String, Integer>( );
 
 	static
 	{
@@ -325,38 +325,57 @@ public class DataAdapterUtil
 				throw new AdapterException( ResourceConstants.INVALID_DATA_TYPE, type );
 		}
 	}
-		
-	/**
-	 * Adapter dte's data type to model data type
-	 * @param apiDataType
-	 * @return
-	 */
-	public static String adapterToModelDataType( int apiDataType )
-	{
-		if ( apiDataType == DataType.INTEGER_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
-		else if ( apiDataType == DataType.STRING_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
-		else if ( apiDataType == DataType.DATE_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
-		else if ( apiDataType == DataType.DECIMAL_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
-		else if ( apiDataType == DataType.DOUBLE_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT;
-		else if ( apiDataType == DataType.SQL_DATE_TYPE)
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE;
-		else if ( apiDataType == DataType.SQL_TIME_TYPE)
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
-		else if ( apiDataType == DataType.BOOLEAN_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
-		else if ( apiDataType == DataType.BLOB_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB;
-		else if ( apiDataType == DataType.JAVA_OBJECT_TYPE )
-			return DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT;
-
-		return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
-	}
 	
+    /**
+     * Adapter dte's function name to model function name
+     * @param apiDataType
+     * @return
+     */
+    public static String adapterToModelDataType( int apiDataType )
+    {
+        if ( apiDataType == DataType.INTEGER_TYPE )
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
+        else if ( apiDataType == DataType.STRING_TYPE )
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
+        else if ( apiDataType == DataType.DATE_TYPE )
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
+        else if ( apiDataType == DataType.DECIMAL_TYPE )
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
+        else if ( apiDataType == DataType.DOUBLE_TYPE )
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT;
+        else if ( apiDataType == DataType.SQL_DATE_TYPE)
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE;
+        else if ( apiDataType == DataType.SQL_TIME_TYPE)
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
+        else if ( apiDataType == DataType.BOOLEAN_TYPE )
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
+        else if ( apiDataType == DataType.BLOB_TYPE )
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB;
+        else if ( apiDataType == DataType.JAVA_OBJECT_TYPE )
+            return DesignChoiceConstants.COLUMN_DATA_TYPE_JAVA_OBJECT;
+
+        return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
+    }
+	
+    /**
+     * Adapter dte's data type to model data type
+     * 
+     * @param funcName
+     *            DTE function name
+     * @return model function name
+     */
+    public static String toModelAggregationType( String funcName )
+    {
+        for ( Map.Entry<String, String> funcEntry : aggrAdapterMap.entrySet( ) )
+        {
+            if ( funcEntry.getValue( ).equals( funcName ) )
+            {
+                return funcEntry.getKey( );
+            }
+        }
+        return funcName;
+    }
+
 	/**
 	 * 
 	 * @param modelAggrType

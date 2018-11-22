@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT POSTSCRIPT emitter
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.postscript;singleton:=true
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.report.engine;bundle-version="[2.1.0,5.0.0)",

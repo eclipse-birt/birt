@@ -20,22 +20,32 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.PrintStream;
 
-import junit.framework.TestCase;
-
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ImporterTopLevel;
 import org.mozilla.javascript.Scriptable;
+import org.eclipse.birt.core.script.ScriptContext;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.Ignore;
+import org.junit.rules.TestName;
+
+import static org.junit.Assert.*;
 
 /**
  * Common base class for all Dte test cases
  */
-abstract public class BaseTestCase extends TestCase
-{
+abstract public class BaseTestCase {
+
+	@Rule public TestName testName = new TestName();
+
 	protected PrintStream testOut;
 	
 	/** Top level Javascript scope */
 	protected Context jsContext;
 	protected Scriptable jsScope;
+	protected ScriptContext scriptContext;
 
 	//private static final String TEST_FOLDER = "test";
 	private static final String OUTPUT_FOLDER = "DtETestTempDataoutput";
@@ -51,10 +61,9 @@ abstract public class BaseTestCase extends TestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void baseSetUp() throws Exception
 	{
-		super.setUp( );
-		
 		// Create test output file
 		// We must make sure this folder will be created successfully
 		// before we do next job.		
@@ -64,6 +73,7 @@ abstract public class BaseTestCase extends TestCase
 		// Create top-level Javascript scope
 		jsContext = Context.enter( );
 		jsScope = new ImporterTopLevel(jsContext);
+		scriptContext = new ScriptContext().newContext(jsScope);
 		
 		// Add JS functions testPrint and testPrintln for scripts to write
 		// to output file
@@ -77,12 +87,17 @@ abstract public class BaseTestCase extends TestCase
 	/*
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void baseTearDown() throws Exception
 	{
 		Context.exit( );
 		closeOutputFile();
-		
-		super.tearDown( );
+	}
+	
+	/** return test case name */
+	public String getTestName( )
+	{
+		return this.testName.getMethodName( );
 	}
 	
 	/** return input folder */
@@ -143,7 +158,7 @@ abstract public class BaseTestCase extends TestCase
 		int lastDotIdx = className.lastIndexOf( '.' );
 		if  ( lastDotIdx >= 0 )
 			className = className.substring(lastDotIdx + 1);
-		return className + "." + this.getName() + ".txt";
+		return className + "." + this.getTestName() + ".txt";
 	}
 	
 	/**
@@ -208,11 +223,11 @@ abstract public class BaseTestCase extends TestCase
 	{
 		InputStream golden = this.getClass().getResourceAsStream( GOLDEN_FOLDER + File.separator + goldenFileName );
 		File outputFile = new File( getOutputFolder(),  outputFileName);
-		assertTrue( compareTextFile( golden, outputFile ));
+		compareTextFile( golden, outputFile );
 	}
 
 	/**
-	 * compare two text file. The comparasion will ignore the line containing
+	 * compare two text file. The comparison will ignore the line containing
 	 * "modificationDate".
 	 * 
 	 * @param goldenFileName
@@ -221,41 +236,36 @@ abstract public class BaseTestCase extends TestCase
 	 *            the 2nd file name to be compared.
 	 * @return True if two text file is same line by line
 	 */
-	private boolean compareTextFile( InputStream golden, File outputFile )
+	private void compareTextFile( InputStream golden, File outputFile )
 			throws IOException
 	{
-		boolean same = true;
-	
 		InputStreamReader readerA = new InputStreamReader( golden );
 		FileReader readerB = new FileReader( outputFile );
 		BufferedReader	lineReaderA = new BufferedReader( readerA );
 		BufferedReader	lineReaderB = new BufferedReader( readerB );
-	
-		String strA = lineReaderA.readLine( ).trim( );
-		String strB = lineReaderB.readLine( ).trim( );
-		while ( strA != null && strB != null )
+
+		String strA, strB;
+		try
 		{
-			same = strA.trim( ).equals( strB.trim( ) );
-			if ( !same )
+			do
 			{
-				break;
-			}
-	
-			strA = lineReaderA.readLine( );
-			strB = lineReaderB.readLine( );
+				strA = lineReaderA.readLine( );
+				strB = lineReaderB.readLine( );
+				assertEquals(strA != null?strA.trim( ):null, strB != null?strB.trim( ):null);
+			} while ( strA != null && strB != null );
 		}
-		same = strA == null && strB == null;
-		golden.close();	
-		readerA.close( );
-		readerB.close( );
-		lineReaderA.close( );
-		lineReaderB.close( );
-	
-		return same;
+		finally
+		{
+			golden.close();	
+			readerA.close( );
+			readerB.close( );
+			lineReaderA.close( );
+			lineReaderB.close( );
+		}
 	}
 	
 	/** print to console and stream */
-	public void testPrint( String str )
+    public void testPrint( String str )
 	{
 		System.out.print(str);
 		if ( testOut != null )
@@ -263,7 +273,7 @@ abstract public class BaseTestCase extends TestCase
 	}
 	
 	/** println to console and stream */
-	public void testPrintln( String str )
+    public void testPrintln( String str )
 	{
 		System.out.println(str);
 		if ( testOut != null )

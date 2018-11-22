@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.chart.cshelp"
       label="%featureName"
-      version="4.5.0.qualifier"
+      version="4.8.0.qualifier"
       provider-name="%providerName"
       plugin="org.eclipse.birt.chart.cshelp"
       image="eclipse_update_120.jpg">
@@ -27,7 +27,6 @@
    <requires>
       <import plugin="org.eclipse.help" version="3.2.0" match="compatible"/>
       <import plugin="org.eclipse.core.runtime" version="3.2.0" match="compatible"/>
-      <import plugin="org.eclipse.core.runtime.compatibility" version="3.1.100" match="compatible"/>
    </requires>
 
    <plugin

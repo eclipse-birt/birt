@@ -56,6 +56,29 @@ public class IDEHyperLinkDescriptorProvider extends HyperLinkDescriptorProvider
 		return flag;
 	}
 
+    public boolean hyperLinkDeleted( )
+    {
+        ActionHandle handle = getActionHandle( );
+        if ( handle != null )
+        {
+            getActionStack( ).startTrans(
+                    Messages.getString( "HyperLinkPage.Menu.Save" ) ); //$NON-NLS-1$
+            try
+            {
+                handle.drop( );
+            }
+            catch ( SemanticException e1 )
+            {
+                getActionStack( ).rollback( );
+                ExceptionUtil.handle( e1 );
+                return false;
+            }
+            getActionStack( ).commit( );
+            return true;
+        }
+        return false;
+    }
+
 	private CommandStack getActionStack( )
 	{
 		return SessionHandleAdapter.getInstance( ).getCommandStack( );

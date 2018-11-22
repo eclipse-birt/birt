@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.core.data;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Set;
@@ -202,7 +201,7 @@ public final class ExpressionUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static List extractColumnExpressions( String oldExpression )
+	public static List<IColumnBinding> extractColumnExpressions( String oldExpression )
 			throws BirtException
 	{
 		return extractColumnExpressions( oldExpression, ExpressionUtil.ROW_INDICATOR );
@@ -219,12 +218,12 @@ public final class ExpressionUtil
 	public static String getColumnBindingName( String oldExpression )
 			throws BirtException
 	{
-		List columnsLists = extractColumnExpressions( oldExpression, ExpressionUtil.ROW_INDICATOR );
+		List<IColumnBinding> columnsLists = extractColumnExpressions( oldExpression, ExpressionUtil.ROW_INDICATOR );
 		if ( columnsLists.size( ) != 1
 				|| !ExpressionParserUtility.isDirectColumnRef( oldExpression,
 						ExpressionUtil.ROW_INDICATOR ) )
 			return null;
-		return ( (IColumnBinding) columnsLists.get( 0 ) ).getResultSetColumnName( );
+		return columnsLists.get( 0 ).getResultSetColumnName( );
 	}
 
 	/**
@@ -238,12 +237,12 @@ public final class ExpressionUtil
 	public static String getColumnName( String oldExpression )
 			throws BirtException
 	{
-		List columnsLists = extractColumnExpressions( oldExpression, ExpressionUtil.DATASET_ROW_INDICATOR );
+		List<IColumnBinding> columnsLists = extractColumnExpressions( oldExpression, ExpressionUtil.DATASET_ROW_INDICATOR );
 		if ( columnsLists.size( ) != 1
 				|| !ExpressionParserUtility.isDirectColumnRef( oldExpression,
 						ExpressionUtil.DATASET_ROW_INDICATOR ) )
 			return null;
-		return ( (IColumnBinding) columnsLists.get( 0 ) ).getResultSetColumnName( );
+		return columnsLists.get( 0 ).getResultSetColumnName( );
 	}
 	
 	/**
@@ -257,7 +256,7 @@ public final class ExpressionUtil
 	 * @throws BirtException
 	 * @deprecated use <code>extractColumnExpressions( String, String )</code> instead
 	 */
-	public static List extractColumnExpressions( String oldExpression,
+	public static List<IColumnBinding> extractColumnExpressions( String oldExpression,
 			boolean mode ) throws BirtException
 	{
 		String indicator = ( mode ? ExpressionUtil.ROW_INDICATOR : ExpressionUtil.DATASET_ROW_INDICATOR );
@@ -274,11 +273,11 @@ public final class ExpressionUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static List extractColumnExpressions( String oldExpression,
+	public static List<IColumnBinding> extractColumnExpressions( String oldExpression,
 			String indicator ) throws BirtException
 	{
 		if ( oldExpression == null || oldExpression.trim( ).length( ) == 0 )
-			return new ArrayList( );
+			return Collections.emptyList( );
 
 		try
 		{
@@ -288,7 +287,7 @@ public final class ExpressionUtil
 		}
 		catch( Exception e )
 		{
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList( );
 		}
 	}
 

@@ -13,12 +13,20 @@
  */ 
 package org.eclipse.birt.data.engine.api;
 
+import org.eclipse.birt.core.data.DataType;
+import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 import testutil.ConfigText;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * Test cases for data engine scripting features
@@ -39,7 +47,8 @@ public class ScriptTest extends APITestCase
 	}
 
 	/** Test data source script object */
-	public void test1_ReadDataSource() throws Exception
+	@Test
+    public void test1_ReadDataSource() throws Exception
 	{
 		// Before-Open: read data source properties
 		this.dataSource.setBeforeOpenScript(
@@ -61,8 +70,8 @@ public class ScriptTest extends APITestCase
 		
 		checkOutputFile();
 	}
-	
-	public void test2_UpdateDataSource() throws Exception
+	@Test
+    public void test2_UpdateDataSource() throws Exception
 	{
 		// Before-open: change user name. This is expected to cause SELECT SQL to fail since
 		// we are running against a different name space (in Derby)
@@ -85,8 +94,8 @@ public class ScriptTest extends APITestCase
 	}
 	
 	static private final String dumpDataSetScript = ConfigText.getString("Script.DumpDataSet");
-	
-	public void test3_ReadDataSet() throws Exception
+	@Test
+    public void test3_ReadDataSet() throws Exception
 	{
 		// Before-Open: read data source properties
 		this.dataSet.setBeforeOpenScript(
@@ -103,8 +112,8 @@ public class ScriptTest extends APITestCase
 		this.dataEngine.shutdown();
 		checkOutputFile();
 	}
-	
-	public void test4_UpdateQueryText() throws Exception
+	@Test
+    public void test4_UpdateQueryText() throws Exception
 	{
 		// Before-Open: 
 		// (1)update queryText to include a WHERE clause
@@ -116,8 +125,8 @@ public class ScriptTest extends APITestCase
 		createAndRunQuery();
 		checkOutputFile();
 	}
-	
-	public void test5_UpdateProps() throws Exception
+	@Test
+    public void test5_UpdateProps() throws Exception
 	{
 		// Before-Open: 
 		// Add a data set property fake_property, which should result in a driver error
@@ -143,11 +152,11 @@ public class ScriptTest extends APITestCase
 		// define a query design		
 		QueryDefinition queryDefn = newReportQuery( );
 
-		ScriptExpression exprs[] = new ScriptExpression[1];
-		String names[] = new String[1];
-		exprs[0] = new ScriptExpression("dataSetRow.COUNTRY");
-		names[0] = new String("_COUNTRY");
-		queryDefn.addResultSetExpression( names[0], exprs[0] );
+		String names[] = new String[] { "_COUNTRY" };
+		ScriptExpression expression = new ScriptExpression("dataSetRow.COUNTRY", DataType.STRING_TYPE);
+		Binding binding = new Binding( names[0] );
+		binding.setExpression( expression );
+		queryDefn.addBinding( binding );
 		
 		IPreparedQuery preparedQuery = dataEngine.prepare( queryDefn );
 		IQueryResults queryResults = preparedQuery.execute( null );

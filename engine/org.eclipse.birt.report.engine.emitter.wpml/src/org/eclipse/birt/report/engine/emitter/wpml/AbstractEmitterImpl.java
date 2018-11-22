@@ -69,7 +69,6 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.ir.EngineIRConstants;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.emitter.Image;
-import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManager;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontMappingManagerFactory;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontSplitter;
@@ -81,6 +80,7 @@ import org.eclipse.birt.report.engine.presentation.ContentEmitterVisitor;
 import org.eclipse.birt.report.engine.util.FlashFile;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
+
 import org.w3c.dom.css.CSSValue;
 import org.w3c.dom.css.CSSValueList;
 
@@ -501,7 +501,8 @@ public abstract class AbstractEmitterImpl
 		int cellWidth = context.getCellWidth( columnId, columnSpan );
 
 		IStyle style = computeStyle( cell.getComputedStyle( ) );
-
+//		style.get
+			
 		if ( rowSpan > 1 )
 		{
 			context.addSpan( columnId, columnSpan, cellWidth, rowSpan, style );
@@ -521,6 +522,11 @@ public abstract class AbstractEmitterImpl
 		{
 			drawDiagonalLine( cell, WordUtil.twipToPt( cellWidth ) );
 		}
+	}
+
+	private boolean hasBorder( String borderStyle )
+	{
+		return !( borderStyle == null || "none".equalsIgnoreCase( borderStyle ) );
 	}
 
 	private void drawDiagonalLine( ICellContent cell, double cellWidth )

@@ -84,6 +84,16 @@ public interface IReportDocument extends IDocument
 	 */
 	public abstract IReportRunnable getPreparedRunnable();
 	
+	/**
+	 * The report runnable is used to create the report document while writing.
+	 * If the report document is open with, the report runnable is used to
+	 * render or extract data from the report document.
+	 * The internal instance is returned and user should not modify it.
+	 * 
+	 * @return the prepared runnable report design. It is available because a report
+	 *         document must be run with a report design
+	 */
+	public abstract IReportRunnable getDocumentRunnable();
 
 	/**
 	 * returns values for all the parameters that are used for generating the

@@ -13,29 +13,32 @@ package org.eclipse.birt.core.archive;
 
 import java.io.File;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class InputStreamRefreshTest extends TestCase
 {
 
 	static final String ARCHIVE_NAME = "./utest/test.archive";
 	static final String STREAM_NAME = "/teststream";
-
-	public void setUp( )
+	@Before
+    public void setUp()
 	{
 		ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
 	}
-
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
 	}
-
-	public void testReaderDuringWriter( ) throws Exception
+	@Test
+    public void testReaderDuringWriter( ) throws Exception
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_NAME, "rw" );
 		ArchiveWriter writer = new ArchiveWriter( archive );

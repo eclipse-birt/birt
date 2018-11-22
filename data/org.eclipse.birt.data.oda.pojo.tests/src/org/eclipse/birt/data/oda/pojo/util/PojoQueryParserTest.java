@@ -31,17 +31,21 @@ import org.eclipse.birt.data.oda.pojo.util.PojoQueryParser;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
 
-import junit.framework.TestCase;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  */
 
-public class PojoQueryParserTest extends TestCase
-{
+public class PojoQueryParserTest {
 
 	@SuppressWarnings("nls")
-	public void testBasicParse( ) throws IOException, OdaException
+	@Test
+    public void testBasicParse( ) throws IOException, OdaException
 	{
 		InputStream in = InputFileOpener.openFile( InputFileOpener.SIMPLE_QUERY_FILE );
 		

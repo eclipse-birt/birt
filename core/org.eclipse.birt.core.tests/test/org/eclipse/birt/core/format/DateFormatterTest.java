@@ -17,10 +17,12 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.Locale;
 
-import junit.framework.TestCase;
+import org.junit.Test;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.TestCase;
 
 /**
  * DateFormatterTest.
@@ -37,7 +39,8 @@ public class DateFormatterTest extends TestCase
 	/*
 	 * test for void DateFormatter()
 	 */
-	public void testDateFormat( )
+	@Test
+    public void testDateFormat( )
 	{
 		String golden = "09/13/1998 08:01:44 PM";
 		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a", ULocale.ENGLISH );
@@ -53,7 +56,8 @@ public class DateFormatterTest extends TestCase
 	/*
 	 * test for void DateFormatter(String)
 	 */
-	public void testDateFormatString( )
+	@Test
+    public void testDateFormatString( )
 	{
 		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a" );
 		Locale locDef = Locale.getDefault( );
@@ -69,7 +73,8 @@ public class DateFormatterTest extends TestCase
 	 * test for void DateFormatter(String, String) especially test for chinese
 	 * support
 	 */
-	public void testDateFormatStringStringCHN( )
+	@Test
+    public void testDateFormatStringStringCHN( )
 	{
 		Locale locDef = Locale.getDefault( );
 		Calendar dateCal = Calendar.getInstance( locDef );
@@ -88,7 +93,8 @@ public class DateFormatterTest extends TestCase
 	/*
 	 * test for void DateFormatter(Locale)
 	 */
-	public void testDateFormatLocale( )
+	@Test
+    public void testDateFormatLocale( )
 	{
 		Locale locale = new Locale( "en", "us" );
 		DateFormatter sample = new DateFormatter( ULocale.forLocale(locale) );
@@ -112,7 +118,8 @@ public class DateFormatterTest extends TestCase
 	/*
 	 * test for void DateFormatter(String, Locale)
 	 */
-	public void testDateFormatStringLocale( )
+	@Test
+    public void testDateFormatStringLocale( )
 	{
 		Locale locale = new Locale( "en", "us" );
 		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a",
@@ -127,15 +134,16 @@ public class DateFormatterTest extends TestCase
 	/*
 	 * test for void GetPattern()
 	 */
-	public void testGetPattern( )
+	@Test
+    public void testGetPattern( )
 	{
 		Locale locale = new Locale( "en", "us" );
 		DateFormatter sample = new DateFormatter( "MM/dd/yyyy hh:mm:ss a",
 				ULocale.forLocale(locale) );
 		assertEquals( "MM/dd/yyyy hh:mm:ss a", sample.getPattern( ) );
 	}
-
-	public void testApplyPattern( )
+	@Test
+    public void testApplyPattern( )
 	{
 		//test the instance of locale
 		Locale locDef = Locale.getDefault( );
@@ -145,6 +153,10 @@ public class DateFormatterTest extends TestCase
 
 		Locale locale = new Locale( "en", "us" );
 		DateFormatter sample = new DateFormatter( ULocale.forLocale(locale) );
+		//default null
+		sample.applyPattern( null );
+		assertEquals( "Sep 13, 1998 8:01 PM", sample.format( date ) );
+		
 		sample.applyPattern( "Long Date" );
 		assertEquals( "September 13, 1998", sample.format( date ) );
 		sample.applyPattern( "D" );
@@ -181,8 +193,8 @@ public class DateFormatterTest extends TestCase
 		sample.applyPattern( "Medium Time" );
 		assertEquals( "8:01:44 PM", sample.format( date ) );
 	}
-	
-	public void testIFormat( )
+	@Test
+    public void testIFormat( )
 	{
 		Calendar dateCal = Calendar.getInstance( Locale.US );
 		dateCal.set( 1998, 8, 13, 20, 1, 44 );
@@ -228,8 +240,8 @@ public class DateFormatterTest extends TestCase
 			ex.printStackTrace( );
 		}
 	}
-	
-	public void testTimeZone()
+	@Test
+    public void testTimeZone()
 	{
 		String result = null;
 		DateFormatter df = null;

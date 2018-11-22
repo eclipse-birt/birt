@@ -63,6 +63,11 @@ public class ApplicationClassLoader extends ClassLoader
 
 	public void close( )
 	{
+		if ( this.appContext != null )
+		{
+			this.appContext.clear( );
+			this.appContext = null;
+		}
 		if ( designClassLoader != null )
 		{
 			designClassLoader.close( );

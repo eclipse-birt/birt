@@ -17,20 +17,19 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class DataSetCapabilitiesTest extends ConnectionTest
 {
 	private DataSetCapabilities m_dsCapabilties;
-	
-	protected void setUp() throws Exception
+	@Before
+    public void dataSetCapabilitiesSetUp() throws Exception
 	{
-		super.setUp();
-		
 		m_dsCapabilties = getConnection().getMetaData( "JDBC" );
-	}
-
-	protected void tearDown() throws Exception
-	{
-		super.tearDown();
 	}
 
 	public final void testGetSortMode()

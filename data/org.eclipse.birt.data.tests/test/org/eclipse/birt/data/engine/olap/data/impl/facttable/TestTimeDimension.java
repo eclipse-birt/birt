@@ -22,7 +22,6 @@ import javax.olap.OLAPException;
 import javax.olap.cursor.CubeCursor;
 import javax.olap.cursor.EdgeCursor;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngine;
@@ -57,12 +56,17 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
 
-public class TestTimeDimension extends TestCase
-{
+public class TestTimeDimension {
 	private static final String OUTPUT_FOLDER = "DtETestTempDataoutput";
 	
 	/*
@@ -70,20 +74,10 @@ public class TestTimeDimension extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	private static String[] distinct( String[] sValues )
+private static String[] distinct( String[] sValues )
 	{
 		Arrays.sort( sValues );
 		List tempList = new ArrayList( );
@@ -105,9 +99,10 @@ public class TestTimeDimension extends TestCase
 	
 	/**
 	 * 
-	 * @throws Exception 
 	 */
-	public void testTimeDimension( ) throws Exception
+	@Ignore("Ignoring since TimeDimension is not currently used if the product is used in a normal way")
+	@Test
+    public void testTimeDimension( ) throws Exception
 	{
 		String cubeName = "cube";
 		DataEngineImpl engine = (DataEngineImpl)DataEngine.newDataEngine( createPresentationContext( ) );
@@ -119,7 +114,9 @@ public class TestTimeDimension extends TestCase
 								+ engine.getSession( ).getEngine( ).hashCode( ),
 						documentManager );
 		engine.addShutdownListener( new DocManagerReleaser( engine ) );
+		
 		createCube( documentManager );
+		
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( cubeName );
 		IEdgeDefinition columnEdge = cqd.createEdge( ICubeQueryDefinition.COLUMN_EDGE );
 		IEdgeDefinition rowEdge = cqd.createEdge( ICubeQueryDefinition.ROW_EDGE );
@@ -161,7 +158,7 @@ public class TestTimeDimension extends TestCase
 		cqd.addFilter( filter );
 		
 		IPreparedCubeQuery pcq = engine.prepare( cqd, null );
-		ICubeQueryResults queryResults = pcq.execute( null );
+		ICubeQueryResults queryResults = pcq.execute( null, null );
 		CubeCursor cursor = queryResults.getCubeCursor( );
 		List columnEdgeBindingNames = new ArrayList( );
 		columnEdgeBindingNames.add( "edge1level1" );
@@ -479,14 +476,13 @@ class Dataset2 implements IDatasetIterator
 			1, 1, 2, 2, 3, 3
 	};
 	static Date[] L2Col = {
-			new Date( 98, 10 ,13 ),
-			new Date( 99, 10 ,14 ),
-			new Date( 99, 10 ,11 ),
-			new Date( 99, 11 ,1 ),
-			new Date( 100, 12 ,8 ),
-			new Date( 100, 1 ,9 )
+			(new java.util.GregorianCalendar(1998, 10 ,13)).getTime(),
+			(new java.util.GregorianCalendar(1999, 10 ,14)).getTime(),
+			(new java.util.GregorianCalendar(1999, 10 ,11)).getTime(),
+			(new java.util.GregorianCalendar(1999, 11 ,1)).getTime(),
+			(new java.util.GregorianCalendar(2000, 12 ,8)).getTime(),
+			(new java.util.GregorianCalendar(2000, 1 ,9)).getTime()
 	};
-
 
 	public void close( ) throws BirtException
 	{

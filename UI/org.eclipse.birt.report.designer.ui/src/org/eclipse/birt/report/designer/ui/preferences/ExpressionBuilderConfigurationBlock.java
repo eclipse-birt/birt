@@ -24,6 +24,7 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Control;
+import org.eclipse.swt.widgets.Label;
 
 /**
  */
@@ -32,8 +33,10 @@ public class ExpressionBuilderConfigurationBlock extends
 {
 
 	private final Key PREF_DEFAULT_UNIT = getReportKey( ReportPlugin.DEFAULT_SCRIPT_TYPE );
-
+	private final Key PREF_FISCAL_START = getReportKey( ReportPlugin.FISCAL_YEAR_START );
 	private final static String DEFAULT_UNIT = Messages.getString("ExpressionBuilderConfigurationBlock.DefaultSyntax"); //$NON-NLS-1$
+	private final static String DEFAULT_FISCAL_START = Messages
+			.getString( "ExpressionBuilderConfigurationBlock.FiscalYearStart" ); //$NON-NLS-1$
 
 	public final int LTR_DIRECTION_INDX = 0;
 	public final int RTL_DIRECTION_INDX = 1;
@@ -50,7 +53,7 @@ public class ExpressionBuilderConfigurationBlock extends
 	private Key[] getKeys( )
 	{
 		Key[] keys = new Key[]{
-			PREF_DEFAULT_UNIT
+				PREF_DEFAULT_UNIT, PREF_FISCAL_START
 		};
 		return keys;
 	}
@@ -117,6 +120,15 @@ public class ExpressionBuilderConfigurationBlock extends
 				supportNames,
 				supportDisplayNames,
 				0 );
+		
+		new Label( pageContent, SWT.NONE );
+		
+		this.addLabelledTextField( pageContent,
+				DEFAULT_FISCAL_START,
+				PREF_FISCAL_START,
+				10,
+				0,
+				false );
 
 		return pageContent;
 	}

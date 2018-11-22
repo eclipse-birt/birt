@@ -366,11 +366,12 @@ public class DeleteCommand extends Command
 		if ( source instanceof ExtendedItemHandle )
 		{
 			Object dropValidator = Platform.getAdapterManager( )
-					.getAdapter( (ExtendedItemHandle) source,
-							DeleteCommand.class );
+					.getAdapter( source, IDropValidator.class );
 			if ( dropValidator instanceof IDropValidator
 					&& ( (IDropValidator) dropValidator ).accpetValidator( ) )
+			{
 				return ( (IDropValidator) dropValidator ).canDrop( );
+			}
 		}
 		if ( source instanceof CellHandle )
 		{

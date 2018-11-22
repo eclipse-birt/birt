@@ -52,6 +52,13 @@ public interface IBindingDialogHelper
 	 */
 	void setAggregate( boolean isAggregate );
 	
+	/**
+	 * Set if the Binding is a aggregation.
+	 * 
+	 * @param isAggregate
+	 */
+	void setMeasure( boolean isAggregate );
+	
 	/**Set if the Binding is a time period.
 	 * @param timePeriod
 	 */
@@ -135,4 +142,9 @@ public interface IBindingDialogHelper
 	
 	void setEditModal( boolean isEditModal );
 
+	boolean canProcessMeasure( );
+
+	String[] getGroups( );
+
+	void setGroups( String[] groups );
 }

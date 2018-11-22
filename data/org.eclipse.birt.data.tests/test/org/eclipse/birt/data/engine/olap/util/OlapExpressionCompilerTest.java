@@ -16,7 +16,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
@@ -25,15 +24,20 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * 
  */
 
-public class OlapExpressionCompilerTest extends TestCase
-{
-
-	public void testGetReferencedDimensionName( )
+public class OlapExpressionCompilerTest {
+	@Test
+    public void testGetReferencedDimensionName( )
 	{
 		assertEquals( "dim1", OlapExpressionCompiler.getReferencedScriptObject( new ScriptExpression("dimension[\"dim1\"][\"level1\"]"), "dimension" ));
 		assertEquals( "dim1", OlapExpressionCompiler.getReferencedScriptObject( new ScriptExpression("ra[\"abc\"]+dimension[\"dim1\"][\"level1\"]"), "dimension" ));
@@ -43,8 +47,8 @@ public class OlapExpressionCompilerTest extends TestCase
 		
 		assertEquals( "dim1", OlapExpressionCompiler.getReferencedScriptObject( new ConditionalExpression("ra[\"abc\"]+dimension[\"dim1\"][\"level1\"]", 0, "dim[\"abc\"]"), "dimension" ));
 	}
-
-	public void testGetReferencedDimLevel( ) throws DataException
+	@Test
+    public void testGetReferencedDimLevel( ) throws DataException
 	{
 		IBinding binding1 = new Binding( "b1", new ScriptExpression("dimension[\"dim1\"][\"level1\"]"));
 		IBinding binding2 = new Binding( "b2", new ScriptExpression("dimension.dim1.level2 + 1"));

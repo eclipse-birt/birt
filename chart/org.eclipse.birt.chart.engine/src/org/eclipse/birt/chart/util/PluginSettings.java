@@ -244,6 +244,7 @@ public final class PluginSettings
 		public static final String PERCENT_RANK = "PercentRank"; //$NON-NLS-1$
 		public static final String PERCENT_SUM = "PercentSum"; //$NON-NLS-1$
 		public static final String RUNNING_COUNT = "RunningCount"; //$NON-NLS-1$
+		public static final String RANGE = "Range"; //$NON-NLS-1$
 	}
 	
 	/**
@@ -281,6 +282,11 @@ public final class PluginSettings
 			{
 					DefaultAggregations.MAX,
 					"Max", "org.eclipse.birt.chart.extension.aggregate.Max" //$NON-NLS-1$ //$NON-NLS-2$
+			}, 
+			{
+					DefaultAggregations.RANGE,
+					"Range", //$NON-NLS-1$
+					"org.eclipse.birt.chart.extension.aggregate.Range" //$NON-NLS-1$
 			}
 	};
 

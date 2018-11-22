@@ -13,18 +13,19 @@ package org.eclipse.birt.core.data;
 
 import java.util.Set;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 /**
  * 
  */
 public class ExpressionUtilTest extends TestCase
 {
-
-	public void testToNewExpression( )
+	@Test
+    public void testToNewExpression( )
 	{
 		String[] oldExpressions = new String[]{
 				null,
@@ -68,9 +69,8 @@ public class ExpressionUtilTest extends TestCase
 			assertEquals( icb.getResultSetColumnName( ), "COLUMN_" + ( i + 1 ) );
 		}
 	}
-	
-	
-	public void testreplaceRowsExpression( )
+	@Test
+    public void testreplaceRowsExpression( )
 	{
 		String[] oldExpressions = new String[]{
 				null,
@@ -120,16 +120,16 @@ public class ExpressionUtilTest extends TestCase
 				true ),
 				result );
 	}
-	
-	public void testCreateExpression()
+	@Test
+    public void testCreateExpression()
 	{
 		assertEquals( "row[\"abc\"]", ExpressionUtil.createRowExpression("abc"));
 		assertEquals( "row[\"\"]", ExpressionUtil.createRowExpression(null));
 		assertEquals( "dataSetRow[\"abc\"]", ExpressionUtil.createDataSetRowExpression("abc"));
 		assertEquals( "dataSetRow[\"\"]", ExpressionUtil.createDataSetRowExpression(null));
 	}
-	
-	public void testIsScalarParamReference( )
+	@Test
+    public void testIsScalarParamReference( )
 	{
 		assertTrue( ExpressionUtil.isScalarParamReference( "params[\"aaa\"]" ) );
 		assertFalse( ExpressionUtil.isScalarParamReference( "params[\"\"]" ) );
@@ -137,8 +137,8 @@ public class ExpressionUtilTest extends TestCase
 		assertFalse( ExpressionUtil.isScalarParamReference( "reparams[\"aaa\"]" ) );
 		assertFalse( ExpressionUtil.isScalarParamReference( "params[aaa]" ) );
 	}
-	
-	public void testGetColumnBindingName( ) throws BirtException
+	@Test
+    public void testGetColumnBindingName( ) throws BirtException
 	{
 		assertTrue( ExpressionUtil.getColumnBindingName( "100" ) == null );
 		assertTrue( ExpressionUtil.getColumnBindingName( "row[\"col1\"]" )
@@ -154,39 +154,39 @@ public class ExpressionUtilTest extends TestCase
 		assertTrue( ExpressionUtil.getColumnBindingName( "row[\"col1\"]+ row[\"col2\"]" ) == null );
 
 	}
-	
-	public void testCreateJSRowExpression( ) throws BirtException
+	@Test
+    public void testCreateJSRowExpression( ) throws BirtException
 	{
 		assertEquals( ExpressionUtil.createJSRowExpression( "abc" ), "row[\"abc\"]");
 		assertEquals( ExpressionUtil.createJSRowExpression( null ), "row[\"\"]");
 	}
-	
-	public void testCreateJSDataSetRowExpression( ) throws BirtException
+	@Test
+    public void testCreateJSDataSetRowExpression( ) throws BirtException
 	{
 		assertEquals( ExpressionUtil.createJSDataSetRowExpression( "abc" ), "dataSetRow[\"abc\"]");
 		assertEquals( ExpressionUtil.createJSDataSetRowExpression( null ), "dataSetRow[\"\"]");
 	}
-	
-	public void testCreateJSParameterExpression( ) throws BirtException
+	@Test
+    public void testCreateJSParameterExpression( ) throws BirtException
 	{
 		assertEquals( ExpressionUtil.createJSParameterExpression( "abc" ), "params[\"abc\"]");
 		assertEquals( ExpressionUtil.createJSParameterExpression( null ), "params[\"\"]");
 	}
-	
-	public void testCreateJSMeasureExpression( ) throws BirtException
+	@Test
+    public void testCreateJSMeasureExpression( ) throws BirtException
 	{
 		assertEquals( ExpressionUtil.createJSMeasureExpression( "abc" ), "measure[\"abc\"]");
 		assertEquals( ExpressionUtil.createJSMeasureExpression( null ), "measure[\"\"]");
 	}
-	
-	public void testCreateJSDimensionExpression( ) throws BirtException
+	@Test
+    public void testCreateJSDimensionExpression( ) throws BirtException
 	{
 		assertEquals( ExpressionUtil.createJSDimensionExpression( "abc", "def" ), "dimension[\"abc\"][\"def\"]");
 		assertEquals( ExpressionUtil.createJSDimensionExpression( null, null ), "dimension[\"\"][\"\"]");
 		assertEquals( ExpressionUtil.createJSDimensionExpression( "abc", "def", "ghi"),"dimension[\"abc\"][\"def\"][\"ghi\"]");
 	}
-	
-	public void testReplaceParameterExpression()
+	@Test
+    public void testReplaceParameterExpression()
 	{
 		assertEquals( ExpressionUtil.replaceParameterName( "params[\"param\"]","param", "PARAM" ), "params[\"PARAM\"]");
 		assertEquals( ExpressionUtil.replaceParameterName( "params[\"param1\"]+ params[\"param2\"]","param2", "PARAM2" ), "params[\"param1\"]+ params[\"PARAM2\"]");
@@ -194,8 +194,8 @@ public class ExpressionUtilTest extends TestCase
 		assertEquals( ExpressionUtil.replaceParameterName( "params.param1+ params[\"param2\"]","param2", "PARAM2" ), "params.param1+ params[\"PARAM2\"]");
 		assertEquals( ExpressionUtil.replaceParameterName( "params.param1.value+ params.param2.value","param2", "PARAM2" ), "params.param1.value+ params.PARAM2.value");
 	}
-	
-	public void testReferedMeasureExpression() throws CoreException
+	@Test
+    public void testReferedMeasureExpression() throws CoreException
 	{
 		assertEquals( ExpressionUtil.getReferencedMeasure( "measure[\"m1\"]" ), "m1");
 		assertEquals( ExpressionUtil.getReferencedMeasure( "measure[\"m1\"]+measure[\"m2\"]" ), "m1");

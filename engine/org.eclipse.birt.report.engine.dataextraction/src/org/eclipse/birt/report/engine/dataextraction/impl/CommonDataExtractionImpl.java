@@ -105,7 +105,7 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 		{
 			aLocale = commonOptions.getLocale( );
 		}
-		else
+		else if ( context != null )
 		{
 			aLocale = context.getLocale( );
 		}
@@ -124,9 +124,13 @@ public class CommonDataExtractionImpl extends DataExtractionExtensionBase
 			// convert java time zone to ICU time zone
 			this.timeZone = TimeZone.getTimeZone( javaTimeZone.getID( ) );
 		}
-		else
+		else if ( context != null )
 		{
 			timeZone = context.getTimeZone( );
+		}
+		else
+		{
+			timeZone = TimeZone.getDefault( );
 		}
 
 		if ( !isLocaleNeutral )

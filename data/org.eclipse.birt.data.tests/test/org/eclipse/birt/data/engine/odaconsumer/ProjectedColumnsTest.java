@@ -24,6 +24,12 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class ProjectedColumnsTest extends ConnectionTest
 {
 
@@ -46,22 +52,15 @@ public class ProjectedColumnsTest extends ConnectionTest
 	private PreparedStatement m_statement;
 
 	private DataResourceHandle resourceHandle = DataResourceHandle.getInstance( );
-	
-	protected void setUp( ) throws Exception
+	@Before
+    public void projectedColumnsSetUp() throws Exception
 	{
-		super.setUp( );
-
 		String command = "select * from \"testtable\"";
 		m_statement = getConnection( ).prepareStatement( command,
 				JDBCOdaDataSource.DATA_SET_TYPE );
 	}
 
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	public final void testProjectedColumns( ) throws Exception
+    public final void testProjectedColumns( ) throws Exception
 	{
 		String[] projectedColumns = {
 				"stringColumn", "doubleColumn"
@@ -146,8 +145,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 			count++;
 		}
 	}
-
-	public void testAliasValidation1( ) throws Exception
+	@Test
+    public void testAliasValidation1( ) throws Exception
 	{
 		// ok to set the alias to the same name as the column name
 		ColumnHint columnHint = new ColumnHint( "doubleColumn" );
@@ -155,8 +154,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 		m_statement.addColumnHint( columnHint );
 		m_statement.getMetaData( );
 	}
-
-	public void testAliasValidation2( ) throws Exception
+	@Test
+    public void testAliasValidation2( ) throws Exception
 	{
 		// not ok to set the alias as some other column's name
 		try
@@ -174,8 +173,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
-
-	public void testAliasValidation3( ) throws Exception
+	@Test
+    public void testAliasValidation3( ) throws Exception
 	{
 		// not ok to set the alias as some other column's alias
 		try
@@ -288,8 +287,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 			assertEquals( row, ResultSetTest.RESULTS[count++] );
 		}
 	}
-
-	public void testChangeMetadataWithNewProjection( ) throws Exception
+	@Test
+    public void testChangeMetadataWithNewProjection( ) throws Exception
 	{
 		IResultClass metadata = m_statement.getMetaData( );
 		assertNotNull( metadata );
@@ -323,8 +322,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 		resultSet = m_statement.getResultSet( );
 		assertSame( newMetadata2, resultSet.getMetaData( ) );
 	}
-
-	public void testChangeMetadataWithAdditionalCustomColumns( )
+	@Test
+    public void testChangeMetadataWithAdditionalCustomColumns( )
 			throws Exception
 	{
 		IResultClass metadata = m_statement.getMetaData( );
@@ -347,8 +346,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 		assertTrue( metadata.isCustomField( 6 ) );
 		assertTrue( metadata.isCustomField( "MyColumn" ) );
 	}
-
-	public void testCustomColumnValidation1( ) throws Exception
+	@Test
+    public void testCustomColumnValidation1( ) throws Exception
 	{
 		// can't declare a custom column with same name as existing column name
 		try
@@ -364,8 +363,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
-
-	public void testCustomColumnValidation2( ) throws Exception
+	@Test
+    public void testCustomColumnValidation2( ) throws Exception
 	{
 		// can't declare a custom column with same name as existing alias
 		try
@@ -385,8 +384,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 			assertEquals( msg, ex.getMessage( ) );
 		}
 	}
-
-	public void testCustomColumnWithProjection1( ) throws Exception
+	@Test
+    public void testCustomColumnWithProjection1( ) throws Exception
 	{
 		// custom columns should show up in the ResultClass even it isn't
 		// projected
@@ -404,8 +403,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 		assertEquals( 3, metadata.getFieldCount( ) );
 		assertEquals( 3, metadata.getFieldIndex( "My Decimal Column" ) );
 	}
-
-	public void testCustomColumnWithProjection2( ) throws Exception
+	@Test
+    public void testCustomColumnWithProjection2( ) throws Exception
 	{
 		// make it work even if the caller projects a custom column
 		String[] projectedColumns = {
@@ -422,13 +421,13 @@ public class ProjectedColumnsTest extends ConnectionTest
 		// if it weren't projected
 		assertEquals( 3, metadata.getFieldIndex( "My Decimal Column" ) );
 	}
-	
-	public void testWithClearParameters1( ) throws Exception
+	@Test
+    public void testWithClearParameters1( ) throws Exception
 	{
 		doTestWithClearParameters( getConnection( ) );
 	}
-
-	public void testWithClearParameters2( ) throws Exception
+	@Test
+    public void testWithClearParameters2( ) throws Exception
 	{
 		Properties connProperties = getJdbcConnProperties();		
 		Connection connection = getManager( ).openConnection( JDBCOdaDataSource.DATA_SOURCE_TYPE,
@@ -496,7 +495,8 @@ public class ProjectedColumnsTest extends ConnectionTest
 	}
 
 	// test changing the data type of a projected column
-	public void testChangeColumnTypeWithHint( ) throws Exception
+	@Test
+    public void testChangeColumnTypeWithHint( ) throws Exception
 	{
 	    String customColumnName = "My null Column";
 		m_statement.declareCustomColumn( customColumnName, null );
@@ -543,7 +543,7 @@ public class ProjectedColumnsTest extends ConnectionTest
         fieldType = metadata.getFieldValueClass( customColumnName );
         assertEquals( Boolean.class, fieldType );
 	}
-    
+	@Test
     public void testChangeColumnTypeWithNativeTypeHint( ) throws Exception
     {
         String customColumnName = "My custom Column";

@@ -42,8 +42,6 @@ import org.eclipse.birt.report.designer.ui.expressions.ISortableExpressionProvid
 import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.DNDUtil;
-import org.eclipse.birt.report.designer.util.FontManager;
-import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
@@ -57,7 +55,6 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureHandle;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IAdaptable;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.InstanceScope;
 import org.eclipse.jface.dialogs.Dialog;
 import org.eclipse.jface.dialogs.IDialogConstants;
@@ -86,6 +83,7 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
+import org.eclipse.jface.viewers.ViewerComparator;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.accessibility.ACC;
 import org.eclipse.swt.accessibility.Accessible;
@@ -112,8 +110,6 @@ import org.eclipse.swt.events.ShellEvent;
 import org.eclipse.swt.events.TraverseEvent;
 import org.eclipse.swt.events.TraverseListener;
 import org.eclipse.swt.graphics.Color;
-import org.eclipse.swt.graphics.Font;
-import org.eclipse.swt.graphics.FontData;
 import org.eclipse.swt.graphics.GC;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.graphics.Point;
@@ -697,15 +693,7 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		GridData gd = new GridData( GridData.FILL_BOTH );
 		gd.heightHint = 150;
 		sourceViewer.getControl( ).setLayoutData( gd );
-		if ( Platform.getOS( ).equals( Platform.WS_WIN32 ) )
-		{
-			Font font = sourceViewer.getTextWidget( ).getFont( );
-			FontData data = font.getFontData( )[0];
-			Font newFont = FontManager.getFont( data.getName( ),
-					data.getHeight( ) + 1,
-					data.getStyle( ) );
-			sourceViewer.getTextWidget( ).setFont( newFont );
-		}
+		JSSourceViewerConfiguration.updateSourceFont( sourceViewer );
 		sourceViewer.getTextWidget( ).addKeyListener( new KeyAdapter( ) {
 
 			public void keyPressed( KeyEvent e )
@@ -928,6 +916,11 @@ public class ExpressionBuilder extends BaseTitleAreaDialog
 		categoryTable = new TableViewer( listArea, style );
 		subCategoryTable = new TreeViewer( listArea, style );
 		functionTable = new TableViewer( listArea, style );
+
+		// sort table items in alphabetical order
+		categoryTable.setComparator( new ViewerComparator( ) );
+		subCategoryTable.setComparator( new ViewerComparator( ) );
+		functionTable.setComparator( new ViewerComparator( ) );
 
 		functionTable.getControl( ).addKeyListener( new KeyListener( ) {
 

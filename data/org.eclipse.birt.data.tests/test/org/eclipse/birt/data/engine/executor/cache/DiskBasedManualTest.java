@@ -31,11 +31,18 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
- * Test the feature of disk-based data manuipulation. Only used in manual test
+ * Test the feature of disk-based data manipulation. Only used in manual test
  * situation, since it needs the outer data base other than derby embed data
  * base.
  */
+@Ignore("Test must be run manually")
 public class DiskBasedManualTest extends BaseTestCase
 {
 	// connection property
@@ -154,7 +161,8 @@ public class DiskBasedManualTest extends BaseTestCase
 	 * @throws BirtException
 	 * @throws Exception
 	 */
-	public void testDiskBased( ) throws BirtException, Exception
+	@Test
+    public void testDiskBased( ) throws BirtException, Exception
 	{
 		System.setProperty( "BIRT_HOME", "./test" );
 		System.setProperty( "PROPERTY_RUN_UNDER_ECLIPSE", "false" );

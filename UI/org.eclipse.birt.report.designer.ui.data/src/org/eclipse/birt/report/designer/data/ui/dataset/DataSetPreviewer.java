@@ -15,6 +15,7 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.IDatasetPreviewTask;
@@ -45,6 +46,25 @@ public class DataSetPreviewer
 		if ( mode == PreviewType.RESULTSET )
 		{
 			task = engine.createDatasetPreviewTask( );
+		}
+		else
+		{
+			task = new OutParameterPreviewTask( (ReportEngine) engine );
+		}
+		task.setMaxRow( maxRow );
+		task.setDataSet( dataSetHandle );
+		task.setAppContext( appContext );
+		ReportParameterUtil.completeParamDefalutValues( task, dataSetHandle.getModuleHandle( ) );
+	}
+	
+	public void open( Map appContext, EngineConfig config,
+			DataEngineFlowMode flowMode ) throws BirtException
+	{
+		engine = createReportEngine( config );
+		if ( mode == PreviewType.RESULTSET )
+		{
+			task = engine.createDatasetPreviewTask( );
+			task.setDataEngineFlowMode( flowMode );
 		}
 		else
 		{

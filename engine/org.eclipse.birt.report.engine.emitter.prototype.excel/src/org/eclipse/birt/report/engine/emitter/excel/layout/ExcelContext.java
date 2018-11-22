@@ -72,7 +72,11 @@ public class ExcelContext
 			return;
 		}
 		out = EmitterUtil.getOuputStream( service, "report.xls" );
-		this.tempFileDir = service.getReportEngine( ).getConfig( ).getTempDir( );
+		if ( service.getReportEngine( ) != null )
+		{
+			this.tempFileDir = service.getReportEngine( ).getConfig( )
+					.getTempDir( );
+		}
 		IReportContext reportContext = service.getReportContext( );
 		if ( reportContext != null )
 		{

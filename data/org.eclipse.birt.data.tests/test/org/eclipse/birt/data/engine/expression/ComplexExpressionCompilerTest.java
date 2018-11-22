@@ -14,7 +14,6 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.core.DataException;
@@ -23,13 +22,19 @@ import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 
-public class ComplexExpressionCompilerTest extends TestCase
-{
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
+public class ComplexExpressionCompilerTest {
 	private ScriptableObject m_scope;
 	private ExpressionCompiler m_compiler;
 	private AggregateRegistry m_registry;
 	private ScriptContext context;
-	protected void setUp() throws Exception
+	@Before
+    public void complexExpressionCompilerSetUp() throws Exception
 	{
 		context = new ScriptContext();
 		context.compile("javascript", null, 0, "1==1");
@@ -52,27 +57,27 @@ public class ComplexExpressionCompilerTest extends TestCase
 				}
 			};
 	}
-	
-	protected void tearDown() throws Exception
+	@After
+    public void complexExpressionCompilerTearDown() throws Exception
 	{
 		context.close( );
 	}
-	
-	public void testDirectReference1() throws Exception
+	@Test
+    public void testDirectReference1() throws Exception
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( "row.col1", m_registry, context );
 		checkDirectRef1( expr );
 	}
-	
-	public void testDirectReference2() throws Exception
+	@Test
+    public void testDirectReference2() throws Exception
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( "row[\"col1\"]", m_registry, context );
 		checkDirectRef1( expr );
 	}
-	
-	public void testDirectReference3() throws Exception
+	@Test
+    public void testDirectReference3() throws Exception
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( "row[ 1 ]", m_registry, context );
@@ -89,40 +94,40 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertEquals( "col1", ( (ColumnReferenceExpression) expr).getColumnName() );
 		assertEquals( -1, ( (ColumnReferenceExpression) expr).getColumnindex() );
 	}
-	
-	public void testNonDirectRefOnRow1() throws Exception
+	@Test
+    public void testNonDirectRefOnRow1() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "row[col1]" );
 		checkSubExpressionSize( expr, 0 );
 		checkSubConstantsSize( expr, 0 );
 	}
-	
-	public void testNonDirectRefOnRow2() throws Exception
+	@Test
+    public void testNonDirectRefOnRow2() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "row[getColumnId()]" );
 		checkSubExpressionSize( expr, 0 );
 		checkSubConstantsSize( expr, 0 );
 	}
-	
-	public void testNonDirectRefOnRow3() throws Exception
+	@Test
+    public void testNonDirectRefOnRow3() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "row[SomeObject.getColumnId()]" );
 		checkSubExpressionSize( expr, 0 );
 		checkSubConstantsSize( expr, 1 );
 	}
-
-	public void testMisc1() throws Exception
+	@Test
+    public void testMisc1() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "obj1.prop1 + obj2.prop2 + 100" );
 		checkSubExpressionSize( expr, 0 );
 		checkSubConstantsSize( expr, 3 );
 	}
-	
-	public void testComplexExpr1() throws Exception
+	@Test
+    public void testComplexExpr1() throws Exception
 	{
 		ComplexExpression expr = isComplexExpression( "row.col1 + row[\"col2\"]" );
 		checkComplexExpr1( expr );
@@ -132,8 +137,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertTrue( o instanceof Double );
 		assertEquals( new Double( 100 ), o );
 	}
-	
-	public void testComplexExpr2() throws Exception
+	@Test
+    public void testComplexExpr2() throws Exception
 	{
 		ComplexExpression expr = isComplexExpression( "row[1] * row[\"col2\"]" );
 		checkSubConstantsSize( expr, 0 );
@@ -156,31 +161,31 @@ public class ComplexExpressionCompilerTest extends TestCase
 				assertEquals( "col2", ((ColumnReferenceExpression) ex).getColumnName() );
 		}
 	}
-
-	public void testComplexExpr3() throws Exception
+	@Test
+    public void testComplexExpr3() throws Exception
 	{
 		ComplexExpression expr = isComplexExpression( "CustomFunction( row.col1 )" );
 		checkSubConstantsSize( expr, 0 );
 		hasOneSubExprAsDirectRef1( expr );
 	}
-	
-	public void testComplexExpr4() throws Exception
+	@Test
+    public void testComplexExpr4() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "CustomObject.CustomFunction( row.col1 )" );
 		checkSubConstantsSize( expr, 1 );
 		hasOneSubExprAsDirectRef1( expr );
 	}
-	
-	public void testComplexExpr5() throws Exception
+	@Test
+    public void testComplexExpr5() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "CustomObject[1]( row.col1 )" );
 		checkSubConstantsSize( expr, 1 );
 		hasOneSubExprAsDirectRef1( expr );
 	}
-	
-	public void testComplexExpr6() throws Exception
+	@Test
+    public void testComplexExpr6() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "CustomObject[1].CustomFunction( row.col1 )" );
@@ -203,31 +208,31 @@ public class ComplexExpressionCompilerTest extends TestCase
 		CompiledExpression ex = (CompiledExpression) iter.next();
 		checkDirectRef1( ex );
 	}
-		
-	public void testAggregate1() throws Exception
+	@Test
+    public void testAggregate1() throws Exception
 	{
 		AggregateExpression expr = 
 			checkTopLevelNonNestedAggregate( "Total.sum( row.col1 )" );
 		
 		checkAggregate1( expr );
 	}
-
-	public void testAggregate2() throws Exception
+	@Test
+    public void testAggregate2() throws Exception
 	{
 		AggregateExpression expr = 
 			checkTopLevelNonNestedAggregate( "Total.sum( row[\"col1\"] )" );
 		
 		checkAggregate1( expr );
 	}
-	
-	public void testAggregate3() throws Exception
+	@Test
+    public void testAggregate3() throws Exception
 	{
 		AggregateExpression expr = checkTopLevelNonNestedAggregate( "Total.sum( row[2] )" );
 		
 		checkAggregate2( expr );
 	}
-
-	public void testAggregate4() throws Exception
+	@Test
+    public void testAggregate4() throws Exception
 	{
 		AggregateExpression expr = 
 			checkTopLevelNonNestedAggregate( "Total.sum( row.col1 + row.col2 )" );
@@ -239,8 +244,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertTrue( arg1 instanceof ComplexExpression );
 		checkComplexExpr1( (ComplexExpression) arg1 );
 	}
-	
-	public void testAggregate5() throws Exception
+	@Test
+    public void testAggregate5() throws Exception
 	{
 		AggregateExpression expr = 
 			checkTopLevelNonNestedAggregate( "Total.sum( row.col1 + row.col2, true, null )" );
@@ -260,8 +265,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertTrue( arg3 instanceof ConstantExpression );
 		assertNull( ( (ConstantExpression) arg3 ).getValue() );
 	}
-	
-	public void testAggregate6() throws Exception
+	@Test
+    public void testAggregate6() throws Exception
 	{
 		AggregateExpression expr = 
 			checkTopLevelNonNestedAggregate( "Total.sum( row.col1 + row.col2, row.col1 == 100, \"MyGroup\" )" );
@@ -283,16 +288,16 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertTrue( arg3 instanceof ConstantExpression );
 		assertEquals( "MyGroup", ( (ConstantExpression) arg3 ).getValue() );
 	}
-
-	public void testAggregate7() throws Exception
+	@Test
+    public void testAggregate7() throws Exception
 	{
 		AggregateExpression expr = 
 			checkTopLevelNonNestedAggregate( "Total.sum( row.col1 + row.col2, row.col1 == 100, 12 )" );
 		
 		checkAggregate3( expr );
 	}
-
-	public void testAggregate8() throws Exception
+	@Test
+    public void testAggregate8() throws Exception
 	{
 		AggregateExpression expr = 
 			checkTopLevelNonNestedAggregate( "Total.sum( row.col1 + row.col2, row.col1 == 100, GetGroupName() )" );
@@ -311,8 +316,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		CompiledExpression arg3 = (CompiledExpression) args.get(2);
 		assertTrue( arg3 instanceof ComplexExpression );
 	}
-	
-	public void testAggregate9() throws Exception
+	@Test
+    public void testAggregate9() throws Exception
 	{
 		AggregateExpression expr = 
 			checkTopLevelNonNestedAggregate( "Total.sum(row[\"repID\"],null,Total.OVERALL)" );
@@ -417,8 +422,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		Object o = arg2.evaluate( context, m_scope );
 		assertEquals( Boolean.TRUE, o );
 	}
-
-	public void testNestedAggregate1() throws Exception
+	@Test
+    public void testNestedAggregate1() throws Exception
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( "Total.sum( Total.sum( row.col1 ) )", 
@@ -434,8 +439,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		AggregateExpression expr1 = (AggregateExpression) args.get( 0 );
 		checkAggregate1( expr1 );
 	}
-	
-	public void testNestedAggregate2() throws Exception
+	@Test
+    public void testNestedAggregate2() throws Exception
 	{
 		CompiledExpression expr = 
 			m_compiler.compile( "Total.sum( Total.sum( row.col1 ), Total.sum( row[\"col1\"] ) )", 
@@ -457,8 +462,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		AggregateExpression arg2 = (AggregateExpression) args.get( 1 );
 		checkAggregate1( arg2 );
 	}
-	
-	public void testComplexAggregates1() throws Exception
+	@Test
+    public void testComplexAggregates1() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "Total.sum( row[\"col1\"] ) + Total.sum( row[2] )" );
@@ -477,8 +482,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertTrue( subExpr2 instanceof AggregateExpression );
 		checkAggregate2( (AggregateExpression) subExpr2 );
 	}
-	
-	public void testComplexAggregates2() throws Exception
+	@Test
+    public void testComplexAggregates2() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "CustomFunction( Total.sum( row.col1 ) )" );
@@ -488,8 +493,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		AggregateExpression aggregate = (AggregateExpression) iter.next();
 		checkAggregate1( aggregate );
 	}
-	
-	public void testComplexAggregates3() throws Exception
+	@Test
+    public void testComplexAggregates3() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "Total.sum( row.col1 + row.col2, row.col1 == 100, 12 ) + " +
@@ -508,8 +513,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		Object o = expr.evaluate( context, m_scope );
 		assertEquals( new Double( 421 ), o );
 	}
-	
-	public void testComplexAggregates4() throws Exception
+	@Test
+    public void testComplexAggregates4() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "CustomFunc1( CustomFunc2( Total.sum( row.col1 ) +" +
@@ -525,13 +530,13 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertTrue( subExpr2 instanceof ColumnReferenceExpression );
 		assertEquals( 2, ( (ColumnReferenceExpression) subExpr2).getColumnindex() );
 	}
-	
-	public void testComplexConstants1() throws Exception
+	@Test
+    public void testComplexConstants1() throws Exception
 	{
 		doTestComplexConstants( "100 + 200 + Total.sum( row.col1 )" );
 	}
-	
-	public void testComplexConstants2() throws Exception
+	@Test
+    public void testComplexConstants2() throws Exception
 	{
 		doTestComplexConstants( "100 + Total.sum( row.col1 ) + 200" );
 	}
@@ -552,8 +557,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 														  m_scope );
 		assertEquals( 321, ( (Double) o ).intValue() );
 	}
-	
-	public void testComplexConstants3() throws Exception
+	@Test
+    public void testComplexConstants3() throws Exception
 	{
 		ComplexExpression expr = 
 			isComplexExpression( "100 + Total.sum( row.col1 ) + 200 + Total.sum( row[2] )" );
@@ -572,50 +577,50 @@ public class ComplexExpressionCompilerTest extends TestCase
 		Object o = expr.evaluate( context, m_scope );
 		assertEquals( 363, ( (Double) o ).intValue() );
 	}
-
-	public void testConstants1() throws Exception
+	@Test
+    public void testConstants1() throws Exception
 	{
 		Object o = checkConstantExpression( "null" );
 		assertNull( o );
 	}
-	
-	public void testConstants2() throws Exception
+	@Test
+    public void testConstants2() throws Exception
 	{
 		Object o = checkConstantExpression( "100" );
 		assertEquals( new Double( 100 ), o );
 	}
-	
-	public void testConstants3() throws Exception
+	@Test
+    public void testConstants3() throws Exception
 	{
 		Object o = checkConstantExpression( "\"null\"" );
 		assertEquals( "null", o );
 	}
-	
-	public void testConstants4() throws Exception
+	@Test
+    public void testConstants4() throws Exception
 	{
 		Object o = checkConstantExpression( "100 + 200 + 300" );
 		assertEquals( 600, ( (Double) o ).intValue() );
 	}
-	
-	public void testConstants5() throws Exception
+	@Test
+    public void testConstants5() throws Exception
 	{
 		Object o = checkConstantExpression( "true" );
 		assertTrue( ( (Boolean) o ).booleanValue() );
 	}
-
-	public void testConstants6() throws Exception
+	@Test
+    public void testConstants6() throws Exception
 	{
 		Object o = checkConstantExpression( "false" );
 		assertFalse( ( (Boolean) o ).booleanValue() );
 	}
-	
-	public void testConstants7() throws Exception
+	@Test
+    public void testConstants7() throws Exception
 	{
 		Object o = checkConstantExpression( "\"hello\" + \" world\"" );
 		assertEquals( "hello world", o );
 	}
-	
-	public void testConstants8() throws Exception
+	@Test
+    public void testConstants8() throws Exception
 	{
 		Object o = checkConstantExpression( "\"hello \" + 21" );
 		assertEquals( "hello 21", o );
@@ -644,8 +649,8 @@ public class ComplexExpressionCompilerTest extends TestCase
 		assertEquals( expected, constantExpressions.size( ) );
 		return constantExpressions;
 	}
-	
-	public void testBlock() throws Exception
+	@Test
+    public void testBlock() throws Exception
 	{
 		ComplexExpression expr = isComplexExpression( "if( row.col1 == 100 ) row.col1 + row[\"col2\"]; else 100;" );
 		Object o = expr.evaluate( context, m_scope );

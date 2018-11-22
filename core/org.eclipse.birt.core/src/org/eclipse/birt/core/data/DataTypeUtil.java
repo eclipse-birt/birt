@@ -243,8 +243,9 @@ public final class DataTypeUtil
 			}
 			return Integer.valueOf( (int) longValue );
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
+			source = source.toString( );
 			try
 			{
 				return Integer.valueOf( (String) source );
@@ -340,17 +341,18 @@ public final class DataTypeUtil
 		else if ( source instanceof Boolean )
 		{
 			if ( true == ( (Boolean) source ).booleanValue( ) )
-				return new BigDecimal( 1d );
-			return new BigDecimal( 0d );
+				return BigDecimal.ONE;
+			return BigDecimal.ZERO;
 		}
 		else if ( source instanceof Date )
 		{
 			long longValue = ( (Date) source ).getTime( );
 			return new BigDecimal( longValue );
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
 			//if empty string, return null
+			source = source.toString( );
 			if( ( (String) source ).length( )==0 )
 			{
 				return null;
@@ -422,8 +424,9 @@ public final class DataTypeUtil
 				return Boolean.FALSE;
 			return Boolean.TRUE;
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
+			source = source.toString( );
 			if ( ( (String) source ).equalsIgnoreCase( "true" ) )
 				return Boolean.TRUE;
 			else if ( ( (String) source ).equalsIgnoreCase( "false" ) )
@@ -475,9 +478,17 @@ public final class DataTypeUtil
 		{
 			return new Date( ( (Date) source ).getTime( ) );
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
-			return toDate( (String) source );
+			return toDate( source.toString( ) );
+		}
+		else if ( source instanceof Double )
+		{
+			// Rounding Double to the nearest Long.
+			// This should be a relatively safe operation since this type
+			// of conversion is usually done for representing aggregate
+			// function results as Date.
+			return new Date( Math.round( (Double) source ) );
 		}
 		else
 		{
@@ -519,8 +530,9 @@ public final class DataTypeUtil
         {
        		return toSqlTime( (Date)source);
         }
-        else if ( source instanceof String )
-        {
+        else if ( source instanceof CharSequence )
+		{
+			source = source.toString( );
             try
             {
                 return toSqlTime( toDate((String ) source) );
@@ -537,6 +549,12 @@ public final class DataTypeUtil
                 }
             }
         }
+        else if ( source instanceof Double )
+		{
+        	// Rounding to the nearest Long is safe here since the Long value
+        	// represents milliseconds
+        	return toSqlTime( new Date( Math.round( (Double) source ) ) );
+		}
 
         throw new CoreException(
                     ResourceConstants.CONVERT_FAILS,
@@ -695,8 +713,9 @@ public final class DataTypeUtil
         {
     		return toSqlDate( (Date)source );
         }
-        else if ( source instanceof String )
-        {
+        else if ( source instanceof CharSequence )
+		{
+			source = source.toString( );
             try
             {
                 return toSqlDate( toDate((String ) source) );
@@ -713,6 +732,12 @@ public final class DataTypeUtil
                 }
             }
         }
+        else if ( source instanceof Double )
+		{
+        	// Rounding to the nearest Long is safe here since the Long value
+        	// represents milliseconds
+        	return toSqlDate( new Date( Math.round( (Double) source ) ) );
+		}
 
         throw new CoreException(
                     ResourceConstants.CONVERT_FAILS,
@@ -788,7 +813,8 @@ public final class DataTypeUtil
 	}
 	
 	/**
-	 * 
+	 * Parses a date/time string
+	 *
 	 * @param source
 	 * @param locale
 	 * @param timeZone
@@ -796,6 +822,45 @@ public final class DataTypeUtil
 	 * @throws BirtException
 	 */
 	public static Date toDate( String source, ULocale locale, TimeZone timeZone )
+			throws BirtException
+	{
+		DateFormat dateFormat = getDateFormatObject( source, locale, timeZone );
+		Date resultDate = null;
+		try
+		{
+			resultDate = dateFormat.parse( source );
+			return resultDate;
+		}
+		catch ( ParseException e )
+		{
+			throw new CoreException(
+					ResourceConstants.CONVERT_FAILS,
+					new Object[]{
+							source.toString( ), "Date"
+					} );
+		}
+	}
+
+	/**
+	 * @deprecated use getDateFormatObject instead
+	 */
+	public static DateFormat getDateFormat( String source, ULocale locale, TimeZone timeZone )
+			throws BirtException
+	{
+		return getDateFormatObject( source, locale, timeZone );
+	}
+
+	/**
+	 * Retrieve date format object that matches the given date/time string
+	 * @since 4.8
+	 *
+	 * @param source
+	 * @param locale
+	 * @param timeZone
+	 * @return
+	 * @throws BirtException
+	 */
+	public static DateFormat getDateFormatObject( String source, ULocale locale, TimeZone timeZone )
 			throws BirtException
 	{
 		if ( source == null )
@@ -821,7 +886,7 @@ public final class DataTypeUtil
 				try
 				{
 					resultDate = dateFormat.parse( source );
-					return resultDate;
+					return dateFormat;
 				}
 				catch ( ParseException e1 )
 				{
@@ -846,7 +911,7 @@ public final class DataTypeUtil
 				try
 				{
 					resultDate = dateFormat.parse( source );
-					return resultDate;
+					return dateFormat;
 				}
 				catch ( ParseException e1 )
 				{
@@ -870,7 +935,7 @@ public final class DataTypeUtil
 		}
 
 		// never access here
-		return resultDate;
+		return dateFormat;
 	}
 
 	/**
@@ -998,8 +1063,9 @@ public final class DataTypeUtil
 			double doubleValue = ( (Date) source ).getTime( );
 			return new Double( doubleValue );
 		}
-		else if ( source instanceof String )
+		else if ( source instanceof CharSequence )
 		{
+			source = source.toString( );
 			try
 			{
 				return Double.valueOf( (String) source );
@@ -1377,6 +1443,47 @@ public final class DataTypeUtil
 		// any other types are not recognized nor supported;
 		return DataType.UNKNOWN_TYPE;
 	}
+	
+	public static Class fromApiDataTypeToJavaClass( int apiDataType )
+	{
+		switch ( apiDataType )
+		{
+			case DataType.ANY_TYPE:
+				return DataType.AnyType.class;
+			case DataType.INTEGER_TYPE:
+				return Integer.class;
+			case DataType.DOUBLE_TYPE:
+				return Double.class;
+			case DataType.STRING_TYPE:
+				return String.class;
+			case DataType.DECIMAL_TYPE:
+				return BigDecimal.class;
+			case DataType.SQL_DATE_TYPE:
+				return java.sql.Date.class;
+			case DataType.SQL_TIME_TYPE:
+				return java.sql.Time.class;
+			case DataType.DATE_TYPE:
+				return java.util.Date.class;
+			case DataType.BINARY_TYPE:
+				return byte[].class;
+			case DataType.BOOLEAN_TYPE:
+				return Boolean.class;
+			case DataType.JAVA_OBJECT_TYPE:
+				return Object.class;
+			case DataType.BLOB_TYPE:
+				try
+				{
+					Class c = Class.forName("org.eclipse.datatools.connectivity.oda.IBlob");
+					return c;
+				}catch(Exception exp)
+				{
+					
+				}
+			default:
+				return DataType.AnyType.class;
+		}
+
+	}
 
 	/**
 	 * Converts an ODA data type code to its 
@@ -1402,10 +1509,10 @@ public final class DataTypeUtil
 			return null;
 
 		Object value = null;
-		if ( evaValue instanceof String )
+		if ( evaValue instanceof CharSequence )
 		{
 			// 1: to Integer
-			String stringValue = (String) evaValue;
+			String stringValue = evaValue.toString( );
 			value = toIntegerValue( evaValue );
 			if ( value == null )
 			{
@@ -1447,7 +1554,7 @@ public final class DataTypeUtil
 	{
 		// to Integer
 		Integer value = null;
-		if ( evaValue instanceof String )
+		if ( evaValue instanceof CharSequence )
 		{
 			String stringValue = evaValue.toString( );
 			try
@@ -1563,6 +1670,60 @@ public final class DataTypeUtil
 							source.toString( ), "Date"
 					} );
 		}
+	}
+
+	/**
+	 * Find the date format pattern string for a given datetime string without specified locale.
+	 * If a suitable date format cannot be found or the pattern string cannot be retrieved, returns null
+	 * @since 4.8
+	 *
+	 * @param source
+	 * @return
+	 * @throws BirtException
+	 */
+	public static String getDateFormat( String source ) throws BirtException
+	{
+		source = source.trim( );
+		SimpleDateFormat sdf = null;
+		try
+		{
+			sdf = DateFormatISO8601.getSimpleDateFormat( source, null );
+		}
+		catch ( BirtException e )
+		{
+			try
+			{
+				DateFormat dateformat = getDateFormatObject( source, JRE_DEFAULT_LOCALE, null );
+				sdf = (SimpleDateFormat) dateformat;
+			}
+			catch ( BirtException use )
+			{
+				try
+				{
+					DateFormat dateformat = getDateFormatObject( source, DEFAULT_LOCALE, null );
+					sdf = (SimpleDateFormat) dateformat;
+				}
+				catch ( BirtException de )
+				{
+					try {
+						MysqlUSDateFormatter.parse( source );
+						return "M/d/yyyy HH:mm";
+					}
+					catch ( ParseException e1 )
+					{
+					}
+				}
+			}
+			catch ( ClassCastException ce )
+			{
+				// If a DateFormat cannot be cast to SimpleDateFormat, then
+				// it will not be able to return its format pattern string
+			}
+		}
+
+		if ( sdf != null )
+			return sdf.toPattern();
+		return null;
 	}
 	
 	/**

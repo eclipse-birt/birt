@@ -15,6 +15,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.report.designer.internal.ui.data.DataService;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.Expression;
@@ -84,6 +85,15 @@ public class SelectValueFetcher
 		return DataService.getInstance( ).getSelectValueList( expression,
 				dataSetHandle,
 				useDataSetFilter );
+	}
+	
+	public static List getSelectValueList( Expression expression,
+			DataSetHandle dataSetHandle, DataEngineFlowMode flowMode )
+			throws BirtException
+	{
+		return DataService.getInstance( ).getSelectValueList( expression,
+				dataSetHandle,
+				flowMode );
 	}
 
 	public static List getSelectValueList( Expression expression,

@@ -30,7 +30,7 @@ import org.mozilla.javascript.ast.ScriptNode;
  * 
  */
 
-class OlapExpressionCompiler
+public class OlapExpressionCompiler
 {
 	/**
 	 * 

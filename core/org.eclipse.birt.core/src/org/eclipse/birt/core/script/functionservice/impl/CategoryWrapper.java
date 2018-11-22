@@ -20,6 +20,7 @@ import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
+import org.mozilla.javascript.UniqueTag;
 import org.mozilla.javascript.WrappedException;
 
 import com.ibm.icu.text.Collator;
@@ -60,7 +61,7 @@ public class CategoryWrapper extends ScriptableObject
 				 */
 				private static final long serialVersionUID = 1L;
 
-				public Object call( Context cx, Scriptable scope,
+				public Object call( Context cx, final Scriptable scope,
 						Scriptable thisObj, java.lang.Object[] args )
 				{
 					Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
@@ -70,14 +71,35 @@ public class CategoryWrapper extends ScriptableObject
 						final Collator collator = getCollator( scope );
 
 						IScriptFunctionContext wrappedScriptFunctionContext = scriptFunctionContext;
-						if ( scriptFunctionContext != null )
+						if ( wrappedScriptFunctionContext != null )
 						{
-							new IScriptFunctionContext( ) {
+							wrappedScriptFunctionContext = new IScriptFunctionContext( ) {
 								public Object findProperty( String name )
 								{
 									if ( "compare_locale".equals( name ) ) //$NON-NLS-1$
+									{
 										return collator;
-									return scriptFunctionContext.findProperty( name );
+									}
+									Object obj = scriptFunctionContext
+											.findProperty( name );
+									if ( obj == null )
+									{
+										// If not found, try to get it via
+										// javascript environment
+										Scriptable currentScope = scope;
+										while ( currentScope != null )
+										{
+											obj = currentScope.get( name,
+													scope );
+											if ( obj != UniqueTag.NOT_FOUND )
+											{
+												return obj;
+											}
+											currentScope = currentScope
+													.getParentScope( );
+										}
+									}
+									return obj;
 								}
 							};
 						}

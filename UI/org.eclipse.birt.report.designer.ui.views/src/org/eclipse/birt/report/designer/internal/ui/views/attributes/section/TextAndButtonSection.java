@@ -29,9 +29,9 @@ public class TextAndButtonSection extends Section
 		super( labelText, parent, isFormStyle );
 	}
 
-	private int width = -1;
+	protected int width = -1;
 
-	private boolean fillText = false;
+	protected boolean fillText = false;
 
 	protected TextPropertyDescriptor textField;
 
@@ -227,7 +227,7 @@ public class TextAndButtonSection extends Section
 			button.setEnabled( !isReadOnly( ) );
 	}
 
-	private int buttonWidth = 60;
+	protected int buttonWidth = 60;
 
 	public void setButtonWidth( int buttonWidth )
 	{
@@ -242,7 +242,7 @@ public class TextAndButtonSection extends Section
 		}
 	}
 
-	private boolean isComputeSize = false;
+	protected boolean isComputeSize = false;
 
 	public int getWidth( )
 	{

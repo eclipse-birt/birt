@@ -14,34 +14,36 @@ package org.eclipse.birt.report.data.oda.jdbc;
 import java.util.HashMap;
 import java.util.Properties;
 
-import junit.framework.TestCase;
 
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.OdaException;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  * The class implements the unit test for JDBCConnectionFactory
  * 
  */
-public class OdaJdbcDriverTest extends TestCase
-{
+public class OdaJdbcDriverTest {
 
 	/**
 	 * Constructor for JDBCConnectionFactoryTest.
 	 * 
 	 * @param arg0
 	 */
-	public OdaJdbcDriverTest( String arg0 )
-	{
-		super( arg0 );
-	}
+
 
 
 	/*
 	 * Class under test for Connection getConnection(String)
 	 */
-	public void testGetConnection( ) throws Exception
+	@Test
+    public void testGetConnection( ) throws Exception
 	{
 		OdaJdbcDriver connFact = new OdaJdbcDriver( );
 		Connection conn = (Connection) connFact.getConnection( "" );
@@ -54,7 +56,8 @@ public class OdaJdbcDriverTest extends TestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSetAppContext( ) throws Exception
+	@Test
+    public void testSetAppContext( ) throws Exception
 	{
 		OdaJdbcDriver connFact = new OdaJdbcDriver( );
 		IConnection odaConnection = connFact.getConnection( "" );

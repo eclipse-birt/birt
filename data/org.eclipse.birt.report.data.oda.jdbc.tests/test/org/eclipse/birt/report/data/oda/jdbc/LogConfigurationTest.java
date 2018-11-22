@@ -27,13 +27,17 @@ import java.util.logging.SimpleFormatter;
 import org.eclipse.datatools.connectivity.oda.LogConfiguration;
 import org.eclipse.datatools.connectivity.oda.util.logging.Level;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  *  Unit tests for setting the driver's trace logging configuration.
  */
-public class LogConfigurationTest extends TestCase
-{
+public class LogConfigurationTest {
 	private Logger m_pkgLogger = Logger.getLogger( LogConfigurationTest.class.getName( )
 			.substring( 0,
 					LogConfigurationTest.class.getName( ).lastIndexOf( "." ) ) );
@@ -45,10 +49,9 @@ public class LogConfigurationTest extends TestCase
     /*
      * @see TestCase#setUp()
      */
-    protected void setUp() throws Exception
+	@Before
+    public void logConfigurationSetUp() throws Exception
     {
-        super.setUp();
-        
         // create directory to store logs
 	    if ( m_dir.exists() )
 	    {
@@ -65,7 +68,8 @@ public class LogConfigurationTest extends TestCase
     /*
      * @see TestCase#tearDown()
      */
-    protected void tearDown() throws Exception
+	@After
+    public void logConfigurationTearDown() throws Exception
     {
         clearHandlers( m_pkgLogger ); 
         
@@ -74,13 +78,12 @@ public class LogConfigurationTest extends TestCase
         boolean deleted = m_dir.delete();
         if ( ! deleted )
             throw new IOException( "Cannot delete directory: " + m_dir.getName() ); 
-        
-        super.tearDown();
     }
     
     /*
      * Test that setLogConfiguration doesn't fail when passing valid parameters
      */ 
+	@Test
     public void testValidLogConfig() throws Exception
     {		
         // null strings: default handler and formatter will be created
@@ -136,7 +139,8 @@ public class LogConfigurationTest extends TestCase
     }
     
     // Test that setLogConfiguration doesn't fail when passed invalid parameters
-	public void testInvalidLogConfig() throws Exception
+	@Test
+    public void testInvalidLogConfig() throws Exception
     {
 	    // invalid logging level will be ignored, default handler and formatter will be created
         clearHandlers( m_pkgLogger ); 
@@ -200,7 +204,8 @@ public class LogConfigurationTest extends TestCase
     }
 
 	// Tests proper logging of messages into files
-	public void testFileLogging() throws Exception
+	@Test
+    public void testFileLogging() throws Exception
 	{	    
 	    if ( true )
 			return;

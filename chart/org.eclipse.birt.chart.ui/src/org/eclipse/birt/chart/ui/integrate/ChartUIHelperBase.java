@@ -15,6 +15,7 @@ import org.eclipse.birt.chart.model.Chart;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartType;
 import org.eclipse.birt.chart.ui.swt.interfaces.IChartUIHelper;
 import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
+import org.eclipse.birt.core.exception.BirtException;
 
 /**
  * Default implementation or base class of UI helper interface.
@@ -43,4 +44,10 @@ public class ChartUIHelperBase implements IChartUIHelper
 		return type.canCombine( );
 	}
 
+	@Override
+	public boolean useDataSetRow( Object reportItem, String expression ) throws BirtException
+	{
+		// Default implementation, do nothing
+		return false;
+	}
 }

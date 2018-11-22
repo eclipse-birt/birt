@@ -43,13 +43,20 @@ public class EngineConstants {
 	 */
 	public final static String PROPERTY_EXTENDED_ITEM_MAX_VARIABLE_SIZE = "EXTENDED_ITEM_MAX_VARIABLE_SIZE"; //$NON-NLS-1$
 	
+	/**
+	 * This property is a key for putting the start date of fiscal year in app
+	 * context or global variables. The date format pattern must be yyyy-MM-dd.
+	 * Default value July 1st of current year will be used if not set.
+	 */
+	public final static String PROPERTY_FISCAL_YEAR_START_DATE = "FISCAL_YEAR_START_DATE"; //$NON-NLS-1$
+	
 	//used by ScriptExecutor
 	public static final String PROPERTYSEPARATOR = File.pathSeparator;
 	public static final String WEBAPP_CLASSPATH_KEY = "webapplication.projectclasspath"; //$NON-NLS-1$
 	public static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
 	public static final String PROJECT_CLASSPATH_KEY = "user.projectclasspath"; //$NON-NLS-1$
 	
-	public static final String USER_ACL_KEY = "USER_ACL";
+	public static final String USER_ACL_KEY = "USER_ACL"; //$NON-NLS-1$
 
 	/**
 	 * The name of the key set in appContext to specify the "__format" value in
@@ -61,11 +68,16 @@ public class EngineConstants {
 	 * this option is used to control refreshing data. If this option is set to True, the original datasource should be ignore.
 	 * the default value is false;
 	 */
-	public static final String REFRESH_DATA = "REFRESH_DATA";
+	public static final String REFRESH_DATA = "REFRESH_DATA"; //$NON-NLS-1$
 
 	/**
 	 * the max page break interval limit. It limits maximum page size to avoid
 	 * OOM
 	 */
-	public final static String APPCONTEXT_MAX_PAGE_BREAK_INTERVAL = "MAX_PAGE_BREAK_INTERVAL";
+	public final static String APPCONTEXT_MAX_PAGE_BREAK_INTERVAL = "MAX_PAGE_BREAK_INTERVAL"; //$NON-NLS-1$
+	
+	/**
+	 * The Engine task owning the application context
+	 */
+	public final static String APPCONTEXT_ENGINE_TASK = "EngineTask";
 }

@@ -4,7 +4,7 @@
     <data-sources>
         <oda-data-source extensionID="org.eclipse.birt.report.data.oda.jdbc" name="dataSource"  >
         	<property name="odaUser">User</property>
-  	    	<encrypted-property name="odaPassword">RG9Ob3RLbm93</encrypted-property>
+  	    	<encrypted-property name="odaPassword" encryptionID="base64">RG9Ob3RLbm93</encrypted-property>
   	    	<property name="odaDriverClass">DriverClass</property>
   	    	<property name="odaURL">URL</property>
  		</oda-data-source >

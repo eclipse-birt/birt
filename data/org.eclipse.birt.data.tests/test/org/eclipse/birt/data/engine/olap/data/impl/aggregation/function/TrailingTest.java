@@ -11,6 +11,12 @@ import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * this class test the trailing function,you can refer to TrailingFunction for
  * details.
@@ -20,8 +26,8 @@ import testutil.BaseTestCase;
  */
 public class TrailingTest extends BaseTestCase
 {
-
-	public void testTrailing1( ) throws IOException
+	@Test
+    public void testTrailing1( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 4, 39, 5, 22, 265
@@ -46,8 +52,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing2( ) throws IOException
+	@Test
+    public void testTrailing2( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 4, 39, 5, 22, 265
@@ -72,8 +78,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing3( ) throws IOException
+	@Test
+    public void testTrailing3( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 4, 39, 5, 22, 265
@@ -100,8 +106,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing4( ) throws IOException
+	@Test
+    public void testTrailing4( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 4, 39, 5, 22, 265
@@ -127,8 +133,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing5( ) throws IOException
+	@Test
+    public void testTrailing5( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 4, 39, 5, 22, 265
@@ -155,8 +161,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing6( ) throws IOException
+	@Test
+    public void testTrailing6( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 1
@@ -173,8 +179,8 @@ public class TrailingTest extends BaseTestCase
 		checkOutputFile( );
 
 	}
-
-	public void testTrailing7( ) throws IOException
+	@Test
+    public void testTrailing7( ) throws IOException
 	{
 		int[] values = new int[]{
 				2008, 2, 29
@@ -192,8 +198,8 @@ public class TrailingTest extends BaseTestCase
 		checkOutputFile( );
 
 	}
-
-	public void testTrailing8( ) throws IOException
+	@Test
+    public void testTrailing8( ) throws IOException
 	{
 		int[] values = new int[]{
 				2008, 1
@@ -209,8 +215,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing9( ) throws IOException
+	@Test
+    public void testTrailing9( ) throws IOException
 	{
 		int[] values = new int[]{
 				2008, 1, 20
@@ -227,8 +233,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing10( ) throws IOException
+	@Test
+    public void testTrailing10( ) throws IOException
 	{
 		int[] values = new int[]{
 				2008, 1, 2
@@ -245,8 +251,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing11( ) throws IOException
+	@Test
+    public void testTrailing11( ) throws IOException
 	{
 		int[] values = new int[]{
 				2008, 2, 20
@@ -263,8 +269,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing12( ) throws IOException
+	@Test
+    public void testTrailing12( ) throws IOException
 	{
 		int[] values = new int[]{
 				2008, 1, 2, 20
@@ -282,8 +288,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing13( ) throws IOException
+	@Test
+    public void testTrailing13( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3, 9, 4, 39
@@ -306,8 +312,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing14( ) throws IOException
+	@Test
+    public void testTrailing14( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 3
@@ -323,8 +329,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing15( ) throws IOException
+	@Test
+    public void testTrailing15( ) throws IOException
 	{
 		int[] values = new int[]{
 			2011
@@ -339,8 +345,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing16( ) throws IOException
+	@Test
+    public void testTrailing16( ) throws IOException
 	{
 		int[] values = new int[]{
 			2003
@@ -355,8 +361,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-	
-	public void testTrailing17( ) throws IOException
+	@Test
+    public void testTrailing17( ) throws IOException
 	{
 		int[] values = new int[]{
 			2003
@@ -371,8 +377,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-	
-	public void testTrailing18( ) throws IOException
+	@Test
+    public void testTrailing18( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 1, 1, 1
@@ -393,8 +399,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-
-	public void testTrailing19( ) throws IOException
+	@Test
+    public void testTrailing19( ) throws IOException
 	{
 		int[] values = new int[]{
 				2011, 12, 4, 52
@@ -414,8 +420,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-	
-	public void testTrailing20( ) throws IOException
+	@Test
+    public void testTrailing20( ) throws IOException
 	{
 		int[] values = new int[]{
 				2010, 12, 5, 1
@@ -435,8 +441,8 @@ public class TrailingTest extends BaseTestCase
 		printMembers( timeMembers );
 		checkOutputFile( );
 	}
-	
-	public void testTrailing21( ) throws IOException
+	@Test
+    public void testTrailing21( ) throws IOException
 	{
 		int[] values = new int[]{
 				2004, 1, 1, 1
@@ -464,7 +470,8 @@ public class TrailingTest extends BaseTestCase
 	 * across month will not be printed out. 
 	 * @throws IOException
 	 */
-	public void testTrailing22( ) throws IOException
+	@Test
+    public void testTrailing22( ) throws IOException
 	{
 		int[] values = new int[]{
 				2004, 1

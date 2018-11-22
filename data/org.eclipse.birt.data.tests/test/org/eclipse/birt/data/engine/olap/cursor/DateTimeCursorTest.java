@@ -35,6 +35,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 public class DateTimeCursorTest extends BaseTestCase
 {
@@ -45,10 +51,9 @@ public class DateTimeCursorTest extends BaseTestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void dateTimeCursorSetUp() throws Exception
 	{
-		super.setUp( );
-
 		this.scope = new ImporterTopLevel( );
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				scope,
@@ -60,8 +65,8 @@ public class DateTimeCursorTest extends BaseTestCase
 		util.createCube( de );
 		cube = util.getCube( DateCube.cubeName, de );
 	}
-	
-	protected void tearDown( ) throws Exception
+	@After
+    public void dateTimeCursorTearDown() throws Exception
 	{
 		cube.close( );
 		if( de!= null )
@@ -70,8 +75,8 @@ public class DateTimeCursorTest extends BaseTestCase
 			de = null;
 		}
 	}
-	
-	public void testMirrorOnYearDimension( ) throws DataException
+	@Test
+    public void testMirrorOnYearDimension( ) throws DataException
 	{
 		ICubeQueryDefinition cqd = createMirroredQueryDefinition( "level12" );
 		
@@ -113,8 +118,8 @@ public class DateTimeCursorTest extends BaseTestCase
 			fail( "fail to get here!" );
 		}
 	}
-	
-	public void testMirrorOnQuarterDimension( ) throws DataException
+	@Test
+    public void testMirrorOnQuarterDimension( ) throws DataException
 	{
 		ICubeQueryDefinition cqd = createMirroredQueryDefinition( "level13");
 		
@@ -156,8 +161,8 @@ public class DateTimeCursorTest extends BaseTestCase
 			fail( "fail to get here!" );
 		}
 	}
-		
-	public void testMirrorOnMonthDimension( ) throws DataException
+	@Test
+    public void testMirrorOnMonthDimension( ) throws DataException
 	{
 		ICubeQueryDefinition cqd = createMirroredQueryDefinition( "level14" );
 		

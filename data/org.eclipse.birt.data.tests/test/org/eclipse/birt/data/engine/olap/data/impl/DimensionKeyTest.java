@@ -17,34 +17,29 @@ import java.util.Date;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.DimensionKey;
 import org.eclipse.birt.data.engine.olap.data.util.BufferedStructureArray;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class DimensionKeyTest extends TestCase
-{
+public class DimensionKeyTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testSaveAndLoad() throws IOException
+@Test
+    public void testSaveAndLoad() throws IOException
 	{
 		int keyCount = 10000;
 		BufferedStructureArray bufferedStructureArray = new BufferedStructureArray( DimensionKey.getCreator( ), 2000 );

@@ -359,6 +359,10 @@ public abstract class EngineTask implements IEngineTask
 		{
 			appContext.put( EngineConstants.USER_ACL_KEY, userAcls );
 		}
+		
+		// Allow this task to be accessed from AppContext
+		appContext.put( EngineConstants.APPCONTEXT_ENGINE_TASK, this );
+		
 		executionContext.setAppContext( appContext );
 
 		StringBuffer logStr = null;
@@ -1851,12 +1855,12 @@ public abstract class EngineTask implements IEngineTask
 						pdfBidiProcessing );
 			}
 
-			Object pdfHyphenation = renderOptions
-					.getOption( IPDFRenderOption.PDF_HYPHENATION );
-			if ( pdfHyphenation != null )
+			Object pdfWordbreak = renderOptions
+					.getOption( IPDFRenderOption.PDF_WORDBREAK );
+			if ( pdfWordbreak != null )
 			{
-				layoutEngine.setOption( IPDFRenderOption.PDF_HYPHENATION,
-						pdfHyphenation );
+				layoutEngine.setOption( IPDFRenderOption.PDF_WORDBREAK,
+						pdfWordbreak );
 			}
 			
 			Object dpi = renderOptions

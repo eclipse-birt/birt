@@ -95,6 +95,163 @@ public class DateTimeUtility
 			}
 			return new Integer( quarter );
 		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_QUARTER
+				.equals( timeType ) )
+		{
+			int[] dayCountPerQtr_NLY = {
+					90, 91, 92, 92
+			};
+			int[] dayCountPerQtr_LY = {
+					91, 91, 92, 92
+			};
+			int month = getCalendar( calendar, date ).get( Calendar.MONTH );
+			int dayOfYear = getCalendar( calendar, date )
+					.get( Calendar.DAY_OF_YEAR );
+			int year = getCalendar( calendar, date ).get( Calendar.YEAR );
+			int quarter = -1;
+			boolean isLeapYear = false;
+			int[] dayCountPerQtr = null;
+			switch ( month )
+			{
+				case Calendar.JANUARY :
+				case Calendar.FEBRUARY :
+				case Calendar.MARCH :
+					quarter = 1;
+					break;
+				case Calendar.APRIL :
+				case Calendar.MAY :
+				case Calendar.JUNE :
+					quarter = 2;
+					break;
+				case Calendar.JULY :
+				case Calendar.AUGUST :
+				case Calendar.SEPTEMBER :
+					quarter = 3;
+					break;
+				case Calendar.OCTOBER :
+				case Calendar.NOVEMBER :
+				case Calendar.DECEMBER :
+					quarter = 4;
+					break;
+				default :
+					quarter = -1;
+			}
+			if ( ( year % 4 == 0 ) && year % 100 != 0 )
+			{
+				isLeapYear = true;
+			}
+			else if ( year % 400 == 0 )
+			{
+				isLeapYear = true;
+			}
+			else
+			{
+				isLeapYear = false;
+			}
+
+			if ( isLeapYear )
+			{
+				dayCountPerQtr = dayCountPerQtr_LY;
+			}
+			else
+			{
+				dayCountPerQtr = dayCountPerQtr_NLY;
+			}
+			int totalDaysTillQtr = 0;
+			for ( int i = 0; i < quarter - 1; i++ )
+			{
+				totalDaysTillQtr += dayCountPerQtr[i];
+			}
+			int dayOfQtr = dayOfYear - totalDaysTillQtr;
+			int dayOfWeek = getCalendar( calendar, date )
+					.get( Calendar.DAY_OF_WEEK );
+			// Finding last nearest sunday
+			int dayCountTillLastSunday = dayOfQtr - dayOfWeek + 1;
+			int weekOfQuarter = 1;
+			while ( dayCountTillLastSunday > 1 )
+			{
+				dayCountTillLastSunday -= 7;
+				weekOfQuarter++;
+			}
+			//Using a formula to represent each Week of a Year uniquely.
+		    //To handle aggregations done across years which includes a Leap Year
+			weekOfQuarter = (quarter * 100) + weekOfQuarter;
+			return new Integer( weekOfQuarter );
+		}
+		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_QUARTER
+				.equals( timeType ) )
+		{
+			int[] dayCountPerQtr_NLY = {
+					90, 91, 92, 92
+			};
+			int[] dayCountPerQtr_LY = {
+					91, 91, 92, 92
+			};
+			int month = getCalendar( calendar, date ).get( Calendar.MONTH );
+			int dayOfYear = getCalendar( calendar, date )
+					.get( Calendar.DAY_OF_YEAR );
+			int year = getCalendar( calendar, date ).get( Calendar.YEAR );
+			int quarter = -1;
+			boolean isLeapYear = false;
+			int[] dayCountPerQtr = null;
+			switch ( month )
+			{
+				case Calendar.JANUARY :
+				case Calendar.FEBRUARY :
+				case Calendar.MARCH :
+					quarter = 1;
+					break;
+				case Calendar.APRIL :
+				case Calendar.MAY :
+				case Calendar.JUNE :
+					quarter = 2;
+					break;
+				case Calendar.JULY :
+				case Calendar.AUGUST :
+				case Calendar.SEPTEMBER :
+					quarter = 3;
+					break;
+				case Calendar.OCTOBER :
+				case Calendar.NOVEMBER :
+				case Calendar.DECEMBER :
+					quarter = 4;
+					break;
+				default :
+					quarter = -1;
+			}
+			if ( ( year % 4 == 0 ) && year % 100 != 0 )
+			{
+				isLeapYear = true;
+			}
+			else if ( year % 400 == 0 )
+			{
+				isLeapYear = true;
+			}
+			else
+			{
+				isLeapYear = false;
+			}
+
+			if ( isLeapYear )
+			{
+				dayCountPerQtr = dayCountPerQtr_LY;
+			}
+			else
+			{
+				dayCountPerQtr = dayCountPerQtr_NLY;
+			}
+			int dayOfQtr = 0;
+			int totalDaysTillQtr = 0;
+			for ( int i = 0; i < quarter - 1; i++ )
+			{
+				totalDaysTillQtr += dayCountPerQtr[i];
+			}
+			dayOfQtr = dayOfYear - totalDaysTillQtr;
+		    //Using a formula to represent each day of a year uniquely.
+			//To handle aggregations done across years which includes a Leap Year
+			dayOfQtr = (quarter * 100) + dayOfQtr;
+			return new Integer( dayOfQtr );
+		}
 		else if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( timeType ) )
 		{
 			return new Integer( getCalendar( calendar, date ).get( Calendar.YEAR ) );

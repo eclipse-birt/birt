@@ -71,6 +71,7 @@ public class DataColumnBindingDialog extends BaseDialog
 	private ExpressionProvider expressionProvider;
 
 	private boolean isAggregate;
+	private boolean isMeasure;
 	private boolean isTimePeriod;
 	
 	private boolean needPrompt = true;
@@ -153,7 +154,7 @@ public class DataColumnBindingDialog extends BaseDialog
 
 		dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( DEUtil.getBindingHolder( bindingObject ),
 				IBindingDialogHelper.class );
-
+		
 		isTableAddTimeDemision(bindingObject, bindingColumn);
 		if(isLinkModelTimePeriod )
 		{
@@ -166,6 +167,13 @@ public class DataColumnBindingDialog extends BaseDialog
 			dialogHelper = new BindingDialogHelper( );
 		}
 		
+		IBindingDialogHelper helperHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( dialogHelper,
+				IBindingDialogHelper.class );
+		if ( helperHelper != null )
+		{
+			dialogHelper = helperHelper;
+		}
+
 		dialogHelper.setEditModal( isEditModal( ) );
 
 		if ( !bindSelf )
@@ -179,11 +187,19 @@ public class DataColumnBindingDialog extends BaseDialog
 		{
 			dialogHelper.setAggregate( isAggregate );
 		}
+		if ( isMeasure )
+		{
+			dialogHelper.setMeasure( isMeasure );
+		}
 		
 		if ( isAggregate
 				|| ( bindingColumn != null
-						&& bindingColumn.getAggregateFunction( ) != null && !bindingColumn.getAggregateFunction( )
-						.equals( "" ) ) ) //$NON-NLS-1$
+						&& bindingColumn.getAggregateFunction( ) != null
+						&& !bindingColumn.getAggregateFunction( ).equals( "" ) ) //$NON-NLS-1$
+				|| ( bindingColumn != null
+						&& bindingColumn.getAggregateOn( ) != null
+						&& !bindingColumn.getAggregateOn( )
+								.equals( "" ) ) ) //$NON-NLS-1$
 		{
 			setTitle( AGG_BUILDER_TITLE );
 		}
@@ -234,6 +250,19 @@ public class DataColumnBindingDialog extends BaseDialog
 		if ( this.dialogHelper != null )
 		{
 			this.dialogHelper.setAggregate( isAggregate );
+		}
+	}
+	
+	public void setMeasure( boolean isMeasure )
+	{
+		this.isMeasure = isMeasure;
+		if ( isMeasure )
+		{
+			setTitle( AGG_BUILDER_TITLE );
+		}
+		if ( this.dialogHelper != null )
+		{
+			this.dialogHelper.setMeasure( isMeasure );
 		}
 	}
 	

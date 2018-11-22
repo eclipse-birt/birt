@@ -27,6 +27,7 @@ public class TableBandContent extends AbstractBandContent
 		implements
 			ITableBandContent
 {
+	
 	TableBandContent( ITableBandContent band )
 	{
 		super( band );
@@ -58,4 +59,5 @@ public class TableBandContent extends AbstractBandContent
 	{
 		return new TableBandContent(this);
 	}
+
 }

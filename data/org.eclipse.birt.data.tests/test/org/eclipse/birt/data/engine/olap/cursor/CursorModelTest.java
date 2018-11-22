@@ -47,6 +47,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class CursorModelTest extends BaseTestCase
 {
 	private Scriptable  scope;
@@ -57,10 +63,9 @@ public class CursorModelTest extends BaseTestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void cursorModelSetUp() throws Exception
 	{
-		super.setUp( );
-		
 		this.scope = new ImporterTopLevel();
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
 				scope,
@@ -73,8 +78,8 @@ public class CursorModelTest extends BaseTestCase
 		cube = creator.getCube( CubeUtility.cubeName, de );
 
 	}
-
-	protected void tearDown( ) throws Exception
+	@After
+    public void cursorModelTearDown() throws Exception
 	{
 		cube.close( );
 		if( de!= null )
@@ -89,7 +94,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws BirtException 
 	 * @throws IOException 
 	 */
-	public void testCursorModel1( ) throws OLAPException, BirtException, IOException
+	@Test
+    public void testCursorModel1( ) throws OLAPException, BirtException, IOException
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
@@ -161,7 +167,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorModel2( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModel2( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeUtility.cubeName );
 
@@ -225,7 +232,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorModel3( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModel3( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeUtility.cubeName );
 
@@ -280,7 +288,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws DataException 
 	 * @throws OLAPException 
 	 */
-	public void testCursorModel4( ) throws DataException, OLAPException
+	@Test
+    public void testCursorModel4( ) throws DataException, OLAPException
 	{
 
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
@@ -356,7 +365,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
-	public void testCursorModel5( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModel5( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = this.creator.createQueryDefinition( );
 
@@ -422,7 +432,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException
 	 */
-	public void testCursorModel7( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModel7( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = this.creator.createQueryDefinition( );
 
@@ -480,7 +491,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorOnCountry( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorOnCountry( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = this.creator.createQueryDefinition( );
 
@@ -537,7 +549,8 @@ public class CursorModelTest extends BaseTestCase
 	 * without measure
 	 * @throws Exception 
 	 */
-	public void testCursorWithoutMeasure( ) throws Exception
+	@Test
+    public void testCursorWithoutMeasure( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeUtility.cubeName );
 
@@ -607,7 +620,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorModel6( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModel6( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeUtility.cubeName );
 
@@ -687,7 +701,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorModel8( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModel8( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
@@ -761,7 +776,8 @@ public class CursorModelTest extends BaseTestCase
 	 * @throws OLAPException
 	 * @throws BirtException 
 	 */
-	public void testCursorModel9WithFetchLimit( ) throws OLAPException, BirtException
+	@Test
+    public void testCursorModel9WithFetchLimit( ) throws OLAPException, BirtException
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefinition( );
 
@@ -808,8 +824,8 @@ public class CursorModelTest extends BaseTestCase
 			assertTrue( e.getErrorCode( ).equals( ResourceConstants.RESULT_LENGTH_EXCEED_COLUMN_LIMIT ) );
 		}
 	}
-	
-	public void testCursorWithPageEdge1( ) throws Exception
+	@Test
+    public void testCursorWithPageEdge1( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefintionWithPage1( );
 		
@@ -876,8 +892,8 @@ public class CursorModelTest extends BaseTestCase
 		this.checkOutputFile( );
 		CubeUtility.close( dataCursor );
 	}
-	
-	public void testCursorWithPageEdge2( ) throws Exception
+	@Test
+    public void testCursorWithPageEdge2( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = creator.createQueryDefintionWithPage2( );
 		
@@ -951,7 +967,8 @@ public class CursorModelTest extends BaseTestCase
 	 * without one row/column edge
 	 * @throws Exception
 	 */
-	public void testCursorWithPageEdge3( ) throws Exception
+	@Test
+    public void testCursorWithPageEdge3( ) throws Exception
 	{
 		ICubeQueryDefinition cqd = new CubeQueryDefinition( CubeUtility.cubeName );
 

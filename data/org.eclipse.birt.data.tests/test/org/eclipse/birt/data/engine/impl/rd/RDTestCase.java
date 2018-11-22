@@ -28,6 +28,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.ScriptableObject;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
@@ -49,14 +55,15 @@ public abstract class RDTestCase extends APITestCase
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void rdSetUp() throws Exception
 	{
-		super.setUp( );
+
 		
 		index++;
-		fileName = getOutputPath( ) + this.getClass().getSimpleName() + File.separator + this.getName( ) + File.separator  + "RptDocumentTemp" + File.separator + "testData_" + index;
+		fileName = getOutputPath( ) + this.getClass().getSimpleName() + File.separator + this.getTestName() + File.separator  + "RptDocumentTemp" + File.separator + "testData_" + index;
 		index++;
-		fileName2 = getOutputPath( )+ this.getClass().getSimpleName() + File.separator + this.getName( ) + File.separator + "RptDocumentTemp" + File.separator + "testData_" + index;
+		fileName2 = getOutputPath( )+ this.getClass().getSimpleName() + File.separator + this.getTestName( ) + File.separator + "RptDocumentTemp" + File.separator + "testData_" + index;
 		
 		//make sure these 2 files are fresh
 		deleteFile( new File( fileName ));
@@ -79,9 +86,9 @@ public abstract class RDTestCase extends APITestCase
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#tearDown()
 	 */
-	public void tearDown( ) throws Exception
+	@After
+    public void rdTearDown() throws Exception
 	{
-		super.tearDown( );
 		if( archiveWriter != null )
 		{
 			try

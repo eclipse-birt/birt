@@ -47,6 +47,7 @@ public class TextItemDesign extends ReportItemDesign
 	protected String text;
 
 	protected boolean hasExpression;
+    private boolean jTidy = true;
 
 	protected HashMap<String, Expression> exprs = null;
 
@@ -203,4 +204,14 @@ public class TextItemDesign extends ReportItemDesign
 	{
 		this.hasExpression = hasExpression;
 	}
+
+    public boolean isJTidy( )
+    {
+        return jTidy;
+    }
+
+    public void setJTidy( boolean jTidy )
+    {
+        this.jTidy = jTidy;
+    }
 }

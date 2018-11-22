@@ -13,6 +13,7 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
+import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
@@ -22,8 +23,8 @@ import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.IScriptExpression;
 import org.eclipse.birt.data.engine.api.ISortDefinition;
+import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
-import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
@@ -45,6 +46,7 @@ import org.eclipse.birt.report.engine.api.IRunnable;
 import org.eclipse.birt.report.engine.extension.IDataExtractionExtension;
 import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
+import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.script.internal.ReportScriptExecutor;
 import org.eclipse.birt.report.model.api.AbstractScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -71,8 +73,15 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	protected IFilterDefinition[] filterExpressions = null;
 
 	protected ISortDefinition[] sortExpressions = null;
+	protected boolean overrideExistingSorts = false;
 	
 	protected String[] selectedColumns;
+	
+	/**
+	 * Filter defined on data sets shall be ignored during evaluation of candidate values for report parameter.
+	 * PARAM_EVALUATION_FLOW Data Engine flow mode shall be used in this scenario in addition to the Data Engine mode. 
+	 */
+	private   DataEngineFlowMode dataEngineFlowMode = DataEngineFlowMode.NORMAL;
 	
 	protected DatasetPreviewTask( ReportEngine engine )
 	{
@@ -256,7 +265,7 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 
 	public void setSorts( ISortDefinition[] simpleSortExpression )
 	{
-		sortExpressions = simpleSortExpression;
+		setSorts( simpleSortExpression, false );
 	}
 	
 	protected ModuleHandle getHandle( )
@@ -338,6 +347,9 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 			throws BirtException
 	{
 		DataRequestSession session = executionContext.getDataEngine( ).getDTESession( );
+		
+		session.getDataSessionContext( ).getDataEngineContext( ).setFlowMode( this.dataEngineFlowMode);
+		
 		QueryDefinition newQuery = constructQuery( dataset, session );
 		ModelDteApiAdapter apiAdapter = new ModelDteApiAdapter(
 				executionContext );
@@ -427,6 +439,10 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		// add sort
 		if ( sortExpressions != null )
 		{
+			if ( this.overrideExistingSorts )
+			{
+				query.getSorts( ).clear( );
+			}
 			for ( int i = 0; i < sortExpressions.length; i++ )
 			{
 				query.getSorts( ).add( sortExpressions[i] );
@@ -463,47 +479,51 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 		if ( expr instanceof IScriptExpression )
 		{
 			IScriptExpression script = (IScriptExpression) expr;
-			if ( script != null )
+			try
 			{
-				try
+				IScriptExpression scriptExpr = script;
+				String scriptId = script.getScriptId();
+				if ( BaseExpression.constantId.equals( scriptId ))
 				{
-					IScriptExpression scriptExpr = script;
-					// convert BRE expression into javascript expression
-					if ( "bre".equals( script.getScriptId( ) ) )
+					// Constant expression can't refer to columns
+					return;
+				}
+				// convert non-JavaScript expression into JS expression
+				if ( ! Expression.SCRIPT_JAVASCRIPT.equals( scriptId ) )
+				{
+					IModelAdapter adapter = getModelAdapter( );
+					scriptExpr = adapter.adaptJSExpression(
+							script.getText( ), script.getScriptId( ) );
+				}
+
+				// find referenced binding names
+				// the script text may be null value, for example: a value
+				// list which contains a none value.
+				if ( scriptExpr != null )
+				{
+					List<IColumnBinding> columns = ExpressionUtil
+							.extractColumnExpressions( scriptExpr.getText( ) );
+					for ( IColumnBinding col : columns )
 					{
-						IModelAdapter adapter = getModelAdapter( );
-						scriptExpr = adapter.adaptJSExpression(
-								script.getText( ), script.getScriptId( ) );
+						referencedRows.add( col.getResultSetColumnName( ) );
 					}
 
-					// find referenced binding names
-					// the script text may be null value, for example: a value
-					// list which contains a none value.
-					if ( scriptExpr != null )
+					if ( referencedDSRows != null )
 					{
-						List<IColumnBinding> columns = ExpressionUtil
-								.extractColumnExpressions( scriptExpr.getText( ) );
+						columns = ExpressionUtil.extractColumnExpressions(
+								scriptExpr.getText( ),
+								ExpressionUtil.DATASET_ROW_INDICATOR );
 						for ( IColumnBinding col : columns )
 						{
-							referencedRows.add( col.getResultSetColumnName( ) );
-						}
-
-						if ( referencedDSRows != null )
-						{
-							columns = ExpressionUtil.extractColumnExpressions(
-									scriptExpr.getText( ),
-									ExpressionUtil.DATASET_ROW_INDICATOR );
-							for ( IColumnBinding col : columns )
-							{
-								referencedDSRows.add( col
-										.getResultSetColumnName( ) );
-							}
+							referencedDSRows.add( col
+									.getResultSetColumnName( ) );
 						}
 					}
 				}
-				catch ( BirtException e )
-				{
-				}
+			}
+			catch ( BirtException e )
+			{
+				log.log(Level.WARNING, "Error processing script: " + script.getText(), e);
 			}
 		}
 		else if ( expr instanceof IConditionalExpression )
@@ -587,6 +607,19 @@ public class DatasetPreviewTask extends EngineTask implements IDatasetPreviewTas
 	public void setQuery( QueryDefinition query )
 	{
 		this.query = query;
+	}
+
+	@Override
+	public void setSorts( ISortDefinition[] simpleSortExpression,
+			boolean overrideExistingSorts )
+	{
+		this.sortExpressions = simpleSortExpression;
+		this.overrideExistingSorts = overrideExistingSorts;
+	}
+
+	public void setDataEngineFlowMode( DataEngineFlowMode dataEngineFlowMode )
+	{
+		this.dataEngineFlowMode = dataEngineFlowMode;
 	}
 
 

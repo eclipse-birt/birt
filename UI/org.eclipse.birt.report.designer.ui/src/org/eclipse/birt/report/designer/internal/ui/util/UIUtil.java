@@ -2227,7 +2227,7 @@ public class UIUtil
 	}
 
 	/**
-	 * Get the default script type set in perference.
+	 * Get the default script type set in preference.
 	 * 
 	 * @return
 	 */
@@ -2237,6 +2237,19 @@ public class UIUtil
 				.getPreferences( ReportPlugin.getDefault( ),
 						UIUtil.getCurrentProject( ) )
 				.getString( ReportPlugin.DEFAULT_SCRIPT_TYPE );
+	}
+	
+	/**
+	 * Get the default fiscal year start date set in preference.
+	 * 
+	 * @return
+	 */
+	public static String getFiscalYearStart( )
+	{
+		return PreferenceFactory.getInstance( )
+				.getPreferences( ReportPlugin.getDefault( ),
+						UIUtil.getCurrentProject( ) )
+				.getString( ReportPlugin.FISCAL_YEAR_START );
 	}
 
 	/**
@@ -3106,9 +3119,7 @@ public class UIUtil
 	{
 		String VERSION_MESSAGE = Messages.getString( "TextPropertyDescriptor.Message.Version" ); //$NON-NLS-1$
 		String designerVersion = MessageFormat.format( VERSION_MESSAGE,
-				new String[]{
-						ReportPlugin.getVersion( ), ReportPlugin.getBuildInfo( )
-				} );
+				ReportPlugin.getVersion( ) );
 		handle.setCreatedBy( designerVersion );
 	}
 

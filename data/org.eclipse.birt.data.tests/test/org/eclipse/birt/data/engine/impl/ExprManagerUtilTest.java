@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
@@ -17,18 +16,22 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.mozilla.javascript.Context;
 
-public class ExprManagerUtilTest extends TestCase
-{	
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
+public class ExprManagerUtilTest {	
 	ScriptContext cx;
-	protected void setUp( ) throws Exception
+	@Before
+    public void exprManagerUtilSetUp() throws Exception
 	{
-		super.setUp( );
 		cx = new ScriptContext();
 	}
-
-	protected void tearDown( ) throws Exception
+	@After
+    public void exprManagerUtilTearDown() throws Exception
 	{
-		super.tearDown( );
 		Context.exit( );
 	}
 
@@ -51,7 +54,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * Test method for
 	 * 'org.eclipse.birt.data.engine.impl.ExprManagerUtil.validateNodes(Node[])'
 	 */
-	public void testValidateNodes1( ) throws DataException
+	@Test
+    public void testValidateNodes1( ) throws DataException
 	{
 
 		ExprManager em = new ExprManager( null, cx );
@@ -76,7 +80,8 @@ public class ExprManagerUtilTest extends TestCase
 	}
 
 	// nested, directly
-	public void testValidateNodes2( ) throws DataException
+	@Test
+    public void testValidateNodes2( ) throws DataException
 	{
 
 		ExprManager em = new ExprManager( null , cx);
@@ -102,7 +107,8 @@ public class ExprManagerUtilTest extends TestCase
 	}
 
 	// nested, indirectly
-	public void testValidateNodes3( ) throws DataException
+	@Test
+    public void testValidateNodes3( ) throws DataException
 	{
 
 		ExprManager em = new ExprManager( null , cx);
@@ -127,7 +133,8 @@ public class ExprManagerUtilTest extends TestCase
 	}
 
 	// nested, self
-	public void testValidateNodes4( ) throws DataException
+	@Test
+    public void testValidateNodes4( ) throws DataException
 	{
 
 		ExprManager em = new ExprManager( null , cx);
@@ -155,7 +162,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * Test valid group keys
 	 * @throws DataException
 	 */
-	public void testValidateNodes5( ) throws DataException
+	@Test
+    public void testValidateNodes5( ) throws DataException
 	{
 		ExprManager em = new ExprManager( null , cx);
 		Map m = new HashMap( );
@@ -206,7 +214,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * defined in group 3.
 	 * @throws DataException
 	 */
-	public void testValidateNodes6( ) throws DataException
+	@Test
+    public void testValidateNodes6( ) throws DataException
 	{
 		ExprManager em = new ExprManager( null , cx);
 		Map m = new HashMap( );
@@ -257,7 +266,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * defined in group 3.
 	 * @throws DataException
 	 */
-	public void testValidateNodes7( ) throws DataException
+	@Test
+    public void testValidateNodes7( ) throws DataException
 	{
 		ExprManager em = new ExprManager( null , cx);
 		Map m = new HashMap( );
@@ -308,7 +318,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * defined in group 3.
 	 * @throws DataException
 	 */
-	public void testValidateNodes8( ) throws DataException
+	@Test
+    public void testValidateNodes8( ) throws DataException
 	{
 		ExprManager em = new ExprManager( null , cx);
 		Map m = new HashMap( );
@@ -359,7 +370,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * defined in group 3.
 	 * @throws DataException
 	 */
-	public void testValidateNodes9( ) throws DataException
+	@Test
+    public void testValidateNodes9( ) throws DataException
 	{
 		ExprManager em = new ExprManager( null , cx);
 		Map m = new HashMap( );
@@ -409,7 +421,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * Test method for
 	 * 'org.eclipse.birt.data.engine.impl.ExprManagerUtil.validateNodes(Node[])'
 	 */
-	public void testValidateNodes10( ) throws DataException
+	@Test
+    public void testValidateNodes10( ) throws DataException
 	{
 
 		ExprManager em = new ExprManager( null , cx);
@@ -440,7 +453,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * Test method for
 	 * 'org.eclipse.birt.data.engine.impl.ExprManagerUtil.validateNodes(Node[])'
 	 */
-	public void testValidateNodes11( ) throws DataException
+	@Test
+    public void testValidateNodes11( ) throws DataException
 	{
 
 		ExprManager em = new ExprManager( null , cx);
@@ -472,7 +486,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * Test method for
 	 * 'org.eclipse.birt.data.engine.impl.ExprManagerUtil.validateNodes(Node[])'
 	 */
-	public void testValidateNodes12( ) throws DataException
+	@Test
+    public void testValidateNodes12( ) throws DataException
 	{
 
 		ExprManager em = new ExprManager( null , cx);
@@ -501,7 +516,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * 
 	 * @throws DataException
 	 */
-	public void testValidateNodes13( ) throws DataException
+	@Test
+    public void testValidateNodes13( ) throws DataException
 	{
 
 		ExprManager em = new ExprManager( null , cx);
@@ -529,7 +545,8 @@ public class ExprManagerUtilTest extends TestCase
 	 * 
 	 * @throws DataException
 	 */
-	public void testValidateNodes0( ) throws DataException
+	@Test
+    public void testValidateNodes0( ) throws DataException
 	{
 
 		ExprManager em = new ExprManager( null, cx  );

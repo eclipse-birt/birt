@@ -41,7 +41,6 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
-import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.layout.ILayoutPageHandler;
@@ -92,7 +91,7 @@ public class LayoutEngine extends LayoutEmitterAdapter
 	 */
 	protected boolean isFirst = true;
 
-	public LayoutEngine( IReportExecutor executor, IContentEmitter emitter,
+	public LayoutEngine( IContentEmitter emitter,
 			IRenderOption renderOptions, ExecutionContext executionContext,
 			long documentTotalPage )
 	{
@@ -120,12 +119,11 @@ public class LayoutEngine extends LayoutEmitterAdapter
 		}
 	}
 	
-	public LayoutEngine( IReportExecutor executor,
-			HTMLLayoutContext htmlLayoutContext, IContentEmitter emitter,
+	public LayoutEngine( HTMLLayoutContext htmlLayoutContext, IContentEmitter emitter,
 			IRenderOption renderOptions, ExecutionContext executionContext,
 			long totalPage )
 	{
-		this( executor, emitter, renderOptions, executionContext, totalPage );
+		this( emitter, renderOptions, executionContext, totalPage );
 		context.setHtmlLayoutContext( htmlLayoutContext );
 	}
 	
@@ -266,12 +264,12 @@ public class LayoutEngine extends LayoutEmitterAdapter
 			// {
 			// context.setBidiProcessing( false );
 			// }
-			Object hyhenation = options.get( IPDFRenderOption.PDF_HYPHENATION );
-			if ( hyhenation != null && hyhenation instanceof Boolean )
+			Object wordbreak = options.get( IPDFRenderOption.PDF_WORDBREAK );
+			if ( wordbreak != null && wordbreak instanceof Boolean )
 			{
-				if ( ( (Boolean) hyhenation ).booleanValue( ) )
+				if ( ( (Boolean) wordbreak ).booleanValue( ) )
 				{
-					context.setEnableHyphenation( true );
+					context.setEnableWordbreak( true );
 				}
 			}
 

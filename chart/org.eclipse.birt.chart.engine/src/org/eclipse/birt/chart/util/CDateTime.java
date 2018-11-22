@@ -56,6 +56,8 @@ public class CDateTime extends GregorianCalendar
 	};
 
 	public static final int QUARTER = 999;
+	public static final int WEEK_OF_QUARTER = 1001;
+	public static final int DAY_OF_QUARTER = 1002;
 	
 	private static int[] iaCalendarUnits = {
 			Calendar.SECOND,
@@ -912,9 +914,18 @@ public class CDateTime extends GregorianCalendar
 			int weekDay = get( DAY_OF_WEEK );
 			add( DATE, 1 - weekDay );
 		}
+		else if ( iUnit == WEEK_OF_QUARTER )
+		{
+			set( Calendar.MILLISECOND, 0 );
+			set( Calendar.SECOND, 0 );
+			set( Calendar.MINUTE, 0 );
+			set( Calendar.HOUR, 0 );
+			set( Calendar.AM_PM, AM );
+		}
 		else if ( iUnit == DATE
 				|| iUnit == DAY_OF_MONTH
 				|| iUnit == DAY_OF_WEEK
+				|| iUnit == DAY_OF_QUARTER
 				|| iUnit == DAY_OF_YEAR )
 		{
 			set( Calendar.MILLISECOND, 0 );
@@ -942,7 +953,7 @@ public class CDateTime extends GregorianCalendar
 	}
 	
 	/**
-	 * Reset year units for this datetime instance above a specified unit.
+	 * Reset all units for this datetime instance above a specified unit.
 	 * 
 	 * @param iUnit
 	 *            The unit above which year values are to be reset
@@ -953,7 +964,7 @@ public class CDateTime extends GregorianCalendar
 	}
 	
 	/**
-	 * Reset year units for this datetime instance above a specified unit.
+	 * Reset all units for this datetime instance above a specified unit.
 	 * 
 	 * @param iUnit
 	 *            The unit above which year values are to be reset
@@ -979,14 +990,39 @@ public class CDateTime extends GregorianCalendar
 		else if ( iUnit == DATE
 				|| iUnit == DAY_OF_MONTH
 				|| iUnit == DAY_OF_WEEK
+			    || iUnit == DAY_OF_QUARTER
 				|| iUnit == DAY_OF_YEAR )
 		{
 			set( Calendar.YEAR, 2000 );
 		}
-		else if ( iUnit == WEEK_OF_YEAR || iUnit == WEEK_OF_MONTH )
+		else if ( iUnit == WEEK_OF_YEAR || iUnit == WEEK_OF_MONTH || iUnit == WEEK_OF_QUARTER )
 		{
 			set( Calendar.YEAR, 2000 );
 		}
+		else if ( iUnit == HOUR_OF_DAY ||  iUnit == HOUR)
+		{
+			set( Calendar.YEAR, 2000 );
+			set( Calendar.MONTH, 0 );
+			set( Calendar.DATE, 1 );
+		}
+		else if ( iUnit == MINUTE )
+		{
+			set( Calendar.YEAR, 2000 );
+			set( Calendar.MONTH, 0 );
+			set( Calendar.DATE, 1 );
+			set( Calendar.AM_PM, AM );
+			set( Calendar.HOUR, 0 );
+		}
+		else if ( iUnit == SECOND )
+		{
+			set( Calendar.YEAR, 2000 );
+			set( Calendar.MONTH, 0 );
+			set( Calendar.DATE, 1 );
+			set( Calendar.AM_PM, AM );
+			set( Calendar.HOUR, 0 );
+			set( Calendar.MINUTE, 0 );
+		}
+		
 		return;
 	}
 	

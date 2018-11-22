@@ -30,11 +30,14 @@ public abstract class AbstractBindingDialogHelper implements
 	protected ComputedColumnHandle binding;
 	protected DataColumnBindingDialog dialog;
 	private boolean isAggregate = false;
+	private boolean isMeasure = false;
 	private boolean isTimePeriod = false;
 
 	protected ExpressionProvider expressionProvider;
 	private Object itemContainer;
 
+	private String[] groups = new String[0];
+	
 	public boolean isAggregate( )
 	{
 		return isAggregate;
@@ -43,6 +46,16 @@ public abstract class AbstractBindingDialogHelper implements
 	public void setAggregate( boolean isAggregate )
 	{
 		this.isAggregate = isAggregate;
+	}
+	
+	public boolean isMeasure( )
+	{
+		return isMeasure;
+	}
+
+	public void setMeasure( boolean isMeasure )
+	{
+		this.isMeasure = isMeasure;
 	}
 	
 	public boolean isTimePeriod()
@@ -74,8 +87,19 @@ public abstract class AbstractBindingDialogHelper implements
 	{
 		this.binding = binding;
 		if ( this.binding != null )
-			setAggregate( this.binding.getAggregateFunction( ) != null
+		{
+			setAggregate ( this.binding.getAggregateFunction( ) != null
 					&& !this.binding.getAggregateFunction( ).equals( "" ) ); //$NON-NLS-1$
+			if ( !isAggregate( ) )
+			{
+				setMeasure( this.binding.getAggregateOn( ) != null
+						&& !this.binding.getAggregateOn( ).equals( "" ) ); //$NON-NLS-1$
+			}
+			if ( isMeasure( ) && !isAggregate( ) )
+			{
+				setAggregate( true );
+			}
+		}
 		if (this.binding != null)
 		{
 			setTimePeriod(this.binding.getTimeDimension() != null
@@ -140,5 +164,23 @@ public abstract class AbstractBindingDialogHelper implements
 	public void setEditModal( boolean isEditModal )
 	{
 
+	}
+
+	@Override
+	public boolean canProcessMeasure( )
+	{
+		return false;
+	}
+
+	@Override
+	public void setGroups( String[] groups )
+	{
+		this.groups = groups;
+	}
+
+	@Override
+	public String[] getGroups( )
+	{
+		return this.groups;
 	}
 }

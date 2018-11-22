@@ -34,7 +34,7 @@ public class CSVUtilTest extends TestCase
 			"abc"
 			}; 
 	private static final String[] GENERAL_VALUES_OUTPUT = {
-			"", "", // empty values 
+			null, "\"\"", // empty values 
 			"abc", "123",// regular strings
 			"\"\"\"abcd\"\"\"", "\"a\"\"bc\"\"d\"", "\"ab\"\"cd\"", // quotes
 			"\"ab\ncd\"", "\"ab\r\ncd\"", "\"\na\n\nb\r\nc\n\"",// newlines
@@ -42,6 +42,15 @@ public class CSVUtilTest extends TestCase
 			"\"\tabcd\"", "\"abcd\t\"", // tabs
 			"abc"
 			}; 
+	private static final String[] GENERAL_ROW_VALUES_OUTPUT = {
+			"", "\"\"", // empty values 
+			"abc", "123",// regular strings
+			"\"\"\"abcd\"\"\"", "\"a\"\"bc\"\"d\"", "\"ab\"\"cd\"", // quotes
+			"\"ab\ncd\"", "\"ab\r\ncd\"", "\"\na\n\nb\r\nc\n\"",// newlines
+			"ab cd", "\" abcd\"", "\"abcd \"", // spaces
+			"\"\tabcd\"", "\"abcd\t\"", // tabs
+			"abc"
+			};
 
 	
 	public void testRowSplitWithComma()
@@ -113,7 +122,7 @@ public class CSVUtilTest extends TestCase
 		String[] outputs = new String[]{"\"ab,cd\"", "\"1,5\"", "ab|cd", "ab;cd", "ab\tcd"};
 		subtestQuoteCSVValue( inputs, outputs, sep );
 		
-		subtestMakeCSVRow( GENERAL_VALUES_INPUT, GENERAL_VALUES_OUTPUT, sep );
+		subtestMakeCSVRow( GENERAL_VALUES_INPUT, GENERAL_ROW_VALUES_OUTPUT, sep );
 		subtestMakeCSVRow( inputs, outputs, sep );
 	}
 
@@ -127,7 +136,7 @@ public class CSVUtilTest extends TestCase
 		String[] outputs = new String[]{"ab,cd", "\"ab|cd\"", "ab;cd", "ab\tcd"};
 		subtestQuoteCSVValue( inputs, outputs, sep );
 
-		subtestMakeCSVRow( GENERAL_VALUES_INPUT, GENERAL_VALUES_OUTPUT, sep );
+		subtestMakeCSVRow( GENERAL_VALUES_INPUT, GENERAL_ROW_VALUES_OUTPUT, sep );
 		subtestMakeCSVRow( inputs, outputs, sep );		
 	}
 
@@ -141,7 +150,7 @@ public class CSVUtilTest extends TestCase
 		String[] outputs = new String[]{"ab,cd", "ab|cd", "\"ab;cd\"", "ab\tcd"};
 		subtestQuoteCSVValue( inputs, outputs, sep );
 		
-		subtestMakeCSVRow( GENERAL_VALUES_INPUT, GENERAL_VALUES_OUTPUT, sep );
+		subtestMakeCSVRow( GENERAL_VALUES_INPUT, GENERAL_ROW_VALUES_OUTPUT, sep );
 		subtestMakeCSVRow( inputs, outputs, sep );		
 	}
 
@@ -155,7 +164,7 @@ public class CSVUtilTest extends TestCase
 		String[] outputs = new String[]{"ab,cd", "ab|cd", "ab;cd", "\"ab\tcd\""};
 		subtestQuoteCSVValue( inputs, outputs, sep );
 		
-		subtestMakeCSVRow( GENERAL_VALUES_INPUT, GENERAL_VALUES_OUTPUT, sep );
+		subtestMakeCSVRow( GENERAL_VALUES_INPUT, GENERAL_ROW_VALUES_OUTPUT, sep );
 		subtestMakeCSVRow( inputs, outputs, sep );		
 	}
 	
@@ -176,8 +185,8 @@ public class CSVUtilTest extends TestCase
 	
 	private void subtestMakeCSVRow( String[] input, String[] output, String sep )
 	{
-		String row = CSVUtil.makeCSVRow( GENERAL_VALUES_INPUT, sep, false );
-		assertRowValues(row, GENERAL_VALUES_OUTPUT, sep);
+		String row = CSVUtil.makeCSVRow( input, sep, false );
+		assertRowValues(row, output, sep);
 	}
 	
 	private void subtestQuoteCSVValue( String[] inputs, String[] outputs,

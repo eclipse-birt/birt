@@ -30,6 +30,12 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Input parameter binding test. There are two sources of parameter binding.
  * 		parameter binding added on data set
@@ -63,7 +69,8 @@ public class InputParameterTest extends APITestCase
 	 * Test one parameter, larger than in sql statement
 	 * @throws Exception
 	 */
-	public void test1( ) throws Exception
+	@Test
+    public void test1( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME + " where AMOUNT > ?" );
@@ -87,7 +94,8 @@ public class InputParameterTest extends APITestCase
 	 * Test two parameter
 	 * @throws Exception
 	 */
-	public void test2( ) throws Exception
+	@Test
+    public void test2( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME
@@ -117,7 +125,8 @@ public class InputParameterTest extends APITestCase
 	 * Test one parameter, not equal in sql statement
 	 * @throws Exception
 	 */
-	public void test3( ) throws Exception
+	@Test
+    public void test3( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME + " where CITY<>? " );
@@ -143,7 +152,8 @@ public class InputParameterTest extends APITestCase
 	 * @throws Exception
 	 * 
 	 *//*
-	public void test4( ) throws Exception
+	@Test
+    public void test4( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME + " where AMOUNT > ? " );
@@ -168,7 +178,8 @@ public class InputParameterTest extends APITestCase
 	 * Test one parameter, there is no default value defined in parameter
 	 * @throws Exception
 	 */
-	public void test5( ) throws Exception
+	@Test
+    public void test5( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME + " where AMOUNT > ?" );
@@ -191,7 +202,8 @@ public class InputParameterTest extends APITestCase
 	 * Test one parameter, there are one parameter bindings, which is from data set,
 	 * @throws Exception
 	 */
-	public void test6( ) throws Exception
+	@Test
+    public void test6( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME + " where AMOUNT > ?" );
@@ -215,7 +227,8 @@ public class InputParameterTest extends APITestCase
 	 * the other is from query defintion. It is the latter which has real effect.
 	 * @throws Exception
 	 */
-	public void test7( ) throws Exception
+	@Test
+    public void test7( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME + " where AMOUNT > ?" );
@@ -242,7 +255,8 @@ public class InputParameterTest extends APITestCase
 	 * Test one parameter, there are one parameter bindings, which is from data set,
 	 * @throws Exception
 	 *//*
-	public void test8( ) throws Exception
+	@Test
+    public void test8( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME + " where AMOUNT > ?" );
@@ -273,7 +287,8 @@ public class InputParameterTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 *//*
-	public void test9( ) throws Exception 
+	@Test
+    public void test9( ) throws Exception 
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet",
 				"select * from "
@@ -313,7 +328,8 @@ public class InputParameterTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void test10( ) throws Exception
+	@Test
+    public void test10( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME + " where AMOUNT > ?" );
@@ -334,7 +350,8 @@ public class InputParameterTest extends APITestCase
 	 * It is a regression test of 103982
 	 * @throws Exception
 	 */
-	public void testRegression103982( ) throws Exception
+	@Test
+    public void testRegression103982( ) throws Exception
 	{
 		IBaseDataSetDesign baseDataset = newDataSet( "newDataSet", "select * from "
 				+ InputParameterTest.TEST_TABLE_NAME + " where SALE_DATE > ?" );

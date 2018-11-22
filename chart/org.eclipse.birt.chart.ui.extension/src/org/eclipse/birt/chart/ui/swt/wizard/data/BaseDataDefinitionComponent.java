@@ -54,6 +54,7 @@ import org.eclipse.birt.chart.ui.util.UIHelper;
 import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 import org.eclipse.birt.chart.util.ChartUtil;
 import org.eclipse.birt.chart.util.PluginSettings;
+import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.WizardBase;
 import org.eclipse.jface.window.Window;
 import org.eclipse.swt.SWT;
@@ -334,7 +335,9 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 								{
 									onModifyExpression( );
 								}
-							} );
+							},
+							null,
+							queryType );
 		}
 		catch ( ChartException e )
 		{
@@ -803,6 +806,8 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			setQueryExpression( expression );
 		}
+
+		enableAggEditor(expression);
 	}
 
 	/**
@@ -1009,20 +1014,22 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 
 	public boolean isValidExpression( String expression )
 	{
+		if ( cmbDefinition != null && cmbDefinition.getItems( ).length > 0 )
+		{
+			return cmbDefinition.indexOf( expression ) >= 0;
+		}
 		if ( context.getDataServiceProvider( )
-				.checkState( IDataServiceProvider.SHARE_QUERY ) || context.getDataServiceProvider( )
-						.checkState( IDataServiceProvider.INHERIT_COLUMNS_GROUPS )
+				.checkState( IDataServiceProvider.SHARE_QUERY )
+				|| context.getDataServiceProvider( ).checkState(
+						IDataServiceProvider.INHERIT_COLUMNS_GROUPS )
 				|| context.getDataServiceProvider( )
 						.checkState( IDataServiceProvider.HAS_CUBE ) )
 		{
 			if ( cmbDefinition == null )
-				return false;
-			int index = cmbDefinition.indexOf( expression );
-			if ( index < 0 )
 			{
 				return false;
 			}
-			return true;
+			return cmbDefinition.indexOf( expression ) >= 0;
 		}
 		return true;
 	}
@@ -1060,8 +1067,33 @@ public class BaseDataDefinitionComponent extends DefaultSelectDataComponent impl
 		{
 			btnBuilder.setExpression( expression );
 		}
+		
+		enableAggEditor(expression);
 	}
-	
+
+	private void enableAggEditor( String expression )
+	{
+		if ( expression != null && fAggEditorComposite != null )
+		{
+			try
+			{
+				ExpressionCodec ec = ChartModelHelper.instance( ).createExpressionCodec( );
+				ec.decode( expression );
+				expression = ec.convertJSExpression( false );
+
+				boolean enabled = this.context.getUIFactory( )
+						.createUIHelper( )
+						.useDataSetRow( context.getExtendedItem( ), expression );
+				fAggEditorComposite.setEnabled( enabled );
+			}
+			catch ( BirtException e )
+			{
+				WizardBase.displayException( e );
+			}
+
+		}
+	}
+
 	public void updateLabel( )
 	{
 		lblDesc.setText( description );

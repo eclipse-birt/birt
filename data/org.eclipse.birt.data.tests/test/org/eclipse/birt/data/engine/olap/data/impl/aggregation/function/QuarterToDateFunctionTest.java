@@ -10,22 +10,18 @@ import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 public class QuarterToDateFunctionTest extends BaseTestCase
 {
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	private void printResult( List<TimeMember> resultMember )
+private void printResult( List<TimeMember> resultMember )
 			throws IOException
 	{
 		for ( int i = 0; i < resultMember.size( ); i++ )
@@ -39,8 +35,8 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 			testPrint( "\n" );
 		}
 	}
-	
-	public void testFunctions( ) throws IOException
+	@Test
+    public void testFunctions( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 2
@@ -55,8 +51,8 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
-	
-	public void testFunctions1( ) throws IOException
+	@Test
+    public void testFunctions1( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 8
@@ -71,8 +67,8 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
-	
-	public void testFunctions2( ) throws IOException
+	@Test
+    public void testFunctions2( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 9
@@ -88,8 +84,8 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
-	
-	public void testFunctions3( ) throws IOException
+	@Test
+    public void testFunctions3( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 8, 18
@@ -106,8 +102,8 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
-	
-	public void testFunctions4( ) throws IOException
+	@Test
+    public void testFunctions4( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 8, 3
@@ -129,8 +125,8 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
-	
-	public void testFunctions5( ) throws IOException
+	@Test
+    public void testFunctions5( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 8, 3
@@ -152,8 +148,8 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
-	
-	public void testFunctions6( ) throws IOException
+	@Test
+    public void testFunctions6( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 3, 8, 18
@@ -170,8 +166,8 @@ public class QuarterToDateFunctionTest extends BaseTestCase
 		printResult( resultMember );
 		this.checkOutputFile( );
 	}
-	
-	public void testFunctions7( ) throws IOException
+	@Test
+    public void testFunctions7( ) throws IOException
 	{
 		int[] values = new int[]{
 				2002, 8

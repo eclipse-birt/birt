@@ -125,6 +125,7 @@ public class TextItemExecutor extends QueryItemExecutor
 			textContent.setRawValue( new Object[]{null, null} );
 		}
 		textContent.setRawType( IForeignContent.TEMPLATE_TYPE );
+        textContent.setJTidy( textDesign.isJTidy( ) );
 
 		if ( context.isInFactory( ) )
 		{

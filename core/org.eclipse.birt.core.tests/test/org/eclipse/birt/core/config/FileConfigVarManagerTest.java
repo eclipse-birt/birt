@@ -14,11 +14,15 @@ package org.eclipse.birt.core.config;
 import java.io.File;
 import java.io.FileOutputStream;
 
+import org.junit.After;
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
-public class FileConfigVarManagerTest extends TestCase {
-
-	public void tearDown( )
+public class FileConfigVarManagerTest extends TestCase
+{
+	@After
+    public void tearDown()
 	{
 		File file = new File("configvartest");
 		if( file.exists( ) )
@@ -29,7 +33,8 @@ public class FileConfigVarManagerTest extends TestCase {
 	/*
 	 * Class under test for void FileConfigVarManager()
 	 */
-	public void testFileConfigVarManager() {
+	@Test
+    public void testFileConfigVarManager() {
 		FileConfigVarManager manager = new FileConfigVarManager();
 		assertNotNull(manager.getConfigVar("os.version")); // get from system
 		assertNull(manager.getConfigVar("BooleanValue"));		
@@ -38,7 +43,8 @@ public class FileConfigVarManagerTest extends TestCase {
 	/*
 	 * Class under test for void FileConfigVarManager(String)
 	 */
-	public void testFileConfigVarManagerString() {
+	@Test
+    public void testFileConfigVarManagerString() {
 		File f = new File("configvartest");
 		try {
 			if (f.exists())

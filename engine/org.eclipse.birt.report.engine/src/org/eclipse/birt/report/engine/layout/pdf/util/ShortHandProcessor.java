@@ -138,6 +138,33 @@ public abstract class ShortHandProcessor
 										vs, engine ) );
 					}
 				} );
+		processorMap.put( "border-style", //$NON-NLS-1$
+				new ShortHandProcessor( ) {
+
+					public void process( StringBuffer buffer, String value,
+							CSSEngine engine )
+					{
+						buildBorder( buffer, null, null, value );
+					}
+				} );
+		processorMap.put( "border-width", //$NON-NLS-1$
+				new ShortHandProcessor( ) {
+
+					public void process( StringBuffer buffer, String value,
+							CSSEngine engine )
+					{
+						buildBorder( buffer, value, null, null );
+					}
+				} );
+		processorMap.put( "border-color", //$NON-NLS-1$
+				new ShortHandProcessor( ) {
+
+					public void process( StringBuffer buffer, String value,
+							CSSEngine engine )
+					{
+						buildBorder( buffer, null, value, null );
+					}
+				} );
 		processorMap.put( "border-left", //$NON-NLS-1$
 				new ShortHandProcessor( ) {
 
@@ -266,6 +293,10 @@ public abstract class ShortHandProcessor
 	protected static void appendStyle( StringBuffer buffer, String name,
 			String value )
 	{
+		if ( value == null )
+		{
+			return;
+		}
 		buffer.append( name );
 		buffer.append( COLON );
 		buffer.append( value );

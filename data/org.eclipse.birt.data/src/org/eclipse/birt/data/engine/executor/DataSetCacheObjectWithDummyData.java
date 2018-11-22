@@ -65,8 +65,10 @@ public class DataSetCacheObjectWithDummyData implements IDataSetCacheObject
 		for ( int j = 0; it.hasNext( ); j++ )
 		{
 			IColumnDefinition columnDefn = (IColumnDefinition) it.next( );
-		
-			if( baseResultClass.getFieldIndex( columnDefn.getColumnName( ) ) != -1 )
+			// data object with alias is retrieve as metadata on base
+			// add check on columnDefn alias name
+			if( baseResultClass.getFieldIndex( columnDefn.getColumnName( ) ) != -1 || 
+					baseResultClass.getFieldIndex( columnDefn.getAlias( ) ) != -1  )
 				continue;
 				
 			ResultFieldMetadata columnMetaData = new ResultFieldMetadata( j + 1,

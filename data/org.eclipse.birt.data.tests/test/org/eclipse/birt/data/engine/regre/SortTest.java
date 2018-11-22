@@ -18,6 +18,12 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * SCR#78081: Sorting on Date time column doesn't take effect
  */
@@ -37,7 +43,8 @@ public class SortTest extends APITestCase
 	/**
 	 * Test to check whether null value can be column data
 	 */
-	public void testDateTime( )
+	@Test
+    public void testDateTime( )
 	{
 		/** sort definition */
 		SortDefinition st = new SortDefinition();

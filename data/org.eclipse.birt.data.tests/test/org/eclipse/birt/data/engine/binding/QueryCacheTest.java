@@ -26,6 +26,12 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SubqueryDefinition;
 
 import testutil.ConfigText;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 /**
  * 
  */
@@ -43,7 +49,8 @@ public class QueryCacheTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testBasicCache( ) throws Exception
+	@Test
+    public void testBasicCache( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
@@ -61,8 +68,8 @@ public class QueryCacheTest extends APITestCase
 		this.checkOutputFile( );
 		
 	}
-	
-	public void testBasicCache1( ) throws Exception
+	@Test
+    public void testBasicCache1( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
@@ -88,8 +95,8 @@ public class QueryCacheTest extends APITestCase
 		assertEquals( it.getValue( "CITY" ), "New York" );
 		assertEquals( it.getValue( "AMOUNT" ), 100 );	
 	}
-	
-	public void testCacheEmptyResultSet( ) throws Exception
+	@Test
+    public void testCacheEmptyResultSet( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
@@ -98,8 +105,8 @@ public class QueryCacheTest extends APITestCase
 		IQueryResults queryResults = this.dataEngine.prepare( query ).execute( null );
 		queryResults.getResultIterator( ).close( );
 	}
-	
-	public void testCacheEmptyResultSet1( ) throws Exception
+	@Test
+    public void testCacheEmptyResultSet1( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
@@ -119,8 +126,8 @@ public class QueryCacheTest extends APITestCase
 		assertEquals( it.getValue( "AMOUNT" ), null );
 		assertEquals( it.next( ), false );
 	}
-	
-	public void testSubqueryCache( ) throws Exception
+	@Test
+    public void testSubqueryCache( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
@@ -154,8 +161,8 @@ public class QueryCacheTest extends APITestCase
 		}
 		it.close( );
 	}
-	
-	public void testUseDetailsCache( ) throws Exception
+	@Test
+    public void testUseDetailsCache( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition( true );
 		query.setDataSetName( this.dataSet.getName( ) );
@@ -177,7 +184,8 @@ public class QueryCacheTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSerializableJavaObjectCache( ) throws Exception
+	@Test
+    public void testSerializableJavaObjectCache( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition();
 		query.setDataSetName( this.dataSet.getName( ) );
@@ -217,7 +225,8 @@ public class QueryCacheTest extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testUnserializableJavaObjectCache( ) throws Exception
+	@Test
+    public void testUnserializableJavaObjectCache( ) throws Exception
 	{
 		QueryDefinition query = new QueryDefinition();
 		query.setDataSetName( this.dataSet.getName( ) );

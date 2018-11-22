@@ -13,7 +13,6 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.dialogs;
 
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -68,6 +67,8 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
+import org.eclipse.birt.report.item.crosstab.core.de.internal.CrosstabModelUtil;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.CrosstabAdaptUtil;
 import org.eclipse.birt.report.model.api.AggregationArgumentHandle;
@@ -179,6 +180,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	private Map<String, String> calculationParamsValueMap = new HashMap<String, String>( );
 	private boolean isStatic = true;
 	private ExpressionButton button;
+	private boolean commonBinding = false;
 	
 	public void createContent( Composite parent )
 	{
@@ -308,13 +310,17 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		// WidgetUtil.createGridPlaceholder( composite, 1, false );
 
-		if ( isAggregate( ) )
+		if ( isAggregateWithFunction( ) )
 		{
 			createAggregateSection( composite );
 		}
-		else
+		else if ( isCommonBinding( ) )
 		{
 			createCommonSection( composite );
+		}
+		else
+		{
+			createHybridSection( composite );
 		}
 		
 		Label lowerBreak = new Label(composite, SWT.SEPARATOR | SWT.HORIZONTAL);
@@ -444,7 +450,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 		if ( expressionProvider == null )
 		{
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
 						this.binding );
 			else
@@ -1129,10 +1135,24 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		cmbType.setItems( dataTypes );
 		txtDisplayName.setFocus( );
 
-		if ( isAggregate( ) )
+		if ( isAggregateWithFunction( ) )
 		{
 			initFunction( );
 			initFilter( );
+			// if (!isTimePeriod( ))
+			{
+				initAggOn( );
+			}
+		}
+		else if ( isCommonBinding( ) )
+		{
+		}
+		else
+		{
+			// We need an expression field that behaves like an aggregate
+			// In that case, we find the expression logic is heavily
+			// tied to the function logic
+			initFunction( );
 			// if (!isTimePeriod( ))
 			{
 				initAggOn( );
@@ -1601,6 +1621,13 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	private void initFunction( )
 	{
+		if ( !isAggregateWithFunction( ) )
+		{
+			// In this case there is no function field
+			// And the binding has no arguments
+			handleFunctionSelectEvent( );
+			return;
+		}
 		cmbFunction.setItems( getFunctionDisplayNames( ) );
 		// cmbFunction.add( NULL, 0 );
 		if ( binding == null )
@@ -1809,7 +1836,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			// }
 
 			CubeHandle cubeHandle = xtabHandle.getCube( );
-			
+
 			if(CrosstabUtil.isBoundToLinkedDataSet( xtabHandle ))
 			{
 				for (int i = 0; i < xtabHandle.getMeasureCount( ); i++)
@@ -1818,10 +1845,32 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 					{
 						continue;
 					}
-					String str = ExpressionUtil.createDataSetRowExpression( xtabHandle.getMeasure( i ).getCubeMeasureName( ) );
-					if ( !measures.contains( str ) )
+					MeasureViewHandle measureViewHandle = xtabHandle
+							.getMeasure( i );
+					String measureName = measureViewHandle
+							.getCubeMeasureName( );
+					MeasureHandle measureHandle = cubeHandle.getMeasure( measureName );
+					if ( CrosstabUtil.measureHasItsOwnAggregation( xtabHandle,
+							measureHandle ) )
 					{
-						measures.add( str );
+						continue;
+					}
+					
+					if ( isCommonBinding( ) )
+					{
+						String str = ExpressionUtil.createDataSetRowExpression( xtabHandle.getMeasure( i ).getCubeMeasureName( ) );
+						if ( !measures.contains( str ) )
+						{
+							measures.add( str );
+						}
+					}
+					else
+					{
+						String str = ExpressionUtil.createJSMeasureExpression( xtabHandle.getMeasure( i ).getCubeMeasureName( ) );
+						if ( !measures.contains( str ) )
+						{
+							measures.add( str );
+						}
 					}
 				}
 			}
@@ -1959,7 +2008,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( binding.getExpression( ) != null )
 		{
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 			{
 				IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
 				if ( function != null )
@@ -2084,7 +2133,50 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		createFilterCondition(composite, gridData);
 
 		// if (!isTimePeriod( ))
-		{
+	    {
+			Label lblAggOn = new Label( composite, SWT.NONE );
+			lblAggOn.setText( AGGREGATE_ON );
+			gridData = new GridData( );
+			gridData.verticalAlignment = GridData.BEGINNING;
+			lblAggOn.setLayoutData( gridData );
+
+			cmbAggOn = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
+			gridData = new GridData( GridData.FILL_HORIZONTAL );
+			gridData.horizontalSpan = 3;
+			cmbAggOn.setLayoutData( gridData );
+			cmbAggOn.setVisibleItemCount( 30 );
+			cmbAggOn.addSelectionListener( new SelectionAdapter( ) {
+
+				public void widgetSelected( SelectionEvent e )
+				{
+					modifyDialogContent( );
+				}
+			} );
+		}
+	}
+	
+	private void createHybridSection( Composite composite )
+	{
+
+		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		gd.horizontalSpan = 3;
+
+		paramsComposite = new Composite( composite, SWT.NONE );
+		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+		gridData.horizontalSpan = 4;
+		gridData.exclude = true;
+		paramsComposite.setLayoutData( gridData );
+		GridLayout layout = new GridLayout( );
+		// layout.horizontalSpacing = layout.verticalSpacing = 0;
+		layout.marginWidth = layout.marginHeight = 0;
+		layout.numColumns = 4;
+		Layout parentLayout = paramsComposite.getParent( ).getLayout( );
+		if ( parentLayout instanceof GridLayout )
+			layout.horizontalSpacing = ( (GridLayout) parentLayout ).horizontalSpacing;
+		paramsComposite.setLayout( layout );
+		
+		// if (!isTimePeriod( ))
+	    {
 			Label lblAggOn = new Label( composite, SWT.NONE );
 			lblAggOn.setText( AGGREGATE_ON );
 			gridData = new GridData( );
@@ -2224,7 +2316,17 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			children[i].dispose( );
 		}
 
-		IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
+		String displayName;
+		if ( isAggregateWithFunction( ) )
+		{
+			displayName = cmbFunction.getText( );
+		}
+		else
+		{
+			displayName = "SUM"; //$NON-NLS-1$
+		}
+
+		IAggrFunction function = getFunctionByDisplayName( displayName );
 		if ( function != null )
 		{
 			paramsMap.clear( );
@@ -2352,7 +2454,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	{
 		if ( expressionProvider == null )
 		{
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 				expressionProvider = new CrosstabAggregationExpressionProvider( this.bindingHolder,
 						this.binding );
 			else if(ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( ) != null
@@ -2413,7 +2515,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 			// bugzilla 273368
 			// if expression is "measure['...']", aggregation do not support
 			// IAggrFunction.RUNNING_AGGR function
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 			{
 				IAggrFunction function = getFunctionByDisplayName( cmbFunction.getText( ) );
 				IParameterDefn[] params = function.getParameterDefn( );
@@ -2475,7 +2577,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				dialog.setCanFinish( false );
 				return;
 			}
-			if ( isAggregate( ) )
+			if ( isAggregateWithFunction( ) )
 			{
 				try
 				{
@@ -2568,7 +2670,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 
 	public boolean differs( ComputedColumnHandle binding )
 	{
-		if ( isAggregate( ) )
+		if ( isAggregateWithFunction( ) )
 		{
 			if ( !strEquals( binding.getName( ), txtName.getText( ) ) )
 				return true;
@@ -2629,7 +2731,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 		}
-		else
+		else if ( isCommonBinding( ) )
 		{
 			if ( !strEquals( txtName.getText( ), binding.getName( ) ) )
 				return true;
@@ -2646,9 +2748,56 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 							.getValue( ) ) )
 				return true;
 		}
+		else
+		{
+			if ( !strEquals( txtName.getText( ), binding.getName( ) ) )
+				return true;
+			if ( !strEquals( txtDisplayName.getText( ),
+					binding.getDisplayName( ) ) )
+				return true;
+			if ( !strEquals( txtDisplayNameID.getText( ),
+					binding.getDisplayNameID( ) ) )
+				return true;
+			if ( !strEquals( getDataType( ), binding.getDataType( ) ) )
+				return true;
+			if ( /* !isTimePeriod( ) && */!strEquals( cmbAggOn.getText( ),
+					DEUtil.getAggregateOn( binding ) ) )
+				return true;
+			IAggrFunction function = getFunctionByDisplayName( "SUM" ); //$NON-NLS-1$
+			if ( function != null )
+			{
+				IParameterDefn[] params = function.getParameterDefn( );
+				for ( final IParameterDefn param : params )
+				{
+					if ( paramsMap.containsKey( param.getName( ) ) )
+					{
+						Expression paramValue = ExpressionButtonUtil.getExpression( paramsMap.get( param.getName( ) ) );
+						for ( Iterator iterator = binding.argumentsIterator( ); iterator.hasNext( ); )
+						{
+							AggregationArgumentHandle handle = (AggregationArgumentHandle) iterator.next( );
+							if ( param.getName( ).equals( handle.getName( ) )
+									&& !exprEquals( (Expression) handle.getExpressionProperty( AggregationArgument.VALUE_MEMBER )
+											.getValue( ),
+											paramValue ) )
+							{
+								return true;
+							}
+						}
+						if ( param.isDataField( )
+								&& binding.getExpression( ) != null
+								&& !exprEquals( (Expression) binding.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER )
+										.getValue( ),
+										paramValue ) )
+						{
+							return true;
+						}
+					}
+				}
+			}
+		}
 		return false;
 	}
-
+	
 	private boolean exprEquals( Expression left, Expression right )
 	{
 		if ( left == null && right == null )
@@ -2713,7 +2862,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 	public ComputedColumnHandle editBinding( ComputedColumnHandle binding )
 			throws SemanticException
 	{
-		if ( isAggregate( ) )
+		if ( isAggregateWithFunction( ) )
 		{
 			binding.setDisplayName( txtDisplayName.getText( ) );
 			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
@@ -2775,7 +2924,7 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 				}
 			}
 		}
-		else
+		else if ( isCommonBinding( ) )
 		{
 			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
 			{
@@ -2802,6 +2951,52 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 						expression );
 			}
 		}
+		else
+		{
+			binding.setDisplayName( txtDisplayName.getText( ) );
+			binding.setDisplayNameID( txtDisplayNameID.getText( ) );
+			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
+			{
+				if ( DATA_TYPE_CHOICES[i].getDisplayName( )
+						.equals( cmbType.getText( ) ) )
+				{
+					binding.setDataType( DATA_TYPE_CHOICES[i].getName( ) );
+					break;
+				}
+			}
+
+			binding.clearAggregateOnList( );
+			// if (!isTimePeriod( ))
+			{
+				String aggStr = cmbAggOn.getText( );
+				StringTokenizer token = new StringTokenizer( aggStr, "," ); //$NON-NLS-1$
+
+				while ( token.hasMoreTokens( ) )
+				{
+					String agg = token.nextToken( );
+					if ( !agg.equals( ALL ) )
+						binding.addAggregateOn( agg );
+				}
+			}
+
+			// remove expression created in old version.
+			binding.setExpression( null );
+			binding.clearArgumentList( );
+
+			for ( Iterator iterator = paramsMap.keySet( ).iterator( ); iterator.hasNext( ); )
+			{
+				String arg = (String) iterator.next( );
+				String value = getControlValue( paramsMap.get( arg ) );
+				if ( value != null )
+				{
+					Expression expression = new Expression( value,
+							ExpressionType.JAVASCRIPT );
+					binding.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
+							expression );
+				}
+			}
+		}
+
 		if ( isTimePeriod( ) )
 		{
 			ITimeFunction timeFunction = getTimeFunctionByIndex( calculationType.getSelectionIndex( ) );
@@ -2980,5 +3175,76 @@ public class CrosstabBindingDialogHelper extends AbstractBindingDialogHelper
 		}
 	}
 
+	public boolean isFullAggregate( )
+	{
+		return super.isAggregate( );
+	}
+
+	public void setFullAggregate( boolean isAggregate )
+	{
+		super.setAggregate( isAggregate );
+	}
+
+	public boolean isCommonBinding( )
+	{
+		return commonBinding;
+	}
+
+	public void setCommonBinding( boolean common )
+	{
+		this.commonBinding = common;
+	}
+
 	private boolean hasModified = false;
+
+	@Override
+	public void setBinding(ComputedColumnHandle binding)
+	{
+		super.setBinding(binding);
+		if ( this.binding == null )
+		{
+			this.setCommonBinding( !this.isFullAggregate() );
+		}
+		else if ( this.binding.getAggregateOn( ) != null
+				&& !this.binding.getAggregateOn( ).trim( ).equals( "" ) ) //$NON-NLS-1$	}
+		{
+			this.setCommonBinding( false );
+		}
+		else
+		{
+			this.setCommonBinding( !this.isFullAggregate() );
+		}
+	}
+
+	private boolean isAggregateWithFunction( )
+	{
+		return isAggregate( ) && !isMeasure( );
+	}
+
+	@Override
+	public String[] getGroups( )
+	{
+		CrosstabReportItemHandle xtabHandle;
+		try
+		{
+			xtabHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) getBindingHolder( ) ).getReportItem( );
+			String[] groups = getAggOns( xtabHandle );
+			List<String> list = new ArrayList<String>( );
+			for ( String group : groups )
+			{
+				if ( !group.equals( "All" ) ) //$NON-NLS-1$
+				{
+					list.add( group );
+				}
+			}
+			groups = new String[list.size( )];
+			groups = list.toArray( groups );
+			return groups;
+		}
+		catch ( ExtendedElementException e )
+		{
+			ExceptionUtil.handle( e );
+		}
+		return new String[0];
+	}
 }

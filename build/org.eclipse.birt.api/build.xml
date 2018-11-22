@@ -111,7 +111,7 @@
     <jar destfile="${LIB_DIR}/odaconnectivity.jar">
         <fileset dir="./target/unpack/classes/oda">
           <include name="org/eclipse/datatools/connectivity/oda/util/ResourceIdentifiers*.class"/>
-          <include name="org/eclipse/datatools/connectivity/oda/OdaException.class"/>
+          <!--<include name="org/eclipse/datatools/connectivity/oda/OdaException.class"/>-->
       </fileset>
     </jar>
   </target>
@@ -131,7 +131,9 @@
                 //java.lang.System.out.println(fileName);
                 var last = fileName.lastIndexOf('/');
                 if ( last != -1) {
-                    return fileName.substring(0, last).replace('/', '.');
+                    var pkg = fileName.substring(0, last).replaceAll('/', '.');
+        			//java.lang.System.out.println(pkg);
+        			return pkg;
                 }
             }
             return null;
@@ -249,6 +251,6 @@
         createManifest(template, manifest, packages);
         ]]></script>
     <!-- update manifest version -->
-    <replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.5.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}"/>
+    <replaceregexp file="${MANIFEST_MF}" match="Bundle-Version: 4.8.0.qualifier" replace="Bundle-Version: ${BIRT_VERSION}"/>
   </target>
 </project>

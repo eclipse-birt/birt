@@ -17,12 +17,14 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 public class NodeOutputStreamTest extends TestCase
 {
-
-	public void testEmptyOutputStream( ) throws IOException
+	@Test
+    public void testEmptyOutputStream( ) throws IOException
 	{
 		RAMBTreeFile file = new RAMBTreeFile( );
 		testOutputStream( file, new NodeOutputStream( file ) );
@@ -66,8 +68,8 @@ public class NodeOutputStreamTest extends TestCase
 			assertEquals( String.valueOf( i ), in.readUTF( ) );
 		}
 	}
-
-	public void testIncreaseOutputStream( ) throws IOException
+	@Test
+    public void testIncreaseOutputStream( ) throws IOException
 	{
 		RAMBTreeFile file = new RAMBTreeFile( );
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream( 4096 );
@@ -77,8 +79,8 @@ public class NodeOutputStreamTest extends TestCase
 
 		testOutputStream( file, new NodeOutputStream( file, new int[]{0} ) );
 	}
-
-	public void testDecreaseOutputStream( ) throws IOException
+	@Test
+    public void testDecreaseOutputStream( ) throws IOException
 	{
 		RAMBTreeFile file = new RAMBTreeFile( );
 		ByteArrayOutputStream buffer = new ByteArrayOutputStream( 4096 );

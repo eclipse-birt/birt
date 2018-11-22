@@ -14,6 +14,7 @@ package org.eclipse.birt.report.designer.internal.ui.script;
 import org.eclipse.birt.report.designer.internal.ui.editors.ReportColorConstants;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
+import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.jface.text.IDocument;
 import org.eclipse.jface.text.contentassist.ContentAssistant;
 import org.eclipse.jface.text.contentassist.IContentAssistant;
@@ -23,6 +24,7 @@ import org.eclipse.jface.text.rules.DefaultDamagerRepairer;
 import org.eclipse.jface.text.rules.RuleBasedScanner;
 import org.eclipse.jface.text.rules.Token;
 import org.eclipse.jface.text.source.ISourceViewer;
+import org.eclipse.jface.text.source.SourceViewer;
 import org.eclipse.jface.text.source.SourceViewerConfiguration;
 import org.eclipse.swt.graphics.Color;
 
@@ -154,5 +156,11 @@ public class JSSourceViewerConfiguration extends SourceViewerConfiguration
 		{
 			scanner.setDefaultReturnToken( new Token( UIUtil.getAttributeFor( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE ) ) );
 		}
+	}
+	
+	public static void updateSourceFont( SourceViewer sourceViewer )
+	{
+		// Always set default text font to source viewer
+		sourceViewer.getTextWidget( ).setFont( JFaceResources.getTextFont( ) );
 	}
 }

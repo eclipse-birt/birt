@@ -13,15 +13,19 @@ package org.eclipse.birt.report.data.oda.jdbc;
 
 import java.sql.DatabaseMetaData;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  * The class implements the unit test for DataSourceMetaData
  * 
  */
-public class DataSourceMetaDataTest extends TestCase
-{
+public class DataSourceMetaDataTest {
 
 	/** ConnectionFactory used to create Connection */
 	OdaJdbcDriver connFact;
@@ -41,9 +45,10 @@ public class DataSourceMetaDataTest extends TestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void dataSourceMetaDataSetUp() throws Exception
 	{
-		super.setUp( );
+
 		/* Get one opened Connection. */
 		conn1 = TestUtil.openConnection( );
 
@@ -64,53 +69,41 @@ public class DataSourceMetaDataTest extends TestCase
 	/*
 	 * @see TestCase#tearDown()
 	 */
-
-	protected void tearDown( ) throws Exception
+	@After
+    public void dataSourceMetaDataTearDown() throws Exception
 	{
 		conn1.close( );
-		super.tearDown( );
-
-	}
-
-	/**
-	 * Constructor for DataSourceMetaDataTest.
-	 * 
-	 * @param arg0
-	 */
-	public DataSourceMetaDataTest( String arg0 ) throws Exception
-	{
-		super( arg0 );
-
 	}
 
 	/*
 	 * Class under test for constructor DataSourceMetaData(IConnection,
 	 * java.sql.DatabaseMetaData)
 	 */
-	public void testDataSourceMetaData( ) throws Exception
+	@Test
+    public void testDataSourceMetaData( ) throws Exception
 	{
 		DataSourceMetaData tempMeta = new DataSourceMetaData(
 				new Connection( ), TestUtil.openJDBCConnection( ).getMetaData( ) );
 		assertNotNull( tempMeta );
 
 	}
-
-	public void testGetConnection( ) throws Exception
+	@Test
+    public void testGetConnection( ) throws Exception
 	{
 
 		assertEquals( dbMeta1.getConnection( ), conn1 );
 		assertEquals( dbMeta2.getConnection( ), conn2 );
 
 	}
-
-	public void testGetDataSourceObjects( ) throws Exception
+	@Test
+    public void testGetDataSourceObjects( ) throws Exception
 	{
 		assertNull( dbMeta1.getDataSourceObjects( "", "", "", "" ) );
 		assertNull( dbMeta2.getDataSourceObjects( "", "", "", "" ) );
 
 	}
-
-	public void testGetDataSourceMajorVersion( ) throws Exception
+	@Test
+    public void testGetDataSourceMajorVersion( ) throws Exception
 	{
 	    /*
 		assertEquals( dbMeta1.getDataSourceMajorVersion( ),
@@ -119,8 +112,8 @@ public class DataSourceMetaDataTest extends TestCase
 				ConnectionMetaData.DRIVER_MAJOR_VERSION );
         */
 	}
-
-	public void testGetDataSourceMinorVersion( ) throws Exception
+	@Test
+    public void testGetDataSourceMinorVersion( ) throws Exception
 	{
 	    /*
 		assertEquals( dbMeta1.getDataSourceMinorVersion( ),
@@ -129,8 +122,8 @@ public class DataSourceMetaDataTest extends TestCase
 				ConnectionMetaData.DRIVER_MINOR_VERSION );
         */
 	}
-
-	public void testGetDataSourceProductName( ) throws Exception
+	@Test
+    public void testGetDataSourceProductName( ) throws Exception
 	{
 	    /*
 		assertEquals( dbMeta1.getDataSourceProductName( ),
@@ -139,8 +132,8 @@ public class DataSourceMetaDataTest extends TestCase
 				ConnectionMetaData.DRIVER_NAME );
         */
 	}
-
-	public void testGetDataSourceProductVersion( ) throws Exception
+	@Test
+    public void testGetDataSourceProductVersion( ) throws Exception
 	{
 	    /*
 		assertEquals( dbMeta1.getDataSourceProductVersion( ),
@@ -149,8 +142,8 @@ public class DataSourceMetaDataTest extends TestCase
 				ConnectionMetaData.DRIVER_VERSION );
         */
 	}
-
-	public void testGetSQLStateType( ) throws Exception
+	@Test
+    public void testGetSQLStateType( ) throws Exception
 	{
 		/*
 		 * when the Connection is not open, the dbMeta is null and should throw
@@ -184,46 +177,46 @@ public class DataSourceMetaDataTest extends TestCase
 		}
 
 	}
-
-	public void testSupportsMultipleOpenResults( ) throws Exception
+	@Test
+    public void testSupportsMultipleOpenResults( ) throws Exception
 	{
 		assertFalse( dbMeta1.supportsMultipleOpenResults( ) );
 		assertFalse( dbMeta2.supportsMultipleOpenResults( ) );
 
 	}
-
-	public void testSupportsMultipleResultSets( ) throws Exception
+	@Test
+    public void testSupportsMultipleResultSets( ) throws Exception
 	{
 	    assertTrue( dbMeta1.supportsMultipleResultSets( ) );
 	    assertTrue( dbMeta2.supportsMultipleResultSets( ) );
 	}
-
-	public void testSupportsNamedResultSets( ) throws Exception
+	@Test
+    public void testSupportsNamedResultSets( ) throws Exception
 	{
 		assertTrue( dbMeta1.supportsNamedResultSets( ) );
 		assertTrue( dbMeta2.supportsNamedResultSets( ) );
 
 	}
-
-	public void testSupportsNamedParameters( ) throws Exception
+	@Test
+    public void testSupportsNamedParameters( ) throws Exception
 	{
 		assertFalse( dbMeta1.supportsNamedParameters( ) );
 		assertFalse( dbMeta2.supportsNamedParameters( ) );
 	}
-
-	public void testSupportsInParameters( ) throws Exception
+	@Test
+    public void testSupportsInParameters( ) throws Exception
 	{
 		assertTrue( dbMeta1.supportsInParameters( ) );
 		assertTrue( dbMeta2.supportsInParameters( ) );
 	}
-
-	public void testSupportsOutParameters( ) throws Exception
+	@Test
+    public void testSupportsOutParameters( ) throws Exception
 	{
 		assertTrue( dbMeta1.supportsOutParameters( ) );
 		assertTrue( dbMeta2.supportsOutParameters( ) );
 	}
-
-	public void testGetSortMode( ) throws Exception
+	@Test
+    public void testGetSortMode( ) throws Exception
 	{
 		assertEquals( dbMeta1.getSortMode( ), DataSourceMetaData.sortModeNone );
 		assertEquals( dbMeta2.getSortMode( ), DataSourceMetaData.sortModeNone );

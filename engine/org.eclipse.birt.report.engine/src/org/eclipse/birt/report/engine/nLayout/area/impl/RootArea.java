@@ -64,8 +64,15 @@ public class RootArea extends BlockContainerArea
 		}
 		if ( result.getResult( )!= null )
 		{
+			// If size overflow, one row may move to next page. Set a flag to
+			// handle it properly later
+			context.setSizeOverflowPageBreak( true );
+
 			page.setBody( result.getResult( ) );
 			page.close( );
+
+			// Reset overflow page break state
+			context.setSizeOverflowPageBreak( false );
 		}
 		updateChildrenPosition( );
 		initialize( );

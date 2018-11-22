@@ -3,19 +3,20 @@ package org.eclipse.birt.core.archive.compound;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.ArchiveUtil;
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class ArchiveEntryInputStreamTest extends TestCase
 {
 
 	long STREAM_SIZE = 40960;
 	int TEST_COUNT = 1000;
-
-	public void testInputStream( ) throws IOException
+	@Test
+    public void testInputStream( ) throws IOException
 	{
 		ArchiveFile af = new ArchiveFile( "temp", "rwt" );
 		ArchiveWriter writer = new ArchiveWriter( af );

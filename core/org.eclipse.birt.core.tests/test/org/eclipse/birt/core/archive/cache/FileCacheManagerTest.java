@@ -1,12 +1,13 @@
-
 package org.eclipse.birt.core.archive.cache;
+
+import org.junit.Test;
 
 import junit.framework.TestCase;
 
 public class FileCacheManagerTest extends TestCase
 {
-
-	public void testFileCacheManager( )
+	@Test
+    public void testFileCacheManager( )
 	{
 		FileCacheManager cacheManager = new FileCacheManager( 5 );
 		CachedObject o1 = new CachedObject( cacheManager, 1 );

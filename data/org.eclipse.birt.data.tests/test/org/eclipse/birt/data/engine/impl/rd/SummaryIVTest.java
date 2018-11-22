@@ -32,6 +32,12 @@ import org.eclipse.birt.data.engine.core.DataException;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 public class SummaryIVTest extends RDTestCase
 {
@@ -53,26 +59,16 @@ public class SummaryIVTest extends RDTestCase
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-	
-	
-	/*
+/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.impl.rd.RDTestCase#tearDown()
 	 */
-	public void tearDown() throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	/**
+/**
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testBasicFilter( ) throws Exception
+	@Test
+    public void testBasicFilter( ) throws Exception
 	{
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
@@ -99,7 +95,8 @@ public class SummaryIVTest extends RDTestCase
 	 * With filter test case for 63315
 	 * @throws BirtException
 	 */
-	public void testBasicFilter1( ) throws Exception
+	@Test
+    public void testBasicFilter1( ) throws Exception
 	{
 		useDateGroup = true;
 		this.genBasicIV( );
@@ -127,7 +124,8 @@ public class SummaryIVTest extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testBasicSort( ) throws Exception
+	@Test
+    public void testBasicSort( ) throws Exception
 	{
 		this.genBasicIV( );
 		this.closeArchiveWriter( );
@@ -154,7 +152,8 @@ public class SummaryIVTest extends RDTestCase
 	 * With filter
 	 * @throws BirtException
 	 */
-	public void testBasicAggregation( ) throws Exception
+	@Test
+    public void testBasicAggregation( ) throws Exception
 	{
 		this.genBasicIV( );
 		this.closeArchiveWriter( );

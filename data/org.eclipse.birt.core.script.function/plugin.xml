@@ -374,8 +374,43 @@
 		<Argument name="date">
 			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
 	<Function
+          desc="%FunctionDesc.hour"
+          name="hour">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
+          desc="%FunctionDesc.minute"
+          name="minute">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
+          desc="%FunctionDesc.second"
+          name="second">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument></Function>
+	<Function
           desc="%FunctionDesc.weekOfMonth"
           name="weekOfMonth">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+	</Function>
+	<Function
+          desc="%FunctionDesc.weekOfQuarter"
+          name="weekOfQuarter"
+          isVisible="false">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType>
+		</Argument>
+	</Function>
+	<Function
+          desc="%FunctionDesc.weekOfYear"
+          name="weekOfYear">
 		<DataType value="%dataType.Integer"></DataType>
 		<Argument name="date">
 			<DataType value="%dataType.DateTime"></DataType>
@@ -410,6 +445,21 @@
 	<Function
           desc="%FunctionDesc.dayOfYear"
           name="dayOfYear">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+    </Function>
+    <Function
+          desc="%FunctionDesc.dayOfQuarter"
+          name="dayOfQuarter"
+          isVisible="false">
+		<DataType value="%dataType.Integer"></DataType>
+		<Argument name="date">
+			<DataType value="%dataType.DateTime"></DataType></Argument>
+    </Function>
+    <Function
+          desc="%FunctionDesc.dayOfMonth"
+          name="dayOfMonth">
 		<DataType value="%dataType.Integer"></DataType>
 		<Argument name="date">
 			<DataType value="%dataType.DateTime"></DataType></Argument>
@@ -640,7 +690,34 @@
 				<DataType value="%dataType.DateTime"></DataType>
 			</Argument>
 		</Function>
+		<Function desc="%FunctionDesc.firstDayOfFiscalYear" name="firstDayOfFiscalYear">
+			<DataType value="%dataType.DateTime"></DataType>
+			<Argument name="year">
+				<DataType value="%dataType.Integer"></DataType>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="%dataType.DateTime"></DataType>
+			</Argument>
+		</Function>		
 		<Function desc="%FunctionDesc.firstDayOfFiscalQuarter" name="firstDayOfFiscalQuarter">
+			<DataType value="%dataType.DateTime"></DataType>
+			<Argument name="date">
+				<DataType value="%dataType.DateTime"></DataType>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="%dataType.DateTime"></DataType>
+			</Argument>
+		</Function>
+		<Function desc="%FunctionDesc.firstDayOfFiscalQuarter" name="firstDayOfFiscalQuarter">
+			<DataType value="%dataType.DateTime"></DataType>
+			<Argument name="quarter">
+				<DataType value="%dataType.Integer"></DataType>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="%dataType.DateTime"></DataType>
+			</Argument>
+		</Function>		
+		<Function desc="%FunctionDesc.firstDayOfFiscalMonth" name="firstDayOfFiscalMonth">
 			<DataType value="%dataType.DateTime"></DataType>
 			<Argument name="date">
 				<DataType value="%dataType.DateTime"></DataType>
@@ -651,13 +728,13 @@
 		</Function>
 		<Function desc="%FunctionDesc.firstDayOfFiscalMonth" name="firstDayOfFiscalMonth">
 			<DataType value="%dataType.DateTime"></DataType>
-			<Argument name="date">
-				<DataType value="%dataType.DateTime"></DataType>
+			<Argument name="month">
+				<DataType value="%dataType.Integer"></DataType>
 			</Argument>
 			<Argument isOptional="true" name="fiscalYearStart">
 				<DataType value="%dataType.DateTime"></DataType>
 			</Argument>
-		</Function>
+		</Function>		
 		<Function desc="%FunctionDesc.firstDayOfFiscalWeek" name="firstDayOfFiscalWeek">
 			<DataType value="%dataType.DateTime"></DataType>
 			<Argument name="date">
@@ -667,6 +744,15 @@
 				<DataType value="%dataType.DateTime"></DataType>
 			</Argument>
 		</Function>
+		<Function desc="%FunctionDesc.firstDayOfFiscalWeek" name="firstDayOfFiscalWeek">
+			<DataType value="%dataType.DateTime"></DataType>
+			<Argument name="weekOfYear">
+				<DataType value="%dataType.Integer"></DataType>
+			</Argument>
+			<Argument isOptional="true" name="fiscalYearStart">
+				<DataType value="%dataType.DateTime"></DataType>
+			</Argument>
+		</Function>		
    </Category>
    <Category
 	factoryclass="org.eclipse.birt.core.script.function.general.BirtFinanceFunctionFactory"

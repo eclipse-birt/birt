@@ -7,24 +7,27 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.ArchiveUtil;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class UpgradeArchiveTest extends TestCase
 {
-
-	public void setUp( )
+	@Before
+    public void setUp()
 	{
 		new File( "./utest/" ).mkdir( );
 	}
-
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		new File( "./utest/" ).delete( );
 	}
-
-	public void testUpgrade( ) throws IOException
+	@Test
+    public void testUpgrade( ) throws IOException
 	{
 		saveResource( "V2_1_1.rptarchive", "./utest/test.rptarchive" );
 		ArchiveFile af = new ArchiveFile( "./utest/test.rptarchive", "rw+" );
@@ -50,8 +53,8 @@ public class UpgradeArchiveTest extends TestCase
 		}
 		new File( "./utest/test.rptarchive" ).delete( );
 	}
-
-	public void testArchiveV1( ) throws IOException
+	@Test
+    public void testArchiveV1( ) throws IOException
 	{
 		saveResource( "V2_1_1.rptarchive", "./utest/test.rptarchive" );
 		ArchiveFile af = new ArchiveFile( "./utest/test.rptarchive", "r" );

@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
+import org.eclipse.birt.data.aggregation.calculator.ICalculator;
 import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
 import org.eclipse.birt.data.aggregation.impl.AggrException;
 import org.eclipse.birt.data.aggregation.impl.SummaryAccumulator;
@@ -38,9 +39,13 @@ abstract class PercentileAccumulator extends SummaryAccumulator
 {
 
 	//
-	private double pct;
+	private Double pct;
 	private List cachedValues;
 
+	public PercentileAccumulator( ICalculator calc )
+	{
+		super( calc );
+	}
 	/*
 	 * (non-Javadoc)
 	 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#start()
@@ -49,7 +54,7 @@ abstract class PercentileAccumulator extends SummaryAccumulator
 	{
 		super.start( );
 
-		pct = -1;
+		pct = -1D;
 		cachedValues = new ArrayList( );
 	}
 
@@ -63,11 +68,7 @@ abstract class PercentileAccumulator extends SummaryAccumulator
 		assert ( args.length == 2 );
 		if ( args[0] != null )
 		{
-			if ( calculator == null )
-			{
-				calculator = CalculatorFactory.getCalculator( args[0].getClass( ) );
-			}
-			Number d = calculator.add( 0, args[0] );
+			Number d = calculator.add( calculator.getTypedObject( 0 ), calculator.getTypedObject( args[0] ) );
 			if ( d != null )
 				cachedValues.add( d );
 		}
@@ -100,11 +101,11 @@ abstract class PercentileAccumulator extends SummaryAccumulator
 		Number adjustment = 0;
 		if ( fraction != 0 )
 		{
-			adjustment = calculator.multiply( fraction,
-					calculator.subtract( sortedObjs[k], sortedObjs[k - 1] ) );
+			adjustment = calculator.multiply( calculator.getTypedObject( fraction ),
+					calculator.subtract( calculator.getTypedObject( sortedObjs[k] ), calculator.getTypedObject( sortedObjs[k - 1] ) ) );
 		}
 
-		return calculator.add( sortedObjs[k - 1], adjustment );
+		return calculator.add( calculator.getTypedObject( sortedObjs[k - 1] ), calculator.getTypedObject( adjustment ) );
 	}
 
 }

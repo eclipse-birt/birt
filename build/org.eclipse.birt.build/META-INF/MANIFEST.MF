@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Build Internal Tools
 Bundle-SymbolicName: org.eclipse.birt.build
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Bundle-ClassPath: lib/dom4j-1.6.1.jar,.

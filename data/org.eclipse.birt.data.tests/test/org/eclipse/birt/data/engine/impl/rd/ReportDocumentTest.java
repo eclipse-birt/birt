@@ -49,6 +49,12 @@ import org.mozilla.javascript.ScriptableObject;
 import testutil.ConfigText;
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Test the feature of report document. A life cycle of report document can be
  * divided into two parts, one is generation and the other is presentation. Once
@@ -92,9 +98,10 @@ public class ReportDocumentTest extends RDTestCase
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void reportDocumentSetUp() throws Exception
 	{
-		super.setUp( );
+
 		
 		expectedValue = new ArrayList( );
 		expectedStartingGroupLevelValueList = new ArrayList( );
@@ -116,7 +123,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testBasic( ) throws BirtException, IOException
+	@Test
+    public void testBasic( ) throws BirtException, IOException
 	{
 		this.genBasic( );
 		this.closeArchiveWriter( );
@@ -134,7 +142,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * Basic report document test without sub query, but it has aggregation.
 	 * @throws Exception 
 	 */
-	public void testJointDataSet( ) throws Exception
+	@Test
+    public void testJointDataSet( ) throws Exception
 	{
 		
 		OdaDataSetDesign dset1 = new OdaDataSetDesign( "dset1" );
@@ -299,7 +308,8 @@ public class ReportDocumentTest extends RDTestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testBasicSkip( ) throws Exception
+	@Test
+    public void testBasicSkip( ) throws Exception
 	{
 		this.genBasicSkip( );
 		this.closeArchiveWriter( );
@@ -343,7 +353,8 @@ public class ReportDocumentTest extends RDTestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testBasicMove( ) throws Exception
+	@Test
+    public void testBasicMove( ) throws Exception
 	{
 		this.genBasicMove( );
 		this.closeArchiveWriter( );
@@ -390,7 +401,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testBasicMove2( ) throws Exception
+	@Test
+    public void testBasicMove2( ) throws Exception
 	{
 		this.genBasicMove2( );
 		this.closeArchiveWriter( );
@@ -436,7 +448,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * @throws BirtException
 	 * @throws IOException 
 	 */
-	public void testBasicDiskCache( ) throws BirtException, IOException
+	@Test
+    public void testBasicDiskCache( ) throws BirtException, IOException
 	{
 		System.setProperty( "birt.data.engine.test.memcachesize", "5" );
 		this.testBasic( );
@@ -446,7 +459,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * Test the expression on the group header
 	 * @throws BirtException
 	 */
-	public void testGroupBeforeExpr( ) throws Exception
+	@Test
+    public void testGroupBeforeExpr( ) throws Exception
 	{
 		this.genGroupBeforeExpr( );
 		this.closeArchiveWriter( );
@@ -532,7 +546,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testBasicGroupLevel( ) throws Exception
+	@Test
+    public void testBasicGroupLevel( ) throws Exception
 	{
 		this.genBasicGroupLevel( );
 		this.closeArchiveWriter( );
@@ -614,7 +629,8 @@ public class ReportDocumentTest extends RDTestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testBasicMoveWithGroup( ) throws Exception
+	@Test
+    public void testBasicMoveWithGroup( ) throws Exception
 	{
 		this.genBasicMoveWithGroup( );
 		this.closeArchiveWriter( );
@@ -657,7 +673,8 @@ public class ReportDocumentTest extends RDTestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testBasicSkipToEnd( ) throws Exception
+	@Test
+    public void testBasicSkipToEnd( ) throws Exception
 	{
 		this.genBasicSkipToEnd( );
 		this.closeArchiveWriter( );
@@ -745,7 +762,8 @@ public class ReportDocumentTest extends RDTestCase
 	/**
 	 * @throws BirtException
 	 */
-	public void testBasicFooter( ) throws Exception
+	@Test
+    public void testBasicFooter( ) throws Exception
 	{
 		int countOfRow = 8;
 		List genValue = null;
@@ -841,7 +859,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testBasicGroupLevel2( ) throws Exception
+	@Test
+    public void testBasicGroupLevel2( ) throws Exception
 	{
 		this.genBasicGroupLevel2( );
 		this.closeArchiveWriter( );
@@ -948,7 +967,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * @throws BirtException
 	 * @throws IOException 
 	 */
-	public void testSubQuery( ) throws BirtException, IOException
+	@Test
+    public void testSubQuery( ) throws BirtException, IOException
 	{
 		this.genSubQuery( );
 		this.closeArchiveWriter( );
@@ -1046,7 +1066,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * @throws BirtException
 	 * @throws IOException 
 	 */
-	public void testSubQuery2( ) throws BirtException, IOException
+	@Test
+    public void testSubQuery2( ) throws BirtException, IOException
 	{
 		this.genSubQuery2( );
 		this.closeArchiveWriter( );
@@ -1122,7 +1143,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * @throws BirtException
 	 * @throws IOException 
 	 */
-	public void testSubQuery3( ) throws BirtException, IOException
+	@Test
+    public void testSubQuery3( ) throws BirtException, IOException
 	{
 		this.genSubQuery3( );
 		this.closeArchiveWriter( );
@@ -1206,7 +1228,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * @throws BirtException
 	 * @throws IOException 
 	 */
-	public void testSubQuery4( ) throws BirtException, IOException
+	@Test
+    public void testSubQuery4( ) throws BirtException, IOException
 	{
 		this.genSubQuery4( );
 		this.closeArchiveWriter( );
@@ -1315,7 +1338,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * @throws BirtException
 	 * @throws IOException 
 	 */
-	public void testSubOfSubQuery( ) throws BirtException, IOException
+	@Test
+    public void testSubOfSubQuery( ) throws BirtException, IOException
 	{
 		this.genSubOfSubQuery( );
 		this.closeArchiveWriter( );
@@ -1328,8 +1352,8 @@ public class ReportDocumentTest extends RDTestCase
 		this.closeArchiveReader( );
 		this.checkOutputFile();
 	}
-	
-	public void testSubOfSubQueryAsSourceQuery( ) throws BirtException, IOException
+	@Test
+    public void testSubOfSubQueryAsSourceQuery( ) throws BirtException, IOException
 	{
 		this.genSubOfSubQuery( );
 		this.closeArchiveWriter( );
@@ -1506,7 +1530,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * @throws BirtException
 	 * @throws IOException 
 	 */
-	public void testNestedQuery( ) throws BirtException, IOException
+	@Test
+    public void testNestedQuery( ) throws BirtException, IOException
 	{
 		this.genNestedQuery( );
 		this.closeArchiveWriter( );
@@ -1604,7 +1629,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * @throws BirtException
 	 * @throws IOException 
 	 */
-	public void testComputedColumn( ) throws BirtException, IOException
+	@Test
+    public void testComputedColumn( ) throws BirtException, IOException
 	{
 		this.genComputedColumn( );
 		this.closeArchiveWriter( );
@@ -2027,7 +2053,8 @@ public class ReportDocumentTest extends RDTestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testBasicDummy( ) throws Exception
+	@Test
+    public void testBasicDummy( ) throws Exception
 	{
 		this.genBasicDummy( );
 		this.closeArchiveWriter( );

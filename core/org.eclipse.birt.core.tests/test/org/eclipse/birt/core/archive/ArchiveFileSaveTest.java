@@ -15,15 +15,16 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.compound.ArchiveEntry;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class ArchiveFileSaveTest extends TestCase
 {
-
-	public void testSave( ) throws IOException
+	@Test
+    public void testSave( ) throws IOException
 	{
 		ArchiveFile file = new ArchiveFile( "test.archive", "rwt" );
 		ArchiveEntry entry = file.createEntry( "/name" );

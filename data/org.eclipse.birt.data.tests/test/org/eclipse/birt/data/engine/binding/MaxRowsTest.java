@@ -19,6 +19,12 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 
 /**
  * Test whehter maxRows of IBaseQueryDefiniton property has effect
@@ -39,7 +45,8 @@ public class MaxRowsTest extends APITestCase
 	}
 	
 	// Test case
-	public void test( ) throws Exception
+	@Test
+    public void test( ) throws Exception
 	{
 		// get the number of rows
 		QueryDefinition queryDefn = newReportQuery( );

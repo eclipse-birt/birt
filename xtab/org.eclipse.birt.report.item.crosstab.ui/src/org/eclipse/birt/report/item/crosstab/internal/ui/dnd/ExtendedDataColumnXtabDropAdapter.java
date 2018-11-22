@@ -21,6 +21,7 @@ import org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter;
 import org.eclipse.birt.report.designer.internal.ui.extension.ExtendedDataModelUIAdapterHelper;
 import org.eclipse.birt.report.designer.internal.ui.extension.IExtendedDataModelUIAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.DataUtil;
+import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.util.IVirtualValidator;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
@@ -43,6 +44,7 @@ import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
+import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.gef.EditPart;
@@ -136,9 +138,22 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 			
 			for(Object obj : validElements )
 			{
-				if(obj instanceof MeasureHandle)
+				if ( obj instanceof MeasureHandle )
 				{
 					measure = (MeasureHandle) obj;
+					// Copy the style to measure and then report item in it
+					if ( chh != null )
+					{
+						try
+						{
+							measure.setAlignment( chh.getHorizontalAlign( ) );
+							measure.setFormat( chh.getValueFormat( ) );
+						}
+						catch ( SemanticException e )
+						{
+							ExceptionHandler.handle( e );
+						}
+					}
 				}
 				else if( obj instanceof DimensionHandle )
 				{
@@ -188,7 +203,7 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 									}
 									catch ( Exception e )
 									{
-										e.printStackTrace();
+										ExceptionHandler.handle( e );
 									}
 								}
 							}

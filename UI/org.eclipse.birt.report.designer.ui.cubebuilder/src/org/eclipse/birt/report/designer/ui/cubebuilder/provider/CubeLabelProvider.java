@@ -71,7 +71,7 @@ public class CubeLabelProvider extends LabelProvider
 
 	private static final Image IMG_MEASUREGROUP_FOLDER = UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP_FOLDER );
 
-	private static final Image IMG_MEASURE = ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_DATA_COLUMN );
+	private static final Image IMG_MEASURE = UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP );
 
 	private static final Image IMG_MEASUREGROUP = UIHelper.getImage( BuilderConstants.IMAGE_MEASUREGROUP );
 

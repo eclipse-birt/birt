@@ -520,17 +520,7 @@ return false;]]></method>
                     <expression name="expression">dataSetRow["TERRITORY"]</expression>
                 </structure>
             </list-property>
-            <method name="onCreate"><![CDATA[taskToCancel = reportContext.getAppContext().get("taskToCancel");
-if (taskToCancel != null )
-{
-  taskToCancel.cancel();
-}
-taskToCancelWithSignal = reportContext.getAppContext().get("taskToCancelWithSignal");
-if (taskToCancelWithSignal != null )
-{
-  taskToCancelWithSignal.cancel(new Boolean( false ) );
-}
-]]></method>
+            <method name="onCreate"><![CDATA[java.lang.Thread.sleep(2000);]]></method>
             <property name="pageBreakInterval">50</property>
             <column id="235"/>
             <column id="236"/>

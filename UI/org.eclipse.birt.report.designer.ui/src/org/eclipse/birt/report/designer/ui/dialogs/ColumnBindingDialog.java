@@ -1804,7 +1804,15 @@ public class ColumnBindingDialog extends BaseDialog
 		IBindingDialogHelper dialogHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( inputElement,
 				IBindingDialogHelper.class );
 		if ( dialogHelper != null )
+		{
+			IBindingDialogHelper helperHelper = (IBindingDialogHelper) ElementAdapterManager.getAdapter( dialogHelper,
+					IBindingDialogHelper.class );
+			if ( helperHelper != null )
+			{
+				dialogHelper = helperHelper;
+			}
 			dialogHelper.setBindingHolder( DEUtil.getBindingHolder( inputElement ) );
+		}
 		canAggregate = dialogHelper == null ? false
 				: dialogHelper.canProcessAggregation( );
 	}

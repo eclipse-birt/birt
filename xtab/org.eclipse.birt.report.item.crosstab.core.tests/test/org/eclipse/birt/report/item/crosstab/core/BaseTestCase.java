@@ -20,8 +20,6 @@ import java.io.InputStreamReader;
 import java.io.Reader;
 import java.net.URL;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
@@ -46,12 +44,14 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
 
 import com.ibm.icu.util.ULocale;
 
+import junit.framework.TestCase;
+
 /**
  * Base test case.
  * 
  */
 
-public class BaseTestCase extends TestCase
+abstract public class BaseTestCase extends TestCase
 {
 
 	/**

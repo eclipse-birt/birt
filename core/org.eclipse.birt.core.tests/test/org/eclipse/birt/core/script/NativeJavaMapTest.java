@@ -1,12 +1,18 @@
 
 package org.eclipse.birt.core.script;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 
-import junit.framework.TestCase;
-
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
+
+import junit.framework.TestCase;
 
 public class NativeJavaMapTest extends TestCase
 {
@@ -24,13 +30,14 @@ public class NativeJavaMapTest extends TestCase
 	 * Record whether there exists an error
 	 */
 	boolean hasException;
-
+	
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	public void setUp( ) throws Exception
+	@Before
+    public void setUp() throws Exception
 	{
 		/*
 		 * Creates and enters a Context. The Context stores information about
@@ -56,7 +63,8 @@ public class NativeJavaMapTest extends TestCase
 	 * 
 	 * @see junit.framework.TestCase#tearDown()
 	 */
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		Context.exit( );
 	}
@@ -82,8 +90,9 @@ public class NativeJavaMapTest extends TestCase
 		return null;
 	}
 
-	StringBuffer buffer = new StringBuffer( );
-
+	org.eclipse.birt.core.script.NativeJavaList list;
+	Integer count = new Integer(0);
+	
 	protected void registerBeans( )
 	{
 		HashMap values = new HashMap( );
@@ -94,34 +103,30 @@ public class NativeJavaMapTest extends TestCase
 
 		NativeJavaMap map = new NativeJavaMap(scope, values, NativeJavaMap.class);
 		scope.put( "params", scope, map );
-		scope.put( "buffer", scope, buffer );
 	}
-
-	public void testIn( )
+	@Test
+    public void testIn( )
 	{
-		String script = "for (var a in params) { buffer.append(a); }";
-		buffer.setLength( 0 );
-		evaluate( script );
+		String script = "value = \"\"; for (var a in params) { value = value.concat(a) };";
+		Object res = evaluate( script );
 		assertTrue( !hasException );
-		assertEquals( 4, buffer.length( ) );
+		assertEquals( 4, res.toString().length() );
 		
-		script = "for (var a in params) { buffer.append( params[a]); }";
-		buffer.setLength( 0 );
-		evaluate( script );
+		script = "value = \"\"; for (var a in params) { value = value.concat( params[a] ); }";
+		res = evaluate( script );
 		assertTrue( !hasException );
-		assertEquals( 19, buffer.length( ));
-		
+		assertEquals( 15, res.toString().length());
 	}
-
-	public void testLength( )
+	@Test
+    public void testLength( )
 	{
 		String script = "params.length";
 		Object value = evaluate( script );
 		assertTrue( !hasException );
 		assertEquals( 4, ( (Number) value ).intValue( ) );
 	}
-
-	public void testNameAccess( )
+	@Test
+    public void testNameAccess( )
 	{
 		String script = "params['a'] + params.b";
 		Object value = evaluate( script );

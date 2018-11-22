@@ -16,15 +16,22 @@ import java.math.MathContext;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
+import org.eclipse.birt.data.aggregation.impl.AggrException;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * 
+ * Calculator primarily for type BigDecimal. Note that all operands are
+ * expected to be converted to BigDecimal before invoking any operation.
+ * Use method getTypedObject() to convert operands to the desired datatype. 
+ * Nulls are ignored in calculations. NaN and Infinity are NOT supported:
+ * method DataTypeUtil.toBigDecimal() used by the calculator converts NaN and
+ * Infinity values to null, so check for those conditions in the respective
+ * aggregate function if those have to be recognized.
  */
 
 public class BigDecimalCalculator implements ICalculator
 {
-
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -33,8 +40,13 @@ public class BigDecimalCalculator implements ICalculator
 	 */
 	public Number add( Object a, Object b ) throws DataException
 	{
-		BigDecimal[] args = convert( a, b );
-		return args[0].add( args[1] );
+		if( a == null && b == null )
+			return null;
+		if( a == null )
+			return (BigDecimal) b;
+		if( b == null )
+			return (BigDecimal) a;
+		return ( (BigDecimal) a ).add( (BigDecimal) b );
 	}
 
 	/*
@@ -46,8 +58,11 @@ public class BigDecimalCalculator implements ICalculator
 	public Number divide( Object dividend, Object divisor )
 			throws DataException
 	{
-		BigDecimal[] args = convert( dividend, divisor );
-		return args[0].divide( args[1], MathContext.DECIMAL128 );
+		if( dividend == null )
+			return null;
+		if( divisor == null )
+			return (BigDecimal) dividend;
+		return ( (BigDecimal) dividend ).divide( (BigDecimal) divisor, MathContext.DECIMAL128 );
 	}
 
 	/*
@@ -58,8 +73,13 @@ public class BigDecimalCalculator implements ICalculator
 	 */
 	public Number multiply( Object a, Object b ) throws DataException
 	{
-		BigDecimal[] args = convert( a, b );
-		return args[0].multiply( args[1] );
+		if( a == null && b == null )
+			return null;
+		if( a == null )
+			return (BigDecimal) b;
+		if( b == null )
+			return (BigDecimal) a;
+		return ( (BigDecimal) a ).multiply( (BigDecimal) b );
 	}
 
 	/*
@@ -89,25 +109,13 @@ public class BigDecimalCalculator implements ICalculator
 	 */
 	public Number subtract( Object a, Object b ) throws DataException
 	{
-		BigDecimal[] args = convert( a, b );
-		return args[0].subtract( args[1] );
-	}
-
-	/**
-	 * @param a
-	 * @param b
-	 * @return
-	 */
-	private BigDecimal[] convert( Object a, Object b ) throws DataException
-	{
-		BigDecimal[] args = new BigDecimal[2];
-		args[0] = ( !( a instanceof BigDecimal ) )
-				? BigDecimal.valueOf( ( (Number) a ).doubleValue( ) )
-				: (BigDecimal) a;
-		args[1] = ( !( b instanceof BigDecimal ) )
-				? BigDecimal.valueOf( ( (Number) b ).doubleValue( ) )
-				: (BigDecimal) b;
-		return args;
+		if( a == null && b == null )
+			return null;
+		if( a == null )
+			return BigDecimal.ZERO.subtract( (BigDecimal) b );
+		if( b == null )
+			return (BigDecimal) a;
+		return ( (BigDecimal) a ).subtract( (BigDecimal) b );
 	}
 
 	/*

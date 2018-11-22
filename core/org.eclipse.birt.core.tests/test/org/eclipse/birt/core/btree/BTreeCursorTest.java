@@ -14,12 +14,14 @@ package org.eclipse.birt.core.btree;
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 public class BTreeCursorTest extends TestCase
 {
-
-	public void testCursor( ) throws Exception
+	@Test
+    public void testCursor( ) throws Exception
 	{
 		new File( "./utest/btree.dat" ).delete( );
 		FileBTreeFile file = new FileBTreeFile( "./utest/btree.dat" );

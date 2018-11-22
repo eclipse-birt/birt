@@ -27,11 +27,13 @@ public class ViewerWebApp {
 	private Bundle bundle;
 	private String webAppPath;
 	private String contextPath;
+	private String encoding;
 
-	ViewerWebApp(Bundle bundle, String webAppPath, String contextPath) {
+	ViewerWebApp(Bundle bundle, String webAppPath, String contextPath, String encoding) {
 		this.bundle = bundle;
 		this.webAppPath = webAppPath;
 		this.contextPath = contextPath;
+		this.encoding = encoding;
 	}
 
 	public void start() throws IOException {
@@ -40,6 +42,13 @@ public class ViewerWebApp {
 		props.put(OSGiWebappConstants.RFC66_WEB_CONTEXTPATH, contextPath);
 		props.put(OSGiWebappConstants.JETTY_WAR_FOLDER_PATH, getWebAppPath(bundle, webAppPath)); 
 		props.put(OSGiServerConstants.MANAGED_JETTY_SERVER_NAME, ViewerWebServer.VIEWER_WEB_SERVER_ID);
+        if ( encoding != null )
+        {
+            //Jetty need those property to change the request encoding
+            //the setting may changed with different jetty version
+            System.setProperty( "org.eclipse.jetty.util.UrlEncoding.charset", encoding );
+            System.setProperty( "org.eclipse.jetty.util.URI.charset", encoding);
+        }
 		bundle.getBundleContext().registerService(ContextHandler.class, webapp, props);
 	}
 

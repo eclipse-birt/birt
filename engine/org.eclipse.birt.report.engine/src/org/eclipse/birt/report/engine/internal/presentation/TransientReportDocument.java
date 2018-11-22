@@ -211,6 +211,11 @@ public class TransientReportDocument implements IInternalReportDocument
 		return ( (IInternalReportDocument) document ).getOnPreparedRunnable( );
 	}
 
+	public IReportRunnable getDocumentRunnable( )
+	{
+		return ( (IInternalReportDocument) document ).getDocumentRunnable( );
+	}
+
 	public InstanceID getBookmarkInstance( String bookmark )
 	{
 		return null;

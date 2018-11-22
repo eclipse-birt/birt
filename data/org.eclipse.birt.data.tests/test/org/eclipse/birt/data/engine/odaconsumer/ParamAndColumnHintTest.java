@@ -25,6 +25,12 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * Tests the use of parameter hints and column hints.
  */
@@ -32,15 +38,15 @@ public class ParamAndColumnHintTest extends OdaconsumerTestCase
 {
     private Connection m_connection;
     private PreparedStatement m_statement;
-
-    protected void setUp() throws Exception
+	@Before
+    public void paramAndColumnHintSetUp() throws Exception
     {
-        super.setUp();
+
 /*        if( getName().equals( "testFetchwithTimeHint" ) )
             createTimeDataTypeTableData();
 */    }
-
-    protected void tearDown() throws Exception
+	@After
+    public void paramAndColumnHintTearDown() throws Exception
     {
 /*        if( getName().equals( "testFetchwithTimeHint" ) )
             dropTimeDataTypeTableData();
@@ -50,7 +56,6 @@ public class ParamAndColumnHintTest extends OdaconsumerTestCase
         	m_statement.close();
 		if( m_connection != null )
         	m_connection.close( );
-        super.tearDown();
     }
     
     public final void testSetParamValueRetryWithParamHint( )

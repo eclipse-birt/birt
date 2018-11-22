@@ -26,7 +26,7 @@ public class Test_90378 extends EngineCase
 				option );
 		String report = out.toString( );
 
-		Pattern pattern = Pattern.compile( "(b1)" );
+		Pattern pattern = Pattern.compile( "<div>b1</div>" );
 		Matcher matcher = pattern.matcher( report );
 		int matches = 0;
 		while ( matcher.find( ) )

@@ -22,13 +22,9 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.designer.util.MetricUtility;
 import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.metadata.DimensionValue;
-import org.eclipse.birt.report.model.api.util.DimensionUtil;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Rectangle;
 import org.eclipse.gef.commands.Command;
@@ -89,60 +85,17 @@ public class SetConstraintCommand extends Command
 						.getTableHandleAdapter( model )
 						.ajustSize( newSize );
 			}
-			else if (isFixLayout( ))
-			{
-				double width = MetricUtility.pixelToPixelInch( newSize.width );
-				double height = MetricUtility.pixelToPixelInch( newSize.height );
-				
-				if (width >= 0)
-				{
-					DimensionValue value = DimensionUtil.convertTo( width, DesignChoiceConstants.UNITS_IN, getDefaultUnits( ) );
-					model.getWidth( ).setValue( value );
-				}
-				
-				if (height >= 0)
-				{
-					DimensionValue value = DimensionUtil.convertTo( height, DesignChoiceConstants.UNITS_IN, getDefaultUnits( ) );
-					model.getHeight( ).setValue( value );
-				}
-			}
-			else if ( model instanceof ImageHandle )
-			{
-				int width = newSize.width;
-				int height = newSize.height;
-				DimensionValue dimensionValue;
-
-				if ( width >= 0 )
-				{
-					dimensionValue = new DimensionValue(  width,
-							DesignChoiceConstants.UNITS_PX );
-
-					model.getWidth( ).setValue( dimensionValue );
-				}
-				if ( height >= 0 )
-				{
-					dimensionValue = new DimensionValue( height, DesignChoiceConstants.UNITS_PX );
-
-					model.getHeight( ).setValue( dimensionValue );
-				}
-			}
 			else
 			{
-				double width = MetricUtility.pixelToPixelInch( newSize.width );
-				double height = MetricUtility.pixelToPixelInch( newSize.height );
-				DimensionValue dimensionValue;
-
-				if ( width >= 0 )
+				if ( newSize.width >= 0 )
 				{
-					dimensionValue = new DimensionValue( width, DesignChoiceConstants.UNITS_IN );
-
-					model.getWidth( ).setValue( dimensionValue );
+					MetricUtility.updateDimension( model.getWidth( ),
+							newSize.width );
 				}
-				if ( height >= 0 )
+				if ( newSize.height >= 0 )
 				{
-					dimensionValue = new DimensionValue( height, DesignChoiceConstants.UNITS_IN );
-
-					model.getHeight( ).setValue( dimensionValue );
+					MetricUtility.updateDimension( model.getHeight( ),
+							newSize.height );
 				}
 			}
 			stack.commit( );
@@ -160,20 +113,6 @@ public class SetConstraintCommand extends Command
 			logger.log( Level.SEVERE, e.getMessage( ), e );
 			stack.rollback( );
 		}
-	}
-
-	private boolean isFixLayout( )
-	{
-		return DEUtil.isFixLayout( model );
-	}
-	
-	private String getDefaultUnits()
-	{
-		if (model != null)	
-		{
-			return model.getModuleHandle( ).getDefaultUnits( );
-		}
-		return DesignChoiceConstants.UNITS_IN;
 	}
 
 	/**

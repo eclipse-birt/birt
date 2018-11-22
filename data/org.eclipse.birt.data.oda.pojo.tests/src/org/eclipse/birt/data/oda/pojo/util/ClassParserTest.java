@@ -16,19 +16,24 @@ import java.util.List;
 
 import org.eclipse.birt.data.oda.pojo.util.ClassParser;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class ClassParserTest extends TestCase
-{
+public class ClassParserTest {
 	@SuppressWarnings({
 			"unchecked", "nls"
 	})
-	public void testGetEssentialClass( ) throws SecurityException, NoSuchMethodException
+	@Test
+    public void testGetEssentialClass( ) throws SecurityException, NoSuchMethodException
 	{
 		Class c = TestClass.class;
 		ClassParser cp = new ClassParser( null );
@@ -76,7 +81,8 @@ public class ClassParserTest extends TestCase
 	@SuppressWarnings({
 			"unchecked", "nls"
 	})
-	public void testGetTypeLabel( ) throws SecurityException, NoSuchMethodException
+	@Test
+    public void testGetTypeLabel( ) throws SecurityException, NoSuchMethodException
 	{
 		Class c = TestClass.class;
 		assertEquals( "java.util.List<java.util.List<java.lang.String>>", ClassParser.getTypeLabel( getGenericReturnType( c, "getNestGenericList" )) );
@@ -88,8 +94,8 @@ public class ClassParserTest extends TestCase
 		assertEquals( "java.util.List<java.lang.String>[]", ClassParser.getTypeLabel( getGenericReturnType( c, "getArrayListNest" )) );
 		assertEquals( "java.util.List<java.lang.String[]>", ClassParser.getTypeLabel( getGenericReturnType( c, "getListArrayNest" )) );
 	}
-
-	public void testGetEssentialClassFromArray( )
+	@Test
+    public void testGetEssentialClassFromArray( )
 	{
 		ClassParser cp = new ClassParser( null );
 		assertEquals( Boolean.TYPE, cp.getEssentialClassFromArray( boolean[][].class ));
@@ -105,7 +111,8 @@ public class ClassParserTest extends TestCase
 	}
 	
 	@SuppressWarnings("nls")
-	public void testTypeLabelFromArray( )
+	@Test
+    public void testTypeLabelFromArray( )
 	{
 		assertEquals( "boolean[][]", ClassParser.getTypeLabelFromArray( boolean[][].class ));
 		assertEquals( "byte[]", ClassParser.getTypeLabelFromArray( byte[].class ));

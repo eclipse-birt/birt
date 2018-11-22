@@ -4,6 +4,10 @@ package org.eclipse.birt.core.archive;
 import java.io.File;
 import java.io.IOException;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 public class FolderArchiveTest extends TestCase
@@ -11,13 +15,13 @@ public class FolderArchiveTest extends TestCase
 
     static final String ARCHIVE_NAME = "./utest/test.archive.folder/";
     static final String STREAM_NAME = "/teststream";
-
-    public void setUp( )
+	@Before
+    public void setUp()
     {
         ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
     }
-
-    public void tearDown( )
+	@After
+    public void tearDown()
     {
         ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
     }
@@ -30,6 +34,7 @@ public class FolderArchiveTest extends TestCase
      * 
      * @throws Exception
      */
+	@Test
     public void testReaderDuringWriter( ) throws Exception
     {
         FolderArchiveWriter writer = new FolderArchiveWriter( ARCHIVE_NAME );
@@ -65,6 +70,7 @@ public class FolderArchiveTest extends TestCase
      * 
      * @throws Exception
      */
+	@Test
     public void testReaderAfterWriter( ) throws Exception
     {
         FolderArchiveWriter writer = new FolderArchiveWriter( ARCHIVE_NAME );
@@ -92,6 +98,7 @@ public class FolderArchiveTest extends TestCase
      * 
      * @throws Exception
      */
+	@Test
     public void testReaderCrossWriter( ) throws Exception
     {
 
@@ -129,6 +136,7 @@ public class FolderArchiveTest extends TestCase
 	 * open a empty folder to see if there are any exception throw out.
 	 * It should be sucessful. 
      */
+	@Test
     public void testOpenEmptyFolder( )
     {
         try
@@ -150,6 +158,7 @@ public class FolderArchiveTest extends TestCase
      * open an none exits folder. it should be failed and no folder is created.
      * 
      */
+	@Test
     public void testOpenNoneExistFolder( )
     {
         try
@@ -171,6 +180,7 @@ public class FolderArchiveTest extends TestCase
 	/**
 	 * not a unit test
 	 */
+	@Test
     public void testMutipleThreadReadWrite( )
 	{
 		Command wrtCmd = new Command( );
@@ -417,6 +427,7 @@ public class FolderArchiveTest extends TestCase
     /**
      * test the open stream, get length etc.
      */
+	@Test
     public void testOpenStream( ) throws Exception
     {
         FolderArchiveWriter writer = new FolderArchiveWriter( ARCHIVE_NAME );

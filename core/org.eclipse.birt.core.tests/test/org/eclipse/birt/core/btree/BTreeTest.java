@@ -26,8 +26,8 @@ import org.junit.Test;
 
 public class BTreeTest extends BTreeTestCase
 {
-
-	public void testBTree( ) throws Exception
+	@Test
+    public void testBTree( ) throws Exception
 	{
 		RAMBTreeFile file = new RAMBTreeFile( );
 		BTreeOption<Integer, Object> option = new BTreeOption<Integer, Object>( );
@@ -68,8 +68,8 @@ public class BTreeTest extends BTreeTestCase
 		assertTrue( !btree.exist( Integer.valueOf( -1 ) ) );
 		btree.close( );
 	}
-
-	public void testFixKey( ) throws Exception
+	@Test
+    public void testFixKey( ) throws Exception
 	{
 		RAMBTreeFile file = new RAMBTreeFile( );
 		BTreeOption<Integer, Object> option = new BTreeOption<Integer, Object>( );
@@ -102,8 +102,8 @@ public class BTreeTest extends BTreeTestCase
 		}
 		btree.close( );
 	}
-
-	public void testFixValue( ) throws Exception
+	@Test
+    public void testFixValue( ) throws Exception
 	{
 		RAMBTreeFile file = new RAMBTreeFile( );
 		BTreeOption<String, Integer> option = new BTreeOption<String, Integer>( );
@@ -142,8 +142,8 @@ public class BTreeTest extends BTreeTestCase
 		btree.close( );
 
 	}
-
-	public void testDuplicate( ) throws Exception
+	@Test
+    public void testDuplicate( ) throws Exception
 	{
 		new File( "./utest/btree.dat" ).delete( );
 		FileBTreeFile file = new FileBTreeFile( "./utest/btree.dat" );
@@ -202,8 +202,8 @@ public class BTreeTest extends BTreeTestCase
 			file.close( );
 		}
 	}
-
-	public void testHugeKey( ) throws Exception
+	@Test
+    public void testHugeKey( ) throws Exception
 	{
 		new File( "./utest/btree.dat" ).delete( );
 		FileBTreeFile file = new FileBTreeFile( "./utest/btree.dat" );
@@ -257,8 +257,8 @@ public class BTreeTest extends BTreeTestCase
 		}
 
 	}
-
-	public void testHugeValue( ) throws Exception
+	@Test
+    public void testHugeValue( ) throws Exception
 	{
 		new File( "./utest/btree.dat" ).delete( );
 		FileBTreeFile file = new FileBTreeFile( "./utest/btree.dat" );
@@ -325,9 +325,9 @@ public class BTreeTest extends BTreeTestCase
 		}
 	}
 
-	@Test
 	@Ignore("long run test")
-	public void testHugeNumberOfEntries( ) throws Exception
+	@Test
+    public void testHugeNumberOfEntries( ) throws Exception
 	{
 		int ENTRY_COUNT = 999999; // 1M
 		new File( "./utest/btree.dat" ).delete( );
@@ -380,8 +380,8 @@ public class BTreeTest extends BTreeTestCase
 		}
 
 	}
-
-	public void testNullKeyValue( ) throws IOException
+	@Test
+    public void testNullKeyValue( ) throws IOException
 	{
 		RAMBTreeFile file = new RAMBTreeFile( );
 		BTreeOption<Integer, String> option = new BTreeOption<Integer, String>( );
@@ -406,8 +406,8 @@ public class BTreeTest extends BTreeTestCase
 
 		btree.close( );
 	}
-
-	public void testBatchInsert( ) throws IOException
+	@Test
+    public void testBatchInsert( ) throws IOException
 	{
 		RAMBTreeFile file = new RAMBTreeFile( );
 		BTreeOption<Integer, String> option = new BTreeOption<Integer, String>( );

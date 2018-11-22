@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import org.eclipse.birt.report.designer.core.commands.DeleteCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteCommand;
+import org.eclipse.birt.report.designer.core.commands.PasteReportItemThemeCommand;
 import org.eclipse.birt.report.designer.core.commands.PasteStructureCommand;
 import org.eclipse.birt.report.designer.core.model.IMixedHandle;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
@@ -69,11 +70,13 @@ import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.util.CopyUtil;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.birt.report.model.api.util.IPasteStatus;
+import org.eclipse.birt.report.model.core.ContainerContext;
 import org.eclipse.core.runtime.IAdaptable;
 import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.commands.CompoundCommand;
@@ -148,6 +151,12 @@ public final class DNDUtil
 	public static boolean copyHandles( Object transferData, Object container,
 			int position )
 	{
+		return copyHandles( transferData, container, position, null );
+	}
+
+	private static boolean copyHandles( Object transferData, Object container,
+			int position, Object param )
+	{
 		if ( transferData instanceof Object[]
 				&& ( (Object[]) transferData )[0] instanceof CssSharedStyleHandle )
 
@@ -189,7 +198,7 @@ public final class DNDUtil
 		return operateHandles( transferData,
 				container,
 				position,
-				Messages.getString( "DNDUtil.trans.copy" ), TYPE_COPY ); //$NON-NLS-1$
+				Messages.getString( "DNDUtil.trans.copy" ), TYPE_COPY, param ); //$NON-NLS-1$
 	}
 
 	/**
@@ -228,8 +237,12 @@ public final class DNDUtil
 				if ( targetObj == null )
 					targetObj = getDesignElementHandle( temp ).getContainer( );
 			}
+			if ( temp instanceof ThemeHandle )
+			{
+				return copyHandles( transferData, targetObj, position, temp );
+			}
 		}
-		return copyHandles( transferData, targetObj, position );
+		return copyHandles( transferData, targetObj, position, null );
 	}
 
 	/**
@@ -341,9 +354,16 @@ public final class DNDUtil
 	 *            TYPE_CUT or TYPE_COPY
 	 * @return if succeeding in operating data
 	 */
-	private static boolean operateHandles( Object transferData,
+	public static boolean operateHandles( Object transferData,
 			Object targetObj, int position, String commandName,
 			String commandType )
+	{
+		return operateHandles( transferData, targetObj, position, commandName, commandType, null );
+	}
+
+	private static boolean operateHandles( Object transferData,
+			Object targetObj, int position, String commandName,
+			String commandType, Object param )
 	{
 		ModuleHandle designHandle = SessionHandleAdapter.getInstance( )
 				.getReportDesignHandle( );
@@ -363,7 +383,8 @@ public final class DNDUtil
 					position,
 					commandName,
 					commandType,
-					commands );
+					commands,
+					param );
 
 			commands.execute( );
 			stack.commit( );
@@ -378,7 +399,7 @@ public final class DNDUtil
 
 	private static void addCommandToCompound( Object transferData,
 			Object targetObj, int position, String commandName,
-			String commandType, CompoundCommand commands )
+			String commandType, CompoundCommand commands, Object param )
 			throws SemanticException
 	{
 		if ( transferData instanceof SlotHandle )
@@ -413,7 +434,8 @@ public final class DNDUtil
 						position,
 						commandName,
 						commandType,
-						commands );
+						commands,
+						param );
 				if ( position > -1 )
 				{
 					position++;
@@ -431,6 +453,13 @@ public final class DNDUtil
 					&& ( (DesignElementHandle) transferData ).getContainerSlotHandle( ) == targetObj )
 			{
 				( (DesignElementHandle) transferData ).moveTo( position );
+			}
+			else if ( transferData instanceof IElementCopy
+					&& targetObj instanceof SlotHandle
+					&& param instanceof ThemeHandle )
+			{
+				commands.add( new PasteReportItemThemeCommand( (IElementCopy) transferData,
+						(SlotHandle)targetObj, (ThemeHandle)param ) );
 			}
 			else if ( // targetObj instanceof ReportElementModel
 			// ||
@@ -1360,6 +1389,24 @@ public final class DNDUtil
 		return CONTAIN_THIS;
 	}
 
+	public static ContainerContext getContainerContext(DesignElementHandle container, DesignElementHandle child)
+	{
+		int slotCount = container.getDefn( ).getSlotCount( );
+		for ( int slotId = 0; slotId < slotCount; slotId++ )
+		{
+			if (container.canContain( slotId, child )) {
+				return new ContainerContext(container.getElement( ), slotId);
+			}
+		}
+		List<IElementPropertyDefn> properties = container.getDefn( ).getProperties( );
+		for (IElementPropertyDefn prop : properties) {
+			if ( container.canContain( prop.getName( ), child) ) {
+				return new ContainerContext( container.getElement( ), prop.getName( ));
+			}
+		}
+		return null;
+	}
+
 	static int handleValidateTargetCanContainElementHandle(
 			DesignElementHandle targetHandle, DesignElementHandle childHandle,
 			boolean validateContainer )
@@ -1393,6 +1440,10 @@ public final class DNDUtil
 		// add for the cross tab
 		else if ( targetHandle.canContain( DEUtil.getDefaultContentName( targetHandle ),
 				childHandle ) )
+		{
+			return CONTAIN_THIS;
+		}
+		else if ( getContainerContext( targetHandle, childHandle ) != null )
 		{
 			return CONTAIN_THIS;
 		}

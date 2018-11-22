@@ -30,6 +30,12 @@ import org.eclipse.birt.data.engine.olap.data.util.IDiskArray;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * 
  */
@@ -50,21 +56,17 @@ public class CubeAggregationTest extends BaseTestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void cubeAggregationSetUp() throws Exception
 	{
-		super.setUp( );
 		createAggregationResult( );
 	}
 
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-	
-	public void testSumAggregation1(  ) throws IOException, DataException
+    @Test
+    public void testSumAggregation1(  ) throws IOException, DataException
 	{
 		AggregationDefinition[] aggregations =new AggregationDefinition[2];
 		int[] sortTypes = new int[]{0,0};
@@ -146,8 +148,8 @@ public class CubeAggregationTest extends BaseTestCase
 		assertEquals( resultSets[1].getAggregationValue( 0 ), new Double( 288 ));
 		assertEquals( resultSets[1].getAggregationValue( 1 ), new Integer( 2 ));
 	}
-	
-	public void testSumAggregation2(  ) throws IOException, DataException
+	@Test
+    public void testSumAggregation2(  ) throws IOException, DataException
 	{
 		AggregationDefinition[] aggregations =new AggregationDefinition[1];
 		int[] sortTypes = new int[]{0};
@@ -171,8 +173,8 @@ public class CubeAggregationTest extends BaseTestCase
 		assertEquals( resultSets[0].getLevelKeyValue( 0 )[0], "ShanTong");
 		assertEquals( resultSets[0].getAggregationValue( 0 ), new Double( 531.0 / 3 ));
 	}
-	
-	public void testRunningAggregation1(  ) throws IOException, DataException
+	@Test
+    public void testRunningAggregation1(  ) throws IOException, DataException
 	{
 		AggregationDefinition[] aggregations =new AggregationDefinition[2];
 		int[] sortTypes = new int[]{0,0};
@@ -272,8 +274,8 @@ public class CubeAggregationTest extends BaseTestCase
 		}
 		
 	}
-	
-	public void testMultipleAggregation1(  ) throws IOException, DataException
+	@Test
+    public void testMultipleAggregation1(  ) throws IOException, DataException
 	{
 		AggregationDefinition[] aggregations =new AggregationDefinition[2];
 		int[] sortTypes = new int[]{0,0};

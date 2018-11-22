@@ -33,6 +33,12 @@ import org.mozilla.javascript.Scriptable;
 
 import testutil.ConfigText;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
 /**
  * This is a simple test case for report document. It mainly tests that these
  * unused bound columns will be saved into report document as well.
@@ -63,7 +69,8 @@ public class ReportDocumentTest2 extends APITestCase
 	/**
 	 * @throws Exception
 	 */
-	public void testBasic( ) throws Exception
+	@Test
+    public void testBasic( ) throws Exception
 	{
 		String fileName = getOutputFolder( ) + "testData";
 		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
@@ -91,7 +98,8 @@ public class ReportDocumentTest2 extends APITestCase
 	 * iterator should be kept in document.
 	 * @throws Exception 
 	 */
-	public void testHasGapRowInResultSet( ) throws Exception
+	@Test
+    public void testHasGapRowInResultSet( ) throws Exception
 	{
 		String fileName = getOutputFolder( ) + "testData";
 		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,
@@ -145,7 +153,8 @@ public class ReportDocumentTest2 extends APITestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testSkipToEndWhenUsingDetail( ) throws Exception
+	@Test
+    public void testSkipToEndWhenUsingDetail( ) throws Exception
 	{
 		String fileName = getOutputFolder( ) + "testData";
 		DataEngineContext deContext1 = newContext( DataEngineContext.MODE_GENERATION,

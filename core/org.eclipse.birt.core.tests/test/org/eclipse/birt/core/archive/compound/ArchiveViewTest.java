@@ -16,10 +16,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.archive.RAInputStream;
 import org.eclipse.birt.core.archive.RAOutputStream;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import junit.framework.TestCase;
 
 public class ArchiveViewTest extends TestCase
 {
@@ -28,23 +31,23 @@ public class ArchiveViewTest extends TestCase
 	static final String ARCHIVE_FILE = TEST_FOLDER + "archive.rptdocument";
 	static final String VIEW_FILE = TEST_FOLDER + "view.rptdocument";
 	static final String REPORT_DOCUMENT_RESOURCE = "org/eclipse/birt/core/archive/compound/ArchiveViewTest.rptdocument";
-
-	public void setUp( )
+	@Before
+    public void setUp()
 	{
 		new File( TEST_FOLDER ).mkdirs( );
 
 		copyResource( REPORT_DOCUMENT_RESOURCE, ARCHIVE_FILE );
 	}
-
-	public void tearDown( )
+	@After
+    public void tearDown()
 	{
 		new File( ARCHIVE_FILE ).delete( );
 		new File( VIEW_FILE ).delete( );
 		new File( TEST_FOLDER ).delete( );
 		new File( ARCHIVE_FILE ).delete( );
 	}
-
-	public void testModify( ) throws IOException
+	@Test
+    public void testModify( ) throws IOException
 	{
 		final int entryCount = 100;
 		byte[] mes = new byte[entryCount * 2];
@@ -104,8 +107,8 @@ public class ArchiveViewTest extends TestCase
 			entry.close( );
 		}
 	}
-
-	public void testReadAndWrite( ) throws IOException
+	@Test
+    public void testReadAndWrite( ) throws IOException
 	{
 		ArchiveFile archiveFile = new ArchiveFile( ARCHIVE_FILE, "rw" );
 		ArchiveFile viewFile = new ArchiveFile( VIEW_FILE, "rw" );
@@ -118,8 +121,8 @@ public class ArchiveViewTest extends TestCase
 		view.close( );
 		assertTrue( view.getUsedCache( ) == 0 );
 	}
-
-	public void testReadAndWriteV2( ) throws IOException
+	@Test
+    public void testReadAndWriteV2( ) throws IOException
 	{
 		ArchiveFile archive = new ArchiveFile( ARCHIVE_FILE, "r" );
 		ArchiveFile viewFile = new ArchiveFile( VIEW_FILE, "rw" );
@@ -192,8 +195,8 @@ public class ArchiveViewTest extends TestCase
 			}
 		}
 	}
-
-	public void testFlush( ) throws IOException
+	@Test
+    public void testFlush( ) throws IOException
 	{
 		ArchiveWriter writer = new ArchiveWriter( ARCHIVE_FILE );
 		try

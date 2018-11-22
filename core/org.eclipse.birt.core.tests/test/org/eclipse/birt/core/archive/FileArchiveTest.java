@@ -15,6 +15,10 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
 import junit.framework.TestCase;
 
 public class FileArchiveTest extends TestCase
@@ -23,19 +27,19 @@ public class FileArchiveTest extends TestCase
     static final String ARCHIVE_NAME = "./utest/test.archive";
     static final String TEMP_FOLDER_NAME = "./utest/test.archive.tmpfolder";
     static final String STREAM_NAME = "/teststream";
-
-    public void setUp( )
+	@Before
+    public void setUp()
     {
         ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
         ArchiveUtil.deleteAllFiles( new File( TEMP_FOLDER_NAME ) );
     }
-
-    public void tearDown( )
+	@After
+    public void tearDown()
     {
         ArchiveUtil.deleteAllFiles( new File( TEMP_FOLDER_NAME ) );
         ArchiveUtil.deleteAllFiles( new File( ARCHIVE_NAME ) );
     }
-
+	@Test
     public void testReaderAfterWriter( ) throws Exception
     {
         FileArchiveWriter writer = new FileArchiveWriter( ARCHIVE_NAME );
@@ -56,7 +60,7 @@ public class FileArchiveTest extends TestCase
         rs.close( );
         reader.close( );
     }
-
+	@Test
     public void testOpenEmptyFile( ) throws IOException
     {
         new RandomAccessFile( ARCHIVE_NAME, "rw" ).close( );
@@ -79,7 +83,7 @@ public class FileArchiveTest extends TestCase
         }
         assertTrue( false );
     }
-
+	@Test
     public void testOpenNoneExistFile( )
     {
         new File( ARCHIVE_NAME ).delete( );
@@ -103,7 +107,7 @@ public class FileArchiveTest extends TestCase
         }
         assertTrue( false );
     }
-
+	@Test
     public void testMutipleThreadReadWrite( )
     {
         Command wrtCmd = new Command( );
@@ -350,6 +354,7 @@ public class FileArchiveTest extends TestCase
     /**
      * test the open stream, get length etc.
      */
+	@Test
     public void testOpenStream( ) throws Exception
     {
         FileArchiveWriter writer = new FileArchiveWriter( ARCHIVE_NAME );
@@ -366,7 +371,7 @@ public class FileArchiveTest extends TestCase
         assertEquals( 12, ws.length( ) );
         writer.finish( );
     }
-
+	@Test
     public void testReadWriteStream( ) throws Exception
     {
         FileArchiveWriter writer = new FileArchiveWriter( ARCHIVE_NAME );

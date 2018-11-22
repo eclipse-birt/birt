@@ -28,34 +28,41 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.Property;
 
 import testutil.JDBCOdaDataSource;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
+
+@Ignore("Ignore tests that require manual setup")
 public class ManifestExplorerTest extends OdaconsumerTestCase
 {
 	private final String m_jdbcId = JDBCOdaDataSource.DATA_SOURCE_TYPE;
 	private final String m_expectedJdbcDataSetId = JDBCOdaDataSource.DATA_SET_TYPE;
     private final String m_testDriverId = "org.eclipse.birt.data.engine.odaconsumer.testdriver";
-	
-	public void testGetDataSourceNames() throws Exception
+	@Test
+    public void testGetDataSourceNames() throws Exception
 	{
 		Properties names = ManifestExplorer.getInstance().getDataSourceIdentifiers();
 		
 		assertNotNull( names.getProperty( m_testDriverId ) );
 	}
-	
-	public void testGetExtensionConfigs() throws Exception
+	@Test
+    public void testGetExtensionConfigs() throws Exception
 	{
 		ExtensionManifest[] configs = 
 		    ManifestExplorer.getInstance().getExtensionManifests();
 		assertTrue( configs.length > 0 );
 	}
-		
-	public void testGetExtensionConfig() throws Exception
+	@Test
+    public void testGetExtensionConfig() throws Exception
 	{
 		ExtensionManifest config = 
 			ManifestExplorer.getInstance().getExtensionManifest( m_jdbcId );
 		verifyExtensionConfig( config );
 	}
-
-	public void testGetExtensionConfigCompatibility() throws Exception
+	@Test
+    public void testGetExtensionConfigCompatibility() throws Exception
 	{
 		ExtensionManifest config = 
 			ManifestExplorer.getInstance().getExtensionManifest( m_jdbcId );

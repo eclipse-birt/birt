@@ -19,6 +19,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.olap.cursor.CubeCursor;
+
 import org.apache.commons.codec.binary.Base64;
 import org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator;
 import org.eclipse.birt.chart.factory.IGroupedDataRowExpressionEvaluator;
@@ -251,8 +253,16 @@ public class ChartReportItemUtil extends ChartItemUtil
 		if ( set instanceof IQueryResultSet )
 		{
 			return ( (IQueryResultSet) set ).isEmpty( );
+		}  else if ( set instanceof ICubeResultSet )
+		{
+			  CubeCursor cursor = (( (ICubeResultSet) set ).getCubeCursor());
+			  if(cursor != null)
+			  {
+				  List edges = cursor.getOrdinateEdge();
+				  return edges == null || edges.isEmpty();
+			  }
 		}
-		// TODO add code to check empty for ICubeResultSet
+		
 		return false;
 	}
 

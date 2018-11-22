@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?pde version="3.5"?>
 
-<product uid="org.eclipse.birt.report.designer.all" application="org.eclipse.ui.ide.workbench" useFeatures="true" includeLaunchers="true">
-
+<product name="BIRT Report Designer All-in-one" uid="org.eclipse.birt.report.designer.all" application="org.eclipse.ui.ide.workbench" version="4.8.0.qualifier" useFeatures="true" includeLaunchers="true">
 
    <configIni use="default">
    </configIni>
@@ -27,10 +26,8 @@
       </win>
    </launcher>
 
-
    <vm>
    </vm>
-
 
    <plugins>
       <plugin id="org.eclipse.datatools.sdk"/>
@@ -126,7 +123,6 @@
       <feature id="org.eclipse.mylyn.monitor"/>
       <feature id="org.eclipse.mylyn.tasks.ide"/>
       <feature id="org.eclipse.mylyn.team_feature"/>
-      <feature id="org.eclipse.mylyn.wikitext_feature"/>
       <feature id="org.eclipse.mylyn_feature"/>
       <feature id="org.eclipse.pde"/>
       <feature id="org.eclipse.platform"/>
@@ -148,6 +144,7 @@
       <plugin id="org.eclipse.equinox.event" autoStart="true" startLevel="2" />
       <plugin id="org.eclipse.equinox.p2.reconciler.dropins" autoStart="true" startLevel="0" />
       <plugin id="org.eclipse.equinox.simpleconfigurator" autoStart="true" startLevel="1" />
+      <plugin id="org.eclipse.update.configurator" autoStart="false" startLevel="4" />
       <property name="eclipse.application" value="org.eclipse.ui.ide.workbench" />
       <property name="eclipse.product" value="org.eclipse.platform.ide" />
       <property name="org.eclipse.update.reconcile" value="false" />

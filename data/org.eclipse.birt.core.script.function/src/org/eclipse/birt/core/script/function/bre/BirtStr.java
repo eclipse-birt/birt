@@ -122,12 +122,12 @@ class BirtStr implements IScriptFunctionExecutor
 
 			if ( args.length == 1 )
 			{
-				return left( args[0] == null ? null : (String) args[0] );
+                return left( toJavaString( args[0] ) );
 			}
 			else
 			{
-				return left( args[0] == null ? null : (String) args[0],
-						( (Number) args[1] ).intValue( ) );
+                return left( toJavaString( args[0] ),
+                        ( (Number) args[1] ).intValue( ) );
 			}
 		}
 	}
@@ -191,12 +191,12 @@ class BirtStr implements IScriptFunctionExecutor
 
 			if ( args.length == 1 )
 			{
-				return right( args[0] == null ? null : (String) args[0] );
+                return right( toJavaString( args[0] ) );
 			}
 			else
 			{
-				return right( args[0] == null ? null : (String) args[0],
-						( (Number) args[1] ).intValue( ) );
+                return right( toJavaString( args[0] ),
+                        ( (Number) args[1] ).intValue( ) );
 			}
 		}
 	}
@@ -249,27 +249,25 @@ class BirtStr implements IScriptFunctionExecutor
 				String[] strArray = new String[objArray.length];
 				for ( int i = 0; i < objArray.length; i++ )
 				{
-					if ( objArray[i] == null )
-						strArray[i] = null;
-					else if ( objArray[i] instanceof String )
-						strArray[i] = ( (String) objArray[i] ).toUpperCase( );
-					else
-						throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
+                    String value = toJavaString( objArray[i] );
+                    if ( value != null )
+                    {
+                        strArray[i] = value.toUpperCase( );
+                    }
 				}
 				return strArray;
 			}
 			else
 			{
-				if( args[0] == null )
-					return null;
-				
-				if ( args[0] instanceof Integer )
-					return args[0];
-				
-				if( !(args[0] instanceof String) )
-					throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
+                if ( args[0] instanceof Integer )
+                    return args[0];
 
-				return ( (String) args[0] ).toUpperCase( );
+                String value = toJavaString( args[0] );
+                if ( value != null )
+                {
+                    return value.toUpperCase( );
+                }
+                return null;
 			}
 		}
 	}
@@ -298,26 +296,24 @@ class BirtStr implements IScriptFunctionExecutor
 			{
 				Object[] objArray = (Object[]) args[0];
 				String[] strArray = new String[objArray.length];
-				for ( int i = 0; i < objArray.length; i++ )
-				{
-					if ( objArray[i] == null )
-						strArray[i] = null;
-					else if ( objArray[i] instanceof String )
-						strArray[i] = ( (String) objArray[i] ).toLowerCase( );
-					else
-						throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
-				}
-				return strArray;
+                for ( int i = 0; i < objArray.length; i++ )
+                {
+                    String value = toJavaString( objArray[i] );
+                    if ( value != null )
+                    {
+                        strArray[i] = value.toLowerCase( );
+                    }
+                }
+                return strArray;
 			}
 			else
 			{
-				if( args[0] == null )
-					return null;
-				
-				if( !(args[0] instanceof String) )
-					throw new IllegalArgumentException( Messages.getString( "error.incorrect.type.function.argument" ) );
-				
-				return ( (String) args[0] ).toLowerCase( );
+                String value = toJavaString( args[0] );
+                if ( value != null )
+                {
+                    return value.toLowerCase( );
+                }
+                return null;
 			}
 		}
 	}
@@ -360,7 +356,7 @@ class BirtStr implements IScriptFunctionExecutor
 								fixedArgumentNum, args.length
 						} ) );
 
-			return trim( args[0] == null ? null : (String) args[0] );
+            return trim( toJavaString( args[0] ) );
 		}
 	}
 
@@ -407,7 +403,7 @@ class BirtStr implements IScriptFunctionExecutor
 								fixedArgumentNum, args.length
 						} ) );
 
-			return trimLeft( args[0] == null ? null : (String) args[0] );
+            return trimLeft( toJavaString( args[0] ) );
 		}
 	}
 
@@ -455,7 +451,7 @@ class BirtStr implements IScriptFunctionExecutor
 								fixedArgumentNum, args.length
 						} ) );
 
-			return trimRight( args[0] == null ? null : (String) args[0] );
+            return trimRight( toJavaString( args[0] ) );
 		}
 
 	}
@@ -526,15 +522,14 @@ class BirtStr implements IScriptFunctionExecutor
 
 			if ( args.length == 3 )
 			{
-				return new Integer( indexOf( args[0] == null ? null
-						: (String) args[0], args[1] == null ? null
-						: (String) args[1], ( (Number) args[2] ).intValue( ) ) );
+                return new Integer( indexOf( toJavaString( args[0] ),
+                        toJavaString( args[1] ),
+                        ( (Number) args[2] ).intValue( ) ) );
 			}
 			else
 			{
-				return Integer.valueOf( indexOf( args[0] == null ? null
-						: (String) args[0], args[1] == null ? null
-						: (String) args[1] ) );
+                return Integer.valueOf( indexOf( toJavaString( args[0] ),
+                        toJavaString( args[1] ) ) );
 			}
 		}
 	}
@@ -676,15 +671,14 @@ class BirtStr implements IScriptFunctionExecutor
 
 			if ( args.length == 3 )
 			{
-				return new Integer( search( args[0] == null ? null
-						: (String) args[0], args[1] == null ? null
-						: (String) args[1], ( (Number) args[2] ).intValue( ) ) );
+                return new Integer( search( toJavaString( args[0] ),
+                        toJavaString( args[1] ),
+                        ( (Number) args[2] ).intValue( ) ) );
 			}
 			else
 			{
-				return Integer.valueOf( search( args[0] == null ? null
-						: (String) args[0], args[1] == null ? null
-						: (String) args[1] ) );
+                return Integer.valueOf( search( toJavaString( args[0] ),
+                        toJavaString( args[1] ) ) );
 			}
 		}
 	}
@@ -724,8 +718,7 @@ class BirtStr implements IScriptFunctionExecutor
 								fixedArgumentNum, args.length
 						} ) );
 
-			return Integer.valueOf( charLength( args[0] == null ? null
-					: (String) args[0] ) );
+            return Integer.valueOf( charLength( toJavaString( args[0] ) ) );
 		}
 	}
 
@@ -733,4 +726,23 @@ class BirtStr implements IScriptFunctionExecutor
 	{
 		return this.executor.execute( arguments, context );
 	}
+
+    /**
+     * convert any javascript object to java string.
+     * 
+     * @param arg
+     * @return
+     */
+    private static String toJavaString( Object arg )
+    {
+        if ( arg == null )
+        {
+            return null;
+        }
+        if ( arg instanceof String )
+        {
+            return (String) arg;
+        }
+        return arg.toString( );
+    }
 }

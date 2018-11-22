@@ -14,8 +14,6 @@ package org.eclipse.birt.report.item.crosstab.core.re;
 import java.util.HashMap;
 import java.util.logging.Level;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.EngineConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
@@ -30,10 +28,8 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngine;
 import org.eclipse.birt.report.item.crosstab.core.ICrosstabConstants;
 import org.eclipse.birt.report.item.crosstab.core.de.AbstractCrosstabItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.AggregationCellHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.CrosstabItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.DimensionViewHandle;
-import org.eclipse.birt.report.item.crosstab.core.de.LevelViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.de.MeasureViewHandle;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabExtendedItemFactory;
 import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
@@ -50,14 +46,16 @@ import org.eclipse.birt.report.model.api.command.ContentException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
+import org.junit.Ignore;
 
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.TestCase;
 
 /**
  * 
  */
-
+@Ignore ("XTAB API doesn't support empty XTAB now and this one can be covered by runtime SDK test")
 public class TestEngine extends TestCase implements ICrosstabConstants
 {
 

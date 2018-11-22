@@ -187,6 +187,7 @@ public interface IOConstants
 	
 	//added from V11
 	static final short FIELD_REPORT_LOCALE = 255;
+	static final short FIELD_JTIDY = 256;
 	
 	static final long ENGINE_IR_VERSION_0 = 0L;
 	// Version 1: remove write isBookmark of ActionDesign.

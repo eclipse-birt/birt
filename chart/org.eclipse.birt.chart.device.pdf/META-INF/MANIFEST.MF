@@ -2,27 +2,27 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Device PDF Extension
 Bundle-SymbolicName: org.eclipse.birt.chart.device.pdf; singleton:=true
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.device.pdf.plugin.ChartDevicePDFPlugin
 Bundle-Vendor: Eclipse BIRT Project
-Require-Bundle: org.eclipse.birt.chart.device.svg;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.chart.engine;bundle-version="[2.1.0,5.0.0)",
- org.eclipse.birt.chart.device.extension;bundle-version="[2.1.0,5.0.0)",
- org.apache.batik.transcoder;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.pdf;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.util;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.dom;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.bridge;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.css;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.dom.svg;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.ext.awt;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.parser;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.svggen;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.util.gui;bundle-version="[1.6.0,1.7.0)",
- org.apache.batik.xml;bundle-version="[1.6.0,1.7.0)",
+Require-Bundle: org.eclipse.birt.chart.device.svg;bundle-version="4.7.0",
+ org.eclipse.birt.chart.engine;bundle-version="4.7.0",
+ org.eclipse.birt.chart.device.extension;bundle-version="4.7.0",
+ org.apache.batik.transcoder;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.util;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.dom;bundle-version="[1.7.1,1.8.0)",
+ org.apache.batik.bridge;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.css;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.dom.svg;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.ext.awt;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.parser;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.svggen;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.util.gui;bundle-version="[1.7.0,1.8.0)",
+ org.apache.batik.xml;bundle-version="[1.7.0,1.8.0)",
  org.w3c.dom.svg;bundle-version="[1.1.0,2.0.0)"
 Eclipse-LazyStart: true
 Export-Package: org.eclipse.birt.chart.device.pdf
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.ibm.icu.util;version="3.4.4"
+Bundle-ClassPath: .,
+ lib/fop-2.3.jar
 

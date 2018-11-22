@@ -17,10 +17,11 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-import junit.framework.TestCase;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.BaseScriptable;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 
@@ -28,6 +29,8 @@ import com.ibm.icu.text.DateFormat;
 import com.ibm.icu.util.Calendar;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
+
+import junit.framework.TestCase;
 
 /**
  * 
@@ -56,14 +59,15 @@ public class DataTypeUtilTest extends TestCase
 	public Object[] testObjectDouble;
 	public Object[] resultObjectDouble;
 	
-	private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM,DateFormat.SHORT, Locale.getDefault( ));
+	private DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT, Locale.getDefault( ));
 	
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void setUp() throws Exception
 	{
-		super.setUp( );
+
 		// input Data
 		testObject = new Object[]{
 				new Integer( 1 ),
@@ -115,8 +119,8 @@ public class DataTypeUtilTest extends TestCase
 				new Exception( "" ),
 				new Exception( "" ),
 				( new GregorianCalendar( 2004 + 1900, 1, 1 ) ).getTime( ),
-				new Exception( "" ),
-				new Exception( "" ),
+				new Date( 1L ),
+				new Date( 0L ),
 				null,
 				new Exception( "" ),
 				new Exception( "" ),
@@ -306,13 +310,13 @@ public class DataTypeUtilTest extends TestCase
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void tearDown() throws Exception
 	{
 		testObject = null;
-		super.tearDown( );
 	}
-
-	public void testToInteger( ) throws BirtException
+	@Test
+    public void testToInteger( ) throws BirtException
 	{
 		Integer result;
 		for ( int i = 0; i < testObject.length; i++ )
@@ -353,8 +357,8 @@ public class DataTypeUtilTest extends TestCase
 			
 		}
 	}
-
-	public void testToBigDecimal( )
+	@Test
+    public void testToBigDecimal( )
 	{
 		BigDecimal result;
 		for ( int i = 0; i < testObject.length; i++ )
@@ -392,8 +396,8 @@ public class DataTypeUtilTest extends TestCase
 			}
 		}
 	}
-
-	public void testToBoolean( )
+	@Test
+    public void testToBoolean( )
 	{
 		Boolean result;
 		for ( int i = 0; i < testObject.length; i++ )
@@ -428,42 +432,44 @@ public class DataTypeUtilTest extends TestCase
 		}
 		
 	}
-
-	public void testToSqlDate( ) throws BirtException
+	@Test
+    public void testToSqlDate( ) throws BirtException
 	{
-		java.sql.Date date = DataTypeUtil.toSqlDate( "1999-2-11" );
 		Calendar cal = Calendar.getInstance( );
-		cal.clear( );
-		cal.set( 1999, 1, 11 );
-		cal.getTime( );
-		assertEquals ( cal.getTime( ), date );
-		
-		try
+		cal.clear();
 		{
+			
+			java.sql.Date date = DataTypeUtil.toSqlDate( "1999-2-11" );
+			cal.set( 1999, 1, 11 );
+			assertEquals ( cal.getTime( ), date );
+		}
+		
+		{
+
 			java.sql.Date date1 = DataTypeUtil.toSqlDate( "99-2-11" );
 			cal.set( 99, 1, 11 );
 			assertEquals ( cal.getTime( ), date1 );
-		}
-		catch ( BirtException e )
-		{
-			// TODO Auto-generated catch block
-			e.printStackTrace();
 		}
 		
 		try
 		{
 			java.sql.Date date1 = DataTypeUtil.toSqlDate( "9921111" );
-			assertEquals ( cal.getTime( ), date1 );
 			fail("Should not arrive here");
 		}
 		catch ( BirtException e )
 		{
-			// TODO Auto-generated catch block
+			// exception expected
 			e.printStackTrace();
 		}
+		
+		{
+			java.sql.Date date1 = DataTypeUtil.toSqlDate( 100000000000.123D );
+			cal.set( 1973, 2, 3 );
+			assertEquals ( cal.getTime(), date1 );
+		}
 	}
-	
-	public void testToSqlTime( ) throws BirtException
+	@Test
+    public void testToSqlTime( ) throws BirtException
 	{
 		Time temp = getTime( 11,11,25,0 );
 		Time time = DataTypeUtil.toSqlTime( "11:11:25" );
@@ -491,6 +497,18 @@ public class DataTypeUtilTest extends TestCase
 		failSqlTimeString( "1:11:25 pmm" );
 		failSqlTimeString( "1:11:65 am" );
 		failSqlTimeString( "1:61:25 pm" );
+		
+		time = DataTypeUtil.toSqlTime( 0D );
+		assertEquals ( getTime( 16,0,0,0 ), time );
+		
+		time = DataTypeUtil.toSqlTime( 1000D );
+		assertEquals ( getTime( 16,0,1,0 ), time );
+		
+		time = DataTypeUtil.toSqlTime( 999.789D );
+		assertEquals ( getTime( 16,0,1,0 ), time );
+		
+		time = DataTypeUtil.toSqlTime( 100000000000.123D );
+		assertEquals ( getTime( 1,46,40,0 ), time );
 	}
 	
 	private Time getTime( int hour, int minute, int second, int millis )
@@ -518,9 +536,8 @@ public class DataTypeUtilTest extends TestCase
 		{	
 		}
 	}
-	
-	
-	public void testToDate( )
+	@Test
+    public void testToDate( )
 	{
 		Date result;
 		for ( int i = 0; i < testObject.length; i++ )
@@ -541,8 +558,8 @@ public class DataTypeUtilTest extends TestCase
 			
 		}
 	}
-	
-	public void testToDate1( )
+	@Test
+    public void testToDate1( )
 	{
 		String[] testStrings = {"1997",
 				"1997-07",
@@ -603,8 +620,8 @@ public class DataTypeUtilTest extends TestCase
 			
 		}
 	}
-	
-	public void testToDate2( )
+	@Test
+    public void testToDate2( )
 	{
 		String[] dateStrings = {
 				"Jan 11, 2002", "Jan 11, 2002", "Feb 12, 1981 6:17 AM"
@@ -641,8 +658,8 @@ public class DataTypeUtilTest extends TestCase
 			}
 		}
 	}
-	
-	public void testToDateForMysql( ) throws BirtException
+	@Test
+    public void testToDateForMysql( ) throws BirtException
 	{
 		String source = "12/30/2008 13:00";
 		Calendar calendar = Calendar.getInstance( );
@@ -650,8 +667,8 @@ public class DataTypeUtilTest extends TestCase
 		calendar.set(2008, 11, 30, 13, 0, 0 );
 		assertEquals( DataTypeUtil.toDate( source ), calendar.getTime( ) );
 	}
-	
-	public void testToDate3( )
+	@Test
+    public void testToDate3( )
 	{
 		String[] dateStrings = {
 				"Jan 11, 2002", "Jan 11, 2002", "Feb 12, 1981 6:17 AM"
@@ -744,16 +761,14 @@ public class DataTypeUtilTest extends TestCase
 			}
 		}
 	}
-			
-		
-    
+	@Test
     public void testToTime( ) throws BirtException
     {
         String timeValue = "11:15:38";
         Object obj = DataTypeUtil.convert( timeValue, java.sql.Time.class );
         assertEquals( timeValue, obj.toString() );
     }
-    
+	@Test
     public void testToTimeFailure( ) 
     {
         String timeValue = "11:15";     // not a supported format
@@ -769,8 +784,8 @@ public class DataTypeUtilTest extends TestCase
         }
         assertTrue( hasException );
     }
-
-	public void testToDouble( )
+	@Test
+    public void testToDouble( )
 	{
 		Double result;
 		for ( int i = 0; i < testObject.length; i++ )
@@ -853,7 +868,8 @@ public class DataTypeUtilTest extends TestCase
 	/*
 	 * Class under test for String toString(Object)
 	 */
-	public void testToStringObject( )
+	@Test
+    public void testToStringObject( )
 	{
 		String result;
 		for ( int i = 0; i < testObject.length; i++ )
@@ -866,11 +882,17 @@ public class DataTypeUtilTest extends TestCase
 				if ( testObject[i] instanceof Double )
 				{
 					result = DataTypeUtil.toDouble( result ).toString( );
-				}else if ( testObject[i] instanceof Integer || testObject[i] instanceof BigDecimal )
+				}
+				else if ( testObject[i] instanceof Integer || testObject[i] instanceof BigDecimal )
 				{
 					result = DataTypeUtil.toInteger( result ).toString( );
 				}
-				assertEquals( result, resultString[i] );
+				else if ( testObject[i] instanceof Date )
+				{
+					result = df.format( DataTypeUtil.toDate( result ) );
+				}
+				Object expected = resultString[i];
+				assertEquals( expected, result );
 			}
 			catch ( BirtException e )
 			{
@@ -883,7 +905,8 @@ public class DataTypeUtilTest extends TestCase
 	/*
 	 * Class under test for String toString(Object)
 	 */
-	public void testToLocaleNeutralStringObject( )
+	@Test
+    public void testToLocaleNeutralStringObject( )
 	{
 		String result;
 		for ( int i = 0; i < testObject.length; i++ )
@@ -918,7 +941,8 @@ public class DataTypeUtilTest extends TestCase
 	 * Test toDateWithCheck
 	 *
 	 */
-	public void testToDateWithCheck( )
+	@Test
+    public void testToDateWithCheck( )
 	{
 		Locale locale;
 		String dateStr;
@@ -984,7 +1008,8 @@ public class DataTypeUtilTest extends TestCase
 	 * this test is to test toAutoValue. it's also included testing
 	 * toIntegerValue
 	 */
-	public void testToAutoValue( )
+	@Test
+    public void testToAutoValue( )
 	{
 		Object result;
 		for ( int i = 0; i < autoValueInputObject.length; i++ )
@@ -1005,7 +1030,8 @@ public class DataTypeUtilTest extends TestCase
 	/**
 	 * test convertion between String and Date  
 	 */
-	public void testToStringAndDate( )
+	@Test
+    public void testToStringAndDate( )
 	{
 		//the follow objects represent the same date Jan 25th, 1998
 		//the same object use toString() and toDate() several times it won't bring any error
@@ -1029,7 +1055,8 @@ public class DataTypeUtilTest extends TestCase
 	 * @throws BirtException 
 	 *
 	 */
-	public void testConvert( ) throws BirtException
+	@Test
+    public void testConvert( ) throws BirtException
 	{
 		java.sql.Date date = java.sql.Date.valueOf( "2006-01-01" );
 		Object ob = DataTypeUtil.convert( date, java.sql.Date.class );
@@ -1040,7 +1067,8 @@ public class DataTypeUtilTest extends TestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testConvert2( ) throws BirtException
+	@Test
+    public void testConvert2( ) throws BirtException
 	{
 		WrappedObject obj = new WrappedObject( );
 		// Any type
@@ -1052,7 +1080,8 @@ public class DataTypeUtilTest extends TestCase
 	 * 
 	 * @throws BirtException
 	 */
-	public void testToDate4( ) throws BirtException
+	@Test
+    public void testToDate4( ) throws BirtException
 	{
 		try 
 		{
@@ -1068,6 +1097,7 @@ public class DataTypeUtilTest extends TestCase
      * Test DataTypeUtil#toApiDataType( int odaDataTypeCode )
      * @throws BirtException
      */
+	@Test
     public void testToApiFromOdaDataType( ) throws BirtException
     {
         assertEquals( DataType.STRING_TYPE, 

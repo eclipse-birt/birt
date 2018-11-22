@@ -28,6 +28,7 @@ import org.eclipse.birt.report.data.adapter.api.LinkedDataSetUtil;
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.model.views.data.DataSetItemModel;
 import org.eclipse.birt.report.designer.data.ui.aggregation.AggregationUtil;
+import org.eclipse.birt.report.designer.data.ui.dataset.DataSetViewData;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;
 import org.eclipse.birt.report.designer.internal.ui.util.ExceptionHandler;
 import org.eclipse.birt.report.designer.internal.ui.util.IIndexInfo;
@@ -193,6 +194,7 @@ public class ExpressionProvider implements
 	public static final String OPERATORS = Messages.getString( "ExpressionProvider.Category.Operators" ); //$NON-NLS-1$
 	public static final String COLUMN_BINDINGS = Messages.getString( "ExpressionProvider.Category.ColumnBinding" ); //$NON-NLS-1$
 	public static final String CURRENT_CUBE = Messages.getString( "ExpressionProvider.Category.DataCubes" ); //$NON-NLS-1$
+	public static final String AVAILABLE_MEASURES = Messages.getString( "ExpressionProvider.Category.AvailableMeasures" ); //$NON-NLS-1$
 	public static final String MEASURE = "Measure";
 
 	// public static final String DATASETS = Messages.getString(
@@ -1150,6 +1152,10 @@ public class ExpressionProvider implements
 			return TOOLTIP_BINDING_PREFIX
 					+ ( (InheritedComputedColumnHandle) element ).getHandle( )
 							.getExpression( );
+		}
+		else if ( element instanceof DataSetViewData )
+		{
+			return ( (DataSetViewData) element ).getDisplayName( );
 		}
 		if ( adapterProvider != null )
 		{

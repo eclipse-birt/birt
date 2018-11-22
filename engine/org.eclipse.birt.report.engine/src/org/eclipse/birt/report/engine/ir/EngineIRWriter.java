@@ -1519,6 +1519,12 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeShort( out, FIELD_TEXT_HAS_EXPRESSION );
 			IOUtil.writeBool( out, hasExpr );
 		}
+        boolean jTidy = design.isJTidy( );
+        if ( !jTidy )
+        {
+            IOUtil.writeShort( out, FIELD_JTIDY );
+            IOUtil.writeBool( out, jTidy );
+        }
 	}
 
 	protected void writeDynamicText( DataOutputStream out,
@@ -1537,6 +1543,12 @@ public class EngineIRWriter implements IOConstants
 			IOUtil.writeShort( out, FIELD_CONTENT );
 			writeExpression( out, content );
 		}
+        boolean jTidy = design.isJTidy( );
+        if ( !jTidy )
+        {
+            IOUtil.writeShort( out, FIELD_JTIDY );
+            IOUtil.writeBool( out, jTidy );
+        }
 	}
 
 	protected void writeImage( DataOutputStream out, ImageItemDesign image )

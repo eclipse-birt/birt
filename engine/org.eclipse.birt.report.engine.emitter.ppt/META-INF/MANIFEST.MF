@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT PPT emitter
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.ppt; singleton:=true
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
@@ -18,4 +18,3 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.ppt.plugin.PPTEmitterPl
 Export-Package: org.eclipse.birt.report.engine.emitter.ppt,
  org.eclipse.birt.report.engine.emitter.ppt.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
-Import-Package: com.ibm.icu.lang;version="3.4.4"

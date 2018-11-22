@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Birt Report Engine Emitter PDF Tests Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.pdf.tests;singleton:=true
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.pdf.tests.Activator
 Import-Package: org.osgi.framework;version="1.3.0"
 Eclipse-LazyStart: true

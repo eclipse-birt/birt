@@ -16,6 +16,7 @@ import java.util.Map;
 
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ColumnDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
@@ -28,6 +29,13 @@ import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 
 import testutil.BaseTestCase;
 
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+
+import static org.junit.Assert.*;
+
 /**
  * Test case for scripted data source/data set
  */
@@ -38,12 +46,16 @@ public class ProgressiveViewingTest extends BaseTestCase
 	 * No looking ahead at all.
 	 * @throws BirtException
 	 */
-	public void testProgressiveViewing1() throws BirtException
+	@Test
+    public void testProgressiveViewing1() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
@@ -82,12 +94,16 @@ public class ProgressiveViewingTest extends BaseTestCase
 	 * Looking ahead for 1 row.
 	 * @throws BirtException
 	 */
-	public void testProgressiveViewing2() throws BirtException
+	@Test
+    public void testProgressiveViewing2() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
@@ -127,12 +143,16 @@ public class ProgressiveViewingTest extends BaseTestCase
 	 * Looking ahead for all row because exist overall aggregation, and the aggregation value is fetched in the beginning.
 	 * @throws BirtException
 	 */
-	public void testProgressiveViewing3() throws BirtException
+	@Test
+    public void testProgressiveViewing3() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
@@ -177,12 +197,16 @@ public class ProgressiveViewingTest extends BaseTestCase
 	 * Looking ahead for 1 even there exist overall aggregation, and the aggregation value is fetched in the beginning.
 	 * @throws BirtException
 	 */
-	public void testProgressiveViewing4() throws BirtException
+	@Test
+    public void testProgressiveViewing4() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
@@ -227,12 +251,16 @@ public class ProgressiveViewingTest extends BaseTestCase
 	 * Looking ahead for 1 even there exist overall aggregation, and the aggregation value is fetched in the beginning.
 	 * @throws BirtException
 	 */
-	public void testProgressiveViewing5() throws BirtException
+	@Test
+    public void testProgressiveViewing5() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
@@ -276,12 +304,16 @@ public class ProgressiveViewingTest extends BaseTestCase
 	 * Filter on non-aggr column
 	 * @throws BirtException
 	 */
-	public void testProgressiveViewing6() throws BirtException
+	@Test
+    public void testProgressiveViewing6() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
@@ -327,12 +359,16 @@ public class ProgressiveViewingTest extends BaseTestCase
 	 * Filter on aggregation, not qualify for progressive viewing
 	 * @throws BirtException
 	 */
-	public void testProgressiveViewing7() throws BirtException
+	@Test
+    public void testProgressiveViewing7() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );
@@ -380,12 +416,16 @@ public class ProgressiveViewingTest extends BaseTestCase
 	 * Filter on aggregation, not qualify for progressive viewing
 	 * @throws BirtException
 	 */
-	public void testProgressiveViewing8() throws BirtException
+	@Test
+    public void testProgressiveViewing8() throws BirtException
 	{
 		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION, 
+				this.scriptContext,
 				null,null,null );
 		context.setTmpdir( this.getTempDir( ) );
-		DataEngine dataEngine = DataEngine.newDataEngine( context );
+		PlatformConfig platformConfig = new PlatformConfig();
+		platformConfig.setTempDir( this.getTempDir() );
+		DataEngine dataEngine = DataEngine.newDataEngine( platformConfig, context );
 	
 		ScriptDataSourceDesign dataSource = new ScriptDataSourceDesign( "ds" );
 		dataSource.setOpenScript( "i = 0;" );

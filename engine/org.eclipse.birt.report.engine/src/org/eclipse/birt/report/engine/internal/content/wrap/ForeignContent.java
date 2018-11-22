@@ -103,4 +103,16 @@ public class ForeignContent extends AbstractContentWrapper
 		foreignContent.setRawKey( rawKey );
 		
 	}
+
+    public void setJTidy( boolean jTidy )
+    {
+        foreignContent.setJTidy( jTidy );
+
+    }
+
+    public boolean isJTidy( )
+    {
+        return foreignContent.isJTidy( );
+
+    }
 }

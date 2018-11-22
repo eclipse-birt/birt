@@ -23,6 +23,7 @@ import java.net.URISyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.fs.FileSystemFactory;
 import org.eclipse.birt.report.data.oda.excel.impl.i18n.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
@@ -128,7 +129,9 @@ public class ResourceLocatorUtil
 
 		else if ( obj instanceof URI )
 		{
-			return ( (URI) obj ).toURL( ).openStream( );
+			return FileSystemFactory.getInstance( )
+					.getFile( (URI) obj )
+					.createInputStream( );
 		}
 
 		return null;

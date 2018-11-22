@@ -515,7 +515,7 @@
 			adaptableType="org.eclipse.birt.report.model.api.ExtendedItemHandle"
 			class="org.eclipse.birt.report.item.crosstab.internal.ui.views.provider.CorssTabElementDropValidatorFactory">
 			<adapter
-				type="org.eclipse.birt.report.designer.core.commands.DeleteCommand">
+				type="org.eclipse.birt.report.designer.core.model.IDropValidator">
 			</adapter>
 		</factory>
 	</extension>

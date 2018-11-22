@@ -321,7 +321,8 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	protected int browserVersion;
 	// The browser supports the inline-block or not. The default state is true;
 	protected boolean browserSupportsInlineBlock = true;
-	
+	// The browser supports the broken image icon.
+		protected boolean browserSupportsBrokenImageIcon = false;	
 	protected int imageDpi = -1;
 	
 	protected HTMLEmitter htmlEmitter;
@@ -448,6 +449,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 					|| browserVersion == HTMLEmitterUtil.BROWSER_FIREFOX2 )
 			{
 				browserSupportsInlineBlock = false;
+			}
+//  Single Metric: Dont provide alt attribute to the img element in single metric			
+			if(browserVersion==HTMLEmitterUtil.BROWSER_FIREFOX
+			 ||browserVersion==HTMLEmitterUtil.BROWSER_FIREFOX1
+			 ||browserVersion==HTMLEmitterUtil.BROWSER_FIREFOX2)
+			{
+				browserSupportsBrokenImageIcon=true;
 			}
 		}
 	}
@@ -2703,6 +2711,41 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		// action
 		String tagName = openTagByType( display, DISPLAY_FLAG_ALL );
 		
+		
+		// append script which changes display of div to table from default 
+		//when no width is specified for HTML button item
+		if (tagName.equalsIgnoreCase( HTMLTags.TAG_DIV ) 
+				&& width == null 
+				&& foreign.getRawValue( ) != null )
+		{
+			String text = foreign.getRawValue( ).toString( );
+			if(text.contains("<button") )
+			{
+				int beginIndex = text.indexOf("<button id=\"");
+				if( beginIndex != -1)
+				{	
+					//Add the characters count of 12 for start index of (<button id=")
+					beginIndex = beginIndex + 12;
+					int endIndex = text.indexOf("\"", beginIndex);
+					String buttonID = text.substring(beginIndex, endIndex);
+					StringBuilder builder = new StringBuilder(text);
+					
+					builder.append( "<script type=\"text/javascript\">\n" );
+					builder.append( "var x = document.getElementById(\"" );
+					builder.append( buttonID );
+					builder.append( "\").parentNode;\n" );
+					builder.append( "if(x.nodeName.toUpperCase() == \"DIV\"){\n" );
+					builder.append( "if(x.style.width == \"\" || x.style.width == 'undefined'){\n");
+					builder.append( "x.style.display = \"table\";\n" );
+					builder.append( "}\n");
+					builder.append( "}\n");
+					builder.append( "</script>\n" );
+					
+					foreign.setRawValue(builder.toString());
+				}
+			}			
+		}
+		
 		boolean bookmarkOutput = false;
 		if ( metadataFilter != null )
 		{
@@ -2738,12 +2781,12 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			if ( url != null )
 			{
 				outputAction( foreign.getHyperlinkAction( ), url );
-				outputHtmlText( foreign );
+                outputHtmlText( foreign );
 				writer.closeTag( HTMLTags.TAG_A );
 			}
 			else
 			{
-				outputHtmlText( foreign );
+                outputHtmlText( foreign );
 			}
 			htmlEmitter.handleVerticalAlignEnd( foreign );
 		}
@@ -2759,38 +2802,43 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 	
-	
-	private void outputHtmlText(IForeignContent foreign)
-	{
-		boolean bIndent = writer.isIndent( );
-		writer.setIndent( false );
-		Object rawValue = foreign.getRawValue( );
-		String text = rawValue == null ? null : rawValue.toString( );
-		Document doc = new TextParser( ).parse( text,
-				TextParser.TEXT_TYPE_HTML );
-		ReportDesignHandle design = (ReportDesignHandle) runnable
-				.getDesignHandle( );
-		HTMLProcessor htmlProcessor = new HTMLProcessor( design, reportContext
-				.getAppContext( ) );
 
-		HashMap styleMap = new HashMap( );
+    private void outputHtmlText( IForeignContent foreign )
+    {
+        boolean bIndent = writer.isIndent( );
+        writer.setIndent( false );
+        Object rawValue = foreign.getRawValue( );
+        String text = rawValue == null ? null : rawValue.toString( );
+        ReportDesignHandle design = (ReportDesignHandle) runnable.getDesignHandle( );
 
-		Element body = null;
-		if ( doc != null )
-		{
-			NodeList bodys = doc.getElementsByTagName( "body" );
-			if ( bodys.getLength( ) > 0 )
-			{
-				body = (Element) bodys.item( 0 );
-			}
-		}
-		if ( body != null )
-		{
-			htmlProcessor.execute( body, styleMap );
-			processNodes( body, styleMap );
-		}
-		writer.setIndent( bIndent );
-	}
+        if ( !foreign.isJTidy( ) )
+        {
+            writer.writeCode( text );
+        }
+        else
+        {
+            Document doc = new TextParser( ).parse( text, TextParser.TEXT_TYPE_HTML );
+            HTMLProcessor htmlProcessor = new HTMLProcessor( design, reportContext.getAppContext( ) );
+
+            HashMap styleMap = new HashMap( );
+
+            Element body = null;
+            if ( doc != null )
+            {
+                NodeList bodys = doc.getElementsByTagName( "body" );
+                if ( bodys.getLength( ) > 0 )
+                {
+                    body = (Element) bodys.item( 0 );
+                }
+            }
+            if ( body != null )
+            {
+                htmlProcessor.execute( body, styleMap );
+                processNodes( body, styleMap );
+            }
+        }
+        writer.setIndent( bIndent );
+    }
 
 	/**
 	 * Visits the children nodes of the specific node
@@ -3082,7 +3130,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 			String altText = image.getAltText( );
 			if ( altText == null )
 			{
+//				#BIRT-3336 : Single Metric: Dont provide alt attribute to the img element in single metric
+				if(!browserSupportsBrokenImageIcon)
+				{
 				writer.attributeAllowEmpty( HTMLTags.ATTR_ALT, "" );
+				}
 			}
 			else
 			{

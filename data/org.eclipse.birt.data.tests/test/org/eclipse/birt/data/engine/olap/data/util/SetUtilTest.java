@@ -13,36 +13,31 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 
-import junit.framework.TestCase;
 
 import org.eclipse.birt.data.engine.cache.Constants;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 
 /**
  * 
  */
 
-public class SetUtilTest extends TestCase
-{
+public class SetUtilTest {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-	}
-
-	/*
+/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
-	}
-
-	public void testintersect1( ) throws IOException
+@Test
+    public void testintersect1( ) throws IOException
 	{
 		int LIST_BUFFER_SIZE = 4000;
 		PrimitiveDiskSortedStack[] stacks = new PrimitiveDiskSortedStack[4];
@@ -87,8 +82,8 @@ public class SetUtilTest extends TestCase
 			s.close( );
 		}
 	}
-	
-	public void testintersect2( ) throws IOException
+	@Test
+    public void testintersect2( ) throws IOException
 	{
 		BufferedPrimitiveDiskArray[] lists = new BufferedPrimitiveDiskArray[4];
 		lists[0] = new BufferedPrimitiveDiskArray( );
@@ -132,8 +127,8 @@ public class SetUtilTest extends TestCase
 			s.close( );
 		}
 	}
-	
-	public void testintersect3( ) throws IOException
+	@Test
+    public void testintersect3( ) throws IOException
 	{
 		BufferedPrimitiveDiskArray[] lists = new BufferedPrimitiveDiskArray[4];
 		lists[0] = new BufferedPrimitiveDiskArray( );
@@ -166,8 +161,8 @@ public class SetUtilTest extends TestCase
 		assertEquals( result.size( ), 1 );
 		assertEquals( result.get( 0 ), new Integer( 13 ) );
 	}
-	
-	public void testintersect4( ) throws IOException
+	@Test
+    public void testintersect4( ) throws IOException
 	{
 		BufferedPrimitiveDiskArray[] lists = new BufferedPrimitiveDiskArray[4];
 		lists[0] = new BufferedPrimitiveDiskArray( );
@@ -204,8 +199,8 @@ public class SetUtilTest extends TestCase
 			s.close( );
 		}
 	}
-	
-	public void testintersect5( ) throws IOException
+	@Test
+    public void testintersect5( ) throws IOException
 	{
 		BufferedPrimitiveDiskArray[] lists = new BufferedPrimitiveDiskArray[4];
 		lists[0] = new BufferedPrimitiveDiskArray( );

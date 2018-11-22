@@ -57,6 +57,7 @@ import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
 import org.eclipse.birt.report.model.api.extension.IReportItem;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.olap.LevelHandle;
+import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 
 /**
  * Provide all util methods for Model part of x-tab.
@@ -595,25 +596,25 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					rowLevel );
 			ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
 					name );
+			String measureName = getMeasureName( crosstab, measureView );
+			if ( measureName == null || measureName.isEmpty( ) )
+			{
+				// throw case
+				return;
+			}
+
+			MeasureHandle cubeMeasure = measureView.getCubeMeasure( );
+			// ComputedMeasureViews doesn't hold reference to measure , if they
+			// don't have their own aggregation.
+			if ( cubeMeasure != null && cubeMeasure.getDisplayName( ) != null )
+			{
+				column.setDisplayName( cubeMeasure.getDisplayName( ) );
+			}
 			String dataType = measureView.getDataType( );
 			column.setDataType( dataType );
-			
-			String measureName = null;
-			if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
-			{
-				measureName = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
-				if( measureName == null || measureName.isEmpty() )
-				{
-					// throw case
-					return;
-				}				
-				column.setExpression( ExpressionUtil.createDataSetRowExpression( measureName ) );
-			}
-			else
-			{
-				measureName = measureView.getCubeMeasureName( );
-				column.setExpression( ExpressionUtil.createJSMeasureExpression( measureName ) );
-			}
+				
+			String expression = getMeasureExpression( crosstab, measureName, measureView );
+			column.setExpression( expression );
 			
 			String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
 			// Count function should use integer data type
@@ -622,8 +623,11 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				dataType = DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
 				column.setDataType( dataType );
 			}
-			column.setAggregateFunction( function != null ? function
-					: defaultFunction );
+			if ( !CrosstabUtil.measureHasItsOwnAggregation( crosstab, cubeMeasure ) )
+			{
+				column.setAggregateFunction( function != null ? function
+						: defaultFunction );
+			}
 
 			// When the function is not null,set the column set the correct data
 			// type
@@ -635,22 +639,28 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 					// function
 
 					IAggrFunction aggFunc = getAggregationManager( ).getAggregation( column.getAggregateFunction( ) );
-
-					if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
+					if (aggFunc != null) 
 					{
-						// for running aggregation functions, it does not
-						// support
-						// direct calculation on measure, so we reset the func
-						// to default func.
-						column.setAggregateFunction( defaultFunction );
-					}
-					else
-					{
-						String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
-
-						if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+						if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
 						{
-							column.setDataType( targetType );
+							// for running aggregation functions, it does not
+							// support
+							// direct calculation on measure, so we reset the func
+							// to default func.
+							cubeMeasure = measureView.getCubeMeasure( );
+							if ( !CrosstabUtil.measureHasItsOwnAggregation( crosstab, cubeMeasure ) )
+							{
+								column.setAggregateFunction( defaultFunction );
+							}
+						}
+						else
+						{
+							String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
+	
+							if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+							{
+								column.setDataType( targetType );
+							}
 						}
 					}
 				}
@@ -723,16 +733,18 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 							try
 							{
 								IAggrFunction aggFunc = getAggregationManager( ).getAggregation( binding.getAggregateFunction( ) );
-
-								// TODO we ignore any existing running type
-								// aggregation binding here, logic need be
-								// refined and moved out.
-								if ( aggFunc.getType( ) != IAggrFunction.RUNNING_AGGR 
-										&& isMeasureDataItem(crosstab, measureName, (DataItemHandle) item, binding) )
+								if (aggFunc != null)
 								{
-									( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
-
-									break;
+									// TODO we ignore any existing running type
+									// aggregation binding here, logic need be
+									// refined and moved out.
+									if ( aggFunc.getType( ) != IAggrFunction.RUNNING_AGGR 
+											&& isMeasureDataItem(crosstab, measureName, (DataItemHandle) item, binding) )
+									{
+										( (DataItemHandle) item ).setResultSetColumn( columnHandle.getName( ) );
+	
+										break;
+									}
 								}
 							}
 							catch ( BirtException e )
@@ -744,6 +756,42 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				}
 			}
 		}
+	}
+
+	public static String getMeasureName( CrosstabReportItemHandle crosstab,
+			MeasureViewHandle measureView )
+	{
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		{
+			return CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
+		}
+		else
+		{
+			return measureView.getCubeMeasureName( );
+		}
+	}
+
+	public static String getMeasureExpression( CrosstabReportItemHandle crosstab,
+			String measureName, MeasureViewHandle measureView )
+	{
+		String expression;
+		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		{
+			MeasureHandle cubeMeasure = measureView.getCubeMeasure( );
+			if( CrosstabUtil.measureHasItsOwnAggregation( crosstab, cubeMeasure ) )
+			{
+				expression = ExpressionUtil.createJSMeasureExpression( measureName );
+			}
+			else
+			{
+				expression = ExpressionUtil.createDataSetRowExpression( measureName );
+			}
+		}
+		else
+		{
+			expression = ExpressionUtil.createJSMeasureExpression( measureName );
+		}
+		return expression;
 	}
 
 	/**
@@ -870,27 +918,34 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				rowLevel );
 		ComputedColumn column = StructureFactory.newComputedColumn( crosstab.getModelHandle( ),
 				name );
-		String dataType = measureView.getDataType( );
-		column.setDataType( dataType );
-		if( CrosstabUtil.isBoundToLinkedDataSet( crosstab ))
+		String dataField = getMeasureName( crosstab, measureView );
+		if( dataField == null || dataField.isEmpty() )
 		{
-			String dataField = CrosstabUtil.getRefLinkedDataModelColumnName( measureView );
-			if( dataField == null || dataField.isEmpty() )
-			{
-				// throw case
-				return null;
-			}
-			
-			column.setExpression( ExpressionUtil.createDataSetRowExpression( dataField ) );
-		}
-		else
-		{
-			column.setExpression( ExpressionUtil.createJSMeasureExpression( measureView.getCubeMeasureName( ) ) );
+			// throw case
+			return null;
 		}
 		
+		String dataType = measureView.getDataType( );
+		column.setDataType( dataType );
+
+		String expression = getMeasureExpression( crosstab, dataField, measureView );
+		column.setExpression( expression );
+		
 		String defaultFunction = getDefaultMeasureAggregationFunction( measureView );
-		column.setAggregateFunction( function != null ? function
-				: defaultFunction );
+
+		MeasureHandle cubeMeasure = measureView.getCubeMeasure( );
+		// ComputedMeasureViews doesn't hold reference to measure , if they
+		// don't have their own aggregation.
+		if ( cubeMeasure != null && cubeMeasure.getDisplayName( ) != null )
+		{
+			column.setDisplayName( cubeMeasure.getDisplayName( ) );
+		}
+		if ( !CrosstabUtil.measureHasItsOwnAggregation( crosstab, cubeMeasure ) )
+		{
+			column.setAggregateFunction(
+					function != null ? function : defaultFunction );
+		}
+
 		// Count function should use integer data type
 		if ( DesignChoiceConstants.MEASURE_FUNCTION_COUNT.equals( defaultFunction ) )
 		{
@@ -908,22 +963,24 @@ public final class CrosstabModelUtil implements ICrosstabConstants
 				// function
 
 				IAggrFunction aggFunc = getAggregationManager( ).getAggregation( column.getAggregateFunction( ) );
-
-				if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
+				if (aggFunc != null )
 				{
-					// for running aggregation functions, it does not
-					// support
-					// direct calculation on measure, so we reset the func
-					// to default func.
-					column.setAggregateFunction( defaultFunction );
-				}
-				else
-				{
-					String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
-
-					if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+					if ( aggFunc.getType( ) == IAggrFunction.RUNNING_AGGR )
 					{
-						column.setDataType( targetType );
+						// for running aggregation functions, it does not
+						// support
+						// direct calculation on measure, so we reset the func
+						// to default func.
+						column.setAggregateFunction( defaultFunction );
+					}
+					else
+					{
+						String targetType = DataAdapterUtil.adapterToModelDataType( aggFunc.getDataType( ) );
+	
+						if ( !DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( targetType ) )
+						{
+							column.setDataType( targetType );
+						}
 					}
 				}
 			}

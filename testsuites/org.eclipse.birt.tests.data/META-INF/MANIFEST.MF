@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Data Plug-in
 Bundle-SymbolicName: org.eclipse.birt.tests.data;singleton:=true
 Bundle-ClassPath: DtEtests.jar
-Bundle-Version: 4.5.0.qualifier
+Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.tests.data.engine.plugin.DataPlugin
 Bundle-Localization: plugin
 Require-Bundle: org.junit;resolution:=optional,
@@ -13,7 +13,7 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.datatools.enablement.oda.xml,
  org.eclipse.datatools.enablement.oda.xml.ui,
  org.eclipse.birt.data,
- org.apache.derby.core,
+ org.apache.derby,
  org.eclipse.birt.report.engine,
  org.eclipse.birt.tests.core,
  org.eclipse.birt.report.model,

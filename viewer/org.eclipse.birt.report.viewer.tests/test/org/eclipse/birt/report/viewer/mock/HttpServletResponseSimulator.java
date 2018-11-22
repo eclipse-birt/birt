@@ -596,4 +596,11 @@ public class HttpServletResponseSimulator implements HttpServletResponse
 		return null;
 	}
 
+    @Override
+    public void setContentLengthLong( long arg0 )
+    {
+        // TODO Auto-generated method stub
+        
+    }
+
 }

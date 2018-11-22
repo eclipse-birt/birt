@@ -11,6 +11,7 @@
               format="ppt"
               pagination="paper-size-pagination"
               id="org.eclipse.birt.report.engine.emitter.ppt"
-              mimeType="application/vnd.ms-powerpoint"/>
+              mimeType="application/vnd.ms-powerpoint"
+              isHidden="true"/>
   </extension>  
 </plugin>

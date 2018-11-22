@@ -17,15 +17,19 @@ import java.sql.Timestamp;
 
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 
-import junit.framework.TestCase;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+import org.junit.Ignore;
+import static org.junit.Assert.*;
 
 /**
  * 
  * Testcase for ParameterMetaData
  *  
  */
-public class ParameterMetaDataTest extends TestCase
-{
+public class ParameterMetaDataTest {
 
 	/** Connection object, used to create statement */
 	private Connection conn = null;
@@ -48,7 +52,8 @@ public class ParameterMetaDataTest extends TestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
+	@Before
+    public void parameterMetaDataSetUp() throws Exception
 	{
 		TestUtil.createTestData( );
 		String sql = "insert into "
@@ -87,28 +92,27 @@ public class ParameterMetaDataTest extends TestCase
 		jdbcPreparedStmt.execute( );
 		jdbcPmd = jdbcPreparedStmt.getParameterMetaData( );
 
-		super.setUp( );
 	}
 
 	/*
 	 * @see TestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
+	@After
+    public void parameterMetaDataTearDown() throws Exception
 	{
 		conn.close( );
 		stmt.close( );
 		jdbcConn.close( );
 		jdbcPreparedStmt.close( );
 		TestUtil.deleteTestData( );
-		super.tearDown( );
 	}
-
-	public void testGetParameterCount( ) throws Exception
+	@Test
+    public void testGetParameterCount( ) throws Exception
 	{
 		assertEquals( Pmd.getParameterCount( ), jdbcPmd.getParameterCount( ) );
 	}
-
-	public void testGetParameterMode( ) throws Exception
+	@Test
+    public void testGetParameterMode( ) throws Exception
 	{
 		for ( int i = 1; i < Pmd.getParameterCount( ) + 1; i++ )
 		{
@@ -116,8 +120,8 @@ public class ParameterMetaDataTest extends TestCase
 					jdbcPmd.getParameterMode( i ) );
 		}
 	}
-
-	public void testGetParameterType( ) throws Exception
+	@Test
+    public void testGetParameterType( ) throws Exception
 	{
 		for ( int i = 1; i < Pmd.getParameterCount( ) + 1; i++ )
 		{
@@ -125,8 +129,8 @@ public class ParameterMetaDataTest extends TestCase
 					jdbcPmd.getParameterType( i ) );
 		}
 	}
-
-	public void testGetParameterTypeName( ) throws Exception
+	@Test
+    public void testGetParameterTypeName( ) throws Exception
 	{
 		for ( int i = 1; i < Pmd.getParameterCount( ) + 1; i++ )
 		{
@@ -134,24 +138,24 @@ public class ParameterMetaDataTest extends TestCase
 					jdbcPmd.getParameterTypeName( i ) );
 		}
 	}
-
-	public void testGetPrecision( ) throws Exception
+	@Test
+    public void testGetPrecision( ) throws Exception
 	{
 		for ( int i = 1; i < Pmd.getParameterCount( ) + 1; i++ )
 		{
 			assertEquals( Pmd.getPrecision( i ), jdbcPmd.getPrecision( i ) );
 		}
 	}
-
-	public void testGetScale( ) throws Exception
+	@Test
+    public void testGetScale( ) throws Exception
 	{
 		for ( int i = 1; i < Pmd.getParameterCount( ) + 1; i++ )
 		{
 			assertEquals( Pmd.getScale( i ), jdbcPmd.getScale( i ) );
 		}
 	}
-
-	public void testIsNullable( ) throws Exception
+	@Test
+    public void testIsNullable( ) throws Exception
 	{
 		for ( int i = 1; i < Pmd.getParameterCount( ) + 1; i++ )
 		{

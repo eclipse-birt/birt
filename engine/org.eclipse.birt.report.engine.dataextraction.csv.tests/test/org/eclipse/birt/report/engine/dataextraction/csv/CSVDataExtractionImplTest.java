@@ -360,19 +360,14 @@ public class CSVDataExtractionImplTest extends TestCase
 		subtestRegular( option, "testSelectColumns.csv"); //$NON-NLS-1$
 	}
 
+	/*
+	 * Test will ignore the invalid column and output only valid ones without
+	 * exception
+	 */
 	public void testOutputWithInvalidColumn() throws Exception
 	{
 		option.setSelectedColumns( TEST_INVALID_COLUMNS );
-		CSVDataExtractionImpl extract = createExtraction( out, option );
-		try
-		{
-			extract.output( results );
-			fail("The output() method must throw an exception when selecting invalid column names."); //$NON-NLS-1$
-		}
-		catch ( BirtException e )
-		{
-			
-		}
+		subtestRegular( option, "testSelectInvalidColumn.csv"); //$NON-NLS-1$
 	}
 
 	public void testOutputQuoting() throws Exception

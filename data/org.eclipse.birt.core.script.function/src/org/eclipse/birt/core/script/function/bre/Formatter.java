@@ -32,7 +32,6 @@ public class Formatter implements IScriptFunctionExecutor
 	private static final String FORMAT = "format";
 
 	private IScriptFunctionExecutor executor;
-	private IScriptFunctionContext scriptContext;
 	private ULocale locale = null;
 	private TimeZone timeZone = null;
 
@@ -87,10 +86,9 @@ public class Formatter implements IScriptFunctionExecutor
 		return fmt;
 	}
 
-	public Object execute( Object[] arguments, IScriptFunctionContext context )
+	public Object execute( Object[] arguments, IScriptFunctionContext scriptContext )
 			throws BirtException
 	{
-		scriptContext = context;
 		if ( scriptContext != null )
 		{
 			locale = (ULocale) scriptContext
@@ -102,7 +100,7 @@ public class Formatter implements IScriptFunctionExecutor
 		{
 			timeZone = TimeZone.getDefault( );
 		}
-		return executor.execute( arguments, context );
+		return executor.execute( arguments, scriptContext );
 	}
 
 	public StringFormatter getStringFormatter( String pattern )
