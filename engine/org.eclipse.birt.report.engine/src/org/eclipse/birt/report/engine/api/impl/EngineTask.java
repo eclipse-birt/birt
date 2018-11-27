@@ -1855,12 +1855,12 @@ public abstract class EngineTask implements IEngineTask
 						pdfBidiProcessing );
 			}
 
-			Object pdfHyphenation = renderOptions
-					.getOption( IPDFRenderOption.PDF_HYPHENATION );
-			if ( pdfHyphenation != null )
+			Object pdfWordbreak = renderOptions
+					.getOption( IPDFRenderOption.PDF_WORDBREAK );
+			if ( pdfWordbreak != null )
 			{
-				layoutEngine.setOption( IPDFRenderOption.PDF_HYPHENATION,
-						pdfHyphenation );
+				layoutEngine.setOption( IPDFRenderOption.PDF_WORDBREAK,
+						pdfWordbreak );
 			}
 			
 			Object dpi = renderOptions

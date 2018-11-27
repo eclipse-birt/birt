@@ -968,6 +968,8 @@
     <eLiterals name="DayOfWeek" value="12"/>
     <eLiterals name="DayOfMonth" value="13"/>
     <eLiterals name="DayOfYear" value="14"/>
+    <eLiterals name="WeekOfQuarter" value="15"/>
+    <eLiterals name="DayOfQuarter" value="16"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EDataType" name="GroupingUnitTypeObject" instanceClassName="org.eclipse.emf.common.util.Enumerator">
     <eAnnotations source="http:///org/eclipse/emf/ecore/util/ExtendedMetaData">

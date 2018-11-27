@@ -17,12 +17,15 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;
@@ -69,6 +72,15 @@ import com.ibm.icu.util.ULocale;
 public class ViewerAttributeBean extends BaseAttributeBean
 {
 
+	/* white list of extensions for rptdocument to be produced */
+	private static Set<String> allowedExtensionsForRptDocument;
+	
+	/* black list of extensions for the rptdocument to be produced*/
+	private static Set<String> disallowedExtensionsForRptDocument;
+	
+	private static final String KEY_RPTDOC_ALLOWED_EXTENSIONS = "reportdocument.allowed-extensions";
+	private static final String KEY_RPTDOC_DISALLOWED_EXTENSIONS = "reportdocument.disallowed-extensions";
+	
 	/**
 	 * Report parameters as string map
 	 */
@@ -106,6 +118,37 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 	private Boolean reportRtl;
 
+	
+	
+	static
+	{
+		allowedExtensionsForRptDocument = new HashSet<String>();
+		disallowedExtensionsForRptDocument = new HashSet<String>();
+				
+		String allowedExtString = (String) ParameterAccessor.getInitProp(KEY_RPTDOC_ALLOWED_EXTENSIONS);
+		if (allowedExtString != null && allowedExtString.trim().length() > 0)
+		{
+			String[] allowedExtArray = allowedExtString.trim().split(",");
+			for(String s: allowedExtArray)
+			{
+				allowedExtensionsForRptDocument.add(s.trim());
+			}
+		}
+		
+		String disallowedExtString = (String) ParameterAccessor.getInitProp(KEY_RPTDOC_DISALLOWED_EXTENSIONS);
+		if (disallowedExtString != null && disallowedExtString.trim().length() > 0)
+		{
+			String[] disallowedExtArray = disallowedExtString.trim().split(",");
+			for(String s: disallowedExtArray)
+			{
+				disallowedExtensionsForRptDocument.add(s.trim());
+			}
+		}
+		
+	}
+	
+	
+	
 	/**
 	 * Constructor.
 	 * 
@@ -132,10 +175,11 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	protected void __init( HttpServletRequest request ) throws Exception
 	{
 		// If GetImage operate, return directly.
+		String servletPath = request.getServletPath( );
 		if ( ParameterAccessor.isGetImageOperator( request )
-				&& ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request.getServletPath( ) )
-						|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase( request.getServletPath( ) )
-						|| IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( request.getServletPath( ) ) ) )
+				&& ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( servletPath )
+						|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase( servletPath )
+						|| IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( servletPath ) || IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( servletPath ) ) )
 		{
 			return;
 		}
@@ -158,13 +202,22 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		this.reportPageRange = ParameterAccessor.getPageRange( request );
 		this.action = ParameterAccessor.getAction( request );
 
+		boolean checkReportDocumentExtension = false;
+		
 		// If use frameset/output/download/extract servlet pattern, generate
 		// document
 		// from design file
-		if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( request.getServletPath( ) )
-				|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase( request.getServletPath( ) )
-				|| IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request.getServletPath( ) )
-				|| IBirtConstants.SERVLET_PATH_EXTRACT.equalsIgnoreCase( request.getServletPath( ) ) )
+		if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( servletPath )
+				|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase( servletPath )
+				 )
+		{
+			this.reportDocumentName = ParameterAccessor.getReportDocument( request,
+					null,
+					true );
+			checkReportDocumentExtension = true;
+		}
+		else if (IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( servletPath )
+				|| IBirtConstants.SERVLET_PATH_EXTRACT.equalsIgnoreCase( servletPath ))
 		{
 			this.reportDocumentName = ParameterAccessor.getReportDocument( request,
 					null,
@@ -175,6 +228,15 @@ public class ViewerAttributeBean extends BaseAttributeBean
 			this.reportDocumentName = ParameterAccessor.getReportDocument( request,
 					null,
 					false );
+			if (IBirtConstants.SERVLET_PATH_DOCUMENT.equalsIgnoreCase( servletPath ) && reportDocumentName != null)
+			{
+				checkReportDocumentExtension = true;
+			}
+		}
+		// Fix for security issue: https://bugs.eclipse.org/bugs/show_bug.cgi?id=538142
+		if (checkReportDocumentExtension)
+		{
+			checkExtensionAllowedForRPTDocument(this.reportDocumentName);
 		}
 
 		this.reportDesignName = ParameterAccessor.getReport( request, null );
@@ -1250,5 +1312,35 @@ public class ViewerAttributeBean extends BaseAttributeBean
 		}
 
 		return ( reportRtl != null ) ? reportRtl.booleanValue( ) : false;
+	}
+	
+	protected static void checkExtensionAllowedForRPTDocument(String rptDocumentName) throws ViewerException
+	{
+		int extIndex = rptDocumentName.lastIndexOf(".");
+		String extension = null;
+		boolean validExtension = true;
+		
+		if (extIndex > -1 && (extIndex+1) < rptDocumentName.length())
+		{
+			extension = rptDocumentName.substring(extIndex + 1);
+			
+			if ( !disallowedExtensionsForRptDocument.isEmpty() && 					
+					disallowedExtensionsForRptDocument.contains(extension))
+			{
+				validExtension = false;
+			}
+			
+			if ( !allowedExtensionsForRptDocument.isEmpty() && !allowedExtensionsForRptDocument.contains( extension ))
+			{
+				validExtension = false;
+			}
+			
+			if (!validExtension)
+			{
+				throw new ViewerException(BirtResources
+								.getMessage( ResourceConstants.ERROR_INVALID_EXTENSION_FOR_DOCUMENT_PARAMETER, new String[] {extension} ) );
+			}
+			
+		}
 	}
 }

@@ -147,47 +147,70 @@ public enum GroupingUnitType implements Enumerator {
 	 * @generated
 	 * @ordered
 	 */
-	STRING_PREFIX_LITERAL(9, "StringPrefix", "StringPrefix"), /**
-																 * The '<em><b>Week Of Month</b></em>' literal object.
-																 * <!-- begin-user-doc -->
-																 * <!-- end-user-doc -->
-																 * @see #WEEK_OF_MONTH
-																 * @generated
-																 * @ordered
-																 */
-	WEEK_OF_MONTH_LITERAL(10, "WeekOfMonth", "WeekOfMonth"), /**
-																 * The '<em><b>Week Of Year</b></em>' literal object.
-																 * <!-- begin-user-doc -->
-																 * <!-- end-user-doc -->
-																 * @see #WEEK_OF_YEAR
-																 * @generated
-																 * @ordered
-																 */
-	WEEK_OF_YEAR_LITERAL(11, "WeekOfYear", "WeekOfYear"), /**
-															 * The '<em><b>Day Of Week</b></em>' literal object.
-															 * <!-- begin-user-doc -->
-															 * <!-- end-user-doc -->
-															 * @see #DAY_OF_WEEK
-															 * @generated
-															 * @ordered
-															 */
-	DAY_OF_WEEK_LITERAL(12, "DayOfWeek", "DayOfWeek"), /**
-														 * The '<em><b>Day Of Month</b></em>' literal object.
-														 * <!-- begin-user-doc -->
-														 * <!-- end-user-doc -->
-														 * @see #DAY_OF_MONTH
-														 * @generated
-														 * @ordered
-														 */
-	DAY_OF_MONTH_LITERAL(13, "DayOfMonth", "DayOfMonth"), /**
-															 * The '<em><b>Day Of Year</b></em>' literal object.
-															 * <!-- begin-user-doc -->
-															 * <!-- end-user-doc -->
-															 * @see #DAY_OF_YEAR
-															 * @generated
-															 * @ordered
-															 */
-	DAY_OF_YEAR_LITERAL(14, "DayOfYear", "DayOfYear");
+	STRING_PREFIX_LITERAL(9, "StringPrefix", "StringPrefix"),
+	/**
+	* The '<em><b>Week Of Month</b></em>' literal object.
+	* <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	* @see #WEEK_OF_MONTH
+	* @generated
+	* @ordered
+	*/
+	WEEK_OF_MONTH_LITERAL(10, "WeekOfMonth", "WeekOfMonth"),
+	/**
+	* The '<em><b>Week Of Year</b></em>' literal object.
+	* <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	* @see #WEEK_OF_YEAR
+	* @generated
+	* @ordered
+	*/
+	WEEK_OF_YEAR_LITERAL(11, "WeekOfYear", "WeekOfYear"),
+	/**
+	* The '<em><b>Day Of Week</b></em>' literal object.
+	* <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	* @see #DAY_OF_WEEK
+	* @generated
+	* @ordered
+	*/
+	DAY_OF_WEEK_LITERAL(12, "DayOfWeek", "DayOfWeek"),
+	/**
+	* The '<em><b>Day Of Month</b></em>' literal object.
+	* <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	* @see #DAY_OF_MONTH
+	* @generated
+	* @ordered
+	*/
+	DAY_OF_MONTH_LITERAL(13, "DayOfMonth", "DayOfMonth"),
+	/**
+	* The '<em><b>Day Of Year</b></em>' literal object.
+	* <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	* @see #DAY_OF_YEAR
+	* @generated
+	* @ordered
+	*/
+	DAY_OF_YEAR_LITERAL(14, "DayOfYear", "DayOfYear"),
+	/**
+	* The '<em><b>Week Of Quarter</b></em>' literal object.
+	* <!-- begin-user-doc -->
+	* <!-- end-user-doc -->
+	* @see #WEEK_OF_QUARTER
+	* @generated
+	* @ordered
+	*/
+	WEEK_OF_QUARTER_LITERAL(15, "WeekOfQuarter", "WeekOfQuarter"),
+	/**
+	* The '<em><b>Day Of Quarter</b></em>' literal object.
+	* <!-- begin-user-doc -->
+	* <!-- end-user-doc -->
+	* @see #DAY_OF_QUARTER
+	* @generated
+	* @ordered
+	*/
+	DAY_OF_QUARTER_LITERAL(16, "DayOfQuarter", "DayOfQuarter");
 
 	/**
 	 * The '<em><b>Seconds</b></em>' literal value.
@@ -387,6 +410,36 @@ public enum GroupingUnitType implements Enumerator {
 	public static final int DAY_OF_YEAR = 14;
 
 	/**
+	 * The '<em><b>Week Of Quarter</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Week Of Quarter</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #WEEK_OF_QUARTER_LITERAL
+	 * @model name="WeekOfQuarter"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int WEEK_OF_QUARTER = 15;
+
+	/**
+	 * The '<em><b>Day Of Quarter</b></em>' literal value.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of '<em><b>Day Of Quarter</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @see #DAY_OF_QUARTER_LITERAL
+	 * @model name="DayOfQuarter"
+	 * @generated
+	 * @ordered
+	 */
+	public static final int DAY_OF_QUARTER = 16;
+
+	/**
 	 * An array of all the '<em><b>Grouping Unit Type</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
@@ -407,6 +460,8 @@ public enum GroupingUnitType implements Enumerator {
 			DAY_OF_WEEK_LITERAL,
 			DAY_OF_MONTH_LITERAL,
 			DAY_OF_YEAR_LITERAL,
+			WEEK_OF_QUARTER_LITERAL,
+			DAY_OF_QUARTER_LITERAL,
 	};
 
 	/**
@@ -492,6 +547,10 @@ public enum GroupingUnitType implements Enumerator {
 				return DAY_OF_MONTH_LITERAL;
 			case DAY_OF_YEAR :
 				return DAY_OF_YEAR_LITERAL;
+			case WEEK_OF_QUARTER :
+				return WEEK_OF_QUARTER_LITERAL;
+			case DAY_OF_QUARTER :
+				return DAY_OF_QUARTER_LITERAL;
 		}
 		return null;
 	}
