@@ -28,3 +28,4 @@ Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.chart.examples.radar.ui.series,
  org.eclipse.birt.chart.examples.radar.ui.type
+Automatic-Module-Name: org.eclipse.birt.chart.examples

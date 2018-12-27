@@ -27,3 +27,4 @@ Export-Package: org.eclipse.birt.report.designer.data.ui.actions,
  org.eclipse.birt.report.designer.data.ui.util
 Bundle-ClassPath: library.jar,
  .
+Automatic-Module-Name: org.eclipse.birt.report.designer.ui.data

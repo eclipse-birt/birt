@@ -51,3 +51,4 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="[2.2.0,3.0.0)";visibility:
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.eclipse.birt.chart.plugin.ChartEnginePlugin
+Automatic-Module-Name: org.eclipse.birt.chart.engine

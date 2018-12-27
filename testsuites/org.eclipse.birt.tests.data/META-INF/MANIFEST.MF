@@ -21,3 +21,4 @@ Require-Bundle: org.junit;resolution:=optional,
 Eclipse-LazyStart: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.tests.data

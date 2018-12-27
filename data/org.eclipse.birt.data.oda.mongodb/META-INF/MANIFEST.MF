@@ -22,3 +22,4 @@ Import-Package: com.mongodb;version="[3.2.2,4.0.0)",
  org.bson;version="3.2.2",
  org.bson.conversions;version="3.2.2",
  org.bson.types;version="3.2.2"
+Automatic-Module-Name: org.eclipse.birt.data.oda.mongodb

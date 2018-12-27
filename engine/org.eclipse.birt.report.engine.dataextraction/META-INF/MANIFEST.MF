@@ -10,4 +10,5 @@ Export-Package: org.eclipse.birt.report.engine.dataextraction,
  org.eclipse.birt.report.engine.dataextraction.i18n,
  org.eclipse.birt.report.engine.dataextraction.impl
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.birt.report.engine.dataextraction
 

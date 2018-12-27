@@ -13,3 +13,4 @@ Require-Bundle: org.eclipse.birt.core,
  org.junit;resolution:=optional;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.core.tests

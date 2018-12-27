@@ -22,3 +22,4 @@ Export-Package: org.eclipse.birt.report.data.oda.i18n;x-friends:="org.eclipse.bi
  org.eclipse.birt.report.data.oda.plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-BundleShape: dir
+Automatic-Module-Name: org.eclipse.birt.report.data.oda.jdbc

@@ -14,3 +14,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.hive
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.eclipse.birt.report.data.oda.hive.Activator
+Automatic-Module-Name: org.eclipse.birt.report.data.oda.hive

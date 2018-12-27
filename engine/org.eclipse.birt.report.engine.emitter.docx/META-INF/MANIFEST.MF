@@ -14,3 +14,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.engine.emitter.docx,
  org.eclipse.birt.report.engine.emitter.docx.plugin,
  org.eclipse.birt.report.engine.emitter.docx.writer
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.docx

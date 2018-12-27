@@ -13,3 +13,4 @@ Bundle-Vendor: Eclipse BIRT Project
 Bundle-ClassPath: modeladapterodatests.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.model.adapter.oda.util
+Automatic-Module-Name: org.eclipse.birt.report.model.adapter.oda.tests

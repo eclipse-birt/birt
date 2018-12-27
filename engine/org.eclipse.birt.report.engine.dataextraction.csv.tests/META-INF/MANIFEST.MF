@@ -10,3 +10,4 @@ Export-Package: org.eclipse.birt.report.engine.dataextraction.csv,
  org.eclipse.birt.report.engine.dataextraction.csv.mock
 Import-Package: org.eclipse.birt.data.engine.api
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.report.engine.dataextraction.csv.tests

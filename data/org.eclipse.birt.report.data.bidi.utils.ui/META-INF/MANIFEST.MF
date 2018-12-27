@@ -9,3 +9,4 @@ Require-Bundle: org.eclipse.birt.report.data.bidi.utils;bundle-version="[2.5.1,5
  org.eclipse.ui;bundle-version="[3.2.0,4.0.0)"
 Bundle-Vendor: Eclipse.org
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.birt.report.data.bidi.utils.ui

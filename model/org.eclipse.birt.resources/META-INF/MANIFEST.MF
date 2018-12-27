@@ -7,4 +7,5 @@ Bundle-Localization: plugin
 Bundle-Vendor: Eclipse BIRT Project
 Eclipse-BundleShape: dir
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.birt.resources
 

@@ -10,4 +10,5 @@ Bundle-ClassPath: coretesthelper.jar
 Export-Package: org.eclipse.birt.core.archive.compound,
  org.eclipse.birt.core.archive.cache
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.core.testhelper
 
