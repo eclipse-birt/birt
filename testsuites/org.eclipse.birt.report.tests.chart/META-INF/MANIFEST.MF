@@ -22,3 +22,4 @@ Require-Bundle: org.junit;resolution:=optional,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.ibm.icu.util
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.report.tests.chart
