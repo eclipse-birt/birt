@@ -5,3 +5,4 @@ Bundle-SymbolicName: org.eclipse.birt.tests
 Bundle-Version: 4.8.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.tests
