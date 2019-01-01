@@ -16,7 +16,7 @@ Export-Package: org.eclipse.birt.chart.ui.i18n,
 Require-Bundle: org.eclipse.ui;bundle-version="[3.2.0,4.0.0)";visibility:=reexport,
  org.eclipse.birt.core.ui;bundle-version="[2.1.0,5.0.0)";visibility:=reexport,
  org.eclipse.birt.chart.engine;bundle-version="[2.1.0,5.0.0)";visibility:=reexport
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.ibm.icu.text;version="3.4.4",
  com.ibm.icu.util;version="3.4.4"

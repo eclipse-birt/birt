@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.report.tests.chart
 Bundle-ClassPath: test-chart.jar
 Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.tests.chart.plugin.ChartPlugin
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.chart.device.extension,
  org.eclipse.birt.chart.device.svg,

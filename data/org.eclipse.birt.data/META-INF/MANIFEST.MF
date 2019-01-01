@@ -60,5 +60,5 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:
  org.eclipse.datatools.connectivity.oda.consumer;bundle-version="[3.2.5,4.0.0)";visibility:=reexport,
  org.mozilla.javascript;bundle-version="[1.6.0,2.0.0)";visibility:=reexport,
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.2.7,4.0.0)"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

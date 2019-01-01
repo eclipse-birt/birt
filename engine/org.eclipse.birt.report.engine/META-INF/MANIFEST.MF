@@ -87,6 +87,6 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:
  org.apache.batik.css;bundle-version="[1.7.0,2.0.0)",
  org.apache.batik.util;bundle-version="[1.7.0,2.0.0)",
  org.apache.batik.i18n;bundle-version="[1.9.1,2.0.0)";resolution:=optional
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
