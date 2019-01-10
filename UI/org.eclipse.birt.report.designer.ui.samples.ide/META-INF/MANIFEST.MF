@@ -13,6 +13,6 @@ Require-Bundle: org.eclipse.birt.report.designer.ui.samplesview,
  org.eclipse.jface,
  org.eclipse.jdt.core,
  org.eclipse.birt.report.designer.ui.editors
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

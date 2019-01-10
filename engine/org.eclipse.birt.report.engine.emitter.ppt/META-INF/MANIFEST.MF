@@ -13,7 +13,7 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)",
  org.apache.commons.codec,
  org.apache.batik.transcoder,
  com.lowagie.text
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.ppt.plugin.PPTEmitterPlugin
 Export-Package: org.eclipse.birt.report.engine.emitter.ppt,
  org.eclipse.birt.report.engine.emitter.ppt.util

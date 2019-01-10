@@ -10,7 +10,7 @@ Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.chart.reportitem,
  org.eclipse.birt.report.engine.odf;bundle-version="[2.6.0,5.0.0)"
 Bundle-Vendor: Eclipse BIRT Project
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.ods.plugin.OdsEmitterPlugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.engine.emitter.ods,
