@@ -20,7 +20,7 @@ Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.engine,
  org.eclipse.birt.report.designer.ui.data
 Bundle-Activator: org.eclipse.birt.report.item.crosstab.plugin.CrosstabPlugin
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse BIRT Project
 Export-Package: org.eclipse.birt.report.item.crosstab.internal.ui.editors.action,
  org.eclipse.birt.report.item.crosstab.internal.ui.editors.model,

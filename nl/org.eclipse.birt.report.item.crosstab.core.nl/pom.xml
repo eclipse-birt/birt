@@ -7,7 +7,6 @@
 		<version>4.8.0-SNAPSHOT</version>
 		<relativePath>../</relativePath>
 	</parent>
-	<groupId>org.eclipse.birt.nl</groupId>
 	<artifactId>org.eclipse.birt.report.item.crosstab.core.nl1</artifactId>
 	<packaging>eclipse-plugin</packaging>
 </project>

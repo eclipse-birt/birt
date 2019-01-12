@@ -7,7 +7,6 @@
 		<version>4.8.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
-	<groupId>org.eclipse.birt.features</groupId>
 	<artifactId>org.eclipse.birt.chart.osgi.runtime</artifactId>
 	<packaging>eclipse-feature</packaging>
 	<build>
@@ -15,7 +14,6 @@
 			<plugin>
 				<groupId>org.eclipse.tycho.extras</groupId>
 				<artifactId>tycho-source-feature-plugin</artifactId>
-				<version>${tycho.version}</version>
 				<configuration>
 					<excludes>
 						<plugin id="org.apache.axis"/>
@@ -33,8 +31,7 @@
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>tycho-p2-plugin</artifactId>
-				<version>${tycho.version}</version>
-			</plugin>
+				</plugin>
 		</plugins>
 	</build>
 </project>
