@@ -17,6 +17,5 @@ Export-Package: org.eclipse.birt.report.data.adapter,
  org.eclipse.birt.report.data.adapter.api.timeFunction,
  org.eclipse.birt.report.data.adapter.impl
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-ClassPath: library.jar,
- .
+Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6

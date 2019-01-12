@@ -5,9 +5,7 @@ Bundle-SymbolicName: org.eclipse.birt.report.model; singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.model.plugin.ModelPlugin
 Eclipse-BuddyPolicy: registered
-Bundle-ClassPath: tests.jar,
- modelFragment_internal.jar,
- .
+Bundle-ClassPath: .
 Eclipse-ExtensibleAPI: true 
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
