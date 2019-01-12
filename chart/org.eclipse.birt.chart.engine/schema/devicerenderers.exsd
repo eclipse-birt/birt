@@ -2,9 +2,9 @@
 <!-- Schema file written by PDE -->
 <schema targetNamespace="org.eclipse.birt.chart.engine" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
-      <appinfo>
+      <appInfo>
          <meta.schema plugin="org.eclipse.birt.chart.engine" id="devicerenderers" name="Contains definition of chart device renderers"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          The DeviceRenderer extension point allows custom implementations of device renderers to be plugged into the chart library to generate charts in new output formats.
       </documentation>
@@ -12,12 +12,12 @@
 
    <element name="extension">
       <annotation>
-         <appinfo>
+         <appInfo>
             <meta.element />
-         </appinfo>
+         </appInfo>
       </annotation>
       <complexType>
-         <sequence>
+         <sequence minOccurs="1" maxOccurs="unbounded">
             <element ref="deviceRenderer"/>
          </sequence>
          <attribute name="point" type="string" use="required">
@@ -63,9 +63,9 @@
                <documentation>
                   The device attribute corresponds to the fully qualified class name that represents the implementing device renderer class. An example of the fully qualified device renderer class name is &apos;org.eclipse.birt.chart.device.swt.SwtRendererImpl&apos;
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute kind="java"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
          <attribute name="format" type="string">
@@ -87,27 +87,27 @@
                <documentation>
                   @Since 2.5. This is used to display name of device renderer in UI. If it&apos;s blank, display name could be &quot;format&quot; attribute value.
                </documentation>
-               <appinfo>
+               <appInfo>
                   <meta.attribute translatable="true"/>
-               </appinfo>
+               </appInfo>
             </annotation>
          </attribute>
       </complexType>
    </element>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="since"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          1.0.0
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="examples"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          &lt;extension
          point=&quot;org.eclipse.birt.chart.engine.devicerenderers&quot;&gt;
@@ -145,27 +145,27 @@
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="apiInfo"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          Please refer to the javadocs for IDeviceRenderer in the &lt;i&gt;org.eclipse.birt.chart.device&lt;/i&gt; package.
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="implementation"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          The &lt;i&gt;org.eclipse.birt.chart.device.extension&lt;/i&gt; plug-in provides device renderers for default supported output devices.
       </documentation>
    </annotation>
 
    <annotation>
-      <appinfo>
+      <appInfo>
          <meta.section type="copyright"/>
-      </appinfo>
+      </appInfo>
       <documentation>
          Copyright (c) 2004-2005 Actuate Corporation.
 All rights reserved. This program and the accompanying materials are made available under the  terms of the Eclipse Public License v1.0 which accompanies this distribution, and is available at http://www.eclipse.org/legal/epl-v10.html

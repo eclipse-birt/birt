@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <!-- Schema file written by PDE -->
-<schema targetNamespace="org.eclipse.birt.chart.engine">
+<schema targetNamespace="org.eclipse.birt.chart.engine" xmlns="http://www.w3.org/2001/XMLSchema">
 <annotation>
       <appInfo>
          <meta.schema plugin="org.eclipse.birt.chart.engine" id="datasetprocessors" name="Contains definition of chart DataSet processors"/>
@@ -11,8 +11,13 @@
    </annotation>
 
    <element name="extension">
+      <annotation>
+         <appInfo>
+            <meta.element />
+         </appInfo>
+      </annotation>
       <complexType>
-         <sequence>
+         <sequence minOccurs="1" maxOccurs="unbounded">
             <element ref="datasetProcessor"/>
          </sequence>
          <attribute name="point" type="string" use="required">
