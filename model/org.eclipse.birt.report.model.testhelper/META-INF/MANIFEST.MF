@@ -15,3 +15,4 @@ Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.b
 Bundle-ClassPath: tests.jar
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.birt.report.model.testhelper

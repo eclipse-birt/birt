@@ -20,3 +20,4 @@ Bundle-Vendor: Eclipse BIRT Project
 Bundle-ClassPath: library.jar,
  .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.birt.report.data.adapter

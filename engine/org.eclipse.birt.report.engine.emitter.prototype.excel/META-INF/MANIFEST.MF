@@ -14,3 +14,4 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.excel.plugin.Excelemitt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.engine.emitter.excel,
  org.eclipse.birt.report.engine.emitter.excel.layout
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.prototype.excel

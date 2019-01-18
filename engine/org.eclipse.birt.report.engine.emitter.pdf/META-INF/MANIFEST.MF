@@ -17,3 +17,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.pdf.plugin.PDFEmitterPlugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-ExtensibleAPI: true
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.pdf

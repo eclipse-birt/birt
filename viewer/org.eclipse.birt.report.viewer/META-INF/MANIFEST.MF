@@ -61,3 +61,4 @@ Jetty-WarFolderPath: birt
 Jetty-WarResourcePath: birt
 Web-ContextPath: /viewer
 managedServerName: org.eclipse.birt.report.viewer.server
+Automatic-Module-Name: org.eclipse.birt.report.viewer

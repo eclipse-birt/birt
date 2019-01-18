@@ -7,3 +7,4 @@ Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.birt.core;bundle-version="4.2.2"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-BundleShape: dir
+Automatic-Module-Name: org.eclipse.birt.me.prettyprint.hector

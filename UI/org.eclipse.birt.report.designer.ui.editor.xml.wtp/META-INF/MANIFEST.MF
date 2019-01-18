@@ -24,3 +24,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.designer.ui.editor.pages.xml
+Automatic-Module-Name: org.eclipse.birt.report.designer.ui.editor.xml.wtp

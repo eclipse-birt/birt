@@ -11,3 +11,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.engine.javascript
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Activator: org.eclipse.birt.report.engine.javascript.plugin.JavaScriptPlugin
+Automatic-Module-Name: org.eclipse.birt.report.engine.script.javascript

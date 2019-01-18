@@ -7,4 +7,5 @@ Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-BundleShape: dir
+Automatic-Module-Name: org.eclipse.birt.report.engine.fonts
 

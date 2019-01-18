@@ -13,3 +13,4 @@ Bundle-ClassPath: libs/dom4j-1.6.1.jar,
  libs/poi-3.10-FINAL.jar,
  libs/poi-ooxml-schemas-3.10-FINAL.jar,
  .
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.pptx.tests

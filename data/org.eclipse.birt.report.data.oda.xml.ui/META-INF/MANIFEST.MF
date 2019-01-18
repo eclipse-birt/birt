@@ -11,3 +11,4 @@ Require-Bundle: org.eclipse.datatools.connectivity.oda.design.ui;bundle-version=
  org.eclipse.datatools.enablement.oda.xml.ui;bundle-version="[1.0.0,2.0.0)"
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.birt.report.data.oda.xml.ui

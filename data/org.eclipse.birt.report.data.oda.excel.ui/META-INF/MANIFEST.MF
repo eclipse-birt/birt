@@ -14,3 +14,4 @@ Require-Bundle: org.eclipse.ui,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.excel.ui.wizards
+Automatic-Module-Name: org.eclipse.birt.report.data.oda.excel.ui

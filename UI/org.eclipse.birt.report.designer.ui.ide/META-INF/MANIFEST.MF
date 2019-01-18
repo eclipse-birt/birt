@@ -42,3 +42,4 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.ibm.icu.text;version="3.4.4"
+Automatic-Module-Name: org.eclipse.birt.report.designer.ui.ide

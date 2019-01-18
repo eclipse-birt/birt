@@ -10,4 +10,5 @@ Import-Package: org.w3c.dom,org.w3c.dom.ev
  ents;version="[3.0.0,4.0.0)"
 Bundle-Vendor: Eclipse BIRT Project
 Export-Package: org.w3c.dom.svg
+Automatic-Module-Name: org.w3c.dom.svg.extension
 

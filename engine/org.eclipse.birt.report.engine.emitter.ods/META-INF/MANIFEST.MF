@@ -15,3 +15,4 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.ods.plugin.OdsEmitterPl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: org.eclipse.birt.report.engine.emitter.ods,
  org.eclipse.birt.report.engine.emitter.ods.layout
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.ods

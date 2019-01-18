@@ -15,5 +15,6 @@ Import-Package: com.ibm.icu.text;version="3.4.4",
  com.ibm.icu.util;version="3.4.4"
 Export-Package: org.eclipse.birt.report.model.i18n,
  org.eclipse.birt.report.model.util
+Automatic-Module-Name: org.eclipse.birt.report.model.tests
 
 

@@ -12,3 +12,4 @@ Bundle-ClassPath: utility.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Import-Package: com.ibm.icu.util
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.tests.core

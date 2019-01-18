@@ -16,3 +16,4 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.report.model
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Automatic-Module-Name: org.eclipse.birt.report.tests.engine

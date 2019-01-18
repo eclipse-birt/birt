@@ -13,3 +13,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.data.oda.mongodb.ui.Activator
 Import-Package: com.mongodb;version="[3.2.2,4.0.0)"
+Automatic-Module-Name: org.eclipse.birt.data.oda.mongodb.ui

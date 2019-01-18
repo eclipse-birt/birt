@@ -18,3 +18,4 @@ Export-Package: org.eclipse.birt.report.engine,
 Require-Bundle: org.junit;resolution:=optional;visibility:=reexport
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.report.engine.testhelper
