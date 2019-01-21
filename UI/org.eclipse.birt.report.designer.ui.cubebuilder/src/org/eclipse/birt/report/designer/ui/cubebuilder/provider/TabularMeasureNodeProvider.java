@@ -89,21 +89,21 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 	public String getNodeDisplayName( Object model )
 	{
 		MeasureHandle handle = (MeasureHandle) model;
-		if ( handle.getDisplayName( ) != null
-				&& handle.getDisplayName( ).trim( ).length( ) > 0 )
-		{
-			return handle.getDisplayName( );
-		}
 		if ( handle.getDisplayNameKey( ) != null )
 		{
 			String externalizedDisplayName = handle.getExternalizedValue(
 					ColumnHint.DISPLAY_NAME_ID_MEMBER,
 					ColumnHint.DISPLAY_NAME_MEMBER );
 			if ( externalizedDisplayName != null
-					&& externalizedDisplayName.trim( ).length( ) > 0 )
+					&& !externalizedDisplayName.trim( ).isEmpty( ) )
 			{
 				return externalizedDisplayName;
 			}
+		}
+		if ( handle.getDisplayName( ) != null
+				&& !handle.getDisplayName( ).trim( ).isEmpty( ) )
+		{
+			return handle.getDisplayName( );
 		}
 		return handle.getName( );
 	}
