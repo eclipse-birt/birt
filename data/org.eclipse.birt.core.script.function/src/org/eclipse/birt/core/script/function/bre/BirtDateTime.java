@@ -11,6 +11,7 @@
 
 package org.eclipse.birt.core.script.function.bre;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.util.ArrayList;
@@ -35,15 +36,11 @@ import com.ibm.icu.util.ULocale;
 /**
  *
  */
-public class BirtDateTime implements IScriptFunctionExecutor
+public class BirtDateTime implements IScriptFunctionExecutor, Serializable
 {
-	//TODO Change these values according to the locale.
-
-	/**
-	 *
-	 */
 	private static final long serialVersionUID = 1L;
 	
+	// TODO Change these values according to the locale.
 	static private ThreadLocal<List<SimpleDateFormat>> threadSDFArray = new ThreadLocal<List<SimpleDateFormat>>();
 	private static ThreadLocal<ULocale> threadLocale = new ThreadLocal<ULocale>( );
 	private static ThreadLocal<TimeZone> threadTimeZone = new ThreadLocal<TimeZone>( );
@@ -706,7 +703,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		if ( d == null )
 			throw new java.lang.IllegalArgumentException( Messages.getString( "error.BirtDateTime.cannotBeNull.DateValue" ) );
 
-		return getCalendar( d ).get( Calendar.DAY_OF_MONTH );
+		return getCalendar(d).get(Calendar.DAY_OF_MONTH);
 	}
 
 	private static class Function_WeekDay extends Function_temp
@@ -1881,7 +1878,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				return null;
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-			Calendar start = getFiscalYearStateDate( context, args );
+			Calendar start = getFiscalYearStartDate( context, args );
 			if ( start.get( Calendar.DAY_OF_YEAR ) > 1 )
 			{
 				adjustFiscalYear( current, start );
@@ -1911,7 +1908,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				return null;
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-			Calendar start = getFiscalYearStateDate( context, args );
+			Calendar start = getFiscalYearStartDate( context, args );
 			// Quarter starts with 1
 			adjustFiscalYear( current, start );
 			return current.get( Calendar.MONTH ) / 3 + 1;
@@ -1936,7 +1933,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				return null;
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-			Calendar start = getFiscalYearStateDate( context, args );
+			Calendar start = getFiscalYearStartDate( context, args );
 			// Month starts with 1
 			adjustFiscalYear( current, start );
 			return current.get( Calendar.MONTH ) + 1;
@@ -1962,7 +1959,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
 			int currentWeek = current.get( Calendar.WEEK_OF_YEAR );
-			Calendar start = getFiscalYearStateDate( context, args );
+			Calendar start = getFiscalYearStartDate( context, args );
 			start.set( Calendar.YEAR, current.get( Calendar.YEAR ) );
 			int startWeek = start.get( Calendar.WEEK_OF_YEAR );
 			if ( currentWeek >= startWeek )
@@ -1972,9 +1969,9 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			
 			// Go to last year to add weeks together
 			start.set( Calendar.YEAR, current.get( Calendar.YEAR ) - 1 );
-			Calendar lastYearLastWeek = getCalendar( new Date( start.get( Calendar.YEAR ) - 1,
-					11,
-					31 ) );
+
+			Calendar lastYearLastWeek = Calendar.getInstance();
+			lastYearLastWeek.set(start.get(Calendar.YEAR), 11, 31);
 			// Last week may return 1 as week of year
 			while ( lastYearLastWeek.get( Calendar.WEEK_OF_YEAR ) == 1 )
 			{
@@ -2003,7 +2000,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 				return null;
 			}
 			Calendar current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-			Calendar start = getFiscalYearStateDate( context, args );
+			Calendar start = getFiscalYearStartDate( context, args );
 			adjustFiscalYear( current, start );
 			return current.get( Calendar.DAY_OF_YEAR );
 		}
@@ -2029,7 +2026,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			Calendar current;
 			if ( args[0] instanceof Number )
 			{
-				current = getFiscalYearStateDate( context, args );
+				current = getFiscalYearStartDate( context, args );
 				// Month starts with 1
 				current.add( Calendar.MONTH,
 						( (Number) args[0] ).intValue( ) - 1 );
@@ -2037,7 +2034,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			else
 			{
 				current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-				Calendar start = getFiscalYearStateDate( context, args );
+				Calendar start = getFiscalYearStartDate( context, args );
 				adjustFiscalMonth( current, start );
 				// Do not exceed the max days of current month
 				current.set( Calendar.DATE,
@@ -2068,7 +2065,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			Calendar current;
 			if ( args[0] instanceof Number )
 			{
-				current = getFiscalYearStateDate( context, args );
+				current = getFiscalYearStartDate( context, args );
 				// Quarter starts with 1
 				current.add( Calendar.MONTH,
 						( ( (Number) args[0] ).intValue( ) - 1 ) * 3 );
@@ -2076,7 +2073,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			else
 			{
 				current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-				Calendar start = getFiscalYearStateDate( context, args );
+				Calendar start = getFiscalYearStartDate( context, args );
 				adjustFiscalMonth( current, start );
 				int monthRemaindary = ( current.get( Calendar.MONTH )
 						- start.get( Calendar.MONTH ) + 12 ) % 3;
@@ -2110,7 +2107,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			Calendar current;
 			if ( args[0] instanceof Number )
 			{
-				current = getFiscalYearStateDate( context, args );
+				current = getFiscalYearStartDate( context, args );
 				// Week starts with 1
 				current.add( Calendar.WEEK_OF_YEAR,
 						( (Number) args[0] ).intValue( ) - 1 );
@@ -2144,7 +2141,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			Calendar current = null;
 			if ( args[0] instanceof Number )
 			{
-				current = getFiscalYearStateDate( context, args );
+				current = getFiscalYearStartDate( context, args );
 				current.set( Calendar.YEAR, ( (Number) args[0] ).intValue( ) );
 				if ( current.get( Calendar.DAY_OF_YEAR ) > 1 )
 				{
@@ -2154,7 +2151,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 			else
 			{
 				current = getCalendar( DataTypeUtil.toDate( args[0] ) );
-				Calendar start = getFiscalYearStateDate( context, args );
+				Calendar start = getFiscalYearStartDate( context, args );
 				adjustFiscalYear( current, start );
 				current.set( Calendar.MONTH, start.get( Calendar.MONTH ) );
 				// Do not exceed the max days of current month
@@ -2367,7 +2364,7 @@ public class BirtDateTime implements IScriptFunctionExecutor
 		return start;
 	}
 
-	private static Calendar getFiscalYearStateDate(
+	private static Calendar getFiscalYearStartDate(
 			IScriptFunctionContext context, Object[] args ) throws BirtException
 	{
 		if ( args.length > 1 )

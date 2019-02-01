@@ -12,6 +12,8 @@
 package org.eclipse.birt.core.script.function.bre;
 
 
+import java.io.Serializable;
+
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.function.i18n.Messages;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionContext;
@@ -20,8 +22,9 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 /**
  * 
  */
-abstract class Function_temp implements IScriptFunctionExecutor
+abstract class Function_temp implements IScriptFunctionExecutor, Serializable
 {
+	private static final long serialVersionUID = 1L;
 	protected int minParamCount;
 	protected int maxParamCount;
 	

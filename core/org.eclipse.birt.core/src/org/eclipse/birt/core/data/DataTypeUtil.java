@@ -101,7 +101,7 @@ public final class DataTypeUtil
 		switch ( toType )
 		{
 			case DataType.INTEGER_TYPE :
-				return toInteger( source );
+			return toInteger(source);
 			case DataType.DECIMAL_TYPE :
 				return toBigDecimal( source );
 			case DataType.BOOLEAN_TYPE :
@@ -155,7 +155,7 @@ public final class DataTypeUtil
 		if ( toTypeClass == DataType.getClass( DataType.ANY_TYPE ) )
 			return source;
 		if ( toTypeClass == Integer.class )
-			return toInteger( source );
+			return toInteger(source);
 		if ( toTypeClass == BigDecimal.class )
 			return toBigDecimal( source );
 		if ( toTypeClass == Boolean.class )
