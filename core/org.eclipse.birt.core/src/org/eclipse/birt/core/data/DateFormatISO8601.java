@@ -47,6 +47,7 @@ public class DateFormatISO8601
 			ParseException
 	{
 		DateFormat dateFormat = getSimpleDateFormat( source, timeZone );
+		TimeZone savedTimeZone = dateFormat.getTimeZone();
 		Date resultDate = null;
 		try
 		{
@@ -66,6 +67,9 @@ public class DateFormatISO8601
 			throw new CoreException( ResourceConstants.CONVERT_FAILS,
 					new Object[]{source.toString( ), "Date"} );
 		}
+		finally {
+			dateFormat.setTimeZone(savedTimeZone);
+		}
 	}
 
 	/**
@@ -73,7 +77,9 @@ public class DateFormatISO8601
 	 */
 	public static SimpleDateFormat getDateFormat( String source, TimeZone timeZone ) throws BirtException
 	{
-		return getSimpleDateFormat( source, timeZone );
+		// SimpleDateFormat must be cloned here, to prevent write-through to the cache
+		// of the underlying DateFormatFactory
+		return (SimpleDateFormat) getSimpleDateFormat(source, timeZone).clone();
 	}
 
 	/**
