@@ -168,9 +168,9 @@ public class DateFormatterTest extends TestCase
 		sample.applyPattern( "d" );
 		assertEquals( "9/13/98", sample.format( date ) );
 		sample.applyPattern( "Long Time" );
-		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM PDT" ) );
+		assertEquals(true, sample.format(date).startsWith("8:01:44 PM"));
 		sample.applyPattern( "T" );
-		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM PDT" ) );
+		assertEquals(true, sample.format(date).startsWith("8:01:44 PM"));
 		
 		/*
 		 * Commented out below test code since ICU behavior changed, the result from ICU is no longer
@@ -186,7 +186,7 @@ public class DateFormatterTest extends TestCase
 		assertEquals( javaSample.format( date ), sample.format( date ) );
 		*/
 		sample.applyPattern( "General Date" );
-		assertEquals( true, sample.format( date ).startsWith( "September 13, 1998 at 8:01:44 PM PDT" ) );
+		assertEquals(true, sample.format(date).startsWith("September 13, 1998 at 8:01:44 PM"));
 
 		sample.applyPattern( "Short Time" );
 		assertEquals( "20:01", sample.format( date ) );
