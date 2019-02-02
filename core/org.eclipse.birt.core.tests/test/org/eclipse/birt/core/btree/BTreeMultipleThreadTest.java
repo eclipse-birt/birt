@@ -123,11 +123,11 @@ public class BTreeMultipleThreadTest extends TestCase
 		TestThread( BTreeCursor<String, String> cursor )
 		{
 			this.cursor = cursor;
+			increaseThreadCount();
 		}
 
 		public void run( )
 		{
-			increaseThreadCount( );
 			try
 			{
 				// first is the before last
