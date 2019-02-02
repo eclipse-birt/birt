@@ -2321,7 +2321,7 @@ public class BirtDateTime implements IScriptFunctionExecutor, Serializable
 			{
 				timeZone = TimeZone.getDefault( );
 			}
-			if ( threadTimeZone.get( ) != timeZone )
+			if (!timeZone.equals(threadTimeZone.get()))
 			{
 				threadTimeZone.set( (TimeZone) timeZone );
 			}
