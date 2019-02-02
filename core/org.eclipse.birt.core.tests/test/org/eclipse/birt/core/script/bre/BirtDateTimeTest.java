@@ -1708,8 +1708,10 @@ public class BirtDateTimeTest extends TestCase
 		return c.getTime( );
 	}
 
+	@SuppressWarnings("deprecation")
 	private Date firstDayOfWeek(Calendar c, int year, int month, int day) {
-		c.set(year, month, day);
+		Date date = new Date(year - 1900, month, day);
+		c.setTime(date);
 		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
 		return c.getTime();
 	}
