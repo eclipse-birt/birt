@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.core.script.bre;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -23,6 +22,8 @@ import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 import junit.framework.TestCase;
@@ -1216,7 +1217,7 @@ public class BirtDateTimeTest extends TestCase
 
 		//com.ibm.icu.util.Calendar c = com.ibm.icu.util.Calendar.getInstance( TimeZone.getDefault( ), ULocale.getDefault() );
 		Calendar c = Calendar.getInstance();
-		c.setTimeZone(java.util.TimeZone.getDefault());
+		c.setTimeZone(TimeZone.getDefault());
 
 		c.clear( );
 		c.setMinimalDaysInFirstWeek( 1 );
