@@ -4,6 +4,9 @@ jdk:
 cache:
   directories:
     - ~/.m2
-script: mvn -B --global-toolchains travis-maven-toolchain.xml clean package -DskipTests
-install:
-  -
+  timeout: 1000
+
+install: true
+script: mvn -q -B --global-toolchains travis-maven-toolchain.xml clean install -DskipTests &&
+        mvn -B --global-toolchains travis-maven-toolchain.xml -pl :org.eclipse.birt.core.tests integration-test
+before_cache: rm -r ~/.m2/repository/org/eclipse/birt
