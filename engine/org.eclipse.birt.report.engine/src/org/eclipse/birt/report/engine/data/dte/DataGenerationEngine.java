@@ -21,9 +21,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
-import org.eclipse.birt.report.data.adapter.api.IDataAdapterFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.data.DataEngineFactory;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
@@ -61,17 +59,7 @@ public class DataGenerationEngine extends DteDataEngine
 			dteEngineContext.setTmpdir( tempDir );
 		}
 
-		// If engine is also IDataAdapterFactory, create session directly,
-		// without relying on platform extensions.
-		if ( context.getEngine( ) instanceof IDataAdapterFactory )
-		{
-			dteSession = ( (IDataAdapterFactory) context.getEngine( ) )
-					.createSession( dteSessionContext );
-		}
-		else
-		{
-			dteSession = DataRequestSession.newSession( dteSessionContext );
-		}
+		dteSession = context.newSession( dteSessionContext );
 
 		initialize();
 	}
