@@ -188,7 +188,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 		if ( context == null )
 			throw new AdapterException( ResourceConstants.CONEXT_NULL_ERROR );
 
-		dataEngine = (DataEngineImpl)DataEngine.newDataEngine( context.getDataEngineContext( ) );
+		dataEngine = createDataEngine( context.getDataEngineContext( ) );
 		modelAdaptor = new DataModelAdapter( context );
 
 		sessionContext = context;
@@ -201,6 +201,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 			this.setModuleHandleToAppContext();
 		}
 		DataSessionConfig.startup( this );
+	}
+	
+	protected DataEngineImpl createDataEngine( DataEngineContext context ) throws BirtException
+	{
+		return (DataEngineImpl) DataEngine.newDataEngine( context );
 	}
 
 	/*
