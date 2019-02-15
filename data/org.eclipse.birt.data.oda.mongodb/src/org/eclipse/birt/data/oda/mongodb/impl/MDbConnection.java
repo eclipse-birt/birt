@@ -14,9 +14,10 @@
 
 package org.eclipse.birt.data.oda.mongodb.impl;
 
-import java.util.Properties;
-import java.util.logging.Level;
-
+import com.ibm.icu.util.ULocale;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoException;
+import com.mongodb.client.MongoDatabase;
 import org.bson.Document;
 import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import org.eclipse.datatools.connectivity.oda.IConnection;
@@ -24,11 +25,8 @@ import org.eclipse.datatools.connectivity.oda.IDataSetMetaData;
 import org.eclipse.datatools.connectivity.oda.IQuery;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-import com.ibm.icu.util.ULocale;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoException;
-import com.mongodb.client.MongoDatabase;
-import com.mongodb.client.MongoIterable;
+import java.util.Properties;
+import java.util.logging.Level;
 
 
 /**
@@ -202,17 +200,14 @@ public class MDbConnection implements IConnection
 		{
 			return false;
 		}
-		try
-		{
-			MongoIterable<String> databaseNameIterable = mongoClient
-					.listDatabaseNames( );
-			for ( String databaseName : databaseNameIterable )
-			{
-				if ( dbName.equals( databaseName ) )
-				{
-					return true;
-				}
+		try {
+			String databaseName = mongoClient
+					.getDatabase(dbName).getName();
+
+			if (dbName.equals(databaseName)) {
+				return true;
 			}
+
 			return false;
 		}
 		catch ( MongoException ex )

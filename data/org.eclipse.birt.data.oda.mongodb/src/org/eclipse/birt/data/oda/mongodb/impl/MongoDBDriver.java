@@ -15,6 +15,8 @@
 package org.eclipse.birt.data.oda.mongodb.impl;
 
 import java.net.InetAddress;
+
+import com.mongodb.*;
 import org.eclipse.birt.data.oda.mongodb.nls.Messages;
 import java.util.ArrayList;
 
@@ -35,14 +37,7 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.DataTypeMapping;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
-import com.mongodb.Mongo;
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientOptions;
 import com.mongodb.MongoClientOptions.Builder;
-import com.mongodb.MongoClientURI;
-import com.mongodb.MongoCredential;
-import com.mongodb.ReadPreference;
-import com.mongodb.ServerAddress;
 
 /**
  * Implementation class of IDriver for the MongoDB ODA runtime driver.
@@ -63,6 +58,7 @@ public class MongoDBDriver implements IDriver
     public static final String DBNAME_PROP = MONGO_PROP_PREFIX.concat( "databaseName" ); //$NON-NLS-1$
 	public static final String USERNAME_PROP = MONGO_PROP_PREFIX.concat( "userName" ); //$NON-NLS-1$
 	public static final String PASSWORD_PROP = MONGO_PROP_PREFIX.concat( "password" ); //$NON-NLS-1$
+	public static final String AUTHENTICATION_MECHANISM_PROP = MONGO_PROP_PREFIX.concat( "authenticationMechanism" ); //$NON-NLS-1$
     
 
 	// Kerberos Authentication
@@ -312,6 +308,7 @@ public class MongoDBDriver implements IDriver
 			String userName = getUserName( connProperties );
 			String databaseName = getDatabaseName( connProperties );
 			String password = getPassword( connProperties );
+			String authenticationMechanism = getStringPropValue(connProperties,AUTHENTICATION_MECHANISM_PROP);
 
 			MongoClientOptions.Builder clientOptionsBuilder = createDefaultClientOptionsBuilder(
 					connProperties );
@@ -359,6 +356,7 @@ public class MongoDBDriver implements IDriver
 						.build( );
 				List<MongoCredential> mongoCredentials = new ArrayList<MongoCredential>( );
 				MongoCredential mongoCredential = null;
+				AuthenticationMechanism authMechanism = AuthenticationMechanism.fromMechanismName(authenticationMechanism);
 				if ( useKerberos.equals( "true" ) )
 				{
 					InetAddress addr = InetAddress
@@ -377,6 +375,36 @@ public class MongoDBDriver implements IDriver
 					}
 					mongoCredential = mongoCredential.withMechanismProperty(
 							"CANONICALIZE_HOST_NAME", true );
+				}
+				else if (authMechanism == AuthenticationMechanism.SCRAM_SHA_1) {
+					mongoCredential = MongoCredential.createScramSha1Credential(
+							userName,
+							databaseName,
+							( password == null ? null
+									: password.toCharArray( ) ) );
+
+				}
+				else if (authMechanism == AuthenticationMechanism.PLAIN) {
+					mongoCredential = MongoCredential.createPlainCredential(
+							userName,
+							databaseName,
+							( password == null ? null
+									: password.toCharArray( ) ) );
+
+				}
+				else if (authMechanism == AuthenticationMechanism.MONGODB_CR) {
+					mongoCredential = MongoCredential.createMongoCRCredential(
+							userName,
+							databaseName,
+							( password == null ? null
+									: password.toCharArray( ) ) );
+
+				}
+				else if (authMechanism == AuthenticationMechanism.MONGODB_X509) {
+					mongoCredential = MongoCredential.createMongoX509Credential(
+							userName );
+					clientOptions = clientOptionsBuilder.sslEnabled(true).build();
+
 				}
 				else
 				{

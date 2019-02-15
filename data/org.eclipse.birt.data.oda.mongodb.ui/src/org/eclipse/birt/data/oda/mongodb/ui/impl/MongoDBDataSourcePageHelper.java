@@ -11,14 +11,14 @@
 
 package org.eclipse.birt.data.oda.mongodb.ui.impl;
 
-import java.util.Properties;
-
+import com.mongodb.AuthenticationMechanism;
 import org.eclipse.birt.data.oda.mongodb.impl.MongoDBDriver;
 import org.eclipse.birt.data.oda.mongodb.internal.impl.MDbMetaData;
 import org.eclipse.birt.data.oda.mongodb.ui.i18n.Messages;
 import org.eclipse.birt.data.oda.mongodb.ui.util.UIHelper;
 import org.eclipse.jface.dialogs.IMessageProvider;
 import org.eclipse.jface.preference.PreferencePage;
+import org.eclipse.jface.viewers.*;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;
@@ -30,22 +30,20 @@ import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
-import org.eclipse.swt.widgets.Button;
-import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Control;
-import org.eclipse.swt.widgets.Group;
-import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Text;
+import org.eclipse.swt.widgets.*;
+
+import java.util.Properties;
 
 public class MongoDBDataSourcePageHelper
 {
+
 
 	private static final String EMPTY_STRING = ""; //$NON-NLS-1$
 	private WizardPage wizardPage;
 	private PreferencePage propertyPage;
 
 	private Button URIElementsRadioBtn, URIRadioBtn, socketAliveCheckbox,
-			useKerberosAuthenticationCheckBox, kerberosConfigurationRadioBtn,
+			/*useKerberosAuthenticationCheckBox,*/ kerberosConfigurationRadioBtn,
 			kerberosCredentialsRadioBtn;
 	private Group URIElementsGroup, kerberosConfigElementGroup;
 	private Text serverHostText, serverPortText, databaseNameText,
@@ -56,7 +54,9 @@ public class MongoDBDataSourcePageHelper
 	private boolean isPropertyPage, isURITextFieldFoucs, socketAlive,useKerberosAuthentication, isKerberosPasswordFieldFoucs;
 	private String dbURI, serverHost, serverPort, dbName, userName, password,
 			gssapiServiceName, kerberosConfigurationFile,
-			gssAPIConfigurationFile, kerberosPrincipal, kerberosPassword;
+			gssAPIConfigurationFile, kerberosPrincipal, kerberosPassword,
+			authenticationMechanism;
+	private ComboViewer authenticationMechanismChooser;
 
 	// page default message
 	private String DEFAULT_MESSAGE = Messages.getString( "MongoDBDataSourceWizardPage.message.default" ); //$NON-NLS-1$
@@ -150,7 +150,7 @@ public class MongoDBDataSourcePageHelper
 		kerberosSettingComposite1
 				.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
 
-		useKerberosAuthenticationCheckBox = new Button(
+		/*useKerberosAuthenticationCheckBox = new Button(
 				kerberosSettingComposite1, SWT.CHECK );
 		useKerberosAuthenticationCheckBox.setText( Messages.getString(
 				"MongoDBDataSourceWizardPage.checkbox.label.KerberosAuthentication" ) ); //$NON-NLS-1$
@@ -171,7 +171,7 @@ public class MongoDBDataSourcePageHelper
 					}
 
 				} );
-
+*/
 		Composite kerberosSettingComposite2 = new Composite(
 				kerberosSettingsGroup, SWT.NONE );
 		kerberosSettingComposite2.setLayout( new GridLayout( 2, false ) );
@@ -456,6 +456,31 @@ public class MongoDBDataSourcePageHelper
 			}
 
 		} );
+		Label authenticationLabel = new Label( URIElementsGroup, SWT.NONE );
+		authenticationLabel.setText( Messages.getString("MongoDBDataSourceWizardPage.text.label.Authentication") );
+		authenticationMechanismChooser = new ComboViewer( URIElementsGroup, SWT.DROP_DOWN );
+		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
+
+		authenticationMechanismChooser.getControl( ).setLayoutData( gridData );
+		authenticationMechanismChooser.setContentProvider(new IStructuredContentProvider() {
+			public Object[] getElements(Object o) {
+
+				return (Object[]) o;
+			}
+		});
+		authenticationMechanismChooser.setInput(AuthenticationMechanism.values());
+		authenticationMechanismChooser.addSelectionChangedListener(new ISelectionChangedListener() {
+
+			public void selectionChanged(SelectionChangedEvent selectionChangedEvent) {
+
+				StructuredSelection selection = (StructuredSelection) selectionChangedEvent.getSelection();
+				AuthenticationMechanism firstElement = (AuthenticationMechanism) selection.getFirstElement();
+				authenticationMechanism = firstElement.toString();
+				useKerberosAuthentication = (firstElement == AuthenticationMechanism.GSSAPI);
+				handleKerberosAuthenticationSelection();
+				validatePageProperties();
+			}
+		});
 
 		Composite URIComposite2 = new Composite( composite, SWT.NONE );
 		URIComposite2.setLayout( new GridLayout( 2, false ) );
@@ -618,6 +643,9 @@ public class MongoDBDataSourcePageHelper
 		password = dataSourceProps.getProperty( MongoDBDriver.PASSWORD_PROP );
 
 		isURITextFieldFoucs = !UIHelper.isEmptyString( dbURI );
+
+		authenticationMechanism = dataSourceProps.getProperty(MongoDBDriver.AUTHENTICATION_MECHANISM_PROP);
+
 		if ( isURITextFieldFoucs )
 		{
 			boolean ignoreURI = Boolean.valueOf( dataSourceProps.getProperty( MongoDBDriver.IGNORE_URI_PROP ) );
@@ -702,14 +730,16 @@ public class MongoDBDataSourcePageHelper
 
 		passwordText.setText( password == null ? EMPTY_STRING : password );
 
+		setAuthenticationMechanism(authenticationMechanism);
+
 		handleRadioButtonSelection( );
 
 		socketAliveCheckbox.setSelection( socketAlive );
 		//requestSessionCheckbox.setSelection( requestSession );
 
 		// Kerberos
-		useKerberosAuthenticationCheckBox
-				.setSelection( useKerberosAuthentication );
+		/*useKerberosAuthenticationCheckBox
+				.setSelection( useKerberosAuthentication ); */
 		kerberosPrincipalText.setText(
 				kerberosPrincipal == null ? EMPTY_STRING : kerberosPrincipal );
 		gssapiServiceNameText.setText(
@@ -735,6 +765,26 @@ public class MongoDBDataSourcePageHelper
 	}
 
 	/**
+	 * Set the comboViewer selection authenticationMechanismChooser
+	 *
+	 * */
+
+	private void setAuthenticationMechanism(String authenticationMechanism) {
+		StructuredSelection selection;
+		AuthenticationMechanism mechanism;
+
+		try {
+			mechanism = AuthenticationMechanism.fromMechanismName(authenticationMechanism);
+		} catch (IllegalArgumentException e) {
+			//for invalid parameter authenticationMechanism, set default SCRAM-SHA-1
+			mechanism = AuthenticationMechanism.SCRAM_SHA_1;
+		}
+		selection = new StructuredSelection(mechanism);
+		authenticationMechanismChooser.setSelection(selection);
+
+	}
+
+	/**
 	 * Validate the page properties
 	 * 
 	 * @return
@@ -754,6 +804,13 @@ public class MongoDBDataSourcePageHelper
 				|| serverPortText.getText( ).trim( ).length( ) == 0
 				|| databaseNameText.getText( ).trim( ).length( ) == 0 )
 		{
+			isValid = false;
+		}
+
+		try {
+			AuthenticationMechanism.fromMechanismName(authenticationMechanism);
+
+		} catch (IllegalArgumentException e) {
 			isValid = false;
 		}
 		
@@ -833,6 +890,9 @@ public class MongoDBDataSourcePageHelper
 
 		if ( password != null )
 			properties.setProperty( MongoDBDriver.PASSWORD_PROP, password );
+
+		if (authenticationMechanism !=null)
+			properties.setProperty( MongoDBDriver.AUTHENTICATION_MECHANISM_PROP, authenticationMechanism );
 
 		if ( dbURI != null )
 		{

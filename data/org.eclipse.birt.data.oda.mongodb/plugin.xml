@@ -81,6 +81,15 @@
 	                  name="password"
 	                  type="string">
 	            </property>
+                <property
+                        allowsEmptyValueAsNull="true"
+                        canInherit="true"
+                        defaultDisplayName="%datasource.property.authentication"
+                        isEncryptable="false"
+                        defaultValue="SCRAM-SHA-1"
+                        name="authenticationMechanism"
+                        type="string">
+                </property>
             </propertyGroup>
             <propertyGroup
                   defaultDisplayName="%datasource.property.group.options"
