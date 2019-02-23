@@ -101,7 +101,7 @@ public final class DataTypeUtil
 		switch ( toType )
 		{
 			case DataType.INTEGER_TYPE :
-				return toInteger( source );
+			return toInteger(source);
 			case DataType.DECIMAL_TYPE :
 				return toBigDecimal( source );
 			case DataType.BOOLEAN_TYPE :
@@ -155,7 +155,7 @@ public final class DataTypeUtil
 		if ( toTypeClass == DataType.getClass( DataType.ANY_TYPE ) )
 			return source;
 		if ( toTypeClass == Integer.class )
-			return toInteger( source );
+			return toInteger(source);
 		if ( toTypeClass == BigDecimal.class )
 			return toBigDecimal( source );
 		if ( toTypeClass == Boolean.class )
@@ -203,6 +203,20 @@ public final class DataTypeUtil
 	 * @throws BirtException
 	 */
 	public static Integer toInteger( Object source ) throws BirtException
+	{
+		return toInteger(source, JRE_DEFAULT_LOCALE);
+	}
+
+	/**
+	 * Boolean -> Integer true -> 1 others -> 0 Date -> Integer Date.getTime();
+	 * String -> Integer Integer.valueOf();
+	 * 
+	 * @param source
+	 * @param locale Locale
+	 * @return
+	 * @throws BirtException
+	 */
+	public static Integer toInteger(Object source, ULocale locale) throws BirtException
 	{
 		if ( source == null )
 			return null;
@@ -254,7 +268,7 @@ public final class DataTypeUtil
 			{
 				try
 				{
-					Number number = NumberFormat.getInstance( JRE_DEFAULT_LOCALE ).parse( (String)source );
+					Number number = NumberFormat.getInstance(locale).parse((String) source);
 					if( number != null )
 					{
 						if ( !isConvertableToInteger( number ))
@@ -824,10 +838,13 @@ public final class DataTypeUtil
 	public static Date toDate( String source, ULocale locale, TimeZone timeZone )
 			throws BirtException
 	{
-		DateFormat dateFormat = getDateFormatObject( source, locale, timeZone );
+		DateFormat dateFormat = (DateFormat) getDateFormatObject(source, locale, timeZone).clone();
 		Date resultDate = null;
 		try
 		{
+			if (timeZone != null) {
+				dateFormat.setTimeZone(timeZone);
+			}
 			resultDate = dateFormat.parse( source );
 			return resultDate;
 		}

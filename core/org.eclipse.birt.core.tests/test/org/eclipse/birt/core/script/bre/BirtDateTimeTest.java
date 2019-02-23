@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.core.script.bre;
 
-import java.util.Calendar;
 import java.util.Date;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -23,6 +22,8 @@ import org.junit.Test;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
+import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 import junit.framework.TestCase;
@@ -189,19 +190,26 @@ public class BirtDateTimeTest extends TestCase
 		};
 
 		int[] values = new int[]{
-				1, 1, 1, 2, 2, 1, 2, 2, 3, 7, 11, 16, 20
+				weekOfYear(2006, 0, 1), weekOfYear(2006, 0, 3),
+				weekOfYear(2006, 0, 7), weekOfYear(2006, 0, 8),
+				weekOfYear(2006, 0, 14), weekOfYear(1855, 0, 1),
+				weekOfYear(1780, 0, 2), weekOfYear(1780, 0, 8),
+				weekOfYear(1780, 0, 9), weekOfYear(1780, 1, 9),
+				weekOfYear(1780, 2, 9), weekOfYear(1780, 3, 9),
+				weekOfYear(1780, 4, 9)
 		};
 
 		for ( int i = 0; i < values.length; i++ )
 		{
-			assertEquals( ( (Number) cx.evaluateString( scope,
+			assertEquals("" + i, values[i], ((Number) cx.evaluateString(scope,
 					scripts[i],
 					"inline",
 					1,
-					null ) ).intValue( ), values[i] );
+					null)).intValue());
 		}
 		
 		// Test France locale
+		ULocale oldDefault = ULocale.getDefault();
 		ULocale.setDefault( ULocale.FRANCE );
 		scripts = new String[]{
 				"BirtDateTime.week(new Date(2016, 0, 1) )",
@@ -233,6 +241,14 @@ public class BirtDateTimeTest extends TestCase
 					1,
 					null ) ).intValue( ), values[i] );
 		}
+		ULocale.setDefault(oldDefault);
+	}
+
+	private int weekOfYear(int year, int month, int day) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.set(year, month, day);
+		return calendar.get(Calendar.WEEK_OF_YEAR);
 	}
 
 	/*
@@ -244,23 +260,33 @@ public class BirtDateTimeTest extends TestCase
 		String[] scripts = new String[]{
 				"BirtDateTime.day(new Date(2006, 0, 1) )",
 				"BirtDateTime.day(new Date(2006, 0, 3) )",
-				"BirtDateTime.day( new Date(1780, 0, 1))",
-				"BirtDateTime.day(new Date(1780, 3, 9, 11, 0, 0) )",
-				"BirtDateTime.day(new Date(1780, 4, 9, 23, 0, 0) )"
+				"BirtDateTime.day(new Date(1980, 0, 1, 0, 0, 10))",
+				"BirtDateTime.day(new Date(1980, 3, 9, 11, 0, 0) )",
+				"BirtDateTime.day(new Date(1980, 4, 9, 23, 0, 0) )"
 		};
 
 		int[] values = new int[]{
-				1, 3, 1, 9, 9
+				dayOfMonth(2006, 0, 1),
+				dayOfMonth(2006, 0, 3),
+				dayOfMonth(1980, 0, 1),
+				dayOfMonth(1980, 3, 9),
+				dayOfMonth(1980, 4, 9)
 		};
 
 		for ( int i = 0; i < values.length; i++ )
 		{
-			assertEquals( ( (Number) cx.evaluateString( scope,
+			assertEquals("" + i, values[i], ((Number) cx.evaluateString(scope,
 					scripts[i],
 					"inline",
-					1,
-					null ) ).intValue( ), values[i] );
+					1, null)).intValue());
 		}
+	}
+
+	private int dayOfMonth(int year, int month, int day) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.set(year, month, day, 0, 0, 0);
+		return calendar.get(Calendar.DAY_OF_MONTH);
 	}
 
 	/*
@@ -274,28 +300,28 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.weekDay(new Date(2006, 0, 3), 1 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 7), 1 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 8), 1 )",
-				"BirtDateTime.weekDay(new Date(1780, 0, 1))",
-				"BirtDateTime.weekDay(new Date(1780, 0, 2))",
-				"BirtDateTime.weekDay(new Date(1780, 0, 8))",
-				"BirtDateTime.weekDay(new Date(1780, 0, 9))",
+				"BirtDateTime.weekDay(new Date(1780, 0, 1, 0, 30))",
+				"BirtDateTime.weekDay(new Date(1780, 0, 2, 0, 30))",
+				"BirtDateTime.weekDay(new Date(1780, 0, 8, 0, 30))",
+				"BirtDateTime.weekDay(new Date(1780, 0, 9, 0, 30))",
 
 				"BirtDateTime.weekDay(new Date(2006, 0, 1), 2 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 3), 2 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 7), 2 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 8), 2 )",
-				"BirtDateTime.weekDay(new Date(1780, 0, 1), 2)",
-				"BirtDateTime.weekDay(new Date(1780, 0, 2), 2)",
-				"BirtDateTime.weekDay(new Date(1780, 0, 8), 2)",
-				"BirtDateTime.weekDay(new Date(1780, 0, 9), 2)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 1, 0, 30), 2)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 2, 0, 30), 2)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 8, 0, 30), 2)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 9, 0, 30), 2)",
 
 				"BirtDateTime.weekDay(new Date(2006, 0, 1), 3 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 3), 3 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 7), 3 )",
 				"BirtDateTime.weekDay(new Date(2006, 0, 8), 3 )",
-				"BirtDateTime.weekDay(new Date(1780, 0, 1), 3)",
-				"BirtDateTime.weekDay(new Date(1780, 0, 2), 3)",
-				"BirtDateTime.weekDay(new Date(1780, 0, 8), 3)",
-				"BirtDateTime.weekDay(new Date(1780, 0, 9), 3)"
+				"BirtDateTime.weekDay(new Date(1780, 0, 1, 0, 30), 3)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 2, 0, 30), 3)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 8, 0, 30), 3)",
+				"BirtDateTime.weekDay(new Date(1780, 0, 9, 0, 30), 3)"
 		};
 
 		String[] values = new String[]{
@@ -327,11 +353,11 @@ public class BirtDateTimeTest extends TestCase
 
 		for ( int i = 0; i < values.length; i++ )
 		{
-			assertEquals( cx.evaluateString( scope,
+			assertEquals("" + i, values[i], cx.evaluateString(scope,
 					scripts[i],
 					"inline",
 					1,
-					null ), values[i] );
+					null));
 		}
 	}
 
@@ -473,9 +499,9 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.diffWeek(new Date(2006, 0, 1),new Date(2006, 0, 7) )",
 				"BirtDateTime.diffWeek(new Date(2006, 0, 1),new Date(2006, 0, 8) )",
 				"BirtDateTime.diffWeek(new Date(1779, 11, 31),new Date(1780, 0, 1) )",
-				"BirtDateTime.diffWeek(new Date(1780, 0, 1),new Date(1780, 0, 2) )",
-				"BirtDateTime.diffWeek(new Date(1780, 0, 1),new Date(1780, 0, 8) )",
-				"BirtDateTime.diffWeek(new Date(1780, 0, 1),new Date(1780, 0, 9) )"
+				"BirtDateTime.diffWeek(new Date(1780, 0, 1, 0, 30),new Date(1780, 0, 2, 0, 30) )",
+				"BirtDateTime.diffWeek(new Date(1780, 0, 1, 0, 30),new Date(1780, 0, 8, 0, 30) )",
+				"BirtDateTime.diffWeek(new Date(1780, 0, 1, 0, 30),new Date(1780, 0, 9, 0, 30) )"
 		};
 
 		int[] values = new int[]{
@@ -484,11 +510,11 @@ public class BirtDateTimeTest extends TestCase
 
 		for ( int i = 0; i < values.length; i++ )
 		{
-			assertEquals( ( (Number) cx.evaluateString( scope,
+			assertEquals("" + i, values[i], ((Number) cx.evaluateString(scope,
 					scripts[i],
 					"inline",
 					1,
-					null ) ).intValue( ), values[i] );
+					null)).intValue());
 		}
 	/*	assertTrue( NativeBirtDateTime.jsStaticFunction_diffWeek( new Date( 0, 0, 8 ),
 				new Date( 0, 0, 6 ) ) == -1 );
@@ -1191,7 +1217,7 @@ public class BirtDateTimeTest extends TestCase
 
 		//com.ibm.icu.util.Calendar c = com.ibm.icu.util.Calendar.getInstance( TimeZone.getDefault( ), ULocale.getDefault() );
 		Calendar c = Calendar.getInstance();
-		c.setTimeZone(java.util.TimeZone.getDefault());
+		c.setTimeZone(TimeZone.getDefault());
 
 		c.clear( );
 		c.setMinimalDaysInFirstWeek( 1 );
@@ -1307,7 +1333,17 @@ public class BirtDateTimeTest extends TestCase
 		};
 
 		int[] values = new int[]{
-				1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 6
+				weekOfMonth(2015, 4, 1),
+				weekOfMonth(2015, 4, 2),
+				weekOfMonth(2015, 4, 3),
+				weekOfMonth(2015, 4, 9),
+				weekOfMonth(2015, 4, 10),
+				weekOfMonth(2015, 4, 16),
+				weekOfMonth(2015, 4, 17),
+				weekOfMonth(2015, 4, 23),
+				weekOfMonth(2015, 4, 24),
+				weekOfMonth(2015, 4, 30),
+				weekOfMonth(2015, 4, 31)
 		};
 
 
@@ -1322,6 +1358,13 @@ public class BirtDateTimeTest extends TestCase
 		}
 	}
 	
+	private int weekOfMonth(int year, int month, int day) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.set(year, month, day);
+		return calendar.get(Calendar.WEEK_OF_MONTH);
+	}
+
 	/**
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalYear</code>
@@ -1430,13 +1473,21 @@ public class BirtDateTimeTest extends TestCase
 				"BirtDateTime.fiscalWeek(new Date(2011, 5, 25), new Date(2015, 6, 1 ))",
 				"BirtDateTime.fiscalWeek(new Date(2011, 11, 31), new Date(2015, 6, 1 ))",
 				"BirtDateTime.fiscalWeek(new Date(2012, 0, 1), new Date(2015, 6, 1 ))",
-				"BirtDateTime.fiscalWeek(new Date(2015, 0, 7))",
+				"BirtDateTime.fiscalWeek(new Date(2015, 0, 7))", // default start week is 7/1
 				"BirtDateTime.fiscalWeek(new Date(2015, 1, 1))",
 				"BirtDateTime.fiscalWeek(new Date(2015, 6, 1))",
 		};
 
 		int[] values = new int[]{
-				1, 2, 1, 52, 27, 28, 28, 32, 1
+				fiscalWeek(2011, 6, 2, 2015, 6, 1),
+				fiscalWeek(2011, 6, 3, 2015, 6, 1),
+				fiscalWeek(2011, 5, 30, 2015, 6, 1),
+				fiscalWeek(2011, 5, 25, 2015, 6, 1),
+				fiscalWeek(2011, 11, 31, 2015, 6, 1),
+				fiscalWeek(2012, 0, 1, 2015, 6, 1),
+				fiscalWeek(2015, 0, 7, 2015, 6, 1),
+				fiscalWeek(2015, 1, 1, 2015, 6, 1),
+				fiscalWeek(2015, 6, 1, 2015, 6, 1)
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1450,6 +1501,21 @@ public class BirtDateTimeTest extends TestCase
 		}
 	}
 	
+	private int fiscalWeek(int year, int month, int day, int year2, int month2, int day2) {
+		int weekOfYear = weekOfYear(year, month, day);
+		int fiscalYearStartWeek = weekOfYear(year, month2, day2);
+		if(weekOfYear >= fiscalYearStartWeek) {
+			return weekOfYear - fiscalYearStartWeek + 1;
+		}
+			Calendar calendar = Calendar.getInstance();
+			calendar.clear();
+			calendar.set(year - 1, 11, 31);
+			while(calendar.get(Calendar.WEEK_OF_YEAR) == 1) {
+				calendar.add(Calendar.DAY_OF_MONTH, -1);
+			}
+		return calendar.get(Calendar.WEEK_OF_YEAR) - weekOfYear(year - 1, month2, day2) + weekOfYear + 1;
+	}
+
 	/**
 	 * Test method for
 	 * <code>org.eclipse.birt.core.script.function.bre.BirtDateTime.Function_FiscalDay</code>
@@ -1622,10 +1688,8 @@ public class BirtDateTimeTest extends TestCase
 		Calendar c = Calendar.getInstance( );
 		c.clear( );
 		Date[] values = new Date[]{
-				date( c, 2015, 5, 14 ),
-				date( c, 2015, 5, 14 ),
-				date( c, 2015, 7, 16 ),
-				date( c, 2015, 5, 14 ),
+				firstDayOfWeek(c, 2015, 5, 15), firstDayOfWeek(c, 2015, 5, 15), firstDayOfWeek(c, 2015, 7, 17),
+				firstDayOfWeek(c, 2015, 5, 15),
 		};
 
 		for ( int i = 0; i < values.length; i++ )
@@ -1644,6 +1708,15 @@ public class BirtDateTimeTest extends TestCase
 		c.set( year, month, day );
 		return c.getTime( );
 	}
+
+	@SuppressWarnings("deprecation")
+	private Date firstDayOfWeek(Calendar c, int year, int month, int day) {
+		Date date = new Date(year - 1900, month, day);
+		c.setTime(date);
+		c.set(Calendar.DAY_OF_WEEK, c.getFirstDayOfWeek());
+		return c.getTime();
+	}
+
 	@Test
     public void testFiscalYearStartDate( )
 	{

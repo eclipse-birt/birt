@@ -44,8 +44,8 @@ public class NumberFormatterTest extends TestCase
 	@Test
     public void testApplyPattern( )
 	{
-		NumberFormatter numFormat = new NumberFormatter( );
-		DecimalFormat dec = new DecimalFormat( );
+		NumberFormatter numFormat = new NumberFormatter(ULocale.US);
+		DecimalFormat dec = (DecimalFormat) NumberFormat.getNumberInstance(Locale.US);
 
 		//test format with different style.
 		numFormat.applyPattern( "#" );
@@ -81,7 +81,7 @@ public class NumberFormatterTest extends TestCase
 
 		//test format with user-defined pattern
 		numFormat.applyPattern( "General Number" );
-		NumberFormat number = NumberFormat.getInstance( Locale.getDefault( ) );
+		NumberFormat number = NumberFormat.getInstance(Locale.US);
 		number.setGroupingUsed( false );
 		assertEquals( number.format( 1002.20 ), numFormat
 				.format( 1002.20 ) );
@@ -105,7 +105,7 @@ public class NumberFormatterTest extends TestCase
 		//assertEquals("��0.00" ,numFormat.format(0 ));
 		numFormat.applyPattern( "C" );
 		//assertEquals("��1,002.20" ,numFormat.format( 1002.2 ));
-		number = NumberFormat.getCurrencyInstance( Locale.getDefault( ) );
+		number = NumberFormat.getCurrencyInstance(Locale.US);
 		assertEquals( number.format( 1290.8889 ), numFormat.format( 1290.8889 ) );
 
 		numFormat.applyPattern( "Fixed" );
@@ -198,10 +198,9 @@ public class NumberFormatterTest extends TestCase
 	 * Class under test for String Format(BigDecimal)
 	 */
 	@Test
-    public void testFormatBigDecimal( )
+	public void testFormatBigDecimal()
 	{
-		NumberFormatter numFormat = new NumberFormatter(
-				"$###,##0.00;'Negative'" );
+		NumberFormatter numFormat = new NumberFormatter("$###,##0.00;'Negative'", ULocale.US);
 		assertEquals( numFormat.format( new BigDecimal( 2139.3 ) ),
 				"$2,139.30" );
 		assertEquals( numFormat.format( new BigDecimal( 2.139 ) ),
@@ -225,7 +224,7 @@ public class NumberFormatterTest extends TestCase
 	@Test
     public void testMinusZero( )
 	{
-		NumberFormatter numFormat = new NumberFormatter( );
+		NumberFormatter numFormat = new NumberFormatter(ULocale.US);
 		
 		double[] smallValues = { -0.49, -0.049, -0.0049, -0.00049, -0.00000049 };
 		double[] bigValues = { -0.51, -0.051, -0.0051, -0.00051, -0.00000051 };
@@ -346,14 +345,14 @@ public class NumberFormatterTest extends TestCase
 				"3.1", "3.1", "3.1"};
 		String[] evenGoldens = {"3.0", "3.0", "3.0", "3.0", "3.0", "3.0",
 				"3.1", "3.1", "3.1", "3.1"};
-		NumberFormatter nf = new NumberFormatter( pattern, ULocale.getDefault( ) );
+		NumberFormatter nf = new NumberFormatter(pattern, ULocale.US);
 		for ( int index = 0; index < values.length; index++ )
 		{
 			String result = nf.format( values[index] );
 			assertTrue( result.equals( evenGoldens[index] ) );
 		}
 		pattern = "###0.0{RoundingMode=HALF_UP;}";
-		nf = new NumberFormatter( pattern, ULocale.getDefault( ) );
+		nf = new NumberFormatter(pattern, ULocale.US);
 		for ( int index = 0; index < values.length; index++ )
 		{
 			String result = nf.format( values[index] );

@@ -24,8 +24,13 @@
 								<versionRange>0.0.0</versionRange>
 							</requirement>
 							<requirement>
-								<type>eclipse-feature</type>
-								<id>org.eclipse.birt.osgi.runtime</id>
+								<type>eclipse-plugin</type>
+								<id>org.eclipse.birt.core.script.function</id>
+								<versionRange>0.0.0</versionRange>
+							</requirement>
+							<requirement>
+								<type>eclipse-plugin</type>
+								<id>org.eclipse.birt.report.engine.script.javascript</id>
 								<versionRange>0.0.0</versionRange>
 							</requirement>
 						 </extraRequirements>

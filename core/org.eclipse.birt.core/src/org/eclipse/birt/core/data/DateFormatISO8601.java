@@ -47,6 +47,7 @@ public class DateFormatISO8601
 			ParseException
 	{
 		DateFormat dateFormat = getSimpleDateFormat( source, timeZone );
+		TimeZone savedTimeZone = dateFormat.getTimeZone();
 		Date resultDate = null;
 		try
 		{
@@ -56,8 +57,7 @@ public class DateFormatISO8601
 			}
 			if ( dateFormat != null )
 			{
-				source = cleanDate( source );
-				resultDate = dateFormat.parse( source );
+				resultDate = dateFormat.parse(cleanDate(source));
 			}
 			return resultDate;
 		}
@@ -66,6 +66,9 @@ public class DateFormatISO8601
 			throw new CoreException( ResourceConstants.CONVERT_FAILS,
 					new Object[]{source.toString( ), "Date"} );
 		}
+		finally {
+			dateFormat.setTimeZone(savedTimeZone);
+		}
 	}
 
 	/**
@@ -73,7 +76,9 @@ public class DateFormatISO8601
 	 */
 	public static SimpleDateFormat getDateFormat( String source, TimeZone timeZone ) throws BirtException
 	{
-		return getSimpleDateFormat( source, timeZone );
+		// SimpleDateFormat must be cloned here, to prevent write-through to the cache
+		// of the underlying DateFormatFactory
+		return (SimpleDateFormat) getSimpleDateFormat(source, timeZone).clone();
 	}
 
 	/**
@@ -145,17 +150,21 @@ public class DateFormatISO8601
 			return null;
 		}
 		
-		Object simpleDateFormatter = DateFormatFactory.getPatternInstance( PatternKey.getPatterKey( "yyyy-MM-dd HH:mm:ss.sZ" ) );
+		SimpleDateFormat simpleDateFormatter =
+				DateFormatFactory.getPatternInstance(PatternKey.getPatterKey("yyyy-MM-dd HH:mm:ss.sZ"));
+		TimeZone savedTimeZone = simpleDateFormatter.getTimeZone();
 		if ( simpleDateFormatter != null )
 		{
 			try
 			{
-				SimpleDateFormat sdf = ( (SimpleDateFormat) simpleDateFormatter );
-				sdf.setTimeZone( timeZone );
-				return sdf.format( date );
+				simpleDateFormatter.setTimeZone(timeZone);
+				return simpleDateFormatter.format(date);
 			}
 			catch ( Exception e1 )
 			{
+			}
+			finally {
+				simpleDateFormatter.setTimeZone(savedTimeZone);
 			}
 		}
 		// for the String can not be parsed, throws a BirtException
