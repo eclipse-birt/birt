@@ -313,6 +313,7 @@
 				<configuration>
 					<pomDependencies>consider</pomDependencies>
 					<includePackedArtifacts>false</includePackedArtifacts>
+					<targetDefinitionIncludeSource>honor</targetDefinitionIncludeSource>
 					<target>
 						<artifact>
 							<groupId>org.eclipse.birt</groupId>
