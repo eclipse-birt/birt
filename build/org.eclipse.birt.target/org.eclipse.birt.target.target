@@ -1,69 +1,103 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target name="BIRT Photon target platform">
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target includeMode="feature" name="BIRT Photon target platform">
 	<locations>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.platform.ide" version="4.8.0.I20180611-0500"/>
-			<unit id="org.eclipse.platform.sdk" version="4.8.0.I20180611-0500"/>
-			<unit id="org.eclipse.sdk.ide" version="4.8.0.I20180611-0500"/>
 			<repository location="http://download.eclipse.org/eclipse/updates/4.8/"/>
+			<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
+			<unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.cvs.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.rcp.configuration.feature.group" version="0.0.0"/>
+			<unit id="a.jre.javase" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
 			<unit id="org.eclipse.emf.base.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.emf.ecore.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.emf.feature.group" version="0.0.0"/>
-			<repository location="http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+			<unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="1.14.1.201712071719"/>
-			<unit id="org.eclipse.datatools.connectivity.oda.designer.core.feature.feature.group" version="1.14.1.201712071719"/>
-			<unit id="org.eclipse.datatools.connectivity.oda.designer.feature.feature.group" version="1.14.1.201712071719"/>
-			<unit id="org.eclipse.datatools.connectivity.oda.feature.feature.group" version="1.14.1.201712071719"/>
-			<unit id="org.eclipse.datatools.enablement.apache.derby.feature.feature.group" version="1.14.1.201712071719"/>
-			<unit id="org.eclipse.datatools.enablement.feature.feature.group" version="1.14.1.201712071719"/>
-			<unit id="org.eclipse.datatools.enablement.jdbc.feature.feature.group" version="1.14.1.201712071719"/>
 			<repository location="http://download.eclipse.org/datatools/1.14.1.201712071719/repository/"/>
+			<unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.connectivity.oda.designer.core.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.connectivity.oda.designer.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.connectivity.oda.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.apache.derby.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.jdbc.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.common.doc.user.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.connectivity.doc.user.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.intro.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.sqltools.doc.user.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.draw2d.feature.group" version="3.10.100.201606061308"/>
-			<unit id="org.eclipse.gef.feature.group" version="3.11.0.201606061308"/>
+			<unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.gef.feature.group" version="0.0.0"/>
 			<repository location="http://download.eclipse.org/tools/gef/updates/legacy/releases/"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.jst.enterprise_ui.feature.feature.group" version="3.9.3.v201803221418"/>
-			<unit id="org.eclipse.wst.jsdt.feature.feature.group" version="2.1.1.v201804042202"/>
 			<repository location="http://download.eclipse.org/webtools/downloads/drops/R3.9.5/R-3.9.5-20180409100740/repository/"/>
-			<unit id="org.eclipse.jst.web_ui.feature.feature.group" version="3.9.0.v201803221834"/>
+			<unit id="org.eclipse.jst.enterprise_ui.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.wst.jsdt.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.jst.web_ui.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.wst.web_ui.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.jst.common.fproj.enablement.jdt.feature.group" version="0.0.0"/>
+			<unit id="org.mozilla.javascript.source" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<unit id="org.eclipse.jetty.bundles.f.feature.group" version="9.4.10.201805070144"/>
 			<repository location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.10.v20180503"/>
+			<unit id="org.eclipse.jetty.bundles.f.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.osgi.boot.source" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<unit id="org.apache.jasper" version="8.5.35"/>
+			<unit id="org.apache.jasper" version="0.0.0"/>
 			<repository location="http://download.eclipse.org/gemini/updates/web/3.0.4"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<unit id="org.apache.batik.anim" version="1.9.1.v20181015-1528"/>
-			<unit id="org.apache.batik.bridge" version="1.9.1.v20181015-1528"/>
-			<unit id="org.apache.batik.codec" version="1.9.1.v20180313-1559"/>
-			<unit id="org.apache.batik.dom" version="1.9.1.v20181015-1528"/>
-			<unit id="org.apache.batik.dom.svg" version="1.9.1.v20181015-1528"/>
-			<unit id="org.apache.batik.ext.awt" version="1.9.1.v20180227-1645"/>
-			<unit id="org.apache.batik.extension" version="1.9.1.v20180313-1559"/>
-			<unit id="org.apache.batik.gvt" version="1.9.1.v20180227-1645"/>
-			<unit id="org.apache.batik.parser" version="1.9.1.v20180313-1559"/>
-			<unit id="org.apache.batik.pdf" version="1.9.1.v20180417-1407"/>
-			<unit id="org.apache.batik.script" version="1.9.1.v20180313-1559"/>
-			<unit id="org.apache.batik.svggen" version="1.9.1.v20180313-1559"/>
-			<unit id="org.apache.batik.swing" version="1.9.1.v20181015-1528"/>
-			<unit id="org.apache.batik.transcoder" version="1.9.1.v20181015-1528"/>
-			<unit id="org.apache.batik.util.gui" version="1.9.1.v20180227-1645"/>
-			<unit id="org.apache.batik.xml" version="1.9.1.v20180227-1645"/>
-			<unit id="org.apache.derby" version="10.11.1.1_v201605202053"/>
-			<unit id="org.apache.poi" version="3.9.0.v201405241750"/>
-			<unit id="org.eclipse.orbit.mongodb" version="3.2.2.v20181004-1955"/>
 			<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/"/>
-			<unit id="com.lowagie.text" version="2.1.7.v201004222200"/>
-			<unit id="javax.xml.stream" version="1.0.1.v201004272200"/>
+			<unit id="org.apache.batik.anim" version="0.0.0"/>
+			<unit id="org.apache.batik.anim.source" version="0.0.0"/>
+			<unit id="org.apache.batik.bridge" version="0.0.0"/>
+			<unit id="org.apache.batik.bridge.source" version="0.0.0"/>
+			<unit id="org.apache.batik.codec" version="0.0.0"/>
+			<unit id="org.apache.batik.codec.source" version="0.0.0"/>
+			<unit id="org.apache.batik.dom" version="0.0.0"/>
+			<unit id="org.apache.batik.dom.source" version="0.0.0"/>
+			<unit id="org.apache.batik.dom.svg" version="0.0.0"/>
+			<unit id="org.apache.batik.dom.svg.source" version="0.0.0"/>
+			<unit id="org.apache.batik.ext.awt" version="0.0.0"/>
+			<unit id="org.apache.batik.ext.awt.source" version="0.0.0"/>
+			<unit id="org.apache.batik.extension" version="0.0.0"/>
+			<unit id="org.apache.batik.extension.source" version="0.0.0"/>
+			<unit id="org.apache.batik.gvt" version="0.0.0"/>
+			<unit id="org.apache.batik.gvt.source" version="0.0.0"/>
+			<unit id="org.apache.batik.parser" version="0.0.0"/>
+			<unit id="org.apache.batik.parser.source" version="0.0.0"/>
+			<unit id="org.apache.batik.pdf" version="0.0.0"/>
+			<unit id="org.apache.batik.script" version="0.0.0"/>
+			<unit id="org.apache.batik.script.source" version="0.0.0"/>
+			<unit id="org.apache.batik.svggen" version="0.0.0"/>
+			<unit id="org.apache.batik.svggen.source" version="0.0.0"/>
+			<unit id="org.apache.batik.swing" version="0.0.0"/>
+			<unit id="org.apache.batik.swing.source" version="0.0.0"/>
+			<unit id="org.apache.batik.transcoder" version="0.0.0"/>
+			<unit id="org.apache.batik.transcoder.source" version="0.0.0"/>
+			<unit id="org.apache.batik.util.gui" version="0.0.0"/>
+			<unit id="org.apache.batik.util.gui.source" version="0.0.0"/>
+			<unit id="org.apache.batik.xml" version="0.0.0"/>
+			<unit id="org.apache.batik.xml.source" version="0.0.0"/>
+			<unit id="org.apache.commons.codec" version="0.0.0"/>
+			<unit id="org.apache.commons.codec.source" version="0.0.0"/>
+			<unit id="org.apache.derby" version="0.0.0"/>
+			<unit id="org.apache.derby.source" version="0.0.0"/>
+			<unit id="org.apache.poi" version="0.0.0"/>
+			<unit id="org.apache.poi.source" version="0.0.0"/>
+			<unit id="org.eclipse.orbit.mongodb" version="0.0.0"/>
+			<unit id="org.eclipse.orbit.mongodb.source" version="0.0.0"/>
+			<unit id="com.lowagie.text" version="0.0.0"/>
+			<unit id="com.lowagie.text.source" version="0.0.0"/>
+			<unit id="javax.xml.stream" version="0.0.0"/>
+			<unit id="org.apache.lucene.analysis" version="0.0.0"/>
 		</location>
 	</locations>
 </target>
