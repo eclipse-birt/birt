@@ -33,7 +33,8 @@ public class DateFormatISO8601
 {
 
 	private static Pattern T_PATTERN = Pattern.compile( "T" );
-	private static Pattern TIME_PART_PATTERN = Pattern.compile( "\\d\\d:\\d\\d:\\d\\d.\\d+" );
+	//Time pattern matches the time part similar to 02:15:01.999620
+	private static Pattern TIME_PART_PATTERN = Pattern.compile( "\\d\\d:\\d\\d:\\d\\d\\.\\d+" );
 	
 	/**
 	 * Parse a date/time string.
@@ -55,6 +56,7 @@ public class DateFormatISO8601
 			}
 			if ( dateFormat != null )
 			{
+				source = cleanDate( source );
 				resultDate = dateFormat.parse( source );
 			}
 			return resultDate;
