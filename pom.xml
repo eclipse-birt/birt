@@ -53,7 +53,7 @@
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
-                <dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.102.201809101906/repository/</dtp.repo.url>
+                <dtp.repo.url>http://download.eclipse.org/datatools/1.14.1.201712071719/repository/</dtp.repo.url>
                 <jetty.version>9.4.8.v20171121</jetty.version>
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
@@ -455,9 +455,6 @@
 				</executions>
 				<configuration>
 					<toolchains>
-						<jdk>
-							<id>JavaSE-1.6</id>
-						</jdk>
 						<jdk>
 							<id>JavaSE-1.7</id>
 						</jdk>
