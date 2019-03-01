@@ -490,8 +490,8 @@ public class ResultDataHandler
         for( int index=0; index < documentList.size(); index++ )
         {
             Object listElementObj = documentList.get( index );
-            if( listElementObj instanceof DBObject )    // nested complex object, e.g. document
-                listElementObj = fetchFieldValues( fieldFullName, (DBObject)listElementObj );
+            if( listElementObj instanceof Document )    // nested complex object, e.g. document
+                listElementObj = fetchFieldValues( fieldFullName, (Document)listElementObj );
             fieldValuesList.put( index, listElementObj );
         }
 
