@@ -13,7 +13,6 @@ import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.elements.GroupElement;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 

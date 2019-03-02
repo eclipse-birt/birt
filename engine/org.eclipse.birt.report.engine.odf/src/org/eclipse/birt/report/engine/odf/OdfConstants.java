@@ -1,7 +1,5 @@
 package org.eclipse.birt.report.engine.odf;
 
-import org.eclipse.birt.report.engine.content.IStyle;
-
 
 public interface OdfConstants
 {

@@ -25,7 +25,6 @@ import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.axis.AxisFault;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IReportDocument;

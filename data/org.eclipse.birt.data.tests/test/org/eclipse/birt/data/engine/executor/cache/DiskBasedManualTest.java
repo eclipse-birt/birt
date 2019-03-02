@@ -31,11 +31,8 @@ import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
 import testutil.BaseTestCase;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
-import static org.junit.Assert.*;
 
 /**
  * Test the feature of disk-based data manipulation. Only used in manual test

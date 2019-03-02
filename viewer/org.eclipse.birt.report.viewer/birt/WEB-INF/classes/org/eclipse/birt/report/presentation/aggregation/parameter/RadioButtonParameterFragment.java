@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.presentation.aggregation.parameter;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.TimeZone;
 
@@ -24,9 +23,7 @@ import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.service.api.InputOptions;
 import org.eclipse.birt.report.service.api.ParameterDefinition;
-import org.eclipse.birt.report.service.api.ParameterSelectionChoice;
 import org.eclipse.birt.report.service.api.ReportServiceException;
-import org.eclipse.birt.report.utility.DataUtil;
 import org.eclipse.birt.report.utility.ParameterUtility;
 
 /**

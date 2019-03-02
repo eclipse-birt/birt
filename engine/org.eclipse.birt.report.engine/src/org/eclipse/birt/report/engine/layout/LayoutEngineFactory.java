@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout;
 
-import org.eclipse.birt.report.engine.extension.internal.ExtensionManager;
 import org.eclipse.birt.report.engine.layout.html.HTMLReportLayoutEngine;
 
 public class LayoutEngineFactory

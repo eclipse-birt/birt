@@ -16,7 +16,6 @@ import java.io.InputStream;
 import junit.framework.TestCase;
 
 import org.eclipse.birt.report.engine.ir.DimensionType;
-import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 import org.eclipse.birt.report.engine.ir.PageSetupDesign;
 import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;

@@ -18,8 +18,6 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStream;
-import java.io.OutputStream;
-
 import junit.framework.TestCase;
 
 import org.eclipse.birt.core.framework.Platform;

@@ -8,7 +8,6 @@
 package org.eclipse.birt.chart.model.attribute.impl;
 
 import java.util.Collection;
-import org.eclipse.birt.chart.model.attribute.ActionValue;
 import java.util.HashMap;
 import java.util.Map;
 

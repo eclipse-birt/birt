@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.service.actionhandler;
 
-import java.util.Locale;
 import javax.servlet.ServletOutputStream;
 
 import org.apache.axis.AxisFault;

@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.api.EmitterInfo;
 import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.ReportEngine;
 import org.eclipse.birt.report.model.api.Expression;
-import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.custom.ScrolledComposite;

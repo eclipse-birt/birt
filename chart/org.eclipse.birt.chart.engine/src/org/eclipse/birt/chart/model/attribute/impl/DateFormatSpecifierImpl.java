@@ -18,7 +18,6 @@ import org.eclipse.birt.chart.model.attribute.AttributePackage;
 import org.eclipse.birt.chart.model.attribute.DateFormatDetail;
 import org.eclipse.birt.chart.model.attribute.DateFormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.DateFormatType;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.util.CDateTime;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;

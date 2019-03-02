@@ -35,7 +35,6 @@ import org.eclipse.birt.report.model.api.elements.structures.TOC;
 import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
-import org.eclipse.birt.report.model.util.XMLParserException;
 
 /**
  * Unit test for DesignWriter, ReportDesignHandle.

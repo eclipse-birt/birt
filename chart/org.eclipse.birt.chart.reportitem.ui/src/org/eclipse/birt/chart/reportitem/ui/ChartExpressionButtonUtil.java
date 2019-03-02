@@ -18,7 +18,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.eclipse.birt.chart.model.impl.ChartModelHelper;
-import org.eclipse.birt.chart.reportitem.ChartReportItemUtil;
 import org.eclipse.birt.chart.reportitem.api.ChartReportItemHelper;
 import org.eclipse.birt.chart.ui.swt.ColumnBindingInfo;
 import org.eclipse.birt.chart.ui.swt.DefaultExpressionValidator;

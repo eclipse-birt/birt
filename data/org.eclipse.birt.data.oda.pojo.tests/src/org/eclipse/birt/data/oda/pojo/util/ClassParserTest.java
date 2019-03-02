@@ -17,10 +17,7 @@ import java.util.List;
 import org.eclipse.birt.data.oda.pojo.util.ClassParser;
 
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 

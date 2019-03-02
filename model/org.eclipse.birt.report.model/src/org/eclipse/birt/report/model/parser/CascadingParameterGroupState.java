@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.parser;
 
-import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.elements.CascadingParameterGroup;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;

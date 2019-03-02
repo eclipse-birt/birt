@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.api;
 
-import java.util.ArrayList;
-
 /**
  * Defines a scalar parameter
  */

@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.css.engine.value;
 
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.engine.CSSContext;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSStylableElement;
 import org.eclipse.birt.report.engine.css.engine.ValueManager;

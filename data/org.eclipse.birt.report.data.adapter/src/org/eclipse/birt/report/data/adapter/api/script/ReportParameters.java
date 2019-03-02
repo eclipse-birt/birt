@@ -16,7 +16,6 @@ package org.eclipse.birt.report.data.adapter.api.script;
 
 import java.util.Map;
 
-import org.eclipse.birt.core.script.JavascriptEvalUtil;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.Wrapper;

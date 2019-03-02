@@ -9,13 +9,6 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-import java.io.File;
-import java.io.InputStream;
-
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.simpleapi.IReportDesign;
-import org.eclipse.birt.report.model.api.simpleapi.ITable;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 

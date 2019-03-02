@@ -41,10 +41,6 @@ import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.elements.Library;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.i18n.ThreadResources;
-import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
-import org.eclipse.birt.report.model.metadata.MetaDataParserException;
-import org.eclipse.birt.report.model.metadata.MetaDataReader;
-
 import com.ibm.icu.util.ULocale;
 
 /**

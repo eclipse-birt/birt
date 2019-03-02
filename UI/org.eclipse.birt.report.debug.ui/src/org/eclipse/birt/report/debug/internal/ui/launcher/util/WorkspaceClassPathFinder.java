@@ -20,7 +20,6 @@ import java.util.List;
 import org.eclipse.birt.report.designer.ui.IDatasetWorkspaceClasspathFinder;
 import org.eclipse.birt.report.viewer.utilities.IWorkspaceClasspathFinder;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
 import org.eclipse.core.resources.IWorkspaceRoot;
 import org.eclipse.core.resources.ResourcesPlugin;

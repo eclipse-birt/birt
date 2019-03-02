@@ -17,7 +17,6 @@ import java.util.Map;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleOption;
-import org.eclipse.birt.report.model.core.DesignSession;
 import org.eclipse.birt.report.model.core.DesignSessionImpl;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;

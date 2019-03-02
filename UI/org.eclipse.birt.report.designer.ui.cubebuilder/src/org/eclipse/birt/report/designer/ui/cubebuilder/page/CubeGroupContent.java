@@ -27,7 +27,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.RenameInputDialog;
 import org.eclipse.birt.report.designer.internal.ui.views.outline.ListenerElementVisitor;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
-import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.birt.report.designer.ui.cubebuilder.BuilderPlugin;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.DateLevelDialog;
 import org.eclipse.birt.report.designer.ui.cubebuilder.dialog.GroupDialog;

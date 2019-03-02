@@ -5,7 +5,6 @@ import java.net.URL;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.birt.report.model.api.DefaultResourceLocator;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.util.ResourceLocatorImpl;
 import org.eclipse.birt.report.tests.model.BaseTestCase;

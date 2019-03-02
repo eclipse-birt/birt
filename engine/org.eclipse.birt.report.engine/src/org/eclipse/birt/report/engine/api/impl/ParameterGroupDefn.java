@@ -12,11 +12,8 @@
 package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
-import java.util.logging.Level;
-
 import org.eclipse.birt.report.engine.api.IParameterDefnBase;
 import org.eclipse.birt.report.engine.api.IParameterGroupDefn;
-import org.eclipse.birt.report.engine.api.UnsupportedFormatException;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
 /**

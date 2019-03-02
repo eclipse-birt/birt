@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.InlineTextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.nLayout.area.impl.TextLineArea;
-import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 import org.eclipse.birt.report.engine.ooxml.writer.OOXmlWriter;

@@ -13,7 +13,6 @@ import org.eclipse.birt.chart.internal.model.Fraction;
 import org.eclipse.birt.chart.internal.model.FractionApproximator;
 import org.eclipse.birt.chart.model.attribute.AttributeFactory;
 import org.eclipse.birt.chart.model.attribute.AttributePackage;
-import org.eclipse.birt.chart.model.attribute.FormatSpecifier;
 import org.eclipse.birt.chart.model.attribute.FractionNumberFormatSpecifier;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;

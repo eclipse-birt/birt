@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;

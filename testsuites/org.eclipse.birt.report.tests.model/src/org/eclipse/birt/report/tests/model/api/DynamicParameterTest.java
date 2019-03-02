@@ -5,13 +5,10 @@ import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**

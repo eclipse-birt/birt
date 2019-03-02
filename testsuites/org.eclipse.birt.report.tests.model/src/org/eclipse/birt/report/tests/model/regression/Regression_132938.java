@@ -9,14 +9,11 @@
 package org.eclipse.birt.report.tests.model.regression;
 
 import java.io.IOException;
-import java.net.URL;
-
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 

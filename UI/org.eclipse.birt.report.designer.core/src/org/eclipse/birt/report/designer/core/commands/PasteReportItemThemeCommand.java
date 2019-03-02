@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.ThemeHandle;
-import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.util.CopyUtil;
 import org.eclipse.birt.report.model.api.util.IElementCopy;
 import org.eclipse.birt.report.model.core.DesignElement;

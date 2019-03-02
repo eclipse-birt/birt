@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.presentation.aggregation.parameter;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 import java.util.TimeZone;

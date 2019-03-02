@@ -16,7 +16,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.core.DesignerConstants;
 import org.eclipse.birt.report.designer.core.mediator.IMediator;
-import org.eclipse.birt.report.designer.core.mediator.IMediatorColleague;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 
 /**

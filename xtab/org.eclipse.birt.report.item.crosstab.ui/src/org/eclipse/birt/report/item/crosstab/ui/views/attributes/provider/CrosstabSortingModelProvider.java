@@ -34,7 +34,6 @@ import org.eclipse.birt.report.item.crosstab.ui.views.dialogs.CrosstabSortKeyBui
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.SortElementHandle;
-import org.eclipse.birt.report.model.api.SortKeyHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.NameException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
