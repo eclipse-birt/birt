@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.engine.emitter.excel;
 
 import java.util.HashMap;
-import java.util.Locale;
 import java.util.Map;
 
 import com.ibm.icu.util.ULocale;

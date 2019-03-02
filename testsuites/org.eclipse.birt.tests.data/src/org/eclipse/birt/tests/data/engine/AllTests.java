@@ -17,7 +17,6 @@ import junit.framework.TestSuite;
 
 import org.eclipse.birt.tests.data.engine.api.MultiPassTest;
 import org.eclipse.birt.tests.data.engine.api.MultiPass_FilterTest;
-import org.eclipse.birt.tests.data.engine.api.MultiPass_NestedQueryTest;
 import org.eclipse.birt.tests.data.engine.api.MultiPass_SortTest;
 
 /**

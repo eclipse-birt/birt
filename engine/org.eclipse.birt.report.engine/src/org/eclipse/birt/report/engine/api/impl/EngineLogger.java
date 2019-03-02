@@ -11,10 +11,7 @@
 
 package org.eclipse.birt.report.engine.api.impl;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.logging.FileHandler;
 import java.util.logging.Filter;
@@ -22,9 +19,6 @@ import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.LogRecord;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
-
-import com.ibm.icu.text.SimpleDateFormat;
 
 /**
  * BIRT Logger is a logger associated with the global "org.eclipse.birt" name

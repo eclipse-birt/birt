@@ -41,7 +41,6 @@ import org.eclipse.birt.report.service.actionhandler.BirtRenderReportActionHandl
 import org.eclipse.birt.report.service.actionhandler.BirtRunAndRenderActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtRunReportActionHandler;
 import org.eclipse.birt.report.session.IViewingSession;
-import org.eclipse.birt.report.session.ViewingSessionManager;
 import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;

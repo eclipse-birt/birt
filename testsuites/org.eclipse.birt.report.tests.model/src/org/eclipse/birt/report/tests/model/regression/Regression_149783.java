@@ -8,19 +8,10 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-import org.eclipse.birt.report.model.api.DesignConfig;
-import org.eclipse.birt.report.model.api.DesignEngine;
 import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.ElementFactory;
-import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
-import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * Regression description:

@@ -21,7 +21,6 @@ import java.util.regex.Pattern;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IRenderTask;
-import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 
 /**
  * 

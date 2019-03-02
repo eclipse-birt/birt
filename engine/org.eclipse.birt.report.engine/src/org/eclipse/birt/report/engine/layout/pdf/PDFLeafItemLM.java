@@ -12,11 +12,7 @@
 package org.eclipse.birt.report.engine.layout.pdf;
 
 import org.eclipse.birt.report.engine.content.IContent;
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
-import org.eclipse.birt.report.engine.layout.area.IContainerArea;
-import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
-import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
 public abstract class PDFLeafItemLM extends PDFAbstractLM
 {

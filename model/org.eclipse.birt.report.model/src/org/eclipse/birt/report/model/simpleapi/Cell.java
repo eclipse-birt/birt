@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.simpleapi;
 
-import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.ICell;

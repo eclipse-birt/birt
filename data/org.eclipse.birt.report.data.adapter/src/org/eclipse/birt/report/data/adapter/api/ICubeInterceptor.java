@@ -1,7 +1,5 @@
 package org.eclipse.birt.report.data.adapter.api;
 
-import java.util.Map;
-
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 

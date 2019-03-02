@@ -15,7 +15,6 @@ import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelper
 import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.ui.preferences.ResourceConfigurationBlock;
 import org.eclipse.birt.report.designer.ui.preferences.TemplateConfigurationBlock;
-import org.eclipse.swt.SWT;
 
 /**
  * 

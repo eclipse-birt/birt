@@ -40,7 +40,6 @@ import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.dataextraction.CSVDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
-import org.eclipse.birt.report.engine.dataextraction.ICommonDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.csv.mock.MockExtractionResults;
 
 import junit.framework.TestCase;

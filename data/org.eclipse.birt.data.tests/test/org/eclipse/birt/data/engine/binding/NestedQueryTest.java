@@ -33,11 +33,8 @@ import org.mozilla.javascript.Context;
 
 import testutil.ConfigText;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
 /**
  * Nested query test. This test can be used to demonstrate how

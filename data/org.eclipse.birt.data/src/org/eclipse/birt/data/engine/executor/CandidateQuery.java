@@ -11,18 +11,13 @@
 
 package org.eclipse.birt.data.engine.executor;
 
-import java.util.List;
-
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
 import org.eclipse.birt.data.engine.executor.dscache.DataSetToCache;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
-import org.eclipse.birt.data.engine.executor.transform.ResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
-import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
-import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.ICandidateQuery;
@@ -30,7 +25,6 @@ import org.eclipse.birt.data.engine.odi.ICustomDataSet;
 import org.eclipse.birt.data.engine.odi.IEventHandler;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
-import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 
 /**
  * Implementation of ICandidateQuery

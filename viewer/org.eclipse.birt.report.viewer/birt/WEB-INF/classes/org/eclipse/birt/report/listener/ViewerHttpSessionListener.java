@@ -18,8 +18,6 @@ import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.eclipse.birt.report.IBirtConstants;
-import org.eclipse.birt.report.session.IViewingSessionManager;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * HttpSession Listener for BIRT viewer web application. Do some necessary jobs

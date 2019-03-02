@@ -25,13 +25,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.framework.URLClassLoader;
-import org.eclipse.birt.data.oda.pojo.Activator;
 import org.eclipse.birt.data.oda.pojo.api.IPojoDataSet;
 import org.eclipse.birt.data.oda.pojo.api.PojoDataSetFromArray;
 import org.eclipse.birt.data.oda.pojo.api.PojoDataSetFromCollection;
 import org.eclipse.birt.data.oda.pojo.api.PojoDataSetFromIterator;
 import org.eclipse.birt.data.oda.pojo.i18n.Messages;
-import org.eclipse.birt.data.oda.pojo.impl.internal.ClassMethodFieldBuffer;
 import org.eclipse.birt.data.oda.pojo.impl.internal.PojoDataSetFromCustomClass;
 import org.eclipse.birt.data.oda.pojo.querymodel.PojoQuery;
 import org.eclipse.birt.data.oda.pojo.util.PojoQueryParser;

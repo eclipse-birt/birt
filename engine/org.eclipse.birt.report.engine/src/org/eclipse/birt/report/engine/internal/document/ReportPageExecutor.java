@@ -20,7 +20,6 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 import org.eclipse.birt.report.engine.internal.document.v3.ReportPageExecutorV3;
 import org.eclipse.birt.report.engine.internal.document.v4.ReportPageExecutorV4;
-import org.eclipse.birt.report.engine.internal.executor.doc.ReportPageReader;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 
 public class ReportPageExecutor extends ReportExecutorWrapper

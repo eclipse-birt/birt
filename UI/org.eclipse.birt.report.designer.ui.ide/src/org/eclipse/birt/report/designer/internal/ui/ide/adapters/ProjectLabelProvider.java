@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
-import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.ReportPlugin;
 import org.eclipse.jdt.core.IJavaElement;
 import org.eclipse.jdt.core.IJavaProject;

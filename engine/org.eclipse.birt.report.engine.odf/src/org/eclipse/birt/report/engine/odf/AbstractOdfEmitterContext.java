@@ -17,7 +17,6 @@ import java.util.Stack;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.odf.pkg.ImageManager;
 import org.eclipse.birt.report.engine.odf.pkg.Package;
-import org.eclipse.birt.report.engine.odf.style.StyleBuilder;
 import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 import org.eclipse.birt.report.engine.odf.style.StyleManager;
 

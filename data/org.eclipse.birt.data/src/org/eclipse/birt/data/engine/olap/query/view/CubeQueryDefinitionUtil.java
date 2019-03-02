@@ -49,7 +49,6 @@ import org.eclipse.birt.data.engine.olap.data.api.IDimensionSortDefn;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationDefinition;
 import org.eclipse.birt.data.engine.olap.data.impl.AggregationFunctionDefinition;
 import org.eclipse.birt.data.engine.olap.impl.query.MeasureDefinition;
-import org.eclipse.birt.data.engine.olap.impl.query.PreparedCubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefn;
 import org.eclipse.birt.data.engine.olap.util.CubeAggrDefnOnMeasure;
 import org.eclipse.birt.data.engine.olap.util.CubeRunningNestAggrDefn;

@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.core.script;
 
-import static org.junit.Assert.assertEquals;
-
 import java.util.Calendar;
 import java.util.Date;
 

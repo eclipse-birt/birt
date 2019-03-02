@@ -11,11 +11,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.function.WeekToDa
 
 import testutil.BaseTestCase;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
 /**
  * this class test week to date function, you can refer to WeekToDateFunction

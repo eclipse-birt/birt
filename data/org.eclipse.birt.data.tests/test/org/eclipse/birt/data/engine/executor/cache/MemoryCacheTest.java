@@ -21,10 +21,8 @@ import org.eclipse.birt.data.engine.executor.ResultObject;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 /**

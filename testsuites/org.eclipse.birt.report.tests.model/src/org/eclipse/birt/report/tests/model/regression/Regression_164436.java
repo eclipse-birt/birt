@@ -9,7 +9,6 @@
 package org.eclipse.birt.report.tests.model.regression;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
-import org.eclipse.birt.report.model.api.TemplateElementHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**

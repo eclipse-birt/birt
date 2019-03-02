@@ -13,10 +13,8 @@ import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.DataItemHandle;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ListHandle;
 import org.eclipse.birt.report.model.api.GridHandle;
-import org.eclipse.birt.report.model.metadata.ExtensionManager;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**

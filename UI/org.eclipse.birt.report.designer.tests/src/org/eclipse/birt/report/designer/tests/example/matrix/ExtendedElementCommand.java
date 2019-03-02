@@ -10,7 +10,6 @@
 package org.eclipse.birt.report.designer.tests.example.matrix;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
-import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.extension.IElementCommand;
 
 public class ExtendedElementCommand implements IElementCommand

@@ -17,7 +17,6 @@ import java.util.Date;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.cache.Constants;
 import org.eclipse.birt.data.engine.impl.StopSign;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionFilterDefn;
 import org.eclipse.birt.data.engine.olap.data.api.IDimensionResultIterator;

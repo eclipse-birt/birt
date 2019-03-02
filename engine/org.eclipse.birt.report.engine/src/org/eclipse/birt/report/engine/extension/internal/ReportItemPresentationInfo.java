@@ -3,7 +3,6 @@ package org.eclipse.birt.report.engine.extension.internal;
 
 import java.util.Locale;
 
-import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.IHTMLActionHandler;
 import org.eclipse.birt.report.engine.api.script.IReportContext;

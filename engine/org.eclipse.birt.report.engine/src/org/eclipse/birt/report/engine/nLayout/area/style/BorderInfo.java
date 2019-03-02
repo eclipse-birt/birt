@@ -12,9 +12,6 @@
 package org.eclipse.birt.report.engine.nLayout.area.style;
 
 import java.awt.Color;
-import java.util.HashMap;
-
-import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 import org.w3c.dom.css.CSSValue;
 

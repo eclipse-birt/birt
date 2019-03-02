@@ -22,7 +22,6 @@ import org.eclipse.birt.report.designer.util.FontManager;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.draw2d.ColorConstants;
 import org.eclipse.jface.layout.GridDataFactory;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.MouseAdapter;

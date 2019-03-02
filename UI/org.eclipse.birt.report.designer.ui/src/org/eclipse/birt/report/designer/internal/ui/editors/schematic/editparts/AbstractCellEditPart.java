@@ -14,7 +14,6 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.CellDragTracker;
 import org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutCell;
 import org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout;
-import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.draw2d.IFigure;

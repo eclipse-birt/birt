@@ -19,7 +19,6 @@ import java.util.Map;
 import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.service.api.IViewerReportDesignHandle;
 import org.eclipse.birt.report.taglib.ITagConstants;
-import org.eclipse.birt.report.taglib.util.BirtTagUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 import org.eclipse.birt.report.utility.UrlUtility;
 

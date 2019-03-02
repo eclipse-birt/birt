@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.ui.actions.cheatsheets;
 
 import org.eclipse.birt.report.designer.internal.ui.actions.helper.IOpenDocActionHelper;
 import org.eclipse.birt.report.designer.internal.ui.actions.helper.IOpenDocActionHelperProvider;
-import org.eclipse.birt.report.designer.internal.ui.dialogs.helper.IDialogHelperProvider;
 import org.eclipse.birt.report.designer.ui.views.ElementAdapterManager;
 import org.eclipse.jface.action.Action;
 import org.eclipse.ui.PlatformUI;

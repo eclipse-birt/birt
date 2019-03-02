@@ -26,7 +26,6 @@ import testutil.ConfigText;
 import testutil.JDBCDataSource;
 import testutil.JDBCOdaDataSource;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;

@@ -11,10 +11,6 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-import java.util.List;
-
-import org.eclipse.birt.report.model.api.IVersionInfo;
-import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**

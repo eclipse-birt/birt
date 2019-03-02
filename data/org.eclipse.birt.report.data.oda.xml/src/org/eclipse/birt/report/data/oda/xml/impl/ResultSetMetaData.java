@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.data.oda.xml.impl;
 
-import org.eclipse.birt.report.data.oda.xml.util.RelationInformation;
 import org.eclipse.datatools.enablement.oda.xml.util.MappedTables;
 
 /**
