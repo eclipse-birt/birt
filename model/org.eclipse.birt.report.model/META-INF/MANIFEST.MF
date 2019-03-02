@@ -10,7 +10,6 @@ Bundle-ClassPath: tests.jar,
  .
 Eclipse-ExtensibleAPI: true 
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.model.activity;x-friends:="org.eclipse.birt.report.model.tests,org.eclipse.birt.report.item.crosstab.core",
  org.eclipse.birt.report.model.api,
  org.eclipse.birt.report.model.api.activity,

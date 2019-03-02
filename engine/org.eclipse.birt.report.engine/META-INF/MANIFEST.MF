@@ -9,7 +9,6 @@ Bundle-ClassPath: enginetesthelper.jar,
  lib/commons-cli-1.0.jar
 Bundle-Activator: org.eclipse.birt.report.engine.plugin.EnginePlugin
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.engine.adapter,
  org.eclipse.birt.report.engine.api,
  org.eclipse.birt.report.engine.api.impl,
