@@ -15,12 +15,6 @@ import java.util.Map;
 
 import org.eclipse.birt.data.engine.binding.SubQueryTest;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
-
 /**
  *
  */

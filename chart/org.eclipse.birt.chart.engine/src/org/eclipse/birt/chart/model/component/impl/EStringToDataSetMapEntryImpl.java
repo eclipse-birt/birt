@@ -7,8 +7,6 @@
 
 package org.eclipse.birt.chart.model.component.impl;
 
-import java.util.Map;
-
 import org.eclipse.birt.chart.model.component.ComponentPackage;
 import org.eclipse.birt.chart.model.data.DataSet;
 import org.eclipse.emf.common.notify.Notification;

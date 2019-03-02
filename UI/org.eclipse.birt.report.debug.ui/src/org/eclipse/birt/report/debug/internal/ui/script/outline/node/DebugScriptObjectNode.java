@@ -13,7 +13,6 @@ package org.eclipse.birt.report.debug.internal.ui.script.outline.node;
 import org.eclipse.birt.report.debug.internal.ui.script.actions.ScriptEditAction;
 import org.eclipse.birt.report.designer.core.model.views.outline.ScriptObjectNode;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
 

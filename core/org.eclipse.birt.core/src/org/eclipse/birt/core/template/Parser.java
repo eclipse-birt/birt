@@ -2,7 +2,6 @@
 package org.eclipse.birt.core.template;
 
 import java.io.*;
-import java.util.*;
 
 public class Parser/*@bgen(jjtree)*/implements ParserTreeConstants, ParserConstants {/*@bgen(jjtree)*/
   protected JJTParserState jjtree = new JJTParserState();public Parser()

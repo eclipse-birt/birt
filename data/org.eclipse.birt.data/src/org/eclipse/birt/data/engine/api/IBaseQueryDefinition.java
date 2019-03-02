@@ -15,8 +15,6 @@ package org.eclipse.birt.data.engine.api;
 
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**

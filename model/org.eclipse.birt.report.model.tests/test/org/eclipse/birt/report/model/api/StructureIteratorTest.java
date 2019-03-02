@@ -11,8 +11,6 @@ import org.eclipse.birt.report.model.api.SimpleValueHandle;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedLibrary;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.BaseTestCase;
-import org.junit.Assert;
-
 import com.ibm.icu.util.ULocale;
 
 public class StructureIteratorTest extends BaseTestCase {

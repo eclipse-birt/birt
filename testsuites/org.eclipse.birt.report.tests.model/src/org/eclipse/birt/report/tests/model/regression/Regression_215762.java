@@ -9,10 +9,6 @@
 package org.eclipse.birt.report.tests.model.regression;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
-
 import org.eclipse.birt.report.model.api.util.DocumentUtil;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 

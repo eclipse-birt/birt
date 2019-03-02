@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 

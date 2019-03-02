@@ -17,30 +17,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ContextParamBean;
-import org.eclipse.birt.integration.wtp.ui.internal.webapplication.FilterBean;
-import org.eclipse.birt.integration.wtp.ui.internal.webapplication.FilterMappingBean;
-import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ListenerBean;
-import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletBean;
-import org.eclipse.birt.integration.wtp.ui.internal.webapplication.ServletMappingBean;
-import org.eclipse.birt.integration.wtp.ui.internal.webapplication.TagLibBean;
-import org.eclipse.birt.integration.wtp.ui.internal.webapplication.WebAppBean;
-import org.eclipse.birt.integration.wtp.ui.internal.wizards.IBirtWizardConstants;
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IProgressMonitor;
-import org.eclipse.jst.j2ee.common.CommonFactory;
 import org.eclipse.jst.j2ee.common.Listener;
 import org.eclipse.jst.j2ee.jsp.JSPConfig;
-import org.eclipse.jst.j2ee.jsp.JspFactory;
 import org.eclipse.jst.j2ee.jsp.TagLibRefType;
-import org.eclipse.jst.j2ee.webapplication.Filter;
 import org.eclipse.jst.j2ee.webapplication.FilterMapping;
-import org.eclipse.jst.j2ee.webapplication.Servlet;
 import org.eclipse.jst.j2ee.webapplication.ServletMapping;
-import org.eclipse.jst.j2ee.webapplication.ServletType;
 import org.eclipse.jst.j2ee.webapplication.TagLibRef;
 import org.eclipse.jst.j2ee.webapplication.WebApp;
-import org.eclipse.jst.j2ee.webapplication.WebapplicationFactory;
-import org.eclipse.ui.dialogs.IOverwriteQuery;
 
 /**
  * Birt WebArtifact Utility

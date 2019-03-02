@@ -17,7 +17,6 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.command.ContentEvent;
-import org.eclipse.birt.report.model.elements.TableColumn;
 
 /**
  * Processor the model event for the DesignerOutline

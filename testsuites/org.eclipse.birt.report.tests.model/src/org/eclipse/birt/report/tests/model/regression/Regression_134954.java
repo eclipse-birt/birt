@@ -9,7 +9,6 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-import java.io.File;
 import java.io.IOException;
 
 import org.eclipse.birt.report.model.api.DesignConfig;

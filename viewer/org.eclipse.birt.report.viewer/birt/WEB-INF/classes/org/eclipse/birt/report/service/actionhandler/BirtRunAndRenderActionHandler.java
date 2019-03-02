@@ -13,7 +13,6 @@ package org.eclipse.birt.report.service.actionhandler;
 
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Locale;
 import java.util.Map;
 
 import org.eclipse.birt.report.context.IContext;

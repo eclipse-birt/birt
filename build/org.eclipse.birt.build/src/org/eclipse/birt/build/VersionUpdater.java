@@ -1,18 +1,13 @@
 
 package org.eclipse.birt.build;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.HashSet;
 import java.util.Iterator;
-import java.util.Properties;
 import java.util.Set;
 import java.util.jar.Manifest;
 import java.lang.Integer;
@@ -26,7 +21,6 @@ import org.dom4j.io.SAXReader;
 import org.dom4j.Element;
 import org.dom4j.dom.DOMElement;
 import org.dom4j.DocumentFactory;
-import org.dom4j.DocumentHelper;
 import org.dom4j.io.XMLWriter;
 import org.dom4j.io.OutputFormat;
 

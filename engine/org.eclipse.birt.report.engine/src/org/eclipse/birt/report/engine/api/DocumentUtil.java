@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.api;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 

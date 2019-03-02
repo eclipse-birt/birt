@@ -21,7 +21,6 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
-import org.eclipse.birt.report.engine.internal.document.v3.ReportContentWriterV3;
 import org.eclipse.birt.report.tests.engine.EngineCase;
 
 /**

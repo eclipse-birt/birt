@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.factory;
 
-import java.util.List;
-
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.device.IDisplayServer;
 import org.eclipse.birt.chart.exception.ChartException;

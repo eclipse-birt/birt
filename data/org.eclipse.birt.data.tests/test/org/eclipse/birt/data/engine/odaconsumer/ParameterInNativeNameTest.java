@@ -21,8 +21,6 @@ import org.eclipse.birt.data.engine.odaconsumer.testdriver.TestAdvQueryImpl;
 import org.eclipse.birt.data.engine.odaconsumer.testdriver.TestParamMetaDataImpl;
 import org.eclipse.birt.data.engine.odaconsumer.testutil.OdaTestDriverCase;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
 import static org.junit.Assert.*;

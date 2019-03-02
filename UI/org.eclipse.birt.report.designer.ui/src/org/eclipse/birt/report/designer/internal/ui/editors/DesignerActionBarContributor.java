@@ -15,7 +15,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.eclipse.birt.core.preference.IPreferences;
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.ToggleBreadcrumbAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddGroupAction;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.AddStyleAction;
@@ -50,7 +49,6 @@ import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction;
 import org.eclipse.birt.report.designer.ui.actions.NoneAction;
 import org.eclipse.birt.report.designer.ui.actions.ToggleMarginVisibilityAction;
 import org.eclipse.birt.report.designer.ui.extensions.IExtensionConstants;
-import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.gef.editparts.ZoomManager;

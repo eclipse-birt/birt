@@ -13,7 +13,6 @@ package org.eclipse.birt.chart.model.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import org.eclipse.birt.chart.model.Chart;
 import java.util.List;
 
 import org.eclipse.birt.chart.computation.IConstants;

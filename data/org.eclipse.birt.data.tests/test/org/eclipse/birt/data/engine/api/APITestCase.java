@@ -15,8 +15,6 @@ import java.util.Map;
 
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
-import org.eclipse.birt.core.framework.PlatformConfig;
-import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
@@ -35,10 +33,6 @@ import testutil.TestDataSource;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
-
-import static org.junit.Assert.*;
 
 /**
  * Base class for test cases that work with Data Engine public API

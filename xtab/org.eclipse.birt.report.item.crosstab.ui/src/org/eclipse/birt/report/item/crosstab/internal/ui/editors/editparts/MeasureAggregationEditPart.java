@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.item.crosstab.internal.ui.editors.editparts;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.designer.data.ui.util.DataUtil;

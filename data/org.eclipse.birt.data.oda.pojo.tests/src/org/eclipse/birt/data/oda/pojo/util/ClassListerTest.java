@@ -21,10 +21,7 @@ import org.eclipse.birt.data.oda.pojo.util.ClassLister;
 import org.eclipse.core.runtime.FileLocator;
 
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 

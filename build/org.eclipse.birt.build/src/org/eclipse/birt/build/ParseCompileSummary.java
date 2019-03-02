@@ -12,18 +12,11 @@
 package org.eclipse.birt.build;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.io.FileWriter;
 import java.util.Iterator;
 import org.dom4j.Document;
 import org.dom4j.io.SAXReader;
 import org.dom4j.Element;
-import org.dom4j.dom.DOMElement;
-import org.dom4j.DocumentFactory;
-import org.dom4j.io.XMLWriter;
-import org.dom4j.io.OutputFormat;
-import java.lang.Integer;
 
 /**
  * 

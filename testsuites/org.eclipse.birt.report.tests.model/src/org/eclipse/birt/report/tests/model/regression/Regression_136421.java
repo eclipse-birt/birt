@@ -8,19 +8,6 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-import java.util.Iterator;
-
-import org.eclipse.birt.report.model.api.CellHandle;
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DataItemHandle;
-import org.eclipse.birt.report.model.api.DesignFileException;
-import org.eclipse.birt.report.model.api.RowHandle;
-import org.eclipse.birt.report.model.api.StructureFactory;
-import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.elements.structures.ComputedColumn;
-import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**

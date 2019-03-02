@@ -11,10 +11,7 @@ import org.eclipse.birt.data.engine.impl.ConfigFileParser.Node;
 
 import testutil.BaseTestCase;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 /**

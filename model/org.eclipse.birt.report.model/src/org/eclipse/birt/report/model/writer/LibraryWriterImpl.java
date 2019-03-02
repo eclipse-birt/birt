@@ -14,8 +14,6 @@ package org.eclipse.birt.report.model.writer;
 import org.eclipse.birt.report.model.api.core.IModuleModel;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.Theme;
-import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 import org.eclipse.birt.report.model.elements.interfaces.ILibraryModel;
 import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
 

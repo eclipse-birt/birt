@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction.DynamicItemA
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 
 /**
  * Edits style.

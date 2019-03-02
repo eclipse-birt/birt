@@ -32,8 +32,6 @@ import org.eclipse.birt.data.engine.odi.FilterUtil;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
-import com.ibm.icu.text.Collator;
-
 /**
  * Implementation of IFilter, which will do filtering on row data.
  */

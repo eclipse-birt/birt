@@ -14,9 +14,6 @@ package org.eclipse.birt.report.service.actionhandler;
 import java.io.ByteArrayOutputStream;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Locale;
-
-import org.eclipse.birt.report.IBirtConstants;
 import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.context.ViewerAttributeBean;
 import org.eclipse.birt.report.service.BirtReportServiceFactory;

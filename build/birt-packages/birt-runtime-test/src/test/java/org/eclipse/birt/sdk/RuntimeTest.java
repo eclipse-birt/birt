@@ -1,20 +1,8 @@
 
 package org.eclipse.birt.sdk;
 
-import java.io.File;
-import java.io.FilenameFilter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-
-import org.junit.Assert;
-import org.junit.Ignore;
-import org.junit.Test;
 
 public class RuntimeTest extends BaseTestTemplate
 {

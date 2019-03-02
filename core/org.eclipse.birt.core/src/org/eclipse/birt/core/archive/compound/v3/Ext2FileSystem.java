@@ -27,7 +27,6 @@ import java.util.Map.Entry;
 import org.eclipse.birt.core.archive.cache.CacheListener;
 import org.eclipse.birt.core.archive.cache.Cacheable;
 import org.eclipse.birt.core.archive.cache.FileCacheManager;
-import org.eclipse.birt.core.archive.cache.SystemCacheManager;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 

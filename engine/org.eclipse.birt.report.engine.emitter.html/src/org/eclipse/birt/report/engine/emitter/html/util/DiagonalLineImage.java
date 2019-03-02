@@ -21,7 +21,6 @@ import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
-import org.eclipse.birt.report.engine.api.impl.Image;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
