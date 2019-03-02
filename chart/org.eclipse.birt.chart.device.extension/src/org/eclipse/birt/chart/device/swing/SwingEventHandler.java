@@ -298,6 +298,7 @@ public final class SwingEventHandler
 	 */
 	static class URLMenuItemModel extends DefaultButtonModel {
 		
+		private static final long serialVersionUID = 1L;
 		private URLValue fUrlValue;
 		
 		void setURLValue( URLValue uv )

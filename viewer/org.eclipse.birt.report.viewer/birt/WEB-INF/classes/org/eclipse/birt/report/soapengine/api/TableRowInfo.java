@@ -12,7 +12,8 @@ package org.eclipse.birt.report.soapengine.api;
  * information of a table row
  */
 public class TableRowInfo  implements java.io.Serializable {
-    /** The group level of this row. -1 is used to indicated table level
+    private static final long serialVersionUID = 1L;
+	/** The group level of this row. -1 is used to indicated table level
  * rows. */
     private int level;
     /** The position of this row in the group header or group footer. Index

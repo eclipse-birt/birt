@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ThemeList  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.Theme[] theme;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.Theme[] theme;
 
     public ThemeList() {
     }

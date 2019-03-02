@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class FormatRule  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.FormatRuleCondition condition;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.FormatRuleCondition condition;
     private org.eclipse.birt.report.soapengine.api.FormatRuleEffect effect;
 
     public FormatRule() {

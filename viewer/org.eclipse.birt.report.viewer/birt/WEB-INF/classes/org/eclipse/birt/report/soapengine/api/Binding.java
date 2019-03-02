@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class Binding  implements java.io.Serializable {
-    private long rptElementId;
+    private static final long serialVersionUID = 1L;
+	private long rptElementId;
     private long dataSetId;
 
     public Binding() {

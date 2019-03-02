@@ -7,6 +7,8 @@ package javax.olap;
 public class OLAPException extends org.eclipse.birt.data.engine.core.DataException
 {
 
+	private static final long serialVersionUID = 1L;
+
 	public OLAPException( String reason )
 	{
 		super( reason );

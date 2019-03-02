@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class JoinDefinition  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.IOReference leftIO;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.IOReference leftIO;
     private org.eclipse.birt.report.soapengine.api.IOReference rightIO;
     private org.eclipse.birt.report.soapengine.api.JoinCondition[] joinConditions;
 

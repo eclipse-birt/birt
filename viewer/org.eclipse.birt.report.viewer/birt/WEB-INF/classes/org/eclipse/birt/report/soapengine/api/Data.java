@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class Data  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.Font font;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.Font font;
     private org.eclipse.birt.report.soapengine.api.ResultSets resultSets;
     private org.eclipse.birt.report.soapengine.api.Format format;
     private org.eclipse.birt.report.soapengine.api.TOC TOC;

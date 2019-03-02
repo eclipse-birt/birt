@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ConditionLine  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.ReportParameterList reportParameterList;
     private java.lang.String logicOp;
     private boolean hasLeftBracket;
     private boolean hasNot;

@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ReportElement  implements java.io.Serializable {
-    private long id;
+    private static final long serialVersionUID = 1L;
+	private long id;
     private boolean visible;
     private java.lang.String name;
     private java.lang.String description;

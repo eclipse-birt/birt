@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class IOReference  implements java.io.Serializable {
-    private java.lang.String id;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String id;
     private java.lang.String fullPath;
 
     public IOReference() {

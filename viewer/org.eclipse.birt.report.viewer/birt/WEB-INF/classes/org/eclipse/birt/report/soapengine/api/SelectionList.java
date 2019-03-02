@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class SelectionList  implements java.io.Serializable {
-    private java.lang.String name;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String name;
     private org.eclipse.birt.report.soapengine.api.SelectItemChoice[] selections;
 
     public SelectionList() {

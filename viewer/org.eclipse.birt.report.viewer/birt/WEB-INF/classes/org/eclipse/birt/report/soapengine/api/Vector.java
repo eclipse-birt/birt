@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class Vector  implements java.io.Serializable {
-    private java.lang.String[] value;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String[] value;
 
     public Vector() {
     }

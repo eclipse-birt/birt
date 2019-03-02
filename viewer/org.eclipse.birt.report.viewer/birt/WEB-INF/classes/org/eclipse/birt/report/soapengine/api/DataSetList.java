@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class DataSetList  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.DataSet[] dataSet;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.DataSet[] dataSet;
 
     public DataSetList() {
     }

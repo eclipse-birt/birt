@@ -12,6 +12,7 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 public class CompareHintsComparator<K> implements Comparator<K>, Serializable
 {
 	
+	private static final long serialVersionUID = 1L;
 	private CompareHints compareHints;
 	
 	

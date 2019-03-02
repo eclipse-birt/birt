@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ExportCriteria  implements java.io.Serializable {
-    private java.lang.String columnName;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String columnName;
     private java.lang.String operator;
     private java.lang.String value;
 

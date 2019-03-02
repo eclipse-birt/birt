@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class JoinMetadata  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.IOList IOList;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.IOList IOList;
     private org.eclipse.birt.report.soapengine.api.JoinList joinList;
 
     public JoinMetadata() {

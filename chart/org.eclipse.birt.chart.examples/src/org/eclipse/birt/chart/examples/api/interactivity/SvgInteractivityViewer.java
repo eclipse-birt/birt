@@ -45,8 +45,6 @@ public class SvgInteractivityViewer extends Composite implements
 		SelectionListener
 {
 
-	private static final long serialVersionUID = 1L;
-
 	private IDeviceRenderer idr = null;
 
 	private static Combo cbType = null;

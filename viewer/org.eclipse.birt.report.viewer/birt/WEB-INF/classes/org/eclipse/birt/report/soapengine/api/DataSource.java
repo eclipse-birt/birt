@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class DataSource  implements java.io.Serializable {
-    private java.lang.String type;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String type;
     private java.lang.String displayName;
     private java.lang.String description;
     private java.lang.Boolean isNative;

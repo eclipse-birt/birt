@@ -570,6 +570,8 @@ public class DataSetIterator implements IDatasetIterator
 	private class TempDateTransformer extends ScriptableObject
 	{
 		
+		private static final long serialVersionUID = 1L;
+
 		public TempDateTransformer( ULocale locale )
 		{
 			this.defineProperty( "transform", new Function_Transform( locale ), 0 );
@@ -587,6 +589,7 @@ public class DataSetIterator implements IDatasetIterator
 
 	private class Function_Transform extends Function_temp
 	{
+		private static final long serialVersionUID = 1L;
 		private ULocale locale;
 		
 		public Function_Transform( ULocale locale )
@@ -610,6 +613,8 @@ public class DataSetIterator implements IDatasetIterator
 
 	abstract class Function_temp extends BaseFunction implements Function
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
 				java.lang.Object[] args )
