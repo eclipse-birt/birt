@@ -19,8 +19,6 @@ public class BlankData extends Data
 		VERTICAL, HORIZONTAL, NONE
 	};
 
-	private static final long serialVersionUID = 6843853284940969059L;
-
 	private SheetData data;
 
 	private Type type;

@@ -51,11 +51,6 @@ public class BeforeDataSetFilled extends ChartTestCase
 	private static String OUTPUT = "BeforeDataSetFilled.jpg"; //$NON-NLS-1$	
 
 	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * A chart model instance
 	 */
 	private Chart cm = null;

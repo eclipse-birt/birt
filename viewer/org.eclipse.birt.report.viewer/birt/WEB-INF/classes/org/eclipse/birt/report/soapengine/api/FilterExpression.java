@@ -12,7 +12,8 @@ package org.eclipse.birt.report.soapengine.api;
  * A complex type to represent the condition expression used in filter.
  */
 public class FilterExpression  implements java.io.Serializable {
-    /** Represents Equality operator, i.e., '=='. */
+    private static final long serialVersionUID = 1L;
+	/** Represents Equality operator, i.e., '=='. */
     private org.eclipse.birt.report.soapengine.api.FilterClause clause;
     private org.eclipse.birt.report.soapengine.api.FilterExpression[] not;
     private org.eclipse.birt.report.soapengine.api.FilterExpression[] or;

@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class Operation  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.ReportId target;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.ReportId target;
     private java.lang.String operator;
     private org.eclipse.birt.report.soapengine.api.Oprand[] oprand;
     private org.eclipse.birt.report.soapengine.api.Data data;

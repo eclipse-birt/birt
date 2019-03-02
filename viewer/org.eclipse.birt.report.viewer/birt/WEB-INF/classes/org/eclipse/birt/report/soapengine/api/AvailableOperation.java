@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class AvailableOperation  implements java.io.Serializable {
-    private java.lang.Boolean saveView;
+    private static final long serialVersionUID = 1L;
+	private java.lang.Boolean saveView;
     private java.lang.Boolean applyView;
     private java.lang.Boolean print;
     private java.lang.Boolean export;

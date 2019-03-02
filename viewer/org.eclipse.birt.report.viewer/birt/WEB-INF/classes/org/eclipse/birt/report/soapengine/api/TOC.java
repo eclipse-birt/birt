@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class TOC  implements java.io.Serializable {
-    private java.lang.String id;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String id;
     private java.lang.String displayName;
     private java.lang.String bookmark;
     private java.lang.String style;

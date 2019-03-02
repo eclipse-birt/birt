@@ -32,6 +32,8 @@ public class DataSetInMemoryStringIndex extends HashMap
 			IDataSetIndex
 {
 
+	private static final long serialVersionUID = 1L;
+
 	public DataSetInMemoryStringIndex( RAInputStream indexStream,
 			RAInputStream valueStream ) throws IOException
 	{

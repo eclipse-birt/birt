@@ -12,7 +12,8 @@ package org.eclipse.birt.report.soapengine.api;
  * information of an ERNI group
  */
 public class G_Info  implements java.io.Serializable {
-    private int level;
+    private static final long serialVersionUID = 1L;
+	private int level;
     private java.lang.String groupName;
     /** The number of rows in group header */
     private int h_Count;

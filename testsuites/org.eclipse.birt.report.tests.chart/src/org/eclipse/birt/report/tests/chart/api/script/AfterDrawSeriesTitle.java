@@ -57,11 +57,6 @@ public class AfterDrawSeriesTitle extends ChartTestCase
 	private static String OUTPUT = "AfterDrawSeriesTitle.jpg"; //$NON-NLS-1$	
 
 	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * A chart model instance
 	 */
 	private Chart cm = null;

@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class SortingDirection implements java.io.Serializable {
-    private java.lang.String _value_;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String _value_;
     private static java.util.HashMap _table_ = new java.util.HashMap();
 
     // Constructor

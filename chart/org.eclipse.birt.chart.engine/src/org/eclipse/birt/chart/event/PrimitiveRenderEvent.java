@@ -34,6 +34,8 @@ public abstract class PrimitiveRenderEvent extends ChartEvent implements
 		Comparable
 {
 
+	private static final long serialVersionUID = 1L;
+
 	protected static final IGObjectFactory goFactory = GObjectFactory.instance( );
 
 	/**
