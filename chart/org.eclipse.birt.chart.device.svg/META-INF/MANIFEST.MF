@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.birt.chart.device.svg;singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.device.svg.plugin.ChartDeviceSVGPlugin
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.device.svg,
  org.eclipse.birt.chart.device.svg.i18n,
  org.eclipse.birt.chart.device.svg.plugin

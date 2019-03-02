@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Model ODA Adapter Tests Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.model.adapter.oda.tests; singleton:=true
 Bundle-Version: 4.8.0.qualifier
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.model.adapter.oda,
  org.eclipse.birt.report.model,
