@@ -7,3 +7,4 @@ Fragment-Host: org.eclipse.birt.report.engine.emitter.config.pdf;bundle-version=
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: nl_fragment
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.config.pdf.nl1
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
