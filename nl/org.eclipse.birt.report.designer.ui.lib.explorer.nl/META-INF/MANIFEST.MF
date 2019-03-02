@@ -7,4 +7,5 @@ Fragment-Host: org.eclipse.birt.report.designer.ui.lib.explorer;bundle-version="
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: nl_fragment
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.lib.explorer.nl1
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 

@@ -7,3 +7,4 @@ Fragment-Host: org.eclipse.birt.report.data.bidi.utils;bundle-version="[2.1.0,5.
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: nl_fragment
 Automatic-Module-Name: org.eclipse.birt.report.data.bidi.utils.nl1
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

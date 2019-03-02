@@ -7,3 +7,4 @@ Fragment-Host: org.eclipse.birt.core.ui;bundle-version="[2.1.0,5.0.0)"
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: nl_fragment
 Automatic-Module-Name: org.eclipse.birt.core.ui.nl1
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
