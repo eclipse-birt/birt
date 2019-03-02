@@ -5,5 +5,4 @@ Bundle-SymbolicName: org.eclipse.birt.chart.engine.extension.nl1
 Bundle-Version: 4.8.0.qualifier
 Fragment-Host: org.eclipse.birt.chart.engine.extension;bundle-version="[2.1.0,5.0.0)"
 Bundle-Vendor: Eclipse.org
-Bundle-Localization: nl_fragment
 Automatic-Module-Name: org.eclipse.birt.chart.engine.extension.nl1

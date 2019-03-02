@@ -4,7 +4,6 @@ Bundle-Name: BIRT Engine fonts
 Bundle-SymbolicName: org.eclipse.birt.report.engine.fonts
 Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Eclipse-BundleShape: dir
 Automatic-Module-Name: org.eclipse.birt.report.engine.fonts

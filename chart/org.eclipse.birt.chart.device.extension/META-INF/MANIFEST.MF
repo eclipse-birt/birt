@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.birt.chart.device.extension; singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.device.plugin.ChartDeviceExtensionPlugin
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.chart.device.extension.i18n,
  org.eclipse.birt.chart.device.g2d,
  org.eclipse.birt.chart.device.image,
