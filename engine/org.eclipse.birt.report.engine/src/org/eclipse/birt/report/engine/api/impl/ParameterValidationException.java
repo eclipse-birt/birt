@@ -21,6 +21,8 @@ import org.eclipse.birt.report.engine.api.EngineException;
 public class ParameterValidationException extends EngineException
 {
 
+	private static final long serialVersionUID = 1L;
+
 	public ParameterValidationException( String errorCode, Object[] args )
 	{
 		super( errorCode, args );

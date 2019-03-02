@@ -77,11 +77,6 @@ public class Regression_160432 extends ChartTestCase
 	private static String GOLDEN = "Difference_AfterDrawLegendItem.jpg"; //$NON-NLS-1$
 
 	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * A chart model instance
 	 */
 	private Chart cm = null;

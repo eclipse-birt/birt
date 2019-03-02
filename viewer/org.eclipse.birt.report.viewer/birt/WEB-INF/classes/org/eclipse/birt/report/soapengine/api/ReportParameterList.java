@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ReportParameterList  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.ReportParameter[] reportParameter;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.ReportParameter[] reportParameter;
 
     public ReportParameterList() {
     }

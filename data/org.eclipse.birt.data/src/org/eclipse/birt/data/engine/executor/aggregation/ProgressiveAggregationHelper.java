@@ -505,6 +505,7 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	
 	private class DummyJSResultSetRow extends ScriptableObject
 	{
+		private static final long serialVersionUID = 1L;
 		private IResultObject currentRow;
 
 		/*
@@ -548,6 +549,8 @@ public class ProgressiveAggregationHelper implements IProgressiveAggregationHelp
 	private class JSColumnBindingRow extends ScriptableObject
 	{
 		
+		private static final long serialVersionUID = 1L;
+
 		/*
 		 * @see org.mozilla.javascript.ScriptableObject#get(int, org.mozilla.javascript.Scriptable)
 		 */

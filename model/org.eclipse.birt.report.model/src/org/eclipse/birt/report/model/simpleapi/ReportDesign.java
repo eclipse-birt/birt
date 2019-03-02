@@ -372,6 +372,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 			{
 				this.defineProperty( entry.getKey( ), new BaseFunction( ) {
 
+					private static final long serialVersionUID = 1L;
+
 					public Object call( Context cx, Scriptable scope,
 							Scriptable thisObj, Object[] args )
 					{

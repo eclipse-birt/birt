@@ -12,7 +12,8 @@ package org.eclipse.birt.report.soapengine.api;
  * list of G_Info
  */
 public class TableGroups  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.G_Info[] group;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.G_Info[] group;
 
     public TableGroups() {
     }

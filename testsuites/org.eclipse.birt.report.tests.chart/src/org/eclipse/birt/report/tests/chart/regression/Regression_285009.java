@@ -54,12 +54,6 @@ public final class Regression_285009 extends ChartTestCase
 	private static String GOLDEN = "Regression_285009.jpg"; //$NON-NLS-1$
 	private static String OUTPUT = "Regression_285009.jpg"; //$NON-NLS-1$
 
-	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
-	private static final long serialVersionUID = 1L;
-
-	
 	private IDeviceRenderer idr = null;
 
 	private Chart cm = null;

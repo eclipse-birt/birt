@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class FileList  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.File[] file;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.File[] file;
 
     public FileList() {
     }

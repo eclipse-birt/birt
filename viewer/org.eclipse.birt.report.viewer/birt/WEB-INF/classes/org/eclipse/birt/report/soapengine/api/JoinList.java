@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class JoinList  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.JoinDefinition[] join;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.JoinDefinition[] join;
 
     public JoinList() {
     }

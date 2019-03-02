@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class Export  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.Vector availableColumns;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.Vector availableColumns;
     private org.eclipse.birt.report.soapengine.api.Vector selectedColumn;
     private org.eclipse.birt.report.soapengine.api.ExportCriteria[] criteria;
 

@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class CellDefinition  implements java.io.Serializable {
-    private int level;
+    private static final long serialVersionUID = 1L;
+	private int level;
     private boolean isHeader;
     private int rowIndex;
     private int cellIndex;

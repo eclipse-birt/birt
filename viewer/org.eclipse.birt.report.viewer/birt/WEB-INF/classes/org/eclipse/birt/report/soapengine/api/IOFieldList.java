@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class IOFieldList  implements java.io.Serializable {
-    private java.lang.String IOFullPath;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String IOFullPath;
     private org.eclipse.birt.report.soapengine.api.IOField[] fields;
 
     public IOFieldList() {

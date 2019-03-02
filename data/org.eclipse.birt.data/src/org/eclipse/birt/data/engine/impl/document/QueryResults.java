@@ -488,6 +488,7 @@ public class QueryResults implements IQueryResults, IQueryService
 	 */
 	private static class DummyJSResultSetRow extends ScriptableObject
 	{
+		private static final long serialVersionUID = 1L;
 		//
 		private IExecutorHelper parentHelper;
 		private IBaseResultIterator currentIterator;

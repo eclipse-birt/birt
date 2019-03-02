@@ -110,6 +110,7 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 	
 	private static class DummyLevelObject extends ScriptableObject
 	{
+		private static final long serialVersionUID = 1L;
 		private DummyDimensionObject host;
 		private String dimName;
 		private Map<String, DummyLevelAttrObject> levelAttrMap;
@@ -147,6 +148,7 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 	
 	private static class DummyDimensionObject extends ScriptableObject
 	{
+		private static final long serialVersionUID = 1L;
 		private IResultRow row;
 		private Map< String, DummyLevelObject > dimLevMap = new HashMap<String, DummyLevelObject>( );
 		
@@ -190,6 +192,7 @@ public class AggrMeasureFilterEvalHelper extends DimensionJSEvalHelper
 	
 	private static class DummyLevelAttrObject extends ScriptableObject
 	{
+		private static final long serialVersionUID = 1L;
 		private String dimName;
 		private String levelName;
 		private DummyDimensionObject host;

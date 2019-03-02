@@ -81,8 +81,6 @@ public class Regression_117511_svg extends Composite
 			SelectionListener
 {
 
-	private static final long serialVersionUID = 1L;
-
 	private IDeviceRenderer idr = null;
 
 	private static Combo cbType = null;

@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class Font  implements java.io.Serializable {
-    private java.lang.String family;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String family;
     private java.lang.String style;
     private java.lang.Integer size;
     private java.lang.String effect;
