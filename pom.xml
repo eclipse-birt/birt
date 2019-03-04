@@ -144,8 +144,9 @@
 		</profile>
 	</profiles>
 
+<!--
 	<repositories>
-		<!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
+		BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP
 		<repository>
 			<id>eclipse</id>
 			<url>${eclipse.repo.url}</url>
@@ -182,6 +183,7 @@
 			<layout>p2</layout>
 		</repository>
 	</repositories>
+	-->
 	<pluginRepositories>
 		<pluginRepository>
 			<id>cbi</id>
@@ -311,6 +313,14 @@
 				<configuration>
 					<pomDependencies>consider</pomDependencies>
 					<includePackedArtifacts>false</includePackedArtifacts>
+					<targetDefinitionIncludeSource>honor</targetDefinitionIncludeSource>
+					<target>
+						<artifact>
+							<groupId>org.eclipse.birt</groupId>
+							<artifactId>org.eclipse.birt.target</artifactId>
+							<version>4.8.0-SNAPSHOT</version>
+						</artifact>
+					</target>
 					<environments>
 						<environment>
 							<os>win32</os>

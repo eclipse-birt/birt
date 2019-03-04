@@ -15,7 +15,6 @@ import java.io.IOException;
 
 import org.eclipse.birt.report.engine.emitter.pptx.PPTXCanvas;
 import org.eclipse.birt.report.engine.nLayout.area.impl.PageArea;
-import org.eclipse.birt.report.engine.nLayout.area.style.BackgroundImageInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.BoxStyle;
 import org.eclipse.birt.report.engine.ooxml.constants.ContentTypes;
 import org.eclipse.birt.report.engine.ooxml.constants.NameSpaces;

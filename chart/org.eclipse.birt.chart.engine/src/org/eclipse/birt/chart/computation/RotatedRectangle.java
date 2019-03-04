@@ -20,8 +20,6 @@ import java.util.List;
 public final class RotatedRectangle extends Polygon
 {
 
-	private static final long serialVersionUID = 1L;
-
 	/**
 	 * @param dX0
 	 * @param dY0

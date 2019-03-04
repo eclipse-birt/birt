@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class RepositoryPathSegment  implements java.io.Serializable {
-    private int index;
+    private static final long serialVersionUID = 1L;
+	private int index;
     private java.lang.String name;
     private java.lang.String RPath;
 

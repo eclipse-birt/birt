@@ -17,6 +17,8 @@ package org.eclipse.birt.report.designer.internal.ui.views.property.widgets;
 public class TimeDialogInfo implements DialogInfo
 {
 
+	private static final long serialVersionUID = 1L;
+
 	private long time;
 
 	private String timeZoneID = ""; //$NON-NLS-1$

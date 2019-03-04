@@ -22,6 +22,8 @@ import java.util.EventObject;
 public abstract class ChartEvent extends EventObject
 {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * The constructor.
 	 */

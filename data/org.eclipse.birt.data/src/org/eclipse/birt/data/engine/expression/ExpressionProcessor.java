@@ -27,7 +27,6 @@ import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 import org.eclipse.birt.data.engine.impl.aggregation.JSAggrValueObject;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
-import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
 /**

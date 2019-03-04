@@ -26,6 +26,7 @@ import org.mozilla.javascript.ScriptableObject;
 public class JSMeasureAccessor extends ScriptableObject
 {
 
+	private static final long serialVersionUID = 1L;
 	private CubeCursor cursor;
 	private Map measureMapping;
 

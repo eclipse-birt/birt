@@ -22,6 +22,8 @@ import org.eclipse.draw2d.geometry.Rectangle;
 public class ReportItemConstraint extends Rectangle
 {
 
+	private static final long serialVersionUID = 1L;
+
 	public static final int NONE = 0;
 
 	public static final int INLINE = 1;

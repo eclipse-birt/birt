@@ -46,7 +46,6 @@ import org.eclipse.birt.report.model.api.simpleapi.ITextItem;
 import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.mozilla.javascript.BaseFunction;
 import org.mozilla.javascript.Context;
-import org.mozilla.javascript.ContextFactory;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.ScriptableObject;
 import org.mozilla.javascript.WrappedException;
@@ -371,6 +370,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 			for ( final Entry<String, Method> entry : methods.entrySet( ) )
 			{
 				this.defineProperty( entry.getKey( ), new BaseFunction( ) {
+
+					private static final long serialVersionUID = 1L;
 
 					public Object call( Context cx, Scriptable scope,
 							Scriptable thisObj, Object[] args )

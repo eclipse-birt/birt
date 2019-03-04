@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute.util;
 
-import java.util.List;
-
 import java.util.Map;
 import org.eclipse.birt.chart.model.attribute.*;
 
@@ -46,7 +44,6 @@ import org.eclipse.birt.chart.model.attribute.Text;
 import org.eclipse.birt.chart.model.attribute.TextAlignment;
 import org.eclipse.birt.chart.model.attribute.TooltipValue;
 import org.eclipse.birt.chart.model.attribute.URLValue;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;

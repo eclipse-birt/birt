@@ -13,7 +13,6 @@ import junit.framework.TestSuite;
 
 import java.util.*;
 
-import org.eclipse.birt.report.engine.api.EngineConfig;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.HTMLActionHandler;
 import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;

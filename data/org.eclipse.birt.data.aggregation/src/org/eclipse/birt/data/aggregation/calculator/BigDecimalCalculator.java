@@ -16,8 +16,6 @@ import java.math.MathContext;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
-import org.eclipse.birt.data.aggregation.impl.AggrException;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**

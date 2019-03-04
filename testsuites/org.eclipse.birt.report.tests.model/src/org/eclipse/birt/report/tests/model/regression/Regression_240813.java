@@ -9,12 +9,7 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-import java.io.File;
-import java.io.IOException;
-
-import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.LabelHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**

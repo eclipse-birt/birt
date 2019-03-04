@@ -26,7 +26,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;

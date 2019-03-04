@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 

@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.layout.pdf;
 
-import java.text.Bidi;
 import java.util.HashSet;
 import java.util.logging.Level;
 

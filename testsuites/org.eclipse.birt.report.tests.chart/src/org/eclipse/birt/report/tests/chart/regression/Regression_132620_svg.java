@@ -76,8 +76,6 @@ public class Regression_132620_svg extends Composite
 			SelectionListener
 {
 
-	private static final long serialVersionUID = 1L;
-
 	private static Display display = null;
 
 	private GeneratedChartState gcs = null;

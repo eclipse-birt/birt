@@ -43,7 +43,6 @@ import org.eclipse.birt.data.oda.pojo.ui.util.HelpUtil;
 import org.eclipse.birt.data.oda.pojo.ui.util.Utils;
 import org.eclipse.birt.data.oda.pojo.util.ClassLister;
 import org.eclipse.birt.data.oda.pojo.util.PojoQueryParser;
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.datatools.connectivity.internal.ui.dialogs.ExceptionHandler;
 import org.eclipse.datatools.connectivity.oda.IConnection;
 import org.eclipse.datatools.connectivity.oda.IDriver;

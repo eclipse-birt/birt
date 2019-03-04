@@ -20,16 +20,11 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.HashMap;
-import java.util.Map;
-
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 import org.eclipse.birt.report.engine.EngineCase;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
-
-import com.ibm.icu.text.NumberFormat.SimpleNumberFormatFactory;
 
 public class RenderTaskTest extends EngineCase
 {

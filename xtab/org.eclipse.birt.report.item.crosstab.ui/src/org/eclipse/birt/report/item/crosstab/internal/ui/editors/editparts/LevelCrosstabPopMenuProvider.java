@@ -15,7 +15,6 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.dnd.InsertInLayoutUtil;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
-import org.eclipse.birt.report.item.crosstab.core.util.CrosstabUtil;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddLevelHandleAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.AddSubTotalAction;
 import org.eclipse.birt.report.item.crosstab.internal.ui.editors.action.DeleteDimensionViewHandleAction;

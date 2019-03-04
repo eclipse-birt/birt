@@ -14,7 +14,6 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.ISubqueryDefinition;

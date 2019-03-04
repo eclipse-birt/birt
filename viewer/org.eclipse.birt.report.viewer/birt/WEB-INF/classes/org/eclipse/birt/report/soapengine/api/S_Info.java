@@ -12,7 +12,8 @@ package org.eclipse.birt.report.soapengine.api;
  * information of a section
  */
 public class S_Info  implements java.io.Serializable {
-    private int level;
+    private static final long serialVersionUID = 1L;
+	private int level;
     /** The number of rows in section header */
     private int h_Count;
     /** The number of rows in section footer */

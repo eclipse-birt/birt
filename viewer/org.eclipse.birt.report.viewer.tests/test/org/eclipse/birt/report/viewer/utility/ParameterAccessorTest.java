@@ -12,7 +12,6 @@
 package org.eclipse.birt.report.viewer.utility;
 
 import java.io.File;
-import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Locale;

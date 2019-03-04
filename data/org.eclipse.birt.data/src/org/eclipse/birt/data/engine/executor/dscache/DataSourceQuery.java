@@ -20,10 +20,7 @@ import org.eclipse.birt.data.engine.executor.BaseQuery;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil;
 import org.eclipse.birt.data.engine.executor.QueryExecutionStrategyUtil.Strategy;
 import org.eclipse.birt.data.engine.executor.transform.CachedResultSet;
-import org.eclipse.birt.data.engine.executor.transform.ResultSetWrapper;
 import org.eclipse.birt.data.engine.executor.transform.SimpleResultSet;
-import org.eclipse.birt.data.engine.executor.transform.TransformationConstants;
-import org.eclipse.birt.data.engine.impl.ComputedColumnHelper;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.DataEngineSession;
 import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
@@ -33,7 +30,6 @@ import org.eclipse.birt.data.engine.odi.IPreparedDSQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
-import org.eclipse.birt.data.engine.odi.IResultObjectEvent;
 import org.eclipse.datatools.connectivity.oda.spec.QuerySpecification;
 
 /**

@@ -4,7 +4,7 @@ Bundle-Name: BIRT Build Internal Tools
 Bundle-SymbolicName: org.eclipse.birt.build
 Bundle-Version: 4.8.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-Localization: plugin
 Bundle-ClassPath: lib/dom4j-1.6.1.jar,.
 Require-Bundle: org.apache.ant
 Automatic-Module-Name: org.eclipse.birt.build
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8

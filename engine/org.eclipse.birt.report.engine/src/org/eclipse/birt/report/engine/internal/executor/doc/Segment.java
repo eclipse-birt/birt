@@ -15,9 +15,6 @@ import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.ListIterator;
 
-import org.eclipse.birt.report.engine.api.InstanceID;
-import org.eclipse.birt.report.engine.presentation.InstanceIndex;
-
 public class Segment
 {
 

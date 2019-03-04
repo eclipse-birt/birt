@@ -11,21 +11,12 @@ package org.eclipse.birt.report.tests.model.api;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.GroupHandle;
-import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.TableGroupHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
-import org.eclipse.birt.report.model.api.command.ContentException;
-import org.eclipse.birt.report.model.api.command.NameException;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
-import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.elements.GroupElement;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 import com.ibm.icu.util.ULocale;

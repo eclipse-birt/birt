@@ -545,6 +545,8 @@ public class ExtensionTemplateListProvider implements
 	private static class InvalidIDException extends Exception
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		InvalidIDException( String message )
 		{
 			super( message );

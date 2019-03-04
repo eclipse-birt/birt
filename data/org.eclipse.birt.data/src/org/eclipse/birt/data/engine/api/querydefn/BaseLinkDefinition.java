@@ -1,7 +1,6 @@
 
 package org.eclipse.birt.data.engine.api.querydefn;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseLinkDefinition;

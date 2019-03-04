@@ -15,14 +15,8 @@ package org.eclipse.birt.data.engine.odaconsumer;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.data.engine.odaconsumer.testutil.TestSetup;
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Rule;
-import org.junit.Test;
-import org.junit.Ignore;
 import org.junit.rules.TestName;
-
-import static org.junit.Assert.*;
 
 /**
  * Base class for ODA consumer test cases.

@@ -130,6 +130,7 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	
 	private static class DummyLevelObject extends ScriptableObject
 	{
+		private static final long serialVersionUID = 1L;
 		private DummyDimensionObject host;
 		private String dimName;
 		private Map<String, DummyLevelAttrObject> levelAttrMap;
@@ -167,6 +168,7 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	
 	private static class DummyDimensionObject extends ScriptableObject
 	{
+		private static final long serialVersionUID = 1L;
 		private IFacttableRow row;
 		private Map< String, DummyLevelObject > dimLevMap = new HashMap<String, DummyLevelObject>( );
 		
@@ -210,6 +212,7 @@ public class JSFacttableFilterEvalHelper implements IJSFacttableFilterEvalHelper
 	
 	private static class DummyLevelAttrObject extends ScriptableObject
 	{
+		private static final long serialVersionUID = 1L;
 		private String dimName;
 		private String levelName;
 		private DummyDimensionObject host;

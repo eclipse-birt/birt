@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class TableColContextMenuState  implements java.io.Serializable {
-    /** Can set NoRepeatValue in a table column */
+    private static final long serialVersionUID = 1L;
+	/** Can set NoRepeatValue in a table column */
     private boolean canNoRepeatValue;
     /** Can unset NoRepeatValue in a table column */
     private boolean canRepeatValue;

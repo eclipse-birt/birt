@@ -20,7 +20,6 @@ import org.eclipse.birt.chart.integration.wtp.ui.internal.util.Logger;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.util.WebArtifactUtil;
 import org.eclipse.birt.chart.integration.wtp.ui.internal.webapp.WebAppBean;
 import org.eclipse.core.resources.IProject;
-import org.eclipse.core.resources.IProjectDescription;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IProgressMonitor;

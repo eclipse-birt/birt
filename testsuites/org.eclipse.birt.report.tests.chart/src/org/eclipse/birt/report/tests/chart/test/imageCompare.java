@@ -3,7 +3,6 @@ package org.eclipse.birt.report.tests.chart.test;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.net.URL;
 import java.util.HashMap;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -22,7 +21,6 @@ import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
 import org.eclipse.birt.report.model.api.CellHandle;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.ImageHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;

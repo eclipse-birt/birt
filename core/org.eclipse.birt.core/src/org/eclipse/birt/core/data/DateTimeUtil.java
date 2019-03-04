@@ -23,9 +23,6 @@ import com.ibm.icu.util.ULocale;
 
 public class DateTimeUtil
 {
-	//
-	private static final long serialVersionUID = 1L;	
-
 	private ULocale locale;
 	private TimeZone timeZone;
 	public DateTimeUtil( ULocale locale, TimeZone timeZone )
