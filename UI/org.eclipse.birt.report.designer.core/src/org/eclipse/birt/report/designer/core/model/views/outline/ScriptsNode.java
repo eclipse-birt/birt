@@ -13,7 +13,6 @@ package org.eclipse.birt.report.designer.core.model.views.outline;
 
 import org.eclipse.birt.report.designer.util.ScriptedDesignVisitor;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.swt.graphics.Image;
 
 public class ScriptsNode implements IScriptTreeNode

@@ -14,7 +14,6 @@ package org.eclipse.birt.report.item.crosstab.ui.views.attributes.section;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.WidgetUtil;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider;
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Section;
-import org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.CheckPropertyDescriptor;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;

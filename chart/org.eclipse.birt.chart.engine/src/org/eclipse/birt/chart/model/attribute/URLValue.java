@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.attribute;
 
-import org.eclipse.birt.chart.model.component.Label;
-
 /**
  * <!-- begin-user-doc --> A representation of the model object '<em><b>URL Value</b></em>'. <!-- end-user-doc -->
  *

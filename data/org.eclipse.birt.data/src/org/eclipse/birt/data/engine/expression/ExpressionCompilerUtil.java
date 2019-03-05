@@ -23,7 +23,6 @@ import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.data.IColumnBinding;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.script.ScriptContext;
-import org.eclipse.birt.data.engine.api.CollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.ICollectionConditionalExpression;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;

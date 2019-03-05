@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.engine.adapter;
 
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
-import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 
 import org.eclipse.birt.data.engine.api.IScriptExpression;

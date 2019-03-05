@@ -12,10 +12,6 @@ package org.eclipse.birt.report.utility.filename;
 
 import java.util.Map;
 
-import org.eclipse.birt.report.IBirtConstants;
-import org.eclipse.birt.report.context.BaseAttributeBean;
-import org.eclipse.birt.report.context.IContext;
-
 /**
  * Default export filename generator.
  * Generates an export file name based on the report design. 

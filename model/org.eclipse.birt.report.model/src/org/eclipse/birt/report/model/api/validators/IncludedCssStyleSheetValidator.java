@@ -19,7 +19,6 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.AbstractThemeHandle;
 import org.eclipse.birt.report.model.api.IncludedCssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.CssException;
 import org.eclipse.birt.report.model.api.elements.structures.IncludedCssStyleSheet;
@@ -28,7 +27,6 @@ import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.ReportDesign;
-import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.validators.AbstractElementValidator;
 
 /**

@@ -13,17 +13,13 @@ package org.eclipse.birt.report.model.metadata;
 
 import java.util.Iterator;
 import java.util.List;
-import com.ibm.icu.util.ULocale;
-
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
 import org.eclipse.birt.report.model.elements.Cell;
 import org.eclipse.birt.report.model.elements.FreeForm;
 import org.eclipse.birt.report.model.elements.Label;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.elements.TableGroup;
-import org.eclipse.birt.report.model.i18n.ThreadResources;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
 /**

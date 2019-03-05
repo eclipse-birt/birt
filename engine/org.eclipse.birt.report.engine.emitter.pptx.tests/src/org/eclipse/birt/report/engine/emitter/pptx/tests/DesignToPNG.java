@@ -1,12 +1,6 @@
 
 package org.eclipse.birt.report.engine.emitter.pptx.tests;
 
-import java.io.BufferedInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-
 import org.apache.poi.xslf.util.PPTX2PNG;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.framework.Platform;

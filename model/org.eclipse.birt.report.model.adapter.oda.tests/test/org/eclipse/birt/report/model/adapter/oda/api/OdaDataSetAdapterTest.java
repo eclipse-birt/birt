@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.adapter.oda.api;
 
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.report.model.adapter.oda.IModelOdaAdapter;
@@ -21,7 +20,6 @@ import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDesignerStateHandle;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.elements.structures.OdaDataSetParameter;
 import org.eclipse.birt.report.model.api.elements.structures.OdaResultSetColumn;
 import org.eclipse.datatools.connectivity.oda.design.ColumnDefinition;

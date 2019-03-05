@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.executor.transform.group;
 
 import java.io.IOException;
 import java.io.OutputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;

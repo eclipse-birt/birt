@@ -21,7 +21,6 @@ import java.util.Locale;
 import java.util.TimeZone;
 
 import org.eclipse.birt.core.data.DataTypeUtil;
-import org.eclipse.birt.core.data.DateFormatISO8601;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.exception.CoreException;
 import org.eclipse.birt.report.IBirtConstants;

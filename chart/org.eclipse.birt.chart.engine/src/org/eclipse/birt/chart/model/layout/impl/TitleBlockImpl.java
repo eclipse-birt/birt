@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.layout.impl;
 
-import org.eclipse.birt.chart.model.layout.LabelBlock;
 import java.util.Map;
 
 import org.eclipse.birt.chart.computation.BoundingBox;

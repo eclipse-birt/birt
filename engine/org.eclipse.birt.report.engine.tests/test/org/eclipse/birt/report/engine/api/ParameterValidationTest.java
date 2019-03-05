@@ -12,15 +12,8 @@
 package org.eclipse.birt.report.engine.api;
 
 import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.net.URLDecoder;
 import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
-
 import org.eclipse.birt.report.engine.EngineCase;
-import org.eclipse.birt.report.engine.api.impl.ReportDocumentReader;
-import org.eclipse.birt.report.engine.api.impl.ScalarParameterDefn;
 
 /**
  *

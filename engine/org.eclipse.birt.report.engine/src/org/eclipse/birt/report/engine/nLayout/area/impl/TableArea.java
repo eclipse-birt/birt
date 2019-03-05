@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.nLayout.area.impl;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -29,10 +28,7 @@ import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.content.IRowContent;
 import org.eclipse.birt.report.engine.content.IStyle;
 import org.eclipse.birt.report.engine.content.ITableContent;
-import org.eclipse.birt.report.engine.content.impl.CellContent;
 import org.eclipse.birt.report.engine.content.impl.ReportContent;
-import org.eclipse.birt.report.engine.content.impl.RowContent;
-import org.eclipse.birt.report.engine.content.impl.TableBandContent;
 import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;

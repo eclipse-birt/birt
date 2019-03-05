@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.ui.swt.composites;
 
-import java.lang.reflect.Method;
-
 import org.eclipse.birt.chart.api.ChartEngine;
 import org.eclipse.birt.chart.device.IDeviceRenderer;
 import org.eclipse.birt.chart.event.StructureSource;

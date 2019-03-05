@@ -23,8 +23,6 @@ import org.eclipse.birt.data.engine.odaconsumer.ConnectionManager;
 
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 public abstract class OdaTestDriverCase {

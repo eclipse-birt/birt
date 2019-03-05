@@ -13,7 +13,6 @@ package org.eclipse.birt.report.debug.internal.core.launcher;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -57,11 +56,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 import org.eclipse.birt.report.model.api.metadata.ValidationValueException;
-import org.eclipse.birt.report.model.api.util.StringUtil;
-import org.eclipse.birt.report.model.metadata.BooleanPropertyType;
 import org.mozilla.javascript.Context;
-
-import com.ibm.icu.util.ULocale;
 
 /**
  * Run this class when debug the script.

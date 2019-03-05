@@ -35,8 +35,6 @@ import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_TOP_PER
 import static org.eclipse.birt.data.engine.api.IConditionalExpression.OP_TRUE;
 
 import java.io.ByteArrayOutputStream;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -56,7 +54,6 @@ import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
 import org.eclipse.birt.report.engine.EngineCase;
-import org.eclipse.birt.report.engine.api.DataExtractionOption;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 import org.eclipse.birt.report.engine.api.IDataExtractionTask;

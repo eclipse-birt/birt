@@ -2,23 +2,16 @@
 package org.eclipse.birt.report.tests.model.api;
 
 import java.io.InputStream;
-import java.util.ArrayList;
 import java.util.List;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
 import org.eclipse.birt.report.model.api.DesignEngine;
-import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.SessionHandle;
 import org.eclipse.birt.report.model.api.SharedStyleHandle;
 import org.eclipse.birt.report.model.api.css.CssStyleSheetHandle;
 import org.eclipse.birt.report.model.api.css.StyleSheetParserException;
-import org.eclipse.birt.report.model.api.elements.structures.DateTimeFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
-import org.eclipse.birt.report.model.api.elements.structures.MapRule;
-import org.eclipse.birt.report.model.api.elements.structures.NumberFormatValue;
-import org.eclipse.birt.report.model.api.elements.structures.StringFormatValue;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 

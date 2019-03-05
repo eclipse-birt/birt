@@ -35,7 +35,6 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.expression.NamedExpression;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.script.ScriptConstants;
-import org.mozilla.javascript.Context;
 
 /**
  * This is a utility class which is used to validate the colum bindings defined 

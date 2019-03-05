@@ -9,12 +9,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.handles;
 
-import java.util.Collections;
 import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.TableUtil;
-import org.eclipse.birt.report.designer.internal.ui.editors.schematic.layer.TableGridLayer;
 import org.eclipse.draw2d.IFigure;
 import org.eclipse.draw2d.geometry.Dimension;
 import org.eclipse.draw2d.geometry.Insets;

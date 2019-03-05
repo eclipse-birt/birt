@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.chart.model.type.util;
 
-import java.util.List;
-
 import org.eclipse.birt.chart.model.component.Series;
 import org.eclipse.birt.chart.model.type.*;
 
@@ -22,7 +20,6 @@ import org.eclipse.birt.chart.model.type.PieSeries;
 import org.eclipse.birt.chart.model.type.ScatterSeries;
 import org.eclipse.birt.chart.model.type.StockSeries;
 import org.eclipse.birt.chart.model.type.TypePackage;
-import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.util.Switch;

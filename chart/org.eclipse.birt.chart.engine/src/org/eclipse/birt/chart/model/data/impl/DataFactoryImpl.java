@@ -13,12 +13,6 @@ package org.eclipse.birt.chart.model.data.impl;
 
 import org.eclipse.birt.chart.model.data.*;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-
 import org.eclipse.birt.chart.model.data.Action;
 import org.eclipse.birt.chart.model.data.BaseSampleData;
 import org.eclipse.birt.chart.model.data.DataElement;
@@ -44,7 +38,6 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
-import org.eclipse.emf.ecore.xml.type.XMLTypeFactory;
 
 /**
  * <!-- begin-user-doc --> An implementation of the model <b>Factory </b>. <!-- end-user-doc -->

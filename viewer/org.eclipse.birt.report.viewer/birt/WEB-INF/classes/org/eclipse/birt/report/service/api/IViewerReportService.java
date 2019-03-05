@@ -13,23 +13,12 @@ package org.eclipse.birt.report.service.api;
 
 import java.io.ByteArrayOutputStream;
 import java.io.OutputStream;
-import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.IBirtConstants;
-import org.eclipse.birt.report.context.ViewerAttributeBean;
-import org.eclipse.birt.report.engine.api.IReportRunnable;
-import org.eclipse.birt.report.resource.BirtResources;
-import org.eclipse.birt.report.resource.ResourceConstants;
-import org.eclipse.birt.report.service.ReportEngineService;
-import org.eclipse.birt.report.utility.ParameterAccessor;
 
 /**
  * A service used by the viewer for running and rendering a report

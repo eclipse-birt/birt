@@ -27,7 +27,6 @@ import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.RowArea;
 import org.eclipse.birt.report.engine.layout.area.impl.TableArea;
-import org.eclipse.birt.report.engine.layout.area.impl.TextArea;
 import org.eclipse.birt.report.engine.layout.pdf.BorderConflictResolver;
 import org.eclipse.birt.report.engine.layout.pdf.cache.CursorableList;
 import org.eclipse.birt.report.engine.layout.pdf.cache.DummyCell;

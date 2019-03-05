@@ -11,14 +11,8 @@
 
 package org.eclipse.birt.report.designer.internal.lib.providers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-
-import org.eclipse.birt.report.designer.internal.lib.editparts.EmptyEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.breadcrumb.providers.DefaultBreadcrumbNodeProvider;
 import org.eclipse.birt.report.model.api.LibraryHandle;
-import org.eclipse.gef.EditPart;
 
 /**
  * 

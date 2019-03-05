@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.chart.model.layout.impl;
 
-import org.eclipse.birt.chart.model.layout.*;
 import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.model.layout.ClientArea;
 import org.eclipse.birt.chart.model.layout.LabelBlock;

@@ -28,7 +28,6 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
-import org.eclipse.swt.graphics.Color;
 
 public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
 {

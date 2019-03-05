@@ -9,19 +9,15 @@
 
 package org.eclipse.birt.report.designer.ui.cubebuilder.joins.commands;
 
-import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.AttributeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.ColumnEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.DatasetNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyNodeEditPart;
 import org.eclipse.birt.report.designer.ui.cubebuilder.joins.editparts.HierarchyColumnEditPart;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
 import org.eclipse.birt.report.model.api.DimensionConditionHandle;
-import org.eclipse.birt.report.model.api.DimensionJoinConditionHandle;
-import org.eclipse.birt.report.model.api.LevelAttributeHandle;
 import org.eclipse.birt.report.model.api.StructureFactory;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionCondition;
 import org.eclipse.birt.report.model.api.elements.structures.DimensionJoinCondition;
-import org.eclipse.birt.report.model.api.olap.LevelHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.birt.report.model.api.olap.TabularHierarchyHandle;
 import org.eclipse.gef.EditPart;

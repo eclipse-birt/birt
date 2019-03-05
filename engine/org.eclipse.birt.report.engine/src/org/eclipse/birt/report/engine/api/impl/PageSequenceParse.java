@@ -13,9 +13,6 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 

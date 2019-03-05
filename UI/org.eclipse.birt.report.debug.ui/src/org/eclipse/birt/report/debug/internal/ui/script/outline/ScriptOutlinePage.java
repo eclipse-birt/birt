@@ -19,7 +19,6 @@ import org.eclipse.birt.report.designer.internal.ui.views.outline.ItemSorter;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.api.PropertyHandle;
-import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.jface.action.MenuManager;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;

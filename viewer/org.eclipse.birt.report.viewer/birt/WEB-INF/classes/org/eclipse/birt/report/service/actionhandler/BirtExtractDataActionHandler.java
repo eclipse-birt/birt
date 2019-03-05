@@ -13,7 +13,6 @@ package org.eclipse.birt.report.service.actionhandler;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Locale;
 import java.util.Set;
 
 import javax.servlet.ServletOutputStream;

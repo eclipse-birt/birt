@@ -11,10 +11,8 @@
 
 package org.eclipse.birt.report.viewer.browsers.embedded;
 
-import org.eclipse.core.runtime.Platform;
 import org.eclipse.help.browser.IBrowser;
 import org.eclipse.help.browser.IBrowserFactory;
-import org.eclipse.osgi.service.environment.Constants;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.SWTError;
 import org.eclipse.swt.browser.Browser;

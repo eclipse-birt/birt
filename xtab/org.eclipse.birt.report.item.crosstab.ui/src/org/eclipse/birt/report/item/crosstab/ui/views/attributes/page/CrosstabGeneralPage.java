@@ -35,7 +35,6 @@ import org.eclipse.birt.report.item.crosstab.core.ICrosstabReportItemConstants;
 import org.eclipse.birt.report.item.crosstab.ui.i18n.Messages;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.HideMeasureHeaderProvider;
 import org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.MeasureComboPropertyDescriptorProvider;
-import org.eclipse.birt.report.model.api.LibraryHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;

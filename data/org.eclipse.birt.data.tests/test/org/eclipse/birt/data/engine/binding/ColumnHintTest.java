@@ -19,11 +19,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 import testutil.ConfigText;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
 /**
  * Test feature of ColumnHint 
