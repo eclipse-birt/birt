@@ -335,15 +335,37 @@ public abstract class QueryExecutor implements IQueryExecutor
 		odiQuery.setQueryDefinition( this.baseQueryDefn );
 		odiQuery.setExprProcessor( new ExpressionProcessor( dataSet ) );
 		
+		populateOdiQuery( );
+		
 		//Set the row fetch limit for the IQuery instance.The row fetch limit
 		//is the number of rows that a data set can fetch from data source.
 		if( dataSet.getDesign( ) != null )
 		{
 			//When it is not a subquery, the property "row fetch limit" should be applied
 			//to the query.
-			odiQuery.setRowFetchLimit( dataSet.getDesign( ).getRowFetchLimit( ) );
+			//If we have filter and when we do preview results of DataSet filter, filtering should be done on complete results 
+			//not just on the limited results obtained by limited max rows/ rowfetchlimit size.
+			// Check if we have a FilterByRow in the fetch event list 
+			boolean filterPresent = false;
+			if (odiQuery instanceof BaseQuery)
+			{
+				BaseQuery bq = (BaseQuery) odiQuery;
+				List fetchEvents = bq.getFetchEvents();
+				if (fetchEvents != null)
+					for(Object e : fetchEvents)
+					{
+						if (e instanceof IFilterByRow)
+						{
+							filterPresent = true;
+							break;
+						}
+					}
+				
+			}
+			if (!filterPresent)
+				odiQuery.setRowFetchLimit( dataSet.getDesign( ).getRowFetchLimit( ) );
 		}
-		populateOdiQuery( );
+		
 		try
 		{
 			prepareOdiQuery( );
