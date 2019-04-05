@@ -12,4 +12,4 @@ addons:
     organization: "ascendix"
     token:
       secure: "qNMRkKANzy8fGUNBPgFDsR1pflXt/nobRWDfSxUE7EjGEMxrKHoovFXTizbXaElb2QbyBK9JP2ckX3T4V3OUtCTMmXtGptJVHo3fHfh9Qi2oSodAJ4wtUIPkJ7iLGq9h8zrAxMHEqO2dUhXyHV8ZhgyIjxwTV9eYA5A1/AvIGr1NL5APbQxA0zy3BqyM+fgswxHWv9Z3T/4wcC1YwiR67TgxZahc7R8URSjyCoDKfcXOnCRq1yJDqzsSfXFZmM50oafR00skMuM1dKiCR3/PNmElvQE9Fi+3tyhvdhiTtqHxSf3sUufui7wa9Nsws0ixKTIGZ4D3ZBO+PiZSz6g4EcWAWF1RC2dv1b51VKCqleiBKzcKURm+OYhMcUUOK4KgK1rxJWV8+N84LC7DDZwTDS7MvgbyxzOktlyQrZRv2BfQWLADL8HHYdz9bxHBmeHUi5ox3sWO9M3yIg+i+q6JDjoc0jzv1+Wx/cFNc7xLBvLfh0kfFQDx/3uC0dZrLOgN477RL8YjhI+UC9KM6x0i0NqjgtgKHfBMNTZKecvD6ca8Lm03HtZ7ABiJANLjwEDCVggK2XRQMHmq84rBd0QG8aYvFzCDnxH/E17mkAiRG+EOgaGPTMLOJrufNtabXQZkA/k7FUqwhWusSkebVXXfp8LBxPr/2P9wG7Sde2pKZrc="
-script: mvn -B clean org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.projectKey=ascendix-birt -Dsonar.projectName=Ascendix-BIRT
+script: mvn -B org.jacoco:jacoco-maven-plugin:prepare-agent package sonar:sonar -Dsonar.projectKey=ascendix-birt -Dsonar.projectName=Ascendix-BIRT

@@ -48,7 +48,7 @@
 						</goals>
 						<configuration>
 							<outputDirectory>${project.build.directory}</outputDirectory>
-							<includeGroupIds>org.apache.poi</includeGroupIds>
+							<includeScope>compile</includeScope>
 						</configuration>
 					</execution>
 				</executions>

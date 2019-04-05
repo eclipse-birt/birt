@@ -3,13 +3,14 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Apache POI
 Bundle-SymbolicName: org.apache.poi
 Bundle-Version: 3.11.0.qualifier
-Bundle-ClassPath: target/ooxml-schemas-1.1.jar,
+Bundle-ClassPath: target/commons-codec-1.9.jar,
+ target/ooxml-schemas-1.1.jar,
  target/poi-3.11.jar,
  target/poi-ooxml-3.11.jar,
- target/poi-ooxml-schemas-3.11.jar
+ target/poi-ooxml-schemas-3.11.jar,
+ target/stax-api-1.0.1.jar,
+ target/xmlbeans-2.6.0.jar
 Bundle-Localization: plugin
-Require-Bundle: org.apache.commons.codec;bundle-version="1.9.0",
- org.apache.xmlbeans;bundle-version="2.3.0"
 Export-Package: org.apache.poi,
  org.apache.poi.common.usermodel,
  org.apache.poi.ddf,
