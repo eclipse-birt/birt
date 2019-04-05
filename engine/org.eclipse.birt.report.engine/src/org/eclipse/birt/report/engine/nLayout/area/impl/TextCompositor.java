@@ -335,18 +335,16 @@ public class TextCompositor
 				wordVestige = null;
 				insertFirstExceedWord = false;
 			}
-			if ( isNewLine && textArea.isEmpty( ) )
+			if ( isNewLine && context.isEnableWordbreak( ))
 			{
-				if ( context.isEnableHyphenation( ) )
-				{
-					doHyphenation( word.getValue( ), textArea );
-				}
-				else
-				{
-					// If width of a word is larger than the max line width, add
-					// it into the line directly.
-					addWord( textArea, textLength, wordWidth );
-				}
+				doWordBreak( word.getValue( ), textArea );
+			}
+			else if ( isNewLine && textArea.isEmpty( ) )
+			{
+				// If width of a word is larger than the max line width, add
+				// it into the line directly.
+				addWord( textArea, textLength, wordWidth );
+
 			}
 			else
 			{
@@ -359,29 +357,29 @@ public class TextCompositor
 		}
 	}
 
-	private void doHyphenation( String str, TextArea area )
+	private void doWordBreak( String str, TextArea area )
 	{
 		IHyphenationManager hm = new DefaultHyphenationManager( );
-		Hyphenation hyph = hm.getHyphenation( str );
+		Hyphenation wb = hm.getHyphenation( str );
 		FontInfo fi = area.getStyle( ).getFontInfo( );
 		if ( area.getMaxWidth( ) < 0 )
 		{
-			addWordVestige( area, 1, getTextWidth( fi, hyph
+			addWordVestige( area, 1, getTextWidth( fi, wb
 					.getHyphenText( 0, 1 ) ), str.substring( 1, str.length( ) ) );
 			return;
 		}
 		int endHyphenIndex = hyphen( 0, area.getMaxWidth( ) - area.getWidth( ),
-				hyph, fi );
+				wb, fi );
 		// current line can't even place one character. Force to add the first
 		// character into the line.
 		if ( endHyphenIndex == 0 && area.getWidth( ) == 0 )
 		{
-			addWordVestige( area, 1, getTextWidth( fi, hyph
+			addWordVestige( area, 1, getTextWidth( fi, wb
 					.getHyphenText( 0, 1 ) ), str.substring( 1, str.length( ) ) );
 		}
 		else
 		{
-			addWordVestige( area, endHyphenIndex, getTextWidth( fi, hyph
+			addWordVestige( area, endHyphenIndex, getTextWidth( fi, wb
 					.getHyphenText( 0, endHyphenIndex ) )
 					+ textStyle.getLetterSpacing( ) * ( endHyphenIndex - 1 ), str.substring(
 					endHyphenIndex, str.length( ) ) );

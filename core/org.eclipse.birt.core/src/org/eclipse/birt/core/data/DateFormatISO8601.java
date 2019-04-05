@@ -53,7 +53,10 @@ public class DateFormatISO8601
 			{
 				dateFormat.setTimeZone( timeZone );
 			}
-			resultDate = dateFormat.parse( source );
+			if ( dateFormat != null )
+			{
+				resultDate = dateFormat.parse( source );
+			}
 			return resultDate;
 		}
 		catch ( ParseException e )

@@ -184,12 +184,12 @@ public class PDFLayoutEmitterProxy extends LayoutEmitterAdapter
 			// {
 			// context.setBidiProcessing( false );
 			// }
-			Object hyhenation = options.get( IPDFRenderOption.PDF_HYPHENATION );
-			if ( hyhenation != null && hyhenation instanceof Boolean )
+			Object wordbreak = options.get( IPDFRenderOption.PDF_WORDBREAK );
+			if ( wordbreak != null && wordbreak instanceof Boolean )
 			{
-				if ( ( (Boolean) hyhenation ).booleanValue( ) )
+				if ( ( (Boolean) wordbreak ).booleanValue( ) )
 				{
-					context.setEnableHyphenation( true );
+					context.setEnableWordbreak( true );
 				}
 			}
 

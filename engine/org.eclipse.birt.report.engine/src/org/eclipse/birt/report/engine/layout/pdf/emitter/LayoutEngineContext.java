@@ -207,16 +207,16 @@ public class LayoutEngineContext
 		return this.bidiProcessing;
 	}
 	
-	protected boolean enableHyphenation = false;
+	protected boolean enableWordbreak = false;
 	
-	public boolean isEnableHyphenation( )
+	public boolean isEnableWordbreak( )
 	{
-		return enableHyphenation;
+		return enableWordbreak;
 	}
 	
-	public void setEnableHyphenation( boolean enableHyphenation )
+	public void setEnableWordbreak( boolean enableWordbreak )
 	{
-		this.enableHyphenation = enableHyphenation;
+		this.enableWordbreak = enableWordbreak;
 	}
 
 	public Locale getLocale( )

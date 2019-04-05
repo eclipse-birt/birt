@@ -911,8 +911,10 @@ public interface DesignChoiceConstants
 	public static final String DATE_TIME_LEVEL_TYPE_MONTH = "month"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_QUARTER = "quarter"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR = "week-of-year"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_QUARTER = "week-of-quarter"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_WEEK_OF_MONTH = "week-of-month"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR = "day-of-year"; //$NON-NLS-1$
+	public static final String DATE_TIME_LEVEL_TYPE_DAY_OF_QUARTER = "day-of-quarter"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_DAY_OF_MONTH = "day-of-month"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_DAY_OF_WEEK = "day-of-week"; //$NON-NLS-1$
 	public static final String DATE_TIME_LEVEL_TYPE_HOUR = "hour"; //$NON-NLS-1$
