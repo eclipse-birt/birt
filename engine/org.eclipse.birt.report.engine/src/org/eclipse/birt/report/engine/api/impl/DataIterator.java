@@ -15,6 +15,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.data.engine.api.IPreloadedResultIterator;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.IDataIterator;
@@ -45,7 +46,15 @@ public class DataIterator implements IDataIterator
 		this.maxRows = maxRows;
 		this.rowCount = 0;
 		beforeFirstRow = true;
-		if(startRow > 0 )
+		if ( iterator instanceof IPreloadedResultIterator )
+		{
+			// Predefine max row numbers and starting row index to save
+			// execution time. Report engine may still limits the size but it's
+			// fine to leave as it is.
+			( (IPreloadedResultIterator) iterator ).setMaxRows( maxRows );
+			( (IPreloadedResultIterator) iterator ).setStartingRow( startRow );
+		}
+		if ( startRow > 0 )
 		{
 			try
 			{

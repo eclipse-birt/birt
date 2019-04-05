@@ -48,6 +48,6 @@ public abstract class PercentAccumulator extends BaseTopBottomAccumulator
 	 */
 	protected int adjustNValue( double N )
 	{
-		return (int)Math.round( N / 100 * cachedValues.size( ) );
+		return (int)( N < 0 ? 0 : Math.round( N / 100 * cachedValues.size( ) ) );
 	}
 }

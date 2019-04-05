@@ -64,6 +64,14 @@ public class DateFormatISO8601
 	}
 
 	/**
+	 * @deprecated use getSimpleDateFormat instead
+	 */
+	public static SimpleDateFormat getDateFormat( String source, TimeZone timeZone ) throws BirtException
+	{
+		return getSimpleDateFormat( source, timeZone );
+	}
+
+	/**
 	 * Get a date format object that can parse the given date/time string
 	 * @since 4.8
 	 *

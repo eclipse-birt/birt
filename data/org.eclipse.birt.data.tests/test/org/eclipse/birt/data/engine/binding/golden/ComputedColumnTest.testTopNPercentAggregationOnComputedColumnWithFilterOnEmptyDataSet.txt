@@ -1,0 +1,9 @@
+COL0  COL1  COL2  COL3  cc1  
+ 2     0     0     0     <null>    
+ 2     0     0     1     <null>    
+ 2     0     0     2     <null>    
+ 2     0     1     0     <null>    
+ 2     0     1     1     <null>    
+ 2     0     1     2     <null>    
+ 2     0     2     0     <null>    
+ 2     0     2     1     <null>
