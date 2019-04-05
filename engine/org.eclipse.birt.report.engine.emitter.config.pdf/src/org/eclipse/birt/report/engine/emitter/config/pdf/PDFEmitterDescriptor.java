@@ -32,7 +32,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 	private static final String FONT_SUBSTITUTION = "pdfRenderOption.fontSubstitution";
 	private static final String BIDI_PROCESSING = "pdfRenderOption.bidiProcessing";
 	private static final String TEXT_WRAPPING = "pdfRenderOption.textWrapping";
-	private static final String TEXT_HYPHENATION = "pdfRenderOption.hyphenation";
+	private static final String TEXT_WORDBREAK = "pdfRenderOption.wordBreak";
 	private static final String EMBEDDED_FONT = "pdfRenderOption.embeddedFonts";
 	private static final String CHART_DPI = "ChartDpi";
 	private static final String RENDER_CHART_IN_SVG = "RenderChartInSVG";
@@ -57,15 +57,15 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 				.setDescription( getMessage( "OptionDescription.BidiProcessing" ) ); //$NON-NLS-1$
 		
 		// Initializes the option for TextHyphenation.
-		ConfigurableOption textHyphenation = new ConfigurableOption(
-				TEXT_HYPHENATION );
-		textHyphenation
-				.setDisplayName( getMessage( "OptionDisplayValue.TextHyphenation" ) ); //$NON-NLS-1$
-		textHyphenation.setDataType( IConfigurableOption.DataType.BOOLEAN );
-		textHyphenation.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
-		textHyphenation.setDefaultValue( Boolean.FALSE );
-		textHyphenation.setToolTip( null );
-		textHyphenation
+		ConfigurableOption textWordbreak = new ConfigurableOption(
+				TEXT_WORDBREAK );
+		textWordbreak
+				.setDisplayName( getMessage( "OptionDisplayValue.TextWordbreak" ) ); //$NON-NLS-1$
+		textWordbreak.setDataType( IConfigurableOption.DataType.BOOLEAN );
+		textWordbreak.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
+		textWordbreak.setDefaultValue( Boolean.FALSE );
+		textWordbreak.setToolTip( null );
+		textWordbreak
 				.setDescription( getMessage( "OptionDescription.TextHyphenation" ) ); //$NON-NLS-1$
 
 		// Initializes the option for TextWrapping.
@@ -191,7 +191,7 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 				.setDescription( getMessage( "OptionDescription.DisablePrint" ) ); //$NON-NLS-1$
 
 		options = new IConfigurableOption[]{bidiProcessing, textWrapping,
-				textHyphenation, fontSubstitution, pageOverFlow, embeddedFont,
+				textWordbreak, fontSubstitution, pageOverFlow, embeddedFont,
 				chartDpi, renderChartInSVG, repaginateForPDF,
 				disableFlashAnimation, disablePrint};
 
@@ -254,9 +254,9 @@ public class PDFEmitterDescriptor extends AbstractEmitterDescriptor
 		{
 			return IPDFRenderOption.PDF_BIDI_PROCESSING;
 		}
-		if ( TEXT_HYPHENATION.equals( name ) )
+		if ( TEXT_WORDBREAK.equals( name ) )
 		{
-			return IPDFRenderOption.PDF_HYPHENATION;
+			return IPDFRenderOption.PDF_WORDBREAK;
 		}
 		if ( FONT_SUBSTITUTION.equals( name ) )
 		{

@@ -29,7 +29,7 @@ public class ViewerFilter implements Filter
 {
 
 	// default encoding
-	protected String encoding = "UTF-8"; //$NON-NLS-1$
+	protected String encoding = "ISO-8859-1"; //$NON-NLS-1$
 
 	// filter config
 	protected FilterConfig filterConfig = null;
@@ -64,7 +64,9 @@ public class ViewerFilter implements Filter
 	{
 		if ( request.getCharacterEncoding( ) == null && encoding != null )
 			request.setCharacterEncoding( encoding );
-
+		// for >= 9.3.x jetty needs this property to change request encoding,
+		// this might change for future versions
+		request.setAttribute("org.eclipse.jetty.server.Request.queryEncoding", encoding);
 		chain.doFilter( request, response );
 	}
 

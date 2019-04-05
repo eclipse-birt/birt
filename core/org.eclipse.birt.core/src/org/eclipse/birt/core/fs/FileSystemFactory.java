@@ -12,8 +12,11 @@
 package org.eclipse.birt.core.fs;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 
+import org.eclipse.birt.core.archive.compound.ArchiveFile;
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 import org.eclipse.birt.core.framework.Platform;
 
 /**
@@ -70,4 +73,10 @@ public class FileSystemFactory implements IFileSystemFactory
 		return new LocalFile( uri );
 	}
 
+	@Override
+	public IArchiveFile createArchiveFile( String systemId, String fileName,
+			String mode, IFile externalFile ) throws IOException
+	{
+		return new ArchiveFile( systemId, fileName, mode );
+	}
 }

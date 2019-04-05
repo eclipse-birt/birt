@@ -11,7 +11,10 @@
 
 package org.eclipse.birt.core.fs;
 
+import java.io.IOException;
 import java.net.URI;
+
+import org.eclipse.birt.core.archive.compound.IArchiveFile;
 
 /**
  * File system factory interface defines method to create <code>IFile</code>. It
@@ -44,4 +47,21 @@ public interface IFileSystemFactory
 	 * @return file object
 	 */
 	IFile getFile( URI uri );
+	
+	/**
+	 * Creates archive file with specific arguments.
+	 * 
+	 * @param systemId
+	 *            system id
+	 * @param fileName
+	 *            file name
+	 * @param mode
+	 *            file mode
+	 * @param externalFile
+	 *            external file link
+	 * @return archive file
+	 * @throws IOException
+	 */
+	IArchiveFile createArchiveFile( String systemId, String fileName,
+			String mode, IFile externalFile ) throws IOException;
 }
