@@ -842,6 +842,15 @@ public final class DataTypeUtil
 	}
 
 	/**
+	 * @deprecated use getDateFormatObject instead
+	 */
+	public static DateFormat getDateFormat( String source, ULocale locale, TimeZone timeZone )
+			throws BirtException
+	{
+		return getDateFormatObject( source, locale, timeZone );
+	}
+
+	/**
 	 * Retrieve date format object that matches the given date/time string
 	 * @since 4.8
 	 *
