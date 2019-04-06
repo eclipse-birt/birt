@@ -23,6 +23,7 @@ import org.eclipse.birt.report.designer.ui.cubebuilder.util.BuilderConstants;
 import org.eclipse.birt.report.designer.ui.cubebuilder.util.UIHelper;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
+import org.eclipse.birt.report.model.api.elements.structures.ColumnHint;
 import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 import org.eclipse.jface.action.IAction;
@@ -88,8 +89,19 @@ public class TabularMeasureNodeProvider extends DefaultNodeProvider
 	public String getNodeDisplayName( Object model )
 	{
 		MeasureHandle handle = (MeasureHandle) model;
+		if ( handle.getDisplayNameKey( ) != null )
+		{
+			String externalizedDisplayName = handle.getExternalizedValue(
+					ColumnHint.DISPLAY_NAME_ID_MEMBER,
+					ColumnHint.DISPLAY_NAME_MEMBER );
+			if ( externalizedDisplayName != null
+					&& !externalizedDisplayName.trim( ).isEmpty( ) )
+			{
+				return externalizedDisplayName;
+			}
+		}
 		if ( handle.getDisplayName( ) != null
-				&& handle.getDisplayName( ).trim( ).length( ) > 0 )
+				&& !handle.getDisplayName( ).trim( ).isEmpty( ) )
 		{
 			return handle.getDisplayName( );
 		}

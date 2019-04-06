@@ -13,3 +13,4 @@ Import-Package: com.ibm.icu.util;version="3.4.4",
  org.osgi.framework;version="1.5.0"
 Bundle-ClassPath: emitterexceltests.jar
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.prototype.excel.tests

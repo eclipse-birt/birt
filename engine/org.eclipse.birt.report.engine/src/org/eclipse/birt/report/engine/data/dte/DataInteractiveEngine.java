@@ -32,7 +32,6 @@ import org.eclipse.birt.data.engine.api.IQueryResults;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.ICubeQueryResults;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
-import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
@@ -89,7 +88,7 @@ public class DataInteractiveEngine extends AbstractDataEngine
 			dteEngineContext.setTmpdir( tempDir );
 		}
 
-		dteSession = DataRequestSession.newSession( dteSessionContext );
+		dteSession = context.newSession( dteSessionContext );
 		initialize();
 		
 	}

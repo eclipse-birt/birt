@@ -6,7 +6,6 @@ Bundle-Version: 4.8.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.report.engine.plugin.EnginePlugin
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.engine.adapter,
  org.eclipse.birt.report.engine.api,
  org.eclipse.birt.report.engine.api.impl,
@@ -29,7 +28,6 @@ Export-Package: org.eclipse.birt.report.engine.adapter,
  org.eclipse.birt.report.engine.executor,
  org.eclipse.birt.report.engine.executor.buffermgr,
  org.eclipse.birt.report.engine.executor.css,
- org.eclipse.birt.report.engine.executor.optimize,
  org.eclipse.birt.report.engine.executor.template,
  org.eclipse.birt.report.engine.extension,
  org.eclipse.birt.report.engine.extension.engine,
@@ -90,3 +88,4 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)";visibility:
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.birt.report.engine

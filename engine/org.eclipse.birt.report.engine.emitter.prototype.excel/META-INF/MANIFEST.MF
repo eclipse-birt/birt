@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Excel emitter
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.prototype.excel;singleton:=true
 Bundle-Version: 4.8.0.qualifier
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.report.engine
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ActivationPolicy: lazy
@@ -11,3 +10,4 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.excel.plugin.Excelemitt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.birt.report.engine.emitter.excel,
  org.eclipse.birt.report.engine.emitter.excel.layout
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.prototype.excel

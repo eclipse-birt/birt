@@ -14,3 +14,4 @@ Export-Package: org.eclipse.birt.report.debug.core.i18n,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
 Import-Package: com.ibm.icu.util;version="3.4.4"
+Automatic-Module-Name: org.eclipse.birt.report.debug.core

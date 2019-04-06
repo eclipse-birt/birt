@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.birt.report.designer.core;singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.core.CorePlugin
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-Localization: plugin
 Export-Package: org.eclipse.birt.report.designer.core,
  org.eclipse.birt.report.designer.core.commands,
  org.eclipse.birt.report.designer.core.mediator,
@@ -30,3 +29,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.ibm.icu.lang;version="3.4.4",
  com.ibm.icu.text;version="3.4.4",
  com.ibm.icu.util;version="3.4.4"
+Automatic-Module-Name: org.eclipse.birt.report.designer.core

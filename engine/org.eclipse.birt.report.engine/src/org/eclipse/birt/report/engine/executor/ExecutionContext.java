@@ -47,6 +47,8 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 import org.eclipse.birt.report.data.adapter.api.AdapterException;
 import org.eclipse.birt.report.data.adapter.api.DataAdapterUtil;
 import org.eclipse.birt.report.data.adapter.api.DataRequestSession;
+import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
+import org.eclipse.birt.report.data.adapter.api.IDataAdapterFactory;
 import org.eclipse.birt.report.data.adapter.api.ILinkedResult;
 import org.eclipse.birt.report.data.adapter.impl.DataRequestSessionImpl;
 import org.eclipse.birt.report.engine.adapter.ProgressMonitorProxy;
@@ -2502,5 +2504,16 @@ public class ExecutionContext
 		return false;
 	}
 	
-	
+	public DataRequestSession newSession( DataSessionContext dteSessionContext )
+			throws BirtException
+	{
+		// If engine is also IDataAdapterFactory, create session directly,
+		// without relying on platform extensions.
+		if ( getEngine( ) instanceof IDataAdapterFactory )
+		{
+			return ( (IDataAdapterFactory) getEngine( ) )
+					.createSession( dteSessionContext );
+		}
+		return DataRequestSession.newSession( dteSessionContext );
+	}
 }

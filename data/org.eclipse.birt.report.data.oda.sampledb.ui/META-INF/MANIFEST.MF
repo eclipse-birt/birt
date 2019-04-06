@@ -18,3 +18,4 @@ Export-Package: org.eclipse.birt.report.data.oda.sampledb.ui,
  org.eclipse.birt.report.data.oda.sampledb.ui.plugin,
  org.eclipse.birt.report.data.oda.sampledb.ui.profile
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: org.eclipse.birt.report.data.oda.sampledb.ui

@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.birt.report.tests.model; singleton:=true
 Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.tests.model.plugin.ModelPlugin
 Bundle-ClassPath: tests-model.jar
-Bundle-Localization: plugin
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.report.model,
@@ -16,3 +15,4 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.datatools.connectivity.oda.design
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.report.tests.model

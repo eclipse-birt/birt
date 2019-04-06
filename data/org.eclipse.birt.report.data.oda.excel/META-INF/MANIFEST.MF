@@ -22,3 +22,4 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.birt.core;bundle-version="4.8.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: org.eclipse.birt.report.data.oda.excel

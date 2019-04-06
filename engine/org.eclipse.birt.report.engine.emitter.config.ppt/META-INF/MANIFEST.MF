@@ -10,3 +10,4 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.3.1,5.0.0)",
  org.eclipse.birt.report.engine;bundle-version="[2.3.1,5.0.0)",
  org.eclipse.birt.report.engine.emitter.config;bundle-version="[2.3.0,5.0.0)"
 Export-Package: org.eclipse.birt.report.engine.emitter.config.ppt
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.config.ppt

@@ -14,3 +14,4 @@ Export-Package: org.eclipse.birt.report.engine.odf,
  org.eclipse.birt.report.engine.odf.pkg,
  org.eclipse.birt.report.engine.odf.style,
  org.eclipse.birt.report.engine.odf.writer
+Automatic-Module-Name: org.eclipse.birt.report.engine.odf

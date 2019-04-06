@@ -18,3 +18,4 @@ Bundle-ActivationPolicy: lazy
 Export-Package: uk.co.spudsoft.birt.emitters.excel,
  uk.co.spudsoft.birt.emitters.excel.framework
 Eclipse-BundleShape: dir
+Automatic-Module-Name: uk.co.spudsoft.birt.emitters.excel

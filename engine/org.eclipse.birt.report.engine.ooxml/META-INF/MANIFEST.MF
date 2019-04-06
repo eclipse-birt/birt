@@ -10,3 +10,4 @@ Export-Package: org.eclipse.birt.report.engine.ooxml,
  org.eclipse.birt.report.engine.ooxml.constants,
  org.eclipse.birt.report.engine.ooxml.util,
  org.eclipse.birt.report.engine.ooxml.writer
+Automatic-Module-Name: org.eclipse.birt.report.engine.ooxml

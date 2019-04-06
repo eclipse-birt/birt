@@ -9,3 +9,4 @@ Export-Package: org.eclipse.birt.report.viewer
 Require-Bundle: org.junit;bundle-version="3.8.1";resolution:=optional;visibility:=reexport
 Bundle-Vendor: Eclipse BIRT Project
 Import-Package: javax.servlet.descriptor
+Automatic-Module-Name: org.eclipse.birt.report.viewer.tests

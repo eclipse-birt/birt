@@ -3,7 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: BIRT OpenDocument Text Emitter
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.odt;singleton:=true
 Bundle-Version: 4.8.0.qualifier
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.report.engine.fonts,
  org.eclipse.birt.core,
@@ -17,3 +16,4 @@ Bundle-Activator: org.eclipse.birt.report.engine.emitter.odt.plugin.OdtEmitterPl
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.birt.report.engine.emitter.odt,
  org.eclipse.birt.report.engine.emitter.odt.writer
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.odt

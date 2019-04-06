@@ -12,4 +12,5 @@ Export-Package: org.eclipse.birt.core.script.function.bre;x-friends:="org.eclips
 Bundle-Localization: plugin
 Bundle-ClassPath: .
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.core.script.function
 

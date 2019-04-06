@@ -19,3 +19,4 @@ Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .
 Import-Package: uk.co.spudsoft.birt.emitters.excel
 Eclipse-BundleShape: dir
+Automatic-Module-Name: uk.co.spudsoft.birt.emitters.excel.tests

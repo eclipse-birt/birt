@@ -1,7 +1,6 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
-Bundle-Vendor: Eclipse BIRT Project
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.pptx.tests
 Bundle-Version: 4.8.0.qualifier
 Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.2.3",
@@ -12,3 +11,4 @@ Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.2.3",
  org.junit,
  javax.xml.stream;bundle-version="1.0.1"
 Bundle-ClassPath: .
+Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.pptx.tests

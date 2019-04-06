@@ -5,7 +5,6 @@ Bundle-SymbolicName: org.eclipse.birt.data.tests;singleton:=true
 Bundle-ClassPath: dataenginetests.jar
 Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.data.tests.plugin.Activator
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.data,
  org.apache.derby,
  org.eclipse.birt.data.aggregation,
@@ -14,3 +13,4 @@ Require-Bundle: org.eclipse.birt.data,
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.data.tests

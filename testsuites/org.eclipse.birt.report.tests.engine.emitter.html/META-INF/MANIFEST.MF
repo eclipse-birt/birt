@@ -3,9 +3,9 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Emitter Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.tests.engine.emitter.html;singleton:=true
 Bundle-Version: 4.8.0.qualifier
-Bundle-Localization: plugin
 Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.engine
 Bundle-ClassPath: .
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
+Automatic-Module-Name: org.eclipse.birt.report.tests.engine.emitter.html

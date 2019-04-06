@@ -13,3 +13,4 @@ Export-Package: org.eclipse.birt.data.aggregation.api,
  org.eclipse.birt.data.aggregation.impl.rank;x-friends:="org.eclipse.birt.data.tests"
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ClassPath: .
+Automatic-Module-Name: org.eclipse.birt.data.aggregation
