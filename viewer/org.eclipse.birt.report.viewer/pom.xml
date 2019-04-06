@@ -29,9 +29,7 @@
 							<generatedClasses>${project.build.directory}/jsp/classes</generatedClasses>
 							<useProvidedScope>true</useProvidedScope>
 							<keepSources>true</keepSources>
-							<sourceVersion>1.8</sourceVersion>
-							<targetVersion>1.8</targetVersion>
-							<!--	
+							<!--
 							<ignoreJspFragmentErrors>true</ignoreJspFragmentErrors>
 							-->
 						</configuration>
