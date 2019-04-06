@@ -20,6 +20,5 @@
 		<module>jtidy</module>
 		<module>org.w3c.sac</module>
 		<module>org.w3c.dom.svg.extension</module>
-		<module>org.apache.batik.ext.awt.extension</module>
 	</modules>
 </project>
