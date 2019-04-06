@@ -15,7 +15,7 @@
 			<plugin>
 				<groupId>org.eclipse.jetty</groupId>
 				<artifactId>jetty-jspc-maven-plugin</artifactId>
-				<version>${jetty.version}</version>
+				<version>9.0.2.v20130417</version>
 				<executions>
 					<execution>
 						<id>pre-compile-jsp</id>
