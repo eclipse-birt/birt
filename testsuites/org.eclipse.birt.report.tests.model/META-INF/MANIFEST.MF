@@ -6,7 +6,7 @@ Bundle-Version: 4.8.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.tests.model.plugin.ModelPlugin
 Bundle-ClassPath: tests-model.jar
 Bundle-Localization: plugin
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.report.model,
  org.eclipse.birt.core,

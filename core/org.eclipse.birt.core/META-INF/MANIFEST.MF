@@ -31,6 +31,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)";visibili
  org.mozilla.javascript;bundle-version="1.7.4";visibility:=reexport,
  com.ibm.icu;bundle-version="3.4.4";visibility:=reexport,
  javax.servlet
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

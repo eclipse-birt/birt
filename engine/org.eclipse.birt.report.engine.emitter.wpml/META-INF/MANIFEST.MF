@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.birt.report.engine,
  org.apache.batik.transcoder,
  org.apache.commons.codec;bundle-version="1.9.0"
 Bundle-Vendor: Eclipse BIRT Project
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.wpml.plugin.WordemitterPlugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.birt.report.engine.emitter.wpml,

@@ -45,7 +45,7 @@ Require-Bundle: org.eclipse.core.variables,
  org.eclipse.birt.report.engine,
  org.eclipse.birt.report.viewer;bundle-version="[2.1.0,5.0.0)",
  org.eclipse.core.expressions
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Plugin-Class: org.eclipse.birt.report.debug.ui.DebugUI
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.ibm.icu.util;version="3.4.4"

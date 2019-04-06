@@ -14,7 +14,7 @@ Require-Bundle: org.eclipse.birt.core;bundle-version="[2.1.0,5.0.0)",
  org.apache.batik.transcoder,
  org.eclipse.birt.report.engine.odf,
  com.itextpdf.text;bundle-version="[5.5.13,5.6.0)"
-Eclipse-LazyStart: true
+Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.odp.plugin.OdpEmitterPlugin
 Export-Package: org.eclipse.birt.report.engine.emitter.odp,
  org.eclipse.birt.report.engine.emitter.odp.util
