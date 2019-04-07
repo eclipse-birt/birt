@@ -112,12 +112,12 @@ public class LayoutUtil
 				// find i-th Cell width
 				if ( rowContent != null && rowContent.hasChildren( ) )
 				{
-					Iterator<CellContent> cellIterator = rowContent
+					Iterator<ICellContent> cellIterator = rowContent
 							.getChildren( ).iterator( );
 					for ( int i = 0; i <= colIndex
 							&& cellIterator.hasNext( ); i++ )
 					{
-						CellContent cell = cellIterator.next( );
+						ICellContent cell = cellIterator.next( );
 						if ( i == colIndex )
 						{
 							return cell.getWidth( );

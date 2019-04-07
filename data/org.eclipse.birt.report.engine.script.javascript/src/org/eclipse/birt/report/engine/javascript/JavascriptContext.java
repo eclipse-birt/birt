@@ -15,6 +15,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.core.script.IScriptContext;
 import org.eclipse.birt.core.script.ScriptContext;
 import org.eclipse.birt.core.script.ScriptableParameters;
@@ -78,11 +79,11 @@ public class JavascriptContext implements IScriptContext
 		{
 			return value;
 		}
-		if ( "params".equals( name ) && value instanceof HashMap<?, ?> )
+		if ( ExpressionUtil.PARAMETER_INDICATOR.equals( name ) && value instanceof HashMap<?, ?> )
 		{
 			return new ScriptableParameters( (Map<String, Object>) value, scope );
 		}
-		else if ( "vars".equals( name ) )
+		else if ( ExpressionUtil.VARIABLE_INDICATOR.equals( name ) )
 		{
 			return new ScriptablePageVariables(
 					(Map<String, PageVariable>) value, scope );
