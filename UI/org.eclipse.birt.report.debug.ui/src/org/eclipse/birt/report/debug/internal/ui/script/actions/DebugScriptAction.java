@@ -1,6 +1,5 @@
 package org.eclipse.birt.report.debug.internal.ui.script.actions;
 import org.eclipse.birt.report.debug.internal.ui.script.launcher.ScriptLaunchShortcut;
-import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.ui.editors.MultiPageReportEditor;
 import org.eclipse.birt.report.model.api.ModuleHandle;

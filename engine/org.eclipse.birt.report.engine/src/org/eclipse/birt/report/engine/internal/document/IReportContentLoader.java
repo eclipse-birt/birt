@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.internal.document;
 import java.util.List;
 
 import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
 /**

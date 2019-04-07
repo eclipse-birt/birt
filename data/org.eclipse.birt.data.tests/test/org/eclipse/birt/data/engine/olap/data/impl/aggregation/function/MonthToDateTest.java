@@ -10,11 +10,7 @@ import org.eclipse.birt.data.engine.api.timefunction.TimeMember;
 
 import testutil.BaseTestCase;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
 /**
  * this class test month to date funciton, you can refer to MonthToDateFunction

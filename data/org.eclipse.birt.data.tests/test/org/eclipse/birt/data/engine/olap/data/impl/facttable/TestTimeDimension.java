@@ -56,8 +56,6 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
 import org.eclipse.birt.data.engine.olap.data.util.DataType;
 import org.eclipse.birt.data.engine.olap.impl.query.CubeQueryDefinition;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.Ignore;
 import static org.junit.Assert.*;

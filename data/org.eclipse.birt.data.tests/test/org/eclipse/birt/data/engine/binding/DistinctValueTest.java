@@ -10,20 +10,13 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.binding;
 
-import org.eclipse.birt.core.data.ExpressionUtil;
 import org.eclipse.birt.data.engine.api.APITestCase;
 import org.eclipse.birt.data.engine.api.IResultIterator;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
-import org.eclipse.birt.data.engine.api.querydefn.SortDefinition;
-
 import testutil.ConfigText;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-import static org.junit.Assert.*;
 
 /**
  * 

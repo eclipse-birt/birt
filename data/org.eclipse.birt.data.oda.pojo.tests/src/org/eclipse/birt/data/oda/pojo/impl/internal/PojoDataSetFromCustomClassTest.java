@@ -18,10 +18,7 @@ import org.eclipse.birt.data.oda.pojo.api.IPojoDataSet;
 import org.eclipse.birt.data.oda.pojo.impl.internal.PojoDataSetFromCustomClass;
 
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 

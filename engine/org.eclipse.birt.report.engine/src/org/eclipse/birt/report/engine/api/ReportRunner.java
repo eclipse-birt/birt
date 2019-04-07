@@ -38,7 +38,6 @@ import org.eclipse.birt.core.framework.Platform;
 import org.eclipse.birt.core.script.ParameterAttribute;
 import org.eclipse.birt.report.engine.api.impl.ParameterSelectionChoice;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
-import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
 
 /**
  * Defines a standalone reporting application that uses

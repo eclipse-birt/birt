@@ -29,7 +29,6 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
 import org.eclipse.birt.report.model.css.CssStyleSheetHandleAdapter;
 import org.eclipse.birt.report.model.elements.AbstractTheme;
 import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.Theme;
 import org.eclipse.birt.report.model.elements.interfaces.IAbstractThemeModel;
 
 /**

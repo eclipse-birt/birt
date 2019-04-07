@@ -15,7 +15,6 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IStyle;
-import org.eclipse.birt.report.engine.css.dom.StyleDeclaration;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
 public class StyleProperties

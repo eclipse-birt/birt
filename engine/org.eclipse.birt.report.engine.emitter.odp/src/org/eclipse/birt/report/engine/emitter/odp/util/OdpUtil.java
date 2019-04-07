@@ -22,7 +22,6 @@ import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
-import org.eclipse.birt.report.engine.nLayout.area.style.BorderInfo;
 import org.eclipse.birt.report.engine.odf.style.HyperlinkInfo;
 
 import com.itextpdf.text.pdf.BaseFont;

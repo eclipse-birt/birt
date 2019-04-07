@@ -8,9 +8,6 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-import org.eclipse.birt.report.model.api.ElementFactory;
-import org.eclipse.birt.report.model.api.TableGroupHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**

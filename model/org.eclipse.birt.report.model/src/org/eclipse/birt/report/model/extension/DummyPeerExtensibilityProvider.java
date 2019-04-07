@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.extension.UndefinedPropertyInfo;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
-import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.extension.SimplePeerExtensibilityProvider.UndefinedChildInfo;

@@ -21,7 +21,6 @@ import java.util.Map;
 import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.executor.cache.CacheUtil;
-import org.eclipse.birt.data.engine.expression.CompareHints;
 import org.eclipse.birt.data.engine.impl.StringTable;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.index.IAuxiliaryIndexCreator;

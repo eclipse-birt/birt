@@ -4,8 +4,6 @@ package org.eclipse.birt.report.engine.layout.pdf.util;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
-
 public class BulletFrame
 {
 

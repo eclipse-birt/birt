@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.ide.adapters;
 
 import java.io.File;
-import java.net.URL;
-
 import org.eclipse.birt.report.designer.internal.ui.extension.IEditputProvider;
 import org.eclipse.core.filesystem.EFS;
 import org.eclipse.core.filesystem.IFileInfo;

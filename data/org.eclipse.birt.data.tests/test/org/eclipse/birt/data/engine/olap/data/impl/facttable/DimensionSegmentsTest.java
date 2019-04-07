@@ -17,10 +17,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.data.impl.facttable.DimensionDivision;
 
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 

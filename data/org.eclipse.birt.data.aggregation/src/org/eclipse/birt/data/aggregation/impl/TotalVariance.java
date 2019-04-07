@@ -15,7 +15,6 @@
 package org.eclipse.birt.data.aggregation.impl;
 
 import org.eclipse.birt.core.data.DataType;
-import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.aggregation.api.IBuildInAggregation;
 import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.calculator.ICalculator;

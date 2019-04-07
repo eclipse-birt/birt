@@ -13,7 +13,6 @@ package org.eclipse.birt.data.engine.olap.data.api.cube;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.Hashtable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;

@@ -1,11 +1,8 @@
 package org.eclipse.birt.data.engine.executor;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
-
 import org.eclipse.birt.core.data.DataType;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IColumnDefinition;

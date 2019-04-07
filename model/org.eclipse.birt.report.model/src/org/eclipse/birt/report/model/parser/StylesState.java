@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.NameSpace;
-import org.eclipse.birt.report.model.core.namespace.INameHelper;
 import org.eclipse.birt.report.model.core.namespace.NameExecutor;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.util.AbstractParseState;

@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.Expression;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.elements.structures.TOC;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;

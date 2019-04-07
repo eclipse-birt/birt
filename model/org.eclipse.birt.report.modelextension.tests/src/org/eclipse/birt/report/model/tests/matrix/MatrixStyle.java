@@ -3,10 +3,7 @@ package org.eclipse.birt.report.model.tests.matrix;
 
 import org.eclipse.birt.report.model.api.FactoryPropertyHandle;
 import org.eclipse.birt.report.model.api.StyleHandle;
-import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.extension.IStyleDeclaration;
-import org.eclipse.birt.report.model.api.util.ColorUtil;
-import org.eclipse.birt.report.model.elements.Style;
 
 public class MatrixStyle implements IStyleDeclaration
 {

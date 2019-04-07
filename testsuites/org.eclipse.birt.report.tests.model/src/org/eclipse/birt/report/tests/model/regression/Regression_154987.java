@@ -10,8 +10,6 @@ package org.eclipse.birt.report.tests.model.regression;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ModuleHandle;
-import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**

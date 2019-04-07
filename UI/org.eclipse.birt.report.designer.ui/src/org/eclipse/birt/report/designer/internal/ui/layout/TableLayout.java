@@ -21,8 +21,6 @@ import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.TableBorderHelper;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart;
 import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.IReportElementFigure;
-import org.eclipse.birt.report.designer.internal.ui.layout.TableLayoutData.ColumnData;
-import org.eclipse.birt.report.designer.internal.ui.layout.TableLayoutData.RowData;
 import org.eclipse.birt.report.designer.internal.ui.util.UIUtil;
 import org.eclipse.birt.report.designer.util.FixTableLayoutCalculator;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;

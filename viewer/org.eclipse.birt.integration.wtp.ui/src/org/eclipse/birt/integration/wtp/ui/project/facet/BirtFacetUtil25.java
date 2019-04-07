@@ -30,8 +30,6 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.jst.j2ee.model.IModelProvider;
 import org.eclipse.jst.j2ee.model.ModelProviderManager;
-import org.eclipse.jst.j2ee.web.componentcore.util.WebArtifactEdit;
-import org.eclipse.jst.j2ee.webapplication.ContextParam;
 import org.eclipse.jst.javaee.core.Description;
 import org.eclipse.jst.javaee.core.JavaeeFactory;
 import org.eclipse.jst.javaee.core.Listener;

@@ -23,8 +23,6 @@ import org.eclipse.birt.report.engine.layout.emitter.AbstractPage;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.nLayout.area.style.TextStyle;
 
-import com.itextpdf.text.pdf.BaseFont;
-
 public class PPTPage extends AbstractPage
 {
 

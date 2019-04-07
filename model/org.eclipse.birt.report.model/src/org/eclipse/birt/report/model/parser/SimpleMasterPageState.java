@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.parser;
 import org.eclipse.birt.report.model.elements.SimpleMasterPage;
 import org.eclipse.birt.report.model.util.AbstractParseState;
 import org.eclipse.birt.report.model.util.XMLParserException;
-import org.eclipse.birt.report.model.util.XMLParserHandler;
 import org.xml.sax.Attributes;
 
 /**

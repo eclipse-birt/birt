@@ -11,18 +11,7 @@
 
 package org.eclipse.birt.report.model.elements.strategy;
 
-import java.util.Iterator;
-
-import org.eclipse.birt.report.model.api.core.UserPropertyDefn;
 import org.eclipse.birt.report.model.core.DesignElement;
-import org.eclipse.birt.report.model.core.Module;
-import org.eclipse.birt.report.model.elements.Library;
-import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
-import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
-import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
-import org.eclipse.birt.report.model.metadata.ReferenceValue;
-import org.eclipse.birt.report.model.util.EncryptionUtil;
-import org.eclipse.birt.report.model.util.ModelUtil;
 
 /**
  * This policy is a copy policy for pasting, which means, after copying, the
