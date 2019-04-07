@@ -20,7 +20,6 @@ import org.eclipse.birt.core.archive.compound.ArchiveEntry;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import junit.framework.TestCase;
@@ -114,127 +113,6 @@ public class ArchiveFlushTest extends TestCase
             out.writeInt( 3 );
             out.close( );
             assertEquals( 3, in.readInt( ) );
-        }
-        finally
-        {
-            af.close( );
-            new File( "test.dat" ).delete( );
-        }
-    }
-
-    /**
-     * the flush should be synchronized with open/close/read, this is used to
-     * test this issue. see TED 43762
-     *
-     * @throws IOException
-     */
-    @Ignore("Ignore long run test")
-	@Test
-    public void testMultipleThread( ) throws IOException
-    {
-        final Boolean[] hasErrors = new Boolean[]{Boolean.FALSE, Boolean.FALSE};
-        final Boolean[] hasFinished = new Boolean[]{Boolean.FALSE,
-                Boolean.FALSE};
-        final ArchiveFile af = new ArchiveFile( "test.dat", "rw+" );
-        try
-        {
-            ArchiveWriter writer = new ArchiveWriter( af );
-            for ( int i = 0; i < 1024; i++ )
-            {
-                RAOutputStream stream = writer.createOutputStream( "stream_"
-                        + i );
-                try
-                {
-                    stream.writeInt( i );
-                }
-                finally
-                {
-                    stream.close( );
-                }
-            }
-            Runnable flush = new Runnable( ) {
-
-                public void run( )
-                {
-                    long count = 0;
-                    try
-                    {
-                        ArchiveWriter writer = new ArchiveWriter( af );
-                        RAOutputStream[] streams = new RAOutputStream[1024];
-                        for ( int i = 0; i < 1024; i++ )
-                        {
-                            streams[i] = writer.getOutputStream( "stream_" + i );
-                        }
-
-                        long start = System.currentTimeMillis( );
-                        do
-                        {
-                            for ( int i = 0; i < 1024; i++ )
-                            {
-                                streams[i].writeInt( i );
-                            }
-                            af.flush( );
-                            count++;
-                        } while ( System.currentTimeMillis( ) - start < 2048 );
-
-                        for ( int i = 0; i < 1024; i++ )
-                        {
-                            streams[i].close( );
-                        }
-                    }
-                    catch ( Exception ex )
-                    {
-                        ex.printStackTrace( );
-                        hasErrors[0] = Boolean.TRUE;
-                    }
-                    System.out.println( "flush " + count + " times" );
-                    hasFinished[0] = Boolean.TRUE;
-                }
-            };
-            Runnable openClose = new Runnable( ) {
-
-                public void run( )
-                {
-                    long count = 0;
-                    try
-                    {
-                        ArchiveReader reader = new ArchiveReader( af );
-                        long start = System.currentTimeMillis( );
-                        do
-                        {
-                            for ( int i = 0; i < 1024; i++ )
-                            {
-                                RAInputStream ra = reader
-                                        .getInputStream( "stream_" + i );
-                                ra.readInt( );
-                                ra.close( );
-                            }
-                            count++;
-                        } while ( System.currentTimeMillis( ) - start < 2048 );
-                    }
-                    catch ( Exception ex )
-                    {
-                        ex.printStackTrace( );
-                        hasErrors[1] = Boolean.TRUE;
-                    }
-                    hasFinished[1] = Boolean.TRUE;
-                    System.out.println( "read " + count + " times" );
-                }
-            };
-            new Thread( flush ).start( );
-            new Thread( openClose ).start( );
-            while ( !( hasFinished[0] == Boolean.TRUE && hasFinished[1] == Boolean.TRUE ) )
-            {
-                try
-                {
-                    Thread.sleep( 100 );
-                }
-                catch ( Exception ex )
-                {
-                }
-            }
-            assertEquals( Boolean.FALSE, hasErrors[0] );
-            assertEquals( Boolean.FALSE, hasErrors[1] );
         }
         finally
         {

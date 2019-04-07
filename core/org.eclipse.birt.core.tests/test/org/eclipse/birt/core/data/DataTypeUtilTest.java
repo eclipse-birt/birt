@@ -22,7 +22,6 @@ import org.eclipse.birt.core.script.BaseScriptable;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import org.mozilla.javascript.Scriptable;
 import org.mozilla.javascript.Wrapper;
 
@@ -469,49 +468,7 @@ public class DataTypeUtilTest
 			assertEquals ( cal.getTime(), date1 );
 		}
 	}
-	@Test
-	@Ignore
-    public void testToSqlTime( ) throws BirtException
-	{
-		Time temp = getTime( 11,11,25,0 );
-		Time time = DataTypeUtil.toSqlTime( "11:11:25" );
-		assertEquals ( time.toString( ), temp.toString( ) );
-		time = DataTypeUtil.toSqlTime( "11:11:25 am" );
-		assertEquals ( time.toString( ), temp.toString( ) );
-		time = DataTypeUtil.toSqlTime( "11:11:25am" );
-		assertEquals ( time.toString( ), temp.toString( ) );
-		
-		temp = getTime( 18,11,25,0 );
-		time = DataTypeUtil.toSqlTime( "18:11:25" );
-		assertEquals ( time.toString( ), temp.toString( ) );
-		
-		temp = getTime( 18,11,25,12 );
-		time = DataTypeUtil.toSqlTime( "18:11:25.12" );
-		assertEquals ( time.toString( ), temp.toString( ) );
-		
-		time = DataTypeUtil.toSqlTime( "6:11:25 pm" );
-		assertEquals ( time, temp );
-		time = DataTypeUtil.toSqlTime( "6:11:25pm" );
-		assertEquals ( time, temp );
-		failSqlTimeString( "99dfa-2-11" );
-		failSqlTimeString( "18:11:25 pm" );
-		failSqlTimeString( "18:11:25 am" );
-		failSqlTimeString( "1:11:25 pmm" );
-		failSqlTimeString( "1:11:65 am" );
-		failSqlTimeString( "1:61:25 pm" );
-		
-		time = DataTypeUtil.toSqlTime( 0D );
-		assertEquals ( getTime( 16,0,0,0 ), time );
-		
-		time = DataTypeUtil.toSqlTime( 1000D );
-		assertEquals ( getTime( 16,0,1,0 ), time );
-		
-		time = DataTypeUtil.toSqlTime( 999.789D );
-		assertEquals ( getTime( 16,0,1,0 ), time );
-		
-		time = DataTypeUtil.toSqlTime( 100000000000.123D );
-		assertEquals ( getTime( 1,46,40,0 ), time );
-	}
+
 	
 	private Time getTime( int hour, int minute, int second, int millis )
 	{
@@ -560,108 +517,7 @@ public class DataTypeUtilTest
 			
 		}
 	}
-	@Test
-	@Ignore
-    public void testToDate1( )
-	{
-		String[] testStrings = {"1997",
-				"1997-07",
-				"1997-07-16",
-				"1997-07-16T19:20+02",
-				"1997-07-16T19:20:30GMT+01:00",
-				"1997-07-16T19:20:30.045+01:00",
-				"1997-07-16 19:20+01:00",
-				"1997-07-16 19:20:30+01:00",
-				"1997-07-16 19:20:30.045+01:00",
-				"1997-07-16 19:20:30.045 GMT+01:00",
-				"1997-07-16T19:20:30.045-01:00"};
-		Calendar calendar = Calendar.getInstance( );
-		
-		Date[] resultDates = new Date[11];
-		
-		calendar.clear();
-		calendar.set(1997,0,1);
-		resultDates[0] = calendar.getTime( );
-		calendar.set(1997,6,1);
-		resultDates[1] = calendar.getTime( );
-		calendar.set(1997,6,16);
-		resultDates[2] = calendar.getTime( );
-		
-		calendar.setTimeZone( TimeZone.getTimeZone( "GMT+00:00" ));
-		calendar.set(1997,6,16,17,20,0);
-		resultDates[3] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,30);
-		resultDates[4] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,30);
-		calendar.set( Calendar.MILLISECOND, 45 );
-		resultDates[5] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,0);
-		calendar.set( Calendar.MILLISECOND, 0 );
-		resultDates[6] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,30);
-		resultDates[7] = calendar.getTime( );
-		calendar.set(1997,6,16,18,20,30);
-		calendar.set( Calendar.MILLISECOND, 45 );
-		resultDates[8] = calendar.getTime( );
-		resultDates[9] = calendar.getTime( );
-		//"1997-07-16T19:20:30.45-01:00"
-		calendar.set(1997,6,16,20,20,30);
-		calendar.set( Calendar.MILLISECOND, 45 );
-		resultDates[10] = calendar.getTime( );
-		
-		for ( int i = 0; i < testStrings.length; i++ )
-		{
-			try
-			{
-				Date dateResult = DataTypeUtil.toDate( testStrings[i] );
-				assertEquals( dateResult, resultDates[i] );
-			}
-			catch ( BirtException e )
-			{
-				fail( "Should not throw Exception." );
-			}
-			
-		}
-	}
-	@Test
-	@Ignore
-    public void testToDate2( )
-	{
-		String[] dateStrings = {
-				"Jan 11, 2002", "Jan 11, 2002", "Feb 12, 1981 6:17 AM"
-		};
-		String[] timeZoneIDs = {
-				"GMT+00:00", "GMT-02:00", "GMT+03:00"
-		};
-		Calendar calendar = Calendar.getInstance( );
-		calendar.setTimeZone( TimeZone.getTimeZone( "GMT+00:00" ) );
-		Date[] resultDates = new Date[3];
-		calendar.clear( );
-		calendar.set(2002,0,11,0,0,0);
-		resultDates[0] = calendar.getTime( );
-		calendar.clear( );
-		calendar.set(2002,0,11,2,0,0);
-		resultDates[1] = calendar.getTime( );
-		calendar.clear( );
-		calendar.set(1981,1,12,3,17,0 );
-		resultDates[2] = calendar.getTime( );
-		
-		
-		for ( int i = 0; i < dateStrings.length; i++ )
-		{
-			try
-			{
-				Date dateResult = DataTypeUtil.toDate( dateStrings[i],
-						ULocale.US,
-						TimeZone.getTimeZone( timeZoneIDs[i] ) );
-				assertEquals( dateResult, resultDates[i] );
-			}
-			catch ( BirtException e )
-			{
-				fail( "Should not throw Exception." );
-			}
-		}
-	}
+
 	@Test
     public void testToDateForMysql( ) throws BirtException
 	{
@@ -671,101 +527,7 @@ public class DataTypeUtilTest
 		calendar.set(2008, 11, 30, 13, 0, 0 );
 		assertEquals( DataTypeUtil.toDate( source ), calendar.getTime( ) );
 	}
-	@Test
-	@Ignore
-    public void testToDate3( )
-	{
-		String[] dateStrings = {
-				"Jan 11, 2002", "Jan 11, 2002", "Feb 12, 1981 6:17 AM"
-		};
-		String[] timeZoneIDs = {
-				"GMT+00:00", "GMT-02:00", "GMT+03:00"
-		};
-		String[] ISODateStrings = {
-				"1997-07-16",
-				"1997-07-16T19:20",
-				"1997-07-16T19:20:30"
-		};
-		Calendar calendar = Calendar.getInstance( );
-		calendar.setTimeZone( TimeZone.getTimeZone( "GMT+00:00" ) );
-		Date[] resultDates1 = new Date[3];
-		calendar.clear( );
-		calendar.set( 2002, 0, 11, 0, 0, 0 );
-		resultDates1[0] = calendar.getTime( );
-		calendar.clear( );
-		calendar.set( 2002, 0, 11, 2, 0, 0 );
-		resultDates1[1] = calendar.getTime( );
-		calendar.clear( );
-		calendar.set( 1981, 1, 12, 3, 17, 0 );
-		resultDates1[2] = calendar.getTime( );
-		
-		for ( int i = 0; i < dateStrings.length; i++ )
-		{
-			try
-			{
-				Date dateResult = DataTypeUtil.toDate( dateStrings[i],
-						ULocale.US,
-						TimeZone.getTimeZone( timeZoneIDs[i] ) );
-				assertEquals( dateResult, resultDates1[i] );
-			}
-			catch ( BirtException e )
-			{
-				fail( "Should not throw Exception." );
-			}
-		}
-		
-		calendar = Calendar.getInstance( );
-		Date[] resultDates2 = new Date[3];
-		calendar.clear( );
-		calendar.set( 1997, 6, 16, 0, 0, 0 );
-		resultDates2[0] = calendar.getTime( );
-		calendar.clear( );
-		calendar.set( 1997, 6, 16, 19, 20, 0 );
-		resultDates2[1] = calendar.getTime( );
-		calendar.clear( );
-		calendar.set( 1997, 6, 16, 19, 20, 30 );
-		resultDates2[2] = calendar.getTime( );
 
-		for ( int i = 0; i < dateStrings.length; i++ )
-		{
-			try
-			{
-				Date dateResult = DataTypeUtil.toDate( ISODateStrings[i] );
-				assertEquals( dateResult, resultDates2[i] );
-			}
-			catch ( BirtException e )
-			{
-				fail( "Should not throw Exception." );
-			}
-		}
-
-		calendar = Calendar.getInstance( );
-		calendar.setTimeZone( TimeZone.getTimeZone( "GMT+00:00" ) );
-		Date[] resultDates3 = new Date[3];
-		calendar.clear( );
-		calendar.set( 1997, 6, 16, 0, 0, 0 );
-		resultDates3[0] = calendar.getTime( );
-		calendar.clear( );
-		calendar.set( 1997, 6, 16, 21, 20, 0 );
-		resultDates3[1] = calendar.getTime( );
-		calendar.clear( );
-		calendar.set( 1997, 6, 16, 16, 20, 30 );
-		resultDates3[2] = calendar.getTime( );
-
-		for ( int i = 0; i < dateStrings.length; i++ )
-		{
-			try
-			{
-				Date dateResult = DataTypeUtil.toDate( ISODateStrings[i],
-						TimeZone.getTimeZone( timeZoneIDs[i] ) );
-				assertEquals( dateResult, resultDates3[i] );
-			}
-			catch ( BirtException e )
-			{
-				fail( "Should not throw Exception." );
-			}
-		}
-	}
 	@Test
     public void testToTime( ) throws BirtException
     {

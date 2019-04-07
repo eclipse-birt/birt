@@ -1027,68 +1027,6 @@ public class FeaturesTest extends APITestCase
 	}
 	
 	/**
-	 * In java script expression, all the java type should be convert to java
-	 * script type.
-	 */
-	@Test
-	@Ignore
-    public void test16( ) throws Exception
-	{
-		// --- begin binding
-		String[] bindingNameGroup = new String[2];
-		bindingNameGroup[0] = "GROUP_COUNTRY";
-		bindingNameGroup[1] = "GROUP_CITY";
-		IBaseExpression[] bindingExprGroup = new IBaseExpression[2];
-		bindingExprGroup[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprGroup[1] = new ScriptExpression( "dataSetRow.CITY" );
-		GroupDefinition[] groupDefn = new GroupDefinition[]{
-				new GroupDefinition( "group0" ), new GroupDefinition( "group1" )
-		};
-		groupDefn[0].setKeyExpression( "row.GROUP_COUNTRY" );
-		groupDefn[1].setKeyExpression( "row.GROUP_CITY" );
-		
-		String[] bindingNameFilter = new String[1];
-		bindingNameFilter[0] = "SORT_SALE_DATE";
-		IBaseExpression[] bindingExprFilter = new IBaseExpression[1];
-		bindingExprFilter[0] = new ScriptExpression( "row.ROW_FILTER" );
-		FilterDefinition[] filterDefn = new FilterDefinition[]{
-			new FilterDefinition( new ConditionalExpression( "row.ROW_FILTER",
-					IConditionalExpression.OP_EQ,
-					"\"Date:\"+dataSetRow.SALE_DATE" ) )
-		};
-
-		String[] bindingNameRow = new String[7];
-		bindingNameRow[0] = "ROW_0";
-		bindingNameRow[1] = "ROW_rowPosition";
-		bindingNameRow[2] = "ROW_COUNTRY";
-		bindingNameRow[3] = "ROW_CITY";
-		bindingNameRow[4] = "ROW_SALE_DATE";
-		bindingNameRow[5] = "ROW_AMOUNT";
-		bindingNameRow[6] = "ROW_FILTER";
-		IBaseExpression[] bindingExprRow = new IBaseExpression[7];
-		bindingExprRow[0] = new ScriptExpression( "dataSetRow[0]" );
-		bindingExprRow[1] = new ScriptExpression( "dataSetRow._rowPosition" );
-		bindingExprRow[2] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprRow[3] = new ScriptExpression( "dataSetRow.CITY" );
-		bindingExprRow[4] = new ScriptExpression( "dataSetRow.SALE_DATE" );
-		bindingExprRow[5] = new ScriptExpression( "dataSetRow.AMOUNT" );
-		bindingExprRow[6] = new ScriptExpression( "\"Date:\"+row.ROW_SALE_DATE" );
-		createAndRunQuery( bindingNameGroup,
-				bindingExprGroup,
-				groupDefn,
-				null,
-				null,
-				null,
-				bindingNameFilter,
-				bindingExprFilter,
-				filterDefn,
-				bindingNameRow,
-				bindingExprRow );
-
-		checkOutputFile( );
-	}
-	
-	/**
 	 * 
 	 */
 	@Test
