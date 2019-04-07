@@ -42,8 +42,6 @@ import testutil.ConfigText;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
-
 import static org.junit.Assert.*;
 
 /**
@@ -525,41 +523,6 @@ public class DataSetCacheTest extends APITestCase
 	
 	//--------data engine for joint data set
 	private DataEngineImpl myDataEngine;
-	
-	/**
-	 * @throws Exception
-	 */
-	@Test
-	@Ignore
-    public void testJointDataSetCache( ) throws Exception
-	{
-		QueryDefinition queryDefn = prepareForJointDataSet( false );
-
-		prepareExprNameAndQuery( rowBeArray, totalBeArray, queryDefn );
-		IPreparedQuery preparedQuery = myDataEngine.prepare( queryDefn );
-		IQueryResults qr = preparedQuery.execute( null );
-		IResultIterator ri = qr.getResultIterator( );
-
-		while ( ri.next( ) )
-		{
-			String s = "";
-			for ( int i = 0; i < rowBeArray.length; i++ )
-			{
-				s += ri.getValue( rowBeNames[i] );
-				if ( i != rowBeArray.length - 1 )
-					s += ", ";
-			}
-
-			testPrintln( s );
-		}
-		qr.close( );
-		myDataEngine.shutdown( );
-
-		assertTrue( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
-		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
-		
-		this.checkOutputFile( );
-	}
 	
 	/**
 	 * @throws Exception 

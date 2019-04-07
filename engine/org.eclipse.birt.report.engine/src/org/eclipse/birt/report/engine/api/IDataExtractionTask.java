@@ -2,10 +2,6 @@ package org.eclipse.birt.report.engine.api;
 
 import java.util.List;
 
-import org.eclipse.birt.core.exception.BirtException;
-import org.eclipse.birt.data.engine.api.IFilterDefinition;
-import org.eclipse.birt.data.engine.api.ISortDefinition;
-
 /**
  * an engine task that extracts data from a report. The task allows the return
  * of metadata and data from engine

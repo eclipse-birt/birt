@@ -24,10 +24,8 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
 import testutil.BaseTestCase;
 
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 
 import static org.junit.Assert.*;
 
@@ -166,51 +164,4 @@ public class OutputParamManualTest extends BaseTestCase
 		System.setProperty( "PROPERTY_RUN_UNDER_ECLIPSE", "false" );
 		Platform.startup( null );
 	}
-
-	/**
-	 * Test disk based feature.
-	 * This test is using net.sourceforge.jtds.jdbc.Driver to access SQL server which is not
-	 * included in default package. The JDBC driver has to installed in order for the test
-	 * to pass. 
-	 */
-	@Ignore("Test must be run manually")
-	@Test
-    public void testOutputParameter( ) throws BirtException, Exception
-	{
-		// prepare
-		DataEngineContext context = DataEngineContext.newInstance( DataEngineContext.DIRECT_PRESENTATION,
-				this.scriptContext,
-				null,
-				null,
-				null );
-		context.setTmpdir( this.getTempDir( ) );
-		PlatformConfig platformConfig = new PlatformConfig();
-		platformConfig.setTempDir( this.getTempDir() );
-		DataEngine de = DataEngine.newDataEngine( platformConfig, context );
-		de.defineDataSource( this.getDataSource( ) );
-		de.defineDataSet( this.getDataSet( ) );
-
-		// execute
-		IPreparedQuery pq = de.prepare( this.getQueryDefn( ) );
-		IQueryResults qr = pq.execute( null );
-
-		// get value
-		IBaseExpression[] bes = getExprArray( );
-
-		IResultIterator ri = qr.getResultIterator( );
-		ri.next( );
-		
-		for ( int i = 0; i < bes.length; i++ )
-		{
-			Object ob = ri.getValue( expressionName[i] );
-			assertTrue( ob != null );
-			System.out.println( ob );
-		}
-
-		// clean
-		ri.close( );
-		qr.close( );
-		de.shutdown( );
-	}
-
 }

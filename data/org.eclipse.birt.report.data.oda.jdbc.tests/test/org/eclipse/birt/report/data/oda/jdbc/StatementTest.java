@@ -23,7 +23,6 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 /**

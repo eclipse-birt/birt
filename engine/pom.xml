@@ -36,7 +36,6 @@
 		<module>org.eclipse.birt.report.engine.emitter.pdf</module>
 		<module>org.eclipse.birt.report.engine.emitter.pdf.tests</module>
 		<module>org.eclipse.birt.report.engine.emitter.postscript</module>
-		<module>org.eclipse.birt.report.engine.emitter.postscript.tests</module>
 		<module>org.eclipse.birt.report.engine.emitter.ppt</module>
 		<module>org.eclipse.birt.report.engine.emitter.pptx</module>
 		<module>org.eclipse.birt.report.engine.emitter.pptx.tests</module>

@@ -15,8 +15,6 @@ import java.util.ResourceBundle;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
-import org.eclipse.birt.report.engine.i18n.MessageConstants;
-
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
 

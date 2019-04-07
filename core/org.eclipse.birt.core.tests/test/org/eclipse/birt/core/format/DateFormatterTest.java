@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.Locale;
 
 import org.junit.Test;
-import org.junit.Ignore;
 
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
@@ -143,58 +142,7 @@ public class DateFormatterTest
 				ULocale.forLocale(locale) );
 		assertEquals( "MM/dd/yyyy hh:mm:ss a", sample.getPattern( ) );
 	}
-	@Test
-	@Ignore
-    public void testApplyPattern( )
-	{
-		//test the instance of locale
-		Locale locDef = Locale.getDefault( );
-		Calendar dateCal = Calendar.getInstance( locDef );
-		dateCal.set( 1998, 8, 13, 20, 1, 44 );
-		Date date = dateCal.getTime( );
 
-		Locale locale = new Locale( "en", "us" );
-		DateFormatter sample = new DateFormatter( ULocale.forLocale(locale) );
-		//default null
-		sample.applyPattern( null );
-		assertEquals( "Sep 13, 1998 8:01 PM", sample.format( date ) );
-		
-		sample.applyPattern( "Long Date" );
-		assertEquals( "September 13, 1998", sample.format( date ) );
-		sample.applyPattern( "D" );
-		assertEquals( "September 13, 1998", sample.format( date ) );
-		sample.applyPattern( "Medium Date" );
-		assertEquals( "Sep 13, 1998", sample.format( date ) );
-		sample.applyPattern( "Short Date" );
-		assertEquals( "9/13/98", sample.format( date ) );
-		sample.applyPattern( "d" );
-		assertEquals( "9/13/98", sample.format( date ) );
-		sample.applyPattern( "Long Time" );
-		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM PDT" ) );
-		sample.applyPattern( "T" );
-		assertEquals( true, sample.format( date ).startsWith( "8:01:44 PM PDT" ) );
-		
-		/*
-		 * Commented out below test code since ICU behavior changed, the result from ICU is no longer
-		 * the same as SimpleDateFormat.
-		 * ICU returns "September 13, 1998 at 8:01 PM" while SimepleDateFormat returns
-		 * 			   "September 13, 1998 8:01 PM"
-		 */
-		/*
-		SimpleDateFormat javaSample = (SimpleDateFormat) java.text.DateFormat
-				.getDateTimeInstance( java.text.DateFormat.LONG,
-						java.text.DateFormat.SHORT, locale );
-		sample.applyPattern( "f" );		
-		assertEquals( javaSample.format( date ), sample.format( date ) );
-		*/
-		sample.applyPattern( "General Date" );
-		assertEquals( true, sample.format( date ).startsWith( "September 13, 1998 at 8:01:44 PM PDT" ) );
-
-		sample.applyPattern( "Short Time" );
-		assertEquals( "20:01", sample.format( date ) );
-		sample.applyPattern( "Medium Time" );
-		assertEquals( "8:01:44 PM", sample.format( date ) );
-	}
 	@Test
     public void testIFormat( )
 	{

@@ -28,8 +28,6 @@ public class AllTests
 		//$JUnit-BEGIN$
 		
 		suite.addTestSuite( AttributeBuilderTest.class );
-		suite.addTestSuite( HTMLReportEmitterTest.class );
-		suite.addTestSuite( MetadataEmitterTest.class );
 		suite.addTestSuite( TableLayoutTest.class );
 		suite.addTestSuite( ScriptTest.class );
 		suite.addTestSuite( DrillThroughActionScriptTest.class );

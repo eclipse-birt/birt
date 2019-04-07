@@ -40,14 +40,11 @@ import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.dataextraction.CSVDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.ICSVDataExtractionOption;
-import org.eclipse.birt.report.engine.dataextraction.ICommonDataExtractionOption;
 import org.eclipse.birt.report.engine.dataextraction.csv.mock.MockExtractionResults;
 
 import org.junit.Test;
 import org.junit.Before;
 import org.junit.After;
-
-import org.junit.Ignore;
 
 import static org.junit.Assert.*;
 
@@ -216,34 +213,6 @@ public class CSVDataExtractionImplTest
 	}
 
 	@Test
-	@Ignore
-	public void testOutputDefaults( ) throws Exception
-	{
-		IDataExtractionOption option = new DataExtractionOption();
-		option.setOutputFile( "test.csv" ); //$NON-NLS-1$
-		option.setOutputFormat( "csv" ); //$NON-NLS-1$		
-		subtestRegular( option, "testDefaults.csv"); //$NON-NLS-1$
-	}
-
-	@Test
-	@Ignore
-	public void testOutputRegular( ) throws Exception
-	{
-		option.setLocale( Locale.FRANCE ); // must be ignored because of locale neutral
-		option.setLocaleNeutralFormat( true );
-		subtestRegular( option, "testRegular.csv"); //$NON-NLS-1$
-	}
-
-	@Test
-	@Ignore
-	public void testOutputLocalized( ) throws Exception
-	{
-		option.setLocale( Locale.FRANCE );
-		option.setLocaleNeutralFormat( false );
-		subtestRegular( option, "testLocalized.csv"); //$NON-NLS-1$
-	}
-
-	@Test
 	public void testOutputEncoding( ) throws Exception
 	{
 		option.setLocale( Locale.ENGLISH );
@@ -292,30 +261,6 @@ public class CSVDataExtractionImplTest
 		// replace test value with chars available in ISO encoding
 		
 		subtestDateFormat( "testDateFormat.csv" ); //$NON-NLS-1$
-	}
-	
-	@Test
-	@Ignore
-	public void testOutputDefaultDateFormatWithLocale( ) throws Exception
-	{
-		option.setLocale( Locale.FRENCH );
-		option.setLocaleNeutralFormat( false );
-		option.setDateFormat( null ); // use default format
-		subtestDateFormat( "testDefaultDateFormat.csv" ); //$NON-NLS-1$
-	}
-
-	@Test
-	@Ignore
-	public void testOutputWithTimeZone( ) throws Exception
-	{
-		option.setLocale( Locale.FRENCH );
-		option.setTimeZone( TimeZone.getTimeZone( "Asia/Shanghai" ) ); //$NON-NLS-1$
-		option.setLocaleNeutralFormat( false );
-		option.setDateFormat( null );
-		
-		// replace test value with chars available in ISO encoding
-		
-		subtestDateFormat( "testTimeZone.csv" ); //$NON-NLS-1$
 	}
 
 	@Test
@@ -376,27 +321,6 @@ public class CSVDataExtractionImplTest
 		subtestRegular( option, fileName);
 	}
 	
-	
-	@Test
-	@Ignore
-	public void testOutputWithSelectedColumns() throws Exception
-	{
-		option.setSelectedColumns( TEST_SELECT_COLUMNS );
-		subtestRegular( option, "testSelectColumns.csv"); //$NON-NLS-1$
-	}
-
-	/*
-	 * Test will ignore the invalid column and output only valid ones without
-	 * exception
-	 */
-	@Test
-	@Ignore
-	public void testOutputWithInvalidColumn() throws Exception
-	{
-		option.setSelectedColumns( TEST_INVALID_COLUMNS );
-		subtestRegular( option, "testSelectInvalidColumn.csv"); //$NON-NLS-1$
-	}
-
 	@Test
 	public void testOutputQuoting() throws Exception
 	{
@@ -420,15 +344,6 @@ public class CSVDataExtractionImplTest
 		subtestDataTypes( "testDataTypes.csv" ); //$NON-NLS-1$
 	}
 
-	@Test
-	@Ignore
-	public void testOutputDataTypesLocalized() throws Exception
-	{
-		option.setLocale( Locale.FRENCH );
-		option.setLocaleNeutralFormat( false );
-		subtestDataTypes( "testDataTypesLocalized.csv" ); //$NON-NLS-1$
-	}
-	
 	/**
 	 * @throws SerialException
 	 * @throws SQLException
@@ -516,41 +431,6 @@ public class CSVDataExtractionImplTest
 		); 
 		
 		subtestRegular( option, fileName);
-	}
-	
-	@Test
-	@Ignore
-	public void testOutputWithoutColumnType() throws Exception
-	{
-		option.setExportDataType( false );
-		subtestRegular( option, "testNoColumnType.csv" ); //$NON-NLS-1$
-	}
-
-	@Test
-	@Ignore
-	public void testOutputWithPipeSeparator() throws Exception
-	{
-		option.setLocaleNeutralFormat( true );
-		option.setSeparator( ICSVDataExtractionOption.SEPARATOR_PIPE );
-		subtestRegular( option, "testRegularPipe.csv" ); //$NON-NLS-1$
-	}
-
-	@Test
-	@Ignore
-	public void testOutputWithSemicolonSeparator() throws Exception
-	{
-		option.setLocaleNeutralFormat( true );
-		option.setSeparator( ICSVDataExtractionOption.SEPARATOR_SEMICOLON );
-		subtestRegular( option, "testRegularSemicolon.csv" ); //$NON-NLS-1$
-	}
-
-	@Test
-	@Ignore
-	public void testOutputWithTabSeparator() throws Exception
-	{
-		option.setLocaleNeutralFormat( true );
-		option.setSeparator( ICSVDataExtractionOption.SEPARATOR_TAB );
-		subtestRegular( option, "testRegularTab.csv" ); //$NON-NLS-1$
 	}
 
 	/**

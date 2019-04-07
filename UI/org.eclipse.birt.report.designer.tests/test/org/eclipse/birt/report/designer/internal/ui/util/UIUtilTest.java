@@ -12,8 +12,6 @@
 package org.eclipse.birt.report.designer.internal.ui.util;
 
 import org.eclipse.birt.report.designer.testutil.BaseTestCase;
-import org.eclipse.birt.report.model.api.ListHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
 import org.eclipse.swt.layout.GridLayout;
 
 /**

@@ -15,7 +15,6 @@ import org.eclipse.birt.core.archive.cache.FileCacheManagerTest;
 import org.eclipse.birt.core.archive.compound.ArchiveEntryInputStreamTest;
 import org.eclipse.birt.core.archive.compound.ArchiveFileFactoryTest;
 import org.eclipse.birt.core.archive.compound.ArchiveFileTest;
-import org.eclipse.birt.core.archive.compound.ArchivePerformanceTest;
 import org.eclipse.birt.core.archive.compound.ArchiveRemoveTest;
 import org.eclipse.birt.core.archive.compound.ArchiveViewTest;
 import org.eclipse.birt.core.archive.compound.UpgradeArchiveTest;
@@ -42,7 +41,6 @@ public class AllArchiveTests
 		test.addTestSuite( ArchiveEntryInputStreamTest.class );
 		test.addTestSuite( ArchiveFileFactoryTest.class );
 		test.addTestSuite( ArchiveFileTest.class );
-		//test.addTestSuite( ArchivePerformanceTest.class );
 		test.addTestSuite( ArchiveRemoveTest.class );
 		test.addTestSuite( ArchiveViewTest.class );
 		test.addTestSuite( UpgradeArchiveTest.class );
@@ -50,14 +48,11 @@ public class AllArchiveTests
 		test.addTestSuite( ArchiveFileSaveTest.class );
 		test.addTestSuite( ArchiveFlushTest.class );
 		test.addTestSuite( ArchiveUtilTest.class );
-		test.addTestSuite( DocArchiveLockManagerTest.class );
 		test.addTestSuite( DocumentArchiveTest.class );
 		test.addTestSuite( FileArchiveTest.class );
 		test.addTestSuite( FolderArchiveTest.class );
-		//test.addTestSuite( FolderToArchiveTest.class );
 		test.addTestSuite( InputStreamRefreshTest.class );
 		test.addTestSuite( SpecialCharacterTest.class );
-		//test.addTestSuite( TestBuffer.class );
 		// add all test classes here
 
 		return test;

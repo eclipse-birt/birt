@@ -12,8 +12,6 @@ package org.eclipse.birt.report.utility.filename;
 
 import java.util.Map;
 
-import org.eclipse.birt.report.context.IContext;
-
 public interface IFilenameGenerator
 {
 	/**

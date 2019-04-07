@@ -51,7 +51,6 @@ import testutil.ConfigText;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 /**
@@ -409,22 +408,6 @@ public class DataSetCacheTest extends APITestCase
 	}
 	
 	/**
-	 * Test acquire saved cache result meta 
-	 *
-	 */
-	@Test
-	@Ignore
-    public void testUseCachedMeta1() throws BirtException
-	{
-		this.appContextMap.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, new Integer( 1 ) );
-		this.genCache();
-		myDataEngine = newDataEngine( );
-		IResultMetaData meta = myDataEngine.getCachedDataSetMetaData(dataSource, dataSet);
-		assertTrue( meta!= null );
-		assertTrue( meta.getColumnCount() == 6 );
-	}
-	
-	/**
 	 * Test acqurire inexist save cache result meta 
 	 *
 	 */
@@ -487,22 +470,6 @@ public class DataSetCacheTest extends APITestCase
 	}
 	
 	/**
-	 * Test acqurire save cache result meta 
-	 *
-	 */
-	@Test
-	@Ignore
-    public void testUseMemoryCachedMeta1() throws BirtException
-	{
-		this.appContextMap.put( DataEngine.MEMORY_DATA_SET_CACHE, new Integer( 1 ) );
-		this.genCache();
-		myDataEngine = newDataEngine( );
-		IResultMetaData meta = myDataEngine.getCachedDataSetMetaData(dataSource, dataSet);
-		assertTrue( meta!= null );
-		assertTrue( meta.getColumnCount() == 6 );
-	}
-	
-	/**
 	 * Test acqurire inexist save cache result meta 
 	 *
 	 */
@@ -528,60 +495,6 @@ public class DataSetCacheTest extends APITestCase
 		assertTrue( meta == null );
 	}
 	
-	/**
-	 * Test feature of whether cache will be used. The populated computed name
-	 * contains blank space and quotes.
-	 * 
-	 * @throws BirtException
-	 */
-	@Test
-	@Ignore
-    public void testUseCache3( ) throws BirtException
-	{
-		this.dataSet.setCacheRowCount( 4 );
-
-		DataEngineImpl myDataEngine = newDataEngine( );
-
-		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
-		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
-
-		QueryDefinition qd = this.newReportQuery( );
-		rowBeArray = getRowExpr( );
-		totalBeArray = getAggrExpr( );
-		bindingNameRow = getRowExprName( );
-		bindingExprRow = getAggrExprName( );
-
-		String[] ccName = new String[]{
-				"col0 col1", "\"col0+col1\""
-		};
-		String[] ccExpr = new String[]{
-				"row.AMOUNT", "row.AMOUNT*2"
-		};
-
-		for ( int i = 0; i < ccName.length; i++ )
-		{
-			ComputedColumn computedColumn = new ComputedColumn( ccName[i],
-					ccExpr[i],
-					DataType.DECIMAL_TYPE );
-			( (BaseDataSetDesign) this.dataSet ).addComputedColumn( computedColumn );
-		}
-
-		prepareExprNameAndQuery( rowBeArray,
-				bindingNameRow,
-				totalBeArray,
-				bindingExprRow,
-				qd );
-		IQueryResults qr = myDataEngine.prepare( qd, appContextMap )
-				.execute( null );
-		qr.getResultIterator( ).next( );
-		qr.close( );
-		myDataEngine.shutdown( );
-
-		assertTrue( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
-		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
-		getDataSetCacheManager( myDataEngine ).resetForTest( );
-	}
-
 	/**
 	 * Return query result
 	 * @param expectedLen
@@ -685,44 +598,6 @@ public class DataSetCacheTest extends APITestCase
 		String result = inputStr + new String( appendChar );
 
 		return result;
-	}
-
-	/**
-	 * Test the feature of clear cache
-	 * @throws BirtException
-	 */
-	@Test
-	@Ignore
-    public void testClearCache( ) throws BirtException
-	{
-		this.dataSet.setCacheRowCount( 4 );
-
-		DataEngineImpl myDataEngine = newDataEngine( );
-
-		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
-		assertFalse( getDataSetCacheManager( myDataEngine ).doesSaveToCache( ) );
-
-		QueryDefinition qd = newReportQuery( );
-		rowBeArray = getRowExpr( );
-		totalBeArray = getAggrExpr( );
-		bindingNameRow = getRowExprName( );
-		bindingExprRow = getAggrExprName( );
-
-		prepareExprNameAndQuery( rowBeArray,
-				bindingNameRow,
-				totalBeArray,
-				bindingExprRow,
-				qd );
-		IQueryResults qr = myDataEngine.prepare( qd, appContextMap )
-				.execute( null );
-		qr.getResultIterator( ).next( );
-		qr.close( );
-		myDataEngine.shutdown( );
-
-		assertTrue( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
-
-		myDataEngine.clearCache( this.dataSource, this.dataSet );
-		assertFalse( getDataSetCacheManager( myDataEngine ).doesLoadFromCache( ) );
 	}
 
 	/**

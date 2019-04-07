@@ -15,7 +15,6 @@
 package org.eclipse.birt.data.engine.odi;
 
 import org.eclipse.birt.data.engine.core.DataException;
-import org.eclipse.birt.data.engine.impl.StopSign;
 
 /**
  * A type of IQuery that supports data transforms

@@ -13,8 +13,6 @@ package org.eclipse.birt.report.designer.internal.ui.views.data.providers;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-
 import org.eclipse.birt.report.designer.core.model.SessionHandleAdapter;
 import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest;
 import org.eclipse.birt.report.designer.internal.ui.processor.ElementProcessorFactory;
@@ -23,14 +21,12 @@ import org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElemen
 import org.eclipse.birt.report.designer.nls.Messages;
 import org.eclipse.birt.report.designer.ui.IReportGraphicConstants;
 import org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog;
-import org.eclipse.birt.report.designer.ui.dialogs.CascadingParametersDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.ParameterGroupDialog;
 import org.eclipse.birt.report.designer.ui.dialogs.VariableDialog;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.SlotHandle;
 import org.eclipse.birt.report.model.api.VariableElementHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;

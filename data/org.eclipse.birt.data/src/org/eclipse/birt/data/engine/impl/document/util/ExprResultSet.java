@@ -29,7 +29,6 @@ import org.eclipse.birt.data.engine.impl.document.RDAggrUtil;
 import org.eclipse.birt.data.engine.impl.document.RDLoadUtil;
 import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 import org.eclipse.birt.data.engine.impl.document.stream.VersionManager;
-import org.eclipse.birt.data.engine.impl.document.viewing.DataSetResultSet;
 import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 
 /**

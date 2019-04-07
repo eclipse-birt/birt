@@ -11,19 +11,10 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-import java.util.Iterator;
-import java.util.List;
-
-import org.eclipse.birt.report.model.api.ComputedColumnHandle;
-import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ElementFactory;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
-import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
-import org.eclipse.birt.report.model.api.TableHandle;
-import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ExtendsException;
-import org.eclipse.birt.report.model.elements.JointDataSet;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**

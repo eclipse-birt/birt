@@ -18,10 +18,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.olap.data.impl.aggregation.Row4Aggregation;
 import org.eclipse.birt.data.engine.olap.data.impl.dimension.Member;
 
-import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.Ignore;
 import static org.junit.Assert.*;
 
 /**

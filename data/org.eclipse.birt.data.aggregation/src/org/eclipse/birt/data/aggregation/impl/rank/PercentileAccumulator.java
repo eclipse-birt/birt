@@ -14,10 +14,7 @@ package org.eclipse.birt.data.aggregation.impl.rank;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.birt.data.aggregation.calculator.CalculatorFactory;
 import org.eclipse.birt.data.aggregation.calculator.ICalculator;
-import org.eclipse.birt.data.aggregation.i18n.ResourceConstants;
-import org.eclipse.birt.data.aggregation.impl.AggrException;
 import org.eclipse.birt.data.aggregation.impl.SummaryAccumulator;
 import org.eclipse.birt.data.engine.core.DataException;
 

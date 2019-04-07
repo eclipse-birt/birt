@@ -21,7 +21,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Random;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 public class BTreeTest extends BTreeTestCase
@@ -325,61 +324,6 @@ public class BTreeTest extends BTreeTestCase
 		}
 	}
 
-	@Ignore("long run test")
-	@Test
-    public void testHugeNumberOfEntries( ) throws Exception
-	{
-		int ENTRY_COUNT = 999999; // 1M
-		new File( "./utest/btree.dat" ).delete( );
-		FileBTreeFile file = new FileBTreeFile( "./utest/btree.dat" );
-		try
-		{
-			BTreeOption<String, String> option = new BTreeOption<String, String>( );
-			option.setHasValue( true );
-			option.setFile( file, true );
-			option.setCacheSize( 1024 );
-			BTree<String, String> btree = new BTree<String, String>( option );
-
-			long start = System.currentTimeMillis( );
-			System.out.println( "INSERT 1M entries...." );
-			for ( int i = 0; i < ENTRY_COUNT; i++ )
-			{
-				String key = createTestKey( i, ENTRY_COUNT );
-				btree.insert( key, key );
-				if ( i % 10000 == 0 )
-				{
-					System.out.print( '.' );
-				}
-			}
-			btree.close( );
-			long end = System.currentTimeMillis( );
-			System.out.println( "FINISHED at " + ( end - start ) + "ms" );
-
-			start = System.currentTimeMillis( );
-			System.out.println( "QURRY 1M entries...." );
-			btree = new BTree<String, String>( option );
-			assertEquals( ENTRY_COUNT, btree.getTotalKeys( ) );
-			assertEquals( ENTRY_COUNT, btree.getTotalValues( ) );
-			for ( int i = 0; i < ENTRY_COUNT; i++ )
-			{
-				String key = String.valueOf( i );
-				String value = btree.getValue( key );
-				assertEquals( key, value );
-				if ( i % 10000 == 0 )
-				{
-					System.out.print( '.' );
-				}
-			}
-			end = System.currentTimeMillis( );
-			System.out.println( "FINISHED at " + ( end - start ) + "ms" );
-			btree.close( );
-		}
-		finally
-		{
-			file.close( );
-		}
-
-	}
 	@Test
     public void testNullKeyValue( ) throws IOException
 	{

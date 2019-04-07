@@ -12,7 +12,6 @@ package org.eclipse.birt.report.engine.odf.writer;
 
 import java.util.Collection;
 
-import org.eclipse.birt.report.engine.css.engine.StyleConstants;
 import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
 import org.eclipse.birt.report.engine.emitter.XMLWriter;
 import org.eclipse.birt.report.engine.ir.DimensionType;
