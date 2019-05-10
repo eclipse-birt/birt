@@ -52,6 +52,9 @@ public final class ExpressionUtil
 	
 	private static int suffix = 0;
 
+	/** prefix for variable */
+	public static final String VARIABLE_INDICATOR = "vars";
+
 	/**
 	 * Return a row expression text according to given row name.
 	 * 

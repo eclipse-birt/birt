@@ -43,6 +43,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportEngineFactory;
 import org.eclipse.birt.report.engine.api.impl.ReportEngineHelper;
 import org.eclipse.birt.report.model.api.ColumnHintHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
+import org.eclipse.birt.report.model.api.DerivedDataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.JointDataSetHandle;
@@ -441,7 +442,8 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 					updateDefaultPropertyValues( viewDatas );
 				}
 				
-				if ( ( (DataSetEditor) getContainer( ) ).getHandle( ) instanceof JointDataSetHandle )
+				if ( ( (DataSetEditor) getContainer( ) ).getHandle( ) instanceof JointDataSetHandle  
+						|| ( (DataSetEditor) getContainer( ) ).getHandle( ) instanceof DerivedDataSetHandle )
 				{
 					PropertyHandle properyHandle = ( (DataSetEditor) getContainer( ) ).getHandle( )
 							.getPropertyHandle( DataSetHandle.COLUMN_HINTS_PROP );
@@ -457,6 +459,8 @@ public class OutputColumnsPage extends AbstractDescriptionPropertyPage
 										.equals( column.getColumnName( ) ) )
 								{
 									viewDatas[i].setAlias( column.getAlias( ) );
+									viewDatas[i].setDisplayName( column.getDisplayName( ) );
+									viewDatas[i].setDisplayNameKey( column.getDisplayNameKey( ) );
 									break;
 								}
 							}
