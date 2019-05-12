@@ -103,6 +103,8 @@ public class DateTimeSpan
 	private static class YearsScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
@@ -156,6 +158,8 @@ public class DateTimeSpan
 	private static class MonthsScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
@@ -193,6 +197,8 @@ public class DateTimeSpan
 	private static class DaysScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
@@ -227,6 +233,8 @@ public class DateTimeSpan
 
 	private static class HoursScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -263,6 +271,8 @@ public class DateTimeSpan
 	private static class MinutesScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
@@ -298,6 +308,8 @@ public class DateTimeSpan
 
 	private static class SecondsScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -337,6 +349,8 @@ public class DateTimeSpan
 
 	private static class AddDateScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -380,6 +394,8 @@ public class DateTimeSpan
 	private static class AddTimeScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 4)
@@ -413,6 +429,8 @@ public class DateTimeSpan
 	private static class SubDateScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 4)
@@ -444,6 +462,8 @@ public class DateTimeSpan
 	
 	private static class SubTimeScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{

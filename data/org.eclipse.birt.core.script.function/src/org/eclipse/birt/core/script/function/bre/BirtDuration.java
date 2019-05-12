@@ -26,6 +26,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 public class BirtDuration implements IScriptFunctionExecutor
 {
+	private static final long serialVersionUID = 1L;
 	private IScriptFunctionExecutor executor;
 	private static final String PLUGIN_ID = "org.eclipse.birt.core.function";
 	
