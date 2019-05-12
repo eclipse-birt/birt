@@ -28,6 +28,7 @@ import com.ibm.icu.util.ULocale;
 public class Formatter implements IScriptFunctionExecutor
 {
 
+	private static final long serialVersionUID = 1L;
 	private static final String WRONG_ARGUMENT = "Wrong number of arguments for BirtFormatter function: {0}";
 	private static final String FORMAT = "format";
 
@@ -130,6 +131,7 @@ public class Formatter implements IScriptFunctionExecutor
 	private class Function_Format implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
 		private Formatter formatter;
 
 		Function_Format( Formatter formatter )

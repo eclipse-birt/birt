@@ -116,6 +116,8 @@ public class Finance
 	private static class DdbScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 4)
@@ -146,6 +148,8 @@ public class Finance
 
 	private static class SlnScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -182,6 +186,8 @@ public class Finance
 
 	private static class SydScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -269,6 +275,8 @@ public class Finance
 	private static class FvScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 5)
@@ -335,6 +343,8 @@ public class Finance
 
 	private static class PmtScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -407,6 +417,8 @@ public class Finance
 	private static class IpmtScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 6)
@@ -477,6 +489,8 @@ public class Finance
 	private static class PpmtScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 6)
@@ -536,6 +550,8 @@ public class Finance
 	
 	private static class NperScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -607,6 +623,8 @@ public class Finance
 
 	private static class PvScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -810,6 +828,8 @@ public class Finance
 	private static class RateScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 6)
@@ -848,6 +868,8 @@ public class Finance
 
 	private static class PercentScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -910,6 +932,8 @@ public class Finance
 
 	private static class NpvScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
@@ -1104,6 +1128,8 @@ public class Finance
 	private static class IrrScriptFunctionExecutor implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{
 			if( arguments == null || arguments.length!= 2)
@@ -1223,6 +1249,8 @@ public class Finance
 			implements
 				IScriptFunctionExecutor
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
 		{

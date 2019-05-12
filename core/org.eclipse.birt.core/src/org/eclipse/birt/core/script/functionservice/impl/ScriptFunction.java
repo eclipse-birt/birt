@@ -24,6 +24,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 public class ScriptFunction implements IScriptFunction
 {
+	private static final long serialVersionUID = 1L;
 	//
 	private String name;
 	private IScriptFunctionCategory category;
