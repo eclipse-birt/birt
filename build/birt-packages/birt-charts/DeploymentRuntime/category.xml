@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
 <!--
-   <feature url="features/org.eclipse.birt.chart.cshelp_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.cshelp_4.9.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.9.0.qualifier">
       <category name="ChartSDK"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime_4.9.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime" version="4.9.0.qualifier">
       <category name="ChartSDK"/>
    </feature>
    -->
-   <feature url="features/org.eclipse.birt.chart_4.8.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart_4.9.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.9.0.qualifier">
       <category name="ChartEngine"/>
    </feature>
    <bundle id="com.ibm.icu">

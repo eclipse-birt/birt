@@ -4,7 +4,7 @@
 	<parent>
 		<groupId>org.eclipse.birt.features</groupId>
 		<artifactId>org.eclipse.birt.features-parent</artifactId>
-		<version>4.8.0-SNAPSHOT</version>
+		<version>4.9.0-SNAPSHOT</version>
 		<relativePath>..</relativePath>
 	</parent>
 	<artifactId>org.eclipse.birt.osgi.runtime.sdk</artifactId>
