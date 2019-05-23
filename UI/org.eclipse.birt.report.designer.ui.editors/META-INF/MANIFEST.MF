@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT MultipageEditor Extension Point Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.editors;singleton:=true
-Bundle-Version: 4.8.0.qualifier
+Bundle-Version: 4.9.0.qualifier
 Bundle-Activator: org.eclipse.birt.report.designer.ui.editors.Activator
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",

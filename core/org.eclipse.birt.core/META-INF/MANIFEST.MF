@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Core Package
 Bundle-SymbolicName: org.eclipse.birt.core; singleton:=true
-Bundle-Version: 4.8.0.qualifier
+Bundle-Version: 4.9.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.core.internal.plugin.CorePlugin
 Bundle-Vendor: Eclipse BIRT Project

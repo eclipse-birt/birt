@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Emitter Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.tests.engine.emitter.html;singleton:=true
-Bundle-Version: 4.8.0.qualifier
+Bundle-Version: 4.9.0.qualifier
 Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.engine
 Bundle-ClassPath: .

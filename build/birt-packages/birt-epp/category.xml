@@ -1,79 +1,79 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.birt_4.8.0.qualifier.jar" id="org.eclipse.birt" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt_4.9.0.qualifier.jar" id="org.eclipse.birt" version="4.9.0.qualifier">
       <category name="Birt"/>
    </feature>
-   <feature url="features/org.eclipse.birt.cshelp_4.8.0.qualifier.jar" id="org.eclipse.birt.cshelp" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.cshelp_4.9.0.qualifier.jar" id="org.eclipse.birt.cshelp" version="4.9.0.qualifier">
       <category name="Birt"/>
    </feature>
-   <feature url="features/org.eclipse.birt.doc_4.8.0.qualifier.jar" id="org.eclipse.birt.doc" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.doc_4.9.0.qualifier.jar" id="org.eclipse.birt.doc" version="4.9.0.qualifier">
       <category name="Birt"/>
    </feature>
  
-   <feature url="features/org.eclipse.birt.example_4.8.0.qualifier.jar" id="org.eclipse.birt.example" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.example_4.9.0.qualifier.jar" id="org.eclipse.birt.example" version="4.9.0.qualifier">
       <category name="Birt"/>
    </feature>
 
    <!--
-   <feature url="features/org.eclipse.birt.doc.isv_4.8.0.qualifier.jar" id="org.eclipse.birt.doc.isv" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.doc.isv_4.9.0.qualifier.jar" id="org.eclipse.birt.doc.isv" version="4.9.0.qualifier">
       <category name="Birt"/>
    </feature>
    -->
-   <feature url="features/org.eclipse.birt.source_4.8.0.qualifier.jar" id="org.eclipse.birt.source" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.source_4.9.0.qualifier.jar" id="org.eclipse.birt.source" version="4.9.0.qualifier">
       <category name="Birt"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart_4.8.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart_4.9.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.9.0.qualifier">
       <category name="Chart"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.cshelp_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.cshelp_4.9.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.9.0.qualifier">
       <category name="Chart"/>
    </feature>
    <!-- 
-   <feature url="features/org.eclipse.birt.chart.doc.isv_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.doc.isv" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.doc.isv_4.9.0.qualifier.jar" id="org.eclipse.birt.chart.doc.isv" version="4.9.0.qualifier">
       <category name="Chart"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.source_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.source" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.source_4.9.0.qualifier.jar" id="org.eclipse.birt.chart.source" version="4.9.0.qualifier">
       <category name="Chart"/>
    </feature>
    -->
-   <feature url="features/org.eclipse.birt.engine.runtime_4.8.0.qualifier.jar" id="org.eclipse.birt.engine.runtime" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.engine.runtime_4.9.0.qualifier.jar" id="org.eclipse.birt.engine.runtime" version="4.9.0.qualifier">
       <category name="OSGi"/>
    </feature>
-   <feature url="features/org.eclipse.birt.osgi.runtime.sdk_4.8.0.qualifier.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.osgi.runtime.sdk_4.9.0.qualifier.jar" id="org.eclipse.birt.osgi.runtime.sdk" version="4.9.0.qualifier">
       <category name="OSGi"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.osgi.runtime.sdk_4.9.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime.sdk" version="4.9.0.qualifier">
       <category name="OSGi"/>
    </feature>   
-   <feature url="features/org.eclipse.birt.chart.integration.wtp_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.integration.wtp_4.9.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp" version="4.9.0.qualifier">
       <category name="wtpIntegration"/>
    </feature>
    <!-- 
-   <feature url="features/org.eclipse.birt.chart.integration.wtp.source_4.8.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp.source" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.chart.integration.wtp.source_4.9.0.qualifier.jar" id="org.eclipse.birt.chart.integration.wtp.source" version="4.9.0.qualifier">
       <category name="wtpIntegration"/>
    </feature>
    -->
-   <feature url="features/org.eclipse.birt.integration.wtp_4.8.0.qualifier.jar" id="org.eclipse.birt.integration.wtp" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.integration.wtp_4.9.0.qualifier.jar" id="org.eclipse.birt.integration.wtp" version="4.9.0.qualifier">
       <category name="wtpIntegration"/>
    </feature>
    <!-- 
-   <feature url="features/org.eclipse.birt.integration.wtp.source_4.8.0.qualifier.jar" id="org.eclipse.birt.integration.wtp.source" version="4.8.0.qualifier">
+   <feature url="features/org.eclipse.birt.integration.wtp.source_4.9.0.qualifier.jar" id="org.eclipse.birt.integration.wtp.source" version="4.9.0.qualifier">
       <category name="wtpIntegration"/>
    </feature>
    -->
-    <feature url="features/org.eclipse.birt.testhelper_4.8.0.qualifier.jar" id="org.eclipse.birt.testhelper" version="4.8.0.qualifier">
+    <feature url="features/org.eclipse.birt.testhelper_4.9.0.qualifier.jar" id="org.eclipse.birt.testhelper" version="4.9.0.qualifier">
       <category name="birtTest"/>
    </feature>
    <!-- 
-    <feature url="features/org.eclipse.birt.testhelper.source_4.8.0.qualifier.jar" id="org.eclipse.birt.testhelper.source" version="4.8.0.qualifier">
+    <feature url="features/org.eclipse.birt.testhelper.source_4.9.0.qualifier.jar" id="org.eclipse.birt.testhelper.source" version="4.9.0.qualifier">
       <category name="birtTest"/>
    </feature>
     -->
-    <feature url="features/org.eclipse.birt.tests_4.8.0.qualifier.jar" id="org.eclipse.birt.tests" version="4.8.0.qualifier">
+    <feature url="features/org.eclipse.birt.tests_4.9.0.qualifier.jar" id="org.eclipse.birt.tests" version="4.9.0.qualifier">
       <category name="birtTest"/>
    </feature>
    <!-- 
-    <feature url="features/org.eclipse.birt.tests.source_4.8.0.qualifier.jar" id="org.eclipse.birt.tests.source" version="4.8.0.qualifier">
+    <feature url="features/org.eclipse.birt.tests.source_4.9.0.qualifier.jar" id="org.eclipse.birt.tests.source" version="4.9.0.qualifier">
       <category name="birtTest"/>
    </feature>
     -->

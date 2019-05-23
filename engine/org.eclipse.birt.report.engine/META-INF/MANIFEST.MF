@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Engine
 Bundle-SymbolicName: org.eclipse.birt.report.engine; singleton:=true
-Bundle-Version: 4.8.0.qualifier
+Bundle-Version: 4.9.0.qualifier
 Bundle-ClassPath: enginetesthelper.jar,
  .,
  lib/Tidy.jar,
