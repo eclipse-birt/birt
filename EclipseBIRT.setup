@@ -65,8 +65,7 @@
   <setupTask
       xsi:type="setup:VariableTask"
       name="git.clone.birt.location"
-      value=""
-      defaultValue="${user.home}${file.separator}git${file.separator}birt"
+      defaultValue="${user.home/git/birt}"
       label="Git clone location rule">
     <choice
         value="${installation.location/git/}${git.clone.birt.remoteURI|gitRepository}"
