@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT OpenDocument Spreadsheet emitter
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.ods;singleton:=true
-Bundle-Version: 4.8.0.qualifier
+Bundle-Version: 4.9.0.qualifier
 Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.chart.engine,
  org.eclipse.birt.chart.engine.extension,
