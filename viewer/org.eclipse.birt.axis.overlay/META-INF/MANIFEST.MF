@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Axis Overlay
 Bundle-SymbolicName: org.eclipse.birt.axis.overlay;singleton:=true
-Bundle-Version: 4.8.0.qualifier
+Bundle-Version: 4.9.0.qualifier
 Fragment-Host: org.apache.axis;bundle-version="1.4.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Vendor: Eclipse BIRT Project

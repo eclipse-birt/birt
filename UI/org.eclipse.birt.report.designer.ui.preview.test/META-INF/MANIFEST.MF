@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Test Plug-in
 Bundle-SymbolicName: org.eclipse.birt.report.designer.ui.preview.test
-Bundle-Version: 4.8.0.qualifier
+Bundle-Version: 4.9.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.birt.report.designer.ui.preview,
  org.eclipse.birt.report.engine,

@@ -262,7 +262,8 @@ public class TextWriter
 			{
 				//child.getHeight return value in 1/1000 pt
 				//startTextLineArea accept value in 1/100 pt.
-				startTextLineArea( grandchild.getHeight( ) / 10 );
+				startTextLineArea( grandchild.getHeight( ) / 10,
+						( (TextArea) grandchild ).getStyle( ) );
 			}
 			hasParagraph = true;
 			while ( iter.hasNext( ) )
@@ -331,7 +332,7 @@ public class TextWriter
 		}
 	}
 	
-	private void startTextLineArea( int lineHeight )
+	private void startTextLineArea( int lineHeight, TextStyle style)
 	{
 		writer.openTag( "a:p" );
 		writer.openTag( "a:pPr" );
@@ -339,9 +340,14 @@ public class TextWriter
 		{
 			writer.attribute( "algn", hAlign );
 		}
-		if ( render.isRTL( ) )
+
+		if ( render.isRTL( ) || style.isRtl( ) )
 		{
 			writer.attribute( "rtl", 1 );
+			if ( hAlign == null )
+			{
+				writer.attribute( "algn", "r" );
+			}
 		}
 		if ( lineHeight > 0 && lineHeight < MAX_VAL )
 		{
@@ -366,7 +372,7 @@ public class TextWriter
 		{
 			// textHeight return value in 1/1000 pt, startTextLineArea need
 			// value in 1/100 pt.
-			startTextLineArea( text.getHeight( ) / 10 );
+			startTextLineArea( text.getHeight( ) / 10, text.getStyle( ) );
 		}
 		writer.openTag( "a:r" );
 		setTextProperty( "a:rPr", text.getStyle( ) );
@@ -404,6 +410,7 @@ public class TextWriter
 			writer.attribute( "u", "sng" );
 		}
 		writer.attribute( "sz",  canvas.getScaledValue( info.getFontSize( ) * 100 ) );
+		
 		boolean isItalic = ( info.getFontStyle( ) & Font.ITALIC ) != 0;
 		boolean isBold = ( info.getFontStyle( ) & Font.BOLD ) != 0;
 		if ( isItalic )
