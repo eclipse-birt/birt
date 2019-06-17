@@ -1043,5 +1043,28 @@ public class Statement implements IQuery
 				methodName,
 				"No named Parameter supported.",
 				e );
-	}	
+	}
+	
+	/**
+	 * This API is meant to execute the update/DML sql query. 
+	 * @return
+	 * @throws OdaException
+	 */
+	public int executeUpdate( ) throws OdaException
+	{
+		
+		logger.logp( java.util.logging.Level.FINER,
+				Statement.class.getName( ),
+				"executeQuery",
+				"Statement.executeQuery( )" );
+		assertNotNull( preStat );
+		try
+		{
+			return this.preStat.executeUpdate();
+		}
+		catch ( SQLException e )
+		{
+			throw new JDBCException( ResourceConstants.QUERY_EXECUTE_FAIL , e );
+		}
+	}
 }

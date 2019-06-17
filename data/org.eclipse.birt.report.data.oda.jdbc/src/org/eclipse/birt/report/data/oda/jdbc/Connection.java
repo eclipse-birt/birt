@@ -162,6 +162,11 @@ public class Connection implements IConnection
 			}
 			connectByUrl( url, connProperties );
 		}
+		//Set the app context with this connection to be used
+		if (this.appContext != null)
+		{
+			this.appContext.put(Constants.ODACurrentOpenConnection, this.jdbcConn);
+		}
 		logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is opened");
 		updateAppContext (connProperties);
 	}
@@ -177,6 +182,7 @@ public class Connection implements IConnection
 		if (appContext == null)
 			appContext = new HashMap();
 		appContext.put(Constants.CONNECTION_PROPERTIES_STR, connProperties);
+		//appContext.put("rawConnection", jdbcConn);
 	}
 	
 	/**
@@ -601,6 +607,7 @@ public class Connection implements IConnection
 		public static final String TRANSACTION_SERIALIZABLE = "serializable";
 		public static final String CONNECTION_PROPERTIES_STR = "connectionProperties";
 		public static final String ODAResourceIdentiers = "odaResourceIdentifiers";
+		public static final String ODACurrentOpenConnection = "odaJDBCCurrentOpenConnection";
 		
 		public static int getIsolationMode( String value )
 		{
