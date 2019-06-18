@@ -168,7 +168,6 @@ public class Connection implements IConnection
 		{
 			this.appContext.put(Constants.ODACurrentOpenConnection, this.jdbcConn);
 		}
-		
 		logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is opened");
 		updateAppContext (connProperties);
 	}
