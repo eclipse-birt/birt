@@ -182,7 +182,6 @@ public class Connection implements IConnection
 		if (appContext == null)
 			appContext = new HashMap();
 		appContext.put(Constants.CONNECTION_PROPERTIES_STR, connProperties);
-		//appContext.put("rawConnection", jdbcConn);
 	}
 	
 	/**
