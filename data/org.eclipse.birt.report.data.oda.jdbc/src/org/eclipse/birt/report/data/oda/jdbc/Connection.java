@@ -162,11 +162,13 @@ public class Connection implements IConnection
 			}
 			connectByUrl( url, connProperties );
 		}
+		
 		//Set the app context with this connection to be used
 		if (this.appContext != null)
 		{
 			this.appContext.put(Constants.ODACurrentOpenConnection, this.jdbcConn);
 		}
+		
 		logger.log(Level.FINER, "JDBC connection: " + jdbcConn + " is opened");
 		updateAppContext (connProperties);
 	}
