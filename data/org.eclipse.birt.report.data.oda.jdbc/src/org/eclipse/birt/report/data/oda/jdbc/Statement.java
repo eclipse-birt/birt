@@ -1055,8 +1055,8 @@ public class Statement implements IQuery
 		
 		logger.logp( java.util.logging.Level.FINER,
 				Statement.class.getName( ),
-				"executeQuery",
-				"Statement.executeQuery( )" );
+				"executeUpdate",
+				"Statement.executeUpdate( )" );
 		assertNotNull( preStat );
 		try
 		{
