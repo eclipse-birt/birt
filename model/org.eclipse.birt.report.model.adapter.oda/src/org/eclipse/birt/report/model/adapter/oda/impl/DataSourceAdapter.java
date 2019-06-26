@@ -12,6 +12,7 @@ import org.eclipse.datatools.connectivity.oda.design.Property;
 import org.eclipse.datatools.connectivity.oda.design.util.DesignUtil;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EcoreUtil;
+import org.eclipse.emf.ecore.util.EcoreUtil.EqualityHelper;
 
 /*******************************************************************************
  * Copyright (c) 2004 Actuate Corporation. All rights reserved. This program and
@@ -124,7 +125,12 @@ public class DataSourceAdapter extends AbstractDataAdapter
 	public void updateDataSourceHandle( DataSourceDesign sourceDesign,
 			OdaDataSourceHandle sourceHandle ) throws SemanticException
 	{
-		if ( sourceDesign == null || sourceHandle == null )
+		if ( sourceDesign == null
+				|| sourceHandle == null
+				|| ( sourceHandle.getExtends( ) != null )
+						&& isDataSourceHandleAndDataSourceDesignEqual(
+								sourceHandle,
+								sourceDesign ) )
 			return;
 
 		DesignUtil.validateObject( sourceDesign );
@@ -183,6 +189,28 @@ public class DataSourceAdapter extends AbstractDataAdapter
 		}
 
 		stack.commit( );
+	}
+	
+	public boolean isDataSourceHandleAndDataSourceDesignEqual(
+			OdaDataSourceHandle sourceHandle, DataSourceDesign sourceDesign )
+	{
+
+		EqualityHelper equalityHelper = new EcoreUtil.EqualityHelper( );
+		// compare public properties
+		Properties sourceHandlePublicProperties = newOdaPublicProperties(
+				sourceHandle.getExtensionPropertyDefinitionList( ),
+				sourceHandle );
+		if ( !equalityHelper.equals( sourceHandlePublicProperties,
+				sourceDesign.getPublicProperties( ) ) )
+		{
+			return false;
+		}
+
+		// compare private properties
+		Properties sourceHandlePrivateProperties = newOdaPrivateProperties(
+				sourceHandle.privateDriverPropertiesIterator( ) );
+		return equalityHelper.equals( sourceHandlePrivateProperties,
+				sourceDesign.getPrivateProperties( ) );
 	}
 
 	public boolean isEqualDataSourceDesign( DataSourceDesign designFromHandle,
