@@ -14,7 +14,6 @@ package org.eclipse.birt.core.framework.jar;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.InvalidRegistryObjectException;
 
 @SuppressWarnings("deprecation")
@@ -89,12 +88,6 @@ public class Extension implements IExtension
 	public IContributor getContributor( ) throws InvalidRegistryObjectException
 	{
 		return bundle.getContributor( );
-	}
-
-	public IPluginDescriptor getDeclaringPluginDescriptor( )
-			throws InvalidRegistryObjectException
-	{
-		return null;
 	}
 
 	public String getLabel( String arg0 ) throws InvalidRegistryObjectException

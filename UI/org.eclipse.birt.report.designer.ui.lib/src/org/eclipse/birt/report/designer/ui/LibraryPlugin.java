@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.ui;
 
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
 
@@ -20,11 +19,6 @@ import org.osgi.framework.BundleContext;
  */
 public class LibraryPlugin extends AbstractUIPlugin
 {
-
-	public LibraryPlugin( IPluginDescriptor descriptor )
-	{
-		super( descriptor );
-	}
 
 	public LibraryPlugin( )
 	{
