@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.pptx.tests
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.11.0.qualifier
 Require-Bundle: org.eclipse.birt.report.engine;bundle-version="4.2.3",
  org.eclipse.birt.report.engine.emitter.pptx;bundle-version="4.5.0",
  org.junit

@@ -2,13 +2,13 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: %plugin.name
 Bundle-SymbolicName: org.eclipse.birt.data.oda.mongodb.ui;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.11.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-Localization: plugin
 Require-Bundle: org.eclipse.ui,
  org.eclipse.core.runtime,
  org.eclipse.datatools.connectivity.oda.design.ui;bundle-version="[3.2.0,4.0.0)",
- org.eclipse.birt.data.oda.mongodb;bundle-version="[4.2.2, 5.0.0)"
+ org.eclipse.birt.data.oda.mongodb;bundle-version="[4.2.2,5.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.data.oda.mongodb.ui.Activator

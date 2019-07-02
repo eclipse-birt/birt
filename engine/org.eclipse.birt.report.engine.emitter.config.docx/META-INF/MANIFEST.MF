@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Docx Emitter Descriptor
 Bundle-SymbolicName: org.eclipse.birt.report.engine.emitter.config.docx;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.11.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy

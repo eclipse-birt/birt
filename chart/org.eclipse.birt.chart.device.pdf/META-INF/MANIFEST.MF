@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Chart Device PDF Extension
 Bundle-SymbolicName: org.eclipse.birt.chart.device.pdf; singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.11.0.qualifier
 Bundle-Activator: org.eclipse.birt.chart.device.pdf.plugin.ChartDevicePDFPlugin
 Bundle-Vendor: Eclipse BIRT Project
 Require-Bundle: org.eclipse.birt.chart.device.svg;bundle-version="4.7.0",

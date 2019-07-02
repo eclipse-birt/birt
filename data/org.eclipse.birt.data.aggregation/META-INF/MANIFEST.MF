@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Build-in Aggregation Plug-in
 Bundle-SymbolicName: org.eclipse.birt.data.aggregation;singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.11.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: org.eclipse.birt.data.aggregation.plugin.AggregationPlugin
 Bundle-ActivationPolicy: lazy
