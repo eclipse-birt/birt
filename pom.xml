@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt-parent</artifactId>
-	<version>4.9.0-SNAPSHOT</version>
+	<version>4.11.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
-		<birt.version>4.9.0</birt.version>
+		<birt.version>4.11.0</birt.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
 		<!--<build>v${maven.build.timestamp}</build>-->
@@ -23,7 +23,28 @@
             	<activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <eclipse.release.name>2018-09</eclipse.release.name>
+                <eclipse.release.name>2019-03</eclipse.release.name>
+                <tycho.version>1.0.0</tycho.version>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.11/</eclipse.repo.url>
+                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
+                <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
+				<wtp.repo.url>https://download.eclipse.org/webtools/downloads/drops/R3.13.0/R-3.13.0-20190308131645/repository/</wtp.repo.url>
+                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
+                <orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository/</orbit.repo.url>
+                <!-- https://eclipse.org/datatools/downloads.php  -->
+                <dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.105-SNAPSHOT/repository/</dtp.repo.url>
+                <jetty.version>9.4.15.v20190215</jetty.version>
+                <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
+                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+                <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+				<lucene.version>(3.0.0,7.6.0)</lucene.version>
+            </properties>
+        </profile>
+		<profile>
+            <id>2018-09</id>
+            <properties>
+				<eclipse.release.name>2018-09</eclipse.release.name>
                 <tycho.version>1.0.0</tycho.version>
                 <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.9/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
@@ -38,6 +59,7 @@
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
                 <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+				<lucene.version>(3.0.0,7.2.0)</lucene.version>
             </properties>
         </profile>
 		<profile>
@@ -58,6 +80,7 @@
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
                 <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+				<lucene.version>(3.0.0,7.2.0)</lucene.version>
             </properties>
         </profile>  
 	    <profile>
@@ -78,28 +101,9 @@
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
                 <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+				<lucene.version>(3.0.0,6.2.0)</lucene.version>
             </properties>
         </profile>        
-	    <profile>
-            <id>neon</id>
-            <properties>
-                <eclipse.release.name>neon</eclipse.release.name>
-                <tycho.version>1.0.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.6/</eclipse.repo.url>
-                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/updates/2.12/</emf.repo.url>
-                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
-                <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
-                <wtp.repo.url>http://download.eclipse.org/webtools/repository/neon/</wtp.repo.url>
-                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20170307180635/repository/</orbit.repo.url>
-                <!-- https://eclipse.org/datatools/downloads.php  -->
-                <dtp.repo.url>http://download.eclipse.org/datatools/updates/1.13/1.13.0.201603142002/repository</dtp.repo.url>
-                <jetty.version>9.3.9.v20160517</jetty.version>
-                <!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url-->
-                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
-                <mongodb.version>3.2.2.v20170222-2110</mongodb.version>
-            </properties>
-        </profile>
 		<profile>
 			<id>localdeps</id>
 			<properties>
@@ -302,7 +306,6 @@
 						</execution>
 					</executions>
 				</plugin>
-
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-p2-plugin</artifactId>
@@ -437,6 +440,35 @@
 							<id>org.eclipse.orbit.mongodb</id>
 							<restrictTo>
 								<version>${mongodb.version}</version>
+							</restrictTo>
+						</filter>
+						<!-- Restrict lucene version to specific range to avoid version conflict in 4.9 build-->
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.apache.lucene.core</id>
+							<restrictTo>
+							    <versionRange>${lucene.version}</versionRange>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.apache.lucene.analyzers-smartcn</id>
+							<restrictTo>
+								<versionRange>${lucene.version}</versionRange>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.apache.lucene.queryparser</id>
+							<restrictTo>
+								<versionRange>${lucene.version}</versionRange>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.apache.lucene.analyzers-common</id>
+							<restrictTo>
+								<versionRange>${lucene.version}</versionRange>
 							</restrictTo>
 						</filter>
 					</filters>

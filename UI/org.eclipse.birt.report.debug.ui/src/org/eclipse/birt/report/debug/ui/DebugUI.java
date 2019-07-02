@@ -18,7 +18,6 @@ import java.util.ResourceBundle;
 
 import org.eclipse.birt.report.debug.internal.ui.script.ScriptEvaluationContextManager;
 import org.eclipse.birt.report.designer.ui.util.ExceptionUtil;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -52,22 +51,6 @@ public class DebugUI extends AbstractUIPlugin
 	 * Constructor
 	 */
 	public DebugUI( )
-	{
-		plugin = this;
-		try
-		{
-			resourceBundle = ResourceBundle.getBundle( "org.eclipse.bird.report.debug.ui.DebugUIResources" ); //$NON-NLS-1$
-		}
-		catch ( MissingResourceException _ex )
-		{
-			resourceBundle = null;
-		}
-	}
-
-	/**
-	 * @param descriptor
-	 */
-	public DebugUI( IPluginDescriptor descriptor )
 	{
 		plugin = this;
 		try

@@ -2,7 +2,7 @@
 <feature
       id="org.eclipse.birt.engine.runtime"
       label="%featureName"
-      version="4.9.0.qualifier"
+      version="4.11.0.qualifier"
       provider-name="%providerName"
       image="eclipse_update_120.jpg">
 
@@ -638,11 +638,11 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.equinox.ds"
+         id="org.apache.felix.scr"
          download-size="0"
          install-size="0"
          version="0.0.0"
-         unpack="false"/>
+         unpack="false"/> 
 
    <plugin
          id="org.eclipse.equinox.event"
