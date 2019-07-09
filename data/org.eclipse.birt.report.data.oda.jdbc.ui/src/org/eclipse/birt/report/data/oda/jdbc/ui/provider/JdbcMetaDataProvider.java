@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Properties;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -44,6 +45,7 @@ public class JdbcMetaDataProvider
 	private Properties props;
 	private Connection connection;
 	private boolean connect_fail = false;
+	private static final String OT_SCHEMA_PREFIX = "OTSCPF";
 	
 	private static Logger logger = Logger.getLogger( JdbcMetaDataProvider.class.getName( ) );
 	
@@ -707,13 +709,43 @@ public class JdbcMetaDataProvider
 			public void run( )
 			{
 				ResultSet rs = JdbcMetaDataProvider.this.getAllSchemas( );
+				//As it’s Cassandra’s behavior to display all tables in all namespaces,
+				//user can pass "OTSCPF" as connection params inorder to  restrict to view in UI.
+				String odaDriver = JdbcMetaDataProvider.this.driverClass.toLowerCase();
+				boolean isCassandra = ( odaDriver !=null && odaDriver.indexOf("cassandra") != -1 );
+				String otscpfKeyspace = null; 
+				
+				if (isCassandra) {
+					String odaUrl = JdbcMetaDataProvider.this.url;
+
+					StringTokenizer st = new StringTokenizer(odaUrl, ";");
+					while (st.hasMoreTokens()) {
+						String key = st.nextToken().toUpperCase();
+						if (key.indexOf(OT_SCHEMA_PREFIX) == 0) {
+							int equalIndex = key.indexOf("=");
+							if (equalIndex != -1) {
+								otscpfKeyspace = key.substring(equalIndex + 1);
+							}
+							break;
+						}
+					}
+				}
+				
 				if ( rs != null )
 				{
 					try
 					{
 						while ( rs.next( ) )
 						{
-							names.add( rs.getString( "TABLE_SCHEM" ) ); //$NON-NLS-1$
+							String schemaName = rs.getString( "TABLE_SCHEM" );
+							if ( isCassandra && otscpfKeyspace != null ) {
+								if ( !schemaName.equalsIgnoreCase( otscpfKeyspace ) ) {
+									schemaName = null;
+								}
+							}
+							if ( schemaName != null ) {
+								names.add( schemaName  );
+							}
 						}
 					}
 					catch ( SQLException e )
