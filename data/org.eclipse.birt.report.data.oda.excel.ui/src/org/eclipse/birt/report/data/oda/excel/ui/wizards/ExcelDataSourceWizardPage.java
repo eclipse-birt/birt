@@ -18,7 +18,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
+import org.eclipse.birt.report.designer.data.ui.util.DTPUtil;
 import org.eclipse.datatools.connectivity.IConnectionProfile;
+import org.eclipse.datatools.connectivity.oda.design.DesignFactory;
+import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.internal.ui.NewDataSourceWizardBase;
 import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage;
 import org.eclipse.jface.wizard.IWizard;
@@ -186,4 +189,27 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage
 			pageStatusChangedListeners.get( i ).update( true );
 		}
 	}
+	
+	/**
+     * Returns the resource identifiers of the ODA consumer application, if available.
+     * @return  a ResourceIdentifiers instance; may be null if none is specified
+     * @since 3.0.7
+     */
+  protected ResourceIdentifiers getHostResourceIdentifiers()
+    {
+	  ResourceIdentifiers designResourceIds = super.getHostResourceIdentifiers();
+	  
+	  //Add support to show relative Path for browse button when used to create connection profile for Excel datasource 
+    	if(designResourceIds == null) {
+    		
+	  	designResourceIds = DesignFactory.eINSTANCE.createResourceIdentifiers( );
+    	designResourceIds.setApplResourceBaseURI( DTPUtil.getInstance( )
+    			.getBIRTResourcePath( ) );
+    	designResourceIds.setDesignResourceBaseURI( DTPUtil.getInstance( )
+    			.getReportDesignPath( ) );
+    	}
+    	
+        return designResourceIds;
+    	
+    }
 }
