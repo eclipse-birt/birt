@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?><?pde version="3.8"?><target includeMode="feature" name="BIRT Photon target platform">
 	<locations>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/eclipse/updates/4.8/"/>
+			<repository location="http://download.eclipse.org/eclipse/updates/4.11/"/>
 			<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
 			<unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.cvs.feature.group" version="0.0.0"/>
@@ -17,7 +17,7 @@
 			<unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/datatools/1.14.1.201712071719/repository/"/>
+			<repository location="https://download.eclipse.org/datatools/updates/1.14.105-SNAPSHOT/repository/"/>
 			<unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.datatools.connectivity.oda.designer.core.feature.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.datatools.connectivity.oda.designer.feature.feature.group" version="0.0.0"/>
@@ -36,7 +36,7 @@
 			<unit id="org.eclipse.gef.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/webtools/downloads/drops/R3.9.5/R-3.9.5-20180409100740/repository/"/>
+			<repository location="https://download.eclipse.org/webtools/downloads/drops/R3.13.0/R-3.13.0-20190308131645/repository/"/>
 			<unit id="org.eclipse.jst.enterprise_ui.feature.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.wst.jsdt.feature.feature.group" version="0.0.0"/>
 			<unit id="org.eclipse.jst.web_ui.feature.feature.group" version="0.0.0"/>
@@ -52,7 +52,7 @@
 			<repository location="http://download.eclipse.org/gemini/updates/web/3.0.4"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/"/>
+			<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository/"/>
 			<unit id="org.apache.batik.anim" version="0.0.0"/>
 			<unit id="org.apache.batik.bridge" version="0.0.0"/>
 			<unit id="org.apache.batik.codec" version="0.0.0"/>
