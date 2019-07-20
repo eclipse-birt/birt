@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class SortDefinition  implements java.io.Serializable {
-    private int columnIndex;
+    private static final long serialVersionUID = 1L;
+	private int columnIndex;
     private org.eclipse.birt.report.soapengine.api.SortingDirection sortDir;
 
     public SortDefinition() {

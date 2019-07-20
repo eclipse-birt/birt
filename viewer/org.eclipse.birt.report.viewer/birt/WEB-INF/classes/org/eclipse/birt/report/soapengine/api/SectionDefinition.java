@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class SectionDefinition  implements java.io.Serializable {
-    private java.lang.String id;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String id;
     private java.lang.String tableId;
     private java.lang.Integer level;
     private org.eclipse.birt.report.soapengine.api.SortingDirection sortDir;

@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class FormatRuleEffect  implements java.io.Serializable {
-    private java.lang.String font;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String font;
     private java.lang.Double size;
     private java.lang.String color;
     private java.lang.String backgroundColor;

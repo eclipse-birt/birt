@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class Update  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.UpdateContent updateContent;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.UpdateContent updateContent;
     private org.eclipse.birt.report.soapengine.api.UpdateDialog updateDialog;
     private org.eclipse.birt.report.soapengine.api.UpdateData updateData;
 

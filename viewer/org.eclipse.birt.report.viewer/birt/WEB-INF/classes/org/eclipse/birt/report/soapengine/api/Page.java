@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class Page  implements java.io.Serializable {
-    private java.lang.String pageNumber;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String pageNumber;
     private java.lang.String totalPage;
     private java.lang.Boolean completed;
     private java.lang.Boolean rtl;

@@ -4,6 +4,11 @@ jdk:
 cache:
   directories:
     - ~/.m2
-script: mvn -B --global-toolchains travis-maven-toolchain.xml clean package -DskipTests
-install:
-  -
+
+install: true
+script: ( set -o pipefail;
+        mvn -B --global-toolchains travis-maven-toolchain.xml clean install -DskipTests | grep -E '\[WARNING\]|\[ERROR\]' &&
+        mvn -B --global-toolchains travis-maven-toolchain.xml -pl :org.eclipse.birt.core.tests integration-test | grep -E '\[WARNING\]|\[ERROR\]' )
+before_cache:
+  - rm -r ~/.m2/repository/org/eclipse/birt
+  - rm -r ~/.m2/repository/.cache/tycho

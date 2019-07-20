@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ColumnProperties  implements java.io.Serializable {
-    private double width;
+    private static final long serialVersionUID = 1L;
+	private double width;
     private org.eclipse.birt.report.soapengine.api.Alignment alignment;
 
     public ColumnProperties() {

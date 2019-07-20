@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ResultSets  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.ResultSet[] resultSet;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.ResultSet[] resultSet;
 
     public ResultSets() {
     }

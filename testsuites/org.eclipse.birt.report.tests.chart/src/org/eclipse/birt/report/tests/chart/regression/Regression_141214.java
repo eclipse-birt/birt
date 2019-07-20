@@ -57,11 +57,6 @@ public class Regression_141214 extends ChartTestCase
 	private static String OUTPUT = "Regression_141214.jpg"; //$NON-NLS-1$
 
 	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * A chart model instance
 	 */
 	private Chart cm = null;

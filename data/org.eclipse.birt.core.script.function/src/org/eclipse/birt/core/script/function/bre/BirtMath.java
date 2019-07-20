@@ -21,11 +21,8 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
  */
 class BirtMath implements IScriptFunctionExecutor
 {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-	
+
 	private static final String PACKAGE_ID = "org.eclipse.birt.core.script.function.bre";
 	
 	private IScriptFunctionExecutor executor;

@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ChartProperties  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.ChartType type;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.ChartType type;
     private org.eclipse.birt.report.soapengine.api.ChartDataBinding dataBinding;
     private org.eclipse.birt.report.soapengine.api.ChartLabels labels;
     private org.eclipse.birt.report.soapengine.api.ChartAppearance apperance;

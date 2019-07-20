@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ChartDataBinding  implements java.io.Serializable {
-    private java.lang.String tableId;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String tableId;
     private org.eclipse.birt.report.soapengine.api.SectionDefinition section;
     private org.eclipse.birt.report.soapengine.api.AxisDataBinding XAxis;
     private org.eclipse.birt.report.soapengine.api.AxisDataBinding[] YAxis;

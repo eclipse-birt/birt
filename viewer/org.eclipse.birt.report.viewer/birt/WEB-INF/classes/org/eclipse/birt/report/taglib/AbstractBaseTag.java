@@ -29,6 +29,7 @@ public abstract class AbstractBaseTag extends TagSupport
 			ITagConstants
 {
 
+	private static final long serialVersionUID = 1L;
 	/**
 	 * Object that specifies tag supported attributes
 	 */

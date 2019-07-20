@@ -290,6 +290,8 @@ public final class WrappedInstruction implements IRenderInstruction
 				Serializable
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		private long getZOrder( Object o )
 		{
 			if ( o instanceof WrappedInstruction )

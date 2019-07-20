@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ToolbarState  implements java.io.Serializable {
-    /** can create a new report */
+    private static final long serialVersionUID = 1L;
+	/** can create a new report */
     private boolean canNew;
     private boolean canUndo;
     private boolean canRedo;

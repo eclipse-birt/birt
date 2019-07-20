@@ -4,7 +4,8 @@ Bundle-Name: BIRT Chart viewer
 Bundle-SymbolicName: org.eclipse.birt.chart.viewer;singleton:=true
 Bundle-Version: 4.11.0.qualifier
 Bundle-ClassPath: .,
- WebContent/WEB-INF/lib/
+ WebContent/WEB-INF/lib/,
+ chart-viewer.jar
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ActivationPolicy: lazy
 Require-Bundle: javax.servlet,
