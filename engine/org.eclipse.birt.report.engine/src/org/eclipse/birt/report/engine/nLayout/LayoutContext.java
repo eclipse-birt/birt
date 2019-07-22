@@ -381,6 +381,17 @@ public class LayoutContext
 		{
 			if ( isFixedLayout )
 			{
+				// by default, fixed layout will always create pageExecutor
+				// according to reporting's page number and page accordingly.
+				// When repaginateForPDF is on, pageExecutor will not be created
+				// and layout engine will re-paginate accordingly
+				Object repaginateForPDF = htmlLayoutContext.getLayoutEngine( )
+						.getOption( IPDFRenderOption.REPAGINATE_FOR_PDF );
+				if ( repaginateForPDF != null
+						&& ( (Boolean) repaginateForPDF ).booleanValue( ) )
+				{
+					return false;
+				}
 				return true;
 			}
 			else
