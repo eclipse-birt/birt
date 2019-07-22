@@ -381,6 +381,12 @@ public class LayoutContext
 		{
 			if ( isFixedLayout )
 			{
+				Object repaginateForPDF = htmlLayoutContext.getLayoutEngine( )
+						.getOption( IPDFRenderOption.REPAGINATE_FOR_PDF );
+				if ( repaginateForPDF != null && (boolean) repaginateForPDF )
+				{
+					return false;
+				}
 				return true;
 			}
 			else
