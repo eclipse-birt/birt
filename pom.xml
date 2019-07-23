@@ -18,7 +18,7 @@
 		<eclipse.release.name>photon</eclipse.release.name>
 		
 		<!-- Dependency Versions -->
-		<jetty.version>9.4.10.v20180503</jetty.version>
+		<jetty.version>9.4.15.v20190215</jetty.version>
 		<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
 		<lucene.version>(3.0.0,7.6.0)</lucene.version>
 	</properties>

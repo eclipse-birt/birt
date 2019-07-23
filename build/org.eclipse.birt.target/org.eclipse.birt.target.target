@@ -47,7 +47,7 @@
 			<unit id="org.eclipse.jst.common.fproj.enablement.jdt.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.10.v20180503"/>
+			<repository location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.15.v20190215"/>
 			<unit id="org.eclipse.jetty.bundles.f.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
