@@ -51,6 +51,10 @@
 			<unit id="org.eclipse.jetty.bundles.f.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="http://download.eclipse.org/rt/eclipselink/milestone-updates"/>
+			<unit id="jakarta.annotation-api" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<unit id="org.apache.jasper" version="0.0.0"/>
 			<repository location="http://download.eclipse.org/gemini/updates/web/3.0.4"/>
 		</location>
