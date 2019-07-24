@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Data Engine
 Bundle-SymbolicName: org.eclipse.birt.data; singleton:=true
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.11.0.qualifier
 Bundle-ClassPath: library.jar,
  .
 Bundle-Activator: org.eclipse.birt.data.engine.plugin.DataEnginePlugin

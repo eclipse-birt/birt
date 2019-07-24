@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: Tests Core Plug-in
 Bundle-SymbolicName: org.eclipse.birt.tests.core
-Bundle-Version: 4.9.0.qualifier
+Bundle-Version: 4.11.0.qualifier
 Require-Bundle: org.junit,
  org.eclipse.birt.report.engine,
  org.eclipse.birt.core

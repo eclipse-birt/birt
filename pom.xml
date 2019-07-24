@@ -3,11 +3,11 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.birt</groupId>
 	<artifactId>org.eclipse.birt-parent</artifactId>
-	<version>4.9.0-SNAPSHOT</version>
+	<version>4.11.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<properties>
-		<birt.version>4.9.0</birt.version>
+		<birt.version>4.11.0</birt.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
 		<!--<build>v${maven.build.timestamp}</build>-->
@@ -18,8 +18,9 @@
 		<eclipse.release.name>photon</eclipse.release.name>
 		
 		<!-- Dependency Versions -->
-		<jetty.version>9.4.10.v20180503</jetty.version>
+		<jetty.version>9.4.15.v20190215</jetty.version>
 		<mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+		<lucene.version>(3.0.0,7.6.0)</lucene.version>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -214,7 +215,6 @@
 						</execution>
 					</executions>
 				</plugin>
-
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>
 					<artifactId>tycho-p2-plugin</artifactId>
@@ -256,7 +256,7 @@
 						<artifact>
 							<groupId>org.eclipse.birt</groupId>
 							<artifactId>org.eclipse.birt.target</artifactId>
-							<version>4.9.0-SNAPSHOT</version>
+							<version>4.11.0-SNAPSHOT</version>
 						</artifact>
 					</target>
 					<environments>
@@ -365,6 +365,35 @@
 							<id>org.eclipse.orbit.mongodb</id>
 							<restrictTo>
 								<version>${mongodb.version}</version>
+							</restrictTo>
+						</filter>
+						<!-- Restrict lucene version to specific range to avoid version conflict in 4.9 build-->
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.apache.lucene.core</id>
+							<restrictTo>
+							    <versionRange>${lucene.version}</versionRange>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.apache.lucene.analyzers-smartcn</id>
+							<restrictTo>
+								<versionRange>${lucene.version}</versionRange>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.apache.lucene.queryparser</id>
+							<restrictTo>
+								<versionRange>${lucene.version}</versionRange>
+							</restrictTo>
+						</filter>
+						<filter>
+							<type>eclipse-plugin</type>
+							<id>org.apache.lucene.analyzers-common</id>
+							<restrictTo>
+								<versionRange>${lucene.version}</versionRange>
 							</restrictTo>
 						</filter>
 					</filters>

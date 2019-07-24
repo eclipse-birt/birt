@@ -74,6 +74,11 @@ public class Connection extends org.eclipse.birt.report.data.oda.jdbc.Connection
         {
             if( ! isOpen() )  
                 openJdbcConnection( connProperties );
+            if (this.jdbcConn != null && this.appContext != null)
+            {
+            	//Set the app context with this connection to be used
+            	this.appContext.put(Constants.ODACurrentOpenConnection, this.jdbcConn);
+	        }
         }
         catch( OdaException ex )
         {

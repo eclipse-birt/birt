@@ -115,7 +115,7 @@ public class ROMResultSetsHelper {
 			newColumn.setPosition( dataAttrs.getPosition( ) );
 			newColumn.setNativeName( dataAttrs.getName( ) );
 			newColumn.setDataType( getROMDataType( dataSourceId, dataSetId,	newColumn, oldColumn ) );			
-			nameSet.add( oldColumn.getColumnName( ) );
+			nameSet.add( oldColumn.getColumnName( ).toUpperCase( ) );
 		}
 		
 		// Create new Column for 2nd round*/
@@ -143,18 +143,18 @@ public class ROMResultSetsHelper {
 	}
 
 	private String getUniqueName(Set<String> nameSet, String newName) {
-		if ( nameSet.contains( newName ) )
+		if ( nameSet.contains( newName.toUpperCase( ) ) )
 		{
 			int i = 1;
 			String tmpName = newName + "_" + i;
-			while ( nameSet.contains( tmpName ) )
+			while ( nameSet.contains( tmpName.toUpperCase( ) ) )
 			{
 				i++;
 				tmpName = newName + "_" + i;
 			}
 			newName = tmpName;
 		}
-		nameSet.add(newName);
+		nameSet.add(newName.toUpperCase( ));
 		
 		return newName;
 	}

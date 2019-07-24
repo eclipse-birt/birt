@@ -17,7 +17,6 @@ import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IContributor;
 import org.eclipse.core.runtime.IExtension;
 import org.eclipse.core.runtime.IExtensionPoint;
-import org.eclipse.core.runtime.IPluginDescriptor;
 import org.eclipse.core.runtime.InvalidRegistryObjectException;
 
 @SuppressWarnings("deprecation")
@@ -111,12 +110,6 @@ public class ExtensionPoint implements IExtensionPoint
 	public IContributor getContributor( ) throws InvalidRegistryObjectException
 	{
 		return bundle.getContributor( );
-	}
-
-	public IPluginDescriptor getDeclaringPluginDescriptor( )
-	{
-		throw new UnsupportedOperationException(
-				"getDeclaringPluginDescriptor is not implemented yet" );
 	}
 
 	public IExtension getExtension( String extensionId )
