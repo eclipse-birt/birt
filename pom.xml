@@ -508,10 +508,10 @@
 				<configuration>
 					<toolchains>
 						<jdk>
-							<id>JavaSE-1.8</id>
-						</jdk>
-						<jdk>
 							<id>openjdk11</id>
+						</jdk>					
+						<jdk>
+							<id>JavaSE-1.8</id>
 						</jdk>
 					</toolchains>
 				</configuration>
