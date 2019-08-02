@@ -7,16 +7,11 @@ Bundle-Activator: uk.co.spudsoft.birt.emitters.excel.framework.ExcelEmitterPlugi
 Bundle-Vendor: SpudSoft
 Require-Bundle: org.eclipse.birt.report.engine,
  org.apache.poi;bundle-version="[3.9.0,4.0.0)",
- javax.xml.stream;bundle-version="[1.0.1,2.0.0)"
+ org.apache.poi.ooxml;bundle-version="[3.9.0,4.0.0)",
+ org.apache.poi.ooxml.schemas;bundle-version="[3.9.0,4.0.0)"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ClassPath: .,
- lib/commons-codec-1.5.jar,
- lib/dom4j-1.6.1.jar,
- lib/stax-api-1.0.1.jar,
- lib/xmlbeans-2.3.0.jar,
- lib/poi-3.9-20121203.jar,
- lib/poi-ooxml-3.9-20121203.jar,
- lib/poi-ooxml-schemas-3.9-20121203.jar
+ lib/commons-codec-1.5.jar
 Bundle-ActivationPolicy: lazy
 Export-Package: uk.co.spudsoft.birt.emitters.excel,
  uk.co.spudsoft.birt.emitters.excel.framework
