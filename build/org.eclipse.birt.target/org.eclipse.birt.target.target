@@ -64,11 +64,13 @@
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<repository location="http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.15.v20190215"/>
-			<unit id="org.eclipse.jetty.bundles.f.feature.group" version="0.0.0"/>
-		</location>
-		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/rt/eclipselink/milestone-updates/2.7.4.v20181220-9f76dd9c68_RC1"/>
-			<unit id="jakarta.annotation-api" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.osgi.boot" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.server" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.util" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.webapp" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.plus" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.http" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 			<unit id="org.apache.jasper" version="0.0.0"/>
