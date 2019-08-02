@@ -7,7 +7,7 @@
 	  <id>JavaSE-1.8</id>
     </provides>
     <configuration>
-      <jdkHome>/usr/lib/jvm/java-8-oracle/</jdkHome>
+      <jdkHome>/usr/lib/jvm/java-1.8.0-openjdk-amd64</jdkHome>
     </configuration>
   </toolchain>
 </toolchains>
