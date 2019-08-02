@@ -67,7 +67,7 @@
 			<unit id="org.eclipse.jetty.bundles.f.feature.group" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-			<repository location="http://download.eclipse.org/rt/eclipselink/milestone-updates"/>
+			<repository location="http://download.eclipse.org/rt/eclipselink/milestone-updates/2.7.4.v20181220-9f76dd9c68_RC1"/>
 			<unit id="jakarta.annotation-api" version="0.0.0"/>
 		</location>
 		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
