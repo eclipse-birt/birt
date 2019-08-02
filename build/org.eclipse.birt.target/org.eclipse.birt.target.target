@@ -96,11 +96,15 @@
 			<unit id="org.apache.commons.codec" version="0.0.0"/>
 			<unit id="org.apache.derby" version="0.0.0"/>
 			<unit id="org.apache.poi" version="0.0.0"/>
+			<unit id="org.apache.poi.ooxml" version="0.0.0"/>
+			<unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
 			<unit id="org.eclipse.orbit.mongodb" version="0.0.0"/>
 			<unit id="com.lowagie.text" version="0.0.0"/>
 			<unit id="javax.xml.stream" version="0.0.0"/>
 			<unit id="org.apache.lucene.analysis" version="0.0.0"/>
 			<unit id="javax.wsdl" version="1.5.1.v201012040544"/>
+			<unit id="org.dom4j" version="0.0.0"/>
+			<unit id="org.apache.xmlbeans" version="0.0.0"/>
 		</location>
 	</locations>
 </target>
