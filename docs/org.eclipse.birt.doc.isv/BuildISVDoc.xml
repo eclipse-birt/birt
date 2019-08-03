@@ -238,7 +238,8 @@
 						 windowtitle="Birt Engine API ${doc.version}"
 						 doctitle="BIRT Engine API ${doc.version} (Provisional)"
 						 source="1.6"
-						 packagenames="org.eclipse.birt.report.engine.api">
+						 packagenames="org.eclipse.birt.report.engine.api"
+						 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 			<fileset dir="${engine.dir}/src" defaultexcludes="yes">
 				<include name="**/api/*.java"/>
 				<include name="**/content/I*.java"/>
@@ -258,7 +259,8 @@
 						 windowtitle="Birt Script API ${doc.version}"
 						 doctitle="BIRT Script API ${doc.version} (Provisional)"
 						 source="1.6"
-						 packagenames="org.eclipse.birt.report.engine.api.*">
+						 packagenames="org.eclipse.birt.report.engine.api.*"
+						 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 			<fileset dir="${engine.dir}/src" defaultexcludes="yes">
 				<include name="**/api/script/**/*.java"/>
 			</fileset>
@@ -275,7 +277,8 @@
 							 windowtitle="BIRT Model API ${doc.version}"
 							 doctitle="BIRT Model API ${doc.version}"
 							 source="1.6"
-							 packagenames="org.eclipse.birt.report.model.*">
+							 packagenames="org.eclipse.birt.report.model.*"
+							 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 			<packageset dir="${model.dir}/src" defaultexcludes="yes">
 				<include name="org/eclipse/birt/report/model/api/**" />
 			</packageset>
@@ -292,7 +295,8 @@
 							 windowtitle="BIRT Data Engine API ${doc.version} Specification - Provisional"
 							 doctitle="BIRT Data Engine API ${doc.version} (Provisional)"
 							 source="1.6"
-							 packagenames="org.eclipse.birt.data.*">
+							 packagenames="org.eclipse.birt.data.*"
+							 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 				<packageset dir="${data.dir}/src" defaultexcludes="yes">
 					<include name="org/eclipse/birt/data/engine/api/**" />
 				</packageset>
@@ -325,7 +329,8 @@
 													 org.eclipse.birt.core.script,
 													 org.eclipse.birt.core.template,
 													 org.eclipse.birt.core.util"
-						 excludepackagenames="*.internal.*">
+						 excludepackagenames="*.internal.*"
+						 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 			<bottom><![CDATA[<i>Copyright &#169;  2008 Actuate Corp. All rights reserved. </i>]]></bottom>
 			<classpath refid="class.path" />
 		</javadoc>
@@ -346,7 +351,8 @@
 													 org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces,
 													 org.eclipse.birt.core.ui.swt.custom,
 													 org.eclipse.birt.core.ui.utils" 
-						 excludepackagenames="*.internal.*">
+						 excludepackagenames="*.internal.*"
+						 additionalparam="-Xmaxwarns 5 -Xdoclint:none">
 			<bottom><![CDATA[<i>Copyright &#169;  2008 Actuate Corp. All rights reserved. </i>]]></bottom>
 			<classpath refid="class.path" />
 		</javadoc>
