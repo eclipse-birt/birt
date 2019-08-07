@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
@@ -331,7 +332,8 @@ public class DimensionHandleTest extends BaseTestCase
 
 		DimensionHandle dimensionHandle = highlightHandle.getBorderRightWidth( );
 		assertNotNull( dimensionHandle );
-		dimensionHandle.setStringValue( "12.0mm" ); //$NON-NLS-1$
+		ULocale locale = designHandle.getModule().getLocale();
+		dimensionHandle.setStringValue(new NumberFormatter(locale).format(12.0) + "mm"); //$NON-NLS-1$
 
 		dimensionHandle = highlightHandle.getFontSize( );
 		dimensionHandle.setValue( "medium" ); //$NON-NLS-1$
