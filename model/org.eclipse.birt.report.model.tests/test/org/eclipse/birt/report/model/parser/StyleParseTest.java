@@ -240,7 +240,7 @@ public class StyleParseTest extends BaseTestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-
+	@Override
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -393,7 +393,7 @@ public class StyleParseTest extends BaseTestCase
 		// "[somefield]", style.getStringProperty( design,
 		// Style.MAP_TEST_EXPR_PROP ) ); //$NON-NLS-1$
 
-		List mapRules = (List) style.getProperty( design, Style.MAP_RULES_PROP );
+		List<?> mapRules = (List<?>) style.getProperty(design, Style.MAP_RULES_PROP);
 		assertEquals( 5, mapRules.size( ) );
 		assertEquals( DesignChoiceConstants.MAP_OPERATOR_EQ,
 				( (MapRule) mapRules.get( 0 ) ).getOperator( ) );
@@ -426,7 +426,7 @@ public class StyleParseTest extends BaseTestCase
 				"large", predefinedStyle.getStringProperty( design, Style.FONT_SIZE_PROP ) ); //$NON-NLS-1$
 
 		StyleHandle sh = (StyleHandle) style.getHandle( design );
-		Iterator iter = sh.mapRulesIterator( );
+		Iterator<?> iter = sh.mapRulesIterator();
 		assertNotNull( iter.next( ) );
 		assertNotNull( iter.next( ) );
 		assertNotNull( iter.next( ) );
@@ -705,7 +705,7 @@ public class StyleParseTest extends BaseTestCase
 	 */
 	public void testWriter( ) throws Exception
 	{
-		openDesign( fileName );
+		openDesign(fileName, ULocale.ENGLISH);
 
 		StyleHandle style = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
 		style
@@ -774,7 +774,7 @@ public class StyleParseTest extends BaseTestCase
 		openDesign( "StyleParseTest_1.xml" ); //$NON-NLS-1$
 
 		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
-		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
+		Iterator<?> highlightHandles = styleHandle.highlightRulesIterator();
 		assertNotNull( highlightHandles );
 
 		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles
@@ -1079,7 +1079,7 @@ public class StyleParseTest extends BaseTestCase
 		openDesign( "StyleParseTest_1.xml" ); //$NON-NLS-1$
 
 		StyleHandle styleHandle = designHandle.findStyle( "My-Style" ); //$NON-NLS-1$
-		Iterator highlightHandles = styleHandle.highlightRulesIterator( );
+		Iterator<?> highlightHandles = styleHandle.highlightRulesIterator();
 		assertNotNull( highlightHandles );
 
 		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) highlightHandles
