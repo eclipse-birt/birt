@@ -170,7 +170,7 @@ public class PropertyLocalizationTest extends BaseTestCase
     /**
      * list of test cases.
      */
-    List cases = new ArrayList( );
+	List<Case> cases = new ArrayList<Case>();
 
     /**
      * Data Structure for test. Every instance of the class represents an
@@ -194,7 +194,8 @@ public class PropertyLocalizationTest extends BaseTestCase
      * 
      * @see junit.framework.TestCase#setUp()
      */
-    protected void setUp( ) throws Exception
+	@Override
+	protected void setUp() throws Exception
     {
         super.setUp( );
         this.prepareCases( "input/input.txt" ); //$NON-NLS-1$
@@ -366,7 +367,8 @@ public class PropertyLocalizationTest extends BaseTestCase
             this.element = element;
         }
 
-        public DesignElement getElement( )
+		@Override
+		public DesignElement getElement()
         {
             return element;
         }
@@ -559,42 +561,36 @@ public class PropertyLocalizationTest extends BaseTestCase
         // 3. DateTime
         propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
                 PropertyType.DATE_TIME_TYPE );
-        SimpleDateFormat formatter = new SimpleDateFormat(
-                "yyyy-MM-dd HH:mm:ss" ); //$NON-NLS-1$ 
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$
         Date date = formatter.parse( "1981-04-29 06:10:50" ); //$NON-NLS-1$
 
         // The icu version change cause this to fail, change the input string
-        // (previous was "81-4-29") to accommodate
-        assertEquals(
-                "81/4/29", propertyType.toDisplayString( null, null, date ) ); //$NON-NLS-1$
+		// (previous was "81/4/29") to accommodate
+		assertEquals("1981/4/29", propertyType.toDisplayString(null, null, date)); //$NON-NLS-1$
 
         // 4. Number
         propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
                 PropertyType.NUMBER_TYPE );
         double d = 123456.78d;
         BigDecimal number = new BigDecimal( d );
-        assertEquals(
-                "123,456.78", propertyType.toDisplayString( null, null, number ) ); //$NON-NLS-1$
+		assertEquals("123,456.78", propertyType.toDisplayString(null, null, number)); //$NON-NLS-1$
 
         // 5. Float
         propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
                 PropertyType.FLOAT_TYPE );
         double d1 = 123456.78d;
         Double number1 = new Double( d1 );
-        assertEquals(
-                "123,456.78", propertyType.toDisplayString( null, null, number1 ) ); //$NON-NLS-1$
+		assertEquals("123,456.78", propertyType.toDisplayString(null, null, number1)); //$NON-NLS-1$
 
         // 6. Dimension
         propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
                 PropertyType.DIMENSION_TYPE );
         DimensionValue dimValue = new DimensionValue( 123456.78d,
                 DesignChoiceConstants.UNITS_CM );
-        assertEquals(
-                "123,456.78cm", propertyType.toDisplayString( null, null, dimValue ) ); //$NON-NLS-1$
+		assertEquals("123,456.78cm", propertyType.toDisplayString(null, null, dimValue)); //$NON-NLS-1$
 
         dimValue = new DimensionValue( 123456.78d, "mm" ); //$NON-NLS-1$
-        assertEquals(
-                "123,456.78mm", propertyType.toDisplayString( null, null, dimValue ) ); //$NON-NLS-1$
+		assertEquals("123,456.78mm", propertyType.toDisplayString(null, null, dimValue)); //$NON-NLS-1$
     }
 
     /**
@@ -640,6 +636,7 @@ public class PropertyLocalizationTest extends BaseTestCase
         }
         catch ( PropertyValueException e )
         {
+			// pass
         }
 
         // 2. DateTime
@@ -681,6 +678,7 @@ public class PropertyLocalizationTest extends BaseTestCase
         }
         catch ( PropertyValueException e )
         {
+			// pass
         }
         // fontWeights:
         propDefn.setDetails( MetaDataDictionary.getInstance( ).getChoiceSet(
@@ -757,9 +755,8 @@ public class PropertyLocalizationTest extends BaseTestCase
         propertyType = MetaDataDictionary.getInstance( ).getPropertyType(
                 PropertyType.DATE_TIME_TYPE );
         // The icu version change cause this to fail, change the input string
-        // (previous was "81-4-29") to accommodate
-        Date date = (Date) propertyType.validateInputString( null, null, null,
-                "81/4/29" ); //$NON-NLS-1$
+		// (previous was "81/4/29") to accommodate
+		Date date = (Date) propertyType.validateInputString(null, null, null, "1981/4/29"); //$NON-NLS-1$
         assertEquals( Calendar.APRIL, date.getMonth( ) );
         assertEquals( 29, date.getDate( ) );
         assertEquals( 81, date.getYear( ) );
