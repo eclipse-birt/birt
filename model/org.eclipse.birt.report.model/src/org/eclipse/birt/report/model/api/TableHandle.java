@@ -748,7 +748,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 
 	private List<FilterConditionHandle> checkFilters(Iterator<FilterConditionHandle> iter, String expr)
 	{
-		List<FilterConditionHandle> retValue = new ArrayList<>();
+		List<FilterConditionHandle> retValue = new ArrayList<FilterConditionHandle>();
 		while ( iter.hasNext( ) )
 		{
 			FilterConditionHandle condition = iter.next();
@@ -800,10 +800,10 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 			if ( detailcell == null )
 				continue;
 
-			Iterator it = detailcell.getContent( ).iterator( );
+			Iterator<DesignElementHandle> it = detailcell.getContent().iterator();
 			while ( it.hasNext( ) )
 			{
-				ReportItemHandle rptItem = (ReportItemHandle) it.next( );
+				DesignElementHandle rptItem = it.next();
 				if ( rptItem instanceof DataItemHandle )
 				{
 					return ( (DataItemHandle) rptItem ).getResultSetColumn( );
@@ -874,7 +874,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 			throw new SemanticError( element,
 					SemanticError.DESIGN_EXCEPTION_TABLE_NO_COLUMN_FOUND );
 		}
-		List columns = getColumns( ).getContents( );
+		List<DesignElementHandle> columns = getColumns().getContents();
 		if ( dpi <= 0 )
 		{
 			// Invalid dpi value. Try the value defined in the design file.

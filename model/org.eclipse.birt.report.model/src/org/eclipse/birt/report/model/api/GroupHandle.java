@@ -174,7 +174,8 @@ public abstract class GroupHandle extends ReportElementHandle
 	 *         on the group.
 	 */
 
-	public Iterator filtersIterator( )
+	@SuppressWarnings("unchecked")
+	public Iterator<FilterConditionHandle> filtersIterator()
 	{
 		PropertyHandle propHandle = getPropertyHandle( IGroupElementModel.FILTER_PROP );
 		assert propHandle != null;
