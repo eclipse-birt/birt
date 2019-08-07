@@ -24,6 +24,7 @@ import org.eclipse.birt.report.model.api.elements.SemanticError;
 import org.eclipse.birt.report.model.api.elements.table.LayoutTableModel;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 import org.eclipse.birt.report.model.api.util.DimensionUtil;
+import org.eclipse.birt.report.model.api.util.StringUtil;
 import org.eclipse.birt.report.model.core.DesignElement;
 import org.eclipse.birt.report.model.core.Module;
 import org.eclipse.birt.report.model.elements.ColumnHelper;
@@ -32,6 +33,8 @@ import org.eclipse.birt.report.model.elements.TableItem;
 import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
 import org.eclipse.birt.report.model.elements.interfaces.ITableItemModel;
+
+import com.ibm.icu.util.ULocale;
 
 /**
  * Represents a table element. A table has a localized caption and can repeat
@@ -711,21 +714,21 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 	 * @return a list containing matched filter conditions
 	 */
 
-	public List getFilters( int colIndex )
+	public List<FilterConditionHandle> getFilters( int colIndex )
 	{
 		if ( colIndex < 0 || colIndex >= getColumnCount( ) )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 
 		String expr = getResultSetColumn( colIndex );
 		if ( expr == null )
 			return null;
 
-		Iterator iter = filtersIterator( );
+		Iterator<FilterConditionHandle> iter = filtersIterator( );
 
-		List retValue = new ArrayList( );
+		List<FilterConditionHandle> retValue = new ArrayList<FilterConditionHandle>( );
 
 		// check filters in table
-		List tempList = checkFilters( iter, expr );
+		List<FilterConditionHandle> tempList = checkFilters( iter, expr );
 		if ( tempList != null )
 			retValue.addAll( tempList );
 
@@ -743,18 +746,17 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 		return retValue;
 	}
 
-	private List checkFilters( Iterator iter, String expr )
+	private List<FilterConditionHandle> checkFilters(Iterator<FilterConditionHandle> iter, String expr)
 	{
-		List retValue = new ArrayList( );
+		List<FilterConditionHandle> retValue = new ArrayList<>();
 		while ( iter.hasNext( ) )
 		{
-			FilterConditionHandle condition = (FilterConditionHandle) iter
-					.next( );
+			FilterConditionHandle condition = iter.next();
 			String curExpr = condition.getExpr( );
-			List cols = null;
+			List<IColumnBinding> cols = null;
 			try
 			{
-				cols = ExpressionUtil.extractColumnExpressions( curExpr, true );
+				cols = ExpressionUtil.extractColumnExpressions(curExpr, ExpressionUtil.ROW_INDICATOR);
 			}
 			catch ( BirtException e )
 			{
@@ -765,8 +767,7 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 			{
 				for ( int i = 0; i < cols.size( ); i++ )
 				{
-					String tmpExpr = ( (IColumnBinding) cols.get( i ) )
-							.getResultSetColumnName( );
+					String tmpExpr = cols.get(i).getResultSetColumnName();
 					if ( expr.equals( tmpExpr ) )
 					{
 						retValue.add( condition );
@@ -960,9 +961,12 @@ public class TableHandle extends ListingHandle implements ITableItemModel
 						SemanticError.DESIGN_EXCEPTION_TABLE_COLUMN_ILLEGAL_PERCENTAGE );
 			}
 			percent /= 100;
-			setWidth( String.valueOf( absoluteWidths.getMeasure( )
-					/ ( 1 - percent ) )
-					+ absoluteWidths.getUnits( ) );
+
+			ULocale locale = getModule().getLocale();
+			double value = absoluteWidths.getMeasure() / (1 - percent);
+			String stringValue = StringUtil.doubleToString(value, 2, locale);
+
+			setWidth(stringValue + absoluteWidths.getUnits());
 		}
 	}
 }
