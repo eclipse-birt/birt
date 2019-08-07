@@ -215,9 +215,9 @@ public class ChartReportItemUtil extends ChartItemUtil
 		{
 			List<GroupHandle> groupList = new ArrayList<GroupHandle>( );
 			SlotHandle groups = ( (ListingHandle) itemHandle ).getGroups( );
-			for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
+			for (Iterator<DesignElementHandle> iter = groups.iterator(); iter.hasNext();)
 			{
-				groupList.add( iter.next( ) );
+				groupList.add((GroupHandle) iter.next());
 			}
 
 			if ( groupList.size( ) == 0 )

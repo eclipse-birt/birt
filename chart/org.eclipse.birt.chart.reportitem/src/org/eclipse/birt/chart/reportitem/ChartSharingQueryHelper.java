@@ -225,9 +225,9 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 		if ( table != null )
 		{
 			SlotHandle groups = table.getGroups( );
-			for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
+			for ( Iterator<DesignElementHandle> iter = groups.iterator( ); iter.hasNext( ); )
 			{
-				groupList.add( iter.next( ) );
+				groupList.add( (GroupHandle) iter.next( ) );
 			}
 		}
 		return groupList;

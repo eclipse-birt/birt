@@ -22,7 +22,6 @@ import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 import org.eclipse.birt.report.model.api.GroupHandle;
 import org.eclipse.birt.report.model.api.LabelHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
-import org.eclipse.birt.report.model.api.ReportElementHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ReportItemThemeHandle;
 import org.eclipse.birt.report.model.api.TableHandle;
@@ -623,10 +622,10 @@ public class DocumentUtilTest extends BaseTestCase
 		openDesign( "reportItemThemeFromLib.xml" ); //$NON-NLS-1$
 		ReportDesignHandle newDesign = DocumentUtil.serialize( designHandle,
 				new ByteArrayOutputStream( ) );
-		List<ReportElementHandle> themes = newDesign.getSlot(
+		List<DesignElementHandle> themes = newDesign.getSlot(
 				IReportDesignModel.THEMES_SLOT ).getContents( );
 		HashSet<String> themeName = new HashSet<String>( );
-		for ( ReportElementHandle theme : themes )
+		for (DesignElementHandle theme : themes)
 		{
 			if ( theme instanceof ReportItemThemeHandle )
 			{
@@ -637,10 +636,10 @@ public class DocumentUtilTest extends BaseTestCase
 			}
 		}
 
-		List<ReportItemHandle> items = newDesign.getSlot(
+		List<DesignElementHandle> items = newDesign.getSlot(
 				IReportDesignModel.BODY_SLOT ).getContents( );
 		themeName.clear( );
-		for ( ReportItemHandle item : items )
+		for (DesignElementHandle item : items)
 		{
 			ReportItemHandle reportItem = (ReportItemHandle) item;
 			ReportItemThemeHandle theme = reportItem.getTheme( );
