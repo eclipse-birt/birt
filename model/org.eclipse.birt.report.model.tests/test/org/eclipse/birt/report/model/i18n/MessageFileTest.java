@@ -24,6 +24,8 @@ import org.eclipse.birt.report.model.api.olap.TabularMeasureGroupHandle;
 import org.eclipse.birt.report.model.elements.ReportDesign;
 import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Test message file consistency.
  * 
@@ -51,6 +53,7 @@ public class MessageFileTest extends BaseMessageFileTest
 	 * @seeorg.eclipse.birt.report.model.i18n.BaseMessageFileTest#
 	 * getMessageFileInputStream()
 	 */
+	@Override
 	protected InputStream getMessageFileInputStream( )
 	{
 		return ThreadResources.class.getResourceAsStream( DEFAULT_MESSAGE_FILE );
@@ -62,6 +65,7 @@ public class MessageFileTest extends BaseMessageFileTest
 	 * @see
 	 * org.eclipse.birt.report.model.i18n.BaseMessageFileTest#loadRomFiles()
 	 */
+	@Override
 	protected void loadRomFile( ) throws IOException
 	{
 		loadResourceKeys( ROM_DEF_NAME, ReportDesign.class
@@ -163,7 +167,7 @@ public class MessageFileTest extends BaseMessageFileTest
 
 	public void testDisplayNameOfTabularMeasureGroup( ) throws Exception
 	{
-		createDesign( );
+		createDesign(ULocale.ENGLISH);
 		TabularMeasureGroupHandle measureGroupHandle = designHandle
 				.getElementFactory( ).newTabularMeasureGroup( "" );
 		assertEquals( "Summary Field", measureGroupHandle.getName( ) );
