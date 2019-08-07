@@ -29,6 +29,8 @@ import org.eclipse.birt.report.model.elements.ReportItem;
 import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Test ReportItemHandle.
  * 
@@ -543,7 +545,7 @@ public class ReportItemHandleTest extends BaseTestCase
 
 	public void testProperties( ) throws Exception
 	{
-		openDesign( fileName );
+		openDesign(fileName, ULocale.ENGLISH);
 
 		LabelHandle labelHandle = (LabelHandle) designHandle
 				.findElement( "bodyLabel" ); //$NON-NLS-1$
