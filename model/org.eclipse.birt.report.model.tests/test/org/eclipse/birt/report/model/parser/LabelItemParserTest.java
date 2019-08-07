@@ -14,7 +14,9 @@ package org.eclipse.birt.report.model.parser;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.model.api.ActionHandle;
+import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.ErrorDetail;
 import org.eclipse.birt.report.model.api.Expression;
@@ -70,6 +72,7 @@ public class LabelItemParserTest extends ParserTestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -226,10 +229,11 @@ public class LabelItemParserTest extends ParserTestCase
 	public void testWriter( ) throws Exception
 	{
 		LabelHandle labelHandle = getLabel( );
+		NumberFormatter numberFormatter = new NumberFormatter(labelHandle.getModule().getLocale());
 
 		// set x to 7
 		labelHandle.setProperty( Label.X_PROP, "7mm" ); //$NON-NLS-1$
-		labelHandle.setProperty( Label.HEIGHT_PROP, "0.5mm" ); //$NON-NLS-1$
+		labelHandle.setProperty(Label.HEIGHT_PROP, numberFormatter.format(0.5) + "mm"); //$NON-NLS-1$
 
 		labelHandle.setProperty( Label.STYLE_PROP, null );
 
@@ -255,7 +259,7 @@ public class LabelItemParserTest extends ParserTestCase
 		assertEquals( ReportDesign.BODY_SLOT, labelHandle.getContainer( )
 				.findContentSlot( labelHandle ) );
 		labelHandle.setText( "Final day" ); //$NON-NLS-1$
-		labelHandle.setWidth( "5.0mm" ); //$NON-NLS-1$
+		labelHandle.setWidth("5mm"); //$NON-NLS-1$
 		labelHandle.setTextKey( "new text resource key" ); //$NON-NLS-1$
 		labelHandle.setHelpText( "new help text" ); //$NON-NLS-1$
 		labelHandle.setHelpTextKey( "new help text key" ); //$NON-NLS-1$
@@ -297,7 +301,7 @@ public class LabelItemParserTest extends ParserTestCase
 		}
 		catch ( DesignFileException e )
 		{
-			List list = e.getErrorList( );
+			List<ErrorDetail> list = e.getErrorList();
 			ErrorDetail detail = (ErrorDetail) list.get( 0 );
 			assertEquals( detail.getErrorCode( ),
 					NameException.DESIGN_EXCEPTION_DUPLICATE );
@@ -320,7 +324,7 @@ public class LabelItemParserTest extends ParserTestCase
 				.getMasterPages( ).get( 0 );
 		assertEquals( 2, masterPageHandle.getSlot( 0 ).getCount( ) );
 
-		Iterator it = masterPageHandle.getSlot( 0 ).iterator( );
+		Iterator<DesignElementHandle> it = masterPageHandle.getSlot(0).iterator();
 
 		assertEquals( "label1", ( (LabelHandle) it.next( ) ).getName( ) ); //$NON-NLS-1$
 		LabelHandle labelHandle = (LabelHandle) it.next( );

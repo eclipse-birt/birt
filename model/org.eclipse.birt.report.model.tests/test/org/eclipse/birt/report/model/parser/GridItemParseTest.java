@@ -34,6 +34,8 @@ import org.eclipse.birt.report.model.elements.TableRow;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 import org.eclipse.birt.report.model.metadata.ColorPropertyType;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * The test case of <code>GridItem</code> parser and writer.
  * <p>
@@ -298,7 +300,7 @@ public class GridItemParseTest extends ParserTestCase
 	 */
 	public void testWriter( ) throws Exception
 	{
-		openDesign( fileName );
+		openDesign(fileName, ULocale.ENGLISH);
 		GridHandle grid = (GridHandle) designHandle.findElement( "My grid" ); //$NON-NLS-1$
 
 		grid.setCaption( "new caption" ); //$NON-NLS-1$
