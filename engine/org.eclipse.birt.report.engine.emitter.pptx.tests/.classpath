@@ -2,12 +2,6 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry exported="true" kind="lib" path="libs/dom4j-1.6.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/poi-ooxml-3.10-FINAL.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/stax-api-1.0.1.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/xmlbeans-2.3.0.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/poi-3.10-FINAL.jar"/>
-	<classpathentry exported="true" kind="lib" path="libs/poi-ooxml-schemas-3.10-FINAL.jar"/>
 	<classpathentry kind="src" path="src/">
 		<attributes>
 			<attribute name="test" value="true"/>
