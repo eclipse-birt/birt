@@ -36,6 +36,8 @@ import org.eclipse.birt.report.model.api.util.UnicodeUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 import org.eclipse.birt.report.model.util.BaseTestCase;
 
+import com.ibm.icu.util.ULocale;
+
 /**
  * Unit test for DesignWriter, ReportDesignHandle.
  * <p>
@@ -77,6 +79,7 @@ public class DesignWriterTest extends BaseTestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp( ) throws Exception
 	{
 		openDesign( "DesignWriterTest.xml" ); //$NON-NLS-1$
@@ -108,19 +111,17 @@ public class DesignWriterTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testUTF8Encoding( ) throws Exception
 	{
 		try
 		{
-			openDesign( "DesignWriterTest_1.xml" ); //$NON-NLS-1$	
+			openDesign("DesignWriterTest_1.xml", ULocale.ENGLISH); //$NON-NLS-1$
 			fail( );
 		}
 		catch ( DesignFileException e )
 		{
-			List list = e.getErrorList( );
-			ErrorDetail tmp = (ErrorDetail) list.get( 0 );
-			assertEquals( tmp.getMessage( ), "Invalid byte 1 of 1-byte UTF-8 sequence.");
+			List<ErrorDetail> list = e.getErrorList();
+			assertTrue(list.get(0).getExceptionName().endsWith("MalformedByteSequenceException"));
 		}
 
 		createDesign( );
@@ -162,7 +163,6 @@ public class DesignWriterTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testBOMSignature( ) throws Exception
 	{
 		openDesign( "DesignWriterTest_UTF8BOM.xml" ); //$NON-NLS-1$
@@ -179,7 +179,6 @@ public class DesignWriterTest extends BaseTestCase
 	/**
 	 * @throws Exception
 	 */
-
 	public void testWriter( ) throws Exception
 	{
 		// test that writer will out write out default value for element or
@@ -209,7 +208,6 @@ public class DesignWriterTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testSave( ) throws Exception
 	{
 		openDesign( "DesignWriterTest.xml" ); //$NON-NLS-1$
@@ -220,7 +218,7 @@ public class DesignWriterTest extends BaseTestCase
 		if ( !f.exists( ) )
 			f.mkdirs( );
 
-		designHandle.setFileName( f.toURL( ) + "DesignWriterTest.xml" ); //$NON-NLS-1$
+		designHandle.setFileName(f.toURI().toURL() + "DesignWriterTest.xml"); //$NON-NLS-1$
 		designHandle.save( );
 	}
 
@@ -230,7 +228,6 @@ public class DesignWriterTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	private void readOutputFile( String outputFileName ) throws Exception
 	{
 		String fileContent = os.toString( "utf-8" ); //$NON-NLS-1$
@@ -248,7 +245,6 @@ public class DesignWriterTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testStructContainStrucut( ) throws Exception
 	{
 		// toc
@@ -278,7 +274,6 @@ public class DesignWriterTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testStructListContainStruct( ) throws Exception
 	{
 		// hightlightrule
@@ -294,7 +289,7 @@ public class DesignWriterTest extends BaseTestCase
 		formatValueToSet.setPattern( "yyyy/mm/dd" );//$NON-NLS-1$
 		rule.setProperty( TOC.DATE_TIME_FORMAT_MEMBER, formatValueToSet );
 
-		List list = new ArrayList( );
+		List<HighlightRule> list = new ArrayList<HighlightRule>();
 		list.add( rule );
 		styleHandle.getElement( )
 				.setProperty( IStyleModel.HIGHLIGHT_RULES_PROP, list );
