@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class FileBrowsing  implements java.io.Serializable {
-    private java.lang.String path;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String path;
     private java.lang.String fileName;
     private org.eclipse.birt.report.soapengine.api.FileSearch search;
     private java.lang.String pathSeparator;

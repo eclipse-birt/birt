@@ -22,6 +22,7 @@ import org.eclipse.birt.core.exception.BirtException;
 public abstract class ModelException extends BirtException
 {
 
+	private static final long serialVersionUID = 1L;
 	/**
 	 * The plugin id of all the model exceptions.
 	 */

@@ -26,6 +26,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 
 public class BirtDuration implements IScriptFunctionExecutor
 {
+	private static final long serialVersionUID = 1L;
 	private IScriptFunctionExecutor executor;
 	private static final String PLUGIN_ID = "org.eclipse.birt.core.function";
 	
@@ -82,6 +83,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	private static class Function_Year extends Function_temp
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		Function_Year( )
 		{
 			minParamCount = 1;
@@ -109,6 +112,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_Month extends Function_temp
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		Function_Month( )
 		{
@@ -138,6 +143,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	private static class Function_Day extends Function_temp
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		Function_Day( )
 		{
 			minParamCount = 1;
@@ -165,6 +172,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_Hours extends Function_temp
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		Function_Hours( )
 		{
@@ -194,6 +203,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	private static class Function_Seconds extends Function_temp
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		Function_Seconds( )
 		{
 			minParamCount = 1;
@@ -221,6 +232,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_TimeInMills extends Function_temp
 	{
+
+		private static final long serialVersionUID = 1L;
 
 		Function_TimeInMills( )
 		{
@@ -313,6 +326,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_Shorter extends Function_temp
 	{
+		private static final long serialVersionUID = 1L;
+
 		Function_Shorter( )
 		{
 			minParamCount = 2;
@@ -340,6 +355,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_GetSign extends Function_temp
 	{
+		private static final long serialVersionUID = 1L;
+
 		Function_GetSign( )
 		{
 			minParamCount = 1;
@@ -365,6 +382,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_Multiply extends Function_temp
 	{
+		private static final long serialVersionUID = 1L;
+
 		Function_Multiply( )
 		{
 			minParamCount = 2;
@@ -393,6 +412,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_Negate extends Function_temp
 	{
+		private static final long serialVersionUID = 1L;
+
 		Function_Negate( )
 		{
 			minParamCount = 1;
@@ -418,6 +439,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_Subtract extends Function_temp
 	{
+		private static final long serialVersionUID = 1L;
+
 		Function_Subtract( )
 		{
 			minParamCount = 2;
@@ -445,6 +468,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_Add extends Function_temp
 	{
+		private static final long serialVersionUID = 1L;
+
 		Function_Add( )
 		{
 			minParamCount = 2;
@@ -472,6 +497,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_AddTo extends Function_temp
 	{
+		private static final long serialVersionUID = 1L;
+
 		Function_AddTo( )
 		{
 			minParamCount = 2;
@@ -500,6 +527,8 @@ public class BirtDuration implements IScriptFunctionExecutor
 	
 	private static class Function_Compare extends Function_temp
 	{
+		private static final long serialVersionUID = 1L;
+
 		Function_Compare( )
 		{
 			minParamCount = 2;

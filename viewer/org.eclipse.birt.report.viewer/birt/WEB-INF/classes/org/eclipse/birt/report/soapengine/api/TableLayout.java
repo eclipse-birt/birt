@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class TableLayout  implements java.io.Serializable {
-    /** Design id of table */
+    private static final long serialVersionUID = 1L;
+	/** Design id of table */
     private long id;
     /** Number of sections */
     private int s_Count;

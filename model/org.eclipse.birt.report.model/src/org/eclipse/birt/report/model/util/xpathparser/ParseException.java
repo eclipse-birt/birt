@@ -14,7 +14,9 @@ import org.eclipse.birt.report.model.util.SecurityUtil;
  */
 public class ParseException extends Exception {
 
-  /**
+  private static final long serialVersionUID = 1L;
+
+/**
    * This constructor is used by the method "generateParseException"
    * in the generated parser.  Calling this constructor generates
    * a new object of this type with the fields "currentToken",

@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ChartLabels  implements java.io.Serializable {
-    private java.lang.String title;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String title;
     private java.lang.String XAxis;
     private java.lang.String[] YAxis;
 

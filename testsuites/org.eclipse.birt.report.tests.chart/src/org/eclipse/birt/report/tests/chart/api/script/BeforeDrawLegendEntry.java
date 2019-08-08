@@ -60,11 +60,6 @@ public class BeforeDrawLegendEntry extends ChartTestCase
 	private static String OUTPUT = "BeforeDrawLegendEntry.jpg"; //$NON-NLS-1$	
 
 	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * A chart model instance
 	 */
 	private Chart cm = null;

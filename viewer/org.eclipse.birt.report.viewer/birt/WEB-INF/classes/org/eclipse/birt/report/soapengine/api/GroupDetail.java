@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class GroupDetail  implements java.io.Serializable {
-    private int columnIdx;
+    private static final long serialVersionUID = 1L;
+	private int columnIdx;
     private java.lang.String groupOn;
     private boolean createSection;
     private int dataType;

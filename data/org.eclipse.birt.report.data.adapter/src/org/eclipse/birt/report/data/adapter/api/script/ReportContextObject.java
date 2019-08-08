@@ -40,11 +40,6 @@ public class ReportContextObject
 	
 	/**
 	 * 
-	 */
-	private static final long serialVersionUID = -4371236611622241157L;
-	
-	/**
-	 * 
 	 * @param module
 	 */
 	public ReportContextObject( ModuleHandle module )

@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class DesignState  implements java.io.Serializable {
-    private java.lang.Boolean isBlank;
+    private static final long serialVersionUID = 1L;
+	private java.lang.Boolean isBlank;
     private java.lang.Boolean editable;
     /** can create a new report */
     private java.lang.Boolean canNew;

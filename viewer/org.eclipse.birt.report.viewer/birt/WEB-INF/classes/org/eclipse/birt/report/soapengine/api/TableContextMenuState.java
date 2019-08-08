@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class TableContextMenuState  implements java.io.Serializable {
-    /** Can insert a chart in this section */
+    private static final long serialVersionUID = 1L;
+	/** Can insert a chart in this section */
     private boolean canAddChart;
     /** Can edit a chart in this section */
     private boolean canEditChart;

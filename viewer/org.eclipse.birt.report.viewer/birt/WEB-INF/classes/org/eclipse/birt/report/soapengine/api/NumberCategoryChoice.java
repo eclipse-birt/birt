@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class NumberCategoryChoice  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.CategoryChoice categoryChoice;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.CategoryChoice categoryChoice;
     private org.eclipse.birt.report.soapengine.api.Vector decimalPlaces;
     private org.eclipse.birt.report.soapengine.api.Vector symbol;
     private org.eclipse.birt.report.soapengine.api.Vector symbolPosition;

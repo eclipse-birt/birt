@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class ChartAppearance  implements java.io.Serializable {
-    private java.lang.Boolean showLegend;
+    private static final long serialVersionUID = 1L;
+	private java.lang.Boolean showLegend;
     private java.lang.Boolean showValues;
     private org.eclipse.birt.report.soapengine.api.ChartLocation location;
     private java.lang.String width;

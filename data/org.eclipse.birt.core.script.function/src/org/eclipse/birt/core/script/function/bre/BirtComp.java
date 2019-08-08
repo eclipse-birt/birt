@@ -35,11 +35,7 @@ import com.ibm.icu.text.Collator;
 public class BirtComp implements IScriptFunctionExecutor
 {
 
-
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 29055295217417372L;
+	private static final long serialVersionUID = 1L;
 
 	private static final String WRONG_ARGUMENT = "Wrong number of arguments for BirtComp function: {0}";
 
@@ -443,9 +439,6 @@ public class BirtComp implements IScriptFunctionExecutor
 	private static class Function_AnyOf implements IScriptFunctionExecutor
 	{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] args, IScriptFunctionContext context ) throws BirtException
@@ -493,9 +486,6 @@ public class BirtComp implements IScriptFunctionExecutor
 	private static class Function_Between implements IScriptFunctionExecutor
 	{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 		private boolean mode;
 
@@ -536,6 +526,7 @@ public class BirtComp implements IScriptFunctionExecutor
 	private static class Function_Compare implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
 		/**
 		 * 
 		 */
@@ -550,7 +541,6 @@ public class BirtComp implements IScriptFunctionExecutor
 		public static final int MODE_NOT_LIKE = 8;
 		public static final int MODE_COMPARE_STRING = 9;
 
-		private static final long serialVersionUID = 1L;
 		private int mode;
 
 		Function_Compare( int mode )

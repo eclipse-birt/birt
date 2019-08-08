@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class NumberCategoryChoiceList  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.NumberCategoryChoice[] numberCategoryChoice;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.NumberCategoryChoice[] numberCategoryChoice;
 
     public NumberCategoryChoiceList() {
     }

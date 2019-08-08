@@ -56,11 +56,6 @@ public class AfterRendering extends ChartTestCase
 	private static String OUTPUT = "AfterRendering.jpg"; //$NON-NLS-1$	
 
 	/**
-	 * Comment for <code>serialVersionUID</code>
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * A chart model instance
 	 */
 	private Chart cm = null;

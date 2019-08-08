@@ -25,11 +25,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
 class BirtStr implements IScriptFunctionExecutor
 {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 1L;
-
 	private IScriptFunctionExecutor executor;
 
 	BirtStr( String functionName ) throws BirtException
@@ -65,12 +61,8 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private static class Function_Left implements IScriptFunctionExecutor
 	{
-		private static final int maxArgumentNum = 2;
-
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
+		private static final int maxArgumentNum = 2;
 
 		/**
 		 * Returns the first n characters of the string str. If n is 0, an empty
@@ -134,12 +126,8 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private static class Function_Right implements IScriptFunctionExecutor
 	{
-		private static final int maxArgumentNum = 2;
-
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
+		private static final int maxArgumentNum = 2;
 
 		/**
 		 * Returns the last n characters of the string str. If n is 0, an empty
@@ -204,9 +192,6 @@ class BirtStr implements IScriptFunctionExecutor
 	private static class Function_Concat implements IScriptFunctionExecutor
 	{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		public Object execute( Object[] args ,IScriptFunctionContext context ) throws BirtException
@@ -226,12 +211,8 @@ class BirtStr implements IScriptFunctionExecutor
 
 	private static class Function_ToUpper implements IScriptFunctionExecutor
 	{
-		private static final int fixedArgumentNum = 1;
-
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
+		private static final int fixedArgumentNum = 1;
 
 		public Object execute( Object[] args ,IScriptFunctionContext context  ) throws BirtException
 		{
@@ -275,13 +256,9 @@ class BirtStr implements IScriptFunctionExecutor
 	private static class Function_ToLower implements IScriptFunctionExecutor
 	{
 
+		private static final long serialVersionUID = 1L;
 		private static final int fixedArgumentNum = 1;
 		
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 1L;
-
 		public Object execute( Object[] args,IScriptFunctionContext context  ) throws BirtException
 		{
 			if ( args == null )
@@ -321,12 +298,8 @@ class BirtStr implements IScriptFunctionExecutor
 	private static class Function_Trim implements IScriptFunctionExecutor
 	{
 
-		private static final int fixedArgumentNum = 1;
-
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
+		private static final int fixedArgumentNum = 1;
 
 		/**
 		 * Removes all leading and trailing blank characters (space, TAB etc.).
@@ -363,12 +336,8 @@ class BirtStr implements IScriptFunctionExecutor
 	private static class Function_TrimLeft implements IScriptFunctionExecutor
 	{
 
-		private static final int fixedArgumentNum = 1;
-
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
+		private static final int fixedArgumentNum = 1;
 
 		/**
 		 * Removes all leading blanks. Trailing blanks and blanks between words
@@ -410,12 +379,8 @@ class BirtStr implements IScriptFunctionExecutor
 	private static class Function_TrimRight implements IScriptFunctionExecutor
 	{
 
-		private static final int fixedArgumentNum = 1;
-
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
+		private static final int fixedArgumentNum = 1;
 
 		/**
 		 * Removes all trailing blanks. Leading blanks and blanks between words
@@ -459,9 +424,6 @@ class BirtStr implements IScriptFunctionExecutor
 	private static class Function_IndexOf implements IScriptFunctionExecutor
 	{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		private static final int minArgumentNum = 2;
@@ -537,9 +499,6 @@ class BirtStr implements IScriptFunctionExecutor
 	private static class Function_Search implements IScriptFunctionExecutor
 	{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
 
 		private static final int minArgumentNum = 2;
@@ -686,11 +645,7 @@ class BirtStr implements IScriptFunctionExecutor
 	private static class Function_CharLength implements IScriptFunctionExecutor
 	{
 
-		/**
-		 * 
-		 */
 		private static final long serialVersionUID = 1L;
-		
 		private static final int fixedArgumentNum = 1;
 
 		/**

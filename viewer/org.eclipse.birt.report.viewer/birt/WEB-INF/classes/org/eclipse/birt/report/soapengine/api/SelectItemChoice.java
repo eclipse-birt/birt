@@ -10,7 +10,8 @@ package org.eclipse.birt.report.soapengine.api;
 import org.eclipse.birt.report.IBirtConstants;
 
 public class SelectItemChoice  implements java.io.Serializable {
-    private java.lang.String value;
+    private static final long serialVersionUID = 1L;
+	private java.lang.String value;
     private java.lang.String label;
 
     public static final SelectItemChoice NULL_VALUE = new SelectItemChoice(

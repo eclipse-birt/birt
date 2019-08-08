@@ -27,6 +27,7 @@ import org.eclipse.birt.data.engine.impl.document.stream.StreamManager;
 public class SerializableBirtHash extends HashMap implements IIndexSerializer
 {
 
+	private static final long serialVersionUID = 1L;
 	public static int NULL_VALUE_OFFSET = -2;
 	public static int NOT_HASH_VALUE_OFFSET = -3;
 

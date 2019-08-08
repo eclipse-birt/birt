@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class IOList  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.IOReference[] IO;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.IOReference[] IO;
 
     public IOList() {
     }

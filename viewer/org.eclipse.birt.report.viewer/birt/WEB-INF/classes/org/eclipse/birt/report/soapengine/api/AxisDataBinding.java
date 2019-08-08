@@ -8,7 +8,8 @@
 package org.eclipse.birt.report.soapengine.api;
 
 public class AxisDataBinding  implements java.io.Serializable {
-    private org.eclipse.birt.report.soapengine.api.ColumnDefinition columnData;
+    private static final long serialVersionUID = 1L;
+	private org.eclipse.birt.report.soapengine.api.ColumnDefinition columnData;
     private org.eclipse.birt.report.soapengine.api.SectionDefinition sectionData;
 
     public AxisDataBinding() {

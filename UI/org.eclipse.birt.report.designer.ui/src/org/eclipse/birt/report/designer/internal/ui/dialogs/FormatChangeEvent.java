@@ -22,6 +22,8 @@ import org.eclipse.jface.util.Assert;
 public class FormatChangeEvent extends EventObject
 {
 
+	private static final long serialVersionUID = 1L;
+
 	/**
 	 * The name of the changed format.
 	 */

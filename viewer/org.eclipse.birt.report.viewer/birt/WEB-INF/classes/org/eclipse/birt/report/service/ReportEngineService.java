@@ -112,6 +112,8 @@ public class ReportEngineService
 	public static class DummyRemoteException extends RemoteException
 	{
 
+		private static final long serialVersionUID = 1L;
+
 		public DummyRemoteException( Throwable cause )
 		{
 			super( null, cause );
