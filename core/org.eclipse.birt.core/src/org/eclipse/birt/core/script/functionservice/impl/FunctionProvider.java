@@ -38,8 +38,9 @@ public class FunctionProvider
 	 */
 	public static void setFunctionProvider( IFunctionProvider provider )
 	{
-		if ( !isLoaded( ) )
+		if ( provider == null || !isLoaded( ) )
 		{
+			// Only initialize and close once
 			FunctionProvider.instance = provider;
 		}
 		else
