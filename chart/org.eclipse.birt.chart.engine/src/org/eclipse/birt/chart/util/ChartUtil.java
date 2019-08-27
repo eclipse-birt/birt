@@ -2202,6 +2202,12 @@ public class ChartUtil
 	public static String createDefaultFormatPattern( int datetimeLevel,
 			boolean keepHierarchy )
 	{
+		// until milliseconds are supported, chart should not fail
+		// because some milliseconds values have been found in the dataset
+		if ( datetimeLevel == com.ibm.icu.util.Calendar.MILLISECOND )
+		{
+			datetimeLevel = com.ibm.icu.util.Calendar.SECOND;
+		}
 		return keepHierarchy ? mapPatternHierarchy.get( datetimeLevel )
 				: mapPattern.get( datetimeLevel );
 	}
