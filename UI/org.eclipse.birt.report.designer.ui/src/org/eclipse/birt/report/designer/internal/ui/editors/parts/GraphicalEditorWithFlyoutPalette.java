@@ -132,7 +132,7 @@ public abstract class GraphicalEditorWithFlyoutPalette extends GraphicalEditor i
 			{
 				shellActiveFlag = true;
 				// Pre-fetch shell from site in case it could be disposed before async execution
-				Shell siteShell = getSite( ).getShell( );
+				final Shell siteShell = getSite( ).getShell( );
 				Display.getCurrent( ).asyncExec( new Runnable( ) {
 
 					public void run( )
