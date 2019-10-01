@@ -11,6 +11,9 @@
 
 package org.eclipse.birt.report.model.command;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.eclipse.birt.report.model.activity.AbstractElementCommand;
 import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.command.StyleException;
@@ -32,6 +35,8 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
 
 public class StyleCommand extends AbstractElementCommand
 {
+
+  private static final Logger LOG = Logger.getLogger(StyleCommand.class.getName());
 
 	/**
 	 * Constructor.
@@ -83,6 +88,7 @@ public class StyleCommand extends AbstractElementCommand
 		}
 		catch ( PropertyValueException e )
 		{
+			LOG.log(Level.SEVERE, "Property value invalid", e);
 			assert false;
 		}
 
