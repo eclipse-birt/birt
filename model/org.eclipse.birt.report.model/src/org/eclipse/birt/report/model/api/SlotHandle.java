@@ -261,7 +261,7 @@ public class SlotHandle extends ElementDetailHandle
 	 *         {@link DesignElementHandle}.
 	 */
 
-	public Iterator iterator( )
+	public Iterator<DesignElementHandle> iterator()
 	{
 		return new SlotIterator( this );
 	}
@@ -274,15 +274,15 @@ public class SlotHandle extends ElementDetailHandle
 	 *         contents.
 	 */
 
-	public List getContents( )
+	public List<DesignElementHandle> getContents()
 	{
-		List contents = getElement( ).getSlot( slotID ).getContents( );
+		List<DesignElement> contents = getElement().getSlot(slotID).getContents();
 
 		if ( contents == null )
-			return Collections.EMPTY_LIST;
+			return Collections.emptyList();
 
-		ArrayList retList = new ArrayList( );
-		for ( Iterator iter = contents.iterator( ); iter.hasNext( ); )
+		ArrayList<DesignElementHandle> retList = new ArrayList<DesignElementHandle>();
+		for (Iterator<DesignElement> iter = contents.iterator(); iter.hasNext();)
 		{
 			retList.add( ( (DesignElement) iter.next( ) )
 					.getHandle( getModule( ) ) );

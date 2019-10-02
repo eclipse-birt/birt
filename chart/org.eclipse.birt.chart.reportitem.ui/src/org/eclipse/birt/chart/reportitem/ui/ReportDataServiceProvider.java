@@ -839,9 +839,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 		if ( handle instanceof ListingHandle )
 		{
 			SlotHandle groups = ( (ListingHandle) handle ).getGroups( );
-			for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
+			for (Iterator<DesignElementHandle> iter = groups.iterator(); iter.hasNext();)
 			{
-				ChartBaseQueryHelper.handleGroup( iter.next( ),
+				ChartBaseQueryHelper.handleGroup((GroupHandle) iter.next(),
 						queryDefn,
 						modelAdapter );
 			}
@@ -3017,9 +3017,9 @@ public class ReportDataServiceProvider implements IDataServiceProvider
 			if ( table != null )
 			{
 				SlotHandle groups = table.getGroups( );
-				for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
+				for (Iterator<DesignElementHandle> iter = groups.iterator(); iter.hasNext();)
 				{
-					groupList.add( iter.next( ) );
+					groupList.add((GroupHandle) iter.next());
 				}
 			}
 			return groupList;

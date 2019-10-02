@@ -138,6 +138,7 @@ public abstract class BaseTestCase extends TestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
+	@Override
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -165,6 +166,7 @@ public abstract class BaseTestCase extends TestCase
 	 * @see junit.framework.TestCase#teardown()
 	 */
 
+	@Override
 	protected void tearDown( ) throws Exception
 	{
 		if ( beforeSerializedDesignHandle != null )

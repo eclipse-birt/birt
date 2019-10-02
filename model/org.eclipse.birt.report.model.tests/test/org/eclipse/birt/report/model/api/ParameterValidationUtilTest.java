@@ -25,6 +25,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 
 import com.ibm.icu.text.SimpleDateFormat;
 import com.ibm.icu.util.Calendar;
+import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
 /**
@@ -329,39 +330,30 @@ public class ParameterValidationUtilTest extends BaseTestCase
 		// in JAP locale
 
 		ThreadResources.setLocale( ULocale.JAPAN );
+		TimeZone timeZone = TimeZone.getTimeZone("Europe/Berlin");
 		String value = null;
-		final SimpleDateFormat formatPattern = new SimpleDateFormat(
-				"yyyy-MM-dd HH:mm:ss" ); //$NON-NLS-1$
+		final SimpleDateFormat formatPattern = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$
+		formatPattern.setTimeZone(timeZone);
 		Calendar dateCal = Calendar.getInstance( ThreadResources.getLocale( ) );
 		dateCal.set( 1998, 8, 13, 20, 1, 44 );
-		DateFormatter formatter = new DateFormatter( ThreadResources
-				.getLocale( ) );
+		dateCal.setTimeZone(timeZone);
+		DateFormatter formatter = new DateFormatter(ThreadResources.getLocale(), timeZone);
 		formatter.applyPattern( format );
 		value = formatter.format( dateCal.getTime( ) );
-		String resultJAP = formatPattern.format( ParameterValidationUtil
-				.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME, format,
-						value, ULocale.JAPAN ) == null
-				? null
-				: ParameterValidationUtil.validate(
-						DesignChoiceConstants.PARAM_TYPE_DATETIME, format,
-						value, ULocale.JAPAN ) );
+		String resultJAP = formatPattern.format(ParameterValidationUtil
+				.validate(DesignChoiceConstants.PARAM_TYPE_DATETIME, format, value, ULocale.JAPAN, timeZone));
 		assertEquals( result, resultJAP );
 
 		// in EN locale
-
 		ThreadResources.setLocale( ULocale.ENGLISH );
 		dateCal = Calendar.getInstance( ThreadResources.getLocale( ) );
 		dateCal.set( 1998, 8, 13, 20, 1, 44 );
-		formatter = new DateFormatter( ThreadResources.getLocale( ) );
+		dateCal.setTimeZone(timeZone);
+		formatter = new DateFormatter(ThreadResources.getLocale(), timeZone);
 		formatter.applyPattern( format );
 		value = formatter.format( dateCal.getTime( ) );
 		String resultEN = formatPattern.format( ParameterValidationUtil
-				.validate( DesignChoiceConstants.PARAM_TYPE_DATETIME, format,
-						value, ULocale.ENGLISH ) == null
-				? null
-				: ParameterValidationUtil.validate(
-						DesignChoiceConstants.PARAM_TYPE_DATETIME, format,
-						value, ULocale.ENGLISH ) );
+				.validate(DesignChoiceConstants.PARAM_TYPE_DATETIME, format, value, ULocale.ENGLISH, timeZone));
 		assertEquals( result, resultEN );
 
 		// the two result value is equal.

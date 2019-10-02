@@ -132,7 +132,8 @@ public abstract class ListingHandle extends ReportItemHandle
 	 *         on a table or list.
 	 */
 
-	public Iterator filtersIterator( )
+	@SuppressWarnings("unchecked")
+	public Iterator<FilterConditionHandle> filtersIterator()
 	{
 		PropertyHandle propHandle = getPropertyHandle( IListingElementModel.FILTER_PROP );
 		assert propHandle != null;

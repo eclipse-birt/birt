@@ -42,6 +42,7 @@ public class MasterPageHandleTest extends BaseTestCase
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
+	@Override
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -175,8 +176,8 @@ public class MasterPageHandleTest extends BaseTestCase
 		// will be cleared.
 
 		page.setPageType( DesignChoiceConstants.PAGE_SIZE_CUSTOM );
-		page.setStringProperty( MasterPage.HEIGHT_PROP, "12.0in" ); //$NON-NLS-1$
-		page.setStringProperty( MasterPage.WIDTH_PROP, "10.0in" ); //$NON-NLS-1$
+		page.setStringProperty(MasterPage.HEIGHT_PROP, "12in"); //$NON-NLS-1$
+		page.setStringProperty(MasterPage.WIDTH_PROP, "10in"); //$NON-NLS-1$
 
 		assertEquals( "12in", page.getStringProperty( MasterPage.HEIGHT_PROP ) ); //$NON-NLS-1$
 		assertEquals( "10in", page.getStringProperty( MasterPage.WIDTH_PROP ) ); //$NON-NLS-1$
@@ -230,8 +231,8 @@ public class MasterPageHandleTest extends BaseTestCase
 		// and page type is custom.
 		page.setOrientation( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE );
 		page.setPageType( DesignChoiceConstants.PAGE_SIZE_CUSTOM );
-		page.setStringProperty( MasterPage.HEIGHT_PROP, "12.0in" ); //$NON-NLS-1$
-		page.setStringProperty( MasterPage.WIDTH_PROP, "10.0in" ); //$NON-NLS-1$
+		page.setStringProperty(MasterPage.HEIGHT_PROP, "12in"); //$NON-NLS-1$
+		page.setStringProperty(MasterPage.WIDTH_PROP, "10in"); //$NON-NLS-1$
 
 		assertEquals( "12in", page.getHeight( ).getStringValue( ) ); //$NON-NLS-1$
 		assertEquals( "10in", page.getWidth( ).getStringValue( ) ); //$NON-NLS-1$

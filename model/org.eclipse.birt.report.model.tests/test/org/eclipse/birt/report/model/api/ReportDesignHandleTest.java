@@ -14,6 +14,7 @@ package org.eclipse.birt.report.model.api;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -731,10 +732,7 @@ public class ReportDesignHandleTest extends BaseTestCase
 
 		String outputPath = getTempFolder( ) + OUTPUT_FOLDER;
 		File outputFolder = new File( outputPath );
-		if ( !outputFolder.exists( ) && !outputFolder.mkdir( ) )
-		{
-			throw new IOException( "Can not create the output folder" ); //$NON-NLS-1$
-		}
+		Files.createDirectories(outputFolder.toPath());
 
 		ElementFactory factory = new ElementFactory( design );
 		GridHandle grid = factory.newGridItem( "new grid" ); //$NON-NLS-1$

@@ -111,13 +111,11 @@ public class PeerExtensionTest extends BaseTestCase
 	/**
 	 * The extension do not have its own model.
 	 */
-
 	private static final String FILE_NAME_4 = "PeerExtensionTest_4.xml"; //$NON-NLS-1$
 
 	/**
 	 * The extension validation should be called on the nested extended items.
 	 */
-
 	private static final String FILE_NAME_14 = "PeerExtensionTest_14.xml"; //$NON-NLS-1$	
 
 	private static final String FILE_NAME_15 = "PeerExtensionTest_15.xml"; //$NON-NLS-1$
@@ -125,15 +123,9 @@ public class PeerExtensionTest extends BaseTestCase
 	/**
 	 * Test cases for the allowExpression in extension elements.
 	 */
-
 	private static final String FILE_NAME_16 = "PeerExtensionTest_16.xml"; //$NON-NLS-1$
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see junit.framework.TestCase#setUp()
-	 */
-
+	@Override
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -146,7 +138,6 @@ public class PeerExtensionTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testVirtualExtension( ) throws Exception
 	{
 		openDesign( FILE_NAME_5 );
@@ -160,7 +151,6 @@ public class PeerExtensionTest extends BaseTestCase
 	 * Tests the parser for the extension and the TestPeer--implementation of
 	 * IPeer.
 	 */
-
 	public void testExtensionMeta( )
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
@@ -197,7 +187,7 @@ public class PeerExtensionTest extends BaseTestCase
 				"Element.TestingBox.slot.header", slotPropertyDefn.getDisplayNameID( ) ); //$NON-NLS-1$
 		assertEquals( "defaultHeader", slotPropertyDefn.getDisplayName( ) ); //$NON-NLS-1$
 		assertFalse( slotPropertyDefn.isList( ) );
-		List allowedElements = slotPropertyDefn.getAllowedElements( false );
+		List<IElementDefn> allowedElements = slotPropertyDefn.getAllowedElements(false);
 		assertEquals( 3, allowedElements.size( ) );
 		assertTrue( allowedElements.contains( dd
 				.getElement( ReportDesignConstants.LABEL_ITEM ) ) );
@@ -226,17 +216,16 @@ public class PeerExtensionTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testParser( ) throws Exception
 	{
-		openDesign( FILE_NAME );
+		openDesign(FILE_NAME, ULocale.US);
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "testBox" ); //$NON-NLS-1$
 		assertNotNull( extendedItem );
 
 		// test the list property
 
-		List points = (List) extendedItem.getProperty( POINTS_PROP_NAME );
+		List<?> points = (List<?>) extendedItem.getProperty(POINTS_PROP_NAME);
 		assertEquals( 3, points.size( ) );
 		assertEquals( 13.1, ( (Double) points.get( 0 ) ).doubleValue( ), 0.001 );
 		assertEquals( 14, ( (Double) points.get( 1 ) ).doubleValue( ), 0.001 );
@@ -295,10 +284,9 @@ public class PeerExtensionTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testWriter( ) throws Exception
 	{
-		openDesign( FILE_NAME );
+		openDesign(FILE_NAME, ULocale.US);
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "testBox" ); //$NON-NLS-1$
 		assertNotNull( extendedItem );
@@ -330,7 +318,6 @@ public class PeerExtensionTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testPropertySearch( ) throws Exception
 	{
 		openDesign( FILE_NAME_1 );
@@ -386,10 +373,9 @@ public class PeerExtensionTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testCommand( ) throws Exception
 	{
-		openDesign( FILE_NAME );
+		openDesign(FILE_NAME, ULocale.US);
 		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
 				.findElement( "testBox" ); //$NON-NLS-1$
 		assertNotNull( extendedItem );
@@ -428,6 +414,7 @@ public class PeerExtensionTest extends BaseTestCase
 		}
 		catch ( SemanticException e )
 		{
+			// pass
 		}
 		contentExtendedItem.drop( );
 		assertEquals( 0, propHandle.getContentCount( ) );
@@ -488,7 +475,6 @@ public class PeerExtensionTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testExtensionNameProp( ) throws Exception
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
@@ -555,7 +541,6 @@ public class PeerExtensionTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testExtensionAllowedUnits( ) throws Exception
 	{
 
@@ -749,7 +734,7 @@ public class PeerExtensionTest extends BaseTestCase
 
 		extendedItem.setProperty( "cube", "Customer Cube" );//$NON-NLS-1$//$NON-NLS-2$
 
-		Iterator iterator = cubeHandle.clientsIterator( );
+		Iterator<?> iterator = cubeHandle.clientsIterator();
 		assertTrue( iterator.hasNext( ) );
 		DesignElementHandle client = (DesignElementHandle) iterator.next( );
 		assertEquals( "testTable", client.getName( ) );//$NON-NLS-1$
@@ -770,7 +755,7 @@ public class PeerExtensionTest extends BaseTestCase
 				.findElement( "testBox" ); //$NON-NLS-1$
 		assertNotNull( extendedItem );
 
-		List retList = extendedItem.getMethods( "onRender" ); //$NON-NLS-1$
+		List<?> retList = extendedItem.getMethods("onRender"); //$NON-NLS-1$
 		assertFalse( retList.isEmpty( ) );
 		IMethodInfo method = (IMethodInfo) retList.get( 0 );
 		assertEquals( "getMethod1", method.getName( ) ); //$NON-NLS-1$
@@ -786,7 +771,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( "performOnCreate", method.getName( ) ); //$NON-NLS-1$
 		assertEquals( "java.lang.String", method.getReturnType( ) ); //$NON-NLS-1$
 
-		Iterator arguList = method.argumentListIterator( );
+		Iterator<IArgumentInfoList> arguList = method.argumentListIterator();
 		IArgumentInfoList argus = (IArgumentInfoList) arguList.next( );
 		IArgumentInfo argu = (IArgumentInfo) argus.argumentsIterator( ).next( );
 
@@ -833,7 +818,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( "Data Set", matrix1 //$NON-NLS-1$
 				.getProperty( ReportItemHandle.DATA_SET_PROP ) );
 
-		Iterator columns = matrix1.columnBindingsIterator( );
+		Iterator<?> columns = matrix1.columnBindingsIterator();
 		ComputedColumnHandle column = (ComputedColumnHandle) columns.next( );
 		verifyColumnValues( column );
 
@@ -874,7 +859,7 @@ public class PeerExtensionTest extends BaseTestCase
 				.getProperty( "multiViews" ); //$NON-NLS-1$
 		assertNotNull( view1 );
 
-		List views = view1.getListProperty( MultiViewsHandle.VIEWS_PROP );
+		List<?> views = view1.getListProperty(MultiViewsHandle.VIEWS_PROP);
 		assertEquals( 2, views.size( ) );
 
 		ExtendedItemHandle box1 = (ExtendedItemHandle) views.get( 0 );
@@ -929,7 +914,7 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( "1.2", extendedHandle.getExtensionVersion( ) ); //$NON-NLS-1$
 
 		// test property map: contains
-		Map propMap = extendedHandle.getUndefinedProperties( );
+		Map<String, UndefinedPropertyInfo> propMap = extendedHandle.getUndefinedProperties();
 
 		// invalid simple property
 		String propName = "shape"; //$NON-NLS-1$
@@ -943,7 +928,7 @@ public class PeerExtensionTest extends BaseTestCase
 		// invalid simple list property
 		propName = "points"; //$NON-NLS-1$
 		propInfor = (UndefinedPropertyInfo) propMap.get( propName );
-		List valueList = (List) propInfor.getValue( );
+		List<?> valueList = (List<?>) propInfor.getValue();
 		assertEquals( 3, valueList.size( ) );
 		assertEquals( "13.1", valueList.get( 0 ) ); //$NON-NLS-1$
 		assertEquals( "ttt", valueList.get( 1 ) ); //$NON-NLS-1$
@@ -955,11 +940,11 @@ public class PeerExtensionTest extends BaseTestCase
 		assertEquals( "123", propInfor.getValue( ) ); //$NON-NLS-1$
 
 		// test illegal children
-		Map illegalChildrenMap = extendedHandle.getIllegalContents( );
+		Map<String, List<IllegalContentInfo>> illegalChildrenMap = extendedHandle.getIllegalContents();
 
 		// detail slot has three
 		propName = "detail"; //$NON-NLS-1$
-		List illegalChildren = (List) illegalChildrenMap.get( propName );
+		List<?> illegalChildren = (List<?>) illegalChildrenMap.get(propName);
 		assertEquals( 3, illegalChildren.size( ) );
 		IllegalContentInfo info = (IllegalContentInfo) illegalChildren.get( 0 );
 		// the content has not been inserted to the tree
@@ -978,7 +963,7 @@ public class PeerExtensionTest extends BaseTestCase
 
 		// header slot has one illegal child
 		propName = "header"; //$NON-NLS-1$
-		illegalChildren = (List) illegalChildrenMap.get( propName );
+		illegalChildren = (List<?>) illegalChildrenMap.get(propName);
 		assertEquals( 1, illegalChildren.size( ) );
 		info = (IllegalContentInfo) illegalChildren.get( 0 );
 		assertEquals( "testData_2", info.getContent( ).getName( ) ); //$NON-NLS-1$
@@ -1054,17 +1039,17 @@ public class PeerExtensionTest extends BaseTestCase
 		assertNull( table1
 				.getFactoryPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP ) );
 
-		List rules = (List) table1.getReportItem( ).getProperty(
+		List<?> rules = (List<?>) table1.getReportItem().getProperty(
 				StyleHandle.HIGHLIGHT_RULES_PROP );
 		assertEquals( 1, rules.size( ) );
 
 		rules = table1.getListProperty( StyleHandle.HIGHLIGHT_RULES_PROP );
 		assertEquals( 1, rules.size( ) );
 
-		rules = (List) table2.getFactoryPropertyHandle(
+		rules = (List<?>) table2.getFactoryPropertyHandle(
 				StyleHandle.HIGHLIGHT_RULES_PROP ).getValue( );
 		assertEquals( 1, rules.size( ) );
-		rules = (List) table2.getReportItem( ).getProperty(
+		rules = (List<?>) table2.getReportItem().getProperty(
 				StyleHandle.HIGHLIGHT_RULES_PROP );
 		assertEquals( 1, rules.size( ) );
 	}
@@ -1098,7 +1083,7 @@ public class PeerExtensionTest extends BaseTestCase
 
 		designHandle.checkReport( );
 
-		List errors = design.getAllExceptions( );
+		List<?> errors = design.getAllExceptions();
 		List<ExtendedElementException> extendedErrors = new ArrayList<ExtendedElementException>( );
 
 		for ( int i = 0; i < errors.size( ); i++ )
@@ -1281,9 +1266,8 @@ public class PeerExtensionTest extends BaseTestCase
 		 * .eclipse.birt.report.model.api.DesignElementHandle,
 		 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 		 */
-
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
+		@Override
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev)
 		{
 			if ( ev instanceof StyleEvent )
 				eventCount++;
