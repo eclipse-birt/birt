@@ -19,6 +19,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.IAbsoluteFontSizeValueProvider;
@@ -77,11 +79,8 @@ import com.ibm.icu.util.ULocale;
 public class DesignSessionImpl
 {
 
-	/**
-	 * list each item is <code>Style</code>
-	 */
+	private static final Logger LOG = Logger.getLogger(DesignSessionImpl.class.getName());
 
-	private static List<DesignElement> defaultTOCStyleList = null;
 
 	/**
 	 * file with TOC default value.
@@ -90,9 +89,13 @@ public class DesignSessionImpl
 	public static final String TOC_DEFAULT_VALUE = "templates/TOCDefaultValue.xml";//$NON-NLS-1$
 
 	/**
+	 * list each item is <code>Style</code>
+	 */
+	private List<DesignElement> defaultTOCStyleList = null;
+	
+	/**
 	 * Resource path.
 	 */
-
 	protected String resourceFolder = null;
 
 	/**
@@ -154,8 +157,7 @@ public class DesignSessionImpl
 	/**
 	 * The flag to determine whether the TOC style has been initialized.
 	 */
-
-	private static Boolean isTOCStyleInitialized = Boolean.FALSE;
+	private Boolean isTOCStyleInitialized = Boolean.FALSE;
 
 	/**
 	 * Constructor.
@@ -1375,10 +1377,12 @@ public class DesignSessionImpl
 		}
 		catch ( DesignFileException e )
 		{
+			LOG.log(Level.SEVERE, "Could not init default TOC style", e);
 			return;
 		}
 		catch ( IOException e )
 		{
+			LOG.log(Level.SEVERE, "Could not init default TOC style", e);
 			return;
 		}
 
