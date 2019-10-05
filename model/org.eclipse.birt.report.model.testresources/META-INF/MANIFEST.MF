@@ -5,3 +5,4 @@ Bundle-SymbolicName: org.eclipse.birt.report.model.testresources
 Bundle-Version: 4.11.0.qualifier
 Fragment-Host: org.eclipse.birt.resources;bundle-version="2.2.0"
 Automatic-Module-Name: org.eclipse.birt.report.model.testresources
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

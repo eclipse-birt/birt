@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.model.activity.ActivityStack;
 import org.eclipse.birt.report.model.api.DesignConfig;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
@@ -48,9 +49,11 @@ import org.eclipse.birt.report.model.api.elements.structures.MapRule;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 import org.eclipse.birt.report.model.api.extension.IMessages;
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
+import org.eclipse.birt.report.model.api.metadata.IArgumentInfoList;
 import org.eclipse.birt.report.model.api.metadata.IChoice;
 import org.eclipse.birt.report.model.api.metadata.IChoiceSet;
 import org.eclipse.birt.report.model.api.metadata.IElementDefn;
+import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
 import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
@@ -83,7 +86,6 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * New cases should be added into PeerExtensionTest.
  */
-
 public class ReportItemExtensionTest extends BaseTestCase
 {
 
@@ -112,7 +114,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-
+	@Override
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -123,7 +125,6 @@ public class ReportItemExtensionTest extends BaseTestCase
 	 * Tests the parser for the extension and the TestPeer--implementation of
 	 * IPeer.
 	 */
-
 	public void testExtensionMeta( ) throws Exception
 	{
 		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
@@ -140,7 +141,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( true, extDefn.allowsUserProperties( ) );
 
 		assertEquals( TESTING_MATRIX_NAME, extDefn.getName( ) );
-		List propList = extDefn.getProperties( );
+		List<IElementPropertyDefn> propList = extDefn.getProperties();
 
 		assertNotNull( extDefn.getProperty( ExtendedItem.EXTENSION_NAME_PROP ) );
 
@@ -221,7 +222,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		prop = (ElementPropertyDefn) extDefn.getProperty( "test7" ); //$NON-NLS-1$
 		assertEquals( "Group 1", prop.getGroupName( ) ); //$NON-NLS-1$
 
-		List methods = extDefn.getMethods( );
+		List<IElementPropertyDefn> methods = extDefn.getMethods();
 		ElementPropertyDefn methodProp = (ElementPropertyDefn) methods.get( 0 );
 		IMethodInfo method = methodProp.getMethodInfo( );
 
@@ -234,7 +235,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 				"Element.TestingMatrix.afterCloseDoc.toolTip", method.getToolTipKey( ) ); //$NON-NLS-1$
 		assertEquals( "string", method.getReturnType( ) ); //$NON-NLS-1$
 
-		Iterator iter = method.argumentListIterator( );
+		Iterator<IArgumentInfoList> iter = method.argumentListIterator();
 		ArgumentInfoList argumentList = (ArgumentInfoList) iter.next( );
 
 		IArgumentInfo arg = argumentList.getArgument( "reportContext" ); //$NON-NLS-1$
@@ -344,7 +345,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		// read filter properties
 
-		Iterator iter1 = extendedHandle.filtersIterator( );
+		Iterator<?> iter1 = extendedHandle.filtersIterator();
 		FilterConditionHandle filter = (FilterConditionHandle) iter1.next( );
 		assertEquals( DesignChoiceConstants.FILTER_OPERATOR_LT, filter
 				.getOperator( ) );
@@ -360,8 +361,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertNull( iter1.next( ) );
 
 		// set the property
-
-		extendedHandle.setProperty( ExtendedItem.Y_PROP, "11.2in" ); //$NON-NLS-1$
+		String yPropStr = new NumberFormatter(extendedHandle.getModule().getLocale()).format(11.2) + "in"; // $NON-NLS-1$
+		extendedHandle.setProperty(ExtendedItem.Y_PROP, yPropStr);
 		extendedHandle.setProperty( "test5", "choice2" ); //$NON-NLS-1$//$NON-NLS-2$
 
 		try
@@ -481,7 +482,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 			assertEquals( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR, e
 					.getErrorCode( ) );
 
-			List errors = e.getErrorList( );
+			List<ErrorDetail> errors = e.getErrorList();
 
 			assertEquals( 2, errors.size( ) );
 
@@ -691,7 +692,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		// "[somefield]", extendedHandle.getStringProperty(
 		// Style.MAP_TEST_EXPR_PROP ) ); //$NON-NLS-1$
 
-		List mapRules = (List) extendedHandle
+		List<?> mapRules = (List<?>) extendedHandle
 				.getProperty( Style.MAP_RULES_PROP );
 		assertEquals( 5, mapRules.size( ) );
 		assertEquals( DesignChoiceConstants.MAP_OPERATOR_EQ,
@@ -715,12 +716,12 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( 3, ns.getCount( ) );
 
 		StyleHandle sh = extendedHandle.getPrivateStyle( );
-		Iterator iter = sh.mapRulesIterator( );
+		Iterator<?> iter = sh.mapRulesIterator();
 		assertNotNull( iter.next( ) );
 		assertNotNull( iter.next( ) );
 		assertNotNull( iter.next( ) );
 
-		ArrayList list = new ArrayList( );
+		ArrayList<ExtendedItemHandle> list = new ArrayList<ExtendedItemHandle>();
 
 		list.add( extendedHandle );
 
@@ -762,7 +763,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
-		ArrayList list = new ArrayList( );
+		ArrayList<ExtendedItemHandle> list = new ArrayList<ExtendedItemHandle>();
 
 		list.add( extendedHandle );
 
@@ -969,8 +970,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 				.findElement( "right extended item" ); //$NON-NLS-1$
 		assertNotNull( extendedHandle );
 
-		Set set = new HashSet( );
-		Iterator iter = extendedHandle.getPropertyIterator( );
+		Set<String> set = new HashSet<String>();
+		Iterator<?> iter = extendedHandle.getPropertyIterator();
 		while ( iter.hasNext( ) )
 		{
 			set.add( ( (PropertyHandle) iter.next( ) ).getDefn( ).getName( ) );
@@ -1034,7 +1035,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 
 		assertEquals( 8, extendedHandle.getMethods( ).size( ) );
 
-		List methods = extendedHandle.getMethods( );
+		List<?> methods = extendedHandle.getMethods();
 
 		assertEquals( "afterCloseDoc", ( (ElementPropertyDefn) methods //$NON-NLS-1$
 				.get( 0 ) ).getName( ) );
@@ -1088,7 +1089,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		assertEquals( true, extDefn.allowsUserProperties( ) );
 		assertEquals( false, extDefn.hasStyle( ) );
 
-		List propList = extDefn.getProperties( );
+		List<?> propList = extDefn.getProperties();
 
 		ElementPropertyDefn prop = (ElementPropertyDefn) extDefn
 				.getProperty( "usage" ); //$NON-NLS-1$
@@ -1394,7 +1395,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 		openDesign( fileName_4 );
 
-		List list = designHandle.getErrorList( );
+		List<?> list = designHandle.getErrorList();
 		assertEquals( 1, list.size( ) );
 
 		int i = 0;
@@ -1434,8 +1435,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 
 		// set property .
-
-		itemHandle.setStringProperty( ReportItem.Y_PROP, "12.5cm" ); //$NON-NLS-1$
+		String yPropStr = new NumberFormatter(itemHandle.getModule().getLocale()).format(12.5) + "cm"; //$NON-NLS-1$
+		itemHandle.setStringProperty(ReportItem.Y_PROP, yPropStr);
 
 		try
 		{
@@ -1483,7 +1484,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 	{
 		openDesign( fileName_5 );
 
-		List list = designHandle.getErrorList( );
+		List<?> list = designHandle.getErrorList();
 		assertEquals( 1, list.size( ) );
 
 		int i = 0;
@@ -1735,8 +1736,8 @@ public class ReportItemExtensionTest extends BaseTestCase
 		 * .report.model.core.DesignElement,
 		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
+		@Override
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev)
 		{
 			if ( ev.getEventType( ) == NotificationEvent.PROPERTY_EVENT )
 			{
@@ -1875,7 +1876,7 @@ public class ReportItemExtensionTest extends BaseTestCase
 		designHandle = session.createDesign( );
 		boolean findboxStyle = false;
 		SlotHandle styles = designHandle.getStyles( );
-		StyleHandle boxDefaultStyle = null;
+		StyleHandle boxDefaultStyle = (StyleHandle) styles.get(0);
 		assert styles != null;
 
 		for ( int i = 0; i < styles.getCount( ); i++ )

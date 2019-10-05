@@ -7,3 +7,4 @@ Fragment-Host: org.eclipse.birt.report.engine.dataextraction.csv;bundle-version=
 Bundle-Vendor: Eclipse.org
 Bundle-Localization: plugin
 Automatic-Module-Name: org.eclipse.birt.report.engine.dataextraction.csv.nl1
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6

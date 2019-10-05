@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import org.eclipse.birt.report.model.api.elements.structures.MapRule;
@@ -85,12 +86,7 @@ import com.ibm.icu.util.ULocale;
 public class PropertyHandleTest extends BaseTestCase
 {
 
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see junit.framework.TestCase#setUp()
-	 */
-
+	@Override
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -101,7 +97,6 @@ public class PropertyHandleTest extends BaseTestCase
 	 * Tests get property definition, choices of property and structure handle
 	 * of a property.
 	 */
-
 	public void testOtherOperations( )
 	{
 		StyleElement myStyle = design.findStyle( "My-Style" ); //$NON-NLS-1$
@@ -155,7 +150,6 @@ public class PropertyHandleTest extends BaseTestCase
 	 * 
 	 * @throws SemanticException
 	 */
-
 	public void testGetDisplayValue( ) throws SemanticException
 	{
 
@@ -187,7 +181,7 @@ public class PropertyHandleTest extends BaseTestCase
 	 *             if the property is not a list property, the index of the item
 	 *             is invalid or the output file cannot be saved correctly.
 	 */
-
+	@SuppressWarnings("unchecked")
 	public void testItemOperations( ) throws Exception
 	{
 		SharedStyleHandle myStyleHandle = (SharedStyleHandle) design.findStyle(
@@ -258,12 +252,13 @@ public class PropertyHandleTest extends BaseTestCase
 		}
 		catch ( IndexOutOfBoundsException e )
 		{
+			// pass
 		}
 
 		propHandle.removeItem( 2 );
 		propHandle.removeItem( 0 );
 
-		List rules = (List) myStyleHandle.getProperty( Style.MAP_RULES_PROP );
+		List<MapRule> rules = (List<MapRule>) myStyleHandle.getProperty(Style.MAP_RULES_PROP);
 		assertEquals( 1, rules.size( ) );
 
 		save( );
@@ -304,7 +299,7 @@ public class PropertyHandleTest extends BaseTestCase
 	 *             if values are invalid or the output file cannot be saved
 	 *             correctly.
 	 */
-
+	@SuppressWarnings("unchecked")
 	public void testSetGetValues( ) throws Exception
 	{
 		StyleElement myStyle = design.findStyle( "Style1" ); //$NON-NLS-1$
@@ -314,7 +309,7 @@ public class PropertyHandleTest extends BaseTestCase
 		PropertyHandle propHandle = myStyle.getHandle( design )
 				.getPropertyHandle( Style.MAP_RULES_PROP );
 
-		List rules = (List) myStyle.getProperty( design, Style.MAP_RULES_PROP );
+		List<MapRule> rules = (List<MapRule>) myStyle.getProperty(design, Style.MAP_RULES_PROP);
 		MapRule rule = new MapRule( );
 		rule.setProperty( MapRule.DISPLAY_MEMBER, "set map rules" ); //$NON-NLS-1$
 		rules.add( rule );
@@ -352,9 +347,8 @@ public class PropertyHandleTest extends BaseTestCase
 
 		// the height property on a label
 
-		propHandle = label.getHandle( design ).getPropertyHandle(
-				ReportItem.HEIGHT_PROP );
-		propHandle.setStringValue( "1.23mm" ); //$NON-NLS-1$
+		propHandle = label.getHandle(design).getPropertyHandle(ReportItem.HEIGHT_PROP);
+		propHandle.setStringValue(new NumberFormatter(propHandle.getModule().getLocale()).format(1.23) + "mm");
 
 		assertEquals( PropertyType.DIMENSION_TYPE, propHandle.getTypeCode( ) );
 		assertEquals( "1.23mm", propHandle.getStringValue( ) ); //$NON-NLS-1$
@@ -394,7 +388,6 @@ public class PropertyHandleTest extends BaseTestCase
 	 * case4: get property handle from different element but same property.
 	 * These two handle should not be equal.
 	 */
-
 	public void testEqual( )
 	{
 
@@ -430,7 +423,6 @@ public class PropertyHandleTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-
 	public void testgetReferenceElementValueList( ) throws Exception
 	{
 
@@ -441,7 +433,7 @@ public class PropertyHandleTest extends BaseTestCase
 		PropertyHandle propertyHandle = label2
 				.getPropertyHandle( Label.DATA_SET_PROP );
 
-		List list = propertyHandle.getReferenceableElementList( );
+		List<?> list = propertyHandle.getReferenceableElementList();
 		assertEquals( 3, list.size( ) );
 
 		propertyHandle = label2.getPropertyHandle( Label.STYLE_PROP );
@@ -468,7 +460,6 @@ public class PropertyHandleTest extends BaseTestCase
 	/**
 	 * Tests property visibilities defined in ROM.
 	 */
-
 	public void testPropertyVisibilities( ) throws Exception
 	{
 
@@ -572,15 +563,14 @@ public class PropertyHandleTest extends BaseTestCase
 	 * @throws Exception
 	 *             if any exception
 	 */
-
 	public void testCachedMemberRef( ) throws Exception
 	{
 		StyleHandle style = designHandle.findStyle( "Style1" ); //$NON-NLS-1$
 		PropertyHandle propHandle = style
 				.getPropertyHandle( Style.MAP_RULES_PROP );
 
-		ArrayList list = new ArrayList( );
-		Iterator iter = propHandle.iterator( );
+		ArrayList<Object> list = new ArrayList<Object>();
+		Iterator<?> iter = propHandle.iterator();
 		while ( iter.hasNext( ) )
 		{
 			StructureHandle structHandle = (StructureHandle) iter.next( );
@@ -700,7 +690,6 @@ public class PropertyHandleTest extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws Exception
 	 */
-
 	public void testCompoundExtendsOperations( ) throws Exception
 	{
 		openDesign( "PropertyHandleTest_2.xml" ); //$NON-NLS-1$
@@ -708,6 +697,7 @@ public class PropertyHandleTest extends BaseTestCase
 		RowHandle row1 = (RowHandle) grid1.getRows( ).get( 0 );
 		CellHandle cell1 = (CellHandle) row1.getCells( ).get( 0 );
 		LabelHandle label1 = (LabelHandle) cell1.getContent( ).get( 0 );
+		NumberFormatter numberFormatter = new NumberFormatter(designHandle.getModule().getLocale());
 
 		try
 		{
@@ -733,7 +723,7 @@ public class PropertyHandleTest extends BaseTestCase
 					e.getErrorCode( ) );
 		}
 
-		grid1.setWidth( "31.2mm" ); //$NON-NLS-1$
+		grid1.setWidth(numberFormatter.format(31.2) + "mm"); //$NON-NLS-1$
 		grid1.setStyleName( "style1" ); //$NON-NLS-1$
 		assertEquals( DesignChoiceConstants.FONT_SIZE_LARGER, grid1
 				.getStringProperty( IStyleModel.FONT_SIZE_PROP ) );
@@ -787,7 +777,7 @@ public class PropertyHandleTest extends BaseTestCase
 		assertNotNull( odaHandle );
 		PropertyHandle propHandle = odaHandle
 				.getPropertyHandle( OdaDataSetHandle.RESULT_SET_PROP );
-		propHandle.setValue( new ArrayList( ) );
+		propHandle.setValue(new ArrayList<Object>());
 		assertFalse( propHandle.iterator( ).hasNext( ) );
 
 		super.compareFile( "PropertyHandleTest_setValue_golden.xml" );//$NON-NLS-1$

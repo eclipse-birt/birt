@@ -334,7 +334,7 @@ public class DataTypeUtilTest extends TestCase
 					fail( "Should not throw Exception." );
 			}
 		}
-		assertEquals( DataTypeUtil.toInteger("1.8"),new Integer(1));
+		assertEquals(new Integer(1), DataTypeUtil.toInteger("1.8", ULocale.US));
 		
 		//test overflow check
 		try
@@ -453,7 +453,7 @@ public class DataTypeUtilTest extends TestCase
 		
 		try
 		{
-			java.sql.Date date1 = DataTypeUtil.toSqlDate( "9921111" );
+			DataTypeUtil.toSqlDate("9921111");
 			fail("Should not arrive here");
 		}
 		catch ( BirtException e )
@@ -499,16 +499,16 @@ public class DataTypeUtilTest extends TestCase
 		failSqlTimeString( "1:61:25 pm" );
 		
 		time = DataTypeUtil.toSqlTime( 0D );
-		assertEquals ( getTime( 16,0,0,0 ), time );
+		assertEquals(getTimeUTC(0, 0, 0, 0), time);
 		
 		time = DataTypeUtil.toSqlTime( 1000D );
-		assertEquals ( getTime( 16,0,1,0 ), time );
+		assertEquals(getTimeUTC(0, 0, 1, 0), time);
 		
 		time = DataTypeUtil.toSqlTime( 999.789D );
-		assertEquals ( getTime( 16,0,1,0 ), time );
+		assertEquals(getTimeUTC(0, 0, 1, 0), time);
 		
 		time = DataTypeUtil.toSqlTime( 100000000000.123D );
-		assertEquals ( getTime( 1,46,40,0 ), time );
+		assertEquals(getTimeUTC(9, 46, 40, 0), time);
 	}
 	
 	private Time getTime( int hour, int minute, int second, int millis )
@@ -521,6 +521,16 @@ public class DataTypeUtilTest extends TestCase
 		return new java.sql.Time( calendar.getTimeInMillis( ) );
 	}
 	
+	private Time getTimeUTC(int hour, int minute, int second, int millis) {
+		Calendar calendar = Calendar.getInstance();
+		calendar.clear();
+		calendar.set(Calendar.HOUR_OF_DAY, hour);
+		calendar.set(Calendar.MINUTE, minute);
+		calendar.set(Calendar.SECOND, second);
+		calendar.setTimeZone(TimeZone.GMT_ZONE);
+		return new java.sql.Time(calendar.getTimeInMillis());
+	}
+
 	/**
 	 * 
 	 * @param value
@@ -615,6 +625,7 @@ public class DataTypeUtilTest extends TestCase
 			}
 			catch ( BirtException e )
 			{
+				e.printStackTrace();
 				fail( "Should not throw Exception." );
 			}
 			
@@ -730,6 +741,7 @@ public class DataTypeUtilTest extends TestCase
 			}
 			catch ( BirtException e )
 			{
+				e.printStackTrace();
 				fail( "Should not throw Exception." );
 			}
 		}

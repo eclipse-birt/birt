@@ -259,6 +259,7 @@ public final class ExpressionUtil
 	 * @throws BirtException
 	 * @deprecated use <code>extractColumnExpressions( String, String )</code> instead
 	 */
+	@Deprecated
 	public static List<IColumnBinding> extractColumnExpressions( String oldExpression,
 			boolean mode ) throws BirtException
 	{

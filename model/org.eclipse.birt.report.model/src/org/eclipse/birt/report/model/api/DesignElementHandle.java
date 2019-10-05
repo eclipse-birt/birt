@@ -543,6 +543,9 @@ public abstract class DesignElementHandle implements IDesignElementModel
 	 * choice using the internal string name of the choice. Use it to set the
 	 * value of a dimension when using specified units, such as "10pt".
 	 * 
+	 * <p><b>WARNING:</b> Numbers are parsed according to the number format of
+	 * the currently active locale.</p>
+	 * 
 	 * @param propName
 	 *            the property name
 	 * @param value

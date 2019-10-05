@@ -1,9 +1,19 @@
 language: java
+
 jdk:
   - openjdk8
+
+env:
+  - MODULE=:org.eclipse.birt.core.tests
+  - MODULE=:org.eclipse.birt.report.model.tests
+
 cache:
   directories:
     - ~/.m2
-script: mvn -B --global-toolchains travis-maven-toolchain.xml clean package -DskipTests
-install:
-  -
+
+install: mvn -B --global-toolchains travis-maven-toolchain.xml clean install -DskipTests
+script: mvn -B --global-toolchains travis-maven-toolchain.xml -pl $MODULE integration-test
+
+before_cache:
+  - rm -r ~/.m2/repository/org/eclipse/birt
+  - rm -r ~/.m2/repository/.cache/tycho
