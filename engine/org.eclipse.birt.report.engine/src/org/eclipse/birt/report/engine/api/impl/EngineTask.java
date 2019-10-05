@@ -1879,7 +1879,15 @@ public abstract class EngineTask implements IEngineTask
 						IPDFRenderOption.RESERVE_DOCUMENT_PAGE_NUMBERS,
 						reserveDocumentPageNumbers );
 			}
-			
+
+			Object repaginateForPDF = renderOptions
+					.getOption( IPDFRenderOption.REPAGINATE_FOR_PDF );
+			if ( repaginateForPDF != null )
+			{
+				layoutEngine.setOption( IPDFRenderOption.REPAGINATE_FOR_PDF,
+						repaginateForPDF );
+			}
+
 			Object userAgent = renderOptions.getOption( IHTMLRenderOption.USER_AGENT );
 			if ( userAgent != null )
 			{

@@ -23,6 +23,7 @@ import java.text.MessageFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -58,6 +59,7 @@ import org.eclipse.birt.data.engine.api.ISubqueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
+import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.OdaDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
@@ -273,13 +275,15 @@ public class PreparedQueryUtil
 		}
 	}
 	
+	@SuppressWarnings("unchecked")
 	private static void addAllBindingAsSortKey( IQueryDefinition queryDefn ) throws DataException
 	{
 		if( ! ( queryDefn instanceof BaseQueryDefinition ) )
 		{
 			return;
 		}
-		Set<String> sortedBinding = new HashSet<String>( );
+		Map<String,Integer> sortedBinding = new HashMap<>( );
+		int sortBindingIndex = 0;
 		List<ISortDefinition> sorts = queryDefn.getSorts( );
 		if ( sorts != null )
 		{
@@ -290,27 +294,56 @@ public class PreparedQueryUtil
 				{
 					for ( String bindingName : bindingNames )
 					{
-						sortedBinding.add( bindingName );
+						sortedBinding.put( bindingName,sortBindingIndex++ );
 					}
 				}
 				else
 				{
 					if( sd.getColumn( ) != null )
-						sortedBinding.add( sd.getColumn( ) );
+						sortedBinding.put( sd.getColumn( ),sortBindingIndex++ );
 				}
 			}
 		}
-		Iterator bindings = queryDefn.getBindings( ).values( ).iterator( );
+		Collection<IBinding> bindings = queryDefn.getBindings( ).values( );
 		BaseQueryDefinition queryDefinition = ( ( BaseQueryDefinition ) queryDefn );
-		while( bindings.hasNext( ) )
+		for ( IBinding binding : bindings )
 		{
-			IBinding binding = (IBinding) bindings.next( );
-			if( !sortedBinding.contains( binding.getBindingName( ) ) )
+			if( !sortedBinding.containsKey( binding.getBindingName( ) ) )
 			{
 				SortDefinition sd = new SortDefinition( );
 				sd.setExpression( ExpressionUtil.createJSRowExpression( binding.getBindingName( ) ) );
 				queryDefinition.addSort( sd );
+				sortedBinding.put( binding.getBindingName( ),sortBindingIndex++ );
 			}
+		}
+		
+		// If there are multiple group keys, make sure they have the same
+		// sequences as sort keys, since sort is restricted by group.
+		List<GroupDefinition> groups = queryDefn.getGroups( );
+		if ( groups.size( ) > 1 )
+		{
+			Collections.sort( groups,
+					( a, b ) -> sortedBinding.getOrDefault( getGroupColumn( a ),
+							0 )
+							- sortedBinding.getOrDefault( getGroupColumn( b ),
+									0 ) );
+		}
+	}
+	
+	private static String getGroupColumn( GroupDefinition gd )
+	{
+		if ( gd.getKeyColumn( ) != null && !gd.getKeyColumn( ).isEmpty( ) )
+		{
+			return gd.getKeyColumn( );
+		}
+		try
+		{
+			return ExpressionUtil
+					.getColumnBindingName( gd.getKeyExpression( ) );
+		}
+		catch ( BirtException e )
+		{
+			return ""; //$NON-NLS-1$
 		}
 	}
 	

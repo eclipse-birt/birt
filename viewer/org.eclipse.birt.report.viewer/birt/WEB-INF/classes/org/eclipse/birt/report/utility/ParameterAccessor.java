@@ -2104,7 +2104,7 @@ public class ParameterAccessor
 			{
 			}
 		}
-		return request.getParameter( parameterName );
+		return htmlEncode( request.getParameter( parameterName ) );
 	}
 
 	/**
@@ -2258,7 +2258,7 @@ public class ParameterAccessor
 		{
 			return null;
 		}
-
+		filePath = htmlDecode( filePath );
 		if ( isEncodedPaths( request ) )
 		{
 			return decodeBase64( filePath );

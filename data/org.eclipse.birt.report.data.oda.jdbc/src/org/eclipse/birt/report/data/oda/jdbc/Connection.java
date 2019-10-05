@@ -482,6 +482,15 @@ public class Connection implements IConnection
 
 			if ( jdbcConn.isClosed( ) == false )
 			{
+				// if the policy DBConfig.SET_COMMIT_TO_FALSE is used, which sets autocommit to false by default
+				if (!jdbcConn.getAutoCommit() && DBConfig.getInstance().qualifyPolicy(
+						jdbcConn.getMetaData().getDriverName(),
+						DBConfig.SET_COMMIT_TO_FALSE))
+				{
+					// commit leaving no open transactions
+					commit( );
+				}
+
 				jdbcConn.close( );
 				logger.log(Level.FINE, "JDBC connection: " + jdbcConn + " is closed");
 			}
