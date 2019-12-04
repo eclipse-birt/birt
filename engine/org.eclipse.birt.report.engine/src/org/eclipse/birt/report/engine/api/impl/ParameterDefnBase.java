@@ -32,6 +32,7 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 	private static final String LIST = "list"; //$NON-NLS-1$
 	private static final String TABLE = "table"; //$NON-NLS-1$
 	private static final String GROUP = "group"; //$NON-NLS-1$
+	private static final String CASCADING = "cascading_group"; 
 
 	protected int parameterType;
 	protected String displayName;
@@ -241,6 +242,9 @@ public class ParameterDefnBase implements IParameterDefnBase, Cloneable
 			case IParameterDefnBase.PARAMETER_GROUP :
 				typeName = GROUP;
 				break;
+			case IParameterDefnBase.CASCADING_PARAMETER_GROUP :
+                		typeName = CASCADING;
+                		break;
 			case IParameterDefnBase.SCALAR_PARAMETER :
 			default :
 				typeName = SCALAR;
