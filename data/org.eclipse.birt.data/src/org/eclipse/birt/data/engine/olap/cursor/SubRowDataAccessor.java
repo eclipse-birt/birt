@@ -63,6 +63,7 @@ public class SubRowDataAccessor extends RowDataAccessor
 				this.parentNavigator.edgeDimensRelation,
 				edgeStart,
 				edgeEnd );
+		dimTraverse.first();
 		edgeTraverse = new EdgeTraverse( this.parentNavigator.edgeDimensRelation,
 				edgeStart,
 				edgeEnd );
