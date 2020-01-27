@@ -16,6 +16,8 @@ import org.eclipse.birt.report.engine.layout.PDFConstants;
 
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
+import com.lowagie.text.pdf.TrueTypeFontUnicode;
+
 
 public class FontInfo
 {
@@ -230,5 +232,17 @@ public class FontInfo
 		String[][] familyFontNames = bf.getFamilyFontName( );
 		String[] family = familyFontNames[familyFontNames.length - 1];
 		return family[family.length - 1];
+	}
+	
+	public String getTTFFileName() {
+		if( bf instanceof TrueTypeFontUnicode ) {
+			TrueTypeFontUnicode ttfu = (TrueTypeFontUnicode) bf;
+			return ttfu.getFileName( );
+		}
+		return null;
+	}
+	
+	public String getFontEncoding() {
+		return bf.getEncoding( );
 	}
 }
