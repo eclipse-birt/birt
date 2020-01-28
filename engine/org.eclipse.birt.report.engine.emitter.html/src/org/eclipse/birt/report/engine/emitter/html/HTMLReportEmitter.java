@@ -304,14 +304,14 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	
 	protected IDGenerator idGenerator = new IDGenerator( );
 	
-	private String layoutPreference;
-	private boolean fixedReport = false;
-	private boolean enableAgentStyleEngine;
-	private boolean outputMasterPageMargins;
-	private IMetadataFilter metadataFilter = null;
+	protected String layoutPreference;
+	protected boolean fixedReport = false;
+	protected boolean enableAgentStyleEngine;
+	protected boolean outputMasterPageMargins;
+	protected IMetadataFilter metadataFilter = null;
 
-	private boolean needOutputBackgroundSize = false;
-	private boolean enableInlineStyle = false;
+	protected boolean needOutputBackgroundSize = false;
+	protected boolean enableInlineStyle = false;
 
 	/**
 	 * Following names will be name spaced by htmlIDNamespace: a.CSS style name.
@@ -332,10 +332,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	/**
 	 * This set is used to store the style class which has been outputted.
 	 */
-	private Set outputtedStyles = new HashSet();
+	protected Set outputtedStyles = new HashSet();
 	
 	protected boolean needFixTransparentPNG = false;
-	private ITableContent cachedStartTable = null;
+	protected ITableContent cachedStartTable = null;
 	
 	protected TableLayout tableLayout = new TableLayout( this );
 	
@@ -576,13 +576,13 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.writeCode( "</script>" ); //$NON-NLS-1$
 	}
 	
-	private void loadBirtJs( String birtJsUrl )
+	protected void loadBirtJs( String birtJsUrl )
 	{
 		writer.writeCode( "<script type=\"text/javascript\" src=\""+birtJsUrl+"\" >" ); 
 		writer.writeCode( "</script>" ); //$NON-NLS-1$	
 	}
 	
-	private void outputBirtJs()
+	protected void outputBirtJs()
 	{
 		writer.writeCode( "<script type=\"text/javascript\">" );
 		writer.writeCode( " //<![CDATA[" ); //$NON-NLS-1$
@@ -610,7 +610,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.writeCode( "</script>" ); //$NON-NLS-1$
 	}
 	
-	private void doClientInitialize(String javaScriptLibraries)
+	protected void doClientInitialize(String javaScriptLibraries)
 	{
 		writer.writeCode( "<script type=\"text/javascript\">" ); //$NON-NLS-1$
 		writer.writeCode( " //<![CDATA[" ); //$NON-NLS-1$
@@ -872,7 +872,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return "text/html; charset=utf-8";
 	}
 
-	private void outputClientScript( IReportContent report )
+	protected void outputClientScript( IReportContent report )
 	{
 		if ( report != null )
 		{
@@ -1228,7 +1228,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return false;
 	}
 
-	private DimensionType getPageWidth( IPageContent page )
+	protected DimensionType getPageWidth( IPageContent page )
 	{
 		DimensionType pageWidth = page.getPageWidth( );
 		if ( !outputMasterPageMargins )
@@ -1241,7 +1241,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 
 	}
 
-	private DimensionType getPageHeight( IPageContent page )
+	protected DimensionType getPageHeight( IPageContent page )
 	{
 		DimensionType pageHeight = page.getPageHeight( );
 		if ( !outputMasterPageMargins )
@@ -1306,7 +1306,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return pageWidth;
 	}
 
-	private void outputColumn( DimensionType dm )
+	protected void outputColumn( DimensionType dm )
 	{
 		writer.openTag( HTMLTags.TAG_COL );
 
@@ -1325,7 +1325,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( HTMLTags.TAG_COL );
 	}
 
-	private void outputVMargin( DimensionType margin )
+	protected void outputVMargin( DimensionType margin )
 	{
 		// If margin isn't null, output a row to implement it.
 		if ( null != margin )
@@ -1343,7 +1343,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	private void outputHMargin( DimensionType margin )
+	protected void outputHMargin( DimensionType margin )
 	{
 		writer.openTag( HTMLTags.TAG_TD );
 		if ( null != margin )
@@ -1359,7 +1359,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( HTMLTags.TAG_TD );
 	}
 
-	boolean showPageHeader( IPageContent page )
+	protected boolean showPageHeader( IPageContent page )
 	{
 		boolean showHeader = true;
 		Object genBy = page.getGenerateBy( );
@@ -1377,7 +1377,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return showHeader;
 	}
 
-	boolean showPageFooter( IPageContent page )
+	protected boolean showPageFooter( IPageContent page )
 	{
 		boolean showFooter = true;
 		Object genBy = page.getGenerateBy( );
@@ -1401,7 +1401,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return showFooter;
 	}
 
-	private void outputPageBand( IPageContent page, IContent band,
+	protected void outputPageBand( IPageContent page, IContent band,
 			DimensionType height ) throws BirtException
 	{
 		writer.openTag( HTMLTags.TAG_TD );
@@ -1713,7 +1713,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.attribute( HTMLTags.ATTR_STYLE, sb.toString( ) );
 	}
 
-	private String parseBackgroundSize( String backgroundHeight,
+	protected String parseBackgroundSize( String backgroundHeight,
 			DimensionType pageHeight )
 	{
 		if ( backgroundHeight == null )
@@ -1737,7 +1737,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		return backgroundHeight;
 	}
 
-	private void endBackgroundContainer( )
+	protected void endBackgroundContainer( )
 	{
 		writer.closeTag( HTMLTags.TAG_DIV );
 	}
@@ -2188,7 +2188,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 
-	private boolean isCellInHead( ICellContent cell )
+	protected boolean isCellInHead( ICellContent cell )
 	{
 		IElement row = cell.getParent( );
 		if ( row instanceof IRowContent )
@@ -2345,7 +2345,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 	}
 	
-	private boolean useFixedCellHeight( ICellContent cell )
+	protected boolean useFixedCellHeight( ICellContent cell )
 	{
 		// fixed cell height requires the rowspan to be 1.
 		if ( cell.getRowSpan( ) > 1 )
@@ -3554,7 +3554,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @param url
 	 * @return
 	 */
-	private boolean handleAction( IHyperlinkAction action, String url )
+	protected boolean handleAction( IHyperlinkAction action, String url )
 	{
 		if ( url != null )
 		{
@@ -3584,7 +3584,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 *            the hyperlink action
 	 * @return
 	 */
-	private String validate( IHyperlinkAction action )
+	protected String validate( IHyperlinkAction action )
 	{
 		if ( action == null )
 		{
@@ -3820,7 +3820,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		startedGroups.push( group );
 	}
 
-	private void outputBookmark( IGroupContent group )
+	protected void outputBookmark( IGroupContent group )
 	{
 		String bookmark = group.getBookmark( );
 		if ( bookmark == null )
@@ -3833,7 +3833,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		writer.closeTag( HTMLTags.TAG_SPAN );
 	}
 	
-	private void writeBidiFlag( )
+	protected void writeBidiFlag( )
 	{
 		// bidi_hcg start
 		// RTL attribute is required at HTML or BODY level for the correct
@@ -3852,7 +3852,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @param htmlOption
 	 * @author bidi_hcg
 	 */
-	private void retrieveRtLFlag( )
+	protected void retrieveRtLFlag( )
 	{
 		// If htmlOption has RTL_FLAG option set (likely adopted from an URL
 		// parameter), honor this option, otherwise obtain direction from
