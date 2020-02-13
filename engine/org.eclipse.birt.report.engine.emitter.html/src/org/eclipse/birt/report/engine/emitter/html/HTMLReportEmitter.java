@@ -2803,7 +2803,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	}
 	
 
-    private void outputHtmlText( IForeignContent foreign )
+    protected void outputHtmlText( IForeignContent foreign )
     {
         boolean bIndent = writer.isIndent( );
         writer.setIndent( false );
@@ -3701,7 +3701,7 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 	 * @param content
 	 *            the styled element content
 	 */
-	private void setupTemplateElement( TemplateDesign template, IContent content )
+	protected void setupTemplateElement( TemplateDesign template, IContent content )
 	{
 		// set up the bookmark if there is no bookmark for the template
 		String bookmark = content.getBookmark( );
