@@ -280,12 +280,12 @@ public class QueryResults implements IQueryResults, IQueryService
 			iterator = null;
 		}
 	    
-		queryService.close( );
+		//queryService.close( );
 		queryService = null;
 		logger.logp( Level.FINER,
 				QueryResults.class.getName( ),
 				"close",
-				"QueryResults is closed" );
+				"Iterators associated with QueryResults are closed" );
 	}
 	
 	/**
