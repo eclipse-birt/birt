@@ -87,6 +87,7 @@ public class PDFPageDevice implements IPageDevice
 	protected final static int MAX_PAGE_WIDTH = 14400000; // 200 inch
 	protected final static int MAX_PAGE_HEIGHT = 14400000; // 200 inch
 	
+	//Property names for list of files to append or prepend to PDF output
 	private static String APPEND_PROPERTY_NAME = "AppendList";
 	private static String PREPEND_PROPERTY_NAME = "PrependList";
 
