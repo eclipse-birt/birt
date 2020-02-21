@@ -601,4 +601,9 @@ public class FontMappingManagerFactory
 			return null;
 		}
 	}
+
+	public HashSet getFontPathes( )
+	{
+		return fontPathes;
+	}
 }
