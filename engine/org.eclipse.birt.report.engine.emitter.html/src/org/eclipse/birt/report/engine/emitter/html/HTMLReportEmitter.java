@@ -3637,6 +3637,11 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 				.getDesignHandle( );
 		URL url = design.findResource( uri, IResourceLocator.IMAGE,
 				reportContext.getAppContext( ) );
+		String fileExtension = null;
+		if ( uri != null && uri.contains( "." ) )
+		{
+			fileExtension = uri.substring( uri.lastIndexOf( "." ) + 1 );
+		}
 		if ( url == null )
 		{
 			return uri;
@@ -3661,6 +3666,10 @@ public class HTMLReportEmitter extends ContentEmitterAdapter
 		}
 		image.setReportRunnable( runnable );
 		image.setRenderOption( renderOption );
+		if ( fileExtension != null )
+		{
+			image.setMimeType( "image/" + fileExtension );
+		}
 		String imgUri = null;
 		if ( imageHandler != null )
 		{
