@@ -186,29 +186,10 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	/**
 	 * Usable operators for building map rule conditions.
 	 */
-	protected static final String[][] OPERATOR;
-	protected static final ArrayList<String>  NOT_SUPPORTED_LIST;
-	static
-	{
-		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
-				FilterCondition.OPERATOR_MEMBER );
-		IChoice[] chs = chset.getChoices( new AlphabeticallyComparator( ) );
-		OPERATOR = new String[chs.length][2];
-
-		for ( int i = 0; i < chs.length; i++ )
-		{
-			OPERATOR[i][0] = chs[i].getDisplayName( );
-			OPERATOR[i][1] = chs[i].getName( );
-		}
-		NOT_SUPPORTED_LIST = new ArrayList<String>( );
-		NOT_SUPPORTED_LIST.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_N );
-		NOT_SUPPORTED_LIST
-				.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N );
-		NOT_SUPPORTED_LIST
-				.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT );
-		NOT_SUPPORTED_LIST
-				.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT );
-	}
+	protected static String[][] OPERATOR;
+	protected static String[][] OPERATOR_DM;
+	protected static ArrayList<String>  NOT_SUPPORTED_LIST;
+	
 
 	/**
 	 * Returns how many value fields this operator needs.
@@ -811,6 +792,27 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		updateButtons( );
 		valuesComposite.getParent( ).layout( );
 	}
+	public void load_OPERATOR() {
+		IChoiceSet chset = ChoiceSetFactory.getStructChoiceSet( FilterCondition.FILTER_COND_STRUCT,
+				FilterCondition.OPERATOR_MEMBER );
+		IChoice[] chs = chset.getChoices( new AlphabeticallyComparator( ) );
+		OPERATOR = new String[chs.length][2];
+		OPERATOR_DM =new String[chs.length-4][2];
+
+		for ( int i = 0; i < chs.length; i++ )
+		{
+			OPERATOR[i][0] = chs[i].getDisplayName( );
+			OPERATOR[i][1] = chs[i].getName( );
+		}
+		NOT_SUPPORTED_LIST = new ArrayList<String>( );
+		NOT_SUPPORTED_LIST.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_N );
+		NOT_SUPPORTED_LIST
+				.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_N );
+		NOT_SUPPORTED_LIST
+				.add( DesignChoiceConstants.FILTER_OPERATOR_TOP_PERCENT );
+		NOT_SUPPORTED_LIST
+				.add( DesignChoiceConstants.FILTER_OPERATOR_BOTTOM_PERCENT );
+	}
 
 	/**
 	 * @param title
@@ -818,6 +820,8 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 	public CrosstabFilterConditionBuilder( String title, String message )
 	{
 		this( UIUtil.getDefaultShell( ), title, message );
+        load_OPERATOR();		
+	
 	}
 
 	/**
@@ -830,6 +834,9 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		super( parentShell );
 		this.title = title;
 		this.message = message;
+
+		load_OPERATOR();
+	
 	}
 
 	private void initializeDialog( )
@@ -949,14 +956,24 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 		operator.setVisibleItemCount( 30 );
 		boolean isDataModel = CrosstabUtil.isBoundToLinkedDataSet(
 				getCrosstab( (ExtendedItemHandle) designHandle ) );
+		int j=0;
 		for ( int i = 0; i < OPERATOR.length; i++ )
-		{
+		{   
 			if ( isDataModel && NOT_SUPPORTED_LIST.contains( OPERATOR[i][1] ) )
 			{
 				continue;
 			}
-			operator.add( OPERATOR[i][0] );
+			if(isDataModel) {
+			OPERATOR_DM[j][0]=OPERATOR[i][0];
+			OPERATOR_DM[j][1]=OPERATOR[i][1];
+			j++;
+			}
+			operator.add( OPERATOR[i][0]);
 		}
+		if(isDataModel) {
+		OPERATOR=OPERATOR_DM;
+		}
+		
 		operator.addSelectionListener( operatorSelection );
 
 		valuesLabel = new Label( parentControl, SWT.NONE );
