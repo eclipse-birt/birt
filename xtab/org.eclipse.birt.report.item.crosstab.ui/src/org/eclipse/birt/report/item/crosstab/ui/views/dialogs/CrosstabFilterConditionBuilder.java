@@ -969,11 +969,13 @@ public class CrosstabFilterConditionBuilder extends BaseTitleAreaDialog
 			j++;
 			}
 			operator.add( OPERATOR[i][0]);
+
 		}
 		if(isDataModel) {
 		OPERATOR=OPERATOR_DM;
 		}
 		
+
 		operator.addSelectionListener( operatorSelection );
 
 		valuesLabel = new Label( parentControl, SWT.NONE );
