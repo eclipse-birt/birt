@@ -755,7 +755,9 @@ abstract class ModuleWriterImpl extends ElementVisitor
 		// do not write the password into report design
 		Object valueCP = obj.getLocalProperty( getModule( ),
 				"OdaConnProfileStorePath" );
-		if ( propName.equalsIgnoreCase( "password" ) && valueCP != null )
+		if ( ( propName.equalsIgnoreCase( "password" )
+				|| propName.equalsIgnoreCase( "odaPassword" ) )
+				&& valueCP != null )
 		{
 			String xmlCP = propDefn.getXmlValue( getModule( ), valueCP );
 			if ( xmlCP != null )
