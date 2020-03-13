@@ -21,7 +21,6 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Map;
 
-
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
@@ -529,8 +528,6 @@ public abstract class DesignElement
 	 * this limit, the exceeding part will be shown as "...".
 	 */
 	private static final int MAX_DISPLAY_LABEL_LEN = 30;
-	
-	private static final String ODA_PASSWORD = "odaPassword";
 
 	/**
 	 * Elements have an optional name. The name may be required by some element
@@ -968,23 +965,12 @@ public abstract class DesignElement
 
 	public Object getProperty( Module module, String propName )
 	{
-		
-		
-		
 		ElementPropertyDefn prop = getPropertyDefn( propName );
 
 		// If the property is not found, then the value is null.
 
 		if ( prop == null )
 			return null;
-		
-		if ( ODA_PASSWORD.contentEquals( propName )
-				&& prop.isEncryptable( ) && getEncryptionID( prop ) != null
-				&& JavaScriptExecutionStatus.isExecuting( ) )
-		{
-			throw new RuntimeException(
-					"Invalid operation: Can not access encrypted password from script" );
-		}
 
 		return getProperty( module, prop );
 	}
