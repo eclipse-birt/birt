@@ -96,7 +96,7 @@
     <requirement
         name="com.ianbrandt.tools.m2e.mdp.feature.feature.group"/>
     <repository
-        url="http://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.8.1/N/LATEST/"/>
+        url="https://repo1.maven.org/maven2/.m2e/connectors/m2eclipse-tycho/0.8.1/N/LATEST/"/>
     <repository
         url="http://ianbrandt.github.io/m2e-maven-dependency-plugin/0.0.4/"/>
     <description>Install the tools needed in the IDE to work with the source code for ${scope.project.label}</description>
