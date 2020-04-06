@@ -27,7 +27,8 @@
     <copy todir="${STAGE_DIR}/ReportEngine/lib">
       <fileset dir="${RUNTIME_DIR}/ReportEngine/platform/plugins">
         <exclude name="org.eclipse.birt.*/**"/>
-        <exclude name="org.eclipse.datatools.enablement.*/**"/>
+      	<!-- Bug 543133 - Missing plugin in BIRT 4.8 runtime -->
+        <!--exclude name="org.eclipse.datatools.enablement.*/**"/-->
       	<exclude name="org.eclipse.datatools.modelbase.*/**"/>
         <exclude name="org.eclipse.datatools.sqltools.*/**"/>
         <exclude name="org.eclipse.equinox.p2.*/**"/>
