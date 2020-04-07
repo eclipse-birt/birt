@@ -2201,21 +2201,26 @@ public class DataRequestSessionImpl extends DataRequestSession
 					if ( baseDataSetDesign.getFilters( ) != null ) {
 						List filters=baseDataSetDesign.getFilters( );
 						List tempFilters=new ArrayList();
-						for (Object object : filters) {
-							if(object!=null) {
-							IFilterDefinition definition=(IFilterDefinition)object;
+						for (Object filter : filters) {
+							if(filter!=null && filter instanceof IFilterDefinition) {
+							IFilterDefinition definition=(IFilterDefinition)filter;
 							IBaseExpression iBaseExpression=definition.getExpression();
-							ConditionalExpression conditionalExpression=(ConditionalExpression) definition.getExpression();
-							if(conditionalExpression.getOperand1() instanceof org.eclipse.birt.data.engine.api.querydefn.ExpressionCollection) {
-								org.eclipse.birt.data.engine.api.querydefn.ExpressionCollection iBaseExpression2= (ExpressionCollection) conditionalExpression.getOperand1();
-								IScriptExpression iScriptExpression=conditionalExpression.getExpression();
-								Iterator it=iBaseExpression2.getExpressions().iterator();
-								while (it.hasNext()) {
-									Object obj= it.next();
-									tempFilters.add(object);
+							if(iBaseExpression instanceof ConditionalExpression) {
+							ConditionalExpression conditionalExpression=(ConditionalExpression) iBaseExpression;
+							if(conditionalExpression.getOperand1()!=null) {
+								if(conditionalExpression.getOperand1() instanceof ScriptExpression) {
+									ScriptExpression expression=(ScriptExpression) conditionalExpression.getOperand1();
+									if(expression.getText()!=null&&!expression.getText().contains("params")) {
+										tempFilters.add(filter);	
+									}
 								}
+								else {
+									tempFilters.add(filter);
+								}
+								
 							}
 						}
+							}
 						}
 						baseDataSetDesign.getFilters( ).clear( );
 						if(tempFilters.size()>0) {
