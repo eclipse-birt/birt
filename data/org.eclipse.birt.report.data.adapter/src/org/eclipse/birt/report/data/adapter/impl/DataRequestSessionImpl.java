@@ -45,12 +45,14 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
 import org.eclipse.birt.data.engine.api.DataEngineContext.DataEngineFlowMode;
 import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
+import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBasePreparedQuery;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.data.engine.api.IBinding;
 import org.eclipse.birt.data.engine.api.IConditionalExpression;
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.data.engine.api.IDataScriptEngine;
+import org.eclipse.birt.data.engine.api.IFilterDefinition;
 import org.eclipse.birt.data.engine.api.IGroupDefinition;
 import org.eclipse.birt.data.engine.api.IPreparedQuery;
 import org.eclipse.birt.data.engine.api.IQueryDefinition;
@@ -62,6 +64,7 @@ import org.eclipse.birt.data.engine.api.querydefn.BaseDataSetDesign;
 import org.eclipse.birt.data.engine.api.querydefn.BaseDataSourceDesign;
 import org.eclipse.birt.data.engine.api.querydefn.Binding;
 import org.eclipse.birt.data.engine.api.querydefn.ConditionalExpression;
+import org.eclipse.birt.data.engine.api.querydefn.ExpressionCollection;
 import org.eclipse.birt.data.engine.api.querydefn.FilterDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.GroupDefinition;
 import org.eclipse.birt.data.engine.api.querydefn.QueryDefinition;
@@ -71,6 +74,7 @@ import org.eclipse.birt.data.engine.expression.ExpressionCompilerUtil;
 import org.eclipse.birt.data.engine.impl.CubeCreationQueryDefinition;
 import org.eclipse.birt.data.engine.impl.DataEngineImpl;
 import org.eclipse.birt.data.engine.impl.MemoryUsageSetting;
+import org.eclipse.birt.data.engine.impl.QueryContextVisitorUtil;
 import org.eclipse.birt.data.engine.olap.api.IPreparedCubeQuery;
 import org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition;
 import org.eclipse.birt.data.engine.olap.api.query.IDerivedMeasureDefinition;
@@ -106,6 +110,7 @@ import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.ColumnMeta;
 import org.eclipse.birt.report.data.adapter.impl.DataSetIterator.IDataProcessor;
 import org.eclipse.birt.report.data.adapter.impl.QueryExecutionHelper.DataSetHandleProcessContext;
+import org.eclipse.birt.report.data.adapter.internal.adapter.ExpressionAdapter;
 import org.eclipse.birt.report.data.adapter.internal.adapter.GroupAdapter;
 import org.eclipse.birt.report.model.api.CachedMetaDataHandle;
 import org.eclipse.birt.report.model.api.DataSetHandle;
@@ -2193,8 +2198,40 @@ public class DataRequestSessionImpl extends DataRequestSession
 				public void process( IBaseDataSetDesign baseDataSetDesign,
 						DataSetHandle current )
 				{
-					processFilters( baseDataSetDesign, current );
-				}
+					if ( baseDataSetDesign.getFilters( ) != null ) {
+						List filters=baseDataSetDesign.getFilters( );
+						List tempFilters=new ArrayList();
+						for (Object filter : filters) {
+							if(filter!=null && filter instanceof IFilterDefinition) {
+							IFilterDefinition definition=(IFilterDefinition)filter;
+							IBaseExpression iBaseExpression=definition.getExpression();
+							if(iBaseExpression instanceof ConditionalExpression) {
+							ConditionalExpression conditionalExpression=(ConditionalExpression) iBaseExpression;
+							if(conditionalExpression.getOperand1()!=null) {
+								if(conditionalExpression.getOperand1() instanceof ScriptExpression) {
+									ScriptExpression expression=(ScriptExpression) conditionalExpression.getOperand1();
+									if(expression.getText()!=null&&!expression.getText().contains("params")) {
+										tempFilters.add(filter);	
+									}
+								}
+								else {
+									tempFilters.add(filter);
+								}
+								
+							}
+						}
+							}
+						}
+						baseDataSetDesign.getFilters( ).clear( );
+						if(tempFilters.size()>0) {
+							baseDataSetDesign.getFilters( ).addAll(tempFilters);
+							tempFilters.clear();
+						}
+						
+					}
+                }
+					
+				
 			};
 
 		}
