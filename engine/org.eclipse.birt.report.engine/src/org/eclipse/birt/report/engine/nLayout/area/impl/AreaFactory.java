@@ -193,7 +193,7 @@ public class AreaFactory
 				{
 					area = new BlockContainerArea( parent, context, content );
 				}
-				if ( context.isFixedLayout( ) && context.getEngineTaskType( ) == IEngineTask.TASK_RUN )
+				if ( context.isFixedLayout( ) )
 				{
 					area.setPageBreakInside( IStyle.AVOID_VALUE );
 				}
