@@ -172,8 +172,8 @@ OS name: "windows 7", version: "6.1", arch: "amd64", family: "windows"
       <arch>x86_64</arch>
     </environment>
     <environment>
-      <os>win32</os>
-      <ws>win32</ws>
+      <os>linux</os>
+      <ws>gtk</ws>
       <arch>x86_64</arch>
     </environment>
     <environment>
