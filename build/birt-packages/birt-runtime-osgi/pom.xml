@@ -35,8 +35,8 @@
 					<includePackedArtifacts>false</includePackedArtifacts>
 					<environments>
 						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
+							<os>linux</os>
+							<ws>gtk</ws>
 							<arch>x86_64</arch>
 						</environment>
 					</environments>

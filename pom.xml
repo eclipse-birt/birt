@@ -23,6 +23,26 @@
             	<activeByDefault>true</activeByDefault>
             </activation>
             <properties>
+                <eclipse.release.name>2020-06</eclipse.release.name>
+                <tycho.version>1.0.0</tycho.version>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.16/</eclipse.repo.url>
+                <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
+                <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
+                <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
+				<wtp.repo.url>https://download.eclipse.org/webtools/downloads/drops/R3.19.0/I-3.19.0-20200710111933/repository/</wtp.repo.url>
+                <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
+                <orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/drops/S20200707174545/repository/</orbit.repo.url>
+                <!-- https://eclipse.org/datatools/downloads.php  -->
+                <dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.106-SNAPSHOT/repository/</dtp.repo.url>
+                <jetty.version>9.4.29.v20200521</jetty.version>
+                <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
+                <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
+                <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
+				<lucene.version>(3.0.0,10.0.0)</lucene.version>
+            </properties>
+        </profile>
+	    <profile>
+            <properties>
                 <eclipse.release.name>2019-03</eclipse.release.name>
                 <tycho.version>1.0.0</tycho.version>
                 <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.11/</eclipse.repo.url>
@@ -336,8 +356,8 @@
 					<includePackedArtifacts>false</includePackedArtifacts>
 					<environments>
 						<environment>
-							<os>win32</os>
-							<ws>win32</ws>
+							<os>linux</os>
+							<ws>gtk</ws>
 							<arch>x86_64</arch>
 						</environment>
 					</environments>
