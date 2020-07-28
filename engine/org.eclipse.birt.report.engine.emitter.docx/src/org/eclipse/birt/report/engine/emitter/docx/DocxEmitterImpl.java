@@ -47,14 +47,24 @@ public class DocxEmitterImpl extends AbstractEmitterImpl
 		super.initialize( service );
 		String tempFileDir = service.getReportEngine( ).getConfig( )
 				.getTempDir( );
-		wordWriter = new DocxWriter( out, tempFileDir, getCompressionMode( service )
-				.getValue( ) );
+
 		IRenderOption renderOption = service.getRenderOption( );
-		Object value = renderOption.getOption( DocxRenderOption.OPTION_EMBED_HTML );
+		Object value = renderOption.getOption( DocxRenderOption.OPTION_WORD_VERSION );
+		if (value instanceof Integer) {
+			setWordVersion((Integer)value);
+			System.out.println("Setting the Word version to " + String.valueOf(value));
+		} else {
+			setWordVersion(2010);
+			System.out.println("Using default Word version "+ String.valueOf(getWordVersion()));
+		}
+		value = renderOption.getOption( DocxRenderOption.OPTION_EMBED_HTML );
 		if ( value instanceof Boolean )
 		{
 			this.embedHtml = (Boolean) value;
 		}
+
+		wordWriter = new DocxWriter( out, tempFileDir, getCompressionMode( service )
+				.getValue( ), getWordVersion() );
 	}
 
 	private CompressionMode getCompressionMode( IEmitterServices service )

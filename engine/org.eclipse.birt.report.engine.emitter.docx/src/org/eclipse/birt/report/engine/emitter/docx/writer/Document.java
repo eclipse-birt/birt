@@ -41,18 +41,21 @@ public class Document extends BasicComponent
 	private int headerId = 1;
 
 	private int footerId = 1;
-	
+
 	private int mhtId = 1;
+
+	private int wordVersion;
 
 	Document( IPart part, String backgroundColor, String backgroundImageUrl,
 			String backgroundHeight, String backgroundWidth,
-			boolean rtl ) throws IOException
+			boolean rtl, int wordVersion ) throws IOException
 	{
 		super( part );
 		this.backgroundColor = backgroundColor;
 		this.backgroundImageImgUrl = backgroundImageUrl;
 		this.backgroundHeight = backgroundHeight;
 		this.backgroundWidth = backgroundWidth;
+		this.wordVersion = wordVersion;
 		this.rtl = rtl;
 		writeStylesPart( );
 		writeSettingsPart( );
@@ -206,6 +209,20 @@ public class Document extends BasicComponent
 			settingsPartWriter.startWriter( );
 			settingsPartWriter.openTag( "w:settings" );
 			settingsPartWriter.nameSpace( "w", NameSpaces.WORD_PROCESSINGML );
+			settingsPartWriter.nameSpace( "o", NameSpaces.OFFICE );
+			settingsPartWriter.nameSpace( "r", NameSpaces.RELATIONSHIPS);
+			if (wordVersion > 2010) {
+				settingsPartWriter.nameSpace( "mc", NameSpaces.MARKUP_COMPATIBILITY );
+				settingsPartWriter.nameSpace( "w10", NameSpaces.W10 );
+				settingsPartWriter.nameSpace( "w14", NameSpaces.W14 );
+				settingsPartWriter.nameSpace( "w15", NameSpaces.W15 );
+				settingsPartWriter.nameSpace( "w16", NameSpaces.W16 );
+				settingsPartWriter.nameSpace( "w16cid", NameSpaces.W16CID );
+				settingsPartWriter.nameSpace( "w16se", NameSpaces.W16SE );
+				settingsPartWriter.nameSpace( "w16cex", NameSpaces.W16CEX );
+				settingsPartWriter.nameSpace( "sl", NameSpaces.SCHEMA_LIBRARY );
+				settingsPartWriter.attribute( "mc:ignorable", "w14 w15 w16se w16cid w16 w16cex" );
+			}
 			settingsPartWriter.openTag( "w:zoom" );
 			settingsPartWriter.attribute( "w:percent", "100" );
 			settingsPartWriter.closeTag( "w:zoom" );
@@ -218,6 +235,26 @@ public class Document extends BasicComponent
 			settingsPartWriter.openTag( "w:view" );
 			settingsPartWriter.attribute( "w:val", "print" );
 			settingsPartWriter.closeTag( "w:view" );
+
+			// Word compatibility settings
+			settingsPartWriter.openTag( "w:compat" );
+			switch (wordVersion) {
+			case 2010:
+				settingsPartWriter.openTag( "w:compatSetting" );
+				settingsPartWriter.attribute( "w:name", "w:compatibilityMode" );
+				settingsPartWriter.attribute( "w:uri", "http://schemas.microsoft.com/office/word" );
+				settingsPartWriter.attribute( "w:val", "12" );
+				settingsPartWriter.closeTag( "w:compatSetting" );
+				break;
+			default:
+				settingsPartWriter.openTag( "w:compatSetting" );
+				settingsPartWriter.attribute( "w:name", "w:compatibilityMode" );
+				settingsPartWriter.attribute( "w:uri", "http://schemas.microsoft.com/office/word" );
+				settingsPartWriter.attribute( "w:val", "15" );
+				settingsPartWriter.closeTag( "w:compatSetting" );
+			}
+			settingsPartWriter.closeTag( "w:compat" );
+
 			settingsPartWriter.closeTag( "w:settings" );
 			settingsPartWriter.endWriter( );
 		}

@@ -44,10 +44,13 @@ public class DocxWriter implements IWordWriter
 
 	private boolean showHeaderOnFirst;
 
-	public DocxWriter( OutputStream out, String tempFileDir, int compressionMode )
+	private int wordVersion;
+
+	public DocxWriter( OutputStream out, String tempFileDir, int compressionMode, int wordVersion )
 	{
 		pkg = Package.createInstance( out, tempFileDir, compressionMode );
 		pkg.setExtensionData( new ImageManager( ) );
+		this.wordVersion = wordVersion;
 	}
 
 	public void start( boolean rtl, String creator, String title,
@@ -119,7 +122,7 @@ public class DocxWriter implements IWordWriter
 		String relationshipType = RelationshipTypes.DOCUMENT;
 		IPart documentPart = pkg.getPart( uri, type, relationshipType );
 		document = new Document( documentPart, backgroundColor,
-				backgroundImageUrl, backgroundHeight, backgroundWidth, rtl );
+				backgroundImageUrl, backgroundHeight, backgroundWidth, rtl, wordVersion );
 		document.start( );
 		currentComponent = document;
 	}
