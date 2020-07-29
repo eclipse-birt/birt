@@ -250,7 +250,7 @@ public class Document extends BasicComponent
 				settingsPartWriter.nameSpace( "w16", NameSpaces.W16 );
 				settingsPartWriter.nameSpace( "w16se", NameSpaces.W16SE );
 				settingsPartWriter.nameSpace( "sl", NameSpaces.SCHEMA_LIBRARY );
-				settingsPartWriter.attribute( "mc:ignorable", "w14 w15 w16se w16cid w16 w16cex" );
+				settingsPartWriter.attribute( "mc:Ignorable", "w14 w15 w16se w16cid w16 w16cex" );
 				settingsPartWriter.openTag( "w:zoom" );
 				settingsPartWriter.attribute( "w:percent", "100" );
 				settingsPartWriter.closeTag( "w:zoom" );
@@ -265,7 +265,7 @@ public class Document extends BasicComponent
 				settingsPartWriter.closeTag( "w:view" );
 				settingsPartWriter.openTag( "w:compat" );
 				settingsPartWriter.openTag( "w:compatSetting" );
-				settingsPartWriter.attribute( "w:name", "w:compatibilityMode" );
+				settingsPartWriter.attribute( "w:name", "compatibilityMode" );
 				settingsPartWriter.attribute( "w:uri", "http://schemas.microsoft.com/office/word" );
 				settingsPartWriter.attribute( "w:val", "15" );
 				settingsPartWriter.closeTag( "w:compatSetting" );
