@@ -207,55 +207,71 @@ public class Document extends BasicComponent
 		{
 			settingsPartWriter = settingsPart.getWriter( );
 			settingsPartWriter.startWriter( );
-			settingsPartWriter.openTag( "w:settings" );
-			settingsPartWriter.nameSpace( "w", NameSpaces.WORD_PROCESSINGML );
-			settingsPartWriter.nameSpace( "o", NameSpaces.OFFICE );
-			settingsPartWriter.nameSpace( "r", NameSpaces.RELATIONSHIPS);
-			if (wordVersion > 2010) {
-				settingsPartWriter.nameSpace( "mc", NameSpaces.MARKUP_COMPATIBILITY );
-				settingsPartWriter.nameSpace( "w10", NameSpaces.W10 );
-				settingsPartWriter.nameSpace( "w14", NameSpaces.W14 );
-				settingsPartWriter.nameSpace( "w15", NameSpaces.W15 );
-				settingsPartWriter.nameSpace( "w16", NameSpaces.W16 );
-				settingsPartWriter.nameSpace( "w16cid", NameSpaces.W16CID );
-				settingsPartWriter.nameSpace( "w16se", NameSpaces.W16SE );
-				settingsPartWriter.nameSpace( "w16cex", NameSpaces.W16CEX );
-				settingsPartWriter.nameSpace( "sl", NameSpaces.SCHEMA_LIBRARY );
-				settingsPartWriter.attribute( "mc:ignorable", "w14 w15 w16se w16cid w16 w16cex" );
-			}
-			settingsPartWriter.openTag( "w:zoom" );
-			settingsPartWriter.attribute( "w:percent", "100" );
-			settingsPartWriter.closeTag( "w:zoom" );
-			settingsPartWriter.openTag( "w:displayBackgroundShape" );
-			settingsPartWriter.closeTag( "w:displayBackgroundShape" );
-			// settingsPartWriter.openTag( "w:proofState" );
-			// settingsPartWriter.attribute( "w:spelling", "clean" );
-			// settingsPartWriter.attribute( "w:grammar", "clean" );
-			// settingsPartWriter.closeTag( "w:proofState" );
-			settingsPartWriter.openTag( "w:view" );
-			settingsPartWriter.attribute( "w:val", "print" );
-			settingsPartWriter.closeTag( "w:view" );
-
-			// Word compatibility settings
-			settingsPartWriter.openTag( "w:compat" );
-			switch (wordVersion) {
+			switch(wordVersion) {
 			case 2010:
+				settingsPartWriter.openTag( "w:settings" );
+				settingsPartWriter.nameSpace( "w", NameSpaces.WORD_PROCESSINGML );
+				settingsPartWriter.nameSpace( "o", NameSpaces.OFFICE );
+				settingsPartWriter.nameSpace( "r", NameSpaces.RELATIONSHIPS);
+				settingsPartWriter.openTag( "w:zoom" );
+				settingsPartWriter.attribute( "w:percent", "100" );
+				settingsPartWriter.closeTag( "w:zoom" );
+				settingsPartWriter.openTag( "w:displayBackgroundShape" );
+				settingsPartWriter.closeTag( "w:displayBackgroundShape" );
+				// settingsPartWriter.openTag( "w:proofState" );
+				// settingsPartWriter.attribute( "w:spelling", "clean" );
+				// settingsPartWriter.attribute( "w:grammar", "clean" );
+				// settingsPartWriter.closeTag( "w:proofState" );
+				settingsPartWriter.openTag( "w:view" );
+				settingsPartWriter.attribute( "w:val", "print" );
+				settingsPartWriter.closeTag( "w:view" );
+				settingsPartWriter.openTag( "w:compat" );
 				settingsPartWriter.openTag( "w:compatSetting" );
 				settingsPartWriter.attribute( "w:name", "w:compatibilityMode" );
 				settingsPartWriter.attribute( "w:uri", "http://schemas.microsoft.com/office/word" );
 				settingsPartWriter.attribute( "w:val", "12" );
 				settingsPartWriter.closeTag( "w:compatSetting" );
+				settingsPartWriter.closeTag( "w:compat" );
+				settingsPartWriter.closeTag( "w:settings" );
 				break;
 			default:
+				settingsPartWriter.openTag( "w:settings" );
+				settingsPartWriter.nameSpace( "mc", NameSpaces.MARKUP_COMPATIBILITY );
+				settingsPartWriter.nameSpace( "o", NameSpaces.OFFICE );
+				settingsPartWriter.nameSpace( "r", NameSpaces.RELATIONSHIPS);
+				settingsPartWriter.nameSpace( "m", NameSpaces.MATH );
+				settingsPartWriter.nameSpace( "v", NameSpaces.VML);
+				settingsPartWriter.nameSpace( "w10", NameSpaces.W10 );
+				settingsPartWriter.nameSpace( "w", NameSpaces.WORD_PROCESSINGML );
+				settingsPartWriter.nameSpace( "w14", NameSpaces.W14 );
+				settingsPartWriter.nameSpace( "w15", NameSpaces.W15 );
+				settingsPartWriter.nameSpace( "w16cex", NameSpaces.W16CEX );
+				settingsPartWriter.nameSpace( "w16cid", NameSpaces.W16CID );
+				settingsPartWriter.nameSpace( "w16", NameSpaces.W16 );
+				settingsPartWriter.nameSpace( "w16se", NameSpaces.W16SE );
+				settingsPartWriter.nameSpace( "sl", NameSpaces.SCHEMA_LIBRARY );
+				settingsPartWriter.attribute( "mc:ignorable", "w14 w15 w16se w16cid w16 w16cex" );
+				settingsPartWriter.openTag( "w:zoom" );
+				settingsPartWriter.attribute( "w:percent", "100" );
+				settingsPartWriter.closeTag( "w:zoom" );
+				settingsPartWriter.openTag( "w:displayBackgroundShape" );
+				settingsPartWriter.closeTag( "w:displayBackgroundShape" );
+				// settingsPartWriter.openTag( "w:proofState" );
+				// settingsPartWriter.attribute( "w:spelling", "clean" );
+				// settingsPartWriter.attribute( "w:grammar", "clean" );
+				// settingsPartWriter.closeTag( "w:proofState" );
+				settingsPartWriter.openTag( "w:view" );
+				settingsPartWriter.attribute( "w:val", "print" );
+				settingsPartWriter.closeTag( "w:view" );
+				settingsPartWriter.openTag( "w:compat" );
 				settingsPartWriter.openTag( "w:compatSetting" );
 				settingsPartWriter.attribute( "w:name", "w:compatibilityMode" );
 				settingsPartWriter.attribute( "w:uri", "http://schemas.microsoft.com/office/word" );
 				settingsPartWriter.attribute( "w:val", "15" );
 				settingsPartWriter.closeTag( "w:compatSetting" );
+				settingsPartWriter.closeTag( "w:compat" );
+				settingsPartWriter.closeTag( "w:settings" );
 			}
-			settingsPartWriter.closeTag( "w:compat" );
-
-			settingsPartWriter.closeTag( "w:settings" );
 			settingsPartWriter.endWriter( );
 		}
 		finally

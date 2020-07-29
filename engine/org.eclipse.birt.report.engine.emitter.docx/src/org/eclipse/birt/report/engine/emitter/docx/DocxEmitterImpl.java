@@ -54,7 +54,7 @@ public class DocxEmitterImpl extends AbstractEmitterImpl
 			setWordVersion((Integer)value);
 			System.out.println("Setting the Word version to " + String.valueOf(value));
 		} else {
-			setWordVersion(2010);
+			setWordVersion(2016);
 			System.out.println("Using default Word version "+ String.valueOf(getWordVersion()));
 		}
 		value = renderOption.getOption( DocxRenderOption.OPTION_EMBED_HTML );
