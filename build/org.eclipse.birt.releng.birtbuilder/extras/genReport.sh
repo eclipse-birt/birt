@@ -9,7 +9,7 @@
 #    --output/-o <target file>
 #    --htmlType/-t < HTML | ReportletNoCSS >
 #    --locale/-l<locale>
-#    --parameter/-p <"parameterName=parameterValue">
+#    --parameter/-p <parameterName=parameterValue>
 #    --file/-F <parameter file>
 #    --encoding/-e <target encoding>
 #
@@ -44,17 +44,14 @@ export WORK_DIR=$PWD
 echo BIRT_HOME=$BIRT_HOME
 echo WORK_DIR=$WORK_DIR
 
-if [ "$BIRT_HOME" = "" ]
-
-then
-echo "BIRT_HOME must be set before ReportRunner can run";
-else
-
 java_io_tmpdir=$WORK_DIR/tmpdir
 org_eclipse_datatools_workspacepath=$java_io_tmpdir/workspace_dtp
 mkdir -p $org_eclipse_datatools_workspacepath
 
-JAVACMD='java';
-$JAVACMD -Djava.awt.headless=true -cp "$BIRTCLASSPATH" -DBIRT_HOME="$BIRT_HOME" -Dorg.eclipse.datatools_workspacepath="$org_eclipse_datatools_workspacepath" org.eclipse.birt.report.engine.api.ReportRunner ${1+"$@"}
+BIRTCLASSPATH=
 
-fi
+for filename in $WORK_DIR/lib/*.jar; do
+    BIRTCLASSPATH="$BIRTCLASSPATH:$filename"
+done
+
+java -classpath "$BIRTCLASSPATH" -Djava.awt.headless=true -DBIRT_HOME="$BIRT_HOME" -Dorg.eclipse.datatools_workspacepath="$org_eclipse_datatools_workspacepath" org.eclipse.birt.report.engine.api.ReportRunner $@
