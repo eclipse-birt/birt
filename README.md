@@ -1,4 +1,4 @@
-# BIRT [![Build Status](https://travis-ci.org/eclipse/birt.svg?branch=master)](https://travis-ci.org/eclipse/birt)
+# Eclipse BIRT
 The open source Eclipse BIRT reporting and data visualization project. 
 
 ## Building BIRT
@@ -24,6 +24,3 @@ To build BIRT with Eclipse Oxygen, run:
 # Useful links
 ## Build Download
 http://download.eclipse.org/birt/downloads/build_list.php
-
-## Bugzilla 
-https://bugs.eclipse.org/bugs/
