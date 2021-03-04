@@ -22,7 +22,7 @@
 		<!--<build>v${maven.build.timestamp}</build>-->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
-		<required-java-version>8</required-java-version>
+		<required-java-version>1.8</required-java-version>
 		<required-maven-version>3.6.3</required-maven-version>
 	</properties>
 
