@@ -1,4 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (c) 2015, 2021 Eclipse BIRT contributors and others
+
+	This program and the accompanying materials are made available under the
+	terms of the Eclipse Public License 2.0 which is available at
+	https://www.eclipse.org/legal/epl-2.0/.
+
+	SPDX-License-Identifier: EPL-2.0
+-->
 <project xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd" xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.eclipse.birt</groupId>
@@ -13,6 +22,8 @@
 		<!--<build>v${maven.build.timestamp}</build>-->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
+		<required-java-version>1.8</required-java-version>
+		<required-maven-version>3.6.3</required-maven-version>
 	</properties>
 
 	<!-- make release builds in particular quicker and more reliable -->
@@ -328,6 +339,33 @@
 
 		<plugins>
 			<plugin>
+				<inherited>true</inherited>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-enforcer-plugin</artifactId>
+				<version>3.0.0-M3</version>
+				<executions>
+				<execution>
+					<id>enforce-maven-version</id>
+					<goals>
+						<goal>enforce</goal>
+					</goals>
+					<configuration>
+						<rules>
+							<requireMavenVersion>
+								<version>${required-maven-version}</version>
+							</requireMavenVersion>
+							<requireJavaVersion>
+								<version>${required-java-version}</version>
+							</requireJavaVersion>
+						</rules>
+						<fail>true</fail>
+						<failFast>true</failFast>
+					</configuration>
+				</execution>
+				</executions>
+			</plugin>
+			
+			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
@@ -492,26 +530,6 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
 				<version>3.1</version>
-			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-toolchains-plugin</artifactId>
-				<version>1.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>toolchain</goal>
-						</goals>
-					</execution>
-				</executions>
-				<configuration>
-					<toolchains>
-						<jdk>
-							<id>JavaSE-1.8</id>
-						</jdk>
-					</toolchains>
-				</configuration>
 			</plugin>
 
 			<!-- build source plugins -->
