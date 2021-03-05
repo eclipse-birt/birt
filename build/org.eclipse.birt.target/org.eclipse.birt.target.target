@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?pde version="3.8"?>
+<!--
+	Copyright (c) 2015, 2021 Eclipse BIRT contributors and others
+
+	This program and the accompanying materials are made available under the
+	terms of the Eclipse Public License 2.0 which is available at
+	https://www.eclipse.org/legal/epl-2.0/.
+
+	SPDX-License-Identifier: EPL-2.0
+-->
+<target includeMode="feature" name="BIRT Photon target platform">
+	<locations>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/datatools/updates/1.14.105-SNAPSHOT/repository/"/>
+			<unit id="org.eclipse.datatools.common.doc.user.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.connectivity.doc.user.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.connectivity.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.connectivity.oda.designer.core.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.connectivity.oda.designer.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.connectivity.oda.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.apache.derby.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.hsqldb.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.ibm.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.ingres.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.jdbc.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.jdt.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.msft.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.mysql.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.oda.designer.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.oda.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.oracle.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.postgresql.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.sap.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.sqlite.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.enablement.sybase.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.intro.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.sqldevtools.data.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.sqldevtools.ddl.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.sqldevtools.schemaobjecteditor.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.sqldevtools.sqlbuilder.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.datatools.sqltools.doc.user.feature.group" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/eclipse/updates/4.11/"/>
+			<unit id="a.jre.javase" version="0.0.0"/>
+			<unit id="org.eclipse.equinox.executable.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.cvs.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.platform.sdk" version="0.0.0"/>
+			<unit id="org.eclipse.rcp.configuration.feature.group" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/gemini/updates/web/3.0.4"/>
+			<unit id="org.apache.jasper" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/jetty/updates/jetty-bundles-9.x/9.4.15.v20190215"/>
+			<unit id="org.eclipse.jetty.http" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.osgi.boot" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.plus" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.server" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.servlet" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.util" version="0.0.0"/>
+			<unit id="org.eclipse.jetty.webapp" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/modeling/emf/emf/builds/milestone/latest"/>
+			<unit id="org.eclipse.emf.base.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.emf.ecore.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.emf.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.xsd.edit.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.xsd.feature.group" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/tools/gef/updates/legacy/releases/4.0.0_gef-master_1952"/>
+			<unit id="org.eclipse.draw2d.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.gef.feature.group" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository/"/>
+			<unit id="com.lowagie.text" version="0.0.0"/>
+			<unit id="javax.xml.stream" version="0.0.0"/>
+			<unit id="javax.wsdl" version="1.5.1.v201012040544"/>
+			<unit id="org.apache.batik.anim" version="0.0.0"/>
+			<unit id="org.apache.batik.bridge" version="0.0.0"/>
+			<unit id="org.apache.batik.codec" version="0.0.0"/>
+			<unit id="org.apache.batik.css" version="1.9.1.v20181015-1528"/>
+			<unit id="org.apache.batik.dom" version="0.0.0"/>
+			<unit id="org.apache.batik.dom.svg" version="0.0.0"/>
+			<unit id="org.apache.batik.ext.awt" version="0.0.0"/>
+			<unit id="org.apache.batik.extension" version="0.0.0"/>
+			<unit id="org.apache.batik.gvt" version="0.0.0"/>
+			<unit id="org.apache.batik.parser" version="0.0.0"/>
+			<unit id="org.apache.batik.pdf" version="0.0.0"/>
+			<unit id="org.apache.batik.script" version="0.0.0"/>
+			<unit id="org.apache.batik.svggen" version="0.0.0"/>
+			<unit id="org.apache.batik.swing" version="0.0.0"/>
+			<unit id="org.apache.batik.transcoder" version="0.0.0"/>
+			<unit id="org.apache.batik.util.gui" version="0.0.0"/>
+			<unit id="org.apache.batik.xml" version="0.0.0"/>
+			<unit id="org.apache.commons.codec" version="0.0.0"/>
+			<unit id="org.apache.derby" version="0.0.0"/>
+			<unit id="org.apache.lucene.analysis" version="0.0.0"/>
+			<unit id="org.apache.poi" version="0.0.0"/>
+			<unit id="org.apache.poi.ooxml" version="0.0.0"/>
+			<unit id="org.apache.poi.ooxml.schemas" version="0.0.0"/>
+			<unit id="org.apache.xmlbeans" version="0.0.0"/>
+			<unit id="org.eclipse.orbit.mongodb" version="0.0.0"/>
+			<unit id="org.dom4j" version="0.0.0"/>
+		</location>
+		<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+			<repository location="https://download.eclipse.org/webtools/downloads/drops/R3.13.0/R-3.13.0-20190308131645/repository/"/>
+			<unit id="org.eclipse.jst.enterprise_ui.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.jst.common.fproj.enablement.jdt.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.jst.web_ui.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.wst.jsdt.feature.feature.group" version="0.0.0"/>
+			<unit id="org.eclipse.wst.web_ui.feature.feature.group" version="0.0.0"/>
+		</location>
+	</locations>
+</target>
