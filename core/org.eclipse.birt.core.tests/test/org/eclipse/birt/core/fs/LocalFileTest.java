@@ -54,7 +54,8 @@ public class LocalFileTest extends TestCase
 
 	public void testGetPath( )
 	{
-		assertEquals( ".\\utest\\fs\\testfiles\\abc.txt",
+		String expectedPath = String.join(File.separator, ".", "utest", "fs", "testfiles", "abc.txt");
+		assertEquals(expectedPath,
 				new LocalFile( new File( TEST_FOLDER + "abc.txt" ) )
 						.getPath( ) );
 	}
