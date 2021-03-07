@@ -373,6 +373,7 @@
 				<version>${tycho.version}</version>
 				<configuration>
 					<pomDependencies>consider</pomDependencies>
+					<targetDefinitionIncludeSource>honor</targetDefinitionIncludeSource>
 					<target>
 						<artifact>
 							<groupId>org.eclipse.birt</groupId>
