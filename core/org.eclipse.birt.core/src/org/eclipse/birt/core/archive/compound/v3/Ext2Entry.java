@@ -15,33 +15,28 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public class Ext2Entry
-{
+public class Ext2Entry {
 
 	int inode;
 	String name;
 
-	Ext2Entry( String name, int inode )
-	{
+	Ext2Entry(String name, int inode) {
 		this.name = name;
 		this.inode = inode;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	void write( DataOutput out ) throws IOException
-	{
+	void write(DataOutput out) throws IOException {
 
-		out.writeInt( inode );
-		out.writeUTF( name );
+		out.writeInt(inode);
+		out.writeUTF(name);
 	}
 
-	void read( DataInput in ) throws IOException
-	{
-		this.inode = in.readInt( );
-		this.name = in.readUTF( );
+	void read(DataInput in) throws IOException {
+		this.inode = in.readInt();
+		this.name = in.readUTF();
 	}
 }

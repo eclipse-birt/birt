@@ -17,8 +17,7 @@ import java.io.IOException;
 import org.eclipse.birt.core.i18n.CoreMessages;
 import org.eclipse.birt.core.i18n.ResourceConstants;
 
-public class FatBlockList
-{
+public class FatBlockList {
 
 	/**
 	 * max direct blocks in the node
@@ -44,9 +43,9 @@ public class FatBlockList
 	 * max triple indirect blocks in the node
 	 */
 	static final int MAX_TRIPLE_INDIRECT_BLOCK = 1024 * 1024 * 1024;
-	static final int TRIPLE_INDIRECT_MASK_1 = ( 0x3FF << 20 );
+	static final int TRIPLE_INDIRECT_MASK_1 = 0x3FF << 20;
 	static final int TRIPLE_INDIRECT_SHIFT_1 = 20;
-	static final int TRIPLE_INDIRECT_MASK_2 = ( 0x3FF << 10 );
+	static final int TRIPLE_INDIRECT_MASK_2 = 0x3FF << 10;
 	static final int TRIPLE_INDIRECT_SHIFT_2 = 10;
 	static final int TRIPLE_INDIRECT_MASK_3 = 0x3FF;
 	static final int TRIPLE_INDIRECT_SHIFT_3 = 0;
@@ -55,229 +54,187 @@ public class FatBlockList
 	protected Ext2Node node;
 	protected FatBlock[] cachedFatBlocks = new FatBlock[3];
 
-	FatBlockList( Ext2FileSystem fs, Ext2Node node )
-	{
+	FatBlockList(Ext2FileSystem fs, Ext2Node node) {
 		this.fs = fs;
 		this.node = node;
 	}
 
-	public void clear( ) throws IOException
-	{
-		for ( int i = 0; i < 3; i++ )
-		{
-			clear( i );
+	public void clear() throws IOException {
+		for (int i = 0; i < 3; i++) {
+			clear(i);
 		}
 	}
 
-	protected void clear( int level ) throws IOException
-	{
+	protected void clear(int level) throws IOException {
 		FatBlock cachedBlock = cachedFatBlocks[level];
-		if ( cachedBlock != null )
-		{
-			fs.unloadBlock( cachedBlock );
+		if (cachedBlock != null) {
+			fs.unloadBlock(cachedBlock);
 			cachedFatBlocks[level] = null;
 		}
 	}
 
-	public Ext2Node getNode( )
-	{
+	public Ext2Node getNode() {
 		return node;
 	}
 
-	public int getFileBlock( int index ) throws IOException
-	{
-		if ( index < MAX_DIRECT_BLOCK )
-		{
-			return node.getDirectBlock( index );
+	public int getFileBlock(int index) throws IOException {
+		if (index < MAX_DIRECT_BLOCK) {
+			return node.getDirectBlock(index);
 		}
 		index -= MAX_DIRECT_BLOCK;
-		if ( index < MAX_INDIRECT_BLOCK )
-		{
-			return getIndirectBlock1( index );
+		if (index < MAX_INDIRECT_BLOCK) {
+			return getIndirectBlock1(index);
 		}
 		index -= MAX_INDIRECT_BLOCK;
-		if ( index < MAX_DOUBLE_INDIRECT_BLOCK )
-		{
-			return getIndirectBlock2( index );
+		if (index < MAX_DOUBLE_INDIRECT_BLOCK) {
+			return getIndirectBlock2(index);
 		}
 		index -= MAX_DOUBLE_INDIRECT_BLOCK;
-		if ( index < MAX_TRIPLE_INDIRECT_BLOCK )
-		{
-			return getIndirectBlock3( index );
+		if (index < MAX_TRIPLE_INDIRECT_BLOCK) {
+			return getIndirectBlock3(index);
 		}
-		throw new EOFException(
-				CoreMessages.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
+		throw new EOFException(CoreMessages.getString(ResourceConstants.EXCEED_FILE_LENGTH));
 	}
 
-	public void setFileBlock( int index, int fileBlockId ) throws IOException
-	{
-		if ( index < MAX_DIRECT_BLOCK )
-		{
-			node.setDirectBlock( index, fileBlockId );
+	public void setFileBlock(int index, int fileBlockId) throws IOException {
+		if (index < MAX_DIRECT_BLOCK) {
+			node.setDirectBlock(index, fileBlockId);
 			return;
 		}
 		index -= MAX_DIRECT_BLOCK;
-		if ( index < MAX_INDIRECT_BLOCK )
-		{
-			setIndirectBlock1( index, fileBlockId );
+		if (index < MAX_INDIRECT_BLOCK) {
+			setIndirectBlock1(index, fileBlockId);
 			return;
 		}
 		index -= MAX_INDIRECT_BLOCK;
-		if ( index < MAX_DOUBLE_INDIRECT_BLOCK )
-		{
-			setIndirectBlock2( index, fileBlockId );
+		if (index < MAX_DOUBLE_INDIRECT_BLOCK) {
+			setIndirectBlock2(index, fileBlockId);
 			return;
 		}
 		index -= MAX_DOUBLE_INDIRECT_BLOCK;
-		if ( index < MAX_TRIPLE_INDIRECT_BLOCK )
-		{
-			setIndirectBlock3( index, fileBlockId );
+		if (index < MAX_TRIPLE_INDIRECT_BLOCK) {
+			setIndirectBlock3(index, fileBlockId);
 			return;
 		}
-		throw new EOFException(
-				CoreMessages.getString( ResourceConstants.EXCEED_FILE_LENGTH ) );
+		throw new EOFException(CoreMessages.getString(ResourceConstants.EXCEED_FILE_LENGTH));
 	}
 
-	private void setIndirectBlock1( int index, int blockId ) throws IOException
-	{
-		int fatBlockId = node.getIndirectBlock( 0 );
-		FatBlock fatBlock = getCachedBlock( 0, fatBlockId );
-		if ( fatBlockId <= 0 )
-		{
-			fatBlockId = fatBlock.getBlockId( );
-			node.setBlockCount( node.getBlockCount( ) + 1 );
-			node.setIndirectBlock( 0, fatBlockId );
+	private void setIndirectBlock1(int index, int blockId) throws IOException {
+		int fatBlockId = node.getIndirectBlock(0);
+		FatBlock fatBlock = getCachedBlock(0, fatBlockId);
+		if (fatBlockId <= 0) {
+			fatBlockId = fatBlock.getBlockId();
+			node.setBlockCount(node.getBlockCount() + 1);
+			node.setIndirectBlock(0, fatBlockId);
 		}
-		fatBlock.setBlock( index, blockId );
+		fatBlock.setBlock(index, blockId);
 	}
 
-	private int getIndirectBlock1( int index ) throws IOException
-	{
-		int fatBlockId = node.getIndirectBlock( 0 );
-		if ( fatBlockId <= 0 )
-		{
+	private int getIndirectBlock1(int index) throws IOException {
+		int fatBlockId = node.getIndirectBlock(0);
+		if (fatBlockId <= 0) {
 			return -1;
 		}
-		FatBlock fatBlock = getCachedBlock( 0, fatBlockId );
-		return fatBlock.getBlock( index );
+		FatBlock fatBlock = getCachedBlock(0, fatBlockId);
+		return fatBlock.getBlock(index);
 	}
 
-	private void setIndirectBlock2( int index, int blockId ) throws IOException
-	{
-		int fatBlockId = node.getIndirectBlock( 1 );
-		FatBlock fatBlock = getCachedBlock( 0, fatBlockId );
-		if ( fatBlockId <= 0 )
-		{
-			fatBlockId = fatBlock.getBlockId( );
-			node.setBlockCount( node.getBlockCount( ) + 1 );
-			node.setIndirectBlock( 1, fatBlockId );
+	private void setIndirectBlock2(int index, int blockId) throws IOException {
+		int fatBlockId = node.getIndirectBlock(1);
+		FatBlock fatBlock = getCachedBlock(0, fatBlockId);
+		if (fatBlockId <= 0) {
+			fatBlockId = fatBlock.getBlockId();
+			node.setBlockCount(node.getBlockCount() + 1);
+			node.setIndirectBlock(1, fatBlockId);
 		}
-		int index1 = ( index & 0xFFC00 ) >> 10;
-		int fatBlockId1 = fatBlock.getBlock( index1 );
-		FatBlock fatBlock1 = getCachedBlock( 1, fatBlockId1 );
-		if ( fatBlockId1 <= 0 )
-		{
-			fatBlockId1 = fatBlock1.getBlockId( );
-			node.setBlockCount( node.getBlockCount( ) + 1 );
-			fatBlock.setBlock( index1, fatBlockId1 );
+		int index1 = (index & 0xFFC00) >> 10;
+		int fatBlockId1 = fatBlock.getBlock(index1);
+		FatBlock fatBlock1 = getCachedBlock(1, fatBlockId1);
+		if (fatBlockId1 <= 0) {
+			fatBlockId1 = fatBlock1.getBlockId();
+			node.setBlockCount(node.getBlockCount() + 1);
+			fatBlock.setBlock(index1, fatBlockId1);
 		}
 		int index2 = index & 0x3FF;
-		fatBlock1.setBlock( index2, blockId );
+		fatBlock1.setBlock(index2, blockId);
 	}
 
-	private int getIndirectBlock2( int index ) throws IOException
-	{
-		int fatBlockId = node.getIndirectBlock( 1 );
-		if ( fatBlockId > 0 )
-		{
-			FatBlock fatBlock = getCachedBlock( 0, fatBlockId );
-			int index1 = ( index & 0xFFC00 ) >> 10;
-			int fatBlockId1 = fatBlock.getBlock( index1 );
-			if ( fatBlockId1 > 0 )
-			{
-				FatBlock fatBlock1 = getCachedBlock( 1, fatBlockId1 );
+	private int getIndirectBlock2(int index) throws IOException {
+		int fatBlockId = node.getIndirectBlock(1);
+		if (fatBlockId > 0) {
+			FatBlock fatBlock = getCachedBlock(0, fatBlockId);
+			int index1 = (index & 0xFFC00) >> 10;
+			int fatBlockId1 = fatBlock.getBlock(index1);
+			if (fatBlockId1 > 0) {
+				FatBlock fatBlock1 = getCachedBlock(1, fatBlockId1);
 				int index2 = index & 0x3FF;
-				return fatBlock1.getBlock( index2 );
+				return fatBlock1.getBlock(index2);
 			}
 		}
 		return -1;
 	}
 
-	private void setIndirectBlock3( int index, int blockId ) throws IOException
-	{
-		int fatBlockId = node.getIndirectBlock( 2 );
-		FatBlock fatBlock = getCachedBlock( 0, fatBlockId );
-		if ( fatBlockId <= 0 )
-		{
-			fatBlockId = fatBlock.getBlockId( );
-			node.setBlockCount( node.getBlockCount( ) + 1 );
-			node.setIndirectBlock( 2, fatBlockId );
+	private void setIndirectBlock3(int index, int blockId) throws IOException {
+		int fatBlockId = node.getIndirectBlock(2);
+		FatBlock fatBlock = getCachedBlock(0, fatBlockId);
+		if (fatBlockId <= 0) {
+			fatBlockId = fatBlock.getBlockId();
+			node.setBlockCount(node.getBlockCount() + 1);
+			node.setIndirectBlock(2, fatBlockId);
 		}
-		int index1 = ( index & 0x3FF00000 ) >> 20;
-		int fatBlockId1 = fatBlock.getBlock( index1 );
-		FatBlock fatBlock1 = getCachedBlock( 1, fatBlockId1 );
-		if ( fatBlockId1 <= 0 )
-		{
-			fatBlockId1 = fatBlock1.getBlockId( );
-			node.setBlockCount( node.getBlockCount( ) + 1 );
-			fatBlock.setBlock( index1, fatBlockId1 );
+		int index1 = (index & 0x3FF00000) >> 20;
+		int fatBlockId1 = fatBlock.getBlock(index1);
+		FatBlock fatBlock1 = getCachedBlock(1, fatBlockId1);
+		if (fatBlockId1 <= 0) {
+			fatBlockId1 = fatBlock1.getBlockId();
+			node.setBlockCount(node.getBlockCount() + 1);
+			fatBlock.setBlock(index1, fatBlockId1);
 		}
 
-		int index2 = ( index & 0xFFC00 ) >> 10;
-		int fatBlockId2 = fatBlock1.getBlock( index2 );
-		FatBlock fatBlock2 = getCachedBlock( 2, fatBlockId2 );
-		if ( fatBlockId2 <= 0 )
-		{
-			fatBlockId2 = fatBlock2.getBlockId( );
-			node.setBlockCount( node.getBlockCount( ) + 1 );
-			fatBlock1.setBlock( index2, fatBlockId2 );
+		int index2 = (index & 0xFFC00) >> 10;
+		int fatBlockId2 = fatBlock1.getBlock(index2);
+		FatBlock fatBlock2 = getCachedBlock(2, fatBlockId2);
+		if (fatBlockId2 <= 0) {
+			fatBlockId2 = fatBlock2.getBlockId();
+			node.setBlockCount(node.getBlockCount() + 1);
+			fatBlock1.setBlock(index2, fatBlockId2);
 		}
 		int index3 = index & 0x3FF;
-		fatBlock2.setBlock( index3, blockId );
+		fatBlock2.setBlock(index3, blockId);
 	}
 
-	private int getIndirectBlock3( int index ) throws IOException
-	{
-		int fatBlockId = node.getIndirectBlock( 2 );
-		if ( fatBlockId > 0 )
-		{
-			FatBlock fatBlock = getCachedBlock( 0, fatBlockId );
-			int index1 = ( index & 0x3FF00000 ) >> 20;
-			int fatBlockId1 = fatBlock.getBlock( index1 );
-			if ( fatBlockId1 > 0 )
-			{
-				FatBlock fatBlock1 = getCachedBlock( 1, fatBlockId1 );
-				int index2 = ( index & 0xFFC00 ) >> 10;
-				int fatBlockId2 = fatBlock1.getBlock( index2 );
-				if ( fatBlockId2 > 0 )
-				{
-					FatBlock fatBlock2 = getCachedBlock( 2, fatBlockId2 );
+	private int getIndirectBlock3(int index) throws IOException {
+		int fatBlockId = node.getIndirectBlock(2);
+		if (fatBlockId > 0) {
+			FatBlock fatBlock = getCachedBlock(0, fatBlockId);
+			int index1 = (index & 0x3FF00000) >> 20;
+			int fatBlockId1 = fatBlock.getBlock(index1);
+			if (fatBlockId1 > 0) {
+				FatBlock fatBlock1 = getCachedBlock(1, fatBlockId1);
+				int index2 = (index & 0xFFC00) >> 10;
+				int fatBlockId2 = fatBlock1.getBlock(index2);
+				if (fatBlockId2 > 0) {
+					FatBlock fatBlock2 = getCachedBlock(2, fatBlockId2);
 					int index3 = index & 0x3FF;
-					return fatBlock2.getBlock( index3 );
+					return fatBlock2.getBlock(index3);
 				}
 			}
 		}
 		return -1;
 	}
 
-	FatBlock getCachedBlock( int level, int blockId ) throws IOException
-	{
+	FatBlock getCachedBlock(int level, int blockId) throws IOException {
 		FatBlock block = cachedFatBlocks[level];
-		if ( block != null )
-		{
-			if ( block.getBlockId( ) == blockId )
-			{
+		if (block != null) {
+			if (block.getBlockId() == blockId) {
 				return block;
 			}
-			fs.unloadBlock( block );
+			fs.unloadBlock(block);
 		}
-		if ( blockId != -1 )
-		{
-			block = fs.loadFatBlock( blockId );
-		}
-		else
-		{
-			block = fs.createFatBlock( );
+		if (blockId != -1) {
+			block = fs.loadFatBlock(blockId);
+		} else {
+			block = fs.createFatBlock();
 		}
 		cachedFatBlocks[level] = block;
 		return block;

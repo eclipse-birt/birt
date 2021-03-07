@@ -20,8 +20,7 @@ import org.eclipse.birt.core.archive.cache.Cacheable;
  * index block or stream data block.
  */
 
-public class Block extends Cacheable implements ArchiveConstants
-{
+public class Block extends Cacheable implements ArchiveConstants {
 
 	ArchiveFileV2 af;
 
@@ -41,15 +40,12 @@ public class Block extends Cacheable implements ArchiveConstants
 
 	/**
 	 * Constructor
-	 * 
-	 * @param fs
-	 *            the compound file system it belongs to
-	 * @param blockId
-	 *            the block ID
+	 *
+	 * @param fs      the compound file system it belongs to
+	 * @param blockId the block ID
 	 */
-	Block( ArchiveFileV2 af, int blockId, int size )
-	{
-		super( af.caches, Integer.valueOf( blockId ) );
+	Block(ArchiveFileV2 af, int blockId, int size) {
+		super(af.caches, Integer.valueOf(blockId));
 		this.af = af;
 		blockSize = size;
 		blockData = new byte[size];
@@ -59,59 +55,49 @@ public class Block extends Cacheable implements ArchiveConstants
 		dataSize = 0;
 	}
 
-	public void refresh( ) throws IOException
-	{
-		dataSize = af.read( id, 0, blockData, 0, blockSize );
+	public void refresh() throws IOException {
+		dataSize = af.read(id, 0, blockData, 0, blockSize);
 		dirtyStart = 0;
 		dirtyEnd = 0;
 	}
 
-	public void flush( ) throws IOException
-	{
+	public void flush() throws IOException {
 
-		if ( dirtyEnd != dirtyStart )
-		{
-			af.write( id, dirtyStart, blockData, dirtyStart, dirtyEnd
-					- dirtyStart );
+		if (dirtyEnd != dirtyStart) {
+			af.write(id, dirtyStart, blockData, dirtyStart, dirtyEnd - dirtyStart);
 		}
 		dirtyEnd = dirtyStart = 0;
 	}
 
-	public byte[] getData( )
-	{
+	public byte[] getData() {
 		return blockData;
 	}
 
-	public int write( int tgt, byte b[], int off, int len ) throws IOException
-	{
+	public int write(int tgt, byte b[], int off, int len) throws IOException {
 		int size = blockSize - tgt;
-		if ( size > len )
+		if (size > len) {
 			size = len;
-		System.arraycopy( b, off, blockData, tgt, size );
-		if ( dirtyStart > tgt )
-		{
+		}
+		System.arraycopy(b, off, blockData, tgt, size);
+		if (dirtyStart > tgt) {
 			dirtyStart = tgt;
 		}
-		if ( dirtyEnd < tgt + size )
-		{
+		if (dirtyEnd < tgt + size) {
 			dirtyEnd = tgt + size;
 		}
 
-		if ( dataSize < dirtyEnd )
-		{
+		if (dataSize < dirtyEnd) {
 			dataSize = dirtyEnd;
 		}
 		return size;
 	}
 
-	public int read( int src, byte b[], int off, int len ) throws IOException
-	{
+	public int read(int src, byte b[], int off, int len) throws IOException {
 		int size = dataSize - src;
-		if ( size > len )
-		{
+		if (size > len) {
 			size = len;
 		}
-		System.arraycopy( blockData, src, b, off, size );
+		System.arraycopy(blockData, src, b, off, size);
 		return size;
 	}
 }

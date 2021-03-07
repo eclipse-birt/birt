@@ -12,54 +12,55 @@
 package org.eclipse.birt.core.script.functionservice;
 
 /**
- * This interface defines a Script Function that can be used in java script expression.
+ * This interface defines a Script Function that can be used in java script
+ * expression.
  */
 
-public interface IScriptFunction extends IDescribable, INamedObject, IScriptFunctionExecutor
-{
+public interface IScriptFunction extends IDescribable, INamedObject, IScriptFunctionExecutor {
 	/**
 	 * Return the Category this Script Function belongs to.
-	 * 
+	 *
 	 * @return
 	 */
-	public IScriptFunctionCategory getCategory();
-	
+	IScriptFunctionCategory getCategory();
+
 	/**
-	 * Return the expected return data type of this Script Function. The return type must be 
-	 * one of Birt Supported Data Type as listed in org.eclipse.birt.core.data.DataType class.
-	 * 
+	 * Return the expected return data type of this Script Function. The return type
+	 * must be one of Birt Supported Data Type as listed in
+	 * org.eclipse.birt.core.data.DataType class.
+	 *
 	 * @return
 	 */
-	public String getDataTypeName();
-	
-	
+	String getDataTypeName();
+
 	/**
 	 * Return the argument definitions of this Script Function.
+	 *
 	 * @return
 	 */
-	public IScriptFunctionArgument[] getArguments();
-	
+	IScriptFunctionArgument[] getArguments();
+
 	/**
-	 * 
+	 *
 	 */
-	public boolean allowVarArguments();
-	
+	boolean allowVarArguments();
+
 	/**
 	 * Returns whether the function is visible.
-	 * 
+	 *
 	 */
-	public boolean isVisible( );
-	
+	boolean isVisible();
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public boolean isStatic();
-	
+	boolean isStatic();
+
 	/**
-	 * 
+	 *
 	 * @return
 	 */
-	public boolean isConstructor();
-	
+	boolean isConstructor();
+
 }

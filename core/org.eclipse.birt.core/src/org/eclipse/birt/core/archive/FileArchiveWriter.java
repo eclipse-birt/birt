@@ -15,15 +15,12 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
 
-public class FileArchiveWriter extends ArchiveWriter
-{
+public class FileArchiveWriter extends ArchiveWriter {
 
 	/**
-	 * @param absolute
-	 *            fileName the archive file name
+	 * @param absolute fileName the archive file name
 	 */
-	public FileArchiveWriter( String fileName ) throws IOException
-	{
-		super( fileName );
+	public FileArchiveWriter(String fileName) throws IOException {
+		super(fileName);
 	}
 }

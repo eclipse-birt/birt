@@ -21,25 +21,21 @@ import org.xml.sax.SAXException;
  * To provide common utility method in BIRT
  */
 
-public class CommonUtil
-{
+public class CommonUtil {
 
 	/**
 	 * Creates SAX parser and disables XXE
-	 * 
+	 *
 	 * @return new SAX parser
 	 * @throws ParserConfigurationException
 	 * @throws SAXException
 	 */
-	public static SAXParser createSAXParser( )
-			throws ParserConfigurationException, SAXException
-	{
+	public static SAXParser createSAXParser() throws ParserConfigurationException, SAXException {
 
-		SAXParserFactory factory = SAXParserFactory.newInstance( );
+		SAXParserFactory factory = SAXParserFactory.newInstance();
 		// Disable XML External Entity to avoid hack
-		factory.setFeature(
-				"http://apache.org/xml/features/disallow-doctype-decl", true ); //$NON-NLS-1$
-		SAXParser parser = factory.newSAXParser( );
+		factory.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true); //$NON-NLS-1$
+		SAXParser parser = factory.newSAXParser();
 
 		return parser;
 	}

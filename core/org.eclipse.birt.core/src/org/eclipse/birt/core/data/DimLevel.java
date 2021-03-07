@@ -11,145 +11,125 @@
 
 package org.eclipse.birt.core.data;
 
+import java.util.Objects;
+
 /**
  * This class is an Implementation of IDimLevel.
- * 
+ *
  */
-class DimLevel implements IDimLevel
-{
+class DimLevel implements IDimLevel {
 
 	private String dimensionName;
 	private String levelName;
 	private String attrName;
-	
+
 	private String qualifiedName;
-	
 
 	/**
 	 * @param dimensionName
 	 * @param levelName
 	 */
-	public DimLevel( String dimensionName, String levelName )
-	{
-		this( dimensionName, levelName, null );
-	}
-	
-	public DimLevel( String dimensionName, String levelName, String attrName )
-	{
-		this.dimensionName = dimensionName;
-		this.levelName = levelName;
-		this.attrName  = attrName;
-		setQualifiedName( );
+	public DimLevel(String dimensionName, String levelName) {
+		this(dimensionName, levelName, null);
 	}
 
-	private void setQualifiedName( )
-	{
-		qualifiedName = getAttrReference( dimensionName,
-				levelName,
-				attrName == null ? levelName : attrName );
+	public DimLevel(String dimensionName, String levelName, String attrName) {
+		this.dimensionName = dimensionName;
+		this.levelName = levelName;
+		this.attrName = attrName;
+		setQualifiedName();
 	}
-	
-	private String getAttrReference( String dimName, String levelName,
-			String attrName )
-	{
+
+	private void setQualifiedName() {
+		qualifiedName = getAttrReference(dimensionName, levelName, attrName == null ? levelName : attrName);
+	}
+
+	private String getAttrReference(String dimName, String levelName, String attrName) {
 		return dimName + '/' + levelName + '/' + attrName;
 	}
 
 	/**
 	 * @return the dimensionName
 	 */
-	public String getDimensionName( )
-	{
+	@Override
+	public String getDimensionName() {
 		return dimensionName;
 	}
 
 	/**
 	 * @return the levelName
 	 */
-	public String getLevelName( )
-	{
+	@Override
+	public String getLevelName() {
 		return levelName;
 	}
 
 	/**
 	 * Return the attribute name.
+	 *
 	 * @return
 	 */
-	public String getAttrName( )
-	{
+	@Override
+	public String getAttrName() {
 		return this.attrName;
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode( )
-	{
-		final int prime = 31;
-		int result = 1;
-		result = prime
-				* result
-				+ ( ( dimensionName == null ) ? 0 : dimensionName.hashCode( ) );
-		result = prime
-				* result + ( ( levelName == null ) ? 0 : levelName.hashCode( ) );
-		return result;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
+	 * @see java.lang.Object#hashCode()
+	 */
+	@Override
+	public int hashCode() {
+		return Objects.hash(dimensionName, levelName);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 *
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals( Object obj )
-	{
-		if ( this == obj )
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj) {
 			return true;
-		if ( obj == null )
+		}
+		if (obj == null) {
 			return false;
-		if ( !( obj instanceof DimLevel ) )
+		}
+		if (!(obj instanceof DimLevel)) {
 			return false;
+		}
 		final DimLevel other = (DimLevel) obj;
-		if ( dimensionName == null )
-		{
-			if ( other.dimensionName != null )
-				return false;
-		}
-		else if ( !dimensionName.equals( other.dimensionName ) )
+		if (!Objects.equals(dimensionName, other.dimensionName)) {
 			return false;
-		if ( levelName == null )
-		{
-			if ( other.levelName != null )
-				return false;
 		}
-		else if ( !levelName.equals( other.levelName ) )
+		if (!Objects.equals(levelName, other.levelName)) {
 			return false;
+		}
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
+	@Override
+	public String toString() {
 		return qualifiedName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see java.lang.Comparable#compareTo(T)
 	 */
-	public int compareTo( Object obj )
-	{
-		if ( obj == null || !( obj instanceof DimLevel ) )
-		{
+	public int compareTo(Object obj) {
+		if (obj == null || !(obj instanceof DimLevel)) {
 			return -1;
 		}
 		DimLevel dimLevel = (DimLevel) obj;
-		return this.toString( ).compareTo( dimLevel.toString( ) );
+		return this.toString().compareTo(dimLevel.toString());
 	}
 }

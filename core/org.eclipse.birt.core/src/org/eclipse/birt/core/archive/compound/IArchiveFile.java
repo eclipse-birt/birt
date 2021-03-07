@@ -14,40 +14,39 @@ package org.eclipse.birt.core.archive.compound;
 import java.io.IOException;
 import java.util.List;
 
-public interface IArchiveFile
-{
+public interface IArchiveFile {
 
-	public String getName( );
+	String getName();
 
-	public void close( ) throws IOException;
+	void close() throws IOException;
 
-	public void flush( ) throws IOException;
+	void flush() throws IOException;
 
-	public void refresh( ) throws IOException;
+	void refresh() throws IOException;
 
-	public boolean exists( String name );
+	boolean exists(String name);
 
-	public void setCacheSize( long cacheSize );
+	void setCacheSize(long cacheSize);
 
-	public long getUsedCache( );
+	long getUsedCache();
 
-	public ArchiveEntry openEntry( String name ) throws IOException;
+	ArchiveEntry openEntry(String name) throws IOException;
 
-	public List<String> listEntries( String namePattern );
+	List<String> listEntries(String namePattern);
 
-	public ArchiveEntry createEntry( String name ) throws IOException;
+	ArchiveEntry createEntry(String name) throws IOException;
 
-	public boolean removeEntry( String name ) throws IOException;
+	boolean removeEntry(String name) throws IOException;
 
-	public Object lockEntry( String entry ) throws IOException;
+	Object lockEntry(String entry) throws IOException;
 
-	public void unlockEntry( Object locker ) throws IOException;
+	void unlockEntry(Object locker) throws IOException;
 
-	public String getSystemId( );
+	String getSystemId();
 
-	public String getDependId( );
+	String getDependId();
 
-	public void save( ) throws IOException;
-	
-	public long getLength( );
+	void save() throws IOException;
+
+	long getLength();
 }

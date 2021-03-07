@@ -13,6 +13,7 @@ package org.eclipse.birt.core.framework;
 
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.core.i18n.ResourceHandle;
+import org.eclipse.core.runtime.IStatus;
 
 import com.ibm.icu.util.ULocale;
 import com.ibm.icu.util.UResourceBundle;
@@ -23,39 +24,33 @@ import com.ibm.icu.util.UResourceBundle;
  * Core exceptions contain a status object describing the cause of the
  * exception.
  * </p>
- * 
+ *
  * @see IStatus
  */
-public class FrameworkException extends BirtException
-{
+public class FrameworkException extends BirtException {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = -9032025140135814484L;
 
 	protected static String pluginId = "org.eclipse.birt.core";
 
-	static protected UResourceBundle urb = new ResourceHandle( ULocale
-			.getDefault( ) ).getUResourceBundle( );
+	static protected UResourceBundle urb = new ResourceHandle(ULocale.getDefault()).getUResourceBundle();
 
-	public FrameworkException( String errorCode )
-	{
-		super( pluginId, errorCode, urb );
+	public FrameworkException(String errorCode) {
+		super(pluginId, errorCode, urb);
 	}
 
-	public FrameworkException( String errorCode, Throwable cause )
-	{
-		super( pluginId, errorCode, urb, cause );
+	public FrameworkException(String errorCode, Throwable cause) {
+		super(pluginId, errorCode, urb, cause);
 	}
 
-	public FrameworkException( String errorCode, Object[] args )
-	{
-		super( pluginId, errorCode, args, urb );
+	public FrameworkException(String errorCode, Object[] args) {
+		super(pluginId, errorCode, args, urb);
 	}
 
-	public FrameworkException( String errorCode, Object[] args, Throwable cause )
-	{
-		super( pluginId, errorCode, args, urb, cause );
+	public FrameworkException(String errorCode, Object[] args, Throwable cause) {
+		super(pluginId, errorCode, args, urb, cause);
 	}
 }

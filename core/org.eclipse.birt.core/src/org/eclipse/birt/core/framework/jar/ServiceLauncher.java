@@ -23,94 +23,64 @@ import org.eclipse.birt.core.framework.PlatformConfig;
 import org.eclipse.birt.core.framework.PlatformLauncher;
 import org.eclipse.core.internal.registry.RegistryProviderFactory;
 import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IExtensionRegistry;
 import org.eclipse.core.runtime.RegistryFactory;
-import org.eclipse.core.runtime.spi.IRegistryProvider;
 
-public class ServiceLauncher extends PlatformLauncher
-{
+public class ServiceLauncher extends PlatformLauncher {
 
 	static final String MANIFEST_ENTRY = "META-INF/MANIFEST.MF";
 
-	static Logger logger = Logger.getLogger( Platform.class.getName( ) );
+	static Logger logger = Logger.getLogger(Platform.class.getName());
 
 	private ServicePlatform platform;
 
-	public ServiceLauncher( )
-	{
+	public ServiceLauncher() {
 	}
 
-	public void startup( final PlatformConfig config )
-			throws FrameworkException
-	{
-		platform = new ServicePlatform( config );
+	@Override
+	public void startup(final PlatformConfig config) throws FrameworkException {
+		platform = new ServicePlatform(config);
 
-		try
-		{
-			Enumeration<URL> plugins = ServiceLauncher.class.getClassLoader( )
-					.getResources( MANIFEST_ENTRY );
+		try {
+			Enumeration<URL> plugins = ServiceLauncher.class.getClassLoader().getResources(MANIFEST_ENTRY);
 
-			while ( plugins.hasMoreElements( ) )
-			{
+			while (plugins.hasMoreElements()) {
 				// the wsjar:// URL in websphere doesn't support .. to get the
 				// parent folder, so we construct the root from the file path
 				URL root = null;
-				URL url = plugins.nextElement( );
-				String path = url.toExternalForm( );
-				if ( path.endsWith( MANIFEST_ENTRY ) )
-				{
-					String rootPath = path.substring( 0, path.length( )
-							- MANIFEST_ENTRY.length( ) );
-					root = new URL( url, rootPath );
+				URL url = plugins.nextElement();
+				String path = url.toExternalForm();
+				if (path.endsWith(MANIFEST_ENTRY)) {
+					String rootPath = path.substring(0, path.length() - MANIFEST_ENTRY.length());
+					root = new URL(url, rootPath);
+				} else {
+					root = new URL(url, "..");
 				}
-				else
-				{
-					root = new URL( url, ".." );
-				}
-				try
-				{
-					platform.installBundle( root );
-				}
-				catch ( Exception ex )
-				{
-					logger.log( Level.WARNING, "Failed to install plugin from "
-							+ root, ex );
+				try {
+					platform.installBundle(root);
+				} catch (Exception ex) {
+					logger.log(Level.WARNING, "Failed to install plugin from " + root, ex);
 				}
 			}
-			platform.startup( );
+			platform.startup();
 
-			Platform.setPlatform( platform );
+			Platform.setPlatform(platform);
 
-			RegistryFactory
-					.setDefaultRegistryProvider( new IRegistryProvider( ) {
-
-						public IExtensionRegistry getRegistry( )
-						{
-							return platform.extensionRegistry;
-						}
-					} );
-		}
-		catch ( IOException ex )
-		{
-			throw new FrameworkException(
-					"Can't find any bundle from the classpath", ex );
-		}
-		catch ( CoreException ex )
-		{
-			throw new FrameworkException(
-					"Can't register the ExtensionRegistry classpath", ex );
+			RegistryFactory.setDefaultRegistryProvider(() -> platform.extensionRegistry);
+		} catch (IOException ex) {
+			throw new FrameworkException("Can't find any bundle from the classpath", ex);
+		} catch (CoreException ex) {
+			throw new FrameworkException("Can't register the ExtensionRegistry classpath", ex);
 		}
 
 	}
 
-	public void shutdown( )
-	{
-		Platform.setPlatform( null );
-		if ( platform != null )
-		{
-			platform.shutdown( );
+	@Override
+	public void shutdown() {
+		Platform.setPlatform(null);
+		if (platform != null) {
+			platform.shutdown();
 			platform = null;
-			RegistryProviderFactory.releaseDefault( );
+			RegistryProviderFactory.releaseDefault();
 		}
 	}
 }

@@ -13,13 +13,12 @@ package org.eclipse.birt.core.script;
 
 import org.eclipse.birt.core.exception.BirtException;
 
-public interface IScriptEngineFactory
-{
+public interface IScriptEngineFactory {
 
-	String getScriptLanguage( );
+	String getScriptLanguage();
 
 	/**
 	 * Returns an instance of IScriptEngine associated with this factory.
 	 */
-	IScriptEngine createScriptEngine( ) throws BirtException;
+	IScriptEngine createScriptEngine() throws BirtException;
 }

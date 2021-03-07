@@ -30,124 +30,96 @@ import java.util.TreeMap;
  * cost for {@link #addEntry(Ext2Entry)}, {@link #getEntry(String)}, and
  * {@link #removeEntry(String)}.
  */
-public class EntryTable
-{
+public class EntryTable {
 
 	private final Ext2FileSystem fs;
 	private final TreeMap<String, Ext2Entry> entries;
 	private boolean dirty;
 
-	EntryTable( Ext2FileSystem fs )
-	{
+	EntryTable(Ext2FileSystem fs) {
 		this.fs = fs;
-		this.entries = new TreeMap<String, Ext2Entry>( );
+		this.entries = new TreeMap<>();
 		this.dirty = true;
 	}
 
-	void read( ) throws IOException
-	{
-		Ext2File file = new Ext2File( fs, NodeTable.INODE_ENTRY_TABLE, false );
-		try
-		{
-			byte[] bytes = new byte[(int) file.length( )];
-			file.read( bytes, 0, bytes.length );
-			DataInputStream in = new DataInputStream( new ByteArrayInputStream(
-					bytes ) );
-			try
-			{
-				while ( true )
-				{
-					String name = in.readUTF( );
-					int inode = in.readInt( );
-					entries.put( name, new Ext2Entry( name, inode ) );
+	void read() throws IOException {
+		Ext2File file = new Ext2File(fs, NodeTable.INODE_ENTRY_TABLE, false);
+		try {
+			byte[] bytes = new byte[(int) file.length()];
+			file.read(bytes, 0, bytes.length);
+			DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
+			try (in) {
+				while (true) {
+					String name = in.readUTF();
+					int inode = in.readInt();
+					entries.put(name, new Ext2Entry(name, inode));
 				}
-			}
-			catch ( EOFException ex )
-			{
+			} catch (EOFException ex) {
 				// expect the EOF exception
 			}
-			finally
-			{
-				in.close();
-			}
 
-		}
-		finally
-		{
-			file.close( );
+		} finally {
+			file.close();
 		}
 		this.dirty = false;
 	}
 
-	void write( ) throws IOException
-	{
-		if ( !dirty )
-		{
+	void write() throws IOException {
+		if (!dirty) {
 			return;
 		}
 		dirty = false;
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
-		DataOutputStream out = new DataOutputStream( buffer );
-		for( Ext2Entry entry : entries.values() )
-		{
-			out.writeUTF( entry.name );
-			out.writeInt( entry.inode );
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		DataOutputStream out = new DataOutputStream(buffer);
+		for (Ext2Entry entry : entries.values()) {
+			out.writeUTF(entry.name);
+			out.writeInt(entry.inode);
 		}
 
-		Ext2File file = new Ext2File( fs, NodeTable.INODE_ENTRY_TABLE, false );
-		try
-		{
-			byte[] bytes = buffer.toByteArray( );
-			file.write( bytes, 0, bytes.length );
-			file.setLength( bytes.length );
-		}
-		finally
-		{
-			file.close( );
+		Ext2File file = new Ext2File(fs, NodeTable.INODE_ENTRY_TABLE, false);
+		try {
+			byte[] bytes = buffer.toByteArray();
+			file.write(bytes, 0, bytes.length);
+			file.setLength(bytes.length);
+		} finally {
+			file.close();
 		}
 	}
 
-	Ext2Entry getEntry( String name )
-	{
-		return entries.get( name );
+	Ext2Entry getEntry(String name) {
+		return entries.get(name);
 	}
 
-	Ext2Entry removeEntry( String name )
-	{
-		Ext2Entry entry = entries.remove( name );
-		if ( entry != null )
-		{
+	Ext2Entry removeEntry(String name) {
+		Ext2Entry entry = entries.remove(name);
+		if (entry != null) {
 			dirty = true;
 		}
 		return entry;
 	}
 
-	void addEntry( Ext2Entry entry )
-	{
+	void addEntry(Ext2Entry entry) {
 		dirty = true;
-		entries.put( entry.name, entry );
+		entries.put(entry.name, entry);
 	}
 
 	/**
 	 * @return sorted view of all entry names
 	 */
-	Iterable<String> listAllEntries( )
-	{
-		return Collections.unmodifiableSet( entries.keySet() );
+	Iterable<String> listAllEntries() {
+		return Collections.unmodifiableSet(entries.keySet());
 	}
 
 	/**
 	 * @param fromName entry name low end point
-	 * @return sorted set view of entry names, beginning from the specified low
-	 *         end point to the end of the entries.
+	 * @return sorted set view of entry names, beginning from the specified low end
+	 *         point to the end of the entries.
 	 */
-	Iterable<String> listEntries( String fromName )
-	{
+	Iterable<String> listEntries(String fromName) {
 		return PrefixedIterable.filteredByPrefix(entries, fromName);
 	}
 
-	void clear()
-	{
+	void clear() {
 		dirty = true;
 		entries.clear();
 	}

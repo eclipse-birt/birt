@@ -26,130 +26,108 @@ import org.mozilla.javascript.WrappedException;
 import com.ibm.icu.text.Collator;
 
 /**
- * This class wraps a function that defined by user using java to a scriptable object
- * that processable by Rhino.
- * 
+ * This class wraps a function that defined by user using java to a scriptable
+ * object that processable by Rhino.
+ *
  */
 
-public class CategoryWrapper extends ScriptableObject
-{
+public class CategoryWrapper extends ScriptableObject {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 	private transient IScriptFunctionCategory category;
-	
+
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param category
 	 * @throws BirtException
 	 */
-	public CategoryWrapper( IScriptFunctionCategory category ) throws BirtException
-	{
+	public CategoryWrapper(IScriptFunctionCategory category) throws BirtException {
 		assert category != null;
-		
+
 		this.category = category;
-		IScriptFunction[] functions = category.getFunctions( );
-		for ( int i = 0; i < functions.length; i++ )
-		{
-			final IScriptFunction function = functions[i];
-			this.defineProperty( functions[i].getName( ), new BaseFunction( ) {
+		IScriptFunction[] functions = category.getFunctions();
+		for (final IScriptFunction function : functions) {
+			this.defineProperty(function.getName(), new BaseFunction() {
 
 				/**
-				 * 
+				 *
 				 */
 				private static final long serialVersionUID = 1L;
 
-				public Object call( Context cx, final Scriptable scope,
-						Scriptable thisObj, java.lang.Object[] args )
-				{
-					Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects( args );
-					try
-					{
-						final IScriptFunctionContext scriptFunctionContext = getIScriptFunctionContext( scope );
-						final Collator collator = getCollator( scope );
+				@Override
+				public Object call(Context cx, final Scriptable scope, Scriptable thisObj, java.lang.Object[] args) {
+					Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects(args);
+					try {
+						final IScriptFunctionContext scriptFunctionContext = getIScriptFunctionContext(scope);
+						final Collator collator = getCollator(scope);
 
 						IScriptFunctionContext wrappedScriptFunctionContext = scriptFunctionContext;
-						if ( wrappedScriptFunctionContext != null )
-						{
-							wrappedScriptFunctionContext = new IScriptFunctionContext( ) {
-								public Object findProperty( String name )
+						if (wrappedScriptFunctionContext != null) {
+							wrappedScriptFunctionContext = name -> {
+								if ("compare_locale".equals(name)) //$NON-NLS-1$
 								{
-									if ( "compare_locale".equals( name ) ) //$NON-NLS-1$
-									{
-										return collator;
-									}
-									Object obj = scriptFunctionContext
-											.findProperty( name );
-									if ( obj == null )
-									{
-										// If not found, try to get it via
-										// javascript environment
-										Scriptable currentScope = scope;
-										while ( currentScope != null )
-										{
-											obj = currentScope.get( name,
-													scope );
-											if ( obj != UniqueTag.NOT_FOUND )
-											{
-												return obj;
-											}
-											currentScope = currentScope
-													.getParentScope( );
-										}
-									}
-									return obj;
+									return collator;
 								}
+								Object obj = scriptFunctionContext.findProperty(name);
+								if (obj == null) {
+									// If not found, try to get it via
+									// javascript environment
+									Scriptable currentScope = scope;
+									while (currentScope != null) {
+										obj = currentScope.get(name, scope);
+										if (obj != UniqueTag.NOT_FOUND) {
+											return obj;
+										}
+										currentScope = currentScope.getParentScope();
+									}
+								}
+								return obj;
 							};
 						}
-						return function.execute( convertedArgs,
-								wrappedScriptFunctionContext );
-					}
-					catch ( BirtException e )
-					{
-						throw new WrappedException( e );
+						return function.execute(convertedArgs, wrappedScriptFunctionContext);
+					} catch (BirtException e) {
+						throw new WrappedException(e);
 					}
 
 				}
 
-				private IScriptFunctionContext getIScriptFunctionContext( Scriptable scope )
-				{
-					if ( scope == null )
+				private IScriptFunctionContext getIScriptFunctionContext(Scriptable scope) {
+					if (scope == null) {
 						return null;
-					Object obj = scope.get( org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCTION_BEAN_NAME,
-							scope );
-					if ( obj == org.mozilla.javascript.UniqueTag.NOT_FOUND )
-					{
-						return getIScriptFunctionContext( scope.getParentScope( ) );
 					}
-					return ( IScriptFunctionContext )JavascriptEvalUtil.convertJavascriptValue(obj);
+					Object obj = scope.get(
+							org.eclipse.birt.core.script.functionservice.IScriptFunctionContext.FUNCTION_BEAN_NAME,
+							scope);
+					if (obj == org.mozilla.javascript.UniqueTag.NOT_FOUND) {
+						return getIScriptFunctionContext(scope.getParentScope());
+					}
+					return (IScriptFunctionContext) JavascriptEvalUtil.convertJavascriptValue(obj);
 				}
-				private Collator getCollator( Scriptable scope )
-				{
-					if ( scope == null )
+
+				private Collator getCollator(Scriptable scope) {
+					if (scope == null) {
 						return null;
-					Scriptable prototype = scope.getPrototype( );
+					}
+					Scriptable prototype = scope.getPrototype();
 					Object obj = org.mozilla.javascript.UniqueTag.NOT_FOUND;
-					if( prototype != null )
-						obj = prototype.get( "compare_locale", prototype );
-					if ( obj == org.mozilla.javascript.UniqueTag.NOT_FOUND )
-					{
-						return getCollator( scope.getParentScope( ) );
+					if (prototype != null) {
+						obj = prototype.get("compare_locale", prototype);
 					}
-					return ( Collator )JavascriptEvalUtil.convertJavascriptValue(obj);
+					if (obj == org.mozilla.javascript.UniqueTag.NOT_FOUND) {
+						return getCollator(scope.getParentScope());
+					}
+					return (Collator) JavascriptEvalUtil.convertJavascriptValue(obj);
 				}
-			},0 );
+			}, 0);
 		}
 	}
-	
-	
 
 	@Override
-	public String getClassName( )
-	{
-		return this.category.getName( );
+	public String getClassName() {
+		return this.category.getName();
 	}
-	
-	
+
 }

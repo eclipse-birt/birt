@@ -18,8 +18,7 @@ import java.security.PrivilegedAction;
  * PlatformServletContext or develop his own PlatformContext to make sure
  * reousce operation are used.
  */
-public class PlatformFileContext implements IPlatformContext
-{
+public class PlatformFileContext implements IPlatformContext {
 
 	protected String root;
 
@@ -27,54 +26,44 @@ public class PlatformFileContext implements IPlatformContext
 
 	/**
 	 * PlatformFileContext Constructor
-	 * 
+	 *
 	 */
-	public PlatformFileContext( )
-	{
-		root = getSystemBirtHome( );
+	public PlatformFileContext() {
+		root = getSystemBirtHome();
 		arguments = null;
 	}
 
 	/**
 	 * PlatformFileContext Constructor( String , IPlatformConfig )
-	 * 
+	 *
 	 * @param root
 	 * @param platformConfig
 	 */
-	public PlatformFileContext( PlatformConfig config )
-	{
+	public PlatformFileContext(PlatformConfig config) {
 		assert config != null;
-		root = config.getBIRTHome( );
-		if ( root == null || "".equals( root ) )
-		{
-			root = getSystemBirtHome( );
+		root = config.getBIRTHome();
+		if (root == null || "".equals(root)) {
+			root = getSystemBirtHome();
 		}
-		arguments = config.getOSGiArguments( );
+		arguments = config.getOSGiArguments();
 	}
 
-	public String getPlatform( )
-	{
+	@Override
+	public String getPlatform() {
 		return root;
 	}
 
-	public String[] getLaunchArguments( )
-	{
+	public String[] getLaunchArguments() {
 		return arguments;
 	}
-	
-	private String getSystemBirtHome( )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
 
-			public String run( )
-			{
-				String home = System.getProperty( IPlatformConfig.BIRT_HOME );
-				if ( home == null || "".equals( home ) )
-				{
-					return null;
-				}
-				return home;
+	private String getSystemBirtHome() {
+		return AccessController.doPrivileged((PrivilegedAction<String>) () -> {
+			String home = System.getProperty(IPlatformConfig.BIRT_HOME);
+			if (home == null || "".equals(home)) {
+				return null;
 			}
-		} );
+			return home;
+		});
 	}
 }

@@ -13,17 +13,15 @@ package org.eclipse.birt.core.script;
 
 import java.util.HashMap;
 
-
 /**
  *
- * 
+ *
  */
 
-public class BirtHashMap extends HashMap
-{
+public class BirtHashMap extends HashMap {
 
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1968479576285929226L;
 

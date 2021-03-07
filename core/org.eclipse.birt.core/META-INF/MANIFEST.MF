@@ -2,6 +2,7 @@ Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: BIRT Core Package
 Bundle-SymbolicName: org.eclipse.birt.core; singleton:=true
+Automatic-Module-Name: org.eclipse.birt.core
 Bundle-Version: 4.11.0.qualifier
 Bundle-ClassPath: .
 Bundle-Activator: org.eclipse.birt.core.internal.plugin.CorePlugin
@@ -32,5 +33,5 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)";visibili
  com.ibm.icu;bundle-version="3.4.4";visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Eclipse-ExtensibleAPI: true
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-11
 Import-Package: javax.servlet

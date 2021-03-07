@@ -15,17 +15,13 @@ import org.eclipse.birt.core.script.functionservice.impl.FunctionProvider;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-public class CoreJavaScriptInitializer implements IJavascriptInitializer
-{
+public class CoreJavaScriptInitializer implements IJavascriptInitializer {
 
-	public void initialize( Context cx, Scriptable scope )
-	{
-		try
-		{
-			FunctionProvider.registerScriptFunction( cx, scope );
-		}	
-		catch ( Exception ex )
-		{
+	@Override
+	public void initialize(Context cx, Scriptable scope) {
+		try {
+			FunctionProvider.registerScriptFunction(cx, scope);
+		} catch (Exception ex) {
 			assert false;
 		}
 	}

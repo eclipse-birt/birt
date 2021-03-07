@@ -11,94 +11,75 @@
 
 package org.eclipse.birt.core.archive.cache;
 
-class CacheList
-{
+class CacheList {
 
 	protected Cacheable firstEntry;
 	protected Cacheable lastEntry;
 
 	protected int listSize;
 
-	CacheList( )
-	{
+	CacheList() {
 		firstEntry = null;
 		lastEntry = null;
 		listSize = 0;
 	}
 
-	void clear( )
-	{
+	void clear() {
 		firstEntry = null;
 		lastEntry = null;
 		listSize = 0;
 	}
 
-	int size( )
-	{
+	int size() {
 		return listSize;
 	}
 
-	Cacheable first( )
-	{
+	Cacheable first() {
 		return firstEntry;
 	}
 
-	Cacheable last( )
-	{
+	Cacheable last() {
 		return lastEntry;
 	}
 
 	/**
 	 * the entry may have been removed from the list
-	 * 
+	 *
 	 * @param entry
 	 */
-	void remove( Cacheable entry )
-	{
-		Cacheable prev = entry.getPrev( );
-		Cacheable next = entry.getNext( );
-		entry.setPrev( null );
-		entry.setNext( null );
-		if ( prev != null )
-		{
-			prev.setNext( next );
-		}
-		else if ( entry == firstEntry )
-		{
+	void remove(Cacheable entry) {
+		Cacheable prev = entry.getPrev();
+		Cacheable next = entry.getNext();
+		entry.setPrev(null);
+		entry.setNext(null);
+		if (prev != null) {
+			prev.setNext(next);
+		} else if (entry == firstEntry) {
 			firstEntry = next;
 		}
-		if ( next != null )
-		{
-			next.setPrev( prev );
-		}
-		else if ( entry == lastEntry )
-		{
+		if (next != null) {
+			next.setPrev(prev);
+		} else if (entry == lastEntry) {
 			lastEntry = prev;
 		}
 		listSize--;
 	}
 
-	Cacheable remove( )
-	{
-		if ( listSize > 0 )
-		{
+	Cacheable remove() {
+		if (listSize > 0) {
 			Cacheable removed = firstEntry;
-			remove( removed );
+			remove(removed);
 			return removed;
 		}
 		return null;
 	}
 
-	void add( Cacheable entry )
-	{
-		entry.setPrev( lastEntry );
-		entry.setNext( null );
-		if ( lastEntry != null )
-		{
-			lastEntry.setNext( entry );
-		}
-		else
-		{
+	void add(Cacheable entry) {
+		entry.setPrev(lastEntry);
+		entry.setNext(null);
+		if (lastEntry != null) {
+			lastEntry.setNext(entry);
+		} else {
 			firstEntry = entry;
 		}
 		lastEntry = entry;

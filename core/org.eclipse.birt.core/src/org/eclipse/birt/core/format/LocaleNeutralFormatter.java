@@ -15,21 +15,19 @@ import org.eclipse.birt.core.data.DataTypeUtil;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
- * 
+ *
  */
 
-public class LocaleNeutralFormatter implements IFormatter
-{
+public class LocaleNeutralFormatter implements IFormatter {
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.core.format.IFormatter#formatValue(java.lang.Object)
+	 *
+	 * @see org.eclipse.birt.core.format.IFormatter#formatValue(java.lang.Object)
 	 */
-	public String formatValue( Object value ) throws BirtException
-	{
-		return DataTypeUtil.toLocaleNeutralString( value );
+	@Override
+	public String formatValue(Object value) throws BirtException {
+		return DataTypeUtil.toLocaleNeutralString(value);
 	}
 
 }

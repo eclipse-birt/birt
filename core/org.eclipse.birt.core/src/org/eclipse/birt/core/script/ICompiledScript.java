@@ -11,20 +11,19 @@
 
 package org.eclipse.birt.core.script;
 
-public interface ICompiledScript
-{
+public interface ICompiledScript {
 
 	/**
 	 * Gets the language name.
-	 * 
+	 *
 	 * @return
 	 */
-	String getLanguage( );
+	String getLanguage();
 
 	/**
 	 * Gets compiled script.
-	 * 
+	 *
 	 * @return
 	 */
-	Object getCompiledScript( );
+	Object getCompiledScript();
 }

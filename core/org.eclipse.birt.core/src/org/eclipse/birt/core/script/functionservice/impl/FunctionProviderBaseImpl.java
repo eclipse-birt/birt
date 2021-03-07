@@ -37,8 +37,7 @@ import org.mozilla.javascript.ScriptableObject;
  * point must be specified from constructor.
  */
 
-public class FunctionProviderBaseImpl implements IFunctionProvider
-{
+public class FunctionProviderBaseImpl implements IFunctionProvider {
 
 	// The extension constants
 	// The extension constants
@@ -63,41 +62,37 @@ public class FunctionProviderBaseImpl implements IFunctionProvider
 	protected static final String DEFAULT_CATEGORYNAME = null;
 
 	protected Map<String, Category> categories;
-	protected List<URL> jsLibs = new ArrayList<URL>( );
-	protected List<URL> jarLibs = new ArrayList<URL>( );
+	protected List<URL> jsLibs = new ArrayList<>();
+	protected List<URL> jarLibs = new ArrayList<>();
 	protected final IExtensionPoint extPoint;
 
-	public FunctionProviderBaseImpl( IExtensionPoint extPoint )
-	{
+	public FunctionProviderBaseImpl(IExtensionPoint extPoint) {
 		this.extPoint = extPoint;
 	}
 
 	/**
 	 * Return all the categories defined by extensions.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
-	public IScriptFunctionCategory[] getCategories( ) throws BirtException
-	{
-		return getCategoryMap( ).values( )
-				.toArray( new IScriptFunctionCategory[]{} );
+	@Override
+	public IScriptFunctionCategory[] getCategories() throws BirtException {
+		return getCategoryMap().values().toArray(new IScriptFunctionCategory[] {});
 	}
 
 	/**
 	 * Return the functions that defined in a category.
-	 * 
+	 *
 	 * @param categoryName
 	 * @return
 	 * @throws BirtException
 	 */
-	public IScriptFunction[] getFunctions( String categoryName )
-			throws BirtException
-	{
-		if ( getCategoryMap( ).containsKey( categoryName ) )
-		{
-			Category category = getCategoryMap( ).get( categoryName );
-			return category.getFunctions( );
+	@Override
+	public IScriptFunction[] getFunctions(String categoryName) throws BirtException {
+		if (getCategoryMap().containsKey(categoryName)) {
+			Category category = getCategoryMap().get(categoryName);
+			return category.getFunctions();
 		}
 
 		return new IScriptFunction[0];
@@ -105,362 +100,261 @@ public class FunctionProviderBaseImpl implements IFunctionProvider
 
 	/**
 	 * Register script functions to scope.
-	 * 
+	 *
 	 * @param cx
 	 * @param scope
 	 * @throws BirtException
 	 */
-	public void registerScriptFunction( Context cx, Scriptable scope )
-			throws BirtException
-	{
-		List<CategoryWrapper> wrapperedCategories = getWrapperedCategories( );
-		for ( CategoryWrapper category : wrapperedCategories )
-		{
-			ScriptableObject.putProperty( scope,
-					category.getClassName( ),
-					category );
+	@Override
+	public void registerScriptFunction(Context cx, Scriptable scope) throws BirtException {
+		List<CategoryWrapper> wrapperedCategories = getWrapperedCategories();
+		for (CategoryWrapper category : wrapperedCategories) {
+			ScriptableObject.putProperty(scope, category.getClassName(), category);
 		}
 
-		if ( !jarLibs.isEmpty( ) )
-		{
-			ClassLoader classLoader = cx.getApplicationClassLoader( );
-			URLClassLoader scriptClassLoader = createScriptClassLoader( jarLibs,
-					classLoader );
-			setApplicationClassLoader( scriptClassLoader, cx );
+		if (!jarLibs.isEmpty()) {
+			ClassLoader classLoader = cx.getApplicationClassLoader();
+			URLClassLoader scriptClassLoader = createScriptClassLoader(jarLibs, classLoader);
+			setApplicationClassLoader(scriptClassLoader, cx);
 		}
-		for ( URL url : jsLibs )
-		{
+		for (URL url : jsLibs) {
 			Script script;
-			try
-			{
-				script = cx.compileReader(
-						new BufferedReader(
-								new InputStreamReader( url.openStream( ) ) ),
-						null,
-						0,
-						null );
-				script.exec( cx, scope );
-			}
-			catch ( IOException e )
-			{
+			try {
+				script = cx.compileReader(new BufferedReader(new InputStreamReader(url.openStream())), null, 0, null);
+				script.exec(cx, scope);
+			} catch (IOException e) {
 			}
 		}
 	}
 
-	public void setApplicationClassLoader( final ClassLoader appLoader,
-			Context context )
-	{
-		if ( appLoader == null )
-		{
+	public void setApplicationClassLoader(final ClassLoader appLoader, Context context) {
+		if (appLoader == null) {
 			return;
 		}
 		ClassLoader loader = appLoader;
-		try
-		{
-			appLoader.loadClass( "org.mozilla.javascript.Context" );
+		try {
+			appLoader.loadClass("org.mozilla.javascript.Context");
+		} catch (ClassNotFoundException e) {
+			loader = AccessController.doPrivileged((PrivilegedAction<ClassLoader>) () -> new RhinoClassLoaderDecoration(appLoader, FunctionProviderImpl.class.getClassLoader()));
 		}
-		catch ( ClassNotFoundException e )
-		{
-			loader = AccessController
-					.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
-
-						public ClassLoader run( )
-						{
-							return new RhinoClassLoaderDecoration( appLoader,
-									FunctionProviderImpl.class
-											.getClassLoader( ) );
-						}
-					} );
-		}
-		context.setApplicationClassLoader( loader );
+		context.setApplicationClassLoader(loader);
 	}
 
-	private synchronized URLClassLoader createScriptClassLoader( List urls,
-			ClassLoader parent )
-	{
-		final URL[] jarUrls = (URL[]) urls.toArray( new URL[]{} );
+	private synchronized URLClassLoader createScriptClassLoader(List urls, ClassLoader parent) {
+		final URL[] jarUrls = (URL[]) urls.toArray(new URL[] {});
 		final ClassLoader parentClassLoader = parent;
-		URLClassLoader scriptClassLoader = AccessController
-				.doPrivileged( new PrivilegedAction<URLClassLoader>( ) {
-
-					public URLClassLoader run( )
-					{
-						return new URLClassLoader( jarUrls, parentClassLoader );
-					}
-				} );
+		URLClassLoader scriptClassLoader = AccessController.doPrivileged((PrivilegedAction<URLClassLoader>) () -> new URLClassLoader(jarUrls, parentClassLoader));
 		return scriptClassLoader;
 	}
 
-	private static class RhinoClassLoaderDecoration extends ClassLoader
-	{
+	private static class RhinoClassLoaderDecoration extends ClassLoader {
 
 		private ClassLoader applicationClassLoader;
 		private ClassLoader rhinoClassLoader;
 
-		public RhinoClassLoaderDecoration( ClassLoader applicationClassLoader,
-				ClassLoader rhinoClassLoader )
-		{
+		public RhinoClassLoaderDecoration(ClassLoader applicationClassLoader, ClassLoader rhinoClassLoader) {
 			this.applicationClassLoader = applicationClassLoader;
 			this.rhinoClassLoader = rhinoClassLoader;
 		}
 
-		public Class<?> loadClass( String name ) throws ClassNotFoundException
-		{
-			try
-			{
-				return applicationClassLoader.loadClass( name );
-			}
-			catch ( ClassNotFoundException e )
-			{
-				return rhinoClassLoader.loadClass( name );
+		@Override
+		public Class<?> loadClass(String name) throws ClassNotFoundException {
+			try {
+				return applicationClassLoader.loadClass(name);
+			} catch (ClassNotFoundException e) {
+				return rhinoClassLoader.loadClass(name);
 			}
 		}
 	}
 
 	/**
 	 * Return the category map.
-	 * 
+	 *
 	 * @return
 	 */
-	private synchronized Map<String, Category> getCategoryMap( )
-	{
-		if ( categories != null )
+	private synchronized Map<String, Category> getCategoryMap() {
+		if (categories != null) {
 			return categories;
+		}
 
-		categories = new HashMap<String, Category>( );
+		categories = new HashMap<>();
 
-		if ( extPoint == null )
+		if (extPoint == null) {
 			return categories;
+		}
 
 		// Fetch all extensions
-		IExtension[] exts = extPoint.getExtensions( );
-		if ( exts == null )
-		{
+		IExtension[] exts = extPoint.getExtensions();
+		if (exts == null) {
 			return categories;
 		}
 
 		// populate category map as per extension.
-		for ( int e = 0; e < exts.length; e++ )
-		{
-			try
-			{
-				IConfigurationElement[] configElems = exts[e]
-						.getConfigurationElements( );
-				if ( configElems == null )
+		for (IExtension ext : exts) {
+			try {
+				IConfigurationElement[] configElems = ext.getConfigurationElements();
+				if (configElems == null) {
 					continue;
+				}
 
-				for ( int i = 0; i < configElems.length; i++ )
-				{
-					boolean isVisible = extractBoolean(
-							configElems[i].getAttribute( ATTRIBUTE_ISVISIBLE ),
-							true );
+				for (IConfigurationElement configElem : configElems) {
+					boolean isVisible = extractBoolean(configElem.getAttribute(ATTRIBUTE_ISVISIBLE), true);
 					// for element Category
-					if ( configElems[i].getName( ).equals( ELEMENT_CATEGORY ) )
-					{
-						Category category = new Category(
-								configElems[i].getAttribute( ATTRIBUTE_NAME ),
-								configElems[i].getAttribute( ATTRIBUTE_DESC ),
-								isVisible );
-						categories.put( category.getName( ), category );
+					if (configElem.getName().equals(ELEMENT_CATEGORY)) {
+						Category category = new Category(configElem.getAttribute(ATTRIBUTE_NAME),
+								configElem.getAttribute(ATTRIBUTE_DESC), isVisible);
+						categories.put(category.getName(), category);
 
 						IScriptFunctionFactory factory = null;
-						if ( configElems[i].getAttribute(
-								ATTRIBUTE_FACTORYCLASS ) != null )
-							factory = (IScriptFunctionFactory) configElems[i]
-									.createExecutableExtension(
-											ATTRIBUTE_FACTORYCLASS );
-						IConfigurationElement[] functions = configElems[i]
-								.getChildren( ELEMENT_FUNCTION );
-						for ( int j = 0; j < functions.length; j++ )
-						{
-							IScriptFunction function = getScriptFunction(
-									category, factory, functions[j] );
-							if ( function != null )
-								category.addFunction( function );
+						if (configElem.getAttribute(ATTRIBUTE_FACTORYCLASS) != null) {
+							factory = (IScriptFunctionFactory) configElem
+									.createExecutableExtension(ATTRIBUTE_FACTORYCLASS);
+						}
+						IConfigurationElement[] functions = configElem.getChildren(ELEMENT_FUNCTION);
+						for (IConfigurationElement function2 : functions) {
+							IScriptFunction function = getScriptFunction(category, factory, function2);
+							if (function != null) {
+								category.addFunction(function);
+							}
 						}
 
 					}
 					// For element function that are not under certain category.
 					// Usually those functions are
 					// defined in .js file
-					else if ( configElems[i].getName( )
-							.equals( ELEMENT_FUNCTION ) )
-					{
-						if ( categories.get( DEFAULT_CATEGORYNAME ) == null )
-						{
-							categories.put( DEFAULT_CATEGORYNAME,
-									new Category( DEFAULT_CATEGORYNAME,
-											null,
-											isVisible ) );
+					else if (configElem.getName().equals(ELEMENT_FUNCTION)) {
+						if (categories.get(DEFAULT_CATEGORYNAME) == null) {
+							categories.put(DEFAULT_CATEGORYNAME, new Category(DEFAULT_CATEGORYNAME, null, isVisible));
 						}
-						IScriptFunction function = getScriptFunction(
-								categories.get( DEFAULT_CATEGORYNAME ),
-								null,
-								configElems[i] );
-						if ( function != null )
-							categories.get( DEFAULT_CATEGORYNAME )
-									.addFunction( function );
+						IScriptFunction function = getScriptFunction(categories.get(DEFAULT_CATEGORYNAME), null,
+								configElem);
+						if (function != null) {
+							categories.get(DEFAULT_CATEGORYNAME).addFunction(function);
+						}
 					}
 					// Populate the .js script library
-					else if ( configElems[i].getName( )
-							.equals( ELEMENT_JSLIB ) )
-					{
-						populateResources( jsLibs, ".js", configElems[i] );
-						populateResources( jarLibs, ".jar", configElems[i] );
+					else if (configElem.getName().equals(ELEMENT_JSLIB)) {
+						populateResources(jsLibs, ".js", configElem);
+						populateResources(jarLibs, ".jar", configElem);
 					}
 				}
-			}
-			catch ( BirtException ex )
-			{
-				ex.printStackTrace( );
+			} catch (BirtException ex) {
+				ex.printStackTrace();
 			}
 		}
 		return categories;
 	}
 
 	/**
-	 * Populate library resources. The library resources includes .js script lib
-	 * and .jar java lib.
-	 * 
+	 * Populate library resources. The library resources includes .js script lib and
+	 * .jar java lib.
+	 *
 	 * @param libs
 	 * @param suffix
 	 * @param confElement
 	 */
-	protected void populateResources( List<URL> libs, String suffix,
-			IConfigurationElement confElement )
-	{
+	protected void populateResources(List<URL> libs, String suffix, IConfigurationElement confElement) {
 		// Do thing in base class
 	}
 
 	/**
 	 * Create script function out of a function element.
-	 * 
+	 *
 	 * @param category
 	 * @param factory
 	 * @param function
 	 * @return
 	 */
-	private static IScriptFunction getScriptFunction( Category category,
-			IScriptFunctionFactory factory, IConfigurationElement function )
-	{
-		try
-		{
+	private static IScriptFunction getScriptFunction(Category category, IScriptFunctionFactory factory,
+			IConfigurationElement function) {
+		try {
 			// Function name
-			String name = function.getAttribute( ATTRIBUTE_NAME );
+			String name = function.getAttribute(ATTRIBUTE_NAME);
 			// Function Desc
-			String desc = function.getAttribute( ATTRIBUTE_DESC );
+			String desc = function.getAttribute(ATTRIBUTE_DESC);
 			// Allow var argument
-			String varArgs = function
-					.getAttribute( ATTRIBUTE_ALLOWVARARGUMENT );
-			boolean allowVarArgs = extractBoolean( varArgs, false );
-			boolean isConstructor = extractBoolean(
-					function.getAttribute( ATTRIBUTE_ISCONSTRUCTOR ), false );
-			boolean isStatic = extractBoolean(
-					function.getAttribute( ATTRIBUTE_ISSTATIC ), true );
-			boolean isVisible = extractBoolean(
-					function.getAttribute( ATTRIBUTE_ISVISIBLE ), true );
+			String varArgs = function.getAttribute(ATTRIBUTE_ALLOWVARARGUMENT);
+			boolean allowVarArgs = extractBoolean(varArgs, false);
+			boolean isConstructor = extractBoolean(function.getAttribute(ATTRIBUTE_ISCONSTRUCTOR), false);
+			boolean isStatic = extractBoolean(function.getAttribute(ATTRIBUTE_ISSTATIC), true);
+			boolean isVisible = extractBoolean(function.getAttribute(ATTRIBUTE_ISVISIBLE), true);
 			String dataType = null;
-			List<IScriptFunctionArgument> arguments = new ArrayList<IScriptFunctionArgument>( );
+			List<IScriptFunctionArgument> arguments = new ArrayList<>();
 			// Populate function return data type info.
-			if ( hasChildren( ELEMENT_DATATYPE, function ) )
-			{
-				dataType = function.getChildren( ELEMENT_DATATYPE )[0]
-						.getAttribute( ATTRIBUTE_VALUE );
+			if (hasChildren(ELEMENT_DATATYPE, function)) {
+				dataType = function.getChildren(ELEMENT_DATATYPE)[0].getAttribute(ATTRIBUTE_VALUE);
 			}
 
 			// Popualte function argument info
-			if ( hasChildren( ELEMENT_ARGUMENT, function ) )
-			{
-				for ( int i = 0; i < function
-						.getChildren( ELEMENT_ARGUMENT ).length; i++ )
-				{
-					arguments.add( getScriptFunctionArgument(
-							function.getChildren( ELEMENT_ARGUMENT )[i] ) );
+			if (hasChildren(ELEMENT_ARGUMENT, function)) {
+				for (int i = 0; i < function.getChildren(ELEMENT_ARGUMENT).length; i++) {
+					arguments.add(getScriptFunctionArgument(function.getChildren(ELEMENT_ARGUMENT)[i]));
 				}
 			}
-			return new ScriptFunction( name,
-					category,
-					arguments.toArray( new IScriptFunctionArgument[0] ),
-					dataType,
-					desc,
-					factory == null ? null
-							: factory.getFunctionExecutor( name ),
-					allowVarArgs,
-					isStatic,
-					isConstructor,
-					isVisible );
-		}
-		catch ( Exception e )
-		{
+			return new ScriptFunction(name, category, arguments.toArray(new IScriptFunctionArgument[0]), dataType, desc,
+					factory == null ? null : factory.getFunctionExecutor(name), allowVarArgs, isStatic, isConstructor,
+					isVisible);
+		} catch (Exception e) {
 			return null;
 		}
 	}
 
-	private static boolean extractBoolean( String strValue, boolean ifNull )
-			throws BirtException
-	{
-		boolean booleanValue = strValue == null ? ifNull
-				: DataTypeUtil.toBoolean( strValue );
+	private static boolean extractBoolean(String strValue, boolean ifNull) throws BirtException {
+		boolean booleanValue = strValue == null ? ifNull : DataTypeUtil.toBoolean(strValue);
 		return booleanValue;
 	}
 
 	/**
 	 * Populate function argument.
-	 * 
+	 *
 	 * @param argument
 	 * @return
 	 * @throws BirtException
 	 */
-	private static IScriptFunctionArgument getScriptFunctionArgument(
-			IConfigurationElement argument ) throws BirtException
-	{
+	private static IScriptFunctionArgument getScriptFunctionArgument(IConfigurationElement argument)
+			throws BirtException {
 		//
-		String name = argument.getAttribute( ATTRIBUTE_NAME );
-		String desc = argument.getAttribute( ATTRIBUTE_DESC );
+		String name = argument.getAttribute(ATTRIBUTE_NAME);
+		String desc = argument.getAttribute(ATTRIBUTE_DESC);
 
 		// populate whether it is optional argument.
-		String optional = argument.getAttribute( ATTRIBUTE_ISOPTIONAL );
-		boolean isOptional = extractBoolean( optional, false );
+		String optional = argument.getAttribute(ATTRIBUTE_ISOPTIONAL);
+		boolean isOptional = extractBoolean(optional, false);
 
 		String dataType = null;
 
 		// Populate data type
-		if ( hasChildren( ELEMENT_DATATYPE, argument ) )
-		{
-			dataType = argument.getChildren( ELEMENT_DATATYPE )[0]
-					.getAttribute( ATTRIBUTE_VALUE );
+		if (hasChildren(ELEMENT_DATATYPE, argument)) {
+			dataType = argument.getChildren(ELEMENT_DATATYPE)[0].getAttribute(ATTRIBUTE_VALUE);
 		}
 
-		return new Argument( name, dataType, desc, isOptional );
+		return new Argument(name, dataType, desc, isOptional);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param name
 	 * @param element
 	 * @return
 	 */
-	private static boolean hasChildren( String name,
-			IConfigurationElement element )
-	{
-		IConfigurationElement[] children = element.getChildren( name );
+	private static boolean hasChildren(String name, IConfigurationElement element) {
+		IConfigurationElement[] children = element.getChildren(name);
 		return children != null && children.length > 0;
 	}
 
 	/**
 	 * Create category wrapper.
-	 * 
+	 *
 	 * @return
 	 * @throws BirtException
 	 */
-	private List<CategoryWrapper> getWrapperedCategories( ) throws BirtException
-	{
-		List<CategoryWrapper> result = new ArrayList<CategoryWrapper>( );
+	private List<CategoryWrapper> getWrapperedCategories() throws BirtException {
+		List<CategoryWrapper> result = new ArrayList<>();
 
-		for ( Category category : getCategoryMap( ).values( ) )
-		{
-			if ( category.getName( ) != DEFAULT_CATEGORYNAME )
-				result.add( new CategoryWrapper( category ) );
+		for (Category category : getCategoryMap().values()) {
+			if (category.getName() != DEFAULT_CATEGORYNAME) {
+				result.add(new CategoryWrapper(category));
+			}
 		}
 		return result;
 	}

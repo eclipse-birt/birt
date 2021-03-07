@@ -5,23 +5,16 @@ import java.util.Locale;
 
 import com.ibm.icu.util.ULocale;
 
+public class LocaleUtil {
 
-public class LocaleUtil
-{
+	private static HashMap<Locale, ULocale> localeMap = new HashMap();
 
-	private static HashMap<Locale, ULocale> localeMap = new HashMap( );
-
-	public synchronized static ULocale forLocale( Locale locale )
-	{
-		if ( localeMap.containsKey( locale ) )
-		{
-			return localeMap.get( locale );
+	public synchronized static ULocale forLocale(Locale locale) {
+		if (localeMap.containsKey(locale)) {
+			return localeMap.get(locale);
 		}
-		else
-		{
-			ULocale ulocale = ULocale.forLocale( locale );
-			localeMap.put( locale, ulocale );
-			return ulocale;
-		}
+		ULocale ulocale = ULocale.forLocale(locale);
+		localeMap.put(locale, ulocale);
+		return ulocale;
 	}
 }
