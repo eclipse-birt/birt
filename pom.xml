@@ -179,8 +179,9 @@
 		</profile>
 	</profiles>
 
+	<!--
 	<repositories>
-		<!-- BIRT need Eclipse/EMF/GEF/DTP/ORBIT/WTP-->
+		BIRTs need Eclipse/EMF/GEF/DTP/ORBIT/WTP
 		<repository>
 			<id>eclipse</id>
 			<url>${eclipse.repo.url}</url>
@@ -217,6 +218,7 @@
 			<layout>p2</layout>
 		</repository>
 	</repositories>
+	-->
 	<pluginRepositories>
 		<pluginRepository>
 			<id>cbi</id>
@@ -371,6 +373,14 @@
 				<version>${tycho.version}</version>
 				<configuration>
 					<pomDependencies>consider</pomDependencies>
+					<targetDefinitionIncludeSource>honor</targetDefinitionIncludeSource>
+					<target>
+						<artifact>
+							<groupId>org.eclipse.birt</groupId>
+							<artifactId>org.eclipse.birt.target</artifactId>
+							<version>4.11.0-SNAPSHOT</version>
+						</artifact>
+					</target>
 					<includePackedArtifacts>false</includePackedArtifacts>
 					<environments>
 						<environment>
