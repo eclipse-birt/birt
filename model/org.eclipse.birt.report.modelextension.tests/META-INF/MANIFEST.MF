@@ -7,8 +7,7 @@ Bundle-Vendor: Eclipse.org
 Require-Bundle: org.eclipse.birt.core,
  org.eclipse.birt.report.model,
  org.apache.commons.codec
-Bundle-ClassPath: tests.jar,
- .
+Bundle-ClassPath: .
 Import-Package: com.ibm.icu.util;version="3.4.4"
 Automatic-Module-Name: org.eclipse.birt.report.modelextension.tests
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
