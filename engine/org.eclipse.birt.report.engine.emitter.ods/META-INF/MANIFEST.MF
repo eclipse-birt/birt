@@ -11,7 +11,7 @@ Require-Bundle: org.eclipse.birt.report.engine,
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.ods.plugin.OdsEmitterPlugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.birt.report.engine.emitter.ods,
  org.eclipse.birt.report.engine.emitter.ods.layout
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.ods

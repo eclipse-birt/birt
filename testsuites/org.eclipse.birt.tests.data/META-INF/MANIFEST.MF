@@ -18,6 +18,6 @@ Require-Bundle: org.junit;resolution:=optional,
  org.eclipse.birt.report.model,
  org.eclipse.birt.report.data.adapter
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
 Automatic-Module-Name: org.eclipse.birt.tests.data

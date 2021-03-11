@@ -15,5 +15,5 @@ Require-Bundle: org.eclipse.birt.report.designer.ui.samplesview,
  org.eclipse.birt.report.designer.ui.editors
 Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.birt.report.designer.ui.samples.ide

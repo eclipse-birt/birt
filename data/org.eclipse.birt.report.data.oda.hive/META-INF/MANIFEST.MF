@@ -12,6 +12,6 @@ Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.2.0,4.0.0)",
  org.eclipse.datatools.connectivity.oda.profile;bundle-version="[3.0.4,4.0.0)";resolution:=optional
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.birt.report.data.oda.hive
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Activator: org.eclipse.birt.report.data.oda.hive.Activator
 Automatic-Module-Name: org.eclipse.birt.report.data.oda.hive

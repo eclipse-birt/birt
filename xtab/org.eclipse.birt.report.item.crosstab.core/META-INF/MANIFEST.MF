@@ -16,6 +16,6 @@ Export-Package: org.eclipse.birt.report.item.crosstab.core,
  org.eclipse.birt.report.item.crosstab.core.script.internal.handler,
  org.eclipse.birt.report.item.crosstab.core.util
 Bundle-Vendor: Eclipse BIRT Project
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.eclipse.birt.report.item.crosstab.core

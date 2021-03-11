@@ -13,6 +13,6 @@ Require-Bundle: org.junit;resolution:=optional,
  org.apache.commons.codec,
  org.eclipse.birt.report.model.adapter.oda,
  org.eclipse.datatools.connectivity.oda.design
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
 Automatic-Module-Name: org.eclipse.birt.report.tests.model

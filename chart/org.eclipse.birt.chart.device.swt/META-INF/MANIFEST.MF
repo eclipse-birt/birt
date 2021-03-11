@@ -11,5 +11,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Eclipse BIRT Project
 Export-Package: org.eclipse.birt.chart.device.swt,
  org.eclipse.birt.chart.device.swt.util
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.birt.chart.device.swt

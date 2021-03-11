@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Bidi Utils
 Bundle-SymbolicName: org.eclipse.birt.report.data.bidi.utils;singleton:=true
 Bundle-Version: 4.9.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.eclipse.birt.report.data.bidi.utils.core,
  org.eclipse.birt.report.data.bidi.utils.i18n
 Bundle-Vendor: Eclipse BIRT Project

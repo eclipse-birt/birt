@@ -13,5 +13,5 @@ Bundle-ActivationPolicy: lazy
 Bundle-Activator: org.eclipse.birt.report.engine.emitter.pptx.plugin.PPTXEmitterPlugin
 Export-Package: org.eclipse.birt.report.engine.emitter.pptx,
  org.eclipse.birt.report.engine.emitter.pptx.writer
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.pptx

@@ -10,6 +10,6 @@ Require-Bundle: org.eclipse.birt.report.engine,
  org.eclipse.birt.report.engine.emitter.html,
  org.junit;bundle-version="4.7.0"
 Bundle-ClassPath: emitterhtmltests.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.html.tests
