@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.eclipse.birt.chart.cshelp_4.11.0.qualifier.jar" id="org.eclipse.birt.chart.cshelp" version="4.11.0.qualifier">
+   <feature id="org.eclipse.birt.chart.cshelp">
       <category name="ChartRuntime"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart.osgi.runtime_4.11.0.qualifier.jar" id="org.eclipse.birt.chart.osgi.runtime" version="4.11.0.qualifier">
+   <feature id="org.eclipse.birt.chart.osgi.runtime">
       <category name="ChartRuntime"/>
    </feature>
-   <feature url="features/org.eclipse.birt.chart_4.11.0.qualifier.jar" id="org.eclipse.birt.chart" version="4.11.0.qualifier">
+   <feature id="org.eclipse.birt.chart">
       <category name="ChartRuntime"/>
    </feature>
    <category-def name="ChartRuntime" label="BIRT Chart Runtime"/>

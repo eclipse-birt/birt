@@ -193,7 +193,7 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage
 	/**
      * Returns the resource identifiers of the ODA consumer application, if available.
      * @return  a ResourceIdentifiers instance; may be null if none is specified
-     * @since 4.11.0
+     * @since 4.9.0
      */
   protected ResourceIdentifiers getHostResourceIdentifiers()
     {

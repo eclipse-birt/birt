@@ -1,24 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site>
-	<feature url="features/org.eclipse.birt_4.11.0.qualifier.jar" id="org.eclipse.birt" version="4.11.0.qualifier">
-		<category name="source"/>
-	</feature>
-	<feature url="features/org.eclipse.birt.chart.viewer_4.11.0.qualifier.jar" id="org.eclipse.birt.chart.viewer" version="4.11.0.qualifier">
-		<category name="source"/>
-	</feature>
-	<feature url="features/org.eclipse.birt.rcp_4.11.0.qualifier.jar" id="org.eclipse.birt.rcp" version="4.11.0.qualifier">
-		<category name="source"/>
-	</feature>
-	<feature url="features/org.eclipse.birt.example.source_4.11.0.qualifier.jar" id="org.eclipse.birt.example.source" version="4.11.0.qualifier">
-		<category name="source"/>
-	</feature>
-	<feature url="features/org.eclipse.birt.integration.wtp.sdk_4.11.0.qualifier.jar" id="org.eclipse.birt.integration.wtp.sdk" version="4.11.0.qualifier">
-		<category name="source"/>
-	</feature>
-	<feature url="features/org.eclipse.birt.source_4.11.0.qualifier.jar" id="org.eclipse.birt.source" version="4.11.0.qualifier">
-		<category name="source"/>
-	</feature>
-	<category-def name="source" label="BIRT Source"/>
-</site>
 <!--newline-->
- 
+<site>
+   <feature id="org.eclipse.birt">
+      <category name="source"/>
+   </feature>
+   <feature id="org.eclipse.birt.chart.viewer">
+      <category name="source"/>
+   </feature>
+   <feature id="org.eclipse.birt.rcp">
+      <category name="source"/>
+   </feature>
+   <feature id="org.eclipse.birt.example.source">
+      <category name="source"/>
+   </feature>
+   <feature id="org.eclipse.birt.integration.wtp.sdk">
+      <category name="source"/>
+   </feature>
+   <feature id="org.eclipse.birt.source">
+      <category name="source"/>
+   </feature>
+   <category-def name="source" label="BIRT Source"/>
+</site>
