@@ -3,6 +3,6 @@ Bundle-ManifestVersion: 2
 Bundle-Name: Build-in Aggregation API
 Bundle-SymbolicName: org.eclipse.birt.data.aggregation.api;singleton:=true
 Bundle-Version: 4.9.0.qualifier
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ClassPath: .

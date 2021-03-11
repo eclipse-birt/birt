@@ -14,5 +14,5 @@ Export-Package: org.eclipse.birt.report.data.oda.xml; x-internal:=false,
  org.eclipse.birt.report.data.oda.xml.impl; x-friends:="org.eclipse.birt.report.data.oda.xml.ui",
  org.eclipse.birt.report.data.oda.xml.util; x-friends:="org.eclipse.birt.report.data.oda.xml.ui",
  org.eclipse.birt.report.data.oda.xml.util.ui; x-friends:="org.eclipse.birt.report.data.oda.xml.ui"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.birt.report.data.oda.xml

@@ -3,12 +3,6 @@
 	<name>org.eclipse.birt.chart.viewer</name>
 	<comment></comment>
 	<projects>
-		<project>org.eclipse.birt.chart.engine.extension</project>
-		<project>org.eclipse.birt.chart.device.extension</project>
-		<project>org.eclipse.birt.chart.device.pdf</project>
-		<project>org.eclipse.birt.chart.device.svg</project>
-		<project>org.eclipse.birt.chart.engine</project>
-		<project>org.eclipse.birt.core</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>

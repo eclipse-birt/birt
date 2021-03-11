@@ -5,5 +5,5 @@ Bundle-SymbolicName: org.eclipse.birt.report.designer.samplereports;singleton:=t
 Bundle-Version: 4.11.0.qualifier
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.birt.report.designer.samplereports

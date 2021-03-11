@@ -11,5 +11,5 @@ Require-Bundle: org.eclipse.birt.core,
  org.junit;bundle-version="4.7.0";resolution:=optional;visibility:=reexport
 Bundle-Vendor: Eclipse BIRT Project
 Bundle-ClassPath: emitterpostscript.jar
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: org.eclipse.birt.report.engine.emitter.postscript.tests

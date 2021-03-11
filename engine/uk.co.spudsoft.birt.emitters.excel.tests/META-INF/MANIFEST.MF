@@ -12,7 +12,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.apache.poi;bundle-version="[3.9.0,4.0.0)",
  org.apache.poi.ooxml;bundle-version="[3.9.0,4.0.0)",
  org.apache.poi.ooxml.schemas;bundle-version="[3.9.0,4.0.0)"
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/commons-codec-1.5.jar

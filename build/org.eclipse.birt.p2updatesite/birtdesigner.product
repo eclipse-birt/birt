@@ -23,7 +23,7 @@ openFile
 
 org.eclipse.platform
       </programArgs>
-      <vmArgs>-Dosgi.requiredJavaVersion=1.7
+      <vmArgs>-Dosgi.requiredJavaVersion=1.8
 
 -Xms256m
 
