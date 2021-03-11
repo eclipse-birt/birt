@@ -18,8 +18,11 @@ import java.io.IOException;
 import org.eclipse.birt.core.archive.compound.ArchiveFile;
 import org.eclipse.birt.core.archive.compound.ArchiveReader;
 import org.eclipse.birt.core.archive.compound.ArchiveWriter;
+import org.junit.Test;
 
-public class TestBuffer
+import junit.framework.TestCase;
+
+public class BufferTest extends TestCase
 {
 
 	static int TEST_COUNT = 1024;
@@ -27,7 +30,8 @@ public class TestBuffer
 	static String ENTRY_NAME = "/test/abc.dat";
 	static String ARCHIVE_NAME = "datafile.dat";
 
-	public static void main( String[] args ) throws IOException
+	@Test
+	public void testBuffer() throws IOException
 	{
 		ArchiveFile af = new ArchiveFile( ARCHIVE_NAME, "rwt" );
 		try
