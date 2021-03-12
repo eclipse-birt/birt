@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.birt.core.format.NumberFormatter;
 import org.eclipse.birt.report.model.api.activity.NotificationEvent;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.command.ContentException;
@@ -913,6 +914,8 @@ public class DesignElementHandleTest extends BaseTestCase
 	{
 		LabelHandle handle = (LabelHandle) designHandle
 				.findElement( "bodyLabel1" ); //$NON-NLS-1$
+		ULocale locale = handle.getModule().getLocale();
+		NumberFormatter numberFormatter = new NumberFormatter(locale);
 
 		// to set an data set that does not exist.
 
@@ -930,8 +933,8 @@ public class DesignElementHandleTest extends BaseTestCase
 		handle.setStringProperty( Label.X_PROP, "11mm" ); //$NON-NLS-1$
 		assertEquals( "11mm", dimensionHandle.getStringValue( ) ); //$NON-NLS-1$
 
-		handle.setStringProperty( Label.X_PROP, "12.3pc" ); //$NON-NLS-1$
-		assertEquals( "12.3pc", dimensionHandle.getStringValue( ) ); //$NON-NLS-1$
+		handle.setStringProperty(Label.X_PROP, numberFormatter.format(12.3) + "pc"); // $NON-NLS-1$
+		assertEquals("12.3pc", dimensionHandle.getStringValue()); // $NON-NLS-1$
 
 		ColorHandle colorHandle = styleHandle
 				.getColorProperty( Style.COLOR_PROP );
@@ -1022,8 +1025,9 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		// set properties
 
-		handle.setProperty( ReportItem.HEIGHT_PROP, "1.715in" ); //$NON-NLS-1$
-		assertTrue( 1.715 == handle.getPropertyHandle( ReportItem.HEIGHT_PROP )
+		double heightNumber = 1.715;
+		handle.setProperty(ReportItem.HEIGHT_PROP, numberFormatter.format(heightNumber) + "in"); //$NON-NLS-1$
+		assertTrue(heightNumber == handle.getPropertyHandle(ReportItem.HEIGHT_PROP)
 				.getFloatValue( ) );
 
 		styleHandle.setIntProperty( Style.WIDOWS_PROP, 5 );
@@ -1052,11 +1056,11 @@ public class DesignElementHandleTest extends BaseTestCase
 
 		// test the label height
 
-		handle.setProperty( ReportItem.HEIGHT_PROP, "2.34cm" ); //$NON-NLS-1$
+		handle.setProperty(ReportItem.HEIGHT_PROP, numberFormatter.format(2.34) + "cm"); //$NON-NLS-1$
 		assertEquals(
 				"2.34cm", handle.getStringProperty( ReportItem.HEIGHT_PROP ) ); //$NON-NLS-1$
 
-		handle.setStringProperty( ReportItem.HEIGHT_PROP, ".25mm" ); //$NON-NLS-1$
+		handle.setStringProperty(ReportItem.HEIGHT_PROP, numberFormatter.format(0.25).substring(1) + "mm"); //$NON-NLS-1$
 		assertEquals(
 				"0.25mm", handle.getStringProperty( ReportItem.HEIGHT_PROP ) ); //$NON-NLS-1$
 

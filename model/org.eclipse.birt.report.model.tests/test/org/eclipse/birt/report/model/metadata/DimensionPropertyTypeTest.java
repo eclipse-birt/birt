@@ -57,6 +57,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 		 * 
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
+		@Override
 		public boolean equals( Object obj )
 		{
 			return this.toString( ).equals( obj.toString( ) );
@@ -71,6 +72,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
+	@Override
 	protected void setUp( ) throws Exception
 	{
 		super.setUp( );
@@ -84,6 +86,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
 	 * ()
 	 */
+	@Override
 	public void testGetTypeCode( )
 	{
 		assertEquals( PropertyType.DIMENSION_TYPE, type.getTypeCode( ) );
@@ -95,6 +98,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
+	@Override
 	public void testGetName( )
 	{
 		assertEquals( PropertyType.DIMENSION_TYPE_NAME, type.getName( ) );
@@ -107,6 +111,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
 	 * ()
 	 */
+	@Override
 	public void testValidateValue( ) throws PropertyValueException
 	{
 		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
@@ -140,6 +145,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testValidateInputString()
 	 */
+	@Override
 	public void testValidateInputString( ) throws PropertyValueException
 	{
 		DimensionValue value = (DimensionValue) type.validateInputString(
@@ -158,6 +164,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 		}
 		catch ( PropertyValueException e )
 		{
+			// pass
 		}
 
 		try
@@ -168,6 +175,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 		}
 		catch ( PropertyValueException e )
 		{
+			// pass
 		}
 	}
 
@@ -178,6 +186,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
 	 * ()
 	 */
+	@Override
 	public void testValidateXml( ) throws PropertyValueException
 	{
 		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
@@ -207,6 +216,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * ()
 	 */
 
+	@Override
 	public void testToDouble( ) throws PropertyValueException
 
 	{
@@ -227,6 +237,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
 	 * ()
 	 */
+	@Override
 	public void testToInteger( )
 	{
 		// Nothing to test
@@ -238,6 +249,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
+	@Override
 	public void testToXml( )
 	{
 		assertEquals(
@@ -254,6 +266,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
+	@Override
 	public void testToString( )
 	{
 		assertEquals(
@@ -268,6 +281,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testToDisplayString()
 	 */
+	@Override
 	public void testToDisplayString( )
 	{
 		ThreadResources.setLocale( ULocale.ENGLISH );
@@ -283,6 +297,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * ()
 	 */
 
+	@Override
 	public void testToNumber( ) throws PropertyValueException
 	{
 		assertEquals( 0.0d, type.toNumber( design, null ).doubleValue( ), 1 );
@@ -305,7 +320,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 			throws SemanticException
 	{
 
-		createDesign( null );
+		createDesign(ULocale.ENGLISH);
 
 		TableHandle table = designHandle.getElementFactory( ).newTableItem(
 				"table", 3 ); //$NON-NLS-1$
@@ -630,6 +645,7 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * ()
 	 */
 
+	@Override
 	public void testToBoolean( )
 	{
 		// Nothing to test

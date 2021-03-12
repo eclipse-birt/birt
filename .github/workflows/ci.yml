@@ -47,3 +47,5 @@ jobs:
       run: mvn clean install --no-transfer-progress -U -DskipTests
     - name: Test Core
       run: mvn -B -pl :org.eclipse.birt.core.tests integration-test
+    - name: Test Model
+      run: mvn -B -pl :org.eclipse.birt.report.model.tests integration-test

@@ -118,4 +118,7 @@
 			<unit id="org.eclipse.wst.web_ui.feature.feature.group" version="0.0.0"/>
 		</location>
 	</locations>
+	<environment>
+		<nl>en</nl>
+	</environment>
 </target>
