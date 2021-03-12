@@ -57,7 +57,7 @@ public class AllArchiveTests
 		test.addTestSuite( FolderToArchiveTest.class );
 		test.addTestSuite( InputStreamRefreshTest.class );
 		test.addTestSuite( SpecialCharacterTest.class );
-		// test.addTestSuite( TestBuffer.class );
+		test.addTestSuite( BufferTest.class );
 		// add all test classes here
 
 		return test;
