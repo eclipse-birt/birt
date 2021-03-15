@@ -15,7 +15,7 @@ import org.eclipse.birt.report.designer.internal.ui.editors.schematic.figures.La
 import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.draw2d.IFigure;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 
 /**
  *  

@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.palette;
 
 import org.eclipse.gef.palette.PaletteDrawer;
 import org.eclipse.jface.resource.ImageDescriptor;
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 
 /**
  *  The palette entry used to describe the category on the palette view
