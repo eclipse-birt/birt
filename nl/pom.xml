@@ -94,7 +94,7 @@
 				<plugin>
 					<groupId>org.apache.maven.plugins</groupId>
 					<artifactId>maven-antrun-plugin</artifactId>
-					<version>1.8</version>
+					<version>${antrun.version}</version>
 					<executions>
 						<execution>
 							<phase>clean</phase>
@@ -115,10 +115,10 @@
 							<phase>compile</phase>
 							<configuration>
 								<target description="Execute native2ascii for *.msg files" name="NativeToAscii">
-									<native2ascii dest="." encoding="Cp1252" ext=".properties" includes="**/*_de_DE.msg, **/*_fr_FR.msg, **/*_es_ES.msg" src="."/>
-									<native2ascii dest="." encoding="GBK" ext=".properties" includes="**/*_zh_CN.msg" src="."/>
-									<native2ascii dest="." encoding="SJIS" ext=".properties" includes="**/*_ja_JP.msg" src="."/>
-									<native2ascii dest="." encoding="MS949" ext=".properties" includes="**/*_ko_KR.msg" src="."/>
+									<native2ascii implementation="builtin" dest="." encoding="Cp1252" ext=".properties" includes="**/*_de_DE.msg, **/*_fr_FR.msg, **/*_es_ES.msg" src="."/>
+									<native2ascii implementation="builtin" dest="." encoding="GBK" ext=".properties" includes="**/*_zh_CN.msg" src="."/>
+									<native2ascii implementation="builtin" dest="." encoding="SJIS" ext=".properties" includes="**/*_ja_JP.msg" src="."/>
+									<native2ascii implementation="builtin" dest="." encoding="MS949" ext=".properties" includes="**/*_ko_KR.msg" src="."/>
 								</target>
 							</configuration>
 							<goals>
@@ -126,7 +126,7 @@
 							</goals>
 						</execution>
 					</executions>
-					<dependencies>
+					<!-- dependencies>
 						<dependency>
 							<groupId>com.sun</groupId>
 							<artifactId>tools</artifactId>
@@ -134,7 +134,7 @@
 							<scope>system</scope>
 							<systemPath>${java.home}/../lib/tools.jar</systemPath>
 						</dependency>
-					</dependencies>
+					</dependencies -->
 				</plugin>
 				<plugin>
 					<groupId>org.eclipse.tycho</groupId>

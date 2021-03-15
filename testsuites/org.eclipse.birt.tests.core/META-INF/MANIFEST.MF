@@ -7,7 +7,8 @@ Require-Bundle: org.junit,
  org.eclipse.birt.report.engine,
  org.eclipse.birt.core
 Export-Package: utility
-Bundle-ClassPath: utility.jar
+Bundle-ClassPath: .,
+ utility.jar
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.ibm.icu.util
 Bundle-Vendor: Eclipse BIRT Project

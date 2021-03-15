@@ -17,12 +17,13 @@
 
 	<properties>
 		<birt.version>4.9.0</birt.version>
+		<antrun.version>3.0.0</antrun.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<Replace_By_Date>v${maven.build.timestamp}</Replace_By_Date>
 		<!--<build>v${maven.build.timestamp}</build>-->
 		<maven.build.timestamp.format>yyyyMMdd-HHmm</maven.build.timestamp.format>
 		<tycho.scmUrl>scm:git:https://github.com/eclipse/birt.git</tycho.scmUrl>
-		<required-java-version>1.8</required-java-version>
+		<!-- required-java-version>1.8</required-java-version-->
 		<required-maven-version>3.6.3</required-maven-version>
 	</properties>
 
@@ -34,19 +35,19 @@
             	<activeByDefault>true</activeByDefault>
             </activation>
             <properties>
-                <eclipse.release.name>2019-03</eclipse.release.name>
-                <tycho.version>1.0.0</tycho.version>
-                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/4.11/</eclipse.repo.url>
+                <eclipse.release.name>latest</eclipse.release.name>
+                <tycho.version>2.2.0</tycho.version>
+                <eclipse.repo.url>http://download.eclipse.org/eclipse/updates/latest/</eclipse.repo.url>
                 <emf.repo.url>http://download.eclipse.org/modeling/emf/emf/builds/milestone/latest</emf.repo.url>
                 <gef.repo.url>http://download.eclipse.org/tools/gef/updates/legacy/releases/</gef.repo.url>
                 <!-- https://wiki.eclipse.org/WTP_FAQ#How_do_I_install_WTP.3F -->
-				<wtp.repo.url>https://download.eclipse.org/webtools/downloads/drops/R3.13.0/R-3.13.0-20190308131645/repository/</wtp.repo.url>
+				<!-- wtp.repo.url>https://download.eclipse.org/webtools/downloads/drops/R3.13.0/R-3.13.0-20190308131645/repository/</wtp.repo.url -->
                 <!-- http://download.eclipse.org/tools/orbit/downloads/ -->
-                <orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/drops/R20190226160451/repository/</orbit.repo.url>
+                <orbit.repo.url>https://download.eclipse.org/tools/orbit/downloads/latest-R</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
-                <dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.105-SNAPSHOT/repository/</dtp.repo.url>
+                <dtp.repo.url>https://download.eclipse.org/datatools/updates/1.14.200-SNAPSHOT/repository/</dtp.repo.url>
                 <jetty.version>9.4.15.v20190215</jetty.version>
-                <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
+                <!--jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
                 <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
 				<lucene.version>(3.0.0,7.6.0)</lucene.version>
@@ -108,7 +109,7 @@
                 <orbit.repo.url>http://download.eclipse.org/tools/orbit/downloads/drops/R20181128170323/repository/</orbit.repo.url>
                 <!-- https://eclipse.org/datatools/downloads.php  -->
                 <dtp.repo.url>http://download.eclipse.org/datatools/1.14.1.201712071719/repository/</dtp.repo.url>
-                <jetty.version>9.4.8.v20171121</jetty.version>
+                <jetty.version>9.4.37.v20210219</jetty.version>
                 <!-- jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/</jetty.repo.url -->
                 <jetty.repo.url>http://download.eclipse.org/jetty/updates/jetty-bundles-9.x/${jetty.version}</jetty.repo.url>
                 <mongodb.version>3.2.2.v20181004-1955</mongodb.version>
@@ -340,7 +341,7 @@
 		</pluginManagement>
 
 		<plugins>
-			<plugin>
+			<!--plugin>
 				<inherited>true</inherited>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-enforcer-plugin</artifactId>
@@ -365,7 +366,7 @@
 					</configuration>
 				</execution>
 				</executions>
-			</plugin>
+			</plugin-->
 			
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
