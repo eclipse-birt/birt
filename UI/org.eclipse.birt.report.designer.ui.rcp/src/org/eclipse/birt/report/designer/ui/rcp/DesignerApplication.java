@@ -12,7 +12,8 @@
 package org.eclipse.birt.report.designer.ui.rcp;
 
 import org.eclipse.birt.report.designer.ui.internal.rcp.DesignerWorkbenchAdvisor;
-import org.eclipse.core.runtime.IPlatformRunnable;
+import org.eclipse.equinox.app.IApplication;
+import org.eclipse.equinox.app.IApplicationContext;
 import org.eclipse.jface.dialogs.TrayDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.PlatformUI;
@@ -22,27 +23,23 @@ import org.eclipse.ui.PlatformUI;
  * BIRT RCP main application
  * 
  */
-public class DesignerApplication implements IPlatformRunnable
-{
+public class DesignerApplication implements IApplication {
 
-	/**
-	 * @see org.eclipse.core.runtime.IPlatformRunnable#run(java.lang.Object)
-	 */
-	public Object run( Object args ) throws Exception
-	{
-		Display display = PlatformUI.createDisplay( );
-		TrayDialog.setDialogHelpAvailable( true );
-		try
-		{
-			int code = PlatformUI.createAndRunWorkbench( display,
-					new DesignerWorkbenchAdvisor( ) );
+	@Override
+	public Object start(IApplicationContext context) throws Exception {
+		Display display = PlatformUI.createDisplay();
+		TrayDialog.setDialogHelpAvailable(true);
+		try {
+			int code = PlatformUI.createAndRunWorkbench(display, new DesignerWorkbenchAdvisor());
 			// exit the application with an appropriate return code
 			return code == PlatformUI.RETURN_RESTART ? EXIT_RESTART : EXIT_OK;
+		} finally {
+			if (display != null)
+				display.dispose();
 		}
-		finally
-		{
-			if ( display != null )
-				display.dispose( );
-		}
+	}
+
+	@Override
+	public void stop() {
 	}
 }
