@@ -58,21 +58,25 @@
 
 
 		<native2ascii encoding="Cp1252"
+		 			  implementation="builtin"					
 					  src="${dir.src}" 
 					  dest="${dir.src}" 
 					  ext=".properties" 
 					  includes="**/*_de_DE.msg, **/*_fr_FR.msg, **/*_es_ES.msg"/>
 		<native2ascii encoding="GBK" 
+					  implementation="builtin"					
 					  src="${dir.src}" 
 					  dest="${dir.src}" 
 					  ext=".properties" 
 					  includes="**/*_zh_CN.msg"/>	
 		<native2ascii encoding="SJIS" 
+  					  implementation="builtin"					
 					  src="${dir.src}" 
 					  dest="${dir.src}" 
 					  ext=".properties"
 					  includes="**/*_ja_JP.msg"/>
 		<native2ascii encoding="MS949" 
+  					  implementation="builtin"					
 					  src="${dir.src}" 
 					  dest="${dir.src}" 
 					  ext=".properties"
