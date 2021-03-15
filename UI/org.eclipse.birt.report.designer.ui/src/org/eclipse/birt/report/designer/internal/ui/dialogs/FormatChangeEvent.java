@@ -13,7 +13,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import java.util.EventObject;
 
-import org.eclipse.jface.util.Assert;
+import org.eclipse.core.runtime.Assert;
 
 /**
  * An event object describing a change to a format property.
