@@ -2104,7 +2104,7 @@ public class ParameterAccessor
 			{
 			}
 		}
-		return htmlEncode( request.getParameter( parameterName ) );
+		return request.getParameter( parameterName );
 	}
 
 	/**
