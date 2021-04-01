@@ -1,0 +1,56 @@
+#!/bin/bash
+cd "$(dirname "${BASH_SOURCE[0]}")"
+for filename in $(find . -name ".project")
+do
+	dir="$(dirname $filename)"
+	if grep -q "org\.eclipse\.jdt\.core\.javanature" "$dir/.project"; then
+		echo "java nature found in $dir"
+		if [ -d "$dir/.settings" ]
+		then
+			if [ -d "/tmp/previous-settings" ]
+			then
+				rm -rf "/tmp/previous-settings"
+			fi
+			mkdir -p "/tmp/previous-settings"
+			for f in "org.eclipse.core.runtime.prefs" "org.eclipse.jdt.core.prefs" "org.eclipse.jdt.ui.prefs" "org.eclipse.pde.api.tools.prefs" "org.eclipse.pde.prefs"
+			do
+				file="$dir/.settings/$f"
+				if [ -f "$file" ]; then
+					mv "$file" "/tmp/previous-settings"
+				fi
+			done
+		fi
+		cp -r $HOME/git/eclipse.platform.ui/bundles/org.eclipse.ui/.settings "$dir"
+		if [ -d "/tmp/previous-settings" ]
+		then
+			for file in $(find /tmp/previous-settings -name "*.prefs")
+			do
+				echo "file: $file"
+				old_file="$file"
+				new_file="$dir/.settings/$(basename $file)"
+				re='(.*)=(.*)'
+				cat $file | while read line || [[ -n $line ]]
+				do
+					echo "  line: $line"
+					if [[ $line =~ $re ]]
+					then
+						key=${BASH_REMATCH[1]}
+						value=${BASH_REMATCH[2]}
+						echo "  new: $key = $value"
+						if grep -q "$key=.*" "$new_file"
+						then
+							old_pat="$key=.*"
+							new_pat="$key=$value"
+							echo "  s/$old_pat/$new_pat/"
+							sed --quiet -i -e "s/$old_pat/$new_pat/ ; p" "$new_file"
+						else
+							new_pat="$key=$value"
+							echo "  appending $new_pat"
+							echo "$new_pat" >> "$new_file"
+						fi
+					fi
+				done
+			done
+		fi
+	fi
+done
