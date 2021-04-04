@@ -201,7 +201,7 @@ public class ColumnDragTracker extends TableDragGuideTracker
 			if ( !isCtrlDown( ) && start != end )
 			{
 				MetricUtility.updateDimension(
-						( (ColumnHandle) startColumn ).getWidth( ),
+						( (ColumnHandle) endColumn ).getWidth( ),
 						endWidth - value );
 			}
 		}
