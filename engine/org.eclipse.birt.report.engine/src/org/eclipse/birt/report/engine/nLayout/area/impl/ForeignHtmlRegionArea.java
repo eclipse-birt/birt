@@ -54,7 +54,7 @@ public class ForeignHtmlRegionArea extends RegionArea implements IContainerArea
 		}
 		else
 		{
-			height = currentBP + localProperties.getPaddingBottom( );
+			height = currentBP;
 		}
 
 		if ( null != parent )
