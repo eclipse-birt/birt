@@ -35,5 +35,13 @@ public class NameSpaces
 	public static final String SPREADSHEETML = "http://schemas.openxmlformats.org/spreadsheetml/2006/main";
 	public static final String PACKAGE_RELATIONSHIPS = "http://schemas.openxmlformats.org/package/2006/relationships";
 	public static final String CONTENT_TYPES = "http://schemas.openxmlformats.org/package/2006/content-types";
+	public static final String MARKUP_COMPATIBILITY = "http://schemas.openxmlformats.org/markup-compatibility/2006";
+	public static final String W10 = "urn:schemas-microsoft-com:office:word";
+	public static final String W14 = "http://schemas.microsoft.com/office/word/2010/wordml";
+	public static final String W15 = "http://schemas.microsoft.com/office/word/2012/wordml";
+	public static final String W16 = "http://schemas.microsoft.com/office/word/2018/wordml";
+	public static final String W16CID = "http://schemas.microsoft.com/office/word/2016/wordml/cid";
+	public static final String W16SE = "http://schemas.microsoft.com/office/word/2015/wordml/symex";
+	public static final String W16CEX = "http://schemas.microsoft.com/office/word/2018/wordml/cex";
 
 }
