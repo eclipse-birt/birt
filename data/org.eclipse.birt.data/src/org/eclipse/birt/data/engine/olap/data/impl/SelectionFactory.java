@@ -17,28 +17,26 @@ import org.eclipse.birt.data.engine.olap.data.api.ISelection;
  * 
  */
 
-public class SelectionFactory
-{
-	private SelectionFactory( )
-	{
+public class SelectionFactory {
+	private SelectionFactory() {
 	}
+
 	/**
 	 * 
 	 * @return
 	 */
-	public static ISelection createEmptySelection( )
-	{
-		return new EmptySelection( );
+	public static ISelection createEmptySelection() {
+		return new EmptySelection();
 	}
-	
+
 	/**
 	 * create an OneKeySelection instance.
+	 * 
 	 * @param key
 	 * @return
 	 */
-	public static ISelection createOneKeySelection( Object[] key )
-	{
-		return new OneKeySelection( key );
+	public static ISelection createOneKeySelection(Object[] key) {
+		return new OneKeySelection(key);
 	}
 
 	/**
@@ -46,22 +44,19 @@ public class SelectionFactory
 	 * @param selectedObjects
 	 * @return
 	 */
-	public static ISelection createMutiKeySelection( Object[][] keys )
-	{
-		return new MultiKeySelection( keys );
+	public static ISelection createMutiKeySelection(Object[][] keys) {
+		return new MultiKeySelection(keys);
 	}
-	
+
 	/**
 	 * 
 	 * @param selectedObjects
 	 * @return
 	 */
-	public static ISelection[] createSelectionArray( Object[][] keys )
-	{
+	public static ISelection[] createSelectionArray(Object[][] keys) {
 		ISelection[] result = new ISelection[keys.length];
-		for ( int i = 0; i < keys.length; i++ )
-		{
-			result[i] = new OneKeySelection( keys[i] );
+		for (int i = 0; i < keys.length; i++) {
+			result[i] = new OneKeySelection(keys[i]);
 		}
 		return result;
 	}
@@ -74,13 +69,9 @@ public class SelectionFactory
 	 * @param containsMaxKey
 	 * @return
 	 */
-	public static ISelection createRangeSelection( Object[] minKey, Object[] maxKey,
-			boolean containsMinKey, boolean containsMaxKey )
-	{
-		return new RangeSelection( minKey,
-				maxKey,
-				containsMinKey,
-				containsMaxKey );
+	public static ISelection createRangeSelection(Object[] minKey, Object[] maxKey, boolean containsMinKey,
+			boolean containsMaxKey) {
+		return new RangeSelection(minKey, maxKey, containsMinKey, containsMaxKey);
 	}
 
 }

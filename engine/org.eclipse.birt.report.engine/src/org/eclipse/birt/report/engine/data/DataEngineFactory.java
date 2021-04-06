@@ -30,8 +30,7 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
  * created in this factory.
  * 
  */
-public class DataEngineFactory
-{
+public class DataEngineFactory {
 	/**
 	 * static factory instance
 	 */
@@ -40,8 +39,7 @@ public class DataEngineFactory
 	/**
 	 * private constractor
 	 */
-	protected DataEngineFactory( )
-	{
+	protected DataEngineFactory() {
 	}
 
 	/**
@@ -49,11 +47,9 @@ public class DataEngineFactory
 	 * 
 	 * @return the factory instance
 	 */
-	synchronized public static DataEngineFactory getInstance( )
-	{
-		if ( sm_instance == null )
-		{
-			sm_instance = new DataEngineFactory( );
+	synchronized public static DataEngineFactory getInstance() {
+		if (sm_instance == null) {
+			sm_instance = new DataEngineFactory();
 		}
 		return sm_instance;
 	}
@@ -61,61 +57,43 @@ public class DataEngineFactory
 	/**
 	 * create a <code>DataEngine</code> given an execution context
 	 * 
-	 * @param context
-	 *            the execution context
+	 * @param context the execution context
 	 * @return a data engine instance
 	 */
-	public IDataEngine createDataEngine( ExecutionContext context, boolean needCache )
-			throws Exception
-	{
-		IReportDocument document = context.getReportDocument( );
-		if( document!= null )
-		{
-			String buildNumber = document
-					.getProperty( ReportDocumentConstants.BIRT_ENGINE_BUILD_NUMBER_KEY );
-			Map appContext = context.getAppContext( );
-			if ( appContext != null )
-			{
-				appContext
-						.put( ReportDocumentConstants.BIRT_ENGINE_BUILD_NUMBER_KEY,
-								buildNumber );
+	public IDataEngine createDataEngine(ExecutionContext context, boolean needCache) throws Exception {
+		IReportDocument document = context.getReportDocument();
+		if (document != null) {
+			String buildNumber = document.getProperty(ReportDocumentConstants.BIRT_ENGINE_BUILD_NUMBER_KEY);
+			Map appContext = context.getAppContext();
+			if (appContext != null) {
+				appContext.put(ReportDocumentConstants.BIRT_ENGINE_BUILD_NUMBER_KEY, buildNumber);
 			}
 		}
-		//first we must test if we have the data source
-		DocumentDataSource dataSource = context.getDataSource( );
-		if ( dataSource != null )
-		{
-			ReportDocumentWriter writer = context.getReportDocWriter( );
+		// first we must test if we have the data source
+		DocumentDataSource dataSource = context.getDataSource();
+		if (dataSource != null) {
+			ReportDocumentWriter writer = context.getReportDocWriter();
 			IDocArchiveWriter archiverWriter = null;
-			if ( writer != null )
-			{
-				archiverWriter = writer.getArchive( );
+			if (writer != null) {
+				archiverWriter = writer.getArchive();
 			}
-			return new DataInteractiveEngine( this, context, dataSource
-					.getDataSource( ), archiverWriter );
+			return new DataInteractiveEngine(this, context, dataSource.getDataSource(), archiverWriter);
 		}
-		//if get the report document writer is not null, that means we are in the g
-		ReportDocumentWriter writer = context.getReportDocWriter( );
-		if ( writer != null )
-		{
-			return new DataGenerationEngine( this, context, context
-					.getReportDocWriter( ).getArchive( ) );
+		// if get the report document writer is not null, that means we are in the g
+		ReportDocumentWriter writer = context.getReportDocWriter();
+		if (writer != null) {
+			return new DataGenerationEngine(this, context, context.getReportDocWriter().getArchive());
 		}
 
-		if ( document != null )
-		{
-			if ( context.getEngineTask( ).getTaskType( ) == EngineTask.TASK_DATAEXTRACTION )
-			{
-				return new DataInteractiveEngine( this, context, context
-						.getReportDocument( ).getArchive( ), null );
+		if (document != null) {
+			if (context.getEngineTask().getTaskType() == EngineTask.TASK_DATAEXTRACTION) {
+				return new DataInteractiveEngine(this, context, context.getReportDocument().getArchive(), null);
 			}
-			return new DataPresentationEngine( this, context, context
-			        .getReportDocument( ).getArchive( ), needCache );
+			return new DataPresentationEngine(this, context, context.getReportDocument().getArchive(), needCache);
 		}
-		return new DteDataEngine( this, context, needCache );
+		return new DteDataEngine(this, context, needCache);
 	}
 
-	public void closeDataEngine( IDataEngine dataEngine )
-	{
+	public void closeDataEngine(IDataEngine dataEngine) {
 	}
 }

@@ -15,79 +15,72 @@ import org.eclipse.swt.graphics.Image;
 /**
  * @author Actuate Corporation
  */
-public class DefaultChartSubTypeImpl implements IChartSubType
-{
+public class DefaultChartSubTypeImpl implements IChartSubType {
 
 	private String sTypeName = null;
 
-    private String sDescription = null;
+	private String sDescription = null;
 
-    private Image imgType = null;
-    
-    private String sTypeDisplayName = null;
+	private Image imgType = null;
 
-    public DefaultChartSubTypeImpl(String sTypeName, Image imgType, String sDescription)
-    {
-        this.sTypeName = sTypeName;
-        this.sDescription = sDescription;
-        this.imgType = imgType;
-    }
-    
-    public DefaultChartSubTypeImpl(String sTypeName, Image imgType, String sDescription, String sTypeDisplayName)
-    {
-        this.sTypeName = sTypeName;
-        this.sDescription = sDescription;
-        this.imgType = imgType;
-        this.sTypeDisplayName = sTypeDisplayName;
-    }
+	private String sTypeDisplayName = null;
 
-    public DefaultChartSubTypeImpl(String sTypeName, String sDescription, Image imgType)
-    {
-        this.sTypeName = sTypeName;
-        this.sDescription = sDescription;
-        this.imgType = imgType;
-    }
+	public DefaultChartSubTypeImpl(String sTypeName, Image imgType, String sDescription) {
+		this.sTypeName = sTypeName;
+		this.sDescription = sDescription;
+		this.imgType = imgType;
+	}
 
-    public void setDescription(String sDescription)
-    {
-        this.sDescription = sDescription;
-    }
+	public DefaultChartSubTypeImpl(String sTypeName, Image imgType, String sDescription, String sTypeDisplayName) {
+		this.sTypeName = sTypeName;
+		this.sDescription = sDescription;
+		this.imgType = imgType;
+		this.sTypeDisplayName = sTypeDisplayName;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.ui.swt.IChartSubType#getName()
-     */
-    public String getName()
-    {
-        return sTypeName;
-    }
+	public DefaultChartSubTypeImpl(String sTypeName, String sDescription, Image imgType) {
+		this.sTypeName = sTypeName;
+		this.sDescription = sDescription;
+		this.imgType = imgType;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.ui.swt.IChartSubType#getImage()
-     */
-    public Image getImage()
-    {
-        return imgType;
-    }
+	public void setDescription(String sDescription) {
+		this.sDescription = sDescription;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.chart.ui.swt.IChartSubType#getDescription()
-     */
-    public String getDescription()
-    {
-        return sDescription;
-    }
-    
-    /* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.IChartSubType#getName()
+	 */
+	public String getName() {
+		return sTypeName;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.IChartSubType#getImage()
+	 */
+	public Image getImage() {
+		return imgType;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.IChartSubType#getDescription()
+	 */
+	public String getDescription() {
+		return sDescription;
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IChartSubType#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return sTypeDisplayName;
 	}
 

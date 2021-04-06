@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
  * This class defines constants for looking up resources that are available only
  * within the Report Designer UI.
  */
-public interface IReportGraphicConstants
-{
+public interface IReportGraphicConstants {
 	// Palette large icons
 	public final static String LARGE = "LARGE"; //$NON-NLS-1$
 
@@ -76,9 +75,10 @@ public interface IReportGraphicConstants
 
 	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE = ReportDesignConstants.SCRIPT_DATA_SOURCE;
 
-	//ReportDesignConstants.DATAMART_DATA_SET,	ReportDesignConstants.DATAMART_DATA_SOURCE
+	// ReportDesignConstants.DATAMART_DATA_SET,
+	// ReportDesignConstants.DATAMART_DATA_SOURCE
 	public final static String ICON_ELEMENT_DATAMART_DATA_SET = "DataMartDataSet"; //$NON-NLS-1$
-	
+
 	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE = "DataMartDataSource"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_JOINT_DATA_SET = ReportDesignConstants.JOINT_DATA_SET;
@@ -116,7 +116,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_CASCADING_PARAMETER_GROUP = ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT;
 
 	public final static String ICON_ELEMENT_ROW = ReportDesignConstants.ROW_ELEMENT;
-	
+
 	public final static String ICON_ELEMENT_COLUMN = ReportDesignConstants.COLUMN_ELEMENT;
 
 	public final static String ICON_ELEMENT_SCALAR_PARAMETER = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT;
@@ -148,100 +148,83 @@ public interface IReportGraphicConstants
 	public final static String ICON_ELEMENT_CSS_STYLE_SHEET = "ReportDesignConstants.CSS_STYLE_SHEET"; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_TEMPLATEITEM = ReportDesignConstants.TEMPLATE_REPORT_ITEM;
-	
+
 	public final static String ICON_ELEMENT_VARIABLE = ReportDesignConstants.VARIABLE_ELEMENT;
-	
-	public final static String ICON_ELEMENT_VARIABLE_REPORT = ReportDesignConstants.VARIABLE_ELEMENT
-			+ "report"; //$NON-NLS-1$
-	
-	public final static String ICON_ELEMENT_VARIABLE_PAGE = ReportDesignConstants.VARIABLE_ELEMENT
-			+ "page"; //$NON-NLS-1$
+
+	public final static String ICON_ELEMENT_VARIABLE_REPORT = ReportDesignConstants.VARIABLE_ELEMENT + "report"; //$NON-NLS-1$
+
+	public final static String ICON_ELEMENT_VARIABLE_PAGE = ReportDesignConstants.VARIABLE_ELEMENT + "page"; //$NON-NLS-1$
 
 	// Library report item icons
 	public final static String LINK = "LINK"; //$NON-NLS-1$
 
-	public final static String ICON_ELEMENT_CSS_STYLE_SHEET_LINK = ICON_ELEMENT_CSS_STYLE_SHEET
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_CSS_STYLE_SHEET_LINK = ICON_ELEMENT_CSS_STYLE_SHEET + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_STYLE_LINK = ICON_ELEMENT_STYLE
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_STYLE_LINK = ICON_ELEMENT_STYLE + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_DATA_LINK = ICON_ELEMENT_DATA + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_DATA_SET_LINK = ICON_ELEMENT_DATA_SET
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_DATA_SET_LINK = ICON_ELEMENT_DATA_SET + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_DATA_SOURCE_LINK = ICON_ELEMENT_DATA_SOURCE
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_DATA_SOURCE_LINK = ICON_ELEMENT_DATA_SOURCE + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_GRID_LINK = ICON_ELEMENT_GRID + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_IMAGE_LINK = ICON_ELEMENT_IMAGE
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_IMAGE_LINK = ICON_ELEMENT_IMAGE + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_LABEL_LINK = ICON_ELEMENT_LABEL
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_LABEL_LINK = ICON_ELEMENT_LABEL + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_LIST_LINK = ICON_ELEMENT_LIST + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_TABLE_LINK = ICON_ELEMENT_TABLE
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_TABLE_LINK = ICON_ELEMENT_TABLE + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_ELEMENT_TEXT_LINK = ICON_ELEMENT_TEXT + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_TEXTDATA_LINK = ICON_ELEMENT_TEXTDATA
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_TEXTDATA_LINK = ICON_ELEMENT_TEXTDATA + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_ODA_DATA_SET_LINK = ReportDesignConstants.ODA_DATA_SET
-			+ "_" //$NON-NLS-1$
-			+ LINK;
-	
-	public final static String ICON_ELEMENT_DERIVED_DATA_SET_LINK = ReportDesignConstants.DERIVED_DATA_SET
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_ODA_DATA_SET_LINK = ReportDesignConstants.ODA_DATA_SET + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_ODA_DATA_SOURCE_LINK = ReportDesignConstants.ODA_DATA_SOURCE
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_DERIVED_DATA_SET_LINK = ReportDesignConstants.DERIVED_DATA_SET + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_SCRIPT_DATA_SET_LINK = ReportDesignConstants.SCRIPT_DATA_SET
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_ODA_DATA_SOURCE_LINK = ReportDesignConstants.ODA_DATA_SOURCE + "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE_LINK = ReportDesignConstants.SCRIPT_DATA_SOURCE
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_SCRIPT_DATA_SET_LINK = ReportDesignConstants.SCRIPT_DATA_SET + "_" //$NON-NLS-1$
 			+ LINK;
-	
-	//ReportDesignConstants.DATAMART_DATA_SET, ReportDesignConstants.DATAMART_DATA_SOURCE
+
+	public final static String ICON_ELEMENT_SCRIPT_DATA_SOURCE_LINK = ReportDesignConstants.SCRIPT_DATA_SOURCE + "_" //$NON-NLS-1$
+			+ LINK;
+
+	// ReportDesignConstants.DATAMART_DATA_SET,
+	// ReportDesignConstants.DATAMART_DATA_SOURCE
 	public final static String ICON_ELEMENT_DATAMART_DATA_SET_LINK = ICON_ELEMENT_DATAMART_DATA_SET + "_" + LINK; //$NON-NLS-1$
 
 	public final static String ICON_ELEMENT_DATAMART_DATA_SOURCE_LINK = ICON_ELEMENT_DATAMART_DATA_SOURCE + "_" + LINK; //$NON-NLS-1$
 
-	public final static String ICON_ELEMENT_JOINT_DATA_SET_LINK = ReportDesignConstants.JOINT_DATA_SET
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_ELEMENT_JOINT_DATA_SET_LINK = ReportDesignConstants.JOINT_DATA_SET + "_" //$NON-NLS-1$
 			+ LINK;
-	public final static String ICON_SCALAR_PARAMETER_ELEMENT_LINK = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_SCALAR_PARAMETER_ELEMENT_LINK = ReportDesignConstants.SCALAR_PARAMETER_ELEMENT + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_CASCADING_PARAMETER_GROUP_ELEMENT_LINK = ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT
 			+ "_" //$NON-NLS-1$
 			+ LINK;
 
-	public final static String ICON_PARAMETER_GROUP_ELEMENT_LINK = ReportDesignConstants.PARAMETER_GROUP_ELEMENT
-			+ "_" //$NON-NLS-1$
+	public final static String ICON_PARAMETER_GROUP_ELEMENT_LINK = ReportDesignConstants.PARAMETER_GROUP_ELEMENT + "_" //$NON-NLS-1$
 			+ LINK;
 
 	public final static String ICON_SIMPLE_MASTER_PAGE_ELEMENT_LINK = ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT
@@ -315,8 +298,7 @@ public interface IReportGraphicConstants
 	// auto text icon
 	public final static String ICON_AUTOTEXT = "AutoText"; //$NON-NLS-1$
 
-	public final static String ICON_AUTOTEXT_LARGE = ICON_AUTOTEXT
-			+ "_" + LARGE; //$NON-NLS-1$
+	public final static String ICON_AUTOTEXT_LARGE = ICON_AUTOTEXT + "_" + LARGE; //$NON-NLS-1$
 
 	public final static String ICON_AUTOTEXT_PAGE = "Page"; //$NON-NLS-1$
 
@@ -374,7 +356,7 @@ public interface IReportGraphicConstants
 	public final static String ICON_HISTORYTOOLBAR_FORWARDENABLED = "ForwardEnabled";//$NON-NLS-1$
 
 	// attribute icon constants
-	public final static String DIS = "DIS";//$NON-NLS-1$	
+	public final static String DIS = "DIS";//$NON-NLS-1$
 
 	public final static String ICON_ATTRIBUTE_FONT_WIDTH = StyleHandle.FONT_WEIGHT_PROP;
 
@@ -419,8 +401,8 @@ public interface IReportGraphicConstants
 	public final static String ICON_ATTRIBUTE_THTREE_COLUMNS = "Master Page Three Column";//$NON-NLS-1$
 
 	// Preview editer icons
-	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters"; //$NON-NLS-1$	
-	public final static String ICON_PREVIEW_PARAMETERS_HIDE = "PreviewParametersHide"; //$NON-NLS-1$	
+	public final static String ICON_PREVIEW_PARAMETERS = "PreviewParameters"; //$NON-NLS-1$
+	public final static String ICON_PREVIEW_PARAMETERS_HIDE = "PreviewParametersHide"; //$NON-NLS-1$
 
 	public final static String ICON_PREVIEW_REFRESH = "RreviewRefresh";//$NON-NLS-1$
 
@@ -429,12 +411,12 @@ public interface IReportGraphicConstants
 	public final static String ICON_REFRESH_DISABLE = "DisableRefresh";//$NON-NLS-1$
 
 	public final static String ICON_TOGGLE_BREADCRUMB = "ToggleBreadcrumb";//$NON-NLS-1$
-	
+
 	public final static String ICON_TOGGLE_BREADCRUMB_DISABLE = "DisableToggleBreadcrumb";//$NON-NLS-1$
-	
+
 	// Parameter dialog icon
 	public final static String ICON_DEFAULT = "Default"; //$NON-NLS-1$
-	
+
 	public final static String ICON_DEFAULT_NOT = "NotDefault"; //$NON-NLS-1$
 
 	public static final String ICON_DATAEDIT_DLG_TITLE_BANNER = "org.eclipse.birt.report.designer.property"; //$NON-NLS-1$
@@ -462,22 +444,20 @@ public interface IReportGraphicConstants
 	public static final String ICON_TEMPLATE_NO_PREVIEW = "no_preview";//$NON-NLS-1$
 
 	public static final String ICON_SCRIPTS_NODE = "Scripts Node"; //$NON-NLS-1$
-	
+
 	public final static String ICON_CHECKED = "Checked";//$NON-NLS-1$
 	public final static String ICON_UNCHECKED = "UnChecked";//$NON-NLS-1$
 
-	public final static String[] IMAGE_FILTER_NAMES = {
-			Messages.getString( "IReportGraphicConstants.ImageType.All" ), //$NON-NLS-1$
-			Messages.getString( "IReportGraphicConstants.ImageType.Bmp" ), //$NON-NLS-1$
-			Messages.getString( "IReportGraphicConstants.ImageType.Jpg" ), //$NON-NLS-1$
-			Messages.getString( "IReportGraphicConstants.ImageType.Tif" ), //$NON-NLS-1$
-			Messages.getString( "IReportGraphicConstants.ImageType.Gif" ), //$NON-NLS-1$
-			Messages.getString( "IReportGraphicConstants.ImageType.Png" ), //$NON-NLS-1$
-			Messages.getString( "IReportGraphicConstants.ImageType.Icon" ) //$NON-NLS-1$
+	public final static String[] IMAGE_FILTER_NAMES = { Messages.getString("IReportGraphicConstants.ImageType.All"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Bmp"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Jpg"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Tif"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Gif"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Png"), //$NON-NLS-1$
+			Messages.getString("IReportGraphicConstants.ImageType.Icon") //$NON-NLS-1$
 	};
 
-	public final static String[] IMAGE_FILTER_EXTS = {
-			"*.bmp;*.jpg;*.jpeg;*.gif;*.tif;*.png;*.ico", //$NON-NLS-1$
+	public final static String[] IMAGE_FILTER_EXTS = { "*.bmp;*.jpg;*.jpeg;*.gif;*.tif;*.png;*.ico", //$NON-NLS-1$
 			"*.bmp", //$NON-NLS-1$
 			"*.jpg;*.jpeg;", //$NON-NLS-1$
 			"*.tif", //$NON-NLS-1$
@@ -540,7 +520,7 @@ public interface IReportGraphicConstants
 	public static final String ICON_STATUS_ERROR = "Error"; //$NON-NLS-1$
 
 	// bidi_hcg BiDi-specific property
-	public static final String REPORT_BIDIORIENTATION_PROPERTY = "bidiLayoutOrientation";//$NON-NLS-1$ 
+	public static final String REPORT_BIDIORIENTATION_PROPERTY = "bidiLayoutOrientation";//$NON-NLS-1$
 
 	public static final String ICON_GROUP_SORT = "GroupSort"; //$NON-NLS-1$
 
@@ -557,8 +537,8 @@ public interface IReportGraphicConstants
 	public static final String ICON_LAYOUT_FIXED = "LayoutFixed"; //$NON-NLS-1$
 
 	public static final String ICON_LAYOUT_PREFERENCE = "LayoutPreference"; //$NON-NLS-1$
-	
-	//add for classpath node
+
+	// add for classpath node
 	public static final String ICON_NODE_VARIABLE = "VariableNodel"; //$NON-NLS-1$
 	public static final String ICON_NODE_EXTJAR = "ExtJar"; //$NON-NLS-1$
 	public static final String ICON_NODE_EXTFOL = "ExtFol"; //$NON-NLS-1$

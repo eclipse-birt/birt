@@ -44,33 +44,31 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_142893 extends BaseTestCase
-{
+public class Regression_142893 extends BaseTestCase {
 
 	private String filename = "Regression_142893.xml"; //$NON-NLS-1$
 	private String propname = "r_lib.properties";
-	private String libname = "Regression_142893_lib.xml"; 
-	
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	private String libname = "Regression_142893_lib.xml";
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( filename , filename );
-		copyResource_INPUT( propname , propname );
-		copyResource_INPUT( libname , libname );
+		copyResource_INPUT(filename, filename);
+		copyResource_INPUT(propname, propname);
+		copyResource_INPUT(libname, libname);
 	}
+
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_regression_142893( ) throws DesignFileException
-	{
-		openDesign( filename );
+	public void test_regression_142893() throws DesignFileException {
+		openDesign(filename);
 
-		LabelHandle label = (LabelHandle) designHandle.findElement( "NewLabel" ); //$NON-NLS-1$
-		System.out.println(label.getDisplayText( ));
-		assertEquals( "v1", label.getDisplayText( ) ); //$NON-NLS-1$
+		LabelHandle label = (LabelHandle) designHandle.findElement("NewLabel"); //$NON-NLS-1$
+		System.out.println(label.getDisplayText());
+		assertEquals("v1", label.getDisplayText()); //$NON-NLS-1$
 
 	}
 }

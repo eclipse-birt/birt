@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * 
  */
 
-public interface IStructure extends IPropertySet
-{
+public interface IStructure extends IPropertySet {
 
 	/**
 	 * Returns the name of the structure definition. The name is the one used to
@@ -35,7 +34,7 @@ public interface IStructure extends IPropertySet
 	 *         dictionary.
 	 */
 
-	String getStructName( );
+	String getStructName();
 
 	/**
 	 * Creates a deep copy of this structure.
@@ -43,7 +42,7 @@ public interface IStructure extends IPropertySet
 	 * @return a copy of this structure.
 	 */
 
-	IStructure copy( );
+	IStructure copy();
 
 	/**
 	 * Returns the structure definition from the meta-data dictionary.
@@ -51,38 +50,34 @@ public interface IStructure extends IPropertySet
 	 * @return the structure definition
 	 */
 
-	IStructureDefn getDefn( );
+	IStructureDefn getDefn();
 
 	/**
 	 * Gets the locale value of a property.
 	 * 
-	 * @param module
-	 *            the module
+	 * @param module   the module
 	 * 
-	 * @param propDefn
-	 *            definition of the property to get
+	 * @param propDefn definition of the property to get
 	 * @return value of the item as an object, or null if the item is not set
 	 *         locally or is not found.
 	 * 
 	 * @deprecated by {@link #getProperty(Module, String)}
 	 */
 
-	public Object getLocalProperty( Module module, PropertyDefn propDefn );
+	public Object getLocalProperty(Module module, PropertyDefn propDefn);
 
 	/**
 	 * Gets the locale value of a property.
 	 * 
-	 * @param module
-	 *            the module
+	 * @param module   the module
 	 * 
-	 * @param propName
-	 *            the name of the property definition
+	 * @param propName the name of the property definition
 	 * @return value of the item as an object, or null if the item is not set
 	 *         locally or is not found.
 	 * 
 	 */
 
-	public Object getProperty( Module module, String propName );
+	public Object getProperty(Module module, String propName);
 
 	/**
 	 * Justifies whether the structure can be referred by other design elements.
@@ -90,13 +85,13 @@ public interface IStructure extends IPropertySet
 	 * @return true if the structure is referencable, otherwise false
 	 */
 
-	public boolean isReferencable( );
+	public boolean isReferencable();
 
 	/**
 	 * Justifies whether the structure is generated in design time or not.
 	 * 
-	 * @return <true> if the structure is generated in design time, otherwise
-	 *         return <false>.
+	 * @return <true> if the structure is generated in design time, otherwise return
+	 *         <false>.
 	 */
-	public boolean isDesignTime( );
+	public boolean isDesignTime();
 }

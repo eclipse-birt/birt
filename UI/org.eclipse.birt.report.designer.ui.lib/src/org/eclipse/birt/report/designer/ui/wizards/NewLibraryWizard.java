@@ -48,25 +48,23 @@ import org.eclipse.ui.PlatformUI;
  * BIRT Project Wizard.
  * 
  */
-public class NewLibraryWizard extends Wizard implements
-		INewWizard,
-		IExecutableExtension
-{
+public class NewLibraryWizard extends Wizard implements INewWizard, IExecutableExtension {
 
 	// private static final String OPENING_FILE_FOR_EDITING =
 	// Messages.getString( "NewLibraryWizard.text.OpenFileForEditing" );
 	// //$NON-NLS-1$
 	// private static final String CREATING = Messages.getString(
 	// "NewLibraryWizard.text.Creating" ); //$NON-NLS-1$
-	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewLibraryWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
-	private static final String NEW_REPORT_FILE_EXTENSION = Messages.getString( "NewLibraryWizard.displayName.NewReportFileExtension" ); //$NON-NLS-1$
-	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX
-			+ NEW_REPORT_FILE_EXTENSION;
-	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewLibraryWizard.text.CreateReport" ); //$NON-NLS-1$
-	private static final String REPORT = Messages.getString( "NewLibraryWizard.title.Report" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages
+			.getString("NewLibraryWizard.displayName.NewReportFileNamePrefix"); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_EXTENSION = Messages
+			.getString("NewLibraryWizard.displayName.NewReportFileExtension"); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_NAME = NEW_REPORT_FILE_NAME_PREFIX + NEW_REPORT_FILE_EXTENSION;
+	private static final String CREATE_A_NEW_REPORT = Messages.getString("NewLibraryWizard.text.CreateReport"); //$NON-NLS-1$
+	private static final String REPORT = Messages.getString("NewLibraryWizard.title.Report"); //$NON-NLS-1$
 	// private static final String WIZARDPAGE = Messages.getString(
 	// "NewLibraryWizard.title.WizardPage" ); //$NON-NLS-1$
-	private static final String NEW = Messages.getString( "NewLibraryWizard.title.New" ); //$NON-NLS-1$
+	private static final String NEW = Messages.getString("NewLibraryWizard.title.New"); //$NON-NLS-1$
 	// private static final String CHOOSE_FROM_TEMPLATE = Messages.getString(
 	// "NewReportWizard.title.Choose" ); //$NON-NLS-1$
 
@@ -80,22 +78,20 @@ public class NewLibraryWizard extends Wizard implements
 	// private WizardChoicePage choicePage;
 	// private WizardCustomTemplatePage customTemplatePage;
 
-	public NewLibraryWizard( )
-	{
-		setWindowTitle( NEW );
+	public NewLibraryWizard() {
+		setWindowTitle(NEW);
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
-	public boolean performFinish( )
-	{
-		boolean bool = newLibraryFileWizardPage.performFinish( );
-		if ( bool == true )
-		{
-			newLibraryFileWizardPage.updatePerspective( getConfigElement( ) );
-		}		
+	public boolean performFinish() {
+		boolean bool = newLibraryFileWizardPage.performFinish();
+		if (bool == true) {
+			newLibraryFileWizardPage.updatePerspective(getConfigElement());
+		}
 		return bool;
 		// return newLibraryFileWizardPage.performFinish( );
 	}
@@ -104,10 +100,9 @@ public class NewLibraryWizard extends Wizard implements
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
-	 *      org.eclipse.jface.viewers.IStructuredSelection)
+	 * org.eclipse.jface.viewers.IStructuredSelection)
 	 */
-	public void init( IWorkbench workbench, IStructuredSelection selection )
-	{
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
 		// check existing open project
 		// IWorkspaceRoot root = ResourcesPlugin.getWorkspace( ).getRoot( );
 		// IProject projects[] = root.getProjects( );
@@ -143,9 +138,8 @@ public class NewLibraryWizard extends Wizard implements
 	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#getDefaultPageImage()
 	 */
-	public Image getDefaultPageImage( )
-	{
-		return ReportPlugin.getImage( "/icons/wizban/create_report_wizard.gif" ); //$NON-NLS-1$
+	public Image getDefaultPageImage() {
+		return ReportPlugin.getImage("/icons/wizban/create_report_wizard.gif"); //$NON-NLS-1$
 	}
 
 	/*
@@ -153,115 +147,86 @@ public class NewLibraryWizard extends Wizard implements
 	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#addPages()
 	 */
-	public void addPages( )
-	{
-		Object adapter = Platform.getAdapterManager( ).getAdapter( this,
-				INewLibraryCreationPage.class );
+	public void addPages() {
+		Object adapter = Platform.getAdapterManager().getAdapter(this, INewLibraryCreationPage.class);
 
 		newLibraryFileWizardPage = (INewLibraryCreationPage) adapter;
 
-		addPage( newLibraryFileWizardPage );
+		addPage(newLibraryFileWizardPage);
 
 		// set titles
-		newLibraryFileWizardPage.setTitle( REPORT );
-		newLibraryFileWizardPage.setDescription( CREATE_A_NEW_REPORT );
+		newLibraryFileWizardPage.setTitle(REPORT);
+		newLibraryFileWizardPage.setDescription(CREATE_A_NEW_REPORT);
 
-		resetUniqueCount( );
-		newLibraryFileWizardPage.setFileName( getUniqueReportName( ) );
-		newLibraryFileWizardPage.setContainerFullPath( getDefaultContainerPath( ) );
+		resetUniqueCount();
+		newLibraryFileWizardPage.setFileName(getUniqueReportName());
+		newLibraryFileWizardPage.setContainerFullPath(getDefaultContainerPath());
 	}
 
-	private void resetUniqueCount( )
-	{
+	private void resetUniqueCount() {
 		UNIQUE_COUNTER = 0;
 	}
 
-	protected IPath getDefaultContainerPath( )
-	{
-		IWorkbenchWindow benchWindow = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( );
-		IWorkbenchPart part = benchWindow.getPartService( ).getActivePart( );
+	protected IPath getDefaultContainerPath() {
+		IWorkbenchWindow benchWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPart part = benchWindow.getPartService().getActivePart();
 
 		Object selection = null;
-		if ( part instanceof IEditorPart )
-		{
-			selection = ( (IEditorPart) part ).getEditorInput( );
-		}
-		else
-		{
-			ISelection sel = benchWindow.getSelectionService( ).getSelection( );
-			if ( ( sel != null ) && ( sel instanceof IStructuredSelection ) )
-			{
-				selection = ( (IStructuredSelection) sel ).getFirstElement( );
+		if (part instanceof IEditorPart) {
+			selection = ((IEditorPart) part).getEditorInput();
+		} else {
+			ISelection sel = benchWindow.getSelectionService().getSelection();
+			if ((sel != null) && (sel instanceof IStructuredSelection)) {
+				selection = ((IStructuredSelection) sel).getFirstElement();
 			}
 		}
 
-		IContainer ct = getDefaultContainer( selection );
+		IContainer ct = getDefaultContainer(selection);
 
-		if ( ct == null )
-		{
-			IEditorPart editor = UIUtil.getActiveEditor( true );
+		if (ct == null) {
+			IEditorPart editor = UIUtil.getActiveEditor(true);
 
-			if ( editor != null )
-			{
-				ct = getDefaultContainer( editor.getEditorInput( ) );
+			if (editor != null) {
+				ct = getDefaultContainer(editor.getEditorInput());
 			}
 		}
 
-		if ( ct != null )
-		{
-			return ct.getFullPath( );
+		if (ct != null) {
+			return ct.getFullPath();
 		}
 
-		return Platform.getLocation( );
+		return Platform.getLocation();
 	}
 
-	private IContainer getDefaultContainer( Object selection )
-	{
+	private IContainer getDefaultContainer(Object selection) {
 		IContainer ct = null;
-		if ( selection instanceof IAdaptable )
-		{
-			IResource resource = (IResource) ( (IAdaptable) selection ).getAdapter( IResource.class );
+		if (selection instanceof IAdaptable) {
+			IResource resource = (IResource) ((IAdaptable) selection).getAdapter(IResource.class);
 
-			if ( resource instanceof IContainer && resource.isAccessible( ) )
-			{
+			if (resource instanceof IContainer && resource.isAccessible()) {
 				ct = (IContainer) resource;
-			}
-			else if ( resource != null
-					&& resource.getParent( ) != null
-					&& resource.getParent( ).isAccessible( ) )
-			{
-				ct = resource.getParent( );
+			} else if (resource != null && resource.getParent() != null && resource.getParent().isAccessible()) {
+				ct = resource.getParent();
 			}
 		}
 
 		return ct;
 	}
 
-	private String getUniqueReportName( )
-	{
-		IProject[] pjs = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.getProjects( );
-		if ( pjs.length != 0 )
-		{
-			resetUniqueCount( );
+	private String getUniqueReportName() {
+		IProject[] pjs = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		if (pjs.length != 0) {
+			resetUniqueCount();
 
 			boolean goon = true;
 
-			while ( goon )
-			{
+			while (goon) {
 				goon = false;
 
-				for ( int i = 0; i < pjs.length; i++ )
-				{
-					if ( pjs[i].isAccessible( ) )
-					{
-						if ( !validDuplicate( NEW_REPORT_FILE_NAME_PREFIX,
-								NEW_REPORT_FILE_EXTENSION,
-								UNIQUE_COUNTER,
-								pjs[i] ) )
-						{
+				for (int i = 0; i < pjs.length; i++) {
+					if (pjs[i].isAccessible()) {
+						if (!validDuplicate(NEW_REPORT_FILE_NAME_PREFIX, NEW_REPORT_FILE_EXTENSION, UNIQUE_COUNTER,
+								pjs[i])) {
 							UNIQUE_COUNTER++;
 
 							goon = true;
@@ -272,30 +237,26 @@ public class NewLibraryWizard extends Wizard implements
 				}
 			}
 
-			if ( UNIQUE_COUNTER == 0 )
-			{
+			if (UNIQUE_COUNTER == 0) {
 				return NEW_REPORT_FILE_NAME;
 			}
 			return NEW_REPORT_FILE_NAME_PREFIX + "_" //$NON-NLS-1$
 					+ UNIQUE_COUNTER + NEW_REPORT_FILE_EXTENSION;
-		}
-		else
-		{
-			String path = Platform.getLocation( ).toOSString();
+		} else {
+			String path = Platform.getLocation().toOSString();
 			String name = NEW_REPORT_FILE_NAME_PREFIX + NEW_REPORT_FILE_EXTENSION;
 
 			int count = 0;
 
 			File file;
 
-			file = new File( path, name );
+			file = new File(path, name);
 
-			while ( file.exists( ) )
-			{
+			while (file.exists()) {
 				count++;
 				name = NEW_REPORT_FILE_NAME_PREFIX + "_" + count + NEW_REPORT_FILE_EXTENSION; //$NON-NLS-1$
 				file = null;
-				file = new File( path, name );
+				file = new File(path, name);
 			}
 
 			file = null;
@@ -304,61 +265,43 @@ public class NewLibraryWizard extends Wizard implements
 		}
 	}
 
-	private static final List tmpList = new ArrayList( );
+	private static final List tmpList = new ArrayList();
 	private IConfigurationElement configElement;
 
-	private boolean validDuplicate( String prefix, String ext, int count,
-			IResource res )
-	{
-		if ( res != null && res.isAccessible( ) )
-		{
+	private boolean validDuplicate(String prefix, String ext, int count, IResource res) {
+		if (res != null && res.isAccessible()) {
 			final String name;
-			if ( count == 0 )
-			{
+			if (count == 0) {
 				name = prefix + ext;
-			}
-			else
-			{
+			} else {
 				name = prefix + "_" + count + ext; //$NON-NLS-1$
 			}
 
-			try
-			{
-				tmpList.clear( );
+			try {
+				tmpList.clear();
 
-				res.accept( new IResourceVisitor( ) {
+				res.accept(new IResourceVisitor() {
 
-					public boolean visit( IResource resource )
-							throws CoreException
-					{
-						if ( resource.getType( ) == IResource.FILE )
-						{
-							if ( !Platform.getOS( ).equals( Platform.OS_WIN32 ) )
-							{
-								if ( name.equals( ( (IFile) resource ).getName( ) ) )
-								{
-									tmpList.add( Boolean.TRUE );
+					public boolean visit(IResource resource) throws CoreException {
+						if (resource.getType() == IResource.FILE) {
+							if (!Platform.getOS().equals(Platform.OS_WIN32)) {
+								if (name.equals(((IFile) resource).getName())) {
+									tmpList.add(Boolean.TRUE);
 								}
-							}
-							else if(name.equalsIgnoreCase( ( (IFile) resource ).getName( ) )){
-								tmpList.add( Boolean.TRUE );
+							} else if (name.equalsIgnoreCase(((IFile) resource).getName())) {
+								tmpList.add(Boolean.TRUE);
 							}
 						}
 
 						return true;
 					}
-				},
-						IResource.DEPTH_INFINITE,
-						true );
+				}, IResource.DEPTH_INFINITE, true);
 
-				if ( tmpList.size( ) > 0 )
-				{
+				if (tmpList.size() > 0) {
 					return false;
 				}
-			}
-			catch ( CoreException e )
-			{
-				ExceptionUtil.handle( e );
+			} catch (CoreException e) {
+				ExceptionUtil.handle(e);
 			}
 		}
 
@@ -370,36 +313,31 @@ public class NewLibraryWizard extends Wizard implements
 	 * path. This method does not create the folder resource; this is the
 	 * responsibility of <code>createFolder</code>.
 	 * 
-	 * @param folderPath
-	 *            the path of the folder resource to create a handle for
+	 * @param folderPath the path of the folder resource to create a handle for
 	 * @return the new folder resource handle
 	 */
-	protected IFolder createFolderHandle( IPath folderPath )
-	{
-		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace( )
-				.getRoot( );
-		return workspaceRoot.getFolder( folderPath );
+	protected IFolder createFolderHandle(IPath folderPath) {
+		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		return workspaceRoot.getFolder(folderPath);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.eclipse.core.runtime.IConfigurationElement,
-	 *      java.lang.String, java.lang.Object)
+	 * @see org.eclipse.core.runtime.IExecutableExtension#setInitializationData(org.
+	 * eclipse.core.runtime.IConfigurationElement, java.lang.String,
+	 * java.lang.Object)
 	 */
-	public void setInitializationData( IConfigurationElement config,
-			String propertyName, Object data ) throws CoreException
-	{
+	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
+			throws CoreException {
 		this.configElement = config;
 	}
 
-	public IConfigurationElement getConfigElement( )
-	{
+	public IConfigurationElement getConfigElement() {
 		return configElement;
 	}
 
-	public IStructuredSelection getSelection( )
-	{
+	public IStructuredSelection getSelection() {
 		return selection;
 	}
 }

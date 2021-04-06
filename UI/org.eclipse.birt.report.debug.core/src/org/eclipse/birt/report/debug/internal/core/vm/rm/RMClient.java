@@ -17,8 +17,7 @@ import org.eclipse.birt.report.debug.internal.core.vm.VMVariable;
 /**
  * RMClient
  */
-public abstract class RMClient
-{
+public abstract class RMClient {
 
-	abstract protected VMVariable[] getMembers( long rid ) throws VMException;
+	abstract protected VMVariable[] getMembers(long rid) throws VMException;
 }

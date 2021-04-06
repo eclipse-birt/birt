@@ -17,8 +17,7 @@ import org.eclipse.birt.chart.model.component.Label;
 /**
  * LegendItemLayoutHints
  */
-public final class LegendLayoutHints
-{
+public final class LegendLayoutHints {
 
 	private final Size cachedSize;
 	private final Size titleSize;
@@ -27,9 +26,8 @@ public final class LegendLayoutHints
 	private final String minSliceText;
 	private final LegendItemHints[] liha;
 
-	public LegendLayoutHints( Size legendSize, Size titleSize, Label laTitle, boolean isMinSliceApplied, String minSliceText,
-			LegendItemHints[] liha )
-	{
+	public LegendLayoutHints(Size legendSize, Size titleSize, Label laTitle, boolean isMinSliceApplied,
+			String minSliceText, LegendItemHints[] liha) {
 		this.cachedSize = legendSize;
 		this.titleSize = titleSize;
 		this.laTitle = laTitle;
@@ -38,36 +36,30 @@ public final class LegendLayoutHints
 		this.liha = liha;
 	}
 
-	public Size getLegendSize( )
-	{
+	public Size getLegendSize() {
 		return cachedSize;
 	}
 
-	public Size getTitleSize( )
-	{
+	public Size getTitleSize() {
 		return titleSize;
 	}
 
-	public boolean isMinSliceApplied( )
-	{
+	public boolean isMinSliceApplied() {
 		return isMinSliceApplied;
 	}
 
-	public String getMinSliceText( )
-	{
+	public String getMinSliceText() {
 		return minSliceText;
 	}
 
-	public LegendItemHints[] getLegendItemHints( )
-	{
+	public LegendItemHints[] getLegendItemHints() {
 		return liha;
 	}
 
 	/**
 	 * @return Returns the laTitle.
 	 */
-	public Label getLaTitle( )
-	{
+	public Label getLaTitle() {
 		return laTitle;
 	}
 }

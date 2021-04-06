@@ -14,21 +14,18 @@ package org.eclipse.birt.report.designer.internal.ui.util;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-
 /**
  * Test suit for org.eclipse.birt.report.designer.internal.ui.util
  */
 
-public class AllUIUtilTests
-{
+public class AllUIUtilTests {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.designer.internal.ui.util" );
-		//$JUnit-BEGIN$
-		suite.addTestSuite( UIUtilUITest.class );
-		suite.addTestSuite( UIUtilTest.class );
-		//$JUnit-END$
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.report.designer.internal.ui.util");
+		// $JUnit-BEGIN$
+		suite.addTestSuite(UIUtilUITest.class);
+		suite.addTestSuite(UIUtilTest.class);
+		// $JUnit-END$
 		return suite;
 	}
 }

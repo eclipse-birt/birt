@@ -13,20 +13,16 @@ package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.report.engine.api.EngineException;
 
-public class RenderExtensionAdapter implements IRenderExtension
-{
+public class RenderExtensionAdapter implements IRenderExtension {
 
-	public void close( )
-	{
+	public void close() {
 	}
 
-	public IContentProcessor getRenderProcessor( )
-	{
+	public IContentProcessor getRenderProcessor() {
 		return null;
 	}
 
-	public long[][] getVisiblePages( ) throws EngineException
-	{
+	public long[][] getVisiblePages() throws EngineException {
 		return null;
 	}
 

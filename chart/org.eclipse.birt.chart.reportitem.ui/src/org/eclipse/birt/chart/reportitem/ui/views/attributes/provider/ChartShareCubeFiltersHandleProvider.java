@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.reportitem.ui.views.attributes.provider;
 
 import java.util.ArrayList;
@@ -23,60 +23,43 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * 
  */
 
-public class ChartShareCubeFiltersHandleProvider
-		extends
-			ChartCubeFilterHandleProvider
-{
+public class ChartShareCubeFiltersHandleProvider extends ChartCubeFilterHandleProvider {
 
-	public ChartShareCubeFiltersHandleProvider(
-			AbstractFilterHandleProvider baseProvider )
-	{
-		super( baseProvider );
+	public ChartShareCubeFiltersHandleProvider(AbstractFilterHandleProvider baseProvider) {
+		super(baseProvider);
 	}
 
 	@Override
-	public Object[] getElements( Object inputElement )
-	{
-		if ( inputElement instanceof List<?> )
-		{
-			List<Object> elements = new ArrayList<Object>( );
-			for ( Iterator<Object> iter = ( (List<Object>) inputElement ).iterator( ); iter.hasNext( ); )
-			{
-				DesignElementHandle handle = (DesignElementHandle) iter.next( );
-				if ( handle instanceof ReportItemHandle
-						&& ( (ReportItemHandle) handle ).getDataBindingReference( ) != null )
-				{
-					elements.add( ChartReportItemUtil.getReportItemReference( (ReportItemHandle) handle ) );
-				}
-				else
-				{
-					elements.add( handle );
+	public Object[] getElements(Object inputElement) {
+		if (inputElement instanceof List<?>) {
+			List<Object> elements = new ArrayList<Object>();
+			for (Iterator<Object> iter = ((List<Object>) inputElement).iterator(); iter.hasNext();) {
+				DesignElementHandle handle = (DesignElementHandle) iter.next();
+				if (handle instanceof ReportItemHandle
+						&& ((ReportItemHandle) handle).getDataBindingReference() != null) {
+					elements.add(ChartReportItemUtil.getReportItemReference((ReportItemHandle) handle));
+				} else {
+					elements.add(handle);
 				}
 			}
-			setContentInput( elements );
-		}
-		else
-		{
-			List<Object> contentInput = new ArrayList<Object>( );
-			if ( inputElement instanceof ReportItemHandle
-					&& ( (ReportItemHandle) inputElement ).getDataBindingReference( ) != null )
-			{
-				contentInput.add( ( (ReportItemHandle) inputElement ).getDataBindingReference( ) );
+			setContentInput(elements);
+		} else {
+			List<Object> contentInput = new ArrayList<Object>();
+			if (inputElement instanceof ReportItemHandle
+					&& ((ReportItemHandle) inputElement).getDataBindingReference() != null) {
+				contentInput.add(((ReportItemHandle) inputElement).getDataBindingReference());
+			} else {
+				contentInput.add(inputElement);
 			}
-			else
-			{
-				contentInput.add( inputElement );
-			}
-			setContentInput( contentInput );
+			setContentInput(contentInput);
 		}
-		
-		Object[] elements = getModelAdapter( ).getElements( getContentInput( ) );
+
+		Object[] elements = getModelAdapter().getElements(getContentInput());
 		return elements;
 	}
-	
+
 	@Override
-	public boolean isEditable( )
-	{
+	public boolean isEditable() {
 		return false;
 	}
 

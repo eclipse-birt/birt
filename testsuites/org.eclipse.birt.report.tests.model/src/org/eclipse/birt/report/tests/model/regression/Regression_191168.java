@@ -14,12 +14,10 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_191168 extends BaseTestCase
-{
+public class Regression_191168 extends BaseTestCase {
 
-	public void test_Regression_191168( ) throws Exception
-	{
-		createLibrary( );
-		assertEquals( "in", libraryHandle.getDefaultUnits( ) );
+	public void test_Regression_191168() throws Exception {
+		createLibrary();
+		assertEquals("in", libraryHandle.getDefaultUnits());
 	}
 }

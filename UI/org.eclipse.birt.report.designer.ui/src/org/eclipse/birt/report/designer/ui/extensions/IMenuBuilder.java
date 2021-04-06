@@ -19,16 +19,13 @@ import org.eclipse.jface.action.IMenuManager;
  * The interface used to extend context menu in the layout editeor
  */
 
-public interface IMenuBuilder
-{
+public interface IMenuBuilder {
 
 	/**
 	 * Build extended menu for the given menu manager by the selection
 	 * 
-	 * @param menu
-	 *            the menu manager to extend
-	 * @param selectedList
-	 *            the selection list
+	 * @param menu         the menu manager to extend
+	 * @param selectedList the selection list
 	 */
-	public void buildMenu( IMenuManager menu, List selectedList );
+	public void buildMenu(IMenuManager menu, List selectedList);
 }

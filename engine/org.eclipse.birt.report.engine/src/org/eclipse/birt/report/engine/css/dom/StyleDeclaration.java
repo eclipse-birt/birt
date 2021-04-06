@@ -18,8 +18,7 @@ import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.w3c.dom.css.CSSValue;
 
-public class StyleDeclaration extends AbstractStyle
-{
+public class StyleDeclaration extends AbstractStyle {
 	protected CSSValue[] values;
 	protected boolean shared;
 	protected int propertyCount = 0;
@@ -27,21 +26,15 @@ public class StyleDeclaration extends AbstractStyle
 	/**
 	 * set the property
 	 */
-	public void setProperty( int index, CSSValue value )
-	{
-		//assert index >= 0 && index < NUMBER_OF_STYLE;
-		if ( values[index] != value )
-		{
-			if ( shared )
-			{
-				decouple( );
+	public void setProperty(int index, CSSValue value) {
+		// assert index >= 0 && index < NUMBER_OF_STYLE;
+		if (values[index] != value) {
+			if (shared) {
+				decouple();
 			}
-			if ( values[index] == null )
-			{
+			if (values[index] == null) {
 				propertyCount++;
-			}
-			else if ( value == null )
-			{
+			} else if (value == null) {
 				propertyCount--;
 			}
 			values[index] = value;
@@ -51,60 +44,48 @@ public class StyleDeclaration extends AbstractStyle
 	/**
 	 * set the property
 	 */
-	public CSSValue getProperty( int index )
-	{
+	public CSSValue getProperty(int index) {
 		assert index >= 0 && index < NUMBER_OF_STYLE;
 		return values[index];
 	}
 
-	public StyleDeclaration( StyleDeclaration style )
-	{
-		super( style.engine );
+	public StyleDeclaration(StyleDeclaration style) {
+		super(style.engine);
 		this.values = style.values;
 		this.propertyCount = style.propertyCount;
 		this.shared = true;
 	}
 
-	public StyleDeclaration( CSSEngine engine )
-	{
-		super( engine );
+	public StyleDeclaration(CSSEngine engine) {
+		super(engine);
 		this.values = new CSSValue[NUMBER_OF_STYLE];
 		this.shared = false;
 	}
 
-	//TODO: remoview, there is a problem for list value.
-	protected void decouple( )
-	{
+	// TODO: remoview, there is a problem for list value.
+	protected void decouple() {
 		CSSValue[] newValues = new CSSValue[NUMBER_OF_STYLE];
-		System.arraycopy( values, 0, newValues, 0, NUMBER_OF_STYLE );
+		System.arraycopy(values, 0, newValues, 0, NUMBER_OF_STYLE);
 		values = newValues;
 		shared = false;
 	}
 
-	public boolean isEmpty( )
-	{
+	public boolean isEmpty() {
 		return propertyCount == 0;
 	}
 
-	public int getLength( )
-	{
+	public int getLength() {
 		return propertyCount;
 	}
 
-	public boolean equals( Object aStyle )
-	{
-		if ( aStyle instanceof StyleDeclaration )
-		{
+	public boolean equals(Object aStyle) {
+		if (aStyle instanceof StyleDeclaration) {
 			StyleDeclaration style = (StyleDeclaration) aStyle;
-			if ( propertyCount == style.propertyCount )
-			{
-				for ( int i = 0; i < NUMBER_OF_STYLE; i++ )
-				{
+			if (propertyCount == style.propertyCount) {
+				for (int i = 0; i < NUMBER_OF_STYLE; i++) {
 					CSSValue value1 = values[i];
 					CSSValue value2 = style.values[i];
-					if ( value1 != value2
-							&& ( value1 == null || !value1.equals( value2 ) ) )
-					{
+					if (value1 != value2 && (value1 == null || !value1.equals(value2))) {
 						return false;
 					}
 				}
@@ -113,22 +94,18 @@ public class StyleDeclaration extends AbstractStyle
 		}
 		return false;
 	}
-	
 
-	public void write( DataOutputStream out ) throws IOException
-	{
+	public void write(DataOutputStream out) throws IOException {
 		// count how many valid value in the style
-		IOUtil.writeInt( out, propertyCount );
+		IOUtil.writeInt(out, propertyCount);
 
 		// write the style's property
-		for ( int i = 0; i < values.length; i++ )
-		{
+		for (int i = 0; i < values.length; i++) {
 			CSSValue value = values[i];
-			if ( null != value )
-			{
-				String propertyName = engine.getPropertyName( i );
-				IOUtil.writeString( out, propertyName );
-				writeCSSValue( out, propertyName, value );
+			if (null != value) {
+				String propertyName = engine.getPropertyName(i);
+				IOUtil.writeString(out, propertyName);
+				writeCSSValue(out, propertyName, value);
 			}
 		}
 	}

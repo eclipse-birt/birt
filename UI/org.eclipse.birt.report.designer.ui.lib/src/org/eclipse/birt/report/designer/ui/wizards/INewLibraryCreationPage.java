@@ -18,18 +18,17 @@ import org.eclipse.jface.wizard.IWizardPage;
 /**
  * INewLibraryCreationPage
  */
-public interface INewLibraryCreationPage extends IWizardPage
-{
+public interface INewLibraryCreationPage extends IWizardPage {
 
-	void setContainerFullPath( IPath initPath );
+	void setContainerFullPath(IPath initPath);
 
-	void setFileName( String initFileName );
+	void setFileName(String initFileName);
 
-	IPath getContainerFullPath( );
+	IPath getContainerFullPath();
 
-	String getFileName( );
+	String getFileName();
 
-	boolean performFinish( );
+	boolean performFinish();
 
-	void updatePerspective( IConfigurationElement configElement );
+	void updatePerspective(IConfigurationElement configElement);
 }

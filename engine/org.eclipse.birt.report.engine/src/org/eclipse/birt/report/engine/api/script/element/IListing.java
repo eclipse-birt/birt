@@ -17,8 +17,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
  * Represents the design of an Listing in the scripting environment
  * 
  */
-public interface IListing extends IReportItem
-{
+public interface IListing extends IReportItem {
 
 	/**
 	 * Returns all filter conditions
@@ -26,7 +25,7 @@ public interface IListing extends IReportItem
 	 * @return all filter conditions
 	 */
 
-	IFilterCondition[] getFilterConditions( );
+	IFilterCondition[] getFilterConditions();
 
 	/**
 	 * Adds filter condition.expr of IFilterCondition is required.
@@ -35,8 +34,7 @@ public interface IListing extends IReportItem
 	 * @throws ScriptException
 	 */
 
-	void addFilterCondition( IFilterCondition condition )
-			throws ScriptException;
+	void addFilterCondition(IFilterCondition condition) throws ScriptException;
 
 	/**
 	 * Removes filter condition.
@@ -44,7 +42,7 @@ public interface IListing extends IReportItem
 	 * @throws ScriptException
 	 */
 
-	void removeFilterConditions( ) throws ScriptException;
+	void removeFilterConditions() throws ScriptException;
 
 	/**
 	 * Removes filter condition.
@@ -53,8 +51,7 @@ public interface IListing extends IReportItem
 	 * @throws ScriptException
 	 */
 
-	void removeFilterCondition( IFilterCondition condition )
-			throws ScriptException;
+	void removeFilterCondition(IFilterCondition condition) throws ScriptException;
 
 	/**
 	 * Returns all sort conditions.
@@ -62,17 +59,17 @@ public interface IListing extends IReportItem
 	 * @return all sort conditions.
 	 */
 
-	ISortCondition[] getSortConditions( );
+	ISortCondition[] getSortConditions();
 
 	/**
 	 * Adds sort condition.key of ISortCondition is required.
 	 * 
 	 * @param condition
-	 *            
+	 * 
 	 * @throws ScriptException
 	 */
 
-	void addSortCondition( ISortCondition condition ) throws ScriptException;
+	void addSortCondition(ISortCondition condition) throws ScriptException;
 
 	/**
 	 * Removes all sort conditions
@@ -80,7 +77,7 @@ public interface IListing extends IReportItem
 	 * @throws ScriptException
 	 */
 
-	void removeSortConditions( ) throws ScriptException;
+	void removeSortConditions() throws ScriptException;
 
 	/**
 	 * Removes sort condition.
@@ -89,5 +86,5 @@ public interface IListing extends IReportItem
 	 * @throws ScriptException
 	 */
 
-	void removeSortCondition( ISortCondition condition ) throws ScriptException;
+	void removeSortCondition(ISortCondition condition) throws ScriptException;
 }

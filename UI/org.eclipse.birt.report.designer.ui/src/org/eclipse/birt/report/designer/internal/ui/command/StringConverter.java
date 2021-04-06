@@ -18,23 +18,17 @@ import org.eclipse.core.commands.ParameterValueConversionException;
  * 
  */
 
-public class StringConverter extends AbstractParameterValueConverter
-{
+public class StringConverter extends AbstractParameterValueConverter {
 
-	public StringConverter( )
-	{
+	public StringConverter() {
 	}
 
-	public Object convertToObject( String parameterValue )
-			throws ParameterValueConversionException
-	{
+	public Object convertToObject(String parameterValue) throws ParameterValueConversionException {
 		return parameterValue;
 	}
 
-	public String convertToString( Object parameterValue )
-			throws ParameterValueConversionException
-	{
-		return parameterValue != null ? parameterValue.toString( ) : ""; //$NON-NLS-1$
+	public String convertToString(Object parameterValue) throws ParameterValueConversionException {
+		return parameterValue != null ? parameterValue.toString() : ""; //$NON-NLS-1$
 	}
 
 }

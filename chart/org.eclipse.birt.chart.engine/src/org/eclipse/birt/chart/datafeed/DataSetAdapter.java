@@ -30,11 +30,10 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * Provides a no-op implementation of the
- * {@link org.eclipse.birt.chart.datafeed.IDataSetProcessor}interface
- * definition to be subclassed by each extension writer as needed.
+ * {@link org.eclipse.birt.chart.datafeed.IDataSetProcessor}interface definition
+ * to be subclassed by each extension writer as needed.
  */
-public class DataSetAdapter extends Methods implements IDataSetProcessor
-{
+public class DataSetAdapter extends Methods implements IDataSetProcessor {
 
 	/**
 	 * An internal instance of the locale being used for processing
@@ -46,12 +45,10 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#fromString(java.lang.String,
-	 *      org.eclipse.birt.chart.model.data.DataSet)
+	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#fromString(java.lang.
+	 * String, org.eclipse.birt.chart.model.data.DataSet)
 	 */
-	public DataSet fromString( String sDataSetRepresentation, DataSet ds )
-			throws ChartException
-	{
+	public DataSet fromString(String sDataSetRepresentation, DataSet ds) throws ChartException {
 		// NO-OP IMPL
 		return null;
 	}
@@ -59,12 +56,11 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#populate(java.lang.Object,
-	 *      org.eclipse.birt.chart.model.data.DataSet)
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#populate(java.lang.Object,
+	 * org.eclipse.birt.chart.model.data.DataSet)
 	 */
-	public DataSet populate( Object oResultSetDef, DataSet ds )
-			throws ChartException
-	{
+	public DataSet populate(Object oResultSetDef, DataSet ds) throws ChartException {
 		// NO-OP IMPL
 		return null;
 	}
@@ -72,10 +68,11 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt.chart.model.data.DataSet)
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMinimum(org.eclipse.birt
+	 * .chart.model.data.DataSet)
 	 */
-	public Object getMinimum( DataSet ds ) throws ChartException
-	{
+	public Object getMinimum(DataSet ds) throws ChartException {
 		// NO-OP IMPL
 		return null;
 	}
@@ -83,10 +80,11 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt.chart.model.data.DataSet)
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getMaximum(org.eclipse.birt
+	 * .chart.model.data.DataSet)
 	 */
-	public Object getMaximum( DataSet ds ) throws ChartException
-	{
+	public Object getMaximum(DataSet ds) throws ChartException {
 		// NO-OP IMPL
 		return null;
 	}
@@ -94,10 +92,10 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getExpectedStringFormat()
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#getExpectedStringFormat()
 	 */
-	public String getExpectedStringFormat( )
-	{
+	public String getExpectedStringFormat() {
 		// NO-OP IMPL
 		return null;
 	}
@@ -107,9 +105,8 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getLocale()
 	 */
-	public Locale getLocale( )
-	{
-		return getULocale( ).toLocale( );
+	public Locale getLocale() {
+		return getULocale().toLocale();
 	}
 
 	/*
@@ -117,131 +114,105 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#getULocale()
 	 */
-	public ULocale getULocale( )
-	{
-		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
+	public ULocale getULocale() {
+		return (lcl == null) ? ULocale.getDefault() : lcl;
 	}
 
 	/**
 	 * A convenience method provided to associate a locale with a display server
 	 * 
-	 * @param lcl
-	 *            The locale to be set
+	 * @param lcl The locale to be set
 	 */
-	public final void setLocale( ULocale lcl )
-	{
+	public final void setLocale(ULocale lcl) {
 		this.lcl = lcl;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.datafeed.IDataSetProcessor#toString(java.lang.Object[])
+	 * @see
+	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor#toString(java.lang.Object[]
+	 * )
 	 */
-	public String toString( Object[] columnData ) throws ChartException
-	{
-		if ( columnData == null || columnData.length == 0 )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.DATA_SET,
+	public String toString(Object[] columnData) throws ChartException {
+		if (columnData == null || columnData.length == 0) {
+			throw new ChartException(ChartEnginePlugin.ID, ChartException.DATA_SET,
 					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
-					Messages.getResourceBundle( getULocale( ) ) );
+					Messages.getResourceBundle(getULocale()));
 		}
-		StringBuffer buffer = new StringBuffer( );
-		SimpleDateFormat sdf = new SimpleDateFormat( "MM/dd/yyyy" ); //$NON-NLS-1$
+		StringBuffer buffer = new StringBuffer();
+		SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy"); //$NON-NLS-1$
 
 		// Gets the data type first
 		int dataType = 0;
-		for ( int i = 0; i < columnData.length; i++ )
-		{
-			if ( dataType > 0 )
-			{
+		for (int i = 0; i < columnData.length; i++) {
+			if (dataType > 0) {
 				break;
 			}
 			// Unwrap array
-			if ( columnData[i] instanceof Object[] )
-			{
-				columnData[i] = ( (Object[]) columnData[i] )[0];
+			if (columnData[i] instanceof Object[]) {
+				columnData[i] = ((Object[]) columnData[i])[0];
 			}
-			if ( columnData[i] instanceof String )
-			{
+			if (columnData[i] instanceof String) {
 				dataType = 1;
-			}
-			else if ( columnData[i] instanceof Date )
-			{
+			} else if (columnData[i] instanceof Date) {
 				dataType = 2;
-			}
-			else if ( columnData[i] instanceof Number )
-			{
+			} else if (columnData[i] instanceof Number) {
 				dataType = 3;
 			}
 		}
 		// If data is null
-		if ( dataType == 0 )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.DATA_SET,
+		if (dataType == 0) {
+			throw new ChartException(ChartEnginePlugin.ID, ChartException.DATA_SET,
 					"exception.base.orthogonal.null.datadefinition", //$NON-NLS-1$
-					Messages.getResourceBundle( getULocale( ) ) );
+					Messages.getResourceBundle(getULocale()));
 		}
 
 		// Generates a string reprensentation
-		for ( int i = 0; i < columnData.length; i++ )
-		{
+		for (int i = 0; i < columnData.length; i++) {
 			// Unwrap array
-			if ( columnData[i] instanceof Object[] )
-			{
-				columnData[i] = ( (Object[]) columnData[i] )[0];
+			if (columnData[i] instanceof Object[]) {
+				columnData[i] = ((Object[]) columnData[i])[0];
 			}
 
-			if ( dataType == 1 )
-			{
-				buffer.append( "'" + formatString( (String) columnData[i] ) + "'" ); //$NON-NLS-1$ //$NON-NLS-2$
+			if (dataType == 1) {
+				buffer.append("'" + formatString((String) columnData[i]) + "'"); //$NON-NLS-1$ //$NON-NLS-2$
+			} else if (dataType == 2) {
+				buffer.append(sdf.format((Date) columnData[i]));
+			} else if (dataType == 3) {
+				buffer.append(String.valueOf(columnData[i]));
 			}
-			else if ( dataType == 2 )
-			{
-				buffer.append( sdf.format( (Date) columnData[i] ) );
-			}
-			else if ( dataType == 3 )
-			{
-				buffer.append( String.valueOf( columnData[i] ) );
-			}
-			if ( i < columnData.length - 1 )
-			{
-				buffer.append( DELIMITER );
+			if (i < columnData.length - 1) {
+				buffer.append(DELIMITER);
 			}
 		}
-		return buffer.toString( );
+		return buffer.toString();
 	}
 
 	/**
 	 * Formats sample data representation to escape delimiter
 	 * 
-	 * @param str
-	 *            original string
+	 * @param str original string
 	 */
-	protected String formatString( String str )
-	{
-		if ( str == null )
+	protected String formatString(String str) {
+		if (str == null)
 			return ""; //$NON-NLS-1$
-		return str.replaceAll( "\\,", "\\\\," ); //$NON-NLS-1$ //$NON-NLS-2$
+		return str.replaceAll("\\,", "\\\\,"); //$NON-NLS-1$ //$NON-NLS-2$
 	}
-	
+
 	/**
 	 * return the array of indexes, the DataDefinitions with these id could be
-	 * computed with aggregation function. By default, all the indexes will be
-	 * added to the array. And this method should be overridden for some special
-	 * chart types, such as bubble, stock...
+	 * computed with aggregation function. By default, all the indexes will be added
+	 * to the array. And this method should be overridden for some special chart
+	 * types, such as bubble, stock...
 	 * 
 	 * @param series
 	 * @return
 	 */
-	protected int[] getDataDefIdsForGrouping( Series series )
-	{
-		EList<Query> elDD = series.getDataDefinition( );
-		int[] DataDefIds = new int[elDD.size( )];
-		for ( int i = 0; i < DataDefIds.length; i++ )
-		{
+	protected int[] getDataDefIdsForGrouping(Series series) {
+		EList<Query> elDD = series.getDataDefinition();
+		int[] DataDefIds = new int[elDD.size()];
+		for (int i = 0; i < DataDefIds.length; i++) {
 			DataDefIds[i] = i;
 		}
 		return DataDefIds;
@@ -250,23 +221,20 @@ public class DataSetAdapter extends Methods implements IDataSetProcessor
 	/**
 	 * 
 	 */
-	public List<Query> getDataDefinitionsForGrouping( Series series )
-	{
-		List<Query> list = new ArrayList<Query>( 1 );
-		EList<Query> elDD = series.getDataDefinition( );
+	public List<Query> getDataDefinitionsForGrouping(Series series) {
+		List<Query> list = new ArrayList<Query>(1);
+		EList<Query> elDD = series.getDataDefinition();
 		int IDs[] = getDataDefIdsForGrouping(series);
-		
-		for (int i=0;i<IDs.length;i++)
-		{
-			Query query = elDD.get( IDs[i] );
-			String sExpression = query.getDefinition( );
 
-			if ( sExpression != null && sExpression.trim( ).length( ) > 0 )
-			{
+		for (int i = 0; i < IDs.length; i++) {
+			Query query = elDD.get(IDs[i]);
+			String sExpression = query.getDefinition();
+
+			if (sExpression != null && sExpression.trim().length() > 0) {
 				// ADD NEW VALID EXPRESSION
-				list.add( query );
+				list.add(query);
 			}
-			
+
 		}
 
 		return list;

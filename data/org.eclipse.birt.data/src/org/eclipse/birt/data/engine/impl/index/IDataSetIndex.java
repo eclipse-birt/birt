@@ -13,14 +13,12 @@ package org.eclipse.birt.data.engine.impl.index;
 
 import org.eclipse.birt.data.engine.core.DataException;
 
+public interface IDataSetIndex {
+	public IOrderedIntSet getKeyIndex(Object key, int filterType) throws DataException;
 
-public interface IDataSetIndex
-{	
-	public IOrderedIntSet getKeyIndex( Object key, int filterType ) throws DataException;
-	
-	public boolean supportFilter( int filterType ) throws DataException;
-	
-	public Object[] getAllKeyValues( ) throws DataException;
-	
-	public IOrderedIntSet getAllKeyRows( ) throws DataException;
+	public boolean supportFilter(int filterType) throws DataException;
+
+	public Object[] getAllKeyValues() throws DataException;
+
+	public IOrderedIntSet getAllKeyRows() throws DataException;
 }

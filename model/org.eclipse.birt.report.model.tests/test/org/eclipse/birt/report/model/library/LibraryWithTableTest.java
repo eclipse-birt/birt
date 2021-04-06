@@ -46,8 +46,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  */
 
-public class LibraryWithTableTest extends BaseTestCase
-{
+public class LibraryWithTableTest extends BaseTestCase {
 
 	private String fileCanUpdate = "TableItemRowUpdateTest.xml";//$NON-NLS-1$
 
@@ -55,9 +54,8 @@ public class LibraryWithTableTest extends BaseTestCase
 	 * @see TestCase#setUp()
 	 */
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
@@ -65,103 +63,68 @@ public class LibraryWithTableTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testRowAndColumnUpdateAction( ) throws Exception
-	{
-		openDesign( fileCanUpdate );
+	public void testRowAndColumnUpdateAction() throws Exception {
+		openDesign(fileCanUpdate);
 
-		TableHandle tableHandle = (TableHandle) designHandle
-				.findElement( "NewTable" ); //$NON-NLS-1$
-		ColumnBandData data = tableHandle.copyColumn( 1 );
-		assertFalse( tableHandle.canPasteColumn( data, 2, true ) );
+		TableHandle tableHandle = (TableHandle) designHandle.findElement("NewTable"); //$NON-NLS-1$
+		ColumnBandData data = tableHandle.copyColumn(1);
+		assertFalse(tableHandle.canPasteColumn(data, 2, true));
 
-		try
-		{
-			tableHandle.pasteColumn( data, 2, true );
-			fail( "forbidden do action on column " ); //$NON-NLS-1$
+		try {
+			tableHandle.pasteColumn(data, 2, true);
+			fail("forbidden do action on column "); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			assertEquals(SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN, e.getErrorCode());
 		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN, e
-							.getErrorCode( ) );
-		}
-		assertFalse( tableHandle.canInsertAndPasteColumn( data, 1 ) );
+		assertFalse(tableHandle.canInsertAndPasteColumn(data, 1));
 
-		try
-		{
-			tableHandle.insertAndPasteColumn( data, 1 );
-			fail( "forbidden do action on column " ); //$NON-NLS-1$
+		try {
+			tableHandle.insertAndPasteColumn(data, 1);
+			fail("forbidden do action on column "); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			assertEquals(SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN, e.getErrorCode());
 		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN, e
-							.getErrorCode( ) );
+		assertFalse(tableHandle.canShiftColumn(1, 2));
+		try {
+			tableHandle.shiftColumn(1, 2, false);
+			fail("forbidden do action on column "); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			assertEquals(SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN, e.getErrorCode());
 		}
-		assertFalse( tableHandle.canShiftColumn( 1, 2 ) );
-		try
-		{
-			tableHandle.shiftColumn( 1, 2, false );
-			fail( "forbidden do action on column " ); //$NON-NLS-1$
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_COLUMN_PASTE_FORBIDDEN, e
-							.getErrorCode( ) );
-		}
-		SlotHandle slotHandle = tableHandle.getSlot( 0 );
-		RowHandle rowHandle = (RowHandle) slotHandle.get( 0 );
+		SlotHandle slotHandle = tableHandle.getSlot(0);
+		RowHandle rowHandle = (RowHandle) slotHandle.get(0);
 
-		IDesignElement row = rowHandle.copy( );
-		RowOperationParameters parameters = new RowOperationParameters( 0, -1,
-				0 );
-		assertFalse( tableHandle.canPasteRow( row, parameters ) );
-		try
-		{
-			tableHandle.pasteRow( row, parameters );
-			fail( "forbidden do action on row " ); //$NON-NLS-1$
+		IDesignElement row = rowHandle.copy();
+		RowOperationParameters parameters = new RowOperationParameters(0, -1, 0);
+		assertFalse(tableHandle.canPasteRow(row, parameters));
+		try {
+			tableHandle.pasteRow(row, parameters);
+			fail("forbidden do action on row "); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			assertEquals(SemanticError.DESIGN_EXCEPTION_ROW_PASTE_FORBIDDEN, e.getErrorCode());
 		}
-		catch ( SemanticException e )
-		{
-			assertEquals( SemanticError.DESIGN_EXCEPTION_ROW_PASTE_FORBIDDEN, e
-					.getErrorCode( ) );
+		assertFalse(tableHandle.canInsertRow(parameters));
+		try {
+			tableHandle.insertRow(parameters);
+			fail("forbidden do action on row "); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			assertEquals(SemanticError.DESIGN_EXCEPTION_ROW_INSERT_FORBIDDEN, e.getErrorCode());
 		}
-		assertFalse( tableHandle.canInsertRow( parameters ) );
-		try
-		{
-			tableHandle.insertRow( parameters );
-			fail( "forbidden do action on row " ); //$NON-NLS-1$
+		assertFalse(tableHandle.canInsertAndPasteRow(row, parameters));
+		try {
+			tableHandle.insertAndPasteRow(row, parameters);
+			fail("forbidden do action on row "); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			assertEquals(SemanticError.DESIGN_EXCEPTION_ROW_INSERTANDPASTE_FORBIDDEN, e.getErrorCode());
 		}
-		catch ( SemanticException e )
-		{
-			assertEquals( SemanticError.DESIGN_EXCEPTION_ROW_INSERT_FORBIDDEN,
-					e.getErrorCode( ) );
-		}
-		assertFalse( tableHandle.canInsertAndPasteRow( row, parameters ) );
-		try
-		{
-			tableHandle.insertAndPasteRow( row, parameters );
-			fail( "forbidden do action on row " ); //$NON-NLS-1$
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					SemanticError.DESIGN_EXCEPTION_ROW_INSERTANDPASTE_FORBIDDEN,
-					e.getErrorCode( ) );
-		}
-		parameters.setDestIndex( 2 );
-		parameters.setSourceIndex( 0 );
-		assertFalse( tableHandle.canShiftRow( parameters ) );
-		try
-		{
-			tableHandle.shiftRow( parameters );
-			fail( "forbidden do action on row " ); //$NON-NLS-1$
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals( SemanticError.DESIGN_EXCEPTION_ROW_SHIFT_FORBIDDEN, e
-					.getErrorCode( ) );
+		parameters.setDestIndex(2);
+		parameters.setSourceIndex(0);
+		assertFalse(tableHandle.canShiftRow(parameters));
+		try {
+			tableHandle.shiftRow(parameters);
+			fail("forbidden do action on row "); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			assertEquals(SemanticError.DESIGN_EXCEPTION_ROW_SHIFT_FORBIDDEN, e.getErrorCode());
 		}
 	}
 
@@ -171,13 +134,11 @@ public class LibraryWithTableTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testGridContainTableInLib( ) throws Exception
-	{
-		openDesign( "LibraryWithTableTest_GridContainTable.xml" ); //$NON-NLS-1$
+	public void testGridContainTableInLib() throws Exception {
+		openDesign("LibraryWithTableTest_GridContainTable.xml"); //$NON-NLS-1$
 
-		TableHandle tableHandle = (TableHandle) designHandle
-				.findElement( "NewTable" ); //$NON-NLS-1$
-		assertNotNull( tableHandle );
+		TableHandle tableHandle = (TableHandle) designHandle.findElement("NewTable"); //$NON-NLS-1$
+		assertNotNull(tableHandle);
 
 	}
 
@@ -187,29 +148,25 @@ public class LibraryWithTableTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testMultiViewsExtends( ) throws Exception
-	{
-		openDesign( "DesignIncludeTableMultiView.xml" ); //$NON-NLS-1$
+	public void testMultiViewsExtends() throws Exception {
+		openDesign("DesignIncludeTableMultiView.xml"); //$NON-NLS-1$
 
-		TableHandle tableHandle = (TableHandle) designHandle
-				.findElement( "MyTable1" ); //$NON-NLS-1$
-		MultiViewsHandle multiView = (MultiViewsHandle) tableHandle
-				.getProperty( TableHandle.MULTI_VIEWS_PROP );
-		assertEquals( MultiViewsHandle.HOST, multiView
-				.getIntProperty( MultiViewsHandle.INDEX_PROP ) );
+		TableHandle tableHandle = (TableHandle) designHandle.findElement("MyTable1"); //$NON-NLS-1$
+		MultiViewsHandle multiView = (MultiViewsHandle) tableHandle.getProperty(TableHandle.MULTI_VIEWS_PROP);
+		assertEquals(MultiViewsHandle.HOST, multiView.getIntProperty(MultiViewsHandle.INDEX_PROP));
 
-		List views = multiView.getListProperty( MultiViewsHandle.VIEWS_PROP );
-		assertEquals( 2, views.size( ) );
+		List views = multiView.getListProperty(MultiViewsHandle.VIEWS_PROP);
+		assertEquals(2, views.size());
 
-		ExtendedItemHandle box1 = (ExtendedItemHandle) views.get( 0 );
-		assertEquals( "box1", box1.getName( ) ); //$NON-NLS-1$
-		assertEquals( "5in", box1.getWidth( ).getStringValue( ) ); //$NON-NLS-1$
+		ExtendedItemHandle box1 = (ExtendedItemHandle) views.get(0);
+		assertEquals("box1", box1.getName()); //$NON-NLS-1$
+		assertEquals("5in", box1.getWidth().getStringValue()); //$NON-NLS-1$
 
-		tableHandle.setCurrentView( (ExtendedItemHandle) views.get( 1 ) );
-		box1.setWidth( 3 );
+		tableHandle.setCurrentView((ExtendedItemHandle) views.get(1));
+		box1.setWidth(3);
 
-		save( );
-		assertTrue( compareFile( "DesignIncludeTableMultiView_golden.xml" ) ); //$NON-NLS-1$
+		save();
+		assertTrue(compareFile("DesignIncludeTableMultiView_golden.xml")); //$NON-NLS-1$
 
 	}
 }

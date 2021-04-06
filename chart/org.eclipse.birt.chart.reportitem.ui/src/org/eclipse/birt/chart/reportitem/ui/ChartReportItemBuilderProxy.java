@@ -25,129 +25,152 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * <code>IUIServiceProvider</code> according to context.
  */
 
-public class ChartReportItemBuilderProxy extends ReportItemBuilderUI implements
-		IUIServiceProvider
-{
-	
+public class ChartReportItemBuilderProxy extends ReportItemBuilderUI implements IUIServiceProvider {
+
 	private ChartReportItemBuilderImpl instance;
-	
+
 	/**
 	 * The constructor.
 	 */
-	public ChartReportItemBuilderProxy( )
-	{
-		instance = ChartReportItemUIFactory.instance( ).createReportItemBuilder( null );
+	public ChartReportItemBuilderProxy() {
+		instance = ChartReportItemUIFactory.instance().createReportItemBuilder(null);
 	}
 
 	/**
 	 * Open the chart with specified task
 	 * 
-	 * @param taskId
-	 *            specified task to open
+	 * @param taskId specified task to open
 	 */
-	public ChartReportItemBuilderProxy( String taskId )
-	{
-		instance = ChartReportItemUIFactory.instance( ).createReportItemBuilder( taskId );
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI#open(org.eclipse.birt.report.model.api.ExtendedItemHandle)
-	 */
-	public int open( final ExtendedItemHandle eih )
-	{
-		return instance.open( eih );
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.String, java.lang.Object, java.lang.String)
-	 */
-	public String invoke( String sExpression, Object context, String sTitle )
-	{
-		return instance.invoke( sExpression, context, sTitle );
+	public ChartReportItemBuilderProxy(String taskId) {
+		instance = ChartReportItemUIFactory.instance().createReportItemBuilder(taskId);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.String, java.lang.Object, java.lang.String, boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.extensions.ReportItemBuilderUI#open(org.
+	 * eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
-	public String invoke( String sExpression, Object context, String sTitle,
-			boolean isChartProvider )
-	{
-		return instance.invoke( sExpression, context, sTitle, isChartProvider );
+	public int open(final ExtendedItemHandle eih) {
+		return instance.open(eih);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(int, java.lang.String, java.lang.Object, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.
+	 * String, java.lang.Object, java.lang.String)
 	 */
-	public String invoke( int command, String value, Object context,
-			String sTitle ) throws ChartException
-	{
-		return instance.invoke( command, value, context, sTitle );
+	public String invoke(String sExpression, Object context, String sTitle) {
+		return instance.invoke(sExpression, context, sTitle);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider.Command, java.lang.Object[])
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.
+	 * String, java.lang.Object, java.lang.String, boolean)
 	 */
-	public Object invoke( Command command, Object... inData )
-			throws ChartException
-	{
-		return instance.invoke( command, inData );
+	public String invoke(String sExpression, Object context, String sTitle, boolean isChartProvider) {
+		return instance.invoke(sExpression, context, sTitle, isChartProvider);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#isInvokingSupported()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(int,
+	 * java.lang.String, java.lang.Object, java.lang.String)
 	 */
-	public boolean isInvokingSupported( )
-	{
-		return instance.isInvokingSupported( );
+	public String invoke(int command, String value, Object context, String sTitle) throws ChartException {
+		return instance.invoke(command, value, context, sTitle);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#validate(org.eclipse.birt.chart.model.Chart, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(org.
+	 * eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider.Command,
+	 * java.lang.Object[])
 	 */
-	public String[] validate( Chart chartModel, Object oContext )
-	{
-		return instance.validate( chartModel, oContext );
+	public Object invoke(Command command, Object... inData) throws ChartException {
+		return instance.invoke(command, inData);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getRegisteredKeys()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#
+	 * isInvokingSupported()
 	 */
-	public List<String> getRegisteredKeys( )
-	{
-		return instance.getRegisteredKeys( );
+	public boolean isInvokingSupported() {
+		return instance.isInvokingSupported();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getValue(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#validate(org.
+	 * eclipse.birt.chart.model.Chart, java.lang.Object)
 	 */
-	public String getValue( String sKey )
-	{
-		return instance.getValue( sKey );
+	public String[] validate(Chart chartModel, Object oContext) {
+		return instance.validate(chartModel, oContext);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getConvertedValue(double, java.lang.String, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getRegisteredKeys
+	 * ()
 	 */
-	public double getConvertedValue( double dOriginalValue, String sFromUnits,
-			String sToUnits )
-	{
-		return instance.getConvertedValue( dOriginalValue, sFromUnits, sToUnits );
+	public List<String> getRegisteredKeys() {
+		return instance.getRegisteredKeys();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#isEclipseModeSupported()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getValue(java.
+	 * lang.String)
 	 */
-	public boolean isEclipseModeSupported( )
-	{
-		return instance.isEclipseModeSupported( );
+	public String getValue(String sKey) {
+		return instance.getValue(sKey);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getFormatSpecifierHandler()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getConvertedValue
+	 * (double, java.lang.String, java.lang.String)
 	 */
-	public IFormatSpecifierHandler getFormatSpecifierHandler( )
-	{
-		return instance.getFormatSpecifierHandler( );
+	public double getConvertedValue(double dOriginalValue, String sFromUnits, String sToUnits) {
+		return instance.getConvertedValue(dOriginalValue, sFromUnits, sToUnits);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#
+	 * isEclipseModeSupported()
+	 */
+	public boolean isEclipseModeSupported() {
+		return instance.isEclipseModeSupported();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#
+	 * getFormatSpecifierHandler()
+	 */
+	public IFormatSpecifierHandler getFormatSpecifierHandler() {
+		return instance.getFormatSpecifierHandler();
 	}
 
 }

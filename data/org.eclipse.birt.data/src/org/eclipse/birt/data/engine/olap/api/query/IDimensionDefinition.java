@@ -17,23 +17,26 @@ import java.util.List;
  * IDimensionDefinition defines a Dimension that is used in Edge.
  */
 
-public interface IDimensionDefinition extends INamedObject
-{
+public interface IDimensionDefinition extends INamedObject {
 	/**
-	 * Create the hierarchy to be used by the IDimensionDefinition instance. Currently we only support only hierarchy each dimension.
+	 * Create the hierarchy to be used by the IDimensionDefinition instance.
+	 * Currently we only support only hierarchy each dimension.
+	 * 
 	 * @param name
 	 * @return
 	 */
-	public IHierarchyDefinition createHierarchy( String name );
-	
+	public IHierarchyDefinition createHierarchy(String name);
+
 	/**
-	 * Return the IHerarchyDefinition that are linked to this IDimensionDefinition. Currently only support one Hierarchy per Dimension.
+	 * Return the IHerarchyDefinition that are linked to this IDimensionDefinition.
+	 * Currently only support one Hierarchy per Dimension.
+	 * 
 	 * @return
 	 */
 	public List<IHierarchyDefinition> getHierarchy();
 
-    /**
-     * Clone itself.
-     */
-    public IDimensionDefinition clone( );
+	/**
+	 * Clone itself.
+	 */
+	public IDimensionDefinition clone();
 }

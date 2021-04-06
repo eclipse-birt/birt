@@ -17,28 +17,18 @@ import org.eclipse.birt.core.data.DataType;
  * 
  */
 
-public class SupportedDataTypes
-{
+public class SupportedDataTypes {
 
 	/**
 	 * support any data type.
 	 */
-	public static final int[] ANY = new int[]{
-		DataType.ANY_TYPE
-	};
+	public static final int[] ANY = new int[] { DataType.ANY_TYPE };
 
 	/**
 	 * support both integer and double data types.
 	 */
-	public static final int[] CALCULATABLE = new int[]{
-		DataType.BOOLEAN_TYPE,
-		DataType.INTEGER_TYPE,	
-		DataType.DOUBLE_TYPE,
-		DataType.DECIMAL_TYPE,	
-		DataType.STRING_TYPE,
-		DataType.DATE_TYPE,
-		DataType.SQL_DATE_TYPE,
-		DataType.SQL_TIME_TYPE
-	};
+	public static final int[] CALCULATABLE = new int[] { DataType.BOOLEAN_TYPE, DataType.INTEGER_TYPE,
+			DataType.DOUBLE_TYPE, DataType.DECIMAL_TYPE, DataType.STRING_TYPE, DataType.DATE_TYPE,
+			DataType.SQL_DATE_TYPE, DataType.SQL_TIME_TYPE };
 
 }

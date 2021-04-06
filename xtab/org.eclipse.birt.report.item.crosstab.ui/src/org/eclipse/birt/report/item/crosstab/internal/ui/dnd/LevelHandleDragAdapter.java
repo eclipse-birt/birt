@@ -19,25 +19,30 @@ import org.eclipse.birt.report.model.api.olap.LevelHandle;
  * Support drag the level handle to the cross tab.
  */
 
-public class LevelHandleDragAdapter implements IDragAdapter
-{
+public class LevelHandleDragAdapter implements IDragAdapter {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.IDragAdapter#canDrag(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.IDragAdapter#canDrag(java.
+	 * lang.Object)
 	 */
-	public int canDrag( Object object )
-	{
-		if ( object instanceof LevelHandle)
+	public int canDrag(Object object) {
+		if (object instanceof LevelHandle)
 			return DNDService.LOGIC_TRUE;
 		return DNDService.LOGIC_UNKNOW;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.IDragAdapter#getDragTransfer(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.IDragAdapter#getDragTransfer
+	 * (java.lang.Object)
 	 */
-	public Object getDragTransfer( Object transfer )
-	{
-		if(transfer instanceof LevelHandle)
+	public Object getDragTransfer(Object transfer) {
+		if (transfer instanceof LevelHandle)
 			return transfer;
 		return null;
 	}

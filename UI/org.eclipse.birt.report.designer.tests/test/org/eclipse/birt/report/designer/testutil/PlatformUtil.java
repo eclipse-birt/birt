@@ -17,11 +17,9 @@ import org.eclipse.core.runtime.Platform;
  * The utility class for platform related tests
  */
 
-public class PlatformUtil
-{
+public class PlatformUtil {
 
-	static public boolean isWindows( )
-	{
-		return Platform.getOS( ).equals( "win32" ); //$NON-NLS-1$
+	static public boolean isWindows() {
+		return Platform.getOS().equals("win32"); //$NON-NLS-1$
 	}
 }

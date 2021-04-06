@@ -19,29 +19,21 @@ import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 /**
  * Default (empty) implementation of the IScriptedDataSetEventHandler interface
  */
-public class ScriptedDataSetEventAdapter extends DataSetEventAdapter implements
-		IScriptedDataSetEventHandler
-{
+public class ScriptedDataSetEventAdapter extends DataSetEventAdapter implements IScriptedDataSetEventHandler {
 
-	public void open( IDataSetInstance dataSet ) throws ScriptException
-	{
+	public void open(IDataSetInstance dataSet) throws ScriptException {
 
 	}
 
-	public boolean fetch( IDataSetInstance dataSet, IUpdatableDataSetRow row )
-			throws ScriptException
-	{
+	public boolean fetch(IDataSetInstance dataSet, IUpdatableDataSetRow row) throws ScriptException {
 		return false;
 	}
 
-	public void close( IDataSetInstance dataSet ) throws ScriptException
-	{
+	public void close(IDataSetInstance dataSet) throws ScriptException {
 
 	}
 
-	public boolean describe( IDataSetInstance dataSet,
-			IScriptedDataSetMetaData metaData ) throws ScriptException
-	{
+	public boolean describe(IDataSetInstance dataSet, IScriptedDataSetMetaData metaData) throws ScriptException {
 		return false;
 	}
 

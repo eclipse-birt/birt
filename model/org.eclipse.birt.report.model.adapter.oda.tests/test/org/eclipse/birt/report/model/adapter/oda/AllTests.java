@@ -12,20 +12,18 @@ import org.eclipse.birt.report.model.adapter.oda.util.AllUtilTests;
  * Tests cases run in the build script.
  */
 
-public class AllTests extends TestCase
-{
+public class AllTests extends TestCase {
 
 	/**
-	 *  @return test run in build script
+	 * @return test run in build script
 	 */
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
-		
+	public static Test suite() {
+		TestSuite test = new TestSuite();
+
 		// add all package tests here
-		test.addTest( AllUtilTests.suite( ) );
-		test.addTest( AllApiTests.suite( ) );
-		
+		test.addTest(AllUtilTests.suite());
+		test.addTest(AllApiTests.suite());
+
 		return test;
 	}
 

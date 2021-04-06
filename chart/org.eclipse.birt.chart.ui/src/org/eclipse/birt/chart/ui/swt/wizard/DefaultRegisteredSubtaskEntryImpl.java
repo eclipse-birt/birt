@@ -14,10 +14,8 @@ package org.eclipse.birt.chart.ui.swt.wizard;
 import org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSubtaskEntry;
 import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ISubtaskSheet;
 
-public class DefaultRegisteredSubtaskEntryImpl extends
-		DefaultRegisteredEntry<ISubtaskSheet> implements
-		IRegisteredSubtaskEntry
-{
+public class DefaultRegisteredSubtaskEntryImpl extends DefaultRegisteredEntry<ISubtaskSheet>
+		implements IRegisteredSubtaskEntry {
 
 	private int nodeIndex = 0;
 
@@ -25,18 +23,14 @@ public class DefaultRegisteredSubtaskEntryImpl extends
 
 	private String sNodePath = ""; //$NON-NLS-1$
 
-	public DefaultRegisteredSubtaskEntryImpl( String sNodeIndex,
-			String sNodePath, String sDisplayName, ISubtaskSheet sheet )
-	{
-		super( sheet, sDisplayName, sNodePath );
-		try
-		{
-			double nodeIndexWithPriority = Double.valueOf( sNodeIndex );
+	public DefaultRegisteredSubtaskEntryImpl(String sNodeIndex, String sNodePath, String sDisplayName,
+			ISubtaskSheet sheet) {
+		super(sheet, sDisplayName, sNodePath);
+		try {
+			double nodeIndexWithPriority = Double.valueOf(sNodeIndex);
 			nodeIndex = (int) nodeIndexWithPriority;
-			priority = (int) ( nodeIndexWithPriority * 10 - nodeIndex * 10 );
-		}
-		catch ( NumberFormatException e )
-		{
+			priority = (int) (nodeIndexWithPriority * 10 - nodeIndex * 10);
+		} catch (NumberFormatException e) {
 		}
 		this.sNodePath = sNodePath;
 	}
@@ -47,8 +41,7 @@ public class DefaultRegisteredSubtaskEntryImpl extends
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#
 	 * getRegisteredNodePath()
 	 */
-	public int getNodeIndex( )
-	{
+	public int getNodeIndex() {
 		return nodeIndex;
 	}
 
@@ -58,19 +51,16 @@ public class DefaultRegisteredSubtaskEntryImpl extends
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IRegisteredSheetEntry#
 	 * getRegisteredNodePath()
 	 */
-	public String getNodePath( )
-	{
+	public String getNodePath() {
 		return sNodePath;
 	}
 
-	public ISubtaskSheet getSheet( )
-	{
-		return getInstance( );
+	public ISubtaskSheet getSheet() {
+		return getInstance();
 	}
 
-	public String getDisplayName( )
-	{
-		return getName( );
+	public String getDisplayName() {
+		return getName();
 	}
 
 	/**
@@ -82,15 +72,13 @@ public class DefaultRegisteredSubtaskEntryImpl extends
 	 * @since 3.7
 	 */
 	@Override
-	public int getPriority( )
-	{
+	public int getPriority() {
 		return priority;
 	}
 
 	@Override
-	public int hashCode( )
-	{
+	public int hashCode() {
 		// Use node index as unique key in hash map or set
-		return getNodeIndex( );
+		return getNodeIndex();
 	}
 }

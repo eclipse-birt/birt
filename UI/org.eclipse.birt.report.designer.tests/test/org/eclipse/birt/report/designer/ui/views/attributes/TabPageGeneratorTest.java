@@ -22,23 +22,21 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Test class for test methods of DefaultPageGenerator.
  * 
- *  
+ * 
  */
-public class TabPageGeneratorTest extends TestCase
-{
+public class TabPageGeneratorTest extends TestCase {
 
 	/**
 	 * Testcase for test createTabItems() method
 	 */
-	public void testCreateTabItems( )
-	{
-		Shell shell = new Shell( );
-		TabPageGenerator generator = new TabPageGenerator( );
-		generator.createControl( shell, new ArrayList( ) );
-		Control control = generator.getControl( );
-		if(control instanceof CTabFolder)
-		assertEquals( 0, ((CTabFolder)control).getItemCount( ) );
-		shell.dispose( );
+	public void testCreateTabItems() {
+		Shell shell = new Shell();
+		TabPageGenerator generator = new TabPageGenerator();
+		generator.createControl(shell, new ArrayList());
+		Control control = generator.getControl();
+		if (control instanceof CTabFolder)
+			assertEquals(0, ((CTabFolder) control).getItemCount());
+		shell.dispose();
 	}
 
 }

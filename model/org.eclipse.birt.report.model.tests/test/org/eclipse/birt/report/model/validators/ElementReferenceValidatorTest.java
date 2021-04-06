@@ -19,24 +19,22 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * Cases for ElementReferenceValidator.
  */
 
-public class ElementReferenceValidatorTest extends ValidatorTestCase
-{
+public class ElementReferenceValidatorTest extends ValidatorTestCase {
 
 	/**
-	 * If the element is in template parameter definition slot, should not check
-	 * the validation of element references.
+	 * If the element is in template parameter definition slot, should not check the
+	 * validation of element references.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void testElementReferencesInTemplateDefinition( ) throws Exception
-	{
-		MetaDataDictionary.getInstance( ).setUseValidationTrigger( false );
-		
-		openDesign( "ElementReferenceValidatorTest.xml" ); //$NON-NLS-1$
+	public void testElementReferencesInTemplateDefinition() throws Exception {
+		MetaDataDictionary.getInstance().setUseValidationTrigger(false);
 
-		List list = designHandle.getErrorList( );
+		openDesign("ElementReferenceValidatorTest.xml"); //$NON-NLS-1$
 
-		assertEquals( 0, list.size( ) );
+		List list = designHandle.getErrorList();
+
+		assertEquals(0, list.size());
 	}
 }

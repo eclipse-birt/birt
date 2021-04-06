@@ -17,37 +17,36 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 
 /**
- * The common parent Accumulator which is used by Top/Bottom Percent aggregations. 
+ * The common parent Accumulator which is used by Top/Bottom Percent
+ * aggregations.
  */
-public abstract class PercentAccumulator extends BaseTopBottomAccumulator
-{
+public abstract class PercentAccumulator extends BaseTopBottomAccumulator {
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.aggregation.rank.BaseTopBottomAccumulator#populateNValue(java.lang.Object)
+	 * 
+	 * @see org.eclipse.birt.data.engine.aggregation.rank.BaseTopBottomAccumulator#
+	 * populateNValue(java.lang.Object)
 	 */
-	protected double populateNValue( Object N ) throws DataException
-	{
+	protected double populateNValue(Object N) throws DataException {
 		double result = 0;
-		try
-		{
-			result = DataTypeUtil.toDouble( N ).doubleValue( );
-		}
-		catch ( BirtException e )
-		{
+		try {
+			result = DataTypeUtil.toDouble(N).doubleValue();
+		} catch (BirtException e) {
 			// conversion error
 			throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_ARGUMENT, e);
 		}
-		if( result < 0 || result > 100)
+		if (result < 0 || result > 100)
 			throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT);
 		return result;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.aggregation.rank.BaseTopBottomAccumulator#adjustNValue(double)
+	 * 
+	 * @see org.eclipse.birt.data.engine.aggregation.rank.BaseTopBottomAccumulator#
+	 * adjustNValue(double)
 	 */
-	protected int adjustNValue( double N )
-	{
-		return (int)( N < 0 ? 0 : Math.round( N / 100 * cachedValues.size( ) ) );
+	protected int adjustNValue(double N) {
+		return (int) (N < 0 ? 0 : Math.round(N / 100 * cachedValues.size()));
 	}
 }

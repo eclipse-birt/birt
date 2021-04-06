@@ -22,21 +22,20 @@ import org.osgi.framework.Bundle;
  * 
  */
 
-public class PlatformBundleFactory implements IBundleFactory
-{
+public class PlatformBundleFactory implements IBundleFactory {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.IBundleFactory#getBundleResource(java.lang.String,
-	 *      java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.api.IBundleFactory#getBundleResource(java.lang.
+	 * String, java.lang.String)
 	 */
 
-	public URL getBundleResource( String bundleName, String resourceName )
-	{
-		Bundle bundle = Platform.getBundle( bundleName );
-		if ( bundle != null )
-			return bundle.getResource( resourceName );
+	public URL getBundleResource(String bundleName, String resourceName) {
+		Bundle bundle = Platform.getBundle(bundleName);
+		if (bundle != null)
+			return bundle.getResource(resourceName);
 
 		return null;
 	}

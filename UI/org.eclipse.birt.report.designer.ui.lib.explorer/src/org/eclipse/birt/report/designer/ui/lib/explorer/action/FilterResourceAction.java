@@ -26,42 +26,35 @@ import org.eclipse.jface.window.Window;
 /**
  * The action class for filtering resource in resource explorer.
  */
-public class FilterResourceAction extends ResourceAction
-{
+public class FilterResourceAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for filtering resource.
 	 * 
-	 * @param page
-	 *            the resource explorer page
+	 * @param page the resource explorer page
 	 */
-	public FilterResourceAction( LibraryExplorerTreeViewPage page )
-	{
-		super( Messages.getString( "LibraryFileFilterAction.Text" ), page ); //$NON-NLS-1$
-		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_TOOL_FILTER ) );
+	public FilterResourceAction(LibraryExplorerTreeViewPage page) {
+		super(Messages.getString("LibraryFileFilterAction.Text"), page); //$NON-NLS-1$
+		setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_TOOL_FILTER));
 	}
 
 	@Override
-	public void run( )
-	{
-		ResourceFilterDialog dialog = new ResourceFilterDialog( );
-		ArrayList<ResourceFilter> filters = new ArrayList<ResourceFilter>( );
+	public void run() {
+		ResourceFilterDialog dialog = new ResourceFilterDialog();
+		ArrayList<ResourceFilter> filters = new ArrayList<ResourceFilter>();
 
-		filters.addAll( LibraryExplorerPlugin.getFilterMap( ).values( ) );
-		dialog.setInput( filters );
+		filters.addAll(LibraryExplorerPlugin.getFilterMap().values());
+		dialog.setInput(filters);
 
-		if ( dialog.open( ) == Window.OK )
-		{
-			IPreferenceStore store = LibraryExplorerPlugin.getDefault( )
-					.getPreferenceStore( );
+		if (dialog.open() == Window.OK) {
+			IPreferenceStore store = LibraryExplorerPlugin.getDefault().getPreferenceStore();
 
-			for ( int i = 0; i < filters.size( ); i++ )
-			{
-				ResourceFilter filter = filters.get( i );
+			for (int i = 0; i < filters.size(); i++) {
+				ResourceFilter filter = filters.get(i);
 
-				store.setValue( filter.getType( ), filter.isEnabled( ) );
+				store.setValue(filter.getType(), filter.isEnabled());
 			}
-			refreshAll( );
+			refreshAll();
 		}
 	}
 }

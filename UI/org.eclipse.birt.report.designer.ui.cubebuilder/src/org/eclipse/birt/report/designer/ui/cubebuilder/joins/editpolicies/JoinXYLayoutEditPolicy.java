@@ -29,24 +29,22 @@ import org.eclipse.gef.editpolicies.ResizableEditPolicy;
 import org.eclipse.gef.editpolicies.XYLayoutEditPolicy;
 import org.eclipse.gef.requests.CreateRequest;
 
-public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
-{
+public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy {
 
 	private TabularCubeHandle cube;
 
-	public JoinXYLayoutEditPolicy( TabularCubeHandle cube )
-	{
+	public JoinXYLayoutEditPolicy(TabularCubeHandle cube) {
 		this.cube = cube;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org.eclipse.gef.EditPart,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createAddCommand(org
+	 * .eclipse.gef.EditPart, java.lang.Object)
 	 */
-	protected Command createAddCommand( EditPart child, Object constraint )
-	{
+	protected Command createAddCommand(EditPart child, Object constraint) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -54,25 +52,20 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#createChangeConstraintCommand(org.eclipse.gef.EditPart,
-	 *      java.lang.Object)
+	 * @see org.eclipse.gef.editpolicies.ConstrainedLayoutEditPolicy#
+	 * createChangeConstraintCommand(org.eclipse.gef.EditPart, java.lang.Object)
 	 */
-	protected Command createChangeConstraintCommand( EditPart child,
-			Object constraint )
-	{
-		SetConstraintCommand locationCommand = new SetConstraintCommand( );
-		if ( child instanceof DatasetNodeEditPart )
-		{
-			locationCommand.setModuleHandle( ( (DatasetNodeEditPart) child ).getCube( )
-					.getRoot( ) );
-		}
-		else
-			locationCommand.setModuleHandle( ( (DesignElementHandle) child.getModel( ) ).getRoot( ) );
+	protected Command createChangeConstraintCommand(EditPart child, Object constraint) {
+		SetConstraintCommand locationCommand = new SetConstraintCommand();
+		if (child instanceof DatasetNodeEditPart) {
+			locationCommand.setModuleHandle(((DatasetNodeEditPart) child).getCube().getRoot());
+		} else
+			locationCommand.setModuleHandle(((DesignElementHandle) child.getModel()).getRoot());
 
-		locationCommand.setId( UIHelper.getId( child.getModel( ), cube ) );
+		locationCommand.setId(UIHelper.getId(child.getModel(), cube));
 
-		Rectangle rect = new Rectangle( (Rectangle) constraint );
-		locationCommand.setLocation( rect );
+		Rectangle rect = new Rectangle((Rectangle) constraint);
+		locationCommand.setLocation(rect);
 		return locationCommand;
 
 	}
@@ -80,10 +73,11 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
+	 * @see
+	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getCreateCommand(org.eclipse.
+	 * gef.requests.CreateRequest)
 	 */
-	protected Command getCreateCommand( CreateRequest request )
-	{
+	protected Command getCreateCommand(CreateRequest request) {
 		return null;
 
 	}
@@ -91,70 +85,63 @@ public class JoinXYLayoutEditPolicy extends XYLayoutEditPolicy
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.eclipse.gef.Request)
+	 * @see
+	 * org.eclipse.gef.editpolicies.LayoutEditPolicy#getDeleteDependantCommand(org.
+	 * eclipse.gef.Request)
 	 */
-	protected Command getDeleteDependantCommand( Request request )
-	{
+	protected Command getDeleteDependantCommand(Request request) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	protected EditPolicy createChildEditPolicy( EditPart child )
-	{
-		return new ResizableEditPolicy( ) {
+	protected EditPolicy createChildEditPolicy(EditPart child) {
+		return new ResizableEditPolicy() {
 
-			protected IFigure createDragSourceFeedbackFigure( )
-			{
+			protected IFigure createDragSourceFeedbackFigure() {
 				// Use a ghost rectangle for feedback
-				Figure r = new Figure( ) {
+				Figure r = new Figure() {
 
-					protected void paintFigure( Graphics graphics )
-					{
-						Rectangle rect = getBounds( ).getCopy( );
+					protected void paintFigure(Graphics graphics) {
+						Rectangle rect = getBounds().getCopy();
 
-						graphics.setXORMode( true );
-						graphics.setForegroundColor( ColorConstants.white );
-						graphics.setBackgroundColor( ColorManager.getColor( 31,
-								31,
-								31 ) );
+						graphics.setXORMode(true);
+						graphics.setForegroundColor(ColorConstants.white);
+						graphics.setBackgroundColor(ColorManager.getColor(31, 31, 31));
 
-						graphics.translate( getLocation( ) );
+						graphics.translate(getLocation());
 
-						PointList outline = new PointList( );
+						PointList outline = new PointList();
 
-						outline.addPoint( 0, 0 );
-						outline.addPoint( rect.width, 0 );
-						outline.addPoint( rect.width - 1, 0 );
-						outline.addPoint( rect.width - 1, rect.height - 1 );
-						outline.addPoint( 0, rect.height - 1 );
+						outline.addPoint(0, 0);
+						outline.addPoint(rect.width, 0);
+						outline.addPoint(rect.width - 1, 0);
+						outline.addPoint(rect.width - 1, rect.height - 1);
+						outline.addPoint(0, rect.height - 1);
 
-						graphics.fillPolygon( outline );
+						graphics.fillPolygon(outline);
 
 						// draw the inner outline
-						PointList innerLine = new PointList( );
+						PointList innerLine = new PointList();
 
-						innerLine.addPoint( rect.width - 0 - 1, 0 );
-						innerLine.addPoint( rect.width - 0 - 1, 0 );
-						innerLine.addPoint( rect.width - 1, 0 );
-						innerLine.addPoint( rect.width - 0 - 1, 0 );
-						innerLine.addPoint( 0, 0 );
-						innerLine.addPoint( 0, rect.height - 1 );
-						innerLine.addPoint( rect.width - 1, rect.height - 1 );
-						innerLine.addPoint( rect.width - 1, 0 );
+						innerLine.addPoint(rect.width - 0 - 1, 0);
+						innerLine.addPoint(rect.width - 0 - 1, 0);
+						innerLine.addPoint(rect.width - 1, 0);
+						innerLine.addPoint(rect.width - 0 - 1, 0);
+						innerLine.addPoint(0, 0);
+						innerLine.addPoint(0, rect.height - 1);
+						innerLine.addPoint(rect.width - 1, rect.height - 1);
+						innerLine.addPoint(rect.width - 1, 0);
 
-						graphics.drawPolygon( innerLine );
+						graphics.drawPolygon(innerLine);
 
-						graphics.drawLine( rect.width - 0 - 1,
-								0,
-								rect.width - 1,
-								0 );
+						graphics.drawLine(rect.width - 0 - 1, 0, rect.width - 1, 0);
 
-						graphics.translate( getLocation( ).getNegated( ) );
+						graphics.translate(getLocation().getNegated());
 					}
 				};
 
-				r.setBounds( getInitialFeedbackBounds( ) );
-				addFeedback( r );
+				r.setBounds(getInitialFeedbackBounds());
+				addFeedback(r);
 				return r;
 			}
 

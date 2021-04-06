@@ -15,20 +15,17 @@ import org.eclipse.datatools.enablement.oda.xml.util.MappedTables;
 
 /**
  * This class describe the information of certain ResultSet.
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class ResultSetMetaData
-		extends
-			org.eclipse.datatools.enablement.oda.xml.impl.ResultSetMetaData
-{
+public class ResultSetMetaData extends org.eclipse.datatools.enablement.oda.xml.impl.ResultSetMetaData {
 
 	/**
 	 * 
 	 * @param ri
 	 * @param tableName
 	 */
-	ResultSetMetaData( MappedTables mt, String tableName )
-	{
-		super( mt, tableName );
+	ResultSetMetaData(MappedTables mt, String tableName) {
+		super(mt, tableName);
 	}
 }

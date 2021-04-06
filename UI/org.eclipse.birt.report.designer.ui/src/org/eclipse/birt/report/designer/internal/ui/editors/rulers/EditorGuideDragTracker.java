@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.designer.internal.ui.editors.rulers;
 
@@ -17,53 +17,45 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
 import org.eclipse.gef.tools.DragEditPartsTracker;
 import org.eclipse.swt.graphics.Cursor;
 
-
 /**
  * add comment here
  * 
  */
-public class EditorGuideDragTracker extends DragEditPartsTracker
-{
+public class EditorGuideDragTracker extends DragEditPartsTracker {
 
 	/**
 	 * @param sourceEditPart
 	 */
-	public EditorGuideDragTracker( EditPart sourceEditPart )
-	{
-		super( sourceEditPart );
+	public EditorGuideDragTracker(EditPart sourceEditPart) {
+		super(sourceEditPart);
 	}
 
-	protected boolean isMove() 
-	{
+	protected boolean isMove() {
 		return true;
 	}
-	
+
 	protected Cursor calculateCursor() {
 		if (isInState(STATE_INVALID))
 			return Cursors.NO;
 		return getCurrentCursor();
 	}
-	
-	public Cursor getCurrentCursor() 
-	{
-		return ((AbstractGraphicalEditPart)getSourceEditPart()).getFigure().getCursor();
+
+	public Cursor getCurrentCursor() {
+		return ((AbstractGraphicalEditPart) getSourceEditPart()).getFigure().getCursor();
 	}
-	
+
 	@Override
-	protected boolean handleButtonDown( int button )
-	{
-		boolean bool =  super.handleButtonDown( button );
-		if (button == 1)
-		{
-			showSourceFeedback( );
+	protected boolean handleButtonDown(int button) {
+		boolean bool = super.handleButtonDown(button);
+		if (button == 1) {
+			showSourceFeedback();
 		}
 		return bool;
 	}
-	
+
 	@Override
-	protected boolean handleButtonUp( int button )
-	{
-		boolean bool =  super.handleButtonUp( button );
+	protected boolean handleButtonUp(int button) {
+		boolean bool = super.handleButtonUp(button);
 		eraseSourceFeedback();
 		return bool;
 	}

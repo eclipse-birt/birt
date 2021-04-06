@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for FreeForm element to store the constants.
  */
-public interface IFreeFormModel
-{
+public interface IFreeFormModel {
 
 	/**
 	 * Constant for the Report Items slot within a free-form.

@@ -30,39 +30,38 @@ import org.eclipse.swt.SWT;
  * 
  */
 
-public class DestroyEditPart extends DummyEditpart
-{
+public class DestroyEditPart extends DummyEditpart {
 
-	private static final String MESSAGE = Messages.getString( "DestroyEditPart.Message" ); //$NON-NLS-1$
+	private static final String MESSAGE = Messages.getString("DestroyEditPart.Message"); //$NON-NLS-1$
 
-	public DestroyEditPart( Object model )
-	{
-		super( model );
+	public DestroyEditPart(Object model) {
+		super(model);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		StyleHandle style = ( (DesignElementHandle) getModel( ) ).getPrivateStyle( );
-		( (LabelFigure) getFigure( ) ).setFont( FontManager.getFont("Dialog", 10, SWT.ITALIC) ); //$NON-NLS-1$
-		
-		//( (LabelFigure) getFigure( ) ).setImage( getImage( ) );
-		( (LabelFigure) getFigure( ) ).setAlignment( PositionConstants.WEST );
-		
+	public void refreshFigure() {
+		StyleHandle style = ((DesignElementHandle) getModel()).getPrivateStyle();
+		((LabelFigure) getFigure()).setFont(FontManager.getFont("Dialog", 10, SWT.ITALIC)); //$NON-NLS-1$
+
+		// ( (LabelFigure) getFigure( ) ).setImage( getImage( ) );
+		((LabelFigure) getFigure()).setAlignment(PositionConstants.WEST);
+
 		// bidi_hcg start
 		// Set direction before setting text
-		( (LabelFigure) getFigure( ) ).setDirection( getTextDirection( ) );
+		((LabelFigure) getFigure()).setDirection(getTextDirection());
 		// bidi_hcg end
-		( (LabelFigure) getFigure( ) ).setText( MESSAGE );
-		( (LabelFigure) getFigure( ) ).setTextAlign( DesignChoiceConstants.TEXT_ALIGN_LEFT );
-		( (LabelFigure) getFigure( ) ).setForegroundColor( ReportColorConstants.RedWarning );
-		( (LabelFigure) getFigure( ) ).setDisplay( style.getDisplay( ) );
+		((LabelFigure) getFigure()).setText(MESSAGE);
+		((LabelFigure) getFigure()).setTextAlign(DesignChoiceConstants.TEXT_ALIGN_LEFT);
+		((LabelFigure) getFigure()).setForegroundColor(ReportColorConstants.RedWarning);
+		((LabelFigure) getFigure()).setDisplay(style.getDisplay());
 
-		getFigure( ).setBorder( new LineBorder( 1 ) );
+		getFigure().setBorder(new LineBorder(1));
 	}
 
 	/*
@@ -70,54 +69,50 @@ public class DestroyEditPart extends DummyEditpart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		LabelFigure label = new LabelFigure( );
+	protected IFigure createFigure() {
+		LabelFigure label = new LabelFigure();
 		return label;
 	}
 
 	@Override
-	protected void refreshPageClip( )
-	{
-		//do nothing
+	protected void refreshPageClip() {
+		// do nothing
 	}
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#isinterest(java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#isinterest(java.lang.Object)
 	 */
-	public boolean isinterest( Object model )
-	{
-		if ( !( model instanceof DesignElementHandle ) )
-		{
+	public boolean isinterest(Object model) {
+		if (!(model instanceof DesignElementHandle)) {
 			return false;
 		}
 		DesignElementHandle handle = (DesignElementHandle) model;
-		while ( handle != null )
-		{
-			if ( getModel( ).equals( handle ) )
-			{
+		while (handle != null) {
+			if (getModel().equals(handle)) {
 				return true;
 			}
-			handle = handle.getContainer( );
+			handle = handle.getContainer();
 		}
-		return super.isinterest( model );
+		return super.isinterest(model);
 	}
-	
+
 	@Override
-	protected void contentChange( Map info )
-	{
+	protected void contentChange(Map info) {
 		reload();
 	}
-	
+
 	@Override
-	protected void propertyChange( Map info )
-	{
+	protected void propertyChange(Map info) {
 		reload();
 	}
-	
-	private void reload()
-	{
-		EditPart part = getParent( );
-		((ReportElementEditPart)part).removeChild( this );
-		part.refresh( );
+
+	private void reload() {
+		EditPart part = getParent();
+		((ReportElementEditPart) part).removeChild(this);
+		part.refresh();
 	}
 }

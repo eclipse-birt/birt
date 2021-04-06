@@ -27,8 +27,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyledElementModel;
  * @see org.eclipse.birt.report.model.core.ReferencableStructure
  */
 
-abstract public class BackRefRecord extends SimpleRecord
-{
+abstract public class BackRefRecord extends SimpleRecord {
 
 	/**
 	 * The element that refers to another element.
@@ -51,20 +50,15 @@ abstract public class BackRefRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param module
-	 *            module
-	 * @param reference
-	 *            the element that refers to another element.
-	 * @param propName
-	 *            the property name. The type of the property must be
-	 *            <code>PropertyType.ELEMENT_REF_TYPE</code>. Meanwhile, it
-	 *            must not be <code>DesignElement.EXTENDS_PROP</code> and
-	 *            <code>DesignElement.STYLE_PROP</code>
+	 * @param module    module
+	 * @param reference the element that refers to another element.
+	 * @param propName  the property name. The type of the property must be
+	 *                  <code>PropertyType.ELEMENT_REF_TYPE</code>. Meanwhile, it
+	 *                  must not be <code>DesignElement.EXTENDS_PROP</code> and
+	 *                  <code>DesignElement.STYLE_PROP</code>
 	 */
 
-	public BackRefRecord( Module module, DesignElement reference,
-			String propName )
-	{
+	public BackRefRecord(Module module, DesignElement reference, String propName) {
 		this.module = module;
 		this.reference = reference;
 		this.propName = propName;
@@ -73,19 +67,15 @@ abstract public class BackRefRecord extends SimpleRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param module
-	 *            module
-	 * @param reference
-	 *            the element that refers to another element.
-	 * @param propName
-	 *            the property name. The type of the property must be
-	 *            <code>PropertyType.ELEMENT_REF_TYPE</code>. Meanwhile, it
-	 *            must not be <code>DesignElement.EXTENDS_PROP</code> and
-	 *            <code>DesignElement.STYLE_PROP</code>
+	 * @param module    module
+	 * @param reference the element that refers to another element.
+	 * @param propName  the property name. The type of the property must be
+	 *                  <code>PropertyType.ELEMENT_REF_TYPE</code>. Meanwhile, it
+	 *                  must not be <code>DesignElement.EXTENDS_PROP</code> and
+	 *                  <code>DesignElement.STYLE_PROP</code>
 	 */
 
-	public BackRefRecord( Module module, Structure reference, String propName )
-	{
+	public BackRefRecord(Module module, Structure reference, String propName) {
 		this.module = module;
 		this.reference = reference;
 		this.propName = propName;
@@ -97,18 +87,16 @@ abstract public class BackRefRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
-			return new StyleEvent( getTarget( ) );
-		return new PropertyEvent( getTarget( ), propName );
+	public NotificationEvent getEvent() {
+		if (IStyledElementModel.STYLE_PROP.equals(propName))
+			return new StyleEvent(getTarget());
+		return new PropertyEvent(getTarget(), propName);
 	}
 
-	public DesignElement getTarget( )
-	{
-		if ( reference instanceof DesignElement )
+	public DesignElement getTarget() {
+		if (reference instanceof DesignElement)
 			return (DesignElement) reference;
 
-		return ( (Structure) reference ).getElement( );
+		return ((Structure) reference).getElement();
 	}
 }

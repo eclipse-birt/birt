@@ -14,53 +14,43 @@ package org.eclipse.birt.data.engine.impl.util;
 /**
  * A directed graph edge
  */
-public class DirectedGraphEdge
-{
+public class DirectedGraphEdge {
 
 	private GraphNode from;
 	private GraphNode to;
 
-	public DirectedGraphEdge( GraphNode from, GraphNode to )
-	{
-		if ( from == null || to == null )
-		{
-			throw new IllegalArgumentException( "from node or to node is null" );
+	public DirectedGraphEdge(GraphNode from, GraphNode to) {
+		if (from == null || to == null) {
+			throw new IllegalArgumentException("from node or to node is null");
 		}
 		this.from = from;
 		this.to = to;
 	}
 
-
 	@Override
-	public int hashCode( )
-	{
+	public int hashCode() {
 		final int prime = 31;
-		return prime * from.hashCode( ) + to.hashCode( );
+		return prime * from.hashCode() + to.hashCode();
 	}
 
-	
 	@Override
-	public boolean equals( Object obj )
-	{
-		if ( this == obj )
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		if ( obj == null )
+		if (obj == null)
 			return false;
-		if ( getClass( ) != obj.getClass( ) )
+		if (getClass() != obj.getClass())
 			return false;
 		DirectedGraphEdge other = (DirectedGraphEdge) obj;
-		return from.equals( other.getFrom( ) ) && to.equals( other.getTo( ) );
+		return from.equals(other.getFrom()) && to.equals(other.getTo());
 	}
 
-	protected GraphNode getFrom( )
-	{
+	protected GraphNode getFrom() {
 		return from;
 	}
 
-	protected GraphNode getTo( )
-	{
+	protected GraphNode getTo() {
 		return to;
 	}
-	
-	
+
 }

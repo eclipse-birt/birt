@@ -25,16 +25,14 @@ import org.eclipse.gef.handles.MoveHandleLocator;
 /**
  * Provides mouse action handle to ListBandEditPart.
  */
-public class ListBandHandle extends MoveHandle
-{
+public class ListBandHandle extends MoveHandle {
 
 	/**
 	 * @param owner
 	 */
-	public ListBandHandle( GraphicalEditPart owner )
-	{
-		super( owner, new ListBandLocator( owner.getFigure( ) ) );
-		setBorder( new SelectionBorder( 2 ) );
+	public ListBandHandle(GraphicalEditPart owner) {
+		super(owner, new ListBandLocator(owner.getFigure()));
+		setBorder(new SelectionBorder(2));
 	}
 
 	/*
@@ -42,13 +40,11 @@ public class ListBandHandle extends MoveHandle
 	 * 
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
-	protected DragTracker createDragTracker( )
-	{
+	protected DragTracker createDragTracker() {
 		return null;
 	}
 
-	public boolean containsPoint( int x, int y )
-	{
+	public boolean containsPoint(int x, int y) {
 		return false;
 	}
 
@@ -57,20 +53,17 @@ public class ListBandHandle extends MoveHandle
 	 * 
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
-	protected void paintFigure( Graphics graphics )
-	{
-		super.paintFigure( graphics );
+	protected void paintFigure(Graphics graphics) {
+		super.paintFigure(graphics);
 	}
 
-	private static class ListBandLocator extends MoveHandleLocator
-	{
+	private static class ListBandLocator extends MoveHandleLocator {
 
 		/**
 		 * @param ref
 		 */
-		public ListBandLocator( IFigure ref )
-		{
-			super( ref );
+		public ListBandLocator(IFigure ref) {
+			super(ref);
 		}
 
 		/*
@@ -78,27 +71,23 @@ public class ListBandHandle extends MoveHandle
 		 * 
 		 * @see org.eclipse.draw2d.Locator#relocate(org.eclipse.draw2d.IFigure)
 		 */
-		public void relocate( IFigure target )
-		{
+		public void relocate(IFigure target) {
 			Rectangle bounds;
-			if ( getReference( ) instanceof ListBandFigure )
-			{
-				ListBandFigure parent = (ListBandFigure) getReference( );
-				Figure content = (Figure) parent.getContent( );
-				bounds = content.getBounds( ).getCopy( );
-			}
-			else
-			{
-				bounds = getReference( ).getBounds( ).getCopy( );
+			if (getReference() instanceof ListBandFigure) {
+				ListBandFigure parent = (ListBandFigure) getReference();
+				Figure content = (Figure) parent.getContent();
+				bounds = content.getBounds().getCopy();
+			} else {
+				bounds = getReference().getBounds().getCopy();
 			}
 
-			getReference( ).translateToAbsolute( bounds );
-			target.translateToRelative( bounds );
+			getReference().translateToAbsolute(bounds);
+			target.translateToRelative(bounds);
 
-			bounds.translate( 1, 1 );
-			bounds.resize( -1, -1 );
+			bounds.translate(1, 1);
+			bounds.resize(-1, -1);
 
-			target.setBounds( bounds );
+			target.setBounds(bounds);
 		}
 
 	}

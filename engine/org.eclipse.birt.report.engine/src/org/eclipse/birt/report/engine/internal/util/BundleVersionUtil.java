@@ -19,36 +19,29 @@ import java.util.logging.Logger;
 import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
-public class BundleVersionUtil
-{
+public class BundleVersionUtil {
 
 	/**
 	 * The Log object that <code>BundleVersionUtil</code> uses to log the error,
 	 * debug, information messages.
 	 */
-	protected static Logger logger = Logger.getLogger( BundleVersionUtil.class
-			.getName( ) );
+	protected static Logger logger = Logger.getLogger(BundleVersionUtil.class.getName());
 
 	private static String UNKNOWN_VERSION = "UNKNOWN";
 
-	public static String getBundleVersion( String bundleName )
-	{
-		Bundle bundle = Platform.getBundle( bundleName );
-		if ( bundle != null )
-		{
-			return bundle.getVersion( ).toString( );
+	public static String getBundleVersion(String bundleName) {
+		Bundle bundle = Platform.getBundle(bundleName);
+		if (bundle != null) {
+			return bundle.getVersion().toString();
 		}
 		// the engine.jar are in the class path
-		ProtectionDomain domain = BundleVersionUtil.class.getProtectionDomain( );
-		if ( domain != null )
-		{
-			CodeSource codeSource = domain.getCodeSource( );
-			if ( codeSource != null )
-			{
-				URL jarUrl = codeSource.getLocation( );
-				if( jarUrl != null )
-				{
-					return jarUrl.getFile( );
+		ProtectionDomain domain = BundleVersionUtil.class.getProtectionDomain();
+		if (domain != null) {
+			CodeSource codeSource = domain.getCodeSource();
+			if (codeSource != null) {
+				URL jarUrl = codeSource.getLocation();
+				if (jarUrl != null) {
+					return jarUrl.getFile();
 				}
 			}
 		}

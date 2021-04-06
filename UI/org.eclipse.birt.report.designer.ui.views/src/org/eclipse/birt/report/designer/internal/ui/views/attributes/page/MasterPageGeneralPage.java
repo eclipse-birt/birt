@@ -34,131 +34,108 @@ import org.eclipse.swt.SWT;
 /**
  * The general attribute page of MasterPage element.
  */
-public class MasterPageGeneralPage extends GeneralPage
-{
+public class MasterPageGeneralPage extends GeneralPage {
 
 	private ComplexUnitSection heightSection;
 	private ComboPropertyDescriptorProvider typeProvider;
 	private ComplexUnitSection widthSection;
 	private ComboSection orientationSection;
 
-	protected void buildContent( )
-	{
-		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
+	protected void buildContent() {
+		container.setLayout(WidgetUtil.createGridLayout(6, 15));
 
-		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( MasterPageHandle.NAME_PROP,
-				ReportDesignConstants.MASTER_PAGE_ELEMENT );
-		TextSection nameSection = new TextSection( nameProvider.getDisplayName( ),
-				container,
-				true );
-		nameSection.setProvider( nameProvider );
-		nameSection.setWidth( 200 );
-		nameSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.MASTER_PAGE_NAME, nameSection );
+		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(MasterPageHandle.NAME_PROP,
+				ReportDesignConstants.MASTER_PAGE_ELEMENT);
+		TextSection nameSection = new TextSection(nameProvider.getDisplayName(), container, true);
+		nameSection.setProvider(nameProvider);
+		nameSection.setWidth(200);
+		nameSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.MASTER_PAGE_NAME, nameSection);
 
-		SeperatorSection seperatorSection = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( PageSectionId.MASTER_PAGE_SEPERATOR, seperatorSection );
+		SeperatorSection seperatorSection = new SeperatorSection(container, SWT.HORIZONTAL);
+		addSection(PageSectionId.MASTER_PAGE_SEPERATOR, seperatorSection);
 
-		UnitPropertyDescriptorProvider headHeightProvider = new UnitPropertyDescriptorProvider( SimpleMasterPageHandle.HEADER_HEIGHT_PROP,
-				ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT );
-		ComplexUnitSection headHeightSection = new ComplexUnitSection( headHeightProvider.getDisplayName( ),
-				container,
-				true );
-		headHeightSection.setProvider( headHeightProvider );
-		headHeightSection.setWidth( 200 );
-		headHeightSection.setLayoutNum( 2 );
-		addSection( PageSectionId.MASTER_PAGE_HEAD_HEIGHT, headHeightSection );
+		UnitPropertyDescriptorProvider headHeightProvider = new UnitPropertyDescriptorProvider(
+				SimpleMasterPageHandle.HEADER_HEIGHT_PROP, ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT);
+		ComplexUnitSection headHeightSection = new ComplexUnitSection(headHeightProvider.getDisplayName(), container,
+				true);
+		headHeightSection.setProvider(headHeightProvider);
+		headHeightSection.setWidth(200);
+		headHeightSection.setLayoutNum(2);
+		addSection(PageSectionId.MASTER_PAGE_HEAD_HEIGHT, headHeightSection);
 
-		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		colorProvider.enableReset( true );
-		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
-				container,
-				true );
-		colorSection.setProvider( colorProvider );
-		colorSection.setWidth( 200 );
-		colorSection.setLayoutNum( 4 );
-		colorSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.MASTER_PAGE_COLOR, colorSection );
+		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider(
+				StyleHandle.BACKGROUND_COLOR_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		colorProvider.enableReset(true);
+		ColorSection colorSection = new ColorSection(colorProvider.getDisplayName(), container, true);
+		colorSection.setProvider(colorProvider);
+		colorSection.setWidth(200);
+		colorSection.setLayoutNum(4);
+		colorSection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.MASTER_PAGE_COLOR, colorSection);
 
-		UnitPropertyDescriptorProvider footHeightProvider = new UnitPropertyDescriptorProvider( SimpleMasterPageHandle.FOOTER_HEIGHT_PROP,
-				ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT );
-		ComplexUnitSection footHeightSection = new ComplexUnitSection( footHeightProvider.getDisplayName( ),
-				container,
-				true );
-		footHeightSection.setProvider( footHeightProvider );
-		footHeightSection.setWidth( 200 );
-		footHeightSection.setLayoutNum( 2 );
-		addSection( PageSectionId.MASTER_PAGE_FOOT_HEIGHT, footHeightSection );
+		UnitPropertyDescriptorProvider footHeightProvider = new UnitPropertyDescriptorProvider(
+				SimpleMasterPageHandle.FOOTER_HEIGHT_PROP, ReportDesignConstants.SIMPLE_MASTER_PAGE_ELEMENT);
+		ComplexUnitSection footHeightSection = new ComplexUnitSection(footHeightProvider.getDisplayName(), container,
+				true);
+		footHeightSection.setProvider(footHeightProvider);
+		footHeightSection.setWidth(200);
+		footHeightSection.setLayoutNum(2);
+		addSection(PageSectionId.MASTER_PAGE_FOOT_HEIGHT, footHeightSection);
 
-		ComboPropertyDescriptorProvider orientationProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.ORIENTATION_PROP,
-				ReportDesignConstants.MASTER_PAGE_ELEMENT );
-		orientationSection = new ComboSection( orientationProvider.getDisplayName( ),
-				container,
-				true );
-		orientationSection.setProvider( orientationProvider );
-		orientationSection.setLayoutNum( 4 );
-		orientationSection.setGridPlaceholder( 2, true );
-		orientationSection.setWidth( 200 );
-		addSection( PageSectionId.MASTER_PAGE_ORIENTATION, orientationSection );
+		ComboPropertyDescriptorProvider orientationProvider = new ComboPropertyDescriptorProvider(
+				MasterPageHandle.ORIENTATION_PROP, ReportDesignConstants.MASTER_PAGE_ELEMENT);
+		orientationSection = new ComboSection(orientationProvider.getDisplayName(), container, true);
+		orientationSection.setProvider(orientationProvider);
+		orientationSection.setLayoutNum(4);
+		orientationSection.setGridPlaceholder(2, true);
+		orientationSection.setWidth(200);
+		addSection(PageSectionId.MASTER_PAGE_ORIENTATION, orientationSection);
 
-		SeperatorSection seperatorSection1 = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( PageSectionId.MASTER_PAGE_SEPERATOR_1, seperatorSection1 );
+		SeperatorSection seperatorSection1 = new SeperatorSection(container, SWT.HORIZONTAL);
+		addSection(PageSectionId.MASTER_PAGE_SEPERATOR_1, seperatorSection1);
 
-		final UnitPropertyDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.WIDTH_PROP,
-				ReportDesignConstants.MASTER_PAGE_ELEMENT );
-		widthSection = new ComplexUnitSection( widthProvider.getDisplayName( ),
-				container,
-				true );
-		widthSection.setProvider( widthProvider );
-		widthSection.setWidth( 200 );
-		widthSection.setLayoutNum( 2 );
-		addSection( PageSectionId.MASTER_PAGE_WIDTH, widthSection );
+		final UnitPropertyDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider(
+				MasterPageHandle.WIDTH_PROP, ReportDesignConstants.MASTER_PAGE_ELEMENT);
+		widthSection = new ComplexUnitSection(widthProvider.getDisplayName(), container, true);
+		widthSection.setProvider(widthProvider);
+		widthSection.setWidth(200);
+		widthSection.setLayoutNum(2);
+		addSection(PageSectionId.MASTER_PAGE_WIDTH, widthSection);
 
-		final UnitPropertyDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( MasterPageHandle.HEIGHT_PROP,
-				ReportDesignConstants.MASTER_PAGE_ELEMENT );
+		final UnitPropertyDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider(
+				MasterPageHandle.HEIGHT_PROP, ReportDesignConstants.MASTER_PAGE_ELEMENT);
 
-		typeProvider = new ComboPropertyDescriptorProvider( MasterPageHandle.TYPE_PROP,
-				ReportDesignConstants.MASTER_PAGE_ELEMENT ) {
+		typeProvider = new ComboPropertyDescriptorProvider(MasterPageHandle.TYPE_PROP,
+				ReportDesignConstants.MASTER_PAGE_ELEMENT) {
 
-			public void save( Object value ) throws SemanticException
-			{
-				if ( DesignChoiceConstants.PAGE_SIZE_CUSTOM.equals( getSaveValue( value ) ) )
-				{
-					CommandStack stack = SessionHandleAdapter.getInstance( )
-							.getCommandStack( );
-					stack.startTrans( Messages.getString( "MasterPageGeneralPage.Trans.SetType" ) ); //$NON-NLS-1$
-					Object width = widthProvider.load( );
-					Object height = heightProvider.load( );
-					super.save( value );
-					widthProvider.save( width );
-					heightProvider.save( height );
-					stack.commit( );
-				}
-				else
-				{
-					super.save( value );
+			public void save(Object value) throws SemanticException {
+				if (DesignChoiceConstants.PAGE_SIZE_CUSTOM.equals(getSaveValue(value))) {
+					CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+					stack.startTrans(Messages.getString("MasterPageGeneralPage.Trans.SetType")); //$NON-NLS-1$
+					Object width = widthProvider.load();
+					Object height = heightProvider.load();
+					super.save(value);
+					widthProvider.save(width);
+					heightProvider.save(height);
+					stack.commit();
+				} else {
+					super.save(value);
 				}
 			}
 		};
-		ComboSection typeSection = new ComboSection( typeProvider.getDisplayName( ),
-				container,
-				true );
-		typeSection.setProvider( typeProvider );
-		typeSection.setGridPlaceholder( 2, true );
-		typeSection.setLayoutNum( 4 );
-		typeSection.setWidth( 200 );
-		addSection( PageSectionId.MASTER_PAGE_TYPE, typeSection );
+		ComboSection typeSection = new ComboSection(typeProvider.getDisplayName(), container, true);
+		typeSection.setProvider(typeProvider);
+		typeSection.setGridPlaceholder(2, true);
+		typeSection.setLayoutNum(4);
+		typeSection.setWidth(200);
+		addSection(PageSectionId.MASTER_PAGE_TYPE, typeSection);
 
-		heightSection = new ComplexUnitSection( heightProvider.getDisplayName( ),
-				container,
-				true );
-		heightSection.setProvider( heightProvider );
-		heightSection.setWidth( 200 );
-		heightSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.MASTER_PAGE_HEIGHT, heightSection );
+		heightSection = new ComplexUnitSection(heightProvider.getDisplayName(), container, true);
+		heightSection.setProvider(heightProvider);
+		heightSection.setWidth(200);
+		heightSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.MASTER_PAGE_HEIGHT, heightSection);
 
 		// WidgetUtil.buildGridControl( container, propertiesMap,
 		// ReportDesignConstants.MASTER_PAGE_ELEMENT,
@@ -172,20 +149,18 @@ public class MasterPageGeneralPage extends GeneralPage
 
 		/*
 		 * WidgetUtil.buildGridControl( container, propertiesMap,
-		 * ReportDesignConstants.MASTER_PAGE_ELEMENT,
-		 * MasterPageHandle.ORIENTATION_PROP, 1, false );
+		 * ReportDesignConstants.MASTER_PAGE_ELEMENT, MasterPageHandle.ORIENTATION_PROP,
+		 * 1, false );
 		 * 
-		 * Label separator = new Label( container, SWT.SEPARATOR |
-		 * SWT.HORIZONTAL ); GridData data = new GridData( );
-		 * data.horizontalSpan = 5; data.grabExcessHorizontalSpace = false;
-		 * data.horizontalAlignment = GridData.FILL; separator.setLayoutData(
-		 * data );
+		 * Label separator = new Label( container, SWT.SEPARATOR | SWT.HORIZONTAL );
+		 * GridData data = new GridData( ); data.horizontalSpan = 5;
+		 * data.grabExcessHorizontalSpace = false; data.horizontalAlignment =
+		 * GridData.FILL; separator.setLayoutData( data );
 		 * 
 		 * WidgetUtil.buildGridControl( container, propertiesMap,
-		 * ReportDesignConstants.MASTER_PAGE_ELEMENT,
-		 * MasterPageHandle.TYPE_PROP, 1, false ); pageSizeDescriptor =
-		 * (IPropertyDescriptor) propertiesMap.get( MasterPageHandle.TYPE_PROP
-		 * );
+		 * ReportDesignConstants.MASTER_PAGE_ELEMENT, MasterPageHandle.TYPE_PROP, 1,
+		 * false ); pageSizeDescriptor = (IPropertyDescriptor) propertiesMap.get(
+		 * MasterPageHandle.TYPE_PROP );
 		 * 
 		 * WidgetUtil.createGridPlaceholder( container, 3, false );
 		 * 
@@ -199,49 +174,33 @@ public class MasterPageGeneralPage extends GeneralPage
 		 */
 	}
 
-	public void refresh( )
-	{
-		super.refresh( );
-		resetCustomStyle( );
+	public void refresh() {
+		super.refresh();
+		resetCustomStyle();
 	}
 
-	private boolean checkControl( )
-	{
-		return widthSection != null
-				&& widthSection.getUnitComboControl( ) != null
-				&& !widthSection.getUnitComboControl( )
-						.getControl( )
-						.isDisposed( );
+	private boolean checkControl() {
+		return widthSection != null && widthSection.getUnitComboControl() != null
+				&& !widthSection.getUnitComboControl().getControl().isDisposed();
 	}
 
-	private void resetCustomStyle( )
-	{
-		if ( checkControl( ) )
-		{
-			if ( !typeProvider.load( )
-					.equals( DesignChoiceConstants.PAGE_SIZE_CUSTOM ) )
-			{
-				widthSection.getUnitComboControl( ).setReadOnly( true );
-				heightSection.getUnitComboControl( ).setReadOnly( true );
-				orientationSection.getComboControl( )
-						.getControl( )
-						.setEnabled( true );
-			}
-			else
-			{
-				widthSection.getUnitComboControl( ).setReadOnly( false );
-				heightSection.getUnitComboControl( ).setReadOnly( false );
-				orientationSection.getComboControl( )
-						.getControl( )
-						.setEnabled( false );
+	private void resetCustomStyle() {
+		if (checkControl()) {
+			if (!typeProvider.load().equals(DesignChoiceConstants.PAGE_SIZE_CUSTOM)) {
+				widthSection.getUnitComboControl().setReadOnly(true);
+				heightSection.getUnitComboControl().setReadOnly(true);
+				orientationSection.getComboControl().getControl().setEnabled(true);
+			} else {
+				widthSection.getUnitComboControl().setReadOnly(false);
+				heightSection.getUnitComboControl().setReadOnly(false);
+				orientationSection.getComboControl().getControl().setEnabled(false);
 			}
 		}
 	}
 
-	public void postElementEvent( )
-	{
-		super.postElementEvent( );
-		resetCustomStyle( );
+	public void postElementEvent() {
+		super.postElementEvent();
+		resetCustomStyle();
 	}
 
 }

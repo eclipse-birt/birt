@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IExtendedItem;
  * 
  */
 
-public class ExtendedItem extends ReportItem implements IExtendedItem
-{
+public class ExtendedItem extends ReportItem implements IExtendedItem {
 
 	/**
 	 * Constructor.
@@ -27,9 +26,8 @@ public class ExtendedItem extends ReportItem implements IExtendedItem
 	 * @param handle
 	 */
 
-	public ExtendedItem( ReportItemHandle handle )
-	{
-		super( handle );
+	public ExtendedItem(ReportItemHandle handle) {
+		super(handle);
 	}
 
 }

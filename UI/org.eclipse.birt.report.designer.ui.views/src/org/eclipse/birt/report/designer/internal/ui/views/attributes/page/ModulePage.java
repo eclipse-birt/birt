@@ -25,73 +25,58 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The general attribute page of Module element.
  */
-public abstract class ModulePage extends AttributePage
-{
+public abstract class ModulePage extends AttributePage {
 
 	public abstract String getElementType();
-	
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 4,15 ) );
 
-		TextPropertyDescriptorProvider authorProvider = new TextPropertyDescriptorProvider( ModuleHandle.AUTHOR_PROP,
-				ReportDesignConstants.MODULE_ELEMENT );
-		TextSection authorSection = new TextSection( authorProvider.getDisplayName( ),
-				container,
-				true );
-		authorSection.setProvider( authorProvider );
-		authorSection.setWidth( 500 );
-		authorSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.MODULE_AUTHOR, authorSection );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(4, 15));
 
-		TextPropertyDescriptorProvider createdByProvider = new TextPropertyDescriptorProvider( ModuleHandle.CREATED_BY_PROP,
-				getElementType() );
-		TextSection createdBySection = new TextSection( createdByProvider.getDisplayName( ),
-				container,
-				true );
-		createdBySection.setProvider( createdByProvider );
-		createdBySection.setWidth( 500 );
-		createdBySection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.MODULE_CREATED_BY, createdBySection );
+		TextPropertyDescriptorProvider authorProvider = new TextPropertyDescriptorProvider(ModuleHandle.AUTHOR_PROP,
+				ReportDesignConstants.MODULE_ELEMENT);
+		TextSection authorSection = new TextSection(authorProvider.getDisplayName(), container, true);
+		authorSection.setProvider(authorProvider);
+		authorSection.setWidth(500);
+		authorSection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.MODULE_AUTHOR, authorSection);
 
-		PathDescriptorProvider pathProvider = new PathDescriptorProvider( );
-		TextSection pathSection = new TextSection( pathProvider.getDisplayName( ),
-				container,
-				true );
-		pathSection.setProvider( pathProvider );
-		pathSection.setWidth( 500 );
-		pathSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.MODULE_PATH, pathSection );
+		TextPropertyDescriptorProvider createdByProvider = new TextPropertyDescriptorProvider(
+				ModuleHandle.CREATED_BY_PROP, getElementType());
+		TextSection createdBySection = new TextSection(createdByProvider.getDisplayName(), container, true);
+		createdBySection.setProvider(createdByProvider);
+		createdBySection.setWidth(500);
+		createdBySection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.MODULE_CREATED_BY, createdBySection);
 
-		TextPropertyDescriptorProvider titleProvider = new TextPropertyDescriptorProvider( ModuleHandle.TITLE_PROP,
-				ReportDesignConstants.MODULE_ELEMENT );
-		TextSection titleSection = new TextSection( titleProvider.getDisplayName( ),
-				container,
-				true );
-		titleSection.setProvider( titleProvider );
-		titleSection.setWidth( 500 );
-		titleSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.MODULE_TITLE, titleSection );
+		PathDescriptorProvider pathProvider = new PathDescriptorProvider();
+		TextSection pathSection = new TextSection(pathProvider.getDisplayName(), container, true);
+		pathSection.setProvider(pathProvider);
+		pathSection.setWidth(500);
+		pathSection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.MODULE_PATH, pathSection);
 
+		TextPropertyDescriptorProvider titleProvider = new TextPropertyDescriptorProvider(ModuleHandle.TITLE_PROP,
+				ReportDesignConstants.MODULE_ELEMENT);
+		TextSection titleSection = new TextSection(titleProvider.getDisplayName(), container, true);
+		titleSection.setProvider(titleProvider);
+		titleSection.setWidth(500);
+		titleSection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.MODULE_TITLE, titleSection);
 
-		SeperatorSection seperatorSection = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( PageSectionId.MODULE_SEPERATOR, seperatorSection );
+		SeperatorSection seperatorSection = new SeperatorSection(container, SWT.HORIZONTAL);
+		addSection(PageSectionId.MODULE_SEPERATOR, seperatorSection);
 
-		SimpleComboPropertyDescriptorProvider themeProvider = new SimpleComboPropertyDescriptorProvider( ModuleHandle.THEME_PROP,
-				getElementType() );
-		SimpleComboSection themeSection = new SimpleComboSection( themeProvider.getDisplayName( ),
-				container,
-				true );
-		themeSection.setProvider( themeProvider );
-		themeSection.setWidth( 500 );
-		themeSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.MODULE_THEME, themeSection );
+		SimpleComboPropertyDescriptorProvider themeProvider = new SimpleComboPropertyDescriptorProvider(
+				ModuleHandle.THEME_PROP, getElementType());
+		SimpleComboSection themeSection = new SimpleComboSection(themeProvider.getDisplayName(), container, true);
+		themeSection.setProvider(themeProvider);
+		themeSection.setWidth(500);
+		themeSection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.MODULE_THEME, themeSection);
 
-
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 
 }

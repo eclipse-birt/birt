@@ -35,70 +35,57 @@ import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
  * When convert oda data set parameter to ROM data set parameter. Default values
  * are kept
  */
-public class Regression_155356 extends BaseTestCase
-{
+public class Regression_155356 extends BaseTestCase {
 
 	private String filename = "Regression_155356.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 * @throws Exception
 	 */
-	public void test_regression_155356( ) throws DesignFileException,
-			SemanticException
-	{
-		openDesign( filename );
-		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle
-				.findDataSet( "myDataSet1" ); //$NON-NLS-1$
+	public void test_regression_155356() throws DesignFileException, SemanticException {
+		openDesign(filename);
+		OdaDataSetHandle setHandle = (OdaDataSetHandle) designHandle.findDataSet("myDataSet1"); //$NON-NLS-1$
 
-		DataSetDesign setDesign = new ModelOdaAdapter( )
-				.createDataSetDesign( setHandle );
+		DataSetDesign setDesign = new ModelOdaAdapter().createDataSetDesign(setHandle);
 
 		// oda data set design changed, update ROM values. still keep report
 		// parameter link.
 
-		DataSetParameters params = setDesign.getParameters( );
-		ParameterDefinition param = (ParameterDefinition) params
-				.getParameterDefinitions( )
-				.get( 0 );
-		updateParameterDefinition1( param );
+		DataSetParameters params = setDesign.getParameters();
+		ParameterDefinition param = (ParameterDefinition) params.getParameterDefinitions().get(0);
+		updateParameterDefinition1(param);
 
-		new ModelOdaAdapter( )
-				.updateDataSetHandle( setDesign, setHandle, false );
+		new ModelOdaAdapter().updateDataSetHandle(setDesign, setHandle, false);
 
-		OdaDataSetParameterHandle p = (OdaDataSetParameterHandle) setHandle
-				.parametersIterator( )
-				.next( );
-		//user-define parameter value won't change according to the new algorithm
-		
+		OdaDataSetParameterHandle p = (OdaDataSetParameterHandle) setHandle.parametersIterator().next();
+		// user-define parameter value won't change according to the new algorithm
+
 		// Method setDefaultScalarValue() does update parameter's default value.
 		// Do not understand this case, so comment it.
 		// assertEquals( "expression", p.getDefaultValue( ) ); //$NON-NLS-1$
 
 	}
 
-	private void updateParameterDefinition1( ParameterDefinition param )
-	{
-		DataElementAttributes dataAttrs = param.getAttributes( );
-		dataAttrs.setNullability( ElementNullability
-				.get( ElementNullability.NOT_NULLABLE ) );
+	private void updateParameterDefinition1(ParameterDefinition param) {
+		DataElementAttributes dataAttrs = param.getAttributes();
+		dataAttrs.setNullability(ElementNullability.get(ElementNullability.NOT_NULLABLE));
 
-		InputParameterAttributes paramAttrs = param.getInputAttributes( );
-		InputElementAttributes elementAttrs = paramAttrs.getElementAttributes( );
+		InputParameterAttributes paramAttrs = param.getInputAttributes();
+		InputElementAttributes elementAttrs = paramAttrs.getElementAttributes();
 
-		elementAttrs.setDefaultScalarValue( "default value" ); //$NON-NLS-1$
-		elementAttrs.setOptional( true );
+		elementAttrs.setDefaultScalarValue("default value"); //$NON-NLS-1$
+		elementAttrs.setOptional(true);
 	}
 }

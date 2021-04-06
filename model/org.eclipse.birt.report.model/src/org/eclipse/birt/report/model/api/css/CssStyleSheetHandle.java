@@ -29,8 +29,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
  * @see org.eclipse.birt.report.model.css.CssStyleSheet
  */
 
-public class CssStyleSheetHandle extends ElementDetailHandle
-{
+public class CssStyleSheetHandle extends ElementDetailHandle {
 
 	/**
 	 * The translation message.
@@ -41,16 +40,12 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	/**
 	 * Constructs a handle for an style sheet.
 	 * 
-	 * @param moduleHandle
-	 *            a handle to a module
-	 * @param styleSheet
-	 *            the style sheet to be handled
+	 * @param moduleHandle a handle to a module
+	 * @param styleSheet   the style sheet to be handled
 	 */
 
-	public CssStyleSheetHandle( ModuleHandle moduleHandle,
-			CssStyleSheet styleSheet )
-	{
-		super( moduleHandle );
+	public CssStyleSheetHandle(ModuleHandle moduleHandle, CssStyleSheet styleSheet) {
+		super(moduleHandle);
 
 		assert styleSheet != null;
 		this.styleSheet = styleSheet;
@@ -62,8 +57,7 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the style sheet
 	 */
 
-	public CssStyleSheet getStyleSheet( )
-	{
+	public CssStyleSheet getStyleSheet() {
 		return styleSheet;
 	}
 
@@ -71,31 +65,28 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * Returns an iterator over the styles of this style sheet. Useful only for
 	 * style sheet. Returns a list of all the styles that use this style sheet.
 	 * 
-	 * @return an iterator over the styles of this style sheet. Each item
-	 *         returned by the iterator's <code>getNext( )</code> method is of
-	 *         type {@link SharedStyleHandle}.
+	 * @return an iterator over the styles of this style sheet. Each item returned
+	 *         by the iterator's <code>getNext( )</code> method is of type
+	 *         {@link SharedStyleHandle}.
 	 */
 
-	public Iterator getStyleIterator( )
-	{
-		return new StyleIterator( this );
+	public Iterator getStyleIterator() {
+		return new StyleIterator(this);
 	}
 
 	/**
 	 * Gets a style handle with the given name in the style sheet.
 	 * 
-	 * @param name
-	 *            the name of the style to find
-	 * @return the style handle with the given name in the style sheet,
-	 *         otherwise <code>null</code>
+	 * @param name the name of the style to find
+	 * @return the style handle with the given name in the style sheet, otherwise
+	 *         <code>null</code>
 	 */
 
-	public SharedStyleHandle findStyle( String name )
-	{
-		StyleElement style = styleSheet.findStyle( name );
-		if ( style == null )
+	public SharedStyleHandle findStyle(String name) {
+		StyleElement style = styleSheet.findStyle(name);
+		if (style == null)
 			return null;
-		return (SharedStyleHandle) style.getHandle( getModule( ) );
+		return (SharedStyleHandle) style.getHandle(getModule());
 	}
 
 	/**
@@ -104,24 +95,21 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the list of the unsupported style name
 	 */
 
-	public List getUnsupportedStyles( )
-	{
-		return styleSheet.getUnsupportedStyle( );
+	public List getUnsupportedStyles() {
+		return styleSheet.getUnsupportedStyle();
 	}
 
 	/**
-	 * Gets the warning list of the given style. Each one in the list is
-	 * instance of <code>StyleSheetParserException</code>.
+	 * Gets the warning list of the given style. Each one in the list is instance of
+	 * <code>StyleSheetParserException</code>.
 	 * 
-	 * @param styleName
-	 *            the style name
+	 * @param styleName the style name
 	 * @return the warning list of the given style, otherwise null
 	 * @see org.eclipse.birt.report.model.api.css.StyleSheetParserException
 	 */
 
-	public List getWarnings( String styleName )
-	{
-		return styleSheet.getWarnings( styleName );
+	public List getWarnings(String styleName) {
+		return styleSheet.getWarnings(styleName);
 	}
 
 	/**
@@ -130,9 +118,8 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the message list for the parser errors
 	 */
 
-	public List getParserErrors( )
-	{
-		return styleSheet.getErrorHandler( ).getParserErrors( );
+	public List getParserErrors() {
+		return styleSheet.getErrorHandler().getParserErrors();
 	}
 
 	/**
@@ -141,9 +128,8 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the message list for the parser fatal errors
 	 */
 
-	public List getParserFatalErrors( )
-	{
-		return styleSheet.getErrorHandler( ).getParserFatalErrors( );
+	public List getParserFatalErrors() {
+		return styleSheet.getErrorHandler().getParserFatalErrors();
 	}
 
 	/**
@@ -152,9 +138,8 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return the message list for the parser warnings
 	 */
 
-	public List getParserWarnings( )
-	{
-		return styleSheet.getErrorHandler( ).getParserWarnings( );
+	public List getParserWarnings() {
+		return styleSheet.getErrorHandler().getParserWarnings();
 	}
 
 	/**
@@ -163,19 +148,16 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return css file name
 	 */
 
-	public String getFileName( )
-	{
-		return styleSheet.getFileName( );
+	public String getFileName() {
+		return styleSheet.getFileName();
 	}
 
-	public String getExternalCssURI( )
-	{
-		return styleSheet.getExternalCssURI( );
+	public String getExternalCssURI() {
+		return styleSheet.getExternalCssURI();
 	}
 
-	public boolean isUseExternalCss( )
-	{
-		return styleSheet.isUseExternalCss( );
+	public boolean isUseExternalCss() {
+		return styleSheet.isUseExternalCss();
 	}
 
 	/**
@@ -184,11 +166,10 @@ public class CssStyleSheetHandle extends ElementDetailHandle
 	 * @return
 	 */
 
-	public DesignElementHandle getContainerHandle( )
-	{
-		DesignElement tmpElement =  styleSheet.getContainer( );
-		if(  tmpElement == null )
+	public DesignElementHandle getContainerHandle() {
+		DesignElement tmpElement = styleSheet.getContainer();
+		if (tmpElement == null)
 			return null;
-		return tmpElement.getHandle( elementHandle.getModule( ) );
+		return tmpElement.getHandle(elementHandle.getModule());
 	}
 }

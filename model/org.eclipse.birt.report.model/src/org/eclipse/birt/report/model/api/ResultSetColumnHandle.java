@@ -32,57 +32,49 @@ import org.eclipse.birt.report.model.core.StructureContext;
  * 
  */
 
-public class ResultSetColumnHandle extends StructureHandle
-{
+public class ResultSetColumnHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of result set column.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for result set column list of one property
-	 * @param index
-	 *            the position of this result set column in the list
+	 * @param valueHandle the value handle for result set column list of one
+	 *                    property
+	 * @param index       the position of this result set column in the list
 	 */
 
-	public ResultSetColumnHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public ResultSetColumnHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
-	public ResultSetColumnHandle( DesignElementHandle element,
-			StructureContext context )
-	{
-		super( element, context );
+	public ResultSetColumnHandle(DesignElementHandle element, StructureContext context) {
+		super(element, context);
 	}
+
 	/**
 	 * Returns the column name.
 	 * 
 	 * @return the column name
 	 */
 
-	public String getColumnName( )
-	{
-		return getStringProperty( ResultSetColumn.NAME_MEMBER );
+	public String getColumnName() {
+		return getStringProperty(ResultSetColumn.NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the column name.
 	 * 
-	 * @param columnName
-	 *            the column name to set
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param columnName the column name to set
+	 * @throws SemanticException value required exception
 	 */
 
-	public void setColumnName( String columnName ) throws SemanticException
-	{
-		setProperty( ResultSetColumn.NAME_MEMBER, columnName );
+	public void setColumnName(String columnName) throws SemanticException {
+		setProperty(ResultSetColumn.NAME_MEMBER, columnName);
 	}
 
 	/**
 	 * Returns the data type of this column. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -97,15 +89,14 @@ public class ResultSetColumnHandle extends StructureHandle
 	 * @return the data type of this column.
 	 */
 
-	public String getDataType( )
-	{
-		return getStringProperty( ResultSetColumn.DATA_TYPE_MEMBER );
+	public String getDataType() {
+		return getStringProperty(ResultSetColumn.DATA_TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the data type of this column. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -117,15 +108,12 @@ public class ResultSetColumnHandle extends StructureHandle
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
 	 * 
-	 * @param dataType
-	 *            the data type to set
-	 * @throws SemanticException
-	 *             if the dataType is not in the choice list.
+	 * @param dataType the data type to set
+	 * @throws SemanticException if the dataType is not in the choice list.
 	 */
 
-	public void setDataType( String dataType ) throws SemanticException
-	{
-		setProperty( ResultSetColumn.DATA_TYPE_MEMBER, dataType );
+	public void setDataType(String dataType) throws SemanticException {
+		setProperty(ResultSetColumn.DATA_TYPE_MEMBER, dataType);
 	}
 
 	/**
@@ -134,21 +122,18 @@ public class ResultSetColumnHandle extends StructureHandle
 	 * @return the position that this column is in the result set.
 	 */
 
-	public Integer getPosition( )
-	{
-		return (Integer) getProperty( ResultSetColumn.POSITION_MEMBER );
+	public Integer getPosition() {
+		return (Integer) getProperty(ResultSetColumn.POSITION_MEMBER);
 	}
 
 	/**
 	 * Sets the position that this column is in the result set.
 	 * 
-	 * @param position
-	 *            the position to set
+	 * @param position the position to set
 	 */
 
-	public void setPosition( Integer position )
-	{
-		setPropertySilently( ResultSetColumn.POSITION_MEMBER, position );
+	public void setPosition(Integer position) {
+		setPropertySilently(ResultSetColumn.POSITION_MEMBER, position);
 	}
 
 	/**
@@ -157,20 +142,17 @@ public class ResultSetColumnHandle extends StructureHandle
 	 * @return the result set column native data type.
 	 */
 
-	public Integer getNativeDataType( )
-	{
-		return (Integer) getProperty( ResultSetColumn.NATIVE_DATA_TYPE_MEMBER );
+	public Integer getNativeDataType() {
+		return (Integer) getProperty(ResultSetColumn.NATIVE_DATA_TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the result set column native data type.
 	 * 
-	 * @param dataType
-	 *            the native data type to set.
+	 * @param dataType the native data type to set.
 	 */
 
-	public void setNativeDataType( Integer dataType )
-	{
-		setPropertySilently( ResultSetColumn.NATIVE_DATA_TYPE_MEMBER, dataType );
+	public void setNativeDataType(Integer dataType) {
+		setPropertySilently(ResultSetColumn.NATIVE_DATA_TYPE_MEMBER, dataType);
 	}
 }

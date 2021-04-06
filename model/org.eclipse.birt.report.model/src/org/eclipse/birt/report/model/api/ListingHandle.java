@@ -37,107 +37,95 @@ import org.eclipse.birt.report.model.elements.interfaces.IListingElementModel;
  * @see SlotHandle
  */
 
-public abstract class ListingHandle extends ReportItemHandle
-		implements
-			IListingElementModel
-{
+public abstract class ListingHandle extends ReportItemHandle implements IListingElementModel {
 
 	/**
 	 * Constructs a listing handle with the given design and the element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public ListingHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public ListingHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
-	 * Returns the header slot. The header slot represents subsections that
-	 * print at the start of the listing.
+	 * Returns the header slot. The header slot represents subsections that print at
+	 * the start of the listing.
 	 * 
 	 * @return a handle to the header slot
 	 */
 
-	public SlotHandle getHeader( )
-	{
-		return getSlot( IListingElementModel.HEADER_SLOT );
+	public SlotHandle getHeader() {
+		return getSlot(IListingElementModel.HEADER_SLOT);
 	}
 
 	/**
-	 * Returns the footer slot. The footer slot represents subsections that
-	 * print at the end of the listing.
+	 * Returns the footer slot. The footer slot represents subsections that print at
+	 * the end of the listing.
 	 * 
 	 * @return a handle to the footer slot
 	 */
 
-	public SlotHandle getFooter( )
-	{
-		return getSlot( IListingElementModel.FOOTER_SLOT );
+	public SlotHandle getFooter() {
+		return getSlot(IListingElementModel.FOOTER_SLOT);
 	}
 
 	/**
-	 * Returns the detail slot. The detail slot represents subsections that
-	 * print for each row in the data set.
+	 * Returns the detail slot. The detail slot represents subsections that print
+	 * for each row in the data set.
 	 * 
 	 * @return a handle to the detail slot
 	 */
 
-	public SlotHandle getDetail( )
-	{
-		return getSlot( IListingElementModel.DETAIL_SLOT );
+	public SlotHandle getDetail() {
+		return getSlot(IListingElementModel.DETAIL_SLOT);
 	}
 
 	/**
-	 * Returns the group slot. The group slot represents the grouping levels
-	 * within the report. Groups appear with the most general first, the most
-	 * detailed last.
+	 * Returns the group slot. The group slot represents the grouping levels within
+	 * the report. Groups appear with the most general first, the most detailed
+	 * last.
 	 * 
 	 * @return a handle to the group slot
 	 */
 
-	public SlotHandle getGroups( )
-	{
-		return getSlot( IListingElementModel.GROUP_SLOT );
+	public SlotHandle getGroups() {
+		return getSlot(IListingElementModel.GROUP_SLOT);
 	}
 
 	/**
-	 * Returns the iterator for sort list defined on a table or list. The
-	 * element in the iterator is the corresponding <code>StructureHandle</code>
-	 * that deal with a <code>SortKey</code> in the list.
+	 * Returns the iterator for sort list defined on a table or list. The element in
+	 * the iterator is the corresponding <code>StructureHandle</code> that deal with
+	 * a <code>SortKey</code> in the list.
 	 * 
 	 * @return the iterator for <code>SortKey</code> structure list defined on a
 	 *         table or list.
 	 */
 
-	public Iterator sortsIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( IListingElementModel.SORT_PROP );
+	public Iterator sortsIterator() {
+		PropertyHandle propHandle = getPropertyHandle(IListingElementModel.SORT_PROP);
 		assert propHandle != null;
-		return propHandle.iterator( );
+		return propHandle.iterator();
 	}
 
 	/**
-	 * Returns the iterator for filter list defined on a table or list. The
-	 * element in the iterator is the corresponding <code>StructureHandle</code>
-	 * that deal with a <code>FilterCond</code> in the list.
+	 * Returns the iterator for filter list defined on a table or list. The element
+	 * in the iterator is the corresponding <code>StructureHandle</code> that deal
+	 * with a <code>FilterCond</code> in the list.
 	 * 
-	 * @return the iterator for <code>FilterCond</code> structure list defined
-	 *         on a table or list.
+	 * @return the iterator for <code>FilterCond</code> structure list defined on a
+	 *         table or list.
 	 */
 
 	@SuppressWarnings("unchecked")
-	public Iterator<FilterConditionHandle> filtersIterator()
-	{
-		PropertyHandle propHandle = getPropertyHandle( IListingElementModel.FILTER_PROP );
+	public Iterator<FilterConditionHandle> filtersIterator() {
+		PropertyHandle propHandle = getPropertyHandle(IListingElementModel.FILTER_PROP);
 		assert propHandle != null;
-		return propHandle.iterator( );
+		return propHandle.iterator();
 	}
 
 	/**
@@ -146,25 +134,19 @@ public abstract class ListingHandle extends ReportItemHandle
 	 * @return the page break interval value
 	 */
 
-	public int getPageBreakInterval( )
-	{
-		return getIntProperty( IListingElementModel.PAGE_BREAK_INTERVAL_PROP );
+	public int getPageBreakInterval() {
+		return getIntProperty(IListingElementModel.PAGE_BREAK_INTERVAL_PROP);
 	}
 
 	/**
 	 * Sets the page break interval value
 	 * 
-	 * @param pageBreakInterval
-	 *            the page break interval
-	 * @throws SemanticException
-	 *             if the parameter is not a valid integer
+	 * @param pageBreakInterval the page break interval
+	 * @throws SemanticException if the parameter is not a valid integer
 	 */
 
-	public void setPageBreakInterval( int pageBreakInterval )
-			throws SemanticException
-	{
-		setProperty( PAGE_BREAK_INTERVAL_PROP, Integer
-				.valueOf( pageBreakInterval ) );
+	public void setPageBreakInterval(int pageBreakInterval) throws SemanticException {
+		setProperty(PAGE_BREAK_INTERVAL_PROP, Integer.valueOf(pageBreakInterval));
 	}
 
 	/**
@@ -174,49 +156,39 @@ public abstract class ListingHandle extends ReportItemHandle
 	 *         <code>false</code>.
 	 */
 
-	public boolean repeatHeader( )
-	{
-		return getBooleanProperty( REPEAT_HEADER_PROP );
+	public boolean repeatHeader() {
+		return getBooleanProperty(REPEAT_HEADER_PROP);
 	}
 
 	/**
 	 * Sets whether to repeat the headings at the top of each page.
 	 * 
-	 * @param value
-	 *            <code>true</code> if repeat the headings, otherwise
-	 *            <code>false</code>.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param value <code>true</code> if repeat the headings, otherwise
+	 *              <code>false</code>.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setRepeatHeader( boolean value ) throws SemanticException
-	{
-		setBooleanProperty( REPEAT_HEADER_PROP, value );
+	public void setRepeatHeader(boolean value) throws SemanticException {
+		setBooleanProperty(REPEAT_HEADER_PROP, value);
 	}
 
 	/**
-	 * Determines whether the result set of this element will be sorted by the
-	 * group keys.
+	 * Determines whether the result set of this element will be sorted by the group
+	 * keys.
 	 * 
 	 * @return true if sorted by the groups, otherwise false
 	 */
-	public boolean isSortByGroups( )
-	{
-		return getBooleanProperty( SORT_BY_GROUPS_PROP );
+	public boolean isSortByGroups() {
+		return getBooleanProperty(SORT_BY_GROUPS_PROP);
 	}
 
 	/**
-	 * Sets whether the result set of this element will be sorted by the group
-	 * keys.
+	 * Sets whether the result set of this element will be sorted by the group keys.
 	 * 
-	 * @param isSortByGroups
-	 *            true if sorted by the groups, otherwise false
-	 * @throws SemanticException
-	 *             if the property is locked
+	 * @param isSortByGroups true if sorted by the groups, otherwise false
+	 * @throws SemanticException if the property is locked
 	 */
-	public void setSortByGroups( boolean isSortByGroups )
-			throws SemanticException
-	{
-		setBooleanProperty( SORT_BY_GROUPS_PROP, isSortByGroups );
+	public void setSortByGroups(boolean isSortByGroups) throws SemanticException {
+		setBooleanProperty(SORT_BY_GROUPS_PROP, isSortByGroups);
 	}
 }

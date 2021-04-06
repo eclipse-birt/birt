@@ -13,18 +13,14 @@ package org.eclipse.birt.report.engine.executor;
 
 import org.eclipse.birt.report.engine.content.IContent;
 
+public class DummyItemExecutor extends ReportItemExecutor {
 
-public class DummyItemExecutor extends ReportItemExecutor
-{
-
-	protected DummyItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.DUMMYITEM );
+	protected DummyItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.DUMMYITEM);
 	}
 
-	public IContent execute( )
-	{
-		generateUniqueID( );
+	public IContent execute() {
+		generateUniqueID();
 		return null;
 	}
 }

@@ -16,14 +16,13 @@ package org.eclipse.birt.report.model.api.metadata;
  * data type, internal name, and display name.
  */
 
-public interface IArgumentInfo
-{
+public interface IArgumentInfo {
 
 	/**
-	 * Argument name for optional argument. The optional argument is used for
-	 * the method with variable argument. For example, concat( str1, ... ). The
-	 * argument is just an indication that it's optional, and takes information
-	 * from the previous one. Its display name is "...".
+	 * Argument name for optional argument. The optional argument is used for the
+	 * method with variable argument. For example, concat( str1, ... ). The argument
+	 * is just an indication that it's optional, and takes information from the
+	 * previous one. Its display name is "...".
 	 */
 
 	final public static String OPTIONAL_ARGUMENT_NAME = "optionalArgument"; //$NON-NLS-1$
@@ -34,16 +33,16 @@ public interface IArgumentInfo
 	 * @return the internal (non-localized) name for the argument
 	 */
 
-	public String getName( );
+	public String getName();
 
 	/**
-	 * Returns the display name for the property if the resource key of display
-	 * name is defined. Otherwise, return empty string.
+	 * Returns the display name for the property if the resource key of display name
+	 * is defined. Otherwise, return empty string.
 	 * 
 	 * @return the user-visible, localized display name for the property
 	 */
 
-	public String getDisplayName( );
+	public String getDisplayName();
 
 	/**
 	 * Returns the resource key for the display name.
@@ -51,7 +50,7 @@ public interface IArgumentInfo
 	 * @return The display name message ID.
 	 */
 
-	public String getDisplayNameKey( );
+	public String getDisplayNameKey();
 
 	/**
 	 * Returns the argument type in string.
@@ -59,7 +58,7 @@ public interface IArgumentInfo
 	 * @return the script type
 	 */
 
-	public String getType( );
+	public String getType();
 
 	/**
 	 * Returns the argument type in Class.
@@ -67,6 +66,6 @@ public interface IArgumentInfo
 	 * @return the argument type
 	 */
 
-	public IClassInfo getClassType( );
+	public IClassInfo getClassType();
 
 }

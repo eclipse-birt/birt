@@ -15,8 +15,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 import org.eclipse.birt.report.engine.api.DataSetID;
 import org.eclipse.birt.report.engine.api.InstanceID;
 
-public class QueryTask
-{
+public class QueryTask {
 
 	IDataQueryDefinition query;
 	DataSetID parent;
@@ -24,66 +23,53 @@ public class QueryTask
 	String cellId;
 	InstanceID iid;
 
-	public QueryTask( IDataQueryDefinition query, DataSetID parent, int rowId,
-			InstanceID iid )
-	{
+	public QueryTask(IDataQueryDefinition query, DataSetID parent, int rowId, InstanceID iid) {
 		this.query = query;
 		this.parent = parent;
 		this.rowId = rowId;
 		this.iid = iid;
 	}
 
-	public QueryTask( IDataQueryDefinition query, DataSetID parent, String cellId,
-			InstanceID iid )
-	{
+	public QueryTask(IDataQueryDefinition query, DataSetID parent, String cellId, InstanceID iid) {
 		this.query = query;
 		this.parent = parent;
 		this.cellId = cellId;
 		this.iid = iid;
 	}
 
-	public IDataQueryDefinition getQuery( )
-	{
+	public IDataQueryDefinition getQuery() {
 		return query;
 	}
 
-	public void setQuery( IDataQueryDefinition query )
-	{
+	public void setQuery(IDataQueryDefinition query) {
 		this.query = query;
 	}
 
-	public DataSetID getParent( )
-	{
+	public DataSetID getParent() {
 		return parent;
 	}
 
-	public void setParent( DataSetID parent )
-	{
+	public void setParent(DataSetID parent) {
 		this.parent = parent;
 	}
 
-	public int getRowID( )
-	{
+	public int getRowID() {
 		return rowId;
 	}
 
-	public void setRowID( int rowId )
-	{
+	public void setRowID(int rowId) {
 		this.rowId = rowId;
 	}
 
-	public InstanceID getInstanceID( )
-	{
+	public InstanceID getInstanceID() {
 		return iid;
 	}
 
-	public void setInstanceID( InstanceID iid )
-	{
+	public void setInstanceID(InstanceID iid) {
 		this.iid = iid;
 	}
-	
-	public String getCellID( )
-	{
+
+	public String getCellID() {
 		return cellId;
 	}
 }

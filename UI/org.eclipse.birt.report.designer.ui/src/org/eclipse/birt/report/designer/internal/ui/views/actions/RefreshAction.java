@@ -22,34 +22,28 @@ import org.eclipse.jface.viewers.TreeViewer;
 /**
  * Refresh action
  */
-public class RefreshAction extends AbstractViewerAction
-{
+public class RefreshAction extends AbstractViewerAction {
 
-	private static final String TEXT = Messages.getString( "RefreshAction.text" ); //$NON-NLS-1$
+	private static final String TEXT = Messages.getString("RefreshAction.text"); //$NON-NLS-1$
 
 	/**
 	 * Create a new refresh action with given selection and default text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
+	 * @param selectedObject the selected object,which cannot be null
 	 * 
 	 */
-	public RefreshAction( TreeViewer sourceViewer )
-	{
-		this( sourceViewer, TEXT );
+	public RefreshAction(TreeViewer sourceViewer) {
+		this(sourceViewer, TEXT);
 	}
 
 	/**
 	 * Create a new refresh action with given selection and text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
-	 * @param text
-	 *            the text of the action
+	 * @param selectedObject the selected object,which cannot be null
+	 * @param text           the text of the action
 	 */
-	public RefreshAction( TreeViewer sourceViewer, String text )
-	{
-		super( sourceViewer, text );
+	public RefreshAction(TreeViewer sourceViewer, String text) {
+		super(sourceViewer, text);
 	}
 
 	/*
@@ -57,16 +51,13 @@ public class RefreshAction extends AbstractViewerAction
 	 * 
 	 * @see org.eclipse.jface.action.IAction#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		if (!(getSelection( ) instanceof TreeViewer))
-		{
+	public boolean isEnabled() {
+		if (!(getSelection() instanceof TreeViewer)) {
 			return false;
 		}
-		
-		Object obj = getSelectedObjects( ).getFirstElement( );
-		if ( obj instanceof DataSetHandle )
-		{
+
+		Object obj = getSelectedObjects().getFirstElement();
+		if (obj instanceof DataSetHandle) {
 			return true;
 		}
 		return false;
@@ -77,24 +68,18 @@ public class RefreshAction extends AbstractViewerAction
 	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Refresh action >> Refresh " + getSourceViewer( ) ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Refresh action >> Refresh " + getSourceViewer()); //$NON-NLS-1$
 		}
-		if ( isEnabled( ) )
-		{
-			DataSetHandle handle = (DataSetHandle) getSelectedObjects( ).getFirstElement( );
-			try
-			{
-				DataSetUIUtil.updateColumnCacheAfterCleanRs( handle );
+		if (isEnabled()) {
+			DataSetHandle handle = (DataSetHandle) getSelectedObjects().getFirstElement();
+			try {
+				DataSetUIUtil.updateColumnCacheAfterCleanRs(handle);
+			} catch (SemanticException e) {
+				ExceptionHandler.handle(e);
 			}
-			catch ( SemanticException e )
-			{
-				ExceptionHandler.handle( e );
-			}
-			getSourceViewer( ).refresh( handle );
+			getSourceViewer().refresh(handle);
 		}
 	}
 }

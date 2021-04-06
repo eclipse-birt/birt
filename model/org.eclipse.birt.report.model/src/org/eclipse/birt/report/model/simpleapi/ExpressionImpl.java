@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IExpressionType;
  *
  */
 
-public class ExpressionImpl implements IExpression
-{
+public class ExpressionImpl implements IExpression {
 
 	private ExpressionHandle exprHandle = null;
 
@@ -34,8 +33,7 @@ public class ExpressionImpl implements IExpression
 	 * @param expr
 	 */
 
-	public ExpressionImpl( Expression expr )
-	{
+	public ExpressionImpl(Expression expr) {
 		this.expr = expr;
 	}
 
@@ -45,24 +43,21 @@ public class ExpressionImpl implements IExpression
 	 * @param exprHandle
 	 */
 
-	ExpressionImpl( ExpressionHandle exprHandle )
-	{
+	ExpressionImpl(ExpressionHandle exprHandle) {
 		this.exprHandle = exprHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IExpression#getExpression()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#getExpression()
 	 */
 
-	public Object getExpression( )
-	{
-		if ( exprHandle != null )
-			return exprHandle.getExpression( );
-		else if ( expr != null )
-			return expr.getExpression( );
+	public Object getExpression() {
+		if (exprHandle != null)
+			return exprHandle.getExpression();
+		else if (expr != null)
+			return expr.getExpression();
 
 		return null;
 	}
@@ -72,12 +67,11 @@ public class ExpressionImpl implements IExpression
 	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#getType()
 	 */
-	public String getType( )
-	{
-		if ( exprHandle != null )
-			return exprHandle.getType( );
-		else if ( expr != null )
-			return expr.getType( );
+	public String getType() {
+		if (exprHandle != null)
+			return exprHandle.getType();
+		else if (expr != null)
+			return expr.getType();
 
 		return null;
 	}
@@ -85,32 +79,28 @@ public class ExpressionImpl implements IExpression
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IExpression#setExpression
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#setExpression
 	 * (java.lang.Object)
 	 */
 
-	public void setExpression( Object value ) throws SemanticException
-	{
-		if ( exprHandle != null )
-			exprHandle.setExpression( value );
-		else if ( expr != null )
-			expr = new Expression( value, expr.getType( ) );
+	public void setExpression(Object value) throws SemanticException {
+		if (exprHandle != null)
+			exprHandle.setExpression(value);
+		else if (expr != null)
+			expr = new Expression(value, expr.getType());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IExpression#setType(java.
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#setType(java.
 	 * lang.String)
 	 */
-	public void setType( String type ) throws SemanticException
-	{
-		if ( exprHandle != null )
-			exprHandle.setType( type );
-		else if ( expr != null )
-			expr = new Expression( expr.getExpression( ), type );
+	public void setType(String type) throws SemanticException {
+		if (exprHandle != null)
+			exprHandle.setType(type);
+		else if (expr != null)
+			expr = new Expression(expr.getExpression(), type);
 	}
 
 	/*
@@ -119,9 +109,8 @@ public class ExpressionImpl implements IExpression
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IExpression#getTypes()
 	 */
 
-	public IExpressionType getTypes( )
-	{
-		return ExpressionTypeImpl.getInstance( );
+	public IExpressionType getTypes() {
+		return ExpressionTypeImpl.getInstance();
 	}
 
 }

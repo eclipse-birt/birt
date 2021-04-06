@@ -17,26 +17,22 @@ import org.eclipse.birt.report.model.elements.Library;
  * Represents the writer for writing library file.
  */
 
-public class LibraryWriter extends LibraryWriterImpl
-{
+public class LibraryWriter extends LibraryWriterImpl {
 
 	/**
 	 * Contructs one library writer with the library instance.
 	 * 
-	 * @param library
-	 *            the library to write
+	 * @param library the library to write
 	 */
 
-	public LibraryWriter( Library library )
-	{
+	public LibraryWriter(Library library) {
 		this.library = library;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.elements.ElementVisitor#visitTheme(org.
+	 * @see org.eclipse.birt.report.model.elements.ElementVisitor#visitTheme(org.
 	 * eclipse.birt.report.model.elements.Theme)
 	 */
 }

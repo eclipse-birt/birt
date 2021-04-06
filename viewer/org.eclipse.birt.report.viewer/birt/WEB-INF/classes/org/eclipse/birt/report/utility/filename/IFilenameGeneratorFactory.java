@@ -15,12 +15,12 @@ import javax.servlet.ServletContext;
 /**
  * Factory interface for the implementors of IFilenameGenerator.
  */
-public interface IFilenameGeneratorFactory
-{
+public interface IFilenameGeneratorFactory {
 	/**
 	 * Returns an instance of IFilenameGenerator.
-	 * @param servletContext servlet context 
+	 * 
+	 * @param servletContext servlet context
 	 * @return instance of IFilenameGenerator
 	 */
-	public IFilenameGenerator createFilenameGenerator( ServletContext servletContext );
+	public IFilenameGenerator createFilenameGenerator(ServletContext servletContext);
 }

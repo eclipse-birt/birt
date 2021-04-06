@@ -26,19 +26,18 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * 
  */
 
-public class MapRule extends StyleRule
-{
+public class MapRule extends StyleRule {
 
 	/**
-	 * Name of the member variable that represents the non-localized text to
-	 * display when the rule "fires.".
+	 * Name of the member variable that represents the non-localized text to display
+	 * when the rule "fires.".
 	 */
 
 	public static final String DISPLAY_MEMBER = "display"; //$NON-NLS-1$
 
 	/**
-	 * Name of the member variable that represents the message ID for the
-	 * localized text to display when the rule "fires.".
+	 * Name of the member variable that represents the message ID for the localized
+	 * text to display when the rule "fires.".
 	 */
 
 	public static final String DISPLAY_ID_MEMBER = "displayID"; //$NON-NLS-1$
@@ -65,36 +64,27 @@ public class MapRule extends StyleRule
 	 * Default constructor.
 	 */
 
-	public MapRule( )
-	{
+	public MapRule() {
 	}
 
 	/**
 	 * Constructs the map rule with an operator and arguments, message id if the
-	 * display value is to be localized and display text if the display value is
-	 * not to be localized.
+	 * display value is to be localized and display text if the display value is not
+	 * to be localized.
 	 * 
-	 * @param op
-	 *            operator. One of the internal choice values identified in the
-	 *            meta-data dictionary
-	 * @param v1
-	 *            the comparison value expressions for operators that take one
-	 *            or two arguments (equals, like, between)
-	 * @param v2
-	 *            the second comparison value for operators that take two
-	 *            arguments (between)
-	 * @param testExpre
-	 *            the expression to check
-	 * @param id
-	 *            the message id if the display value is to be localized
-	 * @param disp
-	 *            the display text if the value is not localized
+	 * @param op        operator. One of the internal choice values identified in
+	 *                  the meta-data dictionary
+	 * @param v1        the comparison value expressions for operators that take one
+	 *                  or two arguments (equals, like, between)
+	 * @param v2        the second comparison value for operators that take two
+	 *                  arguments (between)
+	 * @param testExpre the expression to check
+	 * @param id        the message id if the display value is to be localized
+	 * @param disp      the display text if the value is not localized
 	 */
 
-	public MapRule( String op, String v1, String v2, String testExpre,
-			String id, String disp )
-	{
-		super( op, v1, v2, testExpre );
+	public MapRule(String op, String v1, String v2, String testExpre, String id, String disp) {
+		super(op, v1, v2, testExpre);
 		displayKey = id;
 		display = disp;
 
@@ -106,42 +96,42 @@ public class MapRule extends StyleRule
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertyStructure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.PropertyStructure#getIntrinsicProperty(
+	 * java.lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( DISPLAY_MEMBER.equals( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (DISPLAY_MEMBER.equals(propName))
 			return display;
-		else if ( DISPLAY_ID_MEMBER.equals( propName ) )
+		else if (DISPLAY_ID_MEMBER.equals(propName))
 			return displayKey;
 
-		return super.getIntrinsicProperty( propName );
+		return super.getIntrinsicProperty(propName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.PropertyStructure#setIntrinsicProperty(
+	 * java.lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( DISPLAY_MEMBER.equals( propName ) )
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (DISPLAY_MEMBER.equals(propName))
 			display = (String) value;
-		else if ( DISPLAY_ID_MEMBER.equals( propName ) )
+		else if (DISPLAY_ID_MEMBER.equals(propName))
 			displayKey = (String) value;
 		else
-			super.setIntrinsicProperty( propName, value );
+			super.setIntrinsicProperty(propName, value);
 	}
 
 	/**
@@ -150,22 +140,19 @@ public class MapRule extends StyleRule
 	 * @return the message ID for the display text
 	 */
 
-	public String getDisplayKey( )
-	{
-		return (String) getProperty( null, DISPLAY_ID_MEMBER );
+	public String getDisplayKey() {
+		return (String) getProperty(null, DISPLAY_ID_MEMBER);
 	}
 
 	/**
-	 * Set the message ID for the text, the text is to be displayed when this
-	 * rule applies.
+	 * Set the message ID for the text, the text is to be displayed when this rule
+	 * applies.
 	 * 
-	 * @param displayKey
-	 *            the message ID for the text.
+	 * @param displayKey the message ID for the text.
 	 */
 
-	public void setDisplayKey( String displayKey )
-	{
-		setProperty( DISPLAY_ID_MEMBER, displayKey );
+	public void setDisplayKey(String displayKey) {
+		setProperty(DISPLAY_ID_MEMBER, displayKey);
 	}
 
 	/**
@@ -174,22 +161,19 @@ public class MapRule extends StyleRule
 	 * @return the non-localized display text
 	 */
 
-	public String getDisplay( )
-	{
-		return (String) getProperty( null, DISPLAY_MEMBER );
+	public String getDisplay() {
+		return (String) getProperty(null, DISPLAY_MEMBER);
 	}
 
 	/**
 	 * Set the non-localized display text, the text is to be displayed when this
 	 * rule applies.
 	 * 
-	 * @param text
-	 *            the non-localized display text
+	 * @param text the non-localized display text
 	 */
 
-	public void setDisplay( String text )
-	{
-		setProperty( DISPLAY_MEMBER, text );
+	public void setDisplay(String text) {
+		setProperty(DISPLAY_MEMBER, text);
 	}
 
 	/*
@@ -198,19 +182,18 @@ public class MapRule extends StyleRule
 	 * @see org.eclipse.birt.report.model.core.IStructure#getDefn()
 	 */
 
-	public IStructureDefn getDefn( )
-	{
-		return MetaDataDictionary.getInstance( ).getStructure( STRUCTURE_NAME );
+	public IStructureDefn getDefn() {
+		return MetaDataDictionary.getInstance().getStructure(STRUCTURE_NAME);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
+	 * model.api.SimpleValueHandle, int)
 	 */
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new MapRuleHandle( valueHandle, index );
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new MapRuleHandle(valueHandle, index);
 	}
 }

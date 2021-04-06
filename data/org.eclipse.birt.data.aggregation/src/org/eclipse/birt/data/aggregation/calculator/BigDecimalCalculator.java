@@ -19,82 +19,73 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * Calculator primarily for type BigDecimal. Note that all operands are
- * expected to be converted to BigDecimal before invoking any operation.
- * Use method getTypedObject() to convert operands to the desired datatype. 
- * Nulls are ignored in calculations. NaN and Infinity are NOT supported:
- * method DataTypeUtil.toBigDecimal() used by the calculator converts NaN and
- * Infinity values to null, so check for those conditions in the respective
- * aggregate function if those have to be recognized.
+ * Calculator primarily for type BigDecimal. Note that all operands are expected
+ * to be converted to BigDecimal before invoking any operation. Use method
+ * getTypedObject() to convert operands to the desired datatype. Nulls are
+ * ignored in calculations. NaN and Infinity are NOT supported: method
+ * DataTypeUtil.toBigDecimal() used by the calculator converts NaN and Infinity
+ * values to null, so check for those conditions in the respective aggregate
+ * function if those have to be recognized.
  */
 
-public class BigDecimalCalculator implements ICalculator
-{
+public class BigDecimalCalculator implements ICalculator {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#add(java.lang.Object,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public Number add( Object a, Object b ) throws DataException
-	{
-		if( a == null && b == null )
+	public Number add(Object a, Object b) throws DataException {
+		if (a == null && b == null)
 			return null;
-		if( a == null )
+		if (a == null)
 			return (BigDecimal) b;
-		if( b == null )
+		if (b == null)
 			return (BigDecimal) a;
-		return ( (BigDecimal) a ).add( (BigDecimal) b );
+		return ((BigDecimal) a).add((BigDecimal) b);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#divide(java.lang.Object,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public Number divide( Object dividend, Object divisor )
-			throws DataException
-	{
-		if( dividend == null )
+	public Number divide(Object dividend, Object divisor) throws DataException {
+		if (dividend == null)
 			return null;
-		if( divisor == null )
+		if (divisor == null)
 			return (BigDecimal) dividend;
-		return ( (BigDecimal) dividend ).divide( (BigDecimal) divisor, MathContext.DECIMAL128 );
+		return ((BigDecimal) dividend).divide((BigDecimal) divisor, MathContext.DECIMAL128);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#multiply(java.lang.Object,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public Number multiply( Object a, Object b ) throws DataException
-	{
-		if( a == null && b == null )
+	public Number multiply(Object a, Object b) throws DataException {
+		if (a == null && b == null)
 			return null;
-		if( a == null )
+		if (a == null)
 			return (BigDecimal) b;
-		if( b == null )
+		if (b == null)
 			return (BigDecimal) a;
-		return ( (BigDecimal) a ).multiply( (BigDecimal) b );
+		return ((BigDecimal) a).multiply((BigDecimal) b);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.core.script.math.ICalculator#safeDivide(java.lang.Object,
-	 *      java.lang.Object, java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.core.script.math.ICalculator#safeDivide(java.lang.Object,
+	 * java.lang.Object, java.lang.Object)
 	 */
-	public Number safeDivide( Object dividend, Object divisor, Number ifZero )
-			throws DataException
-	{
-		try
-		{
-			return divide( dividend, divisor );
-		}
-		catch ( ArithmeticException e )
-		{
+	public Number safeDivide(Object dividend, Object divisor, Number ifZero) throws DataException {
+		try {
+			return divide(dividend, divisor);
+		} catch (ArithmeticException e) {
 			return ifZero;
 		}
 	}
@@ -103,33 +94,30 @@ public class BigDecimalCalculator implements ICalculator
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.core.script.math.ICalculator#subtract(java.lang.Object,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public Number subtract( Object a, Object b ) throws DataException
-	{
-		if( a == null && b == null )
+	public Number subtract(Object a, Object b) throws DataException {
+		if (a == null && b == null)
 			return null;
-		if( a == null )
-			return BigDecimal.ZERO.subtract( (BigDecimal) b );
-		if( b == null )
+		if (a == null)
+			return BigDecimal.ZERO.subtract((BigDecimal) b);
+		if (b == null)
 			return (BigDecimal) a;
-		return ( (BigDecimal) a ).subtract( (BigDecimal) b );
+		return ((BigDecimal) a).subtract((BigDecimal) b);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.ICalculator#getTypedObject(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.ICalculator#getTypedObject(java.
+	 * lang.Object)
 	 */
-	public Object getTypedObject( Object obj ) throws DataException
-	{
-		try
-		{
-			return DataTypeUtil.toBigDecimal( obj );
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+	public Object getTypedObject(Object obj) throws DataException {
+		try {
+			return DataTypeUtil.toBigDecimal(obj);
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
 }

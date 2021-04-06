@@ -19,20 +19,18 @@ import org.eclipse.birt.data.engine.olap.util.filter.IResultRow;
  * 
  */
 
-public interface IJSSortHelper extends ITargetSort
-{
+public interface IJSSortHelper extends ITargetSort {
 	/**
 	 * 
 	 * @param row
 	 * @return
 	 * @throws DataException
 	 */
-	public Object evaluate( IResultRow row ) throws DataException;
-	
-	
+	public Object evaluate(IResultRow row) throws DataException;
+
 	/**
 	 * close this helper to clean up the registered javascript objects.
 	 */
-	public void close( );
+	public void close();
 
 }

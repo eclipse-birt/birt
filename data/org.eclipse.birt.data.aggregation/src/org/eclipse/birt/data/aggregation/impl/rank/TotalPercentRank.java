@@ -32,16 +32,14 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Implements the built-in Total.Rank aggregation.
  */
-public class TotalPercentRank extends AggrFunction
-{
+public class TotalPercentRank extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return IBuildInAggregation.TOTAL_PERCENT_RANK_FUNC;
 	}
 
@@ -50,8 +48,7 @@ public class TotalPercentRank extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return RUNNING_AGGR;
 	}
 
@@ -60,8 +57,7 @@ public class TotalPercentRank extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
@@ -70,25 +66,19 @@ public class TotalPercentRank extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
-		return new IParameterDefn[]{
-			new ParameterDefn( Constants.EXPRESSION_NAME,
-					Constants.EXPRESSION_DISPLAY_NAME,
-					false,
-					true,
-					SupportedDataTypes.CALCULATABLE,
-					"" ) //$NON-NLS-1$
+	public IParameterDefn[] getParameterDefn() {
+		return new IParameterDefn[] { new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME,
+				false, true, SupportedDataTypes.CALCULATABLE, "") //$NON-NLS-1$
 		};
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.MultipassAggregation#getNumberOfPasses()
+	 * @see org.eclipse.birt.data.engine.api.aggregation.MultipassAggregation#
+	 * getNumberOfPasses()
 	 */
-	public int getNumberOfPasses( )
-	{
+	public int getNumberOfPasses() {
 		return 2;
 	}
 
@@ -97,25 +87,21 @@ public class TotalPercentRank extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( );
+	public Accumulator newAccumulator() {
+		return new MyAccumulator();
 	}
 
-	private static class MyAccumulator extends RunningAccumulator
-	{
+	private static class MyAccumulator extends RunningAccumulator {
 
 		private Double sum;
 		private List cachedValues;
 		private int passCount = 0;
 		private Object[] sortedObjs;
 
-		public void start( )
-		{
-			if ( passCount == 0 )
-			{
-				cachedValues = new ArrayList( );
-				sum = new Double( 0 );
+		public void start() {
+			if (passCount == 0) {
+				cachedValues = new ArrayList();
+				sum = new Double(0);
 			}
 			passCount++;
 		}
@@ -123,34 +109,26 @@ public class TotalPercentRank extends AggrFunction
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[])
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[]
+		 * )
 		 */
-		public void onRow( Object[] args ) throws DataException
-		{
-			assert ( args.length > 0 );
-			if ( passCount == 1 )
-			{
-				if ( args[0] != null )
-				{
-					cachedValues.add( args[0] );
+		public void onRow(Object[] args) throws DataException {
+			assert (args.length > 0);
+			if (passCount == 1) {
+				if (args[0] != null) {
+					cachedValues.add(args[0]);
+				} else {
+					cachedValues.add(RankAggregationUtil.getNullObject());
 				}
-				else
-				{
-					cachedValues.add( RankAggregationUtil.getNullObject( ) );
-				}
-			}
-			else
-			{
+			} else {
 				Object compareValue;
-				if ( args[0] != null )
-				{
+				if (args[0] != null) {
 					compareValue = args[0];
+				} else {
+					compareValue = RankAggregationUtil.getNullObject();
 				}
-				else
-				{
-					compareValue = RankAggregationUtil.getNullObject( );
-				}
-				sum = new Double( getPercentRank( compareValue, sortedObjs ) );
+				sum = new Double(getPercentRank(compareValue, sortedObjs));
 			}
 		}
 
@@ -159,12 +137,10 @@ public class TotalPercentRank extends AggrFunction
 		 * 
 		 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#finish()
 		 */
-		public void finish( ) throws DataException
-		{
-			if ( this.passCount == 1 )
-			{
-				sortedObjs = this.cachedValues.toArray( );
-				RankAggregationUtil.sortArray( sortedObjs );
+		public void finish() throws DataException {
+			if (this.passCount == 1) {
+				sortedObjs = this.cachedValues.toArray();
+				RankAggregationUtil.sortArray(sortedObjs);
 			}
 
 		}
@@ -175,31 +151,26 @@ public class TotalPercentRank extends AggrFunction
 		 * @param objs
 		 * @return
 		 */
-		private double getPercentRank( Object o, Object[] objs )
-		{
+		private double getPercentRank(Object o, Object[] objs) {
 			double smaller = -1;
 
-			for ( int i = 0; i < objs.length; i++ )
-			{
-				if ( o.equals( objs[i] ) )
-				{
+			for (int i = 0; i < objs.length; i++) {
+				if (o.equals(objs[i])) {
 					// first time meet
-					if ( smaller == -1 )
-					{
+					if (smaller == -1) {
 						smaller = i;
 					}
 				}
 			}
-			if ( smaller == -1 )
+			if (smaller == -1)
 				return 0;
-			
-			//return same result with Excel for this special case
-			if ( objs.length == 1 )
-			{
+
+			// return same result with Excel for this special case
+			if (objs.length == 1) {
 				return 1;
 			}
 
-			double result = smaller / ( objs.length - 1 );
+			double result = smaller / (objs.length - 1);
 
 			return result;
 		}
@@ -209,8 +180,7 @@ public class TotalPercentRank extends AggrFunction
 		 * 
 		 * @see org.eclipse.birt.data.engine.api.aggregation.Accumulator#getValue()
 		 */
-		public Object getValue( ) throws DataException
-		{
+		public Object getValue() throws DataException {
 			return sum;
 		}
 	}
@@ -218,20 +188,20 @@ public class TotalPercentRank extends AggrFunction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalPercentRank.description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return Messages.getString("TotalPercentRank.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalPercentRank.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("TotalPercentRank.displayName"); //$NON-NLS-1$
 	}
 }

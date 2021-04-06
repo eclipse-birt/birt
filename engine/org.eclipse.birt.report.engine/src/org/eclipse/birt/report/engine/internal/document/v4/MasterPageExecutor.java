@@ -32,8 +32,7 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
  * 
  * the master page's children include page header and footer.
  */
-public class MasterPageExecutor extends ContainerExecutor
-{
+public class MasterPageExecutor extends ContainerExecutor {
 
 	private static final int HEADER_BAND = 0;
 	private static final int BODY_BAND = 1;
@@ -46,101 +45,85 @@ public class MasterPageExecutor extends ContainerExecutor
 	private int nextBand;
 	IBaseResultSet[] rs;
 
-	protected MasterPageExecutor( ExecutorManager manager,  long pageNumber, MasterPageDesign masterPage )
-	{
-		super( manager, -1 );
-		this.reader = manager.getPageReader( );
+	protected MasterPageExecutor(ExecutorManager manager, long pageNumber, MasterPageDesign masterPage) {
+		super(manager, -1);
+		this.reader = manager.getPageReader();
 		this.pageNumber = pageNumber;
 		this.pageOffset = -1;
 		this.nextBand = 0;
-		this.masterPage = (SimpleMasterPageDesign)masterPage;
+		this.masterPage = (SimpleMasterPageDesign) masterPage;
 	}
 
-	public void close( )
-	{
-		context.setExecutingMasterPage( false );
+	public void close() {
+		context.setExecutingMasterPage(false);
 		context.setResultSets(rs);
 		pageNumber = 0;
-		if ( pageOffset != -1 )
-		{
-			manager.getPageReader( ).unloadContent( pageOffset );
+		if (pageOffset != -1) {
+			manager.getPageReader().unloadContent(pageOffset);
 		}
 		nextBand = 0;
-		super.close( );
+		super.close();
 	}
 
-	public IContent execute( )
-	{
-		if ( executed )
-		{
+	public IContent execute() {
+		if (executed) {
 			return content;
 		}
-		context.setExecutingMasterPage( true );
+		context.setExecutingMasterPage(true);
 		rs = context.getResultSets();
-		context.setPageNumber( pageNumber );
+		context.setPageNumber(pageNumber);
 		executed = true;
-		try
-		{
+		try {
 			long pageNo = pageNumber;
-			PageHintReader hintReader = manager.getPageHintReader( );
-			long totalPage = hintReader.getTotalPage( );
-			if ( pageNumber > totalPage )
-			{
+			PageHintReader hintReader = manager.getPageHintReader();
+			long totalPage = hintReader.getTotalPage();
+			if (pageNumber > totalPage) {
 				pageNo = totalPage;
 			}
 
-			IPageHint pageHint = hintReader.getPageHint( pageNo );
-			Collection<PageVariable> vars = pageHint.getPageVariables( );
-			if ( vars != null )
-			{
-				context.addPageVariables( vars );
+			IPageHint pageHint = hintReader.getPageHint(pageNo);
+			Collection<PageVariable> vars = pageHint.getPageVariables();
+			if (vars != null) {
+				context.addPageVariables(vars);
 			}
 
-			pageOffset = hintReader.getPageOffset( pageNo, masterPage.getName( ) );
-			
-			CachedReportContentReaderV3 pageReader = manager.getPageReader( );
-			content = pageReader.loadContent( pageOffset );
-			InstanceID iid = content.getInstanceID( );
-			long id = iid.getComponentID( );
-			masterPage = (SimpleMasterPageDesign) context.getReport( )
-					.getReportItemByID( id );
-			content.setGenerateBy( masterPage );
+			pageOffset = hintReader.getPageOffset(pageNo, masterPage.getName());
+
+			CachedReportContentReaderV3 pageReader = manager.getPageReader();
+			content = pageReader.loadContent(pageOffset);
+			InstanceID iid = content.getInstanceID();
+			long id = iid.getComponentID();
+			masterPage = (SimpleMasterPageDesign) context.getReport().getReportItemByID(id);
+			content.setGenerateBy(masterPage);
 
 			IPageContent pageContent = (IPageContent) content;
-			pageContent.setPageNumber( pageNumber );
+			pageContent.setPageNumber(pageNumber);
 
 			return content;
-		}
-		catch ( IOException ex )
-		{
-			context.addException( this.getDesign( ), new EngineException( ex
-					.getLocalizedMessage( ), ex ) );
+		} catch (IOException ex) {
+			context.addException(this.getDesign(), new EngineException(ex.getLocalizedMessage(), ex));
 		}
 		return null;
 	}
 
-	protected ReportItemExecutor doCreateExecutor( long offset )
-			throws Exception
-	{
-		if ( nextBand >= HEADER_BAND && nextBand <= FOOTER_BAND )
-		{
+	protected ReportItemExecutor doCreateExecutor(long offset) throws Exception {
+		if (nextBand >= HEADER_BAND && nextBand <= FOOTER_BAND) {
 			ArrayList band = null;
-			switch ( nextBand )
-			{
-				case HEADER_BAND :
-					band = masterPage.getHeaders( );
-					break;
-				case FOOTER_BAND :
-					band = masterPage.getFooters( );
-					break;
-				case BODY_BAND :
-					band = new ArrayList( );
-					break;
+			switch (nextBand) {
+			case HEADER_BAND:
+				band = masterPage.getHeaders();
+				break;
+			case FOOTER_BAND:
+				band = masterPage.getFooters();
+				break;
+			case BODY_BAND:
+				band = new ArrayList();
+				break;
 			}
 			nextBand++;
-			PageBandExecutor bandExecutor = new PageBandExecutor( this, band );
-			bandExecutor.setParent( this );
-			bandExecutor.setOffset( offset );
+			PageBandExecutor bandExecutor = new PageBandExecutor(this, band);
+			bandExecutor.setParent(this);
+			bandExecutor.setOffset(offset);
 			return bandExecutor;
 		}
 		return null;
@@ -150,16 +133,13 @@ public class MasterPageExecutor extends ContainerExecutor
 	/**
 	 * adjust the nextItem to the nextContent.
 	 * 
-	 * before call this method, both the nextContent and the nextFragment can't
-	 * be NULL.
+	 * before call this method, both the nextContent and the nextFragment can't be
+	 * NULL.
 	 * 
 	 * @return
 	 */
-	protected void doSkipToExecutor( InstanceID id, long offset )
-			throws Exception
-	{
-		throw new IllegalStateException(
-				"master page never comes with page hints" );
+	protected void doSkipToExecutor(InstanceID id, long offset) throws Exception {
+		throw new IllegalStateException("master page never comes with page hints");
 	}
 
 }

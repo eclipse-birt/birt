@@ -63,18 +63,16 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>Error found</td>
  * </tr>
  * </table>
- *  
+ * 
  */
 
-public class ComponentScratchPadTest extends BaseTestCase
-{
+public class ComponentScratchPadTest extends BaseTestCase {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
@@ -84,113 +82,95 @@ public class ComponentScratchPadTest extends BaseTestCase
 	 * 
 	 */
 
-	public void testWriter( ) throws Exception
-	{
-		openDesign( "ComponentScratchPadTest.xml" ); //$NON-NLS-1$
-		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		designHandle.serialize( out );
-		ByteArrayInputStream is = new ByteArrayInputStream( out.toByteArray( ) );
-		openDesign( "", is ); //$NON-NLS-1$
-		assertNotNull( design );
-		save( );
-		assertTrue( compareFile( "ComponentScratchPadTest_golden.xml" ) ); //$NON-NLS-1$
+	public void testWriter() throws Exception {
+		openDesign("ComponentScratchPadTest.xml"); //$NON-NLS-1$
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		designHandle.serialize(out);
+		ByteArrayInputStream is = new ByteArrayInputStream(out.toByteArray());
+		openDesign("", is); //$NON-NLS-1$
+		assertNotNull(design);
+		save();
+		assertTrue(compareFile("ComponentScratchPadTest_golden.xml")); //$NON-NLS-1$
 	}
 
 	/**
 	 * Test parsing elements from ScratchPad.
 	 * 
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 
-	public void testParse( ) throws Exception
-	{
-		openDesign( "ComponentScratchPadTest.xml" ); //$NON-NLS-1$
-		assertEquals( 0, design.getErrorList( ).size( ) );
+	public void testParse() throws Exception {
+		openDesign("ComponentScratchPadTest.xml"); //$NON-NLS-1$
+		assertEquals(0, design.getErrorList().size());
 
-		SlotHandle components = designHandle.getComponents( );
-		assertEquals( 2, components.getCount( ) );
+		SlotHandle components = designHandle.getComponents();
+		assertEquals(2, components.getCount());
 
 		GridHandle grid = null;
 
 		// if the element in component slot has children, then the operation of
 		// moving it from the slot operation is forbidden.
 
-		grid = (GridHandle) components.get( 0 );
-		assertEquals( grid, components.get( 1 ).getExtends( ) );
-		try
-		{
-			grid.moveTo( designHandle, ReportDesign.BODY_SLOT );
-			fail( );
-		}
-		catch ( ContentException e )
-		{
+		grid = (GridHandle) components.get(0);
+		assertEquals(grid, components.get(1).getExtends());
+		try {
+			grid.moveTo(designHandle, ReportDesign.BODY_SLOT);
+			fail();
+		} catch (ContentException e) {
 
 		}
-		assertEquals( 2, components.getCount( ) );
+		assertEquals(2, components.getCount());
 
 		// drop is forbidden too.
-		try
-		{
-			grid.dropAndClear( );
-			fail( );
-		}
-		catch ( ContentException e )
-		{
+		try {
+			grid.dropAndClear();
+			fail();
+		} catch (ContentException e) {
 
 		}
-		assertEquals( 2, components.getCount( ) );
+		assertEquals(2, components.getCount());
 
 		// If we move the children before its parent in component slot, then the
 		// moving operation is forbidden.
 
-		grid = (GridHandle) components.get( 0 );
-		try
-		{
-			designHandle.getComponents( ).shift( grid, 1 );
-			fail( );
-		}
-		catch ( ContentException e )
-		{
+		grid = (GridHandle) components.get(0);
+		try {
+			designHandle.getComponents().shift(grid, 1);
+			fail();
+		} catch (ContentException e) {
 
 		}
 
-		grid = (GridHandle) components.get( 1 );
-		try
-		{
-			designHandle.getComponents( ).shift( grid, 0 );
-			fail( );
-		}
-		catch ( ContentException e )
-		{
+		grid = (GridHandle) components.get(1);
+		try {
+			designHandle.getComponents().shift(grid, 0);
+			fail();
+		} catch (ContentException e) {
 
 		}
 
 		// add some gird and label into the component slot and check the out.
 		// In the out file, the parent is always before his children in the
 		// component slot.
-		SlotHandle comHandle = designHandle.getComponents( );
+		SlotHandle comHandle = designHandle.getComponents();
 
-		GridItem gridItem = new GridItem( "grand" ); //$NON-NLS-1$
+		GridItem gridItem = new GridItem("grand"); //$NON-NLS-1$
 		// grid.setExtendsName( "grid0" );
-		comHandle.add( gridItem.getHandle( design ) );
+		comHandle.add(gridItem.getHandle(design));
 
-		grid = (GridHandle) components.get( 0 );
+		grid = (GridHandle) components.get(0);
 		// grid.setExtendsName( "grand" );
-		Label labelItem = new Label( "label" ); //$NON-NLS-1$
+		Label labelItem = new Label("label"); //$NON-NLS-1$
 		// label.setExtendsName( "labelParent" );
-		comHandle.add( labelItem.getHandle( design ) );
-		gridItem = new GridItem( "grid0" ); //$NON-NLS-1$
-		comHandle.add( gridItem.getHandle( design ) );
-		labelItem = new Label( "labelParent" ); //$NON-NLS-1$
-		comHandle.add( labelItem.getHandle( design ) );
+		comHandle.add(labelItem.getHandle(design));
+		gridItem = new GridItem("grid0"); //$NON-NLS-1$
+		comHandle.add(gridItem.getHandle(design));
+		labelItem = new Label("labelParent"); //$NON-NLS-1$
+		comHandle.add(labelItem.getHandle(design));
 
-		design
-				.findElement( "grand" ).setExtendsElement( design.findElement( "grid0" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		design
-				.findElement( "parent" ).setExtendsElement( design.findElement( "grand" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		design
-				.findElement( "label" ).setExtendsElement( design.findElement( "labelParent" ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		save( ); //$NON-NLS-1$
+		design.findElement("grand").setExtendsElement(design.findElement("grid0")); //$NON-NLS-1$ //$NON-NLS-2$
+		design.findElement("parent").setExtendsElement(design.findElement("grand")); //$NON-NLS-1$ //$NON-NLS-2$
+		design.findElement("label").setExtendsElement(design.findElement("labelParent")); //$NON-NLS-1$ //$NON-NLS-2$
+		save(); // $NON-NLS-1$
 	}
 }

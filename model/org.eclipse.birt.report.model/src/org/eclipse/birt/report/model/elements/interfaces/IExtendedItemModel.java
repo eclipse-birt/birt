@@ -15,9 +15,8 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for ExtendedItem to store the constants.
  */
 
-public interface IExtendedItemModel
-{
-	
+public interface IExtendedItemModel {
+
 	/**
 	 * The property name of alt text.
 	 */
@@ -31,8 +30,8 @@ public interface IExtendedItemModel
 	public static final String ALT_TEXT_KEY_PROP = "altTextID";//$NON-NLS-1$
 
 	/**
-	 * Name of the property that identifies the name of the extension. BIRT uses
-	 * the property to find extension definition in our meta-data dictionary.
+	 * Name of the property that identifies the name of the extension. BIRT uses the
+	 * property to find extension definition in our meta-data dictionary.
 	 */
 
 	public static final String EXTENSION_NAME_PROP = "extensionName"; //$NON-NLS-1$
@@ -44,8 +43,7 @@ public interface IExtendedItemModel
 	public static final String FILTER_PROP = "filter"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that defines the version of the extended element
-	 * model.
+	 * Name of the property that defines the version of the extended element model.
 	 */
 	String EXTENSION_VERSION_PROP = "extensionVersion"; //$NON-NLS-1$
 }

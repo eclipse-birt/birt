@@ -36,23 +36,21 @@ import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.swt.widgets.Display;
 
 /**
- *Abstract class for the table editpart. 
+ * Abstract class for the table editpart.
  */
-public abstract class AbstractTableEditPart extends ReportElementEditPart implements
-		LayerConstants,
-		ITableLayoutOwner
-{
+public abstract class AbstractTableEditPart extends ReportElementEditPart implements LayerConstants, ITableLayoutOwner {
 
 	public static final String BORDER_LAYER = "Table Border layer"; //$NON-NLS-1$
 	protected FreeformLayeredPane innerLayers;
 	protected LayeredPane printableLayers;
 
-	/**Constractor
+	/**
+	 * Constractor
+	 * 
 	 * @param model
 	 */
-	public AbstractTableEditPart( Object model )
-	{
-		super( model );
+	public AbstractTableEditPart(Object model) {
+		super(model);
 	}
 
 	/**
@@ -60,16 +58,15 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 	 * 
 	 * @see LayerManager#getLayer(Object)
 	 */
-	public IFigure getLayer( Object key )
-	{
-		if ( innerLayers == null )
+	public IFigure getLayer(Object key) {
+		if (innerLayers == null)
 			return null;
-		IFigure layer = innerLayers.getLayer( key );
-		if ( layer != null )
+		IFigure layer = innerLayers.getLayer(key);
+		if (layer != null)
 			return layer;
-		if ( printableLayers == null )
+		if (printableLayers == null)
 			return null;
-		return printableLayers.getLayer( key );
+		return printableLayers.getLayer(key);
 	}
 
 	/**
@@ -77,10 +74,9 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 	 * 
 	 * @return the layered pane containing all printable content
 	 */
-	protected LayeredPane getPrintableLayers( )
-	{
-		if ( printableLayers == null )
-			printableLayers = createPrintableLayers( );
+	protected LayeredPane getPrintableLayers() {
+		if (printableLayers == null)
+			printableLayers = createPrintableLayers();
 		return printableLayers;
 	}
 
@@ -90,14 +86,13 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 	 * @see org.eclipse.gef.print.PrintGraphicalViewerOperation
 	 * @return a new LayeredPane containing the printable layers
 	 */
-	protected LayeredPane createPrintableLayers( )
-	{
-		FreeformLayeredPane layeredPane = new FreeformLayeredPane( );
-		FreeformLayer layer = new FreeformLayer( );
+	protected LayeredPane createPrintableLayers() {
+		FreeformLayeredPane layeredPane = new FreeformLayeredPane();
+		FreeformLayer layer = new FreeformLayer();
 
-		layer.setLayoutManager( new TableLayout( this ) );
-		layeredPane.add( layer, PRIMARY_LAYER );
-		layeredPane.add( new TableBorderLayer( this ), BORDER_LAYER );
+		layer.setLayoutManager(new TableLayout(this));
+		layeredPane.add(layer, PRIMARY_LAYER);
+		layeredPane.add(new TableBorderLayer(this), BORDER_LAYER);
 		return layeredPane;
 	}
 
@@ -106,20 +101,21 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 	 * 
 	 * @see org.eclipse.gef.GraphicalEditPart#getContentPane()
 	 */
-	public IFigure getContentPane( )
-	{
-		return getLayer( PRIMARY_LAYER );
+	public IFigure getContentPane() {
+		return getLayer(PRIMARY_LAYER);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#reLayout()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#
+	 * reLayout()
 	 */
-	public void reLayout( )
-	{
-		notifyModelChange( );
-		getFigure( ).invalidateTree( );
+	public void reLayout() {
+		notifyModelChange();
+		getFigure().invalidateTree();
 		// getFigure( ).getUpdateManager( ).addInvalidFigure( getFigure( ) );
-		getFigure( ).revalidate( );
+		getFigure().revalidate();
 	}
 
 	/**
@@ -128,87 +124,72 @@ public abstract class AbstractTableEditPart extends ReportElementEditPart implem
 	 * @param rowNumber
 	 * @param columnNumber
 	 */
-	public abstract AbstractCellEditPart getCell( int rowNumber,
-			int columnNumber );
-	
-	protected void contentChange( Map info )
-	{
-		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE );
-		if (action instanceof Integer)
-		{
-			int intValue = ((Integer)action).intValue( );
-			if (intValue == ViewsContentEvent.ADD
-					|| intValue == ViewsContentEvent.SHIFT
-					|| intValue == ViewsContentEvent.REMOVE)
-			{
-				if (((ReportItemHandle)getModel()).getViews( ).size( ) > 0)
-				{
-					final Object tempModel = getModel( );
-					final DeferredGraphicalViewer viewer = (DeferredGraphicalViewer)getViewer( );
-					markDirty( true );
-					EditPart part = getParent( );
-					((ReportElementEditPart)getParent( )).removeChild( this );
-					part.refresh( );
-					removeGuideFeedBack( );
-					Display.getCurrent( ).asyncExec( new Runnable( ) {
+	public abstract AbstractCellEditPart getCell(int rowNumber, int columnNumber);
 
-						public void run( )
-						{
-							Object part = viewer.getEditPartRegistry( ).get( tempModel );
-							if (part != null)
-							{
-								viewer.setSelection( new StructuredSelection( part ) );
+	protected void contentChange(Map info) {
+		Object action = info.get(GraphicsViewModelEventProcessor.CONTENT_EVENTTYPE);
+		if (action instanceof Integer) {
+			int intValue = ((Integer) action).intValue();
+			if (intValue == ViewsContentEvent.ADD || intValue == ViewsContentEvent.SHIFT
+					|| intValue == ViewsContentEvent.REMOVE) {
+				if (((ReportItemHandle) getModel()).getViews().size() > 0) {
+					final Object tempModel = getModel();
+					final DeferredGraphicalViewer viewer = (DeferredGraphicalViewer) getViewer();
+					markDirty(true);
+					EditPart part = getParent();
+					((ReportElementEditPart) getParent()).removeChild(this);
+					part.refresh();
+					removeGuideFeedBack();
+					Display.getCurrent().asyncExec(new Runnable() {
+
+						public void run() {
+							Object part = viewer.getEditPartRegistry().get(tempModel);
+							if (part != null) {
+								viewer.setSelection(new StructuredSelection(part));
 							}
 						}
-					} );
+					});
 					return;
-				}
-				else
-				{
-					((ReportElementEditPart)getParent( )).contentChange( info );
+				} else {
+					((ReportElementEditPart) getParent()).contentChange(info);
 					return;
 				}
 			}
 		}
-		List old = new ArrayList(getChildren( ));
-		super.contentChange( info );
-		List newChildren = getChildren( );
-		for (int i=0; i<old.size( ); i++)
-		{
-			if (newChildren.contains( old.get( i ) ))
-			{
-				((AbstractCellEditPart)old.get( i )).updateExistPart( );
+		List old = new ArrayList(getChildren());
+		super.contentChange(info);
+		List newChildren = getChildren();
+		for (int i = 0; i < old.size(); i++) {
+			if (newChildren.contains(old.get(i))) {
+				((AbstractCellEditPart) old.get(i)).updateExistPart();
 			}
 		}
 	}
-	
+
 	@Override
-	protected void updateLayoutPreference( )
-	{
-		super.updateLayoutPreference( );
-		if (!(((DesignElementHandle)getModel()).getModuleHandle( ) instanceof ReportDesignHandle))
-		{
-			return ;
+	protected void updateLayoutPreference() {
+		super.updateLayoutPreference();
+		if (!(((DesignElementHandle) getModel()).getModuleHandle() instanceof ReportDesignHandle)) {
+			return;
 		}
-		
-		ReportDesignHandle handle = (ReportDesignHandle)((DesignElementHandle)getModel()).getModuleHandle( );
-		String str = handle.getLayoutPreference( );
-		
-		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals( str ))
-		{
-			getContentPane( ).setLayoutManager( new TableLayout(this));
+
+		ReportDesignHandle handle = (ReportDesignHandle) ((DesignElementHandle) getModel()).getModuleHandle();
+		String str = handle.getLayoutPreference();
+
+		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_AUTO_LAYOUT.equals(str)) {
+			getContentPane().setLayoutManager(new TableLayout(this));
+		} else if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(str)) {
+			getContentPane().setLayoutManager(new FixTableLayout(this));
 		}
-		else if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals( str ))
-		{
-			getContentPane( ).setLayoutManager(new FixTableLayout(this));
-		}	
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getFixAllowMinRowHight()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#
+	 * getFixAllowMinRowHight()
 	 */
-	public int getFixAllowMinRowHight()
-	{
+	public int getFixAllowMinRowHight() {
 		return FixTableLayout.ALLOW_ROW_HEIGHT;
 	}
 }

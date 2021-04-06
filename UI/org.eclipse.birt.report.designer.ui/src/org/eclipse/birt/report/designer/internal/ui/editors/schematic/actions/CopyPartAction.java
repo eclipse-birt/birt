@@ -23,35 +23,29 @@ import org.eclipse.ui.actions.ActionFactory;
 /**
  * Copy action
  */
-public class CopyPartAction extends WrapperSelectionAction
-{
+public class CopyPartAction extends WrapperSelectionAction {
 
 	/**
 	 * Create a new copy action with given selection and text
 	 * 
-	 * @param part
-	 *            the selected object,which cannot be null
+	 * @param part the selected object,which cannot be null
 	 */
-	public CopyPartAction( IWorkbenchPart part )
-	{
-		super( part );
-		ISharedImages shareImages = PlatformUI.getWorkbench( )
-				.getSharedImages( );
-		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_COPY ) );
-		setDisabledImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_COPY_DISABLED ) );
-		setAccelerator( SWT.CTRL | 'C' );//$NON-NLS-1$
+	public CopyPartAction(IWorkbenchPart part) {
+		super(part);
+		ISharedImages shareImages = PlatformUI.getWorkbench().getSharedImages();
+		setImageDescriptor(shareImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY));
+		setDisabledImageDescriptor(shareImages.getImageDescriptor(ISharedImages.IMG_TOOL_COPY_DISABLED));
+		setAccelerator(SWT.CTRL | 'C');// $NON-NLS-1$
 	}
 
-	public String getId( )
-	{
-		return ActionFactory.COPY.getId( );
+	public String getId() {
+		return ActionFactory.COPY.getId();
 	}
 
 	/**
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.ISelection)
 	 */
-	protected IAction createActionHandler( ISelection model )
-	{
-		return new CopyAction( model );
+	protected IAction createActionHandler(ISelection model) {
+		return new CopyAction(model);
 	}
 }

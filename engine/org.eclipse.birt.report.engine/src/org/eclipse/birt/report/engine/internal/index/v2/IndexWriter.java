@@ -25,8 +25,7 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 
-public class IndexWriter implements IndexConstants
-{
+public class IndexWriter implements IndexConstants {
 
 	public static int MAX_INLINE_INDEX_ENTRY = MAX_INLINE_ENTIRES;
 
@@ -39,118 +38,88 @@ public class IndexWriter implements IndexConstants
 
 	int entrySize;
 
-	public IndexWriter( IDocArchiveWriter archive, String name )
-	{
+	public IndexWriter(IDocArchiveWriter archive, String name) {
 		this.archive = archive;
 		this.name = name;
 	}
 
-	void add( String key, long value ) throws IOException
-	{
-		if ( inlineMap == null )
-		{
+	void add(String key, long value) throws IOException {
+		if (inlineMap == null) {
 			type = BTreeMap.LONG_VALUE;
-			inlineMap = new HashMap<String, Object>( );
+			inlineMap = new HashMap<String, Object>();
 		}
-		if ( inlineMap.size( ) >= MAX_INLINE_INDEX_ENTRY )
-		{
-			flushBtree( );
-			inlineMap.clear( );
+		if (inlineMap.size() >= MAX_INLINE_INDEX_ENTRY) {
+			flushBtree();
+			inlineMap.clear();
 		}
-		if ( !inlineMap.containsKey( key ) )
-		{
-			inlineMap.put( key, value );
+		if (!inlineMap.containsKey(key)) {
+			inlineMap.put(key, value);
 			entrySize++;
 		}
 	}
 
-	void add( String bookmark, BookmarkContent info ) throws IOException
-	{
-		if ( inlineMap == null )
-		{
+	void add(String bookmark, BookmarkContent info) throws IOException {
+		if (inlineMap == null) {
 			type = BTreeMap.BOOKMARK_VALUE;
-			inlineMap = new HashMap<String, Object>( );
+			inlineMap = new HashMap<String, Object>();
 		}
-		if ( inlineMap.size( ) >= MAX_INLINE_INDEX_ENTRY )
-		{
-			flushBtree( );
-			inlineMap.clear( );
+		if (inlineMap.size() >= MAX_INLINE_INDEX_ENTRY) {
+			flushBtree();
+			inlineMap.clear();
 		}
-		if ( !inlineMap.containsKey( bookmark ) )
-		{
-			inlineMap.put( bookmark, info );
+		if (!inlineMap.containsKey(bookmark)) {
+			inlineMap.put(bookmark, info);
 			entrySize++;
 		}
 	}
 
-	void close( ) throws IOException
-	{
-		if ( btree == null )
-		{
-			RAOutputStream stream = archive.createOutputStream( name );
-			try
-			{
-				DataOutputStream output = new DataOutputStream( stream );
-				if ( type == BTreeMap.LONG_VALUE )
-				{
-					IOUtil.writeInt( output, VERSION_0 );
-					IOUtil.writeInt( output, INLINE_MAP );
-					IOUtil.writeInt( output, inlineMap.size( ) );
-					for ( Map.Entry<String, Object> entry : inlineMap
-							.entrySet( ) )
-					{
-						IOUtil.writeString( output, entry.getKey( ) );
-						IOUtil.writeLong( output, (Long) entry.getValue( ) );
+	void close() throws IOException {
+		if (btree == null) {
+			RAOutputStream stream = archive.createOutputStream(name);
+			try {
+				DataOutputStream output = new DataOutputStream(stream);
+				if (type == BTreeMap.LONG_VALUE) {
+					IOUtil.writeInt(output, VERSION_0);
+					IOUtil.writeInt(output, INLINE_MAP);
+					IOUtil.writeInt(output, inlineMap.size());
+					for (Map.Entry<String, Object> entry : inlineMap.entrySet()) {
+						IOUtil.writeString(output, entry.getKey());
+						IOUtil.writeLong(output, (Long) entry.getValue());
+					}
+				} else if (type == BTreeMap.BOOKMARK_VALUE) {
+					IOUtil.writeInt(output, VERSION_1);
+					IOUtil.writeInt(output, INLINE_MAP);
+					IOUtil.writeInt(output, inlineMap.size());
+					for (Map.Entry<String, Object> entry : inlineMap.entrySet()) {
+						IOUtil.writeString(output, entry.getKey());
+						((BookmarkContent) entry.getValue()).writeStream(output);
 					}
 				}
-				else if ( type == BTreeMap.BOOKMARK_VALUE )
-				{
-					IOUtil.writeInt( output, VERSION_1 );
-					IOUtil.writeInt( output, INLINE_MAP );
-					IOUtil.writeInt( output, inlineMap.size( ) );
-					for ( Map.Entry<String, Object> entry : inlineMap
-							.entrySet( ) )
-					{
-						IOUtil.writeString( output, entry.getKey( ) );
-						( (BookmarkContent) entry.getValue( ) )
-								.writeStream( output );
-					}
-				}
-				inlineMap.clear( );
-			}
-			finally
-			{
-				stream.close( );
+				inlineMap.clear();
+			} finally {
+				stream.close();
 			}
 		}
-		if ( btree != null )
-		{
-			flushBtree( );
-			btree.close( );
+		if (btree != null) {
+			flushBtree();
+			btree.close();
 		}
 	}
 
-	protected void flushBtree( ) throws IOException
-	{
-		if ( btree == null )
-		{
-			btree = BTreeMap.createTreeMap( archive, name, type );
+	protected void flushBtree() throws IOException {
+		if (btree == null) {
+			btree = BTreeMap.createTreeMap(archive, name, type);
 		}
-		ArrayList<Map.Entry<String, Object>> entries = new ArrayList<Map.Entry<String, Object>>(
-				inlineMap.entrySet( ) );
-		Collections.sort( entries,
-				new Comparator<Map.Entry<String, Object>>( ) {
+		ArrayList<Map.Entry<String, Object>> entries = new ArrayList<Map.Entry<String, Object>>(inlineMap.entrySet());
+		Collections.sort(entries, new Comparator<Map.Entry<String, Object>>() {
 
-					public int compare( Entry<String, Object> o1,
-							Entry<String, Object> o2 )
-					{
-						return o1.getKey( ).compareTo( o2.getKey( ) );
-					}
-				} );
+			public int compare(Entry<String, Object> o1, Entry<String, Object> o2) {
+				return o1.getKey().compareTo(o2.getKey());
+			}
+		});
 
-		for ( Map.Entry<String, Object> entry : entries )
-		{
-			btree.insert( entry.getKey( ), entry.getValue( ) );
+		for (Map.Entry<String, Object> entry : entries) {
+			btree.insert(entry.getKey(), entry.getValue());
 		}
 	}
 }

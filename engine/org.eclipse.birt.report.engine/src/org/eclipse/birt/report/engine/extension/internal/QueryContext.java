@@ -22,8 +22,7 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
-public class QueryContext implements IQueryContext
-{
+public class QueryContext implements IQueryContext {
 
 	Report report;
 
@@ -33,34 +32,26 @@ public class QueryContext implements IQueryContext
 
 	ReportItemDesign design;
 
-	public QueryContext( ExecutionContext context, ReportQueryBuilder builder )
-	{
-		this.report = context.getReport( );
+	public QueryContext(ExecutionContext context, ReportQueryBuilder builder) {
+		this.report = context.getReport();
 		this.context = context;
 		this.builder = builder;
 	}
 
-	public IDataQueryDefinition[] createQuery( IDataQueryDefinition parent,
-			ReportElementHandle handle )
-	{
-		design = report.findDesign( handle );
-		return builder.build( parent, design );
+	public IDataQueryDefinition[] createQuery(IDataQueryDefinition parent, ReportElementHandle handle) {
+		design = report.findDesign(handle);
+		return builder.build(parent, design);
 	}
 
-	public DataRequestSession getDataRequestSession( )
-	{
-		if ( context != null )
-		{
-			try
-			{
-				IDataEngine dataEngine = context.getDataEngine( );
-				return dataEngine.getDTESession( );
+	public DataRequestSession getDataRequestSession() {
+		if (context != null) {
+			try {
+				IDataEngine dataEngine = context.getDataEngine();
+				return dataEngine.getDTESession();
+			} catch (EngineException e) {
+				context.addException(e);
 			}
-			catch ( EngineException e )
-			{
-				context.addException( e );
-			}
-			
+
 		}
 		return null;
 	}

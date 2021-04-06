@@ -19,14 +19,10 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionFactory;
  * 
  */
 
-public class BirtDateTimeSpanFunctionFactory implements IScriptFunctionFactory
-{
+public class BirtDateTimeSpanFunctionFactory implements IScriptFunctionFactory {
 
-	
-	public IScriptFunctionExecutor getFunctionExecutor( String functionName )
-			throws BirtException
-	{
-		return DateTimeSpan.getExecutor( functionName );
+	public IScriptFunctionExecutor getFunctionExecutor(String functionName) throws BirtException {
+		return DateTimeSpan.getExecutor(functionName);
 	}
 
 }

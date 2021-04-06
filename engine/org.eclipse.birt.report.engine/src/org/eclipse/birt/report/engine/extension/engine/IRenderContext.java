@@ -11,8 +11,6 @@
 
 package org.eclipse.birt.report.engine.extension.engine;
 
-
-public interface IRenderContext extends IEngineContext
-{
+public interface IRenderContext extends IEngineContext {
 
 }

@@ -18,16 +18,15 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
 
 /**
  * Reports an error during a user-defined message operation.
- *  
+ * 
  */
 
-public class CustomMsgException extends SemanticException
-{
+public class CustomMsgException extends SemanticException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 2747010046327832852L;
 
 	/**
@@ -69,34 +68,25 @@ public class CustomMsgException extends SemanticException
 	/**
 	 * Constructs the exception with error code.
 	 * 
-	 * @param element
-	 *            the element
-	 * @param errCode
-	 *            the error code
+	 * @param element the element
+	 * @param errCode the error code
 	 */
 
-	public CustomMsgException( DesignElement element, String errCode )
-	{
-		super( element, errCode );
+	public CustomMsgException(DesignElement element, String errCode) {
+		super(element, errCode);
 	}
 
 	/**
 	 * Constructs the exception with error code.
 	 * 
-	 * @param element
-	 *            the element
-	 * @param resourceKey
-	 *            the resource key which is involved in this exception
-	 * @param locale
-	 *            the locale which is involved in this exception
-	 * @param errCode
-	 *            the error code
+	 * @param element     the element
+	 * @param resourceKey the resource key which is involved in this exception
+	 * @param locale      the locale which is involved in this exception
+	 * @param errCode     the error code
 	 */
 
-	public CustomMsgException( DesignElement element, String resourceKey,
-			String locale, String errCode )
-	{
-		super( element, errCode );
+	public CustomMsgException(DesignElement element, String resourceKey, String locale, String errCode) {
+		super(element, errCode);
 
 		this.resourceKey = resourceKey;
 		this.locale = locale;
@@ -108,20 +98,14 @@ public class CustomMsgException extends SemanticException
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_DUPLICATE_LOCALE
-				|| sResourceKey == DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{locale,
-					resourceKey} );
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_DUPLICATE_LOCALE
+				|| sResourceKey == DESIGN_EXCEPTION_TRANSLATION_NOT_FOUND) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { locale, resourceKey });
+		} else if (sResourceKey == DESIGN_EXCEPTION_INVALID_LOCALE) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { locale });
 		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_INVALID_LOCALE )
-		{
-			return ModelMessages
-					.getMessage( sResourceKey, new String[]{locale} );
-		}
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 	}
 
 }

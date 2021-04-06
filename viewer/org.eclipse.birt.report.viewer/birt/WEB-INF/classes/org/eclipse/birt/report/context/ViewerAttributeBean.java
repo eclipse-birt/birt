@@ -68,18 +68,17 @@ import com.ibm.icu.util.ULocale;
  * In current implementation, ViewerAttributeBean uses request scope.
  * <p>
  */
-public class ViewerAttributeBean extends BaseAttributeBean
-{
+public class ViewerAttributeBean extends BaseAttributeBean {
 
 	/* white list of extensions for rptdocument to be produced */
 	private static Set<String> allowedExtensionsForRptDocument;
-	
-	/* black list of extensions for the rptdocument to be produced*/
+
+	/* black list of extensions for the rptdocument to be produced */
 	private static Set<String> disallowedExtensionsForRptDocument;
-	
+
 	private static final String KEY_RPTDOC_ALLOWED_EXTENSIONS = "reportdocument.allowed-extensions";
 	private static final String KEY_RPTDOC_DISALLOWED_EXTENSIONS = "reportdocument.disallowed-extensions";
-	
+
 	/**
 	 * Report parameters as string map
 	 */
@@ -117,50 +116,37 @@ public class ViewerAttributeBean extends BaseAttributeBean
 
 	private Boolean reportRtl;
 
-	
-	
-	static
-	{
+	static {
 		allowedExtensionsForRptDocument = new HashSet<String>();
 		disallowedExtensionsForRptDocument = new HashSet<String>();
-				
+
 		String allowedExtString = (String) ParameterAccessor.getInitProp(KEY_RPTDOC_ALLOWED_EXTENSIONS);
-		if (allowedExtString != null && allowedExtString.trim().length() > 0)
-		{
+		if (allowedExtString != null && allowedExtString.trim().length() > 0) {
 			String[] allowedExtArray = allowedExtString.trim().split(",");
-			for(String s: allowedExtArray)
-			{
+			for (String s : allowedExtArray) {
 				allowedExtensionsForRptDocument.add(s.trim());
 			}
 		}
-		
+
 		String disallowedExtString = (String) ParameterAccessor.getInitProp(KEY_RPTDOC_DISALLOWED_EXTENSIONS);
-		if (disallowedExtString != null && disallowedExtString.trim().length() > 0)
-		{
+		if (disallowedExtString != null && disallowedExtString.trim().length() > 0) {
 			String[] disallowedExtArray = disallowedExtString.trim().split(",");
-			for(String s: disallowedExtArray)
-			{
+			for (String s : disallowedExtArray) {
 				disallowedExtensionsForRptDocument.add(s.trim());
 			}
 		}
-		
+
 	}
-	
-	
-	
+
 	/**
 	 * Constructor.
 	 * 
 	 * @param request
 	 */
-	public ViewerAttributeBean( HttpServletRequest request )
-	{
-		try
-		{
-			init( request );
-		}
-		catch ( Exception e )
-		{
+	public ViewerAttributeBean(HttpServletRequest request) {
+		try {
+			init(request);
+		} catch (Exception e) {
 			this.exception = e;
 		}
 	}
@@ -171,125 +157,103 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @param request
 	 * @throws Exception
 	 */
-	protected void __init( HttpServletRequest request ) throws Exception
-	{
+	protected void __init(HttpServletRequest request) throws Exception {
 		// If GetImage operate, return directly.
-		String servletPath = request.getServletPath( );
-		if ( ParameterAccessor.isGetImageOperator( request )
-				&& ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( servletPath )
-						|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase( servletPath )
-						|| IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( servletPath ) || IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( servletPath ) ) )
-		{
+		String servletPath = request.getServletPath();
+		if (ParameterAccessor.isGetImageOperator(request)
+				&& (IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase(servletPath)
+						|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase(servletPath)
+						|| IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(servletPath)
+						|| IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase(servletPath))) {
 			return;
 		}
 
 		this.category = "BIRT"; //$NON-NLS-1$
-		this.masterPageContent = ParameterAccessor.isMasterPageContent( request );
-		this.isDesigner = ParameterAccessor.isDesigner( );
+		this.masterPageContent = ParameterAccessor.isMasterPageContent(request);
+		this.isDesigner = ParameterAccessor.isDesigner();
 
-		if ( !ParameterAccessor.isBookmarkReportlet( request ) )
-		{
-			this.bookmark = ParameterAccessor.getBookmark( request );
-		}
-		else
-		{
+		if (!ParameterAccessor.isBookmarkReportlet(request)) {
+			this.bookmark = ParameterAccessor.getBookmark(request);
+		} else {
 			this.bookmark = null;
 		}
 
-		this.isToc = ParameterAccessor.isToc( request );
-		this.reportPage = ParameterAccessor.getPage( request );
-		this.reportPageRange = ParameterAccessor.getPageRange( request );
-		this.action = ParameterAccessor.getAction( request );
+		this.isToc = ParameterAccessor.isToc(request);
+		this.reportPage = ParameterAccessor.getPage(request);
+		this.reportPageRange = ParameterAccessor.getPageRange(request);
+		this.action = ParameterAccessor.getAction(request);
 
 		boolean checkReportDocumentExtension = false;
-		
+
 		// If use frameset/output/download/extract servlet pattern, generate
 		// document
 		// from design file
-		if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( servletPath )
-				|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase( servletPath )
-				 )
-		{
-			this.reportDocumentName = ParameterAccessor.getReportDocument( request,
-					null,
-					true );
+		if (IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase(servletPath)
+				|| IBirtConstants.SERVLET_PATH_OUTPUT.equalsIgnoreCase(servletPath)) {
+			this.reportDocumentName = ParameterAccessor.getReportDocument(request, null, true);
 			checkReportDocumentExtension = true;
-		}
-		else if (IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( servletPath )
-				|| IBirtConstants.SERVLET_PATH_EXTRACT.equalsIgnoreCase( servletPath ))
-		{
-			this.reportDocumentName = ParameterAccessor.getReportDocument( request,
-					null,
-					true );
-		}
-		else
-		{
-			this.reportDocumentName = ParameterAccessor.getReportDocument( request,
-					null,
-					false );
-			if (IBirtConstants.SERVLET_PATH_DOCUMENT.equalsIgnoreCase( servletPath ) && reportDocumentName != null)
-			{
+		} else if (IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase(servletPath)
+				|| IBirtConstants.SERVLET_PATH_EXTRACT.equalsIgnoreCase(servletPath)) {
+			this.reportDocumentName = ParameterAccessor.getReportDocument(request, null, true);
+		} else {
+			this.reportDocumentName = ParameterAccessor.getReportDocument(request, null, false);
+			if (IBirtConstants.SERVLET_PATH_DOCUMENT.equalsIgnoreCase(servletPath) && reportDocumentName != null) {
 				checkReportDocumentExtension = true;
 			}
 		}
 		// Fix for security issue: https://bugs.eclipse.org/bugs/show_bug.cgi?id=538142
-		if (checkReportDocumentExtension)
-		{
+		if (checkReportDocumentExtension) {
 			checkExtensionAllowedForRPTDocument(this.reportDocumentName);
 		}
 
-		this.reportDesignName = ParameterAccessor.getReport( request, null );
+		this.reportDesignName = ParameterAccessor.getReport(request, null);
 
-		this.emitterId = ParameterAccessor.getEmitterId( request );
+		this.emitterId = ParameterAccessor.getEmitterId(request);
 
 		// If print action, force to use postscript format
-		this.format = ParameterAccessor.getFormat( request );
-		if ( IBirtConstants.ACTION_PRINT.equalsIgnoreCase( action ) )
-		{
+		this.format = ParameterAccessor.getFormat(request);
+		if (IBirtConstants.ACTION_PRINT.equalsIgnoreCase(action)) {
 			// Check whether turn on this funtion
-			if ( ParameterAccessor.isSupportedPrintOnServer )
-			{
+			if (ParameterAccessor.isSupportedPrintOnServer) {
 				this.format = IBirtConstants.POSTSCRIPT_RENDER_FORMAT;
 				this.emitterId = null;
-			}
-			else
-			{
+			} else {
 				this.action = null;
 			}
 		}
 
 		// Set locale information
-		BirtResources.setLocale( ParameterAccessor.getLocale( request ) );
+		BirtResources.setLocale(ParameterAccessor.getLocale(request));
 
 		// Set the request type
-		this.requestType = request.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
+		this.requestType = request.getHeader(ParameterAccessor.HEADER_REQUEST_TYPE);
 
 		// Determine the report design and doc 's timestamp
-		processReport( request );
+		processReport(request);
 
 		// Report title.
-		this.reportTitle = ParameterAccessor.getTitle( request );
+		this.reportTitle = ParameterAccessor.getTitle(request);
 
 		// Set whether show the report title
-		this.isShowTitle = ParameterAccessor.isShowTitle( request );
+		this.isShowTitle = ParameterAccessor.isShowTitle(request);
 
 		// Set whether show the toolbar
-		this.isShowToolbar = ParameterAccessor.isShowToolbar( request );
+		this.isShowToolbar = ParameterAccessor.isShowToolbar(request);
 
 		// Set whether show the navigation bar
-		this.isShowNavigationbar = ParameterAccessor.isShowNavigationbar( request );
+		this.isShowNavigationbar = ParameterAccessor.isShowNavigationbar(request);
 
 		// get some module options
-		this.moduleOptions = BirtUtility.getModuleOptions( request );
+		this.moduleOptions = BirtUtility.getModuleOptions(request);
 
-		this.reportDesignHandle = getDesignHandle( request );
-		if ( this.reportDesignHandle == null )
-			throw new ViewerException( ResourceConstants.GENERAL_EXCEPTION_NO_REPORT_DESIGN );
+		this.reportDesignHandle = getDesignHandle(request);
+		if (this.reportDesignHandle == null)
+			throw new ViewerException(ResourceConstants.GENERAL_EXCEPTION_NO_REPORT_DESIGN);
 
 		this.reportRtl = null;
 
 		// Initialize report parameters.
-		__initParameters( request );
+		__initParameters(request);
 	}
 
 	/**
@@ -298,66 +262,49 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @param request
 	 * @throws Exception
 	 */
-	protected void __initParameters( HttpServletRequest request )
-			throws Exception
-	{
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, request );
-		options.setOption( InputOptions.OPT_LOCALE, locale );
-		options.setOption( InputOptions.OPT_TIMEZONE, timeZone );
-		options.setOption( InputOptions.OPT_RTL, Boolean.valueOf( rtl ) );
+	protected void __initParameters(HttpServletRequest request) throws Exception {
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, request);
+		options.setOption(InputOptions.OPT_LOCALE, locale);
+		options.setOption(InputOptions.OPT_TIMEZONE, timeZone);
+		options.setOption(InputOptions.OPT_RTL, Boolean.valueOf(rtl));
 
 		// Get parameter definition list
-		this.parameterDefList = getReportService( ).getParameterDefinitions( this.reportDesignHandle,
-				options,
-				false );
+		this.parameterDefList = getReportService().getParameterDefinitions(this.reportDesignHandle, options, false);
 
 		// when use run/parameter in designer and not SOAP request, parse
 		// parameters from config file
-		if ( this.isDesigner
-				&& ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PARAMETER.equalsIgnoreCase( request.getServletPath( ) ) ) )
-			parseConfigVars( request, parameterDefList );
+		if (this.isDesigner && (IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(request.getServletPath())
+				|| IBirtConstants.SERVLET_PATH_PARAMETER.equalsIgnoreCase(request.getServletPath())))
+			parseConfigVars(request, parameterDefList);
 
 		// Get parameters as String Map
-		this.parametersAsString = getParsedParametersAsString( parameterDefList,
-				request,
-				options );
+		this.parametersAsString = getParsedParametersAsString(parameterDefList, request, options);
 
 		// Check if miss parameter
-		if ( documentInUrl )
+		if (documentInUrl)
 			this.missingParameter = false;
 		else
-			this.missingParameter = BirtUtility.validateParameters( parameterDefList,
-					this.parametersAsString );
+			this.missingParameter = BirtUtility.validateParameters(parameterDefList, this.parametersAsString);
 
 		// Check if show parameter page
-		this.isShowParameterPage = checkShowParameterPage( request );
+		this.isShowParameterPage = checkShowParameterPage(request);
 
 		// Get parameter default values map
-		this.defaultValues = getDefaultValues( this.reportDesignHandle,
-				parameterDefList,
-				request,
-				options );
+		this.defaultValues = getDefaultValues(this.reportDesignHandle, parameterDefList, request, options);
 
 		// Get display text of select parameters
-		this.displayTexts = BirtUtility.getDisplayTexts( this.parameterDefList,
-				this.displayTexts,
-				request );
+		this.displayTexts = BirtUtility.getDisplayTexts(this.parameterDefList, this.displayTexts, request);
 
 		// Get locale parameter list
-		this.locParams = BirtUtility.getLocParams( this.locParams, request );
+		this.locParams = BirtUtility.getLocParams(this.locParams, request);
 
 		// Get parameters as Object Map
-		this.parameters = (HashMap) getParsedParameters( this.reportDesignHandle,
-				parameterDefList,
-				request,
-				options );
+		this.parameters = (HashMap) getParsedParameters(this.reportDesignHandle, parameterDefList, request, options);
 
 		// Get parameters as String Map with default value
-		this.parametersAsString = getParsedParametersAsStringWithDefaultValue( this.parametersAsString,
-				parameterDefList,
-				request,
-				options );
+		this.parametersAsString = getParsedParametersAsStringWithDefaultValue(this.parametersAsString, parameterDefList,
+				request, options);
 	}
 
 	/**
@@ -366,18 +313,16 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @param request
 	 * @return
 	 */
-	private boolean checkShowParameterPage( HttpServletRequest request )
-	{
-		if ( !ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase( this.requestType )
-				&& !IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request.getServletPath( ) ) )
-		{
-			String showParameterPage = ParameterAccessor.getShowParameterPage( request );
-			if ( "false".equalsIgnoreCase( showParameterPage ) ) //$NON-NLS-1$
+	private boolean checkShowParameterPage(HttpServletRequest request) {
+		if (!ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase(this.requestType)
+				&& !IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase(request.getServletPath())) {
+			String showParameterPage = ParameterAccessor.getShowParameterPage(request);
+			if ("false".equalsIgnoreCase(showParameterPage)) //$NON-NLS-1$
 			{
 				return false;
 			}
 
-			if ( "true".equalsIgnoreCase( showParameterPage ) ) //$NON-NLS-1$
+			if ("true".equalsIgnoreCase(showParameterPage)) //$NON-NLS-1$
 			{
 				return true;
 			}
@@ -389,169 +334,139 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	/**
 	 * parse paramenters from config file.
 	 * 
-	 * @param request
-	 *            HttpServletRequest
-	 * @param parameterList
-	 *            Collection
+	 * @param request       HttpServletRequest
+	 * @param parameterList Collection
 	 * @return
 	 */
-	protected void parseConfigVars( HttpServletRequest request,
-			Collection parameterList )
-	{
-		this.configMap = new HashMap( );
+	protected void parseConfigVars(HttpServletRequest request, Collection parameterList) {
+		this.configMap = new HashMap();
 
-		if ( this.displayTexts == null )
-			this.displayTexts = new HashMap( );
+		if (this.displayTexts == null)
+			this.displayTexts = new HashMap();
 
 		// get report config file
-		String reportConfigName = ParameterAccessor.getConfigFileName( this.reportDesignName );
-		if ( reportConfigName == null )
+		String reportConfigName = ParameterAccessor.getConfigFileName(this.reportDesignName);
+		if (reportConfigName == null)
 			return;
 
-		File configFile = new File( reportConfigName );
+		File configFile = new File(reportConfigName);
 
 		// check if config file existed
-		if ( !configFile.exists( ) || !configFile.isFile( ) )
-		{
+		if (!configFile.exists() || !configFile.isFile()) {
 			return;
 		}
 
 		// Generate the session handle
-		SessionHandle sessionHandle = new DesignEngine( null ).newSessionHandle( ULocale.US );
+		SessionHandle sessionHandle = new DesignEngine(null).newSessionHandle(ULocale.US);
 		ReportDesignHandle handle = null;
 
-		try
-		{
+		try {
 			// Open report config file
-			handle = sessionHandle.openDesign( reportConfigName );
+			handle = sessionHandle.openDesign(reportConfigName);
 
 			// handle config vars
-			if ( handle != null )
-			{
+			if (handle != null) {
 				String displayTextParam = null;
-				Iterator configVars = handle.configVariablesIterator( );
-				while ( configVars != null && configVars.hasNext( ) )
-				{
-					ConfigVariableHandle configVar = (ConfigVariableHandle) configVars.next( );
-					if ( configVar != null )
-					{
-						String varName = prepareConfigVarName( configVar.getName( ) );
-						Object varValue = configVar.getValue( );
+				Iterator configVars = handle.configVariablesIterator();
+				while (configVars != null && configVars.hasNext()) {
+					ConfigVariableHandle configVar = (ConfigVariableHandle) configVars.next();
+					if (configVar != null) {
+						String varName = prepareConfigVarName(configVar.getName());
+						Object varValue = configVar.getValue();
 
-						if ( varName == null || varValue == null )
+						if (varName == null || varValue == null)
 							continue;
 
 						String tempName = varName;
 						String paramName = null;
 
 						// check if null parameter
-						if ( varName.toLowerCase( )
-								.startsWith( ParameterAccessor.PARAM_ISNULL ) )
-						{
+						if (varName.toLowerCase().startsWith(ParameterAccessor.PARAM_ISNULL)) {
 							tempName = (String) varValue;
 						}
 						// check if display text of select parameter
-						else if ( ( displayTextParam = ParameterAccessor.isDisplayText( varName ) ) != null )
-						{
+						else if ((displayTextParam = ParameterAccessor.isDisplayText(varName)) != null) {
 							tempName = displayTextParam;
 						}
 
 						// check the parameter whether exist or not
-						paramName = getParameterName( tempName, parameterList );
+						paramName = getParameterName(tempName, parameterList);
 
-						ParameterDefinition parameter = BirtUtility.findParameterDefinition( parameterList,
-								paramName );
+						ParameterDefinition parameter = BirtUtility.findParameterDefinition(parameterList, paramName);
 
-						if ( parameter != null )
-						{
+						if (parameter != null) {
 							// find cached parameter type
-							String typeVarName = tempName
-									+ "_" + IBirtConstants.PROP_TYPE + "_"; //$NON-NLS-1$ //$NON-NLS-2$
-							ConfigVariable typeVar = handle.findConfigVariable( typeVarName );
+							String typeVarName = tempName + "_" + IBirtConstants.PROP_TYPE + "_"; //$NON-NLS-1$ //$NON-NLS-2$
+							ConfigVariable typeVar = handle.findConfigVariable(typeVarName);
 
 							// get cached parameter type
-							String dataType = ParameterDataTypeConverter.convertDataType( parameter.getDataType( ) );
+							String dataType = ParameterDataTypeConverter.convertDataType(parameter.getDataType());
 							String cachedDateType = null;
-							if ( typeVar != null )
-								cachedDateType = typeVar.getValue( );
+							if (typeVar != null)
+								cachedDateType = typeVar.getValue();
 
 							// if null or data type changed, skip it
-							if ( cachedDateType == null
-									|| !cachedDateType.equalsIgnoreCase( dataType ) )
+							if (cachedDateType == null || !cachedDateType.equalsIgnoreCase(dataType))
 								continue;
 
 							// find cached parameter value expression
 							String exprVarName = tempName + "_" //$NON-NLS-1$
-									+ IBirtConstants.PROP_EXPR
-									+ "_"; //$NON-NLS-1$
-							ConfigVariable exprVar = handle.findConfigVariable( exprVarName );
+									+ IBirtConstants.PROP_EXPR + "_"; //$NON-NLS-1$
+							ConfigVariable exprVar = handle.findConfigVariable(exprVarName);
 							String cachedExpr = null;
-							if ( exprVar != null )
-								cachedExpr = exprVar.getValue( );
-							if ( cachedExpr == null )
+							if (exprVar != null)
+								cachedExpr = exprVar.getValue();
+							if (cachedExpr == null)
 								cachedExpr = ""; //$NON-NLS-1$
 
-							String expr = parameter.getValueExpr( );
-							if ( expr == null )
+							String expr = parameter.getValueExpr();
+							if (expr == null)
 								expr = ""; //$NON-NLS-1$
 
 							// if value expression changed,skip it
-							if ( !cachedExpr.equals( expr ) )
+							if (!cachedExpr.equals(expr))
 								continue;
 
 							// multi-value parameter
 							List values = null;
-							if ( parameter.isMultiValue( ) )
-							{
-								values = (List) this.configMap.get( paramName );
-								if ( values == null )
-								{
-									values = new ArrayList( );
-									this.configMap.put( paramName, values );
+							if (parameter.isMultiValue()) {
+								values = (List) this.configMap.get(paramName);
+								if (values == null) {
+									values = new ArrayList();
+									this.configMap.put(paramName, values);
 								}
 							}
 
 							// check if null parameter
-							if ( varName.toLowerCase( )
-									.startsWith( ParameterAccessor.PARAM_ISNULL ) )
-							{
-								if ( parameter.isMultiValue( ) )
-									values.add( null );
+							if (varName.toLowerCase().startsWith(ParameterAccessor.PARAM_ISNULL)) {
+								if (parameter.isMultiValue())
+									values.add(null);
 								else
-									this.configMap.put( paramName, null );
+									this.configMap.put(paramName, null);
 							}
 							// check if display text of select parameter
-							else if ( ( displayTextParam = ParameterAccessor.isDisplayText( varName ) ) != null )
-							{
-								this.displayTexts.put( paramName, varValue );
-							}
-							else
-							{
+							else if ((displayTextParam = ParameterAccessor.isDisplayText(varName)) != null) {
+								this.displayTexts.put(paramName, varValue);
+							} else {
 								Object varObj = null;
-								try
-								{
-									varObj = DataUtil.convert( varValue,
-											parameter.getDataType( ) );
-								}
-								catch ( Exception e )
-								{
+								try {
+									varObj = DataUtil.convert(varValue, parameter.getDataType());
+								} catch (Exception e) {
 									varObj = varValue;
 								}
 
-								if ( parameter.isMultiValue( ) )
-									values.add( varObj );
+								if (parameter.isMultiValue())
+									values.add(varObj);
 								else
-									this.configMap.put( paramName, varObj );
+									this.configMap.put(paramName, varObj);
 							}
 						}
 					}
 				}
 
-				handle.close( );
+				handle.close();
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			// ignore any exception
 		}
 	}
@@ -562,43 +477,33 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @param name
 	 * @return String
 	 */
-	private String prepareConfigVarName( String name )
-	{
-		int index = name.lastIndexOf( "_" ); //$NON-NLS-1$
-		return name.substring( 0, index );
+	private String prepareConfigVarName(String name) {
+		int index = name.lastIndexOf("_"); //$NON-NLS-1$
+		return name.substring(0, index);
 	}
 
 	/**
 	 * if parameter existed in config file, return the correct parameter name
 	 * 
-	 * @param configVarName
-	 *            String
-	 * @param parameterList
-	 *            Collection
+	 * @param configVarName String
+	 * @param parameterList Collection
 	 * @return String
 	 */
-	private String getParameterName( String configVarName,
-			Collection parameterList ) throws ReportServiceException
-	{
+	private String getParameterName(String configVarName, Collection parameterList) throws ReportServiceException {
 		String paramName = null;
-		if ( parameterList != null )
-		{
-			for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
-			{
-				ParameterDefinition parameter = (ParameterDefinition) iter.next( );
+		if (parameterList != null) {
+			for (Iterator iter = parameterList.iterator(); iter.hasNext();) {
+				ParameterDefinition parameter = (ParameterDefinition) iter.next();
 
 				// get current name
 				String curName = null;
-				if ( parameter != null && parameter.getName( ) != null )
-				{
-					curName = parameter.getName( ) + "_" + parameter.getId( ); //$NON-NLS-1$
+				if (parameter != null && parameter.getName() != null) {
+					curName = parameter.getName() + "_" + parameter.getId(); //$NON-NLS-1$
 				}
 
 				// if find the parameter exist, return true
-				if ( curName != null
-						&& curName.equalsIgnoreCase( configVarName ) )
-				{
-					paramName = parameter.getName( );
+				if (curName != null && curName.equalsIgnoreCase(configVarName)) {
+					paramName = parameter.getName();
 					break;
 				}
 			}
@@ -614,129 +519,85 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @throws Exception
 	 * @return Report Design Handle
 	 */
-	protected IViewerReportDesignHandle getDesignHandle(
-			HttpServletRequest request ) throws Exception
-	{
+	protected IViewerReportDesignHandle getDesignHandle(HttpServletRequest request) throws Exception {
 		IViewerReportDesignHandle design = null;
 		IReportRunnable reportRunnable = null;
 		IReportDocument reportDocumentInstance = null;
 
-		boolean isDocumentExist = ParameterAccessor.isReportParameterExist( request,
-				ParameterAccessor.PARAM_REPORT_DOCUMENT );
-		boolean isReportExist = ParameterAccessor.isReportParameterExist( request,
-				ParameterAccessor.PARAM_REPORT );
+		boolean isDocumentExist = ParameterAccessor.isReportParameterExist(request,
+				ParameterAccessor.PARAM_REPORT_DOCUMENT);
+		boolean isReportExist = ParameterAccessor.isReportParameterExist(request, ParameterAccessor.PARAM_REPORT);
 
 		// if only set __document parameter
-		if ( isDocumentExist && !isReportExist )
-		{
+		if (isDocumentExist && !isReportExist) {
 			// check if document file path is valid
-			boolean isValidDocument = ParameterAccessor.isValidFilePath( request,
-					ParameterAccessor.getParameter( request,
-							ParameterAccessor.PARAM_REPORT_DOCUMENT ) );
+			boolean isValidDocument = ParameterAccessor.isValidFilePath(request,
+					ParameterAccessor.getParameter(request, ParameterAccessor.PARAM_REPORT_DOCUMENT));
 
-			if ( isValidDocument )
-			{
+			if (isValidDocument) {
 				// try to open document instance
-				try
-				{
-					reportDocumentInstance = ReportEngineService.getInstance( )
-							.openReportDocument( this.reportDesignName,
-									this.reportDocumentName,
-									this.moduleOptions );
-				}
-				catch ( Exception e )
-				{
+				try {
+					reportDocumentInstance = ReportEngineService.getInstance().openReportDocument(this.reportDesignName,
+							this.reportDocumentName, this.moduleOptions);
+				} catch (Exception e) {
 				}
 
-				if ( reportDocumentInstance != null )
-				{
-					reportRunnable = reportDocumentInstance.getReportRunnable( );
+				if (reportDocumentInstance != null) {
+					reportRunnable = reportDocumentInstance.getReportRunnable();
+				} else {
+					throw new ViewerException(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR,
+							new String[] { this.reportDocumentName });
 				}
-				else
-				{
-					throw new ViewerException( ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR,
-							new String[]{
-								this.reportDocumentName
-							} );
-				}
-			}
-			else
-			{
-				throw new ViewerException( ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
-						new String[]{
-							this.reportDocumentName
-						} );
+			} else {
+				throw new ViewerException(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
+						new String[] { this.reportDocumentName });
 			}
 
-		}
-		else if ( isReportExist )
-		{
-			if ( isDocumentExist
-					&& !ParameterAccessor.isValidFilePath( request,
-							ParameterAccessor.getParameter( request,
-									ParameterAccessor.PARAM_REPORT_DOCUMENT ) ) )
-			{
-				throw new ViewerException( ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
-						new String[]{
-							this.reportDocumentName
-						} );
+		} else if (isReportExist) {
+			if (isDocumentExist && !ParameterAccessor.isValidFilePath(request,
+					ParameterAccessor.getParameter(request, ParameterAccessor.PARAM_REPORT_DOCUMENT))) {
+				throw new ViewerException(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR,
+						new String[] { this.reportDocumentName });
 			}
 
 			// try to open document instance
-			try
-			{
-				reportDocumentInstance = ReportEngineService.getInstance( )
-						.openReportDocument( this.reportDesignName,
-								this.reportDocumentName,
-								this.moduleOptions );
-			}
-			catch ( Exception e )
-			{
+			try {
+				reportDocumentInstance = ReportEngineService.getInstance().openReportDocument(this.reportDesignName,
+						this.reportDocumentName, this.moduleOptions);
+			} catch (Exception e) {
 			}
 
 			// try to get runnable from design file
-			if ( ParameterAccessor.isValidFilePath( request,
-					ParameterAccessor.getParameter( request,
-							ParameterAccessor.PARAM_REPORT ) ) )
-			{
-				try
-				{
+			if (ParameterAccessor.isValidFilePath(request,
+					ParameterAccessor.getParameter(request, ParameterAccessor.PARAM_REPORT))) {
+				try {
 					// get report runnable from design file
-					reportRunnable = BirtUtility.getRunnableFromDesignFile( request,
-							this.reportDesignName,
-							this.moduleOptions );
+					reportRunnable = BirtUtility.getRunnableFromDesignFile(request, this.reportDesignName,
+							this.moduleOptions);
 
-					if ( reportRunnable == null )
-					{
-						throw new ViewerException( ResourceConstants.GENERAL_EXCEPTION_REPORT_FILE_ERROR,
-								new String[]{
-									new File( this.reportDesignName ).getName( )
-								} );
+					if (reportRunnable == null) {
+						throw new ViewerException(ResourceConstants.GENERAL_EXCEPTION_REPORT_FILE_ERROR,
+								new String[] { new File(this.reportDesignName).getName() });
 					}
-				}
-				catch ( EngineException e )
-				{
+				} catch (EngineException e) {
 					this.exception = e;
 				}
 			}
 		}
 
-		if ( reportDocumentInstance != null )
-		{
+		if (reportDocumentInstance != null) {
 			this.documentInUrl = true;
-			this.parameterMap = reportDocumentInstance.getParameterValues( );
+			this.parameterMap = reportDocumentInstance.getParameterValues();
 
 			// if generating document from report isn't completed
-			if ( !reportDocumentInstance.isComplete( ) && isReportExist )
+			if (!reportDocumentInstance.isComplete() && isReportExist)
 				this.isDocumentProcessing = true;
 
-			reportDocumentInstance.close( );
+			reportDocumentInstance.close();
 		}
 
-		if ( reportRunnable != null )
-		{
-			design = new BirtViewerReportDesignHandle( IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT,
-					reportRunnable );
+		if (reportRunnable != null) {
+			design = new BirtViewerReportDesignHandle(IViewerReportDesignHandle.RPT_RUNNABLE_OBJECT, reportRunnable);
 		}
 
 		return design;
@@ -748,30 +609,23 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @param request
 	 * @throws Exception
 	 */
-	protected void processReport( HttpServletRequest request ) throws Exception
-	{
+	protected void processReport(HttpServletRequest request) throws Exception {
 		// if request is SOAP Post or servlet path is "/download" or "/extract",
 		// don't delete document file
-		if ( ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase( this.requestType )
-				|| IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase( request.getServletPath( ) )
-				|| IBirtConstants.SERVLET_PATH_EXTRACT.equalsIgnoreCase( request.getServletPath( ) ) )
+		if (ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase(this.requestType)
+				|| IBirtConstants.SERVLET_PATH_DOWNLOAD.equalsIgnoreCase(request.getServletPath())
+				|| IBirtConstants.SERVLET_PATH_EXTRACT.equalsIgnoreCase(request.getServletPath()))
 			return;
 
-		if ( this.reportDocumentName == null )
+		if (this.reportDocumentName == null)
 			return;
 
-		File reportDocFile = new File( this.reportDocumentName );
-		long lastModifiedOfDesign = getLastModifiedOfDesign( request );
+		File reportDocFile = new File(this.reportDocumentName);
+		long lastModifiedOfDesign = getLastModifiedOfDesign(request);
 
-		if ( lastModifiedOfDesign != -1L
-				&& reportDocFile != null
-				&& reportDocFile.exists( )
-				&& reportDocFile.isFile( ) )
-		{
-			if ( lastModifiedOfDesign > reportDocFile.lastModified( )
-					|| ParameterAccessor.isOverwrite( request ) )
-			{
-				reportDocFile.delete( );
+		if (lastModifiedOfDesign != -1L && reportDocFile != null && reportDocFile.exists() && reportDocFile.isFile()) {
+			if (lastModifiedOfDesign > reportDocFile.lastModified() || ParameterAccessor.isOverwrite(request)) {
+				reportDocFile.delete();
 			}
 		}
 	}
@@ -783,36 +637,26 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @param request
 	 * @return
 	 */
-	protected long getLastModifiedOfDesign( HttpServletRequest request )
-	{
-		String designFile = ParameterAccessor.getParameter( request,
-				ParameterAccessor.PARAM_REPORT );
-		if ( designFile == null )
+	protected long getLastModifiedOfDesign(HttpServletRequest request) {
+		String designFile = ParameterAccessor.getParameter(request, ParameterAccessor.PARAM_REPORT);
+		if (designFile == null)
 			return -1L;
 
 		// according to the working folder
-		File file = new File( this.reportDesignName );
-		if ( file != null && file.exists( ) )
-		{
-			if ( file.isFile( ) )
-				return file.lastModified( );
-		}
-		else
-		{
+		File file = new File(this.reportDesignName);
+		if (file != null && file.exists()) {
+			if (file.isFile())
+				return file.lastModified();
+		} else {
 			// try URL resource
-			try
-			{
-				if ( !designFile.startsWith( "/" ) ) //$NON-NLS-1$
+			try {
+				if (!designFile.startsWith("/")) //$NON-NLS-1$
 					designFile = "/" + designFile; //$NON-NLS-1$
 
-				URL url = request.getSession( )
-						.getServletContext( )
-						.getResource( designFile );
-				if ( url != null )
-					return url.openConnection( ).getLastModified( );
-			}
-			catch ( Exception e )
-			{
+				URL url = request.getSession().getServletContext().getResource(designFile);
+				if (url != null)
+					return url.openConnection().getLastModified();
+			} catch (Exception e) {
 			}
 		}
 
@@ -822,141 +666,105 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	/**
 	 * Get report service instance.
 	 */
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 
 	/**
 	 * get parsed parameters with default value.
 	 * 
-	 * @param design
-	 *            IViewerReportDesignHandle
-	 * @param parameterList
-	 *            Collection
-	 * @param request
-	 *            HttpServletRequest
-	 * @param options
-	 *            InputOptions
+	 * @param design        IViewerReportDesignHandle
+	 * @param parameterList Collection
+	 * @param request       HttpServletRequest
+	 * @param options       InputOptions
 	 * 
 	 * @return Map
 	 */
-	protected Map<String, Object> getParsedParameters(
-			IViewerReportDesignHandle design,
-			Collection<ParameterDefinition> parameterList,
-			HttpServletRequest request, InputOptions options )
-			throws ReportServiceException
-	{
-		Map<String, Object> params = new HashMap<String, Object>( );
-		if ( parameterList == null || this.parametersAsString == null )
+	protected Map<String, Object> getParsedParameters(IViewerReportDesignHandle design,
+			Collection<ParameterDefinition> parameterList, HttpServletRequest request, InputOptions options)
+			throws ReportServiceException {
+		Map<String, Object> params = new HashMap<String, Object>();
+		if (parameterList == null || this.parametersAsString == null)
 			return params;
 
-		for ( Iterator<ParameterDefinition> iter = parameterList.iterator( ); iter.hasNext( ); )
-		{
+		for (Iterator<ParameterDefinition> iter = parameterList.iterator(); iter.hasNext();) {
 			// get parameter definition object
-			ParameterDefinition parameter = iter.next( );
-			if ( parameter == null )
+			ParameterDefinition parameter = iter.next();
+			if (parameter == null)
 				continue;
 
-			String paramName = parameter.getName( );
-			Object paramObj = this.parametersAsString.get( paramName );
+			String paramName = parameter.getName();
+			Object paramObj = this.parametersAsString.get(paramName);
 
-			if ( paramObj != null )
-			{
+			if (paramObj != null) {
 				// get parameter format
-				String format = ParameterAccessor.getFormat( request, paramName );
-				if ( format == null || format.length( ) <= 0 )
-				{
-					format = parameter.getPattern( );
+				String format = ParameterAccessor.getFormat(request, paramName);
+				if (format == null || format.length() <= 0) {
+					format = parameter.getPattern();
 				}
 
 				// get parameter data type
-				String dataType = ParameterDataTypeConverter.convertDataType( parameter.getDataType( ) );
+				String dataType = ParameterDataTypeConverter.convertDataType(parameter.getDataType());
 
 				// check whether locale string
-				boolean isLocale = this.locParams.contains( paramName );
+				boolean isLocale = this.locParams.contains(paramName);
 
 				List paramList = null;
-				if ( paramObj instanceof List )
-				{
+				if (paramObj instanceof List) {
 					// multi-value parameter
 					paramList = (List) paramObj;
-				}
-				else
-				{
-					paramList = new ArrayList( );
-					paramList.add( paramObj );
+				} else {
+					paramList = new ArrayList();
+					paramList.add(paramObj);
 				}
 
-				for ( int i = 0; i < paramList.size( ); i++ )
-				{
-					try
-					{
+				for (int i = 0; i < paramList.size(); i++) {
+					try {
 						// convert parameter to object
-						Object paramValueObj = DataUtil.validate( paramName,
-								dataType,
-								format,
-								(String) paramList.get( i ),
-								locale,
-								timeZone,
-								isLocale );
-						paramList.set( i, paramValueObj );
-					}
-					catch ( ViewerValidationException e )
-					{
+						Object paramValueObj = DataUtil.validate(paramName, dataType, format, (String) paramList.get(i),
+								locale, timeZone, isLocale);
+						paramList.set(i, paramValueObj);
+					} catch (ViewerValidationException e) {
 						// if in PREVIEW mode, then throw exception directly
-						if ( IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase( request.getServletPath( ) ) )
-						{
+						if (IBirtConstants.SERVLET_PATH_PREVIEW.equalsIgnoreCase(request.getServletPath())) {
 							this.exception = e;
 							break;
 						}
 
 						// set the wrong parameter
-						paramList.set( i, paramList.get( i ) );
+						paramList.set(i, paramList.get(i));
 					}
 				}
 
-				if ( paramObj instanceof List )
-				{
+				if (paramObj instanceof List) {
 					List list = (List) paramObj;
 
 					// FIXME:if list is empty or only contains null value,
 					// regard it as NULL object
-					if ( list.size( ) == 0
-							|| ( list.size( ) == 1 && list.get( 0 ) == null ) )
-						params.put( paramName, null );
+					if (list.size() == 0 || (list.size() == 1 && list.get(0) == null))
+						params.put(paramName, null);
 					else
-						params.put( paramName, paramList.toArray( ) );
+						params.put(paramName, paramList.toArray());
+				} else {
+					params.put(paramName, paramList.get(0));
 				}
-				else
-				{
-					params.put( paramName, paramList.get( 0 ) );
-				}
-			}
-			else
-			{
+			} else {
 				Object paramValueObj = null;
 
 				// null parameter value
-				if ( !this.parametersAsString.containsKey( paramName ) )
-				{
+				if (!this.parametersAsString.containsKey(paramName)) {
 					// Get parameter default value as object
-					paramValueObj = this.defaultValues.get( paramName );
+					paramValueObj = this.defaultValues.get(paramName);
 				}
 
-				if ( parameter.isMultiValue( ) )
-				{
+				if (parameter.isMultiValue()) {
 					// FIXME: if multi-value only contains null value, regard it
 					// as NULL object
-					if ( paramValueObj != null
-							&& !( paramValueObj instanceof Object[] ) )
-					{
-						paramValueObj = new Object[]{
-							paramValueObj
-						};
+					if (paramValueObj != null && !(paramValueObj instanceof Object[])) {
+						paramValueObj = new Object[] { paramValueObj };
 					}
 				}
-				params.put( paramName, paramValueObj );
+				params.put(paramName, paramValueObj);
 			}
 		}
 		return params;
@@ -972,25 +780,20 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @return
 	 * @throws ReportServiceException
 	 */
-	protected Map getDefaultValues( IViewerReportDesignHandle design,
-			Collection parameterList, HttpServletRequest request,
-			InputOptions options ) throws ReportServiceException
-	{
-		Map map = new HashMap( );
+	protected Map getDefaultValues(IViewerReportDesignHandle design, Collection parameterList,
+			HttpServletRequest request, InputOptions options) throws ReportServiceException {
+		Map map = new HashMap();
 
 		// get parameter default values
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
-		{
-			ParameterDefinition parameter = (ParameterDefinition) iter.next( );
-			if ( parameter == null )
+		for (Iterator iter = parameterList.iterator(); iter.hasNext();) {
+			ParameterDefinition parameter = (ParameterDefinition) iter.next();
+			if (parameter == null)
 				continue;
 
-			String paramName = parameter.getName( );
-			if ( paramName != null )
-			{
-				Object paramValue = this.getReportService( )
-						.getParameterDefaultValue( design, paramName, options );
-				map.put( paramName, paramValue );
+			String paramName = parameter.getName();
+			if (paramName != null) {
+				Object paramValue = this.getReportService().getParameterDefaultValue(design, paramName, options);
+				map.put(paramName, paramValue);
 			}
 		}
 
@@ -1000,109 +803,81 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	/**
 	 * get parsed parameters as string.
 	 * 
-	 * @param parameterList
-	 *            Collection
-	 * @param request
-	 *            HttpServletRequest
-	 * @param options
-	 *            InputOptions
+	 * @param parameterList Collection
+	 * @param request       HttpServletRequest
+	 * @param options       InputOptions
 	 * 
 	 * @return Map
 	 */
-	protected Map getParsedParametersAsString( Collection parameterList,
-			HttpServletRequest request, InputOptions options )
-			throws ReportServiceException
-	{
-		Map params = new HashMap( );
-		if ( parameterList == null )
+	protected Map getParsedParametersAsString(Collection parameterList, HttpServletRequest request,
+			InputOptions options) throws ReportServiceException {
+		Map params = new HashMap();
+		if (parameterList == null)
 			return params;
 
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
-		{
-			ParameterDefinition parameter = (ParameterDefinition) iter.next( );
-			if ( parameter == null )
+		for (Iterator iter = parameterList.iterator(); iter.hasNext();) {
+			ParameterDefinition parameter = (ParameterDefinition) iter.next();
+			if (parameter == null)
 				continue;
 
 			// get parameter name
-			String paramName = parameter.getName( );
-			if ( paramName == null )
+			String paramName = parameter.getName();
+			if (paramName == null)
 				continue;
 
 			// get parameter value
 			String paramValue = null;
-			if ( ParameterAccessor.isReportParameterExist( request, paramName ) )
-			{
-				if ( parameter.isMultiValue( ) )
-				{
+			if (ParameterAccessor.isReportParameterExist(request, paramName)) {
+				if (parameter.isMultiValue()) {
 					// handle multi-value parameter
-					List values = ParameterAccessor.getReportParameters( request,
-							paramName );
-					params.put( paramName, values );
-				}
-				else
-				{
+					List values = ParameterAccessor.getReportParameters(request, paramName);
+					params.put(paramName, values);
+				} else {
 					// Get value from http request
-					paramValue = ParameterAccessor.getReportParameter( request,
-							paramName,
-							null );
+					paramValue = ParameterAccessor.getReportParameter(request, paramName, null);
 
-					params.put( paramName, paramValue );
+					params.put(paramName, paramValue);
 				}
-			}
-			else
-			{
+			} else {
 				Object valueObj = null;
-				if ( this.isDesigner
-						&& ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( request.getServletPath( ) ) || IBirtConstants.SERVLET_PATH_PARAMETER.equalsIgnoreCase( request.getServletPath( ) ) )
-						&& this.configMap != null
-						&& this.configMap.containsKey( paramName ) )
-				{
+				if (this.isDesigner
+						&& (IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(request.getServletPath())
+								|| IBirtConstants.SERVLET_PATH_PARAMETER.equalsIgnoreCase(request.getServletPath()))
+						&& this.configMap != null && this.configMap.containsKey(paramName)) {
 					// Get value from config file
-					valueObj = this.configMap.get( paramName );
-				}
-				else if ( this.parameterMap != null
-						&& this.parameterMap.containsKey( paramName ) )
-				{
+					valueObj = this.configMap.get(paramName);
+				} else if (this.parameterMap != null && this.parameterMap.containsKey(paramName)) {
 					// Get value from document
-					valueObj = this.parameterMap.get( paramName );
+					valueObj = this.parameterMap.get(paramName);
 
 					// Convert it to a List
-					if ( valueObj instanceof Object[] )
-					{
+					if (valueObj instanceof Object[]) {
 						Object[] values = (Object[]) valueObj;
-						List list = new ArrayList( values.length );
-						for ( int i = 0; i < values.length; i++ )
-						{
-							list.add( values[i] );
+						List list = new ArrayList(values.length);
+						for (int i = 0; i < values.length; i++) {
+							list.add(values[i]);
 						}
 						valueObj = list;
 					}
-				}
-				else
-				{
+				} else {
 					// skip it
 					continue;
 				}
 
-				if ( valueObj instanceof List )
-				{
+				if (valueObj instanceof List) {
 					// handle multi-value parameter
 					List values = (List) valueObj;
 
-					for ( int i = 0; i < values.size( ); i++ )
-					{
-						paramValue = DataUtil.getDisplayValue( values.get( i ),
-								timeZone );
-						values.set( i, paramValue );
+					for (int i = 0; i < values.size(); i++) {
+						paramValue = DataUtil.getDisplayValue(values.get(i), timeZone);
+						values.set(i, paramValue);
 					}
 
-					params.put( paramName, values );
-				}
-				else
-				{
+					params.put(paramName, values);
+				} else {
 					// return String parameter value
-					paramValue = DataUtil.getDisplayValue( valueObj, timeZone );
-					params.put( paramName, paramValue );
+					paramValue = DataUtil.getDisplayValue(valueObj, timeZone);
+					params.put(paramName, paramValue);
 				}
 			}
 		}
@@ -1113,91 +888,65 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	/**
 	 * get parsed parameters as string.
 	 * 
-	 * @param parsedParameters
-	 *            Map
-	 * @param parameterList
-	 *            Collection
-	 * @param request
-	 *            HttpServletRequest
-	 * @param options
-	 *            InputOptions
+	 * @param parsedParameters Map
+	 * @param parameterList    Collection
+	 * @param request          HttpServletRequest
+	 * @param options          InputOptions
 	 * 
 	 * @return Map
 	 */
-	protected Map getParsedParametersAsStringWithDefaultValue(
-			Map aParsedParameters, Collection parameterList,
-			HttpServletRequest request, InputOptions options )
-			throws ReportServiceException
-	{
+	protected Map getParsedParametersAsStringWithDefaultValue(Map aParsedParameters, Collection parameterList,
+			HttpServletRequest request, InputOptions options) throws ReportServiceException {
 		Map parsedParameters = aParsedParameters;
-		if ( parsedParameters == null )
-		{
-			parsedParameters = new HashMap( );
+		if (parsedParameters == null) {
+			parsedParameters = new HashMap();
 		}
 
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
-		{
+		for (Iterator iter = parameterList.iterator(); iter.hasNext();) {
 			// get parameter definition object
-			ParameterDefinition parameter = (ParameterDefinition) iter.next( );
-			if ( parameter == null )
+			ParameterDefinition parameter = (ParameterDefinition) iter.next();
+			if (parameter == null)
 				continue;
 
 			// get parameter name
-			String paramName = parameter.getName( );
-			if ( paramName == null )
+			String paramName = parameter.getName();
+			if (paramName == null)
 				continue;
 
 			// if miss parameter, set parameter value as default value
-			if ( !parsedParameters.containsKey( paramName ) )
-			{
-				Object defVals = this.defaultValues.get( paramName );
+			if (!parsedParameters.containsKey(paramName)) {
+				Object defVals = this.defaultValues.get(paramName);
 
-				if ( parameter.isMultiValue( ) )
-				{
+				if (parameter.isMultiValue()) {
 					// ignore the empty list case and handle multi default value
 					// case
-					if ( defVals != null )
-					{
-						List values = new ArrayList( );
+					if (defVals != null) {
+						List values = new ArrayList();
 
 						String paramValue;
 
-						if ( defVals.getClass( ).isArray( ) )
-						{
-							for ( int i = 0; i < Array.getLength( defVals ); i++ )
-							{
-								paramValue = DataUtil.getDisplayValue( Array.get( defVals,
-										i ),
-										timeZone );
-								values.add( paramValue );
+						if (defVals.getClass().isArray()) {
+							for (int i = 0; i < Array.getLength(defVals); i++) {
+								paramValue = DataUtil.getDisplayValue(Array.get(defVals, i), timeZone);
+								values.add(paramValue);
 							}
-						}
-						else
-						{
-							paramValue = DataUtil.getDisplayValue( defVals,
-									timeZone );
-							values.add( paramValue );
+						} else {
+							paramValue = DataUtil.getDisplayValue(defVals, timeZone);
+							values.add(paramValue);
 						}
 
-						parsedParameters.put( paramName, values );
+						parsedParameters.put(paramName, values);
 					}
-				}
-				else
-				{
-					String paramValue = DataUtil.getDisplayValue( defVals,
-							timeZone );
+				} else {
+					String paramValue = DataUtil.getDisplayValue(defVals, timeZone);
 
 					// Bugzilla 259466: select empty string instead of null
-					if ( paramValue == null
-							&& parameter.getControlType( ) == ParameterDefinition.LIST_BOX
-							&& !parameter.isRequired( )
-							&& parameter.allowBlank( )
-							&& parameter.getGroup( ) != null
-							&& parameter.getGroup( ).cascade( ) )
-					{
+					if (paramValue == null && parameter.getControlType() == ParameterDefinition.LIST_BOX
+							&& !parameter.isRequired() && parameter.allowBlank() && parameter.getGroup() != null
+							&& parameter.getGroup().cascade()) {
 						paramValue = ""; //$NON-NLS-1$
 					}
-					parsedParameters.put( paramName, paramValue );
+					parsedParameters.put(paramName, paramValue);
 				}
 			}
 		}
@@ -1212,10 +961,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @return
 	 * @throws ReportServiceException
 	 */
-	public ParameterHandle findParameter( String paramName )
-			throws ReportServiceException
-	{
-		return BirtUtility.findParameter( this.reportDesignHandle, paramName );
+	public ParameterHandle findParameter(String paramName) throws ReportServiceException {
+		return BirtUtility.findParameter(this.reportDesignHandle, paramName);
 	}
 
 	/**
@@ -1224,10 +971,8 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @param paramName
 	 * @return
 	 */
-	public ParameterDefinition findParameterDefinition( String paramName )
-	{
-		return BirtUtility.findParameterDefinition( this.parameterDefList,
-				paramName );
+	public ParameterDefinition findParameterDefinition(String paramName) {
+		return BirtUtility.findParameterDefinition(this.parameterDefList, paramName);
 	}
 
 	/**
@@ -1236,10 +981,9 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * @see org.eclipse.birt.report.context.BaseAttributeBean#getReportTitle()
 	 */
 
-	public String getReportTitle( ) throws ReportServiceException
-	{
-		String title = BirtUtility.getTitleFromDesign( reportDesignHandle );
-		if ( title == null || title.trim( ).length( ) <= 0 )
+	public String getReportTitle() throws ReportServiceException {
+		String title = BirtUtility.getTitleFromDesign(reportDesignHandle);
+		if (title == null || title.trim().length() <= 0)
 			title = reportTitle;
 
 		return title;
@@ -1248,40 +992,35 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	/**
 	 * @return the parametersAsString
 	 */
-	public Map getParametersAsString( )
-	{
+	public Map getParametersAsString() {
 		return parametersAsString;
 	}
 
 	/**
 	 * @return the parameterDefList
 	 */
-	public Collection getParameterDefList( )
-	{
+	public Collection getParameterDefList() {
 		return parameterDefList;
 	}
 
 	/**
 	 * @return the displayTexts
 	 */
-	public Map getDisplayTexts( )
-	{
+	public Map getDisplayTexts() {
 		return displayTexts;
 	}
 
 	/**
 	 * @return the moduleOptions
 	 */
-	public Map getModuleOptions( )
-	{
+	public Map getModuleOptions() {
 		return moduleOptions;
 	}
 
 	/**
 	 * @return the defaultValues
 	 */
-	public Map getDefaultValues( )
-	{
+	public Map getDefaultValues() {
 		return defaultValues;
 	}
 
@@ -1290,56 +1029,45 @@ public class ViewerAttributeBean extends BaseAttributeBean
 	 * 
 	 * @return false for LTR, true for RTL
 	 */
-	public boolean isReportRtl( )
-	{
-		if ( reportRtl == null )
-		{
+	public boolean isReportRtl() {
+		if (reportRtl == null) {
 			IReportRunnable r;
-			try
-			{
-				r = (IReportRunnable) reportDesignHandle.getDesignObject( );
-			}
-			catch ( ReportServiceException e )
-			{
+			try {
+				r = (IReportRunnable) reportDesignHandle.getDesignObject();
+			} catch (ReportServiceException e) {
 				return false;
 			}
-			if ( r.getDesignHandle( ) instanceof ReportDesignHandle )
-			{
-				ReportDesignHandle handle = (ReportDesignHandle) r.getDesignHandle( );
-				reportRtl = DesignChoiceConstants.BIDI_DIRECTION_RTL.equalsIgnoreCase( handle.getBidiOrientation( ) ); //$NON-NLS-1$
+			if (r.getDesignHandle() instanceof ReportDesignHandle) {
+				ReportDesignHandle handle = (ReportDesignHandle) r.getDesignHandle();
+				reportRtl = DesignChoiceConstants.BIDI_DIRECTION_RTL.equalsIgnoreCase(handle.getBidiOrientation()); // $NON-NLS-1$
 			}
 		}
 
-		return ( reportRtl != null ) ? reportRtl.booleanValue( ) : false;
+		return (reportRtl != null) ? reportRtl.booleanValue() : false;
 	}
-	
-	protected static void checkExtensionAllowedForRPTDocument(String rptDocumentName) throws ViewerException
-	{
+
+	protected static void checkExtensionAllowedForRPTDocument(String rptDocumentName) throws ViewerException {
 		int extIndex = rptDocumentName.lastIndexOf(".");
 		String extension = null;
 		boolean validExtension = true;
-		
-		if (extIndex > -1 && (extIndex+1) < rptDocumentName.length())
-		{
+
+		if (extIndex > -1 && (extIndex + 1) < rptDocumentName.length()) {
 			extension = rptDocumentName.substring(extIndex + 1);
-			
-			if ( !disallowedExtensionsForRptDocument.isEmpty() && 					
-					disallowedExtensionsForRptDocument.contains(extension))
-			{
+
+			if (!disallowedExtensionsForRptDocument.isEmpty()
+					&& disallowedExtensionsForRptDocument.contains(extension)) {
 				validExtension = false;
 			}
-			
-			if ( !allowedExtensionsForRptDocument.isEmpty() && !allowedExtensionsForRptDocument.contains( extension ))
-			{
+
+			if (!allowedExtensionsForRptDocument.isEmpty() && !allowedExtensionsForRptDocument.contains(extension)) {
 				validExtension = false;
 			}
-			
-			if (!validExtension)
-			{
-				throw new ViewerException(BirtResources
-								.getMessage( ResourceConstants.ERROR_INVALID_EXTENSION_FOR_DOCUMENT_PARAMETER, new String[] {extension} ) );
+
+			if (!validExtension) {
+				throw new ViewerException(BirtResources.getMessage(
+						ResourceConstants.ERROR_INVALID_EXTENSION_FOR_DOCUMENT_PARAMETER, new String[] { extension }));
 			}
-			
+
 		}
 	}
 }

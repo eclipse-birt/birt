@@ -3,17 +3,16 @@
 package org.eclipse.birt.core.template;
 
 public class ASTValueOf extends SimpleNode {
-  public ASTValueOf(int id) {
-    super(id);
-  }
+	public ASTValueOf(int id) {
+		super(id);
+	}
 
-  public ASTValueOf(Parser p, int id) {
-    super(p, id);
-  }
+	public ASTValueOf(Parser p, int id) {
+		super(p, id);
+	}
 
-
-  /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) {
-    return visitor.visit(this, data);
-  }
+	/** Accept the visitor. **/
+	public Object jjtAccept(ParserVisitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
 }

@@ -16,19 +16,16 @@ import java.util.List;
 import org.eclipse.birt.report.designer.ui.extensions.IMenuBuilder;
 import org.eclipse.jface.action.IMenuManager;
 
-
 /**
  * ChartMenuBuilderProxy
  */
 
-public class ChartMenuBuilderProxy implements IMenuBuilder
-{
+public class ChartMenuBuilderProxy implements IMenuBuilder {
 
-	private IMenuBuilder instance = ChartReportItemUIFactory.instance( ).createMenuBuilder( );
-	
-	public void buildMenu( IMenuManager menu, List selectedList )
-	{
-		instance.buildMenu( menu, selectedList );
+	private IMenuBuilder instance = ChartReportItemUIFactory.instance().createMenuBuilder();
+
+	public void buildMenu(IMenuManager menu, List selectedList) {
+		instance.buildMenu(menu, selectedList);
 	}
 
 }

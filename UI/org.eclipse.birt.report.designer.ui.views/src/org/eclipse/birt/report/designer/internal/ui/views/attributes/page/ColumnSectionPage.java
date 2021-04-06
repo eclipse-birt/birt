@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
-public class ColumnSectionPage extends SectionPage
-{
+public class ColumnSectionPage extends SectionPage {
 
-	public void applyCustomSections( )
-	{
-		removeSection( PageSectionId.SECION_PAGE_BREAK_INSIDE );
+	public void applyCustomSections() {
+		removeSection(PageSectionId.SECION_PAGE_BREAK_INSIDE);
 	}
 
 }

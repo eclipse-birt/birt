@@ -20,8 +20,7 @@ import org.eclipse.swt.widgets.Shell;
  */
 public class ExceptionHandler {
 
-	public static void showException(Shell parentShell, String title,
-			String msg, Throwable ex) {
+	public static void showException(Shell parentShell, String title, String msg, Throwable ex) {
 		new ExceptionDialog(parentShell, title, msg, ex).open();
 	}
 }

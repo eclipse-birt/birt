@@ -24,8 +24,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * The empty IAggregateFunction adapter.
  */
-public abstract class AggregateFunctionAdapter implements IAggregateFunction
-{
+public abstract class AggregateFunctionAdapter implements IAggregateFunction {
 
 	private int iDataType = UNKNOWN;
 
@@ -34,11 +33,12 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#accumulate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.chart.aggregate.IAggregateFunction#accumulate(java.lang.
+	 * Object)
 	 */
-	public void accumulate( Object oValue ) throws IllegalArgumentException
-	{
-		detectTypeChange( oValue );
+	public void accumulate(Object oValue) throws IllegalArgumentException {
+		detectTypeChange(oValue);
 	}
 
 	/*
@@ -46,8 +46,7 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	 * 
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getAggregatedValue()
 	 */
-	public Object getAggregatedValue( )
-	{
+	public Object getAggregatedValue() {
 		return null;
 	}
 
@@ -56,8 +55,7 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	 * 
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#initialize()
 	 */
-	public void initialize( )
-	{
+	public void initialize() {
 		iDataType = UNKNOWN;
 	}
 
@@ -67,80 +65,46 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	 * 
 	 * @param oValue
 	 */
-	private final void detectTypeChange( Object oValue )
-			throws IllegalArgumentException
-	{
-		if ( iDataType == UNKNOWN )
-		{
-			if ( oValue == null )
-			{
+	private final void detectTypeChange(Object oValue) throws IllegalArgumentException {
+		if (iDataType == UNKNOWN) {
+			if (oValue == null) {
 				return;
-			}
-			else if ( oValue instanceof Number )
-			{
+			} else if (oValue instanceof Number) {
 				iDataType = NUMBER;
-			}
-			else if ( oValue instanceof BigDecimal )
-			{
+			} else if (oValue instanceof BigDecimal) {
 				iDataType = BIGDECIMAL;
-			}
-			else if ( oValue instanceof Date )
-			{
+			} else if (oValue instanceof Date) {
 				iDataType = DATE;
-			}
-			else if ( oValue instanceof Calendar )
-			{
+			} else if (oValue instanceof Calendar) {
 				iDataType = CALENDAR;
-			}
-			else if ( oValue instanceof String )
-			{
+			} else if (oValue instanceof String) {
 				iDataType = TEXT;
-			}
-			else
-			{
+			} else {
 				iDataType = CUSTOM;
 			}
-		}
-		else
-		{
+		} else {
 			final int iExistingType = iDataType;
-			if ( oValue == null )
-			{
+			if (oValue == null) {
 				// Set unknown type for null
 				iDataType = UNKNOWN;
 				return;
-			}
-			else if ( oValue instanceof Number )
-			{
+			} else if (oValue instanceof Number) {
 				iDataType = NUMBER;
-			}
-			else if ( oValue instanceof BigDecimal )
-			{
+			} else if (oValue instanceof BigDecimal) {
 				iDataType = BIGDECIMAL;
-			}
-			else if ( oValue instanceof Date )
-			{
+			} else if (oValue instanceof Date) {
 				iDataType = DATE;
-			}
-			else if ( oValue instanceof Calendar )
-			{
+			} else if (oValue instanceof Calendar) {
 				iDataType = CALENDAR;
-			}
-			else if ( oValue instanceof String )
-			{
+			} else if (oValue instanceof String) {
 				iDataType = TEXT;
-			}
-			else
-			{
+			} else {
 				iDataType = CUSTOM;
 			}
-			if ( iExistingType != iDataType )
-			{
-				throw new IllegalArgumentException( MessageFormat.format( Messages.getResourceBundle( lcl )
-						.getString( "exception.mixed.data.types" ), //$NON-NLS-1$
-						new Object[]{
-							getClass( ).getName( )
-						} ) );
+			if (iExistingType != iDataType) {
+				throw new IllegalArgumentException(
+						MessageFormat.format(Messages.getResourceBundle(lcl).getString("exception.mixed.data.types"), //$NON-NLS-1$
+								new Object[] { getClass().getName() }));
 			}
 		}
 	}
@@ -148,11 +112,9 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	/**
 	 * Sets a locale associated with this aggregate function instance
 	 * 
-	 * @param lcl
-	 *            A locale associated with this aggregate function instance
+	 * @param lcl A locale associated with this aggregate function instance
 	 */
-	public final void setLocale( ULocale lcl )
-	{
+	public final void setLocale(ULocale lcl) {
 		this.lcl = lcl;
 	}
 
@@ -162,46 +124,47 @@ public abstract class AggregateFunctionAdapter implements IAggregateFunction
 	 * 
 	 * @return The locale associated with this aggregate function instance
 	 */
-	protected final ULocale getLocale( )
-	{
-		return ( lcl == null ) ? ULocale.getDefault( ) : lcl;
+	protected final ULocale getLocale() {
+		return (lcl == null) ? ULocale.getDefault() : lcl;
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	protected final int getDataType( )
-	{
+	protected final int getDataType() {
 		return iDataType;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
 	 */
-	public String[] getDisplayParameters( )
-	{
-		return new String[]{};
+	public String[] getDisplayParameters() {
+		return new String[] {};
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getParametersCount()
 	 */
-	public int getParametersCount( )
-	{
+	public int getParametersCount() {
 		return 0;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.UNKNOWN_TYPE;
 	}
 }

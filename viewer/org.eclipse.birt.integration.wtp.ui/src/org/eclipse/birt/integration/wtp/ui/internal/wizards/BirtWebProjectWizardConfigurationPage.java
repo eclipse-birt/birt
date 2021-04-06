@@ -62,10 +62,7 @@ import org.osgi.framework.Bundle;
  * </ol>
  * 
  */
-public class BirtWebProjectWizardConfigurationPage
-		extends
-			AbstractFacetWizardPage implements IBirtWizardConstants
-{
+public class BirtWebProjectWizardConfigurationPage extends AbstractFacetWizardPage implements IBirtWizardConstants {
 
 	/**
 	 * Page Properties Map
@@ -147,14 +144,13 @@ public class BirtWebProjectWizardConfigurationPage
 	 * 
 	 * @param props
 	 */
-	public BirtWebProjectWizardConfigurationPage( )
-	{
-		super( BIRT_CONFIGURATION_PAGE_NAME );
-		setTitle( BirtWTPMessages.BIRTProjectConfigurationPage_title );
-		setDescription( BirtWTPMessages.BIRTProjectConfigurationPage_desc );
-		ImageDescriptor imageDesc = getDefaultPageImageDescriptor( );
-		if ( imageDesc != null )
-			setImageDescriptor( imageDesc );
+	public BirtWebProjectWizardConfigurationPage() {
+		super(BIRT_CONFIGURATION_PAGE_NAME);
+		setTitle(BirtWTPMessages.BIRTProjectConfigurationPage_title);
+		setDescription(BirtWTPMessages.BIRTProjectConfigurationPage_desc);
+		ImageDescriptor imageDesc = getDefaultPageImageDescriptor();
+		if (imageDesc != null)
+			setImageDescriptor(imageDesc);
 	}
 
 	/**
@@ -162,84 +158,80 @@ public class BirtWebProjectWizardConfigurationPage
 	 * 
 	 * @see org.eclipse.ui.dialogs.WizardNewProjectCreationPage#createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createControl( Composite parent )
-	{
-		Composite composite = new Composite( parent, SWT.NULL );
-		composite.setFont( parent.getFont( ) );
+	public void createControl(Composite parent) {
+		Composite composite = new Composite(parent, SWT.NULL);
+		composite.setFont(parent.getFont());
 
-		initializeDialogUnits( parent );
+		initializeDialogUnits(parent);
 
-		composite.setLayout( new GridLayout( ) );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+		composite.setLayout(new GridLayout());
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
 		// create folder configuration group
-		Group paths = new Group( composite, SWT.NULL );
-		paths.setLayout( new GridLayout( ) );
-		paths.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		paths.setText( BirtWTPMessages.BIRTConfiguration_group_paths );
-		paths.setEnabled( true );
+		Group paths = new Group(composite, SWT.NULL);
+		paths.setLayout(new GridLayout());
+		paths.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		paths.setText(BirtWTPMessages.BIRTConfiguration_group_paths);
+		paths.setEnabled(true);
 
 		// Initialize UI Utility
-		UIUtil uit = new UIUtil( properties );
+		UIUtil uit = new UIUtil(properties);
 
 		// create resource folder setting group
-		this.txtResourceFolder = uit.createResourceFolderGroup( paths );
+		this.txtResourceFolder = uit.createResourceFolderGroup(paths);
 
 		// create working folder setting group
-		this.txtWorkingFolder = uit.createWorkingFolderGroup( paths );
+		this.txtWorkingFolder = uit.createWorkingFolderGroup(paths);
 
 		// create document folder setting group
-		this.txtDocumentFolder = uit.createDocumentFolderGroup( paths );
+		this.txtDocumentFolder = uit.createDocumentFolderGroup(paths);
 
 		// create image folder setting group
-		this.txtImageFolder = uit.createImageFolderGroup( paths );
+		this.txtImageFolder = uit.createImageFolderGroup(paths);
 
 		// create scriptlib folder setting group
-		this.txtScriptlibFolder = uit.createScriptLibFolderGroup( paths );
+		this.txtScriptlibFolder = uit.createScriptLibFolderGroup(paths);
 
 		// create log folder setting group
-		this.txtLogFolder = uit.createLogFolderGroup( paths );
+		this.txtLogFolder = uit.createLogFolderGroup(paths);
 
 		// create other configuration group
-		Group others = new Group( composite, SWT.NULL );
-		others.setLayout( new GridLayout( ) );
-		others.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		others.setText( BirtWTPMessages.BIRTConfiguration_group_others );
-		others.setEnabled( true );
+		Group others = new Group(composite, SWT.NULL);
+		others.setLayout(new GridLayout());
+		others.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		others.setText(BirtWTPMessages.BIRTConfiguration_group_others);
+		others.setEnabled(true);
 
 		// create ifaccess only setting group
-		this.btAccessOnly = uit.createAccessOnlyGroup( others );
+		this.btAccessOnly = uit.createAccessOnlyGroup(others);
 
 		// create log level setting group
-		this.cbLogLevel = uit.createLogLevelGroup( others );
+		this.cbLogLevel = uit.createLogLevelGroup(others);
 
 		// create print server setting group
-		this.cbPrintServer = uit.createPrintServerGroup( others );
+		this.cbPrintServer = uit.createPrintServerGroup(others);
 
 		// create max rows setting group
-		this.txtMaxRows = uit.createMaxRowsGroup( others );
+		this.txtMaxRows = uit.createMaxRowsGroup(others);
 
 		// create max cube fetching row levels setting group
-		this.txtMaxRowLevels = uit.createMaxRowLevelsGroup( others );
+		this.txtMaxRowLevels = uit.createMaxRowLevelsGroup(others);
 
 		// create max cube fetching column levels setting group
-		this.txtMaxColumnLevels = uit.createMaxColumnLevelsGroup( others );
+		this.txtMaxColumnLevels = uit.createMaxColumnLevelsGroup(others);
 
 		// create max cube memory size setting group
-		this.txtCubeMemorySize = uit.createCubeMemorySizeGroup( others );
+		this.txtCubeMemorySize = uit.createCubeMemorySizeGroup(others);
 
 		// initialize page properties map
-		initializeProperties( );
+		initializeProperties();
 
-		setControl( composite );
+		setControl(composite);
 
-		IWizardContainer container = getContainer( );
-		if ( container instanceof IPageChangeProvider )
-		{
+		IWizardContainer container = getContainer();
+		if (container instanceof IPageChangeProvider) {
 			IPageChangeProvider pageChangeProvider = (IPageChangeProvider) container;
-			pageChangeProvider
-					.addPageChangedListener( new WizardPageChangedListener(
-							this ) );
+			pageChangeProvider.addPageChangedListener(new WizardPageChangedListener(this));
 		}
 	}
 
@@ -248,13 +240,11 @@ public class BirtWebProjectWizardConfigurationPage
 	 * 
 	 * @return
 	 */
-	protected ImageDescriptor getDefaultPageImageDescriptor( )
-	{
-		final Bundle bundle = Platform.getBundle( BirtWTPUIPlugin.PLUGIN_ID );
-		if ( bundle != null )
-		{
-			final URL url = bundle.getEntry( BIRT_PROJECT_WIZBANNER );
-			return ImageDescriptor.createFromURL( url );
+	protected ImageDescriptor getDefaultPageImageDescriptor() {
+		final Bundle bundle = Platform.getBundle(BirtWTPUIPlugin.PLUGIN_ID);
+		if (bundle != null) {
+			final URL url = bundle.getEntry(BIRT_PROJECT_WIZBANNER);
+			return ImageDescriptor.createFromURL(url);
 		}
 
 		return null;
@@ -264,89 +254,66 @@ public class BirtWebProjectWizardConfigurationPage
 	 * Do initialize page properties map
 	 * 
 	 */
-	protected void initializeProperties( )
-	{
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_RESOURCE_FOLDER_SETTING, txtResourceFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_WORKING_FOLDER_SETTING, txtWorkingFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_DOCUMENT_FOLDER_SETTING, txtDocumentFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_REPORT_ACCESSONLY_SETTING, BLANK_STRING
-						+ btAccessOnly.getSelection( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_IMAGE_FOLDER_SETTING, txtImageFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_SCRIPTLIB_FOLDER_SETTING, txtScriptlibFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_LOG_FOLDER_SETTING, txtLogFolder.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_MAX_ROWS_SETTING, DataUtil.getNumberSetting( txtMaxRows
-						.getText( ) ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_MAX_ROWLEVELS_SETTING, DataUtil
-						.getNumberSetting( txtMaxRowLevels.getText( ) ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_MAX_COLUMNLEVELS_SETTING, DataUtil
-						.getNumberSetting( txtMaxColumnLevels.getText( ) ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_CUBE_MEMORYSIZE_SETTING, DataUtil
-						.getNumberSetting( txtCubeMemorySize.getText( ) ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_LOG_LEVEL_SETTING, cbLogLevel.getText( ) );
-		WebArtifactUtil.setContextParamValue( properties,
-				BIRT_PRINT_SERVER_SETTING, cbPrintServer.getText( ) );
+	protected void initializeProperties() {
+		WebArtifactUtil.setContextParamValue(properties, BIRT_RESOURCE_FOLDER_SETTING, txtResourceFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_WORKING_FOLDER_SETTING, txtWorkingFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_DOCUMENT_FOLDER_SETTING, txtDocumentFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_REPORT_ACCESSONLY_SETTING,
+				BLANK_STRING + btAccessOnly.getSelection());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_IMAGE_FOLDER_SETTING, txtImageFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_SCRIPTLIB_FOLDER_SETTING, txtScriptlibFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_LOG_FOLDER_SETTING, txtLogFolder.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_MAX_ROWS_SETTING,
+				DataUtil.getNumberSetting(txtMaxRows.getText()));
+		WebArtifactUtil.setContextParamValue(properties, BIRT_MAX_ROWLEVELS_SETTING,
+				DataUtil.getNumberSetting(txtMaxRowLevels.getText()));
+		WebArtifactUtil.setContextParamValue(properties, BIRT_MAX_COLUMNLEVELS_SETTING,
+				DataUtil.getNumberSetting(txtMaxColumnLevels.getText()));
+		WebArtifactUtil.setContextParamValue(properties, BIRT_CUBE_MEMORYSIZE_SETTING,
+				DataUtil.getNumberSetting(txtCubeMemorySize.getText()));
+		WebArtifactUtil.setContextParamValue(properties, BIRT_LOG_LEVEL_SETTING, cbLogLevel.getText());
+		WebArtifactUtil.setContextParamValue(properties, BIRT_PRINT_SERVER_SETTING, cbPrintServer.getText());
 
 	}
 
 	/**
 	 * Sets the birt facet configuration
 	 * 
-	 * @param config
-	 *            IDataModel
+	 * @param config IDataModel
 	 * @see org.eclipse.wst.common.project.facet.ui.IFacetWizardPage#setConfig(java.lang.Object)
 	 */
-	public void setConfig( Object config )
-	{
+	public void setConfig(Object config) {
 		IDataModel dataModel = (IDataModel) config;
-		Map birtProperties = (Map) dataModel
-				.getProperty( BirtFacetInstallDataModelProperties.BIRT_CONFIG );
-		this.properties = (Map) birtProperties.get( EXT_CONTEXT_PARAM );
+		Map birtProperties = (Map) dataModel.getProperty(BirtFacetInstallDataModelProperties.BIRT_CONFIG);
+		this.properties = (Map) birtProperties.get(EXT_CONTEXT_PARAM);
 	}
 
-	private class WizardPageChangedListener implements IPageChangedListener
-	{
+	private class WizardPageChangedListener implements IPageChangedListener {
 
 		private IWizardPage wizardPage;
 
 		/**
-		 * Constructs a listener which listens whenever the given page is
-		 * selected and updates its size.
+		 * Constructs a listener which listens whenever the given page is selected and
+		 * updates its size.
 		 * 
-		 * @param wizardPage
-		 *            wizard page
+		 * @param wizardPage wizard page
 		 */
-		public WizardPageChangedListener( IWizardPage wizardPage )
-		{
+		public WizardPageChangedListener(IWizardPage wizardPage) {
 			this.wizardPage = wizardPage;
 		}
 
 		/**
-		 * Called whenever the wizard page has changed and forces its container
-		 * to resize its content.
+		 * Called whenever the wizard page has changed and forces its container to
+		 * resize its content.
 		 * 
 		 * @see org.eclipse.jface.dialogs.IPageChangedListener#pageChanged(org.eclipse.jface.dialogs.PageChangedEvent)
 		 */
-		public void pageChanged( PageChangedEvent event )
-		{
-			if ( this.wizardPage == event.getSelectedPage( ) )
-			{
+		public void pageChanged(PageChangedEvent event) {
+			if (this.wizardPage == event.getSelectedPage()) {
 				// force size update
-				IWizardContainer container = getContainer( );
-				if ( container instanceof IWizardContainer2 )
-				{
-					( (IWizardContainer2) container ).updateSize( );
+				IWizardContainer container = getContainer();
+				if (container instanceof IWizardContainer2) {
+					((IWizardContainer2) container).updateSize();
 				}
 			}
 		}

@@ -17,24 +17,19 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportItemExecutor;
 import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
 
-class LocalizedReportItemExecutor extends WrappedReportItemExecutor
-{
+class LocalizedReportItemExecutor extends WrappedReportItemExecutor {
 
 	LocalizedContentVisitor l18nVisitor;
 
-	LocalizedReportItemExecutor( LocalizedReportExecutor reportExecutor,
-			IReportItemExecutor executor )
-	{
-		super( reportExecutor, executor );
+	LocalizedReportItemExecutor(LocalizedReportExecutor reportExecutor, IReportItemExecutor executor) {
+		super(reportExecutor, executor);
 		this.l18nVisitor = reportExecutor.l18nVisitor;
 	}
 
-	public IContent execute( ) throws BirtException
-	{
-		IContent content = super.execute( );
-		if ( content != null )
-		{
-			content = l18nVisitor.localize( content );
+	public IContent execute() throws BirtException {
+		IContent content = super.execute();
+		if (content != null) {
+			content = l18nVisitor.localize(content);
 		}
 		return content;
 	}

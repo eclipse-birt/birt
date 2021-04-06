@@ -18,14 +18,12 @@ import org.eclipse.draw2d.Figure;
  * Multiple figure.
  */
 
-public class MultipleFigure extends Figure
-{
+public class MultipleFigure extends Figure {
 	/**
-	 *Constructor 
+	 * Constructor
 	 */
-	public MultipleFigure()
-	{
-		//setBorder( new LineBorder(1) );
-		setLayoutManager( new MultipleLayout() );
+	public MultipleFigure() {
+		// setBorder( new LineBorder(1) );
+		setLayoutManager(new MultipleLayout());
 	}
 }

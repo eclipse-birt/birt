@@ -23,25 +23,20 @@ import org.eclipse.birt.report.model.api.olap.DimensionHandle;
  * 
  */
 
-public class CubeHandleUtil
-{	
-	public static void defineCube( DataEngineImpl dataEngine, CubeHandle handle, Map appContext ) throws BirtException
-	{
+public class CubeHandleUtil {
+	public static void defineCube(DataEngineImpl dataEngine, CubeHandle handle, Map appContext) throws BirtException {
 	}
 
-	public static boolean isTimeDimension( DimensionHandle dimension )
-	{
+	public static boolean isTimeDimension(DimensionHandle dimension) {
 		return false;
 	}
-	
-	public static Date getStartTime( DimensionHandle dimension )
-	{
+
+	public static Date getStartTime(DimensionHandle dimension) {
 		return null;
 	}
-	
-	public static Date getEndTime( DimensionHandle dimension )
-	{
+
+	public static Date getEndTime(DimensionHandle dimension) {
 		return null;
 	}
-	
+
 }

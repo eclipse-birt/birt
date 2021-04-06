@@ -24,42 +24,39 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Check that those value are listed in highlight(map) operator choice Note:top
  * percent, bottom percent are removed
  */
-public class Regression_122600 extends BaseTestCase
-{
+public class Regression_122600 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	public void test_regression_122600( )
-	{
-		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
+	public void test_regression_122600() {
+		MetaDataDictionary instance = MetaDataDictionary.getInstance();
 
-		IChoiceSet choiceset = instance.getChoiceSet( "mapOperator" ); //$NON-NLS-1$
+		IChoiceSet choiceset = instance.getChoiceSet("mapOperator"); //$NON-NLS-1$
 
-		IChoice[] naturedSortedChoices = choiceset.getChoices( null );
+		IChoice[] naturedSortedChoices = choiceset.getChoices(null);
 
 		boolean topN = false;
 		boolean bottomN = false;
 		boolean like = false;
 		boolean match = false;
 
-		for ( int i = 0; i < naturedSortedChoices.length; i++ )
-		{
+		for (int i = 0; i < naturedSortedChoices.length; i++) {
 			IChoice choice = (IChoice) naturedSortedChoices[i];
 
-			if ( "top-n".equals( choice.getName( ) ) ) //$NON-NLS-1$
+			if ("top-n".equals(choice.getName())) //$NON-NLS-1$
 				topN = true;
-			else if ( "bottom-n".equals( choice.getName( ) ) ) //$NON-NLS-1$
+			else if ("bottom-n".equals(choice.getName())) //$NON-NLS-1$
 				bottomN = true;
-			else if ( "like".equals( choice.getName( ) ) ) //$NON-NLS-1$
+			else if ("like".equals(choice.getName())) //$NON-NLS-1$
 				like = true;
-			else if ( "match".equals( choice.getName( ) ) ) //$NON-NLS-1$
+			else if ("match".equals(choice.getName())) //$NON-NLS-1$
 				match = true;
 
 		}
-		assertTrue( topN );
-		assertTrue( bottomN );
-		assertTrue( like );
-		assertTrue( match );
+		assertTrue(topN);
+		assertTrue(bottomN);
+		assertTrue(like);
+		assertTrue(match);
 	}
 }

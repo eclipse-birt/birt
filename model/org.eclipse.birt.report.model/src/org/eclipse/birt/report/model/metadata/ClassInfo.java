@@ -27,8 +27,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * name ID, and tool tip ID.
  */
 
-public class ClassInfo extends LocalizableInfo implements IClassInfo
-{
+public class ClassInfo extends LocalizableInfo implements IClassInfo {
 
 	/**
 	 * The constructor definition.
@@ -57,79 +56,67 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	/**
 	 * Adds one method definition to this class definition.
 	 * 
-	 * @param methodInfo
-	 *            the definition of the method to add
-	 * @throws MetaDataException
-	 *             if the duplicate method name exists.
+	 * @param methodInfo the definition of the method to add
+	 * @throws MetaDataException if the duplicate method name exists.
 	 */
 
-	public void addMethod( IMethodInfo methodInfo ) throws MetaDataException
-	{
-		if ( methods == null )
-			methods = new LinkedHashMap<String, IMethodInfo>( );
+	public void addMethod(IMethodInfo methodInfo) throws MetaDataException {
+		if (methods == null)
+			methods = new LinkedHashMap<String, IMethodInfo>();
 
-		if ( StringUtil.isBlank( methodInfo.getName( ) ) )
-			throw new MetaDataException( new String[]{methodInfo.getName( )},
-					MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
+		if (StringUtil.isBlank(methodInfo.getName()))
+			throw new MetaDataException(new String[] { methodInfo.getName() },
+					MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME);
 
-		methods.put( methodInfo.getName( ), methodInfo );
+		methods.put(methodInfo.getName(), methodInfo);
 	}
 
 	/**
 	 * Adds one member definition to this class definition.
 	 * 
-	 * @param memberDefn
-	 *            the definition of the member to add
-	 * @throws MetaDataException
-	 *             if the duplicate member name exists.
+	 * @param memberDefn the definition of the member to add
+	 * @throws MetaDataException if the duplicate member name exists.
 	 */
 
-	public void addMemberDefn( IMemberInfo memberDefn )
-			throws MetaDataException
-	{
-		if ( members == null )
-			members = new LinkedHashMap<String, IMemberInfo>( );
+	public void addMemberDefn(IMemberInfo memberDefn) throws MetaDataException {
+		if (members == null)
+			members = new LinkedHashMap<String, IMemberInfo>();
 
-		if ( StringUtil.isBlank( memberDefn.getName( ) ) )
-			throw new MetaDataException( new String[]{memberDefn.getName( )},
-					MetaDataException.DESIGN_EXCEPTION_MISSING_MEMBER_NAME );
+		if (StringUtil.isBlank(memberDefn.getName()))
+			throw new MetaDataException(new String[] { memberDefn.getName() },
+					MetaDataException.DESIGN_EXCEPTION_MISSING_MEMBER_NAME);
 
-		if ( findMember( memberDefn.getName( ) ) != null )
-		{
-			throw new MetaDataException( new String[]{memberDefn.getName( ),
-					name},
-					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_MEMBER_NAME );
+		if (findMember(memberDefn.getName()) != null) {
+			throw new MetaDataException(new String[] { memberDefn.getName(), name },
+					MetaDataException.DESIGN_EXCEPTION_DUPLICATE_MEMBER_NAME);
 		}
 
-		members.put( memberDefn.getName( ), memberDefn );
+		members.put(memberDefn.getName(), memberDefn);
 	}
 
 	/**
-	 * Returns the method definition list. For methods that have the same name,
-	 * only return one method.
+	 * Returns the method definition list. For methods that have the same name, only
+	 * return one method.
 	 * 
 	 * @return a list of method definitions
 	 */
 
-	public List<IMethodInfo> getMethods( )
-	{
-		if ( methods != null )
-			return new ArrayList<IMethodInfo>( methods.values( ) );
+	public List<IMethodInfo> getMethods() {
+		if (methods != null)
+			return new ArrayList<IMethodInfo>(methods.values());
 
-		return Collections.emptyList( );
+		return Collections.emptyList();
 	}
 
 	/**
 	 * Get the method definition given the method name.
 	 * 
-	 * @param name
-	 *            the name of the method to get
+	 * @param name the name of the method to get
 	 * @return the definition of the method to get
 	 */
 
-	public IMethodInfo getMethod( String name )
-	{
-		return (IMethodInfo) findInfo( methods, name );
+	public IMethodInfo getMethod(String name) {
+		return (IMethodInfo) findInfo(methods, name);
 	}
 
 	/**
@@ -138,38 +125,33 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 * @return the list of member definitions
 	 */
 
-	public List<IMemberInfo> getMembers( )
-	{
-		if ( members != null )
-			return new ArrayList<IMemberInfo>( members.values( ) );
+	public List<IMemberInfo> getMembers() {
+		if (members != null)
+			return new ArrayList<IMemberInfo>(members.values());
 
-		return Collections.emptyList( );
+		return Collections.emptyList();
 	}
 
 	/**
 	 * Returns the member definition given method name.
 	 * 
-	 * @param name
-	 *            name of the member to get
+	 * @param name name of the member to get
 	 * @return the member definition to get
 	 */
 
-	public IMemberInfo getMember( String name )
-	{
-		return findMember( name );
+	public IMemberInfo getMember(String name) {
+		return findMember(name);
 	}
 
 	/**
 	 * Returns the member definition given method name.
 	 * 
-	 * @param name
-	 *            name of the member to find
+	 * @param name name of the member to find
 	 * @return the member definition to find
 	 */
 
-	private IMemberInfo findMember( String name )
-	{
-		return (MemberInfo) findInfo( members, name );
+	private IMemberInfo findMember(String name) {
+		return (MemberInfo) findInfo(members, name);
 	}
 
 	/**
@@ -178,63 +160,52 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 * @return the constructor definition
 	 */
 
-	public IMethodInfo getConstructor( )
-	{
+	public IMethodInfo getConstructor() {
 		return constructor;
 	}
 
 	/**
 	 * Returns the member definition given method name.
 	 * 
-	 * @param name
-	 *            name of the member to find
+	 * @param name name of the member to find
 	 * @return the member definition to find
 	 */
 
-	MethodInfo findMethod( String name )
-	{
-		return (MethodInfo) findInfo( methods, name );
+	MethodInfo findMethod(String name) {
+		return (MethodInfo) findInfo(methods, name);
 	}
 
 	/**
 	 * Finds out the member/method information of a <code>ClassInfo</code>.
 	 * 
-	 * @param objs
-	 *            the collection contains member/method information
-	 * @param name
-	 *            the name of a member/method
+	 * @param objs the collection contains member/method information
+	 * @param name the name of a member/method
 	 * 
-	 * @return a <code>MemberInfo</code> or a <code>MethodInfo</code>
-	 *         corresponding to <code>objs</code>
+	 * @return a <code>MemberInfo</code> or a <code>MethodInfo</code> corresponding
+	 *         to <code>objs</code>
 	 */
 
-	private Object findInfo( LinkedHashMap<String, ? extends Object> objs,
-			String name )
-	{
-		if ( objs == null || name == null )
+	private Object findInfo(LinkedHashMap<String, ? extends Object> objs, String name) {
+		if (objs == null || name == null)
 			return null;
 
-		return objs.get( name );
+		return objs.get(name);
 	}
 
 	/**
 	 * Adds constructor since some class has more than one constructor with
 	 * different arguments.
 	 * 
-	 * @param constructor
-	 *            the constructor definition to add
-	 * @throws MetaDataException
-	 *             if the constructor's name is empty.
+	 * @param constructor the constructor definition to add
+	 * @throws MetaDataException if the constructor's name is empty.
 	 */
 
-	public void setConstructor( IMethodInfo constructor )
-			throws MetaDataException
-	{
+	public void setConstructor(IMethodInfo constructor) throws MetaDataException {
 		assert constructor != null;
 
-		if ( StringUtil.isBlank( constructor.getName( ) ) )
-			throw new MetaDataException( new String[]{constructor.getName( )},
-					MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME );
+		if (StringUtil.isBlank(constructor.getName()))
+			throw new MetaDataException(new String[] { constructor.getName() },
+					MetaDataException.DESIGN_EXCEPTION_MISSING_METHOD_NAME);
 
 		this.constructor = constructor;
 	}
@@ -246,21 +217,18 @@ public class ClassInfo extends LocalizableInfo implements IClassInfo
 	 *         <code>false</code>
 	 */
 
-	public boolean isNative( )
-	{
+	public boolean isNative() {
 		return isNative;
 	}
 
 	/**
 	 * Sets the native attribute of this class.
 	 * 
-	 * @param isNative
-	 *            <code>Boolean.TRUE</code> if an object of this class is
-	 *            native, otherwise <code>Boolean.FALSE</code>
+	 * @param isNative <code>Boolean.TRUE</code> if an object of this class is
+	 *                 native, otherwise <code>Boolean.FALSE</code>
 	 */
 
-	public void setNative( boolean isNative )
-	{
+	public void setNative(boolean isNative) {
 		this.isNative = isNative;
 	}
 }

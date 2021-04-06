@@ -25,8 +25,7 @@ import com.ibm.icu.util.ULocale;
  * are invisible to external projects.
  */
 
-public class CoreTestUtil
-{
+public class CoreTestUtil {
 
 	/**
 	 * Gets the intrinsic property value with the given name and element.
@@ -36,12 +35,10 @@ public class CoreTestUtil
 	 * @return the intrinsic value if set, otherwise <code>null</code>
 	 */
 
-	public static Object getIntrinsicProperty( DesignElement element,
-			String propName )
-	{
-		if ( element == null || propName == null )
+	public static Object getIntrinsicProperty(DesignElement element, String propName) {
+		if (element == null || propName == null)
 			return null;
-		return element.getIntrinsicProperty( propName );
+		return element.getIntrinsicProperty(propName);
 	}
 
 	/**
@@ -51,9 +48,8 @@ public class CoreTestUtil
 	 * @return the listener list added in the element
 	 */
 
-	public static List getListeners( DesignElement element )
-	{
-		if ( element == null )
+	public static List getListeners(DesignElement element) {
+		if (element == null)
 			return null;
 		return element.listeners;
 	}
@@ -65,11 +61,10 @@ public class CoreTestUtil
 	 * @param child
 	 */
 
-	public static void addDerived( DesignElement parent, DesignElement child )
-	{
-		if ( parent == null )
+	public static void addDerived(DesignElement parent, DesignElement child) {
+		if (parent == null)
 			return;
-		parent.addDerived( child );
+		parent.addDerived(child);
 	}
 
 	/**
@@ -79,10 +74,9 @@ public class CoreTestUtil
 	 * @return the session locale
 	 */
 
-	public static ULocale getSessionLocale( DesignSession session )
-	{
-		if ( session == null )
-			return ULocale.getDefault( );
+	public static ULocale getSessionLocale(DesignSession session) {
+		if (session == null)
+			return ULocale.getDefault();
 		return session.locale;
 	}
 
@@ -93,9 +87,8 @@ public class CoreTestUtil
 	 * @return the session of the module
 	 */
 
-	public static DesignSession getDesignSession( Module module )
-	{
-		if ( module == null )
+	public static DesignSession getDesignSession(Module module) {
+		if (module == null)
 			return null;
 		return (DesignSession) module.session;
 	}
@@ -107,15 +100,13 @@ public class CoreTestUtil
 	 * @return the design list in the session
 	 */
 
-	public static List getDesigns( DesignSession session )
-	{
-		if ( session == null )
+	public static List getDesigns(DesignSession session) {
+		if (session == null)
 			return null;
-		Iterator<ReportDesign> iter = session.getDesignIterator( );
-		List<ReportDesign> designs = new ArrayList<ReportDesign>( );
-		while ( iter.hasNext( ) )
-		{
-			designs.add( iter.next( ) );
+		Iterator<ReportDesign> iter = session.getDesignIterator();
+		List<ReportDesign> designs = new ArrayList<ReportDesign>();
+		while (iter.hasNext()) {
+			designs.add(iter.next());
 		}
 		return designs;
 	}
@@ -127,9 +118,8 @@ public class CoreTestUtil
 	 * @return
 	 */
 
-	public static IElementDefn getCachedElementDefn( DesignElement element )
-	{
-		if ( element == null )
+	public static IElementDefn getCachedElementDefn(DesignElement element) {
+		if (element == null)
 			return null;
 		return element.cachedDefn;
 	}
@@ -140,11 +130,9 @@ public class CoreTestUtil
 	 * @param container
 	 * @param i
 	 */
-	public static void setContainer( DesignElement designElement,
-			DesignElement container, int i )
-	{
-		if ( designElement != null )
-			designElement.setContainer( container, i );
+	public static void setContainer(DesignElement designElement, DesignElement container, int i) {
+		if (designElement != null)
+			designElement.setContainer(container, i);
 
 	}
 }

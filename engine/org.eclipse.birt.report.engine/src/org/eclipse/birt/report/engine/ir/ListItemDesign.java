@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
  * List Item IR. Listing is a base element in report design. it has a query,
  * many groups (corresponds to the query), header, footer and detail.
@@ -20,17 +19,14 @@ package org.eclipse.birt.report.engine.ir;
  * details (surround by groups, each row in dataset will create a detail).
  * 
  */
-public class ListItemDesign extends ListingDesign
-{
+public class ListItemDesign extends ListingDesign {
 	/**
 	 * default constructor.
 	 */
-	public ListItemDesign( )
-	{
+	public ListItemDesign() {
 	}
 
-	public Object accept( IReportItemVisitor visitor, Object value)
-	{
-		return visitor.visitListItem( this ,value);
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitListItem(this, value);
 	}
 }

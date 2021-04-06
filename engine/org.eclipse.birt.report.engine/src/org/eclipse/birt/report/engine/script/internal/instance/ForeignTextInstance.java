@@ -15,20 +15,14 @@ import org.eclipse.birt.report.engine.content.IForeignContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.ir.TextItemDesign;
 
-public abstract class ForeignTextInstance extends ReportItemInstance implements
-		IAbstractTextInstance
-{
+public abstract class ForeignTextInstance extends ReportItemInstance implements IAbstractTextInstance {
 
-	public ForeignTextInstance( IForeignContent content,
-			ExecutionContext context, RunningState runningState )
-	{
-		super( content, context, runningState );
+	public ForeignTextInstance(IForeignContent content, ExecutionContext context, RunningState runningState) {
+		super(content, context, runningState);
 	}
 
-	protected ForeignTextInstance( ExecutionContext context,
-			RunningState runningState )
-	{
-		super( context, runningState );
+	protected ForeignTextInstance(ExecutionContext context, RunningState runningState) {
+		super(context, runningState);
 	}
 
 	/*
@@ -36,33 +30,24 @@ public abstract class ForeignTextInstance extends ReportItemInstance implements
 	 * 
 	 * @see org.eclipse.birt.report.engine.script.IForeignTextInstance#getText()
 	 */
-	public String getText( )
-	{
-		IForeignContent fc = ( IForeignContent ) content;
-		String type = fc.getRawType( );
-		if ( IForeignContent.TEMPLATE_TYPE.equals( type ) )
-		{
+	public String getText() {
+		IForeignContent fc = (IForeignContent) content;
+		String type = fc.getRawType();
+		if (IForeignContent.TEMPLATE_TYPE.equals(type)) {
 			String text = null;
-			Object[] rawValue = (Object[]) fc.getRawValue( );
-			if ( rawValue[0] != null )
-			{
+			Object[] rawValue = (Object[]) fc.getRawValue();
+			if (rawValue[0] != null) {
 				text = (String) rawValue[0];
 			}
-			if ( text == null )
-			{
-				if ( fc.getGenerateBy( ) instanceof TextItemDesign )
-				{
-					TextItemDesign design = (TextItemDesign) fc.getGenerateBy( );
-					text = design.getText( );
+			if (text == null) {
+				if (fc.getGenerateBy() instanceof TextItemDesign) {
+					TextItemDesign design = (TextItemDesign) fc.getGenerateBy();
+					text = design.getText();
 				}
 			}
 			return text;
-		}
-		else if ( IForeignContent.HTML_TYPE.equals( type )
-				|| IForeignContent.TEXT_TYPE.equals( type ) )
-		{
-			return ( fc.getRawValue( ) == null ? null : fc.getRawValue( )
-					.toString( ) );
+		} else if (IForeignContent.HTML_TYPE.equals(type) || IForeignContent.TEXT_TYPE.equals(type)) {
+			return (fc.getRawValue() == null ? null : fc.getRawValue().toString());
 		}
 
 		return null;
@@ -71,21 +56,19 @@ public abstract class ForeignTextInstance extends ReportItemInstance implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.script.IForeignTextInstance#setText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.script.IForeignTextInstance#setText(java.lang.
+	 * String)
 	 */
-	public void setText( String value )
-	{
+	public void setText(String value) {
 		IForeignContent foreignContent = (IForeignContent) content;
-		if ( foreignContent.getRawType( ).equals( IForeignContent.TEMPLATE_TYPE ) )
-		{
+		if (foreignContent.getRawType().equals(IForeignContent.TEMPLATE_TYPE)) {
 			// the row value should be a Object[2], the first object is the
 			// template text, the second object is the value map.
-			Object[] rawValue = (Object[]) foreignContent.getRawValue( );
+			Object[] rawValue = (Object[]) foreignContent.getRawValue();
 			rawValue[0] = value;
-		}
-		else
-		{
-			foreignContent.setRawValue( value );
+		} else {
+			foreignContent.setRawValue(value);
 		}
 	}
 }

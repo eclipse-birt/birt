@@ -76,11 +76,7 @@ import org.eclipse.swt.widgets.Listener;
  * implementation to create specific UI sections.
  * 
  */
-public class TaskSelectData extends SimpleTask implements
-		ITaskChangeListener,
-		ITaskPreviewable,
-		Listener
-{
+public class TaskSelectData extends SimpleTask implements ITaskChangeListener, ITaskPreviewable, Listener {
 
 	private final static int CENTER_WIDTH_HINT = 400;
 	protected IChartPreviewPainter previewPainter = null;
@@ -96,388 +92,327 @@ public class TaskSelectData extends SimpleTask implements
 	private ScrolledComposite fDataArea;
 	private int[] aSashWeight;
 
-	public TaskSelectData( )
-	{
-		super( Messages.getString( "TaskSelectData.TaskExp" ) ); //$NON-NLS-1$
-		setDescription( Messages.getString( "TaskSelectData.Task.Description" ) ); //$NON-NLS-1$
+	public TaskSelectData() {
+		super(Messages.getString("TaskSelectData.TaskExp")); //$NON-NLS-1$
+		setDescription(Messages.getString("TaskSelectData.Task.Description")); //$NON-NLS-1$
 	}
 
-	public void createControl( Composite parent )
-	{
-		getDataSheet( ).setChartModel( getChartModel( ) );
-		getDataSheet( ).addListener( this );
-		
+	public void createControl(Composite parent) {
+		getDataSheet().setChartModel(getChartModel());
+		getDataSheet().addListener(this);
+
 		// Initialize chart types first.
-		ChartUIUtil.populateTypeTable( getContext( ) );
-		
-		if ( topControl == null || topControl.isDisposed( ) )
-		{
-			topControl = new Composite( parent, SWT.NONE );
-			GridLayout gridLayout = new GridLayout( 3, false );
+		ChartUIUtil.populateTypeTable(getContext());
+
+		if (topControl == null || topControl.isDisposed()) {
+			topControl = new Composite(parent, SWT.NONE);
+			GridLayout gridLayout = new GridLayout(3, false);
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
-			topControl.setLayout( gridLayout );
-			topControl.setLayoutData( new GridData( GridData.GRAB_HORIZONTAL
-					| GridData.GRAB_VERTICAL ) );
+			topControl.setLayout(gridLayout);
+			topControl.setLayoutData(new GridData(GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL));
 
-			dynamicArea = createDataComponentsUI( );
-			getCustomizeUI( ).init( );
+			dynamicArea = createDataComponentsUI();
+			getCustomizeUI().init();
 
-			ScrolledComposite sc = new ScrolledComposite( topControl,
-					SWT.H_SCROLL );
+			ScrolledComposite sc = new ScrolledComposite(topControl, SWT.H_SCROLL);
 			{
-				GridLayout layout = new GridLayout( );
-				sc.setLayout( layout );
-				GridData gridData = new GridData( GridData.FILL_BOTH );
-				sc.setLayoutData( gridData );
-				sc.setExpandHorizontal( true );
-				sc.setExpandVertical( true );
+				GridLayout layout = new GridLayout();
+				sc.setLayout(layout);
+				GridData gridData = new GridData(GridData.FILL_BOTH);
+				sc.setLayoutData(gridData);
+				sc.setExpandHorizontal(true);
+				sc.setExpandVertical(true);
 
 			}
 
-			Composite cmp = new Composite( sc, SWT.None );
-			cmp.setLayout( new GridLayout( ) );
-			cmp.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-			sc.setContent( cmp );
-			sc.setMinWidth( 800 );
+			Composite cmp = new Composite(sc, SWT.None);
+			cmp.setLayout(new GridLayout());
+			cmp.setLayoutData(new GridData(GridData.FILL_BOTH));
+			sc.setContent(cmp);
+			sc.setMinWidth(800);
 
-			foSashForm = new SashForm( cmp, SWT.VERTICAL );
+			foSashForm = new SashForm(cmp, SWT.VERTICAL);
 			{
-				GridLayout layout = new GridLayout( );
-				foSashForm.setLayout( layout );
-				GridData gridData = new GridData( GridData.FILL_BOTH );
+				GridLayout layout = new GridLayout();
+				foSashForm.setLayout(layout);
+				GridData gridData = new GridData(GridData.FILL_BOTH);
 				// gridData.heightHint = DEFAULT_HEIGHT;
 				gridData.widthHint = 800;
-				foSashForm.setLayoutData( gridData );
+				foSashForm.setLayoutData(gridData);
 			}
-			foSashForm.addListener( SWT.Resize, this );
-			placeComponents( );
-			previewPainter = createPreviewPainter( );
+			foSashForm.addListener(SWT.Resize, this);
+			placeComponents();
+			previewPainter = createPreviewPainter();
 			// init( );
-			resize( );
+			resize();
+		} else {
+			customizeUI();
 		}
-		else
-		{
-			customizeUI( );
+		if (getChartModel() instanceof ChartWithAxes) {
+			checkDataTypeForChartWithAxes();
 		}
-		if ( getChartModel( ) instanceof ChartWithAxes )
-		{
-			checkDataTypeForChartWithAxes( );
-		}
-		doPreview( );
+		doPreview();
 		// Refresh all data definition text
-		DataDefinitionTextManager.getInstance( ).refreshAll( );
-		DataDefinitionTextManager.getInstance( )
-				.setContext( (IChartWizardContext) getContext( ) );
-		ChartUIUtil.checkGroupType( (ChartWizardContext) getContext( ),
-				getChartModel( ) );
-		ChartUIUtil.checkAggregateType( (ChartWizardContext) getContext( ) );
+		DataDefinitionTextManager.getInstance().refreshAll();
+		DataDefinitionTextManager.getInstance().setContext((IChartWizardContext) getContext());
+		ChartUIUtil.checkGroupType((ChartWizardContext) getContext(), getChartModel());
+		ChartUIUtil.checkAggregateType((ChartWizardContext) getContext());
 
-		bindHelp( );
+		bindHelp();
 	}
 
-	protected void bindHelp( )
-	{
-		ChartUIUtil.bindHelp( getControl( ),
-				ChartHelpContextIds.TASK_SELECT_DATA );
+	protected void bindHelp() {
+		ChartUIUtil.bindHelp(getControl(), ChartHelpContextIds.TASK_SELECT_DATA);
 	}
 
-	protected void customizeUI( )
-	{
-		getCustomizeUI( ).init( );
-		refreshLeftArea( );
-		refreshRightArea( );
-		refreshBottomArea( );
-		getCustomizeUI( ).layoutAll( );
-		autoSash( );
-	}
-	
-	protected ISelectDataCustomizeUI createDataComponentsUI( )
-	{
-		return getDataSheet( ).createCustomizeUI( this );
+	protected void customizeUI() {
+		getCustomizeUI().init();
+		refreshLeftArea();
+		refreshRightArea();
+		refreshBottomArea();
+		getCustomizeUI().layoutAll();
+		autoSash();
 	}
 
-	private void resize( )
-	{
-		Point headerSize = computeHeaderAreaSize( );
-		int weight[] = foSashForm.getWeights( );
-		if ( headerSize.y != DEFAULT_HEIGHT / 2 )
-		{
+	protected ISelectDataCustomizeUI createDataComponentsUI() {
+		return getDataSheet().createCustomizeUI(this);
+	}
+
+	private void resize() {
+		Point headerSize = computeHeaderAreaSize();
+		int weight[] = foSashForm.getWeights();
+		if (headerSize.y != DEFAULT_HEIGHT / 2) {
 			weight[0] = headerSize.y;
 			weight[1] = DEFAULT_HEIGHT / 2;
 			foSashForm.setWeights(weight);
-			( (GridData) foSashForm.getLayoutData( ) ).heightHint = weight[0]
-					+ weight[1];
-		}
-		else
-		{
+			((GridData) foSashForm.getLayoutData()).heightHint = weight[0] + weight[1];
+		} else {
 			weight[0] = 200;
 			weight[1] = 200;
 			foSashForm.setWeights(weight);
-			( (GridData) foSashForm.getLayoutData( ) ).heightHint = DEFAULT_HEIGHT;
+			((GridData) foSashForm.getLayoutData()).heightHint = DEFAULT_HEIGHT;
 		}
 		aSashWeight = weight;
 	}
 
-	private void refreshLeftArea( )
-	{
-		getCustomizeUI( ).refreshLeftBindingArea( );
-		getCustomizeUI( ).selectLeftBindingArea( true, null );
+	private void refreshLeftArea() {
+		getCustomizeUI().refreshLeftBindingArea();
+		getCustomizeUI().selectLeftBindingArea(true, null);
 	}
 
-	private void refreshRightArea( )
-	{
-		getCustomizeUI( ).refreshRightBindingArea( );
-		getCustomizeUI( ).selectRightBindingArea( true, null );
+	private void refreshRightArea() {
+		getCustomizeUI().refreshRightBindingArea();
+		getCustomizeUI().selectRightBindingArea(true, null);
 	}
 
-	private void refreshBottomArea( )
-	{
-		getCustomizeUI( ).refreshBottomBindingArea( );
-		getCustomizeUI( ).selectBottomBindingArea( true, null );
+	private void refreshBottomArea() {
+		getCustomizeUI().refreshBottomBindingArea();
+		getCustomizeUI().selectBottomBindingArea(true, null);
 	}
 
-	private void placeComponents( )
-	{
-		ChartAdapter.beginIgnoreNotifications( );
-		try
-		{
-			createHeadArea( );// place two rows
+	private void placeComponents() {
+		ChartAdapter.beginIgnoreNotifications();
+		try {
+			createHeadArea();// place two rows
 
-			createDataArea( );
+			createDataArea();
 
-		}
-		finally
-		{
+		} finally {
 			// THIS IS IN A FINALLY BLOCK TO ENSURE THAT NOTIFICATIONS ARE
 			// ENABLED EVEN IF ERRORS OCCUR DURING UI INITIALIZATION
-			ChartAdapter.endIgnoreNotifications( );
+			ChartAdapter.endIgnoreNotifications();
 		}
 	}
 
-	private void createDataArea( )
-	{
-		fDataArea = new ScrolledComposite( foSashForm, SWT.VERTICAL|SWT.V_SCROLL );
+	private void createDataArea() {
+		fDataArea = new ScrolledComposite(foSashForm, SWT.VERTICAL | SWT.V_SCROLL);
 		{
-			GridLayout gl = new GridLayout( );
-			fDataArea.setLayout( gl );
-			GridData gd = new GridData( GridData.FILL_VERTICAL );
-			fDataArea.setLayoutData( gd );
-			fDataArea.setExpandHorizontal( true );
-			fDataArea.setExpandVertical( true );
+			GridLayout gl = new GridLayout();
+			fDataArea.setLayout(gl);
+			GridData gd = new GridData(GridData.FILL_VERTICAL);
+			fDataArea.setLayoutData(gd);
+			fDataArea.setExpandHorizontal(true);
+			fDataArea.setExpandVertical(true);
 
 		}
 
-		Composite dataComposite = new Composite( fDataArea, SWT.NONE );
+		Composite dataComposite = new Composite(fDataArea, SWT.NONE);
 		{
-			GridLayout gl = new GridLayout( 2, false );
+			GridLayout gl = new GridLayout(2, false);
 			gl.marginLeft = fLeftSize.x;
-			dataComposite.setLayout( gl );
-			GridData gd = new GridData( GridData.FILL_BOTH );
-			dataComposite.setLayoutData( gd );
+			dataComposite.setLayout(gl);
+			GridData gd = new GridData(GridData.FILL_BOTH);
+			dataComposite.setLayoutData(gd);
 		}
-		fDataArea.setContent( dataComposite );
+		fDataArea.setContent(dataComposite);
 
-		getDataSheet( ).createDataSelector( dataComposite );
-		GridData gd = new GridData( );
+		getDataSheet().createDataSelector(dataComposite);
+		GridData gd = new GridData();
 		gd.widthHint = fRightSize.x - 40;
-		new Label( dataComposite, SWT.NONE ).setLayoutData( gd );
+		new Label(dataComposite, SWT.NONE).setLayoutData(gd);
 
-		getDataSheet( ).createDataDragSource( dataComposite );
-		getDataSheet( ).createActionButtons( dataComposite );
+		getDataSheet().createDataDragSource(dataComposite);
+		getDataSheet().createActionButtons(dataComposite);
 
-		new Label( dataComposite, SWT.NONE );
+		new Label(dataComposite, SWT.NONE);
 
-		fDataArea.setMinHeight( fDataArea.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y );
+		fDataArea.setMinHeight(fDataArea.computeSize(SWT.DEFAULT, SWT.DEFAULT).y);
 	}
 
-	private void createHeadArea( )
-	{
+	private void createHeadArea() {
 		// Create header area.
-		fHeaderArea = new Composite( foSashForm, SWT.NONE );
+		fHeaderArea = new Composite(foSashForm, SWT.NONE);
 		{
-			GridLayout layout = new GridLayout( 3, false );
-			fHeaderArea.setLayout( layout );
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-			fHeaderArea.setLayoutData( gd );
+			GridLayout layout = new GridLayout(3, false);
+			fHeaderArea.setLayout(layout);
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+			fHeaderArea.setLayoutData(gd);
 		}
 
 		{
-			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper( fHeaderArea );
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
-					| GridData.VERTICAL_ALIGN_CENTER );
+			Composite cmpLeftContainer = ChartUIUtil.createCompositeWrapper(fHeaderArea);
+			GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_CENTER);
 			gridData.verticalSpan = 2;
-			cmpLeftContainer.setLayoutData( gridData );
-			getCustomizeUI( ).createLeftBindingArea( cmpLeftContainer );
-			fLeftSize = cmpLeftContainer.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+			cmpLeftContainer.setLayoutData(gridData);
+			getCustomizeUI().createLeftBindingArea(cmpLeftContainer);
+			fLeftSize = cmpLeftContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		}
-		createPreviewArea( fHeaderArea );
+		createPreviewArea(fHeaderArea);
 		{
-			Composite cmpRightContainer = ChartUIUtil.createCompositeWrapper( fHeaderArea );
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
-					| GridData.VERTICAL_ALIGN_CENTER );
+			Composite cmpRightContainer = ChartUIUtil.createCompositeWrapper(fHeaderArea);
+			GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_CENTER);
 			gridData.verticalSpan = 2;
-			cmpRightContainer.setLayoutData( gridData );
-			getCustomizeUI( ).createRightBindingArea( cmpRightContainer );
-			fRightSize = cmpRightContainer.computeSize( SWT.DEFAULT,
-					SWT.DEFAULT );
+			cmpRightContainer.setLayoutData(gridData);
+			getCustomizeUI().createRightBindingArea(cmpRightContainer);
+			fRightSize = cmpRightContainer.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 		}
 		{
-			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper( fHeaderArea );
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
-					| GridData.VERTICAL_ALIGN_BEGINNING );
-			cmpBottomContainer.setLayoutData( gridData );
-			getCustomizeUI( ).createBottomBindingArea( cmpBottomContainer );
+			Composite cmpBottomContainer = ChartUIUtil.createCompositeWrapper(fHeaderArea);
+			GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+			cmpBottomContainer.setLayoutData(gridData);
+			getCustomizeUI().createBottomBindingArea(cmpBottomContainer);
 		}
 	}
 
-	private Point computeHeaderAreaSize( )
-	{
-		return fHeaderArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+	private Point computeHeaderAreaSize() {
+		return fHeaderArea.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 	}
 
-	private Point computeDataAreaSize( )
-	{
-		return fDataArea.computeSize( SWT.DEFAULT, SWT.DEFAULT );
+	private Point computeDataAreaSize() {
+		return fDataArea.computeSize(SWT.DEFAULT, SWT.DEFAULT);
 	}
 
-	private void createPreviewArea( Composite parent )
-	{
-		Composite cmpPreview = ChartUIUtil.createCompositeWrapper( parent );
+	private void createPreviewArea(Composite parent) {
+		Composite cmpPreview = ChartUIUtil.createCompositeWrapper(parent);
 		{
-			GridData gridData = new GridData( GridData.FILL_BOTH );
+			GridData gridData = new GridData(GridData.FILL_BOTH);
 			gridData.widthHint = CENTER_WIDTH_HINT;
 			gridData.heightHint = 200;
-			cmpPreview.setLayoutData( gridData );
+			cmpPreview.setLayoutData(gridData);
 		}
 
-		Label label = new Label( cmpPreview, SWT.NONE );
+		Label label = new Label(cmpPreview, SWT.NONE);
 		{
-			label.setFont( JFaceResources.getBannerFont( ) );
-			label.setText( Messages.getString( "TaskSelectData.Label.ChartPreview" ) ); //$NON-NLS-1$
+			label.setFont(JFaceResources.getBannerFont());
+			label.setText(Messages.getString("TaskSelectData.Label.ChartPreview")); //$NON-NLS-1$
 		}
 
-		previewCanvas = new Canvas( cmpPreview, SWT.BORDER );
+		previewCanvas = new Canvas(cmpPreview, SWT.BORDER);
 		{
-			GridData gd = new GridData( GridData.FILL_BOTH );
-			previewCanvas.setLayoutData( gd );
-			previewCanvas.setBackground( Display.getDefault( )
-					.getSystemColor( SWT.COLOR_WIDGET_BACKGROUND ) );
+			GridData gd = new GridData(GridData.FILL_BOTH);
+			previewCanvas.setLayoutData(gd);
+			previewCanvas.setBackground(Display.getDefault().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
 		}
 	}
 
-	public IChartPreviewPainter createPreviewPainter( )
-	{
-		ChartPreviewPainter painter = new ChartPreviewPainter( (ChartWizardContext) getContext( ) );
-		getPreviewCanvas( ).addPaintListener( painter );
-		getPreviewCanvas( ).addControlListener( painter );
-		painter.setPreview( getPreviewCanvas( ) );
+	public IChartPreviewPainter createPreviewPainter() {
+		ChartPreviewPainter painter = new ChartPreviewPainter((ChartWizardContext) getContext());
+		getPreviewCanvas().addPaintListener(painter);
+		getPreviewCanvas().addControlListener(painter);
+		painter.setPreview(getPreviewCanvas());
 		return painter;
 	}
 
-	protected Chart getChartModel( )
-	{
-		if ( getContext( ) == null )
-		{
+	protected Chart getChartModel() {
+		if (getContext() == null) {
 			return null;
 		}
-		return ( (ChartWizardContext) getContext( ) ).getModel( );
+		return ((ChartWizardContext) getContext()).getModel();
 	}
 
-	protected IDataServiceProvider getDataServiceProvider( )
-	{
-		return ( (ChartWizardContext) getContext( ) ).getDataServiceProvider( );
+	protected IDataServiceProvider getDataServiceProvider() {
+		return ((ChartWizardContext) getContext()).getDataServiceProvider();
 	}
 
-	public void dispose( )
-	{
-		super.dispose( );
+	public void dispose() {
+		super.dispose();
 		// No need to dispose other widgets
-		if ( previewPainter != null )
-		{
-			previewPainter.dispose( );
+		if (previewPainter != null) {
+			previewPainter.dispose();
 		}
 		previewPainter = null;
-		if ( dynamicArea != null )
-		{
-			dynamicArea.dispose( );
+		if (dynamicArea != null) {
+			dynamicArea.dispose();
 		}
 		dynamicArea = null;
 
 		// Restore color registry
-		ColorPalette.getInstance( ).restore( );
+		ColorPalette.getInstance().restore();
 
 		// Remove all registered data definition text
-		DataDefinitionTextManager.getInstance( ).removeAll( );
-		DataDefinitionTextManager.getInstance( ).setContext( null );
+		DataDefinitionTextManager.getInstance().removeAll();
+		DataDefinitionTextManager.getInstance().setContext(null);
 	}
 
-	private ISelectDataCustomizeUI getCustomizeUI( )
-	{
+	private ISelectDataCustomizeUI getCustomizeUI() {
 		return dynamicArea;
 	}
 
-	public void handleEvent( Event event )
-	{
-		if ( event.data == getDataSheet( )
-				|| event.data instanceof BaseDataDefinitionComponent )
-		{
-			if ( event.type == IChartDataSheet.EVENT_PREVIEW )
-			{
-				if ( getChartModel( ) instanceof ChartWithAxes )
-				{
-					checkDataTypeForChartWithAxes( );
+	public void handleEvent(Event event) {
+		if (event.data == getDataSheet() || event.data instanceof BaseDataDefinitionComponent) {
+			if (event.type == IChartDataSheet.EVENT_PREVIEW) {
+				if (getChartModel() instanceof ChartWithAxes) {
+					checkDataTypeForChartWithAxes();
 				}
-				doPreview( );
-				updateApplyButton( );
-			}
-			else if ( event.type == IChartDataSheet.EVENT_QUERY )
-			{
-				getCustomizeUI( ).refreshBottomBindingArea( );
-				getCustomizeUI( ).refreshLeftBindingArea( );
-				getCustomizeUI( ).refreshRightBindingArea( );
+				doPreview();
+				updateApplyButton();
+			} else if (event.type == IChartDataSheet.EVENT_QUERY) {
+				getCustomizeUI().refreshBottomBindingArea();
+				getCustomizeUI().refreshLeftBindingArea();
+				getCustomizeUI().refreshRightBindingArea();
 
 				// Above statements might create Text or Combo widgets for
 				// expression, so here must invoke refreshAll to clear old
 				// widgets info.
-				DataDefinitionTextManager.getInstance( ).refreshAll( );
+				DataDefinitionTextManager.getInstance().refreshAll();
 			}
 		}
-		if ( event.type == IChartDataSheet.EVENT_QUERY )
-		{
-			if ( ChartUIConstants.QUERY_CATEGORY.equals( event.data ) )
-			{
-				getCustomizeUI( ).refreshBottomBindingArea( );
+		if (event.type == IChartDataSheet.EVENT_QUERY) {
+			if (ChartUIConstants.QUERY_CATEGORY.equals(event.data)) {
+				getCustomizeUI().refreshBottomBindingArea();
 
-			}
-			else if ( ChartUIConstants.QUERY_OPTIONAL.equals( event.data ) )
-			{
-				getCustomizeUI( ).refreshRightBindingArea( );
+			} else if (ChartUIConstants.QUERY_OPTIONAL.equals(event.data)) {
+				getCustomizeUI().refreshRightBindingArea();
 
-			}
-			else if ( ChartUIConstants.QUERY_VALUE.equals( event.data ) )
-			{
-				getCustomizeUI( ).refreshLeftBindingArea( );
+			} else if (ChartUIConstants.QUERY_VALUE.equals(event.data)) {
+				getCustomizeUI().refreshLeftBindingArea();
 			}
 
-			DataDefinitionTextManager.getInstance( ).refreshAll( );
-		}
-		else if ( event.type == SWT.Resize )
-		{
-			autoSash( );
+			DataDefinitionTextManager.getInstance().refreshAll();
+		} else if (event.type == SWT.Resize) {
+			autoSash();
 		}
 	}
 
-	private void autoSash( )
-	{
-		int headerHeight = computeHeaderAreaSize( ).y;
-		int dataHeight = computeDataAreaSize( ).y;
-		int height = foSashForm.getClientArea( ).height;
+	private void autoSash() {
+		int headerHeight = computeHeaderAreaSize().y;
+		int dataHeight = computeDataAreaSize().y;
+		int height = foSashForm.getClientArea().height;
 		int weight[] = foSashForm.getWeights();
-		int currentRatio = Math.round( (float)weight[0]/(float)weight[1] * 100 );
-		int previousRatio = Math.round( (float)aSashWeight[0]/(float)aSashWeight[1] * 100 );
-		if(  currentRatio != previousRatio )
-		{
+		int currentRatio = Math.round((float) weight[0] / (float) weight[1] * 100);
+		int previousRatio = Math.round((float) aSashWeight[0] / (float) aSashWeight[1] * 100);
+		if (currentRatio != previousRatio) {
 			if (height > headerHeight && height > dataHeight) {
 				if (height > headerHeight + dataHeight) {
 					weight[0] = height - dataHeight;
@@ -492,186 +427,138 @@ public class TaskSelectData extends SimpleTask implements
 		}
 	}
 
-	public void changeTask( Notification notification )
-	{
-		if ( previewPainter != null )
-		{
-			if ( notification == null )
-			{
-				if ( getChartModel( ) instanceof ChartWithAxes )
-				{
-					checkDataTypeForChartWithAxes( );
+	public void changeTask(Notification notification) {
+		if (previewPainter != null) {
+			if (notification == null) {
+				if (getChartModel() instanceof ChartWithAxes) {
+					checkDataTypeForChartWithAxes();
 				}
 				return;
 			}
 
 			// if remove the seriesDefition, remove the error messages
 			// associated to it
-			if ( notification.getEventType( ) == Notification.REMOVE
-					&& notification.getNotifier( ) instanceof Axis )
-			{
-				ChartWizard.removeAllExceptions( "" + notification.getOldValue( ) //$NON-NLS-1$
-						.hashCode( ) );
+			if (notification.getEventType() == Notification.REMOVE && notification.getNotifier() instanceof Axis) {
+				ChartWizard.removeAllExceptions("" + notification.getOldValue() //$NON-NLS-1$
+						.hashCode());
 			}
 
-			if ( ( notification.getNotifier( ) instanceof Query && ( (Query) notification.getNotifier( ) ).eContainer( ) instanceof Series ) )
-			{
-				checkDataType( (Query) notification.getNotifier( ),
-						(Series) ( (Query) notification.getNotifier( ) ).eContainer( ) );
+			if ((notification.getNotifier() instanceof Query
+					&& ((Query) notification.getNotifier()).eContainer() instanceof Series)) {
+				checkDataType((Query) notification.getNotifier(),
+						(Series) ((Query) notification.getNotifier()).eContainer());
 			}
 
-			if ( notification.getNotifier( ) instanceof SeriesDefinition
-					&& getChartModel( ) instanceof ChartWithAxes )
-			{
-				checkDataTypeForChartWithAxes( );
+			if (notification.getNotifier() instanceof SeriesDefinition && getChartModel() instanceof ChartWithAxes) {
+				checkDataTypeForChartWithAxes();
 			}
 
 			// Notify change to customize UI
-			getCustomizeUI( ).notifyChange( notification );
+			getCustomizeUI().notifyChange(notification);
 
 			// Query and series change need to update Live Preview
-			if ( notification.getNotifier( ) instanceof Query
-					|| notification.getNotifier( ) instanceof Axis
-					|| notification.getNotifier( ) instanceof SeriesDefinition
-					|| notification.getNotifier( ) instanceof SeriesGrouping )
-			{
-				doPreview( );
-			}
-			else if ( ChartPreviewPainterBase.isLivePreviewActive( ) )
-			{
-				ChartAdapter.beginIgnoreNotifications( );
-				ChartUIUtil.syncRuntimeSeries( getChartModel( ) );
-				ChartAdapter.endIgnoreNotifications( );
+			if (notification.getNotifier() instanceof Query || notification.getNotifier() instanceof Axis
+					|| notification.getNotifier() instanceof SeriesDefinition
+					|| notification.getNotifier() instanceof SeriesGrouping) {
+				doPreview();
+			} else if (ChartPreviewPainterBase.isLivePreviewActive()) {
+				ChartAdapter.beginIgnoreNotifications();
+				ChartUIUtil.syncRuntimeSeries(getChartModel());
+				ChartAdapter.endIgnoreNotifications();
 
-				doPreview( );
-			}
-			else
-			{
-				doPreview( );
+				doPreview();
+			} else {
+				doPreview();
 			}
 		}
 	}
 
-	private void checkDataType( Query query, Series series )
-	{
-		String expression = query.getDefinition( );
+	private void checkDataType(Query query, Series series) {
+		String expression = query.getDefinition();
 
 		Axis axis = null;
-		for ( EObject o = query; o != null; )
-		{
-			o = o.eContainer( );
-			if ( o instanceof Axis )
-			{
+		for (EObject o = query; o != null;) {
+			o = o.eContainer();
+			if (o instanceof Axis) {
 				axis = (Axis) o;
 				break;
 			}
 		}
 
-		Collection<ISeriesUIProvider> cRegisteredEntries = ChartUIExtensionsImpl.instance( )
-				.getSeriesUIComponents( ( (ChartWizardContext) getContext( ) ).getIdentifier( ) );
-		Iterator<ISeriesUIProvider> iterEntries = cRegisteredEntries.iterator( );
+		Collection<ISeriesUIProvider> cRegisteredEntries = ChartUIExtensionsImpl.instance()
+				.getSeriesUIComponents(((ChartWizardContext) getContext()).getIdentifier());
+		Iterator<ISeriesUIProvider> iterEntries = cRegisteredEntries.iterator();
 
 		String sSeries = null;
-		while ( iterEntries.hasNext( ) )
-		{
-			ISeriesUIProvider provider = iterEntries.next( );
-			sSeries = provider.getSeriesClass( );
+		while (iterEntries.hasNext()) {
+			ISeriesUIProvider provider = iterEntries.next();
+			sSeries = provider.getSeriesClass();
 
-			if ( sSeries.equals( series.getClass( ).getName( ) ) )
-			{
+			if (sSeries.equals(series.getClass().getName())) {
 				boolean isMagicAgg = false;
-				if ( getChartModel( ) instanceof ChartWithAxes )
-				{
-					DataType dataType = getDataServiceProvider( ).getDataType( expression );
-					SeriesDefinition baseSD = ( ChartUIUtil.getBaseSeriesDefinitions( getChartModel( ) ).get( 0 ) );
+				if (getChartModel() instanceof ChartWithAxes) {
+					DataType dataType = getDataServiceProvider().getDataType(expression);
+					SeriesDefinition baseSD = (ChartUIUtil.getBaseSeriesDefinitions(getChartModel()).get(0));
 					SeriesDefinition orthSD = null;
-					orthSD = (SeriesDefinition) series.eContainer( );
+					orthSD = (SeriesDefinition) series.eContainer();
 
 					String aggFunc = null;
-					try
-					{
-						aggFunc = ChartUtil.getAggregateFuncExpr( orthSD,
-								baseSD,
-								query );
-						ChartWizard.removeException( ChartWizard.PluginSet_getAggF_ID );
-					}
-					catch ( ChartException e )
-					{
-						ChartWizard.showException( ChartWizard.PluginSet_getAggF_ID,
-								e.getLocalizedMessage( ) );
+					try {
+						aggFunc = ChartUtil.getAggregateFuncExpr(orthSD, baseSD, query);
+						ChartWizard.removeException(ChartWizard.PluginSet_getAggF_ID);
+					} catch (ChartException e) {
+						ChartWizard.showException(ChartWizard.PluginSet_getAggF_ID, e.getLocalizedMessage());
 					}
 
-					if ( baseSD != orthSD && baseSD.eContainer( ) != axis // Is
-							// not
-							// without
-							// axis
-							// chart.
-							&& ChartUtil.isMagicAggregate( aggFunc ) )
-					{
+					if (baseSD != orthSD && baseSD.eContainer() != axis // Is
+					// not
+					// without
+					// axis
+					// chart.
+							&& ChartUtil.isMagicAggregate(aggFunc)) {
 						// Only check aggregation is count in Y axis
 						dataType = DataType.NUMERIC_LITERAL;
 						isMagicAgg = true;
 					}
 
-					if ( !isValidatedAxis( dataType, axis.getType( ) ) )
-					{
-						AxisType[] axisTypes = provider.getCompatibleAxisType( series );
+					if (!isValidatedAxis(dataType, axis.getType())) {
+						AxisType[] axisTypes = provider.getCompatibleAxisType(series);
 						// do not check bubble size query for axis type
-						int[] validationIndex = provider instanceof BubbleSeriesUIProvider ? new int[]{
-							0
-						}
-								: series.getDefinedDataDefinitionIndex( );
+						int[] validationIndex = provider instanceof BubbleSeriesUIProvider ? new int[] { 0 }
+								: series.getDefinedDataDefinitionIndex();
 						boolean needValidate = false;
-						for ( int i = 0; i < validationIndex.length; i++ )
-						{
-							if ( query == series.getDataDefinition( ).get( i ) )
-							{
+						for (int i = 0; i < validationIndex.length; i++) {
+							if (query == series.getDataDefinition().get(i)) {
 								needValidate = true;
 								break;
 							}
 						}
-						SeriesDefinition sd = (SeriesDefinition) series.eContainer( );
-						if ( ( (Axis) sd.eContainer( ) ).getSeriesDefinitions( )
-								.indexOf( sd ) > 0 )
-						{
+						SeriesDefinition sd = (SeriesDefinition) series.eContainer();
+						if (((Axis) sd.eContainer()).getSeriesDefinitions().indexOf(sd) > 0) {
 							needValidate = false;
 						}
-						if ( needValidate )
-						{
-							for ( int i = 0; i < axisTypes.length; i++ )
-							{
-								if ( isValidatedAxis( dataType, axisTypes[i] ) )
-								{
-									axisNotification( axis, axisTypes[i] );
-									axis.setType( axisTypes[i] );
+						if (needValidate) {
+							for (int i = 0; i < axisTypes.length; i++) {
+								if (isValidatedAxis(dataType, axisTypes[i])) {
+									axisNotification(axis, axisTypes[i]);
+									axis.setType(axisTypes[i]);
 									break;
 								}
 							}
 						}
 					}
 
-
 				}
 
-				try
-				{
-					if ( !isMagicAgg )
-					{
-						provider.validateSeriesBindingType( series,
-							getDataServiceProvider( ) );
+				try {
+					if (!isMagicAgg) {
+						provider.validateSeriesBindingType(series, getDataServiceProvider());
 					}
-					ChartWizard.removeException( ChartWizard.CheckSeriesBindingType_ID
-							+ series.eContainer( ).hashCode( ) );
-				}
-				catch ( ChartException ce )
-				{
-					ChartWizard.showException( ChartWizard.CheckSeriesBindingType_ID
-							+ series.eContainer( ).hashCode( ),
-							Messages.getFormattedString( "TaskSelectData.Warning.TypeCheck",//$NON-NLS-1$
-							new String[]{
-									ce.getLocalizedMessage( ),
-									series.getDisplayName( )
-									} ) );
+					ChartWizard.removeException(ChartWizard.CheckSeriesBindingType_ID + series.eContainer().hashCode());
+				} catch (ChartException ce) {
+					ChartWizard.showException(ChartWizard.CheckSeriesBindingType_ID + series.eContainer().hashCode(),
+							Messages.getFormattedString("TaskSelectData.Warning.TypeCheck", //$NON-NLS-1$
+									new String[] { ce.getLocalizedMessage(), series.getDisplayName() }));
 				}
 
 				break;
@@ -679,129 +566,87 @@ public class TaskSelectData extends SimpleTask implements
 		}
 	}
 
-	private boolean isValidatedAxis( DataType dataType, AxisType axisType )
-	{
-		if ( dataType == null )
-		{
+	private boolean isValidatedAxis(DataType dataType, AxisType axisType) {
+		if (dataType == null) {
 			return true;
-		}
-		else if ( ( dataType == DataType.DATE_TIME_LITERAL )
-				&& ( axisType == AxisType.DATE_TIME_LITERAL ) )
-		{
+		} else if ((dataType == DataType.DATE_TIME_LITERAL) && (axisType == AxisType.DATE_TIME_LITERAL)) {
 			return true;
-		}
-		else if ( ( dataType == DataType.NUMERIC_LITERAL )
-				&& ( ( axisType == AxisType.LINEAR_LITERAL ) || ( axisType == AxisType.LOGARITHMIC_LITERAL ) ) )
-		{
+		} else if ((dataType == DataType.NUMERIC_LITERAL)
+				&& ((axisType == AxisType.LINEAR_LITERAL) || (axisType == AxisType.LOGARITHMIC_LITERAL))) {
 			return true;
-		}
-		else if ( ( dataType == DataType.TEXT_LITERAL )
-				&& ( axisType == AxisType.TEXT_LITERAL ) )
-		{
+		} else if ((dataType == DataType.TEXT_LITERAL) && (axisType == AxisType.TEXT_LITERAL)) {
 			return true;
 		}
 		return false;
 	}
 
-	private void axisNotification( Axis axis, AxisType type )
-	{
-		ChartAdapter.beginIgnoreNotifications( );
+	private void axisNotification(Axis axis, AxisType type) {
+		ChartAdapter.beginIgnoreNotifications();
 		{
-			convertSampleData( axis, type );
-			axis.setFormatSpecifier( null );
+			convertSampleData(axis, type);
+			axis.setFormatSpecifier(null);
 
-			EList<MarkerLine> markerLines = axis.getMarkerLines( );
-			for ( int i = 0; i < markerLines.size( ); i++ )
-			{
-				( markerLines.get( i ) ).setFormatSpecifier( null );
+			EList<MarkerLine> markerLines = axis.getMarkerLines();
+			for (int i = 0; i < markerLines.size(); i++) {
+				(markerLines.get(i)).setFormatSpecifier(null);
 			}
 
-			EList<MarkerRange> markerRanges = axis.getMarkerRanges( );
-			for ( int i = 0; i < markerRanges.size( ); i++ )
-			{
-				( markerRanges.get( i ) ).setFormatSpecifier( null );
+			EList<MarkerRange> markerRanges = axis.getMarkerRanges();
+			for (int i = 0; i < markerRanges.size(); i++) {
+				(markerRanges.get(i)).setFormatSpecifier(null);
 			}
 		}
-		ChartAdapter.endIgnoreNotifications( );
+		ChartAdapter.endIgnoreNotifications();
 	}
 
-	private void convertSampleData( Axis axis, AxisType axisType )
-	{
-		if ( ( axis.getAssociatedAxes( ) != null )
-				&& ( axis.getAssociatedAxes( ).size( ) != 0 ) )
-		{
-			BaseSampleData bsd = getChartModel( ).getSampleData( )
-					.getBaseSampleData( )
-					.get( 0 );
-			bsd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-					bsd.getDataSetRepresentation( ),
-					0 ) );
-		}
-		else
-		{
-			int iStartIndex = getFirstSeriesDefinitionIndexForAxis( axis );
-			int iEndIndex = iStartIndex + axis.getSeriesDefinitions( ).size( );
+	private void convertSampleData(Axis axis, AxisType axisType) {
+		if ((axis.getAssociatedAxes() != null) && (axis.getAssociatedAxes().size() != 0)) {
+			BaseSampleData bsd = getChartModel().getSampleData().getBaseSampleData().get(0);
+			bsd.setDataSetRepresentation(
+					ChartUIUtil.getConvertedSampleDataRepresentation(axisType, bsd.getDataSetRepresentation(), 0));
+		} else {
+			int iStartIndex = getFirstSeriesDefinitionIndexForAxis(axis);
+			int iEndIndex = iStartIndex + axis.getSeriesDefinitions().size();
 
-			int iOSDSize = getChartModel( ).getSampleData( )
-					.getOrthogonalSampleData( )
-					.size( );
-			for ( int i = 0; i < iOSDSize; i++ )
-			{
-				OrthogonalSampleData osd = getChartModel( ).getSampleData( )
-						.getOrthogonalSampleData( )
-						.get( i );
-				if ( osd.getSeriesDefinitionIndex( ) >= iStartIndex
-						&& osd.getSeriesDefinitionIndex( ) < iEndIndex )
-				{
-					osd.setDataSetRepresentation( ChartUIUtil.getConvertedSampleDataRepresentation( axisType,
-							osd.getDataSetRepresentation( ),
-							i ) );
+			int iOSDSize = getChartModel().getSampleData().getOrthogonalSampleData().size();
+			for (int i = 0; i < iOSDSize; i++) {
+				OrthogonalSampleData osd = getChartModel().getSampleData().getOrthogonalSampleData().get(i);
+				if (osd.getSeriesDefinitionIndex() >= iStartIndex && osd.getSeriesDefinitionIndex() < iEndIndex) {
+					osd.setDataSetRepresentation(ChartUIUtil.getConvertedSampleDataRepresentation(axisType,
+							osd.getDataSetRepresentation(), i));
 				}
 			}
 		}
 	}
 
-	private int getFirstSeriesDefinitionIndexForAxis( Axis axis )
-	{
-		List<Axis> axisList = ( (ChartWithAxes) getChartModel( ) ).getAxes( )
-				.get( 0 )
-				.getAssociatedAxes( );
+	private int getFirstSeriesDefinitionIndexForAxis(Axis axis) {
+		List<Axis> axisList = ((ChartWithAxes) getChartModel()).getAxes().get(0).getAssociatedAxes();
 		int index = 0;
-		for ( int i = 0; i < axisList.size( ); i++ )
-		{
-			if ( axis.equals( axisList.get( i ) ) )
-			{
+		for (int i = 0; i < axisList.size(); i++) {
+			if (axis.equals(axisList.get(i))) {
 				index = i;
 				break;
 			}
 		}
 		int iTmp = 0;
-		for ( int i = 0; i < index; i++ )
-		{
-			iTmp += ChartUIUtil.getAxisYForProcessing( (ChartWithAxes) getChartModel( ),
-					i )
-					.getSeriesDefinitions( )
-					.size( );
+		for (int i = 0; i < index; i++) {
+			iTmp += ChartUIUtil.getAxisYForProcessing((ChartWithAxes) getChartModel(), i).getSeriesDefinitions().size();
 		}
 		return iTmp;
 	}
 
-	private void updateApplyButton( )
-	{
-		if ( container != null && container instanceof ChartWizard )
-		{
-			( (ChartWizard) container ).updateApplyButton( );
+	private void updateApplyButton() {
+		if (container != null && container instanceof ChartWizard) {
+			((ChartWizard) container).updateApplyButton();
 		}
 	}
 
-	private void checkDataTypeForChartWithAxes( )
-	{
-		List<SeriesDefinition> osds = ChartUIUtil.getAllOrthogonalSeriesDefinitions( getChartModel( ) );
-		for ( int i = 0; i < osds.size( ); i++ )
-		{
-			SeriesDefinition sd = osds.get( i );
-			Series series = sd.getDesignTimeSeries( );
-			checkDataType( ChartUIUtil.getDataQuery( sd, 0 ), series );
+	private void checkDataTypeForChartWithAxes() {
+		List<SeriesDefinition> osds = ChartUIUtil.getAllOrthogonalSeriesDefinitions(getChartModel());
+		for (int i = 0; i < osds.size(); i++) {
+			SeriesDefinition sd = osds.get(i);
+			Series series = sd.getDesignTimeSeries();
+			checkDataType(ChartUIUtil.getDataQuery(sd, 0), series);
 		}
 	}
 
@@ -810,76 +655,62 @@ public class TaskSelectData extends SimpleTask implements
 	 * 
 	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.SimpleTask#getImage()
 	 */
-	public Image getImage( )
-	{
-		return UIHelper.getImage( ChartUIConstants.IMAGE_TASK_DATA );
+	public Image getImage() {
+		return UIHelper.getImage(ChartUIConstants.IMAGE_TASK_DATA);
 	}
 
-	private IChartDataSheet getDataSheet( )
-	{
-		return ( (ChartWizardContext) getContext( ) ).getDataSheet( );
+	private IChartDataSheet getDataSheet() {
+		return ((ChartWizardContext) getContext()).getDataSheet();
 	}
 
-	public void doPreview( )
-	{
-		if ( getChartModel( ) instanceof ChartWithAxes )
-		{
-			checkDataTypeForChartWithAxes( );
+	public void doPreview() {
+		if (getChartModel() instanceof ChartWithAxes) {
+			checkDataTypeForChartWithAxes();
+		} else {
+			ChartWizard.removeAllExceptions(ChartWizard.CheckSeriesBindingType_ID);
 		}
-		else
-		{
-			ChartWizard.removeAllExceptions( ChartWizard.CheckSeriesBindingType_ID );
-		}
-		LivePreviewTask lpt = new LivePreviewTask( Messages.getString( "TaskFormatChart.LivePreviewTask.BindData" ), null ); //$NON-NLS-1$
+		LivePreviewTask lpt = new LivePreviewTask(Messages.getString("TaskFormatChart.LivePreviewTask.BindData"), null); //$NON-NLS-1$
 		// Add a task to retrieve data and bind data to chart.
-		lpt.addTask( new LivePreviewTask() {
-			public void run()
-			{
-				if ( previewPainter != null )
-				{
-					setParameter( ChartLivePreviewThread.PARAM_CHART_MODEL, ChartUIUtil.prepareLivePreview( getChartModel( ),
-						getDataServiceProvider( ),
-						( (ChartWizardContext) context ).getActionEvaluator( ) ) );
+		lpt.addTask(new LivePreviewTask() {
+			public void run() {
+				if (previewPainter != null) {
+					setParameter(ChartLivePreviewThread.PARAM_CHART_MODEL,
+							ChartUIUtil.prepareLivePreview(getChartModel(), getDataServiceProvider(),
+									((ChartWizardContext) context).getActionEvaluator()));
 				}
 			}
 		});
-		
-		// Add a task to render chart.
-		lpt.addTask( new LivePreviewTask() {
-			public void run()
-			{
-				if ( previewCanvas != null
-						&& previewCanvas.getDisplay( ) != null
-						&& !previewCanvas.getDisplay( ).isDisposed( ) )
-				{
-					previewCanvas.getDisplay( ).syncExec( new Runnable( ) {
 
-						public void run( )
-						{
+		// Add a task to render chart.
+		lpt.addTask(new LivePreviewTask() {
+			public void run() {
+				if (previewCanvas != null && previewCanvas.getDisplay() != null
+						&& !previewCanvas.getDisplay().isDisposed()) {
+					previewCanvas.getDisplay().syncExec(new Runnable() {
+
+						public void run() {
 							// Repaint chart.
-							if ( previewPainter != null )
-							{
-								Chart cm = (Chart) getParameter( ChartLivePreviewThread.PARAM_CHART_MODEL );
-								previewPainter.renderModel( cm );
+							if (previewPainter != null) {
+								Chart cm = (Chart) getParameter(ChartLivePreviewThread.PARAM_CHART_MODEL);
+								previewPainter.renderModel(cm);
 							}
 						}
-					} );
+					});
 				}
 			}
 		});
-		
+
 		// Add live preview tasks to live preview thread.
-		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).setParentShell( getPreviewCanvas( ).getShell( ) );
-		((ChartLivePreviewThread)( (ChartWizardContext) context ).getLivePreviewThread( )).add( lpt );
+		((ChartLivePreviewThread) ((ChartWizardContext) context).getLivePreviewThread())
+				.setParentShell(getPreviewCanvas().getShell());
+		((ChartLivePreviewThread) ((ChartWizardContext) context).getLivePreviewThread()).add(lpt);
 	}
 
-	public Canvas getPreviewCanvas( )
-	{
+	public Canvas getPreviewCanvas() {
 		return previewCanvas;
 	}
 
-	public boolean isPreviewable( )
-	{
+	public boolean isPreviewable() {
 		return true;
 	}
 }

@@ -13,18 +13,17 @@ package org.eclipse.birt.data.engine.impl.document;
 /**
  * Wrap the ID infromation of a query result.
  */
-public class QueryResultInfo
-{
+public class QueryResultInfo {
 	private String rootQueryResultID;
 	private String parentQueryResultID;
-	
+
 	private String queryResultID;
 	private String subQueryName;
 	private int index;
-	
+
 	/**
-	 * The index parameter has different meaning in write/read. In writing, it
-	 * means the sub query index, but in reading, it means the parent row index.
+	 * The index parameter has different meaning in write/read. In writing, it means
+	 * the sub query index, but in reading, it means the parent row index.
 	 * 
 	 * @param rootQueryResultID
 	 * @param parentQueryResultID
@@ -32,22 +31,19 @@ public class QueryResultInfo
 	 * @param subQueryName
 	 * @param index
 	 */
-	public QueryResultInfo( String rootQueryResultID,
-			String parentQueryResultID, String selfQueryResultID,
-			String subQueryName, int index )
-	{
-		this( selfQueryResultID, subQueryName, index );
+	public QueryResultInfo(String rootQueryResultID, String parentQueryResultID, String selfQueryResultID,
+			String subQueryName, int index) {
+		this(selfQueryResultID, subQueryName, index);
 		this.rootQueryResultID = rootQueryResultID;
 		this.parentQueryResultID = parentQueryResultID;
 	}
-	
+
 	/**
 	 * @param queryResultID
 	 * @param subQueryName
 	 * @param subQueryIndex
 	 */
-	public QueryResultInfo( String queryResultID, String subQueryName, int index )
-	{
+	public QueryResultInfo(String queryResultID, String subQueryName, int index) {
 		this.queryResultID = queryResultID;
 		this.subQueryName = subQueryName;
 		this.index = index;
@@ -56,41 +52,36 @@ public class QueryResultInfo
 	/**
 	 * @return
 	 */
-	public String getRootQueryResultID()
-	{
+	public String getRootQueryResultID() {
 		return this.rootQueryResultID;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public String getParentQueryResultID()
-	{
+	public String getParentQueryResultID() {
 		return this.parentQueryResultID;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public String getSelfQueryResultID( )
-	{
+	public String getSelfQueryResultID() {
 		return this.queryResultID;
 	}
 
 	/**
 	 * @return
 	 */
-	public String getSubQueryName( )
-	{
+	public String getSubQueryName() {
 		return this.subQueryName;
 	}
 
 	/**
 	 * @return
 	 */
-	public int getIndex( )
-	{
+	public int getIndex() {
 		return this.index;
 	}
-	
+
 }

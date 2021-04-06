@@ -24,53 +24,42 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public class PageLayoutComboSection extends SimpleComboSection {
-	
+
 	ContainerSection containerSection;
-	public PageLayoutComboSection(String labelText, Composite parent,
-			boolean isFormStyle) {
+
+	public PageLayoutComboSection(String labelText, Composite parent, boolean isFormStyle) {
 		super(labelText, parent, isFormStyle);
 	}
-	
-	public PageLayoutComboSection(String labelText,ContainerSection section, boolean isFormStyle) {		
-		super(labelText,null, isFormStyle);
+
+	public PageLayoutComboSection(String labelText, ContainerSection section, boolean isFormStyle) {
+		super(labelText, null, isFormStyle);
 		this.containerSection = section;
 	}
-	
-	public void createSection( )
-	{
-		if(parent == null && containerSection != null)
-		{
+
+	public void createSection() {
+		if (parent == null && containerSection != null) {
 			parent = containerSection.getContainerComposite();
 		}
 		super.createSection();
 	}
-	
-	protected SimpleComboPropertyDescriptor getSimpleComboControl(
-			Composite parent )
-	{
-		if ( simpleCombo == null )
-		{
-			simpleCombo = new PageLayoutComboPropertyDescriptor( true );
-			if ( getProvider( ) != null )
-				simpleCombo.setDescriptorProvider( getProvider( ) );
-			simpleCombo.createControl( parent );
-			simpleCombo.getControl( ).setLayoutData( new GridData( ) );
-			simpleCombo.getControl( )
-					.addDisposeListener( new DisposeListener( ) {
 
-						public void widgetDisposed( DisposeEvent event )
-						{
-							simpleCombo = null;
-						}
-					} );
-		}
-		else
-		{
-			checkParent( simpleCombo.getControl( ), parent );
+	protected SimpleComboPropertyDescriptor getSimpleComboControl(Composite parent) {
+		if (simpleCombo == null) {
+			simpleCombo = new PageLayoutComboPropertyDescriptor(true);
+			if (getProvider() != null)
+				simpleCombo.setDescriptorProvider(getProvider());
+			simpleCombo.createControl(parent);
+			simpleCombo.getControl().setLayoutData(new GridData());
+			simpleCombo.getControl().addDisposeListener(new DisposeListener() {
+
+				public void widgetDisposed(DisposeEvent event) {
+					simpleCombo = null;
+				}
+			});
+		} else {
+			checkParent(simpleCombo.getControl(), parent);
 		}
 		return simpleCombo;
 	}
-	
-	
-	
+
 }

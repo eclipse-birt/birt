@@ -33,8 +33,7 @@ import org.eclipse.swt.widgets.Label;
  * axis.
  */
 
-public class MultipleSeriesComponent extends DefaultSelectDataComponent
-{
+public class MultipleSeriesComponent extends DefaultSelectDataComponent {
 
 	private EList<SeriesDefinition>[] seriesDefnsArray;
 
@@ -42,13 +41,16 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 
 	private String sTitle = null;
 
-	private static final String LABEL_GROUPING_YSERIES = Messages.getString( "MultipleSeriesComponent.Label.OptionalYSeriesGrouping" ); //$NON-NLS-1$
-	private static final String LABEL_GROUPING_OVERLAY = Messages.getString( "MultipleSeriesComponent.Label.OptionalOverlayGrouping" ); //$NON-NLS-1$
-	private static final String LABEL_GROUPING_WITHOUTAXIS = Messages.getString( "MultipleSeriesComponent.Label.OptionalGrouping" ); //$NON-NLS-1$
+	private static final String LABEL_GROUPING_YSERIES = Messages
+			.getString("MultipleSeriesComponent.Label.OptionalYSeriesGrouping"); //$NON-NLS-1$
+	private static final String LABEL_GROUPING_OVERLAY = Messages
+			.getString("MultipleSeriesComponent.Label.OptionalOverlayGrouping"); //$NON-NLS-1$
+	private static final String LABEL_GROUPING_WITHOUTAXIS = Messages
+			.getString("MultipleSeriesComponent.Label.OptionalGrouping"); //$NON-NLS-1$
 
 	private ISelectDataCustomizeUI selectDataUI = null;
 
-	private ArrayList<ISelectDataComponent> components = new ArrayList<ISelectDataComponent>( );
+	private ArrayList<ISelectDataComponent> components = new ArrayList<ISelectDataComponent>();
 
 	private boolean isSingle = false;
 
@@ -56,139 +58,114 @@ public class MultipleSeriesComponent extends DefaultSelectDataComponent
 	// NOT SUPPORT MULIPLE GROUPING.
 	private boolean useFirstOnly = true;
 
-	public MultipleSeriesComponent( EList<SeriesDefinition>[] seriesDefnsArray,
-			ChartWizardContext context, String sTitle,
-			ISelectDataCustomizeUI selectDataUI )
-	{
-		super( );
+	public MultipleSeriesComponent(EList<SeriesDefinition>[] seriesDefnsArray, ChartWizardContext context,
+			String sTitle, ISelectDataCustomizeUI selectDataUI) {
+		super();
 		this.seriesDefnsArray = seriesDefnsArray;
 		this.context = context;
 		this.sTitle = sTitle;
 		this.selectDataUI = selectDataUI;
 	}
-	
-	public MultipleSeriesComponent( EList<SeriesDefinition> seriesDefns,
-			ChartWizardContext context, String sTitle,
-			ISelectDataCustomizeUI selectDataUI )
-	{
-		this( new EList[]{
-			seriesDefns
-		}, context, sTitle, selectDataUI );
+
+	public MultipleSeriesComponent(EList<SeriesDefinition> seriesDefns, ChartWizardContext context, String sTitle,
+			ISelectDataCustomizeUI selectDataUI) {
+		this(new EList[] { seriesDefns }, context, sTitle, selectDataUI);
 		isSingle = true;
 	}
 
-	public Composite createArea( Composite parent )
-	{
-		Composite cmp = new Composite( parent, SWT.NONE );
+	public Composite createArea(Composite parent) {
+		Composite cmp = new Composite(parent, SWT.NONE);
 		{
-			GridLayout gridLayout = new GridLayout( );
+			GridLayout gridLayout = new GridLayout();
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
-			cmp.setLayout( gridLayout );
-			cmp.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+			cmp.setLayout(gridLayout);
+			cmp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		}
 
-		Label topAngle = new Label( cmp, SWT.NONE );
+		Label topAngle = new Label(cmp, SWT.NONE);
 		{
-			topAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_TOPLEFT ) );
+			topAngle.setImage(UIHelper.getImage(ChartUIConstants.IMAGE_RA_TOPLEFT));
 		}
 
-		for ( int i = 0; i < seriesDefnsArray.length; i++ )
-		{
-			createRightGroupArea( cmp, i, seriesDefnsArray[i] );
-			if ( useFirstOnly )
-			{
+		for (int i = 0; i < seriesDefnsArray.length; i++) {
+			createRightGroupArea(cmp, i, seriesDefnsArray[i]);
+			if (useFirstOnly) {
 				break;
 			}
 		}
 
-		Label bottomAngle = new Label( cmp, SWT.NONE );
+		Label bottomAngle = new Label(cmp, SWT.NONE);
 		{
-			bottomAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_BOTTOMLEFT ) );
+			bottomAngle.setImage(UIHelper.getImage(ChartUIConstants.IMAGE_RA_BOTTOMLEFT));
 		}
 
 		return cmp;
 	}
 
-	private void createRightGroupArea( Composite parent, final int axisIndex,
-			final EList<SeriesDefinition> seriesDefn )
-	{
-		final String strDesc = getGroupingDescription( axisIndex );
-		ISelectDataComponent subUIGroupY = new DefaultSelectDataComponent( ) {
+	private void createRightGroupArea(Composite parent, final int axisIndex, final EList<SeriesDefinition> seriesDefn) {
+		final String strDesc = getGroupingDescription(axisIndex);
+		ISelectDataComponent subUIGroupY = new DefaultSelectDataComponent() {
 
-			public Composite createArea( Composite parent )
-			{
-				Composite cmpGroup = new Composite( parent, SWT.NONE );
-				GridLayout glContent = new GridLayout( );
+			public Composite createArea(Composite parent) {
+				Composite cmpGroup = new Composite(parent, SWT.NONE);
+				GridLayout glContent = new GridLayout();
 				glContent.marginHeight = 0;
 				glContent.marginWidth = 0;
 				glContent.horizontalSpacing = 2;
-				cmpGroup.setLayout( glContent );
-				cmpGroup.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+				cmpGroup.setLayout(glContent);
+				cmpGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-				Label lblRightYGrouping = new Label( cmpGroup, SWT.WRAP );
+				Label lblRightYGrouping = new Label(cmpGroup, SWT.WRAP);
 				{
-					GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-					lblRightYGrouping.setLayoutData( gd );
-					lblRightYGrouping.setText( strDesc );
+					GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+					lblRightYGrouping.setLayoutData(gd);
+					lblRightYGrouping.setText(strDesc);
 				}
 
 				int selectedSeriesIndex = 0;
-				if ( !useFirstOnly )
-				{
-					selectedSeriesIndex = selectDataUI.getSeriesIndex( )[axisIndex];
+				if (!useFirstOnly) {
+					selectedSeriesIndex = selectDataUI.getSeriesIndex()[axisIndex];
 				}
 
-				if ( seriesDefn != null && !seriesDefn.isEmpty( ) )
-				{
-					final SeriesDefinition sd = seriesDefn.get( selectedSeriesIndex );
+				if (seriesDefn != null && !seriesDefn.isEmpty()) {
+					final SeriesDefinition sd = seriesDefn.get(selectedSeriesIndex);
 					// Only display current selected series
-					ISelectDataComponent subUI = selectDataUI.getAreaComponent( ISelectDataCustomizeUI.GROUPING_SERIES,
-							sd,
-							context,
-							sTitle );
-					subUI.createArea( cmpGroup );
-					if (subUI instanceof BaseDataDefinitionComponent)
-					{
-						subUI.bindAssociatedName( strDesc );
+					ISelectDataComponent subUI = selectDataUI.getAreaComponent(ISelectDataCustomizeUI.GROUPING_SERIES,
+							sd, context, sTitle);
+					subUI.createArea(cmpGroup);
+					if (subUI instanceof BaseDataDefinitionComponent) {
+						subUI.bindAssociatedName(strDesc);
 					}
-					components.add( subUI );
+					components.add(subUI);
 				}
 
 				return cmpGroup;
 			}
 
 		};
-		subUIGroupY.createArea( parent );
-		components.add( subUIGroupY );
+		subUIGroupY.createArea(parent);
+		components.add(subUIGroupY);
 	}
 
-	public void selectArea( boolean selected, Object data )
-	{
-		for ( int i = 0; i < components.size( ); i++ )
-		{
-			components.get( i ).selectArea( selected,
-					data );
+	public void selectArea(boolean selected, Object data) {
+		for (int i = 0; i < components.size(); i++) {
+			components.get(i).selectArea(selected, data);
 		}
 	}
 
-	public void dispose( )
-	{
-		for ( int i = 0; i < components.size( ); i++ )
-		{
-			components.get( i ).dispose( );
+	public void dispose() {
+		for (int i = 0; i < components.size(); i++) {
+			components.get(i).dispose();
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
-	private String getGroupingDescription( int axisIndex )
-	{
-		if ( isSingle )
-		{
+	private String getGroupingDescription(int axisIndex) {
+		if (isSingle) {
 			return LABEL_GROUPING_WITHOUTAXIS;
 		}
-		if ( axisIndex == 0 )
-		{
+		if (axisIndex == 0) {
 			return LABEL_GROUPING_YSERIES;
 		}
 		return LABEL_GROUPING_OVERLAY;

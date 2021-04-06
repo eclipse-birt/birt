@@ -29,23 +29,21 @@ import org.eclipse.birt.report.model.elements.TableRow;
  * <li>Current copy/paste operations do not support cells with "drop"
  * properties.
  * <li>Each time, only one row can be copied/pasted.
- * <li>Slot layouts between the source grid/table and the target grid/table
- * must be same.
+ * <li>Slot layouts between the source grid/table and the target grid/table must
+ * be same.
  * </ul>
  * 
  */
 
-public abstract class RowBandAdapter
-{
+public abstract class RowBandAdapter {
 
-	
 	/**
 	 * Returns the element where the copy/paste operation occurs.
 	 * 
 	 * @return the element
 	 */
 
-	protected abstract ReportItemHandle getElementHandle( );
+	protected abstract ReportItemHandle getElementHandle();
 
 	/**
 	 * Returns the module where the element belongs to.
@@ -53,9 +51,8 @@ public abstract class RowBandAdapter
 	 * @return the module
 	 */
 
-	protected Module getModule( )
-	{
-		return getElementHandle( ).getModule( );
+	protected Module getModule() {
+		return getElementHandle().getModule();
 	}
 
 	/**
@@ -64,29 +61,28 @@ public abstract class RowBandAdapter
 	 * @return the number of columns in the element
 	 */
 
-	protected abstract int getColumnCount( );
-	
+	protected abstract int getColumnCount();
+
 	/**
 	 * Returns count of rows.
+	 * 
 	 * @return count of rows.
 	 */
-	protected abstract int getRowCount( );
-	
+	protected abstract int getRowCount();
+
 	/**
 	 * Computes column count in one row.
+	 * 
 	 * @param row
-	 * @return
-	 *  column count in one row.
+	 * @return column count in one row.
 	 */
-	protected int computeRowCount( TableRow row )
-	{
-		List contents = row.getContentsSlot( );
-		Iterator cellIter = contents.iterator( );
+	protected int computeRowCount(TableRow row) {
+		List contents = row.getContentsSlot();
+		Iterator cellIter = contents.iterator();
 		int count = 0;
-		while ( cellIter.hasNext( ) )
-		{
-			Cell cell = (Cell) cellIter.next( );
-			int columnSpan = cell.getColSpan(  null  );
+		while (cellIter.hasNext()) {
+			Cell cell = (Cell) cellIter.next();
+			int columnSpan = cell.getColSpan(null);
 			count = count + columnSpan;
 		}
 		return count;
@@ -94,27 +90,23 @@ public abstract class RowBandAdapter
 
 	/**
 	 * Computes column count in one row.
+	 * 
 	 * @param rowHandle
-	 * @return
-	 *  column count in one row.
+	 * @return column count in one row.
 	 */
-	protected int computeRowCount( RowHandle rowHandle )
-	{
-		TableRow row = (TableRow)rowHandle.getElement( );
-		return computeRowCount( row );
+	protected int computeRowCount(RowHandle rowHandle) {
+		TableRow row = (TableRow) rowHandle.getElement();
+		return computeRowCount(row);
 	}
-	
+
 	/**
 	 * Checks element has parent or not.
 	 * 
 	 * @return <code>true</code>if has parent, else return <code>false</code>
 	 */
 
-	protected boolean hasParent( )
-	{
-		if ( getElementHandle( ).getElement( ).isVirtualElement( )
-				|| ( getElementHandle( ).getExtends() != null ) )
-		{
+	protected boolean hasParent() {
+		if (getElementHandle().getElement().isVirtualElement() || (getElementHandle().getExtends() != null)) {
 			return true;
 		}
 		return false;

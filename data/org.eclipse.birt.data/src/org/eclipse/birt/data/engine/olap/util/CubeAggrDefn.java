@@ -17,11 +17,10 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.timefunction.ITimeFunction;
 
 /**
- * This is a class used to describe a measure that need to be calculated during 
+ * This is a class used to describe a measure that need to be calculated during
  * Olap query execution.
  */
-public abstract class CubeAggrDefn
-{
+public abstract class CubeAggrDefn {
 	//
 	private String name;
 	private List aggrLevels, arguments;
@@ -32,9 +31,8 @@ public abstract class CubeAggrDefn
 	/*
 	 * 
 	 */
-	CubeAggrDefn( String name, List aggrLevels,
-			String aggrName, ITimeFunction timeFunction, List arguments, IBaseExpression filterExpression )
-	{
+	CubeAggrDefn(String name, List aggrLevels, String aggrName, ITimeFunction timeFunction, List arguments,
+			IBaseExpression filterExpression) {
 		assert name != null;
 		assert aggrLevels != null;
 
@@ -45,48 +43,45 @@ public abstract class CubeAggrDefn
 		this.filterExpression = filterExpression;
 		this.timeFunction = timeFunction;
 	}
-	
 
 	/**
 	 * Return a list of levels that the aggregations is based.
-	 * @return
-	 */
-	public List getAggrLevelsInAggregationResult( )
-	{
-		return this.aggrLevels;
-	}
-	
-	public List getAggrLevelsInDefinition( )
-	{
-		return this.aggrLevels;
-	}
-	
-	/**
-	 * Return a list of arguments that the aggregations is based.
-	 * @return
-	 */
-	public List getArguments( )
-	{
-		return this.arguments;
-	}
-
-
-	/**
-	 * Return the name of the cube aggregation definition. Usually it is a binding name.
 	 * 
 	 * @return
 	 */
-	public String getName( )
-	{
+	public List getAggrLevelsInAggregationResult() {
+		return this.aggrLevels;
+	}
+
+	public List getAggrLevelsInDefinition() {
+		return this.aggrLevels;
+	}
+
+	/**
+	 * Return a list of arguments that the aggregations is based.
+	 * 
+	 * @return
+	 */
+	public List getArguments() {
+		return this.arguments;
+	}
+
+	/**
+	 * Return the name of the cube aggregation definition. Usually it is a binding
+	 * name.
+	 * 
+	 * @return
+	 */
+	public String getName() {
 		return this.name;
 	}
 
 	/**
 	 * Return the name of the aggregation operation.
+	 * 
 	 * @return
 	 */
-	public String getAggrName( )
-	{
+	public String getAggrName() {
 		return this.aggrName;
 	}
 
@@ -95,33 +90,29 @@ public abstract class CubeAggrDefn
 	 * 
 	 * @return
 	 */
-	public IBaseExpression getFilter( )
-	{
+	public IBaseExpression getFilter() {
 		return this.filterExpression;
 	}
-	
-	public String[] getFirstArgumentInfo( )
-	{
-		if ( this.arguments == null || this.arguments.isEmpty( ) )
-		{
+
+	public String[] getFirstArgumentInfo() {
+		if (this.arguments == null || this.arguments.isEmpty()) {
 			return new String[0];
-		}
-		else
-			return (String[]) this.arguments.get( 0 );
+		} else
+			return (String[]) this.arguments.get(0);
 	}
-	
+
 	/**
 	 * 
-	 * @return the target measure of IDataSet4Aggregation where this aggregation operates
+	 * @return the target measure of IDataSet4Aggregation where this aggregation
+	 *         operates
 	 */
-	public abstract String getMeasure( );
-	
+	public abstract String getMeasure();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public ITimeFunction getTimeFunction( )
-	{
+	public ITimeFunction getTimeFunction() {
 		return this.timeFunction;
 	}
 }

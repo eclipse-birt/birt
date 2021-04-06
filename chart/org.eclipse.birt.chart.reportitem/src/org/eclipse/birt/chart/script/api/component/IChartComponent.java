@@ -18,28 +18,27 @@ import org.eclipse.birt.chart.script.api.attribute.ILabel;
  * can be Axis, Series, Legend, and etc.
  */
 
-public interface IChartComponent
-{
+public interface IChartComponent {
 
 	/**
 	 * Checks if current component is visible
 	 * 
 	 * @return visible or not
 	 */
-	boolean isVisible( );
+	boolean isVisible();
 
 	/**
 	 * Sets if current component is visible
 	 * 
 	 * @param visible
 	 */
-	void setVisible( boolean visible );
+	void setVisible(boolean visible);
 
 	/**
 	 * Gets the title of component
 	 * 
 	 * @return title string
 	 */
-	ILabel getTitle( );
+	ILabel getTitle();
 
 }

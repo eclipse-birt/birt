@@ -29,91 +29,72 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 /**
  * MeasureImpl
  */
-public class MeasureImpl implements IMeasure
-{
+public class MeasureImpl implements IMeasure {
 
 	private MeasureHandle mh;
 	private MeasureViewHandle mv;
 
 	// TODO support computed measure view
 
-	public MeasureImpl( MeasureViewHandle mv )
-	{
+	public MeasureImpl(MeasureViewHandle mv) {
 		this.mv = mv;
 
-		if ( mv != null )
-		{
-			mh = mv.getCubeMeasure( );
+		if (mv != null) {
+			mh = mv.getCubeMeasure();
 		}
 	}
 
-	public String getFunctionName( )
-	{
-		if ( mh != null )
-		{
-			return mh.getFunction( );
+	public String getFunctionName() {
+		if (mh != null) {
+			return mh.getFunction();
 		}
 		return null;
 	}
 
-	public String getMeasureExpression( )
-	{
-		if ( mh != null )
-		{
-			return mh.getMeasureExpression( );
+	public String getMeasureExpression() {
+		if (mh != null) {
+			return mh.getMeasureExpression();
 		}
 		return null;
 	}
 
-	public String getName( )
-	{
-		if ( mh != null )
-		{
-			return mh.getName( );
+	public String getName() {
+		if (mh != null) {
+			return mh.getName();
 		}
-		if ( mv != null )
-		{
-			return mv.getCubeMeasureName( );
+		if (mv != null) {
+			return mv.getCubeMeasureName();
 		}
 		return null;
 	}
 
-	public void addFilterCondition( IFilterConditionElement filter )
-			throws SemanticException
-	{
-		if ( mh != null )
-		{
-			FilterConditionElementHandle fceh = mv.getModelHandle( )
-					.getElementFactory( )
-					.newFilterConditionElement( );
+	public void addFilterCondition(IFilterConditionElement filter) throws SemanticException {
+		if (mh != null) {
+			FilterConditionElementHandle fceh = mv.getModelHandle().getElementFactory().newFilterConditionElement();
 
-			fceh.setExpr( filter.getExpr( ) );
-			fceh.setFilterTarget( filter.getFilterTarget( ) );
-			fceh.setOperator( filter.getOperator( ) );
-			fceh.setValue1( filter.getValue1List( ) );
-			fceh.setValue2( filter.getValue2( ) );
-			fceh.setOptional( filter.isOptional( ) );
+			fceh.setExpr(filter.getExpr());
+			fceh.setFilterTarget(filter.getFilterTarget());
+			fceh.setOperator(filter.getOperator());
+			fceh.setValue1(filter.getValue1List());
+			fceh.setValue2(filter.getValue2());
+			fceh.setOptional(filter.isOptional());
 
-			mv.getModelHandle( ).add( ILevelViewConstants.FILTER_PROP, fceh );
+			mv.getModelHandle().add(ILevelViewConstants.FILTER_PROP, fceh);
 		}
 	}
 
-	public List<IFilterConditionElement> getFilterConditions( )
-	{
-		if ( mh != null )
-		{
-			List<IFilterConditionElement> filters = new ArrayList<IFilterConditionElement>( );
-			ISimpleElementFactory factory = SimpleElementFactory.getInstance( );
+	public List<IFilterConditionElement> getFilterConditions() {
+		if (mh != null) {
+			List<IFilterConditionElement> filters = new ArrayList<IFilterConditionElement>();
+			ISimpleElementFactory factory = SimpleElementFactory.getInstance();
 
-			for ( Iterator itr = mv.filtersIterator( ); itr.hasNext( ); )
-			{
-				FilterConditionElementHandle feh = (FilterConditionElementHandle) itr.next( );
+			for (Iterator itr = mv.filtersIterator(); itr.hasNext();) {
+				FilterConditionElementHandle feh = (FilterConditionElementHandle) itr.next();
 
-				filters.add( (IFilterConditionElement) factory.getElement( feh ) );
+				filters.add((IFilterConditionElement) factory.getElement(feh));
 			}
 
-			if ( filters.size( ) > 0 )
-			{
+			if (filters.size() > 0) {
 				return filters;
 			}
 		}
@@ -121,77 +102,58 @@ public class MeasureImpl implements IMeasure
 		return Collections.EMPTY_LIST;
 	}
 
-	public void removeAllFilterConditions( ) throws SemanticException
-	{
-		if ( mh != null )
-		{
-			mv.getModelHandle( ).setProperty( ILevelViewConstants.FILTER_PROP,
-					null );
+	public void removeAllFilterConditions() throws SemanticException {
+		if (mh != null) {
+			mv.getModelHandle().setProperty(ILevelViewConstants.FILTER_PROP, null);
 		}
 	}
 
-	public void removeFilterCondition( IFilterConditionElement filter )
-			throws SemanticException
-	{
-		if ( mh == null || filter == null )
-		{
+	public void removeFilterCondition(IFilterConditionElement filter) throws SemanticException {
+		if (mh == null || filter == null) {
 			return;
 		}
 
 		FilterConditionElementHandle handle = null;
 
-		for ( Iterator itr = mv.filtersIterator( ); itr.hasNext( ); )
-		{
-			FilterConditionElementHandle feh = (FilterConditionElementHandle) itr.next( );
+		for (Iterator itr = mv.filtersIterator(); itr.hasNext();) {
+			FilterConditionElementHandle feh = (FilterConditionElementHandle) itr.next();
 
-			if ( equalFilter( feh, filter ) )
-			{
+			if (equalFilter(feh, filter)) {
 				handle = feh;
 				break;
 			}
 		}
 
-		if ( handle != null )
-		{
-			mv.getModelHandle( ).drop( ILevelViewConstants.FILTER_PROP, handle );
+		if (handle != null) {
+			mv.getModelHandle().drop(ILevelViewConstants.FILTER_PROP, handle);
 		}
 	}
 
-	private boolean equalFilter( FilterConditionElementHandle fceh,
-			IFilterConditionElement ifce )
-	{
-		List val1 = fceh.getValue1List( );
-		List val2 = ifce.getValue1List( );
+	private boolean equalFilter(FilterConditionElementHandle fceh, IFilterConditionElement ifce) {
+		List val1 = fceh.getValue1List();
+		List val2 = ifce.getValue1List();
 
-		if ( val1 == null || val1.isEmpty( ) )
-		{
-			if ( val2 != null && !val2.isEmpty( ) )
-			{
+		if (val1 == null || val1.isEmpty()) {
+			if (val2 != null && !val2.isEmpty()) {
 				return false;
 			}
-		}
-		else
-		{
-			if ( !val1.equals( val2 ) )
-			{
+		} else {
+			if (!val1.equals(val2)) {
 				return false;
 			}
 		}
 
-		return ( fceh.isOptional( ) == ifce.isOptional( ) )
-				&& equalString( fceh.getExpr( ), ifce.getExpr( ) )
-				&& equalString( fceh.getFilterTarget( ), ifce.getFilterTarget( ) )
-				&& equalString( fceh.getOperator( ), ifce.getOperator( ) )
-				&& equalString( fceh.getValue2( ), ifce.getValue2( ) );
+		return (fceh.isOptional() == ifce.isOptional()) && equalString(fceh.getExpr(), ifce.getExpr())
+				&& equalString(fceh.getFilterTarget(), ifce.getFilterTarget())
+				&& equalString(fceh.getOperator(), ifce.getOperator())
+				&& equalString(fceh.getValue2(), ifce.getValue2());
 	}
 
-	private boolean equalString( String s1, String s2 )
-	{
-		if ( s1 == null )
-		{
+	private boolean equalString(String s1, String s2) {
+		if (s1 == null) {
 			return s2 == null;
 		}
-		return s1.equals( s2 );
+		return s1.equals(s2);
 	}
 
 }

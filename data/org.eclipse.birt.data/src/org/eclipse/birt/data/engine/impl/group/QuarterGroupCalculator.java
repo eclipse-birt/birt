@@ -22,49 +22,37 @@ import com.ibm.icu.util.ULocale;
  * This calculator is used to calculate a quarter group key basing group
  * interval.
  */
-class QuarterGroupCalculator extends DateGroupCalculator
-{
+class QuarterGroupCalculator extends DateGroupCalculator {
 
-
-
-	public QuarterGroupCalculator( Object intervalStart, double intervalRange,
-			ULocale locale, TimeZone timeZone ) throws BirtException
-	{
-		super( intervalStart, intervalRange, locale, timeZone );
+	public QuarterGroupCalculator(Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone)
+			throws BirtException {
+		super(intervalStart, intervalRange, locale, timeZone);
 		// TODO Auto-generated constructor stub
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.
+	 * lang.Object)
 	 */
-	public Object calculate( Object value ) throws BirtException
-	{
-		if ( value == null )
-		{
-			return new Double( -1 );
+	public Object calculate(Object value) throws BirtException {
+		if (value == null) {
+			return new Double(-1);
 		}
 
-		Date target = getDate( value );
-		
-		if ( intervalStart == null )
-		{
-			return new Double( Math.floor( (double)this.dateTimeUtil.diffQuarter( defaultStart,
-					target )
-					/ (double)getDateIntervalRange( ) ) );
-		}
-		else
-		{
-			if ( this.dateTimeUtil.diffQuarter( (Date) intervalStart, target ) < 0 )
-			{
-				return new Double( -1 );
-			}
-			else
-			{
-				return new Double( Math.floor( (double)this.dateTimeUtil.diffQuarter( (Date) intervalStart,
-						target )
-						/ (double)getDateIntervalRange( ) ) );
+		Date target = getDate(value);
+
+		if (intervalStart == null) {
+			return new Double(Math.floor(
+					(double) this.dateTimeUtil.diffQuarter(defaultStart, target) / (double) getDateIntervalRange()));
+		} else {
+			if (this.dateTimeUtil.diffQuarter((Date) intervalStart, target) < 0) {
+				return new Double(-1);
+			} else {
+				return new Double(Math.floor((double) this.dateTimeUtil.diffQuarter((Date) intervalStart, target)
+						/ (double) getDateIntervalRange()));
 			}
 		}
 	}

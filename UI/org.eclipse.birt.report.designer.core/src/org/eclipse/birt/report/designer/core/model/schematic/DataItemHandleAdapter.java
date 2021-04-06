@@ -16,24 +16,21 @@ import org.eclipse.birt.report.model.api.DataItemHandle;
 
 /**
  * Adapter class to adapt model handle. This adapter provides convenience.
- * methods to GUI requirement DataItemHandleAdapter responds to model DataItemHandle
- *  
+ * methods to GUI requirement DataItemHandleAdapter responds to model
+ * DataItemHandle
+ * 
  */
 
-public class DataItemHandleAdapter extends LabelHandleAdapter
-{
+public class DataItemHandleAdapter extends LabelHandleAdapter {
 
 	/**
 	 * Constructor
 	 * 
-	 * @param dataItemHandle
-	 *            The data item handle.
+	 * @param dataItemHandle The data item handle.
 	 * @param mark
 	 */
-	public DataItemHandleAdapter( DataItemHandle dataItemHandle,
-			IModelAdapterHelper mark )
-	{
-		super( dataItemHandle, mark );
+	public DataItemHandleAdapter(DataItemHandle dataItemHandle, IModelAdapterHelper mark) {
+		super(dataItemHandle, mark);
 	}
 
 }

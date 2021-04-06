@@ -17,8 +17,7 @@ package org.eclipse.birt.report.designer.internal.ui.script;
  * @author rkanguri
  * @version $Revision: 1.2 $ $Date: 2007/11/07 04:45:01 $
  */
-public interface PreferenceNames
-{
+public interface PreferenceNames {
 
 	String P_COMMENT_COLOR = "commentColor"; //$NON-NLS-1$
 

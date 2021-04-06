@@ -27,58 +27,52 @@ import org.eclipse.birt.report.engine.content.impl.ActionContent;
  * 
  * 
  */
-public class EmbeddedHyperlinkProcessorTest extends TestCase
-{
+public class EmbeddedHyperlinkProcessorTest extends TestCase {
 
 	HTMLActionHandler processor;
 	HTMLRenderContext context;
 
-	protected void setUp( )
-	{
-		processor = new HTMLActionHandler( );
-		context = new HTMLRenderContext( );
-		context.setBaseURL( "http://localhost/birt/servlet" ); //$NON-NLS-1$
-		context.setImageDirectory( "image" ); //$NON-NLS-1$
-		context.setBaseImageURL( "http://localhost/birt/image" ); //$NON-NLS-1$
+	protected void setUp() {
+		processor = new HTMLActionHandler();
+		context = new HTMLRenderContext();
+		context.setBaseURL("http://localhost/birt/servlet"); //$NON-NLS-1$
+		context.setImageDirectory("image"); //$NON-NLS-1$
+		context.setBaseImageURL("http://localhost/birt/image"); //$NON-NLS-1$
 	}
 
-	public void testBookmark( )
-	{
+	public void testBookmark() {
 		String bookmark = "bookmark";//$NON-NLS-1$
-		IHyperlinkAction action = new ActionContent( );
-		action.setBookmark( bookmark );
-		IAction act = new Action( action );
-		String url = processor.getURL( act, context );
+		IHyperlinkAction action = new ActionContent();
+		action.setBookmark(bookmark);
+		IAction act = new Action(action);
+		String url = processor.getURL(act, context);
 
-		assertEquals( url, "#" + bookmark );
+		assertEquals(url, "#" + bookmark);
 	}
 
-	public void testHyperlink( )
-	{
+	public void testHyperlink() {
 		String hyperlink = "hyperlink";//$NON-NLS-1$
 		String target = "target";//$NON-NLS-1$
-		IHyperlinkAction action = new ActionContent( );
-		action.setHyperlink( hyperlink, target );
-		IAction act = new Action( action );
-		String url = processor.getURL( act, context );
+		IHyperlinkAction action = new ActionContent();
+		action.setHyperlink(hyperlink, target);
+		IAction act = new Action(action);
+		String url = processor.getURL(act, context);
 
-		assertEquals( url, hyperlink );
+		assertEquals(url, hyperlink);
 	}
 
-	public void testDrillThrough( )
-	{
+	public void testDrillThrough() {
 		String bookmark = "bookmark";//$NON-NLS-1$
 		String reportName = "report";//$NON-NLS-1$
-		HashMap params = new HashMap( );
-		params.put( "param1", "string" );
+		HashMap params = new HashMap();
+		params.put("param1", "string");
 		String goldenUrl = "http://localhost/birt/servlet?__report=report&__format=html&param1=string&__overwrite=true&__bookmark=bookmark";
 
-		IHyperlinkAction action = new ActionContent( );
-		action.setDrillThrough( bookmark, true, reportName, params, null,
-				"_blank", "html", null );//$NON-NLS-1$
-		IAction act = new Action( action );
-		String url = processor.getURL( act, context );
+		IHyperlinkAction action = new ActionContent();
+		action.setDrillThrough(bookmark, true, reportName, params, null, "_blank", "html", null);//$NON-NLS-1$
+		IAction act = new Action(action);
+		String url = processor.getURL(act, context);
 
-		assertEquals( goldenUrl, url );//$NON-NLS-1$
+		assertEquals(goldenUrl, url);// $NON-NLS-1$
 	}
 }

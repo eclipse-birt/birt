@@ -26,153 +26,122 @@ import org.eclipse.birt.report.engine.toc.ITOCConstants;
 import org.eclipse.birt.report.engine.toc.ITOCReader;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 
-public class TOCReaderV3 implements ITOCReader, ITOCConstants
-{
+public class TOCReaderV3 implements ITOCReader, ITOCConstants {
 
-	static final Logger logger = Logger
-			.getLogger( TOCReaderV3.class.getName( ) );
+	static final Logger logger = Logger.getLogger(TOCReaderV3.class.getName());
 	DocTreeNode root;
 	RAInputStream in;
 	ClassLoader classloader;
 
-	public TOCReaderV3( RAInputStream in, ClassLoader loader )
-			throws IOException
-	{
-		this( in, loader, false );
+	public TOCReaderV3(RAInputStream in, ClassLoader loader) throws IOException {
+		this(in, loader, false);
 	}
 
-	public TOCReaderV3( RAInputStream in, ClassLoader loader,
-			boolean checkVersion ) throws IOException
-	{
+	public TOCReaderV3(RAInputStream in, ClassLoader loader, boolean checkVersion) throws IOException {
 		this.in = in;
 		this.classloader = loader;
 
-		if ( checkVersion )
-		{
-			DataInputStream input = new DataInputStream( in );
-			String version = IOUtil.readString( input );
-			if ( !VERSION_V3.equals( version ) )
-			{
-				throw new IOException( "Unsupported version:" + version );
+		if (checkVersion) {
+			DataInputStream input = new DataInputStream(in);
+			String version = IOUtil.readString(input);
+			if (!VERSION_V3.equals(version)) {
+				throw new IOException("Unsupported version:" + version);
 			}
 		}
 
-		int offset = (int) in.getOffset( );
-		root = readNode( offset );
+		int offset = (int) in.getOffset();
+		root = readNode(offset);
 	}
 
-	public void close( ) throws IOException
-	{
-		if ( in != null )
-		{
-			try
-			{
-				in.close( );
-			}
-			finally
-			{
-				in.close( );
+	public void close() throws IOException {
+		if (in != null) {
+			try {
+				in.close();
+			} finally {
+				in.close();
 			}
 		}
 	}
 
-	public ITreeNode readTree( ) throws IOException
-	{
+	public ITreeNode readTree() throws IOException {
 		return root;
 	}
 
-	synchronized private DocTreeNode readNode( int offset ) throws IOException
-	{
-		DocTreeNode node = new DocTreeNode( );
+	synchronized private DocTreeNode readNode(int offset) throws IOException {
+		DocTreeNode node = new DocTreeNode();
 		node.offset = offset;
-		in.seek( offset );
-		node.next = in.readInt( );
-		node.child = in.readInt( );
-		node.childCount = in.readInt( );
-		int byteSize = in.readInt( );
+		in.seek(offset);
+		node.next = in.readInt();
+		node.child = in.readInt();
+		node.childCount = in.readInt();
+		int byteSize = in.readInt();
 		byte[] bytes = new byte[byteSize];
-		in.readFully( bytes, 0, byteSize );
-		DataInputStream input = new DataInputStream( new ByteArrayInputStream(
-				bytes ) );
+		in.readFully(bytes, 0, byteSize);
+		DataInputStream input = new DataInputStream(new ByteArrayInputStream(bytes));
 
-		node.readNode( input, classloader );
+		node.readNode(input, classloader);
 
-		node.children = new NodeCollection( node );
+		node.children = new NodeCollection(node);
 
 		return node;
 	}
 
-	private class NodeCollection extends AbstractCollection<ITreeNode>
-	{
+	private class NodeCollection extends AbstractCollection<ITreeNode> {
 
 		DocTreeNode parent;
 
-		NodeCollection( DocTreeNode parent )
-		{
+		NodeCollection(DocTreeNode parent) {
 			this.parent = parent;
 		}
 
-		public Iterator<ITreeNode> iterator( )
-		{
-			return new NodeCollectionIterator( parent );
+		public Iterator<ITreeNode> iterator() {
+			return new NodeCollectionIterator(parent);
 		}
 
-		public int size( )
-		{
+		public int size() {
 			return parent.childCount;
 		}
 
-		private class NodeCollectionIterator implements Iterator<ITreeNode>
-		{
+		private class NodeCollectionIterator implements Iterator<ITreeNode> {
 
 			DocTreeNode parent;
 			int nextIndex;
 			int nextOffset;
 			boolean fatalError;
 
-			NodeCollectionIterator( DocTreeNode parent )
-			{
+			NodeCollectionIterator(DocTreeNode parent) {
 				this.parent = parent;
 				this.nextIndex = 0;
 				this.nextOffset = parent.child;
 				this.fatalError = false;
 			}
 
-			public boolean hasNext( )
-			{
-				if ( !fatalError )
-				{
+			public boolean hasNext() {
+				if (!fatalError) {
 					return nextIndex < parent.childCount;
 				}
 				return false;
 			}
 
-			public ITreeNode next( )
-			{
-				if ( !hasNext( ) )
-				{
-					throw new NoSuchElementException( );
+			public ITreeNode next() {
+				if (!hasNext()) {
+					throw new NoSuchElementException();
 				}
-				try
-				{
-					DocTreeNode nextNode = readNode( nextOffset );
+				try {
+					DocTreeNode nextNode = readNode(nextOffset);
 					nextNode.parent = parent;
 					nextIndex++;
 					nextOffset = nextNode.next;
 					return nextNode;
-				}
-				catch ( IOException ex )
-				{
-					logger.log( Level.INFO, "failed to load the toc node at "
-							+ nextOffset, ex );
+				} catch (IOException ex) {
+					logger.log(Level.INFO, "failed to load the toc node at " + nextOffset, ex);
 					fatalError = true;
 				}
 				return null;
 			}
 
-			public void remove( )
-			{
-				throw new UnsupportedOperationException( );
+			public void remove() {
+				throw new UnsupportedOperationException();
 			}
 		}
 	}

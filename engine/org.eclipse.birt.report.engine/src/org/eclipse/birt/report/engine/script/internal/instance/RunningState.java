@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.script.internal.instance;
 
-public enum RunningState
-{
+public enum RunningState {
 	CREATE, RENDER, PAGEBREAK;
 }

@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.doc.legacy;
 
-public class SpecMethod extends SpecObject
-{
+public class SpecMethod extends SpecObject {
 	public String shortDescrip;
 	public String returns;
 	public String context;

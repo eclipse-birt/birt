@@ -13,24 +13,20 @@ package org.eclipse.birt.report.engine.api;
 
 import org.eclipse.birt.report.engine.api.RenderOption;
 
-public class DocxRenderOption extends RenderOption
-{
+public class DocxRenderOption extends RenderOption {
 
 	public static final String OPTION_COMPRESSION_MODE = "BEST_COMPRESSION"; //$NON-NLS-1$
-	
+
 	public static final String OPTION_EMBED_HTML = "EmbedHtml";
 
 	@SuppressWarnings("unchecked")
-	public void setCompressionMode( CompressionMode compressionMode )
-	{
-		options.put( OPTION_COMPRESSION_MODE, compressionMode );
+	public void setCompressionMode(CompressionMode compressionMode) {
+		options.put(OPTION_COMPRESSION_MODE, compressionMode);
 	}
 
-	public CompressionMode getCompressionMode( )
-	{
-		Object mode = options.get( OPTION_COMPRESSION_MODE );
-		if ( mode instanceof CompressionMode )
-		{
+	public CompressionMode getCompressionMode() {
+		Object mode = options.get(OPTION_COMPRESSION_MODE);
+		if (mode instanceof CompressionMode) {
 			return (CompressionMode) mode;
 		}
 		return CompressionMode.BEST_COMPRESSION;

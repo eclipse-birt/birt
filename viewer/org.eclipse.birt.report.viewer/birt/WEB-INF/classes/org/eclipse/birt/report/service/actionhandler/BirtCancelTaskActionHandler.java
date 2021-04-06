@@ -28,8 +28,7 @@ import org.eclipse.birt.report.utility.BirtUtility;
  * unique id from request.So this action handler can find out current task
  * according to an unique id.
  */
-public class BirtCancelTaskActionHandler extends AbstractBaseActionHandler
-{
+public class BirtCancelTaskActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Constructor.
@@ -37,39 +36,34 @@ public class BirtCancelTaskActionHandler extends AbstractBaseActionHandler
 	 * @param context
 	 * @param operation
 	 */
-	public BirtCancelTaskActionHandler( IContext context, Operation operation,
-			GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public BirtCancelTaskActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
 	 * execute the action
 	 */
-	protected void __execute( ) throws Exception
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
+	protected void __execute() throws Exception {
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		assert attrBean != null;
-		
+
 		// cancel task
-		BirtUtility.cancelTask( context.getRequest( ), attrBean.getTaskId( ) );
-		handleUpdate( );
+		BirtUtility.cancelTask(context.getRequest(), attrBean.getTaskId());
+		handleUpdate();
 	}
 
 	/**
 	 * After done action,update response
 	 * 
 	 */
-	protected void handleUpdate( )
-	{
+	protected void handleUpdate() {
 		// do nothing
 	}
 
 	/**
 	 * Implement getReportService()
 	 */
-	protected IViewerReportService getReportService( )
-	{
+	protected IViewerReportService getReportService() {
 		return null;
 	}
 }

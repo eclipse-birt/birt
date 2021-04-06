@@ -17,23 +17,19 @@ import org.eclipse.birt.data.oda.pojo.api.PojoDataSetFromCollection;
 import org.eclipse.birt.data.oda.pojo.testutil.PojoInstancesUtil;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-
 /**
  * 
  */
 
-public class TeacherDataSet extends PojoDataSetFromCollection
-{
+public class TeacherDataSet extends PojoDataSetFromCollection {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	protected Collection fetchPojos( ) throws OdaException
-	{
-		return PojoInstancesUtil.createTeachers( );
+	protected Collection fetchPojos() throws OdaException {
+		return PojoInstancesUtil.createTeachers();
 	}
 
-	public List<Teacher> getTeachers( )
-	{
-		return PojoInstancesUtil.createTeachers( );
+	public List<Teacher> getTeachers() {
+		return PojoInstancesUtil.createTeachers();
 	}
 }

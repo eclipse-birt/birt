@@ -28,78 +28,64 @@ import com.ibm.icu.util.ULocale;
  * Mock report runnable.
  */
 
-public class MockReportRunnable implements IReportRunnable
-{
+public class MockReportRunnable implements IReportRunnable {
 
-	public DesignElementHandle getDesignHandle( )
-	{
+	public DesignElementHandle getDesignHandle() {
 		String fileName = "input/ParameterFactory.xml"; //$NON-NLS-1$
-		ThreadResources.setLocale( ULocale.ENGLISH );
+		ThreadResources.setLocale(ULocale.ENGLISH);
 
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ThreadResources.getLocale( ) );
-		try
-		{
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig())
+				.newSessionHandle(ThreadResources.getLocale());
+		try {
 
-			ReportDesignHandle designHandle = sessionHandle
-					.openDesign( getClass( ).getResource( fileName ).toString( ) );
+			ReportDesignHandle designHandle = sessionHandle.openDesign(getClass().getResource(fileName).toString());
 			return designHandle;
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			// Do nothing;
 
 			return null;
 		}
 	}
 
-	public IReportDesign getDesignInstance( )
-	{
+	public IReportDesign getDesignInstance() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IImage getImage( String name )
-	{
+	public IImage getImage(String name) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object getProperty( String propertyName )
-	{
+	public Object getProperty(String propertyName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Object getProperty( String path, String propertyName )
-	{
+	public Object getProperty(String path, String propertyName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IReportEngine getReportEngine( )
-	{
+	public IReportEngine getReportEngine() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getReportName( )
-	{
+	public String getReportName() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public HashMap getTestConfig( )
-	{
+	public HashMap getTestConfig() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void setDesignHandle( DesignElementHandle handle )
-	{
+	public void setDesignHandle(DesignElementHandle handle) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

@@ -16,50 +16,41 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
  * Contributors: Actuate Corporation - initial API and implementation
  ******************************************************************************/
 
-public class OnRenderEvent extends ReportEvent implements IOnRenderEvent
-{
+public class OnRenderEvent extends ReportEvent implements IOnRenderEvent {
 
 	DesignElementHandle handle;
 	IContent content;
 	IReportEventContext context;
 
-	public OnRenderEvent( IReportEventContext context,
-			DesignElementHandle handle, IContent content )
-	{
-		super( ON_RENDER_EVENT );
+	public OnRenderEvent(IReportEventContext context, DesignElementHandle handle, IContent content) {
+		super(ON_RENDER_EVENT);
 
 		this.context = context;
 		this.handle = handle;
 		this.content = content;
 	}
 
-	public DesignElementHandle getHandle( )
-	{
+	public DesignElementHandle getHandle() {
 		return this.handle;
 	}
 
-	public void setHandle( ReportElementHandle handle )
-	{
+	public void setHandle(ReportElementHandle handle) {
 		this.handle = handle;
 	}
 
-	public IContent getContent( )
-	{
+	public IContent getContent() {
 		return this.content;
 	}
 
-	public void setHandle( IContent content )
-	{
+	public void setHandle(IContent content) {
 		this.content = content;
 	}
 
-	public IReportEventContext getContext( )
-	{
+	public IReportEventContext getContext() {
 		return this.context;
 	}
 
-	public void setContext( IReportEventContext context )
-	{
+	public void setContext(IReportEventContext context) {
 		this.context = context;
 	}
 }

@@ -23,8 +23,7 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
  * structure member.
  */
 
-public class MemberIterator implements Iterator
-{
+public class MemberIterator implements Iterator {
 
 	/**
 	 * Handle to the structure itself.
@@ -49,36 +48,32 @@ public class MemberIterator implements Iterator
 	/**
 	 * Constructs a member iterator with the given structure handle.
 	 * 
-	 * @param struct
-	 *            handle to the structure over which to iterate
+	 * @param struct handle to the structure over which to iterate
 	 */
 
-	public MemberIterator( StructureHandle struct )
-	{
+	public MemberIterator(StructureHandle struct) {
 		structHandle = struct;
-		structDefn = (StructureDefn) struct.getDefn( );
-		iter = structDefn.propertiesIterator( );
-		isValid = StructureContextUtil.isValidStructureHandle( struct );
+		structDefn = (StructureDefn) struct.getDefn();
+		iter = structDefn.propertiesIterator();
+		isValid = StructureContextUtil.isValidStructureHandle(struct);
 	}
 
 	/**
-	 * The remove operation is not supported when iterating over a structure;
-	 * the application cannot remove members of a structure.
+	 * The remove operation is not supported when iterating over a structure; the
+	 * application cannot remove members of a structure.
 	 */
 
 	// Implementation of iterator.remove( )
-	public void remove( )
-	{
+	public void remove() {
 		// Not supported here. Cannot remove structure members.
 	}
 
 	// Implementation of iterator.hasNext( )
 
-	public boolean hasNext( )
-	{
-		if ( !isValid )
+	public boolean hasNext() {
+		if (!isValid)
 			return false;
-		return iter.hasNext( );
+		return iter.hasNext();
 	}
 
 	/**
@@ -88,11 +83,10 @@ public class MemberIterator implements Iterator
 	 * @see MemberHandle
 	 */
 
-	public Object next( )
-	{
-		if ( !hasNext( ) )
+	public Object next() {
+		if (!hasNext())
 			return null;
-		return new MemberHandle( structHandle, (StructPropertyDefn) iter.next( ) );
+		return new MemberHandle(structHandle, (StructPropertyDefn) iter.next());
 	}
 
 }

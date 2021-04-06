@@ -15,8 +15,7 @@ package org.eclipse.birt.report.item.crosstab.core;
  * Interface to define some constants for DimensionViewHandle.
  */
 
-public interface IDimensionViewConstants
-{
+public interface IDimensionViewConstants {
 
 	/**
 	 * Name of the property that refers a OLAP dimension element.

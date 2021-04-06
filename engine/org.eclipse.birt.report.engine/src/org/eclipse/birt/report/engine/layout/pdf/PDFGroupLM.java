@@ -17,47 +17,36 @@ import org.eclipse.birt.report.engine.content.IGroupContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 
-public abstract class PDFGroupLM extends PDFBlockStackingLM
-		implements
-			IBlockStackingLayoutManager
-{
+public abstract class PDFGroupLM extends PDFBlockStackingLM implements IBlockStackingLayoutManager {
 
 	protected IGroupContent groupContent;
 
 	protected int repeatCount = 0;
-	
 
-	public PDFGroupLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IReportItemExecutor executor )
-	{
-		super( context, parent, content, executor );
+	public PDFGroupLM(PDFLayoutEngineContext context, PDFStackingLM parent, IContent content,
+			IReportItemExecutor executor) {
+		super(context, parent, content, executor);
 		groupContent = (IGroupContent) content;
 	}
 
-	public void setRepeatCount(int repeatCount)
-	{
+	public void setRepeatCount(int repeatCount) {
 		this.repeatCount = repeatCount;
 	}
-	
-	
-	protected boolean traverseChildren( ) throws BirtException
-	{
+
+	protected boolean traverseChildren() throws BirtException {
 		repeatHeader();
-		boolean hasNextPage = super.traverseChildren( );
+		boolean hasNextPage = super.traverseChildren();
 		return hasNextPage;
 	}
 
-	protected boolean isRepeatHeader( )
-	{
-		return ( (IGroupContent) content ).isHeaderRepeat( );
+	protected boolean isRepeatHeader() {
+		return ((IGroupContent) content).isHeaderRepeat();
 	}
 
-	protected abstract void repeatHeader( ) throws BirtException;
+	protected abstract void repeatHeader() throws BirtException;
 
-	protected boolean isRootEmpty( )
-	{
-		return !(( root != null && root.getChildrenCount( ) > repeatCount ) || isLast);
+	protected boolean isRootEmpty() {
+		return !((root != null && root.getChildrenCount() > repeatCount) || isLast);
 	}
-	
 
 }

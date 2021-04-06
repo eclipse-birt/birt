@@ -34,33 +34,30 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Make sure the ErrorDetail.getLineNo( ) works.
  * <p>
  */
-public class Regression_158113 extends BaseTestCase
-{
+public class Regression_158113 extends BaseTestCase {
 
 	private final static String REPORT = "regression_158113.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(REPORT, REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_regression_158113( ) throws DesignFileException
-	{
-		openDesign( REPORT );
-		List errors = designHandle.getErrorList( );
-		assertEquals( 1, errors.size( ) );
+	public void test_regression_158113() throws DesignFileException {
+		openDesign(REPORT);
+		List errors = designHandle.getErrorList();
+		assertEquals(1, errors.size());
 
-		ErrorDetail error = (ErrorDetail) errors.get( 0 );
-		assertEquals( 25, error.getLineNo( ) );
-		assertEquals( "label1", error.getElement( ).getName( ) ); //$NON-NLS-1$
+		ErrorDetail error = (ErrorDetail) errors.get(0);
+		assertEquals(25, error.getLineNo());
+		assertEquals("label1", error.getElement().getName()); //$NON-NLS-1$
 	}
 }

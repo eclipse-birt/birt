@@ -2,9 +2,7 @@ package org.eclipse.birt.chart.reportitem.ui.views.attributes.page;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.page.PageSectionId;
 
-
-public class ChartPageSectionId extends PageSectionId
-{
+public class ChartPageSectionId extends PageSectionId {
 	public final static String CHART_LIBRARY = "CHART_LIBRARY"; //$NON-NLS-1$
 	public final static String CHART_SEPERATOR = "CHART_SEPERATOR";//$NON-NLS-1$
 	public final static String CHART_NAME = "CHART_NAME";//$NON-NLS-1$

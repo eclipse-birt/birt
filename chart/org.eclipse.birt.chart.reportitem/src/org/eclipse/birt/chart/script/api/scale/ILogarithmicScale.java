@@ -7,14 +7,13 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.script.api.scale;
 
 /**
  * Represents the Scale for chart scaling when Axis is Logarithmic type.
  */
 
-public interface ILogarithmicScale extends ILinearScale
-{
+public interface ILogarithmicScale extends ILinearScale {
 
 }

@@ -15,12 +15,9 @@ import java.util.List;
 import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 
+public class MetaDataUtil {
 
-public class MetaDataUtil
-{
-
-	public static List<ResultSetColumn> getResultPropertyHandle( DataSetHandle dataSetHandle )
-	{
+	public static List<ResultSetColumn> getResultPropertyHandle(DataSetHandle dataSetHandle) {
 		return null;
 	}
 

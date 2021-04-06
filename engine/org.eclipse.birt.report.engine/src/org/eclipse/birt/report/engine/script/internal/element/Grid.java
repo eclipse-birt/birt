@@ -16,17 +16,14 @@ import org.eclipse.birt.report.engine.api.script.element.IGrid;
 import org.eclipse.birt.report.model.api.GridHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class Grid extends ReportItem implements IGrid
-{
+public class Grid extends ReportItem implements IGrid {
 
-	public Grid( GridHandle grid )
-	{
-		super( grid );
+	public Grid(GridHandle grid) {
+		super(grid);
 	}
 
-	public Grid( org.eclipse.birt.report.model.api.simpleapi.IGrid gridImpl )
-	{
-		super( gridImpl );
+	public Grid(org.eclipse.birt.report.model.api.simpleapi.IGrid gridImpl) {
+		super(gridImpl);
 	}
 
 	/*
@@ -35,10 +32,8 @@ public class Grid extends ReportItem implements IGrid
 	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#getColumnCount()
 	 */
 
-	public int getColumnCount( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl )
-				.getColumnCount( );
+	public int getColumnCount() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl).getColumnCount();
 	}
 
 	/*
@@ -46,27 +41,22 @@ public class Grid extends ReportItem implements IGrid
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#getSummary()
 	 */
-	public String getSummary( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl )
-				.getSummary( );
+	public String getSummary() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl).getSummary();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#setSummary(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IGrid#setSummary(java.lang.
+	 * String)
 	 */
-	public void setSummary( String summary ) throws ScriptException
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl )
-					.setSummary( summary );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setSummary(String summary) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl).setSummary(summary);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}
@@ -76,27 +66,22 @@ public class Grid extends ReportItem implements IGrid
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#getCaption()
 	 */
-	public String getCaption( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl )
-				.getCaption( );
+	public String getCaption() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl).getCaption();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#setCaption(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IGrid#setCaption(java.lang.
+	 * String)
 	 */
-	public void setCaption( String caption ) throws ScriptException
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl )
-					.setCaption( caption );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setCaption(String caption) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl).setCaption(caption);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}
@@ -106,27 +91,22 @@ public class Grid extends ReportItem implements IGrid
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#getCaptionKey()
 	 */
-	public String getCaptionKey( )
-	{
-		return ( (org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl )
-				.getCaptionKey( );
+	public String getCaptionKey() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl).getCaptionKey();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.element.IGrid#setCaptionKey(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IGrid#setCaptionKey(java.
+	 * lang.String)
 	 */
-	public void setCaptionKey( String captionKey ) throws ScriptException
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl )
-					.setCaptionKey( captionKey );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setCaptionKey(String captionKey) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IGrid) designElementImpl).setCaptionKey(captionKey);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}

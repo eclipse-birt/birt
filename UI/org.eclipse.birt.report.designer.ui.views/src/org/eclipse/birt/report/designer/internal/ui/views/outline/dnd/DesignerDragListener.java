@@ -22,33 +22,28 @@ import org.eclipse.jface.viewers.StructuredViewer;
  * Supports dragging elements from designer outline view.
  */
 
-public class DesignerDragListener extends DesignElementDragAdapter
-{
+public class DesignerDragListener extends DesignElementDragAdapter {
 
 	/**
 	 * Constructor
 	 * 
 	 * @param viewer
 	 */
-	public DesignerDragListener( StructuredViewer viewer )
-	{
-		super( viewer );
+	public DesignerDragListener(StructuredViewer viewer) {
+		super(viewer);
 	}
 
 	/**
 	 * @see DesignElementDragAdapter#validateTransfer(Object)
 	 */
-	protected boolean validateTransfer( Object transfer )
-	{
-		//new DNDService
-		if ( DNDService.getInstance( ).validDrag( transfer ) )
+	protected boolean validateTransfer(Object transfer) {
+		// new DNDService
+		if (DNDService.getInstance().validDrag(transfer))
 			return true;
-		//for compatible
-		if ( transfer instanceof StyleHandle
-				&& ( (StyleHandle) transfer ).getContainer( ) instanceof ThemeHandle )
-		{
+		// for compatible
+		if (transfer instanceof StyleHandle && ((StyleHandle) transfer).getContainer() instanceof ThemeHandle) {
 			return false;
 		}
-		return DNDUtil.handleValidateDragInOutline( transfer );
+		return DNDUtil.handleValidateDragInOutline(transfer);
 	}
 }

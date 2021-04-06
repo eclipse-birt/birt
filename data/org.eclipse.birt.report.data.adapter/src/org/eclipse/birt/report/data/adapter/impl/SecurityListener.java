@@ -23,34 +23,27 @@ import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 	 * 
 	 */
 
-public class SecurityListener
-{
+public class SecurityListener {
 
-	public SecurityListener( DataRequestSessionImpl session )
-	{
+	public SecurityListener(DataRequestSessionImpl session) {
 
 	}
 
-	public void start( TabularCubeHandle cubeHandle ) throws BirtException
-	{
+	public void start(TabularCubeHandle cubeHandle) throws BirtException {
 	}
 
-	public void process( String dimName, DataSetIterator iterator ) throws BirtException
-	{
-		
-	}
-	public void process( DimensionHandle dimHandle )
-			throws BirtException
-	{
+	public void process(String dimName, DataSetIterator iterator) throws BirtException {
 
 	}
 
-	public List<IFilterDefinition> populateSecurityFilter( String dimName,
-			Map appContext ) throws BirtException
-	{
+	public void process(DimensionHandle dimHandle) throws BirtException {
+
+	}
+
+	public List<IFilterDefinition> populateSecurityFilter(String dimName, Map appContext) throws BirtException {
 		return null;
 	}
-	public void end( ) throws BirtException
-	{
+
+	public void end() throws BirtException {
 	}
 }

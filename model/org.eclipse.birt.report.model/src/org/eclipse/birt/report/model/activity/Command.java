@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public abstract class Command
-{
+public abstract class Command {
 
 	/**
 	 * The module that provides access to the command stack.
@@ -34,10 +33,10 @@ public abstract class Command
 	protected Module module = null;
 
 	/**
-	 * Optional UI hint. The sender identifies the UI that issued this command.
-	 * This allows the UI to ignore notifications for change that it, itself,
-	 * made. This behavior is optional, and the need for it depends on the
-	 * implementation of any particular part of the UI.
+	 * Optional UI hint. The sender identifies the UI that issued this command. This
+	 * allows the UI to ignore notifications for change that it, itself, made. This
+	 * behavior is optional, and the need for it depends on the implementation of
+	 * any particular part of the UI.
 	 */
 
 	protected Object sender = null;
@@ -45,12 +44,10 @@ public abstract class Command
 	/**
 	 * Constructor.
 	 * 
-	 * @param module
-	 *            the module
+	 * @param module the module
 	 */
 
-	public Command( Module module )
-	{
+	public Command(Module module) {
 		this.module = module;
 	}
 
@@ -60,9 +57,8 @@ public abstract class Command
 	 * @return the activity stack.
 	 */
 
-	public ActivityStack getActivityStack( )
-	{
-		return module.getActivityStack( );
+	public ActivityStack getActivityStack() {
+		return module.getActivityStack();
 	}
 
 	/**
@@ -71,8 +67,7 @@ public abstract class Command
 	 * @return the module.
 	 */
 
-	public Module getModule( )
-	{
+	public Module getModule() {
 		return module;
 	}
 
@@ -82,20 +77,17 @@ public abstract class Command
 	 * @return the sender.
 	 */
 
-	public Object getSender( )
-	{
+	public Object getSender() {
 		return sender;
 	}
 
 	/**
 	 * Sets the optional UI hint for this command.
 	 * 
-	 * @param hint
-	 *            The sender to set.
+	 * @param hint The sender to set.
 	 */
 
-	public void setSender( Object hint )
-	{
+	public void setSender(Object hint) {
 		sender = hint;
 	}
 

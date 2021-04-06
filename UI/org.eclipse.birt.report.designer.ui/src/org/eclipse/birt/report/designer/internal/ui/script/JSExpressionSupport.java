@@ -24,47 +24,39 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * JSExpressionSupport
  */
-public class JSExpressionSupport extends AbstractExpressionSupport
-{
+public class JSExpressionSupport extends AbstractExpressionSupport {
 
-	public IExpressionBuilder createBuilder( Shell shl, Object expression )
-	{
-		String expr = expression == null ? null : expression.toString( );
+	public IExpressionBuilder createBuilder(Shell shl, Object expression) {
+		String expr = expression == null ? null : expression.toString();
 
-		return new JSExpressionBuilder( shl, expr );
+		return new JSExpressionBuilder(shl, expr);
 	}
 
-	public IExpressionBuilder createBuilder( Shell shl, Object expression,
-			boolean showLeafOnlyInThirdColumn )
-	{
-		String expr = expression == null ? null : expression.toString( );
-		JSExpressionBuilder builder = new JSExpressionBuilder( shl, expr );
-		builder.setShowLeafOnlyInThirdColumn( showLeafOnlyInThirdColumn );
+	public IExpressionBuilder createBuilder(Shell shl, Object expression, boolean showLeafOnlyInThirdColumn) {
+		String expr = expression == null ? null : expression.toString();
+		JSExpressionBuilder builder = new JSExpressionBuilder(shl, expr);
+		builder.setShowLeafOnlyInThirdColumn(showLeafOnlyInThirdColumn);
 		return builder;
 	}
 
-	public Image getImage( )
-	{
-		return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_JAVASCRIPT );
+	public Image getImage() {
+		return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ENABLE_EXPRESSION_JAVASCRIPT);
 	}
 
-	public String getDisplayName( )
-	{
-		return Messages.getString( "ExpressionButtonProvider.Javascript" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("ExpressionButtonProvider.Javascript"); //$NON-NLS-1$
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return ExpressionType.JAVASCRIPT;
 	}
 
 	/**
 	 * The stateless singleton renderer instance
 	 */
-	private static final JSExpressionConverter JS_EXPR_RENDERER = new JSExpressionConverter( );
+	private static final JSExpressionConverter JS_EXPR_RENDERER = new JSExpressionConverter();
 
-	public IExpressionConverter getConverter( )
-	{
+	public IExpressionConverter getConverter() {
 		return JS_EXPR_RENDERER;
 	}
 

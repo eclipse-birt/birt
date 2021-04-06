@@ -32,8 +32,7 @@ import org.eclipse.birt.report.session.IViewingSession;
 import org.eclipse.birt.report.session.ViewingSessionUtil;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
-abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
-{
+abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet {
 
 	/**
 	 * TODO: what's this?
@@ -44,7 +43,7 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	 * Versioning.
 	 */
 	protected static boolean openSource = true;
-	
+
 	/**
 	 * Viewer fragment references.
 	 */
@@ -54,31 +53,26 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	/**
 	 * Abstract methods.
 	 */
-	abstract protected void __init( ServletConfig config );
+	abstract protected void __init(ServletConfig config);
 
-	abstract protected boolean __authenticate( HttpServletRequest request,
-			HttpServletResponse response );
+	abstract protected boolean __authenticate(HttpServletRequest request, HttpServletResponse response);
 
-	abstract protected IContext __getContext( HttpServletRequest request,
-			HttpServletResponse response ) throws BirtException;
+	abstract protected IContext __getContext(HttpServletRequest request, HttpServletResponse response)
+			throws BirtException;
 
-	abstract protected void __doGet( IContext context )
-			throws ServletException, IOException, BirtException;
+	abstract protected void __doGet(IContext context) throws ServletException, IOException, BirtException;
 
-	abstract protected void __doPost( IContext context )
-			throws ServletException, IOException, BirtException;
+	abstract protected void __doPost(IContext context) throws ServletException, IOException, BirtException;
 
-	abstract protected void __handleNonSoapException(
-			HttpServletRequest request, HttpServletResponse response,
-			Exception exception ) throws ServletException, IOException;
+	abstract protected void __handleNonSoapException(HttpServletRequest request, HttpServletResponse response,
+			Exception exception) throws ServletException, IOException;
 
 	/**
 	 * Check version.
 	 * 
 	 * @return
 	 */
-	public static boolean isOpenSource( )
-	{
+	public static boolean isOpenSource() {
 		return openSource;
 	}
 
@@ -89,81 +83,63 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	 * @exception ServletException
 	 * @return
 	 */
-	public void init( ServletConfig config ) throws ServletException
-	{
+	public void init(ServletConfig config) throws ServletException {
 		// Workaround for using axis bundle
 		Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
-		
-		super.init( config );
-		ParameterAccessor.initParameters( config );
-		BirtResources.setLocale( ParameterAccessor.getWebAppLocale( ) );
-		__init( config );
+
+		super.init(config);
+		ParameterAccessor.initParameters(config);
+		BirtResources.setLocale(ParameterAccessor.getWebAppLocale());
+		__init(config);
 	}
 
 	/**
 	 * @see javax.servlet.http.HttpServlet#service(javax.servlet.ServletRequest,
 	 *      javax.servlet.ServletResponse)
 	 */
-	public void service( ServletRequest req, ServletResponse res )
-			throws ServletException, IOException
-	{
+	public void service(ServletRequest req, ServletResponse res) throws ServletException, IOException {
 		// TODO: since eclipse Jetty doesn't support filter, set it here for
 		// workaround
-		if ( req.getCharacterEncoding( ) == null )
-			req.setCharacterEncoding( IBirtConstants.DEFAULT_ENCODE );
+		if (req.getCharacterEncoding() == null)
+			req.setCharacterEncoding(IBirtConstants.DEFAULT_ENCODE);
 
 		// workaround for Jetty
-		req.setAttribute( "ServletPath", ((HttpServletRequest)req).getServletPath( ) ); //$NON-NLS-1$		
-		
-		super.service( req, res );
+		req.setAttribute("ServletPath", ((HttpServletRequest) req).getServletPath()); //$NON-NLS-1$
+
+		super.service(req, res);
 	}
 
 	/**
 	 * Handle HTTP GET method.
 	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 * @return
 	 */
-	public void doGet( HttpServletRequest request, HttpServletResponse response )
-			throws ServletException, IOException
-	{
-		if ( !__authenticate( request, response ) )
-		{
+	public void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (!__authenticate(request, response)) {
 			return;
 		}
 
-		try
-		{
+		try {
 			// create new session
-			IViewingSession session = ViewingSessionUtil.createSession( request );
+			IViewingSession session = ViewingSessionUtil.createSession(request);
 			session.lock();
-			try
-			{
-				IContext context = __getContext( request, response );
-	
-				if ( context.getBean( ).getException( ) != null )
-				{
-					__handleNonSoapException( request, response, context.getBean( )
-							.getException( ) );
+			try {
+				IContext context = __getContext(request, response);
+
+				if (context.getBean().getException() != null) {
+					__handleNonSoapException(request, response, context.getBean().getException());
+				} else {
+					__doGet(context);
 				}
-				else
-				{
-					__doGet( context );
-				}
-			}
-			finally
-			{
+			} finally {
 				session.unlock();
 			}
-		}
-		catch ( BirtException e )
-		{
-			__handleNonSoapException( request, response, e );
+		} catch (BirtException e) {
+			__handleNonSoapException(request, response, e);
 		}
 
 	}
@@ -171,123 +147,90 @@ abstract public class BirtSoapMessageDispatcherServlet extends AxisServlet
 	/**
 	 * Handle HTTP POST method.
 	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 * @return
 	 */
-	public void doPost( HttpServletRequest request, HttpServletResponse response )
-			throws ServletException, IOException
-	{
-		if ( !__authenticate( request, response ) )
-		{
+	public void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		if (!__authenticate(request, response)) {
 			return;
 		}
 
 		// create SOAP URL with post parameters
-		StringBuffer builder = new StringBuffer( );
-		Iterator it = request.getParameterMap( ).keySet( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			String paramName = (String) it.next( );
-			if ( paramName != null && paramName.startsWith( "__" ) ) //$NON-NLS-1$
+		StringBuffer builder = new StringBuffer();
+		Iterator it = request.getParameterMap().keySet().iterator();
+		while (it.hasNext()) {
+			String paramName = (String) it.next();
+			if (paramName != null && paramName.startsWith("__")) //$NON-NLS-1$
 			{
-				String paramValue = ParameterAccessor.urlEncode(
-						ParameterAccessor.getParameter( request, paramName ),
-						ParameterAccessor.UTF_8_ENCODE );
-				builder.append( "&" + paramName + "=" + paramValue ); //$NON-NLS-1$//$NON-NLS-2$
+				String paramValue = ParameterAccessor.urlEncode(ParameterAccessor.getParameter(request, paramName),
+						ParameterAccessor.UTF_8_ENCODE);
+				builder.append("&" + paramName + "=" + paramValue); //$NON-NLS-1$//$NON-NLS-2$
 			}
 		}
-		String soapURL = request.getRequestURL( ).toString( );
-		if ( ParameterAccessor.getBaseURL( ) != null )
-			soapURL = ParameterAccessor.getBaseURL( )
-					+ request.getContextPath( ) + request.getServletPath( );
+		String soapURL = request.getRequestURL().toString();
+		if (ParameterAccessor.getBaseURL() != null)
+			soapURL = ParameterAccessor.getBaseURL() + request.getContextPath() + request.getServletPath();
 
-		builder.deleteCharAt( 0 );
-		soapURL += "?" + builder.toString( ); //$NON-NLS-1$
+		builder.deleteCharAt(0);
+		soapURL += "?" + builder.toString(); //$NON-NLS-1$
 
-		request.setAttribute( "SoapURL", soapURL ); //$NON-NLS-1$
+		request.setAttribute("SoapURL", soapURL); //$NON-NLS-1$
 
-		String requestType = request.getHeader( ParameterAccessor.HEADER_REQUEST_TYPE );
-		boolean isSoapRequest = ParameterAccessor.HEADER_REQUEST_TYPE_SOAP
-			.equalsIgnoreCase( requestType );
+		String requestType = request.getHeader(ParameterAccessor.HEADER_REQUEST_TYPE);
+		boolean isSoapRequest = ParameterAccessor.HEADER_REQUEST_TYPE_SOAP.equalsIgnoreCase(requestType);
 		// refresh the current BIRT viewing session by accessing it
 		IViewingSession session;
-		
+
 		// init context
 		IContext context = null;
-		try
-		{
-			session = ViewingSessionUtil.getSession( request );
-			if ( session == null && !isSoapRequest )
-			{
-				if ( ViewingSessionUtil.getSessionId(request) == null )
-				{
-					session = ViewingSessionUtil.createSession( request );
-				}
-				else
-				{
+		try {
+			session = ViewingSessionUtil.getSession(request);
+			if (session == null && !isSoapRequest) {
+				if (ViewingSessionUtil.getSessionId(request) == null) {
+					session = ViewingSessionUtil.createSession(request);
+				} else {
 					// if session id passed through the URL, it means this request
-					// was expected to run using a session that has already expired 
-					throw new ViewerException( BirtResources.getMessage(
-							ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+					// was expected to run using a session that has already expired
+					throw new ViewerException(
+							BirtResources.getMessage(ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION));
 				}
 			}
-			context = __getContext( request, response );
-		}
-		catch ( BirtException e )
-		{
+			context = __getContext(request, response);
+		} catch (BirtException e) {
 			// throw exception
-			__handleNonSoapException( request, response, e );
+			__handleNonSoapException(request, response, e);
 			return;
 		}
 
-		try
-		{
-			if ( session != null )
-			{
+		try {
+			if (session != null) {
 				session.lock();
 			}
-			__doPost( context );
+			__doPost(context);
 
-			if ( isSoapRequest )
-			{
+			if (isSoapRequest) {
 				// Workaround for using axis bundle to invoke SOAP request
 				Thread.currentThread().setContextClassLoader(this.getClass().getClassLoader());
 
-				super.doPost( request, response );
-			}
-			else
-			{
-				try
-				{
-					if ( context.getBean( ).getException( ) != null )
-					{
-						__handleNonSoapException( request, response, context.getBean( )
-								.getException( ) );
+				super.doPost(request, response);
+			} else {
+				try {
+					if (context.getBean().getException() != null) {
+						__handleNonSoapException(request, response, context.getBean().getException());
+					} else {
+						__doGet(context);
 					}
-					else
-					{
-						__doGet( context );
-					}
-				}
-				catch ( BirtException e )
-				{
-					__handleNonSoapException( request, response, e );
+				} catch (BirtException e) {
+					__handleNonSoapException(request, response, e);
 				}
 			}
-		}
-		catch ( BirtException e )
-		{
-			e.printStackTrace( );
-		}
-		finally
-		{
-			if ( session != null && !session.isExpired() )
-			{
+		} catch (BirtException e) {
+			e.printStackTrace();
+		} finally {
+			if (session != null && !session.isExpired()) {
 				session.unlock();
 			}
 		}

@@ -22,41 +22,39 @@ import com.ibm.icu.util.ULocale;
  * Implements <code>IMessages</code> for testing
  */
 
-public class MessagesImpl implements IMessages
-{
+public class MessagesImpl implements IMessages {
 
 	/**
 	 * The resource bundle for English.
 	 */
 
 	private ResourceBundle englishResourceBundle = ResourceBundle
-			.getBundle(
-					"org.eclipse.birt.report.model.tests.matrix.message", Locale.ENGLISH ); //$NON-NLS-1$
+			.getBundle("org.eclipse.birt.report.model.tests.matrix.message", Locale.ENGLISH); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.String)
+	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.
+	 * String)
 	 */
 
-	public String getMessage( String key, Locale locale )
-	{
-		if ( Locale.ENGLISH.equals( locale ) )
-			return englishResourceBundle.getString( key );
+	public String getMessage(String key, Locale locale) {
+		if (Locale.ENGLISH.equals(locale))
+			return englishResourceBundle.getString(key);
 
 		return "Not supported locale"; //$NON-NLS-1$
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.String)
+	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.
+	 * String)
 	 */
 
-	public String getMessage( String key, ULocale locale )
-	{
-		if ( ULocale.ENGLISH.equals( locale ) )
-			return englishResourceBundle.getString( key );
+	public String getMessage(String key, ULocale locale) {
+		if (ULocale.ENGLISH.equals(locale))
+			return englishResourceBundle.getString(key);
 
 		return "Not supported locale"; //$NON-NLS-1$
 	}

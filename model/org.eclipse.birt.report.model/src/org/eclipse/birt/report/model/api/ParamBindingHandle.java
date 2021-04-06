@@ -33,21 +33,18 @@ import org.eclipse.birt.report.model.util.StructureContextUtil;
  * 
  */
 
-public class ParamBindingHandle extends StructureHandle
-{
+public class ParamBindingHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of parameter binding.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for parameter binding list of one property
-	 * @param index
-	 *            the position of this parameter binding in the list
+	 * @param valueHandle the value handle for parameter binding list of one
+	 *                    property
+	 * @param index       the position of this parameter binding in the list
 	 */
 
-	public ParamBindingHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public ParamBindingHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -56,24 +53,21 @@ public class ParamBindingHandle extends StructureHandle
 	 * @return the expression the parameter is binded to
 	 */
 
-	public String getExpression( )
-	{
-		List<Expression> values = (List<Expression>) getProperty( ParamBinding.EXPRESSION_MEMBER );
-		if ( values == null || values.isEmpty( ) )
+	public String getExpression() {
+		List<Expression> values = (List<Expression>) getProperty(ParamBinding.EXPRESSION_MEMBER);
+		if (values == null || values.isEmpty())
 			return null;
-		return values.get( 0 ).getStringExpression( );
+		return values.get(0).getStringExpression();
 	}
 
 	/**
 	 * Sets the expression the parameter is binded to.
 	 * 
-	 * @param expression
-	 *            the expression to bind
+	 * @param expression the expression to bind
 	 */
 
-	public void setExpression( String expression )
-	{
-		setPropertySilently( ParamBinding.EXPRESSION_MEMBER, expression );
+	public void setExpression(String expression) {
+		setPropertySilently(ParamBinding.EXPRESSION_MEMBER, expression);
 	}
 
 	/**
@@ -81,10 +75,9 @@ public class ParamBindingHandle extends StructureHandle
 	 * expression list handle of this filter condition.
 	 */
 
-	public ExpressionListHandle getExpressionListHandle( )
-	{
-		return new ExpressionListHandle( elementHandle, StructureContextUtil
-				.createStructureContext( this, ParamBinding.EXPRESSION_MEMBER ) );
+	public ExpressionListHandle getExpressionListHandle() {
+		return new ExpressionListHandle(elementHandle,
+				StructureContextUtil.createStructureContext(this, ParamBinding.EXPRESSION_MEMBER));
 	}
 
 	/**
@@ -93,20 +86,17 @@ public class ParamBindingHandle extends StructureHandle
 	 * @return the parameter name
 	 */
 
-	public String getParamName( )
-	{
-		return getStringProperty( ParamBinding.PARAM_NAME_MEMBER );
+	public String getParamName() {
+		return getStringProperty(ParamBinding.PARAM_NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the parameter name.
 	 * 
-	 * @param name
-	 *            the parameter name to set
+	 * @param name the parameter name to set
 	 */
 
-	public void setParamName( String name )
-	{
-		setPropertySilently( ParamBinding.PARAM_NAME_MEMBER, name );
+	public void setParamName(String name) {
+		setPropertySilently(ParamBinding.PARAM_NAME_MEMBER, name);
 	}
 }

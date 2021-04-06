@@ -18,38 +18,29 @@ import org.eclipse.birt.core.data.DataType;
  * 
  */
 
-public class Min extends AggregateFunctionAdapter
-{
+public class Min extends AggregateFunctionAdapter {
 
 	private Object min;
 
-	public void accumulate( Object oValue ) throws IllegalArgumentException
-	{
-		if ( min == null )
-		{
+	public void accumulate(Object oValue) throws IllegalArgumentException {
+		if (min == null) {
 			min = oValue;
+		} else if (oValue instanceof Comparable) {
+			min = ((Comparable) oValue).compareTo(min) <= 0 ? oValue : min;
 		}
-		else if ( oValue instanceof Comparable )
-		{
-			min = ((Comparable)oValue ).compareTo( min ) <= 0 ? oValue : min;
-		}
-		
+
 	}
 
-	public Object getAggregatedValue( )
-	{
+	public Object getAggregatedValue() {
 		return min;
 	}
 
-	public void initialize( )
-	{
+	public void initialize() {
 		min = null;
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.ANY_TYPE;
 	}
 }
-

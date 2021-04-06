@@ -11,25 +11,24 @@
 
 package org.eclipse.birt.report.engine.api.script.instance;
 
-public interface IColumnInstance
-{
+public interface IColumnInstance {
 
 	/**
 	 * Get the style of this column.
 	 * 
 	 */
-	IScriptStyle getStyle( );
+	IScriptStyle getStyle();
 
 	/**
 	 * Get the width of this column.
 	 * 
 	 */
-	String getWidth( );
+	String getWidth();
 
 	/**
 	 * Set the width of this column.
 	 * 
 	 */
-	void setWidth( String width );
+	void setWidth(String width);
 
 }

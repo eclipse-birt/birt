@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.api.querydefn;
 
 import java.util.ArrayList;
@@ -24,56 +24,52 @@ import org.eclipse.birt.data.engine.api.IQueryExecutionHints;
  * 
  *
  */
-public class QueryExecutionHints implements IQueryExecutionHints
-{
+public class QueryExecutionHints implements IQueryExecutionHints {
 	//
 	private boolean doSortBeforeGrouping = true;
 	private List<IGroupInstanceInfo> targetGroupInstances = new ArrayList<IGroupInstanceInfo>();
 	private boolean enablePushdown = true;
+
 	/**
 	 * 
 	 * @param doSortBeforeGrouping
 	 */
-	public void setSortBeforeGrouping( boolean doSortBeforeGrouping )
-	{
+	public void setSortBeforeGrouping(boolean doSortBeforeGrouping) {
 		this.doSortBeforeGrouping = doSortBeforeGrouping;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IQueryExecutionHints#doSortBeforeGrouping()
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IQueryExecutionHints#doSortBeforeGrouping()
 	 */
-	public boolean doSortBeforeGrouping( )
-	{
+	public boolean doSortBeforeGrouping() {
 		return this.doSortBeforeGrouping;
 	}
 
 	/**
-     * Return a list of IGroupInstanceInfo instances that is needed in target
-     * ResultSet.
-     * 
-     * @return
-     */
-    public List<IGroupInstanceInfo> getTargetGroupInstances( )
-    {
-    	return this.targetGroupInstances;
-    }
-    
-    /**
-     * add target group instance
-     */
-    public void addTargetGroupInstance( IGroupInstanceInfo info )
-    {
-    	this.targetGroupInstances.add( info );
-    }
+	 * Return a list of IGroupInstanceInfo instances that is needed in target
+	 * ResultSet.
+	 * 
+	 * @return
+	 */
+	public List<IGroupInstanceInfo> getTargetGroupInstances() {
+		return this.targetGroupInstances;
+	}
 
-	public boolean enablePushDown( )
-	{
+	/**
+	 * add target group instance
+	 */
+	public void addTargetGroupInstance(IGroupInstanceInfo info) {
+		this.targetGroupInstances.add(info);
+	}
+
+	public boolean enablePushDown() {
 		return this.enablePushdown;
 	}
 
-	public void setEnablePushDown( boolean enablePushDown )
-	{
+	public void setEnablePushDown(boolean enablePushDown) {
 		this.enablePushdown = enablePushDown;
 	}
 }

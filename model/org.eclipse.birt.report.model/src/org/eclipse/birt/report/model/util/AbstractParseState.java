@@ -26,8 +26,7 @@ import org.xml.sax.SAXException;
  * @see AnyElementState
  */
 
-public abstract class AbstractParseState
-{
+public abstract class AbstractParseState {
 
 	/**
 	 * SAX context string.
@@ -45,17 +44,15 @@ public abstract class AbstractParseState
 	 * Accumulates any text that appears within the element tags.
 	 */
 
-	protected StringBuffer text = new StringBuffer( );
+	protected StringBuffer text = new StringBuffer();
 
 	/**
 	 * Sets the element name.
 	 * 
-	 * @param name
-	 *            the name of the element.
+	 * @param name the name of the element.
 	 */
 
-	public void setElementName( String name )
-	{
+	public void setElementName(String name) {
 
 		this.elementName = name;
 
@@ -67,236 +64,190 @@ public abstract class AbstractParseState
 	 * @return the other state.
 	 */
 
-	public AbstractParseState jumpTo( )
-	{
+	public AbstractParseState jumpTo() {
 
 		return null;
 	}
 
 	/**
-	 * Called to parse attributes. This is the first method called after the
-	 * state is created.Returns the value of attribute name.
+	 * Called to parse attributes. This is the first method called after the state
+	 * is created.Returns the value of attribute name.
 	 * 
-	 * @param attrs
-	 *            the SAX attributes object
-	 * @throws XMLParserException
-	 *             if any parse exception
+	 * @param attrs the SAX attributes object
+	 * @throws XMLParserException if any parse exception
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
 	}
 
 	/**
-	 * Start a new tag. Derived classes override this to create a state to
-	 * handle the element. Call this method to issue an error for, and ignore,
-	 * any unrecognized tags.
+	 * Start a new tag. Derived classes override this to create a state to handle
+	 * the element. Call this method to issue an error for, and ignore, any
+	 * unrecognized tags.
 	 * 
-	 * @param tagName
-	 *            the name of the starting element
+	 * @param tagName the name of the starting element
 	 * @return the state to parse the given tag
 	 * @see org.xml.sax.helpers.DefaultHandler#startElement
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		XMLParserHandler handler = getHandler( );
+	public AbstractParseState startElement(String tagName) {
+		XMLParserHandler handler = getHandler();
 		boolean isSetWarning = false;
 
-		if ( handler instanceof ModuleParserHandler )
-		{
+		if (handler instanceof ModuleParserHandler) {
 			ModuleParserHandler moduleHandler = (ModuleParserHandler) handler;
-			if ( moduleHandler.isLaterVersion( )
-					&& ( moduleHandler.getModule( ).getOptions( ) != null 
-					     && moduleHandler.getModule( ).getOptions( ).isSupportedUnknownVersion( ) ) )
-			{
+			if (moduleHandler.isLaterVersion() && (moduleHandler.getModule().getOptions() != null
+					&& moduleHandler.getModule().getOptions().isSupportedUnknownVersion())) {
 				isSetWarning = true;
 			}
 		}
 
-		if ( isSetWarning )
-		{
-			getHandler( ).getErrorHandler( )
-					.semanticWarning( new XMLParserException( XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG ) );
-		}
-		else
-		{
-			getHandler( ).getErrorHandler( )
-					.semanticError( new XMLParserException( XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG ) );
+		if (isSetWarning) {
+			getHandler().getErrorHandler()
+					.semanticWarning(new XMLParserException(XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG));
+		} else {
+			getHandler().getErrorHandler()
+					.semanticError(new XMLParserException(XMLParserException.DESIGN_EXCEPTION_UNKNOWN_TAG));
 		}
 
-		return new AnyElementState( getHandler( ) );
+		return new AnyElementState(getHandler());
 	}
 
 	/**
 	 * Returns the parser handler. Required to be implemented by derived states.
-	 * States will implement this differently depending on whether the state is
-	 * a normal or inner class.
+	 * States will implement this differently depending on whether the state is a
+	 * normal or inner class.
 	 * 
 	 * @return the XML parser handler
 	 */
 
-	public abstract XMLParserHandler getHandler( );
+	public abstract XMLParserHandler getHandler();
 
 	/**
 	 * Called when a child element is ending.
 	 * 
-	 * @param state
-	 *            the child state that is ending
+	 * @param state the child state that is ending
 	 */
 
-	public void endElement( AbstractParseState state )
-	{
+	public void endElement(AbstractParseState state) {
 	}
 
 	/**
 	 * Called when the element for this state is ending.
 	 * 
-	 * @throws SAXException
-	 *             if the SAX exception is encountered.
+	 * @throws SAXException if the SAX exception is encountered.
 	 * @throws
 	 * @see org.xml.sax.helpers.DefaultHandler#endElement
 	 */
 
-	public void end( ) throws SAXException
-	{
+	public void end() throws SAXException {
 	}
 
 	/**
 	 * Utility method to parse a Boolean attribute.
 	 * 
-	 * @param attrs
-	 *            the SAX attributes object
-	 * @param attrName
-	 *            the name of the attribute to parse
-	 * @param defaultValue
-	 *            the default value if the attribute is not provided
+	 * @param attrs        the SAX attributes object
+	 * @param attrName     the name of the attribute to parse
+	 * @param defaultValue the default value if the attribute is not provided
 	 * @return the parsed Boolean value
 	 */
 
-	public boolean getBooleanAttrib( Attributes attrs, String attrName,
-			boolean defaultValue )
-	{
-		return parseBoolean( attrs.getValue( attrName ), defaultValue );
+	public boolean getBooleanAttrib(Attributes attrs, String attrName, boolean defaultValue) {
+		return parseBoolean(attrs.getValue(attrName), defaultValue);
 	}
 
 	/**
 	 * Parse a boolean string.
 	 * 
-	 * @param value
-	 *            the XML string to parse
-	 * @param defaultValue
-	 *            the default value if the string is null or blank
+	 * @param value        the XML string to parse
+	 * @param defaultValue the default value if the string is null or blank
 	 * @return the parsed Boolean value
 	 */
 
-	public boolean parseBoolean( String value, boolean defaultValue )
-	{
-		value = StringUtil.trimString( value );
-		if ( value == null )
+	public boolean parseBoolean(String value, boolean defaultValue) {
+		value = StringUtil.trimString(value);
+		if (value == null)
 			return defaultValue;
-		else if ( value.equalsIgnoreCase( "true" ) ) //$NON-NLS-1$ 
+		else if (value.equalsIgnoreCase("true")) //$NON-NLS-1$
 			return true;
-		else if ( value.equalsIgnoreCase( "false" ) ) //$NON-NLS-1$ 
+		else if (value.equalsIgnoreCase("false")) //$NON-NLS-1$
 			return false;
-		getHandler( ).getErrorHandler( ).semanticError(
-				new XMLParserException(
-						XMLParserException.DESIGN_EXCEPTION_INVALID_BOOLEAN ) );
+		getHandler().getErrorHandler()
+				.semanticError(new XMLParserException(XMLParserException.DESIGN_EXCEPTION_INVALID_BOOLEAN));
 		return defaultValue;
 	}
 
 	/**
 	 * Parses an integer attribute.
 	 * 
-	 * @param attrs
-	 *            the SAX attributes object
-	 * @param attrName
-	 *            the name of the attribute to parse
+	 * @param attrs    the SAX attributes object
+	 * @param attrName the name of the attribute to parse
 	 * @return the parsed attribute, or 0 if the attribute is not present
 	 */
 
-	public int getIntAttrib( Attributes attrs, String attrName )
-	{
-		return getIntAttrib( attrs, attrName, 0 );
+	public int getIntAttrib(Attributes attrs, String attrName) {
+		return getIntAttrib(attrs, attrName, 0);
 	}
 
 	/**
 	 * Parses an integer attribute.
 	 * 
-	 * @param attrs
-	 *            the SAX attributes object
-	 * @param attrName
-	 *            the name of the attribute to parse
-	 * @param defaultValue
-	 *            default value to return if the attribute is not present
+	 * @param attrs        the SAX attributes object
+	 * @param attrName     the name of the attribute to parse
+	 * @param defaultValue default value to return if the attribute is not present
 	 * @return the parsed integer value
 	 */
 
-	public int getIntAttrib( Attributes attrs, String attrName, int defaultValue )
-	{
-		String value = attrs.getValue( attrName );
-		if ( value == null )
+	public int getIntAttrib(Attributes attrs, String attrName, int defaultValue) {
+		String value = attrs.getValue(attrName);
+		if (value == null)
 			return defaultValue;
-		try
-		{
-			Integer result = Integer.decode( value );
-			return result.intValue( );
-		}
-		catch ( NumberFormatException e )
-		{
-			getHandler( )
-					.getErrorHandler( )
-					.semanticError(
-							new XMLParserException(
-									XMLParserException.DESIGN_EXCEPTION_INVALID_INTEGER ) );
+		try {
+			Integer result = Integer.decode(value);
+			return result.intValue();
+		} catch (NumberFormatException e) {
+			getHandler().getErrorHandler()
+					.semanticError(new XMLParserException(XMLParserException.DESIGN_EXCEPTION_INVALID_INTEGER));
 			return 0;
 		}
 	}
 
 	/**
-	 * Parse a string value. Normalizes the string: blank strings are converted
-	 * to a null string.
+	 * Parse a string value. Normalizes the string: blank strings are converted to a
+	 * null string.
 	 * 
-	 * @param attrs
-	 *            the SAX attributes object
-	 * @param attrName
-	 *            the name of the attribute to parse
+	 * @param attrs    the SAX attributes object
+	 * @param attrName the name of the attribute to parse
 	 * @return the parsed string
 	 */
 
-	protected String getAttrib( Attributes attrs, String attrName )
-	{
-		return StringUtil.trimString( attrs.getValue( attrName ) );
+	protected String getAttrib(Attributes attrs, String attrName) {
+		return StringUtil.trimString(attrs.getValue(attrName));
 	}
 
 	/**
 	 * Parse a date value. The date is assumed to be in the XML date format.
 	 * 
-	 * @param attrs
-	 *            the SAX attributes object
-	 * @param attrName
-	 *            the name of the attribute to parse
+	 * @param attrs    the SAX attributes object
+	 * @param attrName the name of the attribute to parse
 	 * @return the parsed date
 	 */
 
-	protected Date getDateAttrib( Attributes attrs, String attrName )
-	{
+	protected Date getDateAttrib(Attributes attrs, String attrName) {
 		assert false;
 		return null;
 	}
 
 	/**
-	 * Sets the flag to indicate whether the value is a XML CDATA. In default,
-	 * this method do nothing.
+	 * Sets the flag to indicate whether the value is a XML CDATA. In default, this
+	 * method do nothing.
 	 * 
-	 * @param isCDataSection
-	 *            <code>true</code> if it is a XML CDATA. Otherwise
-	 *            <code>false</code>.
+	 * @param isCDataSection <code>true</code> if it is a XML CDATA. Otherwise
+	 *                       <code>false</code>.
 	 */
 
-	public void setIsCDataSection( boolean isCDataSection )
-	{
+	public void setIsCDataSection(boolean isCDataSection) {
 
 	}
 }

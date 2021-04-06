@@ -15,8 +15,7 @@ package org.eclipse.birt.data.aggregation.api;
  * 
  */
 
-public interface IBuildInAggregation
-{
+public interface IBuildInAggregation {
 
 	public static final String TOTAL_COUNT_FUNC = "COUNT";//$NON-NLS-1$
 	public static final String TOTAL_SUM_FUNC = "SUM";//$NON-NLS-1$

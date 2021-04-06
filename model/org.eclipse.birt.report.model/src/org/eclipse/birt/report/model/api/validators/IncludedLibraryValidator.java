@@ -26,10 +26,9 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  * 
  */
-public class IncludedLibraryValidator extends AbstractElementValidator
-{
+public class IncludedLibraryValidator extends AbstractElementValidator {
 
-	private static IncludedLibraryValidator instance = new IncludedLibraryValidator( );
+	private static IncludedLibraryValidator instance = new IncludedLibraryValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -37,8 +36,7 @@ public class IncludedLibraryValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static IncludedLibraryValidator getInstance( )
-	{
+	public static IncludedLibraryValidator getInstance() {
 		return instance;
 	}
 
@@ -50,22 +48,17 @@ public class IncludedLibraryValidator extends AbstractElementValidator
 	 * (org.eclipse.birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
+	public List<SemanticException> validate(Module module, DesignElement element) {
 
-		List errors = new ArrayList( );
-		List libs = module.getAllLibraries( );
+		List errors = new ArrayList();
+		List libs = module.getAllLibraries();
 
-		for ( int i = 0; i < libs.size( ); i++ )
-		{
-			Library lib = (Library) libs.get( i );
+		for (int i = 0; i < libs.size(); i++) {
+			Library lib = (Library) libs.get(i);
 
-			if ( !lib.isValid( ) )
-			{
-				errors.add( new LibraryException( module, new String[]{lib
-						.getNamespace( )},
-						LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND ) );
+			if (!lib.isValid()) {
+				errors.add(new LibraryException(module, new String[] { lib.getNamespace() },
+						LibraryException.DESIGN_EXCEPTION_LIBRARY_NOT_FOUND));
 			}
 		}
 

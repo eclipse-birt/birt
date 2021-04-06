@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
  * Implements of Hide Rule.
  */
 
-public class HideRuleImpl extends Structure implements IHideRule
-{
+public class HideRuleImpl extends Structure implements IHideRule {
 
 	private HideRule rule;
 
@@ -32,10 +31,9 @@ public class HideRuleImpl extends Structure implements IHideRule
 	 * @param ruleHandle
 	 */
 
-	public HideRuleImpl( )
-	{
-		super( null );
-		rule = createHideRule( );
+	public HideRuleImpl() {
+		super(null);
+		rule = createHideRule();
 	}
 
 	/**
@@ -44,17 +42,13 @@ public class HideRuleImpl extends Structure implements IHideRule
 	 * @param ruleHandle
 	 */
 
-	public HideRuleImpl( HideRuleHandle ruleHandle )
-	{
-		super( ruleHandle );
-		if ( ruleHandle == null )
-		{
-			rule = createHideRule( );
-		}
-		else
-		{
+	public HideRuleImpl(HideRuleHandle ruleHandle) {
+		super(ruleHandle);
+		if (ruleHandle == null) {
+			rule = createHideRule();
+		} else {
 			structureHandle = ruleHandle;
-			rule = (HideRule) ruleHandle.getStructure( );
+			rule = (HideRule) ruleHandle.getStructure();
 		}
 	}
 
@@ -63,15 +57,11 @@ public class HideRuleImpl extends Structure implements IHideRule
 	 * 
 	 * @param rule
 	 */
-	public HideRuleImpl( HideRule rule )
-	{
-		super( null );
-		if ( rule == null )
-		{
-			this.rule = createHideRule( );
-		}
-		else
-		{
+	public HideRuleImpl(HideRule rule) {
+		super(null);
+		if (rule == null) {
+			this.rule = createHideRule();
+		} else {
 			this.rule = rule;
 		}
 	}
@@ -81,46 +71,38 @@ public class HideRuleImpl extends Structure implements IHideRule
 	 * 
 	 * @return instance
 	 */
-	private HideRule createHideRule( )
-	{
-		HideRule r = new HideRule( );
+	private HideRule createHideRule() {
+		HideRule r = new HideRule();
 		return r;
 	}
 
-	public String getFormat( )
-	{
-		return rule.getFormat( );
+	public String getFormat() {
+		return rule.getFormat();
 	}
 
-	public String getValueExpr( )
-	{
-		return rule.getExpression( );
+	public String getValueExpr() {
+		return rule.getExpression();
 	}
 
-	public void setFormat( String format ) throws SemanticException
-	{
-		if ( structureHandle != null )
-		{
-			setProperty( HideRule.FORMAT_MEMBER, format );
+	public void setFormat(String format) throws SemanticException {
+		if (structureHandle != null) {
+			setProperty(HideRule.FORMAT_MEMBER, format);
 			return;
 		}
 
-		rule.setFormat( format );
+		rule.setFormat(format);
 	}
 
-	public void setValueExpr( String valueExpr ) throws SemanticException
-	{
-		if ( structureHandle != null )
-		{
-			setProperty( HideRule.VALUE_EXPR_MEMBER, valueExpr );
+	public void setValueExpr(String valueExpr) throws SemanticException {
+		if (structureHandle != null) {
+			setProperty(HideRule.VALUE_EXPR_MEMBER, valueExpr);
 			return;
 		}
 
-		rule.setExpression( valueExpr );
+		rule.setExpression(valueExpr);
 	}
 
-	public IStructure getStructure( )
-	{
+	public IStructure getStructure() {
 		return rule;
 	}
 

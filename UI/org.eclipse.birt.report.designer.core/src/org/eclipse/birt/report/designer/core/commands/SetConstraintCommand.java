@@ -35,11 +35,11 @@ import org.eclipse.gef.commands.Command;
  * 
  */
 
-public class SetConstraintCommand extends Command
-{
-	private static Logger logger = Logger.getLogger( SetConstraintCommand.class.getName( ) );
+public class SetConstraintCommand extends Command {
+	private static Logger logger = Logger.getLogger(SetConstraintCommand.class.getName());
 
-	private static final String TRANS_LABEL_SET_CONSTRAINT = Messages.getString( "SetConstraintCommand.transLabel.setConstraint" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_SET_CONSTRAINT = Messages
+			.getString("SetConstraintCommand.transLabel.setConstraint"); //$NON-NLS-1$
 
 	private ReportItemHandle model;
 
@@ -47,71 +47,53 @@ public class SetConstraintCommand extends Command
 	 * constructor
 	 */
 
-	public SetConstraintCommand( )
-	{
-		super( Command_Label_Resize );
+	public SetConstraintCommand() {
+		super(Command_Label_Resize);
 	}
 
-	private static final String Command_Label_Resize = Messages.getString( "SetConstraintCommand.commandLabel.ResizeCommand" ); //$NON-NLS-1$
+	private static final String Command_Label_Resize = Messages
+			.getString("SetConstraintCommand.commandLabel.ResizeCommand"); //$NON-NLS-1$
 
 	private Dimension newSize;
 
 	/**
-	 * Executes the Command. This method should not be called if the Command is
-	 * not executable.
+	 * Executes the Command. This method should not be called if the Command is not
+	 * executable.
 	 */
 
-	public void execute( )
-	{
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
+	public void execute() {
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
 		// start trans
-		stack.startTrans( TRANS_LABEL_SET_CONSTRAINT );
-		//Change the logic, if the width and height is 0, set the 0 to the model, the UI explain the 0 behavior.
-		try
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "SetConstraintCommand >>  Starts. Target: " //$NON-NLS-1$
-						+ DEUtil.getDisplayLabel( model )
-						+ ",New size: " //$NON-NLS-1$
-						+ newSize.width
-						+ "," //$NON-NLS-1$
-						+ newSize.height );
+		stack.startTrans(TRANS_LABEL_SET_CONSTRAINT);
+		// Change the logic, if the width and height is 0, set the 0 to the model, the
+		// UI explain the 0 behavior.
+		try {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("SetConstraintCommand >>  Starts. Target: " //$NON-NLS-1$
+						+ DEUtil.getDisplayLabel(model) + ",New size: " //$NON-NLS-1$
+						+ newSize.width + "," //$NON-NLS-1$
+						+ newSize.height);
 			}
-			if ( model instanceof TableHandle || model instanceof GridHandle )
-			{
-				HandleAdapterFactory.getInstance( )
-						.getTableHandleAdapter( model )
-						.ajustSize( newSize );
-			}
-			else
-			{
-				if ( newSize.width >= 0 )
-				{
-					MetricUtility.updateDimension( model.getWidth( ),
-							newSize.width );
+			if (model instanceof TableHandle || model instanceof GridHandle) {
+				HandleAdapterFactory.getInstance().getTableHandleAdapter(model).ajustSize(newSize);
+			} else {
+				if (newSize.width >= 0) {
+					MetricUtility.updateDimension(model.getWidth(), newSize.width);
 				}
-				if ( newSize.height >= 0 )
-				{
-					MetricUtility.updateDimension( model.getHeight( ),
-							newSize.height );
+				if (newSize.height >= 0) {
+					MetricUtility.updateDimension(model.getHeight(), newSize.height);
 				}
 			}
-			stack.commit( );
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "SetConstraintCommand >> Finised." ); //$NON-NLS-1$
+			stack.commit();
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("SetConstraintCommand >> Finised."); //$NON-NLS-1$
 			}
-		}
-		catch ( SemanticException e )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "SetConstraintCommand >> Failed." ); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("SetConstraintCommand >> Failed."); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-			stack.rollback( );
+			logger.log(Level.SEVERE, e.getMessage(), e);
+			stack.rollback();
 		}
 	}
 
@@ -121,44 +103,37 @@ public class SetConstraintCommand extends Command
 	 * @return the label
 	 */
 
-	public String getLabel( )
-	{
+	public String getLabel() {
 		return Command_Label_Resize;
 	}
 
 	/**
 	 * Sets the constraint.
 	 * 
-	 * @param r
-	 *            the rectangle
+	 * @param r the rectangle
 	 */
 
-	public void setConstraint( Rectangle r )
-	{
-		setSize( r.getSize( ) );
+	public void setConstraint(Rectangle r) {
+		setSize(r.getSize());
 	}
 
 	/**
 	 * Sets the part
 	 * 
-	 * @param part
-	 *            the part
+	 * @param part the part
 	 */
 
-	public void setModel( ReportItemHandle model )
-	{
+	public void setModel(ReportItemHandle model) {
 		this.model = model;
 	}
 
 	/**
 	 * Sets the size
 	 * 
-	 * @param p
-	 *            the size
+	 * @param p the size
 	 */
 
-	public void setSize( Dimension p )
-	{
+	public void setSize(Dimension p) {
 		newSize = p;
 	}
 

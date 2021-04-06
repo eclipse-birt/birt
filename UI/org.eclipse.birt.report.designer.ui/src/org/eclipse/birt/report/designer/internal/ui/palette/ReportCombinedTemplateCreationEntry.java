@@ -24,12 +24,9 @@ import org.eclipse.jface.resource.ImageDescriptor;
  * 
  * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends
  * 
- *  
+ * 
  */
-public class ReportCombinedTemplateCreationEntry
-		extends
-			CombinedTemplateCreationEntry
-{
+public class ReportCombinedTemplateCreationEntry extends CombinedTemplateCreationEntry {
 
 	private AbstractToolHandleExtends preHandle;
 
@@ -43,12 +40,9 @@ public class ReportCombinedTemplateCreationEntry
 	 * @param iconSmall
 	 * @param iconLarge
 	 */
-	public ReportCombinedTemplateCreationEntry( String label, String shortDesc,
-			Object template, CreationFactory factory,
-			ImageDescriptor iconSmall, ImageDescriptor iconLarge,
-			AbstractToolHandleExtends preHandle )
-	{
-		super( label, shortDesc, template, factory, iconSmall, iconLarge );
+	public ReportCombinedTemplateCreationEntry(String label, String shortDesc, Object template, CreationFactory factory,
+			ImageDescriptor iconSmall, ImageDescriptor iconLarge, AbstractToolHandleExtends preHandle) {
+		super(label, shortDesc, template, factory, iconSmall, iconLarge);
 		this.preHandle = preHandle;
 	}
 
@@ -57,8 +51,7 @@ public class ReportCombinedTemplateCreationEntry
 	 * 
 	 * @see org.eclipse.gef.palette.ToolEntry#createTool()
 	 */
-	public Tool createTool( )
-	{
-		return new ReportCreationTool( this.factory, preHandle );
+	public Tool createTool() {
+		return new ReportCreationTool(this.factory, preHandle);
 	}
 }

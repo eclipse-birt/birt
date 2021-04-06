@@ -17,26 +17,24 @@ import java.util.Iterator;
  * Represents an optional argument list of a method.
  */
 
-public interface IArgumentInfoList
-{
+public interface IArgumentInfoList {
 
 	/**
 	 * Returns the argument definition given the name.
 	 * 
-	 * @param argumentName
-	 *            name of the argument to get
+	 * @param argumentName name of the argument to get
 	 * @return the argument definition with the specified name.
 	 */
 
-	public IArgumentInfo getArgument( String argumentName );
+	public IArgumentInfo getArgument(String argumentName);
 
 	/**
-	 * Returns the iterator of argument definition. Each one is a list that
-	 * contains <code>IArgumentInfo</code>.
+	 * Returns the iterator of argument definition. Each one is a list that contains
+	 * <code>IArgumentInfo</code>.
 	 * 
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator<IArgumentInfo> argumentsIterator( );
+	public Iterator<IArgumentInfo> argumentsIterator();
 
 }

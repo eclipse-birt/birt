@@ -17,47 +17,44 @@ import java.util.Map;
 
 /**
  * File name generator which inserts a time stamp in the name.
+ * 
  * @see TimestampFilenameGeneratorFactory
  */
-public class TimestampFilenameGenerator implements IFilenameGenerator
-{
+public class TimestampFilenameGenerator implements IFilenameGenerator {
 	private static final String DEFAULT_DATE_PATTERN = "yyyyMMdd-HHmmss"; //$NON-NLS-1$
 
 	public String datePattern;
-	
+
 	/**
 	 * 
 	 */
-	public TimestampFilenameGenerator()
-	{
+	public TimestampFilenameGenerator() {
 		this(null);
 	}
-	
+
 	/**
 	 * Constructor.
-	 * @param datePattern date pattern to use 
+	 * 
+	 * @param datePattern date pattern to use
 	 */
-	public TimestampFilenameGenerator( String datePattern )
-	{
-		if ( datePattern == null )
-		{
+	public TimestampFilenameGenerator(String datePattern) {
+		if (datePattern == null) {
 			datePattern = DEFAULT_DATE_PATTERN;
 		}
 		this.datePattern = datePattern;
 	}
-	
+
 	/**
 	 * Returns a file name containing a formatted time stamp.
+	 * 
 	 * @see IFilenameGenerator#getFilename(String, String, String, Map)
 	 */
-	public String getFilename( String baseName, String fileExtension, String outputType, Map options )
-	{
-		DateFormat dateFormatter = new SimpleDateFormat( datePattern );
-		if ( fileExtension == null )
-		{
+	public String getFilename(String baseName, String fileExtension, String outputType, Map options) {
+		DateFormat dateFormatter = new SimpleDateFormat(datePattern);
+		if (fileExtension == null) {
 			fileExtension = ""; //$NON-NLS-1$
 		}
-		return baseName + "_" + dateFormatter.format( new Date() ) + "." + fileExtension; //$NON-NLS-1$
+		return baseName + "_" + dateFormatter.format(new Date()) + "." + fileExtension; //$NON-NLS-1$
 	}
 
 }

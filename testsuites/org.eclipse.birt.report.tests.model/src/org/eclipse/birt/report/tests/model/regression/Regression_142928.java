@@ -33,45 +33,39 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * extend property
  * </p>
  */
-public class Regression_142928 extends BaseTestCase
-{
+public class Regression_142928 extends BaseTestCase {
 
 	private String filename = "Regression_142928.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( filename , filename );
-		
+		copyResource_INPUT(filename, filename);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_regression_142928( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
-		LabelHandle label = (LabelHandle) designHandle.findElement( "NewLabel" ); //$NON-NLS-1$
-		assertNotNull( label );
-		TemplateReportItemHandle labelTemp = (TemplateReportItemHandle) label
-				.createTemplateElement( "labeltemp" ); //$NON-NLS-1$
-		labelTemp.transformToReportItem( label );
+	public void test_regression_142928() throws DesignFileException, SemanticException {
+		openDesign(filename);
+		LabelHandle label = (LabelHandle) designHandle.findElement("NewLabel"); //$NON-NLS-1$
+		assertNotNull(label);
+		TemplateReportItemHandle labelTemp = (TemplateReportItemHandle) label.createTemplateElement("labeltemp"); //$NON-NLS-1$
+		labelTemp.transformToReportItem(label);
 
-		LabelHandle label1 = (LabelHandle) designHandle.getBody( )
-				.getContents( ).get( 0 );
+		LabelHandle label1 = (LabelHandle) designHandle.getBody().getContents().get(0);
 		TemplateParameterDefinitionHandle def = (TemplateParameterDefinitionHandle) designHandle
-				.getSlot( ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT )
-				.get( 0 );
+				.getSlot(ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT).get(0);
 
-		assertEquals( def.getName( ), label1.getProperty(
-				Label.REF_TEMPLATE_PARAMETER_PROP ).toString( ) );
+		assertEquals(def.getName(), label1.getProperty(Label.REF_TEMPLATE_PARAMETER_PROP).toString());
 
-		assertEquals( "Lib.NewLabel", def.getDefaultElement( ).getProperty( //$NON-NLS-1$
-				Label.EXTENDS_PROP ) );
-		assertEquals( "Lib.NewLabel", label1.getProperty( Label.EXTENDS_PROP ) ); //$NON-NLS-1$
+		assertEquals("Lib.NewLabel", def.getDefaultElement().getProperty( //$NON-NLS-1$
+				Label.EXTENDS_PROP));
+		assertEquals("Lib.NewLabel", label1.getProperty(Label.EXTENDS_PROP)); //$NON-NLS-1$
 
 	}
 }

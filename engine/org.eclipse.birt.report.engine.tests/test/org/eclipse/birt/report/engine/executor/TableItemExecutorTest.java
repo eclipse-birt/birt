@@ -11,27 +11,23 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-
 /**
  * 
  * table item executor test
  * 
  */
-public class TableItemExecutorTest extends ReportItemExecutorTestAbs
-{
+public class TableItemExecutorTest extends ReportItemExecutorTestAbs {
 
 	/**
 	 * test single table
 	 * 
 	 * @throws Exception
 	 */
-	public void testExcuteTable1( ) throws Exception
-	{
-		compare( "table1.xml", "table1.txt" );
+	public void testExcuteTable1() throws Exception {
+		compare("table1.xml", "table1.txt");
 	}
-	
-	public void testEmptyTable() throws Exception
-	{
+
+	public void testEmptyTable() throws Exception {
 		compare("empty_table.xml", "empty_table.txt");
 	}
 }

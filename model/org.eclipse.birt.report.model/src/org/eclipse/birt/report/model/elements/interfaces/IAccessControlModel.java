@@ -16,8 +16,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * 
  */
 
-public interface IAccessControlModel
-{
+public interface IAccessControlModel {
 
 	/**
 	 * Name of the member which defines the user name.
@@ -26,8 +25,7 @@ public interface IAccessControlModel
 	public static final String USER_NAMES_PROP = "userNames"; //$NON-NLS-1$
 
 	/**
-	 * Name of the member which describe the behavior of the user want to
-	 * perform.
+	 * Name of the member which describe the behavior of the user want to perform.
 	 */
 
 	public static final String ROLES_PROP = "roles"; //$NON-NLS-1$

@@ -22,8 +22,7 @@ import org.eclipse.jface.action.Action;
  * Changes rule unit
  * 
  */
-public class ChangeRulerUnitAction extends Action
-{
+public class ChangeRulerUnitAction extends Action {
 
 	private String value = ""; //$NON-NLS-1$
 
@@ -33,12 +32,11 @@ public class ChangeRulerUnitAction extends Action
 	 * @param value
 	 * @param displayName
 	 */
-	public ChangeRulerUnitAction( String value, String displayName )
-	{
-		super( );
+	public ChangeRulerUnitAction(String value, String displayName) {
+		super();
 		this.value = value;
-		setText( displayName );
-		setChecked( isCheckValue( ) );
+		setText(displayName);
+		setChecked(isCheckValue());
 	}
 
 	/*
@@ -46,33 +44,25 @@ public class ChangeRulerUnitAction extends Action
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Change ruler unit action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Change ruler unit action >> Run ..."); //$NON-NLS-1$
 		}
-		try
-		{
-			getReportDesignHandle( ).setDefaultUnits( value );
-		}
-		catch ( SemanticException e )
-		{
-			ExceptionHandler.handle( e );
+		try {
+			getReportDesignHandle().setDefaultUnits(value);
+		} catch (SemanticException e) {
+			ExceptionHandler.handle(e);
 		}
 	}
 
-	private boolean isCheckValue( )
-	{
-		if ( value == null )
-		{
+	private boolean isCheckValue() {
+		if (value == null) {
 			return false;
 		}
-		return value.equals( getReportDesignHandle( ).getDefaultUnits( ) );
+		return value.equals(getReportDesignHandle().getDefaultUnits());
 	}
 
-	private ModuleHandle getReportDesignHandle( )
-	{
-		return SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
+	private ModuleHandle getReportDesignHandle() {
+		return SessionHandleAdapter.getInstance().getReportDesignHandle();
 	}
 }

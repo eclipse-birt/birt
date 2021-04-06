@@ -20,34 +20,29 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Used for these invalid expressions input by users.
  */
-public class InvalidExpression extends CompiledExpression
-{
+public class InvalidExpression extends CompiledExpression {
 	private DataException cause;
-	protected static Logger logger = Logger.getLogger( InvalidExpression.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(InvalidExpression.class.getName());
 
-	InvalidExpression( DataException cause )
-	{
+	InvalidExpression(DataException cause) {
 		assert cause != null;
 		this.cause = cause;
-		logger.logp( Level.FINER,
-				InvalidExpression.class.getName( ),
-				"InvalidExpression",
-				"InvalidExpression starts up" );
+		logger.logp(Level.FINER, InvalidExpression.class.getName(), "InvalidExpression", "InvalidExpression starts up");
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.CompiledExpression#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return TYPE_INVALID_EXPR;
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.CompiledExpression#evaluate(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.CompiledExpression#evaluate(org.mozilla.
+	 * javascript.Context, org.mozilla.javascript.Scriptable)
 	 */
-	public Object evaluate( ScriptContext context, Scriptable scope ) throws DataException
-	{
+	public Object evaluate(ScriptContext context, Scriptable scope) throws DataException {
 		throw cause;
 	}
 

@@ -26,43 +26,40 @@ import org.eclipse.birt.report.engine.api.IRenderTask;
  * 
  */
 
-public class TableLayoutTest extends HTMLReportEmitterTestCase
-{
+public class TableLayoutTest extends HTMLReportEmitterTestCase {
 
-	public String getWorkSpace( )
-	{
+	public String getWorkSpace() {
 		// TODO Auto-generated method stub
 		return "./tableLayoutTest";
 	}
-	
+
 	/**
 	 * 
 	 * @throws EngineException
 	 * @throws IOException
 	 */
-	public void testTableColumnWidth( ) throws EngineException, IOException
-	{
-		//the default cell to place the group icon is the first cell.
+	public void testTableColumnWidth() throws EngineException, IOException {
+		// the default cell to place the group icon is the first cell.
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/TableColumnWidth.xml";
-		HTMLRenderOption options = new HTMLRenderOption( );
-		options.setLayoutPreference( "fixed" );
-		
-		ByteArrayOutputStream output = new ByteArrayOutputStream( );
-		List instanceIDs = new ArrayList( );
-		options.setInstanceIDs( instanceIDs );
-		options.setOutputStream( output );
-		options.setEnableMetadata( true );
-		IRenderTask task = createRenderTask( designFile );
-		task.setRenderOption( options );
-		task.render( );
-		task.close( );
-		String content = new String( output.toByteArray( ) );
-		output.close( );
-		
-		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
+		HTMLRenderOption options = new HTMLRenderOption();
+		options.setLayoutPreference("fixed");
+
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		List instanceIDs = new ArrayList();
+		options.setInstanceIDs(instanceIDs);
+		options.setOutputStream(output);
+		options.setEnableMetadata(true);
+		IRenderTask task = createRenderTask(designFile);
+		task.setRenderOption(options);
+		task.render();
+		task.close();
+		String content = new String(output.toByteArray());
+		output.close();
+
+		content = content.replaceAll("\n", "\"\n\"+\\\\n");
 		String regex = "table-layout:fixed";
-		Matcher matcher = Pattern.compile( regex ).matcher( content );
-		assertEquals( true, matcher.find( ) );
+		Matcher matcher = Pattern.compile(regex).matcher(content);
+		assertEquals(true, matcher.find());
 
 	}
 

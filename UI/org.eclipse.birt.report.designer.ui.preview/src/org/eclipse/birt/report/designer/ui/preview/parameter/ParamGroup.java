@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.api.ParameterGroupHandle;
  * 
  */
 
-public class ParamGroup extends AbstractParamGroup
-{
+public class ParamGroup extends AbstractParamGroup {
 
 	/**
 	 * Constructor
@@ -28,10 +27,8 @@ public class ParamGroup extends AbstractParamGroup
 	 * @param engineTask
 	 */
 
-	public ParamGroup( ParameterGroupHandle handle )
-	{
-		super( handle );
+	public ParamGroup(ParameterGroupHandle handle) {
+		super(handle);
 	}
 
-	
 }

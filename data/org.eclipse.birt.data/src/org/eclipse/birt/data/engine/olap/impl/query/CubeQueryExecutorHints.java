@@ -10,39 +10,32 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.impl.query;
 
-public class CubeQueryExecutorHints
-{
+public class CubeQueryExecutorHints {
 	private boolean executeNestedAggregation = true;
 	private boolean needSaveToDoc = true;
 	private boolean executeDrillOperation = true;
-	
-	public boolean canExecuteCubeOperation( )
-	{
+
+	public boolean canExecuteCubeOperation() {
 		return this.executeNestedAggregation;
 	}
 
-	public void executeCubeOperation( boolean canExecuteCubeOperation )
-	{
+	public void executeCubeOperation(boolean canExecuteCubeOperation) {
 		this.executeNestedAggregation = canExecuteCubeOperation;
 	}
-	
-	public boolean canExecuteDrillOperation( )
-	{
+
+	public boolean canExecuteDrillOperation() {
 		return this.executeDrillOperation;
 	}
 
-	public void executeDrillOperation( boolean canExecuteDrillOperation )
-	{
+	public void executeDrillOperation(boolean canExecuteDrillOperation) {
 		this.executeDrillOperation = canExecuteDrillOperation;
 	}
 
-	public void needSaveToDoc( boolean needSaveToDoc )
-	{
-		this.needSaveToDoc  = needSaveToDoc;
-	}	
+	public void needSaveToDoc(boolean needSaveToDoc) {
+		this.needSaveToDoc = needSaveToDoc;
+	}
 
-	public boolean saveToDoc( )
-	{
+	public boolean saveToDoc() {
 		return this.needSaveToDoc;
 	}
 }

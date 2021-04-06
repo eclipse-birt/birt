@@ -15,11 +15,10 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 import org.eclipse.birt.report.engine.content.IReportContent;
 
-public interface IEngineContext extends IReportContext
-{
+public interface IEngineContext extends IReportContext {
 
-	IReportContent getReportContent( );
-	
-	IReportDocument getReportDocument( );
+	IReportContent getReportContent();
+
+	IReportDocument getReportDocument();
 
 }

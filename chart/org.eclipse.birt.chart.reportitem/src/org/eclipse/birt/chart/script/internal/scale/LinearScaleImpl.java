@@ -21,64 +21,50 @@ import org.eclipse.birt.chart.script.api.scale.ILinearScale;
  * 
  */
 
-public class LinearScaleImpl extends ScaleImpl implements ILinearScale
-{
+public class LinearScaleImpl extends ScaleImpl implements ILinearScale {
 
-	protected LinearScaleImpl( Axis axis )
-	{
-		super( axis );
+	protected LinearScaleImpl(Axis axis) {
+		super(axis);
 	}
 
-	public double getMax( )
-	{
-		DataElement data = scale.getMax( );
-		if ( data instanceof NumberDataElement )
-		{
-			return ( (NumberDataElement) data ).getValue( );
+	public double getMax() {
+		DataElement data = scale.getMax();
+		if (data instanceof NumberDataElement) {
+			return ((NumberDataElement) data).getValue();
 		}
 		return Double.NaN;
 	}
 
-	public double getMin( )
-	{
-		DataElement data = scale.getMin( );
-		if ( data instanceof NumberDataElement )
-		{
-			return ( (NumberDataElement) data ).getValue( );
+	public double getMin() {
+		DataElement data = scale.getMin();
+		if (data instanceof NumberDataElement) {
+			return ((NumberDataElement) data).getValue();
 		}
 		return Double.NaN;
 	}
 
-	public int getNumberOfSteps( )
-	{
-		return scale.getStepNumber( );
+	public int getNumberOfSteps() {
+		return scale.getStepNumber();
 	}
 
-	public int getStepSize( )
-	{
-		return (int) scale.getStep( );
+	public int getStepSize() {
+		return (int) scale.getStep();
 	}
 
-	public void setMax( double max )
-	{
-		scale.setMax( Double.isNaN( max ) ? null
-				: NumberDataElementImpl.create( max ) );
+	public void setMax(double max) {
+		scale.setMax(Double.isNaN(max) ? null : NumberDataElementImpl.create(max));
 	}
 
-	public void setMin( double min )
-	{
-		scale.setMin( Double.isNaN( min ) ? null
-				: NumberDataElementImpl.create( min ) );
+	public void setMin(double min) {
+		scale.setMin(Double.isNaN(min) ? null : NumberDataElementImpl.create(min));
 	}
 
-	public void setNumberOfSteps( int steps )
-	{
-		scale.setStepNumber( steps );
+	public void setNumberOfSteps(int steps) {
+		scale.setStepNumber(steps);
 	}
 
-	public void setStepSize( int size )
-	{
-		scale.setStep( size );
+	public void setStepSize(int size) {
+		scale.setStep(size);
 	}
 
 }

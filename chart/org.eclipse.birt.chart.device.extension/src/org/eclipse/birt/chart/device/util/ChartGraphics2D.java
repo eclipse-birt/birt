@@ -14,8 +14,7 @@ package org.eclipse.birt.chart.device.util;
 import java.awt.Graphics2D;
 import java.awt.Shape;
 
-public abstract class ChartGraphics2D extends Graphics2D
-{
+public abstract class ChartGraphics2D extends Graphics2D {
 
-	abstract public void fill( Shape shape, boolean defered );
+	abstract public void fill(Shape shape, boolean defered);
 }

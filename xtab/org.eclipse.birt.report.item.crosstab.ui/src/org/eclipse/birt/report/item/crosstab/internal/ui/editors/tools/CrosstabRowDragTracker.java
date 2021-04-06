@@ -36,9 +36,9 @@ import org.eclipse.swt.graphics.Cursor;
  * Drag the cross cell bottom border to adjust the row height.
  */
 
-public class CrosstabRowDragTracker extends TableDragGuideTracker
-{
-	private static final String PREFIX_LABEL = Messages.getString( "CrosstabRowDragTracker.Show.Label" );
+public class CrosstabRowDragTracker extends TableDragGuideTracker {
+	private static final String PREFIX_LABEL = Messages.getString("CrosstabRowDragTracker.Show.Label");
+
 	/**
 	 * Constructor
 	 * 
@@ -46,75 +46,71 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker
 	 * @param start
 	 * @param end
 	 */
-	public CrosstabRowDragTracker( EditPart sourceEditPart, int start, int end )
-	{
-		super( sourceEditPart, start, end );
-		setDisabledCursor( Cursors.SIZENS );
+	public CrosstabRowDragTracker(EditPart sourceEditPart, int start, int end) {
+		super(sourceEditPart, start, end);
+		setDisabledCursor(Cursors.SIZENS);
 	}
 
 	@Override
-	protected Cursor getDefaultCursor( )
-	{
-		if (isCloneActive())
-		{
+	protected Cursor getDefaultCursor() {
+		if (isCloneActive()) {
 			return Cursors.SIZENS;
 		}
-		return super.getDefaultCursor( );
-	}
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableDragGuideTracker#getDragWidth()
-	 */
-	protected Dimension getDragWidth(int start, int end )
-	{
-		return new Dimension( TableUtil.getMinHeight( getCrosstabTableEditPart( ),
-				getStart( ) )
-				- CrosstabTableUtil.caleVisualHeight( getCrosstabTableEditPart( ),
-						getStart( ) ),
-				Integer.MAX_VALUE );
+		return super.getDefaultCursor();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableDragGuideTracker#getMarqueeSelectionRectangle()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
+	 * TableDragGuideTracker#getDragWidth()
 	 */
-	protected Rectangle getMarqueeSelectionRectangle( )
-	{
-		IFigure figure = getCrosstabTableEditPart( ).getFigure( );
-		Insets insets = figure.getInsets( );
-
-		int value = getLocation( ).y - getStartLocation( ).y;
-		value = getTrueValueAbsolute( value );
-
-		Point p = getStartLocation( ).getCopy( );
-		figure.translateToAbsolute( p );
-		figure.translateToRelative( p );
-		Rectangle bounds = figure.getBounds( ).getCopy( );
-		figure.translateToAbsolute( bounds );
-
-		return new Rectangle( bounds.x + insets.left, value + p.y, bounds.width
-				- ( insets.left + insets.right ), 2 );
+	protected Dimension getDragWidth(int start, int end) {
+		return new Dimension(
+				TableUtil.getMinHeight(getCrosstabTableEditPart(), getStart())
+						- CrosstabTableUtil.caleVisualHeight(getCrosstabTableEditPart(), getStart()),
+				Integer.MAX_VALUE);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableDragGuideTracker#resize()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
+	 * TableDragGuideTracker#getMarqueeSelectionRectangle()
 	 */
-	protected void resize( )
-	{
-		CrosstabTableEditPart  part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
-		int value = getMouseTrueValueY( );
+	protected Rectangle getMarqueeSelectionRectangle() {
+		IFigure figure = getCrosstabTableEditPart().getFigure();
+		Insets insets = figure.getInsets();
 
-		//if ( getStart( ) != getEnd( ) )
+		int value = getLocation().y - getStartLocation().y;
+		value = getTrueValueAbsolute(value);
+
+		Point p = getStartLocation().getCopy();
+		figure.translateToAbsolute(p);
+		figure.translateToRelative(p);
+		Rectangle bounds = figure.getBounds().getCopy();
+		figure.translateToAbsolute(bounds);
+
+		return new Rectangle(bounds.x + insets.left, value + p.y, bounds.width - (insets.left + insets.right), 2);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
+	 * TableDragGuideTracker#resize()
+	 */
+	protected void resize() {
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart().getParent();
+		int value = getMouseTrueValueY();
+
+		// if ( getStart( ) != getEnd( ) )
 		{
-			value = getTrueValue( value );	
-			
-			CrosstabHandleAdapter adapter = part.getCrosstabHandleAdapter( );
-			int baseHeight = CrosstabTableUtil.caleVisualHeight( part, getStart( ) );
-			adapter.setRowHeight( getStart( ), value + baseHeight);
+			value = getTrueValue(value);
+
+			CrosstabHandleAdapter adapter = part.getCrosstabHandleAdapter();
+			int baseHeight = CrosstabTableUtil.caleVisualHeight(part, getStart());
+			adapter.setRowHeight(getStart(), value + baseHeight);
 		}
 //		else
 //		{
@@ -145,84 +141,74 @@ public class CrosstabRowDragTracker extends TableDragGuideTracker
 
 	}
 
-	private CrosstabTableEditPart getCrosstabTableEditPart( )
-	{
-		return (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
+	private CrosstabTableEditPart getCrosstabTableEditPart() {
+		return (CrosstabTableEditPart) getSourceEditPart().getParent();
 	}
-	
+
 	@Override
-	protected String getInfomation( )
-	{
-		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
-		return getShowLabel( CrosstabTableUtil.caleVisualHeight( part, getStart( ) ));
+	protected String getInfomation() {
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart().getParent();
+		return getShowLabel(CrosstabTableUtil.caleVisualHeight(part, getStart()));
 	}
-	
-	private String getShowLabel(int pix)
-	{
-		String unit = getDefaultUnits( );
-		
-		double doubleValue = MetricUtility.pixelToPixelInch( pix );
-		double showValue = DimensionUtil.convertTo( doubleValue,DesignChoiceConstants.UNITS_IN, unit ).getMeasure( );
-		
-		return PREFIX_LABEL + " "  + getShowValue( showValue )+ " " + getUnitDisplayName(unit)  + " (" + pix +" " + PIXELS_LABEL + ")";
+
+	private String getShowLabel(int pix) {
+		String unit = getDefaultUnits();
+
+		double doubleValue = MetricUtility.pixelToPixelInch(pix);
+		double showValue = DimensionUtil.convertTo(doubleValue, DesignChoiceConstants.UNITS_IN, unit).getMeasure();
+
+		return PREFIX_LABEL + " " + getShowValue(showValue) + " " + getUnitDisplayName(unit) + " (" + pix + " "
+				+ PIXELS_LABEL + ")";
 	}
-	
-	private String getShowValue(double value)
-	{
-		return FORMAT.format( value );
+
+	private String getShowValue(double value) {
+		return FORMAT.format(value);
 	}
-	
+
 	@Override
-	protected boolean handleDragInProgress( )
-	{
-		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
-		boolean bool =  super.handleDragInProgress( );
-		//int value = getTrueValue( getLocation( ).y - getStartLocation( ).y);
-		int value = getTrueValue( getMouseTrueValueY( ) );
-		
-		int adjustWidth =  CrosstabTableUtil.caleVisualHeight( part,getStart( ) ) + value;
-		updateInfomation( getShowLabel( adjustWidth ) );
+	protected boolean handleDragInProgress() {
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart().getParent();
+		boolean bool = super.handleDragInProgress();
+		// int value = getTrueValue( getLocation( ).y - getStartLocation( ).y);
+		int value = getTrueValue(getMouseTrueValueY());
+
+		int adjustWidth = CrosstabTableUtil.caleVisualHeight(part, getStart()) + value;
+		updateInfomation(getShowLabel(adjustWidth));
 		return bool;
 	}
-	
-	@Override
-	protected void fitResize( )
-	{
-		CrosstabTableEditPart  part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
-		int value = getMouseTrueValueY( );
 
-		value = getTrueValue( value );	
-			
-		CrosstabHandleAdapter adapter = part.getCrosstabHandleAdapter( );
-		int baseHeight = CrosstabTableUtil.caleVisualHeight( part,
-				getStart( ) );
-		adapter.setRowHeight( getStart( ), value + baseHeight );
-	}
-	
 	@Override
-	protected AbstractTableEditPart getAbstractTableEditPart( )
-	{
-		return (AbstractTableEditPart)getSourceEditPart( ).getParent( );
+	protected void fitResize() {
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart().getParent();
+		int value = getMouseTrueValueY();
+
+		value = getTrueValue(value);
+
+		CrosstabHandleAdapter adapter = part.getCrosstabHandleAdapter();
+		int baseHeight = CrosstabTableUtil.caleVisualHeight(part, getStart());
+		adapter.setRowHeight(getStart(), value + baseHeight);
 	}
-	
-	
+
 	@Override
-	protected String getDefaultUnits( )
-	{
-		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart( ).getParent( );
-		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter( );
-		return crosstabAdapter.getDesignElementHandle( ).getModuleHandle( ).getDefaultUnits( );
+	protected AbstractTableEditPart getAbstractTableEditPart() {
+		return (AbstractTableEditPart) getSourceEditPart().getParent();
 	}
-	
+
 	@Override
-	protected DragGuideInfo createDragGuideInfo( )
-	{
-		int value = getTrueValue( getMouseTrueValueY());
-		Point p = getStartLocation( ).getCopy( );
-		
-		getAbstractTableEditPart( ).getFigure( ).translateToRelative( p );
+	protected String getDefaultUnits() {
+		CrosstabTableEditPart part = (CrosstabTableEditPart) getSourceEditPart().getParent();
+		CrosstabHandleAdapter crosstabAdapter = part.getCrosstabHandleAdapter();
+		return crosstabAdapter.getDesignElementHandle().getModuleHandle().getDefaultUnits();
+	}
+
+	@Override
+	protected DragGuideInfo createDragGuideInfo() {
+		int value = getTrueValue(getMouseTrueValueY());
+		Point p = getStartLocation().getCopy();
+
+		getAbstractTableEditPart().getFigure().translateToRelative(p);
 		value = value + p.y;
-		EditorRulerComposite.DragGuideInfo info = new EditorRulerComposite.DragGuideInfo(false, value );
+		EditorRulerComposite.DragGuideInfo info = new EditorRulerComposite.DragGuideInfo(false, value);
 		return info;
 	}
 }

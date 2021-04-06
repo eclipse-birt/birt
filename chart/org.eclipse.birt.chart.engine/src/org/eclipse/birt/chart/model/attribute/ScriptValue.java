@@ -14,8 +14,8 @@ package org.eclipse.birt.chart.model.attribute;
 import org.eclipse.birt.chart.model.data.ScriptExpression;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Script Value</b></em>'. <!-- end-user-doc
- * -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Script
+ * Value</b></em>'. <!-- end-user-doc -->
  * 
  * <!-- begin-model-doc -->
  * 
@@ -26,7 +26,8 @@ import org.eclipse.birt.chart.model.data.ScriptExpression;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript <em>Script</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript
+ * <em>Script</em>}</li>
  * </ul>
  * </p>
  * 
@@ -34,16 +35,15 @@ import org.eclipse.birt.chart.model.data.ScriptExpression;
  * @model
  * @generated
  */
-public interface ScriptValue extends ActionValue
-{
+public interface ScriptValue extends ActionValue {
 
 	/**
-	 * Returns the value of the '<em><b>Script</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Attribute "Script" specifies the actual script string to be invoked.
-	 * 							
+	 * Returns the value of the '<em><b>Script</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
+	 * "Script" specifies the actual script string to be invoked.
+	 * 
 	 * <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Script</em>' attribute.
 	 * @see #setScript(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getScriptValue_Script()
@@ -51,34 +51,36 @@ public interface ScriptValue extends ActionValue
 	 *        extendedMetaData="kind='element' name='Script'"
 	 * @generated
 	 */
-	String getScript( );
+	String getScript();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript <em>Script</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.ScriptValue#getScript
+	 * <em>Script</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @param value the new value of the '<em>Script</em>' attribute.
 	 * @see #getScript()
 	 * @generated
 	 */
-	void setScript( String value );
+	void setScript(String value);
 
 	/**
 	 * @generated
 	 */
-	ScriptValue copyInstance( );
+	ScriptValue copyInstance();
 
 	/*
 	 * Get script expression.
 	 * 
 	 * @return expression the script expression.
 	 */
-	ScriptExpression getScriptExpression( );
+	ScriptExpression getScriptExpression();
 
 	/*
 	 * Set script expression.
 	 * 
 	 * @param expression the script expression.
 	 */
-	void setScriptExpression( ScriptExpression expression );
+	void setScriptExpression(ScriptExpression expression);
 
 } // ScriptValue

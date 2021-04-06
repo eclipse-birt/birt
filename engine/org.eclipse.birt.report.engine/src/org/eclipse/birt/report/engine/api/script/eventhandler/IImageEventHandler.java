@@ -19,31 +19,25 @@ import org.eclipse.birt.report.engine.api.script.instance.IImageInstance;
 /**
  * Script event handler interface for an image
  */
-public interface IImageEventHandler
-{
+public interface IImageEventHandler {
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( IImage imageHandle, IReportContext reportContext )
-			throws ScriptException;
+	void onPrepare(IImage imageHandle, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( IImageInstance image, IReportContext reportContext )
-			throws ScriptException;
+	void onCreate(IImageInstance image, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( IImageInstance image, IReportContext reportContext )
-			throws ScriptException;
-
+	void onRender(IImageInstance image, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( IImageInstance image, IReportContext reportContext )
-			throws ScriptException;
+	void onPageBreak(IImageInstance image, IReportContext reportContext) throws ScriptException;
 
 }

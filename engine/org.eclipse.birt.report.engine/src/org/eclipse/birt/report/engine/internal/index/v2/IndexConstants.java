@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.index.v2;
 
-interface IndexConstants
-{
+interface IndexConstants {
 
 	final static int VERSION_0 = 0;
 	final static int VERSION_1 = 1;

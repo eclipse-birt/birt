@@ -15,14 +15,11 @@ import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
 
-
 /**
  * 
  */
 
-public class AppContextResourceReleaser
-{
-	public static void release( Map appContext ) throws BirtException
-	{
+public class AppContextResourceReleaser {
+	public static void release(Map appContext) throws BirtException {
 	}
 }

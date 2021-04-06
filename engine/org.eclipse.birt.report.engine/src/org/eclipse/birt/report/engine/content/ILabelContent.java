@@ -17,24 +17,28 @@ package org.eclipse.birt.report.engine.content;
 public interface ILabelContent extends ITextContent {
 	/**
 	 * Set the text string of label content.
+	 * 
 	 * @param labelText the text string of the label content.
 	 */
 	void setLabelText(String labelText);
 
 	/**
-	 * Get the text string of the label content. 
+	 * Get the text string of the label content.
+	 * 
 	 * @return the text string of the label content.
 	 */
 	String getLabelText();
 
 	/**
 	 * Set the label key string of the label content.
+	 * 
 	 * @param labelKey the label key string of the label content.
 	 */
 	void setLabelKey(String labelKey);
 
 	/**
 	 * Get the label key string of the label content.
+	 * 
 	 * @return the label key string of the label content.
 	 */
 	String getLabelKey();
@@ -46,12 +50,14 @@ public interface ILabelContent extends ITextContent {
 
 	/**
 	 * Get the help text string of the label content.
+	 * 
 	 * @return the help text string of the label content.
 	 */
 	String getHelpText();
 
 	/**
 	 * Get the help key string of the label content.
+	 * 
 	 * @return the help key string of the label content.
 	 */
 	String getHelpKey();

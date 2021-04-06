@@ -11,19 +11,17 @@
 
 package org.eclipse.birt.report.engine.layout;
 
-
 /**
  * this event is trigged by the IPagiantionBuilder.
  * 
  */
-public interface ILayoutPageHandler
-{
+public interface ILayoutPageHandler {
 
 	/**
-	 * a page is created in the layout engine. 
+	 * a page is created in the layout engine.
 	 * 
-	 * @param page the created page number
+	 * @param page    the created page number
 	 * @param context the create page content.
 	 */
-	void onPage( long page, Object context);
+	void onPage(long page, Object context);
 }

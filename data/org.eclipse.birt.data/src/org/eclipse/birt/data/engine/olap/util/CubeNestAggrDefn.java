@@ -15,36 +15,31 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 
-
 /**
  * 
  */
 
-public class CubeNestAggrDefn extends CubeAggrDefn
-{
-	private IBaseExpression basedExpression; 
-	
-	public CubeNestAggrDefn( String name, 
-			IBaseExpression basedExpression, List aggrLevels, String aggrName,
-			List arguments, IBaseExpression filterExpression )
-	{
-		super( name, aggrLevels, aggrName, null, arguments, filterExpression );
+public class CubeNestAggrDefn extends CubeAggrDefn {
+	private IBaseExpression basedExpression;
+
+	public CubeNestAggrDefn(String name, IBaseExpression basedExpression, List aggrLevels, String aggrName,
+			List arguments, IBaseExpression filterExpression) {
+		super(name, aggrLevels, aggrName, null, arguments, filterExpression);
 		this.basedExpression = basedExpression;
 	}
-	
+
 	/**
 	 * Return the expression that featured this aggregation.
+	 * 
 	 * @return
 	 */
-	public IBaseExpression getBasedExpression( )
-	{
+	public IBaseExpression getBasedExpression() {
 		return basedExpression;
 	}
 
 	@Override
-	public String getMeasure( )
-	{
-		return this.getName( );
+	public String getMeasure() {
+		return this.getName();
 	}
 
 }

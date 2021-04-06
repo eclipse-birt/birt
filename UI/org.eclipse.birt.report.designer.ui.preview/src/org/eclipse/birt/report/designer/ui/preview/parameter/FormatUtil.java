@@ -28,22 +28,18 @@ import com.ibm.icu.util.ULocale;
  * Format utility.
  * 
  */
-public class FormatUtil
-{
+public class FormatUtil {
 
 	/**
 	 * Checks is custom.
 	 * 
 	 * @param formatCategory
-	 * @return <code>true</code> if is custom type. else return
-	 *         <code>false</code>.
+	 * @return <code>true</code> if is custom type. else return <code>false</code>.
 	 */
-	private static boolean isCustom( String formatCategory )
-	{
-		if ( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals( formatCategory )
-				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals( formatCategory )
-				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals( formatCategory ) )
-		{
+	private static boolean isCustom(String formatCategory) {
+		if (DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM.equals(formatCategory)
+				|| DesignChoiceConstants.NUMBER_FORMAT_TYPE_CUSTOM.equals(formatCategory)
+				|| DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM.equals(formatCategory)) {
 			return true;
 		}
 		return false;
@@ -57,19 +53,14 @@ public class FormatUtil
 	 * @return formatted value.
 	 */
 
-	public static String format( ParameterHandle handle, String inputStr )
-			throws BirtException
-	{
+	public static String format(ParameterHandle handle, String inputStr) throws BirtException {
 
-		if ( inputStr == null || inputStr.trim( ).length( ) == 0 )
-		{
+		if (inputStr == null || inputStr.trim().length() == 0) {
 			return null;
 		}
 
-		if ( handle instanceof ScalarParameterHandle )
-		{
-			inputStr = formatScalarParameter( (ScalarParameterHandle) handle,
-					inputStr );
+		if (handle instanceof ScalarParameterHandle) {
+			inputStr = formatScalarParameter((ScalarParameterHandle) handle, inputStr);
 		}
 
 		return inputStr;
@@ -83,40 +74,28 @@ public class FormatUtil
 	 * @return formatted value.
 	 */
 
-	private static String formatScalarParameter( ScalarParameterHandle handle,
-			String inputStr ) throws BirtException
-	{
-		String pattern = handle.getPattern( );
-		String category = handle.getCategory( );
+	private static String formatScalarParameter(ScalarParameterHandle handle, String inputStr) throws BirtException {
+		String pattern = handle.getPattern();
+		String category = handle.getCategory();
 
-		if ( pattern == null )
-		{
-			if ( isCustom( category ) )
-			{
+		if (pattern == null) {
+			if (isCustom(category)) {
 				return inputStr;
 			}
 			pattern = category;
 		}
 
-		String dataType = handle.getDataType( );
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( dataType ) )
-		{
-			Date date = DataTypeUtil.toDate( inputStr, ULocale.US );
-			DateFormatter formatter = new DateFormatter( pattern );
-			inputStr = formatter.format( date );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( dataType ) )
-		{
-			inputStr = new NumberFormatter( pattern ).format( DataTypeUtil.toDouble( inputStr )
-					.doubleValue( ) );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( dataType ) )
-		{
-			inputStr = new NumberFormatter( pattern ).format( DataTypeUtil.toBigDecimal( inputStr ) );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( dataType ) )
-		{
-			inputStr = new StringFormatter( pattern ).format( inputStr );
+		String dataType = handle.getDataType();
+		if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(dataType)) {
+			Date date = DataTypeUtil.toDate(inputStr, ULocale.US);
+			DateFormatter formatter = new DateFormatter(pattern);
+			inputStr = formatter.format(date);
+		} else if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(dataType)) {
+			inputStr = new NumberFormatter(pattern).format(DataTypeUtil.toDouble(inputStr).doubleValue());
+		} else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(dataType)) {
+			inputStr = new NumberFormatter(pattern).format(DataTypeUtil.toBigDecimal(inputStr));
+		} else if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(dataType)) {
+			inputStr = new StringFormatter(pattern).format(inputStr);
 		}
 		return inputStr;
 	}

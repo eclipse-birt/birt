@@ -20,16 +20,14 @@ import org.eclipse.birt.report.resource.ResourceConstants;
  * 
  * @see BaseFragment
  */
-public class ConfirmationDialogFragment extends BaseDialogFragment
-{
+public class ConfirmationDialogFragment extends BaseDialogFragment {
 
 	/**
 	 * Get unique id of the corresponding UI gesture.
 	 * 
 	 * @return id
 	 */
-	public String getClientId( )
-	{
+	public String getClientId() {
 		return "confirmationDialog"; //$NON-NLS-1$
 	}
 
@@ -38,8 +36,7 @@ public class ConfirmationDialogFragment extends BaseDialogFragment
 	 * 
 	 * @return id
 	 */
-	public String getClientName( )
-	{
+	public String getClientName() {
 		return "Confirmation"; //$NON-NLS-1$
 	}
 
@@ -49,9 +46,7 @@ public class ConfirmationDialogFragment extends BaseDialogFragment
 	 * @return title id
 	 */
 
-	public String getTitle( )
-	{
-		return BirtResources
-				.getMessage( ResourceConstants.CONFIRMATION_DIALOG_TITLE );
+	public String getTitle() {
+		return BirtResources.getMessage(ResourceConstants.CONFIRMATION_DIALOG_TITLE);
 	}
 }

@@ -23,21 +23,18 @@ import org.eclipse.birt.chart.computation.IConstants;
  * @since 2.5.1
  */
 
-class VSResultSetDataSet extends ResultSetDataSet
-{
+class VSResultSetDataSet extends ResultSetDataSet {
 	/**
-	 * The constructor that creates an instance of a resultset subset by
-	 * extracting appropriate columns and a row range from a resultset
+	 * The constructor that creates an instance of a resultset subset by extracting
+	 * appropriate columns and a row range from a resultset
 	 * 
 	 * @param liResultSet
 	 * @param iColumnIndex
 	 * @param lStartRow
 	 * @param lEndRow
 	 */
-	public VSResultSetDataSet( ResultSetWrapper rsw, int[] iaColumnIndexes,
-			long lStartRow, long lEndRow )
-	{
-		super( rsw, iaColumnIndexes, lStartRow, lEndRow );
+	public VSResultSetDataSet(ResultSetWrapper rsw, int[] iaColumnIndexes, long lStartRow, long lEndRow) {
+		super(rsw, iaColumnIndexes, lStartRow, lEndRow);
 	}
 
 	/**
@@ -45,9 +42,8 @@ class VSResultSetDataSet extends ResultSetDataSet
 	 * 
 	 * @param lst
 	 */
-	public VSResultSetDataSet( List<?> lst, int dataType )
-	{
-		super( lst, dataType );
+	public VSResultSetDataSet(List<?> lst, int dataType) {
+		super(lst, dataType);
 	}
 
 	/*
@@ -55,41 +51,38 @@ class VSResultSetDataSet extends ResultSetDataSet
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#getDataType()
 	 */
-	public int getDataType( )
-	{
-		if ( listMode )
-		{
-			if ( listDataType == IConstants.BOOLEAN )
+	public int getDataType() {
+		if (listMode) {
+			if (listDataType == IConstants.BOOLEAN)
 				return IConstants.NUMERICAL;
 			return listDataType;
 		}
 
-		if ( iaColumnIndexes.length >= 1 )
-		{
-			int type = rsw.getColumnDataType( iaColumnIndexes[0] );
-			if ( type == IConstants.BOOLEAN )
+		if (iaColumnIndexes.length >= 1) {
+			int type = rsw.getColumnDataType(iaColumnIndexes[0]);
+			if (type == IConstants.BOOLEAN)
 				return IConstants.NUMERICAL;
 			return type;
 		}
 		return IConstants.UNDEFINED;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.internal.datafeed.ResultSetDataSet#getDataType(int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.internal.datafeed.ResultSetDataSet#getDataType(int)
 	 */
-	public int getDataType( int columnIndex )
-	{
-		if ( listMode )
-		{
-			if ( listDataType == IConstants.BOOLEAN )
+	public int getDataType(int columnIndex) {
+		if (listMode) {
+			if (listDataType == IConstants.BOOLEAN)
 				return IConstants.NUMERICAL;
 			return listDataType;
 		}
 
-		if ( columnIndex < iaColumnIndexes.length )
-		{
-			int type = rsw.getColumnDataType( iaColumnIndexes[columnIndex] );
-			if ( type == IConstants.BOOLEAN )
+		if (columnIndex < iaColumnIndexes.length) {
+			int type = rsw.getColumnDataType(iaColumnIndexes[columnIndex]);
+			if (type == IConstants.BOOLEAN)
 				return IConstants.NUMERICAL;
 			return type;
 		}
@@ -101,34 +94,25 @@ class VSResultSetDataSet extends ResultSetDataSet
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#next()
 	 */
-	public Object[] next( )
-	{
+	public Object[] next() {
 		lRow++;
-		if ( lRow > lEndRow )
-		{
+		if (lRow > lEndRow) {
 			return null;
 		}
 
-		if ( listMode )
-		{
-			oaTuple[0] = it.next( );
-			if ( oaTuple[0] instanceof Boolean )
-			{
-				oaTuple[0] = asInteger( (Boolean) oaTuple[0] );
+		if (listMode) {
+			oaTuple[0] = it.next();
+			if (oaTuple[0] instanceof Boolean) {
+				oaTuple[0] = asInteger((Boolean) oaTuple[0]);
 			}
-		}
-		else
-		{
-			final Object[] oaResultSet = (Object[]) it.next( );
-			for ( int i = 0; i < iColumnCount; i++ )
-			{
-				if ( iaColumnIndexes[i] != -1 )
-				{
+		} else {
+			final Object[] oaResultSet = (Object[]) it.next();
+			for (int i = 0; i < iColumnCount; i++) {
+				if (iaColumnIndexes[i] != -1) {
 					// ignore the column if the column index is -1.
 					oaTuple[i] = oaResultSet[iaColumnIndexes[i]];
-					if ( oaTuple[i] instanceof Boolean )
-					{
-						oaTuple[i] = asInteger( (Boolean) oaTuple[i] );
+					if (oaTuple[i] instanceof Boolean) {
+						oaTuple[i] = asInteger((Boolean) oaTuple[i]);
 					}
 				}
 			}
@@ -140,15 +124,11 @@ class VSResultSetDataSet extends ResultSetDataSet
 	 * @param o
 	 * @return
 	 */
-	private Integer asInteger( Boolean o )
-	{
-		if ( o.booleanValue( ) )
-		{
-			return Integer.valueOf( 1 );
-		}
-		else
-		{
-			return Integer.valueOf( 0 );
+	private Integer asInteger(Boolean o) {
+		if (o.booleanValue()) {
+			return Integer.valueOf(1);
+		} else {
+			return Integer.valueOf(0);
 		}
 	}
 }

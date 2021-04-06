@@ -22,12 +22,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 /**
- * XlsxEmitter is the leaf class for implementing the ExcelEmitter with XSSFWorkbook.
+ * XlsxEmitter is the leaf class for implementing the ExcelEmitter with
+ * XSSFWorkbook.
+ * 
  * @author Jim Talbut
  *
  */
 public class XlsxEmitter extends ExcelEmitter {
-	
+
 	/**
 	 */
 	public XlsxEmitter() {
@@ -42,11 +44,11 @@ public class XlsxEmitter extends ExcelEmitter {
 	protected Workbook createWorkbook() {
 		return new XSSFWorkbook();
 	}
-	
-	protected Workbook openWorkbook( File templateFile ) throws IOException {
-		InputStream stream = new FileInputStream( templateFile );
+
+	protected Workbook openWorkbook(File templateFile) throws IOException {
+		InputStream stream = new FileInputStream(templateFile);
 		try {
-			return new XSSFWorkbook( stream );
+			return new XSSFWorkbook(stream);
 		} finally {
 			stream.close();
 		}

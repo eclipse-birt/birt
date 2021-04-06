@@ -44,8 +44,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_79040 extends BaseTestCase
-{
+public class Regression_79040 extends BaseTestCase {
 
 	private final static String INPUT = "regression_79040.rptdesign"; //$NON-NLS-1$
 
@@ -53,32 +52,29 @@ public class Regression_79040 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( INPUT, INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
 
-	
-	public void test_regression_79040( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
-		TableHandle table1 = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
+	public void test_regression_79040() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
+		TableHandle table1 = (TableHandle) designHandle.findElement("table1"); //$NON-NLS-1$
 
-		assertNotNull( table1 );
-		assertEquals( "Data Set", table1.getDataSet( ).getName( ) ); //$NON-NLS-1$
+		assertNotNull(table1);
+		assertEquals("Data Set", table1.getDataSet().getName()); //$NON-NLS-1$
 
 		// drop table, data set, data source in order.
-		table1.drop( );
+		table1.drop();
 
-		DataSetHandle dset = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
-		DataSourceHandle dsource = dset.getDataSource( );
+		DataSetHandle dset = designHandle.findDataSet("Data Set"); //$NON-NLS-1$
+		DataSourceHandle dsource = dset.getDataSource();
 
-		dset.drop( );
-		dsource.drop( );
+		dset.drop();
+		dsource.drop();
 
 		// success if no exception throws.
 	}

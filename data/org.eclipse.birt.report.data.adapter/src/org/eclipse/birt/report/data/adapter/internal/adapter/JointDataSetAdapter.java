@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import java.util.Iterator;
@@ -30,82 +30,63 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * Adapts a Model joint data set handle
  */
-public class JointDataSetAdapter extends JointDataSetDesign
-{
-	public JointDataSetAdapter( JointDataSetHandle handle, ModelAdapter adapter ) throws BirtException
-	{
-		super( handle.getQualifiedName( ));
-		
-		Iterator it = handle.joinConditionsIterator( );
-	
+public class JointDataSetAdapter extends JointDataSetDesign {
+	public JointDataSetAdapter(JointDataSetHandle handle, ModelAdapter adapter) throws BirtException {
+		super(handle.getQualifiedName());
+
+		Iterator it = handle.joinConditionsIterator();
+
 		JoinConditionHandle jc = null;
-		
-		while( it.hasNext( ) )
-		{
-			jc = (JoinConditionHandle)it.next( );
-			addJoinCondition( new JoinCondition( 
-					new ScriptExpression( jc.getLeftExpression( )), 
-					new ScriptExpression(jc.getRightExpression( )),
-					adaptJoinOperator(jc.getOperator( )))) ;
+
+		while (it.hasNext()) {
+			jc = (JoinConditionHandle) it.next();
+			addJoinCondition(new JoinCondition(new ScriptExpression(jc.getLeftExpression()),
+					new ScriptExpression(jc.getRightExpression()), adaptJoinOperator(jc.getOperator())));
 		}
-		
-		if ( jc != null )
-		{
-			Iterator iter = handle.dataSetsIterator( );
+
+		if (jc != null) {
+			Iterator iter = handle.dataSetsIterator();
 			DataSetHandle leftHandle = null, rightHandle = null;
-			if ( iter.hasNext( ) )
-			{
-				leftHandle = (DataSetHandle) iter.next( );
-				setLeftDataSetDesignQulifiedName( leftHandle.getQualifiedName( ) );
+			if (iter.hasNext()) {
+				leftHandle = (DataSetHandle) iter.next();
+				setLeftDataSetDesignQulifiedName(leftHandle.getQualifiedName());
 			}
-			if ( iter.hasNext( ) )
-			{
-				rightHandle = (DataSetHandle) iter.next( );
-				setRightDataSetDesignQulifiedName( rightHandle.getQualifiedName( ) );
+			if (iter.hasNext()) {
+				rightHandle = (DataSetHandle) iter.next();
+				setRightDataSetDesignQulifiedName(rightHandle.getQualifiedName());
+			} else {
+				if (leftHandle != null)
+					setRightDataSetDesignQulifiedName(leftHandle.getQualifiedName());
 			}
-			else
-			{
-				if ( leftHandle != null )
-					setRightDataSetDesignQulifiedName( leftHandle.getQualifiedName( ) );
-			}
-			setLeftDataSetDesignName( jc.getLeftDataSet( ) );
-			setRightDataSetDesignName( jc.getRightDataSet( ) );
-			setJoinType( adaptJoinType( jc.getJoinType( ) ) );
+			setLeftDataSetDesignName(jc.getLeftDataSet());
+			setRightDataSetDesignName(jc.getRightDataSet());
+			setJoinType(adaptJoinType(jc.getJoinType()));
 		}
-		
-		DataAdapterUtil.adaptBaseDataSet( handle, this, adapter );
+
+		DataAdapterUtil.adaptBaseDataSet(handle, this, adapter);
 	}
 
 	/**
 	 * Converts a Model join type (String) to Dte join type enumeration (int)
 	 */
-	public static int adaptJoinType ( String joinType )
-	{
-		if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_INNER ))
-		{
+	public static int adaptJoinType(String joinType) {
+		if (joinType.equals(DesignChoiceConstants.JOIN_TYPE_INNER)) {
 			return IJointDataSetDesign.INNER_JOIN;
-		}
-		else if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_LEFT_OUT ))
-		{
+		} else if (joinType.equals(DesignChoiceConstants.JOIN_TYPE_LEFT_OUT)) {
 			return IJointDataSetDesign.LEFT_OUTER_JOIN;
-		}
-		else if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_RIGHT_OUT ))
-		{
+		} else if (joinType.equals(DesignChoiceConstants.JOIN_TYPE_RIGHT_OUT)) {
 			return IJointDataSetDesign.RIGHT_OUTER_JOIN;
-		}
-		else if( joinType.equals( DesignChoiceConstants.JOIN_TYPE_FULL_OUT ))
-		{
+		} else if (joinType.equals(DesignChoiceConstants.JOIN_TYPE_FULL_OUT)) {
 			return IJointDataSetDesign.FULL_OUTER_JOIN;
 		}
 		return -1;
 	}
-	
+
 	/**
 	 * Converts a Model join operator (String) to DtE joint operator (int)
 	 */
-	public static int adaptJoinOperator( String operator )
-	{
-		if( operator.equals( DesignChoiceConstants.JOIN_OPERATOR_EQALS ))
+	public static int adaptJoinOperator(String operator) {
+		if (operator.equals(DesignChoiceConstants.JOIN_OPERATOR_EQALS))
 			return IJoinCondition.OP_EQ;
 		return -1;
 	}

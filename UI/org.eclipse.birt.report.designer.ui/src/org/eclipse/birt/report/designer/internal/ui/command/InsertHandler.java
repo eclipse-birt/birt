@@ -34,61 +34,51 @@ import org.eclipse.gef.Request;
  * 
  */
 
-public class InsertHandler extends AbstractHandler
-{
+public class InsertHandler extends AbstractHandler {
 
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
 		// should not use getDefaultVariable( context ), but the selection
 		// variable passed.
 		// Object selection = getDefaultVariable( context );
 		SlotHandle slotHandle = null;
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_SLOT_HANDLE );
-		if ( obj != null && obj instanceof SlotHandle )
-		{
+		Object obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.INSERT_SLOT_HANDLE);
+		if (obj != null && obj instanceof SlotHandle) {
 			slotHandle = (SlotHandle) obj;
 		}
-		Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
-		Map extendsData = new HashMap( );
+		Request request = new Request(IRequestConstants.REQUEST_TYPE_INSERT);
+		Map extendsData = new HashMap();
 
-		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle );
+		extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle);
 
-		if ( UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_ACTION_TYPE ) != null )
-		{
-			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_TYPE,
-					UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_ACTION_TYPE ) );
+		if (UIUtil.getVariableFromContext(context, ICommandParameterNameContants.INSERT_ACTION_TYPE) != null) {
+			extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_TYPE,
+					UIUtil.getVariableFromContext(context, ICommandParameterNameContants.INSERT_ACTION_TYPE));
 		}
-		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_POSITION,
-				UIUtil.getVariableFromContext( context, ICommandParameterNameContants.INSERT_ACTION_POSITION ) );
-		request.setExtendedData( extendsData );
-		Object selection = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.INSERT_ACTION_SELECTION );
+		extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_POSITION,
+				UIUtil.getVariableFromContext(context, ICommandParameterNameContants.INSERT_ACTION_POSITION));
+		request.setExtendedData(extendsData);
+		Object selection = UIUtil.getVariableFromContext(context,
+				ICommandParameterNameContants.INSERT_ACTION_SELECTION);
 		boolean bool = false;
-		try
-		{
-			INodeProvider provider = ProviderFactory.createProvider( selection );
-			bool = provider.performRequest( selection, request );
+		try {
+			INodeProvider provider = ProviderFactory.createProvider(selection);
+			bool = provider.performRequest(selection, request);
+		} catch (Exception e) {
+			ExceptionHandler.handle(e);
 		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		if ( bool )
-		{
-			List list = new ArrayList( );
+		if (bool) {
+			List list = new ArrayList();
 
-			list.add( request.getExtendedData( )
-					.get( IRequestConstants.REQUEST_KEY_RESULT ) );
-			ReportRequest r = new ReportRequest( );
-			r.setType( ReportRequest.CREATE_ELEMENT );
+			list.add(request.getExtendedData().get(IRequestConstants.REQUEST_KEY_RESULT));
+			ReportRequest r = new ReportRequest();
+			r.setType(ReportRequest.CREATE_ELEMENT);
 
-			r.setSelectionObject( list );
-			SessionHandleAdapter.getInstance( )
-					.getMediator( )
-					.notifyRequest( r );
+			r.setSelectionObject(list);
+			SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
 
 		}
-		return Boolean.valueOf( bool );
+		return Boolean.valueOf(bool);
 	}
 
 }

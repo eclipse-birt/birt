@@ -19,10 +19,9 @@ import org.eclipse.birt.core.exception.BirtException;
  * the interface used to access the traisent informations of a report document.
  * 
  */
-public interface IReportDocumentInfo
-{
-	List getErrors( );
-	
+public interface IReportDocumentInfo {
+	List getErrors();
+
 	/**
 	 * Open a report document.
 	 * 
@@ -30,7 +29,7 @@ public interface IReportDocumentInfo
 	 * @throws BirtException
 	 */
 	IReportDocument openReportDocument() throws BirtException;
-	
+
 	/**
 	 * Check if the report document is completely read.
 	 * 

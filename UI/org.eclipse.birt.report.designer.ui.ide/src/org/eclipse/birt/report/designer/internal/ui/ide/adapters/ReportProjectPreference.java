@@ -21,8 +21,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.core.runtime.IPath;
 import org.eclipse.core.runtime.Preferences;
 
-public class ReportProjectPreference extends Preferences
-{
+public class ReportProjectPreference extends Preferences {
 
 	protected static final String ENABLE_SPECIAL_SETTINGS = "Enable Special Settings"; //$NON-NLS-1$
 	protected static final String DEFAULT_PREFERENCES_DIRNAME = ".settings"; //$NON-NLS-1$
@@ -30,126 +29,95 @@ public class ReportProjectPreference extends Preferences
 	private IProject project;
 	private String pluginId;
 
-	public ReportProjectPreference( String pluginId, IProject project )
-	{
+	public ReportProjectPreference(String pluginId, IProject project) {
 		this.project = project;
 		this.pluginId = pluginId;
-		load( );
+		load();
 	}
 
-	protected IPath getLocation( )
-	{
-		IPath location = project.getLocation( );
+	protected IPath getLocation() {
+		IPath location = project.getLocation();
 		return location == null ? null
-				: location.append( DEFAULT_PREFERENCES_DIRNAME )
-						.append( pluginId )
-						.addFileExtension( PREFS_FILE_EXTENSION );
+				: location.append(DEFAULT_PREFERENCES_DIRNAME).append(pluginId).addFileExtension(PREFS_FILE_EXTENSION);
 	}
 
-	protected boolean checkSettingLocation( )
-	{
-		IPath location = project.getLocation( );
-		location = location == null ? null
-				: location.append( DEFAULT_PREFERENCES_DIRNAME );
-		if ( location == null )
+	protected boolean checkSettingLocation() {
+		IPath location = project.getLocation();
+		location = location == null ? null : location.append(DEFAULT_PREFERENCES_DIRNAME);
+		if (location == null)
 			return false;
-		else
-		{
-			File setting = location.toFile( );
-			if ( setting.exists( ) && setting.isFile( ) )
-				setting.delete( );
-			if ( !setting.exists( ) )
-				setting.mkdir( );
-			if ( setting.isDirectory( ) && setting.isDirectory( ) )
+		else {
+			File setting = location.toFile();
+			if (setting.exists() && setting.isFile())
+				setting.delete();
+			if (!setting.exists())
+				setting.mkdir();
+			if (setting.isDirectory() && setting.isDirectory())
 				return true;
 			else
 				return false;
 		}
 	}
 
-	public boolean delete( )
-	{
-		File file = getLocation( ).toFile( );
-		if ( file.exists( ) )
-			return file.delete( );
+	public boolean delete() {
+		File file = getLocation().toFile();
+		if (file.exists())
+			return file.delete();
 		return true;
 	}
 
-	public void load( )
-	{
-		if ( getLocation( ) != null )
-		{
-			File file = getLocation( ).toFile( );
-			if ( file.exists( ) )
-			{
+	public void load() {
+		if (getLocation() != null) {
+			File file = getLocation().toFile();
+			if (file.exists()) {
 				FileInputStream fis = null;
-				try
-				{
-					fis = new FileInputStream( file );
-					load( fis );
+				try {
+					fis = new FileInputStream(file);
+					load(fis);
 
-				}
-				catch ( Exception e )
-				{
-					ExceptionUtil.handle( e );
-				}
-				finally
-				{
-					try
-					{
-						if ( fis != null )
-							fis.close( );
-					}
-					catch ( IOException e )
-					{
+				} catch (Exception e) {
+					ExceptionUtil.handle(e);
+				} finally {
+					try {
+						if (fis != null)
+							fis.close();
+					} catch (IOException e) {
 					}
 				}
 			}
 		}
 	}
 
-	public boolean save( )
-	{
-		if ( this.propertyNames( ) == null || this.propertyNames( ).length == 0 )
-			return delete( );
+	public boolean save() {
+		if (this.propertyNames() == null || this.propertyNames().length == 0)
+			return delete();
 		boolean flag = false;
-		if ( getLocation( ) != null && checkSettingLocation( ) )
-		{
+		if (getLocation() != null && checkSettingLocation()) {
 			FileOutputStream fos = null;
-			try
-			{
-				fos = new FileOutputStream( getLocation( ).toFile( ) );
-				store( fos, null );
+			try {
+				fos = new FileOutputStream(getLocation().toFile());
+				store(fos, null);
 				flag = true;
-			}
-			catch ( Exception e )
-			{
-				ExceptionUtil.handle( e );
+			} catch (Exception e) {
+				ExceptionUtil.handle(e);
 				flag = false;
-			}
-			finally
-			{
-				try
-				{
-					if ( fos != null )
-						fos.close( );
-				}
-				catch ( IOException e )
-				{
+			} finally {
+				try {
+					if (fos != null)
+						fos.close();
+				} catch (IOException e) {
 				}
 			}
 		}
 		return flag;
 	}
 
-	public boolean hasSpecialSettings( )
-	{
-		return this.getBoolean( ENABLE_SPECIAL_SETTINGS );
+	public boolean hasSpecialSettings() {
+		return this.getBoolean(ENABLE_SPECIAL_SETTINGS);
 	}
 
-	public void setEnableSpecialSettings( boolean enable )
-	{
-		setValue( ENABLE_SPECIAL_SETTINGS, enable );
+	public void setEnableSpecialSettings(boolean enable) {
+		setValue(ENABLE_SPECIAL_SETTINGS, enable);
 	}
 
 }

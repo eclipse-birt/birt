@@ -23,11 +23,7 @@ import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
  * 
  */
 
-public abstract class ReferencableStyledElement extends StyledElement
-		implements
-			IReferencable,
-			IReferencableElement
-{
+public abstract class ReferencableStyledElement extends StyledElement implements IReferencable, IReferencableElement {
 
 	private IReferencableElement adapter = null;
 
@@ -35,22 +31,19 @@ public abstract class ReferencableStyledElement extends StyledElement
 	 * Default constructor.
 	 */
 
-	public ReferencableStyledElement( )
-	{
-		adapter = new ReferenceableElementAdapter( this );
+	public ReferencableStyledElement() {
+		adapter = new ReferenceableElementAdapter(this);
 	}
 
 	/**
 	 * Constructs the ReferenceableElement with the element name.
 	 * 
-	 * @param theName
-	 *            the element name
+	 * @param theName the element name
 	 */
 
-	public ReferencableStyledElement( String theName )
-	{
-		super( theName );
-		adapter = new ReferenceableElementAdapter( this );
+	public ReferencableStyledElement(String theName) {
+		super(theName);
+		adapter = new ReferenceableElementAdapter(this);
 	}
 
 	/*
@@ -61,65 +54,53 @@ public abstract class ReferencableStyledElement extends StyledElement
 	 * .birt.report.model.elements.strategy.CopyPolicy)
 	 */
 
-	public Object doClone( CopyPolicy policy )
-			throws CloneNotSupportedException
-	{
-		ReferencableStyledElement element = (ReferencableStyledElement) super
-				.doClone( policy );
-		element.adapter = (IReferencableElement) ( (ReferenceableElementAdapter) adapter )
-				.clone( );
+	public Object doClone(CopyPolicy policy) throws CloneNotSupportedException {
+		ReferencableStyledElement element = (ReferencableStyledElement) super.doClone(policy);
+		element.adapter = (IReferencableElement) ((ReferenceableElementAdapter) adapter).clone();
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencableElement#addClient(org
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#addClient(org
 	 * .eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
 
-	public void addClient( DesignElement client, String propName )
-	{
-		adapter.addClient( client, propName );
+	public void addClient(DesignElement client, String propName) {
+		adapter.addClient(client, propName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org
 	 * .eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public void dropClient( DesignElement client )
-	{
-		adapter.dropClient( client, (String) null );
+	public void dropClient(DesignElement client) {
+		adapter.dropClient(client, (String) null);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org
 	 * .eclipse.birt.report.model.core.DesignElement, java.lang.String)
 	 */
 
-	public void dropClient( DesignElement client, String propName )
-	{
-		adapter.dropClient( client, propName );
+	public void dropClient(DesignElement client, String propName) {
+		adapter.dropClient(client, propName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencableElement#getClientList()
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#getClientList()
 	 */
 
-	public List<BackRef> getClientList( )
-	{
-		return adapter.getClientList( );
+	public List<BackRef> getClientList() {
+		return adapter.getClientList();
 	}
 
 	/*
@@ -131,43 +112,35 @@ public abstract class ReferencableStyledElement extends StyledElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencableElement#hasReferences()
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#hasReferences()
 	 */
 
-	public boolean hasReferences( )
-	{
-		return adapter.hasReferences( );
+	public boolean hasReferences() {
+		return adapter.hasReferences();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencableElement#broadcast(org
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#broadcast(org
 	 * .eclipse.birt.report.model.api.activity.NotificationEvent,
 	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
-	public void broadcast( NotificationEvent ev, Module module )
-	{
-		super.broadcast( ev, module );
-		broadcastToClients( ev, module );
+	public void broadcast(NotificationEvent ev, Module module) {
+		super.broadcast(ev, module);
+		broadcastToClients(ev, module);
 	}
 
 	/**
 	 * Broadcasts the event to clients.
 	 * 
-	 * @param ev
-	 *            the event to broadcast
-	 * @param module
-	 *            the module
+	 * @param ev     the event to broadcast
+	 * @param module the module
 	 */
 
-	protected void broadcastToClients( NotificationEvent ev, Module module )
-	{
-		( (ReferenceableElementAdapter) adapter ).broadcastToClients( ev,
-				module );
+	protected void broadcastToClients(NotificationEvent ev, Module module) {
+		((ReferenceableElementAdapter) adapter).broadcastToClients(ev, module);
 	}
 
 	/*
@@ -177,48 +150,41 @@ public abstract class ReferencableStyledElement extends StyledElement
 	 * updateClientReferences()
 	 */
 
-	public void updateClientReferences( )
-	{
-		adapter.updateClientReferences( );
+	public void updateClientReferences() {
+		adapter.updateClientReferences();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencableElement#clearClients()
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#clearClients()
 	 */
 
-	public void clearClients( )
-	{
-		adapter.clearClients( );
+	public void clearClients() {
+		adapter.clearClients();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencableElement#addClient(org
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#addClient(org
 	 * .eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.CachedMemberRef,
 	 * org.eclipse.birt.report.model.core.Structure)
 	 */
-	public void addClient( Structure struct, String memberName )
-	{
-		adapter.addClient( struct, memberName );
+	public void addClient(Structure struct, String memberName) {
+		adapter.addClient(struct, memberName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org
+	 * @see org.eclipse.birt.report.model.core.IReferencableElement#dropClient(org
 	 * .eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.CachedMemberRef,
 	 * org.eclipse.birt.report.model.core.Structure)
 	 */
-	public void dropClient( Structure struct, String memberName )
-	{
-		adapter.dropClient( struct, memberName );
+	public void dropClient(Structure struct, String memberName) {
+		adapter.dropClient(struct, memberName);
 	}
 }

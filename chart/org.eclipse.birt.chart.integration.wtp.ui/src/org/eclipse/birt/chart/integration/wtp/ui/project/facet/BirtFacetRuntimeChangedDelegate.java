@@ -22,8 +22,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
  * Delegate class for invoke "CHANGED" event
  * 
  */
-public final class BirtFacetRuntimeChangedDelegate implements IDelegate
-{
+public final class BirtFacetRuntimeChangedDelegate implements IDelegate {
 
 	/**
 	 * Invoke "CHANGED" event for project facet
@@ -32,34 +31,26 @@ public final class BirtFacetRuntimeChangedDelegate implements IDelegate
 	 *      org.eclipse.wst.common.project.facet.core.IProjectFacetVersion,
 	 *      java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void execute( IProject project, IProjectFacetVersion fv,
-			Object config, IProgressMonitor monitor ) throws CoreException
-	{
-		if ( monitor != null )
-		{
-			monitor.beginTask( "", 1 ); //$NON-NLS-1$
+	public void execute(IProject project, IProjectFacetVersion fv, Object config, IProgressMonitor monitor)
+			throws CoreException {
+		if (monitor != null) {
+			monitor.beginTask("", 1); //$NON-NLS-1$
 		}
 
-		try
-		{
-			ClasspathHelper.removeClasspathEntries( project, fv );
+		try {
+			ClasspathHelper.removeClasspathEntries(project, fv);
 
-			if ( !ClasspathHelper.addClasspathEntries( project, fv ) )
-			{
+			if (!ClasspathHelper.addClasspathEntries(project, fv)) {
 				// TODO: Support the no runtime case.
 
 			}
 
-			if ( monitor != null )
-			{
-				monitor.worked( 1 );
+			if (monitor != null) {
+				monitor.worked(1);
 			}
-		}
-		finally
-		{
-			if ( monitor != null )
-			{
-				monitor.done( );
+		} finally {
+			if (monitor != null) {
+				monitor.done();
 			}
 		}
 

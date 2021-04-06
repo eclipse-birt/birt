@@ -16,8 +16,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * Create and manage all tool items in toolbar.
  */
-public class Tools
-{
+public class Tools {
 
 	public int id;
 	public String name;
@@ -28,28 +27,24 @@ public class Tools
 	public Object data;
 	private boolean bEnabled;
 
-	public Tools( int id, String name, String group, int type )
-	{
-		super( );
+	public Tools(int id, String name, String group, int type) {
+		super();
 		this.id = id;
 		this.name = name;
 		this.group = group;
 		this.type = type;
 	}
 
-	public Tools( int id, String name, String group, int type, Object data )
-	{
-		this( id, name, group, type );
+	public Tools(int id, String name, String group, int type, Object data) {
+		this(id, name, group, type);
 		this.data = data;
 	}
-	
-	public void setEnabled( boolean bEnabled )
-	{
+
+	public void setEnabled(boolean bEnabled) {
 		this.bEnabled = bEnabled;
 	}
-	
-	public boolean isEnabled( )
-	{
+
+	public boolean isEnabled() {
 		return this.bEnabled;
 	}
 }

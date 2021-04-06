@@ -17,186 +17,148 @@ import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
-public class MarignSection extends Section
-{
+public class MarignSection extends Section {
 
 	protected MarignPropertyDescriptor marign;
 
-	public MarignSection( String labelText, Composite parent,
-			boolean isFormStyle )
-	{
-		super( labelText, parent, isFormStyle );
+	public MarignSection(String labelText, Composite parent, boolean isFormStyle) {
+		super(labelText, parent, isFormStyle);
 		// TODO Auto-generated constructor stub
 	}
 
-	public void createSection( )
-	{
-		getLabelControl( parent );
-		getMarignControl( parent );
-		getGridPlaceholder( parent );
+	public void createSection() {
+		getLabelControl(parent);
+		getMarignControl(parent);
+		getGridPlaceholder(parent);
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) marign.getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - 1 - placeholder;
+	public void layout() {
+		GridData gd = (GridData) marign.getControl().getLayoutData();
+		if (getLayoutNum() > 0)
+			gd.horizontalSpan = getLayoutNum() - 1 - placeholder;
 		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- 1
-					- placeholder;
-		if ( width > -1 )
-		{
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 1 - placeholder;
+		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		}
-		else
+		} else
 			gd.grabExcessHorizontalSpace = fillMarign;
 	}
 
-	public MarignPropertyDescriptor getMarignControl( )
-	{
+	public MarignPropertyDescriptor getMarignControl() {
 		return marign;
 	}
 
-	protected MarignPropertyDescriptor getMarignControl( Composite parent )
-	{
-		if ( marign == null )
-		{
-			marign = DescriptorToolkit.createMarignPropertyDescriptor( isFormStyle );
-			if ( getProvider( ) != null )
-				marign.setDescriptorProvider( getProvider( ) );
-			marign.createControl( parent );
-			marign.getControl( ).setLayoutData( new GridData( ) );
-			marign.getControl( ).addDisposeListener( new DisposeListener( ) {
+	protected MarignPropertyDescriptor getMarignControl(Composite parent) {
+		if (marign == null) {
+			marign = DescriptorToolkit.createMarignPropertyDescriptor(isFormStyle);
+			if (getProvider() != null)
+				marign.setDescriptorProvider(getProvider());
+			marign.createControl(parent);
+			marign.getControl().setLayoutData(new GridData());
+			marign.getControl().addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				public void widgetDisposed(DisposeEvent event) {
 					marign = null;
 				}
-			} );
-			
-			setAccessible(marign.getControl( ));
-		}
-		else
-		{
-			checkParent( marign.getControl( ), parent );
+			});
+
+			setAccessible(marign.getControl());
+		} else {
+			checkParent(marign.getControl(), parent);
 		}
 		return marign;
 	}
-	
-	private void setAccessible (final Control control)
-	{
-		if ( control instanceof Composite )
-		{
-			Composite parent = (Composite)control;
-			if ( parent != null && parent.getTabList( ) != null )
-			{
-				Control[] children = parent.getTabList( );
-				for ( int i = 0; i < children.length; i++ )
-				{
-					setAccessible( children[i] );
+
+	private void setAccessible(final Control control) {
+		if (control instanceof Composite) {
+			Composite parent = (Composite) control;
+			if (parent != null && parent.getTabList() != null) {
+				Control[] children = parent.getTabList();
+				for (int i = 0; i < children.length; i++) {
+					setAccessible(children[i]);
 				}
 			}
-		}
-		else
-		{
-			control.getAccessible( )
-					.addAccessibleListener( new AccessibleAdapter( ) {
+		} else {
+			control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-						public void getName( AccessibleEvent e )
-						{
-							Label lbl = getLabelControl( );
-							if ( lbl != null )
-							{
-								if (control instanceof Text)
-								{
-									e.result = UIUtil.stripMnemonic( getLabelControl( ).getText( ))
-											+ ((Text) control).getText();
-								}
-							}
+				public void getName(AccessibleEvent e) {
+					Label lbl = getLabelControl();
+					if (lbl != null) {
+						if (control instanceof Text) {
+							e.result = UIUtil.stripMnemonic(getLabelControl().getText()) + ((Text) control).getText();
 						}
+					}
+				}
 
-					} );
+			});
 		}
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( marign != null )
-			marign.setDescriptorProvider( provider );
+		if (marign != null)
+			marign.setDescriptorProvider(provider);
 	}
 
 	private int width = -1;
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public void setInput( Object input )
-	{
-		assert ( input != null );
-		marign.setInput( input );
+	public void setInput(Object input) {
+		assert (input != null);
+		marign.setInput(input);
 	}
 
 	private boolean fillMarign = false;
 
-	public boolean isFillMarign( )
-	{
+	public boolean isFillMarign() {
 		return fillMarign;
 	}
 
-	public void setFillMarign( boolean fillMarign )
-	{
+	public void setFillMarign(boolean fillMarign) {
 		this.fillMarign = fillMarign;
 	}
 
-	public void load( )
-	{
-		if ( marign != null && !marign.getControl( ).isDisposed( ) )
-			marign.load( );
+	public void load() {
+		if (marign != null && !marign.getControl().isDisposed())
+			marign.load();
 	}
 
-	public void reset( )
-	{
-		if ( marign != null && !marign.getControl( ).isDisposed( ) )
-		{
-			marign.reset( );
+	public void reset() {
+		if (marign != null && !marign.getControl().isDisposed()) {
+			marign.reset();
 		}
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( displayLabel != null )
-			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
-		if ( marign != null )
-			marign.setHidden( isHidden );
-		if ( placeholderLabel != null )
-			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
+	public void setHidden(boolean isHidden) {
+		if (displayLabel != null)
+			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
+		if (marign != null)
+			marign.setHidden(isHidden);
+		if (placeholderLabel != null)
+			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayLabel != null )
-			displayLabel.setVisible( isVisible );
-		if ( marign != null )
-			marign.setVisible( isVisible );
-		if ( placeholderLabel != null )
-			placeholderLabel.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		if (displayLabel != null)
+			displayLabel.setVisible(isVisible);
+		if (marign != null)
+			marign.setVisible(isVisible);
+		if (placeholderLabel != null)
+			placeholderLabel.setVisible(isVisible);
 	}
 
 }

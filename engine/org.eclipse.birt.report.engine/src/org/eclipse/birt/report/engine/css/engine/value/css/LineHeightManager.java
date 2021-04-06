@@ -49,8 +49,7 @@ public class LineHeightManager extends AbstractLengthManager {
 		return CSSValueConstants.NORMAL_VALUE;
 	}
 
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_IDENT:
 			String s = lu.getStringValue().toLowerCase().intern();
@@ -60,16 +59,15 @@ public class LineHeightManager extends AbstractLengthManager {
 			}
 			return (Value) v;
 		}
-		return super.createValue( lu, engine );
+		return super.createValue(lu, engine);
 //		throw createInvalidLexicalUnitDOMException(lu.getLexicalUnitType());
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	public Value computeValue(CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value) {
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
 			switch (value.getPrimitiveType()) {
 			case CSSPrimitiveValue.CSS_IDENT:
@@ -81,8 +79,7 @@ public class LineHeightManager extends AbstractLengthManager {
 				Value fontSize = (Value) cs.getProperty(IStyle.STYLE_FONT_SIZE);
 				assert fontSize != null;
 				float fs = fontSize.getFloatValue();
-					return new FloatValue( fontSize.getPrimitiveType( ), fs
-							* scale / 100.0f );
+				return new FloatValue(fontSize.getPrimitiveType(), fs * scale / 100.0f);
 			}
 		}
 		return super.computeValue(elt, engine, idx, value);

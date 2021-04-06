@@ -21,98 +21,78 @@ import org.eclipse.birt.report.engine.layout.pdf.font.FontHandler;
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 import org.eclipse.birt.report.engine.layout.pdf.util.PropertyUtil;
 
-public class TemplateLayout extends Layout
-{
+public class TemplateLayout extends Layout {
 
-	public TemplateLayout( LayoutEngineContext context, ContainerLayout parent,
-			IContent content )
-	{
-		super( context, parent, content );
+	public TemplateLayout(LayoutEngineContext context, ContainerLayout parent, IContent content) {
+		super(context, parent, content);
 	}
 
-	protected void closeLayout( )
-	{
+	protected void closeLayout() {
 		// TODO Auto-generated method stub
 
 	}
 
-	protected void initialize( )
-	{
+	protected void initialize() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void layout( ) throws BirtException
-	{
+	public void layout() throws BirtException {
 		boolean isInline = parent instanceof IInlineStackingLayout;
-		if ( isInline )
-		{
-			if ( parent instanceof LineLayout )
-			{
-				ContainerLayout inlineContainer = new InlineContainerLayout(
-						context, parent, content );
-				inlineContainer.initialize( );
-				addTemplateArea( inlineContainer, true );
-				inlineContainer.closeLayout( );
+		if (isInline) {
+			if (parent instanceof LineLayout) {
+				ContainerLayout inlineContainer = new InlineContainerLayout(context, parent, content);
+				inlineContainer.initialize();
+				addTemplateArea(inlineContainer, true);
+				inlineContainer.closeLayout();
+			} else {
+				addTemplateArea(parent, true);
 			}
-			else
-			{
-				addTemplateArea( parent, true );
-			}
-		}
-		else
-		{
-			assert ( parent instanceof BlockStackingLayout );
-			boolean inlineElement = PropertyUtil.isInlineElement( content );
-			if(!inlineElement)
-			{
+		} else {
+			assert (parent instanceof BlockStackingLayout);
+			boolean inlineElement = PropertyUtil.isInlineElement(content);
+			if (!inlineElement) {
 				BlockTextLayout tLayout = new BlockTextLayout(context, parent, content);
-				tLayout.initialize( );
-				LineLayout line = new LineLayout( context, tLayout );
-				line.initialize( );
-				addTemplateArea( line, false );
-				line.closeLayout( );
+				tLayout.initialize();
+				LineLayout line = new LineLayout(context, tLayout);
+				line.initialize();
+				addTemplateArea(line, false);
+				line.closeLayout();
 				tLayout.closeLayout();
 			}
 		}
 
 	}
-	
-	protected void addTemplateArea( ContainerLayout parent, boolean isInline )
-	{
-		IAutoTextContent autoText = (IAutoTextContent) content;	
-		TemplateArea templateArea = (TemplateArea) AreaFactory
-				.createTemplateArea( autoText );
-		
+
+	protected void addTemplateArea(ContainerLayout parent, boolean isInline) {
+		IAutoTextContent autoText = (IAutoTextContent) content;
+		TemplateArea templateArea = (TemplateArea) AreaFactory.createTemplateArea(autoText);
+
 		// get max available width
-		int maxWidth = parent.getCurrentMaxContentWidth( );
-		templateArea.setAllocatedWidth( maxWidth - parent.currentContext.currentIP );
-		int maxAvaWidth = templateArea.getWidth( );
+		int maxWidth = parent.getCurrentMaxContentWidth();
+		templateArea.setAllocatedWidth(maxWidth - parent.currentContext.currentIP);
+		int maxAvaWidth = templateArea.getWidth();
 		// get user defined width
-		int width = getDimensionValue( autoText.getWidth( ), maxWidth );
-		
-		if ( width == 0 )
-		{
+		int width = getDimensionValue(autoText.getWidth(), maxWidth);
+
+		if (width == 0) {
 			// the default content width
-			int defaultWidth = getDimensionValue( templateArea.getStyle( ).getFontSize( ) ) * 4;
-			width = Math.min( maxAvaWidth, defaultWidth );
-		}
-		else if ( width > maxAvaWidth )
-		{
+			int defaultWidth = getDimensionValue(templateArea.getStyle().getFontSize()) * 4;
+			width = Math.min(maxAvaWidth, defaultWidth);
+		} else if (width > maxAvaWidth) {
 			width = maxAvaWidth;
 		}
-		templateArea.setWidth( width );
-		context.setTotalPageTemplateWidth( templateArea.getContentWidth( ) );
-		
-		FontHandler handler = new FontHandler( context.getFontManager( ),
-				autoText, false );
-		FontInfo fontInfo = handler.getFontInfo( );
-		
-		int height = getDimensionValue( autoText.getHeight( ), 0 );
-		templateArea.setContentHeight( Math.max( 
-				( int )( fontInfo.getWordHeight( )* PDFConstants.LAYOUT_TO_PDF_RATIO ), height ) );
-		
-		templateArea.setBaseLine( fontInfo.getBaseline( ) + templateArea.getContentY( ) );	
-		parent.addToRoot( templateArea );
+		templateArea.setWidth(width);
+		context.setTotalPageTemplateWidth(templateArea.getContentWidth());
+
+		FontHandler handler = new FontHandler(context.getFontManager(), autoText, false);
+		FontInfo fontInfo = handler.getFontInfo();
+
+		int height = getDimensionValue(autoText.getHeight(), 0);
+		templateArea.setContentHeight(
+				Math.max((int) (fontInfo.getWordHeight() * PDFConstants.LAYOUT_TO_PDF_RATIO), height));
+
+		templateArea.setBaseLine(fontInfo.getBaseline() + templateArea.getContentY());
+		parent.addToRoot(templateArea);
 	}
 }

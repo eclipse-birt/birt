@@ -21,28 +21,27 @@ import org.eclipse.emf.common.util.EList;
  * This helper class is used to update chart model or return model properties.
  */
 
-public interface IChartModelHelper
-{
+public interface IChartModelHelper {
 
 	/**
 	 * Updates extended properties during model and UI initialization
 	 * 
 	 * @param properties
 	 */
-	void updateExtendedProperties( EList<ExtendedProperty> properties );
+	void updateExtendedProperties(EList<ExtendedProperty> properties);
 
 	/**
 	 * Gets built-in extended properties which can't be removed in UI.
 	 * 
 	 * @return extended properties which can't be removed in UI
 	 */
-	List<String> getBuiltInExtendedProperties( );
+	List<String> getBuiltInExtendedProperties();
 
 	/**
 	 * Create an instance of ExpressionCodec.
 	 * 
 	 * @return the ExpressionCodec
 	 */
-	ExpressionCodec createExpressionCodec( );
+	ExpressionCodec createExpressionCodec();
 
 }

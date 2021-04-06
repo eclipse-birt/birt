@@ -22,41 +22,30 @@ import com.ibm.icu.util.UResourceBundle;
  * 
  */
 
-public class Messages
-{
+public class Messages {
 
 	private static final String BUNDLE_NAME = "org.eclipse.birt.core.ui.i18n.nls"; //$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( BUNDLE_NAME,
-			ULocale.getDefault( ),
-			Messages.class.getClassLoader( ) );
+	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance(BUNDLE_NAME,
+			ULocale.getDefault(), Messages.class.getClassLoader());
 
-	private Messages( )
-	{
+	private Messages() {
 	}
 
-	public static String getString( String key )
-	{
+	public static String getString(String key) {
 		// TODO Auto-generated method stub
-		try
-		{
-			return RESOURCE_BUNDLE.getString( key );
-		}
-		catch ( MissingResourceException e )
-		{
+		try {
+			return RESOURCE_BUNDLE.getString(key);
+		} catch (MissingResourceException e) {
 			return '!' + key + '!';
 		}
 	}
 
-	public static String getFormattedString( String key, Object[] arguments )
-	{
-		return MessageFormat.format( getString( key ), arguments );
+	public static String getFormattedString(String key, Object[] arguments) {
+		return MessageFormat.format(getString(key), arguments);
 	}
 
-	public static String getFormattedString( String key, String argument )
-	{
-		return MessageFormat.format( getString( key ), new Object[]{
-			argument
-		} );
+	public static String getFormattedString(String key, String argument) {
+		return MessageFormat.format(getString(key), new Object[] { argument });
 	}
 }

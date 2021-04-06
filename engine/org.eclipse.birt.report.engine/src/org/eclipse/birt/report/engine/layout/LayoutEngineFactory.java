@@ -13,24 +13,15 @@ package org.eclipse.birt.report.engine.layout;
 
 import org.eclipse.birt.report.engine.layout.html.HTMLReportLayoutEngine;
 
-public class LayoutEngineFactory
-{
-	public static IReportLayoutEngine createLayoutEngine( String paginationType )
-	{
-		/*if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( paginationType ) ) 
-		{
-			try
-			{
-				Class clazz = Class
-						.forName( "org.eclipse.birt.report.engine.layout.pdf.PDFReportLayoutEngine" ); //$NON-NLS-1$
-				Object engine = clazz.newInstance( );
-				return (IReportLayoutEngine) engine;
-			}
-			catch ( Exception ex )
-			{
-			}
-			return null;
-		}*/
-		return new HTMLReportLayoutEngine( );
+public class LayoutEngineFactory {
+	public static IReportLayoutEngine createLayoutEngine(String paginationType) {
+		/*
+		 * if ( ExtensionManager.PAPER_SIZE_PAGINATION.equals( paginationType ) ) { try
+		 * { Class clazz = Class .forName(
+		 * "org.eclipse.birt.report.engine.layout.pdf.PDFReportLayoutEngine" );
+		 * //$NON-NLS-1$ Object engine = clazz.newInstance( ); return
+		 * (IReportLayoutEngine) engine; } catch ( Exception ex ) { } return null; }
+		 */
+		return new HTMLReportLayoutEngine();
 	}
 }

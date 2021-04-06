@@ -1,50 +1,47 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
-
-public interface ICellInstance extends IReportElementInstance
-{
+public interface ICellInstance extends IReportElementInstance {
 
 	/**
 	 * Get the column span
 	 * 
 	 * @return the column span
 	 */
-	int getColSpan( );
+	int getColSpan();
 
 	/**
 	 * Set the column span
 	 * 
-	 * @param colSpan,
-	 *            the column span
+	 * @param colSpan, the column span
 	 */
-	void setColSpan( int colSpan );
+	void setColSpan(int colSpan);
 
 	/**
 	 * @return Returns the rowSpan.
 	 */
-	int getRowSpan( );
+	int getRowSpan();
 
 	/**
 	 * Set the rowspan
 	 * 
-	 * @param rowSpan,
-	 *            the row span
+	 * @param rowSpan, the row span
 	 */
-	void setRowSpan( int rowSpan );
+	void setRowSpan(int rowSpan);
 
 	/**
 	 * Get the column number
 	 * 
 	 * @return the column number
 	 */
-	int getColumn( );
-	
+	int getColumn();
+
 	/**
 	 * Get the evaluated expression for this cell
-	 * @throws ScriptException 
+	 * 
+	 * @throws ScriptException
 	 */
 	/*
-	Object getData( ) throws ScriptException;
-	*/
+	 * Object getData( ) throws ScriptException;
+	 */
 
 }

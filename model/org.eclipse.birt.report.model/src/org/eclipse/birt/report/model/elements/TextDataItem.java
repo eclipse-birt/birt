@@ -32,38 +32,34 @@ import org.eclipse.birt.report.model.elements.interfaces.ITextDataItemModel;
  * 
  */
 
-public class TextDataItem extends ReportItem implements ITextDataItemModel
-{
+public class TextDataItem extends ReportItem implements ITextDataItemModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public TextDataItem( )
-	{
+	public TextDataItem() {
 	}
 
 	/**
 	 * Constructs the multi-line data with an optional name.
 	 * 
-	 * @param theName
-	 *            optional item name
+	 * @param theName optional item name
 	 */
 
-	public TextDataItem( String theName )
-	{
-		super( theName );
+	public TextDataItem(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitTextDataItem( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitTextDataItem(this);
 
 	}
 
@@ -73,36 +69,33 @@ public class TextDataItem extends ReportItem implements ITextDataItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.TEXT_DATA_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public TextDataHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new TextDataHandle( module, this );
+	public TextDataHandle handle(Module module) {
+		if (handle == null) {
+			handle = new TextDataHandle(module, this);
 		}
 		return (TextDataHandle) handle;
 	}
@@ -110,19 +103,17 @@ public class TextDataItem extends ReportItem implements ITextDataItemModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.eclipse.
+	 * birt.report.model.elements.ReportDesign, int)
 	 */
 
-	public String getDisplayLabel( Module module, int level )
-	{
-		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == IDesignElementModel.FULL_LABEL )
-		{
-			String valueExpr = handle( module ).getValueExpr( );
-			if ( !StringUtil.isBlank( valueExpr ) )
-			{
-				valueExpr = limitStringLength( valueExpr );
+	public String getDisplayLabel(Module module, int level) {
+		String displayLabel = super.getDisplayLabel(module, level);
+		if (level == IDesignElementModel.FULL_LABEL) {
+			String valueExpr = handle(module).getValueExpr();
+			if (!StringUtil.isBlank(valueExpr)) {
+				valueExpr = limitStringLength(valueExpr);
 				displayLabel += "(" + valueExpr + ")"; //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
@@ -132,19 +123,18 @@ public class TextDataItem extends ReportItem implements ITextDataItemModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public List validate( Module module )
-	{
-		List list = super.validate( module );
+	public List validate(Module module) {
+		List list = super.validate(module);
 
-		Object valueExpr = getProperty( module, VALUE_EXPR_PROP );
-		if ( valueExpr == null )
-		{
-			list.add( new PropertyValueException( this, VALUE_EXPR_PROP,
-					valueExpr,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		Object valueExpr = getProperty(module, VALUE_EXPR_PROP);
+		if (valueExpr == null) {
+			list.add(new PropertyValueException(this, VALUE_EXPR_PROP, valueExpr,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED));
 		}
 
 		return list;

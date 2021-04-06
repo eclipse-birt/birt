@@ -23,8 +23,7 @@ import javax.servlet.ServletResponse;
  * Mock a RequestDispatcher for Viewer UnitText
  * 
  */
-public class RequestDispatcherSimulator implements RequestDispatcher
-{
+public class RequestDispatcherSimulator implements RequestDispatcher {
 
 	/**
 	 * Forward Servlet
@@ -36,8 +35,7 @@ public class RequestDispatcherSimulator implements RequestDispatcher
 	 * 
 	 * @param target
 	 */
-	public RequestDispatcherSimulator( Servlet target )
-	{
+	public RequestDispatcherSimulator(Servlet target) {
 		this.target = target;
 	}
 
@@ -45,24 +43,20 @@ public class RequestDispatcherSimulator implements RequestDispatcher
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.RequestDispatcher#forward(javax.servlet.ServletRequest,
-	 *      javax.servlet.ServletResponse)
+	 * javax.servlet.ServletResponse)
 	 */
-	public void forward( ServletRequest request, ServletResponse response )
-			throws ServletException, IOException
-	{
-		if ( target != null )
-			target.service( request, response );
+	public void forward(ServletRequest request, ServletResponse response) throws ServletException, IOException {
+		if (target != null)
+			target.service(request, response);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.RequestDispatcher#include(javax.servlet.ServletRequest,
-	 *      javax.servlet.ServletResponse)
+	 * javax.servlet.ServletResponse)
 	 */
-	public void include( ServletRequest request, ServletResponse response )
-			throws ServletException, IOException
-	{	
+	public void include(ServletRequest request, ServletResponse response) throws ServletException, IOException {
 	}
 
 	/**
@@ -70,11 +64,10 @@ public class RequestDispatcherSimulator implements RequestDispatcher
 	 * 
 	 * @return
 	 */
-	public String getForward( )
-	{
-		if ( target == null )
+	public String getForward() {
+		if (target == null)
 			return null;
 
-		return target.getClass( ).toString( );
+		return target.getClass().toString();
 	}
 }

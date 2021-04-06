@@ -18,8 +18,7 @@ import org.eclipse.birt.core.exception.BirtException;
 /**
  * Exception class for Chart framework.
  */
-public class ChartException extends BirtException
-{
+public class ChartException extends BirtException {
 
 	private static final long serialVersionUID = 1L;
 
@@ -109,7 +108,7 @@ public class ChartException extends BirtException
 	 * Exception type for all null values error.
 	 */
 	public static final int ALL_NULL_DATASET = 20;
-	
+
 	public static final int INVALID_DATA_TYPE = 21;
 	/**
 	 * Exception type for Validation error.
@@ -123,16 +122,11 @@ public class ChartException extends BirtException
 	 * 
 	 * @deprecated use {@link #ChartException(String, int, Throwable)} instead.
 	 */
-	public ChartException( final int type, Throwable cause )
-	{
-		super( getResourceKey( cause ),
-				getArguments( cause ),
-				getResourceBundle( cause ),
-				cause );
+	public ChartException(final int type, Throwable cause) {
+		super(getResourceKey(cause), getArguments(cause), getResourceBundle(cause), cause);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -142,13 +136,11 @@ public class ChartException extends BirtException
 	 * 
 	 * @deprecated use {@link #ChartException(String, int, String)} instead.
 	 */
-	public ChartException( final int type, String errorMsg )
-	{
-		super( errorMsg, null );
+	public ChartException(final int type, String errorMsg) {
+		super(errorMsg, null);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -156,18 +148,14 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 * 
-	 * @deprecated use
-	 *             {@link #ChartException(String, int, String, ResourceBundle)}
+	 * @deprecated use {@link #ChartException(String, int, String, ResourceBundle)}
 	 *             instead.
 	 */
-	public ChartException( final int type, String sResourceKey,
-			ResourceBundle rb )
-	{
-		super( sResourceKey, rb );
+	public ChartException(final int type, String sResourceKey, ResourceBundle rb) {
+		super(sResourceKey, rb);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -179,14 +167,11 @@ public class ChartException extends BirtException
 	 *             {@link #ChartException(String, int, String, Object[], ResourceBundle)}
 	 *             instead.
 	 */
-	public ChartException( final int type, String sResourceKey,
-			Object[] oaArgs, ResourceBundle rb )
-	{
-		super( sResourceKey, oaArgs, rb );
+	public ChartException(final int type, String sResourceKey, Object[] oaArgs, ResourceBundle rb) {
+		super(sResourceKey, oaArgs, rb);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -198,14 +183,11 @@ public class ChartException extends BirtException
 	 *             {@link #ChartException(String, int, String, ResourceBundle, Throwable)}
 	 *             instead.
 	 */
-	public ChartException( final int type, String sResourceKey,
-			ResourceBundle rb, Throwable thCause )
-	{
-		super( sResourceKey, rb );
+	public ChartException(final int type, String sResourceKey, ResourceBundle rb, Throwable thCause) {
+		super(sResourceKey, rb);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -213,17 +195,15 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 * 
-	 * @deprecated use ({@link #ChartException(String, int, String, Object[], ResourceBundle, Throwable)}
+	 * @deprecated use
+	 *             ({@link #ChartException(String, int, String, Object[], ResourceBundle, Throwable)}
 	 *             instead.
 	 */
-	public ChartException( final int type, String sResourceKey,
-			Object[] oaArgs, ResourceBundle rb, Throwable thCause )
-	{
-		super( sResourceKey, oaArgs, rb, thCause );
+	public ChartException(final int type, String sResourceKey, Object[] oaArgs, ResourceBundle rb, Throwable thCause) {
+		super(sResourceKey, oaArgs, rb, thCause);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -231,17 +211,11 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 */
-	public ChartException( String pluginId, final int type, Throwable cause )
-	{
-		super( pluginId,
-				getResourceKey( cause ),
-				getArguments( cause ),
-				getResourceBundle( cause ),
-				cause );
+	public ChartException(String pluginId, final int type, Throwable cause) {
+		super(pluginId, getResourceKey(cause), getArguments(cause), getResourceBundle(cause), cause);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -249,13 +223,11 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 */
-	public ChartException( String pluginId, final int type, String errorMsg )
-	{
-		super( pluginId, errorMsg, null );
+	public ChartException(String pluginId, final int type, String errorMsg) {
+		super(pluginId, errorMsg, null);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -263,14 +235,11 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 */
-	public ChartException( String pluginId, final int type,
-			String sResourceKey, ResourceBundle rb )
-	{
-		super( pluginId, sResourceKey, rb );
+	public ChartException(String pluginId, final int type, String sResourceKey, ResourceBundle rb) {
+		super(pluginId, sResourceKey, rb);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -278,14 +247,11 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 */
-	public ChartException( String pluginId, final int type,
-			String sResourceKey, Object[] oaArgs, ResourceBundle rb )
-	{
-		super( pluginId, sResourceKey, oaArgs, rb );
+	public ChartException(String pluginId, final int type, String sResourceKey, Object[] oaArgs, ResourceBundle rb) {
+		super(pluginId, sResourceKey, oaArgs, rb);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -293,14 +259,11 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 */
-	public ChartException( String pluginId, final int type,
-			String sResourceKey, ResourceBundle rb, Throwable thCause )
-	{
-		super( pluginId, sResourceKey, rb );
+	public ChartException(String pluginId, final int type, String sResourceKey, ResourceBundle rb, Throwable thCause) {
+		super(pluginId, sResourceKey, rb);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
@@ -308,51 +271,36 @@ public class ChartException extends BirtException
 	/**
 	 * The constructor.
 	 */
-	public ChartException( String pluginId, final int type,
-			String sResourceKey, Object[] oaArgs, ResourceBundle rb,
-			Throwable thCause )
-	{
-		super( pluginId, sResourceKey, oaArgs, rb, thCause );
+	public ChartException(String pluginId, final int type, String sResourceKey, Object[] oaArgs, ResourceBundle rb,
+			Throwable thCause) {
+		super(pluginId, sResourceKey, oaArgs, rb, thCause);
 
-		if ( type < 0 || type > MAX_VALUE )
-		{
-			throw new IllegalArgumentException( );
+		if (type < 0 || type > MAX_VALUE) {
+			throw new IllegalArgumentException();
 		}
 		this.type = type;
 	}
 
-	private static String getResourceKey( Throwable cause )
-	{
-		if ( cause instanceof ChartException )
-		{
-			return ( (ChartException) cause ).sResourceKey;
-		}
-		else
-		{
-			return cause.getLocalizedMessage( );
+	private static String getResourceKey(Throwable cause) {
+		if (cause instanceof ChartException) {
+			return ((ChartException) cause).sResourceKey;
+		} else {
+			return cause.getLocalizedMessage();
 		}
 	}
 
-	private static ResourceBundle getResourceBundle( Throwable cause )
-	{
-		if ( cause instanceof ChartException )
-		{
-			return ( (ChartException) cause ).rb;
-		}
-		else
-		{
+	private static ResourceBundle getResourceBundle(Throwable cause) {
+		if (cause instanceof ChartException) {
+			return ((ChartException) cause).rb;
+		} else {
 			return null;
 		}
 	}
 
-	private static Object[] getArguments( Throwable cause )
-	{
-		if ( cause instanceof ChartException )
-		{
-			return ( (ChartException) cause ).oaMessageArguments;
-		}
-		else
-		{
+	private static Object[] getArguments(Throwable cause) {
+		if (cause instanceof ChartException) {
+			return ((ChartException) cause).oaMessageArguments;
+		} else {
 			return null;
 		}
 	}
@@ -362,8 +310,7 @@ public class ChartException extends BirtException
 	 * 
 	 * @return
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return type;
 	}
 }

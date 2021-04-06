@@ -14,8 +14,8 @@ package org.eclipse.birt.report.presentation.aggregation.control;
 /**
  * Navigation fragment.
  * <p>
+ * 
  * @see BaseFragment
  */
-public class ProgressBarFragment extends BaseControlFragment
-{
+public class ProgressBarFragment extends BaseControlFragment {
 }

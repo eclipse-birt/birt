@@ -27,136 +27,97 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 
 import com.ibm.icu.util.ULocale;
 
-public class GetParameterDefinitionTaskTest extends EngineCase
-{
+public class GetParameterDefinitionTaskTest extends EngineCase {
 
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/impl/TestGetParameterTask.xml"; //$NON-NLS-1$
 	static final String DYNAMIC_FILTER_DESIGN = "org/eclipse/birt/report/engine/api/impl/DynamicFilterParameter.xml";
 	static final String REPORT_DESIGN = "GetParameterTaskTest.rptdesign"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
+	public void setUp() throws Exception {
+		super.setUp();
+		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
 	}
 
-	public void tearDown( ) throws Exception
-	{
-		removeFile( REPORT_DESIGN );
+	public void tearDown() throws Exception {
+		removeFile(REPORT_DESIGN);
 		super.tearDown();
 	}
 
-	public void testParameterWithDataSet( ) throws SemanticException,
-			EngineException
-	{
-		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
-		ReportDesignHandle design = (ReportDesignHandle) report
-				.getDesignHandle( ).getModuleHandle( );
-		ScalarParameterHandle parameter1 = (ScalarParameterHandle) design
-				.findParameter( "NewParameter2" ); //$NON-NLS-1$
-		parameter1.setDataSetName( "Data Set1" ); //$NON-NLS-1$
-		ScalarParameterHandle parameter2 = (ScalarParameterHandle) design
-				.findParameter( "NewParameter3" ); //$NON-NLS-1$
-		parameter2.setDataSetName( "Data Set" ); //$NON-NLS-1$
-		IGetParameterDefinitionTask task = engine
-				.createGetParameterDefinitionTask( report );
-		task.setLocale( ULocale.US );
-		
-		IParameterDefnBase defn = task.getParameterDefn( "ParamCountry" );
-		String name = defn.getName( );
-		assertEquals( name, "ParamCountry" );
+	public void testParameterWithDataSet() throws SemanticException, EngineException {
+		IReportRunnable report = engine.openReportDesign(REPORT_DESIGN);
+		ReportDesignHandle design = (ReportDesignHandle) report.getDesignHandle().getModuleHandle();
+		ScalarParameterHandle parameter1 = (ScalarParameterHandle) design.findParameter("NewParameter2"); //$NON-NLS-1$
+		parameter1.setDataSetName("Data Set1"); //$NON-NLS-1$
+		ScalarParameterHandle parameter2 = (ScalarParameterHandle) design.findParameter("NewParameter3"); //$NON-NLS-1$
+		parameter2.setDataSetName("Data Set"); //$NON-NLS-1$
+		IGetParameterDefinitionTask task = engine.createGetParameterDefinitionTask(report);
+		task.setLocale(ULocale.US);
 
-		Collection list = task.getSelectionListForCascadingGroup(
-				"NewCascadingParameterGroup", new Object[0] ); //$NON-NLS-1$
-		Object[] content = list.toArray( );
-		assertEquals( "1002", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
-		list = task.getSelectionListForCascadingGroup(
-				"NewCascadingParameterGroup", new Object[]{"1002"} ); //$NON-NLS-1$ //$NON-NLS-2$
-		content = list.toArray( );
-		assertEquals(
-				"Atelier graphique", ( SelectionChoiceUtil.getValue( content[0] ) ) ); //$NON-NLS-1$
+		IParameterDefnBase defn = task.getParameterDefn("ParamCountry");
+		String name = defn.getName();
+		assertEquals(name, "ParamCountry");
+
+		Collection list = task.getSelectionListForCascadingGroup("NewCascadingParameterGroup", new Object[0]); //$NON-NLS-1$
+		Object[] content = list.toArray();
+		assertEquals("1002", (SelectionChoiceUtil.getValue(content[0]))); //$NON-NLS-1$
+		list = task.getSelectionListForCascadingGroup("NewCascadingParameterGroup", new Object[] { "1002" }); //$NON-NLS-1$ //$NON-NLS-2$
+		content = list.toArray();
+		assertEquals("Atelier graphique", (SelectionChoiceUtil.getValue(content[0]))); //$NON-NLS-1$
 	}
 
-	public void testSortByOnDatasetColumn( ) throws EngineException,
-			SemanticException
-	{
-		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
-		IGetParameterDefinitionTask task = engine
-				.createGetParameterDefinitionTask( report );
+	public void testSortByOnDatasetColumn() throws EngineException, SemanticException {
+		IReportRunnable report = engine.openReportDesign(REPORT_DESIGN);
+		IGetParameterDefinitionTask task = engine.createGetParameterDefinitionTask(report);
 
-		Collection list = task.getSelectionListForCascadingGroup(
-				"SortBysOfSingleDataSet", new Object[0] );
-		Object[] content = list.toArray( );
-		assertEquals( "USA", SelectionChoiceUtil.getValue( content[1] ) );
+		Collection list = task.getSelectionListForCascadingGroup("SortBysOfSingleDataSet", new Object[0]);
+		Object[] content = list.toArray();
+		assertEquals("USA", SelectionChoiceUtil.getValue(content[1]));
 
-		list = task.getSelectionListForCascadingGroup(
-				"SortBysOfSingleDataSet", new Object[]{"USA"} );
-		content = list.toArray( );
-		assertEquals( "MA", SelectionChoiceUtil.getValue( content[1] ) );
+		list = task.getSelectionListForCascadingGroup("SortBysOfSingleDataSet", new Object[] { "USA" });
+		content = list.toArray();
+		assertEquals("MA", SelectionChoiceUtil.getValue(content[1]));
 	}
 
-	public void testParameterInfo( ) throws EngineException
-	{
-		IReportRunnable report = engine.openReportDesign( REPORT_DESIGN );
-		IGetParameterDefinitionTask task = engine
-				.createGetParameterDefinitionTask( report );
+	public void testParameterInfo() throws EngineException {
+		IReportRunnable report = engine.openReportDesign(REPORT_DESIGN);
+		IGetParameterDefinitionTask task = engine.createGetParameterDefinitionTask(report);
 
-		IScalarParameterDefn param = (IScalarParameterDefn) task
-				.getParameterDefn( "NewParameter2" );
-		assertTrue( param.getSelectionListType( ) == IScalarParameterDefn.LIST_BOX );
+		IScalarParameterDefn param = (IScalarParameterDefn) task.getParameterDefn("NewParameter2");
+		assertTrue(param.getSelectionListType() == IScalarParameterDefn.LIST_BOX);
 	}
 
-	public void testDynamicFilterParameters( ) throws EngineException
-	{
-		copyResource( DYNAMIC_FILTER_DESIGN, REPORT_DESIGN );
-		IReportRunnable runnable = engine.openReportDesign( REPORT_DESIGN );
-		IGetParameterDefinitionTask task = engine
-				.createGetParameterDefinitionTask( runnable );
+	public void testDynamicFilterParameters() throws EngineException {
+		copyResource(DYNAMIC_FILTER_DESIGN, REPORT_DESIGN);
+		IReportRunnable runnable = engine.openReportDesign(REPORT_DESIGN);
+		IGetParameterDefinitionTask task = engine.createGetParameterDefinitionTask(runnable);
 
 		// get parameter defn
-		IParameterDefnBase param = task.getParameterDefn( "Param_1" );
-		if ( param instanceof IDynamicFilterParameterDefn )
-		{
+		IParameterDefnBase param = task.getParameterDefn("Param_1");
+		if (param instanceof IDynamicFilterParameterDefn) {
 			IDynamicFilterParameterDefn dynParam = (IDynamicFilterParameterDefn) param;
-			assertNotNull( dynParam.getColumn( ) );
-		}
-		else
-			fail( );
+			assertNotNull(dynParam.getColumn());
+		} else
+			fail();
 	}
 
-	public void testMultipleValues( ) throws EngineException
-	{
-		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
-		IReportRunnable runnable = engine.openReportDesign( REPORT_DESIGN );
-		IGetParameterDefinitionTask task = engine
-				.createGetParameterDefinitionTask( runnable );
+	public void testMultipleValues() throws EngineException {
+		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
+		IReportRunnable runnable = engine.openReportDesign(REPORT_DESIGN);
+		IGetParameterDefinitionTask task = engine.createGetParameterDefinitionTask(runnable);
 
-		/** test the MultiValueSingleDatasetCPG
-		 *  USA
-		 *  		NV
-		 *  				Las Vegas
-		 *  		NY
-		 *  				NYC
-		 *  				White Plains
-		 *  		PA
-		 *  				Allentown
-		 *  				Philadelphia
-		 *  Japan
-		 *  		Osaka
-		 *  				Kita-ku
-		 *  		Tokyo
-		 *  				Minato-ku
+		/**
+		 * test the MultiValueSingleDatasetCPG USA NV Las Vegas NY NYC White Plains PA
+		 * Allentown Philadelphia Japan Osaka Kita-ku Tokyo Minato-ku
 		 */
 		String cpg1 = "MultiValueSingleDatasetCPG";
-		String[][] values = {{"USA"}, {"NV", "PA"}};
-		Collection col = task.getSelectionListForCascadingGroup( cpg1, values );
-		assertEquals( 3, col.size( ) );
-		values = new String[][]{{"USA", "Japan"},
-				{"NV", "NY", "PA", "Osaka", "Tokyo"}};
-		col = task.getSelectionListForCascadingGroup( cpg1, values );
-		assertEquals( 7, col.size( ) );
-		values = new String[][]{{"USA", "Japan"}, {"PA"}};
-		col = task.getSelectionListForCascadingGroup( cpg1, values );
-		assertEquals( 2, col.size( ) );
+		String[][] values = { { "USA" }, { "NV", "PA" } };
+		Collection col = task.getSelectionListForCascadingGroup(cpg1, values);
+		assertEquals(3, col.size());
+		values = new String[][] { { "USA", "Japan" }, { "NV", "NY", "PA", "Osaka", "Tokyo" } };
+		col = task.getSelectionListForCascadingGroup(cpg1, values);
+		assertEquals(7, col.size());
+		values = new String[][] { { "USA", "Japan" }, { "PA" } };
+		col = task.getSelectionListForCascadingGroup(cpg1, values);
+		assertEquals(2, col.size());
 	}
 }

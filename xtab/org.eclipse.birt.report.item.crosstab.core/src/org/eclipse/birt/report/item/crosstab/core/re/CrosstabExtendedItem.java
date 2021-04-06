@@ -22,36 +22,29 @@ import org.eclipse.birt.report.item.crosstab.core.re.executor.CrosstabReportItem
 /**
  * CrosstabExtendedItem
  */
-public class CrosstabExtendedItem implements IExtendedItem
-{
+public class CrosstabExtendedItem implements IExtendedItem {
 
-	public IReportEventHandler createEventHandler( )
-	{
-		return new CrosstabReportEventHandler( );
+	public IReportEventHandler createEventHandler() {
+		return new CrosstabReportEventHandler();
 	}
 
-	public IReportItemExecutor createExecutor( )
-	{
-		return new CrosstabReportItemExecutor( );
+	public IReportItemExecutor createExecutor() {
+		return new CrosstabReportItemExecutor();
 	}
 
-	public IReportItemPreparation createPreparation( )
-	{
-		return new CrosstabReportItemPreparation( );
+	public IReportItemPreparation createPreparation() {
+		return new CrosstabReportItemPreparation();
 	}
 
-	public IReportItemPresentation createPresentation( )
-	{
+	public IReportItemPresentation createPresentation() {
 		return null;
 	}
 
-	public IReportItemQuery createQuery( )
-	{
-		return new CrosstabReportItemQuery( );
+	public IReportItemQuery createQuery() {
+		return new CrosstabReportItemQuery();
 	}
 
-	public void release( )
-	{
+	public void release() {
 	}
 
 }

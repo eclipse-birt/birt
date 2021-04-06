@@ -27,73 +27,57 @@ import org.eclipse.birt.chart.script.internal.data.SeriesGroupingImpl;
  * 
  */
 
-public class CategoryImpl extends SeriesImpl implements ICategory
-{
+public class CategoryImpl extends SeriesImpl implements ICategory {
 
-	public CategoryImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public CategoryImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 	}
 
-	public ISeriesGrouping getGrouping( )
-	{
-		return new SeriesGroupingImpl( sd.getGrouping( ) );
+	public ISeriesGrouping getGrouping() {
+		return new SeriesGroupingImpl(sd.getGrouping());
 	}
 
-	public String getSorting( )
-	{
-		return sd.getSorting( ).getName( );
+	public String getSorting() {
+		return sd.getSorting().getName();
 	}
 
-	public void setSorting( String sorting )
-	{
-		sd.setSorting( SortOption.getByName( sorting ) );
+	public void setSorting(String sorting) {
+		sd.setSorting(SortOption.getByName(sorting));
 	}
 
-	public String getOptionalValueGroupingExpr( )
-	{
+	public String getOptionalValueGroupingExpr() {
 		// Bugzilla#188268 Get the option value grouping from the first value
 		// series
-		List sds = ChartComponentUtil.getOrthogonalSeriesDefinitions( cm, 0 );
-		SeriesDefinition sdValue0 = (SeriesDefinition) sds.get( 0 );
-		return sdValue0.getQuery( ).getDefinition( );
+		List sds = ChartComponentUtil.getOrthogonalSeriesDefinitions(cm, 0);
+		SeriesDefinition sdValue0 = (SeriesDefinition) sds.get(0);
+		return sdValue0.getQuery().getDefinition();
 	}
 
-	public void setOptionalValueGroupingExpr( String expr )
-	{
-		Query query = sd.getQuery( );
-		if ( query == null )
-		{
-			query = QueryImpl.create( expr );
-			sd.setQuery( query );
-			query.eAdapters( ).addAll( sd.eAdapters( ) );
-		}
-		else
-		{
-			query.setDefinition( expr );
+	public void setOptionalValueGroupingExpr(String expr) {
+		Query query = sd.getQuery();
+		if (query == null) {
+			query = QueryImpl.create(expr);
+			sd.setQuery(query);
+			query.eAdapters().addAll(sd.eAdapters());
+		} else {
+			query.setDefinition(expr);
 		}
 		// Update grouping query to all value series
-		updateOptionGrouping( expr );
+		updateOptionGrouping(expr);
 	}
 
-	private void updateOptionGrouping( String expr )
-	{
-		List seriesList = ChartComponentUtil.getOrthogonalSeriesDefinitions( cm,
-				-1 );
+	private void updateOptionGrouping(String expr) {
+		List seriesList = ChartComponentUtil.getOrthogonalSeriesDefinitions(cm, -1);
 
 		// Copy query to all value series
-		for ( int i = 0; i < seriesList.size( ); i++ )
-		{
-			SeriesDefinition sd = (SeriesDefinition) seriesList.get( i );
-			if ( sd.getQuery( ) != null )
-			{
-				sd.getQuery( ).setDefinition( expr );
-			}
-			else
-			{
-				Query query = QueryImpl.create( expr );
-				query.eAdapters( ).addAll( sd.eAdapters( ) );
-				sd.setQuery( query );
+		for (int i = 0; i < seriesList.size(); i++) {
+			SeriesDefinition sd = (SeriesDefinition) seriesList.get(i);
+			if (sd.getQuery() != null) {
+				sd.getQuery().setDefinition(expr);
+			} else {
+				Query query = QueryImpl.create(expr);
+				query.eAdapters().addAll(sd.eAdapters());
+				sd.setQuery(query);
 			}
 		}
 	}

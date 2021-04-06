@@ -23,61 +23,49 @@ import org.eclipse.swt.widgets.Listener;
  * 
  */
 
-public class DefaultSelectDataComponent implements ISelectDataComponent
-{
+public class DefaultSelectDataComponent implements ISelectDataComponent {
 
 	private transient Vector vListeners = null;
 
-	public Composite createArea( Composite parent )
-	{
+	public Composite createArea(Composite parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void selectArea( boolean selected, Object data )
-	{
+	public void selectArea(boolean selected, Object data) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void dispose( )
-	{
-		if ( vListeners != null && !vListeners.isEmpty( ) )
-		{
-			vListeners.clear( );
+	public void dispose() {
+		if (vListeners != null && !vListeners.isEmpty()) {
+			vListeners.clear();
 		}
 	}
 
-	public void addListener( Listener listener )
-	{
-		if ( vListeners == null )
-		{
-			vListeners = new Vector( );
+	public void addListener(Listener listener) {
+		if (vListeners == null) {
+			vListeners = new Vector();
 		}
-		vListeners.add( listener );
+		vListeners.add(listener);
 	}
 
-	protected void fireEvent( Event e )
-	{
-		if ( vListeners != null && !vListeners.isEmpty( ) )
-		{
-			for ( int i = 0; i < vListeners.size( ); i++ )
-			{
-				( (Listener) vListeners.get( i ) ).handleEvent( e );
+	protected void fireEvent(Event e) {
+		if (vListeners != null && !vListeners.isEmpty()) {
+			for (int i = 0; i < vListeners.size(); i++) {
+				((Listener) vListeners.get(i)).handleEvent(e);
 			}
 		}
 	}
 
-	public void bindAssociatedLabel( Label label )
-	{
-		// do nothing 
-		
+	public void bindAssociatedLabel(Label label) {
+		// do nothing
+
 	}
 
-	public void bindAssociatedName( String name )
-	{
+	public void bindAssociatedName(String name) {
 		// do nothing
-		
+
 	}
 
 }

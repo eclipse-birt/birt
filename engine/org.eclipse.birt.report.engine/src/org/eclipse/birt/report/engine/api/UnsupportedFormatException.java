@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.engine.api;
 
-
-public class UnsupportedFormatException extends EngineException
-{
+public class UnsupportedFormatException extends EngineException {
 
 	private static final long serialVersionUID = 8679478013338620162L;
 
@@ -23,9 +21,8 @@ public class UnsupportedFormatException extends EngineException
 	 * @param errorCode
 	 * @param arg0
 	 */
-	public UnsupportedFormatException( String errorCode, Object arg0 )
-	{
-		super( errorCode, arg0 );
+	public UnsupportedFormatException(String errorCode, Object arg0) {
+		super(errorCode, arg0);
 	}
 
 }

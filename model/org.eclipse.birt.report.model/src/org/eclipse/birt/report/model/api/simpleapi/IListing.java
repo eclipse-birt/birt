@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.report.model.api.simpleapi;
 
-
 /**
  * Represents the design of an Listing in the scripting environment
  * 
  */
-public interface IListing extends IMultiRowItem
-{
+public interface IListing extends IMultiRowItem {
 
 }

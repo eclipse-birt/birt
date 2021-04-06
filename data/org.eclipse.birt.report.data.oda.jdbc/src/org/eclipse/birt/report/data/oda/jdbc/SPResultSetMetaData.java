@@ -16,97 +16,89 @@ import org.eclipse.datatools.connectivity.oda.OdaException;
 /**
  * special case:if stored procedure does not return the resultset metadata, then
  * a fake resultsetmeta should be constructed
- *  
+ * 
  */
 
-public class SPResultSetMetaData implements IResultSetMetaData
-{
+public class SPResultSetMetaData implements IResultSetMetaData {
 	/** the JDBC ResultSetMetaData object */
-	//private java.sql.ResultSetMetaData rsMetadata;
+	// private java.sql.ResultSetMetaData rsMetadata;
 
 	/**
 	 * 
-	 * Constructor SPResultSetMetaData(java.sql.ResultSetMetaData rsMeta) use
-	 * JDBC's ResultSetMetaData to construct it.
-	 *  
+	 * Constructor SPResultSetMetaData(java.sql.ResultSetMetaData rsMeta) use JDBC's
+	 * ResultSetMetaData to construct it.
+	 * 
 	 */
-	public SPResultSetMetaData( java.sql.ResultSetMetaData rsMeta )
-			throws OdaException
-	{
+	public SPResultSetMetaData(java.sql.ResultSetMetaData rsMeta) throws OdaException {
 		/* record down the JDBC ResultSetMetaData object */
-		//this.rsMetadata = rsMeta;
+		// this.rsMetadata = rsMeta;
 
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnCount()
 	 */
-	public int getColumnCount( ) throws OdaException
-	{
-      return 0;
+	public int getColumnCount() throws OdaException {
+		return 0;
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnName(int)
 	 */
-	public String getColumnName( int index ) throws OdaException
-	{
+	public String getColumnName(int index) throws OdaException {
 		return null;
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnLabel(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnLabel(int)
 	 */
-	public String getColumnLabel( int index ) throws OdaException
-	{
+	public String getColumnLabel(int index) throws OdaException {
 		return null;
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnType(int)
 	 */
-	public int getColumnType( int index ) throws OdaException
-	{
+	public int getColumnType(int index) throws OdaException {
 		return 0;
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnTypeName(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnTypeName(int)
 	 */
-	public String getColumnTypeName( int index ) throws OdaException
-	{
+	public String getColumnTypeName(int index) throws OdaException {
 		return null;
 	}
 
 	/*
-	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnDisplayLength(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.IResultSetMetaData#getColumnDisplayLength(
+	 * int)
 	 */
-	public int getColumnDisplayLength( int index ) throws OdaException
-	{
+	public int getColumnDisplayLength(int index) throws OdaException {
 		return 0;
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getPrecision(int)
 	 */
-	public int getPrecision( int index ) throws OdaException
-	{
-        return 0;
+	public int getPrecision(int index) throws OdaException {
+		return 0;
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#getScale(int)
 	 */
-	public int getScale( int index ) throws OdaException
-	{
-       return 0;
+	public int getScale(int index) throws OdaException {
+		return 0;
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.IResultSetMetaData#isNullable(int)
 	 */
-	public int isNullable( int index ) throws OdaException
-	{
+	public int isNullable(int index) throws OdaException {
 		return 0;
 	}
 

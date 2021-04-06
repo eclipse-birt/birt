@@ -14,20 +14,21 @@ package org.eclipse.birt.data.engine.impl;
 import org.mozilla.javascript.Scriptable;
 
 /**
- * This interface define the behavior of an ExecutorHelper, which is used to help
- * its clients to evaluate expressions, especially ones like "row._outer". 
+ * This interface define the behavior of an ExecutorHelper, which is used to
+ * help its clients to evaluate expressions, especially ones like "row._outer".
  */
-public interface IExecutorHelper
-{
+public interface IExecutorHelper {
 	/**
 	 * Return the parent of this IExecutorHelper.
+	 * 
 	 * @return
 	 */
-	public IExecutorHelper getParent( );
-	
+	public IExecutorHelper getParent();
+
 	/**
 	 * Return the ExprManager instance.
+	 * 
 	 * @return
 	 */
-	public Scriptable getScriptable( );
+	public Scriptable getScriptable();
 }

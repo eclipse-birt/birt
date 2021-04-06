@@ -47,8 +47,7 @@ import org.xml.sax.Attributes;
  * parsed by the inherited classes.
  */
 
-public class PropertyContentState extends AbstractParseState
-{
+public class PropertyContentState extends AbstractParseState {
 
 	/**
 	 * The design file parser handler.
@@ -90,24 +89,20 @@ public class PropertyContentState extends AbstractParseState
 	 * Attributes map for key/value pairs.
 	 */
 
-	protected Map attributes = new LinkedHashMap( ModelUtil.MAP_CAPACITY_LOW );
+	protected Map attributes = new LinkedHashMap(ModelUtil.MAP_CAPACITY_LOW);
 
 	/**
-	 * Constructs the design parse state with the design file parser handler.
-	 * This constructor is used when this property to parse is a property of one
-	 * element.
+	 * Constructs the design parse state with the design file parser handler. This
+	 * constructor is used when this property to parse is a property of one element.
 	 * 
-	 * @param theHandler
-	 *            the design file parser handler
-	 * @param element
-	 *            the element which holds this property
+	 * @param theHandler the design file parser handler
+	 * @param element    the element which holds this property
 	 * @param tagName
 	 * @param parent
 	 */
 
-	public PropertyContentState( ModuleParserHandler theHandler,
-			DesignElement element, String tagName, ContentNode parent )
-	{
+	public PropertyContentState(ModuleParserHandler theHandler, DesignElement element, String tagName,
+			ContentNode parent) {
 		handler = theHandler;
 		this.tagName = tagName;
 		this.element = element;
@@ -117,30 +112,25 @@ public class PropertyContentState extends AbstractParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public final void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		super.parseAttrs( attrs );
+	public final void parseAttrs(Attributes attrs) throws XMLParserException {
+		super.parseAttrs(attrs);
 
 		// if name is not specified, throw an error
-		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
-		if ( StringUtil.isBlank( name ) )
-		{
-			DesignParserException e = new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED );
-			handler.getErrorHandler( ).semanticError( e );
+		name = attrs.getValue(DesignSchemaConstants.NAME_ATTRIB);
+		if (StringUtil.isBlank(name)) {
+			DesignParserException e = new DesignParserException(DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED);
+			handler.getErrorHandler().semanticError(e);
 			valid = false;
 			return;
 		}
-		for ( int i = 0; i < attrs.getLength( ); i++ )
-		{
-			String name = attrs.getQName( i );
-			String value = attrs.getValue( i );
-			attributes.put( name, value );
+		for (int i = 0; i < attrs.getLength(); i++) {
+			String name = attrs.getQName(i);
+			String value = attrs.getValue(i);
+			attributes.put(name, value);
 		}
 	}
 
@@ -150,8 +140,7 @@ public class PropertyContentState extends AbstractParseState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
-	public XMLParserHandler getHandler( )
-	{
+	public XMLParserHandler getHandler() {
 		return handler;
 	}
 
@@ -161,30 +150,28 @@ public class PropertyContentState extends AbstractParseState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
 	 */
 
-	public final AbstractParseState jumpTo( )
-	{
+	public final AbstractParseState jumpTo() {
 		// If this state can not be parsed properly, any states in it are
 		// ignored.
 
-		if ( !valid )
-			return new AnyElementState( handler );
+		if (!valid)
+			return new AnyElementState(handler);
 
 		AbstractParseState state = null;
 
 		// general jump to
 
 		int maxJump = 5;
-		state = generalJumpTo( );
-		for ( int i = 1; i < maxJump; i++ )
-		{
-			if ( state != null && state.jumpTo( ) != null )
-				state = state.jumpTo( );
+		state = generalJumpTo();
+		for (int i = 1; i < maxJump; i++) {
+			if (state != null && state.jumpTo() != null)
+				state = state.jumpTo();
 		}
-		if ( state != null )
+		if (state != null)
 			return state;
 
 		// super jump to
-		return super.jumpTo( );
+		return super.jumpTo();
 	}
 
 	/**
@@ -194,67 +181,52 @@ public class PropertyContentState extends AbstractParseState
 	 * @return the other state.
 	 */
 
-	protected final AbstractParseState generalJumpTo( )
-	{
-		PropertyDefn defn = element.getPropertyDefn( name );
-		if ( defn == null )
-			return new ContentNodeState( tagName, handler, parentNode,
-					attributes );
+	protected final AbstractParseState generalJumpTo() {
+		PropertyDefn defn = element.getPropertyDefn(name);
+		if (defn == null)
+			return new ContentNodeState(tagName, handler, parentNode, attributes);
 
 		AbstractPropertyState state = null;
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.PROPERTY_TAG ) )
-		{
-			state = new PropertyState( handler, element );
-			state.setName( name );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.PROPERTY_TAG)) {
+			state = new PropertyState(handler, element);
+			state.setName(name);
 		}
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIST_PROPERTY_TAG ) )
-		{
-			state = new ListPropertyState( handler, element );
-			state.setName( name );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.LIST_PROPERTY_TAG)) {
+			state = new ListPropertyState(handler, element);
+			state.setName(name);
 		}
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.EXPRESSION_TAG ) )
-		{
-			state = new ExpressionState( handler, element );
-			state.setName( name );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.EXPRESSION_TAG)) {
+			state = new ExpressionState(handler, element);
+			state.setName(name);
 		}
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.XML_PROPERTY_TAG ) )
-		{
-			state = new XmlPropertyState( handler, element );
-			state.setName( name );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.XML_PROPERTY_TAG)) {
+			state = new XmlPropertyState(handler, element);
+			state.setName(name);
 		}
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
-		{
-			state = new StructureState( handler, element );
-			state.setName( name );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STRUCTURE_TAG)) {
+			state = new StructureState(handler, element);
+			state.setName(name);
 		}
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.METHOD_TAG ) )
-		{
-			state = new PropertyState( handler, element );
-			state.setName( name );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.METHOD_TAG)) {
+			state = new PropertyState(handler, element);
+			state.setName(name);
 		}
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.TEXT_PROPERTY_TAG ) )
-		{
-			state = new TextPropertyState( handler, element );
-			state.setName( name );
-			( (TextPropertyState) state ).setKeyValue( (String) attributes
-					.get( DesignSchemaConstants.KEY_ATTRIB ) );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.TEXT_PROPERTY_TAG)) {
+			state = new TextPropertyState(handler, element);
+			state.setName(name);
+			((TextPropertyState) state).setKeyValue((String) attributes.get(DesignSchemaConstants.KEY_ATTRIB));
 		}
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.HTML_PROPERTY_TAG ) )
-		{
-			state = new TextPropertyState( handler, element );
-			state.setName( name );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.HTML_PROPERTY_TAG)) {
+			state = new TextPropertyState(handler, element);
+			state.setName(name);
 		}
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG ) )
-		{
-			state = new EncryptedPropertyState( handler, element );
-			state.setName( name );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.ENCRYPTED_PROPERTY_TAG)) {
+			state = new EncryptedPropertyState(handler, element);
+			state.setName(name);
 		}
-		if ( tagName
-				.equalsIgnoreCase( DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG ) )
-		{
-			state = new SimplePropertyListState( handler, element );
-			state.setName( name );
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.SIMPLE_PROPERTY_LIST_TAG)) {
+			state = new SimplePropertyListState(handler, element);
+			state.setName(name);
 		}
 
 		return state;

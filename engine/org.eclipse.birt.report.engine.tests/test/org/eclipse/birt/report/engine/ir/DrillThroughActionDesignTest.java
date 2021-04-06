@@ -21,23 +21,21 @@ import org.eclipse.birt.report.engine.EngineCase;
  * 
  * 
  */
-public class DrillThroughActionDesignTest extends EngineCase
-{
+public class DrillThroughActionDesignTest extends EngineCase {
 
-	public void testDrillThrough( )
-	{
-		DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
-		Expression reportName = Expression.newConstant( "reportName" );
-		Expression bookmark = Expression.newConstant( "" );
-		Map params = new HashMap( );
-		//Adds
-		drillThrough.setReportName( reportName );
-		drillThrough.setBookmark( bookmark );
-		drillThrough.setParameters( params );
-		//Compares
-		assertEquals( drillThrough.getReportName( ), reportName );
-		assertEquals( drillThrough.getBookmark( ), bookmark );
-		assertEquals( drillThrough.getParameters( ), params );
+	public void testDrillThrough() {
+		DrillThroughActionDesign drillThrough = new DrillThroughActionDesign();
+		Expression reportName = Expression.newConstant("reportName");
+		Expression bookmark = Expression.newConstant("");
+		Map params = new HashMap();
+		// Adds
+		drillThrough.setReportName(reportName);
+		drillThrough.setBookmark(bookmark);
+		drillThrough.setParameters(params);
+		// Compares
+		assertEquals(drillThrough.getReportName(), reportName);
+		assertEquals(drillThrough.getBookmark(), bookmark);
+		assertEquals(drillThrough.getParameters(), params);
 
 	}
 }

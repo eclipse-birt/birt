@@ -46,8 +46,7 @@ import org.eclipse.swt.widgets.Display;
  * This is the content edit part for Library. All other library elements puts on
  * to it
  */
-public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
-		PropertyChangeListener {
+public class LibraryReportDesignEditPart extends ReportDesignEditPart implements PropertyChangeListener {
 
 	private static final Insets INSETS = new Insets(30, 30, 30, 30);
 	private static final Dimension DEFAULTSIZE = new Dimension(800, 1000);
@@ -70,7 +69,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 		figure.setOpaque(true);
 		figure.setShowMargin(showMargin);
 
-		//LibraryReportDesignLayout layout = new LibraryReportDesignLayout(this);
+		// LibraryReportDesignLayout layout = new LibraryReportDesignLayout(this);
 		ReportDesignLayout layout = new ReportDesignLayout(this);
 
 		Dimension size = DEFAULTSIZE;
@@ -81,7 +80,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 		figure.setLayoutManager(layout);
 		ReportDesignMarginBorder border = new ReportDesignMarginBorder(INSETS);
-		border.reInitStyle( );
+		border.reInitStyle();
 		figure.setBorder(border);
 
 		figure.setBounds(bounds.getCopy());
@@ -92,18 +91,19 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.designer.ui.editor.edit.ReportElementEditPart#getModelChildren()
+	 * @see org.eclipse.birt.designer.ui.editor.edit.ReportElementEditPart#
+	 * getModelChildren()
 	 */
 	protected List getModelChildren() {
 
-		return HandleAdapterFactory.getInstance().getLibraryHandleAdapter(
-				getModel()).getChildren();
+		return HandleAdapterFactory.getInstance().getLibraryHandleAdapter(getModel()).getChildren();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.editparts.AbstractReportEditPart#refreshFigure()
+	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
+	 * AbstractReportEditPart#refreshFigure()
 	 */
 	public void refreshFigure() {
 
@@ -113,52 +113,52 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 
 		Rectangle bounds = new Rectangle(0, 0, size.width - 1, size.height - 1);
 
-		((AbstractPageFlowLayout) getFigure().getLayoutManager())
-				.setInitSize(bounds);
-		
-		( (AbstractPageFlowLayout) getFigure( ).getLayoutManager( ) ).setInitInsets(INSETS);
+		((AbstractPageFlowLayout) getFigure().getLayoutManager()).setInitSize(bounds);
+
+		((AbstractPageFlowLayout) getFigure().getLayoutManager()).setInitInsets(INSETS);
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart#activate()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportDesignEditPart#activate()
 	 */
 	public void activate() {
-		HandleAdapterFactory.getInstance().getLibraryHandleAdapter(getModel())
-				.addPropertyChangeListener(this);
+		HandleAdapterFactory.getInstance().getLibraryHandleAdapter(getModel()).addPropertyChangeListener(this);
 		super.activate();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportDesignEditPart#deactivate()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportDesignEditPart#deactivate()
 	 */
 	public void deactivate() {
-		HandleAdapterFactory.getInstance().getLibraryHandleAdapter(getModel())
-				.removePropertyChangeListener(this);
+		HandleAdapterFactory.getInstance().getLibraryHandleAdapter(getModel()).removePropertyChangeListener(this);
 		super.deactivate();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.PropertyChangeEvent)
+	 * @see java.beans.PropertyChangeListener#propertyChange(java.beans.
+	 * PropertyChangeEvent)
 	 */
 	public void propertyChange(final PropertyChangeEvent evt) {
 		if (LibraryHandleAdapter.CURRENTMODEL.equals(evt.getPropertyName())
-				|| LibraryHandleAdapter.CREATE_ELEMENT.equals(evt
-						.getPropertyName())) {
+				|| LibraryHandleAdapter.CREATE_ELEMENT.equals(evt.getPropertyName())) {
 
 			refresh();
 			Display.getCurrent().asyncExec(new Runnable() {
 
 				public void run() {
 					Object model = evt.getNewValue();
-					Object editpart = getViewer().getEditPartRegistry().get(
-							model);
+					Object editpart = getViewer().getEditPartRegistry().get(model);
 					if (editpart instanceof EditPart) {
 						getViewer().flush();
 						if (!(editpart instanceof EmptyEditPart)) {
@@ -168,12 +168,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 					if (editpart != null) {
 						getViewer().reveal((EditPart) editpart);
 
-						if (LibraryHandleAdapter.CREATE_ELEMENT.equals(evt
-								.getPropertyName())) {
-							Request request = new Request(
-									ReportRequest.CREATE_ELEMENT);
-							if (((EditPart) editpart)
-									.understandsRequest(request)) {
+						if (LibraryHandleAdapter.CREATE_ELEMENT.equals(evt.getPropertyName())) {
+							Request request = new Request(ReportRequest.CREATE_ELEMENT);
+							if (((EditPart) editpart).understandsRequest(request)) {
 								((EditPart) editpart).performRequest(request);
 							}
 						}
@@ -193,8 +190,7 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 			if (obj instanceof DesignElementHandle) {
 				DesignElementHandle handle = (DesignElementHandle) obj;
 				if (handle.getRoot() == null
-						&& (!getChildren().isEmpty() && ((EditPart) getChildren()
-								.get(0)).getModel().equals(handle))) {
+						&& (!getChildren().isEmpty() && ((EditPart) getChildren().get(0)).getModel().equals(handle))) {
 					return false;
 				}
 			}
@@ -203,11 +199,9 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 	}
 
 	protected void createEditPolicies() {
-		installEditPolicy(EditPolicy.LAYOUT_ROLE,
-				new ReportFlowLayoutEditPolicy() {
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReportFlowLayoutEditPolicy() {
 
-					protected org.eclipse.gef.commands.Command getCreateCommand(
-							CreateRequest request) {
+			protected org.eclipse.gef.commands.Command getCreateCommand(CreateRequest request) {
 //						List list = getHost().getChildren();
 //						Boolean direct = (Boolean) request.getExtendedData()
 //								.get(DesignerConstants.DIRECT_CREATEITEM);
@@ -216,42 +210,38 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 //								&& (direct == null || !direct.booleanValue())) {
 //							return UnexecutableCommand.INSTANCE;
 //						}
-						// EditPart after = getInsertionReference( request );
-						// final DesignElementHandle newObject =
-						// (DesignElementHandle) request.getExtendedData( )
-						// .get( DesignerConstants.KEY_NEWOBJECT );
+				// EditPart after = getInsertionReference( request );
+				// final DesignElementHandle newObject =
+				// (DesignElementHandle) request.getExtendedData( )
+				// .get( DesignerConstants.KEY_NEWOBJECT );
 
-						CreateCommand command = new CreateCommand(request
-								.getExtendedData());
+				CreateCommand command = new CreateCommand(request.getExtendedData());
 
-						Object model = this.getHost().getModel();
-						if (model instanceof SlotHandle) {
-							command.setParent(model);
-						} else if (model instanceof ListBandProxy) {
-							command.setParent(((ListBandProxy) model)
-									.getSlotHandle());
-						} else {
-							command.setParent(model);
-						}
-						// No previous edit part
-						// if ( after != null )
-						// {
-						// command.setAfter( after.getModel( ) );
-						// }
+				Object model = this.getHost().getModel();
+				if (model instanceof SlotHandle) {
+					command.setParent(model);
+				} else if (model instanceof ListBandProxy) {
+					command.setParent(((ListBandProxy) model).getSlotHandle());
+				} else {
+					command.setParent(model);
+				}
+				// No previous edit part
+				// if ( after != null )
+				// {
+				// command.setAfter( after.getModel( ) );
+				// }
 
-						return command;
-					}
-				});
+				return command;
+			}
+		});
 
-		installEditPolicy(EditPolicy.CONTAINER_ROLE,
-				new ReportContainerEditPolicy());
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ReportContainerEditPolicy());
 	}
 
 	protected void notifyModelChange(Object focus) {
 		super.notifyModelChange(focus);
 		if (!isModelInModuleHandle()) {
-			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(
-					null);
+			SetCurrentEditModelCommand command = new SetCurrentEditModelCommand(null);
 			command.execute();
 		}
 	}
@@ -259,30 +249,25 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.Class)
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#getAdapter(java.lang.
+	 * Class)
 	 */
 	public Object getAdapter(Class key) {
 		if (key == IModelEventProcessor.class) {
 			return new GraphicsViewModelEventProcessor(this) {
 				public void clear() {
-					super.clear( );
-					Object oldObj = HandleAdapterFactory.getInstance( )
-						.getLibraryHandleAdapter( ).getOldEditorModel( );
-					SetCurrentEditModelCommand c = new SetCurrentEditModelCommand( oldObj );
-					Object obj = HandleAdapterFactory.getInstance( )
-							.getLibraryHandleAdapter( )
-							.getCurrentEditorModel( );
-					if ( obj instanceof DesignElementHandle
-							&& ( (DesignElementHandle) obj ).getContainer( ) != null )
-					{
-						c = new SetCurrentEditModelCommand( obj );
+					super.clear();
+					Object oldObj = HandleAdapterFactory.getInstance().getLibraryHandleAdapter().getOldEditorModel();
+					SetCurrentEditModelCommand c = new SetCurrentEditModelCommand(oldObj);
+					Object obj = HandleAdapterFactory.getInstance().getLibraryHandleAdapter().getCurrentEditorModel();
+					if (obj instanceof DesignElementHandle && ((DesignElementHandle) obj).getContainer() != null) {
+						c = new SetCurrentEditModelCommand(obj);
+					} else if (oldObj instanceof DesignElementHandle
+							&& ((DesignElementHandle) oldObj).getContainer() == null) {
+						c = new SetCurrentEditModelCommand(null);
 					}
-					else if ( oldObj instanceof DesignElementHandle
-							&& ( (DesignElementHandle) oldObj ).getContainer( ) == null )
-					{
-						c = new SetCurrentEditModelCommand( null );
-					}
-					c.execute( );
+					c.execute();
 				}
 			};
 		}
@@ -290,15 +275,13 @@ public class LibraryReportDesignEditPart extends ReportDesignEditPart implements
 	}
 
 	@Override
-	protected void updateLayoutPreference( )
-	{
-		//must do nothing now, because libraryHandle don't support the property
+	protected void updateLayoutPreference() {
+		// must do nothing now, because libraryHandle don't support the property
 	}
-	
+
 	@Override
-	public void refreshMarginBorder( ReportDesignMarginBorder border )
-	{
-		border.reInitStyle( );
-		getFigure( ).setBorder( border );
+	public void refreshMarginBorder(ReportDesignMarginBorder border) {
+		border.reInitStyle();
+		getFigure().setBorder(border);
 	}
 }

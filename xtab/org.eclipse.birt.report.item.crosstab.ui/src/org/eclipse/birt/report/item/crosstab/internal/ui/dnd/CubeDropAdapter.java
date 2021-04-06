@@ -73,234 +73,164 @@ import org.eclipse.jface.viewers.StructuredSelection;
  * 
  */
 
-public class CubeDropAdapter implements IDropAdapter
-{
+public class CubeDropAdapter implements IDropAdapter {
 
 	// FIXME need refactor
-	public int canDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( target != null && transfer instanceof CubeHandle )
-		{
-			SlotHandle targetSlot = getTargetSlotHandle( target,
-					ICrosstabConstants.CROSSTAB_EXTENSION_NAME ); //$NON-NLS-1$
-			if ( targetSlot != null )
-			{
-				if ( DNDUtil.handleValidateTargetCanContainType( targetSlot,
-						"Crosstab" ) //$NON-NLS-1$
-						&& DNDUtil.handleValidateTargetCanContainMore( targetSlot,
-								0 ) )
+	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (target != null && transfer instanceof CubeHandle) {
+			SlotHandle targetSlot = getTargetSlotHandle(target, ICrosstabConstants.CROSSTAB_EXTENSION_NAME); // $NON-NLS-1$
+			if (targetSlot != null) {
+				if (DNDUtil.handleValidateTargetCanContainType(targetSlot, "Crosstab") //$NON-NLS-1$
+						&& DNDUtil.handleValidateTargetCanContainMore(targetSlot, 0))
 					return DNDService.LOGIC_TRUE;
-			}
-			else
-			{
-				//If the target is crosstab,and create chart view, maybe the container cann't contain the cube
-				if (target instanceof CrosstabCellEditPart)
-				{
-					Object model = DNDUtil.unwrapToModel( ((CrosstabCellEditPart)target).getModel( ) );
-					if (model == null)
-					{
+			} else {
+				// If the target is crosstab,and create chart view, maybe the container cann't
+				// contain the cube
+				if (target instanceof CrosstabCellEditPart) {
+					Object model = DNDUtil.unwrapToModel(((CrosstabCellEditPart) target).getModel());
+					if (model == null) {
 						return DNDService.LOGIC_FALSE;
 					}
 					ExtendedItemHandle handle = null;
-					String name = ReportPlugin.getDefault( )
-							.getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
+					String name = ReportPlugin.getDefault().getCustomName(ICrosstabConstants.CROSSTAB_EXTENSION_NAME);
 
-					try
-					{
-						SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ).getCommandStack( ).startTrans( "" ); //$NON-NLS-1$
-						handle = CrosstabExtendedItemFactory.createCrosstabReportItem( SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( ),
-								null,
-								name );
-						handle.setProperty( IReportItemModel.CUBE_PROP, (CubeHandle)transfer );
+					try {
+						SessionHandleAdapter.getInstance().getReportDesignHandle().getCommandStack().startTrans(""); //$NON-NLS-1$
+						handle = CrosstabExtendedItemFactory.createCrosstabReportItem(
+								SessionHandleAdapter.getInstance().getReportDesignHandle(), null, name);
+						handle.setProperty(IReportItemModel.CUBE_PROP, (CubeHandle) transfer);
 						int flag = DNDUtil.handleValidateTargetCanContain(model, handle, false);
-						if (flag == DNDUtil.CONTAIN_NO)
-						{
+						if (flag == DNDUtil.CONTAIN_NO) {
 							return DNDService.LOGIC_FALSE;
 						}
-					}
-					catch ( Exception e )
-					{
+					} catch (Exception e) {
 						return DNDService.LOGIC_FALSE;
-					}
-					finally
-					{
-						SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ).getCommandStack( ).rollbackAll( );
+					} finally {
+						SessionHandleAdapter.getInstance().getReportDesignHandle().getCommandStack().rollbackAll();
 					}
 				}
 				// fix for 233149
-				IStructuredSelection models = InsertInLayoutUtil.editPart2Model( new StructuredSelection( target ) );
-				if ( !models.isEmpty( ) )
-				{
-					Object model = DNDUtil.unwrapToModel( models.getFirstElement( ) );
-					if ( model instanceof DesignElementHandle )
-					{
+				IStructuredSelection models = InsertInLayoutUtil.editPart2Model(new StructuredSelection(target));
+				if (!models.isEmpty()) {
+					Object model = DNDUtil.unwrapToModel(models.getFirstElement());
+					if (model instanceof DesignElementHandle) {
 						DesignElementHandle targetHandle = (DesignElementHandle) model;
-						if ( targetHandle.canContain( DEUtil.getDefaultContentName( targetHandle ),
-								ICrosstabConstants.CROSSTAB_EXTENSION_NAME ) )
+						if (targetHandle.canContain(DEUtil.getDefaultContentName(targetHandle),
+								ICrosstabConstants.CROSSTAB_EXTENSION_NAME))
 							return DNDService.LOGIC_TRUE;
 					}
 				}
 			}
-			
 
 		}
 		return DNDService.LOGIC_UNKNOW;
 	}
 
-	private SlotHandle getTargetSlotHandle( Object target, String insertType )
-	{
-		IStructuredSelection models = InsertInLayoutUtil.editPart2Model( new StructuredSelection( target ) );
-		if ( models.isEmpty( ) )
-		{
+	private SlotHandle getTargetSlotHandle(Object target, String insertType) {
+		IStructuredSelection models = InsertInLayoutUtil.editPart2Model(new StructuredSelection(target));
+		if (models.isEmpty()) {
 			return null;
 		}
 		// model = models.getFirstElement( );
-		Object model = DNDUtil.unwrapToModel( models.getFirstElement( ) );
-		if ( model instanceof LibRootModel )
-		{
-			model = ( (LibRootModel) model ).getModel( );
+		Object model = DNDUtil.unwrapToModel(models.getFirstElement());
+		if (model instanceof LibRootModel) {
+			model = ((LibRootModel) model).getModel();
 		}
-		if ( model instanceof SlotHandle )
-		{
+		if (model instanceof SlotHandle) {
 			return (SlotHandle) model;
-		}
-		else if ( model instanceof DesignElementHandle )
-		{
+		} else if (model instanceof DesignElementHandle) {
 			DesignElementHandle handle = (DesignElementHandle) model;
 
-			if ( handle.getDefn( ).isContainer( ) )
-			{
-				int slotId = DEUtil.getDefaultSlotID( handle );
-				if ( handle.canContain( slotId, insertType ) )
-				{
-					return handle.getSlot( slotId );
+			if (handle.getDefn().isContainer()) {
+				int slotId = DEUtil.getDefaultSlotID(handle);
+				if (handle.canContain(slotId, insertType)) {
+					return handle.getSlot(slotId);
 				}
 			}
-			return handle.getContainerSlotHandle( );
+			return handle.getContainerSlotHandle();
 		}
 		return null;
 	}
 
-	public boolean performDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
+	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( Messages.getString( "InsertCubeInLayoutAction.action.message" ) ); //$NON-NLS-1$
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(Messages.getString("InsertCubeInLayoutAction.action.message")); //$NON-NLS-1$
 		CubeHandle cube = (CubeHandle) transfer;
-		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		if ( cube.getModuleHandle( ) != moduleHandle
-				&& cube.getRoot( ) instanceof LibraryHandle )
-		{
-			try
-			{
-				UIUtil.includeLibrary( moduleHandle,
-						(LibraryHandle) cube.getRoot( ) );
-				cube = (CubeHandle) moduleHandle.getElementFactory( )
-						.newElementFrom( cube, cube.getName( ) );
-				moduleHandle.getCubes( ).add( cube );
-			}
-			catch ( Exception e )
-			{
-				stack.rollback( );
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
+		if (cube.getModuleHandle() != moduleHandle && cube.getRoot() instanceof LibraryHandle) {
+			try {
+				UIUtil.includeLibrary(moduleHandle, (LibraryHandle) cube.getRoot());
+				cube = (CubeHandle) moduleHandle.getElementFactory().newElementFrom(cube, cube.getName());
+				moduleHandle.getCubes().add(cube);
+			} catch (Exception e) {
+				stack.rollback();
 				return false;
 			}
 		}
 		ExtendedItemHandle handle = null;
-		String name = ReportPlugin.getDefault( )
-				.getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
+		String name = ReportPlugin.getDefault().getCustomName(ICrosstabConstants.CROSSTAB_EXTENSION_NAME);
 
-		try
-		{
-			handle = CrosstabExtendedItemFactory.createCrosstabReportItem( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ),
-					null,
-					name );
-		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
+		try {
+			handle = CrosstabExtendedItemFactory
+					.createCrosstabReportItem(SessionHandleAdapter.getInstance().getReportDesignHandle(), null, name);
+		} catch (Exception e) {
+			stack.rollback();
 			return false;
 		}
 
 		// fix for 233149
-		if ( target instanceof EditPart )// drop on layout
+		if (target instanceof EditPart)// drop on layout
 		{
-			EditPartViewer viewer = ( (EditPart) target ).getViewer( );
+			EditPartViewer viewer = ((EditPart) target).getViewer();
 			EditPart editPart = (EditPart) target;
-			if ( editPart != null )
-			{
-				try
-				{
-					CreateRequest request = new CreateRequest( );
+			if (editPart != null) {
+				try {
+					CreateRequest request = new CreateRequest();
 
-					request.getExtendedData( )
-							.put( DesignerConstants.KEY_NEWOBJECT, handle );
-					request.setLocation( location.getPoint( ) );
-					Command command = editPart.getCommand( request );
-					if ( command != null && command.canExecute( ) )
-					{
-						viewer.getEditDomain( )
-								.getCommandStack( )
-								.execute( command );
+					request.getExtendedData().put(DesignerConstants.KEY_NEWOBJECT, handle);
+					request.setLocation(location.getPoint());
+					Command command = editPart.getCommand(request);
+					if (command != null && command.canExecute()) {
+						viewer.getEditDomain().getCommandStack().execute(command);
 
-						handle.setProperty( IReportItemModel.CUBE_PROP, cube );
+						handle.setProperty(IReportItemModel.CUBE_PROP, cube);
 
-						List dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP );
-						for ( Iterator iterator = dimensions.iterator( ); iterator.hasNext( ); )
-						{
-							DimensionHandle dimension = (DimensionHandle) iterator.next( );
-							if ( dimension instanceof TabularDimensionHandle && !dimension.isTimeType( ) )
-							{
-								createDimensionViewHandle( handle,
-										dimension,
-										ICrosstabConstants.ROW_AXIS_TYPE  );
-							}
-							else
-							{
-								createDimensionViewHandle( handle,
-										dimension,
-										ICrosstabConstants.COLUMN_AXIS_TYPE );
+						List dimensions = cube.getContents(CubeHandle.DIMENSIONS_PROP);
+						for (Iterator iterator = dimensions.iterator(); iterator.hasNext();) {
+							DimensionHandle dimension = (DimensionHandle) iterator.next();
+							if (dimension instanceof TabularDimensionHandle && !dimension.isTimeType()) {
+								createDimensionViewHandle(handle, dimension, ICrosstabConstants.ROW_AXIS_TYPE);
+							} else {
+								createDimensionViewHandle(handle, dimension, ICrosstabConstants.COLUMN_AXIS_TYPE);
 							}
 						}
 
-						List measureGroups = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+						List measureGroups = cube.getContents(CubeHandle.MEASURE_GROUPS_PROP);
 						int index = 0;
-						for ( Iterator iterator = measureGroups.iterator( ); iterator.hasNext( ); )
-						{
-							MeasureGroupHandle measureGroup = (MeasureGroupHandle) iterator.next( );
-							List measures = measureGroup.getContents( MeasureGroupHandle.MEASURES_PROP );
-							for ( int j = 0; j < measures.size( ); j++ )
-							{
-								Object temp = measures.get( j );
-								if ( temp instanceof MeasureHandle )
-								{
-									addMeasureHandle( handle,
-											(MeasureHandle) temp,
-											index++ );
+						for (Iterator iterator = measureGroups.iterator(); iterator.hasNext();) {
+							MeasureGroupHandle measureGroup = (MeasureGroupHandle) iterator.next();
+							List measures = measureGroup.getContents(MeasureGroupHandle.MEASURES_PROP);
+							for (int j = 0; j < measures.size(); j++) {
+								Object temp = measures.get(j);
+								if (temp instanceof MeasureHandle) {
+									addMeasureHandle(handle, (MeasureHandle) temp, index++);
 								}
 							}
 						}
-						//CrosstabModelUtil.validateCrosstabHeader(( CrosstabReportItemHandle)handle.getReportItem( ) );
-						CrosstabUtil.addAllHeaderLabel( ( CrosstabReportItemHandle)handle.getReportItem( ) );
-						stack.commit( );
+						// CrosstabModelUtil.validateCrosstabHeader((
+						// CrosstabReportItemHandle)handle.getReportItem( ) );
+						CrosstabUtil.addAllHeaderLabel((CrosstabReportItemHandle) handle.getReportItem());
+						stack.commit();
 
-						viewer.flush( );
-						viewer.getControl( ).setFocus( );
-						ReportCreationTool.selectAddedObject( handle, viewer );
+						viewer.flush();
+						viewer.getControl().setFocus();
+						ReportCreationTool.selectAddedObject(handle, viewer);
 
 						return true;
 					}
-				}
-				catch ( Exception e )
-				{
-					stack.rollback( );
+				} catch (Exception e) {
+					stack.rollback();
 					return false;
 				}
 			}
@@ -308,150 +238,113 @@ public class CubeDropAdapter implements IDropAdapter
 
 		// below may be changed to use edit part's create command as above
 
-		Map map = new HashMap( );
-		map.put( DesignerConstants.KEY_NEWOBJECT, handle );
-		CreateCommand command = new CreateCommand( map );
+		Map map = new HashMap();
+		map.put(DesignerConstants.KEY_NEWOBJECT, handle);
+		CreateCommand command = new CreateCommand(map);
 
-		try
-		{
-			SlotHandle parentModel = getTargetSlotHandle( target,
-					ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
+		try {
+			SlotHandle parentModel = getTargetSlotHandle(target, ICrosstabConstants.CROSSTAB_EXTENSION_NAME);
 
-			if ( parentModel != null )
-			{
-				command.setParent( parentModel );
+			if (parentModel != null) {
+				command.setParent(parentModel);
+			} else {
+				command.setParent(SessionHandleAdapter.getInstance().getReportDesignHandle());
 			}
-			else
-			{
-				command.setParent( SessionHandleAdapter.getInstance( )
-						.getReportDesignHandle( ) );
-			}
-			command.execute( );
+			command.execute();
 
-			handle.setProperty( IReportItemModel.CUBE_PROP, cube );
+			handle.setProperty(IReportItemModel.CUBE_PROP, cube);
 
-			List dimensions = cube.getContents( CubeHandle.DIMENSIONS_PROP );
-			for ( Iterator iterator = dimensions.iterator( ); iterator.hasNext( ); )
-			{
-				DimensionHandle dimension = (DimensionHandle) iterator.next( );
-				if ( dimension instanceof TabularDimensionHandle && !dimension.isTimeType( ) )
-				{
-					createDimensionViewHandle( handle,
-							dimension,
-							ICrosstabConstants.ROW_AXIS_TYPE  );
-				}
-				else
-				{
-					createDimensionViewHandle( handle,
-							dimension,
-							ICrosstabConstants.COLUMN_AXIS_TYPE );
+			List dimensions = cube.getContents(CubeHandle.DIMENSIONS_PROP);
+			for (Iterator iterator = dimensions.iterator(); iterator.hasNext();) {
+				DimensionHandle dimension = (DimensionHandle) iterator.next();
+				if (dimension instanceof TabularDimensionHandle && !dimension.isTimeType()) {
+					createDimensionViewHandle(handle, dimension, ICrosstabConstants.ROW_AXIS_TYPE);
+				} else {
+					createDimensionViewHandle(handle, dimension, ICrosstabConstants.COLUMN_AXIS_TYPE);
 				}
 			}
 
-			List measureGroups = cube.getContents( CubeHandle.MEASURE_GROUPS_PROP );
+			List measureGroups = cube.getContents(CubeHandle.MEASURE_GROUPS_PROP);
 			int index = 0;
-			for ( Iterator iterator = measureGroups.iterator( ); iterator.hasNext( ); )
-			{
-				MeasureGroupHandle measureGroup = (MeasureGroupHandle) iterator.next( );
-				List measures = measureGroup.getContents( MeasureGroupHandle.MEASURES_PROP );
-				for ( int j = 0; j < measures.size( ); j++ )
-				{
-					Object temp = measures.get( j );
-					if ( temp instanceof MeasureHandle )
-					{
-						addMeasureHandle( handle, (MeasureHandle) temp, index++ );
+			for (Iterator iterator = measureGroups.iterator(); iterator.hasNext();) {
+				MeasureGroupHandle measureGroup = (MeasureGroupHandle) iterator.next();
+				List measures = measureGroup.getContents(MeasureGroupHandle.MEASURES_PROP);
+				for (int j = 0; j < measures.size(); j++) {
+					Object temp = measures.get(j);
+					if (temp instanceof MeasureHandle) {
+						addMeasureHandle(handle, (MeasureHandle) temp, index++);
 					}
 				}
 			}
-			stack.commit( );
+			stack.commit();
 
-			if ( target instanceof EditPart )
-			{
-				( (EditPart) target ).getViewer( ).flush( );
+			if (target instanceof EditPart) {
+				((EditPart) target).getViewer().flush();
 			}
 
-			ReportRequest request = new ReportRequest( );
-			List selectionObjects = new ArrayList( );
-			selectionObjects.add( handle );
-			request.setSelectionObject( selectionObjects );
-			request.setType( ReportRequest.SELECTION );
-			SessionHandleAdapter.getInstance( )
-					.getMediator( )
-					.notifyRequest( request );
+			ReportRequest request = new ReportRequest();
+			List selectionObjects = new ArrayList();
+			selectionObjects.add(handle);
+			request.setSelectionObject(selectionObjects);
+			request.setType(ReportRequest.SELECTION);
+			SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
 
-			if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) instanceof LibraryHandle )
-			{
-				HandleAdapterFactory.getInstance( )
-						.getLibraryHandleAdapter( )
-						.setCurrentEditorModel( handle,
-								LibraryHandleAdapter.CREATE_ELEMENT );
+			if (SessionHandleAdapter.getInstance().getReportDesignHandle() instanceof LibraryHandle) {
+				HandleAdapterFactory.getInstance().getLibraryHandleAdapter().setCurrentEditorModel(handle,
+						LibraryHandleAdapter.CREATE_ELEMENT);
 			}
 
-		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
+		} catch (Exception e) {
+			stack.rollback();
 			return false;
 		}
 
 		return true;
 	}
 
-	private void addMeasureHandle( ExtendedItemHandle handle,
-			MeasureHandle measureHandle, int index ) throws SemanticException
-	{
-		IReportItem reportItem = handle.getReportItem( );
+	private void addMeasureHandle(ExtendedItemHandle handle, MeasureHandle measureHandle, int index)
+			throws SemanticException {
+		IReportItem reportItem = handle.getReportItem();
 		CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) reportItem;
-		CrosstabAdaptUtil.addMeasureHandle( xtabHandle, measureHandle, index );
+		CrosstabAdaptUtil.addMeasureHandle(xtabHandle, measureHandle, index);
 	}
 
-	private void createDimensionViewHandle( ExtendedItemHandle handle,
-			DimensionHandle dimensionHandle, int type )
-			throws SemanticException
-	{
-		if ( dimensionHandle.getDefaultHierarchy( ).getLevelCount( ) > 0 )
-		{
-			IReportItem reportItem = handle.getReportItem( );
+	private void createDimensionViewHandle(ExtendedItemHandle handle, DimensionHandle dimensionHandle, int type)
+			throws SemanticException {
+		if (dimensionHandle.getDefaultHierarchy().getLevelCount() > 0) {
+			IReportItem reportItem = handle.getReportItem();
 			CrosstabReportItemHandle xtabHandle = (CrosstabReportItemHandle) reportItem;
 
-			DimensionViewHandle viewHandle = xtabHandle.insertDimension( dimensionHandle,
-					type,
-					xtabHandle.getDimensionCount( type ) );
+			DimensionViewHandle viewHandle = xtabHandle.insertDimension(dimensionHandle, type,
+					xtabHandle.getDimensionCount(type));
 
-			LevelHandle[] levels = getLevelHandles( dimensionHandle );
-			for ( int j = 0; j < levels.length; j++ )
-			{
+			LevelHandle[] levels = getLevelHandles(dimensionHandle);
+			for (int j = 0; j < levels.length; j++) {
 
 				LevelHandle levelHandle = levels[j];
-				DataItemHandle dataHandle = CrosstabAdaptUtil.createColumnBindingAndDataItem( (ExtendedItemHandle) xtabHandle.getModelHandle( ),
-						levelHandle );
-				LevelViewHandle levelViewHandle = viewHandle.insertLevel( levelHandle,
-						j );
-				CrosstabCellHandle cellHandle = levelViewHandle.getCell( );
+				DataItemHandle dataHandle = CrosstabAdaptUtil
+						.createColumnBindingAndDataItem((ExtendedItemHandle) xtabHandle.getModelHandle(), levelHandle);
+				LevelViewHandle levelViewHandle = viewHandle.insertLevel(levelHandle, j);
+				CrosstabCellHandle cellHandle = levelViewHandle.getCell();
 
-				cellHandle.addContent( dataHandle );
-				
-				//copy action to dataHandle
-				ActionHandle actionHandle = levelHandle.getActionHandle( );
-				if ( actionHandle != null )
-				{
-					List source = new ArrayList( );
-					source.add( actionHandle.getStructure( ) );
-					List newAction = ModelUtil.cloneStructList( source );
-					dataHandle.setAction( (Action) newAction.get( 0 ) );
+				cellHandle.addContent(dataHandle);
+
+				// copy action to dataHandle
+				ActionHandle actionHandle = levelHandle.getActionHandle();
+				if (actionHandle != null) {
+					List source = new ArrayList();
+					source.add(actionHandle.getStructure());
+					List newAction = ModelUtil.cloneStructList(source);
+					dataHandle.setAction((Action) newAction.get(0));
 				}
 			}
 		}
 	}
 
-	private LevelHandle[] getLevelHandles( DimensionHandle dimensionHandle )
-	{
-		LevelHandle[] dimensionLevelHandles = new LevelHandle[dimensionHandle.getDefaultHierarchy( )
-				.getLevelCount( )];
-		for ( int i = 0; i < dimensionLevelHandles.length; i++ )
-		{
-			dimensionLevelHandles[i] = dimensionHandle.getDefaultHierarchy( )
-					.getLevel( i );
+	private LevelHandle[] getLevelHandles(DimensionHandle dimensionHandle) {
+		LevelHandle[] dimensionLevelHandles = new LevelHandle[dimensionHandle.getDefaultHierarchy().getLevelCount()];
+		for (int i = 0; i < dimensionLevelHandles.length; i++) {
+			dimensionLevelHandles[i] = dimensionHandle.getDefaultHierarchy().getLevel(i);
 		}
 		return dimensionLevelHandles;
 	}

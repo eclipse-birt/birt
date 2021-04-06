@@ -13,20 +13,19 @@ package org.eclipse.birt.core.btree;
 
 import java.io.IOException;
 
-public interface BTreeFile extends BTreeConstants
-{
+public interface BTreeFile extends BTreeConstants {
 
-	Object lock( ) throws IOException;
+	Object lock() throws IOException;
 
-	void unlock( Object lock ) throws IOException;
+	void unlock(Object lock) throws IOException;
 
-	void readBlock( int blockId, byte[] bytes ) throws IOException;
+	void readBlock(int blockId, byte[] bytes) throws IOException;
 
-	void writeBlock( int blockId, byte[] bytes ) throws IOException;
+	void writeBlock(int blockId, byte[] bytes) throws IOException;
 
-	int allocBlock( ) throws IOException;
+	int allocBlock() throws IOException;
 
-	int getTotalBlock( ) throws IOException;
+	int getTotalBlock() throws IOException;
 
-	void close( ) throws IOException;
+	void close() throws IOException;
 }

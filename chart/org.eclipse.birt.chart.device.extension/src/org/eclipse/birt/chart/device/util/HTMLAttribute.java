@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.chart.device.util;
 
-public class HTMLAttribute
-{
+public class HTMLAttribute {
 	public static final HTMLAttribute SHAPE = new HTMLAttribute("shape"); //$NON-NLS-1$
 	public static final HTMLAttribute COORDS = new HTMLAttribute("coords"); //$NON-NLS-1$
 	public static final HTMLAttribute ONFOCUS = new HTMLAttribute("onfocus"); //$NON-NLS-1$
@@ -25,15 +24,14 @@ public class HTMLAttribute
 	public static final HTMLAttribute ALT = new HTMLAttribute("alt"); //$NON-NLS-1$
 	public static final HTMLAttribute TITLE = new HTMLAttribute("title"); //$NON-NLS-1$
 	public static final HTMLAttribute STYLE = new HTMLAttribute("style"); //$NON-NLS-1$
-	
+
 	protected String name;
-	
-	public HTMLAttribute( final String name )
-	{
+
+	public HTMLAttribute(final String name) {
 		this.name = name;
 	}
-	public String getName()
-	{
+
+	public String getName() {
 		return name;
 	}
 }

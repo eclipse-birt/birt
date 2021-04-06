@@ -14,40 +14,33 @@ package org.eclipse.birt.report.debug.internal.core.vm.js;
 /**
  * JsFunctionSource
  */
-public class JsFunctionSource
-{
+public class JsFunctionSource {
 
 	private String functionName;
 	private String sourceName;
 	private String source;
 	private int startLineNumber;
 
-	public JsFunctionSource( String sourceName, String functionName,
-			String source, int startLineNumber )
-	{
+	public JsFunctionSource(String sourceName, String functionName, String source, int startLineNumber) {
 		this.sourceName = sourceName;
 		this.functionName = functionName;
 		this.source = source;
 		this.startLineNumber = startLineNumber;
 	}
 
-	public String getFunctionName( )
-	{
+	public String getFunctionName() {
 		return functionName;
 	}
 
-	public String getSourceName( )
-	{
+	public String getSourceName() {
 		return sourceName;
 	}
 
-	public String getSource( )
-	{
+	public String getSource() {
 		return source;
 	}
 
-	public int getStartLineNumber( )
-	{
+	public int getStartLineNumber() {
 		return startLineNumber;
 	}
 

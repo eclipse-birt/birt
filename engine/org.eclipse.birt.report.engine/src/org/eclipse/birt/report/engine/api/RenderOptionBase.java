@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api;
 
-
 /**
  * Settings for rendering a report to an output format. Currently supported
  * options include format of the request, whether to render HTML with style
@@ -20,8 +19,8 @@ package org.eclipse.birt.report.engine.api;
  * <p>
  * The predefined options strings are what BIRT supports. Other options are
  * available depending on custom extensions.
+ * 
  * @deprecated use RenderOption instead
  */
-public class RenderOptionBase extends RenderOption
-{
+public class RenderOptionBase extends RenderOption {
 }

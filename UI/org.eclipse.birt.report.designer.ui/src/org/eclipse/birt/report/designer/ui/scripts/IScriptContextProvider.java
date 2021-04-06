@@ -14,8 +14,7 @@ package org.eclipse.birt.report.designer.ui.scripts;
 /**
  * IScriptContextProvider
  */
-public interface IScriptContextProvider
-{
+public interface IScriptContextProvider {
 
 	/**
 	 * Returns associated script context info for specific context.
@@ -23,7 +22,7 @@ public interface IScriptContextProvider
 	 * @param contextName
 	 * @return
 	 */
-	IScriptContextInfo[] getScriptContext( String contextName );
+	IScriptContextInfo[] getScriptContext(String contextName);
 
 	/**
 	 * Returns associated script context info for specific context and method.
@@ -32,5 +31,5 @@ public interface IScriptContextProvider
 	 * @param methodName
 	 * @return
 	 */
-	IScriptContextInfo[] getScriptContext( String contextName, String methodName );
+	IScriptContextInfo[] getScriptContext(String contextName, String methodName);
 }

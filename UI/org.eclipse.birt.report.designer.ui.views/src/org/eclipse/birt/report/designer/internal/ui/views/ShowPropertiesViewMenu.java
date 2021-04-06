@@ -24,38 +24,27 @@ import org.eclipse.ui.PlatformUI;
  * Add Show Properties View Action in editor context menu.
  */
 
-public class ShowPropertiesViewMenu implements IMenuListener
-{
+public class ShowPropertiesViewMenu implements IMenuListener {
 
-	private static class ShowPropertiesViewAction extends Action
-	{
+	private static class ShowPropertiesViewAction extends Action {
 
-		ShowPropertiesViewAction( )
-		{
-			setText( Messages.getString( "ShowPropertiesViewMenu.ActionName" ) ); //$NON-NLS-1$
+		ShowPropertiesViewAction() {
+			setText(Messages.getString("ShowPropertiesViewMenu.ActionName")); //$NON-NLS-1$
 		}
 
 		@Override
-		public void run( )
-		{
-			try
-			{
-				PlatformUI.getWorkbench( )
-						.getActiveWorkbenchWindow( )
-						.getActivePage( )
-						.showView( AttributeView.ID );
-			}
-			catch ( PartInitException e )
-			{
-				ExceptionUtil.handle( e,
-						Messages.getString( "ShowPropertiesViewMenu.ErrorTitle" ), Messages.getString( "ShowPropertiesViewMenu.ErrorMessage" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+		public void run() {
+			try {
+				PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().showView(AttributeView.ID);
+			} catch (PartInitException e) {
+				ExceptionUtil.handle(e, Messages.getString("ShowPropertiesViewMenu.ErrorTitle"), //$NON-NLS-1$
+						Messages.getString("ShowPropertiesViewMenu.ErrorMessage")); //$NON-NLS-1$
 			}
 		}
 	}
 
-	public void menuAboutToShow( IMenuManager manager )
-	{
-		manager.appendToGroup( "additions", new ShowPropertiesViewAction( ) ); //$NON-NLS-1$
+	public void menuAboutToShow(IMenuManager manager) {
+		manager.appendToGroup("additions", new ShowPropertiesViewAction()); //$NON-NLS-1$
 	}
 
 }

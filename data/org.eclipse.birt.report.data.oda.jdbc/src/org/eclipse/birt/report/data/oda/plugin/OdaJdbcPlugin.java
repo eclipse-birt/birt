@@ -14,14 +14,11 @@ import org.eclipse.birt.report.data.oda.jdbc.JDBCDriverManager;
 import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.BundleContext;
 
-
 /**
  * Obtain support from Plugin
  */
-public class OdaJdbcPlugin extends Plugin
-{
-	public void stop( BundleContext context )
-	{
-		JDBCDriverManager.getInstance( ).close( );
+public class OdaJdbcPlugin extends Plugin {
+	public void stop(BundleContext context) {
+		JDBCDriverManager.getInstance().close();
 	}
 }

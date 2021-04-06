@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
  * Model class for embedded image node in the outline view
  */
 
-public class EmbeddedImageNode
-{
+public class EmbeddedImageNode {
 
 	private ModuleHandle reportHandle;
 
@@ -27,8 +26,7 @@ public class EmbeddedImageNode
 	 * 
 	 * @param reportHandle
 	 */
-	public EmbeddedImageNode( ModuleHandle reportHandle )
-	{
+	public EmbeddedImageNode(ModuleHandle reportHandle) {
 		this.reportHandle = reportHandle;
 	}
 
@@ -37,8 +35,7 @@ public class EmbeddedImageNode
 	 * 
 	 * @return report design handle, which contains embedded images.
 	 */
-	public ModuleHandle getReportDesignHandle( )
-	{
+	public ModuleHandle getReportDesignHandle() {
 		return reportHandle;
 	}
 
@@ -47,9 +44,8 @@ public class EmbeddedImageNode
 	 * 
 	 * @return Array of embedded images.
 	 */
-	public Object[] getChildren( )
-	{
-		return reportHandle.getVisibleImages( ).toArray( );
+	public Object[] getChildren() {
+		return reportHandle.getVisibleImages().toArray();
 	}
 
 	/*
@@ -57,24 +53,20 @@ public class EmbeddedImageNode
 	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals( Object arg0 )
-	{
-		if ( arg0 == this )
-		{
+	public boolean equals(Object arg0) {
+		if (arg0 == this) {
 			return true;
 		}
-		if ( arg0 instanceof EmbeddedImageNode )
-		{
-			return ( (EmbeddedImageNode) arg0 ).reportHandle == reportHandle;
+		if (arg0 instanceof EmbeddedImageNode) {
+			return ((EmbeddedImageNode) arg0).reportHandle == reportHandle;
 		}
 		return false;
 	}
 
-	public int hashCode( )
-	{
+	public int hashCode() {
 		int hashCode = 13;
-		if(reportHandle!=null)
-			hashCode +=  reportHandle.hashCode( ) * 7;
+		if (reportHandle != null)
+			hashCode += reportHandle.hashCode() * 7;
 		return hashCode;
 	}
 }

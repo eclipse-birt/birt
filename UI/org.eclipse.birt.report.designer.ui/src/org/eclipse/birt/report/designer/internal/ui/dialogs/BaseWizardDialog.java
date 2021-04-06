@@ -18,12 +18,10 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * BaseWizardDialog
  */
-public class BaseWizardDialog extends WizardDialog
-{
+public class BaseWizardDialog extends WizardDialog {
 
-	public BaseWizardDialog( Shell parentShell, IWizard newWizard )
-	{
-		super( parentShell, newWizard );
-		setHelpAvailable( false );
+	public BaseWizardDialog(Shell parentShell, IWizard newWizard) {
+		super(parentShell, newWizard);
+		setHelpAvailable(false);
 	}
 }

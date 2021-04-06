@@ -23,42 +23,38 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Open old design file and save it. New parsed design should have no change
  */
-public class Regression_149618 extends BaseTestCase
-{
+public class Regression_149618 extends BaseTestCase {
 
 	private String filename = "Regression_149618.xml"; //$NON-NLS-1$
 	private String outfile = "Regression_149618_out.xml"; //$NON-NLS-1$
 	private String goldenfile = "Regression_149618_golden.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
 		// copyResource_INPUT( filename , filename );
 		// copyResource_GOLDEN( goldenfile , goldenfile );
-		copyInputToFile( INPUT_FOLDER + "/" + filename );
-		copyGoldenToFile( GOLDEN_FOLDER + "/" + goldenfile );
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
+		copyGoldenToFile(GOLDEN_FOLDER + "/" + goldenfile);
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
 
 	/**
 	 * @throws Exception
 	 */
-	public void test_regression_149618( ) throws Exception
-	{
-		openDesign( filename );
-		saveAs( outfile );
+	public void test_regression_149618() throws Exception {
+		openDesign(filename);
+		saveAs(outfile);
 
 		// No change between input file and parsed file
 		// assertTrue( compareTextFile( goldenfile, outfile ) );
 
-		String TempFile = this.genOutputFile( outfile );
-		designHandle.saveAs( TempFile );
-		assertTrue( compareTextFile( goldenfile, outfile ) );
+		String TempFile = this.genOutputFile(outfile);
+		designHandle.saveAs(TempFile);
+		assertTrue(compareTextFile(goldenfile, outfile));
 	}
 
 }

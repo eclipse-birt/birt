@@ -23,8 +23,7 @@ import org.eclipse.birt.report.model.elements.Library;
  * Record for shifting library
  */
 
-public class ShiftLibraryRecord extends AbstractLibraryRecord
-{
+public class ShiftLibraryRecord extends AbstractLibraryRecord {
 
 	/**
 	 * The old position
@@ -41,17 +40,13 @@ public class ShiftLibraryRecord extends AbstractLibraryRecord
 	/**
 	 * Constrcuts the record.
 	 * 
-	 * @param module
-	 *            the module containing the library to shift
-	 * @param oldPosn
-	 *            the old position
-	 * @param newPosn
-	 *            the new position
+	 * @param module  the module containing the library to shift
+	 * @param oldPosn the old position
+	 * @param newPosn the new position
 	 */
 
-	ShiftLibraryRecord( Module module, int oldPosn, int newPosn )
-	{
-		super( module );
+	ShiftLibraryRecord(Module module, int oldPosn, int newPosn) {
+		super(module);
 		this.oldPosn = oldPosn;
 		this.newPosn = newPosn;
 	}
@@ -62,44 +57,39 @@ public class ShiftLibraryRecord extends AbstractLibraryRecord
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		library = module.getLibraries( ).get( undo ? newPosn : oldPosn );
+	protected void perform(boolean undo) {
+		library = module.getLibraries().get(undo ? newPosn : oldPosn);
 		assert library != null;
 
-		module.dropLibrary( library );
-		module.insertLibrary( library, undo ? oldPosn : newPosn );
+		module.dropLibrary(library);
+		module.insertLibrary(library, undo ? oldPosn : newPosn);
 
-		List<Library> librariesToUpdate = module.getLibraries( ).subList(
-				Math.min( oldPosn, newPosn ), Math.max( oldPosn, newPosn ) );
+		List<Library> librariesToUpdate = module.getLibraries().subList(Math.min(oldPosn, newPosn),
+				Math.max(oldPosn, newPosn));
 
-		updateReferenceableClients( librariesToUpdate.size( ) );
+		updateReferenceableClients(librariesToUpdate.size());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return module;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
+	public NotificationEvent getEvent() {
 		assert library != null;
 
-		return new LibraryEvent( library, LibraryEvent.SHIFT );
+		return new LibraryEvent(library, LibraryEvent.SHIFT);
 	}
 
 }

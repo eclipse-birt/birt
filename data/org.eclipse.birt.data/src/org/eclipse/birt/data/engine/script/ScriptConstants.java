@@ -15,8 +15,7 @@ package org.eclipse.birt.data.engine.script;
  * 
  */
 
-public final class ScriptConstants
-{
+public final class ScriptConstants {
 	public static final String DATA_SET_ROW_SCRIPTABLE = "dataSetRow";
 	public static final String DATA_SET_BINDING_SCRIPTABLE = "row";
 	public static final String DATA_BINDING_SCRIPTABLE = "data";

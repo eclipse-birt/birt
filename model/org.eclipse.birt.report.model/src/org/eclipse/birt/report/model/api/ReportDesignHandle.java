@@ -23,7 +23,8 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * Besides properties, it also contains a variety of elements that make up the
  * report. These include:
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
+ * collapse" bordercolor="#111111">
  * <th width="20%">Content Item</th>
  * <th width="40%">Description</th>
  * 
@@ -126,24 +127,18 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportDesignModel;
  * @see org.eclipse.birt.report.model.elements.ReportDesign
  */
 
-public class ReportDesignHandle extends ReportDesignHandleImpl
-		implements
-			IReportDesignModel
-{
+public class ReportDesignHandle extends ReportDesignHandleImpl implements IReportDesignModel {
 
 	/**
-	 * Constructs a handle with the given design. The application generally does
-	 * not create handles directly. Instead, it uses one of the navigation
-	 * methods available on other element handles.
+	 * Constructs a handle with the given design. The application generally does not
+	 * create handles directly. Instead, it uses one of the navigation methods
+	 * available on other element handles.
 	 * 
-	 * @param design
-	 *            the report design
+	 * @param design the report design
 	 */
 
-	public ReportDesignHandle( ReportDesign design )
-	{
-		super( design );
+	public ReportDesignHandle(ReportDesign design) {
+		super(design);
 	}
 
-	
 }

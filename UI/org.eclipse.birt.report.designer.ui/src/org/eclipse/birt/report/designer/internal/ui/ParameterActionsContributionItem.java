@@ -21,27 +21,25 @@ import org.eclipse.ui.actions.CompoundContributionItem;
 /**
  * ParameterActionsContributionItem
  */
-public class ParameterActionsContributionItem extends CompoundContributionItem
-{
+public class ParameterActionsContributionItem extends CompoundContributionItem {
 
 	public final static String PARAMETER_ACTIONS_ID = "ParameterActions"; //$NON-NLS-1$
 
 	@Override
-	protected IContributionItem[] getContributionItems( )
-	{
-		MenuManager dtItem = new MenuManager( Messages.getString( "DesignerActionBarContributor.menu.data-NewParameter" ), //$NON-NLS-1$
-				PARAMETER_ACTIONS_ID );
+	protected IContributionItem[] getContributionItems() {
+		MenuManager dtItem = new MenuManager(Messages.getString("DesignerActionBarContributor.menu.data-NewParameter"), //$NON-NLS-1$
+				PARAMETER_ACTIONS_ID);
 
-		dtItem.add( new NewParameterAction( NewParameterAction.INSERT_SCALAR_PARAMETER,
+		dtItem.add(new NewParameterAction(NewParameterAction.INSERT_SCALAR_PARAMETER,
 				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT,
-				Messages.getString( "ParametersNodeProvider.menu.text.parameter" ) ) ); //$NON-NLS-1$
-		dtItem.add( new NewParameterAction( NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
+				Messages.getString("ParametersNodeProvider.menu.text.parameter"))); //$NON-NLS-1$
+		dtItem.add(new NewParameterAction(NewParameterAction.INSERT_CASCADING_PARAMETER_GROUP,
 				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT,
-				Messages.getString( "ParametersNodeProvider.menu.text.cascadingParameter" ) ) ); //$NON-NLS-1$
-		dtItem.add( new NewParameterAction( NewParameterAction.INSERT_PARAMETER_GROUP,
+				Messages.getString("ParametersNodeProvider.menu.text.cascadingParameter"))); //$NON-NLS-1$
+		dtItem.add(new NewParameterAction(NewParameterAction.INSERT_PARAMETER_GROUP,
 				ReportDesignConstants.PARAMETER_GROUP_ELEMENT,
-				Messages.getString( "ParametersNodeProvider.menu.text.group" ) ) ); //$NON-NLS-1$
+				Messages.getString("ParametersNodeProvider.menu.text.group"))); //$NON-NLS-1$
 
-		return dtItem.getItems( );
+		return dtItem.getItems();
 	}
 }

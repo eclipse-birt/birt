@@ -22,11 +22,9 @@ import org.eclipse.ui.IWorkbenchPart;
  * Action of inserting one row above the current selected row.
  */
 
-public class InsertRowAboveAction extends InsertRowAction
-{
+public class InsertRowAboveAction extends InsertRowAction {
 
-	private static final String ACTION_MSG_ROW_ABOVE = Messages
-			.getString( "InsertRowAboveAction.actionMsg.rowAbove" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_ROW_ABOVE = Messages.getString("InsertRowAboveAction.actionMsg.rowAbove"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAboveAction"; //$NON-NLS-1$
@@ -34,33 +32,26 @@ public class InsertRowAboveAction extends InsertRowAction
 	/**
 	 * Constructs new instance.
 	 * 
-	 * @param part
-	 *            current work bench part
+	 * @param part current work bench part
 	 */
-	public InsertRowAboveAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_ROW_ABOVE );
+	public InsertRowAboveAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_ROW_ABOVE);
 	}
 
 	/**
 	 * Runs action.
 	 * 
 	 */
-	public void run( )
-	{
+	public void run() {
 
-		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_ROW_POSITION,
-				Integer.valueOf( -1 ) );
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_ROW_POSITION, Integer.valueOf(-1));
 
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertRowCommand",null ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.insertRowCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 
 	}

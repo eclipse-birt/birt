@@ -17,47 +17,38 @@ import java.util.Collection;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TreeNode;
 
-public class MemTreeNode extends TreeNode
-{
+public class MemTreeNode extends TreeNode {
 
 	protected ArrayList<ITreeNode> children;
 
 	protected MemTreeNode parent;
 
-	public MemTreeNode( )
-	{
+	public MemTreeNode() {
 	}
 
-	public MemTreeNode( TreeNode entry )
-	{
-		super( entry );
+	public MemTreeNode(TreeNode entry) {
+		super(entry);
 	}
 
-	public Collection<ITreeNode> getChildren( )
-	{
-		if ( children == null )
-		{
-			children = new ArrayList<ITreeNode>( );
+	public Collection<ITreeNode> getChildren() {
+		if (children == null) {
+			children = new ArrayList<ITreeNode>();
 		}
 		return children;
 	}
 
-	public void addChild( MemTreeNode node )
-	{
-		if ( children == null )
-		{
-			children = new ArrayList<ITreeNode>( );
+	public void addChild(MemTreeNode node) {
+		if (children == null) {
+			children = new ArrayList<ITreeNode>();
 		}
-		children.add( node );
+		children.add(node);
 	}
 
-	public MemTreeNode getParent( )
-	{
+	public MemTreeNode getParent() {
 		return parent;
 	}
 
-	public void setParent( MemTreeNode parent )
-	{
+	public void setParent(MemTreeNode parent) {
 		this.parent = parent;
 	}
 

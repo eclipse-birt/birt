@@ -17,21 +17,20 @@ import org.eclipse.draw2d.IFigure;
  * Drag guide editpart
  */
 
-public class DragEditorGuideEditPart extends EditorGuideEditPart
-{
-	/**Constauctor
+public class DragEditorGuideEditPart extends EditorGuideEditPart {
+	/**
+	 * Constauctor
+	 * 
 	 * @param model
 	 */
-	public DragEditorGuideEditPart( Object model )
-	{
-		super( model );
+	public DragEditorGuideEditPart(Object model) {
+		super(model);
 	}
-	
+
 	@Override
-	protected IFigure createFigure( )
-	{
-		super.createFigure( );
-		
-		return new DragEditorGuideFigure(isHorizontal( ));
+	protected IFigure createFigure() {
+		super.createFigure();
+
+		return new DragEditorGuideFigure(isHorizontal());
 	}
 }

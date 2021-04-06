@@ -17,8 +17,7 @@ import java.util.Map;
 /**
  * 
  */
-public class DrillThroughActionDesign
-{
+public class DrillThroughActionDesign {
 
 	protected Expression reportName;
 	/**
@@ -36,108 +35,89 @@ public class DrillThroughActionDesign
 	/**
 	 * @return Returns the bookmark.
 	 */
-	public Expression getBookmark( )
-	{
+	public Expression getBookmark() {
 		return bookmark;
 	}
 
 	/**
-	 * @param bookmark
-	 *            The bookmark to set.
+	 * @param bookmark The bookmark to set.
 	 */
-	public void setBookmark( Expression bookmark )
-	{
+	public void setBookmark(Expression bookmark) {
 		this.bookmark = bookmark;
 	}
 
 	/**
 	 * @return Returns the reportName.
 	 */
-	public Expression getReportName( )
-	{
+	public Expression getReportName() {
 		return reportName;
 	}
 
 	/**
-	 * @param reportName
-	 *            The reportName to set.
+	 * @param reportName The reportName to set.
 	 */
-	public void setReportName( Expression reportName )
-	{
+	public void setReportName(Expression reportName) {
 		this.reportName = reportName;
 	}
 
 	/**
 	 * @return Returns the parameters.
 	 */
-	public Map<String, List<Expression>> getParameters( )
-	{
+	public Map<String, List<Expression>> getParameters() {
 		return parameters;
 	}
 
 	/**
-	 * @param parameters
-	 *            The parameters to set.
+	 * @param parameters The parameters to set.
 	 */
-	public void setParameters( Map<String, List<Expression>> parameters )
-	{
+	public void setParameters(Map<String, List<Expression>> parameters) {
 		this.parameters = parameters;
 	}
 
 	/**
 	 * @return Returns the search.
 	 */
-	public Map getSearch( )
-	{
+	public Map getSearch() {
 		return search;
 	}
 
 	/**
-	 * @param search
-	 *            The search to set.
+	 * @param search The search to set.
 	 */
-	public void setSearch( Map search )
-	{
+	public void setSearch(Map search) {
 		this.search = search;
 	}
 
-	public String getFormat( )
-	{
+	public String getFormat() {
 		return format;
 	}
 
-	public void setFormat( String format )
-	{
+	public void setFormat(String format) {
 		this.format = format;
 	}
 
-	public void setBookmarkType( boolean bookmarkType )
-	{
+	public void setBookmarkType(boolean bookmarkType) {
 		this.bookmarkType = bookmarkType;
 	}
 
-	public boolean getBookmarkType( )
-	{
+	public boolean getBookmarkType() {
 		return bookmarkType;
 	}
 
 	/**
-	 * Sets target report file type for a drill-through action. The format type
-	 * for action are defined in DesignChoiceConstants.
+	 * Sets target report file type for a drill-through action. The format type for
+	 * action are defined in DesignChoiceConstants.
 	 * 
-	 * @param targetFileType
-	 *            the type of the target report file.
+	 * @param targetFileType the type of the target report file.
 	 */
-	public void setTargetFileType( String targetFileType )
-	{
+	public void setTargetFileType(String targetFileType) {
 		this.targetFileType = targetFileType;
 	}
 
 	/**
 	 * @return the type of the target report file.
 	 */
-	public String getTargetFileType( )
-	{
+	public String getTargetFileType() {
 		return targetFileType;
 	}
 }

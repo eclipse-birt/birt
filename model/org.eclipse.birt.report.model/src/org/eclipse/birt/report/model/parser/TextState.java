@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
@@ -22,8 +22,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class TextState extends DesignParseState
-{
+public class TextState extends DesignParseState {
 
 	/**
 	 * The element or structure that contains the property.
@@ -38,37 +37,32 @@ public class TextState extends DesignParseState
 	protected String valueName;
 
 	/**
-	 * Constructs the text state with the design file parser handler, the
-	 * element or structure that holds the text and the property name of the
-	 * text.
+	 * Constructs the text state with the design file parser handler, the element or
+	 * structure that holds the text and the property name of the text.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param obj
-	 *            the element or structure that has the property to set
-	 * @param theProp
-	 *            the name of the property to set
+	 * @param handler the design file parser handler
+	 * @param obj     the element or structure that has the property to set
+	 * @param theProp the name of the property to set
 	 */
 
-	public TextState( ModuleParserHandler handler, IPropertySet obj,
-			String theProp )
-	{
-		super( handler );
+	public TextState(ModuleParserHandler handler, IPropertySet obj, String theProp) {
+		super(handler);
 		valueSet = obj;
 		valueName = theProp;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		PropertyDefn prop = (PropertyDefn)valueSet.getObjectDefn( ).findProperty( valueName );
+		PropertyDefn prop = (PropertyDefn) valueSet.getObjectDefn().findProperty(valueName);
 		assert prop != null;
-		valueSet.setProperty( prop, value );
+		valueSet.setProperty(prop, value);
 	}
 
 	/*
@@ -77,8 +71,7 @@ public class TextState extends DesignParseState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return null;
 	}
 

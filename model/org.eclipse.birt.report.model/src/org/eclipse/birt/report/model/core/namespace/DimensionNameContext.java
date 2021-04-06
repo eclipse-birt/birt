@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
 /**
  * 
  */
-public class DimensionNameContext extends ElementNameContext
-{
+public class DimensionNameContext extends ElementNameContext {
 
 	protected Dimension dimension = null;
 
@@ -26,32 +25,27 @@ public class DimensionNameContext extends ElementNameContext
 	 * 
 	 * @param dimension
 	 */
-	public DimensionNameContext( Dimension dimension )
-	{
-		super( );
+	public DimensionNameContext(Dimension dimension) {
+		super();
 		this.dimension = dimension;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContext#getElement()
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getElement()
 	 */
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return dimension;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpaceID
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpaceID
 	 * ()
 	 */
-	public String getNameSpaceID( )
-	{
+	public String getNameSpaceID() {
 		return Dimension.LEVEL_NAME_SPACE;
 	}
 

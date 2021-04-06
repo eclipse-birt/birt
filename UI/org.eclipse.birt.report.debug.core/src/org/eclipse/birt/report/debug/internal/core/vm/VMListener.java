@@ -14,8 +14,7 @@ package org.eclipse.birt.report.debug.internal.core.vm;
 /**
  * VMListener
  */
-public interface VMListener
-{
+public interface VMListener {
 
-	void handleEvent( int eventCode, VMContextData context );
+	void handleEvent(int eventCode, VMContextData context);
 }

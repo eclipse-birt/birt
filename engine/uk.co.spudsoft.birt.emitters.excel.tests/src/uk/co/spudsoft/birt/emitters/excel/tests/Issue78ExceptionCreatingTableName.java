@@ -23,19 +23,19 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
-public class  Issue78ExceptionCreatingTableName extends ReportRunner {
+public class Issue78ExceptionCreatingTableName extends ReportRunner {
 
 	@Test
 	public void testPrintBreaksInserted() throws BirtException, IOException {
 
 		InputStream inputStream = runAndRenderReport("Issue78ExceptionCreatingTableName.rptdesign", "xlsx");
 		assertNotNull(inputStream);
-		try {			
+		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 		} finally {
 			inputStream.close();
 		}

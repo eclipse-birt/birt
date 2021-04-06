@@ -28,38 +28,33 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Backward compatibility
  */
-public class Regression_156020 extends BaseTestCase
-{
+public class Regression_156020 extends BaseTestCase {
 
 	private final static String REPORT = "regression_156020.xml"; //$NON-NLS-1$
 	private final static String DATASOURCEEXTENSION = "org.eclipse.datatools.enablement.oda.xml"; //$NON-NLS-1$
 	private final static String DATASETEXTENSION = "org.eclipse.datatools.enablement.oda.xml.dataSet"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(REPORT, REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * Backward compatibility
 	 * 
 	 * @throws DesignFileException
 	 */
-	public void test_regression_156020( ) throws DesignFileException
-	{
-		openDesign( REPORT );
-		OdaDataSourceHandle dsource = (OdaDataSourceHandle) designHandle
-				.findDataSource( "Data Source" ); //$NON-NLS-1$
-		OdaDataSetHandle dset = (OdaDataSetHandle) designHandle
-				.findDataSet( "Data Set" ); //$NON-NLS-1$
-		assertEquals( DATASOURCEEXTENSION, dsource.getExtensionID( ) );
-		assertEquals( DATASETEXTENSION, dset.getExtensionID( ) );
+	public void test_regression_156020() throws DesignFileException {
+		openDesign(REPORT);
+		OdaDataSourceHandle dsource = (OdaDataSourceHandle) designHandle.findDataSource("Data Source"); //$NON-NLS-1$
+		OdaDataSetHandle dset = (OdaDataSetHandle) designHandle.findDataSet("Data Set"); //$NON-NLS-1$
+		assertEquals(DATASOURCEEXTENSION, dsource.getExtensionID());
+		assertEquals(DATASETEXTENSION, dset.getExtensionID());
 
 	}
 

@@ -24,19 +24,15 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * 
  */
 
-public class NoRecalculateIVRSPopulator extends ResultSetPopulator
-{
+public class NoRecalculateIVRSPopulator extends ResultSetPopulator {
 
-	public NoRecalculateIVRSPopulator( BaseQuery query, IResultClass rsMeta,
-			CachedResultSet ri, DataEngineSession session,
-			IEventHandler eventHandler, List[] groups ) throws DataException
-	{
-		super( query, rsMeta, ri, session, eventHandler );
-		this.getGroupProcessorManager( ).getGroupCalculationUtil( ).getGroupInformationUtil( ).setGroups( groups );
+	public NoRecalculateIVRSPopulator(BaseQuery query, IResultClass rsMeta, CachedResultSet ri,
+			DataEngineSession session, IEventHandler eventHandler, List[] groups) throws DataException {
+		super(query, rsMeta, ri, session, eventHandler);
+		this.getGroupProcessorManager().getGroupCalculationUtil().getGroupInformationUtil().setGroups(groups);
 	}
 
-	public void populateResultSet( OdiResultSetWrapper odaResultSet ) throws DataException
-	{
-		NoRecalculatePassManager.populateResultSet( this, odaResultSet, this.session );
+	public void populateResultSet(OdiResultSetWrapper odaResultSet) throws DataException {
+		NoRecalculatePassManager.populateResultSet(this, odaResultSet, this.session);
 	}
 }

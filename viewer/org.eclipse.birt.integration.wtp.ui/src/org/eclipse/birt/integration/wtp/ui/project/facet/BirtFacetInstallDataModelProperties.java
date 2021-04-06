@@ -13,10 +13,7 @@ package org.eclipse.birt.integration.wtp.ui.project.facet;
 
 import org.eclipse.wst.common.frameworks.datamodel.IDataModelProperties;
 
-public interface BirtFacetInstallDataModelProperties
-		extends
-			IDataModelProperties
-{
+public interface BirtFacetInstallDataModelProperties extends IDataModelProperties {
 
 	public static final String BIRT_CONFIG = "BirtFacetInstallDataModelProperties.BIRT_CONFIG"; //$NON-NLS-1$
 }

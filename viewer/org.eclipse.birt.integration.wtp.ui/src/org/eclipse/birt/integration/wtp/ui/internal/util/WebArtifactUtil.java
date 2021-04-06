@@ -29,8 +29,7 @@ import org.eclipse.jst.j2ee.webapplication.WebApp;
  * Birt WebArtifact Utility
  * 
  */
-public class WebArtifactUtil 
-{
+public class WebArtifactUtil {
 
 	/**
 	 * get filter-mapping from list by key String
@@ -39,23 +38,20 @@ public class WebArtifactUtil
 	 * @param name
 	 * @return
 	 */
-	public static Object getFilterMappingByKey( List list, String key )
-	{
-		if ( list == null || key == null )
+	public static Object getFilterMappingByKey(List list, String key) {
+		if (list == null || key == null)
 			return null;
 
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
 			// get filter-mapping object
-			FilterMapping filterMapping = (FilterMapping) it.next( );
-			if ( filterMapping != null )
-			{
-				String name = filterMapping.getFilter( ).getName( );
-				String servletName = filterMapping.getServletName( );
-				String uri = filterMapping.getUrlPattern( );
-				String curKey = getFilterMappingString( name, servletName, uri );
-				if ( key.equals( curKey ) )
+			FilterMapping filterMapping = (FilterMapping) it.next();
+			if (filterMapping != null) {
+				String name = filterMapping.getFilter().getName();
+				String servletName = filterMapping.getServletName();
+				String uri = filterMapping.getUrlPattern();
+				String curKey = getFilterMappingString(name, servletName, uri);
+				if (key.equals(curKey))
 					return filterMapping;
 			}
 		}
@@ -70,19 +66,15 @@ public class WebArtifactUtil
 	 * @param name
 	 * @return
 	 */
-	public static Object getListenerByClassName( List list, String className )
-	{
-		if ( list == null || className == null )
+	public static Object getListenerByClassName(List list, String className) {
+		if (list == null || className == null)
 			return null;
 
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
 			// get listener object
-			Listener listener = (Listener) it.next( );
-			if ( listener != null
-					&& className.equals( listener.getListenerClassName( ) ) )
-			{
+			Listener listener = (Listener) it.next();
+			if (listener != null && className.equals(listener.getListenerClassName())) {
 				return listener;
 			}
 		}
@@ -97,19 +89,15 @@ public class WebArtifactUtil
 	 * @param name
 	 * @return
 	 */
-	public static Object getServletMappingByUri( List list, String uri )
-	{
-		if ( list == null || uri == null )
+	public static Object getServletMappingByUri(List list, String uri) {
+		if (list == null || uri == null)
 			return null;
 
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
 			// get servlet-mapping object
-			ServletMapping servletMapping = (ServletMapping) it.next( );
-			if ( servletMapping != null
-					&& uri.equals( servletMapping.getUrlPattern( ) ) )
-			{
+			ServletMapping servletMapping = (ServletMapping) it.next();
+			if (servletMapping != null && uri.equals(servletMapping.getUrlPattern())) {
 				return servletMapping;
 			}
 		}
@@ -124,42 +112,35 @@ public class WebArtifactUtil
 	 * @param name
 	 * @return
 	 */
-	public static Object getTagLibByUri( WebApp webapp, String uri )
-	{
-		if ( webapp == null || uri == null )
+	public static Object getTagLibByUri(WebApp webapp, String uri) {
+		if (webapp == null || uri == null)
 			return null;
 
 		List list = null;
 
-		JSPConfig config = webapp.getJspConfig( );
-		if ( config != null )
-		{
+		JSPConfig config = webapp.getJspConfig();
+		if (config != null) {
 			// for servlet 2.4
-			list = config.getTagLibs( );
-		}
-		else
-		{
-			list = webapp.getTagLibs( );
+			list = config.getTagLibs();
+		} else {
+			list = webapp.getTagLibs();
 		}
 
-		Iterator it = list.iterator( );
-		while ( it.hasNext( ) )
-		{
-			Object obj = it.next( );
+		Iterator it = list.iterator();
+		while (it.hasNext()) {
+			Object obj = it.next();
 
 			// for servlet 2.3
-			if ( obj instanceof TagLibRef )
-			{
+			if (obj instanceof TagLibRef) {
 				TagLibRef ref = (TagLibRef) obj;
-				if ( uri.equals( ref.getTaglibURI( ) ) )
+				if (uri.equals(ref.getTaglibURI()))
 					return ref;
 			}
 
 			// for servlet 2.4
-			if ( obj instanceof TagLibRefType )
-			{
+			if (obj instanceof TagLibRefType) {
 				TagLibRefType ref = (TagLibRefType) obj;
-				if ( uri.equals( ref.getTaglibURI( ) ) )
+				if (uri.equals(ref.getTaglibURI()))
 					return ref;
 			}
 		}
@@ -174,16 +155,15 @@ public class WebArtifactUtil
 	 * @param name
 	 * @return
 	 */
-	public static String getContextParamValue( Map map, String name )
-	{
-		if ( map == null || name == null )
+	public static String getContextParamValue(Map map, String name) {
+		if (map == null || name == null)
 			return null;
 
-		ContextParamBean bean = (ContextParamBean) map.get( name );
-		if ( bean == null )
+		ContextParamBean bean = (ContextParamBean) map.get(name);
+		if (bean == null)
 			return null;
 
-		return bean.getValue( );
+		return bean.getValue();
 	}
 
 	/**
@@ -193,24 +173,22 @@ public class WebArtifactUtil
 	 * @param name
 	 * @param value
 	 */
-	public static void setContextParamValue( Map map, String name, String value )
-	{
-		if ( name == null )
+	public static void setContextParamValue(Map map, String name, String value) {
+		if (name == null)
 			return;
 
-		if ( map == null )
-			map = new HashMap( );
+		if (map == null)
+			map = new HashMap();
 
 		// get context-param bean
-		ContextParamBean bean = (ContextParamBean) map.get( name );
-		if ( bean == null )
-		{
-			bean = new ContextParamBean( name, value );
-			map.put( name, bean );
+		ContextParamBean bean = (ContextParamBean) map.get(name);
+		if (bean == null) {
+			bean = new ContextParamBean(name, value);
+			map.put(name, bean);
 			return;
 		}
 
-		bean.setValue( value );
+		bean.setValue(value);
 	}
 
 	/**
@@ -221,11 +199,9 @@ public class WebArtifactUtil
 	 * @param uri
 	 * @return
 	 */
-	public static String getFilterMappingString( String name,
-			String servletName, String uri )
-	{
-		return ( name != null ? name : "" ) //$NON-NLS-1$
-				+ ( servletName != null ? servletName : "" ) //$NON-NLS-1$
-				+ ( uri != null ? uri : "" ); //$NON-NLS-1$
+	public static String getFilterMappingString(String name, String servletName, String uri) {
+		return (name != null ? name : "") //$NON-NLS-1$
+				+ (servletName != null ? servletName : "") //$NON-NLS-1$
+				+ (uri != null ? uri : ""); //$NON-NLS-1$
 	}
 }

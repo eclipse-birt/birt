@@ -83,8 +83,7 @@ import org.eclipse.birt.report.service.api.IViewerReportService;
  * page sets share the same back-end fragments.
  * 
  */
-public class BirtBaseFragment extends AbstractBaseFragment
-{
+public class BirtBaseFragment extends AbstractBaseFragment {
 	/**
 	 * Reference to root fragment
 	 */
@@ -94,7 +93,7 @@ public class BirtBaseFragment extends AbstractBaseFragment
 	 * Reference to the engine fragment
 	 */
 	protected static IFragment engineFragment = null;
-	
+
 	/**
 	 * Reference to the parameter fragment
 	 */
@@ -108,22 +107,20 @@ public class BirtBaseFragment extends AbstractBaseFragment
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected String doPostService( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException, IOException
-	{
-		response.setHeader("Cache-Control","no-store");  //$NON-NLS-1$//$NON-NLS-2$
-		response.setHeader("Pragma","no-cache");  //$NON-NLS-1$//$NON-NLS-2$
-		response.setDateHeader("Expires", 0);    //$NON-NLS-1$
+	protected String doPostService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setHeader("Cache-Control", "no-store"); //$NON-NLS-1$//$NON-NLS-2$
+		response.setHeader("Pragma", "no-cache"); //$NON-NLS-1$//$NON-NLS-2$
+		response.setDateHeader("Expires", 0); //$NON-NLS-1$
 
-		String className = getClass( ).getName( ).substring( getClass( ).getName( ).lastIndexOf ( '.' ) + 1 );
+		String className = getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1);
 		return JSPRootPath + "/pages/layout/" + className + ".jsp"; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/**
 	 * Get report service instance.
 	 */
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 }

@@ -19,8 +19,7 @@ import java.util.List;
  * TODO: Add more javadoc
  * 
  */
-public class ParameterGroupDefinition
-{
+public class ParameterGroupDefinition {
 
 	private String name;
 
@@ -31,22 +30,20 @@ public class ParameterGroupDefinition
 	private boolean cascade;
 
 	private String promptText;
-	
+
 	private String helpText;
 
-	public ParameterGroupDefinition( String name, String displayName,
-			String promptText, List parameters, boolean cascade )
-	{
+	public ParameterGroupDefinition(String name, String displayName, String promptText, List parameters,
+			boolean cascade) {
 		this.name = name;
 		this.displayName = displayName;
 		this.promptText = promptText;
 		this.parameters = parameters;
 		this.cascade = cascade;
 	}
-	
-	public ParameterGroupDefinition( String name, String displayName,
-			String promptText, List parameters, boolean cascade , String helpText)
-	{
+
+	public ParameterGroupDefinition(String name, String displayName, String promptText, List parameters,
+			boolean cascade, String helpText) {
 		this.name = name;
 		this.displayName = displayName;
 		this.promptText = promptText;
@@ -55,71 +52,59 @@ public class ParameterGroupDefinition
 		this.helpText = helpText;
 	}
 
-	public ParameterGroupDefinition( )
-	{
+	public ParameterGroupDefinition() {
 		// todo
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
-	public String getPromptText( )
-	{
+	public String getPromptText() {
 		return promptText;
 	}
 
-	public List getParameters( )
-	{
+	public List getParameters() {
 		return parameters;
 	}
 
-	public void setParameters( List parameters )
-	{
+	public void setParameters(List parameters) {
 		this.parameters = parameters;
 	}
-	
-	public String getHelpText( )
-	{
+
+	public String getHelpText() {
 		return this.helpText;
 	}
 
-	public void setHelpText( String helpText )
-	{
+	public void setHelpText(String helpText) {
 		this.helpText = helpText;
 	}
 
-	public int getParameterCount( )
-	{
-		if ( parameters != null )
-			return parameters.size( );
+	public int getParameterCount() {
+		if (parameters != null)
+			return parameters.size();
 		return 0;
 	}
 
-	public boolean cascade( )
-	{
+	public boolean cascade() {
 		return cascade;
 	}
 
-	public boolean equals( Object obj )
-	{
-		if ( name == null || !( obj instanceof ParameterGroupDefinition ) )
+	public boolean equals(Object obj) {
+		if (name == null || !(obj instanceof ParameterGroupDefinition))
 			return false;
 		ParameterGroupDefinition other = (ParameterGroupDefinition) obj;
-		return getName( ).equals( other.getName( ) );
+		return getName().equals(other.getName());
 	}
 
-	public int hashCode( )
-	{
-		if ( name == null )
+	public int hashCode() {
+		if (name == null)
 			return 0;
-		return name.hashCode( );
+		return name.hashCode();
 	}
 
 }

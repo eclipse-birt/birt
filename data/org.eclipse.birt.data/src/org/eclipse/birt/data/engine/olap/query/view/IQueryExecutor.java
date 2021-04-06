@@ -19,13 +19,10 @@ import org.eclipse.birt.data.engine.olap.data.api.IBindingValueFetcher;
 import org.eclipse.birt.data.engine.olap.data.api.cube.ICube;
 import org.eclipse.birt.data.engine.olap.driver.IResultSet;
 
-
-public interface IQueryExecutor
-{
-	public IResultSet execute( BirtCubeView view, StopSign stopSign, ICube cube, IBindingValueFetcher fetcher )
+public interface IQueryExecutor {
+	public IResultSet execute(BirtCubeView view, StopSign stopSign, ICube cube, IBindingValueFetcher fetcher)
 			throws IOException, BirtException;
-	
-	public IResultSet executeSubQuery( IResultSet parentResultSet,
-			BirtCubeView view, int startingColumnLevelIndex,
-			int startingRowLevelIndex ) throws IOException;
+
+	public IResultSet executeSubQuery(IResultSet parentResultSet, BirtCubeView view, int startingColumnLevelIndex,
+			int startingRowLevelIndex) throws IOException;
 }

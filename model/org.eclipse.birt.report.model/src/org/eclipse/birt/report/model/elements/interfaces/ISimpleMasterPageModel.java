@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for simple master page element to store the constants.
  */
-public interface ISimpleMasterPageModel
-{
+public interface ISimpleMasterPageModel {
 
 	/**
 	 * The page header slot ID.
@@ -37,15 +36,15 @@ public interface ISimpleMasterPageModel
 	public static final int SLOT_COUNT = 2;
 
 	/**
-	 * Name of the property 'show-header-on-first' that indicates whether show
-	 * the header on the first page or not.
+	 * Name of the property 'show-header-on-first' that indicates whether show the
+	 * header on the first page or not.
 	 */
 
 	public static final String SHOW_HEADER_ON_FIRST_PROP = "showHeaderOnFirst"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property 'show-footer-on-last' that indicates whether show
-	 * the footer on the last page.
+	 * Name of the property 'show-footer-on-last' that indicates whether show the
+	 * footer on the last page.
 	 */
 
 	public static final String SHOW_FOOTER_ON_LAST_PROP = "showFooterOnLast"; //$NON-NLS-1$

@@ -22,7 +22,6 @@ import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
 /**
  * This is a utility class for maintaining the meta data information for a
  * particular JDBC connection.
@@ -30,8 +29,7 @@ import java.util.logging.Logger;
  * @version $Revision: 1.9 $ $Date: 2008/08/04 07:55:18 $
  */
 
-public class ConnectionMetaData implements Serializable
-{
+public class ConnectionMetaData implements Serializable {
 
 	/**
 	 * serial version id
@@ -46,104 +44,87 @@ public class ConnectionMetaData implements Serializable
 	private ArrayList schemas = null;
 	private transient Connection connection = null;
 	private transient DatabaseMetaData metadata = null;
-	private static Logger logger = Logger.getLogger( ConnectionMetaData.class.getName( ) );
-	private long timeout; //milliseconds
+	private static Logger logger = Logger.getLogger(ConnectionMetaData.class.getName());
+	private long timeout; // milliseconds
+
 	/**
 	 *  
 	 */
-	public ConnectionMetaData( )
-	{
-		super( );
+	public ConnectionMetaData() {
+		super();
 	}
 
 	/**
 	 * @return Returns the classname.
 	 */
-	public String getClassname( )
-	{
+	public String getClassname() {
 		return classname;
 	}
 
 	/**
-	 * @param classname
-	 *            The classname to set.
+	 * @param classname The classname to set.
 	 */
-	public void setClassname( String classname )
-	{
+	public void setClassname(String classname) {
 		this.classname = classname;
 	}
 
 	/**
 	 * @return Returns the password.
 	 */
-	public String getPassword( )
-	{
+	public String getPassword() {
 		return password;
 	}
 
 	/**
-	 * @param password
-	 *            The password to set.
+	 * @param password The password to set.
 	 */
-	public void setPassword( String password )
-	{
+	public void setPassword(String password) {
 		this.password = password;
 	}
 
 	/**
 	 * @return Returns the properties.
 	 */
-	public Properties getProperties( )
-	{
+	public Properties getProperties() {
 		return properties;
 	}
 
 	/**
-	 * @param properties
-	 *            The properties to set.
+	 * @param properties The properties to set.
 	 */
-	public void setProperties( Properties properties )
-	{
+	public void setProperties(Properties properties) {
 		this.properties = properties;
 	}
 
 	/**
 	 * @return Returns the url.
 	 */
-	public String getUrl( )
-	{
+	public String getUrl() {
 		return url;
 	}
 
-	
-	public void setTimeout( long timeout )
-	{
+	public void setTimeout(long timeout) {
 		this.timeout = timeout;
 	}
 
 	/**
-	 * @param url
-	 *            The url to set.
+	 * @param url The url to set.
 	 */
-	public void setUrl( String url )
-	{
+	public void setUrl(String url) {
 		this.url = url;
 	}
 
 	/**
 	 * @return Returns the username.
 	 */
-	public String getUsername( )
-	{
+	public String getUsername() {
 		return username;
 	}
 
 	/**
-	 * @param username
-	 *            The username to set.
+	 * @param username The username to set.
 	 */
-	public void setUsername( String username )
-	{
+	public void setUsername(String username) {
 		this.username = username;
 	}
 
@@ -151,74 +132,56 @@ public class ConnectionMetaData implements Serializable
 	 * @return Returns the catalogname.
 	 * @throws SQLException
 	 */
-	public String getCatalogname( ) throws SQLException
-	{
-		if ( catalogname == null )
-		{
-			//Get the name of the catalog for this connection from the data
+	public String getCatalogname() throws SQLException {
+		if (catalogname == null) {
+			// Get the name of the catalog for this connection from the data
 			// base
-			catalogname = getConnection( ).getCatalog( );
+			catalogname = getConnection().getCatalog();
 		}
 		return catalogname;
 	}
 
-    public String getDatabaseProductName() throws SQLException
-    {
-        return getMetaData().getDatabaseProductName();
-    }
-    
-    public String getDatabaseProductVersion() throws SQLException
-    {
-        return getMetaData().getDatabaseProductVersion();
-    }
+	public String getDatabaseProductName() throws SQLException {
+		return getMetaData().getDatabaseProductName();
+	}
+
+	public String getDatabaseProductVersion() throws SQLException {
+		return getMetaData().getDatabaseProductVersion();
+	}
 
 	/**
 	 * @return Returns the schemas.
 	 * @throws SQLException
 	 */
-	public ArrayList getSchemas( ) throws SQLException
-	{
-		if ( schemas == null )
-		{
-			Thread h = new Thread( )
-			{
+	public ArrayList getSchemas() throws SQLException {
+		if (schemas == null) {
+			Thread h = new Thread() {
 				@Override
-				public void run( )
-				{
-					try
-					{
-						retrieveSchemas( );
-					}
-					catch ( SQLException e )
-					{
+				public void run() {
+					try {
+						retrieveSchemas();
+					} catch (SQLException e) {
 					}
 				}
 			};
-			h.start( );
-			try
-			{
-				h.join( timeout );
+			h.start();
+			try {
+				h.join(timeout);
+			} catch (InterruptedException e) {
 			}
-			catch ( InterruptedException e )
-			{
-			}
-			if ( schemas == null )
-			{
-				schemas = new ArrayList( );
+			if (schemas == null) {
+				schemas = new ArrayList();
 			}
 		}
 		return schemas;
 	}
 
-	public Schema getSchema( String schemaName ) throws SQLException
-	{
-		Iterator iter = getSchemas( ).iterator( );
+	public Schema getSchema(String schemaName) throws SQLException {
+		Iterator iter = getSchemas().iterator();
 		Schema schema = null;
-		while ( iter.hasNext( ) )
-		{
-			schema = (Schema) iter.next( );
-			if ( schemaName.equals( schema.getName( ) ) )
-			{
+		while (iter.hasNext()) {
+			schema = (Schema) iter.next();
+			if (schemaName.equals(schema.getName())) {
 				return schema;
 			}
 		}
@@ -226,128 +189,95 @@ public class ConnectionMetaData implements Serializable
 		return null;
 	}
 
-	private Connection getConnection( ) throws SQLException
-	{
-		if ( connection == null )
-		{
-			connect( );
+	private Connection getConnection() throws SQLException {
+		if (connection == null) {
+			connect();
 		}
 
 		return connection;
 	}
 
-	DatabaseMetaData getMetaData( ) throws SQLException
-	{
-		if ( metadata == null )
-		{
-			metadata = getConnection( ).getMetaData( );
+	DatabaseMetaData getMetaData() throws SQLException {
+		if (metadata == null) {
+			metadata = getConnection().getMetaData();
 		}
 
 		return metadata;
 	}
 
-	private synchronized void connect( ) throws SQLException
-	{
-		if ( connection == null || connection.isClosed( ) )
-		{
-			if ( getClassname( ) != null
-					&& getUrl( ) != null )
-			{
-				if ( getPassword( ) == null )
-				{
-					setPassword( "" );
+	private synchronized void connect() throws SQLException {
+		if (connection == null || connection.isClosed()) {
+			if (getClassname() != null && getUrl() != null) {
+				if (getPassword() == null) {
+					setPassword("");
 				}
 
-				connection = DriverLoader.getConnectionWithExceptionTip( classname,
-						url,
-						username,
-						password,
-						properties );
+				connection = DriverLoader.getConnectionWithExceptionTip(classname, url, username, password, properties);
 			}
 		}
 	}
 
-	private synchronized void retrieveSchemas( ) throws SQLException
-	{
-		if ( schemas == null )
-		{
-			schemas = new ArrayList( );
+	private synchronized void retrieveSchemas() throws SQLException {
+		if (schemas == null) {
+			schemas = new ArrayList();
 			Schema schema = null;
-			//Get the meta data and find out whether it support schemas
-			if ( getMetaData( ).supportsSchemasInTableDefinitions( ) )
-			{
-				//If it does then get the schemas from the database
-				ResultSet resultSet = getMetaData( ).getSchemas( );
-				while ( resultSet.next( ) )
-				{
-					String schemaName = resultSet.getString( "TABLE_SCHEM" );//$NON-NLS-1$
-					schema = new Schema( this, timeout );
-					schema.setName( schemaName );
-					schemas.add( schema );
+			// Get the meta data and find out whether it support schemas
+			if (getMetaData().supportsSchemasInTableDefinitions()) {
+				// If it does then get the schemas from the database
+				ResultSet resultSet = getMetaData().getSchemas();
+				while (resultSet.next()) {
+					String schemaName = resultSet.getString("TABLE_SCHEM");//$NON-NLS-1$
+					schema = new Schema(this, timeout);
+					schema.setName(schemaName);
+					schemas.add(schema);
 				}
-			}
-			else
-			{
-				//Add a default schema to the list with no name
-				//to indicate that this data base doesn't support schemas
-				schema = new Schema( this, timeout );
-				schemas.add( schema );
+			} else {
+				// Add a default schema to the list with no name
+				// to indicate that this data base doesn't support schemas
+				schema = new Schema(this, timeout);
+				schemas.add(schema);
 			}
 		}
 	}
 
-	public void clearCache( )
-	{
-		try
-		{
-			if ( connection != null && !connection.isClosed( ) )
-			{
-				connection.close( );
+	public void clearCache() {
+		try {
+			if (connection != null && !connection.isClosed()) {
+				connection.close();
 			}
+		} catch (SQLException e) {
+			logger.log(Level.FINE, e.getMessage(), e);
 		}
-		catch ( SQLException e )
-		{
-			logger.log( Level.FINE, e.getMessage( ), e );
-		}
-		if ( schemas != null )
-		{
-			schemas.clear( );
-            schemas = null;
+		if (schemas != null) {
+			schemas.clear();
+			schemas = null;
 		}
 	}
 
 	/**
-	 * Returns <code>true</code> if this <code>ConnectionMetaData</code> is
-	 * the same as the o argument.
+	 * Returns <code>true</code> if this <code>ConnectionMetaData</code> is the same
+	 * as the o argument.
 	 * 
-	 * @return <code>true</code> if this <code>ConnectionMetaData</code> is
-	 *         the same as the o argument.
+	 * @return <code>true</code> if this <code>ConnectionMetaData</code> is the same
+	 *         as the o argument.
 	 */
-	public boolean equals( Object o )
-	{
-		if ( this == o )
-		{
+	public boolean equals(Object o) {
+		if (this == o) {
 			return true;
 		}
-		if ( o == null )
-		{
+		if (o == null) {
 			return false;
 		}
-		if ( o.getClass( ) != getClass( ) )
-		{
+		if (o.getClass() != getClass()) {
 			return false;
 		}
 		ConnectionMetaData castedObj = (ConnectionMetaData) o;
-		return ( ( this.classname == null ? castedObj.classname == null
-				: this.classname.equals( castedObj.classname ) )
-				&& ( this.url == null ? castedObj.url == null
-						: this.url.equals( castedObj.url ) )
-				&& ( this.username == null ? castedObj.username == null
-						: this.username.equals( castedObj.username ) )
-				&& ( this.password == null ? castedObj.password == null
-						: this.password.equals( castedObj.password ) )
-				&& ( this.properties == null ? castedObj.properties == null
-						: this.properties.equals( castedObj.properties ) )  );
+		return ((this.classname == null ? castedObj.classname == null : this.classname.equals(castedObj.classname))
+				&& (this.url == null ? castedObj.url == null : this.url.equals(castedObj.url))
+				&& (this.username == null ? castedObj.username == null : this.username.equals(castedObj.username))
+				&& (this.password == null ? castedObj.password == null : this.password.equals(castedObj.password))
+				&& (this.properties == null ? castedObj.properties == null
+						: this.properties.equals(castedObj.properties)));
 	}
 
 	/**
@@ -355,22 +285,13 @@ public class ConnectionMetaData implements Serializable
 	 * 
 	 * @return the Objects hashcode.
 	 */
-	public int hashCode( )
-	{
+	public int hashCode() {
 		int hashCode = 1;
-		hashCode = 31
-				* hashCode
-				+ ( classname == null ? 0 : classname.hashCode( ) );
-		hashCode = 31 * hashCode + ( url == null ? 0 : url.hashCode( ) );
-		hashCode = 31
-				* hashCode
-				+ ( username == null ? 0 : username.hashCode( ) );
-		hashCode = 31
-				* hashCode
-				+ ( password == null ? 0 : password.hashCode( ) );
-		hashCode = 31
-				* hashCode
-				+ ( properties == null ? 0 : properties.hashCode( ) );
+		hashCode = 31 * hashCode + (classname == null ? 0 : classname.hashCode());
+		hashCode = 31 * hashCode + (url == null ? 0 : url.hashCode());
+		hashCode = 31 * hashCode + (username == null ? 0 : username.hashCode());
+		hashCode = 31 * hashCode + (password == null ? 0 : password.hashCode());
+		hashCode = 31 * hashCode + (properties == null ? 0 : properties.hashCode());
 		return hashCode;
 	}
 
@@ -379,9 +300,8 @@ public class ConnectionMetaData implements Serializable
 	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-	protected void finalize( ) throws Throwable
-	{
-		clearCache( );
-		super.finalize( );
+	protected void finalize() throws Throwable {
+		clearCache();
+		super.finalize();
 	}
 }

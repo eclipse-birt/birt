@@ -24,93 +24,67 @@ import org.eclipse.swt.layout.FillLayout;
 /**
  * RotatedTextPageGenerator
  */
-public class RotatedTextPageGenerator extends AbstractPageGenerator
-{
+public class RotatedTextPageGenerator extends AbstractPageGenerator {
 
 	private static final String CUSTOM_PAGE_TITLE = "Custom"; //$NON-NLS-1$
 
 	private IPropertyTabUI generalPage;
 
-	protected void buildItemContent( CTabItem item )
-	{
-		if ( itemMap.containsKey( item ) && itemMap.get( item ) == null )
-		{
-			String title = tabFolder.getSelection( ).getText( );
+	protected void buildItemContent(CTabItem item) {
+		if (itemMap.containsKey(item) && itemMap.get(item) == null) {
+			String title = tabFolder.getSelection().getText();
 
-			if ( CUSTOM_PAGE_TITLE.equals( title ) )
-			{
-				TabPage page = new RotatedTextCustomPage( ).getPage( );
+			if (CUSTOM_PAGE_TITLE.equals(title)) {
+				TabPage page = new RotatedTextCustomPage().getPage();
 
-				if ( page != null )
-				{
-					setPageInput( page );
-					refresh( tabFolder, page, true );
-					item.setControl( page.getControl( ) );
-					itemMap.put( item, page );
+				if (page != null) {
+					setPageInput(page);
+					refresh(tabFolder, page, true);
+					item.setControl(page.getControl());
+					itemMap.put(item, page);
 				}
 			}
-		}
-		else if ( itemMap.get( item ) != null )
-		{
-			setPageInput( itemMap.get( item ) );
-			refresh( tabFolder, itemMap.get( item ), false );
+		} else if (itemMap.get(item) != null) {
+			setPageInput(itemMap.get(item));
+			refresh(tabFolder, itemMap.get(item), false);
 		}
 	}
 
-	public void refresh( )
-	{
-		createTabItems( input );
+	public void refresh() {
+		createTabItems(input);
 
-		generalPage.setInput( input );
-		addSelectionListener( this );
-		( (TabPage) generalPage ).refresh( );
+		generalPage.setInput(input);
+		addSelectionListener(this);
+		((TabPage) generalPage).refresh();
 
 	}
 
-	public void createTabItems( List input )
-	{
-		if ( generalPage == null || generalPage.getControl( ).isDisposed( ) )
-		{
-			tabFolder.setLayout( new FillLayout( ) );
-			generalPage = AttributesUtil.buildGeneralPage( tabFolder,
-					new String[]{
-							null,
-							AttributesUtil.BORDER,
-							AttributesUtil.MARGIN,
-							AttributesUtil.SECTION,
-							AttributesUtil.VISIBILITY,
-							AttributesUtil.TOC,
-							AttributesUtil.BOOKMARK,
-							AttributesUtil.USERPROPERTIES,
-							AttributesUtil.NAMEDEXPRESSIONS,
-							AttributesUtil.ADVANCEPROPERTY
-					},
-					new String[]{
-						"General" //$NON-NLS-1$
-					},
-					new String[]{
-						"General" //$NON-NLS-1$
-					},
-					new AttributesUtil.PageWrapper[]{
-						new RotatedTextGeneralPage( )
-					},
-					input );
+	public void createTabItems(List input) {
+		if (generalPage == null || generalPage.getControl().isDisposed()) {
+			tabFolder.setLayout(new FillLayout());
+			generalPage = AttributesUtil.buildGeneralPage(tabFolder,
+					new String[] { null, AttributesUtil.BORDER, AttributesUtil.MARGIN, AttributesUtil.SECTION,
+							AttributesUtil.VISIBILITY, AttributesUtil.TOC, AttributesUtil.BOOKMARK,
+							AttributesUtil.USERPROPERTIES, AttributesUtil.NAMEDEXPRESSIONS,
+							AttributesUtil.ADVANCEPROPERTY },
+					new String[] { "General" //$NON-NLS-1$
+					}, new String[] { "General" //$NON-NLS-1$
+					}, new AttributesUtil.PageWrapper[] { new RotatedTextGeneralPage() }, input);
 
-			CTabItem tabItem = new CTabItem( tabFolder, SWT.NONE );
-			tabItem.setText( ATTRIBUTESTITLE );
-			tabItem.setControl( generalPage.getControl( ) );
+			CTabItem tabItem = new CTabItem(tabFolder, SWT.NONE);
+			tabItem.setText(ATTRIBUTESTITLE);
+			tabItem.setControl(generalPage.getControl());
 		}
 
 		this.input = input;
-		generalPage.setInput( input );
-		addSelectionListener( this );
-		( (TabPage) generalPage ).refresh( );
+		generalPage.setInput(input);
+		addSelectionListener(this);
+		((TabPage) generalPage).refresh();
 
-		createTabItem( CUSTOM_PAGE_TITLE, ATTRIBUTESTITLE );
+		createTabItem(CUSTOM_PAGE_TITLE, ATTRIBUTESTITLE);
 
-		if ( tabFolder.getSelection( ) != null )
-		{
-			buildItemContent( tabFolder.getSelection( ) );
+		if (tabFolder.getSelection() != null) {
+			buildItemContent(tabFolder.getSelection());
 		}
 	}
 

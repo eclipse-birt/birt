@@ -20,131 +20,96 @@ import org.eclipse.birt.report.engine.extension.engine.IContentProcessor;
 import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportExecutor;
 import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportItemExecutor;
 
-public class ReportExtensionExecutor extends WrappedReportExecutor
-{
+public class ReportExtensionExecutor extends WrappedReportExecutor {
 
 	ExecutionContext context;
 	IReportContent reportContent;
 	IContentProcessor[] processors;
 
-	public ReportExtensionExecutor( ExecutionContext context,
-			IReportExecutor executor, IContentProcessor[] processors )
-	{
-		super( executor );
+	public ReportExtensionExecutor(ExecutionContext context, IReportExecutor executor, IContentProcessor[] processors) {
+		super(executor);
 		this.context = context;
 		this.processors = processors;
 	}
 
-	public IReportContent execute( ) throws BirtException
-	{
-		reportContent = reportExecutor.execute( );
-		startReportProcess( reportContent );
+	public IReportContent execute() throws BirtException {
+		reportContent = reportExecutor.execute();
+		startReportProcess(reportContent);
 		return reportContent;
 	}
 
-	public void close( ) throws BirtException
-	{
-		endReportProcess( reportContent );
-		super.close( );
+	public void close() throws BirtException {
+		endReportProcess(reportContent);
+		super.close();
 	}
 
-	protected IReportItemExecutor createWrappedExecutor(
-			IReportItemExecutor executor )
-	{
-		return new ReportExtensionItemExecutor( executor );
+	protected IReportItemExecutor createWrappedExecutor(IReportItemExecutor executor) {
+		return new ReportExtensionItemExecutor(executor);
 	}
 
-	class ReportExtensionItemExecutor extends WrappedReportItemExecutor
-	{
+	class ReportExtensionItemExecutor extends WrappedReportItemExecutor {
 
 		IContent content;
 
-		ReportExtensionItemExecutor( IReportItemExecutor executor )
-		{
-			super( ReportExtensionExecutor.this, executor );
+		ReportExtensionItemExecutor(IReportItemExecutor executor) {
+			super(ReportExtensionExecutor.this, executor);
 		}
 
-		public IContent execute( ) throws BirtException
-		{
-			content = super.execute( );
-			startItemProcess( content );
+		public IContent execute() throws BirtException {
+			content = super.execute();
+			startItemProcess(content);
 			return content;
 		}
 
-		public void close( ) throws BirtException
-		{
-			endItemProcess( content );
-			super.close( );
+		public void close() throws BirtException {
+			endItemProcess(content);
+			super.close();
 		}
 	}
 
-	void startReportProcess( IReportContent report )
-	{
-		if ( report != null )
-		{
-			for ( IContentProcessor processor : processors )
-			{
-				try
-				{
-					processor.start( report );
-				}
-				catch ( EngineException ex )
-				{
-					context.addException( ex );
+	void startReportProcess(IReportContent report) {
+		if (report != null) {
+			for (IContentProcessor processor : processors) {
+				try {
+					processor.start(report);
+				} catch (EngineException ex) {
+					context.addException(ex);
 				}
 			}
 		}
 	}
 
-	void endReportProcess( IReportContent report )
-	{
-		if ( report != null )
-		{
-			for ( IContentProcessor processor : processors )
-			{
-				try
-				{
-					processor.end( report );
-				}
-				catch ( EngineException ex )
-				{
-					context.addException( ex );
+	void endReportProcess(IReportContent report) {
+		if (report != null) {
+			for (IContentProcessor processor : processors) {
+				try {
+					processor.end(report);
+				} catch (EngineException ex) {
+					context.addException(ex);
 				}
 			}
 		}
 	}
 
-	void startItemProcess( IContent content )
-	{
-		if ( content != null )
-		{
-			for ( IContentProcessor processor : processors )
-			{
-				try
-				{
-					processor.startContent( content );
-				}
-				catch ( EngineException ex )
-				{
-					context.addException( ex );
+	void startItemProcess(IContent content) {
+		if (content != null) {
+			for (IContentProcessor processor : processors) {
+				try {
+					processor.startContent(content);
+				} catch (EngineException ex) {
+					context.addException(ex);
 				}
 			}
 		}
 	}
 
-	void endItemProcess( IContent content )
-	{
-		if ( content != null )
-		{
-			for ( IContentProcessor processor : processors )
-			{
-				try
-				{
-					processor.endContent( content );
-				}
-				catch ( EngineException ex )
-				{
-					context.addException( ex );
+	void endItemProcess(IContent content) {
+		if (content != null) {
+			for (IContentProcessor processor : processors) {
+				try {
+					processor.endContent(content);
+				} catch (EngineException ex) {
+					context.addException(ex);
 				}
 			}
 		}

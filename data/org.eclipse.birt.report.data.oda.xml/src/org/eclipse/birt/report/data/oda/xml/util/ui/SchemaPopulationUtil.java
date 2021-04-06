@@ -14,8 +14,8 @@ package org.eclipse.birt.report.data.oda.xml.util.ui;
 /**
  * This class is used to offer GUI a utility to get an tree from certain xml/xsd
  * file.
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class SchemaPopulationUtil extends org.eclipse.datatools.enablement.oda.xml.util.ui.SchemaPopulationUtil
-{
+public class SchemaPopulationUtil extends org.eclipse.datatools.enablement.oda.xml.util.ui.SchemaPopulationUtil {
 }

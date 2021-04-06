@@ -24,90 +24,71 @@ import com.ibm.icu.text.Collator;
  * @see IStructuredContentProvider
  * @see StructuredViewer
  */
-public class AlphabeticallyComparator implements Comparator<Object>
-{
+public class AlphabeticallyComparator implements Comparator<Object> {
 
 	private boolean ascending = true;
 
-
 	/**
 	 * Compare the two objects
+	 * 
 	 * @param o1 object1
 	 * @param 02 object2
 	 * @return the compare result
 	 */
-	public int compare( Object o1, Object o2 )
-	{
-		String name1=null;
-		String name2=null;
+	public int compare(Object o1, Object o2) {
+		String name1 = null;
+		String name2 = null;
 
-		if ( o1 instanceof DesignElementHandle
-				&& o2 instanceof DesignElementHandle )
-		{
-			name1 = ( (DesignElementHandle) o1 ).getDisplayLabel( );
-			name2 = ( (DesignElementHandle) o2 ).getDisplayLabel( );
-			if ( name1 == null )
-			{
-				name1 = ( (DesignElementHandle) o1 ).getName( );
+		if (o1 instanceof DesignElementHandle && o2 instanceof DesignElementHandle) {
+			name1 = ((DesignElementHandle) o1).getDisplayLabel();
+			name2 = ((DesignElementHandle) o2).getDisplayLabel();
+			if (name1 == null) {
+				name1 = ((DesignElementHandle) o1).getName();
 			}
-			if ( name2 == null )
-			{
-				name2 = ( (DesignElementHandle) o2 ).getName( );
+			if (name2 == null) {
+				name2 = ((DesignElementHandle) o2).getName();
 			}
 
 		}
-		if ( o1 instanceof IChoice
-				&& o2 instanceof IChoice) 
-		{
-			name1 = ( (IChoice) o1 ).getDisplayName();
-			name2 = ( (IChoice) o2 ).getDisplayName( );
-			if ( name1 == null )
-			{
-				name1 = ( (IChoice) o1 ).getName( );
+		if (o1 instanceof IChoice && o2 instanceof IChoice) {
+			name1 = ((IChoice) o1).getDisplayName();
+			name2 = ((IChoice) o2).getDisplayName();
+			if (name1 == null) {
+				name1 = ((IChoice) o1).getName();
 			}
-			if ( name2 == null )
-			{
-				name2 = ( (IChoice) o2 ).getName( );
+			if (name2 == null) {
+				name2 = ((IChoice) o2).getName();
 			}
 
 		}
-		if(name1 == null)
-		{
-			name1 = o1.toString( );
+		if (name1 == null) {
+			name1 = o1.toString();
 		}
-		if(name2==null)
-		{
-			name2 = o2.toString( );
+		if (name2 == null) {
+			name2 = o2.toString();
 		}
 
-		if ( name1 == null )
-		{
+		if (name1 == null) {
 			name1 = "";//$NON-NLS-1$
 		}
-		if ( name2 == null )
-		{
+		if (name2 == null) {
 			name2 = "";//$NON-NLS-1$
 		}
-		
-		if ( ascending )
-		{
-			return Collator.getInstance( ).compare( name1, name2 );
+
+		if (ascending) {
+			return Collator.getInstance().compare(name1, name2);
+		} else {
+			return Collator.getInstance().compare(name2, name1);
 		}
-		else
-		{
-			return Collator.getInstance( ).compare( name2, name1 );
-		}		
-		 
+
 	}
 
 	/**
-	 * Set order of this sort
-	 * True: Ascending
-	 * False: Deascending
+	 * Set order of this sort True: Ascending False: Deascending
+	 * 
 	 * @param ascending
 	 */
-	public void setAscending( boolean ascending )
-	{
+	public void setAscending(boolean ascending) {
 		this.ascending = ascending;
 	}
 }

@@ -10,21 +10,19 @@ import org.eclipse.birt.report.designer.ui.views.attributes.IPropertyDescriptor;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.swt.widgets.Control;
 
-public abstract class PropertyDescriptor implements IPropertyDescriptor
-{
+public abstract class PropertyDescriptor implements IPropertyDescriptor {
 
 	protected Control control;
 
 	protected Object input;
 
-	protected List descriptorContainer = new ArrayList( );
+	protected List descriptorContainer = new ArrayList();
 
 	private boolean formStyle = true;
 
-	public IPropertyDescriptor[] getChildren( )
-	{
+	public IPropertyDescriptor[] getChildren() {
 		IPropertyDescriptor[] children = new IPropertyDescriptor[0];
-		descriptorContainer.toArray( children );
+		descriptorContainer.toArray(children);
 		return children;
 	}
 
@@ -33,17 +31,16 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor
 	 * this.descriptorProvider = provider; }
 	 */
 
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return control;
 	}
 
 	/*
 	 * public String getDefaultUnit( ) { if ( defaultUnit != null ) return
-	 * defaultUnit; if ( elements.getElements( ) == null ||
-	 * elements.getElements( ).size( ) == 0 ) { return null; } String unit =
-	 * null; if ( !elements.isSameType( ) ) { return null; } DesignElementHandle
-	 * handle = (DesignElementHandle) elements.getElements( ) .get( 0 ); unit =
+	 * defaultUnit; if ( elements.getElements( ) == null || elements.getElements(
+	 * ).size( ) == 0 ) { return null; } String unit = null; if (
+	 * !elements.isSameType( ) ) { return null; } DesignElementHandle handle =
+	 * (DesignElementHandle) elements.getElements( ) .get( 0 ); unit =
 	 * handle.getPropertyHandle( property ).getDefaultUnit( ); return unit; }
 	 */
 
@@ -56,76 +53,65 @@ public abstract class PropertyDescriptor implements IPropertyDescriptor
 	 * //$NON-NLS-1$ }
 	 */
 
-	public Object getInput( )
-	{
+	public Object getInput() {
 		return input;
 	}
 
 	/*
-	 * private GroupElementHandle getMultiSelectionHandle( List modelList ) {
-	 * return DEUtil.getMultiSelectionHandle( modelList ); }
+	 * private GroupElementHandle getMultiSelectionHandle( List modelList ) { return
+	 * DEUtil.getMultiSelectionHandle( modelList ); }
 	 */
 
 	/*
 	 * public String getUnit( ) { String value = getStringValue( );
 	 * 
-	 * if ( value == null || value.equals( "" ) ) //$NON-NLS-1$ return value;
-	 * try { DimensionValue dimensionValue = DimensionValue.parse( value );
-	 * return dimensionValue.getUnits( ); } catch ( PropertyValueException e ) {
+	 * if ( value == null || value.equals( "" ) ) //$NON-NLS-1$ return value; try {
+	 * DimensionValue dimensionValue = DimensionValue.parse( value ); return
+	 * dimensionValue.getUnits( ); } catch ( PropertyValueException e ) {
 	 * ExceptionUtil.handle( e ); } return ""; //$NON-NLS-1$ }
 	 */
 
 	/*
-	 * public void load( ) { String value = descriptorProvider.load( ).toString(
-	 * ); if ( value != null ) refresh( value ); }
+	 * public void load( ) { String value = descriptorProvider.load( ).toString( );
+	 * if ( value != null ) refresh( value ); }
 	 */
 
-	public void setInput( Object handle )
-	{
+	public void setInput(Object handle) {
 		this.input = handle;
 	}
 
 	// abstract void refresh( String value );
 
-	// ¿¼ÂÇÓÃProviderÀ´´¦ÀíLoadºÍSave¡£
+	// ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Providerï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Loadï¿½ï¿½Saveï¿½ï¿½
 	/*
 	 * public void save( Object value ) throws SemanticException {
 	 * descriptorProvider.save( value ); }
 	 */
 
-	public boolean isFormStyle( )
-	{
+	public boolean isFormStyle() {
 		return formStyle;
 	}
 
-	public void setFormStyle( boolean formStyle )
-	{
+	public void setFormStyle(boolean formStyle) {
 		this.formStyle = formStyle;
 	}
 
 	IDescriptorProvider descriptorProvider;
 
-	public void setDescriptorProvider( IDescriptorProvider provider )
-	{
+	public void setDescriptorProvider(IDescriptorProvider provider) {
 		this.descriptorProvider = provider;
 	}
 
-	public IDescriptorProvider getDescriptorProvider( )
-	{
+	public IDescriptorProvider getDescriptorProvider() {
 		return descriptorProvider;
 	}
 
-	public void reset( )
-	{
-		if ( descriptorProvider != null && descriptorProvider.canReset( ) )
-		{
-			try
-			{
-				descriptorProvider.reset( );
-			}
-			catch ( SemanticException e )
-			{
-				ExceptionUtil.handle( e );
+	public void reset() {
+		if (descriptorProvider != null && descriptorProvider.canReset()) {
+			try {
+				descriptorProvider.reset();
+			} catch (SemanticException e) {
+				ExceptionUtil.handle(e);
 			}
 		}
 	}

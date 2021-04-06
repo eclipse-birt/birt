@@ -7,8 +7,7 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.helper;
  * @author cthronson
  *
  */
-public interface IProjectFileServiceHelper
-{
+public interface IProjectFileServiceHelper {
 	/**
 	 * Provides an interface for user to choose a file.
 	 * 
@@ -20,11 +19,11 @@ public interface IProjectFileServiceHelper
 	 * @param selectedType
 	 * @param isRelativeToProjectRoot
 	 * 
-	 * @return Returns a String object that represents the file that the user selected
+	 * @return Returns a String object that represents the file that the user
+	 *         selected
 	 */
-	public String getUserSelection(boolean isIDE, String projectFolder,
-			boolean needFilter, boolean projectMode, String[] fileExt,
-			String selectedType, boolean isRelativeToProjectRoot );
+	public String getUserSelection(boolean isIDE, String projectFolder, boolean needFilter, boolean projectMode,
+			String[] fileExt, String selectedType, boolean isRelativeToProjectRoot);
 
 	/**
 	 * Creates a valid file path from the user selection
@@ -33,7 +32,7 @@ public interface IProjectFileServiceHelper
 	 * 
 	 * @return A file path that can be used in the local file system
 	 */
-	String getFilePath( String userSelection );
+	String getFilePath(String userSelection);
 
 	/**
 	 * Creates the text to identify the target report of a drill=through hyperlink
@@ -44,5 +43,5 @@ public interface IProjectFileServiceHelper
 	 * 
 	 * @return The text of the target report design
 	 */
-	String getTargetReportLocation( String filename, String userSelection );
+	String getTargetReportLocation(String filename, String userSelection);
 }

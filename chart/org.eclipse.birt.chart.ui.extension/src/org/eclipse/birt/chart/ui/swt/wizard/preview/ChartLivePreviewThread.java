@@ -37,276 +37,241 @@ import org.eclipse.swt.widgets.Shell;
  * @since 2.5.2
  */
 
-public class ChartLivePreviewThread extends Thread
-{
+public class ChartLivePreviewThread extends Thread {
 	private volatile LivePreviewTask task = null;
-	
+
 	private boolean threadSuspended = true;
 
 	private volatile Thread blinker;
 
 	private Shell parentShell;
-	
+
 	PreviewTimerTask timeTask = null;
 
 	private IDataServiceProvider dataProvider;
 
 	private boolean hasDataEngine = false;
-	
+
 	private static final int DELAY_TIME = 2000;
-	
+
 	public static final String PARAM_CHART_MODEL = "Chart Model"; //$NON-NLS-1$
-	
+
 	private volatile boolean initFinished = false;
+
 	/**
 	 * Constructor.
 	 */
-	public ChartLivePreviewThread(  )
-	{
-		this.setName( "Chart live preview thread" );//$NON-NLS-1$
+	public ChartLivePreviewThread() {
+		this.setName("Chart live preview thread");//$NON-NLS-1$
 	}
-	
+
 	/**
 	 * Constructor.
 	 */
-	public ChartLivePreviewThread( IDataServiceProvider provider )
-	{
-		this.setName( "Chart live preview thread" );//$NON-NLS-1$
+	public ChartLivePreviewThread(IDataServiceProvider provider) {
+		this.setName("Chart live preview thread");//$NON-NLS-1$
 		dataProvider = provider;
 	}
-	
+
 	/**
 	 * Sets parent shell that is used to create a progress dialog.
 	 * 
 	 * @param shell
 	 */
-	public void setParentShell( Shell shell )
-	{
+	public void setParentShell(Shell shell) {
 		this.parentShell = shell;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Thread#start()
 	 */
-	public void start()
-	{
+	public void start() {
 		blinker = this;
-		super.start( );
-		
+		super.start();
+
 		// We must wait for some initial work to be finished in this thread and
 		// then return, the initial works include the data engine and data session
 		// initialization.
-		int i = 1; 
-		while( !initFinished && i < 6 )
-		{
-			try
-			{
-				Thread.sleep( i * 10 );
+		int i = 1;
+		while (!initFinished && i < 6) {
+			try {
+				Thread.sleep(i * 10);
 				i++;
-			}
-			catch ( InterruptedException e )
-			{
+			} catch (InterruptedException e) {
 				// Here do not do anything.
 			}
 		}
 	}
-	
+
 	/**
 	 * Ends this thread.
 	 */
-	public synchronized void end()
-	{
+	public synchronized void end() {
 		blinker = null;
-		this.interrupt( );
+		this.interrupt();
 	}
-	
+
 	/**
 	 * Adds a task.
 	 * 
 	 * @param atask
 	 */
-	public synchronized void add( LivePreviewTask atask )
-	{
+	public synchronized void add(LivePreviewTask atask) {
 		this.task = atask;
 		threadSuspended = false;
-		this.notify( );
+		this.notify();
 	}
-	
+
 	/**
 	 * Removes a task from inactive task.
 	 * 
 	 * @return
 	 */
-	private synchronized LivePreviewTask remove( )
-	{
+	private synchronized LivePreviewTask remove() {
 		LivePreviewTask tp = this.task;
 		this.task = null;
 		threadSuspended = true;
 		return tp;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Thread#run()
 	 */
-	public void run()
-	{
-		initDataEngine( );
+	public void run() {
+		initDataEngine();
 		initFinished = true;
-		super.run( );
-    	Timer fPaintTimer = null;
+		super.run();
+		Timer fPaintTimer = null;
 		timeTask = null;
 		Thread thisThread = Thread.currentThread();
-        while ( blinker == thisThread ) {
+		while (blinker == thisThread) {
 
-			try
-			{
+			try {
 				LivePreviewTask tp = null;
-				synchronized( this )
-				{
-					while ( threadSuspended )
-						this.wait( );
-					tp = remove( );
+				synchronized (this) {
+					while (threadSuspended)
+						this.wait();
+					tp = remove();
 				}
 
-				if ( !hasDataEngine )
-				{
-					Display.getDefault( ).asyncExec( new Runnable( ) {
+				if (!hasDataEngine) {
+					Display.getDefault().asyncExec(new Runnable() {
 
-						public void run( )
-						{
-							WizardBase.showException( Messages.getString("ChartLivePreviewThread.ErrorMessage.NoDataEngine") ); //$NON-NLS-1$
+						public void run() {
+							WizardBase.showException(
+									Messages.getString("ChartLivePreviewThread.ErrorMessage.NoDataEngine")); //$NON-NLS-1$
 						}
-					} );
+					});
 					continue;
 				}
-				
-				fPaintTimer = new Timer( );
-				timeTask = new PreviewTimerTask( tp.getName( ), parentShell );
-				fPaintTimer.schedule( timeTask, DELAY_TIME );
-			        
-				if ( tp != null )
-				{
+
+				fPaintTimer = new Timer();
+				timeTask = new PreviewTimerTask(tp.getName(), parentShell);
+				fPaintTimer.schedule(timeTask, DELAY_TIME);
+
+				if (tp != null) {
 					Map<String, Object> parameters = null;
-					for ( LivePreviewTask lpt : tp.getTasks( ) )
-					{
-						if ( blinker != thisThread )
-						{
+					for (LivePreviewTask lpt : tp.getTasks()) {
+						if (blinker != thisThread) {
 							break;
 						}
-						if ( parameters != null )
-						{
-							lpt.setParameters( parameters );
+						if (parameters != null) {
+							lpt.setParameters(parameters);
 						}
-						lpt.run( );
-						parameters = lpt.getParameters( );
+						lpt.run();
+						parameters = lpt.getParameters();
 					}
 				}
-			}
-			catch ( Exception e )
-			{
+			} catch (Exception e) {
 				// Don't do nothing, it just catches unexpected exception
 				// 'java.lang.InterruptedException' while interrupt this thread.
-			}
-			finally
-			{
-				if (fPaintTimer != null)
-				{
-					fPaintTimer.cancel( );
+			} finally {
+				if (fPaintTimer != null) {
+					fPaintTimer.cancel();
 				}
-				
-				if ( timeTask != null )
-				{
+
+				if (timeTask != null) {
 					timeTask.dispose();
 				}
 			}
-			
+
 		}
-        
-		disposeDataEngine( );
+
+		disposeDataEngine();
 	}
 
 	/**
 	 * 
 	 */
-	private void initDataEngine( )
-	{
-		if ( dataProvider != null )
-		{
-			try
-			{
-				dataProvider.initialize( );
+	private void initDataEngine() {
+		if (dataProvider != null) {
+			try {
+				dataProvider.initialize();
 				hasDataEngine = true;
-			}
-			catch ( ChartException e )
-			{
+			} catch (ChartException e) {
 				final Exception exp = e;
-				Display.getDefault( ).asyncExec( new Runnable(){
+				Display.getDefault().asyncExec(new Runnable() {
 
-					public void run( )
-					{
-						WizardBase.displayException( exp );
-					}} );
+					public void run() {
+						WizardBase.displayException(exp);
+					}
+				});
 			}
 		}
 	}
-	
+
 	/**
 	 * 
 	 */
-	private void disposeDataEngine( )
-	{
-		if ( dataProvider != null )
-		{
-			dataProvider.dispose( );
+	private void disposeDataEngine() {
+		if (dataProvider != null) {
+			dataProvider.dispose();
 		}
 	}
 
 	/**
-	 * This timer task is used to show/hide a progress dialog in UI for running task.
+	 * This timer task is used to show/hide a progress dialog in UI for running
+	 * task.
 	 */
 	static class PreviewTimerTask extends TimerTask {
 
 		static ImageLoader loader;
-	    static ImageData[] imageDatas;
-	    
-	    Shell parentShell = null;
+		static ImageData[] imageDatas;
+
+		Shell parentShell = null;
 		Shell shell = null;
 		private String taskName;
-		
-		PreviewTimerTask( String taskName, Shell parentShell ) throws IOException
-		{
+
+		PreviewTimerTask(String taskName, Shell parentShell) throws IOException {
 			this.taskName = taskName;
 			this.parentShell = parentShell;
-			if ( imageDatas == null )
-			{
+			if (imageDatas == null) {
 				loader = new ImageLoader();
-				imageDatas = loader.load( UIHelper.getURL( "icons/obj16/progress_animation.gif" ).openStream( ) ); //$NON-NLS-1$
+				imageDatas = loader.load(UIHelper.getURL("icons/obj16/progress_animation.gif").openStream()); //$NON-NLS-1$
 			}
 		}
-		
-		public void run( )
-		{
-			Display.getDefault( ).syncExec( new Runnable( ) {
 
-				public void run( )
-				{
+		public void run() {
+			Display.getDefault().syncExec(new Runnable() {
+
+				public void run() {
 					Display display = null;
-					if ( parentShell != null && !parentShell.isDisposed( )  )
-					{
-						shell = new Shell( parentShell, SWT.ON_TOP );
-						display = shell.getDisplay( );
+					if (parentShell != null && !parentShell.isDisposed()) {
+						shell = new Shell(parentShell, SWT.ON_TOP);
+						display = shell.getDisplay();
+					} else {
+						display = Display.getDefault();
+						parentShell = display.getActiveShell();
+						shell = new Shell(display, SWT.ON_TOP);
 					}
-					else
-					{
-						display = Display.getDefault( );
-						parentShell = display.getActiveShell( );
-						shell = new Shell( display, SWT.ON_TOP );
-					}
-					
-					ImageViewer ic = new ImageViewer( shell, SWT.NO_BACKGROUND | SWT.NO_REDRAW_RESIZE );
-					Label l = new Label( shell, SWT.NONE );
-					l.setText( taskName
-							+ Messages.getString( "ChartLivePreviewThread_Text.PleaseWait" ) ); //$NON-NLS-1$
+
+					ImageViewer ic = new ImageViewer(shell, SWT.NO_BACKGROUND | SWT.NO_REDRAW_RESIZE);
+					Label l = new Label(shell, SWT.NONE);
+					l.setText(taskName + Messages.getString("ChartLivePreviewThread_Text.PleaseWait")); //$NON-NLS-1$
 
 					GridLayout gl = new GridLayout();
 					gl.numColumns = 2;
@@ -314,47 +279,40 @@ public class ChartLivePreviewThread extends Thread
 					gl.marginRight = 20;
 					gl.marginTop = 20;
 					gl.marginBottom = 20;
-					shell.setLayout( gl );
-					ic.setImages( imageDatas, loader.repeatCount );
+					shell.setLayout(gl);
+					ic.setImages(imageDatas, loader.repeatCount);
 
-					ic.pack( );
-					shell.pack( );
-					
+					ic.pack();
+					shell.pack();
+
 					// Move to center in parent shell.
 					Rectangle parentBounds = parentShell.getBounds();
 					Rectangle shellBounds = shell.getBounds();
-					shell.setLocation(parentBounds.x + (parentBounds.width - shellBounds.width)/2, parentBounds.y + (parentBounds.height - shellBounds.height)/2); 
-					
-					shell.open( );
-					while ( !shell.isDisposed( ) )
-					{
-						if ( !display.readAndDispatch( ) )
-							display.sleep( );
+					shell.setLocation(parentBounds.x + (parentBounds.width - shellBounds.width) / 2,
+							parentBounds.y + (parentBounds.height - shellBounds.height) / 2);
+
+					shell.open();
+					while (!shell.isDisposed()) {
+						if (!display.readAndDispatch())
+							display.sleep();
 					}
 				}
-			} );
+			});
 		}
-		
-		public void dispose()
-		{
-			Display.getDefault( ).syncExec( new Runnable( ) {
 
-				public void run( )
-				{
-					try
-					{
-						if ( shell != null )
-						{
-							shell.close( );
+		public void dispose() {
+			Display.getDefault().syncExec(new Runnable() {
+
+				public void run() {
+					try {
+						if (shell != null) {
+							shell.close();
 						}
-					}
-					catch ( Exception e )
-					{
+					} catch (Exception e) {
 						// Don't do nothing, it just avoids unexpected exception.
 					}
 				}
-			} );
+			});
 		}
 	}
 }
-

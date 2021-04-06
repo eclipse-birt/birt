@@ -13,46 +13,42 @@ package org.eclipse.birt.report.engine.emitter;
 
 import junit.framework.TestCase;
 
-public class HTMLEncodeUtilTest extends TestCase
-{
+public class HTMLEncodeUtilTest extends TestCase {
 
-	public void testEncodeText( )
-	{
+	public void testEncodeText() {
 
-		String result = HTMLEncodeUtil
-				.encodeText( "\u0000A\"&<\uD840\uDc00 \r\n\t" );
-		assertEquals( "A\"&amp;&lt;\uD840\uDc00 \r\n\t", result );
+		String result = HTMLEncodeUtil.encodeText("\u0000A\"&<\uD840\uDc00 \r\n\t");
+		assertEquals("A\"&amp;&lt;\uD840\uDc00 \r\n\t", result);
 
-		result = HTMLEncodeUtil.encodeText( "\u0000A\"&<\uD840\uDc00 \r\n\t",
-				true );
-		assertEquals( "A\"&amp;&lt;\uD840\uDc00&#xa0;<br/>&#xa0;", result );
+		result = HTMLEncodeUtil.encodeText("\u0000A\"&<\uD840\uDc00 \r\n\t", true);
+		assertEquals("A\"&amp;&lt;\uD840\uDc00&#xa0;<br/>&#xa0;", result);
 
-		result = HTMLEncodeUtil.encodeText( " \r\r\n\n\r\t\t  ", true );
-		assertEquals( "&#xa0;<br/><br/><br/><br/>&#xa0;&#xa0;&#xa0;&#xa0;", result );
+		result = HTMLEncodeUtil.encodeText(" \r\r\n\n\r\t\t  ", true);
+		assertEquals("&#xa0;<br/><br/><br/><br/>&#xa0;&#xa0;&#xa0;&#xa0;", result);
 
-		result = HTMLEncodeUtil.encodeText( " ", true );
-		assertEquals( "&#xa0;", result );
+		result = HTMLEncodeUtil.encodeText(" ", true);
+		assertEquals("&#xa0;", result);
 
-		result = HTMLEncodeUtil.encodeText( " \n ", true );
-		assertEquals( "&#xa0;<br/>&#xa0;", result );
+		result = HTMLEncodeUtil.encodeText(" \n ", true);
+		assertEquals("&#xa0;<br/>&#xa0;", result);
 
-		result = HTMLEncodeUtil.encodeText( "a\n \n", true );
-		assertEquals( "a<br/>&#xa0;<br/>", result );
+		result = HTMLEncodeUtil.encodeText("a\n \n", true);
+		assertEquals("a<br/>&#xa0;<br/>", result);
 
-		result = HTMLEncodeUtil.encodeText( "\n a", true );
-		assertEquals( "<br/>&#xa0;a", result );
+		result = HTMLEncodeUtil.encodeText("\n a", true);
+		assertEquals("<br/>&#xa0;a", result);
 
-		result = HTMLEncodeUtil.encodeText( "\n  \n", true );
-		assertEquals( "<br/>&#xa0;&#xa0;<br/>", result );
+		result = HTMLEncodeUtil.encodeText("\n  \n", true);
+		assertEquals("<br/>&#xa0;&#xa0;<br/>", result);
 
-		result = HTMLEncodeUtil.encodeText( "\n   a", true );
-		assertEquals( "<br/>&#xa0;&#xa0; a", result );
+		result = HTMLEncodeUtil.encodeText("\n   a", true);
+		assertEquals("<br/>&#xa0;&#xa0; a", result);
 
-		result = HTMLEncodeUtil.encodeText( "\n   ", true );
-		assertEquals( "<br/>&#xa0;&#xa0;&#xa0;", result );
+		result = HTMLEncodeUtil.encodeText("\n   ", true);
+		assertEquals("<br/>&#xa0;&#xa0;&#xa0;", result);
 
-		result = HTMLEncodeUtil.encodeText( "\n", true );
-		assertEquals( "<br/>", result );
+		result = HTMLEncodeUtil.encodeText("\n", true);
+		assertEquals("<br/>", result);
 
 	}
 }

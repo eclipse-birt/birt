@@ -18,34 +18,28 @@ import org.eclipse.birt.core.data.DataType;
  * 
  */
 
-public class Last extends AggregateFunctionAdapter
-{
+public class Last extends AggregateFunctionAdapter {
 
 	private Object last;
 
-	public void accumulate( Object oValue ) throws IllegalArgumentException
-	{
-		if ( oValue != null )
-		{
+	public void accumulate(Object oValue) throws IllegalArgumentException {
+		if (oValue != null) {
 			last = oValue;
 		}
-		
+
 	}
 
-	public Object getAggregatedValue( )
-	{
+	public Object getAggregatedValue() {
 		return last;
 	}
 
-	public void initialize( )
-	{
+	public void initialize() {
 		last = null;
-		
+
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.ANY_TYPE;
 	}
 

@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.adapter.oda;
  * Factory class to create an instance of DesignEngine
  */
 
-public interface IAdapterFactory
-{
+public interface IAdapterFactory {
 
 	/**
 	 * The extension point used to create the factory object.
@@ -26,11 +25,11 @@ public interface IAdapterFactory
 
 	public static final String EXTENSION_MODEL_ADAPTER_ODA_FACTORY = "org.eclipse.birt.report.model.adapter.oda.AdapterFactory"; //$NON-NLS-1$
 
-	public IODADesignFactory getODADesignFactory( );
+	public IODADesignFactory getODADesignFactory();
 
-	public IODAFactory getODAFactory( );
+	public IODAFactory getODAFactory();
 
-	public IModelOdaAdapter createModelOdaAdapter( );
+	public IModelOdaAdapter createModelOdaAdapter();
 
-	public IReportParameterAdapter createReportParameterAdapter( );
+	public IReportParameterAdapter createReportParameterAdapter();
 }

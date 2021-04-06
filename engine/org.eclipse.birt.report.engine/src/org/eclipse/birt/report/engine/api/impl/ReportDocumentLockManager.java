@@ -23,73 +23,55 @@ import org.eclipse.birt.report.engine.api.IReportDocumentLockManager;
  * The user should register the lock mangager to the report engine.
  * 
  */
-public class ReportDocumentLockManager implements IReportDocumentLockManager
-{
+public class ReportDocumentLockManager implements IReportDocumentLockManager {
 
 	static protected IReportDocumentLockManager instance = null;
 
-	public static IReportDocumentLockManager getInstance( )
-	{
-		if ( instance != null )
-		{
+	public static IReportDocumentLockManager getInstance() {
+		if (instance != null) {
 			return instance;
 		}
-		synchronized ( ReportDocumentLockManager.class )
-		{
-			if ( instance == null )
-			{
-				instance = new InternalLockManager( );
+		synchronized (ReportDocumentLockManager.class) {
+			if (instance == null) {
+				instance = new InternalLockManager();
 			}
 		}
 		return instance;
 	}
 
-	private ReportDocumentLockManager( )
-	{
+	private ReportDocumentLockManager() {
 	}
 
-	public IReportDocumentLock lock( String document ) throws BirtException
-	{
+	public IReportDocumentLock lock(String document) throws BirtException {
 		return null;
 	}
 
-	private static class InternalLock implements IReportDocumentLock
-	{
+	private static class InternalLock implements IReportDocumentLock {
 
 		String document;
 
-		InternalLock( String document )
-		{
+		InternalLock(String document) {
 			this.document = document;
 		}
 
-		public void unlock( )
-		{
+		public void unlock() {
 		}
 	}
 
-	private static class InternalLockManager
-			implements
-				IReportDocumentLockManager
-	{
+	private static class InternalLockManager implements IReportDocumentLockManager {
 
-		private HashMap locks = new HashMap( );
+		private HashMap locks = new HashMap();
 
-		InternalLockManager()
-		{
+		InternalLockManager() {
 		}
-		
-		public IReportDocumentLock lock( String document ) throws BirtException
-		{
-			synchronized ( this )
-			{
-				IReportDocumentLock lock = (IReportDocumentLock) locks
-						.get( document );
-				if ( lock == null )
-				{
-					lock = new InternalLock( document );
+
+		public IReportDocumentLock lock(String document) throws BirtException {
+			synchronized (this) {
+				IReportDocumentLock lock = (IReportDocumentLock) locks.get(document);
+				if (lock == null) {
+					lock = new InternalLock(document);
 					// first time, we must accquire a lock
-					locks.put( document, lock );
+					locks.put(document, lock);
 				}
 				return lock;
 			}

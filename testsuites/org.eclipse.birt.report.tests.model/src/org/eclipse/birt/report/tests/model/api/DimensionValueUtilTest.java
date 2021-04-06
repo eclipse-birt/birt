@@ -29,11 +29,11 @@ public class DimensionValueUtilTest extends BaseTestCase {
 
 	/**
 	 * Test doParse in the util.
+	 * 
 	 * @throws PropertyValueException
 	 */
 	public void testDoParse() throws PropertyValueException {
-		DimensionValue dv = DimensionValueUtil.doParse("1,2cm", true,
-				ULocale.FRENCH);
+		DimensionValue dv = DimensionValueUtil.doParse("1,2cm", true, ULocale.FRENCH);
 		assertEquals("1.2cm", dv.toString());
 
 		dv = DimensionValueUtil.doParse("1.2cm", true, null);

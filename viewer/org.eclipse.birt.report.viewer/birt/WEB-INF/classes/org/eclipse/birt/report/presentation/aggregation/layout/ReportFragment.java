@@ -16,16 +16,15 @@ import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 /**
  * Fragment for report. It contains report tool bar and content fragments.
  * <p>
+ * 
  * @see BaseFragment
  */
-public class ReportFragment extends BirtBaseFragment
-{
+public class ReportFragment extends BirtBaseFragment {
 	/**
 	 * Build fragment by adding toolbar and content fragment as children.
 	 */
-	protected void build( )
-	{
-		addChild( new SidebarFragment( ) );
-		addChild(  new ReportContentFragment( ) );
+	protected void build() {
+		addChild(new SidebarFragment());
+		addChild(new ReportContentFragment());
 	}
 }

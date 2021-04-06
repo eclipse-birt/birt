@@ -13,27 +13,22 @@ package org.eclipse.birt.report.engine.layout.emitter;
 
 import java.awt.Color;
 
-
-public interface IPageDevice
-{
+public interface IPageDevice {
 
 	/**
 	 * Creates a new page with specified width and height.
 	 * 
-	 * @param width
-	 *            page width.
-	 * @param height
-	 *            page height.
-	 * @param backgroundColor
-	 *            background color.
+	 * @param width           page width.
+	 * @param height          page height.
+	 * @param backgroundColor background color.
 	 * @return the new page.
 	 */
-	IPage newPage( int width, int height, Color backgroundColor );
+	IPage newPage(int width, int height, Color backgroundColor);
 
 	/**
 	 * Closes this page device.
 	 * 
 	 * @throws Exception
 	 */
-	void close( ) throws Exception;
+	void close() throws Exception;
 }

@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for Cube element to store the constants on it.
  */
 
-public interface ICubeModel
-{
+public interface ICubeModel {
 
 	/**
 	 * Name of the property that defines a list of filter conditions.
@@ -24,8 +23,8 @@ public interface ICubeModel
 	static final String FILTER_PROP = "filter"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property which indicates whether this measure group is
-	 * default in cube.
+	 * Name of the property which indicates whether this measure group is default in
+	 * cube.
 	 */
 	String DEFAULT_MEASURE_GROUP_PROP = "defaultMeasureGroup"; //$NON-NLS-1$
 
@@ -49,8 +48,7 @@ public interface ICubeModel
 
 	/**
 	 * Name of the property that defines the expression to calculate ACL for the
-	 * measure. This expression is evaluated once during the generation of the
-	 * cube.
+	 * measure. This expression is evaluated once during the generation of the cube.
 	 */
 	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 }

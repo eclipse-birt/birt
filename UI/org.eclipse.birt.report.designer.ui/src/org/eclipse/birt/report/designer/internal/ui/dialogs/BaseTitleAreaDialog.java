@@ -19,13 +19,10 @@ import org.eclipse.swt.widgets.Shell;
  * @deprecated use
  *             {@link org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog}
  */
-public class BaseTitleAreaDialog extends
-		org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog
-{
+public class BaseTitleAreaDialog extends org.eclipse.birt.report.designer.ui.dialogs.BaseTitleAreaDialog {
 
-	public BaseTitleAreaDialog( Shell parentShell )
-	{
-		super( parentShell );
+	public BaseTitleAreaDialog(Shell parentShell) {
+		super(parentShell);
 	}
 
 }

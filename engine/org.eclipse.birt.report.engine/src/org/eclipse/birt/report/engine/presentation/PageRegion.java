@@ -21,83 +21,67 @@ import org.eclipse.birt.report.engine.emitter.ContentEmitterUtil;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 
-public class PageRegion extends ContentEmitterAdapter
-{
+public class PageRegion extends ContentEmitterAdapter {
 	// private DOMBuildingEmitter domBuilderEmitter;
 	IContentEmitter emitter;
 
-	public PageRegion( Page page )
-	{
-		emitter = page.getEmitter( );
+	public PageRegion(Page page) {
+		emitter = page.getEmitter();
 	}
 
-	public void open( IContent content ) throws BirtException
-	{
-		if ( content != null )
-		{
-			ArrayList contents = getAncestors( content );
-			int size = contents.size( ) - 1;
-			for ( int i = size; i >= 0; i-- )
-			{
-				IContent parent = (IContent) contents.get( i );
-				ContentEmitterUtil.startContent( parent, emitter );
+	public void open(IContent content) throws BirtException {
+		if (content != null) {
+			ArrayList contents = getAncestors(content);
+			int size = contents.size() - 1;
+			for (int i = size; i >= 0; i--) {
+				IContent parent = (IContent) contents.get(i);
+				ContentEmitterUtil.startContent(parent, emitter);
 			}
 		}
 	}
 
-	public void close( IContent content ) throws BirtException
-	{
-		if ( content != null )
-		{
-			ArrayList contents = getAncestors( content );
-			int size = contents.size( );
-			for ( int i = 0; i < size; i++ )
-			{
-				IContent parent = (IContent) contents.get( i );
-				ContentEmitterUtil.endContent( parent, emitter );
+	public void close(IContent content) throws BirtException {
+		if (content != null) {
+			ArrayList contents = getAncestors(content);
+			int size = contents.size();
+			for (int i = 0; i < size; i++) {
+				IContent parent = (IContent) contents.get(i);
+				ContentEmitterUtil.endContent(parent, emitter);
 			}
 		}
 	}
 
-	private ArrayList getAncestors( IContent content )
-	{
-		ArrayList list = new ArrayList( );
+	private ArrayList getAncestors(IContent content) {
+		ArrayList list = new ArrayList();
 		// Top level content is a virtual element, not a real ancestor.
-		while ( content.getParent( ) != null )
-		{
-			list.add( content );
-			content = (IContent) content.getParent( );
+		while (content.getParent() != null) {
+			list.add(content);
+			content = (IContent) content.getParent();
 		}
 		return list;
 	}
-	
-	public void end( IReportContent report ) throws BirtException
-	{
-		emitter.end( report );
+
+	public void end(IReportContent report) throws BirtException {
+		emitter.end(report);
 	}
 
-	public String getOutputFormat( )
-	{
-		return emitter.getOutputFormat( );
+	public String getOutputFormat() {
+		return emitter.getOutputFormat();
 	}
 
-	public void initialize( IEmitterServices service ) throws BirtException
-	{
-		emitter.initialize( service );
+	public void initialize(IEmitterServices service) throws BirtException {
+		emitter.initialize(service);
 	}
 
-	public void start( IReportContent report ) throws BirtException
-	{
-		emitter.start( report );
+	public void start(IReportContent report) throws BirtException {
+		emitter.start(report);
 	}
 
-	public void startContent( IContent content ) throws BirtException
-	{
-		ContentEmitterUtil.startContent( content, emitter );
+	public void startContent(IContent content) throws BirtException {
+		ContentEmitterUtil.startContent(content, emitter);
 	}
 
-	public void endContent( IContent content ) throws BirtException
-	{
-		ContentEmitterUtil.endContent( content, emitter );
+	public void endContent(IContent content) throws BirtException {
+		ContentEmitterUtil.endContent(content, emitter);
 	}
 }

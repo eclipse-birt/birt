@@ -9,8 +9,7 @@ package org.eclipse.birt.core.framework;
 /**
  *
  */
-public interface IPlatformPath
-{
+public interface IPlatformPath {
 	/**
 	 * @return the string representation of the path
 	 */

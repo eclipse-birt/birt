@@ -17,14 +17,13 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
  * 
  */
 
-public interface IAggrMeasureFilterEvalHelper extends IJSBooleanFilterHelper
-{
+public interface IAggrMeasureFilterEvalHelper extends IJSBooleanFilterHelper {
 
 	/**
 	 * get the specified expression object.
 	 * 
 	 * @return
 	 */
-	public IBaseExpression getExpression( );
+	public IBaseExpression getExpression();
 
 }

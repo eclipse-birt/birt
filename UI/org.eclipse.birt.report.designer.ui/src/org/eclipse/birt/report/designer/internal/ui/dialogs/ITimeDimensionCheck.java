@@ -13,13 +13,13 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs;
 
 import org.eclipse.birt.report.model.api.olap.DimensionHandle;
 
-
 /**
  * 
  */
-public interface ITimeDimensionCheck
-{
-	/**If the dimension is the time dimension type
+public interface ITimeDimensionCheck {
+	/**
+	 * If the dimension is the time dimension type
+	 * 
 	 * @param handle
 	 * @return
 	 */

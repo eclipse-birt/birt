@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.metadata.MetaDataException;
  * 
  */
 
-public class ArgumentInfoList implements IArgumentInfoList
-{
+public class ArgumentInfoList implements IArgumentInfoList {
 
 	private final IArgumentInfoList arguInfoList;
 
@@ -29,29 +28,21 @@ public class ArgumentInfoList implements IArgumentInfoList
 	 * Constructs a default <code>ArgumentInfoList</code>.
 	 */
 
-	public ArgumentInfoList( )
-	{
-		arguInfoList = new org.eclipse.birt.report.model.metadata.ArgumentInfoList( );
+	public ArgumentInfoList() {
+		arguInfoList = new org.eclipse.birt.report.model.metadata.ArgumentInfoList();
 	}
 
 	/**
 	 * Adds argument to this method definition.
 	 * 
-	 * @param argument
-	 *            the argument definition to add
-	 * @throws MetaDataException
-	 *             if the argument name exists.
+	 * @param argument the argument definition to add
+	 * @throws MetaDataException if the argument name exists.
 	 */
 
-	protected void addArgument( IArgumentInfo argument )
-	{
-		try
-		{
-			( (org.eclipse.birt.report.model.metadata.ArgumentInfoList) arguInfoList )
-					.addArgument( argument );
-		}
-		catch ( MetaDataException e )
-		{
+	protected void addArgument(IArgumentInfo argument) {
+		try {
+			((org.eclipse.birt.report.model.metadata.ArgumentInfoList) arguInfoList).addArgument(argument);
+		} catch (MetaDataException e) {
 			return;
 		}
 	}
@@ -59,25 +50,22 @@ public class ArgumentInfoList implements IArgumentInfoList
 	/**
 	 * Returns the argument definition given the name.
 	 * 
-	 * @param argumentName
-	 *            name of the argument to get
+	 * @param argumentName name of the argument to get
 	 * @return the argument definition with the specified name.
 	 */
 
-	public IArgumentInfo getArgument( String argumentName )
-	{
-		return arguInfoList.getArgument( argumentName );
+	public IArgumentInfo getArgument(String argumentName) {
+		return arguInfoList.getArgument(argumentName);
 	}
 
 	/**
-	 * Returns the iterator of argument definition. Each one is a list that
-	 * contains <code>ArgumentInfo</code>.
+	 * Returns the iterator of argument definition. Each one is a list that contains
+	 * <code>ArgumentInfo</code>.
 	 * 
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator<IArgumentInfo> argumentsIterator( )
-	{
-		return arguInfoList.argumentsIterator( );
+	public Iterator<IArgumentInfo> argumentsIterator() {
+		return arguInfoList.argumentsIterator();
 	}
 }

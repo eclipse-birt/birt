@@ -37,8 +37,7 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  */
 
-public class StyleReferenceValidator extends AbstractElementValidator
-{
+public class StyleReferenceValidator extends AbstractElementValidator {
 
 	/**
 	 * Name of this validator.
@@ -46,7 +45,7 @@ public class StyleReferenceValidator extends AbstractElementValidator
 
 	public static final String NAME = "StyleReferenceValidator"; //$NON-NLS-1$
 
-	private final static StyleReferenceValidator instance = new StyleReferenceValidator( );
+	private final static StyleReferenceValidator instance = new StyleReferenceValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -54,45 +53,35 @@ public class StyleReferenceValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static StyleReferenceValidator getInstance( )
-	{
+	public static StyleReferenceValidator getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Validates the style reference value can refer to an actual style.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the styled element holding the style reference
+	 * @param module  the module
+	 * @param element the styled element holding the style reference
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
-		if ( !( element instanceof StyledElement ) )
-			return Collections.emptyList( );
+	public List<SemanticException> validate(Module module, DesignElement element) {
+		if (!(element instanceof StyledElement))
+			return Collections.emptyList();
 
-		return doValidate( module, (StyledElement) element );
+		return doValidate(module, (StyledElement) element);
 	}
 
-	private List<SemanticException> doValidate( Module module,
-			StyledElement toValidate )
-	{
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+	private List<SemanticException> doValidate(Module module, StyledElement toValidate) {
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
-		String styleName = toValidate.getStyleName( );
-		StyleElement style = toValidate.getStyle( );
+		String styleName = toValidate.getStyleName();
+		StyleElement style = toValidate.getStyle();
 
-		if ( styleName != null && style == null )
-		{
-			DesignElement resolvedElement = module.resolveElement( toValidate,
-					styleName, toValidate
-							.getPropertyDefn( IStyledElementModel.STYLE_PROP ),
-					null );
+		if (styleName != null && style == null) {
+			DesignElement resolvedElement = module.resolveElement(toValidate, styleName,
+					toValidate.getPropertyDefn(IStyledElementModel.STYLE_PROP), null);
 
 			// IModuleNameSpace nameSpace = module.getModuleNameSpace(
 			// Module.STYLE_NAME_SPACE );
@@ -103,22 +92,17 @@ public class StyleReferenceValidator extends AbstractElementValidator
 			// NameSpace ns = module.getNameSpace( Module.STYLE_NAME_SPACE );
 			// StyleElement theStyle = (StyleElement) ns.getElement( styleName
 			// );
-			if ( resolvedElement == null )
-			{
-				if ( !StyleUtil.hasExternalCSSURI( module ) )
-				{
-					list.add( new StyleException( toValidate, styleName,
-							StyleException.DESIGN_EXCEPTION_NOT_FOUND ) );
+			if (resolvedElement == null) {
+				if (!StyleUtil.hasExternalCSSURI(module)) {
+					list.add(new StyleException(toValidate, styleName, StyleException.DESIGN_EXCEPTION_NOT_FOUND));
 				}
-			}
-			else
-			{
+			} else {
 				// toValidate.setStyle( (StyleElement) refValue.getElement( ) );
-				toValidate.setStyle( (StyleElement) resolvedElement );
+				toValidate.setStyle((StyleElement) resolvedElement);
 			}
 		}
 
 		return list;
 	}
-	
+
 }

@@ -83,15 +83,9 @@ import com.ibm.icu.util.ULocale;
  * 
  * CORE_VERSION_1 DOCUMENT_VERSION MAP
  */
-public class ReportDocumentReader
-		implements
-			IReportletDocument,
-			ReportDocumentConstants,
-			IReportDocumentHelper
-{
+public class ReportDocumentReader implements IReportletDocument, ReportDocumentConstants, IReportDocumentHelper {
 
-	static private Logger logger = Logger.getLogger( ReportDocumentReader.class
-			.getName( ) );
+	static private Logger logger = Logger.getLogger(ReportDocumentReader.class.getName());
 
 	private ReportEngine engine;
 	private IDocArchiveReader archive;
@@ -100,7 +94,7 @@ public class ReportDocumentReader
 	 * version, parameters, globalVariables are loaded from core stream.
 	 */
 	private String coreVersion;
-	private Map properties = new HashMap( );
+	private Map properties = new HashMap();
 	private HashMap parameters;
 	private HashMap globalVariables;
 	/**
@@ -131,68 +125,53 @@ public class ReportDocumentReader
 	private byte[] bodyData;
 	private TreeNode cachedTreeV0;
 
-	public ReportDocumentReader( ReportEngine engine,
-			IDocArchiveReader archive, boolean sharedArchive )
-			throws EngineException
-	{
-		this( null, engine, archive, sharedArchive );
+	public ReportDocumentReader(ReportEngine engine, IDocArchiveReader archive, boolean sharedArchive)
+			throws EngineException {
+		this(null, engine, archive, sharedArchive);
 	}
 
-	public ReportDocumentReader( ReportEngine engine, IDocArchiveReader archive )
-			throws EngineException
-	{
-		this( null, engine, archive, false );
+	public ReportDocumentReader(ReportEngine engine, IDocArchiveReader archive) throws EngineException {
+		this(null, engine, archive, false);
 	}
 
-	public ReportDocumentReader( String systemId, ReportEngine engine,
-			IDocArchiveReader archive, Map options ) throws EngineException
-	{
-		this( systemId, engine, archive, false, options );
+	public ReportDocumentReader(String systemId, ReportEngine engine, IDocArchiveReader archive, Map options)
+			throws EngineException {
+		this(systemId, engine, archive, false, options);
 	}
 
-	public ReportDocumentReader( String systemId, ReportEngine engine,
-			IDocArchiveReader archive, boolean sharedArchive )
-			throws EngineException
-	{
-		this( systemId, engine, archive, sharedArchive, null );
+	public ReportDocumentReader(String systemId, ReportEngine engine, IDocArchiveReader archive, boolean sharedArchive)
+			throws EngineException {
+		this(systemId, engine, archive, sharedArchive, null);
 	}
 
-	public ReportDocumentReader( String systemId, ReportEngine engine,
-			IDocArchiveReader archive, boolean sharedArchive, Map options )
-			throws EngineException
-	{
+	public ReportDocumentReader(String systemId, ReportEngine engine, IDocArchiveReader archive, boolean sharedArchive,
+			Map options) throws EngineException {
 		this.engine = engine;
 		this.archive = archive;
 		this.systemId = systemId;
 		this.sharedArchive = sharedArchive;
-		this.moduleOptions = new HashMap( );
-		this.moduleOptions.put( ModuleOption.PARSER_SEMANTIC_CHECK_KEY,
-				Boolean.FALSE );
-		if ( options != null )
-		{
-			this.moduleOptions.putAll( options );
+		this.moduleOptions = new HashMap();
+		this.moduleOptions.put(ModuleOption.PARSER_SEMANTIC_CHECK_KEY, Boolean.FALSE);
+		if (options != null) {
+			this.moduleOptions.putAll(options);
 		}
 
-		loadCoreStreamHeader( );
+		loadCoreStreamHeader();
 	}
 
-	public IDocArchiveReader getArchive( )
-	{
+	public IDocArchiveReader getArchive() {
 		return this.archive;
 	}
 
-	public String getVersion( )
-	{
-		return (String) properties.get( BIRT_ENGINE_VERSION_KEY );
+	public String getVersion() {
+		return (String) properties.get(BIRT_ENGINE_VERSION_KEY);
 	}
 
-	public String getProperty( String key )
-	{
-		return (String) properties.get( key );
+	public String getProperty(String key) {
+		return (String) properties.get(key);
 	}
 
-	static public class ReportDocumentCoreInfo
-	{
+	static public class ReportDocumentCoreInfo {
 
 		public int checkpoint;
 		public long pageCount;
@@ -203,130 +182,98 @@ public class ReportDocumentReader
 		public IDocumentIndexReader indexReader;
 	}
 
-	private void loadCoreStreamHeader( ) throws EngineException
-	{
-		try
-		{
-			Object lock = archive.lock( CORE_STREAM );
-			try
-			{
-				synchronized ( lock )
-				{
-					RAInputStream in = archive.getStream( CORE_STREAM );
-					try
-					{
-						DataInputStream di = new DataInputStream( in );
+	private void loadCoreStreamHeader() throws EngineException {
+		try {
+			Object lock = archive.lock(CORE_STREAM);
+			try {
+				synchronized (lock) {
+					RAInputStream in = archive.getStream(CORE_STREAM);
+					try {
+						DataInputStream di = new DataInputStream(in);
 
 						// check the document version and core stream version
-						checkVersion( di );
+						checkVersion(di);
 
 						// load the stream header, check point, system id and
 						// page count
-						loadCoreStreamHeader( di );
-					}
-					finally
-					{
-						in.close( );
+						loadCoreStreamHeader(di);
+					} finally {
+						in.close();
 					}
 				}
+			} finally {
+				archive.unlock(lock);
 			}
-			finally
-			{
-				archive.unlock( lock );
-			}
-		}
-		catch ( IOException ee )
-		{
-			close( );
-			throw new EngineException(
-					MessageConstants.REPORT_DOCUMENT_OPEN_ERROR, ee );
+		} catch (IOException ee) {
+			close();
+			throw new EngineException(MessageConstants.REPORT_DOCUMENT_OPEN_ERROR, ee);
 		}
 	}
 
-	private void loadCoreStreamHeader( DataInputStream di ) throws IOException
-	{
+	private void loadCoreStreamHeader(DataInputStream di) throws IOException {
 		// load info into a document info object
-		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
+		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo();
 
-		loadCoreStreamHeader( di, documentInfo );
+		loadCoreStreamHeader(di, documentInfo);
 
-		if ( checkpoint != documentInfo.checkpoint )
-		{
+		if (checkpoint != documentInfo.checkpoint) {
 			checkpoint = documentInfo.checkpoint;
 			pageCount = documentInfo.pageCount;
-			if ( systemId == null )
-			{
+			if (systemId == null) {
 				systemId = documentInfo.systemId;
 			}
 		}
 	}
 
-	private void loadCoreStreamHeader( DataInputStream di,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
-	{
-		if ( CORE_VERSION_UNKNOWN.equals( coreVersion ) )
-		{
-			loadCoreStreamHeaderUnknown( di, documentInfo );
-		}
-		else if ( CORE_VERSION_0.equals( coreVersion )
-				|| CORE_VERSION_1.equals( coreVersion )
-				|| CORE_VERSION_2.equals( coreVersion ) )
-		{
-			loadCoreStreamHeaderV0( di, documentInfo );
-		}
-		else
-		{
-			throw new IOException( MessageConstants.UNSUPPORTED_CORE_STREAM_VERSION
-					+ coreVersion );
+	private void loadCoreStreamHeader(DataInputStream di, ReportDocumentCoreInfo documentInfo) throws IOException {
+		if (CORE_VERSION_UNKNOWN.equals(coreVersion)) {
+			loadCoreStreamHeaderUnknown(di, documentInfo);
+		} else if (CORE_VERSION_0.equals(coreVersion) || CORE_VERSION_1.equals(coreVersion)
+				|| CORE_VERSION_2.equals(coreVersion)) {
+			loadCoreStreamHeaderV0(di, documentInfo);
+		} else {
+			throw new IOException(MessageConstants.UNSUPPORTED_CORE_STREAM_VERSION + coreVersion);
 		}
 	}
 
 	/**
 	 * read the core stream header which has version UNKNOWN and V0.
 	 * 
-	 * The core stream header contains 3 field: <li>check point</li> <li>page
-	 * count</li> <li>system id</li>
+	 * The core stream header contains 3 field:
+	 * <li>check point</li>
+	 * <li>page count</li>
+	 * <li>system id</li>
 	 * 
-	 * @param coreStream
-	 *            the core stream. The version has been loaded from the stream.
-	 * @param documentInfo
-	 *            the loaded information is saved into this object.
+	 * @param coreStream   the core stream. The version has been loaded from the
+	 *                     stream.
+	 * @param documentInfo the loaded information is saved into this object.
 	 * @throws IOException
 	 */
-	private void loadCoreStreamHeaderUnknown( DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
-	{
+	private void loadCoreStreamHeaderUnknown(DataInputStream coreStream, ReportDocumentCoreInfo documentInfo)
+			throws IOException {
 		documentInfo.checkpoint = CHECKPOINT_INIT;
 		documentInfo.pageCount = PAGECOUNT_INIT;
-		if ( !archive.exists( CHECKPOINT_STREAM ) )
-		{
+		if (!archive.exists(CHECKPOINT_STREAM)) {
 			// no check point stream, old version, return -1
 			documentInfo.checkpoint = CHECKPOINT_END;
-			initializePageHintReader( );
-			if ( pageHintReader != null )
-			{
-				documentInfo.pageCount = pageHintReader.getTotalPage( );
+			initializePageHintReader();
+			if (pageHintReader != null) {
+				documentInfo.pageCount = pageHintReader.getTotalPage();
 			}
-		}
-		else
-		{
-			RAInputStream in = archive.getStream( CHECKPOINT_STREAM );
-			try
-			{
-				DataInputStream di = new DataInputStream( in );
-				documentInfo.checkpoint = IOUtil.readInt( di );
-				documentInfo.pageCount = IOUtil.readLong( di );
-			}
-			finally
-			{
-				if ( in != null )
-				{
-					in.close( );
+		} else {
+			RAInputStream in = archive.getStream(CHECKPOINT_STREAM);
+			try {
+				DataInputStream di = new DataInputStream(in);
+				documentInfo.checkpoint = IOUtil.readInt(di);
+				documentInfo.pageCount = IOUtil.readLong(di);
+			} finally {
+				if (in != null) {
+					in.close();
 				}
 			}
 		}
 		// load the report design name
-		documentInfo.systemId = IOUtil.readString( coreStream );
+		documentInfo.systemId = IOUtil.readString(coreStream);
 	}
 
 	/**
@@ -334,268 +281,199 @@ public class ReportDocumentReader
 	 * 
 	 * the core stream header contains 3 field:
 	 * 
-	 * <li>check point</li> <li>page count</li> <li>system id</li>
+	 * <li>check point</li>
+	 * <li>page count</li>
+	 * <li>system id</li>
 	 * 
-	 * @param di
-	 *            core stream, the version has been loaded from this stream.
-	 * @param documentInfo
-	 *            the header is saved into this object.
+	 * @param di           core stream, the version has been loaded from this
+	 *                     stream.
+	 * @param documentInfo the header is saved into this object.
 	 * @throws IOException
 	 */
-	private void loadCoreStreamHeaderV0( DataInputStream di,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
-	{
+	private void loadCoreStreamHeaderV0(DataInputStream di, ReportDocumentCoreInfo documentInfo) throws IOException {
 		documentInfo.checkpoint = CHECKPOINT_INIT;
 		documentInfo.pageCount = PAGECOUNT_INIT;
 
-		documentInfo.checkpoint = IOUtil.readInt( di );
-		documentInfo.pageCount = IOUtil.readLong( di );
+		documentInfo.checkpoint = IOUtil.readInt(di);
+		documentInfo.pageCount = IOUtil.readLong(di);
 
 		// load the report design name
-		documentInfo.systemId = IOUtil.readString( di );
+		documentInfo.systemId = IOUtil.readString(di);
 	}
 
-	private void loadCoreStreamLazily( )
-	{
-		if ( !coreStreamLoaded )
-		{
-			synchronized ( this )
-			{
-				if ( !coreStreamLoaded )
-				{
-					try
-					{
-						loadCoreStream( );
-					}
-					catch ( IOException ee )
-					{
-						logger.log( Level.SEVERE,
-								"Failed to load core stream", ee ); //$NON-NLS-1$
+	private void loadCoreStreamLazily() {
+		if (!coreStreamLoaded) {
+			synchronized (this) {
+				if (!coreStreamLoaded) {
+					try {
+						loadCoreStream();
+					} catch (IOException ee) {
+						logger.log(Level.SEVERE, "Failed to load core stream", ee); //$NON-NLS-1$
 					}
 				}
 			}
 		}
 	}
 
-	synchronized public void refresh( )
-	{
-		try
-		{
-			loadCoreStream( );
-		}
-		catch ( IOException ee )
-		{
-			logger.log( Level.SEVERE, "Failed to refresh", ee ); //$NON-NLS-1$
+	synchronized public void refresh() {
+		try {
+			loadCoreStream();
+		} catch (IOException ee) {
+			logger.log(Level.SEVERE, "Failed to refresh", ee); //$NON-NLS-1$
 		}
 	}
 
-	protected void loadCoreStream( ) throws IOException
-	{
-		Object lock = archive.lock( CORE_STREAM );
-		try
-		{
-			synchronized ( lock )
-			{
-				RAInputStream in = archive.getStream( CORE_STREAM );
-				try
-				{
-					DataInputStream di = new DataInputStream( in );
+	protected void loadCoreStream() throws IOException {
+		Object lock = archive.lock(CORE_STREAM);
+		try {
+			synchronized (lock) {
+				RAInputStream in = archive.getStream(CORE_STREAM);
+				try {
+					DataInputStream di = new DataInputStream(in);
 
 					// check the document version and core stream version
-					checkVersion( di );
+					checkVersion(di);
 
-					loadCoreStream( di );
+					loadCoreStream(di);
 
 					coreStreamLoaded = true;
-				}
-				finally
-				{
-					in.close( );
+				} finally {
+					in.close();
 				}
 			}
-		}
-		finally
-		{
-			archive.unlock( lock );
+		} finally {
+			archive.unlock(lock);
 		}
 	}
 
-	private void loadCoreStream( DataInputStream di ) throws IOException
-	{
+	private void loadCoreStream(DataInputStream di) throws IOException {
 		// load info into a document info object
-		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo( );
+		ReportDocumentCoreInfo documentInfo = new ReportDocumentCoreInfo();
 
-		loadCoreStreamHeader( di, documentInfo );
-		loadCoreStreamBody( di, documentInfo );
+		loadCoreStreamHeader(di, documentInfo);
+		loadCoreStreamBody(di, documentInfo);
 
 		// save the document info into the object.
 		checkpoint = documentInfo.checkpoint;
 		pageCount = documentInfo.pageCount;
 		globalVariables = documentInfo.globalVariables;
 		parameters = documentInfo.parameters;
-		if ( checkpoint == CHECKPOINT_END )
-		{
-			if ( indexReader == null )
-			{
+		if (checkpoint == CHECKPOINT_END) {
+			if (indexReader == null) {
 				indexReader = documentInfo.indexReader;
-			}
-			else
-			{
-				if ( documentInfo.indexReader != null )
-				{
-					documentInfo.indexReader.close( );
+			} else {
+				if (documentInfo.indexReader != null) {
+					documentInfo.indexReader.close();
 				}
 			}
-			if ( tocReader == null )
-			{
+			if (tocReader == null) {
 				tocReader = documentInfo.tocReader;
-				if (tocReader != null )
-				{
-					cachedTreeV0 = (TreeNode)tocReader.readTree( );
+				if (tocReader != null) {
+					cachedTreeV0 = (TreeNode) tocReader.readTree();
 				}
-			}
-			else
-			{
-				if ( documentInfo.tocReader != null )
-				{
-					documentInfo.tocReader.close( );
+			} else {
+				if (documentInfo.tocReader != null) {
+					documentInfo.tocReader.close();
 				}
 			}
 		}
 	}
 
-	private void loadCoreStreamBody( DataInputStream di,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
-	{
-		if ( CORE_VERSION_UNKNOWN.equals( coreVersion ) )
-		{
-			loadCoreStreamBodyUnknown( di, documentInfo );
-		}
-		else if ( CORE_VERSION_0.equals( coreVersion )
-				|| CORE_VERSION_1.equals( coreVersion ) )
-		{
-			loadCoreStreamBodyV0( di, documentInfo );
-		}
-		else if ( CORE_VERSION_2.equals( coreVersion ) )
-		{
-			loadCoreStreamBodyV2( di, documentInfo );
-		}
-		else
-		{
-			throw new IOException( "unsupported core stream version: "
-					+ coreVersion );
+	private void loadCoreStreamBody(DataInputStream di, ReportDocumentCoreInfo documentInfo) throws IOException {
+		if (CORE_VERSION_UNKNOWN.equals(coreVersion)) {
+			loadCoreStreamBodyUnknown(di, documentInfo);
+		} else if (CORE_VERSION_0.equals(coreVersion) || CORE_VERSION_1.equals(coreVersion)) {
+			loadCoreStreamBodyV0(di, documentInfo);
+		} else if (CORE_VERSION_2.equals(coreVersion)) {
+			loadCoreStreamBodyV2(di, documentInfo);
+		} else {
+			throw new IOException("unsupported core stream version: " + coreVersion);
 		}
 	}
 
-	protected void loadCoreStreamBodyUnknown( DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
-	{
+	protected void loadCoreStreamBodyUnknown(DataInputStream coreStream, ReportDocumentCoreInfo documentInfo)
+			throws IOException {
 		// load the report parameters
-		loadCoreStreamBodyToBuffer( coreStream );
-		if ( documentInfo.checkpoint == CHECKPOINT_END )
-		{
-			documentInfo.indexReader = new DocumentIndexReader(
-					IDocumentIndexReader.VERSION_0, archive );
+		loadCoreStreamBodyToBuffer(coreStream);
+		if (documentInfo.checkpoint == CHECKPOINT_END) {
+			documentInfo.indexReader = new DocumentIndexReader(IDocumentIndexReader.VERSION_0, archive);
 		}
 	}
 
-	protected void loadCoreStreamBodyV0( DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
-	{
-		Map originalParameters = IOUtil.readMap( coreStream );
-		documentInfo.parameters = convertToCompatibleParameter( originalParameters );
+	protected void loadCoreStreamBodyV0(DataInputStream coreStream, ReportDocumentCoreInfo documentInfo)
+			throws IOException {
+		Map originalParameters = IOUtil.readMap(coreStream);
+		documentInfo.parameters = convertToCompatibleParameter(originalParameters);
 		// load the persistence object
-		documentInfo.globalVariables = (HashMap) IOUtil.readMap( coreStream );
-		if ( documentInfo.checkpoint == CHECKPOINT_END )
-		{
-			HashMap<String, Long> bookmarks = readMap( coreStream );
-			documentInfo.tocReader = new TOCReader( coreStream, null );
-			HashMap<String, Long> reportletsIndexById = readMap( coreStream );
-			HashMap<String, Long> reportletsIndexByBookmark = readMap( coreStream );
-			documentInfo.indexReader = new DocumentIndexReader(
-					IDocumentIndexReader.VERSION_1, reportletsIndexByBookmark,
-					reportletsIndexById, bookmarks );
+		documentInfo.globalVariables = (HashMap) IOUtil.readMap(coreStream);
+		if (documentInfo.checkpoint == CHECKPOINT_END) {
+			HashMap<String, Long> bookmarks = readMap(coreStream);
+			documentInfo.tocReader = new TOCReader(coreStream, null);
+			HashMap<String, Long> reportletsIndexById = readMap(coreStream);
+			HashMap<String, Long> reportletsIndexByBookmark = readMap(coreStream);
+			documentInfo.indexReader = new DocumentIndexReader(IDocumentIndexReader.VERSION_1,
+					reportletsIndexByBookmark, reportletsIndexById, bookmarks);
 		}
 	}
 
-	protected void loadCoreStreamBodyV2( DataInputStream coreStream,
-			ReportDocumentCoreInfo documentInfo ) throws IOException
-	{
-		loadCoreStreamBodyToBuffer( coreStream );
-		if ( documentInfo.checkpoint == CHECKPOINT_END )
-		{
-			documentInfo.indexReader = new DocumentIndexReader(
-					IDocumentIndexReader.VERSION_2, archive );
+	protected void loadCoreStreamBodyV2(DataInputStream coreStream, ReportDocumentCoreInfo documentInfo)
+			throws IOException {
+		loadCoreStreamBodyToBuffer(coreStream);
+		if (documentInfo.checkpoint == CHECKPOINT_END) {
+			documentInfo.indexReader = new DocumentIndexReader(IDocumentIndexReader.VERSION_2, archive);
 		}
 	}
 
-	private void loadCoreStreamBodyToBuffer( DataInputStream stream )
-			throws IOException
-	{
+	private void loadCoreStreamBodyToBuffer(DataInputStream stream) throws IOException {
 		byte[] datas = new byte[1024];
 		int length = -1;
-		ByteArrayOutputStream byteOut = new ByteArrayOutputStream( );
-		while ( ( length = stream.read( datas ) ) > 0 )
-		{
-			byteOut.write( datas, 0, length );
+		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+		while ((length = stream.read(datas)) > 0) {
+			byteOut.write(datas, 0, length);
 		}
-		bodyData = byteOut.toByteArray( );
+		bodyData = byteOut.toByteArray();
 	}
 
-	private HashMap<String, Long> readMap( DataInputStream di )
-			throws IOException
-	{
-		HashMap<String, Long> map = new HashMap<String, Long>( );
-		long count = IOUtil.readLong( di );
-		for ( long i = 0; i < count; i++ )
-		{
-			String bookmark = IOUtil.readString( di );
-			long pageNumber = IOUtil.readLong( di );
-			map.put( bookmark, Long.valueOf( pageNumber ) );
+	private HashMap<String, Long> readMap(DataInputStream di) throws IOException {
+		HashMap<String, Long> map = new HashMap<String, Long>();
+		long count = IOUtil.readLong(di);
+		for (long i = 0; i < count; i++) {
+			String bookmark = IOUtil.readString(di);
+			long pageNumber = IOUtil.readLong(di);
+			map.put(bookmark, Long.valueOf(pageNumber));
 		}
 		return map;
 	}
 
-	private HashMap convertToCompatibleParameter( Map parameters )
-	{
-		if ( parameters == null )
-		{
+	private HashMap convertToCompatibleParameter(Map parameters) {
+		if (parameters == null) {
 			return null;
 		}
-		HashMap result = new HashMap( );
-		Iterator iterator = parameters.entrySet( ).iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			Map.Entry entry = (Map.Entry) iterator.next( );
-			Object key = entry.getKey( );
-			Object valueObj = entry.getValue( );
+		HashMap result = new HashMap();
+		Iterator iterator = parameters.entrySet().iterator();
+		while (iterator.hasNext()) {
+			Map.Entry entry = (Map.Entry) iterator.next();
+			Object key = entry.getKey();
+			Object valueObj = entry.getValue();
 			ParameterAttribute paramAttr = null;
-			if ( valueObj instanceof ParameterAttribute )
-			{
+			if (valueObj instanceof ParameterAttribute) {
 				paramAttr = (ParameterAttribute) valueObj;
-			}
-			else if ( valueObj instanceof Object[] )
-			{
+			} else if (valueObj instanceof Object[]) {
 				Object[] values = (Object[]) valueObj;
-				if ( values.length == 2 )
-				{
+				if (values.length == 2) {
 					Object value = values[0];
-					if ( values[1] == null || values[1] instanceof String)
-					{
-						paramAttr = new ParameterAttribute( value, (String) values[1] );
+					if (values[1] == null || values[1] instanceof String) {
+						paramAttr = new ParameterAttribute(value, (String) values[1]);
+					} else if (values[1] instanceof String[]) {
+						paramAttr = new ParameterAttribute((Object[]) value, (String[]) values[1]);
 					}
-					else if ( values[1] instanceof String[])
-					{
-						paramAttr = new ParameterAttribute( (Object[])value, (String[]) values[1] );
-					}
-					
+
 				}
 			}
-			if ( paramAttr == null )
-			{
-				paramAttr = new ParameterAttribute( valueObj, null );
+			if (paramAttr == null) {
+				paramAttr = new ParameterAttribute(valueObj, null);
 			}
-			result.put( key, paramAttr );
+			result.put(key, paramAttr);
 		}
 		return result;
 	}
@@ -619,325 +497,227 @@ public class ReportDocumentReader
 	 * 2.5.0	x		v1		2.1.3	2.5.0	FALSE		2.5.0
 	 * </pre>
 	 */
-	protected void checkVersion( DataInputStream di ) throws IOException
-	{
-		String tag = IOUtil.readString( di );
-		if ( !REPORT_DOCUMENT_TAG.equals( tag ) )
-		{
-			throw new IOException( "unknown report document tag" + tag );//$NON-NLS-1$
+	protected void checkVersion(DataInputStream di) throws IOException {
+		String tag = IOUtil.readString(di);
+		if (!REPORT_DOCUMENT_TAG.equals(tag)) {
+			throw new IOException("unknown report document tag" + tag);//$NON-NLS-1$
 		}
-		String docVersion = IOUtil.readString( di );
-		if ( docVersion == null )
-		{
-			throw new IOException( "invalid core stream format" );//$NON-NLS-1$
+		String docVersion = IOUtil.readString(di);
+		if (docVersion == null) {
+			throw new IOException("invalid core stream format");//$NON-NLS-1$
 		}
 
-		if ( !docVersion.startsWith( CORE_VERSION_PREFIX ) )
-		{
+		if (!docVersion.startsWith(CORE_VERSION_PREFIX)) {
 			// there is no core version, so set the core version to unknown.
 			coreVersion = CORE_VERSION_UNKNOWN;
-		}
-		else if ( CORE_VERSION_0.equals( docVersion )
-				|| CORE_VERSION_1.equals( docVersion )
-				|| CORE_VERSION_2.equals( docVersion ) )
-		{
+		} else if (CORE_VERSION_0.equals(docVersion) || CORE_VERSION_1.equals(docVersion)
+				|| CORE_VERSION_2.equals(docVersion)) {
 			coreVersion = docVersion;
-			docVersion = IOUtil.readString( di );
-			if ( CORE_VERSION_1.equals( coreVersion )
-					|| CORE_VERSION_2.equals( coreVersion ) )
-			{
-				properties = IOUtil.readMap( di );
+			docVersion = IOUtil.readString(di);
+			if (CORE_VERSION_1.equals(coreVersion) || CORE_VERSION_2.equals(coreVersion)) {
+				properties = IOUtil.readMap(di);
 			}
-		}
-		else
-		{
-			throw new IOException( "unknown core stream version" + tag );//$NON-NLS-1$
+		} else {
+			throw new IOException("unknown core stream version" + tag);//$NON-NLS-1$
 		}
 
-		String[] supportedVersions = new String[]{
-				REPORT_DOCUMENT_VERSION_1_0_0, REPORT_DOCUMENT_VERSION_2_1_0,
-				REPORT_DOCUMENT_VERSION_2_1_3};
+		String[] supportedVersions = new String[] { REPORT_DOCUMENT_VERSION_1_0_0, REPORT_DOCUMENT_VERSION_2_1_0,
+				REPORT_DOCUMENT_VERSION_2_1_3 };
 		boolean supportedVersion = false;
-		for ( int i = 0; i < supportedVersions.length; i++ )
-		{
-			if ( supportedVersions[i].equals( docVersion ) )
-			{
+		for (int i = 0; i < supportedVersions.length; i++) {
+			if (supportedVersions[i].equals(docVersion)) {
 				supportedVersion = true;
 				break;
 			}
 		}
-		if ( supportedVersion == false )
-		{
-			throw new IOException(
-					"unsupport report document version " + docVersion ); //$NON-NLS-1$
+		if (supportedVersion == false) {
+			throw new IOException("unsupport report document version " + docVersion); //$NON-NLS-1$
 		}
 
 		// test if request extension are present
-		String extensions = (String) properties.get( BIRT_ENGINE_EXTENSIONS );
-		if ( extensions != null && extensions.length( ) > 0 )
-		{
-			String[] extIds = extensions.split( ";" );
-			for ( String extId : extIds )
-			{
-				IReportEngineExtension ext = engine.getEngineExtension( extId );
-				if ( ext == null )
-				{
-					throw new IOException( "unsupported report extension:"
-							+ extId );
+		String extensions = (String) properties.get(BIRT_ENGINE_EXTENSIONS);
+		if (extensions != null && extensions.length() > 0) {
+			String[] extIds = extensions.split(";");
+			for (String extId : extIds) {
+				IReportEngineExtension ext = engine.getEngineExtension(extId);
+				if (ext == null) {
+					throw new IOException("unsupported report extension:" + extId);
 				}
 			}
 		}
 
-		if ( properties.get( BIRT_ENGINE_VERSION_KEY ) == null )
-		{
-			if ( REPORT_DOCUMENT_VERSION_1_0_0.equals( docVersion ) )
-			{
-				properties.put( BIRT_ENGINE_VERSION_KEY,
-						BIRT_ENGINE_VERSION_2_0_0 );
-			}
-			else if ( REPORT_DOCUMENT_VERSION_2_1_0.equals( docVersion ) )
-			{
-				properties.put( BIRT_ENGINE_VERSION_KEY,
-						BIRT_ENGINE_VERSION_2_1_0 );
-			}
-			else if ( REPORT_DOCUMENT_VERSION_2_1_3.equals( docVersion ) )
-			{
-				properties.put( BIRT_ENGINE_VERSION_KEY,
-						BIRT_ENGINE_VERSION_2_1_3 );
+		if (properties.get(BIRT_ENGINE_VERSION_KEY) == null) {
+			if (REPORT_DOCUMENT_VERSION_1_0_0.equals(docVersion)) {
+				properties.put(BIRT_ENGINE_VERSION_KEY, BIRT_ENGINE_VERSION_2_0_0);
+			} else if (REPORT_DOCUMENT_VERSION_2_1_0.equals(docVersion)) {
+				properties.put(BIRT_ENGINE_VERSION_KEY, BIRT_ENGINE_VERSION_2_1_0);
+			} else if (REPORT_DOCUMENT_VERSION_2_1_3.equals(docVersion)) {
+				properties.put(BIRT_ENGINE_VERSION_KEY, BIRT_ENGINE_VERSION_2_1_3);
 			}
 		}
 
-		String version = getVersion( );
+		String version = getVersion();
 		// FIXME: test if the version is later than BIRT_ENGINE_VERSION
 
-		if ( properties.get( DATA_EXTRACTION_TASK_VERSION_KEY ) == null )
-		{
+		if (properties.get(DATA_EXTRACTION_TASK_VERSION_KEY) == null) {
 			// check the data extraction task version
-			if ( BIRT_ENGINE_VERSION_2_0_0.equals( docVersion )
-					|| BIRT_ENGINE_VERSION_2_1_0.equals( version ) )
-			{
-				properties.put( DATA_EXTRACTION_TASK_VERSION_KEY,
-						DATA_EXTRACTION_TASK_VERSION_0 );
-			}
-			else
-			{
-				properties.put( DATA_EXTRACTION_TASK_VERSION_KEY,
-						DATA_EXTRACTION_TASK_VERSION_1 );
+			if (BIRT_ENGINE_VERSION_2_0_0.equals(docVersion) || BIRT_ENGINE_VERSION_2_1_0.equals(version)) {
+				properties.put(DATA_EXTRACTION_TASK_VERSION_KEY, DATA_EXTRACTION_TASK_VERSION_0);
+			} else {
+				properties.put(DATA_EXTRACTION_TASK_VERSION_KEY, DATA_EXTRACTION_TASK_VERSION_1);
 			}
 		}
 		// assign the page-hint version
-		if ( properties.get( PAGE_HINT_VERSION_KEY ) == null )
-		{
-			properties.put( PAGE_HINT_VERSION_KEY, PAGE_HINT_VERSION_2 );
+		if (properties.get(PAGE_HINT_VERSION_KEY) == null) {
+			properties.put(PAGE_HINT_VERSION_KEY, PAGE_HINT_VERSION_2);
 		}
 	}
 
-	public void close( )
-	{
-		if ( tocReader != null )
-		{
-			try
-			{
-				tocReader.close( );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.SEVERE, "Failed to close the tocReader", ex ); //$NON-NLS-1$
+	public void close() {
+		if (tocReader != null) {
+			try {
+				tocReader.close();
+			} catch (IOException ex) {
+				logger.log(Level.SEVERE, "Failed to close the tocReader", ex); //$NON-NLS-1$
 			}
 			tocReader = null;
 		}
 
-		if ( indexReader != null )
-		{
-			try
-			{
-				indexReader.close( );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.WARNING, "failed to close the index reader",
-						ex );
+		if (indexReader != null) {
+			try {
+				indexReader.close();
+			} catch (IOException ex) {
+				logger.log(Level.WARNING, "failed to close the index reader", ex);
 			}
 			indexReader = null;
 		}
 
-		if ( pageHintReader != null )
-		{
-			pageHintReader.close( );
+		if (pageHintReader != null) {
+			pageHintReader.close();
 			pageHintReader = null;
 		}
-		if ( archive != null )
-		{
-			if ( !sharedArchive )
-			{
-				try
-				{
-					archive.close( );
-				}
-				catch ( IOException ex )
-				{
-					logger
-							.log( Level.SEVERE,
-									"Failed to close the archive", ex ); //$NON-NLS-1$
+		if (archive != null) {
+			if (!sharedArchive) {
+				try {
+					archive.close();
+				} catch (IOException ex) {
+					logger.log(Level.SEVERE, "Failed to close the archive", ex); //$NON-NLS-1$
 				}
 			}
 			archive = null;
 		}
 
-		if ( extensions != null )
-		{
-			for ( Map.Entry<String, IReportDocumentExtension> entry : extensions
-					.entrySet( ) )
-			{
-				String name = entry.getKey( );
-				IReportDocumentExtension extension = entry.getValue( );
-				if ( extension != null )
-				{
-					try
-					{
-						extension.close( );
-					}
-					catch ( EngineException ex )
-					{
-						logger.log( Level.SEVERE,
-								"Failed to close the extension " + name, ex );
+		if (extensions != null) {
+			for (Map.Entry<String, IReportDocumentExtension> entry : extensions.entrySet()) {
+				String name = entry.getKey();
+				IReportDocumentExtension extension = entry.getValue();
+				if (extension != null) {
+					try {
+						extension.close();
+					} catch (EngineException ex) {
+						logger.log(Level.SEVERE, "Failed to close the extension " + name, ex);
 					}
 				}
 			}
 
-			extensions.clear( );
+			extensions.clear();
 			extensions = null;
 		}
-		if ( applicationClassLoader != null )
-		{
-			applicationClassLoader.close( );
+		if (applicationClassLoader != null) {
+			applicationClassLoader.close();
 		}
-		if ( engineCacheEntry != null )
-		{
-			LinkedObjectManager<ReportDocumentReader> manager = engineCacheEntry
-					.getManager( );
-			synchronized ( manager )
-			{
-				manager.remove( engineCacheEntry );
+		if (engineCacheEntry != null) {
+			LinkedObjectManager<ReportDocumentReader> manager = engineCacheEntry.getManager();
+			synchronized (manager) {
+				manager.remove(engineCacheEntry);
 			}
 		}
 		this.bodyData = null;
 		this.engine = null;
 		this.cachedTreeV0 = null;
-		if ( globalVariables != null )
-		{
-			globalVariables.clear( );
+		if (globalVariables != null) {
+			globalVariables.clear();
 			globalVariables = null;
 		}
-		if ( moduleOptions != null )
-		{
-			moduleOptions.clear( );
+		if (moduleOptions != null) {
+			moduleOptions.clear();
 			moduleOptions = null;
 		}
 		this.preparedRunnable = null;
 		this.reportRunnable = null;
-		if ( parameters != null )
-		{
-			parameters.clear( );
+		if (parameters != null) {
+			parameters.clear();
 			parameters = null;
 		}
 	}
 
-	public InputStream getDesignStream( )
-	{
-		try
-		{
-			if ( archive.exists( ORIGINAL_DESIGN_STREAM ) )
-			{
-				return archive.getStream( ORIGINAL_DESIGN_STREAM );
+	public InputStream getDesignStream() {
+		try {
+			if (archive.exists(ORIGINAL_DESIGN_STREAM)) {
+				return archive.getStream(ORIGINAL_DESIGN_STREAM);
 			}
-			return archive.getStream( DESIGN_STREAM );
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to open the design!", ex ); //$NON-NLS-1$
+			return archive.getStream(DESIGN_STREAM);
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "Failed to open the design!", ex); //$NON-NLS-1$
 			return null;
 		}
 	}
 
-	private ReportRunnable loadReportRunnable( String systemId,
-			String streamName )
-	{
+	private ReportRunnable loadReportRunnable(String systemId, String streamName) {
 
-		try
-		{
-			if ( archive.exists( streamName ) )
-			{
-				InputStream stream = archive.getStream( streamName );
-				try
-				{
+		try {
+			if (archive.exists(streamName)) {
+				InputStream stream = archive.getStream(streamName);
+				try {
 					String name = systemId;
-					if ( name == null )
-					{
-						name = archive.getName( );
+					if (name == null) {
+						name = archive.getName();
 					}
-					ReportRunnable reportRunnable = (ReportRunnable) engine
-							.openReportDesign( name, stream, moduleOptions );
+					ReportRunnable reportRunnable = (ReportRunnable) engine.openReportDesign(name, stream,
+							moduleOptions);
 					return reportRunnable;
-				}
-				finally
-				{
-					stream.close( );
+				} finally {
+					stream.close();
 				}
 			}
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed to open the design!", ex ); //$NON-NLS-1$
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "Failed to open the design!", ex); //$NON-NLS-1$
 		}
 		return null;
 	}
 
-	public synchronized IReportRunnable getReportRunnable( )
-	{
-		if ( reportRunnable == null )
-		{
-			reportRunnable = loadReportRunnable( systemId,
-					ORIGINAL_DESIGN_STREAM );
-			if ( reportRunnable != null )
-			{
-				reportRunnable.setPrepared( false );
-			}
-			else
-			{
-				reportRunnable = getOnPreparedRunnable( );
+	public synchronized IReportRunnable getReportRunnable() {
+		if (reportRunnable == null) {
+			reportRunnable = loadReportRunnable(systemId, ORIGINAL_DESIGN_STREAM);
+			if (reportRunnable != null) {
+				reportRunnable.setPrepared(false);
+			} else {
+				reportRunnable = getOnPreparedRunnable();
 			}
 		}
-		if ( reportRunnable != null )
-		{
-			return reportRunnable.cloneRunnable( );
+		if (reportRunnable != null) {
+			return reportRunnable.cloneRunnable();
 		}
 		return null;
 	}
 
-	public synchronized IReportRunnable getPreparedRunnable( )
-	{
-		ReportRunnable runnable = getOnPreparedRunnable( );
-		if ( runnable != null )
-		{
-			return runnable.cloneRunnable( );
+	public synchronized IReportRunnable getPreparedRunnable() {
+		ReportRunnable runnable = getOnPreparedRunnable();
+		if (runnable != null) {
+			return runnable.cloneRunnable();
 		}
 		return null;
 	}
 
-	public synchronized IReportRunnable getDocumentRunnable( )
-	{
-		return getOnPreparedRunnable( );
+	public synchronized IReportRunnable getDocumentRunnable() {
+		return getOnPreparedRunnable();
 	}
 
-	public ReportRunnable getOnPreparedRunnable( )
-	{
-		if ( preparedRunnable == null )
-		{
-			preparedRunnable = loadReportRunnable( systemId, DESIGN_STREAM );
-			if ( preparedRunnable != null )
-			{
-				preparedRunnable.setPrepared( true );
+	public ReportRunnable getOnPreparedRunnable() {
+		if (preparedRunnable == null) {
+			preparedRunnable = loadReportRunnable(systemId, DESIGN_STREAM);
+			if (preparedRunnable != null) {
+				preparedRunnable.setPrepared(true);
 			}
 		}
 		return preparedRunnable;
@@ -946,160 +726,116 @@ public class ReportDocumentReader
 	/**
 	 * @deprecated
 	 */
-	public Map getParameterValues( )
-	{
-		loadCoreStreamLazily( );
-		loadVariableLazily( );
-		Map result = new HashMap( );
-		if ( parameters != null )
-		{
-			Iterator iterator = parameters.entrySet( ).iterator( );
-			while ( iterator.hasNext( ) )
-			{
-				Map.Entry entry = (Map.Entry) iterator.next( );
-				String name = (String) entry.getKey( );
-				ParameterAttribute value = (ParameterAttribute) entry
-						.getValue( );
-				result.put( name, value.getValue( ) );
+	public Map getParameterValues() {
+		loadCoreStreamLazily();
+		loadVariableLazily();
+		Map result = new HashMap();
+		if (parameters != null) {
+			Iterator iterator = parameters.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Map.Entry entry = (Map.Entry) iterator.next();
+				String name = (String) entry.getKey();
+				ParameterAttribute value = (ParameterAttribute) entry.getValue();
+				result.put(name, value.getValue());
 			}
 		}
 		return result;
 	}
 
-	public Map getParameterValues( ClassLoader loader )
-	{
-		Map result = new HashMap( );
-		try
-		{
-			Map parameters = loadParameters( loader );
-			if ( parameters != null )
-			{
-				Iterator iterator = parameters.entrySet( ).iterator( );
-				while ( iterator.hasNext( ) )
-				{
-					Map.Entry entry = (Map.Entry) iterator.next( );
-					String name = (String) entry.getKey( );
-					ParameterAttribute value = (ParameterAttribute) entry
-							.getValue( );
-					result.put( name, value.getValue( ) );
+	public Map getParameterValues(ClassLoader loader) {
+		Map result = new HashMap();
+		try {
+			Map parameters = loadParameters(loader);
+			if (parameters != null) {
+				Iterator iterator = parameters.entrySet().iterator();
+				while (iterator.hasNext()) {
+					Map.Entry entry = (Map.Entry) iterator.next();
+					String name = (String) entry.getKey();
+					ParameterAttribute value = (ParameterAttribute) entry.getValue();
+					result.put(name, value.getValue());
 				}
 			}
-		}
-		catch ( EngineException ex )
-		{
-			logger.log( Level.SEVERE, ex.getLocalizedMessage( ), ex );
+		} catch (EngineException ex) {
+			logger.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
 		}
 		return result;
 	}
 
-	protected void loadVariableLazily( )
-	{
-		if ( globalVariables == null )
-		{
-			assert ( bodyData != null );
+	protected void loadVariableLazily() {
+		if (globalVariables == null) {
+			assert (bodyData != null);
 
-			ClassLoader loader = getClassLoader( );
-			DataInputStream dataStream = new DataInputStream(
-					new ByteArrayInputStream( bodyData ) );
-			try
-			{
-				parameters = (HashMap) IOUtil.readMap( dataStream, loader );
-				parameters = (HashMap) convertToCompatibleParameter( parameters );
-				globalVariables = (HashMap) IOUtil.readMap( dataStream, loader );
-			}
-			catch ( IOException ex )
-			{
-				logger
-						.log(
-								Level.SEVERE,
-								"Failed to load parameters and variables in the core stream", ex ); //$NON-NLS-1$
+			ClassLoader loader = getClassLoader();
+			DataInputStream dataStream = new DataInputStream(new ByteArrayInputStream(bodyData));
+			try {
+				parameters = (HashMap) IOUtil.readMap(dataStream, loader);
+				parameters = (HashMap) convertToCompatibleParameter(parameters);
+				globalVariables = (HashMap) IOUtil.readMap(dataStream, loader);
+			} catch (IOException ex) {
+				logger.log(Level.SEVERE, "Failed to load parameters and variables in the core stream", ex); //$NON-NLS-1$
 			}
 		}
 	}
 
-	public Map<String, ParameterAttribute> loadParameters( ClassLoader loader )
-			throws EngineException
-	{
-		loadCoreStreamLazily( );
-		if ( bodyData == null )
-		{
+	public Map<String, ParameterAttribute> loadParameters(ClassLoader loader) throws EngineException {
+		loadCoreStreamLazily();
+		if (bodyData == null) {
 			return parameters;
 		}
-		try
-		{
-			DataInputStream dataStream = new DataInputStream(
-					new ByteArrayInputStream( bodyData ) );;
-			Map parameters = IOUtil.readMap( dataStream, loader );
-			return convertToCompatibleParameter( parameters );
-		}
-		catch ( IOException ee )
-		{
-			throw new EngineException(
-					"Failed to load parameters in the core stream", ee );  //$NON-NLS-1$
+		try {
+			DataInputStream dataStream = new DataInputStream(new ByteArrayInputStream(bodyData));
+			;
+			Map parameters = IOUtil.readMap(dataStream, loader);
+			return convertToCompatibleParameter(parameters);
+		} catch (IOException ee) {
+			throw new EngineException("Failed to load parameters in the core stream", ee); //$NON-NLS-1$
 		}
 	}
 
-	public Map loadVariables( ClassLoader loader ) throws EngineException
-	{
-		loadCoreStreamLazily( );
-		if ( bodyData == null )
-		{
+	public Map loadVariables(ClassLoader loader) throws EngineException {
+		loadCoreStreamLazily();
+		if (bodyData == null) {
 			return globalVariables;
 		}
-		try
-		{
-			DataInputStream dataStream = new DataInputStream(
-					new ByteArrayInputStream( bodyData ) );;
+		try {
+			DataInputStream dataStream = new DataInputStream(new ByteArrayInputStream(bodyData));
+			;
 			// skip the parameters
-			IOUtil.readMap( dataStream, loader );
+			IOUtil.readMap(dataStream, loader);
 			// load the persistence object
-			return IOUtil.readMap( dataStream, loader );
-		}
-		catch ( IOException ee )
-		{
-			throw new EngineException(
-					"Failed to load variables in the core stream", ee ); //$NON-NLS-1$
+			return IOUtil.readMap(dataStream, loader);
+		} catch (IOException ee) {
+			throw new EngineException("Failed to load variables in the core stream", ee); //$NON-NLS-1$
 		}
 	}
 
-	public Map getParameterDisplayTexts( )
-	{
-		loadCoreStreamLazily( );
-		loadVariableLazily( );
-		Map result = new HashMap( );
-		if ( parameters != null )
-		{
-			Iterator iterator = parameters.entrySet( ).iterator( );
-			while ( iterator.hasNext( ) )
-			{
-				Map.Entry entry = (Map.Entry) iterator.next( );
-				String name = (String) entry.getKey( );
-				ParameterAttribute value = (ParameterAttribute) entry
-						.getValue( );
-				result.put( name, value.getDisplayText( ) );
+	public Map getParameterDisplayTexts() {
+		loadCoreStreamLazily();
+		loadVariableLazily();
+		Map result = new HashMap();
+		if (parameters != null) {
+			Iterator iterator = parameters.entrySet().iterator();
+			while (iterator.hasNext()) {
+				Map.Entry entry = (Map.Entry) iterator.next();
+				String name = (String) entry.getKey();
+				ParameterAttribute value = (ParameterAttribute) entry.getValue();
+				result.put(name, value.getDisplayText());
 			}
 		}
 		return result;
 	}
 
-	public long getPageCount( )
-	{
+	public long getPageCount() {
 		return pageCount;
 	}
 
-	public IPageHint getPageHint( long pageNumber )
-	{
-		initializePageHintReader( );
-		if ( pageHintReader != null )
-		{
-			try
-			{
-				return pageHintReader.getPageHint( pageNumber );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.WARNING, "Failed to load page hint "
-						+ pageNumber, ex );
+	public IPageHint getPageHint(long pageNumber) {
+		initializePageHintReader();
+		if (pageHintReader != null) {
+			try {
+				return pageHintReader.getPageHint(pageNumber);
+			} catch (IOException ex) {
+				logger.log(Level.WARNING, "Failed to load page hint " + pageNumber, ex);
 			}
 		}
 		return null;
@@ -1108,29 +844,20 @@ public class ReportDocumentReader
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.IReportDocument#getPageNumber(java
+	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getPageNumber(java
 	 * .lang.String)
 	 */
-	public long getPageNumber( String bookmark )
-	{
-		if ( !isComplete( ) )
-		{
+	public long getPageNumber(String bookmark) {
+		if (!isComplete()) {
 			return -1;
 		}
 
-		loadCoreStreamLazily( );
-		if ( indexReader != null )
-		{
-			try
-			{
-				return indexReader.getPageOfBookmark( bookmark );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.WARNING,
-						"failed to load the page number of bookmark:"
-								+ bookmark, ex );
+		loadCoreStreamLazily();
+		if (indexReader != null) {
+			try {
+				return indexReader.getPageOfBookmark(bookmark);
+			} catch (IOException ex) {
+				logger.log(Level.WARNING, "failed to load the page number of bookmark:" + bookmark, ex);
 			}
 		}
 		return -1;
@@ -1141,144 +868,100 @@ public class ReportDocumentReader
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getBookmarks()
 	 */
-	public List<String> getBookmarks( )
-	{
-		if ( !isComplete( ) )
-		{
+	public List<String> getBookmarks() {
+		if (!isComplete()) {
 			return null;
 		}
 
-		loadCoreStreamLazily( );
-		if ( indexReader != null )
-		{
-			try
-			{
-				return indexReader.getBookmarks( );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.WARNING, "failed to load the bookmark list",
-						ex );
+		loadCoreStreamLazily();
+		if (indexReader != null) {
+			try {
+				return indexReader.getBookmarks();
+			} catch (IOException ex) {
+				logger.log(Level.WARNING, "failed to load the bookmark list", ex);
 			}
 		}
 		return null;
 	}
 
-	public List<BookmarkContent> getBookmarkContents( )
-	{
-		if ( !isComplete( ) )
-		{
+	public List<BookmarkContent> getBookmarkContents() {
+		if (!isComplete()) {
 			return null;
 		}
 
-		loadCoreStreamLazily( );
-		if ( indexReader != null )
-		{
-			try
-			{
-				return indexReader.getBookmarkContents( );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.WARNING,
-						"failed to load the bookmark info list", ex );
+		loadCoreStreamLazily();
+		if (indexReader != null) {
+			try {
+				return indexReader.getBookmarkContents();
+			} catch (IOException ex) {
+				logger.log(Level.WARNING, "failed to load the bookmark info list", ex);
 			}
 		}
 		return null;
 	}
 
-	public List<IBookmarkInfo> getBookmarkInfos( Locale locale )
-			throws EngineException
-	{
-		if ( !isComplete( ) )
-		{
+	public List<IBookmarkInfo> getBookmarkInfos(Locale locale) throws EngineException {
+		if (!isComplete()) {
 			return null;
 		}
-		ArrayList<IBookmarkInfo> results = new ArrayList<IBookmarkInfo>( );
+		ArrayList<IBookmarkInfo> results = new ArrayList<IBookmarkInfo>();
 
-		loadCoreStreamLazily( );
-		if ( indexReader != null )
-		{
-			try
-			{
-				List<BookmarkContent> bookmarks = indexReader
-						.getBookmarkContents( );
-				if ( bookmarks == null )
-				{
+		loadCoreStreamLazily();
+		if (indexReader != null) {
+			try {
+				List<BookmarkContent> bookmarks = indexReader.getBookmarkContents();
+				if (bookmarks == null) {
 					return null;
 				}
-				ReportDesignHandle report = this.getReportDesign( );
+				ReportDesignHandle report = this.getReportDesign();
 
-				for ( BookmarkContent bookmark : bookmarks )
-				{
-					String bookmarkString = bookmark.getBookmark( );
-					if ( bookmarkString
-							.startsWith( ExecutorManager.BOOKMARK_PREFIX )
-							|| bookmarkString.indexOf( TOCBuilder.TOC_PREFIX ) != -1 )
-					{
+				for (BookmarkContent bookmark : bookmarks) {
+					String bookmarkString = bookmark.getBookmark();
+					if (bookmarkString.startsWith(ExecutorManager.BOOKMARK_PREFIX)
+							|| bookmarkString.indexOf(TOCBuilder.TOC_PREFIX) != -1) {
 						continue;
 					}
-					long designId = bookmark.getElementId( );
-					DesignElementHandle handle = report
-							.getElementByID( designId );
-					if ( handle == null )
+					long designId = bookmark.getElementId();
+					DesignElementHandle handle = report.getElementByID(designId);
+					if (handle == null)
 						continue;
-					String elementType = handle.getDefn( ).getName( );
+					String elementType = handle.getDefn().getName();
 					String displayName = null;
-					if ( handle instanceof ReportItemHandle )
-					{
-						displayName = ( (ReportItemHandle) handle )
-								.getBookmarkDisplayName( );
+					if (handle instanceof ReportItemHandle) {
+						displayName = ((ReportItemHandle) handle).getBookmarkDisplayName();
 					}
-					if ( locale != null )
-					{
-						if ( handle instanceof ReportElementHandle )
-						{
+					if (locale != null) {
+						if (handle instanceof ReportElementHandle) {
 							ReportElementHandle elementHandle = (ReportElementHandle) handle;
-							displayName = ModuleUtil.getExternalizedValue(
-									elementHandle, bookmarkString,
-									displayName, ULocale.forLocale( locale ) );
+							displayName = ModuleUtil.getExternalizedValue(elementHandle, bookmarkString, displayName,
+									ULocale.forLocale(locale));
 
 						}
 					}
-					results.add( new BookmarkInfo( bookmarkString,
-							displayName, elementType ) );
+					results.add(new BookmarkInfo(bookmarkString, displayName, elementType));
 				}
-			}
-			catch ( IOException ex )
-			{
-				throw new EngineException( MessageConstants.BOOKMARK_FETCHING_EXCEPTION,
-						ex );
+			} catch (IOException ex) {
+				throw new EngineException(MessageConstants.BOOKMARK_FETCHING_EXCEPTION, ex);
 			}
 		}
 		return results;
 	}
 
 	/**
-	 * @param bookmark
-	 *            the bookmark that a page number is to be retrieved upon
+	 * @param bookmark the bookmark that a page number is to be retrieved upon
 	 * @return the page number that the bookmark appears
 	 */
-	public long getBookmark( String bookmark )
-	{
-		if ( !isComplete( ) )
-		{
+	public long getBookmark(String bookmark) {
+		if (!isComplete()) {
 			return -1;
 		}
 
-		loadCoreStreamLazily( );
-		if ( indexReader != null )
-		{
-			try
-			{
-				return indexReader.getOffsetOfBookmark( bookmark );
-			}
-			catch ( IOException ex )
-			{
-				logger
-						.log( Level.WARNING,
-								"failed to load the offset of bookmark:"
-										+ bookmark, ex );
+		loadCoreStreamLazily();
+		if (indexReader != null) {
+			try {
+				return indexReader.getOffsetOfBookmark(bookmark);
+			} catch (IOException ex) {
+				logger.log(Level.WARNING, "failed to load the offset of bookmark:" + bookmark, ex);
 			}
 		}
 		return -1;
@@ -1287,29 +970,22 @@ public class ReportDocumentReader
 	/**
 	 * @deprecated
 	 */
-	public ITOCTree getTOCTree( String format, ULocale locale )
-	{
-		return getTOCTree( format, locale, TimeZone.getDefault( ) );
+	public ITOCTree getTOCTree(String format, ULocale locale) {
+		return getTOCTree(format, locale, TimeZone.getDefault());
 	}
 
 	/**
 	 * @deprecated
 	 */
-	public ITOCTree getTOCTree( String format, ULocale locale, TimeZone timeZone )
-	{
-		try
-		{
-			ITreeNode root = getTOCTree( );
-			if ( root != null )
-			{
-				ReportDesignHandle report = ( (ReportRunnable) getOnPreparedRunnable( ) )
-						.getReport( );
-				return new TOCView( root, report, locale, timeZone, format );
+	public ITOCTree getTOCTree(String format, ULocale locale, TimeZone timeZone) {
+		try {
+			ITreeNode root = getTOCTree();
+			if (root != null) {
+				ReportDesignHandle report = ((ReportRunnable) getOnPreparedRunnable()).getReport();
+				return new TOCView(root, report, locale, timeZone, format);
 			}
-		}
-		catch ( EngineException ex )
-		{
-			logger.log( Level.WARNING, ex.getMessage( ), ex );
+		} catch (EngineException ex) {
+			logger.log(Level.WARNING, ex.getMessage(), ex);
 		}
 		return null;
 	}
@@ -1317,19 +993,16 @@ public class ReportDocumentReader
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.IReportDocument#findTOC(java.lang.
+	 * @see org.eclipse.birt.report.engine.api.IReportDocument#findTOC(java.lang.
 	 * String)
 	 */
 	/**
 	 * @deprecated
 	 */
-	public TOCNode findTOC( String tocNodeId )
-	{
-		ITOCTree tree = getTOCTree( "viewer", ULocale.getDefault( ) );
-		if ( tree != null )
-		{
-			return tree.findTOC( tocNodeId );
+	public TOCNode findTOC(String tocNodeId) {
+		ITOCTree tree = getTOCTree("viewer", ULocale.getDefault());
+		if (tree != null) {
+			return tree.findTOC(tocNodeId);
 		}
 		return null;
 	}
@@ -1337,19 +1010,16 @@ public class ReportDocumentReader
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.IReportDocument#findTOCByName(java
+	 * @see org.eclipse.birt.report.engine.api.IReportDocument#findTOCByName(java
 	 * .lang.String)
 	 */
 	/**
 	 * @deprecated
 	 */
-	public List findTOCByName( String tocName )
-	{
-		ITOCTree tree = getTOCTree( "viewer", ULocale.getDefault( ) );
-		if ( tree != null )
-		{
-			return tree.findTOCByValue( tocName );
+	public List findTOCByName(String tocName) {
+		ITOCTree tree = getTOCTree("viewer", ULocale.getDefault());
+		if (tree != null) {
+			return tree.findTOCByValue(tocName);
 		}
 		return null;
 	}
@@ -1357,44 +1027,32 @@ public class ReportDocumentReader
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.IReportDocument#getChildren(java.lang
+	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getChildren(java.lang
 	 * .String)
 	 */
 	/**
 	 * @deprecated
 	 */
-	public List getChildren( String tocNodeId )
-	{
-		TOCNode node = findTOC( tocNodeId );
-		if ( node != null )
-		{
-			return node.getChildren( );
+	public List getChildren(String tocNodeId) {
+		TOCNode node = findTOC(tocNodeId);
+		if (node != null) {
+			return node.getChildren();
 		}
 		return null;
 	}
 
-	private void initializePageHintReader( )
-	{
-		if ( pageHintReader != null )
-		{
+	private void initializePageHintReader() {
+		if (pageHintReader != null) {
 			return;
 		}
-		synchronized ( this )
-		{
-			if ( pageHintReader != null )
-			{
+		synchronized (this) {
+			if (pageHintReader != null) {
 				return;
 			}
-			try
-			{
-				pageHintReader = new PageHintReader( this );
-			}
-			catch ( IOException ex )
-			{
-				logger
-.log( Level.SEVERE, "can not open the page hint stream",
-								ex );
+			try {
+				pageHintReader = new PageHintReader(this);
+			} catch (IOException ex) {
+				logger.log(Level.SEVERE, "can not open the page hint stream", ex);
 			}
 		}
 	}
@@ -1404,176 +1062,130 @@ public class ReportDocumentReader
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getName()
 	 */
-	public String getName( )
-	{
-		return archive.getName( );
+	public String getName() {
+		return archive.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.IReportDocument#getGlobalVariables()
+	 * @see org.eclipse.birt.report.engine.api.IReportDocument#getGlobalVariables()
 	 */
 	/**
 	 * @deprecated
 	 */
-	public Map getGlobalVariables( String option )
-	{
-		loadCoreStreamLazily( );
-		loadVariableLazily( );
+	public Map getGlobalVariables(String option) {
+		loadCoreStreamLazily();
+		loadVariableLazily();
 		return globalVariables;
 	}
 
-	public long getPageNumber( InstanceID iid )
-	{
-		if ( !isComplete( ) )
-		{
+	public long getPageNumber(InstanceID iid) {
+		if (!isComplete()) {
 			return -1;
 		}
-		initializePageHintReader( );
-		if ( pageHintReader == null )
-		{
+		initializePageHintReader();
+		if (pageHintReader == null) {
 			return -1;
 		}
 
-		int version = pageHintReader.getVersion( );
+		int version = pageHintReader.getVersion();
 
-		try
-		{
-			if ( version == IPageHintReader.VERSION_0 )
-			{
-				long offset = getInstanceOffset( iid );
-				if ( offset == -1 )
-				{
+		try {
+			if (version == IPageHintReader.VERSION_0) {
+				long offset = getInstanceOffset(iid);
+				if (offset == -1) {
 					return -1;
 				}
-				long totalPage = pageHintReader.getTotalPage( );
-				for ( long pageNumber = 1; pageNumber <= totalPage; pageNumber++ )
-				{
-					IPageHint hint = pageHintReader.getPageHint( pageNumber );
-					PageSection section = hint.getSection( 0 );
+				long totalPage = pageHintReader.getTotalPage();
+				for (long pageNumber = 1; pageNumber <= totalPage; pageNumber++) {
+					IPageHint hint = pageHintReader.getPageHint(pageNumber);
+					PageSection section = hint.getSection(0);
 
-					if ( offset >= section.startOffset )
-					{
+					if (offset >= section.startOffset) {
 						return pageNumber;
 					}
 				}
 			}
 
-			else if ( version == IPageHintReader.VERSION_1 )
-			{
-				long offset = getInstanceOffset( iid );
-				if ( offset == -1 )
-				{
+			else if (version == IPageHintReader.VERSION_1) {
+				long offset = getInstanceOffset(iid);
+				if (offset == -1) {
 					return -1;
 				}
-				long totalPage = pageHintReader.getTotalPage( );
-				for ( long pageNumber = 1; pageNumber <= totalPage; pageNumber++ )
-				{
-					IPageHint hint = pageHintReader.getPageHint( pageNumber );
-					int sectionCount = hint.getSectionCount( );
-					for ( int i = 0; i < sectionCount; i++ )
-					{
-						PageSection section = hint.getSection( i );
+				long totalPage = pageHintReader.getTotalPage();
+				for (long pageNumber = 1; pageNumber <= totalPage; pageNumber++) {
+					IPageHint hint = pageHintReader.getPageHint(pageNumber);
+					int sectionCount = hint.getSectionCount();
+					for (int i = 0; i < sectionCount; i++) {
+						PageSection section = hint.getSection(i);
 
-						if ( section.startOffset <= offset
-								&& offset <= section.endOffset )
-						{
+						if (section.startOffset <= offset && offset <= section.endOffset) {
 							return pageNumber;
 						}
 					}
 				}
-			}
-			else if ( version == IPageHintReader.VERSION_2
-					|| version == IPageHintReader.VERSION_3
-					|| version == IPageHintReader.VERSION_4
-					|| version == IPageHintReader.VERSION_5
-					|| version == IPageHintReader.VERSION_6 )
-			{
-				long totalPage = pageHintReader.getTotalPage( );
-				for ( long pageNumber = 1; pageNumber <= totalPage; pageNumber++ )
-				{
-					IPageHint hint = pageHintReader.getPageHint( pageNumber );
-					int sectionCount = hint.getSectionCount( );
-					Fragment fragment = new Fragment(
-							new InstanceIDComparator( ) );
-					for ( int i = 0; i < sectionCount; i++ )
-					{
-						PageSection section = hint.getSection( i );
-						fragment.addSection( section.starts, section.ends );
+			} else if (version == IPageHintReader.VERSION_2 || version == IPageHintReader.VERSION_3
+					|| version == IPageHintReader.VERSION_4 || version == IPageHintReader.VERSION_5
+					|| version == IPageHintReader.VERSION_6) {
+				long totalPage = pageHintReader.getTotalPage();
+				for (long pageNumber = 1; pageNumber <= totalPage; pageNumber++) {
+					IPageHint hint = pageHintReader.getPageHint(pageNumber);
+					int sectionCount = hint.getSectionCount();
+					Fragment fragment = new Fragment(new InstanceIDComparator());
+					for (int i = 0; i < sectionCount; i++) {
+						PageSection section = hint.getSection(i);
+						fragment.addSection(section.starts, section.ends);
 					}
-					fragment.build( );
-					if ( fragment.inFragment( iid ) )
-					{
+					fragment.build();
+					if (fragment.inFragment(iid)) {
 						return pageNumber;
 					}
 				}
 			}
-		}
-		catch ( IOException ex )
-		{
+		} catch (IOException ex) {
 
 		}
 		return -1;
 	}
 
-	public long getInstanceOffset( InstanceID iid )
-	{
-		if ( !isComplete( ) )
-		{
+	public long getInstanceOffset(InstanceID iid) {
+		if (!isComplete()) {
 			return -1l;
 		}
-		if ( iid == null )
-		{
+		if (iid == null) {
 			return -1l;
 		}
-		loadCoreStreamLazily( );
+		loadCoreStreamLazily();
 
-		if ( indexReader != null )
-		{
-			try
-			{
-				long offset = indexReader.getOffsetOfInstance( iid
-						.toUniqueString( ) );
-				if ( offset == -1 )
-				{
-					offset = indexReader.getOffsetOfInstance( iid.toString( ) );
+		if (indexReader != null) {
+			try {
+				long offset = indexReader.getOffsetOfInstance(iid.toUniqueString());
+				if (offset == -1) {
+					offset = indexReader.getOffsetOfInstance(iid.toString());
 				}
 				return offset;
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.WARNING,
-						"failed to get the offset of instance:"
-								+ iid.toUniqueString( ), ex );
+			} catch (IOException ex) {
+				logger.log(Level.WARNING, "failed to get the offset of instance:" + iid.toUniqueString(), ex);
 			}
 		}
 		return -1L;
 	}
 
-	public long getBookmarkOffset( String bookmark )
-	{
-		if ( !isComplete( ) )
-		{
+	public long getBookmarkOffset(String bookmark) {
+		if (!isComplete()) {
 			return -1;
 		}
-		if ( bookmark == null )
-		{
+		if (bookmark == null) {
 			return -1l;
 		}
 
-		loadCoreStreamLazily( );
-		if ( indexReader != null )
-		{
-			try
-			{
-				return indexReader.getOffsetOfBookmark( bookmark );
-			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.WARNING,
-						"failed to get the offset of bookmark:" + bookmark, ex );
+		loadCoreStreamLazily();
+		if (indexReader != null) {
+			try {
+				return indexReader.getOffsetOfBookmark(bookmark);
+			} catch (IOException ex) {
+				logger.log(Level.WARNING, "failed to get the offset of bookmark:" + bookmark, ex);
 			}
 		}
 		return -1L;
@@ -1582,26 +1194,19 @@ public class ReportDocumentReader
 	/**
 	 * @deprecated
 	 */
-	public ClassLoader getClassLoader( )
-	{
-		if ( applicationClassLoader != null )
-		{
+	public ClassLoader getClassLoader() {
+		if (applicationClassLoader != null) {
 			return applicationClassLoader;
 		}
-		synchronized ( this )
-		{
-			if ( applicationClassLoader == null )
-			{
-				applicationClassLoader = AccessController
-						.doPrivileged( new PrivilegedAction<ApplicationClassLoader>( ) {
+		synchronized (this) {
+			if (applicationClassLoader == null) {
+				applicationClassLoader = AccessController.doPrivileged(new PrivilegedAction<ApplicationClassLoader>() {
 
-							public ApplicationClassLoader run( )
-							{
-								return new ApplicationClassLoader( engine,
-										getOnPreparedRunnable( ), engine
-												.getConfig( ).getAppContext( ) );
-							}
-						} );
+					public ApplicationClassLoader run() {
+						return new ApplicationClassLoader(engine, getOnPreparedRunnable(),
+								engine.getConfig().getAppContext());
+					}
+				});
 			}
 		}
 		return applicationClassLoader;
@@ -1612,48 +1217,35 @@ public class ReportDocumentReader
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IReportDocument#isComplete()
 	 */
-	public boolean isComplete( )
-	{
+	public boolean isComplete() {
 		return checkpoint == CHECKPOINT_END;
 	}
 
-	public ReportDesignHandle getReportDesign( )
-	{
-		IReportRunnable reportRunnable = getReportRunnable( );
-		if ( reportRunnable != null )
-		{
-			return (ReportDesignHandle) reportRunnable.getDesignHandle( );
+	public ReportDesignHandle getReportDesign() {
+		IReportRunnable reportRunnable = getReportRunnable();
+		if (reportRunnable != null) {
+			return (ReportDesignHandle) reportRunnable.getDesignHandle();
 		}
 		return null;
 	}
 
-	public Report getReportIR( ReportDesignHandle designHandle )
-	{
+	public Report getReportIR(ReportDesignHandle designHandle) {
 		InputStream stream = null;
-		try
-		{
-			stream = archive.getStream( DESIGN_IR_STREAM );
-			EngineIRReader reader = new EngineIRReader( );
-			Report reportIR = reader.read( stream );
-			reportIR.setVersion( getVersion( ) );
-			reader.link( reportIR, designHandle );
+		try {
+			stream = archive.getStream(DESIGN_IR_STREAM);
+			EngineIRReader reader = new EngineIRReader();
+			Report reportIR = reader.read(stream);
+			reportIR.setVersion(getVersion());
+			reader.link(reportIR, designHandle);
 			return reportIR;
-		}
-		catch ( IOException ioex )
-		{
+		} catch (IOException ioex) {
 			// an error occurs in reading the engine ir
-			logger.log( Level.FINE, "Failed to load the engine IR", ioex );
-		}
-		finally
-		{
-			if ( stream != null )
-			{
-				try
-				{
-					stream.close( );
-				}
-				catch ( IOException ignored )
-				{
+			logger.log(Level.FINE, "Failed to load the engine IR", ioex);
+		} finally {
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException ignored) {
 				}
 				stream = null;
 			}
@@ -1661,22 +1253,16 @@ public class ReportDocumentReader
 		return null;
 	}
 
-	private InstanceID loadInstanceID( ReportContentReaderV3 reader, long offset )
-			throws IOException
-	{
-		IContent content = reader.readContent( offset );
-		if ( content != null )
-		{
-			InstanceID iid = content.getInstanceID( );
-			DocumentExtension ext = (DocumentExtension) content
-					.getExtension( IContent.DOCUMENT_EXTENSION );
-			long parentOffset = ext.getParent( );
-			if ( parentOffset != -1 )
-			{
-				InstanceID pid = loadInstanceID( reader, parentOffset );
-				if ( pid != null )
-				{
-					return new InstanceID( pid, iid );
+	private InstanceID loadInstanceID(ReportContentReaderV3 reader, long offset) throws IOException {
+		IContent content = reader.readContent(offset);
+		if (content != null) {
+			InstanceID iid = content.getInstanceID();
+			DocumentExtension ext = (DocumentExtension) content.getExtension(IContent.DOCUMENT_EXTENSION);
+			long parentOffset = ext.getParent();
+			if (parentOffset != -1) {
+				InstanceID pid = loadInstanceID(reader, parentOffset);
+				if (pid != null) {
+					return new InstanceID(pid, iid);
 				}
 			}
 			return iid;
@@ -1684,44 +1270,31 @@ public class ReportDocumentReader
 		return null;
 	}
 
-	public InstanceID getBookmarkInstance( String bookmark )
-	{
-		if ( bookmark == null || bookmark.length( ) == 0 )
-		{
+	public InstanceID getBookmarkInstance(String bookmark) {
+		if (bookmark == null || bookmark.length() == 0) {
 			return null;
 		}
 
-		long offset = getBookmarkOffset( bookmark );
+		long offset = getBookmarkOffset(bookmark);
 
-		if ( offset < 0 )
+		if (offset < 0)
 			return null;
 
-		try
-		{
-			RAInputStream is = archive.getStream( CONTENT_STREAM );
-			try
-			{
-				ReportContentReaderV3 reader = new ReportContentReaderV3(
-						new ReportContent( ), is, applicationClassLoader );
-				try
-				{
-					return loadInstanceID( reader, offset );
+		try {
+			RAInputStream is = archive.getStream(CONTENT_STREAM);
+			try {
+				ReportContentReaderV3 reader = new ReportContentReaderV3(new ReportContent(), is,
+						applicationClassLoader);
+				try {
+					return loadInstanceID(reader, offset);
+				} finally {
+					reader.close();
 				}
-				finally
-				{
-					reader.close( );
-				}
+			} finally {
+				is.close();
 			}
-			finally
-			{
-				is.close( );
-			}
-		}
-		catch ( IOException ioe )
-		{
-			logger.log( Level.FINE,
-					"Failed to get the instance ID of the bookmark: "
-							+ bookmark, ioe );
+		} catch (IOException ioe) {
+			logger.log(Level.FINE, "Failed to get the instance ID of the bookmark: " + bookmark, ioe);
 		}
 		return null;
 	}
@@ -1730,81 +1303,59 @@ public class ReportDocumentReader
 	private String reportletBookmark;
 	private String reportletInstanceID;
 
-	public boolean isReporltetDocument( ) throws IOException
-	{
-		return loadReportletStream( );
+	public boolean isReporltetDocument() throws IOException {
+		return loadReportletStream();
 	}
 
-	public String getReportletBookmark( ) throws IOException
-	{
-		if ( loadReportletStream( ) )
-		{
+	public String getReportletBookmark() throws IOException {
+		if (loadReportletStream()) {
 			return reportletBookmark;
 		}
 		return null;
 	}
 
-	public InstanceID getReportletInstanceID( ) throws IOException
-	{
-		if ( loadReportletStream( ) )
-		{
-			return InstanceID.parse( reportletInstanceID );
+	public InstanceID getReportletInstanceID() throws IOException {
+		if (loadReportletStream()) {
+			return InstanceID.parse(reportletInstanceID);
 		}
 		return null;
 	}
 
-	private boolean loadReportletStream( ) throws IOException
-	{
-		if ( isReportlet == null )
-		{
-			if ( archive.exists( REPORTLET_DOCUMENT_STREAM ) )
-			{
-				RAInputStream in = archive
-						.getInputStream( REPORTLET_DOCUMENT_STREAM );
-				try
-				{
-					int version = in.readInt( );
-					if ( version != REPORTLET_DOCUMENT_VERSION_0 )
-					{
-						throw new IOException(
-								"unsupported reportlet document " + version );
+	private boolean loadReportletStream() throws IOException {
+		if (isReportlet == null) {
+			if (archive.exists(REPORTLET_DOCUMENT_STREAM)) {
+				RAInputStream in = archive.getInputStream(REPORTLET_DOCUMENT_STREAM);
+				try {
+					int version = in.readInt();
+					if (version != REPORTLET_DOCUMENT_VERSION_0) {
+						throw new IOException("unsupported reportlet document " + version);
 					}
-					int size = in.readInt( );
+					int size = in.readInt();
 					byte[] bytes = new byte[size];
-					in.readFully( bytes, 0, size );
-					DataInputStream s = new DataInputStream(
-							new ByteArrayInputStream( bytes ) );
-					reportletBookmark = IOUtil.readString( s );
-					reportletInstanceID = IOUtil.readString( s );
+					in.readFully(bytes, 0, size);
+					DataInputStream s = new DataInputStream(new ByteArrayInputStream(bytes));
+					reportletBookmark = IOUtil.readString(s);
+					reportletInstanceID = IOUtil.readString(s);
 					isReportlet = Boolean.TRUE;
+				} finally {
+					in.close();
 				}
-				finally
-				{
-					in.close( );
-				}
-			}
-			else
-			{
+			} else {
 				isReportlet = Boolean.FALSE;
 			}
 		}
-		return isReportlet.booleanValue( );
+		return isReportlet.booleanValue();
 	}
 
-	HashMap<String, IReportDocumentExtension> extensions = new HashMap<String, IReportDocumentExtension>( );
+	HashMap<String, IReportDocumentExtension> extensions = new HashMap<String, IReportDocumentExtension>();
 
-	synchronized public IReportDocumentExtension getDocumentExtension(
-			String name ) throws EngineException
-	{
-		IReportDocumentExtension extension = extensions.get( name );
-		if ( extension == null )
-		{
-			IReportEngineExtension engineExtension = this.engine
-					.getEngineExtension( name );
-			if ( engineExtension != null )
-			{
-				extension = engineExtension.createDocumentExtension( this );
-				extensions.put( name, extension );
+	synchronized public IReportDocumentExtension getDocumentExtension(String name) throws EngineException {
+		IReportDocumentExtension extension = extensions.get(name);
+		if (extension == null) {
+			IReportEngineExtension engineExtension = this.engine.getEngineExtension(name);
+			if (engineExtension != null) {
+				extension = engineExtension.createDocumentExtension(this);
+				extensions.put(name, extension);
 			}
 		}
 		return extension;
@@ -1813,65 +1364,48 @@ public class ReportDocumentReader
 	/**
 	 * @deprecated
 	 */
-	synchronized public ITreeNode getTOCTree( ) throws EngineException
-	{
-		if ( !isComplete( ) )
-		{
+	synchronized public ITreeNode getTOCTree() throws EngineException {
+		if (!isComplete()) {
 			return null;
 		}
-		loadCoreStreamLazily( );
-		try
-		{
-			if ( tocReader == null )
-			{
-				tocReader = new TOCReader( archive, getClassLoader( ) );
+		loadCoreStreamLazily();
+		try {
+			if (tocReader == null) {
+				tocReader = new TOCReader(archive, getClassLoader());
 			}
-			return tocReader.readTree( );
-		}
-		catch ( IOException ex )
-		{
-			throw new EngineException( MessageConstants.FAILED_TO_LOAD_TOC_TREE_EXCEPTION, ex );
+			return tocReader.readTree();
+		} catch (IOException ex) {
+			throw new EngineException(MessageConstants.FAILED_TO_LOAD_TOC_TREE_EXCEPTION, ex);
 		}
 	}
 
-	public ITOCReader getTOCReader( ClassLoader loader ) throws EngineException
-	{
-		loadCoreStreamLazily( );
-		if ( cachedTreeV0 != null )
-		{
+	public ITOCReader getTOCReader(ClassLoader loader) throws EngineException {
+		loadCoreStreamLazily();
+		if (cachedTreeV0 != null) {
 			// it is safe to reuse the tocReaderV0 as the close is empty.
-			return new TOCReaderV0( cachedTreeV0 );
+			return new TOCReaderV0(cachedTreeV0);
 		}
-		try
-		{
-			return new TOCReader( archive, loader );
-		}
-		catch ( IOException ex )
-		{
-			throw new EngineException( MessageConstants.FAILED_TO_LOAD_TOC_TREE_EXCEPTION, ex );
+		try {
+			return new TOCReader(archive, loader);
+		} catch (IOException ex) {
+			throw new EngineException(MessageConstants.FAILED_TO_LOAD_TOC_TREE_EXCEPTION, ex);
 		}
 	}
 
-	public void setEngineCacheEntry( LinkedEntry<ReportDocumentReader> entry )
-	{
+	public void setEngineCacheEntry(LinkedEntry<ReportDocumentReader> entry) {
 		this.engineCacheEntry = entry;
 	}
 
-	public String getSystemId( )
-	{
+	public String getSystemId() {
 		return systemId;
 	}
-	
-	public List<String> getDocumentErrors( )
-	{
-		RunStatusReader statusReader = new RunStatusReader( this );
-		try
-		{
-			return statusReader.getGenerationErrors( );
-		}
-		finally
-		{
-			statusReader.close( );
+
+	public List<String> getDocumentErrors() {
+		RunStatusReader statusReader = new RunStatusReader(this);
+		try {
+			return statusReader.getGenerationErrors();
+		} finally {
+			statusReader.close();
 		}
 	}
 }

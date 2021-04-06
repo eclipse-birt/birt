@@ -16,8 +16,7 @@ package org.eclipse.birt.report.designer.ui.parameters;
  * 
  */
 
-public interface ICascadingParameterGroup extends IParameterGroup
-{
+public interface ICascadingParameterGroup extends IParameterGroup {
 
 	/**
 	 * Get pre-parameter, if no pre-papameter, return null.
@@ -26,7 +25,7 @@ public interface ICascadingParameterGroup extends IParameterGroup
 	 * @return pre-parameter
 	 */
 
-	public IParameter getPreParameter( IParameter parameter );
+	public IParameter getPreParameter(IParameter parameter);
 
 	/**
 	 * Get post-parameter, if no post-papameter, return null.
@@ -35,7 +34,7 @@ public interface ICascadingParameterGroup extends IParameterGroup
 	 * @return post-parameter
 	 */
 
-	public IParameter getPostParameter( IParameter parameter );
+	public IParameter getPostParameter(IParameter parameter);
 
 	/**
 	 * Gets parameter in special position.
@@ -44,5 +43,5 @@ public interface ICascadingParameterGroup extends IParameterGroup
 	 * @return parameter.
 	 */
 
-	public IParameter getParameter( int index );
+	public IParameter getParameter(int index);
 }

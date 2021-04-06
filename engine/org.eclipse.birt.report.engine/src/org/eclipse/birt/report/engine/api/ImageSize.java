@@ -11,32 +11,27 @@
 
 package org.eclipse.birt.report.engine.api;
 
-public class ImageSize
-{
+public class ImageSize {
 
 	protected String unit;
 	protected float width;
 	protected float height;
 
-	public ImageSize( String u, float w, float h )
-	{
+	public ImageSize(String u, float w, float h) {
 		unit = u;
 		width = w;
 		height = h;
 	}
 
-	public String getUnit( )
-	{
+	public String getUnit() {
 		return unit;
 	}
 
-	public float getWidth( )
-	{
+	public float getWidth() {
 		return width;
 	}
 
-	public float getHeight( )
-	{
+	public float getHeight() {
 		return height;
 	}
 }

@@ -28,19 +28,15 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * ReportItemtHandle.
  */
 
-public abstract class ReportItemtHandleAdapter extends
-		DesignElementHandleAdapter
-{
+public abstract class ReportItemtHandleAdapter extends DesignElementHandleAdapter {
 
 	/**
 	 * Constructor
 	 * 
 	 * @param handle
 	 */
-	public ReportItemtHandleAdapter( ReportItemHandle handle,
-			IModelAdapterHelper mark )
-	{
-		super( handle, mark );
+	public ReportItemtHandleAdapter(ReportItemHandle handle, IModelAdapterHelper mark) {
+		super(handle, mark);
 	}
 
 	/**
@@ -48,34 +44,27 @@ public abstract class ReportItemtHandleAdapter extends
 	 * 
 	 * @return location point
 	 */
-	public Point getLocation( )
-	{
-		DimensionHandle handle = getReportItemHandle( ).getX( );
+	public Point getLocation() {
+		DimensionHandle handle = getReportItemHandle().getX();
 		int x = 0;
-		if ( DesignChoiceConstants.UNITS_PX.equals( handle.getUnits( ) ) )
-		{
-			x = (int) handle.getMeasure( );
+		if (DesignChoiceConstants.UNITS_PX.equals(handle.getUnits())) {
+			x = (int) handle.getMeasure();
 		}
 
-		double px = DEUtil.convertToValue( handle,
-				DesignChoiceConstants.UNITS_IN );
+		double px = DEUtil.convertToValue(handle, DesignChoiceConstants.UNITS_IN);
 
-		handle = getReportItemHandle( ).getY( );
+		handle = getReportItemHandle().getY();
 
 		int y = 0;
-		if ( DesignChoiceConstants.UNITS_PX.equals( handle.getUnits( ) ) )
-		{
-			y = (int) handle.getMeasure( );
+		if (DesignChoiceConstants.UNITS_PX.equals(handle.getUnits())) {
+			y = (int) handle.getMeasure();
 		}
-		double py = DEUtil.convertToValue( handle,
-				DesignChoiceConstants.UNITS_IN );
-		Point p = MetricUtility.inchToPixel( px, py );
-		if ( x != 0 )
-		{
+		double py = DEUtil.convertToValue(handle, DesignChoiceConstants.UNITS_IN);
+		Point p = MetricUtility.inchToPixel(px, py);
+		if (x != 0) {
 			p.x = x;
 		}
-		if ( y != 0 )
-		{
+		if (y != 0) {
 			p.y = y;
 		}
 		return p;
@@ -87,14 +76,11 @@ public abstract class ReportItemtHandleAdapter extends
 	 * @param location
 	 * @throws SemanticException
 	 */
-	public void setLocation( Point location ) throws SemanticException
-	{
-		getReportItemHandle( ).getX( )
-				.setStringValue( Integer.valueOf( location.x ).toString( )
-						+ DesignChoiceConstants.UNITS_PX );
-		getReportItemHandle( ).getY( )
-				.setStringValue( Integer.valueOf( location.y ).toString( )
-						+ DesignChoiceConstants.UNITS_PX );
+	public void setLocation(Point location) throws SemanticException {
+		getReportItemHandle().getX()
+				.setStringValue(Integer.valueOf(location.x).toString() + DesignChoiceConstants.UNITS_PX);
+		getReportItemHandle().getY()
+				.setStringValue(Integer.valueOf(location.y).toString() + DesignChoiceConstants.UNITS_PX);
 	}
 
 	/**
@@ -102,49 +88,41 @@ public abstract class ReportItemtHandleAdapter extends
 	 * 
 	 * @return size dimension
 	 */
-	public Dimension getSize( )
-	{
-		DimensionHandle handle = getReportItemHandle( ).getWidth( );
+	public Dimension getSize() {
+		DimensionHandle handle = getReportItemHandle().getWidth();
 
-		int px = (int) DEUtil.convertoToPixel( handle );
+		int px = (int) DEUtil.convertoToPixel(handle);
 
-		handle = getReportItemHandle( ).getHeight( );
+		handle = getReportItemHandle().getHeight();
 
-		int py = (int) DEUtil.convertoToPixel( handle );
+		int py = (int) DEUtil.convertoToPixel(handle);
 
-		return new Dimension( px, py );
+		return new Dimension(px, py);
 	}
 
 	/**
 	 * Sets the size.
 	 * 
-	 * @param size
-	 *            the dimension size
-	 * @throws SemanticException
-	 *             the semantic exception
+	 * @param size the dimension size
+	 * @throws SemanticException the semantic exception
 	 */
-	public void setSize( Dimension size ) throws SemanticException
-	{
+	public void setSize(Dimension size) throws SemanticException {
 		DimensionValue dimensionValue;
 
-		if ( size.width >= 0 )
-		{
-			double width = MetricUtility.pixelToPixelInch( size.width );
+		if (size.width >= 0) {
+			double width = MetricUtility.pixelToPixelInch(size.width);
 
-			dimensionValue = new DimensionValue( width,
-					DesignChoiceConstants.UNITS_IN );
+			dimensionValue = new DimensionValue(width, DesignChoiceConstants.UNITS_IN);
 
-			getReportItemHandle( ).getWidth( ).setValue( dimensionValue );
+			getReportItemHandle().getWidth().setValue(dimensionValue);
 		}
 
-		if ( size.height >= 0 )
-		{
-			double height = MetricUtility.pixelToPixelInch( size.height );
+		if (size.height >= 0) {
+			double height = MetricUtility.pixelToPixelInch(size.height);
 
-			dimensionValue = new DimensionValue( height,
-					DesignChoiceConstants.UNITS_IN );
+			dimensionValue = new DimensionValue(height, DesignChoiceConstants.UNITS_IN);
 
-			getReportItemHandle( ).getHeight( ).setValue( dimensionValue );
+			getReportItemHandle().getHeight().setValue(dimensionValue);
 		}
 	}
 
@@ -153,27 +131,19 @@ public abstract class ReportItemtHandleAdapter extends
 	 * 
 	 * @return the bounds
 	 */
-	public Rectangle getbounds( )
-	{
-		return new Rectangle( getLocation( ).x,
-				getLocation( ).y,
-				getSize( ).width,
-				getSize( ).height );
+	public Rectangle getbounds() {
+		return new Rectangle(getLocation().x, getLocation().y, getSize().width, getSize().height);
 	}
 
 	/**
 	 * Sets bounds.
 	 * 
-	 * @param bounds
-	 *            the bounds
-	 * @throws SemanticException
-	 *             the semantic exception
+	 * @param bounds the bounds
+	 * @throws SemanticException the semantic exception
 	 */
-	public void setBounds( Rectangle bounds ) throws SemanticException
-	{
-		setSize( bounds.getSize( ) );
-		setLocation( new Point( bounds.getLocation( ).x,
-				bounds.getLocation( ).y ) );
+	public void setBounds(Rectangle bounds) throws SemanticException {
+		setSize(bounds.getSize());
+		setLocation(new Point(bounds.getLocation().x, bounds.getLocation().y));
 	}
 
 	/**
@@ -181,9 +151,8 @@ public abstract class ReportItemtHandleAdapter extends
 	 * 
 	 * @return the report item handle.
 	 */
-	public ReportItemHandle getReportItemHandle( )
-	{
-		return (ReportItemHandle) getHandle( );
+	public ReportItemHandle getReportItemHandle() {
+		return (ReportItemHandle) getHandle();
 	}
 
 }

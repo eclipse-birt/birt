@@ -30,17 +30,15 @@ import org.eclipse.gef.GraphicalEditPart;
 /**
  * Provides support for area edit part.
  */
-public class AreaEditPart extends ReportElementEditPart
-{
+public class AreaEditPart extends ReportElementEditPart {
 
 	/**
 	 * Constructor
 	 * 
 	 * @param model
 	 */
-	public AreaEditPart( Object model )
-	{
-		super( model );
+	public AreaEditPart(Object model) {
+		super(model);
 	}
 
 	/*
@@ -48,26 +46,22 @@ public class AreaEditPart extends ReportElementEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		AreaFigure figure = new AreaFigure( );
-		figure.setLayoutManager( new ReportFlowLayout( ) );
+	protected IFigure createFigure() {
+		AreaFigure figure = new AreaFigure();
+		figure.setLayoutManager(new ReportFlowLayout());
 
 		return figure;
-	}	
-	
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE, null );
-		installEditPolicy( EditPolicy.LAYOUT_ROLE,
-				new ReportFlowLayoutEditPolicy( ) );
-		installEditPolicy( EditPolicy.CONTAINER_ROLE,
-				new ReportContainerEditPolicy( ) );
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, null);
+		installEditPolicy(EditPolicy.LAYOUT_ROLE, new ReportFlowLayoutEditPolicy());
+		installEditPolicy(EditPolicy.CONTAINER_ROLE, new ReportContainerEditPolicy());
 	}
 
 	/*
@@ -75,20 +69,16 @@ public class AreaEditPart extends ReportElementEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#getModelChildren()
 	 */
-	protected List getModelChildren( )
-	{
-		List list = new ArrayList( );
-		insertIteratorToList( ( (SlotHandle) getModel( ) )
-				.iterator( ), list );
+	protected List getModelChildren() {
+		List list = new ArrayList();
+		insertIteratorToList(((SlotHandle) getModel()).iterator(), list);
 		return list;
 	}
 
 	// TODO:move this code into util class?
-	protected void insertIteratorToList( Iterator iterator, List list )
-	{
-		for ( Iterator it = iterator; it.hasNext( ); )
-		{
-			list.add( ( it.next( ) ) );
+	protected void insertIteratorToList(Iterator iterator, List list) {
+		for (Iterator it = iterator; it.hasNext();) {
+			list.add((it.next()));
 		}
 
 	}
@@ -96,12 +86,12 @@ public class AreaEditPart extends ReportElementEditPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		( (MasterPageEditPart) getParent( ) ).setLayoutConstraint( this,
-				figure, getConstraint( ) );
+	public void refreshFigure() {
+		((MasterPageEditPart) getParent()).setLayoutConstraint(this, figure, getConstraint());
 	}
 
 	/**
@@ -109,59 +99,48 @@ public class AreaEditPart extends ReportElementEditPart
 	 * 
 	 * @return
 	 */
-	private Rectangle getConstraint( )
-	{
-		IFigure parent = ( (MasterPageEditPart) getParent( ) ).getFigure( );
+	private Rectangle getConstraint() {
+		IFigure parent = ((MasterPageEditPart) getParent()).getFigure();
 
-		Rectangle region = parent.getClientArea( );
-		Rectangle rect = new Rectangle( );
+		Rectangle region = parent.getClientArea();
+		Rectangle rect = new Rectangle();
 
 		rect.height = -1;
 		rect.width = region.width;
 
 		// Define the default height value of header and footer
-		SimpleMasterPageHandle mphandle = ( (SimpleMasterPageHandle) ( (MasterPageEditPart) getParent( ) )
-				.getModel( ) );
+		SimpleMasterPageHandle mphandle = ((SimpleMasterPageHandle) ((MasterPageEditPart) getParent()).getModel());
 
-		if ( ( (SlotHandle) getModel( ) ).getSlotID( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
-		{
-			if ( mphandle.getPropertyHandle(
-					SimpleMasterPageHandle.HEADER_HEIGHT_PROP ).isSet( ) || DEUtil.isFixLayout( getParent( ).getModel( ) ))
-			{
-				DimensionHandle handle = mphandle.getHeaderHeight( );
+		if (((SlotHandle) getModel()).getSlotID() == SimpleMasterPageHandle.PAGE_HEADER_SLOT) {
+			if (mphandle.getPropertyHandle(SimpleMasterPageHandle.HEADER_HEIGHT_PROP).isSet()
+					|| DEUtil.isFixLayout(getParent().getModel())) {
+				DimensionHandle handle = mphandle.getHeaderHeight();
 
-				rect.height = getHeight( handle );
+				rect.height = getHeight(handle);
 			}
-		}
-		else
-		{
-			if ( mphandle.getPropertyHandle(
-					SimpleMasterPageHandle.FOOTER_HEIGHT_PROP ).isSet( ) || DEUtil.isFixLayout( getParent( ).getModel( ) ))
-			{
-				DimensionHandle handle = mphandle.getFooterHeight( );
+		} else {
+			if (mphandle.getPropertyHandle(SimpleMasterPageHandle.FOOTER_HEIGHT_PROP).isSet()
+					|| DEUtil.isFixLayout(getParent().getModel())) {
+				DimensionHandle handle = mphandle.getFooterHeight();
 
-				rect.height = getHeight( handle);
+				rect.height = getHeight(handle);
 			}
 		}
 
-		if ( ( (SlotHandle) getModel( ) ).getSlotID( ) == SimpleMasterPageHandle.PAGE_HEADER_SLOT )
-		{
-			rect.setLocation( 0, 0 );
-		}
-		else
-		{
-			rect.setLocation( -1, -1 );
+		if (((SlotHandle) getModel()).getSlotID() == SimpleMasterPageHandle.PAGE_HEADER_SLOT) {
+			rect.setLocation(0, 0);
+		} else {
+			rect.setLocation(-1, -1);
 		}
 
 		return rect;
 	}
 
-	private int getHeight(DimensionHandle handle)
-	{
-		if ( DesignChoiceConstants.UNITS_PERCENTAGE.equals( handle.getUnits( ) ) )
-		{
-			return (int)(((GraphicalEditPart)getParent( )).getFigure( ).getClientArea( ).height*handle.getMeasure( )/100);
+	private int getHeight(DimensionHandle handle) {
+		if (DesignChoiceConstants.UNITS_PERCENTAGE.equals(handle.getUnits())) {
+			return (int) (((GraphicalEditPart) getParent()).getFigure().getClientArea().height * handle.getMeasure()
+					/ 100);
 		}
-		return (int) DEUtil.convertoToPixel( handle );
+		return (int) DEUtil.convertoToPixel(handle);
 	}
 }

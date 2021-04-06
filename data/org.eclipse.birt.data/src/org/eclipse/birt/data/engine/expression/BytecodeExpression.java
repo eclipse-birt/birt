@@ -21,46 +21,40 @@ import org.mozilla.javascript.RhinoException;
 import org.mozilla.javascript.Script;
 import org.mozilla.javascript.Scriptable;
 
-public abstract class BytecodeExpression extends CompiledExpression
-{
+public abstract class BytecodeExpression extends CompiledExpression {
 	private Script m_script;
-	  
-	protected static Logger logger = Logger.getLogger( BytecodeExpression.class.getName( ) );
+
+	protected static Logger logger = Logger.getLogger(BytecodeExpression.class.getName());
+
 	/**
-	 * Sets the compiled Javascript bytecode for this 
+	 * Sets the compiled Javascript bytecode for this
 	 * <code>BytecodeExpression</code>.
-	 * @param script	the compiled Javascript bytecode.
+	 * 
+	 * @param script the compiled Javascript bytecode.
 	 */
-    void setScript( Script script )
-    {
-    	assert script != null;
-    	m_script = script;
-    }
+	void setScript(Script script) {
+		assert script != null;
+		m_script = script;
+	}
 
 	/**
 	 * Evaluates the compiled byte code
 	 */
-	public Object evaluate( ScriptContext context, Scriptable scope ) 
-		throws DataException
-	{
-	    try
-	    {
-	    	Object result = JavascriptEvalUtil.convertJavascriptValue(
-	    			m_script.exec( Context.getCurrentContext( ), scope ) );
-	    	return result;
-	    }
-	    catch ( RhinoException e )
-	    {
-	    	throw DataException.wrap( 
-	    			JavascriptEvalUtil.wrapRhinoException(e, "<compiled script>", null, 0) );
-	    }
+	public Object evaluate(ScriptContext context, Scriptable scope) throws DataException {
+		try {
+			Object result = JavascriptEvalUtil
+					.convertJavascriptValue(m_script.exec(Context.getCurrentContext(), scope));
+			return result;
+		} catch (RhinoException e) {
+			throw DataException.wrap(JavascriptEvalUtil.wrapRhinoException(e, "<compiled script>", null, 0));
+		}
 	}
-	
+
 	/**
-	 * Return the group level of the bytecode expression. 
+	 * Return the group level of the bytecode expression.
 	 * 
 	 * @return
 	 */
-	public abstract int getGroupLevel( );
+	public abstract int getGroupLevel();
 
 }

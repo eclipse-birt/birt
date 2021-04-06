@@ -11,18 +11,15 @@
 
 package org.eclipse.birt.report.designer.ui.views.attributes;
 
-
 /**
  * Instances of ColumnPageGenerator take change of creating attribute page
  * correspond to TableColumn element.
  */
-public class DataPageGenerator extends BasePageGenerator
-{
+public class DataPageGenerator extends BasePageGenerator {
 
-	protected void createTabItems( )
-	{
-		createTabItem( BINDINGTITLE, ATTRIBUTESTITLE );
-		createTabItem( MAPTITLE, BINDINGTITLE );
-		createTabItem( HIGHLIGHTSTITLE, MAPTITLE );
+	protected void createTabItems() {
+		createTabItem(BINDINGTITLE, ATTRIBUTESTITLE);
+		createTabItem(MAPTITLE, BINDINGTITLE);
+		createTabItem(HIGHLIGHTSTITLE, MAPTITLE);
 	}
 }

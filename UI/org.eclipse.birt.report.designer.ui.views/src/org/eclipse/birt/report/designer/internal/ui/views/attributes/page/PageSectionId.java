@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.page;
 
-public class PageSectionId
-{
+public class PageSectionId {
 
 	public final static String ALTER_ALT_TEXT = "ALTER_ALT_TEXT"; //$NON-NLS-1$
 

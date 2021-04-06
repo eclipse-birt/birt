@@ -19,8 +19,7 @@ import org.w3c.dom.css.RGBColor;
  * This class represents RGB colors.
  * 
  */
-public class RGBColorValue extends Value implements RGBColor
-{
+public class RGBColorValue extends Value implements RGBColor {
 
 	/**
 	 * The red component.
@@ -40,9 +39,7 @@ public class RGBColorValue extends Value implements RGBColor
 	/**
 	 * Creates a new RGBColorValue.
 	 */
-	public RGBColorValue( CSSPrimitiveValue r, CSSPrimitiveValue g,
-			CSSPrimitiveValue b )
-	{
+	public RGBColorValue(CSSPrimitiveValue r, CSSPrimitiveValue g, CSSPrimitiveValue b) {
 		red = r;
 		green = g;
 		blue = b;
@@ -51,65 +48,53 @@ public class RGBColorValue extends Value implements RGBColor
 	/**
 	 * The type of the value.
 	 */
-	public short getPrimitiveType( )
-	{
+	public short getPrimitiveType() {
 		return CSSPrimitiveValue.CSS_RGBCOLOR;
 	}
 
 	/**
 	 * A string representation of the current value.
 	 */
-	public String getCssText( )
-	{
-		return "rgb(" + red.getCssText( ) + ", " + green.getCssText( ) + ", "
-				+ blue.getCssText( ) + ")";
+	public String getCssText() {
+		return "rgb(" + red.getCssText() + ", " + green.getCssText() + ", " + blue.getCssText() + ")";
 	}
 
 	/**
 	 * Implements {@link Value#getRed()}.
 	 */
-	public CSSPrimitiveValue getRed( ) throws DOMException
-	{
+	public CSSPrimitiveValue getRed() throws DOMException {
 		return red;
 	}
 
 	/**
 	 * Implements {@link Value#getGreen()}.
 	 */
-	public CSSPrimitiveValue getGreen( ) throws DOMException
-	{
+	public CSSPrimitiveValue getGreen() throws DOMException {
 		return green;
 	}
 
 	/**
 	 * Implements {@link Value#getBlue()}.
 	 */
-	public CSSPrimitiveValue getBlue( ) throws DOMException
-	{
+	public CSSPrimitiveValue getBlue() throws DOMException {
 		return blue;
 	}
 
-	public RGBColor getRGBColorValue( ) throws DOMException
-	{
+	public RGBColor getRGBColorValue() throws DOMException {
 		return this;
 	}
 
 	/**
 	 * Returns a printable representation of the color.
 	 */
-	public String toString( )
-	{
-		return getCssText( );
+	public String toString() {
+		return getCssText();
 	}
 
-	public boolean equals( Object value )
-	{
-		if ( value instanceof RGBColorValue )
-		{
+	public boolean equals(Object value) {
+		if (value instanceof RGBColorValue) {
 			RGBColorValue color = (RGBColorValue) value;
-			if ( red.equals( color.red ) && blue.equals( color.blue )
-					&& green.equals( color.green ) )
-			{
+			if (red.equals(color.red) && blue.equals(color.blue) && green.equals(color.green)) {
 				return true;
 			}
 		}

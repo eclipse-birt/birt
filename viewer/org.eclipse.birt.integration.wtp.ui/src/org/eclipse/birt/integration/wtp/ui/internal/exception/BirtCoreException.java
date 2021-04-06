@@ -20,8 +20,7 @@ import org.eclipse.core.runtime.Status;
  * Implement CoreException
  * 
  */
-public class BirtCoreException extends CoreException
-{
+public class BirtCoreException extends CoreException {
 
 	/**
 	 * Serial Version ID
@@ -33,9 +32,8 @@ public class BirtCoreException extends CoreException
 	 * 
 	 * @param status
 	 */
-	public BirtCoreException( IStatus status )
-	{
-		super( status );
+	public BirtCoreException(IStatus status) {
+		super(status);
 	}
 
 	/**
@@ -44,15 +42,13 @@ public class BirtCoreException extends CoreException
 	 * @param message
 	 * @param e
 	 */
-	public static CoreException getException( String message, Exception e )
-	{
-		if ( message == null )
-			message = e.getMessage( );
+	public static CoreException getException(String message, Exception e) {
+		if (message == null)
+			message = e.getMessage();
 
-		Status status = new Status( IStatus.ERROR, BirtWTPUIPlugin.PLUGIN_ID,
-				IStatus.ERROR, message, e );
+		Status status = new Status(IStatus.ERROR, BirtWTPUIPlugin.PLUGIN_ID, IStatus.ERROR, message, e);
 
-		return new CoreException( status );
+		return new CoreException(status);
 	}
 
 }

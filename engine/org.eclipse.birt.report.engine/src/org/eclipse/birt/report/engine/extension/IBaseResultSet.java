@@ -16,29 +16,28 @@ import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.IBaseQueryResults;
 import org.eclipse.birt.report.engine.api.DataSetID;
 
-public interface IBaseResultSet
-{
+public interface IBaseResultSet {
 
 	static int QUERY_RESULTSET = 0;
 	static int CUBE_RESULTSET = 1;
 
-	int getType( );
+	int getType();
 
-	IBaseQueryResults getQueryResults( );
+	IBaseQueryResults getQueryResults();
 
 	/**
 	 * return the Raw ID
 	 * 
 	 * @return
 	 */
-	String getRawID( ) throws BirtException;
+	String getRawID() throws BirtException;
 
-	DataSetID getID( );
+	DataSetID getID();
 
-	IBaseResultSet getParent( );
+	IBaseResultSet getParent();
 
-	public Object evaluate( String expr ) throws BirtException;
-	
+	public Object evaluate(String expr) throws BirtException;
+
 	/**
 	 * evaluate the expression with specified script language.
 	 * 
@@ -47,9 +46,9 @@ public interface IBaseResultSet
 	 * @return
 	 * @throws BirtException
 	 */
-	public Object evaluate( String language, String expr ) throws BirtException;
+	public Object evaluate(String language, String expr) throws BirtException;
 
-	public Object evaluate( IBaseExpression expr ) throws BirtException;
+	public Object evaluate(IBaseExpression expr) throws BirtException;
 
-	void close( );
+	void close();
 }

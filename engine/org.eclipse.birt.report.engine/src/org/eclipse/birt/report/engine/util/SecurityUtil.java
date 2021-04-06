@@ -15,46 +15,36 @@ import java.security.AccessController;
 import java.security.PrivilegedAction;
 import java.util.Properties;
 
-public class SecurityUtil
-{
+public class SecurityUtil {
 
-	public static String getSystemProperty( final String name )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+	public static String getSystemProperty(final String name) {
+		return AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			public String run( )
-			{
-				return System.getProperty( name );
+			public String run() {
+				return System.getProperty(name);
 			}
-		} );
+		});
 	}
 
-	public static Properties getSystemProperties( )
-	{
-		return AccessController
-				.doPrivileged( new PrivilegedAction<Properties>( ) {
+	public static Properties getSystemProperties() {
+		return AccessController.doPrivileged(new PrivilegedAction<Properties>() {
 
-					public Properties run( )
-					{
-						return System.getProperties( );
-					}
-				} );
+			public Properties run() {
+				return System.getProperties();
+			}
+		});
 	}
 
-	public static ClassLoader setContextClassLoader( final ClassLoader loader )
-	{
-		return AccessController
-				.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+	public static ClassLoader setContextClassLoader(final ClassLoader loader) {
+		return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
 
-					public ClassLoader run( )
-					{
-						Thread thread = Thread.currentThread( );
-						ClassLoader threadLoader = thread
-								.getContextClassLoader( );
-						thread.setContextClassLoader( loader );
-						return threadLoader;
-					}
-				} );
+			public ClassLoader run() {
+				Thread thread = Thread.currentThread();
+				ClassLoader threadLoader = thread.getContextClassLoader();
+				thread.setContextClassLoader(loader);
+				return threadLoader;
+			}
+		});
 
 	}
 }

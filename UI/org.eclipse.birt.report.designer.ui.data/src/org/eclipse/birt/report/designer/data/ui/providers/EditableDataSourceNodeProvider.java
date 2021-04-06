@@ -27,50 +27,38 @@ import org.eclipse.ui.PlatformUI;
 /**
  * Deals with the data source node
  */
-public class EditableDataSourceNodeProvider extends DataSourceNodeProvider
-{
+public class EditableDataSourceNodeProvider extends DataSourceNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		if ( ( (DataSourceHandle) object ).canEdit( ) )
-		{
-			WizardUtil.createEditDataSourceMenu( menu, object );
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		if (((DataSourceHandle) object).canEdit()) {
+			WizardUtil.createEditDataSourceMenu(menu, object);
 		}
 
-		super.createContextMenu( sourceViewer, object, menu );
-				
-		ExportElementToSourceCPStoreAction exportSourceAction = new ExportElementToSourceCPStoreAction( object );
-		if ( exportSourceAction.isEnabled( ) )
-		{
-			menu.add( exportSourceAction );
+		super.createContextMenu(sourceViewer, object, menu);
+
+		ExportElementToSourceCPStoreAction exportSourceAction = new ExportElementToSourceCPStoreAction(object);
+		if (exportSourceAction.isEnabled()) {
+			menu.add(exportSourceAction);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
 	 * #performEdit(org.eclipse.birt.model.api.ReportElementHandle)
 	 */
-	protected boolean performEdit( ReportElementHandle handle )
-	{
-		if ( !(handle instanceof ScriptDataSourceHandle) && handle.canEdit( ) )
-		{
-			DataSourceEditor dialog = new AdvancedDataSourceEditor( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					(DataSourceHandle) handle );
-			return dialog.open( ) == Dialog.OK;
+	protected boolean performEdit(ReportElementHandle handle) {
+		if (!(handle instanceof ScriptDataSourceHandle) && handle.canEdit()) {
+			DataSourceEditor dialog = new AdvancedDataSourceEditor(
+					PlatformUI.getWorkbench().getDisplay().getActiveShell(), (DataSourceHandle) handle);
+			return dialog.open() == Dialog.OK;
 		}
 		return false;
 	}

@@ -21,21 +21,18 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 /**
  * This is an implementation of IJointDataSetDesign
  */
-public class JointDataSetDesign extends BaseDataSetDesign
-		implements
-			IJointDataSetDesign
-{
+public class JointDataSetDesign extends BaseDataSetDesign implements IJointDataSetDesign {
 
 	//
 	private String left;
 	private String right;
-	
+
 	/**
 	 * The join type of this JointDataSet. May one of inner join, left outer join
 	 * and right outer join.
 	 */
 	private int joinType = IJointDataSetDesign.INNER_JOIN;
-	
+
 	/**
 	 * A list of join conditions.
 	 */
@@ -46,81 +43,73 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	/**
 	 * Constructor
 	 */
-	public JointDataSetDesign( String dataSetName)
-	{
+	public JointDataSetDesign(String dataSetName) {
 		super(dataSetName);
 	}
-	
+
 	/**
 	 * Constructor.
-	 * @throws DataException 
+	 * 
+	 * @throws DataException
 	 */
-	public JointDataSetDesign( String name, String left,
-			String right, int joinType, List joinConditions )
-			throws DataException
-	{
-		super( name );
-		validateJoinType( joinType );
-		
+	public JointDataSetDesign(String name, String left, String right, int joinType, List joinConditions)
+			throws DataException {
+		super(name);
+		validateJoinType(joinType);
+
 		this.right = right;
 		this.left = left;
 		this.joinType = joinType;
-		
+
 		this.joinConditions.addAll(joinConditions);
 
 	}
-	
 
 	/**
 	 * @param joinType
 	 * @throws DataException
 	 */
-	private void validateJoinType( int joinType ) throws DataException
-	{
-		if( !((joinType == IJointDataSetDesign.INNER_JOIN)||
-			  (joinType == IJointDataSetDesign.LEFT_OUTER_JOIN)||
-			  (joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN)||
-			  (joinType == IJointDataSetDesign.FULL_OUTER_JOIN)))
-			throw new DataException( ResourceConstants.INVALID_JOIN_TYPE);
+	private void validateJoinType(int joinType) throws DataException {
+		if (!((joinType == IJointDataSetDesign.INNER_JOIN) || (joinType == IJointDataSetDesign.LEFT_OUTER_JOIN)
+				|| (joinType == IJointDataSetDesign.RIGHT_OUTER_JOIN)
+				|| (joinType == IJointDataSetDesign.FULL_OUTER_JOIN)))
+			throw new DataException(ResourceConstants.INVALID_JOIN_TYPE);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getLeftDataSetDesign()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IJointDataSetDesign#getLeftDataSetDesign()
 	 */
-	public String getLeftDataSetDesignName( )
-	{
+	public String getLeftDataSetDesignName() {
 		return left;
 	}
 
-	public void setLeftDataSetDesignName( String dataSetName )
-	{
+	public void setLeftDataSetDesignName(String dataSetName) {
 		left = dataSetName;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getRightDataSetDesign()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IJointDataSetDesign#getRightDataSetDesign()
 	 */
-	public String getRightDataSetDesignName( )
-	{
+	public String getRightDataSetDesignName() {
 		return right;
 	}
 
-	public void setRightDataSetDesignName( String dataSetName)
-	{
+	public void setRightDataSetDesignName(String dataSetName) {
 		right = dataSetName;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getJoinType()
 	 */
-	public int getJoinType( )
-	{
+	public int getJoinType() {
 		return joinType;
 	}
 
@@ -128,57 +117,53 @@ public class JointDataSetDesign extends BaseDataSetDesign
 	 * 
 	 * @param joinType
 	 */
-	public void setJoinType( int joinType )
-	{
+	public void setJoinType(int joinType) {
 		this.joinType = joinType;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getJoinConditions()
 	 */
-	public List getJoinConditions( )
-	{
+	public List getJoinConditions() {
 		return joinConditions;
 	}
-	
+
 	/**
 	 * add Join Condition
+	 * 
 	 * @param jc
 	 */
-	public void addJoinCondition( JoinCondition jc)
-	{
-		this.joinConditions.add( jc );
+	public void addJoinCondition(JoinCondition jc) {
+		this.joinConditions.add(jc);
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getLeftDataSetDesignQulifiedName()
+	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#
+	 * getLeftDataSetDesignQulifiedName()
 	 */
-	public String getLeftDataSetDesignQulifiedName( )
-	{
-		if ( this.leftDataSetQualifiedName == null )
+	public String getLeftDataSetDesignQulifiedName() {
+		if (this.leftDataSetQualifiedName == null)
 			return this.left;
 		return this.leftDataSetQualifiedName;
 	}
 
-	public void setLeftDataSetDesignQulifiedName( String leftDataSetQualifiedName )
-	{
+	public void setLeftDataSetDesignQulifiedName(String leftDataSetQualifiedName) {
 		this.leftDataSetQualifiedName = leftDataSetQualifiedName;
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#getRightDataSetDesignQulifiedName()
+	 * @see org.eclipse.birt.data.engine.api.IJointDataSetDesign#
+	 * getRightDataSetDesignQulifiedName()
 	 */
-	public String getRightDataSetDesignQulifiedName( )
-	{
-		if ( this.rightDataSetQualifiedName == null )
+	public String getRightDataSetDesignQulifiedName() {
+		if (this.rightDataSetQualifiedName == null)
 			return this.right;
 		return this.rightDataSetQualifiedName;
 	}
 
-	public void setRightDataSetDesignQulifiedName( String rightDataSetQualifiedName )
-	{
+	public void setRightDataSetDesignQulifiedName(String rightDataSetQualifiedName) {
 		this.rightDataSetQualifiedName = rightDataSetQualifiedName;
 	}
 

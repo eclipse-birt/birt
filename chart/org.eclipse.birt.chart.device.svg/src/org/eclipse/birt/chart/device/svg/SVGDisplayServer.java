@@ -27,31 +27,27 @@ import org.eclipse.birt.chart.model.component.Label;
 /**
  * This class represents the SVG Displayer Server.
  */
-public class SVGDisplayServer extends SwingDisplayServer
-{
+public class SVGDisplayServer extends SwingDisplayServer {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDisplayServer#loadImage(java.net.URL)
 	 */
-	public Object loadImage( URL url ) throws ChartException
-	{
-		URL urlFound = findResource( url );
-		Image image = (Image) super.loadImage( urlFound );
-		return new SVGImage( image, urlFound );
+	public Object loadImage(URL url) throws ChartException {
+		URL urlFound = findResource(url);
+		Image image = (Image) super.loadImage(urlFound);
+		return new SVGImage(image, urlFound);
 	}
-	
-	public ITextMetrics getTextMetrics( Label la, boolean autoReuse )
-	{
-		ChartTextMetrics tm = new ChartTextMetrics( this, la, autoReuse );
+
+	public ITextMetrics getTextMetrics(Label la, boolean autoReuse) {
+		ChartTextMetrics tm = new ChartTextMetrics(this, la, autoReuse);
 		return tm;
 	}
 
 	@Override
-	public ChartTextLayout createTextLayout( String value,
-			Map<? extends Attribute, ?> fontAttributes, FontRenderContext frc )
-	{
-		return new SVGTextLayout( value, fontAttributes, frc );
+	public ChartTextLayout createTextLayout(String value, Map<? extends Attribute, ?> fontAttributes,
+			FontRenderContext frc) {
+		return new SVGTextLayout(value, fontAttributes, frc);
 	}
 }

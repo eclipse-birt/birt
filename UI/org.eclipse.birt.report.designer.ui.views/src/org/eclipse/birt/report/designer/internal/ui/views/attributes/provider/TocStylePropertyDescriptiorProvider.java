@@ -27,8 +27,7 @@ import org.eclipse.birt.report.model.api.metadata.IPredefinedStyle;
  * @author Administrator
  * 
  */
-public class TocStylePropertyDescriptiorProvider extends
-		SimpleComboPropertyDescriptorProvider {
+public class TocStylePropertyDescriptiorProvider extends SimpleComboPropertyDescriptorProvider {
 
 	protected TOCHandle tocHandle;
 
@@ -39,7 +38,8 @@ public class TocStylePropertyDescriptiorProvider extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#getDisplayName()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IDescriptorProvider#getDisplayName()
 	 */
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
@@ -60,8 +60,7 @@ public class TocStylePropertyDescriptiorProvider extends
 	}
 
 	private String[] filterPreStyles(String items[]) {
-		List preStyles = DesignEngine.getMetaDataDictionary()
-				.getPredefinedStyles();
+		List preStyles = DesignEngine.getMetaDataDictionary().getPredefinedStyles();
 		List preStyleNames = new ArrayList();
 
 		for (int i = 0; i < preStyles.size(); i++) {
@@ -84,8 +83,7 @@ public class TocStylePropertyDescriptiorProvider extends
 		if (input instanceof ReportItemHandle) {
 			tocHandle = ((ReportItemHandle) input).getTOC();
 		} else if (input instanceof List) {
-			tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle(
-					(List) input).getElements().get(0)).getTOC();
+			tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle((List) input).getElements().get(0)).getTOC();
 		}
 
 		if (tocHandle != null) {
@@ -100,8 +98,8 @@ public class TocStylePropertyDescriptiorProvider extends
 			if (input instanceof ReportItemHandle) {
 				tocHandle = ((ReportItemHandle) input).getTOC();
 			} else if (input instanceof List) {
-				tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle(
-						(List) input).getElements().get(0)).getTOC();
+				tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle((List) input).getElements().get(0))
+						.getTOC();
 			}
 		}
 
@@ -117,15 +115,13 @@ public class TocStylePropertyDescriptiorProvider extends
 			if (input instanceof ReportItemHandle) {
 				tocHandle = ((ReportItemHandle) input).getTOC();
 			} else if (input instanceof List) {
-				tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle(
-						(List) input).getElements().get(0)).getTOC();
+				tocHandle = ((ReportItemHandle) DEUtil.getGroupElementHandle((List) input).getElements().get(0))
+						.getTOC();
 			}
 		}
 	}
-	
-	
-	public boolean isSpecialProperty( )
-	{
+
+	public boolean isSpecialProperty() {
 		return true;
 	}
 

@@ -19,37 +19,31 @@ import junit.framework.TestCase;
 
 import com.ibm.icu.util.ULocale;
 
-public class ReportParameterConverterTest extends TestCase
-{
+public class ReportParameterConverterTest extends TestCase {
 
-	public void testDate( )
-	{
-		Calendar dateCal = Calendar.getInstance( Locale.US );
-		dateCal.clear( );
-		dateCal.set( 1998, 8, 13, 20, 1, 44 );
-		java.util.Date dateTime = dateCal.getTime( );
-		java.sql.Date date = new java.sql.Date( dateTime.getTime( ) );
-		java.sql.Time time = new java.sql.Time( dateTime.getTime( ) );
+	public void testDate() {
+		Calendar dateCal = Calendar.getInstance(Locale.US);
+		dateCal.clear();
+		dateCal.set(1998, 8, 13, 20, 1, 44);
+		java.util.Date dateTime = dateCal.getTime();
+		java.sql.Date date = new java.sql.Date(dateTime.getTime());
+		java.sql.Time time = new java.sql.Time(dateTime.getTime());
 
-		ReportParameterConverter converter = new ReportParameterConverter( "i",
-				ULocale.US );
-		String strDateTime = converter.format( dateTime );
-		String strTime = converter.format( time );
-		String strDate = converter.format( date );
+		ReportParameterConverter converter = new ReportParameterConverter("i", ULocale.US);
+		String strDateTime = converter.format(dateTime);
+		String strTime = converter.format(time);
+		String strDate = converter.format(date);
 
-		assertEquals( "9/13/1998, 8:01:44 PM", strDateTime );
-		assertEquals( "9/13/1998", strDate );
-		assertEquals( "8:01:44 PM", strTime );
+		assertEquals("9/13/1998, 8:01:44 PM", strDateTime);
+		assertEquals("9/13/1998", strDate);
+		assertEquals("8:01:44 PM", strTime);
 
-		Date newDateTime = (java.util.Date) converter.parse( strDateTime,
-				IScalarParameterDefn.TYPE_DATE_TIME );
-		java.sql.Date newDate = (java.sql.Date) converter.parse( strDate,
-				IScalarParameterDefn.TYPE_DATE );
-		java.sql.Time newTime = (java.sql.Time) converter.parse( strTime,
-				IScalarParameterDefn.TYPE_TIME );
+		Date newDateTime = (java.util.Date) converter.parse(strDateTime, IScalarParameterDefn.TYPE_DATE_TIME);
+		java.sql.Date newDate = (java.sql.Date) converter.parse(strDate, IScalarParameterDefn.TYPE_DATE);
+		java.sql.Time newTime = (java.sql.Time) converter.parse(strTime, IScalarParameterDefn.TYPE_TIME);
 
-		assertEquals( strDateTime, converter.format( newDateTime ) );
-		assertEquals( strDate, converter.format( newDate ) );
-		assertEquals( strTime, converter.format( newTime ) );
+		assertEquals(strDateTime, converter.format(newDateTime));
+		assertEquals(strDate, converter.format(newDate));
+		assertEquals(strTime, converter.format(newTime));
 	}
 }

@@ -25,56 +25,46 @@ import org.eclipse.birt.report.model.api.ReportDesignHandle;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
-public class DocumentUtil
-{
+public class DocumentUtil {
 
-	public static void copy( IArchiveFile source, IArchiveFile target,
-			IReportRunnable runnable) throws EngineException
-	{
+	public static void copy(IArchiveFile source, IArchiveFile target, IReportRunnable runnable) throws EngineException {
 		copy(source, target, runnable, null);
 	}
-	
+
 	/**
 	 *
-	 * @param source The source archive file to copy
-	 * @param target The destination archive file to copy to
+	 * @param source          The source archive file to copy
+	 * @param target          The destination archive file to copy to
 	 * @param runnable
-	 * @param transformations Optional transformations to apply when copying archive streams from source to destination archive
+	 * @param transformations Optional transformations to apply when copying archive
+	 *                        streams from source to destination archive
 	 * @throws EngineException
 	 */
-	public static void copy( IArchiveFile source, IArchiveFile target,
-			IReportRunnable runnable, Map<String, String> transformations ) throws EngineException
-	{
-		try
-		{
-			ArchiveUtil.copy( source, target, transformations );
-		}
-		catch ( IOException ex )
-		{
-			throw new EngineException( MessageConstants.COPY_ARCHIVES_EXCEPTION, ex );
+	public static void copy(IArchiveFile source, IArchiveFile target, IReportRunnable runnable,
+			Map<String, String> transformations) throws EngineException {
+		try {
+			ArchiveUtil.copy(source, target, transformations);
+		} catch (IOException ex) {
+			throw new EngineException(MessageConstants.COPY_ARCHIVES_EXCEPTION, ex);
 		}
 
-		if ( runnable != null )
-		{
-			IDocumentWriter writer = runnable.getReportEngine( )
-					.openDocumentWriter( target );
-			writer.setRunnable( runnable );
-			writer.close( );
+		if (runnable != null) {
+			IDocumentWriter writer = runnable.getReportEngine().openDocumentWriter(target);
+			writer.setRunnable(runnable);
+			writer.close();
 		}
 
 	}
 
 	/**
-	 * @return a collection of all bookmark info; null is returned if no
-	 *         bookmark info.
+	 * @return a collection of all bookmark info; null is returned if no bookmark
+	 *         info.
 	 */
-	public static Collection<IBookmarkInfo> getBookmarks(
-			IReportDocument document, Locale locale ) throws EngineException
-	{
-		if ( document instanceof IReportDocumentHelper )
-		{
+	public static Collection<IBookmarkInfo> getBookmarks(IReportDocument document, Locale locale)
+			throws EngineException {
+		if (document instanceof IReportDocumentHelper) {
 			IReportDocumentHelper helper = (IReportDocumentHelper) document;
-			return helper.getBookmarkInfos( locale );
+			return helper.getBookmarkInfos(locale);
 		}
 		return null;
 	}
@@ -82,39 +72,31 @@ public class DocumentUtil
 	/**
 	 * Judge whether it's a cube based on instance id
 	 * 
-	 * @param document
-	 *            a report document
-	 * @param instanceId
-	 *            an instance id
+	 * @param document   a report document
+	 * @param instanceId an instance id
 	 * @return
 	 */
-	public static boolean isCube( IReportDocument document,
-			InstanceID instanceId )
-	{
+	public static boolean isCube(IReportDocument document, InstanceID instanceId) {
 		assert document != null;
 		assert instanceId != null;
 
-		ReportDesignHandle report = document.getReportDesign( );
+		ReportDesignHandle report = document.getReportDesign();
 		InstanceID iid = instanceId;
-		while ( iid != null )
-		{
-			long id = iid.getComponentID( );
-			DesignElementHandle handle = report.getElementByID( id );
-			if ( handle instanceof ReportItemHandle )
-			{
+		while (iid != null) {
+			long id = iid.getComponentID();
+			DesignElementHandle handle = report.getElementByID(id);
+			if (handle instanceof ReportItemHandle) {
 				ReportItemHandle rhandle = (ReportItemHandle) handle;
-				DataSetHandle dsHandle = rhandle.getDataSet( );
-				CubeHandle cbHandle = rhandle.getCube( );
-				if ( dsHandle != null )
-				{
+				DataSetHandle dsHandle = rhandle.getDataSet();
+				CubeHandle cbHandle = rhandle.getCube();
+				if (dsHandle != null) {
 					return false;
 				}
-				if ( cbHandle != null )
-				{
+				if (cbHandle != null) {
 					return true;
 				}
 			}
-			iid = iid.getParentID( );
+			iid = iid.getParentID();
 		}
 		return false;
 	}

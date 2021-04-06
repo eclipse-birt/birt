@@ -13,42 +13,38 @@ package org.eclipse.birt.data.oda.pojo.impl.internal;
 /**
  * Nextable Wrapper for Array
  */
-public class NextableFromArray extends Nextable
-{
+public class NextableFromArray extends Nextable {
 	private int index = -1;
 	private Object[] array;
-	
-	public NextableFromArray( Object[] array )
-	{
+
+	public NextableFromArray(Object[] array) {
 		this.array = array;
 	}
-	
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.oda.pojo.impl.internal.Nextable#getValue()
 	 */
 	@Override
-	public Object getValue( )
-	{
-		if ( array == null || index== -1 || index >= array.length )
-		{
+	public Object getValue() {
+		if (array == null || index == -1 || index >= array.length) {
 			return null;
 		}
 		return array[index];
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.oda.pojo.impl.internal.Nextable#next()
 	 */
 	@Override
-	public boolean next( ) 
-	{
-		if ( array == null )
-		{
+	public boolean next() {
+		if (array == null) {
 			return false;
 		}
-		if ( index >= array.length )
-		{
+		if (index >= array.length) {
 			return false;
 		}
 		index++;

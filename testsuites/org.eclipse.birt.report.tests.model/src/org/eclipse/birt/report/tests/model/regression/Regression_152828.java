@@ -21,21 +21,19 @@ import com.ibm.icu.util.ULocale;
  * </p>
  * Add the resourceFolder on SessionHandle
  * <p>
- * Test description:
- * Make sure that user can set/get resource folder on session handle.
+ * Test description: Make sure that user can set/get resource folder on session
+ * handle.
  * <p>
  * </p>
  */
-public class Regression_152828 extends BaseTestCase
-{
+public class Regression_152828 extends BaseTestCase {
 	/**
 	 * 
 	 */
-	public void test_regression_152828()
-	{
-		SessionHandle session = new DesignEngine( null ).newSessionHandle( ULocale.ENGLISH );
-		session.setResourceFolder( "d:/resource" ); //$NON-NLS-1$
-		assertEquals( "d:/resource", session.getResourceFolder( ) ); //$NON-NLS-1$
-		
+	public void test_regression_152828() {
+		SessionHandle session = new DesignEngine(null).newSessionHandle(ULocale.ENGLISH);
+		session.setResourceFolder("d:/resource"); //$NON-NLS-1$
+		assertEquals("d:/resource", session.getResourceFolder()); //$NON-NLS-1$
+
 	}
 }

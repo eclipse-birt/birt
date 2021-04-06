@@ -13,10 +13,9 @@ package org.eclipse.birt.report.engine.extension;
 
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
-public interface IReportItemPreparationInfo
-{
+public interface IReportItemPreparationInfo {
 
-	public DesignElementHandle getModelObject( );
+	public DesignElementHandle getModelObject();
 
-	public IPreparationContext getPreparationContext( );
+	public IPreparationContext getPreparationContext();
 }

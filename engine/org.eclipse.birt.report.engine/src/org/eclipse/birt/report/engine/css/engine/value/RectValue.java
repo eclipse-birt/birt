@@ -19,8 +19,7 @@ import org.w3c.dom.css.Rect;
  * This class represents CSS rect values.
  * 
  */
-public class RectValue extends Value implements Rect
-{
+public class RectValue extends Value implements Rect {
 
 	/**
 	 * The top value.
@@ -45,8 +44,7 @@ public class RectValue extends Value implements Rect
 	/**
 	 * Creates a new Rect value.
 	 */
-	public RectValue( Value t, Value r, Value b, Value l )
-	{
+	public RectValue(Value t, Value r, Value b, Value l) {
 		top = t;
 		right = r;
 		bottom = b;
@@ -56,57 +54,50 @@ public class RectValue extends Value implements Rect
 	/**
 	 * The type of the value.
 	 */
-	public short getPrimitiveType( )
-	{
+	public short getPrimitiveType() {
 		return CSSPrimitiveValue.CSS_RECT;
 	}
 
 	/**
 	 * A string representation of the current value.
 	 */
-	public String getCssText( )
-	{
-		return "rect(" + top.getCssText( ) + ", " + right.getCssText( ) + ", "
-				+ bottom.getCssText( ) + ", " + left.getCssText( ) + ")";
+	public String getCssText() {
+		return "rect(" + top.getCssText() + ", " + right.getCssText() + ", " + bottom.getCssText() + ", "
+				+ left.getCssText() + ")";
 	}
 
 	/**
 	 * Implements {@link Value#getTop()}.
 	 */
-	public CSSPrimitiveValue getTop( ) throws DOMException
-	{
+	public CSSPrimitiveValue getTop() throws DOMException {
 		return top;
 	}
 
 	/**
 	 * Implements {@link Value#getRight()}.
 	 */
-	public CSSPrimitiveValue getRight( ) throws DOMException
-	{
+	public CSSPrimitiveValue getRight() throws DOMException {
 		return right;
 	}
 
 	/**
 	 * Implements {@link Value#getBottom()}.
 	 */
-	public CSSPrimitiveValue getBottom( ) throws DOMException
-	{
+	public CSSPrimitiveValue getBottom() throws DOMException {
 		return bottom;
 	}
 
 	/**
 	 * Implements {@link Value#getLeft()}.
 	 */
-	public CSSPrimitiveValue getLeft( ) throws DOMException
-	{
+	public CSSPrimitiveValue getLeft() throws DOMException {
 		return left;
 	}
 
 	/**
 	 * Returns a printable representation of this value.
 	 */
-	public String toString( )
-	{
-		return getCssText( );
+	public String toString() {
+		return getCssText();
 	}
 }

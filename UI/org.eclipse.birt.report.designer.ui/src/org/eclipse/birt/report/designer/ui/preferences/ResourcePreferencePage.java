@@ -23,108 +23,85 @@ import org.eclipse.swt.widgets.Control;
  * 
  */
 
-public class ResourcePreferencePage extends PropertyAndPreferencePage
-{
+public class ResourcePreferencePage extends PropertyAndPreferencePage {
 
 	public static final String PREF_ID = "org.eclipse.birt.report.designer.ui.preferences.ResourcePreferencePage"; //$NON-NLS-1$
 
 	private ResourceConfigurationBlock fConfigurationBlock;
 
-	public ResourcePreferencePage( )
-	{
-		super( );
+	public ResourcePreferencePage() {
+		super();
 	}
 
-	public ResourcePreferencePage( String title )
-	{
-		super( title );
+	public ResourcePreferencePage(String title) {
+		super(title);
 	}
 
-	public ResourcePreferencePage( String title, ImageDescriptor image )
-	{
-		super( title, image );
+	public ResourcePreferencePage(String title, ImageDescriptor image) {
+		super(title, image);
 	}
 
-	public void createControl( Composite parent )
-	{
-		fConfigurationBlock = new ResourceConfigurationBlock( getNewStatusChangedListener( ),
-				getProject( ) );
-		super.createControl( parent );
+	public void createControl(Composite parent) {
+		fConfigurationBlock = new ResourceConfigurationBlock(getNewStatusChangedListener(), getProject());
+		super.createControl(parent);
 
-		UIUtil.bindHelp( getControl( ),
-				IHelpContextIds.PREFERENCE_BIRT_RESOURCE_ID );
+		UIUtil.bindHelp(getControl(), IHelpContextIds.PREFERENCE_BIRT_RESOURCE_ID);
 
 	}
 
-	protected Control createPreferenceContent( Composite composite )
-	{
-		return fConfigurationBlock.createContents( composite );
+	protected Control createPreferenceContent(Composite composite) {
+		return fConfigurationBlock.createContents(composite);
 	}
 
-	protected boolean hasProjectSpecificOptions( IProject project )
-	{
-		return fConfigurationBlock.hasProjectSpecificOptions( project );
+	protected boolean hasProjectSpecificOptions(IProject project) {
+		return fConfigurationBlock.hasProjectSpecificOptions(project);
 	}
 
-	protected String getPreferencePageID( )
-	{
+	protected String getPreferencePageID() {
 		return PREF_ID;
 	}
 
-	protected String getPropertyPageID( )
-	{
+	protected String getPropertyPageID() {
 		return PREF_ID;
 	}
 
-	public void dispose( )
-	{
-		if ( fConfigurationBlock != null )
-		{
-			fConfigurationBlock.dispose( );
+	public void dispose() {
+		if (fConfigurationBlock != null) {
+			fConfigurationBlock.dispose();
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
-	protected void enableProjectSpecificSettings(
-			boolean useProjectSpecificSettings )
-	{
-		super.enableProjectSpecificSettings( useProjectSpecificSettings );
-		if ( fConfigurationBlock != null )
-		{
-			fConfigurationBlock.useProjectSpecificSettings( useProjectSpecificSettings );
+	protected void enableProjectSpecificSettings(boolean useProjectSpecificSettings) {
+		super.enableProjectSpecificSettings(useProjectSpecificSettings);
+		if (fConfigurationBlock != null) {
+			fConfigurationBlock.useProjectSpecificSettings(useProjectSpecificSettings);
 		}
 	}
 
-	protected void performDefaults( )
-	{
-		super.performDefaults( );
-		if ( fConfigurationBlock != null )
-		{
-			fConfigurationBlock.performDefaults( );
+	protected void performDefaults() {
+		super.performDefaults();
+		if (fConfigurationBlock != null) {
+			fConfigurationBlock.performDefaults();
 		}
 	}
 
-	public boolean performOk( )
-	{
-		if ( fConfigurationBlock != null && !fConfigurationBlock.performOk( ) )
-		{
+	public boolean performOk() {
+		if (fConfigurationBlock != null && !fConfigurationBlock.performOk()) {
 			return false;
 		}
 
-		return super.performOk( );
+		return super.performOk();
 	}
 
-	public void performApply( )
-	{
-		if ( fConfigurationBlock != null )
-		{
-			fConfigurationBlock.performApply( );
+	public void performApply() {
+		if (fConfigurationBlock != null) {
+			fConfigurationBlock.performApply();
 		}
 	}
 
-	public void setElement( IAdaptable element )
-	{
-		super.setElement( element );
-		setDescription( null ); // no description for property page
+	public void setElement(IAdaptable element) {
+		super.setElement(element);
+		setDescription(null); // no description for property page
 	}
 }

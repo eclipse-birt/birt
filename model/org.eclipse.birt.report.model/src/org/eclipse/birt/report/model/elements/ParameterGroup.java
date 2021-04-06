@@ -28,31 +28,25 @@ import org.eclipse.birt.report.model.elements.interfaces.IParameterGroupModel;
  * 
  */
 
-public class ParameterGroup extends DesignElement
-		implements
-			IParameterGroupModel
-{
+public class ParameterGroup extends DesignElement implements IParameterGroupModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public ParameterGroup( )
-	{
-		initSlots( );
+	public ParameterGroup() {
+		initSlots();
 	}
 
 	/**
 	 * Constructs the parameter group with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name
+	 * @param theName the optional name
 	 */
 
-	public ParameterGroup( String theName )
-	{
-		super( theName );
-		initSlots( );
+	public ParameterGroup(String theName) {
+		super(theName);
+		initSlots();
 	}
 
 	/*
@@ -61,8 +55,7 @@ public class ParameterGroup extends DesignElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	public ContainerSlot getSlot( int slot )
-	{
+	public ContainerSlot getSlot(int slot) {
 		assert slot == PARAMETERS_SLOT;
 		return slots[PARAMETERS_SLOT];
 	}
@@ -70,12 +63,12 @@ public class ParameterGroup extends DesignElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitParameterGroup( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitParameterGroup(this);
 	}
 
 	/*
@@ -84,35 +77,32 @@ public class ParameterGroup extends DesignElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.PARAMETER_GROUP_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public ParameterGroupHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ParameterGroupHandle( module, this );
+	public ParameterGroupHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ParameterGroupHandle(module, this);
 		}
 		return (ParameterGroupHandle) handle;
 	}

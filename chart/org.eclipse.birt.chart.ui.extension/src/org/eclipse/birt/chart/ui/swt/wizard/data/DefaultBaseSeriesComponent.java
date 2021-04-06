@@ -29,8 +29,7 @@ import org.eclipse.swt.widgets.Label;
  * Default data binding component for base series
  */
 
-public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
-{
+public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent {
 
 	private SeriesDefinition seriesDefn;
 
@@ -38,81 +37,68 @@ public class DefaultBaseSeriesComponent extends DefaultSelectDataComponent
 
 	private String sTitle = null;
 
-	private String labelText = Messages.getString( "BarBottomAreaComponent.Label.CategoryXSeries" ); //$NON-NLS-1$
+	private String labelText = Messages.getString("BarBottomAreaComponent.Label.CategoryXSeries"); //$NON-NLS-1$
 
 	private String tooltipWhenBlank = null;
 
 	private ISelectDataComponent comData;
 
-	public DefaultBaseSeriesComponent( SeriesDefinition seriesDefn,
-			ChartWizardContext context, String sTitle )
-	{
-		super( );
+	public DefaultBaseSeriesComponent(SeriesDefinition seriesDefn, ChartWizardContext context, String sTitle) {
+		super();
 		this.seriesDefn = seriesDefn;
 		this.context = context;
 		this.sTitle = sTitle;
 	}
 
-	public Composite createArea( Composite parent )
-	{
-		Composite cmpBottom = new Composite( parent, SWT.NONE );
+	public Composite createArea(Composite parent) {
+		Composite cmpBottom = new Composite(parent, SWT.NONE);
 		{
-			GridLayout gridLayout = new GridLayout( 3, false );
+			GridLayout gridLayout = new GridLayout(3, false);
 			gridLayout.marginWidth = 10;
 			gridLayout.marginHeight = 0;
-			cmpBottom.setLayout( gridLayout );
-			GridData gridData = new GridData( GridData.FILL_HORIZONTAL
-					| GridData.VERTICAL_ALIGN_BEGINNING );
-			cmpBottom.setLayoutData( gridData );
+			cmpBottom.setLayout(gridLayout);
+			GridData gridData = new GridData(GridData.FILL_HORIZONTAL | GridData.VERTICAL_ALIGN_BEGINNING);
+			cmpBottom.setLayoutData(gridData);
 		}
 
-		Label leftAngle = new Label( cmpBottom, SWT.NONE );
+		Label leftAngle = new Label(cmpBottom, SWT.NONE);
 		{
-			GridData gridData = new GridData( );
-			leftAngle.setLayoutData( gridData );
-			leftAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_LEFTUP ) );
-			leftAngle.getImage( ).setBackground( leftAngle.getBackground( ) );
+			GridData gridData = new GridData();
+			leftAngle.setLayoutData(gridData);
+			leftAngle.setImage(UIHelper.getImage(ChartUIConstants.IMAGE_RA_LEFTUP));
+			leftAngle.getImage().setBackground(leftAngle.getBackground());
 		}
 
-		comData = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_GROUP,
-				ChartUIConstants.QUERY_CATEGORY,
-				seriesDefn,
-				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
-				context,
-				sTitle );
-		( (BaseDataDefinitionComponent) comData ).setDescription( labelText );
-		if ( tooltipWhenBlank != null )
-		{
-			( (BaseDataDefinitionComponent) comData ).setTooltipWhenBlank( tooltipWhenBlank );
+		comData = new BaseDataDefinitionComponent(BaseDataDefinitionComponent.BUTTON_GROUP,
+				ChartUIConstants.QUERY_CATEGORY, seriesDefn, ChartUIUtil.getDataQuery(seriesDefn, 0), context, sTitle);
+		((BaseDataDefinitionComponent) comData).setDescription(labelText);
+		if (tooltipWhenBlank != null) {
+			((BaseDataDefinitionComponent) comData).setTooltipWhenBlank(tooltipWhenBlank);
 		}
-		comData.createArea( cmpBottom );
-		( (BaseDataDefinitionComponent) comData ).bindAssociatedName( labelText );
+		comData.createArea(cmpBottom);
+		((BaseDataDefinitionComponent) comData).bindAssociatedName(labelText);
 
-		Label rightAngle = new Label( cmpBottom, SWT.NONE );
-		rightAngle.setImage( UIHelper.getImage( ChartUIConstants.IMAGE_RA_RIGHTUP ) );
-		rightAngle.getImage( ).setBackground( rightAngle.getBackground( ) );
+		Label rightAngle = new Label(cmpBottom, SWT.NONE);
+		rightAngle.setImage(UIHelper.getImage(ChartUIConstants.IMAGE_RA_RIGHTUP));
+		rightAngle.getImage().setBackground(rightAngle.getBackground());
 
 		return cmpBottom;
 	}
 
-	public void selectArea( boolean selected, Object data )
-	{
-		comData.selectArea( selected, data );
+	public void selectArea(boolean selected, Object data) {
+		comData.selectArea(selected, data);
 	}
 
-	public void dispose( )
-	{
-		comData.dispose( );
-		super.dispose( );
+	public void dispose() {
+		comData.dispose();
+		super.dispose();
 	}
 
-	public void setLabelText( String labelText )
-	{
+	public void setLabelText(String labelText) {
 		this.labelText = labelText;
 	}
 
-	public void setTooltipWhenBlank( String tootipWhenBlank )
-	{
+	public void setTooltipWhenBlank(String tootipWhenBlank) {
 		this.tooltipWhenBlank = tootipWhenBlank;
 	}
 }

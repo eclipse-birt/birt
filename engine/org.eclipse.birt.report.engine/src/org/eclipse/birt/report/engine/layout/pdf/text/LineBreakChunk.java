@@ -8,13 +8,10 @@
  ******************************************************************************/
 package org.eclipse.birt.report.engine.layout.pdf.text;
 
+public class LineBreakChunk extends Chunk {
 
-public class LineBreakChunk extends Chunk
-{
-
-	public LineBreakChunk( String text )
-	{
-		super( text );
+	public LineBreakChunk(String text) {
+		super(text);
 	}
 
 }

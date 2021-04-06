@@ -27,41 +27,39 @@ import org.eclipse.birt.chart.tests.script.series.PieSeriesTest;
 import org.eclipse.birt.chart.tests.script.series.SeriesTypeTest;
 import org.eclipse.birt.chart.tests.script.series.StackableSeriesTest;
 
-public class SimpleAPITest
-{
+public class SimpleAPITest {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.chart.script.api" );//$NON-NLS-1$
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.chart.script.api");//$NON-NLS-1$
 
 		// $JUnit-BEGIN$
 
 		// Package org.eclipse.birt.chart.tests.script
-		suite.addTestSuite( ChartTest.class );
-		suite.addTestSuite( ChartWithAxesTest.class );
-		suite.addTestSuite( ChartWithoutAxesTest.class );
+		suite.addTestSuite(ChartTest.class);
+		suite.addTestSuite(ChartWithAxesTest.class);
+		suite.addTestSuite(ChartWithoutAxesTest.class);
 
 		// Package org.eclipse.birt.chart.tests.script.scale
-		suite.addTestSuite( ScaleTest.class );
-		suite.addTestSuite( LinearScaleTest.class );
-		suite.addTestSuite( TimeScaleTest.class );
+		suite.addTestSuite(ScaleTest.class);
+		suite.addTestSuite(LinearScaleTest.class);
+		suite.addTestSuite(TimeScaleTest.class);
 
 		// Package org.eclipse.birt.chart.tests.script.component
-		suite.addTestSuite( LegendTest.class );
-		suite.addTestSuite( MarkerLineTest.class );
-		suite.addTestSuite( MarkerRangeTest.class );
-		suite.addTestSuite( AxisTest.class );
-		suite.addTestSuite( CategoryTest.class );
-		suite.addTestSuite( ValueSeriesTest.class );
+		suite.addTestSuite(LegendTest.class);
+		suite.addTestSuite(MarkerLineTest.class);
+		suite.addTestSuite(MarkerRangeTest.class);
+		suite.addTestSuite(AxisTest.class);
+		suite.addTestSuite(CategoryTest.class);
+		suite.addTestSuite(ValueSeriesTest.class);
 
 		// Package org.eclipse.birt.chart.tests.script.series
-		suite.addTestSuite( SeriesTypeTest.class );
-		suite.addTestSuite( StackableSeriesTest.class );
-		suite.addTestSuite( BarSeriesTest.class );
-		suite.addTestSuite( PieSeriesTest.class );
+		suite.addTestSuite(SeriesTypeTest.class);
+		suite.addTestSuite(StackableSeriesTest.class);
+		suite.addTestSuite(BarSeriesTest.class);
+		suite.addTestSuite(PieSeriesTest.class);
 
 		// Package org.eclipse.birt.chart.tests.script.data
-		suite.addTestSuite( SeriesGroupingTest.class );
+		suite.addTestSuite(SeriesGroupingTest.class);
 
 		// $JUnit-END$
 		return suite;

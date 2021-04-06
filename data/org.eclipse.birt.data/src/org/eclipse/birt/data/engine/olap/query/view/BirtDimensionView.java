@@ -22,8 +22,7 @@ import org.eclipse.birt.data.engine.olap.api.query.IHierarchyDefinition;
  * by BirtEdgeView.
  * 
  */
-public class BirtDimensionView
-{
+public class BirtDimensionView {
 
 	private List levelDefinitionList;
 
@@ -31,17 +30,15 @@ public class BirtDimensionView
 	 * 
 	 * @param defn
 	 */
-	public BirtDimensionView( IDimensionDefinition defn )
-	{
-		levelDefinitionList = new ArrayList( );
-		List hierarchyList = defn.getHierarchy( );
-		if ( hierarchyList == null )
+	public BirtDimensionView(IDimensionDefinition defn) {
+		levelDefinitionList = new ArrayList();
+		List hierarchyList = defn.getHierarchy();
+		if (hierarchyList == null)
 			return;
 		IHierarchyDefinition hierarchy;
-		for ( int i = 0; i < hierarchyList.size( ); i++ )
-		{
-			hierarchy = (IHierarchyDefinition) ( hierarchyList.get( i ) );
-			levelDefinitionList.addAll( hierarchy.getLevels( ) );
+		for (int i = 0; i < hierarchyList.size(); i++) {
+			hierarchy = (IHierarchyDefinition) (hierarchyList.get(i));
+			levelDefinitionList.addAll(hierarchy.getLevels());
 		}
 	}
 
@@ -49,8 +46,7 @@ public class BirtDimensionView
 	 * 
 	 * @return
 	 */
-	public List getMemberSelection( )
-	{
+	public List getMemberSelection() {
 		return levelDefinitionList;
 	}
 }

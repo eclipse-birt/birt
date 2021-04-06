@@ -25,47 +25,37 @@ import org.eclipse.ui.ISaveablePart;
  * 
  * 
  */
-public class JSDocumentProvider extends StorageDocumentProvider
-{
+public class JSDocumentProvider extends StorageDocumentProvider {
 
 	/**
 	 * Array of token types
 	 */
-	private static String[] colorTokens = {
-			JSPartitionScanner.JS_COMMENT,
-			JSPartitionScanner.JS_STRING,
-			JSPartitionScanner.JS_KEYWORD
-	};
+	private static String[] colorTokens = { JSPartitionScanner.JS_COMMENT, JSPartitionScanner.JS_STRING,
+			JSPartitionScanner.JS_KEYWORD };
 
-	public JSDocumentProvider( )
-	{
-		super( );
+	public JSDocumentProvider() {
+		super();
 	}
 
 	/**
 	 * Creates a new javascript's document provider with the specified saveable
 	 * part.
 	 * 
-	 * @param part
-	 *            the saveable part.
+	 * @param part the saveable part.
 	 */
-	public JSDocumentProvider( ISaveablePart part )
-	{
-		super( part );
+	public JSDocumentProvider(ISaveablePart part) {
+		super(part);
 	}
 
 	/**
 	 * @see DocumentProvider#createDocument(java.lang.Object)
 	 */
-	protected IDocument createDocument( Object element ) throws CoreException
-	{
-		IDocument document = super.createDocument( element );
-		if ( document != null )
-		{
-			IDocumentPartitioner partitioner = new DefaultPartitioner( new JSPartitionScanner( ),
-					colorTokens );
-			partitioner.connect( document );
-			document.setDocumentPartitioner( partitioner );
+	protected IDocument createDocument(Object element) throws CoreException {
+		IDocument document = super.createDocument(element);
+		if (document != null) {
+			IDocumentPartitioner partitioner = new DefaultPartitioner(new JSPartitionScanner(), colorTokens);
+			partitioner.connect(document);
+			document.setDocumentPartitioner(partitioner);
 		}
 		return document;
 	}

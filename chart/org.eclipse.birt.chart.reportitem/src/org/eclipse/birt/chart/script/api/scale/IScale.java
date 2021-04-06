@@ -15,34 +15,32 @@ package org.eclipse.birt.chart.script.api.scale;
  * Represents the Scale for chart scaling in the scripting environment
  */
 
-public interface IScale
-{
+public interface IScale {
 
 	/**
 	 * Checks if Chart will be scaled automatically
 	 * 
 	 * @return auto scale or not
 	 */
-	boolean isAuto( );
+	boolean isAuto();
 
 	/**
-	 * Sets if Chart will be scaled automatically, i.e. unset step size and
-	 * number of steps
+	 * Sets if Chart will be scaled automatically, i.e. unset step size and number
+	 * of steps
 	 */
-	void setAuto( );
+	void setAuto();
 
 	/**
 	 * Gets if scale is by category, meanwhile all scale attributes are invalid
 	 * 
 	 * @return by category or not
 	 */
-	boolean isCategory( );
+	boolean isCategory();
 
 	/**
 	 * Sets if scale is by category, meanwhile all scale attributes are invalid
 	 * 
-	 * @param category
-	 *            category or not
+	 * @param category category or not
 	 */
-	void setCategory( boolean category );
+	void setCategory(boolean category);
 }

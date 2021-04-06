@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * Represents a row in the scripting environment
  */
 
-public interface IRow extends IDesignElement
-{
+public interface IRow extends IDesignElement {
 
 	/**
 	 * Gets a handle to deal with the row's height.
@@ -26,7 +25,7 @@ public interface IRow extends IDesignElement
 	 * @return the row's height.
 	 */
 
-	String getHeight( );
+	String getHeight();
 
 	/**
 	 * Returns the bookmark of the row. The bookmark value is evaluated as an
@@ -35,22 +34,20 @@ public interface IRow extends IDesignElement
 	 * @return the book mark as a string
 	 */
 
-	String getBookmark( );
+	String getBookmark();
 
 	/**
 	 * Sets the bookmark of the row. The bookmark value is evaluated as an
-	 * expression. If you want the bookmark to be the string "bookmark", you
-	 * need to use setBookmark("\"bookmark\"");
+	 * expression. If you want the bookmark to be the string "bookmark", you need to
+	 * use setBookmark("\"bookmark\"");
 	 * 
 	 * If bookmark is a JavaScript variable, use setBookmark("bookmark");
 	 * 
-	 * @param value
-	 *            the bookmark expression
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param value the bookmark expression
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	void setBookmark( String value ) throws SemanticException;
+	void setBookmark(String value) throws SemanticException;
 
 	/**
 	 * Removes all hide rules that matches formatType.
@@ -59,7 +56,7 @@ public interface IRow extends IDesignElement
 	 * @exception SemanticException
 	 */
 
-	void removeHideRule( IHideRule rule ) throws SemanticException;
+	void removeHideRule(IHideRule rule) throws SemanticException;
 
 	/**
 	 * Removes all hide rules
@@ -67,7 +64,7 @@ public interface IRow extends IDesignElement
 	 * @throws SemanticException
 	 */
 
-	void removeHideRules( ) throws SemanticException;
+	void removeHideRules() throws SemanticException;
 
 	/**
 	 * Returns array of hide rule expression
@@ -75,7 +72,7 @@ public interface IRow extends IDesignElement
 	 * @return array of hide rule expression
 	 */
 
-	IHideRule[] getHideRules( );
+	IHideRule[] getHideRules();
 
 	/**
 	 * Add HideRule
@@ -84,7 +81,7 @@ public interface IRow extends IDesignElement
 	 * @throws SemanticException
 	 */
 
-	void addHideRule( IHideRule rule ) throws SemanticException;
+	void addHideRule(IHideRule rule) throws SemanticException;
 
 	/**
 	 * Gets all high light rules.
@@ -92,7 +89,7 @@ public interface IRow extends IDesignElement
 	 * @return all high light rules
 	 */
 
-	IHighlightRule[] getHighlightRules( );
+	IHighlightRule[] getHighlightRules();
 
 	/**
 	 * Adds high light rule.
@@ -101,7 +98,7 @@ public interface IRow extends IDesignElement
 	 * @throws SemanticException
 	 */
 
-	void addHighlightRule( IHighlightRule rule ) throws SemanticException;
+	void addHighlightRule(IHighlightRule rule) throws SemanticException;
 
 	/**
 	 * Removes all high light rules.
@@ -109,7 +106,7 @@ public interface IRow extends IDesignElement
 	 * @throws SemanticException
 	 */
 
-	void removeHighlightRules( ) throws SemanticException;
+	void removeHighlightRules() throws SemanticException;
 
 	/**
 	 * Removes high light rule.
@@ -118,6 +115,6 @@ public interface IRow extends IDesignElement
 	 * @throws SemanticException
 	 */
 
-	void removeHighlightRule( IHighlightRule rule ) throws SemanticException;
+	void removeHighlightRule(IHighlightRule rule) throws SemanticException;
 
 }

@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
@@ -22,8 +22,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class LineItemState extends ReportItemState
-{
+public class LineItemState extends ReportItemState {
 
 	/**
 	 * The line item being created.
@@ -32,44 +31,41 @@ public class LineItemState extends ReportItemState
 	protected LineItem element;
 
 	/**
-	 * Constructs the line item state with the design parser handler, the
-	 * container element and the container slot of the line item.
+	 * Constructs the line item state with the design parser handler, the container
+	 * element and the container slot of the line item.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public LineItemState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public LineItemState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new LineItem( );
-		initElement( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new LineItem();
+		initElement(attrs);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java.lang.
+	 * String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		return super.startElement( tagName );
+	public AbstractParseState startElement(String tagName) {
+		return super.startElement(tagName);
 	}
 
 	/*
@@ -78,8 +74,7 @@ public class LineItemState extends ReportItemState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 

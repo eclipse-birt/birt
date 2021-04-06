@@ -6,23 +6,22 @@ import java.util.Map;
 import org.eclipse.swt.widgets.Control;
 import org.eclipse.swt.widgets.Listener;
 
-public interface IPropertyList
-{
+public interface IPropertyList {
 
-	void setElements( Map categoryLabels );
+	void setElements(Map categoryLabels);
 
-	void setSelection( String key, int index );
+	void setSelection(String key, int index);
 
-	int getSelectionIndex( );
+	int getSelectionIndex();
 
-	Control getControl( );
+	Control getControl();
 
-	void addListener( int selection, Listener listener );
+	void addListener(int selection, Listener listener);
 
-	String getSelectionKey( );
+	String getSelectionKey();
 
-	Object getTabList( );
+	Object getTabList();
 
-	Control getItem( int index );
+	Control getItem(int index);
 
 }

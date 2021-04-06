@@ -13,18 +13,16 @@ package org.eclipse.birt.report.engine.emitter.postscript.truetypefont;
 
 import java.io.IOException;
 
-
-public interface ITrueTypeWriter
-{
+public interface ITrueTypeWriter {
 	void close() throws IOException;
-	
-	void initialize( String fontName ) throws IOException;
-	
-	String getDisplayName( );
-	
-	void ensureGlyphAvailable( char c ) throws IOException;
-	
-	void ensureGlyphsAvailable( String string ) throws IOException;
 
-	String toHexString( String text );
+	void initialize(String fontName) throws IOException;
+
+	String getDisplayName();
+
+	void ensureGlyphAvailable(char c) throws IOException;
+
+	void ensureGlyphsAvailable(String string) throws IOException;
+
+	String toHexString(String text);
 }

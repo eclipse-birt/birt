@@ -15,21 +15,19 @@ package org.eclipse.birt.chart.script.api.series;
  * Represents Bar series of a Chart in the scripting environment
  */
 
-public interface IBar extends IStackableSeries
-{
+public interface IBar extends IStackableSeries {
 
 	/**
 	 * Gets the name of RiserType
 	 * 
 	 * @return name of RiserType
 	 */
-	String getBarType( );
+	String getBarType();
 
 	/**
 	 * Sets the RiserType
 	 * 
-	 * @param type
-	 *            name of RiserType
+	 * @param type name of RiserType
 	 */
-	void setBarType( String type );
+	void setBarType(String type);
 }

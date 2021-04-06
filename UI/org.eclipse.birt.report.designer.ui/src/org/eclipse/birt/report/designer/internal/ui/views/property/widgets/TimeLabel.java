@@ -22,48 +22,44 @@ import org.eclipse.swt.widgets.Label;
 /**
  * The Spinner componnet base on SWT,show time
  */
-public class TimeLabel extends Label
-{
+public class TimeLabel extends Label {
 
 	private long time;
 
 	private String formatType = TimeFormat.DATA_ALL;
 
-	private String id = TimeZone.getDefault( ).getID( );
+	private String id = TimeZone.getDefault().getID();
 
 	/**
-	 * Constructs a new instance of this class given its parent and a style
-	 * value describing its behavior and appearance.
+	 * Constructs a new instance of this class given its parent and a style value
+	 * describing its behavior and appearance.
 	 * 
 	 * @param parent
 	 * @param style
 	 */
-	public TimeLabel( Composite parent, int style )
-	{
-		this( parent, style, TimeFormat.DATA_ALL );
+	public TimeLabel(Composite parent, int style) {
+		this(parent, style, TimeFormat.DATA_ALL);
 	}
 
 	/**
-	 * Constructs a new instance of this class given its parent ,a style and
-	 * type, type is the show the time format("yyyy-MM-dd",etc)
+	 * Constructs a new instance of this class given its parent ,a style and type,
+	 * type is the show the time format("yyyy-MM-dd",etc)
 	 * 
 	 * @param parent
 	 * @param style
 	 * @param type
 	 */
-	public TimeLabel( Composite parent, int style, String type )
-	{
-		super( parent, style );
-		if ( !TimeFormat.getDefaultFormat( ).getSupportList( ).contains( type ) )
-		{
-			throw new Error( "Not support this Format" ); //$NON-NLS-1$
+	public TimeLabel(Composite parent, int style, String type) {
+		super(parent, style);
+		if (!TimeFormat.getDefaultFormat().getSupportList().contains(type)) {
+			throw new Error("Not support this Format"); //$NON-NLS-1$
 		}
 		this.formatType = type;
-		setDate( new Date( System.currentTimeMillis( ) ) );
-		//logger.info("gao222" + (new
+		setDate(new Date(System.currentTimeMillis()));
+		// logger.info("gao222" + (new
 		// Date(System.currentTimeMillis())).getYear());
-		String text = getShowText( type );
-		setText( text );
+		String text = getShowText(type);
+		setText(text);
 	}
 
 	/**
@@ -71,9 +67,8 @@ public class TimeLabel extends Label
 	 * 
 	 * @param date
 	 */
-	public void setDate( Date date )
-	{
-		setTime( date.getTime( ) );
+	public void setDate(Date date) {
+		setTime(date.getTime());
 	}
 
 	/**
@@ -81,8 +76,7 @@ public class TimeLabel extends Label
 	 * 
 	 * @return time
 	 */
-	public long getTime( )
-	{
+	public long getTime() {
 		return time;
 
 	}
@@ -92,11 +86,10 @@ public class TimeLabel extends Label
 	 * 
 	 * @param time
 	 */
-	public void setTime( long time )
-	{
+	public void setTime(long time) {
 		this.time = time;
-		String text = getShowText( getFormatType( ) );
-		setText( text );
+		String text = getShowText(getFormatType());
+		setText(text);
 	}
 
 	/**
@@ -104,8 +97,7 @@ public class TimeLabel extends Label
 	 * 
 	 * @return the format type
 	 */
-	public String getFormatType( )
-	{
+	public String getFormatType() {
 		return formatType;
 	}
 
@@ -114,11 +106,10 @@ public class TimeLabel extends Label
 	 * 
 	 * @param type
 	 */
-	public void setFormatType( String type )
-	{
+	public void setFormatType(String type) {
 		this.formatType = type;
-		String text = getShowText( formatType );
-		setText( text );
+		String text = getShowText(formatType);
+		setText(text);
 	}
 
 	/**
@@ -128,30 +119,28 @@ public class TimeLabel extends Label
 	 * @param newID
 	 * @return true
 	 */
-	public boolean updateTimeForTimeZone( String oldID, String newID )
-	{
+	public boolean updateTimeForTimeZone(String oldID, String newID) {
 
-		TimeZone oldZone = TimeZone.getTimeZone( oldID );
-		TimeZone newZone = TimeZone.getTimeZone( newID );
+		TimeZone oldZone = TimeZone.getTimeZone(oldID);
+		TimeZone newZone = TimeZone.getTimeZone(newID);
 
-		int oldOff = oldZone.getRawOffset( );
-		int newOff = newZone.getRawOffset( );
+		int oldOff = oldZone.getRawOffset();
+		int newOff = newZone.getRawOffset();
 
-		time = time + ( newOff - oldOff );
-		String text = getShowText( getFormatType( ) );
-		setText( text );
+		time = time + (newOff - oldOff);
+		String text = getShowText(getFormatType());
+		setText(text);
 		return true;
 	}
 
-	private String getShowText( String type )
-	{
-		//		StringBuffer retValue = new StringBuffer( );
+	private String getShowText(String type) {
+		// StringBuffer retValue = new StringBuffer( );
 
-		Calendar calendar = Calendar.getInstance( TimeZone.getTimeZone( id ) );
-		calendar.setTimeInMillis( time );
+		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone(id));
+		calendar.setTimeInMillis(time);
 
-		SimpleDateFormat formatter = new SimpleDateFormat( formatType );
-		String result = formatter.format( calendar.getTime( ) );
+		SimpleDateFormat formatter = new SimpleDateFormat(formatType);
+		String result = formatter.format(calendar.getTime());
 		return result;
 
 	}
@@ -161,9 +150,8 @@ public class TimeLabel extends Label
 	 * 
 	 * @param newID
 	 */
-	public void setTimeZoneID( String newID )
-	{
-		updateTimeForTimeZone( id, newID );
+	public void setTimeZoneID(String newID) {
+		updateTimeForTimeZone(id, newID);
 		this.id = newID;
 	}
 
@@ -172,8 +160,7 @@ public class TimeLabel extends Label
 	 * 
 	 * @return id
 	 */
-	public String getTimeZone( )
-	{
+	public String getTimeZone() {
 		return id;
 	}
 
@@ -183,22 +170,17 @@ public class TimeLabel extends Label
 	 * @param dialogInfo
 	 * @return true
 	 */
-	public boolean setInfo( DialogInfo dialogInfo )
-	{
+	public boolean setInfo(DialogInfo dialogInfo) {
 		TimeDialogInfo info = (TimeDialogInfo) dialogInfo;
 
-		if ( !getTimeZone( ).equals( info.getTimeZoneID( ) )
-				&& info.getTimeZoneID( ) != null )
-		{
-			setTimeZoneID( info.getTimeZoneID( ) );
+		if (!getTimeZone().equals(info.getTimeZoneID()) && info.getTimeZoneID() != null) {
+			setTimeZoneID(info.getTimeZoneID());
 		}
-		if ( !info.getFormat( ).equals( getFormatType( ) ) )
-		{
-			setFormatType( info.getFormat( ) );
+		if (!info.getFormat().equals(getFormatType())) {
+			setFormatType(info.getFormat());
 		}
-		if ( info.getTime( ) != getTime( ) )
-		{
-			setTime( info.getTime( ) );
+		if (info.getTime() != getTime()) {
+			setTime(info.getTime());
 		}
 		return true;
 	}
@@ -208,31 +190,28 @@ public class TimeLabel extends Label
 	 * 
 	 * @return infomation
 	 */
-	public DialogInfo getInfo( )
-	{
-		TimeDialogInfo info = new TimeDialogInfo( );
-		info.setTime( getTime( ) );
-		info.setTimeZoneID( getTimeZone( ) );
-		info.setFormat( formatType );
+	public DialogInfo getInfo() {
+		TimeDialogInfo info = new TimeDialogInfo();
+		info.setTime(getTime());
+		info.setTimeZoneID(getTimeZone());
+		info.setFormat(formatType);
 		return info;
 	}
 
 	/*
-	 * This class don't pass th check,So this method must be overhide.
-	 * (non-Javadoc)
+	 * This class don't pass th check,So this method must be overhide. (non-Javadoc)
 	 * 
 	 * @see org.eclipse.swt.widgets.Widget#checkSubclass()
 	 */
-	protected void checkSubclass( )
-	{
+	protected void checkSubclass() {
 
 	}
 
-	//this class need add some funtions :
-	//1:load
-	//2: save
-	//3:i18n
-	//4:help
-	//5:need define some interface
-	//maybe we need some dialog pool
+	// this class need add some funtions :
+	// 1:load
+	// 2: save
+	// 3:i18n
+	// 4:help
+	// 5:need define some interface
+	// maybe we need some dialog pool
 }

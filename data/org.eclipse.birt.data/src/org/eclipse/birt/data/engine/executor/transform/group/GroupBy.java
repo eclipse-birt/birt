@@ -21,8 +21,7 @@ import org.eclipse.birt.data.engine.odi.IQuery.GroupSpec;
  * standard or not within an interval range as another standard.
  */
 
-public abstract class GroupBy
-{
+public abstract class GroupBy {
 
 	private int columnIndex;
 	private String columnName;
@@ -38,20 +37,15 @@ public abstract class GroupBy
 	 * @return GroupBy
 	 * @throws DataException
 	 */
-	public static GroupBy newInstance( GroupSpec groupDefn, int columnIndex, String columnName,
-			Class columnType ) throws DataException
-	{
+	public static GroupBy newInstance(GroupSpec groupDefn, int columnIndex, String columnName, Class columnType)
+			throws DataException {
 		assert groupDefn != null;
 
 		GroupBy groupBy = null;
-		if (groupDefn.getInterval( ) == IGroupDefinition.NO_INTERVAL 
-				&& Math.round( groupDefn.getIntervalRange( ) ) > 1)
-		{
-			groupBy = new GroupByRowKeyCount( (int) ( Math.round( groupDefn.getIntervalRange( ) ) ));
-		} 
-		else 
-		{
-			groupBy = new GroupByDistinctValue( );
+		if (groupDefn.getInterval() == IGroupDefinition.NO_INTERVAL && Math.round(groupDefn.getIntervalRange()) > 1) {
+			groupBy = new GroupByRowKeyCount((int) (Math.round(groupDefn.getIntervalRange())));
+		} else {
+			groupBy = new GroupByDistinctValue();
 		}
 
 		groupBy.groupSpec = groupDefn;
@@ -69,35 +63,30 @@ public abstract class GroupBy
 	 * @param previousGroupKey
 	 * @return boolean
 	 */
-	public abstract boolean isInSameGroup( Object currentGroupKey, Object previousGroupKey );
-	
+	public abstract boolean isInSameGroup(Object currentGroupKey, Object previousGroupKey);
+
 	/**
 	 * reset for grouping on another list of data
 	 */
-	public void reset()
-	{
-		
-	}
+	public void reset() {
 
+	}
 
 	/**
 	 * Gets the index of the column to group by
 	 */
-	public int getColumnIndex( )
-	{
+	public int getColumnIndex() {
 		return columnIndex;
 	}
-	
-	String getColumnName( )
-	{
+
+	String getColumnName() {
 		return columnName;
 	}
 
 	/**
 	 * Gets the GroupSpec associated with this group by
 	 */
-	GroupSpec getGroupSpec( )
-	{
+	GroupSpec getGroupSpec() {
 		return groupSpec;
 	}
 }

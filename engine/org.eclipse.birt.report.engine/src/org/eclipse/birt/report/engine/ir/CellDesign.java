@@ -21,8 +21,7 @@ import java.util.Collection;
  * grid item.
  * 
  */
-public class CellDesign extends ReportItemDesign
-{
+public class CellDesign extends ReportItemDesign {
 
 	/**
 	 * column id.
@@ -43,7 +42,7 @@ public class CellDesign extends ReportItemDesign
 	/**
 	 * content in this cell
 	 */
-	protected ArrayList<ReportItemDesign> contents = new ArrayList<ReportItemDesign>( );
+	protected ArrayList<ReportItemDesign> contents = new ArrayList<ReportItemDesign>();
 	/**
 	 * If group icon should be displayed in this cell.
 	 */
@@ -84,7 +83,7 @@ public class CellDesign extends ReportItemDesign
 	 * The color of the antidiagonal line.
 	 */
 	private String antidiagonalColor = null;
-	
+
 	private Expression headers;
 
 	private String scope;
@@ -92,244 +91,200 @@ public class CellDesign extends ReportItemDesign
 	/**
 	 * @return Returns the colSpan.
 	 */
-	public int getColSpan( )
-	{
+	public int getColSpan() {
 		return colSpan;
 	}
 
 	/**
-	 * @param colSpan
-	 *            The colSpan to set.
+	 * @param colSpan The colSpan to set.
 	 */
-	public void setColSpan( int colSpan )
-	{
+	public void setColSpan(int colSpan) {
 		this.colSpan = colSpan;
 	}
 
 	/**
 	 * @return Returns the column.
 	 */
-	public int getColumn( )
-	{
+	public int getColumn() {
 		return column;
 	}
 
 	/**
-	 * @param column
-	 *            The column to set.
+	 * @param column The column to set.
 	 */
-	public void setColumn( int column )
-	{
+	public void setColumn(int column) {
 		this.column = column;
 	}
 
-	public Collection<ReportItemDesign> getContents( )
-	{
+	public Collection<ReportItemDesign> getContents() {
 		return contents;
 	}
 
 	/**
 	 * @return count of the content items.
 	 */
-	public int getContentCount( )
-	{
-		return this.contents.size( );
+	public int getContentCount() {
+		return this.contents.size();
 	}
 
 	/**
 	 * get the content of index.
 	 * 
-	 * @param index
-	 *            content index
+	 * @param index content index
 	 * @return Returns the content.
 	 */
-	public ReportItemDesign getContent( int index )
-	{
-		assert index >= 0 && index < this.contents.size( );
-		return (ReportItemDesign) this.contents.get( index );
+	public ReportItemDesign getContent(int index) {
+		assert index >= 0 && index < this.contents.size();
+		return (ReportItemDesign) this.contents.get(index);
 	}
 
 	/**
 	 * add content into the cell.
 	 * 
-	 * @param content
-	 *            The content to set.
+	 * @param content The content to set.
 	 */
-	public void addContent( ReportItemDesign content )
-	{
-		this.contents.add( content );
+	public void addContent(ReportItemDesign content) {
+		this.contents.add(content);
 	}
 
 	/**
 	 * @return Returns the rowSpan.
 	 */
-	public int getRowSpan( )
-	{
+	public int getRowSpan() {
 		return rowSpan;
 	}
 
 	/**
-	 * @param rowSpan
-	 *            The rowSpan to set.
+	 * @param rowSpan The rowSpan to set.
 	 */
-	public void setRowSpan( int rowSpan )
-	{
+	public void setRowSpan(int rowSpan) {
 		this.rowSpan = rowSpan;
 	}
 
 	/**
 	 * @return Returns the drop.
 	 */
-	public String getDrop( )
-	{
+	public String getDrop() {
 		return drop;
 	}
 
 	/**
-	 * @param drop
-	 *            The drop to set.
+	 * @param drop The drop to set.
 	 */
-	public void setDrop( String drop )
-	{
+	public void setDrop(String drop) {
 		this.drop = drop;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.IReportItemVisitor)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.
+	 * report.engine.ir.IReportItemVisitor)
 	 */
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
+	public Object accept(IReportItemVisitor visitor, Object value) {
 		return visitor.visitCell(this, value);
 	}
 
-	public void setDisplayGroupIcon( boolean displayGroupIcon )
-	{
+	public void setDisplayGroupIcon(boolean displayGroupIcon) {
 		this.displayGroupIcon = displayGroupIcon;
 	}
-	
-	public boolean getDisplayGroupIcon( )
-	{
+
+	public boolean getDisplayGroupIcon() {
 		return displayGroupIcon;
 	}
 
-	public boolean hasDiagonalLine( )
-	{
+	public boolean hasDiagonalLine() {
 		return hasDiagonalLine;
 	}
 
-	public void setDiagonalNumber( int diagonalNumber )
-	{
+	public void setDiagonalNumber(int diagonalNumber) {
 		this.diagonalNumber = diagonalNumber;
-		if ( this.diagonalNumber > 0  ||  this.antidiagonalNumber > 0)
-		{
+		if (this.diagonalNumber > 0 || this.antidiagonalNumber > 0) {
 			hasDiagonalLine = true;
-		}
-		else 
-		{
+		} else {
 			hasDiagonalLine = false;
 		}
 	}
 
-	public int getDiagonalNumber( )
-	{
+	public int getDiagonalNumber() {
 		return diagonalNumber;
 	}
 
-	public void setDiagonalStyle( String diagonalStyle )
-	{
+	public void setDiagonalStyle(String diagonalStyle) {
 		this.diagonalStyle = diagonalStyle;
 	}
 
-	public String getDiagonalStyle( )
-	{
+	public String getDiagonalStyle() {
 		return diagonalStyle;
 	}
 
-	public void setDiagonalWidth( DimensionType diagonalWidth )
-	{
+	public void setDiagonalWidth(DimensionType diagonalWidth) {
 		this.diagonalWidth = diagonalWidth;
 	}
 
-	public DimensionType getDiagonalWidth( )
-	{
+	public DimensionType getDiagonalWidth() {
 		return diagonalWidth;
 	}
-	
-	public void setDiagonalColor( String diagonalColor )
-	{
+
+	public void setDiagonalColor(String diagonalColor) {
 		this.diagonalColor = diagonalColor;
 	}
 
-	public String getDiagonalColor( )
-	{
+	public String getDiagonalColor() {
 		return diagonalColor;
 	}
 
-	public void setAntidiagonalNumber( int antidiagonalNumber )
-	{
+	public void setAntidiagonalNumber(int antidiagonalNumber) {
 		this.antidiagonalNumber = antidiagonalNumber;
-		if ( this.diagonalNumber > 0  ||  this.antidiagonalNumber > 0)
-		{
+		if (this.diagonalNumber > 0 || this.antidiagonalNumber > 0) {
 			hasDiagonalLine = true;
-		}
-		else 
-		{
+		} else {
 			hasDiagonalLine = false;
 		}
 	}
 
-	public int getAntidiagonalNumber( )
-	{
+	public int getAntidiagonalNumber() {
 		return antidiagonalNumber;
 	}
 
-	public void setAntidiagonalStyle( String antidiagonalStyle )
-	{
+	public void setAntidiagonalStyle(String antidiagonalStyle) {
 		this.antidiagonalStyle = antidiagonalStyle;
 	}
 
-	public String getAntidiagonalStyle( )
-	{
+	public String getAntidiagonalStyle() {
 		return antidiagonalStyle;
 	}
 
-	public void setAntidiagonalWidth( DimensionType antidiagonalWidth )
-	{
+	public void setAntidiagonalWidth(DimensionType antidiagonalWidth) {
 		this.antidiagonalWidth = antidiagonalWidth;
 	}
 
-	public DimensionType getAntidiagonalWidth( )
-	{
+	public DimensionType getAntidiagonalWidth() {
 		return antidiagonalWidth;
 	}
-	
-	public void setAntidiagonalColor( String antidiagonalColor )
-	{
+
+	public void setAntidiagonalColor(String antidiagonalColor) {
 		this.antidiagonalColor = antidiagonalColor;
 	}
 
-	public String getAntidiagonalColor( )
-	{
+	public String getAntidiagonalColor() {
 		return antidiagonalColor;
 	}
 
-	public void setHeaders( Expression headers )
-	{
+	public void setHeaders(Expression headers) {
 		this.headers = headers;
 	}
 
-	public Expression getHeaders( )
-	{
+	public Expression getHeaders() {
 		return this.headers;
 	}
 
-	public void setScope( String scope )
-	{
+	public void setScope(String scope) {
 		this.scope = scope;
 	}
 
-	public String getScope( )
-	{
+	public String getScope() {
 		return this.scope;
 	}
 }

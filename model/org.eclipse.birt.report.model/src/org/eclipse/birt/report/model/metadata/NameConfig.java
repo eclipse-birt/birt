@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.metadata.MetaDataConstants;
  * Configuration information for the name management of the element.
  */
 
-public class NameConfig
-{
+public class NameConfig {
 
 	/**
 	 * Indicates the name space in which instances of this element reside.
@@ -52,8 +51,7 @@ public class NameConfig
 		 * 
 		 */
 
-	NameConfig( )
-	{
+	NameConfig() {
 
 	}
 
@@ -62,25 +60,22 @@ public class NameConfig
 	 * 
 	 * @return the name space ID
 	 */
-	public String getNameSpaceID( )
-	{
+	public String getNameSpaceID() {
 		return nameSpaceID;
 	}
 
 	/**
-	 * The definition of the name container. Generally, <code>Module</code> is
-	 * the default name container. However, for some special case,
+	 * The definition of the name container. Generally, <code>Module</code> is the
+	 * default name container. However, for some special case,
 	 * <code>Dimension</code>> can also be the container.
 	 * 
 	 * @return definition of the name container
 	 */
-	public IElementDefn getNameContainer( )
-	{
+	public IElementDefn getNameContainer() {
 		return holder;
 	}
 
-	public IElementPropertyDefn getNameProperty( )
-	{
+	public IElementPropertyDefn getNameProperty() {
 		return targetProperty;
 	}
 }

@@ -18,11 +18,10 @@ import org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition;
  * This class is an implementation of IComputedMeasureDefinition.
  */
 
-public class ComputedMeasureDefinition extends MeasureDefinition implements IComputedMeasureDefinition
-{
+public class ComputedMeasureDefinition extends MeasureDefinition implements IComputedMeasureDefinition {
 	//
 	private IBaseExpression expr;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -30,19 +29,19 @@ public class ComputedMeasureDefinition extends MeasureDefinition implements ICom
 	 * @param type
 	 * @param expr
 	 */
-	public ComputedMeasureDefinition( String name, int type, IBaseExpression expr )
-	{
-		super( name );
-		super.setDataType( type );
+	public ComputedMeasureDefinition(String name, int type, IBaseExpression expr) {
+		super(name);
+		super.setDataType(type);
 		this.expr = expr;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition#getExpression()
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.api.query.IComputedMeasureDefinition#
+	 * getExpression()
 	 */
-	public IBaseExpression getExpression( )
-	{
+	public IBaseExpression getExpression() {
 		return this.expr;
 	}
 }

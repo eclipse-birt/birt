@@ -21,57 +21,53 @@ import org.eclipse.core.runtime.IAdaptable;
  * Abstract adapter class
  */
 
-public abstract class BaseCrosstabAdapter implements IAdaptable
-{
-	private AbstractCrosstabItemHandle handle ;
-	public BaseCrosstabAdapter(AbstractCrosstabItemHandle handle)
-	{
+public abstract class BaseCrosstabAdapter implements IAdaptable {
+	private AbstractCrosstabItemHandle handle;
+
+	public BaseCrosstabAdapter(AbstractCrosstabItemHandle handle) {
 		this.handle = handle;
 	}
-	
+
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
-		//return the true model same as DesignElementHandle
-		if (adapter == DesignElementHandle.class)
-		{
-			//handle may bt null, int the additional editpart
-			return getDesignElementHandle( );
+	public Object getAdapter(Class adapter) {
+		// return the true model same as DesignElementHandle
+		if (adapter == DesignElementHandle.class) {
+			// handle may bt null, int the additional editpart
+			return getDesignElementHandle();
 		}
 		return null;
 	}
 
-	/**Copy the current aapter to the target
+	/**
+	 * Copy the current aapter to the target
+	 * 
 	 * @param crossAdapt
 	 * @return
 	 */
-	public BaseCrosstabAdapter copyToTarget(BaseCrosstabAdapter crossAdapt)
-	{	
+	public BaseCrosstabAdapter copyToTarget(BaseCrosstabAdapter crossAdapt) {
 		return crossAdapt;
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public AbstractCrosstabItemHandle getCrosstabItemHandle()
-	{
+	public AbstractCrosstabItemHandle getCrosstabItemHandle() {
 		return handle;
 	}
-	
-	public abstract  List getModelList();
-	
+
+	public abstract List getModelList();
+
 	/**
 	 * @return
 	 */
-	public DesignElementHandle getDesignElementHandle()
-	{
-		if (handle == null)
-		{
+	public DesignElementHandle getDesignElementHandle() {
+		if (handle == null) {
 			return null;
 		}
-		return handle.getModelHandle( );
+		return handle.getModelHandle();
 	}
 }

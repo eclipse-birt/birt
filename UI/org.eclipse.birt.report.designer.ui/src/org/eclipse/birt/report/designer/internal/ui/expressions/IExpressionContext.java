@@ -14,13 +14,12 @@ package org.eclipse.birt.report.designer.internal.ui.expressions;
 /**
  * IExpressionContext
  */
-public interface IExpressionContext
-{
+public interface IExpressionContext {
 	String EXPRESSION_PROVIDER_PROPERTY = "ExpressionProvider";
-	
-	Object getContextObject( );
 
-	Object getExtra( String key );
+	Object getContextObject();
 
-	void putExtra( String key, Object value );
+	Object getExtra(String key);
+
+	void putExtra(String key, Object value);
 }

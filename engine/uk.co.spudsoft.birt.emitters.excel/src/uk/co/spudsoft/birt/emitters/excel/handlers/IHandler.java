@@ -37,48 +37,63 @@ import org.w3c.dom.css.CSSValue;
 import uk.co.spudsoft.birt.emitters.excel.HandlerState;
 
 public interface IHandler {
-	
+
 	public IHandler getParent();
+
 	public <T extends IHandler> T getAncestor(Class<T> clazz);
+
 	public CSSValue getBackgroundColour();
-	
+
 	public String getPath();
+
 	public void notifyHandler(HandlerState state);
-	
+
 	public void startPage(HandlerState state, IPageContent page) throws BirtException;
+
 	public void endPage(HandlerState state, IPageContent page) throws BirtException;
 
 	public void startTable(HandlerState state, ITableContent table) throws BirtException;
+
 	public void endTable(HandlerState state, ITableContent table) throws BirtException;
 
 	public void startTableBand(HandlerState state, ITableBandContent band) throws BirtException;
+
 	public void endTableBand(HandlerState state, ITableBandContent band) throws BirtException;
 
 	public void startRow(HandlerState state, IRowContent row) throws BirtException;
+
 	public void endRow(HandlerState state, IRowContent row) throws BirtException;
 
 	public void startCell(HandlerState state, ICellContent cell) throws BirtException;
+
 	public void endCell(HandlerState state, ICellContent cell) throws BirtException;
 
 	public void startList(HandlerState state, IListContent list) throws BirtException;
+
 	public void endList(HandlerState state, IListContent list) throws BirtException;
 
 	public void startListBand(HandlerState state, IListBandContent listBand) throws BirtException;
+
 	public void endListBand(HandlerState state, IListBandContent listBand) throws BirtException;
 
 	public void startContainer(HandlerState state, IContainerContent container) throws BirtException;
+
 	public void endContainer(HandlerState state, IContainerContent container) throws BirtException;
 
 	public void startContent(HandlerState state, IContent content) throws BirtException;
+
 	public void endContent(HandlerState state, IContent content) throws BirtException;
 
 	public void startGroup(HandlerState state, IGroupContent group) throws BirtException;
+
 	public void endGroup(HandlerState state, IGroupContent group) throws BirtException;
 
 	public void startTableGroup(HandlerState state, ITableGroupContent group) throws BirtException;
+
 	public void endTableGroup(HandlerState state, ITableGroupContent group) throws BirtException;
 
 	public void startListGroup(HandlerState state, IListGroupContent group) throws BirtException;
+
 	public void endListGroup(HandlerState state, IListGroupContent group) throws BirtException;
 
 	public void emitText(HandlerState state, ITextContent text) throws BirtException;

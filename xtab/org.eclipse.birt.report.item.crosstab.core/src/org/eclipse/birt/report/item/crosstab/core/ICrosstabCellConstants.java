@@ -15,8 +15,7 @@ package org.eclipse.birt.report.item.crosstab.core;
  * Interface to define some constants for CrosstabCell.
  */
 
-public interface ICrosstabCellConstants
-{
+public interface ICrosstabCellConstants {
 
 	/**
 	 * Name of the property that holds list of report items.

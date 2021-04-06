@@ -20,24 +20,18 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public class TOCLableProvider extends LabelProvider
-{
+public class TOCLableProvider extends LabelProvider {
 
-	public String getText( Object element )
-	{
-		if ( element instanceof TOCNode )
-		{
-			return ( (TOCNode) element ).getDisplayString( );
+	public String getText(Object element) {
+		if (element instanceof TOCNode) {
+			return ((TOCNode) element).getDisplayString();
 		}
-		return super.getText( element );
+		return super.getText(element);
 	}
 
-	public Image getImage( Object element )
-	{
+	public Image getImage(Object element) {
 		// TODO Auto-generated method stub
-		return StaticHTMLPrviewPlugin.getDefault( )
-				.getImageRegistry( )
-				.get( StaticHTMLPrviewPlugin.IMG_TOC_LEAF );
+		return StaticHTMLPrviewPlugin.getDefault().getImageRegistry().get(StaticHTMLPrviewPlugin.IMG_TOC_LEAF);
 	}
 
 }

@@ -16,11 +16,10 @@ import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.core.runtime.Assert;
 
 /**
- *  The palette entry used to describe the category on the palette view
+ * The palette entry used to describe the category on the palette view
  */
 
-public class PaletteCategory extends PaletteDrawer
-{
+public class PaletteCategory extends PaletteDrawer {
 
 	/** The category name */
 	private String name;
@@ -32,11 +31,9 @@ public class PaletteCategory extends PaletteDrawer
 	 * @param displayLabellabel
 	 * @param icon
 	 */
-	public PaletteCategory( String name, String displayLabel,
-			ImageDescriptor icon )
-	{
-		super( displayLabel, icon );
-		Assert.isNotNull( name );
+	public PaletteCategory(String name, String displayLabel, ImageDescriptor icon) {
+		super(displayLabel, icon);
+		Assert.isNotNull(name);
 		this.name = name;
 	}
 
@@ -45,8 +42,7 @@ public class PaletteCategory extends PaletteDrawer
 	 * 
 	 * @return Returns the category name
 	 */
-	public String getCategoryName( )
-	{
+	public String getCategoryName() {
 		return name;
 	}
 

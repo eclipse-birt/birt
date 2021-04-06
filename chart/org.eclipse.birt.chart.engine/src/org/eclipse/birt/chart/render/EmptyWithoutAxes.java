@@ -31,95 +31,71 @@ import org.eclipse.birt.chart.model.layout.Plot;
 /**
  * This class implements an empty renderer for ChartWithoutAxes type.
  */
-public final class EmptyWithoutAxes extends BaseRenderer
-{
+public final class EmptyWithoutAxes extends BaseRenderer {
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/render" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine/render"); //$NON-NLS-1$
 
-	public void renderSeries( IPrimitiveRenderer ipr, Plot p,
-			ISeriesRenderingHints isrh ) throws ChartException
-	{
-		Boolean bDataEmpty = rtc.getState( RunTimeContext.StateKey.DATA_EMPTY_KEY );
-		if ( bDataEmpty == null )
-		{
+	public void renderSeries(IPrimitiveRenderer ipr, Plot p, ISeriesRenderingHints isrh) throws ChartException {
+		Boolean bDataEmpty = rtc.getState(RunTimeContext.StateKey.DATA_EMPTY_KEY);
+		if (bDataEmpty == null) {
 			bDataEmpty = false;
 		}
 
-		Label laAltText = getModel( ).getEmptyMessage( );
+		Label laAltText = getModel().getEmptyMessage();
 
-		if ( bDataEmpty && laAltText.isVisible( ) )
-		{
-			final PlotWithoutAxes pwoa = (PlotWithoutAxes) getComputations( );
-			renderEmptyPlot( ipr, p, pwoa.getPlotBounds( ) );
-		}
-		else
-		{
+		if (bDataEmpty && laAltText.isVisible()) {
+			final PlotWithoutAxes pwoa = (PlotWithoutAxes) getComputations();
+			renderEmptyPlot(ipr, p, pwoa.getPlotBounds());
+		} else {
 			// NOTE: NO-OP IMPL
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "info.render.series", //$NON-NLS-1$
-							new Object[]{
-									getClass( ).getName( ),
-									Integer.valueOf( iSeriesIndex + 1 ),
-									Integer.valueOf( iSeriesCount )
-							},
-							getRunTimeContext( ).getULocale( ) ) );
+			logger.log(ILogger.INFORMATION, Messages.getString("info.render.series", //$NON-NLS-1$
+					new Object[] { getClass().getName(), Integer.valueOf(iSeriesIndex + 1),
+							Integer.valueOf(iSeriesCount) },
+					getRunTimeContext().getULocale()));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.render.BaseRenderer#compute(org.eclipse.birt.chart.model.attribute.Bounds,
-	 *      org.eclipse.birt.chart.model.layout.Plot,
-	 *      org.eclipse.birt.chart.render.ISeriesRenderingHints)
+	 * @see
+	 * org.eclipse.birt.chart.render.BaseRenderer#compute(org.eclipse.birt.chart.
+	 * model.attribute.Bounds, org.eclipse.birt.chart.model.layout.Plot,
+	 * org.eclipse.birt.chart.render.ISeriesRenderingHints)
 	 */
-	public void compute( Bounds bo, Plot p, ISeriesRenderingHints isrh )
-			throws ChartException
-	{
+	public void compute(Bounds bo, Plot p, ISeriesRenderingHints isrh) throws ChartException {
 		// NOTE: This method is not used by the Empty renderer
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.birt.chart.device.IPrimitiveRenderer,
-	 *      org.eclipse.birt.chart.model.layout.Legend,
-	 *      org.eclipse.birt.chart.model.attribute.Fill,
-	 *      org.eclipse.birt.chart.model.attribute.Bounds)
+	 * @see
+	 * org.eclipse.birt.chart.render.BaseRenderer#renderLegendGraphic(org.eclipse.
+	 * birt.chart.device.IPrimitiveRenderer,
+	 * org.eclipse.birt.chart.model.layout.Legend,
+	 * org.eclipse.birt.chart.model.attribute.Fill,
+	 * org.eclipse.birt.chart.model.attribute.Bounds)
 	 */
-	public void renderLegendGraphic( IPrimitiveRenderer ipr, Legend lg,
-			Fill fPaletteEntry, Bounds bo ) throws ChartException
-	{
-		if ( ( bo.getWidth( ) == 0 ) && ( bo.getHeight( ) == 0 ) )
-		{
+	public void renderLegendGraphic(IPrimitiveRenderer ipr, Legend lg, Fill fPaletteEntry, Bounds bo)
+			throws ChartException {
+		if ((bo.getWidth() == 0) && (bo.getHeight() == 0)) {
 			return;
 		}
-		final LineAttributes lia = goFactory.createLineAttributes( goFactory.GREY( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
+		final LineAttributes lia = goFactory.createLineAttributes(goFactory.GREY(), LineStyle.SOLID_LITERAL, 1);
 
 		// COMPUTE THE FRONT FACE ONLY
 		Location[] loaFrontFace = null;
 		loaFrontFace = new Location[4];
-		final double dOffset =  bo.getWidth( ) > bo.getHeight( ) ? bo.getHeight( )
-				: bo.getWidth( );
-		loaFrontFace[0] = goFactory.createLocation( bo.getLeft( ), bo.getTop( ) );
-		loaFrontFace[1] = goFactory.createLocation( bo.getLeft( ), bo.getTop( )
-				+ dOffset );
-		loaFrontFace[2] = goFactory.createLocation( bo.getLeft( ) + dOffset,
-				bo.getTop( ) + dOffset );
-		loaFrontFace[3] = goFactory.createLocation( bo.getLeft( ) + dOffset,
-				bo.getTop( ) );
+		final double dOffset = bo.getWidth() > bo.getHeight() ? bo.getHeight() : bo.getWidth();
+		loaFrontFace[0] = goFactory.createLocation(bo.getLeft(), bo.getTop());
+		loaFrontFace[1] = goFactory.createLocation(bo.getLeft(), bo.getTop() + dOffset);
+		loaFrontFace[2] = goFactory.createLocation(bo.getLeft() + dOffset, bo.getTop() + dOffset);
+		loaFrontFace[3] = goFactory.createLocation(bo.getLeft() + dOffset, bo.getTop());
 
 		// RENDER THE PLANE (INTERNALLY EXTRUDED IF NECESSARY)
-		renderPlane( ipr,
-				StructureSource.createLegend( lg ),
-				loaFrontFace,
-				fPaletteEntry,
-				lia,
-				getModel( ).getDimension( ),
-				3 * getDeviceScale( ),
-				false );
+		renderPlane(ipr, StructureSource.createLegend(lg), loaFrontFace, fPaletteEntry, lia, getModel().getDimension(),
+				3 * getDeviceScale(), false);
 	}
 
 }

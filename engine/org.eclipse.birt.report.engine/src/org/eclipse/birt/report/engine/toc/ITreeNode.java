@@ -13,20 +13,19 @@ package org.eclipse.birt.report.engine.toc;
 
 import java.util.Collection;
 
-public interface ITreeNode
-{
+public interface ITreeNode {
 
-	public String getNodeId( );
+	public String getNodeId();
 
-	public Collection<ITreeNode> getChildren( );
+	public Collection<ITreeNode> getChildren();
 
-	public boolean isGroup( );
+	public boolean isGroup();
 
-	public String getHiddenFormats( );
+	public String getHiddenFormats();
 
-	public Object getTOCValue( );
+	public Object getTOCValue();
 
-	public long getElementId( );
+	public long getElementId();
 
-	public String getBookmark( );
+	public String getBookmark();
 }

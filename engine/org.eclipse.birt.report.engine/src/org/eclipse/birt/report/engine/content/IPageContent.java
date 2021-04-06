@@ -24,91 +24,90 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * The content is defined by getBody().
  * 
  */
-public interface IPageContent extends IContainerContent
-{
+public interface IPageContent extends IContainerContent {
 
 	/**
 	 * @return Returns the orientation.
 	 */
-	public String getOrientation( );
+	public String getOrientation();
 
 	/**
 	 * @return Returns the pageType.
 	 */
-	public String getPageType( );
+	public String getPageType();
 
 	/**
 	 * @return Returns the pageHeight.
 	 */
-	public DimensionType getPageHeight( );
+	public DimensionType getPageHeight();
 
 	/**
 	 * @return Returns the pageWidth.
 	 */
-	public DimensionType getPageWidth( );
+	public DimensionType getPageWidth();
 
 	/**
 	 * @return Returns the waterMark.
 	 */
-	public IImageContent getWaterMark( );
+	public IImageContent getWaterMark();
 
-	public Collection getHeader( );
+	public Collection getHeader();
 
-	public Collection getFooter( );
+	public Collection getFooter();
 
-	public IContent getPageHeader( );
+	public IContent getPageHeader();
 
-	public IContent getPageFooter( );
+	public IContent getPageFooter();
 
-	public IContent getPageBody( );
-	
-	public void setPageHeader( IContent header );
+	public IContent getPageBody();
 
-	public void setPageFooter( IContent footer );
+	public void setPageHeader(IContent header);
 
-	public void setPageBody( IContent body );
+	public void setPageFooter(IContent footer);
 
-	public DimensionType getMarginTop( );
+	public void setPageBody(IContent body);
 
-	public DimensionType getMarginBottom( );
+	public DimensionType getMarginTop();
 
-	public DimensionType getMarginLeft( );
+	public DimensionType getMarginBottom();
 
-	public DimensionType getMarginRight( );
+	public DimensionType getMarginLeft();
+
+	public DimensionType getMarginRight();
 
 	/**
 	 * @return Returns the header height
 	 */
-	public DimensionType getHeaderHeight( );
+	public DimensionType getHeaderHeight();
 
 	/**
 	 * @return Returns the footer height
 	 */
-	public DimensionType getFooterHeight( );
+	public DimensionType getFooterHeight();
 
 	/**
 	 * @return Returns the width of the left part
 	 */
-	public DimensionType getLeftWidth( );
+	public DimensionType getLeftWidth();
 
 	/**
 	 * @return Returns the width of the right part
 	 */
-	public DimensionType getRightWidth( );
+	public DimensionType getRightWidth();
 
 	/**
- 	 * @deprecated use getPageBody().getStyle()
+	 * @deprecated use getPageBody().getStyle()
 	 * @return Returns the content style.
 	 */
-	public IStyle getContentStyle( );
+	public IStyle getContentStyle();
 
-	public long getPageNumber( );
+	public long getPageNumber();
 
-	void setPageNumber( long pageNumber );
-	
+	void setPageNumber(long pageNumber);
+
 	/**
-     * @deprecated use getPageBody().getComputedStyle()
-     */
+	 * @deprecated use getPageBody().getComputedStyle()
+	 */
 	public IStyle getContentComputedStyle();
 
 }

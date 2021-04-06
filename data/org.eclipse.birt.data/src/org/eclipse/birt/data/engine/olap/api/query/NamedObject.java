@@ -11,35 +11,34 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.api.query;
 
-
-
 /**
  * 
  */
 
-public class NamedObject implements INamedObject
-{
+public class NamedObject implements INamedObject {
 	private String name;
-	
-	public NamedObject( String name )
-	{
+
+	public NamedObject(String name) {
 		this.name = name;
 	}
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.api.query.INamedObject#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return this.name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.INamedObject#setName(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.api.query.INamedObject#setName(java.lang.
+	 * String)
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 

@@ -16,8 +16,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * ICrosstabConstants
  */
-public interface ICrosstabConstants
-{
+public interface ICrosstabConstants {
 
 	/**
 	 * Major version of current crosstab.
@@ -38,8 +37,7 @@ public interface ICrosstabConstants
 	 * Extension version sign of current crosstab.
 	 */
 	String CROSSTAB_CURRENT_VERSION = CURRENT_CROSSTAB_MAJOR_VERSION + "." //$NON-NLS-1$
-			+ CURRENT_CROSSTAB_MINOR_VERSION
-			+ "." //$NON-NLS-1$
+			+ CURRENT_CROSSTAB_MINOR_VERSION + "." //$NON-NLS-1$
 			+ CURRENT_CROSSTAB_UPDATE_VERSION;
 
 	/**
@@ -126,7 +124,7 @@ public interface ICrosstabConstants
 	 * @since 2.6.1
 	 */
 	String COLUMN_PAGE_BREAK_INTERVAL_PROP = "columnPageBreakInterval"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the hide detail property. Value can be either
 	 * {@link #HIDE_DETAIL_ROW} or #{@link HIDE_DETAIL_COLUMN}.
@@ -134,7 +132,7 @@ public interface ICrosstabConstants
 	 * @since 4.6
 	 */
 	String HIDE_DETAIL_PROP = "hideDetail";//$NON-NLS-1$
-	
+
 	/**
 	 * The value of hide detail property. It means all cells of row dimensions,
 	 * measures and grand total in row direction will be hidden.
@@ -142,10 +140,10 @@ public interface ICrosstabConstants
 	 * @since 4.6
 	 */
 	String HIDE_DETAIL_ROW = "row";//$NON-NLS-1$
-	
+
 	/**
-	 * The value of hide detail property. It means all cells of column
-	 * dimensions, measures and grand total in column direction will be hidden.
+	 * The value of hide detail property. It means all cells of column dimensions,
+	 * measures and grand total in column direction will be hidden.
 	 * 
 	 * @since 4.6
 	 */

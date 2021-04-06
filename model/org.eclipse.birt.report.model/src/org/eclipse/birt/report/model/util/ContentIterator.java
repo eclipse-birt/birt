@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public class ContentIterator extends LevelContentIterator
-{
+public class ContentIterator extends LevelContentIterator {
 
 	/**
 	 * The maximal level.
@@ -39,27 +38,22 @@ public class ContentIterator extends LevelContentIterator
 	 * 
 	 * @param module
 	 * 
-	 * @param element
-	 *            the element to visit.
+	 * @param element the element to visit.
 	 */
 
-	public ContentIterator( Module module, DesignElement element )
-	{
-		super( module, element, LevelContentIterator.MAX_LEVEL );
+	public ContentIterator(Module module, DesignElement element) {
+		super(module, element, LevelContentIterator.MAX_LEVEL);
 	}
 
 	/**
 	 * Constructs a iterator that will visit all the content element within the
 	 * given slot id of the given <code>element</code>
 	 * 
-	 * @param module
-	 *            module where contents reside.
-	 * @param containerInfo
-	 *            container infor to traverse
+	 * @param module        module where contents reside.
+	 * @param containerInfo container infor to traverse
 	 */
 
-	public ContentIterator( Module module, ContainerContext containerInfo )
-	{
-		super( module, containerInfo, LevelContentIterator.MAX_LEVEL );
+	public ContentIterator(Module module, ContainerContext containerInfo) {
+		super(module, containerInfo, LevelContentIterator.MAX_LEVEL);
 	}
 }

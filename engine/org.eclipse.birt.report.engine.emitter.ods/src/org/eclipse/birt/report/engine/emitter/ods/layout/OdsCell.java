@@ -12,35 +12,27 @@ package org.eclipse.birt.report.engine.emitter.ods.layout;
 
 import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 
-
-public class OdsCell extends OdsContainer
-{
+public class OdsCell extends OdsContainer {
 	private int rowSpan;
 	private boolean covered;
 
-	public OdsCell( StyleEntry style, ContainerSizeInfo sizeInfo,
-			OdsContainer parent, boolean covered )
-	{
-		super( style, sizeInfo, parent );
+	public OdsCell(StyleEntry style, ContainerSizeInfo sizeInfo, OdsContainer parent, boolean covered) {
+		super(style, sizeInfo, parent);
 		this.rowSpan = 0;
 		this.covered = covered;
 	}
-	
-	public OdsCell( StyleEntry style, ContainerSizeInfo sizeInfo,
-			OdsContainer parent, int rowSpan )
-	{
-		super( style, sizeInfo, parent );
+
+	public OdsCell(StyleEntry style, ContainerSizeInfo sizeInfo, OdsContainer parent, int rowSpan) {
+		super(style, sizeInfo, parent);
 		this.rowSpan = rowSpan;
 		this.covered = false;
 	}
 
-	public int getRowSpan( )
-	{
+	public int getRowSpan() {
 		return rowSpan;
 	}
-	
-	public boolean isSpanCell()
-	{
+
+	public boolean isSpanCell() {
 		return covered;
 	}
 }

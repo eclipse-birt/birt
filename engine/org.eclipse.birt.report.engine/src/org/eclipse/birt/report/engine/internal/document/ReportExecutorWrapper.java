@@ -26,8 +26,7 @@ import org.eclipse.birt.report.engine.executor.IReportExecutor;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 
-public class ReportExecutorWrapper implements IReportExecutor
-{
+public class ReportExecutorWrapper implements IReportExecutor {
 
 	public static final int EXECUTOR_VERSION_UNKNOWN = -1;
 	public static final int EXECUTOR_VERSION_1 = 1;
@@ -37,97 +36,71 @@ public class ReportExecutorWrapper implements IReportExecutor
 
 	protected IReportExecutor executor;
 
-	public IPageContent createPage( long pageNumber, MasterPageDesign pageDesign )
-			throws BirtException
-	{
-		IReportItemExecutor executor = createPageExecutor( pageNumber,
-				pageDesign );
-		IPageContent content = (IPageContent) executor.execute( );
-		DOMBuilderEmitter emitter = new DOMBuilderEmitter( content );
-		while ( executor.hasNextChild( ) )
-		{
-			IReportItemExecutor childExecutor = executor.getNextChild( );
-			IContent childContent = childExecutor.execute( );
-			if ( childContent != null )
-			{
-				ContentEmitterUtil.startContent( childContent, emitter );
+	public IPageContent createPage(long pageNumber, MasterPageDesign pageDesign) throws BirtException {
+		IReportItemExecutor executor = createPageExecutor(pageNumber, pageDesign);
+		IPageContent content = (IPageContent) executor.execute();
+		DOMBuilderEmitter emitter = new DOMBuilderEmitter(content);
+		while (executor.hasNextChild()) {
+			IReportItemExecutor childExecutor = executor.getNextChild();
+			IContent childContent = childExecutor.execute();
+			if (childContent != null) {
+				ContentEmitterUtil.startContent(childContent, emitter);
 			}
-			executeAll( executor, emitter );
-			if ( childContent != null )
-			{
-				ContentEmitterUtil.endContent( childContent, emitter );
+			executeAll(executor, emitter);
+			if (childContent != null) {
+				ContentEmitterUtil.endContent(childContent, emitter);
 			}
-			childExecutor.close( );
+			childExecutor.close();
 		}
-		executor.close( );
+		executor.close();
 		return content;
 	}
 
-	protected void executeAll( IReportItemExecutor executor,
-			IContentEmitter emitter )throws BirtException
-	{
-		while ( executor.hasNextChild( ) )
-		{
-			IReportItemExecutor childExecutor = executor.getNextChild( );
-			IContent childContent = childExecutor.execute( );
-			if ( childContent != null )
-			{
-				ContentEmitterUtil.startContent( childContent, emitter );
+	protected void executeAll(IReportItemExecutor executor, IContentEmitter emitter) throws BirtException {
+		while (executor.hasNextChild()) {
+			IReportItemExecutor childExecutor = executor.getNextChild();
+			IContent childContent = childExecutor.execute();
+			if (childContent != null) {
+				ContentEmitterUtil.startContent(childContent, emitter);
 			}
-			executeAll( executor, emitter );
-			if ( childContent != null )
-			{
-				ContentEmitterUtil.endContent( childContent, emitter );
+			executeAll(executor, emitter);
+			if (childContent != null) {
+				ContentEmitterUtil.endContent(childContent, emitter);
 			}
-			childExecutor.close( );
+			childExecutor.close();
 		}
 
 	}
 
-	public IReportItemExecutor createPageExecutor( long pageNumber,
-			MasterPageDesign pageDesign ) throws BirtException
-	{
-		return executor.createPageExecutor( pageNumber, pageDesign );
+	public IReportItemExecutor createPageExecutor(long pageNumber, MasterPageDesign pageDesign) throws BirtException {
+		return executor.createPageExecutor(pageNumber, pageDesign);
 	}
 
-	public IReportContent execute( ) throws BirtException
-	{
-		return executor.execute( );
+	public IReportContent execute() throws BirtException {
+		return executor.execute();
 	}
 
-	public void close( ) throws BirtException
-	{
-		executor.close( );
+	public void close() throws BirtException {
+		executor.close();
 	}
 
-	public IReportItemExecutor getNextChild( ) throws BirtException
-	{
-		return executor.getNextChild( );
+	public IReportItemExecutor getNextChild() throws BirtException {
+		return executor.getNextChild();
 	}
 
-	public boolean hasNextChild( ) throws BirtException
-	{
-		return executor.hasNextChild( );
+	public boolean hasNextChild() throws BirtException {
+		return executor.hasNextChild();
 	}
 
-	public static int getVersion( IReportDocument document ) throws IOException
-	{
-		String birtVersion = document.getVersion( );
+	public static int getVersion(IReportDocument document) throws IOException {
+		String birtVersion = document.getVersion();
 		int version = EXECUTOR_VERSION_UNKNOWN;
-		if ( birtVersion != null )
-		{
-			if ( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_0_0
-					.equals( birtVersion ) )
-			{
+		if (birtVersion != null) {
+			if (ReportDocumentConstants.BIRT_ENGINE_VERSION_2_0_0.equals(birtVersion)) {
 				version = EXECUTOR_VERSION_2;
-			}
-			else if ( ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1_0
-					.equals( birtVersion ) )
-			{
+			} else if (ReportDocumentConstants.BIRT_ENGINE_VERSION_2_1_0.equals(birtVersion)) {
 				version = EXECUTOR_VERSION_3;
-			}
-			else
-			{
+			} else {
 				version = EXECUTOR_VERSION_4;
 			}
 		}

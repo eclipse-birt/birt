@@ -15,45 +15,35 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 
+public class InlineBlockLayout extends ContainerLayout {
 
-public class InlineBlockLayout extends ContainerLayout
-{
-
-	public InlineBlockLayout( LayoutEngineContext context,ContainerLayout parent,
-			IContent content )
-	{
-		super( context, parent, content );
+	public InlineBlockLayout(LayoutEngineContext context, ContainerLayout parent, IContent content) {
+		super(context, parent, content);
 		isInBlockStacking = false;
 		isInline = true;
 	}
 
-	protected void createRoot( )
-	{
+	protected void createRoot() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	protected void initialize( )
-	{
+	protected void initialize() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	protected void closeLayout( ContainerContext currentLayout, int index, boolean finished )
-	{
-	
-		
+	protected void closeLayout(ContainerContext currentLayout, int index, boolean finished) {
+
 	}
 
-	public boolean addArea( AbstractArea area )
-	{
+	public boolean addArea(AbstractArea area) {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
-	protected void closeLayout( ) throws BirtException
-	{
-		super.closeLayout( );
+
+	protected void closeLayout() throws BirtException {
+		super.closeLayout();
 		parent.gotoFirstPage();
 	}
 

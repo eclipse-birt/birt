@@ -25,8 +25,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 /**
  * Test parsing of Sort tag.
  */
-public class SortingParserTest extends BaseTestCase
-{
+public class SortingParserTest extends BaseTestCase {
 
 	private final static String FILE_NAME = "SortingParserTest.xml"; //$NON-NLS-1$
 	private final static String SEMANTIC_CHECK_FILE_NAME = "SortingParserTest_1.xml"; //$NON-NLS-1$
@@ -35,58 +34,53 @@ public class SortingParserTest extends BaseTestCase
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		openDesign( FILE_NAME );
+	protected void setUp() throws Exception {
+		super.setUp();
+		openDesign(FILE_NAME);
 	}
 
 	/**
 	 * Test parser of the sorting tag.
 	 */
 
-	public void testParser( )
-	{
-		TableItem table = (TableItem) design.findElement( "My table" ); //$NON-NLS-1$
-		assertNotNull( table );
+	public void testParser() {
+		TableItem table = (TableItem) design.findElement("My table"); //$NON-NLS-1$
+		assertNotNull(table);
 
-		ArrayList sorting = (ArrayList) table.getProperty( design,
-				TableItem.SORT_PROP );
-		assertEquals( 2, sorting.size( ) );
+		ArrayList sorting = (ArrayList) table.getProperty(design, TableItem.SORT_PROP);
+		assertEquals(2, sorting.size());
 
-		SortKey sortEntry = (SortKey) sorting.get( 0 );
-		assertEquals( "age", sortEntry.getKey( ) ); //$NON-NLS-1$
-		assertEquals( "asc", sortEntry.getDirection( ) ); //$NON-NLS-1$
+		SortKey sortEntry = (SortKey) sorting.get(0);
+		assertEquals("age", sortEntry.getKey()); //$NON-NLS-1$
+		assertEquals("asc", sortEntry.getDirection()); //$NON-NLS-1$
 
-		ListItem list = (ListItem) design.findElement( "My list" ); //$NON-NLS-1$
-		assertNotNull( table );
+		ListItem list = (ListItem) design.findElement("My list"); //$NON-NLS-1$
+		assertNotNull(table);
 
-		sorting = (ArrayList) list.getProperty( design, TableItem.SORT_PROP );
-		assertEquals( 2, sorting.size( ) );
+		sorting = (ArrayList) list.getProperty(design, TableItem.SORT_PROP);
+		assertEquals(2, sorting.size());
 
 	}
 
 	/**
 	 * Performs the semantic check test.
 	 * 
-	 * @throws DesignFileException
-	 *             if any syntax error found in design file.
+	 * @throws DesignFileException if any syntax error found in design file.
 	 */
-	
-	public void testSemanticCheck( ) throws DesignFileException
-	{
-		openDesign( SEMANTIC_CHECK_FILE_NAME ); 
 
-		List errors = design.getErrorList( );
-		assertEquals( 3, errors.size( ) );
+	public void testSemanticCheck() throws DesignFileException {
+		openDesign(SEMANTIC_CHECK_FILE_NAME);
+
+		List errors = design.getErrorList();
+		assertEquals(3, errors.size());
 
 		int i = 0;
-		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-				( (ErrorDetail) errors.get( i++ ) ).getErrorCode( ) );
-		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-				( (ErrorDetail) errors.get( i++ ) ).getErrorCode( ) );
-		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-				( (ErrorDetail) errors.get( i++ ) ).getErrorCode( ) );
+		assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
+				((ErrorDetail) errors.get(i++)).getErrorCode());
+		assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
+				((ErrorDetail) errors.get(i++)).getErrorCode());
+		assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
+				((ErrorDetail) errors.get(i++)).getErrorCode());
 
 	}
 
@@ -95,9 +89,8 @@ public class SortingParserTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testWriter( ) throws Exception
-	{
+	public void testWriter() throws Exception {
 		save();
-		assertTrue( compareFile( GOLDEN_FILE_NAME) );
+		assertTrue(compareFile(GOLDEN_FILE_NAME));
 	}
 }

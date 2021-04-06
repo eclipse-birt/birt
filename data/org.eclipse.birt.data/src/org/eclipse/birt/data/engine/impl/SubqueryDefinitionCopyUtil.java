@@ -27,8 +27,7 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public class SubqueryDefinitionCopyUtil
-{
+public class SubqueryDefinitionCopyUtil {
 	/**
 	 * 
 	 * @param name
@@ -36,19 +35,17 @@ public class SubqueryDefinitionCopyUtil
 	 * @return
 	 * @throws DataException
 	 */
-	public static SubqueryDefinition createSubqueryDefinition( String name,
-			ISubqueryDefinition srcSubQueryDefn ) throws DataException
-	{
-		SubqueryDefinition destSubQueryDefn = new SubqueryDefinition( name,
-				srcSubQueryDefn.getParentQuery( ) );
-		destSubQueryDefn.setApplyOnGroupFlag( srcSubQueryDefn.applyOnGroup( ) );
-		destSubQueryDefn.setMaxRows( srcSubQueryDefn.getMaxRows( ) );
-		destSubQueryDefn.setUsesDetails( srcSubQueryDefn.usesDetails( ) );
-		copyGroupList( srcSubQueryDefn, destSubQueryDefn );
-		copyExpressions( srcSubQueryDefn, destSubQueryDefn );
-		copySubQueryList( srcSubQueryDefn, destSubQueryDefn );
-		copySortList( srcSubQueryDefn, destSubQueryDefn );
-		copyFilterList( srcSubQueryDefn, destSubQueryDefn );
+	public static SubqueryDefinition createSubqueryDefinition(String name, ISubqueryDefinition srcSubQueryDefn)
+			throws DataException {
+		SubqueryDefinition destSubQueryDefn = new SubqueryDefinition(name, srcSubQueryDefn.getParentQuery());
+		destSubQueryDefn.setApplyOnGroupFlag(srcSubQueryDefn.applyOnGroup());
+		destSubQueryDefn.setMaxRows(srcSubQueryDefn.getMaxRows());
+		destSubQueryDefn.setUsesDetails(srcSubQueryDefn.usesDetails());
+		copyGroupList(srcSubQueryDefn, destSubQueryDefn);
+		copyExpressions(srcSubQueryDefn, destSubQueryDefn);
+		copySubQueryList(srcSubQueryDefn, destSubQueryDefn);
+		copySortList(srcSubQueryDefn, destSubQueryDefn);
+		copyFilterList(srcSubQueryDefn, destSubQueryDefn);
 		return destSubQueryDefn;
 	}
 
@@ -58,15 +55,13 @@ public class SubqueryDefinitionCopyUtil
 	 * @param destSubQueryDefn
 	 * @throws DataException
 	 */
-	private static void copyExpressions( ISubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn ) throws DataException
-	{
-		Map bindings = srcSubQueryDefn.getBindings( );
-		Iterator it = bindings.entrySet( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			Map.Entry o = (Map.Entry) it.next( );
-			destSubQueryDefn.addBinding( convertToBindings( o.getValue( ) ) );
+	private static void copyExpressions(ISubqueryDefinition srcSubQueryDefn, SubqueryDefinition destSubQueryDefn)
+			throws DataException {
+		Map bindings = srcSubQueryDefn.getBindings();
+		Iterator it = bindings.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry o = (Map.Entry) it.next();
+			destSubQueryDefn.addBinding(convertToBindings(o.getValue()));
 		}
 	}
 
@@ -76,14 +71,10 @@ public class SubqueryDefinitionCopyUtil
 	 * @param o
 	 * @return
 	 */
-	private static IBinding convertToBindings( Object binding )
-	{
-		if( binding instanceof IBinding )
-		{
-			return (IBinding)binding;
-		}
-		else
-		{
+	private static IBinding convertToBindings(Object binding) {
+		if (binding instanceof IBinding) {
+			return (IBinding) binding;
+		} else {
 			return null;
 		}
 	}
@@ -93,58 +84,46 @@ public class SubqueryDefinitionCopyUtil
 	 * @param srcSubQueryDefn
 	 * @param destSubQueryDefn
 	 */
-	private static void copyGroupList( ISubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) 
-	{
-		List groupList = srcSubQueryDefn.getGroups( );
-		for( int i = 0; i < groupList.size( ); i++ )
-		{
-			destSubQueryDefn.addGroup( (GroupDefinition) groupList.get( i ) );
+	private static void copyGroupList(ISubqueryDefinition srcSubQueryDefn, SubqueryDefinition destSubQueryDefn) {
+		List groupList = srcSubQueryDefn.getGroups();
+		for (int i = 0; i < groupList.size(); i++) {
+			destSubQueryDefn.addGroup((GroupDefinition) groupList.get(i));
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param srcSubQueryDefn
 	 * @param destSubQueryDefn
 	 */
-	private static void copySubQueryList( ISubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) 
-	{
-		Object[] subQueryDefn = srcSubQueryDefn.getSubqueries( ).toArray( );
-		for( int i = 0; i < subQueryDefn.length; i++ )
-		{
-			destSubQueryDefn.addSubquery( (SubqueryDefinition) subQueryDefn[i] );
+	private static void copySubQueryList(ISubqueryDefinition srcSubQueryDefn, SubqueryDefinition destSubQueryDefn) {
+		Object[] subQueryDefn = srcSubQueryDefn.getSubqueries().toArray();
+		for (int i = 0; i < subQueryDefn.length; i++) {
+			destSubQueryDefn.addSubquery((SubqueryDefinition) subQueryDefn[i]);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param srcSubQueryDefn
 	 * @param destSubQueryDefn
 	 */
-	private static void copySortList( ISubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) 
-	{
-		List sortList = srcSubQueryDefn.getSorts( );
-		for( int i = 0; i < sortList.size( ); i++ )
-		{
-			destSubQueryDefn.addSort( (SortDefinition) sortList.get( i ) );
+	private static void copySortList(ISubqueryDefinition srcSubQueryDefn, SubqueryDefinition destSubQueryDefn) {
+		List sortList = srcSubQueryDefn.getSorts();
+		for (int i = 0; i < sortList.size(); i++) {
+			destSubQueryDefn.addSort((SortDefinition) sortList.get(i));
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param srcSubQueryDefn
 	 * @param destSubQueryDefn
 	 */
-	private static void copyFilterList( ISubqueryDefinition srcSubQueryDefn,
-			SubqueryDefinition destSubQueryDefn) 
-	{
-		List filterList = srcSubQueryDefn.getFilters( );
-		for( int i = 0; i < filterList.size( ); i++ )
-		{
-			destSubQueryDefn.addFilter( (IFilterDefinition) filterList.get( i ) );
+	private static void copyFilterList(ISubqueryDefinition srcSubQueryDefn, SubqueryDefinition destSubQueryDefn) {
+		List filterList = srcSubQueryDefn.getFilters();
+		for (int i = 0; i < filterList.size(); i++) {
+			destSubQueryDefn.addFilter((IFilterDefinition) filterList.get(i));
 		}
 	}
 }

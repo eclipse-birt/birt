@@ -15,25 +15,23 @@ import java.util.Comparator;
 
 import junit.framework.TestCase;
 
-public class TOCComparatorTest extends TestCase
-{
+public class TOCComparatorTest extends TestCase {
 
-	public void testCompare( )
-	{
-		Comparator<String> c = new TOCComparator( );
-		assertEquals( -1, c.compare( "/", "__TOC_1" ) );
-		assertEquals( -1, c.compare( "/", "/" ) );
-		assertEquals( 1, c.compare( "__TOC_1", "/" ) );
+	public void testCompare() {
+		Comparator<String> c = new TOCComparator();
+		assertEquals(-1, c.compare("/", "__TOC_1"));
+		assertEquals(-1, c.compare("/", "/"));
+		assertEquals(1, c.compare("__TOC_1", "/"));
 
-		assertEquals( 0, c.compare( "__TOC_1", "__TOC_1" ) );
-		assertEquals( -1, c.compare( "__TOC_1", "__TOC_2" ) );
-		assertEquals( 1, c.compare( "__TOC_2", "__TOC_1" ) );
-		assertEquals( -1, c.compare( "__TOC_1", "__TOC_1_1" ) );
-		assertEquals( 1, c.compare( "__TOC_1_1", "__TOC_1" ) );
-		assertEquals( -1, c.compare( "__TOC_1", "__TOC_12" ) );
-		assertEquals( 1, c.compare( "__TOC_12", "__TOC_1" ) );
+		assertEquals(0, c.compare("__TOC_1", "__TOC_1"));
+		assertEquals(-1, c.compare("__TOC_1", "__TOC_2"));
+		assertEquals(1, c.compare("__TOC_2", "__TOC_1"));
+		assertEquals(-1, c.compare("__TOC_1", "__TOC_1_1"));
+		assertEquals(1, c.compare("__TOC_1_1", "__TOC_1"));
+		assertEquals(-1, c.compare("__TOC_1", "__TOC_12"));
+		assertEquals(1, c.compare("__TOC_12", "__TOC_1"));
 
-		assertEquals( -1, c.compare( "__TOC_0_12", "__TOC_1_12" ) );
+		assertEquals(-1, c.compare("__TOC_0_12", "__TOC_1_12"));
 
 	}
 }

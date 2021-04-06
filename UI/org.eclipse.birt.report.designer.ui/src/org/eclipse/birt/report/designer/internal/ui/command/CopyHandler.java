@@ -19,34 +19,33 @@ import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 import org.eclipse.gef.ui.actions.Clipboard;
 
-
 /**
  * 
  */
 
-public class CopyHandler extends SelectionHandler
-{
+public class CopyHandler extends SelectionHandler {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 
-		Object[] selection = getElementHandles().toArray( );
-		
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Copy action >> Copy " + Arrays.toString( selection ) ); //$NON-NLS-1$
+		Object[] selection = getElementHandles().toArray();
+
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Copy action >> Copy " + Arrays.toString(selection)); //$NON-NLS-1$
 		}
-		Object cloneElements = DNDUtil.cloneSource( selection );
-		if(cloneElements != null)
-		{
-			Clipboard.getDefault( ).setContents( cloneElements );
-		}	
-		
+		Object cloneElements = DNDUtil.cloneSource(selection);
+		if (cloneElements != null) {
+			Clipboard.getDefault().setContents(cloneElements);
+		}
+
 		return Boolean.TRUE;
 	}
-	
+
 }

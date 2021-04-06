@@ -9,40 +9,31 @@ import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 import testutil.APITestCase;
 import testutil.ConfigText;
 
-public class MultiPassTest extends APITestCase
-{
+public class MultiPassTest extends APITestCase {
 
-	protected DataSourceInfo getDataSourceInfo( )
-	{
-		return new DataSourceInfo( ConfigText
-				.getString( "Api.TestData.TableName" ), ConfigText
-				.getString( "Api.TestData.TableSQL" ), ConfigText
-				.getString( "Api.TestData.TestDataFileName" ) );
+	protected DataSourceInfo getDataSourceInfo() {
+		return new DataSourceInfo(ConfigText.getString("Api.TestData.TableName"),
+				ConfigText.getString("Api.TestData.TableSQL"), ConfigText.getString("Api.TestData.TestDataFileName"));
 	}
 
 	/**
 	 * Test feature of aggregation expression
 	 */
-	public void test_RunningAggregationExpression( ) throws Exception
-	{
+	public void test_RunningAggregationExpression() throws Exception {
 		// Test a SQL with duplicate column name (quite common with join data
 		// sets)
-		String testSQL = "select COUNTRY, AMOUNT from " + getTestTableName( );
-		( (OdaDataSetDesign) this.dataSet ).setQueryText( testSQL );
+		String testSQL = "select COUNTRY, AMOUNT from " + getTestTableName();
+		((OdaDataSetDesign) this.dataSet).setQueryText(testSQL);
 
-		IBaseExpression[] bindingExprGroup = new IBaseExpression[]{
-				new ScriptExpression( "dataSetRow.COUNTRY", 0 ),
-				new ScriptExpression(
-						"Total.Sum( dataSetRow.AMOUNT,null,1 )",
-						2 )};
+		IBaseExpression[] bindingExprGroup = new IBaseExpression[] { new ScriptExpression("dataSetRow.COUNTRY", 0),
+				new ScriptExpression("Total.Sum( dataSetRow.AMOUNT,null,1 )", 2) };
 
-		String names[] = {"group_COUNTRY", "group_AMOUNT"};
+		String names[] = { "group_COUNTRY", "group_AMOUNT" };
 
-		GroupDefinition[] groupDefn = new GroupDefinition[]{
-				new GroupDefinition( "G1" ), new GroupDefinition( "G2" )};
-		groupDefn[0].setKeyExpression( "row.group_COUNTRY" );
+		GroupDefinition[] groupDefn = new GroupDefinition[] { new GroupDefinition("G1"), new GroupDefinition("G2") };
+		groupDefn[0].setKeyExpression("row.group_COUNTRY");
 
-		groupDefn[1].setKeyExpression( "row.group_AMOUNT" );
+		groupDefn[1].setKeyExpression("row.group_AMOUNT");
 
 		String[] bindingNameRow = new String[3];
 		bindingNameRow[0] = "country";
@@ -50,25 +41,14 @@ public class MultiPassTest extends APITestCase
 		bindingNameRow[2] = "binding3";
 
 		IBaseExpression[] bindingExprRow = new IBaseExpression[3];
-		bindingExprRow[0] = new ScriptExpression( "dataSetRow.COUNTRY" );
-		bindingExprRow[1] = new ScriptExpression( "dataSetRow.AMOUNT" );
-		bindingExprRow[2] = new ScriptExpression(
-				"Total.sum( dataSetRow.AMOUNT,null,1)" );
+		bindingExprRow[0] = new ScriptExpression("dataSetRow.COUNTRY");
+		bindingExprRow[1] = new ScriptExpression("dataSetRow.AMOUNT");
+		bindingExprRow[2] = new ScriptExpression("Total.sum( dataSetRow.AMOUNT,null,1)");
 
-		createAndRunQuery(
-				names,
-				bindingExprGroup,
-				groupDefn,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				bindingNameRow,
-				bindingExprRow );
+		createAndRunQuery(names, bindingExprGroup, groupDefn, null, null, null, null, null, null, bindingNameRow,
+				bindingExprRow);
 
-		checkOutputFile( );
+		checkOutputFile();
 	}
 
 }

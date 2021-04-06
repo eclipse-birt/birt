@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public class LiteralStringPropertyType extends TextualPropertyType
-{
+public class LiteralStringPropertyType extends TextualPropertyType {
 
 	/**
 	 * Display name key.
@@ -35,32 +34,27 @@ public class LiteralStringPropertyType extends TextualPropertyType
 	 * Constructor.
 	 */
 
-	public LiteralStringPropertyType( )
-	{
-		super( DISPLAY_NAME_KEY );
+	public LiteralStringPropertyType() {
+		super(DISPLAY_NAME_KEY);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
-	public int getTypeCode( )
-	{
+	public int getTypeCode() {
 		return LITERAL_STRING_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
-	public String getName( )
-	{
+	public String getName() {
 		return LITERAL_STRING_TYPE_NAME;
 	}
 
@@ -69,8 +63,7 @@ public class LiteralStringPropertyType extends TextualPropertyType
 	 * return 0.
 	 */
 
-	public double toDouble( Module module, Object value )
-	{
+	public double toDouble(Module module, Object value) {
 		// Strings cannot be converted to doubles because the conversion
 		// rules are locale-dependent.
 
@@ -80,21 +73,17 @@ public class LiteralStringPropertyType extends TextualPropertyType
 	/**
 	 * Converts the string property value to an integer.
 	 * 
-	 * @return integer value of the string representation, return <code>0</code>
-	 *         if <code>value</code> is null.
+	 * @return integer value of the string representation, return <code>0</code> if
+	 *         <code>value</code> is null.
 	 */
 
-	public int toInteger( Module module, Object value )
-	{
-		if ( value == null )
+	public int toInteger(Module module, Object value) {
+		if (value == null)
 			return 0;
 
-		try
-		{
-			return Integer.decode( (String) value ).intValue( );
-		}
-		catch ( NumberFormatException e )
-		{
+		try {
+			return Integer.decode((String) value).intValue();
+		} catch (NumberFormatException e) {
 			return 0;
 		}
 	}

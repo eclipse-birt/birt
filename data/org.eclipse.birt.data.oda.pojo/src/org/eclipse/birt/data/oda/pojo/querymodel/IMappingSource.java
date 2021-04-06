@@ -18,24 +18,24 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
- * An identity for the source of a column mapping 
+ * An identity for the source of a column mapping
  */
-public interface IMappingSource
-{
+public interface IMappingSource {
 	/**
 	 * @return the source name
 	 */
-	String getName( );
-	
+	String getName();
+
 	/**
 	 * 
 	 * @param from
 	 * @return the mapped value from the <code>from</code> object
 	 * @throws OdaException
 	 */
-	Object fetchValue( Object from, ClassLoader pojoClassLoader, ClassMethodFieldBuffer cmfbInstance ) throws OdaException;
-	
-	Element createElement( Document doc );
-	
-	void prepareParameterValues( Map<String, Object> paramValues, ClassLoader pojoClassLoader ) throws OdaException;
+	Object fetchValue(Object from, ClassLoader pojoClassLoader, ClassMethodFieldBuffer cmfbInstance)
+			throws OdaException;
+
+	Element createElement(Document doc);
+
+	void prepareParameterValues(Map<String, Object> paramValues, ClassLoader pojoClassLoader) throws OdaException;
 }

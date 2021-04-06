@@ -30,8 +30,7 @@ import org.eclipse.swt.widgets.Control;
 /**
  * ComboPropertyDescriptor manages Combo choice control.
  */
-public class ComboPropertyDescriptor extends PropertyDescriptor
-{
+public class ComboPropertyDescriptor extends PropertyDescriptor {
 
 	protected CCombo combo;
 
@@ -39,15 +38,13 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 
 	protected String oldValue;
 
-	public ComboPropertyDescriptor( boolean formStyle )
-	{
-		setFormStyle( formStyle );
+	public ComboPropertyDescriptor(boolean formStyle) {
+		setFormStyle(formStyle);
 	}
 
-	public void setInput( Object handle )
-	{
+	public void setInput(Object handle) {
 		this.input = handle;
-		getDescriptorProvider( ).setInput( input );
+		getDescriptorProvider().setInput(input);
 	}
 
 	private int style = SWT.BORDER | SWT.READ_ONLY;
@@ -55,50 +52,37 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor
+	 * @see org.eclipse.birt.report.designer.ui.attributes.widget.PropertyDescriptor
 	 * #resetUIData()
 	 */
-	void refresh( String value )
-	{
+	void refresh(String value) {
 
-		if ( getDescriptorProvider( ) instanceof IComboDescriptorProvider )
-		{
-			String[] items = ( (IComboDescriptorProvider) getDescriptorProvider( ) ).getItems( );
-			if ( combo.getItems( ) == null
-					|| !Arrays.equals( combo.getItems( ), items ) )
-				combo.setItems( items );
+		if (getDescriptorProvider() instanceof IComboDescriptorProvider) {
+			String[] items = ((IComboDescriptorProvider) getDescriptorProvider()).getItems();
+			if (combo.getItems() == null || !Arrays.equals(combo.getItems(), items))
+				combo.setItems(items);
 
-			oldValue = ( (IComboDescriptorProvider) getDescriptorProvider( ) ).load( )
-					.toString( );
+			oldValue = ((IComboDescriptorProvider) getDescriptorProvider()).load().toString();
 
-			boolean stateFlag = ( ( oldValue == null ) == combo.getEnabled( ) );
+			boolean stateFlag = ((oldValue == null) == combo.getEnabled());
 
-			if ( ( (IComboDescriptorProvider) getDescriptorProvider( ) ).isReadOnly( ) )
-			{
-				combo.setEnabled( false );
+			if (((IComboDescriptorProvider) getDescriptorProvider()).isReadOnly()) {
+				combo.setEnabled(false);
+			} else {
+				if (stateFlag)
+					combo.setEnabled(oldValue != null);
 			}
-			else
-			{
-				if ( stateFlag )
-					combo.setEnabled( oldValue != null );
-			}
-			String displayName = ( (IComboDescriptorProvider) getDescriptorProvider( ) ).getDisplayName( oldValue );
-			if ( displayName == null )
-			{
-				if ( oldValue != null
-						&& combo.indexOf( oldValue ) > -1
-						&& combo.getText( ).equals( oldValue ) )
+			String displayName = ((IComboDescriptorProvider) getDescriptorProvider()).getDisplayName(oldValue);
+			if (displayName == null) {
+				if (oldValue != null && combo.indexOf(oldValue) > -1 && combo.getText().equals(oldValue))
 					return;
-				combo.deselectAll( );
-				combo.setText( oldValue );
+				combo.deselectAll();
+				combo.setText(oldValue);
 				return;
-			}
-			else
-			{
-				int index = Arrays.asList( items ).indexOf( displayName );
-				if ( combo.getSelectionIndex( ) != index )
-					combo.select( index );
+			} else {
+				int index = Arrays.asList(items).indexOf(displayName);
+				if (combo.getSelectionIndex() != index)
+					combo.select(index);
 			}
 		}
 	}
@@ -106,12 +90,10 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return combo;
 	}
 
@@ -121,93 +103,74 @@ public class ComboPropertyDescriptor extends PropertyDescriptor
 	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		if ( isFormStyle( ) )
-		{
-			combo = FormWidgetFactory.getInstance( ).createCCombo( parent );
+	public Control createControl(Composite parent) {
+		if (isFormStyle()) {
+			combo = FormWidgetFactory.getInstance().createCCombo(parent);
+		} else {
+			combo = new CCombo(parent, style);
+			combo.setVisibleItemCount(30);
 		}
-		else
-		{
-			combo = new CCombo( parent, style );
-			combo.setVisibleItemCount( 30 );
-		}
-		combo.addControlListener( new ControlListener( ) {
+		combo.addControlListener(new ControlListener() {
 
-			public void controlMoved( ControlEvent e )
-			{
-				combo.clearSelection( );
+			public void controlMoved(ControlEvent e) {
+				combo.clearSelection();
 			}
 
-			public void controlResized( ControlEvent e )
-			{
-				combo.clearSelection( );
+			public void controlResized(ControlEvent e) {
+				combo.clearSelection();
 			}
-		} );
-		combo.addSelectionListener( new SelectionListener( ) {
+		});
+		combo.addSelectionListener(new SelectionListener() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				handleComboSelectEvent( );
+			public void widgetSelected(SelectionEvent e) {
+				handleComboSelectEvent();
 			}
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				handleComboSelectEvent( );
+			public void widgetDefaultSelected(SelectionEvent e) {
+				handleComboSelectEvent();
 			}
-		} );
+		});
 		return combo;
 	}
 
 	/**
 	 * Processes the save action.
 	 */
-	private void handleComboSelectEvent( )
-	{
-		try
-		{
-			save( combo.getText( ) );
-		}
-		catch ( SemanticException e )
-		{
-			combo.setText( oldValue );
-			WidgetUtil.processError( combo.getShell( ), e );
+	private void handleComboSelectEvent() {
+		try {
+			save(combo.getText());
+		} catch (SemanticException e) {
+			combo.setText(oldValue);
+			WidgetUtil.processError(combo.getShell(), e);
 		}
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
-		descriptorProvider.save( value );
+	public void save(Object value) throws SemanticException {
+		descriptorProvider.save(value);
 	}
 
-	public String getStringValue( )
-	{
-		return combo.getText( );
+	public String getStringValue() {
+		return combo.getText();
 	}
 
-	public void setStringValue( String value )
-	{
-		combo.setText( value );
+	public void setStringValue(String value) {
+		combo.setText(value);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( combo, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(combo, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		combo.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		combo.setVisible(isVisible);
 	}
 
-	public void load( )
-	{
-		oldValue = getDescriptorProvider( ).load( ).toString( );
-		refresh( oldValue );
+	public void load() {
+		oldValue = getDescriptorProvider().load().toString();
+		refresh(oldValue);
 	}
 
-	public void addStyle( int style )
-	{
+	public void addStyle(int style) {
 		this.style |= style;
 	}
 }

@@ -29,26 +29,26 @@ import org.eclipse.emf.ecore.util.EcoreEMap;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Multiple Actions</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object
+ * '<em><b>Multiple Actions</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.MultipleActionsImpl#getActions <em>Actions</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.MultipleActionsImpl#getPropertiesMap <em>Properties Map</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.MultipleActionsImpl#getActions
+ * <em>Actions</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.MultipleActionsImpl#getPropertiesMap
+ * <em>Properties Map</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class MultipleActionsImpl extends ActionImpl implements MultipleActions
-{
+public class MultipleActionsImpl extends ActionImpl implements MultipleActions {
 
 	/**
-	 * The cached value of the '{@link #getActions() <em>Actions</em>}' containment reference list.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getActions() <em>Actions</em>}' containment
+	 * reference list. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getActions()
 	 * @generated
 	 * @ordered
@@ -56,9 +56,9 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions
 	protected EList<Action> actions;
 
 	/**
-	 * The cached value of the '{@link #getPropertiesMap() <em>Properties Map</em>}' map.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getPropertiesMap() <em>Properties Map</em>}'
+	 * map. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getPropertiesMap()
 	 * @generated
 	 * @ordered
@@ -67,199 +67,170 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions
 
 	/**
 	 * Returns a new instance of MultiURLValues.
+	 * 
 	 * @return
 	 */
-	public static MultipleActions create( )
-	{
-		MultipleActions ma = DataFactory.eINSTANCE.createMultipleActions( );
-		ma.setType( ActionType.URL_REDIRECT_LITERAL );
-		ma.getPropertiesMap( ).putAll( MultiURLValuesImpl.DEFAULT_PROPERTIES_MAP );
+	public static MultipleActions create() {
+		MultipleActions ma = DataFactory.eINSTANCE.createMultipleActions();
+		ma.setType(ActionType.URL_REDIRECT_LITERAL);
+		ma.getPropertiesMap().putAll(MultiURLValuesImpl.DEFAULT_PROPERTIES_MAP);
 		return ma;
-	}
-	
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected MultipleActionsImpl( )
-	{
-		super( );
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
+	 * @generated
+	 */
+	protected MultipleActionsImpl() {
+		super();
+	}
+
+	/**
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return DataPackage.Literals.MULTIPLE_ACTIONS;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public EList<Action> getActions( )
-	{
-		if ( actions == null )
-		{
-			actions = new EObjectContainmentEList<Action>( Action.class,
-					this,
-					DataPackage.MULTIPLE_ACTIONS__ACTIONS );
+	public EList<Action> getActions() {
+		if (actions == null) {
+			actions = new EObjectContainmentEList<Action>(Action.class, this, DataPackage.MULTIPLE_ACTIONS__ACTIONS);
 		}
 		return actions;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public EMap<String, String> getPropertiesMap( )
-	{
-		if ( propertiesMap == null )
-		{
-			propertiesMap = new EcoreEMap<String, String>( AttributePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
-					EStringToStringMapEntryImpl.class,
-					this,
-					DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP );
+	public EMap<String, String> getPropertiesMap() {
+		if (propertiesMap == null) {
+			propertiesMap = new EcoreEMap<String, String>(AttributePackage.Literals.ESTRING_TO_STRING_MAP_ENTRY,
+					EStringToStringMapEntryImpl.class, this, DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP);
 		}
 		return propertiesMap;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, NotificationChain msgs )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.MULTIPLE_ACTIONS__ACTIONS :
-				return ( (InternalEList<?>) getActions( ) ).basicRemove( otherEnd,
-						msgs );
-			case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP :
-				return ( (InternalEList<?>) getPropertiesMap( ) ).basicRemove( otherEnd,
-						msgs );
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case DataPackage.MULTIPLE_ACTIONS__ACTIONS:
+			return ((InternalEList<?>) getActions()).basicRemove(otherEnd, msgs);
+		case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP:
+			return ((InternalEList<?>) getPropertiesMap()).basicRemove(otherEnd, msgs);
 		}
-		return super.eInverseRemove( otherEnd, featureID, msgs );
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.MULTIPLE_ACTIONS__ACTIONS :
-				return getActions( );
-			case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP :
-				if ( coreType )
-					return getPropertiesMap( );
-				else
-					return getPropertiesMap( ).map( );
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case DataPackage.MULTIPLE_ACTIONS__ACTIONS:
+			return getActions();
+		case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP:
+			if (coreType)
+				return getPropertiesMap();
+			else
+				return getPropertiesMap().map();
 		}
-		return super.eGet( featureID, resolve, coreType );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.MULTIPLE_ACTIONS__ACTIONS :
-				getActions( ).clear( );
-				getActions( ).addAll( (Collection<? extends Action>) newValue );
-				return;
-			case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP :
-				( (EStructuralFeature.Setting) getPropertiesMap( ) ).set( newValue );
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case DataPackage.MULTIPLE_ACTIONS__ACTIONS:
+			getActions().clear();
+			getActions().addAll((Collection<? extends Action>) newValue);
+			return;
+		case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP:
+			((EStructuralFeature.Setting) getPropertiesMap()).set(newValue);
+			return;
 		}
-		super.eSet( featureID, newValue );
+		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.MULTIPLE_ACTIONS__ACTIONS :
-				getActions( ).clear( );
-				return;
-			case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP :
-				getPropertiesMap( ).clear( );
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case DataPackage.MULTIPLE_ACTIONS__ACTIONS:
+			getActions().clear();
+			return;
+		case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP:
+			getPropertiesMap().clear();
+			return;
 		}
-		super.eUnset( featureID );
+		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.MULTIPLE_ACTIONS__ACTIONS :
-				return actions != null && !actions.isEmpty( );
-			case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP :
-				return propertiesMap != null && !propertiesMap.isEmpty( );
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case DataPackage.MULTIPLE_ACTIONS__ACTIONS:
+			return actions != null && !actions.isEmpty();
+		case DataPackage.MULTIPLE_ACTIONS__PROPERTIES_MAP:
+			return propertiesMap != null && !propertiesMap.isEmpty();
 		}
-		return super.eIsSet( featureID );
+		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( MultipleActions src )
-	{
+	protected void set(MultipleActions src) {
 
-		super.set( src );
+		super.set(src);
 
 		// children
 
-		if ( src.getActions( ) != null )
-		{
-			EList<Action> list = getActions( );
-			for ( Action element : src.getActions( ) )
-			{
-				list.add( element.copyInstance( ) );
+		if (src.getActions() != null) {
+			EList<Action> list = getActions();
+			for (Action element : src.getActions()) {
+				list.add(element.copyInstance());
 			}
 		}
 
-		if ( src.getPropertiesMap( ) != null )
-		{
-			EMap<String, String> map = getPropertiesMap( );
-			for ( Map.Entry<String, String> entry : src.getPropertiesMap( )
-					.entrySet( ) )
-			{
+		if (src.getPropertiesMap() != null) {
+			EMap<String, String> map = getPropertiesMap();
+			for (Map.Entry<String, String> entry : src.getPropertiesMap().entrySet()) {
 
-				map.put( entry.getKey( ), entry.getValue( ) );
+				map.put(entry.getKey(), entry.getValue());
 
 			}
 		}
@@ -269,11 +240,10 @@ public class MultipleActionsImpl extends ActionImpl implements MultipleActions
 	/**
 	 * @generated
 	 */
-	public MultipleActions copyInstance( )
-	{
-		MultipleActionsImpl dest = new MultipleActionsImpl( );
-		dest.set( this );
+	public MultipleActions copyInstance() {
+		MultipleActionsImpl dest = new MultipleActionsImpl();
+		dest.set(this);
 		return dest;
 	}
 
-} //MultipleActionsImpl
+} // MultipleActionsImpl

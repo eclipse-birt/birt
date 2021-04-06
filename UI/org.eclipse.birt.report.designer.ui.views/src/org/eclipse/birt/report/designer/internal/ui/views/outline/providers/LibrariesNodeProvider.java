@@ -23,8 +23,7 @@ import org.eclipse.jface.viewers.TreeViewer;
  * Node provider for embedded images resources node
  */
 
-public class LibrariesNodeProvider extends DefaultNodeProvider
-{
+public class LibrariesNodeProvider extends DefaultNodeProvider {
 
 	// private static final String SUPPORTED_IMAGE_FILE_EXTS = Messages
 	// .getString( "ImageBuilderDialog.FileDialog.FilterMessage" );
@@ -32,50 +31,56 @@ public class LibrariesNodeProvider extends DefaultNodeProvider
 
 	private static final String LIBARIES = Messages.getString("LibrariesNodeProvider.DisplayLabel.Libraries"); //$NON-NLS-1$
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getChildren(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getChildren(
+	 * java.lang.Object)
 	 */
-	public Object[] getChildren( Object model )
-	{
-		return ( (LibraryNode) model ).getChildren( );
+	public Object[] getChildren(Object model) {
+		return ((LibraryNode) model).getChildren();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#getIconName(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
+	 * getIconName(java.lang.Object)
 	 */
-	public String getIconName( Object model )
-	{
+	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_LIBRARIES;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
+	 * getNodeDisplayName(java.lang.Object)
 	 */
-	public String getNodeDisplayName( Object model )
-	{
+	public String getNodeDisplayName(Object model) {
 		return LIBARIES;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getParent(java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getParent(
+	 * java.lang.Object)
 	 */
-	public Object getParent( Object model )
-	{
-		return ( (LibraryNode) model ).getReportDesignHandle( );
+	public Object getParent(Object model) {
+		return ((LibraryNode) model).getReportDesignHandle();
 	}
 
 	/**
 	 * Creates the context menu for the given object.
 	 * 
-	 * @param object
-	 *            the object
-	 * @param menu
-	 *            the menu
+	 * @param object the object
+	 * @param menu   the menu
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		menu.add( new ImportLibraryAction( ) );
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		menu.add(new ImportLibraryAction());
 	}
 
 }

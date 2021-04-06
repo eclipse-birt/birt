@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.engine.ooxml;
 
-public class PartAlreadyExistsException extends RuntimeException
-{
+public class PartAlreadyExistsException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public PartAlreadyExistsException( IPart part )
-	{
-		super( "Part " + part.getRelativeUri( ) + "/" + part + " already exists!" );
+	public PartAlreadyExistsException(IPart part) {
+		super("Part " + part.getRelativeUri() + "/" + part + " already exists!");
 	}
 }

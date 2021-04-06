@@ -19,23 +19,19 @@ import org.eclipse.wst.common.frameworks.datamodel.IDataModel;
  * Implement DataModel provider for birt project facet
  * 
  */
-public class BirtFacetInstallDataModelProvider
-		extends
-			WebFacetInstallDataModelProvider
-{
+public class BirtFacetInstallDataModelProvider extends WebFacetInstallDataModelProvider {
 
 	/**
 	 * Create IDataModel
 	 * 
 	 * @see org.eclipse.wst.common.componentcore.datamodel.FacetInstallDataModelProvider#create()
 	 */
-	public Object create( )
-	{
-		IDataModel dataModel = (IDataModel) super.create( );
+	public Object create() {
+		IDataModel dataModel = (IDataModel) super.create();
 
 		// Add facet id of birt runtime
-		dataModel.setProperty( "IFacetDataModelProperties.FACET_ID", //$NON-NLS-1$
-				ChartWTPUIPlugin.RUNTIME_FACET_ID );
+		dataModel.setProperty("IFacetDataModelProperties.FACET_ID", //$NON-NLS-1$
+				ChartWTPUIPlugin.RUNTIME_FACET_ID);
 
 		return dataModel;
 	}

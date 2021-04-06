@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * file may cause some auto-conversion to the original design file.
  */
 
-public class VersionInfo implements IVersionInfo
-{
+public class VersionInfo implements IVersionInfo {
 
 	/**
 	 * The version of the design file.
@@ -44,30 +43,29 @@ public class VersionInfo implements IVersionInfo
 
 	/**
 	 * Information for user that the opening design file holds a version number
-	 * before the "column binding" feature is supported. To Open the file may
-	 * need convert the original file automatically.
+	 * before the "column binding" feature is supported. To Open the file may need
+	 * convert the original file automatically.
 	 */
 
 	private final static String CONVERT_INFO_MSG = MessageConstants.VERSION_INFO_CONVERT_INFO;
 
 	/**
-	 * Message key that indicates that the opened design/library and its
-	 * included libraries have one or more extended item that should do some
-	 * compatibilities.
+	 * Message key that indicates that the opened design/library and its included
+	 * libraries have one or more extended item that should do some compatibilities.
 	 */
 	private final static String EXTENSION_COMPATIBILITY_MSG = MessageConstants.VERSION_INFO_EXTENSION_COMPATIBILITY;
 
 	/**
-	 * Code for the opening design file is not a valid design file or the file
-	 * does not exist.
+	 * Code for the opening design file is not a valid design file or the file does
+	 * not exist.
 	 */
 
 	public final static int INVALID_DESIGN_FILE = 0x00;
 
 	/**
-	 * Code for information for user that the opening design file holds a
-	 * version number before the "column binding" feature is supported. To Open
-	 * the file may need convert the original file automatically.
+	 * Code for information for user that the opening design file holds a version
+	 * number before the "column binding" feature is supported. To Open the file may
+	 * need convert the original file automatically.
 	 */
 
 	public final static int CONVERT_FOR_COLUMN_BINDING = 0x01;
@@ -77,16 +75,16 @@ public class VersionInfo implements IVersionInfo
 	 */
 
 	public final static int INVALID_VERSION = 0x02;
-	
+
 	/**
 	 * Code for the later design version.
 	 */
-	
+
 	public final static int LATER_VERSION = 0x03;
 
 	/**
-	 * Code for indication that there is one or more included libraries should
-	 * do some compatibilities about the extended items.
+	 * Code for indication that there is one or more included libraries should do
+	 * some compatibilities about the extended items.
 	 */
 	public final static int EXTENSION_COMPATIBILITY = 0x04;
 
@@ -96,7 +94,7 @@ public class VersionInfo implements IVersionInfo
 	 */
 
 	private final static String INVALID_VERSION_MSG = MessageConstants.VERSION_INFO_INVALID_VERSION;
-	
+
 	/**
 	 * The version of opening design file is later than current version.
 	 */
@@ -121,8 +119,7 @@ public class VersionInfo implements IVersionInfo
 	 * @param convertCode
 	 */
 
-	public VersionInfo( String version, int convertCode )
-	{
+	public VersionInfo(String version, int convertCode) {
 		this.version = version;
 		infoCode = convertCode;
 	}
@@ -133,25 +130,22 @@ public class VersionInfo implements IVersionInfo
 	 * @see org.eclipse.birt.report.model.api.IVersionInfo#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		switch ( infoCode )
-		{
-			case CONVERT_FOR_COLUMN_BINDING :
-				return ModelMessages.getMessage( CONVERT_INFO_MSG );
-			case INVALID_DESIGN_FILE :
-				return ModelMessages.getMessage( INVALID_DESIGN_FILE_MSG );
-			case INVALID_VERSION :
-				return ModelMessages.getMessage( INVALID_VERSION_MSG,
-						new String[]{version} );
-			case LATER_VERSION :
-				return ModelMessages.getMessage( LATER_VERSION_MSG );
-			case EXTENSION_COMPATIBILITY :
-				return ModelMessages.getMessage( EXTENSION_COMPATIBILITY_MSG );
+	public String getLocalizedMessage() {
+		switch (infoCode) {
+		case CONVERT_FOR_COLUMN_BINDING:
+			return ModelMessages.getMessage(CONVERT_INFO_MSG);
+		case INVALID_DESIGN_FILE:
+			return ModelMessages.getMessage(INVALID_DESIGN_FILE_MSG);
+		case INVALID_VERSION:
+			return ModelMessages.getMessage(INVALID_VERSION_MSG, new String[] { version });
+		case LATER_VERSION:
+			return ModelMessages.getMessage(LATER_VERSION_MSG);
+		case EXTENSION_COMPATIBILITY:
+			return ModelMessages.getMessage(EXTENSION_COMPATIBILITY_MSG);
 
-			default :
-				assert false;
-				return null;
+		default:
+			assert false;
+			return null;
 		}
 	}
 
@@ -161,8 +155,7 @@ public class VersionInfo implements IVersionInfo
 	 * @see org.eclipse.birt.report.model.api.IVersionInfo#getVersion()
 	 */
 
-	public String getDesignFileVersion( )
-	{
+	public String getDesignFileVersion() {
 		return version;
 	}
 
@@ -170,8 +163,7 @@ public class VersionInfo implements IVersionInfo
 	 * 
 	 * @return information code
 	 */
-	public int getInfoCode( )
-	{
+	public int getInfoCode() {
 		return infoCode;
 	}
 

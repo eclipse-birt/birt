@@ -14,6 +14,5 @@ package org.eclipse.birt.report.model.adapter.oda.impl;
 /**
  * Class to help resolve column name conversion.
  */
-public class ColumnNameHelper extends ColumnNameHelperImpl
-{
+public class ColumnNameHelper extends ColumnNameHelperImpl {
 }

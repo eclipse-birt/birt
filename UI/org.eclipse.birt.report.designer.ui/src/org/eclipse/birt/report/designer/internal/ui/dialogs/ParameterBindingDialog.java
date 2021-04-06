@@ -27,18 +27,16 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Dialog used for parameter binding
  */
-public class ParameterBindingDialog extends BaseDialog
-{
+public class ParameterBindingDialog extends BaseDialog {
 
-	ArrayList items = new ArrayList( );
+	ArrayList items = new ArrayList();
 
 	/**
 	 * @param parentShell
 	 */
-	public ParameterBindingDialog( Shell parentShell, DesignElementHandle model )
-	{
-		super( parentShell, null );
-		items.add( model );
+	public ParameterBindingDialog(Shell parentShell, DesignElementHandle model) {
+		super(parentShell, null);
+		items.add(model);
 	}
 
 	/*
@@ -48,19 +46,17 @@ public class ParameterBindingDialog extends BaseDialog
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		UIUtil.bindHelp( parent, IHelpContextIds.PARAMETERBINDING_DIALOG_ID );
-		Composite composite = (Composite) super.createDialogArea( parent );
-		ParameterBindingPage page = new ParameterBindingPage( composite,
-				SWT.NONE );
-		page.setEnableAutoCommit( false );
-		page.setInput( items );
+	protected Control createDialogArea(Composite parent) {
+		UIUtil.bindHelp(parent, IHelpContextIds.PARAMETERBINDING_DIALOG_ID);
+		Composite composite = (Composite) super.createDialogArea(parent);
+		ParameterBindingPage page = new ParameterBindingPage(composite, SWT.NONE);
+		page.setEnableAutoCommit(false);
+		page.setInput(items);
 
-		GridData data = new GridData( GridData.FILL_BOTH );
+		GridData data = new GridData(GridData.FILL_BOTH);
 		data.heightHint = 300;
-		page.setLayoutData( data );
-		this.setTitle( Messages.getString( "ParameterBindingDialog.title" ) ); //$NON-NLS-1$
+		page.setLayoutData(data);
+		this.setTitle(Messages.getString("ParameterBindingDialog.title")); //$NON-NLS-1$
 		return composite;
 	}
 }

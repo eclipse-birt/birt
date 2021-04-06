@@ -21,8 +21,7 @@ import org.eclipse.core.runtime.IAdapterManager;
  * server environments
  * 
  */
-public interface IPlatform
-{
+public interface IPlatform {
 	static final String EXTENSION_POINT_FACTORY_SERVICE = "FactoryService";
 	// those constant are copied from the org.eclipse.core.runtime.Platform
 	public static final String OS_WIN32 = "win32";//$NON-NLS-1$
@@ -37,16 +36,16 @@ public interface IPlatform
 	/**
 	 * @return the global extension registry
 	 */
-	IExtensionRegistry getExtensionRegistry( );
+	IExtensionRegistry getExtensionRegistry();
 
-	IAdapterManager getAdapterManager( );
+	IAdapterManager getAdapterManager();
 
 	/**
 	 * 
 	 * @param symblicName
 	 * @return
 	 */
-	IBundle getBundle( String symblicName );
+	IBundle getBundle(String symblicName);
 
 	/**
 	 * 
@@ -54,7 +53,7 @@ public interface IPlatform
 	 * @param path
 	 * @return
 	 */
-	URL find( IBundle bundle, IPlatformPath path );
+	URL find(IBundle bundle, IPlatformPath path);
 
 	/**
 	 * 
@@ -62,32 +61,32 @@ public interface IPlatform
 	 * @return
 	 * @throws IOException
 	 */
-	URL asLocalURL( URL url ) throws IOException;
+	URL asLocalURL(URL url) throws IOException;
 
 	/**
 	 * 
 	 * @param name
 	 * @return
 	 */
-	String getDebugOption( String name );
+	String getDebugOption(String name);
 
 	/**
 	 * 
 	 * @param pluginName
 	 */
-	void initializeTracing( String pluginName );
+	void initializeTracing(String pluginName);
 
 	/**
 	 * 
 	 * @param factory
 	 * @return
 	 */
-	Object createFactoryObject( String factory );
+	Object createFactoryObject(String factory);
 
-	Object enterPlatformContext( );
+	Object enterPlatformContext();
 
-	void exitPlatformContext( Object context );
+	void exitPlatformContext(Object context);
 
-	String getOS( );
+	String getOS();
 
 }

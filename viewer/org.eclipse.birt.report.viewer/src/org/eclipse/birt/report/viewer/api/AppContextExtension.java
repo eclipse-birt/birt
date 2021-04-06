@@ -17,16 +17,14 @@ import java.util.Map;
  * This class can be extended to pass user-defined appcontext into report design
  * 
  */
-public class AppContextExtension
-{
+public class AppContextExtension {
 
 	/**
 	 * Returns the name
 	 * 
 	 * @return
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return "ViewerAppContext"; //$NON-NLS-1$
 	}
 
@@ -36,8 +34,7 @@ public class AppContextExtension
 	 * @param appContext
 	 * @return
 	 */
-	public Map getAppContext( Map appContext )
-	{
+	public Map getAppContext(Map appContext) {
 		return appContext;
 	}
 }

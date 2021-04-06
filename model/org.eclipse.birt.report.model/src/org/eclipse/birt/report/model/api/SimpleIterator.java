@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-class SimpleIterator implements Iterator
-{
+class SimpleIterator implements Iterator {
 
 	/**
 	 * Handle to the property or member that contains the list.
@@ -46,18 +45,16 @@ class SimpleIterator implements Iterator
 	protected int index;
 
 	/**
-	 * Constructs a simple iterator for the property or member that has the list
-	 * of items over which to iterate.
+	 * Constructs a simple iterator for the property or member that has the list of
+	 * items over which to iterate.
 	 * 
-	 * @param handle
-	 *            handle to the property or member that has the list of items
-	 *            over which to iterate
+	 * @param handle handle to the property or member that has the list of items
+	 *               over which to iterate
 	 */
 
-	public SimpleIterator( SimpleValueHandle handle )
-	{
+	public SimpleIterator(SimpleValueHandle handle) {
 		valueHandle = handle;
-		list = valueHandle.getListValue( );
+		list = valueHandle.getListValue();
 		index = 0;
 	}
 
@@ -70,25 +67,20 @@ class SimpleIterator implements Iterator
 	 * @see java.util.Iterator#remove()
 	 */
 
-	public void remove( )
-	{
-		if ( !hasNext( ) )
+	public void remove() {
+		if (!hasNext())
 			return;
-		try
-		{
-			valueHandle.removeItem( index );
-		}
-		catch ( PropertyValueException e )
-		{
+		try {
+			valueHandle.removeItem(index);
+		} catch (PropertyValueException e) {
 			// Ignore any errors.
 		}
 	}
 
 	// Implementation of iterator.hasNext( )
 
-	public boolean hasNext( )
-	{
-		return list != null && index < list.size( );
+	public boolean hasNext() {
+		return list != null && index < list.size();
 	}
 
 	/**
@@ -98,19 +90,16 @@ class SimpleIterator implements Iterator
 	 * @return a handle to the next item in the list
 	 */
 	// Implementation of iterator.next( )
-	public Object next( )
-	{
-		if ( !hasNext( ) )
+	public Object next() {
+		if (!hasNext())
 			return null;
 
-		Object value = list.get( index++ );
-		if ( value instanceof ElementRefValue )
-		{
+		Object value = list.get(index++);
+		if (value instanceof ElementRefValue) {
 			ElementRefValue elementRef = (ElementRefValue) value;
-			if ( elementRef.isResolved( ) )
-				return elementRef.getElement( ).getHandle(
-						elementRef.getElement( ).getRoot( ) );
-			return elementRef.getQualifiedReference( );
+			if (elementRef.isResolved())
+				return elementRef.getElement().getHandle(elementRef.getElement().getRoot());
+			return elementRef.getQualifiedReference();
 		}
 		return value;
 	}

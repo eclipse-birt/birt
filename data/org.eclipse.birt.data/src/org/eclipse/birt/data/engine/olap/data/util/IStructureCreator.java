@@ -15,13 +15,12 @@ package org.eclipse.birt.data.engine.olap.data.util;
  * A interface defined a method which is used to create ICachedObject.
  */
 
-public interface IStructureCreator
-{
+public interface IStructureCreator {
 
 	/**
 	 * 
 	 * @param fields
 	 * @return
 	 */
-	public IStructure createInstance( Object[] fields );
+	public IStructure createInstance(Object[] fields);
 }

@@ -25,7 +25,7 @@ public class TopLevelTableRowHandler extends AbstractRealTableRowHandler {
 	public TopLevelTableRowHandler(Logger log, IHandler parent, IRowContent row) {
 		super(log, parent, row, 0);
 	}
-	
+
 	@Override
 	public void startRow(HandlerState state, IRowContent row) throws BirtException {
 		super.startRow(state, row);
@@ -37,7 +37,7 @@ public class TopLevelTableRowHandler extends AbstractRealTableRowHandler {
 		state.setHandler(new TopLevelTableCellHandler(state.getEmitter(), log, this, cell));
 		state.getHandler().startCell(state, cell);
 	}
-	
+
 	@Override
 	protected boolean isNested() {
 		return false;

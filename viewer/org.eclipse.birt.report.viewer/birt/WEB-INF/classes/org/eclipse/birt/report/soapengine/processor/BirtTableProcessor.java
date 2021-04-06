@@ -19,25 +19,22 @@ import org.eclipse.birt.report.service.actionhandler.IActionHandler;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 
-public class BirtTableProcessor extends AbstractBaseTableProcessor
-{	
+public class BirtTableProcessor extends AbstractBaseTableProcessor {
 	/**
 	 * Operator list definition.
 	 */
-	static final protected String[] opList = new String[] {
-	};
+	static final protected String[] opList = new String[] {};
 
 	/**
 	 * Operator mapping.
 	 */
-	static protected Hashtable operatorMap = new Hashtable( );
+	static protected Hashtable operatorMap = new Hashtable();
 
 	/**
 	 * Constructor.
 	 */
-	public BirtTableProcessor( )
-	{
-		super( );
+	public BirtTableProcessor() {
+		super();
 	}
 
 	/**
@@ -45,8 +42,7 @@ public class BirtTableProcessor extends AbstractBaseTableProcessor
 	 * 
 	 * @return Hashtable
 	 */
-	protected Hashtable getOpMap( )
-	{
+	protected Hashtable getOpMap() {
 		return operatorMap;
 	}
 
@@ -55,8 +51,7 @@ public class BirtTableProcessor extends AbstractBaseTableProcessor
 	 * 
 	 * @return String[]
 	 */
-	protected String[] getOperatorList( )
-	{
+	protected String[] getOperatorList() {
 		return opList;
 	}
 
@@ -68,11 +63,9 @@ public class BirtTableProcessor extends AbstractBaseTableProcessor
 	 * @param op
 	 * @param response
 	 */
-	protected void __executeAction( IActionHandler action, IContext context, 
-			Operation op, GetUpdatedObjectsResponse response ) throws RemoteException
-	{
-		if ( action != null && action.canExecute( ) )
-		{
+	protected void __executeAction(IActionHandler action, IContext context, Operation op,
+			GetUpdatedObjectsResponse response) throws RemoteException {
+		if (action != null && action.canExecute()) {
 			action.execute();
 		}
 	}

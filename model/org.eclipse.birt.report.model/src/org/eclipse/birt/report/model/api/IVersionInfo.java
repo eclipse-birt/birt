@@ -16,8 +16,7 @@ package org.eclipse.birt.report.model.api;
  * file may cause some auto-conversion to the original design file.
  */
 
-public interface IVersionInfo
-{
+public interface IVersionInfo {
 
 	/**
 	 * Returns the localized message about version infomation.
@@ -25,7 +24,7 @@ public interface IVersionInfo
 	 * @return the localized message.
 	 */
 
-	public String getLocalizedMessage( );
+	public String getLocalizedMessage();
 
 	/**
 	 * Returns the version.
@@ -33,5 +32,5 @@ public interface IVersionInfo
 	 * @return the the version.
 	 */
 
-	public String getDesignFileVersion( );
+	public String getDesignFileVersion();
 }

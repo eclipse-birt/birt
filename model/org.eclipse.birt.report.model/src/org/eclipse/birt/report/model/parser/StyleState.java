@@ -30,8 +30,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-class StyleState extends ReportElementState
-{
+class StyleState extends ReportElementState {
 
 	/**
 	 * The element being built. Either a shared style or a report item.
@@ -67,27 +66,23 @@ class StyleState extends ReportElementState
 	 * Constructs for creating a named shared style with the design file parser
 	 * handler.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
+	 * @param handler the design file parser handler
 	 */
 
-	StyleState( ModuleParserHandler handler, DesignElement container, int slotId )
-	{
-		super( handler, container, slotId );
+	StyleState(ModuleParserHandler handler, DesignElement container, int slotId) {
+		super(handler, container, slotId);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new Style( );
-		initElement( attrs, true );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new Style();
+		initElement(attrs, true);
 	}
 
 	/*
@@ -99,13 +94,11 @@ class StyleState extends ReportElementState
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
-	public void end( )
-	{
-		makeTestExpressionCompatible( );
+	public void end() {
+		makeTestExpressionCompatible();
 	}
 }

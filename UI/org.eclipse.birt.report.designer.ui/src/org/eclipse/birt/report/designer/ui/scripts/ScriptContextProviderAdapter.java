@@ -14,9 +14,7 @@ package org.eclipse.birt.report.designer.ui.scripts;
 /**
  * ScriptContextProviderAdapter
  */
-abstract public class ScriptContextProviderAdapter implements
-		IScriptContextProvider
-{
+abstract public class ScriptContextProviderAdapter implements IScriptContextProvider {
 
 	/*
 	 * (non-Javadoc)
@@ -24,8 +22,7 @@ abstract public class ScriptContextProviderAdapter implements
 	 * @seeorg.eclipse.birt.report.designer.ui.scripts.IScriptContextProvider#
 	 * getScriptContext(java.lang.String)
 	 */
-	public IScriptContextInfo[] getScriptContext( String contextName )
-	{
+	public IScriptContextInfo[] getScriptContext(String contextName) {
 		return null;
 	}
 
@@ -35,9 +32,7 @@ abstract public class ScriptContextProviderAdapter implements
 	 * @seeorg.eclipse.birt.report.designer.ui.scripts.IScriptContextProvider#
 	 * getScriptContext(java.lang.String, java.lang.String)
 	 */
-	public IScriptContextInfo[] getScriptContext( String contextName,
-			String methodName )
-	{
+	public IScriptContextInfo[] getScriptContext(String contextName, String methodName) {
 		return null;
 	}
 

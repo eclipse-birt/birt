@@ -23,8 +23,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  */
 
-public class BoundDataColumnsUtilTest extends BaseTestCase
-{
+public class BoundDataColumnsUtilTest extends BaseTestCase {
 
 	/**
 	 * Test the specified element factory method for bound data column.
@@ -33,46 +32,39 @@ public class BoundDataColumnsUtilTest extends BaseTestCase
 	 * 
 	 */
 
-	public void testUniqueColumnNameWithList( ) throws Exception
-	{
-		openDesign( "BoundDataColumnsUtilTest_1.xml" ); //$NON-NLS-1$
+	public void testUniqueColumnNameWithList() throws Exception {
+		openDesign("BoundDataColumnsUtilTest_1.xml"); //$NON-NLS-1$
 
 		// Table/List has column binding .
 
-		ListHandle list = (ListHandle) designHandle.findElement( "MyList1" ); //$NON-NLS-1$
-		Iterator boundColumns = list.columnBindingsIterator( );
-		ComputedColumnHandle column = (ComputedColumnHandle) boundColumns
-				.next( );
+		ListHandle list = (ListHandle) designHandle.findElement("MyList1"); //$NON-NLS-1$
+		Iterator boundColumns = list.columnBindingsIterator();
+		ComputedColumnHandle column = (ComputedColumnHandle) boundColumns.next();
 
 		// existed names on group
 
-		try
-		{
-			column.setName( "COLUMN_2" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS,
-					e.getErrorCode( ) );
+		try {
+			column.setName("COLUMN_2"); //$NON-NLS-1$
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS, e.getErrorCode());
 		}
 
 		// existed names on nested table
 
-		column.setName( "COLUMN_4" ); //$NON-NLS-1$
-		designHandle.getCommandStack( ).undo( );
+		column.setName("COLUMN_4"); //$NON-NLS-1$
+		designHandle.getCommandStack().undo();
 
 		// InnerData2 has column binding.
 
-		DataItemHandle data2 = (DataItemHandle) designHandle
-				.findElement( "InnerData2" ); //$NON-NLS-1$
+		DataItemHandle data2 = (DataItemHandle) designHandle.findElement("InnerData2"); //$NON-NLS-1$
 
-		boundColumns = data2.columnBindingsIterator( );
-		column = (ComputedColumnHandle) boundColumns.next( );
+		boundColumns = data2.columnBindingsIterator();
+		column = (ComputedColumnHandle) boundColumns.next();
 
 		// "Column_5" not exist in list and InnerData2
 
-		column.setName( "COLUMN_5" ); //$NON-NLS-1$
+		column.setName("COLUMN_5"); //$NON-NLS-1$
 
 	}
 
@@ -92,57 +84,46 @@ public class BoundDataColumnsUtilTest extends BaseTestCase
 	 * @throws DesignFileException
 	 */
 
-	public void testAddColumnBinding( ) throws SemanticException,
-			DesignFileException
-	{
-		openDesign( "ReportItemHandleTest_1.xml" ); //$NON-NLS-1$
-		TableHandle tableHandle = (TableHandle) designHandle.getElementByID( 7 );
+	public void testAddColumnBinding() throws SemanticException, DesignFileException {
+		openDesign("ReportItemHandleTest_1.xml"); //$NON-NLS-1$
+		TableHandle tableHandle = (TableHandle) designHandle.getElementByID(7);
 
 		// Table/List only need to check its own unique name.
 
-		ComputedColumn column = StructureFactory.createComputedColumn( );
-		column.setName( "CITY" );//$NON-NLS-1$
-		column.setExpression( "row[\"CITY\"]" );//$NON-NLS-1$
-		try
-		{
-			tableHandle.addColumnBinding( column, false );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS,
-					e.getErrorCode( ) );
+		ComputedColumn column = StructureFactory.createComputedColumn();
+		column.setName("CITY");//$NON-NLS-1$
+		column.setExpression("row[\"CITY\"]");//$NON-NLS-1$
+		try {
+			tableHandle.addColumnBinding(column, false);
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS, e.getErrorCode());
 		}
 
-		column = StructureFactory.createComputedColumn( );
-		column.setName( "NEWCITY" );//$NON-NLS-1$
-		column.setExpression( "row[\"NEWCITY\"]" );//$NON-NLS-1$
-		tableHandle.addColumnBinding( column, false );
+		column = StructureFactory.createComputedColumn();
+		column.setName("NEWCITY");//$NON-NLS-1$
+		column.setExpression("row[\"NEWCITY\"]");//$NON-NLS-1$
+		tableHandle.addColumnBinding(column, false);
 
 		// data item has column binding, use its own binding.
 
-		DataItemHandle withBindingItem = (DataItemHandle) designHandle
-				.getElementByID( 24 );
+		DataItemHandle withBindingItem = (DataItemHandle) designHandle.getElementByID(24);
 
-		column = StructureFactory.createComputedColumn( );
-		column.setName( "NewADDRESSLINE1" );//$NON-NLS-1$
-		column.setExpression( "row[\"NewADDRESSLINE1\"]" );//$NON-NLS-1$
+		column = StructureFactory.createComputedColumn();
+		column.setName("NewADDRESSLINE1");//$NON-NLS-1$
+		column.setExpression("row[\"NewADDRESSLINE1\"]");//$NON-NLS-1$
 
-		try
-		{
-			withBindingItem.addColumnBinding( column, false );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS,
-					e.getErrorCode( ) );
+		try {
+			withBindingItem.addColumnBinding(column, false);
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS, e.getErrorCode());
 		}
 
-		column = StructureFactory.createComputedColumn( );
-		column.setName( "CITY" );//$NON-NLS-1$
-		column.setExpression( "row[\"CITY\"]" );//$NON-NLS-1$
-		withBindingItem.addColumnBinding( column, false );
+		column = StructureFactory.createComputedColumn();
+		column.setName("CITY");//$NON-NLS-1$
+		column.setExpression("row[\"CITY\"]");//$NON-NLS-1$
+		withBindingItem.addColumnBinding(column, false);
 
 	}
 
@@ -153,42 +134,35 @@ public class BoundDataColumnsUtilTest extends BaseTestCase
 	 * 
 	 */
 
-	public void testUniqueColumnNameWithTable( ) throws Exception
-	{
-		openDesign( "BoundDataColumnsUtilTest.xml" ); //$NON-NLS-1$
+	public void testUniqueColumnNameWithTable() throws Exception {
+		openDesign("BoundDataColumnsUtilTest.xml"); //$NON-NLS-1$
 
-		TableHandle table = (TableHandle) designHandle.findElement( "MyTable1" ); //$NON-NLS-1$
-		Iterator boundColumns = table.columnBindingsIterator( );
-		ComputedColumnHandle column = (ComputedColumnHandle) boundColumns
-				.next( );
+		TableHandle table = (TableHandle) designHandle.findElement("MyTable1"); //$NON-NLS-1$
+		Iterator boundColumns = table.columnBindingsIterator();
+		ComputedColumnHandle column = (ComputedColumnHandle) boundColumns.next();
 
 		// existed names on group
 
-		try
-		{
-			column.setName( "COLUMN_2" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS,
-					e.getErrorCode( ) );
+		try {
+			column.setName("COLUMN_2"); //$NON-NLS-1$
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_EXISTS, e.getErrorCode());
 		}
 
 		// existed names on nested table
 
-		column.setName( "COLUMN_4" ); //$NON-NLS-1$
+		column.setName("COLUMN_4"); //$NON-NLS-1$
 
-		designHandle.getCommandStack( ).undo( );
+		designHandle.getCommandStack().undo();
 
 		// InnerData3 has own column binding.
 
-		DataItemHandle data3 = (DataItemHandle) designHandle
-				.findElement( "InnerData3" ); //$NON-NLS-1$
+		DataItemHandle data3 = (DataItemHandle) designHandle.findElement("InnerData3"); //$NON-NLS-1$
 
-		boundColumns = data3.columnBindingsIterator( );
-		column = (ComputedColumnHandle) boundColumns.next( );
-		column.setName( "COLUMN_1" ); //$NON-NLS-1$
+		boundColumns = data3.columnBindingsIterator();
+		column = (ComputedColumnHandle) boundColumns.next();
+		column.setName("COLUMN_1"); //$NON-NLS-1$
 
 	}
 
@@ -203,37 +177,33 @@ public class BoundDataColumnsUtilTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testRemoveUnusedColumns( ) throws Exception
-	{
-		openDesign( "BoundDataColumnsUtilTest_2.xml" ); //$NON-NLS-1$
+	public void testRemoveUnusedColumns() throws Exception {
+		openDesign("BoundDataColumnsUtilTest_2.xml"); //$NON-NLS-1$
 
-		ListHandle myList = (ListHandle) designHandle.findElement( "MyList1" ); //$NON-NLS-1$
-		myList.removedUnusedColumnBindings( );
+		ListHandle myList = (ListHandle) designHandle.findElement("MyList1"); //$NON-NLS-1$
+		myList.removedUnusedColumnBindings();
 
-		DataItemHandle data = (DataItemHandle) designHandle
-				.findElement( "InnerData3" ); //$NON-NLS-1$
-		data.removedUnusedColumnBindings( );
+		DataItemHandle data = (DataItemHandle) designHandle.findElement("InnerData3"); //$NON-NLS-1$
+		data.removedUnusedColumnBindings();
 
-		myList = (ListHandle) designHandle.findElement( "MyList2" ); //$NON-NLS-1$
-		myList.removedUnusedColumnBindings( );
+		myList = (ListHandle) designHandle.findElement("MyList2"); //$NON-NLS-1$
+		myList.removedUnusedColumnBindings();
 
-		TableHandle myTable = (TableHandle) designHandle
-				.findElement( "MyTable1" ); //$NON-NLS-1$
-		myTable.removedUnusedColumnBindings( );
+		TableHandle myTable = (TableHandle) designHandle.findElement("MyTable1"); //$NON-NLS-1$
+		myTable.removedUnusedColumnBindings();
 
-		ScalarParameterHandle param1 = (ScalarParameterHandle) designHandle
-				.findParameter( "MyParam1" ); //$NON-NLS-1$
-		param1.removedUnusedColumnBindings( );
+		ScalarParameterHandle param1 = (ScalarParameterHandle) designHandle.findParameter("MyParam1"); //$NON-NLS-1$
+		param1.removedUnusedColumnBindings();
 
 		// column binding refers to another column binding.
 
-		myTable = (TableHandle) designHandle.findElement( "MyTable2" ); //$NON-NLS-1$
-		myTable.removedUnusedColumnBindings( );
+		myTable = (TableHandle) designHandle.findElement("MyTable2"); //$NON-NLS-1$
+		myTable.removedUnusedColumnBindings();
 
-		myTable = (TableHandle) designHandle.findElement( "MyTable3" ); //$NON-NLS-1$
-		myTable.removedUnusedColumnBindings( );
+		myTable = (TableHandle) designHandle.findElement("MyTable3"); //$NON-NLS-1$
+		myTable.removedUnusedColumnBindings();
 
-		save( );
-		assertTrue( compareFile( "BoundDataColumnsUtilTest_golden_2.xml" ) ); //$NON-NLS-1$
+		save();
+		assertTrue(compareFile("BoundDataColumnsUtilTest_golden_2.xml")); //$NON-NLS-1$
 	}
 }

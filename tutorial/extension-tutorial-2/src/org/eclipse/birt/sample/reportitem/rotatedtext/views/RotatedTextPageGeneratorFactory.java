@@ -17,19 +17,14 @@ import org.eclipse.core.runtime.IAdapterFactory;
 /**
  * RotatedTextPageGeneratorFactory
  */
-public class RotatedTextPageGeneratorFactory implements IAdapterFactory
-{
+public class RotatedTextPageGeneratorFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		return new RotatedTextPageGenerator( );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		return new RotatedTextPageGenerator();
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IPageGenerator.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IPageGenerator.class };
 	}
 
 }

@@ -16,8 +16,7 @@ import java.util.ArrayList;
 /**
  * base interface for a BIRT report parameter
  */
-public interface IParameterDefn extends IParameterDefnBase
-{
+public interface IParameterDefn extends IParameterDefnBase {
 
 	public static final int TYPE_ANY = 0;
 	public static final int TYPE_STRING = 1;
@@ -38,18 +37,18 @@ public interface IParameterDefn extends IParameterDefnBase
 	 * 
 	 * @return whether the parameter is a hidden parameter
 	 */
-	public boolean isHidden( );
+	public boolean isHidden();
 
 	/**
 	 * @return whether the parameter is required.<br>
-	 *         the rule for String type is: <li>isRequired=true, allowNull and
-	 *         allowBlank are false</li> <li>isRequired=false, allowNull and
-	 *         allowBlank are true</li> <br>
-	 *         for other type like integer: <li>isRequired=true, allowNull and
-	 *         allowBlank are false</li> <li>isRequired=false, allowNull and
-	 *         allowBlank are true</li>
+	 *         the rule for String type is:
+	 *         <li>isRequired=true, allowNull and allowBlank are false</li>
+	 *         <li>isRequired=false, allowNull and allowBlank are true</li> <br>
+	 *         for other type like integer:
+	 *         <li>isRequired=true, allowNull and allowBlank are false</li>
+	 *         <li>isRequired=false, allowNull and allowBlank are true</li>
 	 */
-	boolean isRequired( );
+	boolean isRequired();
 
 	/**
 	 * returns the parameter data type. The valid data type could be
@@ -60,23 +59,22 @@ public interface IParameterDefn extends IParameterDefnBase
 	 * <code>IParameterDefn.TYPE_DATE_TIME</code>,
 	 * <code>IParameterDefn.TYPE_BOOLEAN</code>,
 	 * <code>IParameterDefn.TYPE_INTEGER</code>,
-	 * <code>IParameterDefn.TYPE_DATE</code>,
-	 * <code>IParameterDefn.TYPE_TIME</code>.
+	 * <code>IParameterDefn.TYPE_DATE</code>, <code>IParameterDefn.TYPE_TIME</code>.
 	 * 
 	 * @return the parameter data type
 	 */
 
-	int getDataType( );
+	int getDataType();
 
 	/**
 	 * @return get a parameter value selection object, from which a list of
 	 *         parameter values and label values can be retrieved.
 	 * @deprecated
 	 */
-	public ArrayList getSelectionList( );
+	public ArrayList getSelectionList();
 
 	/**
 	 * @return the type of the parameter selection list
 	 */
-	public int getSelectionListType( );
+	public int getSelectionListType();
 }

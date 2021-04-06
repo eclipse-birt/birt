@@ -17,90 +17,90 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
  * Provides the interfaces for Cell Content
  * 
  */
-public interface ICellContent extends IContainerContent
-{
+public interface ICellContent extends IContainerContent {
 
 	/**
 	 * 
 	 * @return the column span
 	 */
-	public int getColSpan( );
+	public int getColSpan();
 
 	/**
 	 * @return Returns the rowSpan.
 	 */
-	public int getRowSpan( );
+	public int getRowSpan();
 
 	/**
 	 * 
 	 * @return the column number
 	 */
-	public int getColumn( );
+	public int getColumn();
 
 	/**
 	 * @return the column content.
 	 */
-	public IColumn getColumnInstance( );
+	public IColumn getColumnInstance();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getRow( );
+	public int getRow();
 
-	public void setColumn( int column );
+	public void setColumn(int column);
 
-	public void setRowSpan( int rowSpan );
+	public void setRowSpan(int rowSpan);
 
-	public void setColSpan( int colSpan );
+	public void setColSpan(int colSpan);
 
-	public void setDisplayGroupIcon( boolean displayGroupIcon );
-	
-	public boolean getDisplayGroupIcon( );
-	
-	public boolean hasDiagonalLine( );
+	public void setDisplayGroupIcon(boolean displayGroupIcon);
 
-	public int getDiagonalNumber( );
+	public boolean getDisplayGroupIcon();
 
-	public void setDiagonalNumber( int diagonalNumber );
+	public boolean hasDiagonalLine();
 
-	public String getDiagonalStyle( );
+	public int getDiagonalNumber();
 
-	public void setDiagonalStyle( String diagonalStyle );
+	public void setDiagonalNumber(int diagonalNumber);
 
-	public DimensionType getDiagonalWidth( );
+	public String getDiagonalStyle();
 
-	public void setDiagonalWidth( DimensionType diagonalWidth );
+	public void setDiagonalStyle(String diagonalStyle);
 
-	public String getDiagonalColor( );
+	public DimensionType getDiagonalWidth();
 
-	public void setDiagonalColor( String diagonalColor );
+	public void setDiagonalWidth(DimensionType diagonalWidth);
 
-	public int getAntidiagonalNumber( );
+	public String getDiagonalColor();
 
-	public void setAntidiagonalNumber( int antidiagonalNumber );
+	public void setDiagonalColor(String diagonalColor);
 
-	public String getAntidiagonalStyle( );
+	public int getAntidiagonalNumber();
 
-	public void setAntidiagonalStyle( String antidiagonalStyle );
+	public void setAntidiagonalNumber(int antidiagonalNumber);
 
-	public DimensionType getAntidiagonalWidth( );
+	public String getAntidiagonalStyle();
 
-	public void setAntidiagonalWidth( DimensionType antidiagonalWidth );
+	public void setAntidiagonalStyle(String antidiagonalStyle);
 
-	public String getAntidiagonalColor( );
+	public DimensionType getAntidiagonalWidth();
 
-	public void setAntidiagonalColor( String antidiagonalColor );
+	public void setAntidiagonalWidth(DimensionType antidiagonalWidth);
 
-	public String getHeaders( );
+	public String getAntidiagonalColor();
 
-	public void setHeaders( String headers );
+	public void setAntidiagonalColor(String antidiagonalColor);
 
-	public String getScope( );
+	public String getHeaders();
 
-	public void setScope( String scope );
-	
+	public void setHeaders(String headers);
+
+	public String getScope();
+
+	public void setScope(String scope);
+
 	public boolean repeatContent();
-	
+
 	public void setRepeatContent(boolean repeatContent);
 
 }

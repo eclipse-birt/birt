@@ -19,23 +19,17 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 /**
  * RotatedTextLabelUI
  */
-public class RotatedTextLabelUI implements IReportItemLabelProvider
-{
+public class RotatedTextLabelUI implements IReportItemLabelProvider {
 
-	public String getLabel( ExtendedItemHandle handle )
-	{
-		try
-		{
-			IReportItem item = handle.getReportItem( );
+	public String getLabel(ExtendedItemHandle handle) {
+		try {
+			IReportItem item = handle.getReportItem();
 
-			if ( item instanceof RotatedTextItem )
-			{
-				return ( (RotatedTextItem) item ).getText( );
+			if (item instanceof RotatedTextItem) {
+				return ((RotatedTextItem) item).getText();
 			}
-		}
-		catch ( ExtendedElementException e )
-		{
-			e.printStackTrace( );
+		} catch (ExtendedElementException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

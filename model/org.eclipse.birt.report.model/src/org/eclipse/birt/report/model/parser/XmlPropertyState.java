@@ -17,51 +17,47 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.util.XMLParserException;
 import org.xml.sax.Attributes;
 
-
 /**
- * Parses the "xml-property" tag. We use the "xml-property" tag if the
- * element property or structure member contains XML, which is defined as
- * xml type.
+ * Parses the "xml-property" tag. We use the "xml-property" tag if the element
+ * property or structure member contains XML, which is defined as xml type.
  */
 
-class XmlPropertyState extends PropertyState
-{
+class XmlPropertyState extends PropertyState {
 
-	
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.PropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element, )
+	 * @see
+	 * org.eclipse.birt.report.model.parser.PropertyState#AbstractPropertyState(
+	 * DesignParserHandler theHandler, DesignElement element, )
 	 */
 
-	XmlPropertyState( ModuleParserHandler theHandler, DesignElement element )
-	{
-		super( theHandler, element );
+	XmlPropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.parser.PropertyState#AbstractPropertyState(DesignParserHandler
-	 *      theHandler, DesignElement element, String propName, IStructure
-	 *      struct)
+	 * @see
+	 * org.eclipse.birt.report.model.parser.PropertyState#AbstractPropertyState(
+	 * DesignParserHandler theHandler, DesignElement element, String propName,
+	 * IStructure struct)
 	 */
 
-	XmlPropertyState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element, propDefn, struct );
+	XmlPropertyState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn, IStructure struct) {
+		super(theHandler, element, propDefn, struct);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		super.parseAttrs( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		super.parseAttrs(attrs);
 	}
 }

@@ -18,8 +18,7 @@ import java.util.List;
  * 
  */
 
-public interface IParamGroup
-{
+public interface IParamGroup {
 
 	/**
 	 * Gets fist level children of parameter .
@@ -27,13 +26,14 @@ public interface IParamGroup
 	 * @return children of parameter.
 	 */
 
-	public List getChildren( );
-	
+	public List getChildren();
+
 	/**
 	 * Adds Parameter
+	 * 
 	 * @param parameter
 	 */
-	
-	public void addParameter( IParameter parameter );
+
+	public void addParameter(IParameter parameter);
 
 }

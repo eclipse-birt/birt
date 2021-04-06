@@ -30,50 +30,50 @@ import org.eclipse.gef.EditPolicy;
  * outline is not a visual element.
  * 
  */
-public class EmptyEditPart extends ReportElementEditPart
-{
+public class EmptyEditPart extends ReportElementEditPart {
 
-	public final static String EMPTY_LIB = Messages.getString( "EmptyEditPart.Msg.EmptyLib" ); //$NON-NLS-1$
-	public final static String NON_VISUAL_SELECTED = Messages.getString( "EmptyEditPart.Msg.NonVisual" ); //$NON-NLS-1$
+	public final static String EMPTY_LIB = Messages.getString("EmptyEditPart.Msg.EmptyLib"); //$NON-NLS-1$
+	public final static String NON_VISUAL_SELECTED = Messages.getString("EmptyEditPart.Msg.NonVisual"); //$NON-NLS-1$
 
 	/**
 	 * @param model
 	 */
-	public EmptyEditPart( Object model )
-	{
-		super( model );
+	public EmptyEditPart(Object model) {
+		super(model);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#elementChanged(org.eclipse.birt.report.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#elementChanged(org.eclipse.birt.report.model.api.
+	 * DesignElementHandle,
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
-	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
-	{
+	public void elementChanged(DesignElementHandle arg0, NotificationEvent arg1) {
 		// do nothing
 	}
 
 	/*
 	 * Doesn't install any police (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#createEditPolicies()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
+	protected void createEditPolicies() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		getFigure( ).setSize( getFigure( ).getParent( )
-				.getClientArea( )
-				.getSize( ) );
+	public void refreshFigure() {
+		getFigure().setSize(getFigure().getParent().getClientArea().getSize());
 		// if(getModel() instanceof LibRootModel)
 		// {
 		// if(((LibRootModel)getModel()).isEmpty())
@@ -96,42 +96,33 @@ public class EmptyEditPart extends ReportElementEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		return new EmptyFigure( );
+	protected IFigure createFigure() {
+		return new EmptyFigure();
 	}
 
 	/*
 	 * Doesn't install any police include install by parent (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.EditPart#installEditPolicy(java.lang.Object,
-	 *      org.eclipse.gef.EditPolicy)
+	 * org.eclipse.gef.EditPolicy)
 	 */
-	public void installEditPolicy( Object role, EditPolicy editPolicy )
-	{
+	public void installEditPolicy(Object role, EditPolicy editPolicy) {
 		// do nother
 	}
 
-	public DesignElementHandleAdapter creatDesignElementHandleAdapter( )
-	{
-		return HandleAdapterFactory.getInstance( )
-				.getDesignElementHandleAdapter( getModel( ), this );
+	public DesignElementHandleAdapter creatDesignElementHandleAdapter() {
+		return HandleAdapterFactory.getInstance().getDesignElementHandleAdapter(getModel(), this);
 	}
 
-	public Object getAdapter( Class key )
-	{
-		if ( key == ISelectionFilter.class )
-		{
-			return new ISelectionFilter( ) {
+	public Object getAdapter(Class key) {
+		if (key == ISelectionFilter.class) {
+			return new ISelectionFilter() {
 
-				public List filterEditpart( List editparts )
-				{
-					List retValue = new ArrayList( editparts );
-					for ( int i = 0; i < editparts.size( ); i++ )
-					{
-						if ( editparts.get( i ) instanceof EmptyEditPart )
-						{
-							retValue.remove( editparts.get( i ) );
+				public List filterEditpart(List editparts) {
+					List retValue = new ArrayList(editparts);
+					for (int i = 0; i < editparts.size(); i++) {
+						if (editparts.get(i) instanceof EmptyEditPart) {
+							retValue.remove(editparts.get(i));
 						}
 					}
 
@@ -140,6 +131,6 @@ public class EmptyEditPart extends ReportElementEditPart
 
 			};
 		}
-		return super.getAdapter( key );
+		return super.getAdapter(key);
 	}
 }

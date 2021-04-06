@@ -21,8 +21,7 @@ import org.xml.sax.Attributes;
  * This class parses a cube element within a report design.
  */
 
-public class OdaCubeState extends ReportElementState
-{
+public class OdaCubeState extends ReportElementState {
 
 	/**
 	 * The cube being created.
@@ -34,18 +33,13 @@ public class OdaCubeState extends ReportElementState
 	 * Constructs the cube state with the design parser handler, the container
 	 * element and the container slot of the cube.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public OdaCubeState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public OdaCubeState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/*
@@ -54,20 +48,20 @@ public class OdaCubeState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new OdaCube( );
-		initElement( attrs, true );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new OdaCube();
+		initElement(attrs, true);
 	}
 }

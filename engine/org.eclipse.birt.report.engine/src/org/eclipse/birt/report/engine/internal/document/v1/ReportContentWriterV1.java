@@ -22,11 +22,9 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.core.util.IOUtil;
 import org.eclipse.birt.report.engine.content.IContent;
 
-class ReportContentWriterV1
-{
+class ReportContentWriterV1 {
 
-	protected static Logger logger = Logger
-			.getLogger( ReportContentWriterV1.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(ReportContentWriterV1.class.getName());
 
 	protected RAOutputStream raStream;
 	protected DataOutputStream stream;
@@ -34,7 +32,7 @@ class ReportContentWriterV1
 	/**
 	 * stack store the parent's offset
 	 */
-	protected Stack contents = new Stack( );
+	protected Stack contents = new Stack();
 
 	/**
 	 * parent offset, the top of the contents stack
@@ -45,40 +43,33 @@ class ReportContentWriterV1
 	 */
 	protected long offset;
 
-	public ReportContentWriterV1( RAOutputStream aStream )
-	{
+	public ReportContentWriterV1(RAOutputStream aStream) {
 		raStream = aStream;
-		stream = new DataOutputStream( raStream );
+		stream = new DataOutputStream(raStream);
 		offset = 0;
 		parentOffset = -1;
-		contents.clear( );
+		contents.clear();
 	}
 
-	public void close( )
-	{
-		if ( stream != null )
-		{
-			try
-			{
-				stream.close( );
-			}
-			catch ( Exception ex )
-			{
-				logger.log( Level.SEVERE, "Failed in close the writer", ex );
+	public void close() {
+		if (stream != null) {
+			try {
+				stream.close();
+			} catch (Exception ex) {
+				logger.log(Level.SEVERE, "Failed in close the writer", ex);
 			}
 			stream = null;
 		}
 	}
 
-	private ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
+	private ByteArrayOutputStream buffer = new ByteArrayOutputStream();
 
 	/**
 	 * get the current offset.
 	 * 
 	 * @return
 	 */
-	public long getOffset( )
-	{
+	public long getOffset() {
 		return offset;
 	}
 
@@ -87,8 +78,7 @@ class ReportContentWriterV1
 	 * 
 	 * @return
 	 */
-	public long getParentOffset( )
-	{
+	public long getParentOffset() {
 		return parentOffset;
 	}
 
@@ -96,19 +86,14 @@ class ReportContentWriterV1
 	 * @throws IOException
 	 * 
 	 */
-	protected void writeContent( DataOutputStream oo, Object object )
-			throws IOException
-	{
-		if ( object instanceof IContent )
-		{
+	protected void writeContent(DataOutputStream oo, Object object) throws IOException {
+		if (object instanceof IContent) {
 			IContent content = (IContent) object;
-			IOUtil.writeInt( oo, content.getContentType( ) );
-			content.writeContent( oo );
-		}
-		else
-		{
-			IOUtil.writeInt( oo, IContent.SERIALIZE_CONTENT );
-			IOUtil.writeObject( oo, object );
+			IOUtil.writeInt(oo, content.getContentType());
+			content.writeContent(oo);
+		} else {
+			IOUtil.writeInt(oo, IContent.SERIALIZE_CONTENT);
+			IOUtil.writeObject(oo, object);
 		}
 	}
 
@@ -118,37 +103,30 @@ class ReportContentWriterV1
 	 * @return the content object's offset.
 	 * @throws IOException
 	 */
-	public long openObject( Object content )
-	{
-		buffer.reset( );
-		try
-		{
+	public long openObject(Object content) {
+		buffer.reset();
+		try {
 			long ptr = offset;
-			try
-			{
+			try {
 				// save the content into core stream
-				DataOutputStream oo = new DataOutputStream( buffer );
-				writeContent( oo, content );
-				oo.flush( );
-				oo.close( );
+				DataOutputStream oo = new DataOutputStream(buffer);
+				writeContent(oo, content);
+				oo.flush();
+				oo.close();
+			} catch (IOException ex) {
+				logger.log(Level.SEVERE, "Failed in write the content", ex);
 			}
-			catch ( IOException ex )
-			{
-				logger.log( Level.SEVERE, "Failed in write the content", ex );
-			}
-			byte[] values = buffer.toByteArray( );
-			stream.writeInt( values.length );
-			stream.write( values );
+			byte[] values = buffer.toByteArray();
+			stream.writeInt(values.length);
+			stream.write(values);
 			// push the offset into the stack, and set the parentOffset to
 			parentOffset = offset;
 			offset = offset + 4 + values.length;
 			// current offset
-			contents.push( new Long( parentOffset ) );
+			contents.push(new Long(parentOffset));
 			return ptr;
-		}
-		catch ( Exception ex )
-		{
-			logger.log( Level.SEVERE, "Failed in write the content", ex );
+		} catch (Exception ex) {
+			logger.log(Level.SEVERE, "Failed in write the content", ex);
 		}
 		return -1;
 	}
@@ -159,18 +137,14 @@ class ReportContentWriterV1
 	 * @param content
 	 * @return
 	 */
-	public long closeObject( Object content )
-	{
+	public long closeObject(Object content) {
 		long ptr = parentOffset;
 		// the content is ended, popup the offset.
-		contents.pop( );
-		if ( contents.isEmpty( ) )
-		{
+		contents.pop();
+		if (contents.isEmpty()) {
 			parentOffset = -1;
-		}
-		else
-		{
-			parentOffset = ( (Long) contents.peek( ) ).longValue( );
+		} else {
+			parentOffset = ((Long) contents.peek()).longValue();
 		}
 		return ptr;
 	}

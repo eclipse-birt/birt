@@ -23,62 +23,52 @@ import com.ibm.icu.util.ULocale;
 /**
  * 
  */
-public class SortElementHandle extends ContentElementHandle
-		implements
-			ISortElementModel
-{
+public class SortElementHandle extends ContentElementHandle implements ISortElementModel {
 
 	/**
 	 * Constructs a sort handle with the given design and the element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public SortElementHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public SortElementHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
-	 * Returns an expression that gives the sort key on which to sort. The
-	 * simplest case is the name of a column. The expression can also be an
-	 * expression that includes columns. When used for a group, the expression
-	 * can contain an aggregate computed over the group.
+	 * Returns an expression that gives the sort key on which to sort. The simplest
+	 * case is the name of a column. The expression can also be an expression that
+	 * includes columns. When used for a group, the expression can contain an
+	 * aggregate computed over the group.
 	 * 
 	 * @return the key to sort
 	 * 
 	 * @see #setKey(String)
 	 */
 
-	public String getKey( )
-	{
-		return getStringProperty( KEY_PROP );
+	public String getKey() {
+		return getStringProperty(KEY_PROP);
 	}
 
 	/**
 	 * Sets an expression that gives the sort key on which to sort.
 	 * 
-	 * @param key
-	 *            the key to sort
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param key the key to sort
+	 * @throws SemanticException value required exception
 	 * @see #getKey()
 	 */
 
-	public void setKey( String key ) throws SemanticException
-	{
-		setStringProperty( KEY_PROP, key );
+	public void setKey(String key) throws SemanticException {
+		setStringProperty(KEY_PROP, key);
 	}
 
 	/**
 	 * Returns the sort direction. The possible values are define in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
@@ -87,29 +77,25 @@ public class SortElementHandle extends ContentElementHandle
 	 * @return the direction to sort
 	 */
 
-	public String getDirection( )
-	{
-		return getStringProperty( DIRECTION_PROP );
+	public String getDirection() {
+		return getStringProperty(DIRECTION_PROP);
 	}
 
 	/**
 	 * Sets the sort direction. The allowed values are define in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>SORT_DIRECTION_ASC
 	 * <li>SORT_DIRECTION_DESC
 	 * </ul>
 	 * 
-	 * @param direction
-	 *            the direction to set
-	 * @throws SemanticException
-	 *             if the direction is not in choice list.
+	 * @param direction the direction to set
+	 * @throws SemanticException if the direction is not in choice list.
 	 */
 
-	public void setDirection( String direction ) throws SemanticException
-	{
-		setStringProperty( DIRECTION_PROP, direction );
+	public void setDirection(String direction) throws SemanticException {
+		setStringProperty(DIRECTION_PROP, direction);
 	}
 
 	/**
@@ -118,11 +104,10 @@ public class SortElementHandle extends ContentElementHandle
 	 * 
 	 * @return the member value handle.
 	 */
-	public MemberValueHandle getMember( )
-	{
-		List contents = getContents( MEMBER_PROP );
-		if ( contents != null && contents.size( ) > 0 )
-			return (MemberValueHandle) contents.get( 0 );
+	public MemberValueHandle getMember() {
+		List contents = getContents(MEMBER_PROP);
+		if (contents != null && contents.size() > 0)
+			return (MemberValueHandle) contents.get(0);
 		return null;
 	}
 
@@ -134,24 +119,21 @@ public class SortElementHandle extends ContentElementHandle
 	 * @see #setStrength(int)
 	 */
 
-	public int getStrength( )
-	{
-		return getIntProperty( STRENGTH_PROP );
+	public int getStrength() {
+		return getIntProperty(STRENGTH_PROP);
 	}
 
 	/**
 	 * Sets the strength for this sort.
 	 * 
-	 * @param strength
-	 *            the strength to sort
+	 * @param strength the strength to sort
 	 * @throws SemanticException
 	 * 
 	 * @see #getStrength()
 	 */
 
-	public void setStrength( int strength ) throws SemanticException
-	{
-		setIntProperty( STRENGTH_PROP, strength );
+	public void setStrength(int strength) throws SemanticException {
+		setIntProperty(STRENGTH_PROP, strength);
 	}
 
 	/**
@@ -162,23 +144,20 @@ public class SortElementHandle extends ContentElementHandle
 	 * @see #setLocale(ULocale)
 	 */
 
-	public ULocale getLocale( )
-	{
-		return (ULocale) getProperty( LOCALE_PROP );
+	public ULocale getLocale() {
+		return (ULocale) getProperty(LOCALE_PROP);
 	}
 
 	/**
 	 * Sets the locale for this sort.
 	 * 
-	 * @param locale
-	 *            the locale to sort
+	 * @param locale the locale to sort
 	 * @throws SemanticException
 	 * 
 	 * @see #getLocale()
 	 */
 
-	public void setLocale( ULocale locale ) throws SemanticException
-	{
-		setProperty( LOCALE_PROP, locale );
+	public void setLocale(ULocale locale) throws SemanticException {
+		setProperty(LOCALE_PROP, locale);
 	}
 }

@@ -13,27 +13,20 @@ package org.eclipse.birt.report.designer.data.ui.aggregation;
 
 import org.eclipse.birt.report.model.api.metadata.IArgumentInfo;
 
-
 /**
  * Represents an optional argument list of a method.
  * 
  */
 
-public class ArgumentInfoList
-		extends
-			org.eclipse.birt.report.model.api.metadata.ArgumentInfoList
-{
+public class ArgumentInfoList extends org.eclipse.birt.report.model.api.metadata.ArgumentInfoList {
 
 	/**
-	 * Adds argument to this method definition. Hold argumentNameConflict
-	 * exception
+	 * Adds argument to this method definition. Hold argumentNameConflict exception
 	 * 
-	 * @param argument
-	 *            the argument definition to add
+	 * @param argument the argument definition to add
 	 */
 
-	protected void addArgument( IArgumentInfo argument )
-	{
-		super.addArgument( argument );
+	protected void addArgument(IArgumentInfo argument) {
+		super.addArgument(argument);
 	}
 }

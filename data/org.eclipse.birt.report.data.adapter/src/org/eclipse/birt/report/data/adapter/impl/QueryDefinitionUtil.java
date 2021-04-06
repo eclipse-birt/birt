@@ -22,49 +22,41 @@ import org.eclipse.birt.data.engine.impl.QueryCompUtil;
 import org.eclipse.birt.data.engine.impl.SubqueryDefinitionCopyUtil;
 import org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil;
 
-
 /**
  * 
  */
 
-public class QueryDefinitionUtil implements IQueryDefinitionUtil
-{
+public class QueryDefinitionUtil implements IQueryDefinitionUtil {
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil#createSubqueryDefinition(java.lang.String, org.eclipse.birt.data.engine.api.ISubqueryDefinition)
+	 * 
+	 * @see org.eclipse.birt.report.data.adapter.api.IQueryDefinitionUtil#
+	 * createSubqueryDefinition(java.lang.String,
+	 * org.eclipse.birt.data.engine.api.ISubqueryDefinition)
 	 */
-	public SubqueryDefinition createSubqueryDefinition( String name,
-			ISubqueryDefinition srcSubQueryDefn ) throws DataException
-	{
-		return SubqueryDefinitionCopyUtil.createSubqueryDefinition( name, srcSubQueryDefn );
+	public SubqueryDefinition createSubqueryDefinition(String name, ISubqueryDefinition srcSubQueryDefn)
+			throws DataException {
+		return SubqueryDefinitionCopyUtil.createSubqueryDefinition(name, srcSubQueryDefn);
 	}
 
-	public Map<String, IBinding> getAccessibleBindings( IBaseQueryDefinition qd )
-			throws DataException
-	{
-		return org.eclipse.birt.data.engine.impl.QueryDefinitionUtil.getAccessibleBindings( qd );
+	public Map<String, IBinding> getAccessibleBindings(IBaseQueryDefinition qd) throws DataException {
+		return org.eclipse.birt.data.engine.impl.QueryDefinitionUtil.getAccessibleBindings(qd);
 	}
 
-	public boolean isEqualQuery( IBaseQueryDefinition q1,
-			IBaseQueryDefinition q2 ) throws DataException
-	{
-		if ( q1 == q2 )
-		{
+	public boolean isEqualQuery(IBaseQueryDefinition q1, IBaseQueryDefinition q2) throws DataException {
+		if (q1 == q2) {
 			return true;
 		}
-		if ( q1 == null && q2 != null )
-		{
+		if (q1 == null && q2 != null) {
 			return false;
 		}
-		if ( q1 != null && q2 == null )
-		{
+		if (q1 != null && q2 == null) {
 			return false;
 		}
-		if ( !q1.getClass( ).equals( q2.getClass( ) ))
-		{
+		if (!q1.getClass().equals(q2.getClass())) {
 			return false;
 		}
-		return QueryCompUtil.isQueryDefnEqual( -1, q1, q2, false, false );
+		return QueryCompUtil.isQueryDefnEqual(-1, q1, q2, false, false);
 	}
 
 }

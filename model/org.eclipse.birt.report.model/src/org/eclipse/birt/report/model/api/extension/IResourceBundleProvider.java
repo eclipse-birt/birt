@@ -21,29 +21,25 @@ import com.ibm.icu.util.UResourceBundle;
  * Provides the resource bundle with the given locale.
  */
 
-public interface IResourceBundleProvider
-{
+public interface IResourceBundleProvider {
 
 	/**
 	 * Returns the resource bundle with the locale.
 	 * 
-	 * @param locale
-	 *            the given locale
+	 * @param locale the given locale
 	 * @return the resource bundle
-	 * @deprecated to support ICU4J, replaced by :
-	 *             getResourceBundle(ULocale locale)
+	 * @deprecated to support ICU4J, replaced by : getResourceBundle(ULocale locale)
 	 */
 
-	public ResourceBundle getResourceBundle( Locale locale );
-	
+	public ResourceBundle getResourceBundle(Locale locale);
+
 	/**
 	 * Returns the resource bundle with the locale.
 	 * 
-	 * @param locale
-	 *            the given locale
+	 * @param locale the given locale
 	 * @return the resource bundle
 	 */
 
-	public UResourceBundle getResourceBundle( ULocale locale );
+	public UResourceBundle getResourceBundle(ULocale locale);
 
 }

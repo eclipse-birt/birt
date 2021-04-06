@@ -20,24 +20,19 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class CompatibleMustMatchState extends CompatiblePropertyState
-{
+public class CompatibleMustMatchState extends CompatiblePropertyState {
 
 	/**
 	 * Constructs a <code>CompatibleMustMatchState</code> to parse an
 	 * pagebreakinterval property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
+	 * @param theHandler the parser handle
+	 * @param element    the element that holds the obsolete property
 	 * 
 	 */
 
-	public CompatibleMustMatchState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleMustMatchState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
@@ -46,14 +41,13 @@ public class CompatibleMustMatchState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
-		if ( BooleanPropertyType.TRUE.equalsIgnoreCase( value.trim( ) ) )
+	public void end() throws SAXException {
+		String value = text.toString();
+		if (BooleanPropertyType.TRUE.equalsIgnoreCase(value.trim()))
 			value = BooleanPropertyType.FALSE;
-		else if ( BooleanPropertyType.FALSE.equalsIgnoreCase( value.trim( ) ) )
+		else if (BooleanPropertyType.FALSE.equalsIgnoreCase(value.trim()))
 			value = BooleanPropertyType.TRUE;
 
-		doEnd( value );
+		doEnd(value);
 	}
 }

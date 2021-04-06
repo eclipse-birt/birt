@@ -29,66 +29,50 @@ import org.eclipse.ui.IEditorPart;
  * Report master page graphical editor.
  * </p>
  */
-public abstract class ReportMasterPageEditor extends ReportEditorWithRuler
-{
+public abstract class ReportMasterPageEditor extends ReportEditorWithRuler {
 
-	public ReportMasterPageEditor( )
-	{
-		super( );
+	public ReportMasterPageEditor() {
+		super();
 	}
 
 	/**
 	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#initializeGraphicalViewer()
 	 */
-	protected void initializeGraphicalViewer( )
-	{
-		super.initializeGraphicalViewer( );
+	protected void initializeGraphicalViewer() {
+		super.initializeGraphicalViewer();
 		// setViewContentsAsMasterPage( );
 
 	}
 
-	protected void setContents( )
-	{
-		setViewContentsAsMasterPage( );
+	protected void setContents() {
+		setViewContentsAsMasterPage();
 	}
 
 	/**
 	 * Set view's contents.
 	 * 
-	 * @param model
-	 *            design handle of master page
+	 * @param model design handle of master page
 	 */
-	public void setViewContentsAsMasterPage( )
-	{
-		ModuleHandle designHandle = getModel( );
+	public void setViewContentsAsMasterPage() {
+		ModuleHandle designHandle = getModel();
 		SimpleMasterPageHandle masterPage = null;
-		if ( designHandle.getMasterPages( ).getCount( ) == 0 )
-		{
+		if (designHandle.getMasterPages().getCount() == 0) {
 			// masterPage = designHandle.getElementFactory( )
 			// .newSimpleMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
-			masterPage = DesignElementFactory.getInstance( designHandle.getModuleHandle( ) )
-					.newSimpleMasterPage( null );
-			try
-			{
-				designHandle.getMasterPages( ).add( masterPage );
+			masterPage = DesignElementFactory.getInstance(designHandle.getModuleHandle()).newSimpleMasterPage(null);
+			try {
+				designHandle.getMasterPages().add(masterPage);
+			} catch (ContentException e) {
+				ExceptionUtil.handle(e);
+			} catch (NameException e) {
+				ExceptionUtil.handle(e);
 			}
-			catch ( ContentException e )
-			{
-				ExceptionUtil.handle( e );
-			}
-			catch ( NameException e )
-			{
-				ExceptionUtil.handle( e );
-			}
+		} else {
+			masterPage = (SimpleMasterPageHandle) designHandle.getMasterPages().get(0);
 		}
-		else
-		{
-			masterPage = (SimpleMasterPageHandle) designHandle.getMasterPages( )
-					.get( 0 );
-		}
-		getGraphicalViewer( ).setContents( masterPage );
+		getGraphicalViewer().setContents(masterPage);
 		// re set the processsor
-		hookModelEventManager( masterPage );
+		hookModelEventManager(masterPage);
 	}
 
 	/*
@@ -97,11 +81,9 @@ public abstract class ReportMasterPageEditor extends ReportEditorWithRuler
 	 * @see org.eclipse.birt.report.designer.ui.editors.schematic.layout.
 	 * AbstractReportGraphicalEditorWithFlyoutPalette#getPaletteRoot()
 	 */
-	protected PaletteRoot getPaletteRoot( )
-	{
-		if ( paletteRoot == null )
-		{
-			paletteRoot = MasterPagePaletteFactory.createPalette( );
+	protected PaletteRoot getPaletteRoot() {
+		if (paletteRoot == null) {
+			paletteRoot = MasterPagePaletteFactory.createPalette();
 		}
 		return paletteRoot;
 	}
@@ -114,35 +96,30 @@ public abstract class ReportMasterPageEditor extends ReportEditorWithRuler
 	 * #performRequest(org.eclipse.birt.report.designer
 	 * .core.util.mediator.request.ReportRequest)
 	 */
-	public void performRequest( IMediatorRequest request )
-	{
+	public void performRequest(IMediatorRequest request) {
 		ReportRequest rq = (ReportRequest) request;
 
-		if ( ReportRequest.LOAD_MASTERPAGE.equals( request.getType( ) )
-				&& ( rq.getSelectionModelList( ).size( ) == 1 )
-				&& rq.getSelectionModelList( ).get( 0 ) instanceof MasterPageHandle )
-		{
-			handlerLoadMasterPage( rq );
+		if (ReportRequest.LOAD_MASTERPAGE.equals(request.getType()) && (rq.getSelectionModelList().size() == 1)
+				&& rq.getSelectionModelList().get(0) instanceof MasterPageHandle) {
+			handlerLoadMasterPage(rq);
 			return;
 		}
 
-		super.performRequest( request );
+		super.performRequest(request);
 	}
 
 	/**
 	 * @param request
 	 */
 
-	protected void handlerLoadMasterPage( ReportRequest request )
-	{
-		Object handle = request.getSelectionModelList( ).get( 0 );
-		if ( getGraphicalViewer( ).getContents( ).getModel( ) != handle )
-		{
-			getGraphicalViewer( ).setContents( handle );
-			hookModelEventManager( handle );
+	protected void handlerLoadMasterPage(ReportRequest request) {
+		Object handle = request.getSelectionModelList().get(0);
+		if (getGraphicalViewer().getContents().getModel() != handle) {
+			getGraphicalViewer().setContents(handle);
+			hookModelEventManager(handle);
 		}
 
-		super.performBreadcrumbRequest( request );
+		super.performBreadcrumbRequest(request);
 	}
 
 	/*
@@ -151,8 +128,7 @@ public abstract class ReportMasterPageEditor extends ReportEditorWithRuler
 	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
 	 * GraphicalEditorWithFlyoutPalette#getMultiPageEditor()
 	 */
-	protected IEditorPart getMultiPageEditor( )
-	{
+	protected IEditorPart getMultiPageEditor() {
 		return null;
 	}
 }

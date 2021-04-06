@@ -22,15 +22,13 @@ import org.eclipse.birt.core.framework.Platform;
  * 
  */
 
-public class ODADesignFactory
-{
+public class ODADesignFactory {
 
 	/**
 	 * The logger for errors.
 	 */
 
-	protected static final Logger errorLogger = Logger
-			.getLogger( ODADesignFactory.class.getName( ) );
+	protected static final Logger errorLogger = Logger.getLogger(ODADesignFactory.class.getName());
 
 	private static IODADesignFactory factory = null;
 
@@ -38,26 +36,19 @@ public class ODADesignFactory
 	 * @return the factory
 	 */
 
-	public synchronized static IODADesignFactory getFactory( )
-	{
-		if ( factory != null )
+	public synchronized static IODADesignFactory getFactory() {
+		if (factory != null)
 			return factory;
 
-		Object adapterFactory = Platform
-				.createFactoryObject( IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY );
+		Object adapterFactory = Platform.createFactoryObject(IAdapterFactory.EXTENSION_MODEL_ADAPTER_ODA_FACTORY);
 
-		if ( adapterFactory == null )
-		{
-			errorLogger
-					.log( Level.SEVERE,
-							"The platform has not yet been started. Must start it first..." ); //$NON-NLS-1$
+		if (adapterFactory == null) {
+			errorLogger.log(Level.SEVERE, "The platform has not yet been started. Must start it first..."); //$NON-NLS-1$
 			return null;
 		}
 
-		if ( adapterFactory instanceof IAdapterFactory )
-		{
-			factory = ( (IAdapterFactory) adapterFactory )
-					.getODADesignFactory( );
+		if (adapterFactory instanceof IAdapterFactory) {
+			factory = ((IAdapterFactory) adapterFactory).getODADesignFactory();
 		}
 
 		return factory;

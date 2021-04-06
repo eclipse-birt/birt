@@ -17,8 +17,7 @@ import org.eclipse.core.runtime.Plugin;
  * Plugin class for Chart Engine Extension
  */
 
-public class ChartEngineExtensionPlugin extends Plugin
-{
+public class ChartEngineExtensionPlugin extends Plugin {
 
 	/**
 	 * Plugin ID.

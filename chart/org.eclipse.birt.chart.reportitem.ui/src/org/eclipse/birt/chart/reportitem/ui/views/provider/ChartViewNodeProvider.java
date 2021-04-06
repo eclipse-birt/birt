@@ -22,32 +22,26 @@ import org.eclipse.swt.graphics.Image;
  * Node provider for charts in outline view
  */
 
-public class ChartViewNodeProvider extends DefaultNodeProvider
-{
+public class ChartViewNodeProvider extends DefaultNodeProvider {
 
-	public Object[] getChildren( Object object )
-	{
-		return new Object[]{};
+	public Object[] getChildren(Object object) {
+		return new Object[] {};
 	}
 
-	public Image getNodeIcon( Object model )
-	{
+	public Image getNodeIcon(Object model) {
 		DesignElementHandle handle = (DesignElementHandle) model;
 		String iconPath = ChartUIConstants.IMAGE_OUTLINE;
 //		if ( DEUtil.isLinkedElement( handle ) )
 //		{
 //			iconPath = ChartUIConstants.IMAGE_OUTLINE_LIB;
 //		}
-		if ( handle.getSemanticErrors( ).size( ) > 0
-				&& !ChartReportItemBuilderImpl.isChartWizardOpen( ) )
-		{
+		if (handle.getSemanticErrors().size() > 0 && !ChartReportItemBuilderImpl.isChartWizardOpen()) {
 			iconPath = ChartUIConstants.IMAGE_OUTLINE_ERROR;
 		}
-		return decorateImage( UIHelper.getImage( iconPath ), model);
+		return decorateImage(UIHelper.getImage(iconPath), model);
 	}
 
-	public boolean hasChildren( Object object )
-	{
+	public boolean hasChildren(Object object) {
 		return false;
 	}
 

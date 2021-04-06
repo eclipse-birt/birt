@@ -17,7 +17,6 @@ import org.eclipse.birt.chart.script.api.component.IValueSeries;
  * Represents Bubble series of a Chart in the scripting environment
  */
 
-public interface IBubble extends IValueSeries
-{
+public interface IBubble extends IValueSeries {
 
 }

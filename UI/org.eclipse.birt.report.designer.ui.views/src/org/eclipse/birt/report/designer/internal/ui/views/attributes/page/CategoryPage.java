@@ -18,32 +18,27 @@ import org.eclipse.birt.report.designer.ui.views.attributes.TabPage;
 /**
  * CategoryPage
  */
-public class CategoryPage implements ICategoryPage
-{
+public class CategoryPage implements ICategoryPage {
 
 	private String displayLabel;
 	private String displayTitle;
 	private Class pageClass;
 	private String categoryKey;
 
-	public CategoryPage( String categoryKey, String displayLabel,
-			Class pageClass )
-	{
+	public CategoryPage(String categoryKey, String displayLabel, Class pageClass) {
 		this.categoryKey = categoryKey;
 		this.displayLabel = displayLabel;
 		this.displayTitle = displayLabel;
-		assert TabPage.class.isAssignableFrom( pageClass );
+		assert TabPage.class.isAssignableFrom(pageClass);
 
 		this.pageClass = pageClass;
 	}
 
-	public CategoryPage( String categoryKey, String displayLabel,
-			String displayTitle, Class pageClass )
-	{
+	public CategoryPage(String categoryKey, String displayLabel, String displayTitle, Class pageClass) {
 		this.categoryKey = categoryKey;
 		this.displayLabel = displayLabel;
 		this.displayTitle = displayTitle;
-		assert TabPage.class.isAssignableFrom( pageClass );
+		assert TabPage.class.isAssignableFrom(pageClass);
 
 		this.pageClass = pageClass;
 	}
@@ -51,16 +46,14 @@ public class CategoryPage implements ICategoryPage
 	/**
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage#getDisplayLabel()
 	 */
-	public String getDisplayLabel( )
-	{
+	public String getDisplayLabel() {
 		return displayLabel;
 	}
-	
+
 	/**
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage#getDisplayLabel()
 	 */
-	public String getDisplayTitle( )
-	{
+	public String getDisplayTitle() {
 		return displayTitle;
 	}
 
@@ -68,22 +61,16 @@ public class CategoryPage implements ICategoryPage
 	 * @see org.eclipse.birt.report.designer.ui.views.attributes.ICategoryPage#createPage(org.eclipse.swt.widgets.Composite,
 	 *      int)
 	 */
-	public TabPage createPage( )
-	{
-		try
-		{
-			return (TabPage) pageClass.getConstructor( null )
-					.newInstance( null );
-		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
+	public TabPage createPage() {
+		try {
+			return (TabPage) pageClass.getConstructor(null).newInstance(null);
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 			return null;
 		}
 	}
 
-	public String getCategoryKey( )
-	{
+	public String getCategoryKey() {
 		return categoryKey;
 	}
 }

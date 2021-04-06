@@ -14,10 +14,9 @@ package org.eclipse.birt.report.designer.core.mediator;
 /**
  * IMediatorColleague
  */
-public interface IMediatorColleague
-{
+public interface IMediatorColleague {
 
-	boolean isInterested( IMediatorRequest request );
+	boolean isInterested(IMediatorRequest request);
 
-	void performRequest( IMediatorRequest request );
+	void performRequest(IMediatorRequest request);
 }

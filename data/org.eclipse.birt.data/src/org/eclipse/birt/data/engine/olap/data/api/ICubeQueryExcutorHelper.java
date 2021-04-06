@@ -27,58 +27,57 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSFacttableFilterEvalHelpe
  * 
  */
 
-public interface ICubeQueryExcutorHelper
-{
+public interface ICubeQueryExcutorHelper {
 	/**
 	 * 
 	 * @param simpleLevelFilter
 	 */
-	public void addSimpleLevelFilter( SimpleLevelFilter simpleLevelFilter );
-	
+	public void addSimpleLevelFilter(SimpleLevelFilter simpleLevelFilter);
+
 	/**
 	 * 
 	 * @param levelFilter
 	 */
-	public void addFilter( LevelFilter levelFilter );
+	public void addFilter(LevelFilter levelFilter);
 
 	/**
 	 * 
 	 * @param evalHelpers
 	 */
-	public void addMeasureFilter( List<IJSFacttableFilterEvalHelper> evalHelpers);
+	public void addMeasureFilter(List<IJSFacttableFilterEvalHelper> evalHelpers);
+
 	/**
 	 * 
 	 * @param filterEvalHelper
 	 */
-	public void addJSFilter( IJSFilterHelper filterEvalHelper );
+	public void addJSFilter(IJSFilterHelper filterEvalHelper);
 
 	/**
 	 * 
 	 * @param filterEvalHelperList
 	 */
-	public void addJSFilter( List filterEvalHelperList );
+	public void addJSFilter(List filterEvalHelperList);
 
 	/**
 	 * 
 	 * @param stopSign
 	 * @return
-	 * @throws IOException 
-	 * @throws BirtOlapException 
-	 * @throws BirtException 
+	 * @throws IOException
+	 * @throws BirtOlapException
+	 * @throws BirtException
 	 */
-	public IAggregationResultSet[] execute(
-			AggregationDefinition[] aggregation, StopSign stopSign )
+	public IAggregationResultSet[] execute(AggregationDefinition[] aggregation, StopSign stopSign)
 			throws DataException, IOException, BirtException;
 
 	/**
 	 * 
 	 *
 	 */
-	public void clear( );
+	public void clear();
 
 	/**
 	 * 
 	 *
 	 */
-	public void close( );
+	public void close();
 }

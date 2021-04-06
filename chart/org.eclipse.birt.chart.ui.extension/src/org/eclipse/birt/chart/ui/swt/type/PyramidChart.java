@@ -18,16 +18,14 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
  * 
  */
 
-public class PyramidChart extends AbstractBarChart
-{
+public class PyramidChart extends AbstractBarChart {
 
 	/**
 	 * Comment for <code>TYPE_LITERAL</code>
 	 */
 	public static final String TYPE_LITERAL = ChartUIConstants.TYPE_PYRAMID;
 
-	public PyramidChart( )
-	{
-		super( "Pyramid", TYPE_LITERAL, RiserType.TRIANGLE_LITERAL ); //$NON-NLS-1$
+	public PyramidChart() {
+		super("Pyramid", TYPE_LITERAL, RiserType.TRIANGLE_LITERAL); //$NON-NLS-1$
 	}
 }

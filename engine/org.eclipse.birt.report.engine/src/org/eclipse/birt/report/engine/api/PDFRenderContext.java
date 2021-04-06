@@ -12,37 +12,37 @@
 package org.eclipse.birt.report.engine.api;
 
 /**
- * Defines the context for rendering report in PDF emitter. Objects stored in the
- * context object is mainly used for font, image, action handling, but can be used for
- * other purposes too. 
+ * Defines the context for rendering report in PDF emitter. Objects stored in
+ * the context object is mainly used for font, image, action handling, but can
+ * be used for other purposes too.
+ * 
  * @deprecated set the option to RenderOption directly.
  */
 public class PDFRenderContext {
-		
+
 	/**
 	 * base URL used for action handler
 	 */
 	protected String baseURL;
-	
+
 	protected boolean isEmbededFont = true;
-    
-    /**
+
+	/**
 	 * the image formats supported by the browser
 	 */
-    protected String supportedImageFormats;
-	
-    /**
-     * user-defined font directory 
-     */
-    protected String fontDirectory;
-    
+	protected String supportedImageFormats;
+
 	/**
-	 * dummy constructor 
+	 * user-defined font directory
 	 */
-	public PDFRenderContext()
-	{
+	protected String fontDirectory;
+
+	/**
+	 * dummy constructor
+	 */
+	public PDFRenderContext() {
 	}
-	
+
 	/**
 	 * Returns the base URL for creating an Action URL
 	 * 
@@ -51,7 +51,7 @@ public class PDFRenderContext {
 	public String getBaseURL() {
 		return baseURL;
 	}
-	
+
 	/**
 	 * sets the base URL for action handling
 	 * 
@@ -60,11 +60,10 @@ public class PDFRenderContext {
 	public void setBaseURL(String baseURL) {
 		this.baseURL = baseURL;
 	}
-	
-	    
-    /**
-     * @param formats - the image format supported by the browser
-     */
+
+	/**
+	 * @param formats - the image format supported by the browser
+	 */
 	public void setSupportedImageFormats(String formats) {
 		supportedImageFormats = formats;
 	}
@@ -75,33 +74,29 @@ public class PDFRenderContext {
 	public String getSupportedImageFormats() {
 		return supportedImageFormats;
 	}
-	
+
 	/**
 	 * Set flag indicates if the font needs to be embedded.
 	 * 
 	 * @param isEmbededFont
 	 */
-	public void setEmbededFont(boolean isEmbededFont)
-	{
+	public void setEmbededFont(boolean isEmbededFont) {
 		this.isEmbededFont = isEmbededFont;
 	}
-	
+
 	/**
 	 * 
 	 * @return true if font is embedded
 	 */
-	public boolean isEmbededFont()
-	{
+	public boolean isEmbededFont() {
 		return isEmbededFont;
 	}
 
-	
 	/**
 	 * 
 	 * @return the user-defined font directory
 	 */
-	public String getFontDirectory( )
-	{
+	public String getFontDirectory() {
 		return fontDirectory;
 	}
 
@@ -109,9 +104,8 @@ public class PDFRenderContext {
 	 * 
 	 * @param fontDirectory the user-defined font directory
 	 */
-	public void setFontDirectory( String fontDirectory )
-	{
+	public void setFontDirectory(String fontDirectory) {
 		this.fontDirectory = fontDirectory;
 	}
-	
+
 }

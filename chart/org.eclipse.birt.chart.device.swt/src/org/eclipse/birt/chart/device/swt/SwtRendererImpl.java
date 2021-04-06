@@ -75,15 +75,14 @@ import org.eclipse.swt.widgets.Composite;
  * This class implements the SWT primitive rendering code for each primitive
  * instruction sent out by the chart generation process.
  */
-public class SwtRendererImpl extends DeviceAdapter
-{
+public class SwtRendererImpl extends DeviceAdapter {
 
 	/**
 	 * A property name that identifies the double-buffered drawing capability.
 	 */
 	public static final String DOUBLE_BUFFERED = "device.double.buffered"; //$NON-NLS-1$
 
-	private final LinkedHashMap<TriggerCondition, List<RegionAction>> _lhmAllTriggers = new LinkedHashMap<TriggerCondition, List<RegionAction>>( );
+	private final LinkedHashMap<TriggerCondition, List<RegionAction>> _lhmAllTriggers = new LinkedHashMap<TriggerCondition, List<RegionAction>>();
 
 	private IDisplayServer _ids;
 
@@ -109,23 +108,19 @@ public class SwtRendererImpl extends DeviceAdapter
 
 	static final int TRUNCATE = 2;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swt" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.extension/swt"); //$NON-NLS-1$
 
 	/**
 	 * The required zero-argument constructor
 	 */
-	public SwtRendererImpl( )
-	{
-		final PluginSettings ps = PluginSettings.instance( );
-		try
-		{
-			_ids = ps.getDisplayServer( "ds.SWT" ); //$NON-NLS-1$
-			_tr = new SwtTextRenderer( _ids );
-			iv = new InteractiveRenderer( );
-		}
-		catch ( ChartException pex )
-		{
-			logger.log( pex );
+	public SwtRendererImpl() {
+		final PluginSettings ps = PluginSettings.instance();
+		try {
+			_ids = ps.getDisplayServer("ds.SWT"); //$NON-NLS-1$
+			_tr = new SwtTextRenderer(_ids);
+			iv = new InteractiveRenderer();
+		} catch (ChartException pex) {
+			logger.log(pex);
 		}
 	}
 
@@ -134,8 +129,7 @@ public class SwtRendererImpl extends DeviceAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.event.IDeviceRenderer#getGraphicsContext()
 	 */
-	public Object getGraphicsContext( )
-	{
+	public Object getGraphicsContext() {
 		return _gc;
 	}
 
@@ -144,442 +138,357 @@ public class SwtRendererImpl extends DeviceAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.event.IDeviceRenderer#getDisplayServer()
 	 */
-	public IDisplayServer getDisplayServer( )
-	{
+	public IDisplayServer getDisplayServer() {
 		return _ids;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#setClip(org.eclipse.birt.chart.event.ClipRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#setClip(org.eclipse.birt.
+	 * chart.event.ClipRenderEvent)
 	 */
-	public void setClip( ClipRenderEvent cre )
-	{
-		final Location[] loa = cre.getVertices( );
+	public void setClip(ClipRenderEvent cre) {
+		final Location[] loa = cre.getVertices();
 
-		if ( loa == null )
-		{
-			_gc.setClipping( (Region) null );
-		}
-		else
-		{
-			Region rgClipping = new Region( );
-			rgClipping.add( getCoordinatesAsInts( loa,
-					TRUNCATE,
-					dTranslateX,
-					dTranslateY,
-					dScale ) );
-			_gc.setClipping( rgClipping );
-			rgClipping.dispose( );
+		if (loa == null) {
+			_gc.setClipping((Region) null);
+		} else {
+			Region rgClipping = new Region();
+			rgClipping.add(getCoordinatesAsInts(loa, TRUNCATE, dTranslateX, dTranslateY, dScale));
+			_gc.setClipping(rgClipping);
+			rgClipping.dispose();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#drawImage(org.eclipse.birt.chart.event.ImageRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawImage(org.eclipse.birt.
+	 * chart.event.ImageRenderEvent)
 	 */
-	public void drawImage( ImageRenderEvent pre ) throws ChartException
-	{
-		if ( pre.getImage( ) == null || pre.getLocation( ) == null )
-		{
+	public void drawImage(ImageRenderEvent pre) throws ChartException {
+		if (pre.getImage() == null || pre.getLocation() == null) {
 			return;
 		}
 
 		Image img = null;
 
-		if ( pre.getImage( ) instanceof EmbeddedImage )
-		{
-			try
-			{
-				ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) pre.getImage( ) ).getData( )
-						.getBytes( ) ) );
+		if (pre.getImage() instanceof EmbeddedImage) {
+			try {
+				ByteArrayInputStream bis = new ByteArrayInputStream(
+						Base64.decodeBase64(((EmbeddedImage) pre.getImage()).getData().getBytes()));
 
-				img = new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
-						bis );
+				img = new org.eclipse.swt.graphics.Image(((SwtDisplayServer) _ids).getDevice(), bis);
+			} catch (Exception ilex) {
+				throw new ChartException(ChartDeviceSwtActivator.ID, ChartException.RENDERING, ilex);
 			}
-			catch ( Exception ilex )
-			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						ilex );
-			}
-		}
-		else if ( pre.getImage( ).getSource( ) != ImageSourceType.FILE
-				&& pre.getImage( ).getSource( ) != ImageSourceType.REPORT )
-		{
-			try
-			{
-				final String sUrl = pre.getImage( ).getURL( );
-				img = (Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
-			}
-			catch ( ChartException ilex )
-			{
+		} else if (pre.getImage().getSource() != ImageSourceType.FILE
+				&& pre.getImage().getSource() != ImageSourceType.REPORT) {
+			try {
+				final String sUrl = pre.getImage().getURL();
+				img = (Image) _ids.loadImage(SecurityUtil.newURL(sUrl));
+			} catch (ChartException ilex) {
 				// Ignore the invalid path, and log it only
-				logger.log( new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						ilex ) );
-			}
-			catch ( MalformedURLException muex )
-			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						muex );
+				logger.log(new ChartException(ChartDeviceSwtActivator.ID, ChartException.RENDERING, ilex));
+			} catch (MalformedURLException muex) {
+				throw new ChartException(ChartDeviceSwtActivator.ID, ChartException.RENDERING, muex);
 			}
 		}
 
-		if ( img == null )
-		{
+		if (img == null) {
 			return;
 		}
 
-		Location loc = pre.getLocation( );
-		Position pos = pre.getPosition( );
-		if ( pos == null )
-		{
+		Location loc = pre.getLocation();
+		Position pos = pre.getPosition();
+		if (pos == null) {
 			pos = Position.INSIDE_LITERAL;
 		}
 
-		final boolean bSizeSet = pre.getWidth( ) * pre.getHeight( ) > 0;
-		int width = bSizeSet ? pre.getWidth( ) : img.getBounds( ).width;
-		int height = bSizeSet ? pre.getHeight( ) : img.getBounds( ).height;
-		int x = (int) loc.getX( );
-		int y = (int) loc.getY( );
+		final boolean bSizeSet = pre.getWidth() * pre.getHeight() > 0;
+		int width = bSizeSet ? pre.getWidth() : img.getBounds().width;
+		int height = bSizeSet ? pre.getHeight() : img.getBounds().height;
+		int x = (int) loc.getX();
+		int y = (int) loc.getY();
 
-		switch ( pos.getValue( ) )
-		{
-			case Position.INSIDE :
-			case Position.OUTSIDE :
-				x -= width / 2;
-				y -= height / 2;
-				break;
-			case Position.LEFT :
-				x -= width;
-				y -= height / 2;
-				break;
-			case Position.RIGHT :
-				y -= height / 2;
-				break;
-			case Position.ABOVE :
-				x -= width / 2;
-				y -= height;
-				break;
-			case Position.BELOW :
-				x -= width / 2;
-				break;
+		switch (pos.getValue()) {
+		case Position.INSIDE:
+		case Position.OUTSIDE:
+			x -= width / 2;
+			y -= height / 2;
+			break;
+		case Position.LEFT:
+			x -= width;
+			y -= height / 2;
+			break;
+		case Position.RIGHT:
+			y -= height / 2;
+			break;
+		case Position.ABOVE:
+			x -= width / 2;
+			y -= height;
+			break;
+		case Position.BELOW:
+			x -= width / 2;
+			break;
 		}
-		
+
 		// Reset alpha
-		R31Enhance.setAlpha( _gc, (ColorDefinition) null );
-		if ( bSizeSet )
-		{
-			_gc.drawImage( img,
-					0,
-					0,
-					img.getBounds( ).width,
-					img.getBounds( ).height,
-					x,
-					y,
-					pre.getWidth( ),
-					pre.getHeight( ) );
-		}
-		else
-		{
-			_gc.drawImage( img, x, y );
+		R31Enhance.setAlpha(_gc, (ColorDefinition) null);
+		if (bSizeSet) {
+			_gc.drawImage(img, 0, 0, img.getBounds().width, img.getBounds().height, x, y, pre.getWidth(),
+					pre.getHeight());
+		} else {
+			_gc.drawImage(img, x, y);
 		}
 
-		img.dispose( );
+		img.dispose();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#drawLine(org.eclipse.birt.chart.event.LineRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawLine(org.eclipse.birt.
+	 * chart.event.LineRenderEvent)
 	 */
-	public void drawLine( LineRenderEvent lre ) throws ChartException
-	{
-		iv.modifyEvent( lre  );
+	public void drawLine(LineRenderEvent lre) throws ChartException {
+		iv.modifyEvent(lre);
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
-		final LineAttributes lia = lre.getLineAttributes( );
-		if ( !validateLineAttributes( lre.getSource( ), lia )
-				|| lia.getColor( ) == null )
-		{
+		final LineAttributes lia = lre.getLineAttributes();
+		if (!validateLineAttributes(lre.getSource(), lia) || lia.getColor() == null) {
 			return;
 		}
 
 		// DRAW THE LINE
-		final int iOldLineStyle = _gc.getLineStyle( );
-		final int iOldLineWidth = _gc.getLineWidth( );
-		final Color cFG = (Color) _ids.getColor( lia.getColor( ) );
+		final int iOldLineStyle = _gc.getLineStyle();
+		final int iOldLineWidth = _gc.getLineWidth();
+		final Color cFG = (Color) _ids.getColor(lia.getColor());
 		int iLineStyle = SWT.LINE_SOLID;
-		switch ( lia.getStyle( ).getValue( ) )
-		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DOT;
-				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASHDOT;
-				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASH;
-				break;
+		switch (lia.getStyle().getValue()) {
+		case (LineStyle.DOTTED):
+			iLineStyle = SWT.LINE_DOT;
+			break;
+		case (LineStyle.DASH_DOTTED):
+			iLineStyle = SWT.LINE_DASHDOT;
+			break;
+		case (LineStyle.DASHED):
+			iLineStyle = SWT.LINE_DASH;
+			break;
 		}
-		_gc.setLineStyle( iLineStyle );
-		_gc.setLineWidth( lia.getThickness( ) );
-		final Location lo1 = lre.getStart( );
-		final Location lo2 = lre.getEnd( );
-		_gc.setForeground( cFG );
+		_gc.setLineStyle(iLineStyle);
+		_gc.setLineWidth(lia.getThickness());
+		final Location lo1 = lre.getStart();
+		final Location lo2 = lre.getEnd();
+		_gc.setForeground(cFG);
 
-		R31Enhance.setAlpha( _gc, lia.getColor( ) );
+		R31Enhance.setAlpha(_gc, lia.getColor());
 
-		_gc.drawLine( (int) ( ( lo1.getX( ) + dTranslateX ) * dScale ),
-				(int) ( ( lo1.getY( ) + dTranslateY ) * dScale ),
-				(int) ( ( lo2.getX( ) + dTranslateX ) * dScale ),
-				(int) ( ( lo2.getY( ) + dTranslateY ) * dScale ) );
+		_gc.drawLine((int) ((lo1.getX() + dTranslateX) * dScale), (int) ((lo1.getY() + dTranslateY) * dScale),
+				(int) ((lo2.getX() + dTranslateX) * dScale), (int) ((lo2.getY() + dTranslateY) * dScale));
 
-		_gc.setLineStyle( iOldLineStyle );
-		_gc.setLineWidth( iOldLineWidth );
-		cFG.dispose( );
-
+		_gc.setLineStyle(iOldLineStyle);
+		_gc.setLineWidth(iOldLineWidth);
+		cFG.dispose();
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#drawRectangle(org.eclipse.birt.chart.event.RectangleRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawRectangle(org.eclipse.
+	 * birt.chart.event.RectangleRenderEvent)
 	 */
-	public void drawRectangle( RectangleRenderEvent rre ) throws ChartException
-	{
-		iv.modifyEvent( rre  );
+	public void drawRectangle(RectangleRenderEvent rre) throws ChartException {
+		iv.modifyEvent(rre);
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
-		final LineAttributes lia = rre.getOutline( );
-		if ( !validateLineAttributes( rre.getSource( ), lia ) )
-		{
+		final LineAttributes lia = rre.getOutline();
+		if (!validateLineAttributes(rre.getSource(), lia)) {
 			return;
 		}
 
 		// SETUP THE FOREGROUND COLOR (DARKER BACKGROUND IF DEFINED AS NULL)
-		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
-				rre.getBackground( ),
-				_ids );
-		if ( cFG == null )
-		{
+		final Color cFG = (Color) validateEdgeColor(lia.getColor(), rre.getBackground(), _ids);
+		if (cFG == null) {
 			return;
 		}
 
 		// DRAW THE RECTANGLE WITH THE APPROPRIATE LINE STYLE
-		final int iOldLineStyle = _gc.getLineStyle( );
-		final int iOldLineWidth = _gc.getLineWidth( );
+		final int iOldLineStyle = _gc.getLineStyle();
+		final int iOldLineWidth = _gc.getLineWidth();
 		int iLineStyle = SWT.LINE_SOLID;
-		switch ( lia.getStyle( ).getValue( ) )
-		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DOT;
-				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASHDOT;
-				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASH;
-				break;
+		switch (lia.getStyle().getValue()) {
+		case (LineStyle.DOTTED):
+			iLineStyle = SWT.LINE_DOT;
+			break;
+		case (LineStyle.DASH_DOTTED):
+			iLineStyle = SWT.LINE_DASHDOT;
+			break;
+		case (LineStyle.DASHED):
+			iLineStyle = SWT.LINE_DASH;
+			break;
 		}
-		_gc.setLineStyle( iLineStyle );
-		_gc.setLineWidth( lia.getThickness( ) );
-		final Bounds bo = normalizeBounds( rre.getBounds( ) );
-		_gc.setForeground( cFG );
+		_gc.setLineStyle(iLineStyle);
+		_gc.setLineWidth(lia.getThickness());
+		final Bounds bo = normalizeBounds(rre.getBounds());
+		_gc.setForeground(cFG);
 
-		R31Enhance.setAlpha( _gc, lia.getColor( ) );
+		R31Enhance.setAlpha(_gc, lia.getColor());
 
-		_gc.drawRectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
-				(int) ( bo.getWidth( ) * dScale ) - 1,
-				(int) ( bo.getHeight( ) * dScale ) - 1 );
+		_gc.drawRectangle((int) ((bo.getLeft() + dTranslateX) * dScale), (int) ((bo.getTop() + dTranslateY) * dScale),
+				(int) (bo.getWidth() * dScale) - 1, (int) (bo.getHeight() * dScale) - 1);
 
-		_gc.setLineStyle( iOldLineStyle );
-		_gc.setLineWidth( iOldLineWidth );
-		cFG.dispose( );
-		
+		_gc.setLineStyle(iOldLineStyle);
+		_gc.setLineWidth(iOldLineWidth);
+		cFG.dispose();
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IPrimitiveRenderer#fillRectangle(org.eclipse.birt.chart.event.RectangleRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.device.IPrimitiveRenderer#fillRectangle(org.eclipse.
+	 * birt.chart.event.RectangleRenderEvent)
 	 */
-	public void fillRectangle( RectangleRenderEvent rre ) throws ChartException
-	{
-		iv.modifyEvent( rre  );
-		final Fill flBackground = validateMultipleFill( rre.getBackground( ) );
+	public void fillRectangle(RectangleRenderEvent rre) throws ChartException {
+		iv.modifyEvent(rre);
+		final Fill flBackground = validateMultipleFill(rre.getBackground());
 
-		if ( isFullTransparent( flBackground ) )
-		{
+		if (isFullTransparent(flBackground)) {
 			return;
 		}
 
-		final Bounds bo = normalizeBounds( rre.getBounds( ) );
-		final Rectangle r = new Rectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
-				(int) Math.ceil( bo.getWidth( ) * dScale ),
-				(int) Math.ceil( bo.getHeight( ) * dScale ) );
+		final Bounds bo = normalizeBounds(rre.getBounds());
+		final Rectangle r = new Rectangle((int) ((bo.getLeft() + dTranslateX) * dScale),
+				(int) ((bo.getTop() + dTranslateY) * dScale), (int) Math.ceil(bo.getWidth() * dScale),
+				(int) Math.ceil(bo.getHeight() * dScale));
 
-		final Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
-		pt.moveTo( r.x, r.y );
-		pt.lineTo( r.x, r.y + r.height );
-		pt.lineTo( r.x + r.width, r.y + r.height );
-		pt.lineTo( r.x + r.width, r.y );
+		final Path pt = new Path(((SwtDisplayServer) _ids).getDevice());
+		pt.moveTo(r.x, r.y);
+		pt.lineTo(r.x, r.y + r.height);
+		pt.lineTo(r.x + r.width, r.y + r.height);
+		pt.lineTo(r.x + r.width, r.y);
 
-		try
-		{
-			if ( flBackground instanceof ColorDefinition )
-			{				
-				fillPathColor( pt, (ColorDefinition) flBackground );
+		try {
+			if (flBackground instanceof ColorDefinition) {
+				fillPathColor(pt, (ColorDefinition) flBackground);
 			}
-			if ( flBackground instanceof Gradient )
-			{
-				fillPathGradient( pt, (Gradient) flBackground, r );
+			if (flBackground instanceof Gradient) {
+				fillPathGradient(pt, (Gradient) flBackground, r);
+			} else if (flBackground instanceof org.eclipse.birt.chart.model.attribute.Image) {
+				fillPathImage(pt, (org.eclipse.birt.chart.model.attribute.Image) flBackground);
 			}
-			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-			{
-				fillPathImage( pt,
-						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
-			}
+		} finally {
+			pt.dispose();
 		}
-		finally
-		{
-			pt.dispose( );
-		}
-		
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#drawPolygon(org.eclipse.birt.chart.event.PolygonRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawPolygon(org.eclipse.birt.
+	 * chart.event.PolygonRenderEvent)
 	 */
-	public void drawPolygon( PolygonRenderEvent pre ) throws ChartException
-	{
-		iv.modifyEvent( pre );
+	public void drawPolygon(PolygonRenderEvent pre) throws ChartException {
+		iv.modifyEvent(pre);
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
-		final LineAttributes lia = pre.getOutline( );
-		if ( !validateLineAttributes( pre.getSource( ), lia ) )
-		{
+		final LineAttributes lia = pre.getOutline();
+		if (!validateLineAttributes(pre.getSource(), lia)) {
 			return;
 		}
 
 		// SETUP THE FOREGROUND COLOR (DARKER BACKGROUND IF DEFINED AS NULL)
-		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
-				pre.getBackground( ),
-				_ids );
-		if ( cFG == null )
-		{
+		final Color cFG = (Color) validateEdgeColor(lia.getColor(), pre.getBackground(), _ids);
+		if (cFG == null) {
 			return;
 		}
 
-		final int iOldLineStyle = _gc.getLineStyle( );
-		final int iOldLineWidth = _gc.getLineWidth( );
+		final int iOldLineStyle = _gc.getLineStyle();
+		final int iOldLineWidth = _gc.getLineWidth();
 
 		int iLineStyle = SWT.LINE_SOLID;
-		switch ( lia.getStyle( ).getValue( ) )
-		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DOT;
-				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASHDOT;
-				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASH;
-				break;
+		switch (lia.getStyle().getValue()) {
+		case (LineStyle.DOTTED):
+			iLineStyle = SWT.LINE_DOT;
+			break;
+		case (LineStyle.DASH_DOTTED):
+			iLineStyle = SWT.LINE_DASHDOT;
+			break;
+		case (LineStyle.DASHED):
+			iLineStyle = SWT.LINE_DASH;
+			break;
 		}
 
-		_gc.setLineStyle( iLineStyle );
-		_gc.setLineWidth( lia.getThickness( ) );
-		_gc.setForeground( cFG );
+		_gc.setLineStyle(iLineStyle);
+		_gc.setLineWidth(lia.getThickness());
+		_gc.setForeground(cFG);
 
-		R31Enhance.setAlpha( _gc, lia.getColor( ) );
+		R31Enhance.setAlpha(_gc, lia.getColor());
 
-		_gc.drawPolygon( getCoordinatesAsInts( pre.getPoints( ),
-				TRUNCATE,
-				dTranslateX,
-				dTranslateY,
-				dScale ) );
+		_gc.drawPolygon(getCoordinatesAsInts(pre.getPoints(), TRUNCATE, dTranslateX, dTranslateY, dScale));
 
-		_gc.setLineStyle( iOldLineStyle );
-		_gc.setLineWidth( iOldLineWidth );
-		cFG.dispose( );
-		
+		_gc.setLineStyle(iOldLineStyle);
+		_gc.setLineWidth(iOldLineWidth);
+		cFG.dispose();
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#fillPolygon(org.eclipse.birt.chart.event.PolygonRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#fillPolygon(org.eclipse.birt.
+	 * chart.event.PolygonRenderEvent)
 	 */
-	public void fillPolygon( PolygonRenderEvent pre ) throws ChartException
-	{
-		iv.modifyEvent( pre );
-		
+	public void fillPolygon(PolygonRenderEvent pre) throws ChartException {
+		iv.modifyEvent(pre);
+
 		// DUE TO RESTRICTIVE SWT API, WE SET A CLIPPED POLYGON REGION
 		// AND RENDER THE POLYGON BY RENDERING A CONTAINING RECTANGLE WHERE
 		// THE RECTANGLE BOUNDS CORRESPOND TO THE POLYGON BOUNDS
 		// NOTE: SOME INCOMPLETE PAINTING ERRORS SEEM TO EXIST FOR GRADIENT POLY
 		// FILLS
 
-		final Fill flBackground = validateMultipleFill( pre.getBackground( ) );
+		final Fill flBackground = validateMultipleFill(pre.getBackground());
 
-		if ( isFullTransparent( flBackground ) )
-		{
+		if (isFullTransparent(flBackground)) {
 			return;
 		}
 
-		final Bounds bo = normalizeBounds( pre.getBounds( ) );
-		final Rectangle r = new Rectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
-				(int) Math.ceil( bo.getWidth( ) * dScale ),
-				(int) Math.ceil( bo.getHeight( ) * dScale ) );
-		
-		float[] points = convertDoubleToFloat( getDoubleCoordinatesAsInts( pre.getPoints( ),
-				TRUNCATE,
-				dTranslateX,
-				dTranslateY,
-				dScale ) );
-		if ( points.length < 1 )
-		{
+		final Bounds bo = normalizeBounds(pre.getBounds());
+		final Rectangle r = new Rectangle((int) ((bo.getLeft() + dTranslateX) * dScale),
+				(int) ((bo.getTop() + dTranslateY) * dScale), (int) Math.ceil(bo.getWidth() * dScale),
+				(int) Math.ceil(bo.getHeight() * dScale));
+
+		float[] points = convertDoubleToFloat(
+				getDoubleCoordinatesAsInts(pre.getPoints(), TRUNCATE, dTranslateX, dTranslateY, dScale));
+		if (points.length < 1) {
 			return;
 		}
-		final Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
-		pt.moveTo( points[0], points[1] );
-		for ( int i = 1; i < points.length / 2; i++ )
-		{
-			pt.lineTo( points[2 * i], points[2 * i + 1] );
+		final Path pt = new Path(((SwtDisplayServer) _ids).getDevice());
+		pt.moveTo(points[0], points[1]);
+		for (int i = 1; i < points.length / 2; i++) {
+			pt.lineTo(points[2 * i], points[2 * i + 1]);
 		}
-		
-		try
-		{
-			if ( flBackground instanceof ColorDefinition )
-			{
-				fillPathColor( pt, (ColorDefinition) flBackground );
+
+		try {
+			if (flBackground instanceof ColorDefinition) {
+				fillPathColor(pt, (ColorDefinition) flBackground);
+			} else if (flBackground instanceof Gradient) {
+				fillPathGradient(pt, (Gradient) flBackground, r);
+			} else if (flBackground instanceof org.eclipse.birt.chart.model.attribute.Image) {
+				fillPathImage(pt, (org.eclipse.birt.chart.model.attribute.Image) flBackground);
 			}
-			else if ( flBackground instanceof Gradient )
-			{
-				fillPathGradient( pt, (Gradient) flBackground, r );
-			}
-			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-			{
-				fillPathImage( pt,
-						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
-			}
+		} finally {
+			pt.dispose();
 		}
-		finally
-		{
-			pt.dispose( );
-		}
-		
 
 	}
 
@@ -592,42 +501,25 @@ public class SwtRendererImpl extends DeviceAdapter
 	 * @param dTranslateY
 	 * @param dScale
 	 */
-	protected void drawArc( GC _gc, Device _dv, ArcRenderEvent are,
-			double dTranslateX, double dTranslateY, double dScale )
-	{
-		
-		
-		if ( are.getInnerRadius( ) >= 0
-				&& ( are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
-				|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
-		{
-			Bounds bo = goFactory.createBounds( are.getTopLeft( ).getX( ),
-					are.getTopLeft( ).getY( ),
-					are.getWidth( ),
-					are.getHeight( ) );
+	protected void drawArc(GC _gc, Device _dv, ArcRenderEvent are, double dTranslateX, double dTranslateY,
+			double dScale) {
+
+		if (are.getInnerRadius() >= 0 && (are.getOuterRadius() > 0 && are.getInnerRadius() < are.getOuterRadius())
+				|| (are.getInnerRadius() > 0 && are.getOuterRadius() <= 0)) {
+			Bounds bo = goFactory.createBounds(are.getTopLeft().getX(), are.getTopLeft().getY(), are.getWidth(),
+					are.getHeight());
 
 			Bounds rctOuter, rctInner;
 
-			rctOuter = getOuterRectangle( are,
-					dTranslateX,
-					dTranslateY,
-					dScale,
-					bo );
+			rctOuter = getOuterRectangle(are, dTranslateX, dTranslateY, dScale, bo);
 
-			rctInner = getInnerRectangle( are,
-					dTranslateX,
-					dTranslateY,
-					dScale,
-					bo );
+			rctInner = getInnerRectangle(are, dTranslateX, dTranslateY, dScale, bo);
 
-			double startAngle = Math.toRadians( -are.getStartAngle( ) );
-			double stopAngle = Math.toRadians( -are.getStartAngle( )
-					- are.getAngleExtent( ) );
+			double startAngle = Math.toRadians(-are.getStartAngle());
+			double stopAngle = Math.toRadians(-are.getStartAngle() - are.getAngleExtent());
 
-			double xsOuter = ( rctOuter.getLeft( ) + ( Math.cos( startAngle ) * 0.5 + 0.5 )
-					* rctOuter.getWidth( ) );
-			double ysOuter = ( rctOuter.getTop( ) + ( Math.sin( startAngle ) * 0.5 + 0.5 )
-					* rctOuter.getHeight( ) );
+			double xsOuter = (rctOuter.getLeft() + (Math.cos(startAngle) * 0.5 + 0.5) * rctOuter.getWidth());
+			double ysOuter = (rctOuter.getTop() + (Math.sin(startAngle) * 0.5 + 0.5) * rctOuter.getHeight());
 
 			// double xeOuter = ( rctOuter.getLeft( ) + ( Math.cos( stopAngle )
 			// * 0.5 + 0.5 )
@@ -643,147 +535,106 @@ public class SwtRendererImpl extends DeviceAdapter
 			// * 0.5 + 0.5 )
 			// * rctInner.getHeight( ) );
 
-			double xeInner = ( rctInner.getLeft( ) + ( Math.cos( stopAngle ) * 0.5 + 0.5 )
-					* rctInner.getWidth( ) );
-			double yeInner = ( rctInner.getTop( ) + ( Math.sin( stopAngle ) * 0.5 + 0.5 )
-					* rctInner.getHeight( ) );
+			double xeInner = (rctInner.getLeft() + (Math.cos(stopAngle) * 0.5 + 0.5) * rctInner.getWidth());
+			double yeInner = (rctInner.getTop() + (Math.sin(stopAngle) * 0.5 + 0.5) * rctInner.getHeight());
 
-			Path pt = new Path( _dv );
-			pt.addArc( (float) rctOuter.getLeft( ),
-					(float) rctOuter.getTop( ),
-					(float) rctOuter.getWidth( ),
-					(float) rctOuter.getHeight( ),
-					(float) are.getStartAngle( ),
-					(float) are.getAngleExtent( ) );
+			Path pt = new Path(_dv);
+			pt.addArc((float) rctOuter.getLeft(), (float) rctOuter.getTop(), (float) rctOuter.getWidth(),
+					(float) rctOuter.getHeight(), (float) are.getStartAngle(), (float) are.getAngleExtent());
 
-			pt.lineTo( (float) xeInner, (float) yeInner );
+			pt.lineTo((float) xeInner, (float) yeInner);
 
-			pt.addArc( (float) rctInner.getLeft( ),
-					(float) rctInner.getTop( ),
-					(float) rctInner.getWidth( ),
-					(float) rctInner.getHeight( ),
-					(float) ( are.getStartAngle( ) + are.getAngleExtent( ) ),
-					(float) -are.getAngleExtent( ) );
+			pt.addArc((float) rctInner.getLeft(), (float) rctInner.getTop(), (float) rctInner.getWidth(),
+					(float) rctInner.getHeight(), (float) (are.getStartAngle() + are.getAngleExtent()),
+					(float) -are.getAngleExtent());
 
-			pt.lineTo( (float) xsOuter, (float) ysOuter );
+			pt.lineTo((float) xsOuter, (float) ysOuter);
 
-			_gc.drawPath( pt );
+			_gc.drawPath(pt);
 
-			pt.dispose( );
-		}
-		else
-		{
-			if ( are.getStyle( ) == ArcRenderEvent.OPEN )
-			{
-				_gc.drawArc( (int) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-						(int) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-						(int) ( are.getWidth( ) * dScale ),
-						(int) ( are.getHeight( ) * dScale ),
-						(int) are.getStartAngle( ),
-						(int) are.getAngleExtent( ) );
-			}
-			else
-			{
-				double xc = ( ( are.getTopLeft( ).getX( ) + dTranslateX + are.getWidth( ) / 2d ) * dScale );
-				double yc = ( ( are.getTopLeft( ).getY( ) + dTranslateY + are.getHeight( ) / 2d ) * dScale );
+			pt.dispose();
+		} else {
+			if (are.getStyle() == ArcRenderEvent.OPEN) {
+				_gc.drawArc((int) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+						(int) ((are.getTopLeft().getY() + dTranslateY) * dScale), (int) (are.getWidth() * dScale),
+						(int) (are.getHeight() * dScale), (int) are.getStartAngle(), (int) are.getAngleExtent());
+			} else {
+				double xc = ((are.getTopLeft().getX() + dTranslateX + are.getWidth() / 2d) * dScale);
+				double yc = ((are.getTopLeft().getY() + dTranslateY + are.getHeight() / 2d) * dScale);
 
 				double xs = 0, ys = 0, xe = 0, ye = 0;
 
-				double angle = Math.toRadians( -are.getStartAngle( ) );
+				double angle = Math.toRadians(-are.getStartAngle());
 
-				xs = ( ( are.getTopLeft( ).getX( ) + dTranslateX + ( Math.cos( angle ) * 0.5 + 0.5 )
-						* are.getWidth( ) ) * dScale );
-				ys = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
-						* are.getHeight( ) ) * dScale );
+				xs = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth())
+						* dScale);
+				ys = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight())
+						* dScale);
 
-				angle = Math.toRadians( -are.getStartAngle( )
-						- are.getAngleExtent( ) );
+				angle = Math.toRadians(-are.getStartAngle() - are.getAngleExtent());
 
-				xe = ( ( are.getTopLeft( ).getX( ) + dTranslateX + ( Math.cos( angle ) * 0.5 + 0.5 )
-						* are.getWidth( ) ) * dScale );
-				ye = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
-						* are.getHeight( ) ) * dScale );
+				xe = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth())
+						* dScale);
+				ye = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight())
+						* dScale);
 
-				Path pt = new Path( _dv );
-				if ( are.getStyle( ) == ArcRenderEvent.CLOSED )
-				{
-					pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-							(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-							(float) ( are.getWidth( ) * dScale ),
-							(float) ( are.getHeight( ) * dScale ),
-							(float) are.getStartAngle( ),
-							(float) are.getAngleExtent( ) );
+				Path pt = new Path(_dv);
+				if (are.getStyle() == ArcRenderEvent.CLOSED) {
+					pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+							(float) ((are.getTopLeft().getY() + dTranslateY) * dScale),
+							(float) (are.getWidth() * dScale), (float) (are.getHeight() * dScale),
+							(float) are.getStartAngle(), (float) are.getAngleExtent());
 					// fix in case angle extent is zero.
-					pt.moveTo( (float) xe, (float) ye );
-					pt.lineTo( (float) xs, (float) ys );
+					pt.moveTo((float) xe, (float) ye);
+					pt.lineTo((float) xs, (float) ys);
 
-					_gc.drawPath( pt );
-				}
-				else if ( are.getStyle( ) == ArcRenderEvent.SECTOR )
-				{
-					pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-							(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-							(float) ( are.getWidth( ) * dScale ),
-							(float) ( are.getHeight( ) * dScale ),
-							(float) are.getStartAngle( ),
-							(float) are.getAngleExtent( ) );
+					_gc.drawPath(pt);
+				} else if (are.getStyle() == ArcRenderEvent.SECTOR) {
+					pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+							(float) ((are.getTopLeft().getY() + dTranslateY) * dScale),
+							(float) (are.getWidth() * dScale), (float) (are.getHeight() * dScale),
+							(float) are.getStartAngle(), (float) are.getAngleExtent());
 					// fix in case angle extent is zero.
-					pt.moveTo( (float) xe, (float) ye );
-					pt.lineTo( (float) xc, (float) yc );
-					pt.lineTo( (float) xs, (float) ys );
+					pt.moveTo((float) xe, (float) ye);
+					pt.lineTo((float) xc, (float) yc);
+					pt.lineTo((float) xs, (float) ys);
 
-					_gc.drawPath( pt );
+					_gc.drawPath(pt);
 				}
-				pt.dispose( );
+				pt.dispose();
 			}
 		}
 
 	}
 
-	protected Bounds getOuterRectangle( ArcRenderEvent are, double dTranslateX,
-			double dTranslateY, double dScale, Bounds bo )
-	{
+	protected Bounds getOuterRectangle(ArcRenderEvent are, double dTranslateX, double dTranslateY, double dScale,
+			Bounds bo) {
 		Bounds rctOuter;
-		if ( are.getOuterRadius( ) > 0 )
-		{
-			double radio = bo.getHeight( ) / bo.getWidth( );
-			rctOuter = goFactory.createBounds( ( ( bo.getLeft( )
-					+ dTranslateX + ( bo.getWidth( ) / 2d - are.getOuterRadius( ) ) ) * dScale ),
-					( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getOuterRadius( )
-							* radio ) ) * dScale ),
-					( 2 * are.getOuterRadius( ) * dScale ),
-					( 2 * are.getOuterRadius( ) * dScale ) * radio );
-		}
-		else
-		{
-			rctOuter = goFactory.createBounds( ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-					( ( bo.getTop( ) + dTranslateY ) * dScale ),
-					( bo.getWidth( ) * dScale ),
-					( bo.getHeight( ) * dScale ) );
+		if (are.getOuterRadius() > 0) {
+			double radio = bo.getHeight() / bo.getWidth();
+			rctOuter = goFactory.createBounds(
+					((bo.getLeft() + dTranslateX + (bo.getWidth() / 2d - are.getOuterRadius())) * dScale),
+					((bo.getTop() + dTranslateY + (bo.getHeight() / 2d - are.getOuterRadius() * radio)) * dScale),
+					(2 * are.getOuterRadius() * dScale), (2 * are.getOuterRadius() * dScale) * radio);
+		} else {
+			rctOuter = goFactory.createBounds(((bo.getLeft() + dTranslateX) * dScale),
+					((bo.getTop() + dTranslateY) * dScale), (bo.getWidth() * dScale), (bo.getHeight() * dScale));
 		}
 		return rctOuter;
 	}
 
-	protected Bounds getInnerRectangle( ArcRenderEvent are, double dTranslateX,
-			double dTranslateY, double dScale, Bounds bo )
-	{
+	protected Bounds getInnerRectangle(ArcRenderEvent are, double dTranslateX, double dTranslateY, double dScale,
+			Bounds bo) {
 		Bounds rctInner;
-		if ( are.getInnerRadius( ) > 0 )
-		{
-			double radio = bo.getHeight( ) / bo.getWidth( );
-			rctInner = goFactory.createBounds( ( ( bo.getLeft( ) + dTranslateX + ( bo.getWidth( ) / 2d - are.getInnerRadius( ) ) ) * dScale ),
-					( ( bo.getTop( ) + dTranslateY + ( bo.getHeight( ) / 2d - are.getInnerRadius( )
-							* radio ) ) * dScale ),
-					( 2 * are.getInnerRadius( ) * dScale ),
-					( 2 * are.getInnerRadius( ) * dScale ) * radio );
-		}
-		else
-		{
-			rctInner = goFactory.createBounds( ( ( bo.getLeft( )
-					+ dTranslateX + bo.getWidth( ) / 2d ) * dScale ),
-					( ( bo.getTop( ) + dTranslateY + bo.getHeight( ) / 2d ) * dScale ),
-					0,
-					0 );
+		if (are.getInnerRadius() > 0) {
+			double radio = bo.getHeight() / bo.getWidth();
+			rctInner = goFactory.createBounds(
+					((bo.getLeft() + dTranslateX + (bo.getWidth() / 2d - are.getInnerRadius())) * dScale),
+					((bo.getTop() + dTranslateY + (bo.getHeight() / 2d - are.getInnerRadius() * radio)) * dScale),
+					(2 * are.getInnerRadius() * dScale), (2 * are.getInnerRadius() * dScale) * radio);
+		} else {
+			rctInner = goFactory.createBounds(((bo.getLeft() + dTranslateX + bo.getWidth() / 2d) * dScale),
+					((bo.getTop() + dTranslateY + bo.getHeight() / 2d) * dScale), 0, 0);
 		}
 		return rctInner;
 	}
@@ -791,997 +642,747 @@ public class SwtRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#drawArc(org.eclipse.birt.chart.event.ArcRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawArc(org.eclipse.birt.
+	 * chart.event.ArcRenderEvent)
 	 */
-	public void drawArc( ArcRenderEvent are ) throws ChartException
-	{
-		iv.modifyEvent( are );
-		
+	public void drawArc(ArcRenderEvent are) throws ChartException {
+		iv.modifyEvent(are);
+
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
-		final LineAttributes lia = are.getOutline( );
-		if ( !validateLineAttributes( are.getSource( ), lia ) )
-		{
+		final LineAttributes lia = are.getOutline();
+		if (!validateLineAttributes(are.getSource(), lia)) {
 			return;
 		}
 
 		// SETUP THE FOREGROUND COLOR (DARKER BACKGROUND IF DEFINED AS NULL)
-		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
-				are.getBackground( ),
-				_ids );
-		if ( cFG == null )
-		{
+		final Color cFG = (Color) validateEdgeColor(lia.getColor(), are.getBackground(), _ids);
+		if (cFG == null) {
 			return;
 		}
 
 		// DRAW THE ARC WITH THE SPECIFIED LINE ATTRIBUTES
-		final int iOldLineStyle = _gc.getLineStyle( );
-		final int iOldLineWidth = _gc.getLineWidth( );
+		final int iOldLineStyle = _gc.getLineStyle();
+		final int iOldLineWidth = _gc.getLineWidth();
 		int iLineStyle = SWT.LINE_SOLID;
-		switch ( lia.getStyle( ).getValue( ) )
-		{
-			case LineStyle.DOTTED :
-				iLineStyle = SWT.LINE_DOT;
-				break;
-			case LineStyle.DASH_DOTTED :
-				iLineStyle = SWT.LINE_DASHDOT;
-				break;
-			case LineStyle.DASHED :
-				iLineStyle = SWT.LINE_DASH;
-				break;
+		switch (lia.getStyle().getValue()) {
+		case LineStyle.DOTTED:
+			iLineStyle = SWT.LINE_DOT;
+			break;
+		case LineStyle.DASH_DOTTED:
+			iLineStyle = SWT.LINE_DASHDOT;
+			break;
+		case LineStyle.DASHED:
+			iLineStyle = SWT.LINE_DASH;
+			break;
 		}
-		_gc.setLineStyle( iLineStyle );
-		_gc.setLineWidth( lia.getThickness( ) );
-		_gc.setForeground( cFG );
+		_gc.setLineStyle(iLineStyle);
+		_gc.setLineWidth(lia.getThickness());
+		_gc.setForeground(cFG);
 
-		R31Enhance.setAlpha( _gc, lia.getColor( ) );
+		R31Enhance.setAlpha(_gc, lia.getColor());
 
-		drawArc( _gc,
-				( (SwtDisplayServer) _ids ).getDevice( ),
-				are,
-				dTranslateX,
-				dTranslateY,
-				dScale );
+		drawArc(_gc, ((SwtDisplayServer) _ids).getDevice(), are, dTranslateX, dTranslateY, dScale);
 
-		_gc.setLineStyle( iOldLineStyle );
-		_gc.setLineWidth( iOldLineWidth );
-		cFG.dispose( );
-		
+		_gc.setLineStyle(iOldLineStyle);
+		_gc.setLineWidth(iOldLineWidth);
+		cFG.dispose();
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#fillArc(org.eclipse.birt.chart.event.ArcRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#fillArc(org.eclipse.birt.
+	 * chart.event.ArcRenderEvent)
 	 */
-	public void fillArc( ArcRenderEvent are ) throws ChartException
-	{
-		iv.modifyEvent( are );
-		
-		Fill flBackground = validateMultipleFill( are.getBackground( ) );
+	public void fillArc(ArcRenderEvent are) throws ChartException {
+		iv.modifyEvent(are);
 
-		if ( isFullTransparent( flBackground ) || are.getAngleExtent( ) == 0 )
-		{
+		Fill flBackground = validateMultipleFill(are.getBackground());
+
+		if (isFullTransparent(flBackground) || are.getAngleExtent() == 0) {
 			return;
 		}
 
-		Bounds bo = goFactory.createBounds( are.getTopLeft( ).getX( ),
-				are.getTopLeft( ).getY( ),
-				are.getWidth( ),
-				are.getHeight( ) );
-		final Rectangle r = new Rectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
-				(int) Math.ceil( bo.getWidth( ) * dScale ),
-				(int) Math.ceil( bo.getHeight( ) * dScale ) );
-		
-		Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
-		
-		if ( are.getInnerRadius( ) >= 0
-				&& ( are.getOuterRadius( ) > 0 && are.getInnerRadius( ) < are.getOuterRadius( ) )
-				|| ( are.getInnerRadius( ) > 0 && are.getOuterRadius( ) <= 0 ) )
-		{
+		Bounds bo = goFactory.createBounds(are.getTopLeft().getX(), are.getTopLeft().getY(), are.getWidth(),
+				are.getHeight());
+		final Rectangle r = new Rectangle((int) ((bo.getLeft() + dTranslateX) * dScale),
+				(int) ((bo.getTop() + dTranslateY) * dScale), (int) Math.ceil(bo.getWidth() * dScale),
+				(int) Math.ceil(bo.getHeight() * dScale));
+
+		Path pt = new Path(((SwtDisplayServer) _ids).getDevice());
+
+		if (are.getInnerRadius() >= 0 && (are.getOuterRadius() > 0 && are.getInnerRadius() < are.getOuterRadius())
+				|| (are.getInnerRadius() > 0 && are.getOuterRadius() <= 0)) {
 			Bounds rctOuter, rctInner;
 
-			rctOuter = getOuterRectangle( are,
-					dTranslateX,
-					dTranslateY,
-					dScale,
-					bo );
+			rctOuter = getOuterRectangle(are, dTranslateX, dTranslateY, dScale, bo);
 
-			rctInner = getInnerRectangle( are,
-					dTranslateX,
-					dTranslateY,
-					dScale,
-					bo );
-			
-			double startAngle = Math.toRadians( -are.getStartAngle( ) );
-			double stopAngle = Math.toRadians( -are.getStartAngle( )
-					- are.getAngleExtent( ) );
+			rctInner = getInnerRectangle(are, dTranslateX, dTranslateY, dScale, bo);
 
-			double xsOuter = ( rctOuter.getLeft( ) + ( Math.cos( startAngle ) * 0.5 + 0.5 )
-					* rctOuter.getWidth( ) );
-			double ysOuter = ( rctOuter.getTop( ) + ( Math.sin( startAngle ) * 0.5 + 0.5 )
-					* rctOuter.getHeight( ) );
+			double startAngle = Math.toRadians(-are.getStartAngle());
+			double stopAngle = Math.toRadians(-are.getStartAngle() - are.getAngleExtent());
 
-			double xeInner = ( rctInner.getLeft( ) + ( Math.cos( stopAngle ) * 0.5 + 0.5 )
-					* rctInner.getWidth( ) );
-			double yeInner = ( rctInner.getTop( ) + ( Math.sin( stopAngle ) * 0.5 + 0.5 )
-					* rctInner.getHeight( ) );
+			double xsOuter = (rctOuter.getLeft() + (Math.cos(startAngle) * 0.5 + 0.5) * rctOuter.getWidth());
+			double ysOuter = (rctOuter.getTop() + (Math.sin(startAngle) * 0.5 + 0.5) * rctOuter.getHeight());
 
-			pt.addArc( (float) rctOuter.getLeft( ),
-					(float) rctOuter.getTop( ),
-					(float) rctOuter.getWidth( ),
-					(float) rctOuter.getHeight( ),
-					(float) are.getStartAngle( ),
-					(float) are.getAngleExtent( ) );
+			double xeInner = (rctInner.getLeft() + (Math.cos(stopAngle) * 0.5 + 0.5) * rctInner.getWidth());
+			double yeInner = (rctInner.getTop() + (Math.sin(stopAngle) * 0.5 + 0.5) * rctInner.getHeight());
 
-			pt.lineTo( (float) xeInner, (float) yeInner );
+			pt.addArc((float) rctOuter.getLeft(), (float) rctOuter.getTop(), (float) rctOuter.getWidth(),
+					(float) rctOuter.getHeight(), (float) are.getStartAngle(), (float) are.getAngleExtent());
 
-			pt.addArc( (float) rctInner.getLeft( ),
-					(float) rctInner.getTop( ),
-					(float) rctInner.getWidth( ),
-					(float) rctInner.getHeight( ),
-					(float) ( are.getStartAngle( ) + are.getAngleExtent( ) ),
-					(float) -are.getAngleExtent( ) );
+			pt.lineTo((float) xeInner, (float) yeInner);
 
-			pt.lineTo( (float) xsOuter, (float) ysOuter );
-		}
-		else
-		{
-			if ( are.getStyle( ) == ArcRenderEvent.SECTOR
-					|| ( are.getStyle( ) == ArcRenderEvent.CLOSED && Math.abs( are.getAngleExtent( ) ) >= 360 ) )
-			{
-				double xc = ( ( are.getTopLeft( ).getX( ) + dTranslateX + are.getWidth( ) / 2d ) * dScale );
-				double yc = ( ( are.getTopLeft( ).getY( ) + dTranslateY + are.getHeight( ) / 2d ) * dScale );
+			pt.addArc((float) rctInner.getLeft(), (float) rctInner.getTop(), (float) rctInner.getWidth(),
+					(float) rctInner.getHeight(), (float) (are.getStartAngle() + are.getAngleExtent()),
+					(float) -are.getAngleExtent());
+
+			pt.lineTo((float) xsOuter, (float) ysOuter);
+		} else {
+			if (are.getStyle() == ArcRenderEvent.SECTOR
+					|| (are.getStyle() == ArcRenderEvent.CLOSED && Math.abs(are.getAngleExtent()) >= 360)) {
+				double xc = ((are.getTopLeft().getX() + dTranslateX + are.getWidth() / 2d) * dScale);
+				double yc = ((are.getTopLeft().getY() + dTranslateY + are.getHeight() / 2d) * dScale);
 
 				double xs = 0, ys = 0;
-				double angle = Math.toRadians( -are.getStartAngle( ) );
+				double angle = Math.toRadians(-are.getStartAngle());
 
-				xs = ( ( are.getTopLeft( ).getX( ) + dTranslateX + ( Math.cos( angle ) * 0.5 + 0.5 )
-						* are.getWidth( ) ) * dScale );
-				ys = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
-						* are.getHeight( ) ) * dScale );
+				xs = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth())
+						* dScale);
+				ys = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight())
+						* dScale);
 
-				if ( are.getStyle( ) == ArcRenderEvent.CLOSED )
-				{
-					pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-							(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-							(float) ( are.getWidth( ) * dScale ),
-							(float) ( are.getHeight( ) * dScale ),
-							(float) are.getStartAngle( ),
-							(float) are.getAngleExtent( ) );
-					pt.lineTo( (float) xs, (float) ys );
-				}
-				else if ( are.getStyle( ) == ArcRenderEvent.SECTOR )
-				{
-					pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-							(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-							(float) ( are.getWidth( ) * dScale ),
-							(float) ( are.getHeight( ) * dScale ),
-							(float) are.getStartAngle( ),
-							(float) are.getAngleExtent( ) );
-					pt.lineTo( (float) xc, (float) yc );
-					pt.lineTo( (float) xs, (float) ys );
+				if (are.getStyle() == ArcRenderEvent.CLOSED) {
+					pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+							(float) ((are.getTopLeft().getY() + dTranslateY) * dScale),
+							(float) (are.getWidth() * dScale), (float) (are.getHeight() * dScale),
+							(float) are.getStartAngle(), (float) are.getAngleExtent());
+					pt.lineTo((float) xs, (float) ys);
+				} else if (are.getStyle() == ArcRenderEvent.SECTOR) {
+					pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+							(float) ((are.getTopLeft().getY() + dTranslateY) * dScale),
+							(float) (are.getWidth() * dScale), (float) (are.getHeight() * dScale),
+							(float) are.getStartAngle(), (float) are.getAngleExtent());
+					pt.lineTo((float) xc, (float) yc);
+					pt.lineTo((float) xs, (float) ys);
 				}
 			}
 
 			// Extra fix due to SWT arc rendering limitation.
-			else if ( are.getStyle( ) == ArcRenderEvent.OPEN
-					|| are.getStyle( ) == ArcRenderEvent.CLOSED )
-			{
-				double angle = Math.toRadians( -are.getStartAngle( ) );
+			else if (are.getStyle() == ArcRenderEvent.OPEN || are.getStyle() == ArcRenderEvent.CLOSED) {
+				double angle = Math.toRadians(-are.getStartAngle());
 
-				double xs = ( ( are.getTopLeft( ).getX( ) + dTranslateX + ( Math.cos( angle ) * 0.5 + 0.5 )
-						* are.getWidth( ) ) * dScale );
-				double ys = ( ( are.getTopLeft( ).getY( ) + dTranslateY + ( Math.sin( angle ) * 0.5 + 0.5 )
-						* are.getHeight( ) ) * dScale );
+				double xs = ((are.getTopLeft().getX() + dTranslateX + (Math.cos(angle) * 0.5 + 0.5) * are.getWidth())
+						* dScale);
+				double ys = ((are.getTopLeft().getY() + dTranslateY + (Math.sin(angle) * 0.5 + 0.5) * are.getHeight())
+						* dScale);
 
-				pt.addArc( (float) ( ( are.getTopLeft( ).getX( ) + dTranslateX ) * dScale ),
-						(float) ( ( are.getTopLeft( ).getY( ) + dTranslateY ) * dScale ),
-						(float) ( are.getWidth( ) * dScale ),
-						(float) ( are.getHeight( ) * dScale ),
-						(float) are.getStartAngle( ),
-						(float) are.getAngleExtent( ) );
+				pt.addArc((float) ((are.getTopLeft().getX() + dTranslateX) * dScale),
+						(float) ((are.getTopLeft().getY() + dTranslateY) * dScale), (float) (are.getWidth() * dScale),
+						(float) (are.getHeight() * dScale), (float) are.getStartAngle(), (float) are.getAngleExtent());
 
-				pt.lineTo( (float) xs, (float) ys );
+				pt.lineTo((float) xs, (float) ys);
 			}
 		}
-		
-		try
-		{
-			if ( flBackground instanceof ColorDefinition )
-			{
-				fillPathColor( pt, (ColorDefinition) flBackground );
+
+		try {
+			if (flBackground instanceof ColorDefinition) {
+				fillPathColor(pt, (ColorDefinition) flBackground);
+			} else if (flBackground instanceof Gradient) {
+				fillPathGradient(pt, (Gradient) flBackground, r);
+			} else if (flBackground instanceof org.eclipse.birt.chart.model.attribute.Image) {
+				fillPathImage(pt, (org.eclipse.birt.chart.model.attribute.Image) flBackground);
 			}
-			else if ( flBackground instanceof Gradient )
-			{
-				fillPathGradient( pt, (Gradient) flBackground, r );
-			}
-			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-			{
-				fillPathImage( pt,
-						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
-			}
-		}
-		finally
-		{
-			pt.dispose( );
+		} finally {
+			pt.dispose();
 		}
 
 	}
-	
-	private final void fillPathColor( Path path, ColorDefinition g )
-			throws ChartException
-	{
+
+	private final void fillPathColor(Path path, ColorDefinition g) throws ChartException {
 		// skip full transparency for optimization.
-		if ( !( g.isSetTransparency( ) && g.getTransparency( ) == 0 ) )
-		{
-			final Color cBG = (Color) _ids.getColor( g );
-			final Color cPreviousBG = _gc.getBackground( );
-			_gc.setBackground( cBG );
+		if (!(g.isSetTransparency() && g.getTransparency() == 0)) {
+			final Color cBG = (Color) _ids.getColor(g);
+			final Color cPreviousBG = _gc.getBackground();
+			_gc.setBackground(cBG);
 
-			R31Enhance.setAlpha( _gc, g );
+			R31Enhance.setAlpha(_gc, g);
 
-			_gc.fillPath( path );
+			_gc.fillPath(path);
 
-			cBG.dispose( );
-			_gc.setBackground( cPreviousBG );
+			cBG.dispose();
+			_gc.setBackground(cPreviousBG);
 		}
 	}
-	
-	private final void fillPathGradient( Path path, Gradient g, Rectangle r )
-			throws ChartException
-	{
-		final ColorDefinition cdStart = g.getStartColor( );
-		final ColorDefinition cdEnd = g.getEndColor( );
-		double dAngleInDegrees = g.getDirection( );
 
-		if ( dAngleInDegrees < -90 || dAngleInDegrees > 90 )
-		{
-			throw new ChartException( ChartDeviceSwtActivator.ID,
-					ChartException.RENDERING,
+	private final void fillPathGradient(Path path, Gradient g, Rectangle r) throws ChartException {
+		final ColorDefinition cdStart = g.getStartColor();
+		final ColorDefinition cdEnd = g.getEndColor();
+		double dAngleInDegrees = g.getDirection();
+
+		if (dAngleInDegrees < -90 || dAngleInDegrees > 90) {
+			throw new ChartException(ChartDeviceSwtActivator.ID, ChartException.RENDERING,
 					"SwtRendererImpl.exception.gradient.angle", //$NON-NLS-1$
-					new Object[]{
-						new Double( dAngleInDegrees )
-					},
-					Messages.getResourceBundle( getULocale( ) ) );
+					new Object[] { new Double(dAngleInDegrees) }, Messages.getResourceBundle(getULocale()));
 		}
 
-		final Color cPreviousFG = _gc.getForeground( );
-		final Color cPreviousBG = _gc.getBackground( );
-		Color cFG = (Color) _ids.getColor( cdStart );
-		Color cBG = (Color) _ids.getColor( cdEnd );
-		
+		final Color cPreviousFG = _gc.getForeground();
+		final Color cPreviousBG = _gc.getBackground();
+		Color cFG = (Color) _ids.getColor(cdStart);
+		Color cBG = (Color) _ids.getColor(cdEnd);
+
 		float x1, y1, x2, y2;
-		
+
 		// #232647
 		// The maximal round-off error to calculate x2 and y2 here can be 2.
 		// And if the pattern value is less than the forground, it is very obvious.
-		// So we add 2 here to overcome this error. 
-		final int iMaxError = 2; 
-		
-		if ( dAngleInDegrees == 0 )
-		{
+		// So we add 2 here to overcome this error.
+		final int iMaxError = 2;
+
+		if (dAngleInDegrees == 0) {
 			x1 = r.x;
 			x2 = r.x + r.width + iMaxError;
 			y1 = y2 = r.y;
-		}
-		else if ( dAngleInDegrees == 90 )
-		{
+		} else if (dAngleInDegrees == 90) {
 			x1 = x2 = r.x;
 			y1 = r.y + r.height + iMaxError;
 			y2 = r.y;
-		}
-		else if ( dAngleInDegrees == -90 )
-		{
+		} else if (dAngleInDegrees == -90) {
 			x1 = x2 = r.x;
 			y1 = r.y;
 			y2 = r.y + r.height + iMaxError;
-		}
-		else if ( dAngleInDegrees > 0 )
-		{
+		} else if (dAngleInDegrees > 0) {
 			x1 = r.x;
 			y1 = r.y + r.height;
 			x2 = r.x + r.width + iMaxError;
 			y2 = r.y;
-		}
-		else
-		{
+		} else {
 			x1 = r.x;
 			y1 = r.y;
 			x2 = r.x + r.width;
 			y2 = r.y + r.height;
 		}
-		
-		_gc.setForeground( cFG );
-		_gc.setBackground( cBG );
 
-		R31Enhance.setAlpha( _gc, g );
+		_gc.setForeground(cFG);
+		_gc.setBackground(cBG);
 
-		Pattern pattern = new Pattern( _gc.getDevice( ),
-				x1,
-				y1,
-				x2,
-				y2,
-				cFG,
-				cdStart.getTransparency( ),
-				cBG,
-				cdEnd.getTransparency( ) );
-		_gc.setBackgroundPattern( pattern );
-		_gc.fillPath( path );
+		R31Enhance.setAlpha(_gc, g);
 
-		_gc.setForeground( cPreviousFG );
-		_gc.setBackground( cPreviousBG );
-		cFG.dispose( );
-		cBG.dispose( );
-		pattern.dispose( );
+		Pattern pattern = new Pattern(_gc.getDevice(), x1, y1, x2, y2, cFG, cdStart.getTransparency(), cBG,
+				cdEnd.getTransparency());
+		_gc.setBackgroundPattern(pattern);
+		_gc.fillPath(path);
+
+		_gc.setForeground(cPreviousFG);
+		_gc.setBackground(cPreviousBG);
+		cFG.dispose();
+		cBG.dispose();
+		pattern.dispose();
 	}
-	
-	private final void fillPathImage( Path path,
-			org.eclipse.birt.chart.model.attribute.Image g )
-			throws ChartException
-	{
+
+	private final void fillPathImage(Path path, org.eclipse.birt.chart.model.attribute.Image g) throws ChartException {
 		org.eclipse.swt.graphics.Image img = null;
-		if ( g instanceof EmbeddedImage )
-		{
-			try
-			{
-				String imageData = ( (EmbeddedImage) g ).getData( );
-				if ( imageData != null )
-				{
-					ByteArrayInputStream bis = new ByteArrayInputStream( Base64.decodeBase64( ( (EmbeddedImage) g ).getData( )
-							.getBytes( ) ) );
+		if (g instanceof EmbeddedImage) {
+			try {
+				String imageData = ((EmbeddedImage) g).getData();
+				if (imageData != null) {
+					ByteArrayInputStream bis = new ByteArrayInputStream(
+							Base64.decodeBase64(((EmbeddedImage) g).getData().getBytes()));
 
-					img = new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
-							bis );
+					img = new org.eclipse.swt.graphics.Image(((SwtDisplayServer) _ids).getDevice(), bis);
+				} else {
+					img = createEmptyImage();
 				}
-				else
-				{
-					img = createEmptyImage( );
-				}
+			} catch (Exception ilex) {
+				throw new ChartException(ChartDeviceSwtActivator.ID, ChartException.RENDERING, ilex);
 			}
-			catch ( Exception ilex )
-			{
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						ilex );
-			}
-		}
-		else if ( g instanceof PatternImage )
-		{
+		} else if (g instanceof PatternImage) {
 			PatternImage patternImage = (PatternImage) g;
-			img = createImageFromPattern( patternImage );
-		}
-		else
-		{
-			if ( g.getSource( ) == ImageSourceType.STATIC )
-			{
-				final String sUrl = g.getURL( );
-				try
-				{
-					img = (org.eclipse.swt.graphics.Image) _ids.loadImage( SecurityUtil.newURL( sUrl ) );
+			img = createImageFromPattern(patternImage);
+		} else {
+			if (g.getSource() == ImageSourceType.STATIC) {
+				final String sUrl = g.getURL();
+				try {
+					img = (org.eclipse.swt.graphics.Image) _ids.loadImage(SecurityUtil.newURL(sUrl));
+				} catch (MalformedURLException muex) {
+					throw new ChartException(ChartDeviceSwtActivator.ID, ChartException.RENDERING, muex);
 				}
-				catch ( MalformedURLException muex )
-				{
-					throw new ChartException( ChartDeviceSwtActivator.ID,
-							ChartException.RENDERING,
-							muex );
-				}
-			}
-			else
-			{
-				img = createEmptyImage( );
+			} else {
+				img = createEmptyImage();
 			}
 
 		}
 
-		Pattern pattern = new Pattern( _gc.getDevice( ), img );
-		_gc.setBackgroundPattern( pattern );
-		_gc.fillPath( path );
+		Pattern pattern = new Pattern(_gc.getDevice(), img);
+		_gc.setBackgroundPattern(pattern);
+		_gc.fillPath(path);
 
-		pattern.dispose( );
-		img.dispose( );
+		pattern.dispose();
+		img.dispose();
 	}
-	
-	private Image createEmptyImage( )
-	{
+
+	private Image createEmptyImage() {
 		// To render a blank image for null embedded data
-		return new org.eclipse.swt.graphics.Image( ( (SwtDisplayServer) _ids ).getDevice( ),
-				10,
-				10 );
+		return new org.eclipse.swt.graphics.Image(((SwtDisplayServer) _ids).getDevice(), 10, 10);
 	}
 
-	private Image createImageFromPattern( PatternImage patternImage )
-	{
-		Device device = ( (SwtDisplayServer) _ids ).getDevice( );
+	private Image createImageFromPattern(PatternImage patternImage) {
+		Device device = ((SwtDisplayServer) _ids).getDevice();
 
-		PaletteData paletteData = new PaletteData( 0xFF00, 0xFF0000, 0xFF000000 );
-		byte[] data = PatternImageUtil.createImageData( patternImage,
-				ByteColorModel.BGRA );
+		PaletteData paletteData = new PaletteData(0xFF00, 0xFF0000, 0xFF000000);
+		byte[] data = PatternImageUtil.createImageData(patternImage, ByteColorModel.BGRA);
 
-		ImageData imageData = new ImageData( 8, 8, 32, paletteData, 4, data );
+		ImageData imageData = new ImageData(8, 8, 32, paletteData, 4, data);
 
-		return new Image( device, imageData );
+		return new Image(device, imageData);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#enableInteraction(org.eclipse.birt.chart.event.InteractionEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#enableInteraction(org.eclipse
+	 * .birt.chart.event.InteractionEvent)
 	 */
-	public void enableInteraction( InteractionEvent iev ) throws ChartException
-	{
-		if ( _iun == null )
-		{
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "SwtRendererImpl.exception.missing.component.interaction", getULocale( ) ) ); //$NON-NLS-1$
+	public void enableInteraction(InteractionEvent iev) throws ChartException {
+		if (_iun == null) {
+			logger.log(ILogger.INFORMATION,
+					Messages.getString("SwtRendererImpl.exception.missing.component.interaction", getULocale())); //$NON-NLS-1$
 			return;
 		}
 
-		final Trigger[] tga = iev.getTriggers( );
-		if ( tga == null )
-		{
+		final Trigger[] tga = iev.getTriggers();
+		if (tga == null) {
 			return;
 		}
 
-		Region clipping = new Region( );
-		_gc.getClipping( clipping );
+		Region clipping = new Region();
+		_gc.getClipping(clipping);
 
 		// CREATE AND SETUP THE SHAPES FOR INTERACTION
 		TriggerCondition tc;
 		List<RegionAction> al;
-		final PrimitiveRenderEvent pre = iev.getHotSpot( );
-		if ( pre instanceof PolygonRenderEvent )
-		{
-			final Location[] loa = ( (PolygonRenderEvent) pre ).getPoints( );
+		final PrimitiveRenderEvent pre = iev.getHotSpot();
+		if (pre instanceof PolygonRenderEvent) {
+			final Location[] loa = ((PolygonRenderEvent) pre).getPoints();
 
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+			for (int i = 0; i < tga.length; i++) {
+				tc = tga[i].getCondition();
+				al = _lhmAllTriggers.get(tc);
+				if (al == null) {
+					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
 															// CONDITIONS
-					_lhmAllTriggers.put( tc, al );
+					_lhmAllTriggers.put(tc, al);
 				}
-				RegionAction ra = new RegionAction( iev.getStructureSource( ),
-						loa,
-						tga[i].getAction( ),
-						dTranslateX,
-						dTranslateY,
-						dScale,
-						clipping );
-				ra.setCursor( iev.getCursor( ) );
-				al.add( 0, ra );
+				RegionAction ra = new RegionAction(iev.getStructureSource(), loa, tga[i].getAction(), dTranslateX,
+						dTranslateY, dScale, clipping);
+				ra.setCursor(iev.getCursor());
+				al.add(0, ra);
 			}
-		}
-		else if ( pre instanceof RectangleRenderEvent )
-		{
-			final Bounds bo = ( (RectangleRenderEvent) pre ).getBounds( );
+		} else if (pre instanceof RectangleRenderEvent) {
+			final Bounds bo = ((RectangleRenderEvent) pre).getBounds();
 
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+			for (int i = 0; i < tga.length; i++) {
+				tc = tga[i].getCondition();
+				al = _lhmAllTriggers.get(tc);
+				if (al == null) {
+					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
 															// CONDITIONS
-					_lhmAllTriggers.put( tc, al );
+					_lhmAllTriggers.put(tc, al);
 				}
-				RegionAction ra = new RegionAction( iev.getStructureSource( ),
-						bo,
-						tga[i].getAction( ),
-						dTranslateX,
-						dTranslateY,
-						dScale,
-						clipping );
-				ra.setCursor( iev.getCursor( ) );
-				al.add( 0, ra );
+				RegionAction ra = new RegionAction(iev.getStructureSource(), bo, tga[i].getAction(), dTranslateX,
+						dTranslateY, dScale, clipping);
+				ra.setCursor(iev.getCursor());
+				al.add(0, ra);
 			}
-		}
-		else if ( pre instanceof OvalRenderEvent )
-		{
-			final Bounds boEllipse = ( (OvalRenderEvent) pre ).getBounds( );
+		} else if (pre instanceof OvalRenderEvent) {
+			final Bounds boEllipse = ((OvalRenderEvent) pre).getBounds();
 
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+			for (int i = 0; i < tga.length; i++) {
+				tc = tga[i].getCondition();
+				al = _lhmAllTriggers.get(tc);
+				if (al == null) {
+					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
 															// CONDITIONS
-					_lhmAllTriggers.put( tc, al );
+					_lhmAllTriggers.put(tc, al);
 				}
 
 				// using rectangle to simulate the oval due to swt limitation.
-				RegionAction ra = new RegionAction( iev.getStructureSource( ),
-							boEllipse,
-							tga[i].getAction( ),
-							dTranslateX,
-							dTranslateY,
-							dScale,
-							clipping );
-				ra.setCursor( iev.getCursor( ) );
-				al.add( 0, ra );
+				RegionAction ra = new RegionAction(iev.getStructureSource(), boEllipse, tga[i].getAction(), dTranslateX,
+						dTranslateY, dScale, clipping);
+				ra.setCursor(iev.getCursor());
+				al.add(0, ra);
 			}
-		}
-		else if ( pre instanceof ArcRenderEvent )
-		{
+		} else if (pre instanceof ArcRenderEvent) {
 			final ArcRenderEvent are = (ArcRenderEvent) pre;
-			final Bounds boEllipse = are.getEllipseBounds( );
-			double dStart = are.getStartAngle( );
-			double dExtent = are.getAngleExtent( );
-			int iArcType = are.getStyle( );
+			final Bounds boEllipse = are.getEllipseBounds();
+			double dStart = are.getStartAngle();
+			double dExtent = are.getAngleExtent();
+			int iArcType = are.getStyle();
 
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+			for (int i = 0; i < tga.length; i++) {
+				tc = tga[i].getCondition();
+				al = _lhmAllTriggers.get(tc);
+				if (al == null) {
+					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
 															// CONDITIONS
-					_lhmAllTriggers.put( tc, al );
+					_lhmAllTriggers.put(tc, al);
 				}
 
 				// using rectangle to simulate the arc due to swt limitation.
-				RegionAction ra = new RegionAction( iev.getStructureSource( ),
-						boEllipse,
-						dStart,
-						dExtent,
-						iArcType,
-						tga[i].getAction( ),
-						dTranslateX,
-						dTranslateY,
-						dScale,
-						clipping );
-				ra.setCursor( iev.getCursor( ) );
-				al.add( 0, ra );
+				RegionAction ra = new RegionAction(iev.getStructureSource(), boEllipse, dStart, dExtent, iArcType,
+						tga[i].getAction(), dTranslateX, dTranslateY, dScale, clipping);
+				ra.setCursor(iev.getCursor());
+				al.add(0, ra);
 			}
-		}
-		else if ( pre instanceof AreaRenderEvent )
-		{
-			final Bounds bo = ( (AreaRenderEvent) pre ).getBounds( );
+		} else if (pre instanceof AreaRenderEvent) {
+			final Bounds bo = ((AreaRenderEvent) pre).getBounds();
 
-			for ( int i = 0; i < tga.length; i++ )
-			{
-				tc = tga[i].getCondition( );
-				al = _lhmAllTriggers.get( tc );
-				if ( al == null )
-				{
-					al = new ArrayList<RegionAction>( 4 ); // UNDER NORMAL
+			for (int i = 0; i < tga.length; i++) {
+				tc = tga[i].getCondition();
+				al = _lhmAllTriggers.get(tc);
+				if (al == null) {
+					al = new ArrayList<RegionAction>(4); // UNDER NORMAL
 															// CONDITIONS
-					_lhmAllTriggers.put( tc, al );
+					_lhmAllTriggers.put(tc, al);
 				}
-				RegionAction ra = new RegionAction( iev.getStructureSource( ),
-						bo,
-						tga[i].getAction( ),
-						dTranslateX,
-						dTranslateY,
-						dScale,
-						clipping );
-				ra.setCursor( iev.getCursor( ) );
-				al.add( 0, ra );
+				RegionAction ra = new RegionAction(iev.getStructureSource(), bo, tga[i].getAction(), dTranslateX,
+						dTranslateY, dScale, clipping);
+				ra.setCursor(iev.getCursor());
+				al.add(0, ra);
 			}
 		}
 
 		// free the clip region resource.
-		clipping.dispose( );
+		clipping.dispose();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#drawArea(org.eclipse.birt.chart.event.AreaRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawArea(org.eclipse.birt.
+	 * chart.event.AreaRenderEvent)
 	 */
-	public void drawArea( AreaRenderEvent are ) throws ChartException
-	{
-		iv.modifyEvent( are );
-		
+	public void drawArea(AreaRenderEvent are) throws ChartException {
+		iv.modifyEvent(are);
+
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
-		final LineAttributes lia = are.getOutline( );
-		if ( !validateLineAttributes( are.getSource( ), lia ) )
-		{
+		final LineAttributes lia = are.getOutline();
+		if (!validateLineAttributes(are.getSource(), lia)) {
 			return;
 		}
 
 		// SETUP THE FOREGROUND COLOR (DARKER BACKGROUND IF DEFINED AS NULL)
-		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
-				are.getBackground( ),
-				_ids );
-		if ( cFG == null ) // IF UNDEFINED, EXIT
+		final Color cFG = (Color) validateEdgeColor(lia.getColor(), are.getBackground(), _ids);
+		if (cFG == null) // IF UNDEFINED, EXIT
 		{
 			return;
 		}
 
 		// BUILD THE GENERAL PATH STRUCTURE
-		final Path gp = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
+		final Path gp = new Path(((SwtDisplayServer) _ids).getDevice());
 		PrimitiveRenderEvent pre;
-		for ( int i = 0; i < are.getElementCount( ); i++ )
-		{
-			pre = are.getElement( i );
-			if ( pre instanceof ArcRenderEvent )
-			{
+		for (int i = 0; i < are.getElementCount(); i++) {
+			pre = are.getElement(i);
+			if (pre instanceof ArcRenderEvent) {
 				final ArcRenderEvent acre = (ArcRenderEvent) pre;
 
-				gp.addArc( (float) acre.getTopLeft( ).getX( ),
-						(float) acre.getTopLeft( ).getY( ),
-						(float) acre.getWidth( ),
-						(float) acre.getHeight( ),
-						(float) acre.getStartAngle( ),
-						(float) acre.getAngleExtent( ) );
-			}
-			else if ( pre instanceof LineRenderEvent )
-			{
+				gp.addArc((float) acre.getTopLeft().getX(), (float) acre.getTopLeft().getY(), (float) acre.getWidth(),
+						(float) acre.getHeight(), (float) acre.getStartAngle(), (float) acre.getAngleExtent());
+			} else if (pre instanceof LineRenderEvent) {
 				final LineRenderEvent lre = (LineRenderEvent) pre;
-				gp.moveTo( (float) lre.getStart( ).getX( ),
-						(float) lre.getStart( ).getY( ) );
-				gp.lineTo( (float) lre.getEnd( ).getX( ), (float) lre.getEnd( )
-						.getY( ) );
+				gp.moveTo((float) lre.getStart().getX(), (float) lre.getStart().getY());
+				gp.lineTo((float) lre.getEnd().getX(), (float) lre.getEnd().getY());
 			}
 		}
 
 		// DRAW THE PATH
-		final int iOldLineStyle = _gc.getLineStyle( );
-		final int iOldLineWidth = _gc.getLineWidth( );
+		final int iOldLineStyle = _gc.getLineStyle();
+		final int iOldLineWidth = _gc.getLineWidth();
 		int iLineStyle = SWT.LINE_SOLID;
-		switch ( lia.getStyle( ).getValue( ) )
-		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DOT;
-				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASHDOT;
-				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASH;
-				break;
+		switch (lia.getStyle().getValue()) {
+		case (LineStyle.DOTTED):
+			iLineStyle = SWT.LINE_DOT;
+			break;
+		case (LineStyle.DASH_DOTTED):
+			iLineStyle = SWT.LINE_DASHDOT;
+			break;
+		case (LineStyle.DASHED):
+			iLineStyle = SWT.LINE_DASH;
+			break;
 		}
-		_gc.setLineStyle( iLineStyle );
-		_gc.setLineWidth( lia.getThickness( ) );
-		_gc.setForeground( cFG );
+		_gc.setLineStyle(iLineStyle);
+		_gc.setLineWidth(lia.getThickness());
+		_gc.setForeground(cFG);
 
-		R31Enhance.setAlpha( _gc, lia.getColor( ) );
+		R31Enhance.setAlpha(_gc, lia.getColor());
 
-		_gc.drawPath( gp );
+		_gc.drawPath(gp);
 
 		// Restore state
-		_gc.setLineStyle( iOldLineStyle );
-		_gc.setLineWidth( iOldLineWidth );
+		_gc.setLineStyle(iOldLineStyle);
+		_gc.setLineWidth(iOldLineWidth);
 
 		// Free resource
-		gp.dispose( );
-		cFG.dispose( );
+		gp.dispose();
+		cFG.dispose();
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#fillArea(org.eclipse.birt.chart.event.AreaRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#fillArea(org.eclipse.birt.
+	 * chart.event.AreaRenderEvent)
 	 */
-	public void fillArea( AreaRenderEvent are ) throws ChartException
-	{
-		iv.modifyEvent( are );
-		
-		Fill flBackground = validateMultipleFill( are.getBackground( ) );
+	public void fillArea(AreaRenderEvent are) throws ChartException {
+		iv.modifyEvent(are);
 
-		if ( isFullTransparent( flBackground ) )
-		{
+		Fill flBackground = validateMultipleFill(are.getBackground());
+
+		if (isFullTransparent(flBackground)) {
 			return;
 		}
 
 		// BUILD THE GENERAL PATH STRUCTURE
-		final Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
+		final Path pt = new Path(((SwtDisplayServer) _ids).getDevice());
 		PrimitiveRenderEvent pre;
-		for ( int i = 0; i < are.getElementCount( ); i++ )
-		{
-			pre = are.getElement( i );
-			if ( pre instanceof ArcRenderEvent )
-			{
+		for (int i = 0; i < are.getElementCount(); i++) {
+			pre = are.getElement(i);
+			if (pre instanceof ArcRenderEvent) {
 				final ArcRenderEvent acre = (ArcRenderEvent) pre;
 
-				pt.addArc( (float) acre.getTopLeft( ).getX( ),
-						(float) acre.getTopLeft( ).getY( ),
-						(float) acre.getWidth( ),
-						(float) acre.getHeight( ),
-						(float) acre.getStartAngle( ),
-						(float) acre.getAngleExtent( ) );
-			}
-			else if ( pre instanceof LineRenderEvent )
-			{
+				pt.addArc((float) acre.getTopLeft().getX(), (float) acre.getTopLeft().getY(), (float) acre.getWidth(),
+						(float) acre.getHeight(), (float) acre.getStartAngle(), (float) acre.getAngleExtent());
+			} else if (pre instanceof LineRenderEvent) {
 				final LineRenderEvent lre = (LineRenderEvent) pre;
-				if ( i == 0 )
-				{
-					pt.moveTo( (float) lre.getStart( ).getX( ),
-							(float) lre.getStart( ).getY( ) );
+				if (i == 0) {
+					pt.moveTo((float) lre.getStart().getX(), (float) lre.getStart().getY());
 				}
-				pt.lineTo( (float) lre.getEnd( ).getX( ), (float) lre.getEnd( )
-						.getY( ) );
+				pt.lineTo((float) lre.getEnd().getX(), (float) lre.getEnd().getY());
 			}
 		}
 
-		try
-		{
-			if ( flBackground instanceof ColorDefinition )
-			{
-				fillPathColor( pt, (ColorDefinition) flBackground );
+		try {
+			if (flBackground instanceof ColorDefinition) {
+				fillPathColor(pt, (ColorDefinition) flBackground);
+			} else if (flBackground instanceof Gradient) {
+				final Bounds bo = are.getBounds();
+				final Rectangle r = new Rectangle((int) ((bo.getLeft() + dTranslateX) * dScale),
+						(int) ((bo.getTop() + dTranslateY) * dScale), (int) (bo.getWidth() * dScale),
+						(int) (bo.getHeight() * dScale));
+				fillPathGradient(pt, (Gradient) flBackground, r);
+			} else if (flBackground instanceof org.eclipse.birt.chart.model.attribute.Image) {
+				fillPathImage(pt, (org.eclipse.birt.chart.model.attribute.Image) flBackground);
 			}
-			else if ( flBackground instanceof Gradient )
-			{
-				final Bounds bo = are.getBounds( );
-				final Rectangle r = new Rectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-						(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
-						(int) ( bo.getWidth( ) * dScale ),
-						(int) ( bo.getHeight( ) * dScale ) );
-				fillPathGradient( pt, (Gradient) flBackground, r );
-			}
-			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-			{
-				fillPathImage( pt,
-						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
-			}
+		} finally {
+			pt.dispose();
 		}
-		finally
-		{
-			pt.dispose( );
-		}
-		
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#drawOval(org.eclipse.birt.chart.event.OvalRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawOval(org.eclipse.birt.
+	 * chart.event.OvalRenderEvent)
 	 */
-	public void drawOval( OvalRenderEvent ore ) throws ChartException
-	{
-		iv.modifyEvent( ore );
-		
+	public void drawOval(OvalRenderEvent ore) throws ChartException {
+		iv.modifyEvent(ore);
+
 		// CHECK IF THE LINE ATTRIBUTES ARE CORRECTLY DEFINED
-		final LineAttributes lia = ore.getOutline( );
-		if ( !validateLineAttributes( ore.getSource( ), lia ) )
-		{
+		final LineAttributes lia = ore.getOutline();
+		if (!validateLineAttributes(ore.getSource(), lia)) {
 			return;
 		}
 
 		// SETUP THE FOREGROUND COLOR (DARKER BACKGROUND IF DEFINED AS NULL)
-		final Color cFG = (Color) validateEdgeColor( lia.getColor( ),
-				ore.getBackground( ),
-				_ids );
-		if ( cFG == null )
-		{
+		final Color cFG = (Color) validateEdgeColor(lia.getColor(), ore.getBackground(), _ids);
+		if (cFG == null) {
 			return;
 		}
 
 		// DRAW THE OVAL WITH THE SPECIFIED LINE ATTRIBUTES
-		final int iOldLineStyle = _gc.getLineStyle( );
-		final int iOldLineWidth = _gc.getLineWidth( );
+		final int iOldLineStyle = _gc.getLineStyle();
+		final int iOldLineWidth = _gc.getLineWidth();
 		int iLineStyle = SWT.LINE_SOLID;
-		switch ( lia.getStyle( ).getValue( ) )
-		{
-			case ( LineStyle.DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DOT;
-				break;
-			case ( LineStyle.DASH_DOTTED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASHDOT;
-				break;
-			case ( LineStyle.DASHED                                                                                                                                                                                                                                                                  ) :
-				iLineStyle = SWT.LINE_DASH;
-				break;
+		switch (lia.getStyle().getValue()) {
+		case (LineStyle.DOTTED):
+			iLineStyle = SWT.LINE_DOT;
+			break;
+		case (LineStyle.DASH_DOTTED):
+			iLineStyle = SWT.LINE_DASHDOT;
+			break;
+		case (LineStyle.DASHED):
+			iLineStyle = SWT.LINE_DASH;
+			break;
 		}
-		_gc.setLineStyle( iLineStyle );
-		_gc.setLineWidth( lia.getThickness( ) );
-		final Bounds bo = ore.getBounds( );
-		_gc.setForeground( cFG );
+		_gc.setLineStyle(iLineStyle);
+		_gc.setLineWidth(lia.getThickness());
+		final Bounds bo = ore.getBounds();
+		_gc.setForeground(cFG);
 
-		R31Enhance.setAlpha( _gc, lia.getColor( ) );
+		R31Enhance.setAlpha(_gc, lia.getColor());
 
-		_gc.drawOval( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
-				(int) ( bo.getWidth( ) * dScale ),
-				(int) ( bo.getHeight( ) * dScale ) );
+		_gc.drawOval((int) ((bo.getLeft() + dTranslateX) * dScale), (int) ((bo.getTop() + dTranslateY) * dScale),
+				(int) (bo.getWidth() * dScale), (int) (bo.getHeight() * dScale));
 
-		_gc.setLineStyle( iOldLineStyle );
-		_gc.setLineWidth( iOldLineWidth );
-		cFG.dispose( );
-		
+		_gc.setLineStyle(iOldLineStyle);
+		_gc.setLineWidth(iOldLineWidth);
+		cFG.dispose();
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#fillOval(org.eclipse.birt.chart.event.OvalRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#fillOval(org.eclipse.birt.
+	 * chart.event.OvalRenderEvent)
 	 */
-	public void fillOval( OvalRenderEvent ore ) throws ChartException
-	{
-		iv.modifyEvent( ore );
-		
-		final Fill flBackground = validateMultipleFill( ore.getBackground( ) );
+	public void fillOval(OvalRenderEvent ore) throws ChartException {
+		iv.modifyEvent(ore);
 
-		if ( isFullTransparent( flBackground ) )
-		{
+		final Fill flBackground = validateMultipleFill(ore.getBackground());
+
+		if (isFullTransparent(flBackground)) {
 			return;
 		}
 
-		final Bounds bo = ore.getBounds( );
-		final Rectangle r = new Rectangle( (int) ( ( bo.getLeft( ) + dTranslateX ) * dScale ),
-				(int) ( ( bo.getTop( ) + dTranslateY ) * dScale ),
-				(int) ( bo.getWidth( ) * dScale ),
-				(int) ( bo.getHeight( ) * dScale ) );
-		Path pt = new Path( ( (SwtDisplayServer) _ids ).getDevice( ) );
-		pt.addArc( r.x, r.y, r.width, r.height, 0, 360 );
+		final Bounds bo = ore.getBounds();
+		final Rectangle r = new Rectangle((int) ((bo.getLeft() + dTranslateX) * dScale),
+				(int) ((bo.getTop() + dTranslateY) * dScale), (int) (bo.getWidth() * dScale),
+				(int) (bo.getHeight() * dScale));
+		Path pt = new Path(((SwtDisplayServer) _ids).getDevice());
+		pt.addArc(r.x, r.y, r.width, r.height, 0, 360);
 
-		try
-		{
-			if ( flBackground instanceof ColorDefinition )
-			{
-				fillPathColor( pt, (ColorDefinition) flBackground );
+		try {
+			if (flBackground instanceof ColorDefinition) {
+				fillPathColor(pt, (ColorDefinition) flBackground);
+			} else if (flBackground instanceof Gradient) {
+				fillPathGradient(pt, (Gradient) flBackground, r);
+			} else if (flBackground instanceof org.eclipse.birt.chart.model.attribute.Image) {
+				fillPathImage(pt, (org.eclipse.birt.chart.model.attribute.Image) flBackground);
 			}
-			else if ( flBackground instanceof Gradient )
-			{
-				fillPathGradient( pt, (Gradient) flBackground, r );
-			}
-			else if ( flBackground instanceof org.eclipse.birt.chart.model.attribute.Image )
-			{
-				fillPathImage( pt,
-						(org.eclipse.birt.chart.model.attribute.Image) flBackground );
-			}
+		} finally {
+			pt.dispose();
 		}
-		finally
-		{
-			pt.dispose( );
-		}
-		
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.IPrimitiveRenderer#drawText(org.eclipse.birt.chart.event.TextRenderEvent)
+	 * @see
+	 * org.eclipse.birt.chart.event.IPrimitiveRenderer#drawText(org.eclipse.birt.
+	 * chart.event.TextRenderEvent)
 	 */
-	public void drawText( TextRenderEvent tre ) throws ChartException
-	{
-		String fontName = convertFont( tre.getLabel( )
-				.getCaption( )
-				.getFont( )
-				.getName( ) );
-		if ( fontName != null )
-		{
-			tre.getLabel( ).getCaption( ).getFont( ).setName( fontName );
+	public void drawText(TextRenderEvent tre) throws ChartException {
+		String fontName = convertFont(tre.getLabel().getCaption().getFont().getName());
+		if (fontName != null) {
+			tre.getLabel().getCaption().getFont().setName(fontName);
 		}
-		
-		iv.modifyEvent( tre );
-		if ( !tre.getLabel( ).isVisible( ) )
+
+		iv.modifyEvent(tre);
+		if (!tre.getLabel().isVisible())
 			return;
-		
-		switch ( tre.getAction( ) )
-		{
-			case TextRenderEvent.UNDEFINED :
-				throw new ChartException( ChartDeviceSwtActivator.ID,
-						ChartException.RENDERING,
-						"SwtRendererImpl.exception.unspecified.text.rendering.action",//$NON-NLS-1$
-						Messages.getResourceBundle( getULocale( ) ) );
 
-			case TextRenderEvent.RENDER_SHADOW_AT_LOCATION :
-				Location lo = tre.getLocation( ).copyInstance( );
-				lo.translate( dTranslateX, dTranslateY );
-				lo.scale( dScale );
-				_tr.renderShadowAtLocation( this,
-						tre.getTextPosition( ),
-						lo,
-						tre.getLabel( ) );
-				break;
+		switch (tre.getAction()) {
+		case TextRenderEvent.UNDEFINED:
+			throw new ChartException(ChartDeviceSwtActivator.ID, ChartException.RENDERING,
+					"SwtRendererImpl.exception.unspecified.text.rendering.action", //$NON-NLS-1$
+					Messages.getResourceBundle(getULocale()));
 
-			case TextRenderEvent.RENDER_TEXT_AT_LOCATION :
-				lo = tre.getLocation( ).copyInstance( );
-				lo.translate( dTranslateX, dTranslateY );
-				lo.scale( dScale );
+		case TextRenderEvent.RENDER_SHADOW_AT_LOCATION:
+			Location lo = tre.getLocation().copyInstance();
+			lo.translate(dTranslateX, dTranslateY);
+			lo.scale(dScale);
+			_tr.renderShadowAtLocation(this, tre.getTextPosition(), lo, tre.getLabel());
+			break;
 
-				_tr.renderTextAtLocation( this,
-						tre.getTextPosition( ),
-						lo,
-						tre.getLabel( ) );
-				break;
+		case TextRenderEvent.RENDER_TEXT_AT_LOCATION:
+			lo = tre.getLocation().copyInstance();
+			lo.translate(dTranslateX, dTranslateY);
+			lo.scale(dScale);
 
-			case TextRenderEvent.RENDER_TEXT_IN_BLOCK :
-				final Bounds bo = goFactory.copyOf( tre.getBlockBounds( ) );
-				bo.translate( dTranslateX, dTranslateY );
-				bo.scale( dScale );
+			_tr.renderTextAtLocation(this, tre.getTextPosition(), lo, tre.getLabel());
+			break;
 
-				_tr.renderTextInBlock( this,
-						bo,
-						tre.getBlockAlignment( ),
-						tre.getLabel( ) );
-				break;
+		case TextRenderEvent.RENDER_TEXT_IN_BLOCK:
+			final Bounds bo = goFactory.copyOf(tre.getBlockBounds());
+			bo.translate(dTranslateX, dTranslateY);
+			bo.scale(dScale);
+
+			_tr.renderTextInBlock(this, bo, tre.getBlockAlignment(), tre.getLabel());
+			break;
 		}
 
 	}
 
 	/**
-	 * Converts an array of high-res co-ordinates into a single dimensional
-	 * integer array that represents consecutive X/Y co-ordinates associated
-	 * with a polygon's vertices as required in SWT.
+	 * Converts an array of high-res co-ordinates into a single dimensional integer
+	 * array that represents consecutive X/Y co-ordinates associated with a
+	 * polygon's vertices as required in SWT.
 	 * 
 	 * @param la
 	 * @return int array
 	 */
-	static final int[] getCoordinatesAsInts( Location[] la, int iRoundingStyle,
-			double dTranslateX, double dTranslateY, double dScale )
-	{
-		return convertDoubleToInt( getDoubleCoordinatesAsInts( la,
-				iRoundingStyle,
-				dTranslateX,
-				dTranslateY,
-				dScale ) );
+	static final int[] getCoordinatesAsInts(Location[] la, int iRoundingStyle, double dTranslateX, double dTranslateY,
+			double dScale) {
+		return convertDoubleToInt(getDoubleCoordinatesAsInts(la, iRoundingStyle, dTranslateX, dTranslateY, dScale));
 	}
-	
+
 	/**
-	 * Converts an array of high-res co-ordinates into a single dimensional
-	 * double array that represents consecutive X/Y co-ordinates associated
-	 * with a polygon's vertices as required in SWT.
+	 * Converts an array of high-res co-ordinates into a single dimensional double
+	 * array that represents consecutive X/Y co-ordinates associated with a
+	 * polygon's vertices as required in SWT.
 	 * 
 	 * @param la
 	 * @return double array
 	 */
-	static final double[] getDoubleCoordinatesAsInts( Location[] la,
-			int iRoundingStyle, double dTranslateX, double dTranslateY,
-			double dScale )
-	{
+	static final double[] getDoubleCoordinatesAsInts(Location[] la, int iRoundingStyle, double dTranslateX,
+			double dTranslateY, double dScale) {
 		final int n = la.length * 2;
 		final double[] iaXY = new double[n];
 
-		if ( iRoundingStyle == CEIL )
-		{
-			for ( int i = 0; i < n / 2; i++ )
-			{
-				iaXY[2 * i] = Math.ceil( ( la[i].getX( ) + dTranslateX )
-						* dScale );
-				iaXY[2 * i + 1] = Math.ceil( ( la[i].getY( ) + dTranslateY )
-						* dScale );
+		if (iRoundingStyle == CEIL) {
+			for (int i = 0; i < n / 2; i++) {
+				iaXY[2 * i] = Math.ceil((la[i].getX() + dTranslateX) * dScale);
+				iaXY[2 * i + 1] = Math.ceil((la[i].getY() + dTranslateY) * dScale);
 			}
-		}
-		else if ( iRoundingStyle == TRUNCATE )
-		{
-			for ( int i = 0; i < n / 2; i++ )
-			{
-				iaXY[2 * i] = ( ( la[i].getX( ) + dTranslateX ) * dScale );
-				iaXY[2 * i + 1] = ( ( la[i].getY( ) + dTranslateY ) * dScale );
+		} else if (iRoundingStyle == TRUNCATE) {
+			for (int i = 0; i < n / 2; i++) {
+				iaXY[2 * i] = ((la[i].getX() + dTranslateX) * dScale);
+				iaXY[2 * i + 1] = ((la[i].getY() + dTranslateY) * dScale);
 			}
 		}
 
 		return iaXY;
 	}
-	
-	static final float[] convertDoubleToFloat( double[] da )
-	{
-		if ( da == null )
-		{
+
+	static final float[] convertDoubleToFloat(double[] da) {
+		if (da == null) {
 			return null;
 		}
 		final float[] fa = new float[da.length];
-		for ( int i = 0; i < fa.length; i++ )
-		{
+		for (int i = 0; i < fa.length; i++) {
 			fa[i] = (float) da[i];
 		}
 		return fa;
 	}
-	
-	static final int[] convertDoubleToInt( double[] da )
-	{
-		if ( da == null )
-		{
+
+	static final int[] convertDoubleToInt(double[] da) {
+		if (da == null) {
 			return null;
 		}
 		final int[] fa = new int[da.length];
-		for ( int i = 0; i < fa.length; i++ )
-		{
+		for (int i = 0; i < fa.length; i++) {
 			fa[i] = (int) da[i];
 		}
 		return fa;
@@ -1790,28 +1391,27 @@ public class SwtRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IPrimitiveRenderer#applyTransformation(org.eclipse.birt.chart.event.TransformationEvent)
+	 * @see
+	 * org.eclipse.birt.chart.device.IPrimitiveRenderer#applyTransformation(org.
+	 * eclipse.birt.chart.event.TransformationEvent)
 	 */
-	public void applyTransformation( TransformationEvent tev )
-			throws ChartException
-	{
+	public void applyTransformation(TransformationEvent tev) throws ChartException {
 		// NOTE: Transformations are accumulated
-		switch ( tev.getTransform( ) )
-		{
-			case TransformationEvent.TRANSLATE :
-				dTranslateX += tev.getTranslateX( );
-				dTranslateY += tev.getTranslateY( );
-				break;
+		switch (tev.getTransform()) {
+		case TransformationEvent.TRANSLATE:
+			dTranslateX += tev.getTranslateX();
+			dTranslateY += tev.getTranslateY();
+			break;
 
-			case TransformationEvent.ROTATE :
-				dRotateInDegrees += tev.getRotation( );
-				break;
+		case TransformationEvent.ROTATE:
+			dRotateInDegrees += tev.getRotation();
+			break;
 
-			// Currently not used
-			case TransformationEvent.SCALE :
-				dScale *= tev.getScale( );
-				( (SwtDisplayServer) _ids ).setScale( dScale ); 
-				break;
+		// Currently not used
+		case TransformationEvent.SCALE:
+			dScale *= tev.getScale();
+			((SwtDisplayServer) _ids).setScale(dScale);
+			break;
 		}
 	}
 
@@ -1820,10 +1420,9 @@ public class SwtRendererImpl extends DeviceAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#start()
 	 */
-	public void before( ) throws ChartException
-	{
+	public void before() throws ChartException {
 		// Clean previous status.
-		cleanUpTriggers( );
+		cleanUpTriggers();
 	}
 
 	/*
@@ -1831,64 +1430,53 @@ public class SwtRendererImpl extends DeviceAdapter
 	 * 
 	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#end()
 	 */
-	public void after( ) throws ChartException
-	{
+	public void after() throws ChartException {
 		// USED BY SUBCLASSES IF NEEDED
 	}
 
-	private void cleanUpTriggers( )
-	{
-		for ( Iterator<List<RegionAction>> itr = _lhmAllTriggers.values( )
-				.iterator( ); itr.hasNext( ); )
-		{
-			List<RegionAction> ralist = itr.next( );
+	private void cleanUpTriggers() {
+		for (Iterator<List<RegionAction>> itr = _lhmAllTriggers.values().iterator(); itr.hasNext();) {
+			List<RegionAction> ralist = itr.next();
 
-			if ( ralist != null )
-			{
-				for ( Iterator<RegionAction> sitr = ralist.iterator( ); sitr.hasNext( ); )
-				{
-					RegionAction ra = sitr.next( );
-					ra.dispose( );
+			if (ralist != null) {
+				for (Iterator<RegionAction> sitr = ralist.iterator(); sitr.hasNext();) {
+					RegionAction ra = sitr.next();
+					ra.dispose();
 				}
 			}
 		}
 
-		_lhmAllTriggers.clear( );
+		_lhmAllTriggers.clear();
 	}
 
 	/**
 	 * Free all allocated system resources.
 	 */
-	public void dispose( )
-	{
-		cleanUpTriggers( );
+	public void dispose() {
+		cleanUpTriggers();
 
-		if ( _iun != null )
-		{
-			Object obj = _iun.peerInstance( );
+		if (_iun != null) {
+			Object obj = _iun.peerInstance();
 
-			if ( obj instanceof Composite )
-			{
+			if (obj instanceof Composite) {
 				Composite jc = (Composite) obj;
 
-				if ( _eh != null )
-				{
-					if ( !jc.isDisposed( ) )
-					{
+				if (_eh != null) {
+					if (!jc.isDisposed()) {
 						// We can't promise to remove all the old
 						// swtEventHandler
 						// due to SWT limitation here, so be sure to just attach
 						// the
 						// update_notifier only to one renderer.
 
-						jc.removeMouseListener( _eh );
-						jc.removeMouseMoveListener( _eh );
-						jc.removeMouseTrackListener( _eh );
-						jc.removeKeyListener( _eh );
-						jc.removeFocusListener( _eh );
+						jc.removeMouseListener(_eh);
+						jc.removeMouseMoveListener(_eh);
+						jc.removeMouseTrackListener(_eh);
+						jc.removeKeyListener(_eh);
+						jc.removeFocusListener(_eh);
 					}
 
-					_eh.dispose( );
+					_eh.dispose();
 					_eh = null;
 				}
 			}
@@ -1899,84 +1487,70 @@ public class SwtRendererImpl extends DeviceAdapter
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.chart.device.IDeviceRenderer#setProperty(java.lang.String,
+	 * java.lang.Object)
 	 */
-	public final void setProperty( final String sProperty, final Object oValue )
-	{
-		if ( sProperty.equals( IDeviceRenderer.UPDATE_NOTIFIER ) )
-		{
+	public final void setProperty(final String sProperty, final Object oValue) {
+		if (sProperty.equals(IDeviceRenderer.UPDATE_NOTIFIER)) {
 			_iun = (IUpdateNotifier) oValue;
-			iv.reset( );
-			iv.setUpdateNotifier( _iun );
+			iv.reset();
+			iv.setUpdateNotifier(_iun);
 
-			cleanUpTriggers( );
-			Object obj = _iun.peerInstance( );
+			cleanUpTriggers();
+			Object obj = _iun.peerInstance();
 
-			if ( obj instanceof Composite )
-			{
+			if (obj instanceof Composite) {
 				Composite jc = (Composite) obj;
 
-				if ( _eh != null )
-				{
+				if (_eh != null) {
 					// We can't promise to remove all the old swtEventHandler
 					// due to SWT limitation here, so be sure to just attach the
 					// update_notifier only to one renderer.
 
-					jc.removeMouseListener( _eh );
-					jc.removeMouseMoveListener( _eh );
-					jc.removeMouseTrackListener( _eh );
-					jc.removeKeyListener( _eh );
-					jc.removeFocusListener( _eh );
+					jc.removeMouseListener(_eh);
+					jc.removeMouseMoveListener(_eh);
+					jc.removeMouseTrackListener(_eh);
+					jc.removeKeyListener(_eh);
+					jc.removeFocusListener(_eh);
 
-					_eh.dispose( );
+					_eh.dispose();
 				}
 
-				_eh = new SwtEventHandler( iv, _lhmAllTriggers, _iun, getULocale( ) );
-				
-				jc.addMouseListener( _eh );
-				jc.addMouseMoveListener( _eh );
-				jc.addMouseTrackListener( _eh );
-				jc.addKeyListener( _eh );
-				jc.addFocusListener( _eh );
+				_eh = new SwtEventHandler(iv, _lhmAllTriggers, _iun, getULocale());
+
+				jc.addMouseListener(_eh);
+				jc.addMouseMoveListener(_eh);
+				jc.addMouseTrackListener(_eh);
+				jc.addKeyListener(_eh);
+				jc.addFocusListener(_eh);
 			}
-		}
-		else if ( sProperty.equals( IDeviceRenderer.GRAPHICS_CONTEXT ) )
-		{
+		} else if (sProperty.equals(IDeviceRenderer.GRAPHICS_CONTEXT)) {
 			_gc = (GC) oValue;
 
-			if ( R31Enhance.isR31Available( ) )
-			{
-				Region rg = new Region( );
-				_gc.getClipping( rg );
+			if (R31Enhance.isR31Available()) {
+				Region rg = new Region();
+				_gc.getClipping(rg);
 
-				R31Enhance.setAdvanced( _gc, true, rg );
-				R31Enhance.setAntialias( _gc, SWT.ON );
-				R31Enhance.setTextAntialias( _gc, SWT.ON );
+				R31Enhance.setAdvanced(_gc, true, rg);
+				R31Enhance.setAntialias(_gc, SWT.ON);
+				R31Enhance.setTextAntialias(_gc, SWT.ON);
 
-				rg.dispose( );
+				rg.dispose();
 			}
-			_ids.setGraphicsContext(_gc );
+			_ids.setGraphicsContext(_gc);
 
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "SwtRendererImpl.info.graphics.context",//$NON-NLS-1$
-							new Object[]{
-									_gc.getClass( ).getName( ), _gc
-							},
-							getULocale( ) ) );
-		}
-		else if ( sProperty.equals( IDeviceRenderer.DPI_RESOLUTION ) )
-		{
-			getDisplayServer( ).setDpiResolution( ( (Integer) oValue ).intValue( ) );
-		}
-		else if ( sProperty.equals( IDeviceRenderer.EXPECTED_BOUNDS ) )
-		{
-			Bounds bo = (Bounds)oValue;
-			int x = (int)Math.round( bo.getLeft( ) );
-			int y = (int)Math.round( bo.getTop( ) );
-			int width = (int)Math.round( bo.getWidth( ) );
-			int height = (int)Math.round( bo.getHeight( ) );
-			this._gc.setClipping( x, y, width, height );
+			logger.log(ILogger.INFORMATION, Messages.getString("SwtRendererImpl.info.graphics.context", //$NON-NLS-1$
+					new Object[] { _gc.getClass().getName(), _gc }, getULocale()));
+		} else if (sProperty.equals(IDeviceRenderer.DPI_RESOLUTION)) {
+			getDisplayServer().setDpiResolution(((Integer) oValue).intValue());
+		} else if (sProperty.equals(IDeviceRenderer.EXPECTED_BOUNDS)) {
+			Bounds bo = (Bounds) oValue;
+			int x = (int) Math.round(bo.getLeft());
+			int y = (int) Math.round(bo.getTop());
+			int width = (int) Math.round(bo.getWidth());
+			int height = (int) Math.round(bo.getHeight());
+			this._gc.setClipping(x, y, width, height);
 		}
 	}
 
@@ -1986,29 +1560,23 @@ public class SwtRendererImpl extends DeviceAdapter
 	 * @param bo
 	 * @return
 	 */
-	protected static final Bounds normalizeBounds( Bounds bo )
-	{
-		if ( bo.getHeight( ) < 0 )
-		{
-			bo.setTop( bo.getTop( ) + bo.getHeight( ) );
-			bo.setHeight( -bo.getHeight( ) );
+	protected static final Bounds normalizeBounds(Bounds bo) {
+		if (bo.getHeight() < 0) {
+			bo.setTop(bo.getTop() + bo.getHeight());
+			bo.setHeight(-bo.getHeight());
 		}
 
-		if ( bo.getWidth( ) < 0 )
-		{
-			bo.setLeft( bo.getLeft( ) + bo.getWidth( ) );
-			bo.setWidth( -bo.getWidth( ) );
+		if (bo.getWidth() < 0) {
+			bo.setLeft(bo.getLeft() + bo.getWidth());
+			bo.setWidth(-bo.getWidth());
 		}
 
 		return bo;
 	}
 
 	@Override
-	protected String convertFont( String fontFamily )
-	{
-		return FontUtil.getFontFamily( fontFamily );
+	protected String convertFont(String fontFamily) {
+		return FontUtil.getFontFamily(fontFamily);
 	}
-
-
 
 }

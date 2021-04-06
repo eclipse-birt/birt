@@ -22,50 +22,40 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  * 
  * 
  */
-public class ProviderFactory
-{
+public class ProviderFactory {
 
-	static private DefaultNodeProvider defaultProvider = new DefaultNodeProvider( );
+	static private DefaultNodeProvider defaultProvider = new DefaultNodeProvider();
 
 	/**
 	 * Gets the default provider
 	 * 
 	 * @return Returns the default provider
 	 */
-	public static INodeProvider getDefaultProvider( )
-	{
+	public static INodeProvider getDefaultProvider() {
 		return defaultProvider;
 	}
 
 	/**
 	 * Creates the outline provider and returns it.
 	 * 
-	 * @param object
-	 *            the object
+	 * @param object the object
 	 * @return the outline provider
 	 */
 
-	public static INodeProvider createProvider( Object object )
-	{
-		Object adapter = ElementAdapterManager.getAdapter( object,
-				INodeProvider.class );
-		if ( adapter instanceof INodeProvider )
-		{
+	public static INodeProvider createProvider(Object object) {
+		Object adapter = ElementAdapterManager.getAdapter(object, INodeProvider.class);
+		if (adapter instanceof INodeProvider) {
 			return (INodeProvider) adapter;
 		}
-		
-		if ( object instanceof DesignElementHandle )
-		{
-			String elementName = ( (DesignElementHandle) object ).getDefn( )
-					.getName( );
-			IProviderFactory factory = ExtensionPointManager.getInstance( )
-					.getProviderFactory( elementName );
-			if ( factory != null )
-			{
-				return factory.createProvider( object );
+
+		if (object instanceof DesignElementHandle) {
+			String elementName = ((DesignElementHandle) object).getDefn().getName();
+			IProviderFactory factory = ExtensionPointManager.getInstance().getProviderFactory(elementName);
+			if (factory != null) {
+				return factory.createProvider(object);
 			}
 		}
 
-		return getDefaultProvider( );
+		return getDefaultProvider();
 	}
 }

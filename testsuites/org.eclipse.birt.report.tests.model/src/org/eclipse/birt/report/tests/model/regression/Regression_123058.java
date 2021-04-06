@@ -14,7 +14,6 @@ import org.eclipse.birt.report.model.api.DesignFileException;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
-
 /**
  * Regression description:
  * </p>
@@ -27,40 +26,36 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_123058 extends BaseTestCase
-{
+public class Regression_123058 extends BaseTestCase {
 
 	private String filename = "Regression_123058.xml"; //$NON-NLS-1$
 	private String libraryname = "Regression_123058_Lib.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( filename, filename );
-		copyResource_INPUT( libraryname, libraryname );
-		
-		
+		copyResource_INPUT(filename, filename);
+		copyResource_INPUT(libraryname, libraryname);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_123058( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
+	public void test_regression_123058() throws DesignFileException, SemanticException {
+		openDesign(filename);
 
-		designHandle.includeLibrary( libraryname, "Lib" ); //$NON-NLS-1$
-		DataSetHandle dataset = designHandle.getLibrary( "Lib" ).findDataSet( //$NON-NLS-1$
-				"Data Set" ); //$NON-NLS-1$
+		designHandle.includeLibrary(libraryname, "Lib"); //$NON-NLS-1$
+		DataSetHandle dataset = designHandle.getLibrary("Lib").findDataSet( //$NON-NLS-1$
+				"Data Set"); //$NON-NLS-1$
 
-		DataSetHandle extenddataset = (DataSetHandle) designHandle
-				.getElementFactory( ).newElementFrom( dataset,
-						dataset.getName( ) );
-		designHandle.getDataSets( ).add( extenddataset );
-		assertEquals( "Data Set", extenddataset.getName( ) ); //$NON-NLS-1$
+		DataSetHandle extenddataset = (DataSetHandle) designHandle.getElementFactory().newElementFrom(dataset,
+				dataset.getName());
+		designHandle.getDataSets().add(extenddataset);
+		assertEquals("Data Set", extenddataset.getName()); //$NON-NLS-1$
 	}
 }

@@ -17,8 +17,7 @@ import java.util.List;
 /**
  * Instances of this class represent a non-selectable
  */
-public class TimeFormat
-{
+public class TimeFormat {
 
 	public static final String DATE_TIME = "yyyy-MM-dd HH:mm:ss"; //$NON-NLS-1$
 
@@ -30,21 +29,20 @@ public class TimeFormat
 
 	public static final String SHORT_TIMEUSA = "dd/MM/yy"; //$NON-NLS-1$
 
-	private static final TimeFormat timeForamt = new TimeFormat( );
+	private static final TimeFormat timeForamt = new TimeFormat();
 
 	private ArrayList list = null;
 
 	/**
 	 * Constructs a new instance of this class,System has one instance
 	 */
-	private TimeFormat( )
-	{
-		list = new ArrayList( );
-		list.add( DATE_TIME );
-		list.add( DATA_ALL );
-		list.add( TIME_ALL );
-		list.add( SHORT_TIME );
-		list.add( SHORT_TIMEUSA );
+	private TimeFormat() {
+		list = new ArrayList();
+		list.add(DATE_TIME);
+		list.add(DATA_ALL);
+		list.add(TIME_ALL);
+		list.add(SHORT_TIME);
+		list.add(SHORT_TIMEUSA);
 	}
 
 	/**
@@ -52,9 +50,8 @@ public class TimeFormat
 	 * 
 	 * @return the default time format
 	 */
-	public static TimeFormat getDefaultFormat( )
-	{
-		//logger.info("testaaaa==" + (timeForamt == null));
+	public static TimeFormat getDefaultFormat() {
+		// logger.info("testaaaa==" + (timeForamt == null));
 		return timeForamt;
 	}
 
@@ -63,8 +60,7 @@ public class TimeFormat
 	 * 
 	 * @return the format list
 	 */
-	public List getSupportList( )
-	{
+	public List getSupportList() {
 		return list;
 	}
 

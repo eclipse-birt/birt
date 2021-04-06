@@ -22,12 +22,11 @@ import org.eclipse.ui.IWorkbenchPart;
 
 /**
  * Splits cell action
- *  
+ * 
  */
-public class SplitAction extends ContextSelectionAction
-{
+public class SplitAction extends ContextSelectionAction {
 
-	private static final String ACTION_MSG_SPLIT_CELLS = Messages.getString( "SplitAction.actionMsg.splitCells" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_SPLIT_CELLS = Messages.getString("SplitAction.actionMsg.splitCells"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.SplitAction"; //$NON-NLS-1$
@@ -35,14 +34,12 @@ public class SplitAction extends ContextSelectionAction
 	/**
 	 * Constructs new instance
 	 * 
-	 * @param part
-	 *            current work bench part
+	 * @param part current work bench part
 	 */
-	public SplitAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_SPLIT_CELLS );
+	public SplitAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_SPLIT_CELLS);
 	}
 
 	/*
@@ -50,11 +47,9 @@ public class SplitAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		if ( getRowHandles( ).isEmpty( ) && getColumnHandles( ).isEmpty( ) )
-		{
-			return getTableEditPart( ) != null && cellCanSplit( );
+	protected boolean calculateEnabled() {
+		if (getRowHandles().isEmpty() && getColumnHandles().isEmpty()) {
+			return getTableEditPart() != null && cellCanSplit();
 		}
 		return false;
 	}
@@ -64,19 +59,15 @@ public class SplitAction extends ContextSelectionAction
 	 * 
 	 * @return
 	 */
-	private boolean cellCanSplit( )
-	{
-		if ( getSelectedObjects( ).size( ) != 1 )
-		{
+	private boolean cellCanSplit() {
+		if (getSelectedObjects().size() != 1) {
 			return false;
 		}
-		Object obj = getSelectedObjects( ).get( 0 );
-		if ( obj instanceof TableCellEditPart )
-		{
-			CellHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-					.getCellHandleAdapter( ( (TableCellEditPart) obj ).getModel( ) );
-			if ( adapt.getRowSpan( ) != 1 || adapt.getColumnSpan( ) != 1 )
-			{
+		Object obj = getSelectedObjects().get(0);
+		if (obj instanceof TableCellEditPart) {
+			CellHandleAdapter adapt = HandleAdapterFactory.getInstance()
+					.getCellHandleAdapter(((TableCellEditPart) obj).getModel());
+			if (adapt.getRowSpan() != 1 || adapt.getColumnSpan() != 1) {
 				return true;
 			}
 		}
@@ -85,21 +76,17 @@ public class SplitAction extends ContextSelectionAction
 
 	/**
 	 * Runs action.
-	 *  
+	 * 
 	 */
-	public void run( )
-	{
+	public void run() {
 
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.splitCommand", null ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.splitCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		
+
 	}
 
 	/**
@@ -107,8 +94,7 @@ public class SplitAction extends ContextSelectionAction
 	 * 
 	 * @return current table cell edit part
 	 */
-	private TableCellEditPart getTableCellEditPart( )
-	{
-		return (TableCellEditPart) getSelectedObjects( ).get( 0 );
+	private TableCellEditPart getTableCellEditPart() {
+		return (TableCellEditPart) getSelectedObjects().get(0);
 	}
 }

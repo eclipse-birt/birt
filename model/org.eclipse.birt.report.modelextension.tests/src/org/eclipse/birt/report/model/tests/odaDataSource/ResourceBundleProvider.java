@@ -23,28 +23,27 @@ import com.ibm.icu.util.UResourceBundle;
  * Implements <code>IResourceBundleProvider</code> for testing
  */
 
-public class ResourceBundleProvider implements IResourceBundleProvider
-{
+public class ResourceBundleProvider implements IResourceBundleProvider {
 
 	private static final String BASE_NAME = "org.eclipse.birt.report.model.tests.odaDataSource.Messages"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IResourceBundleProvider#getResourceBundle(java.util.Locale)
+	 * @see org.eclipse.birt.report.model.api.extension.IResourceBundleProvider#
+	 * getResourceBundle(java.util.Locale)
 	 */
-	public ResourceBundle getResourceBundle( Locale locale )
-	{
-		return ResourceBundle.getBundle( BASE_NAME, locale );
+	public ResourceBundle getResourceBundle(Locale locale) {
+		return ResourceBundle.getBundle(BASE_NAME, locale);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IResourceBundleProvider#getResourceBundle(java.util.Locale)
+	 * @see org.eclipse.birt.report.model.api.extension.IResourceBundleProvider#
+	 * getResourceBundle(java.util.Locale)
 	 */
-	public UResourceBundle getResourceBundle( ULocale locale )
-	{
-		return UResourceBundle.getBundleInstance( BASE_NAME, locale );
+	public UResourceBundle getResourceBundle(ULocale locale) {
+		return UResourceBundle.getBundleInstance(BASE_NAME, locale);
 	}
 }

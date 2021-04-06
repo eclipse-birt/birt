@@ -17,12 +17,10 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.TextItemHandle;
 import org.eclipse.birt.report.model.elements.interfaces.IImageItemModel;
 
-
 /**
  * AttributeConstant defines property key constant.
  */
-public class AttributeConstant
-{
+public class AttributeConstant {
 
 	public final static String DIS = "DIS";//$NON-NLS-1$
 
@@ -210,7 +208,7 @@ public class AttributeConstant
 
 	public static final String FONT_SIZE = StyleHandle.FONT_SIZE_PROP;
 
-	//	public static final String TEXT_ALTERNATE = TextItem.HELP_TEXT_PROP;
+	// public static final String TEXT_ALTERNATE = TextItem.HELP_TEXT_PROP;
 	public static final String IMAGE_ALTERNATE = IImageItemModel.ALT_TEXT_PROP;
 
 	public static final String HORIZONTAL_ALIGN = "GUI_HORIZONTAL_ALIGN";//$NON-NLS-1$

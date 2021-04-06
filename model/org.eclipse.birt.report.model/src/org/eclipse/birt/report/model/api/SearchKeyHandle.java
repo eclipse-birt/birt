@@ -29,21 +29,17 @@ import org.eclipse.birt.report.model.api.elements.structures.SearchKey;
  * @see ActionHandle
  */
 
-public class SearchKeyHandle extends StructureHandle
-{
+public class SearchKeyHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of search key.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for search key list of one property
-	 * @param index
-	 *            the position of this search key in the list
+	 * @param valueHandle the value handle for search key list of one property
+	 * @param index       the position of this search key in the list
 	 */
 
-	public SearchKeyHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public SearchKeyHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -52,20 +48,17 @@ public class SearchKeyHandle extends StructureHandle
 	 * @return the expression of this search key.
 	 */
 
-	public String getExpression( )
-	{
-        return getStringProperty( SearchKey.EXPRESSION_MEMBER );
+	public String getExpression() {
+		return getStringProperty(SearchKey.EXPRESSION_MEMBER);
 	}
 
 	/**
 	 * Sets the expression of this search key.
 	 * 
-	 * @param expression
-	 *            the expression to set
+	 * @param expression the expression to set
 	 */
 
-	public void setExpression( String expression )
-	{
-        setPropertySilently( SearchKey.EXPRESSION_MEMBER, expression );
+	public void setExpression(String expression) {
+		setPropertySilently(SearchKey.EXPRESSION_MEMBER, expression);
 	}
 }

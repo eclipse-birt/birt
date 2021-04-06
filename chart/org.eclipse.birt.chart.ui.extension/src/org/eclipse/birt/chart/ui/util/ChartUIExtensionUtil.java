@@ -35,8 +35,7 @@ import org.eclipse.swt.widgets.Combo;
  * This class defines common chart UI methods.
  */
 
-public class ChartUIExtensionUtil
-{
+public class ChartUIExtensionUtil {
 
 	public static int PROPERTY_UPDATE = ChartElementUtil.PROPERTY_UPDATE;
 	public static int PROPERTY_UNSET = ChartElementUtil.PROPERTY_UNSET;
@@ -50,93 +49,69 @@ public class ChartUIExtensionUtil
 	 * @param allChartType
 	 * @param currentSeries
 	 */
-	public static void populateSeriesTypesList(
-			Hashtable<String, Series> htSeriesNames, Combo cmbTypes,
-			ChartWizardContext context, Collection<IChartType> allChartType,
-			Series currentSeries )
-	{
-		IChartUIHelper helper = context.getUIFactory( ).createUIHelper( );
-		IChartType currentChartType = ChartUIUtil.getChartType( context.getModel( )
-				.getType( ) );
+	public static void populateSeriesTypesList(Hashtable<String, Series> htSeriesNames, Combo cmbTypes,
+			ChartWizardContext context, Collection<IChartType> allChartType, Series currentSeries) {
+		IChartUIHelper helper = context.getUIFactory().createUIHelper();
+		IChartType currentChartType = ChartUIUtil.getChartType(context.getModel().getType());
 
 		// Populate Series Types List
-		cmbTypes.removeAll( );
-		if ( helper.canCombine( currentChartType, context ) )
-		{
-			Orientation orientation = ( (ChartWithAxes) context.getModel( ) ).getOrientation( );
-			Iterator<IChartType> iterTypes = allChartType.iterator( );
-			while ( iterTypes.hasNext( ) )
-			{
-				IChartType type = iterTypes.next( );
-				Series newSeries = type.getSeries( false );
+		cmbTypes.removeAll();
+		if (helper.canCombine(currentChartType, context)) {
+			Orientation orientation = ((ChartWithAxes) context.getModel()).getOrientation();
+			Iterator<IChartType> iterTypes = allChartType.iterator();
+			while (iterTypes.hasNext()) {
+				IChartType type = iterTypes.next();
+				Series newSeries = type.getSeries(false);
 
-				if ( helper.canCombine( type, context ) )
-				{
-					if ( newSeries instanceof AreaSeries
-							&& context.getModel( ).getDimension( ) == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL )
-					{
+				if (helper.canCombine(type, context)) {
+					if (newSeries instanceof AreaSeries
+							&& context.getModel().getDimension() == ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL) {
 						continue;
 					}
-					if ( !( newSeries instanceof StockSeries )
-							|| ( orientation.getValue( ) == Orientation.VERTICAL ) )
-					{
-						String sDisplayName = newSeries.getDisplayName( );
-						htSeriesNames.put( sDisplayName, newSeries );
-						cmbTypes.add( sDisplayName );
+					if (!(newSeries instanceof StockSeries) || (orientation.getValue() == Orientation.VERTICAL)) {
+						String sDisplayName = newSeries.getDisplayName();
+						htSeriesNames.put(sDisplayName, newSeries);
+						cmbTypes.add(sDisplayName);
 					}
 
 					// Select the same series type
-					if ( type.getName( )
-							.equals( context.getModel( ).getType( ) ) )
-					{
-						cmbTypes.select( cmbTypes.getItemCount( ) - 1 );
+					if (type.getName().equals(context.getModel().getType())) {
+						cmbTypes.select(cmbTypes.getItemCount() - 1);
 					}
 				}
 			}
-			String sDisplayName = currentSeries.getDisplayName( );
-			cmbTypes.setText( sDisplayName );
-		}
-		else
-		{
-			String seriesName = currentSeries.getDisplayName( );
-			cmbTypes.add( seriesName );
-			cmbTypes.select( 0 );
+			String sDisplayName = currentSeries.getDisplayName();
+			cmbTypes.setText(sDisplayName);
+		} else {
+			String seriesName = currentSeries.getDisplayName();
+			cmbTypes.add(seriesName);
+			cmbTypes.select(0);
 		}
 
 	}
-	
+
 	/**
 	 * Create an instance of CurveFitting according to current context.
 	 * 
 	 * @param context
 	 * @return an instance of CurveFitting
 	 */
-	public static CurveFitting createCurveFitting( ChartWizardContext context )
-	{
-		return context.getUIFactory( ).supportAutoUI( ) ? CurveFittingImpl.createDefault( )
-				: CurveFittingImpl.create( );
+	public static CurveFitting createCurveFitting(ChartWizardContext context) {
+		return context.getUIFactory().supportAutoUI() ? CurveFittingImpl.createDefault() : CurveFittingImpl.create();
 	}
-	
+
 	/**
 	 * Converts the specified model line style to an appropriate SWT line style
 	 * constant
 	 */
-	public static int getSWTLineStyle( LineStyle style )
-	{
-		if ( LineStyle.DASHED_LITERAL.equals( style ) )
-		{
+	public static int getSWTLineStyle(LineStyle style) {
+		if (LineStyle.DASHED_LITERAL.equals(style)) {
 			return SWT.LINE_DASH;
-		}
-		else if ( LineStyle.DASH_DOTTED_LITERAL.equals( style ) )
-		{
+		} else if (LineStyle.DASH_DOTTED_LITERAL.equals(style)) {
 			return SWT.LINE_DASHDOT;
-		}
-		else if ( LineStyle.DOTTED_LITERAL.equals( style ) )
-		{
+		} else if (LineStyle.DOTTED_LITERAL.equals(style)) {
 			return SWT.LINE_DOT;
-		}
-		else
-		{
+		} else {
 			return SWT.LINE_SOLID;
 		}
 	}

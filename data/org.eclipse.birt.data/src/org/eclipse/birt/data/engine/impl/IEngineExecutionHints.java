@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.data.engine.impl;
 
-
 /**
- * This interface defines hints info to optimize query execution.  
+ * This interface defines hints info to optimize query execution.
  *
  */
-public interface IEngineExecutionHints
-{
+public interface IEngineExecutionHints {
 
 	/**
 	 * Return whether a data set needs to be cached data engine wise.
@@ -25,5 +23,5 @@ public interface IEngineExecutionHints
 	 * @param dataSetName
 	 * @return
 	 */
-	public boolean needCacheDataSet( String dataSetName );
+	public boolean needCacheDataSet(String dataSetName);
 }

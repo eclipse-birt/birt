@@ -10,22 +10,19 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.api.timefunction;
 
 import java.util.Date;
 
-public class ReferenceDate implements IReferenceDate 
-{
+public class ReferenceDate implements IReferenceDate {
 	private Date referenceDate;
 
-	public ReferenceDate( Date referenceDate )
-	{
+	public ReferenceDate(Date referenceDate) {
 		this.referenceDate = referenceDate;
 	}
-	
-	public Date getDate( )
-	{
+
+	public Date getDate() {
 		return this.referenceDate;
 	}
 

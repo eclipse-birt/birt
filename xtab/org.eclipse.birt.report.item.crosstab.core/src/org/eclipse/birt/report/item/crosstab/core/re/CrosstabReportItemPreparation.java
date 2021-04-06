@@ -33,168 +33,112 @@ import org.eclipse.birt.report.model.elements.interfaces.IStyleModel;
 /**
  * CrosstabReportItemPreparation
  */
-public class CrosstabReportItemPreparation extends ReportItemPreparationBase
-{
+public class CrosstabReportItemPreparation extends ReportItemPreparationBase {
 
 	@Override
-	public void prepare( ) throws BirtException
-	{
-		if ( !( handle instanceof ExtendedItemHandle ) )
-		{
+	public void prepare() throws BirtException {
+		if (!(handle instanceof ExtendedItemHandle)) {
 			return;
 		}
 
-		CrosstabReportItemHandle crosstab = (CrosstabReportItemHandle) ( (ExtendedItemHandle) handle )
-				.getReportItem( );
+		CrosstabReportItemHandle crosstab = (CrosstabReportItemHandle) ((ExtendedItemHandle) handle).getReportItem();
 
-		if ( crosstab == null )
-		{
+		if (crosstab == null) {
 			return;
 		}
 
 		// Hide detail measure row or column
-		Object hideDetail = handle
-				.getProperty( ICrosstabConstants.HIDE_DETAIL_PROP );
-		if ( hideDetail != null )
-		{
-			if ( hideDetail.toString( ).toLowerCase( ).equals(
-					ICrosstabConstants.HIDE_DETAIL_ROW ) )
-			{
-				hideDetail( crosstab, true );
-			}
-			else if ( hideDetail.toString( ).toLowerCase( ).equals(
-					ICrosstabConstants.HIDE_DETAIL_COLUMN ) )
-			{
-				hideDetail( crosstab, false );
-			}
-			else
-			{
-				throw new CrosstabException( Messages.getString(
-						"CrosstabReportItemPreparation.Exception.HideDetailPropertyValueIsWrong", //$NON-NLS-1$
-						new String[]{
-								ICrosstabConstants.HIDE_DETAIL_PROP,
-								ICrosstabConstants.HIDE_DETAIL_ROW,
-								ICrosstabConstants.HIDE_DETAIL_COLUMN
-						} ) );
+		Object hideDetail = handle.getProperty(ICrosstabConstants.HIDE_DETAIL_PROP);
+		if (hideDetail != null) {
+			if (hideDetail.toString().toLowerCase().equals(ICrosstabConstants.HIDE_DETAIL_ROW)) {
+				hideDetail(crosstab, true);
+			} else if (hideDetail.toString().toLowerCase().equals(ICrosstabConstants.HIDE_DETAIL_COLUMN)) {
+				hideDetail(crosstab, false);
+			} else {
+				throw new CrosstabException(
+						Messages.getString("CrosstabReportItemPreparation.Exception.HideDetailPropertyValueIsWrong", //$NON-NLS-1$
+								new String[] { ICrosstabConstants.HIDE_DETAIL_PROP, ICrosstabConstants.HIDE_DETAIL_ROW,
+										ICrosstabConstants.HIDE_DETAIL_COLUMN }));
 			}
 		}
 
-		ExtendedItemHandle modelHandle = (ExtendedItemHandle) crosstab
-				.getModelHandle( );
-		String javaClass = modelHandle.getEventHandlerClass( );
-		String script = modelHandle.getOnPrepare( );
+		ExtendedItemHandle modelHandle = (ExtendedItemHandle) crosstab.getModelHandle();
+		String javaClass = modelHandle.getEventHandlerClass();
+		String script = modelHandle.getOnPrepare();
 
-		if ( ( javaClass != null && javaClass.trim( ).length( ) > 0 )
-				|| ( script != null && script.trim( ).length( ) > 0 ) )
-		{
+		if ((javaClass != null && javaClass.trim().length() > 0) || (script != null && script.trim().length() > 0)) {
 			// fix bug 235947, ensure engine script context is initialized at
 			// this moment
-			context.evaluate( "1" ); //$NON-NLS-1$
+			context.evaluate("1"); //$NON-NLS-1$
 		}
 
-		new CrosstabPreparationHandler( crosstab, context ).handle( );
+		new CrosstabPreparationHandler(crosstab, context).handle();
 	}
 
-	private void hideDetail( CrosstabReportItemHandle crosstab,
-			boolean hideRow ) throws BirtException
-	{
+	private void hideDetail(CrosstabReportItemHandle crosstab, boolean hideRow) throws BirtException {
 		// Zero width/height in measure cell
 		final String ZERO = "0in"; //$NON-NLS-1$
-		for ( MeasureViewHandle mv : crosstab.getAllMeasures( ) )
-		{
-			AggregationCellHandle cell = mv.getCell( );
+		for (MeasureViewHandle mv : crosstab.getAllMeasures()) {
+			AggregationCellHandle cell = mv.getCell();
 
-			if ( hideRow )
-			{
+			if (hideRow) {
 				// Remove all items in the measure cell and grand total cell
-				clearCellContents( cell );
-				clearCellContents( mv.getAggregationCell(
-						cell.getDimensionName(
-								ICrosstabConstants.ROW_AXIS_TYPE ),
-						cell.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ),
-						null,
-						null ) );
-			}
-			else
-			{
-				cell.getModelHandle( ).setProperty( IStyleModel.WIDTH_PROP,
-						ZERO );
+				clearCellContents(cell);
+				clearCellContents(mv.getAggregationCell(cell.getDimensionName(ICrosstabConstants.ROW_AXIS_TYPE),
+						cell.getLevelName(ICrosstabConstants.ROW_AXIS_TYPE), null, null));
+			} else {
+				cell.getModelHandle().setProperty(IStyleModel.WIDTH_PROP, ZERO);
 			}
 		}
 
-		if ( hideRow )
-		{
+		if (hideRow) {
 			// Remove all items in the dimension cell
-			int dimCount = crosstab
-					.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE );
-			for ( int i = 0; i < dimCount; i++ )
-			{
-				DimensionViewHandle dim = crosstab
-						.getDimension( ICrosstabConstants.ROW_AXIS_TYPE, i );
-				for ( int j = 0; j < dim.getLevelCount( ); j++ )
-				{
-					LevelViewHandle level = dim.getLevel( j );
-					clearCellContents( level.getCell( ) );
+			int dimCount = crosstab.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE);
+			for (int i = 0; i < dimCount; i++) {
+				DimensionViewHandle dim = crosstab.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i);
+				for (int j = 0; j < dim.getLevelCount(); j++) {
+					LevelViewHandle level = dim.getLevel(j);
+					clearCellContents(level.getCell());
 				}
 			}
 
 			// Hide measure header to avoid meaningless header
-			handle.setProperty(
-					ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP,
-					true );
+			handle.setProperty(ICrosstabReportItemConstants.HIDE_MEASURE_HEADER_PROP, true);
 		}
 
 		// Set big pageBreakInterval to avoid page break
 		final int NO_PAGE_BREAK = 10000;
-		crosstab.getModelHandle( ).setProperty(
-				hideRow ? ICrosstabConstants.ROW_PAGE_BREAK_INTERVAL_PROP
-						: ICrosstabConstants.COLUMN_PAGE_BREAK_INTERVAL_PROP,
-				NO_PAGE_BREAK );
+		crosstab.getModelHandle().setProperty(hideRow ? ICrosstabConstants.ROW_PAGE_BREAK_INTERVAL_PROP
+				: ICrosstabConstants.COLUMN_PAGE_BREAK_INTERVAL_PROP, NO_PAGE_BREAK);
 
 		// Fixed Layout to avoid white space
-		( (ReportDesignHandle) crosstab.getModuleHandle( ) )
-				.setLayoutPreference(
-						DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT );
+		((ReportDesignHandle) crosstab.getModuleHandle())
+				.setLayoutPreference(DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT);
 
 	}
 
-	private void clearCellContents( CrosstabCellHandle cell )
-			throws BirtException
-	{
-		if ( cell != null )
-		{
+	private void clearCellContents(CrosstabCellHandle cell) throws BirtException {
+		if (cell != null) {
 			// No outline
-			cell.getModelHandle( ).setProperty(
-					IStyleModel.BORDER_TOP_STYLE_PROP,
-					DesignChoiceConstants.LINE_STYLE_NONE );
-			cell.getModelHandle( ).setProperty(
-					IStyleModel.BORDER_BOTTOM_STYLE_PROP,
-					DesignChoiceConstants.LINE_STYLE_NONE );
-			cell.getModelHandle( ).setProperty(
-					IStyleModel.BORDER_LEFT_STYLE_PROP,
-					DesignChoiceConstants.LINE_STYLE_NONE );
-			cell.getModelHandle( ).setProperty(
-					IStyleModel.BORDER_RIGHT_STYLE_PROP,
-					DesignChoiceConstants.LINE_STYLE_NONE );
+			cell.getModelHandle().setProperty(IStyleModel.BORDER_TOP_STYLE_PROP, DesignChoiceConstants.LINE_STYLE_NONE);
+			cell.getModelHandle().setProperty(IStyleModel.BORDER_BOTTOM_STYLE_PROP,
+					DesignChoiceConstants.LINE_STYLE_NONE);
+			cell.getModelHandle().setProperty(IStyleModel.BORDER_LEFT_STYLE_PROP,
+					DesignChoiceConstants.LINE_STYLE_NONE);
+			cell.getModelHandle().setProperty(IStyleModel.BORDER_RIGHT_STYLE_PROP,
+					DesignChoiceConstants.LINE_STYLE_NONE);
 
 			// No padding
 			final String ZERO = "0pt"; //$NON-NLS-1$
-			cell.getModelHandle( ).setProperty( IStyleModel.PADDING_TOP_PROP,
-					ZERO );
-			cell.getModelHandle( ).setProperty( IStyleModel.PADDING_BOTTOM_PROP,
-					ZERO );
-			cell.getModelHandle( ).setProperty( IStyleModel.PADDING_LEFT_PROP,
-					ZERO );
-			cell.getModelHandle( ).setProperty( IStyleModel.PADDING_RIGHT_PROP,
-					ZERO );
+			cell.getModelHandle().setProperty(IStyleModel.PADDING_TOP_PROP, ZERO);
+			cell.getModelHandle().setProperty(IStyleModel.PADDING_BOTTOM_PROP, ZERO);
+			cell.getModelHandle().setProperty(IStyleModel.PADDING_LEFT_PROP, ZERO);
+			cell.getModelHandle().setProperty(IStyleModel.PADDING_RIGHT_PROP, ZERO);
 			// No contents
-			for ( Object child : cell.getContents( ) )
-			{
-				if ( child instanceof DesignElementHandle )
-				{
+			for (Object child : cell.getContents()) {
+				if (child instanceof DesignElementHandle) {
 					DesignElementHandle designElement = (DesignElementHandle) child;
-					designElement.setProperty( IStyleModel.DISPLAY_PROP,
-							DesignChoiceConstants.DISPLAY_NONE );
+					designElement.setProperty(IStyleModel.DISPLAY_PROP, DesignChoiceConstants.DISPLAY_NONE);
 				}
 			}
 		}

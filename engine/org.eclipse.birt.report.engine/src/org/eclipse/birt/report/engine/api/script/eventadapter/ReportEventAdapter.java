@@ -19,54 +19,37 @@ import org.eclipse.birt.report.engine.api.script.instance.IPageInstance;
 /**
  * Default (empty) implementation of the IReportEventHandler interface
  */
-public class ReportEventAdapter implements IReportEventHandler
-{
+public class ReportEventAdapter implements IReportEventHandler {
 
-	public void initialize( IReportContext reportContext )
-			throws ScriptException
-	{
+	public void initialize(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void beforeFactory( IReportDesign report,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void beforeFactory(IReportDesign report, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void afterFactory( IReportContext reportContext )
-			throws ScriptException
-	{
+	public void afterFactory(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void beforeRender( IReportContext reportContext )
-			throws ScriptException
-	{
+	public void beforeRender(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void afterRender( IReportContext reportContext )
-			throws ScriptException
-	{
-
-	}
-	
-	public void onPrepare( IReportContext reportContext )
-			throws ScriptException
-	{
+	public void afterRender(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onPageStart( IPageInstance page, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPrepare(IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onPageEnd( IPageInstance page, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPageStart(IPageInstance page, IReportContext reportContext) throws ScriptException {
+
+	}
+
+	public void onPageEnd(IPageInstance page, IReportContext reportContext) throws ScriptException {
 
 	}
 

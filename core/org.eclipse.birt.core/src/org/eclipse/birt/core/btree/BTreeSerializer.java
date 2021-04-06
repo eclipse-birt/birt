@@ -13,11 +13,10 @@ package org.eclipse.birt.core.btree;
 
 import java.io.IOException;
 
-public interface BTreeSerializer<K>
-{
+public interface BTreeSerializer<K> {
 
-	byte[] getBytes( K object ) throws IOException;
+	byte[] getBytes(K object) throws IOException;
 
-	K getObject( byte[] bytes ) throws IOException, ClassNotFoundException;
+	K getObject(byte[] bytes) throws IOException, ClassNotFoundException;
 
 }

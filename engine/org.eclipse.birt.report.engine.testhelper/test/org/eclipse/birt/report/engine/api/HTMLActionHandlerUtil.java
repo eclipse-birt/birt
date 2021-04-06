@@ -15,18 +15,13 @@ package org.eclipse.birt.report.engine.api;
  * 
  */
 
-public class HTMLActionHandlerUtil
-{
+public class HTMLActionHandlerUtil {
 
-	public static void appendReportDesignName( HTMLActionHandler handler,
-			StringBuffer buffer, String reportName )
-	{
-		handler.appendReportDesignName( buffer, reportName );
+	public static void appendReportDesignName(HTMLActionHandler handler, StringBuffer buffer, String reportName) {
+		handler.appendReportDesignName(buffer, reportName);
 	}
 
-	public static void appendFormat( HTMLActionHandler handler,
-			StringBuffer buffer, String format )
-	{
-		handler.appendFormat( buffer, format );
+	public static void appendFormat(HTMLActionHandler handler, StringBuffer buffer, String format) {
+		handler.appendFormat(buffer, format);
 	}
 }

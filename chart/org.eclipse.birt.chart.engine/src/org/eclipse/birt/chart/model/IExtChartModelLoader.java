@@ -19,8 +19,7 @@ import org.eclipse.emf.ecore.EPackage;
  * @since 2.6
  */
 
-public interface IExtChartModelLoader
-{
+public interface IExtChartModelLoader {
 	/**
 	 * Returns the package instance of extra chart type.
 	 * 

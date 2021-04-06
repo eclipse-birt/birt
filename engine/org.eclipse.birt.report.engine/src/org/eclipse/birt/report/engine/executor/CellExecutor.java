@@ -19,98 +19,84 @@ import org.eclipse.birt.report.engine.ir.CellDesign;
 import org.eclipse.birt.report.engine.ir.Expression;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
-public class CellExecutor extends QueryItemExecutor
-{
-	protected CellExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.CELLITEM );
+public class CellExecutor extends QueryItemExecutor {
+	protected CellExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.CELLITEM);
 	}
-	
+
 	int cellId;
-	
-	public IContent execute( )
-	{
-		CellDesign cellDesign = (CellDesign)getDesign();
-		
-		ICellContent cellContent = report.createCellContent( );
+
+	public IContent execute() {
+		CellDesign cellDesign = (CellDesign) getDesign();
+
+		ICellContent cellContent = report.createCellContent();
 		setContent(cellContent);
-		
-		executeQuery( );
-		initializeContent( cellDesign, cellContent );
 
-		//cellContent.setColumn( cellDesign.getColumn( ) );
-		//cellContent.setColSpan( cellDesign.getColSpan( ) );
-		//cellContent.setRowSpan( cellDesign.getRowSpan( ) );
+		executeQuery();
+		initializeContent(cellDesign, cellContent);
 
-		processAction( cellDesign, cellContent );
-		processBookmark( cellDesign, cellContent );
-		processHeaders( cellDesign, cellContent );
-		processStyle( cellDesign, cellContent );
-		processVisibility( cellDesign, cellContent );
-		processUserProperties( cellDesign, cellContent );
-		processAltText( cellDesign, cellContent );
+		// cellContent.setColumn( cellDesign.getColumn( ) );
+		// cellContent.setColSpan( cellDesign.getColSpan( ) );
+		// cellContent.setRowSpan( cellDesign.getRowSpan( ) );
 
-		//cellContent.setDisplayGroupIcon( cellDesign.getDisplayGroupIcon( ) );
-		
-		if ( context.isInFactory( ) )
-		{
-			handleOnCreate( cellContent );
+		processAction(cellDesign, cellContent);
+		processBookmark(cellDesign, cellContent);
+		processHeaders(cellDesign, cellContent);
+		processStyle(cellDesign, cellContent);
+		processVisibility(cellDesign, cellContent);
+		processUserProperties(cellDesign, cellContent);
+		processAltText(cellDesign, cellContent);
+
+		// cellContent.setDisplayGroupIcon( cellDesign.getDisplayGroupIcon( ) );
+
+		if (context.isInFactory()) {
+			handleOnCreate(cellContent);
 		}
 
-		startTOCEntry( cellContent );
+		startTOCEntry(cellContent);
 
-		//prepare to execute the children.
+		// prepare to execute the children.
 		currentItem = 0;
-		
+
 		return content;
 	}
 
-	private void processAltText( CellDesign design, IContent content )
-	{
-		Expression altTextExpr = design.getAltText( );
-		if ( altTextExpr != null )
-		{
-			Object altText = evaluate( altTextExpr );
-			if ( altText != null )
-			{
-				content.setAltText( altText.toString( ) );
+	private void processAltText(CellDesign design, IContent content) {
+		Expression altTextExpr = design.getAltText();
+		if (altTextExpr != null) {
+			Object altText = evaluate(altTextExpr);
+			if (altText != null) {
+				content.setAltText(altText.toString());
 			}
 		}
 	}
-	
-	private void processHeaders( CellDesign cellDesign, ICellContent cellContent )
-	{
-		String headers = evaluateString( cellDesign.getHeaders( ) );
-		if ( headers != null && !headers.equals( "" ) )
-		{
-			cellContent.setHeaders( headers );
+
+	private void processHeaders(CellDesign cellDesign, ICellContent cellContent) {
+		String headers = evaluateString(cellDesign.getHeaders());
+		if (headers != null && !headers.equals("")) {
+			cellContent.setHeaders(headers);
 		}
 	}
 
-	public void close( ) throws BirtException
-	{
-		finishTOCEntry( );
-		closeQuery( );
+	public void close() throws BirtException {
+		finishTOCEntry();
+		closeQuery();
 		this.cellId = 0;
-		super.close( );
+		super.close();
 	}
-	
+
 	private int currentItem = 0;
 
-	public boolean hasNextChild()
-	{
+	public boolean hasNextChild() {
 		CellDesign cellDesign = (CellDesign) getDesign();
-		return currentItem < cellDesign.getContentCount( );
+		return currentItem < cellDesign.getContentCount();
 	}
-	
-	public IReportItemExecutor getNextChild( )
-	{
+
+	public IReportItemExecutor getNextChild() {
 		CellDesign cellDesign = (CellDesign) getDesign();
-		if ( currentItem < cellDesign.getContentCount( ) )
-		{
-			ReportItemDesign itemDesign = cellDesign.getContent( currentItem++ );
-			ReportItemExecutor executor = manager.createExecutor( this,  
-					itemDesign);
+		if (currentItem < cellDesign.getContentCount()) {
+			ReportItemDesign itemDesign = cellDesign.getContent(currentItem++);
+			ReportItemExecutor executor = manager.createExecutor(this, itemDesign);
 			return executor;
 		}
 		return null;

@@ -26,32 +26,26 @@ import org.eclipse.birt.report.service.actionhandler.BirtGetPageAllActionHandler
 import org.eclipse.birt.report.service.actionhandler.BirtGetTOCActionHandler;
 import org.eclipse.birt.report.service.actionhandler.BirtQueryExportActionHandler;
 
-public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
-{
+public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor {
 	/**
 	 * Operator list definition.
 	 */
-	protected static String[] opList = new String[]{
-			IBirtOperators.Operator_GetPage_Literal,
-			IBirtOperators.Operator_GetToc_Literal,
-			IBirtOperators.Operator_GetCascadeParameter_Literal,
-			IBirtOperators.Operator_ChangeParameter_Literal,
-			IBirtOperators.Operator_QueryExport_Literal,
-			IBirtOperators.Operator_CacheParameter_Literal,
-			IBirtOperators.Operator_CancelTask_Literal,
-			IBirtOperators.Operator_GetPageAll_Literal};
+	protected static String[] opList = new String[] { IBirtOperators.Operator_GetPage_Literal,
+			IBirtOperators.Operator_GetToc_Literal, IBirtOperators.Operator_GetCascadeParameter_Literal,
+			IBirtOperators.Operator_ChangeParameter_Literal, IBirtOperators.Operator_QueryExport_Literal,
+			IBirtOperators.Operator_CacheParameter_Literal, IBirtOperators.Operator_CancelTask_Literal,
+			IBirtOperators.Operator_GetPageAll_Literal };
 
 	/**
 	 * Operator mapping.
 	 */
-	protected static Hashtable operatorMap = new Hashtable( );
+	protected static Hashtable operatorMap = new Hashtable();
 
 	/**
 	 * Default constructor.
 	 */
-	public BirtDocumentProcessor( )
-	{
-		super( );
+	public BirtDocumentProcessor() {
+		super();
 	}
 
 	/**
@@ -59,8 +53,7 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * 
 	 * @return String[]
 	 */
-	protected String[] getOperatorList( )
-	{
+	protected String[] getOperatorList() {
 		return opList;
 	}
 
@@ -69,8 +62,7 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * 
 	 * @return Hashtable
 	 */
-	protected Hashtable getOpMap( )
-	{
+	protected Hashtable getOpMap() {
 		return operatorMap;
 	}
 
@@ -81,10 +73,9 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * @param op
 	 * @param response
 	 */
-	public void handleGetPage( IContext context, Operation op, GetUpdatedObjectsResponse response )
-		throws RemoteException
-	{
-		executeAction( new BirtGetPageActionHandler( context, op, response ), context, op, response );
+	public void handleGetPage(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException {
+		executeAction(new BirtGetPageActionHandler(context, op, response), context, op, response);
 	}
 
 	/**
@@ -94,10 +85,9 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * @param op
 	 * @param response
 	 */
-	public void handleChangeParameter( IContext context, Operation op, GetUpdatedObjectsResponse response )
-		throws RemoteException
-	{
-		executeAction( new BirtChangeParameterActionHandler( context, op, response ), context, op, response );
+	public void handleChangeParameter(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException {
+		executeAction(new BirtChangeParameterActionHandler(context, op, response), context, op, response);
 	}
 
 	/**
@@ -107,10 +97,9 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * @param op
 	 * @param response
 	 */
-	public void handleCacheParameter( IContext context, Operation op, GetUpdatedObjectsResponse response )
-		throws RemoteException
-	{
-		executeAction( new BirtCacheParameterActionHandler( context, op, response ), context, op, response );
+	public void handleCacheParameter(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException {
+		executeAction(new BirtCacheParameterActionHandler(context, op, response), context, op, response);
 	}
 
 	/**
@@ -121,10 +110,9 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	public void handleGetCascadingParameter( IContext context, Operation op, GetUpdatedObjectsResponse response )
-		throws RemoteException
-	{
-		executeAction( new BirtGetCascadeParameterActionHandler( context, op, response ), context, op, response );
+	public void handleGetCascadingParameter(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException {
+		executeAction(new BirtGetCascadeParameterActionHandler(context, op, response), context, op, response);
 	}
 
 	/**
@@ -135,10 +123,9 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	public void handleGetToc( IContext context, Operation op, GetUpdatedObjectsResponse response )
-		throws RemoteException
-	{
-		executeAction( new BirtGetTOCActionHandler( context, op, response ), context, op, response );
+	public void handleGetToc(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException {
+		executeAction(new BirtGetTOCActionHandler(context, op, response), context, op, response);
 	}
 
 	/**
@@ -149,10 +136,9 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	public void handleQueryExport( IContext context, Operation op, GetUpdatedObjectsResponse response )
-		throws RemoteException
-	{
-		executeAction( new BirtQueryExportActionHandler( context, op, response ), context, op, response );
+	public void handleQueryExport(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException {
+		executeAction(new BirtQueryExportActionHandler(context, op, response), context, op, response);
 	}
 
 	/**
@@ -163,10 +149,9 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	public void handleCancelTask( IContext context, Operation op, GetUpdatedObjectsResponse response )
-		throws RemoteException
-	{
-		executeAction( new BirtCancelTaskActionHandler( context, op, response ), context, op, response );
+	public void handleCancelTask(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException {
+		executeAction(new BirtCancelTaskActionHandler(context, op, response), context, op, response);
 	}
 
 	/**
@@ -177,9 +162,8 @@ public class BirtDocumentProcessor extends AbstractBaseDocumentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	public void handleGetPageAll( IContext context, Operation op, GetUpdatedObjectsResponse response )
-		throws RemoteException
-	{
-		executeAction( new BirtGetPageAllActionHandler( context, op, response ), context, op, response );
+	public void handleGetPageAll(IContext context, Operation op, GetUpdatedObjectsResponse response)
+			throws RemoteException {
+		executeAction(new BirtGetPageAllActionHandler(context, op, response), context, op, response);
 	}
 }

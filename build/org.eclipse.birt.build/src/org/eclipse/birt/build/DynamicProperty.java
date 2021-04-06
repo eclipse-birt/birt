@@ -19,7 +19,6 @@ import org.apache.tools.ant.taskdefs.Property;
  *
  * dynamic property defines all paramter in for-each loop
  */
-public class DynamicProperty extends Property
-{
+public class DynamicProperty extends Property {
 
 }

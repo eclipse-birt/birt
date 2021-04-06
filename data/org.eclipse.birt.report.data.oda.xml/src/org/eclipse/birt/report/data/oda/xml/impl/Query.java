@@ -13,19 +13,17 @@ package org.eclipse.birt.report.data.oda.xml.impl;
 
 /**
  * This class implements IQuery interface.
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class Query extends org.eclipse.datatools.enablement.oda.xml.impl.Query
-{
+public class Query extends org.eclipse.datatools.enablement.oda.xml.impl.Query {
 
 	/**
 	 * 
 	 * @param creator
 	 */
-	public Query(
-			org.eclipse.datatools.enablement.oda.xml.impl.Connection conn )
-	{
-		super( conn );
+	public Query(org.eclipse.datatools.enablement.oda.xml.impl.Connection conn) {
+		super(conn);
 	}
 
 }

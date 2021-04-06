@@ -15,15 +15,13 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_187761 extends BaseTestCase
-{
+public class Regression_187761 extends BaseTestCase {
 
-	public void test_Regression_187761( ) throws Exception
-	{
-		openDesign( "regression_187761.rptdesign" );
-		TableHandle table = (TableHandle) designHandle.findElement( "table" );
-		table.insertColumn( 0, 1 );
-		assertEquals( 2, table.getColumnCount( ) );
+	public void test_Regression_187761() throws Exception {
+		openDesign("regression_187761.rptdesign");
+		TableHandle table = (TableHandle) designHandle.findElement("table");
+		table.insertColumn(0, 1);
+		assertEquals(2, table.getColumnCount());
 	}
 
 }

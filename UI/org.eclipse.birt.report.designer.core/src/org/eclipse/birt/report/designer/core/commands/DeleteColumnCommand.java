@@ -26,93 +26,71 @@ import org.eclipse.gef.commands.Command;
  * This command deletes an object from the ColumnHandle.
  * 
  */
-public class DeleteColumnCommand extends Command
-{
+public class DeleteColumnCommand extends Command {
 
 	private ColumnHandle handle = null;
 
 	/**
 	 * Deletes the command
 	 * 
-	 * @param model
-	 *            the model
+	 * @param model the model
 	 */
 
-	public DeleteColumnCommand( Object model )
-	{
+	public DeleteColumnCommand(Object model) {
 		assert model instanceof ColumnHandle;
 		this.handle = (ColumnHandle) model;
 	}
 
 	/**
-	 * Executes the Command. This method should not be called if the Command is
-	 * not executable.
+	 * Executes the Command. This method should not be called if the Command is not
+	 * executable.
 	 */
 
-	public void execute( )
-	{
-		if ( getTableParent( ) != null )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "DeleteColumnCommand >> Starts. Target: " //$NON-NLS-1$
-						+ DEUtil.getDisplayLabel( getTableParent( ) ) );
+	public void execute() {
+		if (getTableParent() != null) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("DeleteColumnCommand >> Starts. Target: " //$NON-NLS-1$
+						+ DEUtil.getDisplayLabel(getTableParent()));
 			}
-			TableHandleAdapter tableHandle = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getTableParent( ) );
+			TableHandleAdapter tableHandle = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
 
-			int columnNumber = HandleAdapterFactory.getInstance( )
-					.getColumnHandleAdapter( handle )
-					.getColumnNumber( );
+			int columnNumber = HandleAdapterFactory.getInstance().getColumnHandleAdapter(handle).getColumnNumber();
 
-			try
-			{
-				tableHandle.deleteColumn( new int[]{
-					columnNumber
-				} );
-				if ( DesignerConstants.TRACING_COMMANDS )
-				{
-					System.out.println( "DeleteColumnCommand >> Finished. " );					 //$NON-NLS-1$
+			try {
+				tableHandle.deleteColumn(new int[] { columnNumber });
+				if (DesignerConstants.TRACING_COMMANDS) {
+					System.out.println("DeleteColumnCommand >> Finished. "); //$NON-NLS-1$
 				}
-			}
-			catch ( SemanticException e )
-			{
-				if ( DesignerConstants.TRACING_COMMANDS )
-				{
-					System.out.println( "DeleteColumnCommand >> Failed. " ); //$NON-NLS-1$
+			} catch (SemanticException e) {
+				if (DesignerConstants.TRACING_COMMANDS) {
+					System.out.println("DeleteColumnCommand >> Failed. "); //$NON-NLS-1$
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the parent table
 	 * 
-	 * @return 
-	 * 		Return the parent table
+	 * @return Return the parent table
 	 */
-	private Object getTableParent( )
-	{
-		DesignElementHandle parent = handle.getContainer( );
-		while ( parent != null )
-		{
-			if ( parent instanceof TableHandle || parent instanceof GridHandle )
-			{
+	private Object getTableParent() {
+		DesignElementHandle parent = handle.getContainer();
+		while (parent != null) {
+			if (parent instanceof TableHandle || parent instanceof GridHandle) {
 				return parent;
 			}
-			parent = parent.getContainer( );
+			parent = parent.getContainer();
 		}
 		return null;
 	}
 
 	/**
-	 *  Check whether the command can be executed or not
+	 * Check whether the command can be executed or not
 	 * 
-	 * @return 
-	 * 		true or false
+	 * @return true or false
 	 */
-	public boolean canExecute( )
-	{
-		return super.canExecute( ) && handle.canDrop();
+	public boolean canExecute() {
+		return super.canExecute() && handle.canDrop();
 	}
 }

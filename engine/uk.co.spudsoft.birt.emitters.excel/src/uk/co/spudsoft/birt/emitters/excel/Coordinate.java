@@ -11,14 +11,13 @@
  *     James Talbut - Initial implementation.
  ************************************************************************************/
 
-
 package uk.co.spudsoft.birt.emitters.excel;
 
 public class Coordinate {
 
 	private int row;
 	private int col;
-	
+
 	public Coordinate(int row, int col) {
 		super();
 		this.row = row;
@@ -70,5 +69,5 @@ public class Coordinate {
 	public String toString() {
 		return "Coordinate [row=" + row + ", col=" + col + "]";
 	}
-	
+
 }

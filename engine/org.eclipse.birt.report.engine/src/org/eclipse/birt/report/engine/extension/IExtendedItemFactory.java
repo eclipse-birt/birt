@@ -13,10 +13,9 @@ package org.eclipse.birt.report.engine.extension;
 
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
-public interface IExtendedItemFactory
-{
+public interface IExtendedItemFactory {
 
-	public IExtendedItem createExtendedItem( ExtendedItemHandle handle );
+	public IExtendedItem createExtendedItem(ExtendedItemHandle handle);
 
-	public void release( );
+	public void release();
 }

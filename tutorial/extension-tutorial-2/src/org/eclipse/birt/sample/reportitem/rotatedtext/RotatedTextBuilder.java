@@ -37,28 +37,21 @@ import org.eclipse.swt.widgets.Text;
 /**
  * RotatedTextBuilder
  */
-public class RotatedTextBuilder extends ReportItemBuilderUI
-{
+public class RotatedTextBuilder extends ReportItemBuilderUI {
 
-	public int open( ExtendedItemHandle handle )
-	{
-		try
-		{
-			IReportItem item = handle.getReportItem( );
+	public int open(ExtendedItemHandle handle) {
+		try {
+			IReportItem item = handle.getReportItem();
 
-			if ( item instanceof RotatedTextItem )
-			{
+			if (item instanceof RotatedTextItem) {
 				// XXX change to RotatedTextEditor2 for expression support
-				RotatedTextEditor editor = new RotatedTextEditor2( Display.getCurrent( )
-						.getActiveShell( ),
-						(RotatedTextItem) item );
+				RotatedTextEditor editor = new RotatedTextEditor2(Display.getCurrent().getActiveShell(),
+						(RotatedTextItem) item);
 
-				return editor.open( );
+				return editor.open();
 			}
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( );
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 		return Window.CANCEL;
 	}
@@ -67,8 +60,7 @@ public class RotatedTextBuilder extends ReportItemBuilderUI
 /**
  * RotatedTextEditor
  */
-class RotatedTextEditor extends TrayDialog
-{
+class RotatedTextEditor extends TrayDialog {
 
 	protected RotatedTextItem textItem;
 
@@ -76,154 +68,135 @@ class RotatedTextEditor extends TrayDialog
 	protected Scale sclAngle;
 	protected Label lbAngle;
 
-	protected RotatedTextEditor( Shell shell, RotatedTextItem textItem )
-	{
-		super( shell );
+	protected RotatedTextEditor(Shell shell, RotatedTextItem textItem) {
+		super(shell);
 
 		this.textItem = textItem;
 	}
 
-	protected void configureShell( Shell newShell )
-	{
-		super.configureShell( newShell );
+	protected void configureShell(Shell newShell) {
+		super.configureShell(newShell);
 
-		newShell.setText( "Rotated Text Builder" ); //$NON-NLS-1$
+		newShell.setText("Rotated Text Builder"); //$NON-NLS-1$
 	}
 
-	protected void createTextArea( Composite parent )
-	{
-		Label lb = new Label( parent, SWT.None );
-		lb.setText( "Text Content:" ); //$NON-NLS-1$
+	protected void createTextArea(Composite parent) {
+		Label lb = new Label(parent, SWT.None);
+		lb.setText("Text Content:"); //$NON-NLS-1$
 
-		txtText = new Text( parent, SWT.BORDER );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
+		txtText = new Text(parent, SWT.BORDER);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		gd.horizontalSpan = 2;
-		txtText.setLayoutData( gd );
+		txtText.setLayoutData(gd);
 	}
 
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite composite = new Composite( parent, SWT.NONE );
-		GridLayout layout = new GridLayout( 3, false );
-		layout.marginHeight = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_MARGIN );
-		layout.marginWidth = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_MARGIN );
-		layout.verticalSpacing = convertVerticalDLUsToPixels( IDialogConstants.VERTICAL_SPACING );
-		layout.horizontalSpacing = convertHorizontalDLUsToPixels( IDialogConstants.HORIZONTAL_SPACING );
-		composite.setLayout( layout );
-		composite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
+	protected Control createDialogArea(Composite parent) {
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout layout = new GridLayout(3, false);
+		layout.marginHeight = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_MARGIN);
+		layout.marginWidth = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_MARGIN);
+		layout.verticalSpacing = convertVerticalDLUsToPixels(IDialogConstants.VERTICAL_SPACING);
+		layout.horizontalSpacing = convertHorizontalDLUsToPixels(IDialogConstants.HORIZONTAL_SPACING);
+		composite.setLayout(layout);
+		composite.setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		createTextArea( composite );
+		createTextArea(composite);
 
-		Label lb = new Label( composite, SWT.None );
-		lb.setText( "Rotation Angle:" ); //$NON-NLS-1$
+		Label lb = new Label(composite, SWT.None);
+		lb.setText("Rotation Angle:"); //$NON-NLS-1$
 
-		sclAngle = new Scale( composite, SWT.None );
-		sclAngle.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		sclAngle.setMinimum( 0 );
-		sclAngle.setMaximum( 360 );
-		sclAngle.setIncrement( 10 );
+		sclAngle = new Scale(composite, SWT.None);
+		sclAngle.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		sclAngle.setMinimum(0);
+		sclAngle.setMaximum(360);
+		sclAngle.setIncrement(10);
 
-		lbAngle = new Label( composite, SWT.None );
-		GridData gd = new GridData( );
+		lbAngle = new Label(composite, SWT.None);
+		GridData gd = new GridData();
 		gd.widthHint = 20;
-		lbAngle.setLayoutData( gd );
+		lbAngle.setLayoutData(gd);
 
-		sclAngle.addSelectionListener( new SelectionListener( ) {
+		sclAngle.addSelectionListener(new SelectionListener() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				lbAngle.setText( String.valueOf( sclAngle.getSelection( ) ) );
+			public void widgetDefaultSelected(SelectionEvent e) {
+				lbAngle.setText(String.valueOf(sclAngle.getSelection()));
 			}
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				lbAngle.setText( String.valueOf( sclAngle.getSelection( ) ) );
+			public void widgetSelected(SelectionEvent e) {
+				lbAngle.setText(String.valueOf(sclAngle.getSelection()));
 			}
-		} );
+		});
 
-		applyDialogFont( composite );
+		applyDialogFont(composite);
 
-		initValues( );
+		initValues();
 
 		return composite;
 	}
 
-	private void initValues( )
-	{
-		txtText.setText( textItem.getText( ) );
-		sclAngle.setSelection( textItem.getRotationAngle( ) );
-		lbAngle.setText( String.valueOf( textItem.getRotationAngle( ) ) );
+	private void initValues() {
+		txtText.setText(textItem.getText());
+		sclAngle.setSelection(textItem.getRotationAngle());
+		lbAngle.setText(String.valueOf(textItem.getRotationAngle()));
 	}
 
-	protected void okPressed( )
-	{
+	protected void okPressed() {
 
-		try
-		{
-			textItem.setText( txtText.getText( ) );
-			textItem.setRotationAngle( sclAngle.getSelection( ) );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
+		try {
+			textItem.setText(txtText.getText());
+			textItem.setRotationAngle(sclAngle.getSelection());
+		} catch (Exception ex) {
+			ex.printStackTrace();
 		}
 
-		super.okPressed( );
+		super.okPressed();
 	}
 }
 
 /**
  * RotatedTextEditor2
  */
-class RotatedTextEditor2 extends RotatedTextEditor
-{
+class RotatedTextEditor2 extends RotatedTextEditor {
 
-	protected RotatedTextEditor2( Shell shell, RotatedTextItem textItem )
-	{
-		super( shell, textItem );
+	protected RotatedTextEditor2(Shell shell, RotatedTextItem textItem) {
+		super(shell, textItem);
 	}
 
-	protected void createTextArea( Composite parent )
-	{
-		Label lb = new Label( parent, SWT.None );
-		lb.setText( "Text Content:" ); //$NON-NLS-1$
+	protected void createTextArea(Composite parent) {
+		Label lb = new Label(parent, SWT.None);
+		lb.setText("Text Content:"); //$NON-NLS-1$
 
-		txtText = new Text( parent, SWT.BORDER );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		txtText.setLayoutData( gd );
+		txtText = new Text(parent, SWT.BORDER);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		txtText.setLayoutData(gd);
 
-		Button btnExp = new Button( parent, SWT.PUSH );
-		btnExp.setText( "..." ); //$NON-NLS-1$
-		btnExp.setToolTipText( "Invoke Expression Builder" ); //$NON-NLS-1$
+		Button btnExp = new Button(parent, SWT.PUSH);
+		btnExp.setText("..."); //$NON-NLS-1$
+		btnExp.setToolTipText("Invoke Expression Builder"); //$NON-NLS-1$
 
-		btnExp.addSelectionListener( new SelectionAdapter( ) {
+		btnExp.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				openExpression( txtText );
+			public void widgetSelected(SelectionEvent event) {
+				openExpression(txtText);
 			}
-		} );
+		});
 
 	}
 
-	private void openExpression( Text textControl )
-	{
-		String oldValue = textControl.getText( );
+	private void openExpression(Text textControl) {
+		String oldValue = textControl.getText();
 
-		ExpressionBuilder eb = new ExpressionBuilder( textControl.getShell( ),
-				oldValue );
-		eb.setExpressionProvier( new ExpressionProvider( textItem.getModelHandle( ) ) );
+		ExpressionBuilder eb = new ExpressionBuilder(textControl.getShell(), oldValue);
+		eb.setExpressionProvier(new ExpressionProvider(textItem.getModelHandle()));
 
 		String result = oldValue;
 
-		if ( eb.open( ) == Window.OK )
-		{
-			result = eb.getResult( );
+		if (eb.open() == Window.OK) {
+			result = eb.getResult();
 		}
 
-		if ( !oldValue.equals( result ) )
-		{
-			textControl.setText( result );
+		if (!oldValue.equals(result)) {
+			textControl.setText(result);
 		}
 	}
 

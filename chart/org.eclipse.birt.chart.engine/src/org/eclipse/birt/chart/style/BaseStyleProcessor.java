@@ -20,51 +20,47 @@ import org.eclipse.birt.chart.model.attribute.StyledComponent;
  * class of all style processors.
  */
 
-public class BaseStyleProcessor implements IStyleProcessor
-{
+public class BaseStyleProcessor implements IStyleProcessor {
 	private ColorDefinition backgroundColor = null;
 
-	public IStyle getStyle( Chart model, StyledComponent name )
-	{
+	public IStyle getStyle(Chart model, StyledComponent name) {
 		return null;
 	}
 
-	public void processStyle( Chart model )
-	{
+	public void processStyle(Chart model) {
 
 	}
 
-	public void setDefaultBackgroundColor( ColorDefinition cd )
-	{
+	public void setDefaultBackgroundColor(ColorDefinition cd) {
 		this.backgroundColor = cd;
 	}
 
-	public ColorDefinition getDefaultBackgroundColor( )
-	{
-		try
-		{
+	public ColorDefinition getDefaultBackgroundColor() {
+		try {
 			return backgroundColor;
-		}
-		finally
-		{
+		} finally {
 			// reset the environment
 			backgroundColor = null;
 		}
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.style.IStyleProcessor#updateChart(org.eclipse.birt.chart.model.Chart, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.style.IStyleProcessor#updateChart(org.eclipse.birt.
+	 * chart.model.Chart, java.lang.Object)
 	 */
-	public boolean updateChart( Chart model, Object obj )
-	{
+	public boolean updateChart(Chart model, Object obj) {
 		return false;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.style.IStyleProcessor#needInheritingStyles()
 	 */
-	public boolean needInheritingStyles( )
-	{
+	public boolean needInheritingStyles() {
 		return true;
 	}
 

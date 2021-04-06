@@ -17,41 +17,36 @@ package org.eclipse.birt.report.model.api;
  * certain sub-class.
  */
 
-public class IllegalOperationException extends RuntimeException
-{
+public class IllegalOperationException extends RuntimeException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = 1657341610022221191L;
-	
+
 	/**
 	 * Error message for the exception.
 	 */
-	
+
 	public final static String ILLEGAL_OPERATION_EXCEPTION = "This operation is forbidden!"; //$NON-NLS-1$
 
 	/**
-	 * Constructs an <code>IllegalOperationException</code> with no detail
-	 * message.
+	 * Constructs an <code>IllegalOperationException</code> with no detail message.
 	 */
 
-	public IllegalOperationException( )
-	{
-		super( );
+	public IllegalOperationException() {
+		super();
 	}
 
 	/**
 	 * Constructs an <code>IllegalOperationException</code> with the specified
 	 * detail message.
 	 * 
-	 * @param s
-	 *            the detail message.
+	 * @param s the detail message.
 	 */
 
-	public IllegalOperationException( String s )
-	{
-		super( s );
+	public IllegalOperationException(String s) {
+		super(s);
 	}
 }

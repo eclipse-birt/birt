@@ -29,15 +29,14 @@ import org.eclipse.ui.part.PageBookView;
  * LibraryExplorerView display all library files in BIRT resource folder.
  * 
  */
-public class LibraryExplorerView extends PageBookView
-{
+public class LibraryExplorerView extends PageBookView {
 
 	/**
 	 * the ID
 	 */
 	public static final String ID = "org.eclipse.birt.report.designer.ui.lib.explorer.view"; //$NON-NLS-1$
 
-	private String defaultText = Messages.getString( "LibraryExplorerView.defaultText.notAvailable" ); //$NON-NLS-1$
+	private String defaultText = Messages.getString("LibraryExplorerView.defaultText.notAvailable"); //$NON-NLS-1$
 
 	// private Map pageMap = new HashMap( );
 
@@ -50,44 +49,35 @@ public class LibraryExplorerView extends PageBookView
 	/**
 	 * default constructor
 	 */
-	public LibraryExplorerView( )
-	{
-		super( );
+	public LibraryExplorerView() {
+		super();
 	}
 
 	/**
 	 * Creates and returns the default page for this view.
 	 * 
-	 * @param book
-	 *            the pagebook control
+	 * @param book the pagebook control
 	 * @return the default page
 	 */
-	protected IPage createDefaultPage( PageBook book )
-	{
-		MessagePage page = new MessagePage( );
-		initPage( page );
-		page.createControl( book );
-		page.setMessage( defaultText );
+	protected IPage createDefaultPage(PageBook book) {
+		MessagePage page = new MessagePage();
+		initPage(page);
+		page.createControl(book);
+		page.setMessage(defaultText);
 		return page;
 	}
 
-	protected PageRec getPageRec( IWorkbenchPart part )
-	{
-		PageRec rec = super.getPageRec( part );
-		if ( treeViewPage != null && !treeViewPage.isDisposed( ) )
-		{
-			if ( prefs != null )
-				prefs.removePreferenceChangeListener( treeViewPage );
-			prefs = PreferenceFactory.getInstance( )
-					.getPreferences( ReportPlugin.getDefault( ),
-							UIUtil.getCurrentProject( ) );
-			prefs.addPreferenceChangeListener( treeViewPage );
-			String currentResourceFolder = ReportPlugin.getDefault( )
-					.getResourceFolder( );
-			if ( currentResourceFolder != null
-					&& !currentResourceFolder.equals( this.resourceFolder ) )
-			{
-				treeViewPage.refreshRoot( );
+	protected PageRec getPageRec(IWorkbenchPart part) {
+		PageRec rec = super.getPageRec(part);
+		if (treeViewPage != null && !treeViewPage.isDisposed()) {
+			if (prefs != null)
+				prefs.removePreferenceChangeListener(treeViewPage);
+			prefs = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault(),
+					UIUtil.getCurrentProject());
+			prefs.addPreferenceChangeListener(treeViewPage);
+			String currentResourceFolder = ReportPlugin.getDefault().getResourceFolder();
+			if (currentResourceFolder != null && !currentResourceFolder.equals(this.resourceFolder)) {
+				treeViewPage.refreshRoot();
 				this.resourceFolder = currentResourceFolder;
 			}
 		}
@@ -95,17 +85,15 @@ public class LibraryExplorerView extends PageBookView
 	}
 
 	/**
-	 * Creates a new page in the pagebook for a particular part. This page will
-	 * be made visible whenever the part is active, and will be destroyed with a
-	 * call to <code>doDestroyPage</code>.
+	 * Creates a new page in the pagebook for a particular part. This page will be
+	 * made visible whenever the part is active, and will be destroyed with a call
+	 * to <code>doDestroyPage</code>.
 	 * 
-	 * @param part
-	 *            the input part
+	 * @param part the input part
 	 * @return the record describing a new page for this view
 	 * @see #doDestroyPage
 	 */
-	protected PageRec doCreatePage( IWorkbenchPart part )
-	{
+	protected PageRec doCreatePage(IWorkbenchPart part) {
 		// // if ( part instanceof AbstractMultiPageEditor )
 		// // {
 		// IEditorPart editor = UIUtil.getActiveEditor( true );
@@ -120,20 +108,18 @@ public class LibraryExplorerView extends PageBookView
 		// }
 		// // }
 		// return null;
-		if ( treeViewPage == null || treeViewPage.isDisposed( ) )
-		{
-			treeViewPage = new LibraryExplorerTreeViewPage( );
-			initPage( treeViewPage );
-			treeViewPage.createControl( getPageBook( ) );
-			if ( prefs != null )
-				prefs.removePreferenceChangeListener( treeViewPage );
-			prefs = PreferenceFactory.getInstance( )
-					.getPreferences( ReportPlugin.getDefault( ),
-							UIUtil.getCurrentProject( ) );
-			if ( prefs != null )
-				prefs.addPreferenceChangeListener( treeViewPage );
+		if (treeViewPage == null || treeViewPage.isDisposed()) {
+			treeViewPage = new LibraryExplorerTreeViewPage();
+			initPage(treeViewPage);
+			treeViewPage.createControl(getPageBook());
+			if (prefs != null)
+				prefs.removePreferenceChangeListener(treeViewPage);
+			prefs = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault(),
+					UIUtil.getCurrentProject());
+			if (prefs != null)
+				prefs.addPreferenceChangeListener(treeViewPage);
 		}
-		return new PageRec( part, treeViewPage );
+		return new PageRec(part, treeViewPage);
 	}
 
 	// private LibraryExplorerTreeViewPage getPage( Object fileAdapter,
@@ -164,49 +150,43 @@ public class LibraryExplorerView extends PageBookView
 	// }
 
 	/**
-	 * Destroys a page in the pagebook for a particular part. This page was
-	 * returned as a result from <code>doCreatePage</code>.
+	 * Destroys a page in the pagebook for a particular part. This page was returned
+	 * as a result from <code>doCreatePage</code>.
 	 * 
-	 * @param part
-	 *            the input part
-	 * @param pageRecord
-	 *            a page record for the part
+	 * @param part       the input part
+	 * @param pageRecord a page record for the part
 	 * @see #doCreatePage
 	 */
-	protected void doDestroyPage( IWorkbenchPart part, PageRec pageRecord )
-	{
-		if ( treeViewPage != null && prefs != null )
-		{
-			prefs.removePreferenceChangeListener( treeViewPage );
+	protected void doDestroyPage(IWorkbenchPart part, PageRec pageRecord) {
+		if (treeViewPage != null && prefs != null) {
+			prefs.removePreferenceChangeListener(treeViewPage);
 		}
-		
+
 		this.resourceFolder = null;
 
 		IPage page = pageRecord.page;
-		page.dispose( );
-		pageRecord.dispose( );
+		page.dispose();
+		pageRecord.dispose();
 	}
 
 	/**
 	 * Returns the active, important workbench part for this view.
 	 * <p>
 	 * When the page book view is created it has no idea which part within the
-	 * workbook should be used to generate the first page. Therefore, it
-	 * delegates the choice to subclasses of <code>PageBookView</code>.
+	 * workbook should be used to generate the first page. Therefore, it delegates
+	 * the choice to subclasses of <code>PageBookView</code>.
 	 * </p>
 	 * <p>
-	 * Implementors of this method should return an active, important part in
-	 * the workbench or <code>null</code> if none found.
+	 * Implementors of this method should return an active, important part in the
+	 * workbench or <code>null</code> if none found.
 	 * </p>
 	 * 
 	 * @return the active important part, or <code>null</code> if none
 	 */
-	protected IWorkbenchPart getBootstrapPart( )
-	{
-		IWorkbenchPage page = getSite( ).getPage( );
-		if ( page != null )
-		{
-			return page.getActiveEditor( );
+	protected IWorkbenchPart getBootstrapPart() {
+		IWorkbenchPage page = getSite().getPage();
+		if (page != null) {
+			return page.getActiveEditor();
 		}
 		return null;
 	}
@@ -214,14 +194,12 @@ public class LibraryExplorerView extends PageBookView
 	/**
 	 * Returns whether the given part should be added to this view.
 	 * 
-	 * @param part
-	 *            the input part
-	 * @return <code>true</code> if the part is relevant, and
-	 *         <code>false</code> otherwise
+	 * @param part the input part
+	 * @return <code>true</code> if the part is relevant, and <code>false</code>
+	 *         otherwise
 	 */
-	protected boolean isImportant( IWorkbenchPart part )
-	{
-		return ( part instanceof IEditorPart );
+	protected boolean isImportant(IWorkbenchPart part) {
+		return (part instanceof IEditorPart);
 	}
 
 	/*
@@ -229,25 +207,25 @@ public class LibraryExplorerView extends PageBookView
 	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class key )
-	{
-		if ( key == IContributedContentsView.class )
-			return new IContributedContentsView( ) {
+	public Object getAdapter(Class key) {
+		if (key == IContributedContentsView.class)
+			return new IContributedContentsView() {
 
-				public IWorkbenchPart getContributingPart( )
-				{
-					return getCurrentContributingPart( );
+				public IWorkbenchPart getContributingPart() {
+					return getCurrentContributingPart();
 				}
 			};
-		return super.getAdapter( key );
+		return super.getAdapter(key);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.ui.part.PageBookView#partBroughtToTop(org.eclipse.ui.IWorkbenchPart)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.ui.part.PageBookView#partBroughtToTop(org.eclipse.ui.
+	 * IWorkbenchPart)
 	 */
-	public void partBroughtToTop( IWorkbenchPart part )
-	{
-		super.partBroughtToTop( part );
-		partActivated( part );
+	public void partBroughtToTop(IWorkbenchPart part) {
+		super.partBroughtToTop(part);
+		partActivated(part);
 	}
 }

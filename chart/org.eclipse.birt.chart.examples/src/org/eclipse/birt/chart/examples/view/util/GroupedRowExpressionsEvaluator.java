@@ -24,13 +24,12 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
 
 /**
  * The class implements an evaluator to retrieve grouped row data.
+ * 
  * @since 2.3
  */
-public class GroupedRowExpressionsEvaluator extends
-		AbstractGroupedDataRowExpressionEvaluator
-{
+public class GroupedRowExpressionsEvaluator extends AbstractGroupedDataRowExpressionEvaluator {
 
-	private static ILogger sLogger = Logger.getLogger( "org.eclipse.birt.chart.examples/trace" ); //$NON-NLS-1$
+	private static ILogger sLogger = Logger.getLogger("org.eclipse.birt.chart.examples/trace"); //$NON-NLS-1$
 
 	private IResultIterator fResultIterator;
 
@@ -52,43 +51,34 @@ public class GroupedRowExpressionsEvaluator extends
 	 * @param cm
 	 * @throws ChartException
 	 */
-	public GroupedRowExpressionsEvaluator( IResultIterator resultIterator,
-			boolean hasAggregation ) throws ChartException
-	{
+	public GroupedRowExpressionsEvaluator(IResultIterator resultIterator, boolean hasAggregation)
+			throws ChartException {
 		fHasAggregation = hasAggregation;
 
 		fResultIterator = resultIterator;
-		List<IGroupDefinition> groupDefinitions = fResultIterator.getQueryResults( )
-				.getPreparedQuery( )
-				.getReportQueryDefn( )
-				.getGroups( );
-		if ( groupDefinitions != null && groupDefinitions.size( ) > 0 )
-		{
+		List<IGroupDefinition> groupDefinitions = fResultIterator.getQueryResults().getPreparedQuery()
+				.getReportQueryDefn().getGroups();
+		if (groupDefinitions != null && groupDefinitions.size() > 0) {
 			fIsGrouped = true;
-			fGroupCount = groupDefinitions.size( );
+			fGroupCount = groupDefinitions.size();
 
-			faGroupBreaks = new List[groupDefinitions.size( )];
-			for ( int i = 0; i < faGroupBreaks.length; i++ )
-			{
-				faGroupBreaks[i] = new ArrayList( );
+			faGroupBreaks = new List[groupDefinitions.size()];
+			for (int i = 0; i < faGroupBreaks.length; i++) {
+				faGroupBreaks[i] = new ArrayList();
 			}
 		}
 	}
 
 	/**
-	 * Get list of group breaks, the group level is base on 0th index, 0 index
-	 * means outermost group.
+	 * Get list of group breaks, the group level is base on 0th index, 0 index means
+	 * outermost group.
 	 * 
 	 * @param groupLevel
 	 * @return
 	 */
-	private List getGroupBreaksList( int groupLevel )
-	{
-		if ( faGroupBreaks == null
-				|| groupLevel < 0
-				|| groupLevel > ( faGroupBreaks.length - 1 ) )
-		{
-			return new ArrayList( );
+	private List getGroupBreaksList(int groupLevel) {
+		if (faGroupBreaks == null || groupLevel < 0 || groupLevel > (faGroupBreaks.length - 1)) {
+			return new ArrayList();
 		}
 
 		return faGroupBreaks[groupLevel];
@@ -99,13 +89,11 @@ public class GroupedRowExpressionsEvaluator extends
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IGroupedDataResultSet#getGroupBreaks(int)
 	 */
-	public int[] getGroupBreaks( int groupLevel )
-	{
-		Object[] breaksArray = getGroupBreaksList( groupLevel ).toArray( );
+	public int[] getGroupBreaks(int groupLevel) {
+		Object[] breaksArray = getGroupBreaksList(groupLevel).toArray();
 		int[] breaks = new int[breaksArray.length];
-		for ( int i = 0; i < breaksArray.length; i++ )
-		{
-			breaks[i] = ( (Integer) breaksArray[i] ).intValue( );
+		for (int i = 0; i < breaksArray.length; i++) {
+			breaks[i] = ((Integer) breaksArray[i]).intValue();
 		}
 		return breaks;
 	}
@@ -115,33 +103,27 @@ public class GroupedRowExpressionsEvaluator extends
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#close()
 	 */
-	public void close( )
-	{
-		try
-		{
-			fResultIterator.close( );
-		}
-		catch ( BirtException e )
-		{
-			sLogger.log( e );
+	public void close() {
+		try {
+			fResultIterator.close();
+		} catch (BirtException e) {
+			sLogger.log(e);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluate(java.lang
+	 * .String)
 	 */
-	public Object evaluate( String expression )
-	{
-		try
-		{
+	public Object evaluate(String expression) {
+		try {
 			// Here, the expression should be binding name.
-			return fResultIterator.getValue( expression );
-		}
-		catch ( BirtException e )
-		{
-			sLogger.log( e );
+			return fResultIterator.getValue(expression);
+		} catch (BirtException e) {
+			sLogger.log(e);
 		}
 		return null;
 	}
@@ -149,11 +131,12 @@ public class GroupedRowExpressionsEvaluator extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#evaluateGlobal(
+	 * java.lang.String)
 	 */
-	public Object evaluateGlobal( String expression )
-	{
-		return evaluate( expression );
+	public Object evaluateGlobal(String expression) {
+		return evaluate(expression);
 	}
 
 	/*
@@ -161,30 +144,21 @@ public class GroupedRowExpressionsEvaluator extends
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#first()
 	 */
-	public boolean first( )
-	{
-		try
-		{
+	public boolean first() {
+		try {
 			fCountOfAvaiableRows = 0;
 
-			if ( !fIsGrouped )
-			{
-				if ( fResultIterator.next( ) )
-				{
+			if (!fIsGrouped) {
+				if (fResultIterator.next()) {
+					return true;
+				}
+			} else {
+				if (findFirst()) {
 					return true;
 				}
 			}
-			else
-			{
-				if ( findFirst( ) )
-				{
-					return true;
-				}
-			}
-		}
-		catch ( BirtException e )
-		{
-			sLogger.log( e );
+		} catch (BirtException e) {
+			sLogger.log(e);
 		}
 		return false;
 	}
@@ -195,53 +169,44 @@ public class GroupedRowExpressionsEvaluator extends
 	 * @return
 	 * @throws BirtException
 	 */
-	private boolean findFirst( ) throws BirtException
-	{
-		if ( !fResultIterator.next( ) )
-		{
+	private boolean findFirst() throws BirtException {
+		if (!fResultIterator.next()) {
 			return false;
 		}
 
-		int groupLevel = fResultIterator.getStartingGroupLevel( );
-		if ( groupLevel == 0 ) // It means the start of current row data.
+		int groupLevel = fResultIterator.getStartingGroupLevel();
+		if (groupLevel == 0) // It means the start of current row data.
 		{
 			return true;
-		}
-		else
-		{
-			return findFirst( );
+		} else {
+			return findFirst();
 		}
 	}
 
 	/**
-	 * Find next available row position. If it has grouped-enabled, should
-	 * ignore non-grouped/non-aggregation row.
+	 * Find next available row position. If it has grouped-enabled, should ignore
+	 * non-grouped/non-aggregation row.
 	 * 
 	 * @return
 	 * @throws BirtException
 	 */
-	private boolean findNext( ) throws BirtException
-	{
-		while ( fResultIterator.next( ) )
-		{
-			int startIndex = fResultIterator.getStartingGroupLevel( );
-			if ( startIndex > 0 && startIndex <= fGroupCount )
-			{
+	private boolean findNext() throws BirtException {
+		while (fResultIterator.next()) {
+			int startIndex = fResultIterator.getStartingGroupLevel();
+			if (startIndex > 0 && startIndex <= fGroupCount) {
 				fCountOfAvaiableRows++;
 				// Add break point to current grouping.
-				getGroupBreaksList( startIndex - 1 ).add( Integer.valueOf( fCountOfAvaiableRows ) );
+				getGroupBreaksList(startIndex - 1).add(Integer.valueOf(fCountOfAvaiableRows));
 				// Also the sub-groupings of current grouping should be
 				// added the break point.
-				for ( int i = startIndex; i < fGroupCount; i++ )
-				{
-					getGroupBreaksList( i ).add( Integer.valueOf( fCountOfAvaiableRows ) );
+				for (int i = startIndex; i < fGroupCount; i++) {
+					getGroupBreaksList(i).add(Integer.valueOf(fCountOfAvaiableRows));
 				}
 
 				return true;
 			}
 
-			if ( !fHasAggregation )
-			{
+			if (!fHasAggregation) {
 				fCountOfAvaiableRows++;
 				return true;
 			}
@@ -254,26 +219,18 @@ public class GroupedRowExpressionsEvaluator extends
 	 * 
 	 * @see org.eclipse.birt.chart.factory.IDataRowExpressionEvaluator#next()
 	 */
-	public boolean next( )
-	{
-		try
-		{
-			if ( !fIsGrouped )
-			{
-				if ( fResultIterator.next( ) )
-				{
+	public boolean next() {
+		try {
+			if (!fIsGrouped) {
+				if (fResultIterator.next()) {
 					fCountOfAvaiableRows++;
 					return true;
 				}
+			} else {
+				return findNext();
 			}
-			else
-			{
-				return findNext( );
-			}
-		}
-		catch ( BirtException e )
-		{
-			sLogger.log( e );
+		} catch (BirtException e) {
+			sLogger.log(e);
 		}
 		return false;
 	}

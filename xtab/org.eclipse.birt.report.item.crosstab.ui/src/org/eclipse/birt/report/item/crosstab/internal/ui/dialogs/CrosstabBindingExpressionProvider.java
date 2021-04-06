@@ -24,20 +24,18 @@ import org.eclipse.birt.report.model.elements.interfaces.ICubeModel;
  * 
  */
 
-public class CrosstabBindingExpressionProvider extends
-CrosstabExpressionProvider
-{
+public class CrosstabBindingExpressionProvider extends CrosstabExpressionProvider {
 
-	protected void addFilterToProvider()
-	{
-		this.addFilter( new ExpressionFilter( ) {
+	protected void addFilterToProvider() {
+		this.addFilter(new ExpressionFilter() {
 
-			public boolean select( Object parentElement, Object element )
-			{
+			public boolean select(Object parentElement, Object element) {
 				// bug 220714
 				// ychen 2008/03/13
-				// CrosstabBindingExpressionProvider now use in common Binding dialog, not aggregation binding dialog.
-				// we can use available column binding, reference dimensions in the crosstab and all measures
+				// CrosstabBindingExpressionProvider now use in common Binding dialog, not
+				// aggregation binding dialog.
+				// we can use available column binding, reference dimensions in the crosstab and
+				// all measures
 //				if(parentElement instanceof String )
 //				{
 //					String parent = (String)parentElement;
@@ -52,7 +50,7 @@ CrosstabExpressionProvider
 //							}
 //						}
 //					}
-					
+
 //					if(CURRENT_CUBE.equals( parent ))
 //					{
 //						if(element instanceof PropertyHandle)
@@ -68,81 +66,71 @@ CrosstabExpressionProvider
 //						}
 //					}
 //				}
-				if ( parentElement instanceof PropertyHandle )
-				{
+				if (parentElement instanceof PropertyHandle) {
 					PropertyHandle handle = (PropertyHandle) parentElement;
-					if ( handle.getPropertyDefn( )
-							.getName( )
-							.equals( ICubeModel.DIMENSIONS_PROP ) )
-					{
-						try
-						{
-							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-							if ( xtabHandle.getDimension( ( (DimensionHandle) element ).getName( ) ) == null )
+					if (handle.getPropertyDefn().getName().equals(ICubeModel.DIMENSIONS_PROP)) {
+						try {
+							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle();
+							if (xtabHandle.getDimension(((DimensionHandle) element).getName()) == null)
 								return false;
 							return true;
-						}
-						catch ( ExtendedElementException e )
-						{
+						} catch (ExtendedElementException e) {
 							return false;
 						}
 					}
-					//Bug 211024
-					//					else if ( handle.getPropertyDefn( )
-					//							.getName( )
-					//							.equals( ICubeModel.MEASURE_GROUPS_PROP ) )
-					//					{
+					// Bug 211024
+					// else if ( handle.getPropertyDefn( )
+					// .getName( )
+					// .equals( ICubeModel.MEASURE_GROUPS_PROP ) )
+					// {
 					//
-					//						try
-					//						{
-					//							CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-					//							MeasureGroupHandle mgHandle = (MeasureGroupHandle) element;
-					//							for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
-					//							{
-					//								if ( xtabHandle.getMeasure( i )
-					//										.getCubeMeasure( )
-					//										.getContainer( )
-					//										.equals( mgHandle ) )
-					//									return true;
-					//							}
-					//							return false;
-					//						}
-					//						catch ( ExtendedElementException e )
-					//						{
-					//							return false;
-					//						}
-					//					}
+					// try
+					// {
+					// CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+					// MeasureGroupHandle mgHandle = (MeasureGroupHandle) element;
+					// for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+					// {
+					// if ( xtabHandle.getMeasure( i )
+					// .getCubeMeasure( )
+					// .getContainer( )
+					// .equals( mgHandle ) )
+					// return true;
+					// }
+					// return false;
+					// }
+					// catch ( ExtendedElementException e )
+					// {
+					// return false;
+					// }
+					// }
 				}
-				//Bug 211024
-				//				if ( element instanceof MeasureHandle )
-				//				{
-				//					try
-				//					{
-				//						CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
-				//						for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
-				//						{
-				//							if ( xtabHandle.getMeasure( i )
-				//									.getCubeMeasure( )
-				//									.equals( element ) )
-				//								return true;
-				//						}
-				//						return false;
-				//					}
-				//					catch ( ExtendedElementException e )
-				//					{
-				//						return false;
-				//					}
-				//				}
+				// Bug 211024
+				// if ( element instanceof MeasureHandle )
+				// {
+				// try
+				// {
+				// CrosstabReportItemHandle xtabHandle = getCrosstabReportItemHandle( );
+				// for ( int i = 0; i < xtabHandle.getMeasureCount( ); i++ )
+				// {
+				// if ( xtabHandle.getMeasure( i )
+				// .getCubeMeasure( )
+				// .equals( element ) )
+				// return true;
+				// }
+				// return false;
+				// }
+				// catch ( ExtendedElementException e )
+				// {
+				// return false;
+				// }
+				// }
 				return true;
 			}
-		}  );
-	}
-	
-	public CrosstabBindingExpressionProvider( DesignElementHandle handle,
-			ComputedColumnHandle computedColumnHandle )
-	{
-		super( handle, computedColumnHandle );
+		});
 	}
 
-	
+	public CrosstabBindingExpressionProvider(DesignElementHandle handle, ComputedColumnHandle computedColumnHandle) {
+		super(handle, computedColumnHandle);
+	}
+
 }

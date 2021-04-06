@@ -26,10 +26,10 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Steps to reproduce:
  * <ol>
- * <li> Create a design file.
- * <li> Select in outline view and export it to a library file.
- * <li> Set its name and click on "OK".
- * <li> Exception is thrown out.
+ * <li>Create a design file.
+ * <li>Select in outline view and export it to a library file.
+ * <li>Set its name and click on "OK".
+ * <li>Exception is thrown out.
  * </ol>
  * </p>
  * Test description:
@@ -38,40 +38,36 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * parameter, export it to a library. Make sure there won't be exception.
  * </p>
  */
-public class Regression_117442 extends BaseTestCase
-{
+public class Regression_117442 extends BaseTestCase {
 
 	private final static String INPUT = "regression_117442.xml"; //$NON-NLS-1$
-	private final static String OUTPUT ="regression_117442.out";
-	
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
-	
+	private final static String OUTPUT = "regression_117442.out";
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + INPUT);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws IOException
 	 * @throws SemanticException
 	 * 
 	 */
-	public void test_regression_117442( ) throws DesignFileException, SemanticException,
-			IOException
-	{
-		openDesign( INPUT );
-		
-		String output = this.getTempFolder( ) + "/" + INPUT_FOLDER
-				+ "/" + "regression_117442.out"; //$NON-NLS-1$
-		ElementExportUtil.exportDesign( designHandle, output, true, true ); 
-		assertTrue( new File( output ).exists( ) );
-		
-		//String TempFile=this.genOutputFile( OUTPUT);
-		//designHandle.saveAs( TempFile );
-		
-		//ElementExportUtil.exportDesign( designHandle, TempFile, true, true ); 
-		//assertTrue( new File( TempFile ).exists( ) );
+	public void test_regression_117442() throws DesignFileException, SemanticException, IOException {
+		openDesign(INPUT);
+
+		String output = this.getTempFolder() + "/" + INPUT_FOLDER + "/" + "regression_117442.out"; //$NON-NLS-2$
+		ElementExportUtil.exportDesign(designHandle, output, true, true);
+		assertTrue(new File(output).exists());
+
+		// String TempFile=this.genOutputFile( OUTPUT);
+		// designHandle.saveAs( TempFile );
+
+		// ElementExportUtil.exportDesign( designHandle, TempFile, true, true );
+		// assertTrue( new File( TempFile ).exists( ) );
 	}
 }

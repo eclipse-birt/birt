@@ -17,62 +17,59 @@ import java.util.List;
 import org.eclipse.birt.core.script.functionservice.IScriptFunction;
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
 
-
 /**
  * This is an implementation of IScriptFunctionCategory interface.
  */
 
-public class Category implements IScriptFunctionCategory
-{
+public class Category implements IScriptFunctionCategory {
 	//
 	private String name;
 	private String desc;
 	private boolean isVisible;
 	private List<IScriptFunction> functions;
-	
+
 	/**
 	 * Constructor.
 	 * 
 	 * @param name
 	 * @param desc
 	 */
-	public Category( String name, String desc )
-	{
+	public Category(String name, String desc) {
 		this.name = name;
 		this.desc = desc;
 		this.isVisible = true;
 		this.functions = new ArrayList<IScriptFunction>();
 	}
-	
+
 	/**
 	 * Constructor.
 	 * 
 	 * @param name
 	 * @param desc
 	 */
-	public Category( String name, String desc, boolean isVisible )
-	{
+	public Category(String name, String desc, boolean isVisible) {
 		this.name = name;
 		this.desc = desc;
 		this.isVisible = isVisible;
 		this.functions = new ArrayList<IScriptFunction>();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.script.functionservice.INamedObject#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return this.name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IDescribable#getDescription()
+	 * 
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IDescribable#getDescription()
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return this.desc;
 	}
 
@@ -80,26 +77,25 @@ public class Category implements IScriptFunctionCategory
 	 * Add a function to this category.
 	 * 
 	 */
-	public void addFunction( IScriptFunction function )
-	{
-		this.functions.add( function );
+	public void addFunction(IScriptFunction function) {
+		this.functions.add(function);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory#getFunctions()
+	 * 
+	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory#
+	 * getFunctions()
 	 */
-	public IScriptFunction[] getFunctions( )
-	{
-		return this.functions.toArray( new IScriptFunction[0] );
+	public IScriptFunction[] getFunctions() {
+		return this.functions.toArray(new IScriptFunction[0]);
 	}
 
 	/**
 	 * Returns whether the category is visible.
 	 * 
 	 */
-	public boolean isVisible( )
-	{		
+	public boolean isVisible() {
 		return this.isVisible;
 	}
 }

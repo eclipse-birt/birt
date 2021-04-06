@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * 
  */
 
-public class EncryptionException extends SemanticException
-{
+public class EncryptionException extends SemanticException {
 
 	/**
 	 * 
@@ -46,18 +45,14 @@ public class EncryptionException extends SemanticException
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param str
-	 *            the name that caused the error.
-	 * @param errCode
-	 *            what went wrong.
+	 * @param obj     the element being changed.
+	 * @param str     the name that caused the error.
+	 * @param errCode what went wrong.
 	 * @param args
 	 */
 
-	public EncryptionException( DesignElement obj, String errCode, String[] args )
-	{
-		super( obj, args, errCode );
+	public EncryptionException(DesignElement obj, String errCode, String[] args) {
+		super(obj, args, errCode);
 	}
 
 	/*
@@ -66,12 +61,10 @@ public class EncryptionException extends SemanticException
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_INVALID_ENCRYPTABLE_PROPERTY
-				|| sResourceKey == DESIGN_EXCEPTION_INVALID_ENCRYPTION )
-			return ModelMessages.getMessage( sResourceKey,
-					this.oaMessageArguments );
-		return ModelMessages.getMessage( sResourceKey );
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_INVALID_ENCRYPTABLE_PROPERTY
+				|| sResourceKey == DESIGN_EXCEPTION_INVALID_ENCRYPTION)
+			return ModelMessages.getMessage(sResourceKey, this.oaMessageArguments);
+		return ModelMessages.getMessage(sResourceKey);
 	}
 }

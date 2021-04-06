@@ -28,38 +28,34 @@ import org.eclipse.birt.report.model.core.Module;
  * @see ListingElement
  */
 
-public class ListItem extends ListingElement
-{
+public class ListItem extends ListingElement {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public ListItem( )
-	{
+	public ListItem() {
 	}
 
 	/**
 	 * Constructs the list item with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name
+	 * @param theName the optional name
 	 */
 
-	public ListItem( String theName )
-	{
-		super( theName );
+	public ListItem(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitList( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitList(this);
 	}
 
 	/*
@@ -68,35 +64,32 @@ public class ListItem extends ListingElement
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.LIST_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public ListHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ListHandle( module, this );
+	public ListHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ListHandle(module, this);
 		}
 		return (ListHandle) handle;
 	}
@@ -104,17 +97,17 @@ public class ListItem extends ListingElement
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
 		// Check header slot context containment of table.
 
-		list.addAll( TableHeaderContextContainmentValidator.getInstance( ).validate(
-				module, this ) );
+		list.addAll(TableHeaderContextContainmentValidator.getInstance().validate(module, this));
 
 		return list;
 	}

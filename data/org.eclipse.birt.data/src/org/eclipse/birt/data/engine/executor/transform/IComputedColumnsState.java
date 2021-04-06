@@ -19,16 +19,14 @@ import org.eclipse.birt.data.engine.core.DataException;
  * The implementation of this interface serve as data communication tool between
  * CachedResultSet and IExpressionProcessor.
  */
-public interface IComputedColumnsState
-{
+public interface IComputedColumnsState {
 	/**
 	 * Whether the value of expression with given index is available or not.
 	 * 
-	 * @param index
-	 *            the index of expression.
+	 * @param index the index of expression.
 	 * @return
 	 */
-	public boolean isValueAvailable( int index );
+	public boolean isValueAvailable(int index);
 
 	/**
 	 * TODO Remove it The name of ComputedColumn with given index.
@@ -36,30 +34,30 @@ public interface IComputedColumnsState
 	 * @param index
 	 * @return
 	 */
-	public String getName( int index );
+	public String getName(int index);
 
 	/**
 	 * TODO Remove it The expression of ComputedColumn with given index.
 	 * 
 	 * @param index
 	 * @return
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public IBaseExpression getExpression( int index ) throws DataException;
+	public IBaseExpression getExpression(int index) throws DataException;
 
 	/**
 	 * Mark the state of one ComputedColumn whose value is available
 	 * 
 	 * @param index
 	 */
-	public void setValueAvailable( int index );
+	public void setValueAvailable(int index);
 
 	/**
 	 * Give the number of ComputedColumns hosted in the instance.
 	 * 
 	 * @return
 	 */
-	public int getCount( );
+	public int getCount();
 
 	/**
 	 * Get ComputedColum with given index.
@@ -67,12 +65,12 @@ public interface IComputedColumnsState
 	 * @param index
 	 * @return
 	 */
-	public IComputedColumn getComputedColumn( int index );
-	
+	public IComputedColumn getComputedColumn(int index);
+
 	/**
 	 * Set the model to be used by current computed columns
 	 * 
 	 * @param status
 	 */
-	public void setModel( int model );
+	public void setModel(int model);
 }

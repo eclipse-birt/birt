@@ -23,14 +23,12 @@ import org.eclipse.birt.report.engine.i18n.EngineResourceHandle;
 /**
  * This class manages the message for the css.engine.value module.
  */
-public class Messages
-{
+public class Messages {
 
 	/**
 	 * This class does not need to be instantiated.
 	 */
-	protected Messages( )
-	{
+	protected Messages() {
 	}
 
 	/**
@@ -41,17 +39,14 @@ public class Messages
 	/**
 	 * The localizable support for the error messages.
 	 */
-	static protected UResourceBundle rb = new EngineResourceHandle( ULocale
-			.getDefault( ) ).getUResourceBundle( );
+	static protected UResourceBundle rb = new EngineResourceHandle(ULocale.getDefault()).getUResourceBundle();
 
 	/**
 	 * set the locale of message.
 	 * 
-	 * @param l
-	 *            locale used to format the message.
+	 * @param l locale used to format the message.
 	 */
-	public static void setLocale( Locale l )
-	{
+	public static void setLocale(Locale l) {
 	}
 
 	/**
@@ -59,27 +54,22 @@ public class Messages
 	 * 
 	 * @return locale of the message.
 	 */
-	public static Locale getLocale( )
-	{
-		return rb.getLocale( );
+	public static Locale getLocale() {
+		return rb.getLocale();
 	}
 
 	/**
 	 * format the message.
 	 * 
-	 * @param key
-	 *            message key.
-	 * @param args
-	 *            messsage arguments.
+	 * @param key  message key.
+	 * @param args messsage arguments.
 	 * @return the message.
 	 * @throws MissingResourceException
 	 */
-	public static String formatMessage( String key, Object[] args )
-			throws MissingResourceException
-	{
+	public static String formatMessage(String key, Object[] args) throws MissingResourceException {
 
-		String localizedMessage = rb.getString( key );
-		MessageFormat form = new MessageFormat( localizedMessage );
-		return form.format( args );
+		String localizedMessage = rb.getString(key);
+		MessageFormat form = new MessageFormat(localizedMessage);
+		return form.format(args);
 	}
 }

@@ -22,34 +22,28 @@ import org.eclipse.jface.text.source.ISourceViewer;
 /**
  * Subclass of <code>JSSourceViewerConfiguration</code>, provides two hovers.
  */
-public class ScriptSourceViewerConfiguration extends
-		JSSourceViewerConfiguration
-{
+public class ScriptSourceViewerConfiguration extends JSSourceViewerConfiguration {
 
 	/**
 	 * Constracts a configuration for source viewer.
 	 * 
-	 * @param context
-	 *            the context for javascript syntax.
+	 * @param context the context for javascript syntax.
 	 */
-	public ScriptSourceViewerConfiguration( JSSyntaxContext context )
-	{
-		super( context );
+	public ScriptSourceViewerConfiguration(JSSyntaxContext context) {
+		super(context);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getOverviewRulerAnnotationHover(org.eclipse.jface.text.source.ISourceViewer)
+	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#
+	 * getOverviewRulerAnnotationHover(org.eclipse.jface.text.source.ISourceViewer)
 	 */
-	public IAnnotationHover getOverviewRulerAnnotationHover(
-			ISourceViewer sourceViewer )
-	{
-		IAnnotationHover hover = super.getOverviewRulerAnnotationHover( sourceViewer );
+	public IAnnotationHover getOverviewRulerAnnotationHover(ISourceViewer sourceViewer) {
+		IAnnotationHover hover = super.getOverviewRulerAnnotationHover(sourceViewer);
 
-		if ( hover == null )
-		{
-			hover = new DefaultAnnotationHover( );
+		if (hover == null) {
+			hover = new DefaultAnnotationHover();
 		}
 		return hover;
 	}
@@ -57,15 +51,15 @@ public class ScriptSourceViewerConfiguration extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getAnnotationHover(org.eclipse.jface.text.source.ISourceViewer)
+	 * @see
+	 * org.eclipse.jface.text.source.SourceViewerConfiguration#getAnnotationHover(
+	 * org.eclipse.jface.text.source.ISourceViewer)
 	 */
-	public IAnnotationHover getAnnotationHover( ISourceViewer sourceViewer )
-	{
-		IAnnotationHover hover = super.getAnnotationHover( sourceViewer );
+	public IAnnotationHover getAnnotationHover(ISourceViewer sourceViewer) {
+		IAnnotationHover hover = super.getAnnotationHover(sourceViewer);
 
-		if ( hover == null )
-		{
-			hover = new DefaultAnnotationHover( );
+		if (hover == null) {
+			hover = new DefaultAnnotationHover();
 		}
 		return hover;
 	}
@@ -73,13 +67,13 @@ public class ScriptSourceViewerConfiguration extends
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getReconciler(org.eclipse.jface.text.source.ISourceViewer)
+	 * @see
+	 * org.eclipse.jface.text.source.SourceViewerConfiguration#getReconciler(org.
+	 * eclipse.jface.text.source.ISourceViewer)
 	 */
-	public IReconciler getReconciler( ISourceViewer sourceViewer )
-	{
+	public IReconciler getReconciler(ISourceViewer sourceViewer) {
 		// Creates an instance of MonoReconciler with the specified strategy,
 		// and is not incremental.
-		return new MonoReconciler( new ScriptReconcilingStrategy( sourceViewer ),
-				false );
+		return new MonoReconciler(new ScriptReconcilingStrategy(sourceViewer), false);
 	}
 }

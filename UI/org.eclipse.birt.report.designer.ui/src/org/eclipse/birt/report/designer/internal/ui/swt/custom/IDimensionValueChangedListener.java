@@ -15,14 +15,12 @@ package org.eclipse.birt.report.designer.internal.ui.swt.custom;
  * After value in Spinner has changed,the Spinner control will inform
  * IValueChangedListener about this changing.
  */
-public interface IDimensionValueChangedListener
-{
+public interface IDimensionValueChangedListener {
 
 	/**
 	 * Informs the value-changed event.
 	 * 
-	 * @param newValue
-	 *            new Spinner value.
+	 * @param newValue new Spinner value.
 	 */
-	void valueChanged( String newValue, String unit );
+	void valueChanged(String newValue, String unit);
 }

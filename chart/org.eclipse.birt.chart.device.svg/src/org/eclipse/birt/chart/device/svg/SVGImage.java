@@ -33,58 +33,45 @@ import org.eclipse.birt.chart.util.SecurityUtil;
 /**
  * This class represents an SVG image.
  */
-public class SVGImage extends Image
-{
+public class SVGImage extends Image {
 
 	protected Image image;
 	protected URL url;
 	protected byte[] data;
 	public static final String BASE64 = "data:;base64,"; //$NON-NLS-1$
 
-	public byte[] getData( )
-	{
+	public byte[] getData() {
 		return data;
 	}
 
 	/**
 	 * @param image
 	 */
-	public SVGImage( Image image, URL url )
-	{
-		this( image, url, null );
+	public SVGImage(Image image, URL url) {
+		this(image, url, null);
 	}
 
-	public SVGImage( Image image, URL url, byte[] data )
-	{
-		super( );
+	public SVGImage(Image image, URL url, byte[] data) {
+		super();
 		this.image = image;
 		this.url = url;
 		this.data = data;
-		if ( url == null && data == null && image instanceof BufferedImage )
-		{
-			ImageWriter iw = ImageWriterFactory.instance( )
-					.createImageWriter( "png", "html" ); //$NON-NLS-1$ //$NON-NLS-2$
+		if (url == null && data == null && image instanceof BufferedImage) {
+			ImageWriter iw = ImageWriterFactory.instance().createImageWriter("png", "html"); //$NON-NLS-1$ //$NON-NLS-2$
 
-			try
-			{
-				ByteArrayOutputStream baos = new ByteArrayOutputStream( 2048 );
-				ImageOutputStream ios = SecurityUtil.newImageOutputStream( baos );
-				ImageWriteParam iwp = iw.getDefaultWriteParam( );
-				iw.setOutput( ios );
-				iw.write( (IIOMetadata) null,
-						new IIOImage( (BufferedImage) image, null, null ),
-						iwp );
-				ios.close( );
-				this.data = baos.toByteArray( );
-				baos.close( );
-			}
-			catch ( IOException e )
-			{
+			try {
+				ByteArrayOutputStream baos = new ByteArrayOutputStream(2048);
+				ImageOutputStream ios = SecurityUtil.newImageOutputStream(baos);
+				ImageWriteParam iwp = iw.getDefaultWriteParam();
+				iw.setOutput(ios);
+				iw.write((IIOMetadata) null, new IIOImage((BufferedImage) image, null, null), iwp);
+				ios.close();
+				this.data = baos.toByteArray();
+				baos.close();
+			} catch (IOException e) {
 				// do nothing
-			}
-			finally
-			{
-				iw.dispose( );
+			} finally {
+				iw.dispose();
 			}
 
 		}
@@ -94,27 +81,23 @@ public class SVGImage extends Image
 	 * 
 	 */
 	@Override
-	public void flush( )
-	{
-		image.flush( );
+	public void flush() {
+		image.flush();
 	}
 
 	@Override
-	public Graphics getGraphics( )
-	{
-		return image.getGraphics( );
+	public Graphics getGraphics() {
+		return image.getGraphics();
 	}
 
 	@Override
-	public int getHeight( ImageObserver arg0 )
-	{
-		return image.getHeight( arg0 );
+	public int getHeight(ImageObserver arg0) {
+		return image.getHeight(arg0);
 	}
 
 	@Override
-	public Object getProperty( String arg0, ImageObserver arg1 )
-	{
-		return image.getProperty( arg0, arg1 );
+	public Object getProperty(String arg0, ImageObserver arg1) {
+		return image.getProperty(arg0, arg1);
 	}
 
 	/*
@@ -123,48 +106,38 @@ public class SVGImage extends Image
 	 * @see java.awt.Image#getScaledInstance(int, int, int)
 	 */
 	@Override
-	public Image getScaledInstance( int arg0, int arg1, int arg2 )
-	{
-		return new SVGImage( image.getScaledInstance( arg0, arg1, arg2 ),
-				url,
-				data );
+	public Image getScaledInstance(int arg0, int arg1, int arg2) {
+		return new SVGImage(image.getScaledInstance(arg0, arg1, arg2), url, data);
 	}
 
 	@Override
-	public ImageProducer getSource( )
-	{
-		return image.getSource( );
+	public ImageProducer getSource() {
+		return image.getSource();
 	}
 
 	@Override
-	public int getWidth( ImageObserver arg0 )
-	{
-		return image.getWidth( arg0 );
+	public int getWidth(ImageObserver arg0) {
+		return image.getWidth(arg0);
 	}
 
 	/**
 	 * @return Returns the url.
 	 */
-	public String getUrl( )
-	{
-		if ( url == null )
-		{
-			if ( data != null )
-			{
-				return BASE64 + new String( Base64.encodeBase64( data ) );
+	public String getUrl() {
+		if (url == null) {
+			if (data != null) {
+				return BASE64 + new String(Base64.encodeBase64(data));
 
 			}
 			return ""; //$NON-NLS-1$
 		}
-		return url.toExternalForm( );
+		return url.toExternalForm();
 	}
 
 	/**
-	 * @param url
-	 *            The url to set.
+	 * @param url The url to set.
 	 */
-	public void setUrl( URL url )
-	{
+	public void setUrl(URL url) {
 		this.url = url;
 	}
 }

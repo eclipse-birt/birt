@@ -33,7 +33,8 @@ public class NestedListContentHandler extends CellContentHandler {
 
 	protected int column;
 
-	public NestedListContentHandler(IContentEmitter emitter, Logger log, IHandler parent, IListContent list, int column) {
+	public NestedListContentHandler(IContentEmitter emitter, Logger log, IHandler parent, IListContent list,
+			int column) {
 		super(emitter, log, parent, null);
 		this.element = list;
 		this.column = column;
@@ -42,50 +43,53 @@ public class NestedListContentHandler extends CellContentHandler {
 	@Override
 	public void emitText(HandlerState state, ITextContent text) throws BirtException {
 		String textText = text.getText();
-		log.debug( "text:", textText );
-		emitContent(state,text,textText, ( ! "inline".equals( getStyleProperty(text, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		log.debug("text:", textText);
+		emitContent(state, text, textText,
+				(!"inline".equals(getStyleProperty(text, StyleConstants.STYLE_DISPLAY, "block"))));
 		state.setHandler(parent);
 	}
 
 	@Override
 	public void emitData(HandlerState state, IDataContent data) throws BirtException {
-		emitContent(state,data,data.getValue(), ( ! "inline".equals( getStyleProperty(data, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state, data, data.getValue(),
+				(!"inline".equals(getStyleProperty(data, StyleConstants.STYLE_DISPLAY, "block"))));
 		state.setHandler(parent);
 	}
 
 	@Override
 	public void emitLabel(HandlerState state, ILabelContent label) throws BirtException {
-		// String labelText = ( label.getLabelText() != null ) ? label.getLabelText() : label.getText();
-		String labelText = ( label.getText() != null ) ? label.getText() : label.getLabelText();
-		log.debug( "labelText:", labelText );
-		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block") ) ));
+		// String labelText = ( label.getLabelText() != null ) ? label.getLabelText() :
+		// label.getText();
+		String labelText = (label.getText() != null) ? label.getText() : label.getLabelText();
+		log.debug("labelText:", labelText);
+		emitContent(state, label, labelText,
+				(!"inline".equals(getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block"))));
 		state.setHandler(parent);
 	}
 
 	@Override
 	public void emitAutoText(HandlerState state, IAutoTextContent autoText) throws BirtException {
-		emitContent(state,autoText,autoText.getText(), ( ! "inline".equals( getStyleProperty(autoText, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state, autoText, autoText.getText(),
+				(!"inline".equals(getStyleProperty(autoText, StyleConstants.STYLE_DISPLAY, "block"))));
 		state.setHandler(parent);
 	}
 
 	@Override
 	public void emitForeign(HandlerState state, IForeignContent foreign) throws BirtException {
 
-		log.debug( "Handling foreign content of type ", foreign.getRawType() );
-		if ( IForeignContent.HTML_TYPE.equalsIgnoreCase( foreign.getRawType( ) ) )
-		{
-			HTML2Content.html2Content( foreign );
-			contentVisitor.visitChildren( foreign, null );			
+		log.debug("Handling foreign content of type ", foreign.getRawType());
+		if (IForeignContent.HTML_TYPE.equalsIgnoreCase(foreign.getRawType())) {
+			HTML2Content.html2Content(foreign);
+			contentVisitor.visitChildren(foreign, null);
 		}
 		state.setHandler(parent);
 	}
 
 	@Override
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
-		recordImage(state, new Coordinate( state.rowNum, column ), image, false);
+		recordImage(state, new Coordinate(state.rowNum, column), image, false);
 		lastElement = image;
 		state.setHandler(parent);
 	}
-				
-	
+
 }

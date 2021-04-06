@@ -28,68 +28,44 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class DEUtilTest extends BaseTestCase
-{
+public class DEUtilTest extends BaseTestCase {
 
-	private static final String[][] TEST_DATE_STRING = new String[][]{
-			new String[]{
-					"yyyy/MM/dd hh:mm:ss.SSS a",
-					"1996-02-28T23:25:27.573",
-					"1996/02/28 11:25:27.573 PM",
-					"1996-02-28T23:25:27.573",
-			},
-			new String[]{
-					"MM/dd/yyyy hh:mm:ss a",
-					"1996-02-28T23:25:27.000",
-					"02/28/1996 11:25:27 PM",
-					"1996-02-28T23:25:27",
-			},
-			new String[]{
-					"yy-MM-dd",
-					"1996-02-28T00:00:00.000",
-					"96-02-28",
-					"1996-02-28",
-			},
-			new String[]{
-					"yyyy-MM-dd HH:mm",
-					"1996-02-28T23:25:00.000",
-					"1996-02-28 23:25",
-					"1996-02-28T23:25",
-			},
-	};
+	private static final String[][] TEST_DATE_STRING = new String[][] {
+			new String[] { "yyyy/MM/dd hh:mm:ss.SSS a", "1996-02-28T23:25:27.573", "1996/02/28 11:25:27.573 PM",
+					"1996-02-28T23:25:27.573", },
+			new String[] { "MM/dd/yyyy hh:mm:ss a", "1996-02-28T23:25:27.000", "02/28/1996 11:25:27 PM",
+					"1996-02-28T23:25:27", },
+			new String[] { "yy-MM-dd", "1996-02-28T00:00:00.000", "96-02-28", "1996-02-28", },
+			new String[] { "yyyy-MM-dd HH:mm", "1996-02-28T23:25:00.000", "1996-02-28 23:25", "1996-02-28T23:25", }, };
 
 	/**
 	 * @param name
 	 */
-	public DEUtilTest( String name )
-	{
-		super( name );
+	public DEUtilTest(String name) {
+		super(name);
 	}
 
 	/*
 	 * Class under test for List getElementSupportList(DesignElementHandle, int)
 	 */
-	public void testGetElementSupportListDesignElementHandleint( )
-	{
-		ArrayList expected = new ArrayList( );
-		IMetaDataDictionary dictionary = DEUtil.getMetaDataDictionary( );
-		expected.add( dictionary.getElement( ReportDesignConstants.LABEL_ITEM ) );
-		expected.add( dictionary.getElement( ReportDesignConstants.DATA_ITEM ) );
-		expected.add( dictionary.getElement( ReportDesignConstants.TABLE_ITEM ) );
-		expected.add( dictionary.getElement( ReportDesignConstants.LIST_ITEM ) );
-		expected.add( dictionary.getElement( ReportDesignConstants.GRID_ITEM ) );
-		expected.add( dictionary.getElement( ReportDesignConstants.TEXT_ITEM ) );
-		expected.add( dictionary.getElement( ReportDesignConstants.IMAGE_ITEM ) );
+	public void testGetElementSupportListDesignElementHandleint() {
+		ArrayList expected = new ArrayList();
+		IMetaDataDictionary dictionary = DEUtil.getMetaDataDictionary();
+		expected.add(dictionary.getElement(ReportDesignConstants.LABEL_ITEM));
+		expected.add(dictionary.getElement(ReportDesignConstants.DATA_ITEM));
+		expected.add(dictionary.getElement(ReportDesignConstants.TABLE_ITEM));
+		expected.add(dictionary.getElement(ReportDesignConstants.LIST_ITEM));
+		expected.add(dictionary.getElement(ReportDesignConstants.GRID_ITEM));
+		expected.add(dictionary.getElement(ReportDesignConstants.TEXT_ITEM));
+		expected.add(dictionary.getElement(ReportDesignConstants.IMAGE_ITEM));
 
-		List result = DEUtil.getElementSupportList( getReportDesign( ).handle( ),
-				ReportDesign.BODY_SLOT );
-		assertTrue( result.containsAll( expected ) );
+		List result = DEUtil.getElementSupportList(getReportDesign().handle(), ReportDesign.BODY_SLOT);
+		assertTrue(result.containsAll(expected));
 	}
 
-	public void testEscape( )
-	{
+	public void testEscape() {
 		String testString = "abcd\\c\"";
-		assertEquals( "abcd\\\\c\\\"", DEUtil.escape( testString ) );
+		assertEquals("abcd\\\\c\\\"", DEUtil.escape(testString));
 
 	}
 
@@ -276,29 +252,23 @@ public class DEUtilTest extends BaseTestCase
 	//
 	// }
 
-	public void testConvertToDate( ) throws ParseException
-	{
-		for ( int i = 0; i < TEST_DATE_STRING.length; i++ )
-		{
+	public void testConvertToDate() throws ParseException {
+		for (int i = 0; i < TEST_DATE_STRING.length; i++) {
 			String pattern = TEST_DATE_STRING[i][0];
 			String xmlString = TEST_DATE_STRING[i][1];
 			String original = TEST_DATE_STRING[i][2];
-			DateFormatter formatter = new DateFormatter( pattern, ULocale.US );
-			assertEquals( DEUtil.convertToXMLString( formatter.parse( original ) ),
-					xmlString );
+			DateFormatter formatter = new DateFormatter(pattern, ULocale.US);
+			assertEquals(DEUtil.convertToXMLString(formatter.parse(original)), xmlString);
 		}
 	}
 
-	public void testConvertToXMLString( ) throws ParseException
-	{
-		for ( int i = 0; i < TEST_DATE_STRING.length; i++ )
-		{
+	public void testConvertToXMLString() throws ParseException {
+		for (int i = 0; i < TEST_DATE_STRING.length; i++) {
 			String pattern = TEST_DATE_STRING[i][0];
 			String original = TEST_DATE_STRING[i][2];
 			String xmlString = TEST_DATE_STRING[i][3];
-			DateFormatter formatter = new DateFormatter( pattern, ULocale.US );
-			assertEquals( formatter.format( DEUtil.convertToDate( xmlString ) ),
-					original );
+			DateFormatter formatter = new DateFormatter(pattern, ULocale.US);
+			assertEquals(formatter.format(DEUtil.convertToDate(xmlString)), original);
 		}
 	}
 }

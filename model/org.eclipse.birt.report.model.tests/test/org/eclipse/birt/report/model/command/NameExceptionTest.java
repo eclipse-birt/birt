@@ -23,8 +23,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * Tests the error messages defined by NameException.
  */
 
-public class NameExceptionTest extends BaseTestCase
-{
+public class NameExceptionTest extends BaseTestCase {
 
 	/**
 	 * Tests the error message.
@@ -32,49 +31,41 @@ public class NameExceptionTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testErrorMessages( ) throws Exception
-	{
+	public void testErrorMessages() throws Exception {
 
-		DesignElement table = new TableItem( );
-		os = new ByteArrayOutputStream( );
+		DesignElement table = new TableItem();
+		os = new ByteArrayOutputStream();
 
-		table.setName( "customerTable" ); //$NON-NLS-1$
+		table.setName("customerTable"); //$NON-NLS-1$
 
-		NameException error = new NameException( table, "", //$NON-NLS-1$
-				NameException.DESIGN_EXCEPTION_NAME_REQUIRED );
-		print( error );
+		NameException error = new NameException(table, "", //$NON-NLS-1$
+				NameException.DESIGN_EXCEPTION_NAME_REQUIRED);
+		print(error);
 
-		error = new NameException( table, table.getName( ),
-				NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN );
-		print( error );
+		error = new NameException(table, table.getName(), NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN);
+		print(error);
 
-		error = new NameException( table, table.getName( ),
-				NameException.DESIGN_EXCEPTION_DUPLICATE );
-		print( error );
+		error = new NameException(table, table.getName(), NameException.DESIGN_EXCEPTION_DUPLICATE);
+		print(error);
 
-		error = new NameException( table, table.getName( ),
-				NameException.DESIGN_EXCEPTION_HAS_REFERENCES );
-		print( error );
+		error = new NameException(table, table.getName(), NameException.DESIGN_EXCEPTION_HAS_REFERENCES);
+		print(error);
 
-		os.close( );
+		os.close();
 
-		assertTrue( compareFile( "NameExceptionError.golden.txt" ) ); //$NON-NLS-1$
+		assertTrue(compareFile("NameExceptionError.golden.txt")); //$NON-NLS-1$
 
 	}
 
-	private void print( NameException error )
-	{
-		String code = error.getErrorCode( );
-		try
-		{
-			os.write( code.getBytes( ) );
-			for ( int i = code.length( ); i < 60; i++ )
-				os.write( ' ' );
-			os.write( error.getMessage( ).getBytes( ) );
-			os.write( '\n' );
-		}
-		catch ( IOException e )
-		{
+	private void print(NameException error) {
+		String code = error.getErrorCode();
+		try {
+			os.write(code.getBytes());
+			for (int i = code.length(); i < 60; i++)
+				os.write(' ');
+			os.write(error.getMessage().getBytes());
+			os.write('\n');
+		} catch (IOException e) {
 			assert false;
 		}
 	}

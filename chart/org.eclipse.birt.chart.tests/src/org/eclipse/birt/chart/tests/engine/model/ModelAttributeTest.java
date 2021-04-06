@@ -47,11 +47,10 @@ import junit.framework.TestSuite;
 
 public class ModelAttributeTest {
 	public static Test suite() {
-		
-		TestSuite suite = new TestSuite(
-				"Test for org.eclipse.birt.chart.model.attribute"); //$NON-NLS-1$
-		
-		//$JUnit-BEGIN$
+
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.chart.model.attribute"); //$NON-NLS-1$
+
+		// $JUnit-BEGIN$
 		suite.addTestSuite(ActionTypeTest.class);
 		suite.addTestSuite(AnchorTest.class);
 		suite.addTestSuite(AxisTypeTest.class);
@@ -82,8 +81,8 @@ public class ModelAttributeTest {
 		suite.addTestSuite(UnitsOfMeasurementTest.class);
 		suite.addTestSuite(VerticalAlignmentTest.class);
 		suite.addTestSuite(PaletteTest.class);
-		
-		//$JUnit-END$
+
+		// $JUnit-END$
 		return suite;
 	}
 

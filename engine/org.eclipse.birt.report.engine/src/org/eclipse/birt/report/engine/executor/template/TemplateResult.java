@@ -1,6 +1,4 @@
 package org.eclipse.birt.report.engine.executor.template;
 
-
-public class TemplateResult
-{
+public class TemplateResult {
 }

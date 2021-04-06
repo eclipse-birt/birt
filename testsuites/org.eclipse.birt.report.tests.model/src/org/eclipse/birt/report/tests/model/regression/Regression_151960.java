@@ -23,8 +23,8 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <li>Creat a report design.
  * <li>Open the library explore, drag the table to the layout editor.
  * <li>Select the table column, copy the selection column.
- * <li>Select other column, clik the right button of the mouse to popup the
- * menu .
+ * <li>Select other column, clik the right button of the mouse to popup the menu
+ * .
  * </ol>
  * <p>
  * <b>The result:</b>
@@ -54,39 +54,33 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * from library. The two check method should return false.
  * <p>
  */
-public class Regression_151960 extends BaseTestCase
-{
+public class Regression_151960 extends BaseTestCase {
 
 	private final static String REPORT = "regression_151960.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( REPORT , REPORT );
-		copyInputToFile ( INPUT_FOLDER + "/" + REPORT  );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( REPORT , REPORT );
+		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_151960( ) throws DesignFileException,
-			SemanticException
-	{
-		openDesign( REPORT );
-		TableHandle childTable = (TableHandle) designHandle
-				.findElement( "NewTable" ); //$NON-NLS-1$
+	public void test_regression_151960() throws DesignFileException, SemanticException {
+		openDesign(REPORT);
+		TableHandle childTable = (TableHandle) designHandle.findElement("NewTable"); //$NON-NLS-1$
 
-		ColumnBandData columnData = childTable.copyColumn( 2 );
-		assertFalse( childTable.canPasteColumn( columnData, 3, true ) );
-		assertFalse( childTable.canInsertAndPasteColumn( columnData, 3 ) );
+		ColumnBandData columnData = childTable.copyColumn(2);
+		assertFalse(childTable.canPasteColumn(columnData, 3, true));
+		assertFalse(childTable.canInsertAndPasteColumn(columnData, 3));
 
 	}
 }

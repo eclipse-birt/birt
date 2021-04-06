@@ -17,16 +17,15 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 /**
  * Used to create Oda.Jdbc datasource and dataset
  */
-public class JDBCOdaDataSource
-{
+public class JDBCOdaDataSource {
 	private OdaDataSourceDesign jdbDataSource;
 	private OdaDataSetDesign jdbcDataSet;
-	
+
 	public static final String DATA_SOURCE_TYPE = "org.eclipse.birt.report.data.oda.jdbc";
 	public static final String DATA_SET_TYPE = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet";
-	
+
 	public static final String SP_DATA_SET_TYPE = "org.eclipse.birt.report.data.oda.jdbc.SPSelectDataSet";
-	
+
 	/**
 	 * Oda.Jdbc data source needs following information to create an instance
 	 * 
@@ -36,35 +35,31 @@ public class JDBCOdaDataSource
 	 * @param password
 	 * @throws BirtException
 	 */
-	JDBCOdaDataSource( String url, String driverClass, String user,
-			String password ) throws BirtException
-	{
-		jdbDataSource = new OdaDataSourceDesign( "Test Data Source" );		
-		jdbDataSource.setExtensionID( DATA_SOURCE_TYPE );
-		jdbDataSource.addPublicProperty( "odaURL", url );
-		jdbDataSource.addPublicProperty( "odaDriverClass", driverClass );
-		jdbDataSource.addPublicProperty( "odaUser", user );
-		jdbDataSource.addPublicProperty( "odaPassword", password );
-		
-		jdbcDataSet = new OdaDataSetDesign( "Test Data Set" );
-		jdbcDataSet.setDataSource( jdbDataSource.getName( ) );
-		jdbcDataSet.setExtensionID( DATA_SET_TYPE );
+	JDBCOdaDataSource(String url, String driverClass, String user, String password) throws BirtException {
+		jdbDataSource = new OdaDataSourceDesign("Test Data Source");
+		jdbDataSource.setExtensionID(DATA_SOURCE_TYPE);
+		jdbDataSource.addPublicProperty("odaURL", url);
+		jdbDataSource.addPublicProperty("odaDriverClass", driverClass);
+		jdbDataSource.addPublicProperty("odaUser", user);
+		jdbDataSource.addPublicProperty("odaPassword", password);
+
+		jdbcDataSet = new OdaDataSetDesign("Test Data Set");
+		jdbcDataSet.setDataSource(jdbDataSource.getName());
+		jdbcDataSet.setExtensionID(DATA_SET_TYPE);
 	}
-	
+
 	/**
 	 * @return dataSource
 	 */
-	public OdaDataSourceDesign getOdaDataSourceDesign( )
-	{
+	public OdaDataSourceDesign getOdaDataSourceDesign() {
 		return jdbDataSource;
 	}
 
 	/**
 	 * @return dataSet
 	 */
-	public OdaDataSetDesign getOdaDataSetDesign( )
-	{
+	public OdaDataSetDesign getOdaDataSetDesign() {
 		return jdbcDataSet;
 	}
-	
+
 }

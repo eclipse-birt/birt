@@ -11,21 +11,19 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
-
 /**
  * Represents the abstract definition which can be localized. This definition
  * includes name, display name ID and tool tip ID.
  */
 
-public interface ILocalizableInfo
-{
+public interface ILocalizableInfo {
 	/**
 	 * Returns the resource key for display name.
 	 * 
 	 * @return the resource key for display name
 	 */
 
-	public String getDisplayNameKey( );
+	public String getDisplayNameKey();
 
 	/**
 	 * Returns the definition name.
@@ -33,7 +31,7 @@ public interface ILocalizableInfo
 	 * @return the name of this definition
 	 */
 
-	public String getName( );
+	public String getName();
 
 	/**
 	 * Returns the resource key for tool tip.
@@ -41,23 +39,23 @@ public interface ILocalizableInfo
 	 * @return the resource key for tool tip
 	 */
 
-	public String getToolTipKey( );
+	public String getToolTipKey();
 
 	/**
-	 * Returns the display name if the resource key of display name is
-	 * available. Otherwise, return empty string.
+	 * Returns the display name if the resource key of display name is available.
+	 * Otherwise, return empty string.
 	 * 
 	 * @return the display name
 	 */
-	
-	public String getDisplayName( ); 
-	
+
+	public String getDisplayName();
+
 	/**
-	 * Returns the tool tip if the resource key of tool tip is
-	 * available. Otherwise, return empty string.
+	 * Returns the tool tip if the resource key of tool tip is available. Otherwise,
+	 * return empty string.
 	 * 
 	 * @return the tool tip
 	 */
 
-	public String getToolTip( );
+	public String getToolTip();
 }

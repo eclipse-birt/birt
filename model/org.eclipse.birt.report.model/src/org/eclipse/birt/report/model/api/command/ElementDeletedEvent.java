@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class ElementDeletedEvent extends NotificationEvent
-{
+public class ElementDeletedEvent extends NotificationEvent {
 
 	/**
 	 * Container element.
@@ -34,27 +33,22 @@ public class ElementDeletedEvent extends NotificationEvent
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the deleted element.
+	 * @param obj the deleted element.
 	 */
 
-	public ElementDeletedEvent( DesignElement obj )
-	{
-		super( obj );
+	public ElementDeletedEvent(DesignElement obj) {
+		super(obj);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param container
-	 *            container element
-	 * @param deleted
-	 *            the deleted element
+	 * @param container container element
+	 * @param deleted   the deleted element
 	 */
 
-	public ElementDeletedEvent( DesignElement container, DesignElement deleted )
-	{
-		super( deleted );
+	public ElementDeletedEvent(DesignElement container, DesignElement deleted) {
+		super(deleted);
 		this.container = container;
 	}
 
@@ -64,32 +58,32 @@ public class ElementDeletedEvent extends NotificationEvent
 	 * @return the container element.
 	 */
 
-	public DesignElement getContainer( )
-	{
+	public DesignElement getContainer() {
 		return container;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return ELEMENT_DELETE_EVENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
+	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
-	public boolean isSame( NotificationEvent event )
-	{
-		if ( !super.isSame( event ) )
+	public boolean isSame(NotificationEvent event) {
+		if (!super.isSame(event))
 			return false;
 		ElementDeletedEvent edEvent = (ElementDeletedEvent) event;
-		if ( container != edEvent.getContainer( ) )
+		if (container != edEvent.getContainer())
 			return false;
 		return true;
 	}

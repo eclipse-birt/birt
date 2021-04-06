@@ -11,13 +11,9 @@
 
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.provider;
 
-
 /**
  * FormatDescriptorProvider
  */
-public abstract class FormatDescriptorProvider extends
-		AbstractDescriptorProvider
-{
-
+public abstract class FormatDescriptorProvider extends AbstractDescriptorProvider {
 
 }

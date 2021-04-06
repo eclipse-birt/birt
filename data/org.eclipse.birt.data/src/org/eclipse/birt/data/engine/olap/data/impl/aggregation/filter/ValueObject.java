@@ -16,24 +16,20 @@ import org.eclipse.birt.data.engine.olap.data.util.CompareUtil;
 /**
  * 
  */
-public class ValueObject implements Comparable
-{
+public class ValueObject implements Comparable {
 
 	public Object value;
 	public Object index;
 
-	public ValueObject( Object value, Object index )
-	{
+	public ValueObject(Object value, Object index) {
 		this.value = value;
 		this.index = index;
 	}
 
-	public int compareTo( Object obj )
-	{
-		if ( obj instanceof ValueObject )
-		{
+	public int compareTo(Object obj) {
+		if (obj instanceof ValueObject) {
 			ValueObject objValue = (ValueObject) obj;
-			return CompareUtil.compare( value, objValue.value );
+			return CompareUtil.compare(value, objValue.value);
 		}
 		return -1;
 	}

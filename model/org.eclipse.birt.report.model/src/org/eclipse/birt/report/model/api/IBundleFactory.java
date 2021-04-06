@@ -18,19 +18,16 @@ import java.net.URL;
  * 
  */
 
-public interface IBundleFactory
-{
+public interface IBundleFactory {
 
 	/**
 	 * Returns the url of resource which is in corresponding bundle.
 	 * 
-	 * @param bundleName
-	 *            the Eclipse bundle name
-	 * @param resourceName
-	 *            the relative file name
+	 * @param bundleName   the Eclipse bundle name
+	 * @param resourceName the relative file name
 	 * @return the url of resource if found
 	 */
 
-	public URL getBundleResource( String bundleName, String resourceName );
+	public URL getBundleResource(String bundleName, String resourceName);
 
 }

@@ -18,28 +18,23 @@ import org.eclipse.birt.report.model.elements.interfaces.IAbstractScalarParamete
  * 
  */
 public abstract class AbstractScalarParameter extends AbstractScalarParameterImpl
-		implements
-			IAbstractScalarParameterModel
-{
+		implements IAbstractScalarParameterModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	protected AbstractScalarParameter( )
-	{
+	protected AbstractScalarParameter() {
 	}
 
 	/**
-	 * Constructs the abstract scalar parameter element with a required and
-	 * unique name.
+	 * Constructs the abstract scalar parameter element with a required and unique
+	 * name.
 	 * 
-	 * @param theName
-	 *            the required name
+	 * @param theName the required name
 	 */
 
-	protected AbstractScalarParameter( String theName )
-	{
-		super( theName );
+	protected AbstractScalarParameter(String theName) {
+		super(theName);
 	}
 }

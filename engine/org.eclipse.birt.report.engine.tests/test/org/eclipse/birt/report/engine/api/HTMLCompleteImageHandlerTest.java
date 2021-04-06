@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.IResourceLocator;
  * 
  */
 
-public class HTMLCompleteImageHandlerTest extends EngineCase
-{
+public class HTMLCompleteImageHandlerTest extends EngineCase {
 
 	protected IReportEngine engine = null;
 	protected IReportRunnable runnable = null;
@@ -31,102 +30,84 @@ public class HTMLCompleteImageHandlerTest extends EngineCase
 	protected static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/HTMLCompleteImageHandlerTest.rptdesign";
 	protected static final String REPORT_DESIGN = "HTMLCompleteImageHandlerTest.rptdesign";
 
-	public void setUp( ) throws Exception
-	{
-		removeFile( REPORT_DESIGN );
-		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
+	public void setUp() throws Exception {
+		removeFile(REPORT_DESIGN);
+		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
 
-		engine = createReportEngine( );
-		runnable = engine.openReportDesign( REPORT_DESIGN );
+		engine = createReportEngine();
+		runnable = engine.openReportDesign(REPORT_DESIGN);
 	}
 
-	public void tearDown( )
-	{
+	public void tearDown() {
 		// shut down the engine.
-		if ( engine != null )
-		{
-			engine.shutdown( );
+		if (engine != null) {
+			engine.shutdown();
 		}
-		removeFile( REPORT_DESIGN );
+		removeFile(REPORT_DESIGN);
 	}
 
 	/**
-	 * API test on HTMLCompleteImageHandler.onDocImage( ) method. This method is
-	 * not implemented so far, so the default return value is *null*
+	 * API test on HTMLCompleteImageHandler.onDocImage( ) method. This method is not
+	 * implemented so far, so the default return value is *null*
 	 */
-	public void testOnDocImage( )
-	{
-		HTMLCompleteImageHandler handler = new HTMLCompleteImageHandler( );
-		String result = handler.onDocImage( null, null );
-		assertNull( result );
+	public void testOnDocImage() {
+		HTMLCompleteImageHandler handler = new HTMLCompleteImageHandler();
+		String result = handler.onDocImage(null, null);
+		assertNull(result);
 	}
 
 	/**
-	 * API test on HTMLCompleteImageHandler.onURLImage( ) method. This test get
-	 * a connection for the web specified by the URL
+	 * API test on HTMLCompleteImageHandler.onURLImage( ) method. This test get a
+	 * connection for the web specified by the URL
 	 */
-	public void testOnURLImage( )
-	{
-		try
-		{
+	public void testOnURLImage() {
+		try {
 			final String ACTU_IMG_URL = "https://mail.google.com/mail/help/images/logo1.gif";
-			HTMLRenderContext context = new HTMLRenderContext( );
-			context.setImageDirectory( "" );
-			Image image = new Image( ACTU_IMG_URL );
-			HTMLCompleteImageHandler handler = new HTMLCompleteImageHandler( );
-			String urlString = handler.onURLImage( image, context );
+			HTMLRenderContext context = new HTMLRenderContext();
+			context.setImageDirectory("");
+			Image image = new Image(ACTU_IMG_URL);
+			HTMLCompleteImageHandler handler = new HTMLCompleteImageHandler();
+			String urlString = handler.onURLImage(image, context);
 
-			URL url = runnable.getDesignHandle( ).getModule( ).findResource(
-					urlString, IResourceLocator.IMAGE );
-			InputStream inputStream = url.openConnection( ).getInputStream( );
-			int availableBytes = inputStream.available( );
-			assert ( availableBytes > 0 );
-		}
-		catch ( java.net.ConnectException ce )
-		{
-			ce.printStackTrace( );
-		}
-		catch ( Exception ex )
-		{
-			ex.printStackTrace( );
-			fail( );
+			URL url = runnable.getDesignHandle().getModule().findResource(urlString, IResourceLocator.IMAGE);
+			InputStream inputStream = url.openConnection().getInputStream();
+			int availableBytes = inputStream.available();
+			assert (availableBytes > 0);
+		} catch (java.net.ConnectException ce) {
+			ce.printStackTrace();
+		} catch (Exception ex) {
+			ex.printStackTrace();
+			fail();
 		}
 	}
 
-	public void testOnFileImage( )
-	{
+	public void testOnFileImage() {
 		// todo
 	}
 
-	public void testoOnCustomImage( )
-	{
+	public void testoOnCustomImage() {
 		// todo
 	}
 
 	/**
 	 * API test on HTMLCompleteImageHandler.onDesignImage( ) method
 	 */
-	public void testOnDesignImage( )
-	{
-		HTMLRenderContext context = new HTMLRenderContext( );
-		context.setImageDirectory( "" );
-		Image image = (Image) runnable.getImage( "img.jpg" );
-		RenderOptionBase option = new RenderOptionBase( );
-		image.setRenderOption( option );
-		HTMLCompleteImageHandler imageHandler = new HTMLCompleteImageHandler( );
-		String resultPath = imageHandler.onDesignImage( image, context );
-		assertTrue( isFilePathLegal( resultPath ) );
+	public void testOnDesignImage() {
+		HTMLRenderContext context = new HTMLRenderContext();
+		context.setImageDirectory("");
+		Image image = (Image) runnable.getImage("img.jpg");
+		RenderOptionBase option = new RenderOptionBase();
+		image.setRenderOption(option);
+		HTMLCompleteImageHandler imageHandler = new HTMLCompleteImageHandler();
+		String resultPath = imageHandler.onDesignImage(image, context);
+		assertTrue(isFilePathLegal(resultPath));
 	}
-	
-	private boolean isFilePathLegal( String filePath )
-	{
-		try
-		{
-			URL fileURL = new URL( filePath );
-			return fileURL.openStream( ) != null;
-		}
-		catch ( Exception ex )
-		{
+
+	private boolean isFilePathLegal(String filePath) {
+		try {
+			URL fileURL = new URL(filePath);
+			return fileURL.openStream() != null;
+		} catch (Exception ex) {
 			// DO NOTHING
 		}
 		return false;

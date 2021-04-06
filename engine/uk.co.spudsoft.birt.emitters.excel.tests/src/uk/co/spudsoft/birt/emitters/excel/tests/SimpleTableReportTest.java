@@ -33,24 +33,24 @@ public class SimpleTableReportTest extends ReportRunner {
 		InputStream inputStream = runAndRenderReport("SimpleTable.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
-			
+
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Simple Table Report", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Simple Table Report", workbook.getSheetAt(0).getSheetName());
+
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals(2, firstNullRow(sheet));
-			
-			assertEquals( "1", sheet.getRow(0).getCell(0).getStringCellValue() );
-			assertEquals( "2", sheet.getRow(1).getCell(0).getStringCellValue() );
-			assertEquals( 3.0, sheet.getRow(0).getCell(1).getNumericCellValue(), 0.001 );
-			assertEquals( Cell.CELL_TYPE_BLANK, sheet.getRow(1).getCell(1).getCellType() );
-			
-			assertEquals( "Title\nSubtitle", 	sheet.getHeader().getLeft() );
-			assertEquals( "The Writer", 		sheet.getFooter().getLeft() );
-			assertEquals( "1", 					sheet.getFooter().getCenter() );
+
+			assertEquals("1", sheet.getRow(0).getCell(0).getStringCellValue());
+			assertEquals("2", sheet.getRow(1).getCell(0).getStringCellValue());
+			assertEquals(3.0, sheet.getRow(0).getCell(1).getNumericCellValue(), 0.001);
+			assertEquals(Cell.CELL_TYPE_BLANK, sheet.getRow(1).getCell(1).getCellType());
+
+			assertEquals("Title\nSubtitle", sheet.getHeader().getLeft());
+			assertEquals("The Writer", sheet.getFooter().getLeft());
+			assertEquals("1", sheet.getFooter().getCenter());
 		} finally {
 			inputStream.close();
 		}

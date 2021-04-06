@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
  * 
  *
  */
-public class CubeExtractionResults implements ICubeExtractionResults
-{
+public class CubeExtractionResults implements ICubeExtractionResults {
 
 	private IDocArchiveReader reportDocReader;
 
@@ -31,8 +30,7 @@ public class CubeExtractionResults implements ICubeExtractionResults
 	 * 
 	 * @param reportDocReader
 	 */
-	public CubeExtractionResults( IDocArchiveReader reportDocReader )
-	{
+	public CubeExtractionResults(IDocArchiveReader reportDocReader) {
 		this.reportDocReader = reportDocReader;
 	}
 
@@ -43,8 +41,7 @@ public class CubeExtractionResults implements ICubeExtractionResults
 	 * org.eclipse.birt.report.engine.api.ICubeExtractionResults#getReportDocReader
 	 * ()
 	 */
-	public IDocArchiveReader getReportDocReader( )
-	{
+	public IDocArchiveReader getReportDocReader() {
 		return reportDocReader;
 	}
 
@@ -53,8 +50,7 @@ public class CubeExtractionResults implements ICubeExtractionResults
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IExtractionResults#close()
 	 */
-	public void close( )
-	{
+	public void close() {
 	}
 
 	/*
@@ -63,32 +59,26 @@ public class CubeExtractionResults implements ICubeExtractionResults
 	 * @see
 	 * org.eclipse.birt.report.engine.api.IExtractionResults#getResultMetaData()
 	 */
-	public IResultMetaData getResultMetaData( ) throws BirtException
-	{
-		throw new UnsupportedOperationException( );
+	public IResultMetaData getResultMetaData() throws BirtException {
+		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.IExtractionResults#nextResultIterator
+	 * @see org.eclipse.birt.report.engine.api.IExtractionResults#nextResultIterator
 	 * ()
 	 */
-	public IDataIterator nextResultIterator( ) throws BirtException
-	{
-		throw new UnsupportedOperationException( );
+	public IDataIterator nextResultIterator() throws BirtException {
+		throw new UnsupportedOperationException();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.IExtractionResults#getHandle
-	 * ()
+	 * @see org.eclipse.birt.report.engine.api.IExtractionResults#getHandle ()
 	 */
-	public DesignElementHandle getHandle( )
-	{
-		throw new UnsupportedOperationException( );
+	public DesignElementHandle getHandle() {
+		throw new UnsupportedOperationException();
 	}
 }

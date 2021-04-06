@@ -21,8 +21,7 @@ import org.eclipse.swt.widgets.Shell;
  * This interface defines method(s) to process format specifier.
  */
 
-public interface IFormatSpecifierHandler
-{
+public interface IFormatSpecifierHandler {
 	/**
 	 * Creates a UI to process format specifier.
 	 * 
@@ -35,7 +34,6 @@ public interface IFormatSpecifierHandler
 	 * @param context
 	 * @return instance of format specifier
 	 */
-	FormatSpecifier handleFormatSpecifier( Shell shellParent, String title,
-			AxisType[] axisTypes, FormatSpecifier formatspecifier, EObject target,
-			String attrName, ChartWizardContext context );
+	FormatSpecifier handleFormatSpecifier(Shell shellParent, String title, AxisType[] axisTypes,
+			FormatSpecifier formatspecifier, EObject target, String attrName, ChartWizardContext context);
 }

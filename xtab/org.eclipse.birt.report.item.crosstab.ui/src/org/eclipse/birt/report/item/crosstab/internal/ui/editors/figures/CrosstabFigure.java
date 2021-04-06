@@ -21,20 +21,18 @@ import org.eclipse.birt.report.designer.ui.ReportPlatformUIImages;
  * Crosstab figure
  */
 
-public class CrosstabFigure extends ReportElementFigure
-{
+public class CrosstabFigure extends ReportElementFigure {
 
 	/**
 	 * Constructor
 	 */
-	public CrosstabFigure( )
-	{
-		super( );
-		SectionBorder border = new TableBorder( );
-		//border.setIndicatorLabel( "crostab" );// name come from adapt set
+	public CrosstabFigure() {
+		super();
+		SectionBorder border = new TableBorder();
+		// border.setIndicatorLabel( "crostab" );// name come from adapt set
 
 		// table name throught Adapt may be set icon
-		border.setIndicatorIcon( ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE ) );
-		setBorder( border );
+		border.setIndicatorIcon(ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_TABLE));
+		setBorder(border);
 	}
 }

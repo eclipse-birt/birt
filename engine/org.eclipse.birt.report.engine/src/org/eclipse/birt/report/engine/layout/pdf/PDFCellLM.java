@@ -20,10 +20,7 @@ import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.CellArea;
 
-public class PDFCellLM extends PDFBlockStackingLM
-		implements
-			IBlockStackingLayoutManager
-{
+public class PDFCellLM extends PDFBlockStackingLM implements IBlockStackingLayoutManager {
 
 	/**
 	 * table layout manager of current cell
@@ -37,137 +34,110 @@ public class PDFCellLM extends PDFBlockStackingLM
 	 */
 	private ICellContent cellContent;
 
-	public PDFCellLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IReportItemExecutor executor )
-	{
-		super( context, parent, content, executor );
-		assert ( parent != null );
-		tableLM = getTableLayoutManager( );
+	public PDFCellLM(PDFLayoutEngineContext context, PDFStackingLM parent, IContent content,
+			IReportItemExecutor executor) {
+		super(context, parent, content, executor);
+		assert (parent != null);
+		tableLM = getTableLayoutManager();
 		cellContent = (ICellContent) content;
 	}
 
-	protected void createRoot( )
-	{
-		if(root==null)
-		{
-			//FIXME setup rowSpan
-			CellArea cell = AreaFactory.createCellArea( cellContent );
-			cell.setRowSpan( tableLM.getRowSpan( cellContent ) );
+	protected void createRoot() {
+		if (root == null) {
+			// FIXME setup rowSpan
+			CellArea cell = AreaFactory.createCellArea(cellContent);
+			cell.setRowSpan(tableLM.getRowSpan(cellContent));
 			root = cell;
-			
-			
-			if ( !isFirst )
-			{
-				IStyle areaStyle = root.getStyle( );
-				/*areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH,
-						IStyle.NUMBER_0 );*/
-				areaStyle.setProperty( IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0 );
-				areaStyle.setProperty( IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0 );
+
+			if (!isFirst) {
+				IStyle areaStyle = root.getStyle();
+				/*
+				 * areaStyle.setProperty( IStyle.STYLE_BORDER_TOP_WIDTH, IStyle.NUMBER_0 );
+				 */
+				areaStyle.setProperty(IStyle.STYLE_PADDING_TOP, IStyle.NUMBER_0);
+				areaStyle.setProperty(IStyle.STYLE_MARGIN_TOP, IStyle.NUMBER_0);
 			}
 		}
-		tableLM.resolveBorderConflict( (CellArea)root, isFirst);
-		root.setWidth( columnWidth );
+		tableLM.resolveBorderConflict((CellArea) root, isFirst);
+		root.setWidth(columnWidth);
 	}
 
-	protected void initialize( )
-	{
-		boolean isNewArea = (root==null);
-		createRoot( );
-		if(isNewArea)
-		{
-			IStyle areaStyle = root.getStyle( );
-			removeMargin( areaStyle );
-			validateBoxProperty( root.getStyle( ), columnWidth, context.getMaxHeight( ) );
-			setOffsetX( root.getContentX( ) );
-			setOffsetY(root.getContentY( ));
-			setCurrentBP( 0 );
-			setCurrentIP( 0 );
+	protected void initialize() {
+		boolean isNewArea = (root == null);
+		createRoot();
+		if (isNewArea) {
+			IStyle areaStyle = root.getStyle();
+			removeMargin(areaStyle);
+			validateBoxProperty(root.getStyle(), columnWidth, context.getMaxHeight());
+			setOffsetX(root.getContentX());
+			setOffsetY(root.getContentY());
+			setCurrentBP(0);
+			setCurrentIP(0);
 		}
-		maxAvaWidth = root.getContentWidth( );
-		root.setAllocatedHeight( parent.getCurrentMaxContentHeight( ));
-		maxAvaHeight = root.getContentHeight( );
+		maxAvaWidth = root.getContentWidth();
+		root.setAllocatedHeight(parent.getCurrentMaxContentHeight());
+		maxAvaHeight = root.getContentHeight();
 	}
 
-	protected void closeLayout( )
-	{
-		if(root!=null)
-		{
-			root.setHeight( getCurrentBP( )
-					+ getOffsetY( )
-					+ getDimensionValue( root.getStyle( ).getProperty(
-							StyleConstants.STYLE_PADDING_BOTTOM ) ) );
+	protected void closeLayout() {
+		if (root != null) {
+			root.setHeight(getCurrentBP() + getOffsetY()
+					+ getDimensionValue(root.getStyle().getProperty(StyleConstants.STYLE_PADDING_BOTTOM)));
 		}
 
 	}
 
-	protected boolean isHidden( )
-	{
-		int startColumn = cellContent.getColumn( );
-		int endColumn = startColumn + cellContent.getColSpan( );
-		columnWidth = tableLM.getCellWidth( startColumn, endColumn );
-		if ( columnWidth == 0 || !tableLM.isCellVisible( cellContent ) )
-		{
+	protected boolean isHidden() {
+		int startColumn = cellContent.getColumn();
+		int endColumn = startColumn + cellContent.getColSpan();
+		columnWidth = tableLM.getCellWidth(startColumn, endColumn);
+		if (columnWidth == 0 || !tableLM.isCellVisible(cellContent)) {
 			return true;
 		}
-		return isHiddenByVisibility( );
+		return isHiddenByVisibility();
 	}
 
-
-	protected boolean isRootEmpty( )
-	{
-		if(isLast)
-		{
+	protected boolean isRootEmpty() {
+		if (isLast) {
 			return false;
 		}
-		if(parent.root!=null && parent.root.getChildrenCount( )>0)
-		{
+		if (parent.root != null && parent.root.getChildrenCount() > 0) {
 			return false;
 		}
-		return super.isRootEmpty( );
+		return super.isRootEmpty();
 	}
-	
-	public boolean pageBreakInsideAvoid( )
-	{
-		if ( content == null )
-		{
+
+	public boolean pageBreakInsideAvoid() {
+		if (content == null) {
 			return false;
 		}
-		IContent row = (IContent)content.getParent( );
-		if(row!=null)
-		{
-			IStyle style = row.getStyle( );
-			String pageBreak = style.getPageBreakInside( );
-			if ( IStyle.CSS_AVOID_VALUE == pageBreak )
-			{
+		IContent row = (IContent) content.getParent();
+		if (row != null) {
+			IStyle style = row.getStyle();
+			String pageBreak = style.getPageBreakInside();
+			if (IStyle.CSS_AVOID_VALUE == pageBreak) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
-	public boolean isPageEmpty( )
-	{
-		if ( root!=null && root.getChildrenCount()>0 )
-		{
+
+	public boolean isPageEmpty() {
+		if (root != null && root.getChildrenCount() > 0) {
 			return false;
-		}
-		else
-		{
-			if ( parent != null )
-			{
-				return parent.isPageEmpty( );
+		} else {
+			if (parent != null) {
+				return parent.isPageEmpty();
 			}
 		}
 		return true;
 	}
-	
-	protected boolean needPageBreakAfter( String pageBreak )
-	{
+
+	protected boolean needPageBreakAfter(String pageBreak) {
 		return false;
 	}
 
-	protected boolean needPageBreakBefore( String pageBreak )
-	{
+	protected boolean needPageBreakBefore(String pageBreak) {
 		return false;
 	}
 

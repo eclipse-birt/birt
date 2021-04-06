@@ -41,19 +41,11 @@ public class FontSizeManager extends AbstractLengthManager {
 		values.put(CSSConstants.CSS_LARGER_VALUE, CSSValueConstants.LARGER_VALUE);
 		values.put(CSSConstants.CSS_MEDIUM_VALUE, CSSValueConstants.MEDIUM_VALUE);
 		values.put(CSSConstants.CSS_SMALL_VALUE, CSSValueConstants.SMALL_VALUE);
-		values
-				.put(CSSConstants.CSS_SMALLER_VALUE,
-						CSSValueConstants.SMALLER_VALUE);
-		values
-				.put(CSSConstants.CSS_X_LARGE_VALUE,
-						CSSValueConstants.X_LARGE_VALUE);
-		values
-				.put(CSSConstants.CSS_X_SMALL_VALUE,
-						CSSValueConstants.X_SMALL_VALUE);
-		values.put(CSSConstants.CSS_XX_LARGE_VALUE,
-				CSSValueConstants.XX_LARGE_VALUE);
-		values.put(CSSConstants.CSS_XX_SMALL_VALUE,
-				CSSValueConstants.XX_SMALL_VALUE);
+		values.put(CSSConstants.CSS_SMALLER_VALUE, CSSValueConstants.SMALLER_VALUE);
+		values.put(CSSConstants.CSS_X_LARGE_VALUE, CSSValueConstants.X_LARGE_VALUE);
+		values.put(CSSConstants.CSS_X_SMALL_VALUE, CSSValueConstants.X_SMALL_VALUE);
+		values.put(CSSConstants.CSS_XX_LARGE_VALUE, CSSValueConstants.XX_LARGE_VALUE);
+		values.put(CSSConstants.CSS_XX_SMALL_VALUE, CSSValueConstants.XX_SMALL_VALUE);
 	}
 
 	/**
@@ -87,8 +79,7 @@ public class FontSizeManager extends AbstractLengthManager {
 	/**
 	 * Implements {@link ValueManager#createValue(LexicalUnit,CSSEngine)}.
 	 */
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_INHERIT:
 			return CSSValueConstants.INHERIT_VALUE;
@@ -107,11 +98,9 @@ public class FontSizeManager extends AbstractLengthManager {
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#createStringValue(short,String,CSSEngine)}.
+	 * Implements {@link ValueManager#createStringValue(short,String,CSSEngine)}.
 	 */
-	public CSSPrimitiveValue createStringValue(short type, String value)
-			throws DOMException {
+	public CSSPrimitiveValue createStringValue(short type, String value) throws DOMException {
 		if (type != CSSPrimitiveValue.CSS_IDENT) {
 			throw createInvalidStringTypeDOMException(type);
 		}
@@ -123,39 +112,34 @@ public class FontSizeManager extends AbstractLengthManager {
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	public Value computeValue(CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value) {
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		CSSContext ctx = engine.getCSSContext();
 
 		float fs = ctx.getMediumFontSize();
 		// absolute size
 		if (value == CSSValueConstants.XX_SMALL_VALUE) {
-			return new FloatValue( CSSPrimitiveValue.CSS_PT,
-					fs / 1.2f / 1.2f / 1.2f);
+			return new FloatValue(CSSPrimitiveValue.CSS_PT, fs / 1.2f / 1.2f / 1.2f);
 		}
 		if (value == CSSValueConstants.X_SMALL_VALUE) {
-			return new FloatValue( CSSPrimitiveValue.CSS_PT,
-					fs / 1.2f / 1.2f);
+			return new FloatValue(CSSPrimitiveValue.CSS_PT, fs / 1.2f / 1.2f);
 		}
 		if (value == CSSValueConstants.SMALL_VALUE) {
-			return new FloatValue( CSSPrimitiveValue.CSS_PT, fs / 1.2f );
+			return new FloatValue(CSSPrimitiveValue.CSS_PT, fs / 1.2f);
 		}
 		if (value == CSSValueConstants.MEDIUM_VALUE) {
-			return new FloatValue( CSSPrimitiveValue.CSS_PT, fs );
+			return new FloatValue(CSSPrimitiveValue.CSS_PT, fs);
 		}
 		if (value == CSSValueConstants.LARGE_VALUE) {
-			return new FloatValue( CSSPrimitiveValue.CSS_PT, fs * 1.2f );
+			return new FloatValue(CSSPrimitiveValue.CSS_PT, fs * 1.2f);
 		}
 		if (value == CSSValueConstants.X_LARGE_VALUE) {
-			return new FloatValue( CSSPrimitiveValue.CSS_PT,
-					fs * 1.2f * 1.2f);
+			return new FloatValue(CSSPrimitiveValue.CSS_PT, fs * 1.2f * 1.2f);
 		}
 		if (value == CSSValueConstants.XX_LARGE_VALUE) {
-			return new FloatValue( CSSPrimitiveValue.CSS_PT,
-					fs * 1.2f * 1.2f * 1.2f);
+			return new FloatValue(CSSPrimitiveValue.CSS_PT, fs * 1.2f * 1.2f * 1.2f);
 		}
 
 		float scale = 1.0f;
@@ -190,21 +174,19 @@ public class FontSizeManager extends AbstractLengthManager {
 			if (parent != null) {
 				IStyle style = parent.getComputedStyle();
 				if (style != null) {
-					Value fontSize = (Value)style.getProperty(IStyle.STYLE_FONT_SIZE);
+					Value fontSize = (Value) style.getProperty(IStyle.STYLE_FONT_SIZE);
 					if (fontSize != null) {
 						fs = fontSize.getFloatValue();
-						return new FloatValue( fontSize.getPrimitiveType( ), fs * scale );
+						return new FloatValue(fontSize.getPrimitiveType(), fs * scale);
 					}
 				}
 			}
-			return new FloatValue( CSSPrimitiveValue.CSS_PT, fs * scale );
+			return new FloatValue(CSSPrimitiveValue.CSS_PT, fs * scale);
 		}
-		
-		if(value.getPrimitiveType() == CSSPrimitiveValue.CSS_NUMBER)
-		{
-			return super.computeValue( elt, engine, idx, new FloatValue(
-					CSSPrimitiveValue.CSS_PT,
-					value.getFloatValue()));
+
+		if (value.getPrimitiveType() == CSSPrimitiveValue.CSS_NUMBER) {
+			return super.computeValue(elt, engine, idx,
+					new FloatValue(CSSPrimitiveValue.CSS_PT, value.getFloatValue()));
 		}
 		return super.computeValue(elt, engine, idx, value);
 	}

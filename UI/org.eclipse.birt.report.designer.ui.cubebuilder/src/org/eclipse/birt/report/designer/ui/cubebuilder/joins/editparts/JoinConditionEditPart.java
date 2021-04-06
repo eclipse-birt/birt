@@ -17,8 +17,7 @@ import org.eclipse.draw2d.IFigure;
 import org.eclipse.gef.EditPart;
 import org.eclipse.gef.editparts.AbstractConnectionEditPart;
 
-public class JoinConditionEditPart extends AbstractConnectionEditPart
-{
+public class JoinConditionEditPart extends AbstractConnectionEditPart {
 
 	private static final String SELECTION_POLICY = "Selection Policy"; //$NON-NLS-1$
 
@@ -26,28 +25,21 @@ public class JoinConditionEditPart extends AbstractConnectionEditPart
 	 * @param context
 	 * @param join
 	 */
-	public JoinConditionEditPart( EditPart context,
-			DimensionJoinConditionHandle join )
-	{
-		setModel( join );
-		setParent( context );
+	public JoinConditionEditPart(EditPart context, DimensionJoinConditionHandle join) {
+		setModel(join);
+		setParent(context);
 	}
 
-	protected IFigure createFigure( )
-	{
-		return new ColumnConnection( );
+	protected IFigure createFigure() {
+		return new ColumnConnection();
 	}
 
-
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( SELECTION_POLICY, new JoinSelectionEditPolicy( ) );
+	protected void createEditPolicies() {
+		installEditPolicy(SELECTION_POLICY, new JoinSelectionEditPolicy());
 	}
 
-
-	public DeleteJoinAction getRemoveAction( )
-	{
-		DeleteJoinAction removeAction = new DeleteJoinAction( this, getModel( ) );
+	public DeleteJoinAction getRemoveAction() {
+		DeleteJoinAction removeAction = new DeleteJoinAction(this, getModel());
 		return removeAction;
 	}
 

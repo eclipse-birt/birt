@@ -32,10 +32,7 @@ import org.xml.sax.SAXException;
  * The compatible version is equals or less than 3.2.1.
  * 
  */
-public class CompatibleGroupBoundColumnsState
-		extends
-			CompatibleListPropertyState
-{
+public class CompatibleGroupBoundColumnsState extends CompatibleListPropertyState {
 
 	/**
 	 * The group element.
@@ -44,22 +41,18 @@ public class CompatibleGroupBoundColumnsState
 	private GroupElement group = null;
 
 	/**
-	 * Constructs the design parse state with the design file parser handler.
-	 * This constructor is used when this list property to parse is a property
-	 * of one element.
+	 * Constructs the design parse state with the design file parser handler. This
+	 * constructor is used when this list property to parse is a property of one
+	 * element.
 	 * 
-	 * @param theHandler
-	 *            the design file parser handler
-	 * @param element
-	 *            the element which holds this property, in this place it must
-	 *            be a Table or a List.
+	 * @param theHandler the design file parser handler
+	 * @param element    the element which holds this property, in this place it
+	 *                   must be a Table or a List.
 	 * @param group
 	 */
 
-	CompatibleGroupBoundColumnsState( ModuleParserHandler theHandler,
-			DesignElement element, GroupElement group )
-	{
-		super( theHandler, element );
+	CompatibleGroupBoundColumnsState(ModuleParserHandler theHandler, DesignElement element, GroupElement group) {
+		super(theHandler, element);
 		this.group = group;
 	}
 
@@ -69,29 +62,22 @@ public class CompatibleGroupBoundColumnsState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		if ( struct != null )
-		{
+	public void end() throws SAXException {
+		if (struct != null) {
 			// Ensure that the member is defined.
 
-			PropertyDefn memberDefn = (PropertyDefn) struct.getDefn( )
-					.getMember( name );
-			struct.setProperty( memberDefn, list );
-		}
-		else
-		{
-			handler.tempValue.put( group, list );
+			PropertyDefn memberDefn = (PropertyDefn) struct.getDefn().getMember(name);
+			struct.setProperty(memberDefn, list);
+		} else {
+			handler.tempValue.put(group, list);
 		}
 	}
 
-	static class CompatibleGroupBoundColumnState extends CompatibleStructureState
-	{
+	static class CompatibleGroupBoundColumnState extends CompatibleStructureState {
 
-		CompatibleGroupBoundColumnState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn, List list )
-		{
-			super( theHandler, element, propDefn );
+		CompatibleGroupBoundColumnState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+				List list) {
+			super(theHandler, element, propDefn);
 			this.list = list;
 		}
 
@@ -101,9 +87,8 @@ public class CompatibleGroupBoundColumnsState
 		 * @see org.eclipse.birt.report.model.parser.StructureState#end()
 		 */
 
-		public void end( ) throws SAXException
-		{
-			list.add( struct );
+		public void end() throws SAXException {
+			list.add(struct);
 		}
 
 	}
@@ -111,20 +96,16 @@ public class CompatibleGroupBoundColumnsState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.ListPropertyState#startElement(java
+	 * @see org.eclipse.birt.report.model.parser.ListPropertyState#startElement(java
 	 * .lang.String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
-		{
-			return new CompatibleGroupBoundColumnState( handler, element,
-					propDefn, list );
+	public AbstractParseState startElement(String tagName) {
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STRUCTURE_TAG)) {
+			return new CompatibleGroupBoundColumnState(handler, element, propDefn, list);
 		}
 
-		return new AnyElementState( handler );
+		return new AnyElementState(handler);
 	}
 
 }

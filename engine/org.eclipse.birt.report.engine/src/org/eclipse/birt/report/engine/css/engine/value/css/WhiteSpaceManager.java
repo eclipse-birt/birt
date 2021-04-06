@@ -21,27 +21,22 @@ public class WhiteSpaceManager extends IdentifierManager {
 	 */
 	protected final static StringMap values = new StringMap();
 	static {
-		values.put(CSSConstants.CSS_NORMAL_VALUE,
-				CSSValueConstants.NORMAL_VALUE);
-		
-		values.put(CSSConstants.CSS_PRE_VALUE,
-				CSSValueConstants.PRE_VALUE);
+		values.put(CSSConstants.CSS_NORMAL_VALUE, CSSValueConstants.NORMAL_VALUE);
 
-		values.put(CSSConstants.CSS_NOWRAP_VALUE,
-				CSSValueConstants.NOWRAP_VALUE);
-		
-		values.put(CSSConstants.CSS_PRE_WRAP_VALUE,
-				CSSValueConstants.PRE_WRAP_VALUE);
-		
-		values.put(CSSConstants.CSS_PRE_LINE_VALUE,
-				CSSValueConstants.PRE_LINE_VALUE);
+		values.put(CSSConstants.CSS_PRE_VALUE, CSSValueConstants.PRE_VALUE);
+
+		values.put(CSSConstants.CSS_NOWRAP_VALUE, CSSValueConstants.NOWRAP_VALUE);
+
+		values.put(CSSConstants.CSS_PRE_WRAP_VALUE, CSSValueConstants.PRE_WRAP_VALUE);
+
+		values.put(CSSConstants.CSS_PRE_LINE_VALUE, CSSValueConstants.PRE_LINE_VALUE);
 	}
 
 	public StringMap getIdentifiers() {
 		return values;
 	}
 
-	public WhiteSpaceManager () {
+	public WhiteSpaceManager() {
 	}
 
 	public String getPropertyName() {
@@ -56,4 +51,3 @@ public class WhiteSpaceManager extends IdentifierManager {
 		return CSSValueConstants.NORMAL_VALUE;
 	}
 }
-

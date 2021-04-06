@@ -14,17 +14,15 @@ package org.eclipse.birt.report.designer.ui;
 /**
  * IReportClasspathProvider
  */
-public interface IReportClasspathResolver
-{
+public interface IReportClasspathResolver {
 
 	/**
-	 * Resolves the class path based on settings on given adaptable object. If
-	 * no adaptable object is provided, it only populates the class path based
-	 * on global settings.
+	 * Resolves the class path based on settings on given adaptable object. If no
+	 * adaptable object is provided, it only populates the class path based on
+	 * global settings.
 	 * 
-	 * @param adaptable
-	 *            The object that used to identify the setting scope.
+	 * @param adaptable The object that used to identify the setting scope.
 	 * @return
 	 */
-	String[] resolveClasspath( Object adaptable );
+	String[] resolveClasspath(Object adaptable);
 }

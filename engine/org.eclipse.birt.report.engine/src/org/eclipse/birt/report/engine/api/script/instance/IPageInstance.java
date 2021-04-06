@@ -13,12 +13,9 @@ package org.eclipse.birt.report.engine.api.script.instance;
 
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 
-public interface IPageInstance
-{
+public interface IPageInstance {
 
-	IReportItemInstance[] getInstancesByElementId( int elementId )
-			throws ScriptException;
+	IReportItemInstance[] getInstancesByElementId(int elementId) throws ScriptException;
 
-	IReportItemInstance[] getInstancesByElementName( String elementName )
-			throws ScriptException;
+	IReportItemInstance[] getInstancesByElementName(String elementName) throws ScriptException;
 }

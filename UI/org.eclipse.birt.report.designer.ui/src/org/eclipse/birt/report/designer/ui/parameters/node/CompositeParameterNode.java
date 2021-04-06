@@ -19,10 +19,9 @@ import java.util.List;
  * Paramter Group node.
  */
 
-public class CompositeParameterNode implements IParameterNode
-{
+public class CompositeParameterNode implements IParameterNode {
 
-	private List nodeList = new ArrayList( );
+	private List nodeList = new ArrayList();
 
 	/**
 	 * Adds parameter node.
@@ -30,41 +29,41 @@ public class CompositeParameterNode implements IParameterNode
 	 * @param node
 	 */
 
-	public void add( IParameterNode node )
-	{
-		nodeList.add( node );
+	public void add(IParameterNode node) {
+		nodeList.add(node);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.parameter.node.IParamNode#format(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.parameter.node.IParamNode#format(java.lang
+	 * .String)
 	 */
 
-	public String format( String input )
-	{
+	public String format(String input) {
 		return input;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.parameter.node.IParamNode#getChildren()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.parameter.node.IParamNode#getChildren()
 	 */
 
-	public List getChildren( )
-	{
+	public List getChildren() {
 		return nodeList;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.parameter.node.IParamNode#getValueList()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.parameter.node.IParamNode#getValueList()
 	 */
 
-	public List getValueList( )
-	{
+	public List getValueList() {
 		return Collections.EMPTY_LIST;
 	}
 

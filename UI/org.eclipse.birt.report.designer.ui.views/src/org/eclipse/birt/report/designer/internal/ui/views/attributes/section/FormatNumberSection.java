@@ -11,121 +11,99 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
-public class FormatNumberSection extends Section
-{
+public class FormatNumberSection extends Section {
 
 	private int style;
 	private final boolean showLocale;
 
-	public FormatNumberSection( Composite parent, int style, boolean isFormStyle )
-	{
-		this( parent, style, isFormStyle, true );
+	public FormatNumberSection(Composite parent, int style, boolean isFormStyle) {
+		this(parent, style, isFormStyle, true);
 	}
 
-	public FormatNumberSection( Composite parent, int style,
-			boolean isFormStyle, boolean showLocale )
-	{
-		super( " ", parent, isFormStyle ); //$NON-NLS-1$
+	public FormatNumberSection(Composite parent, int style, boolean isFormStyle, boolean showLocale) {
+		super(" ", parent, isFormStyle); //$NON-NLS-1$
 		this.style = style;
 		this.showLocale = showLocale;
 	}
 
 	protected FormatNumberDescriptor format;
 
-	public void createSection( )
-	{
-		getFormatControl( parent );
-		getGridPlaceholder( parent );
+	public void createSection() {
+		getFormatControl(parent);
+		getGridPlaceholder(parent);
 	}
 
-	public FormatNumberDescriptor getFormatControl( )
-	{
+	public FormatNumberDescriptor getFormatControl() {
 		return format;
 	}
 
-	protected FormatNumberDescriptor getFormatControl( Composite parent )
-	{
-		if ( format == null )
-		{
-			format = new FormatNumberDescriptor( style, isFormStyle, showLocale );
-			format.setDescriptorProvider( provider );
-			format.createControl( parent );
-			format.getControl( )
-					.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-			format.getControl( ).addDisposeListener( new DisposeListener( ) {
+	protected FormatNumberDescriptor getFormatControl(Composite parent) {
+		if (format == null) {
+			format = new FormatNumberDescriptor(style, isFormStyle, showLocale);
+			format.setDescriptorProvider(provider);
+			format.createControl(parent);
+			format.getControl().setLayoutData(new GridData(GridData.FILL_BOTH));
+			format.getControl().addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				public void widgetDisposed(DisposeEvent event) {
 					format = null;
 				}
-			} );
-		}
-		else
-		{
-			checkParent( format.getControl( ), parent );
+			});
+		} else {
+			checkParent(format.getControl(), parent);
 		}
 		return format;
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) format.getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - placeholder;
+	public void layout() {
+		GridData gd = (GridData) format.getControl().getLayoutData();
+		if (getLayoutNum() > 0)
+			gd.horizontalSpan = getLayoutNum() - placeholder;
 		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- placeholder;
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - placeholder;
 	}
 
-	public void addFormatChangeListener( IFormatChangeListener listener )
-	{
-		format.addFormatChangeListener( listener );
+	public void addFormatChangeListener(IFormatChangeListener listener) {
+		format.addFormatChangeListener(listener);
 	}
 
-	public void load( )
-	{
-		if(format!=null && !format.getControl( ).isDisposed( ))format.load( );
+	public void load() {
+		if (format != null && !format.getControl().isDisposed())
+			format.load();
 	}
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( format != null )
-			format.setDescriptorProvider( provider );
+		if (format != null)
+			format.setDescriptorProvider(provider);
 	}
 
-	public void setInput( Object input )
-	{
-		assert ( input != null );
-		format.setInput( input );
+	public void setInput(Object input) {
+		assert (input != null);
+		format.setInput(input);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( format != null )
-			WidgetUtil.setExcludeGridData( format.getControl( ), isHidden );
-
-	}
-
-	public void setVisible( boolean isVisable )
-	{
-		if ( format != null )
-			format.getControl( ).setVisible( isVisable );
+	public void setHidden(boolean isHidden) {
+		if (format != null)
+			WidgetUtil.setExcludeGridData(format.getControl(), isHidden);
 
 	}
 
-	public void reset( )
-	{
-		if ( format != null && !format.getControl( ).isDisposed( ) )
-		{
-			format.reset( );
+	public void setVisible(boolean isVisable) {
+		if (format != null)
+			format.getControl().setVisible(isVisable);
+
+	}
+
+	public void reset() {
+		if (format != null && !format.getControl().isDisposed()) {
+			format.reset();
 		}
 	}
 }

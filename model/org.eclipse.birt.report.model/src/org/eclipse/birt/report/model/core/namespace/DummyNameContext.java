@@ -24,92 +24,76 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
 /**
  * 
  */
-public class DummyNameContext implements INameContext
-{
+public class DummyNameContext implements INameContext {
 
 	/**
 	 * 
 	 */
-	public boolean canContain( String elementName )
-	{
+	public boolean canContain(String elementName) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContext#getElements
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getElements
 	 * (int)
 	 */
-	public List<DesignElement> getElements( int level )
-	{
-		return Collections.emptyList( );
+	public List<DesignElement> getElements(int level) {
+		return Collections.emptyList();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
 	 * .eclipse.birt.report.model.core.DesignElement, java.lang.String,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
-	public ElementRefValue resolve( DesignElement focus, String elementName,
-			PropertyDefn propDefn, ElementDefn elementDefn )
-	{
+	public ElementRefValue resolve(DesignElement focus, String elementName, PropertyDefn propDefn,
+			ElementDefn elementDefn) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#resolve(org
 	 * .eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.metadata.PropertyDefn,
 	 * org.eclipse.birt.report.model.metadata.ElementDefn)
 	 */
-	public ElementRefValue resolve( DesignElement focus, DesignElement element,
-			PropertyDefn propDefn, ElementDefn elementDefn )
-	{
+	public ElementRefValue resolve(DesignElement focus, DesignElement element, PropertyDefn propDefn,
+			ElementDefn elementDefn) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpace()
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#getNameSpace()
 	 */
-	public NameSpace getNameSpace( )
-	{
-		return new NameSpace( );
+	public NameSpace getNameSpace() {
+		return new NameSpace();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.namespace.INameContext#findElement
-	 * (java.lang.String,
-	 * org.eclipse.birt.report.model.api.metadata.IElementDefn)
+	 * @see org.eclipse.birt.report.model.core.namespace.INameContext#findElement
+	 * (java.lang.String, org.eclipse.birt.report.model.api.metadata.IElementDefn)
 	 */
-	public DesignElement findElement( String elementName,
-			IElementDefn elementDefn )
-	{
+	public DesignElement findElement(String elementName, IElementDefn elementDefn) {
 		return null;
 	}
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return null;
 	}
 
-	public String getNameSpaceID( )
-	{
+	public String getNameSpaceID() {
 		return "";
 	}
 

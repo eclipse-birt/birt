@@ -16,22 +16,21 @@ import java.util.List;
 
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 
-public interface IDocumentIndexReader extends IDocumentIndexVersion
-{
+public interface IDocumentIndexReader extends IDocumentIndexVersion {
 
-	int getVersion( );
+	int getVersion();
 
-	List<String> getBookmarks( ) throws IOException;
-	
-	List<BookmarkContent> getBookmarkContents( ) throws IOException;
+	List<String> getBookmarks() throws IOException;
 
-	long getPageOfBookmark( String bookmark ) throws IOException;
+	List<BookmarkContent> getBookmarkContents() throws IOException;
 
-	long getOffsetOfBookmark( String bookmark ) throws IOException;
+	long getPageOfBookmark(String bookmark) throws IOException;
 
-	long getOffsetOfInstance( String instanceId ) throws IOException;
+	long getOffsetOfBookmark(String bookmark) throws IOException;
 
-	BookmarkContent getBookmark( String bookmark ) throws IOException;
+	long getOffsetOfInstance(String instanceId) throws IOException;
 
-	void close( ) throws IOException;
+	BookmarkContent getBookmark(String bookmark) throws IOException;
+
+	void close() throws IOException;
 }

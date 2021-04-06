@@ -25,34 +25,36 @@ import org.eclipse.gef.requests.GroupRequest;
  * This is simple implementation of ContainerEditPolicy. Provides a installabel
  * edit policy for all container element
  * 
- *  
+ * 
  */
-public class ReportContainerEditPolicy extends ContainerEditPolicy
-{
+public class ReportContainerEditPolicy extends ContainerEditPolicy {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.ContainerEditPolicy#getCreateCommand(org.eclipse.gef.requests.CreateRequest)
+	 * @see
+	 * org.eclipse.gef.editpolicies.ContainerEditPolicy#getCreateCommand(org.eclipse
+	 * .gef.requests.CreateRequest)
 	 */
-	protected Command getCreateCommand( CreateRequest request )
-	{
+	protected Command getCreateCommand(CreateRequest request) {
 		return null;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.gef.editpolicies.ContainerEditPolicy#getOrphanChildrenCommand(org.eclipse.gef.requests.GroupRequest)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.gef.editpolicies.ContainerEditPolicy#getOrphanChildrenCommand(org
+	 * .eclipse.gef.requests.GroupRequest)
 	 */
-	public Command getOrphanChildrenCommand( GroupRequest request )
-	{
-		List parts = request.getEditParts( );
-		CompoundCommand result = new CompoundCommand( "Move in layout" );//$NON-NLS-1$
-		for ( int i = 0; i < parts.size( ); i++ )
-		{
-			DeleteCommand command = new DeleteCommand( ( (EditPart) parts.get( i ) ).getModel( ) );
-			command.setClear( false );
-			result.add( command );
+	public Command getOrphanChildrenCommand(GroupRequest request) {
+		List parts = request.getEditParts();
+		CompoundCommand result = new CompoundCommand("Move in layout");//$NON-NLS-1$
+		for (int i = 0; i < parts.size(); i++) {
+			DeleteCommand command = new DeleteCommand(((EditPart) parts.get(i)).getModel());
+			command.setClear(false);
+			result.add(command);
 		}
-		return result.unwrap( );
+		return result.unwrap();
 	}
 }

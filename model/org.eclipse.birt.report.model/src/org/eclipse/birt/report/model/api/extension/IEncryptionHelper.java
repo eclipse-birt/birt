@@ -16,26 +16,23 @@ package org.eclipse.birt.report.model.api.extension;
  * encryption and decryption.
  */
 
-public interface IEncryptionHelper
-{
+public interface IEncryptionHelper {
 
 	/**
 	 * Encrypts the given string, and returns the encrypted string.
 	 * 
-	 * @param string
-	 *            the string to encrypt
+	 * @param string the string to encrypt
 	 * @return the encrypted string
 	 */
 
-	public String encrypt( String string );
+	public String encrypt(String string);
 
 	/**
 	 * Decrypts the given encrypted string, and returns the original string.
 	 * 
-	 * @param string
-	 *            the string to decrypt
+	 * @param string the string to decrypt
 	 * @return the original string
 	 */
 
-	public String decrypt( String string );
+	public String decrypt(String string);
 }

@@ -14,19 +14,18 @@ package org.eclipse.birt.report.item.crosstab.core;
 /**
  * IComputedMeasureViewConstants
  */
-public interface IComputedMeasureViewConstants extends IMeasureViewConstants
-{
+public interface IComputedMeasureViewConstants extends IMeasureViewConstants {
 
 	/**
 	 * Name of the property that represents the data type of computed measure.
 	 */
-	//String DATATYPE_PROP = "dataType"; //$NON-NLS-1$
+	// String DATATYPE_PROP = "dataType"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that holds the expression of computed measure.
 	 */
-	//String EXPRESSION_PROP = "expression"; //$NON-NLS-1$
-	
+	// String EXPRESSION_PROP = "expression"; //$NON-NLS-1$
+
 	/**
 	 * Name of the property that refers a measure name.
 	 */

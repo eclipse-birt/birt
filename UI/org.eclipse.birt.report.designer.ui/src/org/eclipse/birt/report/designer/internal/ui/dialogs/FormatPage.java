@@ -18,64 +18,52 @@ import com.ibm.icu.util.ULocale;
 /**
  * FormatPage
  */
-public abstract class FormatPage extends Composite implements IFormatPage
-{
+public abstract class FormatPage extends Composite implements IFormatPage {
 
 	protected FormatLayoutPeer layoutPeer;
 
-	public FormatPage( Composite parent, int style )
-	{
-		super( parent, style );
-	}
-	
-	public void addFormatChangeListener( IFormatChangeListener listener )
-	{
-		layoutPeer.addFormatChangeListener( listener );
-	}
-	
-	public String getCategory( )
-	{
-		return layoutPeer.getCategory( );
+	public FormatPage(Composite parent, int style) {
+		super(parent, style);
 	}
 
-	public String getFormatString( )
-	{
-		return layoutPeer.getFormatString( );
+	public void addFormatChangeListener(IFormatChangeListener listener) {
+		layoutPeer.addFormatChangeListener(listener);
 	}
 
-	public ULocale getLocale( )
-	{
-		return layoutPeer.getLocale( );
+	public String getCategory() {
+		return layoutPeer.getCategory();
 	}
 
-	public String getPattern( )
-	{
-		return layoutPeer.getPattern( );
+	public String getFormatString() {
+		return layoutPeer.getFormatString();
 	}
 
-	public boolean isDirty( )
-	{
-		return layoutPeer.isDirty( );
+	public ULocale getLocale() {
+		return layoutPeer.getLocale();
 	}
 
-	public boolean isFormatModified( )
-	{
-		return layoutPeer.isFormatModified( );
+	public String getPattern() {
+		return layoutPeer.getPattern();
 	}
 
-	public void setInput( String category, String pattern, ULocale formatLocale )
-	{
-		layoutPeer.setInput( category, pattern, formatLocale );
+	public boolean isDirty() {
+		return layoutPeer.isDirty();
 	}
 
-	public void setInput( String formatString )
-	{
-		layoutPeer.setInput( formatString );
+	public boolean isFormatModified() {
+		return layoutPeer.isFormatModified();
 	}
 
-	public void setPreviewText( String text )
-	{
-		layoutPeer.setPreviewText( text );
+	public void setInput(String category, String pattern, ULocale formatLocale) {
+		layoutPeer.setInput(category, pattern, formatLocale);
+	}
+
+	public void setInput(String formatString) {
+		layoutPeer.setInput(formatString);
+	}
+
+	public void setPreviewText(String text) {
+		layoutPeer.setPreviewText(text);
 	}
 
 }

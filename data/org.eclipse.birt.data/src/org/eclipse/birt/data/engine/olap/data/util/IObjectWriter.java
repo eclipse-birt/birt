@@ -17,8 +17,7 @@ import java.io.IOException;
  * 
  */
 
-public interface IObjectWriter
-{
+public interface IObjectWriter {
 
 	/**
 	 * Write a java object to a file.
@@ -27,6 +26,5 @@ public interface IObjectWriter
 	 * @param obj
 	 * @throws IOException
 	 */
-	public void write( BufferedRandomAccessFile file, Object obj )
-			throws IOException;
+	public void write(BufferedRandomAccessFile file, Object obj) throws IOException;
 }

@@ -25,8 +25,7 @@ import org.xml.sax.Attributes;
  * This class parses a theme in the library.
  */
 
-class ReportItemThemeState extends ReportElementState
-{
+class ReportItemThemeState extends ReportElementState {
 
 	/**
 	 * The report item theme being created.
@@ -35,76 +34,59 @@ class ReportItemThemeState extends ReportElementState
 	protected ReportItemTheme element;
 
 	/**
-	 * Constructs the report item theme state with the design parser handler,
-	 * the container element and the container slot of the table row.
+	 * Constructs the report item theme state with the design parser handler, the
+	 * container element and the container slot of the table row.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	ReportItemThemeState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	ReportItemThemeState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 
 	}
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		int tagValue = tagName.toLowerCase( ).hashCode( );
+	public AbstractParseState startElement(String tagName) {
+		int tagValue = tagName.toLowerCase().hashCode();
 
-		if ( ParserSchemaConstants.STYLES_TAG == tagValue )
-			return new StylesState( handler, getElement( ),
-					IAbstractThemeModel.STYLES_SLOT );
-		return super.startElement( tagName );
+		if (ParserSchemaConstants.STYLES_TAG == tagValue)
+			return new StylesState(handler, getElement(), IAbstractThemeModel.STYLES_SLOT);
+		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new ReportItemTheme( );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new ReportItemTheme();
 
-		String type = getAttrib( attrs, DesignSchemaConstants.TYPE_ATTRIB );
-		type = StringUtil.trimString( type );
+		String type = getAttrib(attrs, DesignSchemaConstants.TYPE_ATTRIB);
+		type = StringUtil.trimString(type);
 
-		if ( !ReportItemTheme.isValidType( type ) )
-		{
-			RecoverableError
-					.dealInvalidPropertyValue(
-							handler,
-							new PropertyValueException(
-									element,
-									IReportItemThemeModel.TYPE_PROP,
-									type,
-									PropertyValueException.DESIGN_EXCEPTION_NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE ) );
+		if (!ReportItemTheme.isValidType(type)) {
+			RecoverableError.dealInvalidPropertyValue(handler,
+					new PropertyValueException(element, IReportItemThemeModel.TYPE_PROP, type,
+							PropertyValueException.DESIGN_EXCEPTION_NOT_SUPPORTED_REPORT_ITEM_THEME_TYPE));
 		}
-		setProperty( IReportItemThemeModel.TYPE_PROP, type );
+		setProperty(IReportItemThemeModel.TYPE_PROP, type);
 
-		initElement( attrs, true );
+		initElement(attrs, true);
 	}
 
 }

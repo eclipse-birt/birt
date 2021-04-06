@@ -19,8 +19,7 @@ import org.eclipse.birt.report.engine.api.DataExtractionOption;
  * 
  *
  */
-public class CubeDataExtractionOption extends DataExtractionOption
-{
+public class CubeDataExtractionOption extends DataExtractionOption {
 
 	private static final String EXTRACTOR_ID = "ExtractorId";
 	private static final String CUBE_NAME = "CubeName";
@@ -29,9 +28,8 @@ public class CubeDataExtractionOption extends DataExtractionOption
 	 * 
 	 * @param options
 	 */
-	public CubeDataExtractionOption( Map options )
-	{
-		super( options );
+	public CubeDataExtractionOption(Map options) {
+		super(options);
 	}
 
 	/**
@@ -39,36 +37,32 @@ public class CubeDataExtractionOption extends DataExtractionOption
 	 * @param name
 	 * @return
 	 */
-	public void setCubeName( String name )
-	{
-		setOption( CUBE_NAME, name );
+	public void setCubeName(String name) {
+		setOption(CUBE_NAME, name);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getCubeName( )
-	{
-		return (String) getOption( CUBE_NAME );
+	public String getCubeName() {
+		return (String) getOption(CUBE_NAME);
 	}
 
 	/**
 	 * 
 	 * @param extention
 	 */
-	public void setCubeExtractorId( String extention )
-	{
-		setOption( EXTRACTOR_ID, extention );
+	public void setCubeExtractorId(String extention) {
+		setOption(EXTRACTOR_ID, extention);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getCubeExtractorId( )
-	{
-		return (String) getOption( EXTRACTOR_ID );
+	public String getCubeExtractorId() {
+		return (String) getOption(EXTRACTOR_ID);
 	}
 
 }

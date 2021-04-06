@@ -15,35 +15,34 @@ package org.eclipse.birt.data.engine.olap.data.api.cube;
  * 
  */
 
-public interface ILevelDefn
-{
+public interface ILevelDefn {
 	/**
 	 * 
 	 * @return
 	 */
-	public String getLevelName( );
-	
-	/**
-	 * 
-	 * @return
-	 */
-	public String[] getKeyColumns( );
+	public String getLevelName();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String[] getAttributeColumns( );
-	
-	/**
-	 * 
-	 * @param timeType
-	 */
-	public void setTimeType( String timeType );
-	
+	public String[] getKeyColumns();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public String getTimeType( );
+	public String[] getAttributeColumns();
+
+	/**
+	 * 
+	 * @param timeType
+	 */
+	public void setTimeType(String timeType);
+
+	/**
+	 * 
+	 * @return
+	 */
+	public String getTimeType();
 }

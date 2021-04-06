@@ -7,28 +7,23 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.api.core;
 
 import org.eclipse.birt.report.model.api.ModuleHandle;
 
-
 /**
  * Receives dispose events after one report design is disposed.
  */
 
-public interface IDisposeListener
-{
+public interface IDisposeListener {
 	/**
 	 * Notifies the element is disposed.
 	 * 
-	 * @param targetElement
-	 *            the disposed report design
-	 * @param ev
-	 *            the dispose event
+	 * @param targetElement the disposed report design
+	 * @param ev            the dispose event
 	 */
 
-	public void moduleDisposed( ModuleHandle targetElement,
-			DisposeEvent ev );
+	public void moduleDisposed(ModuleHandle targetElement, DisposeEvent ev);
 }

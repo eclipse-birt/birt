@@ -19,9 +19,7 @@ import javax.olap.cursor.EdgeCursor;
  * 
  */
 
-public class DummyDimensionCursor extends DummyCursorSupport implements
-		DimensionCursor
-{
+public class DummyDimensionCursor extends DummyCursorSupport implements DimensionCursor {
 
 	private long count;
 	private long pos;
@@ -29,76 +27,62 @@ public class DummyDimensionCursor extends DummyCursorSupport implements
 	private long edgeStart = -1;
 	private long edgeEnd = -1;
 
-	public DummyDimensionCursor( long count )
-	{
+	public DummyDimensionCursor(long count) {
 		this.count = count;
 	}
 
-	long getCount( )
-	{
+	long getCount() {
 		return count;
 	}
 
-	public void beforeFirst( ) throws OLAPException
-	{
+	public void beforeFirst() throws OLAPException {
 		pos = 0;
 	}
 
-	public boolean isFirst( ) throws OLAPException
-	{
+	public boolean isFirst() throws OLAPException {
 		return pos == 1;
 	}
 
-	public boolean isLast( ) throws OLAPException
-	{
+	public boolean isLast() throws OLAPException {
 		return pos == count;
 	}
 
-	public boolean next( ) throws OLAPException
-	{
+	public boolean next() throws OLAPException {
 		pos++;
 		return pos <= count;
 	}
 
-	public void setPosition( long position ) throws OLAPException
-	{
+	public void setPosition(long position) throws OLAPException {
 		this.pos = position;
 	}
 
-	public long getPosition( ) throws OLAPException
-	{
+	public long getPosition() throws OLAPException {
 		return pos;
 	}
 
-	public EdgeCursor getEdgeCursor( ) throws OLAPException
-	{
+	public EdgeCursor getEdgeCursor() throws OLAPException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public long getEdgeEnd( ) throws OLAPException
-	{
+	public long getEdgeEnd() throws OLAPException {
 		return edgeEnd;
 	}
 
-	public long getEdgeStart( ) throws OLAPException
-	{
+	public long getEdgeStart() throws OLAPException {
 		return edgeStart;
 	}
 
-	public void setEdgeCursor( EdgeCursor value ) throws OLAPException
-	{
+	public void setEdgeCursor(EdgeCursor value) throws OLAPException {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setEdgeEnd( long value ) throws OLAPException
-	{
+	public void setEdgeEnd(long value) throws OLAPException {
 		edgeEnd = value;
 	}
 
-	public void setEdgeStart( long value ) throws OLAPException
-	{
+	public void setEdgeStart(long value) throws OLAPException {
 		edgeStart = value;
 	}
 

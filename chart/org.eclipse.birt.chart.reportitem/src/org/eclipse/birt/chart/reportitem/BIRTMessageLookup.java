@@ -21,44 +21,38 @@ import com.ibm.icu.util.ULocale;
 /**
  * An {@link IMessageLookup} implementation for use with BIRT report engine.
  */
-public class BIRTMessageLookup implements IMessageLookup
-{
+public class BIRTMessageLookup implements IMessageLookup {
 
 	private IReportContext context;
 
-	public BIRTMessageLookup( IReportContext context )
-	{
+	public BIRTMessageLookup(IReportContext context) {
 		this.context = context;
-		if ( context == null )
-		{
-			throw new IllegalArgumentException( );
+		if (context == null) {
+			throw new IllegalArgumentException();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.String,
-	 *      java.util.Locale)
+	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.
+	 * String, java.util.Locale)
 	 */
-	public String getMessageValue( String sKey, Locale lcl )
-	{
-		return context.getMessage( sKey, lcl );
+	public String getMessageValue(String sKey, Locale lcl) {
+		return context.getMessage(sKey, lcl);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.String,
-	 *      com.ibm.icu.util.ULocale)
+	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.
+	 * String, com.ibm.icu.util.ULocale)
 	 */
-	public String getMessageValue( String sKey, ULocale lcl )
-	{
-		if ( lcl == null )
-		{
-			return context.getMessage( sKey );
+	public String getMessageValue(String sKey, ULocale lcl) {
+		if (lcl == null) {
+			return context.getMessage(sKey);
 		}
-		return context.getMessage( sKey, lcl.toLocale( ) );
+		return context.getMessage(sKey, lcl.toLocale());
 	}
 
 }

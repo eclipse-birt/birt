@@ -16,22 +16,25 @@ import java.util.Locale;
 import com.ibm.icu.util.ULocale;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Number Format Specifier</b></em>'. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Number
+ * Format Specifier</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc -->
- * NumberFormatSpecifier extends FormatSpecifier specially for 
- * formatting numeric values.
- * 			
+ * <!-- begin-model-doc --> NumberFormatSpecifier extends FormatSpecifier
+ * specially for formatting numeric values.
+ * 
  * <!-- end-model-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getPrefix <em>Prefix</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getSuffix <em>Suffix</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier <em>Multiplier</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getPrefix
+ * <em>Prefix</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getSuffix
+ * <em>Suffix</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier
+ * <em>Multiplier</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits
+ * <em>Fraction Digits</em>}</li>
  * </ul>
  * </p>
  *
@@ -39,16 +42,15 @@ import com.ibm.icu.util.ULocale;
  * @model extendedMetaData="name='NumberFormatSpecifier' kind='elementOnly'"
  * @generated
  */
-public interface NumberFormatSpecifier extends FormatSpecifier
-{
+public interface NumberFormatSpecifier extends FormatSpecifier {
 
 	/**
-	 * Returns the value of the '<em><b>Prefix</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Attribute "Prefix" specifies the prefix of the output text.
-	 * 							
+	 * Returns the value of the '<em><b>Prefix</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
+	 * "Prefix" specifies the prefix of the output text.
+	 * 
 	 * <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Prefix</em>' attribute.
 	 * @see #setPrefix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getNumberFormatSpecifier_Prefix()
@@ -56,27 +58,26 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 *        extendedMetaData="kind='element' name='Prefix'"
 	 * @generated
 	 */
-	String getPrefix( );
+	String getPrefix();
 
 	/**
 	 * Sets the value of the '
-	 * {@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getPrefix <em>Prefix</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * {@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getPrefix
+	 * <em>Prefix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param value
-	 *            the new value of the '<em>Prefix</em>' attribute.
+	 * @param value the new value of the '<em>Prefix</em>' attribute.
 	 * @see #getPrefix()
 	 * @generated
 	 */
-	void setPrefix( String value );
+	void setPrefix(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Suffix</b></em>' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * <!-- begin-model-doc -->
-	 * Attribute "Suffix" specifies the suffix of the output text.
-	 * 							
+	 * Returns the value of the '<em><b>Suffix</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc --> Attribute
+	 * "Suffix" specifies the suffix of the output text.
+	 * 
 	 * <!-- end-model-doc -->
+	 * 
 	 * @return the value of the '<em>Suffix</em>' attribute.
 	 * @see #setSuffix(String)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getNumberFormatSpecifier_Suffix()
@@ -84,23 +85,22 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 *        extendedMetaData="kind='element' name='Suffix'"
 	 * @generated
 	 */
-	String getSuffix( );
+	String getSuffix();
 
 	/**
 	 * Sets the value of the '
-	 * {@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getSuffix <em>Suffix</em>}' attribute. <!--
-	 * begin-user-doc --> <!-- end-user-doc -->
+	 * {@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getSuffix
+	 * <em>Suffix</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * 
-	 * @param value
-	 *            the new value of the '<em>Suffix</em>' attribute.
+	 * @param value the new value of the '<em>Suffix</em>' attribute.
 	 * @see #getSuffix()
 	 * @generated
 	 */
-	void setSuffix( String value );
+	void setSuffix(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Multiplier</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc
-	 * --> <!-- begin-model-doc -->
+	 * Returns the value of the '<em><b>Multiplier</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
 	 * 
 	 * Specifies the multiplier.
 	 * 
@@ -111,46 +111,56 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * @see #unsetMultiplier()
 	 * @see #setMultiplier(double)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getNumberFormatSpecifier_Multiplier()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
+	 * @model unique="false" unsettable="true"
+	 *        dataType="org.eclipse.emf.ecore.xml.type.Double" required="true"
 	 * @generated
 	 */
-	double getMultiplier( );
+	double getMultiplier();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier <em>Multiplier</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier
+	 * <em>Multiplier</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @param value the new value of the '<em>Multiplier</em>' attribute.
 	 * @see #isSetMultiplier()
 	 * @see #unsetMultiplier()
 	 * @see #getMultiplier()
 	 * @generated
 	 */
-	void setMultiplier( double value );
+	void setMultiplier(double value);
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier <em>Multiplier</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Unsets the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier
+	 * <em>Multiplier</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @see #isSetMultiplier()
 	 * @see #getMultiplier()
 	 * @see #setMultiplier(double)
 	 * @generated
 	 */
-	void unsetMultiplier( );
+	void unsetMultiplier();
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier <em>Multiplier</em>}' attribute is set.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns whether the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getMultiplier
+	 * <em>Multiplier</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @return whether the value of the '<em>Multiplier</em>' attribute is set.
 	 * @see #unsetMultiplier()
 	 * @see #getMultiplier()
 	 * @see #setMultiplier(double)
 	 * @generated
 	 */
-	boolean isSetMultiplier( );
+	boolean isSetMultiplier();
 
 	/**
-	 * Returns the value of the '<em><b>Fraction Digits</b></em>' attribute. <!-- begin-user-doc --> <!--
-	 * end-user-doc --> <!-- begin-model-doc -->
+	 * Returns the value of the '<em><b>Fraction Digits</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
 	 * 
 	 * Defines the number of fractional digits to be shown.
 	 * 
@@ -161,42 +171,52 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * @see #unsetFractionDigits()
 	 * @see #setFractionDigits(int)
 	 * @see org.eclipse.birt.chart.model.attribute.AttributePackage#getNumberFormatSpecifier_FractionDigits()
-	 * @model unique="false" unsettable="true" dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
+	 * @model unique="false" unsettable="true"
+	 *        dataType="org.eclipse.emf.ecore.xml.type.Int" required="true"
 	 * @generated
 	 */
-	int getFractionDigits( );
+	int getFractionDigits();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits
+	 * <em>Fraction Digits</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @param value the new value of the '<em>Fraction Digits</em>' attribute.
 	 * @see #isSetFractionDigits()
 	 * @see #unsetFractionDigits()
 	 * @see #getFractionDigits()
 	 * @generated
 	 */
-	void setFractionDigits( int value );
+	void setFractionDigits(int value);
 
 	/**
-	 * Unsets the value of the '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Unsets the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits
+	 * <em>Fraction Digits</em>}' attribute. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #isSetFractionDigits()
 	 * @see #getFractionDigits()
 	 * @see #setFractionDigits(int)
 	 * @generated
 	 */
-	void unsetFractionDigits( );
+	void unsetFractionDigits();
 
 	/**
-	 * Returns whether the value of the '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits <em>Fraction Digits</em>}' attribute is set.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns whether the value of the
+	 * '{@link org.eclipse.birt.chart.model.attribute.NumberFormatSpecifier#getFractionDigits
+	 * <em>Fraction Digits</em>}' attribute is set. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @return whether the value of the '<em>Fraction Digits</em>' attribute is set.
 	 * @see #unsetFractionDigits()
 	 * @see #getFractionDigits()
 	 * @see #setFractionDigits(int)
 	 * @generated
 	 */
-	boolean isSetFractionDigits( );
+	boolean isSetFractionDigits();
 
 	/**
 	 * Formats a value using the internally defined format specifier rules
@@ -206,7 +226,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * @return A formatted string representation of the numerical value provided
 	 * @deprecated
 	 */
-	String format( double dValue, Locale lo );
+	String format(double dValue, Locale lo);
 
 	/**
 	 * Formats a value using the internally defined format specifier rules
@@ -216,7 +236,7 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * @return A formatted string representation of the numerical value provided
 	 * @since 2.1
 	 */
-	String format( double dValue, ULocale lo );
+	String format(double dValue, ULocale lo);
 
 	/**
 	 * Returns a formatted string representation of specified number.
@@ -226,11 +246,11 @@ public interface NumberFormatSpecifier extends FormatSpecifier
 	 * @return
 	 * @since 2.6
 	 */
-	String format( Number number, ULocale lo );
+	String format(Number number, ULocale lo);
 
 	/**
 	 * @generated
 	 */
-	NumberFormatSpecifier copyInstance( );
+	NumberFormatSpecifier copyInstance();
 
 } // NumberFormatSpecifier

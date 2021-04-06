@@ -33,52 +33,36 @@ import org.eclipse.gef.EditPartFactory;
  * @see org.eclipse.gef.EditPartFactory
  * 
  */
-public class GraphicalEditPartsFactory implements EditPartFactory
-{
+public class GraphicalEditPartsFactory implements EditPartFactory {
 
-	public EditPart createEditPart( EditPart context, Object model )
-	{
-		if ( model instanceof TabularHierarchyHandle )
-		{
-			return new HierarchyNodeEditPart( context,
-					(TabularHierarchyHandle) model );
+	public EditPart createEditPart(EditPart context, Object model) {
+		if (model instanceof TabularHierarchyHandle) {
+			return new HierarchyNodeEditPart(context, (TabularHierarchyHandle) model);
 		}
 
-		if ( model instanceof ResultSetColumnHandle )
-		{
-			if ( context instanceof DatasetNodeEditPart )
-			{
-				return new ColumnEditPart( context,
-						(ResultSetColumnHandle) model );
-			}
-			else if ( context instanceof HierarchyNodeEditPart )
-			{
-				return new HierarchyColumnEditPart( context,
-						(ResultSetColumnHandle) model );
-			}
-			else
+		if (model instanceof ResultSetColumnHandle) {
+			if (context instanceof DatasetNodeEditPart) {
+				return new ColumnEditPart(context, (ResultSetColumnHandle) model);
+			} else if (context instanceof HierarchyNodeEditPart) {
+				return new HierarchyColumnEditPart(context, (ResultSetColumnHandle) model);
+			} else
 				return null;
 		}
 
-		if ( model instanceof TabularCubeHandle )
-		{
-			return new CubeEditPart( context, (TabularCubeHandle) model );
+		if (model instanceof TabularCubeHandle) {
+			return new CubeEditPart(context, (TabularCubeHandle) model);
 		}
 
-		if ( model instanceof DataSetHandle )
-		{
-			return new DatasetNodeEditPart( context, (DataSetHandle) model );
+		if (model instanceof DataSetHandle) {
+			return new DatasetNodeEditPart(context, (DataSetHandle) model);
 		}
 
-		if ( model instanceof DimensionJoinConditionHandle )
-		{
-			return new JoinConditionEditPart( context,
-					(DimensionJoinConditionHandle) model );
+		if (model instanceof DimensionJoinConditionHandle) {
+			return new JoinConditionEditPart(context, (DimensionJoinConditionHandle) model);
 		}
 
-		if ( model instanceof LevelAttributeHandle )
-		{
-			return new AttributeEditPart( context, (LevelAttributeHandle) model );
+		if (model instanceof LevelAttributeHandle) {
+			return new AttributeEditPart(context, (LevelAttributeHandle) model);
 		}
 
 		return null;

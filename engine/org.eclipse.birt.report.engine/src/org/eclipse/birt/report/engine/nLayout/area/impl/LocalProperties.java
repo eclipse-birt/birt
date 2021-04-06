@@ -10,9 +10,8 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.nLayout.area.impl;
 
-public class LocalProperties
-{
-	public final static LocalProperties DEFAULT = new LocalProperties( );
+public class LocalProperties {
+	public final static LocalProperties DEFAULT = new LocalProperties();
 
 	protected int marginLeft = 0;
 
@@ -30,83 +29,67 @@ public class LocalProperties
 
 	protected int paddingRight = 0;
 
-	public int getMarginLeft( )
-	{
+	public int getMarginLeft() {
 		return marginLeft;
 	}
 
-	public void setMarginLeft( int marginLeft )
-	{
+	public void setMarginLeft(int marginLeft) {
 		this.marginLeft = marginLeft;
 	}
 
-	public int getMarginRight( )
-	{
+	public int getMarginRight() {
 		return marginRight;
 	}
 
-	public void setMarginRight( int marginRight )
-	{
+	public void setMarginRight(int marginRight) {
 		this.marginRight = marginRight;
 	}
 
-	public int getMarginBottom( )
-	{
+	public int getMarginBottom() {
 		return marginBottom;
 	}
 
-	public void setMarginBottom( int marginBottom )
-	{
+	public void setMarginBottom(int marginBottom) {
 		this.marginBottom = marginBottom;
 	}
 
-	public int getMarginTop( )
-	{
+	public int getMarginTop() {
 		return marginTop;
 	}
 
-	public void setMarginTop( int marginTop )
-	{
+	public void setMarginTop(int marginTop) {
 		this.marginTop = marginTop;
 	}
 
-	public int getPaddingTop( )
-	{
+	public int getPaddingTop() {
 		return paddingTop;
 	}
 
-	public void setPaddingTop( int paddingTop )
-	{
+	public void setPaddingTop(int paddingTop) {
 		this.paddingTop = paddingTop;
 	}
 
-	public int getPaddingBottom( )
-	{
+	public int getPaddingBottom() {
 		return paddingBottom;
 	}
 
-	public void setPaddingBottom( int paddingBottom )
-	{
+	public void setPaddingBottom(int paddingBottom) {
 		this.paddingBottom = paddingBottom;
 	}
 
-	public int getPaddingLeft( )
-	{
+	public int getPaddingLeft() {
 		return paddingLeft;
 	}
 
-	public void setPaddingLeft( int paddingLeft )
-	{
+	public void setPaddingLeft(int paddingLeft) {
 		this.paddingLeft = paddingLeft;
 	}
 
-	public int getPaddingRight( )
-	{
+	public int getPaddingRight() {
 		return paddingRight;
 	}
 
-	public void setPaddingRight( int paddingRight )
-	{
+	public void setPaddingRight(int paddingRight) {
 		this.paddingRight = paddingRight;
 	}
 }

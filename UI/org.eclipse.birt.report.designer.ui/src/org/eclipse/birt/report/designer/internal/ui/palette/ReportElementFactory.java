@@ -16,8 +16,7 @@ import org.eclipse.gef.requests.CreationFactory;
 /**
  * Returns type of element wants created.
  */
-public class ReportElementFactory implements CreationFactory
-{
+public class ReportElementFactory implements CreationFactory {
 
 	private Object elementName;
 	private Object newObject;
@@ -27,8 +26,7 @@ public class ReportElementFactory implements CreationFactory
 	 * 
 	 * @param name
 	 */
-	public ReportElementFactory( Object name )
-	{
+	public ReportElementFactory(Object name) {
 		elementName = name;
 	}
 
@@ -37,8 +35,7 @@ public class ReportElementFactory implements CreationFactory
 	 * 
 	 * @param name
 	 */
-	public ReportElementFactory( Object name, Object newObject )
-	{
+	public ReportElementFactory(Object name, Object newObject) {
 		this.elementName = name;
 		this.newObject = newObject;
 	}
@@ -48,8 +45,7 @@ public class ReportElementFactory implements CreationFactory
 	 * 
 	 * @see org.eclipse.gef.requests.CreationFactory#getNewObject()
 	 */
-	public Object getNewObject( )
-	{
+	public Object getNewObject() {
 		return newObject;
 	}
 
@@ -58,8 +54,7 @@ public class ReportElementFactory implements CreationFactory
 	 * 
 	 * @see org.eclipse.gef.requests.CreationFactory#getObjectType()
 	 */
-	public Object getObjectType( )
-	{
+	public Object getObjectType() {
 		return elementName;
 	}
 

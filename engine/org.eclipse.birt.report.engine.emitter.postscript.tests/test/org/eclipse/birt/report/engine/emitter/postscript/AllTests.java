@@ -11,27 +11,23 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.emitter.postscript;
 
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
-
 
 /**
  * 
  */
 
-public class AllTests
-{
+public class AllTests {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for org.eclipse.birt.report.engine.emitter.pdf" );
-		//$JUnit-BEGIN$
-		
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for org.eclipse.birt.report.engine.emitter.pdf");
+		// $JUnit-BEGIN$
+
 		/* in package: org.eclipse.birt.report.engine.emitter.pdf */
-		suite.addTestSuite( org.eclipse.birt.report.engine.emitter.postscript.PostScriptRenderTest.class );
-		
-		//$JUnit-END$
+		suite.addTestSuite(org.eclipse.birt.report.engine.emitter.postscript.PostScriptRenderTest.class);
+
+		// $JUnit-END$
 		return suite;
 	}
 

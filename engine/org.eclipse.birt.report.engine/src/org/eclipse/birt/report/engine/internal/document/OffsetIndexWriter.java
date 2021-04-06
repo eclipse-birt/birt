@@ -15,49 +15,39 @@ import java.io.File;
 import java.io.IOException;
 import java.io.RandomAccessFile;
 
-public class OffsetIndexWriter
-{
+public class OffsetIndexWriter {
 
 	protected String indexFile;
 	protected RandomAccessFile index;
 	protected long maxOffset;
 
-	public OffsetIndexWriter( String indexFile )
-	{
+	public OffsetIndexWriter(String indexFile) {
 		this.indexFile = indexFile;
 	}
 
-	public void open( ) throws IOException
-	{
-		File file = new File( indexFile );
-		File parent = file.getParentFile( );
-		if ( parent != null && !parent.exists( ) )
-		{
-			parent.mkdirs( );
+	public void open() throws IOException {
+		File file = new File(indexFile);
+		File parent = file.getParentFile();
+		if (parent != null && !parent.exists()) {
+			parent.mkdirs();
 		}
-		index = new RandomAccessFile( file, "rw" );
+		index = new RandomAccessFile(file, "rw");
 		maxOffset = -1;
 	}
 
-	public void close( )
-	{
-		if ( index != null )
-		{
-			try
-			{
-				index.close( );
-			}
-			catch ( Exception ex )
-			{
+	public void close() {
+		if (index != null) {
+			try {
+				index.close();
+			} catch (Exception ex) {
 			}
 		}
 	}
 
-	public void write( long offset, long value ) throws IOException
-	{
-		assert ( offset > maxOffset );
-		index.writeLong( offset );
-		index.writeLong( value );
+	public void write(long offset, long value) throws IOException {
+		assert (offset > maxOffset);
+		index.writeLong(offset);
+		index.writeLong(value);
 		maxOffset = offset;
 	}
 }

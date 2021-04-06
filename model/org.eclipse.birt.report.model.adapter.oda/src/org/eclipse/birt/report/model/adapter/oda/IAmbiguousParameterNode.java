@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.api.OdaDataSetParameterHandle;
  * data set parameter handle and a list of <code>IAmbiguousAttribute</code>.
  * 
  */
-public interface IAmbiguousParameterNode
-{
+public interface IAmbiguousParameterNode {
 
 	/**
 	 * Gets the oda data set parameter handle that has ambiguous information
@@ -29,7 +28,7 @@ public interface IAmbiguousParameterNode
 	 * 
 	 * @return
 	 */
-	OdaDataSetParameterHandle getOdaDataSetParameterHandle( );
+	OdaDataSetParameterHandle getOdaDataSetParameterHandle();
 
 	/**
 	 * Gets a list of ambiguous attributes in the given oda data set parameter
@@ -37,5 +36,5 @@ public interface IAmbiguousParameterNode
 	 * 
 	 * @return
 	 */
-	List<IAmbiguousAttribute> getAmbiguousAttributes( );
+	List<IAmbiguousAttribute> getAmbiguousAttributes();
 }

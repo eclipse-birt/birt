@@ -21,8 +21,7 @@ import org.eclipse.birt.core.exception.BirtException;
  * 
  */
 
-public class MathUtil
-{
+public class MathUtil {
 
 	private static final MathContext MATH_CONTEXT = MathContext.DECIMAL128;
 
@@ -38,12 +37,8 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final Number add( Object obj1, Object obj2 )
-			throws BirtException
-	{
-		return doOp( populateOprand( obj1 ),
-				populateOprand( obj2 ),
-				Operator.ADD );
+	public static final Number add(Object obj1, Object obj2) throws BirtException {
+		return doOp(populateOprand(obj1), populateOprand(obj2), Operator.ADD);
 	}
 
 	/**
@@ -53,12 +48,8 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final Number subtract( Object obj1, Object obj2 )
-			throws BirtException
-	{
-		return doOp( populateOprand( obj1 ),
-				populateOprand( obj2 ),
-				Operator.SUBTRACT );
+	public static final Number subtract(Object obj1, Object obj2) throws BirtException {
+		return doOp(populateOprand(obj1), populateOprand(obj2), Operator.SUBTRACT);
 	}
 
 	/**
@@ -68,12 +59,8 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final Number multiply( Object obj1, Object obj2 )
-			throws BirtException
-	{
-		return doOp( populateOprand( obj1 ),
-				populateOprand( obj2 ),
-				Operator.MULTIPLY );
+	public static final Number multiply(Object obj1, Object obj2) throws BirtException {
+		return doOp(populateOprand(obj1), populateOprand(obj2), Operator.MULTIPLY);
 	}
 
 	/**
@@ -83,12 +70,8 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final Number divide( Object dividend, Object divisor )
-			throws BirtException
-	{
-		return doOp( populateOprand( dividend ),
-				populateOprand( divisor ),
-				Operator.DIVIDE );
+	public static final Number divide(Object dividend, Object divisor) throws BirtException {
+		return doOp(populateOprand(dividend), populateOprand(divisor), Operator.DIVIDE);
 
 	}
 
@@ -100,21 +83,15 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final Object safeDivide( Object dividend, Object divisor,
-			Object ifZero ) throws BirtException
-	{
-		try
-		{
-			Object ret = divide( dividend, divisor );
-			if ( ret instanceof Double )
-			{
+	public static final Object safeDivide(Object dividend, Object divisor, Object ifZero) throws BirtException {
+		try {
+			Object ret = divide(dividend, divisor);
+			if (ret instanceof Double) {
 				Double d = (Double) ret;
-				return Double.isNaN( d ) || Double.isInfinite( d ) ? ifZero : ret;
+				return Double.isNaN(d) || Double.isInfinite(d) ? ifZero : ret;
 			}
 			return ret;
-		}
-		catch ( ArithmeticException e )
-		{
+		} catch (ArithmeticException e) {
 			return ifZero;
 		}
 	}
@@ -124,9 +101,8 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final int compareTo0( Object number ) throws BirtException
-	{
-		return compare( number, 0 );
+	public static final int compareTo0(Object number) throws BirtException {
+		return compare(number, 0);
 	}
 
 	/**
@@ -134,32 +110,21 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final int compare( Object number1, Object number2 )
-			throws BirtException
-	{
-		assert ( number1 != null && number2 != null );
+	public static final int compare(Object number1, Object number2) throws BirtException {
+		assert (number1 != null && number2 != null);
 
-		if ( number1 instanceof BigDecimal )
-		{
-			if ( number2 instanceof BigDecimal )
-			{
-				return ( (BigDecimal) number1 ).compareTo( (BigDecimal) number2 );
+		if (number1 instanceof BigDecimal) {
+			if (number2 instanceof BigDecimal) {
+				return ((BigDecimal) number1).compareTo((BigDecimal) number2);
+			} else {
+				return ((BigDecimal) number1).compareTo(new BigDecimal(DataTypeUtil.toDouble(number2)));
 			}
-			else
-			{
-				return ( (BigDecimal) number1 ).compareTo( new BigDecimal( DataTypeUtil.toDouble( number2 ) ) );
-			}
-		}
-		else
-		{
-			Double d1 = DataTypeUtil.toDouble( number1 );
-			if ( number2 instanceof BigDecimal )
-			{
-				return ( new BigDecimal( DataTypeUtil.toDouble( d1 ) ) ).compareTo( (BigDecimal) number2 );
-			}
-			else
-			{
-				return d1.compareTo( DataTypeUtil.toDouble( number2 ) );
+		} else {
+			Double d1 = DataTypeUtil.toDouble(number1);
+			if (number2 instanceof BigDecimal) {
+				return (new BigDecimal(DataTypeUtil.toDouble(d1))).compareTo((BigDecimal) number2);
+			} else {
+				return d1.compareTo(DataTypeUtil.toDouble(number2));
 			}
 		}
 	}
@@ -169,17 +134,13 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final Number abs( Object number ) throws BirtException
-	{
-		assert ( number != null );
+	public static final Number abs(Object number) throws BirtException {
+		assert (number != null);
 
-		if ( number instanceof BigDecimal )
-		{
-			return ( (BigDecimal) number ).abs( );
-		}
-		else
-		{
-			return Math.abs( DataTypeUtil.toDouble( number ) );
+		if (number instanceof BigDecimal) {
+			return ((BigDecimal) number).abs();
+		} else {
+			return Math.abs(DataTypeUtil.toDouble(number));
 		}
 	}
 
@@ -188,17 +149,13 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final Number negate( Object number ) throws BirtException
-	{
-		assert ( number != null );
+	public static final Number negate(Object number) throws BirtException {
+		assert (number != null);
 
-		if ( number instanceof BigDecimal )
-		{
-			return ( (BigDecimal) number ).negate( );
-		}
-		else
-		{
-			return DataTypeUtil.toDouble( number ) * ( -1 );
+		if (number instanceof BigDecimal) {
+			return ((BigDecimal) number).negate();
+		} else {
+			return DataTypeUtil.toDouble(number) * (-1);
 		}
 	}
 
@@ -210,17 +167,14 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	public static final Number toNumber( Object obj1 ) throws BirtException
-	{
-		if ( obj1 == null )
-		{
+	public static final Number toNumber(Object obj1) throws BirtException {
+		if (obj1 == null) {
 			return null;
 		}
-		if ( obj1 instanceof BigDecimal )
-		{
+		if (obj1 instanceof BigDecimal) {
 			return (BigDecimal) obj1;
 		}
-		return DataTypeUtil.toDouble( obj1 );
+		return DataTypeUtil.toDouble(obj1);
 	}
 
 	/**
@@ -231,17 +185,13 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	private static final Number doOp( Object obj1, Object obj2, Operator op )
-			throws BirtException
-	{
-		if ( obj1 instanceof BigDecimal )
-			return doOp( (BigDecimal) obj1, obj2, op );
-		if ( obj2 instanceof BigDecimal )
-			return doOp( obj1, (BigDecimal) obj2, op );
+	private static final Number doOp(Object obj1, Object obj2, Operator op) throws BirtException {
+		if (obj1 instanceof BigDecimal)
+			return doOp((BigDecimal) obj1, obj2, op);
+		if (obj2 instanceof BigDecimal)
+			return doOp(obj1, (BigDecimal) obj2, op);
 
-		return doOp( DataTypeUtil.toDouble( obj1 ),
-				DataTypeUtil.toDouble( obj2 ),
-				op );
+		return doOp(DataTypeUtil.toDouble(obj1), DataTypeUtil.toDouble(obj2), op);
 	}
 
 	/**
@@ -252,17 +202,15 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	private static final Number doOp( BigDecimal op1, BigDecimal op2,
-			Operator op ) throws BirtException
-	{
-		if ( op == Operator.ADD )
-			return op1.add( op2 );
-		if ( op == Operator.SUBTRACT )
-			return op1.subtract( op2 );
-		if ( op == Operator.MULTIPLY )
-			return op1.multiply( op2 );
-		if ( op == Operator.DIVIDE )
-			return op1.divide( op2, MATH_CONTEXT );
+	private static final Number doOp(BigDecimal op1, BigDecimal op2, Operator op) throws BirtException {
+		if (op == Operator.ADD)
+			return op1.add(op2);
+		if (op == Operator.SUBTRACT)
+			return op1.subtract(op2);
+		if (op == Operator.MULTIPLY)
+			return op1.multiply(op2);
+		if (op == Operator.DIVIDE)
+			return op1.divide(op2, MATH_CONTEXT);
 		return null;
 	}
 
@@ -274,10 +222,8 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	private static final Number doOp( Object op1, BigDecimal op2, Operator op )
-			throws BirtException
-	{
-		return doOp( DataTypeUtil.toBigDecimal( op1 ), op2, op );
+	private static final Number doOp(Object op1, BigDecimal op2, Operator op) throws BirtException {
+		return doOp(DataTypeUtil.toBigDecimal(op1), op2, op);
 	}
 
 	/**
@@ -288,10 +234,8 @@ public class MathUtil
 	 * @return
 	 * @throws BirtException
 	 */
-	private static final Number doOp( BigDecimal op1, Object op2, Operator op )
-			throws BirtException
-	{
-		return doOp( op1, DataTypeUtil.toBigDecimal( op2 ), op );
+	private static final Number doOp(BigDecimal op1, Object op2, Operator op) throws BirtException {
+		return doOp(op1, DataTypeUtil.toBigDecimal(op2), op);
 	}
 
 	/**
@@ -300,17 +244,16 @@ public class MathUtil
 	 * @param d2
 	 * @return
 	 */
-	private static Number doOp( Double d1, Double d2, Operator op )
-	{
-		if ( op == Operator.SUBTRACT )
+	private static Number doOp(Double d1, Double d2, Operator op) {
+		if (op == Operator.SUBTRACT)
 			return d1 - d2;
-		if ( op == Operator.ADD )
+		if (op == Operator.ADD)
 			return d1 + d2;
 
-		if ( op == Operator.MULTIPLY )
+		if (op == Operator.MULTIPLY)
 			return d1 * d2;
 
-		if ( op == Operator.DIVIDE )
+		if (op == Operator.DIVIDE)
 			return d1 / d2;
 
 		return null;
@@ -320,9 +263,8 @@ public class MathUtil
 	 * @param obj
 	 * @return
 	 */
-	private static Object populateOprand( Object obj )
-	{
-		return obj != null ? obj : new Double( 0 );
+	private static Object populateOprand(Object obj) {
+		return obj != null ? obj : new Double(0);
 	}
 
 }

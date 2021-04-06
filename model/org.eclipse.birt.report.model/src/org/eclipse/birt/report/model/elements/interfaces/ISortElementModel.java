@@ -14,12 +14,11 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * Defines constants for SortElement.
  */
-public interface ISortElementModel
-{
+public interface ISortElementModel {
 
 	/**
-	 * Name of the "key" member. An expression that gives the sort key on which
-	 * to sort.
+	 * Name of the "key" member. An expression that gives the sort key on which to
+	 * sort.
 	 */
 
 	String KEY_PROP = "key"; //$NON-NLS-1$

@@ -20,17 +20,13 @@ import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
  * 
  * @since 2.5
  */
-public abstract class AbstractContextExpressionProvider implements
-		IContextExpressionProvider
-{
+public abstract class AbstractContextExpressionProvider implements IContextExpressionProvider {
 
-	public ExpressionFilter getExpressionFilter( String contextName )
-	{
+	public ExpressionFilter getExpressionFilter(String contextName) {
 		return null;
 	}
 
-	public IExpressionProvider getExpressionProvider( String contextName )
-	{
+	public IExpressionProvider getExpressionProvider(String contextName) {
 		return null;
 	}
 

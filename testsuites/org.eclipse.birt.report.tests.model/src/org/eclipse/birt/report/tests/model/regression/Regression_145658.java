@@ -29,45 +29,38 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * first.
  * <p>
  */
-public class Regression_145658 extends BaseTestCase
-{
+public class Regression_145658 extends BaseTestCase {
 
 	private final static String REPORT = "regression_145658.xml"; //$NON-NLS-1$
 	private final static String LIBRARY = "regression_145658_lib.xml";
+
 	/**
 	 * @throws DesignFileException
 	 * @throws ExtendsException
 	 */
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + REPORT );
-		copyInputToFile ( INPUT_FOLDER + "/" + LIBRARY );
-	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
-	}
-	
-	public void test_regression_145658( ) throws DesignFileException,
-			ExtendsException
-	{
-		openDesign( REPORT );
-		LibraryHandle lib = designHandle.getLibrary( "regression_145658_lib" ); //$NON-NLS-1$
-		TableHandle table = (TableHandle) lib.findElement( "NewTable" ); //$NON-NLS-1$
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		TableHandle newTable = (TableHandle) factory.newElementFrom(
-				table,
-				null );
+		copyInputToFile(INPUT_FOLDER + "/" + REPORT);
+		copyInputToFile(INPUT_FOLDER + "/" + LIBRARY);
+	}
 
-		TableGroupHandle group = (TableGroupHandle) newTable.getGroups( ).get(
-				0 );
-		assertEquals( "NewTableGroup1", group.getName( ) ); //$NON-NLS-1$
+	public void tearDown() {
+		removeResource();
+	}
+
+	public void test_regression_145658() throws DesignFileException, ExtendsException {
+		openDesign(REPORT);
+		LibraryHandle lib = designHandle.getLibrary("regression_145658_lib"); //$NON-NLS-1$
+		TableHandle table = (TableHandle) lib.findElement("NewTable"); //$NON-NLS-1$
+
+		ElementFactory factory = designHandle.getElementFactory();
+		TableHandle newTable = (TableHandle) factory.newElementFrom(table, null);
+
+		TableGroupHandle group = (TableGroupHandle) newTable.getGroups().get(0);
+		assertEquals("NewTableGroup1", group.getName()); //$NON-NLS-1$
 
 	}
 }

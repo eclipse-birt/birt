@@ -16,8 +16,7 @@ package org.eclipse.birt.report.model.api.extension;
  * extension.
  */
 
-public interface IChoiceDefinition
-{
+public interface IChoiceDefinition {
 
 	/**
 	 * Returns the resource key for localized display name of this choice.
@@ -25,7 +24,7 @@ public interface IChoiceDefinition
 	 * @return the resource key for localized display name of this choice.
 	 */
 
-	String getDisplayNameID( );
+	String getDisplayNameID();
 
 	/**
 	 * Returns the non-localized, internal version of the choice.
@@ -33,14 +32,14 @@ public interface IChoiceDefinition
 	 * @return the non-localized internal choice value
 	 */
 
-	String getName( );
+	String getName();
 
 	/**
-	 * Returns the value to which this choice corresponds. For example, a color
-	 * may have a name and a value that is an RGB value. The value is optional.
+	 * Returns the value to which this choice corresponds. For example, a color may
+	 * have a name and a value that is an RGB value. The value is optional.
 	 * 
 	 * @return the value that this choice represents
 	 */
 
-	Object getValue( );
+	Object getValue();
 }

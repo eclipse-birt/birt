@@ -14,22 +14,25 @@ package org.eclipse.birt.report.designer.ui.templates;
 /**
  * ITemplateProvider
  */
-public interface ITemplateProvider
-{
+public interface ITemplateProvider {
 
-	/**Gets the provider ID.
+	/**
+	 * Gets the provider ID.
+	 * 
 	 * @return
 	 */
-	String getParentBaseName( );
+	String getParentBaseName();
 
-	/**Gets the entries.
+	/**
+	 * Gets the entries.
+	 * 
 	 * @return
 	 */
-	ITemplateEntry[] getTemplates( );
-	
-	 /**
-     * Release the resources allocated if applicable.
-     */
-    void release();
+	ITemplateEntry[] getTemplates();
+
+	/**
+	 * Release the resources allocated if applicable.
+	 */
+	void release();
 
 }

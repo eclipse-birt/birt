@@ -25,8 +25,7 @@ import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 /**
  * SeriesRenderingHints
  */
-public class SeriesRenderingHints implements ISeriesRenderingHints
-{
+public class SeriesRenderingHints implements ISeriesRenderingHints {
 
 	private int iDataSetStructure = UNDEFINED;
 
@@ -38,7 +37,7 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 
 	private final PlotWithoutAxes pwoa;
 
-	private final static IGObjectFactory goFactory = GObjectFactory.instance( );
+	private final static IGObjectFactory goFactory = GObjectFactory.instance();
 
 	/**
 	 * The constructor.
@@ -48,99 +47,68 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 	 * @param dsiBase
 	 * @param dsiOrthogonal
 	 */
-	SeriesRenderingHints( PlotWithoutAxes pwoa, DataPointHints[] dpha,
-			DataSetIterator dsiBase, DataSetIterator dsiOrthogonal )
-	{
+	SeriesRenderingHints(PlotWithoutAxes pwoa, DataPointHints[] dpha, DataSetIterator dsiBase,
+			DataSetIterator dsiOrthogonal) {
 		this.pwoa = pwoa;
 		this.dpha = dpha;
 		this.dsiBase = dsiBase;
 		this.dsiOrthogonal = dsiOrthogonal;
 
 		// DEFINE THE DATA SET STRUCTURES
-		if ( dsiBase.size( ) != dsiOrthogonal.size( ) )
-		{
+		if (dsiBase.size() != dsiOrthogonal.size()) {
 			iDataSetStructure |= BASE_ORTHOGONAL_OUT_OF_SYNC;
-		}
-		else
-		{
+		} else {
 			iDataSetStructure = BASE_ORTHOGONAL_IN_SYNC;
 		}
-		if ( dsiBase.isEmpty( ) )
-		{
+		if (dsiBase.isEmpty()) {
 			iDataSetStructure |= BASE_EMPTY;
 		}
-		if ( dsiOrthogonal.isEmpty( ) )
-		{
+		if (dsiOrthogonal.isEmpty()) {
 			iDataSetStructure |= ORTHOGONAL_EMPTY;
 		}
 	}
 
-	public final DataPointHints[] getDataPoints( )
-	{
+	public final DataPointHints[] getDataPoints() {
 		return dpha;
 	}
 
-	public final Double[] asDoubleValues( ) throws ChartException
-	{
+	public final Double[] asDoubleValues() throws ChartException {
 		final int iCount = dpha.length;
 		final Double[] doa = new Double[iCount];
 		NumberDataElement nde;
 		Object o;
 
-		for ( int i = 0; i < iCount; i++ )
-		{
-			o = dpha[i].getOrthogonalValue( );
-			if ( o instanceof NumberDataElement )
-			{
+		for (int i = 0; i < iCount; i++) {
+			o = dpha[i].getOrthogonalValue();
+			if (o instanceof NumberDataElement) {
 				nde = (NumberDataElement) o;
-				doa[i] = new Double( nde.getValue( ) );
-			}
-			else if ( o == null )
-			{
+				doa[i] = new Double(nde.getValue());
+			} else if (o == null) {
 				doa[i] = null;
-			}
-			else
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.DATA_FORMAT,
+			} else {
+				throw new ChartException(ChartEnginePlugin.ID, ChartException.DATA_FORMAT,
 						"exception.dataset.non.numerical.to.numerical", //$NON-NLS-1$
-						new Object[]{
-							o
-						},
-						Messages.getResourceBundle( pwoa.getRunTimeContext( )
-								.getULocale( ) ) );
+						new Object[] { o }, Messages.getResourceBundle(pwoa.getRunTimeContext().getULocale()));
 			}
 		}
 		return doa;
 	}
 
-	public final double[] asPrimitiveDoubleValues( ) throws ChartException
-	{
+	public final double[] asPrimitiveDoubleValues() throws ChartException {
 		final int iCount = dpha.length;
 		final double[] doa = new double[iCount];
 		Object o;
 
-		for ( int i = 0; i < iCount; i++ )
-		{
-			o = dpha[i].getOrthogonalValue( );
-			if ( o instanceof Number )
-			{
-				doa[i] = ( (Number) o ).doubleValue( );
-			}
-			else if ( o == null )
-			{
+		for (int i = 0; i < iCount; i++) {
+			o = dpha[i].getOrthogonalValue();
+			if (o instanceof Number) {
+				doa[i] = ((Number) o).doubleValue();
+			} else if (o == null) {
 				doa[i] = Double.NaN;
-			}
-			else
-			{
-				throw new ChartException( ChartEnginePlugin.ID,
-						ChartException.DATA_FORMAT,
+			} else {
+				throw new ChartException(ChartEnginePlugin.ID, ChartException.DATA_FORMAT,
 						"exception.dataset.non.numerical.to.numerical", //$NON-NLS-1$
-						new Object[]{
-							o
-						},
-						Messages.getResourceBundle( pwoa.getRunTimeContext( )
-								.getULocale( ) ) );
+						new Object[] { o }, Messages.getResourceBundle(pwoa.getRunTimeContext().getULocale()));
 			}
 		}
 		return doa;
@@ -149,10 +117,10 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getDataSetStructure()
+	 * @see
+	 * org.eclipse.birt.chart.render.ISeriesRenderingHints#getDataSetStructure()
 	 */
-	public int getDataSetStructure( )
-	{
+	public int getDataSetStructure() {
 		return iDataSetStructure;
 	}
 
@@ -161,32 +129,30 @@ public class SeriesRenderingHints implements ISeriesRenderingHints
 	 * 
 	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getBaseDataSet()
 	 */
-	public DataSetIterator getBaseDataSet( )
-	{
+	public DataSetIterator getBaseDataSet() {
 		return dsiBase;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getOrthogonalDataSet()
+	 * @see
+	 * org.eclipse.birt.chart.render.ISeriesRenderingHints#getOrthogonalDataSet()
 	 */
-	public DataSetIterator getOrthogonalDataSet( )
-	{
+	public DataSetIterator getOrthogonalDataSet() {
 		return dsiOrthogonal;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getClientAreaBounds(boolean)
+	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getClientAreaBounds(
+	 * boolean)
 	 */
-	public Bounds getClientAreaBounds( boolean bReduceByInsets )
-	{
-		final Bounds boClientArea = goFactory.copyOf( pwoa.getPlotBounds( ) );
-		if ( bReduceByInsets )
-		{
-			boClientArea.adjust( pwoa.getPlotInsets( ) );
+	public Bounds getClientAreaBounds(boolean bReduceByInsets) {
+		final Bounds boClientArea = goFactory.copyOf(pwoa.getPlotBounds());
+		if (bReduceByInsets) {
+			boClientArea.adjust(pwoa.getPlotInsets());
 		}
 		return boClientArea;
 	}

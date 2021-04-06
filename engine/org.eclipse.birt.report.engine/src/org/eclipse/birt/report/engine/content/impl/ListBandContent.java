@@ -7,34 +7,25 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IListBandContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 
-public class ListBandContent extends AbstractBandContent
-		implements
-			IListBandContent
-{
-	
-	ListBandContent(IListBandContent listBand)
-	{
+public class ListBandContent extends AbstractBandContent implements IListBandContent {
+
+	ListBandContent(IListBandContent listBand) {
 		super(listBand);
 	}
-	
-	ListBandContent( IReportContent report )
-	{
-		super( report );
+
+	ListBandContent(IReportContent report) {
+		super(report);
 	}
-	
-	public int getContentType( )
-	{
+
+	public int getContentType() {
 		return LIST_BAND_CONTENT;
 	}
-	
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitListBand( this, value );
+
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitListBand(this, value);
 	}
-	
-	protected IContent cloneContent()
-	{
+
+	protected IContent cloneContent() {
 		return new ListBandContent(this);
 	}
 }

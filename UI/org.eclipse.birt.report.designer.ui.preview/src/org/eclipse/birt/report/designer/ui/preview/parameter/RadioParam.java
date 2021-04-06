@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
  * Delegant of Radio-button Parameter
  * 
  */
-public class RadioParam extends ListingParam
-{
+public class RadioParam extends ListingParam {
 
 	/**
 	 * Constructor.
@@ -28,10 +27,8 @@ public class RadioParam extends ListingParam
 	 * @param handle
 	 * @param engineTask
 	 */
-	public RadioParam( ScalarParameterHandle handle, IEngineTask engineTask )
-	{
-		super( handle, engineTask );
+	public RadioParam(ScalarParameterHandle handle, IEngineTask engineTask) {
+		super(handle, engineTask);
 	}
 
-	
 }

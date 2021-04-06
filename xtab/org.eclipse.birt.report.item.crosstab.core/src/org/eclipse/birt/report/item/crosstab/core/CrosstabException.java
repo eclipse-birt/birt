@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class CrosstabException extends SemanticException
-{
+public class CrosstabException extends SemanticException {
 
 	/**
 	 * 
@@ -38,10 +37,8 @@ public class CrosstabException extends SemanticException
 	 * @param errCode
 	 * @param cause
 	 */
-	public CrosstabException( DesignElement element, String errCode,
-			Throwable cause )
-	{
-		super( element, errCode, cause );
+	public CrosstabException(DesignElement element, String errCode, Throwable cause) {
+		super(element, errCode, cause);
 		this.pluginId = CROSSTAB_PLUGIN_ID;
 	}
 
@@ -49,9 +46,8 @@ public class CrosstabException extends SemanticException
 	 * @param element
 	 * @param errCode
 	 */
-	public CrosstabException( DesignElement element, String errCode )
-	{
-		super( element, errCode );
+	public CrosstabException(DesignElement element, String errCode) {
+		super(element, errCode);
 		this.pluginId = CROSSTAB_PLUGIN_ID;
 	}
 
@@ -61,10 +57,8 @@ public class CrosstabException extends SemanticException
 	 * @param errCode
 	 * @param cause
 	 */
-	public CrosstabException( DesignElement element, String[] values,
-			String errCode, Throwable cause )
-	{
-		super( element, values, errCode, cause );
+	public CrosstabException(DesignElement element, String[] values, String errCode, Throwable cause) {
+		super(element, values, errCode, cause);
 		this.pluginId = CROSSTAB_PLUGIN_ID;
 	}
 
@@ -73,24 +67,17 @@ public class CrosstabException extends SemanticException
 	 * @param values
 	 * @param errCode
 	 */
-	public CrosstabException( DesignElement element, String[] values,
-			String errCode )
-	{
-		super( element, values, errCode );
+	public CrosstabException(DesignElement element, String[] values, String errCode) {
+		super(element, values, errCode);
 		this.pluginId = CROSSTAB_PLUGIN_ID;
 	}
 
-	public CrosstabException( Throwable cause )
-	{
-		super( CROSSTAB_PLUGIN_ID,
-				cause.getLocalizedMessage( ),
-				(Object[]) null,
-				cause );
+	public CrosstabException(Throwable cause) {
+		super(CROSSTAB_PLUGIN_ID, cause.getLocalizedMessage(), (Object[]) null, cause);
 	}
 
-	public CrosstabException( String errorMsg )
-	{
-		super( CROSSTAB_PLUGIN_ID, errorMsg, null );
+	public CrosstabException(String errorMsg) {
+		super(CROSSTAB_PLUGIN_ID, errorMsg, null);
 	}
 
 }

@@ -19,13 +19,11 @@ import org.eclipse.ui.dialogs.ElementTreeSelectionDialog;
 /**
  * BaseElementTreeSelectionDialog
  */
-public class BaseElementTreeSelectionDialog extends ElementTreeSelectionDialog
-{
+public class BaseElementTreeSelectionDialog extends ElementTreeSelectionDialog {
 
-	public BaseElementTreeSelectionDialog( Shell parent,
-			ILabelProvider labelProvider, ITreeContentProvider contentProvider )
-	{
-		super( parent, labelProvider, contentProvider );
-		setHelpAvailable( false );
+	public BaseElementTreeSelectionDialog(Shell parent, ILabelProvider labelProvider,
+			ITreeContentProvider contentProvider) {
+		super(parent, labelProvider, contentProvider);
+		setHelpAvailable(false);
 	}
 }

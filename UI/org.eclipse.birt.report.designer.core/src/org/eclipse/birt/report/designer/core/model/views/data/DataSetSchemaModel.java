@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
  * Prosents the column nodes on data explorer view.
  */
 
-public class DataSetSchemaModel
-{
+public class DataSetSchemaModel {
 
 	private DataSetHandle dataSetHandle;
 
@@ -26,36 +25,39 @@ public class DataSetSchemaModel
 
 	/**
 	 * Constructor
+	 * 
 	 * @param dataSetHandle
 	 * @param schemaName
 	 */
-	public DataSetSchemaModel( DataSetHandle dataSetHandle, String schemaName )
-	{
+	public DataSetSchemaModel(DataSetHandle dataSetHandle, String schemaName) {
 		this.dataSetHandle = dataSetHandle;
 		this.schemaName = schemaName;
 	}
 
-	/** Get dataset handle
+	/**
+	 * Get dataset handle
+	 * 
 	 * @return Data set handle
 	 */
-	public DataSetHandle getDataSetHandle( )
-	{
+	public DataSetHandle getDataSetHandle() {
 		return dataSetHandle;
 	}
 
-	/** Get schema name
+	/**
+	 * Get schema name
+	 * 
 	 * @return Returns the schmma name.
 	 */
-	public String getSchemaName( )
-	{
+	public String getSchemaName() {
 		return schemaName;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
+	public String toString() {
 		return schemaName;
 	}
 }

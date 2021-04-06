@@ -15,27 +15,22 @@ import org.eclipse.birt.report.engine.extension.IPreparationContext;
 import org.eclipse.birt.report.engine.extension.IReportItemPreparationInfo;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
-public class ReportItemPreparationInfo implements IReportItemPreparationInfo
-{
+public class ReportItemPreparationInfo implements IReportItemPreparationInfo {
 
 	DesignElementHandle handle;
 
 	IPreparationContext context;
 
-	public ReportItemPreparationInfo( DesignElementHandle handle,
-			IPreparationContext context )
-	{
+	public ReportItemPreparationInfo(DesignElementHandle handle, IPreparationContext context) {
 		this.handle = handle;
 		this.context = context;
 	}
 
-	public DesignElementHandle getModelObject( )
-	{
+	public DesignElementHandle getModelObject() {
 		return handle;
 	}
 
-	public IPreparationContext getPreparationContext( )
-	{
+	public IPreparationContext getPreparationContext() {
 		return context;
 	}
 }

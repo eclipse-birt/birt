@@ -49,7 +49,8 @@ import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
  * <dl>
  * <dt><strong>Grid </strong></dt>
  * <dd>a tabular layout with a fixed set of columns and variable number of rows.
- * (Contrast this with a matrix that can have a variable number of columns.)</dd>
+ * (Contrast this with a matrix that can have a variable number of
+ * columns.)</dd>
  * 
  * <dt><strong>Column </strong></dt>
  * <dd>a vertical slice though the grid. Columns help organize the layout, but
@@ -90,15 +91,11 @@ import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
  * 
  */
 
-public class GridItem extends ReportItem
-		implements
-			IGridItemModel,
-			ISupportThemeElement
-{
+public class GridItem extends ReportItem implements IGridItemModel, ISupportThemeElement {
 
 	/**
-	 * Caches the column, the key is the cell id and the value is the column
-	 * where the cell locates in.
+	 * Caches the column, the key is the cell id and the value is the column where
+	 * the cell locates in.
 	 */
 	private Map<Long, TableColumn> cachedColumn = null;
 
@@ -106,36 +103,31 @@ public class GridItem extends ReportItem
 	 * Default Constructor.
 	 */
 
-	public GridItem( )
-	{
-		super( );
-		initSlots( );
+	public GridItem() {
+		super();
+		initSlots();
 	}
 
 	/**
 	 * Constructs the grid with the name for it.
 	 * 
-	 * @param theName
-	 *            the optional name of the grid
+	 * @param theName the optional name of the grid
 	 */
 
-	public GridItem( String theName )
-	{
-		super( theName );
-		initSlots( );
+	public GridItem(String theName) {
+		super(theName);
+		initSlots();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitGrid( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitGrid(this);
 	}
 
 	/*
@@ -144,38 +136,32 @@ public class GridItem extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.GRID_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design for the grid
+	 * @param module the report design for the grid
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public GridHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new GridHandle( module, this );
+	public GridHandle handle(Module module) {
+		if (handle == null) {
+			handle = new GridHandle(module, this);
 		}
 		return (GridHandle) handle;
 	}
@@ -186,52 +172,45 @@ public class GridItem extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	public ContainerSlot getSlot( int slot )
-	{
-		assert ( slot >= 0 && slot < SLOT_COUNT );
+	public ContainerSlot getSlot(int slot) {
+		assert (slot >= 0 && slot < SLOT_COUNT);
 		return slots[slot];
 	}
 
 	/**
-	 * Computes the number of columns in the Grid. The number is defined as the
-	 * sum of columns describe in the Columns slot.
+	 * Computes the number of columns in the Grid. The number is defined as the sum
+	 * of columns describe in the Columns slot.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return the number of columns in the Grid
 	 */
 
-	public int getColumnCount( Module module )
-	{
+	public int getColumnCount(Module module) {
 		// Method 1: sum columns in the column slot.
 
-		int colCount = getColDefnCount( module );
-		if ( colCount != 0 )
+		int colCount = getColDefnCount(module);
+		if (colCount != 0)
 			return colCount;
 
 		// Method 2: find the widest row.
 
-		return findMaxCols( module );
+		return findMaxCols(module);
 	}
 
 	/**
 	 * Gets the number of columns described in the column definition section.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return the number of columns described by column definitions
 	 */
 
-	public int getColDefnCount( Module module )
-	{
+	public int getColDefnCount(Module module) {
 		int colCount = 0;
-		ContainerSlot cols = getSlot( COLUMN_SLOT );
-		int colDefnCount = cols.getCount( );
-		for ( int i = 0; i < colDefnCount; i++ )
-		{
-			TableColumn col = (TableColumn) cols.getContent( i );
-			colCount += col.getIntProperty( module,
-					ITableColumnModel.REPEAT_PROP );
+		ContainerSlot cols = getSlot(COLUMN_SLOT);
+		int colDefnCount = cols.getCount();
+		for (int i = 0; i < colDefnCount; i++) {
+			TableColumn col = (TableColumn) cols.getContent(i);
+			colCount += col.getIntProperty(module, ITableColumnModel.REPEAT_PROP);
 		}
 		return colCount;
 	}
@@ -241,43 +220,38 @@ public class GridItem extends ReportItem
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ReportItem#cacheValues()
 	 */
-	public void cacheValues( )
-	{
-		ContainerSlot columnSlot = getSlot( IGridItemModel.COLUMN_SLOT );
-		if ( columnSlot.getCount( ) == 0 )
+	public void cacheValues() {
+		ContainerSlot columnSlot = getSlot(IGridItemModel.COLUMN_SLOT);
+		if (columnSlot.getCount() == 0)
 			return;
 
-		Module module = getRoot( );
-		cachedColumn = new HashMap<Long, TableColumn>( );
+		Module module = getRoot();
+		cachedColumn = new HashMap<Long, TableColumn>();
 
 		// The array which caches the table column in the grid, if the column
 		// repeat this array will record accordingly.
 
-		TableColumn[] cachedColumnArray = ColumnHelper.getTableColumnArray(
-				module, columnSlot );
+		TableColumn[] cachedColumnArray = ColumnHelper.getTableColumnArray(module, columnSlot);
 
-		ContainerSlot rowSlot = getSlot( IGridItemModel.ROW_SLOT );
+		ContainerSlot rowSlot = getSlot(IGridItemModel.ROW_SLOT);
 
-		List<Cell> list = CellHelper.getCells( rowSlot );
+		List<Cell> list = CellHelper.getCells(rowSlot);
 
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			Cell cell = list.get( i );
+		for (int i = 0; i < list.size(); i++) {
+			Cell cell = list.get(i);
 
-			int columnNum = getCellPositionInColumn( module, cell );
+			int columnNum = getCellPositionInColumn(module, cell);
 
 			assert columnNum > 0;
 
-			TableColumn column = ColumnHelper.getColumnInArray(
-					cachedColumnArray, columnNum );
+			TableColumn column = ColumnHelper.getColumnInArray(cachedColumnArray, columnNum);
 
 			// if the column could be found accroding to the column number of
 			// the cell,
 			// then cache it.
 
-			if ( column != null )
-			{
-				cachedColumn.put( Long.valueOf( cell.getID( ) ), column );
+			if (column != null) {
+				cachedColumn.put(Long.valueOf(cell.getID()), column);
 
 			}
 
@@ -287,21 +261,18 @@ public class GridItem extends ReportItem
 	/**
 	 * Finds the maximum column width for this grid.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return the maximum number of columns
 	 */
 
-	public int findMaxCols( Module module )
-	{
-		ContainerSlot rows = getSlot( ROW_SLOT );
+	public int findMaxCols(Module module) {
+		ContainerSlot rows = getSlot(ROW_SLOT);
 		int maxCols = 0;
-		int count = rows.getCount( );
-		for ( int i = 0; i < count; i++ )
-		{
-			TableRow row = (TableRow) rows.getContent( i );
-			int cols = row.getColumnCount( module );
-			if ( cols > maxCols )
+		int count = rows.getCount();
+		for (int i = 0; i < count; i++) {
+			TableRow row = (TableRow) rows.getContent(i);
+			int cols = row.getColumnCount(module);
+			if (cols > maxCols)
 				maxCols = cols;
 		}
 		return maxCols;
@@ -310,88 +281,76 @@ public class GridItem extends ReportItem
 	/**
 	 * Gets column in grid item according to the cell.
 	 * 
-	 * @param module
-	 *            the module.
-	 * @param columnSlot
-	 *            the column slot.
-	 * @param target
-	 *            the cell.
+	 * @param module     the module.
+	 * @param columnSlot the column slot.
+	 * @param target     the cell.
 	 * @return the column.
 	 */
-	public TableColumn getColumn( Module module, ContainerSlot columnSlot,
-			Cell target )
-	{
+	public TableColumn getColumn(Module module, ContainerSlot columnSlot, Cell target) {
 		// in preview mode, we should cache the relationship between the cell
 		// and column using cell id and column number as key for performance
 		// issue. as for the UI mode, we should avoid to cache.
 
-		if ( module.isCached( ) )
-		{
-			if ( cachedColumn == null )
+		if (module.isCached()) {
+			if (cachedColumn == null)
 				return null;
 
-			return cachedColumn.get( Long.valueOf( target.getID( ) ) );
+			return cachedColumn.get(Long.valueOf(target.getID()));
 
 		}
-		int columnNum = getCellPositionInColumn( module, target );
+		int columnNum = getCellPositionInColumn(module, target);
 
 		assert columnNum > 0;
 
-		return ColumnHelper.findColumn( module, columnSlot, columnNum );
+		return ColumnHelper.findColumn(module, columnSlot, columnNum);
 
 	}
 
 	/**
-	 * Returns the column number for the cell that has no "column" property
-	 * defined.
+	 * Returns the column number for the cell that has no "column" property defined.
 	 * 
-	 * @param module
-	 *            the report design
-	 * @param target
-	 *            the cell to find
+	 * @param module the report design
+	 * @param target the cell to find
 	 * 
 	 * @return the column position
 	 */
 
-	public int getCellPositionInColumn( Module module, Cell target )
-	{
-		int pos = target.getColumn( module );
-		if ( pos > 0 )
+	public int getCellPositionInColumn(Module module, Cell target) {
+		int pos = target.getColumn(module);
+		if (pos > 0)
 			return pos;
 
 		// the first column is 1.
 
 		pos = 1;
 
-		TableRow row = (TableRow) target.getContainer( );
-		List<DesignElement> list = row.getContentsSlot( );
+		TableRow row = (TableRow) target.getContainer();
+		List<DesignElement> list = row.getContentsSlot();
 
-		for ( Iterator<DesignElement> iter = list.iterator( ); iter.hasNext( ); )
-		{
-			Cell cell = (Cell) iter.next( );
-			int cellPos = cell.getColumn( module );
-			if ( cellPos > 0 )
+		for (Iterator<DesignElement> iter = list.iterator(); iter.hasNext();) {
+			Cell cell = (Cell) iter.next();
+			int cellPos = cell.getColumn(module);
+			if (cellPos > 0)
 				pos = cellPos;
 
-			if ( cell == target )
+			if (cell == target)
 				break;
 
-			pos = pos + cell.getColSpan( module );
+			pos = pos + cell.getColSpan(module);
 
 		}
 
-		//calculating spanned rows - see eclipse bug 423106
+		// calculating spanned rows - see eclipse bug 423106
 		int cellRowNum = getRowNumber(row);
-		ContainerSlot rows = getSlot( ROW_SLOT );
-		for ( int currRowNum = 0; currRowNum < rows.getCount(); currRowNum++ )
-		{
-			TableRow currRow = (TableRow) rows.getContent( currRowNum );
-			if (row == currRow)	
+		ContainerSlot rows = getSlot(ROW_SLOT);
+		for (int currRowNum = 0; currRowNum < rows.getCount(); currRowNum++) {
+			TableRow currRow = (TableRow) rows.getContent(currRowNum);
+			if (row == currRow)
 				break;
-			List<DesignElement> cells = currRow.getContentsSlot( );
+			List<DesignElement> cells = currRow.getContentsSlot();
 			if (cells == null)
 				continue;
-			
+
 			int maxSize = Math.min(pos, cells.size());
 			for (int j = 0; j < maxSize; j++) {
 				Cell cell = (Cell) cells.get(j);
@@ -399,23 +358,22 @@ public class GridItem extends ReportItem
 					pos++;
 			}
 		}
-		
+
 		return pos;
 	}
-	
+
 	/**
 	 * 
-	 * Returns the number of the row in a grid 
+	 * Returns the number of the row in a grid
 	 * 
-	 * @param row
-	 * 			row to find
+	 * @param row row to find
 	 * @return row position
 	 */
 	private int getRowNumber(TableRow row) {
-		ContainerSlot rows = getSlot( ROW_SLOT );
-		for ( int i = 0; i < rows.getCount(); i++ ) {
+		ContainerSlot rows = getSlot(ROW_SLOT);
+		for (int i = 0; i < rows.getCount(); i++) {
 			TableRow curr = (TableRow) rows.getContent(i);
-			if (curr == row) 
+			if (curr == row)
 				return ++i;
 		}
 		return 0;
@@ -424,17 +382,14 @@ public class GridItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
-		list.addAll( InconsistentColumnsValidator.getInstance( ).validate(
-				module, this ) );
+		list.addAll(InconsistentColumnsValidator.getInstance().validate(module, this));
 
 		return list;
 	}
@@ -442,19 +397,16 @@ public class GridItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getDisplayLabel(org.
 	 * eclipse.birt.report.model.elements.ReportDesign, int)
 	 */
 
-	public String getDisplayLabel( Module module, int level )
-	{
-		String displayLabel = super.getDisplayLabel( module, level );
-		if ( level == IDesignElementModel.FULL_LABEL )
-		{
-			GridHandle handle = handle( module );
-			int rows = handle.getRows( ).getCount( );
-			int cols = handle.getColumns( ).getCount( );
+	public String getDisplayLabel(Module module, int level) {
+		String displayLabel = super.getDisplayLabel(module, level);
+		if (level == IDesignElementModel.FULL_LABEL) {
+			GridHandle handle = handle(module);
+			int rows = handle.getRows().getCount();
+			int cols = handle.getColumns().getCount();
 			displayLabel += "(" + rows + " x " + cols + ")"; //$NON-NLS-1$//$NON-NLS-2$//$NON-NLS-3$
 		}
 		return displayLabel;
@@ -463,15 +415,12 @@ public class GridItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.ReferencableStyledElement#doClone(
+	 * @see org.eclipse.birt.report.model.core.ReferencableStyledElement#doClone(
 	 * org.eclipse.birt.report.model.elements.strategy.CopyPolicy)
 	 */
 
-	public Object doClone( CopyPolicy policy )
-			throws CloneNotSupportedException
-	{
-		GridItem clonedGrid = (GridItem) super.doClone( policy );
+	public Object doClone(CopyPolicy policy) throws CloneNotSupportedException {
+		GridItem clonedGrid = (GridItem) super.doClone(policy);
 		clonedGrid.cachedColumn = null;
 
 		return clonedGrid;

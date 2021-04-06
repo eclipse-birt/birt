@@ -26,7 +26,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class NestedTablesSingleColumnGridReportTest extends ReportRunner {
-	
+
 	@Test
 	public void testRunReport() throws BirtException, IOException {
 
@@ -34,13 +34,13 @@ public class NestedTablesSingleColumnGridReportTest extends ReportRunner {
 		InputStream inputStream = runAndRenderReport("NestedTablesSingleColumnGrid.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
-			
+
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Nested Tables Test Report", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Nested Tables Test Report", workbook.getSheetAt(0).getSheetName());
+
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals(10, firstNullRow(sheet));
 		} finally {
@@ -54,13 +54,13 @@ public class NestedTablesSingleColumnGridReportTest extends ReportRunner {
 		InputStream inputStream = runAndRenderReport("NestedTablesSingleColumnGrid.rptdesign", "xls");
 		assertNotNull(inputStream);
 		try {
-			
+
 			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Nested Tables Test Report", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Nested Tables Test Report", workbook.getSheetAt(0).getSheetName());
+
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals(10, firstNullRow(sheet));
 		} finally {

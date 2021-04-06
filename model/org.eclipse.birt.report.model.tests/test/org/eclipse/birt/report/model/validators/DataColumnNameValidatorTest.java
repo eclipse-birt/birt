@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  */
 
-public class DataColumnNameValidatorTest extends BaseTestCase
-{
+public class DataColumnNameValidatorTest extends BaseTestCase {
 
 	/**
 	 * Test validate method.
@@ -31,35 +30,30 @@ public class DataColumnNameValidatorTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testValidate( ) throws Exception
-	{
-		openDesign( "DataColumnNameValidatorTest.xml" ); //$NON-NLS-1$
-		DataItemHandle datawithBind = (DataItemHandle) designHandle
-				.getElementByID( 146l );
-		DataItemHandle datawithoutBind = (DataItemHandle) designHandle
-				.getElementByID( 110l );
+	public void testValidate() throws Exception {
+		openDesign("DataColumnNameValidatorTest.xml"); //$NON-NLS-1$
+		DataItemHandle datawithBind = (DataItemHandle) designHandle.getElementByID(146l);
+		DataItemHandle datawithoutBind = (DataItemHandle) designHandle.getElementByID(110l);
 
-		List result = DataColumnNameValidator.getInstance( ).validate(
-				designHandle.getModule( ), datawithBind.getElement( ) );
-		assertEquals( 0, result.size( ) );
+		List result = DataColumnNameValidator.getInstance().validate(designHandle.getModule(),
+				datawithBind.getElement());
+		assertEquals(0, result.size());
 
-		result = DataColumnNameValidator.getInstance( ).validate(
-				designHandle.getModule( ), datawithoutBind.getElement( ) );
-		assertEquals( 0, result.size( ) );
+		result = DataColumnNameValidator.getInstance().validate(designHandle.getModule(), datawithoutBind.getElement());
+		assertEquals(0, result.size());
 
 	}
 
 	/**
-	 * Tests validate column name in grid,if the data item locates in grid. see
-	 * bug 244914
+	 * Tests validate column name in grid,if the data item locates in grid. see bug
+	 * 244914
 	 * 
 	 * @throws Exception
 	 */
-	public void testValidateColumnNameInGrid( ) throws Exception
-	{
-		openDesign( "DataColumnNameValidatorTest_2.xml" ); //$NON-NLS-1$
+	public void testValidateColumnNameInGrid() throws Exception {
+		openDesign("DataColumnNameValidatorTest_2.xml"); //$NON-NLS-1$
 
-		assertEquals( 0, designHandle.getErrorList( ).size( ) );
+		assertEquals(0, designHandle.getErrorList().size());
 
 	}
 
@@ -68,15 +62,13 @@ public class DataColumnNameValidatorTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testDataInInnerTable( ) throws Exception
-	{
-		openDesign( "DataColumnNameValidatorTest_1.xml" ); //$NON-NLS-1$
-		DataItemHandle datawithBind = (DataItemHandle) designHandle
-				.findElement( "test_data" ); //$NON-NLS-1$
+	public void testDataInInnerTable() throws Exception {
+		openDesign("DataColumnNameValidatorTest_1.xml"); //$NON-NLS-1$
+		DataItemHandle datawithBind = (DataItemHandle) designHandle.findElement("test_data"); //$NON-NLS-1$
 
-		List result = DataColumnNameValidator.getInstance( ).validate(
-				designHandle.getModule( ), datawithBind.getElement( ) );
-		assertEquals( 0, result.size( ) );
+		List result = DataColumnNameValidator.getInstance().validate(designHandle.getModule(),
+				datawithBind.getElement());
+		assertEquals(0, result.size());
 	}
 
 	/**
@@ -85,11 +77,10 @@ public class DataColumnNameValidatorTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	public void testValidateColumnNameInTemplate( ) throws Exception
-	{
-		openDesign( "ValidateColumnNameInTemplateTest.xml" ); //$NON-NLS-1$
+	public void testValidateColumnNameInTemplate() throws Exception {
+		openDesign("ValidateColumnNameInTemplateTest.xml"); //$NON-NLS-1$
 
-		assertEquals( 0, designHandle.getErrorList( ).size( ) );
+		assertEquals(0, designHandle.getErrorList().size());
 	}
 
 }

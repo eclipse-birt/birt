@@ -23,27 +23,22 @@ import org.eclipse.jface.viewers.TreeViewer;
  * 
  */
 
-public class ParameterDropListener extends DesignerDropListener
-{
+public class ParameterDropListener extends DesignerDropListener {
 
-	public ParameterDropListener( TreeViewer viewer )
-	{
-		super( viewer );
+	public ParameterDropListener(TreeViewer viewer) {
+		super(viewer);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.DesignerDropListener#validateTarget(java.lang.Object,
-	 *      java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.dnd.
+	 * DesignerDropListener#validateTarget(java.lang.Object, java.lang.Object)
 	 */
-	protected boolean validateTarget( Object target, Object transfer )
-	{
-		if ( target instanceof DataSetHandle
-				|| target instanceof CascadingParameterGroupHandle
-				|| ( target instanceof ScalarParameterHandle && ( (ScalarParameterHandle) target )
-						.getContainer( ) instanceof CascadingParameterGroupHandle )	)
-		{
+	protected boolean validateTarget(Object target, Object transfer) {
+		if (target instanceof DataSetHandle || target instanceof CascadingParameterGroupHandle
+				|| (target instanceof ScalarParameterHandle
+						&& ((ScalarParameterHandle) target).getContainer() instanceof CascadingParameterGroupHandle)) {
 			return false;
 		}
 //		if ( target instanceof ReportElementModel )
@@ -55,18 +50,16 @@ public class ParameterDropListener extends DesignerDropListener
 //			}
 //			return true;
 //		}
-		
-		if ( target instanceof SlotHandle )
-		{
+
+		if (target instanceof SlotHandle) {
 			SlotHandle model = (SlotHandle) target;
-			if ( model.getSlotID( ) == ModuleHandle.DATA_SET_SLOT )
-			{
+			if (model.getSlotID() == ModuleHandle.DATA_SET_SLOT) {
 				return false;
 			}
 			return true;
 		}
-		
-		return super.validateTarget( target, transfer );
+
+		return super.validateTarget(target, transfer);
 	}
 
 }

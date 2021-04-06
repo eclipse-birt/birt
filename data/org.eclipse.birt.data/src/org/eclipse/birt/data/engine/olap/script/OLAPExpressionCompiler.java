@@ -24,27 +24,19 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public class OLAPExpressionCompiler
-{
+public class OLAPExpressionCompiler {
 	/**
 	 * 
 	 * @param cx
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	public static void compile( ScriptContext cx, IBaseExpression expr ) throws DataException
-	{
-		if ( expr instanceof IConditionalExpression )
-		{
-			prepareScriptExpression( cx,
-					( (IConditionalExpression) expr ).getExpression( ) );
-			prepareScriptExpression( cx,
-					( (IConditionalExpression) expr ).getOperand1( ) );
-			prepareScriptExpression( cx,
-					( (IConditionalExpression) expr ).getOperand2( ) );
-		}
-		else if ( expr instanceof IScriptExpression )
-		{
-			prepareScriptExpression( cx, (IScriptExpression) expr );
+	public static void compile(ScriptContext cx, IBaseExpression expr) throws DataException {
+		if (expr instanceof IConditionalExpression) {
+			prepareScriptExpression(cx, ((IConditionalExpression) expr).getExpression());
+			prepareScriptExpression(cx, ((IConditionalExpression) expr).getOperand1());
+			prepareScriptExpression(cx, ((IConditionalExpression) expr).getOperand2());
+		} else if (expr instanceof IScriptExpression) {
+			prepareScriptExpression(cx, (IScriptExpression) expr);
 		}
 	}
 
@@ -52,38 +44,25 @@ public class OLAPExpressionCompiler
 	 * 
 	 * @param cx
 	 * @param expr1
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	private static void prepareScriptExpression( ScriptContext cx,
-			IBaseExpression expr1 ) throws DataException
-	{
+	private static void prepareScriptExpression(ScriptContext cx, IBaseExpression expr1) throws DataException {
 		try {
-			
-		if ( expr1 == null )
-			return;
-		if ( expr1 instanceof IScriptExpression )
-		{
-				String exprText = ( (IScriptExpression) expr1 ).getText( );
-				if ( expr1.getHandle( ) == null
-						&& !( BaseExpression.constantId.equals( expr1.getScriptId( ) ) ) )
-					expr1.setHandle( new OLAPExpressionHandler( cx.compile( expr1.getScriptId( ),
-							null,
-							0,
-							exprText ) ) );
-		}
-		else if ( expr1 instanceof IExpressionCollection )
-		{
-			Object[] exprs =  ( (IExpressionCollection) expr1 ).getExpressions( ).toArray( );
-			for ( int i = 0; i <exprs.length; i++ )
-			{
-				prepareScriptExpression( cx,
-						(IBaseExpression)exprs[i] );
+
+			if (expr1 == null)
+				return;
+			if (expr1 instanceof IScriptExpression) {
+				String exprText = ((IScriptExpression) expr1).getText();
+				if (expr1.getHandle() == null && !(BaseExpression.constantId.equals(expr1.getScriptId())))
+					expr1.setHandle(new OLAPExpressionHandler(cx.compile(expr1.getScriptId(), null, 0, exprText)));
+			} else if (expr1 instanceof IExpressionCollection) {
+				Object[] exprs = ((IExpressionCollection) expr1).getExpressions().toArray();
+				for (int i = 0; i < exprs.length; i++) {
+					prepareScriptExpression(cx, (IBaseExpression) exprs[i]);
+				}
 			}
-		}
-		}
-		catch (BirtException e)
-		{
-			throw DataException.wrap( e );
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
 }

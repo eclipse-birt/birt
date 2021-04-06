@@ -24,23 +24,19 @@ import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
  * anywhere.
  */
 
-public class FreeFormHandle extends ReportItemHandle implements IFreeFormModel
-{
+public class FreeFormHandle extends ReportItemHandle implements IFreeFormModel {
 
 	/**
-	 * Constructs a free-form handle with the given design and the free-from.
-	 * The application generally does not create handles directly. Instead, it
-	 * uses one of the navigation methods available on other element handles.
+	 * Constructs a free-form handle with the given design and the free-from. The
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public FreeFormHandle( Module module, FreeForm element )
-	{
-		super( module, element );
+	public FreeFormHandle(Module module, FreeForm element) {
+		super(module, element);
 	}
 
 	/**
@@ -50,120 +46,104 @@ public class FreeFormHandle extends ReportItemHandle implements IFreeFormModel
 	 * @see SlotHandle
 	 */
 
-	public SlotHandle getReportItems( )
-	{
-		return getSlot( IFreeFormModel.REPORT_ITEMS_SLOT );
+	public SlotHandle getReportItems() {
+		return getSlot(IFreeFormModel.REPORT_ITEMS_SLOT);
 	}
 
 	/**
-	 * Increases the z-index of the given element by 1. If the element is not in
-	 * the freeform, do nothing.
+	 * Increases the z-index of the given element by 1. If the element is not in the
+	 * freeform, do nothing.
 	 * 
-	 * @param content
-	 *            the element
+	 * @param content the element
 	 * @throws SemanticException
 	 */
 
-	public void bringForward( ReportItemHandle content )
-			throws SemanticException
-	{
-		if ( content == null )
+	public void bringForward(ReportItemHandle content) throws SemanticException {
+		if (content == null)
 			return;
-		if ( !content.getElement( ).isContentOf( getElement( ) ) )
+		if (!content.getElement().isContentOf(getElement()))
 			return;
 
-		int zIndex = content.getZIndex( );
-		if ( zIndex < getMaximalZIndex( ) )
-			content.setZIndex( zIndex + 1 );
+		int zIndex = content.getZIndex();
+		if (zIndex < getMaximalZIndex())
+			content.setZIndex(zIndex + 1);
 	}
 
 	/**
-	 * Reduces the z-index of the given element that resides in the freeform. If
-	 * the element is not in the freeform, do nothing.
+	 * Reduces the z-index of the given element that resides in the freeform. If the
+	 * element is not in the freeform, do nothing.
 	 * 
-	 * @param content
-	 *            the element
+	 * @param content the element
 	 * @throws SemanticException
 	 */
 
-	public void sendBackward( ReportItemHandle content )
-			throws SemanticException
-	{
-		if ( content == null )
+	public void sendBackward(ReportItemHandle content) throws SemanticException {
+		if (content == null)
 			return;
-		if ( !content.getElement( ).isContentOf( getElement( ) ) )
+		if (!content.getElement().isContentOf(getElement()))
 			return;
 
-		int zIndex = content.getZIndex( );
-		if ( zIndex == 0 )
+		int zIndex = content.getZIndex();
+		if (zIndex == 0)
 			return;
-		content.setZIndex( zIndex - 1 );
+		content.setZIndex(zIndex - 1);
 	}
 
 	/**
-	 * Increases the z-index of the given element so that the element will have
-	 * the maximal z-index value. If the element is not in the freeform, do
-	 * nothing.
+	 * Increases the z-index of the given element so that the element will have the
+	 * maximal z-index value. If the element is not in the freeform, do nothing.
 	 * 
-	 * @param content
-	 *            the element
+	 * @param content the element
 	 * @throws SemanticException
 	 */
 
-	public void bringToFront( ReportItemHandle content )
-			throws SemanticException
-	{
-		if ( content == null )
+	public void bringToFront(ReportItemHandle content) throws SemanticException {
+		if (content == null)
 			return;
-		if ( !content.getElement( ).isContentOf( getElement( ) ) )
+		if (!content.getElement().isContentOf(getElement()))
 			return;
 
-		int zIndex = content.getZIndex( );
-		int maxZIndex = getMaximalZIndex( );
-		if ( zIndex < maxZIndex )
-			content.setZIndex( maxZIndex + 1 );
+		int zIndex = content.getZIndex();
+		int maxZIndex = getMaximalZIndex();
+		if (zIndex < maxZIndex)
+			content.setZIndex(maxZIndex + 1);
 	}
 
 	/**
-	 * Reduces the z-index of the given element so that the element will have
-	 * the minimal z-index value. If the element is not in the freeform, do
-	 * nothing.
+	 * Reduces the z-index of the given element so that the element will have the
+	 * minimal z-index value. If the element is not in the freeform, do nothing.
 	 * 
-	 * @param content
-	 *            the element
+	 * @param content the element
 	 * @throws SemanticException
 	 */
 
-	public void sendToBack( ReportItemHandle content ) throws SemanticException
-	{
-		if ( content == null )
+	public void sendToBack(ReportItemHandle content) throws SemanticException {
+		if (content == null)
 			return;
-		if ( !content.getElement( ).isContentOf( getElement( ) ) )
+		if (!content.getElement().isContentOf(getElement()))
 			return;
 
-		int zIndex = content.getZIndex( );
-		if ( zIndex == 0 )
+		int zIndex = content.getZIndex();
+		if (zIndex == 0)
 			return;
-		content.setZIndex( 0 );
+		content.setZIndex(0);
 	}
 
 	/**
-	 * Calculates the maximal z depth of the freeform. The maximal value is
-	 * defined by the content whose z-index is maximum.
+	 * Calculates the maximal z depth of the freeform. The maximal value is defined
+	 * by the content whose z-index is maximum.
 	 * 
 	 * @return the maximal z-index
 	 */
 
-	private int getMaximalZIndex( )
-	{
+	private int getMaximalZIndex() {
 		int maxZIndex = 0;
 
-		SlotHandle slot = getSlot( IFreeFormModel.REPORT_ITEMS_SLOT );
-		for ( int i = 0; i < slot.getCount( ); i++ )
-		{
-			ReportItemHandle item = (ReportItemHandle) slot.get( i );
-			int tmpZIndex = item.getZIndex( );
-			if ( tmpZIndex > maxZIndex )
+		SlotHandle slot = getSlot(IFreeFormModel.REPORT_ITEMS_SLOT);
+		for (int i = 0; i < slot.getCount(); i++) {
+			ReportItemHandle item = (ReportItemHandle) slot.get(i);
+			int tmpZIndex = item.getZIndex();
+			if (tmpZIndex > maxZIndex)
 				maxZIndex = tmpZIndex;
 		}
 

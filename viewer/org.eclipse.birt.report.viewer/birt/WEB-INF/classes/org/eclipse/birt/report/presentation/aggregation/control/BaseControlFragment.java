@@ -22,10 +22,10 @@ import org.eclipse.birt.report.presentation.aggregation.BirtBaseFragment;
 /**
  * Fragment for report tool bar.
  * <p>
+ * 
  * @see BaseFragment
  */
-public class BaseControlFragment extends BirtBaseFragment
-{
+public class BaseControlFragment extends BirtBaseFragment {
 	/**
 	 * Base class implementation of post service process.
 	 * 
@@ -34,9 +34,9 @@ public class BaseControlFragment extends BirtBaseFragment
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected String doPostService( HttpServletRequest request, HttpServletResponse response ) throws ServletException, IOException
-    {
-		String className = getClass( ).getName( ).substring( getClass( ).getName( ).lastIndexOf ('.' ) + 1 );
-		return JSPRootPath + "/pages/control/" + className + ".jsp"; //$NON-NLS-1$  //$NON-NLS-2$
-    }
+	protected String doPostService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		String className = getClass().getName().substring(getClass().getName().lastIndexOf('.') + 1);
+		return JSPRootPath + "/pages/control/" + className + ".jsp"; //$NON-NLS-1$ //$NON-NLS-2$
+	}
 }

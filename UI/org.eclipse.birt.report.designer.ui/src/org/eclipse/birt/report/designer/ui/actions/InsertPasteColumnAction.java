@@ -24,14 +24,12 @@ import org.eclipse.jface.viewers.StructuredSelection;
  * Action for inserting pasted column
  */
 
-public class InsertPasteColumnAction extends AbstractViewAction
-{
+public class InsertPasteColumnAction extends AbstractViewAction {
 
-	private static final String DEFAULT_TEXT = Messages.getString( "InsertPasteColumnAction.text" ); //$NON-NLS-1$
+	private static final String DEFAULT_TEXT = Messages.getString("InsertPasteColumnAction.text"); //$NON-NLS-1$
 
-	public InsertPasteColumnAction( Object selectedObject )
-	{
-		super( selectedObject, DEFAULT_TEXT );
+	public InsertPasteColumnAction(Object selectedObject) {
+		super(selectedObject, DEFAULT_TEXT);
 	}
 
 	/*
@@ -39,21 +37,16 @@ public class InsertPasteColumnAction extends AbstractViewAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return getClipBoardContents( ) instanceof ColumnBandData
-				&& getSelection( ) instanceof ColumnHandle
-				&& DNDUtil.handleValidateContainColumnPaste( (ColumnHandle) getSelection( ),
-						(ColumnBandData) getClipBoardContents( ),
-						true );
+	public boolean isEnabled() {
+		return getClipBoardContents() instanceof ColumnBandData && getSelection() instanceof ColumnHandle
+				&& DNDUtil.handleValidateContainColumnPaste((ColumnHandle) getSelection(),
+						(ColumnBandData) getClipBoardContents(), true);
 	}
 
-	protected Object getClipBoardContents( )
-	{
-		Object obj = Clipboard.getDefault( ).getContents( );
-		if ( obj instanceof Object[] )
-		{
-			return ( (Object[]) obj )[0];
+	protected Object getClipBoardContents() {
+		Object obj = Clipboard.getDefault().getContents();
+		if (obj instanceof Object[]) {
+			return ((Object[]) obj)[0];
 		}
 		return obj;
 	}
@@ -61,14 +54,14 @@ public class InsertPasteColumnAction extends AbstractViewAction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction#getSelection()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractViewAction
+	 * #getSelection()
 	 */
-	public Object getSelection( )
-	{
-		Object selection = super.getSelection( );
-		if ( selection instanceof StructuredSelection )
-		{
-			selection = ( (StructuredSelection) selection ).getFirstElement( );
+	public Object getSelection() {
+		Object selection = super.getSelection();
+		if (selection instanceof StructuredSelection) {
+			selection = ((StructuredSelection) selection).getFirstElement();
 		}
 		return selection;
 	}
@@ -78,12 +71,10 @@ public class InsertPasteColumnAction extends AbstractViewAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Insert paste column action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Insert paste column action >> Run ..."); //$NON-NLS-1$
 		}
-		DNDUtil.insertPasteColumn( getClipBoardContents( ), getSelection( ) );
+		DNDUtil.insertPasteColumn(getClipBoardContents(), getSelection());
 	}
 }

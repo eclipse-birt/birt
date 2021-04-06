@@ -48,77 +48,69 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </table>
  * 
  */
-public class ClientsDerivedIteratorTest extends BaseTestCase
-{
+public class ClientsDerivedIteratorTest extends BaseTestCase {
 
 	private String fileName = "ClientsDerivedIteratorTest.xml"; //$NON-NLS-1$
 
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
-		openDesign( fileName );
+		openDesign(fileName);
 
-		assertEquals( 0, design.getErrorList( ).size( ) );
+		assertEquals(0, design.getErrorList().size());
 
 	}
 
 	/**
 	 * Test iterating the derived list of an element.
 	 * 
-	 * @throws Exception
-	 *             any exception met
+	 * @throws Exception any exception met
 	 */
 
-	public void testDerivedIterator( ) throws Exception
-	{
-		SlotHandle slotHandle = designHandle.getComponents( );
-		LabelHandle lblHandle = (LabelHandle) slotHandle.get( 0 );
+	public void testDerivedIterator() throws Exception {
+		SlotHandle slotHandle = designHandle.getComponents();
+		LabelHandle lblHandle = (LabelHandle) slotHandle.get(0);
 
 		int derivedCount = 0;
 
-		assertEquals( "Label One", lblHandle.getElement( ).getName( ) ); //$NON-NLS-1$
-		Iterator iter = lblHandle.derivedIterator( );
+		assertEquals("Label One", lblHandle.getElement().getName()); //$NON-NLS-1$
+		Iterator iter = lblHandle.derivedIterator();
 
-		while ( iter.hasNext( ) )
-		{
-			DesignElementHandle derived = (DesignElementHandle) iter.next( );
-			assertTrue( derived.getElement( ) instanceof Label );
+		while (iter.hasNext()) {
+			DesignElementHandle derived = (DesignElementHandle) iter.next();
+			assertTrue(derived.getElement() instanceof Label);
 			derivedCount++;
 		}
-		assertEquals( 2, derivedCount );
+		assertEquals(2, derivedCount);
 	}
 
 	/**
 	 * Test iterating the client list of an element.
 	 * 
-	 * @throws Exception
-	 *             any exception met
+	 * @throws Exception any exception met
 	 */
 
-	public void testClientsIterator( ) throws Exception
-	{
-		DesignElement style = design.findStyle( "My-Style" ); //$NON-NLS-1$
+	public void testClientsIterator() throws Exception {
+		DesignElement style = design.findStyle("My-Style"); //$NON-NLS-1$
 
 		// Test the referable element
 
 		int clientsCount = 0;
-		Iterator iter = style.getHandle( design ).clientsIterator( );
-		while ( iter.hasNext( ) )
-		{
-			DesignElementHandle client = (DesignElementHandle) iter.next( );
-			assertTrue( client.getElement( ) instanceof TextItem );
+		Iterator iter = style.getHandle(design).clientsIterator();
+		while (iter.hasNext()) {
+			DesignElementHandle client = (DesignElementHandle) iter.next();
+			assertTrue(client.getElement() instanceof TextItem);
 			clientsCount++;
 		}
-		assertEquals( 3, clientsCount );
+		assertEquals(3, clientsCount);
 
 		// Iterate the element that can not be refered.
 
-		DesignElement text = design.findElement( "My Text" ); //$NON-NLS-1$
-		iter = text.getHandle( design ).clientsIterator( );
-		assertFalse( iter.hasNext( ) );
+		DesignElement text = design.findElement("My Text"); //$NON-NLS-1$
+		iter = text.getHandle(design).clientsIterator();
+		assertFalse(iter.hasNext());
 	}
 }

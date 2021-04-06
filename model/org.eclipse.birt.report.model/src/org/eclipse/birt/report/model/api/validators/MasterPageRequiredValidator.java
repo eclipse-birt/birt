@@ -33,10 +33,9 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * <code>ReportDesign</code>.
  */
 
-public class MasterPageRequiredValidator extends AbstractElementValidator
-{
+public class MasterPageRequiredValidator extends AbstractElementValidator {
 
-	private static MasterPageRequiredValidator instance = new MasterPageRequiredValidator( );
+	private static MasterPageRequiredValidator instance = new MasterPageRequiredValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -44,36 +43,29 @@ public class MasterPageRequiredValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static MasterPageRequiredValidator getInstance( )
-	{
+	public static MasterPageRequiredValidator getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Validates whether the given report has one master page.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the report to validate
+	 * @param module  the module
+	 * @param element the report to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
-		if ( !( element instanceof ReportDesign ) )
-			return Collections.emptyList( );
+	public List<SemanticException> validate(Module module, DesignElement element) {
+		if (!(element instanceof ReportDesign))
+			return Collections.emptyList();
 
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
 		ReportDesign report = (ReportDesign) element;
 
-		if ( report.getSlot( IModuleModel.PAGE_SLOT ).getCount( ) == 0 )
-		{
-			list.add( new SemanticError( report,
-					SemanticError.DESIGN_EXCEPTION_MISSING_MASTER_PAGE ) );
+		if (report.getSlot(IModuleModel.PAGE_SLOT).getCount() == 0) {
+			list.add(new SemanticError(report, SemanticError.DESIGN_EXCEPTION_MISSING_MASTER_PAGE));
 		}
 
 		return list;

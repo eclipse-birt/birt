@@ -19,37 +19,31 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * 
  */
 
-public class CrossTabElementDropValidator implements IDropValidator
-{
+public class CrossTabElementDropValidator implements IDropValidator {
 
 	private ExtendedItemHandle item;
 
-	public CrossTabElementDropValidator( ExtendedItemHandle item )
-	{
+	public CrossTabElementDropValidator(ExtendedItemHandle item) {
 		this.item = item;
 	}
 
-	public boolean canDrop( )
-	{
-		if ( item.getExtensionName( ).indexOf( "Cell" ) > -1 ) //$NON-NLS-1$
+	public boolean canDrop() {
+		if (item.getExtensionName().indexOf("Cell") > -1) //$NON-NLS-1$
 		{
-			boolean canDrop = item.getContents( DEUtil.getDefaultContentName( item ) )
-					.size( ) > 0
-					&& item.canDrop( );
+			boolean canDrop = item.getContents(DEUtil.getDefaultContentName(item)).size() > 0 && item.canDrop();
 			return canDrop;
 		}
-		if ( item.getExtensionName( ).equals( "LevelView" ) ) //$NON-NLS-1$
+		if (item.getExtensionName().equals("LevelView")) //$NON-NLS-1$
 			return false;
 
 		return true;
 	}
 
-	public boolean accpetValidator( )
-	{
-		if ( item.getExtensionName( ).indexOf( "Cell" ) > -1 ) //$NON-NLS-1$
+	public boolean accpetValidator() {
+		if (item.getExtensionName().indexOf("Cell") > -1) //$NON-NLS-1$
 			return true;
 
-		if ( item.getExtensionName( ).equals( "LevelView" ) ) //$NON-NLS-1$
+		if (item.getExtensionName().equals("LevelView")) //$NON-NLS-1$
 			return true;
 
 		return false;

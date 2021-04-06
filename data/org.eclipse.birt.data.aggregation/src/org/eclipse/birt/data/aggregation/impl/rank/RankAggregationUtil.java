@@ -25,12 +25,11 @@ import org.eclipse.birt.data.engine.script.ScriptEvalUtil;
 /**
  * The utility class use by this package.
  */
-final class RankAggregationUtil
-{
+final class RankAggregationUtil {
 
 	// The dummy object.
-	private static DummyObject dummy = new DummyObject( );
-	private static NullObject nullObject = new NullObject( );
+	private static DummyObject dummy = new DummyObject();
+	private static NullObject nullObject = new NullObject();
 
 	/**
 	 * Return the next top index
@@ -39,9 +38,8 @@ final class RankAggregationUtil
 	 * @return
 	 * @throws DataException
 	 */
-	static int getNextTopIndex( List cachedValues ) throws DataException
-	{
-		return getIndex( cachedValues, true );
+	static int getNextTopIndex(List cachedValues) throws DataException {
+		return getIndex(cachedValues, true);
 	}
 
 	/**
@@ -51,9 +49,8 @@ final class RankAggregationUtil
 	 * @return
 	 * @throws DataException
 	 */
-	static int getNextBottomIndex( List cachedValues ) throws DataException
-	{
-		return getIndex( cachedValues, false );
+	static int getNextBottomIndex(List cachedValues) throws DataException {
+		return getIndex(cachedValues, false);
 	}
 
 	/**
@@ -63,30 +60,23 @@ final class RankAggregationUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static int getIndex( List cachedValues, boolean top )
-			throws DataException
-	{
+	private static int getIndex(List cachedValues, boolean top) throws DataException {
 		int result = -1;
-		for ( int i = 0; i < cachedValues.size( ); i++ )
-		{
-			if ( cachedValues.get( i ).getClass( ) == DummyObject.class )
+		for (int i = 0; i < cachedValues.size(); i++) {
+			if (cachedValues.get(i).getClass() == DummyObject.class)
 				continue;
 
-			if ( result == -1 )
-			{
+			if (result == -1) {
 				result = i;
 				continue;
 			}
 
-			if ( top ? compareTop( cachedValues.get( result ),
-					cachedValues.get( i ) )
-					: compareBottom( cachedValues.get( result ),
-							cachedValues.get( i ) ) )
-			{
+			if (top ? compareTop(cachedValues.get(result), cachedValues.get(i))
+					: compareBottom(cachedValues.get(result), cachedValues.get(i))) {
 				result = i;
 			}
 		}
-		cachedValues.set( result, dummy );
+		cachedValues.set(result, dummy);
 		return result;
 	}
 
@@ -97,20 +87,16 @@ final class RankAggregationUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static boolean compareTop( Object value1, Object value2 )
-			throws DataException
-	{
-		if ( value1.getClass( ) == DummyObject.class
-				|| value2.getClass( ) == DummyObject.class )
+	private static boolean compareTop(Object value1, Object value2) throws DataException {
+		if (value1.getClass() == DummyObject.class || value2.getClass() == DummyObject.class)
 			return false;
-		if ( value1.getClass( ) == NullObject.class )
+		if (value1.getClass() == NullObject.class)
 			return true;
-		if ( value2.getClass( ) == NullObject.class )
+		if (value2.getClass() == NullObject.class)
 			return false;
-		return Boolean.valueOf( ScriptEvalUtil.evalConditionalExpr( value1,
-				IConditionalExpression.OP_LT,
-				value2,
-				null ).toString( ) ).booleanValue( );
+		return Boolean.valueOf(
+				ScriptEvalUtil.evalConditionalExpr(value1, IConditionalExpression.OP_LT, value2, null).toString())
+				.booleanValue();
 	}
 
 	/**
@@ -120,20 +106,16 @@ final class RankAggregationUtil
 	 * @return
 	 * @throws DataException
 	 */
-	private static boolean compareBottom( Object value1, Object value2 )
-			throws DataException
-	{
-		if ( value1.getClass( ) == DummyObject.class
-				|| value2.getClass( ) == DummyObject.class )
+	private static boolean compareBottom(Object value1, Object value2) throws DataException {
+		if (value1.getClass() == DummyObject.class || value2.getClass() == DummyObject.class)
 			return false;
-		if ( value1.getClass( ) == NullObject.class )
+		if (value1.getClass() == NullObject.class)
 			return false;
-		if ( value2.getClass( ) == NullObject.class )
+		if (value2.getClass() == NullObject.class)
 			return true;
-		return Boolean.valueOf( ScriptEvalUtil.evalConditionalExpr( value1,
-				IConditionalExpression.OP_GT,
-				value2,
-				null ).toString( ) ).booleanValue( );
+		return Boolean.valueOf(
+				ScriptEvalUtil.evalConditionalExpr(value1, IConditionalExpression.OP_GT, value2, null).toString())
+				.booleanValue();
 	}
 
 	/**
@@ -142,19 +124,14 @@ final class RankAggregationUtil
 	 * @return
 	 * @throws DataException
 	 */
-	static Double getNumericValue( Object o ) throws DataException
-	{
-		try
-		{
-			if ( o instanceof Date )
-				return new Double( ( (Date) o ).getTime( ) );
+	static Double getNumericValue(Object o) throws DataException {
+		try {
+			if (o instanceof Date)
+				return new Double(((Date) o).getTime());
 			else
-				return new Double( o.toString( ) );
-		}
-		catch ( NumberFormatException e )
-		{
-			throw DataException.wrap( new AggrException( ResourceConstants.DATATYPEUTIL_ERROR,
-					e ) );
+				return new Double(o.toString());
+		} catch (NumberFormatException e) {
+			throw DataException.wrap(new AggrException(ResourceConstants.DATATYPEUTIL_ERROR, e));
 		}
 	}
 
@@ -162,8 +139,7 @@ final class RankAggregationUtil
 	 * 
 	 * @return
 	 */
-	static NullObject getNullObject( )
-	{
+	static NullObject getNullObject() {
 		return nullObject;
 	}
 
@@ -172,15 +148,11 @@ final class RankAggregationUtil
 	 * @param objs
 	 * @throws DataException
 	 */
-	static void sortArray( Object[] objs ) throws DataException
-	{
-		try
-		{
-			Arrays.sort( objs, new ValueComparator( ) );
-		}
-		catch ( DataComparisonException e )
-		{
-			throw e.getWrappedException( );
+	static void sortArray(Object[] objs) throws DataException {
+		try {
+			Arrays.sort(objs, new ValueComparator());
+		} catch (DataComparisonException e) {
+			throw e.getWrappedException();
 		}
 	}
 }
@@ -189,39 +161,29 @@ final class RankAggregationUtil
  * A comparator which is used to compare two objects.
  * 
  */
-class ValueComparator implements Comparator
-{
+class ValueComparator implements Comparator {
 
-	public int compare( Object o1, Object o2 )
-	{
-		if ( o1 instanceof NullObject )
+	public int compare(Object o1, Object o2) {
+		if (o1 instanceof NullObject)
 			return -1;
-		else if ( o2 instanceof NullObject )
+		else if (o2 instanceof NullObject)
 			return 1;
-		else
-		{
-			try
-			{
-				boolean gt = new Boolean( ScriptEvalUtil.evalConditionalExpr( o1,
-						IConditionalExpression.OP_GT,
-						o2,
-						null )
-						.toString( ) ).booleanValue( );
-				if ( gt )
+		else {
+			try {
+				boolean gt = new Boolean(
+						ScriptEvalUtil.evalConditionalExpr(o1, IConditionalExpression.OP_GT, o2, null).toString())
+								.booleanValue();
+				if (gt)
 					return 1;
-				boolean eq = Boolean.valueOf( ScriptEvalUtil.evalConditionalExpr( o1,
-						IConditionalExpression.OP_EQ,
-						o2,
-						null )
-						.toString( ) ).booleanValue( );
-				if ( eq )
+				boolean eq = Boolean.valueOf(
+						ScriptEvalUtil.evalConditionalExpr(o1, IConditionalExpression.OP_EQ, o2, null).toString())
+						.booleanValue();
+				if (eq)
 					return 0;
 				else
 					return -1;
-			}
-			catch ( DataException e )
-			{
-				throw new DataComparisonException( e );
+			} catch (DataException e) {
+				throw new DataComparisonException(e);
 			}
 		}
 	}
@@ -231,8 +193,7 @@ class ValueComparator implements Comparator
  * 
  * 
  */
-class DataComparisonException extends RuntimeException
-{
+class DataComparisonException extends RuntimeException {
 
 	/**
 	 * 
@@ -241,8 +202,7 @@ class DataComparisonException extends RuntimeException
 
 	private DataException wrappedException = null;
 
-	DataComparisonException( DataException e )
-	{
+	DataComparisonException(DataException e) {
 		this.wrappedException = e;
 	}
 
@@ -250,8 +210,7 @@ class DataComparisonException extends RuntimeException
 	 * 
 	 * @return
 	 */
-	public DataException getWrappedException( )
-	{
+	public DataException getWrappedException() {
 		return this.wrappedException;
 	}
 }

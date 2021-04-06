@@ -30,8 +30,7 @@ import org.osgi.framework.BundleContext;
  * Plugin class for Chart Report Item Integration
  */
 
-public class ChartReportItemPlugin extends Plugin
-{
+public class ChartReportItemPlugin extends Plugin {
 
 	/** Plugin ID */
 	public static final String ID = ChartReportItemConstants.ID;
@@ -41,17 +40,15 @@ public class ChartReportItemPlugin extends Plugin
 	 */
 	private static ChartReportItemPlugin plugin;
 
-	public ChartReportItemPlugin( )
-	{
-		super( );
+	public ChartReportItemPlugin() {
+		super();
 		plugin = this;
 	}
 
 	/**
 	 * Returns the shared instance.
 	 */
-	public static ChartReportItemPlugin getDefault( )
-	{
+	public static ChartReportItemPlugin getDefault() {
 		return plugin;
 	}
 
@@ -60,14 +57,13 @@ public class ChartReportItemPlugin extends Plugin
 	 * 
 	 * @see org.eclipse.core.runtime.Plugin#start(org.osgi.framework.BundleContext)
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
-		initChartComputation( this );
-		initImageWriterFactory( this );
-		initChartModelHelper( this );
-		initChartScriptMenuHelper( this );
-		initChartReportItemHelper( this );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		initChartComputation(this);
+		initImageWriterFactory(this);
+		initChartModelHelper(this);
+		initChartScriptMenuHelper(this);
+		initChartReportItemHelper(this);
 	}
 
 	/*
@@ -75,61 +71,44 @@ public class ChartReportItemPlugin extends Plugin
 	 * 
 	 * @see org.eclipse.core.runtime.Plugin#stop(org.osgi.framework.BundleContext)
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		super.stop( context );
+	public void stop(BundleContext context) throws Exception {
+		super.stop(context);
 		plugin = null;
 	}
 
-	private static void initChartScriptMenuHelper( ChartReportItemPlugin plugin )
-	{
-		IScriptMenuHelper factory = ChartReportItemUtil.getAdapter( plugin,
-				IScriptMenuHelper.class );
-		if ( factory != null )
-		{
-			ScriptMenuHelper.initInstance( factory );
+	private static void initChartScriptMenuHelper(ChartReportItemPlugin plugin) {
+		IScriptMenuHelper factory = ChartReportItemUtil.getAdapter(plugin, IScriptMenuHelper.class);
+		if (factory != null) {
+			ScriptMenuHelper.initInstance(factory);
 		}
 	}
 
-	private static void initChartComputation( ChartReportItemPlugin plugin )
-	{
-		IChartComputationFactory factory = ChartReportItemUtil.getAdapter( plugin,
-				IChartComputationFactory.class );
-		if ( factory != null )
-		{
-			ChartComputationFactory.initInstance( factory );
-			GObjectFactory.initInstance( factory.createGObjectFactory( ) );
+	private static void initChartComputation(ChartReportItemPlugin plugin) {
+		IChartComputationFactory factory = ChartReportItemUtil.getAdapter(plugin, IChartComputationFactory.class);
+		if (factory != null) {
+			ChartComputationFactory.initInstance(factory);
+			GObjectFactory.initInstance(factory.createGObjectFactory());
 		}
 	}
 
-	private static void initImageWriterFactory( ChartReportItemPlugin plugin )
-	{
-		IImageWriterFactory factory = ChartReportItemUtil.getAdapter( plugin,
-				IImageWriterFactory.class );
-		if ( factory != null )
-		{
-			ImageWriterFactory.initInstance( factory );
+	private static void initImageWriterFactory(ChartReportItemPlugin plugin) {
+		IImageWriterFactory factory = ChartReportItemUtil.getAdapter(plugin, IImageWriterFactory.class);
+		if (factory != null) {
+			ImageWriterFactory.initInstance(factory);
 		}
 	}
 
-	private static void initChartModelHelper( ChartReportItemPlugin plugin )
-	{
-		IChartModelHelper factory = ChartReportItemUtil.getAdapter( plugin,
-				IChartModelHelper.class );
-		if ( factory != null )
-		{
-			ChartModelHelper.initInstance( factory );
+	private static void initChartModelHelper(ChartReportItemPlugin plugin) {
+		IChartModelHelper factory = ChartReportItemUtil.getAdapter(plugin, IChartModelHelper.class);
+		if (factory != null) {
+			ChartModelHelper.initInstance(factory);
 		}
 	}
 
-	private static void initChartReportItemHelper(
-			ChartReportItemPlugin plugin )
-	{
-		ChartReportItemHelper factory = ChartReportItemUtil.getAdapter( plugin,
-				ChartReportItemHelper.class );
-		if ( factory != null )
-		{
-			ChartReportItemHelper.initInstance( factory );
+	private static void initChartReportItemHelper(ChartReportItemPlugin plugin) {
+		ChartReportItemHelper factory = ChartReportItemUtil.getAdapter(plugin, ChartReportItemHelper.class);
+		if (factory != null) {
+			ChartReportItemHelper.initInstance(factory);
 		}
 	}
 }

@@ -19,8 +19,7 @@ import org.xml.sax.Attributes;
 /**
  * Parses a filter condition element state.
  */
-public class FilterConditionElementState extends ReportElementState
-{
+public class FilterConditionElementState extends ReportElementState {
 
 	/**
 	 * The element being created.
@@ -29,22 +28,16 @@ public class FilterConditionElementState extends ReportElementState
 	protected FilterConditionElement element = null;
 
 	/**
-	 * Constructs filter condition element state with the design parser handler,
-	 * the container element and the container property name of the report
-	 * element.
+	 * Constructs filter condition element state with the design parser handler, the
+	 * container element and the container property name of the report element.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public FilterConditionElementState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
-	{
-		super( handler, theContainer, prop );
+	public FilterConditionElementState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
@@ -53,21 +46,21 @@ public class FilterConditionElementState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new FilterConditionElement( );
-		initSimpleElement( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new FilterConditionElement();
+		initSimpleElement(attrs);
 	}
 
 }

@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * 
  */
 
-public class ModelConstants
-{
+public class ModelConstants {
 
 	/**
 	 * The version of the report design. Whenever the design is parsed or

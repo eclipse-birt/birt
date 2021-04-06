@@ -25,8 +25,7 @@ import org.eclipse.birt.core.framework.PlatformConfig;
  * The Entry Point class to access the Eclipse Chart Engine (ECE) API
  */
 
-public class ChartEngine
-{
+public class ChartEngine {
 
 	private PluginSettings ps = null;
 	static private ChartEngine ce = null;
@@ -34,8 +33,7 @@ public class ChartEngine
 	/**
 	 * A non-instantiable constructor
 	 */
-	private ChartEngine( PluginSettings ps )
-	{
+	private ChartEngine(PluginSettings ps) {
 		this.ps = ps;
 	}
 
@@ -46,23 +44,18 @@ public class ChartEngine
 	 * unless the STANDALONE flag was set in PlatformConfig property.
 	 * 
 	 * If the config is null, it will use the BIRT_HOME JVM property to find the
-	 * OSGi chart bundles. Subsequent calls to this method will ignore the
-	 * config parameter .
+	 * OSGi chart bundles. Subsequent calls to this method will ignore the config
+	 * parameter .
 	 * 
-	 * @param config
-	 *            The OSGi platform configuration. Can be null.
+	 * @param config The OSGi platform configuration. Can be null.
 	 */
-	public static ChartEngine instance( PlatformConfig config )
-	{
+	public static ChartEngine instance(PlatformConfig config) {
 
-		if ( ce == null )
-		{
-			synchronized ( ChartEngine.class )
-			{
-				if ( ce == null )
-				{
-					PluginSettings ps = PluginSettings.instance( config );
-					ce = new ChartEngine( ps );
+		if (ce == null) {
+			synchronized (ChartEngine.class) {
+				if (ce == null) {
+					PluginSettings ps = PluginSettings.instance(config);
+					ce = new ChartEngine(ps);
 				}
 			}
 		}
@@ -74,9 +67,8 @@ public class ChartEngine
 	 * 
 	 * @return A singleton instance of the Chart Engine
 	 */
-	public static ChartEngine instance( )
-	{
-		return instance( null );
+	public static ChartEngine instance() {
+		return instance(null);
 	}
 
 	/**
@@ -85,12 +77,11 @@ public class ChartEngine
 	 * 
 	 * @return A Serializer instance
 	 * @deprecated The Serializer instance is decoupled from the ChartEngine. To
-	 *             obtain a instance of SerializerImpl use:
-	 *             SerializerImpl.instance( ).
+	 *             obtain a instance of SerializerImpl use: SerializerImpl.instance(
+	 *             ).
 	 */
-	public Serializer getSerializer( )
-	{
-		return SerializerImpl.instance( );
+	public Serializer getSerializer() {
+		return SerializerImpl.instance();
 	}
 
 	/**
@@ -98,43 +89,35 @@ public class ChartEngine
 	 * 
 	 * @return IChartGenerator
 	 */
-	public IGenerator getGenerator( )
-	{
-		return Generator.instance( );
+	public IGenerator getGenerator() {
+		return Generator.instance();
 	}
 
 	/**
 	 * Loads a device renderer, required by IChartGenerator to render charts
 	 * 
-	 * @param deviceID
-	 *            The type of output. Examples are dv.SWT, dv.PNG, dv.JPG,
-	 *            dv.PDF, dv.SVG
+	 * @param deviceID The type of output. Examples are dv.SWT, dv.PNG, dv.JPG,
+	 *                 dv.PDF, dv.SVG
 	 * @return An IDeviceRenderer instance
-	 * @throws ChartException
-	 *             If the device renderer does not exist or there is problem
-	 *             loading it.
+	 * @throws ChartException If the device renderer does not exist or there is
+	 *                        problem loading it.
 	 */
-	public IDeviceRenderer getRenderer( String deviceID ) throws ChartException
-	{
-		return ps.getDevice( deviceID );
+	public IDeviceRenderer getRenderer(String deviceID) throws ChartException {
+		return ps.getDevice(deviceID);
 	}
 
 	/**
 	 * Retrieves the first instance of a data set processor registered as an
 	 * extension for a given series type.
 	 * 
-	 * @param cSeries
-	 *            The Class instance associated with the given series type
+	 * @param cSeries The Class instance associated with the given series type
 	 * 
-	 * @return A newly created instance of a registered data set processor
-	 *         extension
+	 * @return A newly created instance of a registered data set processor extension
 	 * 
 	 * @throws ChartException
 	 */
-	public final IDataSetProcessor getDataSetProcessor( Class cSeries )
-			throws ChartException
-	{
-		return ps.getDataSetProcessor( cSeries );
+	public final IDataSetProcessor getDataSetProcessor(Class cSeries) throws ChartException {
+		return ps.getDataSetProcessor(cSeries);
 	}
 
 }

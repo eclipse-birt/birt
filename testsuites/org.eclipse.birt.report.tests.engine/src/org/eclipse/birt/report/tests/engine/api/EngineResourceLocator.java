@@ -8,38 +8,29 @@ import java.util.Map;
 import org.eclipse.birt.report.model.api.IResourceLocator;
 import org.eclipse.birt.report.model.api.ModuleHandle;
 
-public class EngineResourceLocator implements IResourceLocator
-{
+public class EngineResourceLocator implements IResourceLocator {
 
 	private String path;
 
-	public EngineResourceLocator( String path )
-	{
+	public EngineResourceLocator(String path) {
 		this.path = path;
 	}
 
-	public URL findResource( ModuleHandle moduleHandle, String filename,
-			int type )
-	{
-		if ( path == null || path.equals( "" ) )
+	public URL findResource(ModuleHandle moduleHandle, String filename, int type) {
+		if (path == null || path.equals(""))
 			return null;
 
-		try
-		{
-			URL url = new URL( path + filename );
+		try {
+			URL url = new URL(path + filename);
 			return url;
-		}
-		catch ( MalformedURLException mue )
-		{
-			mue.printStackTrace( );
+		} catch (MalformedURLException mue) {
+			mue.printStackTrace();
 		}
 
 		return null;
 	}
 
-	public URL findResource( ModuleHandle moduleHandle, String fileName,
-			int type, Map appContext )
-	{
+	public URL findResource(ModuleHandle moduleHandle, String fileName, int type, Map appContext) {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -12,32 +12,31 @@
 package org.eclipse.birt.report.model.api.activity;
 
 /**
- * Application-level interface into the Model's activity record. 
+ * Application-level interface into the Model's activity record.
  *
  */
 
-public interface IActivityRecord
-{
+public interface IActivityRecord {
 
 	/**
 	 * Executes the record.
 	 */
 
-	public void execute( );
+	public void execute();
 
 	/**
 	 * Undoes the record. Leaves the state of the model identical to what it was
 	 * before execute was called.
 	 */
 
-	public void undo( );
+	public void undo();
 
 	/**
 	 * Redoes the record. Logically repeats the execute record. The state of the
 	 * model must be identical to that after undo( ) has executed.
 	 */
 
-	public void redo( );
+	public void redo();
 
 	/**
 	 * Tells if this record can be undone.
@@ -45,7 +44,7 @@ public interface IActivityRecord
 	 * @return true if the record can be undone, false otherwise
 	 */
 
-	public boolean canUndo( );
+	public boolean canUndo();
 
 	/**
 	 * Tells if this record can be redone.
@@ -53,7 +52,7 @@ public interface IActivityRecord
 	 * @return true if redoable, false otherwise.
 	 */
 
-	public boolean canRedo( );
+	public boolean canRedo();
 
 	/**
 	 * Gets the label of this record. This label should be localized.
@@ -61,5 +60,5 @@ public interface IActivityRecord
 	 * @return the label of this record
 	 */
 
-	public String getLabel( );
+	public String getLabel();
 }

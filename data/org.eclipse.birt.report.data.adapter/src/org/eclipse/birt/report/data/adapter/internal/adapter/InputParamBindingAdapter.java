@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import java.util.List;
@@ -24,28 +24,24 @@ import org.eclipse.birt.report.model.api.ParamBindingHandle;
 /**
  * Adaptor for Input Parameter Binding
  */
-public class InputParamBindingAdapter extends InputParameterBinding
-{
+public class InputParamBindingAdapter extends InputParameterBinding {
 	/**
-	 * Constructs instance based on Model ParamBindingHandle 
-	 * @throws AdapterException 
+	 * Constructs instance based on Model ParamBindingHandle
+	 * 
+	 * @throws AdapterException
 	 */
-	public InputParamBindingAdapter( IModelAdapter adapter, ParamBindingHandle modelHandle ) throws AdapterException
-	{
-		this( adapter,
-				modelHandle.getParamName( ),
-				modelHandle.getExpressionListHandle( ).getListValue( ) );
+	public InputParamBindingAdapter(IModelAdapter adapter, ParamBindingHandle modelHandle) throws AdapterException {
+		this(adapter, modelHandle.getParamName(), modelHandle.getExpressionListHandle().getListValue());
 	}
-	
+
 	/**
-	 * Constructs instance based on param name and expression 
-	 * @throws AdapterException 
+	 * Constructs instance based on param name and expression
+	 * 
+	 * @throws AdapterException
 	 */
-	public InputParamBindingAdapter( IModelAdapter adapter, String paramName,
-			List<Expression> expr ) throws AdapterException
-	{
-		super( paramName, expr.size( ) > 0
-				? adapter.adaptExpression( expr.get( 0 ) ) : null );
+	public InputParamBindingAdapter(IModelAdapter adapter, String paramName, List<Expression> expr)
+			throws AdapterException {
+		super(paramName, expr.size() > 0 ? adapter.adaptExpression(expr.get(0)) : null);
 	}
 
 	/**
@@ -55,8 +51,7 @@ public class InputParamBindingAdapter extends InputParameterBinding
 	 * @param bindingExpr
 	 * @param type
 	 */
-	public InputParamBindingAdapter( String paramName, ExpressionAdapter bindingExpr )
-	{
-		super( paramName, bindingExpr );
+	public InputParamBindingAdapter(String paramName, ExpressionAdapter bindingExpr) {
+		super(paramName, bindingExpr);
 	}
 }

@@ -3,38 +3,35 @@
 package org.eclipse.birt.core.template;
 
 public class ASTAttribute extends SimpleNode {
-  public ASTAttribute(int id) {
-    super(id);
-  }
+	public ASTAttribute(int id) {
+		super(id);
+	}
 
-  public ASTAttribute(Parser p, int id) {
-    super(p, id);
-  }
+	public ASTAttribute(Parser p, int id) {
+		super(p, id);
+	}
 
+	/** Accept the visitor. **/
+	public Object jjtAccept(ParserVisitor visitor, Object data) {
+		return visitor.visit(this, data);
+	}
 
-  /** Accept the visitor. **/
-  public Object jjtAccept(ParserVisitor visitor, Object data) {
-    return visitor.visit(this, data);
-  }
-  
-  protected String name;
-  protected String value;
-  
-  public void setName(String name)
-  {
-	  this.name = name;
-  }
-  public void setValue(String value)
-  {
-	  this.value = value;
-  }
-  
-  public String getName()
-  {
-	  return this.name;
-  }
-  public String getValue()
-  {
-	  return this.value;
-  }
+	protected String name;
+	protected String value;
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public void setValue(String value) {
+		this.value = value;
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public String getValue() {
+		return this.value;
+	}
 }

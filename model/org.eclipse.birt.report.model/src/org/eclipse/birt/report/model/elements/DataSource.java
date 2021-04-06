@@ -23,39 +23,34 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
  * 
  */
 
-public abstract class DataSource extends ReferenceableElement
-		implements
-			IDataSourceModel
-{
+public abstract class DataSource extends ReferenceableElement implements IDataSourceModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public DataSource( )
-	{
+	public DataSource() {
 	}
 
 	/**
 	 * Constructs the data source with a required name.
 	 * 
-	 * @param theName
-	 *            the required name
+	 * @param theName the required name
 	 */
 
-	public DataSource( String theName )
-	{
-		super( theName );
+	public DataSource(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#broadcastToClients(org.eclipse.birt.report.model.api.activity.NotificationEvent,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.core.ReferenceableElement#broadcastToClients(
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
-	protected void broadcastToClients( NotificationEvent ev, Module module )
-	{
+	protected void broadcastToClients(NotificationEvent ev, Module module) {
 	}
 }

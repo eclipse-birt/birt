@@ -16,13 +16,11 @@ import org.eclipse.birt.report.model.api.StyleHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.IStyle;
 
-public class Style implements IStyle
-{
+public class Style implements IStyle {
 
 	private StyleHandle style;
 
-	public Style( StyleHandle style )
-	{
+	public Style(StyleHandle style) {
 		this.style = style;
 	}
 
@@ -33,9 +31,8 @@ public class Style implements IStyle
 	 * getBackgroundAttachment()
 	 */
 
-	public String getBackgroundAttachment( )
-	{
-		return style.getBackgroundAttachment( );
+	public String getBackgroundAttachment() {
+		return style.getBackgroundAttachment();
 	}
 
 	/*
@@ -45,23 +42,18 @@ public class Style implements IStyle
 	 * setBackgroundAttachment(java.lang.String)
 	 */
 
-	public void setBackgroundAttachment( String value )
-			throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBackgroundAttachment(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setBackgroundAttachment( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBackgroundAttachment(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -72,9 +64,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getBackgroundImage( )
-	{
-		return style.getBackgroundImage( );
+	public String getBackgroundImage() {
+		return style.getBackgroundImage();
 	}
 
 	/*
@@ -85,22 +76,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setBackgroundImage( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBackgroundImage(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setBackgroundImage( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBackgroundImage(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -110,9 +97,8 @@ public class Style implements IStyle
 	 * getBackgroundRepeat()
 	 */
 
-	public String getBackgroundRepeat( )
-	{
-		return style.getBackgroundRepeat( );
+	public String getBackgroundRepeat() {
+		return style.getBackgroundRepeat();
 	}
 
 	/*
@@ -122,22 +108,18 @@ public class Style implements IStyle
 	 * setBackgroundRepeat(java.lang.String)
 	 */
 
-	public void setBackgroundRepeat( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBackgroundRepeat(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setBackgroundRepeat( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBackgroundRepeat(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -147,9 +129,8 @@ public class Style implements IStyle
 	 * getBorderBottomStyle()
 	 */
 
-	public String getBorderBottomStyle( )
-	{
-		return style.getBorderBottomStyle( );
+	public String getBorderBottomStyle() {
+		return style.getBorderBottomStyle();
 	}
 
 	/*
@@ -159,22 +140,18 @@ public class Style implements IStyle
 	 * setBorderBottomStyle(java.lang.String)
 	 */
 
-	public void setBorderBottomStyle( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderBottomStyle(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setBorderBottomStyle( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBorderBottomStyle(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -185,9 +162,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getBorderLeftStyle( )
-	{
-		return style.getBorderLeftStyle( );
+	public String getBorderLeftStyle() {
+		return style.getBorderLeftStyle();
 	}
 
 	/*
@@ -198,22 +174,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setBorderLeftStyle( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderLeftStyle(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setBorderLeftStyle( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBorderLeftStyle(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -223,9 +195,8 @@ public class Style implements IStyle
 	 * getBorderRightStyle()
 	 */
 
-	public String getBorderRightStyle( )
-	{
-		return style.getBorderRightStyle( );
+	public String getBorderRightStyle() {
+		return style.getBorderRightStyle();
 	}
 
 	/*
@@ -235,22 +206,18 @@ public class Style implements IStyle
 	 * setBorderRightStyle(java.lang.String)
 	 */
 
-	public void setBorderRightStyle( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderRightStyle(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setBorderRightStyle( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBorderRightStyle(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -261,9 +228,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getBorderTopStyle( )
-	{
-		return style.getBorderTopStyle( );
+	public String getBorderTopStyle() {
+		return style.getBorderTopStyle();
 	}
 
 	/*
@@ -274,73 +240,60 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setBorderTopStyle( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderTopStyle(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setBorderTopStyle( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setBorderTopStyle(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#canShrink()
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#canShrink()
 	 */
 
-	public boolean canShrink( )
-	{
-		return style.canShrink( );
+	public boolean canShrink() {
+		return style.canShrink();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setCanShrink
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setCanShrink
 	 * (boolean)
 	 */
 
-	public void setCanShrink( boolean value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setCanShrink(boolean value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setCanShrink( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setCanShrink(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getStringFormat
-	 * ()
+	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getStringFormat ()
 	 */
 
-	public String getStringFormat( )
-	{
-		return style.getStringFormat( );
+	public String getStringFormat() {
+		return style.getStringFormat();
 	}
 
 	/*
@@ -350,9 +303,8 @@ public class Style implements IStyle
 	 * getStringFormatCategory()
 	 */
 
-	public String getStringFormatCategory( )
-	{
-		return style.getStringFormatCategory( );
+	public String getStringFormatCategory() {
+		return style.getStringFormatCategory();
 	}
 
 	/*
@@ -363,22 +315,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setStringFormat( String pattern ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setStringFormat(String pattern) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setStringFormat( pattern );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setStringFormat(pattern);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -388,36 +336,29 @@ public class Style implements IStyle
 	 * setStringFormatCategory(java.lang.String)
 	 */
 
-	public void setStringFormatCategory( String pattern )
-			throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setStringFormatCategory(String pattern) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setStringFormatCategory( pattern );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setStringFormatCategory(pattern);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getNumberFormat
-	 * ()
+	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getNumberFormat ()
 	 */
 
-	public String getNumberFormat( )
-	{
-		return style.getNumberFormat( );
+	public String getNumberFormat() {
+		return style.getNumberFormat();
 	}
 
 	/*
@@ -427,9 +368,8 @@ public class Style implements IStyle
 	 * getNumberFormatCategory()
 	 */
 
-	public String getNumberFormatCategory( )
-	{
-		return style.getNumberFormatCategory( );
+	public String getNumberFormatCategory() {
+		return style.getNumberFormatCategory();
 	}
 
 	/*
@@ -440,22 +380,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setNumberFormat( String pattern ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setNumberFormat(String pattern) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setNumberFormat( pattern );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setNumberFormat(pattern);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -465,23 +401,18 @@ public class Style implements IStyle
 	 * setNumberFormatCategory(java.lang.String)
 	 */
 
-	public void setNumberFormatCategory( String category )
-			throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setNumberFormatCategory(String category) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setNumberFormatCategory( category );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setNumberFormatCategory(category);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -492,9 +423,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getDateTimeFormat( )
-	{
-		return style.getDateTimeFormat( );
+	public String getDateTimeFormat() {
+		return style.getDateTimeFormat();
 	}
 
 	/*
@@ -504,9 +434,8 @@ public class Style implements IStyle
 	 * getDateTimeFormatCategory()
 	 */
 
-	public String getDateTimeFormatCategory( )
-	{
-		return style.getDateTimeFormatCategory( );
+	public String getDateTimeFormatCategory() {
+		return style.getDateTimeFormatCategory();
 	}
 
 	/*
@@ -517,22 +446,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setDateTimeFormat( String pattern ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setDateTimeFormat(String pattern) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setDateTimeFormat( pattern );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setDateTimeFormat(pattern);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -542,138 +467,112 @@ public class Style implements IStyle
 	 * setDateTimeFormatCategory(java.lang.String)
 	 */
 
-	public void setDateTimeFormatCategory( String pattern )
-			throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setDateTimeFormatCategory(String pattern) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setDateTimeFormatCategory( pattern );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setDateTimeFormatCategory(pattern);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getDisplay()
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getDisplay()
 	 */
 
-	public String getDisplay( )
-	{
-		return style.getDisplay( );
+	public String getDisplay() {
+		return style.getDisplay();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setDisplay
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setDisplay
 	 * (java.lang.String)
 	 */
 
-	public void setDisplay( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setDisplay(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setDisplay( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setDisplay(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getMasterPage
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getMasterPage
 	 * ()
 	 */
 
-	public String getMasterPage( )
-	{
-		return style.getMasterPage( );
+	public String getMasterPage() {
+		return style.getMasterPage();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setMasterPage
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setMasterPage
 	 * (java.lang.String)
 	 */
 
-	public void setMasterPage( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setMasterPage(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setMasterPage( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setMasterPage(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getOrphans()
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getOrphans()
 	 */
 
-	public String getOrphans( )
-	{
-		return style.getOrphans( );
+	public String getOrphans() {
+		return style.getOrphans();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setOrphans
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setOrphans
 	 * (java.lang.String)
 	 */
 
-	public void setOrphans( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setOrphans(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setOrphans( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setOrphans(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -684,9 +583,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getPageBreakAfter( )
-	{
-		return style.getPageBreakAfter( );
+	public String getPageBreakAfter() {
+		return style.getPageBreakAfter();
 	}
 
 	/*
@@ -697,22 +595,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setPageBreakAfter( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setPageBreakAfter(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setPageBreakAfter( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setPageBreakAfter(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -723,9 +617,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getPageBreakBefore( )
-	{
-		return style.getPageBreakBefore( );
+	public String getPageBreakBefore() {
+		return style.getPageBreakBefore();
 	}
 
 	/*
@@ -736,22 +629,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setPageBreakBefore( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setPageBreakBefore(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setPageBreakBefore( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setPageBreakBefore(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -762,9 +651,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getPageBreakInside( )
-	{
-		return style.getPageBreakInside( );
+	public String getPageBreakInside() {
+		return style.getPageBreakInside();
 	}
 
 	/*
@@ -775,34 +663,28 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setPageBreakInside( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setPageBreakInside(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setPageBreakInside( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setPageBreakInside(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#showIfBlank()
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#showIfBlank()
 	 */
 
-	public boolean getShowIfBlank( )
-	{
-		return style.showIfBlank( );
+	public boolean getShowIfBlank() {
+		return style.showIfBlank();
 	}
 
 	/*
@@ -813,22 +695,18 @@ public class Style implements IStyle
 	 * (boolean)
 	 */
 
-	public void setShowIfBlank( boolean value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setShowIfBlank(boolean value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setShowIfBlank( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setShowIfBlank(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -839,9 +717,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getTextUnderline( )
-	{
-		return style.getTextUnderline( );
+	public String getTextUnderline() {
+		return style.getTextUnderline();
 	}
 
 	/*
@@ -852,35 +729,29 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setTextUnderline( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setTextUnderline(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setTextUnderline( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setTextUnderline(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getTextOverline
-	 * ()
+	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getTextOverline ()
 	 */
 
-	public String getTextOverline( )
-	{
-		return style.getTextOverline( );
+	public String getTextOverline() {
+		return style.getTextOverline();
 	}
 
 	/*
@@ -891,22 +762,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setTextOverline( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setTextOverline(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setTextOverline( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setTextOverline(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -917,9 +784,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getTextLineThrough( )
-	{
-		return style.getTextLineThrough( );
+	public String getTextLineThrough() {
+		return style.getTextLineThrough();
 	}
 
 	/*
@@ -930,22 +796,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setTextLineThrough( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setTextLineThrough(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setTextLineThrough( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setTextLineThrough(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -955,35 +817,29 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getTextAlign()
 	 */
 
-	public String getTextAlign( )
-	{
-		return style.getTextAlign( );
+	public String getTextAlign() {
+		return style.getTextAlign();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setTextAlign
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setTextAlign
 	 * (java.lang.String)
 	 */
 
-	public void setTextAlign( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setTextAlign(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setTextAlign( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setTextAlign(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -994,9 +850,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getTextTransform( )
-	{
-		return style.getTextTransform( );
+	public String getTextTransform() {
+		return style.getTextTransform();
 	}
 
 	/*
@@ -1007,22 +862,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setTextTransform( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setTextTransform(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setTextTransform( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setTextTransform(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1033,9 +884,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getVerticalAlign( )
-	{
-		return style.getVerticalAlign( );
+	public String getVerticalAlign() {
+		return style.getVerticalAlign();
 	}
 
 	/*
@@ -1046,136 +896,111 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setVerticalAlign( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setVerticalAlign(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setVerticalAlign( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setVerticalAlign(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getWhiteSpace
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getWhiteSpace
 	 * ()
 	 */
 
-	public String getWhiteSpace( )
-	{
-		return style.getWhiteSpace( );
+	public String getWhiteSpace() {
+		return style.getWhiteSpace();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setWhiteSpace
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setWhiteSpace
 	 * (java.lang.String)
 	 */
 
-	public void setWhiteSpace( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setWhiteSpace(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setWhiteSpace( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setWhiteSpace(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getWidows()
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getWidows()
 	 */
 
-	public String getWidows( )
-	{
-		return style.getWidows( );
+	public String getWidows() {
+		return style.getWidows();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setWidows(
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setWidows(
 	 * java.lang.String)
 	 */
 
-	public void setWidows( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setWidows(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setWidows( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setWidows(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getColor()
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getColor()
 	 */
 
-	public String getColor( )
-	{
-		return style.getColor( ).getStringValue( );
+	public String getColor() {
+		return style.getColor().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setColor(java
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setColor(java
 	 * .lang.String)
 	 */
-	public void setColor( String color ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setColor(String color) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getColor( ).setValue( color );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getColor().setValue(color);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1186,9 +1011,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getBackgroundColor( )
-	{
-		return style.getBackgroundColor( ).getStringValue( );
+	public String getBackgroundColor() {
+		return style.getBackgroundColor().getStringValue();
 	}
 
 	/*
@@ -1198,22 +1022,18 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setBackgroundColor
 	 * (java.lang.String)
 	 */
-	public void setBackgroundColor( String color ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBackgroundColor(String color) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBackgroundColor( ).setValue( color );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBackgroundColor().setValue(color);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1224,9 +1044,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getBorderTopColor( )
-	{
-		return style.getBorderTopColor( ).getStringValue( );
+	public String getBorderTopColor() {
+		return style.getBorderTopColor().getStringValue();
 	}
 
 	/*
@@ -1236,22 +1055,18 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderTopColor
 	 * (java.lang.String)
 	 */
-	public void setBorderTopColor( String color ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderTopColor(String color) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBorderTopColor( ).setValue( color );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBorderTopColor().setValue(color);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1261,9 +1076,8 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getBorderLeftColor
 	 * ()
 	 */
-	public String getBorderLeftColor( )
-	{
-		return style.getBorderLeftColor( ).getStringValue( );
+	public String getBorderLeftColor() {
+		return style.getBorderLeftColor().getStringValue();
 	}
 
 	/*
@@ -1273,22 +1087,18 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderLeftColor
 	 * (java.lang.String)
 	 */
-	public void setBorderLeftColor( String color ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderLeftColor(String color) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBorderLeftColor( ).setValue( color );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBorderLeftColor().setValue(color);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1298,9 +1108,8 @@ public class Style implements IStyle
 	 * getBorderRightColor()
 	 */
 
-	public String getBorderRightColor( )
-	{
-		return style.getBorderRightColor( ).getStringValue( );
+	public String getBorderRightColor() {
+		return style.getBorderRightColor().getStringValue();
 	}
 
 	/*
@@ -1309,22 +1118,18 @@ public class Style implements IStyle
 	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
 	 * setBorderRightColor(java.lang.String)
 	 */
-	public void setBorderRightColor( String color ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderRightColor(String color) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBorderRightColor( ).setValue( color );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBorderRightColor().setValue(color);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1334,9 +1139,8 @@ public class Style implements IStyle
 	 * getBorderBottomColor()
 	 */
 
-	public String getBorderBottomColor( )
-	{
-		return style.getBorderBottomColor( ).getStringValue( );
+	public String getBorderBottomColor() {
+		return style.getBorderBottomColor().getStringValue();
 	}
 
 	/*
@@ -1345,22 +1149,18 @@ public class Style implements IStyle
 	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
 	 * setBorderBottomColor(java.lang.String)
 	 */
-	public void setBorderBottomColor( String color ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderBottomColor(String color) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBorderBottomColor( ).setValue( color );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBorderBottomColor().setValue(color);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1370,9 +1170,8 @@ public class Style implements IStyle
 	 * getBackGroundPositionX()
 	 */
 
-	public String getBackGroundPositionX( )
-	{
-		return style.getBackGroundPositionX( ).getStringValue( );
+	public String getBackGroundPositionX() {
+		return style.getBackGroundPositionX().getStringValue();
 	}
 
 	/*
@@ -1381,22 +1180,18 @@ public class Style implements IStyle
 	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
 	 * setBackGroundPositionX(java.lang.String)
 	 */
-	public void setBackGroundPositionX( String x ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBackGroundPositionX(String x) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBackGroundPositionX( ).setValue( x );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBackGroundPositionX().setValue(x);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1406,9 +1201,8 @@ public class Style implements IStyle
 	 * getBackGroundPositionY()
 	 */
 
-	public String getBackGroundPositionY( )
-	{
-		return style.getBackGroundPositionY( ).getStringValue( );
+	public String getBackGroundPositionY() {
+		return style.getBackGroundPositionY().getStringValue();
 	}
 
 	/*
@@ -1417,22 +1211,18 @@ public class Style implements IStyle
 	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
 	 * setBackGroundPositionY(java.lang.String)
 	 */
-	public void setBackGroundPositionY( String y ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBackGroundPositionY(String y) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBackGroundPositionY( ).setValue( y );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBackGroundPositionY().setValue(y);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1443,9 +1233,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getLetterSpacing( )
-	{
-		return style.getLetterSpacing( ).getStringValue( );
+	public String getLetterSpacing() {
+		return style.getLetterSpacing().getStringValue();
 	}
 
 	/*
@@ -1455,104 +1244,85 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setLetterSpacing
 	 * (java.lang.String)
 	 */
-	public void setLetterSpacing( String spacing ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setLetterSpacing(String spacing) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getLetterSpacing( ).setValue( spacing );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getLetterSpacing().setValue(spacing);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getLineHeight
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getLineHeight
 	 * ()
 	 */
 
-	public String getLineHeight( )
-	{
-		return style.getLineHeight( ).getStringValue( );
+	public String getLineHeight() {
+		return style.getLineHeight().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setLineHeight
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setLineHeight
 	 * (java.lang.String)
 	 */
-	public void setLineHeight( String height ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setLineHeight(String height) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getLineHeight( ).setValue( height );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getLineHeight().setValue(height);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getTextIndent
+	 * ()
+	 */
+
+	public String getTextIndent() {
+		return style.getTextIndent().getStringValue();
+	}
+
+	public void setTextIndent(String indent) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
+
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getTextIndent().setValue(indent);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
+			throw e;
+		}
+
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getTextIndent
-	 * ()
+	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getWordSpacing ()
 	 */
 
-	public String getTextIndent( )
-	{
-		return style.getTextIndent( ).getStringValue( );
-	}
-
-	public void setTextIndent( String indent ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
-
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getTextIndent( ).setValue( indent );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
-			throw e;
-		}
-
-		cmdStack.commit( );
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getWordSpacing
-	 * ()
-	 */
-
-	public String getWordSpacing( )
-	{
-		return style.getWordSpacing( ).getStringValue( );
+	public String getWordSpacing() {
+		return style.getWordSpacing().getStringValue();
 	}
 
 	/*
@@ -1562,22 +1332,18 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setWordSpacing
 	 * (java.lang.String)
 	 */
-	public void setWordSpacing( String spacing ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setWordSpacing(String spacing) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getWordSpacing( ).setValue( spacing );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getWordSpacing().setValue(spacing);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1588,9 +1354,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getBorderTopWidth( )
-	{
-		return style.getBorderTopWidth( ).getStringValue( );
+	public String getBorderTopWidth() {
+		return style.getBorderTopWidth().getStringValue();
 	}
 
 	/*
@@ -1600,22 +1365,18 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderTopWidth
 	 * (java.lang.String)
 	 */
-	public void setBorderTopWidth( String width ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderTopWidth(String width) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBorderTopWidth( ).setValue( width );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBorderTopWidth().setValue(width);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1626,9 +1387,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getBorderLeftWidth( )
-	{
-		return style.getBorderLeftWidth( ).getStringValue( );
+	public String getBorderLeftWidth() {
+		return style.getBorderLeftWidth().getStringValue();
 	}
 
 	/*
@@ -1638,22 +1398,18 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setBorderLeftWidth
 	 * (java.lang.String)
 	 */
-	public void setBorderLeftWidth( String width ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderLeftWidth(String width) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBorderLeftWidth( ).setValue( width );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBorderLeftWidth().setValue(width);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1663,9 +1419,8 @@ public class Style implements IStyle
 	 * getBorderRightWidth()
 	 */
 
-	public String getBorderRightWidth( )
-	{
-		return style.getBorderRightWidth( ).getStringValue( );
+	public String getBorderRightWidth() {
+		return style.getBorderRightWidth().getStringValue();
 	}
 
 	/*
@@ -1674,22 +1429,18 @@ public class Style implements IStyle
 	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
 	 * setBorderRightWidth(java.lang.String)
 	 */
-	public void setBorderRightWidth( String width ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderRightWidth(String width) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBorderRightWidth( ).setValue( width );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBorderRightWidth().setValue(width);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1699,9 +1450,8 @@ public class Style implements IStyle
 	 * getBorderBottomWidth()
 	 */
 
-	public String getBorderBottomWidth( )
-	{
-		return style.getBorderBottomWidth( ).getStringValue( );
+	public String getBorderBottomWidth() {
+		return style.getBorderBottomWidth().getStringValue();
 	}
 
 	/*
@@ -1710,22 +1460,18 @@ public class Style implements IStyle
 	 * @seeorg.eclipse.birt.report.engine.script.element.IStyleDesign#
 	 * setBorderBottomWidth(java.lang.String)
 	 */
-	public void setBorderBottomWidth( String width ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setBorderBottomWidth(String width) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getBorderBottomWidth( ).setValue( width );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getBorderBottomWidth().setValue(width);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1735,39 +1481,32 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getMarginTop()
 	 */
 
-	public String getMarginTop( )
-	{
-		return style.getMarginTop( ).getStringValue( );
+	public String getMarginTop() {
+		return style.getMarginTop().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginTop
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginTop
 	 * (java.lang.String)
 	 */
-	public void setMarginTop( String margin ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setMarginTop(String margin) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getMarginTop( ).setValue( margin );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getMarginTop().setValue(margin);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
-	public String getMarginRight( )
-	{
-		return style.getMarginRight( ).getStringValue( );
+	public String getMarginRight() {
+		return style.getMarginRight().getStringValue();
 	}
 
 	/*
@@ -1777,73 +1516,60 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginRight
 	 * (java.lang.String)
 	 */
-	public void setMarginRight( String margin ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setMarginRight(String margin) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getMarginRight( ).setValue( margin );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getMarginRight().setValue(margin);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getMarginLeft
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getMarginLeft
 	 * ()
 	 */
 
-	public String getMarginLeft( )
-	{
-		return style.getMarginLeft( ).getStringValue( );
+	public String getMarginLeft() {
+		return style.getMarginLeft().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginLeft
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginLeft
 	 * (margin)
 	 */
-	public void setMarginLeft( String margin ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setMarginLeft(String margin) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getMarginLeft( ).setValue( margin );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getMarginLeft().setValue(margin);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getMarginBottom
-	 * ()
+	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getMarginBottom ()
 	 */
 
-	public String getMarginBottom( )
-	{
-		return style.getMarginBottom( ).getStringValue( );
+	public String getMarginBottom() {
+		return style.getMarginBottom().getStringValue();
 	}
 
 	/*
@@ -1853,73 +1579,60 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setMarginBottom
 	 * (java.lang.String)
 	 */
-	public void setMarginBottom( String margin ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setMarginBottom(String margin) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getMarginBottom( ).setValue( margin );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getMarginBottom().setValue(margin);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getPaddingTop
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getPaddingTop
 	 * ()
 	 */
 
-	public String getPaddingTop( )
-	{
-		return style.getPaddingTop( ).getStringValue( );
+	public String getPaddingTop() {
+		return style.getPaddingTop().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setPaddingTop
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setPaddingTop
 	 * (java.lang.String)
 	 */
-	public void setPaddingTop( String padding ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setPaddingTop(String padding) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getPaddingTop( ).setValue( padding );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getPaddingTop().setValue(padding);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getPaddingRight
-	 * ()
+	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getPaddingRight ()
 	 */
 
-	public String getPaddingRight( )
-	{
-		return style.getPaddingRight( ).getStringValue( );
+	public String getPaddingRight() {
+		return style.getPaddingRight().getStringValue();
 	}
 
 	/*
@@ -1929,35 +1642,29 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setPaddingRight
 	 * (java.lang.String)
 	 */
-	public void setPaddingRight( String padding ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setPaddingRight(String padding) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getPaddingRight( ).setValue( padding );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getPaddingRight().setValue(padding);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getPaddingLeft
-	 * ()
+	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getPaddingLeft ()
 	 */
 
-	public String getPaddingLeft( )
-	{
-		return style.getPaddingLeft( ).getStringValue( );
+	public String getPaddingLeft() {
+		return style.getPaddingLeft().getStringValue();
 	}
 
 	/*
@@ -1967,22 +1674,18 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setPaddingLeft
 	 * (java.lang.String)
 	 */
-	public void setPaddingLeft( String padding ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setPaddingLeft(String padding) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getPaddingLeft( ).setValue( padding );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getPaddingLeft().setValue(padding);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -1993,9 +1696,8 @@ public class Style implements IStyle
 	 * ()
 	 */
 
-	public String getPaddingBottom( )
-	{
-		return style.getPaddingBottom( ).getStringValue( );
+	public String getPaddingBottom() {
+		return style.getPaddingBottom().getStringValue();
 	}
 
 	/*
@@ -2005,149 +1707,122 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setPaddingBottom
 	 * (java.lang.String)
 	 */
-	public void setPaddingBottom( String padding ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setPaddingBottom(String padding) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getPaddingBottom( ).setValue( padding );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getPaddingBottom().setValue(padding);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getFontSize()
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getFontSize()
 	 */
 
-	public String getFontSize( )
-	{
-		return style.getFontSize( ).getStringValue( );
+	public String getFontSize() {
+		return style.getFontSize().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontSize
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontSize
 	 * (java.lang.String)
 	 */
-	public void setFontSize( String fontSize ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setFontSize(String fontSize) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getFontSize( ).setValue( fontSize );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getFontSize().setValue(fontSize);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getFontFamily
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getFontFamily
 	 * ()
 	 */
 
-	public String getFontFamily( )
-	{
-		return style.getFontFamilyHandle( ).getStringValue( );
+	public String getFontFamily() {
+		return style.getFontFamilyHandle().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontFamily
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontFamily
 	 * (java.lang.String)
 	 */
-	public void setFontFamily( String fontFamily ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setFontFamily(String fontFamily) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.getFontFamilyHandle( ).setValue( fontFamily );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.getFontFamilyHandle().setValue(fontFamily);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getFontWeight
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#getFontWeight
 	 * ()
 	 */
 
-	public String getFontWeight( )
-	{
-		return style.getFontWeight( );
+	public String getFontWeight() {
+		return style.getFontWeight();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontWeight
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontWeight
 	 * (java.lang.String)
 	 */
 
-	public void setFontWeight( String fontWeight ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setFontWeight(String fontWeight) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setFontWeight( fontWeight );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setFontWeight(fontWeight);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getFontVariant
-	 * ()
+	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getFontVariant ()
 	 */
 
-	public String getFontVariant( )
-	{
-		return style.getFontVariant( );
+	public String getFontVariant() {
+		return style.getFontVariant();
 	}
 
 	/*
@@ -2158,22 +1833,18 @@ public class Style implements IStyle
 	 * (java.lang.String)
 	 */
 
-	public void setFontVariant( String fontVariant ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setFontVariant(String fontVariant) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setFontVariant( fontVariant );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setFontVariant(fontVariant);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -2183,35 +1854,29 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getFontStyle()
 	 */
 
-	public String getFontStyle( )
-	{
-		return style.getFontStyle( );
+	public String getFontStyle() {
+		return style.getFontStyle();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontStyle
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setFontStyle
 	 * (java.lang.String)
 	 */
 
-	public void setFontStyle( String fontStyle ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setFontStyle(String fontStyle) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setFontStyle( fontStyle );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setFontStyle(fontStyle);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -2221,35 +1886,29 @@ public class Style implements IStyle
 	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#getDirection()
 	 */
 
-	public String getTextDirection( )
-	{
-		return style.getTextDirection( );
+	public String getTextDirection() {
+		return style.getTextDirection();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.script.element.IStyleDesign#setDirection
+	 * @see org.eclipse.birt.report.engine.script.element.IStyleDesign#setDirection
 	 * (java.lang.String)
 	 */
 
-	public void setTextDirection( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setTextDirection(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setTextDirection( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setTextDirection(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -2257,34 +1916,28 @@ public class Style implements IStyle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getOverflow()
 	 */
-	public String getOverflow( )
-	{
-		return style.getOverflow( );
+	public String getOverflow() {
+		return style.getOverflow();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setOverflow(java.lang
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setOverflow(java.lang
 	 * .String)
 	 */
-	public void setOverflow( String value ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setOverflow(String value) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setOverflow( value );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setOverflow(value);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -2292,34 +1945,28 @@ public class Style implements IStyle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getHeight()
 	 */
-	public String getHeight( )
-	{
-		return style.getHeight( );
+	public String getHeight() {
+		return style.getHeight();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setHeight(java.lang
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setHeight(java.lang
 	 * .String)
 	 */
-	public void setHeight( String height ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setHeight(String height) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setHeight( height );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setHeight(height);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -2327,33 +1974,27 @@ public class Style implements IStyle
 	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getWidth()
 	 */
-	public String getWidth( )
-	{
-		return style.getWidth( );
-    }
+	public String getWidth() {
+		return style.getWidth();
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setWidth(java.lang
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setWidth(java.lang
 	 * .String)
 	 */
-	public void setWidth( String width ) throws SemanticException
-	{
-		ActivityStack cmdStack = style.getModule( ).getActivityStack( );
+	public void setWidth(String width) throws SemanticException {
+		ActivityStack cmdStack = style.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			style.setWidth( width );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			style.setWidth(width);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 }

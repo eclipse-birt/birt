@@ -46,8 +46,7 @@ import org.eclipse.swt.widgets.Display;
 /**
  * TableDragGuideTracker
  */
-public abstract class TableDragGuideTracker extends DragEditPartsTracker
-{
+public abstract class TableDragGuideTracker extends DragEditPartsTracker {
 	public static final DecimalFormat FORMAT = new DecimalFormat("#0.000"); //$NON-NLS-1$
 	public static final String PIXELS_LABEL = Messages.getString("TableDragGuideTracker.Pixels"); //$NON-NLS-1$
 	private int start;
@@ -55,56 +54,51 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 	private int end;
 
 	private Figure marqueeRectangleFigure;
-	private static IChoiceSet choiceSet = ChoiceSetFactory.getElementChoiceSet(
-			ReportDesignConstants.REPORT_DESIGN_ELEMENT,
-			ReportDesignHandle.UNITS_PROP );
+	private static IChoiceSet choiceSet = ChoiceSetFactory
+			.getElementChoiceSet(ReportDesignConstants.REPORT_DESIGN_ELEMENT, ReportDesignHandle.UNITS_PROP);
 
 	/**
 	 * Constructor
+	 * 
 	 * @param sourceEditPart
 	 * @param start
 	 * @param end
 	 */
-	public TableDragGuideTracker( EditPart sourceEditPart, int start, int end )
-	{
-		super( sourceEditPart );
+	public TableDragGuideTracker(EditPart sourceEditPart, int start, int end) {
+		super(sourceEditPart);
 		this.start = start;
 		this.end = end;
-		
-		this.processor = new ShowDragInfomationProcessor( sourceEditPart );
+
+		this.processor = new ShowDragInfomationProcessor(sourceEditPart);
 	}
 
-	protected boolean handleButtonUp( int button )
-	{
-		boolean bool =  super.handleButtonUp( button );
+	protected boolean handleButtonUp(int button) {
+		boolean bool = super.handleButtonUp(button);
 		eraseSourceFeedback();
 		return bool;
 	}
 
 	@Override
-	protected boolean handleButtonDown( int button )
-	{
-		boolean bool =  super.handleButtonDown( button );
-		if (button == 1)
-		{
-			showSourceFeedback( );
+	protected boolean handleButtonDown(int button) {
+		boolean bool = super.handleButtonDown(button);
+		if (button == 1) {
+			showSourceFeedback();
 		}
 		return bool;
 	}
-	protected void performSelection( )
-	{
+
+	protected void performSelection() {
 	}
 
-	protected void showSourceFeedback( )
-	{
-		//super.showSourceFeedback();
-		Rectangle rect = getMarqueeSelectionRectangle( ).getCopy( );
-		getMarqueeFeedbackFigure( ).translateToRelative( rect );
-		getMarqueeFeedbackFigure( ).setBounds( rect );
-		
-		processor.getInfomationLabel(getInfomation( ), getStartLocation( ) ).setText( getInfomation( ) );
-		
-		showDragGuide( );
+	protected void showSourceFeedback() {
+		// super.showSourceFeedback();
+		Rectangle rect = getMarqueeSelectionRectangle().getCopy();
+		getMarqueeFeedbackFigure().translateToRelative(rect);
+		getMarqueeFeedbackFigure().setBounds(rect);
+
+		processor.getInfomationLabel(getInfomation(), getStartLocation()).setText(getInfomation());
+
+		showDragGuide();
 	}
 
 	/*
@@ -112,85 +106,71 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 	 * 
 	 * @see org.eclipse.gef.tools.TargetingTool#showTargetFeedback()
 	 */
-	protected void showTargetFeedback( )
-	{
+	protected void showTargetFeedback() {
 	}
 
-	protected void performDrag( )
-	{
-		if (isFitResize( ))
-		{
-			fitResize( );
+	protected void performDrag() {
+		if (isFitResize()) {
+			fitResize();
+		} else {
+			resize();
 		}
-		else
-		{
-			resize( );
-		}
-		EditPart part = getSourceEditPart( );
-		part.getViewer( ).setSelection( part.getViewer( ).getSelection( ) );
+		EditPart part = getSourceEditPart();
+		part.getViewer().setSelection(part.getViewer().getSelection());
 	}
 
-	protected EditorRulerComposite.DragGuideInfo createDragGuideInfo()
-	{
+	protected EditorRulerComposite.DragGuideInfo createDragGuideInfo() {
 		return null;
 	}
-	
-	protected boolean isFitResize()
-	{
-		EditPart part = getSourceEditPart( );
-		if (part instanceof ReportElementEditPart)
-		{
-			return ((ReportElementEditPart)part).isFixLayout( );
+
+	protected boolean isFitResize() {
+		EditPart part = getSourceEditPart();
+		if (part instanceof ReportElementEditPart) {
+			return ((ReportElementEditPart) part).isFixLayout();
 		}
 		return false;
 	}
-	
-	private IFigure getMarqueeFeedbackFigure( )
-	{
-		if ( marqueeRectangleFigure == null )
-		{
-			marqueeRectangleFigure = new MarqueeRectangleFigure( );
-			addFeedback( marqueeRectangleFigure );
+
+	private IFigure getMarqueeFeedbackFigure() {
+		if (marqueeRectangleFigure == null) {
+			marqueeRectangleFigure = new MarqueeRectangleFigure();
+			addFeedback(marqueeRectangleFigure);
 		}
 		return marqueeRectangleFigure;
 	}
-	
-	protected void eraseSourceFeedback( )
-	{
-		super.eraseSourceFeedback( );
-		if ( marqueeRectangleFigure != null )
-		{
-			removeFeedback( marqueeRectangleFigure );
+
+	protected void eraseSourceFeedback() {
+		super.eraseSourceFeedback();
+		if (marqueeRectangleFigure != null) {
+			removeFeedback(marqueeRectangleFigure);
 			marqueeRectangleFigure = null;
 		}
-		
-		processor.removeLabelFigue( );
-		
-		eraseDragGuide( );
+
+		processor.removeLabelFigue();
+
+		eraseDragGuide();
 	}
 
-	private static class MarqueeRectangleFigure extends Figure
-	{
+	private static class MarqueeRectangleFigure extends Figure {
 
 		private int offset = 0;
 
 		private boolean schedulePaint = true;
 
-		private static final int DELAY = 110; //animation delay in millisecond
+		private static final int DELAY = 110; // animation delay in millisecond
 
 		/**
 		 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 		 */
-		protected void paintFigure( Graphics graphics )
-		{
-			Rectangle bounds = getBounds( ).getCopy( );
-			graphics.translate( getLocation( ) );
+		protected void paintFigure(Graphics graphics) {
+			Rectangle bounds = getBounds().getCopy();
+			graphics.translate(getLocation());
 
-			graphics.setXORMode( true );
-			graphics.setForegroundColor( ColorConstants.white );
-			graphics.setBackgroundColor( ColorConstants.black );
+			graphics.setXORMode(true);
+			graphics.setForegroundColor(ColorConstants.white);
+			graphics.setBackgroundColor(ColorConstants.black);
 
-			graphics.setLineStyle( Graphics.LINE_DOT );
+			graphics.setLineStyle(Graphics.LINE_DOT);
 
 			int[] points = new int[6];
 
@@ -201,7 +181,7 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 			points[4] = bounds.width - 1;
 			points[5] = bounds.height - 1;
 
-			graphics.drawPolyline( points );
+			graphics.drawPolyline(points);
 
 			points[0] = 0;
 			points[1] = 0 + offset;
@@ -210,211 +190,177 @@ public abstract class TableDragGuideTracker extends DragEditPartsTracker
 			points[4] = bounds.width - 1;
 			points[5] = bounds.height - 1;
 
-			graphics.drawPolyline( points );
+			graphics.drawPolyline(points);
 
-			graphics.translate( getLocation( ).getNegated( ) );
+			graphics.translate(getLocation().getNegated());
 
-			if ( schedulePaint )
-			{
-				Display.getCurrent( ).timerExec( DELAY, new Runnable( ) {
+			if (schedulePaint) {
+				Display.getCurrent().timerExec(DELAY, new Runnable() {
 
-					public void run( )
-					{
+					public void run() {
 						offset++;
-						if ( offset > 5 )
+						if (offset > 5)
 							offset = 0;
 
 						schedulePaint = true;
-						repaint( );
+						repaint();
 					}
-				} );
+				});
 			}
 
 			schedulePaint = false;
 		}
 	}
 
-	public int getEnd( )
-	{
+	public int getEnd() {
 		return end;
 	}
 
-	public void setEnd( int end )
-	{
+	public void setEnd(int end) {
 		this.end = end;
 	}
 
-	protected void fitResize()
-	{
-		resize( );
+	protected void fitResize() {
+		resize();
 	}
-	protected abstract void resize( );
-	
-	protected abstract Rectangle getMarqueeSelectionRectangle( );
 
-	protected abstract Dimension getDragWidth(int start, int end );
-	
+	protected abstract void resize();
+
+	protected abstract Rectangle getMarqueeSelectionRectangle();
+
+	protected abstract Dimension getDragWidth(int start, int end);
+
 	protected abstract String getInfomation();
-	
-	
-	/**Update the label.
+
+	/**
+	 * Update the label.
+	 * 
 	 * @param label
 	 */
-	protected void updateInfomation(String label)
-	{
-		processor.updateInfomation( label, getStartLocation( ) );
-	}
-	
-	public Dimension getDragWidth( )
-	{
-		return getDragWidth(getStart( ), getEnd() );
+	protected void updateInfomation(String label) {
+		processor.updateInfomation(label, getStartLocation());
 	}
 
-	public int getStart( )
-	{
+	public Dimension getDragWidth() {
+		return getDragWidth(getStart(), getEnd());
+	}
+
+	public int getStart() {
 		return start;
 	}
 
-	public void setStart( int start )
-	{
+	public void setStart(int start) {
 		this.start = start;
 	}
 
-	protected int getTrueValue( int value )
-	{
-		return getTrueValue( value, getStart( ), getEnd() );
+	protected int getTrueValue(int value) {
+		return getTrueValue(value, getStart(), getEnd());
 	}
-	
-	protected int getTrueValueAbsolute(int value)
-	{
-		Dimension dimension = getDragWidth(getStart( ), getEnd() );
-		
-		((GraphicalEditPart)getSourceEditPart( )).getFigure( ).translateToAbsolute( dimension );
-		if ( value < dimension.width )
-		{
+
+	protected int getTrueValueAbsolute(int value) {
+		Dimension dimension = getDragWidth(getStart(), getEnd());
+
+		((GraphicalEditPart) getSourceEditPart()).getFigure().translateToAbsolute(dimension);
+		if (value < dimension.width) {
 			value = dimension.width;
-		}
-		else if ( value > dimension.height )
-		{
+		} else if (value > dimension.height) {
 			value = dimension.height;
 		}
 		return value;
 	}
-	
-	protected int getTrueValue( int value, int start, int end )
-	{
-		Dimension dimension = getDragWidth(start, end );
-		if ( value < dimension.width )
-		{
+
+	protected int getTrueValue(int value, int start, int end) {
+		Dimension dimension = getDragWidth(start, end);
+		if (value < dimension.width) {
 			value = dimension.width;
-		}
-		else if ( value > dimension.height )
-		{
+		} else if (value > dimension.height) {
 			value = dimension.height;
 		}
 		return value;
 	}
-	
-	protected List filterEditPart(List list)
-	{
+
+	protected List filterEditPart(List list) {
 		List retValue = new ArrayList();
-		for (int i=0; i<list.size( ); i++)
-		{
-			if (list.get( i ) instanceof DummyEditpart)
-			{
-				retValue.add( list.get(i) );
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i) instanceof DummyEditpart) {
+				retValue.add(list.get(i));
 			}
 		}
-		
+
 		return retValue;
 	}
-	
+
 	/**
 	 * @param unit
 	 * @return
 	 */
-	public static String getUnitDisplayName(String unit)
-	{
-		IChoice choice = choiceSet.findChoice( unit );
-		return choice.getDisplayName( );
+	public static String getUnitDisplayName(String unit) {
+		IChoice choice = choiceSet.findChoice(unit);
+		return choice.getDisplayName();
 	}
-	
-	protected TableLayout.WorkingData getTableWorkingData()
-	{
-		AbstractTableEditPart part= getAbstractTableEditPart( );
-		IFigure figure = part.getLayer( LayerConstants.PRIMARY_LAYER );
-		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager( )
-				.getConstraint( figure );
-		
+
+	protected TableLayout.WorkingData getTableWorkingData() {
+		AbstractTableEditPart part = getAbstractTableEditPart();
+		IFigure figure = part.getLayer(LayerConstants.PRIMARY_LAYER);
+		TableLayout.WorkingData data = (TableLayout.WorkingData) figure.getLayoutManager().getConstraint(figure);
+
 		return data;
 	}
-	
-	protected String getDefaultUnits()
-	{
-		Object model = getSourceEditPart( ).getModel( );
-		if (!(model instanceof DesignElementHandle))
-		{
+
+	protected String getDefaultUnits() {
+		Object model = getSourceEditPart().getModel();
+		if (!(model instanceof DesignElementHandle)) {
 			return DesignChoiceConstants.UNITS_IN;
 		}
-		ModuleHandle handle = ((DesignElementHandle)model).getModuleHandle( );
-		return handle.getDefaultUnits( );
+		ModuleHandle handle = ((DesignElementHandle) model).getModuleHandle();
+		return handle.getDefaultUnits();
 	}
-	
-	protected double converPixToDefaultUnit(int pix)
-	{
-		double in = MetricUtility.pixelToPixelInch( pix );
-		return DimensionUtil.convertTo(in, DesignChoiceConstants.UNITS_IN, getDefaultUnits( )).getMeasure( );
+
+	protected double converPixToDefaultUnit(int pix) {
+		double in = MetricUtility.pixelToPixelInch(pix);
+		return DimensionUtil.convertTo(in, DesignChoiceConstants.UNITS_IN, getDefaultUnits()).getMeasure();
 	}
-	
-	protected int getMouseTrueValueX()
-	{
-		int value = getLocation( ).x - getStartLocation( ).x;
-		
+
+	protected int getMouseTrueValueX() {
+		int value = getLocation().x - getStartLocation().x;
+
 		Dimension temp = new Dimension(value, 0);
-		getAbstractTableEditPart( ).getFigure( ).translateToRelative( temp );
+		getAbstractTableEditPart().getFigure().translateToRelative(temp);
 		value = temp.width;
-		
+
 		return value;
 	}
-	
-	protected int getMouseTrueValueY()
-	{
-		int value = getLocation( ).y - getStartLocation( ).y;
-		
+
+	protected int getMouseTrueValueY() {
+		int value = getLocation().y - getStartLocation().y;
+
 		Dimension temp = new Dimension(value, 0);
-		getAbstractTableEditPart( ).getFigure( ).translateToRelative( temp );
+		getAbstractTableEditPart().getFigure().translateToRelative(temp);
 		value = temp.width;
-		
+
 		return value;
 	}
-	
-	protected AbstractTableEditPart getAbstractTableEditPart()
-	{
-		return (AbstractTableEditPart)getSourceEditPart( );
+
+	protected AbstractTableEditPart getAbstractTableEditPart() {
+		return (AbstractTableEditPart) getSourceEditPart();
 	}
-	
-	private void showDragGuide()
-	{
-		DragGuideInfo info = createDragGuideInfo( );
-		if (info != null)
-		{
-			getSourceEditPart( ).getViewer( ).setProperty( DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE, info );
+
+	private void showDragGuide() {
+		DragGuideInfo info = createDragGuideInfo();
+		if (info != null) {
+			getSourceEditPart().getViewer().setProperty(DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE, info);
 		}
 	}
-	
-	private void eraseDragGuide()
-	{
-		DragGuideInfo info = createDragGuideInfo( );
-		if (info != null)
-		{
-			info.setPostion( -1 );
-			getSourceEditPart( ).getViewer( ).setProperty( DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE, info );
+
+	private void eraseDragGuide() {
+		DragGuideInfo info = createDragGuideInfo();
+		if (info != null) {
+			info.setPostion(-1);
+			getSourceEditPart().getViewer().setProperty(DeferredGraphicalViewer.PROPERTY_DRAG_GUIDE, info);
 		}
 	}
-	
-	
-	public boolean isCtrlDown( )
-	{
-		return getCurrentInput( ).isControlKeyDown( );
+
+	public boolean isCtrlDown() {
+		return getCurrentInput().isControlKeyDown();
 	}
 }

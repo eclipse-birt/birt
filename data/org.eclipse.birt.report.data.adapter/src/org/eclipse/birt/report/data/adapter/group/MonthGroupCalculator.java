@@ -22,45 +22,34 @@ import com.ibm.icu.util.ULocale;
  * This calculator is used to calculate a month group key basing group interval.
  */
 
-class MonthGroupCalculator extends DateGroupCalculator
-{
+class MonthGroupCalculator extends DateGroupCalculator {
 
-	
-	public MonthGroupCalculator( Object intervalStart, double intervalRange,
-			ULocale locale, TimeZone timeZone ) throws BirtException
-	{
-		super( intervalStart, intervalRange, locale, timeZone );
+	public MonthGroupCalculator(Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone)
+			throws BirtException {
+		super(intervalStart, intervalRange, locale, timeZone);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.
+	 * lang.Object)
 	 */
-	public Object calculate( Object value )
-	{
-		if ( value == null )
-		{
-			return new Double( -1 );
+	public Object calculate(Object value) {
+		if (value == null) {
+			return new Double(-1);
 		}
 
-		if ( intervalStart == null )
-		{
-			return new Double( Math.floor( this.dateTimeUtil.diffMonth( defaultStart,
-					(Date) value )
-					/ getDateIntervalRange( ) ) );
-		}
-		else
-		{
-			if ( this.dateTimeUtil.diffMonth( (Date) intervalStart, (Date) value ) < 0 )
-			{
-				return new Double( -1 );
-			}
-			else
-			{
-				return new Double( Math.floor( this.dateTimeUtil.diffMonth( (Date) intervalStart,
-						(Date) value )
-						/ getDateIntervalRange( ) ) );
+		if (intervalStart == null) {
+			return new Double(
+					Math.floor(this.dateTimeUtil.diffMonth(defaultStart, (Date) value) / getDateIntervalRange()));
+		} else {
+			if (this.dateTimeUtil.diffMonth((Date) intervalStart, (Date) value) < 0) {
+				return new Double(-1);
+			} else {
+				return new Double(Math.floor(
+						this.dateTimeUtil.diffMonth((Date) intervalStart, (Date) value) / getDateIntervalRange()));
 			}
 		}
 	}

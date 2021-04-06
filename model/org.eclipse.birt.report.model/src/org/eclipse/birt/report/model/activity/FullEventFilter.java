@@ -21,19 +21,16 @@ import org.eclipse.birt.report.model.api.activity.IEventFilter;
  * and send nothing.
  */
 
-public class FullEventFilter implements IEventFilter
-{
+public class FullEventFilter implements IEventFilter {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.activity.IEventFilter#filter(java.util
+	 * @see org.eclipse.birt.report.model.api.activity.IEventFilter#filter(java.util
 	 * .List)
 	 */
 
-	public List<RecordTask> filter( List<RecordTask> events )
-	{
-		return Collections.emptyList( );
+	public List<RecordTask> filter(List<RecordTask> events) {
+		return Collections.emptyList();
 	}
 }

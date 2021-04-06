@@ -24,8 +24,7 @@ import org.eclipse.birt.data.engine.impl.DataEngineSession;
  * 
  */
 
-public class GroupProcessorManager
-{
+public class GroupProcessorManager {
 
 	/** GroupCalculationUtil that is used by this CachedResultSet */
 	private GroupCalculationUtil groupCalculationUtil;
@@ -37,7 +36,6 @@ public class GroupProcessorManager
 	// private IResultIterator ri;
 
 	private IExpressionProcessor exprProcessor;
-	
 
 	/**
 	 * 
@@ -47,57 +45,45 @@ public class GroupProcessorManager
 	 * @param populator
 	 * @throws DataException
 	 */
-	public GroupProcessorManager( BaseQuery query,
-			ResultSetPopulator populator, DataEngineSession session )
-			throws DataException
-	{
+	public GroupProcessorManager(BaseQuery query, ResultSetPopulator populator, DataEngineSession session)
+			throws DataException {
 		this.populator = populator;
-		this.groupCalculationUtil = new GroupCalculationUtil(
-				query, 
-				this.populator,
-				session );
+		this.groupCalculationUtil = new GroupCalculationUtil(query, this.populator, session);
 	}
 
 	/**
 	 * Do group filtering and Sorting job.
+	 * 
 	 * @param rsCache
 	 * @param exprProc
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void doGroupFiltering( ResultSetCache rsCache,
-			IExpressionProcessor exprProc )
-			throws DataException
-	{
-		this.populator.setCache( rsCache );
+	public void doGroupFiltering(ResultSetCache rsCache, IExpressionProcessor exprProc) throws DataException {
+		this.populator.setCache(rsCache);
 
 		this.exprProcessor = exprProc;
-		exprProcessor.setResultIterator( this.populator.getResultIterator( ) );
+		exprProcessor.setResultIterator(this.populator.getResultIterator());
 
-		new GroupInstanceFilter( this ).doGroupFiltering( this.populator.getSession( )
-				.getEngineContext( )
-				.getScriptContext( ) );
+		new GroupInstanceFilter(this)
+				.doGroupFiltering(this.populator.getSession().getEngineContext().getScriptContext());
 	}
-	
+
 	/**
 	 * Do group filtering and Sorting job.
+	 * 
 	 * @param rsCache
 	 * @param exprProc
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void doGroupSorting( ResultSetCache rsCache,
-			IExpressionProcessor exprProc )
-			throws DataException
-	{
-		this.populator.setCache( rsCache );
+	public void doGroupSorting(ResultSetCache rsCache, IExpressionProcessor exprProc) throws DataException {
+		this.populator.setCache(rsCache);
 
 		this.exprProcessor = exprProc;
-		exprProcessor.setResultIterator( this.populator.getResultIterator( ) );
+		exprProcessor.setResultIterator(this.populator.getResultIterator());
 
-		new GroupInstanceSorter( this ).doGroupSorting( this.populator.getSession( )
-				.getEngineContext( )
-				.getScriptContext( ) );
+		new GroupInstanceSorter(this).doGroupSorting(this.populator.getSession().getEngineContext().getScriptContext());
 	}
 
 	/**
@@ -106,26 +92,19 @@ public class GroupProcessorManager
 	 * @param expressionList
 	 * @throws DataException
 	 */
-	void calculateExpressionList( List expressionList,
-			List groupLevelList, int type ) throws DataException
-	{
-		int[] groupLevelArray = new int[groupLevelList.size( )];
-		for ( int i = 0; i < groupLevelList.size( ); i++ )
-		{
-			groupLevelArray[i] = ( (Integer) groupLevelList.get( i ) ).intValue( );
+	void calculateExpressionList(List expressionList, List groupLevelList, int type) throws DataException {
+		int[] groupLevelArray = new int[groupLevelList.size()];
+		for (int i = 0; i < groupLevelList.size(); i++) {
+			groupLevelArray[i] = ((Integer) groupLevelList.get(i)).intValue();
 		}
-		this.exprProcessor.evaluateMultiPassExprOnGroup(
-				expressionList.toArray( ),
-				groupLevelArray,
-				type );
+		this.exprProcessor.evaluateMultiPassExprOnGroup(expressionList.toArray(), groupLevelArray, type);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public IExpressionProcessor getExpressionProcessor( )
-	{
+	public IExpressionProcessor getExpressionProcessor() {
 		return this.exprProcessor;
 	}
 
@@ -133,8 +112,7 @@ public class GroupProcessorManager
 	 * 
 	 * @return
 	 */
-	public ResultSetPopulator getResultSetPopulator( )
-	{
+	public ResultSetPopulator getResultSetPopulator() {
 		return this.populator;
 	}
 
@@ -142,14 +120,12 @@ public class GroupProcessorManager
 	 * 
 	 * @return
 	 */
-	public GroupCalculationUtil getGroupCalculationUtil( )
-	{
+	public GroupCalculationUtil getGroupCalculationUtil() {
 		return this.groupCalculationUtil;
 	}
-	
-	public void setExpressionProcessor( IExpressionProcessor exprProc )
-	{
+
+	public void setExpressionProcessor(IExpressionProcessor exprProc) {
 		this.exprProcessor = exprProc;
-		exprProcessor.setResultIterator( this.populator.getResultIterator( ) );
+		exprProcessor.setResultIterator(this.populator.getResultIterator());
 	}
 }

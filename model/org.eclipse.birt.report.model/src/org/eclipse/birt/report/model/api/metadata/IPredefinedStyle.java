@@ -33,27 +33,26 @@ package org.eclipse.birt.report.model.api.metadata;
  * 
  */
 
-public interface IPredefinedStyle
-{
+public interface IPredefinedStyle {
 
 	/**
 	 * Returns the message ID for the display name.
 	 * 
 	 * @return the display name message ID
 	 */
-	public String getDisplayNameKey( );
+	public String getDisplayNameKey();
 
 	/**
 	 * Gets the internal style name.
 	 * 
 	 * @return the name
 	 */
-	public String getName( );
+	public String getName();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getType( );
+	public String getType();
 
 }

@@ -20,8 +20,7 @@ import org.eclipse.birt.data.engine.api.DataEngineContext;
  * 
  */
 
-public class StreamWriter
-{
+public class StreamWriter {
 
 	private StreamID id;
 	private HashMap<Integer, OutputStream> cachedStreams;
@@ -32,10 +31,9 @@ public class StreamWriter
 	 * @param context
 	 * @param id
 	 */
-	public StreamWriter( DataEngineContext context, StreamID id )
-	{
+	public StreamWriter(DataEngineContext context, StreamID id) {
 		this.id = id;
-		this.cachedStreams = new HashMap<Integer, OutputStream>( );
+		this.cachedStreams = new HashMap<Integer, OutputStream>();
 		this.context = context;
 	}
 
@@ -44,9 +42,8 @@ public class StreamWriter
 	 * @param streamID
 	 * @return
 	 */
-	public boolean hasOutputStream( StreamID streamID )
-	{
-		return this.cachedStreams.get( streamID ) != null;
+	public boolean hasOutputStream(StreamID streamID) {
+		return this.cachedStreams.get(streamID) != null;
 	}
 
 	/**
@@ -54,12 +51,11 @@ public class StreamWriter
 	 * @param streamType
 	 * @return
 	 */
-	public OutputStream getOutputStream( int streamType )
-	{
+	public OutputStream getOutputStream(int streamType) {
 		assert id != null;
 
-		OutputStream os = new DummyOutputStream( context, id, streamType );
-		this.cachedStreams.put( Integer.valueOf( streamType ), os );
+		OutputStream os = new DummyOutputStream(context, id, streamType);
+		this.cachedStreams.put(Integer.valueOf(streamType), os);
 		return os;
 	}
 }

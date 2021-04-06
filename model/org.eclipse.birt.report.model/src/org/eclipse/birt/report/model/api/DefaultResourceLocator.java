@@ -16,14 +16,14 @@ import java.util.Map;
 
 /**
  * The default implementation for interface {@link IResourceLocator}. This
- * implementation is empty and does nothing to search the resource. </ul>
+ * implementation is empty and does nothing to search the resource.
+ * </ul>
  * 
  * @see IResourceLocator
  * @see SessionHandle
  */
 
-public class DefaultResourceLocator implements IResourceLocator
-{
+public class DefaultResourceLocator implements IResourceLocator {
 
 	/*
 	 * (non-Javadoc)
@@ -33,9 +33,7 @@ public class DefaultResourceLocator implements IResourceLocator
 	 * .birt.report.model.api.ModuleHandle, java.lang.String, int)
 	 */
 
-	public URL findResource( ModuleHandle moduleHandle, String fileName,
-			int type )
-	{
+	public URL findResource(ModuleHandle moduleHandle, String fileName, int type) {
 		return null;
 
 	}
@@ -45,12 +43,9 @@ public class DefaultResourceLocator implements IResourceLocator
 	 * 
 	 * @see
 	 * org.eclipse.birt.report.model.api.IResourceLocator#findResource(org.eclipse
-	 * .birt.report.model.api.ModuleHandle, java.lang.String, int,
-	 * java.util.Map)
+	 * .birt.report.model.api.ModuleHandle, java.lang.String, int, java.util.Map)
 	 */
-	public URL findResource( ModuleHandle moduleHandle, String fileName,
-			int type, Map appContext )
-	{
+	public URL findResource(ModuleHandle moduleHandle, String fileName, int type, Map appContext) {
 		return null;
 	}
 

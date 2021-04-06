@@ -15,34 +15,28 @@ import java.util.HashSet;
 
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 
-public class ExecutionPolicy
-{
+public class ExecutionPolicy {
 
 	private boolean suppressDuplicate;
-	private HashSet policies = new HashSet( );
+	private HashSet policies = new HashSet();
 
-	public ExecutionPolicy( )
-	{
+	public ExecutionPolicy() {
 
 	}
 
-	public boolean needExecute( ReportItemDesign design )
-	{
-		return policies.contains( design );
+	public boolean needExecute(ReportItemDesign design) {
+		return policies.contains(design);
 	}
 
-	public void setExecute( ReportItemDesign design )
-	{
-		policies.add( design );
+	public void setExecute(ReportItemDesign design) {
+		policies.add(design);
 	}
 
-	public boolean needSuppressDuplicate( )
-	{
+	public boolean needSuppressDuplicate() {
 		return suppressDuplicate;
 	}
 
-	public void enableSuppressDuplicate( )
-	{
+	public void enableSuppressDuplicate() {
 		suppressDuplicate = true;
 	}
 }

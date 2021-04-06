@@ -18,16 +18,15 @@ import org.eclipse.birt.report.presentation.aggregation.control.TocFragment;
 /**
  * Fragment for report tool bar.
  * <p>
+ * 
  * @see BaseFragment
  */
-public class DocumentFragment extends BirtBaseFragment
-{
+public class DocumentFragment extends BirtBaseFragment {
 	/**
 	 * Build fragment by adding engine fragment as child.
 	 */
-	protected void build( )
-	{
-		addChild( new ProgressBarFragment( ) );
-		addChild( new TocFragment( ) );		
+	protected void build() {
+		addChild(new ProgressBarFragment());
+		addChild(new TocFragment());
 	}
 }

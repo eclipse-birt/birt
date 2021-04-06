@@ -17,13 +17,11 @@ import org.eclipse.birt.report.item.crosstab.internal.ui.editors.layout.FirstCel
  * 
  */
 
-public class FirstCellFigure extends CrosstabCellFigure
-{
+public class FirstCellFigure extends CrosstabCellFigure {
 	/**
 	 * 
 	 */
-	public FirstCellFigure()
-	{
-		setLayoutManager( new FirstCellLayout() );
+	public FirstCellFigure() {
+		setLayoutManager(new FirstCellLayout());
 	}
 }

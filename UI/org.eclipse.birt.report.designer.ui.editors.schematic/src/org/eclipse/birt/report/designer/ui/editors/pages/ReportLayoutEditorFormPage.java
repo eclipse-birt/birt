@@ -34,9 +34,7 @@ import org.eclipse.ui.forms.editor.FormEditor;
 /**
  * Report layout page is the graphical editor for report layout.
  */
-public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
-		IReportEditorPage
-{
+public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements IReportEditorPage {
 
 	public static final String ID = MultiPageReportEditor.LayoutEditor_ID;
 
@@ -48,12 +46,11 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 
 	private int staleType;
 
-	private ActivityStackListener commandStackListener = new ActivityStackListener( ) {
+	private ActivityStackListener commandStackListener = new ActivityStackListener() {
 
-		public void stackChanged( ActivityStackEvent event )
-		{
-			updateStackActions( );
-			getEditor( ).editorDirtyStateChanged( );
+		public void stackChanged(ActivityStackEvent event) {
+			updateStackActions();
+			getEditor().editorDirtyStateChanged();
 			staleType = IPageStaleType.MODEL_CHANGED;
 		}
 	};
@@ -64,33 +61,28 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * @seeorg.eclipse.birt.report.designer.ui.editors.schematic.layout.
 	 * AbstractReportGraphicalEditorWithRuler#configureGraphicalViewer()
 	 */
-	protected void configureGraphicalViewer( )
-	{
-		super.configureGraphicalViewer( );
-		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
-		if ( stack != null )
-		{
-			stack.addCommandStackListener( getCommandStackListener( ) );
+	protected void configureGraphicalViewer() {
+		super.configureGraphicalViewer();
+		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
+		if (stack != null) {
+			stack.addCommandStackListener(getCommandStackListener());
 		}
 	}
 
 	/**
 	 * returns command stack listener.
 	 */
-	public ActivityStackListener getCommandStackListener( )
-	{
+	public ActivityStackListener getCommandStackListener() {
 		return commandStackListener;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
+	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
 	 * .editor.FormEditor)
 	 */
-	public void initialize( FormEditor editor )
-	{
+	public void initialize(FormEditor editor) {
 		this.editor = editor;
 	}
 
@@ -99,8 +91,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
-	public FormEditor getEditor( )
-	{
+	public FormEditor getEditor() {
 		return editor;
 	}
 
@@ -109,8 +100,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
-	public IManagedForm getManagedForm( )
-	{
+	public IManagedForm getManagedForm() {
 		return null;
 	}
 
@@ -119,8 +109,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
-	public void setActive( boolean active )
-	{
+	public void setActive(boolean active) {
 	}
 
 	/*
@@ -128,8 +117,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
-	public boolean isActive( )
-	{
+	public boolean isActive() {
 		return false;
 	}
 
@@ -138,8 +126,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
-	public boolean canLeaveThePage( )
-	{
+	public boolean canLeaveThePage() {
 		return true;
 	}
 
@@ -148,8 +135,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getPartControl()
 	 */
-	public Control getPartControl( )
-	{
+	public Control getPartControl() {
 		return control;
 	}
 
@@ -158,8 +144,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getId()
 	 */
-	public String getId( )
-	{
+	public String getId() {
 		return ID;
 	}
 
@@ -168,8 +153,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
-	public int getIndex( )
-	{
+	public int getIndex() {
 		return index;
 	}
 
@@ -178,8 +162,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
-	public void setIndex( int index )
-	{
+	public void setIndex(int index) {
 		this.index = index;
 	}
 
@@ -188,8 +171,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
-	public boolean isEditor( )
-	{
+	public boolean isEditor() {
 		return true;
 	}
 
@@ -198,22 +180,19 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
-	public boolean selectReveal( Object object )
-	{
+	public boolean selectReveal(Object object) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
+	 * @see org.eclipse.ui.IWorkbenchPart#createPartControl(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	public void createPartControl( Composite parent )
-	{
-		super.createPartControl( parent );
-		Control[] children = parent.getChildren( );
+	public void createPartControl(Composite parent) {
+		super.createPartControl(parent);
+		Control[] children = parent.getChildren();
 		control = children[children.length - 1];
 	}
 
@@ -223,19 +202,14 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * @seeorg.eclipse.birt.report.designer.ui.editors.schematic.layout.
 	 * AbstractReportGraphicalEditorWithRuler#dispose()
 	 */
-	public void dispose( )
-	{
-		if ( getCommandStack( ) != null
-				&& getCommandStack( ) instanceof WrapperCommandStack )
-		{
-			WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
-			stack.removeCommandStackListener( getCommandStackListener( ) );
+	public void dispose() {
+		if (getCommandStack() != null && getCommandStack() instanceof WrapperCommandStack) {
+			WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
+			stack.removeCommandStackListener(getCommandStackListener());
 		}
 		// remove the mediator listener
-		SessionHandleAdapter.getInstance( )
-				.getMediator( getModel( ) )
-				.removeColleague( this );
-		super.dispose( );
+		SessionHandleAdapter.getInstance().getMediator(getModel()).removeColleague(this);
+		super.dispose();
 	}
 
 	/*
@@ -245,8 +219,7 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#markPageStale
 	 * (int)
 	 */
-	public void markPageStale( int type )
-	{
+	public void markPageStale(int type) {
 		staleType = type;
 	}
 
@@ -254,11 +227,9 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType
-	 * ()
+	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#getStaleType ()
 	 */
-	public int getStaleType( )
-	{
+	public int getStaleType() {
 		return staleType;
 	}
 
@@ -269,48 +240,40 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * org.eclipse.birt.report.designer.ui.editors.IReportEditorPage#onBroughtToTop
 	 * (org.eclipse.birt.report.designer.ui.editors.IReportEditorPage)
 	 */
-	public boolean onBroughtToTop( IReportEditorPage prePage )
-	{
-		if ( getEditorInput( ) != prePage.getEditorInput( ) )
-		{
-			setInput( prePage.getEditorInput( ) );
+	public boolean onBroughtToTop(IReportEditorPage prePage) {
+		if (getEditorInput() != prePage.getEditorInput()) {
+			setInput(prePage.getEditorInput());
 		}
-		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
+		ModuleHandle newModel = getProvider().queryReportModuleHandle();
 
-		if ( newModel != null && getModel( ) != newModel )
-		{
-			ModuleHandle oldModel = getModel( );
+		if (newModel != null && getModel() != newModel) {
+			ModuleHandle oldModel = getModel();
 
-			setModel( newModel );
+			setModel(newModel);
 
-			rebuildReportDesign( oldModel );
-			
-			if ( getModel( ) != null )
-			{
-				this.getGraphicalViewer( ).setContents( getModel( ) );
-				hookModelEventManager( getModel( ) );
-				markPageStale( IPageStaleType.NONE );
+			rebuildReportDesign(oldModel);
+
+			if (getModel() != null) {
+				this.getGraphicalViewer().setContents(getModel());
+				hookModelEventManager(getModel());
+				markPageStale(IPageStaleType.NONE);
 				// fix bug 264455, when the bidi property is change, need set
 				// the property again.
-				if ( oldModel instanceof ReportDesignHandle )
-				{
-					if ( !( (ReportDesignHandle) getModel( ) ).getBidiOrientation( )
-							.equals( ( (ReportDesignHandle) oldModel ).getBidiOrientation( ) ) )
-					{
-						String newOrientation = ( (ReportDesignHandle) getModel( ) ).getBidiOrientation( );
-						UIUtil.processOrientationChange( newOrientation,
-								getGraphicalViewer( ) );
+				if (oldModel instanceof ReportDesignHandle) {
+					if (!((ReportDesignHandle) getModel()).getBidiOrientation()
+							.equals(((ReportDesignHandle) oldModel).getBidiOrientation())) {
+						String newOrientation = ((ReportDesignHandle) getModel()).getBidiOrientation();
+						UIUtil.processOrientationChange(newOrientation, getGraphicalViewer());
 					}
 				}
 			}
-			updateStackActions( );
+			updateStackActions();
 		}
 		// reselect the selection
-		GraphicalViewer view = getGraphicalViewer( );
+		GraphicalViewer view = getGraphicalViewer();
 
-		if ( view != null )
-		{
-			UIUtil.resetViewSelection( view, true );
+		if (view != null) {
+			UIUtil.resetViewSelection(view, true);
 		}
 		return true;
 	}
@@ -320,27 +283,21 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @param oldModel
 	 */
-	protected void rebuildReportDesign( ModuleHandle oldModel )
-	{
+	protected void rebuildReportDesign(ModuleHandle oldModel) {
 		// Initializes command stack
-		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack( );
-		if ( stack != null )
-		{
-			stack.removeCommandStackListener( getCommandStackListener( ) );
-			stack.setActivityStack( getModel( ).getCommandStack( ) );
-			stack.addCommandStackListener( getCommandStackListener( ) );
+		WrapperCommandStack stack = (WrapperCommandStack) getCommandStack();
+		if (stack != null) {
+			stack.removeCommandStackListener(getCommandStackListener());
+			stack.setActivityStack(getModel().getCommandStack());
+			stack.addCommandStackListener(getCommandStackListener());
 		}
 
 		// Resets the mediator
-		SessionHandleAdapter.getInstance( ).resetReportDesign( oldModel,
-				getModel( ) );
+		SessionHandleAdapter.getInstance().resetReportDesign(oldModel, getModel());
 
-		SessionHandleAdapter.getInstance( )
-				.setReportDesignHandle( getModel( ) );
+		SessionHandleAdapter.getInstance().setReportDesignHandle(getModel());
 
-		UIUtil.processSessionResourceFolder( getEditorInput( ),
-				UIUtil.getProjectFromInput( getEditorInput( ) ),
-				getModel( ) );
+		UIUtil.processSessionResourceFolder(getEditorInput(), UIUtil.getProjectFromInput(getEditorInput()), getModel());
 
 	}
 
@@ -349,15 +306,11 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.texteditor.AbstractTextEditor#firePropertyChange(int)
 	 */
-	protected void firePropertyChange( int type )
-	{
-		if ( type == PROP_DIRTY )
-		{
-			editor.editorDirtyStateChanged( );
-		}
-		else
-		{
-			super.firePropertyChange( type );
+	protected void firePropertyChange(int type) {
+		if (type == PROP_DIRTY) {
+			editor.editorDirtyStateChanged();
+		} else {
+			super.firePropertyChange(type);
 		}
 	}
 
@@ -366,23 +319,19 @@ public class ReportLayoutEditorFormPage extends ReportLayoutEditor implements
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
-	public void setInput( IEditorInput input )
-	{
-		super.setInput( input );
+	public void setInput(IEditorInput input) {
+		super.setInput(input);
 	}
 
-	protected IReportProvider getProvider( )
-	{
-		return (IReportProvider) editor.getAdapter( IReportProvider.class );
+	protected IReportProvider getProvider() {
+		return (IReportProvider) editor.getAdapter(IReportProvider.class);
 	}
 
-	protected void finalize( ) throws Throwable
-	{
-		if ( Policy.TRACING_PAGE_CLOSE )
-		{
-			System.out.println( "Report layout page finalized" ); //$NON-NLS-1$
+	protected void finalize() throws Throwable {
+		if (Policy.TRACING_PAGE_CLOSE) {
+			System.out.println("Report layout page finalized"); //$NON-NLS-1$
 		}
 
-		super.finalize( );
+		super.finalize();
 	}
 }

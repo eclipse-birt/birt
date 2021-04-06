@@ -22,56 +22,44 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * @see ColumnHandle
  */
 
-public class ColumnHandleTest extends BaseTestCase
-{
+public class ColumnHandleTest extends BaseTestCase {
 
-	public void testColumnWidthConvertion( ) throws Exception
-	{
-		openDesign( "TableItemHandleTest_2.xml" );
+	public void testColumnWidthConvertion() throws Exception {
+		openDesign("TableItemHandleTest_2.xml");
 
 		// No change expected since all widths are absolute.
-		TableHandle table = (TableHandle) designHandle
-				.findElement( "testTable1" );
-		for (Iterator<DesignElementHandle> iter = table.getColumns().iterator(); iter
-				.hasNext( ); )
-		{
+		TableHandle table = (TableHandle) designHandle.findElement("testTable1");
+		for (Iterator<DesignElementHandle> iter = table.getColumns().iterator(); iter.hasNext();) {
 			ColumnHandle column = (ColumnHandle) iter.next();
-			column.convertWidthToAbsoluteValue( );
-			assertEquals( "1in", column.getWidth( ).getValue( ).toString( ) );
+			column.convertWidthToAbsoluteValue();
+			assertEquals("1in", column.getWidth().getValue().toString());
 		}
 
 		// Expects the width of the second column converts to absolute value.
-		table = (TableHandle) designHandle.findElement( "testTable2" );
-		table.setWidthToFitColumns( ); // Fix the table width
-		for (Iterator<DesignElementHandle> iter = table.getColumns().iterator(); iter
-				.hasNext( ); )
-		{
+		table = (TableHandle) designHandle.findElement("testTable2");
+		table.setWidthToFitColumns(); // Fix the table width
+		for (Iterator<DesignElementHandle> iter = table.getColumns().iterator(); iter.hasNext();) {
 			ColumnHandle column = (ColumnHandle) iter.next();
-			column.convertWidthToAbsoluteValue( );
-			assertEquals( "1in", column.getWidth( ).getValue( ).toString( ) );
+			column.convertWidthToAbsoluteValue();
+			assertEquals("1in", column.getWidth().getValue().toString());
 		}
 
 		// No change expected since all widths are relative and not percentage.
-		table = (TableHandle) designHandle.findElement( "testTable4" );
-		for ( int i = 0; i < table.getColumns( ).getCount( ); i++ )
-		{
-			ColumnHandle column = (ColumnHandle) table.getColumns( ).get( i );
-			assertEquals( i + 1 + "px", column.getWidth( ).getValue( )
-					.toString( ) );
-			column.convertWidthToAbsoluteValue( );
-			assertEquals( i + 1 + "px", column.getWidth( ).getValue( )
-					.toString( ) );
+		table = (TableHandle) designHandle.findElement("testTable4");
+		for (int i = 0; i < table.getColumns().getCount(); i++) {
+			ColumnHandle column = (ColumnHandle) table.getColumns().get(i);
+			assertEquals(i + 1 + "px", column.getWidth().getValue().toString());
+			column.convertWidthToAbsoluteValue();
+			assertEquals(i + 1 + "px", column.getWidth().getValue().toString());
 		}
 
 		// No change expected since the container's width is not set
-		table = (TableHandle) designHandle.findElement( "testTable10" );
-		for ( int i = 0; i < table.getColumns( ).getCount( ); i++ )
-		{
-			ColumnHandle column = (ColumnHandle) table.getColumns( ).get( i );
-			DimensionValue width = (DimensionValue) column.getWidth( )
-					.getValue( );
-			column.convertWidthToAbsoluteValue( );
-			assertEquals( width, column.getWidth( ).getValue( ) );
+		table = (TableHandle) designHandle.findElement("testTable10");
+		for (int i = 0; i < table.getColumns().getCount(); i++) {
+			ColumnHandle column = (ColumnHandle) table.getColumns().get(i);
+			DimensionValue width = (DimensionValue) column.getWidth().getValue();
+			column.convertWidthToAbsoluteValue();
+			assertEquals(width, column.getWidth().getValue());
 		}
 	}
 }

@@ -22,24 +22,19 @@ import org.eclipse.birt.report.model.core.Module;
  * @see org.eclipse.birt.report.model.elements.TableGroup
  */
 
-public class TableGroupHandle extends GroupHandle
-{
+public class TableGroupHandle extends GroupHandle {
 
 	/**
-	 * Constructs a handle for the table group with the given design and
-	 * element. The application generally does not create handles directly.
-	 * Instead, it uses one of the navigation methods available on other element
-	 * handles.
+	 * Constructs a handle for the table group with the given design and element.
+	 * The application generally does not create handles directly. Instead, it uses
+	 * one of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public TableGroupHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public TableGroupHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 }

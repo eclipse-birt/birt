@@ -20,16 +20,14 @@ import org.eclipse.birt.report.resource.ResourceConstants;
  * 
  * @see BaseFragment
  */
-public class ExceptionDialogFragment extends BaseDialogFragment
-{
+public class ExceptionDialogFragment extends BaseDialogFragment {
 
 	/**
 	 * Get unique id of the corresponding UI gesture.
 	 * 
 	 * @return id
 	 */
-	public String getClientId( )
-	{
+	public String getClientId() {
 		return "exceptionDialog"; //$NON-NLS-1$
 	}
 
@@ -38,8 +36,7 @@ public class ExceptionDialogFragment extends BaseDialogFragment
 	 * 
 	 * @return id
 	 */
-	public String getClientName( )
-	{
+	public String getClientName() {
 		return "Exception"; //$NON-NLS-1$
 	}
 
@@ -49,9 +46,7 @@ public class ExceptionDialogFragment extends BaseDialogFragment
 	 * @return title id
 	 */
 
-	public String getTitle( )
-	{
-		return BirtResources
-				.getMessage( ResourceConstants.EXCEPTION_DIALOG_TITLE );
+	public String getTitle() {
+		return BirtResources.getMessage(ResourceConstants.EXCEPTION_DIALOG_TITLE);
 	}
 }

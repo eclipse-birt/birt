@@ -27,40 +27,30 @@ import org.eclipse.jface.action.IMenuManager;
  * 
  */
 
-public class CrosstabMenuAdapterFactory implements IAdapterFactory
-{
+public class CrosstabMenuAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( adaptableObject instanceof ExtendedItemHandle
-				&& ( (ExtendedItemHandle) adaptableObject ).getExtensionName( )
-						.equals( "Crosstab" )
-				&& adapterType == IMenuListener.class )
-		{
-			final ExtendedItemHandle handle = (ExtendedItemHandle)adaptableObject;
-			
-			return new ISchematicMenuListener( ) {
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adaptableObject instanceof ExtendedItemHandle
+				&& ((ExtendedItemHandle) adaptableObject).getExtensionName().equals("Crosstab")
+				&& adapterType == IMenuListener.class) {
+			final ExtendedItemHandle handle = (ExtendedItemHandle) adaptableObject;
 
-				public void menuAboutToShow( IMenuManager manager )
-				{
+			return new ISchematicMenuListener() {
+
+				public void menuAboutToShow(IMenuManager manager) {
 					CrosstabReportItemHandle crosstab = null;
-					try
-					{
-						crosstab = (CrosstabReportItemHandle)( (ExtendedItemHandle) handle ).getReportItem( );
-					}
-					catch ( ExtendedElementException e )
-					{
+					try {
+						crosstab = (CrosstabReportItemHandle) ((ExtendedItemHandle) handle).getReportItem();
+					} catch (ExtendedElementException e) {
 						return;
 					}
-					//manager.appendToGroup( "additions", new AddComputedMeasureAction(  ); //$NON-NLS-1$
-					manager.appendToGroup( GEFActionConstants.GROUP_VIEW,
-							new AddComputedMeasureAction( crosstab ) );
-					manager.appendToGroup( GEFActionConstants.GROUP_VIEW,
-							new AddRelativeTimePeriodAction( handle ) );
+					// manager.appendToGroup( "additions", new AddComputedMeasureAction( );
+					// //$NON-NLS-1$
+					manager.appendToGroup(GEFActionConstants.GROUP_VIEW, new AddComputedMeasureAction(crosstab));
+					manager.appendToGroup(GEFActionConstants.GROUP_VIEW, new AddRelativeTimePeriodAction(handle));
 				}
 
-				public void setActionRegistry( ActionRegistry actionRegistry )
-				{
+				public void setActionRegistry(ActionRegistry actionRegistry) {
 
 				}
 			};
@@ -68,8 +58,7 @@ public class CrosstabMenuAdapterFactory implements IAdapterFactory
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
+	public Class[] getAdapterList() {
 		return null;
 	}
 

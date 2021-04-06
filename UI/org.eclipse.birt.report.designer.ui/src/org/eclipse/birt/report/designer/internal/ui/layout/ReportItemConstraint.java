@@ -17,10 +17,9 @@ import org.eclipse.draw2d.geometry.Rectangle;
 
 /**
  * @author David Michonneau
- *  
+ * 
  */
-public class ReportItemConstraint extends Rectangle
-{
+public class ReportItemConstraint extends Rectangle {
 
 	private static final long serialVersionUID = 1L;
 
@@ -30,138 +29,118 @@ public class ReportItemConstraint extends Rectangle
 
 	public static final int BLOCK = 2;
 
-	//private int m_display = NONE;
+	// private int m_display = NONE;
 	private int m_display = BLOCK;
 
-    private Insets m_margins = null;
-    
-    private double measure = 0;
+	private Insets m_margins = null;
+
+	private double measure = 0;
 	private String units = ""; //$NON-NLS-1$
-	
+
 	private boolean isFitTable = false;
 
 	private int align = ReportFlowLayout.ALIGN_RIGHTBOTTOM;
-	
-	
-	public int getAlign( )
-	{
+
+	public int getAlign() {
 		return align;
 	}
 
-	
-	public void setAlign( int align )
-	{
+	public void setAlign(int align) {
 		this.align = align;
 	}
 
 	/**
 	 * @return
 	 */
-	public boolean isFitContiner( )
-	{
+	public boolean isFitContiner() {
 		return isFitTable;
 	}
-	
+
 	/**
 	 * @param isFitTable
 	 */
-	public void setFitTable( boolean isFitTable )
-	{
+	public void setFitTable(boolean isFitTable) {
 		this.isFitTable = isFitTable;
 	}
 
-
 	/**
 	 * @return
 	 */
-	public double getMeasure( )
-	{
+	public double getMeasure() {
 		return measure;
 	}
 
-	
 	/**
 	 * @param measure
 	 */
-	public void setMeasure( double measure )
-	{
+	public void setMeasure(double measure) {
 		this.measure = measure;
 	}
 
-	
 	/**
 	 * @return
 	 */
-	public String getUnits( )
-	{
+	public String getUnits() {
 		return units;
 	}
 
-	
 	/**
 	 * @param units
 	 */
-	public void setUnits( String units )
-	{
+	public void setUnits(String units) {
 		this.units = units;
 	}
 
-	public int getDisplay( )
-	{
+	public int getDisplay() {
 		return m_display;
 	}
 
 	/**
-	 * @param isInline
-	 *            The isInline to set.
+	 * @param isInline The isInline to set.
 	 */
-	public void setDisplay( String display )
-	{
-		if ( display.equals( DesignChoiceConstants.DISPLAY_INLINE ) )
+	public void setDisplay(String display) {
+		if (display.equals(DesignChoiceConstants.DISPLAY_INLINE))
 			m_display = INLINE;
 //		else if ( display.equals( DesignChoiceConstants.DISPLAY_BLOCK ) )
 //			m_display = BLOCK;
-		else 
+		else
 			m_display = BLOCK;
 	}
 
 	/**
 	 * @return true if the element display is inline
 	 */
-	public boolean isInline( )
-	{
+	public boolean isInline() {
 		return m_display == INLINE;
 	}
 
 	/**
 	 * @return true if the element display is block
 	 */
-	public boolean isBlock( )
-	{
+	public boolean isBlock() {
 		return m_display == BLOCK;
 	}
 
 	/**
 	 * @return true if the display is none
 	 */
-	public boolean isNone( )
-	{
+	public boolean isNone() {
 		return m_display == NONE;
 	}
+
 	/**
 	 * @return the margin of the element
 	 */
-	public Insets getMargin()
-	{
-	    return m_margins;
+	public Insets getMargin() {
+		return m_margins;
 	}
-	
+
 	/**
 	 * Set the margin of this element
+	 * 
 	 * @param margin
 	 */
-	public void setMargin( final Insets margin )
-	{
-	    m_margins = margin;
+	public void setMargin(final Insets margin) {
+		m_margins = margin;
 	}
 }

@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Provide the interfaces for the List Group Content.
  */
-public interface IListGroupContent extends IGroupContent
-{
+public interface IListGroupContent extends IGroupContent {
 
 }

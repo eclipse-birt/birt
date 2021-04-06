@@ -16,23 +16,22 @@ package org.eclipse.birt.core.script.functionservice;
  * execution of script function.
  * 
  */
-public interface IScriptFunctionContext
-{
+public interface IScriptFunctionContext {
 	/**
 	 * @deprecated Replaced by FUNCTION_BEAN_NAME
 	 */
 	public static final String FUNCITON_BEAN_NAME = "org.eclipse.birt.core.script.functionservice.context.functionBean";
-	
+
 	public static final String FUNCTION_BEAN_NAME = "org.eclipse.birt.core.script.functionservice.context.functionBean";
 
-	public static final String LOCALE ="org.eclipse.birt.core.script.functionservice.context.locale";
-	public static final String TIMEZONE ="org.eclipse.birt.core.script.functionservice.context.timeZone";
-	
+	public static final String LOCALE = "org.eclipse.birt.core.script.functionservice.context.locale";
+	public static final String TIMEZONE = "org.eclipse.birt.core.script.functionservice.context.timeZone";
+
 	/**
 	 * find the property value with specified name
 	 * 
 	 * @param name
 	 * @return
 	 */
-	public Object findProperty( String name );
+	public Object findProperty(String name);
 }

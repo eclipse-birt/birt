@@ -38,51 +38,47 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_122077 extends BaseTestCase
-{
+public class Regression_122077 extends BaseTestCase {
 
 	private String filename = "Regression_122077.xml"; //$NON-NLS-1$
 	private String LIBRARY = "Regression_122077_Lib.xml";
-		
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( filename , filename );
+		copyResource_INPUT(filename, filename);
 		copyResource_INPUT(LIBRARY, LIBRARY);
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void test_regression_122077( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
 
-		TableHandle table = (TableHandle) designHandle.findElement( "NewTable" ); //$NON-NLS-1$
+	public void test_regression_122077() throws DesignFileException, SemanticException {
+		openDesign(filename);
+
+		TableHandle table = (TableHandle) designHandle.findElement("NewTable"); //$NON-NLS-1$
 		assertNotNull(table);
-		RowHandle row = (RowHandle)table.getHeader( ).get( 0 );
-		CellHandle cell =(CellHandle) row.getCells( ).get( 0 );
-		LabelHandle label = (LabelHandle)cell.getContent( ).get( 0 );
-		
+		RowHandle row = (RowHandle) table.getHeader().get(0);
+		CellHandle cell = (CellHandle) row.getCells().get(0);
+		LabelHandle label = (LabelHandle) cell.getContent().get(0);
+
 		assertNotNull(label);
-		PropertyHandle propHandle = label
-				.getPropertyHandle( ReportItem.VISIBILITY_PROP );
+		PropertyHandle propHandle = label.getPropertyHandle(ReportItem.VISIBILITY_PROP);
 
-		HideRule structure = StructureFactory.createHideRule( );
-		propHandle.addItem( structure );
+		HideRule structure = StructureFactory.createHideRule();
+		propHandle.addItem(structure);
 
-		Iterator iter = propHandle.iterator( );
-		HideRuleHandle structureHandle = (HideRuleHandle) iter.next( );
+		Iterator iter = propHandle.iterator();
+		HideRuleHandle structureHandle = (HideRuleHandle) iter.next();
 
-		structureHandle.setExpression( "expression" ); //$NON-NLS-1$
-		structureHandle.setFormat( DesignChoiceConstants.FORMAT_TYPE_PDF );
+		structureHandle.setExpression("expression"); //$NON-NLS-1$
+		structureHandle.setFormat(DesignChoiceConstants.FORMAT_TYPE_PDF);
 
-		assertEquals( "expression", structureHandle.getExpression( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.FORMAT_TYPE_PDF, structureHandle
-				.getFormat( ) );
+		assertEquals("expression", structureHandle.getExpression()); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.FORMAT_TYPE_PDF, structureHandle.getFormat());
 	}
 }

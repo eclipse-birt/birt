@@ -39,11 +39,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
  * 
  */
 public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
-		implements
-			IDelegate,
-			IBirtFacetConstants,
-			IBirtWizardConstants
-{
+		implements IDelegate, IBirtFacetConstants, IBirtWizardConstants {
 
 	/**
 	 * Invoke "INSTALL" event for project facet
@@ -52,66 +48,54 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 	 *      org.eclipse.wst.common.project.facet.core.IProjectFacetVersion,
 	 *      java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void execute( IProject project, IProjectFacetVersion fv,
-			Object config, IProgressMonitor monitor ) throws CoreException
-	{
-		monitor.beginTask( "", 4 ); //$NON-NLS-1$
+	public void execute(IProject project, IProjectFacetVersion fv, Object config, IProgressMonitor monitor)
+			throws CoreException {
+		monitor.beginTask("", 4); //$NON-NLS-1$
 
-		try
-		{
+		try {
 			IDataModel facetDataModel = (IDataModel) config;
 			IDataModel masterDataModel = (IDataModel) facetDataModel
-					.getProperty( FacetInstallDataModelProvider.MASTER_PROJECT_DM );
+					.getProperty(FacetInstallDataModelProvider.MASTER_PROJECT_DM);
 
 			IPath destPath = null;
 			// get web content folder
-			if ( masterDataModel != null )
-			{
-				String configFolder = BirtWizardUtil
-						.getConfigFolder( masterDataModel );
+			if (masterDataModel != null) {
+				String configFolder = BirtWizardUtil.getConfigFolder(masterDataModel);
 
-				if ( configFolder != null )
-				{
-					IFolder folder = BirtWizardUtil.getFolder( project, configFolder );
-					if ( folder != null )
-						destPath = folder.getFullPath( );
+				if (configFolder != null) {
+					IFolder folder = BirtWizardUtil.getFolder(project, configFolder);
+					if (folder != null)
+						destPath = folder.getFullPath();
 				}
-			}
-			else
-			{
-				destPath = BirtWizardUtil.getWebContentPath( project );
+			} else {
+				destPath = BirtWizardUtil.getWebContentPath(project);
 			}
 
-			if ( destPath == null )
-			{
+			if (destPath == null) {
 				String message = BirtWTPMessages.BIRTErrors_wrong_webcontent;
-				Logger.log( Logger.ERROR, message );
-				throw BirtCoreException.getException( message, null );
-			}			
-			
-			Map birtProperties = (Map) facetDataModel
-					.getProperty( BirtFacetInstallDataModelProvider.BIRT_CONFIG );
+				Logger.log(Logger.ERROR, message);
+				throw BirtCoreException.getException(message, null);
+			}
 
-			monitor.worked( 1 );
+			Map birtProperties = (Map) facetDataModel.getProperty(BirtFacetInstallDataModelProvider.BIRT_CONFIG);
+
+			monitor.worked(1);
 
 			// process BIRT Configuration
-			preConfiguration( project, birtProperties, destPath.toFile( ).getName( ), monitor );
+			preConfiguration(project, birtProperties, destPath.toFile().getName(), monitor);
 
-			monitor.worked( 1 );
+			monitor.worked(1);
 
-			processConfiguration( project, birtProperties, monitor );
+			processConfiguration(project, birtProperties, monitor);
 
-			monitor.worked( 1 );
-			
+			monitor.worked(1);
+
 			// import birt runtime componenet
-			BirtWizardUtil.doImports( project, null, destPath, monitor,
-					new SimpleImportOverwriteQuery( ) );
+			BirtWizardUtil.doImports(project, null, destPath, monitor, new SimpleImportOverwriteQuery());
 
-			monitor.worked( 1 );
-		}
-		finally
-		{
-			monitor.done( );
+			monitor.worked(1);
+		} finally {
+			monitor.done();
 		}
 	}
 
@@ -121,13 +105,10 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected void preConfiguration( IProject project, Map birtProperties,
-			String configFolder, IProgressMonitor monitor )
-			throws CoreException
-	{
+	protected void preConfiguration(IProject project, Map birtProperties, String configFolder, IProgressMonitor monitor)
+			throws CoreException {
 		// check folder settings
-		BirtWizardUtil.processCheckFolder( birtProperties, project,
-				configFolder, monitor );
+		BirtWizardUtil.processCheckFolder(birtProperties, project, configFolder, monitor);
 	}
 
 	/**
@@ -138,43 +119,32 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 	 * @param monitor
 	 * @throws CoreException
 	 */
-	protected void processConfiguration(final IProject project,
-			final Map birtProperties, final IProgressMonitor monitor)
-			throws CoreException {
+	protected void processConfiguration(final IProject project, final Map birtProperties,
+			final IProgressMonitor monitor) throws CoreException {
 		// Simple OverwriteQuery
 		final SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery();
-		IModelProvider modelProvider = ModelProviderManager
-				.getModelProvider(project);
+		IModelProvider modelProvider = ModelProviderManager.getModelProvider(project);
 		IPath modelPath = new Path("WEB-INF").append("web.xml"); //$NON-NLS-1$ //$NON-NLS-2$
-		boolean exists = project.getProjectRelativePath().append(modelPath)
-				.toFile().exists();
+		boolean exists = project.getProjectRelativePath().append(modelPath).toFile().exists();
 		if (BirtFacetUtilFactory.isWebApp25(modelProvider.getModelObject()) && !exists) {
 			modelPath = IModelProvider.FORCESAVE;
 		}
 		final IBirtFacetUtil util = BirtFacetUtilFactory.getInstance(modelProvider.getModelObject());
 		modelProvider.modify(new Runnable() {
 			public void run() {
-				util.configureWebApp((WebAppBean) birtProperties
-						.get(EXT_WEBAPP), project, query, monitor);
-				util.configureContextParam((Map) birtProperties
-						.get(EXT_CONTEXT_PARAM), project, query, monitor);
-				util.configureListener((Map) birtProperties.get(EXT_LISTENER),
-						project, query, monitor);
+				util.configureWebApp((WebAppBean) birtProperties.get(EXT_WEBAPP), project, query, monitor);
+				util.configureContextParam((Map) birtProperties.get(EXT_CONTEXT_PARAM), project, query, monitor);
+				util.configureListener((Map) birtProperties.get(EXT_LISTENER), project, query, monitor);
 
-				util.configureServlet((Map) birtProperties.get(EXT_SERVLET),
-						project, query, monitor);
+				util.configureServlet((Map) birtProperties.get(EXT_SERVLET), project, query, monitor);
 
-				util.configureServletMapping((Map) birtProperties
-						.get(EXT_SERVLET_MAPPING), project, query, monitor);
+				util.configureServletMapping((Map) birtProperties.get(EXT_SERVLET_MAPPING), project, query, monitor);
 
-				util.configureFilter((Map) birtProperties.get(EXT_FILTER),
-						project, query, monitor);
+				util.configureFilter((Map) birtProperties.get(EXT_FILTER), project, query, monitor);
 
-				util.configureFilterMapping((Map) birtProperties
-						.get(EXT_FILTER_MAPPING), project, query, monitor);
+				util.configureFilterMapping((Map) birtProperties.get(EXT_FILTER_MAPPING), project, query, monitor);
 
-				util.configureTaglib((Map) birtProperties.get(EXT_TAGLIB),
-						project, query, monitor);
+				util.configureTaglib((Map) birtProperties.get(EXT_TAGLIB), project, query, monitor);
 			}
 		}, modelPath);
 

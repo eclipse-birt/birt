@@ -17,34 +17,34 @@ import java.io.IOException;
  * A object alloc table.
  */
 
-public interface IObjectAllocTable
-{
+public interface IObjectAllocTable {
 	static final int BLOCK_SIZE = 4096;
-	
+
 	/**
 	 * Get next block of the given block..
-	 *  
-	 * @param blockNo
-	 * @return
-	 * @throws IOException
-	 */
-	public int getNextBlock( int blockNo ) throws IOException;
-	
-	/**
-	 * Allocated a new block to a object. The parameter blockNo is the last
-	 * block of this oject.
 	 * 
 	 * @param blockNo
 	 * @return
 	 * @throws IOException
 	 */
-	public int allocateBlock( int blockNo ) throws IOException;
-	
+	public int getNextBlock(int blockNo) throws IOException;
+
+	/**
+	 * Allocated a new block to a object. The parameter blockNo is the last block of
+	 * this oject.
+	 * 
+	 * @param blockNo
+	 * @return
+	 * @throws IOException
+	 */
+	public int allocateBlock(int blockNo) throws IOException;
+
 	/**
 	 * Sets the length of this named object.
+	 * 
 	 * @param name
 	 * @param length
 	 * @throws IOException
 	 */
-	public void setObjectLength( String name, long length ) throws IOException;
+	public void setObjectLength(String name, long length) throws IOException;
 }

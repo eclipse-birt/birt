@@ -21,212 +21,176 @@ import org.eclipse.birt.report.model.api.elements.structures.HideRule;
 import org.eclipse.birt.report.model.api.elements.structures.HighlightRule;
 import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
 
-public class Row extends DesignElement implements IRow
-{
+public class Row extends DesignElement implements IRow {
 
-    public Row( RowHandle handle )
-    {
-        super( handle );
-    }
+	public Row(RowHandle handle) {
+		super(handle);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.IRow#getHeight()
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IRow#getHeight()
+	 */
 
-    public String getHeight()
-    {
-        return ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                .getHeight();
-    }
+	public String getHeight() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl).getHeight();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.IRow#getBookmark()
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IRow#getBookmark()
+	 */
 
-    public String getBookmark()
-    {
-        return ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                .getBookmark();
-    }
+	public String getBookmark() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl).getBookmark();
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.IRow#setBookmark(java.lang.String)
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.IRow#setBookmark(java.lang.
+	 * String)
+	 */
 
-    public void setBookmark( String value ) throws ScriptException
-    {
-        try
-        {
-            ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                    .setBookmark( value );
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
-    }
+	public void setBookmark(String value) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl).setBookmark(value);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#addHighlightRule(org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
+	 * addHighlightRule(org.eclipse.birt.report.engine.api.script.element.
+	 * IHighlightRule)
+	 */
 
-    public void addHighlightRule( IHighlightRule rule ) throws ScriptException
-    {
-        try
-        {
-            ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                    .addHighlightRule( SimpleElementFactory.getInstance()
-                            .createHighlightRule(
-                                    (HighlightRule) rule.getStructure() ) );
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
-    }
+	public void addHighlightRule(IHighlightRule rule) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl).addHighlightRule(
+					SimpleElementFactory.getInstance().createHighlightRule((HighlightRule) rule.getStructure()));
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#getHighlightRules()
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
+	 * getHighlightRules()
+	 */
 
-    public IHighlightRule[] getHighlightRules()
-    {
-        org.eclipse.birt.report.model.api.simpleapi.IHighlightRule[] values = ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                .getHighlightRules();
-        IHighlightRule[] highlightRules = new IHighlightRule[values.length];
+	public IHighlightRule[] getHighlightRules() {
+		org.eclipse.birt.report.model.api.simpleapi.IHighlightRule[] values = ((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl)
+				.getHighlightRules();
+		IHighlightRule[] highlightRules = new IHighlightRule[values.length];
 
-        for( int i = 0; i < values.length; i++ )
-        {
-            highlightRules[i] = new HighlightRuleImpl( values[i] );
-        }
-        return highlightRules;
-    }
+		for (int i = 0; i < values.length; i++) {
+			highlightRules[i] = new HighlightRuleImpl(values[i]);
+		}
+		return highlightRules;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#removeHighlightRules()
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
+	 * removeHighlightRules()
+	 */
 
-    public void removeHighlightRules() throws ScriptException
-    {
-        try
-        {
-            ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                    .removeHighlightRules();
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
-    }
+	public void removeHighlightRules() throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl).removeHighlightRules();
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#removeHighlightRule(org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.IHighlightRuleMethod#
+	 * removeHighlightRule(org.eclipse.birt.report.engine.api.script.element.
+	 * IHighlightRule)
+	 */
 
-    public void removeHighlightRule( IHighlightRule rule )
-            throws ScriptException
-    {
-        try
-        {
-            ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                    .removeHighlightRule( SimpleElementFactory.getInstance()
-                            .createHighlightRule(
-                                    (HighlightRule) rule.getStructure() ) );
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
-    }
+	public void removeHighlightRule(IHighlightRule rule) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl).removeHighlightRule(
+					SimpleElementFactory.getInstance().createHighlightRule((HighlightRule) rule.getStructure()));
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#addHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
-     */
-    public void addHideRule( IHideRule rule ) throws ScriptException
-    {
-        try
-        {
-            ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                    .addHideRule( SimpleElementFactory.getInstance()
-                            .createHideRule( (HideRule) rule.getStructure() ) );
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * addHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
+	 */
+	public void addHideRule(IHideRule rule) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl)
+					.addHideRule(SimpleElementFactory.getInstance().createHideRule((HideRule) rule.getStructure()));
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#getHideRules()
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * getHideRules()
+	 */
 
-    public IHideRule[] getHideRules()
-    {
-        org.eclipse.birt.report.model.api.simpleapi.IHideRule[] values = ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                .getHideRules();
-        IHideRule[] hideRules = new IHideRule[values.length];
+	public IHideRule[] getHideRules() {
+		org.eclipse.birt.report.model.api.simpleapi.IHideRule[] values = ((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl)
+				.getHideRules();
+		IHideRule[] hideRules = new IHideRule[values.length];
 
-        for( int i = 0; i < values.length; i++ )
-        {
-            hideRules[i] = new HideRuleImpl( values[i] );
-        }
-        return hideRules;
-    }
+		for (int i = 0; i < values.length; i++) {
+			hideRules[i] = new HideRuleImpl(values[i]);
+		}
+		return hideRules;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#removeHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * removeHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
+	 */
 
-    public void removeHideRule( IHideRule rule ) throws ScriptException
-    {
-        try
-        {
-            ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                    .removeHideRule( SimpleElementFactory.getInstance()
-                            .createHideRule( (HideRule) rule.getStructure() ) );
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
-    }
+	public void removeHideRule(IHideRule rule) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl)
+					.removeHideRule(SimpleElementFactory.getInstance().createHideRule((HideRule) rule.getStructure()));
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#removeHideRules()
-     */
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * removeHideRules()
+	 */
 
-    public void removeHideRules() throws ScriptException
-    {
-        try
-        {
-            ( (org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl )
-                    .removeHideRules();
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
-    }
+	public void removeHideRules() throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IRow) designElementImpl).removeHideRules();
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
 }

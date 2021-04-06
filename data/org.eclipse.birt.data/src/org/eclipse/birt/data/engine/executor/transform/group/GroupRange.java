@@ -10,24 +10,22 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.executor.transform.group;
 
-public final class GroupRange
-{
+public final class GroupRange {
 
 	protected int first;
 	protected int length;
 	protected int lastIndex;
 
-	GroupRange( ){ }
+	GroupRange() {
+	}
 
-	GroupRange( int first, int length )
-	{
+	GroupRange(int first, int length) {
 		this.first = first;
 		this.length = length;
 		this.lastIndex = first + length;
 	}
-	
-	public int getLast( )
-	{
+
+	public int getLast() {
 		return lastIndex;
 	}
 

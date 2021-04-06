@@ -22,53 +22,41 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabReportItemHandle;
 /**
  * CachedColumnWalker
  */
-class CachedColumnWalker implements IColumnWalker
-{
+class CachedColumnWalker implements IColumnWalker {
 
 	private ColumnWalker worker;
 	private boolean cacheMode;
 	private List cache;
 	private int pos;
 
-	CachedColumnWalker( CrosstabReportItemHandle item,
-			EdgeCursor columnEdgeCursor )
-	{
-		worker = new ColumnWalker( item, columnEdgeCursor );
+	CachedColumnWalker(CrosstabReportItemHandle item, EdgeCursor columnEdgeCursor) {
+		worker = new ColumnWalker(item, columnEdgeCursor);
 
-		cache = new ArrayList( );
+		cache = new ArrayList();
 		cacheMode = false;
 	}
 
-	public void reload( )
-	{
+	public void reload() {
 		cacheMode = true;
 		pos = 0;
 	}
 
-	public boolean hasNext( ) throws OLAPException
-	{
-		if ( cacheMode )
-		{
-			return pos < cache.size( );
-		}
-		else
-		{
-			return worker.hasNext( );
+	public boolean hasNext() throws OLAPException {
+		if (cacheMode) {
+			return pos < cache.size();
+		} else {
+			return worker.hasNext();
 		}
 	}
 
-	public ColumnEvent next( ) throws OLAPException
-	{
+	public ColumnEvent next() throws OLAPException {
 		ColumnEvent ev;
 
-		if ( cacheMode )
-		{
-			ev = (ColumnEvent) cache.get( pos++ );
-		}
-		else
-		{
-			ev = worker.next( );
-			cache.add( ev );
+		if (cacheMode) {
+			ev = (ColumnEvent) cache.get(pos++);
+		} else {
+			ev = worker.next();
+			cache.add(ev);
 		}
 
 		return ev;

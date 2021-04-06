@@ -20,31 +20,26 @@ import junit.framework.TestCase;
  * 
  * 
  */
-public class FileUtilTest extends TestCase
-{
+public class FileUtilTest extends TestCase {
 
-	public void testIsRelativePath( )
-	{
-		if ( File.separatorChar == '\\' )
-		{
-			//Windows
-			boolean b = FileUtil.isRelativePath( "c:\\no\\no.txt" );
-			assertFalse( b );
+	public void testIsRelativePath() {
+		if (File.separatorChar == '\\') {
+			// Windows
+			boolean b = FileUtil.isRelativePath("c:\\no\\no.txt");
+			assertFalse(b);
 
-			b = FileUtil.isRelativePath( "\\no\\no.txt" );
-			assertTrue( b );
+			b = FileUtil.isRelativePath("\\no\\no.txt");
+			assertTrue(b);
 
-			b = FileUtil.isRelativePath( "no\\no.txt" );
-			assertTrue( b );
-		}
-		else if ( File.separatorChar == '/' )
-		{
-			//Unix
-			boolean b = FileUtil.isRelativePath( "/no/no.txt" );
-			assertFalse( b );
+			b = FileUtil.isRelativePath("no\\no.txt");
+			assertTrue(b);
+		} else if (File.separatorChar == '/') {
+			// Unix
+			boolean b = FileUtil.isRelativePath("/no/no.txt");
+			assertFalse(b);
 
-			b = FileUtil.isRelativePath( "no/no.txt" );
-			assertTrue( b );
+			b = FileUtil.isRelativePath("no/no.txt");
+			assertTrue(b);
 		}
 	}
 }

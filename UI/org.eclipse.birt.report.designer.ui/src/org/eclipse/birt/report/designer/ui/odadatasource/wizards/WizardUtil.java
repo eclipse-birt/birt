@@ -18,54 +18,41 @@ import org.eclipse.jface.action.IMenuManager;
  * 
  * @deprecated this class is no longer used and will be removed in near future.
  */
-public class WizardUtil
-{
+public class WizardUtil {
 
 	/**
-	 * Typically called from the Data View Node provider to create Data Source
-	 * menu It creates pop up menu items, with each item being an available data
-	 * source
+	 * Typically called from the Data View Node provider to create Data Source menu
+	 * It creates pop up menu items, with each item being an available data source
 	 * 
-	 * @param menu
-	 *            The menu Item to which all the other menu items are to be
-	 *            added
-	 * @param provider
-	 *            The Selection Provider for the View
+	 * @param menu     The menu Item to which all the other menu items are to be
+	 *                 added
+	 * @param provider The Selection Provider for the View
 	 */
-	public static void createNewDataSourceMenus( IMenuManager menu )
-	{
+	public static void createNewDataSourceMenus(IMenuManager menu) {
 	}
 
 	/**
-	 * Typically called from the Data View Node to create Data Source Edit menu
-	 * item
+	 * Typically called from the Data View Node to create Data Source Edit menu item
 	 * 
 	 */
-	public static void createEditDataSourceMenu( IMenuManager menu,
-			Object selectedObject )
-	{
+	public static void createEditDataSourceMenu(IMenuManager menu, Object selectedObject) {
 	}
 
 	/**
 	 * Typically called from the Data View Node provider to create Data set menu
 	 * Currently just adding the jdbc data set
 	 * 
-	 * @param menu
-	 *            The menu Item to which all the other menu items are to be
-	 *            added
-	 * @param provider
-	 *            The Selection Provider for the View
+	 * @param menu     The menu Item to which all the other menu items are to be
+	 *                 added
+	 * @param provider The Selection Provider for the View
 	 */
-	public static void createNewDataSetMenu( IMenuManager menu )
-	{
+	public static void createNewDataSetMenu(IMenuManager menu) {
 	}
 
 	/**
 	 * Typically called from the Data View Node provider to create Data Set menu
 	 * item
 	 */
-	public static void createEditDataSetMenu( IMenuManager menu,
-			Object selectedObject )
-	{
+	public static void createEditDataSetMenu(IMenuManager menu, Object selectedObject) {
 	}
 }

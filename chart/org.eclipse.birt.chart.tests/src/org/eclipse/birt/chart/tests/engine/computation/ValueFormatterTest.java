@@ -19,23 +19,20 @@ import org.eclipse.birt.chart.model.data.impl.NumberDataElementImpl;
 
 import com.ibm.icu.text.DecimalFormat;
 
-public class ValueFormatterTest extends TestCase
-{
+public class ValueFormatterTest extends TestCase {
 
-	public void testCorrectNumber( )
-	{
+	public void testCorrectNumber() {
 
 	}
 
-	public void testFormat1( ) throws ChartException
-	{
-		assertEquals( null, ValueFormatter.format( null, null, null, null ) );
-		assertEquals( "ABC", ValueFormatter.format( "ABC", null, null, null ) );//$NON-NLS-1$ //$NON-NLS-2$
+	public void testFormat1() throws ChartException {
+		assertEquals(null, ValueFormatter.format(null, null, null, null));
+		assertEquals("ABC", ValueFormatter.format("ABC", null, null, null));//$NON-NLS-1$ //$NON-NLS-2$
 	}
 
-	public void testFormat2( ) throws ChartException
-	{
-		assertEquals( "13.1", ValueFormatter.format( new Double( 13.1 ), null, null, new DecimalFormat( ) ) );//$NON-NLS-1$ 
-		assertEquals( "13.1", ValueFormatter.format( NumberDataElementImpl.create( 13.1 ), null, null, new DecimalFormat( ) ) );//$NON-NLS-1$
+	public void testFormat2() throws ChartException {
+		assertEquals("13.1", ValueFormatter.format(new Double(13.1), null, null, new DecimalFormat()));//$NON-NLS-1$
+		assertEquals("13.1", //$NON-NLS-1$
+				ValueFormatter.format(NumberDataElementImpl.create(13.1), null, null, new DecimalFormat()));
 	}
 }

@@ -28,10 +28,9 @@ import org.eclipse.ui.IWorkbenchPart;
  * @author Dazhen Gao
  * @version $Revision: 1.8 $ $Date: 2008/01/25 08:37:53 $
  */
-public class InsertColumnAction extends ContextSelectionAction
-{
+public class InsertColumnAction extends ContextSelectionAction {
 
-	private static final String ACTION_MSG_INSERT = Messages.getString( "InsertColumnAction.actionMsg.insert" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_INSERT = Messages.getString("InsertColumnAction.actionMsg.insert"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertColumnAction"; //$NON-NLS-1$
@@ -39,14 +38,12 @@ public class InsertColumnAction extends ContextSelectionAction
 	/**
 	 * Constructs new instance
 	 * 
-	 * @param part
-	 *            current work bench part
+	 * @param part current work bench part
 	 */
-	public InsertColumnAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_INSERT );
+	public InsertColumnAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_INSERT);
 	}
 
 	/*
@@ -54,49 +51,38 @@ public class InsertColumnAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		return !getColumnHandles( ).isEmpty( ) && canDrop(getColumnHandles());
+	protected boolean calculateEnabled() {
+		return !getColumnHandles().isEmpty() && canDrop(getColumnHandles());
 	}
-	
-	private boolean canDrop(List columns)
-	{
-		for(Iterator it = columns.iterator();it.hasNext();)
-		{
-			if ( !canDrop( (ColumnHandle) it.next( ) ) )
-			{
+
+	private boolean canDrop(List columns) {
+		for (Iterator it = columns.iterator(); it.hasNext();) {
+			if (!canDrop((ColumnHandle) it.next())) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
-	private boolean canDrop(ColumnHandle handle)
-	{
-		return ((ColumnHandle)handle).canDrop();
+
+	private boolean canDrop(ColumnHandle handle) {
+		return ((ColumnHandle) handle).canDrop();
 	}
 
 	/**
 	 * Runs action.
-	 *  
+	 * 
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Insert column action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Insert column action >> Run ..."); //$NON-NLS-1$
 		}
 
-		CommandUtils.setVariable( ICommandParameterNameContants.INSERT_COLUMN_POSITION,
-				Integer.valueOf( -1 ) );
+		CommandUtils.setVariable(ICommandParameterNameContants.INSERT_COLUMN_POSITION, Integer.valueOf(-1));
 
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.insertColumnCommand", null ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.insertColumnCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 

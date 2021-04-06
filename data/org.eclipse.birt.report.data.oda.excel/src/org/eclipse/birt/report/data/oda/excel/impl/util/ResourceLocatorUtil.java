@@ -28,110 +28,76 @@ import org.eclipse.birt.report.data.oda.excel.impl.i18n.Messages;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 import org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers;
 
+public class ResourceLocatorUtil {
+	private static Logger logger = Logger.getLogger(ResourceLocatorUtil.class.getName());
 
-public class ResourceLocatorUtil
-{
-	private static Logger logger = Logger.getLogger(ResourceLocatorUtil.class.getName( ));
-
-	public static URI resolvePath( Object resourceIdentifiers, String path ) throws OdaException
-	{
+	public static URI resolvePath(Object resourceIdentifiers, String path) throws OdaException {
 		URI uri = null;
 		File f = null;
-		try
-		{
-			f = new File( path );
+		try {
+			f = new File(path);
+		} catch (Exception ignore) {
 		}
-		catch ( Exception ignore )
-		{
-		}
-		if (f != null && f.isAbsolute() && f.exists() )
-		{
+		if (f != null && f.isAbsolute() && f.exists()) {
 			uri = f.toURI();
-			logger.log( Level.FINER, "Excel source folder exists on local file system. Using path: " + uri );
+			logger.log(Level.FINER, "Excel source folder exists on local file system. Using path: " + uri);
 			return uri;
 		}
 
-		logger.log( Level.FINER, "Try resolving URI and relative path: " + path );
-		try
-		{
-			try
-			{
-				uri = new URI( path );
-			}
-			catch ( URISyntaxException ex )
-			{
-				uri = new URI( null, null, path, null );
+		logger.log(Level.FINER, "Try resolving URI and relative path: " + path);
+		try {
+			try {
+				uri = new URI(path);
+			} catch (URISyntaxException ex) {
+				uri = new URI(null, null, path, null);
 			}
 
-			logger.log( Level.FINER, "Resolved Excel source URI: " + uri );
+			logger.log(Level.FINER, "Resolved Excel source URI: " + uri);
 
-			if ( uri.isAbsolute() )
-			{
-				logger.log( Level.FINER, "Excel data source file URI is resolved as the absolute path: " + uri );
+			if (uri.isAbsolute()) {
+				logger.log(Level.FINER, "Excel data source file URI is resolved as the absolute path: " + uri);
 				return uri;
-			}
-			else if ( !uri.isAbsolute( ) && resourceIdentifiers != null )
-			{
-				uri = ResourceIdentifiers.resolveApplResource( resourceIdentifiers, uri );
-				logger.log( Level.FINER, "Relative URI resolved as the absolute path: " + uri );
+			} else if (!uri.isAbsolute() && resourceIdentifiers != null) {
+				uri = ResourceIdentifiers.resolveApplResource(resourceIdentifiers, uri);
+				logger.log(Level.FINER, "Relative URI resolved as the absolute path: " + uri);
 				return uri;
+			} else {
+				String errMsg = Messages.getString("connection_missingResourceIdentifier") + uri; //$NON-NLS-1$
+				logger.log(Level.SEVERE, errMsg);
+				throw new OdaException(errMsg);
 			}
-			else
-			{
-			    String errMsg = Messages.getString("connection_missingResourceIdentifier") + uri; //$NON-NLS-1$
-				logger.log( Level.SEVERE, errMsg );
-				throw new OdaException( errMsg );
-			}
-		}
-		catch ( URISyntaxException e1 )
-		{
-		    OdaException odaEx = new OdaException( Messages.getString( "connection_invalidSource" )  ); //$NON-NLS-1$
-		    odaEx.initCause( e1 );
-		    throw odaEx;
+		} catch (URISyntaxException e1) {
+			OdaException odaEx = new OdaException(Messages.getString("connection_invalidSource")); //$NON-NLS-1$
+			odaEx.initCause(e1);
+			throw odaEx;
 		}
 	}
 
-	public static void validateFileURI( Object obj )
-			throws Exception
-	{
+	public static void validateFileURI(Object obj) throws Exception {
 
 		InputStream stream = null;
-		try
-		{
-			stream = getURIStream( obj );
-		}
-		catch (Exception e)
-		{
-			throw e ;
-		}
-		finally
-		{
-			if ( stream != null )
-			{
-				try
-				{
-					stream.close( );
-				}
-				catch ( IOException ignore )
-				{
+		try {
+			stream = getURIStream(obj);
+		} catch (Exception e) {
+			throw e;
+		} finally {
+			if (stream != null) {
+				try {
+					stream.close();
+				} catch (IOException ignore) {
 				}
 			}
 
 		}
 	}
 
-	public static InputStream getURIStream( Object obj ) throws IOException
-	{
-		if ( obj instanceof File )
-		{
-			return new BufferedInputStream( new FileInputStream( (File) obj ));
+	public static InputStream getURIStream(Object obj) throws IOException {
+		if (obj instanceof File) {
+			return new BufferedInputStream(new FileInputStream((File) obj));
 		}
 
-		else if ( obj instanceof URI )
-		{
-			return FileSystemFactory.getInstance( )
-					.getFile( (URI) obj )
-					.createInputStream( );
+		else if (obj instanceof URI) {
+			return FileSystemFactory.getInstance().getFile((URI) obj).createInputStream();
 		}
 
 		return null;

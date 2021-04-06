@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.ui.dialogs;
  * The class used for operators in the expression builder
  */
 
-public class Operator
-{
+public class Operator {
 
 	/**
 	 * The tooltip of the operator
@@ -33,43 +32,34 @@ public class Operator
 	public String insertString;
 
 	/**
-	 * Construct a new operator used in the expression builder with the given
-	 * symbol and tooltip.
+	 * Construct a new operator used in the expression builder with the given symbol
+	 * and tooltip.
 	 * 
-	 * @param symbol
-	 *            the symbol of the operator.
-	 * @param tooltip
-	 *            the tooltip for the operator
+	 * @param symbol  the symbol of the operator.
+	 * @param tooltip the tooltip for the operator
 	 * 
 	 */
-	public Operator( String symbol, String tooltip )
-	{
-		this( symbol, null, tooltip );
+	public Operator(String symbol, String tooltip) {
+		this(symbol, null, tooltip);
 	}
 
 	/**
-	 * Construct a new operator used in the expression builder with the given
-	 * symbol ,insert string and tooltip.
+	 * Construct a new operator used in the expression builder with the given symbol
+	 * ,insert string and tooltip.
 	 * 
-	 * @param symbol
-	 *            the symbol of the operator
-	 * @param insertString
-	 *            the string to insert into the source viewer for the operator
-	 * @param tooltip
-	 *            the tooltip for the operator
+	 * @param symbol       the symbol of the operator
+	 * @param insertString the string to insert into the source viewer for the
+	 *                     operator
+	 * @param tooltip      the tooltip for the operator
 	 * 
 	 */
 
-	public Operator( String symbol, String insertString, String tooltip )
-	{
+	public Operator(String symbol, String insertString, String tooltip) {
 		assert symbol != null;
 		this.symbol = symbol;
-		if ( insertString == null )
-		{
+		if (insertString == null) {
 			this.insertString = symbol;
-		}
-		else
-		{
+		} else {
 			this.insertString = insertString;
 		}
 		this.tooltip = tooltip;

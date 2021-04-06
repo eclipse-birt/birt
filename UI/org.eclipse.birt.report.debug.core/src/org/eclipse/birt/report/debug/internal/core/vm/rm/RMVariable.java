@@ -20,8 +20,7 @@ import org.eclipse.birt.report.debug.internal.core.vm.VMVariable;
 /**
  * RMVariable
  */
-public class RMVariable implements VMVariable, Serializable, VMConstants
-{
+public class RMVariable implements VMVariable, Serializable, VMConstants {
 
 	private static final long serialVersionUID = 1L;
 
@@ -29,25 +28,21 @@ public class RMVariable implements VMVariable, Serializable, VMConstants
 	private String typeName;
 	private VMValue value;
 
-	public RMVariable( VMValue value, String name, String typeName )
-	{
+	public RMVariable(VMValue value, String name, String typeName) {
 		this.name = name;
 		this.value = value;
 		this.typeName = typeName;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public VMValue getValue( )
-	{
+	public VMValue getValue() {
 		return value;
 	}
 
-	public String getTypeName( )
-	{
+	public String getTypeName() {
 		return typeName;
 	}
 }

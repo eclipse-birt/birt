@@ -22,47 +22,39 @@ import org.eclipse.birt.report.engine.emitter.config.html.i18n.Messages;
 /**
  * This class is a descriptor of html emitter.
  */
-public class HTMLEmitterDescriptor extends AbstractEmitterDescriptor
-{
-	
-	protected void initOptions( )
-	{
+public class HTMLEmitterDescriptor extends AbstractEmitterDescriptor {
+
+	protected void initOptions() {
 
 	}
 
 	@Override
-	public IConfigurableOptionObserver createOptionObserver( )
-	{
-		return new HTMLOptionObserver( );
+	public IConfigurableOptionObserver createOptionObserver() {
+		return new HTMLOptionObserver();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getDescription
-	 * ()
+	 * org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getDescription ()
 	 */
-	public String getDescription( )
-	{
-		return getMessage( "HTMLEmitter.Description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return getMessage("HTMLEmitter.Description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getDisplayName
-	 * ()
+	 * org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getDisplayName ()
 	 */
-	public String getDisplayName( )
-	{
-		return getMessage( "HTMLEmitter.DisplayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return getMessage("HTMLEmitter.DisplayName"); //$NON-NLS-1$
 	}
 
-	protected String getMessage( String key )
-	{
-		return Messages.getString( key, locale );
+	protected String getMessage(String key) {
+		return Messages.getString(key, locale);
 	}
 
 	/*
@@ -70,25 +62,21 @@ public class HTMLEmitterDescriptor extends AbstractEmitterDescriptor
 	 * 
 	 * @see org.eclipse.birt.report.engine.emitters.IEmitterDescriptor#getID()
 	 */
-	public String getID( )
-	{
+	public String getID() {
 		return "org.eclipse.birt.report.engine.emitter.html"; //$NON-NLS-1$
 	}
 
-	class HTMLOptionObserver extends AbstractConfigurableOptionObserver
-	{
+	class HTMLOptionObserver extends AbstractConfigurableOptionObserver {
 
-		public IConfigurableOption[] getOptions( )
-		{
+		public IConfigurableOption[] getOptions() {
 			return null;
 		}
 
-		public IRenderOption getPreferredRenderOption( )
-		{
-			HTMLRenderOption renderOption = new HTMLRenderOption( );
+		public IRenderOption getPreferredRenderOption() {
+			HTMLRenderOption renderOption = new HTMLRenderOption();
 
-			renderOption.setEmitterID( getID( ) );
-			renderOption.setOutputFormat( "html" ); //$NON-NLS-1$
+			renderOption.setEmitterID(getID());
+			renderOption.setOutputFormat("html"); //$NON-NLS-1$
 
 			// TODO set option values
 

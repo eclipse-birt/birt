@@ -18,17 +18,14 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * strategy.
  */
 
-abstract public class CopyPolicy
-{
+abstract public class CopyPolicy {
 
 	/**
-	 * Each copy policy has its own implement strategy. A common interface for
-	 * each kind of copy policy, which implements a specific copy strategy.
+	 * Each copy policy has its own implement strategy. A common interface for each
+	 * kind of copy policy, which implements a specific copy strategy.
 	 * 
-	 * @param from
-	 *            the original data object
-	 * @param to
-	 *            the target data object
+	 * @param from the original data object
+	 * @param to   the target data object
 	 */
-	abstract public void execute( DesignElement from, DesignElement to );
+	abstract public void execute(DesignElement from, DesignElement to);
 }

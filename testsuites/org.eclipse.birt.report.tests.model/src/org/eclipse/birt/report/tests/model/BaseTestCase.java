@@ -187,17 +187,16 @@ public abstract class BaseTestCase extends TestCase {
 	}
 
 	/*
-	 * protected void runCase( String args[] ) { Vector runArgs = new Vector( );
-	 * // invoke the report runner. String input = PLUGIN_PATH +
-	 * System.getProperty( "file.separator" ) //$NON-NLS-1$ +
-	 * RESOURCE_BUNDLE.getString( "CASE_INPUT" ); //$NON-NLS-1$ input +=
-	 * System.getProperty( "file.separator" ) + caseName //$NON-NLS-1$ +
-	 * ".rptdesign"; //$NON-NLS-1$ System.out.println( "input is : " + input );
-	 * //$NON-NLS-1$ // run report runner.
+	 * protected void runCase( String args[] ) { Vector runArgs = new Vector( ); //
+	 * invoke the report runner. String input = PLUGIN_PATH + System.getProperty(
+	 * "file.separator" ) //$NON-NLS-1$ + RESOURCE_BUNDLE.getString( "CASE_INPUT" );
+	 * //$NON-NLS-1$ input += System.getProperty( "file.separator" ) + caseName
+	 * //$NON-NLS-1$ + ".rptdesign"; //$NON-NLS-1$ System.out.println( "input is : "
+	 * + input ); //$NON-NLS-1$ // run report runner.
 	 * 
-	 * if ( args != null ) { for ( int i = 0; i < args.length; i++ ) {
-	 * runArgs.add( args[i] ); } } runArgs.add( "-f" ); //$NON-NLS-1$
-	 * runArgs.add( "test" ); //$NON-NLS-1$ runArgs.add( input );
+	 * if ( args != null ) { for ( int i = 0; i < args.length; i++ ) { runArgs.add(
+	 * args[i] ); } } runArgs.add( "-f" ); //$NON-NLS-1$ runArgs.add( "test" );
+	 * //$NON-NLS-1$ runArgs.add( input );
 	 * 
 	 * //args = (String[]) runArgs.toArray( new String[runArgs.size( )] );
 	 * //ReportRunner.main( args ); }
@@ -234,8 +233,7 @@ public abstract class BaseTestCase extends TestCase {
 	}
 
 	/**
-	 * Locates the temporary path that to save the resource folder and output
-	 * folder
+	 * Locates the temporary path that to save the resource folder and output folder
 	 * 
 	 * @return tempDir testing temporary path.
 	 */
@@ -259,8 +257,7 @@ public abstract class BaseTestCase extends TestCase {
 	protected void copyResource(String src, String tgt, String folder) {
 
 		String className = getFullQualifiedClassName();
-		tgt = this.getInputResourceFolder() + File.separator + className + "/"
-				+ folder + "/" + tgt;
+		tgt = this.getInputResourceFolder() + File.separator + className + "/" + folder + "/" + tgt;
 		className = className.replace('.', '/');
 
 		// String inputPath =
@@ -324,8 +321,7 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Copies the file to the temporary folder.
 	 * 
-	 * @param resourceName
-	 *            the resource name. Based on the class folder.
+	 * @param resourceName the resource name. Based on the class folder.
 	 * @return the file path on the disk
 	 * @throws Exception
 	 */
@@ -372,8 +368,7 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Copies the file to the temporary folder.
 	 * 
-	 * @param resourceName
-	 *            the resource name. Based on the class folder.
+	 * @param resourceName the resource name. Based on the class folder.
 	 * @return the file path on the disk
 	 * @throws Exception
 	 */
@@ -385,11 +380,10 @@ public abstract class BaseTestCase extends TestCase {
 		String folder = getTempFolder();
 		//
 		/*
-		 * TODO - delete -this code create extra [GoldenFileFolder]/golden, but
-		 * why not happen with input int index = resourceName.lastIndexOf(
-		 * GOLDEN_FOLDER ); if ( index > 0 ) { String relateDir =
-		 * resourceName.substring( 0, index - 1 ); folder = folder + "/" +
-		 * relateDir; //$NON-NLS-1$ }
+		 * TODO - delete -this code create extra [GoldenFileFolder]/golden, but why not
+		 * happen with input int index = resourceName.lastIndexOf( GOLDEN_FOLDER ); if (
+		 * index > 0 ) { String relateDir = resourceName.substring( 0, index - 1 );
+		 * folder = folder + "/" + relateDir; //$NON-NLS-1$ }
 		 */
 
 		folder = folder + "/" + GOLDEN_FOLDER + "/"; //$NON-NLS-1$
@@ -427,8 +421,7 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * gets the url of the resource.
 	 * 
-	 * @param name
-	 *            name of the resource
+	 * @param name name of the resource
 	 * @return the url of the resource
 	 */
 
@@ -464,14 +457,12 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Creates a new report with given locale.
 	 * 
-	 * @param locale
-	 *            the user locale
+	 * @param locale the user locale
 	 * @return the handle for new report
 	 */
 
 	protected ReportDesignHandle createDesign(ULocale locale) {
-		sessionHandle = new DesignEngine(new DesignConfig())
-				.newSessionHandle(locale);
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(locale);
 		designHandle = sessionHandle.createDesign();
 		design = (ReportDesign) designHandle.getModule();
 
@@ -491,14 +482,12 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Creates library with given locale.
 	 * 
-	 * @param locale
-	 *            the user locale
+	 * @param locale the user locale
 	 * @return the handle for new library
 	 */
 
 	protected LibraryHandle createLibrary(ULocale locale) {
-		sessionHandle = new DesignEngine(new DesignConfig())
-				.newSessionHandle(locale);
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(locale);
 		libraryHandle = sessionHandle.createLibrary();
 
 		return libraryHandle;
@@ -507,20 +496,14 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Opens design file as resource with the given locale.
 	 * 
-	 * @param fileName
-	 *            the file name without path
-	 * @param locale
-	 *            the given locale
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @param fileName the file name without path
+	 * @param locale   the given locale
+	 * @throws DesignFileException if any exception.
 	 */
 
-	protected void openDesignAsResource(Class theClass, String fileName,
-			ULocale locale) throws DesignFileException {
-		fileName = PLUGIN_PATH + this.getFullQualifiedClassName()
-				+ INPUT_FOLDER + fileName;
-		sessionHandle = new DesignEngine(new DesignConfig())
-				.newSessionHandle(ULocale.ENGLISH);
+	protected void openDesignAsResource(Class theClass, String fileName, ULocale locale) throws DesignFileException {
+		fileName = PLUGIN_PATH + this.getFullQualifiedClassName() + INPUT_FOLDER + fileName;
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
 		assertNotNull(sessionHandle);
 
 		InputStream stream = theClass.getResourceAsStream(fileName);
@@ -531,10 +514,8 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Opens design file with default locale.
 	 * 
-	 * @param fileName
-	 *            design file name
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName design file name
+	 * @throws DesignFileException if any exception
 	 */
 
 	protected void openDesign(String fileName) throws DesignFileException {
@@ -544,43 +525,33 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Opens design file with default locale.
 	 * 
-	 * @param fileName
-	 *            design file name
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName        design file name
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openDesign(String fileName, boolean inSingleJarMode)
-			throws DesignFileException {
+	protected void openDesign(String fileName, boolean inSingleJarMode) throws DesignFileException {
 		openDesign(fileName, ULocale.getDefault(), inSingleJarMode);
 	}
 
 	/**
 	 * Opens design file providing the file name and the locale.
 	 * 
-	 * @param fileName
-	 *            the design file to be opened
-	 * @param locale
-	 *            the user locale
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @param fileName        the design file to be opened
+	 * @param locale          the user locale
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception.
 	 */
 
-	protected void openDesign(String fileName, ULocale locale,
-			boolean inSingleJarMode) throws DesignFileException {
+	protected void openDesign(String fileName, ULocale locale, boolean inSingleJarMode) throws DesignFileException {
 		String file;
 		if (inSingleJarMode)
 			file = INPUT_FOLDER + "/" + fileName;
 		else
 			file = fileName;
-		sessionHandle = new DesignEngine(new DesignConfig())
-				.newSessionHandle(locale);
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(locale);
 		assertNotNull(sessionHandle);
 
 		if (inSingleJarMode) {
@@ -597,29 +568,22 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Opens design file providing the file name and the locale.
 	 * 
-	 * @param fileName
-	 *            the design file to be opened
-	 * @param locale
-	 *            the user locale
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @param fileName        the design file to be opened
+	 * @param locale          the user locale
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception.
 	 */
 
-	protected void openDesign(String fileName, ULocale locale)
-			throws DesignFileException {
+	protected void openDesign(String fileName, ULocale locale) throws DesignFileException {
 		openDesign(fileName, locale, true);
 	}
 
 	/**
 	 * Opens library file with given file name.
 	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName the library file name
+	 * @throws DesignFileException if any exception
 	 */
 
 	protected void openLibrary(String fileName) throws DesignFileException {
@@ -629,62 +593,47 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Opens library file with given file name.
 	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName        the library file name
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openLibrary(String fileName, boolean inSingleJarMode)
-			throws DesignFileException {
+	protected void openLibrary(String fileName, boolean inSingleJarMode) throws DesignFileException {
 		openLibrary(fileName, ULocale.getDefault(), inSingleJarMode);
 	}
 
 	/**
 	 * Opens library file with given file name and locale.
 	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param locale
-	 *            the user locale
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName the library file name
+	 * @param locale   the user locale
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openLibrary(String fileName, ULocale locale)
-			throws DesignFileException {
+	protected void openLibrary(String fileName, ULocale locale) throws DesignFileException {
 		openLibrary(fileName, locale, true);
 	}
 
 	/**
 	 * Opens library file with given file name and locale.
 	 * 
-	 * @param fileName
-	 *            the library file name
-	 * @param locale
-	 *            the user locale
-	 * @param inSingleJarMode
-	 *            <code>true</code> if open the design that is in the single
-	 *            jar. Otherwise <code>false</code>.
-	 * @throws DesignFileException
-	 *             if any exception
+	 * @param fileName        the library file name
+	 * @param locale          the user locale
+	 * @param inSingleJarMode <code>true</code> if open the design that is in the
+	 *                        single jar. Otherwise <code>false</code>.
+	 * @throws DesignFileException if any exception
 	 */
 
-	protected void openLibrary(String fileName, ULocale locale,
-			boolean inSingleJarMode) throws DesignFileException {
+	protected void openLibrary(String fileName, ULocale locale, boolean inSingleJarMode) throws DesignFileException {
 		if (inSingleJarMode)
 			fileName = INPUT_FOLDER + "/" + fileName;
 
-		sessionHandle = new DesignEngine(new DesignConfig())
-				.newSessionHandle(locale);
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(locale);
 		assertNotNull(sessionHandle);
 
 		if (inSingleJarMode)
-			libraryHandle = sessionHandle.openLibrary(getResource(fileName)
-					.toString(), getResourceAStream(fileName));
+			libraryHandle = sessionHandle.openLibrary(getResource(fileName).toString(), getResourceAStream(fileName));
 		else
 			libraryHandle = sessionHandle.openLibrary(fileName);
 	}
@@ -692,35 +641,25 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Reads design file as InputStream.
 	 * 
-	 * @param fileName
-	 *            Design file name
-	 * @param is
-	 *            InputStream of this design file
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @param fileName Design file name
+	 * @param is       InputStream of this design file
+	 * @throws DesignFileException if any exception.
 	 */
 
-	protected void openDesign(String fileName, InputStream is)
-			throws DesignFileException {
+	protected void openDesign(String fileName, InputStream is) throws DesignFileException {
 		openDesign(fileName, is, ULocale.getDefault());
 	}
 
 	/**
 	 * Opens a design file.
 	 * 
-	 * @param fileName
-	 *            the design file name
-	 * @param is
-	 *            the input stream of the design file.
-	 * @param locale
-	 *            the user locale.
-	 * @throws DesignFileException
-	 *             if any exception.
+	 * @param fileName the design file name
+	 * @param is       the input stream of the design file.
+	 * @param locale   the user locale.
+	 * @throws DesignFileException if any exception.
 	 */
-	protected void openDesign(String fileName, InputStream is, ULocale locale)
-			throws DesignFileException {
-		sessionHandle = new DesignEngine(new DesignConfig())
-				.newSessionHandle(locale);
+	protected void openDesign(String fileName, InputStream is, ULocale locale) throws DesignFileException {
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(locale);
 		designHandle = sessionHandle.openDesign(fileName, is);
 		design = (ReportDesign) designHandle.getModule();
 	}
@@ -752,16 +691,12 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Compares the two text files.
 	 * 
-	 * @param goldenReader
-	 *            the reader for golden file
-	 * @param outputReader
-	 *            the reader for output file
+	 * @param goldenReader the reader for golden file
+	 * @param outputReader the reader for output file
 	 * @return true if two text files are same.
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
-	private boolean compareFile(Reader goldenReader, Reader outputReader)
-			throws Exception {
+	private boolean compareFile(Reader goldenReader, Reader outputReader) throws Exception {
 		StringBuffer errorText = new StringBuffer();
 
 		BufferedReader lineReaderA = null;
@@ -819,16 +754,12 @@ public abstract class BaseTestCase extends TestCase {
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
 	 * 
-	 * @param goldenFileName
-	 *            the 1st file name to be compared.
-	 * @param outputFileName
-	 *            the 2nd file name to be compared.
+	 * @param goldenFileName the 1st file name to be compared.
+	 * @param outputFileName the 2nd file name to be compared.
 	 * @return true if two text files are same line by line
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
-	protected boolean compareFile(String goldenFileName, String outputFileName)
-			throws Exception {
+	protected boolean compareFile(String goldenFileName, String outputFileName) throws Exception {
 		Reader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
@@ -836,8 +767,7 @@ public abstract class BaseTestCase extends TestCase {
 
 		try {
 			goldenFileName = GOLDEN_FOLDER + "/" + goldenFileName;
-			outputFileName = getTempFolder() + "/" + OUTPUT_FOLDER + "/"
-					+ outputFileName;
+			outputFileName = getTempFolder() + "/" + OUTPUT_FOLDER + "/" + outputFileName;
 
 			readerA = new InputStreamReader(getResourceAStream(goldenFileName));
 			readerB = new FileReader(outputFileName);
@@ -870,13 +800,10 @@ public abstract class BaseTestCase extends TestCase {
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
 	 * 
-	 * @param goldenFileName
-	 *            the 1st file name to be compared.
-	 * @param os
-	 *            the 2nd output stream to be compared.
+	 * @param goldenFileName the 1st file name to be compared.
+	 * @param os             the 2nd output stream to be compared.
 	 * @return true if two text files are same char by char
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 	protected boolean compareFile(String goldenFileName) throws Exception {
 		goldenFileName = GOLDEN_FOLDER + "/" + goldenFileName;
@@ -894,24 +821,19 @@ public abstract class BaseTestCase extends TestCase {
 	 * Compares two text file. The comparison will ignore the line containing
 	 * "modificationDate".
 	 * 
-	 * @param goldenFileName
-	 *            the 1st file name to be compared.
-	 * @param outputFileName
-	 *            the 2nd file name to be compared.
+	 * @param goldenFileName the 1st file name to be compared.
+	 * @param outputFileName the 2nd file name to be compared.
 	 * @return true if two text files are same line by line
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
-	protected boolean compareTextFile(String goldenFileName,
-			String outputFileName) throws Exception {
+	protected boolean compareTextFile(String goldenFileName, String outputFileName) throws Exception {
 		FileReader readerA = null;
 		FileReader readerB = null;
 		boolean same = true;
 		StringBuffer errorText = new StringBuffer();
 
 		try {
-			String resourceName = GOLDEN_FOLDER + java.io.File.separator
-					+ goldenFileName;
+			String resourceName = GOLDEN_FOLDER + java.io.File.separator + goldenFileName;
 			String folder = getTempFolder();
 
 			goldenFileName = folder + "/" + resourceName;
@@ -947,19 +869,16 @@ public abstract class BaseTestCase extends TestCase {
 	 * Compares two text files. The comparison will ignore the line containing
 	 * "modificationDate".
 	 * 
-	 * @param goldenFileName
-	 *            the golden file name. The golden file should be located with
-	 *            class loader.
-	 * @param outputFileName
-	 *            the output file name. The output file should be in temperary
-	 *            directory of Java VM.
+	 * @param goldenFileName the golden file name. The golden file should be located
+	 *                       with class loader.
+	 * @param outputFileName the output file name. The output file should be in
+	 *                       temperary directory of Java VM.
 	 * @return true if two text files are same line by line
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 
-	protected boolean compareTextFileAsResource(Class theClass,
-			String goldenFileName, String outputFileName) throws Exception {
+	protected boolean compareTextFileAsResource(Class theClass, String goldenFileName, String outputFileName)
+			throws Exception {
 		InputStreamReader readerA = null;
 		FileReader readerB = null;
 		StringBuffer errorText = new StringBuffer();
@@ -970,15 +889,11 @@ public abstract class BaseTestCase extends TestCase {
 			tempDir += File.separator;
 
 		try {
-			goldenFileName = getFullQualifiedClassName()
-					+ "/golden/" + goldenFileName; //$NON-NLS-1$
-			InputStream goldenStream = theClass
-					.getResourceAsStream(goldenFileName);
+			goldenFileName = getFullQualifiedClassName() + "/golden/" + goldenFileName; //$NON-NLS-1$
+			InputStream goldenStream = theClass.getResourceAsStream(goldenFileName);
 
-			outputFileName = tempDir
-					+ "org.eclipse.birt.report.model" //$NON-NLS-1$
-					+ getFullQualifiedClassName() + "/" + OUTPUT_FOLDER + "/"
-					+ outputFileName;
+			outputFileName = tempDir + "org.eclipse.birt.report.model" //$NON-NLS-1$
+					+ getFullQualifiedClassName() + "/" + OUTPUT_FOLDER + "/" + outputFileName;
 
 			readerA = new InputStreamReader(goldenStream);
 			readerB = new FileReader(outputFileName);
@@ -1008,16 +923,12 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Compares the two text files.
 	 * 
-	 * @param goldenReader
-	 *            the reader for golden file
-	 * @param outputReader
-	 *            the reader for output file
+	 * @param goldenReader the reader for golden file
+	 * @param outputReader the reader for output file
 	 * @return true if two text files are same.
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
-	private boolean compareTextFile(Reader goldenReader, Reader outputReader)
-			throws Exception {
+	private boolean compareTextFile(Reader goldenReader, Reader outputReader) throws Exception {
 		StringBuffer errorText = new StringBuffer();
 
 		BufferedReader lineReaderA = null;
@@ -1035,8 +946,8 @@ public abstract class BaseTestCase extends TestCase {
 				if ((strA.startsWith("<report xmlns=") && strA //$NON-NLS-1$
 						.indexOf("version=") != -1) || //$NON-NLS-1$
 						(strA.startsWith("<library xmlns=") && strA //$NON-NLS-1$
-								.indexOf("version=") != -1) || //$NON-NLS-1$
-						strA.startsWith("<property name=\"fileName\">")) //$NON-NLS-1$ 
+								.indexOf("version=") != -1) //$NON-NLS-1$
+						|| strA.startsWith("<property name=\"fileName\">")) //$NON-NLS-1$
 				{
 					// ignore the comparasion of this line.
 
@@ -1098,15 +1009,12 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Make a copy of a given file to the target file.
 	 * 
-	 * @param from
-	 *            the file where to copy from
-	 * @param to
-	 *            the target file to copy to.
+	 * @param from the file where to copy from
+	 * @param to   the target file to copy to.
 	 * @throws IOException
 	 */
 	/*
-	 * protected final void copyFile( String from, String to ) throws
-	 * IOException {
+	 * protected final void copyFile( String from, String to ) throws IOException {
 	 * 
 	 * BufferedInputStream bis = null; BufferedOutputStream bos = null;
 	 * 
@@ -1116,15 +1024,14 @@ public abstract class BaseTestCase extends TestCase {
 	 * BufferedOutputStream( new FileOutputStream( to ) );
 	 * 
 	 * int nextByte = 0; while ( ( nextByte = bis.read( ) ) != -1 ) { bos.write(
-	 * nextByte ); } } catch ( IOException e ) { throw e; } finally { try { if (
-	 * bis != null ) bis.close( );
+	 * nextByte ); } } catch ( IOException e ) { throw e; } finally { try { if ( bis
+	 * != null ) bis.close( );
 	 * 
-	 * if ( bos != null ) bos.close( ); } catch ( IOException e ) { // ignore }
-	 * } }
+	 * if ( bos != null ) bos.close( ); } catch ( IOException e ) { // ignore } } }
 	 */
 	/**
-	 * Prints out all semantic errors stored in the error list during parsing
-	 * the design file.
+	 * Prints out all semantic errors stored in the error list during parsing the
+	 * design file.
 	 */
 
 	protected void printSemanticErrors() {
@@ -1132,11 +1039,10 @@ public abstract class BaseTestCase extends TestCase {
 	}
 
 	/**
-	 * Prints out all semantic errors stored in the error list during parsing
-	 * the design file.
+	 * Prints out all semantic errors stored in the error list during parsing the
+	 * design file.
 	 * 
-	 * @param design
-	 *            report design
+	 * @param design report design
 	 */
 
 	protected void printSemanticError(ReportDesign design) {
@@ -1148,8 +1054,7 @@ public abstract class BaseTestCase extends TestCase {
 	 * Prints out all syntax errors stored in the error list during parsing the
 	 * design file.
 	 * 
-	 * @param e
-	 *            <code>DesignFileException</code> containing syntax error list.
+	 * @param e <code>DesignFileException</code> containing syntax error list.
 	 */
 
 	protected void printSyntaxError(DesignFileException e) {
@@ -1160,8 +1065,7 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Prints error list.
 	 * 
-	 * @param errors
-	 *            error list
+	 * @param errors error list
 	 */
 	private void printErrorList(List errors) {
 		if (errors != null && !errors.isEmpty()) {
@@ -1175,10 +1079,8 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Dumps the parsing errors into a text file.
 	 * 
-	 * @param filename
-	 *            the file name into which the error will be dumped.
-	 * @throws Exception
-	 *             if any exception.
+	 * @param filename the file name into which the error will be dumped.
+	 * @throws Exception if any exception.
 	 */
 
 	protected void dumpErrors(String filename) throws Exception {
@@ -1203,18 +1105,15 @@ public abstract class BaseTestCase extends TestCase {
 	}
 
 	/**
-	 * Eventually, this method will call
-	 * {@link ReportDesignHandle#saveAs(String)}to save the output file of some
-	 * unit test. The output test file will be saved in the folder of 'output'
-	 * under the folder where the unit test java source file locates, so before
-	 * calling {@link ReportDesignHandle#saveAs(String)}, the file name will be
-	 * modified to include the path information. For example, in a unit test
-	 * class, it can call saveAs( "PropertyCommandTest.out" ).
+	 * Eventually, this method will call {@link ReportDesignHandle#saveAs(String)}to
+	 * save the output file of some unit test. The output test file will be saved in
+	 * the folder of 'output' under the folder where the unit test java source file
+	 * locates, so before calling {@link ReportDesignHandle#saveAs(String)}, the
+	 * file name will be modified to include the path information. For example, in a
+	 * unit test class, it can call saveAs( "PropertyCommandTest.out" ).
 	 * 
-	 * @param filename
-	 *            the test output file to be saved.
-	 * @throws IOException
-	 *             if error occurs while saving the file.
+	 * @param filename the test output file to be saved.
+	 * @throws IOException if error occurs while saving the file.
 	 */
 
 	protected void save() throws IOException {
@@ -1223,13 +1122,11 @@ public abstract class BaseTestCase extends TestCase {
 
 	/**
 	 * Eventually, this method will call
-	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
-	 * output file of some unit test.
+	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the output
+	 * file of some unit test.
 	 * 
-	 * @param moduleHandle
-	 *            the module to save, either a report design or a library
-	 * @throws IOException
-	 *             if error occurs while saving the file.
+	 * @param moduleHandle the module to save, either a report design or a library
+	 * @throws IOException if error occurs while saving the file.
 	 */
 
 	protected void save(ModuleHandle moduleHandle) throws IOException {
@@ -1242,10 +1139,8 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Saves library as the given file name.
 	 * 
-	 * @param filename
-	 *            the file name for saving
-	 * @throws IOException
-	 *             if any exception
+	 * @param filename the file name for saving
+	 * @throws IOException if any exception
 	 */
 
 	protected void saveLibrary() throws IOException {
@@ -1254,13 +1149,11 @@ public abstract class BaseTestCase extends TestCase {
 
 	/**
 	 * Eventually, this method will call
-	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the
-	 * output file of some unit test.
+	 * {@link ReportDesignHandle#serialize(java.io.OutputStream)}to save the output
+	 * file of some unit test.
 	 * 
-	 * @param filename
-	 *            the test output file to be saved.
-	 * @throws IOException
-	 *             if error occurs while saving the file.
+	 * @param filename the test output file to be saved.
+	 * @throws IOException if error occurs while saving the file.
 	 */
 
 	protected void saveAs(String filename) throws IOException {
@@ -1268,24 +1161,19 @@ public abstract class BaseTestCase extends TestCase {
 	}
 
 	/**
-	 * Eventually, this method will call
-	 * {@link ReportDesignHandle#saveAs(String)}to save the output file of some
-	 * unit test. The output test file will be saved in the folder of 'output'
-	 * under the folder where the unit test java source file locates, so before
-	 * calling {@link ReportDesignHandle#saveAs(String)}, the file name will be
-	 * modified to include the path information. For example, in a unit test
-	 * class, it can call saveAs( "PropertyCommandTest.out" ).
+	 * Eventually, this method will call {@link ReportDesignHandle#saveAs(String)}to
+	 * save the output file of some unit test. The output test file will be saved in
+	 * the folder of 'output' under the folder where the unit test java source file
+	 * locates, so before calling {@link ReportDesignHandle#saveAs(String)}, the
+	 * file name will be modified to include the path information. For example, in a
+	 * unit test class, it can call saveAs( "PropertyCommandTest.out" ).
 	 * 
-	 * @param moduleHandle
-	 *            the module to save, either a report design or a library
-	 * @param filename
-	 *            the test output file to be saved.
-	 * @throws IOException
-	 *             if error occurs while saving the file.
+	 * @param moduleHandle the module to save, either a report design or a library
+	 * @param filename     the test output file to be saved.
+	 * @throws IOException if error occurs while saving the file.
 	 */
 
-	protected void saveAs(ModuleHandle moduleHandle, String filename)
-			throws IOException {
+	protected void saveAs(ModuleHandle moduleHandle, String filename) throws IOException {
 		if (moduleHandle == null)
 			return;
 
@@ -1301,8 +1189,7 @@ public abstract class BaseTestCase extends TestCase {
 
 	protected void makeOutputDir() throws IOException {
 		// String outputPath = getClassFolder( ) + "/" + OUTPUT_FOLDER;
-		String outputPath = this.getFullQualifiedClassName() + "/"
-				+ OUTPUT_FOLDER;
+		String outputPath = this.getFullQualifiedClassName() + "/" + OUTPUT_FOLDER;
 
 		File parent = new File(outputPath).getParentFile();
 
@@ -1322,10 +1209,8 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Saves the design file to temp directory.
 	 * 
-	 * @param filename
-	 *            the new file name to save
-	 * @throws IOException
-	 *             if any exception
+	 * @param filename the new file name to save
+	 * @throws IOException if any exception
 	 */
 	protected void saveLibraryAs(String filename) throws IOException {
 		if (libraryHandle == null)
@@ -1341,10 +1226,8 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Saves the library file to temp directory.
 	 * 
-	 * @param filename
-	 *            the new file name to save
-	 * @throws IOException
-	 *             if any exception
+	 * @param filename the new file name to save
+	 * @throws IOException if any exception
 	 */
 
 	protected void saveAsInTempDir(String filename) throws IOException {
@@ -1435,10 +1318,8 @@ public abstract class BaseTestCase extends TestCase {
 	/**
 	 * Compares the error messages against the golden file.
 	 * 
-	 * @param filename
-	 *            the golden file name which contains the error messages.
-	 * @throws Exception
-	 *             if any exception
+	 * @param filename the golden file name which contains the error messages.
+	 * @throws Exception if any exception
 	 */
 
 	protected void compareErrors(String filename) throws Exception {
@@ -1466,7 +1347,7 @@ public abstract class BaseTestCase extends TestCase {
 		String tempDir = System.getProperty("java.io.tmpdir"); //$NON-NLS-1$
 		if (!tempDir.endsWith(File.separator))
 			tempDir += File.separator;
-		String outputFileName = tempDir + getFullQualifiedClassName() //$NON-NLS-1$
+		String outputFileName = tempDir + getFullQualifiedClassName() // $NON-NLS-1$
 				+ SEPARATOR + OUTPUT_FOLDER + SEPARATOR + output;
 		File outputFile = new File(outputFileName);
 		// add these code to create new file

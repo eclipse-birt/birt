@@ -34,34 +34,32 @@ import org.eclipse.birt.report.model.writer.AllWriterTests;
  * Tests cases run in the build script.
  */
 
-public class AllTests
-{
+public class AllTests {
 
 	/**
 	 * @return test run in build script
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
-		
+	public static Test suite() {
+		TestSuite test = new TestSuite();
+
 		// add all package tests here
-		test.addTest( AllActivityTests.suite( ) );
-		test.addTest( AllApiTests.suite( ) );
-		test.addTest( AllCommandTests.suite( ) );
-		test.addTest( AllCoreTests.suite( ) );
-		test.addTest( AllCssTests.suite( ) );
-		test.addTest( AllElementsTests.suite( ) );
-		test.addTest( AllExtensionTests.suite( ) );
-		test.addTest( AllI18nTests.suite( ) );
-		test.addTest( AllLibraryTests.suite( ) );
-		test.addTest( AllMetadataTests.suite( ) );
-		test.addTest( AllParserTests.suite( ) );
-		test.addTest( AllUtilTests.suite( ) );		
-		test.addTest( AllValidatorTests.suite( ) );
-		test.addTest( AllWriterTests.suite( ) );
-		test.addTest( AllSimpleApiTests.suite( ) );
-		
+		test.addTest(AllActivityTests.suite());
+		test.addTest(AllApiTests.suite());
+		test.addTest(AllCommandTests.suite());
+		test.addTest(AllCoreTests.suite());
+		test.addTest(AllCssTests.suite());
+		test.addTest(AllElementsTests.suite());
+		test.addTest(AllExtensionTests.suite());
+		test.addTest(AllI18nTests.suite());
+		test.addTest(AllLibraryTests.suite());
+		test.addTest(AllMetadataTests.suite());
+		test.addTest(AllParserTests.suite());
+		test.addTest(AllUtilTests.suite());
+		test.addTest(AllValidatorTests.suite());
+		test.addTest(AllWriterTests.suite());
+		test.addTest(AllSimpleApiTests.suite());
+
 		return test;
 	}
 

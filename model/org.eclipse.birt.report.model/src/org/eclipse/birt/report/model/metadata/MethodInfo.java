@@ -30,15 +30,14 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * constructor,
  */
 
-public class MethodInfo extends LocalizableInfo implements IMethodInfo
-{
+public class MethodInfo extends LocalizableInfo implements IMethodInfo {
 
 	/**
 	 * The script type for return.
 	 */
 
 	private String returnType;
-	
+
 	private IClassInfo returnClassType;
 
 	/**
@@ -68,51 +67,45 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	/**
 	 * Constructs method definition.
 	 * 
-	 * @param isConstructor
-	 *            whether this method is constructor
+	 * @param isConstructor whether this method is constructor
 	 */
 
-	public MethodInfo( boolean isConstructor )
-	{
-		super( );
+	public MethodInfo(boolean isConstructor) {
+		super();
 
 		this.isConstructor = isConstructor;
 	}
 
-	public MethodInfo( )
-	{
-		this( false );
+	public MethodInfo() {
+		this(false);
 	}
 
 	/**
 	 * Adds an optional argument list to the method information.
 	 * 
-	 * @param argumentList
-	 *            an optional argument list
+	 * @param argumentList an optional argument list
 	 * 
 	 */
 
-	public void addArgumentList( IArgumentInfoList argumentList )
-	{
-		if ( arguments == null )
-			arguments = new ArrayList<IArgumentInfoList>( );
+	public void addArgumentList(IArgumentInfoList argumentList) {
+		if (arguments == null)
+			arguments = new ArrayList<IArgumentInfoList>();
 
-		arguments.add( argumentList );
+		arguments.add(argumentList);
 	}
 
 	/**
-	 * Returns the iterator of argument definition. Each one is a list that
-	 * contains <code>ArgumentInfoList</code>.
+	 * Returns the iterator of argument definition. Each one is a list that contains
+	 * <code>ArgumentInfoList</code>.
 	 * 
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator<IArgumentInfoList> argumentListIterator( )
-	{
-		if ( arguments == null )
-			return Collections.EMPTY_LIST.iterator( );
+	public Iterator<IArgumentInfoList> argumentListIterator() {
+		if (arguments == null)
+			return Collections.EMPTY_LIST.iterator();
 
-		return arguments.iterator( );
+		return arguments.iterator();
 	}
 
 	/**
@@ -121,20 +114,17 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * @return the script type for return
 	 */
 
-	public String getReturnType( )
-	{
+	public String getReturnType() {
 		return returnType;
 	}
 
 	/**
 	 * Sets the script type for return.
 	 * 
-	 * @param returnType
-	 *            the script type to set
+	 * @param returnType the script type to set
 	 */
 
-	public void setReturnType( String returnType )
-	{
+	public void setReturnType(String returnType) {
 		this.returnType = returnType;
 	}
 
@@ -144,20 +134,17 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * @return the resource key for tool tip
 	 */
 
-	public String getToolTipKey( )
-	{
+	public String getToolTipKey() {
 		return toolTipKey;
 	}
 
 	/**
 	 * Sets the resource key for tool tip.
 	 * 
-	 * @param toolTipKey
-	 *            the resource key to set
+	 * @param toolTipKey the resource key to set
 	 */
 
-	public void setToolTipKey( String toolTipKey )
-	{
+	public void setToolTipKey(String toolTipKey) {
 		this.toolTipKey = toolTipKey;
 	}
 
@@ -168,10 +155,9 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 *         method.
 	 */
 
-	public String getToolTip( )
-	{
+	public String getToolTip() {
 		assert toolTipKey != null;
-		return ModelMessages.getMessage( toolTipKey );
+		return ModelMessages.getMessage(toolTipKey);
 
 	}
 
@@ -181,13 +167,11 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * @return true, if this method is constructor
 	 */
 
-	public boolean isConstructor( )
-	{
+	public boolean isConstructor() {
 		return isConstructor;
 	}
 
-	public void Constructor( boolean isConstructor )
-	{
+	public void Constructor(boolean isConstructor) {
 		this.isConstructor = isConstructor;
 	}
 
@@ -197,20 +181,17 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * @return true if this method is static
 	 */
 
-	public boolean isStatic( )
-	{
+	public boolean isStatic() {
 		return isStatic;
 	}
 
 	/**
 	 * Sets whether this method is static.
 	 * 
-	 * @param isStatic
-	 *            true if this method is static
+	 * @param isStatic true if this method is static
 	 */
 
-	public void setStatic( boolean isStatic )
-	{
+	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
 	}
 
@@ -220,20 +201,17 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * @return the javaDoc
 	 */
 
-	public String getJavaDoc( )
-	{
+	public String getJavaDoc() {
 		return javaDoc;
 	}
 
 	/**
 	 * Sets the javadoc for the method.
 	 * 
-	 * @param javaDoc
-	 *            the method javaDoc in string
+	 * @param javaDoc the method javaDoc in string
 	 */
 
-	public void setJavaDoc( String javaDoc )
-	{
+	public void setJavaDoc(String javaDoc) {
 		this.javaDoc = javaDoc;
 	}
 
@@ -241,37 +219,32 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * Sets the method context. The method is supposed to run only in specified
 	 * context.
 	 * 
-	 * @param context
-	 *            the method context
+	 * @param context the method context
 	 */
 
-	void setContext( String context )
-	{
+	void setContext(String context) {
 		this.context = context;
 	}
 
 	/**
-	 * Returns the method context. The method is supposed to run only in
-	 * specified context.
+	 * Returns the method context. The method is supposed to run only in specified
+	 * context.
 	 * 
 	 * @return the method context
 	 */
 
-	String getContext( )
-	{
+	String getContext() {
 		return context;
 	}
 
 	/**
-	 * Sets the element definition so that the scriptable factory can be
-	 * retrieved. This method is only for peer extension elements.
+	 * Sets the element definition so that the scriptable factory can be retrieved.
+	 * This method is only for peer extension elements.
 	 * 
-	 * @param elementDefn
-	 *            the element definition
+	 * @param elementDefn the element definition
 	 */
 
-	void setElementDefn( IElementDefn elementDefn )
-	{
+	void setElementDefn(IElementDefn elementDefn) {
 		assert elementDefn instanceof PeerExtensionElementDefn;
 
 		this.elementDefn = elementDefn;
@@ -281,34 +254,28 @@ public class MethodInfo extends LocalizableInfo implements IMethodInfo
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#getClassReturnType
-	 * ()
+	 * org.eclipse.birt.report.model.api.metadata.IMethodInfo#getClassReturnType ()
 	 */
 
-	public IClassInfo getClassReturnType( )
-	{
-		if ( returnClassType != null )
-		{
+	public IClassInfo getClassReturnType() {
+		if (returnClassType != null) {
 			return returnClassType;
 		}
-		IClassInfo tmpInfo = new ScriptableClassInfo( )
-				.getClass( returnType );
-		if ( tmpInfo != null )
+		IClassInfo tmpInfo = new ScriptableClassInfo().getClass(returnType);
+		if (tmpInfo != null)
 			return tmpInfo;
 
-		if ( elementDefn == null )
+		if (elementDefn == null)
 			return null;
 
-		IScriptableObjectClassInfo factory = ( (PeerExtensionElementDefn) elementDefn )
-				.getScriptableFactory( );
-		if ( factory == null )
+		IScriptableObjectClassInfo factory = ((PeerExtensionElementDefn) elementDefn).getScriptableFactory();
+		if (factory == null)
 			return null;
 
-		return factory.getScriptableClass( returnType );
+		return factory.getScriptableClass(returnType);
 	}
 
-	public void setClassReturnType( IClassInfo returnClassType )
-	{
+	public void setClassReturnType(IClassInfo returnClassType) {
 		this.returnClassType = returnClassType;
 	}
 

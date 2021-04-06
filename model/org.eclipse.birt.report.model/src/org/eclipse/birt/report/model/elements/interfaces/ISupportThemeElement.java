@@ -18,12 +18,11 @@ import org.eclipse.birt.report.model.elements.AbstractTheme;
  * The interface for elements that supports to set theme on it.
  */
 
-public interface ISupportThemeElement
-{
+public interface ISupportThemeElement {
 
-	String getThemeName( );
+	String getThemeName();
 
-	AbstractTheme getTheme( );
+	AbstractTheme getTheme();
 
-	AbstractTheme getTheme( Module module );
+	AbstractTheme getTheme(Module module);
 }

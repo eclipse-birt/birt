@@ -13,26 +13,24 @@ package org.eclipse.birt.report.viewer.utilities;
 
 import org.eclipse.birt.report.engine.api.EngineConstants;
 
-
 /**
  * Interface used to find classpath based on projects or workspace
  * 
  * @deprecated
  */
-public interface IWorkspaceClasspathFinder
-{
+public interface IWorkspaceClasspathFinder {
 	// separator
 	public static final String PROPERTYSEPARATOR = EngineConstants.PROPERTYSEPARATOR;
-	
+
 	/**
 	 * Get classpath based on the provided project names (separated by ;)
 	 * 
 	 */
-	String getClassPath( String projects );
+	String getClassPath(String projects);
 
 	/**
 	 * Get classpath based on projects in workspace
 	 * 
 	 */
-	String getClassPath( );
+	String getClassPath();
 }

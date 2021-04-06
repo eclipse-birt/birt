@@ -18,35 +18,34 @@ import org.eclipse.jdt.launching.IJavaLaunchConfigurationConstants;
 /**
  * ScriptClasspathTab
  */
-public class ScriptClasspathTab extends JavaClasspathTab
-{
+public class ScriptClasspathTab extends JavaClasspathTab {
 
 	private static final String PROVIDER_ID = "org.eclipse.birt.report.debug.script.ScriptDebugClasspathProvider"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jdt.debug.ui.launchConfigurations.JavaClasspathTab#isShowBootpath()
+	 * @see
+	 * org.eclipse.jdt.debug.ui.launchConfigurations.JavaClasspathTab#isShowBootpath
+	 * ()
 	 */
-	public boolean isShowBootpath( )
-	{
+	public boolean isShowBootpath() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jdt.debug.ui.launchConfigurations.JavaClasspathTab#performApply(org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)
+	 * @see
+	 * org.eclipse.jdt.debug.ui.launchConfigurations.JavaClasspathTab#performApply(
+	 * org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)
 	 */
-	public void performApply( ILaunchConfigurationWorkingCopy configuration )
-	{
-		super.performApply( configuration );
+	public void performApply(ILaunchConfigurationWorkingCopy configuration) {
+		super.performApply(configuration);
 
-		configuration.setAttribute( IJavaLaunchConfigurationConstants.ATTR_DEFAULT_CLASSPATH,
-				false );
+		configuration.setAttribute(IJavaLaunchConfigurationConstants.ATTR_DEFAULT_CLASSPATH, false);
 
-		configuration.setAttribute( IJavaLaunchConfigurationConstants.ATTR_CLASSPATH_PROVIDER,
-				PROVIDER_ID );
+		configuration.setAttribute(IJavaLaunchConfigurationConstants.ATTR_CLASSPATH_PROVIDER, PROVIDER_ID);
 	}
 
 }

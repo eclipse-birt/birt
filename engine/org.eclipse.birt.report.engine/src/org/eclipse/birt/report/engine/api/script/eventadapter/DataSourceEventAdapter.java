@@ -18,30 +18,21 @@ import org.eclipse.birt.report.engine.api.script.instance.IDataSourceInstance;
 /**
  * Default (empty) implementation of the IDataSourceEventHandler interface
  */
-public class DataSourceEventAdapter implements IDataSourceEventHandler
-{
+public class DataSourceEventAdapter implements IDataSourceEventHandler {
 
-	public void beforeOpen( IDataSourceInstance dataSource,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void beforeOpen(IDataSourceInstance dataSource, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void afterOpen( IDataSourceInstance dataSource,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void afterOpen(IDataSourceInstance dataSource, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void beforeClose( IDataSourceInstance dataSource,
-			IReportContext reportContext ) throws ScriptException
-	{
+	public void beforeClose(IDataSourceInstance dataSource, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void afterClose( IReportContext reportContext )
-			throws ScriptException
-	{
+	public void afterClose(IReportContext reportContext) throws ScriptException {
 
 	}
 

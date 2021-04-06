@@ -13,20 +13,19 @@ package org.eclipse.birt.report.service.actionhandler;
 
 import java.rmi.RemoteException;
 
-public interface IActionHandler
-{
+public interface IActionHandler {
 
-	public void execute( ) throws RemoteException;
+	public void execute() throws RemoteException;
 
-	public boolean canExecute( );
+	public boolean canExecute();
 
-	public boolean canUndo( );
+	public boolean canUndo();
 
-	public boolean canRedo( );
+	public boolean canRedo();
 
-	public void undo( );
+	public void undo();
 
-	public void redo( );
+	public void redo();
 
-	public boolean prepare( ) throws Exception;
+	public boolean prepare() throws Exception;
 }

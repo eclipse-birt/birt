@@ -9,7 +9,6 @@
  * Actuate Corporation - initial API and implementation
  ***********************************************************************/
 
-
 package org.eclipse.birt.report.engine.layout.pdf.emitter;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -18,59 +17,46 @@ import org.eclipse.birt.report.engine.layout.area.IContainerArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AreaFactory;
 import org.eclipse.birt.report.engine.layout.area.impl.ContainerArea;
 
-public class RegionLayout extends BlockStackingLayout
-{
+public class RegionLayout extends BlockStackingLayout {
 
-	public RegionLayout( LayoutEngineContext context, IContent content,
-			IContainerArea container )
-	{
-		super( context, null, content );
+	public RegionLayout(LayoutEngineContext context, IContent content, IContainerArea container) {
+		super(context, null, content);
 		currentContext = new ContainerContext();
 		contextList.add(currentContext);
-		if ( container != null )
-		{
+		if (container != null) {
 			currentContext.root = (ContainerArea) container;
+		} else {
+			currentContext.root = (ContainerArea) AreaFactory.createLogicContainer(content.getReportContent());
 		}
-		else
-		{
-			currentContext.root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
-		}
-		currentContext.maxAvaWidth = currentContext.root.getContentWidth( );
-		// set unlimited length for block direction
-		currentContext.maxAvaHeight = Integer.MAX_VALUE ;
-	}
-	
-	protected void initialize( )
-	{
-		createRoot( );
-		currentContext.maxAvaWidth = currentContext.root.getContentWidth( );
+		currentContext.maxAvaWidth = currentContext.root.getContentWidth();
 		// set unlimited length for block direction
 		currentContext.maxAvaHeight = Integer.MAX_VALUE;
 	}
-	
-	public void layout( ) throws BirtException
-	{
-		initialize( );
-		PDFLayoutEmitter emitter = new PDFLayoutEmitter( context );
-		emitter.current = this;
-		visitContent( content, emitter );
-		closeLayout( );
+
+	protected void initialize() {
+		createRoot();
+		currentContext.maxAvaWidth = currentContext.root.getContentWidth();
+		// set unlimited length for block direction
+		currentContext.maxAvaHeight = Integer.MAX_VALUE;
 	}
-	
-	protected void createRoot( )
-	{
-		if ( currentContext.root == null )
-		{
-			currentContext.root = (ContainerArea) AreaFactory.createLogicContainer( content.getReportContent( ));
+
+	public void layout() throws BirtException {
+		initialize();
+		PDFLayoutEmitter emitter = new PDFLayoutEmitter(context);
+		emitter.current = this;
+		visitContent(content, emitter);
+		closeLayout();
+	}
+
+	protected void createRoot() {
+		if (currentContext.root == null) {
+			currentContext.root = (ContainerArea) AreaFactory.createLogicContainer(content.getReportContent());
 		}
 	}
 
-	protected void closeLayout( )
-	{
+	protected void closeLayout() {
 		// set dimension property for root TODO support user defined height
-		currentContext.root.setHeight( Math.max( currentContext.currentBP, currentContext.root.getHeight( ) ) );
+		currentContext.root.setHeight(Math.max(currentContext.currentBP, currentContext.root.getHeight()));
 	}
-	
-
 
 }

@@ -29,18 +29,15 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * 
  */
 
-public class DesignWriter extends DesignWriterImpl
-{
+public class DesignWriter extends DesignWriterImpl {
 
 	/**
 	 * Constructs a writer with the specified design.
 	 * 
-	 * @param design
-	 *            the internal representation of the design
+	 * @param design the internal representation of the design
 	 */
 
-	public DesignWriter( ReportDesign design )
-	{
-		super( design );
+	public DesignWriter(ReportDesign design) {
+		super(design);
 	}
 }

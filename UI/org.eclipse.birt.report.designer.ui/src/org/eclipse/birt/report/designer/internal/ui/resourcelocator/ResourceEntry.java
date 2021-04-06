@@ -20,34 +20,32 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public interface ResourceEntry extends IAdaptable
-{
+public interface ResourceEntry extends IAdaptable {
 
-	public static interface Filter
-	{
+	public static interface Filter {
 
-		public boolean accept( ResourceEntry entity );
+		public boolean accept(ResourceEntry entity);
 	}
 
-	String getName( );
+	String getName();
 
 	String getDisplayName();
-	
-	Image getImage( );
 
-	URL getURL( );
+	Image getImage();
 
-	ResourceEntry getParent( );
+	URL getURL();
 
-	ResourceEntry[] getChildren( );
-	
-	boolean hasChildren( );
+	ResourceEntry getParent();
 
-	ResourceEntry[] getChildren( Filter filter );
+	ResourceEntry[] getChildren();
 
-	boolean isFile( );
-	
-	boolean isRoot( );
+	boolean hasChildren();
 
-	void dispose( );
+	ResourceEntry[] getChildren(Filter filter);
+
+	boolean isFile();
+
+	boolean isRoot();
+
+	void dispose();
 }

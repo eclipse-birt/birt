@@ -13,15 +13,9 @@ package org.eclipse.birt.report.engine.api.impl;
 
 import org.eclipse.birt.report.engine.api.IBookmarkInfo;
 
-public class BookmarkInfo
-		extends
-			org.eclipse.birt.report.model.util.BookmarkInfo
-		implements
-			IBookmarkInfo
-{
+public class BookmarkInfo extends org.eclipse.birt.report.model.util.BookmarkInfo implements IBookmarkInfo {
 
-	public BookmarkInfo( String bookmark, String displayName, String elementType )
-	{
-		super( bookmark, displayName, elementType );
+	public BookmarkInfo(String bookmark, String displayName, String elementType) {
+		super(bookmark, displayName, elementType);
 	}
 }

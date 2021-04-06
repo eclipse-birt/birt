@@ -32,13 +32,13 @@ public class RaggedCrosstabReportTest extends ReportRunner {
 		InputStream inputStream = runAndRenderReport("RaggedCrosstab.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
-			
+
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Ragged Crosstab Report", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Ragged Crosstab Report", workbook.getSheetAt(0).getSheetName());
+
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals(9, firstNullRow(sheet));
 		} finally {

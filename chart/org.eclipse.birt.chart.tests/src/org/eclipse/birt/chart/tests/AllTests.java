@@ -19,17 +19,15 @@ import org.eclipse.birt.chart.tests.engine.EngineTest;
 import org.eclipse.birt.chart.tests.i18n.I18nTest;
 import org.eclipse.birt.chart.tests.script.SimpleAPITest;
 
-public class AllTests
-{
+public class AllTests {
 
-	public static Test suite( )
-	{
-		TestSuite suite = new TestSuite( "Test for all chart-related projects" ); //$NON-NLS-1$
+	public static Test suite() {
+		TestSuite suite = new TestSuite("Test for all chart-related projects"); //$NON-NLS-1$
 		// $JUnit-BEGIN$
-		suite.addTest( DeviceTest.suite( ) );
-		suite.addTest( I18nTest.suite( ) );
-		suite.addTest( EngineTest.suite( ) );
-		suite.addTest( SimpleAPITest.suite( ) );
+		suite.addTest(DeviceTest.suite());
+		suite.addTest(I18nTest.suite());
+		suite.addTest(EngineTest.suite());
+		suite.addTest(SimpleAPITest.suite());
 
 		// $JUnit-END$
 		return suite;

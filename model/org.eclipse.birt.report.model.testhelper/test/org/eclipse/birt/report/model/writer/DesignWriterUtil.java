@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.report.model.writer;
 
-public class DesignWriterUtil
-{
+public class DesignWriterUtil {
 
-	public static void enableExternalDataMarts( DesignWriter writer )
-	{
-		if ( writer != null )
+	public static void enableExternalDataMarts(DesignWriter writer) {
+		if (writer != null)
 			writer.enableLibraryTheme = true;
 	}
 }

@@ -14,14 +14,14 @@
 package uk.co.spudsoft.birt.emitters.excel;
 
 public class Area {
-    Coordinate x;
-    Coordinate y;
-    float height;
-    
-    public Area(Coordinate x, Coordinate y) {
-        this.x = x;
-        this.y = y;
-    }
+	Coordinate x;
+	Coordinate y;
+	float height;
+
+	public Area(Coordinate x, Coordinate y) {
+		this.x = x;
+		this.y = y;
+	}
 
 	public Coordinate getX() {
 		return x;
@@ -30,13 +30,13 @@ public class Area {
 	public Coordinate getY() {
 		return y;
 	}
-    
+
 	public float getHeight() {
 		return height;
 	}
-	
-	public void setHeight( float height ) {
+
+	public void setHeight(float height) {
 		this.height = height;
 	}
-	
+
 }

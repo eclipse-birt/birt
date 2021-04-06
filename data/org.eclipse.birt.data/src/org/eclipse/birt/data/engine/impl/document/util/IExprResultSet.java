@@ -19,78 +19,79 @@ import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
 /**
  * Read the expression value from report document.
  */
-public interface IExprResultSet
-{
+public interface IExprResultSet {
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean next( ) throws DataException;
+	public boolean next() throws DataException;
 
 	/**
 	 * @param name
 	 * @return
 	 * @throws DataException
 	 */
-	public Object getValue( String name ) throws DataException;
+	public Object getValue(String name) throws DataException;
 
 	/**
 	 * @param rowIndex
 	 */
-	public void moveTo( int rowIndex ) throws DataException;
+	public void moveTo(int rowIndex) throws DataException;
 
 	/**
 	 * @return
 	 */
-	public int getCurrentId( );
+	public int getCurrentId();
 
 	/**
 	 * @return
 	 */
-	public int getCurrentIndex( );
-
-	/**
-	 * @return
-	 * @throws DataException
-	 */
-	public int getStartingGroupLevel( ) throws DataException;
+	public int getCurrentIndex();
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	public int getEndingGroupLevel( ) throws DataException;
+	public int getStartingGroupLevel() throws DataException;
+
+	/**
+	 * @return
+	 * @throws DataException
+	 */
+	public int getEndingGroupLevel() throws DataException;
 
 	/**
 	 * @param groupLevel
 	 * @throws DataException
 	 */
-	public void skipToEnd( int groupLevel ) throws DataException;
+	public void skipToEnd(int groupLevel) throws DataException;
 
 	/**
 	 * @throws DataException
 	 */
-	public void close( ) throws DataException;
-	
+	public void close() throws DataException;
+
 	/**
 	 * 
 	 * @throws DataException
 	 */
-	public boolean isEmpty( );
+	public boolean isEmpty();
 
 	/**
 	 * Get the group starting and ending index + 1.
+	 * 
 	 * @param groupIndex
 	 * @return
 	 */
-	public int[] getGroupStartAndEndIndex( int groupIndex ) throws DataException;
-	
+	public int[] getGroupStartAndEndIndex(int groupIndex) throws DataException;
+
 	/**
 	 * Get the data set result set enclosed in the IExprResultSet instance.
+	 * 
 	 * @return
 	 */
-	public IDataSetResultSet getDataSetResultSet( );
-	
-	public List[] getGroupInfos( ) throws DataException;
+	public IDataSetResultSet getDataSetResultSet();
+
+	public List[] getGroupInfos() throws DataException;
 }

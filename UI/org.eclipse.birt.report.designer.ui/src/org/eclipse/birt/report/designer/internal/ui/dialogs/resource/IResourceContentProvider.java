@@ -13,18 +13,16 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.resource;
 
 import org.eclipse.jface.viewers.ITreeContentProvider;
 
-
 /**
  * 
  */
 
-public interface IResourceContentProvider extends ITreeContentProvider
-{
+public interface IResourceContentProvider extends ITreeContentProvider {
 
 	public static final int ALWAYS_SHOW_EMPTYFOLDER = 1;
 	public static final int ALWAYS_NOT_SHOW_EMPTYFOLDER = 2;
 
-	public int getEmptyFolderShowStatus( );
+	public int getEmptyFolderShowStatus();
 
-	public void setEmptyFolderShowStatus( int showStatus );
+	public void setEmptyFolderShowStatus(int showStatus);
 }

@@ -26,22 +26,17 @@ import org.xml.sax.SAXException;
  * (included .15).
  */
 
-class CompatibleIncludeResourceState extends CompatiblePropertyState
-{
+class CompatibleIncludeResourceState extends CompatiblePropertyState {
 
 	/**
 	 * Default constructor.
 	 * 
-	 * @param theHandler
-	 *            the parser handler
-	 * @param element
-	 *            the element to be parsed
+	 * @param theHandler the parser handler
+	 * @param element    the element to be parsed
 	 */
 
-	public CompatibleIncludeResourceState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleIncludeResourceState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
@@ -50,16 +45,15 @@ class CompatibleIncludeResourceState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		if ( StringUtil.isEmpty( value ) )
+		if (StringUtil.isEmpty(value))
 			return;
 
-		List<Object> resoureLit = new ArrayList<Object>( );
-		resoureLit.add( value );
-		element.setProperty( IModuleModel.INCLUDE_RESOURCE_PROP, resoureLit );
+		List<Object> resoureLit = new ArrayList<Object>();
+		resoureLit.add(value);
+		element.setProperty(IModuleModel.INCLUDE_RESOURCE_PROP, resoureLit);
 	}
 
 }

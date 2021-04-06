@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.api.extension.IPropertyDefinition;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.metadata.PropertyType;
 
-public class ExtensionPropertyDefn implements IPropertyDefinition
-{
+public class ExtensionPropertyDefn implements IPropertyDefinition {
 
 	String name = null;
 
@@ -43,8 +42,7 @@ public class ExtensionPropertyDefn implements IPropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getGroupName()
 	 */
-	public String getGroupNameID( )
-	{
+	public String getGroupNameID() {
 		return groupNameID;
 	}
 
@@ -53,24 +51,21 @@ public class ExtensionPropertyDefn implements IPropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	void setName( String name )
-	{
+	void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return ROMExtension.getMessage( displayNameID );
+	public String getDisplayName() {
+		return ROMExtension.getMessage(displayNameID);
 	}
 
 	/**
@@ -78,34 +73,30 @@ public class ExtensionPropertyDefn implements IPropertyDefinition
 	 * 
 	 * @param displayNameID
 	 */
-	
-	public void setDisplayNameID( String displayNameID)
-	{
+
+	public void setDisplayNameID(String displayNameID) {
 		this.displayNameID = displayNameID;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return type;
 	}
 
-	void setType( int type )
-	{
+	void setType(int type) {
 		this.type = type;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#isList()
 	 */
-	public boolean isList( )
-	{
+	public boolean isList() {
 		return isList;
 	}
 
@@ -114,9 +105,8 @@ public class ExtensionPropertyDefn implements IPropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getChoices()
 	 */
-	public List getChoices( )
-	{
-		if ( type != PropertyType.CHOICE_TYPE )
+	public List getChoices() {
+		if (type != PropertyType.CHOICE_TYPE)
 			return null;
 		return choices;
 	}
@@ -126,9 +116,8 @@ public class ExtensionPropertyDefn implements IPropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getMembers()
 	 */
-	public List getMembers( )
-	{
-		if ( type != PropertyType.STRUCT_TYPE )
+	public List getMembers() {
+		if (type != PropertyType.STRUCT_TYPE)
 			return null;
 		return members;
 	}
@@ -138,59 +127,53 @@ public class ExtensionPropertyDefn implements IPropertyDefinition
 	 * 
 	 * @see org.eclipse.birt.model.extension.IPropertyDefn#getDefaultValue()
 	 */
-	public Object getDefaultValue( )
-	{
+	public Object getDefaultValue() {
 		return defaultValue;
 	}
 
 	/**
-	 * @param groupID
-	 *            The group to set.
+	 * @param groupID The group to set.
 	 */
-	public void setGroup( String groupID )
-	{
+	public void setGroup(String groupID) {
 		this.groupNameID = groupID;
 	}
 
 	/**
-	 * @param isList
-	 *            The isList to set.
+	 * @param isList The isList to set.
 	 */
-	public void setIsList( boolean isList )
-	{
+	public void setIsList(boolean isList) {
 		this.isList = isList;
 	}
 
 	/**
 	 * @param choices
 	 */
-	public void setChoices( List choices )
-	{
+	public void setChoices(List choices) {
 		this.choices = choices;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IPropertyDefinition#getDisplayNameID(
+	 * )
 	 */
-	public String getDisplayNameID( )
-	{
+	public String getDisplayNameID() {
 		return displayNameID;
 	}
 
-	public IMethodInfo getMethodInfo( )
-	{
+	public IMethodInfo getMethodInfo() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public boolean isReadOnly( )
-	{
+	public boolean isReadOnly() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
-	public boolean isVisible( )
-	{
+	public boolean isVisible() {
 		// TODO Auto-generated method stub
 		return false;
 	}

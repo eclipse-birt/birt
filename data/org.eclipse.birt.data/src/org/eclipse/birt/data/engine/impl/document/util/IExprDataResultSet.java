@@ -19,28 +19,27 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * Read the data from report document and wrap it as a data source for furthur
  * transformation.
  */
-public interface IExprDataResultSet extends IDataSetPopulator
-{	
-	
+public interface IExprDataResultSet extends IDataSetPopulator {
+
 	/**
 	 * @return
 	 */
-	public IResultClass getResultClass( );
+	public IResultClass getResultClass();
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	public IResultObject fetch( ) throws DataException;
+	public IResultObject fetch() throws DataException;
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	public int getCount( ) throws DataException;
-	
+	public int getCount() throws DataException;
+
 	/**
 	 *
 	 */
-	public void close( ) throws DataException;
+	public void close() throws DataException;
 }

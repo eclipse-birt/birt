@@ -23,37 +23,28 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 
-public class InsertAggregationAction extends BaseInsertMenuAction
-{
+public class InsertAggregationAction extends BaseInsertMenuAction {
 
-	public static final String TEXT = Messages.getString( "InsertAggregationAction.text" ); //$NON-NLS-1$
+	public static final String TEXT = Messages.getString("InsertAggregationAction.text"); //$NON-NLS-1$
 
 	public static final String ID = "InsertAggregationAction"; //$NON-NLS-1$
 
 	private static final String TYPE = "DATA_AGG"; //$NON-NLS-1$
 
-	public InsertAggregationAction( IWorkbenchPart part )
-	{
-		super( part, TYPE );
-		setId( ID );
+	public InsertAggregationAction(IWorkbenchPart part) {
+		super(part, TYPE);
+		setId(ID);
 	}
 
-	public void run( )
-	{
-		DNDService.getInstance( ).performDrop( TYPE,
-				( (IStructuredSelection) getSelection( ) ).getFirstElement( ),
-				DND.DROP_DEFAULT,
-				new DNDLocation( ViewerDropAdapter.LOCATION_ON ) );
+	public void run() {
+		DNDService.getInstance().performDrop(TYPE, ((IStructuredSelection) getSelection()).getFirstElement(),
+				DND.DROP_DEFAULT, new DNDLocation(ViewerDropAdapter.LOCATION_ON));
 	}
 
-	protected boolean calculateEnabled( )
-	{
-		if ( getSelection( ) instanceof IStructuredSelection )
-			return DNDService.getInstance( )
-					.validDrop( TYPE,
-							( (IStructuredSelection) getSelection( ) ).getFirstElement( ),
-							DND.DROP_DEFAULT,
-							new DNDLocation( ViewerDropAdapter.LOCATION_ON ) );
+	protected boolean calculateEnabled() {
+		if (getSelection() instanceof IStructuredSelection)
+			return DNDService.getInstance().validDrop(TYPE, ((IStructuredSelection) getSelection()).getFirstElement(),
+					DND.DROP_DEFAULT, new DNDLocation(ViewerDropAdapter.LOCATION_ON));
 		return false;
 	}
 

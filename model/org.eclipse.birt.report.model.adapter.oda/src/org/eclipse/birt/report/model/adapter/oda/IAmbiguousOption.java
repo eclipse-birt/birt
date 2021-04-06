@@ -19,8 +19,7 @@ import java.util.List;
  * 
  */
 
-public interface IAmbiguousOption
-{
+public interface IAmbiguousOption {
 
 	/**
 	 * Gets all the ambiguous parameter nodes when comparing data set design and
@@ -28,11 +27,11 @@ public interface IAmbiguousOption
 	 * 
 	 * @return
 	 */
-	List<IAmbiguousParameterNode> getAmbiguousParameters( );
+	List<IAmbiguousParameterNode> getAmbiguousParameters();
 
 	/**
 	 * 
 	 * @return
 	 */
-	List<IAmbiguousResultSetNode> getAmbiguousResultSets( );
+	List<IAmbiguousResultSetNode> getAmbiguousResultSets();
 }

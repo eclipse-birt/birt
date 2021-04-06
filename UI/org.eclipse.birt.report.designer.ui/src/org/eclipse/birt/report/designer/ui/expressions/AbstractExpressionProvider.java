@@ -21,46 +21,37 @@ import org.eclipse.swt.graphics.Image;
  * 
  * @since 2.3.2
  */
-public abstract class AbstractExpressionProvider implements IExpressionProvider
-{
+public abstract class AbstractExpressionProvider implements IExpressionProvider {
 
-	public Object[] getCategory( )
-	{
+	public Object[] getCategory() {
 		return null;
 	}
 
-	public Object[] getChildren( Object parentElement )
-	{
+	public Object[] getChildren(Object parentElement) {
 		return null;
 	}
 
-	public String getDisplayText( Object element )
-	{
+	public String getDisplayText(Object element) {
 		return null;
 	}
 
-	public Image getImage( Object element )
-	{
+	public Image getImage(Object element) {
 		return null;
 	}
 
-	public String getInsertText( Object element )
-	{
+	public String getInsertText(Object element) {
 		return null;
 	}
 
-	public Operator[] getOperators( )
-	{
+	public Operator[] getOperators() {
 		return null;
 	}
 
-	public String getTooltipText( Object element )
-	{
+	public String getTooltipText(Object element) {
 		return null;
 	}
 
-	public boolean hasChildren( Object element )
-	{
+	public boolean hasChildren(Object element) {
 		return false;
 	}
 

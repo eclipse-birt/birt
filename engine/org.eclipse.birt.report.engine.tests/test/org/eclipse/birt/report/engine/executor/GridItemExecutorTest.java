@@ -11,21 +11,19 @@
 
 package org.eclipse.birt.report.engine.executor;
 
-
 /**
  * 
  * test grid item executor test for single record and empty resultset
  * 
  */
-public class GridItemExecutorTest extends ReportItemExecutorTestAbs
-{
+public class GridItemExecutorTest extends ReportItemExecutorTestAbs {
 	/**
 	 * test single table
+	 * 
 	 * @throws Exception
 	 */
-	public void testExcutegrid1( ) throws Exception
-	{
+	public void testExcutegrid1() throws Exception {
 		compare("grid.xml", "grid.txt");
 	}
-	
+
 }

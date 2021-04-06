@@ -21,91 +21,82 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.DesignElementHandle;
 
 /**
- * Provider class to provide the available dataset items 
+ * Provider class to provide the available dataset items
  *
  */
-public class DataSetExpressionProvider extends ExpressionProvider
-{
+public class DataSetExpressionProvider extends ExpressionProvider {
 	// data set list
 	private List dataSetList;
 
 	/**
 	 * provider constructor
+	 * 
 	 * @param handle
 	 */
-	public DataSetExpressionProvider( DesignElementHandle handle )
-	{
-		super( handle );
+	public DataSetExpressionProvider(DesignElementHandle handle) {
+		super(handle);
 		dataSetList = new ArrayList();
-		dataSetList.add( handle );
+		dataSetList.add(handle);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getCategoryList()
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#
+	 * getCategoryList()
 	 */
-	protected List getCategoryList( )
-	{
-		List categoryList = super.getCategoryList( );
-		if ( dataSetList != null && !dataSetList.isEmpty( ) )
-		{
-			categoryList.add( 0, DATASETS );
+	protected List getCategoryList() {
+		List categoryList = super.getCategoryList();
+		if (dataSetList != null && !dataSetList.isEmpty()) {
+			categoryList.add(0, DATASETS);
 		}
 		return categoryList;
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getChildrenList(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#
+	 * getChildrenList(java.lang.Object)
 	 */
-	protected List getChildrenList( Object parent )
-	{
+	protected List getChildrenList(Object parent) {
 
-		if ( DATASETS.equals( parent ) )
-		{
+		if (DATASETS.equals(parent)) {
 			return dataSetList;
 		}
-		if ( parent instanceof DataSetHandle )
-		{
-			List list = new ArrayList( );
-			try
-			{
-				list.addAll( Arrays.asList( DataSetProvider.getCurrentInstance( )
-						.getColumns( (DataSetHandle) parent, false ) ) );
-			}
-			catch ( Exception e )
-			{
-				DataSetExceptionHandler.handle( e );
+		if (parent instanceof DataSetHandle) {
+			List list = new ArrayList();
+			try {
+				list.addAll(
+						Arrays.asList(DataSetProvider.getCurrentInstance().getColumns((DataSetHandle) parent, false)));
+			} catch (Exception e) {
+				DataSetExceptionHandler.handle(e);
 			}
 			return list;
 		}
-		return super.getChildrenList( parent );
+		return super.getChildrenList(parent);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getDisplayText(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getDisplayText
+	 * (java.lang.Object)
 	 */
-	public String getDisplayText( Object element )
-	{
-		if ( element instanceof DataSetHandle )
-		{
-			return ( (DataSetHandle) element ).getName( );
+	public String getDisplayText(Object element) {
+		if (element instanceof DataSetHandle) {
+			return ((DataSetHandle) element).getName();
+		} else if (element instanceof DataSetViewData) {
+			return ((DataSetViewData) element).getName();
 		}
-		else if ( element instanceof DataSetViewData )
-		{
-			return ( (DataSetViewData) element ).getName( );
-		}
-		return super.getDisplayText( element );
+		return super.getDisplayText(element);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getInsertText(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.dialogs.ExpressionProvider#getInsertText(
+	 * java.lang.Object)
 	 */
-	public String getInsertText( Object element )
-	{
-		if ( element instanceof DataSetViewData )
-		{
-			return Utility.getExpression( element );
+	public String getInsertText(Object element) {
+		if (element instanceof DataSetViewData) {
+			return Utility.getExpression(element);
 		}
-		return super.getInsertText( element );
+		return super.getInsertText(element);
 	}
 
 }

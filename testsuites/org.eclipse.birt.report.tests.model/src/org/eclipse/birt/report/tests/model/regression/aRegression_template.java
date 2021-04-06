@@ -30,18 +30,15 @@ import com.ibm.icu.util.ULocale;
  * 
  * <p>
  */
-public class aRegression_template extends BaseTestCase
-{
+public class aRegression_template extends BaseTestCase {
 	private final static String REPORT = "";
-	
-	
-	public void test_()
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
+	public void test_() {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
+
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
 	}
 }

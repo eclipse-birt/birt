@@ -22,8 +22,7 @@ import org.eclipse.birt.report.service.api.IViewerReportService;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 
-public class BirtGetPageActionHandler extends AbstractGetPageActionHandler
-{
+public class BirtGetPageActionHandler extends AbstractGetPageActionHandler {
 
 	/**
 	 * Constructor.
@@ -31,52 +30,39 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler
 	 * @param context
 	 * @param operation
 	 */
-	public BirtGetPageActionHandler( IContext context, Operation operation,
-			GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public BirtGetPageActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
 	 * Returns report document name
 	 */
-	protected String __getReportDocument( )
-	{
-		return __bean.getReportDocumentName( );
+	protected String __getReportDocument() {
+		return __bean.getReportDocumentName();
 	}
 
 	/**
 	 * Check whether document existed
 	 */
-	protected void __checkDocumentExists( ) throws Exception
-	{
-		File file = new File( __docName );
-		if ( !file.exists( ) )
-		{
-			BirtRunReportActionHandler handler = new BirtRunReportActionHandler(
-					context, operation, response );
-			handler.__execute( );
+	protected void __checkDocumentExists() throws Exception {
+		File file = new File(__docName);
+		if (!file.exists()) {
+			BirtRunReportActionHandler handler = new BirtRunReportActionHandler(context, operation, response);
+			handler.__execute();
 		}
 
-		file = new File( __docName );
-		if ( !file.exists( ) )
-		{
-			AxisFault fault = new AxisFault( );
-			fault
-					.setFaultReason( BirtResources
-							.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
+		file = new File(__docName);
+		if (!file.exists()) {
+			AxisFault fault = new AxisFault();
+			fault.setFaultReason(BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT));
 			throw fault;
-		}
-		else
-		{
+		} else {
 			// If document isn't completed, throw Exception
-			BaseAttributeBean bean = (BaseAttributeBean) context.getBean( );
-			if ( bean.isDocumentProcessing( ) )
-			{
-				AxisFault fault = new AxisFault( );
-				fault
-						.setFaultReason( BirtResources
-								.getMessage( ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING ) );
+			BaseAttributeBean bean = (BaseAttributeBean) context.getBean();
+			if (bean.isDocumentProcessing()) {
+				AxisFault fault = new AxisFault();
+				fault.setFaultReason(
+						BirtResources.getMessage(ResourceConstants.GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING));
 				throw fault;
 			}
 		}
@@ -85,8 +71,7 @@ public class BirtGetPageActionHandler extends AbstractGetPageActionHandler
 	/**
 	 * 
 	 */
-	public IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	public IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 }

@@ -24,53 +24,46 @@ import org.eclipse.swt.widgets.Composite;
  * @author Actuate Corporation
  * 
  */
-public class SeriesUIProvider extends DefaultSeriesUIProvider
-{
+public class SeriesUIProvider extends DefaultSeriesUIProvider {
 
 	private static final String SERIES_CLASS = "org.eclipse.birt.chart.model.component.impl.SeriesImpl"; //$NON-NLS-1$
 
 	/**
 	 * 
 	 */
-	public SeriesUIProvider( )
-	{
-		super( );
+	public SeriesUIProvider() {
+		super();
 	}
 
-	public Composite getSeriesAttributeSheet( Composite parent, Series series,
-			ChartWizardContext context )
-	{
+	public Composite getSeriesAttributeSheet(Composite parent, Series series, ChartWizardContext context) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.ISeriesUIProvider#getSeriesClass()
 	 */
-	public String getSeriesClass( )
-	{
+	public String getSeriesClass() {
 		return SERIES_CLASS;
 	}
 
-	public ISelectDataComponent getSeriesDataComponent( int seriesType,
-			SeriesDefinition seriesDefn, ChartWizardContext context,
-			String sTitle )
-	{
-		return new DefaultSelectDataComponent( );
+	public ISelectDataComponent getSeriesDataComponent(int seriesType, SeriesDefinition seriesDefn,
+			ChartWizardContext context, String sTitle) {
+		return new DefaultSelectDataComponent();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(org.eclipse.birt.chart.model.component.Series)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.DefaultSeriesUIProvider#getCompatibleAxisType(
+	 * org.eclipse.birt.chart.model.component.Series)
 	 */
-	public AxisType[] getCompatibleAxisType( Series series )
-	{
-		return new AxisType[]{
-				AxisType.DATE_TIME_LITERAL,
-				AxisType.LINEAR_LITERAL,
-				AxisType.LOGARITHMIC_LITERAL,
-				AxisType.TEXT_LITERAL
-		};
+	public AxisType[] getCompatibleAxisType(Series series) {
+		return new AxisType[] { AxisType.DATE_TIME_LITERAL, AxisType.LINEAR_LITERAL, AxisType.LOGARITHMIC_LITERAL,
+				AxisType.TEXT_LITERAL };
 	}
 
 }

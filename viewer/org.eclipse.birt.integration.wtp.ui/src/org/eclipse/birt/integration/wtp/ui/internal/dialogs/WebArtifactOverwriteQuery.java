@@ -22,8 +22,7 @@ import org.eclipse.ui.dialogs.IOverwriteQuery;
  * The dialog to query result if overwrite the items from web.xml file
  * 
  */
-public class WebArtifactOverwriteQuery implements IOverwriteQuery
-{
+public class WebArtifactOverwriteQuery implements IOverwriteQuery {
 
 	// if all
 	private boolean isALL = false;
@@ -35,8 +34,7 @@ public class WebArtifactOverwriteQuery implements IOverwriteQuery
 	 * 
 	 * @param shell
 	 */
-	public WebArtifactOverwriteQuery( Shell shell )
-	{
+	public WebArtifactOverwriteQuery(Shell shell) {
 		this.shell = shell;
 	}
 
@@ -46,25 +44,19 @@ public class WebArtifactOverwriteQuery implements IOverwriteQuery
 	 * @param file
 	 * @return
 	 */
-	private int openDialog( final String item )
-	{
-		final int[] result = {IDialogConstants.CANCEL_ID};
-		shell.getDisplay( ).syncExec( new Runnable( ) {
+	private int openDialog(final String item) {
+		final int[] result = { IDialogConstants.CANCEL_ID };
+		shell.getDisplay().syncExec(new Runnable() {
 
-			public void run( )
-			{
+			public void run() {
 				String title = BirtWTPMessages.BIRTOverwriteQuery_webartifact_title;
-				String msg = NLS.bind(
-						BirtWTPMessages.BIRTOverwriteQuery_webartifact_message, item );
-				String[] options = {IDialogConstants.YES_LABEL,
-						IDialogConstants.NO_LABEL,
-						IDialogConstants.YES_TO_ALL_LABEL,
-						IDialogConstants.CANCEL_LABEL};
-				MessageDialog dialog = new MessageDialog( shell, title, null,
-						msg, MessageDialog.QUESTION, options, 0 );
-				result[0] = dialog.open( );
+				String msg = NLS.bind(BirtWTPMessages.BIRTOverwriteQuery_webartifact_message, item);
+				String[] options = { IDialogConstants.YES_LABEL, IDialogConstants.NO_LABEL,
+						IDialogConstants.YES_TO_ALL_LABEL, IDialogConstants.CANCEL_LABEL };
+				MessageDialog dialog = new MessageDialog(shell, title, null, msg, MessageDialog.QUESTION, options, 0);
+				result[0] = dialog.open();
 			}
-		} );
+		});
 		return result[0];
 	}
 
@@ -73,17 +65,16 @@ public class WebArtifactOverwriteQuery implements IOverwriteQuery
 	 * 
 	 * @param item
 	 */
-	public String queryOverwrite( String item )
-	{
-		if ( isALL )
+	public String queryOverwrite(String item) {
+		if (isALL)
 			return ALL;
 
-		String[] returnCodes = {YES, NO, ALL, CANCEL};
-		int returnVal = openDialog( item );
+		String[] returnCodes = { YES, NO, ALL, CANCEL };
+		int returnVal = openDialog(item);
 		String result = returnVal < 0 ? CANCEL : returnCodes[returnVal];
 
 		// check if selected ALL
-		isALL = result.equalsIgnoreCase( ALL ) ? true : false;
+		isALL = result.equalsIgnoreCase(ALL) ? true : false;
 
 		return result;
 	}

@@ -22,23 +22,19 @@ import org.eclipse.birt.report.model.elements.interfaces.ILineItemModel;
  * @see org.eclipse.birt.report.model.elements.LineItem
  */
 
-public class LineHandle extends ReportItemHandle implements ILineItemModel
-{
+public class LineHandle extends ReportItemHandle implements ILineItemModel {
 
 	/**
 	 * Constructs a line handle with the given design and the element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public LineHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public LineHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
@@ -54,9 +50,8 @@ public class LineHandle extends ReportItemHandle implements ILineItemModel
 	 * @return the orientation of the line
 	 */
 
-	public String getOrientation( )
-	{
-		return getStringProperty( ILineItemModel.ORIENTATION_PROP );
+	public String getOrientation() {
+		return getStringProperty(ILineItemModel.ORIENTATION_PROP);
 	}
 
 	/**
@@ -68,14 +63,11 @@ public class LineHandle extends ReportItemHandle implements ILineItemModel
 	 * <li><code>LINE_ORIENTATION_VERTICAL</code>
 	 * </ul>
 	 * 
-	 * @param orientation
-	 *            the orientation of the line
-	 * @throws SemanticException
-	 *             if the input orientation is not one of the above.
+	 * @param orientation the orientation of the line
+	 * @throws SemanticException if the input orientation is not one of the above.
 	 */
 
-	public void setOrientation( String orientation ) throws SemanticException
-	{
-		setStringProperty( ILineItemModel.ORIENTATION_PROP, orientation );
+	public void setOrientation(String orientation) throws SemanticException {
+		setStringProperty(ILineItemModel.ORIENTATION_PROP, orientation);
 	}
 }

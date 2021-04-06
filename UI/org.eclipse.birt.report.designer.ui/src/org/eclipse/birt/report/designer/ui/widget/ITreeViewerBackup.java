@@ -13,19 +13,16 @@ package org.eclipse.birt.report.designer.ui.widget;
 
 import org.eclipse.jface.viewers.TreeViewer;
 
-public interface ITreeViewerBackup
-{
+public interface ITreeViewerBackup {
 
-	public abstract void restoreBackup( TreeViewer treeviewer );
+	public abstract void restoreBackup(TreeViewer treeviewer);
 
-	public abstract void dispose( );
+	public abstract void dispose();
 
-	public abstract void updateCollapsedStatus( TreeViewer treeViewer,
-			Object collapsedElement );
+	public abstract void updateCollapsedStatus(TreeViewer treeViewer, Object collapsedElement);
 
-	public abstract void updateExpandedStatus( TreeViewer treeViewer,
-			Object expandedElement );
-			
-	public abstract void updateStatus( TreeViewer treeViewer );
+	public abstract void updateExpandedStatus(TreeViewer treeViewer, Object expandedElement);
+
+	public abstract void updateStatus(TreeViewer treeViewer);
 
 }

@@ -12,16 +12,18 @@
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts;
 
 /**
- *Abstract layout check class
+ * Abstract layout check class
  */
 
-public class AbstractLayoutCheck implements ILayoutCheck
-{
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ILayoutCheck#layoutCheck(java.lang.Object)
+public class AbstractLayoutCheck implements ILayoutCheck {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ILayoutCheck#layoutCheck(java.lang.Object)
 	 */
-	public boolean layoutCheck( Object model )
-	{
+	public boolean layoutCheck(Object model) {
 		return true;
 	}
 }

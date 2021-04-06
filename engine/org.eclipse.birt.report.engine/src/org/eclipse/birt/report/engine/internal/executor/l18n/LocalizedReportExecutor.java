@@ -20,48 +20,38 @@ import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportExecut
 import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
 import org.eclipse.birt.report.engine.util.FastPool;
 
-public class LocalizedReportExecutor extends WrappedReportExecutor
-{
+public class LocalizedReportExecutor extends WrappedReportExecutor {
 
 	IReportExecutor executor;
 	LocalizedContentVisitor l18nVisitor;
 	FastPool freeExecutors;
 
-	public LocalizedReportExecutor( ExecutionContext context,
-			IReportExecutor executor )
-	{
-		super( executor );
-		this.l18nVisitor = new LocalizedContentVisitor( context );
-		this.freeExecutors = new FastPool( );
+	public LocalizedReportExecutor(ExecutionContext context, IReportExecutor executor) {
+		super(executor);
+		this.l18nVisitor = new LocalizedContentVisitor(context);
+		this.freeExecutors = new FastPool();
 		this.executor = executor;
 	}
 
-	protected IReportItemExecutor createWrappedExecutor( IReportItemExecutor executor )
-	{
+	protected IReportItemExecutor createWrappedExecutor(IReportItemExecutor executor) {
 		LocalizedReportItemExecutor l18nExecutor = null;
-		if ( !freeExecutors.isEmpty( ) )
-		{
-			l18nExecutor = (LocalizedReportItemExecutor) freeExecutors.remove( );
-			l18nExecutor.setExecutor( executor );
-		}
-		else
-		{
-			l18nExecutor = new LocalizedReportItemExecutor( this, executor );
+		if (!freeExecutors.isEmpty()) {
+			l18nExecutor = (LocalizedReportItemExecutor) freeExecutors.remove();
+			l18nExecutor.setExecutor(executor);
+		} else {
+			l18nExecutor = new LocalizedReportItemExecutor(this, executor);
 		}
 		return l18nExecutor;
 	}
 
-	protected void closeWrappedExecutor( IReportItemExecutor executor )
-	{
-		freeExecutors.add( executor );
+	protected void closeWrappedExecutor(IReportItemExecutor executor) {
+		freeExecutors.add(executor);
 	}
 
-	public IReportContent execute( ) throws BirtException
-	{
-		IReportContent report = super.execute( );
-		if ( report != null )
-		{
-			report = l18nVisitor.localizeReport( report );
+	public IReportContent execute() throws BirtException {
+		IReportContent report = super.execute();
+		if (report != null) {
+			report = l18nVisitor.localizeReport(report);
 		}
 		return report;
 	}

@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.api.extension.ReportItem;
 /**
  * RotatedTextItem
  */
-public class RotatedTextItem extends ReportItem
-{
+public class RotatedTextItem extends ReportItem {
 
 	public static final String EXTENSION_NAME = "RotatedText"; //$NON-NLS-1$
 	public static final String TEXT_PROP = "text"; //$NON-NLS-1$
@@ -27,34 +26,28 @@ public class RotatedTextItem extends ReportItem
 
 	private ExtendedItemHandle modelHandle;
 
-	RotatedTextItem( ExtendedItemHandle modelHandle )
-	{
+	RotatedTextItem(ExtendedItemHandle modelHandle) {
 		this.modelHandle = modelHandle;
 	}
 
-	public ExtendedItemHandle getModelHandle( )
-	{
+	public ExtendedItemHandle getModelHandle() {
 		return modelHandle;
 	}
 
-	public String getText( )
-	{
-		return modelHandle.getStringProperty( TEXT_PROP );
+	public String getText() {
+		return modelHandle.getStringProperty(TEXT_PROP);
 	}
 
-	public int getRotationAngle( )
-	{
-		return modelHandle.getIntProperty( ROTATION_ANGLE_PROP );
+	public int getRotationAngle() {
+		return modelHandle.getIntProperty(ROTATION_ANGLE_PROP);
 	}
 
-	public void setText( String value ) throws SemanticException
-	{
-		modelHandle.setProperty( TEXT_PROP, value );
+	public void setText(String value) throws SemanticException {
+		modelHandle.setProperty(TEXT_PROP, value);
 	}
 
-	public void setRotationAngle( int value ) throws SemanticException
-	{
-		modelHandle.setProperty( ROTATION_ANGLE_PROP, value );
+	public void setRotationAngle(int value) throws SemanticException {
+		modelHandle.setProperty(ROTATION_ANGLE_PROP, value);
 	}
 
 }

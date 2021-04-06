@@ -19,8 +19,8 @@ import org.eclipse.emf.common.util.Enumerator;
 
 /**
  * <!-- begin-user-doc --> A representation of the literals of the enumeration '
- * <em><b>Sort Option</b></em>', and utility methods for working with them.
- * <!-- end-user-doc --> <!-- begin-model-doc -->
+ * <em><b>Sort Option</b></em>', and utility methods for working with them. <!--
+ * end-user-doc --> <!-- begin-model-doc -->
  * 
  * This type represents the options available for sorting.
  * 
@@ -32,28 +32,26 @@ import org.eclipse.emf.common.util.Enumerator;
  */
 public enum SortOption implements Enumerator {
 	/**
-	 * The '<em><b>Ascending</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
+	 * The '<em><b>Ascending</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Ascending</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Ascending</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #ASCENDING
 	 * @generated
 	 * @ordered
 	 */
 	ASCENDING_LITERAL(0, "Ascending", "Ascending"),
 	/**
-	 * The '<em><b>Descending</b></em>' literal object.
-	 * <!-- begin-user-doc
-	 * -->
+	 * The '<em><b>Descending</b></em>' literal object. <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of '<em><b>Descending</b></em>' literal object isn't
-	 * clear, there really should be more of a description here...
+	 * If the meaning of '<em><b>Descending</b></em>' literal object isn't clear,
+	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @see #DESCENDING
 	 * @generated
 	 * @ordered
@@ -61,9 +59,9 @@ public enum SortOption implements Enumerator {
 	DESCENDING_LITERAL(1, "Descending", "Descending");
 
 	/**
-	 * The '<em><b>Ascending</b></em>' literal value.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * The '<em><b>Ascending</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #ASCENDING_LITERAL
 	 * @model name="Ascending"
 	 * @generated
@@ -72,9 +70,9 @@ public enum SortOption implements Enumerator {
 	public static final int ASCENDING = 0;
 
 	/**
-	 * The '<em><b>Descending</b></em>' literal value.
-	 * <!-- begin-user-doc
-	 * --> <!-- end-user-doc -->
+	 * The '<em><b>Descending</b></em>' literal value. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #DESCENDING_LITERAL
 	 * @model name="Descending"
 	 * @generated
@@ -88,29 +86,26 @@ public enum SortOption implements Enumerator {
 	 * 
 	 * @generated
 	 */
-	private static final SortOption[] VALUES_ARRAY = new SortOption[]{
-			ASCENDING_LITERAL, DESCENDING_LITERAL,
-	};
+	private static final SortOption[] VALUES_ARRAY = new SortOption[] { ASCENDING_LITERAL, DESCENDING_LITERAL, };
 
 	/**
 	 * A public read-only list of all the '<em><b>Sort Option</b></em>' enumerators.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static final List<SortOption> VALUES = Collections.unmodifiableList( Arrays.asList( VALUES_ARRAY ) );
+	public static final List<SortOption> VALUES = Collections.unmodifiableList(Arrays.asList(VALUES_ARRAY));
 
 	/**
-	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified literal value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified literal
+	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static SortOption get( String literal )
-	{
-		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
-		{
+	public static SortOption get(String literal) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			SortOption result = VALUES_ARRAY[i];
-			if ( result.toString( ).equals( literal ) )
-			{
+			if (result.toString().equals(literal)) {
 				return result;
 			}
 		}
@@ -119,17 +114,14 @@ public enum SortOption implements Enumerator {
 
 	/**
 	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified name.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static SortOption getByName( String name )
-	{
-		for ( int i = 0; i < VALUES_ARRAY.length; ++i )
-		{
+	public static SortOption getByName(String name) {
+		for (int i = 0; i < VALUES_ARRAY.length; ++i) {
 			SortOption result = VALUES_ARRAY[i];
-			if ( result.getName( ).equals( name ) )
-			{
+			if (result.getName().equals(name)) {
 				return result;
 			}
 		}
@@ -137,95 +129,89 @@ public enum SortOption implements Enumerator {
 	}
 
 	/**
-	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified integer value.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * Returns the '<em><b>Sort Option</b></em>' literal with the specified integer
+	 * value. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public static SortOption get( int value )
-	{
-		switch ( value )
-		{
-			case ASCENDING :
-				return ASCENDING_LITERAL;
-			case DESCENDING :
-				return DESCENDING_LITERAL;
+	public static SortOption get(int value) {
+		switch (value) {
+		case ASCENDING:
+			return ASCENDING_LITERAL;
+		case DESCENDING:
+			return DESCENDING_LITERAL;
 		}
 		return null;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final int value;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final String name;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	private final String literal;
 
 	/**
-	 * Only this class can construct instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Only this class can construct instances. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	private SortOption( int value, String name, String literal )
-	{
+	private SortOption(int value, String name, String literal) {
 		this.value = value;
 		this.name = name;
 		this.literal = literal;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public int getValue( )
-	{
+	public int getValue() {
 		return value;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public String getLiteral( )
-	{
+	public String getLiteral() {
 		return literal;
 	}
 
 	/**
-	 * Returns the literal value of the enumerator, which is its string representation.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Returns the literal value of the enumerator, which is its string
+	 * representation. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
+	public String toString() {
 		return literal;
 	}
 }

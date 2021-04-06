@@ -36,49 +36,38 @@ import com.ibm.icu.util.ULocale;
  * will throwed.
  * </p>
  */
-public class Regression_122850 extends BaseTestCase
-{
+public class Regression_122850 extends BaseTestCase {
 
 	/**
 	 * @throws NameException
 	 * @throws ContentException
 	 * 
 	 */
-	public void test_regression_122850( ) throws ContentException, NameException
-	{
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = sessionHandle.createDesign( );
+	public void test_regression_122850() throws ContentException, NameException {
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = sessionHandle.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
+		ElementFactory factory = designHandle.getElementFactory();
 
-		MasterPageHandle newpage = factory.newSimpleMasterPage( "page" ); //$NON-NLS-1$
-		designHandle.getMasterPages( ).add( newpage );
+		MasterPageHandle newpage = factory.newSimpleMasterPage("page"); //$NON-NLS-1$
+		designHandle.getMasterPages().add(newpage);
 
-		TableHandle table = factory.newTableItem( "t1" ); //$NON-NLS-1$
-		ListHandle list = factory.newList( "li" ); //$NON-NLS-1$
+		TableHandle table = factory.newTableItem("t1"); //$NON-NLS-1$
+		ListHandle list = factory.newList("li"); //$NON-NLS-1$
 
-		MasterPageHandle page = (MasterPageHandle) designHandle
-				.getMasterPages( ).get( 0 );
-		SlotHandle pageHeader = page
-				.getSlot( SimpleMasterPageHandle.PAGE_HEADER_SLOT );
-		try
-		{
-			pageHeader.add( table );
-			fail( );
-		}
-		catch ( Exception e )
-		{
+		MasterPageHandle page = (MasterPageHandle) designHandle.getMasterPages().get(0);
+		SlotHandle pageHeader = page.getSlot(SimpleMasterPageHandle.PAGE_HEADER_SLOT);
+		try {
+			pageHeader.add(table);
+			fail();
+		} catch (Exception e) {
 			// success
 		}
 
-		try
-		{
-			pageHeader.add( list );
-			fail( );
-		}
-		catch ( Exception e )
-		{
+		try {
+			pageHeader.add(list);
+			fail();
+		} catch (Exception e) {
 			// success
 		}
 

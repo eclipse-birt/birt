@@ -19,16 +19,15 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public interface IFacttableRow
-{
+public interface IFacttableRow {
 	/**
 	 * 
 	 * @param measureName
 	 * @return
 	 * @throws DataException
 	 */
-	public Object getMeasureValue( String measureName ) throws DataException;
-	
+	public Object getMeasureValue(String measureName) throws DataException;
+
 	/**
 	 * 
 	 * @param dimensionName
@@ -36,8 +35,8 @@ public interface IFacttableRow
 	 * @return
 	 * @throws DataException
 	 */
-	public Object[] getLevelKeyValue( String dimensionName, String levelName ) throws DataException, IOException;
-	
+	public Object[] getLevelKeyValue(String dimensionName, String levelName) throws DataException, IOException;
+
 	/**
 	 * 
 	 * @param dimensionName
@@ -45,5 +44,6 @@ public interface IFacttableRow
 	 * @return
 	 * @throws DataException
 	 */
-	public Object getLevelAttributeValue( String dimensionName, String levelName, String attributeName ) throws DataException, IOException;
+	public Object getLevelAttributeValue(String dimensionName, String levelName, String attributeName)
+			throws DataException, IOException;
 }

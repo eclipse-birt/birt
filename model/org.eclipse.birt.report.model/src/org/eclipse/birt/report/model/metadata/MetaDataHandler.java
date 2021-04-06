@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.model.metadata;
 
-
 /**
  * SAX handler for reading the XML meta data definition file.
  */
 
-class MetaDataHandler extends MetaDataHandlerImpl
-{
+class MetaDataHandler extends MetaDataHandlerImpl {
 
 	// do nothing for end document
 

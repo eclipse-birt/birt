@@ -20,11 +20,9 @@ import org.eclipse.birt.data.engine.api.IScriptExpression;
  * Utility class to create the constant expression and java script expression.
  * 
  */
-public class ScriptExpressionUtil
-{
+public class ScriptExpressionUtil {
 
-	private ScriptExpressionUtil( )
-	{
+	private ScriptExpressionUtil() {
 	}
 
 	/**
@@ -33,12 +31,10 @@ public class ScriptExpressionUtil
 	 * @param expr
 	 * @return
 	 */
-	public static IScriptExpression createConstantExpression(
-			String constantExpr )
-	{
-		ScriptExpression scriptExpression = new ScriptExpression( constantExpr );
-		scriptExpression.setScriptId( BaseExpression.constantId );
-		scriptExpression.setHandle( constantExpr );
+	public static IScriptExpression createConstantExpression(String constantExpr) {
+		ScriptExpression scriptExpression = new ScriptExpression(constantExpr);
+		scriptExpression.setScriptId(BaseExpression.constantId);
+		scriptExpression.setHandle(constantExpr);
 		return scriptExpression;
 	}
 
@@ -48,11 +44,9 @@ public class ScriptExpressionUtil
 	 * @param expr
 	 * @return
 	 */
-	public static IScriptExpression createJavaScriptExpression(
-			String jsExppression )
-	{
-		ScriptExpression scriptExpression = new ScriptExpression( jsExppression );
-		scriptExpression.setScriptId( BaseExpression.javaScriptId );
+	public static IScriptExpression createJavaScriptExpression(String jsExppression) {
+		ScriptExpression scriptExpression = new ScriptExpression(jsExppression);
+		scriptExpression.setScriptId(BaseExpression.javaScriptId);
 		return scriptExpression;
 	}
 }

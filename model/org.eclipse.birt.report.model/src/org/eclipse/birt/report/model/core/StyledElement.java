@@ -27,10 +27,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-public abstract class StyledElement extends DesignElement
-		implements
-			IStyledElementModel
-{
+public abstract class StyledElement extends DesignElement implements IStyledElementModel {
 
 	/**
 	 * The shared style which this element references, if any.
@@ -42,26 +39,23 @@ public abstract class StyledElement extends DesignElement
 	 * Default constructor.
 	 */
 
-	public StyledElement( )
-	{
+	public StyledElement() {
 	}
 
 	/**
 	 * Constructs the styled element with an optional name.
 	 * 
-	 * @param theName
-	 *            the element name
+	 * @param theName the element name
 	 */
 
-	public StyledElement( String theName )
-	{
-		super( theName );
+	public StyledElement(String theName) {
+		super(theName);
 	}
 
 	/**
-	 * Makes a clone of this styled element. The style that was referenced by
-	 * this element if any, will be set to a unresolved element reference for
-	 * the cloned one.
+	 * Makes a clone of this styled element. The style that was referenced by this
+	 * element if any, will be set to a unresolved element reference for the cloned
+	 * one.
 	 * 
 	 * @return Object the cloned styled element.
 	 * 
@@ -69,48 +63,42 @@ public abstract class StyledElement extends DesignElement
 	 * @see java.lang.Object#clone()
 	 */
 
-	public Object doClone( CopyPolicy policy )
-			throws CloneNotSupportedException
-	{
-		StyledElement element = (StyledElement) super.doClone( policy );
-		if ( style != null )
-			element.style = new ElementRefValue( null, style.getName( ) );
+	public Object doClone(CopyPolicy policy) throws CloneNotSupportedException {
+		StyledElement element = (StyledElement) super.doClone(policy);
+		if (style != null)
+			element.style = new ElementRefValue(null, style.getName());
 		else
 			element.style = null;
 		return element;
 	}
 
 	/**
-	 * Gets the style which defined on this element itself. This method will try
-	 * to resolve the style.
+	 * Gets the style which defined on this element itself. This method will try to
+	 * resolve the style.
 	 * 
-	 * @param module
-	 *            the module
+	 * @param module the module
 	 * @return style element. Null if the style is not defined on this element
 	 *         itself.
 	 * 
 	 */
-	public StyleElement getStyle( Module module )
-	{
-		if ( style == null )
+	public StyleElement getStyle(Module module) {
+		if (style == null)
 			return null;
 
-		if ( style.isResolved( ) )
-			return (StyleElement) style.getElement( );
+		if (style.isResolved())
+			return (StyleElement) style.getElement();
 
-		if ( module == null )
+		if (module == null)
 			return null;
 
-		DesignElement resolvedElement = module.resolveElement( this, style
-				.getName( ), getPropertyDefn( STYLE_PROP ), null );
+		DesignElement resolvedElement = module.resolveElement(this, style.getName(), getPropertyDefn(STYLE_PROP), null);
 
 		StyleElement target = null;
-		if ( resolvedElement != null )
-		{
+		if (resolvedElement != null) {
 			// target = (StyleElement) refValue.getElement( );
 			target = (StyleElement) resolvedElement;
-			style.resolve( target );
-			target.addClient( this, STYLE_PROP );
+			style.resolve(target);
+			target.addClient(this, STYLE_PROP);
 		}
 
 		return target;
@@ -122,11 +110,10 @@ public abstract class StyledElement extends DesignElement
 	 * @return style name. null if the style is not defined on the element.
 	 */
 
-	public String getStyleName( )
-	{
-		if ( style == null )
+	public String getStyleName() {
+		if (style == null)
 			return null;
-		return style.getName( );
+		return style.getName();
 	}
 
 	/**
@@ -137,63 +124,56 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 * 
 	 */
-	public StyleElement getStyle( )
-	{
-		if ( style == null )
+	public StyleElement getStyle() {
+		if (style == null)
 			return null;
-		return (StyleElement) style.getElement( );
+		return (StyleElement) style.getElement();
 	}
 
 	/**
 	 * Sets the style. If null, the style is cleared.
 	 * 
-	 * @param newStyle
-	 *            the style to set
+	 * @param newStyle the style to set
 	 */
 
-	public void setStyle( StyleElement newStyle )
-	{
+	public void setStyle(StyleElement newStyle) {
 		StyleElement oldStyle = null;
-		if ( style != null )
-			oldStyle = (StyleElement) style.getElement( );
+		if (style != null)
+			oldStyle = (StyleElement) style.getElement();
 
 		// if the style is null and new style is null, return
 		// if the style is resolved and the resolved element equals to the new
 		// style, return
 
-		if ( oldStyle == newStyle && ( style == null || style.isResolved( ) ) )
+		if (oldStyle == newStyle && (style == null || style.isResolved()))
 			return;
 
-		if ( oldStyle != null )
-			oldStyle.dropClient( this );
-		if ( newStyle != null )
-		{
-			if ( style == null )
-				style = new ElementRefValue( null, newStyle );
+		if (oldStyle != null)
+			oldStyle.dropClient(this);
+		if (newStyle != null) {
+			if (style == null)
+				style = new ElementRefValue(null, newStyle);
 			else
-				style.resolve( newStyle );
-			newStyle.addClient( this, STYLE_PROP );
-		}
-		else
+				style.resolve(newStyle);
+			newStyle.addClient(this, STYLE_PROP);
+		} else
 			style = null;
 	}
 
 	/**
-	 * Sets the shared style by name. If null, the style is cleared. Use this
-	 * form to represent an "unresolved" style: a reference to an undefined
-	 * style, or a forward reference while parsing a design file.
+	 * Sets the shared style by name. If null, the style is cleared. Use this form
+	 * to represent an "unresolved" style: a reference to an undefined style, or a
+	 * forward reference while parsing a design file.
 	 * 
-	 * @param theName
-	 *            the style name
+	 * @param theName the style name
 	 */
 
-	public void setStyleName( String theName )
-	{
-		if ( style == null && theName == null )
+	public void setStyleName(String theName) {
+		if (style == null && theName == null)
 			return;
-		setStyle( null );
+		setStyle(null);
 		assert style == null;
-		style = new ElementRefValue( null, theName );
+		style = new ElementRefValue(null, theName);
 	}
 
 	/*
@@ -202,9 +182,8 @@ public abstract class StyledElement extends DesignElement
 	 * @see
 	 * org.eclipse.birt.report.model.core.DesignElement#hasLocalPropertyValues()
 	 */
-	public boolean hasLocalPropertyValues( )
-	{
-		if ( super.hasLocalPropertyValues( ) )
+	public boolean hasLocalPropertyValues() {
+		if (super.hasLocalPropertyValues())
 			return true;
 
 		return style != null;
@@ -215,16 +194,14 @@ public abstract class StyledElement extends DesignElement
 	 * Returns the value of an intrinsic property.If the property name is
 	 * <code>style</code> then return the style element.
 	 * 
-	 * @param propName
-	 *            name of the intrinsic property
+	 * @param propName name of the intrinsic property
 	 * @return intrinsic property
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( propName.equals( STYLE_PROP ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (propName.equals(STYLE_PROP))
 			return style;
-		return super.getIntrinsicProperty( propName );
+		return super.getIntrinsicProperty(propName);
 	}
 
 	/**
@@ -235,16 +212,14 @@ public abstract class StyledElement extends DesignElement
 	 * 
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
 		// Resolve style
 
-		list.addAll( StyleReferenceValidator.getInstance( ).validate( module,
-				this ) );
+		list.addAll(StyleReferenceValidator.getInstance().validate(module, this));
 
-		list.addAll( Style.validateStyleProperties( module, this ) );
+		list.addAll(Style.validateStyleProperties(module, this));
 
 		return list;
 	}
@@ -253,53 +228,48 @@ public abstract class StyledElement extends DesignElement
 	 * Gets a property value by its definition. The search will not search the
 	 * container element extends hierarchy.
 	 * 
-	 * @param module
-	 *            module
-	 * @param prop
-	 *            definition of the property to get
+	 * @param module module
+	 * @param prop   definition of the property to get
 	 * 
 	 * @return The property value, or null if no value is set.
 	 */
 
-	public Object getFactoryProperty( Module module, ElementPropertyDefn prop )
-	{
-		if ( !prop.isStyleProperty( ) )
-			return super.getFactoryProperty( module, prop );
+	public Object getFactoryProperty(Module module, ElementPropertyDefn prop) {
+		if (!prop.isStyleProperty())
+			return super.getFactoryProperty(module, prop);
 
 		// Get the value from this element and its parent.
 
-		return cachedPropStrategy.getPropertyFromElement( module, this, prop );
+		return cachedPropStrategy.getPropertyFromElement(module, this, prop);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.core.DesignElement#clearAllProperties()
+	 */
+	public void clearAllProperties() {
+		super.clearAllProperties();
+		this.style = null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#clearAllProperties()
+	 * org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty(java.
+	 * lang.String, java.lang.Object)
 	 */
-	public void clearAllProperties( )
-	{
-		super.clearAllProperties( );
-		this.style = null;
-	}	
-
-	/*
-	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty(java.lang.String, java.lang.Object)
-	 */
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( IStyledElementModel.STYLE_PROP.equals( propName ) )
-		{
-			if ( value instanceof StyleElement || value == null )
-				setStyle( (StyleElement)value );
-			else if ( value instanceof String )
-				setStyleName( (String)value );
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (IStyledElementModel.STYLE_PROP.equals(propName)) {
+			if (value instanceof StyleElement || value == null)
+				setStyle((StyleElement) value);
+			else if (value instanceof String)
+				setStyleName((String) value);
 			else
 				assert false;
-		}
-		else
-			super.setIntrinsicProperty( propName, value );
+		} else
+			super.setIntrinsicProperty(propName, value);
 	}
-	
+
 }

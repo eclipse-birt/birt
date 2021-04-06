@@ -16,22 +16,17 @@ import org.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage;
 import org.eclipse.core.runtime.IAdapterFactory;
 
 /**
- * Add INewLibraryCreationPage adaptable to NewLibraryWizard. 
+ * Add INewLibraryCreationPage adaptable to NewLibraryWizard.
  */
 
-public class NewLibraryWizardAdapterFactory implements IAdapterFactory
-{
+public class NewLibraryWizardAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		return new WizardNewLibraryCreationPage( "" ); //$NON-NLS-1$
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		return new WizardNewLibraryCreationPage(""); //$NON-NLS-1$
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			INewLibraryCreationPage.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { INewLibraryCreationPage.class };
 	}
 
 }

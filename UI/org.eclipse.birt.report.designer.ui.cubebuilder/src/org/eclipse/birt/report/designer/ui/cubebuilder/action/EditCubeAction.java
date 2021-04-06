@@ -26,28 +26,25 @@ import org.eclipse.ui.PlatformUI;
  * 
  * @version $Revision: 1.6 $ $Date: 2007/06/01 07:05:21 $
  */
-public class EditCubeAction extends AbstractElementAction
-{
+public class EditCubeAction extends AbstractElementAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.EditCubeAction"; //$NON-NLS-1$
 
 	/**
 	 * @param selectedObject
 	 */
-	public EditCubeAction( String text )
-	{
-		super( text );
-		setId( ID );
+	public EditCubeAction(String text) {
+		super(text);
+		setId(ID);
 	}
 
 	/**
 	 * @param selectedObject
 	 * @param text
 	 */
-	public EditCubeAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
-		setId( ID );
+	public EditCubeAction(Object selectedObject, String text) {
+		super(selectedObject, text);
+		setId(ID);
 	}
 
 	/*
@@ -56,29 +53,22 @@ public class EditCubeAction extends AbstractElementAction
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Edit cube action >> Runs ..." ); //$NON-NLS-1$
+	protected boolean doAction() throws Exception {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Edit cube action >> Runs ..."); //$NON-NLS-1$
 		}
 		TabularCubeHandle cubeHandle = null;
-		if ( getSelection( ) instanceof TabularCubeHandle )
-			cubeHandle = (TabularCubeHandle) getSelection( );
-		else if ( getSelection( ) instanceof PropertyHandle )
-			cubeHandle = (TabularCubeHandle) ( (PropertyHandle) getSelection( ) ).getElementHandle( );
-		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), cubeHandle );
-		if ( getSelection( ) instanceof CubeHandle )
-		{
-			dialog.showPage( CubeBuilder.DATASETSELECTIONPAGE );
+		if (getSelection() instanceof TabularCubeHandle)
+			cubeHandle = (TabularCubeHandle) getSelection();
+		else if (getSelection() instanceof PropertyHandle)
+			cubeHandle = (TabularCubeHandle) ((PropertyHandle) getSelection()).getElementHandle();
+		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(), cubeHandle);
+		if (getSelection() instanceof CubeHandle) {
+			dialog.showPage(CubeBuilder.DATASETSELECTIONPAGE);
+		} else if (getSelection() instanceof PropertyHandle) {
+			dialog.showPage(CubeBuilder.GROUPPAGE);
 		}
-		else if ( getSelection( ) instanceof PropertyHandle )
-		{
-			dialog.showPage( CubeBuilder.GROUPPAGE );
-		}
-		return ( dialog.open( ) == IDialogConstants.OK_ID );
+		return (dialog.open() == IDialogConstants.OK_ID);
 	}
 
 	/*
@@ -86,12 +76,11 @@ public class EditCubeAction extends AbstractElementAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		if ( getSelection( ) instanceof TabularCubeHandle )
-			return ( (TabularCubeHandle) getSelection( ) ).canEdit( );
-		else if ( getSelection( ) instanceof PropertyHandle
-				&& ( (PropertyHandle) getSelection( ) ).getElementHandle( ) instanceof TabularCubeHandle )
+	public boolean isEnabled() {
+		if (getSelection() instanceof TabularCubeHandle)
+			return ((TabularCubeHandle) getSelection()).canEdit();
+		else if (getSelection() instanceof PropertyHandle
+				&& ((PropertyHandle) getSelection()).getElementHandle() instanceof TabularCubeHandle)
 			return true;
 		else
 			return false;
@@ -103,10 +92,9 @@ public class EditCubeAction extends AbstractElementAction
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#getTransactionLabel()
 	 */
-	protected String getTransactionLabel( )
-	{
-		if ( getSelection( ) instanceof CubeHandle )
-			return Messages.getFormattedString( "cube.edit", new String[]{( (CubeHandle) getSelection( ) ).getName( )} ); //$NON-NLS-1$
-		return super.getTransactionLabel( );
+	protected String getTransactionLabel() {
+		if (getSelection() instanceof CubeHandle)
+			return Messages.getFormattedString("cube.edit", new String[] { ((CubeHandle) getSelection()).getName() }); //$NON-NLS-1$
+		return super.getTransactionLabel();
 	}
 }

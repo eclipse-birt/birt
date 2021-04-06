@@ -10,12 +10,9 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.cursor;
 
+class UniqueNamingUtil {
 
-class UniqueNamingUtil
-{
-
-	public static String getUniqueName( String dimensionName, String levelName )
-	{
+	public static String getUniqueName(String dimensionName, String levelName) {
 		return dimensionName + "/" + levelName;
 	}
 }

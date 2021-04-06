@@ -11,12 +11,10 @@
 
 package org.eclipse.birt.report.model.util;
 
-
 /**
  * This class implemented visitor pattern, to flatten the report design.
  */
 
-public class ReportDesignSerializer extends ReportDesignSerializerImpl
-{
+public class ReportDesignSerializer extends ReportDesignSerializerImpl {
 
 }

@@ -28,8 +28,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class JointDataSetState extends ReportElementState
-{
+public class JointDataSetState extends ReportElementState {
 
 	/**
 	 * The joint data set being built.
@@ -41,15 +40,12 @@ public class JointDataSetState extends ReportElementState
 	 * Constructs the joint data set state with design parser handler, container
 	 * element and container slot of the data source.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
+	 * @param handler the design file parser handler
 	 */
 
-	public JointDataSetState( ModuleParserHandler handler, Module module,
-			int slot )
-	{
-		super( handler, module, slot );
-		element = new JointDataSet( );
+	public JointDataSetState(ModuleParserHandler handler, Module module, int slot) {
+		super(handler, module, slot);
+		element = new JointDataSet();
 	}
 
 	/*
@@ -58,22 +54,19 @@ public class JointDataSetState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		initElement( attrs, true );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		initElement(attrs, true);
 	}
 
 	/*
@@ -82,24 +75,14 @@ public class JointDataSetState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_2 )
-		{
-			List dataSetColumns = (List) element.getLocalProperty(
-					handler.module, IDataSetModel.RESULT_SET_PROP );
-			Object dataSetHints = element.getLocalProperty( handler.module,
-					IDataSetModel.RESULT_SET_HINTS_PROP );
-			if ( dataSetHints == null && dataSetColumns != null )
-				element
-						.setProperty(
-								IDataSetModel.RESULT_SET_HINTS_PROP,
-								ModelUtil
-										.copyValue(
-												element
-														.getPropertyDefn( IDataSetModel.RESULT_SET_HINTS_PROP ),
-												dataSetColumns ) );
+	public void end() throws SAXException {
+		if (handler.versionNumber < VersionUtil.VERSION_3_2_2) {
+			List dataSetColumns = (List) element.getLocalProperty(handler.module, IDataSetModel.RESULT_SET_PROP);
+			Object dataSetHints = element.getLocalProperty(handler.module, IDataSetModel.RESULT_SET_HINTS_PROP);
+			if (dataSetHints == null && dataSetColumns != null)
+				element.setProperty(IDataSetModel.RESULT_SET_HINTS_PROP, ModelUtil
+						.copyValue(element.getPropertyDefn(IDataSetModel.RESULT_SET_HINTS_PROP), dataSetColumns));
 		}
-		super.end( );
+		super.end();
 	}
 }

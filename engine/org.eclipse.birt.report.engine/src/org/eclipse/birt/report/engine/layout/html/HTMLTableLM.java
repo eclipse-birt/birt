@@ -18,56 +18,45 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 
-public class HTMLTableLM extends HTMLRepeatHeaderLM
-{
+public class HTMLTableLM extends HTMLRepeatHeaderLM {
 
 	/**
 	 * emitter used to layout the table
 	 */
 	protected HTMLTableLayoutEmitter tableEmitter;
 
-	public HTMLTableLM( HTMLLayoutManagerFactory factory )
-	{
-		super( factory );
+	public HTMLTableLM(HTMLLayoutManagerFactory factory) {
+		super(factory);
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		return LAYOUT_MANAGER_TABLE;
 	}
 
-	public void initialize( HTMLAbstractLM parent, IContent content,
-			IReportItemExecutor executor, IContentEmitter emitter )
-			throws BirtException
-	{
-		tableEmitter = new HTMLTableLayoutEmitter( emitter, context );
-		super.initialize( parent, content, executor, tableEmitter );
+	public void initialize(HTMLAbstractLM parent, IContent content, IReportItemExecutor executor,
+			IContentEmitter emitter) throws BirtException {
+		tableEmitter = new HTMLTableLayoutEmitter(emitter, context);
+		super.initialize(parent, content, executor, tableEmitter);
 	}
 
-	protected void end( boolean finished ) throws BirtException
-	{
-		context.getPageBufferManager( ).endContainer( content, finished, tableEmitter, true );
+	protected void end(boolean finished) throws BirtException {
+		context.getPageBufferManager().endContainer(content, finished, tableEmitter, true);
 	}
 
-	protected void start( boolean isFirst ) throws BirtException
-	{
-		context.getPageBufferManager( ).startContainer( content, isFirst, tableEmitter, true );
+	protected void start(boolean isFirst) throws BirtException {
+		context.getPageBufferManager().startContainer(content, isFirst, tableEmitter, true);
 	}
 
-	protected IContentEmitter getEmitter( )
-	{
+	protected IContentEmitter getEmitter() {
 		return this.tableEmitter;
 	}
 
-	protected boolean shouldRepeatHeader( )
-	{
-		return ( (ITableContent) content ).isHeaderRepeat( )
-				&& getHeader( ) != null;
+	protected boolean shouldRepeatHeader() {
+		return ((ITableContent) content).isHeaderRepeat() && getHeader() != null;
 	}
 
-	protected IBandContent getHeader( )
-	{
-		return ( (ITableContent) content ).getHeader( );
+	protected IBandContent getHeader() {
+		return ((ITableContent) content).getHeader();
 	}
 
 }

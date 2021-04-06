@@ -17,15 +17,13 @@ import junit.framework.TestCase;
  * Action test
  * 
  */
-public class ActionTest extends TestCase
-{
+public class ActionTest extends TestCase {
 
-	//Test constants
-	public void testConstant( )
-	{
-		assertEquals( ActionDesign.ACTION_HYPERLINK, 1 );
-		assertEquals( ActionDesign.ACTION_BOOKMARK, 2 );
-		assertEquals( ActionDesign.ACTION_DRILLTHROUGH, 3 );
+	// Test constants
+	public void testConstant() {
+		assertEquals(ActionDesign.ACTION_HYPERLINK, 1);
+		assertEquals(ActionDesign.ACTION_BOOKMARK, 2);
+		assertEquals(ActionDesign.ACTION_DRILLTHROUGH, 3);
 	}
 
 	/**
@@ -37,17 +35,16 @@ public class ActionTest extends TestCase
 	 * correctly
 	 */
 
-	public void testBookmark( )
-	{
-		ActionDesign action = new ActionDesign( );
+	public void testBookmark() {
+		ActionDesign action = new ActionDesign();
 
-		Expression bookmark = Expression.newConstant( "" );
-		//Set
-		action.setBookmark( bookmark );
+		Expression bookmark = Expression.newConstant("");
+		// Set
+		action.setBookmark(bookmark);
 
-		//Get
-		assertEquals( action.getActionType( ), ActionDesign.ACTION_BOOKMARK );
-		assertEquals( action.getBookmark( ), bookmark );
+		// Get
+		assertEquals(action.getActionType(), ActionDesign.ACTION_BOOKMARK);
+		assertEquals(action.getBookmark(), bookmark);
 
 	}
 
@@ -60,27 +57,25 @@ public class ActionTest extends TestCase
 	 * correctly
 	 */
 
-	public void testHyprrlink( )
-	{
-		ActionDesign action = new ActionDesign( );
-		//Set
-		Expression hyperlink = Expression.newConstant( "" );
-		action.setHyperlink( hyperlink );
+	public void testHyprrlink() {
+		ActionDesign action = new ActionDesign();
+		// Set
+		Expression hyperlink = Expression.newConstant("");
+		action.setHyperlink(hyperlink);
 
-		//Get
-		assertEquals( action.getActionType( ), ActionDesign.ACTION_HYPERLINK );
-		assertEquals( action.getHyperlink( ), hyperlink );
+		// Get
+		assertEquals(action.getActionType(), ActionDesign.ACTION_HYPERLINK);
+		assertEquals(action.getHyperlink(), hyperlink);
 
 	}
 
-	public void testDrillThrough( )
-	{
-		ActionDesign action = new ActionDesign( );
-		DrillThroughActionDesign drillThrough = new DrillThroughActionDesign( );
+	public void testDrillThrough() {
+		ActionDesign action = new ActionDesign();
+		DrillThroughActionDesign drillThrough = new DrillThroughActionDesign();
 
-		action.setDrillThrough( drillThrough );
+		action.setDrillThrough(drillThrough);
 
-		assertEquals( action.getActionType( ), ActionDesign.ACTION_DRILLTHROUGH );
-		assertEquals( action.getDrillThrough( ), drillThrough );
+		assertEquals(action.getActionType(), ActionDesign.ACTION_DRILLTHROUGH);
+		assertEquals(action.getDrillThrough(), drillThrough);
 	}
 }

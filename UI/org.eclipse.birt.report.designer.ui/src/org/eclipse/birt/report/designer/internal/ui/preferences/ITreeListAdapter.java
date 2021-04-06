@@ -17,8 +17,7 @@ import org.eclipse.swt.events.KeyEvent;
  * 
  */
 
-public interface ITreeListAdapter
-{
+public interface ITreeListAdapter {
 	/**
 	 * A button from the button bar has been pressed.
 	 */

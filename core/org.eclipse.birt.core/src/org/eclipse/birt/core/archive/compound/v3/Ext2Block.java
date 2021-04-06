@@ -11,21 +11,18 @@
 
 package org.eclipse.birt.core.archive.compound.v3;
 
-abstract public class Ext2Block extends Block
-{
+abstract public class Ext2Block extends Block {
 
 	static final int BLOCK_SIZE = Ext2FileSystem.BLOCK_SIZE;
 
 	final Ext2FileSystem fs;
 
-	Ext2Block( Ext2FileSystem fs, int blockId )
-	{
-		super( fs == null ? null : fs.cacheManager, blockId );
+	Ext2Block(Ext2FileSystem fs, int blockId) {
+		super(fs == null ? null : fs.cacheManager, blockId);
 		this.fs = fs;
 	}
 
-	Ext2FileSystem getFileSystem( )
-	{
+	Ext2FileSystem getFileSystem() {
 		return fs;
 	}
 }

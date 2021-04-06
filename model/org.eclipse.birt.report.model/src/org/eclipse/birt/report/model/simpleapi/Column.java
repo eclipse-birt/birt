@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IHideRule;
  * 
  */
 
-public class Column extends DesignElement implements IColumn
-{
+public class Column extends DesignElement implements IColumn {
 
 	/**
 	 * Constructor.
@@ -31,105 +30,86 @@ public class Column extends DesignElement implements IColumn
 	 * @param columnHandle
 	 */
 
-	public Column( ColumnHandle columnHandle )
-	{
-		super( columnHandle );
+	public Column(ColumnHandle columnHandle) {
+		super(columnHandle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * addHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
 	 */
 
-	public void addHideRule( IHideRule rule ) throws SemanticException
-	{
-		if ( rule == null )
+	public void addHideRule(IHideRule rule) throws SemanticException {
+		if (rule == null)
 			return;
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			HideRuleMethodUtil.addHideRule( handle, rule );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			HideRuleMethodUtil.addHideRule(handle, rule);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * getHideRules()
 	 */
 
-	public IHideRule[] getHideRules( )
-	{
-		return HideRuleMethodUtil.getHideRules( handle );
+	public IHideRule[] getHideRules() {
+		return HideRuleMethodUtil.getHideRules(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
-	 * removeHideRule
-	 * (org.eclipse.birt.report.engine.api.script.element.IHideRule)
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * removeHideRule (org.eclipse.birt.report.engine.api.script.element.IHideRule)
 	 */
 
-	public void removeHideRule( IHideRule rule ) throws SemanticException
-	{
-		if ( rule == null )
+	public void removeHideRule(IHideRule rule) throws SemanticException {
+		if (rule == null)
 			return;
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			HideRuleMethodUtil.removeHideRule( handle, rule );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			HideRuleMethodUtil.removeHideRule(handle, rule);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * removeHideRules()
 	 */
 
-	public void removeHideRules( ) throws SemanticException
-	{
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+	public void removeHideRules() throws SemanticException {
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			HideRuleMethodUtil.removeHideRules( handle );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			HideRuleMethodUtil.removeHideRules(handle);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 }

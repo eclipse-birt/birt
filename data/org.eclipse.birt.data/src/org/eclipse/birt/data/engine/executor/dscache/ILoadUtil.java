@@ -19,24 +19,23 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * 
  */
 
-interface ILoadUtil
-{
+interface ILoadUtil {
 
 	/**
 	 * @param resultObject
 	 * @throws DataException
 	 */
-	public abstract IResultObject loadObject( ) throws DataException;
+	public abstract IResultObject loadObject() throws DataException;
 
 	/**
 	 * @return
 	 * @throws DataException
 	 */
-	public abstract IResultClass loadResultClass( ) throws DataException;
+	public abstract IResultClass loadResultClass() throws DataException;
 
 	/**
 	 * @throws DataException
 	 */
-	public abstract void close( ) throws DataException;
+	public abstract void close() throws DataException;
 
 }

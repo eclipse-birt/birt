@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.extension.SimplePeerExtensibilityProvider.U
 /**
  * 
  */
-public class IllegalContentInfo
-{
+public class IllegalContentInfo {
 
 	private UndefinedChildInfo info = null;
 	private Module module = null;
@@ -30,8 +29,7 @@ public class IllegalContentInfo
 	 * @param infor
 	 * @param module
 	 */
-	public IllegalContentInfo( UndefinedChildInfo infor, Module module )
-	{
+	public IllegalContentInfo(UndefinedChildInfo infor, Module module) {
 		this.info = infor;
 		this.module = module;
 	}
@@ -41,11 +39,10 @@ public class IllegalContentInfo
 	 * 
 	 * @return the child of the <code>UndefinedChildInfo</code>.
 	 */
-	public DesignElementHandle getContent( )
-	{
-		DesignElement child = info.getChild( );
-		module.rename( child );
-		return child.getHandle( module );
+	public DesignElementHandle getContent() {
+		DesignElement child = info.getChild();
+		module.rename(child);
+		return child.getHandle(module);
 	}
 
 	/**
@@ -53,8 +50,7 @@ public class IllegalContentInfo
 	 * 
 	 * @return the index of <code>UndefinedChildInfo<code>.
 	 */
-	public int getIndex( )
-	{
-		return info.getIndex( );
+	public int getIndex() {
+		return info.getIndex();
 	}
 }

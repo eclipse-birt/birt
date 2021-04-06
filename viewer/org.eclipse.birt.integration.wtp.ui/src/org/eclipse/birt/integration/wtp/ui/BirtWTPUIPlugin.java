@@ -24,7 +24,7 @@ public class BirtWTPUIPlugin extends AbstractUIPlugin {
 
 	// The shared instance
 	private static BirtWTPUIPlugin plugin;
-	
+
 	/**
 	 * The constructor
 	 */

@@ -27,53 +27,43 @@ import com.ibm.icu.util.ULocale;
  * that they can be used in scripting.
  * 
  */
-public class Regression_75539 extends BaseTestCase
-{
+public class Regression_75539 extends BaseTestCase {
 
 	private final static String OUTPUT = "Reg_75539.out"; //$NON-NLS-1$
 	private final static String GOLDEN = "Reg_75539.golden"; //$NON-NLS-1$
 
 	/**
-	 * @throws Exception 
+	 * @throws Exception
 	 * 
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyGoldenToFile ( GOLDEN_FOLDER + "/" + GOLDEN );
+		copyGoldenToFile(GOLDEN_FOLDER + "/" + GOLDEN);
 	}
 
-  /*public void tearDown( )
-	{
-		removeResource( );
-	}
-  */
-	public void test_regression_75539( ) throws Exception
-	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		designHandle = sessionHandle.createDesign( );
+	/*
+	 * public void tearDown( ) { removeResource( ); }
+	 */
+	public void test_regression_75539() throws Exception {
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		designHandle = sessionHandle.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		DataSourceHandle dsourceHandle = factory.newOdaDataSource(
-				"dsource", "org.eclipse.birt.report.data.oda.jdbc" ); //$NON-NLS-1$//$NON-NLS-2$
-		dsourceHandle
-				.setProperty(
-						"odaDriverClass", "org.eclipse.birt.report.data.oda.sampledb.Driver" ); //$NON-NLS-1$//$NON-NLS-2$
-		dsourceHandle.setProperty( "odaURL", "jdbc:classicmodels:sampledb" ); //$NON-NLS-1$//$NON-NLS-2$
-		dsourceHandle.setProperty( "odaUser", "ClassicModels" ); //$NON-NLS-1$//$NON-NLS-2$
-		
-		
-		designHandle.getDataSources( ).add( dsourceHandle );
-		
-		
-		//saveAs( OUTPUT ); //$NON-NLS-1$    
-		//assertTrue( compareTextFile( GOLDEN, this.getFullQualifiedClassName()+"/"+OUTPUT_FOLDER+"/"+OUTPUT ) );
-		String TempFile=this.genOutputFile(OUTPUT);
-		designHandle.saveAs( TempFile );
-		assertTrue( compareTextFile( GOLDEN, OUTPUT ) );
+		ElementFactory factory = designHandle.getElementFactory();
+		DataSourceHandle dsourceHandle = factory.newOdaDataSource("dsource", "org.eclipse.birt.report.data.oda.jdbc"); //$NON-NLS-1$//$NON-NLS-2$
+		dsourceHandle.setProperty("odaDriverClass", "org.eclipse.birt.report.data.oda.sampledb.Driver"); //$NON-NLS-1$//$NON-NLS-2$
+		dsourceHandle.setProperty("odaURL", "jdbc:classicmodels:sampledb"); //$NON-NLS-1$//$NON-NLS-2$
+		dsourceHandle.setProperty("odaUser", "ClassicModels"); //$NON-NLS-1$//$NON-NLS-2$
+
+		designHandle.getDataSources().add(dsourceHandle);
+
+		// saveAs( OUTPUT ); //$NON-NLS-1$
+		// assertTrue( compareTextFile( GOLDEN,
+		// this.getFullQualifiedClassName()+"/"+OUTPUT_FOLDER+"/"+OUTPUT ) );
+		String TempFile = this.genOutputFile(OUTPUT);
+		designHandle.saveAs(TempFile);
+		assertTrue(compareTextFile(GOLDEN, OUTPUT));
 	}
 
 }

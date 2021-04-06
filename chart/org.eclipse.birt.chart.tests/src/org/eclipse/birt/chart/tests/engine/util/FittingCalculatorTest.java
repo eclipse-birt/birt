@@ -15,36 +15,29 @@ import junit.framework.TestCase;
 
 import org.eclipse.birt.chart.internal.model.FittingCalculator;
 
-public class FittingCalculatorTest extends TestCase
-{
+public class FittingCalculatorTest extends TestCase {
 	FittingCalculator fc1, fc2;
 
-	double[] x = {
-			0, 1, 2, 3
-	};
+	double[] x = { 0, 1, 2, 3 };
 
-	double[] y = {
-			5, 3, 7, 1
-	};
+	double[] y = { 5, 3, 7, 1 };
 
 	/**
 	 * Construct and initialize any objects that will be used in multiple tests.
 	 * 
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		fc1 = new FittingCalculator( x, y, 0.33f );
-		fc2 = new FittingCalculator( x, y, 0.10f );
+	protected void setUp() throws Exception {
+		super.setUp();
+		fc1 = new FittingCalculator(x, y, 0.33f);
+		fc2 = new FittingCalculator(x, y, 0.10f);
 	}
 
 	/**
-	 * Collect and empty any objects that are used in multiple tests. 
+	 * Collect and empty any objects that are used in multiple tests.
 	 * 
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
+	protected void tearDown() throws Exception {
+		super.tearDown();
 		fc1 = null;
 		fc2 = null;
 	}
@@ -53,19 +46,16 @@ public class FittingCalculatorTest extends TestCase
 	 * Test the Y estimation values.
 	 *
 	 */
-	public void testYEst( )
-	{
-		double[] result1 = fc1.getFittedValue( );
-		double[] result2 = fc2.getFittedValue( );
+	public void testYEst() {
+		double[] result1 = fc1.getFittedValue();
+		double[] result2 = fc2.getFittedValue();
 
-		for ( int i = 0; i < x.length; i++ )
-		{
-			assertTrue( y[i] == result1[i] );
+		for (int i = 0; i < x.length; i++) {
+			assertTrue(y[i] == result1[i]);
 		}
 
-		for ( int i = 0; i < x.length; i++ )
-		{
-			assertTrue( y[i] == result2[i] );
+		for (int i = 0; i < x.length; i++) {
+			assertTrue(y[i] == result2[i]);
 		}
 	}
 

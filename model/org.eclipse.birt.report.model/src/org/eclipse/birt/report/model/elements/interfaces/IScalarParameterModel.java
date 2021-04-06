@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for scalar parameter element to store the constants.
  */
-public interface IScalarParameterModel
-{
+public interface IScalarParameterModel {
 
 	/**
 	 * Name of the conceal-value property.
@@ -49,23 +48,23 @@ public interface IScalarParameterModel
 	 * Name of the alignment property.
 	 */
 
-	public static final String ALIGNMENT_PROP = "alignment"; //$NON-NLS-1$ 
+	public static final String ALIGNMENT_PROP = "alignment"; //$NON-NLS-1$
 
 	/**
 	 * Name of the muchMatch property for a selection list.
 	 */
 
-	public static final String MUCH_MATCH_PROP = "mustMatch"; //$NON-NLS-1$ 
+	public static final String MUCH_MATCH_PROP = "mustMatch"; //$NON-NLS-1$
 
 	/**
 	 * Name of the fixedOrder property for a selection list.
 	 */
 
-	public static final String FIXED_ORDER_PROP = "fixedOrder"; //$NON-NLS-1$ 
+	public static final String FIXED_ORDER_PROP = "fixedOrder"; //$NON-NLS-1$
 
 	/**
-	 * The property name of the bound columns that bind the report element with
-	 * the data set columns.
+	 * The property name of the bound columns that bind the report element with the
+	 * data set columns.
 	 */
 
 	public static final String BOUND_DATA_COLUMNS_PROP = "boundDataColumns"; //$NON-NLS-1$
@@ -85,15 +84,14 @@ public interface IScalarParameterModel
 	public static final String AUTO_SUGGEST_THRESHOLD_PROP = "autoSuggestThreshold"; //$NON-NLS-1$
 
 	/**
-	 * Name of the method that implements to return the default value list of
-	 * the parameter.
+	 * Name of the method that implements to return the default value list of the
+	 * parameter.
 	 */
 	String GET_DEFAULT_VALUE_LIST_PROP = "getDefaultValueList"; //$NON-NLS-1$
 
 	/**
-	 * Name of the method that implements to return the selection value list of
-	 * the parameter. This is meaningful for 'list' or 'combo' control type
-	 * parameter.
+	 * Name of the method that implements to return the selection value list of the
+	 * parameter. This is meaningful for 'list' or 'combo' control type parameter.
 	 */
 	String GET_SELECTION_VALUE_LIST_PROP = "getSelectionValueList"; //$NON-NLS-1$
 }

@@ -26,20 +26,20 @@ import org.eclipse.swt.SWTException;
  * internal exception
  */
 
-public class GUIException extends BirtException
-{
+public class GUIException extends BirtException {
 
 	private static final long serialVersionUID = 1L;
 
-	private static final String MSG_FILE_NOT_FOUND = Messages.getString( "ExceptionHandler.Message.FileNotFound" ); //$NON-NLS-1$
+	private static final String MSG_FILE_NOT_FOUND = Messages.getString("ExceptionHandler.Message.FileNotFound"); //$NON-NLS-1$
 
-	private static final String MSG_UNKNOWN_HOST = Messages.getString( "ExceptionHandler.Message.UnknownHost" ); //$NON-NLS-1$
+	private static final String MSG_UNKNOWN_HOST = Messages.getString("ExceptionHandler.Message.UnknownHost"); //$NON-NLS-1$
 
-	private static final String MSG_OUT_OF_MEMORY = Messages.getString( "ExceptionHandler.Message.OutOfMemory" ); //$NON-NLS-1$
+	private static final String MSG_OUT_OF_MEMORY = Messages.getString("ExceptionHandler.Message.OutOfMemory"); //$NON-NLS-1$
 
-	private static final String MSG_UNEXPECTED_EXCEPTION_OCURR = Messages.getString( "ExceptionHandler.Meesage.UnexceptedExceptionOccur" ); //$NON-NLS-1$
+	private static final String MSG_UNEXPECTED_EXCEPTION_OCURR = Messages
+			.getString("ExceptionHandler.Meesage.UnexceptedExceptionOccur"); //$NON-NLS-1$
 
-	private static final String MSG_CAUSED_BY = Messages.getString( "ExceptionHandler.Message.CausedBy" ); //$NON-NLS-1$
+	private static final String MSG_CAUSED_BY = Messages.getString("ExceptionHandler.Message.CausedBy"); //$NON-NLS-1$
 
 	public static final String GUI_ERROR_CODE_IO = "Error.GUIException.invokedByIOException"; //$NON-NLS-1$
 
@@ -52,33 +52,23 @@ public class GUIException extends BirtException
 	/**
 	 * Creates a new instance of GUI exception
 	 * 
-	 * @param pluginId
-	 *            the id of the plugin
-	 * @param cause
-	 *            the cause which invoked the exception
+	 * @param pluginId the id of the plugin
+	 * @param cause    the cause which invoked the exception
 	 * 
 	 * @return the GUIException created
 	 */
-	public static GUIException createGUIException( String pluginId,
-			Throwable cause )
-	{
+	public static GUIException createGUIException(String pluginId, Throwable cause) {
 		String errorCode = GUI_ERROR_CODE_UNEXPECTED;
-		if ( cause instanceof IOException )
-		{
+		if (cause instanceof IOException) {
 			errorCode = GUI_ERROR_CODE_IO;
-		}
-		else if ( cause instanceof OutOfMemoryError )
-		{
+		} else if (cause instanceof OutOfMemoryError) {
 			errorCode = GUI_ERROR_CODE_OUT_OF_MEMORY;
-		}
-		else if ( cause instanceof SWTException )
-		{
+		} else if (cause instanceof SWTException) {
 			errorCode = GUI_ERROR_CODE_SWT;
 		}
-		GUIException ex = new GUIException( pluginId, errorCode, cause );
-		if ( errorCode != GUI_ERROR_CODE_UNEXPECTED )
-		{
-			ex.setSeverity( BirtException.INFO | BirtException.ERROR );
+		GUIException ex = new GUIException(pluginId, errorCode, cause);
+		if (errorCode != GUI_ERROR_CODE_UNEXPECTED) {
+			ex.setSeverity(BirtException.INFO | BirtException.ERROR);
 		}
 		return ex;
 	}
@@ -86,20 +76,15 @@ public class GUIException extends BirtException
 	/**
 	 * Creates a new instance of GUI exception
 	 * 
-	 * @param pluginId
-	 *            the id of the plugin
-	 * @param cause
-	 *            the cause which invoked the exception
+	 * @param pluginId the id of the plugin
+	 * @param cause    the cause which invoked the exception
 	 * 
 	 * @return the GUIException created
 	 */
-	public static GUIException createGUIException( String pluginId,
-			Throwable cause, String errorCode )
-	{
-		GUIException ex = new GUIException( pluginId, errorCode, cause );
-		if ( !GUI_ERROR_CODE_UNEXPECTED.equals( errorCode ) )
-		{
-			ex.setSeverity( BirtException.INFO | BirtException.ERROR );
+	public static GUIException createGUIException(String pluginId, Throwable cause, String errorCode) {
+		GUIException ex = new GUIException(pluginId, errorCode, cause);
+		if (!GUI_ERROR_CODE_UNEXPECTED.equals(errorCode)) {
+			ex.setSeverity(BirtException.INFO | BirtException.ERROR);
 		}
 		return ex;
 	}
@@ -107,17 +92,13 @@ public class GUIException extends BirtException
 	/**
 	 * Creates a new instance of GUI exception with the specified error code
 	 * 
-	 * @param pluginId
-	 *            the id of the plugin
-	 * @param errorCode
-	 *            the error code of the exception
-	 * @param cause
-	 *            the cause which invoked the exception
+	 * @param pluginId  the id of the plugin
+	 * @param errorCode the error code of the exception
+	 * @param cause     the cause which invoked the exception
 	 */
-	private GUIException( String pluginId, String errorCode, Throwable cause )
-	{
-		super( pluginId, errorCode, null );
-		initCause( cause );
+	private GUIException(String pluginId, String errorCode, Throwable cause) {
+		super(pluginId, errorCode, null);
+		initCause(cause);
 	}
 
 	/*
@@ -125,30 +106,20 @@ public class GUIException extends BirtException
 	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getMessage( )
-	{
-		String message = Messages.getString( getErrorCode( ) );
+	public String getMessage() {
+		String message = Messages.getString(getErrorCode());
 
-		if ( message.equalsIgnoreCase( getErrorCode( ) ) )
-		{
-			message = getCause( ).getLocalizedMessage( );
-			if ( getCause( ) instanceof UnknownHostException )
-			{
+		if (message.equalsIgnoreCase(getErrorCode())) {
+			message = getCause().getLocalizedMessage();
+			if (getCause() instanceof UnknownHostException) {
 				message = MSG_UNKNOWN_HOST + message;
-			}
-			else if ( getCause( ) instanceof FileNotFoundException )
-			{
+			} else if (getCause() instanceof FileNotFoundException) {
 				message = MSG_FILE_NOT_FOUND + message;
-			}
-			else if ( getCause( ) instanceof OutOfMemoryError )
-			{
+			} else if (getCause() instanceof OutOfMemoryError) {
 				message = MSG_OUT_OF_MEMORY;
 			}
-			if ( StringUtil.isBlank( message ) )
-			{
-				message = MessageFormat.format( MSG_CAUSED_BY, new String[]{
-					getCause( ).getClass( ).getName( )
-				} );
+			if (StringUtil.isBlank(message)) {
+				message = MessageFormat.format(MSG_CAUSED_BY, new String[] { getCause().getClass().getName() });
 			}
 		}
 		return message;
@@ -159,9 +130,8 @@ public class GUIException extends BirtException
 	 * 
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
-	public String getLocalizedMessage( )
-	{
-		return getMessage( );
+	public String getLocalizedMessage() {
+		return getMessage();
 	}
 
 	/**
@@ -169,20 +139,13 @@ public class GUIException extends BirtException
 	 * 
 	 * @return the reason
 	 */
-	public String getReason( )
-	{
+	public String getReason() {
 		String reason = null;
-		if ( getCause( ) instanceof OutOfMemoryError )
-		{
+		if (getCause() instanceof OutOfMemoryError) {
 			reason = MSG_OUT_OF_MEMORY;
-		}
-		else if ( getCause( ) instanceof IOException
-				|| getCause( ) instanceof SWTException )
-		{
-			reason = getLocalizedMessage( );
-		}
-		else
-		{
+		} else if (getCause() instanceof IOException || getCause() instanceof SWTException) {
+			reason = getLocalizedMessage();
+		} else {
 			reason = MSG_UNEXPECTED_EXCEPTION_OCURR;
 		}
 		return reason;

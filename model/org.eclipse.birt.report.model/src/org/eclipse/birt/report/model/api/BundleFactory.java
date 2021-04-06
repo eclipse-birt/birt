@@ -16,20 +16,17 @@ package org.eclipse.birt.report.model.api;
  * 
  */
 
-public class BundleFactory
-{
+public class BundleFactory {
 
 	private static volatile IBundleFactory bundleFactory = null;
 
 	/**
 	 * Sets the bundle factory.
 	 * 
-	 * @param factory
-	 *            the bundle factory
+	 * @param factory the bundle factory
 	 */
 
-	public synchronized static void setBundleFactory( IBundleFactory factory )
-	{
+	public synchronized static void setBundleFactory(IBundleFactory factory) {
 		bundleFactory = factory;
 	}
 
@@ -39,24 +36,16 @@ public class BundleFactory
 	 * @return the bundle factory.
 	 */
 
-	public static IBundleFactory getBundleFactory( )
-	{
-		if ( bundleFactory != null )
-		{
+	public static IBundleFactory getBundleFactory() {
+		if (bundleFactory != null) {
 			return bundleFactory;
 		}
-		synchronized ( BundleFactory.class )
-		{
-			if ( bundleFactory == null )
-			{
-				try
-				{
-					Class clazz = Class
-							.forName( " org.eclipse.birt.report.model.plugin.PlatformBundleFactory" );
-					bundleFactory = (IBundleFactory) clazz.newInstance( );
-				}
-				catch ( Exception ex )
-				{
+		synchronized (BundleFactory.class) {
+			if (bundleFactory == null) {
+				try {
+					Class clazz = Class.forName(" org.eclipse.birt.report.model.plugin.PlatformBundleFactory");
+					bundleFactory = (IBundleFactory) clazz.newInstance();
+				} catch (Exception ex) {
 				}
 			}
 		}
@@ -66,8 +55,7 @@ public class BundleFactory
 	/**
 	 * Releases bundle factory.
 	 */
-	public static void releaseInstance( )
-	{
+	public static void releaseInstance() {
 		bundleFactory = null;
 	}
 }

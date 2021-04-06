@@ -29,8 +29,7 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Report graphical editor with ruler
  */
-abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
-{
+abstract public class ReportEditorWithRuler extends ReportEditorWithPalette {
 
 	private EditorRulerProvider topRuler;
 	private EditorRulerProvider leftRuler;
@@ -39,9 +38,8 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 	/**
 	 * Constructor
 	 */
-	public ReportEditorWithRuler( )
-	{
-		super( );
+	public ReportEditorWithRuler() {
+		super();
 	}
 
 	/**
@@ -49,37 +47,39 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 	 * 
 	 * @param parent
 	 */
-	public ReportEditorWithRuler( IEditorPart parent )
-	{
-		super( parent );
+	public ReportEditorWithRuler(IEditorPart parent) {
+		super(parent);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#createGraphicalViewer(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
+	 * GraphicalEditorWithFlyoutPalette#createGraphicalViewer(org.eclipse.swt.
+	 * widgets.Composite)
 	 */
-	protected void createGraphicalViewer( Composite parent )
-	{
+	protected void createGraphicalViewer(Composite parent) {
 		// bidi_hcg start
 		/*
 		 * If Bidi support is enabled - check model orientation and set the view
 		 * orientation accordingly
 		 */
-		
-		if ( getModel( ).isDirectionRTL( ) )
-			rulerComp = new EditorRulerComposite( parent, SWT.RIGHT_TO_LEFT );
+
+		if (getModel().isDirectionRTL())
+			rulerComp = new EditorRulerComposite(parent, SWT.RIGHT_TO_LEFT);
 		else
-			rulerComp = new EditorRulerComposite( parent, SWT.LEFT_TO_RIGHT );
-		
+			rulerComp = new EditorRulerComposite(parent, SWT.LEFT_TO_RIGHT);
+
 //		else
 //		// bidi_hcg end
 //			rulerComp = new EditorRulerComposite( parent, SWT.NONE );
-		super.createGraphicalViewer( rulerComp );
-		if(Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) )){//Linux and Windows has different color behavior.Add OS judgment to set rulerCompsite background color.
+		super.createGraphicalViewer(rulerComp);
+		if (Constants.OS_LINUX.equalsIgnoreCase(Platform.getOS())) {// Linux and Windows has different color
+																	// behavior.Add OS judgment to set rulerCompsite
+																	// background color.
 			rulerComp.setBackground(ColorManager.getColor(240, 240, 240));
 		}
-		rulerComp.setGraphicalViewer( (ScrollingGraphicalViewer) getGraphicalViewer( ), getModel( ) );
+		rulerComp.setGraphicalViewer((ScrollingGraphicalViewer) getGraphicalViewer(), getModel());
 
 		// addAction( new ToggleRulerVisibilityAction( getGraphicalViewer( ) ) {
 		//
@@ -110,54 +110,46 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.AbstractReportDesigner#configureGraphicalViewer()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.
+	 * AbstractReportDesigner#configureGraphicalViewer()
 	 */
-	protected void configureGraphicalViewer( )
-	{
-		super.configureGraphicalViewer( );
-		createRulers( );
+	protected void configureGraphicalViewer() {
+		super.configureGraphicalViewer();
+		createRulers();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.GraphicalEditorWithFlyoutPalette#getGraphicalControl()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.parts.
+	 * GraphicalEditorWithFlyoutPalette#getGraphicalControl()
 	 */
-	protected Control getGraphicalControl( )
-	{
+	protected Control getGraphicalControl() {
 		return rulerComp;
 	}
 
-	private void createRulers( )
-	{
+	private void createRulers() {
 		// Ruler properties
-		if ( topRuler == null )
-		{
-			topRuler = new EditorRulerProvider( getModel( ), true );
+		if (topRuler == null) {
+			topRuler = new EditorRulerProvider(getModel(), true);
 		}
 
-		getGraphicalViewer( ).setProperty( RulerProvider.PROPERTY_HORIZONTAL_RULER,
-				topRuler );
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_HORIZONTAL_RULER, topRuler);
 
-		if ( leftRuler == null )
-		{
-			leftRuler = new EditorRulerProvider( getModel( ), false );
+		if (leftRuler == null) {
+			leftRuler = new EditorRulerProvider(getModel(), false);
 		}
-		getGraphicalViewer( ).setProperty( RulerProvider.PROPERTY_VERTICAL_RULER,
-				leftRuler );
-		getGraphicalViewer( ).setProperty( RulerProvider.PROPERTY_RULER_VISIBILITY,
-				Boolean.valueOf( true ) );
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_VERTICAL_RULER, leftRuler);
+		getGraphicalViewer().setProperty(RulerProvider.PROPERTY_RULER_VISIBILITY, Boolean.valueOf(true));
 
 	}
 
 	@Override
-	protected void setModel( ModuleHandle model )
-	{
-		super.setModel( model );
+	protected void setModel(ModuleHandle model) {
+		super.setModel(model);
 
-		if (model != null)
-		{
-			rulerComp.resetReportDesignHandle( model );
+		if (model != null) {
+			rulerComp.resetReportDesignHandle(model);
 		}
 	}
 
@@ -166,9 +158,8 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 	 * 
 	 * @see org.eclipse.ui.IWorkbenchPart#dispose()
 	 */
-	public void dispose( )
-	{
-		super.dispose( );
+	public void dispose() {
+		super.dispose();
 		rulerComp = null;
 		topRuler = null;
 		leftRuler = null;
@@ -177,17 +168,16 @@ abstract public class ReportEditorWithRuler extends ReportEditorWithPalette
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.ui.parts.GraphicalEditor#selectionChanged(org.eclipse.ui.IWorkbenchPart,
-	 *      org.eclipse.jface.viewers.ISelection)
+	 * @see
+	 * org.eclipse.gef.ui.parts.GraphicalEditor#selectionChanged(org.eclipse.ui.
+	 * IWorkbenchPart, org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IWorkbenchPart part, ISelection selection )
-	{
-		super.selectionChanged( part, selection );
+	public void selectionChanged(IWorkbenchPart part, ISelection selection) {
+		super.selectionChanged(part, selection);
 
-		IEditorPart report = getSite( ).getPage( ).getActiveEditor( );
-		if ( report != null )
-		{
-			updateActions( getSelectionActions( ) );
+		IEditorPart report = getSite().getPage().getActiveEditor();
+		if (report != null) {
+			updateActions(getSelectionActions());
 		}
 	}
 }

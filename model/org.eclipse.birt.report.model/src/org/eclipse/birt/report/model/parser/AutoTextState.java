@@ -21,8 +21,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class AutoTextState extends ReportItemState
-{
+public class AutoTextState extends ReportItemState {
 
 	/**
 	 * The autotext being created.
@@ -31,33 +30,29 @@ public class AutoTextState extends ReportItemState
 	protected AutoText element;
 
 	/**
-	 * Constructs the autotext state with the design parser handler, the
-	 * container element and the container slot of the autotext.
+	 * Constructs the autotext state with the design parser handler, the container
+	 * element and the container slot of the autotext.
 	 * 
-	 * @param handler
-	 *            the module parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the module parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public AutoTextState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public AutoTextState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new AutoText( );
-		initElement( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new AutoText();
+		initElement(attrs);
 	}
 
 	/*
@@ -66,8 +61,7 @@ public class AutoTextState extends ReportItemState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 

@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.data.adapter.api.timeFunction;
 
-public interface IBuildInBaseTimeFunction
-{
+public interface IBuildInBaseTimeFunction {
 	public static final String CURRENT_QUARTER = "CURRENT QUARTER";
 	public static final String CURRENT_MONTH = "CURRENT MONTH";
 	public static final String TRAILING_30_DAYS = "TRAILING 30 DAYS";
@@ -32,7 +31,7 @@ public interface IBuildInBaseTimeFunction
 	public static final String WEEK_TO_DATE_LAST_YEAR = "WEEK TO DATE LAST YEAR";
 	public static final String MONTH_TO_DATE_LAST_YEAR = "MONTH TO DATE LAST YEAR";
 	public static final String QUARTER_TO_DATE_LAST_YEAR = "QUARTER TO DATE LAST YEAR";
-	public static final String PREVIOUS_WEEK_TO_DATE = "PREVIOUS WEEK TO DATE"; 
+	public static final String PREVIOUS_WEEK_TO_DATE = "PREVIOUS WEEK TO DATE";
 	public static final String PREVIOUS_MONTH_TO_DATE = "PREVIOUS MONTH TO DATE";
 	public static final String PREVIOUS_QUARTER_TO_DATE = "PREVIOUS QUARTER TO DATE";
 	public static final String PREVIOUS_YEAR_TO_DATE = "PREVIOUS YEAR TO DATE";

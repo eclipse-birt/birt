@@ -11,25 +11,21 @@
 
 package org.eclipse.birt.data.oda.pojo.ui.impl.models;
 
-public class TreeData
-{
+public class TreeData {
 
 	private Object obj;
 	private int level;
 
-	public TreeData( Object obj, int level )
-	{
+	public TreeData(Object obj, int level) {
 		this.obj = obj;
 		this.level = level;
 	}
 
-	public Object getWrappedObject( )
-	{
+	public Object getWrappedObject() {
 		return obj;
 	}
 
-	public int getLevel( )
-	{
+	public int getLevel() {
 		return this.level;
 	}
 

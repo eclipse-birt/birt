@@ -28,145 +28,110 @@ import org.eclipse.swt.widgets.Listener;
 /**
  * DefaultParameterDialogControlTypeHelper
  */
-public class DefaultParameterDialogControlTypeHelper extends
-		AbstractDialogHelper
-{
+public class DefaultParameterDialogControlTypeHelper extends AbstractDialogHelper {
 
-	protected static final IChoiceSet CONTROL_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
-			.getChoiceSet( DesignChoiceConstants.CHOICE_PARAM_CONTROL );
+	protected static final IChoiceSet CONTROL_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary()
+			.getChoiceSet(DesignChoiceConstants.CHOICE_PARAM_CONTROL);
 
 	protected Combo controlTypeChooser;
 
-	public void createContent( Composite parent )
-	{
-		controlTypeChooser = new Combo( parent, SWT.READ_ONLY | SWT.DROP_DOWN );
-		controlTypeChooser.setVisibleItemCount( 30 );
-		controlTypeChooser.addListener( SWT.Selection, new Listener( ) {
+	public void createContent(Composite parent) {
+		controlTypeChooser = new Combo(parent, SWT.READ_ONLY | SWT.DROP_DOWN);
+		controlTypeChooser.setVisibleItemCount(30);
+		controlTypeChooser.addListener(SWT.Selection, new Listener() {
 
-			public void handleEvent( Event e )
-			{
-				List<Listener> listeners = DefaultParameterDialogControlTypeHelper.this.listeners.get( SWT.Selection );
-				if ( listeners == null )
+			public void handleEvent(Event e) {
+				List<Listener> listeners = DefaultParameterDialogControlTypeHelper.this.listeners.get(SWT.Selection);
+				if (listeners == null)
 					return;
-				for ( int i = 0; i < listeners.size( ); i++ )
-					listeners.get( i ).handleEvent( e );
+				for (int i = 0; i < listeners.size(); i++)
+					listeners.get(i).handleEvent(e);
 			}
-		} );
+		});
 	}
 
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return controlTypeChooser;
 	}
 
-	protected boolean isStatic( )
-	{
-		return (Boolean) this.getProperty( ParameterDialog.STATIC_VALUE );
+	protected boolean isStatic() {
+		return (Boolean) this.getProperty(ParameterDialog.STATIC_VALUE);
 	}
 
-	protected String getDataType( )
-	{
-		return (String) this.getProperty( ParameterDialog.DATATYPE_VALUE );
+	protected String getDataType() {
+		return (String) this.getProperty(ParameterDialog.DATATYPE_VALUE);
 	}
 
-	protected String getInputControlType( )
-	{
-		return (String) this.getProperty( ParameterDialog.CONTROLTYPE_INPUTVALUE );
+	protected String getInputControlType() {
+		return (String) this.getProperty(ParameterDialog.CONTROLTYPE_INPUTVALUE);
 	}
 
-	public void update( boolean inward )
-	{
-		if ( inward )
-		{
-			inwardUpdate( );
-		}
-		else
-		{
-			outwardUpdate( );
+	public void update(boolean inward) {
+		if (inward) {
+			inwardUpdate();
+		} else {
+			outwardUpdate();
 		}
 	}
 
-	protected void outwardUpdate( )
-	{
-		String displayText = controlTypeChooser.getText( );
-		if ( StringUtil.isBlank( displayText ) )
-		{
+	protected void outwardUpdate() {
+		String displayText = controlTypeChooser.getText();
+		if (StringUtil.isBlank(displayText)) {
 			return;
 		}
-		if ( ParameterDialog.DISPLAY_NAME_CONTROL_COMBO.equals( displayText ) )
-		{
-			this.setProperty( ParameterDialog.CONTROLTYPE_VALUE,
-					ParameterDialog.PARAM_CONTROL_COMBO );
+		if (ParameterDialog.DISPLAY_NAME_CONTROL_COMBO.equals(displayText)) {
+			this.setProperty(ParameterDialog.CONTROLTYPE_VALUE, ParameterDialog.PARAM_CONTROL_COMBO);
 			return;
 		}
-		if ( ParameterDialog.DISPLAY_NAME_CONTROL_LIST.equals( displayText ) )
-		{
-			this.setProperty( ParameterDialog.CONTROLTYPE_VALUE,
-					ParameterDialog.PARAM_CONTROL_LIST );
+		if (ParameterDialog.DISPLAY_NAME_CONTROL_LIST.equals(displayText)) {
+			this.setProperty(ParameterDialog.CONTROLTYPE_VALUE, ParameterDialog.PARAM_CONTROL_LIST);
 			return;
 		}
-		this.setProperty( ParameterDialog.CONTROLTYPE_VALUE,
-				CONTROL_TYPE_CHOICE_SET.findChoiceByDisplayName( displayText )
-						.getName( ) );
+		this.setProperty(ParameterDialog.CONTROLTYPE_VALUE,
+				CONTROL_TYPE_CHOICE_SET.findChoiceByDisplayName(displayText).getName());
 	}
 
-	protected void inwardUpdate( )
-	{
+	protected void inwardUpdate() {
 		String[] choices = new String[4];
 
-		String originalSelection = controlTypeChooser.getText( );
-		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( getDataType( ) ) )
-		{
-			choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX )
-					.getDisplayName( );
-		}
-		else
-		{
-			choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX )
-					.getDisplayName( );
+		String originalSelection = controlTypeChooser.getText();
+		if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(getDataType())) {
+			choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice(DesignChoiceConstants.PARAM_CONTROL_CHECK_BOX)
+					.getDisplayName();
+		} else {
+			choices[0] = CONTROL_TYPE_CHOICE_SET.findChoice(DesignChoiceConstants.PARAM_CONTROL_TEXT_BOX)
+					.getDisplayName();
 		}
 		choices[1] = ParameterDialog.DISPLAY_NAME_CONTROL_COMBO;
 		choices[2] = ParameterDialog.DISPLAY_NAME_CONTROL_LIST;
 
-		choices[3] = CONTROL_TYPE_CHOICE_SET.findChoice( DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON )
-				.getDisplayName( );
+		choices[3] = CONTROL_TYPE_CHOICE_SET.findChoice(DesignChoiceConstants.PARAM_CONTROL_RADIO_BUTTON)
+				.getDisplayName();
 
-		controlTypeChooser.setItems( choices );
-		if ( originalSelection.length( ) == 0 )
-		{// initialize
-			controlTypeChooser.setText( getInputControlDisplayName( ) );
-		}
-		else
-		{
-			int index = controlTypeChooser.indexOf( originalSelection );
-			if ( index == -1 )
-			{// The original control type cannot be
-				// supported
-				controlTypeChooser.select( 0 );
-				controlTypeChooser.notifyListeners( SWT.Selection, new Event( ) );
+		controlTypeChooser.setItems(choices);
+		if (originalSelection.length() == 0) {// initialize
+			controlTypeChooser.setText(getInputControlDisplayName());
+		} else {
+			int index = controlTypeChooser.indexOf(originalSelection);
+			if (index == -1) {// The original control type cannot be
+								// supported
+				controlTypeChooser.select(0);
+				controlTypeChooser.notifyListeners(SWT.Selection, new Event());
 			}
-			controlTypeChooser.setText( originalSelection );
+			controlTypeChooser.setText(originalSelection);
 		}
 
 	}
 
-	protected String getInputControlDisplayName( )
-	{
-		String type = getInputControlType( );
+	protected String getInputControlDisplayName() {
+		String type = getInputControlType();
 		String displayName = null;
-		if ( CONTROL_TYPE_CHOICE_SET.findChoice( type ) != null )
-		{
-			displayName = CONTROL_TYPE_CHOICE_SET.findChoice( type )
-					.getDisplayName( );
-		}
-		else
-		{
-			if ( ParameterDialog.PARAM_CONTROL_COMBO.equals( type ) )
-			{
+		if (CONTROL_TYPE_CHOICE_SET.findChoice(type) != null) {
+			displayName = CONTROL_TYPE_CHOICE_SET.findChoice(type).getDisplayName();
+		} else {
+			if (ParameterDialog.PARAM_CONTROL_COMBO.equals(type)) {
 				displayName = ParameterDialog.DISPLAY_NAME_CONTROL_COMBO;
-			}
-			else if ( ParameterDialog.PARAM_CONTROL_LIST.equals( type ) )
-			{
+			} else if (ParameterDialog.PARAM_CONTROL_LIST.equals(type)) {
 				displayName = ParameterDialog.DISPLAY_NAME_CONTROL_LIST;
 			}
 		}

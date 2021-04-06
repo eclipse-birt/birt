@@ -19,31 +19,26 @@ import org.eclipse.birt.report.engine.api.script.instance.ICellInstance;
 /**
  * Script event handler interface for a cell
  */
-public interface ICellEventHandler
-{
+public interface ICellEventHandler {
 
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( ICell cell, IReportContext reportContext )
-			throws ScriptException;
+	void onPrepare(ICell cell, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( ICellInstance cellInstance, IReportContext reportContext )
-			throws ScriptException;
+	void onCreate(ICellInstance cellInstance, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( ICellInstance cellInstance, IReportContext reportContext )
-			throws ScriptException;
-	
+	void onRender(ICellInstance cellInstance, IReportContext reportContext) throws ScriptException;
+
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( ICellInstance cellInstance, IReportContext reportContext )
-			throws ScriptException;
+	void onPageBreak(ICellInstance cellInstance, IReportContext reportContext) throws ScriptException;
 
 }

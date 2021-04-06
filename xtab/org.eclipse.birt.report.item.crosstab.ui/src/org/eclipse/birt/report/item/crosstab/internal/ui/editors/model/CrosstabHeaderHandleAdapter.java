@@ -17,19 +17,18 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
  * 
  */
 
-public class CrosstabHeaderHandleAdapter extends TotalCrosstabCellHandleAdapter
-{
+public class CrosstabHeaderHandleAdapter extends TotalCrosstabCellHandleAdapter {
 
 	/**
 	 * ID for the crosstab header
 	 */
-	public static final int CROSSTAB_HEADER = GRAND_TOTAL+1;
+	public static final int CROSSTAB_HEADER = GRAND_TOTAL + 1;
+
 	/**
 	 * @param handle
 	 * @param type
 	 */
-	public CrosstabHeaderHandleAdapter( CrosstabCellHandle handle, int type )
-	{
-		super( handle, type );
+	public CrosstabHeaderHandleAdapter(CrosstabCellHandle handle, int type) {
+		super(handle, type);
 	}
 }

@@ -25,30 +25,28 @@ import junit.framework.TestSuite;
  * Test cases in script package.
  */
 
-public class AllScriptTests
-{
+public class AllScriptTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( CoreJavaScriptWrapperTest.class );
-		test.addTestSuite( NativeDateTimeSpanTest.class );
-		test.addTestSuite( NativeFinanceTest.class );
-		test.addTestSuite( NativeJavaMapTest.class );
-		test.addTestSuite( NativeNamedListTest.class );
-		test.addTestSuite( ScriptableParametersTest.class );
-		test.addTestSuite( ScriptContextTest.class );
-		test.addTestSuite( BirtCompTest.class );
-		test.addTestSuite( BirtDateTimeTest.class );
-		test.addTestSuite( BirtDurationTest.class );
-		test.addTestSuite( BirtMathTest.class );
-		test.addTestSuite( BirtStrTest.class );
-		test.addTestSuite( LocalFileTest.class );
+		test.addTestSuite(CoreJavaScriptWrapperTest.class);
+		test.addTestSuite(NativeDateTimeSpanTest.class);
+		test.addTestSuite(NativeFinanceTest.class);
+		test.addTestSuite(NativeJavaMapTest.class);
+		test.addTestSuite(NativeNamedListTest.class);
+		test.addTestSuite(ScriptableParametersTest.class);
+		test.addTestSuite(ScriptContextTest.class);
+		test.addTestSuite(BirtCompTest.class);
+		test.addTestSuite(BirtDateTimeTest.class);
+		test.addTestSuite(BirtDurationTest.class);
+		test.addTestSuite(BirtMathTest.class);
+		test.addTestSuite(BirtStrTest.class);
+		test.addTestSuite(LocalFileTest.class);
 		// add all test classes here
 
 		return test;

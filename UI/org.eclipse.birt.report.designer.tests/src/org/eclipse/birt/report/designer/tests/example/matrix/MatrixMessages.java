@@ -22,27 +22,25 @@ import com.ibm.icu.util.ULocale;
  * Provides the localized messages.
  */
 
-public class MatrixMessages implements IMessages
-{
+public class MatrixMessages implements IMessages {
 
 	/**
 	 * The resource bundle for english.
 	 */
 
 	private ResourceBundle englishResourceBundle = ResourceBundle
-			.getBundle(
-					"org.eclipse.birt.report.designer.tests.example.matrix.message", Locale.ENGLISH ); //$NON-NLS-1$
+			.getBundle("org.eclipse.birt.report.designer.tests.example.matrix.message", Locale.ENGLISH); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.String)
+	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.
+	 * String)
 	 */
 
-	public String getMessage( String key, Locale locale )
-	{
-		if ( Locale.ENGLISH.equals( locale ) )
-			return englishResourceBundle.getString( key );
+	public String getMessage(String key, Locale locale) {
+		if (Locale.ENGLISH.equals(locale))
+			return englishResourceBundle.getString(key);
 
 		return "Not supported locale"; //$NON-NLS-1$
 	}
@@ -50,14 +48,14 @@ public class MatrixMessages implements IMessages
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java.lang.String,
-	 *      com.ibm.icu.util.ULocale)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java.lang.
+	 * String, com.ibm.icu.util.ULocale)
 	 */
-	
-	public String getMessage( String key, ULocale locale )
-	{
-		if ( ULocale.ENGLISH.equals( locale ) )
-			return englishResourceBundle.getString( key );
+
+	public String getMessage(String key, ULocale locale) {
+		if (ULocale.ENGLISH.equals(locale))
+			return englishResourceBundle.getString(key);
 
 		return "Not supported locale"; //$NON-NLS-1$
 	}

@@ -17,13 +17,13 @@ import java.io.IOException;
  * 
  */
 
-public interface IObjectReader
-{
+public interface IObjectReader {
 	/**
 	 * Read a java object from a file.
+	 * 
 	 * @param file
 	 * @return
 	 * @throws IOException
 	 */
-	public Object read( BufferedRandomAccessFile file ) throws IOException;
+	public Object read(BufferedRandomAccessFile file) throws IOException;
 }

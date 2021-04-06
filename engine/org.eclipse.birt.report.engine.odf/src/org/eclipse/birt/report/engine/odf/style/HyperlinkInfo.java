@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.odf.style;
 
-public class HyperlinkInfo
-{
+public class HyperlinkInfo {
 
 	private int type;
 
@@ -21,7 +20,7 @@ public class HyperlinkInfo
 	private String tooltip;
 
 	private StyleEntry style;
-	
+
 	private StyleEntry visitedStyle;
 
 	public static final int BOOKMARK = 0;
@@ -30,63 +29,50 @@ public class HyperlinkInfo
 
 	public static final int DRILL = 2;
 
-	public HyperlinkInfo( int type, String url, String toolTip )
-	{
+	public HyperlinkInfo(int type, String url, String toolTip) {
 		this.type = type;
 		this.url = url;
 		this.tooltip = toolTip;
 	}
 
-	public String getUrl( )
-	{
+	public String getUrl() {
 		return this.url;
 	}
 
-	public String getTooltip( )
-	{
+	public String getTooltip() {
 		return this.tooltip;
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		return this.type;
 	}
 
-	
 	/**
 	 * @return the style
 	 */
-	public StyleEntry getStyle( )
-	{
+	public StyleEntry getStyle() {
 		return style;
 	}
 
-	
 	/**
 	 * @return the visitedStyle
 	 */
-	public StyleEntry getVisitedStyle( )
-	{
+	public StyleEntry getVisitedStyle() {
 		return visitedStyle;
 	}
 
-	
 	/**
 	 * @param style the style to set
 	 */
-	public void setStyle( StyleEntry style )
-	{
+	public void setStyle(StyleEntry style) {
 		this.style = style;
 	}
 
-	
 	/**
 	 * @param visitedStyle the visitedStyle to set
 	 */
-	public void setVisitedStyle( StyleEntry visitedStyle )
-	{
+	public void setVisitedStyle(StyleEntry visitedStyle) {
 		this.visitedStyle = visitedStyle;
 	}
 
-	
 }

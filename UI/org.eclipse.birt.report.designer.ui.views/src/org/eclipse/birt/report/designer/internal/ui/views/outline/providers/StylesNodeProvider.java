@@ -40,119 +40,97 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 
-
 /**
  * Deals with the styles node
  * 
  * 
  */
-public class StylesNodeProvider extends DefaultNodeProvider
-{
+public class StylesNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		menu.add( new InsertAction( object,
-				Messages.getString( "StylesNodeProvider.action.New" ) ) ); //$NON-NLS-1$
-		super.createContextMenu( sourceViewer, object, menu );
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		menu.add(new InsertAction(object, Messages.getString("StylesNodeProvider.action.New"))); //$NON-NLS-1$
+		super.createContextMenu(sourceViewer, object, menu);
 
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new Separator( ) );
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new Separator());
 
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new ImportCSSStyleAction( object ) ); //$NON-NLS-1$
-		
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new ReloadCssStyleAction( object ) );
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,new UseCssStyleAction(object) );
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new ImportCSSStyleAction(object)); // $NON-NLS-1$
+
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new ReloadCssStyleAction(object));
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new UseCssStyleAction(object));
 
 	}
 
 	/**
 	 * Gets the node display name of the given object.
 	 * 
-	 * @param object
-	 *            the object
+	 * @param object the object
 	 * @return the display name
 	 */
-	public String getNodeDisplayName( Object object )
-	{
+	public String getNodeDisplayName(Object object) {
 		return STYLES;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(
+	 * java.lang.Object)
 	 */
-	public String getIconName( Object model )
-	{
+	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_STYLES;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#createElement(java.lang.String)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
+	 * createElement(java.lang.String)
 	 */
-	protected DesignElementHandle createElement( String type ) throws Exception
-	{
+	protected DesignElementHandle createElement(String type) throws Exception {
 		// ElementFactory factory = SessionHandleAdapter.getInstance( )
 		// .getReportDesignHandle( )
 		// .getElementFactory( );
-		DesignElementFactory factory = DesignElementFactory.getInstance( );
-		if ( ReportDesignConstants.STYLE_ELEMENT.equals( type ) )
-		{
-			StyleHandle handle = factory.newStyle( null );
-			StyleBuilder builder = new StyleBuilder( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ), handle, StyleBuilder.DLG_TITLE_NEW );
-			if ( builder.open( ) == Dialog.CANCEL )
-			{
+		DesignElementFactory factory = DesignElementFactory.getInstance();
+		if (ReportDesignConstants.STYLE_ELEMENT.equals(type)) {
+			StyleHandle handle = factory.newStyle(null);
+			StyleBuilder builder = new StyleBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(), handle,
+					StyleBuilder.DLG_TITLE_NEW);
+			if (builder.open() == Dialog.CANCEL) {
 				return null;
 			}
 			return handle;
 		}
-		return super.createElement( type );
+		return super.createElement(type);
 	}
 
-	public Object[] getChildren( Object model )
-	{
-		ModuleHandle moduleHandle = ( (SlotHandle) model ).getElementHandle( )
-		.getModuleHandle( );
-		Object[] styles = moduleHandle
-				.getStyles( )
-				.getContents( )
-				.toArray( );
-		Arrays.sort( styles, new AlphabeticallyComparator( ) );
-		
+	public Object[] getChildren(Object model) {
+		ModuleHandle moduleHandle = ((SlotHandle) model).getElementHandle().getModuleHandle();
+		Object[] styles = moduleHandle.getStyles().getContents().toArray();
+		Arrays.sort(styles, new AlphabeticallyComparator());
+
 		// StylesNodeProvider should be fit for ReportDesignHandle
-		assert(moduleHandle instanceof ReportDesignHandle);
+		assert (moduleHandle instanceof ReportDesignHandle);
 		List cssList = new ArrayList();
-		for(Iterator iter = ((ReportDesignHandle)moduleHandle).getAllCssStyleSheets( ).iterator( ); iter.hasNext( ); )			
-		{
-			CssStyleSheetHandle cssStyleHandle = (CssStyleSheetHandle)iter.next( );
-			cssList.add( cssStyleHandle );
+		for (Iterator iter = ((ReportDesignHandle) moduleHandle).getAllCssStyleSheets().iterator(); iter.hasNext();) {
+			CssStyleSheetHandle cssStyleHandle = (CssStyleSheetHandle) iter.next();
+			cssList.add(cssStyleHandle);
 		}
-		Object[] csses = cssList.toArray( new Object[cssList.size( )] );
-		Object[] stylesAndCsses = new Object[styles.length + csses.length ];
-		for(int i = 0; i < styles.length; i ++)
-		{
-			stylesAndCsses[i] = styles[i];		
+		Object[] csses = cssList.toArray(new Object[cssList.size()]);
+		Object[] stylesAndCsses = new Object[styles.length + csses.length];
+		for (int i = 0; i < styles.length; i++) {
+			stylesAndCsses[i] = styles[i];
 		}
-		for(int i = 0; i < csses.length; i ++)
-		{
+		for (int i = 0; i < csses.length; i++) {
 			stylesAndCsses[i + styles.length] = csses[i];
-		}		
+		}
 		return stylesAndCsses;
-		
+
 	}
 }

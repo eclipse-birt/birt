@@ -14,25 +14,21 @@ package org.eclipse.birt.report.designer.internal.ui.dialogs.parameters;
 /**
  * SimpleHyperlinkParameter
  */
-public class SimpleHyperlinkParameter extends AbstractHyperlinkParameter
-{
+public class SimpleHyperlinkParameter extends AbstractHyperlinkParameter {
 
 	private String name;
 	private String dataType;
 
-	public SimpleHyperlinkParameter( String name, String dataType )
-	{
+	public SimpleHyperlinkParameter(String name, String dataType) {
 		this.name = name;
 		this.dataType = dataType;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public String getDataType( )
-	{
+	public String getDataType() {
 		return dataType;
 	}
 

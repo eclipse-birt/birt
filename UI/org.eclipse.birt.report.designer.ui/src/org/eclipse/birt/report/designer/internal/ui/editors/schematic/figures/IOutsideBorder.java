@@ -17,9 +17,10 @@ import org.eclipse.draw2d.Border;
  * The figure is especial, the border is outside the figure size.
  */
 
-public interface IOutsideBorder
-{
-	/**Gets the outside border
+public interface IOutsideBorder {
+	/**
+	 * Gets the outside border
+	 * 
 	 * @return
 	 */
 	Border getOutsideBorder();

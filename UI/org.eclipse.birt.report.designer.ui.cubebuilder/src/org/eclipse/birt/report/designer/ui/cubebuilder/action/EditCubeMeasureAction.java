@@ -25,48 +25,42 @@ import org.eclipse.ui.PlatformUI;
  * 
  * @version $Revision: 1.3 $ $Date: 2007/04/23 03:30:22 $
  */
-public class EditCubeMeasureAction extends AbstractElementAction
-{
+public class EditCubeMeasureAction extends AbstractElementAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.EditCubeMeasureAction"; //$NON-NLS-1$
 
 	/**
 	 * @param selectedObject
 	 */
-	public EditCubeMeasureAction( Object selectedObject )
-	{
-		super( selectedObject );
-		setId( ID );
+	public EditCubeMeasureAction(Object selectedObject) {
+		super(selectedObject);
+		setId(ID);
 	}
 
 	/**
 	 * @param selectedObject
 	 * @param text
 	 */
-	public EditCubeMeasureAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
-		setId( ID );
+	public EditCubeMeasureAction(Object selectedObject, String text) {
+		super(selectedObject, text);
+		setId(ID);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Edit Measure action >> Runs ..." ); //$NON-NLS-1$
+	protected boolean doAction() throws Exception {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Edit Measure action >> Runs ..."); //$NON-NLS-1$
 		}
-		MeasureHandle measureHandle = (MeasureHandle) getSelection( );
-		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), (TabularCubeHandle) measureHandle.getContainer( )
-				.getContainer( ) );
-		dialog.showPage( CubeBuilder.GROUPPAGE );
-		return ( dialog.open( ) == IDialogConstants.OK_ID );
+		MeasureHandle measureHandle = (MeasureHandle) getSelection();
+		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				(TabularCubeHandle) measureHandle.getContainer().getContainer());
+		dialog.showPage(CubeBuilder.GROUPPAGE);
+		return (dialog.open() == IDialogConstants.OK_ID);
 	}
 
 	/*
@@ -74,18 +68,18 @@ public class EditCubeMeasureAction extends AbstractElementAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return ( (MeasureHandle) getSelection( ) ).canEdit( );
+	public boolean isEnabled() {
+		return ((MeasureHandle) getSelection()).canEdit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#getTransactionLabel()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#getTransactionLabel()
 	 */
-	protected String getTransactionLabel( )
-	{
-		return Messages.getFormattedString( "cube.measure.edit", new String[]{( (MeasureHandle) getSelection( ) ).getName( )} ); //$NON-NLS-1$
+	protected String getTransactionLabel() {
+		return Messages.getFormattedString("cube.measure.edit", //$NON-NLS-1$
+				new String[] { ((MeasureHandle) getSelection()).getName() });
 	}
 }

@@ -53,148 +53,119 @@ import org.eclipse.birt.report.engine.presentation.LocalizedContentVisitor;
  * 
  */
 
-public class OnCreateScriptVisitor extends DefaultReportItemVisitorImpl
-{
+public class OnCreateScriptVisitor extends DefaultReportItemVisitorImpl {
 
-	protected static Logger logger = Logger
-			.getLogger( LocalizedContentVisitor.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(LocalizedContentVisitor.class.getName());
 
 	private ExecutionContext context;
 
-	public OnCreateScriptVisitor( ExecutionContext context )
-	{
+	public OnCreateScriptVisitor(ExecutionContext context) {
 		this.context = context;
 	}
 
-	public IContent onCreate( IContent content )
-	{
-		Object design = content.getGenerateBy( );
+	public IContent onCreate(IContent content) {
+		Object design = content.getGenerateBy();
 		assert design instanceof ReportItemDesign;
-		Object value = ( (ReportItemDesign) design ).accept( this, content );
+		Object value = ((ReportItemDesign) design).accept(this, content);
 		return (IContent) value;
 	}
 
-	public Object visitAutoTextItem( AutoTextItemDesign autoText, Object value )
-	{
-		AutoTextScriptExecutor.handleOnCreate( (IAutoTextContent) value, context );	
+	public Object visitAutoTextItem(AutoTextItemDesign autoText, Object value) {
+		AutoTextScriptExecutor.handleOnCreate((IAutoTextContent) value, context);
 		return value;
 	}
 
-	public Object visitBand( BandDesign band, Object value )
-	{
-		return visitReportItem( band, value );
+	public Object visitBand(BandDesign band, Object value) {
+		return visitReportItem(band, value);
 	}
 
-	public Object visitCell( CellDesign cell, Object value )
-	{
-		CellScriptExecutor.handleOnCreate( (ICellContent) value, context, true );
+	public Object visitCell(CellDesign cell, Object value) {
+		CellScriptExecutor.handleOnCreate((ICellContent) value, context, true);
 		return value;
 	}
 
-	public Object visitDataItem( DataItemDesign data, Object value )
-	{
-		DataItemScriptExecutor.handleOnCreate( (IDataContent) value, context );
+	public Object visitDataItem(DataItemDesign data, Object value) {
+		DataItemScriptExecutor.handleOnCreate((IDataContent) value, context);
 		return value;
 	}
 
-	public Object visitExtendedItem( ExtendedItemDesign item, Object value )
-	{
-		ExtendedItemScriptExecutor.handleOnCreate( item, (IContent) value,
-				context );
+	public Object visitExtendedItem(ExtendedItemDesign item, Object value) {
+		ExtendedItemScriptExecutor.handleOnCreate(item, (IContent) value, context);
 		return value;
 	}
 
-	public Object visitFreeFormItem( FreeFormItemDesign container, Object value )
-	{
-		return visitReportItem( container, value );
+	public Object visitFreeFormItem(FreeFormItemDesign container, Object value) {
+		return visitReportItem(container, value);
 	}
 
-	public Object visitGridItem( GridItemDesign grid, Object value )
-	{
-		GridScriptExecutor.handleOnCreate( (ITableContent) value, context );
+	public Object visitGridItem(GridItemDesign grid, Object value) {
+		GridScriptExecutor.handleOnCreate((ITableContent) value, context);
 		return value;
 	}
 
-	public Object visitGroup( GroupDesign group, Object value )
-	{
-		return visitReportItem( group, value );
+	public Object visitGroup(GroupDesign group, Object value) {
+		return visitReportItem(group, value);
 	}
 
-	public Object visitImageItem( ImageItemDesign image, Object value )
-	{
-		ImageScriptExecutor.handleOnCreate( (IContent) value, context );
+	public Object visitImageItem(ImageItemDesign image, Object value) {
+		ImageScriptExecutor.handleOnCreate((IContent) value, context);
 		return value;
 	}
 
-	public Object visitLabelItem( LabelItemDesign label, Object value )
-	{
-		LabelScriptExecutor.handleOnCreate( (ILabelContent) value, context );
+	public Object visitLabelItem(LabelItemDesign label, Object value) {
+		LabelScriptExecutor.handleOnCreate((ILabelContent) value, context);
 		return value;
 	}
 
-	public Object visitListBand( ListBandDesign band, Object value )
-	{
-		return visitReportItem( band, value );
+	public Object visitListBand(ListBandDesign band, Object value) {
+		return visitReportItem(band, value);
 	}
 
-	public Object visitListGroup( ListGroupDesign group, Object value )
-	{
-		ListGroupScriptExecutor.handleOnCreate( (IListGroupContent) value,
-				context );
+	public Object visitListGroup(ListGroupDesign group, Object value) {
+		ListGroupScriptExecutor.handleOnCreate((IListGroupContent) value, context);
 		return value;
 	}
 
-	public Object visitListItem( ListItemDesign list, Object value )
-	{
-		ListScriptExecutor.handleOnCreate( (IListContent) value, context );
+	public Object visitListItem(ListItemDesign list, Object value) {
+		ListScriptExecutor.handleOnCreate((IListContent) value, context);
 		return value;
 	}
 
-	public Object visitListing( ListingDesign listing, Object value )
-	{
-		return visitReportItem( listing, value );
+	public Object visitListing(ListingDesign listing, Object value) {
+		return visitReportItem(listing, value);
 	}
 
-	public Object visitDynamicTextItem( DynamicTextItemDesign dynamicText,
-			Object value )
-	{
-		DynamicTextScriptExecutor.handleOnCreate( (IContent) value, context );
+	public Object visitDynamicTextItem(DynamicTextItemDesign dynamicText, Object value) {
+		DynamicTextScriptExecutor.handleOnCreate((IContent) value, context);
 		return value;
 	}
 
-	public Object visitRow( RowDesign row, Object value )
-	{
-		RowScriptExecutor.handleOnCreate( (IRowContent) value, context );
+	public Object visitRow(RowDesign row, Object value) {
+		RowScriptExecutor.handleOnCreate((IRowContent) value, context);
 		return value;
 	}
 
-	public Object visitTableBand( TableBandDesign band, Object value )
-	{
-		return visitReportItem( band, value );
+	public Object visitTableBand(TableBandDesign band, Object value) {
+		return visitReportItem(band, value);
 	}
 
-	public Object visitTableGroup( TableGroupDesign group, Object value )
-	{
-		TableGroupScriptExecutor.handleOnCreate( (ITableGroupContent) value,
-				context );
+	public Object visitTableGroup(TableGroupDesign group, Object value) {
+		TableGroupScriptExecutor.handleOnCreate((ITableGroupContent) value, context);
 		return value;
 	}
 
-	public Object visitTableItem( TableItemDesign table, Object value )
-	{
-		TableScriptExecutor.handleOnCreate( (ITableContent) value, context );
+	public Object visitTableItem(TableItemDesign table, Object value) {
+		TableScriptExecutor.handleOnCreate((ITableContent) value, context);
 		return value;
 	}
 
-	public Object visitTemplate( TemplateDesign template, Object value )
-	{
-		TextItemScriptExecutor.handleOnCreate( (IContent) value, context );
+	public Object visitTemplate(TemplateDesign template, Object value) {
+		TextItemScriptExecutor.handleOnCreate((IContent) value, context);
 		return value;
 	}
 
-	public Object visitTextItem( TextItemDesign text, Object value )
-	{
-		TextItemScriptExecutor.handleOnCreate( (IContent) value, context );
+	public Object visitTextItem(TextItemDesign text, Object value) {
+		TextItemScriptExecutor.handleOnCreate((IContent) value, context);
 		return value;
 	}
 

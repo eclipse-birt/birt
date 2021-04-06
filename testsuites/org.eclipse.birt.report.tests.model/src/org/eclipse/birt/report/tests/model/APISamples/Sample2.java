@@ -43,9 +43,9 @@ import com.ibm.icu.util.ULocale;
 
 /**
  * 
- * This is a demo of how to use Model API to create report design. <br>The generated report
- * contains data source, dataset, report parameter, table, style and extends
- * elements from library
+ * This is a demo of how to use Model API to create report design. <br>
+ * The generated report contains data source, dataset, report parameter, table,
+ * style and extends elements from library
  * 
  */
 public class Sample2 {
@@ -56,13 +56,11 @@ public class Sample2 {
 	ElementFactory libraryFactory = null;
 	StructureFactory structFactory = null;
 
-	public static void main(String[] args) throws SemanticException,
-			IOException, DesignFileException {
+	public static void main(String[] args) throws SemanticException, IOException, DesignFileException {
 		new Sample2().buildReport();
 	}
 
-	void buildReport() throws SemanticException, IOException,
-			DesignFileException {
+	void buildReport() throws SemanticException, IOException, DesignFileException {
 		SessionHandle session = DesignEngine.newSession(ULocale.ENGLISH);
 		designHandle = session.createDesign();
 		libraryHandle = session.createLibrary();
@@ -82,10 +80,9 @@ public class Sample2 {
 
 	void buildDataSource() throws SemanticException {
 
-		OdaDataSourceHandle dsHandle = designFactory.newOdaDataSource(
-				"Data Source", "org.eclipse.birt.report.data.oda.jdbc");
-		dsHandle.setProperty("odaDriverClass",
-				"net.sourceforge.jtds.jdbc.Driver");
+		OdaDataSourceHandle dsHandle = designFactory.newOdaDataSource("Data Source",
+				"org.eclipse.birt.report.data.oda.jdbc");
+		dsHandle.setProperty("odaDriverClass", "net.sourceforge.jtds.jdbc.Driver");
 		dsHandle.setProperty("odaURL", "jdbc:jtds:sqlserver://spmdb:1433/gui");
 		dsHandle.setProperty("odaUser", "sa");
 		dsHandle.setProperty("odaPassword", "sa");
@@ -99,12 +96,9 @@ public class Sample2 {
 		OdaDataSetHandle dsHandle = designFactory.newOdaDataSet("ds",
 				"org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet");
 		dsHandle.setDataSource("Data Source");
-		dsHandle.setQueryText("Select \"Transaction\".trans_id,"
-				+ "\"Transaction\".trans_amt," + "Trans_desc.trans_ty,"
-				+ "Account.account_nm," + "\"Transaction\".trand_dt,"
-				+ "\"Transaction\".account_id"
-				+ "FROM \"Transaction\" , Trans_desc , Account"
-				+ "Where\"Transaction\".account_id = Account.account_id"
+		dsHandle.setQueryText("Select \"Transaction\".trans_id," + "\"Transaction\".trans_amt," + "Trans_desc.trans_ty,"
+				+ "Account.account_nm," + "\"Transaction\".trand_dt," + "\"Transaction\".account_id"
+				+ "FROM \"Transaction\" , Trans_desc , Account" + "Where\"Transaction\".account_id = Account.account_id"
 				+ "and \"Transaction\".trans_cd = Trans_desc.trans_cd)");
 
 		designHandle.getDataSets().add(dsHandle);
@@ -177,8 +171,7 @@ public class Sample2 {
 	public byte[] load(String fileName) throws IOException {
 		InputStream is = null;
 
-		is = new BufferedInputStream(this.getClass().getResourceAsStream(
-				fileName));
+		is = new BufferedInputStream(this.getClass().getResourceAsStream(fileName));
 		byte data[] = null;
 		if (is != null) {
 			try {
@@ -199,8 +192,7 @@ public class Sample2 {
 		designHandle.includeLibrary("library", "library");
 		// Extends label in library
 		LabelHandle label = (LabelHandle) libraryHandle.findElement("label");
-		LabelHandle r_label = (LabelHandle) designFactory.newElementFrom(label,
-				"report_label");
+		LabelHandle r_label = (LabelHandle) designFactory.newElementFrom(label, "report_label");
 		r_label.setProperty("fontSize", "x-large");
 		r_label.setProperty("fontWeight", "bold");
 		r_label.setProperty("marginBottom", "0.5cm");
@@ -308,15 +300,13 @@ public class Sample2 {
 		// Add a data to cell 4 in table detail
 		cell = (CellHandle) tabledetail.getCells().get(4);
 		data = designFactory.newDataItem("data");
-		data.setValueExpr("if (row[\"trans_amt\"]>=0)" + "row[\"trans_amt\"];"
-				+ "else null");
+		data.setValueExpr("if (row[\"trans_amt\"]>=0)" + "row[\"trans_amt\"];" + "else null");
 		cell.getContent().add(data);
 
 		// Add a data to cell 5 in table detail
 		cell = (CellHandle) tabledetail.getCells().get(5);
 		data = designFactory.newDataItem("data");
-		data.setValueExpr("if (row[\"trans_amt\"]&lt;=0)"
-				+ "row[\"trans_amt\"];" + "else null;");
+		data.setValueExpr("if (row[\"trans_amt\"]&lt;=0)" + "row[\"trans_amt\"];" + "else null;");
 		cell.getContent().add(data);
 
 		// Add a data to cell 6 in table detail
@@ -434,8 +424,7 @@ public class Sample2 {
 		group2.setIntervalRange(1.0);
 		group2.setSortDirection("asc");
 		group2.setKeyExpr("row[\"trand_dt\"]");
-		group2.setTocExpression("Year:" + " "
-				+ "row[\"trand_dt\"].getFullYear()");
+		group2.setTocExpression("Year:" + " " + "row[\"trand_dt\"].getFullYear()");
 
 		// Group2 header
 		RowHandle groupheader2 = (RowHandle) group2.getHeader().get(0);
@@ -564,8 +553,7 @@ public class Sample2 {
 		group3.setIntervalRange(1.0);
 		group3.setSortDirection("asc");
 		group3.setKeyExpr("row[\"trand_dt\"]");
-		group3.setTocExpression("Month:" + " "
-				+ "(row[\"trand_dt\"].getMonth()+1)");
+		group3.setTocExpression("Month:" + " " + "(row[\"trand_dt\"].getMonth()+1)");
 
 		SortKey sort = structFactory.createSortKey();
 		sort.setKey("row[\"trand_dt\"].getMonth()");
@@ -790,8 +778,7 @@ public class Sample2 {
 		data.setStyleName("TransactionType");
 		data.setValueExpr("Total.sum(row[\"trans_amt\"])");
 
-		SlotHandle groups = ((TableHandle) designHandle.findElement("table"))
-				.getGroups();
+		SlotHandle groups = ((TableHandle) designHandle.findElement("table")).getGroups();
 		groups.add(group1);
 		groups.add(group2);
 		groups.add(group3);
@@ -817,40 +804,35 @@ public class Sample2 {
 		// style "year"
 		SharedStyleHandle year = libraryFactory.newStyle("year");
 		year.setDateTimeFormat("yyyy");
-		year
-				.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+		year.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
 
 		// style "Month"
 		SharedStyleHandle month = libraryFactory.newStyle("month");
 		month.setDateTimeFormat("MM");
-		month
-				.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+		month.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
 
 		// style "day"
 		SharedStyleHandle day = libraryFactory.newStyle("day");
 		day.setDateTimeFormat("dd");
-		day
-				.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
+		day.setDateTimeFormatCategory(DesignChoiceConstants.DATETIEM_FORMAT_TYPE_CUSTOM);
 
 		// style "TransactionType"
-		SharedStyleHandle transaction = libraryFactory
-				.newStyle("TransactionType");
+		SharedStyleHandle transaction = libraryFactory.newStyle("TransactionType");
 
 		MapRule map1 = structFactory.createMapRule();
-		SimpleValueHandle value1 = (SimpleValueHandle) map1.getProperty(
-				libraryHandle.getModule(), MapRule.DISPLAY_MEMBER);
+		SimpleValueHandle value1 = (SimpleValueHandle) map1.getProperty(libraryHandle.getModule(),
+				MapRule.DISPLAY_MEMBER);
 		MapRuleHandle maprule1 = (MapRuleHandle) map1.getHandle(value1);
 		maprule1.setTestExpression("row[\"trans_amt\"]");
 		maprule1.setOperator(DesignChoiceConstants.MAP_OPERATOR_LT);
 		maprule1.setValue1("0");
 		maprule1.setDisplay("D");
-		PropertyHandle prophandle = transaction
-				.getPropertyHandle(SharedStyleHandle.MAP_RULES_PROP);
+		PropertyHandle prophandle = transaction.getPropertyHandle(SharedStyleHandle.MAP_RULES_PROP);
 		prophandle.addItem(maprule1);
 
 		MapRule map2 = structFactory.createMapRule();
-		SimpleValueHandle value2 = (SimpleValueHandle) map2.getProperty(
-				libraryHandle.getModule(), MapRule.DISPLAY_MEMBER);
+		SimpleValueHandle value2 = (SimpleValueHandle) map2.getProperty(libraryHandle.getModule(),
+				MapRule.DISPLAY_MEMBER);
 		MapRuleHandle maprule2 = (MapRuleHandle) map1.getHandle(value2);
 		maprule2.setTestExpression("row[\"trans_amt\"]");
 		maprule2.setOperator(DesignChoiceConstants.MAP_OPERATOR_GE);

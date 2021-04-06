@@ -23,49 +23,45 @@ import java.util.Collection;
  * column count defined in column define).
  * 
  */
-public class GridItemDesign extends ReportItemDesign
-{
+public class GridItemDesign extends ReportItemDesign {
 
 	/**
 	 * grid caption
 	 */
 	protected String caption;
-	
+
 	/*
 	 * grid caption resource key
 	 */
 	protected String captionKey;
-	
+
 	/*
 	 * grid summary
 	 */
 	protected String summary;
-	
+
 	/**
 	 * column defines. the item type is Column.
 	 */
-	protected ArrayList<ColumnDesign> columns = new ArrayList<ColumnDesign>( );
+	protected ArrayList<ColumnDesign> columns = new ArrayList<ColumnDesign>();
 	/**
 	 * rows. the item type is Row.
 	 * 
 	 * @see RowDesign
 	 */
-	protected ArrayList<RowDesign> rows = new ArrayList<RowDesign>( );
+	protected ArrayList<RowDesign> rows = new ArrayList<RowDesign>();
 
 	/**
 	 * add column into the column define.
 	 * 
-	 * @param column
-	 *            column to be added.
+	 * @param column column to be added.
 	 */
-	public void addColumn( ColumnDesign column )
-	{
-		assert ( column != null );
-		this.columns.add( column );
+	public void addColumn(ColumnDesign column) {
+		assert (column != null);
+		this.columns.add(column);
 	}
 
-	public Collection<ColumnDesign> getColumns( )
-	{
+	public Collection<ColumnDesign> getColumns() {
 		return columns;
 	}
 
@@ -74,23 +70,20 @@ public class GridItemDesign extends ReportItemDesign
 	 * 
 	 * @return count of the column.
 	 */
-	public int getColumnCount( )
-	{
-		return this.columns.size( );
+	public int getColumnCount() {
+		return this.columns.size();
 	}
 
 	/**
-	 * get column defines. the index is not the order of addColumn. It is the
-	 * actual column defines(repeated by colum.repeat).
+	 * get column defines. the index is not the order of addColumn. It is the actual
+	 * column defines(repeated by colum.repeat).
 	 * 
-	 * @param index
-	 *            index of the column.
+	 * @param index index of the column.
 	 * @return column define.
 	 */
-	public ColumnDesign getColumn( int index )
-	{
-		assert ( index >= 0 && index < this.columns.size( ) );
-		return (ColumnDesign) this.columns.get( index );
+	public ColumnDesign getColumn(int index) {
+		assert (index >= 0 && index < this.columns.size());
+		return (ColumnDesign) this.columns.get(index);
 	}
 
 	/**
@@ -98,14 +91,12 @@ public class GridItemDesign extends ReportItemDesign
 	 * 
 	 * @param row
 	 */
-	public void addRow( RowDesign row )
-	{
-		assert ( row != null );
-		this.rows.add( row );
+	public void addRow(RowDesign row) {
+		assert (row != null);
+		this.rows.add(row);
 	}
 
-	public Collection<RowDesign> getRows( )
-	{
+	public Collection<RowDesign> getRows() {
 		return rows;
 	}
 
@@ -114,83 +105,73 @@ public class GridItemDesign extends ReportItemDesign
 	 * 
 	 * @return row number
 	 */
-	public int getRowCount( )
-	{
-		return this.rows.size( );
+	public int getRowCount() {
+		return this.rows.size();
 	}
 
 	/**
 	 * get the row.
 	 * 
-	 * @param index
-	 *            index of the row.
+	 * @param index index of the row.
 	 * @return row.
 	 */
-	public RowDesign getRow( int index )
-	{
-		assert ( index >= 0 && index < rows.size( ) );
-		return (RowDesign) this.rows.get( index );
+	public RowDesign getRow(int index) {
+		assert (index >= 0 && index < rows.size());
+		return (RowDesign) this.rows.get(index);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
+	 * @see
+	 * org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.report.
+	 * engine.ir.ReportItemVisitor)
 	 */
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
-		return visitor.visitGridItem( this, value);
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitGridItem(this, value);
 	}
-	
+
 	/**
 	 * set grid caption
-	 *  
-	 * @param captionKey
-	 *            resource key
-	 * @param caption
-	 *            caption
+	 * 
+	 * @param captionKey resource key
+	 * @param caption    caption
 	 */
-	public void setCaption(String captionKey,String caption)
-	{
+	public void setCaption(String captionKey, String caption) {
 		this.captionKey = captionKey;
 		this.caption = caption;
-		
+
 	}
-	
+
 	/**
 	 * @returns Return grid caption
 	 */
-	public String getCaption()
-	{
+	public String getCaption() {
 		return caption;
 	}
-	
+
 	/**
 	 * @returns Return grid captionKey
 	 */
-	public String getCaptionKey()
-	{
+	public String getCaptionKey() {
 		return captionKey;
 	}
-	
+
 	/**
 	 * set grid summary
 	 * 
-	 * @param summary
-	 * 	          summary
+	 * @param summary summary
 	 */
-	public void setSummary(String summary)
-	{
+	public void setSummary(String summary) {
 		this.summary = summary;
 	}
-	
+
 	/**
 	 * get grid summary
 	 * 
 	 * @returns Return grid summary
 	 */
-	public String getSummary()
-	{
+	public String getSummary() {
 		return summary;
 	}
 }

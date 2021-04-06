@@ -15,17 +15,14 @@ package org.eclipse.birt.report.service.api;
  * Exception thrown by the report service
  * 
  */
-public class ReportServiceException extends Exception
-{
-    private static final long serialVersionUID = 1L;
+public class ReportServiceException extends Exception {
+	private static final long serialVersionUID = 1L;
 
-    public ReportServiceException( String message )
-    {
-        super( message );
-    }
+	public ReportServiceException(String message) {
+		super(message);
+	}
 
-    public ReportServiceException( String message, Throwable e )
-    {
-        super( message , e );
-    }
+	public ReportServiceException(String message, Throwable e) {
+		super(message, e);
+	}
 }

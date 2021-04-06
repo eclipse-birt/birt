@@ -34,21 +34,17 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class StringUtilTest extends BaseTestCase
-{
-
+public class StringUtilTest extends BaseTestCase {
 
 	/**
 	 * Tests <code>doubleToString(double d, int fNumber, ULocale locale)</code>.
 	 */
 
-	public void testDoubleToString( )
-	{
-		assertEquals(
-				"123456,789", StringUtil.doubleToString( 123456.7890123, 3,ULocale.FRANCE ) ); //$NON-NLS-1$
-		
+	public void testDoubleToString() {
+		assertEquals("123456,789", StringUtil.doubleToString(123456.7890123, 3, ULocale.FRANCE)); //$NON-NLS-1$
+
 		// test the E-expo format double
-		assertEquals( "123456,7", StringUtil.doubleToString( 123.4567E3, 3,ULocale.FRANCE ) ); //$NON-NLS-1$
+		assertEquals("123456,7", StringUtil.doubleToString(123.4567E3, 3, ULocale.FRANCE)); //$NON-NLS-1$
 	}
 
 }

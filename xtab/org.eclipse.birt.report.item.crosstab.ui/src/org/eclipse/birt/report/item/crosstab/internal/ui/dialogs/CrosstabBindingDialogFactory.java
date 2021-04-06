@@ -19,23 +19,18 @@ import org.eclipse.core.runtime.IAdapterFactory;
  * 
  */
 
-public class CrosstabBindingDialogFactory implements IAdapterFactory
-{
+public class CrosstabBindingDialogFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( adapterType == IBindingDialogHelper.class
-				&& adaptableObject instanceof ExtendedItemHandle
-				&& ( (ExtendedItemHandle) adaptableObject ).getDefn( ).getName( )
-						.equals( "Crosstab" ) ) //$NON-NLS-1$
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adapterType == IBindingDialogHelper.class && adaptableObject instanceof ExtendedItemHandle
+				&& ((ExtendedItemHandle) adaptableObject).getDefn().getName().equals("Crosstab")) //$NON-NLS-1$
 		{
-			return new CrosstabBindingDialogHelper( );
+			return new CrosstabBindingDialogHelper();
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
+	public Class[] getAdapterList() {
 		// TODO Auto-generated method stub
 		return null;
 	}

@@ -28,12 +28,11 @@ import org.mozilla.javascript.ScriptableObject;
 /**
  * 
  */
-public class JSDummyRowObject extends ScriptableObject
-{
+public class JSDummyRowObject extends ScriptableObject {
 	private ExprManager exprManager;
 	private Scriptable scope;
 	private Scriptable parent;
-	
+
 	private Map valueCacheMap;
 	private ScriptContext cx;
 	/** */
@@ -43,61 +42,49 @@ public class JSDummyRowObject extends ScriptableObject
 	 * @param exprManager
 	 * @param scope
 	 */
-	public JSDummyRowObject( ExprManager exprManager, Scriptable scope,
-			Scriptable parent, ScriptContext cx )
-	{
+	public JSDummyRowObject(ExprManager exprManager, Scriptable scope, Scriptable parent, ScriptContext cx) {
 		this.exprManager = exprManager;
 		this.scope = scope;
 		this.parent = parent;
 		this.cx = cx;
-		this.valueCacheMap = new HashMap( );
+		this.valueCacheMap = new HashMap();
 	}
 
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
-	public String getClassName( )
-	{
+	public String getClassName() {
 		return "row";
 	}
 
 	/*
 	 * @see org.mozilla.javascript.ScriptableObject#get(java.lang.String,
-	 *      org.mozilla.javascript.Scriptable)
+	 * org.mozilla.javascript.Scriptable)
 	 */
-	public Object get( String name, Scriptable start )
-	{
-		if ( ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase( name ) )
-		{
-			if ( parent == null )
-			{
-				throw Context.reportRuntimeError( DataResourceHandle.getInstance( ).getMessage( ResourceConstants.NO_OUTER_RESULTS_EXIST ) );
-			}
-			else
-			{
+	public Object get(String name, Scriptable start) {
+		if (ScriptConstants.OUTER_RESULT_KEYWORD.equalsIgnoreCase(name)) {
+			if (parent == null) {
+				throw Context.reportRuntimeError(
+						DataResourceHandle.getInstance().getMessage(ResourceConstants.NO_OUTER_RESULTS_EXIST));
+			} else {
 				return parent;
 			}
 		}
-		
-		if ( valueCacheMap.containsKey( name ) )
-			return valueCacheMap.get( name );
 
-		try
-		{
-			IBaseExpression baseExpr = exprManager.getExpr( name );
-		
-			Object value = ExprEvaluateUtil.evaluateRawExpression( baseExpr,
-					scope, cx );
-			Object obValue = JavascriptEvalUtil.convertToJavascriptValue( value,
-					scope );
-			valueCacheMap.put( name, obValue );
+		if (valueCacheMap.containsKey(name))
+			return valueCacheMap.get(name);
+
+		try {
+			IBaseExpression baseExpr = exprManager.getExpr(name);
+
+			Object value = ExprEvaluateUtil.evaluateRawExpression(baseExpr, scope, cx);
+			Object obValue = JavascriptEvalUtil.convertToJavascriptValue(value, scope);
+			valueCacheMap.put(name, obValue);
 
 			return obValue;
-		}
-		catch ( BirtException e )
-		{
+		} catch (BirtException e) {
 			return null;
 		}
 	}
-	
+
 }

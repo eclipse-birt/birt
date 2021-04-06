@@ -26,44 +26,38 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
  * The action to create a new report template
  */
 
-public class NewReportTemplateAction extends Action implements IWorkbenchAction
-{
+public class NewReportTemplateAction extends Action implements IWorkbenchAction {
 
 	private IWorkbenchWindow fWindow;
 
-	public NewReportTemplateAction( IWorkbenchWindow window )
-	{
-		init( window );
-		setId( "org.eclipse.birt.report.designer.rcp.internal.ui.actions.NewReportTemplateAction" ); //$NON-NLS-1$
-		setText( DesignerWorkbenchMessages.Action_newTemplate );
-		setToolTipText( DesignerWorkbenchMessages.Action_newTemplate );
+	public NewReportTemplateAction(IWorkbenchWindow window) {
+		init(window);
+		setId("org.eclipse.birt.report.designer.rcp.internal.ui.actions.NewReportTemplateAction"); //$NON-NLS-1$
+		setText(DesignerWorkbenchMessages.Action_newTemplate);
+		setToolTipText(DesignerWorkbenchMessages.Action_newTemplate);
 	}
 
 	/*
-	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.IWorkbenchWindow)
+	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
+	 * IWorkbenchWindow)
 	 */
-	public void init( IWorkbenchWindow window )
-	{
-		if ( window == null )
-		{
-			throw new IllegalArgumentException( );
+	public void init(IWorkbenchWindow window) {
+		if (window == null) {
+			throw new IllegalArgumentException();
 		}
 		fWindow = window;
 	}
 
-	public void run( )
-	{
-		Dialog dialog = new BaseWizardDialog( fWindow.getShell( ),
-				new NewReportTemplateWizard( ) );
-		dialog.open( );
+	public void run() {
+		Dialog dialog = new BaseWizardDialog(fWindow.getShell(), new NewReportTemplateWizard());
+		dialog.open();
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 		fWindow = null;
 	}
-	
-	public ImageDescriptor getImageDescriptor( ){
-		return ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_NEW_TEMPLATE );
+
+	public ImageDescriptor getImageDescriptor() {
+		return ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_NEW_TEMPLATE);
 	}
 }

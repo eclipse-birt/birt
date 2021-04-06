@@ -18,56 +18,47 @@ import org.eclipse.birt.data.engine.executor.transform.ResultSetPopulator;
 import org.eclipse.birt.data.engine.executor.transform.group.IncrementalUpdateRowFilter;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
-public class NoUpdateFilterByRow implements IFilterByRow
-{
+public class NoUpdateFilterByRow implements IFilterByRow {
 
 	private IncrementalUpdateRowFilter rowFilter;
 	private IFilterByRow filterByRow;
 	private boolean updateGroupInfo;
 
-	public NoUpdateFilterByRow( IFilterByRow filterByRow,
-			ResultSetPopulator populator ) throws DataException
-	{
+	public NoUpdateFilterByRow(IFilterByRow filterByRow, ResultSetPopulator populator) throws DataException {
 		this.filterByRow = filterByRow;
-		this.filterByRow.setWorkingFilterSet( FilterByRow.NOUPDATE_ROW_FILTER );
-		this.rowFilter = new IncrementalUpdateRowFilter( populator );
+		this.filterByRow.setWorkingFilterSet(FilterByRow.NOUPDATE_ROW_FILTER);
+		this.rowFilter = new IncrementalUpdateRowFilter(populator);
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.impl.FilterByRow#process(org.eclipse.birt
+	 * @see org.eclipse.birt.data.engine.impl.FilterByRow#process(org.eclipse.birt
 	 * .data.engine.odi.IResultObject, int)
 	 */
-	public boolean process( IResultObject row, int rowIndex )
-			throws DataException
-	{
-		boolean accepted = filterByRow.process( row, rowIndex );
+	public boolean process(IResultObject row, int rowIndex) throws DataException {
+		boolean accepted = filterByRow.process(row, rowIndex);
 
-		if ( updateGroupInfo )
-		{
-			if ( accepted )
-				rowFilter.onGroup( rowIndex );
+		if (updateGroupInfo) {
+			if (accepted)
+				rowFilter.onGroup(rowIndex);
 			else
-				rowFilter.notOnGroup( rowIndex );
+				rowFilter.notOnGroup(rowIndex);
 		}
 
 		return accepted;
 	}
 
-	public void setUpdateGroupInfo( boolean updateGroup )
-	{
+	public void setUpdateGroupInfo(boolean updateGroup) {
 		this.updateGroupInfo = updateGroup;
 	}
 
-	public void close( ) throws DataException
-	{
-		filterByRow.setWorkingFilterSet( FilterByRow.NO_FILTER );
-		filterByRow.close( );
+	public void close() throws DataException {
+		filterByRow.setWorkingFilterSet(FilterByRow.NO_FILTER);
+		filterByRow.close();
 		filterByRow = null;
-		rowFilter.close( );
+		rowFilter.close();
 		rowFilter = null;
 	}
 
@@ -76,19 +67,16 @@ public class NoUpdateFilterByRow implements IFilterByRow
 	 * 
 	 * @see org.eclipse.birt.data.engine.impl.IFilterByRow#getFilterList()
 	 */
-	public List<IFilterDefinition> getFilterList( ) throws DataException
-	{
-		return filterByRow.getFilterList( );
+	public List<IFilterDefinition> getFilterList() throws DataException {
+		return filterByRow.getFilterList();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.impl.IFilterByRow#setWorkingFilterSet(int)
+	 * @see org.eclipse.birt.data.engine.impl.IFilterByRow#setWorkingFilterSet(int)
 	 */
-	public void setWorkingFilterSet( int filterSetType ) throws DataException
-	{
-		filterByRow.setWorkingFilterSet( filterSetType );
+	public void setWorkingFilterSet(int filterSetType) throws DataException {
+		filterByRow.setWorkingFilterSet(filterSetType);
 	}
 }

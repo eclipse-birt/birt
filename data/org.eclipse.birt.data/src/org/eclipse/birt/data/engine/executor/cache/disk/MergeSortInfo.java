@@ -12,15 +12,13 @@ package org.eclipse.birt.data.engine.executor.cache.disk;
 
 /**
  * Store sort info of once merge sort. In once merge sort, following information
- * is needed to be exported.
- * 1: how many data will be put into the merge result 
+ * is needed to be exported. 1: how many data will be put into the merge result
  * 2: how many data is used in every array
  */
-class MergeSortInfo
-{
+class MergeSortInfo {
 	// the count of data which will is put into merge result
 	private int dataCountOfTotal;
-	
+
 	// the count of every array which is put into merge result
 	private int dataCountOfUnit[];
 
@@ -30,8 +28,7 @@ class MergeSortInfo
 	 * @param dataCountOfTotal
 	 * @param dataCountOfUnit
 	 */
-	MergeSortInfo( int dataCountOfTotal, int[] dataCountOfUnit )
-	{
+	MergeSortInfo(int dataCountOfTotal, int[] dataCountOfUnit) {
 		this.dataCountOfTotal = dataCountOfTotal;
 		this.dataCountOfUnit = dataCountOfUnit;
 	}
@@ -39,19 +36,16 @@ class MergeSortInfo
 	/**
 	 * @return the data count of merged result
 	 */
-	int getDataCountOfTotal( )
-	{
+	int getDataCountOfTotal() {
 		return dataCountOfTotal;
 	}
 
 	/**
-	 * @param unit
-	 *            index
+	 * @param unit index
 	 * @return the data count of specified array
 	 */
-	int getDataCountOfUnit( int index )
-	{
+	int getDataCountOfUnit(int index) {
 		return dataCountOfUnit[index];
 	}
-	
+
 }

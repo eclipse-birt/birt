@@ -21,8 +21,7 @@ import java.util.Enumeration;
 import org.eclipse.birt.core.framework.IBundle;
 import org.eclipse.core.runtime.IContributor;
 
-public class Bundle implements IBundle
-{
+public class Bundle implements IBundle {
 
 	protected ServicePlatform platform;
 	protected URL root;
@@ -31,46 +30,37 @@ public class Bundle implements IBundle
 	protected Extension[] extensions;
 	protected ExtensionPoint[] extensionPoints;
 	protected String stateLocation;
-	static final Extension[] EMPTY_EXTENSIONS = new Extension[]{};
-	static final ExtensionPoint[] EMPTY_EXTENSION_POINTS = new ExtensionPoint[]{};
+	static final Extension[] EMPTY_EXTENSIONS = new Extension[] {};
+	static final ExtensionPoint[] EMPTY_EXTENSION_POINTS = new ExtensionPoint[] {};
 
-	Bundle( ServicePlatform platform, URL root, String name )
-	{
+	Bundle(ServicePlatform platform, URL root, String name) {
 		this.platform = platform;
 		this.root = root;
-		this.contributor = new Contributor( name );
+		this.contributor = new Contributor(name);
 	}
 
-	public String getSymbolicName( )
-	{
-		return contributor.getName( );
+	public String getSymbolicName() {
+		return contributor.getName();
 	}
 
-	public IContributor getContributor( )
-	{
+	public IContributor getContributor() {
 		return contributor;
 	}
 
-	public String getVersion( )
-	{
+	public String getVersion() {
 		return version;
 	}
 
-	public URL getEntry( String path )
-	{
-		try
-		{
-			return new URL( root, path );
-		}
-		catch ( MalformedURLException ex )
-		{
+	public URL getEntry(String path) {
+		try {
+			return new URL(root, path);
+		} catch (MalformedURLException ex) {
 			return null;
 		}
 	}
 
-	public Enumeration<URL> getEntryPaths( String path )
-	{
-		ArrayList<URL> urls = new ArrayList<URL>( );
+	public Enumeration<URL> getEntryPaths(String path) {
+		ArrayList<URL> urls = new ArrayList<URL>();
 
 		// try
 		// {
@@ -81,54 +71,45 @@ public class Bundle implements IBundle
 		// return null;
 		// }
 
-		return Collections.enumeration( urls );
+		return Collections.enumeration(urls);
 	}
 
-	Extension[] getExtensions( )
-	{
-		if ( extensions == null )
-		{
+	Extension[] getExtensions() {
+		if (extensions == null) {
 			return EMPTY_EXTENSIONS;
 		}
 		return extensions;
 	}
 
-	ExtensionPoint[] getExtensionPoints( )
-	{
-		if ( extensionPoints == null )
-		{
+	ExtensionPoint[] getExtensionPoints() {
+		if (extensionPoints == null) {
 			return EMPTY_EXTENSION_POINTS;
 		}
 		return extensionPoints;
 	}
 
-	public String toString( )
-	{
-		StringBuilder sb = new StringBuilder( );
-		sb.append( contributor.getName( ) );
-		sb.append( "@" );
-		sb.append( root.toString( ) );
-		return sb.toString( );
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		sb.append(contributor.getName());
+		sb.append("@");
+		sb.append(root.toString());
+		return sb.toString();
 	}
 
-	public Class loadClass( String name ) throws ClassNotFoundException
-	{
-		return this.getClass( ).getClassLoader( ).loadClass( name );
+	public Class loadClass(String name) throws ClassNotFoundException {
+		return this.getClass().getClassLoader().loadClass(name);
 	}
 
-	public synchronized String getStateLocation( )
-	{
-		if ( stateLocation == null )
-		{
-			File workspace = platform.getWorkspace( );
-			String folderName = getSymbolicName( );
-			if ( folderName == null )
-			{
-				folderName = String.valueOf( this.hashCode( ) );
+	public synchronized String getStateLocation() {
+		if (stateLocation == null) {
+			File workspace = platform.getWorkspace();
+			String folderName = getSymbolicName();
+			if (folderName == null) {
+				folderName = String.valueOf(this.hashCode());
 			}
-			File state = new File( workspace, folderName );
-			state.mkdirs( );
-			stateLocation = state.getAbsolutePath( );
+			File state = new File(workspace, folderName);
+			state.mkdirs();
+			stateLocation = state.getAbsolutePath();
 		}
 		return stateLocation;
 	}

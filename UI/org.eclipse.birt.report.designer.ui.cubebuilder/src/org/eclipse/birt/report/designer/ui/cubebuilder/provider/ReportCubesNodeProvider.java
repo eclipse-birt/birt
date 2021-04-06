@@ -24,34 +24,27 @@ import org.eclipse.jface.viewers.TreeViewer;
  * 
  * 
  */
-public class ReportCubesNodeProvider extends ReportDesignNodeProvider
-{
+public class ReportCubesNodeProvider extends ReportDesignNodeProvider {
 
 	/**
-	 * Gets the children of the given model. The default children element
-	 * include following: Body,Styles,MasterPage
+	 * Gets the children of the given model. The default children element include
+	 * following: Body,Styles,MasterPage
 	 * 
-	 * @param model
-	 *            the given report design
+	 * @param model the given report design
 	 * @return the result list that contains the model
 	 */
-	public Object[] getChildren( Object model )
-	{
+	public Object[] getChildren(Object model) {
 
 		// Report design may not be the current, use model to get.
-		ReportDesignHandle handle = ( (ReportDesignHandle) model );
-		ArrayList list = new ArrayList( );
+		ReportDesignHandle handle = ((ReportDesignHandle) model);
+		ArrayList list = new ArrayList();
 
-		list.add( handle.getCubes( )  );
+		list.add(handle.getCubes());
 
-		return list.toArray( );
+		return list.toArray();
 	}
 
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 	}
-	
-	
 
 }

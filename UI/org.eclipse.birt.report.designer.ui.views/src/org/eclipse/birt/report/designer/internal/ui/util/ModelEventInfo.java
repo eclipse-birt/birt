@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.api.activity.NotificationEvent;
  * 
  *
  */
-public class ModelEventInfo
-{
+public class ModelEventInfo {
 
 	private DesignElementHandle focus;
 	private NotificationEvent ev;
@@ -28,8 +27,7 @@ public class ModelEventInfo
 	 * @param focus
 	 * @param ev
 	 */
-	public ModelEventInfo( DesignElementHandle focus, NotificationEvent ev )
-	{
+	public ModelEventInfo(DesignElementHandle focus, NotificationEvent ev) {
 		this.focus = focus;
 		this.ev = ev;
 	}
@@ -37,16 +35,14 @@ public class ModelEventInfo
 	/**
 	 * @return
 	 */
-	public DesignElementHandle getTarget( )
-	{
+	public DesignElementHandle getTarget() {
 		return focus;
 	}
 
 	/**
 	 * @return
 	 */
-	public NotificationEvent getEvent( )
-	{
+	public NotificationEvent getEvent() {
 		return ev;
 	}
 

@@ -19,18 +19,17 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
  * List box parameter.
  *
  */
-public class ListBoxParam extends ListingParam
-{
+public class ListBoxParam extends ListingParam {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param handle
 	 * @param engineTask
 	 */
-	
-	public ListBoxParam( ScalarParameterHandle handle , IEngineTask engineTask )
-	{
-		super( handle , engineTask );
+
+	public ListBoxParam(ScalarParameterHandle handle, IEngineTask engineTask) {
+		super(handle, engineTask);
 	}
 
 }

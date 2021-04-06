@@ -20,20 +20,19 @@ import java.util.ResourceBundle;
 /**
  * This class deals with the translation with the given key.
  */
-public class CoreMessages
-{
+public class CoreMessages {
 
 	/** The resource bundle name. */
 	private static final String BUNDLE_NAME = "org.eclipse.birt.core.i18n.Messages"; //$NON-NLS-1$
 
 	/** The resource bundle. */
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
-	private static Map<Locale, ResourceBundle> localeToBundle = new HashMap<Locale, ResourceBundle>( );
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
+	private static Map<Locale, ResourceBundle> localeToBundle = new HashMap<Locale, ResourceBundle>();
+
 	/**
 	 * Constructor of this class.
 	 */
-	private CoreMessages( )
-	{
+	private CoreMessages() {
 		// This is private constructor.
 	}
 
@@ -42,8 +41,7 @@ public class CoreMessages
 	 * 
 	 * @return the resource bundle.
 	 */
-	public static ResourceBundle getReportResourceBundle( )
-	{
+	public static ResourceBundle getReportResourceBundle() {
 		return RESOURCE_BUNDLE;
 	}
 
@@ -52,16 +50,13 @@ public class CoreMessages
 	 * 
 	 * @return the resource bundle.
 	 */
-	public static ResourceBundle getReportResourceBundle( Locale locale )
-	{
-		ResourceBundle bundle = getReportResourceBundle( );
-		if ( locale != null )
-		{
-			bundle = localeToBundle.get( locale );
-			if ( bundle == null )
-			{
-				bundle = ResourceBundle.getBundle( BUNDLE_NAME, locale );
-				localeToBundle.put( locale, bundle );
+	public static ResourceBundle getReportResourceBundle(Locale locale) {
+		ResourceBundle bundle = getReportResourceBundle();
+		if (locale != null) {
+			bundle = localeToBundle.get(locale);
+			if (bundle == null) {
+				bundle = ResourceBundle.getBundle(BUNDLE_NAME, locale);
+				localeToBundle.put(locale, bundle);
 			}
 		}
 		return bundle == null ? RESOURCE_BUNDLE : bundle;
@@ -70,32 +65,25 @@ public class CoreMessages
 	/**
 	 * Returns common translation for current local.
 	 * 
-	 * @param key
-	 *            the key to translate.
+	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
 
-	public static String getString( String key )
-	{
-		return getString( key, Locale.getDefault( ) );
+	public static String getString(String key) {
+		return getString(key, Locale.getDefault());
 	}
 
 	/**
 	 * Returns common translation for current local.
 	 * 
-	 * @param key
-	 *            the key to translate.
+	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
-	public static String getString( String key, Locale locale )
-	{
-		try
-		{
-			String result = getReportResourceBundle( locale ).getString( key );
+	public static String getString(String key, Locale locale) {
+		try {
+			String result = getReportResourceBundle(locale).getString(key);
 			return result;
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			assert false;
 			return key;
 		}
@@ -104,25 +92,20 @@ public class CoreMessages
 	/**
 	 * Returns formatted translation for current local.
 	 * 
-	 * @param key
-	 *            the key to translate.
+	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
-	public static String getFormattedString( String key, Object... arguments )
-	{
-		return getFormattedString( key, arguments, Locale.getDefault( ) );
+	public static String getFormattedString(String key, Object... arguments) {
+		return getFormattedString(key, arguments, Locale.getDefault());
 	}
 
 	/**
 	 * Returns formatted translation for current local.
 	 * 
-	 * @param key
-	 *            the key to translate.
+	 * @param key the key to translate.
 	 * @return translated value string.
 	 */
-	public static String getFormattedString( String key, Object[] arguments,
-			Locale locale )
-	{
-		return MessageFormat.format( getString( key, locale ), arguments );
+	public static String getFormattedString(String key, Object[] arguments, Locale locale) {
+		return MessageFormat.format(getString(key, locale), arguments);
 	}
 }

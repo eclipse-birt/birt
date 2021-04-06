@@ -28,8 +28,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IReportItemModel;
  * Static CRUD hiderule method.
  * 
  */
-public class HideRuleMethodUtil
-{
+public class HideRuleMethodUtil {
 
 	/**
 	 * Gets all hide rules.
@@ -38,22 +37,19 @@ public class HideRuleMethodUtil
 	 * @return hide rules
 	 */
 
-	public static IHideRule[] getHideRules( DesignElementHandle handle )
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		Iterator iterator = propHandle.iterator( );
-		List rList = new ArrayList( );
+	public static IHideRule[] getHideRules(DesignElementHandle handle) {
+		PropertyHandle propHandle = handle.getPropertyHandle(IReportItemModel.VISIBILITY_PROP);
+		Iterator iterator = propHandle.iterator();
+		List rList = new ArrayList();
 		int count = 0;
 
-		while ( iterator.hasNext( ) )
-		{
-			HideRuleHandle ruleHandle = (HideRuleHandle) iterator.next( );
-			HideRuleImpl rule = new HideRuleImpl( ruleHandle );
-			rList.add( rule );
+		while (iterator.hasNext()) {
+			HideRuleHandle ruleHandle = (HideRuleHandle) iterator.next();
+			HideRuleImpl rule = new HideRuleImpl(ruleHandle);
+			rList.add(rule);
 			++count;
 		}
-		return (IHideRule[]) rList.toArray( new IHideRule[count] );
+		return (IHideRule[]) rList.toArray(new IHideRule[count]);
 	}
 
 	/**
@@ -63,18 +59,12 @@ public class HideRuleMethodUtil
 	 * @param rule
 	 */
 
-	public static void removeHideRule( DesignElementHandle handle,
-			IHideRule rule ) throws ScriptException
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		try
-		{
-			propHandle.removeItem( rule.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public static void removeHideRule(DesignElementHandle handle, IHideRule rule) throws ScriptException {
+		PropertyHandle propHandle = handle.getPropertyHandle(IReportItemModel.VISIBILITY_PROP);
+		try {
+			propHandle.removeItem(rule.getStructure());
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
@@ -86,21 +76,15 @@ public class HideRuleMethodUtil
 	 * @throws ScriptException
 	 */
 
-	public static void addHideRule( DesignElementHandle handle, IHideRule rule )
-			throws ScriptException
-	{
-		if ( rule == null )
+	public static void addHideRule(DesignElementHandle handle, IHideRule rule) throws ScriptException {
+		if (rule == null)
 			return;
 
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		try
-		{
-			propHandle.addItem( rule.getStructure( ) );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+		PropertyHandle propHandle = handle.getPropertyHandle(IReportItemModel.VISIBILITY_PROP);
+		try {
+			propHandle.addItem(rule.getStructure());
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
@@ -110,18 +94,12 @@ public class HideRuleMethodUtil
 	 * @param handle
 	 */
 
-	public static void removeHideRules( DesignElementHandle handle )
-			throws ScriptException
-	{
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( IReportItemModel.VISIBILITY_PROP );
-		try
-		{
-			propHandle.clearValue( );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public static void removeHideRules(DesignElementHandle handle) throws ScriptException {
+		PropertyHandle propHandle = handle.getPropertyHandle(IReportItemModel.VISIBILITY_PROP);
+		try {
+			propHandle.clearValue();
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 }

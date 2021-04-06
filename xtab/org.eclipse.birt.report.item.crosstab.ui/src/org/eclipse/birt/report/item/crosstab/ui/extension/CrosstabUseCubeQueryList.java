@@ -36,51 +36,38 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
  * CrosstabUseCubeQueryList
  */
 
-public class CrosstabUseCubeQueryList implements IUseCubeQueryList
-{
+public class CrosstabUseCubeQueryList implements IUseCubeQueryList {
 
-	public List getQueryList( String expression, ExtendedItemHandle extendedItem )
-	{
+	public List getQueryList(String expression, ExtendedItemHandle extendedItem) {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle crosstab = null;
 		CubeHandle cube = null;
-		try
-		{
-			Object obj = ( (ExtendedItemHandle) extendedItem ).getReportItem( );
+		try {
+			Object obj = ((ExtendedItemHandle) extendedItem).getReportItem();
 			DesignElementHandle tmp = extendedItem;
 
-			while ( true )
-			{
-				if ( obj == null || obj instanceof ReportDesignHandle )
-				{
+			while (true) {
+				if (obj == null || obj instanceof ReportDesignHandle) {
 					break;
-				}
-				else if ( obj instanceof CrosstabReportItemHandle )
-				{
+				} else if (obj instanceof CrosstabReportItemHandle) {
 					crosstab = (CrosstabReportItemHandle) obj;
-					cube = crosstab.getCube( );
+					cube = crosstab.getCube();
 					break;
-				}
-				else if ( tmp instanceof ExtendedItemHandle )
-				{
-					tmp = tmp.getContainer( );
-					if ( tmp instanceof ExtendedItemHandle )
-					{
-						obj = ( (ExtendedItemHandle) tmp ).getReportItem( );
+				} else if (tmp instanceof ExtendedItemHandle) {
+					tmp = tmp.getContainer();
+					if (tmp instanceof ExtendedItemHandle) {
+						obj = ((ExtendedItemHandle) tmp).getReportItem();
 					}
 				}
 			}
 
-		}
-		catch ( ExtendedElementException e )
-		{
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
 
 		}
 
-		if ( cube == null || expression.length( ) == 0 )
-		{
-			return new ArrayList( );
+		if (cube == null || expression.length() == 0) {
+			return new ArrayList();
 		}
 
 		Iterator iter = null;
@@ -88,37 +75,27 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 		// get cubeQueryDefn
 		ICubeQueryDefinition cubeQueryDefn = null;
 		DataRequestSession session = null;
-		try
-		{
-			session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION, extendedItem.getModuleHandle( )) );
-			DataService.getInstance( ).registerSession( cube, session );
-			cubeQueryDefn = CrosstabUIHelper.createBindingQuery( crosstab );
-			iter = CubeValueSelector.getMemberValueIterator( session,
-					cube,
-					expression,
-					cubeQueryDefn );
-		}
-		catch ( Exception e )
-		{
+		try {
+			session = DataRequestSession.newSession(new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION,
+					extendedItem.getModuleHandle()));
+			DataService.getInstance().registerSession(cube, session);
+			cubeQueryDefn = CrosstabUIHelper.createBindingQuery(crosstab);
+			iter = CubeValueSelector.getMemberValueIterator(session, cube, expression, cubeQueryDefn);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 
 		}
-		List valueList = new ArrayList( );
+		List valueList = new ArrayList();
 		int count = 0;
-		int MAX_COUNT = PreferenceFactory.getInstance( )
-				.getPreferences( CrosstabPlugin.getDefault( ),
-						UIUtil.getCurrentProject( ) )
-				.getInt( CrosstabPlugin.PREFERENCE_FILTER_LIMIT );
-		while ( iter != null && iter.hasNext( ) )
-		{
-			Object obj = iter.next( );
-			if ( obj != null )
-			{
-				if ( valueList.indexOf( obj ) < 0 )
-				{
-					valueList.add( obj );
-					if ( ++count >= MAX_COUNT )
-					{
+		int MAX_COUNT = PreferenceFactory.getInstance()
+				.getPreferences(CrosstabPlugin.getDefault(), UIUtil.getCurrentProject())
+				.getInt(CrosstabPlugin.PREFERENCE_FILTER_LIMIT);
+		while (iter != null && iter.hasNext()) {
+			Object obj = iter.next();
+			if (obj != null) {
+				if (valueList.indexOf(obj) < 0) {
+					valueList.add(obj);
+					if (++count >= MAX_COUNT) {
 						break;
 					}
 				}
@@ -127,9 +104,8 @@ public class CrosstabUseCubeQueryList implements IUseCubeQueryList
 
 		}
 
-		if ( session != null )
-		{
-			session.shutdown( );
+		if (session != null) {
+			session.shutdown();
 		}
 		return valueList;
 

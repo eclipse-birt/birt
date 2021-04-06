@@ -52,10 +52,9 @@ import com.ibm.icu.util.ULocale;
  * methods to GUI requirement SessionHandleAdapter responds to model
  * SessionHandle
  */
-public class SessionHandleAdapter implements IMediatorStateConverter
-{
+public class SessionHandleAdapter implements IMediatorStateConverter {
 
-	private ThreadLocal threadSession = new ThreadLocal( );
+	private ThreadLocal threadSession = new ThreadLocal();
 
 	/**
 	 * @deprecated not used anymore
@@ -76,35 +75,30 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 
 	private int type = DESIGNEFILE;
 
-	private IWindowListener pageListener = new IWindowListener( ) {
+	private IWindowListener pageListener = new IWindowListener() {
 
-		public void windowActivated( IWorkbenchWindow window )
-		{
+		public void windowActivated(IWorkbenchWindow window) {
 		}
 
-		public void windowClosed( IWorkbenchWindow window )
-		{
-			moduleHandleMap.remove( window );
+		public void windowClosed(IWorkbenchWindow window) {
+			moduleHandleMap.remove(window);
 		}
 
-		public void windowDeactivated( IWorkbenchWindow window )
-		{
+		public void windowDeactivated(IWorkbenchWindow window) {
 
 		}
 
-		public void windowOpened( IWorkbenchWindow window )
-		{
+		public void windowOpened(IWorkbenchWindow window) {
 		}
 	};
 
 	// fix bug when open in new window.
-	private Map<IWorkbenchWindow, ModuleHandle> moduleHandleMap = new HashMap<IWorkbenchWindow, ModuleHandle>( );
+	private Map<IWorkbenchWindow, ModuleHandle> moduleHandleMap = new HashMap<IWorkbenchWindow, ModuleHandle>();
 
 	/**
 	 * constructor Mark it to private to avoid new opeartion.
 	 */
-	private SessionHandleAdapter( )
-	{
+	private SessionHandleAdapter() {
 
 	}
 
@@ -115,8 +109,7 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * 
 	 * @deprecated not used any more
 	 */
-	public int getFileType( )
-	{
+	public int getFileType() {
 		return type;
 	}
 
@@ -131,21 +124,18 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * @return return SessionHandleAdapter instance
 	 */
 
-	public synchronized static SessionHandleAdapter getInstance( )
-	{
-		if ( sessionAdapter == null )
-		{
-			sessionAdapter = new SessionHandleAdapter( );
+	public synchronized static SessionHandleAdapter getInstance() {
+		if (sessionAdapter == null) {
+			sessionAdapter = new SessionHandleAdapter();
 		}
 		return sessionAdapter;
 	}
 
-	public SessionHandle getSessionHandle( boolean useThreadLocal )
-	{
-		if ( useThreadLocal )
-			return getThreadLocalSessionHandle( );
+	public SessionHandle getSessionHandle(boolean useThreadLocal) {
+		if (useThreadLocal)
+			return getThreadLocalSessionHandle();
 		else
-			return getSessionHandle( );
+			return getSessionHandle();
 	}
 
 	/**
@@ -154,46 +144,33 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * @return Session handle
 	 */
 
-	public SessionHandle getSessionHandle( )
-	{
-		if ( sessionHandle == null )
-		{
-			sessionHandle = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.getDefault( ) );
-			try
-			{
-				if ( !CorePlugin.isUseNormalTheme( ) )
-				{
-					sessionHandle.setDefaultValue( StyleHandle.COLOR_PROP,
-							DEUtil.getRGBInt( CorePlugin.ReportForeground.getRGB( ) ) );
+	public SessionHandle getSessionHandle() {
+		if (sessionHandle == null) {
+			sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.getDefault());
+			try {
+				if (!CorePlugin.isUseNormalTheme()) {
+					sessionHandle.setDefaultValue(StyleHandle.COLOR_PROP,
+							DEUtil.getRGBInt(CorePlugin.ReportForeground.getRGB()));
 				}
-			}
-			catch ( PropertyValueException e )
-			{
+			} catch (PropertyValueException e) {
 				// do nothing
 			}
 		}
 		return sessionHandle;
 	}
 
-	public SessionHandle getThreadLocalSessionHandle( )
-	{
-		SessionHandle s = (SessionHandle) threadSession.get( );
-		if ( s == null )
-		{
-			s = new DesignEngine( new DesignConfig( ) ).newSessionHandle( ULocale.getDefault( ) );
-			try
-			{
-				if ( !CorePlugin.isUseNormalTheme( ) )
-				{
-					s.setDefaultValue( StyleHandle.COLOR_PROP,
-							DEUtil.getRGBInt( CorePlugin.ReportForeground.getRGB( ) ) );
+	public SessionHandle getThreadLocalSessionHandle() {
+		SessionHandle s = (SessionHandle) threadSession.get();
+		if (s == null) {
+			s = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.getDefault());
+			try {
+				if (!CorePlugin.isUseNormalTheme()) {
+					s.setDefaultValue(StyleHandle.COLOR_PROP, DEUtil.getRGBInt(CorePlugin.ReportForeground.getRGB()));
 				}
-			}
-			catch ( PropertyValueException e )
-			{
+			} catch (PropertyValueException e) {
 				// do nothing
 			}
-			threadSession.set( s );
+			threadSession.set(s);
 		}
 		return s;
 	}
@@ -201,40 +178,29 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	/**
 	 * Open a design/library file.
 	 * 
-	 * @param fileName
-	 *            The file name
-	 * @param input
-	 *            The input stream
+	 * @param fileName The file name
+	 * @param input    The input stream
 	 * @throws DesignFileException
 	 */
-	public ModuleHandle init( String fileName, InputStream input, Map properties )
-			throws DesignFileException
-	{
+	public ModuleHandle init(String fileName, InputStream input, Map properties) throws DesignFileException {
 
-		return init( fileName, input, properties, false );
+		return init(fileName, input, properties, false);
 	}
 
-	public ModuleHandle init( String fileName, InputStream input,
-			Map properties, boolean useThreadLocal ) throws DesignFileException
-	{
+	public ModuleHandle init(String fileName, InputStream input, Map properties, boolean useThreadLocal)
+			throws DesignFileException {
 		ModuleHandle handle = null;
-		if ( properties == null )
-		{
-			handle = getSessionHandle( useThreadLocal ).openModule( fileName,
-					input );
-		}
-		else
-		{
-			handle = getSessionHandle( useThreadLocal ).openModule( fileName,
-					input,
-					new ModuleOption( properties ) );
+		if (properties == null) {
+			handle = getSessionHandle(useThreadLocal).openModule(fileName, input);
+		} else {
+			handle = getSessionHandle(useThreadLocal).openModule(fileName, input, new ModuleOption(properties));
 		}
 		// !!!dont set handle here, handle is set only when editor is activated.
 		// setReportDesignHandle( handle );
-		postInit( handle, properties );
+		postInit(handle, properties);
 
 		// flush any init state change which cannot be undone.
-		handle.getCommandStack( ).flush( );
+		handle.getCommandStack().flush();
 
 		return handle;
 	}
@@ -242,38 +208,26 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	/**
 	 * Open a design/library file.
 	 * 
-	 * @param fileName
-	 *            The file name
-	 * @param input
-	 *            The input stream
+	 * @param fileName The file name
+	 * @param input    The input stream
 	 * @throws DesignFileException
 	 */
-	public ModuleHandle init( String fileName, InputStream input )
-			throws DesignFileException
-	{
-		return init( fileName, input, null );
+	public ModuleHandle init(String fileName, InputStream input) throws DesignFileException {
+		return init(fileName, input, null);
 	}
 
 	/**
-	 * @param handle
-	 *            The moudle handle
-	 * @param properties
-	 *            The properties
+	 * @param handle     The moudle handle
+	 * @param properties The properties
 	 */
-	private void postInit( ModuleHandle handle, Map properties )
-	{
-		if ( properties != null && !properties.isEmpty( ) )
-		{
-			String createInfo = handle.getCreatedBy( );
+	private void postInit(ModuleHandle handle, Map properties) {
+		if (properties != null && !properties.isEmpty()) {
+			String createInfo = handle.getCreatedBy();
 
-			if ( createInfo == null || createInfo.length( ) == 0 )
-			{
-				try
-				{
-					handle.initializeModule( properties );
-				}
-				catch ( SemanticException e )
-				{
+			if (createInfo == null || createInfo.length() == 0) {
+				try {
+					handle.initializeModule(properties);
+				} catch (SemanticException e) {
 					// ignore
 				}
 			}
@@ -282,20 +236,13 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 		// TODO these legacy logic should be move into individual module
 		// counterpart.
 		SimpleMasterPageHandle masterPage = null;
-		if ( handle.getMasterPages( ) != null
-				&& handle.getMasterPages( ).getCount( ) == 0 )
-		{
-			masterPage = handle.getElementFactory( ).newSimpleMasterPage( null );
-			try
-			{
-				handle.getMasterPages( ).add( masterPage );
-			}
-			catch ( ContentException e )
-			{
+		if (handle.getMasterPages() != null && handle.getMasterPages().getCount() == 0) {
+			masterPage = handle.getElementFactory().newSimpleMasterPage(null);
+			try {
+				handle.getMasterPages().add(masterPage);
+			} catch (ContentException e) {
 				// ignore
-			}
-			catch ( NameException e )
-			{
+			} catch (NameException e) {
 				// ignore
 			}
 		}
@@ -308,35 +255,29 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * 
 	 * @deprecated should handled by individual module counterpart.
 	 */
-	public ModuleHandle creatReportDesign( )
-	{
-		return getSessionHandle( ).createDesign( );
+	public ModuleHandle creatReportDesign() {
+		return getSessionHandle().createDesign();
 	}
 
 	/**
-	 * @deprecated Always try find reprot handle in current context first. If
-	 *             have to use, use {@link #getModule()} instead.
+	 * @deprecated Always try find reprot handle in current context first. If have
+	 *             to use, use {@link #getModule()} instead.
 	 * 
 	 * @return wrapped report design handle.
 	 */
-	public ModuleHandle getReportDesignHandle( )
-	{
-		return getModule( );
+	public ModuleHandle getReportDesignHandle() {
+		return getModule();
 	}
 
 	/**
 	 * @return Returns the active moudle in current session
 	 * 
-	 * @deprecated It's better to find module from relevant context instead
-	 *             here.
+	 * @deprecated It's better to find module from relevant context instead here.
 	 */
-	public ModuleHandle getModule( )
-	{
-		if ( model == null )
-		{
-			IWorkbenchWindow activeWindow = PlatformUI.getWorkbench( )
-					.getActiveWorkbenchWindow( );
-			model = moduleHandleMap.get( activeWindow );
+	public ModuleHandle getModule() {
+		if (model == null) {
+			IWorkbenchWindow activeWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+			model = moduleHandleMap.get(activeWindow);
 		}
 		return model;
 	}
@@ -344,13 +285,11 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	/**
 	 * Sets report design in current session.
 	 * 
-	 * @param handle
-	 *            the model
+	 * @param handle the model
 	 * @deprecated use {@link #setModule(ModuleHandle)} instead.
 	 */
-	public void setReportDesignHandle( ModuleHandle handle )
-	{
-		setModule( handle );
+	public void setReportDesignHandle(ModuleHandle handle) {
+		setModule(handle);
 	}
 
 	/**
@@ -358,22 +297,16 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * 
 	 * @param handle
 	 */
-	public void setModule( ModuleHandle handle )
-	{
-		PlatformUI.getWorkbench( ).removeWindowListener( pageListener );
-		IWorkbenchWindow activeWindow = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( );
-		if ( handle == null )
-		{
-			moduleHandleMap.remove( activeWindow );
+	public void setModule(ModuleHandle handle) {
+		PlatformUI.getWorkbench().removeWindowListener(pageListener);
+		IWorkbenchWindow activeWindow = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		if (handle == null) {
+			moduleHandleMap.remove(activeWindow);
+		} else {
+			PlatformUI.getWorkbench().addWindowListener(pageListener);
 		}
-		else
-		{
-			PlatformUI.getWorkbench( ).addWindowListener( pageListener );
-		}
-		if ( activeWindow != null )
-		{
-			moduleHandleMap.put( activeWindow, handle );
+		if (activeWindow != null) {
+			moduleHandleMap.put(activeWindow, handle);
 		}
 		model = handle;
 	}
@@ -383,21 +316,17 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * 
 	 * @deprecated use {@link #getCommandStack(ModuleHandle)}
 	 */
-	public CommandStack getCommandStack( )
-	{
-		if ( getReportDesignHandle( ) != null )
-		{
-			return getReportDesignHandle( ).getCommandStack( );
+	public CommandStack getCommandStack() {
+		if (getReportDesignHandle() != null) {
+			return getReportDesignHandle().getCommandStack();
 		}
 
 		return null;
 	}
 
-	public CommandStack getCommandStack( ModuleHandle handle )
-	{
-		if ( handle != null )
-		{
-			return handle.getCommandStack( );
+	public CommandStack getCommandStack(ModuleHandle handle) {
+		if (handle != null) {
+			return handle.getCommandStack();
 		}
 		return null;
 	}
@@ -408,9 +337,8 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * @deprecated use {@link #getFirstMasterPageHandle(ModuleHandle)}
 	 * 
 	 */
-	public MasterPageHandle getMasterPageHandle( )
-	{
-		return getFirstMasterPageHandle( getReportDesignHandle( ) );
+	public MasterPageHandle getMasterPageHandle() {
+		return getFirstMasterPageHandle(getReportDesignHandle());
 	}
 
 	/**
@@ -418,9 +346,8 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * 
 	 * @deprecated use {@link #getFirstMasterPageHandle(ModuleHandle)}
 	 */
-	public MasterPageHandle getMasterPageHandle( ModuleHandle handle )
-	{
-		return getFirstMasterPageHandle( handle );
+	public MasterPageHandle getMasterPageHandle(ModuleHandle handle) {
+		return getFirstMasterPageHandle(handle);
 	}
 
 	/**
@@ -428,42 +355,34 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * 
 	 * @deprecated should be handled by individual module counterpart.
 	 */
-	public MasterPageHandle getFirstMasterPageHandle( ModuleHandle handle )
-	{
-		if ( handle == null )
-		{
+	public MasterPageHandle getFirstMasterPageHandle(ModuleHandle handle) {
+		if (handle == null) {
 			return null;
 		}
 
-		SlotHandle slotHandle = handle.getMasterPages( );
+		SlotHandle slotHandle = handle.getMasterPages();
 
-		if ( slotHandle != null && slotHandle.getCount( ) > 0 )
-		{
-			return (MasterPageHandle) slotHandle.getContents( ).get( 0 );
+		if (slotHandle != null && slotHandle.getCount() > 0) {
+			return (MasterPageHandle) slotHandle.getContents().get(0);
 		}
 		return null;
 	}
 
-	public IMediator getMediator( ModuleHandle handle )
-	{
-		return getMediator( handle, true );
+	public IMediator getMediator(ModuleHandle handle) {
+		return getMediator(handle, true);
 	}
 
 	/**
 	 * Returns the mediator associated with given report handle
 	 * 
-	 * @param handle
-	 *            the model
+	 * @param handle the model
 	 * @return corresponding mediator
 	 */
-	public IMediator getMediator( ModuleHandle handle, boolean force )
-	{
-		IMediator mt = MediatorManager.getInstance( )
-				.getMediator( new ModuleMediatorTarget( handle ), force );
+	public IMediator getMediator(ModuleHandle handle, boolean force) {
+		IMediator mt = MediatorManager.getInstance().getMediator(new ModuleMediatorTarget(handle), force);
 
-		if ( mt != null )
-		{
-			mt.setStateConverter( this );
+		if (mt != null) {
+			mt.setStateConverter(this);
 		}
 
 		return mt;
@@ -474,22 +393,18 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * 
 	 * @return the current mediator
 	 */
-	public IMediator getMediator( )
-	{
-		return getMediator( getReportDesignHandle( ) );
+	public IMediator getMediator() {
+		return getMediator(getReportDesignHandle());
 	}
 
 	/**
-	 * @param oldObj
-	 *            old model
-	 * @param newObj
-	 *            new model
+	 * @param oldObj old model
+	 * @param newObj new model
 	 * 
 	 * @deprecated use {@link #resetModule(ModuleHandle, ModuleHandle)} instead
 	 */
-	public void resetReportDesign( ModuleHandle oldObj, ModuleHandle newObj )
-	{
-		resetModule( oldObj, newObj );
+	public void resetReportDesign(ModuleHandle oldObj, ModuleHandle newObj) {
+		resetModule(oldObj, newObj);
 	}
 
 	/**
@@ -498,44 +413,32 @@ public class SessionHandleAdapter implements IMediatorStateConverter
 	 * @param oldObj
 	 * @param newObj
 	 */
-	public void resetModule( ModuleHandle oldObj, ModuleHandle newObj )
-	{
-		MediatorManager.getInstance( )
-				.resetTarget( new ModuleMediatorTarget( oldObj ),
-						new ModuleMediatorTarget( newObj ) );
+	public void resetModule(ModuleHandle oldObj, ModuleHandle newObj) {
+		MediatorManager.getInstance().resetTarget(new ModuleMediatorTarget(oldObj), new ModuleMediatorTarget(newObj));
 	}
 
 	/**
 	 * Clear the specified module handle
 	 * 
-	 * @param handle
-	 *            The module handle
+	 * @param handle The module handle
 	 */
-	public void clear( ModuleHandle handle )
-	{
-		MediatorManager.getInstance( )
-				.removeMediator( new ModuleMediatorTarget( handle ) );
+	public void clear(ModuleHandle handle) {
+		MediatorManager.getInstance().removeMediator(new ModuleMediatorTarget(handle));
 
-		if ( handle == getReportDesignHandle( ) )
-		{
-			setReportDesignHandle( null );
-			getSessionHandle( ).setResourceFolder( null );
+		if (handle == getReportDesignHandle()) {
+			setReportDesignHandle(null);
+			getSessionHandle().setResourceFolder(null);
 		}
 	}
 
-	public IMediatorRequest convertStateToRequest( IMediatorState state )
-	{
-		ReportRequest request = new ReportRequest( state.getSource( ),
-				state.getType( ) );
-		if ( state.getData( ) instanceof List )
-		{
-			request.setSelectionObject( (List) state.getData( ) );
-		}
-		else if ( state.getData( ) != null )
-		{
-			List<Object> lst = new ArrayList<Object>( );
-			lst.add( state.getData( ) );
-			request.setSelectionObject( lst );
+	public IMediatorRequest convertStateToRequest(IMediatorState state) {
+		ReportRequest request = new ReportRequest(state.getSource(), state.getType());
+		if (state.getData() instanceof List) {
+			request.setSelectionObject((List) state.getData());
+		} else if (state.getData() != null) {
+			List<Object> lst = new ArrayList<Object>();
+			lst.add(state.getData());
+			request.setSelectionObject(lst);
 		}
 		return request;
 	}

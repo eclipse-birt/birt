@@ -26,10 +26,9 @@ import org.eclipse.birt.report.model.api.GroupHandle;
  * 
  */
 
-public class DeleteGroupAction extends DynamicItemAction
-{
+public class DeleteGroupAction extends DynamicItemAction {
 
-	private static final String STACK_MSG_DELETE_GROUP = Messages.getString( "DeleteGroupAction.stackMsg.deleteGroup" ); //$NON-NLS-1$
+	private static final String STACK_MSG_DELETE_GROUP = Messages.getString("DeleteGroupAction.stackMsg.deleteGroup"); //$NON-NLS-1$
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.DeleteGroupAction"; //$NON-NLS-1$
 
@@ -40,10 +39,11 @@ public class DeleteGroupAction extends DynamicItemAction
 	/**
 	 * @param part
 	 */
-	public DeleteGroupAction( ReportElementEditPart editPart,GroupHandle handle)
-	{		this.handle = handle;
+	public DeleteGroupAction(ReportElementEditPart editPart, GroupHandle handle) {
+		this.handle = handle;
 		this.editPart = editPart;
-		setId( ID );		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		setId(ID);
+		setText(DEUtil.getEscapedMenuItemText(handle.getDisplayLabel()));
 	}
 
 	/*
@@ -51,9 +51,8 @@ public class DeleteGroupAction extends DynamicItemAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return handle.canDrop( );
+	public boolean isEnabled() {
+		return handle.canDrop();
 	}
 
 	/*
@@ -61,26 +60,20 @@ public class DeleteGroupAction extends DynamicItemAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Delete group action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Delete group action >> Run ..."); //$NON-NLS-1$
 		}
 
-		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_HANDLE,handle);
-		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_EDIT_PART,editPart);
-		
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteGroupCommand",null ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ),e );
-		}	
+		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_HANDLE, handle);
+		CommandUtils.setVariable(ICommandParameterNameContants.DELETE_GROUP_EDIT_PART, editPart);
 
-		
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.deleteGroupCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
+		}
+
 	}
 
 }

@@ -30,8 +30,7 @@ import org.eclipse.birt.report.model.elements.ICssStyleSheetOperation;
  * 
  */
 
-public class CssRecord extends SimpleRecord
-{
+public class CssRecord extends SimpleRecord {
 
 	/**
 	 * The target module
@@ -66,19 +65,13 @@ public class CssRecord extends SimpleRecord
 	/**
 	 * Constructors the css record.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            design element
-	 * @param css
-	 *            the css style sheet to add/drop
-	 * @param add
-	 *            whether the given css is for adding
+	 * @param module  the module
+	 * @param element design element
+	 * @param css     the css style sheet to add/drop
+	 * @param add     whether the given css is for adding
 	 */
 
-	CssRecord( Module module, DesignElement element, CssStyleSheet css,
-			boolean add )
-	{
+	CssRecord(Module module, DesignElement element, CssStyleSheet css, boolean add) {
 		this.module = module;
 		this.element = element;
 		this.css = css;
@@ -95,9 +88,7 @@ public class CssRecord extends SimpleRecord
 	 * @param pos
 	 */
 
-	CssRecord( Module module, DesignElement element, CssStyleSheet css,
-			boolean add, int pos )
-	{
+	CssRecord(Module module, DesignElement element, CssStyleSheet css, boolean add, int pos) {
 		this.module = module;
 		this.element = element;
 		this.css = css;
@@ -111,41 +102,32 @@ public class CssRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
+	protected void perform(boolean undo) {
 		assert element instanceof ICssStyleSheetOperation;
 
 		ICssStyleSheetOperation operation = (ICssStyleSheetOperation) element;
-		if ( add && !undo || !add && undo )
-		{
-			if ( position == -1 )
-			{
-				operation.addCss( css );
-				setContainer( element, css );
-				int size = operation.getCsses( ).size( );
+		if (add && !undo || !add && undo) {
+			if (position == -1) {
+				operation.addCss(css);
+				setContainer(element, css);
+				int size = operation.getCsses().size();
 
 				// re-resolve
-				CssNameManager.adjustStylesForAdd( module, operation, css,
-						size - 1 );
+				CssNameManager.adjustStylesForAdd(module, operation, css, size - 1);
 
-			}
-			else
-			{
+			} else {
 				// insert css into position
 
-				operation.insertCss( css, position );
-				setContainer( element, css );
+				operation.insertCss(css, position);
+				setContainer(element, css);
 				// re-resolve
-				CssNameManager.adjustStylesForAdd( module, operation, css,
-						position );
+				CssNameManager.adjustStylesForAdd(module, operation, css, position);
 			}
-		}
-		else
-		{
-			operation.dropCss( css );
-			setContainer( null, css );
+		} else {
+			operation.dropCss(css);
+			setContainer(null, css);
 			// unresolve
-			CssNameManager.adjustStylesForRemove( css );
+			CssNameManager.adjustStylesForRemove(css);
 		}
 	}
 
@@ -156,44 +138,38 @@ public class CssRecord extends SimpleRecord
 	 * @param sheet
 	 */
 
-	private void setContainer( DesignElement element, CssStyleSheet sheet )
-	{
-		if ( sheet == null )
+	private void setContainer(DesignElement element, CssStyleSheet sheet) {
+		if (sheet == null)
 			return;
-		sheet.setContainer( element );
-		List<CssStyle> styles = sheet.getStyles( );
-		Iterator<CssStyle> iter = styles.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			CssStyle style = iter.next( );
-			style.setCssStyleSheet( sheet );
+		sheet.setContainer(element);
+		List<CssStyle> styles = sheet.getStyles();
+		Iterator<CssStyle> iter = styles.iterator();
+		while (iter.hasNext()) {
+			CssStyle style = iter.next();
+			style.setCssStyleSheet(sheet);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getEvent()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		if ( add && state != UNDONE_STATE || !add && state == UNDONE_STATE )
-			return new CssEvent( css, CssEvent.ADD );
+	public NotificationEvent getEvent() {
+		if (add && state != UNDONE_STATE || !add && state == UNDONE_STATE)
+			return new CssEvent(css, CssEvent.ADD);
 
-		return new CssEvent( css, CssEvent.DROP );
+		return new CssEvent(css, CssEvent.DROP);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
+	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return element;
 	}
 }

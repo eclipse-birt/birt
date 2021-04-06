@@ -12,27 +12,25 @@
 package org.eclipse.birt.chart.model.type;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Area Series</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Area
+ * Series</b></em>'. <!-- end-user-doc -->
  *
- * <!-- begin-model-doc -->
- * This is a Series type that, during design time, holds the query data for Area charts, and during run time, 
- * holds the value for each data point in the series.  When rendered, a line connects each data point, and 
- * the area below the line is filled with the series color.
- * <!-- end-model-doc -->
+ * <!-- begin-model-doc --> This is a Series type that, during design time,
+ * holds the query data for Area charts, and during run time, holds the value
+ * for each data point in the series. When rendered, a line connects each data
+ * point, and the area below the line is filled with the series color. <!--
+ * end-model-doc -->
  *
  *
  * @see org.eclipse.birt.chart.model.type.TypePackage#getAreaSeries()
  * @model extendedMetaData="name='AreaSeries' kind='elementOnly'"
  * @generated
  */
-public interface AreaSeries extends LineSeries
-{
+public interface AreaSeries extends LineSeries {
 
 	/**
 	 * @generated
 	 */
-	AreaSeries copyInstance( );
+	AreaSeries copyInstance();
 
 } // AreaSeries

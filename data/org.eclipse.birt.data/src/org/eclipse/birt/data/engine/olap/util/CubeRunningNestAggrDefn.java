@@ -21,40 +21,34 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
  * 
  */
 
-public class CubeRunningNestAggrDefn extends CubeNestAggrDefn
-{
+public class CubeRunningNestAggrDefn extends CubeNestAggrDefn {
 	private List<DimLevel> fullLevels;
-	
+
 	private List<IScriptExpression> notLevelArguments;
-	
-	public CubeRunningNestAggrDefn( String name,
-			IBaseExpression basedExpression, List aggrLevels, String aggrName,
-			List arguments, IBaseExpression filterExpression, List fullLevels,  
-			List notLevelArguments )
-	{
-		super( name, basedExpression, aggrLevels, aggrName, arguments, filterExpression );
+
+	public CubeRunningNestAggrDefn(String name, IBaseExpression basedExpression, List aggrLevels, String aggrName,
+			List arguments, IBaseExpression filterExpression, List fullLevels, List notLevelArguments) {
+		super(name, basedExpression, aggrLevels, aggrName, arguments, filterExpression);
 		this.fullLevels = fullLevels;
-		this.notLevelArguments = notLevelArguments; 
+		this.notLevelArguments = notLevelArguments;
 	}
 
-	
 	/**
 	 * @return the notLevelArguments
 	 */
-	public List<IScriptExpression> getNotLevelArguments( )
-	{
+	public List<IScriptExpression> getNotLevelArguments() {
 		return notLevelArguments;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.CubeAggrDefn#getAggrLevelsInAggregationResult()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.util.CubeAggrDefn#
+	 * getAggrLevelsInAggregationResult()
 	 */
 	@Override
-	public List<DimLevel> getAggrLevelsInAggregationResult( )
-	{
+	public List<DimLevel> getAggrLevelsInAggregationResult() {
 		return fullLevels;
 	}
-	
-	
 
 }

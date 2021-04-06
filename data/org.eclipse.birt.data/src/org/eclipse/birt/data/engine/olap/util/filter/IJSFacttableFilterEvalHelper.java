@@ -17,15 +17,13 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public interface IJSFacttableFilterEvalHelper
-{
+public interface IJSFacttableFilterEvalHelper {
 	/**
 	 * This method is used to evaluate the filter expression.
-	 *  
+	 * 
 	 * @param facttableRow
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean evaluateFilter( IFacttableRow facttableRow )
-			throws DataException;
+	public boolean evaluateFilter(IFacttableRow facttableRow) throws DataException;
 }

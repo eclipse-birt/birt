@@ -15,6 +15,5 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for theme elements to store the constants.
  */
 
-public interface IThemeModel extends IAbstractThemeModel
-{
+public interface IThemeModel extends IAbstractThemeModel {
 }

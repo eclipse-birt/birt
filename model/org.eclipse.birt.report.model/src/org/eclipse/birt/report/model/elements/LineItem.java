@@ -29,39 +29,35 @@ import org.eclipse.birt.report.model.elements.interfaces.ILineItemModel;
  * 
  */
 
-public class LineItem extends ReportItem implements ILineItemModel
-{
+public class LineItem extends ReportItem implements ILineItemModel {
 
 	/**
 	 * Default Constructor.
 	 */
 
-	public LineItem( )
-	{
-		super( );
+	public LineItem() {
+		super();
 	}
 
 	/**
 	 * Constructs the line item with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name of the line item
+	 * @param theName the optional name of the line item
 	 */
 
-	public LineItem( String theName )
-	{
-		super( theName );
+	public LineItem(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitLine( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitLine(this);
 	}
 
 	/*
@@ -70,35 +66,32 @@ public class LineItem extends ReportItem implements ILineItemModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.LINE_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public LineHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new LineHandle( module, this );
+	public LineHandle handle(Module module) {
+		if (handle == null) {
+			handle = new LineHandle(module, this);
 		}
 		return (LineHandle) handle;
 	}

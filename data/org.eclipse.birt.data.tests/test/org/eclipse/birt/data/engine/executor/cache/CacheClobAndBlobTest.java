@@ -20,12 +20,10 @@ import org.eclipse.birt.data.engine.api.ClobAndBlobTest;
  * 
  */
 
-public class CacheClobAndBlobTest extends ClobAndBlobTest
-{
-	protected Map getAppContext()
-	{
+public class CacheClobAndBlobTest extends ClobAndBlobTest {
+	protected Map getAppContext() {
 		Map appContext = new HashMap();
-		appContext.put( "birt.data.engine.test.memcachesize", "20000" );
+		appContext.put("birt.data.engine.test.memcachesize", "20000");
 		return appContext;
 	}
 }

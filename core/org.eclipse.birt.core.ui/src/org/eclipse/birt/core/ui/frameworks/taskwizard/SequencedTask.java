@@ -26,56 +26,48 @@ import com.ibm.icu.util.ULocale;
  * @deprecated For later use
  * 
  */
-class SequencedTask implements ITask
-{
+class SequencedTask implements ITask {
 
-	private transient Vector subtasks = new Vector( );
+	private transient Vector subtasks = new Vector();
 	protected transient IWizardContext context = null;
 	protected transient WizardBase container = null;
 	private transient int iCurrentSubtaskIndex = 0;
 	private transient String sLabel = ""; //$NON-NLS-1$
 
-	public SequencedTask( String sLabel )
-	{
+	public SequencedTask(String sLabel) {
 		this.sLabel = sLabel;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getUI(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getUI(org.eclipse.swt
+	 * .widgets.Composite)
 	 */
-	public Composite getUI( Composite parent )
-	{
+	public Composite getUI(Composite parent) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getDisplayLabel( ULocale locale )
-	{
+	public String getDisplayLabel(ULocale locale) {
 		return sLabel;
 	}
 
-	public void addSubtask( int iSubtaskIndex, ITask task )
-	{
-		if ( subtasks.size( ) <= iSubtaskIndex )
-		{
-			subtasks.add( task );
-		}
-		else
-		{
-			subtasks.setElementAt( task, iSubtaskIndex );
+	public void addSubtask(int iSubtaskIndex, ITask task) {
+		if (subtasks.size() <= iSubtaskIndex) {
+			subtasks.add(task);
+		} else {
+			subtasks.setElementAt(task, iSubtaskIndex);
 		}
 	}
 
-	public void next( )
-	{
+	public void next() {
 		// TODO: Switch to next subtask
 		this.iCurrentSubtaskIndex++;
 	}
 
-	public void previous( )
-	{
+	public void previous() {
 		// TODO: Switch to previous subtask
 		this.iCurrentSubtaskIndex--;
 	}
@@ -83,10 +75,10 @@ class SequencedTask implements ITask
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#setContext(org.eclipse.birt.frameworks.taskwizard.interfaces.IWizardContext)
+	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#setContext(org.
+	 * eclipse.birt.frameworks.taskwizard.interfaces.IWizardContext)
 	 */
-	public void setContext( IWizardContext context )
-	{
+	public void setContext(IWizardContext context) {
 		this.context = context;
 	}
 
@@ -95,28 +87,28 @@ class SequencedTask implements ITask
 	 * 
 	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#getContext()
 	 */
-	public IWizardContext getContext( )
-	{
+	public IWizardContext getContext() {
 		return this.context;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#setUIProvider(org.eclipse.birt.frameworks.taskwizard.WizardBase)
+	 * @see
+	 * org.eclipse.birt.frameworks.taskwizard.interfaces.ITask#setUIProvider(org.
+	 * eclipse.birt.frameworks.taskwizard.WizardBase)
 	 */
-	public void setUIProvider( WizardBase wizard )
-	{
+	public void setUIProvider(WizardBase wizard) {
 		this.container = wizard;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#getErrors()
+	 * @see
+	 * org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#getErrors()
 	 */
-	public String[] getErrors( )
-	{
+	public String[] getErrors() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -124,93 +116,80 @@ class SequencedTask implements ITask
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#setErrorHints(java.lang.Object[])
+	 * @see
+	 * org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask#setErrorHints
+	 * (java.lang.Object[])
 	 */
-	public void setErrorHints( Object[] errorHints )
-	{
+	public void setErrorHints(Object[] errorHints) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public String getDescription( ULocale locale )
-	{
+	public String getDescription(ULocale locale) {
 		return sLabel;
 	}
 
-	public void createControl( Composite parent )
-	{
+	public void createControl(Composite parent) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public Control getControl( )
-	{
+	public Control getControl() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getDescription( )
-	{
+	public String getDescription() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getErrorMessage( )
-	{
+	public String getErrorMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public Image getImage( )
-	{
+	public Image getImage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getMessage( )
-	{
+	public String getMessage() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getTitle( )
-	{
+	public String getTitle() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void performHelp( )
-	{
+	public void performHelp() {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setImageDescriptor( ImageDescriptor image )
-	{
+	public void setImageDescriptor(ImageDescriptor image) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setTitle( String title )
-	{
+	public void setTitle(String title) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void setVisible( boolean visible )
-	{
+	public void setVisible(boolean visible) {
 		// TODO Auto-generated method stub
 
 	}

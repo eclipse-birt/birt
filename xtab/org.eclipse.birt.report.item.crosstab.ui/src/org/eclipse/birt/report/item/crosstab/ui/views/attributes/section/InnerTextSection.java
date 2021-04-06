@@ -19,25 +19,22 @@ import org.eclipse.swt.widgets.Composite;
  *
  */
 public class InnerTextSection extends TextSection {
-	public InnerTextSection(String labelText, Composite parent,
-			boolean formStyle) {
+	public InnerTextSection(String labelText, Composite parent, boolean formStyle) {
 		super(labelText, parent, formStyle);
 		// TODO Auto-generated constructor stub
 	}
 
 	protected ContainerSection section;
-	
-	public InnerTextSection(String labelText,ContainerSection section, boolean isFormStyle) {		
-		super(labelText,null, isFormStyle);
+
+	public InnerTextSection(String labelText, ContainerSection section, boolean isFormStyle) {
+		super(labelText, null, isFormStyle);
 		this.section = section;
 	}
-	
-	public void createSection( )
-	{
-		if(parent == null && section != null)
-		{
+
+	public void createSection() {
+		if (parent == null && section != null) {
 			parent = section.getContainerComposite();
 		}
 		super.createSection();
-	}	
+	}
 }

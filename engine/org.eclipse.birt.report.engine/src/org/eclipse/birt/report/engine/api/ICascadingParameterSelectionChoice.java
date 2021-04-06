@@ -16,9 +16,6 @@ import java.util.Collection;
 /*
  * 
  */
-public interface ICascadingParameterSelectionChoice
-		extends
-			IParameterSelectionChoice
-{
-	Collection getChildSelectionList( );
+public interface ICascadingParameterSelectionChoice extends IParameterSelectionChoice {
+	Collection getChildSelectionList();
 }

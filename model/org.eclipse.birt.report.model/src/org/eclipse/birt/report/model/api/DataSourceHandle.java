@@ -27,24 +27,18 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
  * 
  */
 
-public abstract class DataSourceHandle extends ReportElementHandle
-		implements
-			IDataSourceModel
-{
+public abstract class DataSourceHandle extends ReportElementHandle implements IDataSourceModel {
 	/**
 	 * Constructs a handle of DataSource with the given design and element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public DataSourceHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public DataSourceHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
@@ -54,51 +48,43 @@ public abstract class DataSourceHandle extends ReportElementHandle
 	 * @return the code of the method
 	 */
 
-	public String getBeforeOpen( )
-	{
-		return getStringProperty( IDataSourceModel.BEFORE_OPEN_METHOD );
+	public String getBeforeOpen() {
+		return getStringProperty(IDataSourceModel.BEFORE_OPEN_METHOD);
 	}
 
 	/**
 	 * Sets the code for the beforeOpen method. This is the script called just
 	 * before opening the data source.
 	 * 
-	 * @param code
-	 *            the code for the method
-	 * @throws SemanticException
-	 *             if the method is locked.
+	 * @param code the code for the method
+	 * @throws SemanticException if the method is locked.
 	 */
 
-	public void setBeforeOpen( String code ) throws SemanticException
-	{
-		setProperty( IDataSourceModel.BEFORE_OPEN_METHOD, code );
+	public void setBeforeOpen(String code) throws SemanticException {
+		setProperty(IDataSourceModel.BEFORE_OPEN_METHOD, code);
 	}
 
 	/**
-	 * Returns the code of the beforeClose method. This is the script called
-	 * just before closing the data source.
+	 * Returns the code of the beforeClose method. This is the script called just
+	 * before closing the data source.
 	 * 
 	 * @return the code of the method
 	 */
 
-	public String getBeforeClose( )
-	{
-		return getStringProperty( IDataSourceModel.BEFORE_CLOSE_METHOD );
+	public String getBeforeClose() {
+		return getStringProperty(IDataSourceModel.BEFORE_CLOSE_METHOD);
 	}
 
 	/**
 	 * Sets the code for the beforeClose method. This is the script called just
 	 * before closing the data source.
 	 * 
-	 * @param code
-	 *            the code for the method
-	 * @throws SemanticException
-	 *             if the method is locked.
+	 * @param code the code for the method
+	 * @throws SemanticException if the method is locked.
 	 */
 
-	public void setBeforeClose( String code ) throws SemanticException
-	{
-		setProperty( IDataSourceModel.BEFORE_CLOSE_METHOD, code );
+	public void setBeforeClose(String code) throws SemanticException {
+		setProperty(IDataSourceModel.BEFORE_CLOSE_METHOD, code);
 	}
 
 	/**
@@ -108,24 +94,20 @@ public abstract class DataSourceHandle extends ReportElementHandle
 	 * @return the code of the method
 	 */
 
-	public String getAfterOpen( )
-	{
-		return getStringProperty( IDataSourceModel.AFTER_OPEN_METHOD );
+	public String getAfterOpen() {
+		return getStringProperty(IDataSourceModel.AFTER_OPEN_METHOD);
 	}
 
 	/**
-	 * Sets the code for the afterOpen method. This is the script called just
-	 * after opening the data source.
+	 * Sets the code for the afterOpen method. This is the script called just after
+	 * opening the data source.
 	 * 
-	 * @param code
-	 *            the code for the method
-	 * @throws SemanticException
-	 *             if the method is locked.
+	 * @param code the code for the method
+	 * @throws SemanticException if the method is locked.
 	 */
 
-	public void setAfterOpen( String code ) throws SemanticException
-	{
-		setProperty( IDataSourceModel.AFTER_OPEN_METHOD, code );
+	public void setAfterOpen(String code) throws SemanticException {
+		setProperty(IDataSourceModel.AFTER_OPEN_METHOD, code);
 	}
 
 	/**
@@ -135,24 +117,20 @@ public abstract class DataSourceHandle extends ReportElementHandle
 	 * @return the code of the method
 	 */
 
-	public String getAfterClose( )
-	{
-		return getStringProperty( IDataSourceModel.AFTER_CLOSE_METHOD );
+	public String getAfterClose() {
+		return getStringProperty(IDataSourceModel.AFTER_CLOSE_METHOD);
 	}
 
 	/**
-	 * Sets the code for the afterClose method. This is the script called just
-	 * after closing the data source.
+	 * Sets the code for the afterClose method. This is the script called just after
+	 * closing the data source.
 	 * 
-	 * @param code
-	 *            the code for the method
-	 * @throws SemanticException
-	 *             if the method is locked.
+	 * @param code the code for the method
+	 * @throws SemanticException if the method is locked.
 	 */
 
-	public void setAfterClose( String code ) throws SemanticException
-	{
-		setProperty( IDataSourceModel.AFTER_CLOSE_METHOD, code );
+	public void setAfterClose(String code) throws SemanticException {
+		setProperty(IDataSourceModel.AFTER_CLOSE_METHOD, code);
 	}
 
 }

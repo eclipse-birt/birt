@@ -19,16 +19,14 @@ import org.eclipse.gef.commands.Command;
  * Provides a wrapper of DE command for GEF framework's call back needs GEF
  * command.
  */
-public class CommandWrap4DE extends Command
-{
+public class CommandWrap4DE extends Command {
 
 	private IActivityRecord command;
 
 	/**
 	 * Constructor for CommandWrap4DE.
 	 */
-	public CommandWrap4DE( IActivityRecord command )
-	{
+	public CommandWrap4DE(IActivityRecord command) {
 		this.command = command;
 	}
 
@@ -37,8 +35,7 @@ public class CommandWrap4DE extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
+	public boolean canExecute() {
 		return command == null ? false : true;
 	}
 
@@ -47,9 +44,8 @@ public class CommandWrap4DE extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canUndo()
 	 */
-	public boolean canUndo( )
-	{
-		return command == null ? false : command.canUndo( );
+	public boolean canUndo() {
+		return command == null ? false : command.canUndo();
 	}
 
 	/*
@@ -57,15 +53,12 @@ public class CommandWrap4DE extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		if ( command != null )
-		{
-			if ( Policy.TRACING_COMMANDS )
-			{
-				System.out.println( "GuiCommand >> Excute " + getLabel( ) ); //$NON-NLS-1$
+	public void execute() {
+		if (command != null) {
+			if (Policy.TRACING_COMMANDS) {
+				System.out.println("GuiCommand >> Excute " + getLabel()); //$NON-NLS-1$
 			}
-			command.execute( );
+			command.execute();
 		}
 	}
 
@@ -74,9 +67,8 @@ public class CommandWrap4DE extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#getLabel()
 	 */
-	public String getLabel( )
-	{
-		return command == null || command.getLabel( ) == null ? "" : command.getLabel( ).replaceAll( "&", "" ); //$NON-NLS-1$
+	public String getLabel() {
+		return command == null || command.getLabel() == null ? "" : command.getLabel().replaceAll("&", ""); //$NON-NLS-1$
 	}
 
 	/*
@@ -84,15 +76,12 @@ public class CommandWrap4DE extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#redo()
 	 */
-	public void redo( )
-	{
-		if ( command != null )
-		{
-			if ( Policy.TRACING_COMMANDS )
-			{
-				System.out.println( "GuiCommand >> Redo " + getLabel( ) ); //$NON-NLS-1$
+	public void redo() {
+		if (command != null) {
+			if (Policy.TRACING_COMMANDS) {
+				System.out.println("GuiCommand >> Redo " + getLabel()); //$NON-NLS-1$
 			}
-			command.redo( );
+			command.redo();
 		}
 	}
 
@@ -101,20 +90,16 @@ public class CommandWrap4DE extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#undo()
 	 */
-	public void undo( )
-	{
-		if ( command != null )
-		{
-			if ( Policy.TRACING_COMMANDS )
-			{
-				System.out.println( "GuiCommand >> Undo " + getLabel( ) ); //$NON-NLS-1$
+	public void undo() {
+		if (command != null) {
+			if (Policy.TRACING_COMMANDS) {
+				System.out.println("GuiCommand >> Undo " + getLabel()); //$NON-NLS-1$
 			}
-			command.undo( );
+			command.undo();
 		}
 	}
 
-	public IActivityRecord unwrap( )
-	{
+	public IActivityRecord unwrap() {
 		return command;
 	}
 

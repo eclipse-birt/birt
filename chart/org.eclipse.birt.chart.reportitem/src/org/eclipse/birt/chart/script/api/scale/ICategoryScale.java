@@ -15,7 +15,6 @@ package org.eclipse.birt.chart.script.api.scale;
  * Represents the Scale for chart scaling when Axis is rendered by category.
  */
 
-public interface ICategoryScale extends IScale
-{
+public interface ICategoryScale extends IScale {
 
 }

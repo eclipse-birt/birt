@@ -13,24 +13,23 @@ package org.eclipse.birt.report.engine.adapter;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 
 /**
- * The instance of this interface defines a name-expression
- * pair of column binding.
+ * The instance of this interface defines a name-expression pair of column
+ * binding.
  * 
  */
-public interface IColumnBinding
-{
+public interface IColumnBinding {
 	/**
 	 * Return the name of result set column.
-	 *  
+	 * 
 	 * @return
 	 */
 	public String getResultSetColumnName();
-	
+
 	/**
 	 * Return the bound expression.
 	 * 
 	 * @return
 	 */
 	public IBaseExpression getBoundExpression();
-	
+
 }

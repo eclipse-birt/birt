@@ -21,15 +21,13 @@ import org.eclipse.birt.report.engine.presentation.IPageHint;
  * writer used to write the page hints.
  *
  */
-public interface IPageHintWriter extends IPageHintConstant
-{
+public interface IPageHintWriter extends IPageHintConstant {
 
-	void close( );
+	void close();
 
-	void writePageHint( IPageHint pageHint ) throws IOException;
+	void writePageHint(IPageHint pageHint) throws IOException;
 
-	void writeTotalPage( long totalPage ) throws IOException;
+	void writeTotalPage(long totalPage) throws IOException;
 
-	void writePageVariables( Collection<PageVariable> variables )
-			throws IOException;
+	void writePageVariables(Collection<PageVariable> variables) throws IOException;
 }

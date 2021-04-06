@@ -18,22 +18,20 @@ import junit.framework.TestSuite;
  * Tests for data package
  */
 
-public class AllDataTests
-{
+public class AllDataTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( DataTypeUtilTest.class );
-		test.addTestSuite( DateUtilTest.class );
-		test.addTestSuite( DateUtilThreadTest.class );
-		test.addTestSuite( ExpressionParserUtilityTest.class );
-		test.addTestSuite( ExpressionUtilTest.class );
+		test.addTestSuite(DataTypeUtilTest.class);
+		test.addTestSuite(DateUtilTest.class);
+		test.addTestSuite(DateUtilThreadTest.class);
+		test.addTestSuite(ExpressionParserUtilityTest.class);
+		test.addTestSuite(ExpressionUtilTest.class);
 		// add all test classes here
 
 		return test;

@@ -15,27 +15,25 @@ import java.util.List;
 import org.eclipse.birt.core.exception.BirtException;
 
 /**
- *The resultset metaData from datasetHandle's resultset property
+ * The resultset metaData from datasetHandle's resultset property
  */
-class ResultMetaData2 extends ResultMetaData
-{
+class ResultMetaData2 extends ResultMetaData {
 	/**
 	 * @param columnDefinitions
 	 * @throws BirtException
 	 */
-	ResultMetaData2( List columnDefinitions ) throws BirtException
-	{
-		super( columnDefinitions );
+	ResultMetaData2(List columnDefinitions) throws BirtException {
+		super(columnDefinitions);
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnLabel(int)
 	 */
-	public String getColumnLabel( int index ) throws BirtException
-	{
-		ResultSetColumnDefinition columnDefn = (ResultSetColumnDefinition) getIndexedColumnDefinition( index );
-		return columnDefn.getLableName( );
+	public String getColumnLabel(int index) throws BirtException {
+		ResultSetColumnDefinition columnDefn = (ResultSetColumnDefinition) getIndexedColumnDefinition(index);
+		return columnDefn.getLableName();
 	}
 
 	/*
@@ -43,10 +41,9 @@ class ResultMetaData2 extends ResultMetaData
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#isComputedColumn(int)
 	 */
-	public boolean isComputedColumn( int index ) throws BirtException
-	{
-		ResultSetColumnDefinition columnDefn = (ResultSetColumnDefinition) getIndexedColumnDefinition( index );
-		return columnDefn.isComputedColumn( );
+	public boolean isComputedColumn(int index) throws BirtException {
+		ResultSetColumnDefinition columnDefn = (ResultSetColumnDefinition) getIndexedColumnDefinition(index);
+		return columnDefn.isComputedColumn();
 	}
-	
+
 }

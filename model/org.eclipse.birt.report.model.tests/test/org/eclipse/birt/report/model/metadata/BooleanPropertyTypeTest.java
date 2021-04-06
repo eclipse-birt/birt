@@ -25,182 +25,147 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * PropertyTypeTestCase class
  * 
  */
-public class BooleanPropertyTypeTest extends PropertyTypeTestCase
-{
+public class BooleanPropertyTypeTest extends PropertyTypeTestCase {
 
-	BooleanPropertyType type = new BooleanPropertyType( );
+	BooleanPropertyType type = new BooleanPropertyType();
 
-	PropertyDefn propDefn = new PropertyDefnFake( );
+	PropertyDefn propDefn = new PropertyDefnFake();
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode()
 	 */
-	public void testGetTypeCode( )
-	{
-		assertEquals( PropertyType.BOOLEAN_TYPE, type.getTypeCode( ) );
+	public void testGetTypeCode() {
+		assertEquals(PropertyType.BOOLEAN_TYPE, type.getTypeCode());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
-	public void testGetName( )
-	{
-		assertEquals( PropertyType.BOOLEAN_TYPE_NAME, type.getName( ) );
+	public void testGetName() {
+		assertEquals(PropertyType.BOOLEAN_TYPE_NAME, type.getName());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
+	 * ()
 	 */
-	public void testValidateValue( ) throws PropertyValueException
-	{
-		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
+	public void testValidateValue() throws PropertyValueException {
+		assertEquals(null, type.validateValue(design, null, propDefn, null));
 
 		// String
-		assertEquals( null, type.validateValue( design, null, propDefn, " " ) ); //$NON-NLS-1$
-		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
-				"true" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
-				"false" ) ); //$NON-NLS-1$
+		assertEquals(null, type.validateValue(design, null, propDefn, " ")); //$NON-NLS-1$
+		assertEquals(Boolean.TRUE, type.validateValue(design, null, propDefn, "true")); //$NON-NLS-1$
+		assertEquals(Boolean.FALSE, type.validateValue(design, null, propDefn, "false")); //$NON-NLS-1$
 
-		ThreadResources.setLocale( TEST_LOCALE );
-		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
-				"\u771f" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
-				"\u5047" ) ); //$NON-NLS-1$
+		ThreadResources.setLocale(TEST_LOCALE);
+		assertEquals(Boolean.TRUE, type.validateValue(design, null, propDefn, "\u771f")); //$NON-NLS-1$
+		assertEquals(Boolean.FALSE, type.validateValue(design, null, propDefn, "\u5047")); //$NON-NLS-1$
 
 		// Boolean
-		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
-				Boolean.TRUE ) );
-		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
-				Boolean.FALSE ) );
+		assertEquals(Boolean.TRUE, type.validateValue(design, null, propDefn, Boolean.TRUE));
+		assertEquals(Boolean.FALSE, type.validateValue(design, null, propDefn, Boolean.FALSE));
 
 		// Integer
-		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
-				new Integer( 1 ) ) );
-		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
-				new Integer( 2 ) ) );
-		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
-				new Integer( 0 ) ) );
+		assertEquals(Boolean.TRUE, type.validateValue(design, null, propDefn, new Integer(1)));
+		assertEquals(Boolean.TRUE, type.validateValue(design, null, propDefn, new Integer(2)));
+		assertEquals(Boolean.FALSE, type.validateValue(design, null, propDefn, new Integer(0)));
 
 		// Double
-		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
-				new Double( 1.0d ) ) );
-		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
-				new Double( 2.0d ) ) );
-		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
-				new Double( 0.0d ) ) );
+		assertEquals(Boolean.TRUE, type.validateValue(design, null, propDefn, new Double(1.0d)));
+		assertEquals(Boolean.TRUE, type.validateValue(design, null, propDefn, new Double(2.0d)));
+		assertEquals(Boolean.FALSE, type.validateValue(design, null, propDefn, new Double(0.0d)));
 
 		// BigDecimal
-		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
-				new BigDecimal( 1.0d ) ) );
-		assertEquals( Boolean.TRUE, type.validateValue( design, null, propDefn,
-				new BigDecimal( 2.0d ) ) );
-		assertEquals( Boolean.FALSE, type.validateValue( design, null, propDefn,
-				new BigDecimal( 0.0d ) ) );
+		assertEquals(Boolean.TRUE, type.validateValue(design, null, propDefn, new BigDecimal(1.0d)));
+		assertEquals(Boolean.TRUE, type.validateValue(design, null, propDefn, new BigDecimal(2.0d)));
+		assertEquals(Boolean.FALSE, type.validateValue(design, null, propDefn, new BigDecimal(0.0d)));
 
 		// Wrong type
-		try
-		{
-			type.validateValue( design, null, propDefn, new Object( ) );
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			type.validateValue(design, null, propDefn, new Object());
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateInputString()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testValidateInputString()
 	 */
-	public void testValidateInputString( ) throws PropertyValueException
-	{
-		assertEquals( null, type.validateInputString( design, null, propDefn, null ) );
+	public void testValidateInputString() throws PropertyValueException {
+		assertEquals(null, type.validateInputString(design, null, propDefn, null));
 
-		assertEquals( null, type.validateInputString( design, null, propDefn, " " ) ); //$NON-NLS-1$
-		assertEquals( Boolean.TRUE, type.validateInputString( design, null, propDefn,
-				"true" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateInputString( design, null,
-				propDefn, "false" ) ); //$NON-NLS-1$
+		assertEquals(null, type.validateInputString(design, null, propDefn, " ")); //$NON-NLS-1$
+		assertEquals(Boolean.TRUE, type.validateInputString(design, null, propDefn, "true")); //$NON-NLS-1$
+		assertEquals(Boolean.FALSE, type.validateInputString(design, null, propDefn, "false")); //$NON-NLS-1$
 
-		ThreadResources.setLocale( TEST_LOCALE );
-		assertEquals( Boolean.TRUE, type.validateInputString( design, null, propDefn,
-				"\u771f" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateInputString( design, null,
-				propDefn, "\u5047" ) ); //$NON-NLS-1$
+		ThreadResources.setLocale(TEST_LOCALE);
+		assertEquals(Boolean.TRUE, type.validateInputString(design, null, propDefn, "\u771f")); //$NON-NLS-1$
+		assertEquals(Boolean.FALSE, type.validateInputString(design, null, propDefn, "\u5047")); //$NON-NLS-1$
 
 		// Wrong type
-		try
-		{
-			type.validateInputString( design, null, propDefn, "wrong-type-value" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			type.validateInputString(design, null, propDefn, "wrong-type-value"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml()
 	 */
-	public void testValidateXml( ) throws PropertyValueException
-	{
-		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, null, propDefn, " " ) ); //$NON-NLS-1$
-		assertEquals( Boolean.TRUE, type.validateXml( design, null, propDefn, "true" ) ); //$NON-NLS-1$
-		assertEquals( Boolean.FALSE, type.validateXml( design, null, propDefn,
-				"false" ) ); //$NON-NLS-1$
+	public void testValidateXml() throws PropertyValueException {
+		assertEquals(null, type.validateXml(design, null, propDefn, null));
+		assertEquals(null, type.validateXml(design, null, propDefn, " ")); //$NON-NLS-1$
+		assertEquals(Boolean.TRUE, type.validateXml(design, null, propDefn, "true")); //$NON-NLS-1$
+		assertEquals(Boolean.FALSE, type.validateXml(design, null, propDefn, "false")); //$NON-NLS-1$
 
-		try
-		{
-			type.validateXml( design, null, propDefn, "wrong-xml-value" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			type.validateXml(design, null, propDefn, "wrong-xml-value"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble()
 	 */
-	public void testToDouble( )
-	{
-		assertEquals( 0.0d, type.toDouble( design, null ), 1 );
-		assertEquals( 1.0d, type.toDouble( design, Boolean.TRUE ), 1 );
-		assertEquals( 0.0d, type.toDouble( design, Boolean.FALSE ), 1 );
+	public void testToDouble() {
+		assertEquals(0.0d, type.toDouble(design, null), 1);
+		assertEquals(1.0d, type.toDouble(design, Boolean.TRUE), 1);
+		assertEquals(0.0d, type.toDouble(design, Boolean.FALSE), 1);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger()
 	 */
-	public void testToInteger( )
-	{
-		assertEquals( 0, type.toInteger( design, null ) );
-		assertEquals( 1, type.toInteger( design, Boolean.TRUE ) );
-		assertEquals( 0, type.toInteger( design, Boolean.FALSE ) );
+	public void testToInteger() {
+		assertEquals(0, type.toInteger(design, null));
+		assertEquals(1, type.toInteger(design, Boolean.TRUE));
+		assertEquals(0, type.toInteger(design, Boolean.FALSE));
 	}
 
 	/*
@@ -208,67 +173,62 @@ public class BooleanPropertyTypeTest extends PropertyTypeTestCase
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
-	public void testToXml( )
-	{
-		assertEquals( "true", type.toXml( design, propDefn, Boolean.TRUE ) ); //$NON-NLS-1$
-		assertEquals( "false", type.toXml( design, propDefn, Boolean.FALSE ) ); //$NON-NLS-1$
+	public void testToXml() {
+		assertEquals("true", type.toXml(design, propDefn, Boolean.TRUE)); //$NON-NLS-1$
+		assertEquals("false", type.toXml(design, propDefn, Boolean.FALSE)); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString()
 	 */
-	public void testToString( )
-	{
-		assertEquals( null, type.toString( design, propDefn, null ) );
+	public void testToString() {
+		assertEquals(null, type.toString(design, propDefn, null));
 
-		assertEquals( "true", type.toString( design, propDefn, Boolean.TRUE ) ); //$NON-NLS-1$
-		assertEquals( "false", type.toString( design, propDefn, Boolean.FALSE ) ); //$NON-NLS-1$
+		assertEquals("true", type.toString(design, propDefn, Boolean.TRUE)); //$NON-NLS-1$
+		assertEquals("false", type.toString(design, propDefn, Boolean.FALSE)); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDisplayString()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
+	 * testToDisplayString()
 	 */
-	public void testToDisplayString( )
-	{
-		assertEquals( null, type.toDisplayString( design, propDefn, null ) );
+	public void testToDisplayString() {
+		assertEquals(null, type.toDisplayString(design, propDefn, null));
 
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		assertEquals(
-				"true", type.toDisplayString( design, propDefn, Boolean.TRUE ) ); //$NON-NLS-1$
+		ThreadResources.setLocale(ULocale.ENGLISH);
+		assertEquals("true", type.toDisplayString(design, propDefn, Boolean.TRUE)); //$NON-NLS-1$
 
-		ThreadResources.setLocale( TEST_LOCALE );
-		assertEquals(
-				"\u771f", type.toDisplayString( design, propDefn, Boolean.TRUE ) ); //$NON-NLS-1$
+		ThreadResources.setLocale(TEST_LOCALE);
+		assertEquals("\u771f", type.toDisplayString(design, propDefn, Boolean.TRUE)); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber()
 	 */
-	public void testToNumber( )
-	{
-		assertEquals( 0.0d, type.toNumber( design, null ).doubleValue( ), 1 );
-		assertEquals( 1.0d,
-				type.toNumber( design, Boolean.TRUE ).doubleValue( ), 1 );
-		assertEquals( 0.0d, type.toNumber( design, Boolean.FALSE )
-				.doubleValue( ), 1 );
+	public void testToNumber() {
+		assertEquals(0.0d, type.toNumber(design, null).doubleValue(), 1);
+		assertEquals(1.0d, type.toNumber(design, Boolean.TRUE).doubleValue(), 1);
+		assertEquals(0.0d, type.toNumber(design, Boolean.FALSE).doubleValue(), 1);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean()
 	 */
-	public void testToBoolean( )
-	{
-		assertEquals( false, type.toBoolean( design, null ) );
-		assertEquals( true, type.toBoolean( design, Boolean.TRUE ) );
-		assertEquals( false, type.toBoolean( design, Boolean.FALSE ) );
+	public void testToBoolean() {
+		assertEquals(false, type.toBoolean(design, null));
+		assertEquals(true, type.toBoolean(design, Boolean.TRUE));
+		assertEquals(false, type.toBoolean(design, Boolean.FALSE));
 	}
 
 }

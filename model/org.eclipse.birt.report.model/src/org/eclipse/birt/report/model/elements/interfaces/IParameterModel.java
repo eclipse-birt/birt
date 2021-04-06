@@ -14,14 +14,13 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for parameter element to store the constants.
  */
-public interface IParameterModel
-{
+public interface IParameterModel {
 
 	/**
 	 * Name of the help text property.
 	 */
 
-	public static final String HELP_TEXT_PROP = "helpText"; //$NON-NLS-1$ 
+	public static final String HELP_TEXT_PROP = "helpText"; //$NON-NLS-1$
 
 	/**
 	 * Name of the help text key property.
@@ -36,8 +35,8 @@ public interface IParameterModel
 	public static final String HIDDEN_PROP = "hidden"; //$NON-NLS-1$
 
 	/**
-	 * Name of the validation property. It allows the user to input their
-	 * validation code for the parameter to validate.
+	 * Name of the validation property. It allows the user to input their validation
+	 * code for the parameter to validate.
 	 */
 
 	public static final String VALIDATE_PROP = "validate"; //$NON-NLS-1$
@@ -48,8 +47,8 @@ public interface IParameterModel
 	public static final String PROMPT_TEXT_PROP = "promptText"; //$NON-NLS-1$
 
 	/**
-	 * Name of the prompt text ID property. This property contains the message
-	 * ID used to localize property prompt text ID.
+	 * Name of the prompt text ID property. This property contains the message ID
+	 * used to localize property prompt text ID.
 	 */
 
 	public static final String PROMPT_TEXT_ID_PROP = "promptTextID"; //$NON-NLS-1$

@@ -26,11 +26,9 @@ import org.eclipse.jface.action.IAction;
 /**
  * The action to run a report in navigator view
  */
-public class RunReportAction extends AbstractViewAction
-{
+public class RunReportAction extends AbstractViewAction {
 
-	protected boolean prePreview( )
-	{
+	protected boolean prePreview() {
 		PreviewUtil.clearSystemProperties();
 		return true;
 	}
@@ -38,47 +36,36 @@ public class RunReportAction extends AbstractViewAction
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	public void run( IAction action )
-	{
-		if ( !prePreview( ) )
-		{
+	public void run(IAction action) {
+		if (!prePreview()) {
 			return;
 		}
 
-		IFile file = getSelectedFile( );
-		if ( file != null )
-		{
+		IFile file = getSelectedFile();
+		if (file != null) {
 			// String url = MessageFormat.format( PATTERN, new Object[]{
 			// file.getLocation( ).toString( )
 			// } );
-			String url = file.getLocation( ).toOSString( );
-			try
-			{
-				ModuleHandle handle = SessionHandleAdapter.getInstance( )
-						.getSessionHandle( )
-						.openDesign( url );
+			String url = file.getLocation().toOSString();
+			try {
+				ModuleHandle handle = SessionHandleAdapter.getInstance().getSessionHandle().openDesign(url);
 
-				if ( !UIUtil.canPreviewWithErrors( handle ) )
+				if (!UIUtil.canPreviewWithErrors(handle))
 					return;
 
-				Map options = new HashMap( );
-				options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
-				options.put( WebViewer.RESOURCE_FOLDER_KEY,
-						ReportPlugin.getDefault( )
-								.getResourceFolder( file.getProject( ) ) );
+				Map options = new HashMap();
+				options.put(WebViewer.FORMAT_KEY, WebViewer.HTML);
+				options.put(WebViewer.RESOURCE_FOLDER_KEY,
+						ReportPlugin.getDefault().getResourceFolder(file.getProject()));
 
-				WebViewer.display( url, options );
-				handle.close( );
-			}
-			catch ( Exception e )
-			{
-				ExceptionUtil.handle( e );
+				WebViewer.display(url, options);
+				handle.close();
+			} catch (Exception e) {
+				ExceptionUtil.handle(e);
 				return;
 			}
-		}
-		else
-		{
-			action.setEnabled( false );
+		} else {
+			action.setEnabled(false);
 		}
 	}
 }

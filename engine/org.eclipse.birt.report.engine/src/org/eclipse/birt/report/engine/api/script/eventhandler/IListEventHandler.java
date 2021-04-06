@@ -19,31 +19,26 @@ import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
 /**
  * Script event handler interface for a list
  */
-public interface IListEventHandler
-{
+public interface IListEventHandler {
 
 	/**
 	 * Handle the onPrepare event
 	 */
-	void onPrepare( IList listHandle, IReportContext reportContext )
-			throws ScriptException;
+	void onPrepare(IList listHandle, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onCreate event
 	 */
-	void onCreate( IListInstance list, IReportContext reportContext )
-			throws ScriptException;
+	void onCreate(IListInstance list, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onRender event
 	 */
-	void onRender( IListInstance list, IReportContext reportContext )
-			throws ScriptException;
+	void onRender(IListInstance list, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onPageBreak event
 	 */
-	void onPageBreak( IListInstance list, IReportContext reportContext )
-			throws ScriptException;
+	void onPageBreak(IListInstance list, IReportContext reportContext) throws ScriptException;
 
 }

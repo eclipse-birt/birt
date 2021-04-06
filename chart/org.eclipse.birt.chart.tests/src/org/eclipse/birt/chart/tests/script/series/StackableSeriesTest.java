@@ -19,16 +19,14 @@ import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
  * 
  */
 
-public class StackableSeriesTest extends BaseChartTestCase
-{
+public class StackableSeriesTest extends BaseChartTestCase {
 
-	public void testStacked( )
-	{
-		IValueSeries series = getChartWithAxes( ).getValueSeries( )[0][0];
-		assertTrue( series instanceof IStackableSeries );
-		assertEquals( ( (IStackableSeries) series ).isStacked( ), false );
+	public void testStacked() {
+		IValueSeries series = getChartWithAxes().getValueSeries()[0][0];
+		assertTrue(series instanceof IStackableSeries);
+		assertEquals(((IStackableSeries) series).isStacked(), false);
 
-		( (IStackableSeries) series ).setStacked( true );
-		assertEquals( ( (IStackableSeries) series ).isStacked( ), true );
+		((IStackableSeries) series).setStacked(true);
+		assertEquals(((IStackableSeries) series).isStacked(), true);
 	}
 }

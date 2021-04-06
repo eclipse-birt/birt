@@ -14,14 +14,10 @@ package org.eclipse.birt.report.engine.script.internal.element;
 import org.eclipse.birt.report.engine.api.script.element.IAutoText;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
+public class AutoText extends ReportItem implements IAutoText {
 
-public class AutoText extends ReportItem implements IAutoText
-{
-
-	public AutoText( ReportItemHandle handle )
-	{
-		super( handle );
+	public AutoText(ReportItemHandle handle) {
+		super(handle);
 	}
-
 
 }

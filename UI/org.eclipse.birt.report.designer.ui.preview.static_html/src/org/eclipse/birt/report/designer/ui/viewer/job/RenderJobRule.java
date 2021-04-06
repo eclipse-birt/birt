@@ -17,38 +17,27 @@ import org.eclipse.core.runtime.jobs.ISchedulingRule;
  * 
  */
 
-public class RenderJobRule implements ISchedulingRule
-{
+public class RenderJobRule implements ISchedulingRule {
 
 	private String designFile;
 
-	public RenderJobRule( String designFile )
-	{
+	public RenderJobRule(String designFile) {
 		this.designFile = designFile;
 	}
 
-	public String getDesignFile( )
-	{
+	public String getDesignFile() {
 		return this.designFile;
 	}
 
-	public boolean contains( ISchedulingRule rule )
-	{
-		if ( rule instanceof RenderJobRule
-				&& ( (RenderJobRule) rule ).getDesignFile( )
-						.equals( getDesignFile( ) ) )
-		{
+	public boolean contains(ISchedulingRule rule) {
+		if (rule instanceof RenderJobRule && ((RenderJobRule) rule).getDesignFile().equals(getDesignFile())) {
 			return true;
 		}
 		return false;
 	}
 
-	public boolean isConflicting( ISchedulingRule rule )
-	{
-		if ( rule instanceof RenderJobRule
-				&& ( (RenderJobRule) rule ).getDesignFile( )
-						.equals( getDesignFile( ) ) )
-		{
+	public boolean isConflicting(ISchedulingRule rule) {
+		if (rule instanceof RenderJobRule && ((RenderJobRule) rule).getDesignFile().equals(getDesignFile())) {
 			return true;
 		}
 		return false;

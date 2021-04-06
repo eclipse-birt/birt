@@ -17,39 +17,33 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
- * Regression description: 
+ * Regression description:
  * </p>
- * The FilterCond structure has an operator member that
- * is of type filterOperator. The names of some of the choices have issues:
+ * The FilterCond structure has an operator member that is of type
+ * filterOperator. The names of some of the choices have issues:
  * 
- * null: should be is-null
- * not-null: fine, or change to is-not-null
- * true: should be is-true
- * false: should be is-false 
+ * null: should be is-null not-null: fine, or change to is-not-null true: should
+ * be is-true false: should be is-false
  * </p>
  * Test description:
  * <p>
  * Check that choice names are properly worded
  */
-public class Regression_78796 extends BaseTestCase
-{
+public class Regression_78796 extends BaseTestCase {
 
-	
-	
 	/**
 	 * 
 	 */
-	
-	public void test_regression_78796( )
-	{
-		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
 
-		IChoiceSet choiceset = instance.getChoiceSet( "filterOperator" ); //$NON-NLS-1$
+	public void test_regression_78796() {
+		MetaDataDictionary instance = MetaDataDictionary.getInstance();
 
-		IChoice[] naturedSortedChoices = choiceset.getChoices( null );
-		assertEquals( "is-null", naturedSortedChoices[9].getName( ) ); //$NON-NLS-1$
-		assertEquals( "is-not-null", naturedSortedChoices[8].getName( ) );//$NON-NLS-1$
-		assertEquals( "is-true", naturedSortedChoices[10].getName( ) );//$NON-NLS-1$
-		assertEquals( "is-false", naturedSortedChoices[7].getName( ) );//$NON-NLS-1$
+		IChoiceSet choiceset = instance.getChoiceSet("filterOperator"); //$NON-NLS-1$
+
+		IChoice[] naturedSortedChoices = choiceset.getChoices(null);
+		assertEquals("is-null", naturedSortedChoices[9].getName()); //$NON-NLS-1$
+		assertEquals("is-not-null", naturedSortedChoices[8].getName());//$NON-NLS-1$
+		assertEquals("is-true", naturedSortedChoices[10].getName());//$NON-NLS-1$
+		assertEquals("is-false", naturedSortedChoices[7].getName());//$NON-NLS-1$
 	}
 }

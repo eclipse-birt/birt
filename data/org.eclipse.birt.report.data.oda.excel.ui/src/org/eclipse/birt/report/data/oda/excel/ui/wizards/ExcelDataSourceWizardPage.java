@@ -28,16 +28,14 @@ import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Shell;
 
-public class ExcelDataSourceWizardPage extends DataSourceWizardPage
-{
+public class ExcelDataSourceWizardPage extends DataSourceWizardPage {
 
 	private ExcelDataSourcePageHelper pageHelper;
 	private Properties folderProperties;
 
-	public ExcelDataSourceWizardPage( String pageName )
-	{
-		super( pageName );
-		setMessage( ExcelDataSourcePageHelper.DEFAULT_MESSAGE );
+	public ExcelDataSourceWizardPage(String pageName) {
+		super(pageName);
+		setMessage(ExcelDataSourcePageHelper.DEFAULT_MESSAGE);
 		// page title is specified in extension manifest
 	}
 
@@ -48,39 +46,35 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage
 	 * #createPageCustomControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public void createPageCustomControl( Composite parent )
-	{
-		if ( pageHelper == null )
-			pageHelper = new ExcelDataSourcePageHelper( this );
-		pageHelper.setResourceIdentifiers( getHostResourceIdentifiers( ) );
-		pageHelper.createCustomControl( parent );
-		pageHelper.initCustomControl( folderProperties ); // in case init was
-															// called before
-															// create
+	public void createPageCustomControl(Composite parent) {
+		if (pageHelper == null)
+			pageHelper = new ExcelDataSourcePageHelper(this);
+		pageHelper.setResourceIdentifiers(getHostResourceIdentifiers());
+		pageHelper.createCustomControl(parent);
+		pageHelper.initCustomControl(folderProperties); // in case init was
+														// called before
+														// create
 
 		/*
-		 * Optionally hides the Test Connection button, using
-		 * setPingButtonVisible( false );
+		 * Optionally hides the Test Connection button, using setPingButtonVisible(
+		 * false );
 		 */
 	}
 
 	private NewDataSourceWizardBase odaWizard;
 
-	protected NewDataSourceWizardBase getOdaWizard( )
-	{
+	protected NewDataSourceWizardBase getOdaWizard() {
 		return odaWizard;
 	}
 
-	public void setWizard( IWizard newWizard )
-	{
-		if ( newWizard instanceof NewDataSourceWizardBase )
+	public void setWizard(IWizard newWizard) {
+		if (newWizard instanceof NewDataSourceWizardBase)
 			odaWizard = (NewDataSourceWizardBase) newWizard;
-		super.setWizard( newWizard );
+		super.setWizard(newWizard);
 	}
 
-	public IWizard getWizard( )
-	{
-		return getOdaWizard( );
+	public IWizard getWizard() {
+		return getOdaWizard();
 	}
 
 	/*
@@ -90,19 +84,17 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage
 	 * #collectCustomProperties()
 	 */
-	public Properties collectCustomProperties( )
-	{
+	public Properties collectCustomProperties() {
 		/*
-		 * Optionally assign a custom designer state, for inclusion in the ODA
-		 * design session response, using setResponseDesignerState(
-		 * DesignerState customState );
+		 * Optionally assign a custom designer state, for inclusion in the ODA design
+		 * session response, using setResponseDesignerState( DesignerState customState
+		 * );
 		 */
 
-		if ( pageHelper != null )
-			return pageHelper.collectCustomProperties( folderProperties );
+		if (pageHelper != null)
+			return pageHelper.collectCustomProperties(folderProperties);
 
-		return ( folderProperties != null ) ? folderProperties
-				: new Properties( );
+		return (folderProperties != null) ? folderProperties : new Properties();
 	}
 
 	/*
@@ -112,12 +104,11 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage
 	 * org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizardPage
 	 * #initPageCustomControl(java.util.Properties)
 	 */
-	public void setInitialProperties( Properties dataSourceProps )
-	{
+	public void setInitialProperties(Properties dataSourceProps) {
 		folderProperties = dataSourceProps;
-		if ( pageHelper == null )
+		if (pageHelper == null)
 			return; // ignore, wait till createPageCustomControl to initialize
-		pageHelper.initCustomControl( folderProperties );
+		pageHelper.initCustomControl(folderProperties);
 	}
 
 	/*
@@ -128,88 +119,77 @@ public class ExcelDataSourceWizardPage extends DataSourceWizardPage
 	 * #refresh()
 	 */
 	@Override
-	public void refresh( )
-	{
+	public void refresh() {
 		// enable/disable all controls on page based on the session editable
 		// state
-		enableAllControls( getControl( ), isSessionEditable( ) );
+		enableAllControls(getControl(), isSessionEditable());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.
-	 * DataSourceWizardPageCore
-	 * #createTestConnectionRunnable(org.eclipse.datatools
+	 * DataSourceWizardPageCore #createTestConnectionRunnable(org.eclipse.datatools
 	 * .connectivity.IConnectionProfile)
 	 */
-	protected Runnable createTestConnectionRunnable( IConnectionProfile profile )
-	{
-		return pageHelper.createTestConnectionRunnable( profile );
+	protected Runnable createTestConnectionRunnable(IConnectionProfile profile) {
+		return pageHelper.createTestConnectionRunnable(profile);
 	}
 
 	private Shell shell;
 
-	public void createControl( Composite parent )
-	{
-		shell = parent.getShell( );
-		super.createControl( parent );
+	public void createControl(Composite parent) {
+		shell = parent.getShell();
+		super.createControl(parent);
 	}
 
-	public Shell getShell( )
-	{
-		Shell shell = super.getShell( );
-		if ( shell == null )
+	public Shell getShell() {
+		Shell shell = super.getShell();
+		if (shell == null)
 			return this.shell;
 		else
 			return shell;
 	}
 
-	private List<IChangeListener> pageStatusChangedListeners = new ArrayList<IChangeListener>( );
+	private List<IChangeListener> pageStatusChangedListeners = new ArrayList<IChangeListener>();
 
-	public void addPageChangedListener( IChangeListener listener )
-	{
-		if ( listener != null
-				&& !pageStatusChangedListeners.contains( listener ) )
-		{
-			pageStatusChangedListeners.add( listener );
+	public void addPageChangedListener(IChangeListener listener) {
+		if (listener != null && !pageStatusChangedListeners.contains(listener)) {
+			pageStatusChangedListeners.add(listener);
 		}
 	}
 
-	public void removePageChangedListener( IChangeListener listener )
-	{
-		pageStatusChangedListeners.remove( listener );
+	public void removePageChangedListener(IChangeListener listener) {
+		pageStatusChangedListeners.remove(listener);
 	}
 
-	public void setPageComplete( boolean complete )
-	{
-		super.setPageComplete( complete );
-		for ( int i = 0; i < pageStatusChangedListeners.size( ); i++ )
-		{
-			pageStatusChangedListeners.get( i ).update( true );
+	public void setPageComplete(boolean complete) {
+		super.setPageComplete(complete);
+		for (int i = 0; i < pageStatusChangedListeners.size(); i++) {
+			pageStatusChangedListeners.get(i).update(true);
 		}
 	}
-	
+
 	/**
-     * Returns the resource identifiers of the ODA consumer application, if available.
-     * @return  a ResourceIdentifiers instance; may be null if none is specified
-     * @since 4.9.0
-     */
-  protected ResourceIdentifiers getHostResourceIdentifiers()
-    {
-	  ResourceIdentifiers designResourceIds = super.getHostResourceIdentifiers();
-	  
-	  //Add support to show relative Path for browse button when used to create connection profile for Excel datasource 
-    	if(designResourceIds == null) {
-    		
-	  	designResourceIds = DesignFactory.eINSTANCE.createResourceIdentifiers( );
-    	designResourceIds.setApplResourceBaseURI( DTPUtil.getInstance( )
-    			.getBIRTResourcePath( ) );
-    	designResourceIds.setDesignResourceBaseURI( DTPUtil.getInstance( )
-    			.getReportDesignPath( ) );
-    	}
-    	
-        return designResourceIds;
-    	
-    }
+	 * Returns the resource identifiers of the ODA consumer application, if
+	 * available.
+	 * 
+	 * @return a ResourceIdentifiers instance; may be null if none is specified
+	 * @since 4.9.0
+	 */
+	protected ResourceIdentifiers getHostResourceIdentifiers() {
+		ResourceIdentifiers designResourceIds = super.getHostResourceIdentifiers();
+
+		// Add support to show relative Path for browse button when used to create
+		// connection profile for Excel datasource
+		if (designResourceIds == null) {
+
+			designResourceIds = DesignFactory.eINSTANCE.createResourceIdentifiers();
+			designResourceIds.setApplResourceBaseURI(DTPUtil.getInstance().getBIRTResourcePath());
+			designResourceIds.setDesignResourceBaseURI(DTPUtil.getInstance().getReportDesignPath());
+		}
+
+		return designResourceIds;
+
+	}
 }

@@ -11,18 +11,15 @@
 
 package org.eclipse.birt.report.model.parser;
 
-
 /**
  * Factory class to create a parse state.
  */
 
-public class ParseStateFactory extends ParseStateFactoryImpl
-{
+public class ParseStateFactory extends ParseStateFactoryImpl {
 
-	private static ParseStateFactory instance = new ParseStateFactory( );
+	private static ParseStateFactory instance = new ParseStateFactory();
 
-	private ParseStateFactory( )
-	{
+	private ParseStateFactory() {
 
 	}
 
@@ -32,8 +29,7 @@ public class ParseStateFactory extends ParseStateFactoryImpl
 	 * @return the instance
 	 */
 
-	public static ParseStateFactory getInstance( )
-	{
+	public static ParseStateFactory getInstance() {
 		return instance;
 	}
 

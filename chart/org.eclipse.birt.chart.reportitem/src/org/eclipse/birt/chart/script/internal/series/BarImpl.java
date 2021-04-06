@@ -21,23 +21,19 @@ import org.eclipse.birt.chart.script.api.series.IBar;
  * 
  */
 
-public class BarImpl extends StackableSeriesImpl implements IBar
-{
+public class BarImpl extends StackableSeriesImpl implements IBar {
 
-	public BarImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public BarImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof BarSeries;
 	}
 
-	public String getBarType( )
-	{
-		return ( (BarSeries) series ).getRiser( ).getName( );
+	public String getBarType() {
+		return ((BarSeries) series).getRiser().getName();
 	}
 
-	public void setBarType( String type )
-	{
-		( (BarSeries) series ).setRiser( RiserType.getByName( type ) );
+	public void setBarType(String type) {
+		((BarSeries) series).setRiser(RiserType.getByName(type));
 	}
 
 }

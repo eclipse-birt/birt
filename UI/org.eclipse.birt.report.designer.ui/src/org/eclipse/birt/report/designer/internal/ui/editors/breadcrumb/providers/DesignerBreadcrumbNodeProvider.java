@@ -18,107 +18,89 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public class DesignerBreadcrumbNodeProvider extends
-		DefaultBreadcrumbNodeProvider
-{
+public class DesignerBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
-	public Object getParent( Object element )
-	{
-		if ( getEditPart( element ) == null )
+	public Object getParent(Object element) {
+		if (getEditPart(element) == null)
 			return null;
 
-		Object adapter = getEditPart( element ).getAdapter( IBreadcrumbNodeProvider.class );
-		if ( adapter instanceof DefaultBreadcrumbNodeProvider )
-		{
-			( (DefaultBreadcrumbNodeProvider) adapter ).setContext( viewer );
-			return ( (IBreadcrumbNodeProvider) adapter ).getParent( element );
+		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
+		if (adapter instanceof DefaultBreadcrumbNodeProvider) {
+			((DefaultBreadcrumbNodeProvider) adapter).setContext(viewer);
+			return ((IBreadcrumbNodeProvider) adapter).getParent(element);
 		}
 
-		return super.getParent( element );
+		return super.getParent(element);
 	}
 
-	public Object[] getChildren( Object element )
-	{
-		if ( getEditPart( element ) == null )
+	public Object[] getChildren(Object element) {
+		if (getEditPart(element) == null)
 			return new Object[0];
 
-		Object adapter = getEditPart( element ).getAdapter( IBreadcrumbNodeProvider.class );
-		if ( adapter instanceof DefaultBreadcrumbNodeProvider )
-		{
-			( (DefaultBreadcrumbNodeProvider) adapter ).setContext( viewer );
-			return ( (IBreadcrumbNodeProvider) adapter ).getChildren( element );
+		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
+		if (adapter instanceof DefaultBreadcrumbNodeProvider) {
+			((DefaultBreadcrumbNodeProvider) adapter).setContext(viewer);
+			return ((IBreadcrumbNodeProvider) adapter).getChildren(element);
 		}
 
-		return super.getChildren( element );
+		return super.getChildren(element);
 	}
 
-	public boolean hasChildren( Object element )
-	{
-		return super.hasChildren( element );
+	public boolean hasChildren(Object element) {
+		return super.hasChildren(element);
 	}
 
-	public Image getImage( Object element )
-	{
-		if ( getEditPart( element ) == null )
+	public Image getImage(Object element) {
+		if (getEditPart(element) == null)
 			return null;
 
-		Object adapter = getEditPart( element ).getAdapter( IBreadcrumbNodeProvider.class );
-		if ( adapter instanceof IBreadcrumbNodeProvider )
-		{
-			( (DefaultBreadcrumbNodeProvider) adapter ).setContext( viewer );
-			return ( (DefaultBreadcrumbNodeProvider) adapter ).getImage( element );
+		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
+		if (adapter instanceof IBreadcrumbNodeProvider) {
+			((DefaultBreadcrumbNodeProvider) adapter).setContext(viewer);
+			return ((DefaultBreadcrumbNodeProvider) adapter).getImage(element);
 		}
 
-		return super.getImage( element );
+		return super.getImage(element);
 	}
 
-	public String getText( Object element )
-	{
-		if ( getEditPart( element ) == null )
+	public String getText(Object element) {
+		if (getEditPart(element) == null)
 			return null;
 
-		Object adapter = getEditPart( element ).getAdapter( IBreadcrumbNodeProvider.class );
-		if ( adapter instanceof DefaultBreadcrumbNodeProvider )
-		{
-			( (DefaultBreadcrumbNodeProvider) adapter ).setContext( viewer );
-			return ( (IBreadcrumbNodeProvider) adapter ).getText( element );
+		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
+		if (adapter instanceof DefaultBreadcrumbNodeProvider) {
+			((DefaultBreadcrumbNodeProvider) adapter).setContext(viewer);
+			return ((IBreadcrumbNodeProvider) adapter).getText(element);
 		}
 
-		return super.getText( element );
+		return super.getText(element);
 	}
 
-	public String getTooltipText( Object element )
-	{
-		if ( getEditPart( element ) == null )
+	public String getTooltipText(Object element) {
+		if (getEditPart(element) == null)
 			return null;
 
-		Object adapter = getEditPart( element ).getAdapter( IBreadcrumbNodeProvider.class );
-		if ( adapter instanceof DefaultBreadcrumbNodeProvider )
-		{
-			( (DefaultBreadcrumbNodeProvider) adapter ).setContext( viewer );
-			return ( (IBreadcrumbNodeProvider) adapter ).getTooltipText( element );
+		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
+		if (adapter instanceof DefaultBreadcrumbNodeProvider) {
+			((DefaultBreadcrumbNodeProvider) adapter).setContext(viewer);
+			return ((IBreadcrumbNodeProvider) adapter).getTooltipText(element);
 		}
 
-		return super.getTooltipText( element );
+		return super.getTooltipText(element);
 	}
 
-	public void createContextMenu( Object element, IMenuManager menu )
-	{
-		if ( getEditPart( element ) == null )
+	public void createContextMenu(Object element, IMenuManager menu) {
+		if (getEditPart(element) == null)
 			return;
 
-		Object adapter = getEditPart( element ).getAdapter( IBreadcrumbNodeProvider.class );
-		if ( adapter instanceof DefaultBreadcrumbNodeProvider )
-		{
-			( (DefaultBreadcrumbNodeProvider) adapter ).setContext( viewer );
-			( (IBreadcrumbNodeProvider) adapter ).createContextMenu( element,
-					menu );
+		Object adapter = getEditPart(element).getAdapter(IBreadcrumbNodeProvider.class);
+		if (adapter instanceof DefaultBreadcrumbNodeProvider) {
+			((DefaultBreadcrumbNodeProvider) adapter).setContext(viewer);
+			((IBreadcrumbNodeProvider) adapter).createContextMenu(element, menu);
 			return;
 		}
 
-		super.createContextMenu( element, menu );
+		super.createContextMenu(element, menu);
 	}
-
-	
 
 }

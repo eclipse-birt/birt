@@ -8,22 +8,21 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *  
- **************************************************************************/ 
+ **************************************************************************/
 package org.eclipse.birt.data.engine.api;
 
 import java.util.Comparator;
 
 /**
  * This class is used to indicate the hints when doing the comparison.
- *	@since 4.8
+ * 
+ * @since 4.8
  */
-public class BaseCompareHints
-{
+public class BaseCompareHints {
 	private Comparator comparator;
 	private String nullStringType;
 
-	public BaseCompareHints( Comparator comparator, String nullStringType )
-	{
+	public BaseCompareHints(Comparator comparator, String nullStringType) {
 		this.comparator = comparator;
 		this.nullStringType = nullStringType;
 	}
@@ -32,8 +31,7 @@ public class BaseCompareHints
 	 * 
 	 * @return
 	 */
-	public Comparator getComparator( )
-	{
+	public Comparator getComparator() {
 		return this.comparator;
 	}
 
@@ -41,8 +39,7 @@ public class BaseCompareHints
 	 * 
 	 * @return
 	 */
-	public String getNullType( )
-	{
+	public String getNullType() {
 		return this.nullStringType;
 	}
 }

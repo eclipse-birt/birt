@@ -27,178 +27,141 @@ import org.eclipse.birt.report.model.util.URIUtilImpl;
  * the file.
  */
 
-public class LibraryParserHandler extends ModuleParserHandler
-{
+public class LibraryParserHandler extends ModuleParserHandler {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param theSession
-	 *            the design session
-	 * @param host
-	 *            the host module
-	 * @param fileName
-	 *            the file name in URL format
-	 * @param options
-	 *            module options.
-	 * @param reloadLibs
-	 *            libraries that have been reload
+	 * @param theSession the design session
+	 * @param host       the host module
+	 * @param fileName   the file name in URL format
+	 * @param options    module options.
+	 * @param reloadLibs libraries that have been reload
 	 */
 
-	LibraryParserHandler( DesignSessionImpl theSession, Module host,
-			URL fileName, ModuleOption options, Map<String, Library> reloadLibs )
-	{
-		super( theSession, fileName.toExternalForm( ), reloadLibs );
+	LibraryParserHandler(DesignSessionImpl theSession, Module host, URL fileName, ModuleOption options,
+			Map<String, Library> reloadLibs) {
+		super(theSession, fileName.toExternalForm(), reloadLibs);
 
-		module = new Library( theSession, host );
+		module = new Library(theSession, host);
 
-		URL url = URIUtilImpl.getDirectory( fileName );
-		module.setSystemId( url );
-		module.setFileName( fileName.toExternalForm( ) );
-		module.setOptions( options );
+		URL url = URIUtilImpl.getDirectory(fileName);
+		module.setSystemId(url);
+		module.setFileName(fileName.toExternalForm());
+		module.setOptions(options);
 
 		// setup the location
 
-		URL location = ModelUtil
-				.getURLPresentation( fileName.toExternalForm( ) );
-		module.setLocation( location );
+		URL location = ModelUtil.getURLPresentation(fileName.toExternalForm());
+		module.setLocation(location);
 
-		buildModuleOptions( options );
+		buildModuleOptions(options);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param theSession
-	 *            the design session
-	 * @param host
-	 *            the host module
-	 * @param systemId
-	 *            the library system id
-	 * @param fileName
-	 *            the file name
-	 * @param options
-	 *            module options.
-	 * @param reloadLibs
-	 *            libraries that have been reload
+	 * @param theSession the design session
+	 * @param host       the host module
+	 * @param systemId   the library system id
+	 * @param fileName   the file name
+	 * @param options    module options.
+	 * @param reloadLibs libraries that have been reload
 	 */
 
-	LibraryParserHandler( DesignSessionImpl theSession, Module host,
-			String fileName, ModuleOption options )
-	{
-		super( theSession, fileName );
+	LibraryParserHandler(DesignSessionImpl theSession, Module host, String fileName, ModuleOption options) {
+		super(theSession, fileName);
 
-		module = new Library( theSession, host );
+		module = new Library(theSession, host);
 
-		URL url = URIUtilImpl.getDirectory( fileName );
-		module.setSystemId( url );
-		module.setFileName( fileName );
-		module.setOptions( options );
+		URL url = URIUtilImpl.getDirectory(fileName);
+		module.setSystemId(url);
+		module.setFileName(fileName);
+		module.setOptions(options);
 
 		// setup the location
 
-		URL location = ModelUtil.getURLPresentation( fileName );
-		module.setLocation( location );
+		URL location = ModelUtil.getURLPresentation(fileName);
+		module.setLocation(location);
 
-		buildModuleOptions( options );
+		buildModuleOptions(options);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param theSession
-	 *            the design session
-	 * @param host
-	 *            the host module
-	 * @param systemId
-	 *            the library system id
-	 * @param fileName
-	 *            the file name
-	 * @param options
-	 *            module options.
+	 * @param theSession the design session
+	 * @param host       the host module
+	 * @param systemId   the library system id
+	 * @param fileName   the file name
+	 * @param options    module options.
 	 */
 
-	LibraryParserHandler( DesignSessionImpl theSession, String fileName,
-			ModuleOption options )
-	{
-		super( theSession, fileName );
-		module = new Library( theSession, null );
+	LibraryParserHandler(DesignSessionImpl theSession, String fileName, ModuleOption options) {
+		super(theSession, fileName);
+		module = new Library(theSession, null);
 
-		URL systemId = URIUtilImpl.getDirectory( fileName );
-		module.setSystemId( systemId );
-		module.setFileName( fileName );
-		module.setOptions( options );
+		URL systemId = URIUtilImpl.getDirectory(fileName);
+		module.setSystemId(systemId);
+		module.setFileName(fileName);
+		module.setOptions(options);
 
 		// setup the location
 
-		URL location = ModelUtil.getURLPresentation( fileName );
-		module.setLocation( location );
+		URL location = ModelUtil.getURLPresentation(fileName);
+		module.setLocation(location);
 
-		buildModuleOptions( options );
+		buildModuleOptions(options);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param theSession
-	 *            the design session
-	 * @param host
-	 *            the host module
-	 * @param systemId
-	 *            the library system id
-	 * @param fileName
-	 *            the file name
-	 * @param options
-	 *            module options.
+	 * @param theSession the design session
+	 * @param host       the host module
+	 * @param systemId   the library system id
+	 * @param fileName   the file name
+	 * @param options    module options.
 	 */
 
-	LibraryParserHandler( DesignSessionImpl theSession, URL systemId,
-			ModuleOption options )
-	{
-		super( theSession, systemId.toExternalForm( ) );
-		module = new Library( theSession, null );
-		module.setSystemId( systemId );
-		module.setOptions( options );
+	LibraryParserHandler(DesignSessionImpl theSession, URL systemId, ModuleOption options) {
+		super(theSession, systemId.toExternalForm());
+		module = new Library(theSession, null);
+		module.setSystemId(systemId);
+		module.setOptions(options);
 
-		buildModuleOptions( options );
+		buildModuleOptions(options);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.XMLParserHandler#createStartState()
+	 * @see org.eclipse.birt.report.model.util.XMLParserHandler#createStartState()
 	 */
-	public AbstractParseState createStartState( )
-	{
-		return new StartState( );
+	public AbstractParseState createStartState() {
+		return new StartState();
 	}
 
 	/**
 	 * Recognizes the top-level tags: Library.
 	 */
 
-	class StartState extends InnerParseState
-	{
+	class StartState extends InnerParseState {
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.birt.report.model.util.AbstractParseState#startElement
+		 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement
 		 * (java.lang.String)
 		 */
 
-		public AbstractParseState startElement( String tagName )
-		{
-			if ( tagName.equalsIgnoreCase( DesignSchemaConstants.LIBRARY_TAG ) )
-			{
-				if ( markLineNumber )
-					tempLineNumbers.put( module, Integer.valueOf( locator
-							.getLineNumber( ) ) );
-				return new LibraryState( LibraryParserHandler.this );
+		public AbstractParseState startElement(String tagName) {
+			if (tagName.equalsIgnoreCase(DesignSchemaConstants.LIBRARY_TAG)) {
+				if (markLineNumber)
+					tempLineNumbers.put(module, Integer.valueOf(locator.getLineNumber()));
+				return new LibraryState(LibraryParserHandler.this);
 			}
-			return super.startElement( tagName );
+			return super.startElement(tagName);
 		}
 	}
 }

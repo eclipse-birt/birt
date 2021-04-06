@@ -42,26 +42,22 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Create four datasource and change them positions<br>
  * <p>
  */
-public class Regression_160429 extends BaseTestCase
-{
+public class Regression_160429 extends BaseTestCase {
 
 	public final static String REPORT = "regression_160429.xml";
 
-	public void test_regression_160429( ) throws Exception
-	{
+	public void test_regression_160429() throws Exception {
 		// open the report design
-		openDesign( REPORT );
+		openDesign(REPORT);
 
 		// find the position of datasource
-		OdaDataSourceHandle ds1 = (OdaDataSourceHandle) designHandle
-				.findDataSource( "d1" );
-		OdaDataSourceHandle ds2 = (OdaDataSourceHandle) designHandle
-				.findDataSource( "d2" );
-		assertNotNull( ds1 );
-		
-		System.out.println( ds1.getIndex( ) );
-		System.out.println( ds2.getIndex( ) );
-		System.out.println( designHandle.findContentSlot( ds2 ) );
+		OdaDataSourceHandle ds1 = (OdaDataSourceHandle) designHandle.findDataSource("d1");
+		OdaDataSourceHandle ds2 = (OdaDataSourceHandle) designHandle.findDataSource("d2");
+		assertNotNull(ds1);
+
+		System.out.println(ds1.getIndex());
+		System.out.println(ds2.getIndex());
+		System.out.println(designHandle.findContentSlot(ds2));
 
 	}
 }

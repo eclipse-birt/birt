@@ -30,16 +30,14 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  * Implements the built-in Total.npv aggregation
  */
-public class TotalNpv extends AggrFunction
-{
+public class TotalNpv extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return IBuildInAggregation.TOTAL_NPV_FUNC;
 	}
 
@@ -48,8 +46,7 @@ public class TotalNpv extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
@@ -58,8 +55,7 @@ public class TotalNpv extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
@@ -68,16 +64,12 @@ public class TotalNpv extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getParameterDefn()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
-		return new IParameterDefn[]{
-				new ParameterDefn( Constants.EXPRESSION_NAME,
-						Constants.EXPRESSION_DISPLAY_NAME,
-						false,
-						true,
-						SupportedDataTypes.CALCULATABLE,
-						"" ), //$NON-NLS-1$
-				new ParameterDefn( "rate", Messages.getString( "TotalNpv.param.rate" ), true, false, SupportedDataTypes.CALCULATABLE, "" ) //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+	public IParameterDefn[] getParameterDefn() {
+		return new IParameterDefn[] {
+				new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME, false, true,
+						SupportedDataTypes.CALCULATABLE, ""), //$NON-NLS-1$
+				new ParameterDefn("rate", Messages.getString("TotalNpv.param.rate"), true, false, //$NON-NLS-1$ //$NON-NLS-2$
+						SupportedDataTypes.CALCULATABLE, "") //$NON-NLS-1$
 		};
 	}
 
@@ -86,32 +78,29 @@ public class TotalNpv extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+	public Accumulator newAccumulator() {
+		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
 
-	private static class MyAccumulator extends SummaryAccumulator
-	{
+	private static class MyAccumulator extends SummaryAccumulator {
 
 		private Number npv = null;
 
 		private double rate = 0D;
 
 		private int count = 1;
-		
-		MyAccumulator( ICalculator calc )
-		{
-			super( calc );
+
+		MyAccumulator(ICalculator calc) {
+			super(calc);
 		}
 
 		/*
 		 * (non-Javadoc)
+		 * 
 		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#start()
 		 */
-		public void start( )
-		{
-			super.start( );
+		public void start() {
+			super.start();
 			npv = null;
 			count = 1;
 		}
@@ -119,31 +108,25 @@ public class TotalNpv extends AggrFunction
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[])
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[]
+		 * )
 		 */
-		public void onRow( Object[] args ) throws DataException
-		{
-			assert ( args.length > 0 );
+		public void onRow(Object[] args) throws DataException {
+			assert (args.length > 0);
 
-			if ( args[0] != null )
-			{
-				try
-				{
-					if ( count == 1 )
-					{
-						if ( args[1] != null )
-							rate = DataTypeUtil.toDouble( args[1] )
-									.doubleValue( );
+			if (args[0] != null) {
+				try {
+					if (count == 1) {
+						if (args[1] != null)
+							rate = DataTypeUtil.toDouble(args[1]).doubleValue();
 						else
-							rate = DataTypeUtil.toDouble( 0 );
+							rate = DataTypeUtil.toDouble(0);
 					}
-					npv = calculator.add( npv, calculator.divide( calculator.getTypedObject( args[0] ),
-							calculator.getTypedObject( Math.pow( ( 1 + rate ), (double) count++ ) ) ) );
-				}
-				catch ( BirtException e )
-				{
-					throw DataException.wrap( new AggrException( ResourceConstants.DATATYPEUTIL_ERROR,
-							e ) );
+					npv = calculator.add(npv, calculator.divide(calculator.getTypedObject(args[0]),
+							calculator.getTypedObject(Math.pow((1 + rate), (double) count++))));
+				} catch (BirtException e) {
+					throw DataException.wrap(new AggrException(ResourceConstants.DATATYPEUTIL_ERROR, e));
 				}
 			}
 		}
@@ -151,11 +134,11 @@ public class TotalNpv extends AggrFunction
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
 		 */
-		public Object getSummaryValue( )
-		{
-			return ( count > 1 ? npv : null );
+		public Object getSummaryValue() {
+			return (count > 1 ? npv : null);
 		}
 
 	}
@@ -163,20 +146,20 @@ public class TotalNpv extends AggrFunction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalNpv.description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return Messages.getString("TotalNpv.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalNpv.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("TotalNpv.displayName"); //$NON-NLS-1$
 	}
 }

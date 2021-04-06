@@ -31,8 +31,7 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
  * population process.
  * 
  */
-public class ResultSetPopulator
-{
+public class ResultSetPopulator {
 
 	/** data rows holds real data */
 	private ResultSetCache smartCache;
@@ -47,8 +46,7 @@ public class ResultSetPopulator
 	private IResultClass rsMeta;
 
 	/**
-	 * the IResultIterator instance to which the final populated ResultSet is
-	 * output
+	 * the IResultIterator instance to which the final populated ResultSet is output
 	 */
 	private CachedResultSet ri;
 
@@ -64,8 +62,9 @@ public class ResultSetPopulator
 	private IEventHandler eventHandler;
 
 	private boolean clearCacheResultSet = true;
-	
+
 	protected DataEngineSession session;
+
 	/**
 	 * 
 	 * @param query
@@ -73,39 +72,33 @@ public class ResultSetPopulator
 	 * @param ri
 	 * @throws DataException
 	 */
-	public ResultSetPopulator( BaseQuery query, IResultClass rsMeta,
-			CachedResultSet ri, DataEngineSession session, IEventHandler eventHandler ) throws DataException
-	{
+	public ResultSetPopulator(BaseQuery query, IResultClass rsMeta, CachedResultSet ri, DataEngineSession session,
+			IEventHandler eventHandler) throws DataException {
 		this.query = query;
 		this.rsMeta = rsMeta;
 		this.ri = ri;
 		this.session = session;
 		this.eventHandler = eventHandler;
-		this.groupProcessorManager = new GroupProcessorManager(
-				query,
-				this,
-				this.session );
+		this.groupProcessorManager = new GroupProcessorManager(query, this, this.session);
 		// Initialize the ExpressionProcessor.
-		this.exprProcessor = query.getExprProcessor( );
+		this.exprProcessor = query.getExprProcessor();
 		// Set the query which is used by IExpressionProcessor
-		this.exprProcessor.setQuery( this.query );
+		this.exprProcessor.setQuery(this.query);
 		this.exprProcessor.setResultSetPopulator(this);
 	}
 
 	/**
 	 * @return
 	 */
-	public IEventHandler getEventHandler( )
-	{
+	public IEventHandler getEventHandler() {
 		return this.eventHandler;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public GroupProcessorManager getGroupProcessorManager( )
-	{
+	public GroupProcessorManager getGroupProcessorManager() {
 		return this.groupProcessorManager;
 	}
 
@@ -113,8 +106,7 @@ public class ResultSetPopulator
 	 * 
 	 * @return
 	 */
-	public BaseQuery getQuery( )
-	{
+	public BaseQuery getQuery() {
 		return this.query;
 	}
 
@@ -122,41 +114,39 @@ public class ResultSetPopulator
 	 * 
 	 * @param query
 	 */
-	void setQuery( BaseQuery query )
-	{
+	void setQuery(BaseQuery query) {
 		this.query = query;
 	}
 
 	/**
 	 * Actually this cache is not supposed to be visible. But in report document
 	 * presentation, sub query needs to find its result objects from its parent
-	 * result set, so its parent cache has to be known. A better solution needs
-	 * to be thought out for this issue.
+	 * result set, so its parent cache has to be known. A better solution needs to
+	 * be thought out for this issue.
 	 * 
 	 * TODO: enhance me
 	 * 
 	 * @return smartCache
 	 */
-	public ResultSetCache getCache( )
-	{
+	public ResultSetCache getCache() {
 		return this.smartCache;
 	}
-	
+
 	/**
 	 * whether clear smart cache when smart cache is reset.
+	 * 
 	 * @return
 	 */
-	public boolean clearCacheResultSet( )
-	{
+	public boolean clearCacheResultSet() {
 		return clearCacheResultSet;
 	}
 
 	/**
 	 * set whether clear smart cache when smart cache is reset
+	 * 
 	 * @param flag
 	 */
-	public void setClearCacheResultSet( boolean flag )
-	{
+	public void setClearCacheResultSet(boolean flag) {
 		clearCacheResultSet = flag;
 	}
 
@@ -165,8 +155,7 @@ public class ResultSetPopulator
 	 * 
 	 * @param cache
 	 */
-	public void setCache( ResultSetCache cache )
-	{
+	public void setCache(ResultSetCache cache) {
 		smartCache = cache;
 	}
 
@@ -175,8 +164,7 @@ public class ResultSetPopulator
 	 * 
 	 * @return
 	 */
-	public IResultClass getResultSetMetadata( )
-	{
+	public IResultClass getResultSetMetadata() {
 		return this.rsMeta;
 	}
 
@@ -184,8 +172,7 @@ public class ResultSetPopulator
 	 * 
 	 * @param resultMeta
 	 */
-	public void setResultSetMetadata( IResultClass resultMeta )
-	{
+	public void setResultSetMetadata(IResultClass resultMeta) {
 		this.rsMeta = resultMeta;
 	}
 
@@ -194,36 +181,32 @@ public class ResultSetPopulator
 	 * 
 	 * @return
 	 */
-	public CachedResultSet getResultIterator( )
-	{
+	public CachedResultSet getResultIterator() {
 		return this.ri;
 	}
 
-	public IExpressionProcessor getExpressionProcessor( )
-	{
+	public IExpressionProcessor getExpressionProcessor() {
 		return this.exprProcessor;
 	}
 
 	/**
 	 * Populate the result set. In this method we would firstly prepare the data
-	 * needed to be used in population process, then call doPopulate method to
-	 * carry out the actual population job.
+	 * needed to be used in population process, then call doPopulate method to carry
+	 * out the actual population job.
 	 * 
 	 * @param odaResultSet
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void populateResultSet( OdiResultSetWrapper odaResultSet ) throws DataException
-	{
-		PassManager.populateResultSet( this, odaResultSet, this.session );
+	public void populateResultSet(OdiResultSetWrapper odaResultSet) throws DataException {
+		PassManager.populateResultSet(this, odaResultSet, this.session);
 	}
-	
-	public DataSetFromCache cacheDataSet( DataSetToCache dstc ) throws DataException
-	{
-		PassManager.populateDataSetResultSet( this, new OdiResultSetWrapper( dstc ) );
-		CachedResultSet itr = this.getResultIterator( );
-		dstc.saveDataSetResult( itr );
-		return new DataSetFromCache( session );
+
+	public DataSetFromCache cacheDataSet(DataSetToCache dstc) throws DataException {
+		PassManager.populateDataSetResultSet(this, new OdiResultSetWrapper(dstc));
+		CachedResultSet itr = this.getResultIterator();
+		dstc.saveDataSetResult(itr);
+		return new DataSetFromCache(session);
 	}
 
 	/**
@@ -233,14 +216,10 @@ public class ResultSetPopulator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void reSetSmartCacheUsingOrderingInfo( OrderingInfo odInfo )
-			throws DataException
-	{
-		reSetCache( odInfo );
-		this.groupProcessorManager.getGroupCalculationUtil( )
-				.getGroupInformationUtil( )
-				.doGrouping( );
-		this.getCache( ).next( );
+	public void reSetSmartCacheUsingOrderingInfo(OrderingInfo odInfo) throws DataException {
+		reSetCache(odInfo);
+		this.groupProcessorManager.getGroupCalculationUtil().getGroupInformationUtil().doGrouping();
+		this.getCache().next();
 	}
 
 	/**
@@ -248,21 +227,15 @@ public class ResultSetPopulator
 	 * @param stopSign
 	 * @throws DataException
 	 */
-	public void reSetCache( OrderingInfo odInfo ) throws DataException
-	{
-		this.getCache( ).reset( );
-		this.getCache( ).next( );
-		
-		this.setCache( new SmartCache( new CacheRequest( query.getMaxRows( ),
-				query.getFetchEvents( ),
-				null,
-				this.getEventHandler( ) ),
-				new SmartRowResultSet( this.getCache( ), rsMeta, odInfo ),
-				this.rsMeta,
-				this.session) );
-		
-		this.groupProcessorManager.getGroupCalculationUtil( )
-				.setResultSetCache( this.getCache( ) );
+	public void reSetCache(OrderingInfo odInfo) throws DataException {
+		this.getCache().reset();
+		this.getCache().next();
+
+		this.setCache(new SmartCache(
+				new CacheRequest(query.getMaxRows(), query.getFetchEvents(), null, this.getEventHandler()),
+				new SmartRowResultSet(this.getCache(), rsMeta, odInfo), this.rsMeta, this.session));
+
+		this.groupProcessorManager.getGroupCalculationUtil().setResultSetCache(this.getCache());
 	}
 
 	/**
@@ -270,11 +243,8 @@ public class ResultSetPopulator
 	 * @param groupLevel
 	 * @throws DataException
 	 */
-	void first( int groupLevel ) throws DataException
-	{
-		this.groupProcessorManager.getGroupCalculationUtil( )
-				.getGroupInformationUtil( )
-				.first( groupLevel );
+	void first(int groupLevel) throws DataException {
+		this.groupProcessorManager.getGroupCalculationUtil().getGroupInformationUtil().first(groupLevel);
 	}
 
 	/**
@@ -282,62 +252,43 @@ public class ResultSetPopulator
 	 * @param groupLevel
 	 * @throws DataException
 	 */
-	void last( int groupLevel ) throws DataException
-	{
-		this.groupProcessorManager.getGroupCalculationUtil( )
-				.getGroupInformationUtil( )
-				.last( groupLevel );
+	void last(int groupLevel) throws DataException {
+		this.groupProcessorManager.getGroupCalculationUtil().getGroupInformationUtil().last(groupLevel);
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getEndingGroupLevel()
 	 */
-	int getEndingGroupLevel( ) throws DataException
-	{
-		return this.groupProcessorManager.getGroupCalculationUtil( )
-				.getGroupInformationUtil( )
-				.getEndingGroupLevel( );
+	int getEndingGroupLevel() throws DataException {
+		return this.groupProcessorManager.getGroupCalculationUtil().getGroupInformationUtil().getEndingGroupLevel();
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getStartingGroupLevel()
 	 */
-	int getStartingGroupLevel( ) throws DataException
-	{
-		return this.getGroupProcessorManager( )
-				.getGroupCalculationUtil( )
-				.getGroupInformationUtil( )
-				.getStartingGroupLevel( );
+	int getStartingGroupLevel() throws DataException {
+		return this.getGroupProcessorManager().getGroupCalculationUtil().getGroupInformationUtil()
+				.getStartingGroupLevel();
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getCurrentGroupIndex(int)
 	 */
-	int getCurrentGroupIndex( int groupLevel ) throws DataException
-	{
-		return this.getGroupProcessorManager( )
-				.getGroupCalculationUtil( )
-				.getGroupInformationUtil( )
-				.getCurrentGroupIndex( groupLevel );
+	int getCurrentGroupIndex(int groupLevel) throws DataException {
+		return this.getGroupProcessorManager().getGroupCalculationUtil().getGroupInformationUtil()
+				.getCurrentGroupIndex(groupLevel);
 	}
 
 	/**
 	 * @see org.eclipse.birt.data.engine.odi.IResultIterator#getGroupStartAndEndIndex(int)
 	 */
-	public int[] getGroupStartAndEndIndex( int groupLevel )
-			throws DataException
-	{
-		return this.getGroupProcessorManager( )
-				.getGroupCalculationUtil( )
-				.getGroupInformationUtil( )
-				.getGroupStartAndEndIndex( groupLevel );
+	public int[] getGroupStartAndEndIndex(int groupLevel) throws DataException {
+		return this.getGroupProcessorManager().getGroupCalculationUtil().getGroupInformationUtil()
+				.getGroupStartAndEndIndex(groupLevel);
 	}
 
-	
-	public DataEngineSession getSession( )
-	{
+	public DataEngineSession getSession() {
 		return session;
 	}
-	
 
 }

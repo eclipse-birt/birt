@@ -20,27 +20,20 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 import org.eclipse.birt.report.model.api.DesignVisitor;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
-public class PreparationContext extends ReportContextImpl
-		implements
-			IPreparationContext
-{
+public class PreparationContext extends ReportContextImpl implements IPreparationContext {
 
 	DesignVisitor visitor = null;
 
-	public PreparationContext( ExecutionContext context, DesignVisitor visitor )
-	{
-		super( context );
+	public PreparationContext(ExecutionContext context, DesignVisitor visitor) {
+		super(context);
 		this.visitor = visitor;
 	}
 
-	public void prepare( DesignElementHandle handle ) throws BirtException
-	{
-		visitor.apply( handle );
+	public void prepare(DesignElementHandle handle) throws BirtException {
+		visitor.apply(handle);
 	}
 
-	public void triggerEvent( DesignElementHandle handle ) throws BirtException
-	{
-		ExtendedItemScriptExecutor.handleOnPrepare(
-				(ExtendedItemHandle) handle, context );
+	public void triggerEvent(DesignElementHandle handle) throws BirtException {
+		ExtendedItemScriptExecutor.handleOnPrepare((ExtendedItemHandle) handle, context);
 	}
 }

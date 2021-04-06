@@ -42,34 +42,31 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * there won't be exception
  * </p>
  */
-public class Regression_117427 extends BaseTestCase
-{
+public class Regression_117427 extends BaseTestCase {
 
 	private final static String REPORT = "regression_117427.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( REPORT , REPORT );
-		
+		copyResource_INPUT(REPORT, REPORT);
+
 	}
-	
+
 	/**
-	 * @throws DesignFileException 
-	 * @throws SemanticException 
-	 * @throws IOException 
+	 * @throws DesignFileException
+	 * @throws SemanticException
+	 * @throws IOException
 	 * 
 	 */
-	
-	public void test_regression_117427( ) throws DesignFileException, SemanticException, IOException
-	{
-		openDesign( REPORT );
-		LibraryHandle lib = designHandle.getLibrary( "regression_117427_lib" ); //$NON-NLS-1$
-		designHandle.dropLibrary( lib );
-		
-		assertEquals( 0, designHandle.getLibraries( ).size( ) );
+
+	public void test_regression_117427() throws DesignFileException, SemanticException, IOException {
+		openDesign(REPORT);
+		LibraryHandle lib = designHandle.getLibrary("regression_117427_lib"); //$NON-NLS-1$
+		designHandle.dropLibrary(lib);
+
+		assertEquals(0, designHandle.getLibraries().size());
 	}
 }

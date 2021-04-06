@@ -9,17 +9,20 @@ package org.eclipse.birt.report.model.adapter.oda.model;
 import org.eclipse.emf.ecore.EObject;
 
 /**
- * <!-- begin-user-doc -->
- * A representation of the model object '<em><b>Dynamic List</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Dynamic
+ * List</b></em>'. <!-- end-user-doc -->
  *
  * <p>
  * The following features are supported:
  * <ul>
- *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getDataSetName <em>Data Set Name</em>}</li>
- *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled <em>Enabled</em>}</li>
- *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getLabelColumn <em>Label Column</em>}</li>
- *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getValueColumn <em>Value Column</em>}</li>
+ * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getDataSetName
+ * <em>Data Set Name</em>}</li>
+ * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled
+ * <em>Enabled</em>}</li>
+ * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getLabelColumn
+ * <em>Label Column</em>}</li>
+ * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getValueColumn
+ * <em>Value Column</em>}</li>
  * </ul>
  * </p>
  *
@@ -27,16 +30,16 @@ import org.eclipse.emf.ecore.EObject;
  * @model extendedMetaData="name='DynamicList' kind='empty'"
  * @generated
  */
-public interface DynamicList extends EObject
-{
+public interface DynamicList extends EObject {
 	/**
-	 * Returns the value of the '<em><b>Data Set Name</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Data Set Name</b></em>' attribute. <!--
+	 * begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Data Set Name</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Data Set Name</em>' attribute isn't clear, there
+	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Data Set Name</em>' attribute.
 	 * @see #setDataSetName(String)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDynamicList_DataSetName()
@@ -47,9 +50,11 @@ public interface DynamicList extends EObject
 	String getDataSetName();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getDataSetName <em>Data Set Name</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getDataSetName
+	 * <em>Data Set Name</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @param value the new value of the '<em>Data Set Name</em>' attribute.
 	 * @see #getDataSetName()
 	 * @generated
@@ -57,13 +62,14 @@ public interface DynamicList extends EObject
 	void setDataSetName(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Enabled</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Enabled</b></em>' attribute. <!--
+	 * begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Enabled</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Enabled</em>' attribute isn't clear, there really
+	 * should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Enabled</em>' attribute.
 	 * @see #setEnabled(String)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDynamicList_Enabled()
@@ -74,9 +80,10 @@ public interface DynamicList extends EObject
 	String getEnabled();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled <em>Enabled</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getEnabled
+	 * <em>Enabled</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @param value the new value of the '<em>Enabled</em>' attribute.
 	 * @see #getEnabled()
 	 * @generated
@@ -84,13 +91,14 @@ public interface DynamicList extends EObject
 	void setEnabled(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Label Column</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Label Column</b></em>' attribute. <!--
+	 * begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Label Column</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Label Column</em>' attribute isn't clear, there
+	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Label Column</em>' attribute.
 	 * @see #setLabelColumn(String)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDynamicList_LabelColumn()
@@ -101,9 +109,11 @@ public interface DynamicList extends EObject
 	String getLabelColumn();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getLabelColumn <em>Label Column</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getLabelColumn
+	 * <em>Label Column</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @param value the new value of the '<em>Label Column</em>' attribute.
 	 * @see #getLabelColumn()
 	 * @generated
@@ -111,13 +121,14 @@ public interface DynamicList extends EObject
 	void setLabelColumn(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Value Column</b></em>' attribute.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Value Column</b></em>' attribute. <!--
+	 * begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Value Column</em>' attribute isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Value Column</em>' attribute isn't clear, there
+	 * really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
+	 * 
 	 * @return the value of the '<em>Value Column</em>' attribute.
 	 * @see #setValueColumn(String)
 	 * @see org.eclipse.birt.report.model.adapter.oda.model.ModelPackage#getDynamicList_ValueColumn()
@@ -128,9 +139,11 @@ public interface DynamicList extends EObject
 	String getValueColumn();
 
 	/**
-	 * Sets the value of the '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getValueColumn <em>Value Column</em>}' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * Sets the value of the
+	 * '{@link org.eclipse.birt.report.model.adapter.oda.model.DynamicList#getValueColumn
+	 * <em>Value Column</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc
+	 * -->
+	 * 
 	 * @param value the new value of the '<em>Value Column</em>' attribute.
 	 * @see #getValueColumn()
 	 * @generated

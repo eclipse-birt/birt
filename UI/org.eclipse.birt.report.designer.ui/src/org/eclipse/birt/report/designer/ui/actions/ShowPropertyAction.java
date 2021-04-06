@@ -25,14 +25,12 @@ import org.eclipse.ui.PlatformUI;
  * Show properties of selected element.
  */
 
-public class ShowPropertyAction extends Action
-{
+public class ShowPropertyAction extends Action {
 
 	private Object model;
 
-	public ShowPropertyAction( Object model )
-	{
-		setText( Messages.getString( "ShowPropertyAction.text" ) ); //$NON-NLS-1$
+	public ShowPropertyAction(Object model) {
+		setText(Messages.getString("ShowPropertyAction.text")); //$NON-NLS-1$
 		this.model = model;
 	}
 
@@ -41,8 +39,7 @@ public class ShowPropertyAction extends Action
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		return model instanceof DesignElementHandle;
 	}
 
@@ -51,13 +48,11 @@ public class ShowPropertyAction extends Action
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Show property action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Show property action >> Run ..."); //$NON-NLS-1$
 		}
-		showView( );
+		showView();
 		// ReportEditor editor = UIUtil.getActiveReportEditor( );
 		// IViewReference[] viewReference = editor.getSite( )
 		// .getPage( )
@@ -74,20 +69,14 @@ public class ShowPropertyAction extends Action
 		// }
 	}
 
-	private void showView( )
-	{
-		IWorkbenchWindow window = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( );
-		IWorkbenchPage page = window.getActivePage( );
-		if ( page != null )
-		{
-			try
-			{
-				page.showView( "org.eclipse.ui.views.PropertySheet" ); //$NON-NLS-1$
-			}
-			catch ( PartInitException e )
-			{
-				ExceptionHandler.handle( e );
+	private void showView() {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
+		IWorkbenchPage page = window.getActivePage();
+		if (page != null) {
+			try {
+				page.showView("org.eclipse.ui.views.PropertySheet"); //$NON-NLS-1$
+			} catch (PartInitException e) {
+				ExceptionHandler.handle(e);
 			}
 		}
 	}

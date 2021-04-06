@@ -28,43 +28,35 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * 
  */
 
-public class ReportItemTheme extends AbstractTheme
-		implements
-			IReportItemThemeModel
-{
+public class ReportItemTheme extends AbstractTheme implements IReportItemThemeModel {
 
 	/**
 	 * Constructor.
 	 */
 
-	public ReportItemTheme( )
-	{
-		super( );
+	public ReportItemTheme() {
+		super();
 	}
 
 	/**
 	 * Constructor with the element name.
 	 * 
-	 * @param theName
-	 *            the element name
+	 * @param theName the element name
 	 */
 
-	public ReportItemTheme( String theName )
-	{
-		super( theName );
+	public ReportItemTheme(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitReportItemTheme( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitReportItemTheme(this);
 	}
 
 	/*
@@ -73,8 +65,7 @@ public class ReportItemTheme extends AbstractTheme
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.REPORT_ITEM_THEME_ELEMENT;
 	}
 
@@ -86,47 +77,39 @@ public class ReportItemTheme extends AbstractTheme
 	 * .birt.report.model.core.Module)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design of the row
+	 * @param module the report design of the row
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public ReportItemThemeHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ReportItemThemeHandle( module, this );
+	public ReportItemThemeHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ReportItemThemeHandle(module, this);
 		}
 		return (ReportItemThemeHandle) handle;
 	}
 
-	public static boolean isValidType( String type )
-	{
-		if ( StringUtil.isBlank( type ) )
+	public static boolean isValidType(String type) {
+		if (StringUtil.isBlank(type))
 			return false;
-		List<IPredefinedStyle> styles = MetaDataDictionary.getInstance( )
-				.getPredefinedStyles( type );
-		if ( styles == null || styles.isEmpty( ) )
+		List<IPredefinedStyle> styles = MetaDataDictionary.getInstance().getPredefinedStyles(type);
+		if (styles == null || styles.isEmpty())
 			return false;
 		return true;
 	}
 
-	public String getType( Module module )
-	{
-		return getStringProperty( module, TYPE_PROP );
+	public String getType(Module module) {
+		return getStringProperty(module, TYPE_PROP);
 	}
-	
-	public Object FlattenClone( ) throws CloneNotSupportedException 
-	{
-		return doClone( FlattenCopyPolicy.getInstance( ) );
+
+	public Object FlattenClone() throws CloneNotSupportedException {
+		return doClone(FlattenCopyPolicy.getInstance());
 	}
 }

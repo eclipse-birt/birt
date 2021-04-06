@@ -21,32 +21,27 @@ import org.eclipse.birt.data.engine.olap.util.filter.IJSFilterHelper;
 /**
  * 
  */
-public class LevelFilter
-{
+public class LevelFilter {
 
 	private String dimensionName;
 	private String levelName;
 	private ISelection[] selections;
 	private Member[] dimMembers;
 	private IJSFilterHelper filterHelper;
-	
-	private static Logger logger = Logger.getLogger( LevelFilter.class.getName( ) );
-	
-	
+
+	private static Logger logger = Logger.getLogger(LevelFilter.class.getName());
+
 	/**
 	 * @param level
 	 * @param selections
 	 */
-	public LevelFilter(DimLevel level, ISelection[] selections )
-	{
-		Object[] params = {
-				level, selections
-		};
-		logger.entering( LevelFilter.class.getName( ), "LevelFilter", params );
-		this.dimensionName = level.getDimensionName( );
-		this.levelName = level.getLevelName( );
+	public LevelFilter(DimLevel level, ISelection[] selections) {
+		Object[] params = { level, selections };
+		logger.entering(LevelFilter.class.getName(), "LevelFilter", params);
+		this.dimensionName = level.getDimensionName();
+		this.levelName = level.getLevelName();
 		this.selections = selections;
-		logger.exiting( LevelFilter.class.getName( ), "LevelFilter" );
+		logger.exiting(LevelFilter.class.getName(), "LevelFilter");
 	}
 
 	/**
@@ -54,100 +49,82 @@ public class LevelFilter
 	 * @param levelName
 	 * @param selections
 	 */
-	public LevelFilter( String dimensionName, String levelName,
-			ISelection[] selections )
-	{
-		Object[] params = {
-				dimensionName, levelName, selections
-		};
-		logger.entering( LevelFilter.class.getName( ), "LevelFilter", params );
+	public LevelFilter(String dimensionName, String levelName, ISelection[] selections) {
+		Object[] params = { dimensionName, levelName, selections };
+		logger.entering(LevelFilter.class.getName(), "LevelFilter", params);
 		this.dimensionName = dimensionName;
 		this.levelName = levelName;
 		this.selections = selections;
-		logger.exiting( LevelFilter.class.getName( ), "LevelFilter" );
+		logger.exiting(LevelFilter.class.getName(), "LevelFilter");
 	}
-	
+
 	/**
 	 * @return the dimensionName
 	 */
-	public String getDimensionName( )
-	{
+	public String getDimensionName() {
 		return dimensionName;
 	}
-	
+
 	/**
 	 * @param dimensionName the dimensionName to set
 	 */
-	public void setDimensionName( String dimensionName )
-	{
+	public void setDimensionName(String dimensionName) {
 		this.dimensionName = dimensionName;
 	}
-	
+
 	/**
 	 * @return the levelName
 	 */
-	public String getLevelName( )
-	{
+	public String getLevelName() {
 		return levelName;
 	}
-	
+
 	/**
 	 * @param levelName the levelName to set
 	 */
-	public void setLevelName( String levelName )
-	{
+	public void setLevelName(String levelName) {
 		this.levelName = levelName;
 	}
-	
+
 	/**
 	 * @return the selections
 	 */
-	public ISelection[] getSelections( )
-	{
+	public ISelection[] getSelections() {
 		return selections;
 	}
-	
+
 	/**
 	 * @param selections the selections to set
 	 */
-	public void setSelections( ISelection[] selections )
-	{
+	public void setSelections(ISelection[] selections) {
 		this.selections = selections;
 	}
 
-	
 	/**
 	 * @return the dimensionMembers
 	 */
-	public Member[] getDimMembers( )
-	{
+	public Member[] getDimMembers() {
 		return dimMembers;
 	}
 
-	
 	/**
 	 * @param dimensionMembers the dimensionMembers to set
 	 */
-	public void setDimMembers( Member[] dimensionMembers )
-	{
+	public void setDimMembers(Member[] dimensionMembers) {
 		this.dimMembers = dimensionMembers;
 	}
 
-	
 	/**
 	 * @return the filterHelper
 	 */
-	public IJSFilterHelper getFilterHelper( )
-	{
+	public IJSFilterHelper getFilterHelper() {
 		return filterHelper;
 	}
 
-	
 	/**
 	 * @param filterHelper the filterHelper to set
 	 */
-	public void setFilterHelper( IJSFilterHelper filterHelper )
-	{
+	public void setFilterHelper(IJSFilterHelper filterHelper) {
 		this.filterHelper = filterHelper;
 	}
 }

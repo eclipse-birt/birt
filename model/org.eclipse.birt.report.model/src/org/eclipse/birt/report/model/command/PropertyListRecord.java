@@ -34,8 +34,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
  * 
  */
 
-public class PropertyListRecord extends SimpleRecord
-{
+public class PropertyListRecord extends SimpleRecord {
 
 	/**
 	 * The element that contains the property list.
@@ -79,40 +78,34 @@ public class PropertyListRecord extends SimpleRecord
 	 * Constructor for a remove operation. Removes the item given by the member
 	 * reference.
 	 * 
-	 * @param element
-	 *            the element
-	 * @param context
-	 *            the context to add the structure
-	 * @param toRemove
-	 *            the structure to remove
+	 * @param element  the element
+	 * @param context  the context to add the structure
+	 * @param toRemove the structure to remove
 	 * 
 	 */
 
-	public PropertyListRecord( DesignElement element, StructureContext context, int posn )
-	{
+	public PropertyListRecord(DesignElement element, StructureContext context, int posn) {
 		this.element = element;
 		this.isAdd = false;
 
 		this.context = context;
-		this.propDefn = context.getElementProp( );
+		this.propDefn = context.getElementProp();
 
 		// ensure the top of the context is just the element itself
-		assert element == context.getElement( );
+		assert element == context.getElement();
 
-		Object valueContainer = context.getValueContainer( );
-		if ( valueContainer instanceof Structure )
-			list = (List) ( (Structure) valueContainer ).getLocalProperty(
-					null, (PropertyDefn) context.getPropDefn( ) );
+		Object valueContainer = context.getValueContainer();
+		if (valueContainer instanceof Structure)
+			list = (List) ((Structure) valueContainer).getLocalProperty(null, (PropertyDefn) context.getPropDefn());
 		else
-			list = (List) ( (DesignElement) valueContainer ).getLocalProperty(
-					null, (ElementPropertyDefn) context.getPropDefn( ) );
-		
-		this.posn = posn;
-		this.value = list.get( posn );
+			list = (List) ((DesignElement) valueContainer).getLocalProperty(null,
+					(ElementPropertyDefn) context.getPropDefn());
 
-		label = CommandLabelFactory.getCommandLabel(
-				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{context
-						.getElementProp( ).getDisplayName( )} );
+		this.posn = posn;
+		this.value = list.get(posn);
+
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[] { context.getElementProp().getDisplayName() });
 	}
 
 	/**
@@ -120,65 +113,51 @@ public class PropertyListRecord extends SimpleRecord
 	 * reference.
 	 * 
 	 * 
-	 * @param element
-	 *            the element
-	 * @param context
-	 *            the context to add the structure
-	 * @param toAdd
-	 *            the structure to add
-	 * @param posn
-	 *            the position to add
+	 * @param element the element
+	 * @param context the context to add the structure
+	 * @param toAdd   the structure to add
+	 * @param posn    the position to add
 	 * 
 	 */
 
-	public PropertyListRecord( DesignElement element, StructureContext context,
-			Object toAdd, int posn )
-	{
+	public PropertyListRecord(DesignElement element, StructureContext context, Object toAdd, int posn) {
 		this.element = element;
 		this.isAdd = true;
 
 		this.context = context;
 		this.value = toAdd;
-		this.propDefn = (ElementPropertyDefn) context.getElementProp( );
+		this.propDefn = (ElementPropertyDefn) context.getElementProp();
 
 		// ensure the top of the context is just the element itself
-		assert element == context.getElement( );
+		assert element == context.getElement();
 
-		Object valueContainer = context.getValueContainer( );
-		if ( valueContainer instanceof Structure )
-			list = (List) ( (Structure) valueContainer ).getLocalProperty(
-					null, (PropertyDefn) context.getPropDefn( ) );
+		Object valueContainer = context.getValueContainer();
+		if (valueContainer instanceof Structure)
+			list = (List) ((Structure) valueContainer).getLocalProperty(null, (PropertyDefn) context.getPropDefn());
 		else
-			list = (List) ( (DesignElement) valueContainer ).getLocalProperty(
-					null, (ElementPropertyDefn) context.getPropDefn( ) );
+			list = (List) ((DesignElement) valueContainer).getLocalProperty(null,
+					(ElementPropertyDefn) context.getPropDefn());
 
 		this.posn = posn;
 
-		label = CommandLabelFactory.getCommandLabel(
-				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{context
-						.getElementProp( ).getDisplayName( )} );
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[] { context.getElementProp().getDisplayName() });
 	}
 
 	/**
 	 * Constructor for a remove operation. Removes the item given by the member
 	 * reference.
 	 * 
-	 * @param element
-	 *            the design element
-	 * @param propDefn
-	 *            the element property definition
+	 * @param element  the design element
+	 * @param propDefn the element property definition
 	 * 
-	 * @param theList
-	 *            the property list itself
-	 * @param toAdd
-	 *            the object to add, not the structure
-	 * @param posn
-	 *            the position to add
+	 * @param theList  the property list itself
+	 * @param toAdd    the object to add, not the structure
+	 * @param posn     the position to add
 	 */
 
-	public PropertyListRecord( DesignElement element,
-			ElementPropertyDefn propDefn, List theList, Object toAdd, int posn )
-	{
+	public PropertyListRecord(DesignElement element, ElementPropertyDefn propDefn, List theList, Object toAdd,
+			int posn) {
 		this.element = element;
 		this.isAdd = true;
 
@@ -189,80 +168,64 @@ public class PropertyListRecord extends SimpleRecord
 		this.propDefn = propDefn;
 		this.posn = posn;
 
-		label = CommandLabelFactory.getCommandLabel(
-				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
-						.getDisplayName( )} );
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[] { propDefn.getDisplayName() });
 	}
 
 	/**
 	 * Constructor for a remove operation. Removes the item given by the member
 	 * reference.
 	 * 
-	 * @param element
-	 *            the element
-	 * @param propDefn
-	 *            the element property definition
-	 * @param theList
-	 *            the property list itself
-	 * @param toRemove
-	 *            the object to remove, not the structure
+	 * @param element  the element
+	 * @param propDefn the element property definition
+	 * @param theList  the property list itself
+	 * @param toRemove the object to remove, not the structure
 	 */
 
-	public PropertyListRecord( DesignElement element,
-			ElementPropertyDefn propDefn, List theList, int posn )
-	{
+	public PropertyListRecord(DesignElement element, ElementPropertyDefn propDefn, List theList, int posn) {
 		this.element = element;
 		this.isAdd = false;
 		this.list = theList;
 		this.posn = posn;
-		this.value = list.get( posn );
-		this.context = new StructureContext( element, propDefn, null );
+		this.value = list.get(posn);
+		this.context = new StructureContext(element, propDefn, null);
 		this.propDefn = propDefn;
 
-		label = CommandLabelFactory.getCommandLabel(
-				MessageConstants.CHANGE_PROPERTY_MESSAGE, new String[]{propDefn
-						.getDisplayName( )} );
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_PROPERTY_MESSAGE,
+				new String[] { propDefn.getDisplayName() });
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
+	 * @see org.eclipse.birt.report.model.design.core.activity.SimpleRecord#perform
 	 * (boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
-		boolean doAdd = ( undo && !isAdd || !undo && isAdd );
-		if ( doAdd )
-		{
-			if ( !( value instanceof Structure ) )
-			{
-				list.add( posn, value );
+	protected void perform(boolean undo) {
+		boolean doAdd = (undo && !isAdd || !undo && isAdd);
+		if (doAdd) {
+			if (!(value instanceof Structure)) {
+				list.add(posn, value);
 				return;
 			}
 
 			// setup the context for the structure.
 
-			context.add( posn, (Structure) value );
-		}
-		else
-		{
-			if ( !( value instanceof Structure ) )
-			{
-				list.remove( posn );
+			context.add(posn, (Structure) value);
+		} else {
+			if (!(value instanceof Structure)) {
+				list.remove(posn);
 				return;
 			}
 
-			context.remove( posn );
+			context.remove(posn);
 			// if the structure list is empty now, then clear value
-			Object localValue = context.getLocalValue( element.getRoot( ) );
-			if ( localValue instanceof List )
-			{
+			Object localValue = context.getLocalValue(element.getRoot());
+			if (localValue instanceof List) {
 				List listValue = (List) localValue;
-				if ( listValue.isEmpty( ) )
-					context.clearValue( );
+				if (listValue.isEmpty())
+					context.clearValue();
 			}
 		}
 	}
@@ -270,15 +233,13 @@ public class PropertyListRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
+	 * @see org.eclipse.birt.report.model.design.core.activity.AbstractElementRecord
 	 * #getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
-		if ( eventTarget != null )
-			return eventTarget.getElement( );
+	public DesignElement getTarget() {
+		if (eventTarget != null)
+			return eventTarget.getElement();
 
 		return element;
 	}
@@ -286,20 +247,17 @@ public class PropertyListRecord extends SimpleRecord
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		if ( eventTarget != null )
-			return new PropertyEvent( eventTarget.getElement( ), eventTarget
-					.getPropName( ) );
+	public NotificationEvent getEvent() {
+		if (eventTarget != null)
+			return new PropertyEvent(eventTarget.getElement(), eventTarget.getPropName());
 
 		// Use the same notification for the done/redone and undone states.
 
-		return new PropertyEvent( element, propDefn.getName( ) );
+		return new PropertyEvent(element, propDefn.getName());
 	}
 
 	/*
@@ -308,21 +266,18 @@ public class PropertyListRecord extends SimpleRecord
 	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#getPostTasks()
 	 */
 
-	protected List<RecordTask> getPostTasks( )
-	{
-		List<RecordTask> retList = new ArrayList<RecordTask>( );
-		retList.addAll( super.getPostTasks( ) );
+	protected List<RecordTask> getPostTasks() {
+		List<RecordTask> retList = new ArrayList<RecordTask>();
+		retList.addAll(super.getPostTasks());
 
-		retList.add( new NotificationRecordTask( element, getEvent( ) ) );
+		retList.add(new NotificationRecordTask(element, getEvent()));
 
 		// if the structure is referencable, then send notification to the
 		// clients
 
-		if ( value != null && value instanceof IStructure
-				&& ( (IStructure) value ).isReferencable( ) )
-		{
+		if (value != null && value instanceof IStructure && ((IStructure) value).isReferencable()) {
 			ReferencableStructure refValue = (ReferencableStructure) value;
-			retList.add( new NotificationRecordTask( refValue, getEvent( ) ) );
+			retList.add(new NotificationRecordTask(refValue, getEvent()));
 		}
 
 		return retList;

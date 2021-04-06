@@ -33,18 +33,16 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * 
  */
 
-public class TableRow extends StyledElement implements ITableRowModel
-{
+public class TableRow extends StyledElement implements ITableRowModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public TableRow( )
-	{
-		super( );
-		initSlots( );
-		cachedPropStrategy = TableRowPropSearchStrategy.getInstance( );
+	public TableRow() {
+		super();
+		initSlots();
+		cachedPropStrategy = TableRowPropSearchStrategy.getInstance();
 	}
 
 	/*
@@ -53,35 +51,31 @@ public class TableRow extends StyledElement implements ITableRowModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	public ContainerSlot getSlot( int slot )
-	{
-		assert ( slot == CONTENT_SLOT );
+	public ContainerSlot getSlot(int slot) {
+		assert (slot == CONTENT_SLOT);
 		return slots[CONTENT_SLOT];
 	}
 
 	/**
-	 * Gets the contents of of the Contents slot. DO NOT change the returned
-	 * list, use the handle class to make changes.
+	 * Gets the contents of of the Contents slot. DO NOT change the returned list,
+	 * use the handle class to make changes.
 	 * 
 	 * @return the contents as an array
 	 */
 
-	public List<DesignElement> getContentsSlot( )
-	{
-		return slots[CONTENT_SLOT].getContents( );
+	public List<DesignElement> getContentsSlot() {
+		return slots[CONTENT_SLOT].getContents();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitRow( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitRow(this);
 	}
 
 	/*
@@ -90,38 +84,32 @@ public class TableRow extends StyledElement implements ITableRowModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.ROW_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
 	 * .birt.report.model.element.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design of the row
+	 * @param module the report design of the row
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public RowHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new RowHandle( module, this );
+	public RowHandle handle(Module module) {
+		if (handle == null) {
+			handle = new RowHandle(module, this);
 		}
 		return (RowHandle) handle;
 	}
@@ -129,30 +117,25 @@ public class TableRow extends StyledElement implements ITableRowModel
 	/**
 	 * Computes the number of columns defined by this row.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return the number of columns defined in this row
 	 */
 
-	public int getColumnCount( Module module )
-	{
+	public int getColumnCount(Module module) {
 		int colCount = 0;
-		int cellCount = slots[CONTENT_SLOT].getCount( );
-		for ( int i = 0; i < cellCount; i++ )
-		{
-			Cell cell = (Cell) slots[CONTENT_SLOT].getContent( i );
-			int posn = cell.getColumn( module );
-			int span = cell.getColSpan( module );
+		int cellCount = slots[CONTENT_SLOT].getCount();
+		for (int i = 0; i < cellCount; i++) {
+			Cell cell = (Cell) slots[CONTENT_SLOT].getContent(i);
+			int posn = cell.getColumn(module);
+			int span = cell.getColSpan(module);
 
 			// One-based indexing. Position is optional.
 
-			if ( posn > 0 )
-			{
+			if (posn > 0) {
 				int end = posn + span - 1;
-				if ( end > colCount )
+				if (end > colCount)
 					colCount = end;
-			}
-			else
+			} else
 				colCount += span;
 		}
 		return colCount;
@@ -161,17 +144,14 @@ public class TableRow extends StyledElement implements ITableRowModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
-		list.addAll( CellOverlappingValidator.getInstance( ).validate( module,
-				this ) );
+		list.addAll(CellOverlappingValidator.getInstance().validate(module, this));
 
 		return list;
 	}
@@ -179,24 +159,19 @@ public class TableRow extends StyledElement implements ITableRowModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getProperty(org.eclipse
 	 * .birt.report.model.core.Module,
 	 * org.eclipse.birt.report.model.metadata.ElementPropertyDefn)
 	 */
-	public Object getProperty( Module module, ElementPropertyDefn prop )
-	{
+	public Object getProperty(Module module, ElementPropertyDefn prop) {
 
-		String propName = prop.getName( );
-		if ( IStyleModel.PAGE_BREAK_INSIDE_PROP.equals( propName ) )
-		{
+		String propName = prop.getName();
+		if (IStyleModel.PAGE_BREAK_INSIDE_PROP.equals(propName)) {
 			// get default in different cases
-			DesignElement container = getContainer( );
-			if ( container instanceof TableItem
-					|| container instanceof TableGroup )
-			{
+			DesignElement container = getContainer();
+			if (container instanceof TableItem || container instanceof TableGroup) {
 				Object value = cachedPropStrategy.getPropertyFromElement(module, this, prop);
-				if ( value != null )
+				if (value != null)
 					return value;
 
 				// row in table or table group: default is avoid
@@ -204,6 +179,6 @@ public class TableRow extends StyledElement implements ITableRowModel
 			}
 		}
 
-		return super.getProperty( module, prop );
+		return super.getProperty(module, prop);
 	}
 }

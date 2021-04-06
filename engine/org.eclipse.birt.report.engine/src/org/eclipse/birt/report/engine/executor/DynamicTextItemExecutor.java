@@ -26,127 +26,110 @@ import org.mozilla.javascript.Scriptable;
  * MultiLine Item Executor
  * 
  */
-public class DynamicTextItemExecutor extends QueryItemExecutor
-{
+public class DynamicTextItemExecutor extends QueryItemExecutor {
 
 	/**
 	 * constructor
 	 * 
-	 * @param context
-	 *            the executor context
-	 * @param visitor
-	 *            the report executor visitor
+	 * @param context the executor context
+	 * @param visitor the report executor visitor
 	 */
-	DynamicTextItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.DYNAMICTEXTITEM );
+	DynamicTextItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.DYNAMICTEXTITEM);
 	}
 
 	/**
 	 * 
 	 * execute the multiline text.
 	 * 
-	 * multiline text have two expressions define the value and type. If the
-	 * value type is HTML, the value returns string in HTML. If the value type
-	 * is PLAIN_TEXT, the value returns string in plain text.
+	 * multiline text have two expressions define the value and type. If the value
+	 * type is HTML, the value returns string in HTML. If the value type is
+	 * PLAIN_TEXT, the value returns string in plain text.
 	 * 
 	 * the handling process is:
-	 * <li> create forign object
-	 * <li> push it into the context
-	 * <li> execute the dataset if any
-	 * <li> seek to the first record
-	 * <li> intialize the content
-	 * <li> process style, action, bookmark, visiblity
-	 * <li> evaluate the type and value
-	 * <li> set the rawType to html or text.
-	 * <li> call the onCreate if necessary
-	 * <li> pass it to emitter
-	 * <li> close the data set
-	 * <li> pop the context.
+	 * <li>create forign object
+	 * <li>push it into the context
+	 * <li>execute the dataset if any
+	 * <li>seek to the first record
+	 * <li>intialize the content
+	 * <li>process style, action, bookmark, visiblity
+	 * <li>evaluate the type and value
+	 * <li>set the rawType to html or text.
+	 * <li>call the onCreate if necessary
+	 * <li>pass it to emitter
+	 * <li>close the data set
+	 * <li>pop the context.
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.ReportItemExecutor#excute(org.eclipse.birt.report.engine.ir.ReportItemDesign,
 	 *      org.eclipse.birt.report.engine.emitter.IReportEmitter)
 	 */
-	public IContent execute( )
-	{
+	public IContent execute() {
 		DynamicTextItemDesign textDesign = (DynamicTextItemDesign) getDesign();
-		
-		IForeignContent textContent = report.createForeignContent( );
-		setContent(textContent);
-		
-		executeQuery( );
-		
-		initializeContent( textDesign, textContent );
 
-		processStyle( textDesign, textContent );
-		processBookmark( textDesign, textContent );
-		processVisibility( textDesign, textContent );
-		processAction( textDesign, textContent );
-		processUserProperties( textDesign, textContent );
+		IForeignContent textContent = report.createForeignContent();
+		setContent(textContent);
+
+		executeQuery();
+
+		initializeContent(textDesign, textContent);
+
+		processStyle(textDesign, textContent);
+		processBookmark(textDesign, textContent);
+		processVisibility(textDesign, textContent);
+		processAction(textDesign, textContent);
+		processUserProperties(textDesign, textContent);
 
 		// strValue = getMapVal( strValue, multiLineItem );
-		String contentType = textDesign.getContentType( );
-		if ( contentType == null )
-		{
+		String contentType = textDesign.getContentType();
+		if (contentType == null) {
 			contentType = TextItemDesign.AUTO_TEXT;
 		}
 
-		Object content = evaluate( textDesign.getContent( ) );
-		if ( content != null )
-		{
-			if ( !isSupportedType( content ) )
-			{
-				content = content.toString( );
+		Object content = evaluate(textDesign.getContent());
+		if (content != null) {
+			if (!isSupportedType(content)) {
+				content = content.toString();
 			}
 		}
 
-		String rawType = ForeignContent.getTextRawType( contentType, content );
-		if ( IForeignContent.TEXT_TYPE.equals( rawType ) )
-		{
+		String rawType = ForeignContent.getTextRawType(contentType, content);
+		if (IForeignContent.TEXT_TYPE.equals(rawType)) {
 			rawType = IForeignContent.VALUE_TYPE;
 		}
 
-		textContent.setRawType( rawType );
-		textContent.setRawValue( content );
-        textContent.setJTidy( textDesign.isJTidy( ) );
+		textContent.setRawType(rawType);
+		textContent.setRawValue(content);
+		textContent.setJTidy(textDesign.isJTidy());
 
-		if ( context.isInFactory( ) )
-		{
-			handleOnCreate( textContent );
+		if (context.isInFactory()) {
+			handleOnCreate(textContent);
 		}
 
-		startTOCEntry( textContent );
-		
+		startTOCEntry(textContent);
+
 		return textContent;
 	}
-	
-	private boolean isSupportedType( Object obValue )
-	{
-		if ( obValue instanceof Scriptable )
-		{
-			if ( obValue instanceof IdScriptableObject )
-			{
-				IdScriptableObject jsObject = ( (IdScriptableObject) obValue );
-				if ( jsObject.getClassName( ).equals( "Date" ) )
-				{
+
+	private boolean isSupportedType(Object obValue) {
+		if (obValue instanceof Scriptable) {
+			if (obValue instanceof IdScriptableObject) {
+				IdScriptableObject jsObject = ((IdScriptableObject) obValue);
+				if (jsObject.getClassName().equals("Date")) {
 					return true;
 				}
 				return false;
-			}
-			else if ( obValue instanceof NativeJavaObject )
-			{
+			} else if (obValue instanceof NativeJavaObject) {
 				return true;
 			}
 			return false;
 		}
-		return IOUtil.getTypeIndex( obValue ) != -1;
+		return IOUtil.getTypeIndex(obValue) != -1;
 	}
 
-	public void close( ) throws BirtException
-	{
-		finishTOCEntry( );
-		closeQuery( );
+	public void close() throws BirtException {
+		finishTOCEntry();
+		closeQuery();
 		super.close();
 	}
-	
+
 }

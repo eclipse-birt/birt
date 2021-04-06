@@ -32,8 +32,7 @@ import org.eclipse.ui.actions.ActionFactory;
 /**
  * The action class for pasting resources in resource explorer.
  */
-public class PasteResourceAction extends ResourceAction
-{
+public class PasteResourceAction extends ResourceAction {
 
 	/** The clipboard for pasting resource. */
 	private final Clipboard clipboard;
@@ -41,42 +40,31 @@ public class PasteResourceAction extends ResourceAction
 	/**
 	 * Constructs an action for pasting resource.
 	 * 
-	 * @param page
-	 *            the resource explorer page
-	 * @param clipboard
-	 *            the clipboard for pasting resource
+	 * @param page      the resource explorer page
+	 * @param clipboard the clipboard for pasting resource
 	 */
-	public PasteResourceAction( LibraryExplorerTreeViewPage page,
-			Clipboard clipboard )
-	{
-		super( Messages.getString( "PasteLibraryAction.Text" ), page ); //$NON-NLS-1$
+	public PasteResourceAction(LibraryExplorerTreeViewPage page, Clipboard clipboard) {
+		super(Messages.getString("PasteLibraryAction.Text"), page); //$NON-NLS-1$
 		this.clipboard = clipboard;
-		setId( ActionFactory.PASTE.getId( ) );
-		setAccelerator( SWT.CTRL | 'V' );
+		setId(ActionFactory.PASTE.getId());
+		setAccelerator(SWT.CTRL | 'V');
 
-		setImageDescriptor( PlatformUI.getWorkbench( )
-				.getSharedImages( )
-				.getImageDescriptor( ISharedImages.IMG_TOOL_PASTE ) );
+		setImageDescriptor(
+				PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_PASTE));
 
-		setDisabledImageDescriptor( PlatformUI.getWorkbench( )
-				.getSharedImages( )
-				.getImageDescriptor( ISharedImages.IMG_TOOL_PASTE_DISABLED ) );
+		setDisabledImageDescriptor(
+				PlatformUI.getWorkbench().getSharedImages().getImageDescriptor(ISharedImages.IMG_TOOL_PASTE_DISABLED));
 	}
 
 	@Override
-	public boolean isEnabled( )
-	{
-		FileTransfer fileTransfer = FileTransfer.getInstance( );
-		String[] fileData = (String[]) clipboard.getContents( fileTransfer );
+	public boolean isEnabled() {
+		FileTransfer fileTransfer = FileTransfer.getInstance();
+		String[] fileData = (String[]) clipboard.getContents(fileTransfer);
 
-		if ( fileData != null && fileData.length > 0 )
-		{
-			try
-			{
-				return canInsertIntoSelectedContainer( );
-			}
-			catch ( IOException e )
-			{
+		if (fileData != null && fileData.length > 0) {
+			try {
+				return canInsertIntoSelectedContainer();
+			} catch (IOException e) {
 				return false;
 			}
 		}
@@ -84,53 +72,41 @@ public class PasteResourceAction extends ResourceAction
 	}
 
 	@Override
-	public void run( )
-	{
+	public void run() {
 		// try a file transfer
-		FileTransfer fileTransfer = FileTransfer.getInstance( );
-		String[] fileData = (String[]) clipboard.getContents( fileTransfer );
+		FileTransfer fileTransfer = FileTransfer.getInstance();
+		String[] fileData = (String[]) clipboard.getContents(fileTransfer);
 
-		if ( fileData != null && fileData.length > 0 )
-		{
+		if (fileData != null && fileData.length > 0) {
 			File container;
 
-			try
-			{
-				container = getSelectedContainer( );
-			}
-			catch ( IOException e )
-			{
-				ExceptionUtil.handle( e );
+			try {
+				container = getSelectedContainer();
+			} catch (IOException e) {
+				ExceptionUtil.handle(e);
 				return;
 			}
 
-			if ( container == null )
-			{
+			if (container == null) {
 				return;
 			}
 
-			for ( String filename : fileData )
-			{
-				final File srcFile = new File( filename );
-				File targetFile = new File( container, srcFile.getName( ) );
+			for (String filename : fileData) {
+				final File srcFile = new File(filename);
+				File targetFile = new File(container, srcFile.getName());
 
-				if ( targetFile.exists( ) )
-				{
-					String[] existedNames = container.list( );
-					RenameInputDialog inputDialog = new RenameInputDialog( getShell( ),
-							Messages.getString( "PasteResourceAction.Dialog.Title" ), //$NON-NLS-1$
-							Messages.getString( "PasteResourceAction.Dialog.Message" ), //$NON-NLS-1$
-							Messages.getString( "PasteResourceAction.Dialog.FilenameSuffix.CopyOf" ) + " " + srcFile.getName( ), //$NON-NLS-1$ //$NON-NLS-2$
-							existedNames,
-							IHelpContextIds.RENAME_INPUT_DIALOG_ID );
-					inputDialog.create( );
+				if (targetFile.exists()) {
+					String[] existedNames = container.list();
+					RenameInputDialog inputDialog = new RenameInputDialog(getShell(),
+							Messages.getString("PasteResourceAction.Dialog.Title"), //$NON-NLS-1$
+							Messages.getString("PasteResourceAction.Dialog.Message"), //$NON-NLS-1$
+							Messages.getString("PasteResourceAction.Dialog.FilenameSuffix.CopyOf") + " " //$NON-NLS-1$ //$NON-NLS-2$
+									+ srcFile.getName(), existedNames, IHelpContextIds.RENAME_INPUT_DIALOG_ID);
+					inputDialog.create();
 
-					if ( inputDialog.open( ) == Window.OK )
-					{
-						targetFile = new File( container,
-								inputDialog.getResult( ).toString( ).trim( ) );
-					}
-					else
+					if (inputDialog.open() == Window.OK) {
+						targetFile = new File(container, inputDialog.getResult().toString().trim());
+					} else
 						return;
 
 					// No need to check the attribute of the target file for the
@@ -138,15 +114,17 @@ public class PasteResourceAction extends ResourceAction
 					// if ( !targetFile.canWrite( ) )
 					// {
 					// MessageDialog.openError( getShell( ),
-					//								Messages.getString( "PasteResourceAction.ReadOnlyEncounter.Title" ), //$NON-NLS-1$
-					//								Messages.getFormattedString( "PasteResourceAction.ReadOnlyEncounter.Message", //$NON-NLS-1$
+					// Messages.getString( "PasteResourceAction.ReadOnlyEncounter.Title" ),
+					// //$NON-NLS-1$
+					// Messages.getFormattedString( "PasteResourceAction.ReadOnlyEncounter.Message",
+					// //$NON-NLS-1$
 					// new Object[]{
 					// targetFile.getAbsolutePath( )
 					// } ) );
 					// return;
 					// }
 				}
-				doCopy( srcFile, targetFile );
+				doCopy(srcFile, targetFile);
 			}
 		}
 	}
@@ -154,26 +132,16 @@ public class PasteResourceAction extends ResourceAction
 	/**
 	 * Copies files in a monitor dialog.
 	 * 
-	 * @param srcFile
-	 *            the source file
-	 * @param targetFile
-	 *            the target file
+	 * @param srcFile    the source file
+	 * @param targetFile the target file
 	 */
-	private void doCopy( final File srcFile, final File targetFile )
-	{
-		try
-		{
-			new ProgressMonitorDialog( getShell( ) ).run( true,
-					true,
-					createCopyFileRunnable( srcFile, targetFile ) );
-		}
-		catch ( InvocationTargetException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		catch ( InterruptedException e )
-		{
-			ExceptionUtil.handle( e );
+	private void doCopy(final File srcFile, final File targetFile) {
+		try {
+			new ProgressMonitorDialog(getShell()).run(true, true, createCopyFileRunnable(srcFile, targetFile));
+		} catch (InvocationTargetException e) {
+			ExceptionUtil.handle(e);
+		} catch (InterruptedException e) {
+			ExceptionUtil.handle(e);
 		}
 	}
 }

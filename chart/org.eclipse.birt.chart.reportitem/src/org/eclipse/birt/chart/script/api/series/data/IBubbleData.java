@@ -15,35 +15,33 @@ package org.eclipse.birt.chart.script.api.series.data;
  * Represents the data contained in the Bubble Series
  */
 
-public interface IBubbleData extends ISeriesData
-{
+public interface IBubbleData extends ISeriesData {
 
 	/**
 	 * Gets the query expression of Bubble size.
 	 * 
 	 * @return Bubble size expression
 	 */
-	String getBubbleSizeExpr( );
+	String getBubbleSizeExpr();
 
 	/**
 	 * Gets the query expression of Orthogonal value.
 	 * 
 	 * @return Orthogonal value expression
 	 */
-	String getOrthogonalValueExpr( );
+	String getOrthogonalValueExpr();
 
 	/**
 	 * Sets the query expression of Bubble Size.
 	 * 
 	 * @param expr
 	 */
-	void setBubbleSizeExpr( String expr );
+	void setBubbleSizeExpr(String expr);
 
 	/**
 	 * Sets the query expression of Orthogonal value.
 	 * 
-	 * @param expr
-	 *            Orthogonal value expression
+	 * @param expr Orthogonal value expression
 	 */
-	void setOrthogonalValueExpr( String expr );
+	void setOrthogonalValueExpr(String expr);
 }

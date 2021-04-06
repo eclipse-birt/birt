@@ -21,8 +21,7 @@ package org.eclipse.birt.report.model.api.metadata;
  * the property, such as the actual list of choices.
  */
 
-public interface IPropertyType
-{
+public interface IPropertyType {
 
 	/**
 	 * Type code for the String property type.
@@ -168,8 +167,8 @@ public interface IPropertyType
 	public static final int ELEMENT_TYPE = 23;
 
 	/**
-	 * Type code for element attribute type. This is different from
-	 * ELEMENT_TYPE. Its behavior like STRUCT_TYPE and isList=true.
+	 * Type code for element attribute type. This is different from ELEMENT_TYPE.
+	 * Its behavior like STRUCT_TYPE and isList=true.
 	 */
 
 	public static final int CONTENT_ELEMENT_TYPE = 24;
@@ -335,8 +334,8 @@ public interface IPropertyType
 	public static final String ELEMENT_TYPE_NAME = "element"; //$NON-NLS-1$
 
 	/**
-	 * Type code for element attribute type. This is different from
-	 * ELEMENT_TYPE. Its behavior like STRUCT_TYPE and isList=true.
+	 * Type code for element attribute type. This is different from ELEMENT_TYPE.
+	 * Its behavior like STRUCT_TYPE and isList=true.
 	 */
 
 	public static final String CONTENT_ELEMENT_TYPE_NAME = "contentElement"; //$NON-NLS-1$
@@ -352,7 +351,7 @@ public interface IPropertyType
 	 * @return the localized display name
 	 */
 
-	public String getDisplayName( );
+	public String getDisplayName();
 
 	/**
 	 * Returns the numeric code for this type.
@@ -360,7 +359,7 @@ public interface IPropertyType
 	 * @return the internal type code
 	 */
 
-	public int getTypeCode( );
+	public int getTypeCode();
 
 	/**
 	 * Returns the name to use in the XML design and XML metadata files.
@@ -368,7 +367,7 @@ public interface IPropertyType
 	 * @return the type name used in the XML design file
 	 */
 
-	public String getName( );
+	public String getName();
 
 	/**
 	 * Gets the set of choices for this type.
@@ -376,7 +375,7 @@ public interface IPropertyType
 	 * @return the set of choices, or null if no choices are available
 	 */
 
-	public IChoiceSet getChoices( );
+	public IChoiceSet getChoices();
 
 	/**
 	 * Gets the display name resource key.
@@ -384,6 +383,6 @@ public interface IPropertyType
 	 * @return the display name message key
 	 */
 
-	public String getDisplayNameKey( );
+	public String getDisplayNameKey();
 
 }

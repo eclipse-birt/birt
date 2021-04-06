@@ -20,25 +20,22 @@ import org.eclipse.osgi.util.NLS;
  * Messages used by Birt Project Wizard UI
  * 
  */
-public class BirtWTPMessages extends NLS
-{
+public class BirtWTPMessages extends NLS {
 
 	// Bundle Name
 	private static final String BUNDLE_NAME = "org.eclipse.birt.chart.integration.wtp.ui.internal.i18n.Messages";//$NON-NLS-1$
 	private static ResourceBundle bundle;
 
-	static
-	{
+	static {
 		// load message values from bundle file
-		NLS.initializeMessages( BUNDLE_NAME, BirtWTPMessages.class );
+		NLS.initializeMessages(BUNDLE_NAME, BirtWTPMessages.class);
 	}
 
 	/**
 	 * Make default constructor is private. Can not create new instance.
 	 * 
 	 */
-	private BirtWTPMessages( )
-	{
+	private BirtWTPMessages() {
 	}
 
 	/**
@@ -46,15 +43,11 @@ public class BirtWTPMessages extends NLS
 	 * 
 	 * @return
 	 */
-	public static ResourceBundle getResourceBundle( )
-	{
-		try
-		{
-			if ( bundle == null )
-				bundle = ResourceBundle.getBundle( BUNDLE_NAME );
-		}
-		catch ( MissingResourceException x )
-		{
+	public static ResourceBundle getResourceBundle() {
+		try {
+			if (bundle == null)
+				bundle = ResourceBundle.getBundle(BUNDLE_NAME);
+		} catch (MissingResourceException x) {
 			bundle = null;
 		}
 		return bundle;

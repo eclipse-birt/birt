@@ -19,8 +19,7 @@ import junit.framework.TestCase;
  * Band used in a TableItem.
  * 
  */
-public class TableBandTest extends TestCase
-{
+public class TableBandTest extends TestCase {
 
 	/**
 	 * Test add/getRow methods
@@ -29,24 +28,21 @@ public class TableBandTest extends TestCase
 	 * 
 	 * then get the rows one by one to test if they work correctly
 	 */
-	public void testAddRow( )
-	{
-		TableBandDesign tableBand = new TableBandDesign( );
+	public void testAddRow() {
+		TableBandDesign tableBand = new TableBandDesign();
 
-		RowDesign[] rows = new RowDesign[( new Random( ) ).nextInt( 10 ) + 1];
+		RowDesign[] rows = new RowDesign[(new Random()).nextInt(10) + 1];
 
-		//Add
-		for ( int i = 0; i < rows.length; i++ )
-		{
-			rows[i] = new RowDesign( );
-			tableBand.addRow( rows[i] );
+		// Add
+		for (int i = 0; i < rows.length; i++) {
+			rows[i] = new RowDesign();
+			tableBand.addRow(rows[i]);
 		}
 
-		//Get
-		assertEquals( tableBand.getRowCount( ), rows.length );
-		for ( int i = 0; i < rows.length; i++ )
-		{
-			assertEquals( tableBand.getRow( i ), rows[i] );
+		// Get
+		assertEquals(tableBand.getRowCount(), rows.length);
+		for (int i = 0; i < rows.length; i++) {
+			assertEquals(tableBand.getRow(i), rows[i]);
 		}
 
 	}

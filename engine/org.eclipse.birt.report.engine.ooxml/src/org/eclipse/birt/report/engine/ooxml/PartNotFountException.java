@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.engine.ooxml;
 
-public class PartNotFountException extends RuntimeException
-{
+public class PartNotFountException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 
-	public PartNotFountException( String uri )
-	{
-		super( "Part " + uri + " is not found!" );
+	public PartNotFountException(String uri) {
+		super("Part " + uri + " is not found!");
 	}
 }

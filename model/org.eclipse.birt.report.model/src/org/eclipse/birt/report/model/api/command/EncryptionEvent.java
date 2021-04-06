@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * 
  */
 
-public class EncryptionEvent extends NotificationEvent
-{
+public class EncryptionEvent extends NotificationEvent {
 
 	private String oldEncryption = null;
 
@@ -32,19 +31,14 @@ public class EncryptionEvent extends NotificationEvent
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element that changed.
+	 * @param obj      the element that changed.
 	 * @param propDefn
-	 * @param oldName
-	 *            the new name causing the event
-	 * @param newName
-	 *            the old name of the event
+	 * @param oldName  the new name causing the event
+	 * @param newName  the old name of the event
 	 */
 
-	public EncryptionEvent( DesignElement obj, ElementPropertyDefn propDefn,
-			String oldName, String newName )
-	{
-		super( obj );
+	public EncryptionEvent(DesignElement obj, ElementPropertyDefn propDefn, String oldName, String newName) {
+		super(obj);
 		this.prop = propDefn;
 		this.oldEncryption = oldName;
 		this.newEncryption = newName;
@@ -57,8 +51,7 @@ public class EncryptionEvent extends NotificationEvent
 	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType
 	 * ()
 	 */
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return ENCRYPTION_EVENT;
 	}
 
@@ -68,8 +61,7 @@ public class EncryptionEvent extends NotificationEvent
 	 * @return Returns the new encryption.
 	 */
 
-	public String getNewEncryption( )
-	{
+	public String getNewEncryption() {
 		return newEncryption;
 	}
 
@@ -79,8 +71,7 @@ public class EncryptionEvent extends NotificationEvent
 	 * @return Returns the old encryption.
 	 */
 
-	public String getOldEncryption( )
-	{
+	public String getOldEncryption() {
 		return oldEncryption;
 	}
 
@@ -89,8 +80,7 @@ public class EncryptionEvent extends NotificationEvent
 	 * 
 	 * @return the property name.
 	 */
-	public String getPropertyName( )
-	{
-		return prop.getName( );
+	public String getPropertyName() {
+		return prop.getName();
 	}
 }

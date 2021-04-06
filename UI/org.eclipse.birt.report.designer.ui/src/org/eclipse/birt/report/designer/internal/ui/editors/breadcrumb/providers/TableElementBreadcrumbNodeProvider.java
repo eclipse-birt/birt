@@ -30,71 +30,57 @@ import org.eclipse.gef.EditPart;
  * 
  */
 
-public class TableElementBreadcrumbNodeProvider extends
-		DefaultBreadcrumbNodeProvider
-{
+public class TableElementBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
-	public Object getParent( Object element )
-	{
-		Object model = getRealModel( element );
-		if ( model instanceof RowHandle || model instanceof ColumnHandle )
-			return getEditPartModel( model );
+	public Object getParent(Object element) {
+		Object model = getRealModel(element);
+		if (model instanceof RowHandle || model instanceof ColumnHandle)
+			return getEditPartModel(model);
 
-		return super.getParent( element );
+		return super.getParent(element);
 	}
 
-	public Object[] getChildren( Object element )
-	{
-		Object model = getRealModel( element );
-		
-		if ( model instanceof RowHandle )
-		{
-			return getChildrenBySlotHandle( ( (RowHandle) model ).getCells( ) );
+	public Object[] getChildren(Object element) {
+		Object model = getRealModel(element);
+
+		if (model instanceof RowHandle) {
+			return getChildrenBySlotHandle(((RowHandle) model).getCells());
 		}
-		if ( model instanceof TableHandle )
-		{
-			TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( (TableHandle) model );
-			List list = new ArrayList( );
-			list.addAll( adapter.getRows( ) );
-			list.addAll( adapter.getColumns( ) );
-			return list.toArray( );
+		if (model instanceof TableHandle) {
+			TableHandleAdapter adapter = HandleAdapterFactory.getInstance().getTableHandleAdapter((TableHandle) model);
+			List list = new ArrayList();
+			list.addAll(adapter.getRows());
+			list.addAll(adapter.getColumns());
+			return list.toArray();
 		}
-		if ( model instanceof GridHandle )
-		{
-			GridHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-					.getGridHandleAdapter( (GridHandle) model );
-			List list = new ArrayList( );
-			list.addAll( adapter.getRows( ) );
-			list.addAll( adapter.getColumns( ) );
-			return list.toArray( );
+		if (model instanceof GridHandle) {
+			GridHandleAdapter adapter = HandleAdapterFactory.getInstance().getGridHandleAdapter((GridHandle) model);
+			List list = new ArrayList();
+			list.addAll(adapter.getRows());
+			list.addAll(adapter.getColumns());
+			return list.toArray();
 		}
 		return new Object[0];
 	}
 
-	protected Object[] getChildrenBySlotHandle( SlotHandle slotHandle )
-	{
-		ArrayList list = new ArrayList( );
-		Iterator itor = slotHandle.iterator( );
-		while ( itor.hasNext( ) )
-		{
-			Object obj = itor.next( );
-			if ( obj instanceof DesignElementHandle )
-			{
+	protected Object[] getChildrenBySlotHandle(SlotHandle slotHandle) {
+		ArrayList list = new ArrayList();
+		Iterator itor = slotHandle.iterator();
+		while (itor.hasNext()) {
+			Object obj = itor.next();
+			if (obj instanceof DesignElementHandle) {
 				DesignElementHandle eleHandle = (DesignElementHandle) obj;
-				list.add( eleHandle );
+				list.add(eleHandle);
 			}
 		}
 
-		return list.toArray( );
+		return list.toArray();
 	}
 
-	public Object getRealModel( Object element )
-	{
-		if ( element instanceof EditPart )
-		{
+	public Object getRealModel(Object element) {
+		if (element instanceof EditPart) {
 			EditPart editpart = (EditPart) element;
-			return editpart.getModel( );
+			return editpart.getModel();
 		}
 		return element;
 	}

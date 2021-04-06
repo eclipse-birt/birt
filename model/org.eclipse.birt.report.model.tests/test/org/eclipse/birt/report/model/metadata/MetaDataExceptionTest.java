@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
 
@@ -23,15 +23,13 @@ import org.eclipse.birt.report.model.api.ModelException;
 /**
  * Test case for MetaDataException.
  */
-public class MetaDataExceptionTest extends TestCase
-{
+public class MetaDataExceptionTest extends TestCase {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
@@ -43,41 +41,33 @@ public class MetaDataExceptionTest extends TestCase
 	 * @throws IllegalArgumentException
 	 */
 
-	public void testCheckMetaErrorConsistency( ) throws IOException,
-			IllegalArgumentException, IllegalAccessException
-	{
-		Properties props = new Properties( );
-		props.load( MetaDataException.class
-				.getResourceAsStream( MetaDataException.ERROR_FILE ) );
+	public void testCheckMetaErrorConsistency() throws IOException, IllegalArgumentException, IllegalAccessException {
+		Properties props = new Properties();
+		props.load(MetaDataException.class.getResourceAsStream(MetaDataException.ERROR_FILE));
 
-		int PUBLIC_FINAL_STATIC = Modifier.PUBLIC | Modifier.FINAL
-				| Modifier.STATIC;
+		int PUBLIC_FINAL_STATIC = Modifier.PUBLIC | Modifier.FINAL | Modifier.STATIC;
 
 		boolean success = true;
-		Field[] fields = MetaDataException.class.getDeclaredFields( );
+		Field[] fields = MetaDataException.class.getDeclaredFields();
 		String errorCode = null;
 
-		for ( int i = 0; i < fields.length; i++ )
-		{
+		for (int i = 0; i < fields.length; i++) {
 			Field field = fields[i];
 
-			if ( PUBLIC_FINAL_STATIC == field.getModifiers( ) )
-			{
-                
-                errorCode = (String) fields[i].get( null );
-                if ( errorCode.equalsIgnoreCase( ModelException.PLUGIN_ID ) )
-                	continue;
-                
-    			if ( !props.containsKey( errorCode ) )
-				{
-					System.out
-							.println( "MetaDataException ErrorCode: " + errorCode + " not described in 'MetaError.properties'." ); //$NON-NLS-1$ //$NON-NLS-2$
+			if (PUBLIC_FINAL_STATIC == field.getModifiers()) {
+
+				errorCode = (String) fields[i].get(null);
+				if (errorCode.equalsIgnoreCase(ModelException.PLUGIN_ID))
+					continue;
+
+				if (!props.containsKey(errorCode)) {
+					System.out.println(
+							"MetaDataException ErrorCode: " + errorCode + " not described in 'MetaError.properties'."); //$NON-NLS-1$ //$NON-NLS-2$
 					success = false;
 				}
 			}
 		}
 
-		assertTrue( success );
+		assertTrue(success);
 	}
 }
-

@@ -22,47 +22,43 @@ import org.eclipse.birt.report.engine.emitter.config.IConfigurableOptionObserver
 import org.eclipse.birt.report.engine.emitter.config.IOptionValue;
 import org.eclipse.birt.report.engine.emitter.config.docx.i18n.Messages;
 
-
 /**
  * This class is a descriptor of word emitter.
  */
-public class DocxEmitterDescriptor extends AbstractEmitterDescriptor
-{
+public class DocxEmitterDescriptor extends AbstractEmitterDescriptor {
 	protected static final String CHART_DPI = "ChartDpi";
 	protected static final String EMBED_HTML = "EmbedHtml";
 
-	protected void initOptions( )
-	{
-		loadDefaultValues( "org.eclipse.birt.report.engine.emitter.config.docx" );
+	protected void initOptions() {
+		loadDefaultValues("org.eclipse.birt.report.engine.emitter.config.docx");
 		// Initializes the option for chart DPI.
-		ConfigurableOption chartDpi = new ConfigurableOption( CHART_DPI );
-		chartDpi.setDisplayName( getMessage( "OptionDisplayValue.ChartDpi" ) ); //$NON-NLS-1$
-		chartDpi.setDataType( IConfigurableOption.DataType.INTEGER );
-		chartDpi.setDisplayType( IConfigurableOption.DisplayType.TEXT );
-		chartDpi.setDefaultValue( new Integer( 192 ) );
-		chartDpi.setToolTip( getMessage( "Tooltip.ChartDpi" ) );
-		chartDpi.setDescription( getMessage( "OptionDescription.ChartDpi" ) ); //$NON-NLS-1$
+		ConfigurableOption chartDpi = new ConfigurableOption(CHART_DPI);
+		chartDpi.setDisplayName(getMessage("OptionDisplayValue.ChartDpi")); //$NON-NLS-1$
+		chartDpi.setDataType(IConfigurableOption.DataType.INTEGER);
+		chartDpi.setDisplayType(IConfigurableOption.DisplayType.TEXT);
+		chartDpi.setDefaultValue(new Integer(192));
+		chartDpi.setToolTip(getMessage("Tooltip.ChartDpi"));
+		chartDpi.setDescription(getMessage("OptionDescription.ChartDpi")); //$NON-NLS-1$
 
-		ConfigurableOption embedHtml = new ConfigurableOption( EMBED_HTML );
-		embedHtml.setDisplayName( getMessage( "OptionDisplayValue.EmbedHtml" ) ); //$NON-NLS-1$
-		embedHtml.setDataType( IConfigurableOption.DataType.BOOLEAN );
-		embedHtml.setDisplayType( IConfigurableOption.DisplayType.CHECKBOX );
-		embedHtml.setDefaultValue( new Boolean(Boolean.TRUE) );
-		embedHtml.setToolTip( getMessage( "Tooltip.EmbedHtml" ) );
-		embedHtml.setDescription( getMessage( "OptionDescription.EmbedHtml" ) ); //$NON-NLS-1$
-		
-		options = new IConfigurableOption[]{chartDpi, embedHtml};
-		applyDefaultValues( );
+		ConfigurableOption embedHtml = new ConfigurableOption(EMBED_HTML);
+		embedHtml.setDisplayName(getMessage("OptionDisplayValue.EmbedHtml")); //$NON-NLS-1$
+		embedHtml.setDataType(IConfigurableOption.DataType.BOOLEAN);
+		embedHtml.setDisplayType(IConfigurableOption.DisplayType.CHECKBOX);
+		embedHtml.setDefaultValue(new Boolean(Boolean.TRUE));
+		embedHtml.setToolTip(getMessage("Tooltip.EmbedHtml"));
+		embedHtml.setDescription(getMessage("OptionDescription.EmbedHtml")); //$NON-NLS-1$
+
+		options = new IConfigurableOption[] { chartDpi, embedHtml };
+		applyDefaultValues();
 	}
+
 	@Override
-	public IConfigurableOptionObserver createOptionObserver( )
-	{
-		return new DocxOptionObserver( );
+	public IConfigurableOptionObserver createOptionObserver() {
+		return new DocxOptionObserver();
 	}
 
-	private String getMessage( String key )
-	{
-		return Messages.getString( key, locale );
+	private String getMessage(String key) {
+		return Messages.getString(key, locale);
 	}
 
 	/*
@@ -71,9 +67,8 @@ public class DocxEmitterDescriptor extends AbstractEmitterDescriptor
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDescription()
 	 */
-	public String getDescription( )
-	{
-		return getMessage( "DocxEmitter.Description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return getMessage("DocxEmitter.Description"); //$NON-NLS-1$
 	}
 
 	/*
@@ -82,63 +77,49 @@ public class DocxEmitterDescriptor extends AbstractEmitterDescriptor
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#
 	 * getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return getMessage( "DocxEmitter.DisplayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return getMessage("DocxEmitter.DisplayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#getID()
+	 * @see org.eclipse.birt.report.engine.emitter.config.IEmitterDescriptor#getID()
 	 */
-	public String getID( )
-	{
+	public String getID() {
 		return "org.eclipse.birt.report.engine.emitter.docx"; //$NON-NLS-1$
 	}
-	
-	public String getRenderOptionName( String name )
-	{
+
+	public String getRenderOptionName(String name) {
 		assert name != null;
-		if ( CHART_DPI.equals( name ) )
-		{
+		if (CHART_DPI.equals(name)) {
 			return IRenderOption.CHART_DPI;
 		}
-		
-		if ( EMBED_HTML.equals( name ) )
-		{
+
+		if (EMBED_HTML.equals(name)) {
 			return OPTION_EMBED_HTML;
 		}
 		return name;
 	}
 
-	class DocxOptionObserver extends AbstractConfigurableOptionObserver
-	{
+	class DocxOptionObserver extends AbstractConfigurableOptionObserver {
 
 		@Override
-		public IConfigurableOption[] getOptions( )
-		{
+		public IConfigurableOption[] getOptions() {
 			return options;
 		}
 
 		@Override
-		public IRenderOption getPreferredRenderOption( )
-		{
-			RenderOption renderOption = new RenderOption( );
+		public IRenderOption getPreferredRenderOption() {
+			RenderOption renderOption = new RenderOption();
 
-			renderOption.setEmitterID( getID( ) );
-			renderOption.setOutputFormat( "docx" ); //$NON-NLS-1$
+			renderOption.setEmitterID(getID());
+			renderOption.setOutputFormat("docx"); //$NON-NLS-1$
 
-			if ( values != null && values.length > 0 )
-			{
-				for ( IOptionValue optionValue : values )
-				{
-					if ( optionValue != null )
-					{
-						renderOption.setOption(
-								getRenderOptionName( optionValue.getName( ) ),
-								optionValue.getValue( ) );
+			if (values != null && values.length > 0) {
+				for (IOptionValue optionValue : values) {
+					if (optionValue != null) {
+						renderOption.setOption(getRenderOptionName(optionValue.getName()), optionValue.getValue());
 					}
 				}
 			}

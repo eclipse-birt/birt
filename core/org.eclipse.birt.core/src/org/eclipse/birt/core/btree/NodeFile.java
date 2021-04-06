@@ -13,8 +13,7 @@ package org.eclipse.birt.core.btree;
 
 import java.io.IOException;
 
-public interface NodeFile extends BTreeFile
-{
+public interface NodeFile extends BTreeFile {
 
-	public void freeBlock( int blockId ) throws IOException;
+	public void freeBlock(int blockId) throws IOException;
 }

@@ -7,16 +7,13 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.script.api.series;
-
-
 
 /**
  * Represents Line series of a Chart in the scripting environment
  */
 
-public interface ILine extends IStackableSeries
-{
+public interface ILine extends IStackableSeries {
 
 }

@@ -34,50 +34,46 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_142432 extends BaseTestCase
-{
+public class Regression_142432 extends BaseTestCase {
 
 	private String filename = "Regression_142432.xml"; //$NON-NLS-1$
 	private String libraryname = "Regression_142432_lib.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
-		copyInputToFile ( INPUT_FOLDER + "/" + libraryname );
-		
+
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
+		copyInputToFile(INPUT_FOLDER + "/" + libraryname);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_regression_142432( ) throws DesignFileException, SemanticException
-	{
-		openLibrary( libraryname, true );
-		MasterPageHandle masterpage = libraryHandle
-				.findMasterPage( "NewSimpleMasterPage" ); //$NON-NLS-1$
+	public void test_regression_142432() throws DesignFileException, SemanticException {
+		openLibrary(libraryname, true);
+		MasterPageHandle masterpage = libraryHandle.findMasterPage("NewSimpleMasterPage"); //$NON-NLS-1$
 
-		openDesign( filename );
-		designHandle.includeLibrary( libraryname, "Lib" ); //$NON-NLS-1$
-		MasterPageHandle mp = (MasterPageHandle) designHandle
-				.getElementFactory( ).newElementFrom( masterpage, "mp" ); //$NON-NLS-1$
-		designHandle.getMasterPages( ).add( mp );
+		openDesign(filename);
+		designHandle.includeLibrary(libraryname, "Lib"); //$NON-NLS-1$
+		MasterPageHandle mp = (MasterPageHandle) designHandle.getElementFactory().newElementFrom(masterpage, "mp"); //$NON-NLS-1$
+		designHandle.getMasterPages().add(mp);
 
-		assertFalse( mp.hasLocalProperties( ) );
-		mp.setOrientation( DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE );
-		assertTrue( mp.hasLocalProperties( ) );
-	
+		assertFalse(mp.hasLocalProperties());
+		mp.setOrientation(DesignChoiceConstants.PAGE_ORIENTATION_LANDSCAPE);
+		assertTrue(mp.hasLocalProperties());
+
 		// check group element handle.
-		
+
 		List pages = new ArrayList();
-		pages.add( mp );
-		
-		GroupElementHandle group = new SimpleGroupElementHandle( designHandle, pages );
-		assertTrue( group.hasLocalPropertiesForExtendedElements( ) );
+		pages.add(mp);
+
+		GroupElementHandle group = new SimpleGroupElementHandle(designHandle, pages);
+		assertTrue(group.hasLocalPropertiesForExtendedElements());
 	}
 
 }

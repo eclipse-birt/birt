@@ -34,126 +34,95 @@ import org.eclipse.jface.action.Action;
  * 
  */
 
-public class ShowAxisAction extends Action
-{
+public class ShowAxisAction extends Action {
 
 	private ExtendedItemHandle eih;
 
-	public ShowAxisAction( ExtendedItemHandle eih )
-	{
-		super( Messages.getString( "ShowAxisAction.Text.ShowValueAxis" ),//$NON-NLS-1$
-				Action.AS_CHECK_BOX );
+	public ShowAxisAction(ExtendedItemHandle eih) {
+		super(Messages.getString("ShowAxisAction.Text.ShowValueAxis"), //$NON-NLS-1$
+				Action.AS_CHECK_BOX);
 		this.eih = eih;
-		init( );
+		init();
 	}
 
-	private void init( )
-	{
-		Chart cm = ChartCubeUtil.getChartFromHandle( eih );
-		if ( cm instanceof ChartWithAxes )
-		{
-			this.setChecked( hasAxisChart( ) );
-			try
-			{
+	private void init() {
+		Chart cm = ChartCubeUtil.getChartFromHandle(eih);
+		if (cm instanceof ChartWithAxes) {
+			this.setChecked(hasAxisChart());
+			try {
 				// Not allowed to show/hide axis if xtab is extended from
 				// library
-				AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( eih );
-				if ( containerCell != null )
-				{
-					if ( DEUtil.isLinkedElement( containerCell.getCrosstabHandle( ) ) )
-					{
-						this.setEnabled( false );
+				AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell(eih);
+				if (containerCell != null) {
+					if (DEUtil.isLinkedElement(containerCell.getCrosstabHandle())) {
+						this.setEnabled(false);
 					}
 				}
+			} catch (BirtException e) {
+				WizardBase.displayException(e);
 			}
-			catch ( BirtException e )
-			{
-				WizardBase.displayException( e );
-			}
-		}
-		else
-		{
-			this.setEnabled( false );
+		} else {
+			this.setEnabled(false);
 		}
 	}
 
 	@SuppressWarnings("unchecked")
-	private boolean hasAxisChart( )
-	{
+	private boolean hasAxisChart() {
 		// Check if axis chart is existent
-		if ( ChartCubeUtil.isPlotChart( eih ) )
-		{
-			for ( Iterator<DesignElementHandle> iterator = eih.clientsIterator( ); iterator.hasNext( ); )
-			{
-				DesignElementHandle client = iterator.next( );
-				if ( ChartCubeUtil.isAxisChart( client ) )
-				{
+		if (ChartCubeUtil.isPlotChart(eih)) {
+			for (Iterator<DesignElementHandle> iterator = eih.clientsIterator(); iterator.hasNext();) {
+				DesignElementHandle client = iterator.next();
+				if (ChartCubeUtil.isAxisChart(client)) {
 					return true;
 				}
 			}
 			return false;
 		}
-		if ( ChartCubeUtil.isAxisChart( eih ) )
-		{
+		if (ChartCubeUtil.isAxisChart(eih)) {
 			return true;
 		}
 		return false;
 	}
 
 	@Override
-	public void run( )
-	{
-		ModuleHandle mh = eih.getRoot( );
-		try
-		{
-			mh.getCommandStack( ).startTrans( getText( ) );
+	public void run() {
+		ModuleHandle mh = eih.getRoot();
+		try {
+			mh.getCommandStack().startTrans(getText());
 
 			// Update chart model for axis visibility
 			ExtendedItemHandle plotChart = eih;
-			if ( ChartCubeUtil.isAxisChart( eih ) )
-			{
-				plotChart = (ExtendedItemHandle) eih.getElementProperty( ChartReportItemConstants.PROPERTY_HOST_CHART );
+			if (ChartCubeUtil.isAxisChart(eih)) {
+				plotChart = (ExtendedItemHandle) eih.getElementProperty(ChartReportItemConstants.PROPERTY_HOST_CHART);
 			}
-			ChartReportItemImpl reportItem = (ChartReportItemImpl) plotChart.getReportItem( );
-			ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty( ChartReportItemConstants.PROPERTY_CHART );
-			ChartWithAxes cmNew = cmOld.copyInstance( );
-			Axis yAxis = cmNew.getAxes( ).get( 0 ).getAssociatedAxes( ).get( 0 );
-			if ( yAxis != null )
-			{
-				yAxis.getLineAttributes( ).setVisible( isChecked( ) );
-				yAxis.getLabel( ).setVisible( isChecked( ) );
-				yAxis.getMajorGrid( )
-						.getTickAttributes( )
-						.setVisible( isChecked( ) );
-				reportItem.executeSetModelCommand( plotChart, cmOld, cmNew );
+			ChartReportItemImpl reportItem = (ChartReportItemImpl) plotChart.getReportItem();
+			ChartWithAxes cmOld = (ChartWithAxes) reportItem.getProperty(ChartReportItemConstants.PROPERTY_CHART);
+			ChartWithAxes cmNew = cmOld.copyInstance();
+			Axis yAxis = cmNew.getAxes().get(0).getAssociatedAxes().get(0);
+			if (yAxis != null) {
+				yAxis.getLineAttributes().setVisible(isChecked());
+				yAxis.getLabel().setVisible(isChecked());
+				yAxis.getMajorGrid().getTickAttributes().setVisible(isChecked());
+				reportItem.executeSetModelCommand(plotChart, cmOld, cmNew);
 			}
 
 			// Update axis chart in xtab
-			AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell( eih );
-			if ( containerCell != null )
-			{
-				if ( isChecked( ) )
-				{
+			AggregationCellHandle containerCell = ChartCubeUtil.getXtabContainerCell(eih);
+			if (containerCell != null) {
+				if (isChecked()) {
 					// Add axis chart
-					ChartXTabUIUtil.addAxisChartInXTab( containerCell,
-							cmNew,
-							eih );
-				}
-				else
-				{
+					ChartXTabUIUtil.addAxisChartInXTab(containerCell, cmNew, eih);
+				} else {
 					// Delete axis chart
-					ChartXTabUIUtil.removeAxisChartInXTab( containerCell,
-							ChartXTabUIUtil.isTransposedChartWithAxes( cmNew ),
-							false );
+					ChartXTabUIUtil.removeAxisChartInXTab(containerCell,
+							ChartXTabUIUtil.isTransposedChartWithAxes(cmNew), false);
 				}
 			}
 
-			mh.getCommandStack( ).commit( );
-		}
-		catch ( BirtException e )
-		{
-			WizardBase.displayException( e );
-			mh.getCommandStack( ).rollback( );
+			mh.getCommandStack().commit();
+		} catch (BirtException e) {
+			WizardBase.displayException(e);
+			mh.getCommandStack().rollback();
 		}
 	}
 }

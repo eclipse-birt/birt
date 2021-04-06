@@ -19,46 +19,42 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * A class representing the runtime state of a text item
  */
-public class TextItemInstance extends ForeignTextInstance implements
-		ITextItemInstance
-{
+public class TextItemInstance extends ForeignTextInstance implements ITextItemInstance {
 
-	public TextItemInstance( ITextContent content, ExecutionContext context,
-			RunningState runningState )
-	{
-		super( context, runningState );
-		setContent( content );
+	public TextItemInstance(ITextContent content, ExecutionContext context, RunningState runningState) {
+		super(context, runningState);
+		setContent(content);
 	}
 
-	public TextItemInstance( IForeignContent content, ExecutionContext context,
-			RunningState runningState )
-	{
-		super( content, context, runningState );
+	public TextItemInstance(IForeignContent content, ExecutionContext context, RunningState runningState) {
+		super(content, context, runningState);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance#getText()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance#getText(
+	 * )
 	 */
-	public String getText( )
-	{
-		if ( content instanceof ITextContent )
-			return ( ( ITextContent ) content ).getText( );
-		return super.getText( );
+	public String getText() {
+		if (content instanceof ITextContent)
+			return ((ITextContent) content).getText();
+		return super.getText();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance#setText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.ITextItemInstance#setText(
+	 * java.lang.String)
 	 */
-	public void setText( String value )
-	{
-		if ( content instanceof ITextContent )
-			( ( ITextContent ) content ).setText( value );
+	public void setText(String value) {
+		if (content instanceof ITextContent)
+			((ITextContent) content).setText(value);
 		else
-			super.setText( value );
+			super.setText(value);
 	}
 
 }

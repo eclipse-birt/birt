@@ -18,8 +18,7 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
  * 
  */
 
-public class ParameterDefn implements IParameterDefn
-{
+public class ParameterDefn implements IParameterDefn {
 
 	private String name;
 	private boolean isOptional = false;
@@ -27,7 +26,7 @@ public class ParameterDefn implements IParameterDefn
 	private String displayName;
 	private String description;
 	private int[] supportedDataTypes;
-	
+
 	/**
 	 * 
 	 * @param name
@@ -37,12 +36,11 @@ public class ParameterDefn implements IParameterDefn
 	 * @param supportedDataTypes
 	 * @param description
 	 */
-	public ParameterDefn( String name, String displayName, boolean isOptional,
-			boolean isDataField, int[] supportedDataTypes, String description )
-	{
+	public ParameterDefn(String name, String displayName, boolean isOptional, boolean isDataField,
+			int[] supportedDataTypes, String description) {
 		assert name != null;
-		assert supportedDataTypes!= null;
-		
+		assert supportedDataTypes != null;
+
 		this.name = name;
 		this.isOptional = isOptional;
 		this.isDataField = isDataField;
@@ -52,89 +50,76 @@ public class ParameterDefn implements IParameterDefn
 	}
 
 	/**
-	 * @param isOptional
-	 *            the isOptional to set
+	 * @param isOptional the isOptional to set
 	 */
-	public void setOptional( boolean isOptional )
-	{
+	public void setOptional(boolean isOptional) {
 		this.isOptional = isOptional;
 	}
 
 	/**
-	 * @param isDataField
-	 *            the isDataField to set
+	 * @param isDataField the isDataField to set
 	 */
-	public void setDataField( boolean isDataField )
-	{
+	public void setDataField(boolean isDataField) {
 		this.isDataField = isDataField;
 	}
 
 	/**
-	 * @param displayName
-	 *            the displayName to set
+	 * @param displayName the displayName to set
 	 */
-	public void setDisplayName( String displayName )
-	{
+	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
-	
-
 	/**
-	 * @param description
-	 *            the description to set
+	 * @param description the description to set
 	 */
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 
-	
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	
 	/**
 	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDescription()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDescription()
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return description;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isDataField()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isDataField()
 	 */
-	public boolean isDataField( )
-	{
+	public boolean isDataField() {
 		return isDataField;
 	}
 
@@ -143,26 +128,23 @@ public class ParameterDefn implements IParameterDefn
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#isOptional()
 	 */
-	public boolean isOptional( )
-	{
+	public boolean isOptional() {
 		return isOptional;
 	}
-	
-	
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#supportDataType(int)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IParameterDefn#supportDataType(
+	 * int)
 	 */
-	public boolean supportDataType( int dataType )
-	{
-		if( dataType == DataType.UNKNOWN_TYPE )
+	public boolean supportDataType(int dataType) {
+		if (dataType == DataType.UNKNOWN_TYPE)
 			return true;
-		
-		for ( int i = 0; i < supportedDataTypes.length; i++ )
-		{
-			if ( supportedDataTypes[i] == DataType.ANY_TYPE || supportedDataTypes[i] == dataType )
-			{
+
+		for (int i = 0; i < supportedDataTypes.length; i++) {
+			if (supportedDataTypes[i] == DataType.ANY_TYPE || supportedDataTypes[i] == dataType) {
 				return true;
 			}
 		}

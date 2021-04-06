@@ -15,8 +15,7 @@ package org.eclipse.birt.integration.wtp.ui.internal.webapplication;
  * Bean defined for Web App object in web.xml
  * 
  */
-public class WebAppBean
-{
+public class WebAppBean {
 
 	/**
 	 * Web appliction description
@@ -28,8 +27,7 @@ public class WebAppBean
 	 * 
 	 * @param description
 	 */
-	public WebAppBean( )
-	{
+	public WebAppBean() {
 	}
 
 	/**
@@ -37,25 +35,21 @@ public class WebAppBean
 	 * 
 	 * @param description
 	 */
-	public WebAppBean( String description )
-	{
+	public WebAppBean(String description) {
 		this.description = description;
 	}
 
 	/**
 	 * @return the description
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
+	 * @param description the description to set
 	 */
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 

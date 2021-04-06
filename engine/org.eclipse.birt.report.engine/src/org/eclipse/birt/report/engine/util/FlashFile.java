@@ -11,15 +11,11 @@
 
 package org.eclipse.birt.report.engine.util;
 
-public class FlashFile 
-{
-	public static boolean isFlash( String mimeType, String uri, String extension ) 
-	{
-		boolean isFlash = ((mimeType != null) && mimeType
-				.equalsIgnoreCase("application/x-shockwave-flash")) //$NON-NLS-1$
+public class FlashFile {
+	public static boolean isFlash(String mimeType, String uri, String extension) {
+		boolean isFlash = ((mimeType != null) && mimeType.equalsIgnoreCase("application/x-shockwave-flash")) //$NON-NLS-1$
 				|| ((uri != null) && uri.toLowerCase().endsWith(".swf")) //$NON-NLS-1$
-				|| ((extension != null) && extension.toLowerCase().endsWith(
-						".swf")); //$NON-NLS-1$
+				|| ((extension != null) && extension.toLowerCase().endsWith(".swf")); //$NON-NLS-1$
 		return isFlash;
 	}
 }

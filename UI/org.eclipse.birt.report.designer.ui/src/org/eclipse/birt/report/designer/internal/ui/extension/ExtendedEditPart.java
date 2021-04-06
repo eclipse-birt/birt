@@ -42,17 +42,15 @@ import org.eclipse.jface.window.Window;
 /**
  * ExtendedEditPart
  */
-public class ExtendedEditPart extends ReportElementEditPart
-{
+public class ExtendedEditPart extends ReportElementEditPart {
 
 	private IReportItemFigureProvider elementUI;
 
 	/**
 	 * @param model
 	 */
-	public ExtendedEditPart( ExtendedItemHandle model )
-	{
-		super( model );
+	public ExtendedEditPart(ExtendedItemHandle model) {
+		super(model);
 	}
 
 	/*
@@ -63,10 +61,9 @@ public class ExtendedEditPart extends ReportElementEditPart
 	 * #elementChanged(org.eclipse.birt.model.api.DesignElementHandle,
 	 * org.eclipse.birt.model.activity.NotificationEvent)
 	 */
-	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
-	{
-		markDirty( true );
-		refresh( );
+	public void elementChanged(DesignElementHandle arg0, NotificationEvent arg1) {
+		markDirty(true);
+		refresh();
 	}
 
 	/*
@@ -75,23 +72,20 @@ public class ExtendedEditPart extends ReportElementEditPart
 	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) {
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy() {
 
-					public boolean understandsRequest( Request request )
-					{
-						if ( RequestConstants.REQ_DIRECT_EDIT.equals( request.getType( ) )
-								|| RequestConstants.REQ_OPEN.equals( request.getType( ) ) )
-							// !creation request already processed in createion
-							// tool
-							// || ReportRequest.CREATE_ELEMENT.equals(
-							// request.getType( ) ) )
-							return true;
-						return super.understandsRequest( request );
-					}
-				} );
+			public boolean understandsRequest(Request request) {
+				if (RequestConstants.REQ_DIRECT_EDIT.equals(request.getType())
+						|| RequestConstants.REQ_OPEN.equals(request.getType()))
+					// !creation request already processed in createion
+					// tool
+					// || ReportRequest.CREATE_ELEMENT.equals(
+					// request.getType( ) ) )
+					return true;
+				return super.understandsRequest(request);
+			}
+		});
 	}
 
 	/*
@@ -100,49 +94,38 @@ public class ExtendedEditPart extends ReportElementEditPart
 	 * @seeorg.eclipse.birt.designer.internal.ui.editors.schematic.editparts.
 	 * ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		refreshBorder( (DesignElementHandle) getModel( ), new LineBorder( ) );
-		getExtendedElementUI( ).updateFigure( getExtendedItemHandle( ),
-				getFigure( ) );
+	public void refreshFigure() {
+		refreshBorder((DesignElementHandle) getModel(), new LineBorder());
+		getExtendedElementUI().updateFigure(getExtendedItemHandle(), getFigure());
 
-		( (AbstractGraphicalEditPart) getParent( ) ).setLayoutConstraint( this,
-				getFigure( ),
-				getConstraint( ) );
+		((AbstractGraphicalEditPart) getParent()).setLayoutConstraint(this, getFigure(), getConstraint());
 	}
 
 	/**
 	 * @return The constraint
 	 */
-	protected Object getConstraint( )
-	{
-		ExtendedItemHandle handle = getExtendedItemHandle( );
-		ReportItemConstraint constraint = new ReportItemConstraint( );
+	protected Object getConstraint() {
+		ExtendedItemHandle handle = getExtendedItemHandle();
+		ReportItemConstraint constraint = new ReportItemConstraint();
 
-		String type = handle.getPrivateStyle( ).getDisplay( );
-		if ( type == null || DesignChoiceConstants.DISPLAY_NONE.equals( type ))
-		{
+		String type = handle.getPrivateStyle().getDisplay();
+		if (type == null || DesignChoiceConstants.DISPLAY_NONE.equals(type)) {
 			type = DesignChoiceConstants.DISPLAY_BLOCK;
 		}
-		constraint.setDisplay( type );
-		constraint.setMargin( getModelAdapter( ).getMargin( null ) );
-		
-		DimensionHandle value = handle.getWidth( );
-		constraint.setMeasure( value.getMeasure( ) );
-		constraint.setUnits( value.getUnits( ) );
-		
-		String vAlign = handle.getPrivateStyle( ).getVerticalAlign( );
-		if ( DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals( vAlign ) )
-		{
-			constraint.setAlign( ReportFlowLayout.ALIGN_CENTER );
-		}
-		else if ( DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals( vAlign ) )
-		{
-			constraint.setAlign( ReportFlowLayout.ALIGN_RIGHTBOTTOM );
-		}
-		else if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals( vAlign ))
-		{
-			constraint.setAlign( ReportFlowLayout.ALIGN_LEFTTOP );
+		constraint.setDisplay(type);
+		constraint.setMargin(getModelAdapter().getMargin(null));
+
+		DimensionHandle value = handle.getWidth();
+		constraint.setMeasure(value.getMeasure());
+		constraint.setUnits(value.getUnits());
+
+		String vAlign = handle.getPrivateStyle().getVerticalAlign();
+		if (DesignChoiceConstants.VERTICAL_ALIGN_MIDDLE.equals(vAlign)) {
+			constraint.setAlign(ReportFlowLayout.ALIGN_CENTER);
+		} else if (DesignChoiceConstants.VERTICAL_ALIGN_BOTTOM.equals(vAlign)) {
+			constraint.setAlign(ReportFlowLayout.ALIGN_RIGHTBOTTOM);
+		} else if (DesignChoiceConstants.VERTICAL_ALIGN_TOP.equals(vAlign)) {
+			constraint.setAlign(ReportFlowLayout.ALIGN_LEFTTOP);
 		}
 		return constraint;
 	}
@@ -152,109 +135,86 @@ public class ExtendedEditPart extends ReportElementEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		return getExtendedElementUI( ).createFigure( getExtendedItemHandle( ) );
+	protected IFigure createFigure() {
+		return getExtendedElementUI().createFigure(getExtendedItemHandle());
 	}
 
-	public void performDirectEdit( )
-	{
-		ExtendedElementUIPoint point = ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( ( (ExtendedItemHandle) getModel( ) ).getExtensionName( ) );
+	public void performDirectEdit() {
+		ExtendedElementUIPoint point = ExtensionPointManager.getInstance()
+				.getExtendedElementPoint(((ExtendedItemHandle) getModel()).getExtensionName());
 
-		IReportItemBuilderUI builder = point.getReportItemBuilderUI( );
+		IReportItemBuilderUI builder = point.getReportItemBuilderUI();
 
-		if ( builder != null )
-		{
-			String displayLabel = (String) point.getAttribute( IExtensionConstants.ELEMENT_REPORT_ITEM_LABEL_UI );
+		if (builder != null) {
+			String displayLabel = (String) point.getAttribute(IExtensionConstants.ELEMENT_REPORT_ITEM_LABEL_UI);
 
 			// Start a transaction before opening builder
 
-			CommandStack stack = SessionHandleAdapter.getInstance( ).getCommandStack( );
-			final String transName = Messages.getFormattedString( "ExtendedEditPart.edit", //$NON-NLS-1$
-					new Object[]{
-						displayLabel == null ? DEUtil.getMetaDataDictionary( )
-								.getExtension( point.getExtensionName( ) )
-								.getDisplayName( ) : displayLabel
-					} );
+			CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+			final String transName = Messages.getFormattedString("ExtendedEditPart.edit", //$NON-NLS-1$
+					new Object[] { displayLabel == null
+							? DEUtil.getMetaDataDictionary().getExtension(point.getExtensionName()).getDisplayName()
+							: displayLabel });
 
-			stack.startTrans( transName );
+			stack.startTrans(transName);
 			int result = Window.CANCEL;
-			try
-			{
-				result = builder.open( getExtendedItemHandle( ) );
-			}
-			catch ( RuntimeException e )
-			{
-				ExceptionHandler.handle( e );
-				stack.rollback( );
+			try {
+				result = builder.open(getExtendedItemHandle());
+			} catch (RuntimeException e) {
+				ExceptionHandler.handle(e);
+				stack.rollback();
 				return;
 			}
 
-			if ( result == Window.OK )
-			{
-				stack.commit( );
-				refreshVisuals( );
-			}
-			else
-			{
-				stack.rollback( );
+			if (result == Window.OK) {
+				stack.commit();
+				refreshVisuals();
+			} else {
+				stack.rollback();
 			}
 
 		}
 	}
 
-	public IReportItemFigureProvider getExtendedElementUI( )
-	{
+	public IReportItemFigureProvider getExtendedElementUI() {
 		return elementUI;
 	}
 
-	public void setExtendedElementUI( IReportItemFigureProvider elementUI )
-	{
+	public void setExtendedElementUI(IReportItemFigureProvider elementUI) {
 		this.elementUI = elementUI;
 	}
 
-	public ExtendedItemHandle getExtendedItemHandle( )
-	{
-		return (ExtendedItemHandle) getModel( );
+	public ExtendedItemHandle getExtendedItemHandle() {
+		return (ExtendedItemHandle) getModel();
 	}
 
-	public boolean canResize( )
-	{
-		String id = GuiExtensionManager.getExtendedElementID( getExtendedItemHandle( ) );
-		Boolean bool = (Boolean) ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( id )
-				.getAttribute( IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE );
+	public boolean canResize() {
+		String id = GuiExtensionManager.getExtendedElementID(getExtendedItemHandle());
+		Boolean bool = (Boolean) ExtensionPointManager.getInstance().getExtendedElementPoint(id)
+				.getAttribute(IExtensionConstants.ATTRIBUTE_EDITOR_CAN_RESIZE);
 
-		return bool.booleanValue( );
+		return bool.booleanValue();
 	}
 
-	public void deactivate( )
-	{
-		elementUI.disposeFigure( getExtendedItemHandle( ), getFigure( ) );
-		super.deactivate( );
+	public void deactivate() {
+		elementUI.disposeFigure(getExtendedItemHandle(), getFigure());
+		super.deactivate();
 	}
 
 	@Override
-	public EditPolicy getResizePolice( EditPolicy parentPolice )
-	{
-		if ( canResize( ) )
-		{
-			return super.getResizePolice( parentPolice );
-		}
-		else
-		{
-			return new ReportElementNonResizablePolicy( );
+	public EditPolicy getResizePolice(EditPolicy parentPolice) {
+		if (canResize()) {
+			return super.getResizePolice(parentPolice);
+		} else {
+			return new ReportElementNonResizablePolicy();
 		}
 	}
-	
+
 	@Override
-	protected void updateLayoutPreference( )
-	{
-		super.updateLayoutPreference( );
-		if (getFigure( ) instanceof LabelFigure)
-		{
-			( (LabelFigure) getFigure( ) ).setFixLayout( isFixLayout( ) );
+	protected void updateLayoutPreference() {
+		super.updateLayoutPreference();
+		if (getFigure() instanceof LabelFigure) {
+			((LabelFigure) getFigure()).setFixLayout(isFixLayout());
 		}
 	}
 }

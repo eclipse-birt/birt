@@ -50,8 +50,7 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public class AddRelativeTimePeriodAction extends AbstractViewAction
-{
+public class AddRelativeTimePeriodAction extends AbstractViewAction {
 
 	public static final String ID = "com.actuate.birt.report.designer.internal.ui.croostab.AddRelativeTimePeriodAction"; //$NON-NLS-1$
 	private static final double DEFAULT_COLUMN_WIDTH = 1.0;
@@ -59,197 +58,146 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 	private MeasureViewHandle measureViewHandle;
 	private CrosstabReportItemHandle reportHandle;
 
-	public AddRelativeTimePeriodAction( Object selectedObject )
-	{
-		super( selectedObject );
-		setId( ID );
-		setText( Messages.getString( "AddRelativeTimePeriodAction_action_label" ) ); //$NON-NLS-1$
-		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.ADD_RELATIVETIMEPERIOD );
-		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
+	public AddRelativeTimePeriodAction(Object selectedObject) {
+		super(selectedObject);
+		setId(ID);
+		setText(Messages.getString("AddRelativeTimePeriodAction_action_label")); //$NON-NLS-1$
+		Image image = CrosstabUIHelper.getImage(CrosstabUIHelper.ADD_RELATIVETIMEPERIOD);
+		setImageDescriptor(ImageDescriptor.createFromImage(image));
 	}
 
-	public void run( )
-	{
-		if ( measureViewHandle != null )
-		{
-			reportHandle = measureViewHandle.getCrosstab( );
+	public void run() {
+		if (measureViewHandle != null) {
+			reportHandle = measureViewHandle.getCrosstab();
 		}
-		reportHandle.getModuleHandle( )
-				.getCommandStack( )
-				.startTrans( Messages.getString( "AddRelativeTimePeriodAction_trans_label" ) ); //$NON-NLS-1$
+		reportHandle.getModuleHandle().getCommandStack()
+				.startTrans(Messages.getString("AddRelativeTimePeriodAction_trans_label")); //$NON-NLS-1$
 		// AddRelativeTimePeriodDialog computedSummaryDialog = new
 		// AddRelativeTimePeriodDialog(UIUtil.getDefaultShell( ),
 		// "Add Relative TimeP eriod");
 		// computedSummaryDialog.setBindingHolder(
 		// (ReportItemHandle)reportHandle.getModelHandle( ) );
 		// String measureName = "TempName";
-		DataColumnBindingDialog dialog = new DataColumnBindingDialog( true );
-		dialog.setInput( (ReportItemHandle) reportHandle.getModelHandle( ) );
-		dialog.setAggreate( true );
-		dialog.setTimePeriod( true );
-		if ( dialog.open( ) == Dialog.OK )
-		{
-			int index = caleIndex( );
+		DataColumnBindingDialog dialog = new DataColumnBindingDialog(true);
+		dialog.setInput((ReportItemHandle) reportHandle.getModelHandle());
+		dialog.setAggreate(true);
+		dialog.setTimePeriod(true);
+		if (dialog.open() == Dialog.OK) {
+			int index = caleIndex();
 
-			try
-			{
-				ComputedColumnHandle bindingHandle = dialog.getBindingColumn( );
-				ComputedMeasureViewHandle computedMeasure = reportHandle.insertComputedMeasure( bindingHandle.getName( ),
-						index );
-				computedMeasure.addHeader( );
+			try {
+				ComputedColumnHandle bindingHandle = dialog.getBindingColumn();
+				ComputedMeasureViewHandle computedMeasure = reportHandle.insertComputedMeasure(bindingHandle.getName(),
+						index);
+				computedMeasure.addHeader();
 
-				ExtendedItemHandle crosstabModelHandle = (ExtendedItemHandle) reportHandle.getModelHandle( );
+				ExtendedItemHandle crosstabModelHandle = (ExtendedItemHandle) reportHandle.getModelHandle();
 
-				if ( bindingHandle == null )
-				{
-					reportHandle.getModuleHandle( )
-							.getCommandStack( )
-							.rollbackAll( );
+				if (bindingHandle == null) {
+					reportHandle.getModuleHandle().getCommandStack().rollbackAll();
 					return;
 				}
 
-				DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-						.newDataItem( bindingHandle.getName( ) );
-				CrosstabAdaptUtil.formatDataItem( computedMeasure.getCubeMeasure( ),
-						dataHandle );
-				dataHandle.setResultSetColumn( bindingHandle.getName( ) );
+				DataItemHandle dataHandle = DesignElementFactory.getInstance().newDataItem(bindingHandle.getName());
+				CrosstabAdaptUtil.formatDataItem(computedMeasure.getCubeMeasure(), dataHandle);
+				dataHandle.setResultSetColumn(bindingHandle.getName());
 
-				AggregationCellHandle cell = computedMeasure.getCell( );
+				AggregationCellHandle cell = computedMeasure.getCell();
 
 				// There must a set a value to the column
-				if ( ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL.equals( reportHandle.getMeasureDirection( ) ) )
-				{
-					CrosstabCellHandle cellHandle = computedMeasure.getHeader( );
-					if ( cellHandle == null )
-					{
+				if (ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL.equals(reportHandle.getMeasureDirection())) {
+					CrosstabCellHandle cellHandle = computedMeasure.getHeader();
+					if (cellHandle == null) {
 						cellHandle = cell;
 					}
-					String defaultUnit = reportHandle.getModelHandle( )
-							.getModuleHandle( )
-							.getDefaultUnits( );
+					String defaultUnit = reportHandle.getModelHandle().getModuleHandle().getDefaultUnits();
 					// DimensionValue dimensionValue = DimensionUtil.convertTo(
 					// DEFAULT_COLUMN_WIDTH, DesignChoiceConstants.UNITS_IN,
 					// defaultUnit );
 					// reportHandle.setColumnWidth( cellHandle,
 					// dimensionValue );
 				}
-				cell.addContent( dataHandle );
+				cell.addContent(dataHandle);
 
-				reportHandle.getModuleHandle( ).getCommandStack( ).commit( );
-			}
-			catch ( SemanticException e )
-			{
-				reportHandle.getModuleHandle( )
-						.getCommandStack( )
-						.rollbackAll( );
+				reportHandle.getModuleHandle().getCommandStack().commit();
+			} catch (SemanticException e) {
+				reportHandle.getModuleHandle().getCommandStack().rollbackAll();
 				return;
 			}
-		}
-		else
-		{
-			reportHandle.getModuleHandle( ).getCommandStack( ).rollbackAll( );
+		} else {
+			reportHandle.getModuleHandle().getCommandStack().rollbackAll();
 		}
 	}
 
 	@Override
-	public boolean isEnabled( )
-	{
-		Object selection = getSelection( );
-		if ( selection == null || !( selection instanceof DesignElementHandle ) )
-		{
+	public boolean isEnabled() {
+		Object selection = getSelection();
+		if (selection == null || !(selection instanceof DesignElementHandle)) {
 			return false;
 		}
-		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( (DesignElementHandle) selection );
-		if ( extendedHandle == null )
-		{
+		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle((DesignElementHandle) selection);
+		if (extendedHandle == null) {
 			return false;
 		}
-		if ( extendedHandle.getExtensionName( ).equals( "Crosstab" ) )
-		{
-			try
-			{
-				reportHandle = (CrosstabReportItemHandle) extendedHandle.getReportItem( );
-			}
-			catch ( ExtendedElementException e )
-			{
+		if (extendedHandle.getExtensionName().equals("Crosstab")) {
+			try {
+				reportHandle = (CrosstabReportItemHandle) extendedHandle.getReportItem();
+			} catch (ExtendedElementException e) {
 				return false;
 			}
-		}
-		else
-		{
-			measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
-			if ( measureViewHandle == null )
-			{
+		} else {
+			measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle(extendedHandle);
+			if (measureViewHandle == null) {
 				return false;
 			}
-			reportHandle = measureViewHandle.getCrosstab( );
+			reportHandle = measureViewHandle.getCrosstab();
 		}
-		if ( DEUtil.isReferenceElement( reportHandle.getCrosstabHandle( ) ) )
-		{
+		if (DEUtil.isReferenceElement(reportHandle.getCrosstabHandle())) {
 			return false;
 		}
 
-		CubeHandle cube = reportHandle.getCube( );
-		if ( cube == null )
-		{
+		CubeHandle cube = reportHandle.getCube();
+		if (cube == null) {
 			return false;
 		}
-		if ( cube.getPropertyHandle( ICubeModel.DIMENSIONS_PROP ) == null )
-		{
+		if (cube.getPropertyHandle(ICubeModel.DIMENSIONS_PROP) == null) {
 			return false;
 		}
-		List list = cube.getContents( ICubeModel.DIMENSIONS_PROP );
-		if ( CrosstabUtil.isBoundToLinkedDataSet( reportHandle ) )
-		{
-			list = new ArrayList( );
-			for ( int i = 0; i < reportHandle.getDimensionCount( ICrosstabConstants.ROW_AXIS_TYPE ); i++ )
-			{
-				DimensionHandle dimension = reportHandle.getDimension( ICrosstabConstants.ROW_AXIS_TYPE,
-						i )
-						.getCubeDimension( );
-				list.add( dimension );
+		List list = cube.getContents(ICubeModel.DIMENSIONS_PROP);
+		if (CrosstabUtil.isBoundToLinkedDataSet(reportHandle)) {
+			list = new ArrayList();
+			for (int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.ROW_AXIS_TYPE); i++) {
+				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.ROW_AXIS_TYPE, i)
+						.getCubeDimension();
+				list.add(dimension);
 			}
-			for ( int i = 0; i < reportHandle.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ); i++ )
-			{
-				DimensionHandle dimension = reportHandle.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE,
-						i )
-						.getCubeDimension( );
-				list.add( dimension );
+			for (int i = 0; i < reportHandle.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE); i++) {
+				DimensionHandle dimension = reportHandle.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE, i)
+						.getCubeDimension();
+				list.add(dimension);
 			}
 		}
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			DimensionHandle dimension = (DimensionHandle) list.get( i );
-			if ( CrosstabAdaptUtil.isTimeDimension( dimension ) )
-			{
-				DimensionViewHandle viewHandle = reportHandle.getDimension( dimension.getName( ) );
-				if ( viewHandle == null )
-				{
-					int count = dimension.getDefaultHierarchy( )
-							.getLevelCount( );
-					if ( count == 0 )
-					{
+		for (int i = 0; i < list.size(); i++) {
+			DimensionHandle dimension = (DimensionHandle) list.get(i);
+			if (CrosstabAdaptUtil.isTimeDimension(dimension)) {
+				DimensionViewHandle viewHandle = reportHandle.getDimension(dimension.getName());
+				if (viewHandle == null) {
+					int count = dimension.getDefaultHierarchy().getLevelCount();
+					if (count == 0) {
 						continue;
 					}
-					LevelHandle levelHandle = dimension.getDefaultHierarchy( )
-							.getLevel( 0 );
-					if ( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( levelHandle.getDateTimeLevelType( ) ) )
-					{
+					LevelHandle levelHandle = dimension.getDefaultHierarchy().getLevel(0);
+					if (DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals(levelHandle.getDateTimeLevelType())) {
 						return true;
 					}
-				}
-				else
-				{
-					int count = viewHandle.getLevelCount( );
-					if ( count == 0 )
-					{
+				} else {
+					int count = viewHandle.getLevelCount();
+					if (count == 0) {
 						continue;
 					}
-					LevelViewHandle levelViewHandle = viewHandle.getLevel( 0 );
-					if ( levelViewHandle.getCubeLevel( ) != null
-							&& DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR.equals( levelViewHandle.getCubeLevel( )
-									.getDateTimeLevelType( ) ) )
-					{
+					LevelViewHandle levelViewHandle = viewHandle.getLevel(0);
+					if (levelViewHandle.getCubeLevel() != null && DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_YEAR
+							.equals(levelViewHandle.getCubeLevel().getDateTimeLevelType())) {
 						return true;
 					}
 				}
@@ -258,15 +206,11 @@ public class AddRelativeTimePeriodAction extends AbstractViewAction
 		return false;
 	}
 
-	private int caleIndex( )
-	{
-		if ( measureViewHandle != null )
-		{
-			return reportHandle.getAllMeasures( ).indexOf( measureViewHandle ) + 1;
-		}
-		else
-		{
-			return reportHandle.getAllMeasures( ).size( );
+	private int caleIndex() {
+		if (measureViewHandle != null) {
+			return reportHandle.getAllMeasures().indexOf(measureViewHandle) + 1;
+		} else {
+			return reportHandle.getAllMeasures().size();
 		}
 	}
 

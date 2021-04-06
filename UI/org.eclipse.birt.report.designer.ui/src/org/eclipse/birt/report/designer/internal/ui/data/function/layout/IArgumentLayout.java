@@ -10,9 +10,7 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.data.function.layout;
 
-
-public interface IArgumentLayout
-{
+public interface IArgumentLayout {
 //	0x0 -
 //	By default, the layout hint returns 0, which means the argument should be layouted in next line and the label is before the value field. This meets most default behavior for the standard argument layout.
 //
@@ -30,9 +28,9 @@ public interface IArgumentLayout
 	public static final int LIGN_INLINEL_AFTER = 0x11;
 	public static final int ALIGN_INLINE_NONE = 0x12;
 
-	public int getLayoutHint( );
+	public int getLayoutHint();
 
-	public void setLayoutHint( int layoutHint );
-	
-	public String getName( );
+	public void setLayoutHint(int layoutHint);
+
+	public String getName();
 }

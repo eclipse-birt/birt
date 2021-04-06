@@ -14,13 +14,11 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
 import com.ibm.icu.util.ULocale;
 
 public class StructureIteratorTest extends BaseTestCase {
-	
-	private SimpleValueHandle createSimpleValueHandle(int numOfItem)
-			throws ModelException {
+
+	private SimpleValueHandle createSimpleValueHandle(int numOfItem) throws ModelException {
 		sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
 		ReportDesignHandle rdh = sessionHandle.createDesign();
-		SimpleValueHandle svh = new PropertyHandleImpl(rdh,
-				ReportDesign.LIBRARIES_PROP);
+		SimpleValueHandle svh = new PropertyHandleImpl(rdh, ReportDesign.LIBRARIES_PROP);
 
 		for (int i = 0; i < numOfItem; i++) {
 			IncludedLibrary inc = new IncludedLibrary();
@@ -38,7 +36,7 @@ public class StructureIteratorTest extends BaseTestCase {
 
 		assertFalse(si.hasNext());
 	}
-	
+
 	public void testOneItem() throws ModelException {
 		SimpleValueHandle svh = createSimpleValueHandle(1);
 		Iterator si = svh.iterator();
@@ -46,24 +44,24 @@ public class StructureIteratorTest extends BaseTestCase {
 		assertTrue(si.hasNext());
 		si.next();
 		si.remove();
-		
+
 		si = svh.iterator();
 		assertFalse(si.hasNext());
 	}
-	
+
 	public void testRemoveFirstFromMultipleItem() throws ModelException {
 		int itemNum = 5;
 		SimpleValueHandle svh = createSimpleValueHandle(itemNum);
 		Iterator si = svh.iterator();
 
-		//remove 1st item
+		// remove 1st item
 		si.next();
-		si.remove();		
+		si.remove();
 		itemNum--;
-		
+
 		IncludedLibrary inc = (IncludedLibrary) ((IncludedLibraryHandle) si.next()).getStructure();
 		assertTrue(inc.getFileName().equals("filename1"));
-		
+
 		int count = 0;
 		si = svh.iterator();
 		while (si.hasNext()) {
@@ -73,18 +71,18 @@ public class StructureIteratorTest extends BaseTestCase {
 		}
 		assertEquals(count, itemNum);
 	}
-	
+
 	public void testRemoveLastFromMultipleItem() throws ModelException {
 		int itemNum = 5;
 		SimpleValueHandle svh = createSimpleValueHandle(itemNum);
 		Iterator si = svh.iterator();
 
-		//remove last item
+		// remove last item
 		while (si.hasNext())
 			si.next();
-		si.remove();		
+		si.remove();
 		itemNum--;
-		
+
 		int count = 0;
 		si = svh.iterator();
 		while (si.hasNext()) {
@@ -94,22 +92,22 @@ public class StructureIteratorTest extends BaseTestCase {
 		}
 		assertEquals(count, itemNum);
 	}
-	
+
 	public void testRemoveMidFromMultipleItem() throws ModelException {
 		int itemNum = 5;
 		SimpleValueHandle svh = createSimpleValueHandle(itemNum);
 		Iterator si = svh.iterator();
 		int count;
 
-		//remove the 3rd item		
+		// remove the 3rd item
 		si.next();
 		si.next();
 		si.next();
-		si.remove();		
+		si.remove();
 		itemNum--;
 		IncludedLibrary inc = (IncludedLibrary) ((IncludedLibraryHandle) si.next()).getStructure();
 		assertTrue(inc.getFileName().equals("filename3"));
-		
+
 		count = 0;
 		si = svh.iterator();
 		while (si.hasNext()) {

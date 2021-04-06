@@ -75,8 +75,7 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-public class JoinCondition extends Structure
-{
+public class JoinCondition extends Structure {
 
 	/**
 	 * Name of the structure.
@@ -162,32 +161,29 @@ public class JoinCondition extends Structure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( JOIN_TYPE_MEMBER.equals( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (JOIN_TYPE_MEMBER.equals(propName))
 			return joinType;
-		else if ( JOIN_OPERATOR_MEMBER.equals( propName ) )
+		else if (JOIN_OPERATOR_MEMBER.equals(propName))
 			return joinOperator;
-		else if ( LEFT_DATASET_MEMBER.equals( propName ) )
+		else if (LEFT_DATASET_MEMBER.equals(propName))
 			return leftDataSet;
-		else if ( RIGHT_DATASET_MEMBER.equals( propName ) )
+		else if (RIGHT_DATASET_MEMBER.equals(propName))
 			return rightDataSet;
-		else if ( LEFT_EXPRESSION_MEMBER.equals( propName ) )
+		else if (LEFT_EXPRESSION_MEMBER.equals(propName))
 			return leftExpression;
-		else if ( RIGHT_EXPRESSION_MEMBER.equals( propName ) )
+		else if (RIGHT_EXPRESSION_MEMBER.equals(propName))
 			return rightExpression;
 
 		assert false;
@@ -197,24 +193,22 @@ public class JoinCondition extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( JOIN_TYPE_MEMBER.equals( propName ) )
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (JOIN_TYPE_MEMBER.equals(propName))
 			joinType = (String) value;
-		else if ( JOIN_OPERATOR_MEMBER.equals( propName ) )
+		else if (JOIN_OPERATOR_MEMBER.equals(propName))
 			joinOperator = (String) value;
-		else if ( LEFT_DATASET_MEMBER.equals( propName ) )
+		else if (LEFT_DATASET_MEMBER.equals(propName))
 			leftDataSet = (String) value;
-		else if ( RIGHT_DATASET_MEMBER.equals( propName ) )
+		else if (RIGHT_DATASET_MEMBER.equals(propName))
 			rightDataSet = (String) value;
-		else if ( LEFT_EXPRESSION_MEMBER.equals( propName ) )
+		else if (LEFT_EXPRESSION_MEMBER.equals(propName))
 			leftExpression = (Expression) value;
-		else if ( RIGHT_EXPRESSION_MEMBER.equals( propName ) )
+		else if (RIGHT_EXPRESSION_MEMBER.equals(propName))
 			rightExpression = (Expression) value;
 
 		else
@@ -224,13 +218,11 @@ public class JoinCondition extends Structure
 	/**
 	 * Sets the join type value of this condition.
 	 * 
-	 * @param type
-	 *            the join type to set
+	 * @param type the join type to set
 	 */
 
-	public void setJoinType( String type )
-	{
-		setProperty( JOIN_TYPE_MEMBER, type );
+	public void setJoinType(String type) {
+		setProperty(JOIN_TYPE_MEMBER, type);
 	}
 
 	/**
@@ -239,21 +231,18 @@ public class JoinCondition extends Structure
 	 * @return the join type value
 	 */
 
-	public String getJoinType( )
-	{
-		return (String) getProperty( null, JOIN_TYPE_MEMBER );
+	public String getJoinType() {
+		return (String) getProperty(null, JOIN_TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the operator value of this condition.
 	 * 
-	 * @param operator
-	 *            the operator to set
+	 * @param operator the operator to set
 	 */
 
-	public void setOperator( String operator )
-	{
-		setProperty( JOIN_OPERATOR_MEMBER, operator );
+	public void setOperator(String operator) {
+		setProperty(JOIN_OPERATOR_MEMBER, operator);
 	}
 
 	/**
@@ -262,21 +251,18 @@ public class JoinCondition extends Structure
 	 * @return the operator value
 	 */
 
-	public String getOperator( )
-	{
-		return (String) getProperty( null, JOIN_OPERATOR_MEMBER );
+	public String getOperator() {
+		return (String) getProperty(null, JOIN_OPERATOR_MEMBER);
 	}
 
 	/**
 	 * Sets the left data set value of this condition.
 	 * 
-	 * @param leftDataSet
-	 *            the left data set to set
+	 * @param leftDataSet the left data set to set
 	 */
 
-	public void setLeftDataSet( String leftDataSet )
-	{
-		setProperty( LEFT_DATASET_MEMBER, leftDataSet );
+	public void setLeftDataSet(String leftDataSet) {
+		setProperty(LEFT_DATASET_MEMBER, leftDataSet);
 	}
 
 	/**
@@ -285,21 +271,18 @@ public class JoinCondition extends Structure
 	 * @return the left data set value
 	 */
 
-	public String getLeftDataSet( )
-	{
-		return (String) getProperty( null, LEFT_DATASET_MEMBER );
+	public String getLeftDataSet() {
+		return (String) getProperty(null, LEFT_DATASET_MEMBER);
 	}
 
 	/**
 	 * Sets the right data set value of this condition.
 	 * 
-	 * @param rightDataSet
-	 *            the right data set to set
+	 * @param rightDataSet the right data set to set
 	 */
 
-	public void setRightDataSet( String rightDataSet )
-	{
-		setProperty( RIGHT_DATASET_MEMBER, rightDataSet );
+	public void setRightDataSet(String rightDataSet) {
+		setProperty(RIGHT_DATASET_MEMBER, rightDataSet);
 	}
 
 	/**
@@ -308,21 +291,18 @@ public class JoinCondition extends Structure
 	 * @return the right data set value
 	 */
 
-	public String getRightDataSet( )
-	{
-		return (String) getProperty( null, RIGHT_DATASET_MEMBER );
+	public String getRightDataSet() {
+		return (String) getProperty(null, RIGHT_DATASET_MEMBER);
 	}
 
 	/**
 	 * Sets the left expression value of this condition.
 	 * 
-	 * @param leftExpression
-	 *            the left expression to set
+	 * @param leftExpression the left expression to set
 	 */
 
-	public void setLeftExpression( String leftExpression )
-	{
-		setProperty( LEFT_EXPRESSION_MEMBER, leftExpression );
+	public void setLeftExpression(String leftExpression) {
+		setProperty(LEFT_EXPRESSION_MEMBER, leftExpression);
 	}
 
 	/**
@@ -331,21 +311,18 @@ public class JoinCondition extends Structure
 	 * @return the left expression value
 	 */
 
-	public String getLeftExpression( )
-	{
-		return getStringProperty( null, LEFT_EXPRESSION_MEMBER );
+	public String getLeftExpression() {
+		return getStringProperty(null, LEFT_EXPRESSION_MEMBER);
 	}
 
 	/**
 	 * Sets the right expression value of this condition.
 	 * 
-	 * @param rightExpression
-	 *            the right expression to set
+	 * @param rightExpression the right expression to set
 	 */
 
-	public void setRightExpression( String rightExpression )
-	{
-		setProperty( RIGHT_EXPRESSION_MEMBER, rightExpression );
+	public void setRightExpression(String rightExpression) {
+		setProperty(RIGHT_EXPRESSION_MEMBER, rightExpression);
 	}
 
 	/**
@@ -354,22 +331,19 @@ public class JoinCondition extends Structure
 	 * @return the right expression value
 	 */
 
-	public String getRightExpression( )
-	{
-		return getStringProperty( null, RIGHT_EXPRESSION_MEMBER );
+	public String getRightExpression() {
+		return getStringProperty(null, RIGHT_EXPRESSION_MEMBER);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new JoinConditionHandle( valueHandle, index );
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new JoinConditionHandle(valueHandle, index);
 	}
 
 	/**
@@ -387,63 +361,47 @@ public class JoinCondition extends Structure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
-	{
-		List list = super.validate( module, element );
+	public List validate(Module module, DesignElement element) {
+		List list = super.validate(module, element);
 
-		checkStringMember( joinType, JOIN_TYPE_MEMBER, element, list );
-		checkStringMember( joinOperator, JOIN_OPERATOR_MEMBER, element, list );
-		checkStringMember( leftDataSet, LEFT_DATASET_MEMBER, element, list );
-		checkStringMember( rightDataSet, RIGHT_DATASET_MEMBER, element, list );
-		checkStringMember( leftExpression == null ? null : leftExpression
-				.getStringExpression( ), LEFT_EXPRESSION_MEMBER, element, list );
-		checkStringMember( rightExpression == null ? null : rightExpression
-				.getStringExpression( ), RIGHT_EXPRESSION_MEMBER, element, list );
+		checkStringMember(joinType, JOIN_TYPE_MEMBER, element, list);
+		checkStringMember(joinOperator, JOIN_OPERATOR_MEMBER, element, list);
+		checkStringMember(leftDataSet, LEFT_DATASET_MEMBER, element, list);
+		checkStringMember(rightDataSet, RIGHT_DATASET_MEMBER, element, list);
+		checkStringMember(leftExpression == null ? null : leftExpression.getStringExpression(), LEFT_EXPRESSION_MEMBER,
+				element, list);
+		checkStringMember(rightExpression == null ? null : rightExpression.getStringExpression(),
+				RIGHT_EXPRESSION_MEMBER, element, list);
 
-		checkDataSet( module, leftDataSet, list, element );
-		checkDataSet( module, rightDataSet, list, element );
+		checkDataSet(module, leftDataSet, list, element);
+		checkDataSet(module, rightDataSet, list, element);
 		return list;
 	}
-
-
 
 	/**
 	 * Check if a data set is added into this joint data set.
 	 * 
-	 * @param module
-	 *            the module.
-	 * @param dataSetName
-	 *            the name of the data set.
-	 * @param errors
-	 *            the errors.
+	 * @param module      the module.
+	 * @param dataSetName the name of the data set.
+	 * @param errors      the errors.
 	 */
-	private void checkDataSet( Module module, String dataSetName, List errors,
-			DesignElement element )
-	{
-		if ( dataSetName == null )
-		{
+	private void checkDataSet(Module module, String dataSetName, List errors, DesignElement element) {
+		if (dataSetName == null) {
 			return;
 		}
 
-		List<ElementRefValue> dataSetsReferences = (List<ElementRefValue>) element
-				.getProperty( module, IJointDataSetModel.DATA_SETS_PROP );
-		if ( dataSetsReferences != null )
-		{
+		List<ElementRefValue> dataSetsReferences = (List<ElementRefValue>) element.getProperty(module,
+				IJointDataSetModel.DATA_SETS_PROP);
+		if (dataSetsReferences != null) {
 			int dataSetIndex;
-			for ( dataSetIndex = 0; dataSetIndex < dataSetsReferences.size( ); dataSetIndex++ )
-			{
-				if ( dataSetsReferences.get( dataSetIndex )
-						.getQualifiedReference( ).equals( dataSetName ) )
-				{
+			for (dataSetIndex = 0; dataSetIndex < dataSetsReferences.size(); dataSetIndex++) {
+				if (dataSetsReferences.get(dataSetIndex).getQualifiedReference().equals(dataSetName)) {
 					return;
 				}
 			}
 		}
 
-		errors
-				.add( new SemanticError(
-						element,
-						new String[]{element.getFullName( ), dataSetName},
-						SemanticError.DESIGN_EXCEPTION_DATA_SET_MISSED_IN_JOINT_DATA_SET ) );
+		errors.add(new SemanticError(element, new String[] { element.getFullName(), dataSetName },
+				SemanticError.DESIGN_EXCEPTION_DATA_SET_MISSED_IN_JOINT_DATA_SET));
 	}
 }

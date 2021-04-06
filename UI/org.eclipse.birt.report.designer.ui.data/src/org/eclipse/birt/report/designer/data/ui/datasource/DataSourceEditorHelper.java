@@ -11,12 +11,9 @@ package org.eclipse.birt.report.designer.data.ui.datasource;
 import org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 
+public class DataSourceEditorHelper {
 
-public class DataSourceEditorHelper
-{
-
-	public static IPropertyPage[] getExternalPages( DataSourceHandle ds )
-	{
+	public static IPropertyPage[] getExternalPages(DataSourceHandle ds) {
 		return new IPropertyPage[0];
 	}
 }

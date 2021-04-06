@@ -13,11 +13,10 @@ package org.eclipse.birt.data.engine.odi;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * The interface defines the behavior of class that is used to fetch
- * a row fromt data set. 
+ * The interface defines the behavior of class that is used to fetch a row fromt
+ * data set.
  */
-public interface IDataSetPopulator
-{
+public interface IDataSetPopulator {
 	/**
 	 * Return the IResultObject instance of a data set.
 	 * 

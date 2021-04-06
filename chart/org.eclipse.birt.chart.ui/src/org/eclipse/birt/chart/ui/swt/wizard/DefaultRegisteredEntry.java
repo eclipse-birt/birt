@@ -20,55 +20,42 @@ import java.util.List;
  * Used for general registered UI entry with priority.
  */
 
-public class DefaultRegisteredEntry<T>
-{
+public class DefaultRegisteredEntry<T> {
 
 	private int priority = 0;
 	private final T instance;
 	private final String name;
 
-	public DefaultRegisteredEntry( T instance, String name, String sPriority )
-	{
+	public DefaultRegisteredEntry(T instance, String name, String sPriority) {
 		this.instance = instance;
 		this.name = name;
-		try
-		{
-			if ( sPriority != null )
-			{
-				priority = Integer.valueOf( sPriority );
+		try {
+			if (sPriority != null) {
+				priority = Integer.valueOf(sPriority);
 			}
-		}
-		catch ( NumberFormatException e )
-		{
+		} catch (NumberFormatException e) {
 		}
 	}
 
-	public T getInstance( )
-	{
+	public T getInstance() {
 		return instance;
 	}
 
-	public int getPriority( )
-	{
+	public int getPriority() {
 		return priority;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public static <T> Collection<T> convert(
-			Collection<DefaultRegisteredEntry<T>> collection )
-	{
-		if ( collection == null || collection.isEmpty( ) )
-		{
-			return Collections.emptyList( );
+	public static <T> Collection<T> convert(Collection<DefaultRegisteredEntry<T>> collection) {
+		if (collection == null || collection.isEmpty()) {
+			return Collections.emptyList();
 		}
-		List<T> newCollection = new ArrayList<T>( );
-		for ( DefaultRegisteredEntry<T> d : collection )
-		{
-			newCollection.add( d.getInstance( ) );
+		List<T> newCollection = new ArrayList<T>();
+		for (DefaultRegisteredEntry<T> d : collection) {
+			newCollection.add(d.getInstance());
 		}
 		return newCollection;
 	}

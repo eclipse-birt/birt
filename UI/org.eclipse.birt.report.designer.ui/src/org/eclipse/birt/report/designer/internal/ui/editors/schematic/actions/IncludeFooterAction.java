@@ -22,11 +22,11 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Action include or not the footer of a table.
  */
-public class IncludeFooterAction extends InsertRowAction
-{
+public class IncludeFooterAction extends InsertRowAction {
 
 	/** action text */
-	private static final String ACTION_MSG_INCLUDE_FOOTER = Messages.getString( "IncludeFooterAction.actionMsg.includeFooter" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_INCLUDE_FOOTER = Messages
+			.getString("IncludeFooterAction.actionMsg.includeFooter"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.IncludeFooterAction"; //$NON-NLS-1$
@@ -34,15 +34,13 @@ public class IncludeFooterAction extends InsertRowAction
 	/**
 	 * Constructs a new action instance.
 	 * 
-	 * @param part
-	 *            The current work bench part
+	 * @param part The current work bench part
 	 */
-	public IncludeFooterAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		//		setChecked( true );
-		setText( ACTION_MSG_INCLUDE_FOOTER );
+	public IncludeFooterAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		// setChecked( true );
+		setText(ACTION_MSG_INCLUDE_FOOTER);
 	}
 
 	/*
@@ -50,14 +48,11 @@ public class IncludeFooterAction extends InsertRowAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		if ( getTableEditPart( ) != null && !getTableEditPart( ).isDelete( ) )
-		{
-			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
-			return adapt != null
-					&& !adapt.hasSlotHandleRow( TableHandleAdapter.FOOTER );
+	protected boolean calculateEnabled() {
+		if (getTableEditPart() != null && !getTableEditPart().isDelete()) {
+			TableHandleAdapter adapt = HandleAdapterFactory.getInstance()
+					.getTableHandleAdapter(getTableEditPart().getModel());
+			return adapt != null && !adapt.hasSlotHandleRow(TableHandleAdapter.FOOTER);
 		}
 		return false;
 	}
@@ -65,13 +60,11 @@ public class IncludeFooterAction extends InsertRowAction
 	/**
 	 * Runs this action.
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Include table footer action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Include table footer action >> Run ..."); //$NON-NLS-1$
 		}
-		getTableEditPart( ).includeSlotHandle( true, TableHandleAdapter.FOOTER );
+		getTableEditPart().includeSlotHandle(true, TableHandleAdapter.FOOTER);
 	}
 
 	/*
@@ -79,26 +72,25 @@ public class IncludeFooterAction extends InsertRowAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.SelectionAction#update()
 	 */
-	//	public void update( )
-	//	{
-	//		super.update( );
-	//		if ( getTableEditPart( ) != null )
-	//		{
-	//			TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-	//					.getTableHandleAdapter( getTableEditPart( ).getModel( ) );
-	//			setChecked( adapt.hasSlotHandleRow( TableHandleAdapter.FOOTER ) );
-	//		}
-	//	}
+	// public void update( )
+	// {
+	// super.update( );
+	// if ( getTableEditPart( ) != null )
+	// {
+	// TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
+	// .getTableHandleAdapter( getTableEditPart( ).getModel( ) );
+	// setChecked( adapt.hasSlotHandleRow( TableHandleAdapter.FOOTER ) );
+	// }
+	// }
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.InsertRowAction#getTableEditPart()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+	 * InsertRowAction#getTableEditPart()
 	 */
-	protected TableEditPart getTableEditPart( )
-	{
-		TableEditPart part = super.getTableEditPart( );
-		if ( part instanceof GridEditPart )
-		{
+	protected TableEditPart getTableEditPart() {
+		TableEditPart part = super.getTableEditPart();
+		if (part instanceof GridEditPart) {
 			return null;
 		}
 		return part;

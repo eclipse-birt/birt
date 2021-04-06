@@ -1,6 +1,5 @@
 package org.eclipse.birt.report.designer.internal.ui.util;
 
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashSet;
@@ -45,8 +44,7 @@ public class SortMap implements Map {
 		}
 
 		public int hashCode() {
-			return (key == null ? 0 : key.hashCode())
-					^ (value == null ? 0 : value.hashCode());
+			return (key == null ? 0 : key.hashCode()) ^ (value == null ? 0 : value.hashCode());
 		}
 
 		public String toString() {

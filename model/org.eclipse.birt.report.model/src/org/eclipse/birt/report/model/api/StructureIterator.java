@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.core.Structure;
  * 
  */
 
-class StructureIterator implements Iterator
-{
+class StructureIterator implements Iterator {
 
 	/**
 	 * Handle to the property or member that contains the list.
@@ -46,18 +45,16 @@ class StructureIterator implements Iterator
 	protected int index;
 
 	/**
-	 * Constructs an structure iterator for the property or member that has the
-	 * list of structures over which to iterate.
+	 * Constructs an structure iterator for the property or member that has the list
+	 * of structures over which to iterate.
 	 * 
-	 * @param handle
-	 *            handle to the property or member that has the list of
-	 *            structures over which to iterate
+	 * @param handle handle to the property or member that has the list of
+	 *               structures over which to iterate
 	 */
 
-	public StructureIterator( SimpleValueHandle handle )
-	{
+	public StructureIterator(SimpleValueHandle handle) {
 		valueHandle = handle;
-		list = valueHandle.getListValue( );
+		list = valueHandle.getListValue();
 		index = -1;
 	}
 
@@ -70,26 +67,21 @@ class StructureIterator implements Iterator
 	 * @see java.util.Iterator#remove()
 	 */
 
-	public void remove( )
-	{
-		if ( index < 0 || index >= list.size() )
+	public void remove() {
+		if (index < 0 || index >= list.size())
 			return;
-		try
-		{
-			valueHandle.removeItem( index );
+		try {
+			valueHandle.removeItem(index);
 			list.remove(index--);
-		}
-		catch ( PropertyValueException e )
-		{
+		} catch (PropertyValueException e) {
 			// Ignore any errors.
 		}
 	}
 
 	// Implementation of iterator.hasNext( )
 
-	public boolean hasNext( )
-	{
-		return list != null && index + 1 < list.size( );
+	public boolean hasNext() {
+		return list != null && index + 1 < list.size();
 	}
 
 	/**
@@ -100,13 +92,12 @@ class StructureIterator implements Iterator
 	 * @see StructureHandle
 	 */
 	// Implementation of iterator.next( )
-	public Object next( )
-	{
-		if ( !hasNext( ) )
+	public Object next() {
+		if (!hasNext())
 			return null;
 
-		Structure struct = list.get( ++index );
-		return struct.getHandle( valueHandle, index );
+		Structure struct = list.get(++index);
+		return struct.getHandle(valueHandle, index);
 	}
 
 }

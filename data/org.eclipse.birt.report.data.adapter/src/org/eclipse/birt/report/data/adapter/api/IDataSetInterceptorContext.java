@@ -13,13 +13,11 @@
  */
 package org.eclipse.birt.report.data.adapter.api;
 
-public interface IDataSetInterceptorContext
-{
+public interface IDataSetInterceptorContext {
 
-	public DataRequestSession getRequestSession( String dataSource );
+	public DataRequestSession getRequestSession(String dataSource);
 
-	public void registDataRequestSession( String dataSource,
-			DataRequestSession session );
+	public void registDataRequestSession(String dataSource, DataRequestSession session);
 
-	public void close( );
+	public void close();
 }

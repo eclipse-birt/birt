@@ -33,8 +33,7 @@ public interface TestDataSource {
 	 * @param isOverwrite
 	 * @throws SQLException
 	 */
-	public void createTable(String tableName, String createSql,
-			boolean isOverwrite) throws SQLException;
+	public void createTable(String tableName, String createSql, boolean isOverwrite) throws SQLException;
 
 	/**
 	 * Create stored procedure in test data source
@@ -44,8 +43,7 @@ public interface TestDataSource {
 	 * @param isOverwrite
 	 * @throws SQLException
 	 */
-	public void createStoredProcedure(String proName, String createSql,
-			boolean isOverwrite) throws SQLException;
+	public void createStoredProcedure(String proName, String createSql, boolean isOverwrite) throws SQLException;
 
 	/**
 	 * Insert data into table of test data source
@@ -55,8 +53,7 @@ public interface TestDataSource {
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public void populateTable(String testTableName,
-			InputStream testTableDataFile) throws SQLException, IOException;
+	public void populateTable(String testTableName, InputStream testTableDataFile) throws SQLException, IOException;
 
 	/**
 	 * Drop table from test data source

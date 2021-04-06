@@ -17,23 +17,19 @@ import java.util.Iterator;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 import org.eclipse.birt.report.model.metadata.StructureDefn;
 
-public class DocStructure extends DocComposite
-{
-	public DocStructure( StructureDefn struct )
-	{
-		super( struct );
+public class DocStructure extends DocComposite {
+	public DocStructure(StructureDefn struct) {
+		super(struct);
 
-		Iterator iter = struct.propertiesIterator( );
-		while ( iter.hasNext( ) )
-		{
-			PropertyDefn propDefn = (PropertyDefn) iter.next( );
-			properties.add( new DocProperty( propDefn ) );
+		Iterator iter = struct.propertiesIterator();
+		while (iter.hasNext()) {
+			PropertyDefn propDefn = (PropertyDefn) iter.next();
+			properties.add(new DocProperty(propDefn));
 		}
-		Collections.sort( properties, new DocComparator( ) );
+		Collections.sort(properties, new DocComparator());
 	}
 
-	public boolean isElement( )
-	{
+	public boolean isElement() {
 		return false;
 	}
 

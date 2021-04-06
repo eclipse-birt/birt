@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.ui.editors.extension;
  * Defines the constants used by extension framework
  */
 
-public interface IExtensionConstants
-{
+public interface IExtensionConstants {
 
 	/** Extension Point Id */
 	String EXTENSION_MULTIPAGE_EDITOR_CONTRIBUTOR = "org.eclipse.birt.report.designer.ui.editors.multiPageEditorContributor"; //$NON-NLS-1$
@@ -24,11 +23,11 @@ public interface IExtensionConstants
 	/** Element name */
 	String ELEMENT_FORM_PAGE = "formPage"; //$NON-NLS-1$
 	/** Attributes name */
-	
-	String ATTRIBUTE_NAME = "name"; //$NON-NLS-1$	
+
+	String ATTRIBUTE_NAME = "name"; //$NON-NLS-1$
 
 	String ATTRIBUTE_TARGET_EDITOR_ID = "targetEditorId"; //$NON-NLS-1$
-	
+
 	String ATTRIBUTE_ID = "id"; //$NON-NLS-1$
 	String ATTRIBUTE_DISPLAY_NAME = "displayName"; //$NON-NLS-1$
 	String ATTRIBUTE_CLASS = "class"; //$NON-NLS-1$

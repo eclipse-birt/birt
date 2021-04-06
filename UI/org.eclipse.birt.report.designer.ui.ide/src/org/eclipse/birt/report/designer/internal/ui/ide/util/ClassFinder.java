@@ -49,9 +49,8 @@ import org.eclipse.ui.dialogs.SelectionDialog;
  * Find the class name through the parent class name.
  */
 
-public class ClassFinder
-{
-	protected static final Logger logger = Logger.getLogger( ClassFinder.class.getName( ) );
+public class ClassFinder {
+	protected static final Logger logger = Logger.getLogger(ClassFinder.class.getName());
 
 	private static final String TASK_START = Messages.getString("ClassFinder.TaskStart"); //$NON-NLS-1$
 	private static final String DIALOG_TITLE = Messages.getString("ClassFinder.DialogTitle"); //$NON-NLS-1$
@@ -72,134 +71,95 @@ public class ClassFinder
 	 * @param pm
 	 * @throws InterruptedException
 	 */
-	public void doFindClasses( Object[] elements, Set result,
-			IProgressMonitor pm ) throws InterruptedException
-	{
+	public void doFindClasses(Object[] elements, Set result, IProgressMonitor pm) throws InterruptedException {
 		int nElements = elements.length;
-		pm.beginTask( TASK_START, nElements );
+		pm.beginTask(TASK_START, nElements);
 
-		try
-		{
-			for ( int i = 0; i < nElements; i++ )
-			{
-				try
-				{
-					collectTypes( elements[i],
-							new SubProgressMonitor( pm, 1 ),
-							result );
+		try {
+			for (int i = 0; i < nElements; i++) {
+				try {
+					collectTypes(elements[i], new SubProgressMonitor(pm, 1), result);
+				} catch (CoreException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
-				catch ( CoreException e )
-				{
-					logger.log(Level.SEVERE, e.getMessage(),e);
-				}
-				if ( pm.isCanceled( ) )
-				{
-					throw new InterruptedException( );
+				if (pm.isCanceled()) {
+					throw new InterruptedException();
 				}
 			}
-		}
-		finally
-		{
-			pm.done( );
+		} finally {
+			pm.done();
 		}
 	}
 
-	private void collectTypes( Object element, IProgressMonitor pm, Set result )
-			throws CoreException
-	{
-		pm.beginTask( TASK_START, 10 );
+	private void collectTypes(Object element, IProgressMonitor pm, Set result) throws CoreException {
+		pm.beginTask(TASK_START, 10);
 
-		if ( element instanceof IProject && hasJavaNature( (IProject) element ) )
-		{
-			IJavaElement javaElement = JavaCore.create( (IProject) element );
-			List testCases = findCLasses( javaElement,
-					new SubProgressMonitor( pm, 7 ) );
-			result.addAll( testCases );
-			pm.done( );
+		if (element instanceof IProject && hasJavaNature((IProject) element)) {
+			IJavaElement javaElement = JavaCore.create((IProject) element);
+			List testCases = findCLasses(javaElement, new SubProgressMonitor(pm, 7));
+			result.addAll(testCases);
+			pm.done();
 		}
 	}
 
-	private List findCLasses( IJavaElement element, IProgressMonitor pm )
-			throws JavaModelException
-	{
-		List found = new ArrayList( );
-		IJavaProject javaProject = element.getJavaProject( );
+	private List findCLasses(IJavaElement element, IProgressMonitor pm) throws JavaModelException {
+		List found = new ArrayList();
+		IJavaProject javaProject = element.getJavaProject();
 
-		IType testCaseType = classType( javaProject );
-		if ( testCaseType == null )
+		IType testCaseType = classType(javaProject);
+		if (testCaseType == null)
 			return found;
 
-		IType[] subtypes = javaProject.newTypeHierarchy( testCaseType,
-				getRegion( element ),
-				pm ).getAllSubtypes( testCaseType );
+		IType[] subtypes = javaProject.newTypeHierarchy(testCaseType, getRegion(element), pm)
+				.getAllSubtypes(testCaseType);
 
-		if ( subtypes == null )
-			throw new JavaModelException( new CoreException( new Status( IStatus.ERROR,
-					ID,
-					IJavaLaunchConfigurationConstants.ERR_UNSPECIFIED_MAIN_TYPE,
-					ERROR_MESSAGE,
-					null ) ) );
+		if (subtypes == null)
+			throw new JavaModelException(new CoreException(new Status(IStatus.ERROR, ID,
+					IJavaLaunchConfigurationConstants.ERR_UNSPECIFIED_MAIN_TYPE, ERROR_MESSAGE, null)));
 
-		for ( int i = 0; i < subtypes.length; i++ )
-		{
-			try
-			{
-				if ( hasValidModifiers( subtypes[i] ) )
-					found.add( subtypes[i] );
-			}
-			catch ( JavaModelException e )
-			{
-				logger.log(Level.SEVERE, e.getMessage(),e);
+		for (int i = 0; i < subtypes.length; i++) {
+			try {
+				if (hasValidModifiers(subtypes[i]))
+					found.add(subtypes[i]);
+			} catch (JavaModelException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
 		return found;
 	}
 
-	private IType classType( IJavaProject javaProject )
-	{
-		try
-		{
-			if ( getParentClassName( ) == null
-					|| getParentClassName( ).length( ) == 0 )
-			{
+	private IType classType(IJavaProject javaProject) {
+		try {
+			if (getParentClassName() == null || getParentClassName().length() == 0) {
 				return null;
 			}
-			return javaProject.findType( getParentClassName( ) );
-		}
-		catch ( JavaModelException e )
-		{
+			return javaProject.findType(getParentClassName());
+		} catch (JavaModelException e) {
 
 			return null;
 		}
 	}
 
-	private IRegion getRegion( IJavaElement element ) throws JavaModelException
-	{
-		IRegion result = JavaCore.newRegion( );
-		if ( element.getElementType( ) == IJavaElement.JAVA_PROJECT )
-		{
+	private IRegion getRegion(IJavaElement element) throws JavaModelException {
+		IRegion result = JavaCore.newRegion();
+		if (element.getElementType() == IJavaElement.JAVA_PROJECT) {
 			// for projects only add the contained source folders
-			IPackageFragmentRoot[] roots = ( (IJavaProject) element ).getPackageFragmentRoots( );
-			for ( int i = 0; i < roots.length; i++ )
-			{
-				if ( !roots[i].isArchive( ) )
-				{
-					result.add( roots[i] );
+			IPackageFragmentRoot[] roots = ((IJavaProject) element).getPackageFragmentRoots();
+			for (int i = 0; i < roots.length; i++) {
+				if (!roots[i].isArchive()) {
+					result.add(roots[i]);
 				}
 			}
-		}
-		else
-		{
-			result.add( element );
+		} else {
+			result.add(element);
 		}
 		return result;
 	}
 
-	private boolean hasValidModifiers( IType type ) throws JavaModelException
-	{
-		if ( Flags.isAbstract( type.getFlags( ) ) )
+	private boolean hasValidModifiers(IType type) throws JavaModelException {
+		if (Flags.isAbstract(type.getFlags()))
 			return false;
-		if ( !Flags.isPublic( type.getFlags( ) ) )
+		if (!Flags.isPublic(type.getFlags()))
 			return false;
 		return true;
 	}
@@ -208,18 +168,13 @@ public class ClassFinder
 	 * Returns true if the given project is accessible and it has a java nature,
 	 * otherwise false.
 	 * 
-	 * @param project
-	 *            IProject
+	 * @param project IProject
 	 * @return boolean
 	 */
-	private boolean hasJavaNature( IProject project )
-	{
-		try
-		{
-			return project.hasNature( JavaCore.NATURE_ID );
-		}
-		catch ( CoreException e )
-		{
+	private boolean hasJavaNature(IProject project) {
+		try {
+			return project.hasNature(JavaCore.NATURE_ID);
+		} catch (CoreException e) {
 			// project does not exist or is not open
 		}
 		return false;
@@ -228,9 +183,8 @@ public class ClassFinder
 	/*
 	 * Convenience method to get the workspace root.
 	 */
-	private IWorkspaceRoot getWorkspaceRoot( )
-	{
-		return ResourcesPlugin.getWorkspace( ).getRoot( );
+	private IWorkspaceRoot getWorkspaceRoot() {
+		return ResourcesPlugin.getWorkspace().getRoot();
 	}
 
 	/**
@@ -239,77 +193,58 @@ public class ClassFinder
 	 * @throws InvocationTargetException
 	 * @throws InterruptedException
 	 */
-	public IType[] findClasses( final Object[] elements )
-			throws InvocationTargetException, InterruptedException
-	{
-		final Set result = new HashSet( );
+	public IType[] findClasses(final Object[] elements) throws InvocationTargetException, InterruptedException {
+		final Set result = new HashSet();
 
-		if ( elements.length > 0 )
-		{
-			IRunnableWithProgress runnable = new IRunnableWithProgress( ) {
+		if (elements.length > 0) {
+			IRunnableWithProgress runnable = new IRunnableWithProgress() {
 
-				public void run( IProgressMonitor pm )
-						throws InterruptedException
-				{
-					doFindClasses( elements, result, pm );
+				public void run(IProgressMonitor pm) throws InterruptedException {
+					doFindClasses(elements, result, pm);
 				}
 			};
-			PlatformUI.getWorkbench( )
-					.getProgressService( )
-					.busyCursorWhile( runnable );
+			PlatformUI.getWorkbench().getProgressService().busyCursorWhile(runnable);
 		}
-		return (IType[]) result.toArray( new IType[result.size( )] );
+		return (IType[]) result.toArray(new IType[result.size()]);
 	}
 
 	/**
 	 * @return
 	 */
-	public String getFinderClassName( )
-	{
-		IProject[] projects = getWorkspaceRoot( ).getProjects( );
-		if ( projects == null || projects.length == 0 )
-		{
+	public String getFinderClassName() {
+		IProject[] projects = getWorkspaceRoot().getProjects();
+		if (projects == null || projects.length == 0) {
 			return null;
 		}
 		IType[] types = null;
-		try
-		{
+		try {
 			// fix for 66922 Wrong radio behaviour when switching
-			types = findClasses( projects );
+			types = findClasses(projects);
 			// types = findTests( new Object[]{projects[0]} );
-		}
-		catch ( InterruptedException e )
-		{
+		} catch (InterruptedException e) {
 			return null;
-		}
-		catch ( InvocationTargetException e )
-		{
+		} catch (InvocationTargetException e) {
 			return null;
-		}
-		finally
-		{
+		} finally {
 		}
 
-		Shell shell = UIUtil.getDefaultShell( );
-		SelectionDialog dialog = new HandlerClassSelectionDialog( shell, types );
-		dialog.setTitle( DIALOG_TITLE );
-		dialog.setMessage( DIALOG_MESSAGE );
+		Shell shell = UIUtil.getDefaultShell();
+		SelectionDialog dialog = new HandlerClassSelectionDialog(shell, types);
+		dialog.setTitle(DIALOG_TITLE);
+		dialog.setMessage(DIALOG_MESSAGE);
 
-		if ( dialog.open( ) == Window.CANCEL )
-		{
+		if (dialog.open() == Window.CANCEL) {
 			return null;
 		}
 
-		Object[] results = dialog.getResult( );
-		if ( ( results == null ) || ( results.length < 1 ) )
-		{
+		Object[] results = dialog.getResult();
+		if ((results == null) || (results.length < 1)) {
 			return null;
 		}
 		IType type = (IType) results[0];
 
-		if ( type != null )
-		{
-			return type.getFullyQualifiedName( '.' );
+		if (type != null) {
+			return type.getFullyQualifiedName('.');
 		}
 		return null;
 	}
@@ -317,16 +252,14 @@ public class ClassFinder
 	/**
 	 * @return
 	 */
-	public String getParentClassName( )
-	{
+	public String getParentClassName() {
 		return parentClassName;
 	}
 
 	/**
 	 * @param parentClassName
 	 */
-	public void setParentClassName( String parentClassName )
-	{
+	public void setParentClassName(String parentClassName) {
 		this.parentClassName = parentClassName;
 	}
 

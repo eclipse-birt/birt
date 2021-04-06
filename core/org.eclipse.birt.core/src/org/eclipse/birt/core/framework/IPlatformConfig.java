@@ -13,24 +13,23 @@ package org.eclipse.birt.core.framework;
 /**
  * Defines an interface to access OSGi framework.
  */
-public interface IPlatformConfig
-{
+public interface IPlatformConfig {
 	/**
 	 * the birt home defines the platform folder, the value is a string object
 	 */
 	static final String BIRT_HOME = "BIRT_HOME";
-	
+
 	/**
-	 * defines the platform context object used to startup the platform.
-	 * the value is a instance of IPlatformContext.
+	 * defines the platform context object used to startup the platform. the value
+	 * is a instance of IPlatformContext.
 	 */
 	static final String PLATFORM_CONTEXT = "PLATFORM_CONTEXT";
-	
+
 	/**
 	 * defines the launch arguments to access OSGi framework
 	 */
 	static final String OSGI_ARGUMENTS = "OSGI_ARGUMENTS";
-	
+
 	/**
 	 * defines the configuration used to launch the OSGi framework
 	 */

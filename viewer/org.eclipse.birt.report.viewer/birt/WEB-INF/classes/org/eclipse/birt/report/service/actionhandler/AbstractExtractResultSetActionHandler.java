@@ -25,36 +25,28 @@ import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.ParameterAccessor;
 
-public abstract class AbstractExtractResultSetActionHandler
-		extends
-			AbstractBaseActionHandler
-{
+public abstract class AbstractExtractResultSetActionHandler extends AbstractBaseActionHandler {
 
-	public AbstractExtractResultSetActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public AbstractExtractResultSetActionHandler(IContext context, Operation operation,
+			GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
-	protected void __execute( ) throws Exception
-	{
-		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
+	protected void __execute() throws Exception {
+		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean();
 
-		String docName = attrBean.getReportDocumentName( );
-		String resultSetName = ParameterAccessor.getResultSetName( context
-				.getRequest( ) );
-		Collection columns = ParameterAccessor.getSelectedColumns( context
-				.getRequest( ) );
-		Set colSet = new HashSet( );
-		colSet.addAll( columns );
+		String docName = attrBean.getReportDocumentName();
+		String resultSetName = ParameterAccessor.getResultSetName(context.getRequest());
+		Collection columns = ParameterAccessor.getSelectedColumns(context.getRequest());
+		Set colSet = new HashSet();
+		colSet.addAll(columns);
 		Set filters = Collections.EMPTY_SET;
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
-		
-		ServletOutputStream out = context.getResponse( ).getOutputStream( );
-		getReportService( ).extractResultSet( docName, resultSetName,
-				colSet, filters, options, out );
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, context.getRequest());
+		options.setOption(InputOptions.OPT_LOCALE, attrBean.getLocale());
+		options.setOption(InputOptions.OPT_TIMEZONE, attrBean.getTimeZone());
+
+		ServletOutputStream out = context.getResponse().getOutputStream();
+		getReportService().extractResultSet(docName, resultSetName, colSet, filters, options, out);
 	}
 }

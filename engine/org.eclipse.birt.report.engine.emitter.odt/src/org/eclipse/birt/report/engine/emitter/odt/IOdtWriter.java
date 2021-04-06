@@ -21,42 +21,40 @@ import org.eclipse.birt.report.engine.odf.IOdfWriter;
 import org.eclipse.birt.report.engine.odf.style.HyperlinkInfo;
 import org.eclipse.birt.report.engine.odf.style.StyleEntry;
 
-public interface IOdtWriter extends IOdfWriter
-{
-	void drawDiagonalLine( DiagonalLineInfo diagonalLineInfo );
+public interface IOdtWriter extends IOdfWriter {
+	void drawDiagonalLine(DiagonalLineInfo diagonalLineInfo);
 
-	void drawImage( String uri, double height, double width,
-			HyperlinkInfo hyper, StyleEntry style, StyleEntry pStyle, InlineFlag inlineFlag,
-			String altText, String bookmark, TocInfo tocInfo );
+	void drawImage(String uri, double height, double width, HyperlinkInfo hyper, StyleEntry style, StyleEntry pStyle,
+			InlineFlag inlineFlag, String altText, String bookmark, TocInfo tocInfo);
 
-	void end( ) throws IOException;
+	void end() throws IOException;
 
-	void endPage( );
+	void endPage();
 
-	void endParagraph( );
+	void endParagraph();
 
-	void insertHiddenParagraph( );
+	void insertHiddenParagraph();
 
-	void start( boolean rtl )
-			throws IOException;
+	void start(boolean rtl) throws IOException;
 
-	void startPage( );
+	void startPage();
 
 	/**
 	 * Output an empty paragraph with the passed bookmark list.
+	 * 
 	 * @param bm bookmark names list
 	 */
-	void writeMarkersParagraph( List<String> bm, List<TocInfo> tableTocs );
+	void writeMarkersParagraph(List<String> bm, List<TocInfo> tableTocs);
 
-	void writeCaption( String txt, StyleEntry style );
+	void writeCaption(String txt, StyleEntry style);
 
-	void writeContent( int type, String txt,
-			StyleEntry style, StyleEntry inlineStyle, String fontFamily, HyperlinkInfo info, InlineFlag inlineFlag,
-			TextFlag flag, int paragraphWidth, boolean runIsRtl, List<String> bookmark, List<TocInfo> tocs );
+	void writeContent(int type, String txt, StyleEntry style, StyleEntry inlineStyle, String fontFamily,
+			HyperlinkInfo info, InlineFlag inlineFlag, TextFlag flag, int paragraphWidth, boolean runIsRtl,
+			List<String> bookmark, List<TocInfo> tocs);
 
-	void writeForeign( IForeignContent foreignContent );
+	void writeForeign(IForeignContent foreignContent);
 
-	void writeTOC( TocInfo tocInfo );
+	void writeTOC(TocInfo tocInfo);
 
-	void writeTableToc( List<TocInfo> tableTocs );
+	void writeTableToc(List<TocInfo> tableTocs);
 }

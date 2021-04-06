@@ -34,8 +34,7 @@ import org.eclipse.swt.widgets.Display;
 /**
  * 
  */
-public class ReportElementDragTracker extends DragEditPartsTracker
-{
+public class ReportElementDragTracker extends DragEditPartsTracker {
 
 	private static final int FLAG_DELAY_SELECTION = DragEditPartsTracker.MAX_FLAG << 1;
 	protected static final int MAX_FLAG = FLAG_DELAY_SELECTION;
@@ -43,100 +42,85 @@ public class ReportElementDragTracker extends DragEditPartsTracker
 	private static final int DELAY_TIME = 1200;
 	private IDelaySelectionDragTracker proxy;
 
-	public ReportElementDragTracker( EditPart sourceEditPart )
-	{
-		super( sourceEditPart );
+	public ReportElementDragTracker(EditPart sourceEditPart) {
+		super(sourceEditPart);
 
 	}
 
-	protected boolean handleButtonDown( int button )
-	{
-		if ( getCurrentViewer( ) instanceof DeferredGraphicalViewer )
-		{
-			( (DeferredGraphicalViewer) getCurrentViewer( ) ).initStepDat( );
+	protected boolean handleButtonDown(int button) {
+		if (getCurrentViewer() instanceof DeferredGraphicalViewer) {
+			((DeferredGraphicalViewer) getCurrentViewer()).initStepDat();
 		}
-		boolean bool = super.handleButtonDown( button );
+		boolean bool = super.handleButtonDown(button);
 
-		if ( !getFlag( FLAG_DELAY_SELECTION )
-				&& getCurrentInput( ).isMouseButtonDown( 1 ) )
-		{
-			new DelaySelectionHelper( );
-			setFlag( FLAG_DELAY_SELECTION, true );
+		if (!getFlag(FLAG_DELAY_SELECTION) && getCurrentInput().isMouseButtonDown(1)) {
+			new DelaySelectionHelper();
+			setFlag(FLAG_DELAY_SELECTION, true);
 		}
 
 		return bool;
 	}
 
 	@Override
-	public void mouseUp( MouseEvent me, EditPartViewer viewer )
-	{
-		if ( proxy != null )
-		{
-			eraseSourceFeedback( );
-			eraseTargetFeedback( );
+	public void mouseUp(MouseEvent me, EditPartViewer viewer) {
+		if (proxy != null) {
+			eraseSourceFeedback();
+			eraseTargetFeedback();
 
-			proxy.mouseUp( me, viewer );
+			proxy.mouseUp(me, viewer);
 			proxy = null;
 			return;
 		}
 		activeHelper = null;
-		super.mouseUp( me, viewer );
+		super.mouseUp(me, viewer);
 	}
 
 	@Override
-	protected boolean handleDragInProgress( )
-	{
-		if ( proxy != null )
-		{
-			eraseSourceFeedback( );
-			eraseTargetFeedback( );
-			proxy.setLocation( getLocation( ) );
-			proxy.setViewer( getCurrentViewer( ) );
-			return proxy.handleDragInProgress( );
+	protected boolean handleDragInProgress() {
+		if (proxy != null) {
+			eraseSourceFeedback();
+			eraseTargetFeedback();
+			proxy.setLocation(getLocation());
+			proxy.setViewer(getCurrentViewer());
+			return proxy.handleDragInProgress();
 		}
 
 		activeHelper = null;
-		return super.handleDragInProgress( );
+		return super.handleDragInProgress();
 	}
 
 	@Override
-	protected void resetFlags( )
-	{
-		super.resetFlags( );
-		setFlag( FLAG_DELAY_SELECTION, false );
+	protected void resetFlags() {
+		super.resetFlags();
+		setFlag(FLAG_DELAY_SELECTION, false);
 	}
 
-	private EditPart getEditPartUnderMouse( )
-	{
-		if (getCurrentViewer( ) == null)
-		{
+	private EditPart getEditPartUnderMouse() {
+		if (getCurrentViewer() == null) {
 			return null;
 		}
-		EditPart editPart = getCurrentViewer( ).findObjectAtExcluding( getLocation( ),
-				new ArrayList( ) );
+		EditPart editPart = getCurrentViewer().findObjectAtExcluding(getLocation(), new ArrayList());
 
 		return editPart;
 	}
-	
+
 	@Override
-	public void mouseDoubleClick( MouseEvent me, EditPartViewer viewer )
-	{
+	public void mouseDoubleClick(MouseEvent me, EditPartViewer viewer) {
 		activeHelper = null;
-		super.mouseDoubleClick( me, viewer );
+		super.mouseDoubleClick(me, viewer);
 	}
 
-	class DelaySelectionHelper implements Runnable
-	{
+	class DelaySelectionHelper implements Runnable {
 		private FocusListener focus;
-		
+
 		private KeyListener key;
-		public DelaySelectionHelper( )
-		{			
+
+		public DelaySelectionHelper() {
 			activeHelper = this;
-			hookControl( getSourceEditPart( ).getViewer( ).getControl( ) );
-			Display.getCurrent( ).timerExec( DELAY_TIME, this );	
+			hookControl(getSourceEditPart().getViewer().getControl());
+			Display.getCurrent().timerExec(DELAY_TIME, this);
 		}
-		
+
 		void abort() {
 			activeHelper = null;
 		}
@@ -151,65 +135,54 @@ public class ReportElementDragTracker extends DragEditPartsTracker
 				public void keyPressed(KeyEvent e) {
 					abort();
 				}
+
 				public void keyReleased(KeyEvent e) {
 					abort();
 				}
 			});
 		}
-		
-		/* (non-Javadoc)
+
+		/*
+		 * (non-Javadoc)
+		 * 
 		 * @see java.lang.Runnable#run()
 		 */
-		public void run( )
-		{
-			if (!getSourceEditPart( ).isActive( ))
-			{
+		public void run() {
+			if (!getSourceEditPart().isActive()) {
 				return;
 			}
-			EditPartViewer viewer = getSourceEditPart( ).getViewer( );
-			EditPart parent = getSourceEditPart( ).getParent( );
-			if ( activeHelper == this
-					&& getSourceEditPart( ).isActive( )
-					&& viewer.getControl( ) != null
-					&& !viewer.getControl( ).isDisposed( ) )
-			{
-				
-				viewer.getControl().removeFocusListener(focus);
-				
-				viewer.getControl().removeKeyListener(key);
-				if ( viewer.getSelectedEditParts( ).size( ) == 1 )
-				{
-					if ( parent.getAdapter( IDelaySelectionDragTracker.class ) != null )
-					{
-						proxy = (IDelaySelectionDragTracker) parent.getAdapter( IDelaySelectionDragTracker.class );
-						if ( viewer instanceof DeferredGraphicalViewer )
-							( (DeferredGraphicalViewer) viewer ).setSelection( new StructuredSelection( proxy.getSourceEditPart( ) ),
-									true );
+			EditPartViewer viewer = getSourceEditPart().getViewer();
+			EditPart parent = getSourceEditPart().getParent();
+			if (activeHelper == this && getSourceEditPart().isActive() && viewer.getControl() != null
+					&& !viewer.getControl().isDisposed()) {
 
-						if ( getSourceEditPart( ) != getEditPartUnderMouse( ) )
-						{
-							IFigure figure = ( (GraphicalEditPart) getSourceEditPart( ) ).getFigure( );
-							Rectangle center = figure.getBounds( ).getCopy( );
-							figure.translateToAbsolute( center );
-							proxy.setStartLocation( center.getCenter( ) );
-						}
-						else
-						{
-							proxy.setStartLocation( getStartLocation( ) );
+				viewer.getControl().removeFocusListener(focus);
+
+				viewer.getControl().removeKeyListener(key);
+				if (viewer.getSelectedEditParts().size() == 1) {
+					if (parent.getAdapter(IDelaySelectionDragTracker.class) != null) {
+						proxy = (IDelaySelectionDragTracker) parent.getAdapter(IDelaySelectionDragTracker.class);
+						if (viewer instanceof DeferredGraphicalViewer)
+							((DeferredGraphicalViewer) viewer)
+									.setSelection(new StructuredSelection(proxy.getSourceEditPart()), true);
+
+						if (getSourceEditPart() != getEditPartUnderMouse()) {
+							IFigure figure = ((GraphicalEditPart) getSourceEditPart()).getFigure();
+							Rectangle center = figure.getBounds().getCopy();
+							figure.translateToAbsolute(center);
+							proxy.setStartLocation(center.getCenter());
+						} else {
+							proxy.setStartLocation(getStartLocation());
 						}
 						//
-						proxy.setState( STATE_DRAG_IN_PROGRESS );
+						proxy.setState(STATE_DRAG_IN_PROGRESS);
 					}
-					setFlag( FLAG_DELAY_SELECTION, true );
+					setFlag(FLAG_DELAY_SELECTION, true);
+				} else {
+					setFlag(FLAG_DELAY_SELECTION, false);
 				}
-				else
-				{
-					setFlag( FLAG_DELAY_SELECTION, false );
-				}
-			}
-			else
-			{
-				setFlag( FLAG_DELAY_SELECTION, false );
+			} else {
+				setFlag(FLAG_DELAY_SELECTION, false);
 			}
 			activeHelper = null;
 

@@ -52,25 +52,18 @@ import org.eclipse.gef.commands.Command;
 import org.eclipse.gef.requests.CreateRequest;
 import org.eclipse.jface.window.Window;
 
+public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter {
+	private IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance().getAdapter();
 
-public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
-{
-	private IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
-
-	public int canDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( !(transfer instanceof ReportElementHandle) 
-				|| adapter == null || !adapter.isExtendedDataItem( (ReportElementHandle) transfer ))
-		{
+	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (!(transfer instanceof ReportElementHandle) || adapter == null
+				|| !adapter.isExtendedDataItem((ReportElementHandle) transfer)) {
 			return DNDService.LOGIC_UNKNOW;
 		}
-		if ( target instanceof EditPart )
-		{
+		if (target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
-			if ( editPart.getModel( ) instanceof IVirtualValidator )
-			{
-				if ( handleValidate(editPart, transfer).size( ) > 0 )
+			if (editPart.getModel() instanceof IVirtualValidator) {
+				if (handleValidate(editPart, transfer).size() > 0)
 					return DNDService.LOGIC_TRUE;
 				else
 					return DNDService.LOGIC_FALSE;
@@ -79,225 +72,173 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 		return DNDService.LOGIC_UNKNOW;
 	}
 
-
-	public boolean performDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( target instanceof EditPart)
-		{
+	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (target instanceof EditPart) {
 			EditPart targetPart = (EditPart) target;
-			
-			CrosstabReportItemHandle crosstab = getCrosstab( targetPart );
-			
-			if (crosstab == null)
-			{
+
+			CrosstabReportItemHandle crosstab = getCrosstab(targetPart);
+
+			if (crosstab == null) {
 				return false;
 			}
-			
-			CommandStack cmdStack = crosstab.getModuleHandle( ).getCommandStack( );
-			cmdStack.startTrans( Messages.getFormattedString( "ExtendedDataColumnXtabDropAdapter.trans.add", //$NON-NLS-1$
-					new String[]{ ((ReportElementHandle) transfer).getName( )} ) );
 
-			ReportElementHandle extendedData = adapter.getBoundExtendedData( (ReportItemHandle) crosstab.getModelHandle( ) );
-			
-			if(extendedData == null || !extendedData.equals( adapter.resolveExtendedData( (ReportElementHandle) transfer)))
-			{
-				if(! adapter.setExtendedData( (ReportItemHandle)crosstab.getModelHandle( ), 
-						adapter.resolveExtendedData( (ReportElementHandle) transfer)))
-				{
-					cmdStack.rollback( );
+			CommandStack cmdStack = crosstab.getModuleHandle().getCommandStack();
+			cmdStack.startTrans(Messages.getFormattedString("ExtendedDataColumnXtabDropAdapter.trans.add", //$NON-NLS-1$
+					new String[] { ((ReportElementHandle) transfer).getName() }));
+
+			ReportElementHandle extendedData = adapter
+					.getBoundExtendedData((ReportItemHandle) crosstab.getModelHandle());
+
+			if (extendedData == null
+					|| !extendedData.equals(adapter.resolveExtendedData((ReportElementHandle) transfer))) {
+				if (!adapter.setExtendedData((ReportItemHandle) crosstab.getModelHandle(),
+						adapter.resolveExtendedData((ReportElementHandle) transfer))) {
+					cmdStack.rollback();
 					return false;
 				}
 			}
-			
+
 			List validElements = handleValidate(targetPart, transfer);
 			MeasureHandle measure = null;
 			DimensionHandle tabularDimension = null;
 			DimensionHandle timeDimension = null;
-			
-			
-			
-			ResultSetColumnHandle resultSetColumn = adapter.getResultSetColumn( (ReportElementHandle) transfer );
-			DataSetHandle dataSetHandle = (DataSetHandle) resultSetColumn.getElementHandle( );
-			List<ColumnHintHandle> columnHints = DataUtil.getColumnHints( dataSetHandle );
+
+			ResultSetColumnHandle resultSetColumn = adapter.getResultSetColumn((ReportElementHandle) transfer);
+			DataSetHandle dataSetHandle = (DataSetHandle) resultSetColumn.getElementHandle();
+			List<ColumnHintHandle> columnHints = DataUtil.getColumnHints(dataSetHandle);
 			ColumnHintHandle chh = null;
-			for( ColumnHintHandle columnHintHandle : columnHints )
-			{
-				if ( resultSetColumn.getColumnName( ).equals( columnHintHandle.getAlias( ) )
-						|| resultSetColumn.getColumnName( ).equals( columnHintHandle.getColumnName( ) ) )
-				{
+			for (ColumnHintHandle columnHintHandle : columnHints) {
+				if (resultSetColumn.getColumnName().equals(columnHintHandle.getAlias())
+						|| resultSetColumn.getColumnName().equals(columnHintHandle.getColumnName())) {
 					chh = columnHintHandle;
 					break;
 				}
 			}
 			String contentKeyForLabel = null;
-			if ( chh != null )
-			{
-				contentKeyForLabel = chh.getDisplayNameKey( );
+			if (chh != null) {
+				contentKeyForLabel = chh.getDisplayNameKey();
 			}
-			
-			for(Object obj : validElements )
-			{
-				if ( obj instanceof MeasureHandle )
-				{
+
+			for (Object obj : validElements) {
+				if (obj instanceof MeasureHandle) {
 					measure = (MeasureHandle) obj;
 					// Copy the style to measure and then report item in it
-					if ( chh != null )
-					{
-						try
-						{
-							measure.setAlignment( chh.getHorizontalAlign( ) );
-							measure.setFormat( chh.getValueFormat( ) );
-						}
-						catch ( SemanticException e )
-						{
-							ExceptionHandler.handle( e );
+					if (chh != null) {
+						try {
+							measure.setAlignment(chh.getHorizontalAlign());
+							measure.setFormat(chh.getValueFormat());
+						} catch (SemanticException e) {
+							ExceptionHandler.handle(e);
 						}
 					}
-				}
-				else if( obj instanceof DimensionHandle )
-				{
+				} else if (obj instanceof DimensionHandle) {
 					DimensionHandle dim = (DimensionHandle) obj;
-					
-					if( dim.isTimeType( ) )
-					{
+
+					if (dim.isTimeType()) {
 						timeDimension = dim;
-					}
-					else
-					{
+					} else {
 						tabularDimension = dim;
 					}
 				}
 			}
-			
-			if ( measure != null )
-			{
-				CreateRequest request = new CreateRequest( );
-				request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, measure );
-				request.setLocation( location.getPoint( ) );
-				
-				Command command = targetPart.getCommand( request );
-				if ( command != null && command.canExecute( ) )
-				{
-					targetPart.getViewer( )
-							.getEditDomain( )
-							.getCommandStack( )
-							.execute( command );
-					
+
+			if (measure != null) {
+				CreateRequest request = new CreateRequest();
+				request.getExtendedData().put(DesignerConstants.KEY_NEWOBJECT, measure);
+				request.setLocation(location.getPoint());
+
+				Command command = targetPart.getCommand(request);
+				if (command != null && command.canExecute()) {
+					targetPart.getViewer().getEditDomain().getCommandStack().execute(command);
+
 					// Set content key for label
-					MeasureViewHandle measureViewHandle = crosstab.getMeasure( measure.getName( ) );
-					PropertyHandle headHandle = measureViewHandle.getHeaderProperty( );
-					Object object = headHandle.getValue( );
-					if (object instanceof List && !((List) object).isEmpty( )) {
-						Object headerCell = ((List) object).get( 0 );
+					MeasureViewHandle measureViewHandle = crosstab.getMeasure(measure.getName());
+					PropertyHandle headHandle = measureViewHandle.getHeaderProperty();
+					Object object = headHandle.getValue();
+					if (object instanceof List && !((List) object).isEmpty()) {
+						Object headerCell = ((List) object).get(0);
 						if (headerCell instanceof ExtendedItemHandle) {
-							Object model = CrosstabUtil.getReportItem( (ExtendedItemHandle) headerCell );
+							Object model = CrosstabUtil.getReportItem((ExtendedItemHandle) headerCell);
 							if (model instanceof CrosstabCellHandle) {
 								CrosstabCellHandle crosstabCellHandle = (CrosstabCellHandle) model;
-								List contentList = crosstabCellHandle.getContents( );
-								if (!contentList.isEmpty( ) && contentList.get(0) instanceof LabelHandle) {
+								List contentList = crosstabCellHandle.getContents();
+								if (!contentList.isEmpty() && contentList.get(0) instanceof LabelHandle) {
 									LabelHandle labelHandle = (LabelHandle) contentList.get(0);
-									try
-									{
-										labelHandle.setTextKey( contentKeyForLabel );
-									}
-									catch ( Exception e )
-									{
-										ExceptionHandler.handle( e );
+									try {
+										labelHandle.setTextKey(contentKeyForLabel);
+									} catch (Exception e) {
+										ExceptionHandler.handle(e);
 									}
 								}
 							}
 						}
 					}
-					
-					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
-					providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
-					
-					if (crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) != 0)
-					{
-						DimensionViewHandle viewHnadle = crosstab.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, 
-								crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) - 1 );
-						CrosstabUtil.addLabelToHeader( viewHnadle.getLevel( viewHnadle.getLevelCount( ) - 1 ) );
+
+					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(crosstab);
+					providerWrapper.updateAllAggregationCells(AggregationCellViewAdapter.SWITCH_VIEW_TYPE);
+
+					if (crosstab.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE) != 0) {
+						DimensionViewHandle viewHnadle = crosstab.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE,
+								crosstab.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE) - 1);
+						CrosstabUtil.addLabelToHeader(viewHnadle.getLevel(viewHnadle.getLevelCount() - 1));
 					}
-						
-					cmdStack.commit( );
-					
+
+					cmdStack.commit();
+
 					return true;
 				}
-			}
-			else if ( tabularDimension != null || timeDimension != null )
-			{
+			} else if (tabularDimension != null || timeDimension != null) {
 				Object element = null;
-				
-				if( timeDimension != null )
-				{
-					LevelViewDialog dialog = new LevelViewDialog( false );
-					dialog.setInput( timeDimension, adapter.getLevelHints( timeDimension ) );
-					
-					if ( dialog.open( ) != Window.OK )
-					{
-						cmdStack.rollback( );
+
+				if (timeDimension != null) {
+					LevelViewDialog dialog = new LevelViewDialog(false);
+					dialog.setInput(timeDimension, adapter.getLevelHints(timeDimension));
+
+					if (dialog.open() != Window.OK) {
+						cmdStack.rollback();
 						return false;
 					}
-					
-					if(((List) dialog.getResult( )).size( ) > 0 )
-					{
-						element = ((List) dialog.getResult( )).toArray();
-					}
-					else
-					{
+
+					if (((List) dialog.getResult()).size() > 0) {
+						element = ((List) dialog.getResult()).toArray();
+					} else {
 						element = tabularDimension;
 					}
-				}
-				else if( tabularDimension != null )
-				{
+				} else if (tabularDimension != null) {
 					element = tabularDimension;
 				}
-				
-				if( element == null )
-				{
+
+				if (element == null) {
 					return false;
 				}
-				
+
 				ReportElementHandle reportElementHandle = null;
-				if ( element instanceof Object[]
-						&& ( (Object[]) element ).length != 0 )
-				{
-					reportElementHandle = (ReportElementHandle) ( (Object[]) element )[0];
-				}
-				else if ( element instanceof DimensionHandle )
-				{
+				if (element instanceof Object[] && ((Object[]) element).length != 0) {
+					reportElementHandle = (ReportElementHandle) ((Object[]) element)[0];
+				} else if (element instanceof DimensionHandle) {
 					reportElementHandle = (ReportElementHandle) element;
 				}
-				try
-				{
-					String displayNameKey = reportElementHandle.getDisplayNameKey( );
-					if ( displayNameKey == null )
-					{
-						reportElementHandle.setDisplayNameKey( contentKeyForLabel );
+				try {
+					String displayNameKey = reportElementHandle.getDisplayNameKey();
+					if (displayNameKey == null) {
+						reportElementHandle.setDisplayNameKey(contentKeyForLabel);
 					}
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
-				catch ( Exception e )
-				{
-					e.printStackTrace( );
-				}
-				
-				CreateRequest request = new CreateRequest( );
-				request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT, element );
-				request.setLocation( location.getPoint( ) );
-				
-				Command command = targetPart.getCommand( request );
-				if ( command != null && command.canExecute( ) )
-				{
-					targetPart.getViewer( )
-							.getEditDomain( )
-							.getCommandStack( )
-							.execute( command );
-					
-					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
-					providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
-					
-					cmdStack.commit( );
+
+				CreateRequest request = new CreateRequest();
+				request.getExtendedData().put(DesignerConstants.KEY_NEWOBJECT, element);
+				request.setLocation(location.getPoint());
+
+				Command command = targetPart.getCommand(request);
+				if (command != null && command.canExecute()) {
+					targetPart.getViewer().getEditDomain().getCommandStack().execute(command);
+
+					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(crosstab);
+					providerWrapper.updateAllAggregationCells(AggregationCellViewAdapter.SWITCH_VIEW_TYPE);
+
+					cmdStack.commit();
 
 					return true;
 				}
@@ -306,48 +247,41 @@ public class ExtendedDataColumnXtabDropAdapter implements IDropAdapter
 		return false;
 	}
 
-	private CrosstabReportItemHandle getCrosstab( EditPart editPart )
-	{
+	private CrosstabReportItemHandle getCrosstab(EditPart editPart) {
 		CrosstabReportItemHandle crosstab = null;
-		Object tmp = editPart.getModel( );
-		if ( !( tmp instanceof CrosstabCellAdapter ) )
-		{
+		Object tmp = editPart.getModel();
+		if (!(tmp instanceof CrosstabCellAdapter)) {
 			return null;
 		}
-		if ( tmp instanceof VirtualCrosstabCellAdapter )
-		{
-			return ( (VirtualCrosstabCellAdapter) tmp ).getCrosstabReportItemHandle( );
+		if (tmp instanceof VirtualCrosstabCellAdapter) {
+			return ((VirtualCrosstabCellAdapter) tmp).getCrosstabReportItemHandle();
 		}
 
-		CrosstabCellHandle handle = ( (CrosstabCellAdapter) tmp ).getCrosstabCellHandle( );
-		if ( handle != null )
-		{
-			crosstab = handle.getCrosstab( );
+		CrosstabCellHandle handle = ((CrosstabCellAdapter) tmp).getCrosstabCellHandle();
+		if (handle != null) {
+			crosstab = handle.getCrosstab();
 		}
 
 		return crosstab;
 
 	}
-	
-	private List handleValidate(EditPart editPart, Object transfer)
-	{
-		if (!( transfer instanceof ReportElementHandle ))
-		{
+
+	private List handleValidate(EditPart editPart, Object transfer) {
+		if (!(transfer instanceof ReportElementHandle)) {
 			return null;
 		}
-		
-		ReportElementHandle[] supportedTypes = adapter.getSupportedTypes( (ReportElementHandle) transfer, getCrosstab( editPart ).getCube( ) );
-		
+
+		ReportElementHandle[] supportedTypes = adapter.getSupportedTypes((ReportElementHandle) transfer,
+				getCrosstab(editPart).getCube());
+
 		List list = new ArrayList();
-		
-		for (ReportElementHandle type : supportedTypes)
-		{
-			if (( (IVirtualValidator) editPart.getModel( ) ).handleValidate( type ))
-			{
-				list.add( type );
+
+		for (ReportElementHandle type : supportedTypes) {
+			if (((IVirtualValidator) editPart.getModel()).handleValidate(type)) {
+				list.add(type);
 			}
 		}
-		
+
 		return list;
 	}
 }

@@ -16,8 +16,7 @@ package org.eclipse.birt.report.engine.api;
  * 
  * @see the ReportRunner for the usage.
  */
-public interface IReportEngineFactory
-{
+public interface IReportEngineFactory {
 
 	/**
 	 * the extension point used to create the factory object.
@@ -29,9 +28,8 @@ public interface IReportEngineFactory
 	/**
 	 * create a new report engine object.
 	 * 
-	 * @param config
-	 *            config used to create the report engine.
+	 * @param config config used to create the report engine.
 	 * @return the report engine object
 	 */
-	IReportEngine createReportEngine( EngineConfig config );
+	IReportEngine createReportEngine(EngineConfig config);
 }

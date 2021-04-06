@@ -17,17 +17,15 @@ import org.eclipse.birt.report.designer.ui.views.INodeProvider;
  * The interface used to extend all the views.
  */
 
-public interface IProviderFactory
-{
+public interface IProviderFactory {
 
 	/**
-	 * Create a new node provider for the given object. Returns the node
-	 * provider, or null if it is unnecessary.
+	 * Create a new node provider for the given object. Returns the node provider,
+	 * or null if it is unnecessary.
 	 * 
-	 * @param selectedObject
-	 *            the object selected in the view
+	 * @param selectedObject the object selected in the view
 	 * 
 	 * @return the node provider, or null if it is unnecessary.
 	 */
-	public INodeProvider createProvider( Object selectedObject );
+	public INodeProvider createProvider(Object selectedObject);
 }

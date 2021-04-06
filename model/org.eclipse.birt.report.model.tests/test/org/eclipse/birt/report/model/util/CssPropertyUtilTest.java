@@ -17,24 +17,19 @@ import junit.framework.TestCase;
  * Tests the CssPropertyUtil class.
  */
 
-public class CssPropertyUtilTest extends TestCase
-{
+public class CssPropertyUtilTest extends TestCase {
 
 	/**
 	 * Tests some kinds of URL input.
 	 *
 	 */
-	
-	public void testGetURL( )
-	{
-		assertEquals( null, CssPropertyUtil.getURLValue( null ) );
-		assertEquals( "c:/test", CssPropertyUtil.getURLValue( "URL( c:/test )" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals( "c:/test", CssPropertyUtil.getURLValue( "url( c:/test )" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals(
-				"c:/test", CssPropertyUtil.getURLValue( "URL( \"c:/test\" )" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals(
-				"c:/test", CssPropertyUtil.getURLValue( "URL( \'c:/test\' )" ) ); //$NON-NLS-1$//$NON-NLS-2$
-		assertEquals(
-				"c:/test", CssPropertyUtil.getURLValue( "URL( \' c:/test   \' )" ) ); //$NON-NLS-1$//$NON-NLS-2$
+
+	public void testGetURL() {
+		assertEquals(null, CssPropertyUtil.getURLValue(null));
+		assertEquals("c:/test", CssPropertyUtil.getURLValue("URL( c:/test )")); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("c:/test", CssPropertyUtil.getURLValue("url( c:/test )")); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("c:/test", CssPropertyUtil.getURLValue("URL( \"c:/test\" )")); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("c:/test", CssPropertyUtil.getURLValue("URL( \'c:/test\' )")); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("c:/test", CssPropertyUtil.getURLValue("URL( \' c:/test   \' )")); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

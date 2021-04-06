@@ -14,47 +14,46 @@ package org.eclipse.birt.report.context;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-abstract public class BaseContext implements IContext
-{
+abstract public class BaseContext implements IContext {
 	/**
 	 * Thread local.
 	 */
-	protected static ThreadLocal contextTraker = new ThreadLocal( );
+	protected static ThreadLocal contextTraker = new ThreadLocal();
 
-    /**
-     * Reference to the viewer attribute bean.
-     */
-    protected BaseAttributeBean bean = null;
-    
-    /**
-     * Reference to the current request.
-     */
-    protected HttpServletRequest request = null;
-    
-    /**
-     * Reference to the current response.
-     */
-    protected HttpServletResponse response = null;
+	/**
+	 * Reference to the viewer attribute bean.
+	 */
+	protected BaseAttributeBean bean = null;
 
-    /**
-     * Abstract methods.
-     */
-    abstract protected void __init( );
-    
-    /**
+	/**
+	 * Reference to the current request.
+	 */
+	protected HttpServletRequest request = null;
+
+	/**
+	 * Reference to the current response.
+	 */
+	protected HttpServletResponse response = null;
+
+	/**
+	 * Abstract methods.
+	 */
+	abstract protected void __init();
+
+	/**
 	 * Static accessor.
 	 * 
 	 * @return
 	 */
-    public static IContext getInstance( )
-    {
-        return ( ( IContext ) contextTraker.get( ) );
-    }
+	public static IContext getInstance() {
+		return ((IContext) contextTraker.get());
+	}
 
-    /**
-     * Default constructor.
-     */
-    public BaseContext( ) { }
+	/**
+	 * Default constructor.
+	 */
+	public BaseContext() {
+	}
 
 	/**
 	 * Constructor.
@@ -62,29 +61,26 @@ abstract public class BaseContext implements IContext
 	 * @param request
 	 * @param response
 	 */
-	public BaseContext( HttpServletRequest request, HttpServletResponse response )
-	{
+	public BaseContext(HttpServletRequest request, HttpServletResponse response) {
 		this.request = request;
 		this.response = response;
-		__init( );
-		contextTraker.set( this );
+		__init();
+		contextTraker.set(this);
 	}
-	
+
 	/**
 	 * @return Returns the bean.
 	 */
-	public BaseAttributeBean getBean( )
-	{
+	public BaseAttributeBean getBean() {
 		return bean;
 	}
-	
+
 	/**
 	 * Access request instance.
 	 * 
 	 * @return Returns the request.
 	 */
-	public HttpServletRequest getRequest( )
-	{
+	public HttpServletRequest getRequest() {
 		return request;
 	}
 
@@ -93,8 +89,7 @@ abstract public class BaseContext implements IContext
 	 * 
 	 * @return
 	 */
-	public HttpServletResponse getResponse( )
-	{
+	public HttpServletResponse getResponse() {
 		return response;
 	}
 }

@@ -15,16 +15,17 @@ package org.eclipse.birt.data.engine.olap.data.api;
  * 
  */
 
-public interface IDimensionFilterDefn
-{
+public interface IDimensionFilterDefn {
 	/**
 	 * refactor to getFilterLevel
+	 * 
 	 * @return
 	 */
-	public ILevel getLevel( );
+	public ILevel getLevel();
+
 	/**
 	 * 
 	 * @return
 	 */
-	public ISelection[] getSelections( );
+	public ISelection[] getSelections();
 }

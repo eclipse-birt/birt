@@ -21,10 +21,9 @@ import java.util.Map;
  * Because it is allowed to customize hyperlinks through emitters, hyperlink
  * customization in presentation engine itself is not supported now. It could be
  * added later if it deems necessary.
- *  
+ * 
  */
-public interface IAction 
-{
+public interface IAction {
 	/**
 	 * hyperlink action
 	 */
@@ -41,69 +40,70 @@ public interface IAction
 	/**
 	 * @return the type of the hyperlink
 	 */
-	public int getType( );
+	public int getType();
 
 	/**
 	 * @return the bookmark string
 	 */
 	public String getBookmark();
-	
+
 	/**
 	 * @return the action string that is calculated using the engine's default
 	 *         algorithm. valid for all three action types.
 	 */
-	public String getActionString( );
+	public String getActionString();
 
 	/**
 	 * @return the system id of the report design which create this action.
 	 */
-	public String getSystemId( );
+	public String getSystemId();
+
 	/**
 	 * @return the report name if action type is drillthrough, null otherwise
 	 */
-	public String getReportName( );
+	public String getReportName();
 
 	/**
-	 * @return a set of name/value pairs for running the report in a
-	 *         drillthrough link; null when the action type is not drillthrough,
-	 *         or no parameters are defined for the drillthrough report to run.
-	 *         In the future, when the drillthrough is against a report
-	 *         document, the parameter binding map is also null.
+	 * @return a set of name/value pairs for running the report in a drillthrough
+	 *         link; null when the action type is not drillthrough, or no parameters
+	 *         are defined for the drillthrough report to run. In the future, when
+	 *         the drillthrough is against a report document, the parameter binding
+	 *         map is also null.
 	 */
-	public Map getParameterBindings( );
+	public Map getParameterBindings();
 
 	/**
-	 * @return a set of name/value pairs for searching the report in a
-	 *         drillthrough link; null when the action type is not drillthrough,
-	 *         or no search criteria is used
+	 * @return a set of name/value pairs for searching the report in a drillthrough
+	 *         link; null when the action type is not drillthrough, or no search
+	 *         criteria is used
 	 */
-	public Map getSearchCriteria( );
+	public Map getSearchCriteria();
 
 	/**
 	 * @return The name of a frame where a document is to be opened.
 	 */
-	public String getTargetWindow( );
-	
+	public String getTargetWindow();
+
 	/**
 	 * return fomat of drillthrough report
+	 * 
 	 * @return
 	 */
 	public String getFormat();
 
 	/**
-	 * Return the bookmark type set in the drillthrough action. The return
-	 * result indicated the target element is a toc or not.
+	 * Return the bookmark type set in the drillthrough action. The return result
+	 * indicated the target element is a toc or not.
 	 * 
 	 * @return <code>true</code>, the target element is a bookmark.
-	 *         <code>false</code>, the target element is indicated to be a
-	 *         toc.
+	 *         <code>false</code>, the target element is indicated to be a toc.
 	 */
 	public boolean isBookmark();
-	
+
 	/**
 	 * @return the type of the target report file.
 	 */
-	public String getTargetFileType( );
-	
+	public String getTargetFileType();
+
 	public String getTooltip();
 }

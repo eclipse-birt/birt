@@ -13,23 +13,20 @@ package org.eclipse.birt.report.engine.emitter;
 
 import junit.framework.TestCase;
 
-public class XMLEncodeUtilTest extends TestCase
-{
+public class XMLEncodeUtilTest extends TestCase {
 
-	public void testEncodeText( )
-	{
+	public void testEncodeText() {
 
-		String result = XMLEncodeUtil
-				.encodeAttr( "\u0000A\"&<\uD840\uDc00\r\n\t" );
-		assertEquals( result, "A&#34;&amp;&lt;\uD840\uDC00&#13;&#10;&#9;" );
+		String result = XMLEncodeUtil.encodeAttr("\u0000A\"&<\uD840\uDc00\r\n\t");
+		assertEquals(result, "A&#34;&amp;&lt;\uD840\uDC00&#13;&#10;&#9;");
 
-		result = XMLEncodeUtil.encodeAttr( "ABCD\u3400 CDEF" );
-		assertEquals( "ABCD\u3400 CDEF", result );
+		result = XMLEncodeUtil.encodeAttr("ABCD\u3400 CDEF");
+		assertEquals("ABCD\u3400 CDEF", result);
 
-		result = XMLEncodeUtil.encodeCdata( "\u0000A\"&<\uD840\uDc00\r\n\t" );
-		assertEquals( "A\"&<\uD840\uDc00\r\n\t", result );
+		result = XMLEncodeUtil.encodeCdata("\u0000A\"&<\uD840\uDc00\r\n\t");
+		assertEquals("A\"&<\uD840\uDc00\r\n\t", result);
 
-		result = XMLEncodeUtil.encodeText( "\u0000A\"&<\uD840\uDc00\r\n\t" );
-		assertEquals( "A\"&amp;&lt;\uD840\uDc00\r\n\t", result );
+		result = XMLEncodeUtil.encodeText("\u0000A\"&<\uD840\uDc00\r\n\t");
+		assertEquals("A\"&amp;&lt;\uD840\uDc00\r\n\t", result);
 	}
 }

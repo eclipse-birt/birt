@@ -17,15 +17,14 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
  * This class implements IRowResultSet and delegate the behavior of class
- * RowResultSet, besides that it can adjust the IResultObject instance return
- * by its "next()" method according to the given metadata in a limited way.
+ * RowResultSet, besides that it can adjust the IResultObject instance return by
+ * its "next()" method according to the given metadata in a limited way.
  */
-class ExpandableRowResultSet implements IRowResultSet
-{
+class ExpandableRowResultSet implements IRowResultSet {
 	// result meta data
 	private IResultClass resultClass;
-	
-	// 
+
+	//
 	private RowResultSet rowResultSet;
 
 	/**
@@ -35,21 +34,19 @@ class ExpandableRowResultSet implements IRowResultSet
 	 * @param odaResultSet
 	 * @param resultClass
 	 */
-	ExpandableRowResultSet( SmartCacheRequest smartCacheRequest )
-	{
-		this.resultClass = smartCacheRequest.getResultClass( );
+	ExpandableRowResultSet(SmartCacheRequest smartCacheRequest) {
+		this.resultClass = smartCacheRequest.getResultClass();
 
-		this.rowResultSet = new RowResultSet( smartCacheRequest );
+		this.rowResultSet = new RowResultSet(smartCacheRequest);
 	}
 
 	/**
 	 * @return result meta data
 	 */
-	public IResultClass getMetaData( )
-	{
+	public IResultClass getMetaData() {
 		return resultClass;
 	}
-	
+
 	/**
 	 * Notice the return value of this function is IResultObject. The null value
 	 * indicates the cursor exceeds the end of result set.
@@ -58,28 +55,26 @@ class ExpandableRowResultSet implements IRowResultSet
 	 * @return next result data
 	 * @throws DataException
 	 */
-	public IResultObject next( ) throws DataException
-	{
-		IResultObject ro = this.rowResultSet.next( );
-		if( ro == null )
+	public IResultObject next() throws DataException {
+		IResultObject ro = this.rowResultSet.next();
+		if (ro == null)
 			return null;
-		Object[] objs = new Object[this.resultClass.getFieldCount( )];
-		if ( objs.length > 0 )
-		{
-			int roFieldCount = ro.getResultClass( ).getFieldCount( );
-			for ( int i = 0; i < objs.length; i++ )
-			{
-				if ( i + 1 <= roFieldCount )
-					objs[i] = ro.getFieldValue( i + 1 );
+		Object[] objs = new Object[this.resultClass.getFieldCount()];
+		if (objs.length > 0) {
+			int roFieldCount = ro.getResultClass().getFieldCount();
+			for (int i = 0; i < objs.length; i++) {
+				if (i + 1 <= roFieldCount)
+					objs[i] = ro.getFieldValue(i + 1);
 				else
 					objs[i] = null;
 			}
 		}
-		return new ResultObject( resultClass, objs );
+		return new ResultObject(resultClass, objs);
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#getIndex()
 	 */
 	public int getIndex() throws DataException {

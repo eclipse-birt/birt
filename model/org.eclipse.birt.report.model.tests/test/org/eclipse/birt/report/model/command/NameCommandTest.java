@@ -59,8 +59,8 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <tr>
  * <td>{@link #testSetName}</td>
  * <td>the name that is setting for element is duplicate in the namespace.</td>
- * <td>duplicate name can not be added into the namespace and an exception
- * threw out.</td>
+ * <td>duplicate name can not be added into the namespace and an exception threw
+ * out.</td>
  * </tr>
  * 
  * <tr>
@@ -92,8 +92,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  */
 
-public class NameCommandTest extends BaseTestCase
-{
+public class NameCommandTest extends BaseTestCase {
 
 	DesignElementHandle styleHandle;
 
@@ -102,19 +101,18 @@ public class NameCommandTest extends BaseTestCase
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
+	protected void setUp() throws Exception {
 
-		super.setUp( );
+		super.setUp();
 
 		// open design file
 
-		openDesign( fileName );
-		assertNotNull( design );
-		assertNotNull( designHandle );
+		openDesign(fileName);
+		assertNotNull(design);
+		assertNotNull(designHandle);
 
-		styleHandle = designHandle.getElementFactory( ).newStyle( "myStyle" ); //$NON-NLS-1$
-		designHandle.getStyles( ).add( styleHandle );
+		styleHandle = designHandle.getElementFactory().newStyle("myStyle"); //$NON-NLS-1$
+		designHandle.getStyles().add(styleHandle);
 	}
 
 	/**
@@ -131,65 +129,56 @@ public class NameCommandTest extends BaseTestCase
 	 * 
 	 * Expected result:
 	 * <ul>
-	 * <li>the old name was removed from the name space, the new name was added
-	 * into the corresponding namespace
+	 * <li>the old name was removed from the name space, the new name was added into
+	 * the corresponding namespace
 	 * </ul>
 	 * 
 	 * @throws Exception
 	 */
 
-	public void testNameSpace( ) throws Exception
-	{
+	public void testNameSpace() throws Exception {
 		// test for stylen namespace
 
-		Style newStyle = new Style( );
-		newStyle.getHandle( design ).setName( "newStyle" );//$NON-NLS-1$
-		assertEquals( "newStyle", newStyle.getName( ) ); //$NON-NLS-1$
+		Style newStyle = new Style();
+		newStyle.getHandle(design).setName("newStyle");//$NON-NLS-1$
+		assertEquals("newStyle", newStyle.getName()); //$NON-NLS-1$
 
-		newStyle.getHandle( design ).setName( "changeStyle" );//$NON-NLS-1$
-		assertEquals( "changeStyle", newStyle.getName( ) ); //$NON-NLS-1$
+		newStyle.getHandle(design).setName("changeStyle");//$NON-NLS-1$
+		assertEquals("changeStyle", newStyle.getName()); //$NON-NLS-1$
 
 		// check whether the old name has beed moved from name space
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ) )
-				.contains( "newStyle" ) ); //$NON-NLS-1$
+		assertFalse((design.getNameHelper().getNameSpace(Module.STYLE_NAME_SPACE)).contains("newStyle")); //$NON-NLS-1$
 		// check whether the new name has beed added into name space.
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ) )
-				.contains( "changeStyle" ) ); //$NON-NLS-1$
+		assertFalse((design.getNameHelper().getNameSpace(Module.STYLE_NAME_SPACE)).contains("changeStyle")); //$NON-NLS-1$
 
 		// Test for Page name space
 
-		MasterPage masterPage = new GraphicMasterPage( );
+		MasterPage masterPage = new GraphicMasterPage();
 
 		// set name of MasterPage to page
 
-		masterPage.getHandle( design ).setName( "page" ); //$NON-NLS-1$
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.PAGE_NAME_SPACE ) )
-				.contains( "page" ) ); //$NON-NLS-1$
+		masterPage.getHandle(design).setName("page"); //$NON-NLS-1$
+		assertFalse((design.getNameHelper().getNameSpace(Module.PAGE_NAME_SPACE)).contains("page")); //$NON-NLS-1$
 		// set name of MasterPage to newPage
 
-		masterPage.getHandle( design ).setName( "newPage" ); //$NON-NLS-1$
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.PAGE_NAME_SPACE ) )
-				.contains( "page" ) ); //$NON-NLS-1$
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.PAGE_NAME_SPACE ) )
-				.contains( "newPage" ) ); //$NON-NLS-1$
+		masterPage.getHandle(design).setName("newPage"); //$NON-NLS-1$
+		assertFalse((design.getNameHelper().getNameSpace(Module.PAGE_NAME_SPACE)).contains("page")); //$NON-NLS-1$
+		assertFalse((design.getNameHelper().getNameSpace(Module.PAGE_NAME_SPACE)).contains("newPage")); //$NON-NLS-1$
 
 		// Test for element namespace
 
-		Label label = new Label( );
+		Label label = new Label();
 
 		// set name of label to label
 
-		label.getHandle( design ).setName( "label" );//$NON-NLS-1$
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.ELEMENT_NAME_SPACE ) )
-				.contains( "label" ) ); //$NON-NLS-1$
+		label.getHandle(design).setName("label");//$NON-NLS-1$
+		assertFalse((design.getNameHelper().getNameSpace(Module.ELEMENT_NAME_SPACE)).contains("label")); //$NON-NLS-1$
 
 		// set name of label to newLabel
 
-		label.getHandle( design ).setName( "newLabel" );//$NON-NLS-1$
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.ELEMENT_NAME_SPACE ) )
-				.contains( "label" ) ); //$NON-NLS-1$
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.ELEMENT_NAME_SPACE ) )
-				.contains( "newLabel" ) ); //$NON-NLS-1$
+		label.getHandle(design).setName("newLabel");//$NON-NLS-1$
+		assertFalse((design.getNameHelper().getNameSpace(Module.ELEMENT_NAME_SPACE)).contains("label")); //$NON-NLS-1$
+		assertFalse((design.getNameHelper().getNameSpace(Module.ELEMENT_NAME_SPACE)).contains("newLabel")); //$NON-NLS-1$
 	}
 
 	/**
@@ -197,74 +186,61 @@ public class NameCommandTest extends BaseTestCase
 	 * <p>
 	 * Test Case:
 	 * <ul>
-	 * <li> the name that is setting for element is duplicate in the namespace.
+	 * <li>the name that is setting for element is duplicate in the namespace.
 	 * 
 	 * <li>set name to GroupElement which name forbides to be set
 	 * 
 	 * 
-	 * <li> the setting name is null when the name property is required by the
+	 * <li>the setting name is null when the name property is required by the
 	 * element def.
 	 * </ul>
 	 * 
 	 * <p>
 	 * Expected result:
 	 * <ul>
-	 * <li>duplicate name can not be added into the namespace and an exception
-	 * threw out.
+	 * <li>duplicate name can not be added into the namespace and an exception threw
+	 * out.
 	 * <li>the name can not be set and an exception threw out.
 	 * 
 	 * <li>An exception threw out with NAME_REQUIRED.
 	 * </ul>
 	 * 
 	 */
-	public void testSetName( )
-	{
-		Style testStyle = new Style( );
+	public void testSetName() {
+		Style testStyle = new Style();
 
 		// set name of Style to testStyle
 
-		testStyle.setName( "testStyle" ); //$NON-NLS-1$
-		design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ).insert( testStyle );
-		try
-		{
+		testStyle.setName("testStyle"); //$NON-NLS-1$
+		design.getNameHelper().getNameSpace(Module.STYLE_NAME_SPACE).insert(testStyle);
+		try {
 			// set duplicate name and throw out exception
 
-			styleHandle.setName( "testStyle" );//$NON-NLS-1$
-			fail( "testSetName1 method cann't throw out NameException !" ); //$NON-NLS-1$
-		}
-		catch ( NameException e )
-		{
-			assertEquals( NameException.DESIGN_EXCEPTION_DUPLICATE, e
-					.getErrorCode( ) );
+			styleHandle.setName("testStyle");//$NON-NLS-1$
+			fail("testSetName1 method cann't throw out NameException !"); //$NON-NLS-1$
+		} catch (NameException e) {
+			assertEquals(NameException.DESIGN_EXCEPTION_DUPLICATE, e.getErrorCode());
 		}
 
-		Cell cell = new Cell( );
+		Cell cell = new Cell();
 
-		try
-		{
+		try {
 			// set name to GroupElement , it results in exception
 
-			cell.getHandle( design ).setName( "testStyle" );//$NON-NLS-1$
-			fail( "testSetName2 method cann't throw out NameException! " ); //$NON-NLS-1$
-		}
-		catch ( NameException e )
-		{
-			assertEquals( NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN, e
-					.getErrorCode( ) );
+			cell.getHandle(design).setName("testStyle");//$NON-NLS-1$
+			fail("testSetName2 method cann't throw out NameException! "); //$NON-NLS-1$
+		} catch (NameException e) {
+			assertEquals(NameException.DESIGN_EXCEPTION_NAME_FORBIDDEN, e.getErrorCode());
 		}
 
-		try
-		{
+		try {
 			// set name to null and should throw out exception
 
-			styleHandle.setName( null );
+			styleHandle.setName(null);
 
-			fail( "testSetName3 method cann't throw out NameException! " ); //$NON-NLS-1$
-		}
-		catch ( NameException e )
-		{
-			assertEquals( NameException.DESIGN_EXCEPTION_NAME_REQUIRED, e
-					.getErrorCode( ) );
+			fail("testSetName3 method cann't throw out NameException! "); //$NON-NLS-1$
+		} catch (NameException e) {
+			assertEquals(NameException.DESIGN_EXCEPTION_NAME_REQUIRED, e.getErrorCode());
 		}
 
 	}
@@ -286,50 +262,48 @@ public class NameCommandTest extends BaseTestCase
 	 * 
 	 * 
 	 */
-	public void testSetNameUndoRedo( ) throws Exception
-	{
+	public void testSetNameUndoRedo() throws Exception {
 		// create new style which name is null
 
-		Style newStyle = new Style( );
-		ActivityStack as = design.getActivityStack( );
+		Style newStyle = new Style();
+		ActivityStack as = design.getActivityStack();
 
 		// set new name to style and check it
 
-		newStyle.getHandle( design ).setName( "style" ); //$NON-NLS-1$
-		assertEquals( "style", newStyle.getName( ) );//$NON-NLS-1$
+		newStyle.getHandle(design).setName("style"); //$NON-NLS-1$
+		assertEquals("style", newStyle.getName());//$NON-NLS-1$
 
 		// test undo and redo
 
-		assertTrue( as.canUndo( ) );
-		as.undo( );
-		assertNull( newStyle.getName( ) );
-		assertTrue( as.canRedo( ) );
-		assertTrue( as.canUndo( ) );
-		as.redo( );
-		assertEquals( "style", newStyle.getName( ) );//$NON-NLS-1$
+		assertTrue(as.canUndo());
+		as.undo();
+		assertNull(newStyle.getName());
+		assertTrue(as.canRedo());
+		assertTrue(as.canUndo());
+		as.redo();
+		assertEquals("style", newStyle.getName());//$NON-NLS-1$
 
 		// to drop style which name is newStyleName
 		// and check it is exist or not
 
-		newStyle.getHandle( design ).setName( "newStyleName" ); //$NON-NLS-1$
+		newStyle.getHandle(design).setName("newStyleName"); //$NON-NLS-1$
 		//
 		// assertEquals( "newStyleName", newStyle.getName( ) );//$NON-NLS-1$
-		// assertFalse( design.getNameHelper( ).getNameSpace( RootElement.STYLE_NAME_SPACE )
+		// assertFalse( design.getNameHelper( ).getNameSpace(
+		// RootElement.STYLE_NAME_SPACE )
 		// .contains( "newStyleName" ) ); //$NON-NLS-1$
 
 		// undo again and style name back to style
-		as.undo( );
-		assertEquals( "style", newStyle.getName( ) ); //$NON-NLS-1$
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ) )
-				.contains( "style" ) ); //$NON-NLS-1$
+		as.undo();
+		assertEquals("style", newStyle.getName()); //$NON-NLS-1$
+		assertFalse((design.getNameHelper().getNameSpace(Module.STYLE_NAME_SPACE)).contains("style")); //$NON-NLS-1$
 
 		// redo and style name back to newStyleName
 
-		as.redo( );
-		assertEquals( "newStyleName", newStyle.getName( ) );//$NON-NLS-1$
+		as.redo();
+		assertEquals("newStyleName", newStyle.getName());//$NON-NLS-1$
 
-		assertFalse( ( design.getNameHelper( ).getNameSpace( Module.STYLE_NAME_SPACE ) )
-				.contains( "newStyleName" ) ); //$NON-NLS-1$		
+		assertFalse((design.getNameHelper().getNameSpace(Module.STYLE_NAME_SPACE)).contains("newStyleName")); //$NON-NLS-1$
 	}
 
 	/**
@@ -345,55 +319,50 @@ public class NameCommandTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testNotification( ) throws Exception
-	{
-		StyleElement myStyle = design.findStyle( "My-Style" ); //$NON-NLS-1$
+	public void testNotification() throws Exception {
+		StyleElement myStyle = design.findStyle("My-Style"); //$NON-NLS-1$
 
-		MyNameListener nameListener = new MyNameListener( );
-		myStyle.addListener( nameListener );
+		MyNameListener nameListener = new MyNameListener();
+		myStyle.addListener(nameListener);
 
-		MyNameListener labelListener = new MyNameListener( );
-		LabelHandle labelHandle = (LabelHandle) designHandle
-				.findElement( "myLabel" ); //$NON-NLS-1$
-		labelHandle.addListener( labelListener );
-		DataSetHandle dataSetHandle = designHandle.findDataSet( "firstDataSet" ); //$NON-NLS-1$
-		dataSetHandle.setName( "New DataSet Name" ); //$NON-NLS-1$
-		assertFalse( labelListener.nameChanged );
+		MyNameListener labelListener = new MyNameListener();
+		LabelHandle labelHandle = (LabelHandle) designHandle.findElement("myLabel"); //$NON-NLS-1$
+		labelHandle.addListener(labelListener);
+		DataSetHandle dataSetHandle = designHandle.findDataSet("firstDataSet"); //$NON-NLS-1$
+		dataSetHandle.setName("New DataSet Name"); //$NON-NLS-1$
+		assertFalse(labelListener.nameChanged);
 
 		// name space listener should be registered in ReportDesign
 
-		MyNameSpaceListener nameSpaceListener = new MyNameSpaceListener( );
-		design.addListener( nameSpaceListener );
+		MyNameSpaceListener nameSpaceListener = new MyNameSpaceListener();
+		design.addListener(nameSpaceListener);
 
-		myStyle.getHandle( design ).setName( "hello" ); //$NON-NLS-1$
-		assertTrue( nameListener.nameChanged );
+		myStyle.getHandle(design).setName("hello"); //$NON-NLS-1$
+		assertTrue(nameListener.nameChanged);
 
-
-		myStyle.removeListener( nameListener );
+		myStyle.removeListener(nameListener);
 
 	}
 
-	class MyNameListener implements Listener
-	{
+	class MyNameListener implements Listener {
 
 		boolean nameChanged = false;
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.
+		 * model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			nameChanged = true;
 		}
 
 	}
 
-	class MyNameSpaceListener implements Listener
-	{
+	class MyNameSpaceListener implements Listener {
 
 		static final int NA = 0;
 		static final int ADDED = 1;
@@ -407,31 +376,25 @@ public class NameCommandTest extends BaseTestCase
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.model.core.DesignElement,
-		 *      org.eclipse.birt.report.model.activity.NotificationEvent)
+		 * @see
+		 * org.eclipse.birt.report.model.core.Listener#notify(org.eclipse.birt.report.
+		 * model.core.DesignElement,
+		 * org.eclipse.birt.report.model.activity.NotificationEvent)
 		 */
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
-			if ( ev.getEventType( ) == NotificationEvent.NAME_SPACE_EVENT )
-			{
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
+			if (ev.getEventType() == NotificationEvent.NAME_SPACE_EVENT) {
 				event = (NameSpaceEvent) ev;
 
-				if ( action == REMOVED
-						&& event.getAction( ) == NameSpaceEvent.ADD )
-				{
+				if (action == REMOVED && event.getAction() == NameSpaceEvent.ADD) {
 					action = RENAMED;
-				}
-				else
-				{
-					switch ( event.getAction( ) )
-					{
-						case NameSpaceEvent.ADD :
-							action = ADDED;
-							break;
-						case NameSpaceEvent.REMOVE :
-							action = REMOVED;
-							break;
+				} else {
+					switch (event.getAction()) {
+					case NameSpaceEvent.ADD:
+						action = ADDED;
+						break;
+					case NameSpaceEvent.REMOVE:
+						action = REMOVED;
+						break;
 					}
 				}
 			}

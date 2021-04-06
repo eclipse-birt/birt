@@ -31,8 +31,7 @@ import org.eclipse.birt.report.model.api.ThemeHandle;
  * Applies style to selected elements.
  */
 
-public class ApplyStyleAction extends DynamicItemAction
-{
+public class ApplyStyleAction extends DynamicItemAction {
 
 	/** action ID */
 	public static final String ID = "ApplyStyleAction"; //$NON-NLS-1$
@@ -44,31 +43,19 @@ public class ApplyStyleAction extends DynamicItemAction
 	/**
 	 * @param handle
 	 */
-	public ApplyStyleAction( SharedStyleHandle handle )
-	{
+	public ApplyStyleAction(SharedStyleHandle handle) {
 		this.handle = handle;
-		setId( ID );
-		if ( handle == null )
-		{
-			setText( Messages.getString( "ApplyStyleAction.actionLabel.none" ) ); //$NON-NLS-1$
-		}
-		else
-		{
-			SlotHandle slotHandle = handle.getContainerSlotHandle( );
+		setId(ID);
+		if (handle == null) {
+			setText(Messages.getString("ApplyStyleAction.actionLabel.none")); //$NON-NLS-1$
+		} else {
+			SlotHandle slotHandle = handle.getContainerSlotHandle();
 
-			if ( slotHandle != null
-					&& slotHandle.getElementHandle( ) instanceof ThemeHandle )
-			{
-				setText( ( (ThemeHandle) handle.getContainerSlotHandle( )
-						.getElementHandle( ) ).getName( )
-						+ "." //$NON-NLS-1$
-						+ DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
-								false ) ) );
-			}
-			else
-			{
-				setText( DEUtil.getEscapedMenuItemText( DEUtil.getDisplayLabel( handle,
-						false ) ) );
+			if (slotHandle != null && slotHandle.getElementHandle() instanceof ThemeHandle) {
+				setText(((ThemeHandle) handle.getContainerSlotHandle().getElementHandle()).getName() + "." //$NON-NLS-1$
+						+ DEUtil.getEscapedMenuItemText(DEUtil.getDisplayLabel(handle, false)));
+			} else {
+				setText(DEUtil.getEscapedMenuItemText(DEUtil.getDisplayLabel(handle, false)));
 			}
 		}
 	}
@@ -76,21 +63,17 @@ public class ApplyStyleAction extends DynamicItemAction
 	/**
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		List handles = getElementHandles( );
-		if ( handles.isEmpty( ) )
+	public boolean isEnabled() {
+		List handles = getElementHandles();
+		if (handles.isEmpty())
 			return false;
-		for ( int i = 0; i < handles.size( ); i++ )
-		{
-			if ( !( handles.get( i ) instanceof DesignElementHandle ) )
-			{
+		for (int i = 0; i < handles.size(); i++) {
+			if (!(handles.get(i) instanceof DesignElementHandle)) {
 				return false;
 			}
 
-			DesignElementHandle handle = (DesignElementHandle) handles.get( i );
-			if ( handle != null && handle.getDefn( ).hasStyle( ) == false )
-			{
+			DesignElementHandle handle = (DesignElementHandle) handles.get(i);
+			if (handle != null && handle.getDefn().hasStyle() == false) {
 				return false;
 			}
 		}
@@ -100,41 +83,33 @@ public class ApplyStyleAction extends DynamicItemAction
 	/**
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
+	public void run() {
 
-		if ( handle != null )
-		{
-			CommandUtils.setVariable( ICommandParameterNameContants.STYLE_HANDLE_NAME,
-					handle );
+		if (handle != null) {
+			CommandUtils.setVariable(ICommandParameterNameContants.STYLE_HANDLE_NAME, handle);
 		}
 
-		CommandUtils.setVariable( ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED,
-				Boolean.valueOf( isChecked( ) ) );
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.applyStyleCommand", //$NON-NLS-1$
-					null );
+		CommandUtils.setVariable(ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED,
+				Boolean.valueOf(isChecked()));
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.applyStyleCommand", //$NON-NLS-1$
+					null);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-		}
-		
-		CommandUtils.removeVariable( ICommandParameterNameContants.STYLE_HANDLE_NAME );
-		CommandUtils.removeVariable( ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED );
+
+		CommandUtils.removeVariable(ICommandParameterNameContants.STYLE_HANDLE_NAME);
+		CommandUtils.removeVariable(ICommandParameterNameContants.APPLAY_STYLE_ACTION_STYLE_CHECKED);
 	}
 
 	/**
 	 * Gets models of selected elements
 	 * 
 	 */
-	protected List getElementHandles( )
-	{
-		if ( selectionHandles == null )
-		{
-			selectionHandles = DNDUtil.unwrapToModel( InsertInLayoutUtil.editPart2Model( TableUtil.filletCellInSelectionEditorpart( getSelection( ) ) )
-					.toList( ) );
+	protected List getElementHandles() {
+		if (selectionHandles == null) {
+			selectionHandles = DNDUtil.unwrapToModel(InsertInLayoutUtil
+					.editPart2Model(TableUtil.filletCellInSelectionEditorpart(getSelection())).toList());
 		}
 		return selectionHandles;
 	}

@@ -11,14 +11,12 @@
 
 package org.eclipse.birt.report.model.util.copy;
 
-
 /**
  * This policy is a copy policy for pasting, which means, after copying, the
  * original object is deeply cloned, and the target object can be pasted to
  * every where.
  */
 
-public class ContextCopyPastePolicy extends ContextCopyPasteBasePolicy
-{
+public class ContextCopyPastePolicy extends ContextCopyPasteBasePolicy {
 
 }

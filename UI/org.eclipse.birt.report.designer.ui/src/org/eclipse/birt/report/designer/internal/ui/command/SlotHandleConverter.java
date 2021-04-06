@@ -20,34 +20,24 @@ import org.eclipse.core.commands.ParameterValueConversionException;
  * 
  */
 
-public class SlotHandleConverter extends AbstractParameterValueConverter
-{
+public class SlotHandleConverter extends AbstractParameterValueConverter {
 
-	public SlotHandleConverter( )
-	{
+	public SlotHandleConverter() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Object convertToObject( String parameterValue )
-			throws ParameterValueConversionException
-	{
-		String elementId = parameterValue.substring( 0,
-				parameterValue.indexOf( "#" ) ); //$NON-NLS-1$
-		String slotId = parameterValue.substring( parameterValue.indexOf( "#" ) + 1, //$NON-NLS-1$
-				parameterValue.length( ) );
-		return SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( )
-				.getElementByID( Long.parseLong( elementId ) )
-				.getSlot( Integer.parseInt( slotId ) );
+	public Object convertToObject(String parameterValue) throws ParameterValueConversionException {
+		String elementId = parameterValue.substring(0, parameterValue.indexOf("#")); //$NON-NLS-1$
+		String slotId = parameterValue.substring(parameterValue.indexOf("#") + 1, //$NON-NLS-1$
+				parameterValue.length());
+		return SessionHandleAdapter.getInstance().getReportDesignHandle().getElementByID(Long.parseLong(elementId))
+				.getSlot(Integer.parseInt(slotId));
 	}
 
-	public String convertToString( Object parameterValue )
-			throws ParameterValueConversionException
-	{
+	public String convertToString(Object parameterValue) throws ParameterValueConversionException {
 
-		return ( (SlotHandle) parameterValue ).getElement( ).getID( )
-				+ "#" //$NON-NLS-1$
-				+ ( (SlotHandle) parameterValue ).getSlotID( );
+		return ((SlotHandle) parameterValue).getElement().getID() + "#" //$NON-NLS-1$
+				+ ((SlotHandle) parameterValue).getSlotID();
 	}
 
 }

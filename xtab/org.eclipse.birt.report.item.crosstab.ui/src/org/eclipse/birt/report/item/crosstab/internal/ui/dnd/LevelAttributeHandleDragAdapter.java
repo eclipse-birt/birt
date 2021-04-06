@@ -21,32 +21,25 @@ import org.eclipse.core.runtime.IAdaptable;
  * 
  */
 
-public class LevelAttributeHandleDragAdapter implements IDragAdapter
-{
+public class LevelAttributeHandleDragAdapter implements IDragAdapter {
 
-	public int canDrag( Object object )
-	{
-		if (object instanceof IAdaptable)
-		{
-			if (((IAdaptable)object).getAdapter( StructureHandle.class ) instanceof LevelAttributeHandle)
-			{
-				object = ((IAdaptable)object).getAdapter( StructureHandle.class );
+	public int canDrag(Object object) {
+		if (object instanceof IAdaptable) {
+			if (((IAdaptable) object).getAdapter(StructureHandle.class) instanceof LevelAttributeHandle) {
+				object = ((IAdaptable) object).getAdapter(StructureHandle.class);
 			}
 		}
-		if ( object instanceof LevelAttributeHandle )
+		if (object instanceof LevelAttributeHandle)
 			return DNDService.LOGIC_TRUE;
 		return DNDService.LOGIC_UNKNOW;
 	}
 
-	public Object getDragTransfer( Object transfer )
-	{
-		if(transfer instanceof LevelAttributeHandle)
+	public Object getDragTransfer(Object transfer) {
+		if (transfer instanceof LevelAttributeHandle)
 			return transfer;
-		if (transfer instanceof IAdaptable)
-		{
-			if (((IAdaptable)transfer).getAdapter( StructureHandle.class ) instanceof LevelAttributeHandle)
-			{
-				return ((IAdaptable)transfer).getAdapter( StructureHandle.class );
+		if (transfer instanceof IAdaptable) {
+			if (((IAdaptable) transfer).getAdapter(StructureHandle.class) instanceof LevelAttributeHandle) {
+				return ((IAdaptable) transfer).getAdapter(StructureHandle.class);
 			}
 		}
 		return null;

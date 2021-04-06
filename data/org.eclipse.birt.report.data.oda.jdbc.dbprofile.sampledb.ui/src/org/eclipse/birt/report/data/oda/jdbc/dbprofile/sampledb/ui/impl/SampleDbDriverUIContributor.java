@@ -17,11 +17,10 @@ package org.eclipse.birt.report.data.oda.jdbc.dbprofile.sampledb.ui.impl;
 import org.eclipse.datatools.connectivity.apache.derby.internal.ui.connection.drivers.DerbyEmbeddedDriverUIContributor;
 
 /**
- * UI contributor for the generated BIRT SampleDB driver definition,
- * based on the Embedded Derby Driver UI.
+ * UI contributor for the generated BIRT SampleDB driver definition, based on
+ * the Embedded Derby Driver UI.
  */
 @SuppressWarnings("restriction")
-public class SampleDbDriverUIContributor extends DerbyEmbeddedDriverUIContributor
-{
-    // no overriding behavior yet
+public class SampleDbDriverUIContributor extends DerbyEmbeddedDriverUIContributor {
+	// no overriding behavior yet
 }

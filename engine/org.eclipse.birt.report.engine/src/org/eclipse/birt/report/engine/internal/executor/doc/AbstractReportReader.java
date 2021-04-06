@@ -37,11 +37,9 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.presentation.IPageHint;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 
-public abstract class AbstractReportReader implements IReportExecutor
-{
+public abstract class AbstractReportReader implements IReportExecutor {
 
-	protected static Logger logger = Logger
-			.getLogger( AbstractReportReader.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(AbstractReportReader.class.getName());
 
 	protected ExecutionContext context;
 	protected IDataEngine dataEngine;
@@ -55,84 +53,70 @@ public abstract class AbstractReportReader implements IReportExecutor
 
 	ReportItemReaderManager manager;
 
-	public AbstractReportReader( ExecutionContext context ) throws IOException, BirtException
-	{
-		assert context.getDesign( ) != null;
-		assert context.getReportDocument( ) != null;
+	public AbstractReportReader(ExecutionContext context) throws IOException, BirtException {
+		assert context.getDesign() != null;
+		assert context.getReportDocument() != null;
 
 		this.context = context;
 
-		report = context.getReport( );
+		report = context.getReport();
 
-		reportContent = (ReportContent) ContentFactory
-				.createReportContent( report );
-		reportContent.setExecutionContext( context );
-		context.setReportContent( reportContent );
+		reportContent = (ReportContent) ContentFactory.createReportContent(report);
+		reportContent.setExecutionContext(context);
+		context.setReportContent(reportContent);
 
-		reportDoc = context.getReportDocument( );
+		reportDoc = context.getReportDocument();
 
-		IEngineTask engineTask = context.getEngineTask( );
-		if ( engineTask instanceof RenderTask )
-		{
+		IEngineTask engineTask = context.getEngineTask();
+		if (engineTask instanceof RenderTask) {
 			RenderTask renderTask = (RenderTask) engineTask;
-			ITreeNode tocTree = renderTask.getRawTOCTree( );
-			reportContent.setTOCTree( tocTree );
+			ITreeNode tocTree = renderTask.getRawTOCTree();
+			reportContent.setTOCTree(tocTree);
 		}
-		
-		long totalPage = reportDoc.getPageCount( );
-		context.setTotalPage( totalPage );
-		reportContent.setTotalPage( totalPage );
 
-		dataEngine = context.getDataEngine( );
-		dataEngine.prepare( report, context.getAppContext( ) );
+		long totalPage = reportDoc.getPageCount();
+		context.setTotalPage(totalPage);
+		reportContent.setTotalPage(totalPage);
 
-		manager = new ReportItemReaderManager( context );
-		try
-		{
-			openReaders( );
-		}
-		catch ( IOException ex )
-		{
-			closeReaders( );
+		dataEngine = context.getDataEngine();
+		dataEngine.prepare(report, context.getAppContext());
+
+		manager = new ReportItemReaderManager(context);
+		try {
+			openReaders();
+		} catch (IOException ex) {
+			closeReaders();
 			throw ex;
 		}
 	}
 
-	public void close( )
-	{
-		closeReaders( );
+	public void close() {
+		closeReaders();
 	}
 
-	protected void openReaders( ) throws IOException
-	{
-		IDocArchiveReader archive = reportDoc.getArchive( );
-		RAInputStream in = archive
-				.getStream( ReportDocumentConstants.CONTENT_STREAM );
-		reader = new CachedReportContentReaderV3( reportContent, in, context );
+	protected void openReaders() throws IOException {
+		IDocArchiveReader archive = reportDoc.getArchive();
+		RAInputStream in = archive.getStream(ReportDocumentConstants.CONTENT_STREAM);
+		reader = new CachedReportContentReaderV3(reportContent, in, context);
 
 		// open the page hints stream and the page content stream
-		hintReader = new PageHintReader( reportDoc );
+		hintReader = new PageHintReader(reportDoc);
 
-		in = archive.getStream( ReportDocumentConstants.PAGE_STREAM );
-		pageReader = new CachedReportContentReaderV3( reportContent, in,
-				context );
+		in = archive.getStream(ReportDocumentConstants.PAGE_STREAM);
+		pageReader = new CachedReportContentReaderV3(reportContent, in, context);
 	}
 
-	protected void closeReaders( )
-	{
-		if ( reader != null )
-		{
-			reader.close( );
+	protected void closeReaders() {
+		if (reader != null) {
+			reader.close();
 			reader = null;
 		}
-		if ( hintReader != null )
-		{
-			hintReader.close( );
+		if (hintReader != null) {
+			hintReader.close();
 			hintReader = null;
 		}
-		if ( pageReader != null )
-		{
-			pageReader.close( );
+		if (pageReader != null) {
+			pageReader.close();
 			pageReader = null;
 		}
 	}
@@ -140,44 +124,34 @@ public abstract class AbstractReportReader implements IReportExecutor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.executor.IReportExecutor#createPageExecutor(long,
-	 *      org.eclipse.birt.report.engine.ir.MasterPageDesign)
+	 * @see
+	 * org.eclipse.birt.report.engine.executor.IReportExecutor#createPageExecutor(
+	 * long, org.eclipse.birt.report.engine.ir.MasterPageDesign)
 	 */
-	public IReportItemExecutor createPageExecutor( long pageNumber,
-			MasterPageDesign pageDesign )
+	public IReportItemExecutor createPageExecutor(long pageNumber, MasterPageDesign pageDesign)
 
 	{
-		try
-		{
+		try {
 			IPageHint hint;
-			long totalPage = hintReader.getTotalPage( );
-			if ( pageNumber > totalPage )
-			{
-				hint = hintReader.getPageHint( 1 );
-			}
-			else
-			{
-				hint = hintReader.getPageHint( pageNumber );
-				if ( hint == null )
-				{
-					hint = hintReader.getPageHint( 1 );
+			long totalPage = hintReader.getTotalPage();
+			if (pageNumber > totalPage) {
+				hint = hintReader.getPageHint(1);
+			} else {
+				hint = hintReader.getPageHint(pageNumber);
+				if (hint == null) {
+					hint = hintReader.getPageHint(1);
 				}
 			}
-			if ( hint != null )
-			{
-				long offset = hint.getOffset( );
+			if (hint != null) {
+				long offset = hint.getOffset();
 
-				ReportItemReader pageExecutor = manager.createExecutor( null,
-						offset );
+				ReportItemReader pageExecutor = manager.createExecutor(null, offset);
 				pageExecutor.reader = pageReader;
 
 				return pageExecutor;
 			}
-		}
-		catch ( IOException ex )
-		{
-			context.addException( pageDesign, new EngineException(
-					MessageConstants.PAGES_LOADING_ERROR , pageNumber, ex ) );
+		} catch (IOException ex) {
+			context.addException(pageDesign, new EngineException(MessageConstants.PAGES_LOADING_ERROR, pageNumber, ex));
 		}
 		return null;
 	}
@@ -187,8 +161,7 @@ public abstract class AbstractReportReader implements IReportExecutor
 	 * 
 	 * @see org.eclipse.birt.report.engine.executor.IReportExecutor#execute()
 	 */
-	public IReportContent execute( )
-	{
+	public IReportContent execute() {
 		return reportContent;
 	}
 }

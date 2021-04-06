@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.api.activity.TransactionOption;
  * 
  */
 
-public class FilterEventsCompoundRecord extends CompoundRecord
-{
+public class FilterEventsCompoundRecord extends CompoundRecord {
 
 	/**
 	 * Indicates if it is the outer most filter event transaction.
@@ -36,63 +35,52 @@ public class FilterEventsCompoundRecord extends CompoundRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param text
-	 *            the localized label text
-	 * @param outerMost
-	 *            indicates if it is the outer most filter event transaction.
+	 * @param text      the localized label text
+	 * @param outerMost indicates if it is the outer most filter event transaction.
 	 */
 
-	public FilterEventsCompoundRecord( String text, boolean outerMost )
-	{
-		super( text );
+	public FilterEventsCompoundRecord(String text, boolean outerMost) {
+		super(text);
 		this.isOutermostFilterTrans = outerMost;
-		buildOption( );
+		buildOption();
 	}
 
 	/**
 	 * Builds the options for this transaction.
 	 */
 
-	protected void buildOption( )
-	{
-		if ( !isOutermostFilterTrans )
+	protected void buildOption() {
+		if (!isOutermostFilterTrans)
 			return;
-		options = new TransactionOption( );
-		List<IFilterCondition> conds = new ArrayList<IFilterCondition>( );
-		conds
-				.add( FilterConditionFactory
-						.createFilterCondition( FilterConditionFactory.ELEMENT_ADDED_FILTER_CONDITION ) );
-		conds
-				.add( FilterConditionFactory
-						.createFilterCondition( FilterConditionFactory.ELEMENT_DELETED_FILTER_CONDITION ) );
-		conds
-				.add( FilterConditionFactory
-						.createFilterCondition( FilterConditionFactory.SAME_EVENT_FILTER_CONDITION ) );
-		IEventFilter filter = new EventFilter( conds );
-		options.setEventfilter( filter );
-		options.setSendTime( TransactionOption.OUTMOST_TRANSACTION_SEND_TIME );
+		options = new TransactionOption();
+		List<IFilterCondition> conds = new ArrayList<IFilterCondition>();
+		conds.add(FilterConditionFactory.createFilterCondition(FilterConditionFactory.ELEMENT_ADDED_FILTER_CONDITION));
+		conds.add(
+				FilterConditionFactory.createFilterCondition(FilterConditionFactory.ELEMENT_DELETED_FILTER_CONDITION));
+		conds.add(FilterConditionFactory.createFilterCondition(FilterConditionFactory.SAME_EVENT_FILTER_CONDITION));
+		IEventFilter filter = new EventFilter(conds);
+		options.setEventfilter(filter);
+		options.setSendTime(TransactionOption.OUTMOST_TRANSACTION_SEND_TIME);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations
+	 * @see org.eclipse.birt.report.model.activity.ActivityRecord#sendNotifcations
 	 * (java.util.Stack)
 	 */
 
-	protected void performPostTasks( Stack<CompoundRecord> transStack )
-	{
+	protected void performPostTasks(Stack<CompoundRecord> transStack) {
 		// The current transaction is started as hold events. Checks all its
 		// outer transactions, if any of them is started as hold events, the
 		// notifications should still be held. Otherwise, all events
 		// relating to this transaction is collected, filtered and then sent
 		// out.
 
-		if ( !isOutermostFilterTrans )
+		if (!isOutermostFilterTrans)
 			return;
 
-		super.performPostTasks( transStack );
+		super.performPostTasks(transStack);
 	}
 
 }

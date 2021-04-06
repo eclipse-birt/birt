@@ -15,21 +15,17 @@ import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 import org.eclipse.birt.report.engine.nLayout.area.impl.ContainerArea;
 
-public class RegionLayoutEngine extends LayoutEngine implements IContentEmitter
-{
-	public RegionLayoutEngine( ContainerArea container, LayoutContext context )
-	{
+public class RegionLayoutEngine extends LayoutEngine implements IContentEmitter {
+	public RegionLayoutEngine(ContainerArea container, LayoutContext context) {
 		super(context);
 		current = container;
-		current.setMaxAvaWidth(  current.getWidth( ) );
+		current.setMaxAvaWidth(current.getWidth());
 	}
 
-	public void layout( IContent content )
-			throws BirtException
-	{
-		current.initialize( );
-		visitChildren( content, this );
-		current.close( );
+	public void layout(IContent content) throws BirtException {
+		current.initialize();
+		visitChildren(content, this);
+		current.close();
 	}
 
 }

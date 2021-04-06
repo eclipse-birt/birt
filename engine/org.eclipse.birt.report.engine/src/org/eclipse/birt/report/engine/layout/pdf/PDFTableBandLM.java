@@ -1,5 +1,4 @@
 
-
 /***********************************************************************
  * Copyright (c) 2004 Actuate Corporation.
  * All rights reserved. This program and the accompanying materials
@@ -24,212 +23,161 @@ import org.eclipse.birt.report.engine.layout.IBlockStackingLayoutManager;
 import org.eclipse.birt.report.engine.layout.area.IArea;
 import org.eclipse.birt.report.engine.layout.area.impl.AbstractArea;
 
-public class PDFTableBandLM extends PDFBlockStackingLM
-		implements
-			IBlockStackingLayoutManager
-{
+public class PDFTableBandLM extends PDFBlockStackingLM implements IBlockStackingLayoutManager {
 
 	protected PDFTableLM tbl;
 	protected int groupLevel;
 	protected int type;
 	protected boolean repeatHeader = false;
 
-	public PDFTableBandLM( PDFLayoutEngineContext context,
-			PDFStackingLM parent, IContent content, IReportItemExecutor executor )
-			throws BirtException
-	{
-		super( context, parent, content, executor );
-		tbl = getTableLayoutManager( );
-		IElement pContent = content.getParent( );
+	public PDFTableBandLM(PDFLayoutEngineContext context, PDFStackingLM parent, IContent content,
+			IReportItemExecutor executor) throws BirtException {
+		super(context, parent, content, executor);
+		tbl = getTableLayoutManager();
+		IElement pContent = content.getParent();
 
-		if ( pContent instanceof IGroupContent )
-		{
+		if (pContent instanceof IGroupContent) {
 			IGroupContent groupContent = (IGroupContent) pContent;
-			groupLevel = groupContent.getGroupLevel( );
-			repeatHeader = groupContent.isHeaderRepeat( );
-			type = ( (IBandContent) content ).getBandType( );
-			if ( type == IBandContent.BAND_GROUP_HEADER
-					&& !( executor instanceof DOMReportItemExecutor )
-					&& repeatHeader )
-			{
-				execute( executor, content );
-				executor.close( );
-				groupContent.getChildren( ).add( content );
-				this.executor = new DOMReportItemExecutor( content );
-				this.executor.execute( );
+			groupLevel = groupContent.getGroupLevel();
+			repeatHeader = groupContent.isHeaderRepeat();
+			type = ((IBandContent) content).getBandType();
+			if (type == IBandContent.BAND_GROUP_HEADER && !(executor instanceof DOMReportItemExecutor)
+					&& repeatHeader) {
+				execute(executor, content);
+				executor.close();
+				groupContent.getChildren().add(content);
+				this.executor = new DOMReportItemExecutor(content);
+				this.executor.execute();
 			}
-		}
-		else if ( pContent instanceof ITableContent )
-		{
+		} else if (pContent instanceof ITableContent) {
 			ITableContent tableContent = (ITableContent) pContent;
-			repeatHeader = tableContent.isHeaderRepeat( );
-			type = ( (IBandContent) content ).getBandType( );
-			if ( type == IBandContent.BAND_HEADER
-					&& !( executor instanceof DOMReportItemExecutor )
-					&& repeatHeader )
-			{
-				execute( executor, content );
-				executor.close( );
-				tableContent.getChildren( ).add( content );
-				this.executor = new DOMReportItemExecutor( content );
-				this.executor.execute( );
+			repeatHeader = tableContent.isHeaderRepeat();
+			type = ((IBandContent) content).getBandType();
+			if (type == IBandContent.BAND_HEADER && !(executor instanceof DOMReportItemExecutor) && repeatHeader) {
+				execute(executor, content);
+				executor.close();
+				tableContent.getChildren().add(content);
+				this.executor = new DOMReportItemExecutor(content);
+				this.executor.execute();
 			}
 		}
 
 	}
-	
-	/*protected boolean checkAvailableSpace( )
-	{
-		boolean availableSpace = super.checkAvailableSpace( );
-		if(availableSpace && tbl != null)
-		{
-			tbl.setTableCloseStateAsForced( );
-		}
-		return availableSpace;
-	}*/
 
-	protected boolean traverseChildren( ) throws BirtException
-	{
-		if ( isFirst && groupLevel >= 0
-				&& type == IBandContent.BAND_GROUP_FOOTER )
-		{
+	/*
+	 * protected boolean checkAvailableSpace( ) { boolean availableSpace =
+	 * super.checkAvailableSpace( ); if(availableSpace && tbl != null) {
+	 * tbl.setTableCloseStateAsForced( ); } return availableSpace; }
+	 */
+
+	protected boolean traverseChildren() throws BirtException {
+		if (isFirst && groupLevel >= 0 && type == IBandContent.BAND_GROUP_FOOTER) {
 			int height = 0;
-			height = tbl.updateUnresolvedCell( groupLevel, false );
-			if ( 0!= height )
-			{
-				((PDFTableGroupLM)parent).updateHeight( height );
+			height = tbl.updateUnresolvedCell(groupLevel, false);
+			if (0 != height) {
+				((PDFTableGroupLM) parent).updateHeight(height);
 			}
 		}
 		isFirst = false;
-		boolean childBreak = super.traverseChildren( );
-		if ( !childBreak && groupLevel >= 0
-				&& type == IBandContent.BAND_GROUP_FOOTER )
-		{
+		boolean childBreak = super.traverseChildren();
+		if (!childBreak && groupLevel >= 0 && type == IBandContent.BAND_GROUP_FOOTER) {
 			int height = 0;
-			height = tbl.updateUnresolvedCell( groupLevel, true );
-			if ( 0!= height )
-			{
-				((PDFTableGroupLM)parent).updateHeight( height );
+			height = tbl.updateUnresolvedCell(groupLevel, true);
+			if (0 != height) {
+				((PDFTableGroupLM) parent).updateHeight(height);
 			}
 		}
 		return childBreak;
 	}
 
-	public int getCurrentBP( )
-	{
-		return parent.getCurrentBP( );
+	public int getCurrentBP() {
+		return parent.getCurrentBP();
 	}
 
-	protected boolean submitRoot( boolean childBreak )
-	{
+	protected boolean submitRoot(boolean childBreak) {
 		return true;
 	}
 
-	public int getCurrentIP( )
-	{
-		return parent.getCurrentIP( );
+	public int getCurrentIP() {
+		return parent.getCurrentIP();
 	}
 
-
-	public int getCurrentMaxContentHeight()
-	{
-		return parent.getCurrentMaxContentHeight( );
-	}
-	public int getCurrentMaxContentWidth( )
-	{
-		return parent.getCurrentMaxContentWidth( );
+	public int getCurrentMaxContentHeight() {
+		return parent.getCurrentMaxContentHeight();
 	}
 
-	public int getOffsetX( )
-	{
-		return parent.getOffsetX( );
+	public int getCurrentMaxContentWidth() {
+		return parent.getCurrentMaxContentWidth();
 	}
 
-	public int getOffsetY( )
-	{
-		return parent.getOffsetY( );
+	public int getOffsetX() {
+		return parent.getOffsetX();
 	}
 
-	public void setCurrentBP( int bp )
-	{
-		parent.setCurrentBP( bp );
+	public int getOffsetY() {
+		return parent.getOffsetY();
 	}
 
-	public void setCurrentIP( int ip )
-	{
-		parent.setCurrentIP( ip );
+	public void setCurrentBP(int bp) {
+		parent.setCurrentBP(bp);
 	}
 
-	public void setOffsetX( int x )
-	{
-		parent.setOffsetX( x );
+	public void setCurrentIP(int ip) {
+		parent.setCurrentIP(ip);
 	}
-	
-	public int getMaxAvaHeight()
-	{
+
+	public void setOffsetX(int x) {
+		parent.setOffsetX(x);
+	}
+
+	public int getMaxAvaHeight() {
 		return parent.getMaxAvaHeight();
 	}
 
-	public void setOffsetY( int y )
-	{
-		parent.setOffsetY( y );
+	public void setOffsetY(int y) {
+		parent.setOffsetY(y);
 	}
 
-	public boolean addArea( IArea area, boolean keepWithPrevious, boolean keepWithNext )
-	{
-		return parent.addArea( area, false, false );
+	public boolean addArea(IArea area, boolean keepWithPrevious, boolean keepWithNext) {
+		return parent.addArea(area, false, false);
 	}
 
-	protected void createRoot( )
-	{
+	protected void createRoot() {
 		// do nothing
 	}
 
-	protected void initialize( )
-	{
+	protected void initialize() {
 
 	}
 
-	protected IReportItemExecutor createExecutor( )
-	{
+	protected IReportItemExecutor createExecutor() {
 		return executor;
 	}
 
-	//support page-break on header band at the first layout.
-	/*protected boolean canPageBreak( )
-	{
-		if(!allowPageBreak())
-		{
-			return false;
-		}
-		return super.canPageBreak( );
-	}*/
-	
-	protected boolean allowPageBreak( )
-	{
-		if( type == IBandContent.BAND_GROUP_HEADER || type== IBandContent.BAND_HEADER)
-		{
+	// support page-break on header band at the first layout.
+	/*
+	 * protected boolean canPageBreak( ) { if(!allowPageBreak()) { return false; }
+	 * return super.canPageBreak( ); }
+	 */
+
+	protected boolean allowPageBreak() {
+		if (type == IBandContent.BAND_GROUP_HEADER || type == IBandContent.BAND_HEADER) {
 			return !repeatHeader;
 		}
 		return true;
 	}
-	
-	public void submit(AbstractArea area)
-	{
-		parent.submit( area );
+
+	public void submit(AbstractArea area) {
+		parent.submit(area);
 	}
-	
-	protected boolean addToRoot(AbstractArea area)
-	{
-		if(getCurrentBP() + area.getAllocatedHeight( ) <= getMaxAvaHeight())
-		{
-			parent.addArea( area, false, false );
+
+	protected boolean addToRoot(AbstractArea area) {
+		if (getCurrentBP() + area.getAllocatedHeight() <= getMaxAvaHeight()) {
+			parent.addArea(area, false, false);
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
-	
+
 }

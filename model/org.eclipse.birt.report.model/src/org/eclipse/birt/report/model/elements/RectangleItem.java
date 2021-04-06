@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.elements;
 
@@ -24,28 +24,24 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public class RectangleItem extends ReportItem
-{
+public class RectangleItem extends ReportItem {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public RectangleItem( )
-	{
-		super( );
+	public RectangleItem() {
+		super();
 	}
 
 	/**
 	 * Constructs the rectangle item with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name
+	 * @param theName the optional name
 	 */
 
-	public RectangleItem( String theName )
-	{
-		super( theName );
+	public RectangleItem(String theName) {
+		super(theName);
 	}
 
 	/*
@@ -54,35 +50,32 @@ public class RectangleItem extends ReportItem
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.RECTANGLE_ITEM;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public RectangleHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new RectangleHandle( module, this );
+	public RectangleHandle handle(Module module) {
+		if (handle == null) {
+			handle = new RectangleHandle(module, this);
 		}
 		return (RectangleHandle) handle;
 	}
@@ -90,11 +83,11 @@ public class RectangleItem extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
-	
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitRectangle( this );
+
+	public void apply(ElementVisitor visitor) {
+		visitor.visitRectangle(this);
 	}
 }

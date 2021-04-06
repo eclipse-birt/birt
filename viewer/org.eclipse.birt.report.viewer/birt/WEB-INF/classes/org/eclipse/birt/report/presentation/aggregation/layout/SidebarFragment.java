@@ -27,21 +27,18 @@ import org.eclipse.birt.report.presentation.aggregation.dialog.SimpleExportDataD
  * 
  * @see BaseFragment
  */
-public class SidebarFragment extends BirtBaseFragment
-{
+public class SidebarFragment extends BirtBaseFragment {
 
 	/**
 	 * Build fragment by adding sidebar fragment root.
 	 */
-	protected void build( )
-	{
-		addChild( new DialogContainerFragment(
-				new SimpleExportDataDialogFragment( ) ) );
-		addChild( new DialogContainerFragment( new ExceptionDialogFragment( ) ) );
-		addChild( new DialogContainerFragment( new ParameterDialogFragment( ) ) );
-		addChild( new DialogContainerFragment( new ExportReportDialogFragment( ) ) );
-		addChild( new DialogContainerFragment( new PrintReportDialogFragment( ) ) );
-		addChild( new DialogContainerFragment( new PrintReportServerDialogFragment( ) ) );
-		addChild( new DialogContainerFragment( new ConfirmationDialogFragment( ) ) );
+	protected void build() {
+		addChild(new DialogContainerFragment(new SimpleExportDataDialogFragment()));
+		addChild(new DialogContainerFragment(new ExceptionDialogFragment()));
+		addChild(new DialogContainerFragment(new ParameterDialogFragment()));
+		addChild(new DialogContainerFragment(new ExportReportDialogFragment()));
+		addChild(new DialogContainerFragment(new PrintReportDialogFragment()));
+		addChild(new DialogContainerFragment(new PrintReportServerDialogFragment()));
+		addChild(new DialogContainerFragment(new ConfirmationDialogFragment()));
 	}
 }

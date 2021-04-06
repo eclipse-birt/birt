@@ -18,63 +18,57 @@ import org.eclipse.birt.report.model.core.Module;
  * Interface to do all managements about the element names.
  */
 
-public interface INameManager
-{
+public interface INameManager {
 
 	/**
-	 * Gets the host module of this name manager. The host module is what adapts
-	 * all the managements for element names to assure that all the child
-	 * elements have a unqiue name.
+	 * Gets the host module of this name manager. The host module is what adapts all
+	 * the managements for element names to assure that all the child elements have
+	 * a unqiue name.
 	 * 
 	 * @return the host module of this name manager
 	 */
 
-	Module getHostModule( );
+	Module getHostModule();
 
 	/**
 	 * Makes a unique name for the given element.
 	 * 
-	 * @param element
-	 *            the element to make a unique name
+	 * @param element the element to make a unique name
 	 */
 
-	void makeUniqueName( DesignElement element );
+	void makeUniqueName(DesignElement element);
 
 	/**
 	 * Clears the data in name manage and re-initialize it.
 	 * 
 	 */
 
-	void clear( );
+	void clear();
 
 	/**
 	 * Deletes the element from the name manager.
 	 * 
-	 * @param element
-	 *            the element to drop
+	 * @param element the element to drop
 	 */
 
-	void dropElement( DesignElement element );
+	void dropElement(DesignElement element);
 
 	/**
 	 * Returns a unique name for the given element.
 	 * 
-	 * @param element
-	 *            the given element.
+	 * @param element the given element.
 	 * 
 	 * @return unique name.
 	 */
 
-	String getUniqueName( DesignElement element );
+	String getUniqueName(DesignElement element);
 
 	/**
 	 * Adds a content name to the name-manager.
 	 * 
-	 * @param id
-	 *            name space id
-	 * @param name
-	 *            the name of the content
+	 * @param id   name space id
+	 * @param name the name of the content
 	 */
 
-	void addContentName( int id, String name );
+	void addContentName(int id, String name);
 }

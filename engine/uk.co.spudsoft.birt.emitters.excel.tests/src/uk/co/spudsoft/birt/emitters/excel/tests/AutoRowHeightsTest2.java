@@ -35,14 +35,14 @@ public class AutoRowHeightsTest2 extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Auto RowHeight Report 2", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Auto RowHeight Report 2", workbook.getSheetAt(0).getSheetName());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 1, this.firstNullRow(sheet));
-			
-			assertEquals( 2298, sheet.getRow(0).getHeight() );
+			assertEquals(1, this.firstNullRow(sheet));
+
+			assertEquals(2298, sheet.getRow(0).getHeight());
 		} finally {
 			inputStream.close();
 		}
@@ -54,17 +54,17 @@ public class AutoRowHeightsTest2 extends ReportRunner {
 		InputStream inputStream = runAndRenderReport("AutoRowHeight2.rptdesign", "xls");
 		assertNotNull(inputStream);
 		try {
-			
+
 			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Auto RowHeight Report 2", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Auto RowHeight Report 2", workbook.getSheetAt(0).getSheetName());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 1, this.firstNullRow(sheet));
-			
-			assertEquals( 2298, sheet.getRow(0).getHeight() );
+			assertEquals(1, this.firstNullRow(sheet));
+
+			assertEquals(2298, sheet.getRow(0).getHeight());
 		} finally {
 			inputStream.close();
 		}

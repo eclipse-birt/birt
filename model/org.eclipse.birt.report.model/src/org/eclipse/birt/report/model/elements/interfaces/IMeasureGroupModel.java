@@ -14,11 +14,10 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * Interface to define some constants for MeasureGroup.
  */
-public interface IMeasureGroupModel
-{
+public interface IMeasureGroupModel {
 
 	/**
 	 * Name of the property that holds a list of measure elements.
 	 */
-	String MEASURES_PROP = "measures"; //$NON-NLS-1$	
+	String MEASURES_PROP = "measures"; //$NON-NLS-1$
 }

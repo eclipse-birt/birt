@@ -16,41 +16,33 @@ import java.util.logging.Logger;
 /**
  * 
  */
-public class AxisQualifier
-{
+public class AxisQualifier {
 	private int[] levelIndex;
 	private Object[] value;
-	private static Logger logger = Logger.getLogger( AxisQualifier.class.getName( ) );
-	
+	private static Logger logger = Logger.getLogger(AxisQualifier.class.getName());
+
 	//
-	public AxisQualifier( int[] levelIndex, Object[] value )
-	{
-		Object[] params = {
-				levelIndex, value
-		};
-		logger.entering( AxisQualifier.class.getName( ),
-				"AxisQualifier",
-				params );
+	public AxisQualifier(int[] levelIndex, Object[] value) {
+		Object[] params = { levelIndex, value };
+		logger.entering(AxisQualifier.class.getName(), "AxisQualifier", params);
 		this.levelIndex = levelIndex;
 		this.value = value;
-		logger.exiting( AxisQualifier.class.getName( ), "AxisQualifier" );
+		logger.exiting(AxisQualifier.class.getName(), "AxisQualifier");
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int[] getLevelIndex()
-	{
+	public int[] getLevelIndex() {
 		return this.levelIndex;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public Object[] getLevelValue()
-	{
+	public Object[] getLevelValue() {
 		return this.value;
 	}
 }

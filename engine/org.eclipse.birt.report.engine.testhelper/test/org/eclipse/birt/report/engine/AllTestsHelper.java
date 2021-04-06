@@ -13,18 +13,16 @@ package org.eclipse.birt.report.engine;
 
 import junit.framework.TestSuite;
 
-public class AllTestsHelper
-{
+public class AllTestsHelper {
 
-	public static void suite( TestSuite suite )
-	{
-		suite.addTestSuite( org.eclipse.birt.report.engine.executor.optimize.ExecutionOptimizeTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.internal.document.v2.ContentTreeCacheTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.internal.executor.doc.FragmentTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.internal.executor.doc.SegmentTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.internal.executor.doc.TreeFragmentTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.internal.executor.load.PageSequenceIteratorTest.class );
-		suite.addTestSuite( org.eclipse.birt.report.engine.internal.index.v2.IndexReadWriteTest.class );
+	public static void suite(TestSuite suite) {
+		suite.addTestSuite(org.eclipse.birt.report.engine.executor.optimize.ExecutionOptimizeTest.class);
+		suite.addTestSuite(org.eclipse.birt.report.engine.internal.document.v2.ContentTreeCacheTest.class);
+		suite.addTestSuite(org.eclipse.birt.report.engine.internal.executor.doc.FragmentTest.class);
+		suite.addTestSuite(org.eclipse.birt.report.engine.internal.executor.doc.SegmentTest.class);
+		suite.addTestSuite(org.eclipse.birt.report.engine.internal.executor.doc.TreeFragmentTest.class);
+		suite.addTestSuite(org.eclipse.birt.report.engine.internal.executor.load.PageSequenceIteratorTest.class);
+		suite.addTestSuite(org.eclipse.birt.report.engine.internal.index.v2.IndexReadWriteTest.class);
 	}
 
 }

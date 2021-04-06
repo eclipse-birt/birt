@@ -35,14 +35,11 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * <p>
  * Support two export types:
  * <ol>
- * <li> Export all the data </li>
- * <li> Use InstanceID to export data of a selected instance data object </li>
+ * <li>Export all the data</li>
+ * <li>Use InstanceID to export data of a selected instance data object</li>
  * </ol>
  */
-public abstract class AbstractQueryExportActionHandler
-		extends
-			AbstractBaseActionHandler
-{
+public abstract class AbstractQueryExportActionHandler extends AbstractBaseActionHandler {
 
 	/*
 	 * Existed document file
@@ -54,14 +51,14 @@ public abstract class AbstractQueryExportActionHandler
 	 * 
 	 * @param resultSets
 	 */
-	protected abstract void handleUpdate( ResultSets resultSets );
+	protected abstract void handleUpdate(ResultSets resultSets);
 
 	/**
 	 * Check if document file exists.
 	 * 
 	 * @throws Exception
 	 */
-	abstract protected void __checkDocumentExists( ) throws Exception;
+	abstract protected void __checkDocumentExists() throws Exception;
 
 	/**
 	 * Constructor.
@@ -70,10 +67,8 @@ public abstract class AbstractQueryExportActionHandler
 	 * @param operation
 	 * @param response
 	 */
-	public AbstractQueryExportActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public AbstractQueryExportActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
@@ -81,39 +76,34 @@ public abstract class AbstractQueryExportActionHandler
 	 * 
 	 * @throws Exception
 	 */
-	protected void __execute( ) throws Exception
-	{
-		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
-		__docName = attrBean.getReportDocumentName( );
-		__checkDocumentExists( );
+	protected void __execute() throws Exception {
+		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean();
+		__docName = attrBean.getReportDocumentName();
+		__checkDocumentExists();
 
 		List exportedResultSets;
-		String instanceID = operation.getTarget( ).getId( );
+		String instanceID = operation.getTarget().getId();
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, context.getRequest());
 
-		if ( instanceID.equals( "Document" ) ) //$NON-NLS-1$
-			exportedResultSets = getReportService( ).getResultSetsMetadata(
-					__docName, options );
+		if (instanceID.equals("Document")) //$NON-NLS-1$
+			exportedResultSets = getReportService().getResultSetsMetadata(__docName, options);
 		else
-			exportedResultSets = getReportService( ).getResultSetsMetadata(
-					__docName, instanceID, options );
+			exportedResultSets = getReportService().getResultSetsMetadata(__docName, instanceID, options);
 
-		if ( exportedResultSets == null )
-		{
+		if (exportedResultSets == null) {
 			// No result sets available
-			AxisFault fault = new AxisFault( );
-			fault
-					.setFaultReason( BirtResources
-							.getMessage( ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_RESULT_SET ) );
+			AxisFault fault = new AxisFault();
+			fault.setFaultReason(
+					BirtResources.getMessage(ResourceConstants.REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_RESULT_SET));
 			throw fault;
 		}
 
-		ResultSet[] resultSetArray = getResultSetArray( exportedResultSets );
-		ResultSets resultSets = new ResultSets( );
-		resultSets.setResultSet( resultSetArray );
-		handleUpdate( resultSets );
+		ResultSet[] resultSetArray = getResultSetArray(exportedResultSets);
+		ResultSets resultSets = new ResultSets();
+		resultSets.setResultSet(resultSetArray);
+		handleUpdate(resultSets);
 	}
 
 	/**
@@ -122,25 +112,20 @@ public abstract class AbstractQueryExportActionHandler
 	 * @param exportedResultSets
 	 * @return ResultSet[]
 	 */
-	private ResultSet[] getResultSetArray( List exportedResultSets )
-	{
+	private ResultSet[] getResultSetArray(List exportedResultSets) {
 		assert exportedResultSets != null;
 
-		ResultSet[] rsArray = new ResultSet[exportedResultSets.size( )];
-		for ( int i = 0; i < exportedResultSets.size( ); i++ )
-		{
-			ExportedResultSet rs = (ExportedResultSet) exportedResultSets
-					.get( i );
-			List columns = rs.getColumns( );
-			Column[] colArray = new Column[columns.size( )];
-			for ( int j = 0; j < columns.size( ); j++ )
-			{
-				ExportedColumn col = (ExportedColumn) columns.get( j );
-				colArray[j] = new Column( ParameterAccessor.htmlEncode( col
-						.getName( ) ), col.getLabel( ), Boolean.valueOf( col
-						.getVisibility( ) ) );
+		ResultSet[] rsArray = new ResultSet[exportedResultSets.size()];
+		for (int i = 0; i < exportedResultSets.size(); i++) {
+			ExportedResultSet rs = (ExportedResultSet) exportedResultSets.get(i);
+			List columns = rs.getColumns();
+			Column[] colArray = new Column[columns.size()];
+			for (int j = 0; j < columns.size(); j++) {
+				ExportedColumn col = (ExportedColumn) columns.get(j);
+				colArray[j] = new Column(ParameterAccessor.htmlEncode(col.getName()), col.getLabel(),
+						Boolean.valueOf(col.getVisibility()));
 			}
-			rsArray[i] = new ResultSet( rs.getQueryName( ), colArray );
+			rsArray[i] = new ResultSet(rs.getQueryName(), colArray);
 		}
 
 		return rsArray;

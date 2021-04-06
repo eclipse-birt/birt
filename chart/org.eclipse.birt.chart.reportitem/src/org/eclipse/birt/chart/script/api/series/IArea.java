@@ -15,7 +15,6 @@ package org.eclipse.birt.chart.script.api.series;
  * Represents Area series of a Chart in the scripting environment
  */
 
-public interface IArea extends IStackableSeries
-{
+public interface IArea extends IStackableSeries {
 
 }

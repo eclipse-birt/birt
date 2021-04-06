@@ -28,8 +28,7 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
  * 
  */
 
-public class CustomMsgRecord extends SimpleRecord
-{
+public class CustomMsgRecord extends SimpleRecord {
 
 	/**
 	 * The ReportDesign that is to be changed.
@@ -80,19 +79,14 @@ public class CustomMsgRecord extends SimpleRecord
 	/**
 	 * Constructs a record to add or drop a translation.
 	 * 
-	 * @param design
-	 *            the report design
-	 * @param translation
-	 *            the user-defined message
-	 * @param action
-	 *            one of the action options, can be <code>ADD</code> or
-	 *            <code>DROP</code>
+	 * @param design      the report design
+	 * @param translation the user-defined message
+	 * @param action      one of the action options, can be <code>ADD</code> or
+	 *                    <code>DROP</code>
 	 * 
 	 */
 
-	public CustomMsgRecord( ReportDesign design, Translation translation,
-			int action )
-	{
+	public CustomMsgRecord(ReportDesign design, Translation translation, int action) {
 		assert design != null;
 		assert translation != null;
 		assert action == ADD || action == DROP;
@@ -101,31 +95,23 @@ public class CustomMsgRecord extends SimpleRecord
 		this.design = design;
 		this.translation = translation;
 
-		if ( action == ADD )
-			label = CommandLabelFactory
-					.getCommandLabel( MessageConstants.ADD_TRANSLATION_MESSAGE );
-		else if ( action == DROP )
-			label = CommandLabelFactory
-					.getCommandLabel( MessageConstants.DROP_TRANSLATION_MESSAGE );
+		if (action == ADD)
+			label = CommandLabelFactory.getCommandLabel(MessageConstants.ADD_TRANSLATION_MESSAGE);
+		else if (action == DROP)
+			label = CommandLabelFactory.getCommandLabel(MessageConstants.DROP_TRANSLATION_MESSAGE);
 	}
 
 	/**
 	 * Constructs a record to set locale or text for a translation.
 	 * 
-	 * @param design
-	 *            the report design
-	 * @param translation
-	 *            the translation item to be changed.
-	 * @param value
-	 *            new value for either translation text or locale.
-	 * @param action
-	 *            one of the action options, can be <code>CHANGE_TEXT</code> or
-	 *            <code>CHANGE_LOCALE</code>
+	 * @param design      the report design
+	 * @param translation the translation item to be changed.
+	 * @param value       new value for either translation text or locale.
+	 * @param action      one of the action options, can be <code>CHANGE_TEXT</code>
+	 *                    or <code>CHANGE_LOCALE</code>
 	 */
 
-	public CustomMsgRecord( ReportDesign design, Translation translation,
-			String value, int action )
-	{
+	public CustomMsgRecord(ReportDesign design, Translation translation, String value, int action) {
 		assert design != null;
 		assert translation != null;
 		assert action == CHANGE_TEXT || action == CHANGE_LOCALE;
@@ -135,53 +121,49 @@ public class CustomMsgRecord extends SimpleRecord
 		this.translation = translation;
 		this.newValue = value;
 
-		if ( action == CHANGE_TEXT )
-			oldValue = translation.getText( );
-		else if ( action == CHANGE_LOCALE )
-			oldValue = translation.getLocale( );
+		if (action == CHANGE_TEXT)
+			oldValue = translation.getText();
+		else if (action == CHANGE_LOCALE)
+			oldValue = translation.getLocale();
 
-		label = CommandLabelFactory
-				.getCommandLabel( MessageConstants.CHANGE_TRANSLATION_MESSAGE );
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_TRANSLATION_MESSAGE);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean
-	 * )
+	 * org.eclipse.birt.report.model.design.activity.SimpleRecord#perform(boolean )
 	 */
 
-	protected void perform( boolean undo )
-	{
-		switch ( action )
-		{
-			case ADD :
-				if ( undo )
-					design.dropTranslation( translation );
-				else
-					design.addTranslation( translation );
-				break;
-			case DROP :
-				if ( undo )
-					design.addTranslation( translation );
-				else
-					design.dropTranslation( translation );
-				break;
-			case CHANGE_LOCALE :
-				if ( undo )
-					translation.setLocale( oldValue );
-				else
-					translation.setLocale( newValue );
-				break;
-			case CHANGE_TEXT :
-				if ( undo )
-					translation.setText( oldValue );
-				else
-					translation.setText( newValue );
-				break;
-			default :
-				assert false;
+	protected void perform(boolean undo) {
+		switch (action) {
+		case ADD:
+			if (undo)
+				design.dropTranslation(translation);
+			else
+				design.addTranslation(translation);
+			break;
+		case DROP:
+			if (undo)
+				design.addTranslation(translation);
+			else
+				design.dropTranslation(translation);
+			break;
+		case CHANGE_LOCALE:
+			if (undo)
+				translation.setLocale(oldValue);
+			else
+				translation.setLocale(newValue);
+			break;
+		case CHANGE_TEXT:
+			if (undo)
+				translation.setText(oldValue);
+			else
+				translation.setText(newValue);
+			break;
+		default:
+			assert false;
 		}
 	}
 
@@ -193,8 +175,7 @@ public class CustomMsgRecord extends SimpleRecord
 	 * ()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return design;
 	}
 
@@ -206,30 +187,27 @@ public class CustomMsgRecord extends SimpleRecord
 	 * ()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		assert state == DONE_STATE || state == UNDONE_STATE
-				|| state == REDONE_STATE;
+	public NotificationEvent getEvent() {
+		assert state == DONE_STATE || state == UNDONE_STATE || state == REDONE_STATE;
 
 		int event = CustomMsgEvent.ADD;
 
-		switch ( action )
-		{
-			case ADD :
-				event = CustomMsgEvent.ADD;
-				break;
-			case DROP :
-				event = CustomMsgEvent.DROP;
-				break;
-			case CHANGE_TEXT :
-			case CHANGE_LOCALE :
-				event = CustomMsgEvent.CHANGE;
-				break;
-			default :
-				assert false;
+		switch (action) {
+		case ADD:
+			event = CustomMsgEvent.ADD;
+			break;
+		case DROP:
+			event = CustomMsgEvent.DROP;
+			break;
+		case CHANGE_TEXT:
+		case CHANGE_LOCALE:
+			event = CustomMsgEvent.CHANGE;
+			break;
+		default:
+			assert false;
 		}
 
-		return new CustomMsgEvent( design, translation, event );
+		return new CustomMsgEvent(design, translation, event);
 	}
 
 }

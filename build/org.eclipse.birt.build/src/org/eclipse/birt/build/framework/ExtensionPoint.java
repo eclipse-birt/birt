@@ -1,52 +1,41 @@
 package org.eclipse.birt.build.framework;
 
-
-
 import org.w3c.dom.Element;
 
-public class ExtensionPoint
-{
+public class ExtensionPoint {
 	Bundle bundle;
 	Element element;
 
-	ExtensionPoint( Bundle bundle, Element element )
-	{
+	ExtensionPoint(Bundle bundle, Element element) {
 		this.bundle = bundle;
 		this.element = element;
 	}
 
-	public String getSchema( )
-	{
-		return element.getAttribute( "schema" );
+	public String getSchema() {
+		return element.getAttribute("schema");
 	}
 
-	public void setSchema( String schema )
-	{
-		element.setAttribute( "schema", schema );
+	public void setSchema(String schema) {
+		element.setAttribute("schema", schema);
 	}
 
-	public String getId( )
-	{
-		return element.getAttribute( "id" );
+	public String getId() {
+		return element.getAttribute("id");
 	}
 
-	public void setId( String id )
-	{
-		element.setAttribute( "id", id );
+	public void setId(String id) {
+		element.setAttribute("id", id);
 	}
 
-	public String getName( )
-	{
-		return element.getAttribute( "name" );
+	public String getName() {
+		return element.getAttribute("name");
 	}
 
-	public void setName( String name )
-	{
-		element.setAttribute( "name", name );
+	public void setName(String name) {
+		element.setAttribute("name", name);
 	}
 
-	public Element getElement( )
-	{
+	public Element getElement() {
 		return element;
 	}
 

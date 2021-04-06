@@ -13,18 +13,14 @@ package org.eclipse.birt.report.designer.data.ui.dataset;
 
 import org.eclipse.birt.report.model.api.DataSetHandle;
 
+public class AdvancedDataSetOutputColumnsPage extends OutputColumnsPage {
 
-public class AdvancedDataSetOutputColumnsPage extends OutputColumnsPage
-{
-
-	public AdvancedDataSetOutputColumnsPage( )
-	{
-		super( );
+	public AdvancedDataSetOutputColumnsPage() {
+		super();
 	}
-	
-	public AdvancedDataSetOutputColumnsPage( DataSetHandle ds, boolean newlyCreated )
-	{
-		super( );
+
+	public AdvancedDataSetOutputColumnsPage(DataSetHandle ds, boolean newlyCreated) {
+		super();
 		isNewlyCreated = newlyCreated;
 	}
 }

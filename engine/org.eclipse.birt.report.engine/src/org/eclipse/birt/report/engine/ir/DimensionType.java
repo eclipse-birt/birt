@@ -25,11 +25,9 @@ import org.eclipse.birt.report.model.api.util.DimensionUtil;
 /**
  * 
  */
-public class DimensionType
-{
+public class DimensionType {
 
-	private static Logger log = Logger
-			.getLogger( DimensionType.class.getName( ) );
+	private static Logger log = Logger.getLogger(DimensionType.class.getName());
 
 	public final static int TYPE_DIMENSION = 1;
 	public final static int TYPE_CHOICE = 0;
@@ -47,72 +45,60 @@ public class DimensionType
 	protected double measure = -1;
 	protected String choice;
 
-	public DimensionType( )
-	{
+	public DimensionType() {
 	}
 
-	public DimensionType( String choice )
-	{
+	public DimensionType(String choice) {
 		this.type = TYPE_CHOICE;
 		this.choice = choice;
 		this.measure = 0;
 		this.unitType = null;
 	}
 
-	public DimensionType( double value, String units )
-	{
+	public DimensionType(double value, String units) {
 		this.type = TYPE_DIMENSION;
 		this.unitType = units;
 		this.measure = value;
 		this.choice = null;
 	}
 
-	public int getValueType( )
-	{
+	public int getValueType() {
 		return type;
 	}
 
-	public double getMeasure( )
-	{
+	public double getMeasure() {
 		assert this.type == TYPE_DIMENSION;
 		return this.measure;
 	}
 
-	public String getUnits( )
-	{
+	public String getUnits() {
 		assert this.type == TYPE_DIMENSION;
 		return this.unitType;
 	}
 
-	public String getChoice( )
-	{
+	public String getChoice() {
 		return this.choice;
 	}
 
-	public String toString( )
-	{
-		if ( type == TYPE_DIMENSION )
-		{
+	public String toString() {
+		if (type == TYPE_DIMENSION) {
 			// Copy from DimensionValue
-			String value = Double.toString( measure );
+			String value = Double.toString(measure);
 
 			// Eliminate the ".0" that the default implementation tacks onto
 			// the end of integers.
-			if ( value.substring( value.length( ) - 2 ).equals( ".0" ) ) //$NON-NLS-1$
-				value = value.substring( 0, value.length( ) - 2 );
+			if (value.substring(value.length() - 2).equals(".0")) //$NON-NLS-1$
+				value = value.substring(0, value.length() - 2);
 			return value + this.unitType;
 		}
 		return choice;
 	}
 
-	public double convertTo( String targetUnit )
-	{
+	public double convertTo(String targetUnit) {
 		assert type == TYPE_DIMENSION;
-		DimensionValue value = DimensionUtil.convertTo( this.measure,
-				this.unitType, targetUnit );
-		if ( value != null )
-		{
-			return value.getMeasure( );
+		DimensionValue value = DimensionUtil.convertTo(this.measure, this.unitType, targetUnit);
+		if (value != null) {
+			return value.getMeasure();
 		}
 		return 0;
 	}
@@ -120,36 +106,32 @@ public class DimensionType
 	/**
 	 * Implement the subtract operation of type <Code>DimensionType</Code>.
 	 * 
-	 * @param subtrahend
-	 *            the subtrahend
+	 * @param subtrahend the subtrahend
 	 * @return the result whose unit is <Code>CM_UNIT</Code>
 	 */
-	public DimensionType subtract( DimensionType subtrahend )
-	{
-		assert ( getValueType( ) == DimensionType.TYPE_DIMENSION );
-		assert ( subtrahend != null && subtrahend.getValueType( ) == DimensionType.TYPE_DIMENSION );
+	public DimensionType subtract(DimensionType subtrahend) {
+		assert (getValueType() == DimensionType.TYPE_DIMENSION);
+		assert (subtrahend != null && subtrahend.getValueType() == DimensionType.TYPE_DIMENSION);
 
-		double measure = convertTo( DimensionType.UNITS_CM );
-		measure -= subtrahend.convertTo( DimensionType.UNITS_CM );
-		DimensionType ret = new DimensionType( measure, DimensionType.UNITS_CM );
+		double measure = convertTo(DimensionType.UNITS_CM);
+		measure -= subtrahend.convertTo(DimensionType.UNITS_CM);
+		DimensionType ret = new DimensionType(measure, DimensionType.UNITS_CM);
 		return ret;
 	}
 
 	/**
 	 * Implement the compare operation of type <Code>DimensionType</Code>.
 	 * 
-	 * @param subtrahend
-	 *            the subtrahend operand
-	 * @return a negative double, zero, or a positive double as the first
-	 *         operand is less than, equal to, or greater than the second.
+	 * @param subtrahend the subtrahend operand
+	 * @return a negative double, zero, or a positive double as the first operand is
+	 *         less than, equal to, or greater than the second.
 	 */
-	public double compare( DimensionType subtrahend )
-	{
-		assert ( getValueType( ) == DimensionType.TYPE_DIMENSION );
-		assert ( subtrahend != null && subtrahend.getValueType( ) == DimensionType.TYPE_DIMENSION );
+	public double compare(DimensionType subtrahend) {
+		assert (getValueType() == DimensionType.TYPE_DIMENSION);
+		assert (subtrahend != null && subtrahend.getValueType() == DimensionType.TYPE_DIMENSION);
 
-		double measure = convertTo( DimensionType.UNITS_CM );
-		measure -= subtrahend.convertTo( DimensionType.UNITS_CM );
+		double measure = convertTo(DimensionType.UNITS_CM);
+		measure -= subtrahend.convertTo(DimensionType.UNITS_CM);
 
 		return measure;
 	}
@@ -163,46 +145,34 @@ public class DimensionType
 	 * 
 	 * If the error exists, return the result whose measure is 0.
 	 */
-	public static DimensionType parserUnit( String value )
-	{
-		if ( value != null )
-		{
-			try
-			{
-				DimensionValue val = DimensionValue.parse( value );
-				return new DimensionType( val.getMeasure( ), val.getUnits( ) );
-			}
-			catch ( PropertyValueException e )
-			{
-				log.log( Level.SEVERE, e.getMessage( ) );
-			}
-		}
-		return null;
-	}
-	
-	public static DimensionType parserUnit( String value, String defaultUnits )
-	{
-		if ( value != null )
-		{
-			try
-			{
-				DimensionValue val = DimensionValue.parse( value );
-				
-				String units = val.getUnits( );
-				if ( null == units || "".equals( units ) )
-				{
-					units = defaultUnits;
-				}
-				return new DimensionType( val.getMeasure( ), units );
-			}
-			catch ( PropertyValueException e )
-			{
-				log.log( Level.SEVERE, e.getMessage( ) );
+	public static DimensionType parserUnit(String value) {
+		if (value != null) {
+			try {
+				DimensionValue val = DimensionValue.parse(value);
+				return new DimensionType(val.getMeasure(), val.getUnits());
+			} catch (PropertyValueException e) {
+				log.log(Level.SEVERE, e.getMessage());
 			}
 		}
 		return null;
 	}
 
+	public static DimensionType parserUnit(String value, String defaultUnits) {
+		if (value != null) {
+			try {
+				DimensionValue val = DimensionValue.parse(value);
+
+				String units = val.getUnits();
+				if (null == units || "".equals(units)) {
+					units = defaultUnits;
+				}
+				return new DimensionType(val.getMeasure(), units);
+			} catch (PropertyValueException e) {
+				log.log(Level.SEVERE, e.getMessage());
+			}
+		}
+		return null;
+	}
 
 	/**
 	 * object document dimension version
@@ -215,66 +185,55 @@ public class DimensionType
 	final static int FIELD_MEASURE = 2;
 	final static int FIELD_CHOICE = 3;
 
-	protected void writeFields( DataOutputStream out ) throws IOException
-	{
-		if ( type != -1 )
-		{
-			IOUtil.writeInt( out, FIELD_TYPE );
-			IOUtil.writeInt( out, type );
+	protected void writeFields(DataOutputStream out) throws IOException {
+		if (type != -1) {
+			IOUtil.writeInt(out, FIELD_TYPE);
+			IOUtil.writeInt(out, type);
 		}
-		if ( unitType != null )
-		{
-			IOUtil.writeInt( out, FIELD_UNITTYPE );
-			IOUtil.writeString( out, unitType );
+		if (unitType != null) {
+			IOUtil.writeInt(out, FIELD_UNITTYPE);
+			IOUtil.writeString(out, unitType);
 		}
-		if ( measure != -1 )
-		{
-			IOUtil.writeInt( out, FIELD_MEASURE );
-			IOUtil.writeDouble( out, measure );
+		if (measure != -1) {
+			IOUtil.writeInt(out, FIELD_MEASURE);
+			IOUtil.writeDouble(out, measure);
 		}
-		if ( choice != null )
-		{
-			IOUtil.writeInt( out, FIELD_CHOICE );
-			IOUtil.writeString( out, choice );
+		if (choice != null) {
+			IOUtil.writeInt(out, FIELD_CHOICE);
+			IOUtil.writeString(out, choice);
 		}
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in )
-			throws IOException
-	{
-		switch ( filedId )
-		{
-			case FIELD_TYPE :
-				type = IOUtil.readInt( in );
-				break;
-			case FIELD_UNITTYPE :
-				unitType = IOUtil.readString( in );
-				break;
-			case FIELD_MEASURE :
-				measure = IOUtil.readDouble( in );
+	protected void readField(int version, int filedId, DataInputStream in) throws IOException {
+		switch (filedId) {
+		case FIELD_TYPE:
+			type = IOUtil.readInt(in);
+			break;
+		case FIELD_UNITTYPE:
+			unitType = IOUtil.readString(in);
+			break;
+		case FIELD_MEASURE:
+			measure = IOUtil.readDouble(in);
 
-				break;
-			case FIELD_CHOICE :
-				choice = IOUtil.readString( in );
-				break;
+			break;
+		case FIELD_CHOICE:
+			choice = IOUtil.readString(in);
+			break;
 		}
 	}
 
-	public void readObject( DataInputStream in ) throws IOException
-	{
-		int version = IOUtil.readInt( in );
-		int filedId = IOUtil.readInt( in );
-		while ( filedId != FIELD_NONE )
-		{
-			readField( version, filedId, in );
-			filedId = IOUtil.readInt( in );
+	public void readObject(DataInputStream in) throws IOException {
+		int version = IOUtil.readInt(in);
+		int filedId = IOUtil.readInt(in);
+		while (filedId != FIELD_NONE) {
+			readField(version, filedId, in);
+			filedId = IOUtil.readInt(in);
 		}
 	}
 
-	public void writeObject( DataOutputStream out ) throws IOException
-	{
-		IOUtil.writeInt( out, VERSION );
-		writeFields( out );
-		IOUtil.writeInt( out, FIELD_NONE );
+	public void writeObject(DataOutputStream out) throws IOException {
+		IOUtil.writeInt(out, VERSION);
+		writeFields(out);
+		IOUtil.writeInt(out, FIELD_NONE);
 	}
 }

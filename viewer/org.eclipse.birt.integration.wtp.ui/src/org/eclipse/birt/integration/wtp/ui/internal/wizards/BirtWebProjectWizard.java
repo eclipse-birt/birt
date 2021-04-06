@@ -25,10 +25,7 @@ import org.eclipse.wst.common.project.facet.core.ProjectFacetsManager;
  * "Dynamic Web Project" wizard.
  * 
  */
-public class BirtWebProjectWizard extends WebProjectWizard
-		implements
-			IBirtWizardConstants
-{
+public class BirtWebProjectWizard extends WebProjectWizard implements IBirtWizardConstants {
 
 	/**
 	 * Configuration Element of birt wizard
@@ -39,11 +36,10 @@ public class BirtWebProjectWizard extends WebProjectWizard
 	 * Constructor
 	 * 
 	 */
-	public BirtWebProjectWizard( )
-	{
-		super( );
-		setWindowTitle( BirtWTPMessages.BIRTProjectCreationWizard_title );
-		setNeedsProgressMonitor( true );
+	public BirtWebProjectWizard() {
+		super();
+		setWindowTitle(BirtWTPMessages.BIRTProjectCreationWizard_title);
+		setNeedsProgressMonitor(true);
 	}
 
 	/**
@@ -51,19 +47,17 @@ public class BirtWebProjectWizard extends WebProjectWizard
 	 * 
 	 * @param model
 	 */
-	public BirtWebProjectWizard( IDataModel model )
-	{
-		super( model );
-		setWindowTitle( BirtWTPMessages.BIRTProjectCreationWizard_title );
-		setNeedsProgressMonitor( true );
+	public BirtWebProjectWizard(IDataModel model) {
+		super(model);
+		setWindowTitle(BirtWTPMessages.BIRTProjectCreationWizard_title);
+		setNeedsProgressMonitor(true);
 	}
 
 	/**
 	 * Get template for project facets selection
 	 */
-	protected IFacetedProjectTemplate getTemplate( )
-	{
-		return ProjectFacetsManager.getTemplate( "template.birt.runtime" ); //$NON-NLS-1$
+	protected IFacetedProjectTemplate getTemplate() {
+		return ProjectFacetsManager.getTemplate("template.birt.runtime"); //$NON-NLS-1$
 	}
 
 	/**
@@ -72,18 +66,17 @@ public class BirtWebProjectWizard extends WebProjectWizard
 	 * @see org.eclipse.ui.IWorkbenchWizard#init(org.eclipse.ui.IWorkbench,
 	 *      org.eclipse.jface.viewers.IStructuredSelection)
 	 */
-	public void init( IWorkbench workbench, IStructuredSelection selection )
-	{
-		super.init( workbench, selection );
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
+		super.init(workbench, selection);
 
 		// find configuration element of new wizard
-		this.wizardConfigElement = BirtWizardUtil.findConfigurationElementById(
-				NEW_WIZARDS_EXTENSION_POINT, BIRT_WIZARD_ID );
+		this.wizardConfigElement = BirtWizardUtil.findConfigurationElementById(NEW_WIZARDS_EXTENSION_POINT,
+				BIRT_WIZARD_ID);
 
 		// set window title
-		String title = wizardConfigElement.getAttribute( "name" ); //$NON-NLS-1$
-		if ( title != null )
-			setWindowTitle( title );
+		String title = wizardConfigElement.getAttribute("name"); //$NON-NLS-1$
+		if (title != null)
+			setWindowTitle(title);
 
 	}
 }

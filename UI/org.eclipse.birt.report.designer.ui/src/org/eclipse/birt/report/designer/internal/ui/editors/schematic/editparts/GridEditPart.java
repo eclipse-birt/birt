@@ -18,41 +18,38 @@ import org.eclipse.birt.report.designer.nls.Messages;
 /**
  * Grid EditPart,control the UI & model of grid
  */
-public class GridEditPart extends TableEditPart
-{
+public class GridEditPart extends TableEditPart {
 
-	private static final String GUIDEHANDLE_TEXT = Messages.getString( "GridEditPart.GUIDEHANDLE_TEXT" ); //$NON-NLS-1$
+	private static final String GUIDEHANDLE_TEXT = Messages.getString("GridEditPart.GUIDEHANDLE_TEXT"); //$NON-NLS-1$
 
 	/**
 	 * Constructor
 	 * 
 	 * @param obj
 	 */
-	public GridEditPart( Object obj )
-	{
-		super( obj );
+	public GridEditPart(Object obj) {
+		super(obj);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 	 * .TableEditPart#getGuideLabel()
 	 */
-	public String getGuideLabel( )
-	{
+	public String getGuideLabel() {
 		return GUIDEHANDLE_TEXT;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#getDefinedHeight()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.layout.ITableLayoutOwner#
+	 * getDefinedHeight()
 	 */
-	public String getDefinedHeight( )
-	{
-		GridHandleAdapter tadp = HandleAdapterFactory.getInstance( )
-		.getGridHandleAdapter( getModel( ) );
-		return tadp.getDefinedHeight( );
+	public String getDefinedHeight() {
+		GridHandleAdapter tadp = HandleAdapterFactory.getInstance().getGridHandleAdapter(getModel());
+		return tadp.getDefinedHeight();
 	}
 
 }

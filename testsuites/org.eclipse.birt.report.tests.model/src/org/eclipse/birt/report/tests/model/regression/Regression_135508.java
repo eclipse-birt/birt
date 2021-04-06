@@ -46,42 +46,38 @@ import com.ibm.icu.util.ULocale;
  * duplicate.
  * </p>
  */
-public class Regression_135508 extends BaseTestCase
-{
+public class Regression_135508 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 * 
 	 */
 
-	public void test_regression_135508( ) throws SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_135508() throws SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		DataSourceHandle ds = factory.newOdaDataSource( "dsource", null );//$NON-NLS-1$
-		ds.setDisplayName( "TestDisplayName" ); //$NON-NLS-1$
-		ds.setDisplayNameKey( "TestDisplayNameKey" ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		DataSourceHandle ds = factory.newOdaDataSource("dsource", null);//$NON-NLS-1$
+		ds.setDisplayName("TestDisplayName"); //$NON-NLS-1$
+		ds.setDisplayNameKey("TestDisplayNameKey"); //$NON-NLS-1$
 
-		designHandle.getDataSources( ).add( ds );
+		designHandle.getDataSources().add(ds);
 
 		// copy and added to the tree.
 
-		DataSourceHandle original = designHandle.findDataSource( "dsource" ); //$NON-NLS-1$
-		DataSourceHandle copy = (DataSourceHandle) original.copy( ).getHandle(
-				designHandle.getModule( ) );
-		designHandle.rename( copy );
-		designHandle.getDataSources( ).add( copy );
+		DataSourceHandle original = designHandle.findDataSource("dsource"); //$NON-NLS-1$
+		DataSourceHandle copy = (DataSourceHandle) original.copy().getHandle(designHandle.getModule());
+		designHandle.rename(copy);
+		designHandle.getDataSources().add(copy);
 
 		// ensure that name, display name and display label won't duplicate.
 
-		DataSourceHandle secondDS = (DataSourceHandle) designHandle
-				.getDataSources( ).get( 1 );
-		assertEquals( null, secondDS.getDisplayName( ) );
-		assertEquals( null, secondDS.getDisplayNameKey( ) );
-		assertEquals( "dsource1", secondDS.getName( ) ); //$NON-NLS-1$
-		assertEquals( "dsource1", secondDS.getDisplayLabel( ) ); //$NON-NLS-1$
+		DataSourceHandle secondDS = (DataSourceHandle) designHandle.getDataSources().get(1);
+		assertEquals(null, secondDS.getDisplayName());
+		assertEquals(null, secondDS.getDisplayNameKey());
+		assertEquals("dsource1", secondDS.getName()); //$NON-NLS-1$
+		assertEquals("dsource1", secondDS.getDisplayLabel()); //$NON-NLS-1$
 	}
 }

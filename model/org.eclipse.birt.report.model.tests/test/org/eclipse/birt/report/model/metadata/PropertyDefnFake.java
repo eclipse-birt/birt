@@ -15,13 +15,11 @@ package org.eclipse.birt.report.model.metadata;
  * PropertyDefn fake class.
  */
 
-class PropertyDefnFake extends PropertyDefn
-{
+class PropertyDefnFake extends PropertyDefn {
 
-	PropertyDefnFake( )
-	{
-		super( );
-		setDisplayNameID( "Element.ReportDesign.author" ); //$NON-NLS-1$
+	PropertyDefnFake() {
+		super();
+		setDisplayNameID("Element.ReportDesign.author"); //$NON-NLS-1$
 
 	}
 
@@ -29,23 +27,19 @@ class PropertyDefnFake extends PropertyDefn
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.design.core.metadata.ValueDefn#getValueType
-	 * ()
+	 * org.eclipse.birt.report.model.design.core.metadata.ValueDefn#getValueType ()
 	 */
-	public int getValueType( )
-	{
+	public int getValueType() {
 		return 0;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyDefn#setTrimOption(int)
+	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#setTrimOption(int)
 	 */
-	public void setTrimOption( int trimOption )
-	{
-		super.setTrimOption( trimOption );
+	public void setTrimOption(int trimOption) {
+		super.setTrimOption(trimOption);
 	}
 
 }

@@ -30,8 +30,7 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * @see PropertyHandle
  */
 
-class PropertyIterator implements Iterator
-{
+class PropertyIterator implements Iterator {
 
 	/**
 	 * The element that holds these properties.
@@ -46,53 +45,48 @@ class PropertyIterator implements Iterator
 	protected Iterator iter;
 
 	/**
-	 * Constructs the handle for a group parameters with the given element
-	 * handle. The application does not normally create objects of this class
-	 * directly. Instead, it uses the <code>iterator</code> method of an
-	 * element handle to create the iterator.
+	 * Constructs the handle for a group parameters with the given element handle.
+	 * The application does not normally create objects of this class directly.
+	 * Instead, it uses the <code>iterator</code> method of an element handle to
+	 * create the iterator.
 	 * 
-	 * @param handle
-	 *            a handle to an element
+	 * @param handle a handle to an element
 	 */
 
-	public PropertyIterator( DesignElementHandle handle )
-	{
+	public PropertyIterator(DesignElementHandle handle) {
 		this.elementHandle = handle;
 
-		List propDefns = elementHandle.getElement( ).getPropertyDefns( );
-		iter = propDefns.iterator( );
+		List propDefns = elementHandle.getElement().getPropertyDefns();
+		iter = propDefns.iterator();
 	}
 
 	// Implementation of an interface method.
 
-	public boolean hasNext( )
-	{
-		return iter.hasNext( );
+	public boolean hasNext() {
+		return iter.hasNext();
 	}
 
 	/**
-	 * Gets the next property as a property handle. Implementation of
-	 * iterator.next( )
+	 * Gets the next property as a property handle. Implementation of iterator.next(
+	 * )
 	 * 
 	 * @return the next property as a property handle.
 	 * @see PropertyHandle
 	 * @see UserPropertyDefnHandle
 	 */
 
-	public Object next( )
-	{
-		if ( !iter.hasNext( ) )
+	public Object next() {
+		if (!iter.hasNext())
 			return null;
-		ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
-		return new PropertyHandle( elementHandle, propDefn );
+		ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next();
+		return new PropertyHandle(elementHandle, propDefn);
 	}
 
 	/**
 	 * Not supported. The application cannot remove properties.
 	 */
 
-	public void remove( )
-	{
+	public void remove() {
 		// Not supported.
 	}
 

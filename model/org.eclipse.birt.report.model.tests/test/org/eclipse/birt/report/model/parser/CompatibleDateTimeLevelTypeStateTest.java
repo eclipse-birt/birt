@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  */
 
-public class CompatibleDateTimeLevelTypeStateTest extends BaseTestCase
-{
+public class CompatibleDateTimeLevelTypeStateTest extends BaseTestCase {
 
 	/**
 	 * Test change 'day' to 'day-of-year' and 'week' to 'week-of-year'.
@@ -29,14 +28,11 @@ public class CompatibleDateTimeLevelTypeStateTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testTransferDateTimeLevelTypeState( ) throws Exception
-	{
-		openDesign( "CompatibleDateTimeLevelTypeStateTest.xml" ); //$NON-NLS-1$
-		LevelHandle dayLevel = designHandle.findLevel( "DATE/Day" );//$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR,
-				dayLevel.getDateTimeLevelType( ) );
-		LevelHandle weekLevel = designHandle.findLevel( "DATE/Week" );//$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR,
-				weekLevel.getDateTimeLevelType( ) );
+	public void testTransferDateTimeLevelTypeState() throws Exception {
+		openDesign("CompatibleDateTimeLevelTypeStateTest.xml"); //$NON-NLS-1$
+		LevelHandle dayLevel = designHandle.findLevel("DATE/Day");//$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR, dayLevel.getDateTimeLevelType());
+		LevelHandle weekLevel = designHandle.findLevel("DATE/Week");//$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR, weekLevel.getDateTimeLevelType());
 	}
 }

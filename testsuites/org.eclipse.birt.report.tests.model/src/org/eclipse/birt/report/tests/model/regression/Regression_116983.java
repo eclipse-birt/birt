@@ -40,53 +40,46 @@ import com.ibm.icu.util.ULocale;
  * Follow the steps and save the template.
  * </p>
  */
-public class Regression_116983 extends BaseTestCase
-{
+public class Regression_116983 extends BaseTestCase {
 
 	private String outFileName = "regression_116983_template.out";
-	
-	protected void setUp() throws Exception
-	{
+
+	protected void setUp() throws Exception {
 		super.setUp();
-		
+
 	}
-	
-	protected void tearDown() throws Exception
-	{
+
+	protected void tearDown() throws Exception {
 		super.tearDown();
-		
+
 	}
+
 	/**
 	 * @throws SemanticException
 	 * @throws IOException
 	 */
-	public void test_regression_116983( ) throws SemanticException, IOException
-	{
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle template = sessionHandle.createDesign( );
+	public void test_regression_116983() throws SemanticException, IOException {
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle template = sessionHandle.createDesign();
 
-		ElementFactory factory = template.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
+		ElementFactory factory = template.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
 
-		template.getBody( ).add( label );
+		template.getBody().add(label);
 
 		// transfer to template item.
 
-		template
-				.findElement( "label" ).createTemplateElement( "templateLabel" );  //$NON-NLS-1$//$NON-NLS-2$
-		
+		template.findElement("label").createTemplateElement("templateLabel"); //$NON-NLS-1$//$NON-NLS-2$
+
 		// drop it
-		
-		template.findElement( "templateLabel" ).drop( ); //$NON-NLS-1$
-		
-		
-		
+
+		template.findElement("templateLabel").drop(); //$NON-NLS-1$
+
 		// save the template
-		
-		//cannot create BaseTestCases.makeOutputDir
-		String TempFile=this.genOutputFile(outFileName);
-		//designHandle.saveAs( TempFile );
-		template.saveAs(TempFile); //$NON-NLS-1$
+
+		// cannot create BaseTestCases.makeOutputDir
+		String TempFile = this.genOutputFile(outFileName);
+		// designHandle.saveAs( TempFile );
+		template.saveAs(TempFile); // $NON-NLS-1$
 	}
 }

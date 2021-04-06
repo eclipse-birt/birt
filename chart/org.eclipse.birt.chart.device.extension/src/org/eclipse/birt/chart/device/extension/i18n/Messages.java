@@ -26,42 +26,32 @@ import com.ibm.icu.util.UResourceBundle;
  * Provides useful methods to retrieve localized text for the
  * org.eclipse.birt.chart.device.extension plug-in classes
  */
-public final class Messages
-{
+public final class Messages {
 
 	private static final String DEVICE_EXTENSION = "org.eclipse.birt.chart.device.extension.i18n.nls"; //$NON-NLS-1$
 
-	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance( DEVICE_EXTENSION,
-			ULocale.getDefault( ),
-			SecurityUtil.getClassLoader( Messages.class ) );
+	private static final ResourceBundle RESOURCE_BUNDLE = UResourceBundle.getBundleInstance(DEVICE_EXTENSION,
+			ULocale.getDefault(), SecurityUtil.getClassLoader(Messages.class));
 
-	private static Map<ULocale, ResourceBundle> hmLocalToBundle = new HashMap<ULocale, ResourceBundle>( 2 );
+	private static Map<ULocale, ResourceBundle> hmLocalToBundle = new HashMap<ULocale, ResourceBundle>(2);
 
-	private Messages( )
-	{
+	private Messages() {
 	}
 
-	public static ResourceBundle getResourceBundle( )
-	{
+	public static ResourceBundle getResourceBundle() {
 		return RESOURCE_BUNDLE;
 	}
 
-	public static ResourceBundle getResourceBundle( ULocale locale )
-	{
-		if ( locale == null )
-		{
+	public static ResourceBundle getResourceBundle(ULocale locale) {
+		if (locale == null) {
 			return RESOURCE_BUNDLE;
 		}
-		ResourceBundle bundle = hmLocalToBundle.get( locale );
+		ResourceBundle bundle = hmLocalToBundle.get(locale);
 
-		if ( bundle == null )
-		{
-			bundle = getMatchedResourceBundle( locale,
-					DEVICE_EXTENSION,
-					Messages.class );
-			if ( bundle != null )
-			{
-				hmLocalToBundle.put( locale, bundle );
+		if (bundle == null) {
+			bundle = getMatchedResourceBundle(locale, DEVICE_EXTENSION, Messages.class);
+			if (bundle != null) {
+				hmLocalToBundle.put(locale, bundle);
 			}
 		}
 
@@ -71,85 +61,62 @@ public final class Messages
 	/**
 	 * Returns a resource bundle which is most match to specified locale.
 	 * <p>
-	 * As expected, if specified locale hasn't defined valid resource file, we
-	 * want to load English(default) resource file instead of the resource file
-	 * of default locale.
+	 * As expected, if specified locale hasn't defined valid resource file, we want
+	 * to load English(default) resource file instead of the resource file of
+	 * default locale.
 	 * 
-	 * @param locale
-	 *            specified locale.
-	 * @param baseName
-	 *            the path of resource.
-	 * @param clazz
-	 *            the class whose class loader will be used by loading resource
-	 *            bundle.
+	 * @param locale   specified locale.
+	 * @param baseName the path of resource.
+	 * @param clazz    the class whose class loader will be used by loading resource
+	 *                 bundle.
 	 * @return instance of resource bundle.
 	 */
 	@SuppressWarnings("rawtypes")
-	private static ResourceBundle getMatchedResourceBundle( ULocale locale,
-			String baseName, Class clazz )
-	{
+	private static ResourceBundle getMatchedResourceBundle(ULocale locale, String baseName, Class clazz) {
 		ResourceBundle bundle;
-		bundle = UResourceBundle.getBundleInstance( baseName,
-				locale,
-				SecurityUtil.getClassLoader( clazz ) );
+		bundle = UResourceBundle.getBundleInstance(baseName, locale, SecurityUtil.getClassLoader(clazz));
 
-		if ( bundle != null )
-		{
+		if (bundle != null) {
 			// Bundle could be in default locale instead of English
 			// if resource for the locale cannot be found.
-			String language = locale.getLanguage( );
-			String country = locale.getCountry( );
+			String language = locale.getLanguage();
+			String country = locale.getCountry();
 			boolean useDefaultResource = true;
-			if ( language.length( ) == 0 && country.length( ) == 0 )
-			{
+			if (language.length() == 0 && country.length() == 0) {
 				// it is definitely the match, no need to get the
 				// default resource file again.
 				useDefaultResource = false;
-			}
-			else
-			{
-				Locale bundleLocale = bundle.getLocale( );
-				if ( bundleLocale.getLanguage( ).length( ) == 0
-						&& bundleLocale.getCountry( ).length( ) == 0 )
-				{
+			} else {
+				Locale bundleLocale = bundle.getLocale();
+				if (bundleLocale.getLanguage().length() == 0 && bundleLocale.getCountry().length() == 0) {
 					// it is the match, no need to get the default
 					// resource file again.
 					useDefaultResource = false;
-				}
-				else if ( language.equals( bundleLocale.getLanguage( ) ) )
-				{
+				} else if (language.equals(bundleLocale.getLanguage())) {
 					// Language matched
-					String bundleCountry = bundleLocale.getCountry( );
-					if ( country.equals( bundleCountry )
-							|| bundleCountry.length( ) == 0 )
-					{
+					String bundleCountry = bundleLocale.getCountry();
+					if (country.equals(bundleCountry) || bundleCountry.length() == 0) {
 						// Country matched or Bundle has no Country
 						// specified.
 						useDefaultResource = false;
 					}
 				}
 			}
-			if ( useDefaultResource )
-			{
-				bundle = ResourceBundle.getBundle( baseName,
-						new Locale( "", "" ) ); //$NON-NLS-1$ //$NON-NLS-2$
+			if (useDefaultResource) {
+				bundle = ResourceBundle.getBundle(baseName, new Locale("", "")); //$NON-NLS-1$ //$NON-NLS-2$
 			}
 		}
 		return bundle;
 	}
-	
+
 	/**
 	 * @param key
 	 * @param lcl
 	 */
-	public static String getString( String key, ULocale lcl )
-	{
-		try
-		{
-			return getResourceBundle( lcl ).getString( key );
-		}
-		catch ( MissingResourceException e )
-		{
+	public static String getString(String key, ULocale lcl) {
+		try {
+			return getResourceBundle(lcl).getString(key);
+		} catch (MissingResourceException e) {
 			return '!' + key + '!';
 		}
 	}
@@ -159,16 +126,11 @@ public final class Messages
 	 * @param oa
 	 * @param lcl
 	 */
-	public static String getString( String key, Object[] oa, ULocale lcl )
-	{
-		try
-		{
-			return SecurityUtil.formatMessage( getResourceBundle( lcl ).getString( key ),
-					oa );
-		}
-		catch ( MissingResourceException e )
-		{
-			e.printStackTrace( );
+	public static String getString(String key, Object[] oa, ULocale lcl) {
+		try {
+			return SecurityUtil.formatMessage(getResourceBundle(lcl).getString(key), oa);
+		} catch (MissingResourceException e) {
+			e.printStackTrace();
 			return '!' + key + '!';
 		}
 	}

@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * 
  */
 
-public class TemplateException extends SemanticException
-{
+public class TemplateException extends SemanticException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -44,22 +43,22 @@ public class TemplateException extends SemanticException
 	public static final String DESIGN_EXCEPTION_TEMPLATE_ELEMENT_NOT_SUPPORTED = MessageConstants.TEMPLATE_EXCEPTION_TEMPLATE_ELEMENT_NOT_SUPPORTED;
 
 	/**
-	 * The current element is not a template report item or the template report
-	 * item has no template definition.
+	 * The current element is not a template report item or the template report item
+	 * has no template definition.
 	 */
 
 	public static final String DESIGN_EXCEPTION_TRANSFORM_TO_REPORT_ITEM_FORBIDDEN = MessageConstants.TEMPLATE_EXCEPTION_TRANSFORM_TO_REPORT_ITEM_FORBIDDEN;
 
 	/**
-	 * The current element is not a template data set or the template data set
-	 * has no template definition.
+	 * The current element is not a template data set or the template data set has
+	 * no template definition.
 	 */
 
 	public static final String DESIGN_EXCEPTION_TRANSFORM_TO_DATA_SET_FORBIDDEN = MessageConstants.TEMPLATE_EXCEPTION_TRANSFORM_TO_DATA_SET_FORBIDDEN;
 
 	/**
-	 * The current element is not a template data set or the template data set
-	 * has no template definition.
+	 * The current element is not a template data set or the template data set has
+	 * no template definition.
 	 */
 
 	public static final String DESIGN_EXCEPTION_REVERT_TO_TEMPLATE_FORBIDDEN = MessageConstants.TEMPLATE_EXCEPTION_REVERT_TO_TEMPLATE_FORBIDDEN;
@@ -74,32 +73,24 @@ public class TemplateException extends SemanticException
 	/**
 	 * Constructs the exception with focus elementand error code.
 	 * 
-	 * @param element
-	 *            The design element of this exception focuses.
-	 * @param errCode
-	 *            What went wrong.
+	 * @param element The design element of this exception focuses.
+	 * @param errCode What went wrong.
 	 */
 
-	public TemplateException( DesignElement element, String errCode )
-	{
-		super( element, errCode );
+	public TemplateException(DesignElement element, String errCode) {
+		super(element, errCode);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param element
-	 *            the element which has errors
-	 * @param values
-	 *            value array used for error message
-	 * @param errCode
-	 *            the error code
+	 * @param element the element which has errors
+	 * @param values  value array used for error message
+	 * @param errCode the error code
 	 */
 
-	public TemplateException( DesignElement element, String[] values,
-			String errCode )
-	{
-		super( element, values, errCode );
+	public TemplateException(DesignElement element, String[] values, String errCode) {
+		super(element, values, errCode);
 	}
 
 	/*
@@ -108,18 +99,15 @@ public class TemplateException extends SemanticException
 	 * @see org.eclipse.birt.core.exception.BirtException#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT_TYPE
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_INVALID_TEMPLATE_ELEMENT_TYPE
 				|| sResourceKey == DESIGN_EXCEPTION_TRANSFORM_TO_DATA_SET_FORBIDDEN
 				|| sResourceKey == DESIGN_EXCEPTION_TRANSFORM_TO_REPORT_ITEM_FORBIDDEN
 				|| sResourceKey == DESIGN_EXCEPTION_CREATE_TEMPLATE_ELEMENT_FORBIDDEN
-				|| sResourceKey == DESIGN_EXCEPTION_REVERT_TO_TEMPLATE_FORBIDDEN )
-		{
+				|| sResourceKey == DESIGN_EXCEPTION_REVERT_TO_TEMPLATE_FORBIDDEN) {
 			assert element != null;
-			return ModelMessages.getMessage( sResourceKey, new String[]{element
-					.getIdentifier( )} );
+			return ModelMessages.getMessage(sResourceKey, new String[] { element.getIdentifier() });
 		}
-		return super.getLocalizedMessage( );
+		return super.getLocalizedMessage();
 	}
 }

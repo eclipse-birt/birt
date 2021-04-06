@@ -19,10 +19,9 @@ import org.eclipse.birt.report.model.api.SimpleMasterPageHandle;
 /**
  * Provider for the MasterPage node
  * 
- *  
+ * 
  */
-public class MasterPageNodeProvider extends DefaultNodeProvider
-{
+public class MasterPageNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * the text for new action
@@ -46,19 +45,16 @@ public class MasterPageNodeProvider extends DefaultNodeProvider
 	/**
 	 * Gets the children element of the given model using visitor.
 	 * 
-	 * @param model
-	 *            the model
+	 * @param model the model
 	 */
-	public Object[] getChildren( Object model )
-	{
-		if ( model instanceof SimpleMasterPageHandle )
-		{
+	public Object[] getChildren(Object model) {
+		if (model instanceof SimpleMasterPageHandle) {
 			SimpleMasterPageHandle handle = (SimpleMasterPageHandle) model;
-			ArrayList list = new ArrayList( );
-			list.add(  handle.getPageHeader( )  );
-			list.add( handle.getPageFooter( ) );
-			return list.toArray( );
+			ArrayList list = new ArrayList();
+			list.add(handle.getPageHeader());
+			list.add(handle.getPageFooter());
+			return list.toArray();
 		}
-		return super.getChildren( model );
+		return super.getChildren(model);
 	}
 }

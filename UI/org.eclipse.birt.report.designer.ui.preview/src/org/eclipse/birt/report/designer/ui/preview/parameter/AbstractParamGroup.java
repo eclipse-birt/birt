@@ -16,18 +16,16 @@ import java.util.List;
 
 import org.eclipse.birt.report.model.api.ParameterGroupHandle;
 
-
 /**
  * Abstract parameter group.
  */
 
-public abstract class AbstractParamGroup implements IParamGroup
-{
+public abstract class AbstractParamGroup implements IParamGroup {
 	/**
 	 * Children Parameter list.
 	 */
 
-	protected List childrenList = new ArrayList( );
+	protected List childrenList = new ArrayList();
 
 	/**
 	 * Parameter group handle
@@ -41,21 +39,19 @@ public abstract class AbstractParamGroup implements IParamGroup
 	 * @param engineTask
 	 */
 
-	public AbstractParamGroup( ParameterGroupHandle handle )
-	{
+	public AbstractParamGroup(ParameterGroupHandle handle) {
 		this.handle = handle;
 	}
-	
+
 	/**
 	 * Adds parameter.
 	 * 
 	 * @param parameter
 	 */
 
-	public void addParameter( IParameter parameter )
-	{
-		childrenList.add( parameter );
-		parameter.setParentGroup( this );
+	public void addParameter(IParameter parameter) {
+		childrenList.add(parameter);
+		parameter.setParentGroup(this);
 	}
 
 	/**
@@ -64,21 +60,20 @@ public abstract class AbstractParamGroup implements IParamGroup
 	 * @return parameter group handle.
 	 */
 
-	public ParameterGroupHandle getHandle( )
-	{
+	public ParameterGroupHandle getHandle() {
 		return handle;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.preview.parameter.IParameter#getChildren()
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.preview.parameter.IParameter#getChildren(
+	 * )
 	 */
 
-	public List getChildren( )
-	{
+	public List getChildren() {
 		return childrenList;
 	}
-
 
 }

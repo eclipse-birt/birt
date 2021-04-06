@@ -18,17 +18,16 @@ import org.eclipse.birt.report.model.api.ModuleHandle;
  * 
  */
 //Don't try to implements this interface.
-public interface IRelatedFileChangeResolve
-{
+public interface IRelatedFileChangeResolve {
 	boolean acceptType(int type);
-	
+
 	void notifySaveFile(ModuleHandle owner);
-	
+
 	boolean reload(ModuleHandle owner);
-	
-	boolean reset( );
-		
+
+	boolean reset();
+
 	boolean isReload(IReportResourceChangeEvent event, ModuleHandle owner);
-	
+
 	boolean isReset(IReportResourceChangeEvent event, ModuleHandle owner);
 }

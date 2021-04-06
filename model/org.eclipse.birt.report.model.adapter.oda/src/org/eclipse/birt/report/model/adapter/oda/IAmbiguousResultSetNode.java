@@ -20,16 +20,15 @@ import org.eclipse.birt.report.model.api.OdaResultSetColumnHandle;
  * result set column handle and a list of <code>IAmbiguousAttribute</code>.
  * 
  */
-public interface IAmbiguousResultSetNode
-{
+public interface IAmbiguousResultSetNode {
 
 	/**
-	 * Gets the oda result set column handle that has ambiguous information
-	 * compared with that is in data set design.
+	 * Gets the oda result set column handle that has ambiguous information compared
+	 * with that is in data set design.
 	 * 
 	 * @return
 	 */
-	OdaResultSetColumnHandle getOdaResultSetColumnHandle( );
+	OdaResultSetColumnHandle getOdaResultSetColumnHandle();
 
 	/**
 	 * Gets a list of ambiguous attributes in the given oda result set column
@@ -37,5 +36,5 @@ public interface IAmbiguousResultSetNode
 	 * 
 	 * @return
 	 */
-	List<IAmbiguousAttribute> getAmbiguousAttributes( );
+	List<IAmbiguousAttribute> getAmbiguousAttributes();
 }

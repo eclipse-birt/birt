@@ -23,14 +23,12 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_150777 extends BaseTestCase
-{
+public class Regression_150777 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	public void test_regression_150777( )
-	{
-		assertEquals( "full-out", DesignChoiceConstants.JOIN_TYPE_FULL_OUT ); //$NON-NLS-1$
+	public void test_regression_150777() {
+		assertEquals("full-out", DesignChoiceConstants.JOIN_TYPE_FULL_OUT); //$NON-NLS-1$
 	}
 }

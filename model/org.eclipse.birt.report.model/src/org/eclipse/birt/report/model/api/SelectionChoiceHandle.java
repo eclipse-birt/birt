@@ -31,21 +31,17 @@ import org.eclipse.birt.report.model.api.elements.structures.SelectionChoice;
  * </dl>
  */
 
-public class SelectionChoiceHandle extends StructureHandle
-{
+public class SelectionChoiceHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of selection choice.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for selection choice list of one property
-	 * @param index
-	 *            the position of this selection choice in the list
+	 * @param valueHandle the value handle for selection choice list of one property
+	 * @param index       the position of this selection choice in the list
 	 */
 
-	public SelectionChoiceHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public SelectionChoiceHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -54,21 +50,18 @@ public class SelectionChoiceHandle extends StructureHandle
 	 * @return the label
 	 */
 
-	public String getLabel( )
-	{
-		return getStringProperty( SelectionChoice.LABEL_MEMBER );
+	public String getLabel() {
+		return getStringProperty(SelectionChoice.LABEL_MEMBER);
 	}
 
 	/**
 	 * Sets the label.
 	 * 
-	 * @param label
-	 *            the label to set
+	 * @param label the label to set
 	 */
 
-	public void setLabel( String label )
-	{
-		setPropertySilently( SelectionChoice.LABEL_MEMBER, label );
+	public void setLabel(String label) {
+		setPropertySilently(SelectionChoice.LABEL_MEMBER, label);
 	}
 
 	/**
@@ -77,22 +70,18 @@ public class SelectionChoiceHandle extends StructureHandle
 	 * @return the resource key of label.
 	 */
 
-	public String getLabelKey( )
-	{
-		return getStringProperty( SelectionChoice.LABEL_RESOURCE_KEY_MEMBER );
+	public String getLabelKey() {
+		return getStringProperty(SelectionChoice.LABEL_RESOURCE_KEY_MEMBER);
 	}
 
 	/**
 	 * Sets the resource key if label needs localization.
 	 * 
-	 * @param labelResourceKey
-	 *            the resource key to set
+	 * @param labelResourceKey the resource key to set
 	 */
 
-	public void setLabelKey( String labelResourceKey )
-	{
-		setPropertySilently( SelectionChoice.LABEL_RESOURCE_KEY_MEMBER,
-				labelResourceKey );
+	public void setLabelKey(String labelResourceKey) {
+		setPropertySilently(SelectionChoice.LABEL_RESOURCE_KEY_MEMBER, labelResourceKey);
 	}
 
 	/**
@@ -101,22 +90,18 @@ public class SelectionChoiceHandle extends StructureHandle
 	 * @return the data value for this choice
 	 */
 
-	public String getValue( )
-	{
-		return getStringProperty( SelectionChoice.VALUE_MEMBER );
+	public String getValue() {
+		return getStringProperty(SelectionChoice.VALUE_MEMBER);
 	}
 
 	/**
 	 * Sets the data value for this choice.
 	 * 
-	 * @param value
-	 *            the value to set
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param value the value to set
+	 * @throws SemanticException value required exception
 	 */
 
-	public void setValue( String value ) throws SemanticException
-	{
-		setProperty( SelectionChoice.VALUE_MEMBER, value );
+	public void setValue(String value) throws SemanticException {
+		setProperty(SelectionChoice.VALUE_MEMBER, value);
 	}
 }

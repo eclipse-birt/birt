@@ -30,7 +30,7 @@ import com.ibm.icu.util.ULocale;
  * <b>Steps:</b>
  * <ol>
  * <li>TableHandle table = factory.newTableItem( "table1" );
- * <li> libHandle.getComponents( ).add( table );
+ * <li>libHandle.getComponents( ).add( table );
  * <li>TableItem copiedTable = (TableItem)libHandle.findElement( "table1"
  * ).copy( );
  * </ol>
@@ -40,24 +40,21 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * Follow the steps, ensure no exception throwed.
  */
-public class Regression_152704 extends BaseTestCase
-{
+public class Regression_152704 extends BaseTestCase {
 
 	/**
 	 * @throws NameException
 	 * @throws ContentException
 	 */
-	public void test_regression_112910( ) throws NameException, ContentException
-	{
-		SessionHandle sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		LibraryHandle libHandle = sessionHandle.createLibrary( );
+	public void test_regression_112910() throws NameException, ContentException {
+		SessionHandle sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		LibraryHandle libHandle = sessionHandle.createLibrary();
 
-		ElementFactory factory = libHandle.getElementFactory( );
-		TableHandle table = factory.newTableItem( "table1" ); //$NON-NLS-1$
-		libHandle.getComponents( ).add( table );
-		libHandle.findElement( "table1" ) //$NON-NLS-1$
-				.copy( );
+		ElementFactory factory = libHandle.getElementFactory();
+		TableHandle table = factory.newTableItem("table1"); //$NON-NLS-1$
+		libHandle.getComponents().add(table);
+		libHandle.findElement("table1") //$NON-NLS-1$
+				.copy();
 
 	}
 }

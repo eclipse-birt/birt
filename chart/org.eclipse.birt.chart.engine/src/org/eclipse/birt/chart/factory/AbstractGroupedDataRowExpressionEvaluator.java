@@ -25,41 +25,31 @@ import org.eclipse.birt.chart.internal.datafeed.GroupingLookupHelper;
  * 
  * @since 2.3
  */
-public abstract class AbstractGroupedDataRowExpressionEvaluator implements
-		IGroupedDataRowExpressionEvaluator
-{
+public abstract class AbstractGroupedDataRowExpressionEvaluator implements IGroupedDataRowExpressionEvaluator {
 
 	/**
-	 * Returns appropriate expressions if current has aggregations defined in
-	 * chart.
+	 * Returns appropriate expressions if current has aggregations defined in chart.
 	 * 
 	 * @param helper
 	 * @param isSharingQuery
 	 * @return expressions list
 	 */
-	public List<String> getExpressions( GroupingLookupHelper helper,
-			boolean isSharingQuery )
-	{
-		return helper.getExpressions( );
+	public List<String> getExpressions(GroupingLookupHelper helper, boolean isSharingQuery) {
+		return helper.getExpressions();
 	}
 
-	public boolean needOptionalGrouping( )
-	{
+	public boolean needOptionalGrouping() {
 		return false;
 	}
 
-	public boolean needCategoryGrouping( )
-	{
+	public boolean needCategoryGrouping() {
 		return false;
 	}
 
-	/* 
+	/*
 	 * Returns if group is enabled in each group-level.
 	 */
-	public boolean[] getGroupStatus( )
-	{
-		return new boolean[]{
-			true
-		};
+	public boolean[] getGroupStatus() {
+		return new boolean[] { true };
 	}
 }

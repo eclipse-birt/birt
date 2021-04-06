@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
-
 /**
  * Represents the method information that can provide code template.
  */
 
-public interface ITemplateMethodInfo extends IMethodInfo
-{
+public interface ITemplateMethodInfo extends IMethodInfo {
 
 	/**
 	 * Returns the template code snippet for the method.
@@ -25,5 +23,5 @@ public interface ITemplateMethodInfo extends IMethodInfo
 	 * @return the code template in string
 	 */
 
-	public String getCodeTemplate( );
+	public String getCodeTemplate();
 }

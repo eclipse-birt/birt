@@ -15,18 +15,16 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 
 /**
  */
-public class ExtendedItemHandleAdapter extends ReportItemtHandleAdapter
-{
+public class ExtendedItemHandleAdapter extends ReportItemtHandleAdapter {
 
-    /**
-     * Constructor
-     * 
-     * @param handle The label handle.
-     * @param mark
-     */
-    public ExtendedItemHandleAdapter( ReportItemHandle handle, IModelAdapterHelper mark )
-    {
-        super( handle, mark );
-    }
+	/**
+	 * Constructor
+	 * 
+	 * @param handle The label handle.
+	 * @param mark
+	 */
+	public ExtendedItemHandleAdapter(ReportItemHandle handle, IModelAdapterHelper mark) {
+		super(handle, mark);
+	}
 
 }

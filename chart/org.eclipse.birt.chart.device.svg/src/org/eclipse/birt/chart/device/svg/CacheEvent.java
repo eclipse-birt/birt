@@ -20,45 +20,39 @@ import org.w3c.dom.Element;
  * CacheEvent class, used to cache elements and associated events and triggers.
  */
 
-public class CacheEvent
-{
+public class CacheEvent {
 
 	private Element elm;
 	private StructureSource src;
 	private Trigger[] triggers;
 	private Cursor cursor;
-	
-	public CacheEvent( Element elm, StructureSource src, Trigger[] triggers, Cursor cursor )
-	{
+
+	public CacheEvent(Element elm, StructureSource src, Trigger[] triggers, Cursor cursor) {
 		this.elm = elm;
 		this.src = src;
 		this.triggers = triggers;
 		this.cursor = cursor;
 	}
 
-	public Trigger[] getTriggers( )
-	{
+	public Trigger[] getTriggers() {
 		return triggers;
 	}
 
-	public Element getElement( )
-	{
+	public Element getElement() {
 		return elm;
 	}
 
-	public StructureSource getSource( )
-	{
+	public StructureSource getSource() {
 		// TODO Auto-generated method stub
 		return src;
 	}
-	
+
 	/**
 	 * Returns cursor.
 	 * 
 	 * @return
 	 */
-	public Cursor getCursor( )
-	{
+	public Cursor getCursor() {
 		return cursor;
 	}
 }

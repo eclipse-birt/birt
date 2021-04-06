@@ -11,14 +11,14 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.impl.index;
 
-
 /**
  * 
  */
 
-public interface IOrderedIntSet
-{
+public interface IOrderedIntSet {
 	public IOrderedIntSetIterator iterator();
+
 	public boolean isEmpty();
+
 	public int size();
 }

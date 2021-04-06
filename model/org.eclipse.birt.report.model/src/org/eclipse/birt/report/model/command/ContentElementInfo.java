@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * 
  */
 
-public class ContentElementInfo
-{
+public class ContentElementInfo {
 
 	private DesignElement element;
 
@@ -38,14 +37,11 @@ public class ContentElementInfo
 	/**
 	 * Constructor.
 	 * 
-	 * @param element
-	 *            the element
-	 * @param propDefn
-	 *            the property definition
+	 * @param element  the element
+	 * @param propDefn the property definition
 	 */
 
-	public ContentElementInfo( DesignElement element, PropertyDefn propDefn )
-	{
+	public ContentElementInfo(DesignElement element, PropertyDefn propDefn) {
 		this.element = element;
 		this.propDefn = propDefn;
 	}
@@ -53,14 +49,12 @@ public class ContentElementInfo
 	/**
 	 * Constructor.
 	 * 
-	 * @param enablePath
-	 *            <code>true</code> to enable path trace
+	 * @param enablePath <code>true</code> to enable path trace
 	 */
 
-	public ContentElementInfo( boolean enablePath )
-	{
+	public ContentElementInfo(boolean enablePath) {
 		this.enablePath = enablePath;
-		path = new ArrayList<Step>( );
+		path = new ArrayList<Step>();
 	}
 
 	/**
@@ -69,9 +63,8 @@ public class ContentElementInfo
 	 * @return the element
 	 */
 
-	public DesignElement getElement( )
-	{
-		if ( element != null )
+	public DesignElement getElement() {
+		if (element != null)
 			return element;
 
 		return null;
@@ -83,17 +76,16 @@ public class ContentElementInfo
 	 * @return the property name
 	 */
 
-	public String getPropName( )
-	{
-		if ( propDefn != null )
-			return propDefn.getName( );
+	public String getPropName() {
+		if (propDefn != null)
+			return propDefn.getName();
 
-		if ( path.isEmpty( ) )
+		if (path.isEmpty())
 			return null;
 
-		Step topStep = path.get( path.size( ) - 1 );
+		Step topStep = path.get(path.size() - 1);
 		propDefn = topStep.stepPropDefn;
-		return propDefn.getName( );
+		return propDefn.getName();
 
 	}
 
@@ -104,10 +96,9 @@ public class ContentElementInfo
 	 * @param index
 	 */
 
-	public void pushStep( PropertyDefn stepPropDefn, int index )
-	{
-		if ( enablePath )
-			path.add( new Step( stepPropDefn, index ) );
+	public void pushStep(PropertyDefn stepPropDefn, int index) {
+		if (enablePath)
+			path.add(new Step(stepPropDefn, index));
 	}
 
 	/**
@@ -116,9 +107,8 @@ public class ContentElementInfo
 	 * @param topElement
 	 */
 
-	public void setTopElement( DesignElement topElement )
-	{
-		assert !( topElement instanceof ContentElement );
+	public void setTopElement(DesignElement topElement) {
+		assert !(topElement instanceof ContentElement);
 		element = topElement;
 	}
 
@@ -128,10 +118,9 @@ public class ContentElementInfo
 	 * @return the list of the step
 	 */
 
-	public List<Step> stepIterator( )
-	{
-		if ( path == null )
-			return Collections.emptyList( );
+	public List<Step> stepIterator() {
+		if (path == null)
+			return Collections.emptyList();
 
 		return path;
 	}
@@ -142,9 +131,8 @@ public class ContentElementInfo
 	 * @param target
 	 */
 
-	public void copyPath( ContentElementInfo target )
-	{
-		if ( target == null )
+	public void copyPath(ContentElementInfo target) {
+		if (target == null)
 			return;
 
 		path = target.path;
@@ -155,8 +143,7 @@ public class ContentElementInfo
 	 * 
 	 */
 
-	static class Step
-	{
+	static class Step {
 
 		/**
 		 * The property definition or member definition.
@@ -173,8 +160,7 @@ public class ContentElementInfo
 		 * @param index
 		 */
 
-		Step( PropertyDefn propDefn, int index )
-		{
+		Step(PropertyDefn propDefn, int index) {
 			this.stepPropDefn = propDefn;
 			this.index = index;
 		}

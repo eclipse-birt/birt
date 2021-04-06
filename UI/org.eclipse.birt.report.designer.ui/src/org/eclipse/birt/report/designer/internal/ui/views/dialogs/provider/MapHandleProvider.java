@@ -16,18 +16,15 @@ package org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider;
  * 
  * @deprecated
  */
-public class MapHandleProvider extends
-		org.eclipse.birt.report.designer.ui.views.attributes.providers.MapHandleProvider
-{
+public class MapHandleProvider
+		extends org.eclipse.birt.report.designer.ui.views.attributes.providers.MapHandleProvider {
 
-	public MapHandleProvider( )
-	{
-		super( );
+	public MapHandleProvider() {
+		super();
 	}
 
-	public MapHandleProvider( int expressionType )
-	{
-		super( expressionType );
+	public MapHandleProvider(int expressionType) {
+		super(expressionType);
 	}
 
 }

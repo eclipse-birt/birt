@@ -19,15 +19,14 @@ import org.eclipse.birt.report.engine.content.IContent;
  * reader the content from the content stream.
  *
  */
-public interface IReportContentReader
-{
-	public void open( String name ) throws IOException;
+public interface IReportContentReader {
+	public void open(String name) throws IOException;
 
-	public void close( );
+	public void close();
 
-	public void setOffset( long offset );
+	public void setOffset(long offset);
 
-	public long getOffset( );
+	public long getOffset();
 
-	public IContent readContent( ) throws IOException;
+	public IContent readContent() throws IOException;
 }

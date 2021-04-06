@@ -12,11 +12,9 @@ package org.eclipse.birt.report.engine.layout.area.impl;
 
 import org.eclipse.birt.report.engine.content.IContent;
 
-public class BlockContainerArea extends ContainerArea
-{
+public class BlockContainerArea extends ContainerArea {
 
-	BlockContainerArea(IContent content)
-	{
+	BlockContainerArea(IContent content) {
 		super(content);
 	}
 }

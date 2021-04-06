@@ -14,8 +14,7 @@ package org.eclipse.birt.chart.computation.withoutaxes;
 /**
  * Coordinates
  */
-public final class Coordinates
-{
+public final class Coordinates {
 
 	private final int iRow;
 
@@ -27,8 +26,7 @@ public final class Coordinates
 	 * @param iColumn
 	 * @param iRow
 	 */
-	Coordinates( int iColumn, int iRow )
-	{
+	Coordinates(int iColumn, int iRow) {
 		this.iColumn = iColumn;
 		this.iRow = iRow;
 	}
@@ -36,16 +34,14 @@ public final class Coordinates
 	/**
 	 * @return Returns the column.
 	 */
-	public final int getColumn( )
-	{
+	public final int getColumn() {
 		return iColumn;
 	}
 
 	/**
 	 * @return Returns the row.
 	 */
-	public final int getRow( )
-	{
+	public final int getRow() {
 		return iRow;
 	}
 }

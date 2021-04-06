@@ -20,26 +20,25 @@ import org.eclipse.birt.report.model.metadata.PropertyDefn;
  * or equal than zero ).
  */
 
-public class PositiveFloatValidator extends SimpleValueValidator
-{
+public class PositiveFloatValidator extends SimpleValueValidator {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.metadata.IMetaValidator#validate(org.eclipse.birt.report.model.elements.ReportDesign,
-	 *      org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.metadata.IMetaValidator#validate(org.eclipse.
+	 * birt.report.model.elements.ReportDesign,
+	 * org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
-	public void validate( Module module, PropertyDefn defn, Object value )
-			throws PropertyValueException
-	{
-		if ( value == null )
+	public void validate(Module module, PropertyDefn defn, Object value) throws PropertyValueException {
+		if (value == null)
 			return;
 
 		assert value instanceof Double;
 
-		if ( ( (Double) value ).doubleValue( ) <= 0.0d )
-			throw new PropertyValueException( null, defn, value,
-					PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE );
+		if (((Double) value).doubleValue() <= 0.0d)
+			throw new PropertyValueException(null, defn, value,
+					PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE);
 
 	}
 

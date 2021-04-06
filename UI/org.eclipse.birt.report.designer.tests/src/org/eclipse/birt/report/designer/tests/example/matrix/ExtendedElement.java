@@ -30,8 +30,7 @@ import org.eclipse.birt.report.model.metadata.PropertyType;
  * Implements the peer extension element.
  */
 
-public class ExtendedElement extends ReportItem
-{
+public class ExtendedElement extends ReportItem {
 
 	public static final String TEST1_PROP = "test1"; //$NON-NLS-1$
 	public static final String TEST2_PROP = "test2"; //$NON-NLS-1$
@@ -56,7 +55,7 @@ public class ExtendedElement extends ReportItem
 	private static final String CHOICE_LINE_STYLE_NORMAL = "normal"; //$NON-NLS-1$
 	private static final String CHOICE_LINE_STYLE_THICK = "thick"; //$NON-NLS-1$
 
-	//	protected HashMap values = new HashMap( );
+	// protected HashMap values = new HashMap( );
 	protected IReportItemFactory cachedDefn = null;
 	protected DesignElementHandle designHandle = null;
 	public static String CHECK_PROPERTY_TAG = null;
@@ -98,127 +97,118 @@ public class ExtendedElement extends ReportItem
 	 * @param designHandle
 	 */
 
-	public ExtendedElement( IReportItemFactory extDefn, DesignElementHandle designHandle )
-	{
+	public ExtendedElement(IReportItemFactory extDefn, DesignElementHandle designHandle) {
 		this.cachedDefn = extDefn;
 		assert designHandle != null;
 		this.designHandle = designHandle;
 
 		piePropertyList = new ExtensionPropertyDefn[4];
 
-		piePropertyList[0] = new ExtensionPropertyDefn( );
-		piePropertyList[0].setName( RADIUS_RPOP ); //$NON-NLS-1$
-		piePropertyList[0].setType( PropertyType.INTEGER_TYPE );
-		piePropertyList[0].setDisplayNameID( "TestingBall.test3.radius" ); //$NON-NLS-1$
+		piePropertyList[0] = new ExtensionPropertyDefn();
+		piePropertyList[0].setName(RADIUS_RPOP); // $NON-NLS-1$
+		piePropertyList[0].setType(PropertyType.INTEGER_TYPE);
+		piePropertyList[0].setDisplayNameID("TestingBall.test3.radius"); //$NON-NLS-1$
 
-		piePropertyList[1] = new ExtensionPropertyDefn( );
-		piePropertyList[1].setName( WIDTH_RPOP ); //$NON-NLS-1$
-		piePropertyList[1].setType( PropertyType.INTEGER_TYPE );
-		piePropertyList[1].setDisplayNameID( "TestingBall.test3.width" ); //$NON-NLS-1$
+		piePropertyList[1] = new ExtensionPropertyDefn();
+		piePropertyList[1].setName(WIDTH_RPOP); // $NON-NLS-1$
+		piePropertyList[1].setType(PropertyType.INTEGER_TYPE);
+		piePropertyList[1].setDisplayNameID("TestingBall.test3.width"); //$NON-NLS-1$
 
-		piePropertyList[2] = new ExtensionPropertyDefn( );
-		piePropertyList[2].setName( HEIGHT_RPOP );
-		piePropertyList[2].setType( PropertyType.INTEGER_TYPE );
-		piePropertyList[2].setDisplayNameID( "TestingBall.test3.height" ); //$NON-NLS-1$
+		piePropertyList[2] = new ExtensionPropertyDefn();
+		piePropertyList[2].setName(HEIGHT_RPOP);
+		piePropertyList[2].setType(PropertyType.INTEGER_TYPE);
+		piePropertyList[2].setDisplayNameID("TestingBall.test3.height"); //$NON-NLS-1$
 
-		piePropertyList[3] = new ExtensionPropertyDefn( );
-		piePropertyList[3].setName( TYPE_RPOP ); //$NON-NLS-1$
-		piePropertyList[3].setType( PropertyType.STRING_TYPE );
-		piePropertyList[3].setDisplayNameID( "TestingBall.test3.type" ); //$NON-NLS-1$
+		piePropertyList[3] = new ExtensionPropertyDefn();
+		piePropertyList[3].setName(TYPE_RPOP); // $NON-NLS-1$
+		piePropertyList[3].setType(PropertyType.STRING_TYPE);
+		piePropertyList[3].setDisplayNameID("TestingBall.test3.type"); //$NON-NLS-1$
 
 		barPropertyList = new ExtensionPropertyDefn[5];
 
-		barPropertyList[0] = new ExtensionPropertyDefn( );
-		barPropertyList[0].setName( X_SCALE_RPOP ); //$NON-NLS-1$
-		barPropertyList[0].setType( PropertyType.INTEGER_TYPE );
-		barPropertyList[0].setDisplayNameID( "TestingBall.test3.xScale" ); //$NON-NLS-1$
+		barPropertyList[0] = new ExtensionPropertyDefn();
+		barPropertyList[0].setName(X_SCALE_RPOP); // $NON-NLS-1$
+		barPropertyList[0].setType(PropertyType.INTEGER_TYPE);
+		barPropertyList[0].setDisplayNameID("TestingBall.test3.xScale"); //$NON-NLS-1$
 
-		barPropertyList[1] = new ExtensionPropertyDefn( );
-		barPropertyList[1].setName( Y_SCALE_RPOP ); //$NON-NLS-1$
-		barPropertyList[1].setType( PropertyType.INTEGER_TYPE );
-		barPropertyList[1].setDisplayNameID( "TestingBall.test3.yScale" ); //$NON-NLS-1$
+		barPropertyList[1] = new ExtensionPropertyDefn();
+		barPropertyList[1].setName(Y_SCALE_RPOP); // $NON-NLS-1$
+		barPropertyList[1].setType(PropertyType.INTEGER_TYPE);
+		barPropertyList[1].setDisplayNameID("TestingBall.test3.yScale"); //$NON-NLS-1$
 
-		barPropertyList[2] = new ExtensionPropertyDefn( );
-		barPropertyList[2].setName( TYPE_RPOP ); //$NON-NLS-1$
-		barPropertyList[2].setType( PropertyType.STRING_TYPE );
-		barPropertyList[2].setDisplayNameID( "TestingBall.test3.type" ); //$NON-NLS-1$
+		barPropertyList[2] = new ExtensionPropertyDefn();
+		barPropertyList[2].setName(TYPE_RPOP); // $NON-NLS-1$
+		barPropertyList[2].setType(PropertyType.STRING_TYPE);
+		barPropertyList[2].setDisplayNameID("TestingBall.test3.type"); //$NON-NLS-1$
 
-		barPropertyList[3] = new ExtensionPropertyDefn( );
-		barPropertyList[3].setName( COMPANY_RPOP ); //$NON-NLS-1$
-		barPropertyList[3].setType( PropertyType.STRING_TYPE );
-		barPropertyList[3].setDisplayNameID( "TestingBall.test3.company" ); //$NON-NLS-1$
+		barPropertyList[3] = new ExtensionPropertyDefn();
+		barPropertyList[3].setName(COMPANY_RPOP); // $NON-NLS-1$
+		barPropertyList[3].setType(PropertyType.STRING_TYPE);
+		barPropertyList[3].setDisplayNameID("TestingBall.test3.company"); //$NON-NLS-1$
 
-		barPropertyList[4] = new ExtensionPropertyDefn( );
-		barPropertyList[4].setName( LINE_STYLE_PROP ); //$NON-NLS-1$
-		barPropertyList[4].setType( PropertyType.CHOICE_TYPE );
-		barPropertyList[4].setDisplayNameID( "TestingBall.test3.lineStyle" ); //$NON-NLS-1$
+		barPropertyList[4] = new ExtensionPropertyDefn();
+		barPropertyList[4].setName(LINE_STYLE_PROP); // $NON-NLS-1$
+		barPropertyList[4].setType(PropertyType.CHOICE_TYPE);
+		barPropertyList[4].setDisplayNameID("TestingBall.test3.lineStyle"); //$NON-NLS-1$
 
-		List choices = new ArrayList( );
-		ChoiceDefn choice = new ChoiceDefn( );
-		choice.setName( CHOICE_LINE_STYLE_THIN );
-		choice.setValue( Integer.valueOf( "1" ) ); //$NON-NLS-1$
-		choice.setDisplayNameID( "Choice.lineStyle.thin" ); //$NON-NLS-1$
-		choices.add( choice );
+		List choices = new ArrayList();
+		ChoiceDefn choice = new ChoiceDefn();
+		choice.setName(CHOICE_LINE_STYLE_THIN);
+		choice.setValue(Integer.valueOf("1")); //$NON-NLS-1$
+		choice.setDisplayNameID("Choice.lineStyle.thin"); //$NON-NLS-1$
+		choices.add(choice);
 
-		choice = new ChoiceDefn( );
-		choice.setName( CHOICE_LINE_STYLE_NORMAL );
-		choice.setValue( Integer.valueOf( "2" ) ); //$NON-NLS-1$
-		choice.setDisplayNameID( "Choice.lineStyle.normal" ); //$NON-NLS-1$
-		choices.add( choice );
+		choice = new ChoiceDefn();
+		choice.setName(CHOICE_LINE_STYLE_NORMAL);
+		choice.setValue(Integer.valueOf("2")); //$NON-NLS-1$
+		choice.setDisplayNameID("Choice.lineStyle.normal"); //$NON-NLS-1$
+		choices.add(choice);
 
-		choice = new ChoiceDefn( );
-		choice.setName( CHOICE_LINE_STYLE_THICK );
-		choice.setValue( Integer.valueOf( "3" ) ); //$NON-NLS-1$
-		choice.setDisplayNameID( "Choice.lineStyle.thick" ); //$NON-NLS-1$
-		choices.add( choice );
+		choice = new ChoiceDefn();
+		choice.setName(CHOICE_LINE_STYLE_THICK);
+		choice.setValue(Integer.valueOf("3")); //$NON-NLS-1$
+		choice.setDisplayNameID("Choice.lineStyle.thick"); //$NON-NLS-1$
+		choices.add(choice);
 
-		barPropertyList[4].setChoices( choices );
+		barPropertyList[4].setChoices(choices);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.extension.IExtendedElement#serialize(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.model.extension.IExtendedElement#serialize(java.lang.String)
 	 */
-	public ByteArrayOutputStream serialize( String propName )
-	{
-		if ( TEST3_PROP.equalsIgnoreCase( propName ) )
-		{
-			ByteArrayOutputStream stream = new ByteArrayOutputStream( );
-			StringBuffer sb = new StringBuffer( );
+	public ByteArrayOutputStream serialize(String propName) {
+		if (TEST3_PROP.equalsIgnoreCase(propName)) {
+			ByteArrayOutputStream stream = new ByteArrayOutputStream();
+			StringBuffer sb = new StringBuffer();
 
-			if ( TYPE_PIE.equalsIgnoreCase( type ) )
-			{
-				sb.append( TYPE_RPOP + "=" + TYPE_PIE ); //$NON-NLS-1$
-				sb.append( "," ); //$NON-NLS-1$
-				sb.append( RADIUS_RPOP + "=" + radius ); //$NON-NLS-1$
-				sb.append( "," ); //$NON-NLS-1$
-				sb.append( WIDTH_RPOP + "=" + width ); //$NON-NLS-1$
-				sb.append( "," ); //$NON-NLS-1$
-				sb.append( HEIGHT_RPOP + "=" + height ); //$NON-NLS-1$
-			}
-			else
-			{
-				sb.append( TYPE_RPOP + "=" + TYPE_BAR ); //$NON-NLS-1$
-				sb.append( "," ); //$NON-NLS-1$
-				sb.append( X_SCALE_RPOP + "=" + xScale ); //$NON-NLS-1$
-				sb.append( "," ); //$NON-NLS-1$
-				sb.append( Y_SCALE_RPOP + "=" + yScale ); //$NON-NLS-1$
-				sb.append( "," ); //$NON-NLS-1$
-				if ( company != null )
-				{
-					sb.append( COMPANY_RPOP + "=" + company ); //$NON-NLS-1$
-					sb.append( "," ); //$NON-NLS-1$
+			if (TYPE_PIE.equalsIgnoreCase(type)) {
+				sb.append(TYPE_RPOP + "=" + TYPE_PIE); //$NON-NLS-1$
+				sb.append(","); //$NON-NLS-1$
+				sb.append(RADIUS_RPOP + "=" + radius); //$NON-NLS-1$
+				sb.append(","); //$NON-NLS-1$
+				sb.append(WIDTH_RPOP + "=" + width); //$NON-NLS-1$
+				sb.append(","); //$NON-NLS-1$
+				sb.append(HEIGHT_RPOP + "=" + height); //$NON-NLS-1$
+			} else {
+				sb.append(TYPE_RPOP + "=" + TYPE_BAR); //$NON-NLS-1$
+				sb.append(","); //$NON-NLS-1$
+				sb.append(X_SCALE_RPOP + "=" + xScale); //$NON-NLS-1$
+				sb.append(","); //$NON-NLS-1$
+				sb.append(Y_SCALE_RPOP + "=" + yScale); //$NON-NLS-1$
+				sb.append(","); //$NON-NLS-1$
+				if (company != null) {
+					sb.append(COMPANY_RPOP + "=" + company); //$NON-NLS-1$
+					sb.append(","); //$NON-NLS-1$
 				}
-				sb.append( LINE_STYLE_PROP + "=" + lineStyle ); //$NON-NLS-1$
+				sb.append(LINE_STYLE_PROP + "=" + lineStyle); //$NON-NLS-1$
 			}
 
-			try
-			{
-				stream.write( sb.toString( ).getBytes( ) );
-			}
-			catch ( IOException e1 )
-			{
+			try {
+				stream.write(sb.toString().getBytes());
+			} catch (IOException e1) {
 				assert false;
 			}
 
@@ -231,51 +221,46 @@ public class ExtendedElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IElement#deserialize(java.lang.String,
-	 *      java.io.ByteArrayInputStream)
+	 * @see org.eclipse.birt.report.model.extension.IElement#deserialize(java.lang.
+	 * String, java.io.ByteArrayInputStream)
 	 */
-	public void deserialize( String propName, ByteArrayInputStream data )
-			throws ExtendedElementException
-	{
-		if ( TEST3_PROP.equalsIgnoreCase( propName ) )
-		{
+	public void deserialize(String propName, ByteArrayInputStream data) throws ExtendedElementException {
+		if (TEST3_PROP.equalsIgnoreCase(propName)) {
 			assert data != null;
 
-			ByteArrayOutputStream out = new ByteArrayOutputStream( );
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
 			int b;
-			while ( ( b = data.read( ) ) > -1 )
-				out.write( b );
+			while ((b = data.read()) > -1)
+				out.write(b);
 
-			String allValue = out.toString( );
-			if ( allValue == null || allValue.length( ) == 0 )
-			{
+			String allValue = out.toString();
+			if (allValue == null || allValue.length() == 0) {
 				// clear all values
 				refreshNeeded = true;
 				return;
 			}
-			String[] values = allValue.split( "," ); //$NON-NLS-1$
-			for ( int i = 0; i < values.length; i++ )
-			{
+			String[] values = allValue.split(","); //$NON-NLS-1$
+			for (int i = 0; i < values.length; i++) {
 				String string = values[i];
 
-				String name = string.substring( 0, string.indexOf( '=' ) ); //$NON-NLS-1$
-				String value = string.substring( string.indexOf( '=' ) + 1 ); //$NON-NLS-1$
+				String name = string.substring(0, string.indexOf('=')); // $NON-NLS-1$
+				String value = string.substring(string.indexOf('=') + 1); // $NON-NLS-1$
 
-				if ( TYPE_RPOP.equalsIgnoreCase( name ) )
+				if (TYPE_RPOP.equalsIgnoreCase(name))
 					type = value;
-				else if ( RADIUS_RPOP.equalsIgnoreCase( name ) )
-					radius = Integer.parseInt( value );
-				else if ( WIDTH_RPOP.equalsIgnoreCase( name ) )
-					width = Integer.parseInt( value );
-				else if ( HEIGHT_RPOP.equalsIgnoreCase( name ) )
-					height = Integer.parseInt( value );
-				else if ( X_SCALE_RPOP.equalsIgnoreCase( name ) )
-					xScale = Integer.parseInt( value );
-				else if ( Y_SCALE_RPOP.equalsIgnoreCase( name ) )
-					yScale = Integer.parseInt( value );
-				else if ( COMPANY_RPOP.equalsIgnoreCase( name ) )
+				else if (RADIUS_RPOP.equalsIgnoreCase(name))
+					radius = Integer.parseInt(value);
+				else if (WIDTH_RPOP.equalsIgnoreCase(name))
+					width = Integer.parseInt(value);
+				else if (HEIGHT_RPOP.equalsIgnoreCase(name))
+					height = Integer.parseInt(value);
+				else if (X_SCALE_RPOP.equalsIgnoreCase(name))
+					xScale = Integer.parseInt(value);
+				else if (Y_SCALE_RPOP.equalsIgnoreCase(name))
+					yScale = Integer.parseInt(value);
+				else if (COMPANY_RPOP.equalsIgnoreCase(name))
 					company = value;
-				else if ( LINE_STYLE_PROP.equalsIgnoreCase( name ) )
+				else if (LINE_STYLE_PROP.equalsIgnoreCase(name))
 					lineStyle = value;
 			}
 			refreshNeeded = true;
@@ -286,65 +271,39 @@ public class ExtendedElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang.String)
+	 * @see org.eclipse.birt.model.extension.IExtendedElement#getProperty(java.lang.
+	 * String)
 	 */
-	public Object getProperty( String propName )
-	{
-		if ( TEST1_PROP.equalsIgnoreCase( propName ) )
-		{
+	public Object getProperty(String propName) {
+		if (TEST1_PROP.equalsIgnoreCase(propName)) {
 			return test1;
 		}
-		if ( TEST2_PROP.equalsIgnoreCase( propName ) )
-		{
-			return new Integer( test2 );
-		}
-		else if ( TEST3_PROP.equalsIgnoreCase( propName ) )
-		{
-			ByteArrayOutputStream stream = serialize( propName );
-			return stream.toString( );
-		}
-		else if ( TEST5_PROP.equalsIgnoreCase( propName ) )
-		{
+		if (TEST2_PROP.equalsIgnoreCase(propName)) {
+			return new Integer(test2);
+		} else if (TEST3_PROP.equalsIgnoreCase(propName)) {
+			ByteArrayOutputStream stream = serialize(propName);
+			return stream.toString();
+		} else if (TEST5_PROP.equalsIgnoreCase(propName)) {
 			return test5;
-		}
-		else if ( TEST6_PROP.equalsIgnoreCase( propName ) )
-		{
+		} else if (TEST6_PROP.equalsIgnoreCase(propName)) {
 			return test6;
-		}
-		else if ( TEST7_PROP.equalsIgnoreCase( propName ) )
-		{
+		} else if (TEST7_PROP.equalsIgnoreCase(propName)) {
 			return test7;
-		}
-		else if ( TYPE_RPOP.equalsIgnoreCase( propName ) )
-		{
+		} else if (TYPE_RPOP.equalsIgnoreCase(propName)) {
 			return type;
-		}
-		else if ( RADIUS_RPOP.equalsIgnoreCase( propName ) )
-		{
-			return new Integer( radius );
-		}
-		else if ( WIDTH_RPOP.equalsIgnoreCase( propName ) )
-		{
-			return new Integer( width );
-		}
-		else if ( HEIGHT_RPOP.equalsIgnoreCase( propName ) )
-		{
-			return new Integer( height );
-		}
-		else if ( X_SCALE_RPOP.equalsIgnoreCase( propName ) )
-		{
-			return new Integer( xScale );
-		}
-		else if ( Y_SCALE_RPOP.equalsIgnoreCase( propName ) )
-		{
-			return new Integer( yScale );
-		}
-		else if ( COMPANY_RPOP.equalsIgnoreCase( propName ) )
-		{
+		} else if (RADIUS_RPOP.equalsIgnoreCase(propName)) {
+			return new Integer(radius);
+		} else if (WIDTH_RPOP.equalsIgnoreCase(propName)) {
+			return new Integer(width);
+		} else if (HEIGHT_RPOP.equalsIgnoreCase(propName)) {
+			return new Integer(height);
+		} else if (X_SCALE_RPOP.equalsIgnoreCase(propName)) {
+			return new Integer(xScale);
+		} else if (Y_SCALE_RPOP.equalsIgnoreCase(propName)) {
+			return new Integer(yScale);
+		} else if (COMPANY_RPOP.equalsIgnoreCase(propName)) {
 			return company;
-		}
-		else if ( LINE_STYLE_PROP.equalsIgnoreCase( propName ) )
-		{
+		} else if (LINE_STYLE_PROP.equalsIgnoreCase(propName)) {
 			return lineStyle;
 		}
 
@@ -354,16 +313,14 @@ public class ExtendedElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.extension.IExtendedElement#checkProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.model.extension.IExtendedElement#checkProperty(java.lang.
+	 * String, java.lang.Object)
 	 */
-	public void checkProperty( String propName, Object value )
-			throws ExtendedElementException
-	{
+	public void checkProperty(String propName, Object value) throws ExtendedElementException {
 		CHECK_PROPERTY_TAG = propName;
 
-		if ( LINE_STYLE_PROP.equalsIgnoreCase( propName ) )
-		{
+		if (LINE_STYLE_PROP.equalsIgnoreCase(propName)) {
 
 		}
 	}
@@ -371,86 +328,54 @@ public class ExtendedElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.extension.IExtendedElement#setProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see org.eclipse.birt.model.extension.IExtendedElement#setProperty(java.lang.
+	 * String, java.lang.Object)
 	 */
-	public void setProperty( String propName, Object value )
-	{
-		execute( this.getElementCommand( propName, value ) );
+	public void setProperty(String propName, Object value) {
+		execute(this.getElementCommand(propName, value));
 	}
 
-	public void doSetProperty( String propName, Object value )
-	{
-		if ( value == null )
+	public void doSetProperty(String propName, Object value) {
+		if (value == null)
 			return;
 
-		if ( TEST1_PROP.equalsIgnoreCase( propName ) )
-		{
-			test1 = value.toString( );
-		}
-		else if ( TEST2_PROP.equalsIgnoreCase( propName ) )
-		{
-			test2 = ( (Integer) value ).intValue( );
-		}
-		else if ( TEST3_PROP.equalsIgnoreCase( propName ) )
-		{
-			try
-			{
-				ByteArrayInputStream stream = new ByteArrayInputStream( value
-						.toString( ).getBytes( ) );
-				deserialize( propName, stream );
+		if (TEST1_PROP.equalsIgnoreCase(propName)) {
+			test1 = value.toString();
+		} else if (TEST2_PROP.equalsIgnoreCase(propName)) {
+			test2 = ((Integer) value).intValue();
+		} else if (TEST3_PROP.equalsIgnoreCase(propName)) {
+			try {
+				ByteArrayInputStream stream = new ByteArrayInputStream(value.toString().getBytes());
+				deserialize(propName, stream);
 				refreshNeeded = true;
-			}
-			catch ( ExtendedElementException e )
-			{
-				e.printStackTrace( );
+			} catch (ExtendedElementException e) {
+				e.printStackTrace();
 				assert false;
 			}
-		}
-		else if ( TEST5_PROP.equalsIgnoreCase( propName ) )
-		{
-			test5 = value.toString( );
-		}
-		else if ( TEST6_PROP.equalsIgnoreCase( propName ) )
-		{
-			test6 = value.toString( );
-		}
-		else if ( TEST7_PROP.equalsIgnoreCase( propName ) )
-		{
-			test7 = value.toString( );
-		}
-		else if ( TYPE_RPOP.equalsIgnoreCase( propName ) )
-		{
-			type = value.toString( );
+		} else if (TEST5_PROP.equalsIgnoreCase(propName)) {
+			test5 = value.toString();
+		} else if (TEST6_PROP.equalsIgnoreCase(propName)) {
+			test6 = value.toString();
+		} else if (TEST7_PROP.equalsIgnoreCase(propName)) {
+			test7 = value.toString();
+		} else if (TYPE_RPOP.equalsIgnoreCase(propName)) {
+			type = value.toString();
 			refreshNeeded = true;
-		}
-		else if ( RADIUS_RPOP.equalsIgnoreCase( propName ) )
+		} else if (RADIUS_RPOP.equalsIgnoreCase(propName)) {
+			radius = ((Integer) value).intValue();
+		} else if (WIDTH_RPOP.equalsIgnoreCase(propName)) {
+			width = ((Integer) value).intValue();
+		} else if (HEIGHT_RPOP.equalsIgnoreCase(propName)) {
+			height = ((Integer) value).intValue();
+		} else if (X_SCALE_RPOP.equalsIgnoreCase(propName)) {
+			xScale = ((Integer) value).intValue();
+		} else if (Y_SCALE_RPOP.equalsIgnoreCase(propName)) {
+			yScale = ((Integer) value).intValue();
+		} else if (COMPANY_RPOP.equalsIgnoreCase(propName)) // $NON-NLS-1$
 		{
-			radius = ( (Integer) value ).intValue( );
-		}
-		else if ( WIDTH_RPOP.equalsIgnoreCase( propName ) )
-		{
-			width = ( (Integer) value ).intValue( );
-		}
-		else if ( HEIGHT_RPOP.equalsIgnoreCase( propName ) )
-		{
-			height = ( (Integer) value ).intValue( );
-		}
-		else if ( X_SCALE_RPOP.equalsIgnoreCase( propName ) )
-		{
-			xScale = ( (Integer) value ).intValue( );
-		}
-		else if ( Y_SCALE_RPOP.equalsIgnoreCase( propName ) )
-		{
-			yScale = ( (Integer) value ).intValue( );
-		}
-		else if ( COMPANY_RPOP.equalsIgnoreCase( propName ) ) //$NON-NLS-1$
-		{
-			company = value.toString( );
-		}
-		else if ( LINE_STYLE_PROP.equalsIgnoreCase( propName ) )
-		{
-			lineStyle = value.toString( );
+			company = value.toString();
+		} else if (LINE_STYLE_PROP.equalsIgnoreCase(propName)) {
+			lineStyle = value.toString();
 		}
 	}
 
@@ -459,35 +384,33 @@ public class ExtendedElement extends ReportItem
 	 * 
 	 * @see org.eclipse.birt.model.extension.IExtendedElement#copy()
 	 */
-	public IReportItem copy( )
-	{
+	public IReportItem copy() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.extension.IExtendedElement#getElementCommand(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.model.extension.IExtendedElement#getElementCommand(java.lang
+	 * .String, java.lang.Object)
 	 */
-	public IElementCommand getElementCommand( String propName, Object value )
-	{
-		return new ExtendedElementCommand( designHandle, this, propName, value );
+	public IElementCommand getElementCommand(String propName, Object value) {
+		return new ExtendedElementCommand(designHandle, this, propName, value);
 	}
 
-	private void execute( IElementCommand command )
-	{
-		//		designHandle.getDesign( ).getActivityStack( ).execute( command );
+	private void execute(IElementCommand command) {
+		// designHandle.getDesign( ).getActivityStack( ).execute( command );
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IElement#getPropertyDefinitions()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IElement#getPropertyDefinitions()
 	 */
-	public IPropertyDefinition[] getPropertyDefinitions( )
-	{
-		if ( TYPE_PIE.equalsIgnoreCase( type ) )
+	public IPropertyDefinition[] getPropertyDefinitions() {
+		if (TYPE_PIE.equalsIgnoreCase(type))
 			return piePropertyList;
 
 		return barPropertyList;
@@ -496,12 +419,11 @@ public class ExtendedElement extends ReportItem
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IElement#refreshPropertyDefinition()
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IElement#refreshPropertyDefinition()
 	 */
-	public boolean refreshPropertyDefinition( )
-	{
-		if ( refreshNeeded )
-		{
+	public boolean refreshPropertyDefinition() {
+		if (refreshNeeded) {
 			refreshNeeded = false;
 			return true;
 		}
@@ -509,14 +431,12 @@ public class ExtendedElement extends ReportItem
 		return false;
 	}
 
-	public IPropertyDefinition[] getMethods( )
-	{
+	public IPropertyDefinition[] getMethods() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public IPropertyDefinition getScriptPropertyDefinition( )
-	{
+	public IPropertyDefinition getScriptPropertyDefinition() {
 		// TODO Auto-generated method stub
 		return null;
 	}

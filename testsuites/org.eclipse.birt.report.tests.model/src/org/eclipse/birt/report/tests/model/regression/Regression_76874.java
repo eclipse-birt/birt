@@ -26,39 +26,34 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_76874 extends BaseTestCase
-{
+public class Regression_76874 extends BaseTestCase {
 
 	private String filename = "Regression_76874.xml"; //$NON-NLS-1$
 
-	
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( filename, filename );
-		//copyResource_INPUT( INPUT2, INPUT2 );
+		copyResource_INPUT(filename, filename);
+		// copyResource_INPUT( INPUT2, INPUT2 );
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_76874( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
 
-		LabelHandle label = (LabelHandle) designHandle.findElement( "label" ); //$NON-NLS-1$
-		label.setProperty( Style.FONT_SIZE_PROP, "" ); //$NON-NLS-1$
-		
+	public void test_regression_76874() throws DesignFileException, SemanticException {
+		openDesign(filename);
+
+		LabelHandle label = (LabelHandle) designHandle.findElement("label"); //$NON-NLS-1$
+		label.setProperty(Style.FONT_SIZE_PROP, ""); //$NON-NLS-1$
+
 		// default value is returned.
-		
-		assertEquals( "10pt", label.getProperty( Style.FONT_SIZE_PROP ).toString() ); //$NON-NLS-1$
+
+		assertEquals("10pt", label.getProperty(Style.FONT_SIZE_PROP).toString()); //$NON-NLS-1$
 	}
 }

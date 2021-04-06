@@ -10,7 +10,5 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.area;
 
-
-public interface IImageArea extends IArea
-{
+public interface IImageArea extends IArea {
 }

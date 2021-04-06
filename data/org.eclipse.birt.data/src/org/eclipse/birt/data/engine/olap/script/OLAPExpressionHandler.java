@@ -25,47 +25,38 @@ import org.mozilla.javascript.ScriptableObject;
  * 
  */
 
-public class OLAPExpressionHandler extends CompiledExpression
-{
+public class OLAPExpressionHandler extends CompiledExpression {
 	private ICompiledScript script;
-	
-	OLAPExpressionHandler( ICompiledScript script )
-	{
-		assert script!= null;
+
+	OLAPExpressionHandler(ICompiledScript script) {
+		assert script != null;
 		this.script = script;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.expression.CompiledExpression#evaluate(org.mozilla.javascript.Context, org.mozilla.javascript.Scriptable)
+	 * 
+	 * @see org.eclipse.birt.data.engine.expression.CompiledExpression#evaluate(org.
+	 * mozilla.javascript.Context, org.mozilla.javascript.Scriptable)
 	 */
-	public Object evaluate( ScriptContext context, Scriptable scope )
-			throws DataException
-	{
+	public Object evaluate(ScriptContext context, Scriptable scope) throws DataException {
 		Object temp = null;
-		try
-		{
-			temp = context.evaluate( script );
-			temp = JavascriptEvalUtil.convertJavascriptValue( temp );
-			if ( temp instanceof ScriptableObject )
-			{
-				return ( (ScriptableObject) temp ).getDefaultValue( null );
+		try {
+			temp = context.evaluate(script);
+			temp = JavascriptEvalUtil.convertJavascriptValue(temp);
+			if (temp instanceof ScriptableObject) {
+				return ((ScriptableObject) temp).getDefaultValue(null);
 			}
-		}
-		catch( EvaluatorException e )
-		{
-			throw new DataException ( e.details( ), e );
-		}
-		catch( BirtException e )
-		{
-			throw DataException.wrap( e );
+		} catch (EvaluatorException e) {
+			throw new DataException(e.details(), e);
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 		return temp;
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		return 0;
 	}
-	
+
 }

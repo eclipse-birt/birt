@@ -19,23 +19,21 @@ import java.util.List;
  * instance according to the existing SmartCache instance and the information in
  * OrderingInfo instance.
  */
-public final class OrderingInfo
-{
+public final class OrderingInfo {
 
 	// The group start index array
-	private List startIndex = new ArrayList( );
+	private List startIndex = new ArrayList();
 
 	// The group end index array
-	private List endIndex = new ArrayList( );
+	private List endIndex = new ArrayList();
 
 	/**
 	 * 
 	 * @param i
 	 * @return
 	 */
-	public int getStartIndex( int i )
-	{
-		return Integer.valueOf( startIndex.get( i ).toString( ) ).intValue( );
+	public int getStartIndex(int i) {
+		return Integer.valueOf(startIndex.get(i).toString()).intValue();
 	}
 
 	/**
@@ -43,9 +41,8 @@ public final class OrderingInfo
 	 * @param i
 	 * @return
 	 */
-	public int getEndIndex( int i )
-	{
-		return Integer.valueOf( endIndex.get( i ).toString( ) ).intValue( );
+	public int getEndIndex(int i) {
+		return Integer.valueOf(endIndex.get(i).toString()).intValue();
 	}
 
 	/**
@@ -53,18 +50,16 @@ public final class OrderingInfo
 	 * @param startIdx
 	 * @param endIdx
 	 */
-	public void add( int startIdx, int endIdx )
-	{
-		this.startIndex.add( String.valueOf( startIdx ) );
-		this.endIndex.add( String.valueOf( endIdx ) );
+	public void add(int startIdx, int endIdx) {
+		this.startIndex.add(String.valueOf(startIdx));
+		this.endIndex.add(String.valueOf(endIdx));
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public int getCount( )
-	{
-		return startIndex.size( );
+	public int getCount() {
+		return startIndex.size();
 	}
 }

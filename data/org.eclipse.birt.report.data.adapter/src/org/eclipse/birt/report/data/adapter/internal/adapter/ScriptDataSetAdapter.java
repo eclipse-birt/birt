@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.report.data.adapter.internal.adapter;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -22,23 +22,20 @@ import org.eclipse.birt.report.model.api.ScriptDataSetHandle;
  * Adapts a Model Script Data Set definition
  *
  */
-public class ScriptDataSetAdapter extends ScriptDataSetDesign
-{
-	public ScriptDataSetAdapter( ScriptDataSetHandle modelDataSet, ModelAdapter adapter ) 
-		throws BirtException
-	{
-		super( modelDataSet.getQualifiedName( ) );
+public class ScriptDataSetAdapter extends ScriptDataSetDesign {
+	public ScriptDataSetAdapter(ScriptDataSetHandle modelDataSet, ModelAdapter adapter) throws BirtException {
+		super(modelDataSet.getQualifiedName());
 
 		// TODO: event handler!!
-		
-		DataAdapterUtil.adaptBaseDataSet( modelDataSet, this, adapter );
+
+		DataAdapterUtil.adaptBaseDataSet(modelDataSet, this, adapter);
 
 		// Adapt script data set elements
-		setOpenScript( modelDataSet.getOpen( ) );
-		setFetchScript( modelDataSet.getFetch( ) );
-		setCloseScript( modelDataSet.getClose( ) );
-		setDescribeScript( modelDataSet.getDescribe( ) );
+		setOpenScript(modelDataSet.getOpen());
+		setFetchScript(modelDataSet.getFetch());
+		setCloseScript(modelDataSet.getClose());
+		setDescribeScript(modelDataSet.getDescribe());
 
-		}
+	}
 
 }

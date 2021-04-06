@@ -33,91 +33,70 @@ import org.eclipse.ui.IWorkbenchActionConstants;
  * 
  * 
  */
-public class ViewContextMenuProvider extends ContextMenuProvider
-{
+public class ViewContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * constructor
 	 * 
-	 * @param viewer
-	 *            the viewer
-	 * @param registry
-	 *            the registry
+	 * @param viewer   the viewer
+	 * @param registry the registry
 	 */
-	public ViewContextMenuProvider( ISelectionProvider viewer )
-	{
-		super( viewer );
+	public ViewContextMenuProvider(ISelectionProvider viewer) {
+		super(viewer);
 	}
 
 	/**
-	 * Builds the context menu. Single selection menu and multiple selection
-	 * menu are created while selecting just single element or multiple elements
+	 * Builds the context menu. Single selection menu and multiple selection menu
+	 * are created while selecting just single element or multiple elements
 	 * 
 	 * 
-	 * @param menu
-	 *            the menu
+	 * @param menu the menu
 	 */
-	public void buildContextMenu( IMenuManager menu )
-	{
-		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
-		TreeViewer treeViewer = (TreeViewer) getViewer( );
+	public void buildContextMenu(IMenuManager menu) {
+		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		TreeViewer treeViewer = (TreeViewer) getViewer();
 
-		IStructuredSelection selection = (IStructuredSelection) treeViewer.getSelection( );
+		IStructuredSelection selection = (IStructuredSelection) treeViewer.getSelection();
 
 		// temporary solution
-		Object input = treeViewer.getInput( );
-		if ( input instanceof Object[] )
-		{
+		Object input = treeViewer.getInput();
+		if (input instanceof Object[]) {
 			Object[] inputs = (Object[]) input;
-			if ( inputs.length == 1 && inputs[0] instanceof ReportDesignHandle )
-			{
-				for ( Iterator iter = selection.iterator( ); iter.hasNext( ); )
-				{
-					if ( isIncludedLibrary( iter.next( ) ) )
-					{
+			if (inputs.length == 1 && inputs[0] instanceof ReportDesignHandle) {
+				for (Iterator iter = selection.iterator(); iter.hasNext();) {
+					if (isIncludedLibrary(iter.next())) {
 						return;
 					}
 				}
 			}
 		}
 
-		if ( selection.size( ) == 1 )
-		{
+		if (selection.size() == 1) {
 			// Create Single Selection Menu
-			Object obj = selection.getFirstElement( );
-			if ( ProviderFactory.createProvider( obj ) != null )
-			{
-				ProviderFactory.createProvider( obj )
-						.createContextMenu( treeViewer, obj, menu );
+			Object obj = selection.getFirstElement();
+			if (ProviderFactory.createProvider(obj) != null) {
+				ProviderFactory.createProvider(obj).createContextMenu(treeViewer, obj, menu);
 			}
-			if ( Policy.TRACING_MENU_SHOW )
-			{
-				System.out.println( "Menu(for Views) >> Shows for " + ProviderFactory.createProvider( obj ).getNodeDisplayName( obj ) ); //$NON-NLS-1$
+			if (Policy.TRACING_MENU_SHOW) {
+				System.out.println(
+						"Menu(for Views) >> Shows for " + ProviderFactory.createProvider(obj).getNodeDisplayName(obj)); //$NON-NLS-1$
 			}
-		}
-		else
-		{
+		} else {
 			// Added by ywang on 2004.9.15
 			// Create Multiple Selection Menu
-			if ( ProviderFactory.getDefaultProvider( ) != null)
-			{
-				ProviderFactory.getDefaultProvider( )
-						.createContextMenu( treeViewer, selection, menu );
+			if (ProviderFactory.getDefaultProvider() != null) {
+				ProviderFactory.getDefaultProvider().createContextMenu(treeViewer, selection, menu);
 			}
 
-			if ( Policy.TRACING_MENU_SHOW )
-			{
-				System.out.println( "Menu(for Views) >> Shows for multi-selcetion." ); //$NON-NLS-1$
+			if (Policy.TRACING_MENU_SHOW) {
+				System.out.println("Menu(for Views) >> Shows for multi-selcetion."); //$NON-NLS-1$
 			}
 		}
 	}
 
-	private boolean isIncludedLibrary( Object model )
-	{
-		if ( model instanceof ReportElementHandle )
-		{
-			if ( ( (ReportElementHandle) model ).getModuleHandle( ) instanceof LibraryHandle )
-			{
+	private boolean isIncludedLibrary(Object model) {
+		if (model instanceof ReportElementHandle) {
+			if (((ReportElementHandle) model).getModuleHandle() instanceof LibraryHandle) {
 				return true;
 			}
 		}
@@ -126,9 +105,8 @@ public class ViewContextMenuProvider extends ContextMenuProvider
 		// return ( (ReportElementModel) model ).getElementHandle( )
 		// .getModuleHandle( ) instanceof LibraryHandle;
 		// }
-		else if ( model instanceof SlotHandle )
-		{
-			return ( (SlotHandle) model ).getElementHandle( ).getModuleHandle( ) instanceof LibraryHandle;
+		else if (model instanceof SlotHandle) {
+			return ((SlotHandle) model).getElementHandle().getModuleHandle() instanceof LibraryHandle;
 		}
 		return false;
 

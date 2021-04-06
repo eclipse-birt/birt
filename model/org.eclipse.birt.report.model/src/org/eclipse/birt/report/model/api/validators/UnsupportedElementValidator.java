@@ -33,14 +33,11 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * 
  */
 
-public class UnsupportedElementValidator extends AbstractElementValidator
-{
+public class UnsupportedElementValidator extends AbstractElementValidator {
 
-	private static final String[] unSupportedElements = {
-			ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT,
-			ReportDesignConstants.FREE_FORM_ITEM,
-			ReportDesignConstants.LINE_ITEM,
-			ReportDesignConstants.RECTANGLE_ITEM};
+	private static final String[] unSupportedElements = { ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT,
+			ReportDesignConstants.FREE_FORM_ITEM, ReportDesignConstants.LINE_ITEM,
+			ReportDesignConstants.RECTANGLE_ITEM };
 
 	/**
 	 * Name of this validator.
@@ -48,7 +45,7 @@ public class UnsupportedElementValidator extends AbstractElementValidator
 
 	public static final String NAME = "UnsupportedElementValidator"; //$NON-NLS-1$
 
-	private final static UnsupportedElementValidator instance = new UnsupportedElementValidator( );
+	private final static UnsupportedElementValidator instance = new UnsupportedElementValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -56,35 +53,28 @@ public class UnsupportedElementValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static UnsupportedElementValidator getInstance( )
-	{
+	public static UnsupportedElementValidator getInstance() {
 		return instance;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.validators.core.AbstractElementValidator
+	 * @see org.eclipse.birt.report.model.validators.core.AbstractElementValidator
 	 * #validate(org.eclipse.birt.report.model.elements.ReportDesign,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
+	public List<SemanticException> validate(Module module, DesignElement element) {
 		// Check whether this element is unsupported element.
 
-		String elementName = element.getElementName( );
+		String elementName = element.getElementName();
 
-		List<SemanticException> list = new ArrayList<SemanticException>( );
-		for ( int i = 0; i < unSupportedElements.length; i++ )
-		{
-			if ( unSupportedElements[i].equalsIgnoreCase( elementName ) )
-			{
-				list.add( new SemanticError( element,
-						SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
-						SemanticError.WARNING ) );
+		List<SemanticException> list = new ArrayList<SemanticException>();
+		for (int i = 0; i < unSupportedElements.length; i++) {
+			if (unSupportedElements[i].equalsIgnoreCase(elementName)) {
+				list.add(new SemanticError(element, SemanticError.DESIGN_EXCEPTION_UNSUPPORTED_ELEMENT,
+						SemanticError.WARNING));
 			}
 		}
 

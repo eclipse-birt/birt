@@ -19,22 +19,19 @@ import org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement;
 /**
  * IMeasure
  */
-public interface IMeasure
-{
+public interface IMeasure {
 
-	String getName( );
+	String getName();
 
-	String getFunctionName( );
+	String getFunctionName();
 
-	String getMeasureExpression( );
+	String getMeasureExpression();
 
-	List<IFilterConditionElement> getFilterConditions( );
+	List<IFilterConditionElement> getFilterConditions();
 
-	void removeAllFilterConditions( ) throws SemanticException;
+	void removeAllFilterConditions() throws SemanticException;
 
-	void addFilterCondition( IFilterConditionElement filter )
-			throws SemanticException;
+	void addFilterCondition(IFilterConditionElement filter) throws SemanticException;
 
-	void removeFilterCondition( IFilterConditionElement filter )
-			throws SemanticException;
+	void removeFilterCondition(IFilterConditionElement filter) throws SemanticException;
 }

@@ -16,18 +16,15 @@ package org.eclipse.birt.report.engine.ir;
  * 
  * @see TableItemDesign
  */
-public class TableGroupDesign extends GroupDesign
-{
-	public TableGroupDesign( )
-	{
-        //modify bug161912
-		//header = new TableBandDesign( );
-		//footer = new TableBandDesign( );
+public class TableGroupDesign extends GroupDesign {
+	public TableGroupDesign() {
+		// modify bug161912
+		// header = new TableBandDesign( );
+		// footer = new TableBandDesign( );
 	}
 
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
-		return visitor.visitTableGroup( this, value );
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitTableGroup(this, value);
 	}
 
 }

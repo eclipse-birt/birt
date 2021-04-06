@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.engine.executor.buffermgr;
 
-
 /**
  * ROW in table layout
  * 
  */
-public class Row
-{
+public class Row {
 
 	/**
 	 * row index
@@ -32,22 +30,19 @@ public class Row
 	 */
 	Cell[] cells;
 
-	Row( int rowId )
-	{
+	Row(int rowId) {
 		this.rowId = rowId;
 	}
-	
-	public Object getContent()
-	{
+
+	public Object getContent() {
 		return content;
 	}
-	
-	public Cell getCell(int cellId)
-	{
+
+	public Cell getCell(int cellId) {
 		return cells[cellId];
 	}
-	public int getRowId()
-	{
+
+	public int getRowId() {
 		return rowId;
 	}
 }

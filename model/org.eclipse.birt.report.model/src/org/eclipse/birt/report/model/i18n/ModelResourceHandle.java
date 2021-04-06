@@ -20,29 +20,25 @@ import com.ibm.icu.util.ULocale;
  * @see ThreadResources
  */
 
-class ModelResourceHandle extends ResourceHandle
-{
+class ModelResourceHandle extends ResourceHandle {
 
 	/**
 	 * Constructs the resource handle with the empty locale.
 	 * 
 	 */
 
-	protected ModelResourceHandle( )
-	{
-		super( );
+	protected ModelResourceHandle() {
+		super();
 	}
 
 	/**
 	 * Constructs the resource handle with a specific resource bundle, which is
 	 * associated with locale.
 	 * 
-	 * @param locale
-	 *            the locale of <code>ULocale</code> type
+	 * @param locale the locale of <code>ULocale</code> type
 	 */
 
-	protected ModelResourceHandle( ULocale locale )
-	{
-		super( locale );
+	protected ModelResourceHandle(ULocale locale) {
+		super(locale);
 	}
 }

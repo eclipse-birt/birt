@@ -24,58 +24,47 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.extension.ExtendedElementException;
 
-
 /**
  * @author Administrator
  *
  */
-public class HideMeasureHeaderProvider extends PropertyDescriptorProvider
-{
+public class HideMeasureHeaderProvider extends PropertyDescriptorProvider {
 	protected CrosstabReportItemHandle crosstabHandle;
 	protected final String TRANS_NAME = "Change Crosstab Hidemeasure";
-	protected static final Logger logger = Logger.getLogger( HideMeasureHeaderProvider.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger(HideMeasureHeaderProvider.class.getName());
+
 	/**
 	 * @param property
 	 * @param element
 	 */
-	public HideMeasureHeaderProvider( String property, String element )
-	{
-		super( property, element );
+	public HideMeasureHeaderProvider(String property, String element) {
+		super(property, element);
 		// TODO Auto-generated constructor stub
 	}
-	
-	public String getDisplayName( )
-	{
-		String displayName = super.getDisplayName( );
-		if ( displayName != null && displayName.length( ) > 0 )
-		{
+
+	public String getDisplayName() {
+		String displayName = super.getDisplayName();
+		if (displayName != null && displayName.length() > 0) {
 			return displayName;
 		}
-		return Messages.getString( "CrosstabGeneralPage.HideMeasureHeader" ); //$NON-NLS-1$
+		return Messages.getString("CrosstabGeneralPage.HideMeasureHeader"); //$NON-NLS-1$
 	}
-	
 
-	public void save( Object value ) throws SemanticException
-	{
+	public void save(Object value) throws SemanticException {
 
 		String stringValue = (String) value;
-		if ( input == null )
-		{
+		if (input == null) {
 			return;
+		} else if (crosstabHandle == null) {
+			initializeCrosstab();
 		}
-		else if ( crosstabHandle == null )
-		{
-			initializeCrosstab( );
-		}
-		if ( stringValue != null )
-		{
-			CommandStack stack = crosstabHandle.getModuleHandle( )
-					.getCommandStack( );
+		if (stringValue != null) {
+			CommandStack stack = crosstabHandle.getModuleHandle().getCommandStack();
 			// start trans
-			stack.startTrans( TRANS_NAME );
-			crosstabHandle.setHideMeasureHeader( Boolean.valueOf( (String)value ) );
-			CrosstabUtil.addAllHeaderLabel( crosstabHandle );
-			stack.commit( );
+			stack.startTrans(TRANS_NAME);
+			crosstabHandle.setHideMeasureHeader(Boolean.valueOf((String) value));
+			CrosstabUtil.addAllHeaderLabel(crosstabHandle);
+			stack.commit();
 		}
 
 	}
@@ -83,51 +72,41 @@ public class HideMeasureHeaderProvider extends PropertyDescriptorProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider
 	 * .IDescriptorProvider#setInput(java.lang.Object)
 	 */
-	public void setInput( Object input )
-	{
+	public void setInput(Object input) {
 		// TODO Auto-generated method stub
-		super.setInput( input );
-		initializeCrosstab( );
+		super.setInput(input);
+		initializeCrosstab();
 	}
 
-	protected void initializeCrosstab( )
-	{
+	protected void initializeCrosstab() {
 		crosstabHandle = null;
-		if ( ( input == null ) )
-		{
+		if ((input == null)) {
 			return;
 		}
 
-		if ( ( !( input instanceof List && ( (List) input ).size( ) > 0 && ( (List) input ).get( 0 ) instanceof ExtendedItemHandle ) )
-				&& ( !( input instanceof ExtendedItemHandle ) ) )
-		{
+		if ((!(input instanceof List && ((List) input).size() > 0
+				&& ((List) input).get(0) instanceof ExtendedItemHandle)) && (!(input instanceof ExtendedItemHandle))) {
 			return;
 		}
 
 		ExtendedItemHandle handle;
-		if ( ( (List) input ).size( ) > 0 )
-		{
-			handle = (ExtendedItemHandle) ( ( (List) input ).get( 0 ) );
-		}
-		else
+		if (((List) input).size() > 0) {
+			handle = (ExtendedItemHandle) (((List) input).get(0));
+		} else
 		// input instanceof ExtendedItemHandle
 		{
 			handle = (ExtendedItemHandle) input;
 		}
 
-		try
-		{
-			crosstabHandle = (CrosstabReportItemHandle) handle.getReportItem( );
+		try {
+			crosstabHandle = (CrosstabReportItemHandle) handle.getReportItem();
 			return;
-		}
-		catch ( ExtendedElementException e )
-		{
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 			return;
 		}
 	}

@@ -30,126 +30,119 @@ import org.eclipse.gef.editparts.AbstractGraphicalEditPart;
  * TableNodeEditPart
  * 
  */
-public abstract class NodeEditPartHelper extends AbstractGraphicalEditPart implements
-		NodeEditPart
-{
+public abstract class NodeEditPartHelper extends AbstractGraphicalEditPart implements NodeEditPart {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected abstract IFigure createFigure( );
+	protected abstract IFigure createFigure();
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected abstract void createEditPolicies( );
+	protected abstract void createEditPolicies();
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections()
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelSourceConnections
+	 * ()
 	 */
-	protected List getModelSourceConnections( )
-	{
-		List sourcejoins = new ArrayList( );
+	protected List getModelSourceConnections() {
+		List sourcejoins = new ArrayList();
 		return sourcejoins;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections()
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#getModelTargetConnections
+	 * ()
 	 */
-	protected List getModelTargetConnections( )
-	{
-		List targetjoins = new ArrayList( );
+	protected List getModelTargetConnections() {
+		List targetjoins = new ArrayList();
 		return targetjoins;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.
+	 * ConnectionEditPart)
 	 */
-	public ConnectionAnchor getSourceConnectionAnchor(
-			ConnectionEditPart connection )
-	{
-		return new ColumnConnectionAnchor( this.getFigure( ), getChopFigure( ) );
+	public ConnectionAnchor getSourceConnectionAnchor(ConnectionEditPart connection) {
+		return new ColumnConnectionAnchor(this.getFigure(), getChopFigure());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.ConnectionEditPart)
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.
+	 * ConnectionEditPart)
 	 */
-	public ConnectionAnchor getTargetConnectionAnchor(
-			ConnectionEditPart connection )
-	{
-		return new ColumnConnectionAnchor( this.getFigure( ), getChopFigure( ) );
+	public ConnectionAnchor getTargetConnectionAnchor(ConnectionEditPart connection) {
+		return new ColumnConnectionAnchor(this.getFigure(), getChopFigure());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.Request)
+	 * @see org.eclipse.gef.NodeEditPart#getSourceConnectionAnchor(org.eclipse.gef.
+	 * Request)
 	 */
-	public ConnectionAnchor getSourceConnectionAnchor( Request request )
-	{
-		return new ColumnConnectionAnchor( this.getFigure( ), getChopFigure( ) );
+	public ConnectionAnchor getSourceConnectionAnchor(Request request) {
+		return new ColumnConnectionAnchor(this.getFigure(), getChopFigure());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.Request)
+	 * @see org.eclipse.gef.NodeEditPart#getTargetConnectionAnchor(org.eclipse.gef.
+	 * Request)
 	 */
-	public ConnectionAnchor getTargetConnectionAnchor( Request request )
-	{
-		return new ColumnConnectionAnchor( this.getFigure( ), getChopFigure( ) );
+	public ConnectionAnchor getTargetConnectionAnchor(Request request) {
+		return new ColumnConnectionAnchor(this.getFigure(), getChopFigure());
 	}
 
-	public abstract IFigure getChopFigure( );
+	public abstract IFigure getChopFigure();
 
-	protected void removeTargetConnection( ConnectionEditPart connection )
-	{
-		if ( connection.isActive( ) )
-			connection.deactivate( );
-		super.removeTargetConnection( connection );
+	protected void removeTargetConnection(ConnectionEditPart connection) {
+		if (connection.isActive())
+			connection.deactivate();
+		super.removeTargetConnection(connection);
 	}
 
-	protected void removeSourceConnection( ConnectionEditPart connection )
-	{
-		if ( connection.isActive( ) )
-			connection.deactivate( );
-		super.removeSourceConnection( connection );
+	protected void removeSourceConnection(ConnectionEditPart connection) {
+		if (connection.isActive())
+			connection.deactivate();
+		super.removeSourceConnection(connection);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#addTargetConnection(org.eclipse.gef.ConnectionEditPart,
-	 *      int)
+	 * @see
+	 * org.eclipse.gef.editparts.AbstractGraphicalEditPart#addTargetConnection(org.
+	 * eclipse.gef.ConnectionEditPart, int)
 	 */
-	protected void addTargetConnection( ConnectionEditPart connection, int index )
-	{
-		super.addTargetConnection( connection, index );
-		if ( isActive( ) )
-			connection.activate( );
+	protected void addTargetConnection(ConnectionEditPart connection, int index) {
+		super.addTargetConnection(connection, index);
+		if (isActive())
+			connection.activate();
 	}
-	
-	public boolean isDelete( )
-	{
+
+	public boolean isDelete() {
 		boolean bool = false;
-		if ( getModel( ) instanceof DesignElementHandle )
-		{
-			if ( !( getModel( ) instanceof ModuleHandle ) )
-			{
-				bool = ( (DesignElementHandle) getModel( ) ).getContainer( ) == null
-						|| ( (DesignElementHandle) getModel( ) ).getRoot( ) == null;
+		if (getModel() instanceof DesignElementHandle) {
+			if (!(getModel() instanceof ModuleHandle)) {
+				bool = ((DesignElementHandle) getModel()).getContainer() == null
+						|| ((DesignElementHandle) getModel()).getRoot() == null;
 			}
 		}
 		return bool;

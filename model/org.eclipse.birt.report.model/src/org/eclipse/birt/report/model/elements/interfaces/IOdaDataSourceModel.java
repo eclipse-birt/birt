@@ -14,11 +14,11 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for oda data source element to store the constants.
  */
-public interface IOdaDataSourceModel
-{
+public interface IOdaDataSourceModel {
 
 	/**
 	 * The property name of the name of a driver.
+	 * 
 	 * @deprecated This property is removed.
 	 */
 
@@ -29,7 +29,7 @@ public interface IOdaDataSourceModel
 	 */
 
 	public static final String PRIVATE_DRIVER_PROPERTIES_PROP = "privateDriverProperties"; //$NON-NLS-1$
-	
+
 	/**
 	 * The property name of external connection name.
 	 */
@@ -38,14 +38,15 @@ public interface IOdaDataSourceModel
 
 	/**
 	 * The property name of public driver properties.
+	 * 
 	 * @deprecated
 	 */
 
 	public static final String PUBLIC_DRIVER_PROPERTIES_PROP = "publicDriverProperties"; //$NON-NLS-1$
-	
+
 	/**
-	 * The property name of designer state. The property is used to save ODA
-	 * state persistently.
+	 * The property name of designer state. The property is used to save ODA state
+	 * persistently.
 	 */
 
 	public static final String DESIGNER_STATE_PROP = "designerState"; //$NON-NLS-1$

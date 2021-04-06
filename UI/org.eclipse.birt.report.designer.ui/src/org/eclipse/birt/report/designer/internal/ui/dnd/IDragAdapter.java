@@ -15,21 +15,22 @@ package org.eclipse.birt.report.designer.internal.ui.dnd;
  * 
  */
 
-public interface IDragAdapter
-{
-	
+public interface IDragAdapter {
+
 	/**
-	 * Validate the object can be dragged. 
+	 * Validate the object can be dragged.
+	 * 
 	 * @param object
 	 * @return
 	 */
-	public int canDrag( Object object );
+	public int canDrag(Object object);
 
 	/**
 	 * Get the tranfer object
+	 * 
 	 * @param tranfer
 	 * @return
 	 */
-	public Object getDragTransfer( Object tranfer );
+	public Object getDragTransfer(Object tranfer);
 
 }

@@ -14,18 +14,15 @@ package org.eclipse.birt.report.model.metadata;
 /**
  * 
  */
-public class NameSpaceFactory extends NameSpaceFactoryImpl
-{
+public class NameSpaceFactory extends NameSpaceFactoryImpl {
 
-	private static NameSpaceFactory instance = new NameSpaceFactory( );
+	private static NameSpaceFactory instance = new NameSpaceFactory();
 
-	private NameSpaceFactory( )
-	{
+	private NameSpaceFactory() {
 
 	}
 
-	public static NameSpaceFactory getInstance( )
-	{
+	public static NameSpaceFactory getInstance() {
 		return instance;
 	}
 }

@@ -44,12 +44,10 @@ import org.eclipse.birt.report.model.core.Structure;
  * 
  */
 
-public class ResultSetColumn extends Structure
-{
+public class ResultSetColumn extends Structure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public static final String RESULT_SET_COLUMN_STRUCT = "ResultSetColumn"; //$NON-NLS-1$
@@ -108,28 +106,25 @@ public class ResultSetColumn extends Structure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return RESULT_SET_COLUMN_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java
 	 * .lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( POSITION_MEMBER.equals( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (POSITION_MEMBER.equals(propName))
 			return position;
-		if ( NAME_MEMBER.equals( propName ) )
+		if (NAME_MEMBER.equals(propName))
 			return columnName;
-		if ( DATA_TYPE_MEMBER.equals( propName ) )
+		if (DATA_TYPE_MEMBER.equals(propName))
 			return dataType;
-		if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
+		if (NATIVE_DATA_TYPE_MEMBER.equals(propName))
 			return nativeDataType;
 
 		assert false;
@@ -139,20 +134,18 @@ public class ResultSetColumn extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
+	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( POSITION_MEMBER.equals( propName ) )
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (POSITION_MEMBER.equals(propName))
 			position = (Integer) value;
-		else if ( NAME_MEMBER.equals( propName ) )
+		else if (NAME_MEMBER.equals(propName))
 			columnName = (String) value;
-		else if ( DATA_TYPE_MEMBER.equals( propName ) )
+		else if (DATA_TYPE_MEMBER.equals(propName))
 			dataType = (String) value;
-		else if ( NATIVE_DATA_TYPE_MEMBER.equals( propName ) )
+		else if (NATIVE_DATA_TYPE_MEMBER.equals(propName))
 			nativeDataType = (Integer) value;
 		else
 			assert false;
@@ -164,27 +157,24 @@ public class ResultSetColumn extends Structure
 	 * @return the column name.
 	 */
 
-	public String getColumnName( )
-	{
-		return (String) getProperty( null, NAME_MEMBER );
+	public String getColumnName() {
+		return (String) getProperty(null, NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the column name.
 	 * 
-	 * @param columnName
-	 *            the column name to set
+	 * @param columnName the column name to set
 	 */
 
-	public void setColumnName( String columnName )
-	{
-		setProperty( NAME_MEMBER, columnName );
+	public void setColumnName(String columnName) {
+		setProperty(NAME_MEMBER, columnName);
 	}
 
 	/**
 	 * Returns the data type of this column. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -199,15 +189,14 @@ public class ResultSetColumn extends Structure
 	 * @return the data type of this column.
 	 */
 
-	public String getDataType( )
-	{
-		return (String) getProperty( null, DATA_TYPE_MEMBER );
+	public String getDataType() {
+		return (String) getProperty(null, DATA_TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the data type of this column. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -219,13 +208,11 @@ public class ResultSetColumn extends Structure
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
 	 * 
-	 * @param dataType
-	 *            the data type to set
+	 * @param dataType the data type to set
 	 */
 
-	public void setDataType( String dataType )
-	{
-		setProperty( DATA_TYPE_MEMBER, dataType );
+	public void setDataType(String dataType) {
+		setProperty(DATA_TYPE_MEMBER, dataType);
 	}
 
 	/**
@@ -234,33 +221,28 @@ public class ResultSetColumn extends Structure
 	 * @return the position of this parameter
 	 */
 
-	public Integer getPosition( )
-	{
-		return (Integer) getProperty( null, POSITION_MEMBER );
+	public Integer getPosition() {
+		return (Integer) getProperty(null, POSITION_MEMBER);
 	}
 
 	/**
 	 * Sets the position of this column.
 	 * 
-	 * @param position
-	 *            the position to set
+	 * @param position the position to set
 	 */
 
-	public void setPosition( Integer position )
-	{
-		setProperty( POSITION_MEMBER, position );
+	public void setPosition(Integer position) {
+		setProperty(POSITION_MEMBER, position);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new ResultSetColumnHandle( valueHandle, index );
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new ResultSetColumnHandle(valueHandle, index);
 	}
 
 	/**
@@ -269,21 +251,18 @@ public class ResultSetColumn extends Structure
 	 * @return the result set column native data type.
 	 */
 
-	public Integer getNativeDataType( )
-	{
-		return (Integer) getProperty( null, NATIVE_DATA_TYPE_MEMBER );
+	public Integer getNativeDataType() {
+		return (Integer) getProperty(null, NATIVE_DATA_TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the result set column native data type.
 	 * 
-	 * @param dataType
-	 *            the native data type to set.
+	 * @param dataType the native data type to set.
 	 */
 
-	public void setNativeDataType( Integer dataType )
-	{
-		setProperty( NATIVE_DATA_TYPE_MEMBER, dataType );
+	public void setNativeDataType(Integer dataType) {
+		setProperty(NATIVE_DATA_TYPE_MEMBER, dataType);
 	}
 
 	/**
@@ -296,15 +275,12 @@ public class ResultSetColumn extends Structure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
-	{
-		List list = super.validate( module, element );
+	public List validate(Module module, DesignElement element) {
+		List list = super.validate(module, element);
 
-		if ( StringUtil.isBlank( columnName ) )
-		{
-			list.add( new PropertyValueException( element, getDefn( )
-					.getMember( NAME_MEMBER ), columnName,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		if (StringUtil.isBlank(columnName)) {
+			list.add(new PropertyValueException(element, getDefn().getMember(NAME_MEMBER), columnName,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED));
 		}
 
 		return list;

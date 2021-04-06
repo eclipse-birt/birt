@@ -31,8 +31,8 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * <li>Specific Slot Change - the name of target element definition. It's
  * because this change requires the validation be performed on target element
  * type, instead of the direct container.
- * <li>Property Change with Specific Type - the property name. It's because
- * this change requires the validation be performed on specific property.
+ * <li>Property Change with Specific Type - the property name. It's because this
+ * change requires the validation be performed on specific property.
  * </ul>
  * 
  * So it contains not only the validator name and validator, but also the flag
@@ -40,8 +40,7 @@ import org.eclipse.birt.report.model.validators.AbstractSemanticValidator;
  * the target element name.
  */
 
-public class SemanticTriggerDefn
-{
+public class SemanticTriggerDefn {
 
 	/**
 	 * The name of validator.
@@ -76,12 +75,10 @@ public class SemanticTriggerDefn
 	/**
 	 * Constructs the semantic validation definition with validator name.
 	 * 
-	 * @param validatorName
-	 *            semantic validator name
+	 * @param validatorName semantic validator name
 	 */
 
-	SemanticTriggerDefn( String validatorName )
-	{
+	SemanticTriggerDefn(String validatorName) {
 		this.validatorName = validatorName;
 	}
 
@@ -91,20 +88,17 @@ public class SemanticTriggerDefn
 	 * @return <code>true</code>, if this validation is pre-requisite.
 	 */
 
-	public boolean isPreRequisite( )
-	{
+	public boolean isPreRequisite() {
 		return preRequisite;
 	}
 
 	/**
 	 * Returns whether this validation is pre-requisite.
 	 * 
-	 * @param preRequisite
-	 *            the flag to set
+	 * @param preRequisite the flag to set
 	 */
 
-	void setPreRequisite( boolean preRequisite )
-	{
+	void setPreRequisite(boolean preRequisite) {
 		this.preRequisite = preRequisite;
 	}
 
@@ -114,20 +108,17 @@ public class SemanticTriggerDefn
 	 * @return the validator name
 	 */
 
-	public String getValidatorName( )
-	{
+	public String getValidatorName() {
 		return validatorName;
 	}
 
 	/**
 	 * Sets the validator.
 	 * 
-	 * @param validator
-	 *            the validator to set
+	 * @param validator the validator to set
 	 */
 
-	void setValidator( AbstractSemanticValidator validator )
-	{
+	void setValidator(AbstractSemanticValidator validator) {
 		this.validator = validator;
 	}
 
@@ -137,8 +128,7 @@ public class SemanticTriggerDefn
 	 * @return validator instance
 	 */
 
-	public AbstractSemanticValidator getValidator( )
-	{
+	public AbstractSemanticValidator getValidator() {
 		return validator;
 	}
 
@@ -149,20 +139,17 @@ public class SemanticTriggerDefn
 	 * @return the name of the property this validation is applied on
 	 */
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return propertyName;
 	}
 
 	/**
 	 * Sets the property name
 	 * 
-	 * @param propName
-	 *            the property name to set
+	 * @param propName the property name to set
 	 */
 
-	void setPropertyName( String propName )
-	{
+	void setPropertyName(String propName) {
 		this.propertyName = propName;
 	}
 
@@ -172,58 +159,54 @@ public class SemanticTriggerDefn
 	 * @return the name of the target element definition
 	 */
 
-	public String getTargetElement( )
-	{
+	public String getTargetElement() {
 		return targetElement;
 	}
 
 	/**
 	 * Sets the name of the target element definition.
 	 * 
-	 * @param targetElement
-	 *            the name of the target element definition.
+	 * @param targetElement the name of the target element definition.
 	 */
 
-	void setTargetElement( String targetElement )
-	{
+	void setTargetElement(String targetElement) {
 		this.targetElement = targetElement;
 	}
-	
+
 	/**
-	 * Returns the ID of one validation, which is used to identify one
-	 * validation.
+	 * Returns the ID of one validation, which is used to identify one validation.
 	 * <ul>
 	 * <li>For {@link AbstractElementValidator}, the validation ID is just the
 	 * validator name. For example, "CellOverlappingValidator".
 	 * <li>For {@link AbstractPropertyValidator}, the validation ID is the
-	 * validation name and name of the property on which the validator is
-	 * applied. For example, "ValueRequiredValidator.DataSet". "DataSet" is the
-	 * name of the property which should be validated by ValueRequiredValidator.
+	 * validation name and name of the property on which the validator is applied.
+	 * For example, "ValueRequiredValidator.DataSet". "DataSet" is the name of the
+	 * property which should be validated by ValueRequiredValidator.
 	 * </ul>
 	 * 
 	 * @return the validation ID of this trigger definition
 	 */
 
-	public String getValidationID( )
-	{
+	public String getValidationID() {
 		String validationID;
-		
-		if ( !StringUtil.isBlank( propertyName ) )
+
+		if (!StringUtil.isBlank(propertyName))
 			validationID = validatorName + "." + propertyName; //$NON-NLS-1$
 		else
 			validationID = validatorName;
 
 		return validationID;
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getValidatorName( ) ) )
-			return getValidatorName( );
-		return super.toString( );
+
+	public String toString() {
+		if (!StringUtil.isBlank(getValidatorName()))
+			return getValidatorName();
+		return super.toString();
 	}
 }

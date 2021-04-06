@@ -17,73 +17,58 @@ import java.io.IOException;
 
 import org.eclipse.birt.core.util.IOUtil;
 
-class FatBlock extends Ext2Block implements Ext2Constants
-{
+class FatBlock extends Ext2Block implements Ext2Constants {
 
 	static final int BLOCK_PER_FAT_BLOCK = BLOCK_SIZE / 4;
 
 	boolean dirty;
 	int[] blocks;
 
-	FatBlock( Ext2FileSystem fs, int blockId )
-	{
-		super( fs, blockId );
+	FatBlock(Ext2FileSystem fs, int blockId) {
+		super(fs, blockId);
 		this.blocks = new int[BLOCK_PER_FAT_BLOCK];
-		for ( int i = 0; i < BLOCK_PER_FAT_BLOCK; i++ )
-		{
+		for (int i = 0; i < BLOCK_PER_FAT_BLOCK; i++) {
 			blocks[i] = -1;
 		}
 	}
 
-	public int getBlockId( )
-	{
+	public int getBlockId() {
 		return blockId;
 	}
 
-	public void setBlock( int index, int blockId ) throws IOException
-	{
+	public void setBlock(int index, int blockId) throws IOException {
 		assert index < BLOCK_PER_FAT_BLOCK;
 		dirty = true;
 		blocks[index] = blockId;
 	}
 
-	public int getBlock( int index ) throws IOException
-	{
+	public int getBlock(int index) throws IOException {
 		assert index < BLOCK_PER_FAT_BLOCK;
 		return blocks[index];
 	}
 
-	public void flush( ) throws IOException
-	{
-		if ( blockId == -1 )
-		{
-			throw new IllegalStateException(
-					"Must assign block id before flush" );
+	public void flush() throws IOException {
+		if (blockId == -1) {
+			throw new IllegalStateException("Must assign block id before flush");
 		}
-		if ( dirty )
-		{
-			ByteArrayOutputStream out = new ByteArrayOutputStream( BLOCK_SIZE );
-			for ( int i = 0; i < BLOCK_PER_FAT_BLOCK; i++ )
-			{
-				IOUtil.writeInt( out, blocks[i] );
+		if (dirty) {
+			ByteArrayOutputStream out = new ByteArrayOutputStream(BLOCK_SIZE);
+			for (int i = 0; i < BLOCK_PER_FAT_BLOCK; i++) {
+				IOUtil.writeInt(out, blocks[i]);
 			}
-			fs.writeBlock( blockId, out.toByteArray( ), 0, BLOCK_SIZE );
+			fs.writeBlock(blockId, out.toByteArray(), 0, BLOCK_SIZE);
 		}
 	}
 
-	public void refresh( ) throws IOException
-	{
-		if ( blockId == -1 )
-		{
-			throw new IllegalStateException(
-					"Must assign block id before flush" );
+	public void refresh() throws IOException {
+		if (blockId == -1) {
+			throw new IllegalStateException("Must assign block id before flush");
 		}
 		byte[] buffer = new byte[BLOCK_SIZE];
-		fs.readBlock( blockId, buffer, 0, BLOCK_SIZE );
-		ByteArrayInputStream in = new ByteArrayInputStream( buffer );
-		for ( int i = 0; i < BLOCK_PER_FAT_BLOCK; i++ )
-		{
-			blocks[i] = IOUtil.readInt( in );
+		fs.readBlock(blockId, buffer, 0, BLOCK_SIZE);
+		ByteArrayInputStream in = new ByteArrayInputStream(buffer);
+		for (int i = 0; i < BLOCK_PER_FAT_BLOCK; i++) {
+			blocks[i] = IOUtil.readInt(in);
 		}
 	}
 }

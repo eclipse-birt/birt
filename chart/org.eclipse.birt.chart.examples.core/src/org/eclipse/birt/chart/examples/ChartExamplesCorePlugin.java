@@ -5,8 +5,7 @@ import org.eclipse.core.runtime.Plugin;
 /**
  * Plugin class for Chart Examples Core. Holds the plugin ID
  */
-public class ChartExamplesCorePlugin extends Plugin
-{
+public class ChartExamplesCorePlugin extends Plugin {
 
 	/**
 	 * Plugin ID.

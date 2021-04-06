@@ -17,11 +17,10 @@ import javax.imageio.ImageWriter;
  * This interface defines the ability of creating an ImageWriter.
  */
 
-public interface IImageWriterFactory
-{
+public interface IImageWriterFactory {
 
-	ImageWriter createByFormatName( String formatName );
-	
-	ImageWriter createImageWriter( String formatName, String outputFormat );
+	ImageWriter createByFormatName(String formatName);
+
+	ImageWriter createImageWriter(String formatName, String outputFormat);
 
 }

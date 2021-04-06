@@ -16,30 +16,27 @@ import junit.framework.TestCase;
 import org.eclipse.birt.report.engine.css.engine.BIRTCSSEngine;
 import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 
-public class StyleDeclarationTest extends TestCase
-{
+public class StyleDeclarationTest extends TestCase {
 
-	public void testCssText( )
-	{
-		CSSEngine engine = new BIRTCSSEngine( );
-		StyleDeclaration style = new StyleDeclaration( engine );
-		style.setNumberFormat( "General Number" );
-		style.setFontFamily( "'Arial New', 'Courier'" );
-		style.setFontWeight( "bold" );
-		String cssText = style.getCssText( );
-		StyleDeclaration style1 = new StyleDeclaration( engine );
-		style1.setCssText( cssText );
-		String cssText1 = style1.getCssText( );
-		assertEquals( cssText, cssText1 );
+	public void testCssText() {
+		CSSEngine engine = new BIRTCSSEngine();
+		StyleDeclaration style = new StyleDeclaration(engine);
+		style.setNumberFormat("General Number");
+		style.setFontFamily("'Arial New', 'Courier'");
+		style.setFontWeight("bold");
+		String cssText = style.getCssText();
+		StyleDeclaration style1 = new StyleDeclaration(engine);
+		style1.setCssText(cssText);
+		String cssText1 = style1.getCssText();
+		assertEquals(cssText, cssText1);
 	}
-	
-	public void testFontFamilyCssText( )
-	{
-		CSSEngine engine = new BIRTCSSEngine( );
-		StyleDeclaration style = new StyleDeclaration( engine );
-		style.setFontFamily( "\"Arial\",Courier New,\"Franklin Gothic Book\",'ABC{!}\"DEF',sans-serif" );
+
+	public void testFontFamilyCssText() {
+		CSSEngine engine = new BIRTCSSEngine();
+		StyleDeclaration style = new StyleDeclaration(engine);
+		style.setFontFamily("\"Arial\",Courier New,\"Franklin Gothic Book\",'ABC{!}\"DEF',sans-serif");
 		String golden = "Arial,\"Courier New\",\"Franklin Gothic Book\",'ABC{!}\"DEF',sans-serif";
-		String output = style.getFontFamily( );
-		assertEquals( golden, output );
+		String output = style.getFontFamily();
+		assertEquals(golden, output);
 	}
 }

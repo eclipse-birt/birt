@@ -16,40 +16,37 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * Script wrapper of OdaDataSourceHandle
  *
  */
-public interface IDataSource
-{
+public interface IDataSource {
 	/**
 	 * Returns ID of the extension which extends this ODA data source.
 	 * 
 	 * @return the extension ID
 	 */
-	
-	String getExtensionID( );
+
+	String getExtensionID();
+
 	/**
 	 * Returns a private driver property value with the given property name.
 	 * 
-	 * @param name
-	 *            the name of a public driver property
+	 * @param name the name of a public driver property
 	 * 
 	 * @return a public driver property value
 	 */
-	
-	String getPrivateDriverProperty( String name );
-	
+
+	String getPrivateDriverProperty(String name);
+
 	/**
-	 * Sets a private driver property value with the given name and value. If
-	 * the property does not exist, it will be added into the property list. If
-	 * the property already exists, the value will be overwritten.
+	 * Sets a private driver property value with the given name and value. If the
+	 * property does not exist, it will be added into the property list. If the
+	 * property already exists, the value will be overwritten.
 	 * 
-	 * @param name
-	 *            the name of a public driver property
-	 * @param value
-	 *            the value of a public driver property
+	 * @param name  the name of a public driver property
+	 * @param value the value of a public driver property
 	 * 
-	 * @throws SemanticException
-	 *             if <code>name</code> is <code>null</code> or an empty
-	 *             
+	 * @throws SemanticException if <code>name</code> is <code>null</code> or an
+	 *                           empty
+	 * 
 	 */
-	
-	void setPrivateDriverProperty( String name, String value ) throws SemanticException;
+
+	void setPrivateDriverProperty(String name, String value) throws SemanticException;
 }

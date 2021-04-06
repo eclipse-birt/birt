@@ -14,14 +14,13 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for Line element to store the constants.
  */
-public interface ILineItemModel
-{
+public interface ILineItemModel {
 
 	/**
 	 * Name of the orientation property.The orientation of the line: Horizontal
 	 * (default) or Vertical.
 	 */
 
-	public static final String ORIENTATION_PROP = "orientation"; //$NON-NLS-1$ 
+	public static final String ORIENTATION_PROP = "orientation"; //$NON-NLS-1$
 
 }

@@ -26,23 +26,17 @@ import org.eclipse.birt.data.oda.pojo.ui.util.Constants;
  * 
  */
 
-public class ColumnDefinition implements Cloneable
-{
+public class ColumnDefinition implements Cloneable {
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
-	public ColumnDefinition( IMappingSource[] mappingPath, String name,
-			OdaType type )
-	{
-		assert mappingPath != null
-				&& mappingPath.length > 0 && name != null && type != null;
+	public ColumnDefinition(IMappingSource[] mappingPath, String name, OdaType type) {
+		assert mappingPath != null && mappingPath.length > 0 && name != null && type != null;
 		this.mappingPath = mappingPath;
 		this.name = name;
 		this.type = type;
@@ -52,30 +46,23 @@ public class ColumnDefinition implements Cloneable
 	private String name;
 	private OdaType type;
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public OdaType getType( )
-	{
+	public OdaType getType() {
 		return type;
 	}
 
-	public List<VariableParameter> getVariableParameters( )
-	{
-		List<VariableParameter> paramList = new ArrayList<VariableParameter>( );
-		IMappingSource[] sources = getMappingPath( );
-		for ( int i = 0; i < sources.length; i++ )
-		{
-			if ( sources[i] instanceof MethodSource )
-			{
-				IMethodParameter[] params = ( (MethodSource) sources[i] ).getParameters( );
-				for ( int j = 0; j < params.length; j++ )
-				{
-					if ( params[j] instanceof VariableParameter )
-					{
-						paramList.add( (VariableParameter) params[j] );
+	public List<VariableParameter> getVariableParameters() {
+		List<VariableParameter> paramList = new ArrayList<VariableParameter>();
+		IMappingSource[] sources = getMappingPath();
+		for (int i = 0; i < sources.length; i++) {
+			if (sources[i] instanceof MethodSource) {
+				IMethodParameter[] params = ((MethodSource) sources[i]).getParameters();
+				for (int j = 0; j < params.length; j++) {
+					if (params[j] instanceof VariableParameter) {
+						paramList.add((VariableParameter) params[j]);
 					}
 				}
 			}
@@ -83,69 +70,52 @@ public class ColumnDefinition implements Cloneable
 		return paramList;
 	}
 
-	public IMappingSource[] getMappingPath( )
-	{
+	public IMappingSource[] getMappingPath() {
 		return mappingPath;
 	}
 
-	public String getMappingPathText( )
-	{
-		StringBuffer sb = new StringBuffer( );
-		for ( IMappingSource m : mappingPath )
-		{
-			sb.append( m.getName( ) );
-			if ( m instanceof MethodSource )
-			{
-				sb.append( "(" ); //$NON-NLS-1$
+	public String getMappingPathText() {
+		StringBuffer sb = new StringBuffer();
+		for (IMappingSource m : mappingPath) {
+			sb.append(m.getName());
+			if (m instanceof MethodSource) {
+				sb.append("("); //$NON-NLS-1$
 				int i = 0;
-				for ( IMethodParameter p : ( (MethodSource) m ).getParameters( ) )
-				{
-					if ( i > 0 )
-					{
-						sb.append( Constants.METHOD_PARAM_SEPARATOR )
-								.append( " " ); //$NON-NLS-1$
+				for (IMethodParameter p : ((MethodSource) m).getParameters()) {
+					if (i > 0) {
+						sb.append(Constants.METHOD_PARAM_SEPARATOR).append(" "); //$NON-NLS-1$
 					}
-					if ( p instanceof ConstantParameter )
-					{
+					if (p instanceof ConstantParameter) {
 						ConstantParameter cp = (ConstantParameter) p;
-						if ( cp.getStringValue( ) != null )
-						{
+						if (cp.getStringValue() != null) {
 							// if value string contains
 							// CONSTANT_PARAM_VALUE_QUOTE, and escape char
 							// before each CONSTANT_PARAM_VALUE_QUOTE
-							String value = cp.getStringValue( )
-									.replace( String.valueOf( Constants.CONSTANT_PARAM_VALUE_QUOTE ),
-											""		+ Constants.CONSTANT_PARAM_VALUE_QUOTE_ESCAPE + Constants.CONSTANT_PARAM_VALUE_QUOTE ); //$NON-NLS-1$
-							sb.append( Constants.CONSTANT_PARAM_VALUE_QUOTE )
-									.append( value )
-									.append( Constants.CONSTANT_PARAM_VALUE_QUOTE )
-									.append( Constants.PARAM_TYPE_SEPARATOR );
+							String value = cp.getStringValue().replace(
+									String.valueOf(Constants.CONSTANT_PARAM_VALUE_QUOTE),
+									"" + Constants.CONSTANT_PARAM_VALUE_QUOTE_ESCAPE //$NON-NLS-1$
+											+ Constants.CONSTANT_PARAM_VALUE_QUOTE);
+							sb.append(Constants.CONSTANT_PARAM_VALUE_QUOTE).append(value)
+									.append(Constants.CONSTANT_PARAM_VALUE_QUOTE)
+									.append(Constants.PARAM_TYPE_SEPARATOR);
 						}
-						sb.append( cp.getDataType( ) );
-					}
-					else if ( p instanceof VariableParameter )
-					{
+						sb.append(cp.getDataType());
+					} else if (p instanceof VariableParameter) {
 						VariableParameter vp = (VariableParameter) p;
-						sb.append( vp.getName( ) )
-								.append( Constants.PARAM_TYPE_SEPARATOR )
-								.append( vp.getDataType( ) );
-						if ( vp.getStringValue( ) != null
-								&& vp.getStringValue( ).trim( ).length( ) > 0 )
-						{
-							sb.append( Constants.PARAM_TYPE_SEPARATOR )
-									.append( Constants.CONSTANT_PARAM_VALUE_QUOTE )
-									.append( vp.getStringValue( ) )
-									.append( Constants.CONSTANT_PARAM_VALUE_QUOTE );
+						sb.append(vp.getName()).append(Constants.PARAM_TYPE_SEPARATOR).append(vp.getDataType());
+						if (vp.getStringValue() != null && vp.getStringValue().trim().length() > 0) {
+							sb.append(Constants.PARAM_TYPE_SEPARATOR).append(Constants.CONSTANT_PARAM_VALUE_QUOTE)
+									.append(vp.getStringValue()).append(Constants.CONSTANT_PARAM_VALUE_QUOTE);
 						}
 					}
 					i++;
 				}
-				sb.append( ")" ); //$NON-NLS-1$
+				sb.append(")"); //$NON-NLS-1$
 			}
-			sb.append( Constants.METHOD_OR_FIELD_SEPARATOR );
+			sb.append(Constants.METHOD_OR_FIELD_SEPARATOR);
 		}
-		sb.setLength( sb.length( ) - 1 );
-		return sb.toString( );
+		sb.setLength(sb.length() - 1);
+		return sb.toString();
 	}
 
 	/*
@@ -154,14 +124,10 @@ public class ColumnDefinition implements Cloneable
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public ColumnDefinition clone( )
-	{
-		try
-		{
-			return (ColumnDefinition) super.clone( );
-		}
-		catch ( CloneNotSupportedException e )
-		{
+	public ColumnDefinition clone() {
+		try {
+			return (ColumnDefinition) super.clone();
+		} catch (CloneNotSupportedException e) {
 			// never happens
 			return null;
 		}
@@ -173,13 +139,12 @@ public class ColumnDefinition implements Cloneable
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
-	public int hashCode( )
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Arrays.hashCode( mappingPath );
-		result = prime * result + ( ( name == null ) ? 0 : name.hashCode( ) );
-		result = prime * result + ( ( type == null ) ? 0 : type.hashCode( ) );
+		result = prime * result + Arrays.hashCode(mappingPath);
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
 	}
 
@@ -189,30 +154,25 @@ public class ColumnDefinition implements Cloneable
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals( Object obj )
-	{
-		if ( this == obj )
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		if ( obj == null )
+		if (obj == null)
 			return false;
-		if ( getClass( ) != obj.getClass( ) )
+		if (getClass() != obj.getClass())
 			return false;
 		ColumnDefinition other = (ColumnDefinition) obj;
-		if ( !Arrays.equals( mappingPath, other.mappingPath ) )
+		if (!Arrays.equals(mappingPath, other.mappingPath))
 			return false;
-		if ( name == null )
-		{
-			if ( other.name != null )
+		if (name == null) {
+			if (other.name != null)
 				return false;
-		}
-		else if ( !name.equals( other.name ) )
+		} else if (!name.equals(other.name))
 			return false;
-		if ( type == null )
-		{
-			if ( other.type != null )
+		if (type == null) {
+			if (other.type != null)
 				return false;
-		}
-		else if ( !type.equals( other.type ) )
+		} else if (!type.equals(other.type))
 			return false;
 		return true;
 	}

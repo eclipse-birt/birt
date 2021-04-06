@@ -14,15 +14,14 @@ package org.eclipse.birt.data.oda.pojo.input.pojos;
  * 
  */
 
-public class TeacherStudent
-{
-	public TeacherStudent( Teacher teacher, Student student )
-	{
-		super( );
+public class TeacherStudent {
+	public TeacherStudent(Teacher teacher, Student student) {
+		super();
 		this.teacher = teacher;
 		this.student = student;
 	}
+
 	public Teacher teacher;
 	public Student student;
-	
+
 }

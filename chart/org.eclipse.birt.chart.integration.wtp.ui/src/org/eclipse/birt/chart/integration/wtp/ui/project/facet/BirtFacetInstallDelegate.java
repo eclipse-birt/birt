@@ -33,10 +33,7 @@ import org.eclipse.wst.common.project.facet.core.IProjectFacetVersion;
  * Delegate class for invoke "INSTALL" event
  * 
  */
-public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
-		implements
-			IDelegate
-{
+public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate implements IDelegate {
 
 	/**
 	 * Invoke "INSTALL" event for project facet
@@ -45,103 +42,74 @@ public class BirtFacetInstallDelegate extends J2EEFacetInstallDelegate
 	 *      org.eclipse.wst.common.project.facet.core.IProjectFacetVersion,
 	 *      java.lang.Object, org.eclipse.core.runtime.IProgressMonitor)
 	 */
-	public void execute( IProject project, IProjectFacetVersion fv,
-			Object config, IProgressMonitor monitor ) throws CoreException
-	{
-		if ( monitor != null )
-		{
-			monitor.beginTask( "", 1 ); //$NON-NLS-1$
+	public void execute(IProject project, IProjectFacetVersion fv, Object config, IProgressMonitor monitor)
+			throws CoreException {
+		if (monitor != null) {
+			monitor.beginTask("", 1); //$NON-NLS-1$
 		}
 
-		try
-		{
+		try {
 			final IDataModel model = (IDataModel) config;
 
 			// get destination path
-			IDataModel dataModel = (IDataModel) model.getProperty( "FacetInstallDataModelProvider.MASTER_PROJECT_DM" ); //$NON-NLS-1$
+			IDataModel dataModel = (IDataModel) model.getProperty("FacetInstallDataModelProvider.MASTER_PROJECT_DM"); //$NON-NLS-1$
 			IPath destPath = null;
 
-			if ( dataModel != null )
-			{
-				String dest = BirtWizardUtil.getConfigFolder( dataModel );
-				IFolder folder = BirtWizardUtil.getFolder( project, dest );
+			if (dataModel != null) {
+				String dest = BirtWizardUtil.getConfigFolder(dataModel);
+				IFolder folder = BirtWizardUtil.getFolder(project, dest);
 
-				if ( folder != null )
-					destPath = folder.getFullPath( );
+				if (folder != null)
+					destPath = folder.getFullPath();
 			}
 
-			if ( destPath == null )
-			{
-				destPath = BirtWizardUtil.getWebContentPath( project );
+			if (destPath == null) {
+				destPath = BirtWizardUtil.getWebContentPath(project);
 			}
 
 			// import birt runtime componenet
-			BirtWizardUtil.doImports( project,
-					null,
-					destPath,
-					monitor,
-					new SimpleImportOverwriteQuery( ) );
+			BirtWizardUtil.doImports(project, null, destPath, monitor, new SimpleImportOverwriteQuery());
 
-			Map properties = new HashMap( );
+			Map properties = new HashMap();
 
 			// initialize webapp settings from Extension
-			BirtWizardUtil.initWebapp( properties );
+			BirtWizardUtil.initWebapp(properties);
 
 			// initialize webapp settings from existed web.xml
-			WebArtifactUtil.initializeWebapp( properties, project );
+			WebArtifactUtil.initializeWebapp(properties, project);
 
 			// process defined folders
-			BirtWizardUtil.processCheckFolder( properties,
-					project,
-					destPath.toFile( ).getName( ),
-					monitor );
+			BirtWizardUtil.processCheckFolder(properties, project, destPath.toFile().getName(), monitor);
 
 			// configurate web.xml
-			processConfiguration( properties, project, monitor );
-		}
-		finally
-		{
-			if ( monitor != null )
-			{
-				monitor.done( );
+			processConfiguration(properties, project, monitor);
+		} finally {
+			if (monitor != null) {
+				monitor.done();
 			}
 		}
 	}
 
-	protected void processConfiguration( Map properties, IProject project,
-			IProgressMonitor monitor ) throws CoreException
-	{
-		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery( );
+	protected void processConfiguration(Map properties, IProject project, IProgressMonitor monitor)
+			throws CoreException {
+		SimpleImportOverwriteQuery query = new SimpleImportOverwriteQuery();
 
 		// configure WebArtifact
-		WebArtifactUtil.configureWebApp( (WebAppBean) properties.get( IBirtWizardConstants.EXT_WEBAPP ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureWebApp((WebAppBean) properties.get(IBirtWizardConstants.EXT_WEBAPP), project, query,
+				monitor);
 
-		WebArtifactUtil.configureContextParam( (Map) properties.get( IBirtWizardConstants.EXT_CONTEXT_PARAM ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureContextParam((Map) properties.get(IBirtWizardConstants.EXT_CONTEXT_PARAM), project,
+				query, monitor);
 
-		WebArtifactUtil.configureListener( (Map) properties.get( IBirtWizardConstants.EXT_LISTENER ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureListener((Map) properties.get(IBirtWizardConstants.EXT_LISTENER), project, query,
+				monitor);
 
-		WebArtifactUtil.configureServlet( (Map) properties.get( IBirtWizardConstants.EXT_SERVLET ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureServlet((Map) properties.get(IBirtWizardConstants.EXT_SERVLET), project, query,
+				monitor);
 
-		WebArtifactUtil.configureServletMapping( (Map) properties.get( IBirtWizardConstants.EXT_SERVLET_MAPPING ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureServletMapping((Map) properties.get(IBirtWizardConstants.EXT_SERVLET_MAPPING), project,
+				query, monitor);
 
-		WebArtifactUtil.configureTaglib( (Map) properties.get( IBirtWizardConstants.EXT_TAGLIB ),
-				project,
-				query,
-				monitor );
+		WebArtifactUtil.configureTaglib((Map) properties.get(IBirtWizardConstants.EXT_TAGLIB), project, query, monitor);
 	}
 }

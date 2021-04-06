@@ -1,31 +1,29 @@
 package org.eclipse.birt.report.engine.emitter.wpml;
 
-public class DOCRenderContext
-{
+public class DOCRenderContext {
 	/**
 	 * base URL used for action handler
 	 */
 	protected String baseURL;
-	
+
 	protected boolean isEmbededFont = true;
-    
-    /**
+
+	/**
 	 * the image formats supported by the browser
 	 */
-    protected String supportedImageFormats;
-	
-    /**
-     * user-defined font dirctory 
-     */
-    protected String fontDirectory;
-    
+	protected String supportedImageFormats;
+
 	/**
-	 * dummy constrictor 
+	 * user-defined font dirctory
 	 */
-	public DOCRenderContext()
-	{
+	protected String fontDirectory;
+
+	/**
+	 * dummy constrictor
+	 */
+	public DOCRenderContext() {
 	}
-	
+
 	/**
 	 * Returns the base URL for creating an Action URL
 	 * 
@@ -34,7 +32,7 @@ public class DOCRenderContext
 	public String getBaseURL() {
 		return baseURL;
 	}
-	
+
 	/**
 	 * sets the base url for action handling
 	 * 
@@ -43,11 +41,10 @@ public class DOCRenderContext
 	public void setBaseURL(String baseURL) {
 		this.baseURL = baseURL;
 	}
-	
-	    
-    /**
-     * @param formats - the image format supported by the browser
-     */
+
+	/**
+	 * @param formats - the image format supported by the browser
+	 */
 	public void setSupportedImageFormats(String formats) {
 		supportedImageFormats = formats;
 	}
@@ -58,28 +55,24 @@ public class DOCRenderContext
 	public String getSupportedImageFormats() {
 		return supportedImageFormats;
 	}
-	
-	public void setEmbededFont(boolean isEmbededFont)
-	{
+
+	public void setEmbededFont(boolean isEmbededFont) {
 		this.isEmbededFont = isEmbededFont;
 	}
-	
+
 	/**
 	 * 
 	 * @return if font is embeded
 	 */
-	public boolean isEmbededFont()
-	{
+	public boolean isEmbededFont() {
 		return isEmbededFont;
 	}
 
-	
 	/**
 	 * 
 	 * @return the user-defined font directory
 	 */
-	public String getFontDirectory( )
-	{
+	public String getFontDirectory() {
 		return fontDirectory;
 	}
 
@@ -87,10 +80,8 @@ public class DOCRenderContext
 	 * 
 	 * @param fontDirectory the user-defined font directory
 	 */
-	public void setFontDirectory( String fontDirectory )
-	{
+	public void setFontDirectory(String fontDirectory) {
 		this.fontDirectory = fontDirectory;
 	}
-	
 
 }

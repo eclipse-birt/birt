@@ -28,25 +28,19 @@ import org.eclipse.birt.report.model.elements.interfaces.ITabularHierarchyModel;
  * @see org.eclipse.birt.report.model.elements.olap.Hierarchy
  */
 
-public class TabularHierarchyHandle extends HierarchyHandle
-		implements
-			ITabularHierarchyModel
-{
+public class TabularHierarchyHandle extends HierarchyHandle implements ITabularHierarchyModel {
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public TabularHierarchyHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public TabularHierarchyHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
@@ -55,37 +49,30 @@ public class TabularHierarchyHandle extends HierarchyHandle
 	 * @return the handle to the data set
 	 */
 
-	public DataSetHandle getDataSet( )
-	{
-		return (DataSetHandle) getElementProperty( DATA_SET_PROP );
+	public DataSetHandle getDataSet() {
+		return (DataSetHandle) getElementProperty(DATA_SET_PROP);
 	}
 
 	/**
 	 * Sets the data set of this hierarchy.
 	 * 
-	 * @param handle
-	 *            the handle of the data set
+	 * @param handle the handle of the data set
 	 * 
-	 * @throws SemanticException
-	 *             if the property is locked, or the data-set is invalid.
+	 * @throws SemanticException if the property is locked, or the data-set is
+	 *                           invalid.
 	 */
 
-	public void setDataSet( DataSetHandle handle ) throws SemanticException
-	{
-		if ( handle == null )
-			setStringProperty( DATA_SET_PROP, null );
-		else
-		{
-			ModuleHandle moduleHandle = handle.getRoot( );
-			String valueToSet = handle.getElement( ).getFullName( );
-			if ( moduleHandle instanceof LibraryHandle )
-			{
-				String namespace = ( (LibraryHandle) moduleHandle )
-						.getNamespace( );
-				valueToSet = StringUtil.buildQualifiedReference( namespace,
-						valueToSet );
+	public void setDataSet(DataSetHandle handle) throws SemanticException {
+		if (handle == null)
+			setStringProperty(DATA_SET_PROP, null);
+		else {
+			ModuleHandle moduleHandle = handle.getRoot();
+			String valueToSet = handle.getElement().getFullName();
+			if (moduleHandle instanceof LibraryHandle) {
+				String namespace = ((LibraryHandle) moduleHandle).getNamespace();
+				valueToSet = StringUtil.buildQualifiedReference(namespace, valueToSet);
 			}
-			setStringProperty( DATA_SET_PROP, valueToSet );
+			setStringProperty(DATA_SET_PROP, valueToSet);
 		}
 	}
 
@@ -96,8 +83,7 @@ public class TabularHierarchyHandle extends HierarchyHandle
 	 * @return a list of primary keys if set, otherwise null
 	 */
 
-	public List getPrimaryKeys( )
-	{
-		return getListProperty( PRIMARY_KEYS_PROP );
+	public List getPrimaryKeys() {
+		return getListProperty(PRIMARY_KEYS_PROP);
 	}
 }

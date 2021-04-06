@@ -26,30 +26,23 @@ import org.eclipse.birt.report.model.util.CommandLabelFactory;
  * sent to the container to identify this.
  */
 
-public class TemplateTransformRecord extends ContentReplaceRecord
-{
+public class TemplateTransformRecord extends ContentReplaceRecord {
 
 	/**
-	 * Constructs the record with container element, slot id, from element, and
-	 * to element.
+	 * Constructs the record with container element, slot id, from element, and to
+	 * element.
 	 * 
-	 * @param module
-	 *            the module in which this record executes
-	 * @param containerInfo
-	 *            The container information.
-	 * @param from
-	 *            the element which the record transforms from
-	 * @param to
-	 *            the element which the record transforms to
+	 * @param module        the module in which this record executes
+	 * @param containerInfo The container information.
+	 * @param from          the element which the record transforms from
+	 * @param to            the element which the record transforms to
 	 * 
 	 */
 
-	public TemplateTransformRecord( Module module,
-			ContainerContext containerInfo, DesignElement from, DesignElement to )
-	{
-		super( module, containerInfo, from, to );
-		this.label = CommandLabelFactory
-				.getCommandLabel( MessageConstants.REPLACE_ELEMENT_MESSAGE );
+	public TemplateTransformRecord(Module module, ContainerContext containerInfo, DesignElement from,
+			DesignElement to) {
+		super(module, containerInfo, from, to);
+		this.label = CommandLabelFactory.getCommandLabel(MessageConstants.REPLACE_ELEMENT_MESSAGE);
 
 	}
 
@@ -61,8 +54,7 @@ public class TemplateTransformRecord extends ContentReplaceRecord
 	 * ()
 	 */
 
-	protected NotificationEvent getContainerEvent( )
-	{
+	protected NotificationEvent getContainerEvent() {
 		NotificationEvent event = null;
 
 		// send the template transform event to the container, the container is
@@ -70,13 +62,13 @@ public class TemplateTransformRecord extends ContentReplaceRecord
 		// do something, which may be different from what to do after get the
 		// normal content replace event.
 
-		if ( state != UNDONE_STATE )
-			event = new TemplateTransformEvent( focus, oldElement, newElement );
+		if (state != UNDONE_STATE)
+			event = new TemplateTransformEvent(focus, oldElement, newElement);
 		else
-			event = new TemplateTransformEvent( focus, newElement, oldElement );
+			event = new TemplateTransformEvent(focus, newElement, oldElement);
 
-		if ( state == DONE_STATE )
-			event.setSender( sender );
+		if (state == DONE_STATE)
+			event.setSender(sender);
 
 		return event;
 	}

@@ -50,12 +50,10 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * 
  */
 
-public class Action extends PropertyStructure
-{
+public class Action extends PropertyStructure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public final static String ACTION_STRUCT = "Action"; //$NON-NLS-1$
@@ -134,34 +132,29 @@ public class Action extends PropertyStructure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return ACTION_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
-	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new ActionHandle( valueHandle, index );
+	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new ActionHandle(valueHandle, index);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.Structure#getHandle(org.eclipse.birt
 	 * .report.model.api.SimpleValueHandle)
 	 */
 
-	public StructureHandle getHandle( SimpleValueHandle valueHandle )
-	{
-		return new ActionHandle( valueHandle.getElementHandle( ), getContext( ) );
+	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
+		return new ActionHandle(valueHandle.getElementHandle(), getContext());
 	}
 }

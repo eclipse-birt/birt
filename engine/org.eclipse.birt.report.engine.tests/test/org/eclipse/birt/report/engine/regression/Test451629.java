@@ -9,65 +9,49 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.api.IReportRunnable;
 import org.eclipse.birt.report.engine.api.IRunTask;
 
-public class Test451629 extends EngineCase
-{
+public class Test451629 extends EngineCase {
 	@Override
-	protected void setUp()
-	{
-		EngineConfig config = new EngineConfig( );
-		engine = createReportEngine( config );
+	protected void setUp() {
+		EngineConfig config = new EngineConfig();
+		engine = createReportEngine(config);
 	}
-	
-	public void testRun( )
-	{
+
+	public void testRun() {
 		IRunTask task = null;
-		try
-		{
+		try {
 			setUp();
 			IReportRunnable runnable = this.engine
-					.openReportDesign( "test/org/eclipse/birt/report/engine/regression/451629.rptdesign" );
-			task = engine.createRunTask( runnable );
+					.openReportDesign("test/org/eclipse/birt/report/engine/regression/451629.rptdesign");
+			task = engine.createRunTask(runnable);
 
-			task.run( "utest/document" );
-		}
-		catch ( Exception e )
-		{
+			task.run("utest/document");
+		} catch (Exception e) {
 
-			e.printStackTrace( );
+			e.printStackTrace();
 
-		}
-		finally
-		{
-			if ( task != null )
-			{
-				task.close( );
+		} finally {
+			if (task != null) {
+				task.close();
 			}
 		}
 		IReportDocument document = null;
 
-		try
-		{
-			document = engine.openReportDocument( "utest/document" );
+		try {
+			document = engine.openReportDocument("utest/document");
 
-			List<String> errorList = document.getDocumentErrors( );
+			List<String> errorList = document.getDocumentErrors();
 			int numberoferrormessage = 0;
-			for( String error : errorList )
-			{
-				if( "The task is cancelled.".equals( error ))
-				{
+			for (String error : errorList) {
+				if ("The task is cancelled.".equals(error)) {
 					numberoferrormessage++;
 				}
 			}
-			assertEquals(1, numberoferrormessage );
-		}
-		catch ( Exception e )
-		{
+			assertEquals(1, numberoferrormessage);
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace( );
-		}
-		finally
-		{
-			document.close( );
+			e.printStackTrace();
+		} finally {
+			document.close();
 		}
 
 	}

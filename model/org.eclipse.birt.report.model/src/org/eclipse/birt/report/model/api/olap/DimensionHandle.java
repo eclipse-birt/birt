@@ -30,25 +30,19 @@ import org.eclipse.birt.report.model.elements.olap.Dimension;
  * @see org.eclipse.birt.report.model.elements.olap.Dimension
  */
 
-public abstract class DimensionHandle extends ReportElementHandle
-		implements
-			IDimensionModel
-{
+public abstract class DimensionHandle extends ReportElementHandle implements IDimensionModel {
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public DimensionHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public DimensionHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
@@ -57,24 +51,19 @@ public abstract class DimensionHandle extends ReportElementHandle
 	 * @return true if this dimension is of Time type, otherwise false
 	 */
 
-	public boolean isTimeType( )
-	{
-		return getBooleanProperty( IS_TIME_TYPE_PROP );
+	public boolean isTimeType() {
+		return getBooleanProperty(IS_TIME_TYPE_PROP);
 	}
 
 	/**
-	 * Sets the status to indicate whether this dimension is a special type of
-	 * Time.
+	 * Sets the status to indicate whether this dimension is a special type of Time.
 	 * 
-	 * @param isTimeType
-	 *            status whether this dimension is of Time type
-	 * @throws SemanticException
-	 *             the property is locked
+	 * @param isTimeType status whether this dimension is of Time type
+	 * @throws SemanticException the property is locked
 	 */
 
-	public void setTimeType( boolean isTimeType ) throws SemanticException
-	{
-		setBooleanProperty( IS_TIME_TYPE_PROP, isTimeType );
+	public void setTimeType(boolean isTimeType) throws SemanticException {
+		setBooleanProperty(IS_TIME_TYPE_PROP, isTimeType);
 	}
 
 	/**
@@ -82,25 +71,19 @@ public abstract class DimensionHandle extends ReportElementHandle
 	 * 
 	 * @return the default hierarchy for this dimension
 	 */
-	public HierarchyHandle getDefaultHierarchy( )
-	{
-		DesignElement hierarchy = ( (Dimension) getElement( ) )
-				.getDefaultHierarchy( module );
-		return hierarchy == null ? null : (HierarchyHandle) hierarchy
-				.getHandle( module );
+	public HierarchyHandle getDefaultHierarchy() {
+		DesignElement hierarchy = ((Dimension) getElement()).getDefaultHierarchy(module);
+		return hierarchy == null ? null : (HierarchyHandle) hierarchy.getHandle(module);
 	}
 
 	/**
 	 * Sets the default hierarchy for this dimension.
 	 * 
-	 * @param defaultHierarchy
-	 *            the default hierarchy to set
+	 * @param defaultHierarchy the default hierarchy to set
 	 * @throws SemanticException
 	 */
-	public void setDefaultHierarchy( HierarchyHandle defaultHierarchy )
-			throws SemanticException
-	{
-		setProperty( DEFAULT_HIERARCHY_PROP, defaultHierarchy );
+	public void setDefaultHierarchy(HierarchyHandle defaultHierarchy) throws SemanticException {
+		setProperty(DEFAULT_HIERARCHY_PROP, defaultHierarchy);
 	}
 
 	/**
@@ -108,36 +91,31 @@ public abstract class DimensionHandle extends ReportElementHandle
 	 * 
 	 * @return
 	 */
-	public ExpressionHandle getACLExpression( )
-	{
-		return getExpressionProperty( ACL_EXPRESSION_PROP );
+	public ExpressionHandle getACLExpression() {
+		return getExpressionProperty(ACL_EXPRESSION_PROP);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public List<CubeHandle> getCubeClients( )
-	{
-		Iterator iter = clientsIterator( );
-		List<CubeHandle> cubes = new ArrayList<CubeHandle>( );
+	public List<CubeHandle> getCubeClients() {
+		Iterator iter = clientsIterator();
+		List<CubeHandle> cubes = new ArrayList<CubeHandle>();
 
-		while ( iter.hasNext( ) )
-		{
-			DesignElementHandle client = (DesignElementHandle) iter.next( );
-			if ( client instanceof TabularDimensionHandle )
-			{
+		while (iter.hasNext()) {
+			DesignElementHandle client = (DesignElementHandle) iter.next();
+			if (client instanceof TabularDimensionHandle) {
 				TabularDimensionHandle dimension = (TabularDimensionHandle) client;
-				DesignElementHandle container = dimension.getContainer( );
+				DesignElementHandle container = dimension.getContainer();
 
 				// if already added, do nothing
-				if ( cubes.contains( container ) )
+				if (cubes.contains(container))
 					continue;
 
-				if ( container instanceof CubeHandle )
-				{
+				if (container instanceof CubeHandle) {
 					CubeHandle cube = (CubeHandle) container;
-					cubes.add( cube );
+					cubes.add(cube);
 				}
 			}
 		}

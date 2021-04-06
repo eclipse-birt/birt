@@ -21,21 +21,18 @@ import org.eclipse.birt.report.designer.ui.views.attributes.providers.ICategoryP
 /**
  * CubeCategoryProviderFactory
  */
-public class CubeCategoryProviderFactory extends CategoryProviderFactory
-{
+public class CubeCategoryProviderFactory extends CategoryProviderFactory {
 
-	private static ICategoryProviderFactory instance = new CubeCategoryProviderFactory( );
+	private static ICategoryProviderFactory instance = new CubeCategoryProviderFactory();
 
-	protected CubeCategoryProviderFactory( )
-	{
+	protected CubeCategoryProviderFactory() {
 	}
 
 	/**
 	 * 
 	 * @return The unique CategoryProviderFactory instance
 	 */
-	public static ICategoryProviderFactory getInstance( )
-	{
+	public static ICategoryProviderFactory getInstance() {
 		return instance;
 	}
 
@@ -45,17 +42,11 @@ public class CubeCategoryProviderFactory extends CategoryProviderFactory
 	 * @seeorg.eclipse.birt.report.designer.ui.views.attributes.providers.
 	 * ICategoryProviderFactory#getCategoryProvider(java.lang.Object)
 	 */
-	public ICategoryProvider getCategoryProvider( Object input )
-	{
-		return AttributesUtil.createCategoryProvider( new String[]{
-				null, CATEGORY_KEY_COMMENTS, CATEGORY_KEY_ADVANCEPROPERTY
-		}, new String[]{
-			CATEGORY_KEY_GENERAL
-		}, new String[]{
-			Messages.getString( "CubePageGenerator.List.General" ) //$NON-NLS-1$
-				},
-				new Class[]{
-					CubePage.class
-				} );
+	public ICategoryProvider getCategoryProvider(Object input) {
+		return AttributesUtil.createCategoryProvider(
+				new String[] { null, CATEGORY_KEY_COMMENTS, CATEGORY_KEY_ADVANCEPROPERTY },
+				new String[] { CATEGORY_KEY_GENERAL },
+				new String[] { Messages.getString("CubePageGenerator.List.General") //$NON-NLS-1$
+				}, new Class[] { CubePage.class });
 	}
 }

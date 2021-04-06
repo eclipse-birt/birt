@@ -27,8 +27,7 @@ import org.mozilla.javascript.Scriptable;
  * {@link org.eclipse.birt.chart.factory.Generator#build(IDisplayServer, Chart, Scriptable, Bounds, RunTimeContext)}
  * method.
  */
-public final class GeneratedChartState
-{
+public final class GeneratedChartState {
 
 	private final LinkedHashMap<Series, LegendItemRenderingHints> _lhmRenderers;
 
@@ -41,23 +40,19 @@ public final class GeneratedChartState
 	private final RunTimeContext _rtc;
 
 	/**
-	 * A default constructor provided to create an instance internally via the
-	 * build process.
+	 * A default constructor provided to create an instance internally via the build
+	 * process.
 	 * 
-	 * @param ids
-	 *            An instance of the display server used in building the chart
-	 * @param cm
-	 *            An instance of the chart model for which the chart was built
-	 * @param lhmRenderers
-	 *            A linked hashmap providing a sorted lookup list for the series
-	 *            renderers
-	 * @param oComputations
-	 *            A computation helper used to build the chart offscreen
+	 * @param ids           An instance of the display server used in building the
+	 *                      chart
+	 * @param cm            An instance of the chart model for which the chart was
+	 *                      built
+	 * @param lhmRenderers  A linked hashmap providing a sorted lookup list for the
+	 *                      series renderers
+	 * @param oComputations A computation helper used to build the chart offscreen
 	 */
-	GeneratedChartState( IDisplayServer ids, Chart cm,
-			LinkedHashMap<Series, LegendItemRenderingHints> lhmRenderers,
-			RunTimeContext rtc, PlotComputation oComputations )
-	{
+	GeneratedChartState(IDisplayServer ids, Chart cm, LinkedHashMap<Series, LegendItemRenderingHints> lhmRenderers,
+			RunTimeContext rtc, PlotComputation oComputations) {
 		_lhmRenderers = lhmRenderers;
 		_oComputations = oComputations;
 		_ids = ids;
@@ -70,8 +65,7 @@ public final class GeneratedChartState
 	 * 
 	 * @return A sorted lookup list of all series renderers.
 	 */
-	public final LinkedHashMap<Series, LegendItemRenderingHints> getRenderers( )
-	{
+	public final LinkedHashMap<Series, LegendItemRenderingHints> getRenderers() {
 		return _lhmRenderers;
 	}
 
@@ -80,32 +74,27 @@ public final class GeneratedChartState
 	 * 
 	 * @return An internal class capable of computing the chart content.
 	 */
-	public final PlotComputation getComputations( )
-	{
+	public final PlotComputation getComputations() {
 		return _oComputations;
 	}
 
 	/**
-	 * Returns an instance of a display server used in building the chart
-	 * content.
+	 * Returns an instance of a display server used in building the chart content.
 	 * 
-	 * @return An instance of a display server used in building the chart
-	 *         content.
+	 * @return An instance of a display server used in building the chart content.
 	 */
-	public final IDisplayServer getDisplayServer( )
-	{
+	public final IDisplayServer getDisplayServer() {
 		return _ids;
 	}
 
 	/**
-	 * Returns an instance of the source chart model associated with the built
-	 * chart content.
+	 * Returns an instance of the source chart model associated with the built chart
+	 * content.
 	 * 
-	 * @return An instance of the source chart model associated with the built
-	 *         chart content.
+	 * @return An instance of the source chart model associated with the built chart
+	 *         content.
 	 */
-	public final Chart getChartModel( )
-	{
+	public final Chart getChartModel() {
 		return _cm;
 	}
 
@@ -114,8 +103,7 @@ public final class GeneratedChartState
 	 * 
 	 * @return An instance of the runtime context used in building the chart.
 	 */
-	public final RunTimeContext getRunTimeContext( )
-	{
+	public final RunTimeContext getRunTimeContext() {
 		return _rtc;
 	}
 

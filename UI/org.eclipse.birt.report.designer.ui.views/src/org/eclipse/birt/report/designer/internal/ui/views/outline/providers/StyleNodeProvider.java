@@ -32,76 +32,58 @@ import org.eclipse.ui.PlatformUI;
  * Deals with style node
  * 
  */
-public class StyleNodeProvider extends DefaultNodeProvider
-{
+public class StyleNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
 	 * 
-	 * @param object
-	 *            the object
-	 * @param menu
-	 *            the menu
+	 * @param object the object
+	 * @param menu   the menu
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		Object parent = getParent( object );
-		if ( parent != null )
-		{
-			menu.add( new InsertAction( parent,
-					Messages.getString( "StyleNodeProvider.action.New" ) ) ); //$NON-NLS-1$
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		Object parent = getParent(object);
+		if (parent != null) {
+			menu.add(new InsertAction(parent, Messages.getString("StyleNodeProvider.action.New"))); //$NON-NLS-1$
 		}
 
-		super.createContextMenu( sourceViewer, object, menu );
+		super.createContextMenu(sourceViewer, object, menu);
 
-		if ( ( (StyleHandle) object ).canEdit( ) )
-		{
-			menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-					new EditAction( object,
-							Messages.getString( "StyleNodeProvider.action.Edit" ) ) ); //$NON-NLS-1$
+		if (((StyleHandle) object).canEdit()) {
+			menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS,
+					new EditAction(object, Messages.getString("StyleNodeProvider.action.Edit"))); //$NON-NLS-1$
 		}
 
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new Separator( ) );
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new Separator());
 
-		menu.insertAfter( IWorkbenchActionConstants.MB_ADDITIONS,
-				new ImportCSSStyleAction( object ) ); //$NON-NLS-1$
+		menu.insertAfter(IWorkbenchActionConstants.MB_ADDITIONS, new ImportCSSStyleAction(object)); // $NON-NLS-1$
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getNodeDisplayName(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
+	 * getNodeDisplayName(java.lang.Object)
 	 */
-	protected boolean performEdit( ReportElementHandle handle )
-	{
+	protected boolean performEdit(ReportElementHandle handle) {
 
-		StyleBuilder builder = new StyleBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ),
-				handle,
-				handle.getContainer( ) instanceof AbstractThemeHandle ? (AbstractThemeHandle) handle.getContainer( )
+		StyleBuilder builder = new StyleBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(), handle,
+				handle.getContainer() instanceof AbstractThemeHandle ? (AbstractThemeHandle) handle.getContainer()
 						: null,
-				StyleBuilder.DLG_TITLE_EDIT );
-		return builder.open( ) == Window.OK;
+				StyleBuilder.DLG_TITLE_EDIT);
+		return builder.open() == Window.OK;
 	}
 
-	public String getNodeDisplayName( Object model )
-	{
-		return DEUtil.getDisplayLabel( model, false );
+	public String getNodeDisplayName(Object model) {
+		return DEUtil.getDisplayLabel(model, false);
 	}
-	
-	public String getNodeTooltip( Object model )
-	{
-		if(model instanceof StyleHandle)
-		{
-			return ((StyleHandle)model).getName( );
-		}else
-		{
-			return super.getNodeTooltip( model );
+
+	public String getNodeTooltip(Object model) {
+		if (model instanceof StyleHandle) {
+			return ((StyleHandle) model).getName();
+		} else {
+			return super.getNodeTooltip(model);
 		}
-		
+
 	}
 }

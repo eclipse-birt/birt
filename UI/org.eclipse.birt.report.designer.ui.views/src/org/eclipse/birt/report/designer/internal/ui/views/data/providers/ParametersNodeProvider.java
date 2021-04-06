@@ -37,114 +37,85 @@ import org.eclipse.ui.PlatformUI;
  * Provider for the Parameters slot node
  * 
  */
-public class ParametersNodeProvider extends DefaultNodeProvider
-{
+public class ParametersNodeProvider extends DefaultNodeProvider {
 
-	public Object[] getChildren( Object model )
-	{
-		if ( model instanceof ModuleHandle )
-			return new Object[]{
-				( (ModuleHandle) model ).getParameters( )
-			};
-		return super.getChildren( model );
+	public Object[] getChildren(Object model) {
+		if (model instanceof ModuleHandle)
+			return new Object[] { ((ModuleHandle) model).getParameters() };
+		return super.getChildren(model);
 	}
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry for the given object and adds them to the menu
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// Add new parameter action
-		menu.add( new InsertAction( object,
-				Messages.getString( "ParametersNodeProvider.menu.text.parameter" ), //$NON-NLS-1$
-				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT ) );
+		menu.add(new InsertAction(object, Messages.getString("ParametersNodeProvider.menu.text.parameter"), //$NON-NLS-1$
+				ReportDesignConstants.SCALAR_PARAMETER_ELEMENT));
 
 		// Add new parameter action
-		menu.add( new InsertAction( object,
-				Messages.getString( "ParametersNodeProvider.menu.text.cascadingParameter" ), //$NON-NLS-1$
-				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT ) );
+		menu.add(new InsertAction(object, Messages.getString("ParametersNodeProvider.menu.text.cascadingParameter"), //$NON-NLS-1$
+				ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT));
 
 		// Add new parameter group action
-		menu.add( new InsertAction( object,
-				Messages.getString( "ParametersNodeProvider.menu.text.group" ), //$NON-NLS-1$
-				ReportDesignConstants.PARAMETER_GROUP_ELEMENT ) );
+		menu.add(new InsertAction(object, Messages.getString("ParametersNodeProvider.menu.text.group"), //$NON-NLS-1$
+				ReportDesignConstants.PARAMETER_GROUP_ELEMENT));
 
-		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS
-				+ "-parameters" ) ); //$NON-NLS-1$
+		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS + "-parameters")); //$NON-NLS-1$
 
-		super.createContextMenu( sourceViewer, object, menu );
+		super.createContextMenu(sourceViewer, object, menu);
 	}
 
-	public String getNodeDisplayName( Object object )
-	{
+	public String getNodeDisplayName(Object object) {
 		return PARAMETERS;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider
 	 * #createElement(java.lang.String)
 	 */
-	protected DesignElementHandle createElement( String type ) throws Exception
-	{
-		DesignElementHandle handle = super.createElement( type );
+	protected DesignElementHandle createElement(String type) throws Exception {
+		DesignElementHandle handle = super.createElement(type);
 		BaseTitleAreaDialog dialog = null;
-		if ( ReportDesignConstants.PARAMETER_GROUP_ELEMENT.equals( type ) )
-		{
-			dialog = new ParameterGroupDialog( Display.getCurrent( )
-					.getActiveShell( ),
-					Messages.getString( "ParametersNodeProvider.dialogue.title.group" ) ); //$NON-NLS-1$
-			( (ParameterGroupDialog) dialog ).setInput( handle );
+		if (ReportDesignConstants.PARAMETER_GROUP_ELEMENT.equals(type)) {
+			dialog = new ParameterGroupDialog(Display.getCurrent().getActiveShell(),
+					Messages.getString("ParametersNodeProvider.dialogue.title.group")); //$NON-NLS-1$
+			((ParameterGroupDialog) dialog).setInput(handle);
 
-		}
-		else if ( ReportDesignConstants.SCALAR_PARAMETER_ELEMENT.equals( type ) )
-		{
-			dialog = new ParameterDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					Messages.getString( "ParametersNodeProvider.dialogue.title.parameter" ) );//$NON-NLS-1$
+		} else if (ReportDesignConstants.SCALAR_PARAMETER_ELEMENT.equals(type)) {
+			dialog = new ParameterDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+					Messages.getString("ParametersNodeProvider.dialogue.title.parameter"));//$NON-NLS-1$
 
 			// required default value
-			( (ParameterDialog) dialog ).setInput( handle );
+			((ParameterDialog) dialog).setInput(handle);
 		}
-		if ( dialog == null )
+		if (dialog == null)
 			return null;
-		if ( dialog.open( ) == Dialog.CANCEL )
-		{
+		if (dialog.open() == Dialog.CANCEL) {
 			return null;
 		}
 
-		return (DesignElementHandle) dialog.getResult( );
+		return (DesignElementHandle) dialog.getResult();
 	}
 
-	protected boolean performInsert( Object model, SlotHandle slotHandle,
-			String type, String position, Map extendData ) throws Exception
-	{
-		if ( ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT.equals( type ) )
-		{
-			DesignElementHandle handle = super.createElement( type );
-			slotHandle.add( handle );
-			CascadingParametersDialog dialog = new CascadingParametersDialog( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					Messages.getString( "ParameterNodeProvider.dial.title.newCascading" ) ); //$NON-NLS-1$
-			dialog.setInput( handle );
-			return ( dialog.open( ) == Dialog.OK );
+	protected boolean performInsert(Object model, SlotHandle slotHandle, String type, String position, Map extendData)
+			throws Exception {
+		if (ReportDesignConstants.CASCADING_PARAMETER_GROUP_ELEMENT.equals(type)) {
+			DesignElementHandle handle = super.createElement(type);
+			slotHandle.add(handle);
+			CascadingParametersDialog dialog = new CascadingParametersDialog(
+					PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+					Messages.getString("ParameterNodeProvider.dial.title.newCascading")); //$NON-NLS-1$
+			dialog.setInput(handle);
+			return (dialog.open() == Dialog.OK);
 		}
-		return super.performInsert( model,
-				slotHandle,
-				type,
-				position,
-				extendData );
+		return super.performInsert(model, slotHandle, type, position, extendData);
 	}
 
 	/*
@@ -154,8 +125,7 @@ public class ParametersNodeProvider extends DefaultNodeProvider
 	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName
 	 * (java.lang.Object)
 	 */
-	public String getIconName( Object model )
-	{
+	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_PARAMETERS;
 	}
 

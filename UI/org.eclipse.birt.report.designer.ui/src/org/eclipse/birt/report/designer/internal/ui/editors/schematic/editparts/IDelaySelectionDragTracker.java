@@ -19,29 +19,38 @@ import org.eclipse.gef.EditPart;
  * Class for to select the cell
  */
 
-public interface IDelaySelectionDragTracker extends DragTracker
-{
-	/**Sets the statrt location
+public interface IDelaySelectionDragTracker extends DragTracker {
+	/**
+	 * Sets the statrt location
+	 * 
 	 * @param p
 	 */
 	void setStartLocation(Point p);
-	
-	/**Sets the state
+
+	/**
+	 * Sets the state
+	 * 
 	 * @param state
 	 */
 	void setState(int state);
-	
-	/**Handles  the drag
+
+	/**
+	 * Handles the drag
+	 * 
 	 * @return
 	 */
-	boolean handleDragInProgress( );
-	
-	/**Set the location
+	boolean handleDragInProgress();
+
+	/**
+	 * Set the location
+	 * 
 	 * @param p
 	 */
 	void setLocation(Point p);
-	
-	/**Gets the source editpart
+
+	/**
+	 * Gets the source editpart
+	 * 
 	 * @return
 	 */
 	EditPart getSourceEditPart();

@@ -18,18 +18,15 @@ import org.eclipse.jface.action.Action;
  * This is a AddStyleAction wrapper used in add style in Library Theme.
  */
 
-public class AddThemeStyleAction extends Action
-{
+public class AddThemeStyleAction extends Action {
 
 	private AddStyleAction addStyleAction;
 	private AbstractThemeHandle themeHandle;
 
-	public AddThemeStyleAction( AbstractThemeHandle themeHandle,
-			AddStyleAction addStyleAction )
-	{
+	public AddThemeStyleAction(AbstractThemeHandle themeHandle, AddStyleAction addStyleAction) {
 		this.themeHandle = themeHandle;
 		this.addStyleAction = addStyleAction;
-		setText( themeHandle.getName( ) );
+		setText(themeHandle.getName());
 	}
 
 	/*
@@ -37,11 +34,10 @@ public class AddThemeStyleAction extends Action
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		this.addStyleAction.setThemeHandle( themeHandle );
-		this.addStyleAction.run( );
-		this.addStyleAction.setThemeHandle( null );
+	public void run() {
+		this.addStyleAction.setThemeHandle(themeHandle);
+		this.addStyleAction.run();
+		this.addStyleAction.setThemeHandle(null);
 	}
 
 }

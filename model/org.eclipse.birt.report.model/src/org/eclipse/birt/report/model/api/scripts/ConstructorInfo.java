@@ -27,8 +27,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * constructor,
  */
 
-public class ConstructorInfo implements IMethodInfo
-{
+public class ConstructorInfo implements IMethodInfo {
 
 	/**
 	 * 
@@ -41,27 +40,24 @@ public class ConstructorInfo implements IMethodInfo
 	/**
 	 * Constructor.
 	 * 
-	 * @param method
-	 *            the method of java class
+	 * @param method the method of java class
 	 */
 
-	protected ConstructorInfo( Constructor method )
-	{
+	protected ConstructorInfo(Constructor method) {
 		this.method = method;
 
-		addArgumentList( method.getParameterTypes( ) );
+		addArgumentList(method.getParameterTypes());
 	}
 
 	/**
-	 * Returns the iterator of argument definition. Each one is a list that
-	 * contains <code>ArgumentInfoList</code>.
+	 * Returns the iterator of argument definition. Each one is a list that contains
+	 * <code>ArgumentInfoList</code>.
 	 * 
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator argumentListIterator( )
-	{
-		return arguments.iterator( );
+	public Iterator argumentListIterator() {
+		return arguments.iterator();
 	}
 
 	/**
@@ -70,8 +66,7 @@ public class ConstructorInfo implements IMethodInfo
 	 * @return the resource key for tool tip
 	 */
 
-	public String getToolTipKey( )
-	{
+	public String getToolTipKey() {
 		return StringUtil.EMPTY_STRING;
 	}
 
@@ -82,24 +77,22 @@ public class ConstructorInfo implements IMethodInfo
 	 *         method.
 	 */
 
-	public String getToolTip( )
-	{
+	public String getToolTip() {
 		return StringUtil.EMPTY_STRING;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName()
 	 */
 
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return StringUtil.EMPTY_STRING;
 	}
 
-	public String getDisplayNameKey( )
-	{
+	public String getDisplayNameKey() {
 		return StringUtil.EMPTY_STRING;
 	}
 
@@ -109,9 +102,8 @@ public class ConstructorInfo implements IMethodInfo
 	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
-	public String getName( )
-	{
-		return method.getName( );
+	public String getName() {
+		return method.getName();
 	}
 
 	/*
@@ -119,8 +111,7 @@ public class ConstructorInfo implements IMethodInfo
 	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getJavaDoc()
 	 */
-	public String getJavaDoc( )
-	{
+	public String getJavaDoc() {
 		return StringUtil.EMPTY_STRING;
 	}
 
@@ -130,9 +121,8 @@ public class ConstructorInfo implements IMethodInfo
 	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#getReturnType()
 	 */
 
-	public String getReturnType( )
-	{
-		return method.getName( );
+	public String getReturnType() {
+		return method.getName();
 	}
 
 	/*
@@ -141,8 +131,7 @@ public class ConstructorInfo implements IMethodInfo
 	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#isConstructor()
 	 */
 
-	public boolean isConstructor( )
-	{
+	public boolean isConstructor() {
 		return true;
 	}
 
@@ -152,31 +141,27 @@ public class ConstructorInfo implements IMethodInfo
 	 * @see org.eclipse.birt.report.model.api.metadata.IMethodInfo#isStatic()
 	 */
 
-	public boolean isStatic( )
-	{
-		return Modifier.isStatic( method.getModifiers( ) );
+	public boolean isStatic() {
+		return Modifier.isStatic(method.getModifiers());
 	}
 
-	public IClassInfo getClassReturnType( )
-	{
-		return new ClassInfo( method.getClass( ) );
+	public IClassInfo getClassReturnType() {
+		return new ClassInfo(method.getClass());
 	}
 
 	/**
 	 * Adds an optional argument list to the method information.
 	 * 
-	 * @param argumentList
-	 *            an optional argument list
+	 * @param argumentList an optional argument list
 	 * 
 	 */
 
-	void addArgumentList( Class[] argumentList )
-	{
-		if ( arguments == null )
-			arguments = new ArrayList( );
+	void addArgumentList(Class[] argumentList) {
+		if (arguments == null)
+			arguments = new ArrayList();
 
-		ArgumentInfoList argumentInfo = new ArgumentInfoList( argumentList );
-		arguments.add( argumentInfo );
+		ArgumentInfoList argumentInfo = new ArgumentInfoList(argumentList);
+		arguments.add(argumentInfo);
 	}
 
 }

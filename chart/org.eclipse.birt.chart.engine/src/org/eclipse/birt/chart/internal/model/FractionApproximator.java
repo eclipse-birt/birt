@@ -11,39 +11,27 @@
 
 package org.eclipse.birt.chart.internal.model;
 
+public class FractionApproximator {
+	public static Fraction getExactFraction(double decimal) {
+		ContinuedFraction cf = new ContinuedFraction(decimal);
+		return cf.getExactFraction();
+	}
 
-public class FractionApproximator
-{
-	public static Fraction getExactFraction( double decimal )
-	{
-		ContinuedFraction cf = new ContinuedFraction( decimal );
-		return cf.getExactFraction( );
+	public static Fraction getFractionWithMaxDigits(double decimal, int maxDigitsForDenominator) {
+		ContinuedFraction cf = new ContinuedFraction(decimal);
+		return cf.getFractionWithMaxDigits(maxDigitsForDenominator);
 	}
-	public static Fraction getFractionWithMaxDigits( double decimal, int maxDigitsForDenominator )
-	{
-		ContinuedFraction cf = new ContinuedFraction( decimal );
-		return cf.getFractionWithMaxDigits( maxDigitsForDenominator );
-	}
-	public static Fraction getFractionWithNumerator( double decimal, long numerator )
-	{
-		if ( decimal == 0 )
-		{
-			return new Fraction( 0, 1 );
+
+	public static Fraction getFractionWithNumerator(double decimal, long numerator) {
+		if (decimal == 0) {
+			return new Fraction(0, 1);
 		}
-		if ( Math.abs( Math.round( decimal ) ) + 1 > Math.abs( numerator ) )
-		{
+		if (Math.abs(Math.round(decimal)) + 1 > Math.abs(numerator)) {
 			// impossible case, reverts to exact fraction
-			return getExactFraction( decimal );
-		}
-		else
-		{
-			return new Fraction( numerator, Math.round(  numerator / decimal ) );
+			return getExactFraction(decimal);
+		} else {
+			return new Fraction(numerator, Math.round(numerator / decimal));
 		}
 	}
-	
-	
 
-	
-
-	
 }

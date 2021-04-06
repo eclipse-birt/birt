@@ -30,100 +30,64 @@ import org.eclipse.birt.report.model.api.elements.structures.EmbeddedImage;
  * ChartImageServiceProvider
  */
 
-public class ChartImageServiceProvider implements IImageServiceProvider
-{
+public class ChartImageServiceProvider implements IImageServiceProvider {
 
 	private ExtendedItemHandle extendedHandle = null;
 
-	public ChartImageServiceProvider( Object extendedHandle )
-	{
-		try
-		{
+	public ChartImageServiceProvider(Object extendedHandle) {
+		try {
 			this.extendedHandle = (ExtendedItemHandle) extendedHandle;
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			this.extendedHandle = null;
 		}
 	}
 
-	public List<String> getEmbeddedImageName( )
-	{
-		List<String> list = new ArrayList<String>( );
-		
-		if ( extendedHandle == null )
-		{
+	public List<String> getEmbeddedImageName() {
+		List<String> list = new ArrayList<String>();
+
+		if (extendedHandle == null) {
 			return list;
 		}
-		
-		for ( Iterator<?> itor = extendedHandle.getModuleHandle( )
-				.getVisibleImages( )
-				.iterator( ); itor.hasNext( ); )
-		{
-			EmbeddedImageHandle handle = (EmbeddedImageHandle) itor.next( );
-			list.add( handle.getQualifiedName( ) );
+
+		for (Iterator<?> itor = extendedHandle.getModuleHandle().getVisibleImages().iterator(); itor.hasNext();) {
+			EmbeddedImageHandle handle = (EmbeddedImageHandle) itor.next();
+			list.add(handle.getQualifiedName());
 		}
 
 		return list;
 	}
 
-	public String saveImage( String fullPath, String fileName )
-			throws ChartException
-	{
-		BirtImageLoader imageLoader = new BirtImageLoader( );
-		try
-		{
-			EmbeddedImage image = imageLoader.save( extendedHandle.getModuleHandle( ),
-					fullPath,
-					fileName );
-			return image.getName( );
-		}
-		catch ( Exception e )
-		{
-			throw new ChartException( ChartReportItemUIActivator.ID,
-					ChartException.IMAGE_LOADING,
-					e );
+	public String saveImage(String fullPath, String fileName) throws ChartException {
+		BirtImageLoader imageLoader = new BirtImageLoader();
+		try {
+			EmbeddedImage image = imageLoader.save(extendedHandle.getModuleHandle(), fullPath, fileName);
+			return image.getName();
+		} catch (Exception e) {
+			throw new ChartException(ChartReportItemUIActivator.ID, ChartException.IMAGE_LOADING, e);
 		}
 	}
 
-	public org.eclipse.swt.graphics.Image getEmbeddedImage( String fileName )
-	{
-		if ( extendedHandle == null )
-		{
+	public org.eclipse.swt.graphics.Image getEmbeddedImage(String fileName) {
+		if (extendedHandle == null) {
 			return null;
-		}
-		else
-		{
-			return ImageManager.getInstance( )
-					.getEmbeddedImage( extendedHandle.getModuleHandle( ),
-							fileName );
+		} else {
+			return ImageManager.getInstance().getEmbeddedImage(extendedHandle.getModuleHandle(), fileName);
 		}
 	}
 
-	public org.eclipse.swt.graphics.Image loadImage( String fileName )
-			throws ChartException
-	{
-		try
-		{
-			return ImageManager.getInstance( ).loadImage( fileName );
-		}
-		catch ( IOException e )
-		{
-			throw new ChartException( ChartReportItemUIActivator.ID,
-					ChartException.IMAGE_LOADING,
-					e );
+	public org.eclipse.swt.graphics.Image loadImage(String fileName) throws ChartException {
+		try {
+			return ImageManager.getInstance().loadImage(fileName);
+		} catch (IOException e) {
+			throw new ChartException(ChartReportItemUIActivator.ID, ChartException.IMAGE_LOADING, e);
 		}
 	}
 
-	public String getImageAbsoluteURL( Image image )
-	{
-		if ( extendedHandle == null )
-		{
+	public String getImageAbsoluteURL(Image image) {
+		if (extendedHandle == null) {
 			return null;
-		}
-		else
-		{
-			return ChartReportItemUtil.getImageAbsoluteURL( image, extendedHandle );
+		} else {
+			return ChartReportItemUtil.getImageAbsoluteURL(image, extendedHandle);
 		}
 	}
 }

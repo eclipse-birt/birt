@@ -32,94 +32,86 @@ import org.w3c.dom.css.CSSValue;
  * the properties must be string as the user may change them in script.
  * 
  */
-public interface IStyle
-		extends
-			CSSStyleDeclaration,
-			StyleConstants,
-			CSS2Properties,
-			CSSConstants,
-			CSSValueConstants,
-			BIRTConstants,
-			BIRTValueConstants
-{
+public interface IStyle extends CSSStyleDeclaration, StyleConstants, CSS2Properties, CSSConstants, CSSValueConstants,
+		BIRTConstants, BIRTValueConstants {
 
-	public String getBackgroundPositionX( );
+	public String getBackgroundPositionX();
 
-	public String getBackgroundPositionY( );
+	public String getBackgroundPositionY();
 
-	public String getTextUnderline( );
+	public String getTextUnderline();
 
-	public String getTextOverline( );
+	public String getTextOverline();
 
-	public String getTextLineThrough( );
+	public String getTextLineThrough();
 
-	public String getMasterPage( );
+	public String getMasterPage();
 
-	public String getShowIfBlank( );
+	public String getShowIfBlank();
 
-	public String getCanShrink( );
+	public String getCanShrink();
 
-	public String getStringFormat( );
+	public String getStringFormat();
 
-	public String getNumberFormat( );
+	public String getNumberFormat();
 
-	public String getDateFormat( );
-	
-	public String getDateTimeFormat( );
+	public String getDateFormat();
 
-	public String getTimeFormat( );
+	public String getDateTimeFormat();
 
-	public String getNumberAlign( );
+	public String getTimeFormat();
 
-	public String getVisibleFormat( );
+	public String getNumberAlign();
 
-	public void setBackgroundPositionX( String x ) throws DOMException;
+	public String getVisibleFormat();
 
-	public void setBackgroundPositionY( String y ) throws DOMException;
+	public void setBackgroundPositionX(String x) throws DOMException;
 
-	public void setTextUnderline( String underline ) throws DOMException;
+	public void setBackgroundPositionY(String y) throws DOMException;
 
-	public void setTextOverline( String overline ) throws DOMException;
+	public void setTextUnderline(String underline) throws DOMException;
 
-	public void setTextLineThrough( String through ) throws DOMException;
+	public void setTextOverline(String overline) throws DOMException;
 
-	public void setMasterPage( String page ) throws DOMException;
+	public void setTextLineThrough(String through) throws DOMException;
 
-	public void setShowIfBlank( String blank ) throws DOMException;
+	public void setMasterPage(String page) throws DOMException;
 
-	public void setCanShrink( String shrink ) throws DOMException;
+	public void setShowIfBlank(String blank) throws DOMException;
 
-	public void setStringFormat( String format ) throws DOMException;
+	public void setCanShrink(String shrink) throws DOMException;
 
-	public void setNumberFormat( String format ) throws DOMException;
+	public void setStringFormat(String format) throws DOMException;
 
-	public void setDateFormat( String format ) throws DOMException;
+	public void setNumberFormat(String format) throws DOMException;
 
-	public void setNumberAlign( String align ) throws DOMException;
+	public void setDateFormat(String format) throws DOMException;
 
-	public void setVisibleFormat( String visibility ) throws DOMException;
+	public void setNumberAlign(String align) throws DOMException;
 
-	public CSSValue getProperty( int index );
+	public void setVisibleFormat(String visibility) throws DOMException;
 
-	public void setProperty( int index, CSSValue value );
+	public CSSValue getProperty(int index);
 
-	public void setProperties( IStyle style );
+	public void setProperty(int index, CSSValue value);
 
-	public String getCssText( int index );
+	public void setProperties(IStyle style);
 
-	public void setCssText( int index, String value ) throws DOMException;
+	public String getCssText(int index);
 
-	boolean isEmpty( );
+	public void setCssText(int index, String value) throws DOMException;
 
-	void write( DataOutputStream out ) throws IOException;
+	boolean isEmpty();
 
-	void read( DataInputStream in ) throws IOException;
+	void write(DataOutputStream out) throws IOException;
 
-	public String getBackgroundHeight( );
+	void read(DataInputStream in) throws IOException;
 
-	public String getBackgroundWidth( );
-	
-	public DataFormatValue getDataFormat( );
-	
-	public void setDataFormat( DataFormatValue value );
+	public String getBackgroundHeight();
+
+	public String getBackgroundWidth();
+
+	public DataFormatValue getDataFormat();
+
+	public void setDataFormat(DataFormatValue value);
 }

@@ -20,79 +20,73 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * 
  */
 
-public class DataTypeConversionUtil
-{
+public class DataTypeConversionUtil {
 
 	/**
-	 * Returns the corresponding parameter type choice with the given column
-	 * data type.
+	 * Returns the corresponding parameter type choice with the given column data
+	 * type.
 	 * 
-	 * @param columnType
-	 *            the column data type
+	 * @param columnType the column data type
 	 * @return the parameter type
 	 */
 
-	public static String converToParamType( String columnType )
-	{
-		if ( StringUtil.isBlank( columnType ) )
+	public static String converToParamType(String columnType) {
+		if (StringUtil.isBlank(columnType))
 			return null;
 
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_ANY;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_BOOLEAN;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME
-				.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_DATETIME;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_DATE.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_DATE;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_TIME.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_TIME;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_DECIMAL;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_FLOAT;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_INTEGER;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_STRING;
-		if ( DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals( columnType ) )
+		if (DesignChoiceConstants.COLUMN_DATA_TYPE_BLOB.equals(columnType))
 			return DesignChoiceConstants.PARAM_TYPE_ANY;
 
 		return columnType;
 	}
 
 	/**
-	 * Returns the corresponding column data type choice with the given
-	 * parameter type.
+	 * Returns the corresponding column data type choice with the given parameter
+	 * type.
 	 * 
-	 * @param paramType
-	 *            the parameter type
+	 * @param paramType the parameter type
 	 * @return the column data type
 	 */
 
-	public static String converToColumnDataType( String paramType )
-	{
-		if ( StringUtil.isBlank( paramType ) )
+	public static String converToColumnDataType(String paramType) {
+		if (StringUtil.isBlank(paramType))
 			return null;
 
-		if ( DesignChoiceConstants.PARAM_TYPE_ANY.equals( paramType ) )
+		if (DesignChoiceConstants.PARAM_TYPE_ANY.equals(paramType))
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_ANY;
-		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( paramType ) )
+		if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(paramType))
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_BOOLEAN;
-		if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( paramType ) )
+		if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(paramType))
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATETIME;
-		if ( DesignChoiceConstants.PARAM_TYPE_DATE.equals( paramType ) )
+		if (DesignChoiceConstants.PARAM_TYPE_DATE.equals(paramType))
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DATE;
-		if ( DesignChoiceConstants.PARAM_TYPE_TIME.equals( paramType ) )
+		if (DesignChoiceConstants.PARAM_TYPE_TIME.equals(paramType))
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_TIME;
-		if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( paramType ) )
+		if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(paramType))
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_DECIMAL;
-		if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( paramType ) )
+		if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(paramType))
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_FLOAT;
-		if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( paramType ) )
+		if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(paramType))
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_INTEGER;
-		if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( paramType ) )
+		if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(paramType))
 			return DesignChoiceConstants.COLUMN_DATA_TYPE_STRING;
 
 		return paramType;

@@ -22,8 +22,7 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor;
  * This class is an implementation of IScriptFuction interface.
  */
 
-public class ScriptFunction implements IScriptFunction
-{
+public class ScriptFunction implements IScriptFunction {
 	private static final long serialVersionUID = 1L;
 	//
 	private String name;
@@ -36,7 +35,7 @@ public class ScriptFunction implements IScriptFunction
 	private boolean isStatic;
 	private boolean isConstructor;
 	private boolean isVisible;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -47,8 +46,9 @@ public class ScriptFunction implements IScriptFunction
 	 * @param desc
 	 * @param executor
 	 */
-	public ScriptFunction( String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument, String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments, boolean isStatic,  boolean isConstructor )
-	{
+	public ScriptFunction(String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument,
+			String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments, boolean isStatic,
+			boolean isConstructor) {
 		this.name = name;
 		this.category = category;
 		this.argument = argument;
@@ -60,7 +60,7 @@ public class ScriptFunction implements IScriptFunction
 		this.isConstructor = isConstructor;
 		this.isVisible = true;
 	}
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -75,11 +75,9 @@ public class ScriptFunction implements IScriptFunction
 	 * @param isConstructor
 	 * @param isVisible
 	 */
-	public ScriptFunction( String name, IScriptFunctionCategory category,
-			IScriptFunctionArgument[] argument, String dataType, String desc,
-			IScriptFunctionExecutor executor, boolean allowVarArguments,
-			boolean isStatic, boolean isConstructor, boolean isVisible )
-	{
+	public ScriptFunction(String name, IScriptFunctionCategory category, IScriptFunctionArgument[] argument,
+			String dataType, String desc, IScriptFunctionExecutor executor, boolean allowVarArguments, boolean isStatic,
+			boolean isConstructor, boolean isVisible) {
 		this.name = name;
 		this.category = category;
 		this.argument = argument;
@@ -91,65 +89,70 @@ public class ScriptFunction implements IScriptFunction
 		this.isConstructor = isConstructor;
 		this.isVisible = isVisible;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunction#getArguments()
+	 * 
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IScriptFunction#getArguments()
 	 */
-	public IScriptFunctionArgument[] getArguments( )
-	{
+	public IScriptFunctionArgument[] getArguments() {
 		return this.argument;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunction#getCategory()
+	 * 
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IScriptFunction#getCategory()
 	 */
-	public IScriptFunctionCategory getCategory( )
-	{
+	public IScriptFunctionCategory getCategory() {
 		return this.category;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunction#getDataType()
+	 * 
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IScriptFunction#getDataType()
 	 */
-	public String getDataTypeName( )
-	{
+	public String getDataTypeName() {
 		return this.dataType;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.script.functionservice.INamedObject#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return this.name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IDescribable#getDescription()
+	 * 
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IDescribable#getDescription()
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return this.desc;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor#execute(java.lang.Object[])
+	 * 
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IScriptFunctionExecutor#execute(
+	 * java.lang.Object[])
 	 */
-	public Object execute( Object[] arguments, IScriptFunctionContext context ) throws BirtException
-	{
-		if( this.executor!= null )
-			return this.executor.execute( arguments, context );
+	public Object execute(Object[] arguments, IScriptFunctionContext context) throws BirtException {
+		if (this.executor != null)
+			return this.executor.execute(arguments, context);
 		return null;
 	}
 
-	public boolean allowVarArguments( )
-	{
+	public boolean allowVarArguments() {
 		return this.allowVarArguments;
 	}
 
@@ -157,18 +160,15 @@ public class ScriptFunction implements IScriptFunction
 	 * Returns whether the function is visible.
 	 * 
 	 */
-	public boolean isVisible( )
-	{
+	public boolean isVisible() {
 		return this.isVisible;
 	}
-	
-	public boolean isConstructor( )
-	{
+
+	public boolean isConstructor() {
 		return this.isConstructor;
 	}
 
-	public boolean isStatic( )
-	{
+	public boolean isStatic() {
 		return this.isStatic;
 	}
 

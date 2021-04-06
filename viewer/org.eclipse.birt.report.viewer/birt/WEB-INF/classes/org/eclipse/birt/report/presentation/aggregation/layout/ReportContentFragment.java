@@ -17,16 +17,15 @@ import org.eclipse.birt.report.presentation.aggregation.control.NavigationbarFra
 /**
  * Report content fragment containing engine fragment.
  * <p>
+ * 
  * @see BaseFragment
  */
-public class ReportContentFragment extends BirtBaseFragment
-{
+public class ReportContentFragment extends BirtBaseFragment {
 	/**
 	 * Build fragment by adding engine fragment as child.
 	 */
-	protected void build( )
-	{
-		addChild( new NavigationbarFragment( ) );
-		addChild( new DocumentFragment( ) );
+	protected void build() {
+		addChild(new NavigationbarFragment());
+		addChild(new DocumentFragment());
 	}
 }

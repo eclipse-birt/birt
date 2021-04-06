@@ -12,13 +12,11 @@ package org.eclipse.birt.report.tests.model.plugin;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
 
-
 /**
  *
- *  Plugin class.
+ * Plugin class.
  */
 
-public class ModelPlugin extends BIRTPlugin
-{
+public class ModelPlugin extends BIRTPlugin {
 
 }

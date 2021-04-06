@@ -17,7 +17,6 @@ import org.eclipse.ui.part.IPageBookViewPage;
  * This interface is to identify the page implementation that targets for the
  * *Data Explorer* view.
  */
-public interface IDataViewPage extends IPageBookViewPage
-{
+public interface IDataViewPage extends IPageBookViewPage {
 
 }

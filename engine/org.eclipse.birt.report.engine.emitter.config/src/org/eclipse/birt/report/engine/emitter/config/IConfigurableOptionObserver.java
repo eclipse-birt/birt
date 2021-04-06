@@ -18,26 +18,24 @@ import org.eclipse.birt.report.engine.api.IRenderOption;
 /**
  * IOptionObserver
  */
-public interface IConfigurableOptionObserver
-{
+public interface IConfigurableOptionObserver {
 
 	/**
 	 * Returns all configurable options of this emitter.
 	 */
-	IConfigurableOption[] getOptions( );
+	IConfigurableOption[] getOptions();
 
 	/**
 	 * Gets called when one of the options is changed or this observer is
-	 * initialized from a previous state. If it returns <code>true</code>, means
-	 * the caller need sychronize the option status by calling
-	 * <code>getOptions()</code> again.
+	 * initialized from a previous state. If it returns <code>true</code>, means the
+	 * caller need sychronize the option status by calling <code>getOptions()</code>
+	 * again.
 	 * 
-	 * @param values
-	 *            The option values.
-	 * @return Returns <code>true</code> if the option status need be
-	 *         synchronized; <code>false</code> for doing nothing.
+	 * @param values The option values.
+	 * @return Returns <code>true</code> if the option status need be synchronized;
+	 *         <code>false</code> for doing nothing.
 	 */
-	boolean update( IOptionValue... values );
+	boolean update(IOptionValue... values);
 
 	/**
 	 * It should be called before updating the values to check whether the input
@@ -47,16 +45,16 @@ public interface IConfigurableOptionObserver
 	 * @param values
 	 * @return
 	 */
-	List validate( IOptionValue... values );
+	List validate(IOptionValue... values);
 
 	/**
 	 * @return Returns the option values based on current state.
 	 */
-	IOptionValue[] getOptionValues( );
+	IOptionValue[] getOptionValues();
 
 	/**
 	 * Returns the preferred render option based on current state.
 	 */
-	IRenderOption getPreferredRenderOption( );
+	IRenderOption getPreferredRenderOption();
 
 }

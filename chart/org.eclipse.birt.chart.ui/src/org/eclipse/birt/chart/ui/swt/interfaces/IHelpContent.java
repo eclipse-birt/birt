@@ -12,10 +12,9 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
 /**
  * @author Actuate Corporation
  */
-public interface IHelpContent
-{
+public interface IHelpContent {
 
-    public String getTitle();
+	public String getTitle();
 
-    public String getDescription();
+	public String getDescription();
 }

@@ -44,34 +44,31 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * cleared
  * </p>
  */
-public class Regression_122879 extends BaseTestCase
-{
+public class Regression_122879 extends BaseTestCase {
 
 	private final static String INPUT = "regression_122879.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
-	
+
 	/**
 	 * @throws DesignFileException
 	 * @throws NameException
 	 */
-	public void test_regression_122879( ) throws DesignFileException, NameException
-	{
-		openDesign( INPUT );
-		TableHandle table = (TableHandle) designHandle.findElement( "table1" ); //$NON-NLS-1$
-		TableGroupHandle group1 = (TableGroupHandle) table.getGroups( ).get( 0 );
+	public void test_regression_122879() throws DesignFileException, NameException {
+		openDesign(INPUT);
+		TableHandle table = (TableHandle) designHandle.findElement("table1"); //$NON-NLS-1$
+		TableGroupHandle group1 = (TableGroupHandle) table.getGroups().get(0);
 
-		group1.setName( null );
-		assertEquals( null, group1.getQualifiedName( ) );
-		assertEquals( null, group1.getName( ) );
-		
+		group1.setName(null);
+		assertEquals(null, group1.getQualifiedName());
+		assertEquals(null, group1.getName());
+
 	}
 }

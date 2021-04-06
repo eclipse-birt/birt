@@ -30,76 +30,62 @@ import org.eclipse.ui.PlatformUI;
  * 
  * 
  */
-public class DeleteAction extends AbstractElementAction
-{
+public class DeleteAction extends AbstractElementAction {
 
-	private static final String DEFAULT_TEXT = Messages.getString( "DeleteAction.text" ); //$NON-NLS-1$
+	private static final String DEFAULT_TEXT = Messages.getString("DeleteAction.text"); //$NON-NLS-1$
 
 	private boolean hasExecuted = false;
 
 	/**
 	 * Create a new delete action with given selection and default text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
+	 * @param selectedObject the selected object,which cannot be null
 	 * 
 	 */
-	public DeleteAction( Object selectedObject )
-	{
-		this( selectedObject, DEFAULT_TEXT );
+	public DeleteAction(Object selectedObject) {
+		this(selectedObject, DEFAULT_TEXT);
 	}
 
 	/**
 	 * Create a new delete action with given selection and text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
-	 * @param text
-	 *            the text of the action
+	 * @param selectedObject the selected object,which cannot be null
+	 * @param text           the text of the action
 	 */
-	public DeleteAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
-		ISharedImages shareImages = PlatformUI.getWorkbench( )
-				.getSharedImages( );
-		setImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE ) );
-		setDisabledImageDescriptor( shareImages.getImageDescriptor( ISharedImages.IMG_TOOL_DELETE_DISABLED ) );
-		setAccelerator( SWT.DEL );
+	public DeleteAction(Object selectedObject, String text) {
+		super(selectedObject, text);
+		ISharedImages shareImages = PlatformUI.getWorkbench().getSharedImages();
+		setImageDescriptor(shareImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE));
+		setDisabledImageDescriptor(shareImages.getImageDescriptor(ISharedImages.IMG_TOOL_DELETE_DISABLED));
+		setAccelerator(SWT.DEL);
 	}
 
-	protected boolean doAction( ) throws Exception
-	{
+	protected boolean doAction() throws Exception {
 
-		Object selection = getSelection( );
-		if (selection instanceof IMixedHandle)
-		{
-			selection = ((IMixedHandle) selection).getChildren( ).toArray( );
+		Object selection = getSelection();
+		if (selection instanceof IMixedHandle) {
+			selection = ((IMixedHandle) selection).getChildren().toArray();
 		}
-		if ( selection != null && selection instanceof StructuredSelection )
-		{
-			Object element = ( (StructuredSelection) selection ).getFirstElement( );
-			if ( element != null && element instanceof LibraryHandle )
-			{
-				if ( ( (LibraryHandle) element ).getHostHandle( ) != null )
-				{
-					return new RemoveLibraryAction( element ).doAction( );
+		if (selection != null && selection instanceof StructuredSelection) {
+			Object element = ((StructuredSelection) selection).getFirstElement();
+			if (element != null && element instanceof LibraryHandle) {
+				if (((LibraryHandle) element).getHostHandle() != null) {
+					return new RemoveLibraryAction(element).doAction();
 				}
 			}
 		}
-		if ( selection != null )
-		{
-			CommandUtils.setVariable( ICommandParameterNameContants.SELECTION,
-					selection );
+		if (selection != null) {
+			CommandUtils.setVariable(ICommandParameterNameContants.SELECTION, selection);
 		}
 
 		Object exeResult = null;
-		exeResult = CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.deleteCommand", //$NON-NLS-1$
-				null );
+		exeResult = CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.deleteCommand", //$NON-NLS-1$
+				null);
 
-		hasExecuted = ( (Boolean) exeResult ).booleanValue( );		
-		CommandUtils.removeVariable(  ICommandParameterNameContants.SELECTION );
+		hasExecuted = ((Boolean) exeResult).booleanValue();
+		CommandUtils.removeVariable(ICommandParameterNameContants.SELECTION);
 
-		return Boolean.TRUE.equals( exeResult );
+		return Boolean.TRUE.equals(exeResult);
 	}
 
 	/*
@@ -107,55 +93,46 @@ public class DeleteAction extends AbstractElementAction
 	 * 
 	 * @see org.eclipse.jface.action.IAction#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		Object selection = getSelection( );
-		if (selection instanceof IMixedHandle)
-		{
-			selection = ((IMixedHandle) selection).getChildren( ).toArray( );
-		}
-		else if ( selection != null && selection instanceof StructuredSelection )
-		{
-			Object element = ( (StructuredSelection) selection ).getFirstElement( );
-			if ( element != null && element instanceof LibraryHandle )
-			{
-				if ( ( (LibraryHandle) element ).getHostHandle( ) != null )
-				{
+	public boolean isEnabled() {
+		Object selection = getSelection();
+		if (selection instanceof IMixedHandle) {
+			selection = ((IMixedHandle) selection).getChildren().toArray();
+		} else if (selection != null && selection instanceof StructuredSelection) {
+			Object element = ((StructuredSelection) selection).getFirstElement();
+			if (element != null && element instanceof LibraryHandle) {
+				if (((LibraryHandle) element).getHostHandle() != null) {
 					return true;
 				}
 			}
 		}
-		Command cmd = createDeleteCommand( selection );
-		if ( cmd == null )
+		Command cmd = createDeleteCommand(selection);
+		if (cmd == null)
 			return false;
-		return cmd.canExecute( );
+		return cmd.canExecute();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#getTransactionLabel()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#getTransactionLabel()
 	 */
 
-	protected String getTransactionLabel( )
-	{
-		if ( getSelection( ) instanceof IStructuredSelection )
-		{
-			return Messages.getString( "DeleteAction.trans" ); //$NON-NLS-1$
+	protected String getTransactionLabel() {
+		if (getSelection() instanceof IStructuredSelection) {
+			return Messages.getString("DeleteAction.trans"); //$NON-NLS-1$
 		}
-		return DEFAULT_TEXT + " " + DEUtil.getDisplayLabel( getSelection( ) ); //$NON-NLS-1$
+		return DEFAULT_TEXT + " " + DEUtil.getDisplayLabel(getSelection()); //$NON-NLS-1$
 	}
 
-	protected Command createDeleteCommand( Object objects )
-	{
-		return new DeleteCommand( objects );
+	protected Command createDeleteCommand(Object objects) {
+		return new DeleteCommand(objects);
 	}
 
 	/**
 	 * Returns if user press OK to run the action.
 	 */
-	public boolean hasExecuted( )
-	{
+	public boolean hasExecuted() {
 		return hasExecuted;
 	}
 

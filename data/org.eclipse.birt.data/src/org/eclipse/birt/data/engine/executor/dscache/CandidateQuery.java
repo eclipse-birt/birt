@@ -25,90 +25,76 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
 /**
  * In design time, this query will retrieve data from cache.
  */
-public class CandidateQuery extends BaseQuery implements ICandidateQuery
-{
+public class CandidateQuery extends BaseQuery implements ICandidateQuery {
 	//
 	private DataSetFromCache datasetFromCache;
 	private DataEngineSession session;
-	
-	public CandidateQuery( DataEngineSession session )
-	{
+
+	public CandidateQuery(DataEngineSession session) {
 		this.session = session;
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#getResultClass()
 	 */
-	public IResultClass getResultClass( ) throws DataException
-	{
-		return getOdaCacheResultSet( ).getResultClass( );
+	public IResultClass getResultClass() throws DataException {
+		return getOdaCacheResultSet().getResultClass();
 	}
 
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#execute()
 	 */
-	public IResultIterator execute( IEventHandler eventHandler ) throws DataException
-	{
-		return new CachedResultSet( this,
-				getOdaCacheResultSet( ).getResultClass( ),
-				getOdaCacheResultSet( ),
-				eventHandler, session );
+	public IResultIterator execute(IEventHandler eventHandler) throws DataException {
+		return new CachedResultSet(this, getOdaCacheResultSet().getResultClass(), getOdaCacheResultSet(), eventHandler,
+				session);
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.birt.data.engine.odi.IResultIterator,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.
+	 * birt.data.engine.odi.IResultIterator, int)
 	 */
-	public void setCandidates( IResultIterator resultObjsIterator,
-			int groupingLevel ) throws DataException
-	{
+	public void setCandidates(IResultIterator resultObjsIterator, int groupingLevel) throws DataException {
 		// do nothing
 	}
 
 	/*
-	 * @see org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.birt.data.engine.odi.ICustomDataSet)
+	 * @see
+	 * org.eclipse.birt.data.engine.odi.ICandidateQuery#setCandidates(org.eclipse.
+	 * birt.data.engine.odi.ICustomDataSet)
 	 */
-	public void setCandidates( ICustomDataSet customDataSet )
-			throws DataException
-	{
+	public void setCandidates(ICustomDataSet customDataSet) throws DataException {
 		// do nothing
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IQuery#close()
 	 */
-	public void close( )
-	{
-		try
-		{
-			if ( datasetFromCache != null )
-			{
-				datasetFromCache.close( );
+	public void close() {
+		try {
+			if (datasetFromCache != null) {
+				datasetFromCache.close();
 				datasetFromCache = null;
 			}
-		}
-		catch ( DataException e )
-		{
+		} catch (DataException e) {
 			// ignore it
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param columns
 	 */
-	public void setTempComputedColumn( List columns )
-	{
-		this.getOdaCacheResultSet( ).setTempComputedColumn( columns );
+	public void setTempComputedColumn(List columns) {
+		this.getOdaCacheResultSet().setTempComputedColumn(columns);
 	}
-	
+
 	/**
 	 * @return OdaCacheResultSet
 	 */
-	private DataSetFromCache getOdaCacheResultSet( )
-	{
-		if ( datasetFromCache == null )
-			datasetFromCache = new DataSetFromCache( session );
+	private DataSetFromCache getOdaCacheResultSet() {
+		if (datasetFromCache == null)
+			datasetFromCache = new DataSetFromCache(session);
 
 		return datasetFromCache;
 	}

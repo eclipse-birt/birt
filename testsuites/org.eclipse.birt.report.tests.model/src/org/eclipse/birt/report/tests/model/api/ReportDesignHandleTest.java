@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.tests.model.api;
 
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -47,23 +46,20 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * 
  * 
  */
-public class ReportDesignHandleTest extends BaseTestCase
-{
+public class ReportDesignHandleTest extends BaseTestCase {
 
 	// protected static final String pluginpath =
 	// System.getProperty("eclipse.home")+"/plugins/"+ PLUGIN_NAME +"/bin/";
 	/**
 	 * @param name
 	 */
-	public ReportDesignHandleTest( String name )
-	{
-		super( name );
+	public ReportDesignHandleTest(String name) {
+		super(name);
 		// TODO Auto-generated constructor stub
 	}
 
-	public static Test suite( )
-	{
-		return new TestSuite( ReportDesignHandleTest.class );
+	public static Test suite() {
+		return new TestSuite(ReportDesignHandleTest.class);
 	}
 
 	/*
@@ -71,70 +67,63 @@ public class ReportDesignHandleTest extends BaseTestCase
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest.xml"  );
-		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest_css.xml"  );
-		copyInputToFile ( INPUT_FOLDER + "/" + "ReportDesignHandleTest_css1.css"  );
-		
-		
-		openDesign( "ReportDesignHandleTest.xml" ); //$NON-NLS-1$
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + "ReportDesignHandleTest.xml");
+		copyInputToFile(INPUT_FOLDER + "/" + "ReportDesignHandleTest_css.xml");
+		copyInputToFile(INPUT_FOLDER + "/" + "ReportDesignHandleTest_css1.css");
+
+		openDesign("ReportDesignHandleTest.xml"); //$NON-NLS-1$
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
 
 	/**
 	 * Tests cases for methods on ReportDesignHandle.
 	 * 
 	 */
 
-	public void testReportDesignOtherMethods( )
-	{
+	public void testReportDesignOtherMethods() {
 		assertFalse(designHandle.isEnableACL());
-		try
-		{
+		try {
 			designHandle.setEnableACL(true);
-		}
-		catch ( SemanticException e )
-		{
+		} catch (SemanticException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		assertTrue(designHandle.isEnableACL());
 	}
 
-
-
 	/**
-	 * Test findIncludedCssStyleSheetHandleByFileName()
-	 * Test findCssStyleSheetHandleByFileName()
+	 * Test findIncludedCssStyleSheetHandleByFileName() Test
+	 * findCssStyleSheetHandleByFileName()
+	 * 
 	 * @throws DesignFileException
 	 */
-	public void testFindCssHandle() throws DesignFileException{
+	public void testFindCssHandle() throws DesignFileException {
 		openDesign("ReportDesignHandleTest_css.xml");
-		
-		IncludedCssStyleSheetHandle includeCssHandle =designHandle.findIncludedCssStyleSheetHandleByFileName("ReportDesignHandleTest_css.css");
+
+		IncludedCssStyleSheetHandle includeCssHandle = designHandle
+				.findIncludedCssStyleSheetHandleByFileName("ReportDesignHandleTest_css.css");
 		assertNotNull(includeCssHandle);
-		assertEquals("ReportDesignHandleTest_css.css",includeCssHandle.getFileName());
-		
-		CssStyleSheetHandle cssHandle=designHandle.findCssStyleSheetHandleByFileName("ReportDesignHandleTest_css.css");
+		assertEquals("ReportDesignHandleTest_css.css", includeCssHandle.getFileName());
+
+		CssStyleSheetHandle cssHandle = designHandle
+				.findCssStyleSheetHandleByFileName("ReportDesignHandleTest_css.css");
 		assertNull(cssHandle);
-		
-		cssHandle=designHandle.findCssStyleSheetHandleByFileName("ReportDesignHandleTest_css1.css");
+
+		cssHandle = designHandle.findCssStyleSheetHandleByFileName("ReportDesignHandleTest_css1.css");
 		assertNotNull(cssHandle);
-		assertEquals("ReportDesignHandleTest_css1.css",cssHandle.getFileName());
-		
-		includeCssHandle =designHandle.findIncludedCssStyleSheetHandleByFileName("test2.css");
+		assertEquals("ReportDesignHandleTest_css1.css", cssHandle.getFileName());
+
+		includeCssHandle = designHandle.findIncludedCssStyleSheetHandleByFileName("test2.css");
 		assertNull(includeCssHandle);
-		
-		cssHandle=designHandle.findCssStyleSheetHandleByFileName("test2.css");
+
+		cssHandle = designHandle.findCssStyleSheetHandleByFileName("test2.css");
 		assertNull(cssHandle);
 	}
 }

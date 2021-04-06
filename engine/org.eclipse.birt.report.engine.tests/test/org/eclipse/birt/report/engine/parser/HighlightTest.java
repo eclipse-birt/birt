@@ -18,36 +18,34 @@ import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 /**
  * 
  */
-public class HighlightTest extends AbstractDesignTestCase
-{
+public class HighlightTest extends AbstractDesignTestCase {
 
-	public void testHighlightDesign( ) throws Exception
-	{
-		loadDesign( "highlight.xml" );
+	public void testHighlightDesign() throws Exception {
+		loadDesign("highlight.xml");
 
-		ReportItemDesign item = report.getContent( 0 );
-		HighlightDesign highlight = item.getHighlight( );
-		assertTrue( highlight != null );
+		ReportItemDesign item = report.getContent(0);
+		HighlightDesign highlight = item.getHighlight();
+		assertTrue(highlight != null);
 
-		assertEquals( highlight.getRuleCount( ), 3 );
-		HighlightRuleDesign rule = highlight.getRule( 0 );
-		assertTrue( rule != null );
-		assertEquals( rule.getOperator( ), "lt" );
-		assertEquals( rule.getValue1( ).getScriptText( ), "row[\"COLUMN_29\"]" );
-		assertEquals( rule.getValue2( ), null );
-		assertEquals( rule.getStyle( ).getColor( ), "red" );
+		assertEquals(highlight.getRuleCount(), 3);
+		HighlightRuleDesign rule = highlight.getRule(0);
+		assertTrue(rule != null);
+		assertEquals(rule.getOperator(), "lt");
+		assertEquals(rule.getValue1().getScriptText(), "row[\"COLUMN_29\"]");
+		assertEquals(rule.getValue2(), null);
+		assertEquals(rule.getStyle().getColor(), "red");
 
-		rule = highlight.getRule( 1 );
-		assertEquals( rule.getOperator( ), "is-true" );
-		assertEquals( rule.getValue1( ), null );
-		assertEquals( rule.getValue2( ), null );
-		assertEquals( rule.getStyle( ).getColor( ), "yellow" );
+		rule = highlight.getRule(1);
+		assertEquals(rule.getOperator(), "is-true");
+		assertEquals(rule.getValue1(), null);
+		assertEquals(rule.getValue2(), null);
+		assertEquals(rule.getStyle().getColor(), "yellow");
 
-		rule = highlight.getRule( 2 );
-		assertEquals( rule.getOperator( ), "between" );
-		assertEquals( rule.getValue1( ).getScriptText( ), "row[\"COLUMN_29\"]" );
-		assertEquals( rule.getValue2( ).getScriptText( ), "row[\"COLUMN_31\"]" );
-		assertEquals( rule.getStyle( ).getColor( ), "blue" );
+		rule = highlight.getRule(2);
+		assertEquals(rule.getOperator(), "between");
+		assertEquals(rule.getValue1().getScriptText(), "row[\"COLUMN_29\"]");
+		assertEquals(rule.getValue2().getScriptText(), "row[\"COLUMN_31\"]");
+		assertEquals(rule.getStyle().getColor(), "blue");
 	}
 
 }

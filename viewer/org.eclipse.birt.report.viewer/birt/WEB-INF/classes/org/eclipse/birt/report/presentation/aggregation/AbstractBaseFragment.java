@@ -27,17 +27,16 @@ import org.eclipse.birt.report.service.api.IViewerReportService;
 /**
  * Abstract base implementation of fragment interface.
  */
-abstract public class AbstractBaseFragment implements IFragment
-{
+abstract public class AbstractBaseFragment implements IFragment {
 	/**
 	 * Root path for JSP pages.
 	 */
 	protected String JSPRootPath = null;
-	
+
 	/**
 	 * Fragment's children.
 	 */
-	protected ArrayList children = new ArrayList( );
+	protected ArrayList children = new ArrayList();
 
 	/**
 	 * Base class implementation of post service process.
@@ -47,63 +46,54 @@ abstract public class AbstractBaseFragment implements IFragment
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	abstract protected String doPostService( HttpServletRequest request, HttpServletResponse response )
-		throws ServletException, IOException;
-	
+	abstract protected String doPostService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException;
+
 	/**
 	 * Get report service instance.
 	 * 
 	 * @return
 	 */
-	abstract protected IViewerReportService getReportService( );
+	abstract protected IViewerReportService getReportService();
 
 	/**
-	 * Service provided by the fragment. This is the entry point of each
-	 * framgent. It generally includes a JSP page to render a certain part of
-	 * web viewer.
+	 * Service provided by the fragment. This is the entry point of each framgent.
+	 * It generally includes a JSP page to render a certain part of web viewer.
 	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 */
-	public void service( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException, IOException, BirtException
-	{
-		doPreService( request, response );
-		doService( request, response );
-		String target = doPostService( request, response );
+	public void service(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, BirtException {
+		doPreService(request, response);
+		doService(request, response);
+		String target = doPostService(request, response);
 
-		if ( target != null && target.length( ) > 0 )
-		{
-			RequestDispatcher rd = request.getRequestDispatcher( target );
-			rd.include( request, response );
+		if (target != null && target.length() > 0) {
+			RequestDispatcher rd = request.getRequestDispatcher(target);
+			rd.include(request, response);
 		}
 	}
 
 	/**
-	 * Call back funciton to invoke children fragments' service. It should be
-	 * called only by jsp pages,
+	 * Call back funciton to invoke children fragments' service. It should be called
+	 * only by jsp pages,
 	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	public void callBack( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException, IOException, BirtException
-	{
-		if ( children != null )
-		{
-			for ( int i = 0; i < children.size( ); i++ )
-			{
-				IFragment fragment = (IFragment) children.get( i );
+	public void callBack(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, BirtException {
+		if (children != null) {
+			for (int i = 0; i < children.size(); i++) {
+				IFragment fragment = (IFragment) children.get(i);
 
-				if ( fragment != null )
-				{
-					fragment.service( request, response );
+				if (fragment != null) {
+					fragment.service(request, response);
 				}
 			}
 
@@ -119,26 +109,23 @@ abstract public class AbstractBaseFragment implements IFragment
 	 * @throws IOException
 	 * @throws BirtException
 	 */
-	protected void doPreService( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException, IOException
-	{
-		response.setContentType( "text/html;charset=utf-8" ); //$NON-NLS-1$
+	protected void doPreService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
+		response.setContentType("text/html;charset=utf-8"); //$NON-NLS-1$
 	}
 
 	/**
-	 * Base class implementation. This is the method performs fragment (code
-	 * behand class)'s major logic.
+	 * Base class implementation. This is the method performs fragment (code behand
+	 * class)'s major logic.
 	 * 
 	 * @param request
 	 * @param response
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void doService( HttpServletRequest request,
-			HttpServletResponse response ) throws ServletException,
-			IOException, BirtException
-	{
-		request.setAttribute( "fragment", this ); //$NON-NLS-1$
+	protected void doService(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException, BirtException {
+		request.setAttribute("fragment", this); //$NON-NLS-1$
 	}
 
 	/**
@@ -146,26 +133,24 @@ abstract public class AbstractBaseFragment implements IFragment
 	 * 
 	 * @return id
 	 */
-	public String getClientId( )
-	{
+	public String getClientId() {
 		return null;
 	}
 
 	/**
 	 * Get front end client name.
 	 */
-	public String getClientName( )
-	{
+	public String getClientName() {
 		return null;
 	}
-	
+
 	/**
 	 * Gets the title ID for the html page.
+	 * 
 	 * @return title id
 	 */
-	
-	public String getTitle( )
-	{
+
+	public String getTitle() {
 		return null;
 	}
 
@@ -174,20 +159,17 @@ abstract public class AbstractBaseFragment implements IFragment
 	 * 
 	 * @return collection of children
 	 */
-	public Collection getChildren( )
-	{
+	public Collection getChildren() {
 		return children;
 	}
 
 	/**
 	 * Add child to the children list.
 	 * 
-	 * @param child
-	 *            child fragment
+	 * @param child child fragment
 	 */
-	public void addChild( IFragment child )
-	{
-		children.add( child );
+	public void addChild(IFragment child) {
+		children.add(child);
 	}
 
 	/**
@@ -195,15 +177,12 @@ abstract public class AbstractBaseFragment implements IFragment
 	 * 
 	 * @return
 	 */
-	public void buildComposite( )
-	{
-		build( );
-		if ( children != null )
-		{
-			Iterator i = children.iterator( );
-			while ( i.hasNext( ) )
-			{
-				( (IFragment) i.next( ) ).buildComposite( );
+	public void buildComposite() {
+		build();
+		if (children != null) {
+			Iterator i = children.iterator();
+			while (i.hasNext()) {
+				((IFragment) i.next()).buildComposite();
 			}
 		}
 	}
@@ -213,20 +192,18 @@ abstract public class AbstractBaseFragment implements IFragment
 	 * 
 	 * @return
 	 */
-	protected void build( ) { }
+	protected void build() {
+	}
 
 	/**
 	 * Propagate root path.
 	 */
-	public void setJSPRootPath( String rootPath )
-	{
+	public void setJSPRootPath(String rootPath) {
 		JSPRootPath = rootPath;
-		if ( children != null )
-		{
-			Iterator i = children.iterator( );
-			while ( i.hasNext( ) )
-			{
-				( (IFragment) i.next( ) ).setJSPRootPath( rootPath );
+		if (children != null) {
+			Iterator i = children.iterator();
+			while (i.hasNext()) {
+				((IFragment) i.next()).setJSPRootPath(rootPath);
 			}
 		}
 	}
@@ -236,8 +213,7 @@ abstract public class AbstractBaseFragment implements IFragment
 	 * 
 	 * @return
 	 */
-	public String getJSPRootPath( )
-	{
+	public String getJSPRootPath() {
 		return JSPRootPath;
 	}
 }

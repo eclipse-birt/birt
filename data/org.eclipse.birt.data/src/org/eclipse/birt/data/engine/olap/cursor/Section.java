@@ -17,44 +17,36 @@ import java.util.List;
  * 
  *
  */
-class Section
-{
+class Section {
 	private List[] relation;
 	private int baseStart, baseEnd;
-	
-	Section( int customSize, int baseStart, int baseEnd )
-	{
+
+	Section(int customSize, int baseStart, int baseEnd) {
 		this.baseStart = baseStart;
 		this.baseEnd = baseEnd;
 		relation = new List[customSize];
-		for ( int i = 0; i < customSize; i++ )
-		{
-			relation[i] = new ArrayList( );
+		for (int i = 0; i < customSize; i++) {
+			relation[i] = new ArrayList();
 		}
 	}
-	
-	List[] getRelation( )
-	{
+
+	List[] getRelation() {
 		return this.relation;
 	}
-	
-	int getBaseStart( )
-	{
+
+	int getBaseStart() {
 		return this.baseStart;
 	}
-	
-	int getBaseEnd( )
-	{
+
+	int getBaseEnd() {
 		return this.baseEnd;
 	}
-	
-	void setBaseStart( int baseStart )
-	{
+
+	void setBaseStart(int baseStart) {
 		this.baseStart = baseStart;
 	}
-	
-	void setBaseEnd( int baseEnd )
-	{
+
+	void setBaseEnd(int baseEnd) {
 		this.baseEnd = baseEnd;
 	}
 }

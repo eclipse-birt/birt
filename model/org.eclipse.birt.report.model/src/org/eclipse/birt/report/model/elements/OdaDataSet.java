@@ -37,11 +37,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  */
 
 public class OdaDataSet extends SimpleDataSet
-		implements
-			IExtendableElement,
-			IOdaDataSetModel,
-			IOdaExtendableElementModel
-{
+		implements IExtendableElement, IOdaDataSetModel, IOdaExtendableElementModel {
 
 	/**
 	 * Extensibility provider which provides the extension logic.
@@ -59,33 +55,28 @@ public class OdaDataSet extends SimpleDataSet
 	 * Default constructor.
 	 */
 
-	public OdaDataSet( )
-	{
-		super( );
+	public OdaDataSet() {
+		super();
 	}
 
 	/**
 	 * Constructs an extended data set with name.
 	 * 
-	 * @param theName
-	 *            the name of this extended data set
+	 * @param theName the name of this extended data set
 	 */
 
-	public OdaDataSet( String theName )
-	{
-		super( theName );
+	public OdaDataSet(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitOdaDataSet( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitOdaDataSet(this);
 	}
 
 	/*
@@ -93,36 +84,30 @@ public class OdaDataSet extends SimpleDataSet
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.ODA_DATA_SET;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public OdaDataSetHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new OdaDataSetHandle( module, this );
+	public OdaDataSetHandle handle(Module module) {
+		if (handle == null) {
+			handle = new OdaDataSetHandle(module, this);
 		}
 		return (OdaDataSetHandle) handle;
 	}
@@ -135,10 +120,9 @@ public class OdaDataSet extends SimpleDataSet
 	 *         registered in BIRT
 	 */
 
-	public ExtensionElementDefn getExtDefn( )
-	{
-		if ( provider != null )
-			return provider.getExtDefn( );
+	public ExtensionElementDefn getExtDefn() {
+		if (provider != null)
+			return provider.getExtDefn();
 
 		return null;
 	}
@@ -149,32 +133,29 @@ public class OdaDataSet extends SimpleDataSet
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefns()
 	 */
 
-	public List<IElementPropertyDefn> getPropertyDefns( )
-	{
-		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
-			return provider.getPropertyDefns( );
+	public List<IElementPropertyDefn> getPropertyDefns() {
+		if (provider != null && !(provider instanceof OdaDummyProvider))
+			return provider.getPropertyDefns();
 
-		return super.getPropertyDefns( );
+		return super.getPropertyDefns();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getPropertyDefn(java
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getPropertyDefn(java
 	 * .lang.String)
 	 */
 
-	public ElementPropertyDefn getPropertyDefn( String propName )
-	{
+	public ElementPropertyDefn getPropertyDefn(String propName) {
 		assert propName != null;
 
-		ElementPropertyDefn propDefn = super.getPropertyDefn( propName );
-		if ( propDefn != null )
+		ElementPropertyDefn propDefn = super.getPropertyDefn(propName);
+		if (propDefn != null)
 			return propDefn;
 
-		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
-			return (ElementPropertyDefn) provider.getPropertyDefn( propName );
+		if (provider != null && !(provider instanceof OdaDummyProvider))
+			return (ElementPropertyDefn) provider.getPropertyDefn(propName);
 
 		return propDefn;
 	}
@@ -182,57 +163,46 @@ public class OdaDataSet extends SimpleDataSet
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getIntrinsicProperty
 	 * (java.lang.String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( EXTENSION_ID_PROP.equals( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (EXTENSION_ID_PROP.equals(propName))
 			return extensionID;
 
-		return super.getIntrinsicProperty( propName );
+		return super.getIntrinsicProperty(propName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty
+	 * @see org.eclipse.birt.report.model.core.DesignElement#setIntrinsicProperty
 	 * (java.lang.String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( EXTENSION_ID_PROP.equals( propName ) )
-		{
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (EXTENSION_ID_PROP.equals(propName)) {
 			extensionID = (String) value;
 
-			if ( extensionID != null )
-			{
-				provider = ODAProviderFactory.getInstance( ).createODAProvider(
-						this, extensionID );
+			if (extensionID != null) {
+				provider = ODAProviderFactory.getInstance().createODAProvider(this, extensionID);
 
 				// ModelPlugin is not loaded properly
 
-				if ( provider == null )
+				if (provider == null)
 					return;
 
-				if ( !provider.isValidExtensionID( ) )
-					provider = new OdaDummyProvider( extensionID );
-			}
-			else
+				if (!provider.isValidExtensionID())
+					provider = new OdaDummyProvider(extensionID);
+			} else
 				provider = null;
 
-			if ( provider != null && provider.getExtDefn( ) != null )
-			{
-				this.cachedDefn = provider.getExtDefn( );
+			if (provider != null && provider.getExtDefn() != null) {
+				this.cachedDefn = provider.getExtDefn();
 			}
-		}
-		else
-		{
-			super.setIntrinsicProperty( propName, value );
+		} else {
+			super.setIntrinsicProperty(propName, value);
 		}
 	}
 
@@ -244,47 +214,33 @@ public class OdaDataSet extends SimpleDataSet
 	 * .birt.report.model.core.DesignElement)
 	 */
 
-	public void checkExtends( DesignElement parent ) throws ExtendsException
-	{
-		super.checkExtends( parent );
+	public void checkExtends(DesignElement parent) throws ExtendsException {
+		super.checkExtends(parent);
 
-		if ( provider != null && !( provider instanceof OdaDummyProvider ) )
-			provider.checkExtends( parent );
-		else
-		{
+		if (provider != null && !(provider instanceof OdaDummyProvider))
+			provider.checkExtends(parent);
+		else {
 			OdaDataSet odaParent = (OdaDataSet) parent;
 
-			if ( odaParent.extensionID != null
-					&& !odaParent.extensionID.equals( extensionID ) )
-				throw new WrongTypeException(
-						this,
-						parent,
-						WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+			if (odaParent.extensionID != null && !odaParent.extensionID.equals(extensionID))
+				throw new WrongTypeException(this, parent, WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE);
 
-			if ( extensionID != null
-					&& !extensionID.equals( odaParent.extensionID ) )
-				throw new WrongTypeException(
-						this,
-						parent,
-						WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE );
+			if (extensionID != null && !extensionID.equals(odaParent.extensionID))
+				throw new WrongTypeException(this, parent, WrongTypeException.DESIGN_EXCEPTION_WRONG_EXTENSION_TYPE);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
-		list
-				.addAll( ExtensionValidator.getInstance( ).validate( module,
-						this ) );
+		list.addAll(ExtensionValidator.getInstance().validate(module, this));
 
 		return list;
 	}
@@ -295,8 +251,7 @@ public class OdaDataSet extends SimpleDataSet
 	 * @return the extension provider
 	 */
 
-	public ODAProvider getProvider( )
-	{
+	public ODAProvider getProvider() {
 		return provider;
 	}
 }

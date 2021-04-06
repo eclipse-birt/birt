@@ -18,17 +18,14 @@ import org.eclipse.swt.graphics.Image;
 /**
  * LevelSubNodeProvider
  */
-public class LevelSubNodeProvider extends CrossTabCellNodeProvider
-{
+public class LevelSubNodeProvider extends CrossTabCellNodeProvider {
 
-	public String getNodeDisplayName( Object model )
-	{
-		return Messages.getString( "MeasureSubNodeProvider.Header" ); //$NON-NLS-1$
+	public String getNodeDisplayName(Object model) {
+		return Messages.getString("MeasureSubNodeProvider.Header"); //$NON-NLS-1$
 	}
 
-	public Image getNodeIcon( Object model )
-	{
-		return CrosstabUIHelper.getImage( CrosstabUIHelper.HEADER_IMAGE );
+	public Image getNodeIcon(Object model) {
+		return CrosstabUIHelper.getImage(CrosstabUIHelper.HEADER_IMAGE);
 	}
 
 }

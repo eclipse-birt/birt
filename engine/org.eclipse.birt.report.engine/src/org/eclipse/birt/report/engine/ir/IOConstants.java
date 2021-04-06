@@ -11,9 +11,7 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
-public interface IOConstants
-{
+public interface IOConstants {
 
 	static final short PAGE_SEQUENCE_DESIGN = 1;
 	static final short SIMPLE_MASTER_PAGE_DESIGN = 2;
@@ -76,7 +74,7 @@ public interface IOConstants
 	static final short FIELD_HEADER_REPEAT = 43;
 	static final short FIELD_HIDE_DETAIL = 44;
 	static final short FIELD_PAGE_BREAK_INSIDE = 45;
-	
+
 	// band type
 	static final short FIELD_BAND_TYPE = 50;
 
@@ -87,7 +85,7 @@ public interface IOConstants
 	static final short FIELD_COLUMNS = 70;
 
 	static final short FIELD_SUMMARY = 71;
-	
+
 	// column
 	static final short FIELD_SUPPRESS_DUPLICATE = 80;
 	static final short FIELD_HAS_DATA_ITEMS_IN_DETAIL = 81;
@@ -110,7 +108,7 @@ public interface IOConstants
 	static final short FIELD_ANTIDIAGONAL_STYLE = 109;
 	static final short FIELD_ANTIDIAGONAL_WIDTH = 110;
 	static final short FIELD_DIAGONAL_COLOR = 111;
-	static final short FIELD_ANTIDIAGONAL_COLOR  = 112;
+	static final short FIELD_ANTIDIAGONAL_COLOR = 112;
 	static final short FIELD_HEADERS = 99;
 	static final short FIELD_SCOPE = 98;
 
@@ -142,8 +140,8 @@ public interface IOConstants
 
 	// auto text
 	static final short FIELD_TYPE = 160;
-	
-	//template
+
+	// template
 	static final short FIELD_ALLOWED_TYPE = 170;
 	static final short FIELD_PROMPT_TEXT = 171;
 
@@ -162,7 +160,7 @@ public interface IOConstants
 	static final short FEILD_FOOTER_HEIGHT = 214;
 
 	static final short FIELD_COLUMN_SPACING = 220;
-	
+
 	// report item added
 	static final short FIELD_USE_CACHED_RESULT = 230;
 
@@ -171,12 +169,12 @@ public interface IOConstants
 	static final short FIELD_REPORT_MASTER_PAGES = 242;
 	static final short FIELD_REPORT_BODY = 243;
 
-	//added from V6
+	// added from V6
 	static final short FIELD_REPORT_VARIABLE = 245;
 	static final short FIELD_ON_PAGE_START = 246;
 	static final short FIELD_ON_PAGE_END = 247;
 
-	//added from V7
+	// added from V7
 	static final short FIELD_REPORT_VERSION = 248;
 	static final short FIELD_TEXT_HAS_EXPRESSION = 249;
 	static final short FIELD_EXPRESSION_WITH_LANGUAGE = 250;
@@ -184,11 +182,11 @@ public interface IOConstants
 	static final short FIELD_REPORT_SCRIPT_LANGUAGE = 252;
 	static final short FIELD_USER_PROPERTIES = 253;
 	static final short FIELD_REPORT_USER_PROPERTIES = 254;
-	
-	//added from V11
+
+	// added from V11
 	static final short FIELD_REPORT_LOCALE = 255;
 	static final short FIELD_JTIDY = 256;
-	
+
 	static final long ENGINE_IR_VERSION_0 = 0L;
 	// Version 1: remove write isBookmark of ActionDesign.
 	static final long ENGINE_IR_VERSION_1 = 1L;
@@ -213,10 +211,10 @@ public interface IOConstants
 	static final long ENGINE_IR_VERSION_6 = 6L;
 
 	/**
-	 * version 7: support script expression. 
+	 * version 7: support script expression.
 	 */
 	static final long ENGINE_IR_VERSION_7 = 7L;
-	
+
 	/**
 	 * version 8: support expression list parameter binding.
 	 */
@@ -226,6 +224,5 @@ public interface IOConstants
 	 */
 	static final long ENGINE_IR_VERSION_9 = 9L;
 	static final long ENGINE_IR_VERSION_CURRENT = ENGINE_IR_VERSION_9;
-	
-	
+
 }

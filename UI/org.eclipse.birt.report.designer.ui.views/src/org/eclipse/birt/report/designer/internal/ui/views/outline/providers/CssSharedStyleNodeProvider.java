@@ -31,20 +31,15 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public class CssSharedStyleNodeProvider extends StyleNodeProvider
-{
+public class CssSharedStyleNodeProvider extends StyleNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object.
 	 * 
-	 * @param object
-	 * 		the object
-	 * @param menu
-	 * 		the menu
+	 * @param object the object
+	 * @param menu   the menu
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		return;
 	}
 
@@ -54,20 +49,16 @@ public class CssSharedStyleNodeProvider extends StyleNodeProvider
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeDisplayName(java.lang.Object)
 	 */
-	protected boolean performEdit( ReportElementHandle handle )
-	{
+	protected boolean performEdit(ReportElementHandle handle) {
 		return false;
 	}
 
-	public Image getNodeIcon( Object model )
-	{
+	public Image getNodeIcon(Object model) {
 		CssSharedStyleHandle handle = (CssSharedStyleHandle) model;
-		if ( handle.getCssStyleSheetHandle( ) != null
-				&& handle.getCssStyleSheetHandle( ).getContainerHandle( ) != null )
-		{
-			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ELEMENT_STYLE_LINK );
+		if (handle.getCssStyleSheetHandle() != null && handle.getCssStyleSheetHandle().getContainerHandle() != null) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_STYLE_LINK);
 		}
-		return super.getNodeIcon( model );
+		return super.getNodeIcon(model);
 	}
 
 	/*
@@ -76,65 +67,51 @@ public class CssSharedStyleNodeProvider extends StyleNodeProvider
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.INodeProvider#
 	 * getNodeTooltip(java.lang.Object)
 	 */
-	public String getNodeTooltip( Object model )
-	{
-		
-		CssSharedStyleHandle handle = (CssSharedStyleHandle) model;
-		CssStyleSheetHandle css = handle.getCssStyleSheetHandle( );
+	public String getNodeTooltip(Object model) {
 
-		DesignElementHandle container = css.getContainerHandle( );
-		if ( container == null )
-		{
-			return handle.getName( );
+		CssSharedStyleHandle handle = (CssSharedStyleHandle) model;
+		CssStyleSheetHandle css = handle.getCssStyleSheetHandle();
+
+		DesignElementHandle container = css.getContainerHandle();
+		if (container == null) {
+			return handle.getName();
 		}
-		String cssURITooltip = Messages.getString( "CssStyleSheetNodeProvider.Tooltip.URI" );
-		
+		String cssURITooltip = Messages.getString("CssStyleSheetNodeProvider.Tooltip.URI");
+
 		String cssURI = null;
 		IncludedCssStyleSheetHandle includedCssStyleSheet = null;
 		CssStyleSheetHandle uriCss = null;
-		if ( container instanceof ReportDesignHandle )
-		{
-			includedCssStyleSheet = ( (ReportDesignHandle) container ).findIncludedCssStyleSheetHandleByFileName( css.getFileName( ) );
+		if (container instanceof ReportDesignHandle) {
+			includedCssStyleSheet = ((ReportDesignHandle) container)
+					.findIncludedCssStyleSheetHandleByFileName(css.getFileName());
 
-		}
-		else if ( container instanceof ThemeHandle )
-		{
-			includedCssStyleSheet = ( (ThemeHandle) container ).findIncludedCssStyleSheetHandleByName( css.getFileName( ) );		
+		} else if (container instanceof ThemeHandle) {
+			includedCssStyleSheet = ((ThemeHandle) container).findIncludedCssStyleSheetHandleByName(css.getFileName());
 		}
 
-		if ( includedCssStyleSheet == null
-				|| includedCssStyleSheet.getExternalCssURI( ) == null
-				|| includedCssStyleSheet.getExternalCssURI( ).length( ) == 0 )
-		{
-			return handle.getName( );
+		if (includedCssStyleSheet == null || includedCssStyleSheet.getExternalCssURI() == null
+				|| includedCssStyleSheet.getExternalCssURI().length() == 0) {
+			return handle.getName();
 		}
 
-		try
-		{
-			uriCss = SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.openCssStyleSheet( includedCssStyleSheet.getExternalCssURI( ) );
-			if ( uriCss == null )
-			{
-				return handle.getName( );
+		try {
+			uriCss = SessionHandleAdapter.getInstance().getReportDesignHandle()
+					.openCssStyleSheet(includedCssStyleSheet.getExternalCssURI());
+			if (uriCss == null) {
+				return handle.getName();
 			}
-			
-		}
-		catch ( StyleSheetException e )
-		{
+
+		} catch (StyleSheetException e) {
 			// TODO Auto-generated catch block
-			if ( uriCss == null )
-			{
-				return handle.getName( );
+			if (uriCss == null) {
+				return handle.getName();
 			}
 		}
 
-		if(uriCss != null && uriCss.findStyle( handle.getName( ) ) != null)
-		{
-			return handle.getName( ) + " " + cssURITooltip;
-		}else
-		{
-			return handle.getName( );
+		if (uriCss != null && uriCss.findStyle(handle.getName()) != null) {
+			return handle.getName() + " " + cssURITooltip;
+		} else {
+			return handle.getName();
 		}
 
 	}

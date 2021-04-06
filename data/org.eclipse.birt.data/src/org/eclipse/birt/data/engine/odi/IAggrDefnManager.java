@@ -17,12 +17,12 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public interface IAggrDefnManager
-{
-	public IAggrInfo getAggrDefn( String name ) throws DataException;
-	public IAggrInfo getAggrDefn( int index ) throws DataException;
-	
-	public int getAggrDefnIndex( String name ) throws DataException;
-	
-	public int getAggrCount(  );
+public interface IAggrDefnManager {
+	public IAggrInfo getAggrDefn(String name) throws DataException;
+
+	public IAggrInfo getAggrDefn(int index) throws DataException;
+
+	public int getAggrDefnIndex(String name) throws DataException;
+
+	public int getAggrCount();
 }

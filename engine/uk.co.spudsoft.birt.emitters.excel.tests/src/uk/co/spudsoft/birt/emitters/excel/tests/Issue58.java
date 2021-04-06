@@ -25,7 +25,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class Issue58 extends ReportRunner {
-	
+
 	@Test
 	public void testIssue58WithoutOption() throws BirtException, IOException {
 
@@ -35,18 +35,18 @@ public class Issue58 extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 21, this.firstNullRow(sheet));
-			assertEquals( 20, this.lastRow(sheet));
-		
+			assertEquals(21, this.firstNullRow(sheet));
+			assertEquals(20, this.lastRow(sheet));
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 	@Test
 	public void testIssue58WithOption() throws BirtException, IOException {
 
@@ -57,17 +57,16 @@ public class Issue58 extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 6, this.firstNullRow(sheet));
-			assertEquals( 21, this.lastRow(sheet));
-		
+			assertEquals(6, this.firstNullRow(sheet));
+			assertEquals(21, this.lastRow(sheet));
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
 
 }

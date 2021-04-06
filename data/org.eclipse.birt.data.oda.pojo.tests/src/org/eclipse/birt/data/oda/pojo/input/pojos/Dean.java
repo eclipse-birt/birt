@@ -14,10 +14,8 @@ package org.eclipse.birt.data.oda.pojo.input.pojos;
  * 
  */
 
-public class Dean extends WithIdAndName
-{
-	public Dean( int id, String name )
-	{
-		super( id, name );
+public class Dean extends WithIdAndName {
+	public Dean(int id, String name) {
+		super(id, name);
 	}
 }

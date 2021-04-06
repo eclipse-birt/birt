@@ -15,11 +15,10 @@ package org.eclipse.birt.integration.wtp.ui.internal.webapplication;
  * Bean defined for Listener object in web.xml
  * 
  */
-public class ListenerBean
-{
+public class ListenerBean {
 
 	/**
-	 * Listener class name 
+	 * Listener class name
 	 */
 	private String className;
 
@@ -31,8 +30,7 @@ public class ListenerBean
 	/**
 	 * default constructor
 	 */
-	public ListenerBean( )
-	{
+	public ListenerBean() {
 	}
 
 	/**
@@ -40,40 +38,35 @@ public class ListenerBean
 	 * 
 	 * @param className
 	 */
-	public ListenerBean( String className )
-	{
+	public ListenerBean(String className) {
 		this.className = className;
 	}
-	
+
 	/**
 	 * @return the className
 	 */
-	public String getClassName( )
-	{
+	public String getClassName() {
 		return className;
 	}
-	
+
 	/**
 	 * @param className the className to set
 	 */
-	public void setClassName( String className )
-	{
+	public void setClassName(String className) {
 		this.className = className;
 	}
-	
+
 	/**
 	 * @return the description
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return description;
 	}
 
 	/**
 	 * @param description the description to set
 	 */
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		this.description = description;
-	}	
+	}
 }

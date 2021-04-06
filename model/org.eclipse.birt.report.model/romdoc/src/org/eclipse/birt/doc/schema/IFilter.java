@@ -17,13 +17,13 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
  * Style property filter
  *
  */
-public interface IFilter
-{
+public interface IFilter {
 	/**
 	 * filter style property
+	 * 
 	 * @param propDefn
 	 * @return true is allowed , else return false
 	 */
-	
-	public boolean filter( IPropertyDefn propDefn ) ;
+
+	public boolean filter(IPropertyDefn propDefn);
 }

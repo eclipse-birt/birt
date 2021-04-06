@@ -31,42 +31,34 @@ import org.eclipse.birt.report.model.elements.interfaces.IScalarParameterModel;
  * 
  */
 
-public class ScalarParameter extends AbstractScalarParameter
-		implements
-			IScalarParameterModel
-{
+public class ScalarParameter extends AbstractScalarParameter implements IScalarParameterModel {
 
 	/**
 	 * The default constructor.
 	 */
 
-	public ScalarParameter( )
-	{
+	public ScalarParameter() {
 	}
 
 	/**
 	 * Constructs the scalar parameter with a required and unique name.
 	 * 
-	 * @param theName
-	 *            the required name
+	 * @param theName the required name
 	 */
 
-	public ScalarParameter( String theName )
-	{
-		super( theName );
+	public ScalarParameter(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitScalarParameter( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitScalarParameter(this);
 	}
 
 	/*
@@ -75,37 +67,31 @@ public class ScalarParameter extends AbstractScalarParameter
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.SCALAR_PARAMETER_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public ScalarParameterHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ScalarParameterHandle( module, this );
+	public ScalarParameterHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ScalarParameterHandle(module, this);
 		}
 		return (ScalarParameterHandle) handle;
 	}
@@ -118,14 +104,11 @@ public class ScalarParameter extends AbstractScalarParameter
 	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(module)
 	 */
 
-	public List validate( Module module )
-	{
-		List list = super.validate( module );
+	public List validate(Module module) {
+		List list = super.validate(module);
 
-		list.addAll( DataSetNameRequiredValidator.getInstance( ).validate(
-				module, this ) );
-		list.addAll( CascadingParameterTypeValidator.getInstance( ).validate(
-				module, this ) );
+		list.addAll(DataSetNameRequiredValidator.getInstance().validate(module, this));
+		list.addAll(CascadingParameterTypeValidator.getInstance().validate(module, this));
 
 		return list;
 	}

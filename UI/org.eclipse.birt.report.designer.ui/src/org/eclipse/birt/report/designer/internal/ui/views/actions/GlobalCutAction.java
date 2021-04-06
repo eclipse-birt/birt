@@ -14,20 +14,17 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.jface.viewers.ISelectionProvider;
 
 /**
- *  Global cut action for views
+ * Global cut action for views
  */
 
-public class GlobalCutAction extends AbstractGlobalSelectionAction
-{
+public class GlobalCutAction extends AbstractGlobalSelectionAction {
 
-	protected GlobalCutAction( ISelectionProvider provider )
-	{
-		super( provider, GlobalActionFactory.CUT );
+	protected GlobalCutAction(ISelectionProvider provider) {
+		super(provider, GlobalActionFactory.CUT);
 	}
 
-	public void run( )
-	{
-		new CutAction( getSelection( ) ).run( );
+	public void run() {
+		new CutAction(getSelection()).run();
 	}
 
 	/*
@@ -35,9 +32,8 @@ public class GlobalCutAction extends AbstractGlobalSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{				
-		return new CutAction( getSelection( ) ).isEnabled( );
+	protected boolean calculateEnabled() {
+		return new CutAction(getSelection()).isEnabled();
 	}
 
 }

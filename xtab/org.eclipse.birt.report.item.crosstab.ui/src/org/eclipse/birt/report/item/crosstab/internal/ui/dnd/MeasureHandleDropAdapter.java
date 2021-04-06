@@ -48,23 +48,17 @@ import org.eclipse.gef.requests.CreateRequest;
 /**
  * MeasureHandleDropAdapter
  */
-public class MeasureHandleDropAdapter implements IDropAdapter
-{
-	private IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance( ).getAdapter( );
+public class MeasureHandleDropAdapter implements IDropAdapter {
+	private IExtendedDataModelUIAdapter adapter = ExtendedDataModelUIAdapterHelper.getInstance().getAdapter();
 
-	public int canDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( !isMeasureHandle( transfer ) )
-		{
+	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (!isMeasureHandle(transfer)) {
 			return DNDService.LOGIC_UNKNOW;
 		}
-		if ( target instanceof EditPart )
-		{
+		if (target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
-			if ( editPart.getModel( ) instanceof IVirtualValidator )
-			{
-				if ( ( (IVirtualValidator) editPart.getModel( ) ).handleValidate( transfer ) )
+			if (editPart.getModel() instanceof IVirtualValidator) {
+				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer))
 					return DNDService.LOGIC_TRUE;
 				else
 					return DNDService.LOGIC_FALSE;
@@ -79,25 +73,19 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 	 * @param transfer
 	 * @return
 	 */
-	private boolean isMeasureHandle( Object transfer )
-	{
-		if ( transfer instanceof Object[] )
-		{
+	private boolean isMeasureHandle(Object transfer) {
+		if (transfer instanceof Object[]) {
 			Object[] items = (Object[]) transfer;
-			for ( int i = 0; i < items.length; i++ )
-			{
-				if ( !( items[i] instanceof MeasureHandle ) )
+			for (int i = 0; i < items.length; i++) {
+				if (!(items[i] instanceof MeasureHandle))
 					return false;
 			}
 			return true;
 		}
-		return transfer instanceof MeasureHandle
-				|| transfer instanceof MeasureGroupHandle;
+		return transfer instanceof MeasureHandle || transfer instanceof MeasureGroupHandle;
 	}
 
-	public boolean performDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
+	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
 		// if ( transfer instanceof Object[] )
 		// {
 		// Object[] objects = (Object[]) transfer;
@@ -109,94 +97,80 @@ public class MeasureHandleDropAdapter implements IDropAdapter
 		// return true;
 		// }
 
-		if ( target instanceof EditPart )
-		{
+		if (target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
 
-			CreateRequest request = new CreateRequest( );
+			CreateRequest request = new CreateRequest();
 
-			request.getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT,
-					transfer );
-			request.setLocation( location.getPoint( ) );
-			Command command = editPart.getCommand( request );
-			if ( command != null && command.canExecute( ) )
-			{
-				CrosstabReportItemHandle crosstab = getCrosstab( editPart );
-				if ( crosstab != null )
-				{
-					crosstab.getModuleHandle( ).getCommandStack( ).startTrans( Messages.getString("MeasureHandleDropAdapter_trans_name") ); //$NON-NLS-1$
+			request.getExtendedData().put(DesignerConstants.KEY_NEWOBJECT, transfer);
+			request.setLocation(location.getPoint());
+			Command command = editPart.getCommand(request);
+			if (command != null && command.canExecute()) {
+				CrosstabReportItemHandle crosstab = getCrosstab(editPart);
+				if (crosstab != null) {
+					crosstab.getModuleHandle().getCommandStack()
+							.startTrans(Messages.getString("MeasureHandleDropAdapter_trans_name")); //$NON-NLS-1$
 				}
 
-				// Carl: Add this part below to set the binding for the crosstab in case it is not already set
+				// Carl: Add this part below to set the binding for the crosstab in case it is
+				// not already set
 				// Carl: This binding property should be set before execute the drop command
-				// Carl: This behavior is the same as taken from ExtendedDataColumnXtabDropAdapter
+				// Carl: This behavior is the same as taken from
+				// ExtendedDataColumnXtabDropAdapter
 
-				CubeHandle measureCubeHandle = CrosstabAdaptUtil
-						.getCubeHandle( (ReportElementHandle) transfer );
+				CubeHandle measureCubeHandle = CrosstabAdaptUtil.getCubeHandle((ReportElementHandle) transfer);
 
-				if ( measureCubeHandle == null )
-				{
+				if (measureCubeHandle == null) {
 
-					ReportElementHandle extendedData = adapter.getBoundExtendedData( (ReportItemHandle) crosstab.getModelHandle( ) );
-					
-					if(extendedData == null || !extendedData.equals( adapter.resolveExtendedData( (ReportElementHandle) transfer)))
-					{
-						if(! adapter.setExtendedData( (ReportItemHandle)crosstab.getModelHandle( ), 
-								adapter.resolveExtendedData( (ReportElementHandle) transfer)))
-						{
-							crosstab.getModuleHandle( ).getCommandStack( ).rollback( );
+					ReportElementHandle extendedData = adapter
+							.getBoundExtendedData((ReportItemHandle) crosstab.getModelHandle());
+
+					if (extendedData == null
+							|| !extendedData.equals(adapter.resolveExtendedData((ReportElementHandle) transfer))) {
+						if (!adapter.setExtendedData((ReportItemHandle) crosstab.getModelHandle(),
+								adapter.resolveExtendedData((ReportElementHandle) transfer))) {
+							crosstab.getModuleHandle().getCommandStack().rollback();
 							return false;
 						}
 					}
 
 				}
 
-				editPart.getViewer( )
-						.getEditDomain( )
-						.getCommandStack( )
-						.execute( command );
+				editPart.getViewer().getEditDomain().getCommandStack().execute(command);
 
-				
-				if ( crosstab != null )
-				{
-					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper( crosstab );
-					providerWrapper.updateAllAggregationCells( AggregationCellViewAdapter.SWITCH_VIEW_TYPE );
-					
-					if (crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) != 0)
-					{
-						DimensionViewHandle viewHnadle = crosstab.getDimension( ICrosstabConstants.COLUMN_AXIS_TYPE, 
-								crosstab.getDimensionCount( ICrosstabConstants.COLUMN_AXIS_TYPE ) - 1 );
-						CrosstabUtil.addLabelToHeader( viewHnadle.getLevel( viewHnadle.getLevelCount( ) - 1 ) );
+				if (crosstab != null) {
+					AggregationCellProviderWrapper providerWrapper = new AggregationCellProviderWrapper(crosstab);
+					providerWrapper.updateAllAggregationCells(AggregationCellViewAdapter.SWITCH_VIEW_TYPE);
+
+					if (crosstab.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE) != 0) {
+						DimensionViewHandle viewHnadle = crosstab.getDimension(ICrosstabConstants.COLUMN_AXIS_TYPE,
+								crosstab.getDimensionCount(ICrosstabConstants.COLUMN_AXIS_TYPE) - 1);
+						CrosstabUtil.addLabelToHeader(viewHnadle.getLevel(viewHnadle.getLevelCount() - 1));
 					}
-					
-					crosstab.getModuleHandle( ).getCommandStack( ).commit( );
+
+					crosstab.getModuleHandle().getCommandStack().commit();
 				}
 				return true;
-			}
-			else
+			} else
 				return false;
 
 		}
 		return false;
 	}
 
-	private CrosstabReportItemHandle getCrosstab( EditPart editPart )
-	{
+	private CrosstabReportItemHandle getCrosstab(EditPart editPart) {
 		CrosstabReportItemHandle crosstab = null;
-		Object tmp = editPart.getModel( );
-		if ( !( tmp instanceof CrosstabCellAdapter ) )
-		{
+		Object tmp = editPart.getModel();
+		if (!(tmp instanceof CrosstabCellAdapter)) {
 			return null;
 		}
-		if ( tmp instanceof VirtualCrosstabCellAdapter )
-		{
-			return ( (VirtualCrosstabCellAdapter) tmp ).getCrosstabReportItemHandle( );
+		if (tmp instanceof VirtualCrosstabCellAdapter) {
+			return ((VirtualCrosstabCellAdapter) tmp).getCrosstabReportItemHandle();
 		}
 
-		CrosstabCellHandle handle = ( (CrosstabCellAdapter) tmp ).getCrosstabCellHandle( );
-		if ( handle != null )
-		{
-			crosstab = handle.getCrosstab( );
+		CrosstabCellHandle handle = ((CrosstabCellAdapter) tmp).getCrosstabCellHandle();
+		if (handle != null) {
+			crosstab = handle.getCrosstab();
 		}
 
 		return crosstab;

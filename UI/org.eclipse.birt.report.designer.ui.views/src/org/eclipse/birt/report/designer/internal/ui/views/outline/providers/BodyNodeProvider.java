@@ -20,10 +20,9 @@ import org.eclipse.jface.viewers.TreeViewer;
 /**
  * Implements the provider for the Body node
  * 
- *  
+ * 
  */
-public class BodyNodeProvider extends DefaultNodeProvider
-{
+public class BodyNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * the text of the new action
@@ -32,31 +31,27 @@ public class BodyNodeProvider extends DefaultNodeProvider
 	/**
 	 * Creates the context menu for body node
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		menu.add( new InsertAction( object ) );
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		menu.add(new InsertAction(object));
 
-		super.createContextMenu( sourceViewer, object, menu );
+		super.createContextMenu(sourceViewer, object, menu);
 	}
 
-	public String getNodeDisplayName( Object object )
-	{
+	public String getNodeDisplayName(Object object) {
 		return BODY;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(
+	 * java.lang.Object)
 	 */
-	public String getIconName( Object model )
-	{
+	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_BODY;
 	}
 }

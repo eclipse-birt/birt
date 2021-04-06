@@ -14,44 +14,38 @@ package org.eclipse.birt.doc.romdoc;
 import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
 import org.eclipse.birt.report.model.metadata.PropertyDefn;
 
-public class DocInheritedProperty extends DocObject
-{
+public class DocInheritedProperty extends DocObject {
 
 	private String name;
-	public void setName( String propName )
-	{
+
+	public void setName(String propName) {
 		name = propName;
 	}
 
-	public void setDescription( String string )
-	{
+	public void setDescription(String string) {
 		description = string;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return description;
 	}
 
-	public boolean isDefined( DocElement element )
-	{
-		return element.getDefn( ).findProperty( name ) != null;
+	public boolean isDefined(DocElement element) {
+		return element.getDefn().findProperty(name) != null;
 	}
-	
-	public boolean isReserved( DocElement element )
-	{
-		IPropertyDefn prop = element.getDefn( ).findProperty( name );
-		if ( prop == null )
+
+	public boolean isReserved(DocElement element) {
+		IPropertyDefn prop = element.getDefn().findProperty(name);
+		if (prop == null)
 			return true;
-		String since = ( (PropertyDefn) prop ).getSince( );
-		if ( since == null )
+		String since = ((PropertyDefn) prop).getSince();
+		if (since == null)
 			return false;
-		return since.equals( "reserved" );
+		return since.equals("reserved");
 	}
 
 }

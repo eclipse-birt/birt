@@ -31,8 +31,7 @@ import org.eclipse.swt.widgets.Text;
  * 
  */
 
-public class ExprEditComposite extends Composite
-{
+public class ExprEditComposite extends Composite {
 
 	/**
 	 * Text modified event.
@@ -43,84 +42,65 @@ public class ExprEditComposite extends Composite
 	private Text text;
 	private IExpressionButton btnBuilder;
 
-	public ExprEditComposite( Composite parent, IChartWizardContext fContext )
-	{
-		super( parent, SWT.NONE );
+	public ExprEditComposite(Composite parent, IChartWizardContext fContext) {
+		super(parent, SWT.NONE);
 		this.fContext = fContext;
-		placeComponents( );
+		placeComponents();
 	}
 
-	public void bindModel( EObject eObj, EAttribute eAttr )
-	{
-		if ( btnBuilder == null )
-		{
+	public void bindModel(EObject eObj, EAttribute eAttr) {
+		if (btnBuilder == null) {
 			return;
 		}
-		if ( eObj != null && eAttr != null )
-		{
-			btnBuilder.setAccessor( new EAttributeAccessor<String>( eObj, eAttr ) );
-		}
-		else
-		{
-			btnBuilder.setAccessor( null );
+		if (eObj != null && eAttr != null) {
+			btnBuilder.setAccessor(new EAttributeAccessor<String>(eObj, eAttr));
+		} else {
+			btnBuilder.setAccessor(null);
 		}
 	}
 
-	private void placeComponents( )
-	{
-		GridData gd = new GridData( GridData.FILL_BOTH );
-		this.setLayoutData( gd );
-		GridLayout gl = new GridLayout( 2, false );
+	private void placeComponents() {
+		GridData gd = new GridData(GridData.FILL_BOTH);
+		this.setLayoutData(gd);
+		GridLayout gl = new GridLayout(2, false);
 		gl.marginHeight = 0;
 		gl.marginWidth = 0;
 		gl.verticalSpacing = 0;
-		this.setLayout( gl );
+		this.setLayout(gl);
 
-		text = new Text( this, SWT.BORDER );
+		text = new Text(this, SWT.BORDER);
 		{
-			gd = new GridData( GridData.FILL_BOTH );
-			text.setLayoutData( gd );
+			gd = new GridData(GridData.FILL_BOTH);
+			text.setLayoutData(gd);
 		}
 
+		try {
+			btnBuilder = (IExpressionButton) fContext.getUIServiceProvider().invoke(
+					IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE, this, text, fContext.getExtendedItem(),
+					IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS, new Listener() {
 
-		try
-		{
-			btnBuilder = (IExpressionButton) fContext.getUIServiceProvider( )
-					.invoke( IUIServiceProvider.Command.EXPRESS_BUTTON_CREATE,
-							this,
-							text,
-							fContext.getExtendedItem( ),
-							IUIServiceProvider.COMMAND_EXPRESSION_DATA_BINDINGS,
-							new Listener( ) {
-
-								public void handleEvent( Event event )
-								{
-									fireEvent( );
-								}
-							} );
-		}
-		catch ( ChartException e )
-		{
-			WizardBase.displayException( e );
+						public void handleEvent(Event event) {
+							fireEvent();
+						}
+					});
+		} catch (ChartException e) {
+			WizardBase.displayException(e);
 		}
 	}
 
-	private void fireEvent( )
-	{
-		Event eventNew = new Event( );
+	private void fireEvent() {
+		Event eventNew = new Event();
 		eventNew.widget = this;
 		eventNew.type = TEXT_MODIFIED;
-		this.notifyListeners( TEXT_MODIFIED, eventNew );
+		this.notifyListeners(TEXT_MODIFIED, eventNew);
 	}
 
-	public String getExpression( )
-	{
-		return btnBuilder.getExpression( );
+	public String getExpression() {
+		return btnBuilder.getExpression();
 	}
 
-	public void setExpression( String expr )
-	{
-		btnBuilder.setExpression( expr );
+	public void setExpression(String expr) {
+		btnBuilder.setExpression(expr);
 	}
 
 }

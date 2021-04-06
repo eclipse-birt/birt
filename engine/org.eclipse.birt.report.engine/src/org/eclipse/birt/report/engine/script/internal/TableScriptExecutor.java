@@ -23,131 +23,87 @@ import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.engine.script.internal.instance.TableInstance;
 import org.eclipse.birt.report.model.api.TableHandle;
 
-public class TableScriptExecutor extends ScriptExecutor
-{
-	public static void handleOnPrepare( TableHandle tableHandle,
-			ExecutionContext context )
-	{
-		try
-		{
-			ITable table = new Table( tableHandle );
-			ITableEventHandler eh = getEventHandler( tableHandle, context );
-			if ( eh != null )
-				eh.onPrepare( table, context.getReportContext( ) );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+public class TableScriptExecutor extends ScriptExecutor {
+	public static void handleOnPrepare(TableHandle tableHandle, ExecutionContext context) {
+		try {
+			ITable table = new Table(tableHandle);
+			ITableEventHandler eh = getEventHandler(tableHandle, context);
+			if (eh != null)
+				eh.onPrepare(table, context.getReportContext());
+		} catch (Exception e) {
+			addException(context, e);
 		}
 	}
 
-	public static void handleOnCreate( ITableContent content,
-			ExecutionContext context )
-	{
-		ReportItemDesign tableDesign = (ReportItemDesign) content
-				.getGenerateBy( );
-		if ( !needOnCreate( tableDesign ) )
-		{
+	public static void handleOnCreate(ITableContent content, ExecutionContext context) {
+		ReportItemDesign tableDesign = (ReportItemDesign) content.getGenerateBy();
+		if (!needOnCreate(tableDesign)) {
 			return;
 		}
-		try
-		{
-			ITableInstance table = new TableInstance( content, context,
-					RunningState.CREATE );
-			if ( handleScript( table, tableDesign.getOnCreate( ), context )
-					.didRun( ) )
+		try {
+			ITableInstance table = new TableInstance(content, context, RunningState.CREATE);
+			if (handleScript(table, tableDesign.getOnCreate(), context).didRun())
 				return;
-			ITableEventHandler eh = getEventHandler( tableDesign, context );
-			if ( eh != null )
-				eh.onCreate( table, context.getReportContext( ) );
-		} catch ( Exception e )
-		{
-			addException( context, e, tableDesign.getHandle( ) );
+			ITableEventHandler eh = getEventHandler(tableDesign, context);
+			if (eh != null)
+				eh.onCreate(table, context.getReportContext());
+		} catch (Exception e) {
+			addException(context, e, tableDesign.getHandle());
 		}
 	}
 
-	public static void handleOnRender( ITableContent content,
-			ExecutionContext context )
-	{
-		ReportItemDesign tableDesign = (ReportItemDesign) content
-				.getGenerateBy( );
-		if ( !needOnRender( tableDesign ) )
-		{
+	public static void handleOnRender(ITableContent content, ExecutionContext context) {
+		ReportItemDesign tableDesign = (ReportItemDesign) content.getGenerateBy();
+		if (!needOnRender(tableDesign)) {
 			return;
 		}
-		try
-		{
-			ITableInstance table = new TableInstance( content, context,
-					RunningState.RENDER );
-			if ( handleScript( table, tableDesign.getOnRender( ), context )
-					.didRun( ) )
+		try {
+			ITableInstance table = new TableInstance(content, context, RunningState.RENDER);
+			if (handleScript(table, tableDesign.getOnRender(), context).didRun())
 				return;
-			ITableEventHandler eh = getEventHandler( tableDesign, context );
-			if ( eh != null )
-				eh.onRender( table, context.getReportContext( ) );
-		} catch ( Exception e )
-		{
-			addException( context, e, tableDesign.getHandle( ) );
+			ITableEventHandler eh = getEventHandler(tableDesign, context);
+			if (eh != null)
+				eh.onRender(table, context.getReportContext());
+		} catch (Exception e) {
+			addException(context, e, tableDesign.getHandle());
 		}
 	}
 
-	public static void handleOnPageBreak( ITableContent content,
-			ExecutionContext context )
-	{
-		ReportItemDesign tableDesign = (ReportItemDesign) content
-				.getGenerateBy( );
-		if ( !needOnPageBreak( tableDesign, context ) )
-		{
+	public static void handleOnPageBreak(ITableContent content, ExecutionContext context) {
+		ReportItemDesign tableDesign = (ReportItemDesign) content.getGenerateBy();
+		if (!needOnPageBreak(tableDesign, context)) {
 			return;
 		}
-		try
-		{
-			ITableInstance table = new TableInstance( content, context,
-					RunningState.PAGEBREAK );
-			if ( handleScript( table, tableDesign.getOnPageBreak( ), context )
-					.didRun( ) )
+		try {
+			ITableInstance table = new TableInstance(content, context, RunningState.PAGEBREAK);
+			if (handleScript(table, tableDesign.getOnPageBreak(), context).didRun())
 				return;
-			ITableEventHandler eh = getEventHandler( tableDesign, context );
-			if ( eh != null )
-				eh.onPageBreak( table, context.getReportContext( ) );
-		} catch ( Exception e )
-		{
-			addException( context, e, tableDesign.getHandle( ) );
+			ITableEventHandler eh = getEventHandler(tableDesign, context);
+			if (eh != null)
+				eh.onPageBreak(table, context.getReportContext());
+		} catch (Exception e) {
+			addException(context, e, tableDesign.getHandle());
 		}
 	}
 
-	private static ITableEventHandler getEventHandler( ReportItemDesign design,
-			ExecutionContext context )
-	{
-		try
-		{
-			return (ITableEventHandler) getInstance( design, context );
-		}
-		catch ( ClassCastException e )
-		{
-			addClassCastException( context, e, design.getHandle( ),
-					ITableEventHandler.class );
-		}
-		catch ( EngineException e )
-		{
-			addException( context, e, design.getHandle( ) );
+	private static ITableEventHandler getEventHandler(ReportItemDesign design, ExecutionContext context) {
+		try {
+			return (ITableEventHandler) getInstance(design, context);
+		} catch (ClassCastException e) {
+			addClassCastException(context, e, design.getHandle(), ITableEventHandler.class);
+		} catch (EngineException e) {
+			addException(context, e, design.getHandle());
 		}
 		return null;
 	}
 
-	private static ITableEventHandler getEventHandler( TableHandle handle,
-			ExecutionContext context )
-	{
-		try
-		{
-			return (ITableEventHandler) getInstance( handle, context );
-		}
-		catch ( ClassCastException e )
-		{
-			addClassCastException( context, e, handle, ITableEventHandler.class );
-		}
-		catch ( EngineException e )
-		{
-			addException( context, e, handle );
+	private static ITableEventHandler getEventHandler(TableHandle handle, ExecutionContext context) {
+		try {
+			return (ITableEventHandler) getInstance(handle, context);
+		} catch (ClassCastException e) {
+			addClassCastException(context, e, handle, ITableEventHandler.class);
+		} catch (EngineException e) {
+			addException(context, e, handle);
 		}
 		return null;
 	}

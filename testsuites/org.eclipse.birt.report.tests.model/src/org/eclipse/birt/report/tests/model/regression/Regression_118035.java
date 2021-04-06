@@ -36,22 +36,20 @@ import com.ibm.icu.util.ULocale;
  * Add a label, check the canTransformToTemplate() method, it should be true.
  * </p>
  */
-public class Regression_118035 extends BaseTestCase
-{
+public class Regression_118035 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	
-	public void test_regression_118035( )
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
+	public void test_regression_118035() {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		assertTrue( label.canTransformToTemplate( ) );
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
+
+		assertTrue(label.canTransformToTemplate());
 	}
 }

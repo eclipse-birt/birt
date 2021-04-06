@@ -27,68 +27,57 @@ import com.ibm.icu.util.UResourceBundle;
  * <code>IResourceBundleProvider</code>.
  */
 
-public class DefaultMessages implements IMessages
-{
+public class DefaultMessages implements IMessages {
 
 	private ThreadResources resources;
 
 	private IResourceBundleProvider provider;
 
 	/**
-	 * Constructor with thread resources, which specified by the class loader
-	 * and base name of resource bundle.
+	 * Constructor with thread resources, which specified by the class loader and
+	 * base name of resource bundle.
 	 * 
-	 * @param resources
-	 *            thread resources instance
+	 * @param resources thread resources instance
 	 */
 
-	public DefaultMessages( ThreadResources resources )
-	{
+	public DefaultMessages(ThreadResources resources) {
 		this.resources = resources;
 	}
 
 	/**
-	 * Constructor with the resource bundle provider, which provides the
-	 * resource bundle with the given locale.
+	 * Constructor with the resource bundle provider, which provides the resource
+	 * bundle with the given locale.
 	 * 
-	 * @param provider
-	 *            the resource bundle provider
+	 * @param provider the resource bundle provider
 	 */
 
-	public DefaultMessages( IResourceBundleProvider provider )
-	{
+	public DefaultMessages(IResourceBundleProvider provider) {
 		this.provider = provider;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.String,
-	 *      java.util.Locale)
+	 * @see org.eclipse.birt.report.model.extension.IMessages#getMessage(java.lang.
+	 * String, java.util.Locale)
 	 */
 
-	public String getMessage( String key, ULocale locale )
-	{
-		if ( provider != null )
-		{
-			UResourceBundle resourceBundle = provider.getResourceBundle( locale );
-			if ( resourceBundle != null )
-				try
-				{
-					String message = resourceBundle.getString( key );
-					if ( message != null )
+	public String getMessage(String key, ULocale locale) {
+		if (provider != null) {
+			UResourceBundle resourceBundle = provider.getResourceBundle(locale);
+			if (resourceBundle != null)
+				try {
+					String message = resourceBundle.getString(key);
+					if (message != null)
 						return message;
-				}
-				catch ( MissingResourceException e )
-				{
+				} catch (MissingResourceException e) {
 					// Do nothing.
 				}
 		}
 
-		if ( resources != null )
-		{
-			String message = resources.getMessage( key );
-			if ( message != null )
+		if (resources != null) {
+			String message = resources.getMessage(key);
+			if (message != null)
 				return message;
 		}
 
@@ -98,12 +87,12 @@ public class DefaultMessages implements IMessages
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java.lang.String,
-	 *      java.util.Locale)
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java.lang.
+	 * String, java.util.Locale)
 	 */
-	
-	public String getMessage( String key, Locale locale )
-	{
-		return getMessage( key, ULocale.forLocale( locale ) );
+
+	public String getMessage(String key, Locale locale) {
+		return getMessage(key, ULocale.forLocale(locale));
 	}
 }

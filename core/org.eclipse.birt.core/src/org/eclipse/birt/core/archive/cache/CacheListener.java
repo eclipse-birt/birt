@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.core.archive.cache;
 
-public interface CacheListener
-{
+public interface CacheListener {
 
-	void onCacheRelease( Cacheable cache );
+	void onCacheRelease(Cacheable cache);
 }

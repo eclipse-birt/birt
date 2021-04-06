@@ -23,51 +23,42 @@ import com.ibm.icu.util.Calendar;
  * Provides methods for creating simple API classes
  */
 
-public class ChartComponentFactory implements IComponentFactory
-{
+public class ChartComponentFactory implements IComponentFactory {
 
-	ChartComponentFactory( )
-	{
+	ChartComponentFactory() {
 
 	}
 
 	/**
 	 * Creates number data element
 	 * 
-	 * @param value
-	 *            double value
+	 * @param value double value
 	 * @return number data element
 	 */
-	public INumberDataElement createNumberElement( double value )
-	{
-		return new NumberElementImpl( value );
+	public INumberDataElement createNumberElement(double value) {
+		return new NumberElementImpl(value);
 	}
 
 	/**
 	 * Creates datetime data element
 	 * 
-	 * @param date
-	 *            long Date
+	 * @param date long Date
 	 * @return datetime data element
 	 */
-	public IDateTimeDataElement createDateTimeElement( long date )
-	{
-		return new DateTimeElementImpl( date );
+	public IDateTimeDataElement createDateTimeElement(long date) {
+		return new DateTimeElementImpl(date);
 	}
 
 	/**
 	 * Creates datetime data element
 	 * 
-	 * @param date
-	 *            calendar
+	 * @param date calendar
 	 * @return datetime data element
 	 */
-	public IDateTimeDataElement createDateTimeElement( Calendar date )
-	{
-		if ( date == null )
-		{
+	public IDateTimeDataElement createDateTimeElement(Calendar date) {
+		if (date == null) {
 			return null;
 		}
-		return new DateTimeElementImpl( date.getTimeInMillis( ) );
+		return new DateTimeElementImpl(date.getTimeInMillis());
 	}
 }

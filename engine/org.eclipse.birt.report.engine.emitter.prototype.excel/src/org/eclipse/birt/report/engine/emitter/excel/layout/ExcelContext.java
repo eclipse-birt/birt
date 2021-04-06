@@ -31,9 +31,7 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 import com.ibm.icu.util.TimeZone;
 import com.ibm.icu.util.ULocale;
 
-
-public class ExcelContext
-{
+public class ExcelContext {
 
 	protected static final String DEFAULT_SHEET_NAME = "Report";
 
@@ -65,311 +63,233 @@ public class ExcelContext
 	private IReportContext reportContext;
 	private Page page;
 
-	public void initialize( IEmitterServices service ) throws EngineException
-	{
-		if ( service == null )
-		{
+	public void initialize(IEmitterServices service) throws EngineException {
+		if (service == null) {
 			return;
 		}
-		out = EmitterUtil.getOuputStream( service, "report.xls" );
-		if ( service.getReportEngine( ) != null )
-		{
-			this.tempFileDir = service.getReportEngine( ).getConfig( )
-					.getTempDir( );
+		out = EmitterUtil.getOuputStream(service, "report.xls");
+		if (service.getReportEngine() != null) {
+			this.tempFileDir = service.getReportEngine().getConfig().getTempDir();
 		}
-		IReportContext reportContext = service.getReportContext( );
-		if ( reportContext != null )
-		{
-			Locale locale = reportContext.getLocale( );
-			this.locale = locale == null ? ULocale.getDefault( ) : ULocale
-					.forLocale( locale );
-			this.timeZone = reportContext.getTimeZone( );
-			if ( timeZone == null )
-			{
-				timeZone = TimeZone.getDefault( );
+		IReportContext reportContext = service.getReportContext();
+		if (reportContext != null) {
+			Locale locale = reportContext.getLocale();
+			this.locale = locale == null ? ULocale.getDefault() : ULocale.forLocale(locale);
+			this.timeZone = reportContext.getTimeZone();
+			if (timeZone == null) {
+				timeZone = TimeZone.getDefault();
 			}
 		}
-		IRenderOption renderOption = service.getRenderOption( );
-		Object option = renderOption
-				.getOption( IExcelRenderOption.OPTION_MULTIPLE_SHEET );
-		if ( option instanceof Boolean )
+		IRenderOption renderOption = service.getRenderOption();
+		Object option = renderOption.getOption(IExcelRenderOption.OPTION_MULTIPLE_SHEET);
+		if (option instanceof Boolean)
 			enableMultipleSheet = (Boolean) option;
-		this.reportContext = service.getReportContext( );
+		this.reportContext = service.getReportContext();
 	}
 
-	public IReportContext getReportContext()
-	{
+	public IReportContext getReportContext() {
 		return reportContext;
 	}
-	
-	public Page getPage()
-	{
+
+	public Page getPage() {
 		return page;
 	}
-	
-	public void setPage( Page page )
-	{
+
+	public void setPage(Page page) {
 		this.page = page;
 	}
-	
-	public void setReport( IReportContent report )
-	{
+
+	public void setReport(IReportContent report) {
 		this.report = report;
-		IRenderOption renderOptions = report.getReportContext( )
-		        .getRenderOption( );
-		Object dpi = renderOptions.getOption( IRenderOption.RENDER_DPI );
+		IRenderOption renderOptions = report.getReportContext().getRenderOption();
+		Object dpi = renderOptions.getOption(IRenderOption.RENDER_DPI);
 		int renderDpi = 0;
-		if ( dpi != null && dpi instanceof Integer )
-		{
-			renderDpi = ( (Integer) dpi ).intValue( );
+		if (dpi != null && dpi instanceof Integer) {
+			renderDpi = ((Integer) dpi).intValue();
 		}
-		this.dpi = PropertyUtil.getRenderDpi( report, renderDpi );
+		this.dpi = PropertyUtil.getRenderDpi(report, renderDpi);
 
-		Object textWrapping = renderOptions
-		        .getOption( IExcelRenderOption.WRAPPING_TEXT );
-		if ( textWrapping instanceof Boolean )
-		{
-			this.wrappingText = ( (Boolean) textWrapping );
+		Object textWrapping = renderOptions.getOption(IExcelRenderOption.WRAPPING_TEXT);
+		if (textWrapping instanceof Boolean) {
+			this.wrappingText = ((Boolean) textWrapping);
 		}
 
-		Object officeVersion = renderOptions
-		        .getOption( IExcelRenderOption.OFFICE_VERSION );
-		if ( "office2007".equals( officeVersion ) )
-		{
+		Object officeVersion = renderOptions.getOption(IExcelRenderOption.OFFICE_VERSION);
+		if ("office2007".equals(officeVersion)) {
 			this.officeVersion = "office2007";
 		}
 
-		Object hideGridlines = renderOptions
-		        .getOption( IExcelRenderOption.HIDE_GRIDLINES );
-		if ( hideGridlines instanceof Boolean )
-		{
+		Object hideGridlines = renderOptions.getOption(IExcelRenderOption.HIDE_GRIDLINES);
+		if (hideGridlines instanceof Boolean) {
 			this.hideGridlines = (Boolean) hideGridlines;
 		}
-		
-		Object ignoreImage = renderOptions
-				.getOption( IExcelRenderOption.IGNORE_IMAGE );
-		if ( ignoreImage instanceof Boolean )
-		{
+
+		Object ignoreImage = renderOptions.getOption(IExcelRenderOption.IGNORE_IMAGE);
+		if (ignoreImage instanceof Boolean) {
 			this.ignoreImage = (Boolean) ignoreImage;
 		}
 
-		ReportDesignHandle designHandle = report.getDesign( ).getReportDesign( );
-		parseReportOrientation( designHandle );
-		parseReportLayout( designHandle );
-		parseSheetName( designHandle );
+		ReportDesignHandle designHandle = report.getDesign().getReportDesign();
+		parseReportOrientation(designHandle);
+		parseReportLayout(designHandle);
+		parseSheetName(designHandle);
 	}
 
-	private void parseSheetName( ReportDesignHandle designHandle )
-	{
-		String reportTitle = designHandle
-		        .getStringProperty( IModuleModel.TITLE_PROP );
-		if ( reportTitle != null )
-		{
+	private void parseSheetName(ReportDesignHandle designHandle) {
+		String reportTitle = designHandle.getStringProperty(IModuleModel.TITLE_PROP);
+		if (reportTitle != null) {
 			sheetPrefix = reportTitle;
-		}
-		else
-		{
+		} else {
 			sheetPrefix = DEFAULT_SHEET_NAME;
 		}
-		sheetPrefix = ExcelUtil.getValidSheetName( sheetPrefix );
-		sheetName = generateSheetName( );
+		sheetPrefix = ExcelUtil.getValidSheetName(sheetPrefix);
+		sheetName = generateSheetName();
 	}
 
-	private String generateSheetName( )
-	{
-		if ( sheetIndex == 1 )
-		{
+	private String generateSheetName() {
+		if (sheetIndex == 1) {
 			return sheetPrefix;
-		}
-		else
-		{
-			int indexLength = String.valueOf( sheetIndex - 1 ).length( );
-			if ( sheetPrefix.length( ) + indexLength > ExcelUtil.SHEETNAME_LENGTH )
-			{
-				return sheetPrefix.substring( 0, ExcelUtil.SHEETNAME_LENGTH
-						- indexLength )
-						+ ( sheetIndex - 1 );
-			}
-			else
-				return sheetPrefix + ( sheetIndex - 1 );
+		} else {
+			int indexLength = String.valueOf(sheetIndex - 1).length();
+			if (sheetPrefix.length() + indexLength > ExcelUtil.SHEETNAME_LENGTH) {
+				return sheetPrefix.substring(0, ExcelUtil.SHEETNAME_LENGTH - indexLength) + (sheetIndex - 1);
+			} else
+				return sheetPrefix + (sheetIndex - 1);
 		}
 	}
 
-	private void parseReportLayout( ReportDesignHandle designHandle )
-	{
-		String reportLayoutPreference = designHandle.getLayoutPreference( );
-		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
-		        .equals( reportLayoutPreference ) )
-		{
+	private void parseReportLayout(ReportDesignHandle designHandle) {
+		String reportLayoutPreference = designHandle.getLayoutPreference();
+		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(reportLayoutPreference)) {
 			isAutoLayout = false;
 		}
 	}
 
-	private void parseReportOrientation( ReportDesignHandle designHandle )
-	{
-		String reportOrientation = designHandle.getBidiOrientation( );
-		if ( "rtl".equalsIgnoreCase( reportOrientation ) )
-		{
+	private void parseReportOrientation(ReportDesignHandle designHandle) {
+		String reportOrientation = designHandle.getBidiOrientation();
+		if ("rtl".equalsIgnoreCase(reportOrientation)) {
 			isRTL = true;
 		}
 	}
 
-	public void parsePageSize( IPageContent page )
-    {
-		this.pageWidth = ExcelUtil.convertDimensionType( page.getPageWidth( ),
-		                                                 0, dpi );
-		this.pageHeight = ExcelUtil
-		        .convertDimensionType( page.getPageHeight( ), 0, dpi );
-		leftMargin = ExcelUtil.convertDimensionType( page.getMarginLeft( ),
-		                                             pageWidth, dpi );
-		rightMargin = ExcelUtil.convertDimensionType( page.getMarginRight( ),
-		                                              pageWidth, dpi );
-		topMargin = ExcelUtil.convertDimensionType( page.getMarginTop( ),
-		                                            pageHeight, dpi );
-		bottomMargin = ExcelUtil.convertDimensionType( page.getMarginBottom( ),
-		                                               pageHeight, dpi );
-		headerHeight = ExcelUtil.convertDimensionType( page.getHeaderHeight( ),
-				pageHeight,
-				dpi );
-		footerHeight = ExcelUtil.convertDimensionType( page.getFooterHeight( ),
-				pageHeight,
-				dpi );
+	public void parsePageSize(IPageContent page) {
+		this.pageWidth = ExcelUtil.convertDimensionType(page.getPageWidth(), 0, dpi);
+		this.pageHeight = ExcelUtil.convertDimensionType(page.getPageHeight(), 0, dpi);
+		leftMargin = ExcelUtil.convertDimensionType(page.getMarginLeft(), pageWidth, dpi);
+		rightMargin = ExcelUtil.convertDimensionType(page.getMarginRight(), pageWidth, dpi);
+		topMargin = ExcelUtil.convertDimensionType(page.getMarginTop(), pageHeight, dpi);
+		bottomMargin = ExcelUtil.convertDimensionType(page.getMarginBottom(), pageHeight, dpi);
+		headerHeight = ExcelUtil.convertDimensionType(page.getHeaderHeight(), pageHeight, dpi);
+		footerHeight = ExcelUtil.convertDimensionType(page.getFooterHeight(), pageHeight, dpi);
 		this.contentWidth = pageWidth - leftMargin - rightMargin;
-    }
+	}
 
-	public boolean getWrappingText()
-	{
+	public boolean getWrappingText() {
 		return wrappingText;
 	}
-	
-	public String getOfficeVersion()
-	{
+
+	public String getOfficeVersion() {
 		return officeVersion;
 	}
-	
-	public String getTempFileDir( )
-	{
+
+	public String getTempFileDir() {
 		return this.tempFileDir;
 	}
 
-	public ULocale getLocale( )
-	{
+	public ULocale getLocale() {
 		return this.locale;
 	}
 
-	public TimeZone getTimeZone( )
-	{
+	public TimeZone getTimeZone() {
 		return this.timeZone;
 	}
 
-	public boolean isEnableMultipleSheet( )
-	{
+	public boolean isEnableMultipleSheet() {
 		return enableMultipleSheet;
 	}
 
-	public void setSheetName( String sheetName )
-	{
+	public void setSheetName(String sheetName) {
 		this.sheetName = sheetName;
 	}
 
-	public String getSheetName( )
-	{
+	public String getSheetName() {
 		return sheetName;
 	}
 
-	public boolean getHideGridlines( )
-	{
+	public boolean getHideGridlines() {
 		return this.hideGridlines;
 	}
 
-	public boolean isIgnoreImage( )
-	{
+	public boolean isIgnoreImage() {
 		return this.ignoreImage;
 	}
 
-	public void setIgnoreImage( boolean isIgnoreImage )
-	{
+	public void setIgnoreImage(boolean isIgnoreImage) {
 		this.ignoreImage = isIgnoreImage;
 	}
 
-	public OutputStream getOutputSteam( )
-	{
+	public OutputStream getOutputSteam() {
 		return out;
 	}
 
-	public IReportContent getReport( )
-	{
+	public IReportContent getReport() {
 		return report;
 	}
 
-	public int getDpi( )
-	{
+	public int getDpi() {
 		return dpi;
 	}
 
-	public boolean isRTL( )
-	{
+	public boolean isRTL() {
 		return isRTL;
 	}
 
-	public void setSheetIndex( int sheetIndex )
-	{
+	public void setSheetIndex(int sheetIndex) {
 		this.sheetIndex = sheetIndex;
-		this.sheetName = generateSheetName( );
+		this.sheetName = generateSheetName();
 	}
 
-	public int getSheetIndex( )
-	{
+	public int getSheetIndex() {
 		return sheetIndex;
 	}
 
-	public boolean isAutoLayout( )
-	{
+	public boolean isAutoLayout() {
 		return isAutoLayout;
 	}
 
-	public int getContentWidth( )
-	{
+	public int getContentWidth() {
 		return contentWidth;
 	}
 
-	public int getPageWidth( )
-	{
+	public int getPageWidth() {
 		return pageWidth;
 	}
 
-	public int getPageHeight( )
-	{
+	public int getPageHeight() {
 		return pageHeight;
 	}
 
-	public float getTopMargin( )
-	{
+	public float getTopMargin() {
 		return this.topMargin / 1000f;
 	}
 
-	public float getBottomMargin( )
-	{
+	public float getBottomMargin() {
 		return this.bottomMargin / 1000f;
 	}
 
-	public float getLeftMargin( )
-	{
+	public float getLeftMargin() {
 		return this.leftMargin / 1000f;
 	}
 
-	public float getRightMargin( )
-	{
+	public float getRightMargin() {
 		return this.rightMargin / 1000f;
 	}
-	
-	public float getHeaderHeight( )
-	{
+
+	public float getHeaderHeight() {
 		return this.headerHeight / 1000f;
 	}
-	
-	public float getFooterHeight( )
-	{
+
+	public float getFooterHeight() {
 		return this.footerHeight / 1000f;
 	}
 }

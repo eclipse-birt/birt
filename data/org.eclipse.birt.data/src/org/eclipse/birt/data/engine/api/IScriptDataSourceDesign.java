@@ -15,22 +15,22 @@
 package org.eclipse.birt.data.engine.api;
 
 /**
- * Describes the static design of a scripted Data Source.
- * The data source is to be accessed via user-defined scripts 
- * defined in this specialized interface.
+ * Describes the static design of a scripted Data Source. The data source is to
+ * be accessed via user-defined scripts defined in this specialized interface.
  */
-public interface IScriptDataSourceDesign extends IBaseDataSourceDesign 
-{
-    /**
-     * Gets the <code>open</code> script for opening the data source (connection).
-     * @return The <code>open</code> script.
-     */
-    public abstract String getOpenScript();
-    
-    /**
-     * Gets the <code>close</code> script for closing the data source.
-     * @return The <code>close</code> script
-     */
-    public abstract String getCloseScript();
+public interface IScriptDataSourceDesign extends IBaseDataSourceDesign {
+	/**
+	 * Gets the <code>open</code> script for opening the data source (connection).
+	 * 
+	 * @return The <code>open</code> script.
+	 */
+	public abstract String getOpenScript();
+
+	/**
+	 * Gets the <code>close</code> script for closing the data source.
+	 * 
+	 * @return The <code>close</code> script
+	 */
+	public abstract String getCloseScript();
 
 }

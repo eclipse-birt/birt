@@ -14,12 +14,11 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for AbstractScalarParameter element to store the constants.
  */
-public interface IInternalAbstractScalarParameterModel
-{
+public interface IInternalAbstractScalarParameterModel {
 
 	/**
-	 * Name of the is-required property. If it is true, the user cannot enter
-	 * "null" value.
+	 * Name of the is-required property. If it is true, the user cannot enter "null"
+	 * value.
 	 * 
 	 */
 
@@ -29,7 +28,7 @@ public interface IInternalAbstractScalarParameterModel
 	 * Name of the DataSet property for a dynamic list.
 	 */
 
-	public static final String DATASET_NAME_PROP = "dataSetName"; //$NON-NLS-1$ 
+	public static final String DATASET_NAME_PROP = "dataSetName"; //$NON-NLS-1$
 
 	/**
 	 * Name of the Limited-list property
@@ -67,25 +66,25 @@ public interface IInternalAbstractScalarParameterModel
 	 * Name of the default value property.
 	 */
 
-	public static final String DEFAULT_VALUE_PROP = "defaultValue"; //$NON-NLS-1$ 
+	public static final String DEFAULT_VALUE_PROP = "defaultValue"; //$NON-NLS-1$
 
 	/**
 	 * Name of the choice property for a selection list.
 	 */
 
-	public static final String SELECTION_LIST_PROP = "selectionList"; //$NON-NLS-1$ 
+	public static final String SELECTION_LIST_PROP = "selectionList"; //$NON-NLS-1$
 
 	/**
 	 * Name of the value expression property for a dynamic list.
 	 */
 
-	public static final String VALUE_EXPR_PROP = "valueExpr"; //$NON-NLS-1$ 
+	public static final String VALUE_EXPR_PROP = "valueExpr"; //$NON-NLS-1$
 
 	/**
 	 * Name of the label expression property for a dynamic list.
 	 */
 
-	public static final String LABEL_EXPR_PROP = "labelExpr"; //$NON-NLS-1$ 
+	public static final String LABEL_EXPR_PROP = "labelExpr"; //$NON-NLS-1$
 
 	/**
 	 * Name of the parameter data type property.
@@ -94,8 +93,7 @@ public interface IInternalAbstractScalarParameterModel
 	public static final String DATA_TYPE_PROP = "dataType"; //$NON-NLS-1$
 
 	/**
-	 * Name of the distinct property. If it is true, Engine checks duplicate
-	 * values.
+	 * Name of the distinct property. If it is true, Engine checks duplicate values.
 	 * 
 	 */
 

@@ -33,15 +33,13 @@ import com.ibm.icu.util.Calendar;
  * file.
  */
 
-class FileMetaLogger implements IMetaLogger
-{
+class FileMetaLogger implements IMetaLogger {
 
 	/**
 	 * Logger instance.
 	 */
 
-	private static Logger logger = Logger.getLogger( FileMetaLogger.class
-			.getName( ) );
+	private static Logger logger = Logger.getLogger(FileMetaLogger.class.getName());
 
 	/**
 	 * Default log file name.
@@ -77,57 +75,47 @@ class FileMetaLogger implements IMetaLogger
 	// default time zone is not set, the <code>SimpleDateForma</code> cann't be
 	// initialized.
 
-	static
-	{
-		df = new SimpleDateFormat( "yyyy-MM-dd HH:mm:ss" ); //$NON-NLS-1$
+	static {
+		df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Constructor to initialize the meta logger using the default log file.
 	 */
 
-	public FileMetaLogger( )
-	{
-		this( DEFAULT_LOG_FILE );
+	public FileMetaLogger() {
+		this(DEFAULT_LOG_FILE);
 	}
 
 	/**
 	 * Constructor to initialize the meta logger using the specified file.
 	 * 
-	 * @param fileName
-	 *            log file name
+	 * @param fileName log file name
 	 */
 
-	public FileMetaLogger( String fileName )
-	{
+	public FileMetaLogger(String fileName) {
 		this.fileName = fileName;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String)
+	 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String)
 	 */
 
-	public void log( String message )
-	{
-		if ( canLog( ) )
-		{
-			try
-			{
-				Date dateTime = Calendar.getInstance( ).getTime( );
-				StringBuffer sb = new StringBuffer( );
+	public void log(String message) {
+		if (canLog()) {
+			try {
+				Date dateTime = Calendar.getInstance().getTime();
+				StringBuffer sb = new StringBuffer();
 
-				sb.append( df.format( dateTime ) );
-				sb.append( " Message [" ); //$NON-NLS-1$
-				sb.append( message.toString( ) + "]" + "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+				sb.append(df.format(dateTime));
+				sb.append(" Message ["); //$NON-NLS-1$
+				sb.append(message.toString() + "]" + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
-				writer.write( sb.toString( ) );
-				writer.flush( );
-			}
-			catch ( IOException e )
-			{
+				writer.write(sb.toString());
+				writer.flush();
+			} catch (IOException e) {
 				// ignore
 			}
 		}
@@ -136,34 +124,28 @@ class FileMetaLogger implements IMetaLogger
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String,
+	 * @see org.eclipse.birt.report.model.metadata.IMetaLogger#log(java.lang.String,
 	 * java.lang.Throwable)
 	 */
 
-	public void log( String message, Throwable t )
-	{
-		if ( canLog( ) )
-		{
-			try
-			{
-				Date dateTime = Calendar.getInstance( ).getTime( );
-				StringBuffer sb = new StringBuffer( );
+	public void log(String message, Throwable t) {
+		if (canLog()) {
+			try {
+				Date dateTime = Calendar.getInstance().getTime();
+				StringBuffer sb = new StringBuffer();
 
-				sb.append( df.format( dateTime ) );
-				sb.append( "  Message [" ); //$NON-NLS-1$
-				sb.append( message.toString( ) + "]" + "\n" ); //$NON-NLS-1$ //$NON-NLS-2$
+				sb.append(df.format(dateTime));
+				sb.append("  Message ["); //$NON-NLS-1$
+				sb.append(message.toString() + "]" + "\n"); //$NON-NLS-1$ //$NON-NLS-2$
 
-				sb.append( "\t\t\t\t\t" ); //$NON-NLS-1$
-				sb.append( " Exception [" ); //$NON-NLS-1$ 
-				sb.append( getExceptionString( t ) );
-				sb.append( "]\n" ); //$NON-NLS-1$
+				sb.append("\t\t\t\t\t"); //$NON-NLS-1$
+				sb.append(" Exception ["); //$NON-NLS-1$
+				sb.append(getExceptionString(t));
+				sb.append("]\n"); //$NON-NLS-1$
 
-				writer.write( sb.toString( ) );
-				writer.flush( );
-			}
-			catch ( IOException e )
-			{
+				writer.write(sb.toString());
+				writer.flush();
+			} catch (IOException e) {
 				// ignored.
 			}
 		}
@@ -172,50 +154,40 @@ class FileMetaLogger implements IMetaLogger
 	/**
 	 * Returns the stack trace for the given exception as a string.
 	 * 
-	 * @param aException
-	 *            The exception for which the stack trace is required
+	 * @param aException The exception for which the stack trace is required
 	 * @return String the stack trace as a string for the given exception.
 	 */
 
-	protected String getExceptionString( Throwable aException )
-	{
+	protected String getExceptionString(Throwable aException) {
 
 		ByteArrayOutputStream outStream = null;
 		PrintStream printStream = null;
 
-		try
-		{
-			outStream = new ByteArrayOutputStream( );
-			printStream = new PrintStream( outStream );
-			aException.printStackTrace( printStream );
+		try {
+			outStream = new ByteArrayOutputStream();
+			printStream = new PrintStream(outStream);
+			aException.printStackTrace(printStream);
 
-			String stackTrace = outStream.toString( );
+			String stackTrace = outStream.toString();
 
-			printStream.close( );
+			printStream.close();
 			printStream = null;
 
-			outStream.close( );
+			outStream.close();
 			outStream = null;
 
 			return stackTrace;
 
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			// ignore.
-		}
-		finally
-		{
-			try
-			{
-				if ( printStream != null )
-					printStream.close( );
+		} finally {
+			try {
+				if (printStream != null)
+					printStream.close();
 
-				if ( outStream != null )
-					outStream.close( );
-			}
-			catch ( IOException e )
-			{
+				if (outStream != null)
+					outStream.close();
+			} catch (IOException e) {
 				// ignore.
 			}
 		}
@@ -227,47 +199,36 @@ class FileMetaLogger implements IMetaLogger
 	 * Returns an OutputStreamWriter when passed an OutputStream. The stream
 	 * encoding will be in "UTF-8".
 	 * 
-	 * @param fileName
-	 *            name of the file that the writer will be bound to.
+	 * @param fileName name of the file that the writer will be bound to.
 	 * @return the corresponding writer.
-	 * @throws IOException
-	 *             if an I/O exception occurs or error occurs when opening the
-	 *             file.
+	 * @throws IOException if an I/O exception occurs or error occurs when opening
+	 *                     the file.
 	 */
 
-	protected OutputStreamWriter createWriter( final String fileName )
-			throws IOException
-	{
+	protected OutputStreamWriter createWriter(final String fileName) throws IOException {
 
 		OutputStreamWriter retWriter = null;
 
-		File outputFile = new File( fileName );
-		File parentFile = outputFile.getParentFile( );
+		File outputFile = new File(fileName);
+		File parentFile = outputFile.getParentFile();
 
 		// there may be permission issues.
 		// 1. the output file is a directory; 2. the output file exists and has
 		// no write permission. 3. the parent directory has no writer
 		// permission.
 
-		boolean existed = outputFile.exists( );
+		boolean existed = outputFile.exists();
 
-		if ( outputFile.isDirectory( ) || ( existed && !outputFile.canWrite( ) )
-				|| ( !existed && parentFile != null && !parentFile.canWrite( ) ) )
-		{
-			logger.log( Level.WARNING,
-					"No permission to write metadata log file." ); //$NON-NLS-1$
+		if (outputFile.isDirectory() || (existed && !outputFile.canWrite())
+				|| (!existed && parentFile != null && !parentFile.canWrite())) {
+			logger.log(Level.WARNING, "No permission to write metadata log file."); //$NON-NLS-1$
 			return null;
 		}
 
-		try
-		{
+		try {
 
-			retWriter = new OutputStreamWriter(
-					SecurityUtil.createFileOutputStream( outputFile ),
-					DEFAULT_ENCODING );
-		}
-		catch ( UnsupportedEncodingException e )
-		{
+			retWriter = new OutputStreamWriter(SecurityUtil.createFileOutputStream(outputFile), DEFAULT_ENCODING);
+		} catch (UnsupportedEncodingException e) {
 			// The encoding string must be wrong.
 
 			assert false;
@@ -279,32 +240,27 @@ class FileMetaLogger implements IMetaLogger
 	/**
 	 * Determines if there is a sense in attempting to append.
 	 * <p>
-	 * It checks whether there is a output target. If these checks fail, then
-	 * the boolean value <code>false</code> is returned.
+	 * It checks whether there is a output target. If these checks fail, then the
+	 * boolean value <code>false</code> is returned.
 	 * <p>
-	 * It will be called by {@link #log(String)}before actually perform a
-	 * logging to check if a log action can be performed. The subclass may
-	 * override this method to rewrite the precondition of a log action.
+	 * It will be called by {@link #log(String)}before actually perform a logging to
+	 * check if a log action can be performed. The subclass may override this method
+	 * to rewrite the precondition of a log action.
 	 * 
 	 * @return <code>true</code> if there is a set output target.
 	 */
 
-	protected boolean canLog( )
-	{
-		if ( fileName != null && writer == null )
-		{
-			try
-			{
-				writer = createWriter( fileName );
-			}
-			catch ( IOException e )
-			{
+	protected boolean canLog() {
+		if (fileName != null && writer == null) {
+			try {
+				writer = createWriter(fileName);
+			} catch (IOException e) {
 				fileName = null;
 				return false;
 			}
 		}
 
-		if ( writer == null )
+		if (writer == null)
 			return false;
 
 		return true;
@@ -314,20 +270,13 @@ class FileMetaLogger implements IMetaLogger
 	 * Closes the stream, release the log file.
 	 */
 
-	public void close( )
-	{
-		if ( writer != null )
-		{
-			try
-			{
-				writer.close( );
-			}
-			catch ( IOException e )
-			{
+	public void close() {
+		if (writer != null) {
+			try {
+				writer.close();
+			} catch (IOException e) {
 				// do nothing, simply ignore.
-			}
-			finally
-			{
+			} finally {
 				writer = null;
 			}
 		}

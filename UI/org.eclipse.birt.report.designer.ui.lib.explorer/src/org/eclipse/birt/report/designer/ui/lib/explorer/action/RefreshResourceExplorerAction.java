@@ -21,27 +21,24 @@ import org.eclipse.ui.actions.ActionFactory;
 /**
  * The action class for refreshing all resources in resource explorer.
  */
-public class RefreshResourceExplorerAction extends ResourceAction
-{
+public class RefreshResourceExplorerAction extends ResourceAction {
 
 	/**
 	 * Constructs an action for refreshing resource.
 	 * 
-	 * @param page
-	 *            the resource explorer page
+	 * @param page the resource explorer page
 	 */
-	public RefreshResourceExplorerAction( LibraryExplorerTreeViewPage page )
-	{
-		super( Messages.getString( "RefreshLibExplorerAction.Text" ), page ); //$NON-NLS-1$
-		setId( ActionFactory.REFRESH.getId( ) );
-		setAccelerator( SWT.F5 );
-		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_REFRESH ) );
-		setDisabledImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_REFRESH_DISABLE ) );
+	public RefreshResourceExplorerAction(LibraryExplorerTreeViewPage page) {
+		super(Messages.getString("RefreshLibExplorerAction.Text"), page); //$NON-NLS-1$
+		setId(ActionFactory.REFRESH.getId());
+		setAccelerator(SWT.F5);
+		setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_REFRESH));
+		setDisabledImageDescriptor(
+				ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_REFRESH_DISABLE));
 	}
 
 	@Override
-	public void run( )
-	{
-		refreshAll( );
+	public void run() {
+		refreshAll();
 	}
 }

@@ -15,27 +15,25 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for Measure element to store the constants on it.
  */
 
-public interface IMeasureModel
-{
+public interface IMeasureModel {
 
 	/**
-	 * Name of the property that defines the function to apply on measure
-	 * element.
+	 * Name of the property that defines the function to apply on measure element.
 	 */
 
 	static final String FUNCTION_PROP = "function"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property. If the isCalculated is false, then the value of
-	 * this property should be a column name. If it is true, the value of this
-	 * property should be an expression for the computed measure.
+	 * Name of the property. If the isCalculated is false, then the value of this
+	 * property should be a column name. If it is true, the value of this property
+	 * should be an expression for the computed measure.
 	 */
 
 	static final String MEASURE_EXPRESSION_PROP = "measureExpression"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicate whether this measure is computed by
-	 * other measures.
+	 * Name of the property that indicate whether this measure is computed by other
+	 * measures.
 	 */
 
 	static final String IS_CALCULATED_PROP = "isCalculated"; //$NON-NLS-1$
@@ -47,14 +45,13 @@ public interface IMeasureModel
 
 	/**
 	 * Name of the property that defines the expression to calculate ACL for the
-	 * measure. This expression is evaluated once during the generation of the
-	 * cube.
+	 * measure. This expression is evaluated once during the generation of the cube.
 	 */
 	static final String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 
 	/**
-	 * Name of the action property, which defines what action can be performed
-	 * when clicking the measure.
+	 * Name of the action property, which defines what action can be performed when
+	 * clicking the measure.
 	 */
 
 	static final String ACTION_PROP = "action"; //$NON-NLS-1$
@@ -70,8 +67,7 @@ public interface IMeasureModel
 	static final String ALIGNMENT_PROP = "alignment"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates whether this measure is visible or
-	 * not.
+	 * Name of the property that indicates whether this measure is visible or not.
 	 */
 	String IS_VISIBLE_PROP = "isVisible"; //$NON-NLS-1$
 

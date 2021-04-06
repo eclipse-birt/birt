@@ -17,11 +17,10 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public interface ICancellable
-{
+public interface ICancellable {
 	public boolean doCancel();
-	
+
 	public void cancel();
-	
+
 	public DataException collectException();
 }

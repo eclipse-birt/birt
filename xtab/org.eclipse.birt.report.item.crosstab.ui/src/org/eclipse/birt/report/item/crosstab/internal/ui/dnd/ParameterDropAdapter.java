@@ -32,25 +32,24 @@ import org.eclipse.gef.requests.CreateRequest;
  * 
  */
 
-public class ParameterDropAdapter implements IDropAdapter
-{
+public class ParameterDropAdapter implements IDropAdapter {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#canDrop(java.lang.Object, java.lang.Object, int, org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#canDrop(java.
+	 * lang.Object, java.lang.Object, int,
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
 	 */
-	public int canDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( !isScalarParameterHandle( transfer ) )
-		{
+	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (!isScalarParameterHandle(transfer)) {
 			return DNDService.LOGIC_UNKNOW;
 		}
-		if ( target instanceof EditPart )
-		{
+		if (target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
-			if ( editPart.getModel( ) instanceof IVirtualValidator )
-			{
-				if ( ( (IVirtualValidator) editPart.getModel( ) ).handleValidate( transfer ) )
+			if (editPart.getModel() instanceof IVirtualValidator) {
+				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer))
 					return DNDService.LOGIC_TRUE;
 				else
 					return DNDService.LOGIC_FALSE;
@@ -59,15 +58,12 @@ public class ParameterDropAdapter implements IDropAdapter
 		return DNDService.LOGIC_UNKNOW;
 	}
 
-	private boolean isScalarParameterHandle( Object transfer )
-	{
-		if ( transfer instanceof Object[] )
-		{
+	private boolean isScalarParameterHandle(Object transfer) {
+		if (transfer instanceof Object[]) {
 			DesignElementHandle container = null;
 			Object[] items = (Object[]) transfer;
-			for ( int i = 0; i < items.length; i++ )
-			{
-				if ( !( items[i] instanceof ScalarParameterHandle ) )
+			for (int i = 0; i < items.length; i++) {
+				if (!(items[i] instanceof ScalarParameterHandle))
 					return false;
 
 			}
@@ -76,75 +72,59 @@ public class ParameterDropAdapter implements IDropAdapter
 		return transfer instanceof ScalarParameterHandle;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#performDrop(java.lang.Object, java.lang.Object, int, org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#performDrop(
+	 * java.lang.Object, java.lang.Object, int,
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
 	 */
-	public boolean performDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( target instanceof EditPart )// drop on layout
+	public boolean performDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (target instanceof EditPart)// drop on layout
 		{
 			EditPart editPart = (EditPart) target;
 
-			if ( editPart != null )
-			{
-				CreateRequest request = new CreateRequest( );
-				if ( transfer instanceof Object[] )
-				{
+			if (editPart != null) {
+				CreateRequest request = new CreateRequest();
+				if (transfer instanceof Object[]) {
 					Object[] newObjs = (Object[]) transfer;
-					transfer = UIUtil.getInsertPamaterElements( newObjs );
+					transfer = UIUtil.getInsertPamaterElements(newObjs);
 				}
-				try
-				{
-					if ( transfer instanceof ScalarParameterHandle )
-					{
-						transfer = InsertInLayoutUtil.performInsertParameter( (ScalarParameterHandle) transfer );
-					}
-					else if ( transfer instanceof Object[] )
-					{
-						Object[] objs = (Object[])transfer;
+				try {
+					if (transfer instanceof ScalarParameterHandle) {
+						transfer = InsertInLayoutUtil.performInsertParameter((ScalarParameterHandle) transfer);
+					} else if (transfer instanceof Object[]) {
+						Object[] objs = (Object[]) transfer;
 						Object[] copys = new Object[objs.length];
-						for (int i=0; i<objs.length; i++)
-						{
-							if (objs[i] instanceof ScalarParameterHandle)
-							{
-								copys[i] = InsertInLayoutUtil.performInsertParameter( (ScalarParameterHandle) objs[i] );
-							}
-							else
-							{
+						for (int i = 0; i < objs.length; i++) {
+							if (objs[i] instanceof ScalarParameterHandle) {
+								copys[i] = InsertInLayoutUtil.performInsertParameter((ScalarParameterHandle) objs[i]);
+							} else {
 								// Return now , don't support the other type
 								return false;
 							}
-							
+
 						}
-						
+
 						transfer = copys;
 					}
 
-				}
-				catch ( SemanticException e )
-				{
+				} catch (SemanticException e) {
 					// do nothing
 					return false;
 				}
-				request.getExtendedData( )
-						.put( DesignerConstants.KEY_NEWOBJECT, transfer );
-				request.setLocation( location.getPoint( ) );
-				Command command = editPart.getCommand( request );
-				if ( command != null && command.canExecute( ) )
-				{
-					CommandStack stack = SessionHandleAdapter.getInstance( )
-							.getCommandStack( );
-					stack.startTrans( Messages.getString( "LevelHandleDropAdapter.ActionText" ) ); //$NON-NLS-1$
+				request.getExtendedData().put(DesignerConstants.KEY_NEWOBJECT, transfer);
+				request.setLocation(location.getPoint());
+				Command command = editPart.getCommand(request);
+				if (command != null && command.canExecute()) {
+					CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+					stack.startTrans(Messages.getString("LevelHandleDropAdapter.ActionText")); //$NON-NLS-1$
 
-					editPart.getViewer( )
-							.getEditDomain( )
-							.getCommandStack( )
-							.execute( command );
-					stack.commit( );
+					editPart.getViewer().getEditDomain().getCommandStack().execute(command);
+					stack.commit();
 					return true;
-				}
-				else
+				} else
 					return false;
 			}
 		}

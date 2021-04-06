@@ -15,12 +15,13 @@ import org.eclipse.swt.widgets.Control;
 
 import org.eclipse.jface.viewers.ISelectionProvider;
 
-
 /**
  * Implementors can provide a breadcrumb inside an editor.
  *
- * <p>Clients should not implement this interface. They should
- * subclass {@link EditorBreadcrumb} instead if possible</p>
+ * <p>
+ * Clients should not implement this interface. They should subclass
+ * {@link EditorBreadcrumb} instead if possible
+ * </p>
  *
  * @since 2.6.2
  */
@@ -42,15 +43,15 @@ public interface IBreadcrumb {
 	public ISelectionProvider getSelectionProvider();
 
 	/**
-	 * Activates the breadcrumb. This sets the keyboard focus
-	 * inside this breadcrumb and retargets the editor
-	 * actions.
+	 * Activates the breadcrumb. This sets the keyboard focus inside this breadcrumb
+	 * and retargets the editor actions.
 	 */
 	public void activate();
 
 	/**
-	 * A breadcrumb is active if it either has the focus or another workbench part has the focus and
-	 * the breadcrumb had the focus before the other workbench part was made active.
+	 * A breadcrumb is active if it either has the focus or another workbench part
+	 * has the focus and the breadcrumb had the focus before the other workbench
+	 * part was made active.
 	 *
 	 * @return <code>true</code> if this breadcrumb is active
 	 */

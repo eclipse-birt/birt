@@ -28,26 +28,20 @@ import org.xml.sax.SAXException;
  * This is a part of backward compatibility work from BIRT 2.1 to BIRT 2.1.1.
  */
 
-public class CompatibleBoundColumnExprState
-		extends
-			CompatibleMiscExpressionState
-{
+public class CompatibleBoundColumnExprState extends CompatibleMiscExpressionState {
 
 	/**
 	 * Constructs a compatible state.
 	 * 
-	 * @param theHandler
-	 *            the handler to parse the design file.
-	 * @param element
-	 *            the data item
+	 * @param theHandler the handler to parse the design file.
+	 * @param element    the data item
 	 * @param propDefn
 	 * @param struct
 	 */
 
-	CompatibleBoundColumnExprState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element, propDefn, struct );
+	CompatibleBoundColumnExprState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct) {
+		super(theHandler, element, propDefn, struct);
 	}
 
 	/*
@@ -56,23 +50,21 @@ public class CompatibleBoundColumnExprState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		if ( value == null )
+		if (value == null)
 			return;
 
-		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
-				element, handler.module );
+		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(element, handler.module);
 
 		// not to create bound data columns locally.
 
-		if ( target != null )
-			setupBoundDataColumns( target, value, false );
+		if (target != null)
+			setupBoundDataColumns(target, value, false);
 
 		// keep the expression as same.
 
-		doEnd( value );
+		doEnd(value);
 	}
 }

@@ -20,8 +20,7 @@ import org.eclipse.birt.chart.model.attribute.LineAttributes;
 /**
  * A rendering event type for rendering Oval object.
  */
-public class OvalRenderEvent extends PrimitiveRenderEvent
-{
+public class OvalRenderEvent extends PrimitiveRenderEvent {
 
 	private static final long serialVersionUID = -6716453650694010927L;
 
@@ -34,63 +33,52 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	/**
 	 * The constructor.
 	 */
-	public OvalRenderEvent( Object oSource )
-	{
-		super( oSource );
+	public OvalRenderEvent(Object oSource) {
+		super(oSource);
 	}
 
 	/**
 	 * Sets the bounds of the oval.
 	 */
-	public final void setBounds( Bounds bo )
-	{
+	public final void setBounds(Bounds bo) {
 		_bo = bo;
 	}
 
 	/**
 	 * @return Returns the bounds of the oval.
 	 */
-	public final Bounds getBounds( )
-	{
-		final Bounds bo = goFactory.createBounds( _bo.getLeft( ),
-				_bo.getTop( ),
-				_bo.getWidth( ),
-				_bo.getHeight( ) );
+	public final Bounds getBounds() {
+		final Bounds bo = goFactory.createBounds(_bo.getLeft(), _bo.getTop(), _bo.getWidth(), _bo.getHeight());
 		return bo;
 	}
 
 	/**
 	 * @return Returns the background.
 	 */
-	public Fill getBackground( )
-	{
+	public Fill getBackground() {
 		return _ifBackground;
 	}
 
 	/**
 	 * Sets the background attributes.
 	 */
-	public void setBackground( Fill ifBackground )
-	{
+	public void setBackground(Fill ifBackground) {
 		_ifBackground = ifBackground;
 	}
 
 	/**
 	 * @return Returns the outline.
 	 */
-	public LineAttributes getOutline( )
-	{
+	public LineAttributes getOutline() {
 		return _lia;
 	}
 
 	/**
 	 * Sets the outline attributes.
 	 * 
-	 * @param ls
-	 *            The outline to set.
+	 * @param ls The outline to set.
 	 */
-	public void setOutline( LineAttributes lia )
-	{
+	public void setOutline(LineAttributes lia) {
 		_lia = lia;
 	}
 
@@ -99,35 +87,36 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public PrimitiveRenderEvent copy( )
-	{
-		final OvalRenderEvent ore = new OvalRenderEvent( source );
-		ore.setBounds( goFactory.copyOf( _bo ) );
+	public PrimitiveRenderEvent copy() {
+		final OvalRenderEvent ore = new OvalRenderEvent(source);
+		ore.setBounds(goFactory.copyOf(_bo));
 
-		ore.setOutline( goFactory.copyOf( _lia ) );
+		ore.setOutline(goFactory.copyOf(_lia));
 
-		ore.setBackground( goFactory.copyOf( _ifBackground ) );
+		ore.setBackground(goFactory.copyOf(_ifBackground));
 		return ore;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 * @see
+	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart
+	 * .device.IDeviceRenderer)
 	 */
-	public final void draw( IDeviceRenderer idr ) throws ChartException
-	{
-		idr.drawOval( this );
+	public final void draw(IDeviceRenderer idr) throws ChartException {
+		idr.drawOval(this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 * @see
+	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart
+	 * .device.IDeviceRenderer)
 	 */
-	public final void fill( IDeviceRenderer idr ) throws ChartException
-	{
-		idr.fillOval( this );
+	public final void fill(IDeviceRenderer idr) throws ChartException {
+		idr.fillOval(this);
 	}
 
 	/*
@@ -135,16 +124,14 @@ public class OvalRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	public void reset( )
-	{
+	public void reset() {
 		this._bo = null;
 		this._ifBackground = null;
 		this._lia = null;
 
 	}
-	
-	public LineAttributes getLineAttributes( )
-	{
-		return getOutline( );
+
+	public LineAttributes getLineAttributes() {
+		return getOutline();
 	}
 }

@@ -24,8 +24,7 @@ import org.eclipse.swt.widgets.Shell;
  * HELP.
  * <p>
  */
-public class EmbeddedBrowserFactory implements IBrowserFactory
-{
+public class EmbeddedBrowserFactory implements IBrowserFactory {
 
 	private boolean tested;
 	private boolean available;
@@ -33,9 +32,8 @@ public class EmbeddedBrowserFactory implements IBrowserFactory
 	/**
 	 * Factory Constructor.
 	 */
-	public EmbeddedBrowserFactory( )
-	{
-		super( );
+	public EmbeddedBrowserFactory() {
+		super();
 	}
 
 	/**
@@ -43,15 +41,13 @@ public class EmbeddedBrowserFactory implements IBrowserFactory
 	 * 
 	 * @return browser factory available or not
 	 */
-	public boolean isAvailable( )
-	{
-		Display.getDefault( ).syncExec( new Runnable( ) {
+	public boolean isAvailable() {
+		Display.getDefault().syncExec(new Runnable() {
 
-			public void run( )
-			{
-				test( );
+			public void run() {
+				test();
 			}
-		} );
+		});
 		tested = true;
 		return available;
 	}
@@ -61,9 +57,8 @@ public class EmbeddedBrowserFactory implements IBrowserFactory
 	 * 
 	 * @return embedded browser instance
 	 */
-	public IBrowser createBrowser( )
-	{
-		return new EmbeddedBrowserAdapter( );
+	public IBrowser createBrowser() {
+		return new EmbeddedBrowserAdapter();
 	}
 
 	/**
@@ -71,38 +66,30 @@ public class EmbeddedBrowserFactory implements IBrowserFactory
 	 * 
 	 * @return
 	 */
-	private boolean test( )
-	{
+	private boolean test() {
 		// !remove OS check, see bugzilla#270189
 		// if ( !Constants.OS_WIN32.equalsIgnoreCase( Platform.getOS( ) )
 		// && !Constants.OS_LINUX.equalsIgnoreCase( Platform.getOS( ) ) )
 		// {
 		// return false;
 		// }
-		
-		if ( !tested )
-		{
+
+		if (!tested) {
 			tested = true;
-			Shell sh = new Shell( );
-			try
-			{
-				new Browser( sh, SWT.NONE );
+			Shell sh = new Shell();
+			try {
+				new Browser(sh, SWT.NONE);
 				available = true;
-			}
-			catch ( SWTError se )
-			{
-				if ( se.code == SWT.ERROR_NO_HANDLES )
-				{
+			} catch (SWTError se) {
+				if (se.code == SWT.ERROR_NO_HANDLES) {
 					// Browser not implemented
 					available = false;
 				}
-			}
-			catch ( Exception e )
-			{
+			} catch (Exception e) {
 				// Browser not implemented
 			}
-			if ( sh != null && !sh.isDisposed( ) )
-				sh.dispose( );
+			if (sh != null && !sh.isDisposed())
+				sh.dispose();
 		}
 		return available;
 	}

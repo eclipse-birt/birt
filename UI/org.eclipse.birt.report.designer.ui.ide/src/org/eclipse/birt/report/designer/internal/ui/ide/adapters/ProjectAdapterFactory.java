@@ -16,23 +16,18 @@ import org.eclipse.core.runtime.IAdapterFactory;
 import org.eclipse.ui.IEditorInput;
 import org.eclipse.ui.IFileEditorInput;
 
-public class ProjectAdapterFactory implements IAdapterFactory
-{
+public class ProjectAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		IEditorInput input = (IEditorInput)adaptableObject;
-		if ( !( input instanceof IFileEditorInput))
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		IEditorInput input = (IEditorInput) adaptableObject;
+		if (!(input instanceof IFileEditorInput))
 			return null;
-		return ((IFileEditorInput)input).getFile().getProject();
+		return ((IFileEditorInput) input).getFile().getProject();
 
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IProject.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IProject.class };
 	}
 
 }

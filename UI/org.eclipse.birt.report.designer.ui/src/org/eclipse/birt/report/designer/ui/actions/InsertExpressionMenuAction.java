@@ -30,8 +30,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * and fill its expression property.
  */
 
-public class InsertExpressionMenuAction extends BaseInsertMenuAction
-{
+public class InsertExpressionMenuAction extends BaseInsertMenuAction {
 
 	/**
 	 * ID for insert Expression action.
@@ -41,18 +40,17 @@ public class InsertExpressionMenuAction extends BaseInsertMenuAction
 	/**
 	 * Display text for insert Expression action.
 	 */
-	public static final String DISPLAY_TEXT = Messages.getString( "InsertExpressionMenuAction.text.Expression" ); //$NON-NLS-1$
+	public static final String DISPLAY_TEXT = Messages.getString("InsertExpressionMenuAction.text.Expression"); //$NON-NLS-1$
 
 	/**
 	 * The constructor.
 	 * 
 	 * @param part
 	 */
-	public InsertExpressionMenuAction( IWorkbenchPart part )
-	{
-		super( part, ReportDesignConstants.DATA_ITEM );
+	public InsertExpressionMenuAction(IWorkbenchPart part) {
+		super(part, ReportDesignConstants.DATA_ITEM);
 
-		setId( ID );
+		setId(ID);
 	}
 
 	/*
@@ -60,44 +58,34 @@ public class InsertExpressionMenuAction extends BaseInsertMenuAction
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.actions.BaseInsertMenuAction#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Insert expression menu action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Insert expression menu action >> Run ..."); //$NON-NLS-1$
 		}
-		ExpressionBuilder expressionBuilder = new ExpressionBuilder( ); //$NON-NLS-1$
+		ExpressionBuilder expressionBuilder = new ExpressionBuilder(); // $NON-NLS-1$
 
-		if ( slotHandle != null )
-		{
-			expressionBuilder.setExpressionProvier( new ExpressionProvider( slotHandle.getElementHandle( ) ) );
+		if (slotHandle != null) {
+			expressionBuilder.setExpressionProvier(new ExpressionProvider(slotHandle.getElementHandle()));
 
 		}
-		if ( expressionBuilder.open( ) == Window.OK )
-		{
-			CommandStack stack = SessionHandleAdapter.getInstance( )
-					.getCommandStack( );
-			stack.startTrans( STACK_MSG_INSERT_ELEMENT );
+		if (expressionBuilder.open() == Window.OK) {
+			CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+			stack.startTrans(STACK_MSG_INSERT_ELEMENT);
 
-			try
-			{
-				Request req = insertElement( );
-				Object obj = req.getExtendedData( )
-						.get( IRequestConstants.REQUEST_KEY_RESULT );
+			try {
+				Request req = insertElement();
+				Object obj = req.getExtendedData().get(IRequestConstants.REQUEST_KEY_RESULT);
 
-				if ( obj instanceof DataItemHandle )
-				{
-					( (DataItemHandle) obj ).setResultSetColumn( expressionBuilder.getResult( ) );
+				if (obj instanceof DataItemHandle) {
+					((DataItemHandle) obj).setResultSetColumn(expressionBuilder.getResult());
 				}
 
-				stack.commit( );
+				stack.commit();
 
-				selectElement( obj, false );
-			}
-			catch ( Exception e )
-			{
-				stack.rollbackAll( );
-				ExceptionHandler.handle( e );
+				selectElement(obj, false);
+			} catch (Exception e) {
+				stack.rollbackAll();
+				ExceptionHandler.handle(e);
 			}
 		}
 	}

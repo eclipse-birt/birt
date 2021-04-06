@@ -50,8 +50,7 @@ import com.ibm.icu.util.ULocale;
  * copy/pasted.
  * <p>
  */
-public class Regression_148761 extends BaseTestCase
-{
+public class Regression_148761 extends BaseTestCase {
 
 	private final static String TEMPLATE = "regression_148761_template.xml"; //$NON-NLS-1$
 	private final static String filename = "regression_148761.xml"; //$NON-NLS-1$
@@ -61,58 +60,52 @@ public class Regression_148761 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( TEMPLATE , TEMPLATE );
-		//copyInputToFile ( INPUT_FOLDER + "/" + TEMPLATE );
-		tempTemplatePath = copyInputToFile( INPUT_FOLDER + "/" + TEMPLATE );
-		tempFilePath = copyInputToFile( INPUT_FOLDER + "/" + filename );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( TEMPLATE , TEMPLATE );
+		// copyInputToFile ( INPUT_FOLDER + "/" + TEMPLATE );
+		tempTemplatePath = copyInputToFile(INPUT_FOLDER + "/" + TEMPLATE);
+		tempFilePath = copyInputToFile(INPUT_FOLDER + "/" + filename);
 		System.out.println("Template location: " + tempTemplatePath);
 		System.out.println("File location: " + tempFilePath);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
 
-	public void test_regression_148761( ) throws DesignFileException,
-			SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
+	public void test_regression_148761() throws DesignFileException, SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
 
-		ReportDesignHandle template = session.openDesign( tempTemplatePath );
-		
-		//System.out.println (template);
-		
-		TextItemHandle text1 = (TextItemHandle) template.findElement( "t1" ); //$NON-NLS-1$
+		ReportDesignHandle template = session.openDesign(tempTemplatePath);
+
+		// System.out.println (template);
+
+		TextItemHandle text1 = (TextItemHandle) template.findElement("t1"); //$NON-NLS-1$
 
 		// Create template item using "t1"
 
 		TemplateReportItemHandle templateText1 = (TemplateReportItemHandle) text1
-				.createTemplateElement( "templateText1" ); //$NON-NLS-1$
-		IDesignElement copy = templateText1.copyDefaultElement( );
+				.createTemplateElement("templateText1"); //$NON-NLS-1$
+		IDesignElement copy = templateText1.copyDefaultElement();
 
 		// Double click the template item and we get a report item again.
 
-		templateText1.transformToReportItem( (ReportItemHandle) copy
-				.getHandle( template.getModule( ) ) );
-		TextItemHandle text2 = (TextItemHandle) template.findElement( "t1" ); //$NON-NLS-1$
+		templateText1.transformToReportItem((ReportItemHandle) copy.getHandle(template.getModule()));
+		TextItemHandle text2 = (TextItemHandle) template.findElement("t1"); //$NON-NLS-1$
 
 		// paste the text to a new report, make sure it is correctly
 		// copy/pasted.
-		openDesign( tempFilePath, false );
+		openDesign(tempFilePath, false);
 
-		ReportDesignHandle newDesignHandle = session.createDesign( );
-		newDesignHandle.getBody( ).paste( text2.copy( ).getHandle( design ) );
+		ReportDesignHandle newDesignHandle = session.createDesign();
+		newDesignHandle.getBody().paste(text2.copy().getHandle(design));
 
-		TextItemHandle pastedText = (TextItemHandle) newDesignHandle
-				.findElement( "t1" ); //$NON-NLS-1$
+		TextItemHandle pastedText = (TextItemHandle) newDesignHandle.findElement("t1"); //$NON-NLS-1$
 
-		assertNotNull( pastedText );
-		assertEquals( "sample text", pastedText.getContent( ) ); //$NON-NLS-1$
+		assertNotNull(pastedText);
+		assertEquals("sample text", pastedText.getContent()); //$NON-NLS-1$
 	}
 }

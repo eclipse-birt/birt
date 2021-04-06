@@ -17,7 +17,6 @@ package org.eclipse.birt.chart.script.api.data;
  * @see org.eclipse.birt.chart.model.data.DataElement
  */
 
-public interface IDataElement
-{
+public interface IDataElement {
 
 }

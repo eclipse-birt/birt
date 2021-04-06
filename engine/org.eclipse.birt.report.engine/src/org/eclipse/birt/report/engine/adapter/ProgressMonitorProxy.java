@@ -18,26 +18,21 @@ import org.eclipse.birt.report.engine.api.IProgressMonitor;
  * 
  *
  */
-public class ProgressMonitorProxy implements IProgressMonitor
-{
+public class ProgressMonitorProxy implements IProgressMonitor {
 	private IProgressMonitor proxy;
 
-	public ProgressMonitorProxy( IProgressMonitor monitor )
-	{
+	public ProgressMonitorProxy(IProgressMonitor monitor) {
 		proxy = monitor;
-		initialize( );
+		initialize();
 	}
 
-	private void initialize( )
-	{
+	private void initialize() {
 
 	}
 
-	public void onProgress( int type, int page )
-	{
-		if ( proxy != null )
-		{
-			proxy.onProgress( type, page );
+	public void onProgress(int type, int page) {
+		if (proxy != null) {
+			proxy.onProgress(type, page);
 		}
 	}
 }

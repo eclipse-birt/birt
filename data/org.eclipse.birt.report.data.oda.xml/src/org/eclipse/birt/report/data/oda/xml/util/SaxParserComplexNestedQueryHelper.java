@@ -15,14 +15,14 @@ import org.eclipse.datatools.enablement.oda.xml.util.IXMLSource;
 import org.eclipse.datatools.enablement.oda.xml.util.RelationInformation;
 import org.eclipse.datatools.enablement.oda.xml.util.SaxParserConsumer;
 
-
 /**
- * This is a helper class used by SaxParserConsumer to generate nested xml columns related
- * infomation.
+ * This is a helper class used by SaxParserConsumer to generate nested xml
+ * columns related infomation.
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class SaxParserComplexNestedQueryHelper extends org.eclipse.datatools.enablement.oda.xml.util.SaxParserNestedQueryHelper
-{
+public class SaxParserComplexNestedQueryHelper
+		extends org.eclipse.datatools.enablement.oda.xml.util.SaxParserNestedQueryHelper {
 
 	/**
 	 * 
@@ -31,10 +31,8 @@ public class SaxParserComplexNestedQueryHelper extends org.eclipse.datatools.ena
 	 * @param xdis
 	 * @param tName
 	 */
-	SaxParserComplexNestedQueryHelper( SaxParserConsumer consumer, RelationInformation rinfo, IXMLSource xmlSource, String tName ) throws OdaException
-	{
-		super( consumer, rinfo, xmlSource, tName );
+	SaxParserComplexNestedQueryHelper(SaxParserConsumer consumer, RelationInformation rinfo, IXMLSource xmlSource,
+			String tName) throws OdaException {
+		super(consumer, rinfo, xmlSource, tName);
 	}
 }
-
-

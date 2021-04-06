@@ -19,23 +19,18 @@ import org.eclipse.jst.j2ee.internal.actions.AbstractOpenWizardWorkbenchAction;
  * Action for new Birt Web Module
  * 
  */
-public class NewBirtWebComponentAction
-		extends
-			AbstractOpenWizardWorkbenchAction
-{
+public class NewBirtWebComponentAction extends AbstractOpenWizardWorkbenchAction {
 
 	/**
 	 * Create Wizard
 	 * 
 	 * @see org.eclipse.jst.j2ee.internal.actions.AbstractOpenWizardAction#createWizard()
 	 */
-	protected Wizard createWizard( )
-	{
-		return new BirtWebProjectWizard( );
+	protected Wizard createWizard() {
+		return new BirtWebProjectWizard();
 	}
 
-	protected boolean shouldAcceptElement( Object obj )
-	{
+	protected boolean shouldAcceptElement(Object obj) {
 		return true;
 	}
 }

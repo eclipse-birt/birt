@@ -15,8 +15,7 @@ package org.eclipse.birt.chart.reportitem.api;
  * Constants used in Chart report item.
  */
 
-public interface ChartReportItemConstants
-{
+public interface ChartReportItemConstants {
 
 	public static final String ID = "org.eclipse.birt.chart.reportitem"; //$NON-NLS-1$
 
@@ -55,7 +54,7 @@ public interface ChartReportItemConstants
 	public static final String PROPERTY_OUTPUT_FORMAT_JPG = "JPG";//$NON-NLS-1$
 	public static final String PROPERTY_OUTPUT_FORMAT_BMP = "BMP";//$NON-NLS-1$
 	public static final String PROPERTY_OUTPUT_FORMAT_SVG = "SVG";//$NON-NLS-1$
-	
+
 	/**
 	 * Specifies the chart type in xtab
 	 * 
@@ -65,8 +64,8 @@ public interface ChartReportItemConstants
 	public static final String PROPERTY_CHART_TYPE = "chartType";//$NON-NLS-1$
 
 	/**
-	 * Specifies all chart types which could be in
-	 * <code>PROPERTY_CHART_TYPE</code> property of handle
+	 * Specifies all chart types which could be in <code>PROPERTY_CHART_TYPE</code>
+	 * property of handle
 	 * 
 	 * @see #PROPERTY_CHART_TYPE
 	 */

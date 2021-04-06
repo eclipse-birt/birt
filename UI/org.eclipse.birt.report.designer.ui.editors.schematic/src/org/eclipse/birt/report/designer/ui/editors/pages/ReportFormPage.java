@@ -26,9 +26,7 @@ import org.eclipse.ui.part.EditorPart;
  * Base page for report editor page. Clients can subclass this class.
  * 
  */
-public abstract class ReportFormPage extends EditorPart implements
-		IReportEditorPage
-{
+public abstract class ReportFormPage extends EditorPart implements IReportEditorPage {
 
 	private FormEditor editor;
 
@@ -36,8 +34,7 @@ public abstract class ReportFormPage extends EditorPart implements
 
 	private int index;
 
-	public ReportFormPage( )
-	{
+	public ReportFormPage() {
 	}
 
 	/*
@@ -46,11 +43,9 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * @see org.eclipse.ui.part.EditorPart#init(org.eclipse.ui.IEditorSite,
 	 * org.eclipse.ui.IEditorInput)
 	 */
-	public void init( IEditorSite site, IEditorInput input )
-			throws PartInitException
-	{
-		super.setSite( site );
-		super.setInput( input );
+	public void init(IEditorSite site, IEditorInput input) throws PartInitException {
+		super.setSite(site);
+		super.setInput(input);
 	}
 
 	/*
@@ -58,9 +53,8 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#getEditorSite()
 	 */
-	public IEditorSite getEditorSite( )
-	{
-		return (IEditorSite) getSite( );
+	public IEditorSite getEditorSite() {
+		return (IEditorSite) getSite();
 	}
 
 	/*
@@ -68,8 +62,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#isSaveAsAllowed()
 	 */
-	public boolean isSaveAsAllowed( )
-	{
+	public boolean isSaveAsAllowed() {
 		return true;
 	}
 
@@ -78,19 +71,16 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
-	public void setFocus( )
-	{
+	public void setFocus() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
+	 * @see org.eclipse.ui.forms.editor.IFormPage#initialize(org.eclipse.ui.forms
 	 * .editor.FormEditor)
 	 */
-	public void initialize( FormEditor editor )
-	{
+	public void initialize(FormEditor editor) {
 		this.editor = editor;
 	}
 
@@ -99,8 +89,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getEditor()
 	 */
-	public FormEditor getEditor( )
-	{
+	public FormEditor getEditor() {
 		return editor;
 	}
 
@@ -109,8 +98,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getManagedForm()
 	 */
-	public IManagedForm getManagedForm( )
-	{
+	public IManagedForm getManagedForm() {
 		return null;
 	}
 
@@ -119,8 +107,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setActive(boolean)
 	 */
-	public void setActive( boolean active )
-	{
+	public void setActive(boolean active) {
 		this.isActive = active;
 	}
 
@@ -129,8 +116,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isActive()
 	 */
-	public boolean isActive( )
-	{
+	public boolean isActive() {
 		return isActive;
 	}
 
@@ -139,8 +125,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#canLeaveThePage()
 	 */
-	public boolean canLeaveThePage( )
-	{
+	public boolean canLeaveThePage() {
 		return true;
 	}
 
@@ -149,8 +134,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#getIndex()
 	 */
-	public int getIndex( )
-	{
+	public int getIndex() {
 		return this.index;
 	}
 
@@ -159,8 +143,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#setIndex(int)
 	 */
-	public void setIndex( int index )
-	{
+	public void setIndex(int index) {
 		this.index = index;
 	}
 
@@ -169,8 +152,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#isEditor()
 	 */
-	public boolean isEditor( )
-	{
+	public boolean isEditor() {
 		return true;
 	}
 
@@ -179,8 +161,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.forms.editor.IFormPage#selectReveal(java.lang.Object)
 	 */
-	public boolean selectReveal( Object object )
-	{
+	public boolean selectReveal(Object object) {
 		return false;
 	}
 
@@ -189,9 +170,8 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @return
 	 */
-	public final MultiPageReportEditor getReportEditor( )
-	{
-		return (MultiPageReportEditor) getEditor( );
+	public final MultiPageReportEditor getReportEditor() {
+		return (MultiPageReportEditor) getEditor();
 	}
 
 	/**
@@ -199,21 +179,18 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @return
 	 */
-	public final ModuleHandle getModel( )
-	{
-		IReportProvider provider = getProvider( );
+	public final ModuleHandle getModel() {
+		IReportProvider provider = getProvider();
 
-		if ( provider != null )
-		{
-			return provider.queryReportModuleHandle( );
+		if (provider != null) {
+			return provider.queryReportModuleHandle();
 		}
-		
+
 		return null;
 	}
 
-	protected IReportProvider getProvider( )
-	{
-		return (IReportProvider) getEditor( ).getAdapter( IReportProvider.class );
+	protected IReportProvider getProvider() {
+		return (IReportProvider) getEditor().getAdapter(IReportProvider.class);
 	}
 
 	/*
@@ -221,8 +198,7 @@ public abstract class ReportFormPage extends EditorPart implements
 	 * 
 	 * @see org.eclipse.ui.part.EditorPart#setInput(org.eclipse.ui.IEditorInput)
 	 */
-	public void setInput( IEditorInput input )
-	{
-		super.setInput( input );
+	public void setInput(IEditorInput input) {
+		super.setInput(input);
 	}
 }

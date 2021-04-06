@@ -14,12 +14,10 @@ package org.eclipse.birt.report.engine.ir;
 /**
  * 
  */
-public class MapRuleTest extends RuleTestCase
-{
+public class MapRuleTest extends RuleTestCase {
 
-	public MapRuleTest( )
-	{
-		super( new MapRuleDesign( ) );
+	public MapRuleTest() {
+		super(new MapRuleDesign());
 	}
 
 	/**
@@ -29,16 +27,15 @@ public class MapRuleTest extends RuleTestCase
 	 * 
 	 * then get them to test if they work correctly
 	 */
-	public void testAccessor( )
-	{
-		//Set
+	public void testAccessor() {
+		// Set
 		String key = "Key";
 		String text = "Test";
-		( (MapRuleDesign) rule ).setDisplayText( key, text );
+		((MapRuleDesign) rule).setDisplayText(key, text);
 
-		//Get
-		assertEquals( ( (MapRuleDesign) rule ).getDisplayKey( ), key );
-		assertEquals( ( (MapRuleDesign) rule ).getDisplayText( ), text );
+		// Get
+		assertEquals(((MapRuleDesign) rule).getDisplayKey(), key);
+		assertEquals(((MapRuleDesign) rule).getDisplayText(), text);
 	}
 
 }

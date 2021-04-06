@@ -17,21 +17,20 @@ import org.eclipse.birt.chart.render.ISeriesRenderer;
 import org.eclipse.birt.chart.script.ChartEventHandlerAdapter;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 
-public class SeriesScript extends ChartEventHandlerAdapter
-{
+public class SeriesScript extends ChartEventHandlerAdapter {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawSeries(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.render.ISeriesRenderer,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawSeries(org.
+	 * eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.render.ISeriesRenderer,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawSeries( Series series, ISeriesRenderer isr,
-			IChartScriptContext icsc )
-	{
-		series.setCurveFitting( CurveFittingImpl.create( ) );
-		series.getLabel( ).getCaption( ).getColor( ).set( 12, 232, 182 );
+	public void beforeDrawSeries(Series series, ISeriesRenderer isr, IChartScriptContext icsc) {
+		series.setCurveFitting(CurveFittingImpl.create());
+		series.getLabel().getCaption().getColor().set(12, 232, 182);
 	}
 
 }

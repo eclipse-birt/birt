@@ -22,8 +22,7 @@ import org.eclipse.birt.report.designer.ui.parameters.IParameter;
  * 
  */
 
-public class LeafParameterNode implements IParameterNode
-{
+public class LeafParameterNode implements IParameterNode {
 
 	private IParameter parameter = null;
 
@@ -33,42 +32,42 @@ public class LeafParameterNode implements IParameterNode
 	 * @param parameter
 	 */
 
-	public LeafParameterNode( IParameter parameter )
-	{
+	public LeafParameterNode(IParameter parameter) {
 		this.parameter = parameter;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.parameter.node.IParamNode#format(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.parameter.node.IParamNode#format(java.lang
+	 * .String)
 	 */
 
-	public String format( String input ) throws BirtException
-	{
-		return parameter.format( input );
+	public String format(String input) throws BirtException {
+		return parameter.format(input);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.parameter.node.IParamNode#getChildren()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.parameter.node.IParamNode#getChildren()
 	 */
 
-	public List getChildren( )
-	{
+	public List getChildren() {
 		return Collections.EMPTY_LIST;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.parameter.node.IParamNode#getValueList()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.parameter.node.IParamNode#getValueList()
 	 */
 
-	public List getValueList( )
-	{
-		return parameter.getValueList( );
+	public List getValueList() {
+		return parameter.getValueList();
 	}
 
 }

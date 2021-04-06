@@ -19,69 +19,66 @@ import java.util.Iterator;
  * implement memory management policy. The node may exist in disk or keep in the
  * memory.
  */
-public interface INode
-{
+public interface INode {
 
 	/**
-	 * Get the parent of the node, or return null if the node is in tree top
-	 * level.
+	 * Get the parent of the node, or return null if the node is in tree top level.
 	 * 
 	 * @return the parent of the node.
 	 */
-	INode getParent( );
+	INode getParent();
 
 	/**
 	 * Set the parent of the node.
 	 * 
-	 * @param parent
-	 *            the parent of the node.
+	 * @param parent the parent of the node.
 	 */
-	void setParent( INode parent );
+	void setParent(INode parent);
 
 	/**
 	 * Get the sibling node immediately preceding the specified node.
 	 * 
 	 * @return the sibling node immediately preceding the specified node.
 	 */
-	INode getPrevious( );
-	
+	INode getPrevious();
+
 	/**
 	 * Set the sibling node immediately preceding the specified node.
 	 * 
-	 * @param previous
-	 *            the sibling node immediately preceding the specified node.
+	 * @param previous the sibling node immediately preceding the specified node.
 	 */
-	void setPrevious( INode previous );
-	
+	void setPrevious(INode previous);
+
 	/**
 	 * Get the sibling node immediately following the specified node.
 	 * 
 	 * @return the sibling node immediately following the specified node.
 	 */
-	INode getNext( );
-	
+	INode getNext();
+
 	/**
 	 * Set the sibling node immediately following the specified node.
 	 * 
-	 * @param next
-	 *            the sibling node immediately following the specified node.
+	 * @param next the sibling node immediately following the specified node.
 	 */
-	void setNext( INode next );
-	
+	void setNext(INode next);
+
 	/**
 	 * Append a child to this node.
+	 * 
 	 * @param child the child need to be appended.
 	 */
-	void appendChild( INode child );
+	void appendChild(INode child);
 
 	/**
 	 * Get the children of the node.
+	 * 
 	 * @return the children of the node.
 	 */
-	Iterator getChildren( );
+	Iterator getChildren();
 
 	/**
 	 * Remove all children of the node.
 	 */
-	void removeChildren( );
+	void removeChildren();
 }

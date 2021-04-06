@@ -15,16 +15,14 @@ package org.eclipse.birt.report.designer.ui.views.attributes.providers;
  * The interface for a category provider factory
  */
 
-public interface ICategoryProviderFactory
-{
+public interface ICategoryProviderFactory {
 
 	/**
 	 * Returns the category provider for the given model
 	 * 
-	 * @param model
-	 *            the given model
+	 * @param model the given model
 	 * @return the category provider for the model, or null if it doesn't exist
 	 */
-	public ICategoryProvider getCategoryProvider( Object model );
+	public ICategoryProvider getCategoryProvider(Object model);
 
 }

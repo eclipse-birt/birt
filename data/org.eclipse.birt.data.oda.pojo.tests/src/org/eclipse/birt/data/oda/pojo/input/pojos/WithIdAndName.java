@@ -15,29 +15,27 @@ package org.eclipse.birt.data.oda.pojo.input.pojos;
  * 
  */
 
-public class WithIdAndName
-{
+public class WithIdAndName {
 	/**
 	 * @return the id
 	 */
-	public int getId( )
-	{
+	public int getId() {
 		return id;
 	}
-	
+
 	/**
 	 * @return the name
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
-	public WithIdAndName( int id, String name )
-	{
-		super( );
+
+	public WithIdAndName(int id, String name) {
+		super();
 		this.id = id;
 		this.name = name;
 	}
+
 	private int id;
 	private String name;
 }

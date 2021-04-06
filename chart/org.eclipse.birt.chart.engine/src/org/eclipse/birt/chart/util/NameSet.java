@@ -16,8 +16,7 @@ import org.eclipse.birt.chart.engine.i18n.Messages;
 /**
  * This class provides basic implementaion to hold a name and display name.
  */
-public class NameSet
-{
+public class NameSet {
 
 	private String prefix;
 	private String suffix;
@@ -32,42 +31,35 @@ public class NameSet
 	 * @param suffix
 	 * @param name
 	 */
-	public NameSet( String prefix, String suffix, String[] name )
-	{
+	public NameSet(String prefix, String suffix, String[] name) {
 		this.prefix = prefix;
 		this.suffix = suffix;
 		nameArray = name;
-		initDisplayNameArray( );
+		initDisplayNameArray();
 	}
 
 	/**
-	 * Returns a new NameSet object joined with current one, use current prefix
-	 * and suffix.
+	 * Returns a new NameSet object joined with current one, use current prefix and
+	 * suffix.
 	 * 
 	 * @param ns
 	 * @return
 	 */
-	public NameSet join( NameSet ns )
-	{
-		String[] nss = ns.getNames( );
+	public NameSet join(NameSet ns) {
+		String[] nss = ns.getNames();
 		String[] newNames = new String[nameArray.length + nss.length];
 
-		System.arraycopy( nameArray, 0, newNames, 0, nameArray.length );
-		System.arraycopy( nss, 0, newNames, nameArray.length, nss.length );
+		System.arraycopy(nameArray, 0, newNames, 0, nameArray.length);
+		System.arraycopy(nss, 0, newNames, nameArray.length, nss.length);
 
-		return new NameSet( prefix, suffix, newNames );
+		return new NameSet(prefix, suffix, newNames);
 	}
 
-	private void initDisplayNameArray( )
-	{
-		if ( nameArray != null )
-		{
+	private void initDisplayNameArray() {
+		if (nameArray != null) {
 			displayNameArray = new String[nameArray.length];
-			for ( int i = 0; i < displayNameArray.length; i++ )
-			{
-				displayNameArray[i] = Messages.getString( prefix
-						+ nameArray[i]
-						+ suffix );
+			for (int i = 0; i < displayNameArray.length; i++) {
+				displayNameArray[i] = Messages.getString(prefix + nameArray[i] + suffix);
 			}
 		}
 	}
@@ -78,13 +70,9 @@ public class NameSet
 	 * @param displayName
 	 * @return
 	 */
-	public String getNameByDisplayName( String displayName )
-	{
-		for ( int i = 0; i < displayNameArray.length; i++ )
-		{
-			if ( displayName != null
-					&& displayName.equals( displayNameArray[i] ) )
-			{
+	public String getNameByDisplayName(String displayName) {
+		for (int i = 0; i < displayNameArray.length; i++) {
+			if (displayName != null && displayName.equals(displayNameArray[i])) {
 				return nameArray[i];
 			}
 		}
@@ -98,12 +86,9 @@ public class NameSet
 	 * @param displayName
 	 * @return
 	 */
-	public String getDisplayNameByName( String name )
-	{
-		for ( int i = 0; i < nameArray.length; i++ )
-		{
-			if ( name != null && name.equals( nameArray[i] ) )
-			{
+	public String getDisplayNameByName(String name) {
+		for (int i = 0; i < nameArray.length; i++) {
+			if (name != null && name.equals(nameArray[i])) {
 				return displayNameArray[i];
 			}
 		}
@@ -118,12 +103,9 @@ public class NameSet
 	 * @return
 	 * @since 2.3.1
 	 */
-	public String getDisplayNameByName( String name, String defaultValue )
-	{
-		for ( int i = 0; i < nameArray.length; i++ )
-		{
-			if ( name != null && name.equals( nameArray[i] ) )
-			{
+	public String getDisplayNameByName(String name, String defaultValue) {
+		for (int i = 0; i < nameArray.length; i++) {
+			if (name != null && name.equals(nameArray[i])) {
 				return displayNameArray[i];
 			}
 		}
@@ -137,12 +119,9 @@ public class NameSet
 	 * @param name
 	 * @return
 	 */
-	public int getSafeNameIndex( String name )
-	{
-		for ( int i = 0; i < nameArray.length; i++ )
-		{
-			if ( name != null && name.equals( nameArray[i] ) )
-			{
+	public int getSafeNameIndex(String name) {
+		for (int i = 0; i < nameArray.length; i++) {
+			if (name != null && name.equals(nameArray[i])) {
 				return i;
 			}
 		}
@@ -156,12 +135,9 @@ public class NameSet
 	 * @param name
 	 * @return
 	 */
-	public int getNameIndex( String name )
-	{
-		for ( int i = 0; i < nameArray.length; i++ )
-		{
-			if ( name != null && name.equals( nameArray[i] ) )
-			{
+	public int getNameIndex(String name) {
+		for (int i = 0; i < nameArray.length; i++) {
+			if (name != null && name.equals(nameArray[i])) {
 				return i;
 			}
 		}
@@ -174,8 +150,7 @@ public class NameSet
 	 * 
 	 * @return
 	 */
-	public String[] getDisplayNames( )
-	{
+	public String[] getDisplayNames() {
 		return displayNameArray;
 	}
 
@@ -184,8 +159,7 @@ public class NameSet
 	 * 
 	 * @return
 	 */
-	public String[] getNames( )
-	{
+	public String[] getNames() {
 		return nameArray;
 	}
 

@@ -18,10 +18,9 @@ import org.eclipse.birt.data.engine.api.IResultIterator;
  * 
  */
 
-public class QueryResultsUtil
-{
-	public static IResultIterator processOdiResult( DataEngineSession session, final QueryResults qr, IQueryDefinition query, org.eclipse.birt.data.engine.odi.IResultIterator odiResult, String dataSetName )
-	{
+public class QueryResultsUtil {
+	public static IResultIterator processOdiResult(DataEngineSession session, final QueryResults qr,
+			IQueryDefinition query, org.eclipse.birt.data.engine.odi.IResultIterator odiResult, String dataSetName) {
 		return null;
 	}
 }

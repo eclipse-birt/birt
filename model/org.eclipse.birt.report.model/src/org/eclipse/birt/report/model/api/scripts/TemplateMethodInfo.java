@@ -20,10 +20,7 @@ import org.eclipse.birt.report.model.api.metadata.ITemplateMethodInfo;
  * template.
  */
 
-public class TemplateMethodInfo extends MethodInfo
-		implements
-			ITemplateMethodInfo
-{
+public class TemplateMethodInfo extends MethodInfo implements ITemplateMethodInfo {
 
 	/**
 	 * Default constructor.
@@ -31,19 +28,18 @@ public class TemplateMethodInfo extends MethodInfo
 	 * @param method
 	 */
 
-	public TemplateMethodInfo( Method method )
-	{
-		super( method );
+	public TemplateMethodInfo(Method method) {
+		super(method);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.metadata.ITemplateMethodInfo#getCodeTemplate()
+	 * @see org.eclipse.birt.report.model.api.metadata.ITemplateMethodInfo#
+	 * getCodeTemplate()
 	 */
 
-	public String getCodeTemplate( )
-	{
+	public String getCodeTemplate() {
 		return ""; //$NON-NLS-1$
 	}
 

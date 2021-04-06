@@ -22,44 +22,37 @@ import org.eclipse.birt.report.model.elements.interfaces.IThemeModel;
  * 
  */
 
-public class Theme extends AbstractTheme
-		implements
-			IThemeModel
-			
+public class Theme extends AbstractTheme implements IThemeModel
+
 {
 
 	/**
 	 * Constructor.
 	 */
 
-	public Theme( )
-	{
-		super( );
+	public Theme() {
+		super();
 	}
 
 	/**
 	 * Constructor with the element name.
 	 * 
-	 * @param theName
-	 *            the element name
+	 * @param theName the element name
 	 */
 
-	public Theme( String theName )
-	{
-		super( theName );
+	public Theme(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitTheme( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitTheme(this);
 	}
 
 	/*
@@ -68,8 +61,7 @@ public class Theme extends AbstractTheme
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.THEME_ITEM;
 	}
 
@@ -81,25 +73,21 @@ public class Theme extends AbstractTheme
 	 * .birt.report.model.core.Module)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design of the row
+	 * @param module the report design of the row
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public ThemeHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ThemeHandle( module, this );
+	public ThemeHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ThemeHandle(module, this);
 		}
 		return (ThemeHandle) handle;
 	}

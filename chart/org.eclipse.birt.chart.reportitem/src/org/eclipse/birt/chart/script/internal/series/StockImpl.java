@@ -23,18 +23,15 @@ import org.eclipse.birt.chart.script.internal.series.data.StockDataImpl;
  * 
  */
 
-public class StockImpl extends ValueSeriesImpl implements IStock
-{
+public class StockImpl extends ValueSeriesImpl implements IStock {
 
-	public StockImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public StockImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof StockSeries;
 	}
 
-	public ISeriesData getDataExpr( )
-	{
-		return new StockDataImpl( sd );
+	public ISeriesData getDataExpr() {
+		return new StockDataImpl(sd);
 	}
 
 }

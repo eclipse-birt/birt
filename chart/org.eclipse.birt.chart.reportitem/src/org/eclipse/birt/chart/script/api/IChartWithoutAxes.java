@@ -17,13 +17,12 @@ import org.eclipse.birt.chart.script.api.component.IValueSeries;
  * Represents the design of a Chart in the scripting environment
  */
 
-public interface IChartWithoutAxes extends IChart
-{
+public interface IChartWithoutAxes extends IChart {
 
 	/**
 	 * Gets all value(Y) series from Chart
 	 * 
 	 * @return series array
 	 */
-	IValueSeries[] getValueSeries( );
+	IValueSeries[] getValueSeries();
 }

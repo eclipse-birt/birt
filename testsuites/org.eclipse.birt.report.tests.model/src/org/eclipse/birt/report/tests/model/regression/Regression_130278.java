@@ -30,46 +30,43 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_130278 extends BaseTestCase
-{
+public class Regression_130278 extends BaseTestCase {
 
 	private final static String INPUT = "Reg_130278.xml"; //$NON-NLS-1$
 	private ElementFactory factory = null;
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
+
 	/**
 	 * @throws SemanticException
 	 * @throws DesignFileException
 	 */
-	
-	public void test_regression_130278( ) throws SemanticException, DesignFileException
-	{
-		openDesign( INPUT );
-		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
 
-		factory = new ElementFactory( designHandle.getModule( ) );
-		TableGroupHandle group = factory.newTableGroup( );
-		RowHandle header = factory.newTableRow( );
-		group.getHeader( ).add( header );
+	public void test_regression_130278() throws SemanticException, DesignFileException {
+		openDesign(INPUT);
+		TableHandle table = (TableHandle) designHandle.findElement("table"); //$NON-NLS-1$
 
-		table.getGroups( ).add( group );
-		header.setProperty( Style.BACKGROUND_COLOR_PROP, "red" ); //$NON-NLS-1$
+		factory = new ElementFactory(designHandle.getModule());
+		TableGroupHandle group = factory.newTableGroup();
+		RowHandle header = factory.newTableRow();
+		group.getHeader().add(header);
 
-		designHandle.getCommandStack( ).undo( );
-		assertEquals( null, header
-				.getStringProperty( Style.BACKGROUND_COLOR_PROP ) );
+		table.getGroups().add(group);
+		header.setProperty(Style.BACKGROUND_COLOR_PROP, "red"); //$NON-NLS-1$
 
-		designHandle.getCommandStack( ).undo( );
+		designHandle.getCommandStack().undo();
+		assertEquals(null, header.getStringProperty(Style.BACKGROUND_COLOR_PROP));
 
-		assertEquals( 0, table.getGroups( ).getCount( ) );
+		designHandle.getCommandStack().undo();
+
+		assertEquals(0, table.getGroups().getCount());
 	}
 
 }

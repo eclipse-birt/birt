@@ -28,147 +28,125 @@ import org.eclipse.swt.widgets.Control;
 /**
  * CheckPropertyDescriptor manages CheckBox control.
  */
-public class CheckPropertyDescriptor extends PropertyDescriptor
-{
+public class CheckPropertyDescriptor extends PropertyDescriptor {
 
 	protected Button button;
 
-	public CheckPropertyDescriptor( boolean formStyle )
-	{
-		setFormStyle( formStyle );
+	public CheckPropertyDescriptor(boolean formStyle) {
+		setFormStyle(formStyle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#resetUIData()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#resetUIData()
 	 */
-	public void load( )
-	{
-		String value = getDescriptorProvider( ).load( ).toString( );
+	public void load() {
+		String value = getDescriptorProvider().load().toString();
 
-		boolean stateFlag = ( ( value == null ) == button.getEnabled( ) );
-		if ( stateFlag )
-			button.setEnabled( value != null );
+		boolean stateFlag = ((value == null) == button.getEnabled());
+		if (stateFlag)
+			button.setEnabled(value != null);
 
-		boolean boolValue = "true".equalsIgnoreCase( value ); //$NON-NLS-1$
-		if ( button.getSelection( ) != boolValue )
-		{
-			button.setSelection( boolValue );
+		boolean boolValue = "true".equalsIgnoreCase(value); //$NON-NLS-1$
+		if (button.getSelection() != boolValue) {
+			button.setSelection(boolValue);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return button;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		if ( isFormStyle( ) )
-		{
-			button = FormWidgetFactory.getInstance( ).createButton( parent,
-					SWT.CHECK,
-					true );
-		}
-		else
-			button = new Button( parent, SWT.CHECK );
-		button.setText( getDescriptorProvider( ).getDisplayName( ) );
-		if ( !selectList.isEmpty( ) )
-			button.addSelectionListener( (SelectionListener) selectList.get( 0 ) );
-		else
-		{
-			SelectionListener listener = new SelectionAdapter( ) {
+	public Control createControl(Composite parent) {
+		if (isFormStyle()) {
+			button = FormWidgetFactory.getInstance().createButton(parent, SWT.CHECK, true);
+		} else
+			button = new Button(parent, SWT.CHECK);
+		button.setText(getDescriptorProvider().getDisplayName());
+		if (!selectList.isEmpty())
+			button.addSelectionListener((SelectionListener) selectList.get(0));
+		else {
+			SelectionListener listener = new SelectionAdapter() {
 
-				public void widgetSelected( SelectionEvent e )
-				{
-					onClickButton( );
+				public void widgetSelected(SelectionEvent e) {
+					onClickButton();
 				}
 			};
-			selectList.add( listener );
+			selectList.add(listener);
 		}
-		button.addSelectionListener( new SelectionAdapter( ) {
+		button.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				onClickButton( );
+			public void widgetSelected(SelectionEvent e) {
+				onClickButton();
 			}
-		} );
+		});
 		return button;
 	}
 
-	private List selectList = new ArrayList( );
+	private List selectList = new ArrayList();
 
 	/**
 	 * if use this method , you couldn't use the onClickButton method.
 	 */
-	public void addSelectionListener( SelectionListener listener )
-	{
-		if ( !selectList.contains( listener ) )
-		{
-			if ( !selectList.isEmpty( ) )
-				removeSelectionListener( (SelectionListener) selectList.get( 0 ) );
-			selectList.add( listener );
-			if ( button != null )
-				button.addSelectionListener( listener );
+	public void addSelectionListener(SelectionListener listener) {
+		if (!selectList.contains(listener)) {
+			if (!selectList.isEmpty())
+				removeSelectionListener((SelectionListener) selectList.get(0));
+			selectList.add(listener);
+			if (button != null)
+				button.addSelectionListener(listener);
 		}
 	}
 
-	public void removeSelectionListener( SelectionListener listener )
-	{
-		if ( selectList.contains( listener ) )
-		{
-			selectList.remove( listener );
-			if ( button != null )
-				button.removeSelectionListener( listener );
+	public void removeSelectionListener(SelectionListener listener) {
+		if (selectList.contains(listener)) {
+			selectList.remove(listener);
+			if (button != null)
+				button.removeSelectionListener(listener);
 		}
 	}
 
 	/**
 	 * Processes the save action.
 	 */
-	private void onClickButton( )
-	{
-		String value = button.getSelection( ) ? "true" : "false"; //$NON-NLS-1$ //$NON-NLS-2$
-		try
-		{
-			save( value );
-		}
-		catch ( SemanticException e1 )
-		{
-			WidgetUtil.processError( button.getShell( ), e1 );
+	private void onClickButton() {
+		String value = button.getSelection() ? "true" : "false"; //$NON-NLS-1$ //$NON-NLS-2$
+		try {
+			save(value);
+		} catch (SemanticException e1) {
+			WidgetUtil.processError(button.getShell(), e1);
 		}
 	}
 
-	public void save( Object obj ) throws SemanticException
-	{
-		descriptorProvider.save( obj );
+	public void save(Object obj) throws SemanticException {
+		descriptorProvider.save(obj);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( button, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(button, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		button.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		button.setVisible(isVisible);
 	}
 
-	public void setInput( Object handle )
-	{
+	public void setInput(Object handle) {
 		this.input = handle;
-		getDescriptorProvider( ).setInput( input );
+		getDescriptorProvider().setInput(input);
 	}
 
 }

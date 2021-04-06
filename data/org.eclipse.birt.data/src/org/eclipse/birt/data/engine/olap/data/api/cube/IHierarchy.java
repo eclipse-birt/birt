@@ -19,30 +19,32 @@ import org.eclipse.birt.data.engine.olap.data.api.ILevel;
  * 
  */
 
-public interface IHierarchy
-{
+public interface IHierarchy {
 	/**
 	 * Get hierarchy name
+	 * 
 	 * @return
 	 */
-	public String getName( );
-	
+	public String getName();
+
 	/**
 	 * Get all levels of this hierarchy
+	 * 
 	 * @return
 	 */
-	public ILevel[] getLevels( );
-	
+	public ILevel[] getLevels();
+
 	/**
 	 * Get the member size of the lowest level.
+	 * 
 	 * @return
 	 */
-	public int size( );
-	
+	public int size();
+
 	/**
 	 * Closes this hierarchy and safely releases the associated resources .
 	 * 
 	 * @throws IOException
 	 */
-	public void close( ) throws IOException;
+	public void close() throws IOException;
 }

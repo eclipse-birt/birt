@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.i18n.MessageConstants;
  * Implements to define the error codes that are exposed to api.
  */
 
-public interface ErrorCodes
-{
+public interface ErrorCodes {
 
 	/**
 	 * The report version is unsupported.

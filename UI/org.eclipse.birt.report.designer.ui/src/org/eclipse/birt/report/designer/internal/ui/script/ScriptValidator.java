@@ -30,8 +30,7 @@ import org.mozilla.javascript.Parser;
 /**
  * The validator for script viewer.
  */
-public class ScriptValidator
-{
+public class ScriptValidator {
 
 	/** the script viewer to validate */
 	private final ISourceViewer scriptViewer;
@@ -39,128 +38,99 @@ public class ScriptValidator
 	/**
 	 * Constructs an validator with the specified script viewer.
 	 * 
-	 * @param viewer
-	 *            the script viewer to validate
+	 * @param viewer the script viewer to validate
 	 */
-	public ScriptValidator( ISourceViewer viewer )
-	{
+	public ScriptValidator(ISourceViewer viewer) {
 		scriptViewer = viewer;
-		init( );
+		init();
 	}
 
 	/**
 	 * Initializes the validator.
 	 */
-	public void init( )
-	{
-		clearAnnotations( );
+	public void init() {
+		clearAnnotations();
 	}
 
 	/**
-	 * Validates the current script, and selects the error if the specified falg
-	 * is <code>true</code>.
+	 * Validates the current script, and selects the error if the specified falg is
+	 * <code>true</code>.
 	 * 
-	 * @param isFunctionBody
-	 *            <code>true</code> if a function body is validated,
-	 *            <code>false</code> otherwise.
-	 * @param isErrorSelected
-	 *            <code>true</code> if error will be selected after
-	 *            validating, <code>false</code> otherwise.
-	 * @throws ParseException
-	 *             if an syntax error is found.
+	 * @param isFunctionBody  <code>true</code> if a function body is validated,
+	 *                        <code>false</code> otherwise.
+	 * @param isErrorSelected <code>true</code> if error will be selected after
+	 *                        validating, <code>false</code> otherwise.
+	 * @throws ParseException if an syntax error is found.
 	 */
-	public void validate( boolean isFunctionBody, boolean isErrorSelected )
-			throws ParseException
-	{
-		if ( scriptViewer == null )
-		{
+	public void validate(boolean isFunctionBody, boolean isErrorSelected) throws ParseException {
+		if (scriptViewer == null) {
 			return;
 		}
 
-		clearAnnotations( );
+		clearAnnotations();
 
-		StyledText textField = scriptViewer.getTextWidget( );
+		StyledText textField = scriptViewer.getTextWidget();
 
-		if ( textField == null || !textField.isEnabled( ) )
-		{
+		if (textField == null || !textField.isEnabled()) {
 			return;
 		}
 
 		String functionTag = "function(){"; //$NON-NLS-1$
-		IDocument document = scriptViewer.getDocument( );
-		String text = document == null ? null : scriptViewer.getDocument( )
-				.get( );
+		IDocument document = scriptViewer.getDocument();
+		String text = document == null ? null : scriptViewer.getDocument().get();
 
 		String script = text;
 
-		if ( isFunctionBody )
-		{
+		if (isFunctionBody) {
 			script = functionTag + script + "\n}"; //$NON-NLS-1$
 		}
 
-		try
-		{
-			validateScript( script );
-		}
-		catch ( ParseException e )
-		{
-			int offset = e.getErrorOffset( );
+		try {
+			validateScript(script);
+		} catch (ParseException e) {
+			int offset = e.getErrorOffset();
 
-			if ( isFunctionBody )
-			{
-				offset -= functionTag.length( );
-				while ( offset >= text.length( ) )
-				{
+			if (isFunctionBody) {
+				offset -= functionTag.length();
+				while (offset >= text.length()) {
 					offset--;
 				}
 			}
 
-			String errorMessage = e.getLocalizedMessage( );
-			Position position = getErrorPosition( text, offset );
+			String errorMessage = e.getLocalizedMessage();
+			Position position = getErrorPosition(text, offset);
 
-			if ( position != null )
-			{
-				IAnnotationModel annotationModel = scriptViewer.getAnnotationModel( );
+			if (position != null) {
+				IAnnotationModel annotationModel = scriptViewer.getAnnotationModel();
 
-				if ( annotationModel != null )
-				{
-					annotationModel.addAnnotation( new Annotation( IReportGraphicConstants.ANNOTATION_ERROR,
-							true,
-							errorMessage ),
-							position );
+				if (annotationModel != null) {
+					annotationModel.addAnnotation(
+							new Annotation(IReportGraphicConstants.ANNOTATION_ERROR, true, errorMessage), position);
 				}
-				if ( isErrorSelected )
-				{
-					if ( scriptViewer instanceof SourceViewer )
-					{
-						( (SourceViewer) scriptViewer ).setSelection( new TextSelection( position.getOffset( ),
-								position.getLength( ) ) );
+				if (isErrorSelected) {
+					if (scriptViewer instanceof SourceViewer) {
+						((SourceViewer) scriptViewer)
+								.setSelection(new TextSelection(position.getOffset(), position.getLength()));
 					}
-					scriptViewer.revealRange( position.getOffset( ),
-							position.getLength( ) );
+					scriptViewer.revealRange(position.getOffset(), position.getLength());
 				}
 			}
-			throw new ParseException( e.getLocalizedMessage( ), position.offset );
+			throw new ParseException(e.getLocalizedMessage(), position.offset);
 		}
 	}
 
 	/**
 	 * Clears all annotations.
 	 */
-	private void clearAnnotations( )
-	{
-		IAnnotationModel annotationModel = scriptViewer.getAnnotationModel( );
+	private void clearAnnotations() {
+		IAnnotationModel annotationModel = scriptViewer.getAnnotationModel();
 
-		if ( annotationModel != null )
-		{
-			for ( Iterator iterator = annotationModel.getAnnotationIterator( ); iterator.hasNext( ); )
-			{
-				Annotation annotation = (Annotation) iterator.next( );
+		if (annotationModel != null) {
+			for (Iterator iterator = annotationModel.getAnnotationIterator(); iterator.hasNext();) {
+				Annotation annotation = (Annotation) iterator.next();
 
-				if ( annotation != null &&
-						IReportGraphicConstants.ANNOTATION_ERROR.equals( annotation.getType( ) ) )
-				{
-					annotationModel.removeAnnotation( annotation );
+				if (annotation != null && IReportGraphicConstants.ANNOTATION_ERROR.equals(annotation.getType())) {
+					annotationModel.removeAnnotation(annotation);
 				}
 			}
 		}
@@ -169,99 +139,75 @@ public class ScriptValidator
 	/**
 	 * Validates the specified script.
 	 * 
-	 * @param script
-	 *            the script to validate.
-	 * @throws ParseException
-	 *             if an syntax error is found.
+	 * @param script the script to validate.
+	 * @throws ParseException if an syntax error is found.
 	 */
-	protected void validateScript( String script ) throws ParseException
-	{
-		if ( script == null )
-		{
+	protected void validateScript(String script) throws ParseException {
+		if (script == null) {
 			return;
 		}
 
-		CompilerEnvirons compilerEnv = new CompilerEnvirons( );
-		Parser jsParser = new Parser( compilerEnv,
-				compilerEnv.getErrorReporter( ) );
+		CompilerEnvirons compilerEnv = new CompilerEnvirons();
+		Parser jsParser = new Parser(compilerEnv, compilerEnv.getErrorReporter());
 
-		try
-		{
-			jsParser.parse( script, null, 0 );
-		}
-		catch ( EvaluatorException e )
-		{
+		try {
+			jsParser.parse(script, null, 0);
+		} catch (EvaluatorException e) {
 			int offset = -1;
 
-			if ( scriptViewer != null )
-			{
-				String[] lines = script.split( "\n" ); //$NON-NLS-1$
+			if (scriptViewer != null) {
+				String[] lines = script.split("\n"); //$NON-NLS-1$
 
-				for ( int i = 0; i < e.lineNumber( ); i++ )
-				{
-					offset += lines[i].length( ) + 1;
+				for (int i = 0; i < e.lineNumber(); i++) {
+					offset += lines[i].length() + 1;
 				}
-				offset += e.columnNumber( );
+				offset += e.columnNumber();
 			}
-			throw new ParseException( e.getLocalizedMessage( ), offset );
+			throw new ParseException(e.getLocalizedMessage(), offset);
 		}
 	}
 
 	/**
 	 * Returns the error's position with the specified script and offset.
 	 * 
-	 * @param script
-	 *            the script to check
-	 * @param offset
-	 *            the end point
+	 * @param script the script to check
+	 * @param offset the end point
 	 * @return the error's position.
 	 */
-	protected Position getErrorPosition( String script, int offset )
-	{
+	protected Position getErrorPosition(String script, int offset) {
 		int end = offset;
 
-		while ( end >= script.length( ) ||
-				( end >= 0 && ( Character.isWhitespace( script.charAt( end ) ) ) || isCommentLine( script,
-						end ) ) )
-		{
+		while (end >= script.length()
+				|| (end >= 0 && (Character.isWhitespace(script.charAt(end))) || isCommentLine(script, end))) {
 			end--;
 		}
 
 		int start = end;
 
-		while ( start >= 0 &&
-				!Character.isWhitespace( script.charAt( start ) ) &&
-				!Character.isJavaIdentifierPart( script.charAt( start ) ) )
-		{
+		while (start >= 0 && !Character.isWhitespace(script.charAt(start))
+				&& !Character.isJavaIdentifierPart(script.charAt(start))) {
 			start--;
 		}
 
-		return new Position( start + 1, end - start );
+		return new Position(start + 1, end - start);
 	}
 
 	/**
 	 * Returns <code>true</code> if current index is in a comment line,
 	 * <code>false</code> otherwise.
 	 * 
-	 * @param script
-	 *            the script text.
-	 * @param index
-	 *            the current index.
+	 * @param script the script text.
+	 * @param index  the current index.
 	 * @return <code>true</code> if current index is in a comment line,
 	 *         <code>false</code> otherwise.
 	 */
 
-	private boolean isCommentLine( String script, int index )
-	{
+	private boolean isCommentLine(String script, int index) {
 		int start = index;
 
-		while ( start >= 0 && script.charAt( start ) != '\n' )
-		{
-			if ( start + 1 < script.length( ) )
-			{
-				if ( script.charAt( start ) == '/' &&
-						script.charAt( start + 1 ) == '/' )
-				{
+		while (start >= 0 && script.charAt(start) != '\n') {
+			if (start + 1 < script.length()) {
+				if (script.charAt(start) == '/' && script.charAt(start + 1) == '/') {
 					return true;
 				}
 			}

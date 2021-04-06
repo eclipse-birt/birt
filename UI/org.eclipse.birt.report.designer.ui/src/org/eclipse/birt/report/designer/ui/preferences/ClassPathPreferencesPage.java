@@ -25,8 +25,7 @@ import org.eclipse.swt.widgets.Control;
  * Class path Page
  */
 
-public class ClassPathPreferencesPage extends PropertyAndPreferencePage
-{
+public class ClassPathPreferencesPage extends PropertyAndPreferencePage {
 
 	/**
 	 * ID
@@ -35,48 +34,40 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage
 	private OptionsConfigurationBlock block;
 
 	@Override
-	protected Control createPreferenceContent( Composite composite )
-	{
-		block.createContents( composite );
+	protected Control createPreferenceContent(Composite composite) {
+		block.createContents(composite);
 		return composite;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.jface.preference.PreferencePage#createControl(org.eclipse
+	 * @see org.eclipse.jface.preference.PreferencePage#createControl(org.eclipse
 	 * .swt.widgets.Composite)
 	 */
-	public void createControl( Composite parent )
-	{
-		//IDE support the provider
-		IClassPathHelperProvider provider = (IClassPathHelperProvider) ElementAdapterManager.getAdapter( this,
-				IClassPathHelperProvider.class );
-		if (provider != null)
-		{
-			block = provider.createBlock( getNewStatusChangedListener( ), getProject( ) );
+	public void createControl(Composite parent) {
+		// IDE support the provider
+		IClassPathHelperProvider provider = (IClassPathHelperProvider) ElementAdapterManager.getAdapter(this,
+				IClassPathHelperProvider.class);
+		if (provider != null) {
+			block = provider.createBlock(getNewStatusChangedListener(), getProject());
 		}
-		if (block == null)
-		{
-			//RCP
-			block = new ClassPathBlock( getNewStatusChangedListener( ),
-					getProject( ) );
+		if (block == null) {
+			// RCP
+			block = new ClassPathBlock(getNewStatusChangedListener(), getProject());
 		}
-		super.createControl( parent );
+		super.createControl(parent);
 
-		UIUtil.bindHelp( parent, IHelpContextIds.PREF_PAGE_CLASSPATH );
+		UIUtil.bindHelp(parent, IHelpContextIds.PREF_PAGE_CLASSPATH);
 	}
 
 	@Override
-	protected String getPreferencePageID( )
-	{
+	protected String getPreferencePageID() {
 		return PREF_ID;
 	}
 
 	@Override
-	protected String getPropertyPageID( )
-	{
+	protected String getPropertyPageID() {
 		return PREF_ID;
 	}
 
@@ -87,9 +78,8 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage
 	 * org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage
 	 * #hasProjectSpecificOptions(org.eclipse.core.resources.IProject)
 	 */
-	protected boolean hasProjectSpecificOptions( IProject project )
-	{
-		return block.hasProjectSpecificOptions( project );
+	protected boolean hasProjectSpecificOptions(IProject project) {
+		return block.hasProjectSpecificOptions(project);
 	}
 
 	/*
@@ -97,11 +87,9 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage
 	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage#performApply()
 	 */
-	public void performApply( )
-	{
-		if ( block != null )
-		{
-			block.performApply( );
+	public void performApply() {
+		if (block != null) {
+			block.performApply();
 		}
 	}
 
@@ -110,20 +98,17 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage
 	 * 
 	 * @see org.eclipse.jface.preference.PreferencePage#performOk()
 	 */
-	public boolean performOk( )
-	{
-		if ( block != null && !block.performOk( ) )
-		{
+	public boolean performOk() {
+		if (block != null && !block.performOk()) {
 			return false;
 		}
 
-		return super.performOk( );
+		return super.performOk();
 	}
 
 	@Override
-	public void setElement( IAdaptable element )
-	{
-		super.setElement( element );
+	public void setElement(IAdaptable element) {
+		super.setElement(element);
 	}
 
 	/*
@@ -133,13 +118,10 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage
 	 * org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage
 	 * #enableProjectSpecificSettings(boolean)
 	 */
-	protected void enableProjectSpecificSettings(
-			boolean useProjectSpecificSettings )
-	{
-		super.enableProjectSpecificSettings( useProjectSpecificSettings );
-		if ( block != null )
-		{
-			block.useProjectSpecificSettings( useProjectSpecificSettings );
+	protected void enableProjectSpecificSettings(boolean useProjectSpecificSettings) {
+		super.enableProjectSpecificSettings(useProjectSpecificSettings);
+		if (block != null) {
+			block.useProjectSpecificSettings(useProjectSpecificSettings);
 		}
 	}
 
@@ -150,13 +132,11 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage
 	 * org.eclipse.birt.report.designer.ui.preferences.PropertyAndPreferencePage
 	 * #performDefaults()
 	 */
-	protected void performDefaults( )
-	{
-		if ( block != null )
-		{
-			block.performDefaults( );
+	protected void performDefaults() {
+		if (block != null) {
+			block.performDefaults();
 		}
-		super.performDefaults( );
+		super.performDefaults();
 
 	}
 
@@ -165,12 +145,10 @@ public class ClassPathPreferencesPage extends PropertyAndPreferencePage
 	 * 
 	 * @see org.eclipse.jface.dialogs.DialogPage#dispose()
 	 */
-	public void dispose( )
-	{
-		if ( block != null )
-		{
-			block.dispose( );
+	public void dispose() {
+		if (block != null) {
+			block.dispose();
 		}
-		super.dispose( );
+		super.dispose();
 	}
 }

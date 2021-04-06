@@ -18,19 +18,17 @@ import junit.framework.TestSuite;
  * Tests cases in extension package.
  */
 
-public class AllSimpleApiTests
-{
+public class AllSimpleApiTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( SimpleApiTest.class );
-		
+		test.addTestSuite(SimpleApiTest.class);
+
 		// add all test classes here
 
 		return test;

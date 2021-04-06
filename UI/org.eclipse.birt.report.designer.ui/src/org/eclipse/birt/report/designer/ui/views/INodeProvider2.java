@@ -17,11 +17,10 @@ import org.eclipse.ui.actions.RetargetAction;
 /**
  * 
  */
-public interface INodeProvider2 extends INodeProvider
-{
-	
-	public RetargetAction[] getRetargetActions( Object object );
+public interface INodeProvider2 extends INodeProvider {
 
-	public Action[] getActions( Object object );
+	public RetargetAction[] getRetargetActions(Object object);
+
+	public Action[] getActions(Object object);
 
 }

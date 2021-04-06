@@ -30,20 +30,15 @@ import com.ibm.icu.util.ULocale;
  * level view, crosstab cell, header cell and aggregation cell.
  */
 
-public class CrosstabItemFactory extends ReportItemFactory implements
-		IMessages,
-		ICrosstabConstants
-{
+public class CrosstabItemFactory extends ReportItemFactory implements IMessages, ICrosstabConstants {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.extension.ReportItemFactory#getMessages
-	 * ()
+	 * org.eclipse.birt.report.model.api.extension.ReportItemFactory#getMessages ()
 	 */
-	public IMessages getMessages( )
-	{
+	public IMessages getMessages() {
 		return this;
 	}
 
@@ -54,29 +49,28 @@ public class CrosstabItemFactory extends ReportItemFactory implements
 	 * org.eclipse.birt.report.model.api.extension.ReportItemFactory#newReportItem
 	 * (org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
-	public IReportItem newReportItem( DesignElementHandle extendedItemHandle )
-	{
-		if ( extendedItemHandle == null )
+	public IReportItem newReportItem(DesignElementHandle extendedItemHandle) {
+		if (extendedItemHandle == null)
 			return null;
-		String extensionName = extendedItemHandle.getStringProperty( ExtendedItemHandle.EXTENSION_NAME_PROP );
-		if ( extensionName == null )
+		String extensionName = extendedItemHandle.getStringProperty(ExtendedItemHandle.EXTENSION_NAME_PROP);
+		if (extensionName == null)
 			return null;
-		if ( CROSSTAB_EXTENSION_NAME.equals( extensionName ) )
-			return new CrosstabReportItemHandle( extendedItemHandle );
-		if ( CROSSTAB_VIEW_EXTENSION_NAME.equals( extensionName ) )
-			return new CrosstabViewHandle( extendedItemHandle );
-		if ( DIMENSION_VIEW_EXTENSION_NAME.equals( extensionName ) )
-			return new DimensionViewHandle( extendedItemHandle );
-		if ( LEVEL_VIEW_EXTENSION_NAME.equals( extensionName ) )
-			return new LevelViewHandle( extendedItemHandle );
-		if ( MEASURE_VIEW_EXTENSION_NAME.equals( extensionName ) )
-			return new MeasureViewHandle( extendedItemHandle );
-		if ( COMPUTED_MEASURE_VIEW_EXTENSION_NAME.equals( extensionName ) )
-			return new ComputedMeasureViewHandle( extendedItemHandle );
-		if ( CROSSTAB_CELL_EXTENSION_NAME.equals( extensionName ) )
-			return new CrosstabCellHandle( extendedItemHandle );
-		if ( AGGREGATION_CELL_EXTENSION_NAME.equals( extensionName ) )
-			return new AggregationCellHandle( extendedItemHandle );
+		if (CROSSTAB_EXTENSION_NAME.equals(extensionName))
+			return new CrosstabReportItemHandle(extendedItemHandle);
+		if (CROSSTAB_VIEW_EXTENSION_NAME.equals(extensionName))
+			return new CrosstabViewHandle(extendedItemHandle);
+		if (DIMENSION_VIEW_EXTENSION_NAME.equals(extensionName))
+			return new DimensionViewHandle(extendedItemHandle);
+		if (LEVEL_VIEW_EXTENSION_NAME.equals(extensionName))
+			return new LevelViewHandle(extendedItemHandle);
+		if (MEASURE_VIEW_EXTENSION_NAME.equals(extensionName))
+			return new MeasureViewHandle(extendedItemHandle);
+		if (COMPUTED_MEASURE_VIEW_EXTENSION_NAME.equals(extensionName))
+			return new ComputedMeasureViewHandle(extendedItemHandle);
+		if (CROSSTAB_CELL_EXTENSION_NAME.equals(extensionName))
+			return new CrosstabCellHandle(extendedItemHandle);
+		if (AGGREGATION_CELL_EXTENSION_NAME.equals(extensionName))
+			return new AggregationCellHandle(extendedItemHandle);
 		// if ( HEADER_CELL_EXTENSION_NAME.equals( extensionName ) )
 		// return new HeaderCellHandle( extendedItemHandle );
 		return null;
@@ -85,29 +79,24 @@ public class CrosstabItemFactory extends ReportItemFactory implements
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java
+	 * @see org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java
 	 * .lang.String, java.util.Locale)
 	 */
-	public String getMessage( String key, Locale locale )
-	{
-		return Messages.getString( key, ULocale.forLocale( locale ) );
+	public String getMessage(String key, Locale locale) {
+		return Messages.getString(key, ULocale.forLocale(locale));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java
+	 * @see org.eclipse.birt.report.model.api.extension.IMessages#getMessage(java
 	 * .lang.String, com.ibm.icu.util.ULocale)
 	 */
-	public String getMessage( String key, ULocale locale )
-	{
-		return Messages.getString( key, locale );
+	public String getMessage(String key, ULocale locale) {
+		return Messages.getString(key, locale);
 	}
 
-	public IStyleDeclaration[] getFactoryStyles( String extensionName )
-	{
+	public IStyleDeclaration[] getFactoryStyles(String extensionName) {
 		// we dont' return the factory styles now, it'll be handled by theme
 		// if ( CROSSTAB_EXTENSION_NAME.equals( extensionName ) )
 		// {

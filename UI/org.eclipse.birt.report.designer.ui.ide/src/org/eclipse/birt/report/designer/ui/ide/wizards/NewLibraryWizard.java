@@ -15,8 +15,6 @@ package org.eclipse.birt.report.designer.ui.ide.wizards;
  * New Library Wizard use for IDE.
  */
 
-public class NewLibraryWizard extends
-		org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard
-{
+public class NewLibraryWizard extends org.eclipse.birt.report.designer.ui.wizards.NewLibraryWizard {
 
 }

@@ -23,8 +23,7 @@ package org.eclipse.birt.report.engine.content;
  * content while the HTML writer output the raw value directly.
  * 
  */
-public interface IForeignContent extends IContent
-{
+public interface IForeignContent extends IContent {
 
 	/** the content is an string which contains HTML content */
 	public final String HTML_TYPE = "text/html";
@@ -32,8 +31,8 @@ public interface IForeignContent extends IContent
 	public final String TEXT_TYPE = "text/plaintext";
 	/**
 	 * the content is an template. In this condition the raw value should be a
-	 * Object[2], the first object is the template text, the second object is
-	 * the value map.
+	 * Object[2], the first object is the template text, the second object is the
+	 * value map.
 	 */
 	public final String TEMPLATE_TYPE = "text/template";
 	/** the content is the output of a extenal item, it is byte[] */
@@ -46,17 +45,17 @@ public interface IForeignContent extends IContent
 	public final String VALUE_TYPE = "binary/value";
 
 	/**
-	 * the orginal format of the object. such as: "text/html", "text/rtf",
-	 * "xml/svg" etc.
+	 * the orginal format of the object. such as: "text/html", "text/rtf", "xml/svg"
+	 * etc.
 	 * 
 	 * @return type of the content
 	 */
-	public String getRawType( );
+	public String getRawType();
 
-	void setRawType( String type );
-	
+	void setRawType(String type);
+
 	public String getRawKey();
-	
+
 	void setRawKey(String rawKey);
 
 	/**
@@ -64,22 +63,22 @@ public interface IForeignContent extends IContent
 	 * 
 	 * @return Returns the content. Caller knows how to cast this object
 	 */
-	public Object getRawValue( );
+	public Object getRawValue();
 
-	void setRawValue( Object value );
-	
+	void setRawValue(Object value);
+
 	/**
 	 * @return Returns the altText.
 	 */
-	public String getAltText( );
+	public String getAltText();
 
-	public String getAltTextKey( );
+	public String getAltTextKey();
 
-	public void setAltText( String altText );
+	public void setAltText(String altText);
 
-	public void setAltTextKey( String key );
+	public void setAltTextKey(String key);
 
-    public void setJTidy( boolean jTidy );
+	public void setJTidy(boolean jTidy);
 
-    public boolean isJTidy( );
+	public boolean isJTidy();
 }

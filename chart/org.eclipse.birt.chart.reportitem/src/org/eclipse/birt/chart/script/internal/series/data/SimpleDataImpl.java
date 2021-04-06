@@ -18,22 +18,18 @@ import org.eclipse.birt.chart.script.api.series.data.ISimpleData;
  * 
  */
 
-public class SimpleDataImpl extends SeriesDataImpl implements ISimpleData
-{
+public class SimpleDataImpl extends SeriesDataImpl implements ISimpleData {
 
-	public SimpleDataImpl( SeriesDefinition sd )
-	{
-		super( sd );
+	public SimpleDataImpl(SeriesDefinition sd) {
+		super(sd);
 	}
 
-	public String getExpr( )
-	{
-		return getExprByIndex( 0 );
+	public String getExpr() {
+		return getExprByIndex(0);
 	}
 
-	public void setExpr( String expr )
-	{
-		setExprsByIndex( 0, expr );
+	public void setExpr(String expr) {
+		setExprsByIndex(0, expr);
 
 	}
 

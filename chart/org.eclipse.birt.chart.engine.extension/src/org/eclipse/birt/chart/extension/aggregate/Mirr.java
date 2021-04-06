@@ -15,32 +15,33 @@ import org.eclipse.birt.chart.aggregate.AggregateFunctionAdapter;
 import org.eclipse.birt.chart.engine.extension.i18n.Messages;
 import org.eclipse.birt.core.data.DataType;
 
-
 /**
  * @since BIRT 2.3
  *
  */
-public class Mirr extends AggregateFunctionAdapter
-{
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
+public class Mirr extends AggregateFunctionAdapter {
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.aggregate.IAggregateFunction#getDisplayParameters()
 	 */
-	public String[] getDisplayParameters( )
-	{
-		return new String[]{Messages.getString("Mirr.AggregateFunction.Parameters.Label.FinanceRate"), Messages.getString("Mirr.AggregateFunction.Parameters.Label.ReinvestmentRate")}; //$NON-NLS-1$ //$NON-NLS-2$
+	public String[] getDisplayParameters() {
+		return new String[] { Messages.getString("Mirr.AggregateFunction.Parameters.Label.FinanceRate"), //$NON-NLS-1$
+				Messages.getString("Mirr.AggregateFunction.Parameters.Label.ReinvestmentRate") }; //$NON-NLS-1$
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.aggregate.IAggregateFunction#getParametersCount()
 	 */
-	public int getParametersCount( )
-	{
+	public int getParametersCount() {
 		return 2;
 	}
 
 	@Override
-	public int getBIRTDataType( )
-	{
+	public int getBIRTDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 }

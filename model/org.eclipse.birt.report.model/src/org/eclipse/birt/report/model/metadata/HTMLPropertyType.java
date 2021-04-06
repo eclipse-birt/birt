@@ -7,48 +7,47 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
-
 
 /**
  * HTML property type.
  *
  */
 
-public class HTMLPropertyType extends TextualPropertyType
-{
-    /**
+public class HTMLPropertyType extends TextualPropertyType {
+	/**
 	 * Display name key.
 	 */
-	
+
 	private static final String DISPLAY_NAME_KEY = "Property.html"; //$NON-NLS-1$
 
 	/**
 	 * Constructor.
 	 */
-	
-	public HTMLPropertyType( )
-	{
-	    super( DISPLAY_NAME_KEY );
+
+	public HTMLPropertyType() {
+		super(DISPLAY_NAME_KEY);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
-	
-	public int getTypeCode( )
-	{
+
+	public int getTypeCode() {
 		return HTML_TYPE;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
-	
-	public String getName( )
-	{
+
+	public String getName() {
 		return HTML_TYPE_NAME;
 	}
 

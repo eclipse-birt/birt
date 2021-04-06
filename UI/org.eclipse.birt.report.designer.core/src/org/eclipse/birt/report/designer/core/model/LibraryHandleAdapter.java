@@ -27,8 +27,7 @@ import org.eclipse.core.runtime.IAdaptable;
  * LibraryHandle
  * 
  */
-public class LibraryHandleAdapter extends ReportDesignHandleAdapter
-{
+public class LibraryHandleAdapter extends ReportDesignHandleAdapter {
 
 	private Object currentEditorModel;
 
@@ -38,86 +37,72 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 
 	public static final String CREATE_ELEMENT = "create element"; //$NON-NLS-1$
 
-	private List listeners = new ArrayList( );
+	private List listeners = new ArrayList();
 
 	/**
 	 * Constructor
 	 * 
-	 * @param handle
-	 *            The moudle handle
+	 * @param handle The moudle handle
 	 */
-	public LibraryHandleAdapter( ModuleHandle handle )
-	{
-		super( handle );
-		setCurrentEditorModel( handle, CURRENTMODEL );
+	public LibraryHandleAdapter(ModuleHandle handle) {
+		super(handle);
+		setCurrentEditorModel(handle, CURRENTMODEL);
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param handle
-	 *            The moudle handle
+	 * @param handle The moudle handle
 	 */
-	public LibraryHandleAdapter( ModuleHandle handle, IModelAdapterHelper mark )
-	{
-		super( handle, mark );
-		setCurrentEditorModel( handle, CURRENTMODEL );
+	public LibraryHandleAdapter(ModuleHandle handle, IModelAdapterHelper mark) {
+		super(handle, mark);
+		setCurrentEditorModel(handle, CURRENTMODEL);
 	}
 
 	/**
 	 * Add listener
 	 * 
-	 * @param listener
-	 *            The listener to add
+	 * @param listener The listener to add
 	 */
-	public void addPropertyChangeListener( PropertyChangeListener listener )
-	{
+	public void addPropertyChangeListener(PropertyChangeListener listener) {
 
-		if ( !listeners.contains( listener ) )
-		{
-			listeners.add( listener );
+		if (!listeners.contains(listener)) {
+			listeners.add(listener);
 		}
 	}
 
 	/**
 	 * Remove listener
 	 * 
-	 * @param listener
-	 *            The listener to remove
+	 * @param listener The listener to remove
 	 */
-	public void removePropertyChangeListener( PropertyChangeListener listener )
-	{
-		listeners.remove( listener );
+	public void removePropertyChangeListener(PropertyChangeListener listener) {
+		listeners.remove(listener);
 	}
 
 	/**
 	 * Fire property change
 	 * 
-	 * @param event
-	 *            The property change event
+	 * @param event The property change event
 	 */
-	public void firePropertyChangeEvent( PropertyChangeEvent event )
-	{
-		int size = listeners.size( );
-		for ( int i = 0; i < size; i++ )
-		{
-			PropertyChangeListener listener = (PropertyChangeListener) ( listeners.get( i ) );
-			listener.propertyChange( event );
+	public void firePropertyChangeEvent(PropertyChangeEvent event) {
+		int size = listeners.size();
+		for (int i = 0; i < size; i++) {
+			PropertyChangeListener listener = (PropertyChangeListener) (listeners.get(i));
+			listener.propertyChange(event);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter
+	 * @see org.eclipse.birt.report.designer.core.model.DesignElementHandleAdapter
 	 * #getChildren()
 	 */
-	public List getChildren( )
-	{
+	public List getChildren() {
 		// if currentEditorModel is a compound componnet , gets its childrem
-		List list = new ArrayList( );
-		list.add( getTopContainer( getCurrentEditorModel( ) ) );
+		List list = new ArrayList();
+		list.add(getTopContainer(getCurrentEditorModel()));
 		return list;
 		// return getModuleHandle().getComponents().getContents( );
 	}
@@ -125,32 +110,25 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 	/**
 	 * Get top container
 	 * 
-	 * @param currentModel
-	 *            The specified object
+	 * @param currentModel The specified object
 	 * @return The sepecifed object's container
 	 */
-	private Object getTopContainer( Object currentModel )
-	{
+	private Object getTopContainer(Object currentModel) {
 		Object obj = currentModel;
-		if ( currentModel instanceof DesignElementHandle )
-		{
+		if (currentModel instanceof DesignElementHandle) {
 			DesignElementHandle handle = (DesignElementHandle) currentModel;
-			while ( handle.getContainer( ) != null )
-			{
-				if ( handle.getContainer( ) instanceof ModuleHandle )
-				{
+			while (handle.getContainer() != null) {
+				if (handle.getContainer() instanceof ModuleHandle) {
 					obj = handle;
 					break;
 				}
-				handle = handle.getContainer( );
+				handle = handle.getContainer();
 			}
 
-		}
-		else if ( currentModel instanceof IAdaptable )
-		{
-			Object adapter = ( (IAdaptable) currentModel ).getAdapter( this.getClass( ) );
-			if ( adapter instanceof DesignElementHandle )
-				return getTopContainer( adapter );
+		} else if (currentModel instanceof IAdaptable) {
+			Object adapter = ((IAdaptable) currentModel).getAdapter(this.getClass());
+			if (adapter instanceof DesignElementHandle)
+				return getTopContainer(adapter);
 		}
 		return obj;
 	}
@@ -160,28 +138,21 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 	 * 
 	 * @return Returns the currentEditorModel.
 	 */
-	public Object getCurrentEditorModel( )
-	{
+	public Object getCurrentEditorModel() {
 		return currentEditorModel;
 	}
 
 	/**
 	 * Get current eitor model
 	 * 
-	 * @param current
-	 *            The current editor model to set.
-	 * @param type
-	 *            The type
+	 * @param current The current editor model to set.
+	 * @param type    The type
 	 */
-	public void setCurrentEditorModel( Object current, String type )
-	{
+	public void setCurrentEditorModel(Object current, String type) {
 		oldEditorModel = this.currentEditorModel;
-		if ( current == null || current instanceof LibraryHandle )
-		{
-			this.currentEditorModel = new LibRootModel( current );
-		}
-		else
-		{
+		if (current == null || current instanceof LibraryHandle) {
+			this.currentEditorModel = new LibRootModel(current);
+		} else {
 			this.currentEditorModel = current;
 		}
 
@@ -189,15 +160,11 @@ public class LibraryHandleAdapter extends ReportDesignHandleAdapter
 		// {
 		// return;
 		// }
-		PropertyChangeEvent event = new PropertyChangeEvent( this,
-				type,
-				oldEditorModel,
-				this.currentEditorModel );
-		firePropertyChangeEvent( event );
+		PropertyChangeEvent event = new PropertyChangeEvent(this, type, oldEditorModel, this.currentEditorModel);
+		firePropertyChangeEvent(event);
 	}
 
-	public Object getOldEditorModel( )
-	{
+	public Object getOldEditorModel() {
 		return oldEditorModel;
 	}
 }

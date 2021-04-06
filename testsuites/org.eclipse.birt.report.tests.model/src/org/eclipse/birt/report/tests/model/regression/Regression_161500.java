@@ -43,33 +43,24 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * getIntValue() works well
  * <p>
  */
-public class Regression_161500 extends BaseTestCase
-{
+public class Regression_161500 extends BaseTestCase {
 
-	public void test_regression_161500( ) throws Exception
-	{
-		createDesign( );
-		ElementFactory factory = designHandle.getElementFactory( );
-		TableHandle table = factory.newTableItem( "table" );
+	public void test_regression_161500() throws Exception {
+		createDesign();
+		ElementFactory factory = designHandle.getElementFactory();
+		TableHandle table = factory.newTableItem("table");
 
 		// Set the style on table
-		table.setProperty( IStyleModel.COLOR_PROP, "red" );
-		assertEquals( 16711680, table.getIntProperty( IStyleModel.COLOR_PROP ) );
-		assertEquals( 16711680, table
-				.getPropertyHandle( IStyleModel.COLOR_PROP )
-				.getIntValue( ) );
-		assertEquals( IColorConstants.RED, table.getPropertyHandle(
-				IStyleModel.COLOR_PROP ).getStringValue( ) );
-		assertEquals( IColorConstants.RED, table
-				.getStringProperty( IStyleModel.COLOR_PROP ) );
+		table.setProperty(IStyleModel.COLOR_PROP, "red");
+		assertEquals(16711680, table.getIntProperty(IStyleModel.COLOR_PROP));
+		assertEquals(16711680, table.getPropertyHandle(IStyleModel.COLOR_PROP).getIntValue());
+		assertEquals(IColorConstants.RED, table.getPropertyHandle(IStyleModel.COLOR_PROP).getStringValue());
+		assertEquals(IColorConstants.RED, table.getStringProperty(IStyleModel.COLOR_PROP));
 
 		// Set another style on table
-		table.setProperty( IStyleModel.COLOR_PROP, "blue" );
-		assertEquals( 255, table.getIntProperty( IStyleModel.COLOR_PROP ) );
-		assertEquals( 255, table
-				.getPropertyHandle( IStyleModel.COLOR_PROP )
-				.getIntValue( ) );
-		assertEquals( IColorConstants.BLUE, table.getPropertyHandle(
-				IStyleModel.COLOR_PROP ).getStringValue( ) );
+		table.setProperty(IStyleModel.COLOR_PROP, "blue");
+		assertEquals(255, table.getIntProperty(IStyleModel.COLOR_PROP));
+		assertEquals(255, table.getPropertyHandle(IStyleModel.COLOR_PROP).getIntValue());
+		assertEquals(IColorConstants.BLUE, table.getPropertyHandle(IStyleModel.COLOR_PROP).getStringValue());
 	}
 }

@@ -30,85 +30,69 @@ import org.eclipse.birt.chart.script.internal.scale.ScaleImpl;
  * 
  */
 
-public class AxisImpl implements IAxis
-{
+public class AxisImpl implements IAxis {
 
 	private Axis axis;
 
-	public AxisImpl( Axis axis )
-	{
+	public AxisImpl(Axis axis) {
 		this.axis = axis;
 	}
 
-	public IMarkerLine[] getMarkerLines( )
-	{
-		List lines = axis.getMarkerLines( );
-		if ( lines == null || lines.isEmpty( ) )
-		{
+	public IMarkerLine[] getMarkerLines() {
+		List lines = axis.getMarkerLines();
+		if (lines == null || lines.isEmpty()) {
 			return new IMarkerLine[0];
 		}
-		IMarkerLine[] array = new IMarkerLine[lines.size( )];
-		for ( int i = 0; i < array.length; i++ )
-		{
-			array[i] = new MarkerLineImpl( (MarkerLine) lines.get( i ) );
+		IMarkerLine[] array = new IMarkerLine[lines.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = new MarkerLineImpl((MarkerLine) lines.get(i));
 		}
 		return array;
 	}
 
-	public IMarkerRange[] getMarkerRanges( )
-	{
-		List ranges = axis.getMarkerRanges( );
-		if ( ranges == null || ranges.isEmpty( ) )
-		{
+	public IMarkerRange[] getMarkerRanges() {
+		List ranges = axis.getMarkerRanges();
+		if (ranges == null || ranges.isEmpty()) {
 			return new IMarkerRange[0];
 		}
-		IMarkerRange[] array = new IMarkerRange[ranges.size( )];
-		for ( int i = 0; i < array.length; i++ )
-		{
-			array[i] = new MarkerRangeImpl( (MarkerRange) ranges.get( i ) );
+		IMarkerRange[] array = new IMarkerRange[ranges.size()];
+		for (int i = 0; i < array.length; i++) {
+			array[i] = new MarkerRangeImpl((MarkerRange) ranges.get(i));
 		}
 		return array;
 	}
 
-	public IScale getScale( )
-	{
-		return ScaleImpl.createScale( axis );
+	public IScale getScale() {
+		return ScaleImpl.createScale(axis);
 	}
 
-	public String getType( )
-	{
-		return axis.getType( ).getName( );
+	public String getType() {
+		return axis.getType().getName();
 	}
 
-	public void setType( String type )
-	{
-		axis.setType( AxisType.getByName( type ) );
+	public void setType(String type) {
+		axis.setType(AxisType.getByName(type));
 	}
 
-	public ILabel getTitle( )
-	{
-		Label title = axis.getTitle( );
-		if ( title == null )
-		{
-			title = ChartComponentUtil.createEMFLabel( );
-			axis.setTitle( title );
+	public ILabel getTitle() {
+		Label title = axis.getTitle();
+		if (title == null) {
+			title = ChartComponentUtil.createEMFLabel();
+			axis.setTitle(title);
 		}
-		return ChartComponentUtil.convertLabel( title );
+		return ChartComponentUtil.convertLabel(title);
 	}
 
-	public boolean isVisible( )
-	{
-		return axis.getLineAttributes( ).isVisible( );
+	public boolean isVisible() {
+		return axis.getLineAttributes().isVisible();
 	}
 
-	public void setTitle( ILabel title )
-	{
-		axis.setTitle( ChartComponentUtil.convertILabel( title ) );
+	public void setTitle(ILabel title) {
+		axis.setTitle(ChartComponentUtil.convertILabel(title));
 	}
 
-	public void setVisible( boolean visible )
-	{
-		axis.getLineAttributes( ).setVisible( visible );
+	public void setVisible(boolean visible) {
+		axis.getLineAttributes().setVisible(visible);
 	}
 
 }

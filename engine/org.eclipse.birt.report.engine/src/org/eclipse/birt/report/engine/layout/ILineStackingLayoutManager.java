@@ -13,22 +13,19 @@ package org.eclipse.birt.report.engine.layout;
 
 import org.eclipse.birt.report.engine.content.ITextContent;
 
-public interface ILineStackingLayoutManager
-		extends
-			IInlineStackingLayoutManager
-{
+public interface ILineStackingLayoutManager extends IInlineStackingLayoutManager {
 
 	/**
 	 * End current line and submit the line to parent
 	 * 
 	 * @return true if submit succeeded
 	 */
-	boolean endLine( );
+	boolean endLine();
 
-	boolean isEmptyLine( );
-	
+	boolean isEmptyLine();
+
 	int getMaxLineWidth();
-	
-	void setTextIndent( ITextContent content );
+
+	void setTextIndent(ITextContent content);
 
 }

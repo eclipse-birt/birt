@@ -23,10 +23,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IFilterConditionElement
  * 
  */
 
-public class FilterConditionElement extends DesignElement
-		implements
-			IFilterConditionElement
-{
+public class FilterConditionElement extends DesignElement implements IFilterConditionElement {
 
 	/**
 	 * Default constructor.
@@ -34,9 +31,8 @@ public class FilterConditionElement extends DesignElement
 	 * @param handle
 	 */
 
-	public FilterConditionElement( FilterConditionElementHandle handle )
-	{
-		super( handle );
+	public FilterConditionElement(FilterConditionElementHandle handle) {
+		super(handle);
 	}
 
 	/*
@@ -46,9 +42,8 @@ public class FilterConditionElement extends DesignElement
 	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getExpr
 	 * ()
 	 */
-	public String getExpr( )
-	{
-		return ( (FilterConditionElementHandle) handle ).getExpr( );
+	public String getExpr() {
+		return ((FilterConditionElementHandle) handle).getExpr();
 	}
 
 	/*
@@ -58,9 +53,8 @@ public class FilterConditionElement extends DesignElement
 	 * getFilterTarget()
 	 */
 
-	public String getFilterTarget( )
-	{
-		return ( (FilterConditionElementHandle) handle ).getFilterTarget( );
+	public String getFilterTarget() {
+		return ((FilterConditionElementHandle) handle).getFilterTarget();
 	}
 
 	/*
@@ -69,9 +63,8 @@ public class FilterConditionElement extends DesignElement
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * getOperator()
 	 */
-	public String getOperator( )
-	{
-		return ( (FilterConditionElementHandle) handle ).getOperator( );
+	public String getOperator() {
+		return ((FilterConditionElementHandle) handle).getOperator();
 	}
 
 	/*
@@ -80,9 +73,8 @@ public class FilterConditionElement extends DesignElement
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * getValue1List()
 	 */
-	public List getValue1List( )
-	{
-		return ( (FilterConditionElementHandle) handle ).getValue1List( );
+	public List getValue1List() {
+		return ((FilterConditionElementHandle) handle).getValue1List();
 	}
 
 	/*
@@ -92,9 +84,8 @@ public class FilterConditionElement extends DesignElement
 	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#getValue2
 	 * ()
 	 */
-	public String getValue2( )
-	{
-		return ( (FilterConditionElementHandle) handle ).getValue2( );
+	public String getValue2() {
+		return ((FilterConditionElementHandle) handle).getValue2();
 	}
 
 	/*
@@ -103,9 +94,8 @@ public class FilterConditionElement extends DesignElement
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * isOptional()
 	 */
-	public boolean isOptional( )
-	{
-		return ( (FilterConditionElementHandle) handle ).isOptional( );
+	public boolean isOptional() {
+		return ((FilterConditionElementHandle) handle).isOptional();
 	}
 
 	/*
@@ -115,9 +105,8 @@ public class FilterConditionElement extends DesignElement
 	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setExpr
 	 * (java.lang.String)
 	 */
-	public void setExpr( String filterExpr ) throws SemanticException
-	{
-		setProperty( IFilterConditionElementModel.EXPR_PROP, filterExpr );
+	public void setExpr(String filterExpr) throws SemanticException {
+		setProperty(IFilterConditionElementModel.EXPR_PROP, filterExpr);
 
 	}
 
@@ -127,10 +116,8 @@ public class FilterConditionElement extends DesignElement
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * setFilterTarget(java.lang.String)
 	 */
-	public void setFilterTarget( String filterTarget ) throws SemanticException
-	{
-		setProperty( IFilterConditionElementModel.FILTER_TARGET_PROP,
-				filterTarget );
+	public void setFilterTarget(String filterTarget) throws SemanticException {
+		setProperty(IFilterConditionElementModel.FILTER_TARGET_PROP, filterTarget);
 
 	}
 
@@ -140,22 +127,18 @@ public class FilterConditionElement extends DesignElement
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * setOperator(java.lang.String)
 	 */
-	public void setOperator( String operator ) throws SemanticException
-	{
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+	public void setOperator(String operator) throws SemanticException {
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			( (FilterConditionElementHandle) handle ).setOperator( operator );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			((FilterConditionElementHandle) handle).setOperator(operator);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 
 	}
 
@@ -165,11 +148,9 @@ public class FilterConditionElement extends DesignElement
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#
 	 * setOptional(boolean)
 	 */
-	public void setOptional( boolean isOptional ) throws SemanticException
-	{
+	public void setOptional(boolean isOptional) throws SemanticException {
 
-		setProperty( IFilterConditionElementModel.IS_OPTIONAL_PROP, Boolean
-				.valueOf( isOptional ) );
+		setProperty(IFilterConditionElementModel.IS_OPTIONAL_PROP, Boolean.valueOf(isOptional));
 
 	}
 
@@ -181,10 +162,9 @@ public class FilterConditionElement extends DesignElement
 	 * (java.util.List)
 	 */
 
-	public void setValue1( List value1List ) throws SemanticException
-	{
+	public void setValue1(List value1List) throws SemanticException {
 
-		setProperty( IFilterConditionElementModel.VALUE1_PROP, value1List );
+		setProperty(IFilterConditionElementModel.VALUE1_PROP, value1List);
 
 	}
 
@@ -195,9 +175,8 @@ public class FilterConditionElement extends DesignElement
 	 * org.eclipse.birt.report.model.api.simpleapi.IFilterConditionElement#setValue2
 	 * (java.lang.String)
 	 */
-	public void setValue2( String value2Expr ) throws SemanticException
-	{
-		setProperty( IFilterConditionElementModel.VALUE2_PROP, value2Expr );
+	public void setValue2(String value2Expr) throws SemanticException {
+		setProperty(IFilterConditionElementModel.VALUE2_PROP, value2Expr);
 
 	}
 

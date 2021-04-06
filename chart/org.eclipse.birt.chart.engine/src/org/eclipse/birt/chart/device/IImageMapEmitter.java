@@ -15,12 +15,11 @@ package org.eclipse.birt.chart.device;
  * This interface defines the capability for implementors to provide an html
  * image map string.
  */
-public interface IImageMapEmitter
-{
+public interface IImageMapEmitter {
 
 	/**
 	 * Returns the image map string by current emitter implementation.
 	 */
-	String getImageMap( );
+	String getImageMap();
 
 }

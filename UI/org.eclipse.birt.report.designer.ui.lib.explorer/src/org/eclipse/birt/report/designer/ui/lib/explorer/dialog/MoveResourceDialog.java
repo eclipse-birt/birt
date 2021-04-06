@@ -30,56 +30,42 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
  * A dialog for moving reource in resource explorer. User can select a folder to
  * move reource.
  */
-public class MoveResourceDialog extends ResourceFileFolderSelectionDialog
-{
+public class MoveResourceDialog extends ResourceFileFolderSelectionDialog {
 
 	/**
 	 * Constructs a dialog for moving resource.
 	 * 
 	 * @param files
 	 */
-	public MoveResourceDialog( final Collection<File> files )
-	{
-		super( false, false, null );
-		setTitle( Messages.getString( "MoveResourceDialog.Title" ) );
-		setMessage( Messages.getString( "MoveResourceDialog.Message" ) );
-		setDoubleClickSelects( true );
-		setAllowMultiple( false );
-		setHelpAvailable( false );
-		setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER );
-		setValidator( new ISelectionStatusValidator( ) {
+	public MoveResourceDialog(final Collection<File> files) {
+		super(false, false, null);
+		setTitle(Messages.getString("MoveResourceDialog.Title"));
+		setMessage(Messages.getString("MoveResourceDialog.Message"));
+		setDoubleClickSelects(true);
+		setAllowMultiple(false);
+		setHelpAvailable(false);
+		setEmptyFolderShowStatus(IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER);
+		setValidator(new ISelectionStatusValidator() {
 
-			public IStatus validate( Object[] selection )
-			{
-				for ( Object s : selection )
-				{
-					if ( s instanceof ResourceEntry )
-					{
-						URL url = ( (ResourceEntry) s ).getURL( );
+			public IStatus validate(Object[] selection) {
+				for (Object s : selection) {
+					if (s instanceof ResourceEntry) {
+						URL url = ((ResourceEntry) s).getURL();
 						try {
 							url = URIUtil.toURI(url).toURL();
 						} catch (Exception e1) {
 						}
-						for ( File f : files )
-						{
-							try
-							{
-								if ( url.equals( f.getParentFile( )
-										.toURI( )
-										.toURL( ) )
-										|| url.equals( f.toURI( ).toURL( ) ) )
-									return new Status( IStatus.ERROR,
-											ReportPlugin.REPORT_UI,
-											"" );
-							}
-							catch ( MalformedURLException e )
-							{
+						for (File f : files) {
+							try {
+								if (url.equals(f.getParentFile().toURI().toURL()) || url.equals(f.toURI().toURL()))
+									return new Status(IStatus.ERROR, ReportPlugin.REPORT_UI, "");
+							} catch (MalformedURLException e) {
 							}
 						}
 					}
 				}
-				return new Status( IStatus.OK, ReportPlugin.REPORT_UI, "" );
+				return new Status(IStatus.OK, ReportPlugin.REPORT_UI, "");
 			}
-		} );
+		});
 	}
 }

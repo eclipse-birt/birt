@@ -24,8 +24,7 @@ import org.eclipse.birt.report.viewer.util.RandomUtil;
  * Mock a HttpSession class for Viewer UnitTest
  * 
  */
-public class HttpSessionSimulator implements HttpSession
-{
+public class HttpSessionSimulator implements HttpSession {
 
 	private Hashtable attributes;
 	private ServletContext context;
@@ -34,12 +33,11 @@ public class HttpSessionSimulator implements HttpSession
 	private int maxInactiveInterval;
 	private String sessionId;
 
-	public HttpSessionSimulator( ServletContext context )
-	{
+	public HttpSessionSimulator(ServletContext context) {
 		this.context = context;
-		this.attributes = new Hashtable( );
-		this.creationTime = System.currentTimeMillis( );
-		this.sessionId = new RandomUtil( ).get( 32 );
+		this.attributes = new Hashtable();
+		this.creationTime = System.currentTimeMillis();
+		this.sessionId = new RandomUtil().get(32);
 	}
 
 	/*
@@ -47,10 +45,9 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getAttribute(java.lang.String)
 	 */
-	public Object getAttribute( String name )
-	{
-		verify( );
-		return this.attributes.get( name );
+	public Object getAttribute(String name) {
+		verify();
+		return this.attributes.get(name);
 	}
 
 	/*
@@ -58,22 +55,20 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getAttributeNames()
 	 */
-	public Enumeration getAttributeNames( )
-	{
-		verify( );
-		return this.attributes.keys( );
+	public Enumeration getAttributeNames() {
+		verify();
+		return this.attributes.keys();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.http.HttpSession#setAttribute(java.lang.String,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public void setAttribute( String name, Object value )
-	{
-		verify( );
-		this.attributes.put( name, value );
+	public void setAttribute(String name, Object value) {
+		verify();
+		this.attributes.put(name, value);
 	}
 
 	/*
@@ -81,10 +76,9 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#removeAttribute(java.lang.String)
 	 */
-	public void removeAttribute( String name )
-	{
-		verify( );
-		this.attributes.remove( name );
+	public void removeAttribute(String name) {
+		verify();
+		this.attributes.remove(name);
 	}
 
 	/*
@@ -92,10 +86,9 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getValue(java.lang.String)
 	 */
-	public Object getValue( String name )
-	{
-		verify( );
-		return this.getAttribute( name );
+	public Object getValue(String name) {
+		verify();
+		return this.getAttribute(name);
 	}
 
 	/*
@@ -103,22 +96,20 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getValueNames()
 	 */
-	public String[] getValueNames( )
-	{
-		verify( );
-		return (String[]) this.attributes.keySet( ).toArray( );
+	public String[] getValueNames() {
+		verify();
+		return (String[]) this.attributes.keySet().toArray();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.http.HttpSession#putValue(java.lang.String,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public void putValue( String name, Object value )
-	{
-		verify( );
-		this.setAttribute( name, value );
+	public void putValue(String name, Object value) {
+		verify();
+		this.setAttribute(name, value);
 	}
 
 	/*
@@ -126,10 +117,9 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#removeValue(java.lang.String)
 	 */
-	public void removeValue( String name )
-	{
-		verify( );
-		this.removeAttribute( name );
+	public void removeValue(String name) {
+		verify();
+		this.removeAttribute(name);
 	}
 
 	/*
@@ -137,9 +127,8 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getCreationTime()
 	 */
-	public long getCreationTime( )
-	{
-		verify( );
+	public long getCreationTime() {
+		verify();
 		return this.creationTime;
 	}
 
@@ -148,9 +137,8 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getId()
 	 */
-	public String getId( )
-	{
-		verify( );
+	public String getId() {
+		verify();
 		return this.sessionId;
 	}
 
@@ -159,9 +147,8 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getLastAccessedTime()
 	 */
-	public long getLastAccessedTime( )
-	{
-		verify( );
+	public long getLastAccessedTime() {
+		verify();
 		return -1;
 	}
 
@@ -170,9 +157,8 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getMaxInactiveInterval()
 	 */
-	public int getMaxInactiveInterval( )
-	{
-		verify( );
+	public int getMaxInactiveInterval() {
+		verify();
 		return this.maxInactiveInterval;
 	}
 
@@ -181,9 +167,8 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getServletContext()
 	 */
-	public ServletContext getServletContext( )
-	{
-		verify( );
+	public ServletContext getServletContext() {
+		verify();
 		return this.context;
 	}
 
@@ -192,11 +177,9 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#getSessionContext()
 	 */
-	public HttpSessionContext getSessionContext( )
-	{
-		verify( );
-		throw new UnsupportedOperationException(
-				"Do not support getSessionContext operation!" ); //$NON-NLS-1$
+	public HttpSessionContext getSessionContext() {
+		verify();
+		throw new UnsupportedOperationException("Do not support getSessionContext operation!"); //$NON-NLS-1$
 	}
 
 	/*
@@ -204,9 +187,8 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#invalidate()
 	 */
-	public void invalidate( )
-	{
-		verify( );
+	public void invalidate() {
+		verify();
 		this.isValid = false;
 	}
 
@@ -215,9 +197,8 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#isNew()
 	 */
-	public boolean isNew( )
-	{
-		verify( );
+	public boolean isNew() {
+		verify();
 		return false;
 	}
 
@@ -226,18 +207,16 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @see javax.servlet.http.HttpSession#setMaxInactiveInterval(int)
 	 */
-	public void setMaxInactiveInterval( int interval )
-	{
-		verify( );
+	public void setMaxInactiveInterval(int interval) {
+		verify();
 		this.maxInactiveInterval = interval;
 	}
 
 	/**
 	 * @return the isValid
 	 */
-	public boolean isValid( )
-	{
-		verify( );
+	public boolean isValid() {
+		verify();
 		return isValid;
 	}
 
@@ -246,9 +225,8 @@ public class HttpSessionSimulator implements HttpSession
 	 * 
 	 * @throws IllegalStateException
 	 */
-	private void verify( ) throws IllegalStateException
-	{
-		if ( !isValid )
-			throw new IllegalStateException( "Session has been invalid!" ); //$NON-NLS-1$
+	private void verify() throws IllegalStateException {
+		if (!isValid)
+			throw new IllegalStateException("Session has been invalid!"); //$NON-NLS-1$
 	}
 }

@@ -15,7 +15,6 @@ package org.eclipse.birt.report.model.api.simpleapi;
  * Represents the design of a List in the scripting environment
  */
 
-public interface IList extends IListing
-{
+public interface IList extends IListing {
 
 }

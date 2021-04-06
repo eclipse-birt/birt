@@ -8,7 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *  
- **************************************************************************/ 
+ **************************************************************************/
 package org.eclipse.birt.data.engine.expression;
 
 import java.util.Comparator;
@@ -18,8 +18,7 @@ import org.eclipse.birt.data.engine.api.BaseCompareHints;
 /**
  * Code implementation moved to API class BaseCompareHints
  */
-public class CompareHints extends BaseCompareHints
-{
+public class CompareHints extends BaseCompareHints {
 
 	public CompareHints(Comparator comparator, String nullStringType) {
 		super(comparator, nullStringType);

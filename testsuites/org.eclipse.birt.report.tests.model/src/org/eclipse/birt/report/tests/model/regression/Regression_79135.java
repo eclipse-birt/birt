@@ -33,38 +33,31 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_79135 extends BaseTestCase
-{
+public class Regression_79135 extends BaseTestCase {
 
 	private String filename = "Regression_79135.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( filename, filename );
-		//copyResource_INPUT( INPUT2, INPUT2 );
+		copyResource_INPUT(filename, filename);
+		// copyResource_INPUT( INPUT2, INPUT2 );
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
-	
-	
-	public void test_regression_79135( ) throws DesignFileException
-	{
-		openDesign( filename );
-		ImageHandle image = (ImageHandle) designHandle.findElement( "image" ); //$NON-NLS-1$
-		ActionHandle action = image.getActionHandle( );
-		assertEquals( DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK, action
-				.getTargetWindow( ) );
-		assertNull( action.getTargetFileType( ) );
+
+	public void test_regression_79135() throws DesignFileException {
+		openDesign(filename);
+		ImageHandle image = (ImageHandle) designHandle.findElement("image"); //$NON-NLS-1$
+		ActionHandle action = image.getActionHandle();
+		assertEquals(DesignChoiceConstants.TARGET_NAMES_TYPE_BLANK, action.getTargetWindow());
+		assertNull(action.getTargetFileType());
 
 	}
 }

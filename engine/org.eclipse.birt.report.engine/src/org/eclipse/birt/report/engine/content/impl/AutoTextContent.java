@@ -21,93 +21,77 @@ import org.eclipse.birt.report.engine.content.IAutoTextContent;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 
-public class AutoTextContent extends TextContent implements IAutoTextContent
-{
+public class AutoTextContent extends TextContent implements IAutoTextContent {
 	protected int type = -1;
-	
-	AutoTextContent(IAutoTextContent autoText)
-	{
+
+	AutoTextContent(IAutoTextContent autoText) {
 		super(autoText);
-		this.type = autoText.getType( );
+		this.type = autoText.getType();
 	}
 
-	public int getContentType( )
-	{
+	public int getContentType() {
 		return AUTOTEXT_CONTENT;
 	}
 
-	AutoTextContent( ReportContent report )
-	{
-		super( report );
+	AutoTextContent(ReportContent report) {
+		super(report);
 	}
 
-	AutoTextContent( IContent content )
-	{
-		super( content );
-	}
-	
-	public void setType ( int type )
-	{
-		this.type  = type;
+	AutoTextContent(IContent content) {
+		super(content);
 	}
 
-	public int getType ( )
-	{
+	public void setType(int type) {
+		this.type = type;
+	}
+
+	public int getType() {
 		return this.type;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
+	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
+	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitAutoText( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitAutoText(this, value);
 	}
-	
+
 	static final protected short FIELD_TYPE = 650;
 	static final protected short FIELD_TEXT = 651;
-	
-	protected void writeFields( DataOutputStream out ) throws IOException
-	{
-		super.writeFields( out );
-		if ( type != -1 )
-		{
-			IOUtil.writeShort( out, FIELD_TYPE );
-			IOUtil.writeInt( out, type );
+
+	protected void writeFields(DataOutputStream out) throws IOException {
+		super.writeFields(out);
+		if (type != -1) {
+			IOUtil.writeShort(out, FIELD_TYPE);
+			IOUtil.writeInt(out, type);
 		}
-		if ( text != null)
-		{
-			IOUtil.writeShort( out, FIELD_TEXT );
-			IOUtil.writeString( out, text );
+		if (text != null) {
+			IOUtil.writeShort(out, FIELD_TEXT);
+			IOUtil.writeString(out, text);
 		}
 	}
 
-	public boolean needSave( )
-	{
+	public boolean needSave() {
 		return true;
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in,
-			ClassLoader loader ) throws IOException
-	{
-		switch ( filedId )
-		{
-			case  FIELD_TYPE:
-				type = IOUtil.readInt( in );
-				break;
-			case  FIELD_TEXT:
-				text = IOUtil.readString( in );
-				break;
-			default :
-				super.readField( version, filedId, in, loader );
+	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
+		switch (filedId) {
+		case FIELD_TYPE:
+			type = IOUtil.readInt(in);
+			break;
+		case FIELD_TEXT:
+			text = IOUtil.readString(in);
+			break;
+		default:
+			super.readField(version, filedId, in, loader);
 		}
 	}
-	
-	protected IContent cloneContent()
-	{
+
+	protected IContent cloneContent() {
 		return new AutoTextContent(this);
 	}
 

@@ -35,9 +35,7 @@ import org.eclipse.swt.widgets.Text;
  * ExpressionDialogCellEditor contains a Label and a Button control for
  * presenting an Expression builder UI.
  */
-public class ExpressionDialogCellEditor extends DialogCellEditor implements
-		ModifyListener
-{
+public class ExpressionDialogCellEditor extends DialogCellEditor implements ModifyListener {
 
 	private DesignElementHandle itemHandle;
 
@@ -48,89 +46,80 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements
 	/**
 	 * @param parent
 	 */
-	public ExpressionDialogCellEditor( Composite parent )
-	{
-		super( parent );
+	public ExpressionDialogCellEditor(Composite parent) {
+		super(parent);
 	}
 
 	/**
 	 * @param parent
 	 * @param style
 	 */
-	public ExpressionDialogCellEditor( Composite parent, int style )
-	{
-		super( parent, style );
+	public ExpressionDialogCellEditor(Composite parent, int style) {
+		super(parent, style);
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected Control createContents( Composite cell )
-	{
-		Color bg = cell.getBackground( );
-		Composite composite = new Composite( cell, getStyle( ) );
-		composite.setBackground( bg );
+	protected Control createContents(Composite cell) {
+		Color bg = cell.getBackground();
+		Composite composite = new Composite(cell, getStyle());
+		composite.setBackground(bg);
 
-		composite.setLayout( new FillLayout( ) );
+		composite.setLayout(new FillLayout());
 
-		text = new Text( composite, SWT.SINGLE );
+		text = new Text(composite, SWT.SINGLE);
 		{
-			text.setBackground( bg );
-			text.setFont( cell.getFont( ) );
-			text.addModifyListener( this );
-			text.addKeyListener( new KeyAdapter( ) {
+			text.setBackground(bg);
+			text.setFont(cell.getFont());
+			text.addModifyListener(this);
+			text.addKeyListener(new KeyAdapter() {
 
-				public void keyPressed( KeyEvent e )
-				{
-					if ( e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR )
-					{
-						applyEditorValueAndDeactivate( );
+				public void keyPressed(KeyEvent e) {
+					if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
+						applyEditorValueAndDeactivate();
 					}
 				}
-			} );
-			text.addFocusListener( new FocusAdapter( ) {
+			});
+			text.addFocusListener(new FocusAdapter() {
 
 				/*
 				 * (non-Javadoc)
 				 * 
-				 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.FocusEvent)
+				 * @see org.eclipse.swt.events.FocusAdapter#focusLost(org.eclipse.swt.events.
+				 * FocusEvent)
 				 */
-				public void focusLost( FocusEvent e )
-				{
-					if ( btnPopup != null
-							&& !btnPopup.isFocusControl( )
-							&& Display.getCurrent( ).getCursorControl( ) != btnPopup )
-					{
-						applyEditorValueAndDeactivate( );
+				public void focusLost(FocusEvent e) {
+					if (btnPopup != null && !btnPopup.isFocusControl()
+							&& Display.getCurrent().getCursorControl() != btnPopup) {
+						applyEditorValueAndDeactivate();
 
 					}
 				}
 
-			} );
+			});
 		}
 
 		return composite;
 	}
 
-	protected Button createButton( Composite parent )
-	{
-		btnPopup = super.createButton( parent );
+	protected Button createButton(Composite parent) {
+		btnPopup = super.createButton(parent);
 		return btnPopup;
 	}
 
 	/**
 	 * Apply the currently selected value and de-actiavate the cell editor.
 	 */
-	void applyEditorValueAndDeactivate( )
-	{
+	void applyEditorValueAndDeactivate() {
 		// must set the selection before getting value
-		Object newValue = doGetValue( );
+		Object newValue = doGetValue();
 
-		markDirty( );
-		boolean isValid = isCorrect( newValue );
-		setValueValid( isValid );
-		fireApplyEditorValue( );
-		deactivate( );
+		markDirty();
+		boolean isValid = isCorrect(newValue);
+		setValueValid(isValid);
+		fireApplyEditorValue();
+		deactivate();
 	}
 
 	/*
@@ -138,9 +127,8 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements
 	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doGetValue()
 	 */
-	protected Object doGetValue( )
-	{
-		return text.getText( );
+	protected Object doGetValue() {
+		return text.getText();
 	}
 
 	/*
@@ -148,67 +136,60 @@ public class ExpressionDialogCellEditor extends DialogCellEditor implements
 	 * 
 	 * @see org.eclipse.jface.viewers.CellEditor#doSetFocus()
 	 */
-	protected void doSetFocus( )
-	{
-		text.setFocus( );
+	protected void doSetFocus() {
+		text.setFocus();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.widgets.Control)
+	 * @see
+	 * org.eclipse.jface.viewers.DialogCellEditor#openDialogBox(org.eclipse.swt.
+	 * widgets.Control)
 	 */
-	protected Object openDialogBox( Control cellEditorWindow )
-	{
-		return openDialogBox( cellEditorWindow, (String) getValue( ) );
+	protected Object openDialogBox(Control cellEditorWindow) {
+		return openDialogBox(cellEditorWindow, (String) getValue());
 	}
 
-	String openDialogBox( Control cellEditorWindow, String oldValue )
-	{
-		ExpressionBuilder dialog = new ExpressionBuilder( cellEditorWindow.getShell( ),
-				oldValue );
-		dialog.setExpressionProvier( new ExpressionProvider( itemHandle ) );
+	String openDialogBox(Control cellEditorWindow, String oldValue) {
+		ExpressionBuilder dialog = new ExpressionBuilder(cellEditorWindow.getShell(), oldValue);
+		dialog.setExpressionProvier(new ExpressionProvider(itemHandle));
 
-		if ( dialog.open( ) == Dialog.OK )
-		{
-			String newValue = dialog.getResult( );
-			if ( !newValue.equals( oldValue ) )
-			{
+		if (dialog.open() == Dialog.OK) {
+			String newValue = dialog.getResult();
+			if (!newValue.equals(oldValue)) {
 				return newValue;
 			}
 		}
-		setFocus( );
+		setFocus();
 		return null;
 	}
 
-	public void setItemHandle( DesignElementHandle handle )
-	{
+	public void setItemHandle(DesignElementHandle handle) {
 		itemHandle = handle;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.ModifyEvent)
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events.
+	 * ModifyEvent)
 	 */
-	public void modifyText( ModifyEvent e )
-	{
+	public void modifyText(ModifyEvent e) {
 
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on DialogCellEditor.
 	 */
-	protected void updateContents( Object value )
-	{
-		if ( text == null )
+	protected void updateContents(Object value) {
+		if (text == null)
 			return;
 
 		String displayText = "";//$NON-NLS-1$
-		if ( value != null )
-		{
-			displayText = value.toString( );
+		if (value != null) {
+			displayText = value.toString();
 		}
-		text.setText( displayText );
+		text.setText(displayText);
 	}
 }

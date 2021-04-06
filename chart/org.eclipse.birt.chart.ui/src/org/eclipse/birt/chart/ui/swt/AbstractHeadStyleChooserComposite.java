@@ -16,32 +16,26 @@ import org.eclipse.birt.core.ui.swt.custom.CustomChooserComposite;
 import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * 
  */
 
-public abstract class AbstractHeadStyleChooserComposite extends
-		CustomChooserComposite
-{
+public abstract class AbstractHeadStyleChooserComposite extends CustomChooserComposite {
 
-	public AbstractHeadStyleChooserComposite( Composite parent, int style,
-			Object choiceValue )
-	{
-		super( parent, style, choiceValue );
+	public AbstractHeadStyleChooserComposite(Composite parent, int style, Object choiceValue) {
+		super(parent, style, choiceValue);
 	}
 
 	/**
 	 * Returns the current selected head style as an integer.
 	 * 
 	 */
-	abstract public int getHeadStyle( );
-	
-	abstract public void setHeadStyle( int iStyle );
-	
-	protected void initAccessible( )
-	{
-		super.initAccessible( );
-		ChartUIUtil.addScreenReaderAccessibility( this, (Canvas) cnvSelection );
+	abstract public int getHeadStyle();
+
+	abstract public void setHeadStyle(int iStyle);
+
+	protected void initAccessible() {
+		super.initAccessible();
+		ChartUIUtil.addScreenReaderAccessibility(this, (Canvas) cnvSelection);
 	}
 }

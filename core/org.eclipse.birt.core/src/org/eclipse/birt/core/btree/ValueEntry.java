@@ -11,45 +11,37 @@
 
 package org.eclipse.birt.core.btree;
 
-public class ValueEntry<V>
-{
+public class ValueEntry<V> {
 
 	private BTreeValue<V> value;
 	private ValueEntry<V> prev;
 	private ValueEntry<V> next;
 
-	ValueEntry( BTreeValue<V> value )
-	{
+	ValueEntry(BTreeValue<V> value) {
 		this.value = value;
 	}
 
-	BTreeValue<V> getValue( )
-	{
+	BTreeValue<V> getValue() {
 		return value;
 	}
 
-	ValueEntry<V> getNext( )
-	{
+	ValueEntry<V> getNext() {
 		return next;
 	}
 
-	ValueEntry<V> getPrev( )
-	{
+	ValueEntry<V> getPrev() {
 		return prev;
 	}
 
-	public void setValue( BTreeValue<V> value )
-	{
+	public void setValue(BTreeValue<V> value) {
 		this.value = value;
 	}
 
-	public void setPrev( ValueEntry<V> prev )
-	{
+	public void setPrev(ValueEntry<V> prev) {
 		this.prev = prev;
 	}
 
-	public void setNext( ValueEntry<V> next )
-	{
+	public void setNext(ValueEntry<V> next) {
 		this.next = next;
 	}
 

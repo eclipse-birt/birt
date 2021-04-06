@@ -36,15 +36,14 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * 
  */
 
-public class PredefinedStyle implements IPredefinedStyle
-{
+public class PredefinedStyle implements IPredefinedStyle {
 
 	/**
 	 * The internal name is made up of element name, slot name or their
-	 * combinationof. For example, "table" is for table, "table-header" for
-	 * header slot of table element. We support up to 9 group levels. Hence a
-	 * name like "table-group-header-1" is for <strong>TableGroup
-	 * header</strong> for level <strong>1</strong>.
+	 * combinationof. For example, "table" is for table, "table-header" for header
+	 * slot of table element. We support up to 9 group levels. Hence a name like
+	 * "table-group-header-1" is for <strong>TableGroup header</strong> for level
+	 * <strong>1</strong>.
 	 */
 
 	private String name = null;
@@ -57,8 +56,8 @@ public class PredefinedStyle implements IPredefinedStyle
 	private String displayNameKey = null;
 
 	/**
-	 * The string that specifies the type of this selector. Now it can be one
-	 * of: Table, Grid and List. It must be name of the IElementDefn.
+	 * The string that specifies the type of this selector. Now it can be one of:
+	 * Table, Grid and List. It must be name of the IElementDefn.
 	 */
 	private String type = null;
 
@@ -66,22 +65,18 @@ public class PredefinedStyle implements IPredefinedStyle
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.IPredefinedStyle#getDisplayNameKey
-	 * ()
+	 * org.eclipse.birt.report.model.metadata.IPredefinedStyle#getDisplayNameKey ()
 	 */
-	public String getDisplayNameKey( )
-	{
+	public String getDisplayNameKey() {
 		return displayNameKey;
 	}
 
 	/**
 	 * Sets the display name ID. Done while creating the standard style.
 	 * 
-	 * @param id
-	 *            the display name message ID to set
+	 * @param id the display name message ID to set
 	 */
-	public void setDisplayNameKey( String id )
-	{
+	public void setDisplayNameKey(String id) {
 		displayNameKey = id;
 	}
 
@@ -90,20 +85,17 @@ public class PredefinedStyle implements IPredefinedStyle
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.IPredefinedStyle#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * Sets the internal name for this style. Must be done before adding the
-	 * style to the data dictionary.
+	 * Sets the internal name for this style. Must be done before adding the style
+	 * to the data dictionary.
 	 * 
-	 * @param theName
-	 *            the name to set
+	 * @param theName the name to set
 	 */
-	public void setName( String theName )
-	{
+	public void setName(String theName) {
 		name = theName;
 	}
 
@@ -111,8 +103,7 @@ public class PredefinedStyle implements IPredefinedStyle
 	 * 
 	 * @return
 	 */
-	public String getType( )
-	{
+	public String getType() {
 		return type;
 	}
 
@@ -120,8 +111,7 @@ public class PredefinedStyle implements IPredefinedStyle
 	 * 
 	 * @param type
 	 */
-	public void setType( String type )
-	{
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -130,10 +120,9 @@ public class PredefinedStyle implements IPredefinedStyle
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
-		if ( !StringUtil.isBlank( getName( ) ) )
-			return getName( );
-		return super.toString( );
+	public String toString() {
+		if (!StringUtil.isBlank(getName()))
+			return getName();
+		return super.toString();
 	}
 }

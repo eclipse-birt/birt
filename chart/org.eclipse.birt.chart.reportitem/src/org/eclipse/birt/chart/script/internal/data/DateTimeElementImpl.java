@@ -20,35 +20,29 @@ import com.ibm.icu.util.Calendar;
  * 
  */
 
-public class DateTimeElementImpl implements IDateTimeDataElement
-{
+public class DateTimeElementImpl implements IDateTimeDataElement {
 
 	private long data;
 
-	public DateTimeElementImpl( DateTimeDataElement data )
-	{
-		this.data = data.getValue( );
+	public DateTimeElementImpl(DateTimeDataElement data) {
+		this.data = data.getValue();
 	}
 
-	public DateTimeElementImpl( long data )
-	{
+	public DateTimeElementImpl(long data) {
 		this.data = data;
 	}
 
-	public long getValue( )
-	{
+	public long getValue() {
 		return data;
 	}
 
-	public Calendar getValueAsCalendar( )
-	{
-		Calendar calendar = Calendar.getInstance( );
-		calendar.setTimeInMillis( data );
+	public Calendar getValueAsCalendar() {
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTimeInMillis(data);
 		return calendar;
 	}
 
-	public void setValue( long value )
-	{
+	public void setValue(long value) {
 		data = value;
 	}
 

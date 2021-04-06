@@ -16,32 +16,27 @@ import org.eclipse.birt.chart.model.attribute.impl.ColorDefinitionImpl;
 import org.eclipse.birt.chart.script.ChartEventHandlerAdapter;
 import org.eclipse.birt.chart.script.IChartScriptContext;
 
-public class BlockScript extends ChartEventHandlerAdapter
-{
+public class BlockScript extends ChartEventHandlerAdapter {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawBlock(org.eclipse.birt.chart.model.layout.Block,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawBlock(org.
+	 * eclipse.birt.chart.model.layout.Block,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawBlock( Block block, IChartScriptContext icsc )
-	{
-		if ( block.isLegend( ) )
-		{
-			block.getOutline( ).setVisible( true );
-			block.getOutline( ).getColor( ).set( 21, 244, 231 );
-		}
-		else if ( block.isPlot( ) )
-		{
-			block.getOutline( ).setVisible( true );
-			block.getOutline( ).getColor( ).set( 244, 21, 231 );
-		}
-		else if ( block.isTitle( ) )
-		{
-			block.getOutline( ).setVisible( true );
-			block.setBackground( ColorDefinitionImpl.CREAM( ) );
-			block.getOutline( ).getColor( ).set( 0, 0, 0 );
+	public void beforeDrawBlock(Block block, IChartScriptContext icsc) {
+		if (block.isLegend()) {
+			block.getOutline().setVisible(true);
+			block.getOutline().getColor().set(21, 244, 231);
+		} else if (block.isPlot()) {
+			block.getOutline().setVisible(true);
+			block.getOutline().getColor().set(244, 21, 231);
+		} else if (block.isTitle()) {
+			block.getOutline().setVisible(true);
+			block.setBackground(ColorDefinitionImpl.CREAM());
+			block.getOutline().getColor().set(0, 0, 0);
 		}
 	}
 

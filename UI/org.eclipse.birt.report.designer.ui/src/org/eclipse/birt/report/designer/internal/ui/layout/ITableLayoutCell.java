@@ -16,35 +16,40 @@ import org.eclipse.draw2d.IFigure;
 /**
  * Cell layout interface for the table layout
  */
-public interface ITableLayoutCell
-{
+public interface ITableLayoutCell {
 
 	/**
 	 * Gets the row number.
 	 * 
 	 * @return
 	 */
-	int getRowNumber( );
+	int getRowNumber();
 
 	/**
 	 * Gets the column number.
 	 * 
 	 * @return
 	 */
-	int getColumnNumber( );
+	int getColumnNumber();
 
-	/**Gets the row span.
+	/**
+	 * Gets the row span.
+	 * 
 	 * @return
 	 */
-	int getRowSpan( );
+	int getRowSpan();
 
-	/**Gets the cloumn span.
+	/**
+	 * Gets the cloumn span.
+	 * 
 	 * @return
 	 */
-	int getColSpan( );
+	int getColSpan();
 
-	/**Gets the cell figure.
+	/**
+	 * Gets the cell figure.
+	 * 
 	 * @return
 	 */
-	IFigure getFigure( );
+	IFigure getFigure();
 }

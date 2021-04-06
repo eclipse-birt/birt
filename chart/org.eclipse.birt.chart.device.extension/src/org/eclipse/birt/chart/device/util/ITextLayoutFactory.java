@@ -19,10 +19,8 @@ import java.util.Map;
  * Factory of TextLayout
  */
 
-public interface ITextLayoutFactory
-{
+public interface ITextLayoutFactory {
 
-	ChartTextLayout createTextLayout( String value, Map<? extends Attribute,?> fontAttributes,
-			FontRenderContext frc );
+	ChartTextLayout createTextLayout(String value, Map<? extends Attribute, ?> fontAttributes, FontRenderContext frc);
 
 }

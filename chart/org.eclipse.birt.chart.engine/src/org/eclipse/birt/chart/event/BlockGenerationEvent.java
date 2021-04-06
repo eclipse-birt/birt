@@ -16,17 +16,15 @@ import org.eclipse.birt.chart.model.layout.Block;
 /**
  * An event type for block generation.
  */
-public class BlockGenerationEvent extends ChartEvent
-{
+public class BlockGenerationEvent extends ChartEvent {
 
 	private static final long serialVersionUID = 5869588499778117671L;
 
 	/**
 	 * The constructor.
 	 */
-	public BlockGenerationEvent( Object oSource )
-	{
-		super( oSource );
+	public BlockGenerationEvent(Object oSource) {
+		super(oSource);
 	}
 
 	/**
@@ -34,8 +32,7 @@ public class BlockGenerationEvent extends ChartEvent
 	 * 
 	 * @param bl
 	 */
-	public void updateBlock( Block bl )
-	{
+	public void updateBlock(Block bl) {
 		source = bl;
 	}
 
@@ -44,8 +41,7 @@ public class BlockGenerationEvent extends ChartEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	public void reset( )
-	{
+	public void reset() {
 		source = null;
 	}
 }

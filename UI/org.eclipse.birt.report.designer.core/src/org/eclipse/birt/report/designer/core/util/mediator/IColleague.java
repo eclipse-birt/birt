@@ -22,13 +22,12 @@ import org.eclipse.birt.report.designer.core.util.mediator.request.ReportRequest
  * 
  * @deprecated Not used anymore, see {@link IMediatorColleague} instead.
  */
-public interface IColleague
-{
+public interface IColleague {
 
 	/**
 	 * Perform logic for special request. Called by mediator.
 	 * 
 	 * @param request
 	 */
-	void performRequest( ReportRequest request );
+	void performRequest(ReportRequest request);
 }

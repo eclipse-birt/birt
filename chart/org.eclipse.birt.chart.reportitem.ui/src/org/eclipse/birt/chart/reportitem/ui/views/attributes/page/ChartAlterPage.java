@@ -19,17 +19,15 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.section.Tex
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 
-public class ChartAlterPage extends AlterPage
-{
+public class ChartAlterPage extends AlterPage {
 
-	protected void applyCustomSections( )
-	{
-		IDescriptorProvider provider = new TextPropertyDescriptorProvider( ExtendedItemHandle.ALT_TEXT_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		( (TextSection) getSection( PageSectionId.ALTER_ALT_TEXT ) ).setProvider( provider );
+	protected void applyCustomSections() {
+		IDescriptorProvider provider = new TextPropertyDescriptorProvider(ExtendedItemHandle.ALT_TEXT_PROP,
+				ReportDesignConstants.EXTENDED_ITEM);
+		((TextSection) getSection(PageSectionId.ALTER_ALT_TEXT)).setProvider(provider);
 
-		IDescriptorProvider keyProvider = new TextPropertyDescriptorProvider( ExtendedItemHandle.ALT_TEXT_KEY_PROP,
-				ReportDesignConstants.EXTENDED_ITEM );
-		( (TextSection) getSection( PageSectionId.ALTER_ALT_TEXT_KEY ) ).setProvider( keyProvider );
+		IDescriptorProvider keyProvider = new TextPropertyDescriptorProvider(ExtendedItemHandle.ALT_TEXT_KEY_PROP,
+				ReportDesignConstants.EXTENDED_ITEM);
+		((TextSection) getSection(PageSectionId.ALTER_ALT_TEXT_KEY)).setProvider(keyProvider);
 	}
 }

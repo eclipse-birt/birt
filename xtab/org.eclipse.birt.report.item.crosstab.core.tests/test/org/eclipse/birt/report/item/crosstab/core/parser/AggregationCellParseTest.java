@@ -28,8 +28,7 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
  * 
  */
 
-public class AggregationCellParseTest extends BaseTestCase
-{
+public class AggregationCellParseTest extends BaseTestCase {
 
 	/**
 	 * Test parser
@@ -37,17 +36,14 @@ public class AggregationCellParseTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testParse( ) throws Exception
-	{
-		openDesign( "AggregationCellParseTest.xml" );//$NON-NLS-1$
-		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle
-				.getElementByID( 45l );
-		AggregationCellHandle cellHandle = (AggregationCellHandle) extendedHandle
-				.getReportItem( );
-		assertEquals( "Group2/PRODUCTLINE", cellHandle//$NON-NLS-1$
-				.getLevelName( ICrosstabConstants.COLUMN_AXIS_TYPE ) );
-		assertEquals( "Level", cellHandle//$NON-NLS-1$
-				.getLevelName( ICrosstabConstants.ROW_AXIS_TYPE ) );
+	public void testParse() throws Exception {
+		openDesign("AggregationCellParseTest.xml");//$NON-NLS-1$
+		ExtendedItemHandle extendedHandle = (ExtendedItemHandle) designHandle.getElementByID(45l);
+		AggregationCellHandle cellHandle = (AggregationCellHandle) extendedHandle.getReportItem();
+		assertEquals("Group2/PRODUCTLINE", cellHandle//$NON-NLS-1$
+				.getLevelName(ICrosstabConstants.COLUMN_AXIS_TYPE));
+		assertEquals("Level", cellHandle//$NON-NLS-1$
+				.getLevelName(ICrosstabConstants.ROW_AXIS_TYPE));
 	}
 
 	/**
@@ -55,14 +51,13 @@ public class AggregationCellParseTest extends BaseTestCase
 	 * 
 	 * @throws Exception
 	 */
-	
-	public void testSemanticCheck( ) throws Exception
-	{
-		openDesign( "AggregationCellParseTest.xml" );//$NON-NLS-1$
-		List errors = designHandle.getErrorList( );
+
+	public void testSemanticCheck() throws Exception {
+		openDesign("AggregationCellParseTest.xml");//$NON-NLS-1$
+		List errors = designHandle.getErrorList();
 
 		// 1 error: no cube defined for this crosstab
-		assertEquals( 1, errors.size( ) );
+		assertEquals(1, errors.size());
 	}
 
 	/**
@@ -71,28 +66,25 @@ public class AggregationCellParseTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testWriter( ) throws Exception
-	{
-		createDesign( );
-		CubeHandle cubeHandle = prepareCube( );
+	public void testWriter() throws Exception {
+		createDesign();
+		CubeHandle cubeHandle = prepareCube();
 
-		ExtendedItemHandle extendHandle = CrosstabExtendedItemFactory
-				.createCrosstabReportItem( designHandle.getRoot( ), cubeHandle, null );
-		designHandle.getBody( ).add( extendHandle );
+		ExtendedItemHandle extendHandle = CrosstabExtendedItemFactory.createCrosstabReportItem(designHandle.getRoot(),
+				cubeHandle, null);
+		designHandle.getBody().add(extendHandle);
 
 		// create cross tab
-		CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil
-				.getReportItem( extendHandle );
+		CrosstabReportItemHandle crosstabItem = (CrosstabReportItemHandle) CrosstabUtil.getReportItem(extendHandle);
 
-		MeasureViewHandle measureViewHandle = crosstabItem.insertMeasure(
-				cubeHandle.getMeasure( "QUANTITY_PRICE" ), -1 );//$NON-NLS-1$
+		MeasureViewHandle measureViewHandle = crosstabItem.insertMeasure(cubeHandle.getMeasure("QUANTITY_PRICE"), -1);//$NON-NLS-1$
 
-		measureViewHandle.addAggregation( null, "CUSTOMER_SEX", null,//$NON-NLS-1$
-				"CUSTOMER_REGION" );//$NON-NLS-1$
+		measureViewHandle.addAggregation(null, "CUSTOMER_SEX", null, //$NON-NLS-1$
+				"CUSTOMER_REGION");//$NON-NLS-1$
 
-		save( designHandle.getRoot( ) );
+		save(designHandle.getRoot());
 
-		compareFile( "AggregationCellParseTest_golden.xml" );//$NON-NLS-1$
+		compareFile("AggregationCellParseTest_golden.xml");//$NON-NLS-1$
 
 	}
 }

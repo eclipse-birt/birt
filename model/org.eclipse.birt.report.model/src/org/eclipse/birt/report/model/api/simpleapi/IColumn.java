@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * 
  */
 
-public interface IColumn extends IDesignElement
-{
+public interface IColumn extends IDesignElement {
 
 	/**
 	 * Removes all hide rules that matches formatType.
@@ -28,7 +27,7 @@ public interface IColumn extends IDesignElement
 	 * @exception SemanticException
 	 */
 
-	void removeHideRule( IHideRule rule ) throws SemanticException;
+	void removeHideRule(IHideRule rule) throws SemanticException;
 
 	/**
 	 * Removes all hide rules
@@ -36,7 +35,7 @@ public interface IColumn extends IDesignElement
 	 * @throws SemanticException
 	 */
 
-	void removeHideRules( ) throws SemanticException;
+	void removeHideRules() throws SemanticException;
 
 	/**
 	 * Returns array of hide rule expression
@@ -44,7 +43,7 @@ public interface IColumn extends IDesignElement
 	 * @return array of hide rule expression
 	 */
 
-	IHideRule[] getHideRules( );
+	IHideRule[] getHideRules();
 
 	/**
 	 * Add HideRule
@@ -53,5 +52,5 @@ public interface IColumn extends IDesignElement
 	 * @throws SemanticException
 	 */
 
-	void addHideRule( IHideRule rule ) throws SemanticException;
+	void addHideRule(IHideRule rule) throws SemanticException;
 }

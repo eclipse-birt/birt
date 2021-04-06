@@ -13,76 +13,61 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
 import org.eclipse.birt.report.model.api.ResultSetColumnHandle;
 import org.eclipse.birt.report.model.api.olap.CubeHandle;
 
-public class LinkedDataSetAdapter
-{
+public class LinkedDataSetAdapter {
 
-	public List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(
-			ModuleHandle handle )
-	{
-		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
-				ILinkedDataSetHelper.class );
-		if ( helper != null )
-		{
-			return helper.getVisibleLinkedDataSetsDataSetHandles( handle );
+	public List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(ModuleHandle handle) {
+		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter(this,
+				ILinkedDataSetHelper.class);
+		if (helper != null) {
+			return helper.getVisibleLinkedDataSetsDataSetHandles(handle);
 		}
-		return new ArrayList<DataSetHandle>( );
+		return new ArrayList<DataSetHandle>();
 	}
 
-	public List<CubeHandle> getVisibleLinkedDataSetsCubeHandles(
-			ModuleHandle handle )
-	{
-		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
-				ILinkedDataSetHelper.class );
-		if ( helper != null )
-		{
-			return helper.getVisibleLinkedDataSetsCubeHandles( handle );
+	public List<CubeHandle> getVisibleLinkedDataSetsCubeHandles(ModuleHandle handle) {
+		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter(this,
+				ILinkedDataSetHelper.class);
+		if (helper != null) {
+			return helper.getVisibleLinkedDataSetsCubeHandles(handle);
 		}
-		return new ArrayList<CubeHandle>( );
+		return new ArrayList<CubeHandle>();
 	}
 
-	public List<String> getVisibleLinkedDataSets( )
-	{
-		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
-				ILinkedDataSetHelper.class );
-		if ( helper != null )
-		{
-			return helper.getVisibleLinkedDataSets( );
+	public List<String> getVisibleLinkedDataSets() {
+		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter(this,
+				ILinkedDataSetHelper.class);
+		if (helper != null) {
+			return helper.getVisibleLinkedDataSets();
 		}
-		return new ArrayList<String>( );
+		return new ArrayList<String>();
 	}
 
-	public boolean setLinkedDataModel( ReportItemHandle handle, Object value )
-	{
+	public boolean setLinkedDataModel(ReportItemHandle handle, Object value) {
 
-		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
-				ILinkedDataSetHelper.class );
-		if ( helper != null )
-		{
-			return helper.setLinkedDataModel( handle, value );
+		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter(this,
+				ILinkedDataSetHelper.class);
+		if (helper != null) {
+			return helper.setLinkedDataModel(handle, value);
 		}
 		return false;
 	}
 
-	public Iterator getLinkedDataModelResultSetColumns( String datasetName )
-	{
+	public Iterator getLinkedDataModelResultSetColumns(String datasetName) {
 
-		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
-				ILinkedDataSetHelper.class );
-		if ( helper != null )
-		{
-			return helper.getResultSetIterator( datasetName );
+		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter(this,
+				ILinkedDataSetHelper.class);
+		if (helper != null) {
+			return helper.getResultSetIterator(datasetName);
 		}
 		return null;
 	}
-	
-	public Map<String, List<ResultSetColumnHandle>> getGroupedResultSetColumns( String datasetName )
-	{
 
-		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter( this,
-				ILinkedDataSetHelper.class );
-		if ( helper != null )
-		{
-			return helper.getGroupedResultSetColumns( datasetName );
+	public Map<String, List<ResultSetColumnHandle>> getGroupedResultSetColumns(String datasetName) {
+
+		ILinkedDataSetHelper helper = (ILinkedDataSetHelper) ElementAdapterManager.getAdapter(this,
+				ILinkedDataSetHelper.class);
+		if (helper != null) {
+			return helper.getGroupedResultSetColumns(datasetName);
 		}
 		return null;
 	}

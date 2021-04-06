@@ -45,8 +45,7 @@ import org.eclipse.swt.SWT;
 /**
  * The general attribute page of Grid element.
  */
-public class GridPage extends GeneralPage
-{
+public class GridPage extends GeneralPage {
 
 	/*
 	 * (non-Javadoc)
@@ -54,255 +53,210 @@ public class GridPage extends GeneralPage
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.attributes.page.
 	 * GeneralPage#buildContent()
 	 */
-	protected void buildContent( )
-	{
+	protected void buildContent() {
 		// Defines providers.
 
-		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( ReportItemHandle.NAME_PROP,
-				ReportDesignConstants.GRID_ITEM );
+		IDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ReportItemHandle.NAME_PROP,
+				ReportDesignConstants.GRID_ITEM);
 
-		IDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( ReportItemHandle.WIDTH_PROP,
-				ReportDesignConstants.GRID_ITEM );
+		IDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider(ReportItemHandle.WIDTH_PROP,
+				ReportDesignConstants.GRID_ITEM);
 
-		IDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider( ReportItemHandle.HEIGHT_PROP,
-				ReportDesignConstants.GRID_ITEM );
+		IDescriptorProvider heightProvider = new UnitPropertyDescriptorProvider(ReportItemHandle.HEIGHT_PROP,
+				ReportDesignConstants.GRID_ITEM);
 
-		PropertyDescriptorProvider canShrinkProvider = new PropertyDescriptorProvider( StyleHandle.CAN_SHRINK_PROP,
-				ReportDesignConstants.GRID_ITEM );
-		canShrinkProvider.enableReset( true );
+		PropertyDescriptorProvider canShrinkProvider = new PropertyDescriptorProvider(StyleHandle.CAN_SHRINK_PROP,
+				ReportDesignConstants.GRID_ITEM);
+		canShrinkProvider.enableReset(true);
 
-		ComboPropertyDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		vAlignProvider.enableReset( true );
+		ComboPropertyDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider(
+				StyleHandle.VERTICAL_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		vAlignProvider.enableReset(true);
 
-		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
-				ReportDesignConstants.REPORT_ITEM );
+		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider(ReportItemHandle.STYLE_PROP,
+				ReportDesignConstants.REPORT_ITEM);
 
-		ColorPropertyDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		backgroundProvider.enableReset( true );
+		ColorPropertyDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider(
+				StyleHandle.BACKGROUND_COLOR_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		backgroundProvider.enableReset(true);
 
 		// Defines sections.
 
-		TextSection nameSection = new TextSection( nameProvider.getDisplayName( ),
-				container,
-				true );
+		TextSection nameSection = new TextSection(nameProvider.getDisplayName(), container, true);
 
-		Section seperatorSection = new SeperatorSection( container,
-				SWT.HORIZONTAL );
+		Section seperatorSection = new SeperatorSection(container, SWT.HORIZONTAL);
 
-		ComplexUnitSection widthSection = new ComplexUnitSection( widthProvider.getDisplayName( ),
-				container,
-				true );
+		ComplexUnitSection widthSection = new ComplexUnitSection(widthProvider.getDisplayName(), container, true);
 
-		ComplexUnitSection heightSection = new ComplexUnitSection( heightProvider.getDisplayName( ),
-				container,
-				true );
+		ComplexUnitSection heightSection = new ComplexUnitSection(heightProvider.getDisplayName(), container, true);
 
-		CheckSection canShrinkSection = new CheckSection( container, true );
+		CheckSection canShrinkSection = new CheckSection(container, true);
 
-		ComboSection vAlignSection = new ComboSection( vAlignProvider.getDisplayName( ),
-				container,
-				true );
+		ComboSection vAlignSection = new ComboSection(vAlignProvider.getDisplayName(), container, true);
 
-		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
-				container,
-				true );
+		SimpleComboSection styleSection = new SimpleComboSection(styleProvider.getDisplayName(), container, true);
 
-		ColorSection backgroundSection = new ColorSection( backgroundProvider.getDisplayName( ),
-				container,
-				true );
+		ColorSection backgroundSection = new ColorSection(backgroundProvider.getDisplayName(), container, true);
 
 		// Sets providers.
 
-		nameSection.setProvider( nameProvider );
-		widthSection.setProvider( widthProvider );
-		heightSection.setProvider( heightProvider );
-		canShrinkSection.setProvider( canShrinkProvider );
-		vAlignSection.setProvider( vAlignProvider );
-		styleSection.setProvider( styleProvider );
-		backgroundSection.setProvider( backgroundProvider );
+		nameSection.setProvider(nameProvider);
+		widthSection.setProvider(widthProvider);
+		heightSection.setProvider(heightProvider);
+		canShrinkSection.setProvider(canShrinkProvider);
+		vAlignSection.setProvider(vAlignProvider);
+		styleSection.setProvider(styleProvider);
+		backgroundSection.setProvider(backgroundProvider);
 
 		// Sets widths.
 
-		nameSection.setWidth( 200 );
-		widthSection.setWidth( 200 );
-		heightSection.setWidth( 200 );
-		vAlignSection.setWidth( 200 );
-		styleSection.setWidth( 200 );
-		backgroundSection.setWidth( 200 );
+		nameSection.setWidth(200);
+		widthSection.setWidth(200);
+		heightSection.setWidth(200);
+		vAlignSection.setWidth(200);
+		styleSection.setWidth(200);
+		backgroundSection.setWidth(200);
 
 		// Sets layout num.
 
-		nameSection.setLayoutNum( 2 );
-		widthSection.setLayoutNum( 2 );
-		heightSection.setLayoutNum( 4 );
-		canShrinkSection.setLayoutNum( 2 );
-		vAlignSection.setLayoutNum( 2 );
-		styleSection.setLayoutNum( 2 );
-		backgroundSection.setLayoutNum( 4 );
+		nameSection.setLayoutNum(2);
+		widthSection.setLayoutNum(2);
+		heightSection.setLayoutNum(4);
+		canShrinkSection.setLayoutNum(2);
+		vAlignSection.setLayoutNum(2);
+		styleSection.setLayoutNum(2);
+		backgroundSection.setLayoutNum(4);
 
 		// Sets fill grid num.
 
-		nameSection.setGridPlaceholder( 0, true );
-		widthSection.setGridPlaceholder( 0, true );
-		heightSection.setGridPlaceholder( 2, true );
-		canShrinkSection.setGridPlaceholder( 2, true );
-		vAlignSection.setGridPlaceholder( 0, true );
-		styleSection.setGridPlaceholder( 0, true );
-		backgroundSection.setGridPlaceholder( 2, true );
+		nameSection.setGridPlaceholder(0, true);
+		widthSection.setGridPlaceholder(0, true);
+		heightSection.setGridPlaceholder(2, true);
+		canShrinkSection.setGridPlaceholder(2, true);
+		vAlignSection.setGridPlaceholder(0, true);
+		styleSection.setGridPlaceholder(0, true);
+		backgroundSection.setGridPlaceholder(2, true);
 
-		addSection( PageSectionId.GRID_NAME, nameSection ); //$NON-NLS-1$
+		addSection(PageSectionId.GRID_NAME, nameSection); // $NON-NLS-1$
 
-		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
-		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
-				container,
-				true );
-		elementIdSection.setProvider( elementIdProvider );
-		elementIdSection.setWidth( 200 );
-		elementIdSection.setLayoutNum( 4 );
-		elementIdSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.GRID_ELEMENT_ID, elementIdSection );
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider();
+		TextSection elementIdSection = new TextSection(elementIdProvider.getDisplayName(), container, true);
+		elementIdSection.setProvider(elementIdProvider);
+		elementIdSection.setWidth(200);
+		elementIdSection.setLayoutNum(4);
+		elementIdSection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.GRID_ELEMENT_ID, elementIdSection);
 
-		addSection( PageSectionId.GRID_SEPERATOR, seperatorSection ); //$NON-NLS-1$
-		addSection( PageSectionId.GRID_WIDTH, widthSection ); //$NON-NLS-1$
-		addSection( PageSectionId.GRID_HEIGHT, heightSection ); //$NON-NLS-1$
-		addSection( PageSectionId.GRID_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1
-		addSection( PageSectionId.GRID_CAN_SHRINK, canShrinkSection ); //$NON-NLS-1$
+		addSection(PageSectionId.GRID_SEPERATOR, seperatorSection); // $NON-NLS-1$
+		addSection(PageSectionId.GRID_WIDTH, widthSection); // $NON-NLS-1$
+		addSection(PageSectionId.GRID_HEIGHT, heightSection); // $NON-NLS-1$
+		addSection(PageSectionId.GRID_VERTICAL_ALIGN, vAlignSection); // $NON-NLS-1
+		addSection(PageSectionId.GRID_CAN_SHRINK, canShrinkSection); // $NON-NLS-1$
 
-		Section seperatorSection1 = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( PageSectionId.GRID_SEPERATOR1, seperatorSection1 ); //$NON-NLS-1$
+		Section seperatorSection1 = new SeperatorSection(container, SWT.HORIZONTAL);
+		addSection(PageSectionId.GRID_SEPERATOR1, seperatorSection1); // $NON-NLS-1$
 
-		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider( StyleHandle.FONT_FAMILY_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		fontFamilyProvider.enableReset( true );
-		ComboSection fontFamilySection = new ComboSection( fontFamilyProvider.getDisplayName( ),
-				container,
-				true );
-		fontFamilySection.setProvider( fontFamilyProvider );
-		fontFamilySection.setLayoutNum( 2 );
-		fontFamilySection.setWidth( 200 );
-		addSection( PageSectionId.FONT_FAMILY, fontFamilySection );
+		ComboPropertyDescriptorProvider fontFamilyProvider = new ComboPropertyDescriptorProvider(
+				StyleHandle.FONT_FAMILY_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		fontFamilyProvider.enableReset(true);
+		ComboSection fontFamilySection = new ComboSection(fontFamilyProvider.getDisplayName(), container, true);
+		fontFamilySection.setProvider(fontFamilyProvider);
+		fontFamilySection.setLayoutNum(2);
+		fontFamilySection.setWidth(200);
+		addSection(PageSectionId.FONT_FAMILY, fontFamilySection);
 
-		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider( StyleHandle.FONT_SIZE_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		fontSizeProvider.enableReset( true );
-		FontSizeSection fontSizeSection = new FontSizeSection( fontSizeProvider.getDisplayName( ),
-				container,
-				true );
-		fontSizeSection.setProvider( fontSizeProvider );
-		fontSizeSection.setLayoutNum( 4 );
-		fontSizeSection.setWidth( 200 );
-		fontSizeSection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.FONT_SIZE, fontSizeSection );
+		FontSizePropertyDescriptorProvider fontSizeProvider = new FontSizePropertyDescriptorProvider(
+				StyleHandle.FONT_SIZE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		fontSizeProvider.enableReset(true);
+		FontSizeSection fontSizeSection = new FontSizeSection(fontSizeProvider.getDisplayName(), container, true);
+		fontSizeSection.setProvider(fontSizeProvider);
+		fontSizeSection.setLayoutNum(4);
+		fontSizeSection.setWidth(200);
+		fontSizeSection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.FONT_SIZE, fontSizeSection);
 
-		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider( StyleHandle.COLOR_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		colorProvider.enableReset( true );
-		ColorSection colorSection = new ColorSection( colorProvider.getDisplayName( ),
-				container,
-				true );
-		colorSection.setProvider( colorProvider );
-		colorSection.setLayoutNum( 2 );
-		colorSection.setWidth( 200 );
-		addSection( PageSectionId.FONT_COLOR, colorSection );
+		ColorPropertyDescriptorProvider colorProvider = new ColorPropertyDescriptorProvider(StyleHandle.COLOR_PROP,
+				ReportDesignConstants.STYLE_ELEMENT);
+		colorProvider.enableReset(true);
+		ColorSection colorSection = new ColorSection(colorProvider.getDisplayName(), container, true);
+		colorSection.setProvider(colorProvider);
+		colorSection.setLayoutNum(2);
+		colorSection.setWidth(200);
+		addSection(PageSectionId.FONT_COLOR, colorSection);
 
-		addSection( PageSectionId.GRID_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
-		
-		IDescriptorProvider[] fontStyleProviders = createFontStyleProviders( );
+		addSection(PageSectionId.GRID_BACKGROUND_COLOR, backgroundSection); // $NON-NLS-1$
 
-		FontStyleSection fontStyleSection = new FontStyleSection( container,
-				true,
-				false );
-		fontStyleSection.setProviders( fontStyleProviders );
-		fontStyleSection.setLayoutNum( 3 );
-		addSection( PageSectionId.FONT_STYLE, fontStyleSection );
+		IDescriptorProvider[] fontStyleProviders = createFontStyleProviders();
 
-		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider( StyleHandle.WHITE_SPACE_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		wordwrapProvider.enableReset( true );
-		RadioGroupSection wordwrapSection = new RadioGroupSection( wordwrapProvider.getDisplayName( ),
-				container,
-				true );
-		wordwrapSection.setProvider( wordwrapProvider );
-		wordwrapSection.setLayoutNum( 4 );
-		addSection( PageSectionId.WODR_WRAP, wordwrapSection ); //$NON-NLS-1$
-		
-		SeperatorSection seperator1 = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( PageSectionId.GRID_SEPERATOR2, seperator1 );
+		FontStyleSection fontStyleSection = new FontStyleSection(container, true, false);
+		fontStyleSection.setProviders(fontStyleProviders);
+		fontStyleSection.setLayoutNum(3);
+		addSection(PageSectionId.FONT_STYLE, fontStyleSection);
 
-		addSection( PageSectionId.GRID_STYLE, styleSection );
+		ComboPropertyDescriptorProvider wordwrapProvider = new ComboPropertyDescriptorProvider(
+				StyleHandle.WHITE_SPACE_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		wordwrapProvider.enableReset(true);
+		RadioGroupSection wordwrapSection = new RadioGroupSection(wordwrapProvider.getDisplayName(), container, true);
+		wordwrapSection.setProvider(wordwrapProvider);
+		wordwrapSection.setLayoutNum(4);
+		addSection(PageSectionId.WODR_WRAP, wordwrapSection); // $NON-NLS-1$
 
-		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider( IStyleModel.DISPLAY_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		displayProvider.enableReset( true );
-		ComboSection displaySection = new ComboSection( displayProvider.getDisplayName( ),
-				container,
-				true );
-		displaySection.setProvider( displayProvider );
-		displaySection.setLayoutNum( 4 );
-		displaySection.setGridPlaceholder( 2, true );
-		displaySection.setWidth( 200 );
-		addSection( PageSectionId.GRID_DISPLAY, displaySection );
+		SeperatorSection seperator1 = new SeperatorSection(container, SWT.HORIZONTAL);
+		addSection(PageSectionId.GRID_SEPERATOR2, seperator1);
+
+		addSection(PageSectionId.GRID_STYLE, styleSection);
+
+		ComboPropertyDescriptorProvider displayProvider = new ComboPropertyDescriptorProvider(IStyleModel.DISPLAY_PROP,
+				ReportDesignConstants.STYLE_ELEMENT);
+		displayProvider.enableReset(true);
+		ComboSection displaySection = new ComboSection(displayProvider.getDisplayName(), container, true);
+		displaySection.setProvider(displayProvider);
+		displaySection.setLayoutNum(4);
+		displaySection.setGridPlaceholder(2, true);
+		displaySection.setWidth(200);
+		addSection(PageSectionId.GRID_DISPLAY, displaySection);
 	}
 
-	private IDescriptorProvider[] createFontStyleProviders( )
-	{
-		IDescriptorProvider[] providers = new IDescriptorProvider[]{
+	private IDescriptorProvider[] createFontStyleProviders() {
+		IDescriptorProvider[] providers = new IDescriptorProvider[] {
 
-				new FontStylePropertyDescriptorProvider( StyleHandle.FONT_WEIGHT_PROP,
-						ReportDesignConstants.STYLE_ELEMENT ),
+				new FontStylePropertyDescriptorProvider(StyleHandle.FONT_WEIGHT_PROP,
+						ReportDesignConstants.STYLE_ELEMENT),
 
-				new FontStylePropertyDescriptorProvider( StyleHandle.FONT_STYLE_PROP,
-						ReportDesignConstants.STYLE_ELEMENT ),
+				new FontStylePropertyDescriptorProvider(StyleHandle.FONT_STYLE_PROP,
+						ReportDesignConstants.STYLE_ELEMENT),
 
-				new FontStylePropertyDescriptorProvider( StyleHandle.TEXT_UNDERLINE_PROP,
-						ReportDesignConstants.STYLE_ELEMENT ),
+				new FontStylePropertyDescriptorProvider(StyleHandle.TEXT_UNDERLINE_PROP,
+						ReportDesignConstants.STYLE_ELEMENT),
 
-				new FontStylePropertyDescriptorProvider( StyleHandle.TEXT_LINE_THROUGH_PROP,
-						ReportDesignConstants.STYLE_ELEMENT ),
+				new FontStylePropertyDescriptorProvider(StyleHandle.TEXT_LINE_THROUGH_PROP,
+						ReportDesignConstants.STYLE_ELEMENT),
 
-				new PropertyDescriptorProvider( StyleHandle.TEXT_ALIGN_PROP,
-						ReportDesignConstants.STYLE_ELEMENT )
-		};
+				new PropertyDescriptorProvider(StyleHandle.TEXT_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT) };
 
-		for ( int i = 0; i < providers.length; i++ )
-		{
-			if ( providers[i] instanceof PropertyDescriptorProvider )
-				( (PropertyDescriptorProvider) providers[i] ).enableReset( true );
+		for (int i = 0; i < providers.length; i++) {
+			if (providers[i] instanceof PropertyDescriptorProvider)
+				((PropertyDescriptorProvider) providers[i]).enableReset(true);
 		}
 
 		return providers;
 	}
-	
-	protected void applyCustomSections( )
-	{
-		Object[] helperProviders = ElementAdapterManager.getAdapters( this,
-				ISectionHelperProvider.class );
-		if ( helperProviders != null )
-		{
-			for ( int i = 0; i < helperProviders.length; i++ )
-			{
+
+	protected void applyCustomSections() {
+		Object[] helperProviders = ElementAdapterManager.getAdapters(this, ISectionHelperProvider.class);
+		if (helperProviders != null) {
+			for (int i = 0; i < helperProviders.length; i++) {
 				ISectionHelperProvider helperProvider = (ISectionHelperProvider) helperProviders[i];
-				if ( helperProvider != null )
-				{
-					ISectionHelper helper = helperProvider.createHelper( this,
-							PageConstants.THEME_HELPER_KEY );
-					if ( helper != null )
-					{
-						Section section = helper.createSection( container,
-								GridHandle.THEME_PROP,
-								ReportDesignConstants.GRID_ITEM,
-								true );
-						if ( section instanceof SimpleComboSection )
-							( (SimpleComboSection) section ).setWidth( 200 );
-						section.setLayoutNum( 6 );
-						section.setGridPlaceholder( 4, true );
-						addSectionAfter( PageSectionId.GRID_THEME,
-								section,
-								PageSectionId.GRID_DISPLAY );
+				if (helperProvider != null) {
+					ISectionHelper helper = helperProvider.createHelper(this, PageConstants.THEME_HELPER_KEY);
+					if (helper != null) {
+						Section section = helper.createSection(container, GridHandle.THEME_PROP,
+								ReportDesignConstants.GRID_ITEM, true);
+						if (section instanceof SimpleComboSection)
+							((SimpleComboSection) section).setWidth(200);
+						section.setLayoutNum(6);
+						section.setGridPlaceholder(4, true);
+						addSectionAfter(PageSectionId.GRID_THEME, section, PageSectionId.GRID_DISPLAY);
 					}
 				}
 			}

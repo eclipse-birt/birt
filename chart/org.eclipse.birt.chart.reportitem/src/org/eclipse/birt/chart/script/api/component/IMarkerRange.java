@@ -17,36 +17,33 @@ import org.eclipse.birt.chart.script.api.data.IDataElement;
  * Represents the Marker Range of Axis in the scripting environment
  */
 
-public interface IMarkerRange extends IChartComponent
-{
+public interface IMarkerRange extends IChartComponent {
 
 	/**
 	 * Gets the start value for defining where the range will start
 	 * 
 	 * @return value start value
 	 */
-	IDataElement getStartValue( );
+	IDataElement getStartValue();
 
 	/**
 	 * Sets the start value for defining where the range will start
 	 * 
-	 * @param start
-	 *            value
+	 * @param start value
 	 */
-	void setStartValue( IDataElement value );
+	void setStartValue(IDataElement value);
 
 	/**
 	 * Gets the end value for defining where the range will end
 	 * 
 	 * @return value end value
 	 */
-	IDataElement getEndValue( );
+	IDataElement getEndValue();
 
 	/**
 	 * Sets the end value for defining where the range will end
 	 * 
-	 * @param end
-	 *            value
+	 * @param end value
 	 */
-	void setEndValue( IDataElement value );
+	void setEndValue(IDataElement value);
 }

@@ -17,32 +17,27 @@ import org.eclipse.birt.report.engine.content.IContent;
  * DataItemExecutor
  * 
  */
-public class TextItemExecutor extends ReportItemExecutor
-{
+public class TextItemExecutor extends ReportItemExecutor {
 
-	public TextItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.TEXTITEM );
+	public TextItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.TEXTITEM);
 	}
 
-	protected IContent doCreateContent( )
-	{
+	protected IContent doCreateContent() {
 		// the text item may generate a foreign content or a label content.
 		// for foreign content, it must be saved into the report document.
 		// for label content, if the text is not empty, it will be saved into
 		// the document.
 		// so, here is a empty label content.
-		return report.createLabelContent( );
+		return report.createLabelContent();
 	}
 
-	protected void doExecute( ) throws Exception
-	{
-		executeQuery( );
+	protected void doExecute() throws Exception {
+		executeQuery();
 	}
 
-	public void close( )
-	{
-		closeQuery( );
-		super.close( );
+	public void close() {
+		closeQuery();
+		super.close();
 	}
 }

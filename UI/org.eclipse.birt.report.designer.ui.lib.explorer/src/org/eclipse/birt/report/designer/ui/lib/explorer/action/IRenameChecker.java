@@ -17,9 +17,8 @@ import java.io.File;
  * 
  */
 
-public interface IRenameChecker
-{
+public interface IRenameChecker {
 
-	public boolean renameCheck( File file );
+	public boolean renameCheck(File file);
 
 }

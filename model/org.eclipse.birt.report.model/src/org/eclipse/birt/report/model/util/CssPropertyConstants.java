@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.util;
  * Defines constants used for external Css files.
  */
 
-public interface CssPropertyConstants
-{
+public interface CssPropertyConstants {
 
 	// font
 
@@ -52,7 +51,7 @@ public interface CssPropertyConstants
 
 	// background
 
-	public static final String ATTR_COLOR = "color"; //$NON-NLS-1$    
+	public static final String ATTR_COLOR = "color"; //$NON-NLS-1$
 	public static final String ATTR_BACKGROUND_COLOR = "background-color"; //$NON-NLS-1$
 	public static final String ATTR_BACKGROUND_IMAGE = "background-image"; //$NON-NLS-1$
 	public static final String ATTR_BACKGROUND_REPEAT = "background-repeat"; //$NON-NLS-1$
@@ -76,7 +75,7 @@ public interface CssPropertyConstants
 
 	// border
 
-	public static final String ATTR_BORDER_BOTTOM_COLOR = "border-bottom-color"; //$NON-NLS-1$    
+	public static final String ATTR_BORDER_BOTTOM_COLOR = "border-bottom-color"; //$NON-NLS-1$
 	public static final String ATTR_BORDER_BOTTOM_STYLE = "border-bottom-style"; //$NON-NLS-1$
 	public static final String ATTR_BORDER_BOTTOM_WIDTH = "border-bottom-width"; //$NON-NLS-1$
 	public static final String ATTR_BORDER_LEFT_COLOR = "border-left-color"; //$NON-NLS-1$
@@ -116,7 +115,7 @@ public interface CssPropertyConstants
 	// bidi_hcg: direction
 
 	public static final String DIRECTION = "direction"; //$NON-NLS-1$
-	
+
 	public static final String HEIGHT = "height"; //$NON-NLS-1$
 	public static final String WIDTH = "width"; //$NON-NLS-1$
 

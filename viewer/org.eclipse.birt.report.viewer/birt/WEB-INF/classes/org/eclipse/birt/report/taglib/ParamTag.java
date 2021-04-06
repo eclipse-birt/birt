@@ -23,8 +23,7 @@ import org.eclipse.birt.report.taglib.component.ParameterField;
  * This tag is used to specify the report parameter.
  * 
  */
-public class ParamTag extends BodyTagSupport
-{
+public class ParamTag extends BodyTagSupport {
 
 	/**
 	 * Serial Version UID
@@ -41,10 +40,9 @@ public class ParamTag extends BodyTagSupport
 	 * 
 	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
 	 */
-	public void setPageContext( PageContext context )
-	{
-		super.setPageContext( context );
-		param = new ParameterField( );
+	public void setPageContext(PageContext context) {
+		super.setPageContext(context);
+		param = new ParameterField();
 	}
 
 	/**
@@ -52,74 +50,60 @@ public class ParamTag extends BodyTagSupport
 	 * 
 	 * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
 	 */
-	public int doEndTag( ) throws JspException
-	{
-		if ( param.validate( ) )
-		{
+	public int doEndTag() throws JspException {
+		if (param.validate()) {
 			// included in viewer tag
-			AbstractViewerTag viewerTag = (AbstractViewerTag) TagSupport
-					.findAncestorWithClass( this, AbstractViewerTag.class );
-			if ( viewerTag != null )
-				viewerTag.addParameter( param );
+			AbstractViewerTag viewerTag = (AbstractViewerTag) TagSupport.findAncestorWithClass(this,
+					AbstractViewerTag.class);
+			if (viewerTag != null)
+				viewerTag.addParameter(param);
 		}
-		return super.doEndTag( );
+		return super.doEndTag();
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
-		param.setName( name );
+	public void setName(String name) {
+		param.setName(name);
 	}
 
 	/**
-	 * @param pattern
-	 *            the pattern to set
+	 * @param pattern the pattern to set
 	 */
-	public void setPattern( String pattern )
-	{
-		param.setPattern( pattern );
+	public void setPattern(String pattern) {
+		param.setPattern(pattern);
 	}
 
 	/**
-	 * @param value
-	 *            the value to set
+	 * @param value the value to set
 	 */
-	public void setValue( Object value )
-	{
-		param.setValue( value );
+	public void setValue(Object value) {
+		param.setValue(value);
 	}
 
 	/**
-	 * @param displayText
-	 *            the displayText to set
+	 * @param displayText the displayText to set
 	 */
-	public void setDisplayText( String displayText )
-	{
-		param.setDisplayText( displayText );
+	public void setDisplayText(String displayText) {
+		param.setDisplayText(displayText);
 	}
 
 	/**
-	 * @param isLocale
-	 *            the isLocale to set
+	 * @param isLocale the isLocale to set
 	 */
-	public void setIsLocale( String isLocale )
-	{
-		param.setLocale( isLocale );
-	}
-	
-	/**
-	 *  @param delim delimiter
-	 */
-	public void setDelim( String delim )
-	{
-		param.setDelim( delim );
+	public void setIsLocale(String isLocale) {
+		param.setLocale(isLocale);
 	}
 
-	public void addValue( ParamValueField valueField )
-	{
-		param.addValue( valueField );		
+	/**
+	 * @param delim delimiter
+	 */
+	public void setDelim(String delim) {
+		param.setDelim(delim);
+	}
+
+	public void addValue(ParamValueField valueField) {
+		param.addValue(valueField);
 	}
 }

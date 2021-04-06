@@ -15,26 +15,25 @@ package org.eclipse.birt.report.designer.core.mediator;
  * 
  */
 
-public interface IMediator
-{
+public interface IMediator {
 
-	void addColleague( IMediatorColleague colleague );
+	void addColleague(IMediatorColleague colleague);
 
-	void removeColleague( IMediatorColleague colleague );
+	void removeColleague(IMediatorColleague colleague);
 
-	void notifyRequest( IMediatorRequest request );
+	void notifyRequest(IMediatorRequest request);
 
-	IMediatorState getState( );
+	IMediatorState getState();
 
-	void pushState( );
+	void pushState();
 
-	void popState( );
+	void popState();
 
-	void restoreState( );
+	void restoreState();
 
-	void setStateConverter( IMediatorStateConverter converter );
+	void setStateConverter(IMediatorStateConverter converter);
 
-	IMediatorStateConverter getStateConverter( );
+	IMediatorStateConverter getStateConverter();
 
-	void dispose( );
+	void dispose();
 }

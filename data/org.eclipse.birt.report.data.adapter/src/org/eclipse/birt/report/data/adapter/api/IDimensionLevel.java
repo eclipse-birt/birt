@@ -12,28 +12,28 @@
 package org.eclipse.birt.report.data.adapter.api;
 
 /**
- * This interface provide api user a convenient way to access a cube dimension as well as level and attribute.
+ * This interface provide api user a convenient way to access a cube dimension
+ * as well as level and attribute.
  * 
  * @author Administrator
  *
  */
-public interface IDimensionLevel
-{
+public interface IDimensionLevel {
 	/**
 	 * 
 	 * @return
 	 */
-	public String getDimensionName( );
+	public String getDimensionName();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getLevelName( );
+	public String getLevelName();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getAttributeName( );
+	public String getAttributeName();
 }

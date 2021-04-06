@@ -30,50 +30,47 @@ import org.junit.Test;
 public class Borders2ReportTest extends ReportRunner {
 
 	/**
-	 * Check that the borders for a given cell match the expected values.
-	 * This is complicated by the fact that POI will not always give a particular cell the borders that are seen in Excel
-	 * - neighbouring cells may override the values for the chosen cell.
-	 * I don't know how to tell which takes precedence, but the following works for the tests I've carried out.
+	 * Check that the borders for a given cell match the expected values. This is
+	 * complicated by the fact that POI will not always give a particular cell the
+	 * borders that are seen in Excel - neighbouring cells may override the values
+	 * for the chosen cell. I don't know how to tell which takes precedence, but the
+	 * following works for the tests I've carried out.
 	 */
-	public static void assertBorder( Sheet sheet, int row, int col, short bottom, short left, short right, short top ) {
-		
-		Row curRow = sheet.getRow( row );
-		Row prevRow = ( row > 0 ) ? sheet.getRow( row - 1 ) : null;
-		Row nextRow = sheet.getRow( row + 1 );
+	public static void assertBorder(Sheet sheet, int row, int col, short bottom, short left, short right, short top) {
+
+		Row curRow = sheet.getRow(row);
+		Row prevRow = (row > 0) ? sheet.getRow(row - 1) : null;
+		Row nextRow = sheet.getRow(row + 1);
 		Cell cell = curRow.getCell(col);
 		CellStyle style = cell.getCellStyle();
-		
-		Cell cellUp = ( prevRow == null ) ? null : prevRow.getCell( col );
-		Cell cellDown = ( nextRow == null ) ? null : nextRow.getCell( col );
-		Cell cellLeft = ( col == 0 ) ? null : curRow.getCell( col - 1 ); 
-		Cell cellRight = curRow.getCell( col + 1 ); 
-		
-		CellStyle styleUp = ( cellUp == null ) ? null : cellUp.getCellStyle();
-		CellStyle styleDown = ( cellDown == null ) ? null : cellDown.getCellStyle();
-		CellStyle styleLeft = ( cellLeft == null ) ? null : cellLeft.getCellStyle();
-		CellStyle styleRight = ( cellRight == null ) ? null : cellRight.getCellStyle();
-		
-		System.out.println( "style == " + style );
-		System.out.println( "style == " + style );
-		
-		if( ( top != style.getBorderTop() ) && 
-				( ( styleUp == null ) || ( top != styleUp.getBorderBottom() ) ) ) {
-			assertEquals( top,    style.getBorderTop() );
+
+		Cell cellUp = (prevRow == null) ? null : prevRow.getCell(col);
+		Cell cellDown = (nextRow == null) ? null : nextRow.getCell(col);
+		Cell cellLeft = (col == 0) ? null : curRow.getCell(col - 1);
+		Cell cellRight = curRow.getCell(col + 1);
+
+		CellStyle styleUp = (cellUp == null) ? null : cellUp.getCellStyle();
+		CellStyle styleDown = (cellDown == null) ? null : cellDown.getCellStyle();
+		CellStyle styleLeft = (cellLeft == null) ? null : cellLeft.getCellStyle();
+		CellStyle styleRight = (cellRight == null) ? null : cellRight.getCellStyle();
+
+		System.out.println("style == " + style);
+		System.out.println("style == " + style);
+
+		if ((top != style.getBorderTop()) && ((styleUp == null) || (top != styleUp.getBorderBottom()))) {
+			assertEquals(top, style.getBorderTop());
 		}
-		if( ( bottom != style.getBorderBottom() ) && 
-				( ( styleDown == null ) || ( bottom != styleDown.getBorderTop() ) ) ) {
-			assertEquals( bottom, style.getBorderBottom() );
+		if ((bottom != style.getBorderBottom()) && ((styleDown == null) || (bottom != styleDown.getBorderTop()))) {
+			assertEquals(bottom, style.getBorderBottom());
 		}
-		if( ( left != style.getBorderLeft() ) && 
-				( ( styleLeft == null ) || ( left != styleLeft.getBorderRight() ) ) ) {
-			assertEquals( left,   style.getBorderLeft() );
+		if ((left != style.getBorderLeft()) && ((styleLeft == null) || (left != styleLeft.getBorderRight()))) {
+			assertEquals(left, style.getBorderLeft());
 		}
-		if( ( right != style.getBorderRight() ) && 
-				( ( styleRight == null ) || ( right != styleRight.getBorderLeft() ) ) ) {
-			assertEquals( right,  style.getBorderRight() );
+		if ((right != style.getBorderRight()) && ((styleRight == null) || (right != styleRight.getBorderLeft()))) {
+			assertEquals(right, style.getBorderRight());
 		}
 	}
-	
+
 	@Test
 	public void testRunReport() throws BirtException, IOException {
 
@@ -81,20 +78,22 @@ public class Borders2ReportTest extends ReportRunner {
 		InputStream inputStream = runAndRenderReport("Borders2.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
-			
+
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Borders Test Report 2", workbook.getSheetAt(0).getSheetName());
-			
-			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 4, firstNullRow(sheet));
-			
-			assertBorder( sheet, 1, 2, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM );
 
-			assertBorder( sheet, 1, 4, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM );
-			
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Borders Test Report 2", workbook.getSheetAt(0).getSheetName());
+
+			Sheet sheet = workbook.getSheetAt(0);
+			assertEquals(4, firstNullRow(sheet));
+
+			assertBorder(sheet, 1, 2, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM,
+					CellStyle.BORDER_MEDIUM);
+
+			assertBorder(sheet, 1, 4, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM, CellStyle.BORDER_MEDIUM,
+					CellStyle.BORDER_MEDIUM);
+
 		} finally {
 			inputStream.close();
 		}

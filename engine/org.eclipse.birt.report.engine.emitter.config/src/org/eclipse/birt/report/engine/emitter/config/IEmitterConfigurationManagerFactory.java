@@ -14,8 +14,7 @@ package org.eclipse.birt.report.engine.emitter.config;
 /**
  * IEmitterConfigurationManagerFactory
  */
-public interface IEmitterConfigurationManagerFactory
-{
+public interface IEmitterConfigurationManagerFactory {
 
 	String FACTORY_EXTENSION_ID = "org.eclipse.birt.report.engine.emitter.config.EmitterConfigurationManagerFactory"; //$NON-NLS-1$
 
@@ -24,5 +23,5 @@ public interface IEmitterConfigurationManagerFactory
 	 * 
 	 * @return
 	 */
-	IEmitterConfigurationManager createManager( );
+	IEmitterConfigurationManager createManager();
 }

@@ -18,67 +18,49 @@ import org.eclipse.birt.core.archive.RAOutputStream;
 import org.eclipse.birt.report.engine.toc.document.MemTOCWriter;
 import org.eclipse.birt.report.engine.toc.document.TOCWriterV3;
 
-public class TOCWriter implements ITOCWriter, ITOCConstants
-{
+public class TOCWriter implements ITOCWriter, ITOCConstants {
 
 	private ITOCWriter tocWriter;
 
-	public TOCWriter( IDocArchiveWriter archive ) throws IOException
-	{
-		if ( archive == null )
-		{
-			tocWriter = new MemTOCWriter( );
-		}
-		else
-		{
-			tocWriter = new TOCWriterV3( archive
-					.createOutputStream( TOC_STREAM ) );
+	public TOCWriter(IDocArchiveWriter archive) throws IOException {
+		if (archive == null) {
+			tocWriter = new MemTOCWriter();
+		} else {
+			tocWriter = new TOCWriterV3(archive.createOutputStream(TOC_STREAM));
 		}
 	}
 
-	public TOCWriter( RAOutputStream output ) throws IOException
-	{
-		if ( output == null )
-		{
-			tocWriter = new MemTOCWriter( );
-		}
-		else
-		{
-			tocWriter = new TOCWriterV3( output );
+	public TOCWriter(RAOutputStream output) throws IOException {
+		if (output == null) {
+			tocWriter = new MemTOCWriter();
+		} else {
+			tocWriter = new TOCWriterV3(output);
 		}
 	}
 
-	public void close( ) throws IOException
-	{
-		if ( tocWriter != null )
-		{
-			tocWriter.close( );
+	public void close() throws IOException {
+		if (tocWriter != null) {
+			tocWriter.close();
 			tocWriter = null;
 		}
 
 	}
 
-	public void closeTOCEntry( TOCEntry entry ) throws IOException
-	{
-		if ( tocWriter != null )
-		{
-			tocWriter.closeTOCEntry( entry );
+	public void closeTOCEntry(TOCEntry entry) throws IOException {
+		if (tocWriter != null) {
+			tocWriter.closeTOCEntry(entry);
 		}
 	}
 
-	public void startTOCEntry( TOCEntry entry ) throws IOException
-	{
-		if ( tocWriter != null )
-		{
-			tocWriter.startTOCEntry( entry );
+	public void startTOCEntry(TOCEntry entry) throws IOException {
+		if (tocWriter != null) {
+			tocWriter.startTOCEntry(entry);
 		}
 	}
 
-	public ITreeNode getTree( )
-	{
-		if ( tocWriter != null )
-		{
-			return tocWriter.getTree( );
+	public ITreeNode getTree() {
+		if (tocWriter != null) {
+			return tocWriter.getTree();
 		}
 		return null;
 	}

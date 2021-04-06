@@ -18,21 +18,18 @@ import org.eclipse.birt.data.engine.api.IShutdownListener;
  * 
  */
 
-public class DocManagerReleaser implements IShutdownListener
-{
+public class DocManagerReleaser implements IShutdownListener {
 	private DataEngine dataEngine = null;
-	
-	public DocManagerReleaser( DataEngine dataEngine )
-	{
+
+	public DocManagerReleaser(DataEngine dataEngine) {
 		this.dataEngine = dataEngine;
 	}
-	
+
 	/**
 	 * 
 	 */
-	public void dataEngineShutdown( )
-	{
-		DocManagerMap.getDocManagerMap( ).close( String.valueOf( dataEngine.hashCode( ) ) );
+	public void dataEngineShutdown() {
+		DocManagerMap.getDocManagerMap().close(String.valueOf(dataEngine.hashCode()));
 	}
 
 }

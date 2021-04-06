@@ -25,61 +25,51 @@ import org.eclipse.swt.widgets.Composite;
  * A message line displaying a status.
  * 
  */
-public class MessageLine extends CLabel
-{
+public class MessageLine extends CLabel {
 
 	private Color fNormalMsgAreaBackground;
 
 	/**
 	 * Creates a new message line as a child of the given parent.
 	 */
-	public MessageLine( Composite parent )
-	{
-		this( parent, SWT.LEFT );
+	public MessageLine(Composite parent) {
+		this(parent, SWT.LEFT);
 	}
 
 	/**
-	 * Creates a new message line as a child of the parent and with the given
-	 * SWT stylebits.
+	 * Creates a new message line as a child of the parent and with the given SWT
+	 * stylebits.
 	 */
-	public MessageLine( Composite parent, int style )
-	{
-		super( parent, style );
-		fNormalMsgAreaBackground = getBackground( );
+	public MessageLine(Composite parent, int style) {
+		super(parent, style);
+		fNormalMsgAreaBackground = getBackground();
 	}
 
-	private Image findImage( IStatus status )
-	{
-		if ( status.isOK( ) )
-		{
+	private Image findImage(IStatus status) {
+		if (status.isOK()) {
 			return null;
-		}
-		else if ( status.getCode( ) == IStatus.ERROR )
-		{
-			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_STATUS_ERROR ); //$NON-NLS-1$
+		} else if (status.getCode() == IStatus.ERROR) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_STATUS_ERROR); // $NON-NLS-1$
 		}
 		return null;
 	}
 
 	/**
-	 * Sets the message and image to the given status. <code>null</code> is a
-	 * valid argument and will set the empty text and no image
+	 * Sets the message and image to the given status. <code>null</code> is a valid
+	 * argument and will set the empty text and no image
 	 */
-	public void setErrorStatus( IStatus status )
-	{
-		if ( status != null && !status.isOK( ) )
-		{
-			String message = status.getMessage( );
-			if ( message != null && message.length( ) > 0 )
-			{
-				setText( message );
-				setImage( findImage( status ) );
-				setBackground( JFaceColors.getErrorBackground( getDisplay( ) ) );
+	public void setErrorStatus(IStatus status) {
+		if (status != null && !status.isOK()) {
+			String message = status.getMessage();
+			if (message != null && message.length() > 0) {
+				setText(message);
+				setImage(findImage(status));
+				setBackground(JFaceColors.getErrorBackground(getDisplay()));
 				return;
 			}
 		}
-		setText( "" ); //$NON-NLS-1$	
-		setImage( null );
-		setBackground( fNormalMsgAreaBackground );
+		setText(""); //$NON-NLS-1$
+		setImage(null);
+		setBackground(fNormalMsgAreaBackground);
 	}
 }

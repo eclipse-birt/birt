@@ -15,20 +15,17 @@ import org.eclipse.core.runtime.Plugin;
 /**
  *
  */
-public class HiveUIPlugin extends Plugin
-{
+public class HiveUIPlugin extends Plugin {
 
 	// The shared instance.
 	private static HiveUIPlugin plugin;
 
-	public HiveUIPlugin( )
-	{
-		super( );
+	public HiveUIPlugin() {
+		super();
 		plugin = this;
 	}
-	
-	public static HiveUIPlugin getDefault( )
-	{
+
+	public static HiveUIPlugin getDefault() {
 		return plugin;
 	}
 }

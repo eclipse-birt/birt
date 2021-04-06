@@ -14,18 +14,15 @@ package org.eclipse.birt.report.engine.script.internal.element;
 import org.eclipse.birt.report.engine.api.script.element.IList;
 import org.eclipse.birt.report.model.api.ListHandle;
 
-public class List extends Listing implements IList
-{
+public class List extends Listing implements IList {
 
-	public List( ListHandle list )
-	{
-		super( list );
+	public List(ListHandle list) {
+		super(list);
 	}
-    
-    public List( org.eclipse.birt.report.model.api.simpleapi.IList listImpl )
-    {
-        super( null );
-        designElementImpl = listImpl;
-    }
+
+	public List(org.eclipse.birt.report.model.api.simpleapi.IList listImpl) {
+		super(null);
+		designElementImpl = listImpl;
+	}
 
 }

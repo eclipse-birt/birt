@@ -24,46 +24,42 @@ import org.eclipse.draw2d.geometry.Rectangle;
  * Border for table cell.
  */
 
-public class CellBorder extends LineBorder
-{
+public class CellBorder extends LineBorder {
 
 	public static final int FROM_ROW = 0;
 	public static final int FROM_CELL = 1;
-	private static final Insets DEFAULT_CROP = new Insets( 2, 2, 2, 2 );
+	private static final Insets DEFAULT_CROP = new Insets(2, 2, 2, 2);
 
-	private static final Insets DEFAULTINSETS = new Insets( 3, 3, 2, 2 );
+	private static final Insets DEFAULTINSETS = new Insets(3, 3, 2, 2);
 
-	private Insets paddingInsets = new Insets( DEFAULTINSETS );
+	private Insets paddingInsets = new Insets(DEFAULTINSETS);
 	private Insets borderInsets;
 	private int bottomFrom = FROM_CELL;
 	private int topFrom = FROM_CELL;
-	
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder#getInsets(org.eclipse.draw2d.IFigure)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
+	 * LineBorder#getInsets(org.eclipse.draw2d.IFigure)
 	 */
-	public Insets getInsets( IFigure figure )
-	{
-		if ( borderInsets != null )
-		{
-			return new Insets( borderInsets ).add( paddingInsets );
+	public Insets getInsets(IFigure figure) {
+		if (borderInsets != null) {
+			return new Insets(borderInsets).add(paddingInsets);
 		}
 
-		return new Insets( paddingInsets );
+		return new Insets(paddingInsets);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.LineBorder#getBorderInsets()
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
+	 * LineBorder#getBorderInsets()
 	 */
-	public Insets getBorderInsets( )
-	{
-		if ( borderInsets != null )
-		{
-			return new Insets( borderInsets );
+	public Insets getBorderInsets() {
+		if (borderInsets != null) {
+			return new Insets(borderInsets);
 		}
 
 		return Figure.NO_INSETS;
@@ -74,33 +70,26 @@ public class CellBorder extends LineBorder
 	 * 
 	 * @param borderInsets
 	 */
-	public void setBorderInsets( Insets borderInsets )
-	{
+	public void setBorderInsets(Insets borderInsets) {
 		this.borderInsets = borderInsets;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.BaseBorder#setPaddingInsets(org.eclipse.draw2d.geometry.Insets)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.border.
+	 * BaseBorder#setPaddingInsets(org.eclipse.draw2d.geometry.Insets)
 	 */
-	public void setPaddingInsets( Insets in )
-	{
-		if ( in == null
-				|| ( in.left == 0 && in.right == 0 && in.top == 0 && in.bottom == 0 ) )
-		{
-			paddingInsets = new Insets( DEFAULTINSETS );
+	public void setPaddingInsets(Insets in) {
+		if (in == null || (in.left == 0 && in.right == 0 && in.top == 0 && in.bottom == 0)) {
+			paddingInsets = new Insets(DEFAULTINSETS);
 			return;
 		}
 
-		paddingInsets.top = in.top > DEFAULTINSETS.top ? in.top
-				: DEFAULTINSETS.top;
-		paddingInsets.bottom = in.bottom > DEFAULTINSETS.bottom ? in.bottom
-				: DEFAULTINSETS.bottom;
-		paddingInsets.left = in.left > DEFAULTINSETS.left ? in.left
-				: DEFAULTINSETS.left;
-		paddingInsets.right = in.right > DEFAULTINSETS.right ? in.right
-				: DEFAULTINSETS.right;
+		paddingInsets.top = in.top > DEFAULTINSETS.top ? in.top : DEFAULTINSETS.top;
+		paddingInsets.bottom = in.bottom > DEFAULTINSETS.bottom ? in.bottom : DEFAULTINSETS.bottom;
+		paddingInsets.left = in.left > DEFAULTINSETS.left ? in.left : DEFAULTINSETS.left;
+		paddingInsets.right = in.right > DEFAULTINSETS.right ? in.right : DEFAULTINSETS.right;
 	}
 
 	/**
@@ -108,72 +97,54 @@ public class CellBorder extends LineBorder
 	 * @param g
 	 * @param side
 	 * @param style
-	 * @param width
-	 *            the border width array, arranged by {top, bottom, left,
-	 *            right};
+	 * @param width  the border width array, arranged by {top, bottom, left, right};
 	 * @param color
 	 * @param insets
 	 */
-	protected void drawBorder( IFigure figure, Graphics g, int side, int style,
-			int[] width, String color, Insets insets )
-	{
-		Rectangle r = figure.getBounds( )
-				.getCopy( )
-				.crop( DEFAULT_CROP )
-				.crop( insets );
+	protected void drawBorder(IFigure figure, Graphics g, int side, int style, int[] width, String color,
+			Insets insets) {
+		Rectangle r = figure.getBounds().getCopy().crop(DEFAULT_CROP).crop(insets);
 
-		if ( style != 0 )
-		{
-			//set ForegroundColor with the given color
-			g.setForegroundColor( ColorManager.getColor( ColorUtil.parseColor( color ) ) );
-			BorderUtil.drawBorderLine( g, side, style, width, r );
-		}
-		else
-		{
-			g.setForegroundColor( ReportColorConstants.ShadowLineColor );
-			//if the border style is set to none, draw a default dot line in
+		if (style != 0) {
+			// set ForegroundColor with the given color
+			g.setForegroundColor(ColorManager.getColor(ColorUtil.parseColor(color)));
+			BorderUtil.drawBorderLine(g, side, style, width, r);
+		} else {
+			g.setForegroundColor(ReportColorConstants.ShadowLineColor);
+			// if the border style is set to none, draw a default dot line in
 			// black as default
-			BorderUtil.drawDefaultLine( g, side, r );
+			BorderUtil.drawDefaultLine(g, side, r);
 		}
 
-		g.restoreState( );
+		g.restoreState();
 	}
 
-	
 	/**
 	 * @return
 	 */
-	public int getBottomFrom( )
-	{
+	public int getBottomFrom() {
 		return bottomFrom;
 	}
 
-	
 	/**
 	 * @param bottomFrom
 	 */
-	public void setBottomFrom( int bottomFrom )
-	{
+	public void setBottomFrom(int bottomFrom) {
 		this.bottomFrom = bottomFrom;
 	}
 
-	
 	/**
 	 * @return
 	 */
-	public int getTopFrom( )
-	{
+	public int getTopFrom() {
 		return topFrom;
 	}
 
-	
 	/**
 	 * @param topFrom
 	 */
-	public void setTopFrom( int topFrom )
-	{
+	public void setTopFrom(int topFrom) {
 		this.topFrom = topFrom;
 	}
-
 
 }

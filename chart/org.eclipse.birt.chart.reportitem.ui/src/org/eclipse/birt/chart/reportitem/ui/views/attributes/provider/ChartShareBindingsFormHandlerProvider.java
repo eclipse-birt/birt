@@ -24,38 +24,35 @@ import org.eclipse.birt.report.model.api.ReportItemHandle;
  * @since 2.3
  * @deprecated
  */
-public class ChartShareBindingsFormHandlerProvider extends
-	AggregateOnBindingsFormHandleProvider
-{
+public class ChartShareBindingsFormHandlerProvider extends AggregateOnBindingsFormHandleProvider {
 
 	/**
 	 * @param bShowAggregation
 	 */
-	public ChartShareBindingsFormHandlerProvider( boolean bShowAggregation )
-	{
-		super( bShowAggregation );
+	public ChartShareBindingsFormHandlerProvider(boolean bShowAggregation) {
+		super(bShowAggregation);
 	}
-	
-	public ChartShareBindingsFormHandlerProvider( )
-	{
-		super( true );
+
+	public ChartShareBindingsFormHandlerProvider() {
+		super(true);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.DataSetColumnBindingsFormHandleProvider#isEditable()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * DataSetColumnBindingsFormHandleProvider#isEditable()
 	 */
-	public boolean isEditable( )
-	{
-		if ( input == null )
-		{
+	public boolean isEditable() {
+		if (input == null) {
 			return false;
 		}
-		
-		boolean editable = super.isEditable( );
-		
-		// Don't allow to edit bindings in chart property page when chart is in multi-views, so return false.
-		if ( ChartReportItemUtil.isChildOfMultiViewsHandle( ( (ReportItemHandle) DEUtil.getInputFirstElement( input ) ) ) )
-		{
+
+		boolean editable = super.isEditable();
+
+		// Don't allow to edit bindings in chart property page when chart is in
+		// multi-views, so return false.
+		if (ChartReportItemUtil.isChildOfMultiViewsHandle(((ReportItemHandle) DEUtil.getInputFirstElement(input)))) {
 			return false;
 		}
 

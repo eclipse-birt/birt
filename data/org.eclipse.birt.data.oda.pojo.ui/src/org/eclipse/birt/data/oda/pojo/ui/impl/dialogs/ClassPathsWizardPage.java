@@ -17,75 +17,59 @@ import org.eclipse.datatools.connectivity.oda.design.ui.wizards.DataSourceWizard
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.swt.widgets.Composite;
 
-
-
-
 /**
  * POJO DataSourceWizardPage to define the data source class paths
  * 
  */
 
-public class ClassPathsWizardPage extends DataSourceWizardPage
-{
+public class ClassPathsWizardPage extends DataSourceWizardPage {
 	private Properties properties;
 	private ClassPathsPageHelper helper;
 
-	public ClassPathsWizardPage( String pageName )
-	{
-		super( pageName );
-		this.setMessage( ClassPathsPageHelper.DEFAULT_MSG );
-		helper = new ClassPathsPageHelper( this.getHostResourceIdentifiers( ) );
-		helper.setWizardPage( this );
-	}
-	
-	
-
-	public ClassPathsWizardPage( String pageName, String title,
-			ImageDescriptor titleImage )
-	{
-		super( pageName, title, titleImage );
-		this.setMessage( ClassPathsPageHelper.DEFAULT_MSG );
-		helper = new ClassPathsPageHelper( this.getHostResourceIdentifiers( ) );
-		helper.setWizardPage( this );		
+	public ClassPathsWizardPage(String pageName) {
+		super(pageName);
+		this.setMessage(ClassPathsPageHelper.DEFAULT_MSG);
+		helper = new ClassPathsPageHelper(this.getHostResourceIdentifiers());
+		helper.setWizardPage(this);
 	}
 
-
-	public Properties collectCustomProperties( )
-	{
-		if ( properties == null )
-			properties = new Properties( );
-		
-		return helper.collectCustomProperties( properties );
+	public ClassPathsWizardPage(String pageName, String title, ImageDescriptor titleImage) {
+		super(pageName, title, titleImage);
+		this.setMessage(ClassPathsPageHelper.DEFAULT_MSG);
+		helper = new ClassPathsPageHelper(this.getHostResourceIdentifiers());
+		helper.setWizardPage(this);
 	}
 
-	public void setInitialProperties( Properties dataSourceProps )
-	{
+	public Properties collectCustomProperties() {
+		if (properties == null)
+			properties = new Properties();
+
+		return helper.collectCustomProperties(properties);
+	}
+
+	public void setInitialProperties(Properties dataSourceProps) {
 		properties = dataSourceProps;
-		if ( properties == null )
-			properties = new Properties( );
+		if (properties == null)
+			properties = new Properties();
 
-		if ( helper == null )
+		if (helper == null)
 			return; // ignore, wait till createPageCustomControl to initialize
-		helper.setInitialProperties( properties );
+		helper.setInitialProperties(properties);
 	}
 
-	public void refresh( )
-	{
-		if ( helper != null )
-		{
-			helper.refresh( );
+	public void refresh() {
+		if (helper != null) {
+			helper.refresh();
 		}
 	}
-	    
-	protected Runnable createTestConnectionRunnable( final IConnectionProfile profile )
-	{
-		return helper.createTestConnectionRunnable( profile );
+
+	protected Runnable createTestConnectionRunnable(final IConnectionProfile profile) {
+		return helper.createTestConnectionRunnable(profile);
 	}
 
-	public void createPageCustomControl( Composite parent )
-	{
-		helper.setResourceIdentifiers( this.getHostResourceIdentifiers( ) );
-		helper.createPageCustomControl( parent );
+	public void createPageCustomControl(Composite parent) {
+		helper.setResourceIdentifiers(this.getHostResourceIdentifiers());
+		helper.createPageCustomControl(parent);
 	}
 
 }

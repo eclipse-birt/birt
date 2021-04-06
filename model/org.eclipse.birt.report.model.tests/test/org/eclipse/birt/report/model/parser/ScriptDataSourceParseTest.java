@@ -40,10 +40,9 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * <td>Errors of missing script open and close are found.</td>
  * </tr>
  * </table>
- *  
+ * 
  */
-public class ScriptDataSourceParseTest extends BaseTestCase
-{
+public class ScriptDataSourceParseTest extends BaseTestCase {
 
 	String fileName = "ScriptDataSourceTest.xml"; //$NON-NLS-1$
 	String outFileName = "ScriptDataSourceTest_out.xml"; //$NON-NLS-1$
@@ -53,44 +52,39 @@ public class ScriptDataSourceParseTest extends BaseTestCase
 	/*
 	 * @see BaseTestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
 	 * This test reads the design file, and checks the properties and style
 	 * properties of line.
 	 * 
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 
-	public void testParser( ) throws Exception
-	{
-		ScriptDataSourceHandle dataSource = getDataSource( );
+	public void testParser() throws Exception {
+		ScriptDataSourceHandle dataSource = getDataSource();
 
-		assertEquals( "script_open", dataSource.getOpen( ) ); //$NON-NLS-1$
-		assertEquals( "script_close", dataSource.getClose( ) ); //$NON-NLS-1$
+		assertEquals("script_open", dataSource.getOpen()); //$NON-NLS-1$
+		assertEquals("script_close", dataSource.getClose()); //$NON-NLS-1$
 	}
 
 	/**
-	 * This test sets properties, writes the design file and compares it with
-	 * golden file.
+	 * This test sets properties, writes the design file and compares it with golden
+	 * file.
 	 * 
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 
-	public void testWriter( ) throws Exception
-	{
-		ScriptDataSourceHandle dataSource = getDataSource( );
+	public void testWriter() throws Exception {
+		ScriptDataSourceHandle dataSource = getDataSource();
 
-		dataSource.setOpen( "My open script" ); //$NON-NLS-1$
-		dataSource.setClose( "My close script" ); //$NON-NLS-1$
+		dataSource.setOpen("My open script"); //$NON-NLS-1$
+		dataSource.setClose("My close script"); //$NON-NLS-1$
 
 		save();
-		assertTrue( compareFile( goldenFileName) );
+		assertTrue(compareFile(goldenFileName));
 	}
 
 //	/**
@@ -119,17 +113,14 @@ public class ScriptDataSourceParseTest extends BaseTestCase
 	 * Returns the data source.
 	 * 
 	 * @return the data source for test
-	 * @throws Exception
-	 *             if any exception.
+	 * @throws Exception if any exception.
 	 */
 
-	private ScriptDataSourceHandle getDataSource( ) throws Exception
-	{
-		openDesign( fileName );
+	private ScriptDataSourceHandle getDataSource() throws Exception {
+		openDesign(fileName);
 
-		ScriptDataSourceHandle dataSource = (ScriptDataSourceHandle) designHandle
-				.findDataSource( "myDataSource" ); //$NON-NLS-1$
-		assertNotNull( dataSource );
+		ScriptDataSourceHandle dataSource = (ScriptDataSourceHandle) designHandle.findDataSource("myDataSource"); //$NON-NLS-1$
+		assertNotNull(dataSource);
 
 		return dataSource;
 	}

@@ -16,30 +16,27 @@ import java.util.HashMap;
 
 import org.eclipse.birt.report.engine.content.IHyperlinkAction;
 
-public interface IImageArea extends IArea
-{
+public interface IImageArea extends IArea {
 
-	String getImageUrl( );
+	String getImageUrl();
 
-	byte[] getImageData( );
+	byte[] getImageData();
 
-	String getHelpText( );
+	String getHelpText();
 
-	String getExtension( );
+	String getExtension();
 
-	String getMIMEType( );
-	
-	HashMap<String, String> getParameters( );
-	
-	void addImageMap( int[] peak, IHyperlinkAction action );
-	
-	ArrayList<IImageMap> getImageMapDescription( );
-	
-	interface IImageMap
-	{
-		public int[] getVertices( );
-		public IHyperlinkAction getAction( );
+	String getMIMEType();
+
+	HashMap<String, String> getParameters();
+
+	void addImageMap(int[] peak, IHyperlinkAction action);
+
+	ArrayList<IImageMap> getImageMapDescription();
+
+	interface IImageMap {
+		public int[] getVertices();
+
+		public IHyperlinkAction getAction();
 	}
 }
-
-

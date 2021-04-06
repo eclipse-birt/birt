@@ -11,21 +11,17 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.schematic.extensions;
 
-
 /**
  * add comment here
- *  
+ * 
  */
-public interface IExtension
-{
+public interface IExtension {
 
-	String getExtendsionIdentify( );
+	String getExtendsionIdentify();
 
-	public static class Stub implements IExtension
-	{
+	public static class Stub implements IExtension {
 
-		public String getExtendsionIdentify( )
-		{
+		public String getExtendsionIdentify() {
 			return ""; //$NON-NLS-1$
 		}
 	}

@@ -21,12 +21,10 @@ import org.eclipse.birt.chart.script.internal.component.ValueSeriesImpl;
  * 
  */
 
-public class ScatterImpl extends ValueSeriesImpl implements IScatter
-{
+public class ScatterImpl extends ValueSeriesImpl implements IScatter {
 
-	public ScatterImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public ScatterImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof ScatterSeries;
 	}
 

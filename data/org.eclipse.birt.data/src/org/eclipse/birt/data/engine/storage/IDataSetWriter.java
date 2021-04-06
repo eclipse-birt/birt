@@ -19,11 +19,10 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * 
  */
 
-public interface IDataSetWriter
-{
-	public void save( IResultObject object, int rowId ) throws DataException;
-	
-	public void save( ResultSetCache results ) throws DataException;
-	
-	public void close( ) throws DataException;
+public interface IDataSetWriter {
+	public void save(IResultObject object, int rowId) throws DataException;
+
+	public void save(ResultSetCache results) throws DataException;
+
+	public void close() throws DataException;
 }

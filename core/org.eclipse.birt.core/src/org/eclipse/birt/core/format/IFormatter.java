@@ -20,8 +20,7 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public interface IFormatter
-{
+public interface IFormatter {
 
 	/**
 	 * format the value object into a string.
@@ -30,24 +29,21 @@ public interface IFormatter
 	 * @return
 	 * @throws BirtException
 	 */
-	public String formatValue( Object value ) throws BirtException;
+	public String formatValue(Object value) throws BirtException;
 
 	/**
 	 * 
 	 */
-	static class DefaultFormatter implements IFormatter
-	{
+	static class DefaultFormatter implements IFormatter {
 
 		private ULocale locale;
 
-		public DefaultFormatter( ULocale locale )
-		{
+		public DefaultFormatter(ULocale locale) {
 			this.locale = locale;
 		}
 
-		public String formatValue( Object value ) throws BirtException
-		{
-			return DataTypeUtil.toString( value, locale );
+		public String formatValue(Object value) throws BirtException {
+			return DataTypeUtil.toString(value, locale);
 		}
 	}
 }

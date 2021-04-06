@@ -15,36 +15,33 @@ package org.eclipse.birt.chart.script.api.series.data;
  * Represents the data contained in the Difference Series
  */
 
-public interface IDifferenceData extends ISeriesData
-{
+public interface IDifferenceData extends ISeriesData {
 
 	/**
 	 * Gets the query expression of High.
 	 * 
 	 * @return High expression
 	 */
-	String getHighExpr( );
+	String getHighExpr();
 
 	/**
 	 * Gets the query expression of Low.
 	 * 
 	 * @return Low expression
 	 */
-	String getLowExpr( );
+	String getLowExpr();
 
 	/**
 	 * Sets the query expression of High.
 	 * 
-	 * @param High
-	 *            expression
+	 * @param High expression
 	 */
-	void setHighExpr( String expr );
+	void setHighExpr(String expr);
 
 	/**
 	 * Sets the query expression of Low.
 	 * 
-	 * @param Low
-	 *            expression
+	 * @param Low expression
 	 */
-	void setLowExpr( String expr );
+	void setLowExpr(String expr);
 }

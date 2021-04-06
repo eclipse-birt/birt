@@ -22,24 +22,18 @@ public class BorderStyleManager extends IdentifierManager {
 	protected final static StringMap values = new StringMap();
 	static {
 		values.put(CSSConstants.CSS_NONE_VALUE, CSSValueConstants.NONE_VALUE);
-		values.put(CSSConstants.CSS_HIDDEN_VALUE,
-				CSSValueConstants.HIDDEN_VALUE);
-		values.put(CSSConstants.CSS_DOTTED_VALUE,
-				CSSValueConstants.DOTTED_VALUE);
-		values.put(CSSConstants.CSS_DASHED_VALUE,
-				CSSValueConstants.DASHED_VALUE);
+		values.put(CSSConstants.CSS_HIDDEN_VALUE, CSSValueConstants.HIDDEN_VALUE);
+		values.put(CSSConstants.CSS_DOTTED_VALUE, CSSValueConstants.DOTTED_VALUE);
+		values.put(CSSConstants.CSS_DASHED_VALUE, CSSValueConstants.DASHED_VALUE);
 		values.put(CSSConstants.CSS_SOLID_VALUE, CSSValueConstants.SOLID_VALUE);
-		values.put(CSSConstants.CSS_DOUBLE_VALUE,
-				CSSValueConstants.DOUBLE_VALUE);
-		values.put(CSSConstants.CSS_GROOVE_VALUE,
-				CSSValueConstants.GROOVE_VALUE);
+		values.put(CSSConstants.CSS_DOUBLE_VALUE, CSSValueConstants.DOUBLE_VALUE);
+		values.put(CSSConstants.CSS_GROOVE_VALUE, CSSValueConstants.GROOVE_VALUE);
 
 		values.put(CSSConstants.CSS_RIDGE_VALUE, CSSValueConstants.RIDGE_VALUE);
 
 		values.put(CSSConstants.CSS_INSET_VALUE, CSSValueConstants.INSET_VALUE);
 
-		values.put(CSSConstants.CSS_OUTSET_VALUE,
-				CSSValueConstants.OUTSET_VALUE);
+		values.put(CSSConstants.CSS_OUTSET_VALUE, CSSValueConstants.OUTSET_VALUE);
 
 	}
 

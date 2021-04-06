@@ -54,20 +54,18 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * </tr>
  * 
  * </table>
- *  
+ * 
  */
 
-public class ReportElementParseTest extends BaseTestCase
-{
+public class ReportElementParseTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
@@ -80,126 +78,104 @@ public class ReportElementParseTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testPropertyMask( ) throws Exception
-	{
-		openDesign( "ReportElementParseTest.xml" ); //$NON-NLS-1$
+	public void testPropertyMask() throws Exception {
+		openDesign("ReportElementParseTest.xml"); //$NON-NLS-1$
 
-		LabelHandle handle = (LabelHandle) designHandle
-				.findElement( "bodyLabel1" ); //$NON-NLS-1$
+		LabelHandle handle = (LabelHandle) designHandle.findElement("bodyLabel1"); //$NON-NLS-1$
 
 		// get masks from the design file.
 
 		int count = 0;
-		for ( Iterator iterator = handle.propertyMaskIterator( ); iterator
-				.hasNext( ); iterator.next( ) )
+		for (Iterator iterator = handle.propertyMaskIterator(); iterator.hasNext(); iterator.next())
 			count++;
 
-		assertEquals( 5, count );
+		assertEquals(5, count);
 
-		PropertyHandle propHandle = handle
-				.getPropertyHandle( DesignElement.PROPERTY_MASKS_PROP );
-		StructureHandle structHandle = propHandle.getAt( 0 );
-		MemberHandle memberHandle = structHandle
-				.getMember( PropertyMask.MASK_MEMBER );
-		assertEquals( DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK,
-				memberHandle.getStringValue( ) );
-		memberHandle = structHandle.getMember( PropertyMask.NAME_MEMBER );
-		assertEquals( Label.TEXT_PROP, memberHandle.getStringValue( ) );
+		PropertyHandle propHandle = handle.getPropertyHandle(DesignElement.PROPERTY_MASKS_PROP);
+		StructureHandle structHandle = propHandle.getAt(0);
+		MemberHandle memberHandle = structHandle.getMember(PropertyMask.MASK_MEMBER);
+		assertEquals(DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK, memberHandle.getStringValue());
+		memberHandle = structHandle.getMember(PropertyMask.NAME_MEMBER);
+		assertEquals(Label.TEXT_PROP, memberHandle.getStringValue());
 
-		structHandle = propHandle.getAt( 2 );
-		memberHandle = structHandle.getMember( PropertyMask.MASK_MEMBER );
-		assertEquals( DesignChoiceConstants.PROPERTY_MASK_TYPE_HIDE,
-				memberHandle.getStringValue( ) );
-		memberHandle = structHandle.getMember( PropertyMask.NAME_MEMBER );
-		assertEquals( Label.TEXT_ID_PROP, memberHandle.getStringValue( ) );
+		structHandle = propHandle.getAt(2);
+		memberHandle = structHandle.getMember(PropertyMask.MASK_MEMBER);
+		assertEquals(DesignChoiceConstants.PROPERTY_MASK_TYPE_HIDE, memberHandle.getStringValue());
+		memberHandle = structHandle.getMember(PropertyMask.NAME_MEMBER);
+		assertEquals(Label.TEXT_ID_PROP, memberHandle.getStringValue());
 
-		structHandle = propHandle.getAt( 3 );
-		memberHandle = structHandle.getMember( PropertyMask.MASK_MEMBER );
-		assertEquals( DesignChoiceConstants.PROPERTY_MASK_TYPE_HIDE,
-				memberHandle.getStringValue( ) );
-		memberHandle = structHandle.getMember( PropertyMask.NAME_MEMBER );
-		assertNull( memberHandle.getStringValue( ) ); 
+		structHandle = propHandle.getAt(3);
+		memberHandle = structHandle.getMember(PropertyMask.MASK_MEMBER);
+		assertEquals(DesignChoiceConstants.PROPERTY_MASK_TYPE_HIDE, memberHandle.getStringValue());
+		memberHandle = structHandle.getMember(PropertyMask.NAME_MEMBER);
+		assertNull(memberHandle.getStringValue());
 
-		structHandle = propHandle.getAt( 4 );
-		memberHandle = structHandle.getMember( PropertyMask.MASK_MEMBER );
-		assertEquals( DesignChoiceConstants.PROPERTY_MASK_TYPE_HIDE,
-				memberHandle.getStringValue( ) );
-		memberHandle = structHandle.getMember( PropertyMask.NAME_MEMBER );
-		assertNull( memberHandle.getStringValue( ) );
+		structHandle = propHandle.getAt(4);
+		memberHandle = structHandle.getMember(PropertyMask.MASK_MEMBER);
+		assertEquals(DesignChoiceConstants.PROPERTY_MASK_TYPE_HIDE, memberHandle.getStringValue());
+		memberHandle = structHandle.getMember(PropertyMask.NAME_MEMBER);
+		assertNull(memberHandle.getStringValue());
 
-		structHandle = propHandle.getAt( 0 );
-		memberHandle = structHandle.getMember( PropertyMask.MASK_MEMBER );
-		memberHandle.setValue( DesignChoiceConstants.PROPERTY_MASK_TYPE_CHANGE );
-		assertEquals( DesignChoiceConstants.PROPERTY_MASK_TYPE_CHANGE,
-				memberHandle.getStringValue( ) );
+		structHandle = propHandle.getAt(0);
+		memberHandle = structHandle.getMember(PropertyMask.MASK_MEMBER);
+		memberHandle.setValue(DesignChoiceConstants.PROPERTY_MASK_TYPE_CHANGE);
+		assertEquals(DesignChoiceConstants.PROPERTY_MASK_TYPE_CHANGE, memberHandle.getStringValue());
 
-		structHandle = propHandle.getAt( 2 );
-		memberHandle = structHandle.getMember( PropertyMask.MASK_MEMBER );
-		memberHandle.setValue( DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK );
-		assertEquals( DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK,
-				memberHandle.getStringValue( ) );
+		structHandle = propHandle.getAt(2);
+		memberHandle = structHandle.getMember(PropertyMask.MASK_MEMBER);
+		memberHandle.setValue(DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK);
+		assertEquals(DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK, memberHandle.getStringValue());
 
-		structHandle = propHandle.getAt( 3 );
-		memberHandle = structHandle.getMember( PropertyMask.MASK_MEMBER );
-		try
-		{
-			memberHandle.setValue( "not mask" ); //$NON-NLS-1$
-			fail( );
+		structHandle = propHandle.getAt(3);
+		memberHandle = structHandle.getMember(PropertyMask.MASK_MEMBER);
+		try {
+			memberHandle.setValue("not mask"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e.getErrorCode());
 		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND, e
-							.getErrorCode( ) );
-		}
-		propHandle.removeItem( 3 );
+		propHandle.removeItem(3);
 
-		PropertyMask mask = new PropertyMask( );
-		mask.setProperty( (PropertyDefn) structHandle.getDefn( ).getMember(
-				PropertyMask.NAME_MEMBER ), ReportItem.HEIGHT_PROP );
-		mask.setProperty( (PropertyDefn) structHandle.getDefn( ).getMember(
-				PropertyMask.MASK_MEMBER ),
-				DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK );
+		PropertyMask mask = new PropertyMask();
+		mask.setProperty((PropertyDefn) structHandle.getDefn().getMember(PropertyMask.NAME_MEMBER),
+				ReportItem.HEIGHT_PROP);
+		mask.setProperty((PropertyDefn) structHandle.getDefn().getMember(PropertyMask.MASK_MEMBER),
+				DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK);
 
-		propHandle.addItem( mask );
+		propHandle.addItem(mask);
 
 		// tests a label in components.
 
-		handle = (LabelHandle) designHandle.findElement( "base" ); //$NON-NLS-1$
+		handle = (LabelHandle) designHandle.findElement("base"); //$NON-NLS-1$
 
-		propHandle = handle
-				.getPropertyHandle( DesignElement.PROPERTY_MASKS_PROP );
+		propHandle = handle.getPropertyHandle(DesignElement.PROPERTY_MASKS_PROP);
 
-		mask = new PropertyMask( );
-		mask.setProperty( (PropertyDefn) structHandle.getDefn( ).getMember(
-				PropertyMask.NAME_MEMBER ), ReportItem.HEIGHT_PROP );
-		mask.setProperty( (PropertyDefn) structHandle.getDefn( ).getMember(
-				PropertyMask.MASK_MEMBER ),
-				DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK );
-		propHandle.addItem( mask );
+		mask = new PropertyMask();
+		mask.setProperty((PropertyDefn) structHandle.getDefn().getMember(PropertyMask.NAME_MEMBER),
+				ReportItem.HEIGHT_PROP);
+		mask.setProperty((PropertyDefn) structHandle.getDefn().getMember(PropertyMask.MASK_MEMBER),
+				DesignChoiceConstants.PROPERTY_MASK_TYPE_LOCK);
+		propHandle.addItem(mask);
 
-		save(); 		
-		assertTrue( compareFile( "ReportElementParseTest_golden.xml") ); //$NON-NLS-1$
+		save();
+		assertTrue(compareFile("ReportElementParseTest_golden.xml")); //$NON-NLS-1$
 	}
 
 	/**
 	 * Test semantic check for proerpty mask.
 	 * 
-	 * @throws DesignFileException
-	 *             if syntax error in design file.
+	 * @throws DesignFileException if syntax error in design file.
 	 */
 
-	public void testSemanticCheck( ) throws DesignFileException
-	{
-		openDesign( "ReportElementParseTest_1.xml" ); //$NON-NLS-1$
+	public void testSemanticCheck() throws DesignFileException {
+		openDesign("ReportElementParseTest_1.xml"); //$NON-NLS-1$
 
-		List list = design.getErrorList( );
+		List list = design.getErrorList();
 
-		assertEquals( 2, list.size( ) );
+		assertEquals(2, list.size());
 
-		assertEquals( PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
-				( (ErrorDetail) list.get( 0 ) ).getErrorCode( ) );
-		assertEquals( SemanticError.DESIGN_EXCEPTION_INVALID_PROPERTY_NAME,
-				( (ErrorDetail) list.get( 1 ) ).getErrorCode( ) );
+		assertEquals(PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED,
+				((ErrorDetail) list.get(0)).getErrorCode());
+		assertEquals(SemanticError.DESIGN_EXCEPTION_INVALID_PROPERTY_NAME, ((ErrorDetail) list.get(1)).getErrorCode());
 	}
 }

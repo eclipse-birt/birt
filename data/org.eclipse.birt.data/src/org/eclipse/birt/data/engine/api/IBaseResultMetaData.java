@@ -17,30 +17,32 @@ import org.eclipse.birt.core.exception.BirtException;
  * 
  */
 
-public interface IBaseResultMetaData
-{
+public interface IBaseResultMetaData {
 
 	/**
 	 * Returns the number of columns in a detail row of the result set.
-	 * @return	the number of columns in a detail row.
+	 * 
+	 * @return the number of columns in a detail row.
 	 */
-	public abstract int getColumnCount( );
+	public abstract int getColumnCount();
 
 	/**
 	 * Returns the column name at the specified index.
-	 * @param index	The projected column index.
-	 * @return		The name of the specified column.
-	 * @throws BirtException	if given index is invalid.
+	 * 
+	 * @param index The projected column index.
+	 * @return The name of the specified column.
+	 * @throws BirtException if given index is invalid.
 	 */
-	public abstract String getColumnName( int index ) throws BirtException;
+	public abstract String getColumnName(int index) throws BirtException;
 
 	/**
 	 * Returns the data type of the column at the specified index.
-	 * @param index	The projected column index.
-	 * @return		The data type of the specified column, as an integer 
-	 * 				defined in org.eclipse.birt.data.engine.api.DataType.
-	 * @throws BirtException	if given index is invalid.
+	 * 
+	 * @param index The projected column index.
+	 * @return The data type of the specified column, as an integer defined in
+	 *         org.eclipse.birt.data.engine.api.DataType.
+	 * @throws BirtException if given index is invalid.
 	 */
-	public abstract int getColumnType( int index ) throws BirtException;
+	public abstract int getColumnType(int index) throws BirtException;
 
 }

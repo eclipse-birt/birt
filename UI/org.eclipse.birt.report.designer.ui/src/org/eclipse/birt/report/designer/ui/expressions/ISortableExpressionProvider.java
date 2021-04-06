@@ -18,8 +18,7 @@ import org.eclipse.birt.report.designer.ui.dialogs.IExpressionProvider;
  * 
  * @since 2.3.1
  */
-public interface ISortableExpressionProvider extends IExpressionProvider
-{
+public interface ISortableExpressionProvider extends IExpressionProvider {
 
-	Object[] getSortedChildren( Object parentElement );
+	Object[] getSortedChildren(Object parentElement);
 }

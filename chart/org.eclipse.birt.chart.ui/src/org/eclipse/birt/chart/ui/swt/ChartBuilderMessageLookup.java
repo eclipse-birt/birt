@@ -21,40 +21,36 @@ import com.ibm.icu.util.ULocale;
 /**
  * An {@link IMessageLookup} implementation for use in chart builder.
  */
-public class ChartBuilderMessageLookup implements IMessageLookup
-{
+public class ChartBuilderMessageLookup implements IMessageLookup {
 
 	private IUIServiceProvider serviceProvider;
 
-	public ChartBuilderMessageLookup( IUIServiceProvider serviceProvider )
-	{
+	public ChartBuilderMessageLookup(IUIServiceProvider serviceProvider) {
 		this.serviceProvider = serviceProvider;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.String,
-	 *      java.util.Locale)
+	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.
+	 * String, java.util.Locale)
 	 */
-	public String getMessageValue( String sKey, Locale lcl )
-	{
-		if ( serviceProvider == null )
+	public String getMessageValue(String sKey, Locale lcl) {
+		if (serviceProvider == null)
 			return sKey;
-		return serviceProvider.getValue( sKey );
+		return serviceProvider.getValue(sKey);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.String,
-	 *      com.ibm.icu.util.ULocale)
+	 * @see org.eclipse.birt.chart.factory.IMessageLookup#getMessageValue(java.lang.
+	 * String, com.ibm.icu.util.ULocale)
 	 */
-	public String getMessageValue( String sKey, ULocale lcl )
-	{
-		if ( serviceProvider == null )
+	public String getMessageValue(String sKey, ULocale lcl) {
+		if (serviceProvider == null)
 			return sKey;
-		return serviceProvider.getValue( sKey );
+		return serviceProvider.getValue(sKey);
 	}
 
 }

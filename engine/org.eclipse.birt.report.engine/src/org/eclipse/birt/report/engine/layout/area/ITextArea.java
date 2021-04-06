@@ -12,9 +12,10 @@ package org.eclipse.birt.report.engine.layout.area;
 
 import org.eclipse.birt.report.engine.layout.pdf.font.FontInfo;
 
-public interface ITextArea extends IArea
-{
+public interface ITextArea extends IArea {
 	String getText();
-	String getLogicalOrderText( );
+
+	String getLogicalOrderText();
+
 	FontInfo getFontInfo();
 }

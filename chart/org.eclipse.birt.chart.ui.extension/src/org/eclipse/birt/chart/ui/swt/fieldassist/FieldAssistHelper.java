@@ -42,8 +42,7 @@ import org.eclipse.swt.widgets.MenuItem;
  * @since 2.5
  */
 
-public final class FieldAssistHelper
-{
+public final class FieldAssistHelper {
 
 	/** The single instance of the class. */
 	private static FieldAssistHelper foInstance = null;
@@ -62,11 +61,9 @@ public final class FieldAssistHelper
 	 * 
 	 * @return instance of <code>FieldAssistHelper</code>
 	 */
-	public static FieldAssistHelper getInstance( )
-	{
-		if ( foInstance == null )
-		{
-			foInstance = new FieldAssistHelper( );
+	public static FieldAssistHelper getInstance() {
+		if (foInstance == null) {
+			foInstance = new FieldAssistHelper();
 		}
 		return foInstance;
 	}
@@ -74,92 +71,74 @@ public final class FieldAssistHelper
 	/**
 	 * Private constructor.
 	 */
-	private FieldAssistHelper( )
-	{
-		if ( soPreferenceStore == null )
-		{
-			if ( ChartUIExtensionPlugin.getDefault( ) == null )
-			{
-				soPreferenceStore = new PreferenceStore( );
-				FieldAssistPreferenceInitializer.setDefaultPreferences( soPreferenceStore );
+	private FieldAssistHelper() {
+		if (soPreferenceStore == null) {
+			if (ChartUIExtensionPlugin.getDefault() == null) {
+				soPreferenceStore = new PreferenceStore();
+				FieldAssistPreferenceInitializer.setDefaultPreferences(soPreferenceStore);
 				return;
 			}
 
-			soPreferenceStore = ChartUIExtensionPlugin.getDefault( )
-					.getPreferenceStore( );
+			soPreferenceStore = ChartUIExtensionPlugin.getDefault().getPreferenceStore();
 		}
 	}
 
-	private IPreferenceStore getPreferenceStore( )
-	{
+	private IPreferenceStore getPreferenceStore() {
 		return soPreferenceStore;
 	}
 
-	private String getTriggerKey( )
-	{
-		IPreferenceStore store = getPreferenceStore( );
-		String triggerKey = store.getString( PreferenceConstants.PREF_CONTENTASSISTKEY );
-		if ( triggerKey.equals( PreferenceConstants.PREF_CONTENTASSISTKEYAUTO ) )
-		{
+	private String getTriggerKey() {
+		IPreferenceStore store = getPreferenceStore();
+		String triggerKey = store.getString(PreferenceConstants.PREF_CONTENTASSISTKEY);
+		if (triggerKey.equals(PreferenceConstants.PREF_CONTENTASSISTKEYAUTO)) {
 			// Null means automatically assist when character typed
 			return null;
 		}
-		if ( triggerKey.equals( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOM ) )
-		{
-			return getPreferenceStore( ).getString( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY );
+		if (triggerKey.equals(PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOM)) {
+			return getPreferenceStore().getString(PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY);
 		}
 
 		return triggerKey;
 	}
 
-	private String getTriggerKeyText( )
-	{
-		IPreferenceStore store = getPreferenceStore( );
-		String triggerKey = store.getString( PreferenceConstants.PREF_CONTENTASSISTKEY );
-		if ( triggerKey.equals( PreferenceConstants.PREF_CONTENTASSISTKEYAUTO ) )
-		{
+	private String getTriggerKeyText() {
+		IPreferenceStore store = getPreferenceStore();
+		String triggerKey = store.getString(PreferenceConstants.PREF_CONTENTASSISTKEY);
+		if (triggerKey.equals(PreferenceConstants.PREF_CONTENTASSISTKEYAUTO)) {
 			// It means automatically assist when character typed
 			return "alphanumeric key"; //$NON-NLS-1$
 		}
-		if ( triggerKey.equals( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOM ) )
-		{
-			return getPreferenceStore( ).getString( PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY );
+		if (triggerKey.equals(PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOM)) {
+			return getPreferenceStore().getString(PreferenceConstants.PREF_CONTENTASSISTKEYCUSTOMKEY);
 		}
 
 		return triggerKey;
 	}
 
-	private int getMarginWidth( )
-	{
-		IPreferenceStore store = getPreferenceStore( );
-		return store.getInt( PreferenceConstants.PREF_DECORATOR_MARGINWIDTH );
+	private int getMarginWidth() {
+		IPreferenceStore store = getPreferenceStore();
+		return store.getInt(PreferenceConstants.PREF_DECORATOR_MARGINWIDTH);
 	}
 
 	/**
 	 * Create a ControlDecoration for decorating specified control. Render the
 	 * decoration only on the specified Composite or its children.
 	 * 
-	 * @param control
-	 *            the control to be decorated.
-	 * @param composite
-	 *            The SWT composite within which the decoration should be
-	 *            rendered. The decoration will be clipped to this composite,
-	 *            but it may be rendered on a child of the composite. The
-	 *            decoration will not be visible if the specified composite or
-	 *            its child composites are not visible in the space relative to
-	 *            the control, where the decoration is to be rendered. If this
-	 *            value is null, then the decoration will be rendered on
-	 *            whichever composite (or composites) are located in the
-	 *            specified position.
+	 * @param control   the control to be decorated.
+	 * @param composite The SWT composite within which the decoration should be
+	 *                  rendered. The decoration will be clipped to this composite,
+	 *                  but it may be rendered on a child of the composite. The
+	 *                  decoration will not be visible if the specified composite or
+	 *                  its child composites are not visible in the space relative
+	 *                  to the control, where the decoration is to be rendered. If
+	 *                  this value is null, then the decoration will be rendered on
+	 *                  whichever composite (or composites) are located in the
+	 *                  specified position.
 	 * @return instance of <code>ControlDecoration</code>
 	 */
-	public ControlDecoration createControlDecoration( Control control,
-			Composite composite )
-	{
-		ControlDecoration cd = new ControlDecoration( control,
-				getDecorationLocationBits( ),
-				composite );
-		cd.setMarginWidth( getMarginWidth( ) );
+	public ControlDecoration createControlDecoration(Control control, Composite composite) {
+		ControlDecoration cd = new ControlDecoration(control, getDecorationLocationBits(), composite);
+		cd.setMarginWidth(getMarginWidth());
 		return cd;
 	}
 
@@ -168,33 +147,25 @@ public final class FieldAssistHelper
 	 * @param contentAdapter
 	 * @param values
 	 */
-	public void installContentProposalAdapter( Control control,
-			IControlContentAdapter contentAdapter, String[] values )
-	{
-		IPreferenceStore store = getPreferenceStore( );
-		boolean propagate = store.getBoolean( PreferenceConstants.PREF_CONTENTASSISTKEY_PROPAGATE );
+	public void installContentProposalAdapter(Control control, IControlContentAdapter contentAdapter, String[] values) {
+		IPreferenceStore store = getPreferenceStore();
+		boolean propagate = store.getBoolean(PreferenceConstants.PREF_CONTENTASSISTKEY_PROPAGATE);
 		KeyStroke keyStroke = null;
 		char[] autoActivationCharacters = null;
-		int autoActivationDelay = store.getInt( PreferenceConstants.PREF_CONTENTASSISTDELAY );
-		String triggerKey = getTriggerKey( );
-		if ( triggerKey == null )
-		{
+		int autoActivationDelay = store.getInt(PreferenceConstants.PREF_CONTENTASSISTDELAY);
+		String triggerKey = getTriggerKey();
+		if (triggerKey == null) {
 			keyStroke = null;
-		}
-		else
-		{
-			keyStroke = getKeyStroke( triggerKey );
+		} else {
+			keyStroke = getKeyStroke(triggerKey);
 		}
 
-		ContentProposalAdapter adapter = new ContentProposalAdapter( control,
-				contentAdapter,
-				getContentProposalProvider( values ),
-				keyStroke,
-				autoActivationCharacters );
-		adapter.setAutoActivationDelay( autoActivationDelay );
-		adapter.setPropagateKeys( propagate );
-		adapter.setFilterStyle( getContentAssistFilterStyle( ) );
-		adapter.setProposalAcceptanceStyle( getContentAssistAcceptance( ) );
+		ContentProposalAdapter adapter = new ContentProposalAdapter(control, contentAdapter,
+				getContentProposalProvider(values), keyStroke, autoActivationCharacters);
+		adapter.setAutoActivationDelay(autoActivationDelay);
+		adapter.setPropagateKeys(propagate);
+		adapter.setFilterStyle(getContentAssistFilterStyle());
+		adapter.setProposalAcceptanceStyle(getContentAssistAcceptance());
 	}
 
 	/**
@@ -202,50 +173,38 @@ public final class FieldAssistHelper
 	 * @param triggerKey
 	 * @return
 	 */
-	private KeyStroke getKeyStroke( String triggerKey )
-	{
-		try
+	private KeyStroke getKeyStroke(String triggerKey) {
+		try {
+			return KeyStroke.getInstance(triggerKey);
+		} catch (Exception e) // Catch all exceptions to avoid breaking UI.
 		{
-			return KeyStroke.getInstance( triggerKey );
-		}
-		catch ( Exception e ) // Catch all exceptions to avoid breaking UI.
-		{
-			return KeyStroke.getInstance( SWT.F10 );
+			return KeyStroke.getInstance(SWT.F10);
 		}
 	}
 
-	private IContentProposalProvider getContentProposalProvider(
-			final String[] values )
-	{
-		return new IContentProposalProvider( ) {
+	private IContentProposalProvider getContentProposalProvider(final String[] values) {
+		return new IContentProposalProvider() {
 
-			public IContentProposal[] getProposals( String contents,
-					int position )
-			{
+			public IContentProposal[] getProposals(String contents, int position) {
 				IContentProposal[] proposals = new IContentProposal[values.length];
-				for ( int i = 0; i < values.length; i++ )
-				{
+				for (int i = 0; i < values.length; i++) {
 					final String user = values[i];
-					proposals[i] = new IContentProposal( ) {
+					proposals[i] = new IContentProposal() {
 
-						public String getContent( )
-						{
+						public String getContent() {
 							return user;
 						}
 
-						public String getLabel( )
-						{
+						public String getLabel() {
 							return user;
 						}
 
-						public String getDescription( )
-						{
+						public String getDescription() {
 							return null;
 						}
 
-						public int getCursorPosition( )
-						{
-							return user.length( );
+						public int getCursorPosition() {
+							return user.length();
 						}
 					};
 				}
@@ -254,24 +213,22 @@ public final class FieldAssistHelper
 		};
 	}
 
-	private int getContentAssistAcceptance( )
-	{
-		IPreferenceStore store = getPreferenceStore( );
-		String acceptanceStyle = store.getString( PreferenceConstants.PREF_CONTENTASSISTRESULT );
-		if ( acceptanceStyle.equals( PreferenceConstants.PREF_CONTENTASSISTRESULT_INSERT ) )
+	private int getContentAssistAcceptance() {
+		IPreferenceStore store = getPreferenceStore();
+		String acceptanceStyle = store.getString(PreferenceConstants.PREF_CONTENTASSISTRESULT);
+		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTRESULT_INSERT))
 			return ContentProposalAdapter.PROPOSAL_INSERT;
-		if ( acceptanceStyle.equals( PreferenceConstants.PREF_CONTENTASSISTRESULT_REPLACE ) )
+		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTRESULT_REPLACE))
 			return ContentProposalAdapter.PROPOSAL_REPLACE;
 		return ContentProposalAdapter.PROPOSAL_IGNORE;
 	}
 
-	private int getContentAssistFilterStyle( )
-	{
-		IPreferenceStore store = getPreferenceStore( );
-		String acceptanceStyle = store.getString( PreferenceConstants.PREF_CONTENTASSISTFILTER );
-		if ( acceptanceStyle.equals( PreferenceConstants.PREF_CONTENTASSISTFILTER_CHAR ) )
+	private int getContentAssistFilterStyle() {
+		IPreferenceStore store = getPreferenceStore();
+		String acceptanceStyle = store.getString(PreferenceConstants.PREF_CONTENTASSISTFILTER);
+		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTFILTER_CHAR))
 			return ContentProposalAdapter.FILTER_CHARACTER;
-		if ( acceptanceStyle.equals( PreferenceConstants.PREF_CONTENTASSISTFILTER_CUMULATIVE ) )
+		if (acceptanceStyle.equals(PreferenceConstants.PREF_CONTENTASSISTFILTER_CUMULATIVE))
 			return ContentProposalAdapter.FILTER_CUMULATIVE;
 		return ContentProposalAdapter.FILTER_NONE;
 	}
@@ -279,62 +236,45 @@ public final class FieldAssistHelper
 	/**
 	 * @return
 	 */
-	private int getDecorationLocationBits( )
-	{
-		IPreferenceStore store = getPreferenceStore( );
+	private int getDecorationLocationBits() {
+		IPreferenceStore store = getPreferenceStore();
 		int bits = 0;
-		String vert = store.getString( PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION );
-		if ( vert.equals( PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_BOTTOM ) )
-		{
+		String vert = store.getString(PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION);
+		if (vert.equals(PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_BOTTOM)) {
 			bits = SWT.BOTTOM;
-		}
-		else if ( vert.equals( PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_CENTER ) )
-		{
+		} else if (vert.equals(PreferenceConstants.PREF_DECORATOR_VERTICALLOCATION_CENTER)) {
 			bits = SWT.CENTER;
-		}
-		else
-		{
+		} else {
 			bits = SWT.TOP;
 		}
 
-		String horz = store.getString( PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION );
-		if ( horz.equals( PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_RIGHT ) )
-		{
+		String horz = store.getString(PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION);
+		if (horz.equals(PreferenceConstants.PREF_DECORATOR_HORIZONTALLOCATION_RIGHT)) {
 			bits |= SWT.RIGHT;
-		}
-		else
-		{
+		} else {
 			bits |= SWT.LEFT;
 		}
 		return bits;
 	}
 
 	/**
-	 * Handle the field modified event, valid the value of field and show
-	 * correct decoration.
+	 * Handle the field modified event, valid the value of field and show correct
+	 * decoration.
 	 * 
 	 * @param assistField
 	 */
-	public void handleFieldModify( AssistField assistField )
-	{
+	public void handleFieldModify(AssistField assistField) {
 		// Error indicator supercedes all others
-		if ( !assistField.isValid( ) )
-		{
-			showError( assistField );
-		}
-		else
-		{
-			hideError( assistField );
-			if ( assistField.isWarning( ) )
-			{
-				showWarning( assistField );
-			}
-			else
-			{
-				hideWarning( assistField );
-				if ( assistField.hasContentAssist( ) )
-				{
-					showContentAssistDecoration( assistField, true );
+		if (!assistField.isValid()) {
+			showError(assistField);
+		} else {
+			hideError(assistField);
+			if (assistField.isWarning()) {
+				showWarning(assistField);
+			} else {
+				hideWarning(assistField);
+				if (assistField.hasContentAssist()) {
+					showContentAssistDecoration(assistField, true);
 				}
 			}
 		}
@@ -346,128 +286,103 @@ public final class FieldAssistHelper
 	 * @param field
 	 * @return instance of <code>Menu</code>.
 	 */
-	public Menu createQuickFixMenu( final AssistField field )
-	{
-		Menu newMenu = new Menu( field.control );
-		MenuItem item = new MenuItem( newMenu, SWT.PUSH );
-		item.setText( Messages.getString( "ssDecorationMenuItem" ) ); //$NON-NLS-1$
-		item.addSelectionListener( new SelectionListener( ) {
+	public Menu createQuickFixMenu(final AssistField field) {
+		Menu newMenu = new Menu(field.control);
+		MenuItem item = new MenuItem(newMenu, SWT.PUSH);
+		item.setText(Messages.getString("ssDecorationMenuItem")); //$NON-NLS-1$
+		item.addSelectionListener(new SelectionListener() {
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				field.quickFix( );
+			public void widgetSelected(SelectionEvent event) {
+				field.quickFix();
 			}
 
-			public void widgetDefaultSelected( SelectionEvent event )
-			{
+			public void widgetDefaultSelected(SelectionEvent event) {
 
 			}
-		} );
+		});
 		return newMenu;
 	}
 
-	private void showErrorDecoration( AssistField smartField, boolean show )
-	{
-		FieldDecoration dec = smartField.getErrorDecoration( );
+	private void showErrorDecoration(AssistField smartField, boolean show) {
+		FieldDecoration dec = smartField.getErrorDecoration();
 		ControlDecoration cd = smartField.controlDecoration;
-		if ( show )
-		{
-			cd.setImage( dec.getImage( ) );
-			cd.setDescriptionText( dec.getDescription( ) );
-			cd.setShowOnlyOnFocus( false );
-			cd.show( );
-		}
-		else
-		{
-			cd.hide( );
+		if (show) {
+			cd.setImage(dec.getImage());
+			cd.setDescriptionText(dec.getDescription());
+			cd.setShowOnlyOnFocus(false);
+			cd.show();
+		} else {
+			cd.hide();
 		}
 	}
 
-	private void showWarningDecoration( AssistField smartField, boolean show )
-	{
-		FieldDecoration dec = smartField.getWarningDecoration( );
+	private void showWarningDecoration(AssistField smartField, boolean show) {
+		FieldDecoration dec = smartField.getWarningDecoration();
 		ControlDecoration cd = smartField.controlDecoration;
-		if ( show )
-		{
-			cd.setImage( dec.getImage( ) );
-			cd.setDescriptionText( dec.getDescription( ) );
-			cd.setShowOnlyOnFocus( false );
-			cd.show( );
-		}
-		else
-		{
-			cd.hide( );
+		if (show) {
+			cd.setImage(dec.getImage());
+			cd.setDescriptionText(dec.getDescription());
+			cd.setShowOnlyOnFocus(false);
+			cd.show();
+		} else {
+			cd.hide();
 		}
 	}
 
-	private void showContentAssistDecoration( AssistField smartField,
-			boolean show )
-	{
-		FieldDecoration dec = getCueDecoration( );
+	private void showContentAssistDecoration(AssistField smartField, boolean show) {
+		FieldDecoration dec = getCueDecoration();
 		ControlDecoration cd = smartField.controlDecoration;
-		if ( show )
-		{
-			cd.setImage( dec.getImage( ) );
-			cd.setDescriptionText( dec.getDescription( ) );
-			cd.setShowOnlyOnFocus( true );
-			cd.show( );
-		}
-		else
-		{
-			cd.hide( );
+		if (show) {
+			cd.setImage(dec.getImage());
+			cd.setDescriptionText(dec.getDescription());
+			cd.setShowOnlyOnFocus(true);
+			cd.show();
+		} else {
+			cd.hide();
 		}
 	}
 
-	private void showError( AssistField smartField )
-	{
-		showErrorDecoration( smartField, true );
+	private void showError(AssistField smartField) {
+		showErrorDecoration(smartField, true);
 	}
 
-	private void hideError( AssistField smartField )
-	{
-		showErrorDecoration( smartField, false );
+	private void hideError(AssistField smartField) {
+		showErrorDecoration(smartField, false);
 	}
 
-	private void showWarning( AssistField smartField )
-	{
-		showWarningDecoration( smartField, true );
+	private void showWarning(AssistField smartField) {
+		showWarningDecoration(smartField, true);
 	}
 
-	private void hideWarning( AssistField smartField )
-	{
-		showWarningDecoration( smartField, false );
+	private void hideWarning(AssistField smartField) {
+		showWarningDecoration(smartField, false);
 	}
 
-	private boolean isDecorationRight( )
-	{
-		return ( getDecorationLocationBits( ) & SWT.RIGHT ) == SWT.RIGHT;
+	private boolean isDecorationRight() {
+		return (getDecorationLocationBits() & SWT.RIGHT) == SWT.RIGHT;
 	}
 
-	private boolean isDecorationLeft( )
-	{
-		return ( getDecorationLocationBits( ) & SWT.LEFT ) == SWT.LEFT;
+	private boolean isDecorationLeft() {
+		return (getDecorationLocationBits() & SWT.LEFT) == SWT.LEFT;
 	}
 
-	private FieldDecoration getCueDecoration( )
-	{
+	private FieldDecoration getCueDecoration() {
 		// We use our own decoration which is based on the JFace version.
-		FieldDecorationRegistry registry = FieldDecorationRegistry.getDefault( );
-		FieldDecoration dec = registry.getFieldDecoration( DEC_CONTENTASSIST_ID );
-		if ( dec == null )
-		{
+		FieldDecorationRegistry registry = FieldDecorationRegistry.getDefault();
+		FieldDecoration dec = registry.getFieldDecoration(DEC_CONTENTASSIST_ID);
+		if (dec == null) {
 			// Get the standard one. We use its image and our own customized
 			// text.
-			FieldDecoration standardDecoration = registry.getFieldDecoration( FieldDecorationRegistry.DEC_CONTENT_PROPOSAL );
-			registry.registerFieldDecoration( DEC_CONTENTASSIST_ID,
-					Messages.getFormattedString( "ssDecoratorContentAssist", //$NON-NLS-1$
-							getTriggerKeyText( ) ),
-					standardDecoration.getImage( ) );
-			dec = registry.getFieldDecoration( DEC_CONTENTASSIST_ID );
-		}
-		else
-		{
-			dec.setDescription( Messages.getFormattedString( "ssDecoratorContentAssist", //$NON-NLS-1$
-					getTriggerKeyText( ) ) );
+			FieldDecoration standardDecoration = registry
+					.getFieldDecoration(FieldDecorationRegistry.DEC_CONTENT_PROPOSAL);
+			registry.registerFieldDecoration(DEC_CONTENTASSIST_ID,
+					Messages.getFormattedString("ssDecoratorContentAssist", //$NON-NLS-1$
+							getTriggerKeyText()),
+					standardDecoration.getImage());
+			dec = registry.getFieldDecoration(DEC_CONTENTASSIST_ID);
+		} else {
+			dec.setDescription(Messages.getFormattedString("ssDecoratorContentAssist", //$NON-NLS-1$
+					getTriggerKeyText()));
 		}
 		return dec;
 	}
@@ -477,9 +392,8 @@ public final class FieldAssistHelper
 	 * 
 	 * @return
 	 */
-	private int getHorizontialDecorationMargin( )
-	{
-		return DECORATION_MARGIN + getMarginWidth( );
+	private int getHorizontialDecorationMargin() {
+		return DECORATION_MARGIN + getMarginWidth();
 	}
 
 	/**
@@ -487,14 +401,11 @@ public final class FieldAssistHelper
 	 * 
 	 * @param gl
 	 */
-	public void initDecorationMargin( GridLayout gl )
-	{
+	public void initDecorationMargin(GridLayout gl) {
 		gl.marginHeight = 0;
 		gl.marginWidth = 0;
-		gl.marginLeft = isDecorationLeft( ) ? getHorizontialDecorationMargin( )
-				: 0;
-		gl.marginRight = isDecorationRight( ) ? getHorizontialDecorationMargin( )
-				: 0;
+		gl.marginLeft = isDecorationLeft() ? getHorizontialDecorationMargin() : 0;
+		gl.marginRight = isDecorationRight() ? getHorizontialDecorationMargin() : 0;
 		gl.horizontalSpacing = 0;
 		gl.verticalSpacing = 0;
 	}
@@ -505,15 +416,13 @@ public final class FieldAssistHelper
 	 * @param assistField
 	 * @param label
 	 */
-	public void addRequiredFieldIndicator( AssistField assistField, Label label )
-	{
-		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator( );
-		if ( showRequiredFieldLabelIndicator && assistField.isRequiredField( ) )
-		{
-			String text = label.getText( );
+	public void addRequiredFieldIndicator(AssistField assistField, Label label) {
+		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator();
+		if (showRequiredFieldLabelIndicator && assistField.isRequiredField()) {
+			String text = label.getText();
 			// This concatenation could be done by a field assist helper.
-			text = text.concat( "*" ); //$NON-NLS-1$
-			label.setText( text );
+			text = text.concat("*"); //$NON-NLS-1$
+			label.setText(text);
 		}
 	}
 
@@ -523,20 +432,17 @@ public final class FieldAssistHelper
 	 * @param assistField
 	 * @param label
 	 */
-	public void addRequiredFieldIndicator( Label label )
-	{
-		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator( );
-		if ( showRequiredFieldLabelIndicator )
-		{
-			String text = label.getText( );
+	public void addRequiredFieldIndicator(Label label) {
+		boolean showRequiredFieldLabelIndicator = isShowingRequiredFieldIndicator();
+		if (showRequiredFieldLabelIndicator) {
+			String text = label.getText();
 			// This concatenation could be done by a field assist helper.
-			text = text.concat( "*" ); //$NON-NLS-1$
-			label.setText( text );
+			text = text.concat("*"); //$NON-NLS-1$
+			label.setText(text);
 		}
 	}
 
-	public boolean isShowingRequiredFieldIndicator( )
-	{
-		return getPreferenceStore( ).getBoolean( PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR );
+	public boolean isShowingRequiredFieldIndicator() {
+		return getPreferenceStore().getBoolean(PreferenceConstants.PREF_SHOWREQUIREDFIELDLABELINDICATOR);
 	}
 }

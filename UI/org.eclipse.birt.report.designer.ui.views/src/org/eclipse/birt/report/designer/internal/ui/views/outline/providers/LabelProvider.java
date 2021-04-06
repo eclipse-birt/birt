@@ -18,16 +18,16 @@ import org.eclipse.birt.report.model.api.LabelHandle;
  * Label provider class - Implements the getNodeDisplayName method for this node
  * type.
  */
-public class LabelProvider extends LabelElementProvider
-{
+public class LabelProvider extends LabelElementProvider {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.providers.LabelElementProvider#getDescription(org.eclipse.birt.model.api.DesignElementHandle)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.outline.providers.
+	 * LabelElementProvider#getDescription(org.eclipse.birt.model.api.
+	 * DesignElementHandle)
 	 */
-	protected String getDescription( DesignElementHandle handle )
-	{
-		return getDescription( ( (LabelHandle) handle ).getText( ), true );
+	protected String getDescription(DesignElementHandle handle) {
+		return getDescription(((LabelHandle) handle).getText(), true);
 	}
 }

@@ -15,10 +15,8 @@ import java.util.List;
 
 import org.eclipse.birt.data.engine.olap.data.util.OrderedDiskArray;
 
-
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 
 /**
  * 
@@ -26,60 +24,52 @@ import static org.junit.Assert.*;
 
 public class OrderedDiskArrayTest {
 	int N = 100;
+
 	@Test
-    public void testAddObject1( )
-	{
-		List list = new OrderedDiskArray( );
-		for ( int i = 0; i < N; i++ )
-		{
-			list.add( new Integer( i ) );
+	public void testAddObject1() {
+		List list = new OrderedDiskArray();
+		for (int i = 0; i < N; i++) {
+			list.add(new Integer(i));
 		}
-		assertEquals( 100, list.size( ) );
-		for ( int i = 0; i < N; i++ )
-		{
-			assertEquals( new Integer( i ), list.get( i ) );
+		assertEquals(100, list.size());
+		for (int i = 0; i < N; i++) {
+			assertEquals(new Integer(i), list.get(i));
 		}
 	}
+
 	@Test
-    public void testAddObject2( )
-	{
-		List list = new OrderedDiskArray( 10, true);
-		for ( int i = N - 1; i >= 0; i-- )
-		{
-			list.add( new Integer(i) );
+	public void testAddObject2() {
+		List list = new OrderedDiskArray(10, true);
+		for (int i = N - 1; i >= 0; i--) {
+			list.add(new Integer(i));
 		}
-		assertEquals( 10, list.size() );
-		for ( int i = 0; i < 10; i++ )
-		{
-			assertEquals( new Integer( 90 + i ), list.get( i ) );
+		assertEquals(10, list.size());
+		for (int i = 0; i < 10; i++) {
+			assertEquals(new Integer(90 + i), list.get(i));
 		}
 	}
+
 	@Test
-    public void testAddObject3( )
-	{
-		List list = new OrderedDiskArray( 10, false);
-		for ( int i = 0; i < N; i++ )
-		{
-			list.add( new Integer( i ) );
+	public void testAddObject3() {
+		List list = new OrderedDiskArray(10, false);
+		for (int i = 0; i < N; i++) {
+			list.add(new Integer(i));
 		}
-		assertEquals( 10, list.size() );
-		for ( int i = 0; i < 10; i++ )
-		{
-			assertEquals( new Integer( i ), list.get( i ) );
+		assertEquals(10, list.size());
+		for (int i = 0; i < 10; i++) {
+			assertEquals(new Integer(i), list.get(i));
 		}
 	}
+
 	@Test
-    public void testAddObject4( )
-	{
-		List list = new OrderedDiskArray( 10, false);
-		for ( int i = 0; i < N; i++ )
-		{
-			list.add( new Integer( i ) );
+	public void testAddObject4() {
+		List list = new OrderedDiskArray(10, false);
+		for (int i = 0; i < N; i++) {
+			list.add(new Integer(i));
 		}
-		assertEquals( 10, list.size() );
-		for ( int i = 0; i < 10; i++ )
-		{
-			assertEquals( new Integer( i ), list.get( i ) );
+		assertEquals(10, list.size());
+		for (int i = 0; i < 10; i++) {
+			assertEquals(new Integer(i), list.get(i));
 		}
 	}
 }

@@ -25,8 +25,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_76818 extends BaseTestCase
-{
+public class Regression_76818 extends BaseTestCase {
 
 	private String filename = "Regression_76818.xml"; //$NON-NLS-1$
 
@@ -34,28 +33,24 @@ public class Regression_76818 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( filename, filename );
-		//copyResource_INPUT( INPUT2, INPUT2 );
+		copyResource_INPUT(filename, filename);
+		// copyResource_INPUT( INPUT2, INPUT2 );
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
-	
-	public void test_regression_76818( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
 
-		LabelHandle label = (LabelHandle) designHandle.findElement( "label" ); //$NON-NLS-1$
-		label.setComments( "comment" );//$NON-NLS-1$
-		assertEquals( "comment", label.getComments( ) );//$NON-NLS-1$
+	public void test_regression_76818() throws DesignFileException, SemanticException {
+		openDesign(filename);
+
+		LabelHandle label = (LabelHandle) designHandle.findElement("label"); //$NON-NLS-1$
+		label.setComments("comment");//$NON-NLS-1$
+		assertEquals("comment", label.getComments());//$NON-NLS-1$
 
 	}
 }

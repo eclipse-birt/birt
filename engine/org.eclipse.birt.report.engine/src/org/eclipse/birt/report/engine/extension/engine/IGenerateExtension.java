@@ -11,10 +11,9 @@
 
 package org.eclipse.birt.report.engine.extension.engine;
 
-public interface IGenerateExtension
-{
+public interface IGenerateExtension {
 
-	IContentProcessor createGenerateProcessor( );
+	IContentProcessor createGenerateProcessor();
 
-	void close( );
+	void close();
 }

@@ -19,8 +19,7 @@ import org.eclipse.birt.report.debug.internal.core.vm.VMStackFrame;
 /**
  * JsContextData
  */
-public class JsContextData implements VMContextData
-{
+public class JsContextData implements VMContextData {
 
 	int currentLineNo;
 	String currentName;
@@ -32,49 +31,40 @@ public class JsContextData implements VMContextData
 
 	private Stack frameStack;
 
-	public JsContextData( )
-	{
-		frameStack = new Stack( );
+	public JsContextData() {
+		frameStack = new Stack();
 	}
 
-	public void setBreakOnStart( boolean val )
-	{
+	public void setBreakOnStart(boolean val) {
 		this.breakOnStart = val;
 	}
 
-	public void breakNextLine( int targetFrameDepth )
-	{
+	public void breakNextLine(int targetFrameDepth) {
 		this.breakNextLine = true;
 		this.targetFrmaeDepth = targetFrameDepth;
 	}
 
-	public int frameCount( )
-	{
-		return frameStack.size( );
+	public int frameCount() {
+		return frameStack.size();
 	}
 
-	public VMStackFrame getCurrentFrame( )
-	{
-		if ( frameStack.size( ) > 0 )
-		{
-			return (VMStackFrame) frameStack.peek( );
+	public VMStackFrame getCurrentFrame() {
+		if (frameStack.size() > 0) {
+			return (VMStackFrame) frameStack.peek();
 		}
 		return null;
 	}
 
-	public VMStackFrame getFrame( int idx )
-	{
-		return (VMStackFrame) frameStack.get( idx );
+	public VMStackFrame getFrame(int idx) {
+		return (VMStackFrame) frameStack.get(idx);
 	}
 
-	public VMStackFrame popFrame( )
-	{
-		return (VMStackFrame) frameStack.pop( );
+	public VMStackFrame popFrame() {
+		return (VMStackFrame) frameStack.pop();
 	}
 
-	public void pushFrame( VMStackFrame frame )
-	{
-		frameStack.push( frame );
+	public void pushFrame(VMStackFrame frame) {
+		frameStack.push(frame);
 	}
 
 }

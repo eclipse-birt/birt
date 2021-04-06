@@ -19,31 +19,26 @@ import org.eclipse.birt.report.presentation.aggregation.IFragment;
  * 
  * @see BaseFragment
  */
-public class DialogContainerFragment extends BaseDialogFragment
-{
+public class DialogContainerFragment extends BaseDialogFragment {
 
 	/**
 	 * Constructor.
 	 * 
 	 * @param child
 	 */
-	public DialogContainerFragment( IFragment child )
-	{
-		if ( child != null )
-		{
-			addChild( child );
+	public DialogContainerFragment(IFragment child) {
+		if (child != null) {
+			addChild(child);
 		}
 	}
 
 	/**
 	 * Overwrite the parent. Get front end id.
 	 */
-	public String getClientId( )
-	{
-		IFragment dialog = (IFragment) children.get( 0 );
-		if ( dialog != null )
-		{
-			return dialog.getClientId( );
+	public String getClientId() {
+		IFragment dialog = (IFragment) children.get(0);
+		if (dialog != null) {
+			return dialog.getClientId();
 		}
 
 		return null;
@@ -52,12 +47,10 @@ public class DialogContainerFragment extends BaseDialogFragment
 	/**
 	 * Overwrite the parent. Get front end id.
 	 */
-	public String getClientName( )
-	{
-		IFragment dialog = (IFragment) children.get( 0 );
-		if ( dialog != null )
-		{
-			return dialog.getClientName( );
+	public String getClientName() {
+		IFragment dialog = (IFragment) children.get(0);
+		if (dialog != null) {
+			return dialog.getClientName();
 		}
 
 		return null;
@@ -69,11 +62,10 @@ public class DialogContainerFragment extends BaseDialogFragment
 	 * @return title id
 	 */
 
-	public String getTitle( )
-	{
-		IFragment dialog = (IFragment) children.get( 0 );
-		if ( dialog != null )
-			return dialog.getTitle( );
+	public String getTitle() {
+		IFragment dialog = (IFragment) children.get(0);
+		if (dialog != null)
+			return dialog.getTitle();
 		return null;
 	}
 }

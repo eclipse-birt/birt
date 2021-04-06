@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.ReportElementHandle;
  * API does not take a locale. The parameter returned to the user was obtained
  * from a report runnable, which has already had a locale.
  */
-public interface IParameterDefnBase
-{
+public interface IParameterDefnBase {
 	public static final int SCALAR_PARAMETER = 0;
 	public static final int FILTER_PARAMETER = 1;
 	public static final int LIST_PARAMETER = 2;
@@ -32,11 +31,11 @@ public interface IParameterDefnBase
 	public static final int CASCADING_PARAMETER_GROUP = 5;
 
 	/**
-	 * @return the parameter type, i.e., scalar, filter, list, table or
-	 *         parameter group
+	 * @return the parameter type, i.e., scalar, filter, list, table or parameter
+	 *         group
 	 */
-	public int getParameterType( );
-	
+	public int getParameterType();
+
 	/**
 	 * 
 	 * @return name of the parameter type.
@@ -46,49 +45,50 @@ public interface IParameterDefnBase
 	/**
 	 * returns the name of the parameter
 	 * 
-	 * @return the name of the parameter 
+	 * @return the name of the parameter
 	 */
-	public String getName( );
+	public String getName();
 
 	/**
-	 * returns the locale-specific display name for the parameter. The locale used is the
-	 * locale in the getParameterDefinition task
+	 * returns the locale-specific display name for the parameter. The locale used
+	 * is the locale in the getParameterDefinition task
 	 * 
 	 * @return display name under the request or default locale
 	 */
 	public String getDisplayName();
-	
+
 	/**
-	 * returns the locale-specific help text. The locale used is the
-	 * locale in the getParameterDefinition task
+	 * returns the locale-specific help text. The locale used is the locale in the
+	 * getParameterDefinition task
 	 * 
-	 * @return help text for the parameter  
+	 * @return help text for the parameter
 	 */
-	public String getHelpText( );
-	
+	public String getHelpText();
+
 	/**
-	 *	returns a collection of user-defined property name and value pairs
+	 * returns a collection of user-defined property name and value pairs
 	 *
-	 * 	@return a collection of user-defined property name ane value pairs
+	 * @return a collection of user-defined property name ane value pairs
 	 */
-	public Map getUserPropertyValues( );
+	public Map getUserPropertyValues();
 
 	/**
 	 * returns the value of a user-defined property
 	 * 
 	 * @return the value for a user-defined property
 	 */
-	public String getUserPropertyValue( String name );
-	
+	public String getUserPropertyValue(String name);
+
 	/**
 	 * returns the report element handle which is wrapped by this object.
+	 * 
 	 * @return the report element handle
 	 */
-	public ReportElementHandle getHandle( );
-	
+	public ReportElementHandle getHandle();
+
 	/**
 	 * @return prompt text
 	 */
-	public String getPromptText( );
-	
+	public String getPromptText();
+
 }

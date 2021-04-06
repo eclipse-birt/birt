@@ -15,8 +15,7 @@ package org.eclipse.birt.report.exception;
  * Exception thrown by the parameter validation
  * 
  */
-public class ViewerValidationException extends Exception
-{
+public class ViewerValidationException extends Exception {
 
 	/**
 	 * Serial Version ID
@@ -26,24 +25,19 @@ public class ViewerValidationException extends Exception
 	/**
 	 * Constructs a new exception with the error message.
 	 * 
-	 * @param message
-	 *            used to show error message to end user
+	 * @param message used to show error message to end user
 	 */
-	public ViewerValidationException( String message )
-	{
-		super( message );
+	public ViewerValidationException(String message) {
+		super(message);
 	}
 
 	/**
 	 * Constructs a new exception with the error message and cause.
 	 * 
-	 * @param message
-	 *            used to show error message to end user
-	 * @param cause
-	 *            the nested exception
+	 * @param message used to show error message to end user
+	 * @param cause   the nested exception
 	 */
-	public ViewerValidationException( String message, Throwable cause )
-	{
-		super( message, cause );
+	public ViewerValidationException(String message, Throwable cause) {
+		super(message, cause);
 	}
 }

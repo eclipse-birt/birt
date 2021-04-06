@@ -25,10 +25,9 @@ import org.eclipse.birt.report.engine.api.IReportRunnable;
  * shutdown.
  * 
  */
-public interface IReportEngineExtension
-{
+public interface IReportEngineExtension {
 
-	IReportEngine getReportEngine( );
+	IReportEngine getReportEngine();
 
 	/**
 	 * the extension name. The extension name is the unique identifier of the
@@ -36,7 +35,7 @@ public interface IReportEngineExtension
 	 * 
 	 * @return extension name
 	 */
-	String getExtensionName( );
+	String getExtensionName();
 
 	/**
 	 * return if the extension is used by the report design
@@ -44,68 +43,59 @@ public interface IReportEngineExtension
 	 * @param runnable
 	 * @return
 	 */
-	boolean needExtension( IReportRunnable runnable );
+	boolean needExtension(IReportRunnable runnable);
 
 	/**
 	 * create a extension to load the data saved in the report document.
 	 * 
 	 * the extension will be closed by the report document's close().
 	 * 
-	 * @param document
-	 *            the report document.
+	 * @param document the report document.
 	 * @return the extension of the document
 	 * @throws EngineException
 	 */
-	IReportDocumentExtension createDocumentExtension( IReportDocument document )
-			throws EngineException;
+	IReportDocumentExtension createDocumentExtension(IReportDocument document) throws EngineException;
 
 	/**
 	 * create the generate extension.
 	 * 
-	 * @param context
-	 *            the run context.
+	 * @param context the run context.
 	 * @return the generate extension.
 	 * @throws EngineException
 	 */
-	IGenerateExtension createGenerateExtension( IRunContext context )
-			throws EngineException;
+	IGenerateExtension createGenerateExtension(IRunContext context) throws EngineException;
 
-	IDataExtension createDataExtension( IRunContext context )
-			throws EngineException;
+	IDataExtension createDataExtension(IRunContext context) throws EngineException;
 
 	/**
 	 * create the extension to handle the extra document processing.
 	 * 
-	 * @param context
-	 *            run context
+	 * @param context run context
 	 * @return the document extension.
 	 * @throws EngineException
 	 */
-	IDocumentExtension createDocumentExtension( IRunContext context )
-			throws EngineException;
+	IDocumentExtension createDocumentExtension(IRunContext context) throws EngineException;
 
 	/**
 	 * create the render extension.
 	 * 
-	 * @param context
-	 *            render context.
+	 * @param context render context.
 	 * @return the render extension.
 	 * @throws EngineException
 	 */
-	IRenderExtension createRenderExtension( IRenderContext context )
-			throws EngineException;
+	IRenderExtension createRenderExtension(IRenderContext context) throws EngineException;
 
 	/**
 	 * create an engine task
 	 * 
 	 * @return an engine task
 	 */
-	IEngineTask createEngineTask( String taskName ) throws EngineException;
+	IEngineTask createEngineTask(String taskName) throws EngineException;
 
 	/**
 	 * release the extension.
 	 * 
 	 * The user should release the shared resource allocated for the instance.
 	 */
-	void close( );
+	void close();
 }

@@ -14,20 +14,17 @@ package org.eclipse.birt.report.designer.internal.ui.views.actions;
 import org.eclipse.jface.viewers.ISelectionProvider;
 
 /**
- * Global copy action for views 
+ * Global copy action for views
  */
 
-public class GlobalCopyAction extends AbstractGlobalSelectionAction
-{
+public class GlobalCopyAction extends AbstractGlobalSelectionAction {
 
-	protected GlobalCopyAction( ISelectionProvider provider )
-	{
-		super( provider, GlobalActionFactory.COPY );				
+	protected GlobalCopyAction(ISelectionProvider provider) {
+		super(provider, GlobalActionFactory.COPY);
 	}
 
-	public void run( )
-	{
-		new CopyAction( getSelection( ) ).run( );
+	public void run() {
+		new CopyAction(getSelection()).run();
 	}
 
 	/*
@@ -35,9 +32,8 @@ public class GlobalCopyAction extends AbstractGlobalSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{				
-		return new CopyAction( getSelection( ) ).isEnabled( );
+	protected boolean calculateEnabled() {
+		return new CopyAction(getSelection()).isEnabled();
 	}
 
 }

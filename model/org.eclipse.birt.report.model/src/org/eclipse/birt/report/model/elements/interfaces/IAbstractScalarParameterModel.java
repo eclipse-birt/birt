@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for AbstractScalarParameter element to store the constants.
  */
-public interface IAbstractScalarParameterModel extends IInternalAbstractScalarParameterModel
-{
-	
+public interface IAbstractScalarParameterModel extends IInternalAbstractScalarParameterModel {
+
 }

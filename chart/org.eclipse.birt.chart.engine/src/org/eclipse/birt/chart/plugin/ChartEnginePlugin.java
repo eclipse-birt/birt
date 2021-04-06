@@ -19,19 +19,17 @@ import org.osgi.framework.BundleContext;
  * Plugin class for Chart Engine. Holds the plugin ID
  */
 
-public class ChartEnginePlugin extends Plugin
-{
+public class ChartEnginePlugin extends Plugin {
 
 	/**
 	 * Plugin ID.
 	 */
-	public static final String ID = "org.eclipse.birt.chart.engine"; //$NON-NLS-1$ 
+	public static final String ID = "org.eclipse.birt.chart.engine"; //$NON-NLS-1$
 
 	@Override
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
-		JavaUtilLoggerImpl.setStateDir( getStateLocation( ).toOSString( ) );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
+		JavaUtilLoggerImpl.setStateDir(getStateLocation().toOSString());
 	}
 
 }

@@ -10,15 +10,15 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.pdf.hyphen;
 
-public interface IWordRecognizer
-{
-    /**
-     * splitting a string to a word array.
-     * @param text
-     * @return
-     */
-    public Word getNextWord();
+public interface IWordRecognizer {
+	/**
+	 * splitting a string to a word array.
+	 * 
+	 * @param text
+	 * @return
+	 */
+	public Word getNextWord();
 
-    public boolean hasWord();
-    
+	public boolean hasWord();
+
 }

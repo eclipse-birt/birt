@@ -16,66 +16,61 @@ import org.eclipse.birt.data.engine.odi.IResultClass;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
 /**
- * This class is used by SmartCache for the purpose of generate a SmartCache instance
- * following the information in OrderInfo.
+ * This class is used by SmartCache for the purpose of generate a SmartCache
+ * instance following the information in OrderInfo.
  */
-public class SmartRowResultSet implements IRowResultSet
-{
+public class SmartRowResultSet implements IRowResultSet {
 	private ResultSetCache rsCache;
 	private IResultClass rsMeta;
 	private OrderingInfo orderingInfo;
 	boolean startNewGroup = true;
 	int currentGroup = -1;
-	
-	public SmartRowResultSet( ResultSetCache rsCache,
-			IResultClass rsMeta, OrderingInfo orderingInfo)
-	{
+
+	public SmartRowResultSet(ResultSetCache rsCache, IResultClass rsMeta, OrderingInfo orderingInfo) {
 		this.rsCache = rsCache;
 		this.rsMeta = rsMeta;
 		this.orderingInfo = orderingInfo;
 	}
-	
+
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#getMetaData()
 	 */
-	public IResultClass getMetaData( )
-	{
+	public IResultClass getMetaData() {
 		return rsMeta;
 	}
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#next()
 	 */
-	public IResultObject next( ) throws DataException
-	{
+	public IResultObject next() throws DataException {
 		IResultObject result = null;
-		if( startNewGroup )
-		{
+		if (startNewGroup) {
 			currentGroup++;
-			
-			if ( currentGroup > orderingInfo.getCount() - 1)
+
+			if (currentGroup > orderingInfo.getCount() - 1)
 				return null;
-			
-			rsCache.moveTo( orderingInfo.getStartIndex( currentGroup ) );
+
+			rsCache.moveTo(orderingInfo.getStartIndex(currentGroup));
 			startNewGroup = false;
-		}
-		else
-		{
+		} else {
 			rsCache.next();
 		}
-		
+
 		result = rsCache.getCurrentResult();
-				
-		if( rsCache.getCurrentIndex() == orderingInfo.getEndIndex( currentGroup ))
+
+		if (rsCache.getCurrentIndex() == orderingInfo.getEndIndex(currentGroup))
 			startNewGroup = true;
-		
+
 		return result;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.executor.cache.IRowResultSet#getIndex()
 	 */
 	public int getIndex() throws DataException {

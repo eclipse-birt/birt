@@ -15,7 +15,6 @@ package org.eclipse.birt.data.engine.olap.data.util;
  * 
  */
 
-public interface IComparableStructure extends IStructure, Comparable
-{
+public interface IComparableStructure extends IStructure, Comparable {
 
 }

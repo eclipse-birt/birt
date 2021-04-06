@@ -19,8 +19,7 @@ import java.util.Collection;
  * Tabel item.
  * 
  */
-public class TableItemDesign extends ListingDesign
-{
+public class TableItemDesign extends ListingDesign {
 
 	/**
 	 * table caption
@@ -39,34 +38,29 @@ public class TableItemDesign extends ListingDesign
 	/**
 	 * column defined
 	 */
-	protected ArrayList<ColumnDesign> columns = new ArrayList<ColumnDesign>( );
+	protected ArrayList<ColumnDesign> columns = new ArrayList<ColumnDesign>();
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.engine.ir.ReportItem#accept(org.eclipse.birt.
 	 * report.engine.ir.ReportItemVisitor)
 	 */
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
-		return visitor.visitTableItem( this, value );
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitTableItem(this, value);
 	}
 
 	/**
 	 * add column into the column define.
 	 * 
-	 * @param column
-	 *            column to be added.
+	 * @param column column to be added.
 	 */
-	public void addColumn( ColumnDesign column )
-	{
-		assert ( column != null );
-		columns.add( column );
+	public void addColumn(ColumnDesign column) {
+		assert (column != null);
+		columns.add(column);
 	}
 
-	public Collection<ColumnDesign> getColumns( )
-	{
+	public Collection<ColumnDesign> getColumns() {
 		return columns;
 	}
 
@@ -75,43 +69,35 @@ public class TableItemDesign extends ListingDesign
 	 * 
 	 * @return count of the column.
 	 */
-	public int getColumnCount( )
-	{
-		return columns.size( );
+	public int getColumnCount() {
+		return columns.size();
 	}
 
 	/**
 	 * get column defines.
 	 * 
-	 * @param index
-	 *            index of the column.
+	 * @param index index of the column.
 	 * @return column define.
 	 */
-	public ColumnDesign getColumn( int index )
-	{
-		assert ( index >= 0 && index < columns.size( ) );
-		return (ColumnDesign) columns.get( index );
+	public ColumnDesign getColumn(int index) {
+		assert (index >= 0 && index < columns.size());
+		return (ColumnDesign) columns.get(index);
 	}
 
 	/**
-	 * @param header
-	 *            The header to set.
+	 * @param header The header to set.
 	 */
-	public void setHeader( TableBandDesign header )
-	{
+	public void setHeader(TableBandDesign header) {
 		this.header = header;
 	}
 
 	/**
 	 * set tabel caption.
 	 * 
-	 * @param captionKey
-	 *            resource key
-	 * @param caption
-	 *            caption
+	 * @param captionKey resource key
+	 * @param caption    caption
 	 */
-	public void setCaption( String captionKey, String caption )
-	{
+	public void setCaption(String captionKey, String caption) {
 		this.captionKey = captionKey;
 		this.caption = caption;
 	}
@@ -119,27 +105,23 @@ public class TableItemDesign extends ListingDesign
 	/**
 	 * @return Returns the caption.
 	 */
-	public String getCaption( )
-	{
+	public String getCaption() {
 		return caption;
 	}
 
 	/**
 	 * @return Returns the captionKey.
 	 */
-	public String getCaptionKey( )
-	{
+	public String getCaptionKey() {
 		return captionKey;
 	}
 
 	/**
 	 * set table summary
 	 * 
-	 * @param summary
-	 *            summary
+	 * @param summary summary
 	 */
-	public void setSummary( String summary )
-	{
+	public void setSummary(String summary) {
 		this.summary = summary;
 	}
 
@@ -148,8 +130,7 @@ public class TableItemDesign extends ListingDesign
 	 * 
 	 * @return Return table summary
 	 */
-	public String getSummary( )
-	{
+	public String getSummary() {
 		return summary;
 	}
 }

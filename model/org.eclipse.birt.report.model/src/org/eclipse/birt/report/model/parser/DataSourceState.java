@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.elements.DataSource;
  * 
  */
 
-public abstract class DataSourceState extends ReportElementState
-{
+public abstract class DataSourceState extends ReportElementState {
 
 	protected DataSource element;
 
@@ -28,13 +27,11 @@ public abstract class DataSourceState extends ReportElementState
 	 * Constructs the data source state with the design parser handler, the
 	 * container element and the container slot of the data source.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
+	 * @param handler the design file parser handler
 	 */
 
-	public DataSourceState( ModuleParserHandler handler, int slot )
-	{
-		super( handler, handler.getModule( ), slot);
+	public DataSourceState(ModuleParserHandler handler, int slot) {
+		super(handler, handler.getModule(), slot);
 	}
 
 	/*
@@ -42,9 +39,8 @@ public abstract class DataSourceState extends ReportElementState
 	 * 
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
-	
-	public DesignElement getElement( )
-	{
+
+	public DesignElement getElement() {
 		return element;
 	}
 }

@@ -32,254 +32,189 @@ import org.eclipse.birt.report.engine.nLayout.LayoutContext;
 import org.eclipse.birt.report.engine.nLayout.area.IArea;
 import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
 
-public class FixedLayoutPageHintGenerator
-{
+public class FixedLayoutPageHintGenerator {
 	protected SizeBasedContent startContent = null;
 	protected SizeBasedContent currentContent = null;
 
 	protected HTMLLayoutContext htmlLayoutContext = null;
-	private ArrayList<SizeBasedContent[]> fixedLayoutPageHints = new ArrayList<SizeBasedContent[]>( );
+	private ArrayList<SizeBasedContent[]> fixedLayoutPageHints = new ArrayList<SizeBasedContent[]>();
 
-	protected HashSet<String> tableIds = new HashSet<String>( );
+	protected HashSet<String> tableIds = new HashSet<String>();
 	HashMap<String, UnresolvedRowHint> htmlUnresolvedRowHints = null;
 	HashMap<String, UnresolvedRowHint> currentPageUnresolvedRowHints = null;
-	HashMap<String, UnresolvedRowHint> docUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
-	
+	HashMap<String, UnresolvedRowHint> docUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>();
+
 	protected LayoutContext context;
 
-	public FixedLayoutPageHintGenerator( LayoutContext context )
-	{
+	public FixedLayoutPageHintGenerator(LayoutContext context) {
 		this.context = context;
-		htmlLayoutContext = context.getHtmlLayoutContext( );
+		htmlLayoutContext = context.getHtmlLayoutContext();
 	}
 
-	public ArrayList getPageHint( )
-	{
+	public ArrayList getPageHint() {
 		return fixedLayoutPageHints;
 	}
 
-	public void addUnresolvedRowHint( String tableId, UnresolvedRowHint hint )
-	{
-		if ( currentPageUnresolvedRowHints == null )
-		{
-			currentPageUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>( );
+	public void addUnresolvedRowHint(String tableId, UnresolvedRowHint hint) {
+		if (currentPageUnresolvedRowHints == null) {
+			currentPageUnresolvedRowHints = new HashMap<String, UnresolvedRowHint>();
 		}
-		currentPageUnresolvedRowHints.put( htmlLayoutContext.getPageHintManager( )
-				.getHintMapKey( tableId ), hint );
+		currentPageUnresolvedRowHints.put(htmlLayoutContext.getPageHintManager().getHintMapKey(tableId), hint);
 	}
-	
-	public void resetRowHint()
-	{
-		docUnresolvedRowHints.clear( );
-		if ( currentPageUnresolvedRowHints != null )
-		{
-			docUnresolvedRowHints.putAll( currentPageUnresolvedRowHints );
-			currentPageUnresolvedRowHints.clear( );
+
+	public void resetRowHint() {
+		docUnresolvedRowHints.clear();
+		if (currentPageUnresolvedRowHints != null) {
+			docUnresolvedRowHints.putAll(currentPageUnresolvedRowHints);
+			currentPageUnresolvedRowHints.clear();
 		}
 	}
 
-	public List<UnresolvedRowHint> getUnresolvedRowHints( )
-	{
-		ArrayList<UnresolvedRowHint> unresolvedRowHintsList = new ArrayList<UnresolvedRowHint>( );
-		Iterator<String> iter = getTableKeys( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			String key = iter.next( );
-			if ( docUnresolvedRowHints != null )
-			{
-				UnresolvedRowHint hint = docUnresolvedRowHints.get( key );
-				if ( hint != null )
-				{
-					unresolvedRowHintsList.add( hint );
+	public List<UnresolvedRowHint> getUnresolvedRowHints() {
+		ArrayList<UnresolvedRowHint> unresolvedRowHintsList = new ArrayList<UnresolvedRowHint>();
+		Iterator<String> iter = getTableKeys().iterator();
+		while (iter.hasNext()) {
+			String key = iter.next();
+			if (docUnresolvedRowHints != null) {
+				UnresolvedRowHint hint = docUnresolvedRowHints.get(key);
+				if (hint != null) {
+					unresolvedRowHintsList.add(hint);
 					continue;
 				}
 			}
-			UnresolvedRowHint hint = htmlUnresolvedRowHints.get( key );
-			if ( hint != null )
-			{
-				unresolvedRowHintsList.add( hint );
+			UnresolvedRowHint hint = htmlUnresolvedRowHints.get(key);
+			if (hint != null) {
+				unresolvedRowHintsList.add(hint);
 			}
 		}
 		return unresolvedRowHintsList;
 	}
 
-	public void generatePageHints( IPageContent page ) throws BirtException
-	{
-		PageArea pageArea = (PageArea) page
-				.getExtension( IContent.LAYOUT_EXTENSION );
-		if ( pageArea != null )
-		{
-			reset( );
-			for ( Iterator<IArea> i = pageArea.getBody( ).getChildren( ); i
-					.hasNext( ); )
-			{
-				IArea child = i.next( );
-				traverse( child );
+	public void generatePageHints(IPageContent page) throws BirtException {
+		PageArea pageArea = (PageArea) page.getExtension(IContent.LAYOUT_EXTENSION);
+		if (pageArea != null) {
+			reset();
+			for (Iterator<IArea> i = pageArea.getBody().getChildren(); i.hasNext();) {
+				IArea child = i.next();
+				traverse(child);
 			}
-			HTMLLayoutPageHintManager pm = htmlLayoutContext
-					.getPageHintManager( );
-			pm.generatePageRowHints( getTableKeys( ) );
-			htmlUnresolvedRowHints = pm.getUnresolvedRowHints( );
+			HTMLLayoutPageHintManager pm = htmlLayoutContext.getPageHintManager();
+			pm.generatePageRowHints(getTableKeys());
+			htmlUnresolvedRowHints = pm.getUnresolvedRowHints();
 		}
-		if ( startContent != null )
-		{
-			if ( currentContent != null )
-			{
-				fixedLayoutPageHints.add( new SizeBasedContent[]{startContent,
-						currentContent} );
+		if (startContent != null) {
+			if (currentContent != null) {
+				fixedLayoutPageHints.add(new SizeBasedContent[] { startContent, currentContent });
 			}
 		}
 	}
 
-	private void traverse( IArea area )
-	{
-		if ( area instanceof ContainerArea )
-		{
-			if ( area instanceof TableArea )
-			{
-				InstanceID instanceID = ( (TableArea) area ).getContent( ).getInstanceID( );
+	private void traverse(IArea area) {
+		if (area instanceof ContainerArea) {
+			if (area instanceof TableArea) {
+				InstanceID instanceID = ((TableArea) area).getContent().getInstanceID();
 				// The table content may be generated from a section of HTML
 				// text, which content does not have an instance id.
-				if ( instanceID != null )
-				{
-					tableIds.add( instanceID.toUniqueString( ) );
+				if (instanceID != null) {
+					tableIds.add(instanceID.toUniqueString());
 				}
 			}
 			ContainerArea container = (ContainerArea) area;
-			if ( container.content != null && !container.isDummy && container.content.getInstanceID( ) != null )
-			{
-				start( container );
+			if (container.content != null && !container.isDummy && container.content.getInstanceID() != null) {
+				start(container);
 			}
-			if ( !( container.content instanceof ForeignContent ) )
-			{
-				for ( Iterator<IArea> i = container.getChildren( ); i.hasNext( ); )
-				{
-					IArea child = i.next( );
-					traverse( child );
+			if (!(container.content instanceof ForeignContent)) {
+				for (Iterator<IArea> i = container.getChildren(); i.hasNext();) {
+					IArea child = i.next();
+					traverse(child);
 				}
 			}
 		}
 		String bookmark = area.getBookmark();
-		if ( bookmark != null )
-		{
-			context.addBookmarkMap( context.getPageNumber( ), bookmark  );
+		if (bookmark != null) {
+			context.addBookmarkMap(context.getPageNumber(), bookmark);
 		}
 	}
 
-	private void start( ContainerArea area )
-	{
-		//AbstractArea.debugPrint2( area );
-		if ( startContent == null )
-		{
-			startContent = createSizeBasedContent( area );
+	private void start(ContainerArea area) {
+		// AbstractArea.debugPrint2( area );
+		if (startContent == null) {
+			startContent = createSizeBasedContent(area);
 			currentContent = startContent;
-		}
-		else
-		{
-			if ( currentContent != null )
-			{
-				if ( InstanceIDComparator.isNextWith( currentContent.content, currentContent.isChildrenRemoved, 
-						area.content ) )
-				{
-					if( currentContent.dimension > 0 )
-					{
-						fixedLayoutPageHints.add( new SizeBasedContent[]{
-								startContent, currentContent} );
-						startContent = createSizeBasedContent( area );
+		} else {
+			if (currentContent != null) {
+				if (InstanceIDComparator.isNextWith(currentContent.content, currentContent.isChildrenRemoved,
+						area.content)) {
+					if (currentContent.dimension > 0) {
+						fixedLayoutPageHints.add(new SizeBasedContent[] { startContent, currentContent });
+						startContent = createSizeBasedContent(area);
 						currentContent = startContent;
 						return;
 					}
-					currentContent = createSizeBasedContent( area );
-				}
-				else if ( InstanceIDComparator.equals( currentContent.content,
-						area.content ) )
-				{
+					currentContent = createSizeBasedContent(area);
+				} else if (InstanceIDComparator.equals(currentContent.content, area.content)) {
 					// Does nothing. this case is for inline text.
-				}
-				else
-				{
-					fixedLayoutPageHints.add( new SizeBasedContent[]{
-							startContent, currentContent} );
-					startContent = createSizeBasedContent( area );
+				} else {
+					fixedLayoutPageHints.add(new SizeBasedContent[] { startContent, currentContent });
+					startContent = createSizeBasedContent(area);
 					currentContent = startContent;
 				}
 			}
 		}
 	}
 
-	private SizeBasedContent createSizeBasedContent( ContainerArea area )
-	{
-		SizeBasedContent sizeBasedContent = new SizeBasedContent( );
-		if ( area.content instanceof AbstractContentWrapper )
-		{
-			sizeBasedContent.content = ( (AbstractContentWrapper) area.content )
-					.getContent( );
-		}
-		else
-		{
+	private SizeBasedContent createSizeBasedContent(ContainerArea area) {
+		SizeBasedContent sizeBasedContent = new SizeBasedContent();
+		if (area.content instanceof AbstractContentWrapper) {
+			sizeBasedContent.content = ((AbstractContentWrapper) area.content).getContent();
+		} else {
 			sizeBasedContent.content = area.content;
 		}
 
-		if ( area instanceof BlockTextArea )
-		{
+		if (area instanceof BlockTextArea) {
 			BlockTextArea blockText = (BlockTextArea) area;
 			sizeBasedContent.floatPos = 0;
 			ArrayList<BlockTextArea> list = (ArrayList<BlockTextArea>) area.content
-					.getExtension( IContent.LAYOUT_EXTENSION );
-			if ( list.size( ) > 1 )
-			{
-				Iterator<BlockTextArea> i = list.iterator( );
+					.getExtension(IContent.LAYOUT_EXTENSION);
+			if (list.size() > 1) {
+				Iterator<BlockTextArea> i = list.iterator();
 				int offsetInContent = 0;
 				int lastHeight = 0;
-				while ( i.hasNext( ) )
-				{
+				while (i.hasNext()) {
 					offsetInContent += lastHeight;
-					BlockTextArea current = i.next( );
-					if ( current == area )
-					{
+					BlockTextArea current = i.next();
+					if (current == area) {
 						break;
 					}
-					lastHeight = current.getContentHeight( );
+					lastHeight = current.getContentHeight();
 				}
 				sizeBasedContent.offsetInContent = offsetInContent;
-				sizeBasedContent.dimension = blockText.getContentHeight( );
-				sizeBasedContent.width = blockText.getWidth( );
-			}
-			else if( list.size( ) == 1 )
-			{
+				sizeBasedContent.dimension = blockText.getContentHeight();
+				sizeBasedContent.width = blockText.getWidth();
+			} else if (list.size() == 1) {
 				sizeBasedContent.offsetInContent = 0;
-				if ( list.get( 0 ).finished )
-				{
+				if (list.get(0).finished) {
 					sizeBasedContent.dimension = -1;
 					sizeBasedContent.width = -1;
+				} else {
+					sizeBasedContent.dimension = blockText.getContentHeight();
+					sizeBasedContent.width = blockText.getWidth();
 				}
-				else
-				{
-					sizeBasedContent.dimension = blockText.getContentHeight( );
-					sizeBasedContent.width = blockText.getWidth( );
-				}
-			}
-			else
-			{
+			} else {
 				sizeBasedContent.offsetInContent = 0;
 				sizeBasedContent.dimension = -1;
 				sizeBasedContent.width = -1;
 			}
-		}
-		else if ( area instanceof InlineTextArea )
-		{
+		} else if (area instanceof InlineTextArea) {
 			InlineTextArea inlineText = (InlineTextArea) area;
-			InlineTextExtension ext = (InlineTextExtension) area.content
-					.getExtension( IContent.LAYOUT_EXTENSION );
-			ext.updatePageHintInfo( inlineText );
-			
-			sizeBasedContent.floatPos = ext.getFloatPos( );
-			sizeBasedContent.offsetInContent = ext.getOffsetInContent( );
-			sizeBasedContent.dimension = ext.getDimension( );
-			sizeBasedContent.width = ext.getWidthRestrict( );
-		}
-		else
-		{
+			InlineTextExtension ext = (InlineTextExtension) area.content.getExtension(IContent.LAYOUT_EXTENSION);
+			ext.updatePageHintInfo(inlineText);
+
+			sizeBasedContent.floatPos = ext.getFloatPos();
+			sizeBasedContent.offsetInContent = ext.getOffsetInContent();
+			sizeBasedContent.dimension = ext.getDimension();
+			sizeBasedContent.width = ext.getWidthRestrict();
+		} else {
 			sizeBasedContent.floatPos = -1;
 			sizeBasedContent.offsetInContent = -1;
 			sizeBasedContent.dimension = -1;
@@ -288,120 +223,88 @@ public class FixedLayoutPageHintGenerator
 		sizeBasedContent.isChildrenRemoved = area.isChildrenRemoved;
 		return sizeBasedContent;
 	}
-	
-	private void reset( )
-	{
+
+	private void reset() {
 		startContent = null;
 		currentContent = null;
-		tableIds = new HashSet<String>( );
-		fixedLayoutPageHints.clear( );
+		tableIds = new HashSet<String>();
+		fixedLayoutPageHints.clear();
 	}
 
-	private Collection<String> getTableKeys( )
-	{
-		HashSet keys = new HashSet( );
-		Iterator iter = tableIds.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			String tableId = (String) iter.next( );
-			String key = htmlLayoutContext.getPageHintManager( ).getHintMapKey(
-					tableId );
-			keys.add( key );
+	private Collection<String> getTableKeys() {
+		HashSet keys = new HashSet();
+		Iterator iter = tableIds.iterator();
+		while (iter.hasNext()) {
+			String tableId = (String) iter.next();
+			String key = htmlLayoutContext.getPageHintManager().getHintMapKey(tableId);
+			keys.add(key);
 		}
 		return keys;
 	}
 
-	static class InstanceIDComparator
-	{
+	static class InstanceIDComparator {
 
-		static boolean isNextWith( IContent content1, boolean isContent1ChildrenRemoved, IContent content2 )
-		{
-			if ( content1 == null || content2 == null || content1 == content2 )
-			{
+		static boolean isNextWith(IContent content1, boolean isContent1ChildrenRemoved, IContent content2) {
+			if (content1 == null || content2 == null || content1 == content2) {
 				return false;
 			}
-			InstanceID id1 = content1.getInstanceID( );
-			InstanceID id2 = content2.getInstanceID( );
+			InstanceID id1 = content1.getInstanceID();
+			InstanceID id2 = content2.getInstanceID();
 			// only foreign content has a null InstanceID.
-			if ( id1 == null || id2 == null )
-			{
+			if (id1 == null || id2 == null) {
 				return false;
 			}
 
 			// Case 1: content2 is the first child.
-			if ( id2.getUniqueID( ) == 0 )
-			{
-				IContent parent2 = (IContent) content2.getParent( );
-				if ( parent2 instanceof IListBandContent
-						|| parent2 instanceof ITableBandContent )
-				{
-					InstanceID pid2 = parent2.getInstanceID( );
-					if ( pid2 == null )
-					{
+			if (id2.getUniqueID() == 0) {
+				IContent parent2 = (IContent) content2.getParent();
+				if (parent2 instanceof IListBandContent || parent2 instanceof ITableBandContent) {
+					InstanceID pid2 = parent2.getInstanceID();
+					if (pid2 == null) {
 						return false;
-					}
-					else
-					{
+					} else {
 						// the parent2 is the first child.
-						if ( pid2.getUniqueID( ) == 0 )
-						{
-							return isNextWith( content1, isContent1ChildrenRemoved, parent2 );
-						}
-						else
-						{
+						if (pid2.getUniqueID() == 0) {
+							return isNextWith(content1, isContent1ChildrenRemoved, parent2);
+						} else {
 							// content1 must be the last child.
-							if ( !content1.isLastChild( ) )
-							{
+							if (!content1.isLastChild()) {
 								return false;
 							}
 							// if content1's children are removed, the page hint should break here.
-							else if( isContent1ChildrenRemoved )
-							{
-								return false;								
+							else if (isContent1ChildrenRemoved) {
+								return false;
 							}
 
-							IContent parent1 = (IContent) content1.getParent( );
-							while ( parent1.isLastChild( ) )
-							{
-								parent1 = (IContent) parent1.getParent( );
+							IContent parent1 = (IContent) content1.getParent();
+							while (parent1.isLastChild()) {
+								parent1 = (IContent) parent1.getParent();
 							}
-							if ( parent1 instanceof IListBandContent
-									|| parent1 instanceof ITableBandContent )
-							{
-								return isSibling( parent1, parent2 );
-							}
-							else
-							{
+							if (parent1 instanceof IListBandContent || parent1 instanceof ITableBandContent) {
+								return isSibling(parent1, parent2);
+							} else {
 								return false;
 							}
 						}
 					}
+				} else {
+					return equals(content1, parent2);
 				}
-				else
-				{
-					return equals( content1, parent2 );
-				}
-			}
-			else
+			} else
 			// Case 2: content2 is NOT the first child.
 			{
 				// content1 is a container content
-				if ( content1.hasChildren( ) )
-				{
+				if (content1.hasChildren()) {
 					return false;
 				}
 				// the content1 is a leaf content or a container content without
 				// any children.
-				if ( content1.isLastChild( ) )
-				{
-					IContent parent1 = (IContent) content1.getParent( );
-					while ( parent1.isLastChild( ) )
-					{
-						parent1 = (IContent) parent1.getParent( );
+				if (content1.isLastChild()) {
+					IContent parent1 = (IContent) content1.getParent();
+					while (parent1.isLastChild()) {
+						parent1 = (IContent) parent1.getParent();
 					}
-					if ( parent1 instanceof IListBandContent
-							|| parent1 instanceof ITableBandContent )
-					{
+					if (parent1 instanceof IListBandContent || parent1 instanceof ITableBandContent) {
 						// the parent of content1 is a bandContent, and it
 						// is not the last child.
 						// so, the parent of content2 should also be a band
@@ -411,48 +314,35 @@ public class FixedLayoutPageHintGenerator
 						// been handled in case 1,
 						// it should never reach here.
 						return false;
+					} else {
+						return isSibling(parent1, content2);
 					}
-					else
-					{
-						return isSibling( parent1, content2 );
-					}
-				}
-				else
-				{
-					return isSibling( content1, content2 );
+				} else {
+					return isSibling(content1, content2);
 				}
 
 			}
 		}
-		
-		static boolean isSibling( IContent content1, IContent content2 )
-		{
-			if ( content1 == null || content2 == null || content1 == content2 )
-			{
+
+		static boolean isSibling(IContent content1, IContent content2) {
+			if (content1 == null || content2 == null || content1 == content2) {
 				return false;
 			}
-			InstanceID id1 = content1.getInstanceID( );
-			InstanceID id2 = content2.getInstanceID( );
-			if ( id1 == null || id2 == null )
-			{
+			InstanceID id1 = content1.getInstanceID();
+			InstanceID id2 = content2.getInstanceID();
+			if (id1 == null || id2 == null) {
 				return false;
 			}
-			
-			if ( id1.getUniqueID( ) + 1 == id2.getUniqueID( ) )
-			{
+
+			if (id1.getUniqueID() + 1 == id2.getUniqueID()) {
 				// the siblings
-				IContent parent1 = (IContent) content1.getParent( );
-				IContent parent2 = (IContent) content2.getParent( );
-				return equals( parent1, parent2 );
+				IContent parent1 = (IContent) content1.getParent();
+				IContent parent2 = (IContent) content2.getParent();
+				return equals(parent1, parent2);
 			}
 			return false;
 		}
-		
-		
-		
-		
-		
-		
+
 //		static boolean isNextWith( IContent content1, IContent content2 )
 //		{
 //			if ( content1 == null || content2 == null || content1 == content2 )
@@ -488,32 +378,25 @@ public class FixedLayoutPageHintGenerator
 //			return false;
 //		}
 
-		static boolean equals( IContent content1, IContent content2 )
-		{
-			if ( content1 == content2 )
+		static boolean equals(IContent content1, IContent content2) {
+			if (content1 == content2)
 				return true;
-			if ( content1 == null )
-			{
+			if (content1 == null) {
 				return false;
-			}
-			else
-			{
-				if ( content2 == null )
+			} else {
+				if (content2 == null)
 					return false;
 			}
-			InstanceID id1 = content1.getInstanceID( );
-			InstanceID id2 = content2.getInstanceID( );
-			if ( id1 == null || id2 == null )
+			InstanceID id1 = content1.getInstanceID();
+			InstanceID id2 = content2.getInstanceID();
+			if (id1 == null || id2 == null)
 				return false;
-			if ( id1.getUniqueID( ) == id2.getUniqueID( ))
-			{
-				IContent parent1 = (IContent)content1.getParent( );
-				IContent parent2 = (IContent)content2.getParent( );
-				return equals( parent1, parent2 );	
-			}
-			else
-			{
-				return false;	
+			if (id1.getUniqueID() == id2.getUniqueID()) {
+				IContent parent1 = (IContent) content1.getParent();
+				IContent parent2 = (IContent) content2.getParent();
+				return equals(parent1, parent2);
+			} else {
+				return false;
 			}
 		}
 	}

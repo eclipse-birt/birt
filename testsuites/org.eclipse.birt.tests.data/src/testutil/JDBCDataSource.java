@@ -20,96 +20,82 @@ import org.eclipse.birt.data.engine.api.querydefn.OdaDataSourceDesign;
 
 /**
  * This class extends the abstract class TestDataSource by using ODA.JDBC
- * 		includes:
- * 			jdbcDataSourceUtil
- * 			jdbcOdaDataSource
+ * includes: jdbcDataSourceUtil jdbcOdaDataSource
  */
-public class JDBCDataSource implements TestDataSource
-{
-	/** delegate to JDBCDataSourceUtil for table creation and drop*/
+public class JDBCDataSource implements TestDataSource {
+	/** delegate to JDBCDataSourceUtil for table creation and drop */
 	private JDBCDataSourceUtil jdbcDataSourceUtil;
-	
+
 	/** delegate to dteDataSource for DtE datasource and data set */
 	private JDBCOdaDataSource jdbcOdaDataSource;
-	
+
 	/**
 	 * @return one instance
 	 * @throws Exception
 	 */
-	public static TestDataSource newInstance( ) throws Exception
-	{
-		return new JDBCDataSource( );
+	public static TestDataSource newInstance() throws Exception {
+		return new JDBCDataSource();
 	}
-	
+
 	/**
 	 * @throws Exception
 	 */
-	private JDBCDataSource( ) throws Exception
-	{
-		jdbcDataSourceUtil = new JDBCDataSourceUtil( );
-		jdbcOdaDataSource = new JDBCOdaDataSource( JDBCDataSourceUtil.getURL( ),
-				JDBCDataSourceUtil.getDriverClassName( ),
-				JDBCDataSourceUtil.getUser( ),
-				JDBCDataSourceUtil.getPassword( ) );
-	}	
-	
-	/*
-	 * @see testutil.TestDataSource#createTestTable(java.lang.String, java.lang.String, boolean)
-	 */
-	public void createTable( String tableName, String metaInfo,
-			boolean dropTable ) throws SQLException
-	{
-		jdbcDataSourceUtil.createTable( tableName, metaInfo, dropTable );
+	private JDBCDataSource() throws Exception {
+		jdbcDataSourceUtil = new JDBCDataSourceUtil();
+		jdbcOdaDataSource = new JDBCOdaDataSource(JDBCDataSourceUtil.getURL(), JDBCDataSourceUtil.getDriverClassName(),
+				JDBCDataSourceUtil.getUser(), JDBCDataSourceUtil.getPassword());
 	}
 
 	/*
-	 * @see testutil.TestDataSource#createTestProcedure(java.lang.String, java.lang.String, boolean)
+	 * @see testutil.TestDataSource#createTestTable(java.lang.String,
+	 * java.lang.String, boolean)
 	 */
-	public void createStoredProcedure( String proName, String metaInfo,
-			boolean dropProc ) throws SQLException
-	{
-		jdbcDataSourceUtil.createStoredProcedure( proName, metaInfo, dropProc );
+	public void createTable(String tableName, String metaInfo, boolean dropTable) throws SQLException {
+		jdbcDataSourceUtil.createTable(tableName, metaInfo, dropTable);
 	}
-	
+
 	/*
-	 * @see testutil.TestDataSource#populateTestTable(java.lang.String, java.io.File)
+	 * @see testutil.TestDataSource#createTestProcedure(java.lang.String,
+	 * java.lang.String, boolean)
 	 */
-	public void populateTable( String testTableName, InputStream stream )
-			throws SQLException, IOException
-	{
-		jdbcDataSourceUtil.populateTable( testTableName, stream );
+	public void createStoredProcedure(String proName, String metaInfo, boolean dropProc) throws SQLException {
+		jdbcDataSourceUtil.createStoredProcedure(proName, metaInfo, dropProc);
+	}
+
+	/*
+	 * @see testutil.TestDataSource#populateTestTable(java.lang.String,
+	 * java.io.File)
+	 */
+	public void populateTable(String testTableName, InputStream stream) throws SQLException, IOException {
+		jdbcDataSourceUtil.populateTable(testTableName, stream);
 	}
 
 	/*
 	 * @see testutil.TestDataSource#dropTable(java.lang.String)
 	 */
-	public void dropTable( String tableName ) throws SQLException
-	{
-		jdbcDataSourceUtil.dropTable( tableName );
+	public void dropTable(String tableName) throws SQLException {
+		jdbcDataSourceUtil.dropTable(tableName);
 	}
 
 	/*
 	 * @see testutil.TestDataSource#close(boolean)
 	 */
-	public void close( boolean dropTable ) throws SQLException
-	{
-		jdbcDataSourceUtil.close( dropTable );
+	public void close(boolean dropTable) throws SQLException {
+		jdbcDataSourceUtil.close(dropTable);
 	}
 
 	/*
 	 * @see testutil.TestDataSource#getExtendedDataSourceDesign()
 	 */
-	public OdaDataSourceDesign getOdaDataSourceDesign( )
-	{
+	public OdaDataSourceDesign getOdaDataSourceDesign() {
 		return jdbcOdaDataSource.getOdaDataSourceDesign();
 	}
 
-	/* 
+	/*
 	 * @see testutil.TestDataSource#getExtendedDataSetDesign()
 	 */
-	public OdaDataSetDesign getOdaDataSetDesign( )
-	{
+	public OdaDataSetDesign getOdaDataSetDesign() {
 		return jdbcOdaDataSource.getOdaDataSetDesign();
 	}
-	
+
 }

@@ -19,29 +19,26 @@ import org.eclipse.core.runtime.Platform;
  * Static accessor for engine instance.
  * <p>
  */
-public class EngineAccessor
-{
+public class EngineAccessor {
 	/**
 	 * Static engine instance.
 	 */
 	public static ReportEngine engine = null;
 
-    /**
+	/**
 	 * Get engine instance.
 	 * 
 	 * @return engine instance
 	 */
-	synchronized public static ReportEngine getInstance( )
-	{
-	    if ( engine == null )
-		{
-			System.setProperty( "RUN_UNDER_ECLIPSE", "false" ); //$NON-NLS-1$ //$NON-NLS-2$
-            EngineConfig config = new EngineConfig( );
-            String t = Platform.getLocation( ).toFile( ).getAbsolutePath( );
-            config.setEngineHome( t ); //$NON-NLS-1$
-            engine = new ReportEngine( config );
+	synchronized public static ReportEngine getInstance() {
+		if (engine == null) {
+			System.setProperty("RUN_UNDER_ECLIPSE", "false"); //$NON-NLS-1$ //$NON-NLS-2$
+			EngineConfig config = new EngineConfig();
+			String t = Platform.getLocation().toFile().getAbsolutePath();
+			config.setEngineHome(t); // $NON-NLS-1$
+			engine = new ReportEngine(config);
 		}
-	    
-	    return engine;
+
+		return engine;
 	}
 }

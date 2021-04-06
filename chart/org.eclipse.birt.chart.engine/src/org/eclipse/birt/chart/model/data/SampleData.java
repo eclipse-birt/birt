@@ -15,8 +15,8 @@ import org.eclipse.birt.chart.model.IChartObject;
 import org.eclipse.emf.common.util.EList;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Sample Data</b></em>'. <!-- end-user-doc
- * -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Sample
+ * Data</b></em>'. <!-- end-user-doc -->
  * 
  * <!-- begin-model-doc -->
  * 
@@ -27,9 +27,10 @@ import org.eclipse.emf.common.util.EList;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.SampleData#getBaseSampleData <em>Base Sample Data</em>}</li>
- * <li>{@link org.eclipse.birt.chart.model.data.SampleData#getOrthogonalSampleData <em>Orthogonal Sample Data</em>}
- * </li>
+ * <li>{@link org.eclipse.birt.chart.model.data.SampleData#getBaseSampleData
+ * <em>Base Sample Data</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.SampleData#getOrthogonalSampleData
+ * <em>Orthogonal Sample Data</em>}</li>
  * </ul>
  * </p>
  * 
@@ -37,63 +38,69 @@ import org.eclipse.emf.common.util.EList;
  * @model
  * @generated
  */
-public interface SampleData extends IChartObject
-{
+public interface SampleData extends IChartObject {
 
 	/**
-	 * Returns the value of the '<em><b>Base Sample Data</b></em>' containment reference list. The list contents
-	 * are of type {@link org.eclipse.birt.chart.model.data.BaseSampleData}. <!-- begin-user-doc --> <!-- end-user-doc
-	 * --> <!-- begin-model-doc -->
+	 * Returns the value of the '<em><b>Base Sample Data</b></em>' containment
+	 * reference list. The list contents are of type
+	 * {@link org.eclipse.birt.chart.model.data.BaseSampleData}. <!-- begin-user-doc
+	 * --> <!-- end-user-doc --> <!-- begin-model-doc -->
 	 * 
 	 * Holds the sample data for base series in the chart.
 	 * 
 	 * <!-- end-model-doc -->
 	 * 
-	 * @return the value of the '<em>Base Sample Data</em>' containment reference list.
+	 * @return the value of the '<em>Base Sample Data</em>' containment reference
+	 *         list.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSampleData_BaseSampleData()
-	 * @model type="org.eclipse.birt.chart.model.data.BaseSampleData" containment="true" resolveProxies="false"
-	 *        required="true"
+	 * @model type="org.eclipse.birt.chart.model.data.BaseSampleData"
+	 *        containment="true" resolveProxies="false" required="true"
 	 * @generated
 	 */
-	EList<BaseSampleData> getBaseSampleData( );
+	EList<BaseSampleData> getBaseSampleData();
 
 	/**
-	 * Returns the value of the '<em><b>Orthogonal Sample Data</b></em>' containment reference list. The list
-	 * contents are of type {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData}. <!-- begin-user-doc -->
-	 * <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * Returns the value of the '<em><b>Orthogonal Sample Data</b></em>' containment
+	 * reference list. The list contents are of type
+	 * {@link org.eclipse.birt.chart.model.data.OrthogonalSampleData}. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
 	 * 
 	 * Holds the sample data for orthogonal series in the chart.
 	 * 
 	 * <!-- end-model-doc -->
 	 * 
-	 * @return the value of the '<em>Orthogonal Sample Data</em>' containment reference list.
+	 * @return the value of the '<em>Orthogonal Sample Data</em>' containment
+	 *         reference list.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSampleData_OrthogonalSampleData()
-	 * @model type="org.eclipse.birt.chart.model.data.OrthogonalSampleData" containment="true" resolveProxies="false"
-	 *        required="true"
+	 * @model type="org.eclipse.birt.chart.model.data.OrthogonalSampleData"
+	 *        containment="true" resolveProxies="false" required="true"
 	 * @generated
 	 */
-	EList<OrthogonalSampleData> getOrthogonalSampleData( );
+	EList<OrthogonalSampleData> getOrthogonalSampleData();
 
 	/**
-	 * Returns the value of the '<em><b>Ancillary Sample Data</b></em>' containment reference list.
-	 * The list contents are of type {@link org.eclipse.birt.chart.model.data.BaseSampleData}.
-	 * <!-- begin-user-doc -->
+	 * Returns the value of the '<em><b>Ancillary Sample Data</b></em>' containment
+	 * reference list. The list contents are of type
+	 * {@link org.eclipse.birt.chart.model.data.BaseSampleData}. <!-- begin-user-doc
+	 * -->
 	 * <p>
-	 * If the meaning of the '<em>Ancillary Sample Data</em>' containment reference list isn't clear,
-	 * there really should be more of a description here...
+	 * If the meaning of the '<em>Ancillary Sample Data</em>' containment reference
+	 * list isn't clear, there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Ancillary Sample Data</em>' containment reference list.
+	 * 
+	 * @return the value of the '<em>Ancillary Sample Data</em>' containment
+	 *         reference list.
 	 * @see org.eclipse.birt.chart.model.data.DataPackage#getSampleData_AncillarySampleData()
-	 * @model containment="true" required="true"
-	 *        extendedMetaData="kind='element' name='AncillarySampleData'"
+	 * @model containment="true" required="true" extendedMetaData="kind='element'
+	 *        name='AncillarySampleData'"
 	 * @generated
 	 */
-	EList<BaseSampleData> getAncillarySampleData( );
+	EList<BaseSampleData> getAncillarySampleData();
 
 	/**
 	 * @generated
 	 */
-	SampleData copyInstance( );
+	SampleData copyInstance();
 
 } // SampleData

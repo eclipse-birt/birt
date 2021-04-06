@@ -21,79 +21,62 @@ import org.eclipse.birt.report.engine.data.dte.CubeResultSet;
 import org.eclipse.birt.report.engine.data.dte.QueryResultSet;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 
-
-public class BaseResultSetDecorator implements IBaseResultSet
-{
+public class BaseResultSetDecorator implements IBaseResultSet {
 	private List<IBaseResultSet> resultSets;
 
 	private IBaseResultSet lastResultSet;
-	
-	public BaseResultSetDecorator( List<IBaseResultSet> resultSets )
-	{
-		assert( resultSets.size( ) > 0 );
+
+	public BaseResultSetDecorator(List<IBaseResultSet> resultSets) {
+		assert (resultSets.size() > 0);
 		this.resultSets = resultSets;
-		lastResultSet = resultSets.get( resultSets.size( ) - 1 );
+		lastResultSet = resultSets.get(resultSets.size() - 1);
 	}
-	
-	public void close( )
-	{
-		for ( IBaseResultSet resultSet : resultSets )
-		{
-			resultSet.close( );
+
+	public void close() {
+		for (IBaseResultSet resultSet : resultSets) {
+			resultSet.close();
 		}
 	}
 
-	public Object evaluate( String expr ) throws BirtException
-	{
-		throw new UnsupportedOperationException();
-	}
-	
-	public Object evaluate( String language, String expr ) throws BirtException
-	{
+	public Object evaluate(String expr) throws BirtException {
 		throw new UnsupportedOperationException();
 	}
 
-	public Object evaluate( IBaseExpression expr ) throws BirtException
-	{
+	public Object evaluate(String language, String expr) throws BirtException {
 		throw new UnsupportedOperationException();
 	}
 
-	public DataSetID getID( )
-	{
-		return lastResultSet.getID( );
+	public Object evaluate(IBaseExpression expr) throws BirtException {
+		throw new UnsupportedOperationException();
 	}
 
-	public IBaseResultSet getParent( )
-	{
-		return lastResultSet.getParent( );
+	public DataSetID getID() {
+		return lastResultSet.getID();
 	}
 
-	public IBaseQueryResults getQueryResults( )
-	{
-		return lastResultSet.getQueryResults( );
+	public IBaseResultSet getParent() {
+		return lastResultSet.getParent();
 	}
 
-	public String getRawID( ) throws BirtException
-	{
-		return lastResultSet.getRawID( );
+	public IBaseQueryResults getQueryResults() {
+		return lastResultSet.getQueryResults();
 	}
 
-	public int getType( )
-	{
-		return lastResultSet.getType( );
+	public String getRawID() throws BirtException {
+		return lastResultSet.getRawID();
 	}
 
-	public String getResultSetId( )
-	{
-		if ( lastResultSet instanceof QueryResultSet )
-		{
+	public int getType() {
+		return lastResultSet.getType();
+	}
+
+	public String getResultSetId() {
+		if (lastResultSet instanceof QueryResultSet) {
 			QueryResultSet queryResultSet = (QueryResultSet) lastResultSet;
-			return queryResultSet.getQueryResultsID( );
-		}
-		else
-		{
+			return queryResultSet.getQueryResultsID();
+		} else {
 			CubeResultSet cubeResultSet = (CubeResultSet) lastResultSet;
-			return cubeResultSet.getQueryResultsID( );
+			return cubeResultSet.getQueryResultsID();
 		}
 	}
 }

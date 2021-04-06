@@ -20,8 +20,7 @@ import org.eclipse.birt.report.designer.ui.preferences.TemplateConfigurationBloc
  * 
  */
 
-public class ResourcePageHelperProvider implements IDialogHelperProvider
-{
+public class ResourcePageHelperProvider implements IDialogHelperProvider {
 
 	/*
 	 * (non-Javadoc)
@@ -29,26 +28,21 @@ public class ResourcePageHelperProvider implements IDialogHelperProvider
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.dialogs.helper.
 	 * IDialogHelperProvider#createHelper(java.lang.Object, java.lang.String)
 	 */
-	public IDialogHelper createHelper( Object container, String helperKey )
-	{
-		if ( container instanceof ResourceConfigurationBlock )
-		{
-			if ( ResourceConfigurationBlock.BUTTON_KEY.equals( helperKey ) )
-			{
-				return new IDEResourcePageHelper( );
+	public IDialogHelper createHelper(Object container, String helperKey) {
+		if (container instanceof ResourceConfigurationBlock) {
+			if (ResourceConfigurationBlock.BUTTON_KEY.equals(helperKey)) {
+				return new IDEResourcePageHelper();
 			}
-		}
-		else if (container instanceof TemplateConfigurationBlock)
-		{
-			if ( TemplateConfigurationBlock.BUTTON_KEY.equals( helperKey ) )
-			{
+		} else if (container instanceof TemplateConfigurationBlock) {
+			if (TemplateConfigurationBlock.BUTTON_KEY.equals(helperKey)) {
 				IDEResourcePageHelper helper = new IDEResourcePageHelper();
-				helper.setButtonLabels( new String[]{ IDEResourcePageHelper.FILESYSTEM_BUTTON, IDEResourcePageHelper.VARIABLES_BUTTON} );
-				//helper.setButonAlignment( SWT.BEGINNING );
+				helper.setButtonLabels(new String[] { IDEResourcePageHelper.FILESYSTEM_BUTTON,
+						IDEResourcePageHelper.VARIABLES_BUTTON });
+				// helper.setButonAlignment( SWT.BEGINNING );
 				return helper;
 			}
 		}
-		
+
 		return null;
 	}
 }

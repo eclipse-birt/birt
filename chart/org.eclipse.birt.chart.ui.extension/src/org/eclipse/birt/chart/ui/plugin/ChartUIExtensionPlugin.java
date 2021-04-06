@@ -17,8 +17,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
  * Plugin class for Chart UI Extension
  */
 
-public class ChartUIExtensionPlugin extends AbstractUIPlugin
-{
+public class ChartUIExtensionPlugin extends AbstractUIPlugin {
 
 	/**
 	 * Plugin ID.
@@ -26,23 +25,21 @@ public class ChartUIExtensionPlugin extends AbstractUIPlugin
 	public static final String ID = "org.eclipse.birt.chart.ui.extension"; //$NON-NLS-1$
 
 	private static ChartUIExtensionPlugin plugin = null;
-	
+
 	/**
 	 * Constructor.
 	 */
-	public ChartUIExtensionPlugin( )
-	{
+	public ChartUIExtensionPlugin() {
 		plugin = this;
 	}
-	
+
 	/**
 	 * Returns current plugin instance.
 	 * 
 	 * @return
 	 * @since 2.5
 	 */
-	public static AbstractUIPlugin getDefault( )
-	{
+	public static AbstractUIPlugin getDefault() {
 		return plugin;
 	}
 }

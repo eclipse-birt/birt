@@ -22,30 +22,24 @@ import org.eclipse.swt.widgets.Composite;
  * The general attribute page of Library element.
  */
 
-public class LibraryPage extends ModulePage
-{
+public class LibraryPage extends ModulePage {
 
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		
-		SeperatorSection seperatorSection = new SeperatorSection( container,
-				SWT.HORIZONTAL );
-		addSection( PageSectionId.LIBRARY_SEPERATOR, seperatorSection );
-		
-		LibraryNameSpaceDescriptorProvider libraryProvider = new LibraryNameSpaceDescriptorProvider(  );
-		TextSection librarySection = new TextSection( libraryProvider.getDisplayName( ),
-				container,
-				true );
-		librarySection.setProvider( libraryProvider );
-		librarySection.setWidth( 500 );
-		librarySection.setGridPlaceholder( 2, true );
-		addSection( PageSectionId.LIBRARY_LIBRARY, librarySection );
-		
-		createSections( );
-		layoutSections( );
-		
+		SeperatorSection seperatorSection = new SeperatorSection(container, SWT.HORIZONTAL);
+		addSection(PageSectionId.LIBRARY_SEPERATOR, seperatorSection);
+
+		LibraryNameSpaceDescriptorProvider libraryProvider = new LibraryNameSpaceDescriptorProvider();
+		TextSection librarySection = new TextSection(libraryProvider.getDisplayName(), container, true);
+		librarySection.setProvider(libraryProvider);
+		librarySection.setWidth(500);
+		librarySection.setGridPlaceholder(2, true);
+		addSection(PageSectionId.LIBRARY_LIBRARY, librarySection);
+
+		createSections();
+		layoutSections();
+
 //		labels = new Label[3];
 //		labels[0]=WidgetUtil.createHorizontalLine( this, 5 );
 //
@@ -60,8 +54,7 @@ public class LibraryPage extends ModulePage
 //		labels[2]=WidgetUtil.createGridPlaceholder( this, 1, true );
 	}
 
-	public String getElementType( )
-	{
+	public String getElementType() {
 		return ReportDesignConstants.LIBRARY_ELEMENT;
 	}
 

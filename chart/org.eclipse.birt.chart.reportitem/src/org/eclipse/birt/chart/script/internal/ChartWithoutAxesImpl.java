@@ -27,49 +27,36 @@ import org.eclipse.emf.common.util.EList;
  * 
  */
 
-public class ChartWithoutAxesImpl extends ChartImpl
-		implements
-			IChartWithoutAxes
-{
+public class ChartWithoutAxesImpl extends ChartImpl implements IChartWithoutAxes {
 
-	public ChartWithoutAxesImpl( ExtendedItemHandle eih, ChartWithoutAxes cm )
-	{
-		super( eih, cm );
+	public ChartWithoutAxesImpl(ExtendedItemHandle eih, ChartWithoutAxes cm) {
+		super(eih, cm);
 	}
 
-	public IValueSeries[] getValueSeries( )
-	{
-		SeriesDefinition bsd = (SeriesDefinition) getChartWithoutAxes( ).getSeriesDefinitions( )
-				.get( 0 );
-		EList osds = bsd.getSeriesDefinitions( );
-		IValueSeries[] valueSeries = new IValueSeries[osds.size( )];
-		for ( int i = 0; i < valueSeries.length; i++ )
-		{
-			SeriesDefinition osd = (SeriesDefinition) osds.get( i );
-			valueSeries[i] = ValueSeriesImpl.createValueSeries( osd, cm );
+	public IValueSeries[] getValueSeries() {
+		SeriesDefinition bsd = (SeriesDefinition) getChartWithoutAxes().getSeriesDefinitions().get(0);
+		EList osds = bsd.getSeriesDefinitions();
+		IValueSeries[] valueSeries = new IValueSeries[osds.size()];
+		for (int i = 0; i < valueSeries.length; i++) {
+			SeriesDefinition osd = (SeriesDefinition) osds.get(i);
+			valueSeries[i] = ValueSeriesImpl.createValueSeries(osd, cm);
 		}
 		return valueSeries;
 	}
 
-	public ICategory getCategory( )
-	{
-		SeriesDefinition bsd = (SeriesDefinition) getChartWithoutAxes( ).getSeriesDefinitions( )
-				.get( 0 );
-		return new CategoryImpl( bsd, cm );
+	public ICategory getCategory() {
+		SeriesDefinition bsd = (SeriesDefinition) getChartWithoutAxes().getSeriesDefinitions().get(0);
+		return new CategoryImpl(bsd, cm);
 	}
 
-	private ChartWithoutAxes getChartWithoutAxes( )
-	{
+	private ChartWithoutAxes getChartWithoutAxes() {
 		return (ChartWithoutAxes) cm;
 	}
 
-	public void setDimension( String dimensionName )
-	{
-		if ( ChartDimension.THREE_DIMENSIONAL_LITERAL.getName( )
-				.equals( dimensionName ) )
-		{
-			throw new IllegalArgumentException( Messages.getString( "ChartWithoutAxesImpl.exception.3DNotSupported" ) ); //$NON-NLS-1$
+	public void setDimension(String dimensionName) {
+		if (ChartDimension.THREE_DIMENSIONAL_LITERAL.getName().equals(dimensionName)) {
+			throw new IllegalArgumentException(Messages.getString("ChartWithoutAxesImpl.exception.3DNotSupported")); //$NON-NLS-1$
 		}
-		super.setDimension( dimensionName );
+		super.setDimension(dimensionName);
 	}
 }

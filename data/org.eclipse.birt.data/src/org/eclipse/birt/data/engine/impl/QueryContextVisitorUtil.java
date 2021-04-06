@@ -21,30 +21,27 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public class QueryContextVisitorUtil
-{
-	public static IQueryContextVisitor createQueryContextVisitor( IQueryDefinition query, Map appContext )
-	{
+public class QueryContextVisitorUtil {
+	public static IQueryContextVisitor createQueryContextVisitor(IQueryDefinition query, Map appContext) {
 		return null;
 	}
-	
-	public static Object getVisitorQuery( IQueryContextVisitor visitor )
-	{
+
+	public static Object getVisitorQuery(IQueryContextVisitor visitor) {
 		return null;
 	}
-	
-	public static void populateEffectiveQueryText( IQueryContextVisitor visitor, String effectiveQueryText ) throws DataException
-	{
-		
+
+	public static void populateEffectiveQueryText(IQueryContextVisitor visitor, String effectiveQueryText)
+			throws DataException {
+
 	}
-	
-	public static void populateDataSet( IQueryContextVisitor visitor, IBaseDataSetDesign dataSet, Map appContext ) throws DataException
-	{
-		
+
+	public static void populateDataSet(IQueryContextVisitor visitor, IBaseDataSetDesign dataSet, Map appContext)
+			throws DataException {
+
 	}
-	
-	public static void populateOriginalQueryText( IQueryContextVisitor visitor, String effectiveQueryText ) throws DataException
-	{
-		
-	} 
+
+	public static void populateOriginalQueryText(IQueryContextVisitor visitor, String effectiveQueryText)
+			throws DataException {
+
+	}
 }

@@ -34,8 +34,7 @@ import org.eclipse.birt.report.model.validators.AbstractPropertyValidator;
  * properties of <code>DesignElement</code>.
  */
 
-public class ValueRequiredValidator extends AbstractPropertyValidator
-{
+public class ValueRequiredValidator extends AbstractPropertyValidator {
 
 	/**
 	 * Name of this validator
@@ -43,7 +42,7 @@ public class ValueRequiredValidator extends AbstractPropertyValidator
 
 	public final static String NAME = "ValueRequiredValidator"; //$NON-NLS-1$
 
-	private static ValueRequiredValidator instance = new ValueRequiredValidator( );
+	private static ValueRequiredValidator instance = new ValueRequiredValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -51,49 +50,37 @@ public class ValueRequiredValidator extends AbstractPropertyValidator
 	 * @return the validator instance
 	 */
 
-	public static ValueRequiredValidator getInstance( )
-	{
+	public static ValueRequiredValidator getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Validates whether value is set for the given required property.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the element holding this required property
-	 * @param propName
-	 *            the name of the property to validate
+	 * @param module   the module
+	 * @param element  the element holding this required property
+	 * @param propName the name of the property to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element, String propName )
-	{
+	public List<SemanticException> validate(Module module, DesignElement element, String propName) {
 		DesignElement e = element;
-		while( e != null )
-		{
+		while (e != null) {
 			// do nothing if this element is template definition or its content
-			if ( e instanceof TemplateParameterDefinition )
-			{
+			if (e instanceof TemplateParameterDefinition) {
 				return Collections.emptyList();
 			}
-			
+
 			e = e.getContainer();
 		}
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
-		Object value = element.getProperty( module, propName );
-		if ( value == null
-				|| ( value instanceof String && StringUtil.isBlank( (String) value ) )
-				|| ( value instanceof Expression && ( (Expression) value ).getExpression( ) == null ) )
-		{
-			list.add( new PropertyValueException( element,
-					propName,
-					value,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		Object value = element.getProperty(module, propName);
+		if (value == null || (value instanceof String && StringUtil.isBlank((String) value))
+				|| (value instanceof Expression && ((Expression) value).getExpression() == null)) {
+			list.add(new PropertyValueException(element, propName, value,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED));
 		}
 
 		return list;

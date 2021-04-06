@@ -78,7 +78,8 @@ import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
  * <th>TYPE</th>
  * <th>COMMENT</th>
  * </tr>
- * <tr>>
+ * <tr>
+ * >
  * <td>INT</td>
  * <td>version, 6</td>
  * </tr>
@@ -140,8 +141,7 @@ import org.eclipse.birt.report.engine.presentation.UnresolvedRowHint;
  * </tr>
  * </table>
  */
-public class PageHintReaderV3 implements IPageHintReader
-{
+public class PageHintReaderV3 implements IPageHintReader {
 
 	protected IDocArchiveReader reader;
 	protected RAInputStream indexStream;
@@ -151,99 +151,73 @@ public class PageHintReaderV3 implements IPageHintReader
 	protected ArrayList<PageVariable> pageVariables;
 	protected int version;
 
-	public PageHintReaderV3( IDocArchiveReader reader ) throws IOException
-	{
+	public PageHintReaderV3(IDocArchiveReader reader) throws IOException {
 		this.reader = reader;
-		try
-		{
-			hintsStream = reader
-					.getStream( ReportDocumentConstants.PAGEHINT_STREAM );
-			indexStream = reader
-					.getStream( ReportDocumentConstants.PAGEHINT_INDEX_STREAM );
-			pageIndexReader = new PageIndexReader( reader );
-			version = readHintVersion( hintsStream );
-			if ( version != VERSION_3 && version != VERSION_4
-					&& version != VERSION_5 && version != VERSION_6 )
-			{
-				throw new IOException( "unsupported hint version:" + version );
+		try {
+			hintsStream = reader.getStream(ReportDocumentConstants.PAGEHINT_STREAM);
+			indexStream = reader.getStream(ReportDocumentConstants.PAGEHINT_INDEX_STREAM);
+			pageIndexReader = new PageIndexReader(reader);
+			version = readHintVersion(hintsStream);
+			if (version != VERSION_3 && version != VERSION_4 && version != VERSION_5 && version != VERSION_6) {
+				throw new IOException("unsupported hint version:" + version);
 			}
-		}
-		catch ( IOException ex )
-		{
-			close( );
+		} catch (IOException ex) {
+			close();
 			throw ex;
 		}
 	}
 
-	public int getVersion( )
-	{
+	public int getVersion() {
 		return version;
 	}
 
-	public static int readHintVersion( RAInputStream hintStream )
-			throws IOException
-	{
-		hintStream.seek( 0 );
-		int version = hintStream.readInt( );
-		if ( version == 0 )
-		{
+	public static int readHintVersion(RAInputStream hintStream) throws IOException {
+		hintStream.seek(0);
+		int version = hintStream.readInt();
+		if (version == 0) {
 			return VERSION_1;
 		}
 		return version;
 	}
 
-	public void close( )
-	{
-		try
-		{
-			if ( hintsStream != null )
-			{
-				hintsStream.close( );
+	public void close() {
+		try {
+			if (hintsStream != null) {
+				hintsStream.close();
 				hintsStream = null;
 			}
-			if ( indexStream != null )
-			{
-				indexStream.close( );
+			if (indexStream != null) {
+				indexStream.close();
 				indexStream = null;
 			}
-			if ( pageIndexReader != null )
-			{
-				pageIndexReader.close( );
+			if (pageIndexReader != null) {
+				pageIndexReader.close();
 				pageIndexReader = null;
 			}
-		}
-		catch ( IOException ex )
-		{
+		} catch (IOException ex) {
 
 		}
 	}
 
-	synchronized public long getTotalPage( ) throws IOException
-	{
-		indexStream.refresh( );
-		indexStream.seek( 0 );
-		totalPage = indexStream.readLong( );
+	synchronized public long getTotalPage() throws IOException {
+		indexStream.refresh();
+		indexStream.seek(0);
+		totalPage = indexStream.readLong();
 		return totalPage;
 	}
 
 	/**
 	 * The page variable is only supported in VERSION_6
 	 */
-	synchronized public Collection<PageVariable> getPageVariables( )
-			throws IOException
-	{
-		if ( pageVariables == null )
-		{
-			pageVariables = new ArrayList<PageVariable>( );
-			if ( version == VERSION_6 )
-			{
-				indexStream.seek( 8 );
-				long offset = indexStream.readLong( );
-				if ( offset != -1 )
-				{
-					hintsStream.seek( offset );
-					readPageVariables( new DataInputStream( hintsStream ),
-							pageVariables );
+	synchronized public Collection<PageVariable> getPageVariables() throws IOException {
+		if (pageVariables == null) {
+			pageVariables = new ArrayList<PageVariable>();
+			if (version == VERSION_6) {
+				indexStream.seek(8);
+				long offset = indexStream.readLong();
+				if (offset != -1) {
+					hintsStream.seek(offset);
+					readPageVariables(new DataInputStream(hintsStream), pageVariables);
 				}
 			}
 		}
@@ -256,145 +230,118 @@ public class PageHintReaderV3 implements IPageHintReader
 	 * before version 6, the offset is 8 * pageNumber. the 1st long is the total
 	 * page. the page number starts from integer 1.
 	 * 
-	 * after (include) version 6, the offset is 8 * (pageNumber + 1). the 1st
-	 * long is the total page, the 2nd long is the offset to page variable. the
-	 * page number is start from integer 1.
+	 * after (include) version 6, the offset is 8 * (pageNumber + 1). the 1st long
+	 * is the total page, the 2nd long is the offset to page variable. the page
+	 * number is start from integer 1.
 	 * 
 	 * @param pageNumber
 	 * @return the offset of the hints in the hint stream.
 	 */
-	private long getHintOffset( long pageNumber )
-	{
-		switch ( version )
-		{
-			case VERSION_3 :
-			case VERSION_4 :
-			case VERSION_5 :
-				return pageNumber * 8;
-			case VERSION_6 :
-				return ( pageNumber + 1 ) * 8;
-			default :
-				assert false;
-				return -1;
+	private long getHintOffset(long pageNumber) {
+		switch (version) {
+		case VERSION_3:
+		case VERSION_4:
+		case VERSION_5:
+			return pageNumber * 8;
+		case VERSION_6:
+			return (pageNumber + 1) * 8;
+		default:
+			assert false;
+			return -1;
 		}
 	}
 
-	synchronized public IPageHint getPageHint( long pageNumber )
-			throws IOException
-	{
-		long indexOffset = getHintOffset( pageNumber );
-		indexStream.seek( indexOffset );
-		long offset = indexStream.readLong( );
-		hintsStream.seek( offset );
-		return readPageHint( version, new DataInputStream( hintsStream ) );
+	synchronized public IPageHint getPageHint(long pageNumber) throws IOException {
+		long indexOffset = getHintOffset(pageNumber);
+		indexStream.seek(indexOffset);
+		long offset = indexStream.readLong();
+		hintsStream.seek(offset);
+		return readPageHint(version, new DataInputStream(hintsStream));
 	}
 
-	protected IPageHint readPageHint( int version, DataInputStream in )
-			throws IOException
-	{
-		switch ( version )
-		{
-			case IPageHintWriter.VERSION_4 :
-				return readPageHintV4( in );
-			case IPageHintWriter.VERSION_5 :
-				return readPageHintV5( in );
-			case IPageHintWriter.VERSION_6 :
-				return readPageHintV6( in );
-			default :
-				throw new IOException( "Unsupported page hint version "
-						+ version );
+	protected IPageHint readPageHint(int version, DataInputStream in) throws IOException {
+		switch (version) {
+		case IPageHintWriter.VERSION_4:
+			return readPageHintV4(in);
+		case IPageHintWriter.VERSION_5:
+			return readPageHintV5(in);
+		case IPageHintWriter.VERSION_6:
+			return readPageHintV6(in);
+		default:
+			throw new IOException("Unsupported page hint version " + version);
 		}
 	}
 
-	public PageHint readPageHintV6( DataInputStream in ) throws IOException
-	{
-		PageHint hint = readPageHintV5( in );
-		Collection<PageVariable> variables = hint.getPageVariables( );
-		readPageVariables( in, variables );
+	public PageHint readPageHintV6(DataInputStream in) throws IOException {
+		PageHint hint = readPageHintV5(in);
+		Collection<PageVariable> variables = hint.getPageVariables();
+		readPageVariables(in, variables);
 		return hint;
 	}
 
-	public PageHint readPageHintV5( DataInputStream in ) throws IOException
-	{
-		PageHint hint = readPageHintV4( in );
-		int columnHintSize = IOUtil.readInt( in );
-		for ( int i = 0; i < columnHintSize; i++ )
-		{
-			String tableId = IOUtil.readString( in );
-			int start = IOUtil.readInt( in );
-			int columnCount = IOUtil.readInt( in );
-			hint.addTableColumnHint( new TableColumnHint( tableId, start,
-					columnCount ) );
+	public PageHint readPageHintV5(DataInputStream in) throws IOException {
+		PageHint hint = readPageHintV4(in);
+		int columnHintSize = IOUtil.readInt(in);
+		for (int i = 0; i < columnHintSize; i++) {
+			String tableId = IOUtil.readString(in);
+			int start = IOUtil.readInt(in);
+			int columnCount = IOUtil.readInt(in);
+			hint.addTableColumnHint(new TableColumnHint(tableId, start, columnCount));
 		}
 		return hint;
 	}
 
-	public PageHint readPageHintV4( DataInputStream in ) throws IOException
-	{
-		long pageNumber = IOUtil.readLong( in );
-		String masterPage = IOUtil.readString( in );
-		PageHint hint = new PageHint( pageNumber, masterPage );
-		hint.setOffset( pageIndexReader.getPageOffset( masterPage ) );
-		int sectionCount = IOUtil.readInt( in );
-		for ( int i = 0; i < sectionCount; i++ )
-		{
-			PageSection section = new PageSection( );
-			section.starts = readInstanceIndex( in );
-			section.ends = readInstanceIndex( in );
-			section.startOffset = section.starts[section.starts.length - 1]
-					.getOffset( );
-			section.endOffset = section.ends[section.ends.length - 1]
-					.getOffset( );
-			hint.addSection( section );
+	public PageHint readPageHintV4(DataInputStream in) throws IOException {
+		long pageNumber = IOUtil.readLong(in);
+		String masterPage = IOUtil.readString(in);
+		PageHint hint = new PageHint(pageNumber, masterPage);
+		hint.setOffset(pageIndexReader.getPageOffset(masterPage));
+		int sectionCount = IOUtil.readInt(in);
+		for (int i = 0; i < sectionCount; i++) {
+			PageSection section = new PageSection();
+			section.starts = readInstanceIndex(in);
+			section.ends = readInstanceIndex(in);
+			section.startOffset = section.starts[section.starts.length - 1].getOffset();
+			section.endOffset = section.ends[section.ends.length - 1].getOffset();
+			hint.addSection(section);
 		}
 
-		int hintSize = IOUtil.readInt( in );
-		for ( int i = 0; i < hintSize; i++ )
-		{
-			UnresolvedRowHint rowHint = new UnresolvedRowHint( );
-			rowHint.readObject( new DataInputStream( in ) );
-			hint.addUnresolvedRowHint( rowHint );
+		int hintSize = IOUtil.readInt(in);
+		for (int i = 0; i < hintSize; i++) {
+			UnresolvedRowHint rowHint = new UnresolvedRowHint();
+			rowHint.readObject(new DataInputStream(in));
+			hint.addUnresolvedRowHint(rowHint);
 		}
 		return hint;
 	}
 
-	protected InstanceIndex[] readInstanceIndex( DataInputStream in )
-			throws IOException
-	{
-		int length = IOUtil.readInt( in );
+	protected InstanceIndex[] readInstanceIndex(DataInputStream in) throws IOException {
+		int length = IOUtil.readInt(in);
 		InstanceIndex[] indexes = new InstanceIndex[length];
-		for ( int i = 0; i < length; i++ )
-		{
-			String id = IOUtil.readString( in );
-			long offset = IOUtil.readLong( in );
-			indexes[i] = new InstanceIndex( InstanceID.parse( id ), offset );
+		for (int i = 0; i < length; i++) {
+			String id = IOUtil.readString(in);
+			long offset = IOUtil.readLong(in);
+			indexes[i] = new InstanceIndex(InstanceID.parse(id), offset);
 		}
 		return indexes;
 	}
 
-	public long getPageOffset( long pageNumber, String masterPage )
-			throws IOException
-	{
-		return pageIndexReader.getPageOffset( masterPage );
+	public long getPageOffset(long pageNumber, String masterPage) throws IOException {
+		return pageIndexReader.getPageOffset(masterPage);
 	}
 
-	protected void readPageVariables( DataInputStream in,
-			Collection<PageVariable> variables ) throws IOException
-	{
-		int count = IOUtil.readInt( in );
-		for ( int i = 0; i < count; i++ )
-		{
-			PageVariable variable = readPageVariable( in );
-			variables.add( variable );
+	protected void readPageVariables(DataInputStream in, Collection<PageVariable> variables) throws IOException {
+		int count = IOUtil.readInt(in);
+		for (int i = 0; i < count; i++) {
+			PageVariable variable = readPageVariable(in);
+			variables.add(variable);
 		}
 	}
 
-	private PageVariable readPageVariable( DataInputStream in )
-			throws IOException
-	{
-		String name = IOUtil.readString( in );
-		String scope = IOUtil.readString( in );
-		Object value = IOUtil.readObject( in );
-		return new PageVariable( name, scope, value );
+	private PageVariable readPageVariable(DataInputStream in) throws IOException {
+		String name = IOUtil.readString(in);
+		String scope = IOUtil.readString(in);
+		Object value = IOUtil.readObject(in);
+		return new PageVariable(name, scope, value);
 	}
 }

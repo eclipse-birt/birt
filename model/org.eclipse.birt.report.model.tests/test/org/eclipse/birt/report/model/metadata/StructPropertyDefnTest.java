@@ -7,11 +7,10 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.report.model.metadata;
 
 import org.eclipse.birt.report.model.util.BaseTestCase;
-
 
 /**
  * 
@@ -32,13 +31,11 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * 
  */
 
-public class StructPropertyDefnTest extends BaseTestCase 
-{
-    private StructPropertyDefn propertyDefn = new StructPropertyDefn();
-    
-    public void testDefnType()
-    {
-        assertTrue( propertyDefn.isStructureMember( ) );
-    }
+public class StructPropertyDefnTest extends BaseTestCase {
+	private StructPropertyDefn propertyDefn = new StructPropertyDefn();
+
+	public void testDefnType() {
+		assertTrue(propertyDefn.isStructureMember());
+	}
 
 }

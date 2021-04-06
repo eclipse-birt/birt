@@ -17,9 +17,8 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 
-public interface ICubeGroupContentProvider
-{
+public interface ICubeGroupContentProvider {
 
-	CubeGroupContent createGroupContent( Composite parent, int style );
+	CubeGroupContent createGroupContent(Composite parent, int style);
 
 }

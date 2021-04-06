@@ -16,7 +16,6 @@ import org.eclipse.birt.report.designer.ui.samplesview.view.ReportExamples;
 /**
  * Represents the open sample report action
  */
-public interface IOpenSampleReportAction
-{
-	void setMainComposite( ReportExamples mainComposite );
+public interface IOpenSampleReportAction {
+	void setMainComposite(ReportExamples mainComposite);
 }

@@ -21,63 +21,64 @@ import org.eclipse.birt.data.engine.api.ISortDefinition;
  * This is the the interface to define the edge drilling down/up operation.
  */
 
-public interface IEdgeDrillFilter extends INamedObject
-{
+public interface IEdgeDrillFilter extends INamedObject {
 	/**
 	 * The hierarchy on which to apply this drill filter
 	 * 
 	 * @param hierarchy
 	 */
-	public void setTargetHierarchy( IHierarchyDefinition hierarchy );
-	
+	public void setTargetHierarchy(IHierarchyDefinition hierarchy);
+
 	/**
 	 * Return the hierarchy on which to apply this drill filter
 	 * 
 	 */
-	public IHierarchyDefinition getTargetHierarchy( );
-	
+	public IHierarchyDefinition getTargetHierarchy();
+
 	/**
-	 * The level of the Hierarchy to drill up or down to on the branch that
-	 * contains drill member
+	 * The level of the Hierarchy to drill up or down to on the branch that contains
+	 * drill member
 	 * 
 	 * @return
 	 */
-	public void setTargetLevelName( String targetLevelName );
-	
+	public void setTargetLevelName(String targetLevelName);
+
 	/**
-	 * The level of the Hierarchy to drill up or down to on the branch that
-	 * contains drill member
+	 * The level of the Hierarchy to drill up or down to on the branch that contains
+	 * drill member
 	 * 
 	 * @return
 	 */
-	public String getTargetLevelName( );
-	
+	public String getTargetLevelName();
+
 	/**
 	 * Add filter
+	 * 
 	 * @param sort
 	 */
-	public void addLevelFilter( IFilterDefinition filter );
-	
+	public void addLevelFilter(IFilterDefinition filter);
+
 	/**
 	 * Get filter definition
+	 * 
 	 * @return
 	 */
-	public List<IFilterDefinition> getLevelFilter( );
-	
+	public List<IFilterDefinition> getLevelFilter();
+
 	/**
 	 * Add sort definition for target level.
 	 * 
 	 * @param sort
 	 * 
 	 */
-	public void addLevelSort( ISortDefinition sort );
+	public void addLevelSort(ISortDefinition sort);
 
 	/**
 	 * Return sorts definition for the target level.
 	 * 
 	 * @return
 	 */
-	public List<ISortDefinition> getLevelSort( );
+	public List<ISortDefinition> getLevelSort();
 
 	/**
 	 * The collection represents the value of edge
@@ -85,7 +86,7 @@ public interface IEdgeDrillFilter extends INamedObject
 	 * @param level
 	 * @param value
 	 */
-	public void setTuple( Collection<Object[]> tuple );
+	public void setTuple(Collection<Object[]> tuple);
 
 	/**
 	 * Get the value associate with certain level.
@@ -93,5 +94,5 @@ public interface IEdgeDrillFilter extends INamedObject
 	 * @param level
 	 * @return
 	 */
-	public Collection<Object[]> getTuple( );
+	public Collection<Object[]> getTuple();
 }

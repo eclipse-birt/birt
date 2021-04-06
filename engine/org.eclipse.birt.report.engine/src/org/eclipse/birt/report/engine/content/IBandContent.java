@@ -25,8 +25,7 @@ import org.eclipse.birt.report.engine.ir.BandDesign;
  * <li><code>GROUP_FOOTER</code></li>
  * <li><code>BAND_DETAIL</code></li>
  */
-public interface IBandContent extends IContainerContent
-{
+public interface IBandContent extends IContainerContent {
 
 	public static final int BAND_HEADER = BandDesign.BAND_HEADER;
 	public static final int BAND_FOOTER = BandDesign.BAND_FOOTER;
@@ -36,8 +35,8 @@ public interface IBandContent extends IContainerContent
 
 	/**
 	 * Get the type of the band content. The return result of this method is in
-	 * <code>int</code> format, and the <code>int</code> value must be one
-	 * of the following predefined values in class <code>IBandContent</code>:
+	 * <code>int</code> format, and the <code>int</code> value must be one of the
+	 * following predefined values in class <code>IBandContent</code>:
 	 * <li><code>BAND_HEADER</code></li>
 	 * <li><code>BAND_FOOTER</code></li>
 	 * <li><code>GROUP_HEADER</code></li>
@@ -46,22 +45,21 @@ public interface IBandContent extends IContainerContent
 	 * 
 	 * @return type of the band content.
 	 */
-	int getBandType( );
+	int getBandType();
 
 	/**
 	 * Set the type of the band content. The value of parameter
-	 * <code>bandType</code> must be one of the following predefined values in
-	 * class <code>IBandContent</code>:
+	 * <code>bandType</code> must be one of the following predefined values in class
+	 * <code>IBandContent</code>:
 	 * <li><code>BAND_HEADER</code></li>
 	 * <li><code>BAND_FOOTER</code></li>
 	 * <li><code>GROUP_HEADER</code></li>
 	 * <li><code>GROUP_FOOTER</code></li>
 	 * <li><code>BAND_DETAIL</code></li>
 	 * 
-	 * @param bandType
-	 *            the type of the band content.
+	 * @param bandType the type of the band content.
 	 */
-	void setBandType( int bandType );
+	void setBandType(int bandType);
 
 	/**
 	 * Get the group id if the band content is in some group. This method will
@@ -70,5 +68,5 @@ public interface IBandContent extends IContainerContent
 	 * 
 	 * @return the group id.
 	 */
-	String getGroupID( );
+	String getGroupID();
 }

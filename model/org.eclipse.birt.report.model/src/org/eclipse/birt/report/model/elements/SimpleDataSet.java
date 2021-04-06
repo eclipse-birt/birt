@@ -36,60 +36,50 @@ import org.eclipse.birt.report.model.elements.interfaces.ISimpleDataSetModel;
  * 
  */
 
-public abstract class SimpleDataSet extends DataSet
-		implements
-			ISimpleDataSetModel
-{
+public abstract class SimpleDataSet extends DataSet implements ISimpleDataSetModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public SimpleDataSet( )
-	{
+	public SimpleDataSet() {
 	}
 
 	/**
 	 * Constructs the data set with a required name.
 	 * 
-	 * @param theName
-	 *            the required name
+	 * @param theName the required name
 	 */
 
-	public SimpleDataSet( String theName )
-	{
-		super( theName );
+	public SimpleDataSet(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
+	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse
 	 * .birt.report.model.elements.ReportDesign)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
 		// Check the data source value is required
 
-		list.addAll( ValueRequiredValidator.getInstance( ).validate( module,
-				this, DATA_SOURCE_PROP ) );
+		list.addAll(ValueRequiredValidator.getInstance().validate(module, this, DATA_SOURCE_PROP));
 
 		// Check the element reference of dataSource property
 
-		list.addAll( ElementReferenceValidator.getInstance( ).validate( module,
-				this, DATA_SOURCE_PROP ) );
+		list.addAll(ElementReferenceValidator.getInstance().validate(module, this, DATA_SOURCE_PROP));
 
 		// Check input parameter structure list
 
-		list.addAll( validateStructureList( module, PARAMETERS_PROP ) );
-		list.addAll( validateStructureList( module, PARAM_BINDINGS_PROP ) );
-		list.addAll( validateStructureList( module, COMPUTED_COLUMNS_PROP ) );
-		list.addAll( validateStructureList( module, COLUMN_HINTS_PROP ) );
-		list.addAll( validateStructureList( module, FILTER_PROP ) );
+		list.addAll(validateStructureList(module, PARAMETERS_PROP));
+		list.addAll(validateStructureList(module, PARAM_BINDINGS_PROP));
+		list.addAll(validateStructureList(module, COMPUTED_COLUMNS_PROP));
+		list.addAll(validateStructureList(module, COLUMN_HINTS_PROP));
+		list.addAll(validateStructureList(module, FILTER_PROP));
 
 		return list;
 	}

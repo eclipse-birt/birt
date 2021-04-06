@@ -15,16 +15,13 @@ import java.io.IOException;
 
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 
-public interface IDocumentIndexWriter extends IDocumentIndexVersion
-{
+public interface IDocumentIndexWriter extends IDocumentIndexVersion {
 
-	void setBookmark( String bookmark, BookmarkContent content )
-			throws IOException;
+	void setBookmark(String bookmark, BookmarkContent content) throws IOException;
 
-	void setOffsetOfBookmark( String bookmark, long offset ) throws IOException;
+	void setOffsetOfBookmark(String bookmark, long offset) throws IOException;
 
-	void setOffsetOfInstance( String instanceId, long offset )
-			throws IOException;
+	void setOffsetOfInstance(String instanceId, long offset) throws IOException;
 
-	void close( ) throws IOException;
+	void close() throws IOException;
 }

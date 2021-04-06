@@ -19,35 +19,28 @@ import org.eclipse.birt.report.model.core.StructureContext;
  * The structure handle of time interval.
  */
 
-public class TimeIntervalHandle extends StructureHandle
-{
+public class TimeIntervalHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of time interval.
 	 * 
-	 * @param element
-	 *            the handle of the element which defines the structure
-	 * @param context
-	 *            the context of this structure
+	 * @param element the handle of the element which defines the structure
+	 * @param context the context of this structure
 	 */
 
-	public TimeIntervalHandle( DesignElementHandle element,
-			StructureContext context )
-	{
-		super( element, context );
+	public TimeIntervalHandle(DesignElementHandle element, StructureContext context) {
+		super(element, context);
 	}
 
 	/**
 	 * Sets the measure value.
 	 * 
-	 * @param measure
-	 *            the measure value to set
+	 * @param measure the measure value to set
 	 * @throws SemanticException
 	 */
 
-	public void setMeasure( int measure ) throws SemanticException
-	{
-		setProperty( TimeInterval.MEASURE_MEMBER, measure );
+	public void setMeasure(int measure) throws SemanticException {
+		setProperty(TimeInterval.MEASURE_MEMBER, measure);
 	}
 
 	/**
@@ -56,14 +49,13 @@ public class TimeIntervalHandle extends StructureHandle
 	 * @return the measure value
 	 */
 
-	public int getMeasure( )
-	{
-		return getIntProperty( TimeInterval.MEASURE_MEMBER );
+	public int getMeasure() {
+		return getIntProperty(TimeInterval.MEASURE_MEMBER);
 	}
 
 	/**
-	 * Sets the unit of the time interval. The value can one of the following
-	 * value defined in <code>DesignChoiceConstants</code>:
+	 * Sets the unit of the time interval. The value can one of the following value
+	 * defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
 	 * <li><code>INTERVAL_SECOND</code>
@@ -71,18 +63,16 @@ public class TimeIntervalHandle extends StructureHandle
 	 * <li><code>INTERVAL_HOUR</code>
 	 * </ul>
 	 * 
-	 * @param unit
-	 *            the unit to set
+	 * @param unit the unit to set
 	 * @throws SemanticException
 	 */
-	public void setUnit( String unit ) throws SemanticException
-	{
-		setProperty( TimeInterval.UNIT_MEMBER, unit );
+	public void setUnit(String unit) throws SemanticException {
+		setProperty(TimeInterval.UNIT_MEMBER, unit);
 	}
 
 	/**
-	 * Returns the unit of the time interval. The value can be one of the
-	 * following value defined in <code>DesignChoiceConstants</code>:
+	 * Returns the unit of the time interval. The value can be one of the following
+	 * value defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
 	 * <li><code>INTERVAL_SECOND</code>
@@ -92,9 +82,8 @@ public class TimeIntervalHandle extends StructureHandle
 	 * 
 	 * @return the unit
 	 */
-	public String getUnit( )
-	{
-		return getStringProperty( TimeInterval.UNIT_MEMBER );
+	public String getUnit() {
+		return getStringProperty(TimeInterval.UNIT_MEMBER);
 	}
 
 }

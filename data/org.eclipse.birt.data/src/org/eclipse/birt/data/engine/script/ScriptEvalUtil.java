@@ -15,15 +15,12 @@ import org.eclipse.birt.data.engine.api.script.BaseScriptEvalUtil;
 /**
  * Extends API class BaseScriptEvalUtil
  */
-public class ScriptEvalUtil extends BaseScriptEvalUtil
-{
+public class ScriptEvalUtil extends BaseScriptEvalUtil {
 
 	/**
 	 * No instance
 	 */
-	private ScriptEvalUtil( )
-	{
+	private ScriptEvalUtil() {
 	}
 
 }
-

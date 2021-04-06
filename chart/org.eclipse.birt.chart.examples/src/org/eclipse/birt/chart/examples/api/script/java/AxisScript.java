@@ -21,43 +21,38 @@ import org.eclipse.birt.chart.script.IChartScriptContext;
  * 
  */
 
-public class AxisScript extends ChartEventHandlerAdapter
-{
+public class AxisScript extends ChartEventHandlerAdapter {
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawAxisLabel(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawAxisLabel(org
+	 * .eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawAxisLabel( Axis axis, Label label,
-			IChartScriptContext icsc )
-	{
-		if (axis.getType() == AxisType.TEXT_LITERAL)
-		{
-			label.getCaption( ).getColor( ).set( 140, 198, 62 );
-		}else
-		{
-			label.getCaption().getColor( ).set( 208, 32, 0);
+	public void beforeDrawAxisLabel(Axis axis, Label label, IChartScriptContext icsc) {
+		if (axis.getType() == AxisType.TEXT_LITERAL) {
+			label.getCaption().getColor().set(140, 198, 62);
+		} else {
+			label.getCaption().getColor().set(208, 32, 0);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawAxisTitle(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawAxisTitle(org
+	 * .eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawAxisTitle( Axis axis, Label label,
-			IChartScriptContext icsc )
-	{
-		if (axis.getType() == AxisType.TEXT_LITERAL)
-		{
-			label.getCaption( ).getColor( ).set( 140, 198, 62 );
-		}else
-		{
-			label.getCaption().getColor( ).set( 208, 32, 0);
+	public void beforeDrawAxisTitle(Axis axis, Label label, IChartScriptContext icsc) {
+		if (axis.getType() == AxisType.TEXT_LITERAL) {
+			label.getCaption().getColor().set(140, 198, 62);
+		} else {
+			label.getCaption().getColor().set(208, 32, 0);
 		}
 	}
 }

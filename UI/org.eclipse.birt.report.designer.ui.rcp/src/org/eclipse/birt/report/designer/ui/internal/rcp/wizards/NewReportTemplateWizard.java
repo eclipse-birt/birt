@@ -54,38 +54,37 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-public class NewReportTemplateWizard extends Wizard implements
-		INewWizard,
-		IExecutableExtension
-{
+public class NewReportTemplateWizard extends Wizard implements INewWizard, IExecutableExtension {
 
-	private static final String NEW = Messages.getString( "NewTemplateWizard.title.New" ); //$NON-NLS-1$
+	private static final String NEW = Messages.getString("NewTemplateWizard.title.New"); //$NON-NLS-1$
 
-	private static final String REPORT = Messages.getString( "NewTemplateWizard.title.Template" ); //$NON-NLS-1$
+	private static final String REPORT = Messages.getString("NewTemplateWizard.title.Template"); //$NON-NLS-1$
 
-	private static final String WIZARDPAGE = Messages.getString( "NewTemplateWizard.title.WizardPage" ); //$NON-NLS-1$
+	private static final String WIZARDPAGE = Messages.getString("NewTemplateWizard.title.WizardPage"); //$NON-NLS-1$
 
-	private static final String CREATE_A_NEW_REPORT = Messages.getString( "NewTemplateWizard.text.CreateReport" ); //$NON-NLS-1$
+	private static final String CREATE_A_NEW_REPORT = Messages.getString("NewTemplateWizard.text.CreateReport"); //$NON-NLS-1$
 
-	private static final String CREATING = Messages.getString( "NewTemplateWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String CREATING = Messages.getString("NewTemplateWizard.text.Creating"); //$NON-NLS-1$
 
-	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewTemplateWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages
+			.getString("NewTemplateWizard.text.OpenFileForEditing"); //$NON-NLS-1$
 
-	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages.getString( "NewTemplateWizard.displayName.NewReportFileNamePrefix" ); //$NON-NLS-1$
+	private static final String NEW_REPORT_FILE_NAME_PREFIX = Messages
+			.getString("NewTemplateWizard.displayName.NewReportFileNamePrefix"); //$NON-NLS-1$
 
 	private String fileExtension = "." + IReportElementConstants.TEMPLATE_FILE_EXTENSION; //$NON-NLS-1$
 
 	private static final String TEMPLATE_FILE = "/templates/blank_report.rpttemplate"; //$NON-NLS-1$
 
-	private static final String SAVE_TEMPLATE_PROPERTIES_MESSAGES = Messages.getString( "SaveReportAsWizard.SettingPage.Messages" ); //$NON-NLS-1$
+	private static final String SAVE_TEMPLATE_PROPERTIES_MESSAGES = Messages
+			.getString("SaveReportAsWizard.SettingPage.Messages"); //$NON-NLS-1$
 
 	private WizardNewReportCreationPage newReportFileWizardPage;
 
 	private WizardReportSettingPage settingPage;
 
-	public NewReportTemplateWizard( )
-	{
-		setWindowTitle( NEW );
+	public NewReportTemplateWizard() {
+		setWindowTitle(NEW);
 	}
 
 	/*
@@ -93,9 +92,8 @@ public class NewReportTemplateWizard extends Wizard implements
 	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#getDefaultPageImage()
 	 */
-	public Image getDefaultPageImage( )
-	{
-		return ReportPlugin.getImage( "/icons/wizban/create_report_wizard.gif" ); //$NON-NLS-1$
+	public Image getDefaultPageImage() {
+		return ReportPlugin.getImage("/icons/wizban/create_report_wizard.gif"); //$NON-NLS-1$
 	}
 
 	/*
@@ -103,33 +101,30 @@ public class NewReportTemplateWizard extends Wizard implements
 	 * 
 	 * @see org.eclipse.jface.wizard.IWizard#addPages()
 	 */
-	public void addPages( )
-	{
-		newReportFileWizardPage = new WizardNewReportCreationPage( WIZARDPAGE ) {
+	public void addPages() {
+		newReportFileWizardPage = new WizardNewReportCreationPage(WIZARDPAGE) {
 
-			public boolean validatePage( )
-			{
-				return validatePage( fileExtension );
+			public boolean validatePage() {
+				return validatePage(fileExtension);
 			}
 		};
 
-		addPage( newReportFileWizardPage );
+		addPage(newReportFileWizardPage);
 
 		// set titles
-		newReportFileWizardPage.setTitle( REPORT );
-		newReportFileWizardPage.setDescription( CREATE_A_NEW_REPORT );
+		newReportFileWizardPage.setTitle(REPORT);
+		newReportFileWizardPage.setDescription(CREATE_A_NEW_REPORT);
 
 		// initialize new report file page.
-		newReportFileWizardPage.setInitialFileName( getNewFileFullName( NEW_REPORT_FILE_NAME_PREFIX ) );
-		newReportFileWizardPage.setInitialFileLocation( getDefaultLocation( ) );
+		newReportFileWizardPage.setInitialFileName(getNewFileFullName(NEW_REPORT_FILE_NAME_PREFIX));
+		newReportFileWizardPage.setInitialFileLocation(getDefaultLocation());
 
-		settingPage = new WizardReportSettingPage( null );
-		settingPage.setTitle( Messages.getFormattedString( "SaveReportAsWizard.SettingPage.title",//$NON-NLS-1$
-				new Object[]{
-					Messages.getString( "NewTemplateWizard.WizardPageTitle.Template" )} ) );//$NON-NLS-1$
-		settingPage.setPageDesc( SAVE_TEMPLATE_PROPERTIES_MESSAGES );
+		settingPage = new WizardReportSettingPage(null);
+		settingPage.setTitle(Messages.getFormattedString("SaveReportAsWizard.SettingPage.title", //$NON-NLS-1$
+				new Object[] { Messages.getString("NewTemplateWizard.WizardPageTitle.Template") }));//$NON-NLS-1$
+		settingPage.setPageDesc(SAVE_TEMPLATE_PROPERTIES_MESSAGES);
 
-		addPage( settingPage );
+		addPage(settingPage);
 	}
 
 	/**
@@ -137,29 +132,26 @@ public class NewReportTemplateWizard extends Wizard implements
 	 * 
 	 * @return the location
 	 */
-	private String getDefaultLocation( )
-	{
-		IPath defaultPath = Platform.getLocation( );
-		return defaultPath.toOSString( );
+	private String getDefaultLocation() {
+		IPath defaultPath = Platform.getLocation();
+		return defaultPath.toOSString();
 	}
 
-	private String getNewFileFullName( String defaultName )
-	{
-		String path = getDefaultLocation( );
+	private String getNewFileFullName(String defaultName) {
+		String path = getDefaultLocation();
 		String name = defaultName + fileExtension;
 
 		int count = 0;
 
 		File file;
 
-		file = new File( path, name );
+		file = new File(path, name);
 
-		while ( file.exists( ) )
-		{
+		while (file.exists()) {
 			count++;
 			name = defaultName + "_" + count + fileExtension; //$NON-NLS-1$
 			file = null;
-			file = new File( path, name );
+			file = new File(path, name);
 		}
 
 		file = null;
@@ -172,93 +164,66 @@ public class NewReportTemplateWizard extends Wizard implements
 	 * 
 	 * @see org.eclipse.jface.wizard.Wizard#performFinish()
 	 */
-	public boolean performFinish( )
-	{
-		final IPath locPath = newReportFileWizardPage.getFileLocationFullPath( );
-		String fn = newReportFileWizardPage.getFileName( );
+	public boolean performFinish() {
+		final IPath locPath = newReportFileWizardPage.getFileLocationFullPath();
+		String fn = newReportFileWizardPage.getFileName();
 
 		final String fileName;
-		if ( !Platform.getOS( ).equals( Platform.WS_WIN32 ) )
-		{
-			if ( !fn.endsWith( fileExtension ) )
-			{
+		if (!Platform.getOS().equals(Platform.WS_WIN32)) {
+			if (!fn.endsWith(fileExtension)) {
 				fileName = fn + fileExtension;
-			}
-			else
-			{
+			} else {
 				fileName = fn;
 			}
-		}
-		else
-		{
-			if ( !fn.toLowerCase( Locale.getDefault( ) )
-					.endsWith( fileExtension ) )
-			{
+		} else {
+			if (!fn.toLowerCase(Locale.getDefault()).endsWith(fileExtension)) {
 				fileName = fn + fileExtension;
-			}
-			else
-			{
+			} else {
 				fileName = fn;
 			}
 		}
 
-		if ( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null )
-		{
+		if (Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST) == null) {
 			return true;
 		}
-		URL url = FileLocator.find( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ),
-				new Path( TEMPLATE_FILE ),
-				null );
+		URL url = FileLocator.find(Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST), new Path(TEMPLATE_FILE),
+				null);
 
-		if ( url == null )
-		{
+		if (url == null) {
 			return true;
 		}
 		final String templateFileName;
-		try
-		{
-			templateFileName = FileLocator.resolve( url ).getPath( );
-		}
-		catch ( IOException e1 )
-		{
+		try {
+			templateFileName = FileLocator.resolve(url).getPath();
+		} catch (IOException e1) {
 			return false;
 		}
 
-		IRunnableWithProgress op = new IRunnableWithProgress( ) {
+		IRunnableWithProgress op = new IRunnableWithProgress() {
 
-			public void run( IProgressMonitor monitor )
-			{
-				try
-				{
-					doFinish( locPath, fileName, templateFileName, monitor );
-				}
-				finally
-				{
-					monitor.done( );
+			public void run(IProgressMonitor monitor) {
+				try {
+					doFinish(locPath, fileName, templateFileName, monitor);
+				} finally {
+					monitor.done();
 				}
 			}
 		};
-		try
-		{
-			getContainer( ).run( true, false, op );
-		}
-		catch ( InterruptedException e )
-		{
+		try {
+			getContainer().run(true, false, op);
+		} catch (InterruptedException e) {
 			return false;
-		}
-		catch ( InvocationTargetException e )
-		{
-			Throwable realException = e.getTargetException( );
-			ExceptionUtil.handle( realException );
+		} catch (InvocationTargetException e) {
+			Throwable realException = e.getTargetException();
+			ExceptionUtil.handle(realException);
 			return false;
 		}
 		return true;
 	}
 
 	/**
-	 * The worker method. It will find the container, create the file if missing
-	 * or just replace its contents, and open the editor on the newly created
-	 * file.
+	 * The worker method. It will find the container, create the file if missing or
+	 * just replace its contents, and open the editor on the newly created file.
 	 * 
 	 * @param locationPath
 	 * @param fileName
@@ -266,89 +231,70 @@ public class NewReportTemplateWizard extends Wizard implements
 	 * @param monitor
 	 */
 
-	private void doFinish( IPath locationPath, String fileName,
-			String templateFileName, IProgressMonitor monitor )
-	{
+	private void doFinish(IPath locationPath, String fileName, String templateFileName, IProgressMonitor monitor) {
 		// create a sample file
-		monitor.beginTask( CREATING + fileName, 2 );
+		monitor.beginTask(CREATING + fileName, 2);
 
-		final File file = new File( locationPath.toString( ), fileName );
-		try
-		{
-			File container = new File( locationPath.toString( ) );
-		
-			boolean conExists = container.exists( );
-			if ( !conExists )
-			{
-				conExists = container.mkdirs( );
+		final File file = new File(locationPath.toString(), fileName);
+		try {
+			File container = new File(locationPath.toString());
+
+			boolean conExists = container.exists();
+			if (!conExists) {
+				conExists = container.mkdirs();
 			}
-			if( !conExists )
-			{
-				ExceptionUtil.openError( Messages.getString( "PublishTemplateAction.wizard.errorTitle" ), //$NON-NLS-1$
-						Messages.getString( "PublishTemplateAction.wizard.msgDirErr" ) ); //$NON-NLS-1$
+			if (!conExists) {
+				ExceptionUtil.openError(Messages.getString("PublishTemplateAction.wizard.errorTitle"), //$NON-NLS-1$
+						Messages.getString("PublishTemplateAction.wizard.msgDirErr")); //$NON-NLS-1$
 				return;
 			}
 
-		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 		}
 
-		try
-		{
-			ReportDesignHandle handle = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.createDesignFromTemplate( templateFileName );
-			if ( ReportPlugin.getDefault( ).getEnableCommentPreference( ) )
-			{
-				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
-						ReportPlugin.getDefault( ).getCommentPreference( ) );
+		try {
+			ReportDesignHandle handle = SessionHandleAdapter.getInstance().getSessionHandle()
+					.createDesignFromTemplate(templateFileName);
+			if (ReportPlugin.getDefault().getEnableCommentPreference()) {
+				handle.setStringProperty(ModuleHandle.COMMENTS_PROP, ReportPlugin.getDefault().getCommentPreference());
 			}
-			setReportSettings( handle );
+			setReportSettings(handle);
 
-			handle.setBidiOrientation( ReportPlugin.getDefault( ).getLTRReportDirection( ) ? DesignChoiceConstants.BIDI_DIRECTION_LTR
-					: DesignChoiceConstants.BIDI_DIRECTION_RTL );
+			handle.setBidiOrientation(
+					ReportPlugin.getDefault().getLTRReportDirection() ? DesignChoiceConstants.BIDI_DIRECTION_LTR
+							: DesignChoiceConstants.BIDI_DIRECTION_RTL);
 
-			handle.saveAs( file.getAbsolutePath( ) );
-			handle.close( );
+			handle.saveAs(file.getAbsolutePath());
+			handle.close();
 
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
-		}
 
-		monitor.worked( 1 );
-		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
-		getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
+		monitor.worked(1);
+		monitor.setTaskName(OPENING_FILE_FOR_EDITING);
+		getShell().getDisplay().asyncExec(new Runnable() {
 
-			public void run( )
-			{
-				IWorkbench workbench = PlatformUI.getWorkbench( );
-				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
+			public void run() {
+				IWorkbench workbench = PlatformUI.getWorkbench();
+				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 
-				IWorkbenchPage page = window.getActivePage( );
-				try
-				{
+				IWorkbenchPage page = window.getActivePage();
+				try {
 					// sanity checks
-					if ( page == null )
-					{
-						throw new IllegalArgumentException( );
+					if (page == null) {
+						throw new IllegalArgumentException();
 					}
 					// open the editor on the file
-					page.openEditor( new ReportEditorInput( file ),
-							IReportEditorContants.TEMPLATE_EDITOR_ID,
-							true );
-				}
-				catch ( Exception e )
-				{
-					ExceptionUtil.handle( e );
+					page.openEditor(new ReportEditorInput(file), IReportEditorContants.TEMPLATE_EDITOR_ID, true);
+				} catch (Exception e) {
+					ExceptionUtil.handle(e);
 				}
 			}
-		} );
+		});
 
-		monitor.worked( 1 );
+		monitor.worked(1);
 
 	} /*
 		 * (non-Javadoc)
@@ -356,19 +302,15 @@ public class NewReportTemplateWizard extends Wizard implements
 		 * @see org.eclipse.jface.wizard.IWizard#canFinish()
 		 */
 
-	public boolean canFinish( )
-	{
-		return newReportFileWizardPage.isPageComplete( )
-				&& settingPage.canFinish( );
+	public boolean canFinish() {
+		return newReportFileWizardPage.isPageComplete() && settingPage.canFinish();
 	}
 
-	public void init( IWorkbench workbench, IStructuredSelection selection )
-	{
+	public void init(IWorkbench workbench, IStructuredSelection selection) {
 	}
 
-	public void setInitializationData( IConfigurationElement config,
-			String propertyName, Object data ) throws CoreException
-	{
+	public void setInitializationData(IConfigurationElement config, String propertyName, Object data)
+			throws CoreException {
 	}
 
 	/**
@@ -377,20 +319,16 @@ public class NewReportTemplateWizard extends Wizard implements
 	 * @param model
 	 * @throws IOException
 	 */
-	void setReportSettings( Object model ) throws IOException
-	{
+	void setReportSettings(Object model) throws IOException {
 		ReportDesignHandle handle = (ReportDesignHandle) model;
-		try
-		{
-			handle.setDisplayName( settingPage.getDisplayName( ) );
-			handle.setDescription( settingPage.getDescription( ) );
-			handle.setIconFile( settingPage.getPreviewImagePath( ) );
-			//add the create property
-			UIUtil.addCreateBy( handle );
-			UIUtil.setDPI( handle );
-		}
-		catch ( SemanticException e )
-		{
+		try {
+			handle.setDisplayName(settingPage.getDisplayName());
+			handle.setDescription(settingPage.getDescription());
+			handle.setIconFile(settingPage.getPreviewImagePath());
+			// add the create property
+			UIUtil.addCreateBy(handle);
+			UIUtil.setDPI(handle);
+		} catch (SemanticException e) {
 		}
 	}
 }

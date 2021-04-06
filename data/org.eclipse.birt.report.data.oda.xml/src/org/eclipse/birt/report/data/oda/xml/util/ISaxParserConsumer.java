@@ -14,10 +14,8 @@ package org.eclipse.birt.report.data.oda.xml.util;
 /**
  * This interface defined the methods that would be used by classes that use sax
  * parser.
+ * 
  * @deprecated Please use DTP xml driver
  */
-public interface ISaxParserConsumer
-		extends
-			org.eclipse.datatools.enablement.oda.xml.util.ISaxParserConsumer
-{
+public interface ISaxParserConsumer extends org.eclipse.datatools.enablement.oda.xml.util.ISaxParserConsumer {
 }

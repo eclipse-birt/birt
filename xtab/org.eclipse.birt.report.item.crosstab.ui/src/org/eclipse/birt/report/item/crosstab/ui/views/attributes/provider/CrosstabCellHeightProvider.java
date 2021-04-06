@@ -18,55 +18,41 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.metadata.DimensionValue;
 
-public class CrosstabCellHeightProvider extends UnitPropertyDescriptorProvider
-{
+public class CrosstabCellHeightProvider extends UnitPropertyDescriptorProvider {
 
-	public CrosstabCellHeightProvider( String property, String element )
-	{
-		super( property, element );
+	public CrosstabCellHeightProvider(String property, String element) {
+		super(property, element);
 	}
 
-	public Object load( )
-	{
+	public Object load() {
 		String text = null;
-		try
-		{
-			ExtendedItemHandle handle = (ExtendedItemHandle) DEUtil.getInputFirstElement( input );
-			if ( handle.getReportItem( ) instanceof CrosstabCellHandle )
-			{
-				CrosstabCellHandle cell = (CrosstabCellHandle) handle.getReportItem( );
-				text = cell.getCrosstab( )
-						.getRowHeight( cell )
-						.getStringValue( );
+		try {
+			ExtendedItemHandle handle = (ExtendedItemHandle) DEUtil.getInputFirstElement(input);
+			if (handle.getReportItem() instanceof CrosstabCellHandle) {
+				CrosstabCellHandle cell = (CrosstabCellHandle) handle.getReportItem();
+				text = cell.getCrosstab().getRowHeight(cell).getStringValue();
 			}
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		if ( text == null )
+		if (text == null)
 			return "";
 		else
 			return text;
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
+	public void save(Object value) throws SemanticException {
 		DimensionValue dimensionValue = null;
-		if ( value != null )
-			dimensionValue = DimensionValue.parse( value.toString( ) );
-		try
-		{
-			ExtendedItemHandle handle = (ExtendedItemHandle) DEUtil.getInputFirstElement( input );
-			if ( handle.getReportItem( ) instanceof CrosstabCellHandle )
-			{
-				CrosstabCellHandle cell = (CrosstabCellHandle) handle.getReportItem( );
-				cell.getCrosstab( ).setRowHeight( cell, dimensionValue );
+		if (value != null)
+			dimensionValue = DimensionValue.parse(value.toString());
+		try {
+			ExtendedItemHandle handle = (ExtendedItemHandle) DEUtil.getInputFirstElement(input);
+			if (handle.getReportItem() instanceof CrosstabCellHandle) {
+				CrosstabCellHandle cell = (CrosstabCellHandle) handle.getReportItem();
+				cell.getCrosstab().setRowHeight(cell, dimensionValue);
 			}
-		}
-		catch ( Exception e )
-		{
-			ExceptionUtil.handle( e );
+		} catch (Exception e) {
+			ExceptionUtil.handle(e);
 		}
 	}
 }

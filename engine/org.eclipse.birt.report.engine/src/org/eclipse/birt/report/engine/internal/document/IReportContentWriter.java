@@ -19,14 +19,12 @@ import org.eclipse.birt.report.engine.content.IContent;
  * write the content into the content stream.
  *
  */
-public interface IReportContentWriter
-{
-	public void close( );
+public interface IReportContentWriter {
+	public void close();
 
-	public long getOffset( );
+	public long getOffset();
 
-	public long writeContent( IContent content ) throws IOException;
-	
-	public long writeFullContent( IContent content ) throws IOException,
-			BirtException;
+	public long writeContent(IContent content) throws IOException;
+
+	public long writeFullContent(IContent content) throws IOException, BirtException;
 }

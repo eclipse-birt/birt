@@ -40,17 +40,16 @@ import org.eclipse.ui.part.CellEditorActionHandler;
 
 /**
  * Manager for label editor.
- *  
+ * 
  */
-public class LabelEditManager extends DirectEditManager
-{
+public class LabelEditManager extends DirectEditManager {
 
 	private IActionBars actionBars;
 	private CellEditorActionHandler actionHandler;
 	private IAction copy, cut, paste, undo, redo, find, selectAll, delete;
 	Font scaledFont;
 	private Object model;
-	private boolean changed=false;
+	private boolean changed = false;
 
 	/**
 	 * Constructor.
@@ -59,32 +58,26 @@ public class LabelEditManager extends DirectEditManager
 	 * @param editorType
 	 * @param locator
 	 */
-	public LabelEditManager( GraphicalEditPart source, Class editorType,
-			CellEditorLocator locator )
-	{
-		super( source, editorType, locator );
+	public LabelEditManager(GraphicalEditPart source, Class editorType, CellEditorLocator locator) {
+		super(source, editorType, locator);
 		setModel(source.getModel());
 	}
 
 	/**
 	 * @param model
 	 */
-	public void setModel( Object model )
-	{
-		this.model = model;		
+	public void setModel(Object model) {
+		this.model = model;
 	}
-	
-	Object getModel()
-	{
+
+	Object getModel() {
 		return model;
 	}
-	
 
 	/**
 	 * @see org.eclipse.gef.tools.DirectEditManager#bringDown()
 	 */
-	protected void bringDown( )
-	{
+	protected void bringDown() {
 		if (actionHandler != null) {
 			actionHandler.dispose();
 			actionHandler = null;
@@ -94,19 +87,18 @@ public class LabelEditManager extends DirectEditManager
 			actionBars.updateActionBars();
 			actionBars = null;
 		}
-		//This method might be re-entered when super.bringDown() is called.
+		// This method might be re-entered when super.bringDown() is called.
 		Font disposeFont = scaledFont;
 		scaledFont = null;
-		super.bringDown( );
-		if ( disposeFont != null )
-			disposeFont.dispose( );
-		if(getEditPart() instanceof PlaceHolderEditPart)
-		{
-			((PlaceHolderEditPart)getEditPart()).perfrormLabelEdit(getChanged());
+		super.bringDown();
+		if (disposeFont != null)
+			disposeFont.dispose();
+		if (getEditPart() instanceof PlaceHolderEditPart) {
+			((PlaceHolderEditPart) getEditPart()).perfrormLabelEdit(getChanged());
 		}
 	}
 
-	private void restoreSavedActions(IActionBars actionBars){
+	private void restoreSavedActions(IActionBars actionBars) {
 		actionBars.setGlobalActionHandler(ActionFactory.COPY.getId(), copy);
 		actionBars.setGlobalActionHandler(ActionFactory.PASTE.getId(), paste);
 		actionBars.setGlobalActionHandler(ActionFactory.DELETE.getId(), delete);
@@ -116,32 +108,31 @@ public class LabelEditManager extends DirectEditManager
 		actionBars.setGlobalActionHandler(ActionFactory.UNDO.getId(), undo);
 		actionBars.setGlobalActionHandler(ActionFactory.REDO.getId(), redo);
 	}
-	protected void initCellEditor( )
-	{
-		Text text = (Text) getCellEditor( ).getControl( );
 
-		LabelFigure labelFigure = (LabelFigure) getEditPart( ).getFigure( );
-		String initialLabelText = ( (LabelHandle) getModel()).getText( );
-		if ( initialLabelText == null )
-		{
+	protected void initCellEditor() {
+		Text text = (Text) getCellEditor().getControl();
+
+		LabelFigure labelFigure = (LabelFigure) getEditPart().getFigure();
+		String initialLabelText = ((LabelHandle) getModel()).getText();
+		if (initialLabelText == null) {
 			initialLabelText = ""; //$NON-NLS-1$
 		}
-		getCellEditor( ).setValue( initialLabelText );
-		IFigure figure = getEditPart( ).getFigure( );
-		scaledFont = figure.getFont( );
-		FontData data = scaledFont.getFontData( )[0];
-		Dimension fontSize = new Dimension( 0, data.getHeight( ) );
-		labelFigure.translateToAbsolute( fontSize );
-		data.setHeight( fontSize.height );
-		scaledFont = new Font( null, data );
+		getCellEditor().setValue(initialLabelText);
+		IFigure figure = getEditPart().getFigure();
+		scaledFont = figure.getFont();
+		FontData data = scaledFont.getFontData()[0];
+		Dimension fontSize = new Dimension(0, data.getHeight());
+		labelFigure.translateToAbsolute(fontSize);
+		data.setHeight(fontSize.height);
+		scaledFont = new Font(null, data);
 
-		text.setFont( scaledFont );
-		text.selectAll( );
-		
+		text.setFont(scaledFont);
+		text.selectAll();
+
 //		 Hook the cell editor's copy/paste actions to the actionBars so that they can
 		// be invoked via keyboard shortcuts.
-		actionBars = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage()
-				.getActiveEditor().getEditorSite().getActionBars();
+		actionBars = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor()
+				.getEditorSite().getActionBars();
 		saveCurrentActions(actionBars);
 		actionHandler = new CellEditorActionHandler(actionBars);
 		actionHandler.addCellEditor(getCellEditor());
@@ -158,47 +149,41 @@ public class LabelEditManager extends DirectEditManager
 		undo = actionBars.getGlobalActionHandler(ActionFactory.UNDO.getId());
 		redo = actionBars.getGlobalActionHandler(ActionFactory.REDO.getId());
 	}
+
 	/**
-	 * Creates the cell editor on the given composite. The cell editor is
-	 * created by instantiating the cell editor type passed into this
-	 * DirectEditManager's constuctor.
+	 * Creates the cell editor on the given composite. The cell editor is created by
+	 * instantiating the cell editor type passed into this DirectEditManager's
+	 * constuctor.
 	 * 
-	 * @param composite
-	 *            the composite to create the cell editor on
+	 * @param composite the composite to create the cell editor on
 	 * @return the newly created cell editor
 	 */
-	protected CellEditor createCellEditorOn( Composite composite )
-	{
-		int style = this.applyBidiStyle( SWT.MULTI | SWT.WRAP ); // bidi_hcg
+	protected CellEditor createCellEditorOn(Composite composite) {
+		int style = this.applyBidiStyle(SWT.MULTI | SWT.WRAP); // bidi_hcg
 
-		LabelCellEditor editor = new LabelCellEditor( composite, style );
-			//new LabelCellEditor( composite, SWT.MULTI | SWT.WRAP );
-		final Control c = editor.getControl( );
-		c.addMouseTrackListener( new MouseTrackAdapter( )
-		{
+		LabelCellEditor editor = new LabelCellEditor(composite, style);
+		// new LabelCellEditor( composite, SWT.MULTI | SWT.WRAP );
+		final Control c = editor.getControl();
+		c.addMouseTrackListener(new MouseTrackAdapter() {
 
-			public void mouseEnter( MouseEvent e )
-			{
-				c.setCursor( SharedCursors.IBEAM );
+			public void mouseEnter(MouseEvent e) {
+				c.setCursor(SharedCursors.IBEAM);
 			}
 
-		} );
+		});
 		return editor;
 	}
-	
-	protected void commit( )
-	{
+
+	protected void commit() {
 		setChanged(true);
-		super.commit( );
+		super.commit();
 	}
 
-	private void setChanged( boolean b )
-	{
+	private void setChanged(boolean b) {
 		this.changed = b;
 	}
-	
-	public boolean getChanged()
-	{
+
+	public boolean getChanged() {
 		return changed;
 	}
 
@@ -207,21 +192,19 @@ public class LabelEditManager extends DirectEditManager
 	 * @return A new CellEditor style
 	 * @author bidi_hcg
 	 */
-	private int applyBidiStyle( int style )
-	{
-		LabelFigure figure = (LabelFigure) getEditPart( ).getFigure( );
-		boolean rtl = DesignChoiceConstants.BIDI_DIRECTION_RTL
-				.equals( figure.getDirection( ) );
-		style |= ( rtl ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT );
+	private int applyBidiStyle(int style) {
+		LabelFigure figure = (LabelFigure) getEditPart().getFigure();
+		boolean rtl = DesignChoiceConstants.BIDI_DIRECTION_RTL.equals(figure.getDirection());
+		style |= (rtl ? SWT.RIGHT_TO_LEFT : SWT.LEFT_TO_RIGHT);
 
-		String align = figure.getTextAlign( );
+		String align = figure.getTextAlign();
 
-		if ( IStyle.CSS_CENTER_VALUE.equals( align ) )
+		if (IStyle.CSS_CENTER_VALUE.equals(align))
 			style |= SWT.CENTER;
-		else if ( IStyle.CSS_RIGHT_VALUE.equals( align ) )
-			style |= ( rtl ? SWT.LEFT : SWT.RIGHT );
-		else if ( IStyle.CSS_LEFT_VALUE.equals( align ) )
-			style |= ( rtl ? SWT.RIGHT : SWT.LEFT );
+		else if (IStyle.CSS_RIGHT_VALUE.equals(align))
+			style |= (rtl ? SWT.LEFT : SWT.RIGHT);
+		else if (IStyle.CSS_LEFT_VALUE.equals(align))
+			style |= (rtl ? SWT.RIGHT : SWT.LEFT);
 		else
 			style |= SWT.LEFT;
 

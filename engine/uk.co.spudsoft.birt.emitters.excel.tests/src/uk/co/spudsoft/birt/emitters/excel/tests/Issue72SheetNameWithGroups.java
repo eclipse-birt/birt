@@ -23,28 +23,28 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
-public class  Issue72SheetNameWithGroups extends ReportRunner {
+public class Issue72SheetNameWithGroups extends ReportRunner {
 
 	@Test
 	public void testPrintBreaksInserted() throws BirtException, IOException {
 
 		InputStream inputStream = runAndRenderReport("Issue72SheetNameWithGroups.rptdesign", "xlsx");
 		assertNotNull(inputStream);
-		try {			
+		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 4, workbook.getNumberOfSheets() );
-			assertEquals( 5, workbook.getSheetAt(0).getRowBreaks().length );
-			assertEquals( 9, workbook.getSheetAt(1).getRowBreaks().length );
-			assertEquals( 1, workbook.getSheetAt(2).getRowBreaks().length );
-			assertEquals( 3, workbook.getSheetAt(3).getRowBreaks().length );
 
-			assertEquals( "Australia", workbook.getSheetAt(0).getSheetName() );
-			assertEquals( "France", workbook.getSheetAt(1).getSheetName() );
-			assertEquals( "Israel", workbook.getSheetAt(2).getSheetName() );
-			assertEquals( "New Zealand", workbook.getSheetAt(3).getSheetName() );
-			
+			assertEquals(4, workbook.getNumberOfSheets());
+			assertEquals(5, workbook.getSheetAt(0).getRowBreaks().length);
+			assertEquals(9, workbook.getSheetAt(1).getRowBreaks().length);
+			assertEquals(1, workbook.getSheetAt(2).getRowBreaks().length);
+			assertEquals(3, workbook.getSheetAt(3).getRowBreaks().length);
+
+			assertEquals("Australia", workbook.getSheetAt(0).getSheetName());
+			assertEquals("France", workbook.getSheetAt(1).getSheetName());
+			assertEquals("Israel", workbook.getSheetAt(2).getSheetName());
+			assertEquals("New Zealand", workbook.getSheetAt(3).getSheetName());
+
 		} finally {
 			inputStream.close();
 		}

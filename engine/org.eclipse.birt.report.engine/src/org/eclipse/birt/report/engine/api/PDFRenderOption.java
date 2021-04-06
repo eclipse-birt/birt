@@ -14,15 +14,13 @@ package org.eclipse.birt.report.engine.api;
 /**
  * Defines render options for emitters
  */
-public class PDFRenderOption extends RenderOption implements IPDFRenderOption
-{
+public class PDFRenderOption extends RenderOption implements IPDFRenderOption {
 
 	/**
 	 * dummy constructor
 	 */
-	public PDFRenderOption( )
-	{
-		super( );
+	public PDFRenderOption() {
+		super();
 	}
 
 	/**
@@ -30,9 +28,8 @@ public class PDFRenderOption extends RenderOption implements IPDFRenderOption
 	 * 
 	 * @param options
 	 */
-	public PDFRenderOption( IRenderOption options )
-	{
-		super( options );
+	public PDFRenderOption(IRenderOption options) {
+		super(options);
 	}
 
 	/**
@@ -40,36 +37,31 @@ public class PDFRenderOption extends RenderOption implements IPDFRenderOption
 	 * 
 	 * @param isEmbededFont
 	 */
-	public void setEmbededFont( boolean isEmbededFont )
-	{
-		setOption( IS_EMBEDDED_FONT, Boolean.valueOf( isEmbededFont ) );
+	public void setEmbededFont(boolean isEmbededFont) {
+		setOption(IS_EMBEDDED_FONT, Boolean.valueOf(isEmbededFont));
 	}
 
 	/**
 	 * 
 	 * @return true if font is embedded
 	 */
-	public boolean isEmbededFont( )
-	{
-		return getBooleanOption( IS_EMBEDDED_FONT, false );
+	public boolean isEmbededFont() {
+		return getBooleanOption(IS_EMBEDDED_FONT, false);
 	}
 
 	/**
 	 * @deprecated
 	 * @return the user-defined font directory
 	 */
-	public String getFontDirectory( )
-	{
-		return getStringOption( FONT_DIRECTORY );
+	public String getFontDirectory() {
+		return getStringOption(FONT_DIRECTORY);
 	}
 
 	/**
 	 * @deprecated
-	 * @param fontDirectory
-	 *            the user-defined font directory
+	 * @param fontDirectory the user-defined font directory
 	 */
-	public void setFontDirectory( String fontDirectory )
-	{
-		setOption( FONT_DIRECTORY, fontDirectory );
+	public void setFontDirectory(String fontDirectory) {
+		setOption(FONT_DIRECTORY, fontDirectory);
 	}
 }

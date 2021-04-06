@@ -35,34 +35,29 @@ import com.ibm.icu.util.ULocale;
  * @see org.eclipse.birt.report.model.core.DesignSession
  */
 
-public class SessionHandle extends SessionHandleImpl
-{
+public class SessionHandle extends SessionHandleImpl {
 
 	/**
 	 * Constructs a handle for the session with the given locale.
 	 * 
-	 * @param locale
-	 *            the user's locale. If null, then the system locale is assumed.
+	 * @param locale the user's locale. If null, then the system locale is assumed.
 	 * 
-	 * @deprecated to use ICU4J, this method is replaced by:
-	 *             SessionHandle(ULocale locale)
+	 * @deprecated to use ICU4J, this method is replaced by: SessionHandle(ULocale
+	 *             locale)
 	 */
 
-	public SessionHandle( Locale locale )
-	{
-		super( locale );
+	public SessionHandle(Locale locale) {
+		super(locale);
 	}
 
 	/**
 	 * Constructs a handle for the session with the given locale.
 	 * 
-	 * @param locale
-	 *            the user's locale which is <code>ULocale</code>. If null, then
-	 *            the system locale is assumed.
+	 * @param locale the user's locale which is <code>ULocale</code>. If null, then
+	 *               the system locale is assumed.
 	 */
 
-	public SessionHandle( ULocale locale )
-	{
-		super( locale );
+	public SessionHandle(ULocale locale) {
+		super(locale);
 	}
 }

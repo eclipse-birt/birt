@@ -15,43 +15,35 @@ import org.eclipse.birt.report.engine.api.IDataIterator;
 import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 
-
-public class MockExtractionResults implements IExtractionResults
-{
+public class MockExtractionResults implements IExtractionResults {
 	private boolean closed;
 	private MockDataIterator iterator;
 	private MockResultMetaData metaData;
-	
-	public MockExtractionResults( String[] columnNames, int[] columnTypes, Object[][] data )
-	{
+
+	public MockExtractionResults(String[] columnNames, int[] columnTypes, Object[][] data) {
 		closed = false;
 		metaData = new MockResultMetaData(columnNames, columnTypes);
 		iterator = new MockDataIterator(columnNames, data, this);
 	}
-	
-	public void close( )
-	{
+
+	public void close() {
 		closed = true;
-		iterator.close( );
+		iterator.close();
 	}
 
-	private void assertOpened() throws BirtException
-	{
-		if ( closed )
-		{
-			throw new BirtException( null, "Result set is already closed.", null);
+	private void assertOpened() throws BirtException {
+		if (closed) {
+			throw new BirtException(null, "Result set is already closed.", null);
 		}
 	}
-	
-	public IResultMetaData getResultMetaData( ) throws BirtException
-	{
+
+	public IResultMetaData getResultMetaData() throws BirtException {
 		return metaData;
 	}
 
-	public IDataIterator nextResultIterator( ) throws BirtException
-	{
+	public IDataIterator nextResultIterator() throws BirtException {
 		assertOpened();
-		return iterator;	
+		return iterator;
 	}
-	
+
 }

@@ -17,32 +17,27 @@ import org.eclipse.birt.core.ui.frameworks.taskwizard.interfaces.ITask;
  * 
  */
 
-public class TaskRegistrationEntry
-{
+public class TaskRegistrationEntry {
 
 	private final String taskID;
 	private final ITask classDefinition;
 	private final int priority;
 
-	public TaskRegistrationEntry( String taskID, ITask classDefinition, int priority )
-	{
+	public TaskRegistrationEntry(String taskID, ITask classDefinition, int priority) {
 		this.taskID = taskID;
 		this.classDefinition = classDefinition;
 		this.priority = priority;
 	}
 
-	public String getTaskID( )
-	{
+	public String getTaskID() {
 		return taskID;
 	}
 
-	public ITask getClassDefinition( )
-	{
+	public ITask getClassDefinition() {
 		return classDefinition;
 	}
 
-	public int getPriority( )
-	{
+	public int getPriority() {
 		return priority;
 	}
 }

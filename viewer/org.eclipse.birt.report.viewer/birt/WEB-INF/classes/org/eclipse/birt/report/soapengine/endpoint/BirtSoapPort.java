@@ -8,5 +8,6 @@
 package org.eclipse.birt.report.soapengine.endpoint;
 
 public interface BirtSoapPort extends java.rmi.Remote {
-    public org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse getUpdatedObjects(org.eclipse.birt.report.soapengine.api.GetUpdatedObjects request) throws java.rmi.RemoteException;
+	public org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse getUpdatedObjects(
+			org.eclipse.birt.report.soapengine.api.GetUpdatedObjects request) throws java.rmi.RemoteException;
 }

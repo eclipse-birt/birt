@@ -10,18 +10,15 @@
  ***********************************************************************/
 package org.eclipse.birt.report.engine.layout.pdf.hyphen;
 
-public class DefaultHyphenationManager implements IHyphenationManager
-{
+public class DefaultHyphenationManager implements IHyphenationManager {
 
-    public Hyphenation getHyphenation(String word)
-    {
-        int length = word.length();
-        int[] indexes = new int[length+1];
-        for(int i=0; i<=length; i++)
-        {
-            indexes[i] = i;
-        }
-        return new Hyphenation(word, indexes);
-    }
+	public Hyphenation getHyphenation(String word) {
+		int length = word.length();
+		int[] indexes = new int[length + 1];
+		for (int i = 0; i <= length; i++) {
+			indexes[i] = i;
+		}
+		return new Hyphenation(word, indexes);
+	}
 
 }

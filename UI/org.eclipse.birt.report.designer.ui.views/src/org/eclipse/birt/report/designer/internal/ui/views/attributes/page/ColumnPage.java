@@ -34,101 +34,88 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The general attribute page of Column element.
  */
-public class ColumnPage extends GeneralFontPage
-{
+public class ColumnPage extends GeneralFontPage {
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 6, 15 ) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(6, 15));
 
 		// Defines providers.
 
-		IDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider( ColumnHandle.WIDTH_PROP,
-				ReportDesignConstants.COLUMN_ELEMENT );
+		IDescriptorProvider widthProvider = new UnitPropertyDescriptorProvider(ColumnHandle.WIDTH_PROP,
+				ReportDesignConstants.COLUMN_ELEMENT);
 
-		ColorPropertyDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider( StyleHandle.BACKGROUND_COLOR_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		backgroundProvider.enableReset( true );
+		ColorPropertyDescriptorProvider backgroundProvider = new ColorPropertyDescriptorProvider(
+				StyleHandle.BACKGROUND_COLOR_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		backgroundProvider.enableReset(true);
 
-		ComboPropertyDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider( StyleHandle.VERTICAL_ALIGN_PROP,
-				ReportDesignConstants.STYLE_ELEMENT );
-		vAlignProvider.enableReset( true );
+		ComboPropertyDescriptorProvider vAlignProvider = new ComboPropertyDescriptorProvider(
+				StyleHandle.VERTICAL_ALIGN_PROP, ReportDesignConstants.STYLE_ELEMENT);
+		vAlignProvider.enableReset(true);
 
-		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider( ReportItemHandle.STYLE_PROP,
-				ReportDesignConstants.COLUMN_ELEMENT );
+		IDescriptorProvider styleProvider = new SimpleComboPropertyDescriptorProvider(ReportItemHandle.STYLE_PROP,
+				ReportDesignConstants.COLUMN_ELEMENT);
 
-		IDescriptorProvider suppressDuplicatesProvider = new PropertyDescriptorProvider( ColumnHandle.SUPPRESS_DUPLICATES_PROP,
-				ReportDesignConstants.COLUMN_ELEMENT );
+		IDescriptorProvider suppressDuplicatesProvider = new PropertyDescriptorProvider(
+				ColumnHandle.SUPPRESS_DUPLICATES_PROP, ReportDesignConstants.COLUMN_ELEMENT);
 
 		// Defines sections.
 
-		ComplexUnitSection widthSection = new ComplexUnitSection( widthProvider.getDisplayName( ),
-				container,
-				true );
+		ComplexUnitSection widthSection = new ComplexUnitSection(widthProvider.getDisplayName(), container, true);
 
-		ColorSection backgroundSection = new ColorSection( backgroundProvider.getDisplayName( ),
-				container,
-				true );
+		ColorSection backgroundSection = new ColorSection(backgroundProvider.getDisplayName(), container, true);
 
-		ComboSection vAlignSection = new ComboSection( vAlignProvider.getDisplayName( ),
-				container,
-				true );
+		ComboSection vAlignSection = new ComboSection(vAlignProvider.getDisplayName(), container, true);
 
-		Section seperatorSection = new SeperatorSection( container,
-				SWT.HORIZONTAL );
+		Section seperatorSection = new SeperatorSection(container, SWT.HORIZONTAL);
 
-		SimpleComboSection styleSection = new SimpleComboSection( styleProvider.getDisplayName( ),
-				container,
-				true );
+		SimpleComboSection styleSection = new SimpleComboSection(styleProvider.getDisplayName(), container, true);
 
-		CheckSection suppressDuplicatesSection = new CheckSection( container,
-				true );
+		CheckSection suppressDuplicatesSection = new CheckSection(container, true);
 
 		// Sets providers.
 
-		widthSection.setProvider( widthProvider );
-		backgroundSection.setProvider( backgroundProvider );
-		vAlignSection.setProvider( vAlignProvider );
-		styleSection.setProvider( styleProvider );
-		suppressDuplicatesSection.setProvider( suppressDuplicatesProvider );
+		widthSection.setProvider(widthProvider);
+		backgroundSection.setProvider(backgroundProvider);
+		vAlignSection.setProvider(vAlignProvider);
+		styleSection.setProvider(styleProvider);
+		suppressDuplicatesSection.setProvider(suppressDuplicatesProvider);
 
 		// Sets widths.
 
-		widthSection.setWidth( 200 );
-		backgroundSection.setWidth( 200 );
-		vAlignSection.setWidth( 200 );
-		styleSection.setWidth( 200 );
+		widthSection.setWidth(200);
+		backgroundSection.setWidth(200);
+		vAlignSection.setWidth(200);
+		styleSection.setWidth(200);
 
 		// Sets layout num.
 
-		widthSection.setLayoutNum( 2 );
-		backgroundSection.setLayoutNum( 4 );
-		vAlignSection.setLayoutNum( 2 );
-		styleSection.setLayoutNum( 2 );
-		suppressDuplicatesSection.setLayoutNum( 2 );
+		widthSection.setLayoutNum(2);
+		backgroundSection.setLayoutNum(4);
+		vAlignSection.setLayoutNum(2);
+		styleSection.setLayoutNum(2);
+		suppressDuplicatesSection.setLayoutNum(2);
 
 		// Sets fill grid num.
 
-		widthSection.setGridPlaceholder( 0, true );
-		backgroundSection.setGridPlaceholder( 2, true );
-		vAlignSection.setGridPlaceholder( 0, true );
-		styleSection.setGridPlaceholder( 0, true );
-		suppressDuplicatesSection.setGridPlaceholder( 0, true );
+		widthSection.setGridPlaceholder(0, true);
+		backgroundSection.setGridPlaceholder(2, true);
+		vAlignSection.setGridPlaceholder(0, true);
+		styleSection.setGridPlaceholder(0, true);
+		suppressDuplicatesSection.setGridPlaceholder(0, true);
 
 		// Adds sections into this page.
 
-		addSection( PageSectionId.COLUMN_WIDTH, widthSection ); //$NON-NLS-1$
-		addSection( PageSectionId.COLUMN_BACKGROUND_COLOR, backgroundSection ); //$NON-NLS-1$
-		addSection( PageSectionId.COLUMN_VERTICAL_ALIGN, vAlignSection ); //$NON-NLS-1$
-		addSection( PageSectionId.COLUMN_STYLE, styleSection ); //$NON-NLS-1$
-		addSection( PageSectionId.COLUMN_SUPPRESS_DUPLICATES,
-				suppressDuplicatesSection ); //$NON-NLS-1$
-		addSection( PageSectionId.COLUMN_SEPERATOR, seperatorSection ); //$NON-NLS-1$
+		addSection(PageSectionId.COLUMN_WIDTH, widthSection); // $NON-NLS-1$
+		addSection(PageSectionId.COLUMN_BACKGROUND_COLOR, backgroundSection); // $NON-NLS-1$
+		addSection(PageSectionId.COLUMN_VERTICAL_ALIGN, vAlignSection); // $NON-NLS-1$
+		addSection(PageSectionId.COLUMN_STYLE, styleSection); // $NON-NLS-1$
+		addSection(PageSectionId.COLUMN_SUPPRESS_DUPLICATES, suppressDuplicatesSection); // $NON-NLS-1$
+		addSection(PageSectionId.COLUMN_SEPERATOR, seperatorSection); // $NON-NLS-1$
 
-		addFontsSection( );
+		addFontsSection();
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 }

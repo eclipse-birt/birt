@@ -15,8 +15,7 @@ package org.eclipse.birt.report.engine.ir;
  * Label.
  * 
  */
-public class LabelItemDesign extends ReportItemDesign
-{
+public class LabelItemDesign extends ReportItemDesign {
 
 	/**
 	 * text content.
@@ -37,13 +36,11 @@ public class LabelItemDesign extends ReportItemDesign
 	 */
 	protected String helpTextKey;
 
-	public LabelItemDesign( )
-	{
+	public LabelItemDesign() {
 	}
 
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
-		return visitor.visitLabelItem( this, value );
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitLabelItem(this, value);
 	}
 
 	/**
@@ -51,19 +48,16 @@ public class LabelItemDesign extends ReportItemDesign
 	 * 
 	 * @return Returns the text.
 	 */
-	public String getText( )
-	{
+	public String getText() {
 		return text;
 	}
 
 	/**
 	 * set text content
 	 * 
-	 * @param text
-	 *            The text to set.
+	 * @param text The text to set.
 	 */
-	public void setText( String textKey, String text )
-	{
+	public void setText(String textKey, String text) {
 		this.textKey = textKey;
 		this.text = text;
 	}
@@ -71,21 +65,17 @@ public class LabelItemDesign extends ReportItemDesign
 	/**
 	 * @return Returns the id.
 	 */
-	public String getTextKey( )
-	{
+	public String getTextKey() {
 		return textKey;
 	}
 
 	/**
 	 * set the help info.
 	 * 
-	 * @param key
-	 *            resource key
-	 * @param text
-	 *            text content
+	 * @param key  resource key
+	 * @param text text content
 	 */
-	public void setHelpText( String key, String text )
-	{
+	public void setHelpText(String key, String text) {
 		this.helpTextKey = key;
 		this.helpText = text;
 	}
@@ -95,8 +85,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * 
 	 * @return help text
 	 */
-	public String getHelpText( )
-	{
+	public String getHelpText() {
 		return this.helpText;
 	}
 
@@ -105,8 +94,7 @@ public class LabelItemDesign extends ReportItemDesign
 	 * 
 	 * @return resource key of the help text
 	 */
-	public String getHelpTextKey( )
-	{
+	public String getHelpTextKey() {
 		return this.helpTextKey;
 	}
 

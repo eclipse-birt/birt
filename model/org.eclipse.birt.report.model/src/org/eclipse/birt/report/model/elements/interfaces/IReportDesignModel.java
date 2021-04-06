@@ -15,7 +15,6 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for report design element to store the constants.
  */
 
-public interface IReportDesignModel extends IInternalReportDesignModel
-{
+public interface IReportDesignModel extends IInternalReportDesignModel {
 
 }

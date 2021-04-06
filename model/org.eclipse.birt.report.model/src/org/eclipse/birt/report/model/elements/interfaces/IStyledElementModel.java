@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for stytled element.
  */
 
-public interface IStyledElementModel
-{
+public interface IStyledElementModel {
 
 	/**
 	 * Property name for the reference to the shared style.

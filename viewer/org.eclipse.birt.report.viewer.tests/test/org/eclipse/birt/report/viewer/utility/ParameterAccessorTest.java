@@ -40,7 +40,8 @@ import org.eclipse.birt.report.viewer.util.BaseTestCase;
  * <tr>
  * <td>{@link #testInitParameter()}</td>
  * <td>Initialize parameters from ServletContext</td>
- * <td>Parameter value should be same as the one that put into ServletContext</td>
+ * <td>Parameter value should be same as the one that put into
+ * ServletContext</td>
  * </tr>
  * 
  * <tr>
@@ -125,15 +126,15 @@ import org.eclipse.birt.report.viewer.util.BaseTestCase;
  * <tr>
  * <td>{@link #testIsOverwrite()}</td>
  * <td>Return isOverwrite setting</td>
- * <td>This setting can be from URL.If not, use the default setting from
- * context config.</td>
+ * <td>This setting can be from URL.If not, use the default setting from context
+ * config.</td>
  * </tr>
  * 
  * <tr>
  * <td>{@link #testIsOverwrite()}</td>
  * <td>Return isOverwrite setting</td>
- * <td>This setting can be from URL.If not, use the default setting from
- * context config.</td>
+ * <td>This setting can be from URL.If not, use the default setting from context
+ * config.</td>
  * </tr>
  * 
  * <tr>
@@ -219,17 +220,15 @@ import org.eclipse.birt.report.viewer.util.BaseTestCase;
  * </table>
  * 
  */
-public class ParameterAccessorTest extends BaseTestCase
-{
+public class ParameterAccessorTest extends BaseTestCase {
 
 	private static final String DEFAULT_TEST_REPORT = "test.rptdesign"; //$NON-NLS-1$
 
-    public void setUp( ) throws Exception
-    {
-		ParameterAccessor.reset( );
-		super.setUp( );
-        verifyInitParameter( );
-    }
+	public void setUp() throws Exception {
+		ParameterAccessor.reset();
+		super.setUp();
+		verifyInitParameter();
+	}
 
 	/**
 	 * TestCase for initParameter method.
@@ -237,21 +236,16 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Initialize parameters should be from ServletContext.
 	 * 
 	 */
-	public void verifyInitParameter( )
-	{
-		String root_folder = root.getAbsolutePath( );
-		assertEquals( root_folder + File.separator
-				+ IBirtConstants.DEFAULT_DOCUMENT_FOLDER,
-				ParameterAccessor
-				.getResourceFolder( request )+File.separator
-				+ IBirtConstants.DEFAULT_DOCUMENT_FOLDER);
-		assertEquals( root_folder, ParameterAccessor
-				.getResourceFolder( request ) );
+	public void verifyInitParameter() {
+		String root_folder = root.getAbsolutePath();
+		assertEquals(root_folder + File.separator + IBirtConstants.DEFAULT_DOCUMENT_FOLDER,
+				ParameterAccessor.getResourceFolder(request) + File.separator + IBirtConstants.DEFAULT_DOCUMENT_FOLDER);
+		assertEquals(root_folder, ParameterAccessor.getResourceFolder(request));
 
-		assertEquals( DEFAULT_LOCALE, ParameterAccessor.webAppLocale.toString( ) );
+		assertEquals(DEFAULT_LOCALE, ParameterAccessor.webAppLocale.toString());
 
-		assertTrue( ParameterAccessor.isOverWrite );
-		assertTrue( !ParameterAccessor.isWorkingFolderAccessOnly( ) );
+		assertTrue(ParameterAccessor.isOverWrite);
+		assertTrue(!ParameterAccessor.isWorkingFolderAccessOnly());
 	}
 
 	/**
@@ -261,66 +255,60 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * <p>
 	 * <ol>
 	 * <li>If attribute bean is null, default file name is BIRTReport.pdf</li>
-	 * <li>If report name is not null, file name is from report name.(Only
-	 * support ASCII)</li>
+	 * <li>If report name is not null, file name is from report name.(Only support
+	 * ASCII)</li>
 	 * <li>If report name is null, file name is from report document name.(Only
 	 * support ASCII)</li>
 	 * <li>If report name or document name is not ASCII, use default file name</li>
 	 * </ol>
 	 */
-	public void testGenerateFileName( )
-	{
+	public void testGenerateFileName() {
 		String testDocumentName = "D:\\test\\documents\\test.rptdocument";
 		// UNIX?
-		if ( File.separatorChar == '/' )
-		{
+		if (File.separatorChar == '/') {
 			testDocumentName = "/test/documents/test.rptdocument";
 		}
-		
-		request.addParameter( ParameterAccessor.PARAM_FORMAT, "pdf" ); //$NON-NLS-1$
+
+		request.addParameter(ParameterAccessor.PARAM_FORMAT, "pdf"); //$NON-NLS-1$
 
 		// Default file name
-		assertEquals( "BIRTReport.pdf",  //$NON-NLS-1$
-				generateFileName( request, "pdf" ) ); //$NON-NLS-1$
+		assertEquals("BIRTReport.pdf", //$NON-NLS-1$
+				generateFileName(request, "pdf")); //$NON-NLS-1$
 
 		// File name from report name
-		request.addParameter( ParameterAccessor.PARAM_REPORT,
-				DEFAULT_TEST_REPORT );
-		ViewerAttributeBean bean = new ViewerAttributeBean( request );
-		request.setAttribute( IBirtConstants.ATTRIBUTE_BEAN, bean );
-		assertEquals( "test.pdf", //$NON-NLS-1$
-				generateFileName( request, "pdf" ) ); //$NON-NLS-1$
-		request.removeParameter( ParameterAccessor.PARAM_REPORT );
-		request.removeParameter( IBirtConstants.ATTRIBUTE_BEAN );
+		request.addParameter(ParameterAccessor.PARAM_REPORT, DEFAULT_TEST_REPORT);
+		ViewerAttributeBean bean = new ViewerAttributeBean(request);
+		request.setAttribute(IBirtConstants.ATTRIBUTE_BEAN, bean);
+		assertEquals("test.pdf", //$NON-NLS-1$
+				generateFileName(request, "pdf")); //$NON-NLS-1$
+		request.removeParameter(ParameterAccessor.PARAM_REPORT);
+		request.removeParameter(IBirtConstants.ATTRIBUTE_BEAN);
 
 		// File name from report document name
-		request.addParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT,
-				testDocumentName ); //$NON-NLS-1$
-		bean = new ViewerAttributeBean( request );
-		request.setAttribute( IBirtConstants.ATTRIBUTE_BEAN, bean );
-		assertEquals( "test.pdf", //$NON-NLS-1$
-				generateFileName( request, "pdf" ) ); //$NON-NLS-1$
-		request.removeParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT );
-		request.removeParameter( IBirtConstants.ATTRIBUTE_BEAN );
+		request.addParameter(ParameterAccessor.PARAM_REPORT_DOCUMENT, testDocumentName); // $NON-NLS-1$
+		bean = new ViewerAttributeBean(request);
+		request.setAttribute(IBirtConstants.ATTRIBUTE_BEAN, bean);
+		assertEquals("test.pdf", //$NON-NLS-1$
+				generateFileName(request, "pdf")); //$NON-NLS-1$
+		request.removeParameter(ParameterAccessor.PARAM_REPORT_DOCUMENT);
+		request.removeParameter(IBirtConstants.ATTRIBUTE_BEAN);
 
 		// Non ASCII, use default file name
-		request.addParameter( ParameterAccessor.PARAM_REPORT,
-				"\u4e2d\u6587report.rptdesign" ); //$NON-NLS-1$
-		request.setCharacterEncoding( ENCODING_UTF8 );
-		bean = new ViewerAttributeBean( request );
-		request.setAttribute( IBirtConstants.ATTRIBUTE_BEAN, bean );
-		assertEquals( "BIRTReport.pdf", //$NON-NLS-1$
-				generateFileName( request, "pdf" ) ); //$NON-NLS-1$
-		request.removeParameter( ParameterAccessor.PARAM_REPORT );
-		request.removeParameter( IBirtConstants.ATTRIBUTE_BEAN );
-		request.setCharacterEncoding( null );
+		request.addParameter(ParameterAccessor.PARAM_REPORT, "\u4e2d\u6587report.rptdesign"); //$NON-NLS-1$
+		request.setCharacterEncoding(ENCODING_UTF8);
+		bean = new ViewerAttributeBean(request);
+		request.setAttribute(IBirtConstants.ATTRIBUTE_BEAN, bean);
+		assertEquals("BIRTReport.pdf", //$NON-NLS-1$
+				generateFileName(request, "pdf")); //$NON-NLS-1$
+		request.removeParameter(ParameterAccessor.PARAM_REPORT);
+		request.removeParameter(IBirtConstants.ATTRIBUTE_BEAN);
+		request.setCharacterEncoding(null);
 	}
 
-	private String generateFileName( HttpServletRequest request, String format )
-	{
-		return ParameterAccessor.getExportFilename( new BirtContext(request, response), format, null );
+	private String generateFileName(HttpServletRequest request, String format) {
+		return ParameterAccessor.getExportFilename(new BirtContext(request, response), format, null);
 	}
-	
+
 	/**
 	 * TestCase for getConfigFileName method
 	 * <p>
@@ -328,18 +316,15 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Current,support two types design file: rptdesign, rpttemplate
 	 * 
 	 */
-	public void testGetConfigFileName( )
-	{
+	public void testGetConfigFileName() {
 		// preview a report
 		String reportFile = System.getProperty("java.io.tmpdir") + "/test.rptdesign"; //$NON-NLS-1$ //$NON-NLS-2$
 		String configFile = System.getProperty("java.io.tmpdir") + "/test.rptconfig"; //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( configFile, ParameterAccessor
-				.getConfigFileName( reportFile ) );
+		assertEquals(configFile, ParameterAccessor.getConfigFileName(reportFile));
 
 		// preview a template report
 		String templateFile = System.getProperty("java.io.tmpdir") + "/test.rpttemplate"; //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals( configFile, ParameterAccessor
-				.getConfigFileName( templateFile ) );
+		assertEquals(configFile, ParameterAccessor.getConfigFileName(templateFile));
 	}
 
 	/**
@@ -354,23 +339,19 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * </ol>
 	 * 
 	 */
-	public void testGetOutputFormat( )
-	{
+	public void testGetOutputFormat() {
 		// format is null
-		assertEquals( ParameterAccessor.PARAM_FORMAT_HTML, ParameterAccessor
-				.getFormat( request ) );
+		assertEquals(ParameterAccessor.PARAM_FORMAT_HTML, ParameterAccessor.getFormat(request));
 
 		// format is HTM
-		request.addParameter( ParameterAccessor.PARAM_FORMAT,
-				ParameterAccessor.PARAM_FORMAT_HTM );
-		assertEquals( ParameterAccessor.PARAM_FORMAT_HTML, ParameterAccessor
-				.getFormat( request ) );
-		request.removeParameter( ParameterAccessor.PARAM_FORMAT );
+		request.addParameter(ParameterAccessor.PARAM_FORMAT, ParameterAccessor.PARAM_FORMAT_HTM);
+		assertEquals(ParameterAccessor.PARAM_FORMAT_HTML, ParameterAccessor.getFormat(request));
+		request.removeParameter(ParameterAccessor.PARAM_FORMAT);
 
 		// format is the other
-		request.addParameter( ParameterAccessor.PARAM_FORMAT, "SpecialFormat" ); //$NON-NLS-1$
-		assertEquals( "SpecialFormat", ParameterAccessor.getFormat( request ) ); //$NON-NLS-1$
-		request.removeParameter( ParameterAccessor.PARAM_FORMAT );
+		request.addParameter(ParameterAccessor.PARAM_FORMAT, "SpecialFormat"); //$NON-NLS-1$
+		assertEquals("SpecialFormat", ParameterAccessor.getFormat(request)); //$NON-NLS-1$
+		request.removeParameter(ParameterAccessor.PARAM_FORMAT);
 	}
 
 	/**
@@ -379,22 +360,20 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Get current parameter format from URL.
 	 * 
 	 */
-	public void testGetParameterFormat( )
-	{
+	public void testGetParameterFormat() {
 		String paramName = "SampleParam"; //$NON-NLS-1$
 		String paramFormat = "yyyy-MM-dd"; //$NON-NLS-1$
 
 		// no parameter format
-		request.addParameter( paramName, "parameter value" ); //$NON-NLS-1$
-		assertNull( ParameterAccessor.getFormat( request, paramName ) );
+		request.addParameter(paramName, "parameter value"); //$NON-NLS-1$
+		assertNull(ParameterAccessor.getFormat(request, paramName));
 
 		// set parameter format
-		request.addParameter( paramName + "_format", paramFormat ); //$NON-NLS-1$
-		assertEquals( paramFormat, ParameterAccessor.getFormat( request,
-				paramName ) );
+		request.addParameter(paramName + "_format", paramFormat); //$NON-NLS-1$
+		assertEquals(paramFormat, ParameterAccessor.getFormat(request, paramName));
 
-		request.removeParameter( paramName );
-		request.removeParameter( paramName + "_format" ); //$NON-NLS-1$
+		request.removeParameter(paramName);
+		request.removeParameter(paramName + "_format"); //$NON-NLS-1$
 	}
 
 	/**
@@ -403,13 +382,11 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Returns correct Locale
 	 * 
 	 */
-	public void testGetLocaleFromString( )
-	{
-		assertNull( ParameterAccessor.getLocaleFromString( null ) );
-		assertEquals( Locale.US, ParameterAccessor
-				.getLocaleFromString( "en_US" ) ); //$NON-NLS-1$
-		assertEquals( new Locale( "test" ), ParameterAccessor //$NON-NLS-1$
-				.getLocaleFromString( "test" ) ); //$NON-NLS-1$
+	public void testGetLocaleFromString() {
+		assertNull(ParameterAccessor.getLocaleFromString(null));
+		assertEquals(Locale.US, ParameterAccessor.getLocaleFromString("en_US")); //$NON-NLS-1$
+		assertEquals(new Locale("test"), ParameterAccessor //$NON-NLS-1$
+				.getLocaleFromString("test")); //$NON-NLS-1$
 	}
 
 	/**
@@ -423,22 +400,20 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * <li>If locale is null yet, use the default locale from ServletContext.</li>
 	 * </ol>
 	 */
-	public void testGetLocale( )
-	{
+	public void testGetLocale() {
 		// Locale in URL
-		request.addParameter( ParameterAccessor.PARAM_LOCALE, "zh_CN" ); //$NON-NLS-1$
-		assertEquals( Locale.PRC, ParameterAccessor.getLocale( request ) );
-		request.removeParameter( ParameterAccessor.PARAM_LOCALE );
+		request.addParameter(ParameterAccessor.PARAM_LOCALE, "zh_CN"); //$NON-NLS-1$
+		assertEquals(Locale.PRC, ParameterAccessor.getLocale(request));
+		request.removeParameter(ParameterAccessor.PARAM_LOCALE);
 
 		// Get Locale from Request
-		request.setLocale( Locale.UK );
-		assertEquals( Locale.UK, ParameterAccessor.getLocale( request ) );
-		request.setLocale( null );
+		request.setLocale(Locale.UK);
+		assertEquals(Locale.UK, ParameterAccessor.getLocale(request));
+		request.setLocale(null);
 
 		// Get Locale from ServletContext
-		assertEquals( new Locale( DEFAULT_LOCALE ).toString( ).toLowerCase( ),
-				ParameterAccessor.getLocale( request ).toString( )
-						.toLowerCase( ) );
+		assertEquals(new Locale(DEFAULT_LOCALE).toString().toLowerCase(),
+				ParameterAccessor.getLocale(request).toString().toLowerCase());
 	}
 
 	/**
@@ -447,26 +422,23 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Get parameter values collection by name from http request
 	 * 
 	 */
-	public void testGetParameterValues( )
-	{
+	public void testGetParameterValues() {
 		String paramName = "param"; //$NON-NLS-1$
-		String[] values = {"value1", "value2", "value3"}; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		request.addParameterValues( paramName, values );
+		String[] values = { "value1", "value2", "value3" }; //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		request.addParameterValues(paramName, values);
 
 		// Wrong parameter name
-		Collection params = ParameterAccessor.getParameterValues( request,
-				"WrongParamName" ); //$NON-NLS-1$
-		assertNull( params );
+		Collection params = ParameterAccessor.getParameterValues(request, "WrongParamName"); //$NON-NLS-1$
+		assertNull(params);
 
 		// Correct parameter name
-		params = ParameterAccessor.getParameterValues( request, paramName );
-		assertNotNull( params );
+		params = ParameterAccessor.getParameterValues(request, paramName);
+		assertNotNull(params);
 
-		for ( int i = 0; i < values.length; i++ )
-		{
-			assertTrue( params.contains( values[i] ) );
+		for (int i = 0; i < values.length; i++) {
+			assertTrue(params.contains(values[i]));
 		}
-		request.removeParameter( paramName );
+		request.removeParameter(paramName);
 	}
 
 	/**
@@ -482,59 +454,52 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * <li>If parameter is a null parameter, return null as parameter value.</li>
 	 * </ol>
 	 */
-	public void testGetReportParameter( )
-	{
+	public void testGetReportParameter() {
 		String paramName = "param"; //$NON-NLS-1$
 		String paramValue = "value";//$NON-NLS-1$
 		String WrongParamName = "WrongParamName"; //$NON-NLS-1$
 		String defaultValue = "defaultValue"; //$NON-NLS-1$
 
 		// parameter in request
-		request.addParameter( paramName, paramValue );
-		assertEquals( paramValue, ParameterAccessor.getReportParameter(
-				request, paramName, defaultValue ) );
+		request.addParameter(paramName, paramValue);
+		assertEquals(paramValue, ParameterAccessor.getReportParameter(request, paramName, defaultValue));
 
 		// parameter not in request
-		assertEquals( defaultValue, ParameterAccessor.getReportParameter(
-				request, WrongParamName, defaultValue ) );
+		assertEquals(defaultValue, ParameterAccessor.getReportParameter(request, WrongParamName, defaultValue));
 
 		// parameter is a null parameter
-		request.addParameterValues( ParameterAccessor.PARAM_ISNULL,
-				new String[]{paramName, WrongParamName} );
-		assertNull( ParameterAccessor.getReportParameter( request, paramName,
-				defaultValue ) );
-		assertNull( ParameterAccessor.getReportParameter( request,
-				WrongParamName, defaultValue ) );
+		request.addParameterValues(ParameterAccessor.PARAM_ISNULL, new String[] { paramName, WrongParamName });
+		assertNull(ParameterAccessor.getReportParameter(request, paramName, defaultValue));
+		assertNull(ParameterAccessor.getReportParameter(request, WrongParamName, defaultValue));
 
-		request.removeParameter( paramName );
-		request.removeParameter( ParameterAccessor.PARAM_ISNULL );
+		request.removeParameter(paramName);
+		request.removeParameter(ParameterAccessor.PARAM_ISNULL);
 
 	}
 
 	/**
 	 * TestCase for getBookmark method
 	 * <p>
-	 * Returns correct bookmard from http request.If set page information,
-	 * returns null.
+	 * Returns correct bookmard from http request.If set page information, returns
+	 * null.
 	 * 
 	 */
-	public void testGetBookmark( )
-	{
+	public void testGetBookmark() {
 		String bookmark = "bookmark"; //$NON-NLS-1$
 
 		// Don't set bookmark
-		assertNull( ParameterAccessor.getBookmark( request ) );
+		assertNull(ParameterAccessor.getBookmark(request));
 
 		// Set bookmark
-		request.addParameter( ParameterAccessor.PARAM_BOOKMARK, bookmark );
-		assertEquals( bookmark, ParameterAccessor.getBookmark( request ) );
+		request.addParameter(ParameterAccessor.PARAM_BOOKMARK, bookmark);
+		assertEquals(bookmark, ParameterAccessor.getBookmark(request));
 
 		// Set page
-		request.addParameter( ParameterAccessor.PARAM_PAGE, "2" ); //$NON-NLS-1$
-		assertNull( ParameterAccessor.getBookmark( request ) );
+		request.addParameter(ParameterAccessor.PARAM_PAGE, "2"); //$NON-NLS-1$
+		assertNull(ParameterAccessor.getBookmark(request));
 
-		request.removeParameter( ParameterAccessor.PARAM_BOOKMARK );
-		request.removeParameter( ParameterAccessor.PARAM_PAGE );
+		request.removeParameter(ParameterAccessor.PARAM_BOOKMARK);
+		request.removeParameter(ParameterAccessor.PARAM_PAGE);
 	}
 
 	/**
@@ -543,21 +508,20 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Returns correct report page.If page is null or less then 1, set as 1.
 	 * 
 	 */
-	public void testGetPage( )
-	{
-	    request.setServletPath( "/frameset" );
+	public void testGetPage() {
+		request.setServletPath("/frameset");
 		// Don't set page
-		assertEquals( 1, ParameterAccessor.getPage( request ) );
+		assertEquals(1, ParameterAccessor.getPage(request));
 
 		// set page
-		request.addParameter( ParameterAccessor.PARAM_PAGE, "3" ); //$NON-NLS-1$
-		assertEquals( 3, ParameterAccessor.getPage( request ) );
+		request.addParameter(ParameterAccessor.PARAM_PAGE, "3"); //$NON-NLS-1$
+		assertEquals(3, ParameterAccessor.getPage(request));
 
 		// set wrong page number
-		request.addParameter( ParameterAccessor.PARAM_PAGE, "aaa" ); //$NON-NLS-1$
-		assertEquals( 1, ParameterAccessor.getPage( request ) );
+		request.addParameter(ParameterAccessor.PARAM_PAGE, "aaa"); //$NON-NLS-1$
+		assertEquals(1, ParameterAccessor.getPage(request));
 
-		request.removeParameter( ParameterAccessor.PARAM_PAGE );
+		request.removeParameter(ParameterAccessor.PARAM_PAGE);
 	}
 
 	/**
@@ -566,14 +530,11 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Returns parameter name.
 	 * 
 	 */
-	public void testIsDisplayText( )
-	{
+	public void testIsDisplayText() {
 		String paramName = "param"; //$NON-NLS-1$
 
-		assertNull( ParameterAccessor.isDisplayText( paramName ) );
-		assertEquals( paramName, ParameterAccessor
-				.isDisplayText( ParameterAccessor.PREFIX_DISPLAY_TEXT
-						+ paramName ) );
+		assertNull(ParameterAccessor.isDisplayText(paramName));
+		assertEquals(paramName, ParameterAccessor.isDisplayText(ParameterAccessor.PREFIX_DISPLAY_TEXT + paramName));
 	}
 
 	/**
@@ -583,44 +544,39 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * default setting from context
 	 * 
 	 */
-	public void testIsOverwrite( )
-	{
+	public void testIsOverwrite() {
 		// Don't set in http request
-		assertTrue( ParameterAccessor.isOverwrite( request ) );
+		assertTrue(ParameterAccessor.isOverwrite(request));
 
 		// set in http request
-		request.addParameter( ParameterAccessor.PARAM_OVERWRITE, "false" ); //$NON-NLS-1$
-		assertTrue( !ParameterAccessor.isOverwrite( request ) );
+		request.addParameter(ParameterAccessor.PARAM_OVERWRITE, "false"); //$NON-NLS-1$
+		assertTrue(!ParameterAccessor.isOverwrite(request));
 
-		request.removeParameter( ParameterAccessor.PARAM_OVERWRITE );
+		request.removeParameter(ParameterAccessor.PARAM_OVERWRITE);
 	}
 
 	/**
 	 * TestCase for isReportParameterExist method
 	 * <p>
-	 * Check if parameter is in http request. If parameter is a null
-	 * parameter,also return true.
+	 * Check if parameter is in http request. If parameter is a null parameter,also
+	 * return true.
 	 * 
 	 */
-	public void testIsReportParameterExist( )
-	{
+	public void testIsReportParameterExist() {
 		String paramName = "param"; //$NON-NLS-1$
 
 		// Don't set in request
-		assertFalse( ParameterAccessor.isReportParameterExist( request,
-				paramName ) );
+		assertFalse(ParameterAccessor.isReportParameterExist(request, paramName));
 
 		// Set in request
-		request.addParameter( paramName, "value" ); //$NON-NLS-1$
-		assertTrue( ParameterAccessor.isReportParameterExist( request,
-				paramName ) );
-		request.removeParameter( paramName );
+		request.addParameter(paramName, "value"); //$NON-NLS-1$
+		assertTrue(ParameterAccessor.isReportParameterExist(request, paramName));
+		request.removeParameter(paramName);
 
 		// Set as null parameter in request
-		request.addParameter( ParameterAccessor.PARAM_ISNULL, paramName );
-		assertTrue( ParameterAccessor.isReportParameterExist( request,
-				paramName ) );
-		request.removeParameter( ParameterAccessor.PARAM_ISNULL );
+		request.addParameter(ParameterAccessor.PARAM_ISNULL, paramName);
+		assertTrue(ParameterAccessor.isReportParameterExist(request, paramName));
+		request.removeParameter(ParameterAccessor.PARAM_ISNULL);
 	}
 
 	/**
@@ -629,20 +585,19 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Check if reportlet is from instanceid.
 	 * 
 	 */
-	public void testIsIidReportlet( )
-	{
+	public void testIsIidReportlet() {
 		// Don't set anything
-		assertFalse( ParameterAccessor.isIidReportlet( request ) );
+		assertFalse(ParameterAccessor.isIidReportlet(request));
 
 		// Set instanceid as blank
-		request.addParameter( ParameterAccessor.PARAM_INSTANCEID, "" ); //$NON-NLS-1$
-		assertFalse( ParameterAccessor.isIidReportlet( request ) );
+		request.addParameter(ParameterAccessor.PARAM_INSTANCEID, ""); //$NON-NLS-1$
+		assertFalse(ParameterAccessor.isIidReportlet(request));
 
 		// Set instanceid not blank
-		request.addParameter( ParameterAccessor.PARAM_INSTANCEID, "instanceid" ); //$NON-NLS-1$
-		assertTrue( ParameterAccessor.isIidReportlet( request ) );
+		request.addParameter(ParameterAccessor.PARAM_INSTANCEID, "instanceid"); //$NON-NLS-1$
+		assertTrue(ParameterAccessor.isIidReportlet(request));
 
-		request.removeParameter( ParameterAccessor.PARAM_INSTANCEID );
+		request.removeParameter(ParameterAccessor.PARAM_INSTANCEID);
 	}
 
 	/**
@@ -651,23 +606,22 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Check if reportlet is from bookmark.
 	 * 
 	 */
-	public void testIsBookmarkReportlet( )
-	{
+	public void testIsBookmarkReportlet() {
 		// Don't set anything
-		assertFalse( ParameterAccessor.isBookmarkReportlet( request ) );
+		assertFalse(ParameterAccessor.isBookmarkReportlet(request));
 
 		// Only set bookmark
-		request.addParameter( ParameterAccessor.PARAM_BOOKMARK, "bookmark" ); //$NON-NLS-1$
-		assertFalse( ParameterAccessor.isBookmarkReportlet( request ) );
+		request.addParameter(ParameterAccessor.PARAM_BOOKMARK, "bookmark"); //$NON-NLS-1$
+		assertFalse(ParameterAccessor.isBookmarkReportlet(request));
 
 		// Set isReportlet
-		request.addParameter( ParameterAccessor.PARAM_ISREPORTLET, "wrong" ); //$NON-NLS-1$
-		assertFalse( ParameterAccessor.isBookmarkReportlet( request ) );
-		request.addParameter( ParameterAccessor.PARAM_ISREPORTLET, "true" ); //$NON-NLS-1$
-		assertTrue( ParameterAccessor.isBookmarkReportlet( request ) );
+		request.addParameter(ParameterAccessor.PARAM_ISREPORTLET, "wrong"); //$NON-NLS-1$
+		assertFalse(ParameterAccessor.isBookmarkReportlet(request));
+		request.addParameter(ParameterAccessor.PARAM_ISREPORTLET, "true"); //$NON-NLS-1$
+		assertTrue(ParameterAccessor.isBookmarkReportlet(request));
 
-		request.removeParameter( ParameterAccessor.PARAM_BOOKMARK );
-		request.removeParameter( ParameterAccessor.PARAM_ISREPORTLET );
+		request.removeParameter(ParameterAccessor.PARAM_BOOKMARK);
+		request.removeParameter(ParameterAccessor.PARAM_ISREPORTLET);
 	}
 
 	/**
@@ -680,28 +634,27 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * <ol>
 	 * 
 	 */
-	public void testGetReportletId( )
-	{
+	public void testGetReportletId() {
 		String instanceid = "instanceid"; //$NON-NLS-1$
 		String bookmark = "bookmark"; //$NON-NLS-1$
 		// Don't set anything
-		assertNull( ParameterAccessor.getReportletId( request ) );
+		assertNull(ParameterAccessor.getReportletId(request));
 
 		// Set instanceid
-		request.addParameter( ParameterAccessor.PARAM_INSTANCEID, "" ); //$NON-NLS-1$
-		assertNull( ParameterAccessor.getReportletId( request ) );
-		request.addParameter( ParameterAccessor.PARAM_INSTANCEID, instanceid );
-		assertEquals( instanceid, ParameterAccessor.getReportletId( request ) );
+		request.addParameter(ParameterAccessor.PARAM_INSTANCEID, ""); //$NON-NLS-1$
+		assertNull(ParameterAccessor.getReportletId(request));
+		request.addParameter(ParameterAccessor.PARAM_INSTANCEID, instanceid);
+		assertEquals(instanceid, ParameterAccessor.getReportletId(request));
 
 		// Set bookmark
-		request.addParameter( ParameterAccessor.PARAM_BOOKMARK, bookmark );
-		request.addParameter( ParameterAccessor.PARAM_ISREPORTLET, "true" ); //$NON-NLS-1$
-		assertEquals( instanceid, ParameterAccessor.getReportletId( request ) );
-		request.removeParameter( ParameterAccessor.PARAM_INSTANCEID );
-		assertEquals( bookmark, ParameterAccessor.getReportletId( request ) );
+		request.addParameter(ParameterAccessor.PARAM_BOOKMARK, bookmark);
+		request.addParameter(ParameterAccessor.PARAM_ISREPORTLET, "true"); //$NON-NLS-1$
+		assertEquals(instanceid, ParameterAccessor.getReportletId(request));
+		request.removeParameter(ParameterAccessor.PARAM_INSTANCEID);
+		assertEquals(bookmark, ParameterAccessor.getReportletId(request));
 
-		request.removeParameter( ParameterAccessor.PARAM_BOOKMARK );
-		request.removeParameter( ParameterAccessor.PARAM_ISREPORTLET );
+		request.removeParameter(ParameterAccessor.PARAM_BOOKMARK);
+		request.removeParameter(ParameterAccessor.PARAM_ISREPORTLET);
 	}
 
 	/**
@@ -710,26 +663,24 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Returns the maxrows setting
 	 * 
 	 */
-	public void testGetMaxRows( )
-	{
+	public void testGetMaxRows() {
 		int DEFAULT_MAX_ROWS = 500;
 
 		// Reset
-		ParameterAccessor.reset( );
-		context.setInitParameter( ParameterAccessor.INIT_PARAM_VIEWER_MAXROWS,
-				"" + DEFAULT_MAX_ROWS ); //$NON-NLS-1$
-		ParameterAccessor.initParameters( context );
+		ParameterAccessor.reset();
+		context.setInitParameter(ParameterAccessor.INIT_PARAM_VIEWER_MAXROWS, "" + DEFAULT_MAX_ROWS); //$NON-NLS-1$
+		ParameterAccessor.initParameters(context);
 
 		// Don't set anything
-		assertEquals( DEFAULT_MAX_ROWS, ParameterAccessor.getMaxRows( request ) );
+		assertEquals(DEFAULT_MAX_ROWS, ParameterAccessor.getMaxRows(request));
 
 		// Set in request
-		request.addParameter( ParameterAccessor.PARAM_MAXROWS, "WrongNumber" ); //$NON-NLS-1$
-		assertEquals( DEFAULT_MAX_ROWS, ParameterAccessor.getMaxRows( request ) );
-		request.addParameter( ParameterAccessor.PARAM_MAXROWS, "200" ); //$NON-NLS-1$
-		assertEquals( 200, ParameterAccessor.getMaxRows( request ) );
+		request.addParameter(ParameterAccessor.PARAM_MAXROWS, "WrongNumber"); //$NON-NLS-1$
+		assertEquals(DEFAULT_MAX_ROWS, ParameterAccessor.getMaxRows(request));
+		request.addParameter(ParameterAccessor.PARAM_MAXROWS, "200"); //$NON-NLS-1$
+		assertEquals(200, ParameterAccessor.getMaxRows(request));
 
-		request.removeParameter( ParameterAccessor.PARAM_MAXROWS );
+		request.removeParameter(ParameterAccessor.PARAM_MAXROWS);
 	}
 
 	/**
@@ -738,20 +689,16 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Returns the resource folder
 	 * 
 	 */
-	public void testGetResourceFolder( )
-	{
+	public void testGetResourceFolder() {
 		// Don't set anything
-		assertEquals( root.getAbsolutePath( ), ParameterAccessor
-				.getResourceFolder( request ) );
+		assertEquals(root.getAbsolutePath(), ParameterAccessor.getResourceFolder(request));
 
 		// Set in request
 		String resourceFolder = System.getProperty("java.io.tmpdir") + "/resource"; //$NON-NLS-1$ //$NON-NLS-2$
-		request.addParameter( ParameterAccessor.PARAM_RESOURCE_FOLDER,
-				resourceFolder );
-		assertEquals( resourceFolder, ParameterAccessor
-				.getResourceFolder( request ) );
+		request.addParameter(ParameterAccessor.PARAM_RESOURCE_FOLDER, resourceFolder);
+		assertEquals(resourceFolder, ParameterAccessor.getResourceFolder(request));
 
-		request.removeParameter( ParameterAccessor.PARAM_RESOURCE_FOLDER );
+		request.removeParameter(ParameterAccessor.PARAM_RESOURCE_FOLDER);
 	}
 
 	/**
@@ -763,24 +710,20 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * <li>Else, validate current file if exist in document folder.</li>
 	 * <ol>
 	 */
-	public void testIsValidFilePath( )
-	{
+	public void testIsValidFilePath() {
 		String reportFile = System.getProperty("java.io.tmpdir") + "/report1.rptdesign"; //$NON-NLS-1$ //$NON-NLS-2$
 
 		// INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY is false
-		assertTrue( ParameterAccessor.isValidFilePath(request, reportFile ) );
+		assertTrue(ParameterAccessor.isValidFilePath(request, reportFile));
 
 		// INIT_PARAM_DOCUMENT_FOLDER_ACCESS_ONLY is true
-		ParameterAccessor.reset( );
-		context
-				.setInitParameter(
-						ParameterAccessor.INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY,
-						"true" ); //$NON-NLS-1$
-		ParameterAccessor.initParameters( context );
-		assertFalse( ParameterAccessor.isValidFilePath(request, reportFile ) );
+		ParameterAccessor.reset();
+		context.setInitParameter(ParameterAccessor.INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY, "true"); //$NON-NLS-1$
+		ParameterAccessor.initParameters(context);
+		assertFalse(ParameterAccessor.isValidFilePath(request, reportFile));
 
-		reportFile = new File( root, "report1.rptdesign" ).getAbsolutePath( ); //$NON-NLS-1$
-		assertTrue( ParameterAccessor.isValidFilePath(request, reportFile ) );
+		reportFile = new File(root, "report1.rptdesign").getAbsolutePath(); //$NON-NLS-1$
+		assertTrue(ParameterAccessor.isValidFilePath(request, reportFile));
 	}
 
 	/**
@@ -789,26 +732,24 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Returns the report file path.
 	 * <ol>
 	 * <li>If report file is absolute path, returns it directly.</li>
-	 * <li>If it is relative path, returns the absolute path that is relative
-	 * to the document folder.</li>
+	 * <li>If it is relative path, returns the absolute path that is relative to the
+	 * document folder.</li>
 	 * <ol>
 	 * 
 	 */
-	public void testGetReport( )
-	{
+	public void testGetReport() {
 		// Absolute path
-		String reportFile = System.getProperty("java.io.tmpdir") + "/report1.rptdesign"; //$NON-NLS-1$ //$NON-NLS-2$ 
-		request.addParameter( ParameterAccessor.PARAM_REPORT, reportFile );
-		assertEquals( reportFile, ParameterAccessor.getReport( request, null ) );
+		String reportFile = System.getProperty("java.io.tmpdir") + "/report1.rptdesign"; //$NON-NLS-1$ //$NON-NLS-2$
+		request.addParameter(ParameterAccessor.PARAM_REPORT, reportFile);
+		assertEquals(reportFile, ParameterAccessor.getReport(request, null));
 
 		// Relative path
-		request.addParameter( ParameterAccessor.PARAM_REPORT,
-				"report1.rptdesign" ); //$NON-NLS-1$
-		reportFile = new File( root, "report1.rptdesign" ).getAbsolutePath( ).replace('\\', '/'); //$NON-NLS-1$
-        String returnValue = ParameterAccessor.getReport( request, null ).replace( '\\',  '/' );
-        assertEquals( reportFile, returnValue );
+		request.addParameter(ParameterAccessor.PARAM_REPORT, "report1.rptdesign"); //$NON-NLS-1$
+		reportFile = new File(root, "report1.rptdesign").getAbsolutePath().replace('\\', '/'); //$NON-NLS-1$
+		String returnValue = ParameterAccessor.getReport(request, null).replace('\\', '/');
+		assertEquals(reportFile, returnValue);
 
-		request.removeParameter( ParameterAccessor.PARAM_REPORT );
+		request.removeParameter(ParameterAccessor.PARAM_REPORT);
 	}
 
 	/**
@@ -817,56 +758,46 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Returns the report document file path
 	 * <ol>
 	 * <li>If document file is absolute path, returns it directly.</li>
-	 * <li>If it is relative path, returns the absolute path that is relative
-	 * to the working folder.</li>
-	 * <li>If null, generate the document file that follows the current session
-	 * id in the document folder.</li>
+	 * <li>If it is relative path, returns the absolute path that is relative to the
+	 * working folder.</li>
+	 * <li>If null, generate the document file that follows the current session id
+	 * in the document folder.</li>
 	 * <ol>
 	 */
-	public void testGetReportDocument( )
-	{
+	public void testGetReportDocument() {
 		// Absolute path
 		String documentFile = System.getProperty("java.io.tmpdir") + "/report1.rptdocument"; //$NON-NLS-1$ //$NON-NLS-2$
-		request.addParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT,
-				documentFile );
+		request.addParameter(ParameterAccessor.PARAM_REPORT_DOCUMENT, documentFile);
 		try {
-			assertEquals( documentFile, ParameterAccessor.getReportDocument(
-					request, null, false ) );
+			assertEquals(documentFile, ParameterAccessor.getReportDocument(request, null, false));
 		} catch (ViewerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
 		// Relative path
-		request.addParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT,
-				"report1.rptdocument" ); //$NON-NLS-1$
-        documentFile = new File( root, "report1.rptdocument" ).getAbsolutePath( ).replace( '\\', '/' ); //$NON-NLS-1$
-        try
-        {
-            String docName = ParameterAccessor.getReportDocument( request, null, false ).replace( '\\', '/' );
-            assertEquals( documentFile, docName );
-		} catch (ViewerException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-/*
-		// Don't exist document file in request
-		request.removeParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT );
-		String reportFile = "myproject\\report1.rptdesign"; //$NON-NLS-1$
-		request.addParameter( ParameterAccessor.PARAM_REPORT, reportFile );
+		request.addParameter(ParameterAccessor.PARAM_REPORT_DOCUMENT, "report1.rptdocument"); //$NON-NLS-1$
+		documentFile = new File(root, "report1.rptdocument").getAbsolutePath().replace('\\', '/'); //$NON-NLS-1$
 		try {
-			documentFile = ParameterAccessor
-					.getReportDocument( request, null, true );
+			String docName = ParameterAccessor.getReportDocument(request, null, false).replace('\\', '/');
+			assertEquals(documentFile, docName);
 		} catch (ViewerException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		assertNotNull( documentFile );
-		assertTrue( documentFile.indexOf( session.getId( ) ) > 0 );
-		assertTrue( documentFile.indexOf( "report1.rptdocument" ) > 0 ); //$NON-NLS-1$
-*/
-		request.removeParameter( ParameterAccessor.PARAM_REPORT );
-		request.removeParameter( ParameterAccessor.PARAM_REPORT_DOCUMENT );
+		/*
+		 * // Don't exist document file in request request.removeParameter(
+		 * ParameterAccessor.PARAM_REPORT_DOCUMENT ); String reportFile =
+		 * "myproject\\report1.rptdesign"; //$NON-NLS-1$ request.addParameter(
+		 * ParameterAccessor.PARAM_REPORT, reportFile ); try { documentFile =
+		 * ParameterAccessor .getReportDocument( request, null, true ); } catch
+		 * (ViewerException e) { // TODO Auto-generated catch block e.printStackTrace();
+		 * } assertNotNull( documentFile ); assertTrue( documentFile.indexOf(
+		 * session.getId( ) ) > 0 ); assertTrue( documentFile.indexOf(
+		 * "report1.rptdocument" ) > 0 ); //$NON-NLS-1$
+		 */
+		request.removeParameter(ParameterAccessor.PARAM_REPORT);
+		request.removeParameter(ParameterAccessor.PARAM_REPORT_DOCUMENT);
 	}
 
 	/**
@@ -875,32 +806,26 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Get selected column list.
 	 * 
 	 */
-	public void testGetSelectedColumns( )
-	{
-		assertNotNull( ParameterAccessor.getSelectedColumns( request ) );
-		assertTrue( ParameterAccessor.getSelectedColumns( request ).size( ) <= 0 );
+	public void testGetSelectedColumns() {
+		assertNotNull(ParameterAccessor.getSelectedColumns(request));
+		assertTrue(ParameterAccessor.getSelectedColumns(request).size() <= 0);
 
-		request
-				.addParameter( ParameterAccessor.PARAM_SELECTEDCOLUMNNUMBER,
-						"3" ); //$NON-NLS-1$
-		request.addParameter(
-				ParameterAccessor.PARAM_SELECTEDCOLUMN + "0", "column1" ); //$NON-NLS-1$//$NON-NLS-2$
-		request.addParameter(
-				ParameterAccessor.PARAM_SELECTEDCOLUMN + "1", "column2" ); //$NON-NLS-1$ //$NON-NLS-2$
-		request.addParameter(
-				ParameterAccessor.PARAM_SELECTEDCOLUMN + "2", "column3" ); //$NON-NLS-1$//$NON-NLS-2$
+		request.addParameter(ParameterAccessor.PARAM_SELECTEDCOLUMNNUMBER, "3"); //$NON-NLS-1$
+		request.addParameter(ParameterAccessor.PARAM_SELECTEDCOLUMN + "0", "column1"); //$NON-NLS-1$//$NON-NLS-2$
+		request.addParameter(ParameterAccessor.PARAM_SELECTEDCOLUMN + "1", "column2"); //$NON-NLS-1$ //$NON-NLS-2$
+		request.addParameter(ParameterAccessor.PARAM_SELECTEDCOLUMN + "2", "column3"); //$NON-NLS-1$//$NON-NLS-2$
 
-		Collection columns = ParameterAccessor.getSelectedColumns( request );
-		assertNotNull( columns );
-		assertTrue( columns.size( ) == 3 );
-		assertTrue( columns.contains( "column1" ) ); //$NON-NLS-1$
-		assertTrue( columns.contains( "column2" ) ); //$NON-NLS-1$
-		assertTrue( columns.contains( "column3" ) ); //$NON-NLS-1$
+		Collection columns = ParameterAccessor.getSelectedColumns(request);
+		assertNotNull(columns);
+		assertTrue(columns.size() == 3);
+		assertTrue(columns.contains("column1")); //$NON-NLS-1$
+		assertTrue(columns.contains("column2")); //$NON-NLS-1$
+		assertTrue(columns.contains("column3")); //$NON-NLS-1$
 
-		request.removeParameter( ParameterAccessor.PARAM_SELECTEDCOLUMNNUMBER );
-		request.removeParameter( ParameterAccessor.PARAM_SELECTEDCOLUMN + "0" ); //$NON-NLS-1$
-		request.removeParameter( ParameterAccessor.PARAM_SELECTEDCOLUMN + "1" ); //$NON-NLS-1$
-		request.removeParameter( ParameterAccessor.PARAM_SELECTEDCOLUMN + "2" ); //$NON-NLS-1$
+		request.removeParameter(ParameterAccessor.PARAM_SELECTEDCOLUMNNUMBER);
+		request.removeParameter(ParameterAccessor.PARAM_SELECTEDCOLUMN + "0"); //$NON-NLS-1$
+		request.removeParameter(ParameterAccessor.PARAM_SELECTEDCOLUMN + "1"); //$NON-NLS-1$
+		request.removeParameter(ParameterAccessor.PARAM_SELECTEDCOLUMN + "2"); //$NON-NLS-1$
 	}
 
 	/**
@@ -909,15 +834,14 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Returns HTML encoded string
 	 * 
 	 */
-	public void testHtmlEncode( )
-	{
-		assertNull( ParameterAccessor.htmlEncode( null ) );
-		assertTrue( ParameterAccessor.htmlEncode( "" ).length( ) <= 0 ); //$NON-NLS-1$
+	public void testHtmlEncode() {
+		assertNull(ParameterAccessor.htmlEncode(null));
+		assertTrue(ParameterAccessor.htmlEncode("").length() <= 0); //$NON-NLS-1$
 
 		String plain = "\t\n\r \"\'<>`&"; //$NON-NLS-1$
 		String encoded = "&#09;<br>&#13;&#32;&#34;&#39;&#60;&#62;&#96;&#38;"; //$NON-NLS-1$
 
-		assertEquals( encoded, ParameterAccessor.htmlEncode( plain ) );
+		assertEquals(encoded, ParameterAccessor.htmlEncode(plain));
 	}
 
 	/**
@@ -926,26 +850,19 @@ public class ParameterAccessorTest extends BaseTestCase
 	 * Push user-defined application context object into engine context
 	 * 
 	 */
-	public void testPushAppContext( )
-	{
+	public void testPushAppContext() {
 		Map map = null;
-		assertNotNull( ParameterAccessor.pushAppContext( map, request ) );
+		assertNotNull(ParameterAccessor.pushAppContext(map, request));
 
 		String contextKey = "appContextKey"; //$NON-NLS-1$
-		request
-				.setAttribute( ParameterAccessor.ATTR_APPCONTEXT_KEY,
-						contextKey );
-		assertNull( ParameterAccessor.pushAppContext( map, request ).get(
-				contextKey ) );
+		request.setAttribute(ParameterAccessor.ATTR_APPCONTEXT_KEY, contextKey);
+		assertNull(ParameterAccessor.pushAppContext(map, request).get(contextKey));
 
-		Map appContext = new HashMap( );
-		appContext.put( "key1", "value1" ); //$NON-NLS-1$//$NON-NLS-2$
-		request.setAttribute( ParameterAccessor.ATTR_APPCONTEXT_VALUE,
-				appContext );
+		Map appContext = new HashMap();
+		appContext.put("key1", "value1"); //$NON-NLS-1$//$NON-NLS-2$
+		request.setAttribute(ParameterAccessor.ATTR_APPCONTEXT_VALUE, appContext);
 
-		assertNotNull( ParameterAccessor.pushAppContext( map, request ).get(
-				contextKey ) );
-		assertTrue( ( (HashMap) ( ParameterAccessor.pushAppContext( map,
-				request ).get( contextKey ) ) ).containsKey( "key1" ) ); //$NON-NLS-1$
+		assertNotNull(ParameterAccessor.pushAppContext(map, request).get(contextKey));
+		assertTrue(((HashMap) (ParameterAccessor.pushAppContext(map, request).get(contextKey))).containsKey("key1")); //$NON-NLS-1$
 	}
 }

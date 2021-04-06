@@ -28,7 +28,8 @@ public class MarginManager extends AbstractLengthManager {
 	}
 
 	String propertyName;
-	public MarginManager( String propertyName) {
+
+	public MarginManager(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
@@ -44,8 +45,7 @@ public class MarginManager extends AbstractLengthManager {
 		return CSSValueConstants.NUMBER_0;
 	}
 
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_IDENT:
 			String s = lu.getStringValue().toLowerCase().intern();

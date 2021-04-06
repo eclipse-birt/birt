@@ -15,7 +15,6 @@ package org.eclipse.birt.data.engine.api;
  * General Interface of prepared query.
  */
 
-public interface IBasePreparedQuery
-{
+public interface IBasePreparedQuery {
 
 }

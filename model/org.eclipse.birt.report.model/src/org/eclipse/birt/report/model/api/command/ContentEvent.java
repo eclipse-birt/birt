@@ -25,8 +25,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class ContentEvent extends NotificationEvent
-{
+public class ContentEvent extends NotificationEvent {
 
 	/**
 	 * New content element is added.
@@ -47,8 +46,7 @@ public class ContentEvent extends NotificationEvent
 	public static final int SHIFT = 3;
 
 	/**
-	 * The type of change. One of {@link #ADD},{@link #REMOVE}, or
-	 * {@link #SHIFT}.
+	 * The type of change. One of {@link #ADD},{@link #REMOVE}, or {@link #SHIFT}.
 	 */
 
 	private int action;
@@ -65,26 +63,20 @@ public class ContentEvent extends NotificationEvent
 	protected ContainerContext focus = null;
 
 	/**
-	 * Constructs the content event with the container element, content element,
-	 * the slot within this container and the event operation kind.
+	 * Constructs the content event with the container element, content element, the
+	 * slot within this container and the event operation kind.
 	 * 
-	 * @param theContainer
-	 *            the container element
-	 * @param theContent
-	 *            the content element
-	 * @param theSlot
-	 *            the slot within the container
-	 * @param theAction
-	 *            the action causing this event
+	 * @param theContainer the container element
+	 * @param theContent   the content element
+	 * @param theSlot      the slot within the container
+	 * @param theAction    the action causing this event
 	 */
 
-	public ContentEvent( DesignElement theContainer, DesignElement theContent,
-			int theSlot, int theAction )
-	{
-		super( theContainer );
+	public ContentEvent(DesignElement theContainer, DesignElement theContent, int theSlot, int theAction) {
+		super(theContainer);
 		action = theAction;
 		content = theContent;
-		focus = new ContainerContext( theContainer, theSlot );
+		focus = new ContainerContext(theContainer, theSlot);
 	}
 
 	/**
@@ -93,10 +85,8 @@ public class ContentEvent extends NotificationEvent
 	 * @param theContent
 	 * @param theAction
 	 */
-	public ContentEvent( ContainerContext containerInfo, DesignElement theContent,
-			int theAction )
-	{
-		super( containerInfo.getElement( ) );
+	public ContentEvent(ContainerContext containerInfo, DesignElement theContent, int theAction) {
+		super(containerInfo.getElement());
 		action = theAction;
 		content = theContent;
 		focus = containerInfo;
@@ -105,10 +95,11 @@ public class ContentEvent extends NotificationEvent
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return CONTENT_EVENT;
 	}
 
@@ -119,8 +110,7 @@ public class ContentEvent extends NotificationEvent
 	 * @return the action causing this event.
 	 */
 
-	public int getAction( )
-	{
+	public int getAction() {
 		return action;
 	}
 
@@ -130,9 +120,8 @@ public class ContentEvent extends NotificationEvent
 	 * @return the slot id within the container
 	 */
 
-	public int getSlot( )
-	{
-		return focus.getSlotID( );
+	public int getSlot() {
+		return focus.getSlotID();
 	}
 
 	/**
@@ -141,25 +130,23 @@ public class ContentEvent extends NotificationEvent
 	 * @return the content element causing this event.
 	 */
 
-	public IDesignElement getContent( )
-	{
+	public IDesignElement getContent() {
 		return content;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
+	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
 
-	public boolean isSame( NotificationEvent event )
-	{
-		if ( !super.isSame( event ) )
+	public boolean isSame(NotificationEvent event) {
+		if (!super.isSame(event))
 			return false;
 		ContentEvent contentEvent = (ContentEvent) event;
-		if ( action != contentEvent.getAction( )
-				|| !focus.equals( contentEvent.focus )
-				|| content != contentEvent.getContent( ) )
+		if (action != contentEvent.getAction() || !focus.equals(contentEvent.focus)
+				|| content != contentEvent.getContent())
 			return false;
 		return true;
 	}

@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.metadata;
 
@@ -16,31 +16,25 @@ package org.eclipse.birt.report.model.metadata;
  * 
  */
 
-public class StructPropertyDefn extends PropertyDefn
-{
+public class StructPropertyDefn extends PropertyDefn {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public StructPropertyDefn( )
-	{
+	public StructPropertyDefn() {
 	}
 
 	/**
-	 * Constructs a member definition given the name, its type and the display
-	 * name id.
+	 * Constructs a member definition given the name, its type and the display name
+	 * id.
 	 * 
-	 * @param theName
-	 *            the member name
-	 * @param typeDefn
-	 *            the member type given as a property type
-	 * @param id
-	 *            the message ID for the display name
+	 * @param theName  the member name
+	 * @param typeDefn the member type given as a property type
+	 * @param id       the message ID for the display name
 	 */
 
-	public StructPropertyDefn( String theName, PropertyType typeDefn, String id )
-	{
+	public StructPropertyDefn(String theName, PropertyType typeDefn, String id) {
 		name = theName;
 		type = typeDefn;
 		displayNameID = id;
@@ -52,16 +46,16 @@ public class StructPropertyDefn extends PropertyDefn
 	 * @see org.eclipse.birt.report.model.design.metadata.ValueDefn#getValueType()
 	 */
 
-	public int getValueType( )
-	{
+	public int getValueType() {
 		return SYSTEM_PROPERTY;
-	}	
+	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#isStructureMember()
 	 */
-	public boolean isStructureMember( )
-	{
+	public boolean isStructureMember() {
 		return true;
 	}
 }

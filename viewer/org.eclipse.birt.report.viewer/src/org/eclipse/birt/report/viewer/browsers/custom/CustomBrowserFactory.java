@@ -15,19 +15,16 @@ import org.eclipse.help.browser.IBrowser;
 import org.eclipse.help.browser.IBrowserFactory;
 
 /**
- * Produces Custom Browser.
- * The original implementation is from HELP.
+ * Produces Custom Browser. The original implementation is from HELP.
  * <p>
  */
-public class CustomBrowserFactory implements IBrowserFactory
-{
+public class CustomBrowserFactory implements IBrowserFactory {
 	/**
 	 * Is custom browser factory available.
 	 * 
 	 * @return custom browser available or not
 	 */
-	public boolean isAvailable( )
-	{
+	public boolean isAvailable() {
 		return true;
 	}
 
@@ -36,8 +33,7 @@ public class CustomBrowserFactory implements IBrowserFactory
 	 * 
 	 * @return custom browser instance
 	 */
-	public IBrowser createBrowser( )
-	{
-		return new CustomBrowserAdapter( );
+	public IBrowser createBrowser() {
+		return new CustomBrowserAdapter();
 	}
 }

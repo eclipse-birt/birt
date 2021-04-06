@@ -23,8 +23,7 @@ import org.eclipse.birt.chart.ui.util.ChartUIConstants;
  * Data service provider for chart wizard, to provide all necessary data.
  */
 
-public interface IDataServiceProvider
-{
+public interface IDataServiceProvider {
 	/**
 	 * Indicates if chart has data set
 	 */
@@ -42,8 +41,7 @@ public interface IDataServiceProvider
 	public static final int SHARE_QUERY = 1 << 4;
 
 	/**
-	 * Indicates if current chart is a part of whole chart, such as plot or
-	 * axis.
+	 * Indicates if current chart is a part of whole chart, such as plot or axis.
 	 */
 	public static final int PART_CHART = 1 << 5;
 
@@ -77,12 +75,12 @@ public interface IDataServiceProvider
 	 * Indicates if the final shared object is chart.
 	 */
 	public static final int SHARE_CHART_QUERY_RECURSIVELY = 1 << 14;
-	
+
 	/**
 	 * Indicates if is cube and category is not top level
 	 */
 	public static final int IS_CUBE_AND_CATEGORY_NOT_TOP_LEVEL = 1 << 15;
-	
+
 	/**
 	 * Indicates if is cube and series is not top level
 	 */
@@ -92,64 +90,61 @@ public interface IDataServiceProvider
 	 * Indicates if category data is non hierarchy values.
 	 */
 	public static final int USE_NON_HIERARCHY_CATEGORY_DATA = 1 << 17;
-	
+
 	/**
 	 * Does some initialization works in this method.
+	 * 
 	 * @throws ChartException
 	 */
 	public void initialize() throws ChartException;
-	
+
 	/**
 	 * Disposes associated handles in this method.
 	 */
 	public void dispose();
-	
+
 	/**
 	 * Returns all available style names.
 	 */
-	public String[] getAllStyles( );
+	public String[] getAllStyles();
 
 	/**
-	 * Returns all available style display names. Note the count should be
-	 * identical with getAllStyles().
+	 * Returns all available style display names. Note the count should be identical
+	 * with getAllStyles().
 	 * 
 	 * @since 2.1
 	 */
-	public String[] getAllStyleDisplayNames( );
+	public String[] getAllStyleDisplayNames();
 
 	/**
 	 * Returns the name of current used style.
 	 */
-	public String getCurrentStyle( );
+	public String getCurrentStyle();
 
 	/**
 	 * Sets current used style by specified style name.
 	 */
-	public void setStyle( String styleName );
+	public void setStyle(String styleName);
 
 	/**
 	 * Fetches data from dataset.
 	 * 
-	 * @param sExpressions
-	 *            column expression array in the form of javascript. Null will
-	 *            return all columns of dataset.
-	 * @param iMaxRecords
-	 *            max row count. -1 returns default count or the preference
-	 *            value.
-	 * @param byRow
-	 *            true: by row first, false: by column first
-	 * @return Data array. if type is by row, array length is row length; if
-	 *         type is by column, array length is column length
+	 * @param sExpressions column expression array in the form of javascript. Null
+	 *                     will return all columns of dataset.
+	 * @param iMaxRecords  max row count. -1 returns default count or the preference
+	 *                     value.
+	 * @param byRow        true: by row first, false: by column first
+	 * @return Data array. if type is by row, array length is row length; if type is
+	 *         by column, array length is column length
 	 */
-	public Object[] getDataForColumns( String[] sExpressions, int iMaxRecords,
-			boolean byRow ) throws ChartException;
+	public Object[] getDataForColumns(String[] sExpressions, int iMaxRecords, boolean byRow) throws ChartException;
 
 	/**
 	 * Returns whether live preview is enabled
 	 * 
 	 * @return whether live preview is enabled
 	 */
-	public boolean isLivePreviewEnabled( );
+	public boolean isLivePreviewEnabled();
 
 	/**
 	 * Returns the data type according to the query expression.
@@ -157,7 +152,7 @@ public interface IDataServiceProvider
 	 * @param expression
 	 * @return 2.2
 	 */
-	public DataType getDataType( String expression );
+	public DataType getDataType(String expression);
 
 	/**
 	 * Prepare row expression evaluator for chart to bind data.
@@ -169,9 +164,8 @@ public interface IDataServiceProvider
 	 * @throws ChartException
 	 * @since BIRT 2.3
 	 */
-	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator( Chart cm,
-			List<String> lExpressions, int iMaxRecords, boolean byRow )
-			throws ChartException;
+	public IDataRowExpressionEvaluator prepareRowExpressionEvaluator(Chart cm, List<String> lExpressions,
+			int iMaxRecords, boolean byRow) throws ChartException;
 
 	/**
 	 * Updates some custom data which is related with invoker.
@@ -184,7 +178,7 @@ public interface IDataServiceProvider
 	 * @since 2.3
 	 * 
 	 */
-	public boolean update( String type, Object value );
+	public boolean update(String type, Object value);
 
 	/**
 	 * Returns state information of current data service provider.
@@ -192,7 +186,7 @@ public interface IDataServiceProvider
 	 * @return state
 	 * @since 2.3
 	 */
-	public int getState( );
+	public int getState();
 
 	/**
 	 * Checks if the state in provide includes this.
@@ -201,7 +195,7 @@ public interface IDataServiceProvider
 	 * @return (getState() & state) == state
 	 * @since 2.3
 	 */
-	public boolean checkState( int state );
+	public boolean checkState(int state);
 
 	/**
 	 * Check data for the invoker.
@@ -210,6 +204,6 @@ public interface IDataServiceProvider
 	 * @param data
 	 * @since 2.3
 	 */
-	public Object checkData( String checkType, Object data );
-	
+	public Object checkData(String checkType, Object data);
+
 }

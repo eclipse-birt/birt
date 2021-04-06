@@ -18,28 +18,24 @@ import org.eclipse.birt.data.engine.api.aggregation.IParameterDefn;
  * 
  */
 
-public class AggregationUtil
-{
+public class AggregationUtil {
 
-	private AggregationUtil( )
-	{
+	private AggregationUtil() {
 	}
 
 	/**
-	 * to check whether the specified <code>aggrFunc</code> requires
-	 * data field parameters.
+	 * to check whether the specified <code>aggrFunc</code> requires data field
+	 * parameters.
 	 * 
 	 * @param aggrFunc
 	 * @return
 	 */
-	public static boolean needDataField( IAggrFunction aggrFunc )
-	{
-		if ( aggrFunc == null )
+	public static boolean needDataField(IAggrFunction aggrFunc) {
+		if (aggrFunc == null)
 			return false;
-		IParameterDefn[] params = aggrFunc.getParameterDefn( );
-		for ( int i = 0; i < params.length; i++ )
-		{
-			if ( params[i].isDataField( ) )
+		IParameterDefn[] params = aggrFunc.getParameterDefn();
+		for (int i = 0; i < params.length; i++) {
+			if (params[i].isDataField())
 				return true;
 		}
 		return false;

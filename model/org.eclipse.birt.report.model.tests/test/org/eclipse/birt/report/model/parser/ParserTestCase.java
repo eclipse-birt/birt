@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.util.BaseTestCase;
@@ -16,27 +16,23 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * This abstract test case provides basic operation for parser and writer test.
  * 
  */
-public abstract class ParserTestCase extends BaseTestCase
-{
- 
-    /**
-     * Opens the design file and write it to out file. Compares the out file
-     * with godlen file. 
-     * 
-     * @param fileName design file to open
-     * @param outFileName out file to write
-     * @param goldenFileName golden file to compare
-     * @return Return true, if the out file is same as golden file.
-     * @throws Exception
-     */
-    protected boolean openWriteAndCompare( String fileName, String outFileName, 
-                                           String goldenFileName)
-    	throws Exception
-    {
-        openDesign( fileName );
+public abstract class ParserTestCase extends BaseTestCase {
 
-        save(); 
+	/**
+	 * Opens the design file and write it to out file. Compares the out file with
+	 * godlen file.
+	 * 
+	 * @param fileName       design file to open
+	 * @param outFileName    out file to write
+	 * @param goldenFileName golden file to compare
+	 * @return Return true, if the out file is same as golden file.
+	 * @throws Exception
+	 */
+	protected boolean openWriteAndCompare(String fileName, String outFileName, String goldenFileName) throws Exception {
+		openDesign(fileName);
 
-        return compareFile( goldenFileName) ; 
-    }
+		save();
+
+		return compareFile(goldenFileName);
+	}
 }

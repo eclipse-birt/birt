@@ -22,52 +22,44 @@ import org.eclipse.birt.report.model.elements.interfaces.ICascadingParameterGrou
  * 
  */
 
-public class CascadingParameterGroup extends CascadingParameterGroupImpl
-		implements
-			ICascadingParameterGroupModel
-{
+public class CascadingParameterGroup extends CascadingParameterGroupImpl implements ICascadingParameterGroupModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public CascadingParameterGroup( )
-	{
-		
+	public CascadingParameterGroup() {
+
 	}
 
 	/**
 	 * Constructs the cascading parameter group with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name
+	 * @param theName the optional name
 	 */
 
-	public CascadingParameterGroup( String theName )
-	{
-		super( theName );
+	public CascadingParameterGroup(String theName) {
+		super(theName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitCascadingParameterGroup( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitCascadingParameterGroup(this);
 	}
 
 	/**
 	 * Returns the handle to this element;
 	 */
 
-	public ParameterGroupHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new CascadingParameterGroupHandle( module, this );
+	public ParameterGroupHandle handle(Module module) {
+		if (handle == null) {
+			handle = new CascadingParameterGroupHandle(module, this);
 		}
 		return (CascadingParameterGroupHandle) handle;
 	}

@@ -19,21 +19,19 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  * The test cases to for custom-load ROM cases.
  */
 
-abstract public class AbstractMetaTest extends BaseTestCase
-{
+abstract public class AbstractMetaTest extends BaseTestCase {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.util.BaseTestCase#tearDown()
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		MetaDataDictionary.reset( );
+	protected void tearDown() throws Exception {
+		MetaDataDictionary.reset();
 
 		engine = null;
 
-		super.tearDown( );
+		super.tearDown();
 	}
 
 	/**
@@ -41,13 +39,10 @@ abstract public class AbstractMetaTest extends BaseTestCase
 	 * @throws MetaDataParserException
 	 */
 
-	protected final void loadMetaData( InputStream is )
-			throws MetaDataParserException
-	{
-		MetaDataDictionary.reset( );
-		
-		MetadataTestUtil.readRom( is);
-	}
+	protected final void loadMetaData(InputStream is) throws MetaDataParserException {
+		MetaDataDictionary.reset();
 
+		MetadataTestUtil.readRom(is);
+	}
 
 }

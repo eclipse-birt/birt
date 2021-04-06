@@ -26,26 +26,19 @@ import org.xml.sax.SAXException;
  * The conversion is done from the file version 3.2.9.
  */
 
-public class CompatibleTOCPropertyState extends CompatiblePropertyState
-{
+public class CompatibleTOCPropertyState extends CompatiblePropertyState {
 
 	/**
 	 * Default constructor.
 	 * 
-	 * @param theHandler
-	 *            the parser handler
-	 * @param element
-	 *            the element to parse
-	 * @param propDefn
-	 *            the property definition
-	 * @param struct
-	 *            the structure of OdaDataSetParameter
+	 * @param theHandler the parser handler
+	 * @param element    the element to parse
+	 * @param propDefn   the property definition
+	 * @param struct     the structure of OdaDataSetParameter
 	 */
 
-	public CompatibleTOCPropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleTOCPropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
@@ -54,18 +47,15 @@ public class CompatibleTOCPropertyState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
-		TOC toc = StructureFactory.createTOC( value );
-		if( element instanceof ReportItem )
-		{
-			element.setProperty( IReportItemModel.TOC_PROP , toc );
+	public void end() throws SAXException {
+		String value = text.toString();
+		TOC toc = StructureFactory.createTOC(value);
+		if (element instanceof ReportItem) {
+			element.setProperty(IReportItemModel.TOC_PROP, toc);
 		}
-		if( element instanceof GroupElement )
-		{
-			element.setProperty( IGroupElementModel.TOC_PROP , toc );
+		if (element instanceof GroupElement) {
+			element.setProperty(IGroupElementModel.TOC_PROP, toc);
 		}
-		
+
 	}
 }

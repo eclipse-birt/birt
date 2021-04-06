@@ -32,61 +32,52 @@ import org.eclipse.ui.ISharedImages;
  * 
  * 
  */
-public class CrossTabNodeProvider extends DefaultNodeProvider
-{
+public class CrossTabNodeProvider extends DefaultNodeProvider {
 
-	public Object getParent( Object model )
-	{
-		return super.getParent( model );
+	public Object getParent(Object model) {
+		return super.getParent(model);
 	}
 
 	/**
 	 * Gets the children element of the given model using visitor.
 	 * 
-	 * @param model
-	 *            the model
+	 * @param model the model
 	 */
-	public Object[] getChildren( Object model )
-	{
-		ArrayList list = new ArrayList( );
+	public Object[] getChildren(Object model) {
+		ArrayList list = new ArrayList();
 		ExtendedItemHandle crossTabHandle = (ExtendedItemHandle) model;
-		try
-		{
-			CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) crossTabHandle.getReportItem( );
-			CrosstabPropertyHandleWrapper headerWrap = new CrosstabPropertyHandleWrapper( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.HEADER_PROP ) );
-			headerWrap.setTestType( "crosstabHeader" );
-			list.add( headerWrap );
-			if ( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE ) != null )
-				list.add( crossTab.getCrosstabView( ICrosstabConstants.COLUMN_AXIS_TYPE )
-						.getModelHandle( ) );
+		try {
+			CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) crossTabHandle.getReportItem();
+			CrosstabPropertyHandleWrapper headerWrap = new CrosstabPropertyHandleWrapper(
+					crossTabHandle.getPropertyHandle(ICrosstabReportItemConstants.HEADER_PROP));
+			headerWrap.setTestType("crosstabHeader");
+			list.add(headerWrap);
+			if (crossTab.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE) != null)
+				list.add(crossTab.getCrosstabView(ICrosstabConstants.COLUMN_AXIS_TYPE).getModelHandle());
 			else
-				list.add( new CrosstabPropertyHandleWrapper( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.COLUMNS_PROP ) ) );
-			if ( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE ) != null )
-				list.add( crossTab.getCrosstabView( ICrosstabConstants.ROW_AXIS_TYPE )
-						.getModelHandle( ) );
+				list.add(new CrosstabPropertyHandleWrapper(
+						crossTabHandle.getPropertyHandle(ICrosstabReportItemConstants.COLUMNS_PROP)));
+			if (crossTab.getCrosstabView(ICrosstabConstants.ROW_AXIS_TYPE) != null)
+				list.add(crossTab.getCrosstabView(ICrosstabConstants.ROW_AXIS_TYPE).getModelHandle());
 			else
-				list.add( new CrosstabPropertyHandleWrapper( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.ROWS_PROP ) ) );
+				list.add(new CrosstabPropertyHandleWrapper(
+						crossTabHandle.getPropertyHandle(ICrosstabReportItemConstants.ROWS_PROP)));
+		} catch (ExtendedElementException e) {
+			ExceptionUtil.handle(e);
 		}
-		catch ( ExtendedElementException e )
-		{
-			ExceptionUtil.handle( e );
-		}
-		list.add( new CrosstabPropertyHandleWrapper( crossTabHandle.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP ) ) );
-		return list.toArray( );
+		list.add(new CrosstabPropertyHandleWrapper(
+				crossTabHandle.getPropertyHandle(ICrosstabReportItemConstants.MEASURES_PROP)));
+		return list.toArray();
 	}
 
-	public Image getNodeIcon( Object model )
-	{
-		if ( model instanceof DesignElementHandle
-				&& ( (DesignElementHandle) model ).getSemanticErrors( ).size( ) > 0 )
-		{
-			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+	public Image getNodeIcon(Object model) {
+		if (model instanceof DesignElementHandle && ((DesignElementHandle) model).getSemanticErrors().size() > 0) {
+			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
 		}
 		// if ( model instanceof DesignElementHandle
 		// && DEUtil.isLinkedElement( (DesignElementHandle) model ) )
 		// return CrosstabUIHelper.getImage(
 		// CrosstabUIHelper.CROSSTAB_LINK_IMAGE );
-		return decorateImage( CrosstabUIHelper.getImage( CrosstabUIHelper.CROSSTAB_IMAGE ),
-				model );
+		return decorateImage(CrosstabUIHelper.getImage(CrosstabUIHelper.CROSSTAB_IMAGE), model);
 	}
 }

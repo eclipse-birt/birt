@@ -9,24 +9,19 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 
-
 package org.eclipse.birt.report.designer.core.model.views.data;
-
 
 import org.eclipse.birt.report.model.api.ModuleHandle;
 
-public class ReportDataHandle
-{
+public class ReportDataHandle {
 
 	private ModuleHandle module;
 
-	public ReportDataHandle( ModuleHandle module )
-	{
+	public ReportDataHandle(ModuleHandle module) {
 		this.module = module;
 	}
 
-	public ModuleHandle getModuleHandle( )
-	{
+	public ModuleHandle getModuleHandle() {
 		return this.module;
 	}
 }

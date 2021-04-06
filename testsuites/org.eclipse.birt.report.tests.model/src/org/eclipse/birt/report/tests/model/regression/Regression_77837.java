@@ -33,8 +33,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * structure
  * </p>
  */
-public class Regression_77837 extends BaseTestCase
-{
+public class Regression_77837 extends BaseTestCase {
 
 	private String filename = "Regression_77837.xml"; //$NON-NLS-1$
 
@@ -42,44 +41,38 @@ public class Regression_77837 extends BaseTestCase
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		copyResource_INPUT( filename, filename );
-		//copyResource_INPUT( INPUT2, INPUT2 );
+		copyResource_INPUT(filename, filename);
+		// copyResource_INPUT( INPUT2, INPUT2 );
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
 
-	public void test_regression_77837( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
-		
-		HighlightRule highlightrule = StructureFactory.createHighlightRule( );
-		TableHandle table = (TableHandle) designHandle.findElement( "table" ); //$NON-NLS-1$
+	public void test_regression_77837() throws DesignFileException, SemanticException {
+		openDesign(filename);
 
-		PropertyHandle propHandle = table
-				.getPropertyHandle( Style.HIGHLIGHT_RULES_PROP );
-		propHandle.addItem( highlightrule );
+		HighlightRule highlightrule = StructureFactory.createHighlightRule();
+		TableHandle table = (TableHandle) designHandle.findElement("table"); //$NON-NLS-1$
+
+		PropertyHandle propHandle = table.getPropertyHandle(Style.HIGHLIGHT_RULES_PROP);
+		propHandle.addItem(highlightrule);
 
 		// No trim for highlight expression in handle
-		
-		Iterator iter = propHandle.iterator( );
-		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) iter.next( );
-		highlightHandle.setValue1( "  a  " ); //$NON-NLS-1$
-		assertEquals( "  a  ", highlightHandle.getValue1( ) ); //$NON-NLS-1$
 
-		
+		Iterator iter = propHandle.iterator();
+		HighlightRuleHandle highlightHandle = (HighlightRuleHandle) iter.next();
+		highlightHandle.setValue1("  a  "); //$NON-NLS-1$
+		assertEquals("  a  ", highlightHandle.getValue1()); //$NON-NLS-1$
+
 		// No trim for highlight expression in structure
-		
-		highlightrule.setValue1( " a b " ); //$NON-NLS-1$
-		assertEquals( " a b ", highlightrule.getValue1( ) ); //$NON-NLS-1$
+
+		highlightrule.setValue1(" a b "); //$NON-NLS-1$
+		assertEquals(" a b ", highlightrule.getValue1()); //$NON-NLS-1$
 
 	}
 }

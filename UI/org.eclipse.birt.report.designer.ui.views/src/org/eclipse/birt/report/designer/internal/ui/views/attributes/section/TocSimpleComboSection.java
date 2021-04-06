@@ -24,33 +24,25 @@ import org.eclipse.swt.widgets.Composite;
  */
 public class TocSimpleComboSection extends SimpleComboSection {
 
-	public TocSimpleComboSection(String labelText, Composite parent,
-			boolean isFormStyle) {
+	public TocSimpleComboSection(String labelText, Composite parent, boolean isFormStyle) {
 		super(labelText, parent, isFormStyle);
-	}	
+	}
 
-	protected SimpleComboPropertyDescriptor getSimpleComboControl(
-			Composite parent )
-	{
-		if ( simpleCombo == null )
-		{
-			simpleCombo = DescriptorToolkit.createTocSimpleComboPropertyDescriptor( true );
-			if ( getProvider( ) != null )
-				simpleCombo.setDescriptorProvider( getProvider( ) );
-			simpleCombo.createControl( parent );
-			simpleCombo.getControl( ).setLayoutData( new GridData( ) );
-			simpleCombo.getControl( )
-					.addDisposeListener( new DisposeListener( ) {
+	protected SimpleComboPropertyDescriptor getSimpleComboControl(Composite parent) {
+		if (simpleCombo == null) {
+			simpleCombo = DescriptorToolkit.createTocSimpleComboPropertyDescriptor(true);
+			if (getProvider() != null)
+				simpleCombo.setDescriptorProvider(getProvider());
+			simpleCombo.createControl(parent);
+			simpleCombo.getControl().setLayoutData(new GridData());
+			simpleCombo.getControl().addDisposeListener(new DisposeListener() {
 
-						public void widgetDisposed( DisposeEvent event )
-						{
-							simpleCombo = null;
-						}
-					} );
-		}
-		else
-		{
-			checkParent( simpleCombo.getControl( ), parent );
+				public void widgetDisposed(DisposeEvent event) {
+					simpleCombo = null;
+				}
+			});
+		} else {
+			checkParent(simpleCombo.getControl(), parent);
 		}
 		return simpleCombo;
 	}

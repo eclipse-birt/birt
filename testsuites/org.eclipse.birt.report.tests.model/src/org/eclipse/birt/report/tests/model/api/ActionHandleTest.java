@@ -31,7 +31,8 @@ import com.ibm.icu.util.ULocale;
  * TestCases for ActionHandle class. ActionHandle should be got from the
  * specific ElementHandle that contains an Action.
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
+ * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -89,56 +90,43 @@ public class ActionHandleTest extends BaseTestCase {
 		// TargetBookMark only support for bookmark link and drill-through link
 		Action action = StructureFactory.createAction();
 		image1.setAction(action);
-		image1.getActionHandle().setLinkType(
-				DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
-		image1.getActionHandle().setTargetBookmarkType(
-				DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK);
+		image1.getActionHandle().setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
+		image1.getActionHandle().setTargetBookmarkType(DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK);
 		assertNull(image1.getActionHandle().getTargetBookmarkType());
 
 		action = StructureFactory.createAction();
 		image2.setAction(action);
-		image2.getActionHandle().setLinkType(
-				DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK);
-		image2.getActionHandle().setTargetBookmarkType(
-				DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC);
-		assertEquals(DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC, image2
-				.getActionHandle().getTargetBookmarkType());
+		image2.getActionHandle().setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK);
+		image2.getActionHandle().setTargetBookmarkType(DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC);
+		assertEquals(DesignChoiceConstants.ACTION_BOOKMARK_TYPE_TOC, image2.getActionHandle().getTargetBookmarkType());
 
 		// TargetFileType only support for URI link and drill-through link
 		action = StructureFactory.createAction();
 		label1.setAction(action);
-		label1.getActionHandle().setTargetFileType(
-				DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN);
+		label1.getActionHandle().setTargetFileType(DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN);
 		assertNotNull(label1.getActionHandle().getTargetFileType());
-		image1.getActionHandle().setLinkType(
-				DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
-		assertEquals(
-				DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN,
+		image1.getActionHandle().setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
+		assertEquals(DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN,
 				label1.getActionHandle().getTargetFileType());
 		library.getCommandStack().undo();
 		assertNull(label1.getActionHandle().getTargetFileType());
 		library.getCommandStack().redo();
-		assertEquals(
-				DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN,
+		assertEquals(DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN,
 				label1.getActionHandle().getTargetFileType());
 
 		action = StructureFactory.createAction();
 		label2.setAction(action);
-		label2.getActionHandle().setLinkType(
-				DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH);
-		label2.getActionHandle().setTargetFileType(
-				DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT);
-		assertEquals(
-				DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT,
+		label2.getActionHandle().setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_DRILL_THROUGH);
+		label2.getActionHandle().setTargetFileType(DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT);
+		assertEquals(DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DOCUMENT,
 				label2.getActionHandle().getTargetFileType());
-		label2.getActionHandle().setLinkType(
-				DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK);
+		label2.getActionHandle().setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_BOOKMARK_LINK);
 		assertNull(label2.getActionHandle().getTargetFileType());
 
 	}
 
 	public void test_HandleStructure() throws Exception {
-		
+
 		sessionHandle = DesignEngine.newSession(ULocale.ENGLISH);
 		LibraryHandle library = sessionHandle.createLibrary();
 		ElementFactory factory = new ElementFactory(library.getModule());
@@ -146,15 +134,14 @@ public class ActionHandleTest extends BaseTestCase {
 		LabelHandle label1 = factory.newLabel("label1");
 		library.getComponents().add(image1);
 		library.getComponents().add(label1);
-		Action action = StructureFactory.createAction( );
+		Action action = StructureFactory.createAction();
 		image1.setAction(action);
 		image1.getActionHandle().setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
 		image1.getActionHandle().setTargetBookmarkType(DesignChoiceConstants.ACTION_BOOKMARK_TYPE_BOOKMARK);
 		label1.setAction(action);
 		label1.getActionHandle().setTargetFileType(DesignChoiceConstants.ACTION_TARGET_FILE_TYPE_REPORT_DESIGN);
 		image1.getActionHandle().setLinkType(DesignChoiceConstants.ACTION_LINK_TYPE_HYPERLINK);
-	
+
 	}
-	
 
 }

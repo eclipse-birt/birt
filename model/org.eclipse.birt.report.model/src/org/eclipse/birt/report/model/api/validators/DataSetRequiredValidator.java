@@ -43,10 +43,9 @@ import org.eclipse.birt.report.model.validators.AbstractElementValidator;
  * <code>ListingElement</code>, <code>Cube</code> and <code>ExtendedItem</code>.
  */
 
-public class DataSetRequiredValidator extends AbstractElementValidator
-{
+public class DataSetRequiredValidator extends AbstractElementValidator {
 
-	private final static DataSetRequiredValidator instance = new DataSetRequiredValidator( );
+	private final static DataSetRequiredValidator instance = new DataSetRequiredValidator();
 
 	/**
 	 * Returns the singleton validator instance.
@@ -54,84 +53,62 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 	 * @return the validator instance
 	 */
 
-	public static DataSetRequiredValidator getInstance( )
-	{
+	public static DataSetRequiredValidator getInstance() {
 		return instance;
 	}
 
 	/**
 	 * Validates whether the data set of the given listing element is provided.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the listing element to validate
+	 * @param module  the module
+	 * @param element the listing element to validate
 	 * @return error list, each of which is the instance of
 	 *         <code>SemanticException</code>.
 	 */
 
-	public List<SemanticException> validate( Module module,
-			DesignElement element )
-	{
-		if ( !( element instanceof ListingElement || element instanceof Cube ) )
-			return Collections.emptyList( );
+	public List<SemanticException> validate(Module module, DesignElement element) {
+		if (!(element instanceof ListingElement || element instanceof Cube))
+			return Collections.emptyList();
 
-		return doValidate( module, element );
+		return doValidate(module, element);
 	}
 
-	private List<SemanticException> doValidate( Module module,
-			DesignElement toValidate )
-	{
-		List<SemanticException> list = new ArrayList<SemanticException>( );
+	private List<SemanticException> doValidate(Module module, DesignElement toValidate) {
+		List<SemanticException> list = new ArrayList<SemanticException>();
 
 		DesignElement container = toValidate;
 		ContainerContext containerInfo = null;
 
 		boolean isDataBindingRef = false;
 		boolean dataSetFound = false;
-		if ( toValidate instanceof Cube )
-		{
+		if (toValidate instanceof Cube) {
 			String propName = ITabularCubeModel.DATA_SET_PROP;
-			if ( toValidate.getReferenceProperty( module, propName ) != null )
-			{
+			if (toValidate.getReferenceProperty(module, propName) != null) {
 				dataSetFound = true;
-			}
-			else
-			{
-				while ( container.getContainer( ) != null )
-				{
-					containerInfo = container.getContainerInfo( );
-					container = container.getContainer( );
+			} else {
+				while (container.getContainer() != null) {
+					containerInfo = container.getContainerInfo();
+					container = container.getContainer();
 				}
 			}
-		}
-		else if ( toValidate instanceof ListingElement )
-		{
-			while ( container.getContainer( ) != null && !dataSetFound )
-			{
-				if ( container instanceof ListingElement
-						|| container instanceof GridItem )
-				{
+		} else if (toValidate instanceof ListingElement) {
+			while (container.getContainer() != null && !dataSetFound) {
+				if (container instanceof ListingElement || container instanceof GridItem) {
 					String propName = IReportItemModel.DATA_SET_PROP;
-					if ( container.getReferenceProperty( module, propName ) != null )
-					{
+					if (container.getReferenceProperty(module, propName) != null) {
 						dataSetFound = true;
 						break;
 					}
 				}
 
-				containerInfo = container.getContainerInfo( );
-				container = container.getContainer( );
+				containerInfo = container.getContainerInfo();
+				container = container.getContainer();
 			}
 
-			if ( !dataSetFound )
-			{
-				dataSetFound = ( (ListingElement) toValidate )
-						.isDataBindingReferring( module );
+			if (!dataSetFound) {
+				dataSetFound = ((ListingElement) toValidate).isDataBindingReferring(module);
 			}
-		}
-		else
-		{
+		} else {
 			// now the check is only employed to listing elements, extended
 			// items.
 
@@ -141,16 +118,10 @@ public class DataSetRequiredValidator extends AbstractElementValidator
 		// Since element in components slot is considered as incompletely
 		// defined, the data set is not required on table in components.
 
-		int slot = containerInfo == null
-				? IDesignElementModel.NO_SLOT
-				: containerInfo.getSlotID( );
-		if ( !dataSetFound
-				&& IModuleModel.COMPONENT_SLOT != slot
-				&& IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT != slot
-				&& !isDataBindingRef )
-		{
-			list.add( new SemanticError( toValidate,
-					SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET ) );
+		int slot = containerInfo == null ? IDesignElementModel.NO_SLOT : containerInfo.getSlotID();
+		if (!dataSetFound && IModuleModel.COMPONENT_SLOT != slot
+				&& IReportDesignModel.TEMPLATE_PARAMETER_DEFINITION_SLOT != slot && !isDataBindingRef) {
+			list.add(new SemanticError(toValidate, SemanticError.DESIGN_EXCEPTION_MISSING_DATA_SET));
 		}
 		return list;
 	}

@@ -13,13 +13,12 @@ package org.eclipse.birt.report.engine.layout;
 
 import java.util.List;
 
-public interface IInlineStackingLayoutManager extends IStackingLayoutManager
-{
+public interface IInlineStackingLayoutManager extends IStackingLayoutManager {
 
 	/**
 	 * get list of child layout managers
 	 * 
 	 * @return
 	 */
-	List getChildren( );
+	List getChildren();
 }

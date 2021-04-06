@@ -13,12 +13,10 @@ package org.eclipse.birt.data.engine.impl.jointdataset;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * This is the interface which define the behavior of a 
- * JointDataSet matcher, which is used to test whether the join
- * condition is held or not.
+ * This is the interface which define the behavior of a JointDataSet matcher,
+ * which is used to test whether the join condition is held or not.
  */
-public interface IJoinConditionMatcher
-{
+public interface IJoinConditionMatcher {
 	/**
 	 * Return whether the join conditions are matching.
 	 * 
@@ -26,15 +24,15 @@ public interface IJoinConditionMatcher
 	 * @throws DataException
 	 */
 	boolean match() throws DataException;
-	
+
 	/**
 	 * Compares the two specified key objects.
 	 * 
 	 * @return
 	 * @throws DataException
 	 */
-	int compare(Object[] lObjects, Object[] rObjects ) throws DataException;
-	
+	int compare(Object[] lObjects, Object[] rObjects) throws DataException;
+
 	/**
 	 * Get list of compare values.
 	 * 
@@ -42,5 +40,5 @@ public interface IJoinConditionMatcher
 	 * @return
 	 * @throws DataException
 	 */
-	Object[] getCompareValue( boolean left ) throws DataException;
+	Object[] getCompareValue(boolean left) throws DataException;
 }

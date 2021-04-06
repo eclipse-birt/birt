@@ -28,8 +28,7 @@ import org.eclipse.birt.report.model.api.extension.IReportItem;
 /**
  * CrosstabCellInstanceImpl
  */
-public class CrosstabCellInstanceImpl implements ICrosstabCellInstance
-{
+public class CrosstabCellInstanceImpl implements ICrosstabCellInstance {
 
 	private IReportContext context;
 	private ICellContent content;
@@ -37,111 +36,84 @@ public class CrosstabCellInstanceImpl implements ICrosstabCellInstance
 	private long id = -1;
 	private String type = TYPE_HEADER;
 
-	public CrosstabCellInstanceImpl( ICellContent content,
-			ExtendedItemHandle modelHandle, IReportContext context )
-	{
+	public CrosstabCellInstanceImpl(ICellContent content, ExtendedItemHandle modelHandle, IReportContext context) {
 		this.content = content;
 		this.modelHandle = modelHandle;
 		this.context = context;
 
-		if ( modelHandle != null )
-		{
-			id = modelHandle.getID( );
+		if (modelHandle != null) {
+			id = modelHandle.getID();
 
-			try
-			{
-				IReportItem item = modelHandle.getReportItem( );
-				if ( item instanceof AggregationCellHandle )
-				{
+			try {
+				IReportItem item = modelHandle.getReportItem();
+				if (item instanceof AggregationCellHandle) {
 					type = TYPE_AGGREGATION;
 				}
-			}
-			catch ( ExtendedElementException e )
-			{
-				e.printStackTrace( );
+			} catch (ExtendedElementException e) {
+				e.printStackTrace();
 			}
 		}
 	}
 
-	public long getCellID( )
-	{
+	public long getCellID() {
 		return id;
 	}
 
-	public String getCellType( )
-	{
+	public String getCellType() {
 		return type;
 	}
 
-	public Object getDataValue( String bindingName ) throws BirtException
-	{
-		if ( context != null && bindingName != null )
-		{
-			return context.evaluate( ExpressionUtil.createJSDataExpression( bindingName ) );
+	public Object getDataValue(String bindingName) throws BirtException {
+		if (context != null && bindingName != null) {
+			return context.evaluate(ExpressionUtil.createJSDataExpression(bindingName));
 		}
 
 		return null;
 	}
 
-	public String getHelpText( )
-	{
-		return content.getHelpText( );
+	public String getHelpText() {
+		return content.getHelpText();
 	}
 
-	public String getName( )
-	{
-		return content.getName( );
+	public String getName() {
+		return content.getName();
 	}
 
-	public Object getNamedExpressionValue( String name )
-	{
+	public Object getNamedExpressionValue(String name) {
 		// TODO need report context support
 		return null;
 	}
 
-	public IScriptStyle getStyle( )
-	{
-		return new StyleInstance( content.getStyle( ) );
+	public IScriptStyle getStyle() {
+		return new StyleInstance(content.getStyle());
 	}
 
-	public Object getUserPropertyValue( String name )
-	{
-		if ( modelHandle != null )
-		{
-			UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle( name );
-			if ( prop != null )
-			{
-				return modelHandle.getProperty( prop.getName( ) );
+	public Object getUserPropertyValue(String name) {
+		if (modelHandle != null) {
+			UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle(name);
+			if (prop != null) {
+				return modelHandle.getProperty(prop.getName());
 			}
 		}
 		return null;
 	}
 
-	public void setHelpText( String help )
-	{
-		content.setHelpText( help );
+	public void setHelpText(String help) {
+		content.setHelpText(help);
 	}
 
-	public void setName( String name )
-	{
-		content.setName( name );
+	public void setName(String name) {
+		content.setName(name);
 	}
 
-	public void setUserPropertyValue( String name, Object value )
-			throws ScriptException
-	{
-		if ( modelHandle != null )
-		{
-			UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle( name );
-			if ( prop != null )
-			{
-				try
-				{
-					modelHandle.setProperty( prop.getName( ), value );
-				}
-				catch ( SemanticException e )
-				{
-					throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setUserPropertyValue(String name, Object value) throws ScriptException {
+		if (modelHandle != null) {
+			UserPropertyDefnHandle prop = modelHandle.getUserPropertyDefnHandle(name);
+			if (prop != null) {
+				try {
+					modelHandle.setProperty(prop.getName(), value);
+				} catch (SemanticException e) {
+					throw new ScriptException(e.getLocalizedMessage());
 				}
 			}
 		}

@@ -33,38 +33,32 @@ import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
  * report, the content area is the area inside the margins defined by each
  * column. Note that each page has only one content area, though that content
  * area can be divided into multiple columns. That is, a page has one content
- * area. If a page has multiple columns, the column layout is 'overlayed' on
- * top of the content area. Use the
+ * area. If a page has multiple columns, the column layout is 'overlayed' on top
+ * of the content area. Use the
  * {@link org.eclipse.birt.report.model.api.GraphicMasterPageHandle}class to
  * access the content slot of the graphic master page.
  * 
  */
-public class GraphicMasterPage extends MasterPage
-		implements
-			IGraphicMaterPageModel
-{
+public class GraphicMasterPage extends MasterPage implements IGraphicMaterPageModel {
 
 	/**
 	 * Default Constructor.
 	 */
 
-	public GraphicMasterPage( )
-	{
-		super( );
-		initSlots( );
+	public GraphicMasterPage() {
+		super();
+		initSlots();
 	}
 
 	/**
 	 * Constructs the graphic master page with a required and unique name.
 	 * 
-	 * @param theName
-	 *            the required name
+	 * @param theName the required name
 	 */
 
-	public GraphicMasterPage( String theName )
-	{
-		super( theName );
-		initSlots( );
+	public GraphicMasterPage(String theName) {
+		super(theName);
+		initSlots();
 	}
 
 	/*
@@ -73,8 +67,7 @@ public class GraphicMasterPage extends MasterPage
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	public ContainerSlot getSlot( int slot )
-	{
+	public ContainerSlot getSlot(int slot) {
 		assert slot == CONTENT_SLOT;
 		return slots[CONTENT_SLOT];
 	}
@@ -82,16 +75,13 @@ public class GraphicMasterPage extends MasterPage
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 * @return an API handle for this element
 	 */
 
-	public GraphicMasterPageHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new GraphicMasterPageHandle( module, this );
+	public GraphicMasterPageHandle handle(Module module) {
+		if (handle == null) {
+			handle = new GraphicMasterPageHandle(module, this);
 		}
 		return (GraphicMasterPageHandle) handle;
 	}
@@ -99,30 +89,29 @@ public class GraphicMasterPage extends MasterPage
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.MasterPage#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.MasterPage#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitGraphicMasterPage( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitGraphicMasterPage(this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#validate(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public List<SemanticException> validate( Module module )
-	{
-		List<SemanticException> list = super.validate( module );
+	public List<SemanticException> validate(Module module) {
+		List<SemanticException> list = super.validate(module);
 
-		List<SemanticException> pageSizeErrors = MasterPageTypeValidator.getInstance( ).validate(
-				module, this );
-		if ( pageSizeErrors.isEmpty( ) )
-		{
-			list.addAll( MasterPageMultiColumnValidator.getInstance( )
-					.validate( module, this ) );
+		List<SemanticException> pageSizeErrors = MasterPageTypeValidator.getInstance().validate(module, this);
+		if (pageSizeErrors.isEmpty()) {
+			list.addAll(MasterPageMultiColumnValidator.getInstance().validate(module, this));
 		}
 		return list;
 	}
@@ -133,19 +122,19 @@ public class GraphicMasterPage extends MasterPage
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.GRAPHIC_MASTER_PAGE_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 }

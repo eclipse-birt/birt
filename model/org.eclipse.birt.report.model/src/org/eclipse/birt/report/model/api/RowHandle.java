@@ -26,37 +26,31 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
  * @see org.eclipse.birt.report.model.elements.TableRow
  */
 
-public class RowHandle extends ReportElementHandle implements ITableRowModel
-{
+public class RowHandle extends ReportElementHandle implements ITableRowModel {
 
 	/**
 	 * Constructs the handle for a row with the given design and element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public RowHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public RowHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
-	 * Returns the cell slot of row. Through SlotHandle, each cell can be
-	 * obtained.
+	 * Returns the cell slot of row. Through SlotHandle, each cell can be obtained.
 	 * 
 	 * @return the handle to the cell slot
 	 * 
 	 * @see SlotHandle
 	 */
 
-	public SlotHandle getCells( )
-	{
-		return getSlot( ITableRowModel.CONTENT_SLOT );
+	public SlotHandle getCells() {
+		return getSlot(ITableRowModel.CONTENT_SLOT);
 	}
 
 	/**
@@ -65,9 +59,8 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	 * @return a DimensionHandle for the row's height.
 	 */
 
-	public DimensionHandle getHeight( )
-	{
-		return super.getDimensionProperty( ITableRowModel.HEIGHT_PROP );
+	public DimensionHandle getHeight() {
+		return super.getDimensionProperty(ITableRowModel.HEIGHT_PROP);
 	}
 
 	/**
@@ -76,126 +69,109 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	 * @return the bookmark of this row
 	 */
 
-	public String getBookmark( )
-	{
-		return getStringProperty( ITableRowModel.BOOKMARK_PROP );
+	public String getBookmark() {
+		return getStringProperty(ITableRowModel.BOOKMARK_PROP);
 	}
 
 	/**
 	 * Sets the bookmark of this row.
 	 * 
-	 * @param value
-	 *            the bookmark to set
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param value the bookmark to set
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setBookmark( String value ) throws SemanticException
-	{
-		setStringProperty( ITableRowModel.BOOKMARK_PROP, value );
+	public void setBookmark(String value) throws SemanticException {
+		setStringProperty(ITableRowModel.BOOKMARK_PROP, value);
 	}
 
 	/**
 	 * Returns visibility rules defined on the table row. The element in the
-	 * iterator is the corresponding <code>StructureHandle</code> that deal with
-	 * a <code>Hide</code> in the list.
+	 * iterator is the corresponding <code>StructureHandle</code> that deal with a
+	 * <code>Hide</code> in the list.
 	 * 
 	 * @return the iterator for visibility rules defined on this row.
 	 * 
 	 * @see org.eclipse.birt.report.model.api.elements.structures.HideRule
 	 */
 
-	public Iterator visibilityRulesIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( ITableRowModel.VISIBILITY_PROP );
+	public Iterator visibilityRulesIterator() {
+		PropertyHandle propHandle = getPropertyHandle(ITableRowModel.VISIBILITY_PROP);
 		assert propHandle != null;
-		return propHandle.iterator( );
+		return propHandle.iterator();
 	}
 
 	/**
-	 * Gets the on-prepare script of the group. Startup phase. No data binding
-	 * yet. The design of an element can be changed here.
+	 * Gets the on-prepare script of the group. Startup phase. No data binding yet.
+	 * The design of an element can be changed here.
 	 * 
 	 * @return the on-prepare script of the group
 	 * 
 	 */
 
-	public String getOnPrepare( )
-	{
-		return getStringProperty( ITableRowModel.ON_PREPARE_METHOD );
+	public String getOnPrepare() {
+		return getStringProperty(ITableRowModel.ON_PREPARE_METHOD);
 	}
 
 	/**
-	 * Gets the on-finish script of the group. Presentation phase. The report
-	 * item has been read from the report document, but not sent to emitter yet.
+	 * Gets the on-finish script of the group. Presentation phase. The report item
+	 * has been read from the report document, but not sent to emitter yet.
 	 * 
 	 * @return the on-finish script of the group
 	 */
 
-	public String getOnCreate( )
-	{
-		return getStringProperty( ITableRowModel.ON_CREATE_METHOD );
+	public String getOnCreate() {
+		return getStringProperty(ITableRowModel.ON_CREATE_METHOD);
 	}
 
 	/**
-	 * Gets the on-finish script of the group. Presentation phase. The report
-	 * item has been read from the report document, but not sent to emitter yet.
+	 * Gets the on-finish script of the group. Presentation phase. The report item
+	 * has been read from the report document, but not sent to emitter yet.
 	 * 
 	 * @return the on-finish script of the group
 	 */
 
-	public String getOnRender( )
-	{
-		return getStringProperty( ITableRowModel.ON_RENDER_METHOD );
+	public String getOnRender() {
+		return getStringProperty(ITableRowModel.ON_RENDER_METHOD);
 	}
 
 	/**
 	 * Sets the on-prepare script of the group element.
 	 * 
-	 * @param script
-	 *            the script to set
-	 * @throws SemanticException
-	 *             if the method is locked.
+	 * @param script the script to set
+	 * @throws SemanticException if the method is locked.
 	 * 
 	 * @see #getOnPrepare()
 	 */
 
-	public void setOnPrepare( String script ) throws SemanticException
-	{
-		setProperty( ITableRowModel.ON_PREPARE_METHOD, script );
+	public void setOnPrepare(String script) throws SemanticException {
+		setProperty(ITableRowModel.ON_PREPARE_METHOD, script);
 	}
 
 	/**
 	 * Sets the on-create script of the group element.
 	 * 
-	 * @param script
-	 *            the script to set
-	 * @throws SemanticException
-	 *             if the method is locked.
+	 * @param script the script to set
+	 * @throws SemanticException if the method is locked.
 	 * 
 	 * @see #getOnCreate()
 	 * 
 	 */
 
-	public void setOnCreate( String script ) throws SemanticException
-	{
-		setProperty( ITableRowModel.ON_CREATE_METHOD, script );
+	public void setOnCreate(String script) throws SemanticException {
+		setProperty(ITableRowModel.ON_CREATE_METHOD, script);
 	}
 
 	/**
 	 * Sets the on-render script of the group element.
 	 * 
-	 * @param script
-	 *            the script to set
-	 * @throws SemanticException
-	 *             if the method is locked.
+	 * @param script the script to set
+	 * @throws SemanticException if the method is locked.
 	 * 
 	 * @see #getOnRender()
 	 */
 
-	public void setOnRender( String script ) throws SemanticException
-	{
-		setProperty( ITableRowModel.ON_RENDER_METHOD, script );
+	public void setOnRender(String script) throws SemanticException {
+		setProperty(ITableRowModel.ON_RENDER_METHOD, script);
 	}
 
 	/**
@@ -207,125 +183,105 @@ public class RowHandle extends ReportElementHandle implements ITableRowModel
 	 * @see #setSuppressDuplicates(boolean)
 	 */
 
-	public boolean suppressDuplicates( )
-	{
-		return getBooleanProperty( SUPPRESS_DUPLICATES_PROP );
+	public boolean suppressDuplicates() {
+		return getBooleanProperty(SUPPRESS_DUPLICATES_PROP);
 	}
 
 	/**
 	 * Sets the flag whether to suppress duplicates rows with same content.
 	 * 
-	 * @param value
-	 *            <code>true</code> if suppress duplicates rows with same
-	 *            content, otherwise <code>false</code>.
-	 * @throws SemanticException
-	 *             If the expression is invalid.
+	 * @param value <code>true</code> if suppress duplicates rows with same content,
+	 *              otherwise <code>false</code>.
+	 * @throws SemanticException If the expression is invalid.
 	 * 
 	 * @see #suppressDuplicates()
 	 */
 
-	public void setSuppressDuplicates( boolean value ) throws SemanticException
-	{
-		setBooleanProperty( SUPPRESS_DUPLICATES_PROP, value );
+	public void setSuppressDuplicates(boolean value) throws SemanticException {
+		setBooleanProperty(SUPPRESS_DUPLICATES_PROP, value);
 	}
 
 	/**
-	 * Gets repeatable value. This property is used to control the output of a
-	 * row is repeated on every page or just once.
+	 * Gets repeatable value. This property is used to control the output of a row
+	 * is repeated on every page or just once.
 	 * 
 	 * @return the repeatable value.
 	 */
-	public boolean repeatable( )
-	{
-		return getBooleanProperty( REPEATABLE_PROP );
+	public boolean repeatable() {
+		return getBooleanProperty(REPEATABLE_PROP);
 	}
 
 	/**
-	 * Sets the repeatable value. This property is used to control the output of
-	 * a row is repeated on every page or just once.
+	 * Sets the repeatable value. This property is used to control the output of a
+	 * row is repeated on every page or just once.
 	 * 
-	 * @param repeatable
-	 *            the repeatable value.
-	 * @throws SemanticException
-	 *             if this value is locked.
+	 * @param repeatable the repeatable value.
+	 * @throws SemanticException if this value is locked.
 	 */
-	public void setRepeatable( boolean repeatable ) throws SemanticException
-	{
-		setBooleanProperty( REPEATABLE_PROP, repeatable );
+	public void setRepeatable(boolean repeatable) throws SemanticException {
+		setBooleanProperty(REPEATABLE_PROP, repeatable);
 	}
-	
+
 	/**
 	 * Gets the display name of the bookmark.
 	 * 
 	 * @return the display name of the bookmark.
 	 */
-	public String getBookmarkDisplayName( )
-	{
-		return getStringProperty( BOOKMARK_DISPLAY_NAME_PROP );
+	public String getBookmarkDisplayName() {
+		return getStringProperty(BOOKMARK_DISPLAY_NAME_PROP);
 	}
 
 	/**
 	 * Sets the display name of the bookmark.
 	 * 
-	 * @param bookmarkDisplayName
-	 *            the display name of the bookmark to set
+	 * @param bookmarkDisplayName the display name of the bookmark to set
 	 * @throws SemanticException
 	 */
-	public void setBookmarkDisplayName( String bookmarkDisplayName )
-			throws SemanticException
-	{
-		setStringProperty( BOOKMARK_DISPLAY_NAME_PROP, bookmarkDisplayName );
+	public void setBookmarkDisplayName(String bookmarkDisplayName) throws SemanticException {
+		setStringProperty(BOOKMARK_DISPLAY_NAME_PROP, bookmarkDisplayName);
 	}
-	
+
 	/**
 	 * Returns the tag type of this label item.
 	 * 
 	 * @return the tag type value
 	 */
 
-	public String getTagType( )
-	{
-		return getStringProperty( TAG_TYPE_PROP );
+	public String getTagType() {
+		return getStringProperty(TAG_TYPE_PROP);
 	}
 
 	/**
 	 * Sets the tag type of this label item.
 	 * 
-	 * @param tag type
-	 *            the tag type
+	 * @param tag type the tag type
 	 * 
-	 * @throws SemanticException
-	 *           if the property is locked.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setTagType( String tagType ) throws SemanticException
-	{
-		setStringProperty( TAG_TYPE_PROP, tagType );
+	public void setTagType(String tagType) throws SemanticException {
+		setStringProperty(TAG_TYPE_PROP, tagType);
 	}
-	
+
 	/**
 	 * Returns the language of this label item.
 	 * 
 	 * @return the language
 	 */
 
-	public String getLanguage( )
-	{
-		return getStringProperty( LANGUAGE_PROP );
+	public String getLanguage() {
+		return getStringProperty(LANGUAGE_PROP);
 	}
 
 	/**
 	 * Sets the language of this label item.
 	 * 
-	 * @param language
-	 *            the language
+	 * @param language the language
 	 * 
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setLanguage( String language ) throws SemanticException
-	{
-		setStringProperty( LANGUAGE_PROP, language );
+	public void setLanguage(String language) throws SemanticException {
+		setStringProperty(LANGUAGE_PROP, language);
 	}
 }

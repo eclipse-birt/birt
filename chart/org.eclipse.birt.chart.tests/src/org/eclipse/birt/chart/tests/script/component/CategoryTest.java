@@ -20,51 +20,38 @@ import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
  * 
  */
 
-public class CategoryTest extends BaseChartTestCase
-{
+public class CategoryTest extends BaseChartTestCase {
 
-	public void testGetDataExpr( )
-	{
-		assertTrue( getChartWithAxes( ).getCategory( ).getDataExpr( ) instanceof ISimpleData );
+	public void testGetDataExpr() {
+		assertTrue(getChartWithAxes().getCategory().getDataExpr() instanceof ISimpleData);
 	}
 
-	public void testGetGrouping( )
-	{
-		assertNotNull( getChartWithoutAxes( ).getCategory( ).getGrouping( ) );
+	public void testGetGrouping() {
+		assertNotNull(getChartWithoutAxes().getCategory().getGrouping());
 		// Detailed tests are in SeriesGroupingTest
 	}
 
-	public void testSorting( )
-	{
-		assertEquals( "Test the default sorting",
-				getChartWithoutAxes( ).getCategory( ).getSorting( ),
-				SortOption.ASCENDING_LITERAL.getName( ) );
+	public void testSorting() {
+		assertEquals("Test the default sorting", getChartWithoutAxes().getCategory().getSorting(),
+				SortOption.ASCENDING_LITERAL.getName());
 
-		getChartWithoutAxes( ).getCategory( )
-				.setSorting( SortOption.DESCENDING_LITERAL.getName( ) );
-		assertEquals( "Test setting sorting",
-				getChartWithoutAxes( ).getCategory( ).getSorting( ),
-				SortOption.DESCENDING_LITERAL.getName( ) );
+		getChartWithoutAxes().getCategory().setSorting(SortOption.DESCENDING_LITERAL.getName());
+		assertEquals("Test setting sorting", getChartWithoutAxes().getCategory().getSorting(),
+				SortOption.DESCENDING_LITERAL.getName());
 
-		getChartWithoutAxes( ).getCategory( ).setSorting( "asc" );
-		assertEquals( "Test invalid sorting",
-				getChartWithoutAxes( ).getCategory( ).getSorting( ),
-				SortOption.ASCENDING_LITERAL.getName( ) );
+		getChartWithoutAxes().getCategory().setSorting("asc");
+		assertEquals("Test invalid sorting", getChartWithoutAxes().getCategory().getSorting(),
+				SortOption.ASCENDING_LITERAL.getName());
 
 	}
 
-	public void testOptionalValueGroupingExpr( )
-	{
-		assertEquals( getChartWithoutAxes( ).getCategory( )
-				.getOptionalValueGroupingExpr( ), "" );
+	public void testOptionalValueGroupingExpr() {
+		assertEquals(getChartWithoutAxes().getCategory().getOptionalValueGroupingExpr(), "");
 
-		getChartWithoutAxes( ).getCategory( )
-				.setOptionalValueGroupingExpr( "grouping" );
-		assertEquals( getChartWithoutAxes( ).getCategory( )
-				.getOptionalValueGroupingExpr( ), "grouping" );
+		getChartWithoutAxes().getCategory().setOptionalValueGroupingExpr("grouping");
+		assertEquals(getChartWithoutAxes().getCategory().getOptionalValueGroupingExpr(), "grouping");
 
-		IChart chart = (IChart) getReportDesign( ).getReportElement( CHART_NAME_GROUPING );
-		assertEquals( "row[\"COUNTRY\"]", chart.getCategory( )
-				.getOptionalValueGroupingExpr( ) );
+		IChart chart = (IChart) getReportDesign().getReportElement(CHART_NAME_GROUPING);
+		assertEquals("row[\"COUNTRY\"]", chart.getCategory().getOptionalValueGroupingExpr());
 	}
 }

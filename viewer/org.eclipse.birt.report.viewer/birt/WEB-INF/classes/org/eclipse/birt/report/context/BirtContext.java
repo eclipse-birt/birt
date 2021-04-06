@@ -16,8 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.eclipse.birt.report.IBirtConstants;
 
-public class BirtContext extends BaseContext
-{
+public class BirtContext extends BaseContext {
 
 	/**
 	 * Constructor.
@@ -25,9 +24,8 @@ public class BirtContext extends BaseContext
 	 * @param request
 	 * @param response
 	 */
-	public BirtContext( HttpServletRequest request, HttpServletResponse response )
-	{
-		super( request, response );
+	public BirtContext(HttpServletRequest request, HttpServletResponse response) {
+		super(request, response);
 	}
 
 	/**
@@ -35,14 +33,11 @@ public class BirtContext extends BaseContext
 	 * 
 	 * @return
 	 */
-	protected void __init( )
-	{
-		this.bean = (ViewerAttributeBean) request
-				.getAttribute( IBirtConstants.ATTRIBUTE_BEAN );
-		if ( bean == null )
-		{
-			bean = new ViewerAttributeBean( request );
+	protected void __init() {
+		this.bean = (ViewerAttributeBean) request.getAttribute(IBirtConstants.ATTRIBUTE_BEAN);
+		if (bean == null) {
+			bean = new ViewerAttributeBean(request);
 		}
-		request.setAttribute( IBirtConstants.ATTRIBUTE_BEAN, bean );
+		request.setAttribute(IBirtConstants.ATTRIBUTE_BEAN, bean);
 	}
 }

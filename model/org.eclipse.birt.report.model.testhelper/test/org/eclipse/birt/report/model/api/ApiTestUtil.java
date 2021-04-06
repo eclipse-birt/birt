@@ -23,20 +23,17 @@ import org.eclipse.birt.report.model.elements.TableColumn;
  * 
  */
 
-public class ApiTestUtil
-{
+public class ApiTestUtil {
 
 	/**
 	 * Returns the design session for the given session handle.
 	 * 
-	 * @param sessionHandle
-	 *            the session handle
+	 * @param sessionHandle the session handle
 	 * @return the design session
 	 */
 
-	public static DesignSession getDesignSession( SessionHandle sessionHandle )
-	{
-		if ( sessionHandle == null )
+	public static DesignSession getDesignSession(SessionHandle sessionHandle) {
+		if (sessionHandle == null)
 			return null;
 
 		return sessionHandle.session;
@@ -45,66 +42,57 @@ public class ApiTestUtil
 	/**
 	 * Returns copied cells for the given column band data.
 	 * 
-	 * @param bandData
-	 *            the column band data
+	 * @param bandData the column band data
 	 * @return a list containing copied cells
 	 */
 
-	public static List getCopiedCells( ColumnBandData bandData )
-	{
-		if ( bandData == null )
+	public static List getCopiedCells(ColumnBandData bandData) {
+		if (bandData == null)
 			return null;
 
-		return bandData.getCells( );
+		return bandData.getCells();
 	}
 
 	/**
 	 * Returns copied cells for the given column band data.
 	 * 
-	 * @param bandData
-	 *            the column band data
+	 * @param bandData the column band data
 	 * @return a list containing copied cells
 	 */
 
-	public static Cell getCopiedCell( ColumnBandData bandData, int index )
-	{
-		if ( bandData == null )
+	public static Cell getCopiedCell(ColumnBandData bandData, int index) {
+		if (bandData == null)
 			return null;
 
-		CellContextInfo contextInfo = (CellContextInfo) bandData.getCells( )
-				.get( index );
-		return contextInfo.getCell( );
+		CellContextInfo contextInfo = (CellContextInfo) bandData.getCells().get(index);
+		return contextInfo.getCell();
 	}
 
 	/**
 	 * Returns copied column for the given column band data.
 	 * 
-	 * @param bandData
-	 *            the column band data
+	 * @param bandData the column band data
 	 * @return the copied column
 	 */
 
-	public static TableColumn getCopiedColumn( ColumnBandData bandData )
-	{
-		if ( bandData == null )
+	public static TableColumn getCopiedColumn(ColumnBandData bandData) {
+		if (bandData == null)
 			return null;
 
-		return bandData.getColumn( );
+		return bandData.getColumn();
 	}
 
 	/**
 	 * Returns the font handle of the element.
 	 * 
-	 * @param element
-	 *            the design element
+	 * @param element the design element
 	 * @return the font handle
 	 */
 
-	public static FontHandle getFontProperty( DesignElementHandle element )
-	{
-		if ( element == null )
+	public static FontHandle getFontProperty(DesignElementHandle element) {
+		if (element == null)
 			return null;
 
-		return element.getFontProperty( );
+		return element.getFontProperty();
 	}
 }

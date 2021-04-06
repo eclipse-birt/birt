@@ -13,11 +13,9 @@ package org.eclipse.birt.report.data.oda.xml.impl;
 
 /**
  * This class implements IDriver interface.
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class Driver
-		extends
-			org.eclipse.datatools.enablement.oda.xml.impl.Driver
-{
+public class Driver extends org.eclipse.datatools.enablement.oda.xml.impl.Driver {
 
 }

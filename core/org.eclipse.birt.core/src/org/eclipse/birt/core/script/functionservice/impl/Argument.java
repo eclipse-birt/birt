@@ -13,19 +13,17 @@ package org.eclipse.birt.core.script.functionservice.impl;
 
 import org.eclipse.birt.core.script.functionservice.IScriptFunctionArgument;
 
-
 /**
  * This is an implementation of IScriptFunctionArgument interface.
  */
 
-public class Argument implements IScriptFunctionArgument
-{
+public class Argument implements IScriptFunctionArgument {
 	//
 	private String name;
 	private String dataType;
 	private String desc;
 	private boolean isOptional;
-	
+
 	/**
 	 * Constructor.
 	 * 
@@ -33,43 +31,43 @@ public class Argument implements IScriptFunctionArgument
 	 * @param dataType
 	 * @param desc
 	 */
-	public Argument( String name, String dataType, String desc, boolean isOptional )
-	{
+	public Argument(String name, String dataType, String desc, boolean isOptional) {
 		this.name = name;
 		this.dataType = dataType;
 		this.desc = desc;
 		this.isOptional = isOptional;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunctionArgument#getDataType()
+	 * 
+	 * @see org.eclipse.birt.core.script.functionservice.IScriptFunctionArgument#
+	 * getDataType()
 	 */
-	public String getDataTypeName( )
-	{
+	public String getDataTypeName() {
 		return this.dataType;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.core.script.functionservice.INamedObject#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return this.name;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.core.script.functionservice.IDescribable#getDescription()
+	 * 
+	 * @see
+	 * org.eclipse.birt.core.script.functionservice.IDescribable#getDescription()
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return this.desc;
 	}
 
-	public boolean isOptional( )
-	{
+	public boolean isOptional() {
 		return this.isOptional;
 	}
 }

@@ -15,12 +15,10 @@ package org.eclipse.birt.report.engine.executor;
  * Test case for MultiLineItem
  * 
  */
-public class MultiLineItemExecutorTest extends ReportItemExecutorTestAbs
-{
+public class MultiLineItemExecutorTest extends ReportItemExecutorTestAbs {
 
-	public void testExcute( ) throws Exception
-	{
-		compare( "multiline.xml", "multiline.txt" );
+	public void testExcute() throws Exception {
+		compare("multiline.xml", "multiline.txt");
 	}
 
 }

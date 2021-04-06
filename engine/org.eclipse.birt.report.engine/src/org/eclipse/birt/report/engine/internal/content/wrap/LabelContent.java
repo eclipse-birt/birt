@@ -15,68 +15,71 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 
-public class LabelContent extends TextContent implements ILabelContent
-{
+public class LabelContent extends TextContent implements ILabelContent {
 	ILabelContent labelContent;
 
-	public LabelContent( ILabelContent content )
-	{
-		super( content );
+	public LabelContent(ILabelContent content) {
+		super(content);
 		labelContent = content;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
+	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
+	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitLabel( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitLabel(this, value);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ILabelContent#getHelpKey()
 	 */
-	public String getHelpKey( )
-	{
-		return labelContent.getHelpKey( );
+	public String getHelpKey() {
+		return labelContent.getHelpKey();
 	}
 
-
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ILabelContent#getLabelKey()
 	 */
-	public String getLabelKey( )
-	{
-		return labelContent.getLabelKey( );
+	public String getLabelKey() {
+		return labelContent.getLabelKey();
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.engine.content.ILabelContent#getLabelText()
 	 */
-	public String getLabelText( )
-	{
-		return labelContent.getLabelText( );
+	public String getLabelText() {
+		return labelContent.getLabelText();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.content.ILabelContent#setLabelKey(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.content.ILabelContent#setLabelKey(java.lang.
+	 * String)
 	 */
-	public void setLabelKey( String labelKey )
-	{
-		labelContent.setLabelKey( labelKey );
+	public void setLabelKey(String labelKey) {
+		labelContent.setLabelKey(labelKey);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.content.ILabelContent#setLabelText(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.content.ILabelContent#setLabelText(java.lang.
+	 * String)
 	 */
-	public void setLabelText( String labelText )
-	{
-		labelContent.setLabelText( labelText );
+	public void setLabelText(String labelText) {
+		labelContent.setLabelText(labelText);
 	}
-
-
 
 }

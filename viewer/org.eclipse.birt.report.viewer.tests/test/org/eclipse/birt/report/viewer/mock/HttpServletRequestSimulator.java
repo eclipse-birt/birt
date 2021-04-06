@@ -41,8 +41,7 @@ import javax.servlet.http.Part;
  * Mock a HttpServletRequest class for Viewer UnitTest
  * 
  */
-public class HttpServletRequestSimulator implements HttpServletRequest
-{
+public class HttpServletRequestSimulator implements HttpServletRequest {
 
 	private ServletContext context;
 	private HttpSession session;
@@ -85,12 +84,11 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * Constructor
 	 * 
 	 */
-	public HttpServletRequestSimulator( )
-	{
-		parameters = new Hashtable( );
-		attributes = new Hashtable( );
-		headers = new Hashtable( );
-		cookies = new ArrayList( );
+	public HttpServletRequestSimulator() {
+		parameters = new Hashtable();
+		attributes = new Hashtable();
+		headers = new Hashtable();
+		cookies = new ArrayList();
 	}
 
 	/**
@@ -98,9 +96,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param context
 	 */
-	public HttpServletRequestSimulator( ServletContext context )
-	{
-		this( );
+	public HttpServletRequestSimulator(ServletContext context) {
+		this();
 		this.context = context;
 	}
 
@@ -109,17 +106,16 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getParameter(java.lang.String)
 	 */
-	public String getParameter( String name )
-	{
-		if ( name == null )
+	public String getParameter(String name) {
+		if (name == null)
 			return null;
 
-		Object value = parameters.get( name );
-		if ( value == null )
+		Object value = parameters.get(name);
+		if (value == null)
 			return null;
 
-		if ( value.getClass( ).isArray( ) )
-			return ( (String[]) value )[0];
+		if (value.getClass().isArray())
+			return ((String[]) value)[0];
 
 		return (String) value;
 	}
@@ -129,8 +125,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getParameterMap()
 	 */
-	public Map getParameterMap( )
-	{
+	public Map getParameterMap() {
 		return this.parameters;
 	}
 
@@ -139,9 +134,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getParameterNames()
 	 */
-	public Enumeration getParameterNames( )
-	{
-		return this.parameters.keys( );
+	public Enumeration getParameterNames() {
+		return this.parameters.keys();
 	}
 
 	/*
@@ -149,31 +143,29 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getParameterValues( java.lang.String )
 	 */
-	public String[] getParameterValues( String name )
-	{
-		if ( name == null )
+	public String[] getParameterValues(String name) {
+		if (name == null)
 			return null;
 
-		Object value = parameters.get( name );
-		if ( value == null )
+		Object value = parameters.get(name);
+		if (value == null)
 			return null;
 
-		if ( value.getClass( ).isArray( ) )
+		if (value.getClass().isArray())
 			return (String[]) value;
 		else
-			return new String[]{(String) value};
+			return new String[] { (String) value };
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.ServletRequest#setAttribute(java.lang.String,
-	 *      java.lang.Object)
+	 * java.lang.Object)
 	 */
-	public void setAttribute( String key, Object value )
-	{
-		if ( key != null )
-			this.attributes.put( key, value );
+	public void setAttribute(String key, Object value) {
+		if (key != null)
+			this.attributes.put(key, value);
 	}
 
 	/*
@@ -181,9 +173,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getAttribute(java.lang.String)
 	 */
-	public Object getAttribute( String name )
-	{
-		return this.attributes.get( name );
+	public Object getAttribute(String name) {
+		return this.attributes.get(name);
 	}
 
 	/*
@@ -191,9 +182,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getAttributeNames()
 	 */
-	public Enumeration getAttributeNames( )
-	{
-		return this.attributes.keys( );
+	public Enumeration getAttributeNames() {
+		return this.attributes.keys();
 	}
 
 	/*
@@ -201,9 +191,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#removeAttribute(java.lang.String)
 	 */
-	public void removeAttribute( String name )
-	{
-		this.attributes.remove( name );
+	public void removeAttribute(String name) {
+		this.attributes.remove(name);
 	}
 
 	/*
@@ -211,9 +200,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getHeader(java.lang.String)
 	 */
-	public String getHeader( String name )
-	{
-		return (String) this.headers.get( name );
+	public String getHeader(String name) {
+		return (String) this.headers.get(name);
 	}
 
 	/*
@@ -221,9 +209,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getHeaderNames()
 	 */
-	public Enumeration getHeaderNames( )
-	{
-		return this.headers.keys( );
+	public Enumeration getHeaderNames() {
+		return this.headers.keys();
 	}
 
 	/*
@@ -231,10 +218,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getHeaders(java.lang.String)
 	 */
-	public Enumeration getHeaders( String name )
-	{
-		throw new UnsupportedOperationException(
-				"Do not support getHeaders operation!" ); //$NON-NLS-1$
+	public Enumeration getHeaders(String name) {
+		throw new UnsupportedOperationException("Do not support getHeaders operation!"); //$NON-NLS-1$
 	}
 
 	/*
@@ -242,8 +227,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getIntHeader(java.lang.String)
 	 */
-	public int getIntHeader( String name )
-	{
+	public int getIntHeader(String name) {
 		return -1;
 	}
 
@@ -252,8 +236,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getDateHeader(java.lang.String)
 	 */
-	public long getDateHeader( String name )
-	{
+	public long getDateHeader(String name) {
 		return -1;
 	}
 
@@ -262,13 +245,12 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getCookies()
 	 */
-	public Cookie[] getCookies( )
-	{
-		if ( cookies == null || cookies.isEmpty( ) )
+	public Cookie[] getCookies() {
+		if (cookies == null || cookies.isEmpty())
 			return null;
 
-		Cookie[] array = new Cookie[cookies.size( )];
-		return (Cookie[]) cookies.toArray( array );
+		Cookie[] array = new Cookie[cookies.size()];
+		return (Cookie[]) cookies.toArray(array);
 	}
 
 	/*
@@ -276,8 +258,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getScheme()
 	 */
-	public String getScheme( )
-	{
+	public String getScheme() {
 		return this.scheme;
 	}
 
@@ -286,8 +267,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getProtocol()
 	 */
-	public String getProtocol( )
-	{
+	public String getProtocol() {
 		return this.protocol;
 	}
 
@@ -296,8 +276,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#setCharacterEncoding(java.lang.String)
 	 */
-	public void setCharacterEncoding( String encoding )			
-	{
+	public void setCharacterEncoding(String encoding) {
 		this.characterEncoding = encoding;
 	}
 
@@ -306,8 +285,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getCharacterEncoding()
 	 */
-	public String getCharacterEncoding( )
-	{
+	public String getCharacterEncoding() {
 		return this.characterEncoding;
 	}
 
@@ -316,8 +294,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getContentType()
 	 */
-	public String getContentType( )
-	{
+	public String getContentType() {
 		return this.contentType;
 	}
 
@@ -326,8 +303,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.ServletRequest#getContentLength()
 	 */
-	public int getContentLength( )
-	{
+	public int getContentLength() {
 		return this.contentLength;
 	}
 
@@ -336,8 +312,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getAuthType()
 	 */
-	public String getAuthType( )
-	{
+	public String getAuthType() {
 		return this.authType;
 	}
 
@@ -346,8 +321,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getContextPath()
 	 */
-	public String getContextPath( )
-	{
+	public String getContextPath() {
 		return this.contextPath;
 	}
 
@@ -356,8 +330,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getMethod()
 	 */
-	public String getMethod( )
-	{
+	public String getMethod() {
 		return this.method;
 	}
 
@@ -366,8 +339,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getPathInfo()
 	 */
-	public String getPathInfo( )
-	{
+	public String getPathInfo() {
 		return this.pathInfo;
 	}
 
@@ -376,10 +348,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getPathTranslated()
 	 */
-	public String getPathTranslated( )
-	{
-		throw new UnsupportedOperationException(
-				"Do not support getPathTranslated operation!" ); //$NON-NLS-1$
+	public String getPathTranslated() {
+		throw new UnsupportedOperationException("Do not support getPathTranslated operation!"); //$NON-NLS-1$
 	}
 
 	/*
@@ -387,8 +357,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getQueryString()
 	 */
-	public String getQueryString( )
-	{
+	public String getQueryString() {
 		return this.queryString;
 	}
 
@@ -397,8 +366,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getRemoteUser()
 	 */
-	public String getRemoteUser( )
-	{
+	public String getRemoteUser() {
 		return this.remoteUser;
 	}
 
@@ -407,8 +375,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getRequestURI()
 	 */
-	public String getRequestURI( )
-	{
+	public String getRequestURI() {
 		return this.requestURI;
 	}
 
@@ -417,9 +384,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getRequestURL()
 	 */
-	public StringBuffer getRequestURL( )
-	{
-		return new StringBuffer( this.requestURL );
+	public StringBuffer getRequestURL() {
+		return new StringBuffer(this.requestURL);
 	}
 
 	/*
@@ -427,10 +393,9 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getRequestedSessionId()
 	 */
-	public String getRequestedSessionId( )
-	{
-		if ( this.session != null )
-			return this.session.getId( );
+	public String getRequestedSessionId() {
+		if (this.session != null)
+			return this.session.getId();
 		else
 			return null;
 	}
@@ -440,8 +405,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getServletPath()
 	 */
-	public String getServletPath( )
-	{
+	public String getServletPath() {
 		return this.servletPath;
 	}
 
@@ -450,8 +414,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getSession()
 	 */
-	public HttpSession getSession( )
-	{
+	public HttpSession getSession() {
 		return this.session;
 	}
 
@@ -460,22 +423,18 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getSession( boolean )
 	 */
-	public HttpSession getSession( boolean flag )
-	{
+	public HttpSession getSession(boolean flag) {
 		boolean isValid = true;
-		if ( this.session != null )
-			isValid = ( (HttpSessionSimulator) this.session ).isValid( );
+		if (this.session != null)
+			isValid = ((HttpSessionSimulator) this.session).isValid();
 
-		if ( flag && this.session == null )
-		{
-			this.session = new HttpSessionSimulator( this.context );
-		}
-		else if ( flag && !isValid )
-		{
-			this.session = new HttpSessionSimulator( this.context );
+		if (flag && this.session == null) {
+			this.session = new HttpSessionSimulator(this.context);
+		} else if (flag && !isValid) {
+			this.session = new HttpSessionSimulator(this.context);
 		}
 
-		if ( isValid )
+		if (isValid)
 			this.session = null;
 
 		return this.session;
@@ -486,8 +445,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getUserPrincipal
 	 */
-	public Principal getUserPrincipal( )
-	{
+	public Principal getUserPrincipal() {
 		return this.userPrincipal;
 	}
 
@@ -496,8 +454,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromCookie
 	 */
-	public boolean isRequestedSessionIdFromCookie( )
-	{
+	public boolean isRequestedSessionIdFromCookie() {
 		return true;
 	}
 
@@ -506,8 +463,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromURL
 	 */
-	public boolean isRequestedSessionIdFromURL( )
-	{
+	public boolean isRequestedSessionIdFromURL() {
 		return false;
 	}
 
@@ -516,9 +472,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdFromUrl
 	 */
-	public boolean isRequestedSessionIdFromUrl( )
-	{
-		return isRequestedSessionIdFromURL( );
+	public boolean isRequestedSessionIdFromUrl() {
+		return isRequestedSessionIdFromURL();
 	}
 
 	/*
@@ -526,12 +481,11 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#isRequestedSessionIdValid
 	 */
-	public boolean isRequestedSessionIdValid( )
-	{
-		if ( this.session == null )
+	public boolean isRequestedSessionIdValid() {
+		if (this.session == null)
 			return false;
 
-		return ( (HttpSessionSimulator) this.session ).isValid( );
+		return ((HttpSessionSimulator) this.session).isValid();
 	}
 
 	/*
@@ -539,12 +493,11 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#isUserInRole( java.lang.String )
 	 */
-	public boolean isUserInRole( String role )
-	{
-		if ( role == null )
+	public boolean isUserInRole(String role) {
+		if (role == null)
 			return false;
 
-		return role.equals( userRole );
+		return role.equals(userRole);
 	}
 
 	/*
@@ -552,10 +505,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getInputStream
 	 */
-	public ServletInputStream getInputStream( ) throws IOException
-	{
-		throw new UnsupportedOperationException(
-				"Do not support getInputStream operation!" ); //$NON-NLS-1$
+	public ServletInputStream getInputStream() throws IOException {
+		throw new UnsupportedOperationException("Do not support getInputStream operation!"); //$NON-NLS-1$
 	}
 
 	/*
@@ -563,8 +514,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getLocalAddr
 	 */
-	public String getLocalAddr( )
-	{
+	public String getLocalAddr() {
 		return this.localAddr;
 	}
 
@@ -573,8 +523,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getLocalName
 	 */
-	public String getLocalName( )
-	{
+	public String getLocalName() {
 		return this.localName;
 	}
 
@@ -583,8 +532,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getLocalPort
 	 */
-	public int getLocalPort( )
-	{
+	public int getLocalPort() {
 		return this.localPort;
 	}
 
@@ -593,8 +541,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getLocale
 	 */
-	public Locale getLocale( )
-	{
+	public Locale getLocale() {
 		return this.locale;
 	}
 
@@ -603,10 +550,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getLocales
 	 */
-	public Enumeration getLocales( )
-	{
-		throw new UnsupportedOperationException(
-				"Do not support getLocales operation!" ); //$NON-NLS-1$
+	public Enumeration getLocales() {
+		throw new UnsupportedOperationException("Do not support getLocales operation!"); //$NON-NLS-1$
 	}
 
 	/*
@@ -614,10 +559,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getReader
 	 */
-	public BufferedReader getReader( ) throws IOException
-	{
-		throw new UnsupportedOperationException(
-				"Do not support getReader operation!" ); //$NON-NLS-1$
+	public BufferedReader getReader() throws IOException {
+		throw new UnsupportedOperationException("Do not support getReader operation!"); //$NON-NLS-1$
 	}
 
 	/**
@@ -626,12 +569,11 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * @see javax.servlet.http.HttpServletRequest#getRealPath( java.lang.String )
 	 * @deprecated
 	 */
-	public String getRealPath( String path )
-	{
-		if ( path == null )
+	public String getRealPath(String path) {
+		if (path == null)
 			return null;
 
-		return this.context.getRealPath( path );
+		return this.context.getRealPath(path);
 	}
 
 	/*
@@ -639,8 +581,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getRemoteAddr
 	 */
-	public String getRemoteAddr( )
-	{
+	public String getRemoteAddr() {
 		return this.remoteAddr;
 	}
 
@@ -649,8 +590,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getRemoteHost
 	 */
-	public String getRemoteHost( )
-	{
+	public String getRemoteHost() {
 		return this.remoteHost;
 	}
 
@@ -659,8 +599,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getRemotePort
 	 */
-	public int getRemotePort( )
-	{
+	public int getRemotePort() {
 		return this.remotePort;
 	}
 
@@ -668,11 +607,10 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * (non-Javadoc)
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getRequestDispatcher(
-	 *      java.ang.String )
+	 * java.ang.String )
 	 */
-	public RequestDispatcher getRequestDispatcher( String url )
-	{
-		return this.context.getRequestDispatcher( url );
+	public RequestDispatcher getRequestDispatcher(String url) {
+		return this.context.getRequestDispatcher(url);
 	}
 
 	/*
@@ -680,8 +618,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getServerName
 	 */
-	public String getServerName( )
-	{
+	public String getServerName() {
 		return this.serverName;
 	}
 
@@ -690,8 +627,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#getServerPort
 	 */
-	public int getServerPort( )
-	{
+	public int getServerPort() {
 		return this.serverPort;
 	}
 
@@ -700,9 +636,8 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @see javax.servlet.http.HttpServletRequest#isSecure
 	 */
-	public boolean isSecure( )
-	{
-		return scheme.equalsIgnoreCase( "HTTPS" ); //$NON-NLS-1$
+	public boolean isSecure() {
+		return scheme.equalsIgnoreCase("HTTPS"); //$NON-NLS-1$
 	}
 
 	/**
@@ -711,10 +646,9 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * @param key
 	 * @param value
 	 */
-	public void addParameter( String key, String value )
-	{
-		if ( key != null )
-			this.parameters.put( key, value );
+	public void addParameter(String key, String value) {
+		if (key != null)
+			this.parameters.put(key, value);
 	}
 
 	/**
@@ -723,51 +657,46 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * @param key
 	 * @param values
 	 */
-	public void addParameterValues( String key, String[] values )
-	{
-		if ( key != null )
-			this.parameters.put( key, values );
+	public void addParameterValues(String key, String[] values) {
+		if (key != null)
+			this.parameters.put(key, values);
 	}
 
 	/**
 	 * Remove parameter in Request object
 	 * 
-	 * @param key 
+	 * @param key
 	 */
-	public void removeParameter( String key )
-	{
-		this.parameters.remove( key );
+	public void removeParameter(String key) {
+		this.parameters.remove(key);
 	}
-	
+
 	/**
 	 * Set Request Header
 	 * 
 	 * @param key
 	 * @param header
 	 */
-	public void addHeader( String key, String header )
-	{
-		this.headers.put( key, header );
+	public void addHeader(String key, String header) {
+		this.headers.put(key, header);
 	}
 
 	/**
 	 * Remove header in Request object
 	 * 
-	 * @param key 
+	 * @param key
 	 */
-	public void removeHeader( String key )
-	{
-		this.headers.remove( key );
+	public void removeHeader(String key) {
+		this.headers.remove(key);
 	}
-	
+
 	/**
 	 * Add Cookie
 	 * 
 	 * @param cookie
 	 */
-	public void addCookie( Cookie cookie )
-	{
-		this.cookies.add( cookie );
+	public void addCookie(Cookie cookie) {
+		this.cookies.add(cookie);
 	}
 
 	/**
@@ -775,15 +704,13 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param cookies
 	 */
-	public void setCookie( Cookie[] cookies )
-	{
-		if ( cookies == null )
+	public void setCookie(Cookie[] cookies) {
+		if (cookies == null)
 			return;
 
-		this.cookies = new ArrayList( );
-		for ( int i = 0; i < cookies.length; i++ )
-		{
-			this.cookies.add( cookies[i] );
+		this.cookies = new ArrayList();
+		for (int i = 0; i < cookies.length; i++) {
+			this.cookies.add(cookies[i]);
 		}
 	}
 
@@ -792,8 +719,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param scheme
 	 */
-	public void setScheme( String scheme )
-	{
+	public void setScheme(String scheme) {
 		this.scheme = scheme;
 	}
 
@@ -802,8 +728,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param contentType
 	 */
-	public void setContentType( String contentType )
-	{
+	public void setContentType(String contentType) {
 		this.contentType = contentType;
 	}
 
@@ -812,8 +737,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param authType
 	 */
-	public void setAuthType( String authType )
-	{
+	public void setAuthType(String authType) {
 		this.authType = authType;
 	}
 
@@ -822,8 +746,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param contextPath
 	 */
-	public void setContextPath( String contextPath )
-	{
+	public void setContextPath(String contextPath) {
 		this.contextPath = contextPath;
 	}
 
@@ -832,8 +755,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param method
 	 */
-	public void setMethod( String method )
-	{
+	public void setMethod(String method) {
 		this.method = method;
 	}
 
@@ -842,8 +764,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param pathInfo
 	 */
-	public void setPathInfo( String pathInfo )
-	{
+	public void setPathInfo(String pathInfo) {
 		this.pathInfo = pathInfo;
 	}
 
@@ -852,8 +773,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param queryString
 	 */
-	public void setQueryString( String queryString )
-	{
+	public void setQueryString(String queryString) {
 		this.queryString = queryString;
 	}
 
@@ -862,8 +782,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param remoteUser
 	 */
-	public void setRemoteUser( String remoteUser )
-	{
+	public void setRemoteUser(String remoteUser) {
 		this.remoteUser = remoteUser;
 	}
 
@@ -872,8 +791,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param port
 	 */
-	public void setServerPort( int port )
-	{
+	public void setServerPort(int port) {
 		this.serverPort = port;
 	}
 
@@ -882,8 +800,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param serverName
 	 */
-	public void setServerName( String serverName )
-	{
+	public void setServerName(String serverName) {
 		this.serverName = serverName;
 	}
 
@@ -892,8 +809,7 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param requestURI
 	 */
-	public void setRequestURI( String requestURI )
-	{
+	public void setRequestURI(String requestURI) {
 		this.requestURI = requestURI;
 	}
 
@@ -902,45 +818,41 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param url
 	 */
-	public void setRequestURL( String url )
-	{
-		if ( url == null )
+	public void setRequestURL(String url) {
+		if (url == null)
 			return;
 
 		// Set Scheme
-		int posScheme = url.indexOf( "://" ); //$NON-NLS-1$
-		setScheme( url.substring( 0, posScheme ) );
+		int posScheme = url.indexOf("://"); //$NON-NLS-1$
+		setScheme(url.substring(0, posScheme));
 
 		// Set Request URL
-		int pos = url.indexOf( "?" ); //$NON-NLS-1$
-		if ( pos <= 0 )
-			pos = url.length( );
-		this.requestURL = url.substring( 0, pos );
+		int pos = url.indexOf("?"); //$NON-NLS-1$
+		if (pos <= 0)
+			pos = url.length();
+		this.requestURL = url.substring(0, pos);
 
 		// Set Query String
-		if ( pos != url.length( ) )
-			setQueryString( url.substring( pos + 1 ) );
+		if (pos != url.length())
+			setQueryString(url.substring(pos + 1));
 
 		// Set Request URI
-		int posURI = url.indexOf( "/", posScheme + 3 ); //$NON-NLS-1$
-		setRequestURI( url.substring( posURI, pos ) );
+		int posURI = url.indexOf("/", posScheme + 3); //$NON-NLS-1$
+		setRequestURI(url.substring(posURI, pos));
 
 		// Set Server Name and Server Port
-		int posPort = url.indexOf( ":", posScheme + 3 ); //$NON-NLS-1$
-		if ( posPort > 0 )
-		{
-			setServerName( url.substring( posScheme + 3, posPort ) );
-			String port = url.substring( posPort + 1, posURI );
-			if ( port.length( ) > 0 )
-				setServerPort( Integer.valueOf( port ).intValue( ) );
-		}
-		else
-		{
-			setServerName( url.substring( posScheme + 3, posURI ) );
-			if ( isSecure( ) )
-				setServerPort( 443 );
+		int posPort = url.indexOf(":", posScheme + 3); //$NON-NLS-1$
+		if (posPort > 0) {
+			setServerName(url.substring(posScheme + 3, posPort));
+			String port = url.substring(posPort + 1, posURI);
+			if (port.length() > 0)
+				setServerPort(Integer.valueOf(port).intValue());
+		} else {
+			setServerName(url.substring(posScheme + 3, posURI));
+			if (isSecure())
+				setServerPort(443);
 			else
-				setServerPort( 80 );
+				setServerPort(80);
 		}
 	}
 
@@ -949,224 +861,182 @@ public class HttpServletRequestSimulator implements HttpServletRequest
 	 * 
 	 * @param servletPath
 	 */
-	public void setServletPath( String servletPath )
-	{
+	public void setServletPath(String servletPath) {
 		this.servletPath = servletPath;
 	}
 
 	/**
-	 * @param localAddr
-	 *            the localAddr to set
+	 * @param localAddr the localAddr to set
 	 */
-	public void setLocalAddr( String localAddr )
-	{
+	public void setLocalAddr(String localAddr) {
 		this.localAddr = localAddr;
 	}
 
 	/**
-	 * @param localName
-	 *            the localName to set
+	 * @param localName the localName to set
 	 */
-	public void setLocalName( String localName )
-	{
+	public void setLocalName(String localName) {
 		this.localName = localName;
 	}
 
 	/**
-	 * @param localPort
-	 *            the localPort to set
+	 * @param localPort the localPort to set
 	 */
-	public void setLocalPort( int localPort )
-	{
+	public void setLocalPort(int localPort) {
 		this.localPort = localPort;
 	}
 
 	/**
-	 * @param userPrincipal
-	 *            the userPrincipal to set
+	 * @param userPrincipal the userPrincipal to set
 	 */
-	public void setUserPrincipal( Principal userPrincipal )
-	{
+	public void setUserPrincipal(Principal userPrincipal) {
 		this.userPrincipal = userPrincipal;
 	}
 
 	/**
-	 * @param locale
-	 *            the locale to set
+	 * @param locale the locale to set
 	 */
-	public void setLocale( Locale locale )
-	{
+	public void setLocale(Locale locale) {
 		this.locale = locale;
 	}
 
 	/**
-	 * @param remoteAddr
-	 *            the remoteAddr to set
+	 * @param remoteAddr the remoteAddr to set
 	 */
-	public void setRemoteAddr( String remoteAddr )
-	{
+	public void setRemoteAddr(String remoteAddr) {
 		this.remoteAddr = remoteAddr;
 	}
 
 	/**
-	 * @param contentLength
-	 *            the contentLength to set
+	 * @param contentLength the contentLength to set
 	 */
-	public void setContentLength( int contentLength )
-	{
+	public void setContentLength(int contentLength) {
 		this.contentLength = contentLength;
 	}
 
 	/**
-	 * @param userRole
-	 *            the userRole to set
+	 * @param userRole the userRole to set
 	 */
-	public void setUserRole( String userRole )
-	{
+	public void setUserRole(String userRole) {
 		this.userRole = userRole;
 	}
 
 	/**
-	 * @param protocol
-	 *            the protocol to set
+	 * @param protocol the protocol to set
 	 */
-	public void setProtocol( String protocol )
-	{
+	public void setProtocol(String protocol) {
 		this.protocol = protocol;
 	}
 
 	/**
-	 * @param remoteHost
-	 *            the remoteHost to set
+	 * @param remoteHost the remoteHost to set
 	 */
-	public void setRemoteHost( String remoteHost )
-	{
+	public void setRemoteHost(String remoteHost) {
 		this.remoteHost = remoteHost;
 	}
 
 	/**
-	 * @param remotePort
-	 *            the remotePort to set
+	 * @param remotePort the remotePort to set
 	 */
-	public void setRemotePort( int remotePort )
-	{
+	public void setRemotePort(int remotePort) {
 		this.remotePort = remotePort;
 	}
 
 	/**
-	 * @param session
-	 *            the session to set
+	 * @param session the session to set
 	 */
-	public void setSession( HttpSession session )
-	{
+	public void setSession(HttpSession session) {
 		this.session = session;
 	}
 
 	@Override
-	public ServletContext getServletContext( )
-	{
+	public ServletContext getServletContext() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AsyncContext startAsync( ) throws IllegalStateException
-	{
+	public AsyncContext startAsync() throws IllegalStateException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public AsyncContext startAsync( ServletRequest servletRequest,
-			ServletResponse servletResponse ) throws IllegalStateException
-	{
+	public AsyncContext startAsync(ServletRequest servletRequest, ServletResponse servletResponse)
+			throws IllegalStateException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean isAsyncStarted( )
-	{
+	public boolean isAsyncStarted() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public boolean isAsyncSupported( )
-	{
+	public boolean isAsyncSupported() {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public AsyncContext getAsyncContext( )
-	{
+	public AsyncContext getAsyncContext() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public DispatcherType getDispatcherType( )
-	{
+	public DispatcherType getDispatcherType() {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public boolean authenticate( HttpServletResponse response )
-			throws IOException, ServletException
-	{
+	public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		return false;
 	}
 
 	@Override
-	public void login( String username, String password )
-			throws ServletException
-	{
+	public void login(String username, String password) throws ServletException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public void logout( ) throws ServletException
-	{
+	public void logout() throws ServletException {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public Collection<Part> getParts( ) throws IOException, ServletException
-	{
+	public Collection<Part> getParts() throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public Part getPart( String name ) throws IOException, ServletException
-	{
+	public Part getPart(String name) throws IOException, ServletException {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-    @Override
-    public long getContentLengthLong( )
-    {
-        // TODO Auto-generated method stub
-        return 0;
-    }
+	@Override
+	public long getContentLengthLong() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
 
-    @Override
-    public String changeSessionId( )
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public String changeSessionId() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
-    @Override
-    public <T extends HttpUpgradeHandler> T upgrade( Class<T> arg0 ) throws IOException, ServletException
-    {
-        // TODO Auto-generated method stub
-        return null;
-    }
+	@Override
+	public <T extends HttpUpgradeHandler> T upgrade(Class<T> arg0) throws IOException, ServletException {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -21,174 +21,152 @@ import org.w3c.dom.css.CSSValue;
 /**
  * A class representing the style of a report item in the scripting environment
  */
-public class StyleInstance implements IScriptStyle
-{
+public class StyleInstance implements IScriptStyle {
 
 	private IStyle style;
 
-	public StyleInstance( IStyle style )
-	{
+	public StyleInstance(IStyle style) {
 		this.style = style;
 	}
 
-	public String getVisibleFormat( )
-	{
-		return style.getVisibleFormat( );
+	public String getVisibleFormat() {
+		return style.getVisibleFormat();
 	}
 
-	public void setVisibleFormat( String format )
-	{
-		style.setVisibleFormat( format );
+	public void setVisibleFormat(String format) {
+		style.setVisibleFormat(format);
 	}
 
 	/**
 	 * Get the letter spacing
 	 */
-	public String getLetterSpacing( )
-	{
-		return style.getLetterSpacing( );
+	public String getLetterSpacing() {
+		return style.getLetterSpacing();
 	}
 
 	/**
 	 * Set the letter spacing
 	 */
-	public void setLetterSpacing( String spacing )
-	{
-		style.setLetterSpacing( spacing );
+	public void setLetterSpacing(String spacing) {
+		style.setLetterSpacing(spacing);
 	}
 
 	/**
 	 * Get the line height
 	 */
-	public String getLineHeight( )
-	{
-		return style.getLineHeight( );
+	public String getLineHeight() {
+		return style.getLineHeight();
 	}
 
 	/**
 	 * Set the line height
 	 */
-	public void setLineHeight( String lineHeight )
-	{
-		style.setLineHeight( lineHeight );
+	public void setLineHeight(String lineHeight) {
+		style.setLineHeight(lineHeight);
 	}
 
 	/**
 	 * Get the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
-	public String getTextAlign( )
-	{
-		return style.getTextAlign( );
+	public String getTextAlign() {
+		return style.getTextAlign();
 	}
 
 	/**
 	 * Set the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
-	public void setTextAlign( String align )
-	{
-		style.setTextAlign( align );
+	public void setTextAlign(String align) {
+		style.setTextAlign(align);
 	}
 
 	/**
 	 * Get the text indent
 	 */
-	public String getTextIndent( )
-	{
-		return style.getTextIndent( );
+	public String getTextIndent() {
+		return style.getTextIndent();
 	}
 
 	/**
 	 * Get the text indent
 	 */
-	public void setTextIndent( String indent )
-	{
-		style.setTextIndent( indent );
+	public void setTextIndent(String indent) {
+		style.setTextIndent(indent);
 	}
 
 	/**
-	 * Get the text transform. Valid return values are NONE, CAPITALIZE,
-	 * UPPERCASE and LOWERCASE.
+	 * Get the text transform. Valid return values are NONE, CAPITALIZE, UPPERCASE
+	 * and LOWERCASE.
 	 */
-	public String getTextTransform( )
-	{
-		return style.getTextTransform( );
+	public String getTextTransform() {
+		return style.getTextTransform();
 	}
 
 	/**
 	 * Set the text transform. Valid transform values are NONE, CAPITALIZE,
 	 * UPPERCASE and LOWERCASE.
 	 */
-	public void setTextTransform( String transform )
-	{
-		style.setTextTransform( transform );
+	public void setTextTransform(String transform) {
+		style.setTextTransform(transform);
 	}
 
 	/**
 	 * Get the vertical alignment. Valid return values are BASELINE, SUB, SUPER,
 	 * TOP, TEXT_TOP, MIDDLE, BOTTOM and TEXT_BOTTOM
 	 */
-	public String getVerticalAlign( )
-	{
-		return style.getVerticalAlign( );
+	public String getVerticalAlign() {
+		return style.getVerticalAlign();
 	}
 
 	/**
 	 * Set the vertical alignment. Valid values are BASELINE, SUB, SUPER, TOP,
 	 * TEXT_TOP, MIDDLE, BOTTOM and TEXT_BOTTOM
 	 */
-	public void setVerticalAlign( String valign )
-	{
-		style.setVerticalAlign( valign );
+	public void setVerticalAlign(String valign) {
+		style.setVerticalAlign(valign);
 	}
 
 	/**
 	 * Get the whitespace. Valid return values are NORMAL, PRE and NOWRAP
 	 */
-	public String getWhiteSpace( )
-	{
-		return style.getWhiteSpace( );
+	public String getWhiteSpace() {
+		return style.getWhiteSpace();
 	}
 
 	/**
 	 * Get the whitespace. Valid return values are NORMAL, PRE and NOWRAP
 	 */
-	public void setWhiteSpace( String whitespace )
-	{
-		style.setWhiteSpace( whitespace );
+	public void setWhiteSpace(String whitespace) {
+		style.setWhiteSpace(whitespace);
 	}
 
 	/**
 	 * Get the word spacing
 	 */
-	public String getWordSpacing( )
-	{
-		return style.getWordSpacing( );
+	public String getWordSpacing() {
+		return style.getWordSpacing();
 	}
 
 	/**
 	 * Set the word spacing
 	 */
-	public void setWordSpacing( String wordspacing )
-	{
-		style.setWordSpacing( wordspacing );
+	public void setWordSpacing(String wordspacing) {
+		style.setWordSpacing(wordspacing);
 	}
 
 	/**
 	 * Get the font color
 	 */
-	public String getColor( )
-	{
-		return style.getColor( );
+	public String getColor() {
+		return style.getColor();
 	}
 
 	/**
 	 * Set the font color
 	 */
-	public void setColor( String color )
-	{
-		style.setColor( color );
+	public void setColor(String color) {
+		style.setColor(color);
 	}
 
 	/**
@@ -196,9 +174,8 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @deprecated replaced by getBackgroundAttachment()
 	 */
-	public String getBackgroundAttachement( )
-	{
-		return style.getBackgroundAttachment( );
+	public String getBackgroundAttachement() {
+		return style.getBackgroundAttachment();
 	}
 
 	/**
@@ -206,515 +183,452 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @deprecated replaced by setBackgroundAttachment( String attachment )
 	 */
-	public void setBackgroundAttachement( String attachement )
-	{
-		style.setBackgroundAttachment( attachement );
+	public void setBackgroundAttachement(String attachement) {
+		style.setBackgroundAttachment(attachement);
 	}
 
 	/**
 	 * Get the attachment type (either SCROLL or FIXED)
 	 */
-	public String getBackgroundAttachment( )
-	{
-		return style.getBackgroundAttachment( );
+	public String getBackgroundAttachment() {
+		return style.getBackgroundAttachment();
 	}
 
 	/**
 	 * Set the attachment type (either SCROLL or FIXED)
 	 */
-	public void setBackgroundAttachment( String attachment )
-	{
-		style.setBackgroundAttachment( attachment );
+	public void setBackgroundAttachment(String attachment) {
+		style.setBackgroundAttachment(attachment);
 	}
 
 	/**
 	 * Get the background color
 	 */
-	public String getBackgroundColor( )
-	{
-		return style.getBackgroundColor( );
+	public String getBackgroundColor() {
+		return style.getBackgroundColor();
 	}
 
 	/**
 	 * Set the background color
 	 */
-	public void setBackgroundColor( String color )
-	{
-		style.setBackgroundColor( color );
+	public void setBackgroundColor(String color) {
+		style.setBackgroundColor(color);
 	}
 
 	/**
 	 * Get the background image URI
 	 */
-	public String getBackgroundImage( )
-	{
-		return style.getBackgroundImage( );
+	public String getBackgroundImage() {
+		return style.getBackgroundImage();
 	}
 
 	/**
 	 * Set the background image URI
 	 */
-	public void setBackgroundImage( String imageURI )
-	{
-		style.setBackgroundImage( imageURI );
+	public void setBackgroundImage(String imageURI) {
+		style.setBackgroundImage(imageURI);
 	}
 
 	/**
-	 * Get the background repeat type (valid types are REPEAT, REPEAT_X,
-	 * REPEAT_Y and NO_REPEAT)
+	 * Get the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
+	 * and NO_REPEAT)
 	 */
-	public String getBackgroundRepeat( )
-	{
-		return style.getBackgroundRepeat( );
+	public String getBackgroundRepeat() {
+		return style.getBackgroundRepeat();
 	}
 
 	/**
-	 * Set the background repeat type (valid types are REPEAT, REPEAT_X,
-	 * REPEAT_Y and NO_REPEAT)
+	 * Set the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
+	 * and NO_REPEAT)
 	 */
-	public void setBackgroundRepeat( String repeat )
-	{
-		style.setBackgroundRepeat( repeat );
+	public void setBackgroundRepeat(String repeat) {
+		style.setBackgroundRepeat(repeat);
 	}
 
 	/**
 	 * Get the bottom border color
 	 */
-	public String getBorderBottomColor( )
-	{
-		return style.getBorderBottomColor( );
+	public String getBorderBottomColor() {
+		return style.getBorderBottomColor();
 	}
 
 	/**
 	 * Set the bottom border color
 	 */
-	public void setBorderBottomColor( String color )
-	{
-		style.setBorderBottomColor( color );
+	public void setBorderBottomColor(String color) {
+		style.setBorderBottomColor(color);
 	}
 
 	/**
 	 * Get the top border color
 	 */
-	public String getBorderTopColor( )
-	{
-		return style.getBorderTopColor( );
+	public String getBorderTopColor() {
+		return style.getBorderTopColor();
 	}
 
 	/**
 	 * Set the top border color
 	 */
-	public void setBorderTopColor( String color )
-	{
-		style.setBorderTopColor( color );
+	public void setBorderTopColor(String color) {
+		style.setBorderTopColor(color);
 	}
 
 	/**
 	 * Get the right border color
 	 */
-	public String getBorderRightColor( )
-	{
-		return style.getBorderRightColor( );
+	public String getBorderRightColor() {
+		return style.getBorderRightColor();
 	}
 
 	/**
 	 * Set the right border color
 	 */
-	public void setBorderRightColor( String color )
-	{
-		style.setBorderRightColor( color );
+	public void setBorderRightColor(String color) {
+		style.setBorderRightColor(color);
 	}
 
 	/**
 	 * Get the left border color
 	 */
-	public String getBorderLeftColor( )
-	{
-		return style.getBorderLeftColor( );
+	public String getBorderLeftColor() {
+		return style.getBorderLeftColor();
 	}
 
 	/**
 	 * Set the left border color
 	 */
-	public void setBorderLeftColor( String color )
-	{
-		style.setBorderLeftColor( color );
+	public void setBorderLeftColor(String color) {
+		style.setBorderLeftColor(color);
 	}
 
 	/**
-	 * Get the bottom border style. Valid styles are NONE, SOLID, DOTTED,
-	 * DASHED, DOUBLE, GROVE, RIDGE, INSET and OUTSET.
+	 * Get the bottom border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
+	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public String getBorderBottomStyle( )
-	{
-		return style.getBorderBottomStyle( );
+	public String getBorderBottomStyle() {
+		return style.getBorderBottomStyle();
 	}
 
 	/**
-	 * Set the bottom border style. Valid styles are NONE, SOLID, DOTTED,
-	 * DASHED, DOUBLE, GROVE, RIDGE, INSET and OUTSET.
+	 * Set the bottom border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
+	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public void setBorderBottomStyle( String borderstyle )
-	{
-		style.setBorderBottomStyle( borderstyle );
+	public void setBorderBottomStyle(String borderstyle) {
+		style.setBorderBottomStyle(borderstyle);
 	}
 
 	/**
 	 * Get the top border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public String getBorderTopStyle( )
-	{
-		return style.getBorderTopStyle( );
+	public String getBorderTopStyle() {
+		return style.getBorderTopStyle();
 	}
 
 	/**
 	 * Set the top border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public void setBorderTopStyle( String borderstyle )
-	{
-		style.setBorderTopStyle( borderstyle );
+	public void setBorderTopStyle(String borderstyle) {
+		style.setBorderTopStyle(borderstyle);
 	}
 
 	/**
 	 * Get the left border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public String getBorderLeftStyle( )
-	{
-		return style.getBorderLeftStyle( );
+	public String getBorderLeftStyle() {
+		return style.getBorderLeftStyle();
 	}
 
 	/**
 	 * Set the left border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public void setBorderLeftStyle( String borderstyle )
-	{
-		style.setBorderLeftStyle( borderstyle );
+	public void setBorderLeftStyle(String borderstyle) {
+		style.setBorderLeftStyle(borderstyle);
 	}
 
 	/**
 	 * Get the right border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public String getBorderRightStyle( )
-	{
-		return style.getBorderRightStyle( );
+	public String getBorderRightStyle() {
+		return style.getBorderRightStyle();
 	}
 
 	/**
 	 * Set the right border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public void setBorderRightStyle( String borderstyle )
-	{
-		style.setBorderRightStyle( borderstyle );
+	public void setBorderRightStyle(String borderstyle) {
+		style.setBorderRightStyle(borderstyle);
 	}
 
 	/**
 	 * Get the bottom border width.
 	 */
-	public String getBorderBottomWidth( )
-	{
-		return style.getBorderBottomWidth( );
+	public String getBorderBottomWidth() {
+		return style.getBorderBottomWidth();
 	}
 
 	/**
 	 * Set the bottom border width.
 	 */
-	public void setBorderBottomWidth( String width )
-	{
-		style.setBorderBottomWidth( width );
+	public void setBorderBottomWidth(String width) {
+		style.setBorderBottomWidth(width);
 	}
 
 	/**
 	 * Get the top border width.
 	 */
-	public String getBorderTopWidth( )
-	{
-		return style.getBorderTopWidth( );
+	public String getBorderTopWidth() {
+		return style.getBorderTopWidth();
 	}
 
 	/**
 	 * Set the top border width.
 	 */
-	public void setBorderTopWidth( String width )
-	{
-		style.setBorderTopWidth( width );
+	public void setBorderTopWidth(String width) {
+		style.setBorderTopWidth(width);
 	}
 
 	/**
 	 * Get the left border width.
 	 */
-	public String getBorderLeftWidth( )
-	{
-		return style.getBorderLeftWidth( );
+	public String getBorderLeftWidth() {
+		return style.getBorderLeftWidth();
 	}
 
 	/**
 	 * Set the left border width.
 	 */
-	public void setBorderLeftWidth( String width )
-	{
-		style.setBorderLeftWidth( width );
+	public void setBorderLeftWidth(String width) {
+		style.setBorderLeftWidth(width);
 	}
 
 	/**
 	 * Get the right border width.
 	 */
-	public String getBorderRightWidth( )
-	{
-		return style.getBorderRightWidth( );
+	public String getBorderRightWidth() {
+		return style.getBorderRightWidth();
 	}
 
 	/**
 	 * Set the right border width.
 	 */
-	public void setBorderRightWidth( String width )
-	{
-		style.setBorderRightWidth( width );
+	public void setBorderRightWidth(String width) {
+		style.setBorderRightWidth(width);
 	}
 
 	/**
 	 * Get the bottom margin
 	 */
-	public String getMarginBottom( )
-	{
-		return style.getMarginBottom( );
+	public String getMarginBottom() {
+		return style.getMarginBottom();
 	}
 
 	/**
 	 * Set the bottom margin
 	 */
-	public void setMarginBottom( String margin )
-	{
-		style.setMarginBottom( margin );
+	public void setMarginBottom(String margin) {
+		style.setMarginBottom(margin);
 	}
 
 	/**
 	 * Get the top margin
 	 */
-	public String getMarginTop( )
-	{
-		return style.getMarginTop( );
+	public String getMarginTop() {
+		return style.getMarginTop();
 	}
 
 	/**
 	 * Set the top margin
 	 */
-	public void setMarginTop( String margin )
-	{
-		style.setMarginTop( margin );
+	public void setMarginTop(String margin) {
+		style.setMarginTop(margin);
 	}
 
 	/**
 	 * Get the left margin
 	 */
-	public String getMarginLeft( )
-	{
-		return style.getMarginLeft( );
+	public String getMarginLeft() {
+		return style.getMarginLeft();
 	}
 
 	/**
 	 * Set the left margin
 	 */
-	public void setMarginLeft( String margin )
-	{
-		style.setMarginLeft( margin );
+	public void setMarginLeft(String margin) {
+		style.setMarginLeft(margin);
 	}
 
 	/**
 	 * Get the right margin
 	 */
-	public String getMarginRight( )
-	{
-		return style.getMarginRight( );
+	public String getMarginRight() {
+		return style.getMarginRight();
 	}
 
 	/**
 	 * Set the right margin
 	 */
-	public void setMarginRight( String margin )
-	{
-		style.setMarginRight( margin );
+	public void setMarginRight(String margin) {
+		style.setMarginRight(margin);
 	}
 
 	/**
 	 * Get the bottom padding.
 	 */
-	public String getPaddingBottom( )
-	{
-		return style.getPaddingBottom( );
+	public String getPaddingBottom() {
+		return style.getPaddingBottom();
 	}
 
 	/**
 	 * Set the bottom padding.
 	 */
-	public void setPaddingBottom( String padding )
-	{
-		style.setPaddingBottom( padding );
+	public void setPaddingBottom(String padding) {
+		style.setPaddingBottom(padding);
 	}
 
 	/**
 	 * Get the top padding.
 	 */
-	public String getPaddingTop( )
-	{
-		return style.getPaddingTop( );
+	public String getPaddingTop() {
+		return style.getPaddingTop();
 	}
 
 	/**
 	 * Set the top padding.
 	 */
-	public void setPaddingTop( String padding )
-	{
-		style.setPaddingTop( padding );
+	public void setPaddingTop(String padding) {
+		style.setPaddingTop(padding);
 	}
 
 	/**
 	 * Get the left padding.
 	 */
-	public String getPaddingLeft( )
-	{
-		return style.getPaddingLeft( );
+	public String getPaddingLeft() {
+		return style.getPaddingLeft();
 	}
 
 	/**
 	 * Set the left padding.
 	 */
-	public void setPaddingLeft( String padding )
-	{
-		style.setPaddingLeft( padding );
+	public void setPaddingLeft(String padding) {
+		style.setPaddingLeft(padding);
 	}
 
 	/**
 	 * Get the right padding.
 	 */
-	public String getPaddingRight( )
-	{
-		return style.getPaddingRight( );
+	public String getPaddingRight() {
+		return style.getPaddingRight();
 	}
 
 	/**
 	 * Set the right padding.
 	 */
-	public void setPaddingRight( String padding )
-	{
-		style.setPaddingRight( padding );
+	public void setPaddingRight(String padding) {
+		style.setPaddingRight(padding);
 	}
 
 	/**
 	 * Get the display type (valid types are BLOCK, INLINE and NONE)
 	 */
-	public String getDisplay( )
-	{
-		return style.getDisplay( );
+	public String getDisplay() {
+		return style.getDisplay();
 	}
 
 	/**
 	 * Set the display type (valid types are BLOCK, INLINE and NONE)
 	 */
-	public void setDisplay( String display )
-	{
-		style.setDisplay( display );
+	public void setDisplay(String display) {
+		style.setDisplay(display);
 	}
 
 	/**
 	 * Get the master page
 	 */
-	public String getMasterPage( )
-	{
-		return style.getMasterPage( );
+	public String getMasterPage() {
+		return style.getMasterPage();
 	}
 
 	/**
 	 * Set the master page
 	 */
-	public void setMasterPage( String masterPage )
-	{
-		style.setMasterPage( masterPage );
+	public void setMasterPage(String masterPage) {
+		style.setMasterPage(masterPage);
 	}
 
 	/**
 	 * Get the page break before.
 	 */
-	public String getPageBreakBefore( )
-	{
-		return style.getPageBreakBefore( );
+	public String getPageBreakBefore() {
+		return style.getPageBreakBefore();
 	}
 
 	/**
 	 * Set the page break before
 	 */
-	public void setPageBreakBefore( String pageBreak )
-	{
-		style.setPageBreakBefore( pageBreak );
+	public void setPageBreakBefore(String pageBreak) {
+		style.setPageBreakBefore(pageBreak);
 	}
 
 	/**
 	 * Get the page break after.
 	 */
-	public String getPageBreakAfter( )
-	{
-		return style.getPageBreakAfter( );
+	public String getPageBreakAfter() {
+		return style.getPageBreakAfter();
 	}
 
 	/**
 	 * Set the page break after
 	 */
-	public void setPageBreakAfter( String pageBreak )
-	{
-		style.setPageBreakAfter( pageBreak );
+	public void setPageBreakAfter(String pageBreak) {
+		style.setPageBreakAfter(pageBreak);
 	}
 
 	/**
 	 * Get the page break inside.
 	 */
-	public String getPageBreakInside( )
-	{
-		return style.getPageBreakInside( );
+	public String getPageBreakInside() {
+		return style.getPageBreakInside();
 	}
 
 	/**
 	 * Set the page break inside
 	 */
-	public void setPageBreakInside( String pageBreak )
-	{
-		style.setPageBreakInside( pageBreak );
+	public void setPageBreakInside(String pageBreak) {
+		style.setPageBreakInside(pageBreak);
 	}
 
 	/**
 	 * Show if blank?
 	 */
-	public String getShowIfBlank( )
-	{
-		return style.getShowIfBlank( );
+	public String getShowIfBlank() {
+		return style.getShowIfBlank();
 	}
 
 	/**
 	 * Set show if blank
 	 */
-	public void setShowIfBlank( String showIfBlank )
-	{
-		style.setShowIfBlank( showIfBlank );
+	public void setShowIfBlank(String showIfBlank) {
+		style.setShowIfBlank(showIfBlank);
 	}
 
 	/**
 	 * Can this element shrink?
 	 */
-	public String getCanShrink( )
-	{
-		return style.getCanShrink( );
+	public String getCanShrink() {
+		return style.getCanShrink();
 	}
 
 	/**
 	 * Can this element shrink?
 	 */
-	public void setCanShrink( String canShrink )
-	{
-		style.setCanShrink( canShrink );
+	public void setCanShrink(String canShrink) {
+		style.setCanShrink(canShrink);
 	}
 
 	/**
@@ -722,9 +636,8 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @return the number format
 	 */
-	public String getNumberFormat( )
-	{
-		return style.getNumberFormat( );
+	public String getNumberFormat() {
+		return style.getNumberFormat();
 	}
 
 	/**
@@ -732,9 +645,8 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @param numberFormat
 	 */
-	public void setNumberFormat( String numberFormat )
-	{
-		style.setNumberFormat( numberFormat );
+	public void setNumberFormat(String numberFormat) {
+		style.setNumberFormat(numberFormat);
 	}
 
 	/**
@@ -742,9 +654,8 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @return date format
 	 */
-	public String getDateFormat( )
-	{
-		return style.getDateFormat( );
+	public String getDateFormat() {
+		return style.getDateFormat();
 	}
 
 	/**
@@ -752,9 +663,8 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @param dateTimeFormat
 	 */
-	public void setDateFormat( String dateTimeFormat )
-	{
-		style.setDateFormat( dateTimeFormat );
+	public void setDateFormat(String dateTimeFormat) {
+		style.setDateFormat(dateTimeFormat);
 	}
 
 	/**
@@ -762,9 +672,8 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @return the string format
 	 */
-	public String getStringFormat( )
-	{
-		return style.getStringFormat( );
+	public String getStringFormat() {
+		return style.getStringFormat();
 	}
 
 	/**
@@ -772,149 +681,112 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @param stringFormat
 	 */
-	public void setStringFormat( String stringFormat )
-	{
-		style.setStringFormat( stringFormat );
+	public void setStringFormat(String stringFormat) {
+		style.setStringFormat(stringFormat);
 	}
 
-	public String getFontFamily( )
-	{
-		return style.getFontFamily( );
+	public String getFontFamily() {
+		return style.getFontFamily();
 	}
 
-	public void setFontFamily( String fontFamily )
-	{
-		style.setFontFamily( fontFamily );
+	public void setFontFamily(String fontFamily) {
+		style.setFontFamily(fontFamily);
 	}
 
-	public String getFontStyle( )
-	{
-		return style.getFontStyle( );
+	public String getFontStyle() {
+		return style.getFontStyle();
 	}
 
-	public void setFontStyle( String fontStyle )
-	{
-		style.setFontStyle( fontStyle );
+	public void setFontStyle(String fontStyle) {
+		style.setFontStyle(fontStyle);
 	}
 
-	public String getFontVariant( )
-	{
-		return style.getFontVariant( );
+	public String getFontVariant() {
+		return style.getFontVariant();
 	}
 
-	public void setFontVariant( String fontVariant )
-	{
-		style.setFontVariant( fontVariant );
+	public void setFontVariant(String fontVariant) {
+		style.setFontVariant(fontVariant);
 	}
 
-	public String getFontWeight( )
-	{
-		return style.getFontWeight( );
+	public String getFontWeight() {
+		return style.getFontWeight();
 	}
 
-	public void setFontWeight( String fontWeight )
-	{
-		style.setFontWeight( fontWeight );
+	public void setFontWeight(String fontWeight) {
+		style.setFontWeight(fontWeight);
 	}
 
-	public String getFontSize( )
-	{
-		return style.getFontSize( );
+	public String getFontSize() {
+		return style.getFontSize();
 	}
 
-	public void setFontSize( String fontSize )
-	{
-		style.setFontSize( fontSize );
+	public void setFontSize(String fontSize) {
+		style.setFontSize(fontSize);
 	}
 
-	public String getTextUnderline( )
-	{
-		return style.getTextUnderline( );
+	public String getTextUnderline() {
+		return style.getTextUnderline();
 	}
 
-	public void setTextUnderline( String underline ) throws ScriptException
-	{
-		try
-		{
-			style.setTextUnderline( underline );
-		}
-		catch ( DOMException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setTextUnderline(String underline) throws ScriptException {
+		try {
+			style.setTextUnderline(underline);
+		} catch (DOMException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
-	public String getTextOverline( )
-	{
-		return style.getTextOverline( );
+	public String getTextOverline() {
+		return style.getTextOverline();
 	}
 
-	public void setTextOverline( String overline ) throws ScriptException
-	{
-		try
-		{
-			style.setTextOverline( overline );
-		}
-		catch ( DOMException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setTextOverline(String overline) throws ScriptException {
+		try {
+			style.setTextOverline(overline);
+		} catch (DOMException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
-	public String getTextLineThrough( )
-	{
-		return style.getTextLineThrough( );
+	public String getTextLineThrough() {
+		return style.getTextLineThrough();
 	}
 
-	public void setTextLineThrough( String through ) throws ScriptException
-	{
-		try
-		{
-			style.setTextLineThrough( through );
-		}
-		catch ( DOMException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setTextLineThrough(String through) throws ScriptException {
+		try {
+			style.setTextLineThrough(through);
+		} catch (DOMException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
-	public String getBackgroundPositionX( )
-	{
-		return style.getBackgroundPositionX( );
+	public String getBackgroundPositionX() {
+		return style.getBackgroundPositionX();
 	}
 
-	public void setBackgroundPositionX( String x ) throws ScriptException
-	{
-		try
-		{
-			style.setBackgroundPositionX( x );
-		}
-		catch ( DOMException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setBackgroundPositionX(String x) throws ScriptException {
+		try {
+			style.setBackgroundPositionX(x);
+		} catch (DOMException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
-	public String getBackgroundPositionY( )
-	{
-		return style.getBackgroundPositionY( );
+	public String getBackgroundPositionY() {
+		return style.getBackgroundPositionY();
 	}
 
-	public void setBackgroundPositionY( String y ) throws ScriptException
-	{
-		try
-		{
-			style.setBackgroundPositionY( y );
-		}
-		catch ( DOMException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setBackgroundPositionY(String y) throws ScriptException {
+		try {
+			style.setBackgroundPositionY(y);
+		} catch (DOMException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
-	public CSSValue getProperty( int index )
-	{
-		return style.getProperty( index );
+	public CSSValue getProperty(int index) {
+		return style.getProperty(index);
 	}
 
 	/**
@@ -922,9 +794,8 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @author bidi_hcg
 	 */
-	public String getDirection( )
-	{
-		return style.getDirection( );
+	public String getDirection() {
+		return style.getDirection();
 	}
 
 	/**
@@ -932,66 +803,53 @@ public class StyleInstance implements IScriptStyle
 	 * 
 	 * @author bidi_hcg
 	 */
-	public void setDirection( String dir )
-	{
-		style.setDirection( dir );
+	public void setDirection(String dir) {
+		style.setDirection(dir);
 	}
 
-	public String getDateLocale( )
-	{
-		DataFormatValue value = style.getDataFormat( );
-		if ( value == null )
-		{
+	public String getDateLocale() {
+		DataFormatValue value = style.getDataFormat();
+		if (value == null) {
 			return null;
 		}
-		return value.getDateTimeLocale( );
+		return value.getDateTimeLocale();
 	}
 
-	public String getNumberLocale( )
-	{
-		DataFormatValue value = style.getDataFormat( );
-		if ( value == null )
-		{
+	public String getNumberLocale() {
+		DataFormatValue value = style.getDataFormat();
+		if (value == null) {
 			return null;
 		}
-		return value.getNumberLocale( );
+		return value.getNumberLocale();
 	}
 
-	public String getStringLocale( )
-	{
-		DataFormatValue value = style.getDataFormat( );
-		if ( value == null )
-		{
+	public String getStringLocale() {
+		DataFormatValue value = style.getDataFormat();
+		if (value == null) {
 			return null;
 		}
-		return value.getStringLocale( );
+		return value.getStringLocale();
 	}
 
-	public void setDateLocale( String locale )
-	{
-		DataFormatValue oldValue = style.getDataFormat( );
-		DataFormatValue value = DataFormatValue.createDataFormatValue( oldValue );
-		style.setDataFormat( value );
-		value.setDateTimeFormat( oldValue == null ? null
-				: oldValue.getDateTimePattern( ), locale );
+	public void setDateLocale(String locale) {
+		DataFormatValue oldValue = style.getDataFormat();
+		DataFormatValue value = DataFormatValue.createDataFormatValue(oldValue);
+		style.setDataFormat(value);
+		value.setDateTimeFormat(oldValue == null ? null : oldValue.getDateTimePattern(), locale);
 	}
 
-	public void setNumberLocale( String locale )
-	{
-		DataFormatValue oldValue = style.getDataFormat( );
-		DataFormatValue value = DataFormatValue.createDataFormatValue( oldValue );
-		style.setDataFormat( value );
-		value.setNumberFormat( oldValue == null ? null
-				: oldValue.getNumberPattern( ), locale );
+	public void setNumberLocale(String locale) {
+		DataFormatValue oldValue = style.getDataFormat();
+		DataFormatValue value = DataFormatValue.createDataFormatValue(oldValue);
+		style.setDataFormat(value);
+		value.setNumberFormat(oldValue == null ? null : oldValue.getNumberPattern(), locale);
 	}
 
-	public void setStringLocale( String locale )
-	{
-		DataFormatValue oldValue = style.getDataFormat( );
-		DataFormatValue value = DataFormatValue.createDataFormatValue( oldValue );
-		style.setDataFormat( value );
-		value.setStringFormat( oldValue == null ? null
-				: oldValue.getStringPattern( ), locale );
+	public void setStringLocale(String locale) {
+		DataFormatValue oldValue = style.getDataFormat();
+		DataFormatValue value = DataFormatValue.createDataFormatValue(oldValue);
+		style.setDataFormat(value);
+		value.setStringFormat(oldValue == null ? null : oldValue.getStringPattern(), locale);
 	}
 
 }

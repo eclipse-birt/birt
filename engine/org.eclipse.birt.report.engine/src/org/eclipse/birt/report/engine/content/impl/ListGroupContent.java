@@ -7,32 +7,25 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IListGroupContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 
-public class ListGroupContent extends GroupContent implements IListGroupContent
-{
+public class ListGroupContent extends GroupContent implements IListGroupContent {
 
-	ListGroupContent( IListGroupContent group )
-	{
-		super( group );
+	ListGroupContent(IListGroupContent group) {
+		super(group);
 	}
 
-	ListGroupContent( IReportContent report )
-	{
-		super( report );
+	ListGroupContent(IReportContent report) {
+		super(report);
 	}
-	
-	public int getContentType( )
-	{
+
+	public int getContentType() {
 		return LIST_GROUP_CONTENT;
 	}
 
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitListGroup( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitListGroup(this, value);
 	}
-	
-	protected IContent cloneContent()
-	{
+
+	protected IContent cloneContent() {
 		return new ListGroupContent(this);
 	}
 

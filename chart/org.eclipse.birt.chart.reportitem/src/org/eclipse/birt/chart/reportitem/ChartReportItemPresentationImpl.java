@@ -17,25 +17,19 @@ import org.eclipse.birt.chart.reportitem.api.ChartReportItemConstants;
 /**
  * Standard presentation implementation for Chart
  */
-public final class ChartReportItemPresentationImpl
-		extends
-			ChartReportItemPresentationBase
-{
+public final class ChartReportItemPresentationImpl extends ChartReportItemPresentationBase {
 
-	protected Bounds computeBounds( )
-	{
-		final Bounds originalBounds = cm.getBlock( ).getBounds( );
+	protected Bounds computeBounds() {
+		final Bounds originalBounds = cm.getBlock().getBounds();
 
 		// we must copy the bounds to avoid that setting it on one object
 		// unsets it on its precedent container
-		Bounds bounds = originalBounds.copyInstance( );
-		if ( !bounds.isSetHeight( ) )
-		{
-			bounds.setHeight( ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT );
+		Bounds bounds = originalBounds.copyInstance();
+		if (!bounds.isSetHeight()) {
+			bounds.setHeight(ChartReportItemConstants.DEFAULT_CHART_BLOCK_HEIGHT);
 		}
-		if ( !bounds.isSetWidth( ) )
-		{
-			bounds.setWidth( ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH );
+		if (!bounds.isSetWidth()) {
+			bounds.setWidth(ChartReportItemConstants.DEFAULT_CHART_BLOCK_WIDTH);
 		}
 		return bounds;
 	}

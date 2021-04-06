@@ -19,8 +19,7 @@ import com.ibm.icu.util.ULocale;
  * not.
  */
 
-public interface IChoice
-{
+public interface IChoice {
 
 	/**
 	 * Returns the localized display name for the choice.
@@ -28,7 +27,7 @@ public interface IChoice
 	 * @return the localized display name for the choice.
 	 */
 
-	public String getDisplayName( );
+	public String getDisplayName();
 
 	/**
 	 * Returns the localized display name for the choice.
@@ -36,7 +35,7 @@ public interface IChoice
 	 * @return the localized display name for the choice.
 	 */
 
-	public String getDisplayName( ULocale locale );
+	public String getDisplayName(ULocale locale);
 
 	/**
 	 * Returns the display name resource key for the choice.
@@ -44,7 +43,7 @@ public interface IChoice
 	 * @return the display name resource key
 	 */
 
-	public String getDisplayNameKey( );
+	public String getDisplayNameKey();
 
 	/**
 	 * Returns the choice name that appears in the XML design file.
@@ -52,16 +51,16 @@ public interface IChoice
 	 * @return the choice name used in the XML design file
 	 */
 
-	public String getName( );
+	public String getName();
 
 	/**
-	 * Returns the value of the choice. The returned value equals to the
-	 * internal name of the system choice.
+	 * Returns the value of the choice. The returned value equals to the internal
+	 * name of the system choice.
 	 * 
 	 * @return the value of the choice
 	 */
 
-	public Object getValue( );
+	public Object getValue();
 
 	/**
 	 * Creates a deep copy of this choice.
@@ -69,5 +68,5 @@ public interface IChoice
 	 * @return a copy of this choice.
 	 */
 
-	public IChoice copy( );
+	public IChoice copy();
 }

@@ -22,34 +22,38 @@ import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.ui.profile.db.wizards.DbProfileEditorPage;
 
 /**
- *  Extends ODA UI framework property page class for this custom ODA designer.
- *  @since 2.5.2
+ * Extends ODA UI framework property page class for this custom ODA designer.
+ * 
+ * @since 2.5.2
  */
-public class CustomDbProfileEditorPage extends DbProfileEditorPage
-{
+public class CustomDbProfileEditorPage extends DbProfileEditorPage {
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.profile.db.DbProfilePropertyPage#createTransientProfile(java.util.Properties)
-     */
-    @Override
-    protected IConnectionProfile createTransientProfile( Properties connProperties )
-    {
-        Properties profileProps = DbProfilePropertyProvider.adaptToDbProfileProperties( connProperties );
-        
-        return super.createTransientProfile( profileProps );
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.profile.db.
+	 * DbProfilePropertyPage#createTransientProfile(java.util.Properties)
+	 */
+	@Override
+	protected IConnectionProfile createTransientProfile(Properties connProperties) {
+		Properties profileProps = DbProfilePropertyProvider.adaptToDbProfileProperties(connProperties);
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.profile.db.DbProfilePropertyPage#setDataSourceDesignProperties(org.eclipse.datatools.connectivity.oda.design.DataSourceDesign, java.util.Properties)
-     */
-    @Override
-    protected void setDataSourceDesignProperties( DataSourceDesign design, Properties propertyValuePairs ) 
-        throws OdaException
-    {
-        Properties dataSourceProps = 
-            DbProfilePropertyProvider.adaptToDataSourceProperties( propertyValuePairs );
-        
-        super.setDataSourceDesignProperties( design, dataSourceProps );
-    }
+		return super.createTransientProfile(profileProps);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.datatools.connectivity.oda.design.internal.ui.profile.db.
+	 * DbProfilePropertyPage#setDataSourceDesignProperties(org.eclipse.datatools.
+	 * connectivity.oda.design.DataSourceDesign, java.util.Properties)
+	 */
+	@Override
+	protected void setDataSourceDesignProperties(DataSourceDesign design, Properties propertyValuePairs)
+			throws OdaException {
+		Properties dataSourceProps = DbProfilePropertyProvider.adaptToDataSourceProperties(propertyValuePairs);
+
+		super.setDataSourceDesignProperties(design, dataSourceProps);
+	}
 
 }

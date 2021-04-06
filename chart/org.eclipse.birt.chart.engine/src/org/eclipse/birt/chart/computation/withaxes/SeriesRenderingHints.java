@@ -27,8 +27,7 @@ import org.eclipse.birt.chart.render.ISeriesRenderingHints;
 /**
  * SeriesRenderingHints
  */
-public final class SeriesRenderingHints implements ISeriesRenderingHints
-{
+public final class SeriesRenderingHints implements ISeriesRenderingHints {
 
 	private int iDataSetStructure = UNDEFINED;
 
@@ -56,10 +55,11 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 
 	private final DataSetIterator dsiOrthogonal;
 
-	private static final IGObjectFactory goFactory = GObjectFactory.instance( );
+	private static final IGObjectFactory goFactory = GObjectFactory.instance();
 
 	/** The client area. */
 	private Bounds clientArea;
+
 	/**
 	 * 
 	 * @param _dAxisLocation
@@ -67,13 +67,10 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 * @param _daTickCoordinates
 	 * @param _dpa
 	 */
-	public SeriesRenderingHints( PlotWith2DAxes _pwa, double _dAxisLocation,
-			double _dPlotBaseLocation, double _dZeroLocation,
-			double _dSeriesThickness, AxisTickCoordinates _daTickCoordinates,
-			DataPointHints[] _dpa, AutoScale _scBase, AutoScale _scOrthogonal,
-			StackedSeriesLookup _ssl, DataSetIterator _dsiBase,
-			DataSetIterator _dsiOrthogonal )
-	{
+	public SeriesRenderingHints(PlotWith2DAxes _pwa, double _dAxisLocation, double _dPlotBaseLocation,
+			double _dZeroLocation, double _dSeriesThickness, AxisTickCoordinates _daTickCoordinates,
+			DataPointHints[] _dpa, AutoScale _scBase, AutoScale _scOrthogonal, StackedSeriesLookup _ssl,
+			DataSetIterator _dsiBase, DataSetIterator _dsiOrthogonal) {
 		pwa = _pwa;
 		dAxisLocation = _dAxisLocation;
 		dZeroLocation = _dZeroLocation;
@@ -88,20 +85,15 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 		dsiOrthogonal = _dsiOrthogonal;
 
 		// DEFINE THE DATA SET STRUCTURES
-		if ( dsiBase.size( ) != dsiOrthogonal.size( ) )
-		{
+		if (dsiBase.size() != dsiOrthogonal.size()) {
 			iDataSetStructure |= BASE_ORTHOGONAL_OUT_OF_SYNC;
-		}
-		else
-		{
+		} else {
 			iDataSetStructure = BASE_ORTHOGONAL_IN_SYNC;
 		}
-		if ( dsiBase.isEmpty( ) )
-		{
+		if (dsiBase.isEmpty()) {
 			iDataSetStructure |= BASE_EMPTY;
 		}
-		if ( dsiOrthogonal.isEmpty( ) )
-		{
+		if (dsiOrthogonal.isEmpty()) {
 			iDataSetStructure |= ORTHOGONAL_EMPTY;
 		}
 	}
@@ -109,11 +101,10 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	/**
 	 * 
 	 * @return The location (if vertical, then horizontal co-ordinate; if
-	 *         horizontal, then vertical co-ordinate) of the category axis used
-	 *         in the plot
+	 *         horizontal, then vertical co-ordinate) of the category axis used in
+	 *         the plot
 	 */
-	public final double getAxisLocation( )
-	{
+	public final double getAxisLocation() {
 		return dAxisLocation;
 	}
 
@@ -123,62 +114,53 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 *         horizontal, then vertical co-ordinate) of zero along the primary
 	 *         orthogonal (value) axis used in the plot
 	 */
-	public final double getZeroLocation( )
-	{
+	public final double getZeroLocation() {
 		return dZeroLocation;
 	}
 
 	/**
-	 * @param oValue
-	 *            The value for which a rendering co-ordinate is being requested
-	 *            for
-	 * @return The co-ordinate on the scale that corresponds to the requested
-	 *         value
+	 * @param oValue The value for which a rendering co-ordinate is being requested
+	 *               for
+	 * @return The co-ordinate on the scale that corresponds to the requested value
 	 * 
 	 */
-	public final double getLocationOnOrthogonal( Object oValue )
-			throws ChartException, IllegalArgumentException
-	{
-		return Methods.getLocation( scOrthogonal, oValue );
+	public final double getLocationOnOrthogonal(Object oValue) throws ChartException, IllegalArgumentException {
+		return Methods.getLocation(scOrthogonal, oValue);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public final double getPlotBaseLocation( )
-	{
+	public final double getPlotBaseLocation() {
 		return dPlotBaseLocation;
 	}
 
 	/**
 	 * 
-	 * @return The thickness of the series element to be rendered in a 2.5D or
-	 *         3D plot
+	 * @return The thickness of the series element to be rendered in a 2.5D or 3D
+	 *         plot
 	 */
-	public final double getSeriesThickness( )
-	{
+	public final double getSeriesThickness() {
 		return dSeriesThickness;
 	}
 
 	/**
 	 * 
-	 * @return The ticks' co-ordinates specified as a values along a horizontal
-	 *         or vertical category axis. The other fixed co-ordinate is
-	 *         obtained via the axis location.
+	 * @return The ticks' co-ordinates specified as a values along a horizontal or
+	 *         vertical category axis. The other fixed co-ordinate is obtained via
+	 *         the axis location.
 	 */
-	public final AxisTickCoordinates getTickCoordinates( )
-	{
+	public final AxisTickCoordinates getTickCoordinates() {
 		return daTickCoordinates;
 	}
 
 	/**
 	 * 
-	 * @return Detailed plotting information for the data points represented by
-	 *         the series rendering
+	 * @return Detailed plotting information for the data points represented by the
+	 *         series rendering
 	 */
-	public final DataPointHints[] getDataPoints( )
-	{
+	public final DataPointHints[] getDataPoints() {
 		return dpa;
 	}
 
@@ -186,17 +168,15 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 * 
 	 * @return
 	 */
-	public final boolean isCategoryScale( )
-	{
-		return ( scBase.getType( ) == IConstants.TEXT || scBase.isCategoryScale( ) );
+	public final boolean isCategoryScale() {
+		return (scBase.getType() == IConstants.TEXT || scBase.isCategoryScale());
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public final StackedSeriesLookup getStackedSeriesLookup( )
-	{
+	public final StackedSeriesLookup getStackedSeriesLookup() {
 		return ssl;
 	}
 
@@ -207,32 +187,29 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
-	public final Position getLabelPosition( Series se ) throws ChartException,
-			IllegalArgumentException
-	{
-		final int iTransposed = pwa.transposeLabelPosition( IConstants.ORTHOGONAL,
-				Methods.getLabelPosition( se.getLabelPosition( ) ) );
+	public final Position getLabelPosition(Series se) throws ChartException, IllegalArgumentException {
+		final int iTransposed = pwa.transposeLabelPosition(IConstants.ORTHOGONAL,
+				Methods.getLabelPosition(se.getLabelPosition()));
 		Position p = null;
-		switch ( iTransposed )
-		{
-			case IConstants.LEFT :
-				p = Position.LEFT_LITERAL;
-				break;
-			case IConstants.RIGHT :
-				p = Position.RIGHT_LITERAL;
-				break;
-			case IConstants.ABOVE :
-				p = Position.ABOVE_LITERAL;
-				break;
-			case IConstants.BELOW :
-				p = Position.BELOW_LITERAL;
-				break;
-			case IConstants.OUTSIDE :
-				p = Position.OUTSIDE_LITERAL;
-				break;
-			case IConstants.INSIDE :
-				p = Position.INSIDE_LITERAL;
-				break;
+		switch (iTransposed) {
+		case IConstants.LEFT:
+			p = Position.LEFT_LITERAL;
+			break;
+		case IConstants.RIGHT:
+			p = Position.RIGHT_LITERAL;
+			break;
+		case IConstants.ABOVE:
+			p = Position.ABOVE_LITERAL;
+			break;
+		case IConstants.BELOW:
+			p = Position.BELOW_LITERAL;
+			break;
+		case IConstants.OUTSIDE:
+			p = Position.OUTSIDE_LITERAL;
+			break;
+		case IConstants.INSIDE:
+			p = Position.INSIDE_LITERAL;
+			break;
 		}
 		return p;
 	}
@@ -243,45 +220,40 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 * @return
 	 * @throws IllegalArgumentException
 	 */
-	public final Label getLabelAttributes( Series se )
-			throws IllegalArgumentException
-	{
-		return goFactory.copyOf( se.getLabel( ) );
+	public final Label getLabelAttributes(Series se) throws IllegalArgumentException {
+		return goFactory.copyOf(se.getLabel());
 	}
 
 	/**
 	 * Returns client area bounds for current series.
-     *
+	 *
 	 * @param bReduceByInsets
 	 * @return
 	 */
-	public final Bounds getClientAreaBounds( boolean bReduceByInsets )
-	{
-		final Bounds boClientArea = goFactory.copyOf( clientArea );
-		if ( bReduceByInsets )
-		{
-			boClientArea.adjust( pwa.getPlotInsets( ) );
+	public final Bounds getClientAreaBounds(boolean bReduceByInsets) {
+		final Bounds boClientArea = goFactory.copyOf(clientArea);
+		if (bReduceByInsets) {
+			boClientArea.adjust(pwa.getPlotInsets());
 		}
 		return boClientArea;
 	}
-	
+
 	/**
-     * Set client area bounds for current series.
-     *
+	 * Set client area bounds for current series.
+	 *
 	 * @param bounds
 	 */
-	public final void setClientAreaBounds( Bounds bounds )
-	{
+	public final void setClientAreaBounds(Bounds bounds) {
 		clientArea = bounds;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getDataSetStructure()
+	 * @see
+	 * org.eclipse.birt.chart.render.ISeriesRenderingHints#getDataSetStructure()
 	 */
-	public int getDataSetStructure( )
-	{
+	public int getDataSetStructure() {
 		return iDataSetStructure;
 	}
 
@@ -290,29 +262,27 @@ public final class SeriesRenderingHints implements ISeriesRenderingHints
 	 * 
 	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getBaseDataSet()
 	 */
-	public DataSetIterator getBaseDataSet( )
-	{
+	public DataSetIterator getBaseDataSet() {
 		return dsiBase;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.render.ISeriesRenderingHints#getOrthogonalDataSet()
+	 * @see
+	 * org.eclipse.birt.chart.render.ISeriesRenderingHints#getOrthogonalDataSet()
 	 */
-	public DataSetIterator getOrthogonalDataSet( )
-	{
+	public DataSetIterator getOrthogonalDataSet() {
 		return dsiOrthogonal;
 	}
-	
+
 	/**
 	 * Returns Orthogonal axis's AutoScale object.
 	 * 
 	 * @return
 	 * @since 2.5
 	 */
-	public AutoScale getOrthogonalScale( )
-	{
+	public AutoScale getOrthogonalScale() {
 		return scOrthogonal;
 	}
 }

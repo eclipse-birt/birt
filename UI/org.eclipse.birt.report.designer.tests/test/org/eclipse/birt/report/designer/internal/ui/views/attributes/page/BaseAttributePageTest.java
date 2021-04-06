@@ -16,16 +16,14 @@ import junit.framework.TestCase;
 /**
  * Test class for test methods of BasAttributePageTest.
  * 
- *  
+ * 
  */
-public class BaseAttributePageTest extends TestCase
-{
+public class BaseAttributePageTest extends TestCase {
 
 	/**
 	 * Testcase for test setCategoryProvider() method
 	 */
-	public void testSetCategoryProvider( )
-	{
+	public void testSetCategoryProvider() {
 //		BaseAttributePage page = new BaseAttributePage( new Shell( ), SWT.NULL );
 //		page.setCategoryProvider( null );
 //		assertEquals( 0, page.categoryList.getItemCount( ) );

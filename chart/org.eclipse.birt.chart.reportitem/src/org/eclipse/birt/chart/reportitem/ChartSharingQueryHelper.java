@@ -45,40 +45,36 @@ import org.eclipse.birt.report.model.api.SlotHandle;
  * 
  * @since 2.3
  */
-public class ChartSharingQueryHelper extends ChartBaseQueryHelper
-{
+public class ChartSharingQueryHelper extends ChartBaseQueryHelper {
 
 	/**
 	 * Constructor of the class.
 	 * 
-	 * @param handle
-	 *            the referred report item handle contains actual
-	 *            bindings/groupings/filters.
+	 * @param handle       the referred report item handle contains actual
+	 *                     bindings/groupings/filters.
 	 * @param chart
 	 * @param modelAdapter
 	 */
-	public ChartSharingQueryHelper( ReportItemHandle handle, Chart cm, IModelAdapter modelAdapter )
-	{
-		super( handle, cm, modelAdapter );
+	public ChartSharingQueryHelper(ReportItemHandle handle, Chart cm, IModelAdapter modelAdapter) {
+		super(handle, cm, modelAdapter);
 	}
 
 	/**
 	 * Constructor of the class.
 	 * 
-	 * @param handle
-	 *            the referred report item handle contains actual
-	 *            bindings/groupings/filters.
+	 * @param handle                      the referred report item handle contains
+	 *                                    actual bindings/groupings/filters.
 	 * @param chart
 	 * @param modelAdapter
-	 * @param bCreateBindingForExpression
-	 *            indicates if query definition should create a new binding for
-	 *            the complex expression. If the expression is simply a binding
-	 *            name, always do not add the new binding.
+	 * @param bCreateBindingForExpression indicates if query definition should
+	 *                                    create a new binding for the complex
+	 *                                    expression. If the expression is simply a
+	 *                                    binding name, always do not add the new
+	 *                                    binding.
 	 */
-	public ChartSharingQueryHelper( ReportItemHandle handle, Chart cm,
-			IModelAdapter modelAdapter, boolean bCreateBindingForExpression )
-	{
-		super( handle, cm, modelAdapter, bCreateBindingForExpression );
+	public ChartSharingQueryHelper(ReportItemHandle handle, Chart cm, IModelAdapter modelAdapter,
+			boolean bCreateBindingForExpression) {
+		super(handle, cm, modelAdapter, bCreateBindingForExpression);
 	}
 
 	/**
@@ -89,145 +85,108 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	 * @throws BirtException
 	 * @deprecated to invoke {@link #createBaseQuery(IDataQueryDefinition)} instead.
 	 */
-	public IDataQueryDefinition createQuery( IDataQueryDefinition parent )
-			throws BirtException
-	{
-		return createBaseQuery( parent );
+	public IDataQueryDefinition createQuery(IDataQueryDefinition parent) throws BirtException {
+		return createBaseQuery(parent);
 	}
-	
+
 	@Override
-	protected void generateExtraBindings( BaseQueryDefinition query )
-			throws ChartException
-	{
-		List<SeriesDefinition> sdList = ChartUtil.getAllOrthogonalSeriesDefinitions( fChartModel );
-		sdList.addAll( ChartUtil.getBaseSeriesDefinitions( fChartModel ) );
+	protected void generateExtraBindings(BaseQueryDefinition query) throws ChartException {
+		List<SeriesDefinition> sdList = ChartUtil.getAllOrthogonalSeriesDefinitions(fChartModel);
+		sdList.addAll(ChartUtil.getBaseSeriesDefinitions(fChartModel));
 
 		// Iterate all data definitions in series and add binding for complex
 		// expression
-		ExpressionSet exprSet = new ExpressionSet( );
-		for ( int i = 0; i < sdList.size( ); i++ )
-		{
-			SeriesDefinition sd = sdList.get( i );
-			List<Query> queryList = sd.getDesignTimeSeries( )
-					.getDataDefinition( );
-			for ( int j = 0; j < queryList.size( ); j++ )
-			{
-				exprSet.add( queryList.get( j ).getDefinition( ) );
+		ExpressionSet exprSet = new ExpressionSet();
+		for (int i = 0; i < sdList.size(); i++) {
+			SeriesDefinition sd = sdList.get(i);
+			List<Query> queryList = sd.getDesignTimeSeries().getDataDefinition();
+			for (int j = 0; j < queryList.size(); j++) {
+				exprSet.add(queryList.get(j).getDefinition());
 			}
 
-			exprSet.add( sd.getQuery( ).getDefinition( ) );
+			exprSet.add(sd.getQuery().getDefinition());
 		}
-		for ( String expr : exprSet )
-		{
-			exprCodec.decode( expr );
-			if ( !exprCodec.isRowBinding( false ) )
-			{
-				String bindingName = ChartExpressionUtil.escapeSpecialCharacters( exprCodec.getExpression( ) );
-				Binding colBinding = new Binding( bindingName );
-				colBinding.setDataType( DataType.ANY_TYPE );
-				colBinding.setExpression( ChartReportItemUtil.adaptExpression( exprCodec,
-						modelAdapter,
-						false ) );
+		for (String expr : exprSet) {
+			exprCodec.decode(expr);
+			if (!exprCodec.isRowBinding(false)) {
+				String bindingName = ChartExpressionUtil.escapeSpecialCharacters(exprCodec.getExpression());
+				Binding colBinding = new Binding(bindingName);
+				colBinding.setDataType(DataType.ANY_TYPE);
+				colBinding.setExpression(ChartReportItemUtil.adaptExpression(exprCodec, modelAdapter, false));
 
-				try
-				{
-					query.addBinding( colBinding );
-				}
-				catch ( DataException e )
-				{
-					throw new ChartException( ChartReportItemPlugin.ID,
-							ChartException.DATA_BINDING,
-							e );
+				try {
+					query.addBinding(colBinding);
+				} catch (DataException e) {
+					throw new ChartException(ChartReportItemPlugin.ID, ChartException.DATA_BINDING, e);
 				}
 			}
 		}
-		
+
 		// Handle groups.
-		List<GroupHandle> groups = getGroups( );
-		for ( Iterator<GroupHandle> iter = groups.iterator( ); iter.hasNext( ); )
-		{
-			handleGroup( iter.next( ), query, modelAdapter );
+		List<GroupHandle> groups = getGroups();
+		for (Iterator<GroupHandle> iter = groups.iterator(); iter.hasNext();) {
+			handleGroup(iter.next(), query, modelAdapter);
 		}
 
-		if ( ChartReportItemUtil.isChartInheritGroups( fReportItemHandle ) )
-		{
+		if (ChartReportItemUtil.isChartInheritGroups(fReportItemHandle)) {
 			// Copy aggregations from table container to chart
 			ListingHandle table = null;
-			DesignElementHandle container = fReportItemHandle.getContainer( );
-			while ( container != null )
-			{
-				if ( container instanceof ListingHandle )
-				{
+			DesignElementHandle container = fReportItemHandle.getContainer();
+			while (container != null) {
+				if (container instanceof ListingHandle) {
 					table = (ListingHandle) container;
 					break;
 				}
-				container = container.getContainer( );
+				container = container.getContainer();
 			}
-			if ( table != null )
-			{
+			if (table != null) {
 				// Copy aggregation bindings and row bindings from container.
-				Iterator<ComputedColumnHandle> iterator = table.columnBindingsIterator( );
-				while ( iterator.hasNext( ) )
-				{
-					ComputedColumnHandle binding = iterator.next( );
-					ChartItemUtil.loadExpression( exprCodec, binding );
+				Iterator<ComputedColumnHandle> iterator = table.columnBindingsIterator();
+				while (iterator.hasNext()) {
+					ComputedColumnHandle binding = iterator.next();
+					ChartItemUtil.loadExpression(exprCodec, binding);
 					// For table case, if it isn't javascript expression, it
 					// indicates the expression isn't a basic DatasetRow
 					// expression, it should be a binding expression.
-					boolean isJavascriptExpr = ( ExpressionCodec.JAVASCRIPT.equals( exprCodec.getType( ) ) );
-					if ( binding.getAggregateFunction( ) != null
-							|| exprCodec.getRowBindingNameSet( binding.getExpression( ) )
-									.size( ) > 0
-									|| !isJavascriptExpr )
-					{
-						try
-						{
-							query.addBinding( modelAdapter.adaptBinding( binding ) );
-						}
-						catch ( BirtException e )
-						{
-							throw new ChartException( ChartReportItemPlugin.ID,
-									ChartException.DATA_BINDING,
-									e );
+					boolean isJavascriptExpr = (ExpressionCodec.JAVASCRIPT.equals(exprCodec.getType()));
+					if (binding.getAggregateFunction() != null
+							|| exprCodec.getRowBindingNameSet(binding.getExpression()).size() > 0
+							|| !isJavascriptExpr) {
+						try {
+							query.addBinding(modelAdapter.adaptBinding(binding));
+						} catch (BirtException e) {
+							throw new ChartException(ChartReportItemPlugin.ID, ChartException.DATA_BINDING, e);
 						}
 					}
 				}
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns groups in shared binding.
 	 * 
 	 * @return
 	 */
-	private List<GroupHandle> getGroups( )
-	{
-		List<GroupHandle> groupList = new ArrayList<GroupHandle>( );
+	private List<GroupHandle> getGroups() {
+		List<GroupHandle> groupList = new ArrayList<GroupHandle>();
 		ListingHandle table = null;
-		if ( fReportItemHandle instanceof ListingHandle )
-		{
+		if (fReportItemHandle instanceof ListingHandle) {
 			table = (ListingHandle) fReportItemHandle;
-		}
-		else if ( ChartReportItemUtil.isChartInheritGroups( fReportItemHandle ) )
-		{
-			DesignElementHandle container = fReportItemHandle.getContainer( );
-			while ( container != null )
-			{
-				if ( container instanceof ListingHandle )
-				{
+		} else if (ChartReportItemUtil.isChartInheritGroups(fReportItemHandle)) {
+			DesignElementHandle container = fReportItemHandle.getContainer();
+			while (container != null) {
+				if (container instanceof ListingHandle) {
 					table = (ListingHandle) container;
 					break;
 				}
-				container = container.getContainer( );
+				container = container.getContainer();
 			}
 		}
-		if ( table != null )
-		{
-			SlotHandle groups = table.getGroups( );
-			for ( Iterator<DesignElementHandle> iter = groups.iterator( ); iter.hasNext( ); )
-			{
-				groupList.add( (GroupHandle) iter.next( ) );
+		if (table != null) {
+			SlotHandle groups = table.getGroups();
+			for (Iterator<DesignElementHandle> iter = groups.iterator(); iter.hasNext();) {
+				groupList.add((GroupHandle) iter.next());
 			}
 		}
 		return groupList;
@@ -236,20 +195,14 @@ public class ChartSharingQueryHelper extends ChartBaseQueryHelper
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper#addSortAndFilter
+	 * @see org.eclipse.birt.chart.reportitem.ChartBaseQueryHelper#addSortAndFilter
 	 * (org.eclipse.birt.report.model.api.ReportItemHandle,
 	 * org.eclipse.birt.data.engine.api.querydefn.BaseQueryDefinition)
 	 */
-	protected void addSortAndFilter( ReportItemHandle handle,
-			BaseQueryDefinition query )
-	{
-		super.addSortAndFilter( handle, query );
-		if ( handle instanceof ListingHandle )
-		{
-			query.getSorts( )
-					.addAll( createSorts( ( (ListingHandle) handle ).sortsIterator( ),
-							modelAdapter ) );
+	protected void addSortAndFilter(ReportItemHandle handle, BaseQueryDefinition query) {
+		super.addSortAndFilter(handle, query);
+		if (handle instanceof ListingHandle) {
+			query.getSorts().addAll(createSorts(((ListingHandle) handle).sortsIterator(), modelAdapter));
 		}
 	}
 }

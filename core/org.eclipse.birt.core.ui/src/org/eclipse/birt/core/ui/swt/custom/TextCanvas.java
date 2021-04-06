@@ -26,8 +26,7 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * Drawing text in graphics
  */
-class TextCanvas extends Canvas implements PaintListener, FocusListener
-{
+class TextCanvas extends Canvas implements PaintListener, FocusListener {
 
 	private static final int DEFAULT_MARGIN = 3;
 	private int leftMargin = DEFAULT_MARGIN;
@@ -41,129 +40,101 @@ class TextCanvas extends Canvas implements PaintListener, FocusListener
 
 	private boolean isFocusIn = false;
 
-	public TextCanvas( Composite parent, int iStyle, String text )
-	{
-		super( parent, iStyle );
+	public TextCanvas(Composite parent, int iStyle, String text) {
+		super(parent, iStyle);
 		this.text = text;
-		this.addPaintListener( this );
-		this.addFocusListener( this );
+		this.addPaintListener(this);
+		this.addFocusListener(this);
 	}
 
-	public String getText( )
-	{
+	public String getText() {
 		return this.text;
 	}
 
-	public void setText( String text )
-	{
+	public void setText(String text) {
 		this.text = text;
 	}
 
-	public void setTextFont( Font font )
-	{
+	public void setTextFont(Font font) {
 		this.textFont = font;
 	}
 
-	public Font getTextFont( )
-	{
+	public Font getTextFont() {
 		return textFont;
 	}
 
-	public void paintControl( PaintEvent pe )
-	{
-		if ( isEnabled( ) && isFocusControl( ) )
-		{
+	public void paintControl(PaintEvent pe) {
+		if (isEnabled() && isFocusControl()) {
 			isFocusIn = true;
 		}
 
 		Color cForeground = null;
 		Color cBackground = null;
-		if ( this.isEnabled( ) )
-		{
-			cForeground = getDisplay( ).getSystemColor( SWT.COLOR_LIST_FOREGROUND );
-			cBackground = getDisplay( ).getSystemColor( SWT.COLOR_LIST_BACKGROUND );
-		}
-		else
-		{
-			cForeground = getDisplay( ).getSystemColor( SWT.COLOR_DARK_GRAY );
-			cBackground = getDisplay( ).getSystemColor( SWT.COLOR_WIDGET_BACKGROUND );
+		if (this.isEnabled()) {
+			cForeground = getDisplay().getSystemColor(SWT.COLOR_LIST_FOREGROUND);
+			cBackground = getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+		} else {
+			cForeground = getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY);
+			cBackground = getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
 		}
 
 		GC gc = pe.gc;
-		if ( isFocusIn )
-		{
-			gc.setBackground( getDisplay( ).getSystemColor( SWT.COLOR_LIST_SELECTION ) );
-			gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT ) );
-		}
-		else
-		{
-			gc.setBackground( cBackground );
-			gc.setForeground( cForeground );
+		if (isFocusIn) {
+			gc.setBackground(getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION));
+			gc.setForeground(getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION_TEXT));
+		} else {
+			gc.setBackground(cBackground);
+			gc.setForeground(cForeground);
 		}
 
-		gc.fillRectangle( 0, 0, this.getSize( ).x, this.getSize( ).y );
+		gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
 
-		if ( textFont != null )
-		{
-			gc.setFont( textFont );
+		if (textFont != null) {
+			gc.setFont(textFont);
 		}
 
-		if ( text != null )
-		{
-			gc.drawText( text, 2, 2 );
+		if (text != null) {
+			gc.drawText(text, 2, 2);
 		}
 	}
 
-	public void focusGained( FocusEvent e )
-	{
+	public void focusGained(FocusEvent e) {
 		isFocusIn = true;
 
 	}
 
-	public void focusLost( FocusEvent e )
-	{
+	public void focusLost(FocusEvent e) {
 		isFocusIn = false;
 	}
 
-	public Point computeSize( int wHint, int hHint, boolean changed )
-	{
-		checkWidget( );
-		Point e = getTotalSize( text );
-		if ( wHint == SWT.DEFAULT )
-		{
+	public Point computeSize(int wHint, int hHint, boolean changed) {
+		checkWidget();
+		Point e = getTotalSize(text);
+		if (wHint == SWT.DEFAULT) {
 			e.x += leftMargin + rightMargin;
-		}
-		else
-		{
+		} else {
 			e.x = wHint;
 		}
-		if ( hHint == SWT.DEFAULT )
-		{
+		if (hHint == SWT.DEFAULT) {
 			e.y += topMargin + bottomMargin;
-		}
-		else
-		{
+		} else {
 			e.y = hHint;
 		}
 		return e;
 	}
 
-	private Point getTotalSize( String text )
-	{
-		Point size = new Point( 0, 0 );
+	private Point getTotalSize(String text) {
+		Point size = new Point(0, 0);
 
-		GC gc = new GC( this );
-		if ( text != null && text.length( ) > 0 )
-		{
-			Point e = gc.textExtent( text );
+		GC gc = new GC(this);
+		if (text != null && text.length() > 0) {
+			Point e = gc.textExtent(text);
 			size.x += e.x;
-			size.y = Math.max( size.y, e.y );
+			size.y = Math.max(size.y, e.y);
+		} else {
+			size.y = Math.max(size.y, gc.getFontMetrics().getHeight());
 		}
-		else
-		{
-			size.y = Math.max( size.y, gc.getFontMetrics( ).getHeight( ) );
-		}
-		gc.dispose( );
+		gc.dispose();
 
 		return size;
 	}

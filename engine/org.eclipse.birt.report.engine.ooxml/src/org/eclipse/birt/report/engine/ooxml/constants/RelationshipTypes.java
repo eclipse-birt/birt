@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.ooxml.constants;
 
-public class RelationshipTypes
-{
+public class RelationshipTypes {
 
 	public static final String THEME = "http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme";
 	public static final String CORE = "http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties";

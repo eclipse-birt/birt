@@ -14,34 +14,26 @@ package org.eclipse.birt.report.engine.layout.pdf;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 
-public abstract class PDFLeafItemLM extends PDFAbstractLM
-{
+public abstract class PDFLeafItemLM extends PDFAbstractLM {
 
-	public PDFLeafItemLM( PDFLayoutEngineContext context, PDFStackingLM parent,
-			IContent content, IReportItemExecutor executor )
-	{
-		super( context, parent, content,  executor );
+	public PDFLeafItemLM(PDFLayoutEngineContext context, PDFStackingLM parent, IContent content,
+			IReportItemExecutor executor) {
+		super(context, parent, content, executor);
 	}
 
-	protected void cancelChildren( )
-	{
+	protected void cancelChildren() {
 
 	}
 
-
-
-	public boolean allowPageBreak( )
-	{
+	public boolean allowPageBreak() {
 		return false;
 	}
-	
-	protected boolean hasNextChild()
-	{
+
+	protected boolean hasNextChild() {
 		return true;
 	}
-	
-	public void autoPageBreak()
-	{
+
+	public void autoPageBreak() {
 		return;
 	}
 

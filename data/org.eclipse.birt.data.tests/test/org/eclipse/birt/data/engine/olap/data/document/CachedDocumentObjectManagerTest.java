@@ -23,26 +23,22 @@ import org.junit.Before;
  * 
  */
 
-public class CachedDocumentObjectManagerTest extends FileDocumentManagerTest
-{
+public class CachedDocumentObjectManagerTest extends FileDocumentManagerTest {
 
 	private DocumentObjectCache cachedManager;
+
 	@Before
-    public void cachedDocumentObjectManagerSetUp() throws Exception
-	{
-		cachedManager = new DocumentObjectCache( documentManager,
-				generateRandomInt( 1024 ) );
-	}
-	@After
-    public void cachedDocumentObjectManagerTearDown() throws Exception
-	{
-		cachedManager.closeAll( );
+	public void cachedDocumentObjectManagerSetUp() throws Exception {
+		cachedManager = new DocumentObjectCache(documentManager, generateRandomInt(1024));
 	}
 
-	protected IDocumentObject openIDocumentObject( String documentObjectName )
-			throws IOException
-	{
-		return cachedManager.getIDocumentObject( documentObjectName );
+	@After
+	public void cachedDocumentObjectManagerTearDown() throws Exception {
+		cachedManager.closeAll();
+	}
+
+	protected IDocumentObject openIDocumentObject(String documentObjectName) throws IOException {
+		return cachedManager.getIDocumentObject(documentObjectName);
 	}
 
 }

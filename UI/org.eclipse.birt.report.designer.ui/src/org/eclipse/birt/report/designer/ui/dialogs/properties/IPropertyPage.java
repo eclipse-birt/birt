@@ -16,30 +16,31 @@ import org.eclipse.swt.widgets.Control;
 
 /**
  * An interface that provides methods of a property page.
- * @deprecated   As of BIRT 2.1, replaced by
- *      {@link org.eclipse.birt.report.designer.data.ui.property.IPropertyPage
- *          org.eclipse.birt.report.designer.data.ui.property.IPropertyPage }.
+ * 
+ * @deprecated As of BIRT 2.1, replaced by
+ *             {@link org.eclipse.birt.report.designer.data.ui.property.IPropertyPage
+ *             org.eclipse.birt.report.designer.data.ui.property.IPropertyPage
+ *             }.
  */
-public interface IPropertyPage
-{
+public interface IPropertyPage {
 
-	public Control createPageControl( Composite parent );
+	public Control createPageControl(Composite parent);
 
-	public void setContainer( IPropertyPageContainer parentContainer );
+	public void setContainer(IPropertyPageContainer parentContainer);
 
-	public String getName( );
+	public String getName();
 
-	public Image getImage( );
+	public Image getImage();
 
-	public boolean canLeave( );
+	public boolean canLeave();
 
-	public boolean performOk( );
+	public boolean performOk();
 
-	public boolean performCancel( );
+	public boolean performCancel();
 
-	public void performHelp( );
+	public void performHelp();
 
-	public void pageActivated( );
-	
+	public void pageActivated();
+
 	public String getToolTip();
 }

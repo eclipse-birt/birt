@@ -23,42 +23,39 @@ import java.util.Map;
  * bound data columns.
  */
 
-public interface ICompatibleReportItem
-{
+public interface ICompatibleReportItem {
 
 	/**
-	 * Returns a list containing the possible JavaScript expressions. During
-	 * parsing the design file, this method is automatically called to add bound
-	 * data columns so that the design file before BIRT 2.1.0 can be compatible
-	 * with BIRT 2.1.0 or later.
+	 * Returns a list containing the possible JavaScript expressions. During parsing
+	 * the design file, this method is automatically called to add bound data
+	 * columns so that the design file before BIRT 2.1.0 can be compatible with BIRT
+	 * 2.1.0 or later.
 	 * 
 	 * @return a list containing the possible expressions.
 	 */
 
-	public List getRowExpressions( );
+	public List getRowExpressions();
 
 	/**
 	 * Updates existed expression with the given expressions. The keys in
-	 * <code>newExpressions</code> are existed expressions, while, the values
-	 * are the new expressions to replace existed ones.
+	 * <code>newExpressions</code> are existed expressions, while, the values are
+	 * the new expressions to replace existed ones.
 	 * 
-	 * @param newExpressions
-	 *            a map containing the updated expressions.
+	 * @param newExpressions a map containing the updated expressions.
 	 */
 
-	public void updateRowExpressions( Map newExpressions );
+	public void updateRowExpressions(Map newExpressions);
 
 	/**
-	 * Checks the parser compatibilities for this report item and return the
-	 * status.
+	 * Checks the parser compatibilities for this report item and return the status.
 	 * 
 	 * @return the compatibility status.
 	 */
-	public CompatibilityStatus checkCompatibility( );
-	
+	public CompatibilityStatus checkCompatibility();
+
 	/**
-	 * handle the compatibility issue 
+	 * handle the compatibility issue
 	 */
 	public void handleCompatibilityIssue();
-	
+
 }

@@ -20,42 +20,38 @@ import org.eclipse.ui.IEditorPart;
  * Simple test for BirtUITestCase
  */
 
-public class SimpleUITest extends BirtUITestCase
-{
+public class SimpleUITest extends BirtUITestCase {
 
 	/**
 	 * 
 	 * Test showPerpersite method
 	 * 
-	 * invoke showPerpersite then check the active perspective' ID and name to
-	 * test if it works correctly
+	 * invoke showPerpersite then check the active perspective' ID and name to test
+	 * if it works correctly
 	 */
 
-	public void testShowPerspective( ) throws Throwable
-	{
-		showPerspective( );
-		assertEquals( PERSPECTIVE_ID, tPage.getPerspective( ).getId( ) );
-		assertEquals( PERSPECTIVE_NAME, tPage.getPerspective( ).getLabel( ) );
+	public void testShowPerspective() throws Throwable {
+		showPerspective();
+		assertEquals(PERSPECTIVE_ID, tPage.getPerspective().getId());
+		assertEquals(PERSPECTIVE_NAME, tPage.getPerspective().getLabel());
 	}
 
 	/**
 	 * Test openEditor method
 	 * 
-	 * invoke openEditor then check the active editor's ID and title to test if
-	 * it works correctly
+	 * invoke openEditor then check the active editor's ID and title to test if it
+	 * works correctly
 	 */
 
-	public void testOpenEditor( ) throws Exception
-	{
-		if ( PlatformUtil.isWindows( ) )
-		{//platform related issue
-			IEditorPart tPart = openEditor( );
-			assertTrue( tPart instanceof ReportEditorProxy );
-			assertEquals( tPart, tPage.getActiveEditor( ) );
-			assertEquals( EDITOR_ID, tPart.getSite( ).getId( ) );
-			assertEquals( EDITOR_NAME, tPart.getSite( ).getRegisteredName( ) );
-			assertEquals( TEST_DESIGN_FILE, tPart.getTitle( ) );
-			closeEditor( );
+	public void testOpenEditor() throws Exception {
+		if (PlatformUtil.isWindows()) {// platform related issue
+			IEditorPart tPart = openEditor();
+			assertTrue(tPart instanceof ReportEditorProxy);
+			assertEquals(tPart, tPage.getActiveEditor());
+			assertEquals(EDITOR_ID, tPart.getSite().getId());
+			assertEquals(EDITOR_NAME, tPart.getSite().getRegisteredName());
+			assertEquals(TEST_DESIGN_FILE, tPart.getTitle());
+			closeEditor();
 		}
 	}
 }

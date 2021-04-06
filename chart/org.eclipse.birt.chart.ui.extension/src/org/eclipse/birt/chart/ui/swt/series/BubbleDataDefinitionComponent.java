@@ -24,8 +24,7 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 
-public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
-{
+public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent {
 
 	public static final String SERIES_CLASS = "org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl"; //$NON-NLS-1$
 
@@ -39,95 +38,70 @@ public class BubbleDataDefinitionComponent extends DefaultSelectDataComponent
 
 	private transient ChartWizardContext context = null;
 
-	public BubbleDataDefinitionComponent( SeriesDefinition seriesDefn,
-			ChartWizardContext context, String sTitle )
-	{
-		super( );
+	public BubbleDataDefinitionComponent(SeriesDefinition seriesDefn, ChartWizardContext context, String sTitle) {
+		super();
 		this.seriesDefn = seriesDefn;
 		this.context = context;
 		this.sTitle = sTitle;
-		init( );
+		init();
 	}
 
-	private void init( )
-	{
+	private void init() {
 		dataComArray = new ISelectDataComponent[2];
 
 		// Value
-		dataComArray[0] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
-				ChartUIConstants.QUERY_VALUE,
-				seriesDefn,
-				ChartUIUtil.getDataQuery( seriesDefn, 0 ),
-				context,
-				sTitle );
+		dataComArray[0] = new BaseDataDefinitionComponent(BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+				ChartUIConstants.QUERY_VALUE, seriesDefn, ChartUIUtil.getDataQuery(seriesDefn, 0), context, sTitle);
 		// Size
-		dataComArray[1] = new BaseDataDefinitionComponent( BaseDataDefinitionComponent.BUTTON_AGGREGATION,
-				ChartUIConstants.QUERY_VALUE,
-				seriesDefn,
-				ChartUIUtil.getDataQuery( seriesDefn, 1 ),
-				context,
-				sTitle );
+		dataComArray[1] = new BaseDataDefinitionComponent(BaseDataDefinitionComponent.BUTTON_AGGREGATION,
+				ChartUIConstants.QUERY_VALUE, seriesDefn, ChartUIUtil.getDataQuery(seriesDefn, 1), context, sTitle);
 	}
 
-	public Composite createArea( Composite parent )
-	{
-		cmpSeries = new Composite( parent, SWT.NONE );
+	public Composite createArea(Composite parent) {
+		cmpSeries = new Composite(parent, SWT.NONE);
 		{
-			GridData gridData = new GridData( GridData.FILL_BOTH );
-			cmpSeries.setLayoutData( gridData );
+			GridData gridData = new GridData(GridData.FILL_BOTH);
+			cmpSeries.setLayoutData(gridData);
 
-			GridLayout gridLayout = new GridLayout( 2, false );
+			GridLayout gridLayout = new GridLayout(2, false);
 			gridLayout.marginWidth = 0;
 			gridLayout.marginHeight = 0;
-			cmpSeries.setLayout( gridLayout );
+			cmpSeries.setLayout(gridLayout);
 		}
 
-		for ( int i = 0; i < dataComArray.length; i++ )
-		{
-			Label labelArray = new Label( cmpSeries, SWT.NONE );
-			labelArray.setText( ChartUIUtil.getBubbleTitle( i ) + "*" ); //$NON-NLS-1$
-			Composite cmpData = dataComArray[i].createArea( cmpSeries );
-			cmpData.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			dataComArray[i].bindAssociatedName( ChartUIUtil.getBubbleTitle( i ) );
+		for (int i = 0; i < dataComArray.length; i++) {
+			Label labelArray = new Label(cmpSeries, SWT.NONE);
+			labelArray.setText(ChartUIUtil.getBubbleTitle(i) + "*"); //$NON-NLS-1$
+			Composite cmpData = dataComArray[i].createArea(cmpSeries);
+			cmpData.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			dataComArray[i].bindAssociatedName(ChartUIUtil.getBubbleTitle(i));
 		}
 		return cmpSeries;
 	}
 
-	public void selectArea( boolean selected, Object data )
-	{
-		if ( data instanceof Integer )
-		{
-			int queryIndex = ( (Integer) data ).intValue( );
-			dataComArray[queryIndex].selectArea( selected, data );
-		}
-		else if ( data instanceof Object[] )
-		{
+	public void selectArea(boolean selected, Object data) {
+		if (data instanceof Integer) {
+			int queryIndex = ((Integer) data).intValue();
+			dataComArray[queryIndex].selectArea(selected, data);
+		} else if (data instanceof Object[]) {
 			Object[] array = (Object[]) data;
 			SeriesDefinition seriesdefinition = (SeriesDefinition) array[0];
-			for ( int i = 0; i < dataComArray.length; i++ )
-			{
-				dataComArray[i].selectArea( selected, new Object[]{
-						seriesdefinition,
-						ChartUIUtil.getDataQuery( seriesdefinition, i )
-				} );
+			for (int i = 0; i < dataComArray.length; i++) {
+				dataComArray[i].selectArea(selected,
+						new Object[] { seriesdefinition, ChartUIUtil.getDataQuery(seriesdefinition, i) });
 			}
-		}
-		else
-		{
-			for ( int i = 0; i < dataComArray.length; i++ )
-			{
-				dataComArray[i].selectArea( selected, null );
+		} else {
+			for (int i = 0; i < dataComArray.length; i++) {
+				dataComArray[i].selectArea(selected, null);
 			}
 		}
 	}
 
-	public void dispose( )
-	{
-		for ( int i = 0; i < dataComArray.length; i++ )
-		{
-			dataComArray[i].dispose( );
+	public void dispose() {
+		for (int i = 0; i < dataComArray.length; i++) {
+			dataComArray[i].dispose();
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
 }

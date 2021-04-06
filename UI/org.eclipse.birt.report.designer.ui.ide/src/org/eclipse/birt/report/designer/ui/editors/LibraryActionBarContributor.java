@@ -17,16 +17,15 @@ import org.eclipse.birt.report.designer.ui.editors.actions.MultiPageEditorAction
  * Action bar contributor for library editor
  */
 
-public class LibraryActionBarContributor extends MultiPageEditorActionBarContributor
-{
+public class LibraryActionBarContributor extends MultiPageEditorActionBarContributor {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.editors.actions.EditorsActionBarContributor#getEditorId()
+	 * @see org.eclipse.birt.report.designer.ui.editors.actions.
+	 * EditorsActionBarContributor#getEditorId()
 	 */
-	public String getEditorId( )
-	{
+	public String getEditorId() {
 		return ReportEditorProxy.LIBRARY_EDITOR_ID;
 	}
 

@@ -20,10 +20,9 @@ import org.eclipse.jface.viewers.TreeViewer;
 /**
  * Provider for the MasterPages node
  * 
- *  
+ * 
  */
-public class MasterPagesNodeProvider extends DefaultNodeProvider
-{
+public class MasterPagesNodeProvider extends DefaultNodeProvider {
 
 	/**
 	 * the text for new action
@@ -47,38 +46,33 @@ public class MasterPagesNodeProvider extends DefaultNodeProvider
 	/**
 	 * Creates the context menu for the given object
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 
-		menu.add( new InsertAction( object ) );
-		super.createContextMenu( sourceViewer, object, menu );
+		menu.add(new InsertAction(object));
+		super.createContextMenu(sourceViewer, object, menu);
 	}
 
 	/**
 	 * Gets the node display name of the given object.
 	 * 
-	 * @param object
-	 *            the object
+	 * @param object the object
 	 * @return the display name
 	 */
-	public String getNodeDisplayName( Object object )
-	{
+	public String getNodeDisplayName(Object object) {
 		return MASTERPAGE;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#getIconName(
+	 * java.lang.Object)
 	 */
-	public String getIconName( Object model )
-	{
+	public String getIconName(Object model) {
 		return IReportGraphicConstants.ICON_NODE_MASTERPAGES;
 	}
 }

@@ -21,20 +21,17 @@ import org.eclipse.emf.ecore.xmi.impl.XMLResourceImpl;
  * @see org.eclipse.birt.chart.examples.radar.model.type.util.RadarTypeResourceFactoryImpl
  * @generated
  */
-public class RadarTypeResourceImpl extends XMLResourceImpl
-{
+public class RadarTypeResourceImpl extends XMLResourceImpl {
 
 	/**
 	 * Creates an instance of the resource. <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
 	 * 
-	 * @param uri
-	 *            the URI of the new resource.
+	 * @param uri the URI of the new resource.
 	 * @generated
 	 */
-	public RadarTypeResourceImpl( URI uri )
-	{
-		super( uri );
+	public RadarTypeResourceImpl(URI uri) {
+		super(uri);
 	}
 
 } // RadarTypeResourceImpl

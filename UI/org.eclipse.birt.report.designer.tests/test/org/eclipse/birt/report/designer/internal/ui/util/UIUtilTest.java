@@ -18,59 +18,50 @@ import org.eclipse.swt.layout.GridLayout;
  * Non-UI tests for UIUtil
  */
 
-public class UIUtilTest extends BaseTestCase
-{
+public class UIUtilTest extends BaseTestCase {
 
 	/*
 	 * Class under test for GridLayout createGridLayoutWithoutMargin()
 	 */
-	public void testCreateGridLayoutWithoutMargin( )
-	{
-		GridLayout layout = UIUtil.createGridLayoutWithoutMargin( );
-		assertEquals( false, layout.makeColumnsEqualWidth );
-		assertEquals( 1, layout.numColumns );
-		assertEquals( 0, layout.marginHeight );
-		assertEquals( 0, layout.marginWidth );
+	public void testCreateGridLayoutWithoutMargin() {
+		GridLayout layout = UIUtil.createGridLayoutWithoutMargin();
+		assertEquals(false, layout.makeColumnsEqualWidth);
+		assertEquals(1, layout.numColumns);
+		assertEquals(0, layout.marginHeight);
+		assertEquals(0, layout.marginWidth);
 	}
 
 	/*
-	 * Class under test for GridLayout createGridLayoutWithoutMargin(int,
-	 * boolean)
+	 * Class under test for GridLayout createGridLayoutWithoutMargin(int, boolean)
 	 */
-	public void testCreateGridLayoutWithoutMarginintboolean( )
-	{
-		GridLayout layout = UIUtil.createGridLayoutWithoutMargin( 5, false );
-		assertEquals( false, layout.makeColumnsEqualWidth );
-		assertEquals( 5, layout.numColumns );
-		assertEquals( 0, layout.marginHeight );
-		assertEquals( 0, layout.marginWidth );
+	public void testCreateGridLayoutWithoutMarginintboolean() {
+		GridLayout layout = UIUtil.createGridLayoutWithoutMargin(5, false);
+		assertEquals(false, layout.makeColumnsEqualWidth);
+		assertEquals(5, layout.numColumns);
+		assertEquals(0, layout.marginHeight);
+		assertEquals(0, layout.marginWidth);
 
-		layout = UIUtil.createGridLayoutWithoutMargin( 3, true );
-		assertEquals( true, layout.makeColumnsEqualWidth );
-		assertEquals( 3, layout.numColumns );
-		assertEquals( 0, layout.marginHeight );
-		assertEquals( 0, layout.marginWidth );
+		layout = UIUtil.createGridLayoutWithoutMargin(3, true);
+		assertEquals(true, layout.makeColumnsEqualWidth);
+		assertEquals(3, layout.numColumns);
+		assertEquals(0, layout.marginHeight);
+		assertEquals(0, layout.marginWidth);
 
 	}
 
-	public void testConvertToGUIString( )
-	{
-		assertEquals( "testString", UIUtil.convertToGUIString( "testString" ) );
-		assertEquals( " testString ",
-				UIUtil.convertToGUIString( " testString " ) );
-		assertEquals( "", UIUtil.convertToGUIString( "" ) );
-		assertEquals( "", UIUtil.convertToGUIString( null ) );
+	public void testConvertToGUIString() {
+		assertEquals("testString", UIUtil.convertToGUIString("testString"));
+		assertEquals(" testString ", UIUtil.convertToGUIString(" testString "));
+		assertEquals("", UIUtil.convertToGUIString(""));
+		assertEquals("", UIUtil.convertToGUIString(null));
 	}
 
-	public void testConvertToModelString( )
-	{
+	public void testConvertToModelString() {
 
-		assertEquals( " testString ",
-				UIUtil.convertToModelString( " testString ", false ) );
-		assertEquals( "testString",
-				UIUtil.convertToModelString( " testString ", true ) );
-		assertEquals( null, UIUtil.convertToModelString( "", false ) );
-		assertEquals( null, UIUtil.convertToModelString( null, true ) );
+		assertEquals(" testString ", UIUtil.convertToModelString(" testString ", false));
+		assertEquals("testString", UIUtil.convertToModelString(" testString ", true));
+		assertEquals(null, UIUtil.convertToModelString("", false));
+		assertEquals(null, UIUtil.convertToModelString(null, true));
 	}
 
 //	public void testCreateGroup( )

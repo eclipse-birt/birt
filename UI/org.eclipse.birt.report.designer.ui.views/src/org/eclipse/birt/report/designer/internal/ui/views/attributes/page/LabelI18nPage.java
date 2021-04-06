@@ -19,13 +19,11 @@ import org.eclipse.swt.widgets.Composite;
  * The i18n page for Label
  */
 
-public class LabelI18nPage extends I18nPage
-{
+public class LabelI18nPage extends I18nPage {
 
-	public void buildUI( Composite parent  )
-	{
+	public void buildUI(Composite parent) {
 		elementName = ReportDesignConstants.LABEL_ITEM;
 		propertyName = LabelHandle.TEXT_ID_PROP;
-		super.buildUI( parent );
+		super.buildUI(parent);
 	}
 }

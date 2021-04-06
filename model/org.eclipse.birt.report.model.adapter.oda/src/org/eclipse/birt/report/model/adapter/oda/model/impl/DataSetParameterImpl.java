@@ -22,25 +22,26 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
 /**
- * <!-- begin-user-doc -->
- * An implementation of the model object '<em><b>Data Set Parameter</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Data
+ * Set Parameter</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl#getParameterDefinition <em>Parameter Definition</em>}</li>
- *   <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl#getDynamicList <em>Dynamic List</em>}</li>
+ * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl#getParameterDefinition
+ * <em>Parameter Definition</em>}</li>
+ * <li>{@link org.eclipse.birt.report.model.adapter.oda.model.impl.DataSetParameterImpl#getDynamicList
+ * <em>Dynamic List</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class DataSetParameterImpl extends EObjectImpl implements DataSetParameter
-{
+public class DataSetParameterImpl extends EObjectImpl implements DataSetParameter {
 	/**
-	 * The cached value of the '{@link #getParameterDefinition() <em>Parameter Definition</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getParameterDefinition() <em>Parameter
+	 * Definition</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #getParameterDefinition()
 	 * @generated
 	 * @ordered
@@ -48,9 +49,9 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 	protected ParameterDefinition parameterDefinition;
 
 	/**
-	 * The cached value of the '{@link #getDynamicList() <em>Dynamic List</em>}' containment reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * The cached value of the '{@link #getDynamicList() <em>Dynamic List</em>}'
+	 * containment reference. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getDynamicList()
 	 * @generated
 	 * @ordered
@@ -58,214 +59,208 @@ public class DataSetParameterImpl extends EObjectImpl implements DataSetParamete
 	protected DynamicList dynamicList;
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected DataSetParameterImpl()
-	{
+	protected DataSetParameterImpl() {
 		super();
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass()
-	{
+	protected EClass eStaticClass() {
 		return ModelPackage.Literals.DATA_SET_PARAMETER;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public ParameterDefinition getParameterDefinition()
-	{
+	public ParameterDefinition getParameterDefinition() {
 		return parameterDefinition;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetParameterDefinition(ParameterDefinition newParameterDefinition, NotificationChain msgs)
-	{
+	public NotificationChain basicSetParameterDefinition(ParameterDefinition newParameterDefinition,
+			NotificationChain msgs) {
 		ParameterDefinition oldParameterDefinition = parameterDefinition;
 		parameterDefinition = newParameterDefinition;
-		if (eNotificationRequired())
-		{
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, oldParameterDefinition, newParameterDefinition);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+					ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, oldParameterDefinition,
+					newParameterDefinition);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setParameterDefinition(ParameterDefinition newParameterDefinition)
-	{
-		if (newParameterDefinition != parameterDefinition)
-		{
+	public void setParameterDefinition(ParameterDefinition newParameterDefinition) {
+		if (newParameterDefinition != parameterDefinition) {
 			NotificationChain msgs = null;
 			if (parameterDefinition != null)
-				msgs = ((InternalEObject)parameterDefinition).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, null, msgs);
+				msgs = ((InternalEObject) parameterDefinition).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, null, msgs);
 			if (newParameterDefinition != null)
-				msgs = ((InternalEObject)newParameterDefinition).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, null, msgs);
+				msgs = ((InternalEObject) newParameterDefinition).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, null, msgs);
 			msgs = basicSetParameterDefinition(newParameterDefinition, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION, newParameterDefinition, newParameterDefinition));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION,
+					newParameterDefinition, newParameterDefinition));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public DynamicList getDynamicList()
-	{
+	public DynamicList getDynamicList() {
 		return dynamicList;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetDynamicList(DynamicList newDynamicList, NotificationChain msgs)
-	{
+	public NotificationChain basicSetDynamicList(DynamicList newDynamicList, NotificationChain msgs) {
 		DynamicList oldDynamicList = dynamicList;
 		dynamicList = newDynamicList;
-		if (eNotificationRequired())
-		{
-			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET, ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, oldDynamicList, newDynamicList);
-			if (msgs == null) msgs = notification; else msgs.add(notification);
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+					ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, oldDynamicList, newDynamicList);
+			if (msgs == null)
+				msgs = notification;
+			else
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setDynamicList(DynamicList newDynamicList)
-	{
-		if (newDynamicList != dynamicList)
-		{
+	public void setDynamicList(DynamicList newDynamicList) {
+		if (newDynamicList != dynamicList) {
 			NotificationChain msgs = null;
 			if (dynamicList != null)
-				msgs = ((InternalEObject)dynamicList).eInverseRemove(this, EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, null, msgs);
+				msgs = ((InternalEObject) dynamicList).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, null, msgs);
 			if (newDynamicList != null)
-				msgs = ((InternalEObject)newDynamicList).eInverseAdd(this, EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, null, msgs);
+				msgs = ((InternalEObject) newDynamicList).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, null, msgs);
 			msgs = basicSetDynamicList(newDynamicList, msgs);
-			if (msgs != null) msgs.dispatch();
-		}
-		else if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST, newDynamicList, newDynamicList));
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST,
+					newDynamicList, newDynamicList));
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs)
-	{
-		switch (featureID)
-		{
-			case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
-				return basicSetParameterDefinition(null, msgs);
-			case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
-				return basicSetDynamicList(null, msgs);
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
+			return basicSetParameterDefinition(null, msgs);
+		case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
+			return basicSetDynamicList(null, msgs);
 		}
 		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Object eGet(int featureID, boolean resolve, boolean coreType)
-	{
-		switch (featureID)
-		{
-			case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
-				return getParameterDefinition();
-			case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
-				return getDynamicList();
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
+			return getParameterDefinition();
+		case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
+			return getDynamicList();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eSet(int featureID, Object newValue)
-	{
-		switch (featureID)
-		{
-			case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
-				setParameterDefinition((ParameterDefinition)newValue);
-				return;
-			case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
-				setDynamicList((DynamicList)newValue);
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
+			setParameterDefinition((ParameterDefinition) newValue);
+			return;
+		case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
+			setDynamicList((DynamicList) newValue);
+			return;
 		}
 		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eUnset(int featureID)
-	{
-		switch (featureID)
-		{
-			case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
-				setParameterDefinition((ParameterDefinition)null);
-				return;
-			case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
-				setDynamicList((DynamicList)null);
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
+			setParameterDefinition((ParameterDefinition) null);
+			return;
+		case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
+			setDynamicList((DynamicList) null);
+			return;
 		}
 		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet(int featureID)
-	{
-		switch (featureID)
-		{
-			case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
-				return parameterDefinition != null;
-			case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
-				return dynamicList != null;
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case ModelPackage.DATA_SET_PARAMETER__PARAMETER_DEFINITION:
+			return parameterDefinition != null;
+		case ModelPackage.DATA_SET_PARAMETER__DYNAMIC_LIST:
+			return dynamicList != null;
 		}
 		return super.eIsSet(featureID);
 	}
 
-} //DataSetParameterImpl
+} // DataSetParameterImpl

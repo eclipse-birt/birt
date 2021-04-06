@@ -26,53 +26,50 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  * Test description:
  * <p>
- * 1. Check that this constants Class Object can be correctly retrived by a name.
+ * 1. Check that this constants Class Object can be correctly retrived by a
+ * name.
  * </p>
  * 2. Check that this Class list containing this Class Object.
  */
-public class Regression_79140 extends BaseTestCase
-{
+public class Regression_79140 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	public void test_regression_79140( )
-	{
-		MetaDataDictionary instance = MetaDataDictionary.getInstance( );
-		
-		//1. Retrieve by name.
-		
-		IClassInfo math = instance.getClass( "Math" ); //$NON-NLS-1$
-		IMemberInfo e = math.getMember( "E" ); //$NON-NLS-1$
-		assertNotNull( e );
-		
-		//2. Class/Method list containing this Class Object.
-		
-		List classInfos = instance.getClasses( );
+	public void test_regression_79140() {
+		MetaDataDictionary instance = MetaDataDictionary.getInstance();
+
+		// 1. Retrieve by name.
+
+		IClassInfo math = instance.getClass("Math"); //$NON-NLS-1$
+		IMemberInfo e = math.getMember("E"); //$NON-NLS-1$
+		assertNotNull(e);
+
+		// 2. Class/Method list containing this Class Object.
+
+		List classInfos = instance.getClasses();
 		IClassInfo mathCInfo = null;
-		for ( Iterator iter = classInfos.iterator( ); iter.hasNext( ); )
-		{
-			IClassInfo cInfo = (IClassInfo) iter.next( );
-			if( cInfo.getName( ).equals( "Math" )) //$NON-NLS-1$
+		for (Iterator iter = classInfos.iterator(); iter.hasNext();) {
+			IClassInfo cInfo = (IClassInfo) iter.next();
+			if (cInfo.getName().equals("Math")) //$NON-NLS-1$
 			{
 				mathCInfo = cInfo;
 			}
 		}
-		
-		assertNotNull( mathCInfo );
-		
+
+		assertNotNull(mathCInfo);
+
 		IMemberInfo memberInfo = null;
 		List methodList = mathCInfo.getMembers();
-		for ( Iterator iter = methodList.iterator( ); iter.hasNext( ); )
-		{
-			IMemberInfo methodInfo = (IMemberInfo) iter.next( );
-			if( methodInfo.getName( ).equals( "E" )) //$NON-NLS-1$
+		for (Iterator iter = methodList.iterator(); iter.hasNext();) {
+			IMemberInfo methodInfo = (IMemberInfo) iter.next();
+			if (methodInfo.getName().equals("E")) //$NON-NLS-1$
 			{
 				memberInfo = methodInfo;
 			}
 		}
-		
-		assertNotNull( memberInfo );
-		assertEquals( "E", memberInfo.getDisplayName( ) ); //$NON-NLS-1$
+
+		assertNotNull(memberInfo);
+		assertEquals("E", memberInfo.getDisplayName()); //$NON-NLS-1$
 	}
 }

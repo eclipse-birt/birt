@@ -18,12 +18,9 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 /**
  * ICrosstabUpdateContext
  */
-public interface ICrosstabUpdateContext
-{
+public interface ICrosstabUpdateContext {
 
-	void performDefaultCreation( int type, Object model,
-			Map<String, Object> extras ) throws SemanticException;
+	void performDefaultCreation(int type, Object model, Map<String, Object> extras) throws SemanticException;
 
-	void performDefaultValidation( int type, Object model,
-			Map<String, Object> extras ) throws SemanticException;
+	void performDefaultValidation(int type, Object model, Map<String, Object> extras) throws SemanticException;
 }

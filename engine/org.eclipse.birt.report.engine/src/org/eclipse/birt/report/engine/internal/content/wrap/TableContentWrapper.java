@@ -27,10 +27,7 @@ import org.eclipse.birt.report.engine.util.ContentUtil;
  * the table content object which contains columns object and row objects
  * 
  */
-public class TableContentWrapper extends AbstractContentWrapper
-		implements
-			ITableContent
-{
+public class TableContentWrapper extends AbstractContentWrapper implements ITableContent {
 
 	protected ITableContent tableContent;
 
@@ -41,41 +38,37 @@ public class TableContentWrapper extends AbstractContentWrapper
 
 	// to indicate whether there are horizontal page breaks in the table
 	private Boolean hasHorzPageBreak;
-	
+
 	/**
 	 * constructor
 	 * 
-	 * @param item
-	 *            the table deign
+	 * @param item the table deign
 	 */
-	public TableContentWrapper( ITableContent content, List columns )
-	{
-		super( content );
+	public TableContentWrapper(ITableContent content, List columns) {
+		super(content);
 		this.tableContent = content;
 		this.columns = columns;
 	}
-	
-	public TableContentWrapper( TableContentWrapper content )
-	{
-		super( content );
+
+	public TableContentWrapper(TableContentWrapper content) {
+		super(content);
 		this.tableContent = content;
 		this.columns = content.columns;
 	}
 
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitTable( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitTable(this, value);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.ITableContent#addColumn(org.eclipse.birt.report.engine.content.IColumn)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.ITableContent#addColumn(org.eclipse.
+	 * birt.report.engine.content.IColumn)
 	 */
-	public void addColumn( IColumn column )
-	{
-		tableContent.addColumn( column );
+	public void addColumn(IColumn column) {
+		tableContent.addColumn(column);
 	}
 
 	/*
@@ -83,9 +76,8 @@ public class TableContentWrapper extends AbstractContentWrapper
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getCaption()
 	 */
-	public String getCaption( )
-	{
-		return tableContent.getCaption( );
+	public String getCaption() {
+		return tableContent.getCaption();
 	}
 
 	/*
@@ -93,9 +85,8 @@ public class TableContentWrapper extends AbstractContentWrapper
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getColumn(int)
 	 */
-	public IColumn getColumn( int index )
-	{
-		return (IColumn) columns.get( index );
+	public IColumn getColumn(int index) {
+		return (IColumn) columns.get(index);
 	}
 
 	/*
@@ -103,9 +94,8 @@ public class TableContentWrapper extends AbstractContentWrapper
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getColumnCount()
 	 */
-	public int getColumnCount( )
-	{
-		return columns.size( );
+	public int getColumnCount() {
+		return columns.size();
 	}
 
 	/*
@@ -113,11 +103,9 @@ public class TableContentWrapper extends AbstractContentWrapper
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getFooter()
 	 */
-	public ITableBandContent getFooter( )
-	{
-		if ( footer == null )
-		{
-			footer = new TableBandContentWrapper( tableContent.getFooter( ) );
+	public ITableBandContent getFooter() {
+		if (footer == null) {
+			footer = new TableBandContentWrapper(tableContent.getFooter());
 		}
 		return footer;
 	}
@@ -127,11 +115,9 @@ public class TableContentWrapper extends AbstractContentWrapper
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getHeader()
 	 */
-	public ITableBandContent getHeader( )
-	{
-		if ( header == null )
-		{
-			header = new TableBandContentWrapper( tableContent.getHeader( ) );
+	public ITableBandContent getHeader() {
+		if (header == null) {
+			header = new TableBandContentWrapper(tableContent.getHeader());
 		}
 		return header;
 	}
@@ -141,76 +127,60 @@ public class TableContentWrapper extends AbstractContentWrapper
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#isHeaderRepeat()
 	 */
-	public boolean isHeaderRepeat( )
-	{
-		return tableContent.isHeaderRepeat( );
+	public boolean isHeaderRepeat() {
+		return tableContent.isHeaderRepeat();
 	}
 
-	public String getCaptionKey( )
-	{
-		return tableContent.getCaptionKey( );
+	public String getCaptionKey() {
+		return tableContent.getCaptionKey();
 	}
 
-	public void setCaption( String caption )
-	{
+	public void setCaption(String caption) {
 		tableContent.setCaption(caption);
 	}
 
-	public void setCaptionKey( String key )
-	{
+	public void setCaptionKey(String key) {
 		tableContent.setCaptionKey(key);
 	}
 
-	public void setHeaderRepeat( boolean repeat )
-	{
-		tableContent.setHeaderRepeat( repeat );
+	public void setHeaderRepeat(boolean repeat) {
+		tableContent.setHeaderRepeat(repeat);
 	}
 
-	public List getColumns( )
-	{
-		return tableContent.getColumns( );
+	public List getColumns() {
+		return tableContent.getColumns();
 	}
-	
-	public DimensionType getWidth( )
-	{
-		if ( getColumnCount( ) != tableContent.getColumnCount( ) )
-		{
-			if ( hasHorzPageBreak == null )
-			{
-				hasHorzPageBreak = Boolean.valueOf( ContentUtil.hasHorzPageBreak( tableContent ) );
+
+	public DimensionType getWidth() {
+		if (getColumnCount() != tableContent.getColumnCount()) {
+			if (hasHorzPageBreak == null) {
+				hasHorzPageBreak = Boolean.valueOf(ContentUtil.hasHorzPageBreak(tableContent));
 			}
-			if ( Boolean.TRUE == hasHorzPageBreak )
-			{
+			if (Boolean.TRUE == hasHorzPageBreak) {
 				return null;
 			}
 		}
-		return tableContent.getWidth( );
+		return tableContent.getWidth();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.ITableContent#getSummary()
 	 */
-	public String getSummary( )
-	{
-		return tableContent.getSummary( );
+	public String getSummary() {
+		return tableContent.getSummary();
 	}
-	
-	public void setSummary(String summary)
-	{
-		tableContent.setSummary( summary );
+
+	public void setSummary(String summary) {
+		tableContent.setSummary(summary);
 	}
-	
-	public IContent cloneContent( boolean isDeep )
-	{
-		if ( isDeep )
-		{
-			throw new UnsupportedOperationException( );
-		}
-		else
-		{
-			return new TableContentWrapper( this );
+
+	public IContent cloneContent(boolean isDeep) {
+		if (isDeep) {
+			throw new UnsupportedOperationException();
+		} else {
+			return new TableContentWrapper(this);
 		}
 	}
 }

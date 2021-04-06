@@ -58,32 +58,26 @@ import org.eclipse.ui.wizards.newresource.BasicNewProjectResourceWizard;
  * Add INewLibraryCreationPage adaptable to NewLibraryWizard.
  */
 
-public class NewLibraryWizardAdapterFactory implements IAdapterFactory
-{
+public class NewLibraryWizardAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		NewLibraryWizard wizard = (NewLibraryWizard) adaptableObject;
 
-		return new NewLibraryCreationPage( "", wizard.getSelection( ) ); //$NON-NLS-1$
+		return new NewLibraryCreationPage("", wizard.getSelection()); //$NON-NLS-1$
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			INewLibraryCreationPage.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { INewLibraryCreationPage.class };
 	}
 
 }
 
-class NewLibraryCreationPage extends WizardNewFileCreationPage implements
-		INewLibraryCreationPage
-{
+class NewLibraryCreationPage extends WizardNewFileCreationPage implements INewLibraryCreationPage {
 
 	private String fileExtension = IReportElementConstants.LIBRARY_FILE_EXTENSION;
-	private static final String OPENING_FILE_FOR_EDITING = Messages.getString( "NewLibraryWizard.text.OpenFileForEditing" ); //$NON-NLS-1$
-	private static final String CREATING = Messages.getString( "NewLibraryWizard.text.Creating" ); //$NON-NLS-1$
+	private static final String OPENING_FILE_FOR_EDITING = Messages
+			.getString("NewLibraryWizard.text.OpenFileForEditing"); //$NON-NLS-1$
+	private static final String CREATING = Messages.getString("NewLibraryWizard.text.Creating"); //$NON-NLS-1$
 
 	// private static final String NEW_REPORT_FILE_NAME_PREFIX =
 	// Messages.getString(
@@ -106,228 +100,165 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 	/**
 	 * (non-Javadoc) Method declared on IDialogPage.
 	 */
-	public void createControl( Composite parent )
-	{
-		super.createControl( parent );
-		UIUtil.bindHelp( getControl( ), IHelpContextIds.NEW_LIBRARY_WIZARD_ID );
+	public void createControl(Composite parent) {
+		super.createControl(parent);
+		UIUtil.bindHelp(getControl(), IHelpContextIds.NEW_LIBRARY_WIZARD_ID);
 	}
 
-	public NewLibraryCreationPage( String pageName,
-			IStructuredSelection selection )
-	{
-		super( pageName, selection );
-		super.setFileExtension( fileExtension );
+	public NewLibraryCreationPage(String pageName, IStructuredSelection selection) {
+		super(pageName, selection);
+		super.setFileExtension(fileExtension);
 	}
 
-	protected void createAdvancedControls( Composite parent )
-	{
+	protected void createAdvancedControls(Composite parent) {
 	}
 
-	protected IStatus validateLinkedResource( )
-	{
+	protected IStatus validateLinkedResource() {
 		// always return OK here.
-		return new Status( IStatus.OK, ReportPlugin.getDefault( )
-				.getBundle( )
-				.getSymbolicName( ), IStatus.OK, "", null ); //$NON-NLS-1$
+		return new Status(IStatus.OK, ReportPlugin.getDefault().getBundle().getSymbolicName(), IStatus.OK, "", null); //$NON-NLS-1$
 	}
 
-	public boolean performFinish( )
-	{
-		final IPath containerName = getContainerFullPath( );
-		String fn = getFileName( );
+	public boolean performFinish() {
+		final IPath containerName = getContainerFullPath();
+		String fn = getFileName();
 		final String fileName;
-		if ( !Platform.getOS( ).equals( Platform.WS_WIN32 ) )
-		{
-			if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+		if (!Platform.getOS().equals(Platform.WS_WIN32)) {
+			if (!fn.endsWith("." + fileExtension)) //$NON-NLS-1$
 			{
 				fileName = fn + "." + fileExtension; //$NON-NLS-1$
-			}
-			else
-			{
+			} else {
 				fileName = fn;
 			}
-		}
-		else
-		{
-			if ( !fn.toLowerCase( Locale.getDefault( ) )
-					.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+		} else {
+			if (!fn.toLowerCase(Locale.getDefault()).endsWith("." + fileExtension)) //$NON-NLS-1$
 			{
 				fileName = fn + "." + fileExtension; //$NON-NLS-1$
-			}
-			else
-			{
+			} else {
 				fileName = fn;
 			}
 		}
 
-		if ( Platform.getBundle( IResourceLocator.FRAGMENT_RESOURCE_HOST ) == null )
-		{
+		if (Platform.getBundle(IResourceLocator.FRAGMENT_RESOURCE_HOST) == null) {
 			return true;
 		}
 
-		final String libraryFileName = UIUtil.getDefaultLibraryTemplate( );
-		if ( libraryFileName == null )
-		{
+		final String libraryFileName = UIUtil.getDefaultLibraryTemplate();
+		if (libraryFileName == null) {
 			return false;
 		}
-		IRunnableWithProgress op = new IRunnableWithProgress( ) {
+		IRunnableWithProgress op = new IRunnableWithProgress() {
 
-			public void run( IProgressMonitor monitor )
-					throws InvocationTargetException
-			{
-				try
-				{
-					doFinish( containerName, fileName, libraryFileName, monitor );
-				}
-				catch ( CoreException e )
-				{
-					throw new InvocationTargetException( e );
-				}
-				finally
-				{
-					monitor.done( );
+			public void run(IProgressMonitor monitor) throws InvocationTargetException {
+				try {
+					doFinish(containerName, fileName, libraryFileName, monitor);
+				} catch (CoreException e) {
+					throw new InvocationTargetException(e);
+				} finally {
+					monitor.done();
 				}
 			}
 		};
-		try
-		{
-			getContainer( ).run( true, false, op );
-		}
-		catch ( InterruptedException e )
-		{
+		try {
+			getContainer().run(true, false, op);
+		} catch (InterruptedException e) {
 			return false;
-		}
-		catch ( InvocationTargetException e )
-		{
-			Throwable realException = e.getTargetException( );
-			ExceptionUtil.handle( realException );
+		} catch (InvocationTargetException e) {
+			Throwable realException = e.getTargetException();
+			ExceptionUtil.handle(realException);
 			return false;
 		}
 		return true;
 	}
 
-	private void doFinish( IPath containerName, String fileName,
-			String sourceFileName, IProgressMonitor monitor )
-			throws CoreException
-	{
+	private void doFinish(IPath containerName, String fileName, String sourceFileName, IProgressMonitor monitor)
+			throws CoreException {
 		// create a sample file
-		monitor.beginTask( CREATING + fileName, 2 );
-		IResource resource = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.findMember( containerName );
+		monitor.beginTask(CREATING + fileName, 2);
+		IResource resource = ResourcesPlugin.getWorkspace().getRoot().findMember(containerName);
 		IContainer container = null;
-		if ( resource == null
-				|| !resource.exists( )
-				|| !( resource instanceof IContainer ) )
-		{
+		if (resource == null || !resource.exists() || !(resource instanceof IContainer)) {
 			// create folder if not exist
-			IFolder folder = createFolderHandle( containerName );
-			UIUtil.createFolder( folder, monitor );
+			IFolder folder = createFolderHandle(containerName);
+			UIUtil.createFolder(folder, monitor);
 			container = folder;
-		}
-		else
-		{
+		} else {
 			container = (IContainer) resource;
 		}
-		final IFile file = container.getFile( new Path( fileName ) );
+		final IFile file = container.getFile(new Path(fileName));
 
-		try
-		{
-			ModuleHandle handle = SessionHandleAdapter.getInstance( )
-					.getSessionHandle( )
-					.createLibraryFromTemplate( sourceFileName );
+		try {
+			ModuleHandle handle = SessionHandleAdapter.getInstance().getSessionHandle()
+					.createLibraryFromTemplate(sourceFileName);
 
-			if ( ReportPlugin.getDefault( )
-					.getEnableCommentPreference( file.getProject( ) ) )
-			{
-				handle.setStringProperty( ModuleHandle.COMMENTS_PROP,
-						ReportPlugin.getDefault( )
-								.getCommentPreference( file.getProject( ) ) );
+			if (ReportPlugin.getDefault().getEnableCommentPreference(file.getProject())) {
+				handle.setStringProperty(ModuleHandle.COMMENTS_PROP,
+						ReportPlugin.getDefault().getCommentPreference(file.getProject()));
 			}
 
-			if ( ReportPlugin.getDefault( )
-					.getDefaultUnitPreference( file.getProject( ) ) != null )
-			{
-				handle.setStringProperty( ModuleHandle.UNITS_PROP,
-						ReportPlugin.getDefault( )
-								.getDefaultUnitPreference( file.getProject( ) ) );
+			if (ReportPlugin.getDefault().getDefaultUnitPreference(file.getProject()) != null) {
+				handle.setStringProperty(ModuleHandle.UNITS_PROP,
+						ReportPlugin.getDefault().getDefaultUnitPreference(file.getProject()));
 			}
 
-			if ( inPredifinedTemplateFolder( sourceFileName ) )
-			{
+			if (inPredifinedTemplateFolder(sourceFileName)) {
 
-				String description = handle.getDescription( );
-				if ( description != null && description.trim( ).length( ) > 0 )
-				{
-					handle.setDescription( Messages.getString( description ) );
+				String description = handle.getDescription();
+				if (description != null && description.trim().length() > 0) {
+					handle.setDescription(Messages.getString(description));
 				}
 
 			}
-			//add the create property
-			UIUtil.addCreateBy( handle );
-			handle.saveAs( file.getLocation( ).toOSString( ) );
-			handle.close( );
+			// add the create property
+			UIUtil.addCreateBy(handle);
+			handle.saveAs(file.getLocation().toOSString());
+			handle.close();
 
-		}
-		catch ( Exception e )
-		{
-			//Do nothing now
+		} catch (Exception e) {
+			// Do nothing now
 		}
 		// to refresh this project, or file does not exist will be told, though
 		// it's created.
-		container.refreshLocal( IResource.DEPTH_INFINITE, monitor );
+		container.refreshLocal(IResource.DEPTH_INFINITE, monitor);
 
-		monitor.worked( 1 );
-		monitor.setTaskName( OPENING_FILE_FOR_EDITING );
-		getShell( ).getDisplay( ).asyncExec( new Runnable( ) {
+		monitor.worked(1);
+		monitor.setTaskName(OPENING_FILE_FOR_EDITING);
+		getShell().getDisplay().asyncExec(new Runnable() {
 
-			public void run( )
-			{
-				IWorkbench workbench = PlatformUI.getWorkbench( );
-				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
+			public void run() {
+				IWorkbench workbench = PlatformUI.getWorkbench();
+				IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
 
-				IWorkbenchPage page = window.getActivePage( );
-				try
-				{
-					IDE.openEditor( page, file, true );
+				IWorkbenchPage page = window.getActivePage();
+				try {
+					IDE.openEditor(page, file, true);
 					// page.openEditor( new FileEditorInput( file ),
 					// LibraryReportEditor.EDITOR_ID,
 					// true );
-				}
-				catch ( Exception e )
-				{
-					ExceptionUtil.handle( e );
+				} catch (Exception e) {
+					ExceptionUtil.handle(e);
 				}
 			}
-		} );
+		});
 
-		monitor.worked( 1 );
+		monitor.worked(1);
 
-		fireLibraryChanged( fileName );
+		fireLibraryChanged(fileName);
 	}
 
-	private void fireLibraryChanged( String fileName )
-	{
-		SessionHandleAdapter.getInstance( )
-				.getSessionHandle( )
-				.fireResourceChange( new LibraryChangeEvent( fileName ) );
+	private void fireLibraryChanged(String fileName) {
+		SessionHandleAdapter.getInstance().getSessionHandle().fireResourceChange(new LibraryChangeEvent(fileName));
 	}
 
-	protected IFolder createFolderHandle( IPath folderPath )
-	{
-		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace( )
-				.getRoot( );
-		return workspaceRoot.getFolder( folderPath );
+	protected IFolder createFolderHandle(IPath folderPath) {
+		IWorkspaceRoot workspaceRoot = ResourcesPlugin.getWorkspace().getRoot();
+		return workspaceRoot.getFolder(folderPath);
 	}
 
-	protected boolean inPredifinedTemplateFolder( String sourceFileName )
-	{
-		String predifinedDir = UIUtil.getFragmentDirectory( );
-		File predifinedFile = new File( predifinedDir );
-		File sourceFile = new File( sourceFileName );
-		if ( sourceFile.getAbsolutePath( )
-				.startsWith( predifinedFile.getAbsolutePath( ) ) )
-		{
+	protected boolean inPredifinedTemplateFolder(String sourceFileName) {
+		String predifinedDir = UIUtil.getFragmentDirectory();
+		File predifinedFile = new File(predifinedDir);
+		File sourceFile = new File(sourceFileName);
+		if (sourceFile.getAbsolutePath().startsWith(predifinedFile.getAbsolutePath())) {
 			return true;
 		}
 		return false;
@@ -339,80 +270,55 @@ class NewLibraryCreationPage extends WizardNewFileCreationPage implements
 	 * @seeorg.eclipse.birt.report.designer.ui.wizards.INewLibraryCreationPage#
 	 * updatePerspective(org.eclipse.core.runtime.IConfigurationElement)
 	 */
-	public void updatePerspective( IConfigurationElement configElement )
-	{
-		BasicNewProjectResourceWizard.updatePerspective( configElement );
+	public void updatePerspective(IConfigurationElement configElement) {
+		BasicNewProjectResourceWizard.updatePerspective(configElement);
 	}
 
-	protected boolean validatePage( )
-	{
-		boolean rt = super.validatePage( );
+	protected boolean validatePage() {
+		boolean rt = super.validatePage();
 
-		if ( rt )
-		{
-			String fn = getFileName( );
+		if (rt) {
+			String fn = getFileName();
 
-			if ( !Platform.getOS( ).equals( Platform.OS_WIN32 ) )
-			{
+			if (!Platform.getOS().equals(Platform.OS_WIN32)) {
 				IPath resourcePath;
-				if ( !fn.endsWith( "." + fileExtension ) ) //$NON-NLS-1$
+				if (!fn.endsWith("." + fileExtension)) //$NON-NLS-1$
 				{
-					resourcePath = getContainerFullPath( ).append( getFileName( )
-							+ "." + fileExtension ); //$NON-NLS-1$
-				}
-				else
-					resourcePath = getContainerFullPath( ).append( getFileName( ) );
+					resourcePath = getContainerFullPath().append(getFileName() + "." + fileExtension); //$NON-NLS-1$
+				} else
+					resourcePath = getContainerFullPath().append(getFileName());
 
-				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) )
-				{
-					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
+				if (resourcePath.lastSegment().equals("." + fileExtension)) {
+					setErrorMessage(Messages.getString("WizardNewReportCreationPage.Errors.nameEmpty")); //$NON-NLS-1$
 					return false;
 				}
 
-				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
+				IWorkspace workspace = ResourcesPlugin.getWorkspace();
 
-				if ( workspace.getRoot( ).getFolder( resourcePath ).exists( )
-						|| workspace.getRoot( )
-								.getFile( resourcePath )
-								.exists( ) )
-				{
-					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameExists" ) ); //$NON-NLS-1$
+				if (workspace.getRoot().getFolder(resourcePath).exists()
+						|| workspace.getRoot().getFile(resourcePath).exists()) {
+					setErrorMessage(Messages.getString("WizardNewReportCreationPage.Errors.nameExists")); //$NON-NLS-1$
 					rt = false;
 				}
 
-			}
-			else
-			{
+			} else {
 				IPath resourcePath;
-				if ( !fn.toLowerCase( )
-						.endsWith( ( "." + fileExtension ).toLowerCase( ) ) ) //$NON-NLS-1$
+				if (!fn.toLowerCase().endsWith(("." + fileExtension).toLowerCase())) //$NON-NLS-1$
 				{
 
-					resourcePath = getContainerFullPath( ).append( getFileName( )
-							+ "." + fileExtension ); //$NON-NLS-1$
-				}
-				else
-					resourcePath = getContainerFullPath( ).append( getFileName( ) );
+					resourcePath = getContainerFullPath().append(getFileName() + "." + fileExtension); //$NON-NLS-1$
+				} else
+					resourcePath = getContainerFullPath().append(getFileName());
 
-				if ( resourcePath.lastSegment( ).equals( "." + fileExtension ) )
-				{
-					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameEmpty" ) ); //$NON-NLS-1$
+				if (resourcePath.lastSegment().equals("." + fileExtension)) {
+					setErrorMessage(Messages.getString("WizardNewReportCreationPage.Errors.nameEmpty")); //$NON-NLS-1$
 					return false;
 				}
 
-				IWorkspace workspace = ResourcesPlugin.getWorkspace( );
-				if ( workspace.getRoot( )
-						.getFolder( resourcePath )
-						.getLocation( )
-						.toFile( )
-						.exists( )
-						|| workspace.getRoot( )
-								.getFile( resourcePath )
-								.getLocation( )
-								.toFile( )
-								.exists( ) )
-				{
-					setErrorMessage( Messages.getString( "WizardNewReportCreationPage.Errors.nameExists" ) ); //$NON-NLS-1$
+				IWorkspace workspace = ResourcesPlugin.getWorkspace();
+				if (workspace.getRoot().getFolder(resourcePath).getLocation().toFile().exists()
+						|| workspace.getRoot().getFile(resourcePath).getLocation().toFile().exists()) {
+					setErrorMessage(Messages.getString("WizardNewReportCreationPage.Errors.nameExists")); //$NON-NLS-1$
 					rt = false;
 				}
 			}

@@ -15,9 +15,10 @@ package org.eclipse.birt.report.designer.core.model;
  * Adapter to supprot the multiple views.
  */
 
-public interface IMultipleAdapterHelper extends IModelAdapterHelper
-{
-	/**If this adapter is multiple.
+public interface IMultipleAdapterHelper extends IModelAdapterHelper {
+	/**
+	 * If this adapter is multiple.
+	 * 
 	 * @return
 	 */
 	boolean isMultiple();

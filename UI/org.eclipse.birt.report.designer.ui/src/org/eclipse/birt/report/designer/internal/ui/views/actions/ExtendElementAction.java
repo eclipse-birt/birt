@@ -17,8 +17,7 @@ import org.eclipse.birt.report.designer.ui.views.INodeProvider;
 import org.eclipse.birt.report.model.api.PropertyHandle;
 import org.eclipse.gef.Request;
 
-public class ExtendElementAction extends InsertAction
-{
+public class ExtendElementAction extends InsertAction {
 
 	private final INodeProvider provider;
 
@@ -27,64 +26,50 @@ public class ExtendElementAction extends InsertAction
 	 * @param text
 	 * @param type
 	 */
-	public ExtendElementAction( INodeProvider provider, String id,
-			Object selectedObject, String text, String type )
-	{
-		super( selectedObject, text, type );
-		setId( id );
+	public ExtendElementAction(INodeProvider provider, String id, Object selectedObject, String text, String type) {
+		super(selectedObject, text, type);
+		setId(id);
 		this.provider = provider;
 	}
 
-	public ExtendElementAction( INodeProvider provider, String id, Object selectedObject,
-			PropertyHandle handle, String text, String type )
-	{
-		super( selectedObject, text, handle, type );
-		setId( id );
+	public ExtendElementAction(INodeProvider provider, String id, Object selectedObject, PropertyHandle handle,
+			String text, String type) {
+		super(selectedObject, text, handle, type);
+		setId(id);
 		this.provider = provider;
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @seeorg.eclipse.birt.report.designer.internal.ui.views.actions.
 	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
-		Map extendsData = new HashMap( );
+	protected boolean doAction() throws Exception {
+		Request request = new Request(IRequestConstants.REQUEST_TYPE_INSERT);
+		Map extendsData = new HashMap();
 
-		if ( getPropertyHandle( ) != null )
-		{
-			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_PROPERTY, getPropertyHandle( ) );
-		}
-		else if ( getSlotHandle( ) != null )
-		{
-			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT,
-					getSlotHandle( ) );
+		if (getPropertyHandle() != null) {
+			extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_PROPERTY, getPropertyHandle());
+		} else if (getSlotHandle() != null) {
+			extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_SLOT, getSlotHandle());
 		}
 
-		if ( getType( ) != null )
-		{
-			extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_TYPE,
-					getType( ) );
+		if (getType() != null) {
+			extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_TYPE, getType());
 		}
-		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_POSITION,
-				getPosition( ) );
-		request.setExtendedData( extendsData );
-		boolean bool = provider.performRequest( getSelection( ), request );
-		if ( bool )
-		{
-			List list = new ArrayList( );
+		extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_POSITION, getPosition());
+		request.setExtendedData(extendsData);
+		boolean bool = provider.performRequest(getSelection(), request);
+		if (bool) {
+			List list = new ArrayList();
 
-			list.add( request.getExtendedData( )
-					.get( IRequestConstants.REQUEST_KEY_RESULT ) );
-			ReportRequest r = new ReportRequest( );
-			r.setType( ReportRequest.CREATE_ELEMENT );
+			list.add(request.getExtendedData().get(IRequestConstants.REQUEST_KEY_RESULT));
+			ReportRequest r = new ReportRequest();
+			r.setType(ReportRequest.CREATE_ELEMENT);
 
-			r.setSelectionObject( list );
-			SessionHandleAdapter.getInstance( )
-			.getMediator( )
-			.notifyRequest( r );
+			r.setSelectionObject(list);
+			SessionHandleAdapter.getInstance().getMediator().notifyRequest(r);
 
 		}
 		return bool;

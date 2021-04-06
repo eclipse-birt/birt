@@ -15,8 +15,10 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 
 /**
- * <b>Bug description: </b> 
- * <p>Exception was thrown out when move library to sub-folder.</p>
+ * <b>Bug description: </b>
+ * <p>
+ * Exception was thrown out when move library to sub-folder.
+ * </p>
  * <b> Test description:</b>
  * <p>
  * Make sure correct exception is thrown out instead of design syntax error
@@ -32,8 +34,7 @@ public class Regression_245341 extends BaseTestCase {
 	 * @throws SemanticException
 	 * 
 	 */
-	public void test_regression_117978() throws DesignFileException,
-			SemanticException {
+	public void test_regression_117978() throws DesignFileException, SemanticException {
 		openDesign(INPUT);
 		ModuleHandle moduleHandle = designHandle.getModuleHandle();
 		try {

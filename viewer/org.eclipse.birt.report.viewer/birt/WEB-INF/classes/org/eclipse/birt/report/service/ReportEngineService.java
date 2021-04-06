@@ -99,24 +99,21 @@ import org.eclipse.birt.report.utility.ParameterAccessor;
  * Provides all the services from Engine.
  */
 
-public class ReportEngineService
-{
+public class ReportEngineService {
 
 	/**
-	 * Dummy remote exception, used to encapsulate real exception. This
-	 * mechanism is temporary and is used to prevent changing the method's
-	 * signature (throw part).
+	 * Dummy remote exception, used to encapsulate real exception. This mechanism is
+	 * temporary and is used to prevent changing the method's signature (throw
+	 * part).
 	 * 
 	 * @deprecated this is a workaround, to be removed in the future
 	 */
-	public static class DummyRemoteException extends RemoteException
-	{
+	public static class DummyRemoteException extends RemoteException {
 
 		private static final long serialVersionUID = 1L;
 
-		public DummyRemoteException( Throwable cause )
-		{
-			super( null, cause );
+		public DummyRemoteException(Throwable cause) {
+			super(null, cause);
 		}
 
 	}
@@ -144,93 +141,79 @@ public class ReportEngineService
 	 * @param servletContext
 	 * @param config
 	 */
-	private ReportEngineService( ServletContext servletContext )
-	{
-		System.setProperty( "RUN_UNDER_ECLIPSE", "false" ); //$NON-NLS-1$ //$NON-NLS-2$
+	private ReportEngineService(ServletContext servletContext) {
+		System.setProperty("RUN_UNDER_ECLIPSE", "false"); //$NON-NLS-1$ //$NON-NLS-2$
 
-		if ( servletContext == null )
-		{
+		if (servletContext == null) {
 			return;
 		}
 
 		// Init context parameters
-		ParameterAccessor.initParameters( servletContext );
+		ParameterAccessor.initParameters(servletContext);
 
-		config = new EngineConfig( );
+		config = new EngineConfig();
 
 		// Register new image handler
-		HTMLRenderOption emitterConfig = new HTMLRenderOption( );
-		emitterConfig.setActionHandler( new HTMLActionHandler( ) );
-		imageHandler = new HTMLServerImageHandler( );
-		emitterConfig.setImageHandler( imageHandler );
-		config.getEmitterConfigs( ).put( "html", emitterConfig ); //$NON-NLS-1$
+		HTMLRenderOption emitterConfig = new HTMLRenderOption();
+		emitterConfig.setActionHandler(new HTMLActionHandler());
+		imageHandler = new HTMLServerImageHandler();
+		emitterConfig.setImageHandler(imageHandler);
+		config.getEmitterConfigs().put("html", emitterConfig); //$NON-NLS-1$
 
 		// Prepare log level.
 		String logLevel = ParameterAccessor.logLevel;
-		Level level = logLevel != null && logLevel.length( ) > 0 ? Level.parse( logLevel )
-				: Level.OFF;
-		config.setLogConfig( ParameterAccessor.logFolder, level );
+		Level level = logLevel != null && logLevel.length() > 0 ? Level.parse(logLevel) : Level.OFF;
+		config.setLogConfig(ParameterAccessor.logFolder, level);
 
 		// Prepare ScriptLib location
 		String scriptLibDir = ParameterAccessor.scriptLibDir;
 
-		ArrayList jarFileList = new ArrayList( );
-		if ( scriptLibDir != null )
-		{
-			File dir = new File( scriptLibDir );
-			getAllJarFiles( dir, jarFileList );
+		ArrayList jarFileList = new ArrayList();
+		if (scriptLibDir != null) {
+			File dir = new File(scriptLibDir);
+			getAllJarFiles(dir, jarFileList);
 		}
 
-		StringBuffer scriptlibClassPath = new StringBuffer( );
-		for ( int i = 0; i < jarFileList.size( ); i++ )
-		{
+		StringBuffer scriptlibClassPath = new StringBuffer();
+		for (int i = 0; i < jarFileList.size(); i++) {
 			String p = null;
-			try
-			{
-				p = ( (File) jarFileList.get( i ) ).getCanonicalPath( );
-			}
-			catch ( IOException e )
-			{
-				p = ( (File) jarFileList.get( i ) ).getAbsolutePath( );
+			try {
+				p = ((File) jarFileList.get(i)).getCanonicalPath();
+			} catch (IOException e) {
+				p = ((File) jarFileList.get(i)).getAbsolutePath();
 			}
 
-			if ( p != null && p.length( ) > 0 )
-			{
-				if ( scriptlibClassPath.length( ) > 0 )
-				{
-					scriptlibClassPath.append( EngineConstants.PROPERTYSEPARATOR );
+			if (p != null && p.length() > 0) {
+				if (scriptlibClassPath.length() > 0) {
+					scriptlibClassPath.append(EngineConstants.PROPERTYSEPARATOR);
 				}
 
-				scriptlibClassPath.append( p );
+				scriptlibClassPath.append(p);
 			}
 		}
 
-		Map appContext = new HashMap( );
+		Map appContext = new HashMap();
 
-		appContext.put( EngineConstants.WEBAPP_CLASSPATH_KEY,
-				scriptlibClassPath.toString( ) );
+		appContext.put(EngineConstants.WEBAPP_CLASSPATH_KEY, scriptlibClassPath.toString());
 
 		// Set appcontext classloader to Engine config
-		ClassLoader appClassLoader = BirtUtility.getAppClassLoader( );
-		if ( appClassLoader == null )
-			appClassLoader = ReportEngineService.class.getClassLoader( );
-		appContext.put( EngineConstants.APPCONTEXT_CLASSLOADER_KEY,
-				appClassLoader );
+		ClassLoader appClassLoader = BirtUtility.getAppClassLoader();
+		if (appClassLoader == null)
+			appClassLoader = ReportEngineService.class.getClassLoader();
+		appContext.put(EngineConstants.APPCONTEXT_CLASSLOADER_KEY, appClassLoader);
 
 		// merget with user app context if applicable
-		appContext = BirtUtility.getAppContext( appContext );
+		appContext = BirtUtility.getAppContext(appContext);
 
-		config.getAppContext( ).putAll( appContext );
+		config.getAppContext().putAll(appContext);
 
-		config.setEngineHome( "" ); //$NON-NLS-1$
+		config.setEngineHome(""); //$NON-NLS-1$
 
 		// set maxrows
-		config.setMaxRowsPerQuery( ParameterAccessor.maxRows );
+		config.setMaxRowsPerQuery(ParameterAccessor.maxRows);
 
 		// configure the loggers
-		LoggingUtil.configureLoggers( ParameterAccessor.loggers,
-				level,
-				ParameterAccessor.logFolder );
+		LoggingUtil.configureLoggers(ParameterAccessor.loggers, level, ParameterAccessor.logFolder);
 	}
 
 	/**
@@ -238,8 +221,7 @@ public class ReportEngineService
 	 * 
 	 * @return the single report engine service
 	 */
-	public static ReportEngineService getInstance( )
-	{
+	public static ReportEngineService getInstance() {
 		return instance;
 	}
 
@@ -250,10 +232,8 @@ public class ReportEngineService
 	 * @throws BirtException
 	 * 
 	 */
-	public synchronized static void initEngineInstance(
-			ServletConfig servletConfig ) throws BirtException
-	{
-		initEngineInstance( servletConfig.getServletContext( ) );
+	public synchronized static void initEngineInstance(ServletConfig servletConfig) throws BirtException {
+		initEngineInstance(servletConfig.getServletContext());
 	}
 
 	/**
@@ -263,44 +243,33 @@ public class ReportEngineService
 	 * @throws BirtException
 	 * 
 	 */
-	public synchronized static void initEngineInstance(
-			ServletContext servletContext ) throws BirtException
-	{
-		if ( ReportEngineService.instance != null )
-		{
+	public synchronized static void initEngineInstance(ServletContext servletContext) throws BirtException {
+		if (ReportEngineService.instance != null) {
 			return;
 		}
-		ReportEngineService.instance = new ReportEngineService( servletContext );
+		ReportEngineService.instance = new ReportEngineService(servletContext);
 	}
 
 	/**
-	 * Get all the files under the specified folder (including all the files
-	 * under sub-folders)
+	 * Get all the files under the specified folder (including all the files under
+	 * sub-folders)
 	 * 
-	 * @param dir
-	 *            - the folder to look into
-	 * @param fileList
-	 *            - the fileList to be returned
+	 * @param dir      - the folder to look into
+	 * @param fileList - the fileList to be returned
 	 */
-	private void getAllJarFiles( File dir, ArrayList fileList )
-	{
-		if ( dir.exists( ) && dir.isDirectory( ) )
-		{
-			File[] files = dir.listFiles( );
-			if ( files == null )
+	private void getAllJarFiles(File dir, ArrayList fileList) {
+		if (dir.exists() && dir.isDirectory()) {
+			File[] files = dir.listFiles();
+			if (files == null)
 				return;
 
-			for ( int i = 0; i < files.length; i++ )
-			{
+			for (int i = 0; i < files.length; i++) {
 				File file = files[i];
-				if ( file.isFile( ) )
-				{
-					if ( file.getName( ).endsWith( ".jar" ) ) //$NON-NLS-1$
-						fileList.add( file );
-				}
-				else if ( file.isDirectory( ) )
-				{
-					getAllJarFiles( file, fileList );
+				if (file.isFile()) {
+					if (file.getName().endsWith(".jar")) //$NON-NLS-1$
+						fileList.add(file);
+				} else if (file.isDirectory()) {
+					getAllJarFiles(file, fileList);
 				}
 			}
 		}
@@ -314,10 +283,9 @@ public class ReportEngineService
 	 * @deprecated
 	 * @throws BirtException
 	 */
-	public synchronized void setEngineContext( ServletContext servletContext,
-			HttpServletRequest request ) throws BirtException
-	{
-		setEngineContext( servletContext );
+	public synchronized void setEngineContext(ServletContext servletContext, HttpServletRequest request)
+			throws BirtException {
+		setEngineContext(servletContext);
 	}
 
 	/**
@@ -326,38 +294,34 @@ public class ReportEngineService
 	 * @param servletContext
 	 * @throws BirtException
 	 */
-	public synchronized void setEngineContext( ServletContext servletContext )
-			throws BirtException
-	{
-		if ( engine == null )
-		{
-			IPlatformContext platformContext = new PlatformServletContext( servletContext );
-			config.setPlatformContext( platformContext );
+	public synchronized void setEngineContext(ServletContext servletContext) throws BirtException {
+		if (engine == null) {
+			IPlatformContext platformContext = new PlatformServletContext(servletContext);
+			config.setPlatformContext(platformContext);
 
 			// Startup OSGI Platform
-			Platform.startup( config );
+			Platform.startup(config);
 
-			IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject( IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY );
-			if ( factory == null )
-			{
+			IReportEngineFactory factory = (IReportEngineFactory) Platform
+					.createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
+			if (factory == null) {
 				// if null, throw exception
-				throw new ViewerException( ResourceConstants.REPORT_SERVICE_EXCEPTION_STARTUP_REPORTENGINE_ERROR );
+				throw new ViewerException(ResourceConstants.REPORT_SERVICE_EXCEPTION_STARTUP_REPORTENGINE_ERROR);
 			}
-			engine = factory.createReportEngine( config );
+			engine = factory.createReportEngine(config);
 
 			// Get supported output formats
-			ParameterAccessor.supportedFormats = engine.getSupportedFormats( );
+			ParameterAccessor.supportedFormats = engine.getSupportedFormats();
 
 			// Get supported data extraction extensions
-			ParameterAccessor.supportedDataExtractions = engine.getDataExtractionFormatInfo( );
+			ParameterAccessor.supportedDataExtractions = engine.getDataExtractionFormatInfo();
 
 			// Get the supported emitters
-			Map supportedEmitters = new HashMap( );
-			EmitterInfo[] emitterInfos = engine.getEmitterInfo( );
-			for ( int i = 0; i < emitterInfos.length; i++ )
-			{
+			Map supportedEmitters = new HashMap();
+			EmitterInfo[] emitterInfos = engine.getEmitterInfo();
+			for (int i = 0; i < emitterInfos.length; i++) {
 				EmitterInfo emitterInfo = emitterInfos[i];
-				supportedEmitters.put( emitterInfo.getID( ), emitterInfo );
+				supportedEmitters.put(emitterInfo.getID(), emitterInfo);
 			}
 			ParameterAccessor.supportedEmitters = supportedEmitters;
 		}
@@ -367,58 +331,42 @@ public class ReportEngineService
 	 * Open report design.
 	 * 
 	 * @param report
-	 * @param options
-	 *            the config options in the report design
+	 * @param options the config options in the report design
 	 * @return the report runnable
 	 * @throws EngineException
 	 */
-	public IReportRunnable openReportDesign( String report, Map options )
-			throws EngineException
-	{
-		File file = new File( report );
-		if ( !file.exists( ) )
-		{
-			throw new EngineException( MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION,
-					report );
+	public IReportRunnable openReportDesign(String report, Map options) throws EngineException {
+		File file = new File(report);
+		if (!file.exists()) {
+			throw new EngineException(MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION, report);
 		}
 
-		try
-		{
-			InputStream in = new FileInputStream( file );
+		try {
+			InputStream in = new FileInputStream(file);
 			String systemId = report;
-			try
-			{
-				systemId = file.toURI( ).toURL( ).toString( );
-			}
-			catch ( MalformedURLException ue )
-			{
+			try {
+				systemId = file.toURI().toURL().toString();
+			} catch (MalformedURLException ue) {
 				systemId = report;
 			}
-			return engine.openReportDesign( systemId, in, options );
-		}
-		catch ( FileNotFoundException ioe )
-		{
-			throw new EngineException( MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION,
-					report );
+			return engine.openReportDesign(systemId, in, options);
+		} catch (FileNotFoundException ioe) {
+			throw new EngineException(MessageConstants.DESIGN_FILE_NOT_FOUND_EXCEPTION, report);
 		}
 	}
 
 	/**
 	 * Open report design by using the input stream
 	 * 
-	 * @param systemId
-	 *            the system Id of the report design
-	 * @param reportStream
-	 *            - the input stream
-	 * @param options
-	 *            the config options in the report design
+	 * @param systemId     the system Id of the report design
+	 * @param reportStream - the input stream
+	 * @param options      the config options in the report design
 	 * @return IReportRunnable
 	 * @throws EngineException
 	 */
-	public IReportRunnable openReportDesign( String systemId,
-			InputStream reportStream, Map options ) throws EngineException
-	{
-		return engine.openReportDesign( systemId, reportStream, options );
+	public IReportRunnable openReportDesign(String systemId, InputStream reportStream, Map options)
+			throws EngineException {
+		return engine.openReportDesign(systemId, reportStream, options);
 	}
 
 	/**
@@ -428,17 +376,12 @@ public class ReportEngineService
 	 * @deprecated
 	 * @return the get parameter definition task
 	 */
-	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
-			IReportRunnable runnable )
-	{
+	public IGetParameterDefinitionTask createGetParameterDefinitionTask(IReportRunnable runnable) {
 		IGetParameterDefinitionTask task = null;
 
-		try
-		{
-			task = engine.createGetParameterDefinitionTask( runnable );
-		}
-		catch ( Exception e )
-		{
+		try {
+			task = engine.createGetParameterDefinitionTask(runnable);
+		} catch (Exception e) {
 		}
 
 		return task;
@@ -450,32 +393,27 @@ public class ReportEngineService
 	 * @param runnable
 	 * @return the get parameter definition task
 	 */
-	public IGetParameterDefinitionTask createGetParameterDefinitionTask(
-			IReportRunnable runnable, InputOptions options )
-	{
+	public IGetParameterDefinitionTask createGetParameterDefinitionTask(IReportRunnable runnable,
+			InputOptions options) {
 		IGetParameterDefinitionTask task = null;
 
-		try
-		{
-			HttpServletRequest request = (HttpServletRequest) options.getOption( InputOptions.OPT_REQUEST );
-			Locale locale = (Locale) options.getOption( InputOptions.OPT_LOCALE );
-			TimeZone timeZone = (TimeZone) options.getOption( InputOptions.OPT_TIMEZONE );
+		try {
+			HttpServletRequest request = (HttpServletRequest) options.getOption(InputOptions.OPT_REQUEST);
+			Locale locale = (Locale) options.getOption(InputOptions.OPT_LOCALE);
+			TimeZone timeZone = (TimeZone) options.getOption(InputOptions.OPT_TIMEZONE);
 
-			task = engine.createGetParameterDefinitionTask( runnable );
-			task.setLocale( locale );
+			task = engine.createGetParameterDefinitionTask(runnable);
+			task.setLocale(locale);
 
-			com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
-			if ( tz != null )
-			{
-				task.setTimeZone( tz );
+			com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone(timeZone);
+			if (tz != null) {
+				task.setTimeZone(tz);
 			}
 
 			// set app context
-			Map context = BirtUtility.getAppContext( request );
-			task.setAppContext( context );
-		}
-		catch ( Exception e )
-		{
+			Map context = BirtUtility.getAppContext(request);
+			task.setAppContext(context);
+		} catch (Exception e) {
 		}
 
 		return task;
@@ -484,33 +422,25 @@ public class ReportEngineService
 	/**
 	 * Open report document from archive,
 	 * 
-	 * @param docName
-	 *            the name of the report document
-	 * @param systemId
-	 *            the system ID to search the resource in the document,
-	 *            generally it is the file name of the report design
-	 * @param options
-	 *            the config options used in document
+	 * @param docName  the name of the report document
+	 * @param systemId the system ID to search the resource in the document,
+	 *                 generally it is the file name of the report design
+	 * @param options  the config options used in document
 	 * @return the report docuement
 	 */
 
-	public IReportDocument openReportDocument( String systemId, String docName,
-			Map options ) throws RemoteException
-	{
-		if ( docName == null )
+	public IReportDocument openReportDocument(String systemId, String docName, Map options) throws RemoteException {
+		if (docName == null)
 			return null;
 
 		IReportDocument document = null;
 
-		try
-		{
-			document = engine.openReportDocument( systemId, docName, options );
-		}
-		catch ( EngineException e )
-		{
+		try {
+			document = engine.openReportDocument(systemId, docName, options);
+		} catch (EngineException e) {
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throwDummyException( e );
+			throwDummyException(e);
 		}
 
 		return document;
@@ -524,32 +454,22 @@ public class ReportEngineService
 	 * @param outputStream
 	 * @throws RemoteException
 	 */
-	public void renderImage( String imageId, HttpServletRequest request,
-			OutputStream outputStream ) throws RemoteException
-	{
-		assert ( this.imageHandler != null );
+	public void renderImage(String imageId, HttpServletRequest request, OutputStream outputStream)
+			throws RemoteException {
+		assert (this.imageHandler != null);
 
-		try
-		{
-			IViewingSession session = ViewingSessionUtil.getSession( request );
-			if ( session != null )
-			{
-				this.imageHandler.getImage( outputStream,
-						session.getImageTempFolder( ),
-						imageId );
+		try {
+			IViewingSession session = ViewingSessionUtil.getSession(request);
+			if (session != null) {
+				this.imageHandler.getImage(outputStream, session.getImageTempFolder(), imageId);
+			} else {
+				throw new ReportServiceException(
+						BirtResources.getMessage(ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION));
 			}
-			else
-			{
-				throw new ReportServiceException( BirtResources.getMessage( ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
-			}
-		}
-		catch ( BirtException e )
-		{
-			throwDummyException( e );
-		}
-		catch ( ReportServiceException e )
-		{
-			throwDummyException( e );
+		} catch (BirtException e) {
+			throwDummyException(e);
+		} catch (ReportServiceException e) {
+			throwDummyException(e);
 		}
 	}
 
@@ -562,71 +482,57 @@ public class ReportEngineService
 	 * @return HTML render option from the given arguments
 	 * @throws ReportServiceException
 	 */
-	private HTMLRenderOption createHTMLRenderOption( boolean svgFlag,
-			String servletPath, HttpServletRequest request,
-			IViewingSession session )
-	{
+	private HTMLRenderOption createHTMLRenderOption(boolean svgFlag, String servletPath, HttpServletRequest request,
+			IViewingSession session) {
 		String baseURL = null;
 
 		// try to get base url from config file
-		if ( !ParameterAccessor.isDesigner( ) )
-			baseURL = ParameterAccessor.getBaseURL( );
+		if (!ParameterAccessor.isDesigner())
+			baseURL = ParameterAccessor.getBaseURL();
 
-		if ( baseURL == null )
-		{
+		if (baseURL == null) {
 			// if not HTML format, use full URL.
-			if ( ParameterAccessor.isOpenAsAttachment( request )
-					|| !ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase( ParameterAccessor.getFormat( request ) ) )
-			{
-				baseURL = request.getScheme( ) + "://" //$NON-NLS-1$
-						+ request.getServerName( )
-						+ ":" //$NON-NLS-1$
-						+ request.getServerPort( );
-			}
-			else
-			{
-				baseURL = ""; //$NON-NLS-1$		
+			if (ParameterAccessor.isOpenAsAttachment(request)
+					|| !ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase(ParameterAccessor.getFormat(request))) {
+				baseURL = request.getScheme() + "://" //$NON-NLS-1$
+						+ request.getServerName() + ":" //$NON-NLS-1$
+						+ request.getServerPort();
+			} else {
+				baseURL = ""; //$NON-NLS-1$
 			}
 		}
 
 		// append application context path
-		baseURL += request.getContextPath( );
+		baseURL += request.getContextPath();
 
-		HTMLRenderOption renderOption = new HTMLRenderOption( );
-		renderOption.setImageDirectory( session.getImageTempFolder( ) );
-		renderOption.setBaseImageURL( createBaseImageUrl( session, baseURL ) );
-		renderOption.setBaseURL( baseURL );
-		if ( servletPath == null || servletPath.length( ) == 0 )
-		{
+		HTMLRenderOption renderOption = new HTMLRenderOption();
+		renderOption.setImageDirectory(session.getImageTempFolder());
+		renderOption.setBaseImageURL(createBaseImageUrl(session, baseURL));
+		renderOption.setBaseURL(baseURL);
+		if (servletPath == null || servletPath.length() == 0) {
 			servletPath = IBirtConstants.SERVLET_PATH_RUN;
 		}
-		renderOption.setOption( IBirtConstants.SERVLET_PATH, servletPath );
-		renderOption.setEnableAgentStyleEngine( ParameterAccessor.isAgentStyle( request ) );
-		renderOption.setSupportedImageFormats( svgFlag ? "PNG;GIF;JPG;BMP;SWF;SVG" : "PNG;GIF;JPG;BMP;SWF" ); //$NON-NLS-1$ //$NON-NLS-2$
+		renderOption.setOption(IBirtConstants.SERVLET_PATH, servletPath);
+		renderOption.setEnableAgentStyleEngine(ParameterAccessor.isAgentStyle(request));
+		renderOption.setSupportedImageFormats(svgFlag ? "PNG;GIF;JPG;BMP;SWF;SVG" : "PNG;GIF;JPG;BMP;SWF"); //$NON-NLS-1$ //$NON-NLS-2$
 		return renderOption;
 	}
 
 	/**
 	 * Creates a base image URL based on the current BIRT viewing session.
 	 * 
-	 * @param session
-	 *            BIRT viewing session
-	 * @param baseURL
-	 *            base URL
+	 * @param session BIRT viewing session
+	 * @param baseURL base URL
 	 */
-	private String createBaseImageUrl( IViewingSession session, String baseURL )
-	{
+	private String createBaseImageUrl(IViewingSession session, String baseURL) {
 		String sessionIdPart = ""; //$NON-NLS-1$
 		// Prepare image base url.
-		if ( session != null )
-		{
-			sessionIdPart = ParameterAccessor.PARAM_VIEWING_SESSION_ID
-					+ "=" + session.getId( ) + "&"; //$NON-NLS-1$ //$NON-NLS-2$
+		if (session != null) {
+			sessionIdPart = ParameterAccessor.PARAM_VIEWING_SESSION_ID + "=" + session.getId() + "&"; //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		return baseURL
-				+ IBirtConstants.SERVLET_PATH_PREVIEW
-				+ "?" + sessionIdPart + ParameterAccessor.PARAM_IMAGEID + "="; //$NON-NLS-1$ //$NON-NLS-2$
+		return baseURL + IBirtConstants.SERVLET_PATH_PREVIEW + "?" + sessionIdPart + ParameterAccessor.PARAM_IMAGEID //$NON-NLS-1$
+				+ "="; //$NON-NLS-1$
 	}
 
 	/**
@@ -638,66 +544,54 @@ public class ReportEngineService
 	 * @param isDesigner
 	 * @return the PDF render option
 	 */
-	private PDFRenderOption createPDFRenderOption( String servletPath,
-			HttpServletRequest request, int pageOverflow, boolean isDesigner,
-			boolean isPDF )
-	{
+	private PDFRenderOption createPDFRenderOption(String servletPath, HttpServletRequest request, int pageOverflow,
+			boolean isDesigner, boolean isPDF) {
 		String baseURL = null;
 		// try to get base url from config file
-		if ( !isDesigner )
-			baseURL = ParameterAccessor.getBaseURL( );
+		if (!isDesigner)
+			baseURL = ParameterAccessor.getBaseURL();
 
-		if ( baseURL == null )
-		{
-			if ( ParameterAccessor.isOpenAsAttachment( request ) )
-			{
-				baseURL = request.getScheme( ) + "://" //$NON-NLS-1$
-						+ request.getServerName( )
-						+ ":" //$NON-NLS-1$
-						+ request.getServerPort( );
-			}
-			else
-			{
-				baseURL = ""; //$NON-NLS-1$		
+		if (baseURL == null) {
+			if (ParameterAccessor.isOpenAsAttachment(request)) {
+				baseURL = request.getScheme() + "://" //$NON-NLS-1$
+						+ request.getServerName() + ":" //$NON-NLS-1$
+						+ request.getServerPort();
+			} else {
+				baseURL = ""; //$NON-NLS-1$
 			}
 		}
 
 		// append application context path
-		baseURL += request.getContextPath( );
+		baseURL += request.getContextPath();
 
-		PDFRenderOption renderOption = new PDFRenderOption( );
-		renderOption.setBaseURL( baseURL );
-		if ( servletPath == null || servletPath.length( ) == 0 )
-		{
+		PDFRenderOption renderOption = new PDFRenderOption();
+		renderOption.setBaseURL(baseURL);
+		if (servletPath == null || servletPath.length() == 0) {
 			servletPath = IBirtConstants.SERVLET_PATH_RUN;
 		}
-		renderOption.setOption( IBirtConstants.SERVLET_PATH, servletPath );
-		renderOption.setSupportedImageFormats( isPDF ? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP" ); //$NON-NLS-1$ //$NON-NLS-2$
+		renderOption.setOption(IBirtConstants.SERVLET_PATH, servletPath);
+		renderOption.setSupportedImageFormats(isPDF ? "PNG;GIF;JPG;BMP;SVG" : "PNG;GIF;JPG;BMP"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		// page overflow setting
-		switch ( pageOverflow )
-		{
-			case IBirtConstants.PAGE_OVERFLOW_AUTO :
-				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
-						Integer.valueOf( PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES ) );
-				break;
-			case IBirtConstants.PAGE_OVERFLOW_ACTUAL :
-				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
-						Integer.valueOf( PDFRenderOption.ENLARGE_PAGE_SIZE ) );
-				break;
-			case IBirtConstants.PAGE_OVERFLOW_FITTOPAGE :
-				renderOption.setOption( PDFRenderOption.FIT_TO_PAGE,
-						Boolean.TRUE );
-				break;
-			default :
-				renderOption.setOption( PDFRenderOption.PAGE_OVERFLOW,
-						Integer.valueOf( PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES ) );
+		switch (pageOverflow) {
+		case IBirtConstants.PAGE_OVERFLOW_AUTO:
+			renderOption.setOption(PDFRenderOption.PAGE_OVERFLOW,
+					Integer.valueOf(PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES));
+			break;
+		case IBirtConstants.PAGE_OVERFLOW_ACTUAL:
+			renderOption.setOption(PDFRenderOption.PAGE_OVERFLOW, Integer.valueOf(PDFRenderOption.ENLARGE_PAGE_SIZE));
+			break;
+		case IBirtConstants.PAGE_OVERFLOW_FITTOPAGE:
+			renderOption.setOption(PDFRenderOption.FIT_TO_PAGE, Boolean.TRUE);
+			break;
+		default:
+			renderOption.setOption(PDFRenderOption.PAGE_OVERFLOW,
+					Integer.valueOf(PDFRenderOption.OUTPUT_TO_MULTIPLE_PAGES));
 		}
 
 		// pagebreak pagination only setting
 		// Bug 238716
-		renderOption.setOption( PDFRenderOption.PAGEBREAK_PAGINATION_ONLY,
-				Boolean.FALSE );
+		renderOption.setOption(PDFRenderOption.PAGEBREAK_PAGINATION_ONLY, Boolean.FALSE);
 
 		return renderOption;
 	}
@@ -719,27 +613,11 @@ public class ReportEngineService
 	 * @throws RemoteException
 	 * @throws IOException
 	 */
-	public void runAndRenderReport( HttpServletRequest request,
-			IReportRunnable runnable, OutputStream outputStream, String format,
-			Locale locale, boolean rtl, Map parameters, boolean masterPage,
-			boolean svgFlag ) throws RemoteException
-	{
-		runAndRenderReport( request,
-				runnable,
-				outputStream,
-				format,
-				locale,
-				rtl,
-				parameters,
-				masterPage,
-				svgFlag,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null,
-				null );
+	public void runAndRenderReport(HttpServletRequest request, IReportRunnable runnable, OutputStream outputStream,
+			String format, Locale locale, boolean rtl, Map parameters, boolean masterPage, boolean svgFlag)
+			throws RemoteException {
+		runAndRenderReport(request, runnable, outputStream, format, locale, rtl, parameters, masterPage, svgFlag, null,
+				null, null, null, null, null, null);
 	}
 
 	/**
@@ -762,28 +640,11 @@ public class ReportEngineService
 	 * @throws RemoteException
 	 * @throws IOException
 	 */
-	public void runAndRenderReport( HttpServletRequest request,
-			IReportRunnable runnable, OutputStream outputStream, String format,
-			Locale locale, boolean rtl, Map parameters, boolean masterPage,
-			boolean svgFlag, Map displayTexts, String servletPath,
-			String reportTitle ) throws RemoteException
-	{
-		runAndRenderReport( request,
-				runnable,
-				outputStream,
-				format,
-				locale,
-				rtl,
-				parameters,
-				masterPage,
-				svgFlag,
-				null,
-				null,
-				null,
-				displayTexts,
-				servletPath,
-				reportTitle,
-				null );
+	public void runAndRenderReport(HttpServletRequest request, IReportRunnable runnable, OutputStream outputStream,
+			String format, Locale locale, boolean rtl, Map parameters, boolean masterPage, boolean svgFlag,
+			Map displayTexts, String servletPath, String reportTitle) throws RemoteException {
+		runAndRenderReport(request, runnable, outputStream, format, locale, rtl, parameters, masterPage, svgFlag, null,
+				null, null, displayTexts, servletPath, reportTitle, null);
 	}
 
 	/**
@@ -807,28 +668,11 @@ public class ReportEngineService
 	 * @throws IOException
 	 * @deprecated
 	 */
-	public void runAndRenderReport( HttpServletRequest request,
-			IReportRunnable runnable, OutputStream outputStream, String format,
-			Locale locale, boolean rtl, Map parameters, boolean masterPage,
-			boolean svgFlag, Map displayTexts, String servletPath,
-			String reportTitle, Integer maxRows ) throws RemoteException
-	{
-		runAndRenderReport( request,
-				runnable,
-				outputStream,
-				format,
-				locale,
-				rtl,
-				parameters,
-				masterPage,
-				svgFlag,
-				null,
-				null,
-				null,
-				displayTexts,
-				servletPath,
-				reportTitle,
-				maxRows );
+	public void runAndRenderReport(HttpServletRequest request, IReportRunnable runnable, OutputStream outputStream,
+			String format, Locale locale, boolean rtl, Map parameters, boolean masterPage, boolean svgFlag,
+			Map displayTexts, String servletPath, String reportTitle, Integer maxRows) throws RemoteException {
+		runAndRenderReport(request, runnable, outputStream, format, locale, rtl, parameters, masterPage, svgFlag, null,
+				null, null, displayTexts, servletPath, reportTitle, maxRows);
 	}
 
 	/**
@@ -853,35 +697,22 @@ public class ReportEngineService
 	 * @throws IOException
 	 * @deprecated
 	 */
-	public void runAndRenderReport( HttpServletRequest request,
-			IReportRunnable runnable, OutputStream outputStream, String format,
-			Locale locale, boolean rtl, Map parameters, boolean masterPage,
-			boolean svgFlag, Boolean embeddable, List activeIds,
-			RenderOption renderOption, Map displayTexts, String iServletPath,
-			String reportTitle, Integer maxRows ) throws RemoteException
-	{
-		InputOptions inputOptions = new InputOptions( );
+	public void runAndRenderReport(HttpServletRequest request, IReportRunnable runnable, OutputStream outputStream,
+			String format, Locale locale, boolean rtl, Map parameters, boolean masterPage, boolean svgFlag,
+			Boolean embeddable, List activeIds, RenderOption renderOption, Map displayTexts, String iServletPath,
+			String reportTitle, Integer maxRows) throws RemoteException {
+		InputOptions inputOptions = new InputOptions();
 
-		inputOptions.setOption( InputOptions.OPT_REQUEST, request );
-		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
-		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				Boolean.valueOf( masterPage ) );
-		inputOptions.setOption( InputOptions.OPT_SVG_FLAG,
-				Boolean.valueOf( svgFlag ) );
-		inputOptions.setOption( InputOptions.OPT_RTL, Boolean.valueOf( rtl ) );
-		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
-		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
+		inputOptions.setOption(InputOptions.OPT_REQUEST, request);
+		inputOptions.setOption(InputOptions.OPT_LOCALE, locale);
+		inputOptions.setOption(InputOptions.OPT_IS_MASTER_PAGE_CONTENT, Boolean.valueOf(masterPage));
+		inputOptions.setOption(InputOptions.OPT_SVG_FLAG, Boolean.valueOf(svgFlag));
+		inputOptions.setOption(InputOptions.OPT_RTL, Boolean.valueOf(rtl));
+		inputOptions.setOption(InputOptions.OPT_FORMAT, format);
+		inputOptions.setOption(InputOptions.OPT_SERVLET_PATH, iServletPath);
 
-		runAndRenderReport( runnable,
-				outputStream,
-				inputOptions,
-				parameters,
-				embeddable,
-				activeIds,
-				renderOption,
-				displayTexts,
-				reportTitle,
-				maxRows );
+		runAndRenderReport(runnable, outputStream, inputOptions, parameters, embeddable, activeIds, renderOption,
+				displayTexts, reportTitle, maxRows);
 	}
 
 	/**
@@ -899,204 +730,155 @@ public class ReportEngineService
 	 * @param maxRows
 	 * @throws RemoteException
 	 */
-	public void runAndRenderReport( IReportRunnable runnable,
-			OutputStream outputStream, InputOptions inputOptions,
-			Map parameters, Boolean embeddable, List activeIds,
-			RenderOption aRenderOption, Map displayTexts, String reportTitle,
-			Integer maxRows ) throws RemoteException
-	{
+	public void runAndRenderReport(IReportRunnable runnable, OutputStream outputStream, InputOptions inputOptions,
+			Map parameters, Boolean embeddable, List activeIds, RenderOption aRenderOption, Map displayTexts,
+			String reportTitle, Integer maxRows) throws RemoteException {
 		assert runnable != null;
 
 		IRunAndRenderTask runAndRenderTask = null;
-		try
-		{
-			runAndRenderTask = createRunAndRenderTask( runnable,
-					outputStream,
-					inputOptions,
-					parameters,
-					embeddable,
-					activeIds,
-					aRenderOption,
-					displayTexts,
-					reportTitle,
-					maxRows );
-		}
-		catch ( ReportServiceException e )
-		{
+		try {
+			runAndRenderTask = createRunAndRenderTask(runnable, outputStream, inputOptions, parameters, embeddable,
+					activeIds, aRenderOption, displayTexts, reportTitle, maxRows);
+		} catch (ReportServiceException e) {
 			// TODO: remove RemoteException in the method signature and throw
 			// ReportServiceException directly
-			throwDummyException( e );
+			throwDummyException(e);
 		}
 
-		boolean isDesigner = isDesigner( inputOptions );
-		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption( InputOptions.OPT_REQUEST );
+		boolean isDesigner = isDesigner(inputOptions);
+		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption(InputOptions.OPT_REQUEST);
 
 		// add task into session
-		BirtUtility.addTask( request, runAndRenderTask );
+		BirtUtility.addTask(request, runAndRenderTask);
 
-		try
-		{
-			runAndRenderTask.run( );
-		}
-		catch ( BirtException e )
-		{
+		try {
+			runAndRenderTask.run();
+		} catch (BirtException e) {
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throwDummyException( e );
-		}
-		finally
-		{
+			throwDummyException(e);
+		} finally {
 			// Remove task from http session
-			BirtUtility.removeTask( request );
+			BirtUtility.removeTask(request);
 
 			// Append errors
-			if ( isDesigner )
-				BirtUtility.error( request, runAndRenderTask.getErrors( ) );
+			if (isDesigner)
+				BirtUtility.error(request, runAndRenderTask.getErrors());
 
-			runAndRenderTask.close( );
+			runAndRenderTask.close();
 		}
 	}
 
-	private IRunAndRenderTask createRunAndRenderTask( IReportRunnable runnable,
-			OutputStream outputStream, InputOptions inputOptions,
-			Map parameters, Boolean embeddable, List activeIds,
-			RenderOption aRenderOption, Map displayTexts, String reportTitle,
-			Integer maxRows ) throws ReportServiceException
-	{
+	private IRunAndRenderTask createRunAndRenderTask(IReportRunnable runnable, OutputStream outputStream,
+			InputOptions inputOptions, Map parameters, Boolean embeddable, List activeIds, RenderOption aRenderOption,
+			Map displayTexts, String reportTitle, Integer maxRows) throws ReportServiceException {
 		RenderOption renderOption = aRenderOption;
 
-		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) inputOptions.getOption( InputOptions.OPT_LOCALE );
-		TimeZone timeZone = (TimeZone) inputOptions.getOption( InputOptions.OPT_TIMEZONE );
-		Boolean isMasterPageContent = (Boolean) inputOptions.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		boolean masterPage = isMasterPageContent == null ? true
-				: isMasterPageContent.booleanValue( );
-		Boolean svgFlag = (Boolean) inputOptions.getOption( InputOptions.OPT_SVG_FLAG );
-		String format = (String) inputOptions.getOption( InputOptions.OPT_FORMAT );
-		String emitterId = (String) inputOptions.getOption( InputOptions.OPT_EMITTER_ID );
-		boolean rtl = isRtl( inputOptions );
-		boolean isDesigner = isDesigner( inputOptions );
-		int pageOverflow = getPageOverflow( inputOptions );
+		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption(InputOptions.OPT_REQUEST);
+		Locale locale = (Locale) inputOptions.getOption(InputOptions.OPT_LOCALE);
+		TimeZone timeZone = (TimeZone) inputOptions.getOption(InputOptions.OPT_TIMEZONE);
+		Boolean isMasterPageContent = (Boolean) inputOptions.getOption(InputOptions.OPT_IS_MASTER_PAGE_CONTENT);
+		boolean masterPage = isMasterPageContent == null ? true : isMasterPageContent.booleanValue();
+		Boolean svgFlag = (Boolean) inputOptions.getOption(InputOptions.OPT_SVG_FLAG);
+		String format = (String) inputOptions.getOption(InputOptions.OPT_FORMAT);
+		String emitterId = (String) inputOptions.getOption(InputOptions.OPT_EMITTER_ID);
+		boolean rtl = isRtl(inputOptions);
+		boolean isDesigner = isDesigner(inputOptions);
+		int pageOverflow = getPageOverflow(inputOptions);
 
-		String iServletPath = (String) inputOptions.getOption( InputOptions.OPT_SERVLET_PATH );
+		String iServletPath = (String) inputOptions.getOption(InputOptions.OPT_SERVLET_PATH);
 
 		String servletPath = iServletPath;
-		if ( servletPath == null )
-			servletPath = request.getServletPath( );
+		if (servletPath == null)
+			servletPath = request.getServletPath();
 
-		IRunAndRenderTask runAndRenderTask = engine.createRunAndRenderTask( runnable );
-		runAndRenderTask.setLocale( locale );
+		IRunAndRenderTask runAndRenderTask = engine.createRunAndRenderTask(runnable);
+		runAndRenderTask.setLocale(locale);
 
-		com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
-		if ( tz != null )
-		{
-			runAndRenderTask.setTimeZone( tz );
+		com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone(timeZone);
+		if (tz != null) {
+			runAndRenderTask.setTimeZone(tz);
 		}
 
-		if ( parameters != null )
-		{
-			runAndRenderTask.setParameterValues( parameters );
+		if (parameters != null) {
+			runAndRenderTask.setParameterValues(parameters);
 		}
 
 		// Set display Text for select parameters
-		if ( displayTexts != null )
-		{
-			Iterator keys = displayTexts.keySet( ).iterator( );
-			while ( keys.hasNext( ) )
-			{
-				String paramName = DataUtil.getString( keys.next( ) );
-				String displayText = DataUtil.getString( displayTexts.get( paramName ) );
-				runAndRenderTask.setParameterDisplayText( paramName,
-						displayText );
+		if (displayTexts != null) {
+			Iterator keys = displayTexts.keySet().iterator();
+			while (keys.hasNext()) {
+				String paramName = DataUtil.getString(keys.next());
+				String displayText = DataUtil.getString(displayTexts.get(paramName));
+				runAndRenderTask.setParameterDisplayText(paramName, displayText);
 			}
 		}
 
 		// set MaxRows settings
-		if ( maxRows != null )
-			runAndRenderTask.setMaxRowsPerQuery( maxRows.intValue( ) );
+		if (maxRows != null)
+			runAndRenderTask.setMaxRowsPerQuery(maxRows.intValue());
 
 		// set app context
-		Map context = BirtUtility.getAppContext( request );
-		runAndRenderTask.setAppContext( context );
+		Map context = BirtUtility.getAppContext(request);
+		runAndRenderTask.setAppContext(context);
 
-		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler( locale,
-				timeZone,
-				rtl,
-				masterPage,
-				format,
-				Boolean.valueOf( svgFlag ),
-				Boolean.toString( isDesigner ) );
-		handler.setPageOverflow( pageOverflow );
+		ViewerHTMLActionHandler handler = new ViewerHTMLActionHandler(locale, timeZone, rtl, masterPage, format,
+				Boolean.valueOf(svgFlag), Boolean.toString(isDesigner));
+		handler.setPageOverflow(pageOverflow);
 
-		String resourceFolder = ParameterAccessor.getParameter( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER );
-		handler.setResourceFolder( resourceFolder );
+		String resourceFolder = ParameterAccessor.getParameter(request, ParameterAccessor.PARAM_RESOURCE_FOLDER);
+		handler.setResourceFolder(resourceFolder);
 
-		IViewingSession session = ViewingSessionUtil.getSession( request );
-		if ( !ParameterAccessor.isPDFLayout( format ) )
-		{
-			if ( session != null )
-			{
-				handler.setViewingSessionId( session.getId( ) );
-			}
-			else
-			{
-				throw new IllegalStateException( BirtResources.getMessage( ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+		IViewingSession session = ViewingSessionUtil.getSession(request);
+		if (!ParameterAccessor.isPDFLayout(format)) {
+			if (session != null) {
+				handler.setViewingSessionId(session.getId());
+			} else {
+				throw new IllegalStateException(
+						BirtResources.getMessage(ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION));
 			}
 		}
 
 		// Render options
-		if ( renderOption == null )
-		{
-			if ( ParameterAccessor.isPDFLayout( format ) )
-			{
-				renderOption = createPDFRenderOption( servletPath,
-						request,
-						pageOverflow,
-						isDesigner,
-						IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format ) );
-			}
-			else
-			{
+		if (renderOption == null) {
+			if (ParameterAccessor.isPDFLayout(format)) {
+				renderOption = createPDFRenderOption(servletPath, request, pageOverflow, isDesigner,
+						IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase(format));
+			} else {
 				// If format isn't HTML, force SVG to false
-				if ( !IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase( format ) )
+				if (!IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase(format))
 					svgFlag = false;
 
-				renderOption = createHTMLRenderOption( svgFlag,
-						servletPath,
-						request,
-						session );
+				renderOption = createHTMLRenderOption(svgFlag, servletPath, request, session);
 			}
 		}
 
-		renderOption.setOutputStream( outputStream );
-		renderOption.setOutputFormat( format );
-		renderOption.setEmitterID( emitterId );
-		renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
-				Boolean.valueOf( masterPage ) );
-		renderOption.setActionHandler( handler );
+		renderOption.setOutputStream(outputStream);
+		renderOption.setOutputFormat(format);
+		renderOption.setEmitterID(emitterId);
+		renderOption.setOption(IHTMLRenderOption.MASTER_PAGE_CONTENT, Boolean.valueOf(masterPage));
+		renderOption.setActionHandler(handler);
 
-		if ( reportTitle != null )
-			renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
+		if (reportTitle != null)
+			renderOption.setOption(IHTMLRenderOption.HTML_TITLE, reportTitle);
 
-		if ( renderOption instanceof IHTMLRenderOption )
-		{
+		if (renderOption instanceof IHTMLRenderOption) {
 			boolean isEmbeddable = false;
-			if ( embeddable != null )
-				isEmbeddable = embeddable.booleanValue( );
+			if (embeddable != null)
+				isEmbeddable = embeddable.booleanValue();
 
-			if ( IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( servletPath ) )
+			if (IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(servletPath))
 				isEmbeddable = true;
 
-			( (IHTMLRenderOption) renderOption ).setEmbeddable( isEmbeddable );
+			((IHTMLRenderOption) renderOption).setEmbeddable(isEmbeddable);
 		}
 
-		renderOption.setOption( IHTMLRenderOption.INSTANCE_ID_LIST, activeIds );
+		renderOption.setOption(IHTMLRenderOption.INSTANCE_ID_LIST, activeIds);
 
 		// initialize emitter configs
-		initializeEmitterConfigs( request, renderOption.getOptions( ) );
+		initializeEmitterConfigs(request, renderOption.getOptions());
 
-		runAndRenderTask.setRenderOption( renderOption );
+		runAndRenderTask.setRenderOption(renderOption);
 
 		return runAndRenderTask;
 	}
@@ -1105,16 +887,11 @@ public class ReportEngineService
 	 * @param e
 	 * @throws DummyRemoteException
 	 */
-	private void throwDummyException( Exception e ) throws DummyRemoteException
-	{
-		if ( e instanceof ReportServiceException )
-		{
-			throw new DummyRemoteException( e );
-		}
-		else
-		{
-			throw new DummyRemoteException( new ReportServiceException( e.getLocalizedMessage( ),
-					e ) );
+	private void throwDummyException(Exception e) throws DummyRemoteException {
+		if (e instanceof ReportServiceException) {
+			throw new DummyRemoteException(e);
+		} else {
+			throw new DummyRemoteException(new ReportServiceException(e.getLocalizedMessage(), e));
 		}
 	}
 
@@ -1122,10 +899,9 @@ public class ReportEngineService
 	 * @param inputOptions
 	 * @return
 	 */
-	private boolean isRtl( InputOptions inputOptions )
-	{
-		Boolean isRtl = (Boolean) inputOptions.getOption( InputOptions.OPT_RTL );
-		boolean rtl = isRtl == null ? false : isRtl.booleanValue( );
+	private boolean isRtl(InputOptions inputOptions) {
+		Boolean isRtl = (Boolean) inputOptions.getOption(InputOptions.OPT_RTL);
+		boolean rtl = isRtl == null ? false : isRtl.booleanValue();
 		return rtl;
 	}
 
@@ -1133,11 +909,9 @@ public class ReportEngineService
 	 * @param inputOptions
 	 * @return
 	 */
-	private int getPageOverflow( InputOptions inputOptions )
-	{
-		Integer pageOverflowInt = (Integer) inputOptions.getOption( InputOptions.OPT_PAGE_OVERFLOW );
-		int pageOverflow = ( pageOverflowInt != null ) ? pageOverflowInt.intValue( )
-				: 0;
+	private int getPageOverflow(InputOptions inputOptions) {
+		Integer pageOverflowInt = (Integer) inputOptions.getOption(InputOptions.OPT_PAGE_OVERFLOW);
+		int pageOverflow = (pageOverflowInt != null) ? pageOverflowInt.intValue() : 0;
 		return pageOverflow;
 	}
 
@@ -1145,13 +919,11 @@ public class ReportEngineService
 	 * @param inputOptions
 	 * @return
 	 */
-	private boolean isDesigner( InputOptions inputOptions )
-	{
-		Boolean isDesignerBool = (Boolean) inputOptions.getOption( InputOptions.OPT_IS_DESIGNER );
+	private boolean isDesigner(InputOptions inputOptions) {
+		Boolean isDesignerBool = (Boolean) inputOptions.getOption(InputOptions.OPT_IS_DESIGNER);
 		boolean isDesigner = false;
-		if ( isDesignerBool != null )
-		{
-			isDesigner = isDesignerBool.booleanValue( );
+		if (isDesignerBool != null) {
+			isDesigner = isDesignerBool.booleanValue();
 		}
 		return isDesigner;
 	}
@@ -1159,27 +931,22 @@ public class ReportEngineService
 	/**
 	 * Fills dynamic options with parameters from request.
 	 */
-	private void initializeEmitterConfigs( HttpServletRequest request,
-			Map config )
-	{
-		if ( config == null )
-		{
+	private void initializeEmitterConfigs(HttpServletRequest request, Map config) {
+		if (config == null) {
 			return;
 		}
 
-		for ( Iterator itr = request.getParameterMap( ).entrySet( ).iterator( ); itr.hasNext( ); )
-		{
-			Entry entry = (Entry) itr.next( );
+		for (Iterator itr = request.getParameterMap().entrySet().iterator(); itr.hasNext();) {
+			Entry entry = (Entry) itr.next();
 
-			String name = String.valueOf( entry.getKey( ) );
+			String name = String.valueOf(entry.getKey());
 
 			// only process parameters start with "__"
-			if ( name.startsWith( "__" ) ) //$NON-NLS-1$
+			if (name.startsWith("__")) //$NON-NLS-1$
 			{
 				// TODO: don't use ParameterAccessor directly (fails in taglib
 				// mode)
-				config.put( name.substring( 2 ),
-						ParameterAccessor.getParameter( request, name ) );
+				config.put(name.substring(2), ParameterAccessor.getParameter(request, name));
 			}
 		}
 	}
@@ -1197,17 +964,9 @@ public class ReportEngineService
 	 * @deprecated
 	 * @throws RemoteException
 	 */
-	public void runReport( HttpServletRequest request,
-			IReportRunnable runnable, String documentName, Locale locale,
-			Map parameters ) throws RemoteException
-	{
-		runReport( request,
-				runnable,
-				documentName,
-				locale,
-				parameters,
-				null,
-				null );
+	public void runReport(HttpServletRequest request, IReportRunnable runnable, String documentName, Locale locale,
+			Map parameters) throws RemoteException {
+		runReport(request, runnable, documentName, locale, parameters, null, null);
 	}
 
 	/**
@@ -1224,17 +983,9 @@ public class ReportEngineService
 	 * @deprecated
 	 * @throws RemoteException
 	 */
-	public void runReport( HttpServletRequest request,
-			IReportRunnable runnable, String documentName, Locale locale,
-			Map parameters, Map displayTexts ) throws RemoteException
-	{
-		runReport( request,
-				runnable,
-				documentName,
-				locale,
-				parameters,
-				displayTexts,
-				null );
+	public void runReport(HttpServletRequest request, IReportRunnable runnable, String documentName, Locale locale,
+			Map parameters, Map displayTexts) throws RemoteException {
+		runReport(request, runnable, documentName, locale, parameters, displayTexts, null);
 	}
 
 	/**
@@ -1248,19 +999,9 @@ public class ReportEngineService
 	 * @param object
 	 * @deprecated
 	 */
-	private void runReport( HttpServletRequest request,
-			IReportRunnable runnable, String documentName, Locale locale,
-			Map parameters, Map displayTexts, Object object )
-			throws RemoteException
-	{
-		runReport( request,
-				runnable,
-				documentName,
-				locale,
-				null,
-				parameters,
-				displayTexts,
-				null );
+	private void runReport(HttpServletRequest request, IReportRunnable runnable, String documentName, Locale locale,
+			Map parameters, Map displayTexts, Object object) throws RemoteException {
+		runReport(request, runnable, documentName, locale, null, parameters, displayTexts, null);
 	}
 
 	/**
@@ -1278,78 +1019,67 @@ public class ReportEngineService
 	 * @return list of exceptions which occured during the run or null
 	 * @throws RemoteException
 	 */
-	public List<Exception> runReport( HttpServletRequest request,
-			IReportRunnable runnable, String documentName, Locale locale,
-			TimeZone timeZone, Map parameters, Map displayTexts, Integer maxRows )
-			throws RemoteException
-	{
+	public List<Exception> runReport(HttpServletRequest request, IReportRunnable runnable, String documentName,
+			Locale locale, TimeZone timeZone, Map parameters, Map displayTexts, Integer maxRows)
+			throws RemoteException {
 		assert runnable != null;
 
 		// Preapre the run report task.
 		IRunTask runTask = null;
-		runTask = engine.createRunTask( runnable );
-		runTask.setLocale( locale );
+		runTask = engine.createRunTask(runnable);
+		runTask.setLocale(locale);
 
-		com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
-		if ( tz != null )
-		{
-			runTask.setTimeZone( tz );
+		com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone(timeZone);
+		if (tz != null) {
+			runTask.setTimeZone(tz);
 		}
 
-		runTask.setParameterValues( parameters );
+		runTask.setParameterValues(parameters);
 
 		// set MaxRows settings
-		if ( maxRows != null )
-			runTask.setMaxRowsPerQuery( maxRows.intValue( ) );
+		if (maxRows != null)
+			runTask.setMaxRowsPerQuery(maxRows.intValue());
 
 		// add task into session
-		BirtUtility.addTask( request, runTask );
+		BirtUtility.addTask(request, runTask);
 
 		// Set display Text for select parameters
-		if ( displayTexts != null )
-		{
-			Iterator keys = displayTexts.keySet( ).iterator( );
-			while ( keys.hasNext( ) )
-			{
-				String paramName = DataUtil.getString( keys.next( ) );
-				String displayText = DataUtil.getString( displayTexts.get( paramName ) );
-				runTask.setParameterDisplayText( paramName, displayText );
+		if (displayTexts != null) {
+			Iterator keys = displayTexts.keySet().iterator();
+			while (keys.hasNext()) {
+				String paramName = DataUtil.getString(keys.next());
+				String displayText = DataUtil.getString(displayTexts.get(paramName));
+				runTask.setParameterDisplayText(paramName, displayText);
 			}
 		}
 
 		// set app context
-		Map context = BirtUtility.getAppContext( request );
-		runTask.setAppContext( context );
+		Map context = BirtUtility.getAppContext(request);
+		runTask.setAppContext(context);
 
 		// Run report.
-		try
-		{
-			runTask.run( documentName );
-		}
-		catch ( BirtException e )
-		{
+		try {
+			runTask.run(documentName);
+		} catch (BirtException e) {
 			// clear document file
-			File doc = new File( documentName );
-			if ( doc != null )
-				doc.delete( );
+			File doc = new File(documentName);
+			if (doc != null)
+				doc.delete();
 
-			throwDummyException( e );
-		}
-		finally
-		{
+			throwDummyException(e);
+		} finally {
 			// Remove task from http session
-			BirtUtility.removeTask( request );
+			BirtUtility.removeTask(request);
 
 			// Append errors
-			List<Exception> errors = (List<Exception>) runTask.getErrors( );
-			if ( ParameterAccessor.isDesigner( ) )
-				BirtUtility.error( request, runTask.getErrors( ) );
+			List<Exception> errors = (List<Exception>) runTask.getErrors();
+			if (ParameterAccessor.isDesigner())
+				BirtUtility.error(request, runTask.getErrors());
 
-			runTask.close( );
+			runTask.close();
 
 			// check for non-fatal errors
-			if ( !errors.isEmpty( ) )
-			{
+			if (!errors.isEmpty()) {
 				return errors;
 			}
 		}
@@ -1371,24 +1101,12 @@ public class ReportEngineService
 	 * @return report page content
 	 * @throws RemoteException
 	 */
-	public ByteArrayOutputStream renderReport( HttpServletRequest request,
-			IReportDocument reportDocument, long pageNumber,
-			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
-			boolean rtl ) throws RemoteException
-	{
-		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		renderReport( out,
-				request,
-				reportDocument,
-				null,
-				pageNumber,
-				null,
-				masterPage,
-				svgFlag,
-				activeIds,
-				locale,
-				rtl,
-				null );
+	public ByteArrayOutputStream renderReport(HttpServletRequest request, IReportDocument reportDocument,
+			long pageNumber, boolean masterPage, boolean svgFlag, List activeIds, Locale locale, boolean rtl)
+			throws RemoteException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		renderReport(out, request, reportDocument, null, pageNumber, null, masterPage, svgFlag, activeIds, locale, rtl,
+				null);
 		return out;
 	}
 
@@ -1406,24 +1124,12 @@ public class ReportEngineService
 	 * @return report page content
 	 * @throws RemoteException
 	 */
-	public ByteArrayOutputStream renderReport( HttpServletRequest request,
-			IReportDocument reportDocument, String format, long pageNumber,
-			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
-			boolean rtl ) throws RemoteException
-	{
-		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		renderReport( out,
-				request,
-				reportDocument,
-				format,
-				pageNumber,
-				null,
-				masterPage,
-				svgFlag,
-				activeIds,
-				locale,
-				rtl,
-				null );
+	public ByteArrayOutputStream renderReport(HttpServletRequest request, IReportDocument reportDocument, String format,
+			long pageNumber, boolean masterPage, boolean svgFlag, List activeIds, Locale locale, boolean rtl)
+			throws RemoteException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		renderReport(out, request, reportDocument, format, pageNumber, null, masterPage, svgFlag, activeIds, locale,
+				rtl, null);
 		return out;
 	}
 
@@ -1444,23 +1150,11 @@ public class ReportEngineService
 	 * @deprecated
 	 * @throws RemoteException
 	 */
-	public void renderReport( OutputStream os, HttpServletRequest request,
-			IReportDocument reportDocument, long pageNumber, String pageRange,
-			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
-			boolean rtl, String iServletPath ) throws RemoteException
-	{
-		renderReport( os,
-				request,
-				reportDocument,
-				null,
-				pageNumber,
-				pageRange,
-				masterPage,
-				svgFlag,
-				activeIds,
-				locale,
-				rtl,
-				iServletPath );
+	public void renderReport(OutputStream os, HttpServletRequest request, IReportDocument reportDocument,
+			long pageNumber, String pageRange, boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
+			boolean rtl, String iServletPath) throws RemoteException {
+		renderReport(os, request, reportDocument, null, pageNumber, pageRange, masterPage, svgFlag, activeIds, locale,
+				rtl, iServletPath);
 	}
 
 	/**
@@ -1481,253 +1175,186 @@ public class ReportEngineService
 	 * @throws RemoteException
 	 * @deprecated use renderReport with InputOptions instead
 	 */
-	public void renderReport( OutputStream out, HttpServletRequest request,
-			IReportDocument reportDocument, String format, long pageNumber,
-			String pageRange, boolean masterPage, boolean svgFlag,
-			List activeIds, Locale locale, boolean rtl, String iServletPath )
-			throws RemoteException
-	{
-		InputOptions inputOptions = new InputOptions( );
+	public void renderReport(OutputStream out, HttpServletRequest request, IReportDocument reportDocument,
+			String format, long pageNumber, String pageRange, boolean masterPage, boolean svgFlag, List activeIds,
+			Locale locale, boolean rtl, String iServletPath) throws RemoteException {
+		InputOptions inputOptions = new InputOptions();
 
-		inputOptions.setOption( InputOptions.OPT_REQUEST, request );
-		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
-		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				Boolean.valueOf( masterPage ) );
-		inputOptions.setOption( InputOptions.OPT_SVG_FLAG,
-				Boolean.valueOf( svgFlag ) );
-		inputOptions.setOption( InputOptions.OPT_RTL, Boolean.valueOf( rtl ) );
-		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
-		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
-		renderReport( out,
-				reportDocument,
-				pageNumber,
-				pageRange,
-				inputOptions,
-				activeIds );
+		inputOptions.setOption(InputOptions.OPT_REQUEST, request);
+		inputOptions.setOption(InputOptions.OPT_LOCALE, locale);
+		inputOptions.setOption(InputOptions.OPT_IS_MASTER_PAGE_CONTENT, Boolean.valueOf(masterPage));
+		inputOptions.setOption(InputOptions.OPT_SVG_FLAG, Boolean.valueOf(svgFlag));
+		inputOptions.setOption(InputOptions.OPT_RTL, Boolean.valueOf(rtl));
+		inputOptions.setOption(InputOptions.OPT_FORMAT, format);
+		inputOptions.setOption(InputOptions.OPT_SERVLET_PATH, iServletPath);
+		renderReport(out, reportDocument, pageNumber, pageRange, inputOptions, activeIds);
 	}
 
 	/**
 	 * Render report page.
 	 */
-	public void renderReport( OutputStream out, IReportDocument reportDocument,
-			long pageNumber, String pageRange, InputOptions inputOptions,
-			List activeIds ) throws RemoteException
-	{
-		if ( out == null )
+	public void renderReport(OutputStream out, IReportDocument reportDocument, long pageNumber, String pageRange,
+			InputOptions inputOptions, List activeIds) throws RemoteException {
+		if (out == null)
 			return;
 
-		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption( InputOptions.OPT_REQUEST );
-		String format = (String) inputOptions.getOption( InputOptions.OPT_FORMAT );
-		String iServletPath = (String) inputOptions.getOption( InputOptions.OPT_SERVLET_PATH );
+		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption(InputOptions.OPT_REQUEST);
+		String format = (String) inputOptions.getOption(InputOptions.OPT_FORMAT);
+		String iServletPath = (String) inputOptions.getOption(InputOptions.OPT_SERVLET_PATH);
 
 		IRenderTask renderTask = null;
-		try
-		{
-			renderTask = createRenderTask( out,
-					reportDocument,
-					inputOptions,
-					pageNumber,
-					activeIds );
-		}
-		catch ( ReportServiceException e )
-		{
+		try {
+			renderTask = createRenderTask(out, reportDocument, inputOptions, pageNumber, activeIds);
+		} catch (ReportServiceException e) {
 			// TODO: remove RemoteException in the method signature and throw
 			// ReportServiceException directly
-			throwDummyException( e );
+			throwDummyException(e);
 		}
 
 		// get servlet path
 		String servletPath = iServletPath;
-		if ( servletPath == null )
-			servletPath = request.getServletPath( );
+		if (servletPath == null)
+			servletPath = request.getServletPath();
 
 		// Render designated page.
-		try
-		{
-			if ( pageNumber > 0 )
-				renderTask.setPageNumber( pageNumber );
+		try {
+			if (pageNumber > 0)
+				renderTask.setPageNumber(pageNumber);
 
-			if ( pageRange != null )
-			{
-				if ( !IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( servletPath )
-						|| !ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase( format ) )
-					renderTask.setPageRange( pageRange );
+			if (pageRange != null) {
+				if (!IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase(servletPath)
+						|| !ParameterAccessor.PARAM_FORMAT_HTML.equalsIgnoreCase(format))
+					renderTask.setPageRange(pageRange);
 			}
 
-			renderTask.render( );
-		}
-		catch ( EngineException e )
-		{
+			renderTask.render();
+		} catch (EngineException e) {
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throwDummyException( e );
-		}
-		finally
-		{
+			throwDummyException(e);
+		} finally {
 			// Remove task from http session
-			BirtUtility.removeTask( request );
+			BirtUtility.removeTask(request);
 
 			// Append errors
-			if ( ParameterAccessor.isDesigner( ) )
-				BirtUtility.error( request, renderTask.getErrors( ) );
+			if (ParameterAccessor.isDesigner())
+				BirtUtility.error(request, renderTask.getErrors());
 
-			renderTask.close( );
+			renderTask.close();
 		}
 	}
 
 	/**
 	 * Creates a new render task and configure it.
 	 * 
-	 * @param out
-	 *            output stream
-	 * @param reportDocument
-	 *            report document
-	 * @param inputOptions
-	 *            input options
-	 * @param pageNumber
-	 *            page number
-	 * @param activeIds
-	 *            active IDs
+	 * @param out            output stream
+	 * @param reportDocument report document
+	 * @param inputOptions   input options
+	 * @param pageNumber     page number
+	 * @param activeIds      active IDs
 	 * @return configured render task
 	 * @throws ViewingSessionExpiredException
 	 */
-	private IRenderTask createRenderTask( OutputStream out,
-			IReportDocument reportDocument, InputOptions inputOptions,
-			long pageNumber, List activeIds ) throws ReportServiceException
-	{
-		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption( InputOptions.OPT_REQUEST );
-		Locale locale = (Locale) inputOptions.getOption( InputOptions.OPT_LOCALE );
-		TimeZone timeZone = (TimeZone) inputOptions.getOption( InputOptions.OPT_TIMEZONE );
-		Boolean isMasterPageContent = (Boolean) inputOptions.getOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT );
-		boolean masterPage = isMasterPageContent == null ? true
-				: isMasterPageContent.booleanValue( );
-		Boolean svgFlag = (Boolean) inputOptions.getOption( InputOptions.OPT_SVG_FLAG );
-		String format = (String) inputOptions.getOption( InputOptions.OPT_FORMAT );
-		String emitterId = (String) inputOptions.getOption( InputOptions.OPT_EMITTER_ID );
+	private IRenderTask createRenderTask(OutputStream out, IReportDocument reportDocument, InputOptions inputOptions,
+			long pageNumber, List activeIds) throws ReportServiceException {
+		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption(InputOptions.OPT_REQUEST);
+		Locale locale = (Locale) inputOptions.getOption(InputOptions.OPT_LOCALE);
+		TimeZone timeZone = (TimeZone) inputOptions.getOption(InputOptions.OPT_TIMEZONE);
+		Boolean isMasterPageContent = (Boolean) inputOptions.getOption(InputOptions.OPT_IS_MASTER_PAGE_CONTENT);
+		boolean masterPage = isMasterPageContent == null ? true : isMasterPageContent.booleanValue();
+		Boolean svgFlag = (Boolean) inputOptions.getOption(InputOptions.OPT_SVG_FLAG);
+		String format = (String) inputOptions.getOption(InputOptions.OPT_FORMAT);
+		String emitterId = (String) inputOptions.getOption(InputOptions.OPT_EMITTER_ID);
 
-		String iServletPath = (String) inputOptions.getOption( InputOptions.OPT_SERVLET_PATH );
-		boolean rtl = isRtl( inputOptions );
-		boolean isDesigner = isDesigner( inputOptions );
-		int pageOverflow = getPageOverflow( inputOptions );
+		String iServletPath = (String) inputOptions.getOption(InputOptions.OPT_SERVLET_PATH);
+		boolean rtl = isRtl(inputOptions);
+		boolean isDesigner = isDesigner(inputOptions);
+		int pageOverflow = getPageOverflow(inputOptions);
 
-		if ( reportDocument == null )
-		{
-			throw new ReportServiceException( BirtResources.getMessage( ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT ) );
+		if (reportDocument == null) {
+			throw new ReportServiceException(
+					BirtResources.getMessage(ResourceConstants.ACTION_EXCEPTION_NO_REPORT_DOCUMENT));
 		}
 
 		// get servlet path
 		String servletPath = iServletPath;
-		if ( servletPath == null )
-			servletPath = request.getServletPath( );
+		if (servletPath == null)
+			servletPath = request.getServletPath();
 
 		// Create render task.
-		IRenderTask renderTask = engine.createRenderTask( reportDocument );
+		IRenderTask renderTask = engine.createRenderTask(reportDocument);
 
 		// add task into session
-		BirtUtility.addTask( request, renderTask );
+		BirtUtility.addTask(request, renderTask);
 
 		// set app context
-		Map context = BirtUtility.getAppContext( request );
-		renderTask.setAppContext( context );
+		Map context = BirtUtility.getAppContext(request);
+		renderTask.setAppContext(context);
 
 		RenderOption renderOption = null;
 
-		if ( format == null )
-			format = ParameterAccessor.getFormat( request );
+		if (format == null)
+			format = ParameterAccessor.getFormat(request);
 
-		if ( ParameterAccessor.isPDFLayout( format ) )
-		{
-			renderOption = createPDFRenderOption( servletPath,
-					request,
-					pageOverflow,
-					ParameterAccessor.isDesigner( ),
-					IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase( format ) );
-		}
-		else
-		{
+		if (ParameterAccessor.isPDFLayout(format)) {
+			renderOption = createPDFRenderOption(servletPath, request, pageOverflow, ParameterAccessor.isDesigner(),
+					IBirtConstants.PDF_RENDER_FORMAT.equalsIgnoreCase(format));
+		} else {
 			// If format isn't HTML, force SVG to false
-			if ( !IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase( format ) )
+			if (!IBirtConstants.HTML_RENDER_FORMAT.equalsIgnoreCase(format))
 				svgFlag = false;
 
-			IViewingSession session = ViewingSessionUtil.getSession( request );
-			if ( session == null )
-			{
-				throw new IllegalStateException( BirtResources.getMessage( ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+			IViewingSession session = ViewingSessionUtil.getSession(request);
+			if (session == null) {
+				throw new IllegalStateException(
+						BirtResources.getMessage(ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION));
 			}
-			renderOption = createHTMLRenderOption( svgFlag,
-					servletPath,
-					request,
-					session );
+			renderOption = createHTMLRenderOption(svgFlag, servletPath, request, session);
 		}
 
 		// If not excel format, set HTMLPagination to true.
-		if ( !IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase( format ) )
-		{
-			( (IRenderOption) renderOption ).setOption( IRenderOption.HTML_PAGINATION,
-					Boolean.TRUE );
+		if (!IBirtConstants.EXCEL_RENDER_FORMAT.equalsIgnoreCase(format)) {
+			((IRenderOption) renderOption).setOption(IRenderOption.HTML_PAGINATION, Boolean.TRUE);
 		}
 
-		renderOption.setOutputStream( out );
-		renderOption.setOutputFormat( format );
-		renderOption.setEmitterID( emitterId );
+		renderOption.setOutputStream(out);
+		renderOption.setOutputFormat(format);
+		renderOption.setEmitterID(emitterId);
 
 		ViewerHTMLActionHandler handler = null;
-		if ( ParameterAccessor.isPDFLayout( format ) )
-		{
-			handler = new ViewerHTMLActionHandler( reportDocument,
-					pageNumber,
-					locale,
-					timeZone,
-					false,
-					rtl,
-					masterPage,
-					format,
-					Boolean.valueOf( svgFlag ),
-					Boolean.toString( isDesigner ) );
-		}
-		else
-		{
+		if (ParameterAccessor.isPDFLayout(format)) {
+			handler = new ViewerHTMLActionHandler(reportDocument, pageNumber, locale, timeZone, false, rtl, masterPage,
+					format, Boolean.valueOf(svgFlag), Boolean.toString(isDesigner));
+		} else {
 			boolean isEmbeddable = false;
-			if ( IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase( servletPath )
-					|| IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase( servletPath ) )
+			if (IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase(servletPath)
+					|| IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(servletPath))
 				isEmbeddable = true;
-			if ( renderOption instanceof IHTMLRenderOption )
-				( (IHTMLRenderOption) renderOption ).setEmbeddable( isEmbeddable );
+			if (renderOption instanceof IHTMLRenderOption)
+				((IHTMLRenderOption) renderOption).setEmbeddable(isEmbeddable);
 
-			renderOption.setOption( IHTMLRenderOption.INSTANCE_ID_LIST,
-					activeIds );
-			renderOption.setOption( IHTMLRenderOption.MASTER_PAGE_CONTENT,
-					Boolean.valueOf( masterPage ) );
-			handler = new ViewerHTMLActionHandler( reportDocument,
-					pageNumber,
-					locale,
-					timeZone,
-					isEmbeddable,
-					rtl,
-					masterPage,
-					format,
-					Boolean.valueOf( svgFlag ),
-					Boolean.toString( isDesigner ) );
+			renderOption.setOption(IHTMLRenderOption.INSTANCE_ID_LIST, activeIds);
+			renderOption.setOption(IHTMLRenderOption.MASTER_PAGE_CONTENT, Boolean.valueOf(masterPage));
+			handler = new ViewerHTMLActionHandler(reportDocument, pageNumber, locale, timeZone, isEmbeddable, rtl,
+					masterPage, format, Boolean.valueOf(svgFlag), Boolean.toString(isDesigner));
 
-			IViewingSession session = ViewingSessionUtil.getSession( request );
-			if ( session == null )
-			{
-				throw new ReportServiceException( BirtResources.getMessage( ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION ) );
+			IViewingSession session = ViewingSessionUtil.getSession(request);
+			if (session == null) {
+				throw new ReportServiceException(
+						BirtResources.getMessage(ResourceConstants.GENERAL_ERROR_NO_VIEWING_SESSION));
 			}
-			handler.setViewingSessionId( session.getId( ) );
+			handler.setViewingSessionId(session.getId());
 		}
-		handler.setPageOverflow( pageOverflow );
+		handler.setPageOverflow(pageOverflow);
 
-		String resourceFolder = ParameterAccessor.getParameter( request,
-				ParameterAccessor.PARAM_RESOURCE_FOLDER );
-		handler.setResourceFolder( resourceFolder );
-		renderOption.setActionHandler( handler );
+		String resourceFolder = ParameterAccessor.getParameter(request, ParameterAccessor.PARAM_RESOURCE_FOLDER);
+		handler.setResourceFolder(resourceFolder);
+		renderOption.setActionHandler(handler);
 
 		// initialize emitter configs
 		// (only non-reportlet mode, reportlet mode uses pageNumber == -1)
-		if ( pageNumber >= 0 )
-		{
-			initializeEmitterConfigs( request, renderOption.getOptions( ) );
+		if (pageNumber >= 0) {
+			initializeEmitterConfigs(request, renderOption.getOptions());
 		}
 
 		// String reportTitle = ParameterAccessor.htmlDecode(
@@ -1735,13 +1362,12 @@ public class ReportEngineService
 		// if ( reportTitle != null )
 		// renderOption.setOption( IHTMLRenderOption.HTML_TITLE, reportTitle );
 
-		renderTask.setRenderOption( renderOption );
-		renderTask.setLocale( locale );
+		renderTask.setRenderOption(renderOption);
+		renderTask.setLocale(locale);
 
-		com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
-		if ( tz != null )
-		{
-			renderTask.setTimeZone( tz );
+		com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone(timeZone);
+		if (tz != null) {
+			renderTask.setTimeZone(tz);
 		}
 
 		return renderTask;
@@ -1763,22 +1389,11 @@ public class ReportEngineService
 	 * @deprecated
 	 * @throws RemoteException
 	 */
-	public void renderReportlet( OutputStream os, HttpServletRequest request,
-			IReportDocument reportDocument, String reportletId,
-			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
-			boolean rtl ) throws RemoteException
-	{
-		renderReportlet( os,
-				request,
-				reportDocument,
-				reportletId,
-				null,
-				masterPage,
-				svgFlag,
-				activeIds,
-				locale,
-				rtl,
-				null );
+	public void renderReportlet(OutputStream os, HttpServletRequest request, IReportDocument reportDocument,
+			String reportletId, boolean masterPage, boolean svgFlag, List activeIds, Locale locale, boolean rtl)
+			throws RemoteException {
+		renderReportlet(os, request, reportDocument, reportletId, null, masterPage, svgFlag, activeIds, locale, rtl,
+				null);
 	}
 
 	/**
@@ -1798,22 +1413,11 @@ public class ReportEngineService
 	 * @deprecated
 	 * @throws RemoteException
 	 */
-	public void renderReportlet( OutputStream os, HttpServletRequest request,
-			IReportDocument reportDocument, String reportletId,
-			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
-			boolean rtl, String iServletPath ) throws RemoteException
-	{
-		renderReportlet( os,
-				request,
-				reportDocument,
-				reportletId,
-				null,
-				masterPage,
-				svgFlag,
-				activeIds,
-				locale,
-				rtl,
-				iServletPath );
+	public void renderReportlet(OutputStream os, HttpServletRequest request, IReportDocument reportDocument,
+			String reportletId, boolean masterPage, boolean svgFlag, List activeIds, Locale locale, boolean rtl,
+			String iServletPath) throws RemoteException {
+		renderReportlet(os, request, reportDocument, reportletId, null, masterPage, svgFlag, activeIds, locale, rtl,
+				iServletPath);
 	}
 
 	/**
@@ -1835,23 +1439,12 @@ public class ReportEngineService
 	 * @deprecated use
 	 *             {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
 	 */
-	public OutputStream renderReportlet( HttpServletRequest request,
-			IReportDocument reportDocument, String reportletId, String format,
-			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
-			boolean rtl, String iServletPath ) throws RemoteException
-	{
-		ByteArrayOutputStream out = new ByteArrayOutputStream( );
-		renderReportlet( out,
-				request,
-				reportDocument,
-				reportletId,
-				format,
-				masterPage,
-				svgFlag,
-				activeIds,
-				locale,
-				rtl,
-				iServletPath );
+	public OutputStream renderReportlet(HttpServletRequest request, IReportDocument reportDocument, String reportletId,
+			String format, boolean masterPage, boolean svgFlag, List activeIds, Locale locale, boolean rtl,
+			String iServletPath) throws RemoteException {
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		renderReportlet(out, request, reportDocument, reportletId, format, masterPage, svgFlag, activeIds, locale, rtl,
+				iServletPath);
 		return out;
 	}
 
@@ -1874,27 +1467,19 @@ public class ReportEngineService
 	 * @deprecated use
 	 *             {@link #renderReportlet(OutputStream, IReportDocument, InputOptions, String, List)}
 	 */
-	public void renderReportlet( OutputStream out, HttpServletRequest request,
-			IReportDocument reportDocument, String reportletId, String format,
-			boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
-			boolean rtl, String iServletPath ) throws RemoteException
-	{
-		InputOptions inputOptions = new InputOptions( );
+	public void renderReportlet(OutputStream out, HttpServletRequest request, IReportDocument reportDocument,
+			String reportletId, String format, boolean masterPage, boolean svgFlag, List activeIds, Locale locale,
+			boolean rtl, String iServletPath) throws RemoteException {
+		InputOptions inputOptions = new InputOptions();
 
-		inputOptions.setOption( InputOptions.OPT_REQUEST, request );
-		inputOptions.setOption( InputOptions.OPT_LOCALE, locale );
-		inputOptions.setOption( InputOptions.OPT_IS_MASTER_PAGE_CONTENT,
-				Boolean.valueOf( masterPage ) );
-		inputOptions.setOption( InputOptions.OPT_SVG_FLAG,
-				Boolean.valueOf( svgFlag ) );
-		inputOptions.setOption( InputOptions.OPT_RTL, Boolean.valueOf( rtl ) );
-		inputOptions.setOption( InputOptions.OPT_FORMAT, format );
-		inputOptions.setOption( InputOptions.OPT_SERVLET_PATH, iServletPath );
-		renderReportlet( out,
-				reportDocument,
-				inputOptions,
-				reportletId,
-				activeIds );
+		inputOptions.setOption(InputOptions.OPT_REQUEST, request);
+		inputOptions.setOption(InputOptions.OPT_LOCALE, locale);
+		inputOptions.setOption(InputOptions.OPT_IS_MASTER_PAGE_CONTENT, Boolean.valueOf(masterPage));
+		inputOptions.setOption(InputOptions.OPT_SVG_FLAG, Boolean.valueOf(svgFlag));
+		inputOptions.setOption(InputOptions.OPT_RTL, Boolean.valueOf(rtl));
+		inputOptions.setOption(InputOptions.OPT_FORMAT, format);
+		inputOptions.setOption(InputOptions.OPT_SERVLET_PATH, iServletPath);
+		renderReportlet(out, reportDocument, inputOptions, reportletId, activeIds);
 	}
 
 	/**
@@ -1907,62 +1492,45 @@ public class ReportEngineService
 	 * @param activeIds
 	 * @throws RemoteException
 	 */
-	public void renderReportlet( OutputStream out,
-			IReportDocument reportDocument, InputOptions inputOptions,
-			String reportletId, List activeIds ) throws RemoteException
-	{
-		if ( out == null )
+	public void renderReportlet(OutputStream out, IReportDocument reportDocument, InputOptions inputOptions,
+			String reportletId, List activeIds) throws RemoteException {
+		if (out == null)
 			return;
 
-		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption( InputOptions.OPT_REQUEST );
+		HttpServletRequest request = (HttpServletRequest) inputOptions.getOption(InputOptions.OPT_REQUEST);
 
 		IRenderTask renderTask = null;
-		try
-		{
-			renderTask = createRenderTask( out,
-					reportDocument,
-					inputOptions,
-					-1,
-					activeIds );
-		}
-		catch ( ReportServiceException e )
-		{
+		try {
+			renderTask = createRenderTask(out, reportDocument, inputOptions, -1, activeIds);
+		} catch (ReportServiceException e) {
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throwDummyException( e );
+			throwDummyException(e);
 		}
 
 		// Render designated page.
-		try
-		{
-			if ( ParameterAccessor.isIidReportlet( request ) )
-			{
-				InstanceID instanceId = InstanceID.parse( reportletId );
-				renderTask.setInstanceID( instanceId );
-			}
-			else
-			{
-				renderTask.setReportlet( reportletId );
+		try {
+			if (ParameterAccessor.isIidReportlet(request)) {
+				InstanceID instanceId = InstanceID.parse(reportletId);
+				renderTask.setInstanceID(instanceId);
+			} else {
+				renderTask.setReportlet(reportletId);
 			}
 
-			renderTask.render( );
-		}
-		catch ( EngineException e )
-		{
+			renderTask.render();
+		} catch (EngineException e) {
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throwDummyException( e );
-		}
-		finally
-		{
+			throwDummyException(e);
+		} finally {
 			// Remove task from http session
-			BirtUtility.removeTask( request );
+			BirtUtility.removeTask(request);
 
 			// Append errors
-			if ( ParameterAccessor.isDesigner( ) )
-				BirtUtility.error( request, renderTask.getErrors( ) );
+			if (ParameterAccessor.isDesigner())
+				BirtUtility.error(request, renderTask.getErrors());
 
-			renderTask.close( );
+			renderTask.close();
 		}
 	}
 
@@ -1973,67 +1541,56 @@ public class ReportEngineService
 	 * @return the result sets from the document
 	 * @throws RemoteException
 	 */
-	public ResultSet[] getResultSets( IReportDocument document )
-			throws RemoteException
-	{
+	public ResultSet[] getResultSets(IReportDocument document) throws RemoteException {
 		assert document != null;
 
 		ResultSet[] resultSetArray = null;
 
-		IDataExtractionTask dataTask = engine.createDataExtractionTask( document );
+		IDataExtractionTask dataTask = engine.createDataExtractionTask(document);
 
-		try
-		{
-			List resultSets = dataTask.getResultSetList( );
-			resultSetArray = new ResultSet[resultSets.size( )];
+		try {
+			List resultSets = dataTask.getResultSetList();
+			resultSetArray = new ResultSet[resultSets.size()];
 
-			if ( resultSets.size( ) > 0 )
-			{
-				for ( int k = 0; k < resultSets.size( ); k++ )
-				{
-					resultSetArray[k] = new ResultSet( );
-					IResultSetItem resultSetItem = (IResultSetItem) resultSets.get( k );
+			if (resultSets.size() > 0) {
+				for (int k = 0; k < resultSets.size(); k++) {
+					resultSetArray[k] = new ResultSet();
+					IResultSetItem resultSetItem = (IResultSetItem) resultSets.get(k);
 					assert resultSetItem != null;
 
-					resultSetArray[k].setQueryName( resultSetItem.getResultSetName( ) );
+					resultSetArray[k].setQueryName(resultSetItem.getResultSetName());
 
-					IResultMetaData metaData = resultSetItem.getResultMetaData( );
+					IResultMetaData metaData = resultSetItem.getResultMetaData();
 					assert metaData != null;
 
-					List<Column> columnArray = new ArrayList<Column>( );
-					for ( int i = 0; i < metaData.getColumnCount( ); i++ )
-					{
-						if ( !metaData.getAllowExport( i ) )
+					List<Column> columnArray = new ArrayList<Column>();
+					for (int i = 0; i < metaData.getColumnCount(); i++) {
+						if (!metaData.getAllowExport(i))
 							continue;
-						Column column = new Column( );
+						Column column = new Column();
 
-						String name = metaData.getColumnName( i );
-						column.setName( name );
+						String name = metaData.getColumnName(i);
+						column.setName(name);
 
-						String label = metaData.getColumnLabel( i );
-						if ( label == null || label.length( ) <= 0 )
-						{
+						String label = metaData.getColumnLabel(i);
+						if (label == null || label.length() <= 0) {
 							label = name;
 						}
-						column.setLabel( label );
+						column.setLabel(label);
 
-						column.setVisibility( Boolean.valueOf( true ) );
+						column.setVisibility(Boolean.valueOf(true));
 
-						columnArray.add( column );
+						columnArray.add(column);
 					}
-					resultSetArray[k].setColumn( columnArray.toArray( new Column[0] ) );
+					resultSetArray[k].setColumn(columnArray.toArray(new Column[0]));
 				}
 			}
-		}
-		catch ( Exception e )
-		{
+		} catch (Exception e) {
 			// TODO: remove RemoteException in the method signature and
 			// throw ReportServiceException directly
-			throwDummyException( e );
-		}
-		finally
-		{
-			dataTask.close( );
+			throwDummyException(e);
+		} finally {
+			dataTask.close();
 		}
 
 		return resultSetArray;
@@ -2052,87 +1609,66 @@ public class ReportEngineService
 	 * @param out
 	 * @throws RemoteException
 	 */
-	public void extractDataEx( IReportDocument document, String aExtractFormat,
-			String extractExtension, String resultSetName, String instanceId,
-			Collection columns, Locale locale, TimeZone timeZone, Map options,
-			OutputStream out ) throws RemoteException
-	{
+	public void extractDataEx(IReportDocument document, String aExtractFormat, String extractExtension,
+			String resultSetName, String instanceId, Collection columns, Locale locale, TimeZone timeZone, Map options,
+			OutputStream out) throws RemoteException {
 		assert document != null;
 		IDataExtractionTask dataTask = null;
 		String extractFormat = aExtractFormat;
-		try
-		{
-			if ( extractFormat == null || "".equals( extractFormat ) )
-			{
-				extractFormat = ParameterAccessor.getExtractFormat( extractExtension );
+		try {
+			if (extractFormat == null || "".equals(extractFormat)) {
+				extractFormat = ParameterAccessor.getExtractFormat(extractExtension);
 			}
 
-			String[] columnNames = DataExtractionParameterUtil.getColumnNames( columns );
+			String[] columnNames = DataExtractionParameterUtil.getColumnNames(columns);
 
 			// create DataExtractionTask
-			dataTask = engine.createDataExtractionTask( document );
+			dataTask = engine.createDataExtractionTask(document);
 
 			// set resultSetName
-			if ( resultSetName != null )
-				dataTask.selectResultSet( resultSetName );
+			if (resultSetName != null)
+				dataTask.selectResultSet(resultSetName);
 
 			// set instanceId
-			if ( instanceId != null )
-				dataTask.setInstanceID( InstanceID.parse( instanceId ) );
+			if (instanceId != null)
+				dataTask.setInstanceID(InstanceID.parse(instanceId));
 
 			// set locale information
-			dataTask.setLocale( locale );
+			dataTask.setLocale(locale);
 
-			com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone( timeZone );
-			if ( tz != null )
-			{
-				dataTask.setTimeZone( tz );
+			com.ibm.icu.util.TimeZone tz = BirtUtility.toICUTimeZone(timeZone);
+			if (tz != null) {
+				dataTask.setTimeZone(tz);
 			}
 
 			DataExtractionOption extractOption = null;
 
 			// create DataExtractionOption object
-			if ( DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV.equals( extractFormat ) )
-			{
+			if (DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV.equals(extractFormat)) {
 				// CSV data extraction option
-				extractOption = DataExtractionParameterUtil.createCSVOptions( columnNames,
-						locale,
-						timeZone,
-						options );
+				extractOption = DataExtractionParameterUtil.createCSVOptions(columnNames, locale, timeZone, options);
 
-			}
-			else
-			{
+			} else {
 				// default to common data extraction option
-				extractOption = DataExtractionParameterUtil.createOptions( null,
-						columnNames,
-						locale,
-						timeZone,
-						options );
+				extractOption = DataExtractionParameterUtil.createOptions(null, columnNames, locale, timeZone, options);
 			}
 
-			extractOption.setOutputFormat( extractFormat );
-			extractOption.setExtension( extractExtension );
-			extractOption.setOutputStream( out );
+			extractOption.setOutputFormat(extractFormat);
+			extractOption.setExtension(extractExtension);
+			extractOption.setOutputStream(out);
 
 			// set selected columns
-			if ( columnNames != null && columnNames.length > 0 )
-			{
-				dataTask.selectColumns( columnNames );
+			if (columnNames != null && columnNames.length > 0) {
+				dataTask.selectColumns(columnNames);
 			}
 
 			// do extract
-			dataTask.extract( extractOption );
-		}
-		catch ( BirtException e )
-		{
-			throwDummyException( e );
-		}
-		finally
-		{
-			if ( dataTask != null )
-			{
-				dataTask.close( );
+			dataTask.extract(extractOption);
+		} catch (BirtException e) {
+			throwDummyException(e);
+		} finally {
+			if (dataTask != null) {
+				dataTask.close();
 			}
 		}
 
@@ -2152,18 +1688,10 @@ public class ReportEngineService
 	 * @deprecated use
 	 *             {@link #extractDataEx(IReportDocument, String, String, String, String, Collection, Locale, Map, OutputStream)}
 	 */
-	public void extractData( IReportDocument document, String resultSetName,
-			Collection columns, Locale locale, OutputStream outputStream,
-			String encoding ) throws RemoteException
-	{
-		extractData( document,
-				resultSetName,
-				columns,
-				locale,
-				outputStream,
-				encoding,
-				DataExtractionParameterUtil.DEFAULT_SEP.charAt( 0 ),
-				false );
+	public void extractData(IReportDocument document, String resultSetName, Collection columns, Locale locale,
+			OutputStream outputStream, String encoding) throws RemoteException {
+		extractData(document, resultSetName, columns, locale, outputStream, encoding,
+				DataExtractionParameterUtil.DEFAULT_SEP.charAt(0), false);
 	}
 
 	/**
@@ -2182,32 +1710,19 @@ public class ReportEngineService
 	 * @deprecated use
 	 *             {@link #extractDataEx(IReportDocument, String, String, String, String, Collection, Locale, Map, OutputStream)}
 	 */
-	public void extractData( IReportDocument document, String resultSetName,
-			Collection columns, Locale locale, OutputStream outputStream,
-			String encoding, char sep, boolean isExportDataType )
-			throws RemoteException
-	{
+	public void extractData(IReportDocument document, String resultSetName, Collection columns, Locale locale,
+			OutputStream outputStream, String encoding, char sep, boolean isExportDataType) throws RemoteException {
 		assert document != null;
-		assert resultSetName != null && resultSetName.length( ) > 0;
-		assert columns != null && !columns.isEmpty( );
+		assert resultSetName != null && resultSetName.length() > 0;
+		assert columns != null && !columns.isEmpty();
 
-		Map options = new HashMap( );
-		options.put( DataExtractionParameterUtil.PARAM_SEP,
-				Character.toString( sep ) );
-		options.put( DataExtractionParameterUtil.PARAM_EXPORT_DATATYPE,
-				Boolean.valueOf( isExportDataType ) );
-		options.put( DataExtractionParameterUtil.PARAM_EXPORT_ENCODING,
-				encoding );
-		extractDataEx( document,
-				DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV,
-				DataExtractionParameterUtil.EXTRACTION_EXTENSION_CSV,
-				resultSetName,
-				null,
-				columns,
-				locale,
-				null,
-				options,
-				outputStream );
+		Map options = new HashMap();
+		options.put(DataExtractionParameterUtil.PARAM_SEP, Character.toString(sep));
+		options.put(DataExtractionParameterUtil.PARAM_EXPORT_DATATYPE, Boolean.valueOf(isExportDataType));
+		options.put(DataExtractionParameterUtil.PARAM_EXPORT_ENCODING, encoding);
+		extractDataEx(document, DataExtractionParameterUtil.EXTRACTION_FORMAT_CSV,
+				DataExtractionParameterUtil.EXTRACTION_EXTENSION_CSV, resultSetName, null, columns, locale, null,
+				options, outputStream);
 	}
 
 	/**
@@ -2220,16 +1735,14 @@ public class ReportEngineService
 	 * @deprecated
 	 * @return map of the request parameters
 	 */
-	public HashMap parseParameters( HttpServletRequest request,
-			IGetParameterDefinitionTask task, Map configVars, Locale locale )
-	{
+	public HashMap parseParameters(HttpServletRequest request, IGetParameterDefinitionTask task, Map configVars,
+			Locale locale) {
 		assert task != null;
-		HashMap params = new HashMap( );
+		HashMap params = new HashMap();
 
-		Collection parameterList = task.getParameterDefns( false );
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
-		{
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter.next( );
+		Collection parameterList = task.getParameterDefns(false);
+		for (Iterator iter = parameterList.iterator(); iter.hasNext();) {
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter.next();
 
 			String paramValue = null;
 			Object paramValueObj = null;
@@ -2237,38 +1750,26 @@ public class ReportEngineService
 			// ScalarParameterHandle paramHandle = ( ScalarParameterHandle )
 			// parameterObj
 			// .getHandle( );
-			String paramName = parameterObj.getName( );
-			String format = parameterObj.getDisplayFormat( );
+			String paramName = parameterObj.getName();
+			String format = parameterObj.getDisplayFormat();
 
 			// Get default value from task
-			ReportParameterConverter converter = new ReportParameterConverter( format,
-					locale );
+			ReportParameterConverter converter = new ReportParameterConverter(format, locale);
 
-			if ( ParameterAccessor.isReportParameterExist( request, paramName ) )
-			{
+			if (ParameterAccessor.isReportParameterExist(request, paramName)) {
 				// Get value from http request
-				paramValue = ParameterAccessor.getReportParameter( request,
-						paramName,
-						paramValue );
-				paramValueObj = converter.parse( paramValue,
-						parameterObj.getDataType( ) );
-			}
-			else if ( ParameterAccessor.isDesigner( )
-					&& configVars.containsKey( paramName ) )
-			{
+				paramValue = ParameterAccessor.getReportParameter(request, paramName, paramValue);
+				paramValueObj = converter.parse(paramValue, parameterObj.getDataType());
+			} else if (ParameterAccessor.isDesigner() && configVars.containsKey(paramName)) {
 				// Get value from test config
-				String configValue = (String) configVars.get( paramName );
-				ReportParameterConverter cfgConverter = new ReportParameterConverter( format,
-						Locale.US );
-				paramValueObj = cfgConverter.parse( configValue,
-						parameterObj.getDataType( ) );
-			}
-			else
-			{
-				paramValueObj = task.getDefaultValue( parameterObj.getName( ) );
+				String configValue = (String) configVars.get(paramName);
+				ReportParameterConverter cfgConverter = new ReportParameterConverter(format, Locale.US);
+				paramValueObj = cfgConverter.parse(configValue, parameterObj.getDataType());
+			} else {
+				paramValueObj = task.getDefaultValue(parameterObj.getName());
 			}
 
-			params.put( paramName, paramValueObj );
+			params.put(paramName, paramValueObj);
 		}
 
 		return params;
@@ -2282,43 +1783,34 @@ public class ReportEngineService
 	 * @deprecated
 	 * @return true if all the parameter values are valid, otherwise false
 	 */
-	public boolean validateParameters( IGetParameterDefinitionTask task,
-			Map parameters )
-	{
+	public boolean validateParameters(IGetParameterDefinitionTask task, Map parameters) {
 		assert task != null;
 		assert parameters != null;
 
 		boolean missingParameter = false;
 
-		Collection parameterList = task.getParameterDefns( false );
-		for ( Iterator iter = parameterList.iterator( ); iter.hasNext( ); )
-		{
-			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter.next( );
+		Collection parameterList = task.getParameterDefns(false);
+		for (Iterator iter = parameterList.iterator(); iter.hasNext();) {
+			IScalarParameterDefn parameterObj = (IScalarParameterDefn) iter.next();
 			// ScalarParameterHandle paramHandle = ( ScalarParameterHandle )
 			// parameterObj
 			// .getHandle( );
 
-			String parameterName = parameterObj.getName( );
-			Object parameterValue = parameters.get( parameterName );
+			String parameterName = parameterObj.getName();
+			Object parameterValue = parameters.get(parameterName);
 
-			if ( parameterObj.isHidden( ) )
-			{
+			if (parameterObj.isHidden()) {
 				continue;
 			}
 
-			if ( parameterValue == null && !parameterObj.allowNull( ) )
-			{
+			if (parameterValue == null && !parameterObj.allowNull()) {
 				missingParameter = true;
 				break;
 			}
 
-			if ( IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType( ) )
-			{
+			if (IScalarParameterDefn.TYPE_STRING == parameterObj.getDataType()) {
 				String parameterStringValue = (String) parameterValue;
-				if ( parameterStringValue != null
-						&& parameterStringValue.length( ) <= 0
-						&& !parameterObj.allowBlank( ) )
-				{
+				if (parameterStringValue != null && parameterStringValue.length() <= 0 && !parameterObj.allowBlank()) {
 					missingParameter = true;
 					break;
 				}
@@ -2331,47 +1823,40 @@ public class ReportEngineService
 	/**
 	 * uses to clear the data cach.
 	 * 
-	 * @param dataSet
-	 *            the dataset handle
+	 * @param dataSet the dataset handle
 	 * @throws BirtException
 	 */
-	public void clearCache( DataSetHandle dataSet ) throws BirtException
-	{
+	public void clearCache(DataSetHandle dataSet) throws BirtException {
 		DataSessionContext context;
 		DataRequestSession requestSession = null;
-		try
-		{
-			context = new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-					dataSet.getModuleHandle( ),
-					null );
-			requestSession = DataRequestSession.newSession( context );
+		try {
+			context = new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION, dataSet.getModuleHandle(),
+					null);
+			requestSession = DataRequestSession.newSession(context);
 
-			IModelAdapter modelAdaptor = requestSession.getModelAdaptor( );
-			DataSourceHandle dataSource = dataSet.getDataSource( );
+			IModelAdapter modelAdaptor = requestSession.getModelAdaptor();
+			DataSourceHandle dataSource = dataSet.getDataSource();
 
-			IBaseDataSourceDesign sourceDesign = modelAdaptor.adaptDataSource( dataSource );
-			IBaseDataSetDesign dataSetDesign = modelAdaptor.adaptDataSet( dataSet );
+			IBaseDataSourceDesign sourceDesign = modelAdaptor.adaptDataSource(dataSource);
+			IBaseDataSetDesign dataSetDesign = modelAdaptor.adaptDataSet(dataSet);
 
-			requestSession.clearCache( sourceDesign, dataSetDesign );
-		}
-		finally
-		{
-			if ( requestSession != null )
-			{
-				requestSession.shutdown( );
+			requestSession.clearCache(sourceDesign, dataSetDesign);
+		} finally {
+			if (requestSession != null) {
+				requestSession.shutdown();
 			}
 		}
 	}
 
 	/**
-	 * Collects all the distinct values for the given element and
-	 * bindColumnName. This method will traverse the design tree for the given
-	 * element and get the nearest binding column holder of it. The nearest
-	 * binding column holder must be a list or table item, and it defines a
-	 * distinct data set and bingding columns in it. If the element is null,
-	 * binding name is empty or the binding column holder is not found, then
-	 * return <code>Collections.EMPTY_LIST</code>. Caller can specify the max
-	 * row number and start row number by implement the interface IRequestInfo.
+	 * Collects all the distinct values for the given element and bindColumnName.
+	 * This method will traverse the design tree for the given element and get the
+	 * nearest binding column holder of it. The nearest binding column holder must
+	 * be a list or table item, and it defines a distinct data set and bingding
+	 * columns in it. If the element is null, binding name is empty or the binding
+	 * column holder is not found, then return <code>Collections.EMPTY_LIST</code>.
+	 * Caller can specify the max row number and start row number by implement the
+	 * interface IRequestInfo.
 	 * 
 	 * @param bindingName
 	 * @param elementHandle
@@ -2380,41 +1865,33 @@ public class ReportEngineService
 	 * @throws BirtException
 	 */
 
-	public List getColumnValueSet( String bindingName,
-			DesignElementHandle elementHandle, IRequestInfo requestInfo )
-			throws BirtException
-	{
-		if ( bindingName == null
-				|| elementHandle == null
-				|| !( elementHandle instanceof ReportItemHandle ) )
+	public List getColumnValueSet(String bindingName, DesignElementHandle elementHandle, IRequestInfo requestInfo)
+			throws BirtException {
+		if (bindingName == null || elementHandle == null || !(elementHandle instanceof ReportItemHandle))
 			return Collections.EMPTY_LIST;
 
 		// if there is no effective holder of bindings, return empty
-		ReportItemHandle reportItem = getBindingHolder( elementHandle );
-		if ( reportItem == null )
+		ReportItemHandle reportItem = getBindingHolder(elementHandle);
+		if (reportItem == null)
 			return Collections.EMPTY_LIST;
 
-		List selectValueList = new ArrayList( );
-		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				reportItem.getModuleHandle( ) ) );
-		selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-				reportItem.paramBindingsIterator( ),
-				reportItem.columnBindingsIterator( ),
-				bindingName,
-				requestInfo ) );
-		session.shutdown( );
+		List selectValueList = new ArrayList();
+		DataRequestSession session = DataRequestSession.newSession(
+				new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION, reportItem.getModuleHandle()));
+		selectValueList.addAll(session.getColumnValueSet(reportItem.getDataSet(), reportItem.paramBindingsIterator(),
+				reportItem.columnBindingsIterator(), bindingName, requestInfo));
+		session.shutdown();
 
 		return selectValueList;
 	}
 
 	/**
-	 * Collects all the distinct values for the given element and
-	 * bindColumnName. This method will traverse the design tree for the given
-	 * element and get the nearest binding column holder of it. The nearest
-	 * binding column holder must be a list or table item, and it defines a
-	 * distinct data set and bingding columns in it. If the element is null,
-	 * binding name is empty or the binding column holder is not found, then
-	 * return <code>Collections.EMPTY_LIST</code>.
+	 * Collects all the distinct values for the given element and bindColumnName.
+	 * This method will traverse the design tree for the given element and get the
+	 * nearest binding column holder of it. The nearest binding column holder must
+	 * be a list or table item, and it defines a distinct data set and bingding
+	 * columns in it. If the element is null, binding name is empty or the binding
+	 * column holder is not found, then return <code>Collections.EMPTY_LIST</code>.
 	 * 
 	 * @param bindingName
 	 * @param elementHandle
@@ -2422,60 +1899,45 @@ public class ReportEngineService
 	 * @throws BirtException
 	 */
 
-	public List getColumnValueSet( String bindingName,
-			DesignElementHandle elementHandle ) throws BirtException
-	{
-		if ( bindingName == null
-				|| elementHandle == null
-				|| !( elementHandle instanceof ReportItemHandle ) )
+	public List getColumnValueSet(String bindingName, DesignElementHandle elementHandle) throws BirtException {
+		if (bindingName == null || elementHandle == null || !(elementHandle instanceof ReportItemHandle))
 			return Collections.EMPTY_LIST;
 
 		// if there is no effective holder of bindings, return empty
-		ReportItemHandle reportItem = getBindingHolder( elementHandle );
-		if ( reportItem == null )
+		ReportItemHandle reportItem = getBindingHolder(elementHandle);
+		if (reportItem == null)
 			return Collections.EMPTY_LIST;
 
-		List selectValueList = new ArrayList( );
-		DataRequestSession session = DataRequestSession.newSession( new DataSessionContext( DataSessionContext.MODE_DIRECT_PRESENTATION,
-				reportItem.getModuleHandle( ) ) );
-		selectValueList.addAll( session.getColumnValueSet( reportItem.getDataSet( ),
-				reportItem.paramBindingsIterator( ),
-				reportItem.columnBindingsIterator( ),
-				bindingName ) );
-		session.shutdown( );
+		List selectValueList = new ArrayList();
+		DataRequestSession session = DataRequestSession.newSession(
+				new DataSessionContext(DataSessionContext.MODE_DIRECT_PRESENTATION, reportItem.getModuleHandle()));
+		selectValueList.addAll(session.getColumnValueSet(reportItem.getDataSet(), reportItem.paramBindingsIterator(),
+				reportItem.columnBindingsIterator(), bindingName));
+		session.shutdown();
 
 		return selectValueList;
 	}
 
 	/**
-	 * Returns the element handle which can save binding columns the given
-	 * element
+	 * Returns the element handle which can save binding columns the given element
 	 * 
-	 * @param handle
-	 *            the handle of the element which needs binding columns
+	 * @param handle the handle of the element which needs binding columns
 	 * @return the holder for the element,or itself if no holder available
 	 */
 
-	private ReportItemHandle getBindingHolder( DesignElementHandle handle )
-	{
-		if ( handle instanceof ReportElementHandle )
-		{
-			if ( handle instanceof ListingHandle )
-			{
+	private ReportItemHandle getBindingHolder(DesignElementHandle handle) {
+		if (handle instanceof ReportElementHandle) {
+			if (handle instanceof ListingHandle) {
 				return (ReportItemHandle) handle;
 			}
-			if ( handle instanceof ReportItemHandle )
-			{
-				if ( ( (ReportItemHandle) handle ).getDataSet( ) != null
-						|| ( (ReportItemHandle) handle ).columnBindingsIterator( )
-								.hasNext( ) )
-				{
+			if (handle instanceof ReportItemHandle) {
+				if (((ReportItemHandle) handle).getDataSet() != null
+						|| ((ReportItemHandle) handle).columnBindingsIterator().hasNext()) {
 					return (ReportItemHandle) handle;
 				}
 			}
-			ReportItemHandle result = getBindingHolder( handle.getContainer( ) );
-			if ( result == null && handle instanceof ReportItemHandle )
-			{
+			ReportItemHandle result = getBindingHolder(handle.getContainer());
+			if (result == null && handle instanceof ReportItemHandle) {
 				result = (ReportItemHandle) handle;
 			}
 			return result;
@@ -2488,24 +1950,21 @@ public class ReportEngineService
 	 * 
 	 * @deprecated use ParameterAccessor#getEmitterMimeType(String,String)
 	 */
-	public String getMIMEType( String format )
-	{
-		return engine.getMIMEType( format );
+	public String getMIMEType(String format) {
+		return engine.getMIMEType(format);
 	}
 
 	/**
 	 * Returns the engine config
 	 */
-	public EngineConfig getEngineConfig( )
-	{
+	public EngineConfig getEngineConfig() {
 		return config;
 	}
 
 	/**
 	 * Shutdown ReportEngineService, set instance as null
 	 */
-	public static void shutdown( )
-	{
+	public static void shutdown() {
 		instance = null;
 	}
 }

@@ -40,8 +40,7 @@ import org.eclipse.ui.PlatformUI;
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
-public class NewDataSetAction extends Action implements UpdateAction
-{
+public class NewDataSetAction extends Action implements UpdateAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.NewDataSetAction"; //$NON-NLS-1$
 	private DataSetHandle dataSetHandle;
@@ -49,39 +48,35 @@ public class NewDataSetAction extends Action implements UpdateAction
 	/**
 	 * Constructor
 	 */
-	public NewDataSetAction( )
-	{
-		super( );
-		setId( ID );
+	public NewDataSetAction() {
+		super();
+		setId(ID);
 	}
 
 	/**
 	 * @param text
 	 */
-	public NewDataSetAction( String text )
-	{
-		super( text );
-		setId( ID );
+	public NewDataSetAction(String text) {
+		super(text);
+		setId(ID);
 	}
 
 	/**
 	 * @param text
 	 * @param style
 	 */
-	public NewDataSetAction( String text, int style )
-	{
-		super( text, style );
-		setId( ID );
+	public NewDataSetAction(String text, int style) {
+		super(text, style);
+		setId(ID);
 	}
 
 	/**
 	 * @param text
 	 * @param image
 	 */
-	public NewDataSetAction( String text, ImageDescriptor image )
-	{
-		super( text, image );
-		setId( ID );
+	public NewDataSetAction(String text, ImageDescriptor image) {
+		super(text, image);
+		setId(ID);
 	}
 
 	/*
@@ -89,23 +84,19 @@ public class NewDataSetAction extends Action implements UpdateAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.UpdateAction#update()
 	 */
-	public void update( )
-	{
-		setEnabled( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) != null );
+	public void update() {
+		setEnabled(SessionHandleAdapter.getInstance().getReportDesignHandle() != null);
 	}
 
 	/*
 	 * (non-Javadoc) Method declared on IAction.
 	 */
-	public boolean isEnabled( )
-	{
-		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		if ( moduleHandle == null )
-		{
+	public boolean isEnabled() {
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
+		if (moduleHandle == null) {
 			return false;
 		}
-		return super.isEnabled( );
+		return super.isEnabled();
 	}
 
 	/*
@@ -113,128 +104,90 @@ public class NewDataSetAction extends Action implements UpdateAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
+	public void run() {
 
-		if ( !isEnabled( ) )
-		{
-			MessageDialog.openError( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					Messages.getString( "dataset.error.title.noReportDesign" ), Messages.getString( "dataset.error.msg.noReportDesign" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		if (!isEnabled()) {
+			MessageDialog.openError(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+					Messages.getString("dataset.error.title.noReportDesign"), //$NON-NLS-1$
+					Messages.getString("dataset.error.msg.noReportDesign"));//$NON-NLS-1$
 			return;
 		}
 
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "New data set action >> Run ..." ); //$NON-NLS-1$
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("New data set action >> Run ..."); //$NON-NLS-1$
 		}
 		// Fix Bugzilla Bug 116583
 		// Start a persistent.
-		SessionHandleAdapter.getInstance( )
-				.getCommandStack( )
-				.startPersistentTrans( Messages.getString( "dataset.new" ) ); //$NON-NLS-1$
+		SessionHandleAdapter.getInstance().getCommandStack().startPersistentTrans(Messages.getString("dataset.new")); //$NON-NLS-1$
 
 		// Check if data Sources are available
-		if ( HandleAdapterFactory.getInstance( )
-				.getReportDesignHandleAdapter( )
-				.getModuleHandle( )
-				.getVisibleDataSources( )
-				.isEmpty( ) )
-		{
-			boolean createNewDataSource = MessageDialog.openQuestion( PlatformUI.getWorkbench( )
-					.getDisplay( )
-					.getActiveShell( ),
-					Messages.getString( "dataset.error.title.noDataSources" ), Messages.getString( "dataset.error.noDataSources" ) );//$NON-NLS-1$ //$NON-NLS-2$
+		if (HandleAdapterFactory.getInstance().getReportDesignHandleAdapter().getModuleHandle().getVisibleDataSources()
+				.isEmpty()) {
+			boolean createNewDataSource = MessageDialog.openQuestion(
+					PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+					Messages.getString("dataset.error.title.noDataSources"), //$NON-NLS-1$
+					Messages.getString("dataset.error.noDataSources"));//$NON-NLS-1$
 
-			if ( createNewDataSource )
-			{
-				DefaultDataSourceWizard wizard = new DefaultDataSourceWizard( );
-				String wizardTitle = Messages.getString( "datasource.new" );//$NON-NLS-1$
-				wizard.setWindowTitle( wizardTitle );
-				WizardDialog dialog = new BaseWizardDialog( PlatformUI.getWorkbench( )
-						.getDisplay( )
-						.getActiveShell( ),
-						wizard );
-				if ( dialog.open( ) == WizardDialog.CANCEL )
-				{
-					notifyResult( false );
-					SessionHandleAdapter.getInstance( )
-							.getCommandStack( )
-							.rollback( );
+			if (createNewDataSource) {
+				DefaultDataSourceWizard wizard = new DefaultDataSourceWizard();
+				String wizardTitle = Messages.getString("datasource.new");//$NON-NLS-1$
+				wizard.setWindowTitle(wizardTitle);
+				WizardDialog dialog = new BaseWizardDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+						wizard);
+				if (dialog.open() == WizardDialog.CANCEL) {
+					notifyResult(false);
+					SessionHandleAdapter.getInstance().getCommandStack().rollback();
 					return;
+				} else {
+					createNewDataSet();
 				}
-				else
-				{
-					createNewDataSet( );
-				}
+			} else {
+				notifyResult(false);
+				SessionHandleAdapter.getInstance().getCommandStack().rollback();
 			}
-			else
-			{
-				notifyResult( false );
-				SessionHandleAdapter.getInstance( )
-						.getCommandStack( )
-						.rollback( );
-			}
-		}
-		else
-		{
-			createNewDataSet( );
+		} else {
+			createNewDataSet();
 		}
 	}
 
-	private void createNewDataSet( )
-	{
-		DefaultDataSetWizard wizard = new DefaultDataSetWizard( );
-		wizard.setWindowTitle( Messages.getString( "dataset.new" ) );//$NON-NLS-1$
-		WizardDialog dialog = new BaseWizardDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), wizard );
+	private void createNewDataSet() {
+		DefaultDataSetWizard wizard = new DefaultDataSetWizard();
+		wizard.setWindowTitle(Messages.getString("dataset.new"));//$NON-NLS-1$
+		WizardDialog dialog = new BaseWizardDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(), wizard);
 
-		if ( dialog.open( ) == WizardDialog.OK )
-		{
-			DataSetHandle ds = wizard.getNewCreateDataSetHandle( );
-			if ( editDataSet( ds ) )
-			{
-				notifyResult( true );
+		if (dialog.open() == WizardDialog.OK) {
+			DataSetHandle ds = wizard.getNewCreateDataSetHandle();
+			if (editDataSet(ds)) {
+				notifyResult(true);
+			} else {
+				notifyResult(false);
 			}
-			else
-			{
-				notifyResult( false );
-			}
-			ReportRequest request = new ReportRequest( ReportRequest.CREATE_ELEMENT );
-			List selectionObjects = new ArrayList( );
-			selectionObjects.add( dataSetHandle );
-			request.setSelectionObject( selectionObjects );
-			SessionHandleAdapter.getInstance( )
-					.getMediator( )
-					.notifyRequest( request );
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).commit( );
-		}
-		else
-		{
-			notifyResult( false );
-			SessionHandleAdapter.getInstance( ).getCommandStack( ).rollback( );
+			ReportRequest request = new ReportRequest(ReportRequest.CREATE_ELEMENT);
+			List selectionObjects = new ArrayList();
+			selectionObjects.add(dataSetHandle);
+			request.setSelectionObject(selectionObjects);
+			SessionHandleAdapter.getInstance().getMediator().notifyRequest(request);
+			SessionHandleAdapter.getInstance().getCommandStack().commit();
+		} else {
+			notifyResult(false);
+			SessionHandleAdapter.getInstance().getCommandStack().rollback();
 		}
 	}
-	
-	private boolean editDataSet( DataSetHandle ds )
-	{
+
+	private boolean editDataSet(DataSetHandle ds) {
 		dataSetHandle = ds;
 
-		if ( dataSetHandle == null )
+		if (dataSetHandle == null)
 			return false;
 		// The last element was the One added
 		// DataSetHandle dataSetHandle = (DataSetHandle) newDataSets.get(
 		// newDataSets.size( ) - 1 );
 		// Edit the added DataSet if it is not a script data set.
-		if ( dataSetHandle instanceof ScriptDataSetHandle )
-		{
+		if (dataSetHandle instanceof ScriptDataSetHandle) {
 			return false;
 		}
-		DataSetEditor dialog = new AdvancedDataSetEditor( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), dataSetHandle, true, true );
-		return ( dialog.open( ) == Window.OK );
+		DataSetEditor dialog = new AdvancedDataSetEditor(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				dataSetHandle, true, true);
+		return (dialog.open() == Window.OK);
 	}
 }

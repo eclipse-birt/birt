@@ -19,27 +19,24 @@ import org.eclipse.birt.report.designer.ui.expressions.ExpressionFilter;
  * invoking the expressiong builder.
  */
 
-public class DataSetExpressionFilter extends ExpressionFilter
-{
+public class DataSetExpressionFilter extends ExpressionFilter {
 
 	/**
 	 * Creates a new instance.
 	 */
-	public DataSetExpressionFilter( )
-	{
-		super( );
+	public DataSetExpressionFilter() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter#select(java.lang.Object,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dialogs.ExpressionFilter#select(
+	 * java.lang.Object, java.lang.Object)
 	 */
-	public boolean select( Object parentElement, Object element )
-	{
-		if ( ExpressionProvider.PARAMETERS.equals( element ) )
-		{
+	public boolean select(Object parentElement, Object element) {
+		if (ExpressionProvider.PARAMETERS.equals(element)) {
 			return false;
 		}
 		return true;

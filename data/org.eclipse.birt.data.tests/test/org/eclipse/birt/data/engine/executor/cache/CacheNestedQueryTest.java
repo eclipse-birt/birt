@@ -18,34 +18,30 @@ import org.eclipse.birt.data.engine.binding.NestedQueryTest;
 import org.junit.Before;
 import org.junit.Test;
 
-
 /**
  *
  */
-public class CacheNestedQueryTest extends NestedQueryTest
-{
-	
+public class CacheNestedQueryTest extends NestedQueryTest {
+
 	/*
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-    public void cacheNestedQuerySetUp() throws Exception
-	{
+	public void cacheNestedQuerySetUp() throws Exception {
 
-		System.setProperty( "birt.data.engine.test.memcachesize", "20000" );
+		System.setProperty("birt.data.engine.test.memcachesize", "20000");
 	}
+
 	@Test
-    public void test6() throws Exception
-	{
-		System.setProperty( "birt.data.engine.test.memcachesize", "20000" );
+	public void test6() throws Exception {
+		System.setProperty("birt.data.engine.test.memcachesize", "20000");
 		super.test6();
 	}
-	
-	protected Map getAppContext()
-	{
+
+	protected Map getAppContext() {
 		Map appContext = new HashMap();
-		appContext.put( "birt.data.engine.test.memcachesize", "20000" );
+		appContext.put("birt.data.engine.test.memcachesize", "20000");
 		return appContext;
 	}
-	
+
 }

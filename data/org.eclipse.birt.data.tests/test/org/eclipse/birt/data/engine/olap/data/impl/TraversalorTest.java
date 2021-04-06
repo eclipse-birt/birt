@@ -16,9 +16,7 @@ import java.io.IOException;
 import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.data.engine.olap.data.impl.Traversalor;
 
-
 import org.junit.Test;
-
 
 /**
  * 
@@ -30,25 +28,20 @@ public class TraversalorTest {
 	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
-/*
+	/*
 	 * @see TestCase#tearDown()
 	 */
-/**
+	/**
 	 * 
 	 * @throws IOException
 	 * @throws BirtException
 	 */
 	@Test
-    public void testTraversalor( ) throws IOException,
-			BirtException
-	{
-		int[] lengthArray = { 1, 1, 1};
-		Traversalor traversalor = new Traversalor( lengthArray );
-		while( traversalor.next( ) )
-		{
-			System.out.println( traversalor.getInt( 0 )
-					+ ", " + traversalor.getInt( 1 ) + ", "
-					+ traversalor.getInt( 2 ) );
+	public void testTraversalor() throws IOException, BirtException {
+		int[] lengthArray = { 1, 1, 1 };
+		Traversalor traversalor = new Traversalor(lengthArray);
+		while (traversalor.next()) {
+			System.out.println(traversalor.getInt(0) + ", " + traversalor.getInt(1) + ", " + traversalor.getInt(2));
 		}
 	}
 }

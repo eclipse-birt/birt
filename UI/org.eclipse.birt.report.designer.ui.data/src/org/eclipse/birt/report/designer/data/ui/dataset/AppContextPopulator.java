@@ -11,7 +11,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.data.ui.dataset;
 
-
 import java.util.Map;
 
 import org.eclipse.birt.core.exception.BirtException;
@@ -24,27 +23,18 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
  * 
  */
 
-public class AppContextPopulator
-{
-	public static void populateApplicationContext( DataSourceHandle handle,
-			Map input ) throws BirtException
-	{
+public class AppContextPopulator {
+	public static void populateApplicationContext(DataSourceHandle handle, Map input) throws BirtException {
 	}
-	
-	
-	public static void populateApplicationContext ( CubeHandle handle,
-			Map input ) throws BirtException
-	{
+
+	public static void populateApplicationContext(CubeHandle handle, Map input) throws BirtException {
 	}
-	
-	public static void populateApplicationContext( DataSetHandle handle,
-			Map input ) throws BirtException
-	{
-		
+
+	public static void populateApplicationContext(DataSetHandle handle, Map input) throws BirtException {
+
 	}
-	
-	public static void populateApplicationContext( DataSetHandle handle,
-			DataRequestSession session ) throws BirtException
-	{
+
+	public static void populateApplicationContext(DataSetHandle handle, DataRequestSession session)
+			throws BirtException {
 	}
 }

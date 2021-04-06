@@ -45,8 +45,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Test the logic on GroupElmentHandle::hasLocalPropertiesForExtendedElements( )
  * <p>
  */
-public class Regression_146481 extends BaseTestCase
-{
+public class Regression_146481 extends BaseTestCase {
 
 	private final static String REPORT = "regression_146481.xml"; //$NON-NLS-1$
 
@@ -55,46 +54,39 @@ public class Regression_146481 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( REPORT , REPORT );
-		//copyResource_INPUT( "regression_146481_lib" , "regression_146481_lib" );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( REPORT , REPORT );
+		// copyResource_INPUT( "regression_146481_lib" , "regression_146481_lib" );
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_146481( ) throws DesignFileException,
-			SemanticException
-	{
-		openDesign( REPORT );
-		LibraryHandle lib = designHandle.getLibrary( "regression_146481_lib" ); //$NON-NLS-1$
-		LabelHandle label = (LabelHandle) lib.findElement( "NewLabel" ); //$NON-NLS-1$
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle newLabel = (LabelHandle) factory.newElementFrom(
-				label,
-				"label1" ); //$NON-NLS-1$
+	public void test_regression_146481() throws DesignFileException, SemanticException {
+		openDesign(REPORT);
+		LibraryHandle lib = designHandle.getLibrary("regression_146481_lib"); //$NON-NLS-1$
+		LabelHandle label = (LabelHandle) lib.findElement("NewLabel"); //$NON-NLS-1$
 
-		designHandle.getBody( ).add( newLabel );
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle newLabel = (LabelHandle) factory.newElementFrom(label, "label1"); //$NON-NLS-1$
 
-		LabelHandle label1 = (LabelHandle) designHandle.findElement( "label1" ); //$NON-NLS-1$
-		List elements = new ArrayList( );
-		elements.add( label1 );
+		designHandle.getBody().add(newLabel);
 
-		GroupElementHandle groupElementHandle = GroupElementFactory
-				.newGroupElement( designHandle, elements );
+		LabelHandle label1 = (LabelHandle) designHandle.findElement("label1"); //$NON-NLS-1$
+		List elements = new ArrayList();
+		elements.add(label1);
 
-		assertFalse( groupElementHandle.hasLocalPropertiesForExtendedElements( ) );
+		GroupElementHandle groupElementHandle = GroupElementFactory.newGroupElement(designHandle, elements);
+
+		assertFalse(groupElementHandle.hasLocalPropertiesForExtendedElements());
 
 		// change the name
 
-		label1.setName( "aa" ); //$NON-NLS-1$
+		label1.setName("aa"); //$NON-NLS-1$
 
-		assertFalse( groupElementHandle.hasLocalPropertiesForExtendedElements( ) );
+		assertFalse(groupElementHandle.hasLocalPropertiesForExtendedElements());
 	}
 }

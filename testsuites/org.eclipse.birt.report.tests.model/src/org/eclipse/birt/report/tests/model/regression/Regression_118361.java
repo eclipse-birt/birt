@@ -49,42 +49,38 @@ import com.ibm.icu.util.ULocale;
  * exception.
  * </p>
  */
-public class Regression_118361 extends BaseTestCase
-{
+public class Regression_118361 extends BaseTestCase {
 
 	private final static String outFileName = "regression_118361.out";
+
 	/**
 	 * @throws ContentException
 	 * @throws NameException
 	 */
 
-	public void test_regression_118361( ) throws ContentException, NameException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_118361() throws ContentException, NameException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		SimpleMasterPageHandle page = factory.newSimpleMasterPage( "oldName" ); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		SimpleMasterPageHandle page = factory.newSimpleMasterPage("oldName"); //$NON-NLS-1$
 
-		designHandle.getMasterPages( ).add( page );
+		designHandle.getMasterPages().add(page);
 
-		MasterPageHandle pageHandle = designHandle.findMasterPage( "oldName" ); //$NON-NLS-1$
-		try
-		{
-			pageHandle.setName( "newName" ); //$NON-NLS-1$
+		MasterPageHandle pageHandle = designHandle.findMasterPage("oldName"); //$NON-NLS-1$
+		try {
+			pageHandle.setName("newName"); //$NON-NLS-1$
 
-			//makeOutputDir( );
-			//designHandle.saveAs( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
-			//		+ "/" + "regression_118361.out" ); //$NON-NLS-1$
-			String TempFile=this.genOutputFile(outFileName);
-			designHandle.saveAs( TempFile );
-		}
-		catch ( Exception e )
-		{
+			// makeOutputDir( );
+			// designHandle.saveAs( this.getFullQualifiedClassName( ) + "/" + OUTPUT_FOLDER
+			// + "/" + "regression_118361.out" ); //$NON-NLS-1$
+			String TempFile = this.genOutputFile(outFileName);
+			designHandle.saveAs(TempFile);
+		} catch (Exception e) {
 			// if rename failed, the case failed.
 
-			fail( );
+			fail();
 		}
 
 	}

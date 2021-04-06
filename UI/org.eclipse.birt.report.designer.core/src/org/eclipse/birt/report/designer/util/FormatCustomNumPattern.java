@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.util;
  * A pattern class serves for getting and setting pattern string for a custom
  * setted number.
  */
-public class FormatCustomNumPattern extends FormatNumberPattern
-{
+public class FormatCustomNumPattern extends FormatNumberPattern {
 
 	private String fmtCode = ""; //$NON-NLS-1$
 
@@ -25,37 +24,37 @@ public class FormatCustomNumPattern extends FormatNumberPattern
 	 * 
 	 * @param category
 	 */
-	public FormatCustomNumPattern( String category )
-	{
-		super( category );
+	public FormatCustomNumPattern(String category) {
+		super(category);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumFormatPattern#getPattern()
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumFormatPattern#
+	 * getPattern()
 	 */
-	public String getPattern( )
-	{
+	public String getPattern() {
 		return fmtCode;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumFormatPattern#setPattern(java.lang.String)
+	 * @see org.eclipse.birt.report.designer.internal.ui.dialogs.NumFormatPattern#
+	 * setPattern(java.lang.String)
 	 */
-	public void setPattern( String patternStr )
-	{
+	public void setPattern(String patternStr) {
 		this.fmtCode = patternStr;
 		return;
 	}
 
-	/** Get format code
+	/**
+	 * Get format code
+	 * 
 	 * @return Returns the fmtCode.
 	 */
-	public String getFmtCode( )
-	{
+	public String getFmtCode() {
 		return fmtCode;
 	}
 }

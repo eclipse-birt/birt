@@ -20,47 +20,37 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The Cell Padding attribute page of DE element.
  */
-public class CellPaddingPage extends ResetAttributePage
-{
+public class CellPaddingPage extends ResetAttributePage {
 
-	public void buildUI( Composite parent )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 5, 15 ) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(5, 15));
 
-		String[] padProperties = {
-				StyleHandle.PADDING_TOP_PROP,
-				StyleHandle.PADDING_BOTTOM_PROP,
-				StyleHandle.PADDING_LEFT_PROP,
-				StyleHandle.PADDING_RIGHT_PROP
-		};
+		String[] padProperties = { StyleHandle.PADDING_TOP_PROP, StyleHandle.PADDING_BOTTOM_PROP,
+				StyleHandle.PADDING_LEFT_PROP, StyleHandle.PADDING_RIGHT_PROP };
 
-		String[] sectionKeys = {
-				PageSectionId.CELLPADDING_TOP, //$NON-NLS-1$
-				PageSectionId.CELLPADDING_BOTTOM, //$NON-NLS-1$
-				PageSectionId.CELLPADDING_LEFT, //$NON-NLS-1$
+		String[] sectionKeys = { PageSectionId.CELLPADDING_TOP, // $NON-NLS-1$
+				PageSectionId.CELLPADDING_BOTTOM, // $NON-NLS-1$
+				PageSectionId.CELLPADDING_LEFT, // $NON-NLS-1$
 				PageSectionId.CELLPADDING_RIGHT
-		//$NON-NLS-1$
+				// $NON-NLS-1$
 		};
 
-		for ( int i = 0; i < padProperties.length; i++ )
-		{
-			UnitPropertyDescriptorProvider provider = new UnitPropertyDescriptorProvider( padProperties[i],
-					ReportDesignConstants.STYLE_ELEMENT );
-			provider.enableReset( true );
+		for (int i = 0; i < padProperties.length; i++) {
+			UnitPropertyDescriptorProvider provider = new UnitPropertyDescriptorProvider(padProperties[i],
+					ReportDesignConstants.STYLE_ELEMENT);
+			provider.enableReset(true);
 
-			ComplexUnitSection section = new ComplexUnitSection( provider.getDisplayName( ),
-					container,
-					true );
+			ComplexUnitSection section = new ComplexUnitSection(provider.getDisplayName(), container, true);
 
-			section.setProvider( provider );
-			section.setWidth( 200 );
+			section.setProvider(provider);
+			section.setWidth(200);
 			// section.setLayoutNum( 5 );
-			section.setGridPlaceholder( 3, true );
+			section.setGridPlaceholder(3, true);
 
-			addSection( sectionKeys[i], section );
+			addSection(sectionKeys[i], section);
 		}
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 }

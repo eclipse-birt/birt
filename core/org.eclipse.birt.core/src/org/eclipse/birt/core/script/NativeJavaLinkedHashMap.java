@@ -23,36 +23,31 @@ import org.mozilla.javascript.Scriptable;
  * 
  */
 
-public class NativeJavaLinkedHashMap extends NativeJavaMap
-{
+public class NativeJavaLinkedHashMap extends NativeJavaMap {
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 5212200683521932832L;
 
-	public NativeJavaLinkedHashMap( )
-	{
+	public NativeJavaLinkedHashMap() {
 	}
 
-	public NativeJavaLinkedHashMap( Scriptable scope, Object javaObject,
-			Class staticType )
-	{
-		super( scope, javaObject, staticType );
+	public NativeJavaLinkedHashMap(Scriptable scope, Object javaObject, Class staticType) {
+		super(scope, javaObject, staticType);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.mozilla.javascript.Scriptable#get(int,
-	 *      org.mozilla.javascript.Scriptable)
+	 * org.mozilla.javascript.Scriptable)
 	 */
 
-	public Object get( int index, Scriptable start )
-	{
-		List list = new ArrayList( ( (Map) javaObject ).values( ) );
-		if ( list.size( ) > index )
-			return list.get( index );
+	public Object get(int index, Scriptable start) {
+		List list = new ArrayList(((Map) javaObject).values());
+		if (list.size() > index)
+			return list.get(index);
 
 		return Scriptable.NOT_FOUND;
 	}

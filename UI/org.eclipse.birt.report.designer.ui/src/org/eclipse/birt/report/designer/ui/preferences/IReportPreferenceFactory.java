@@ -13,14 +13,13 @@ package org.eclipse.birt.report.designer.ui.preferences;
 
 import org.eclipse.core.runtime.Preferences;
 
-public interface IReportPreferenceFactory
-{
+public interface IReportPreferenceFactory {
 
-	public Preferences getReportPreference( Object adaptable );
+	public Preferences getReportPreference(Object adaptable);
 
-	public boolean removeReportPreference( Object adaptable );
+	public boolean removeReportPreference(Object adaptable);
 
-	public boolean saveReportPreference( Object adaptable );
+	public boolean saveReportPreference(Object adaptable);
 
-	public boolean hasSpecialSettings( Object adaptable, String name );
+	public boolean hasSpecialSettings(Object adaptable, String name);
 }

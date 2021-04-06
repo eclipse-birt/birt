@@ -42,64 +42,52 @@ import org.eclipse.birt.report.soapengine.api.Oprand;
 import org.eclipse.birt.report.soapengine.api.SelectItemChoice;
 import org.eclipse.birt.report.soapengine.api.SelectionList;
 
-public abstract class AbstractGetCascadeParameterActionHandler
-		extends
-			AbstractBaseActionHandler
-{
+public abstract class AbstractGetCascadeParameterActionHandler extends AbstractBaseActionHandler {
 
-	public AbstractGetCascadeParameterActionHandler( IContext context,
-			Operation operation, GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public AbstractGetCascadeParameterActionHandler(IContext context, Operation operation,
+			GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
-	protected void __execute( ) throws Exception
-	{
-		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean( );
+	protected void __execute() throws Exception {
+		BaseAttributeBean attrBean = (BaseAttributeBean) context.getBean();
 		assert attrBean != null;
 
-		Oprand[] params = operation.getOprand( );
-		String reportDesignName = attrBean.getReportDesignName( );
-		Map paramMap = new LinkedHashMap( );
-		for ( int i = 0; i < params.length; i++ )
-		{
+		Oprand[] params = operation.getOprand();
+		String reportDesignName = attrBean.getReportDesignName();
+		Map paramMap = new LinkedHashMap();
+		for (int i = 0; i < params.length; i++) {
 			Oprand param = params[i];
-			paramMap.put( param.getName( ), param.getValue( ) );
+			paramMap.put(param.getName(), param.getValue());
 		}
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
-		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(
-				null, reportDesignName );
-		Map cascParamMap = getParameterSelectionLists( designHandle, paramMap,
-				options );
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, context.getRequest());
+		options.setOption(InputOptions.OPT_LOCALE, attrBean.getLocale());
+		options.setOption(InputOptions.OPT_TIMEZONE, attrBean.getTimeZone());
+		IViewerReportDesignHandle designHandle = new BirtViewerReportDesignHandle(null, reportDesignName);
+		Map cascParamMap = getParameterSelectionLists(designHandle, paramMap, options);
 
 		/**
 		 * prepare response.
 		 */
-		CascadeParameter cascadeParameter = new CascadeParameter( );
-		if ( cascParamMap != null && cascParamMap.size( ) > 0 )
-		{
-			SelectionList[] selectionLists = new SelectionList[cascParamMap
-					.size( )];
+		CascadeParameter cascadeParameter = new CascadeParameter();
+		if (cascParamMap != null && cascParamMap.size() > 0) {
+			SelectionList[] selectionLists = new SelectionList[cascParamMap.size()];
 			int i = 0;
-			for ( Iterator it = cascParamMap.entrySet( ).iterator( ); it
-					.hasNext( ); )
-			{
-				Map.Entry entry = (Map.Entry)it.next();
-				selectionLists[i] = new SelectionList( );
-				String name = (String) entry.getKey( );
-				selectionLists[i].setName( name );
-				List selections = (List) entry.getValue( );
-				SelectItemChoice[] SelectItemChoices = getVectorFromList( selections );
-				selectionLists[i].setSelections( SelectItemChoices );
+			for (Iterator it = cascParamMap.entrySet().iterator(); it.hasNext();) {
+				Map.Entry entry = (Map.Entry) it.next();
+				selectionLists[i] = new SelectionList();
+				String name = (String) entry.getKey();
+				selectionLists[i].setName(name);
+				List selections = (List) entry.getValue();
+				SelectItemChoice[] SelectItemChoices = getVectorFromList(selections);
+				selectionLists[i].setSelections(SelectItemChoices);
 				i++;
 			}
-			cascadeParameter.setSelectionList( selectionLists );
+			cascadeParameter.setSelectionList(selectionLists);
 		}
-		handleUpdate( cascadeParameter );
+		handleUpdate(cascadeParameter);
 	}
 
 	/**
@@ -108,158 +96,117 @@ public abstract class AbstractGetCascadeParameterActionHandler
 	 * @param list
 	 * @return
 	 */
-	private SelectItemChoice[] getVectorFromList( List list )
-	{
-		SelectItemChoice[] selectionList = new SelectItemChoice[list.size( )];
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			SelectItemChoice item = (SelectItemChoice) list.get( i );
-			String label = item.getLabel( );
-			String value = item.getValue( );
+	private SelectItemChoice[] getVectorFromList(List list) {
+		SelectItemChoice[] selectionList = new SelectItemChoice[list.size()];
+		for (int i = 0; i < list.size(); i++) {
+			SelectItemChoice item = (SelectItemChoice) list.get(i);
+			String label = item.getLabel();
+			String value = item.getValue();
 
-			if ( value == null )
+			if (value == null)
 				continue;
 
-			if ( label == null )
+			if (label == null)
 				label = value;
 
-			selectionList[i] = new SelectItemChoice( value, label );
+			selectionList[i] = new SelectItemChoice(value, label);
 		}
 		return selectionList;
 	}
 
-	protected abstract void handleUpdate( CascadeParameter cascadeParameter );
+	protected abstract void handleUpdate(CascadeParameter cascadeParameter);
 
-	private Map getParameterSelectionLists( IViewerReportDesignHandle design,
-			Map params, InputOptions options ) throws ReportServiceException
-	{
-		if ( params == null || params.size( ) == 0 )
-			return new HashMap( );
+	private Map getParameterSelectionLists(IViewerReportDesignHandle design, Map params, InputOptions options)
+			throws ReportServiceException {
+		if (params == null || params.size() == 0)
+			return new HashMap();
 
 		List[] listArray = null;
-		Map ret = new HashMap( );
-		List remainingParamNames = new ArrayList( );
+		Map ret = new HashMap();
+		List remainingParamNames = new ArrayList();
 
-		String firstName = (String) params.keySet( ).iterator( ).next( );
+		String firstName = (String) params.keySet().iterator().next();
 
-		Collection paramDefs = getReportService( ).getParameterDefinitions(
-				design, options, false );
+		Collection paramDefs = getReportService().getParameterDefinitions(design, options, false);
 
 		ParameterDefinition paramDef = null;
 
-		for ( Iterator it = paramDefs.iterator( ); it.hasNext( ); )
-		{
-			ParameterDefinition temp = (ParameterDefinition) it.next( );
-			if ( temp.getName( ).equals( firstName ) )
-			{
+		for (Iterator it = paramDefs.iterator(); it.hasNext();) {
+			ParameterDefinition temp = (ParameterDefinition) it.next();
+			if (temp.getName().equals(firstName)) {
 				paramDef = temp;
 				break;
 			}
 		}
 
-		if ( paramDef == null )
-		{
-			throw new ReportServiceException(
-					BirtResources
-							.getMessage(
-									ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_PARAMETER,
-									new String[]{firstName} ) );
+		if (paramDef == null) {
+			throw new ReportServiceException(BirtResources.getMessage(
+					ResourceConstants.REPORT_SERVICE_EXCEPTION_INVALID_PARAMETER, new String[] { firstName }));
 		}
 
-		ParameterGroupDefinition group = paramDef.getGroup( );
+		ParameterGroupDefinition group = paramDef.getGroup();
 
-		if ( group != null )
-		{
-			if ( group.getParameterCount( ) > params.size( ) )
-			{
-				int remainingParams = group.getParameterCount( )
-						- params.size( );
-				for ( int i = 0; i < remainingParams; i++ )
-				{
-					ParameterDefinition def = (ParameterDefinition) group
-							.getParameters( ).get( params.size( ) + i );
-					remainingParamNames.add( def.getName( ) );
+		if (group != null) {
+			if (group.getParameterCount() > params.size()) {
+				int remainingParams = group.getParameterCount() - params.size();
+				for (int i = 0; i < remainingParams; i++) {
+					ParameterDefinition def = (ParameterDefinition) group.getParameters().get(params.size() + i);
+					remainingParamNames.add(def.getName());
 				}
 			}
 		}
 		// Query all lists.
-		try
-		{
-			if ( remainingParamNames.size( ) > 0 )
-			{
-				listArray = new List[remainingParamNames.size( )];
+		try {
+			if (remainingParamNames.size() > 0) {
+				listArray = new List[remainingParamNames.size()];
 
-				for ( int k = 0; k < remainingParamNames.size( ); k++ )
-				{
-					Object[] keyValue = new Object[params.size( ) + k];
+				for (int k = 0; k < remainingParamNames.size(); k++) {
+					Object[] keyValue = new Object[params.size() + k];
 
-					Set values = params.keySet( );
+					Set values = params.keySet();
 					int i = 0;
-					for ( Iterator it = values.iterator( ); it.hasNext( ); )
-					{
-						keyValue[i] = params.get( it.next( ) );
+					for (Iterator it = values.iterator(); it.hasNext();) {
+						keyValue[i] = params.get(it.next());
 						i++;
 					}
 
-					for ( i = 0; i < k; i++ )
-					{
-						if ( listArray[i].isEmpty( ) )
-						{
-							keyValue[params.size( ) + i] = null;
-						}
-						else
-						{
-							keyValue[params.size( ) + i] = listArray[i].get( 0 );
+					for (i = 0; i < k; i++) {
+						if (listArray[i].isEmpty()) {
+							keyValue[params.size() + i] = null;
+						} else {
+							keyValue[params.size() + i] = listArray[i].get(0);
 						}
 					}
 
-					listArray[k] = doQueryCascadeParameterSelectionList(
-							design, group.getName( ), keyValue, options );
-					ret.put( remainingParamNames.get( k ), listArray[k] );
+					listArray[k] = doQueryCascadeParameterSelectionList(design, group.getName(), keyValue, options);
+					ret.put(remainingParamNames.get(k), listArray[k]);
 				}
 			}
-		}
-		catch ( RemoteException e )
-		{
-			throw new ReportServiceException( e.getLocalizedMessage( ) );
+		} catch (RemoteException e) {
+			throw new ReportServiceException(e.getLocalizedMessage());
 		}
 		return ret;
 	}
 
-	private List doQueryCascadeParameterSelectionList(
-			IViewerReportDesignHandle design, String groupName,
-			Object[] groupKeys, InputOptions options ) throws RemoteException,
-			ReportServiceException
-	{
-		List selectionList = new ArrayList( );
+	private List doQueryCascadeParameterSelectionList(IViewerReportDesignHandle design, String groupName,
+			Object[] groupKeys, InputOptions options) throws RemoteException, ReportServiceException {
+		List selectionList = new ArrayList();
 
-		Collection list = getReportService( )
-				.getSelectionListForCascadingGroup( design, groupName,
-						groupKeys, options );
+		Collection list = getReportService().getSelectionListForCascadingGroup(design, groupName, groupKeys, options);
 
-		if ( list != null && list.size( ) > 0 )
-		{
-			Iterator iList = list.iterator( );
+		if (list != null && list.size() > 0) {
+			Iterator iList = list.iterator();
 			int index = 0;
-			while ( iList != null && iList.hasNext( ) )
-			{
-				ParameterSelectionChoice item = (ParameterSelectionChoice) iList
-						.next( );
-				if ( item != null && item.getValue( ) != null )
-				{
-					try
-					{
-						SelectItemChoice selectItemChoice = new SelectItemChoice( );
-						selectItemChoice.setLabel( item.getLabel( ) );
-						selectItemChoice.setValue( (String) DataTypeUtil
-								.convert( item.getValue( ),
-										DataType.STRING_TYPE ) );
-						selectionList.add( index++, selectItemChoice );
-					}
-					catch ( BirtException e )
-					{
-						throw new ReportServiceException( e
-								.getLocalizedMessage( ) );
+			while (iList != null && iList.hasNext()) {
+				ParameterSelectionChoice item = (ParameterSelectionChoice) iList.next();
+				if (item != null && item.getValue() != null) {
+					try {
+						SelectItemChoice selectItemChoice = new SelectItemChoice();
+						selectItemChoice.setLabel(item.getLabel());
+						selectItemChoice.setValue((String) DataTypeUtil.convert(item.getValue(), DataType.STRING_TYPE));
+						selectionList.add(index++, selectItemChoice);
+					} catch (BirtException e) {
+						throw new ReportServiceException(e.getLocalizedMessage());
 					}
 				}
 			}

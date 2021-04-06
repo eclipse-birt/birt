@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.engine.api;
 
-public interface IRunnable
-{
+public interface IRunnable {
 
 }

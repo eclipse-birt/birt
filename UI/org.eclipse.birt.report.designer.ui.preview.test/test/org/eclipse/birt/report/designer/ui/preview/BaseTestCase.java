@@ -19,8 +19,7 @@ import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
  * 
  */
 
-public class BaseTestCase extends TestCase
-{
+public class BaseTestCase extends TestCase {
 
 	/**
 	 * Mock engine Task instance.
@@ -28,15 +27,13 @@ public class BaseTestCase extends TestCase
 
 	protected IGetParameterDefinitionTask engineTask;
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		engineTask = new MockGetParameterDefinitionTask( );
+	protected void setUp() throws Exception {
+		super.setUp();
+		engineTask = new MockGetParameterDefinitionTask();
 	}
 
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
+	protected void tearDown() throws Exception {
+		super.tearDown();
 		engineTask = null;
 	}
 

@@ -19,19 +19,17 @@ import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 
 /**
- * This is a wrapper class of all odi result set.It is used to enhance 
+ * This is a wrapper class of all odi result set.It is used to enhance
  * result-set processing algorithm.
  */
-public class OdiResultSetWrapper
-{
+public class OdiResultSetWrapper {
 	private Object resultSource;
-	
+
 	/**
 	 * 
 	 * @param rs
 	 */
-	OdiResultSetWrapper( ResultSet rs )
-	{
+	OdiResultSetWrapper(ResultSet rs) {
 		this.resultSource = rs;
 	}
 
@@ -39,61 +37,54 @@ public class OdiResultSetWrapper
 	 * 
 	 * @param rs
 	 */
-	OdiResultSetWrapper( DataSetToCache rs )
-	{
+	OdiResultSetWrapper(DataSetToCache rs) {
 		this.resultSource = rs;
 	}
-	
+
 	/**
 	 * 
 	 * @param rs
 	 */
-	OdiResultSetWrapper( DataSetFromCache rs )
-	{
+	OdiResultSetWrapper(DataSetFromCache rs) {
 		this.resultSource = rs;
 	}
-	
+
 	/**
 	 * 
 	 * @param rs
 	 */
-	OdiResultSetWrapper( ICustomDataSet rs )
-	{
+	OdiResultSetWrapper(ICustomDataSet rs) {
 		this.resultSource = rs;
 	}
-	
+
 	/**
 	 * 
 	 * @param rs
 	 */
-	public OdiResultSetWrapper( IResultIterator rs )
-	{
+	public OdiResultSetWrapper(IResultIterator rs) {
 		this.resultSource = rs;
 	}
-	
+
 	/**
 	 * 
 	 * @param rs
 	 */
-	OdiResultSetWrapper( Object[] rs )
-	{
+	OdiResultSetWrapper(Object[] rs) {
 		this.resultSource = rs;
 	}
-	
+
 	/**
 	 * 
 	 */
-	OdiResultSetWrapper( IDataSetPopulator rs )
-	{
+	OdiResultSetWrapper(IDataSetPopulator rs) {
 		this.resultSource = rs;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public Object getWrappedOdiResultSet()
-	{
+	public Object getWrappedOdiResultSet() {
 		return this.resultSource;
 	}
 }

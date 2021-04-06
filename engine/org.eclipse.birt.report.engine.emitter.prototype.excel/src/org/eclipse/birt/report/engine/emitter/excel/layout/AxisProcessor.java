@@ -4,100 +4,86 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class AxisProcessor
-{	
+public class AxisProcessor {
 	/**
-	 * Each element of naxis is the start point of each column, 
-	 * indexed by colId.
+	 * Each element of naxis is the start point of each column, indexed by
+	 * colId.
 	 */
 	private List<Integer> columnCoordinates = new ArrayList<Integer>();
-	
-	public AxisProcessor()
-	{	
-		addCoordinate(0);		
-	}	
-	
-	public void addCoordinates(int[] values)
-	{
-		for(int i = 0; i < values.length; i++)
-		{
+
+	public AxisProcessor() {
+		addCoordinate(0);
+	}
+
+	public void addCoordinates(int[] values) {
+		for (int i = 0; i < values.length; i++) {
 			addCoordinateWithoutSort(values[i]);
 		}
-		Collections.sort( columnCoordinates );
+		Collections.sort(columnCoordinates);
 	}
-	
-	public void addCoordinate(int value)
-	{
-		if(addCoordinateWithoutSort( value ))
-		{
-			Collections.sort(columnCoordinates);	
+
+	public void addCoordinate(int value) {
+		if (addCoordinateWithoutSort(value)) {
+			Collections.sort(columnCoordinates);
 		}
 	}
-	
-	public boolean addCoordinateWithoutSort( int value )
-	{
-		value = round( value );
-		if ( !columnCoordinates.contains( value ) )
-		{
-			columnCoordinates.add( value );
+
+	public boolean addCoordinateWithoutSort(int value) {
+		value = round(value);
+		if (!columnCoordinates.contains(value)) {
+			columnCoordinates.add(value);
 			return true;
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Gets a subset of naxis.
+	 * 
 	 * @param start
 	 * @param end
 	 * @return
 	 */
-	public int[] getColumnCoordinatesInRange( int start, int end )
-	{
-		int startColumnIndex = getColumnIndexByCoordinate( start );
-		int endColumnIndex = getColumnIndexByCoordinate( end );
+	public int[] getColumnCoordinatesInRange(int start, int end) {
+		int startColumnIndex = getColumnIndexByCoordinate(start);
+		int endColumnIndex = getColumnIndexByCoordinate(end);
 
-		// might happen when an image is output outside the horizontal page scope
-		if ( startColumnIndex == -1 )
-		{
+		// might happen when an image is output outside the horizontal page
+		// scope
+		if (startColumnIndex == -1) {
 			return new int[0];
 		}
-		if( endColumnIndex == -1 )
-		{
-			endColumnIndex = columnCoordinates.size( ) - 1;
+		if (endColumnIndex == -1) {
+			endColumnIndex = columnCoordinates.size() - 1;
 		}
-		
-		List<Integer> list = columnCoordinates.subList( startColumnIndex,
-				endColumnIndex + 1 );
-		int length = list.size( );
+
+		List<Integer> list = columnCoordinates.subList(startColumnIndex, endColumnIndex + 1);
+		int length = list.size();
 
 		int[] columnCoordinates = new int[length];
-		for ( int i = 0; i < length; i++ )
-		{
-			columnCoordinates[i] = list.get( i );
+		for (int i = 0; i < length; i++) {
+			columnCoordinates[i] = list.get(i);
 		}
 		return columnCoordinates;
 	}
-	
+
 	/**
-	 * It is not going to get the coordinate, but the colId relative to this coordinate.
-	 * Gets the colId of the given coordinate point
-	 * @param value	 the coordinate point
+	 * It is not going to get the coordinate, but the colId relative to this
+	 * coordinate. Gets the colId of the given coordinate point
+	 * 
+	 * @param value the coordinate point
 	 * @return the colId
 	 */
-	public int getColumnIndexByCoordinate( int value )
-	{
-		return columnCoordinates.indexOf( round( value ) );
+	public int getColumnIndexByCoordinate(int value) {
+		return columnCoordinates.indexOf(round(value));
 	}
 
-	public int[] getColumnWidths( )
-	{
-		int length = columnCoordinates.size( ) - 1;
+	public int[] getColumnWidths() {
+		int length = columnCoordinates.size() - 1;
 		int[] columnWidths = new int[length];
 
-		for ( int i = 0; i < length; i++ )
-		{
-			columnWidths[i] = columnCoordinates.get( i + 1 )
-					- columnCoordinates.get( i );
+		for (int i = 0; i < length; i++) {
+			columnWidths[i] = columnCoordinates.get(i + 1) - columnCoordinates.get(i);
 		}
 		return columnWidths;
 	}
@@ -110,13 +96,11 @@ public class AxisProcessor
 	 * @param value
 	 * @return the rounded value
 	 */
-	public static int round( int value )
-	{
-		return ( value >> 7 ) << 7;
+	public static int round(int value) {
+		return (value >> 7) << 7;
 	}
 
-	public int getColumnsCount( )
-	{
-		return columnCoordinates.size( );
+	public int getColumnsCount() {
+		return columnCoordinates.size();
 	}
 }

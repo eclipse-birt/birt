@@ -15,16 +15,15 @@ import org.eclipse.gef.handles.MoveHandleLocator;
 /**
  * Table handle locator
  */
-public class TableHandleLocator extends MoveHandleLocator
-{
+public class TableHandleLocator extends MoveHandleLocator {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param ref
 	 */
-	public TableHandleLocator( IFigure ref )
-	{
-		super( ref );
+	public TableHandleLocator(IFigure ref) {
+		super(ref);
 	}
 
 }

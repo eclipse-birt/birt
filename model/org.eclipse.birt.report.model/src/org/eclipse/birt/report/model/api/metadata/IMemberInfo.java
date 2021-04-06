@@ -16,8 +16,7 @@ package org.eclipse.birt.report.model.api.metadata;
  * member type besides name, display name ID and tool tip ID.
  */
 
-public interface IMemberInfo extends ILocalizableInfo
-{
+public interface IMemberInfo extends ILocalizableInfo {
 
 	/**
 	 * Returns the script data type of this member.
@@ -25,7 +24,7 @@ public interface IMemberInfo extends ILocalizableInfo
 	 * @return the script data type of this member
 	 */
 
-	public String getDataType( );
+	public String getDataType();
 
 	/**
 	 * Returns whether this member is static.
@@ -33,7 +32,7 @@ public interface IMemberInfo extends ILocalizableInfo
 	 * @return <code>true</code> if this member is true.
 	 */
 
-	public boolean isStatic( );
+	public boolean isStatic();
 
 	/**
 	 * Returns the member type in Class.
@@ -41,6 +40,6 @@ public interface IMemberInfo extends ILocalizableInfo
 	 * @return the member type
 	 */
 
-	public IClassInfo getClassType( );
+	public IClassInfo getClassType();
 
 }

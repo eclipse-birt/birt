@@ -16,55 +16,50 @@ package org.eclipse.birt.chart.factory;
  * on a row context. This is usually associated with an underlying resultset.
  * 
  */
-public interface IDataRowExpressionEvaluator
-{
+public interface IDataRowExpressionEvaluator {
 
 	/**
 	 * Evaluates the expression based on the current row
 	 * 
-	 * @param A
-	 *            String expression
-	 * @return An Object representing the evaluated expression. The Object must
-	 *         be of a type String, Number, Date, Calendar, or it will be
-	 *         evaluated as a String using toString(). If there is any
-	 *         BirtException being caught by evaluation, the return value will
-	 *         be the caught BirtException.
+	 * @param A String expression
+	 * @return An Object representing the evaluated expression. The Object must be
+	 *         of a type String, Number, Date, Calendar, or it will be evaluated as
+	 *         a String using toString(). If there is any BirtException being caught
+	 *         by evaluation, the return value will be the caught BirtException.
 	 */
-	Object evaluate( String expression );
+	Object evaluate(String expression);
 
 	/**
-	 * Evaluates the global expressions which are not associated with the data
-	 * rows.
+	 * Evaluates the global expressions which are not associated with the data rows.
 	 * 
-	 * @param A
-	 *            String expression
-	 * @return An Object representing the evaluated expression. The Object must
-	 *         be of a type String, Number, Date, Calendar, or it will be
-	 *         evaluated as a String using toString().
+	 * @param A String expression
+	 * @return An Object representing the evaluated expression. The Object must be
+	 *         of a type String, Number, Date, Calendar, or it will be evaluated as
+	 *         a String using toString().
 	 * @deprecated Not used anymore. use {@link #evaluate(String)} instead.
 	 */
-	Object evaluateGlobal( String expression );
+	Object evaluateGlobal(String expression);
 
 	/**
-	 * Moves to the first row. Optional if already positioned on the first row
-	 * when passed to Generator.bindData()
+	 * Moves to the first row. Optional if already positioned on the first row when
+	 * passed to Generator.bindData()
 	 * 
-	 * @return <code>true</code> if the cursor is on a valid row;
-	 *         <code>false</code> if there are no rows in the result set
+	 * @return <code>true</code> if the cursor is on a valid row; <code>false</code>
+	 *         if there are no rows in the result set
 	 */
-	boolean first( );
+	boolean first();
 
 	/**
 	 * Moves to the next row.
 	 * 
 	 * @return False if the last row has been reached. True otherwise.
 	 */
-	boolean next( );
+	boolean next();
 
 	/**
-	 * Closes the underlying resultset. This is optional (it can be a no-op if
-	 * the close is handled externally or not needed).
+	 * Closes the underlying resultset. This is optional (it can be a no-op if the
+	 * close is handled externally or not needed).
 	 * 
 	 */
-	void close( );
+	void close();
 }

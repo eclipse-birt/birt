@@ -31,8 +31,7 @@ import org.eclipse.birt.report.model.elements.Library;
  * <dd>a custom color has a unique and required name, so the user can use the
  * color name to identify a custom color.</dd>
  * <dt><strong>color </strong></dt>
- * <dd>The color value of the color, it is preserved as the user typed in.
- * </dd>
+ * <dd>The color value of the color, it is preserved as the user typed in.</dd>
  * <dt><strong>Resource Key </strong></dt>
  * <dd>a custom color has an optional display name ID to localize the display
  * name.
@@ -59,21 +58,17 @@ import org.eclipse.birt.report.model.elements.Library;
  * @see ColorUtil
  */
 
-public class CustomColorHandle extends StructureHandle
-{
+public class CustomColorHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of custom color.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for custom color list of one property
-	 * @param index
-	 *            the position of this custom color in the list
+	 * @param valueHandle the value handle for custom color list of one property
+	 * @param index       the position of this custom color in the list
 	 */
 
-	public CustomColorHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public CustomColorHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -82,21 +77,18 @@ public class CustomColorHandle extends StructureHandle
 	 * @return the internal display name
 	 */
 
-	public String getDisplayName( )
-	{
-		return getStringProperty( CustomColor.DISPLAY_NAME_MEMBER );
+	public String getDisplayName() {
+		return getStringProperty(CustomColor.DISPLAY_NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the display name.
 	 * 
-	 * @param displayName
-	 *            the display name to set
+	 * @param displayName the display name to set
 	 */
 
-	public void setDisplayName( String displayName )
-	{
-		setPropertySilently( CustomColor.DISPLAY_NAME_MEMBER, displayName );
+	public void setDisplayName(String displayName) {
+		setPropertySilently(CustomColor.DISPLAY_NAME_MEMBER, displayName);
 	}
 
 	/**
@@ -105,21 +97,18 @@ public class CustomColorHandle extends StructureHandle
 	 * @return the resource key for display name.
 	 */
 
-	public String getDisplayNameID( )
-	{
-		return getStringProperty( CustomColor.DISPLAY_NAME_ID_MEMBER );
+	public String getDisplayNameID() {
+		return getStringProperty(CustomColor.DISPLAY_NAME_ID_MEMBER);
 	}
 
 	/**
 	 * Sets the resource key for display name.
 	 * 
-	 * @param displayNameID
-	 *            the resource key for display name
+	 * @param displayNameID the resource key for display name
 	 */
 
-	public void setDisplayNameID( String displayNameID )
-	{
-		setPropertySilently( CustomColor.DISPLAY_NAME_ID_MEMBER, displayNameID );
+	public void setDisplayNameID(String displayNameID) {
+		setPropertySilently(CustomColor.DISPLAY_NAME_ID_MEMBER, displayNameID);
 	}
 
 	/**
@@ -128,9 +117,8 @@ public class CustomColorHandle extends StructureHandle
 	 * @return the custom color name
 	 */
 
-	public String getName( )
-	{
-		return getStringProperty( CustomColor.NAME_MEMBER );
+	public String getName() {
+		return getStringProperty(CustomColor.NAME_MEMBER);
 	}
 
 	/**
@@ -139,45 +127,37 @@ public class CustomColorHandle extends StructureHandle
 	 * @return the color value as what the user has input.
 	 */
 
-	public String getColor( )
-	{
-		return getStringProperty( CustomColor.COLOR_MEMBER );
+	public String getColor() {
+		return getStringProperty(CustomColor.COLOR_MEMBER);
 	}
 
 	/**
 	 * Sets the color value.
 	 * 
-	 * @param colorValue
-	 *            the color value to be set.
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param colorValue the color value to be set.
+	 * @throws SemanticException value required exception
 	 * 
 	 */
 
-	public void setColor( String colorValue ) throws SemanticException
-	{
-		setProperty( CustomColor.COLOR_MEMBER, colorValue );
+	public void setColor(String colorValue) throws SemanticException {
+		setProperty(CustomColor.COLOR_MEMBER, colorValue);
 	}
 
 	/**
 	 * Sets the custom color name.
 	 * 
-	 * @param name
-	 *            the custom color name to set
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param name the custom color name to set
+	 * @throws SemanticException value required exception
 	 */
 
-	public void setName( String name ) throws SemanticException
-	{
-		setProperty( CustomColor.NAME_MEMBER, name );
+	public void setName(String name) throws SemanticException {
+		setProperty(CustomColor.NAME_MEMBER, name);
 	}
 
 	/**
-	 * Returns the color value as an integer RGB value. If the color value is of
-	 * a valid color representation, then return its numeric RGB value as
-	 * integer. Otherwise, return <code>-1</code> indicates that the value is
-	 * not valid.
+	 * Returns the color value as an integer RGB value. If the color value is of a
+	 * valid color representation, then return its numeric RGB value as integer.
+	 * Otherwise, return <code>-1</code> indicates that the value is not valid.
 	 * <p>
 	 * The color value can contain any of the valid color representations:
 	 * <ul>
@@ -189,37 +169,33 @@ public class CustomColorHandle extends StructureHandle
 	 * </ul>
 	 * 
 	 * 
-	 * @return the color value as an integer RGB value. Return <code>-1</code>
-	 *         if the color value is not valid or the color value is
-	 *         <code>null</code>.
+	 * @return the color value as an integer RGB value. Return <code>-1</code> if
+	 *         the color value is not valid or the color value is <code>null</code>.
 	 */
 
-	public int getRGB( )
-	{
-		return ( (CustomColor) getStructure( ) ).getRGB( );
+	public int getRGB() {
+		return ((CustomColor) getStructure()).getRGB();
 	}
 
 	/**
-	 * Returns the qualified name of this element. The qualified name is the
-	 * name of this element if this element is in module user is editing.
+	 * Returns the qualified name of this element. The qualified name is the name of
+	 * this element if this element is in module user is editing.
 	 * 
 	 * @return the qualified name of thie element.
 	 */
 
-	public String getQualifiedName( )
-	{
+	public String getQualifiedName() {
 
-		if ( getName( ) == null )
+		if (getName() == null)
 			return null;
 
-		Module module = getModule( );
-		if ( module instanceof Library )
-		{
-			String namespace = ( (Library) module ).getNamespace( );
-			return StringUtil.buildQualifiedReference( namespace, getName( ) );
+		Module module = getModule();
+		if (module instanceof Library) {
+			String namespace = ((Library) module).getNamespace();
+			return StringUtil.buildQualifiedReference(namespace, getName());
 		}
 
-		return getName( );
+		return getName();
 	}
 
 }

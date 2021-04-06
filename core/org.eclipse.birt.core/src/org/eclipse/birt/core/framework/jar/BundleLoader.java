@@ -32,8 +32,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class BundleLoader
-{
+public class BundleLoader {
 
 	static final String BUNDLE_SYMBOLIC_NAME = "Bundle-SymbolicName";
 	static final String BUNDLE_VERSION = "Bundle-Version";
@@ -47,242 +46,189 @@ public class BundleLoader
 	protected Bundle bundle;
 	protected Properties properties;
 
-	BundleLoader( ServicePlatform platform, URL root )
-	{
+	BundleLoader(ServicePlatform platform, URL root) {
 		this.platform = platform;
 		this.root = root;
 	}
 
-	Bundle load( ) throws IOException, ParserConfigurationException,
-			SAXException
-	{
-		properties = loadProperties( root );
-		bundle = loadManifest( root );
-		if ( bundle != null )
-		{
-			loadExtensions( bundle );
+	Bundle load() throws IOException, ParserConfigurationException, SAXException {
+		properties = loadProperties(root);
+		bundle = loadManifest(root);
+		if (bundle != null) {
+			loadExtensions(bundle);
 		}
 		return bundle;
 	}
 
-	protected Bundle loadManifest( URL root ) throws IOException
-	{
-		InputStream in = openInputStream( root, MANIFEST_ENTRY );
-		if ( in == null )
-		{
+	protected Bundle loadManifest(URL root) throws IOException {
+		InputStream in = openInputStream(root, MANIFEST_ENTRY);
+		if (in == null) {
 			return null;
 		}
-		try
-		{
-			Manifest manifest = new Manifest( in );
-			Attributes attr = manifest.getMainAttributes( );
-			if ( attr != null )
-			{
+		try {
+			Manifest manifest = new Manifest(in);
+			Attributes attr = manifest.getMainAttributes();
+			if (attr != null) {
 
-				String symbolicName = attr.getValue( BUNDLE_SYMBOLIC_NAME );
-				if ( symbolicName != null )
-				{
-					int dotPos = symbolicName.indexOf( ';' );
-					if ( dotPos != -1 )
-					{
-						symbolicName = symbolicName.substring( 0, dotPos );
+				String symbolicName = attr.getValue(BUNDLE_SYMBOLIC_NAME);
+				if (symbolicName != null) {
+					int dotPos = symbolicName.indexOf(';');
+					if (dotPos != -1) {
+						symbolicName = symbolicName.substring(0, dotPos);
 					}
-					symbolicName = loadProperty( symbolicName );
-					String version = attr.getValue( BUNDLE_VERSION );
-					version = loadProperty( version );
-					Bundle bundle = new Bundle( platform, root, symbolicName );
+					symbolicName = loadProperty(symbolicName);
+					String version = attr.getValue(BUNDLE_VERSION);
+					version = loadProperty(version);
+					Bundle bundle = new Bundle(platform, root, symbolicName);
 					bundle.version = version;
 					return bundle;
 				}
 			}
-		}
-		finally
-		{
-			in.close( );
+		} finally {
+			in.close();
 		}
 		return null;
 	}
 
-	protected Properties loadProperties( URL root )
-	{
-		InputStream in = openInputStream( root, PROPERTIES_ENTRY );;
-		if ( in == null )
-		{
+	protected Properties loadProperties(URL root) {
+		InputStream in = openInputStream(root, PROPERTIES_ENTRY);
+		;
+		if (in == null) {
 			return null;
 		}
-		try
-		{
-			Properties properties = new Properties( );
-			properties.load( in );
+		try {
+			Properties properties = new Properties();
+			properties.load(in);
 			return properties;
-		}
-		catch ( IOException ex )
-		{
-		}
-		finally
-		{
-			try
-			{
-				in.close( );
-			}
-			catch ( IOException ex )
-			{
+		} catch (IOException ex) {
+		} finally {
+			try {
+				in.close();
+			} catch (IOException ex) {
 			}
 		}
 		return null;
 	}
 
-	protected void loadExtensions( Bundle bundle )
-			throws ParserConfigurationException, SAXException, IOException
-	{
+	protected void loadExtensions(Bundle bundle) throws ParserConfigurationException, SAXException, IOException {
 
-		InputStream in = openInputStream( bundle.root, PLUGIN_ENTRY );
-		if ( in == null )
-		{
+		InputStream in = openInputStream(bundle.root, PLUGIN_ENTRY);
+		if (in == null) {
 			return;
 		}
-		try
-		{
-			DocumentBuilderFactory factory = DocumentBuilderFactory
-					.newInstance( );
-			DocumentBuilder builder = factory.newDocumentBuilder( );
-			Document document = builder.parse( in );
+		try {
+			DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder builder = factory.newDocumentBuilder();
+			Document document = builder.parse(in);
 
-			Element root = document.getDocumentElement( );
+			Element root = document.getDocumentElement();
 
-			ArrayList<ExtensionPoint> extensionPoints = new ArrayList<ExtensionPoint>( );
-			ArrayList<Extension> extensions = new ArrayList<Extension>( );
-			NodeList elements = root.getChildNodes( );
-			for ( int i = 0; i < elements.getLength( ); i++ )
-			{
-				Node node = elements.item( i );
-				if ( node.getNodeType( ) == Node.ELEMENT_NODE )
-				{
+			ArrayList<ExtensionPoint> extensionPoints = new ArrayList<ExtensionPoint>();
+			ArrayList<Extension> extensions = new ArrayList<Extension>();
+			NodeList elements = root.getChildNodes();
+			for (int i = 0; i < elements.getLength(); i++) {
+				Node node = elements.item(i);
+				if (node.getNodeType() == Node.ELEMENT_NODE) {
 					Element child = (Element) node;
-					String tagName = child.getTagName( );
-					if ( "extension-point".equals( tagName ) )
-					{
-						ExtensionPoint extPoint = parseExtensionPoint( child );
-						extensionPoints.add( extPoint );
-					}
-					else if ( "extension".equals( tagName ) )
-					{
-						Extension extension = parseExtension( child );
-						extensions.add( extension );
+					String tagName = child.getTagName();
+					if ("extension-point".equals(tagName)) {
+						ExtensionPoint extPoint = parseExtensionPoint(child);
+						extensionPoints.add(extPoint);
+					} else if ("extension".equals(tagName)) {
+						Extension extension = parseExtension(child);
+						extensions.add(extension);
 					}
 
 				}
 			}
 
-			bundle.extensionPoints = extensionPoints
-					.toArray( new ExtensionPoint[extensionPoints.size( )] );
-			bundle.extensions = extensions.toArray( new Extension[extensions
-					.size( )] );
+			bundle.extensionPoints = extensionPoints.toArray(new ExtensionPoint[extensionPoints.size()]);
+			bundle.extensions = extensions.toArray(new Extension[extensions.size()]);
 
-		}
-		finally
-		{
-			in.close( );
+		} finally {
+			in.close();
 		}
 	}
 
-	protected ExtensionPoint parseExtensionPoint( Element element )
-	{
+	protected ExtensionPoint parseExtensionPoint(Element element) {
 
 		// <extension-point id="FactoryService" name="FactoryService"
 		// schema="schema/FactoryService.exsd"/>
 
-		String name = element.getAttribute( "name" );
-		name = loadProperty( name );
-		String id = element.getAttribute( "id" );
-		id = loadProperty( id );
-		String schema = element.getAttribute( "schema" );
+		String name = element.getAttribute("name");
+		name = loadProperty(name);
+		String id = element.getAttribute("id");
+		id = loadProperty(id);
+		String schema = element.getAttribute("schema");
 
-		ExtensionPoint point = new ExtensionPoint( bundle, id );
+		ExtensionPoint point = new ExtensionPoint(bundle, id);
 		point.schema = schema;
 
 		return point;
 	}
 
-	protected Extension parseExtension( Element element )
-	{
-		String id = element.getAttribute( "id" );
-		id = loadProperty( id );
-		String name = element.getAttribute( "name" );
-		name = loadProperty( name );
-		String point = element.getAttribute( "point" );
+	protected Extension parseExtension(Element element) {
+		String id = element.getAttribute("id");
+		id = loadProperty(id);
+		String name = element.getAttribute("name");
+		name = loadProperty(name);
+		String point = element.getAttribute("point");
 
-		Extension extension = new Extension( bundle, id );
+		Extension extension = new Extension(bundle, id);
 		extension.label = name;
 		extension.extensionPointId = point;
 
-		ArrayList<IConfigurationElement> configurations = new ArrayList<IConfigurationElement>( );
-		NodeList children = element.getChildNodes( );
-		for ( int i = 0; i < children.getLength( ); i++ )
-		{
-			Node node = children.item( i );
-			if ( node.getNodeType( ) == Node.ELEMENT_NODE )
-			{
-				IConfigurationElement config = parseConfiguration( extension,
-						(Element) node );
-				configurations.add( config );
+		ArrayList<IConfigurationElement> configurations = new ArrayList<IConfigurationElement>();
+		NodeList children = element.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node node = children.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				IConfigurationElement config = parseConfiguration(extension, (Element) node);
+				configurations.add(config);
 			}
 		}
-		extension.configuration = configurations
-				.toArray( new ConfigurationElement[configurations.size( )] );
+		extension.configuration = configurations.toArray(new ConfigurationElement[configurations.size()]);
 
 		return extension;
 	}
 
-	protected ConfigurationElement parseConfiguration( Object parent,
-			Element element )
-	{
-		ConfigurationElement config = new ConfigurationElement( );
+	protected ConfigurationElement parseConfiguration(Object parent, Element element) {
+		ConfigurationElement config = new ConfigurationElement();
 		config.parent = parent;
-		config.name = element.getNodeName( );
+		config.name = element.getNodeName();
 
-		config.attributes = new HashMap<String, String>( );
-		NamedNodeMap nodeAttrs = element.getAttributes( );
-		for ( int i = 0; i < nodeAttrs.getLength( ); i++ )
-		{
-			Node attr = nodeAttrs.item( i );
-			String nodeName = attr.getNodeName( );
-			String nodeValue = attr.getNodeValue( );
-			nodeValue = loadProperty( nodeValue );
-			config.attributes.put( nodeName, nodeValue );
+		config.attributes = new HashMap<String, String>();
+		NamedNodeMap nodeAttrs = element.getAttributes();
+		for (int i = 0; i < nodeAttrs.getLength(); i++) {
+			Node attr = nodeAttrs.item(i);
+			String nodeName = attr.getNodeName();
+			String nodeValue = attr.getNodeValue();
+			nodeValue = loadProperty(nodeValue);
+			config.attributes.put(nodeName, nodeValue);
 		}
 
-		ArrayList<ConfigurationElement> childConfigs = new ArrayList<ConfigurationElement>( );
-		NodeList children = element.getChildNodes( );
+		ArrayList<ConfigurationElement> childConfigs = new ArrayList<ConfigurationElement>();
+		NodeList children = element.getChildNodes();
 
-		for ( int i = 0; i < children.getLength( ); i++ )
-		{
-			Node node = children.item( i );
-			if ( node.getNodeType( ) == Node.ELEMENT_NODE )
-			{
-				ConfigurationElement childConfig = parseConfiguration( config,
-						(Element) node );
-				childConfigs.add( childConfig );
+		for (int i = 0; i < children.getLength(); i++) {
+			Node node = children.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
+				ConfigurationElement childConfig = parseConfiguration(config, (Element) node);
+				childConfigs.add(childConfig);
 
 			}
 		}
-		config.children = childConfigs
-				.toArray( new ConfigurationElement[childConfigs.size( )] );
+		config.children = childConfigs.toArray(new ConfigurationElement[childConfigs.size()]);
 		return config;
 	}
 
-	protected String loadProperty( String key )
-	{
-		if ( key != null && key.length( ) > 0 )
-		{
-			if ( key.charAt( 0 ) == '%' )
-			{
-				key = key.substring( 1 );
-				if ( properties != null )
-				{
-					String value = properties.getProperty( key );
-					if ( value != null )
-					{
+	protected String loadProperty(String key) {
+		if (key != null && key.length() > 0) {
+			if (key.charAt(0) == '%') {
+				key = key.substring(1);
+				if (properties != null) {
+					String value = properties.getProperty(key);
+					if (value != null) {
 						return value;
 					}
 				}
@@ -291,19 +237,14 @@ public class BundleLoader
 		return key;
 	}
 
-	protected InputStream openInputStream( URL root, String name )
-	{
-		try
-		{
-			URL manifestUrl = new URL( root, name );
-			InputStream in = manifestUrl.openStream( );
-			if ( in != null )
-			{
+	protected InputStream openInputStream(URL root, String name) {
+		try {
+			URL manifestUrl = new URL(root, name);
+			InputStream in = manifestUrl.openStream();
+			if (in != null) {
 				return in;
 			}
-		}
-		catch ( IOException ex )
-		{
+		} catch (IOException ex) {
 		}
 		return null;
 	}

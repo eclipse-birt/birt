@@ -22,106 +22,93 @@ import testutil.ConfigText;
 import org.junit.Test;
 import static org.junit.Assert.*;
 
-
 /**
- * Test whehter maxRows of IBaseQueryDefiniton property has effect
- * in doing query.
+ * Test whehter maxRows of IBaseQueryDefiniton property has effect in doing
+ * query.
  */
 
-public class MaxRowsTest extends APITestCase
-{
-	
+public class MaxRowsTest extends APITestCase {
+
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
-	protected DataSourceInfo getDataSourceInfo( )
-	{
-		return new DataSourceInfo( ConfigText.getString( "Api.TestData1.TableName" ),
-				ConfigText.getString( "Api.TestData1.TableSQL" ),
-				ConfigText.getString( "Api.TestData1.TestDataFileName" ) );
+	protected DataSourceInfo getDataSourceInfo() {
+		return new DataSourceInfo(ConfigText.getString("Api.TestData1.TableName"),
+				ConfigText.getString("Api.TestData1.TableSQL"), ConfigText.getString("Api.TestData1.TestDataFileName"));
 	}
-	
+
 	// Test case
 	@Test
-    public void test( ) throws Exception
-	{
+	public void test() throws Exception {
 		// get the number of rows
-		QueryDefinition queryDefn = newReportQuery( );
-		IResultIterator resultIt = executeQuery( queryDefn );
+		QueryDefinition queryDefn = newReportQuery();
+		IResultIterator resultIt = executeQuery(queryDefn);
 
 		int realRows = 0;
 		// the rows value is supposed to be 81
-		while ( resultIt.next( ) )
-		{
+		while (resultIt.next()) {
 			realRows++;
 		}
-		
-		String	bindingNameFilter = "FILTER_COL0";
-		IBaseExpression bindingExprFilter =  new ScriptExpression( "dataSetRow.COL0" );
-		FilterDefinition filterDefn = new FilterDefinition( new ScriptExpression( "row.FILTER_COL0 > 0" ) );
+
+		String bindingNameFilter = "FILTER_COL0";
+		IBaseExpression bindingExprFilter = new ScriptExpression("dataSetRow.COL0");
+		FilterDefinition filterDefn = new FilterDefinition(new ScriptExpression("row.FILTER_COL0 > 0"));
 
 		// test 1
 		int MAX_ROW = realRows / 2;
-		queryDefn = newReportQuery( );
-		this.addFilterDefinition( bindingNameFilter, bindingExprFilter, filterDefn, queryDefn );
-		queryDefn.setMaxRows( MAX_ROW );
+		queryDefn = newReportQuery();
+		this.addFilterDefinition(bindingNameFilter, bindingExprFilter, filterDefn, queryDefn);
+		queryDefn.setMaxRows(MAX_ROW);
 
 		// Exeute query to get result iterator
-		resultIt = executeQuery( queryDefn );
+		resultIt = executeQuery(queryDefn);
 		int count = 0;
-		while ( resultIt.next( ) )
-		{
+		while (resultIt.next()) {
 			count++;
 		}
-		assertTrue( count == MAX_ROW );
+		assertTrue(count == MAX_ROW);
 
-		//test 2
+		// test 2
 		MAX_ROW = realRows / 3;
-		queryDefn = newReportQuery( );
-		this.addFilterDefinition( bindingNameFilter, bindingExprFilter, filterDefn, queryDefn );
-		queryDefn.setMaxRows( MAX_ROW );
+		queryDefn = newReportQuery();
+		this.addFilterDefinition(bindingNameFilter, bindingExprFilter, filterDefn, queryDefn);
+		queryDefn.setMaxRows(MAX_ROW);
 
 		// Execute query to get result iterator
-		resultIt = executeQuery( queryDefn );
+		resultIt = executeQuery(queryDefn);
 		count = 0;
-		while ( resultIt.next( ) )
-		{
+		while (resultIt.next()) {
 			count++;
 		}
-		assertTrue( count == MAX_ROW );
-		
-		// after doing filter, the rows value is supposed to be 54	
-		bindingNameFilter = "FILTER_COL0";
-		bindingExprFilter = new ScriptExpression( "dataSetRow.COL0" );
-		filterDefn = new FilterDefinition( new ScriptExpression( "row.FILTER_COL0 > 3" ) );
+		assertTrue(count == MAX_ROW);
 
-		//test 3
+		// after doing filter, the rows value is supposed to be 54
+		bindingNameFilter = "FILTER_COL0";
+		bindingExprFilter = new ScriptExpression("dataSetRow.COL0");
+		filterDefn = new FilterDefinition(new ScriptExpression("row.FILTER_COL0 > 3"));
+
+		// test 3
 		MAX_ROW = realRows / 3;
-		queryDefn = newReportQuery( );
-		this.addFilterDefinition( bindingNameFilter, bindingExprFilter, filterDefn, queryDefn );
-		queryDefn.addFilter( filterDefn );
-		queryDefn.setMaxRows( MAX_ROW );
+		queryDefn = newReportQuery();
+		this.addFilterDefinition(bindingNameFilter, bindingExprFilter, filterDefn, queryDefn);
+		queryDefn.addFilter(filterDefn);
+		queryDefn.setMaxRows(MAX_ROW);
 
 		// Exeute query to get result iterator
-		resultIt = executeQuery( queryDefn );
+		resultIt = executeQuery(queryDefn);
 		count = 0;
-		while ( resultIt.next( ) )
-		{
+		while (resultIt.next()) {
 			count++;
 		}
-		assertTrue( count < MAX_ROW );
+		assertTrue(count < MAX_ROW);
 	}
-	
-	private void addFilterDefinition( String bindingNameFilter,
-			IBaseExpression bindingExprFilter, FilterDefinition filterDefn,
-			QueryDefinition queryDefn )
-	{
-		if ( filterDefn != null )
-		{
-			if ( bindingNameFilter != null )
-				queryDefn.addResultSetExpression( bindingNameFilter,
-						bindingExprFilter );
-			queryDefn.addFilter( filterDefn );
+
+	private void addFilterDefinition(String bindingNameFilter, IBaseExpression bindingExprFilter,
+			FilterDefinition filterDefn, QueryDefinition queryDefn) {
+		if (filterDefn != null) {
+			if (bindingNameFilter != null)
+				queryDefn.addResultSetExpression(bindingNameFilter, bindingExprFilter);
+			queryDefn.addFilter(filterDefn);
 		}
 	}
 }

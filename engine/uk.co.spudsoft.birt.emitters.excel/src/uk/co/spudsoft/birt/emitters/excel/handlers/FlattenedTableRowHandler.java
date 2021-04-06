@@ -45,7 +45,5 @@ public class FlattenedTableRowHandler extends AbstractHandler {
 		state.setHandler(new FlattenedTableCellHandler(contentHandler, log, this, cell));
 		state.getHandler().startCell(state, cell);
 	}
-	
-	
 
 }

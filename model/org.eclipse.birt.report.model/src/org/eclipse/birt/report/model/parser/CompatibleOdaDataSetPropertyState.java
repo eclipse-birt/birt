@@ -33,22 +33,19 @@ import org.xml.sax.SAXException;
  *     
  *      &lt;oda-data-set extensionID=&quot;org.eclipse.birt.report.data.oda.jdbc&quot; name=&quot;myDataSet1&quot;&gt;
  *      &lt;/oda-data-set&gt;
- *      
- *    
- *   
+ * 
+ * 
+ * 
  * </pre>
  */
 
-public class CompatibleOdaDataSetPropertyState extends CompatiblePropertyState
-{
+public class CompatibleOdaDataSetPropertyState extends CompatiblePropertyState {
 
 	final static String JDBC_EXTENSION_ID = "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"; //$NON-NLS-1$
 	final static String FLAT_FILE_EXTENSION_ID = "org.eclipse.birt.report.data.oda.flatfile.dataSet"; //$NON-NLS-1$
 
-	CompatibleOdaDataSetPropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	CompatibleOdaDataSetPropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 
 		assert element instanceof OdaDataSet;
 	}
@@ -59,33 +56,30 @@ public class CompatibleOdaDataSetPropertyState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		if ( "type".equals( name ) ) //$NON-NLS-1$ 
+	public void end() throws SAXException {
+		if ("type".equals(name)) //$NON-NLS-1$
 		{
-			String convertedValue = convertToExtensionID( text.toString( ) );
+			String convertedValue = convertToExtensionID(text.toString());
 
-			setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP, convertedValue );
+			setProperty(IOdaExtendableElementModel.EXTENSION_ID_PROP, convertedValue);
 
 			return;
 		}
 
-		super.end( );
+		super.end();
 	}
 
 	/**
 	 * Convert type name to extension ID.
 	 * 
-	 * @param value
-	 *            type name
+	 * @param value type name
 	 * @return extension ID
 	 */
 
-	private String convertToExtensionID( String value )
-	{
-		if ( "JdbcSelectDataSet".equalsIgnoreCase( value ) ) //$NON-NLS-1$
+	private String convertToExtensionID(String value) {
+		if ("JdbcSelectDataSet".equalsIgnoreCase(value)) //$NON-NLS-1$
 			return JDBC_EXTENSION_ID;
-		else if ( "FlatFileSelectDataSet".equalsIgnoreCase( value ) ) //$NON-NLS-1$
+		else if ("FlatFileSelectDataSet".equalsIgnoreCase(value)) //$NON-NLS-1$
 			return FLAT_FILE_EXTENSION_ID;
 
 		return null;

@@ -18,8 +18,7 @@ import java.util.List;
  * validator list should implements this class.
  */
 
-public interface IValidatorProvider
-{
+public interface IValidatorProvider {
 
 	/**
 	 * Returns the validator list. Each of the list is the instance of
@@ -28,5 +27,5 @@ public interface IValidatorProvider
 	 * @return the provided validator list
 	 */
 
-	public List<ValidationNode> getValidators( );
+	public List<ValidationNode> getValidators();
 }

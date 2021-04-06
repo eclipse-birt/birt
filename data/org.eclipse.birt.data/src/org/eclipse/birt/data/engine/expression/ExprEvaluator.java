@@ -34,19 +34,16 @@ import org.mozilla.javascript.Scriptable;
  * evaluator optimizes the expression evaluation by reusing parsed expression.
  * 
  */
-public class ExprEvaluator
-{
+public class ExprEvaluator {
 
 	private ExpressionHelper exprHelper;
 
-	public ExprEvaluator( )
-	{
-		exprHelper = new ExpressionHelper( );
+	public ExprEvaluator() {
+		exprHelper = new ExpressionHelper();
 	}
-	
-	public void close( )
-	{
-		exprHelper.close( );
+
+	public void close() {
+		exprHelper.close();
 	}
 
 	/**
@@ -57,25 +54,14 @@ public class ExprEvaluator
 	 * @return
 	 * @throws BirtException
 	 */
-	public Object evaluateExpression( IBaseExpression dataExpr,
-			IResultIterator odiResult, Scriptable scope, ScriptContext cx )
-			throws BirtException
-	{
-		return ExprEvaluateUtil.evaluateExpression( dataExpr,
-				odiResult,
-				scope,
-				cx );
+	public Object evaluateExpression(IBaseExpression dataExpr, IResultIterator odiResult, Scriptable scope,
+			ScriptContext cx) throws BirtException {
+		return ExprEvaluateUtil.evaluateExpression(dataExpr, odiResult, scope, cx);
 	}
 
-	public Object evaluateCompiledExpression( CompiledExpression expr,
-			IResultObject ro, int currentIndex, Scriptable scope,
-			ScriptContext cx ) throws DataException
-	{
-		return ExprEvaluateUtil.evaluateCompiledExpression( expr,
-				ro,
-				currentIndex,
-				scope,
-				cx );
+	public Object evaluateCompiledExpression(CompiledExpression expr, IResultObject ro, int currentIndex,
+			Scriptable scope, ScriptContext cx) throws DataException {
+		return ExprEvaluateUtil.evaluateCompiledExpression(expr, ro, currentIndex, scope, cx);
 	}
 
 	/**
@@ -85,14 +71,9 @@ public class ExprEvaluator
 	 * @return
 	 * @throws DataException
 	 */
-	public Object evaluateCompiledExpression( CompiledExpression expr,
-			IResultIterator odiResult, Scriptable scope, ScriptContext cx )
-			throws DataException
-	{
-		return ExprEvaluateUtil.evaluateCompiledExpression( expr,
-				odiResult,
-				scope,
-				cx );
+	public Object evaluateCompiledExpression(CompiledExpression expr, IResultIterator odiResult, Scriptable scope,
+			ScriptContext cx) throws DataException {
+		return ExprEvaluateUtil.evaluateCompiledExpression(expr, odiResult, scope, cx);
 	}
 
 	/**
@@ -103,10 +84,9 @@ public class ExprEvaluator
 	 * @return the value of raw data type, Java or Java Script
 	 * @throws BirtException
 	 */
-	public Object evaluateRawExpression( IBaseExpression dataExpr,
-			Scriptable scope, ScriptContext cx ) throws BirtException
-	{
-		return ExprEvaluateUtil.evaluateRawExpression( dataExpr, scope, cx );
+	public Object evaluateRawExpression(IBaseExpression dataExpr, Scriptable scope, ScriptContext cx)
+			throws BirtException {
+		return ExprEvaluateUtil.evaluateRawExpression(dataExpr, scope, cx);
 	}
 
 	/**
@@ -115,11 +95,9 @@ public class ExprEvaluator
 	 * @return the value of Java data type
 	 * @throws BirtException
 	 */
-	public Object evaluateRawExpression2( IBaseExpression dataExpr,
-			Scriptable scope, ScriptContext cx, DataSetRuntime dataSet )
-			throws BirtException
-	{
-		return doEvaluateRawExpression( dataExpr, scope, true, cx, dataSet );
+	public Object evaluateRawExpression2(IBaseExpression dataExpr, Scriptable scope, ScriptContext cx,
+			DataSetRuntime dataSet) throws BirtException {
+		return doEvaluateRawExpression(dataExpr, scope, true, cx, dataSet);
 	}
 
 	/**
@@ -128,38 +106,26 @@ public class ExprEvaluator
 	 * @return
 	 * @throws BirtException
 	 */
-	private Object doEvaluateRawExpression( IBaseExpression dataExpr,
-			Scriptable scope, boolean javaType, ScriptContext cx )
-			throws BirtException
-	{
-		return ExprEvaluateUtil.doEvaluateRawExpression( dataExpr,
-				scope,
-				javaType,
-				cx );
+	private Object doEvaluateRawExpression(IBaseExpression dataExpr, Scriptable scope, boolean javaType,
+			ScriptContext cx) throws BirtException {
+		return ExprEvaluateUtil.doEvaluateRawExpression(dataExpr, scope, javaType, cx);
 	}
 
 	/**
 	 * 
 	 * @param dataExpr
 	 * @param cx
-	 * @param isRow
-	 *            true:row["xxx"]; false:dataSetRow["xxx"]
+	 * @param isRow    true:row["xxx"]; false:dataSetRow["xxx"]
 	 * @return
 	 * @throws BirtException
 	 */
-	private String extractDirectColumn( IBaseExpression dataExpr,
-			ScriptContext cx, boolean isRow ) throws BirtException
-	{
-		if ( dataExpr instanceof IScriptExpression && !BaseExpression.constantId.equals( dataExpr.getScriptId( ) ) )
-		{
-			String exprText = ( (IScriptExpression) dataExpr ).getText( );
-			if ( isRow )
-			{
-				return exprHelper.getColumnBindingName( exprText );
-			}
-			else
-			{
-				return exprHelper.getColumnName( exprText );
+	private String extractDirectColumn(IBaseExpression dataExpr, ScriptContext cx, boolean isRow) throws BirtException {
+		if (dataExpr instanceof IScriptExpression && !BaseExpression.constantId.equals(dataExpr.getScriptId())) {
+			String exprText = ((IScriptExpression) dataExpr).getText();
+			if (isRow) {
+				return exprHelper.getColumnBindingName(exprText);
+			} else {
+				return exprHelper.getColumnName(exprText);
 			}
 		}
 		return null;
@@ -171,72 +137,50 @@ public class ExprEvaluator
 	 * @return
 	 * @throws BirtException
 	 */
-	private Object doEvaluateRawExpression( IBaseExpression dataExpr,
-			Scriptable scope, boolean javaType, ScriptContext cx,
-			DataSetRuntime dataSet ) throws BirtException
-	{
-		if ( dataSet == null )
-		{
-			return doEvaluateRawExpression( dataExpr, scope, javaType, cx );
+	private Object doEvaluateRawExpression(IBaseExpression dataExpr, Scriptable scope, boolean javaType,
+			ScriptContext cx, DataSetRuntime dataSet) throws BirtException {
+		if (dataSet == null) {
+			return doEvaluateRawExpression(dataExpr, scope, javaType, cx);
 		}
-		String dataSetColumn = extractDirectColumn( dataExpr, cx, false );
-		if ( dataSetColumn != null )
-		{
-			if ( dataSet.getCurrentRow( ) != null
-					&& dataSet.getCurrentRow( )
-							.getResultClass( )
-							.getFieldIndex( dataSetColumn ) >= 0 )
-			{
-				Object value = dataSet.getCurrentRow( )
-						.getFieldValue( dataSetColumn );
-				return DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+		String dataSetColumn = extractDirectColumn(dataExpr, cx, false);
+		if (dataSetColumn != null) {
+			if (dataSet.getCurrentRow() != null
+					&& dataSet.getCurrentRow().getResultClass().getFieldIndex(dataSetColumn) >= 0) {
+				Object value = dataSet.getCurrentRow().getFieldValue(dataSetColumn);
+				return DataTypeUtil.convert(value, dataExpr.getDataType());
 			}
 		}
 
-		String rowName = extractDirectColumn( dataExpr, cx, true );
-		if ( rowName != null )
-		{
-			Scriptable scriptable = dataSet.getJSResultRowObject( );
-			if ( scriptable instanceof JSResultSetRow )
-			{
+		String rowName = extractDirectColumn(dataExpr, cx, true);
+		if (rowName != null) {
+			Scriptable scriptable = dataSet.getJSResultRowObject();
+			if (scriptable instanceof JSResultSetRow) {
 				JSResultSetRow resultSetRow = (JSResultSetRow) scriptable;
-				IBinding b = resultSetRow.getBinding( rowName );
-				
-				if ( b != null && b.getAggrFunction( ) == null )
-				{
-					IBaseExpression expr = b.getExpression( );
-					dataSetColumn = extractDirectColumn( expr, cx, false );
-					if ( dataSetColumn != null )
-					{
+				IBinding b = resultSetRow.getBinding(rowName);
+
+				if (b != null && b.getAggrFunction() == null) {
+					IBaseExpression expr = b.getExpression();
+					dataSetColumn = extractDirectColumn(expr, cx, false);
+					if (dataSetColumn != null) {
 						// binding "xxx" expression is just dataSetRow["xxx"]
-						if ( dataSet.getCurrentRow( ) != null
-								&& dataSet.getCurrentRow( )
-										.getResultClass( )
-										.getFieldIndex( dataSetColumn ) >= 0 )
-						{
-							Object value = dataSet.getCurrentRow( )
-									.getFieldValue( dataSetColumn );
-							return DataTypeUtil.convert( value, b.getDataType( ) );
+						if (dataSet.getCurrentRow() != null
+								&& dataSet.getCurrentRow().getResultClass().getFieldIndex(dataSetColumn) >= 0) {
+							Object value = dataSet.getCurrentRow().getFieldValue(dataSetColumn);
+							return DataTypeUtil.convert(value, b.getDataType());
 						}
 					}
 				}
-			}
-			else
-			{
+			} else {
 				// row["xxx"] is added on data set level
-				if ( dataSet.getCurrentRow( ) != null
-						&& dataSet.getCurrentRow( )
-								.getResultClass( )
-								.getFieldIndex( rowName ) >= 0 )
-				{
-					Object value = dataSet.getCurrentRow( )
-							.getFieldValue( rowName );
-					return DataTypeUtil.convert( value, dataExpr.getDataType( ) );
+				if (dataSet.getCurrentRow() != null
+						&& dataSet.getCurrentRow().getResultClass().getFieldIndex(rowName) >= 0) {
+					Object value = dataSet.getCurrentRow().getFieldValue(rowName);
+					return DataTypeUtil.convert(value, dataExpr.getDataType());
 				}
 			}
 		}
 
-		return doEvaluateRawExpression( dataExpr, scope, javaType, cx );
+		return doEvaluateRawExpression(dataExpr, scope, javaType, cx);
 	}
 
 	/**
@@ -249,73 +193,33 @@ public class ExprEvaluator
 	 * @throws DataException
 	 * @throws BirtException
 	 */
-	public Object evaluateConditionExpression( IConditionalExpression dataExpr,
-			Scriptable scope, boolean javaType, ScriptContext cx,
-			CompareHints filterHints ) throws DataException, BirtException
-	{
-		return ExprEvaluateUtil.evaluateConditionExpression( dataExpr,
-				scope,
-				javaType,
-				cx,
-				filterHints );
+	public Object evaluateConditionExpression(IConditionalExpression dataExpr, Scriptable scope, boolean javaType,
+			ScriptContext cx, CompareHints filterHints) throws DataException, BirtException {
+		return ExprEvaluateUtil.evaluateConditionExpression(dataExpr, scope, javaType, cx, filterHints);
 	}
 
-	public Object evaluateConditionExpression( IConditionalExpression dataExpr,
-			Scriptable scope, boolean javaType, ScriptContext cx,
-			CompareHints filterHints, DataSetRuntime dataSet )
-			throws DataException, BirtException
-	{
-		if ( dataExpr.getHandle( ) != null )
-			return Boolean.valueOf( ( (NEvaluator) dataExpr.getHandle( ) ).evaluate( cx,
-					scope,
-					dataSet ) );
+	public Object evaluateConditionExpression(IConditionalExpression dataExpr, Scriptable scope, boolean javaType,
+			ScriptContext cx, CompareHints filterHints, DataSetRuntime dataSet) throws DataException, BirtException {
+		if (dataExpr.getHandle() != null)
+			return Boolean.valueOf(((NEvaluator) dataExpr.getHandle()).evaluate(cx, scope, dataSet));
 
-		IScriptExpression opr = ( (IConditionalExpression) dataExpr ).getExpression( );
-		int oper = ( (IConditionalExpression) dataExpr ).getOperator( );
-		IBaseExpression operand1 = ( (IConditionalExpression) dataExpr ).getOperand1( );
-		IBaseExpression operand2 = ( (IConditionalExpression) dataExpr ).getOperand2( );
+		IScriptExpression opr = ((IConditionalExpression) dataExpr).getExpression();
+		int oper = ((IConditionalExpression) dataExpr).getOperator();
+		IBaseExpression operand1 = ((IConditionalExpression) dataExpr).getOperand1();
+		IBaseExpression operand2 = ((IConditionalExpression) dataExpr).getOperand2();
 
-		if ( operand1 instanceof IExpressionCollection )
-		{
-			Object[] expr = ( (IExpressionCollection) operand1 ).getExpressions( )
-					.toArray( );
+		if (operand1 instanceof IExpressionCollection) {
+			Object[] expr = ((IExpressionCollection) operand1).getExpressions().toArray();
 			Object[] result = new Object[expr.length];
-			for ( int i = 0; i < result.length; i++ )
-			{
-				result[i] = doEvaluateRawExpression( (IBaseExpression) expr[i],
-						scope,
-						javaType,
-						cx,
-						dataSet );
+			for (int i = 0; i < result.length; i++) {
+				result[i] = doEvaluateRawExpression((IBaseExpression) expr[i], scope, javaType, cx, dataSet);
 			}
-			return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
-					scope,
-					javaType,
-					cx,
-					dataSet ),
-					oper,
-					ExprEvaluateUtil.flatternMultipleValues( result ),
-					filterHints );
-		}
-		else
-		{
-			return ScriptEvalUtil.evalConditionalExpr( doEvaluateRawExpression( opr,
-					scope,
-					javaType,
-					cx,
-					dataSet ),
-					oper,
-					doEvaluateRawExpression( operand1,
-							scope,
-							javaType,
-							cx,
-							dataSet ),
-					doEvaluateRawExpression( operand2,
-							scope,
-							javaType,
-							cx,
-							dataSet ),
-					filterHints );
+			return ScriptEvalUtil.evalConditionalExpr(doEvaluateRawExpression(opr, scope, javaType, cx, dataSet), oper,
+					ExprEvaluateUtil.flatternMultipleValues(result), filterHints);
+		} else {
+			return ScriptEvalUtil.evalConditionalExpr(doEvaluateRawExpression(opr, scope, javaType, cx, dataSet), oper,
+					doEvaluateRawExpression(operand1, scope, javaType, cx, dataSet),
+					doEvaluateRawExpression(operand2, scope, javaType, cx, dataSet), filterHints);
 		}
 	}
 
@@ -325,15 +229,9 @@ public class ExprEvaluator
 	 * @return
 	 * @throws BirtException
 	 */
-	public Object evaluateValue( IBaseExpression dataExpr, int index,
-			IResultObject roObject, Scriptable scope, ScriptContext cx )
-			throws BirtException
-	{
-		return ExprEvaluateUtil.evaluateValue( dataExpr,
-				index,
-				roObject,
-				scope,
-				cx );
+	public Object evaluateValue(IBaseExpression dataExpr, int index, IResultObject roObject, Scriptable scope,
+			ScriptContext cx) throws BirtException {
+		return ExprEvaluateUtil.evaluateValue(dataExpr, index, roObject, scope, cx);
 	}
 
 	/**
@@ -343,12 +241,9 @@ public class ExprEvaluator
 	 * @return
 	 * @throws DataException
 	 */
-	public Object evaluateColumnReferenceExpression( IResultObject roObject,
-			int index, ColumnReferenceExpression colref ) throws DataException
-	{
-		return ExprEvaluateUtil.evaluateColumnReferenceExpression( roObject,
-				index,
-				colref );
+	public Object evaluateColumnReferenceExpression(IResultObject roObject, int index, ColumnReferenceExpression colref)
+			throws DataException {
+		return ExprEvaluateUtil.evaluateColumnReferenceExpression(roObject, index, colref);
 	}
 
 }

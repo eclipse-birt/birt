@@ -11,31 +11,27 @@ package org.eclipse.birt.report.designer.ui.preview.parameter;
 
 import org.eclipse.birt.report.engine.api.IParameterSelectionChoice;
 
-
 /**
  * Mock parameter selection choice
  */
-public class MockParameterSelectionChoice implements IParameterSelectionChoice
-{
-	private String value ;
+public class MockParameterSelectionChoice implements IParameterSelectionChoice {
+	private String value;
 	private String label;
-	
+
 	/**
 	 * @param value
 	 * @param label
 	 */
-	public MockParameterSelectionChoice( String value , String label ) 
-	{
+	public MockParameterSelectionChoice(String value, String label) {
 		this.value = value;
 		this.label = label;
 	}
-	public String getLabel( )
-	{
+
+	public String getLabel() {
 		return label;
 	}
 
-	public Object getValue( )
-	{
+	public Object getValue() {
 		return value;
 	}
 

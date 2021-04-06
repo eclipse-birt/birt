@@ -21,26 +21,21 @@ import org.eclipse.birt.report.data.oda.jdbc.ui.editors.SQLDataSetEditorPage;
 import org.eclipse.birt.report.data.oda.jdbc.ui.model.TableType;
 import org.eclipse.birt.report.data.oda.jdbc.ui.provider.JdbcMetaDataProvider;
 
-public class HiveDataSetWizardPage extends SQLDataSetEditorPage
-{
+public class HiveDataSetWizardPage extends SQLDataSetEditorPage {
 
-	public HiveDataSetWizardPage( String pageName )
-	{
-		super( pageName );
+	public HiveDataSetWizardPage(String pageName) {
+		super(pageName);
 	}
 
-	protected List<TableType> getTableTypes( boolean supportsProcedure )
-	{
-		List<TableType> types = new ArrayList<TableType>( );
+	protected List<TableType> getTableTypes(boolean supportsProcedure) {
+		List<TableType> types = new ArrayList<TableType>();
 
 		// Populate the Types of Data bases objects which can be retrieved
-		types.add( TableType.NO_LIMIT );
-		String[] tableTypes = JdbcMetaDataProvider.getInstance( )
-				.getTableTypeNames( timeOutLimit * 1000 );
+		types.add(TableType.NO_LIMIT);
+		String[] tableTypes = JdbcMetaDataProvider.getInstance().getTableTypeNames(timeOutLimit * 1000);
 
-		for ( int i = 0; i < tableTypes.length; i++ )
-		{
-			types.add( new TableType( null, tableTypes[i], tableTypes[i] ) );
+		for (int i = 0; i < tableTypes.length; i++) {
+			types.add(new TableType(null, tableTypes[i], tableTypes[i]));
 		}
 
 		return types;

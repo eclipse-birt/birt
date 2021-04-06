@@ -28,8 +28,7 @@ import org.osgi.framework.Bundle;
  * Utility class is used to retrieve appcontext from extension
  * 
  */
-public class AppContextUtil
-{
+public class AppContextUtil {
 
 	/**
 	 * AppContext extension point id
@@ -41,27 +40,22 @@ public class AppContextUtil
 	 * 
 	 * @return
 	 */
-	public static List getAppContextExtensionNames( )
-	{
-		List list = new ArrayList( );
+	public static List getAppContextExtensionNames() {
+		List list = new ArrayList();
 
 		// get all configuration elements
-		IConfigurationElement[] elements = getConfigurationElements( );
-		if ( elements != null && elements.length > 0 )
-		{
-			for ( int i = 0; i < elements.length; i++ )
-			{
+		IConfigurationElement[] elements = getConfigurationElements();
+		if (elements != null && elements.length > 0) {
+			for (int i = 0; i < elements.length; i++) {
 				// get class name
-				String className = (String) elements[i].getAttribute( "class" ); //$NON-NLS-1$
-				if ( className == null )
+				String className = (String) elements[i].getAttribute("class"); //$NON-NLS-1$
+				if (className == null)
 					continue;
 
 				// get AppContextExtension object
-				AppContextExtension appContextExtension = getAppContextExtension(
-						elements[i], className );
-				if ( appContextExtension != null
-						&& appContextExtension.getName( ) != null )
-					list.add( appContextExtension.getName( ) );
+				AppContextExtension appContextExtension = getAppContextExtension(elements[i], className);
+				if (appContextExtension != null && appContextExtension.getName() != null)
+					list.add(appContextExtension.getName());
 			}
 		}
 
@@ -74,30 +68,25 @@ public class AppContextUtil
 	 * @param appContextName
 	 * @return
 	 */
-	public static AppContextExtension getAppContextExtensionByName(
-			String appContextName )
-	{
-		if ( appContextName == null )
+	public static AppContextExtension getAppContextExtensionByName(String appContextName) {
+		if (appContextName == null)
 			return null;
 
 		// get all configuration elements
-		IConfigurationElement[] elements = getConfigurationElements( );
-		if ( elements != null && elements.length > 0 )
-		{
-			for ( int i = 0; i < elements.length; i++ )
-			{
+		IConfigurationElement[] elements = getConfigurationElements();
+		if (elements != null && elements.length > 0) {
+			for (int i = 0; i < elements.length; i++) {
 				// get class name
-				String className = (String) elements[i].getAttribute( "class" ); //$NON-NLS-1$
-				if ( className == null )
+				String className = (String) elements[i].getAttribute("class"); //$NON-NLS-1$
+				if (className == null)
 					continue;
 
 				// get AppContextExtension object
-				AppContextExtension appContextExtension = getAppContextExtension(
-						elements[i], className );
-				if ( appContextExtension == null )
+				AppContextExtension appContextExtension = getAppContextExtension(elements[i], className);
+				if (appContextExtension == null)
 					continue;
 
-				if ( appContextName.equals( appContextExtension.getName( ) ) )
+				if (appContextName.equals(appContextExtension.getName()))
 					return appContextExtension;
 			}
 		}
@@ -112,11 +101,10 @@ public class AppContextUtil
 	 * @param appContext
 	 * @return
 	 */
-	public static Map getAppContext( String appContextName, Map appContext )
-	{
-		AppContextExtension context = getAppContextExtensionByName( appContextName );
-		if ( context != null )
-			appContext = context.getAppContext( appContext );
+	public static Map getAppContext(String appContextName, Map appContext) {
+		AppContextExtension context = getAppContextExtensionByName(appContextName);
+		if (context != null)
+			appContext = context.getAppContext(appContext);
 
 		return appContext;
 	}
@@ -127,25 +115,19 @@ public class AppContextUtil
 	 * @param appContextName
 	 * @return
 	 */
-	private static AppContextExtension getAppContextExtension(
-			IConfigurationElement element, String className )
-	{
-		if ( element == null || className == null )
+	private static AppContextExtension getAppContextExtension(IConfigurationElement element, String className) {
+		if (element == null || className == null)
 			return null;
 
 		// get bundle name
-		String bundleName = getContributingPlugin( element );
-		if ( bundleName != null )
-		{
-			try
-			{
+		String bundleName = getContributingPlugin(element);
+		if (bundleName != null) {
+			try {
 				// load class
-				Class clz = loadClass( bundleName, className );
-				if ( clz != null )
-					return (AppContextExtension) clz.newInstance( );
-			}
-			catch ( Exception e )
-			{
+				Class clz = loadClass(bundleName, className);
+				if (clz != null)
+					return (AppContextExtension) clz.newInstance();
+			} catch (Exception e) {
 			}
 		}
 
@@ -157,17 +139,14 @@ public class AppContextUtil
 	 * 
 	 * @return
 	 */
-	private static IConfigurationElement[] getConfigurationElements( )
-	{
+	private static IConfigurationElement[] getConfigurationElements() {
 		// load extension point entry
-		IExtensionRegistry registry = Platform.getExtensionRegistry( );
-		IExtensionPoint extensionPoint = registry
-				.getExtensionPoint( APPCONTEXT_EXTENSION_ID );
+		IExtensionRegistry registry = Platform.getExtensionRegistry();
+		IExtensionPoint extensionPoint = registry.getExtensionPoint(APPCONTEXT_EXTENSION_ID);
 
-		if ( extensionPoint != null )
-		{
+		if (extensionPoint != null) {
 			// get all configuration elements
-			return extensionPoint.getConfigurationElements( );
+			return extensionPoint.getConfigurationElements();
 		}
 
 		return null;
@@ -180,24 +159,18 @@ public class AppContextUtil
 	 * @param className
 	 * @return
 	 */
-	private static Class loadClass( String bundleName, String className )
-	{
-		try
-		{
-			Bundle bundle = Platform.getBundle( bundleName );
-			if ( bundle != null )
-			{
-				if ( bundle.getState( ) == Bundle.RESOLVED )
-				{
-					bundle.start( Bundle.START_TRANSIENT );
+	private static Class loadClass(String bundleName, String className) {
+		try {
+			Bundle bundle = Platform.getBundle(bundleName);
+			if (bundle != null) {
+				if (bundle.getState() == Bundle.RESOLVED) {
+					bundle.start(Bundle.START_TRANSIENT);
 				}
 			}
 
-			if ( bundle != null )
-				return bundle.loadClass( className );
-		}
-		catch ( Exception e )
-		{
+			if (bundle != null)
+				return bundle.loadClass(className);
+		} catch (Exception e) {
 		}
 		return null;
 	}
@@ -208,15 +181,12 @@ public class AppContextUtil
 	 * @param configurationElement
 	 * @return
 	 */
-	private static String getContributingPlugin(
-			IConfigurationElement configurationElement )
-	{
+	private static String getContributingPlugin(IConfigurationElement configurationElement) {
 		Object parent = configurationElement;
-		while ( parent != null )
-		{
-			if ( parent instanceof IExtension )
-				return ( (IExtension) parent ).getNamespaceIdentifier( );
-			parent = ( (IConfigurationElement) parent ).getParent( );
+		while (parent != null) {
+			if (parent instanceof IExtension)
+				return ((IExtension) parent).getNamespaceIdentifier();
+			parent = ((IConfigurationElement) parent).getParent();
 		}
 		return null;
 	}

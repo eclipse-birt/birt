@@ -27,16 +27,14 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  * Implements the built-in Total.AVE aggregation
  */
-public class TotalAve extends AggrFunction
-{
+public class TotalAve extends AggrFunction {
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return IBuildInAggregation.TOTAL_AVE_FUNC;
 	}
 
@@ -45,8 +43,7 @@ public class TotalAve extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#getType()
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return SUMMARY_AGGR;
 	}
 
@@ -55,8 +52,7 @@ public class TotalAve extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getDateType()
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return DataType.DOUBLE_TYPE;
 	}
 
@@ -65,26 +61,22 @@ public class TotalAve extends AggrFunction
 	 * 
 	 * @see org.eclipse.birt.data.engine.aggregation.Aggregation#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( CalculatorFactory.getCalculator( getDataType( ) ) );
+	public Accumulator newAccumulator() {
+		return new MyAccumulator(CalculatorFactory.getCalculator(getDataType()));
 	}
 
-	private static class MyAccumulator extends SummaryAccumulator
-	{
+	private static class MyAccumulator extends SummaryAccumulator {
 
 		private Number sum = null;
 
 		private int count = 0;
-		
-		MyAccumulator( ICalculator calc )
-        {
-        	super( calc );
-        }
-		
-		public void start( )
-		{
-			super.start( );
+
+		MyAccumulator(ICalculator calc) {
+			super(calc);
+		}
+
+		public void start() {
+			super.start();
 			sum = null;
 			count = 0;
 		}
@@ -92,14 +84,14 @@ public class TotalAve extends AggrFunction
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[])
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.Accumulator#onRow(java.lang.Object[]
+		 * )
 		 */
-		public void onRow( Object[] args ) throws DataException
-		{
-			assert ( args.length > 0 );
-			if ( args[0] != null )
-			{
-				sum = calculator.add( sum, calculator.getTypedObject( args[0] ) );
+		public void onRow(Object[] args) throws DataException {
+			assert (args.length > 0);
+			if (args[0] != null) {
+				sum = calculator.add(sum, calculator.getTypedObject(args[0]));
 				count++;
 			}
 		}
@@ -107,16 +99,13 @@ public class TotalAve extends AggrFunction
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.SummaryAccumulator#getSummaryValue()
 		 */
-		public Object getSummaryValue( ) throws DataException
-		{
-			if ( count > 0 )
-			{
-				return calculator.divide( sum, calculator.getTypedObject( count ) );
-			}
-			else
-			{
+		public Object getSummaryValue() throws DataException {
+			if (count > 0) {
+				return calculator.divide(sum, calculator.getTypedObject(count));
+			} else {
 				return null;
 			}
 		}
@@ -126,37 +115,32 @@ public class TotalAve extends AggrFunction
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalAve.description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return Messages.getString("TotalAve.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalAve.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("TotalAve.displayName"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getParameterDefn()
 	 */
-	public IParameterDefn[] getParameterDefn( )
-	{
-		return new IParameterDefn[]{
-			new ParameterDefn( Constants.EXPRESSION_NAME,
-					Constants.EXPRESSION_DISPLAY_NAME,
-					false,
-					true,
-					SupportedDataTypes.CALCULATABLE,
-					"" ) //$NON-NLS-1$
+	public IParameterDefn[] getParameterDefn() {
+		return new IParameterDefn[] { new ParameterDefn(Constants.EXPRESSION_NAME, Constants.EXPRESSION_DISPLAY_NAME,
+				false, true, SupportedDataTypes.CALCULATABLE, "") //$NON-NLS-1$
 		};
 	}
 }

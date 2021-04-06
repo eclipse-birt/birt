@@ -30,7 +30,8 @@ import com.ibm.icu.util.ULocale;
  * <li>Swith to master page view.
  * <li>Select margin node, input 1,2in for left margin
  * <li>Click on left margin again, try to edit the value.
- * <li>Get exception as follwing: ava.lang.NumberFormatException: For input string: "1,2"
+ * <li>Get exception as follwing: ava.lang.NumberFormatException: For input
+ * string: "1,2"
  * </ol>
  * 
  * <p>
@@ -40,40 +41,34 @@ import com.ibm.icu.util.ULocale;
  * value, ensure that the locale-dependent input value is correctly parsed.
  * </p>
  */
-public class Regression_102725 extends BaseTestCase
-{
+public class Regression_102725 extends BaseTestCase {
 
 	private final static String INPUT = "regression_102725.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-			
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
-	
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_102725( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT, ULocale.ENGLISH );
+	public void test_regression_102725() throws DesignFileException, SemanticException {
+		openDesign(INPUT, ULocale.ENGLISH);
 
-		MasterPageHandle pageHandle = designHandle
-				.findMasterPage( "Simple MasterPage" ); //$NON-NLS-1$
-		DimensionHandle leftMarginHandle = pageHandle.getLeftMargin( );
+		MasterPageHandle pageHandle = designHandle.findMasterPage("Simple MasterPage"); //$NON-NLS-1$
+		DimensionHandle leftMarginHandle = pageHandle.getLeftMargin();
 
 		// "1,2" is parsed as 12 in English locale.
-		
-		leftMarginHandle.setStringValue( "1,2in" ); //$NON-NLS-1$
-		assertEquals(
-				"12in", pageHandle.getStringProperty( MasterPageHandle.LEFT_MARGIN_PROP ) ); //$NON-NLS-1$
+
+		leftMarginHandle.setStringValue("1,2in"); //$NON-NLS-1$
+		assertEquals("12in", pageHandle.getStringProperty(MasterPageHandle.LEFT_MARGIN_PROP)); //$NON-NLS-1$
 
 	}
 }

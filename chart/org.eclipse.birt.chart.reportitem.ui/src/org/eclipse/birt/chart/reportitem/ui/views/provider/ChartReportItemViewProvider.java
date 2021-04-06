@@ -22,30 +22,27 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 /**
  * Provider for creating Chart view in multi-view
  */
-public class ChartReportItemViewProvider extends ReportItemViewAdapter
-{
+public class ChartReportItemViewProvider extends ReportItemViewAdapter {
 
-	protected static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.reportitem.ui" ); //$NON-NLS-1$
+	protected static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.reportitem.ui"); //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.ReportItemViewAdapter#createView(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.ReportItemViewAdapter#
+	 * createView(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
-	public DesignElementHandle createView( DesignElementHandle host )
-			throws BirtException
-	{
-		return ChartReportItemUIFactory.instance( )
-				.createChartViewHandle( host );
+	public DesignElementHandle createView(DesignElementHandle host) throws BirtException {
+		return ChartReportItemUIFactory.instance().createChartViewHandle(host);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider#getViewName()
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider#
+	 * getViewName()
 	 */
-	public String getViewName( )
-	{
+	public String getViewName() {
 		return Messages.getString("ChartReportItemViewProvider.ChartViewName"); //$NON-NLS-1$
 	}
 

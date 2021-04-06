@@ -29,18 +29,15 @@ import org.eclipse.ui.IPersistableElement;
  * 
  */
 
-public class JSEditorInput implements IStorageEditorInput
-{
+public class JSEditorInput implements IStorageEditorInput {
 
-	private class JSStorage implements IStorage
-	{
+	private class JSStorage implements IStorage {
 
 		/**
 		 * 
 		 */
-		public JSStorage( )
-		{
-			super( );
+		public JSStorage() {
+			super();
 		}
 
 		/*
@@ -48,22 +45,17 @@ public class JSEditorInput implements IStorageEditorInput
 		 * 
 		 * @see org.eclipse.core.resources.IStorage#getContents()
 		 */
-		public InputStream getContents( ) throws CoreException
-		{
+		public InputStream getContents() throws CoreException {
 			// String encoding = SessionHandleAdapter.getInstance( )
 			// .getReportDesignHandle( )
 			// .getFileEncoding( );
-			if ( name == null )
-			{
+			if (name == null) {
 				name = ""; //$NON-NLS-1$
 			}
-			try
-			{
-				return new ByteArrayInputStream( name.getBytes( encoding ) );
-			}
-			catch ( UnsupportedEncodingException e )
-			{
-				throw new RuntimeException( e.getMessage( ) );
+			try {
+				return new ByteArrayInputStream(name.getBytes(encoding));
+			} catch (UnsupportedEncodingException e) {
+				throw new RuntimeException(e.getMessage());
 			}
 
 		}
@@ -73,8 +65,7 @@ public class JSEditorInput implements IStorageEditorInput
 		 * 
 		 * @see org.eclipse.core.resources.IStorage#getFullPath()
 		 */
-		public IPath getFullPath( )
-		{
+		public IPath getFullPath() {
 			return null;
 		}
 
@@ -83,8 +74,7 @@ public class JSEditorInput implements IStorageEditorInput
 		 * 
 		 * @see org.eclipse.core.resources.IStorage#getName()
 		 */
-		public String getName( )
-		{
+		public String getName() {
 			return name;
 		}
 
@@ -93,8 +83,7 @@ public class JSEditorInput implements IStorageEditorInput
 		 * 
 		 * @see org.eclipse.core.resources.IStorage#isReadOnly()
 		 */
-		public boolean isReadOnly( )
-		{
+		public boolean isReadOnly() {
 			return false;
 		}
 
@@ -103,8 +92,7 @@ public class JSEditorInput implements IStorageEditorInput
 		 * 
 		 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 		 */
-		public Object getAdapter( Class adapter )
-		{
+		public Object getAdapter(Class adapter) {
 			return null;
 		}
 	}
@@ -116,9 +104,8 @@ public class JSEditorInput implements IStorageEditorInput
 	/**
 	 * 
 	 */
-	public JSEditorInput( String _name, String encoding )
-	{
-		super( );
+	public JSEditorInput(String _name, String encoding) {
+		super();
 		this.name = _name;
 		this.encoding = encoding;
 	}
@@ -126,18 +113,16 @@ public class JSEditorInput implements IStorageEditorInput
 	/**
 	 * 
 	 */
-	public JSEditorInput( String _name)
-	{
-		this( _name, DEFAULT_ENCODING  );
+	public JSEditorInput(String _name) {
+		this(_name, DEFAULT_ENCODING);
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#exists()
 	 */
-	public boolean exists( )
-	{
+	public boolean exists() {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -147,8 +132,7 @@ public class JSEditorInput implements IStorageEditorInput
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getImageDescriptor()
 	 */
-	public ImageDescriptor getImageDescriptor( )
-	{
+	public ImageDescriptor getImageDescriptor() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -158,8 +142,7 @@ public class JSEditorInput implements IStorageEditorInput
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		// TODO Auto-generated method stub
 		return name;
 	}
@@ -169,8 +152,7 @@ public class JSEditorInput implements IStorageEditorInput
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getPersistable()
 	 */
-	public IPersistableElement getPersistable( )
-	{
+	public IPersistableElement getPersistable() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -180,8 +162,7 @@ public class JSEditorInput implements IStorageEditorInput
 	 * 
 	 * @see org.eclipse.ui.IEditorInput#getToolTipText()
 	 */
-	public String getToolTipText( )
-	{
+	public String getToolTipText() {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -191,8 +172,7 @@ public class JSEditorInput implements IStorageEditorInput
 	 * 
 	 * @see org.eclipse.core.runtime.IAdaptable#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
+	public Object getAdapter(Class adapter) {
 		return null;
 	}
 
@@ -201,9 +181,8 @@ public class JSEditorInput implements IStorageEditorInput
 	 * 
 	 * @see org.eclipse.ui.IStorageEditorInput#getStorage()
 	 */
-	public IStorage getStorage( ) throws CoreException
-	{
-		return new JSStorage( );
+	public IStorage getStorage() throws CoreException {
+		return new JSStorage();
 	}
 
 }

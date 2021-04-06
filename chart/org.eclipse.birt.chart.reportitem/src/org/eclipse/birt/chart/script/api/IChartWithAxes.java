@@ -17,44 +17,42 @@ import org.eclipse.birt.chart.script.api.component.IValueSeries;
 /**
  * Represents the design of a ChartWithAxis in the scripting environment
  */
-public interface IChartWithAxes extends IChart
-{
+public interface IChartWithAxes extends IChart {
 
 	/**
 	 * Gets category(X) axis from Chart
 	 * 
 	 * @return category axis
 	 */
-	IAxis getCategoryAxis( );
+	IAxis getCategoryAxis();
 
 	/**
 	 * Gets all value(Y) axes from Chart
 	 * 
 	 * @return value axes array
 	 */
-	IAxis[] getValueAxes( );
+	IAxis[] getValueAxes();
 
 	/**
-	 * Checks if Chart is transposed, i.e. value(Y) axis is displayed as
-	 * horizontal line.
+	 * Checks if Chart is transposed, i.e. value(Y) axis is displayed as horizontal
+	 * line.
 	 * 
 	 * @return true horizontal, false vertical
 	 */
-	boolean isHorizontal( );
+	boolean isHorizontal();
 
 	/**
-	 * Sets Chart to be transposed, i.e. value(Y) axis is displayed as
-	 * horizontal line.
+	 * Sets Chart to be transposed, i.e. value(Y) axis is displayed as horizontal
+	 * line.
 	 * 
-	 * @param horizontal
-	 *            true horizontal, false vertical
+	 * @param horizontal true horizontal, false vertical
 	 */
-	void setHorizontal( boolean horizontal );
+	void setHorizontal(boolean horizontal);
 
 	/**
 	 * Gets all value(Y) series from Chart.
 	 * 
 	 * @return series array
 	 */
-	IValueSeries[][] getValueSeries( );
+	IValueSeries[][] getValueSeries();
 }

@@ -18,16 +18,14 @@ import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.service.actionhandler.IActionHandler;
 
-abstract public class AbstractBaseDocumentProcessor extends
-		AbstractBaseComponentProcessor implements IDocumentProcessor
-{
+abstract public class AbstractBaseDocumentProcessor extends AbstractBaseComponentProcessor
+		implements IDocumentProcessor {
 
 	/**
 	 * Default constructor.
 	 */
-	public AbstractBaseDocumentProcessor( )
-	{
-		super( );
+	public AbstractBaseDocumentProcessor() {
+		super();
 	}
 
 	/**
@@ -38,13 +36,10 @@ abstract public class AbstractBaseDocumentProcessor extends
 	 * @param op
 	 * @param response
 	 */
-	protected void __executeAction( IActionHandler action, IContext context,
-			Operation op, GetUpdatedObjectsResponse response )
-			throws RemoteException
-	{
-		if ( action != null && action.canExecute( ) )
-		{
-			action.execute( );
+	protected void __executeAction(IActionHandler action, IContext context, Operation op,
+			GetUpdatedObjectsResponse response) throws RemoteException {
+		if (action != null && action.canExecute()) {
+			action.execute();
 		}
 	}
 }

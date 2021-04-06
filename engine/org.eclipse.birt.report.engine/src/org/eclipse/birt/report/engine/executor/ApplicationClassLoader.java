@@ -38,14 +38,12 @@ import org.eclipse.birt.report.model.api.ScriptLibHandle;
  * <li>5. WORKSAPCE_CLASSPATH_KEY
  * <li>6. JARs define in the report design
  */
-public class ApplicationClassLoader extends ClassLoader
-{
+public class ApplicationClassLoader extends ClassLoader {
 
 	/**
 	 * the logger
 	 */
-	protected static Logger logger = Logger
-			.getLogger( ApplicationClassLoader.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(ApplicationClassLoader.class.getName());
 
 	private URLClassLoader designClassLoader = null;
 	private final IReportRunnable runnable;
@@ -53,61 +51,48 @@ public class ApplicationClassLoader extends ClassLoader
 
 	private final ReportEngine engine;
 
-	public ApplicationClassLoader( ReportEngine engine,
-			IReportRunnable reportRunnable, Map<String, Object> appContext )
-	{
+	public ApplicationClassLoader(ReportEngine engine, IReportRunnable reportRunnable, Map<String, Object> appContext) {
 		this.runnable = reportRunnable;
 		this.engine = engine;
 		this.appContext = appContext;
 	}
 
-	public void close( )
-	{
-		if ( this.appContext != null )
-		{
-			this.appContext.clear( );
+	public void close() {
+		if (this.appContext != null) {
+			this.appContext.clear();
 			this.appContext = null;
 		}
-		if ( designClassLoader != null )
-		{
-			designClassLoader.close( );
+		if (designClassLoader != null) {
+			designClassLoader.close();
 			designClassLoader = null;
 		}
 	}
-	
-	public URLClassLoader getDesignClassLoader()
-	{
-		if ( designClassLoader == null )
-		{
-			createDesignClassLoader( );
+
+	public URLClassLoader getDesignClassLoader() {
+		if (designClassLoader == null) {
+			createDesignClassLoader();
 		}
 		return designClassLoader;
 	}
 
 	@Override
-	public Class loadClass( String className ) throws ClassNotFoundException
-	{
-		if ( designClassLoader == null )
-		{
-			createDesignClassLoader( );
+	public Class loadClass(String className) throws ClassNotFoundException {
+		if (designClassLoader == null) {
+			createDesignClassLoader();
 		}
-		return designClassLoader.loadClass( className );
+		return designClassLoader.loadClass(className);
 	}
 
 	@Override
-	protected synchronized Class<?> loadClass( String name, boolean resolve )
-			throws ClassNotFoundException
-	{
-		if ( designClassLoader == null )
-		{
-			createDesignClassLoader( );
+	protected synchronized Class<?> loadClass(String name, boolean resolve) throws ClassNotFoundException {
+		if (designClassLoader == null) {
+			createDesignClassLoader();
 		}
 
-		Class clazz = designClassLoader.loadClass( name );
+		Class clazz = designClassLoader.loadClass(name);
 		{
-			if ( resolve && clazz != null )
-			{
-				resolveClass( clazz );
+			if (resolve && clazz != null) {
+				resolveClass(clazz);
 			}
 
 		}
@@ -115,76 +100,58 @@ public class ApplicationClassLoader extends ClassLoader
 	}
 
 	@Override
-	public URL getResource( String name )
-	{
-		if ( designClassLoader == null )
-		{
-			createDesignClassLoader( );
+	public URL getResource(String name) {
+		if (designClassLoader == null) {
+			createDesignClassLoader();
 		}
-		return designClassLoader.getResource( name );
+		return designClassLoader.getResource(name);
 	}
 
 	/**
 	 * create the class loader used by the design.
 	 * 
-	 * the method should be synchronized as the class loader of a document may
-	 * be used by multiple tasks.
+	 * the method should be synchronized as the class loader of a document may be
+	 * used by multiple tasks.
 	 */
-	protected synchronized void createDesignClassLoader( )
-	{
-		if (designClassLoader != null)
-		{
+	protected synchronized void createDesignClassLoader() {
+		if (designClassLoader != null) {
 			return;
 		}
-		ArrayList<URL> urls = new ArrayList<URL>( );
-		if ( runnable != null )
-		{
-			ModuleHandle module = (ModuleHandle) runnable.getDesignHandle( );
-			Iterator iter = module.scriptLibsIterator( );
-			while ( iter.hasNext( ) )
-			{
-				ScriptLibHandle lib = (ScriptLibHandle) iter.next( );
-				String libPath = lib.getName( );
-				if ( libPath == null )
-				{
+		ArrayList<URL> urls = new ArrayList<URL>();
+		if (runnable != null) {
+			ModuleHandle module = (ModuleHandle) runnable.getDesignHandle();
+			Iterator iter = module.scriptLibsIterator();
+			while (iter.hasNext()) {
+				ScriptLibHandle lib = (ScriptLibHandle) iter.next();
+				String libPath = lib.getName();
+				if (libPath == null) {
 					continue;
 				}
-				URL url = module.findResource( libPath,
-						IResourceLocator.LIBRARY, appContext );
-				if ( url != null )
-				{
-					urls.add( url );
-				}
-				else
-				{
-					logger.log( Level.SEVERE,
-							"Can not find specified jar: " + libPath ); //$NON-NLS-1$
+				URL url = module.findResource(libPath, IResourceLocator.LIBRARY, appContext);
+				if (url != null) {
+					urls.add(url);
+				} else {
+					logger.log(Level.SEVERE, "Can not find specified jar: " + libPath); //$NON-NLS-1$
 				}
 			}
 		}
-		final URL[] jarUrls = urls.toArray( new URL[]{} );
-		if ( engine != null )
-		{
-			designClassLoader = AccessController.doPrivileged( new PrivilegedAction<URLClassLoader>( ) {
+		final URL[] jarUrls = urls.toArray(new URL[] {});
+		if (engine != null) {
+			designClassLoader = AccessController.doPrivileged(new PrivilegedAction<URLClassLoader>() {
 
 				@Override
-				public URLClassLoader run( )
-				{
-					return new URLClassLoader( jarUrls,
-							engine.getEngineClassLoader( ) );
+				public URLClassLoader run() {
+					return new URLClassLoader(jarUrls, engine.getEngineClassLoader());
 				}
-			} );
-		}
-		else
-		{
-			designClassLoader = AccessController.doPrivileged( new PrivilegedAction<URLClassLoader>( ) {
+			});
+		} else {
+			designClassLoader = AccessController.doPrivileged(new PrivilegedAction<URLClassLoader>() {
 
 				@Override
-				public URLClassLoader run( )
-				{
-					return new URLClassLoader( jarUrls );
+				public URLClassLoader run() {
+					return new URLClassLoader(jarUrls);
 				}
-			} );
+			});
 		}
 	}
 }

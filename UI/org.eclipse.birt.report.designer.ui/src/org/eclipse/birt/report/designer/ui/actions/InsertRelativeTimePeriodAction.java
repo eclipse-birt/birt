@@ -24,37 +24,28 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 
-public class InsertRelativeTimePeriodAction extends BaseInsertMenuAction
-{
+public class InsertRelativeTimePeriodAction extends BaseInsertMenuAction {
 
-	public static final String TEXT = Messages.getString( "InsertRelativeTimePeriodAction.text" ); //$NON-NLS-1$
+	public static final String TEXT = Messages.getString("InsertRelativeTimePeriodAction.text"); //$NON-NLS-1$
 
 	public static final String ID = "InsertRelativeTimePeriodAction"; //$NON-NLS-1$
 
-	private static final String TYPE = DesignerPaletteFactory.TIMEPERIOD_TEMPLATE; //$NON-NLS-1$
+	private static final String TYPE = DesignerPaletteFactory.TIMEPERIOD_TEMPLATE; // $NON-NLS-1$
 
-	public InsertRelativeTimePeriodAction( IWorkbenchPart part )
-	{
-		super( part, TYPE );
-		setId( ID );
+	public InsertRelativeTimePeriodAction(IWorkbenchPart part) {
+		super(part, TYPE);
+		setId(ID);
 	}
 
-	public void run( )
-	{
-		DNDService.getInstance( ).performDrop( TYPE,
-				( (IStructuredSelection) getSelection( ) ).getFirstElement( ),
-				DND.DROP_DEFAULT,
-				new DNDLocation( ViewerDropAdapter.LOCATION_ON ) );
+	public void run() {
+		DNDService.getInstance().performDrop(TYPE, ((IStructuredSelection) getSelection()).getFirstElement(),
+				DND.DROP_DEFAULT, new DNDLocation(ViewerDropAdapter.LOCATION_ON));
 	}
 
-	protected boolean calculateEnabled( )
-	{
-		if ( getSelection( ) instanceof IStructuredSelection )
-			return DNDService.getInstance( )
-					.validDrop( TYPE,
-							( (IStructuredSelection) getSelection( ) ).getFirstElement( ),
-							DND.DROP_DEFAULT,
-							new DNDLocation( ViewerDropAdapter.LOCATION_ON ) );
+	protected boolean calculateEnabled() {
+		if (getSelection() instanceof IStructuredSelection)
+			return DNDService.getInstance().validDrop(TYPE, ((IStructuredSelection) getSelection()).getFirstElement(),
+					DND.DROP_DEFAULT, new DNDLocation(ViewerDropAdapter.LOCATION_ON));
 		return false;
 	}
 

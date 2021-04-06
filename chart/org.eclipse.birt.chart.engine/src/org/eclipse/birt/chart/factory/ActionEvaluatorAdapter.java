@@ -17,16 +17,16 @@ import org.eclipse.birt.chart.model.data.Action;
 /**
  * An adapter class for IActionEvaluator
  */
-public class ActionEvaluatorAdapter implements IActionEvaluator
-{
+public class ActionEvaluatorAdapter implements IActionEvaluator {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.factory.IActionEvaluator#getActionExpressions(org.eclipse.birt.chart.model.data.Action)
+	 * @see
+	 * org.eclipse.birt.chart.factory.IActionEvaluator#getActionExpressions(org.
+	 * eclipse.birt.chart.model.data.Action)
 	 */
-	public String[] getActionExpressions( Action action, StructureSource source )
-	{
+	public String[] getActionExpressions(Action action, StructureSource source) {
 		return null;
 	}
 }

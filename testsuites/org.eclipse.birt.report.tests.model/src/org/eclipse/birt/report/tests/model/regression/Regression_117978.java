@@ -33,9 +33,9 @@ import com.ibm.icu.util.ULocale;
  * 
  * Steps to reproduce:
  * <ol>
- * <li> Set user properties and named expression in a report design.
- * <li> Save the report file.
- * <li> Reopen it and find they are not saved.
+ * <li>Set user properties and named expression in a report design.
+ * <li>Save the report file.
+ * <li>Reopen it and find they are not saved.
  * </ol>
  * </p>
  * Test description:
@@ -44,57 +44,52 @@ import com.ibm.icu.util.ULocale;
  * user property is properly stored
  * </p>
  */
-public class Regression_117978 extends BaseTestCase
-{
+public class Regression_117978 extends BaseTestCase {
 
 	private final static String OUTPUT = "regression_117978.out"; //$NON-NLS-1$
 
 	/**
 	 * @throws IOException
 	 * @throws DesignFileException
-	 * @throws SemanticException 
+	 * @throws SemanticException
 	 * 
 	 */
-	public void test_regression_117978( ) throws IOException,
-			DesignFileException, SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_117978() throws IOException, DesignFileException, SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( label );
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
+		designHandle.getBody().add(label);
 
-		UserPropertyDefn expr2 = new UserPropertyDefn( );
-		expr2.setName( "Assignee" ); //$NON-NLS-1$
-		expr2.setType( new ExpressionPropertyType( ) );
-		expr2.setDefault( "Anonymous" ); //$NON-NLS-1$
-		label.addUserPropertyDefn( expr2 );
-		label.setStringProperty( "Assignee", "testValue" );  //$NON-NLS-1$//$NON-NLS-2$
-		
+		UserPropertyDefn expr2 = new UserPropertyDefn();
+		expr2.setName("Assignee"); //$NON-NLS-1$
+		expr2.setType(new ExpressionPropertyType());
+		expr2.setDefault("Anonymous"); //$NON-NLS-1$
+		label.addUserPropertyDefn(expr2);
+		label.setStringProperty("Assignee", "testValue"); //$NON-NLS-1$//$NON-NLS-2$
 
 		// save the report
 
-		
-		//designHandle.saveAs( this.getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" + OUTPUT );
-		String TempFile=this.genOutputFile(OUTPUT);
-		designHandle.saveAs( TempFile );
+		// designHandle.saveAs( this.getClassFolder( ) + "/" + OUTPUT_FOLDER + "/" +
+		// OUTPUT );
+		String TempFile = this.genOutputFile(OUTPUT);
+		designHandle.saveAs(TempFile);
 
 		// reopen it.
 
-		designHandle = session.openDesign( TempFile );
-		LabelHandle labelHandle = (LabelHandle) designHandle
-				.findElement( "label" ); //$NON-NLS-1$
+		designHandle = session.openDesign(TempFile);
+		LabelHandle labelHandle = (LabelHandle) designHandle.findElement("label"); //$NON-NLS-1$
 
-		assertNotNull( labelHandle );
-		List userProperties = labelHandle.getUserProperties( );
-		assertEquals( 1, userProperties.size( ) );
+		assertNotNull(labelHandle);
+		List userProperties = labelHandle.getUserProperties();
+		assertEquals(1, userProperties.size());
 
-		UserPropertyDefn prop = (UserPropertyDefn) userProperties.get( 0 );
-		assertEquals( "Assignee", prop.getName( ) ); //$NON-NLS-1$
-		assertEquals( "Anonymous", prop.getDefault( ).toString() ); //$NON-NLS-1$
-		
-		assertEquals( "testValue", labelHandle.getStringProperty( "Assignee" ));  //$NON-NLS-1$//$NON-NLS-2$
+		UserPropertyDefn prop = (UserPropertyDefn) userProperties.get(0);
+		assertEquals("Assignee", prop.getName()); //$NON-NLS-1$
+		assertEquals("Anonymous", prop.getDefault().toString()); //$NON-NLS-1$
+
+		assertEquals("testValue", labelHandle.getStringProperty("Assignee")); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

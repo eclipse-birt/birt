@@ -42,8 +42,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Test the logic on GroupElmentHandle::hasLocalPropertiesForExtendedElements( )
  * <p>
  */
-public class Regression_146185 extends BaseTestCase
-{
+public class Regression_146185 extends BaseTestCase {
 
 	private final static String REPORT = "regression_146185.xml"; //$NON-NLS-1$
 
@@ -52,38 +51,33 @@ public class Regression_146185 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(REPORT, REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_145698( ) throws DesignFileException,
-			SemanticException
-	{
-		openDesign( REPORT );
-		GridHandle grid = (GridHandle) designHandle.findElement( "grid1" ); //$NON-NLS-1$
-		assertNotNull( grid );
-		LabelHandle label = (LabelHandle) grid.getCellContent( 1, 1 ).get( 0 );
 
-		List elements = new ArrayList( );
-		elements.add( label );
+	public void test_regression_145698() throws DesignFileException, SemanticException {
+		openDesign(REPORT);
+		GridHandle grid = (GridHandle) designHandle.findElement("grid1"); //$NON-NLS-1$
+		assertNotNull(grid);
+		LabelHandle label = (LabelHandle) grid.getCellContent(1, 1).get(0);
 
-		GroupElementHandle groupElementHandle = GroupElementFactory
-				.newGroupElement( designHandle, elements );
+		List elements = new ArrayList();
+		elements.add(label);
 
-		assertFalse( groupElementHandle.hasLocalPropertiesForExtendedElements( ) );
+		GroupElementHandle groupElementHandle = GroupElementFactory.newGroupElement(designHandle, elements);
+
+		assertFalse(groupElementHandle.hasLocalPropertiesForExtendedElements());
 
 		// change the text, make sure that the local properties can be restored.
 
-		label.setText( "www" ); //$NON-NLS-1$
+		label.setText("www"); //$NON-NLS-1$
 
-		assertTrue( groupElementHandle.hasLocalPropertiesForExtendedElements( ) );
+		assertTrue(groupElementHandle.hasLocalPropertiesForExtendedElements());
 	}
 }

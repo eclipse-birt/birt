@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.resource;
 
-public interface ResourceConstants
-{
+public interface ResourceConstants {
 
 	// dialog title
 	public static final String EXCEPTION_DIALOG_TITLE = "birt.viewer.dialog.exception.title"; //$NON-NLS-1$
@@ -36,16 +35,16 @@ public interface ResourceConstants
 	public static final String GENERAL_ERROR_VIEWING_SESSION_LOCKED = "birt.viewer.error.viewingsessionlocked"; //$NON-NLS-1$
 	public static final String GENERAL_ERROR_VIEWING_SESSION_MAX_REACHED = "birt.viewer.error.viewingsessionmaxreached"; //$NON-NLS-1$
 	public static final String ERROR_INVALID_EXTENSION_FOR_DOCUMENT_PARAMETER = "birt.viewer.error.invalidextfordocumentparam"; //$NON-NLS-1$
-	
+
 	// general exception
 	public static final String GENERAL_EXCEPTION_DOCUMENT_FILE_ERROR = "birt.viewer.generalException.DOCUMENT_FILE_ERROR"; //$NON-NLS-1$
 	public static final String GENERAL_EXCEPTION_DOCUMENT_ACCESS_ERROR = "birt.viewer.generalException.DOCUMENT_ACCESS_ERROR"; //$NON-NLS-1$
 	public static final String GENERAL_EXCEPTION_REPORT_FILE_ERROR = "birt.viewer.generalException.REPORT_FILE_ERROR"; //$NON-NLS-1$
-	public static final String GENERAL_EXCEPTION_REPORT_ACCESS_ERROR = "birt.viewer.generalException.REPORT_ACCESS_ERROR"; //$NON-NLS-1$	
+	public static final String GENERAL_EXCEPTION_REPORT_ACCESS_ERROR = "birt.viewer.generalException.REPORT_ACCESS_ERROR"; //$NON-NLS-1$
 	public static final String GENERAL_EXCEPTION_DOCUMENT_FILE_PROCESSING = "birt.viewer.generalException.DOCUMENT_FILE_PROCESSING"; //$NON-NLS-1$
 	public static final String GENERAL_EXCEPTION_NO_REPORT_DESIGN = "birt.viewer.generalException.NO_REPORT_DESIGN"; //$NON-NLS-1$
 	public static final String GENERAL_EXCEPTION_MULTIPLE_EXCEPTIONS = "birt.viewer.generalException.MULTIPLE_EXCEPTIONS"; //$NON-NLS-1$
-	
+
 	// report service exception
 	public static final String REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_DOCUMENT = "birt.viewer.reportServiceException.EXTRACT_DATA_NO_DOCUMENT"; //$NON-NLS-1$
 	public static final String REPORT_SERVICE_EXCEPTION_EXTRACT_DATA_NO_RESULT_SET = "birt.viewer.reportServiceException.EXTRACT_DATA_NO_RESULT_SET"; //$NON-NLS-1$
@@ -56,7 +55,7 @@ public interface ResourceConstants
 	// data extraction exception
 	public static final String REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTFORMAT = "birt.viewer.reportServiceException.INVALID_EXTRACTFORMAT"; //$NON-NLS-1$
 	public static final String REPORT_SERVICE_EXCEPTION_INVALID_EXTRACTEXTENSION = "birt.viewer.reportServiceException.INVALID_EXTRACTEXTENSION"; //$NON-NLS-1$
-	
+
 	// birt action exception
 	public static final String ACTION_EXCEPTION_NO_REPORT_DOCUMENT = "birt.viewer.actionException.NO_REPORT_DOCUMENT"; //$NON-NLS-1$
 	public static final String ACTION_EXCEPTION_INVALID_BOOKMARK = "birt.viewer.actionException.INVALID_BOOKMARK"; //$NON-NLS-1$
@@ -84,8 +83,8 @@ public interface ResourceConstants
 	public static final String TAGLIB_NO_REPORT_SOURCE = "birt.viewer.taglib.NO_REPORT_SOURCE"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REPORT_DOCUMENT = "birt.viewer.taglib.NO_REPORT_DOCUMENT"; //$NON-NLS-1$
 	public static final String TAGLIB_NO_REQUESTER_NAME = "birt.viewer.taglib.NO_REQUESTER_NAME"; //$NON-NLS-1$
-	
+
 	// birt general exception
 	public static final String EXCEPTION_MAYBE_DISABLED_COOKIES = "birt.viewer.exception.maybe_disabled_cookies"; //$NON-NLS-1$
-	
+
 }

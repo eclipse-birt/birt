@@ -19,25 +19,24 @@ import org.eclipse.birt.report.engine.content.IStyle;
  * support.
  * 
  */
-public interface CSSStylableElement extends IElement
-{
+public interface CSSStylableElement extends IElement {
 
 	/**
 	 * return the css engine used by this elemetn
 	 * 
 	 * @return
 	 */
-	CSSEngine getCSSEngine( );
+	CSSEngine getCSSEngine();
 
 	/**
 	 * Returns the computed style of this element/pseudo-element.
 	 */
-	IStyle getComputedStyle( );
+	IStyle getComputedStyle();
 
 	/**
 	 * return the style of the element
 	 * 
 	 * @return
 	 */
-	IStyle getStyle( );
+	IStyle getStyle();
 }

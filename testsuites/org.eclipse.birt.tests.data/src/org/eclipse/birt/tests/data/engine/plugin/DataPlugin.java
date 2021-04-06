@@ -12,8 +12,6 @@ package org.eclipse.birt.tests.data.engine.plugin;
 
 import org.eclipse.birt.core.plugin.BIRTPlugin;
 
-
-public class DataPlugin extends BIRTPlugin
-{
+public class DataPlugin extends BIRTPlugin {
 
 }

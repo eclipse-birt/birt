@@ -11,16 +11,15 @@
 
 package org.eclipse.birt.report.engine.api.script.instance;
 
-public interface IAutoTextInstance extends IReportElementInstance
-{
+public interface IAutoTextInstance extends IReportElementInstance {
 
 	/**
 	 * Get the value
 	 */
-	String getText( );
+	String getText();
 
 	/**
 	 * Set the value
 	 */
-	void setText( String value );
+	void setText(String value);
 }

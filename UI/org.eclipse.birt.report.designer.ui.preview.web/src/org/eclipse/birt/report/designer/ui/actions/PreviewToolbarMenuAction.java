@@ -24,36 +24,30 @@ import org.eclipse.ui.IWorkbenchWindowPulldownDelegate;
 /**
  * PreviewToolbarMenuAction
  */
-public class PreviewToolbarMenuAction extends PreviewSupport implements
-		IWorkbenchWindowPulldownDelegate
-{
+public class PreviewToolbarMenuAction extends PreviewSupport implements IWorkbenchWindowPulldownDelegate {
 
 	/**
 	 * The constructor.
 	 */
-	public PreviewToolbarMenuAction( )
-	{
-		super( );
+	public PreviewToolbarMenuAction() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
+	 * @see org.eclipse.ui.IWorkbenchWindowPulldownDelegate#getMenu(org.eclipse.swt
 	 * .widgets.Control)
 	 */
-	public Menu getMenu( Control parent )
-	{
-		return getPreviewMenu( parent, true );
+	public Menu getMenu(Control parent) {
+		return getPreviewMenu(parent, true);
 	}
 
 	/**
 	 * @see org.eclipse.ui.IWorkbenchWindowActionDelegate#init(org.eclipse.ui.
 	 *      IWorkbenchWindow)
 	 */
-	public void init( IWorkbenchWindow window )
-	{
+	public void init(IWorkbenchWindow window) {
 
 	}
 
@@ -62,41 +56,32 @@ public class PreviewToolbarMenuAction extends PreviewSupport implements
 	 * 
 	 * @see org.eclipse.birt.report.designer.ui.actions.PreviewAction#dispose()
 	 */
-	public void dispose( )
-	{
+	public void dispose() {
 	}
 
-	public void run( IAction action )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Preview action >> Run ..." ); //$NON-NLS-1$
+	public void run(IAction action) {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Preview action >> Run ..."); //$NON-NLS-1$
 		}
-		preview( TYPE_HTML, true );
+		preview(TYPE_HTML, true);
 	}
 
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 *      .IAction, org.eclipse.jface.viewers.ISelection)
 	 */
-	public void selectionChanged( IAction action, ISelection selection )
-	{
-		action.setEnabled( isEnable( ) );
+	public void selectionChanged(IAction action, ISelection selection) {
+		action.setEnabled(isEnable());
 	}
 
-	private boolean isEnable( )
-	{
-		IEditorPart editor = UIUtil.getActiveEditor( true );
-		if ( editor != null )
-		{
-			IContentType[] contentTypes = Platform.getContentTypeManager( )
-					.findContentTypesFor( editor.getEditorInput( ).getName( ) );
-			for ( IContentType type : contentTypes )
-			{
-				if ( type.getId( )
-						.equals( "org.eclipse.birt.report.designer.ui.editors.reportdesign" ) //$NON-NLS-1$
-						|| type.getId( )
-								.equals( "org.eclipse.birt.report.designer.ui.editors.reporttemplate" ) ) //$NON-NLS-1$
+	private boolean isEnable() {
+		IEditorPart editor = UIUtil.getActiveEditor(true);
+		if (editor != null) {
+			IContentType[] contentTypes = Platform.getContentTypeManager()
+					.findContentTypesFor(editor.getEditorInput().getName());
+			for (IContentType type : contentTypes) {
+				if (type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reportdesign") //$NON-NLS-1$
+						|| type.getId().equals("org.eclipse.birt.report.designer.ui.editors.reporttemplate")) //$NON-NLS-1$
 					return true;
 			}
 		}

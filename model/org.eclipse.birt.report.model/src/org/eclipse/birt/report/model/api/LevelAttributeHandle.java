@@ -31,21 +31,18 @@ import org.eclipse.birt.report.model.api.elements.structures.LevelAttribute;
  * 
  */
 
-public class LevelAttributeHandle extends StructureHandle
-{
+public class LevelAttributeHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of result set column.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for result set column list of one property
-	 * @param index
-	 *            the position of this result set column in the list
+	 * @param valueHandle the value handle for result set column list of one
+	 *                    property
+	 * @param index       the position of this result set column in the list
 	 */
 
-	public LevelAttributeHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public LevelAttributeHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -54,29 +51,25 @@ public class LevelAttributeHandle extends StructureHandle
 	 * @return the column name
 	 */
 
-	public String getName( )
-	{
-		return getStringProperty( LevelAttribute.NAME_MEMBER );
+	public String getName() {
+		return getStringProperty(LevelAttribute.NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the column name.
 	 * 
-	 * @param columnName
-	 *            the column name to set
-	 * @throws SemanticException
-	 *             value required exception
+	 * @param columnName the column name to set
+	 * @throws SemanticException value required exception
 	 */
 
-	public void setName( String columnName ) throws SemanticException
-	{
-		setProperty( LevelAttribute.NAME_MEMBER, columnName );
+	public void setName(String columnName) throws SemanticException {
+		setProperty(LevelAttribute.NAME_MEMBER, columnName);
 	}
 
 	/**
 	 * Returns the data type of this column. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -91,15 +84,14 @@ public class LevelAttributeHandle extends StructureHandle
 	 * @return the data type of this column.
 	 */
 
-	public String getDataType( )
-	{
-		return getStringProperty( LevelAttribute.DATA_TYPE_MEMBER );
+	public String getDataType() {
+		return getStringProperty(LevelAttribute.DATA_TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the data type of this column. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -111,15 +103,12 @@ public class LevelAttributeHandle extends StructureHandle
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
 	 * 
-	 * @param dataType
-	 *            the data type to set
-	 * @throws SemanticException
-	 *             if the dataType is not in the choice list.
+	 * @param dataType the data type to set
+	 * @throws SemanticException if the dataType is not in the choice list.
 	 */
 
-	public void setDataType( String dataType ) throws SemanticException
-	{
-		setProperty( LevelAttribute.DATA_TYPE_MEMBER, dataType );
+	public void setDataType(String dataType) throws SemanticException {
+		setProperty(LevelAttribute.DATA_TYPE_MEMBER, dataType);
 	}
 
 }

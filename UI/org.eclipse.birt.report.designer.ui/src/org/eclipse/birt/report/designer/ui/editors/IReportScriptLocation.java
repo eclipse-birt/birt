@@ -14,27 +14,28 @@ package org.eclipse.birt.report.designer.ui.editors;
 /**
  * IReportScriptLocation
  */
-public interface IReportScriptLocation
-{
+public interface IReportScriptLocation {
 
 	/**
 	 * @return Returns the full path of associated report file of current script
 	 *         location
 	 */
-	String getReportFileName( );
+	String getReportFileName();
 
 	/**
 	 * @return Returns the unique ID for current script location in associated
 	 *         report
 	 */
-	String getID( );
+	String getID();
 
 	/**
 	 * @return Returns the line number of current script location.
 	 */
-	int getLineNumber( );
-	
-	/**Gets the diplay name
+	int getLineNumber();
+
+	/**
+	 * Gets the diplay name
+	 * 
 	 * @return
 	 */
 	String getDisplayName();

@@ -24,82 +24,61 @@ import org.eclipse.jface.action.Separator;
 /**
  * RotatedTextMenuBuilder
  */
-public class RotatedTextMenuBuilder implements IMenuBuilder
-{
+public class RotatedTextMenuBuilder implements IMenuBuilder {
 
-	public void buildMenu( IMenuManager menu, List selectedList )
-	{
-		if ( selectedList != null
-				&& selectedList.size( ) == 1
-				&& selectedList.get( 0 ) instanceof ExtendedItemHandle )
-		{
-			ExtendedItemHandle handle = (ExtendedItemHandle) selectedList.get( 0 );
+	public void buildMenu(IMenuManager menu, List selectedList) {
+		if (selectedList != null && selectedList.size() == 1 && selectedList.get(0) instanceof ExtendedItemHandle) {
+			ExtendedItemHandle handle = (ExtendedItemHandle) selectedList.get(0);
 
-			if ( !RotatedTextItem.EXTENSION_NAME.equals( handle.getExtensionName( ) ) )
-			{
+			if (!RotatedTextItem.EXTENSION_NAME.equals(handle.getExtensionName())) {
 				return;
 			}
 
 			RotatedTextItem item = null;
-			try
-			{
-				item = (RotatedTextItem) handle.getReportItem( );
-			}
-			catch ( ExtendedElementException e )
-			{
-				e.printStackTrace( );
+			try {
+				item = (RotatedTextItem) handle.getReportItem();
+			} catch (ExtendedElementException e) {
+				e.printStackTrace();
 			}
 
-			if ( item == null )
-			{
+			if (item == null) {
 				return;
 			}
 
-			Separator separator = new Separator( "group.rotatedtext" ); //$NON-NLS-1$
-			if ( menu.getItems( ).length > 0 )
-			{
-				menu.insertBefore( menu.getItems( )[0].getId( ), separator );
-			}
-			else
-			{
-				menu.add( separator );
+			Separator separator = new Separator("group.rotatedtext"); //$NON-NLS-1$
+			if (menu.getItems().length > 0) {
+				menu.insertBefore(menu.getItems()[0].getId(), separator);
+			} else {
+				menu.add(separator);
 			}
 
-			menu.appendToGroup( separator.getId( ),
-					new RotateAction( item, -90 ) );
-			menu.appendToGroup( separator.getId( ), new RotateAction( item, 90 ) );
-			menu.appendToGroup( separator.getId( ), new RotateAction( item, 0 ) );
-			menu.appendToGroup( separator.getId( ),
-					new RotateAction( item, 180 ) );
+			menu.appendToGroup(separator.getId(), new RotateAction(item, -90));
+			menu.appendToGroup(separator.getId(), new RotateAction(item, 90));
+			menu.appendToGroup(separator.getId(), new RotateAction(item, 0));
+			menu.appendToGroup(separator.getId(), new RotateAction(item, 180));
 		}
 	}
 
 	/**
 	 * RotateAtction
 	 */
-	static class RotateAction extends Action
-	{
+	static class RotateAction extends Action {
 
 		private RotatedTextItem item;
 		private int angle;
 
-		RotateAction( RotatedTextItem item, int angle )
-		{
+		RotateAction(RotatedTextItem item, int angle) {
 			this.item = item;
 			this.angle = angle;
 
-			setText( "Rotate as " + angle + "\u00BA" ); //$NON-NLS-1$ //$NON-NLS-2$
+			setText("Rotate as " + angle + "\u00BA"); //$NON-NLS-1$ //$NON-NLS-2$
 		}
 
-		public void run( )
-		{
-			try
-			{
-				item.setRotationAngle( angle );
-			}
-			catch ( SemanticException e )
-			{
-				e.printStackTrace( );
+		public void run() {
+			try {
+				item.setRotationAngle(angle);
+			} catch (SemanticException e) {
+				e.printStackTrace();
 			}
 		}
 	}

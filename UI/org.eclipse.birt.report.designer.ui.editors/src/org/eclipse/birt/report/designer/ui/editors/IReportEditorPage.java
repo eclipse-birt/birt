@@ -18,33 +18,34 @@ import org.eclipse.ui.forms.editor.IFormPage;
  * IReportEditorPage is the base interface for a report editor page contribute
  * to BIRT report editors.
  */
-public interface IReportEditorPage extends IFormPage
-{
+public interface IReportEditorPage extends IFormPage {
 
 	/**
 	 * invoke on page was brought to report editor top.
 	 * 
-	 * @param prePage
-	 *            the last top page.
+	 * @param prePage the last top page.
 	 * @return
 	 */
-	public boolean onBroughtToTop( IReportEditorPage prePage );
+	public boolean onBroughtToTop(IReportEditorPage prePage);
 
 	/**
 	 * Set the page stale type.
+	 * 
 	 * @param type
 	 */
-	public void markPageStale( int type );
+	public void markPageStale(int type);
 
 	/**
 	 * Get the page stale type.
+	 * 
 	 * @return
 	 */
-	public int getStaleType( );
+	public int getStaleType();
 
 	/**
 	 * Set page input.
+	 * 
 	 * @param input
 	 */
-	public void setInput( IEditorInput input );
+	public void setInput(IEditorInput input);
 }

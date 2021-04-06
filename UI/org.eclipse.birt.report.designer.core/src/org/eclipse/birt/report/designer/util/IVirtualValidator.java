@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.util;
  * 
  */
 
-public interface IVirtualValidator
-{
+public interface IVirtualValidator {
 	/**
 	 * @param obj
 	 * @return

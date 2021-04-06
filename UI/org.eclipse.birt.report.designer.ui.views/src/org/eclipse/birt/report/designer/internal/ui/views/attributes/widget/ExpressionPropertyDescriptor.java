@@ -37,8 +37,7 @@ import org.eclipse.swt.widgets.Text;
  * Property Descriptor for value expression property.
  */
 
-public class ExpressionPropertyDescriptor extends PropertyDescriptor
-{
+public class ExpressionPropertyDescriptor extends PropertyDescriptor {
 
 	protected Text text;
 
@@ -55,74 +54,63 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 	/**
 	 * The constructor.
 	 */
-	public ExpressionPropertyDescriptor( boolean formStyle )
-	{
-		setFormStyle( formStyle );
+	public ExpressionPropertyDescriptor(boolean formStyle) {
+		setFormStyle(formStyle);
 	}
 
-	public Text getTextControl( )
-	{
+	public Text getTextControl() {
 		return text;
 	}
 
-	public void setInput( Object handle )
-	{
+	public void setInput(Object handle) {
 		this.input = handle;
-		getDescriptorProvider( ).setInput( input );
+		getDescriptorProvider().setInput(input);
 	}
 
-	public boolean isMulti( )
-	{
+	public boolean isMulti() {
 		return multi;
 	}
 
-	public void setMulti( boolean multi)
-	{
+	public void setMulti(boolean multi) {
 		this.multi = multi;
 	}
 
 	/**
 	 * After selection changed, re-sets UI data.
 	 */
-	public void load( )
-	{
-		ExpressionHelper helper = (ExpressionHelper) exprButton.getExpressionHelper( );
-		helper.setContextObject( DEUtil.getInputFirstElement( this.getInput( ) ) );
-		if ( getDescriptorProvider( ) instanceof ExpressionPropertyDescriptorProvider )
-		{
-			helper.setProvider( ( (ExpressionPropertyDescriptorProvider) getDescriptorProvider( ) ).getExpressionProvider( ) );
+	public void load() {
+		ExpressionHelper helper = (ExpressionHelper) exprButton.getExpressionHelper();
+		helper.setContextObject(DEUtil.getInputFirstElement(this.getInput()));
+		if (getDescriptorProvider() instanceof ExpressionPropertyDescriptorProvider) {
+			helper.setProvider(
+					((ExpressionPropertyDescriptorProvider) getDescriptorProvider()).getExpressionProvider());
 		}
 
-		Object value = getDescriptorProvider( ).load( );
-		if ( value == null || value instanceof Expression )
-		{
+		Object value = getDescriptorProvider().load();
+		if (value == null || value instanceof Expression) {
 			deValue = (Expression) value;
 
-			String stringValue = deValue == null
-					|| deValue.getExpression( ) == null ? "" : (String) deValue.getExpression( ); //$NON-NLS-1$
-			text.setText( stringValue );
+			String stringValue = deValue == null || deValue.getExpression() == null ? "" //$NON-NLS-1$
+					: (String) deValue.getExpression();
+			text.setText(stringValue);
 
-			text.setData( ExpressionButtonUtil.EXPR_TYPE,
-					deValue == null || deValue.getType( ) == null ? UIUtil.getDefaultScriptType( )
-							: (String) deValue.getType( ) );
+			text.setData(ExpressionButtonUtil.EXPR_TYPE,
+					deValue == null || deValue.getType() == null ? UIUtil.getDefaultScriptType()
+							: (String) deValue.getType());
 
-			Object button = text.getData( ExpressionButtonUtil.EXPR_BUTTON );
-			if ( button instanceof ExpressionButton )
-			{
-				( (ExpressionButton) button ).refresh( );
+			Object button = text.getData(ExpressionButtonUtil.EXPR_BUTTON);
+			if (button instanceof ExpressionButton) {
+				((ExpressionButton) button).refresh();
 			}
 
-			if ( getDescriptorProvider( ) instanceof ExpressionPropertyDescriptorProvider )
-			{
-				boolean readOnly = ( (ExpressionPropertyDescriptorProvider) getDescriptorProvider( ) ).isReadOnly( );
-				boolean enable = ( (ExpressionPropertyDescriptorProvider) getDescriptorProvider( ) ).isEnable( );
-				text.setEnabled( enable && ( !readOnly ) );
+			if (getDescriptorProvider() instanceof ExpressionPropertyDescriptorProvider) {
+				boolean readOnly = ((ExpressionPropertyDescriptorProvider) getDescriptorProvider()).isReadOnly();
+				boolean enable = ((ExpressionPropertyDescriptorProvider) getDescriptorProvider()).isEnable();
+				text.setEnabled(enable && (!readOnly));
 
-				if ( button instanceof ExpressionButton )
-				{
-					( (ExpressionButton) button ).refresh( );
-					( (ExpressionButton) button ).setEnabled( enable
-							&& ( !readOnly ) );
+				if (button instanceof ExpressionButton) {
+					((ExpressionButton) button).refresh();
+					((ExpressionButton) button).setEnabled(enable && (!readOnly));
 				}
 			}
 		}
@@ -131,12 +119,10 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
 	 * PropertyDescriptor#getControl()
 	 */
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return containerPane;
 	}
 
@@ -146,42 +132,31 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 	 * @seeorg.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
 	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		containerPane = FormWidgetFactory.getInstance( ).createComposite( parent );
+	public Control createControl(Composite parent) {
+		containerPane = FormWidgetFactory.getInstance().createComposite(parent);
 
-		GridLayout layout = new GridLayout( );
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		if(!multi){
+		if (!multi) {
 			layout.marginWidth = layout.marginHeight = 2;
 		}
-		containerPane.setLayout( layout );
-		if ( multi )
-		{
-			if ( isFormStyle( ) )
-				text = FormWidgetFactory.getInstance( )
-						.createText( containerPane,
-								"", SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL ); //$NON-NLS-1$
+		containerPane.setLayout(layout);
+		if (multi) {
+			if (isFormStyle())
+				text = FormWidgetFactory.getInstance().createText(containerPane, "", //$NON-NLS-1$
+						SWT.MULTI | SWT.WRAP | SWT.H_SCROLL | SWT.V_SCROLL);
 			else
-				text = new Text( containerPane, SWT.MULTI
-						| SWT.WRAP
-						| SWT.BORDER
-						| SWT.H_SCROLL
-						| SWT.V_SCROLL );
-			text.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		}
-		else
-		{
-			if ( isFormStyle( ) )
-				text = FormWidgetFactory.getInstance( )
-						.createText( containerPane, "", SWT.MULTI ); //$NON-NLS-1$
+				text = new Text(containerPane, SWT.MULTI | SWT.WRAP | SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL);
+			text.setLayoutData(new GridData(GridData.FILL_BOTH));
+		} else {
+			if (isFormStyle())
+				text = FormWidgetFactory.getInstance().createText(containerPane, "", SWT.MULTI); //$NON-NLS-1$
 			else
-				text = new Text( containerPane, SWT.MULTI
-						| SWT.BORDER);
-			GridData gd = new GridData( GridData.FILL_HORIZONTAL);
-			gd.heightHint = text.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
-					- ( isFormStyle( ) ? 0 : ( text.getBorderWidth( ) * 2 ) );
-			text.setLayoutData( gd );
+				text = new Text(containerPane, SWT.MULTI | SWT.BORDER);
+			GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+			gd.heightHint = text.computeSize(SWT.DEFAULT, SWT.DEFAULT).y
+					- (isFormStyle() ? 0 : (text.getBorderWidth() * 2));
+			text.setLayoutData(gd);
 		}
 		// text.addSelectionListener( new SelectionAdapter( ) {
 		//
@@ -190,113 +165,88 @@ public class ExpressionPropertyDescriptor extends PropertyDescriptor
 		// handleSelectEvent( );
 		// }
 		// } );
-		text.addFocusListener( new FocusListener( ) {
+		text.addFocusListener(new FocusListener() {
 
-			public void focusGained( FocusEvent e )
-			{
+			public void focusGained(FocusEvent e) {
 
 			}
 
-			public void focusLost( FocusEvent e )
-			{
-				handleFocusLostEvent( );
+			public void focusLost(FocusEvent e) {
+				handleFocusLostEvent();
 			}
-		} );
+		});
 
-		if ( getDescriptorProvider( ) instanceof ExpressionPropertyDescriptorProvider )
-		{
-			Listener listener = new Listener( ) {
+		if (getDescriptorProvider() instanceof ExpressionPropertyDescriptorProvider) {
+			Listener listener = new Listener() {
 
-				public void handleEvent( Event event )
-				{
-					if ( event.data instanceof String[] )
-						newValue = ( (String[]) event.data )[0];
-					processAction( );
+				public void handleEvent(Event event) {
+					if (event.data instanceof String[])
+						newValue = ((String[]) event.data)[0];
+					processAction();
 				}
 
 			};
 
-			exprButton = ExpressionButtonUtil.createExpressionButton( containerPane,
-					text,
-					null,
-					null,
-					listener,
-					false,
-					isFormStyle( ) ? SWT.FLAT : SWT.PUSH,
-					new ExpressionHelper( ) );
+			exprButton = ExpressionButtonUtil.createExpressionButton(containerPane, text, null, null, listener, false,
+					isFormStyle() ? SWT.FLAT : SWT.PUSH, new ExpressionHelper());
 		}
 
 		return containerPane;
 	}
 
-	protected void handleSelectEvent( )
-	{
-		newValue = text.getText( );
-		processAction( );
+	protected void handleSelectEvent() {
+		newValue = text.getText();
+		processAction();
 	}
 
-	protected void handleFocusLostEvent( )
-	{
-		newValue = text.getText( );
-		processAction( );
+	protected void handleFocusLostEvent() {
+		newValue = text.getText();
+		processAction();
 	}
 
 	/**
 	 * Processes the save action.
 	 */
-	private void processAction( )
-	{
+	private void processAction() {
 		String value = newValue;
-		if ( value != null && value.length( ) == 0 )
-		{
+		if (value != null && value.length() == 0) {
 			value = null;
 		}
 
-		try
-		{
-			if ( value == null && deValue != null )
-				save( value );
-			else
-			{
-				if ( text.getText( ).trim( ).length( ) == 0 )
-					save( null );
-				else
-				{
-					Expression expression = new Expression( text.getText( )
-							.trim( ),
-							(String) text.getData( ExpressionButtonUtil.EXPR_TYPE ) );
-					save( expression );
+		try {
+			if (value == null && deValue != null)
+				save(value);
+			else {
+				if (text.getText().trim().length() == 0)
+					save(null);
+				else {
+					Expression expression = new Expression(text.getText().trim(),
+							(String) text.getData(ExpressionButtonUtil.EXPR_TYPE));
+					save(expression);
 				}
 			}
-		}
-		catch ( SemanticException e1 )
-		{
-			text.setText( UIUtil.convertToGUIString( deValue == null ? null
-					: deValue.getStringExpression( ) ) );
-			ExceptionHandler.handle( e1 );
+		} catch (SemanticException e1) {
+			text.setText(UIUtil.convertToGUIString(deValue == null ? null : deValue.getStringExpression()));
+			ExceptionHandler.handle(e1);
 		}
 
 	}
 
-	public void setText( String text )
-	{
-		this.text.setText( text );
+	public void setText(String text) {
+		this.text.setText(text);
 	}
 
-	public void save( Object obj ) throws SemanticException
-	{
-		getDescriptorProvider( ).save( obj );
+	public void save(Object obj) throws SemanticException {
+		getDescriptorProvider().save(obj);
 
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( containerPane, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(containerPane, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		containerPane.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		containerPane.setVisible(isVisible);
 	}
 
 }

@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.core.Module;
  * this element.)
  */
 
-class DerivedElementIterator implements Iterator
-{
+class DerivedElementIterator implements Iterator {
 
 	/**
 	 * The cached iterator.
@@ -42,39 +41,33 @@ class DerivedElementIterator implements Iterator
 	protected Module module;
 
 	/**
-	 * Constructs a iterator with the given design and the design element
-	 * handle.
+	 * Constructs a iterator with the given design and the design element handle.
 	 * 
-	 * @param module
-	 *            module
-	 * @param elementHandle
-	 *            handle to the element over which to iterate its derived
-	 *            elements
+	 * @param module        module
+	 * @param elementHandle handle to the element over which to iterate its derived
+	 *                      elements
 	 */
 
-	public DerivedElementIterator( Module module,
-			DesignElementHandle elementHandle )
-	{
+	public DerivedElementIterator(Module module, DesignElementHandle elementHandle) {
 		assert module != null;
 		assert elementHandle != null;
 
 		this.module = module;
 
-		iter = elementHandle.getElement( ).getDerived( ).iterator( );
+		iter = elementHandle.getElement().getDerived().iterator();
 	}
 
 	/**
-	 * Inherited method that is disabled in this iterator; the caller cannot
-	 * remove descendents using this class.
+	 * Inherited method that is disabled in this iterator; the caller cannot remove
+	 * descendents using this class.
 	 * 
 	 * @see java.util.Iterator#remove()
 	 */
 
-	public void remove( )
-	{
+	public void remove() {
 		// This iterator can not be used to remove anything.
 
-		throw new IllegalOperationException( );
+		throw new IllegalOperationException();
 	}
 
 	/**
@@ -84,9 +77,8 @@ class DerivedElementIterator implements Iterator
 	 * @see java.util.Iterator#hasNext()
 	 */
 
-	public boolean hasNext( )
-	{
-		return iter.hasNext( );
+	public boolean hasNext() {
+		return iter.hasNext();
 	}
 
 	/**
@@ -98,11 +90,10 @@ class DerivedElementIterator implements Iterator
 	 * @see DesignElementHandle
 	 */
 
-	public Object next( )
-	{
-		DesignElement derived = (DesignElement) iter.next( );
+	public Object next() {
+		DesignElement derived = (DesignElement) iter.next();
 
-		return derived.getHandle( module );
+		return derived.getHandle(module);
 	}
 
 }

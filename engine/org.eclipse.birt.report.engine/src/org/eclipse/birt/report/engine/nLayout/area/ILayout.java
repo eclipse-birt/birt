@@ -12,8 +12,7 @@ package org.eclipse.birt.report.engine.nLayout.area;
 
 import org.eclipse.birt.core.exception.BirtException;
 
-public interface ILayout
-{
+public interface ILayout {
 
-	public void layout( ) throws BirtException;
+	public void layout() throws BirtException;
 }

@@ -17,16 +17,15 @@ import org.eclipse.birt.report.model.api.DesignElementHandle;
 /**
  * ReportItemViewAdapter
  */
-public abstract class ReportItemViewAdapter implements IReportItemViewProvider
-{
+public abstract class ReportItemViewAdapter implements IReportItemViewProvider {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider#createView(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IReportItemViewProvider#
+	 * createView(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
-	public DesignElementHandle createView( DesignElementHandle host ) throws BirtException
-	{
+	public DesignElementHandle createView(DesignElementHandle host) throws BirtException {
 		return null;
 	}
 

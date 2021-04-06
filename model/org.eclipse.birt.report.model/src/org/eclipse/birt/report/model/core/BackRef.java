@@ -18,8 +18,7 @@ package org.eclipse.birt.report.model.core;
  * It contains the client element and element reference property name.
  */
 
-public final class BackRef
-{
+public final class BackRef {
 
 	/**
 	 * The client element that refers to one referencable element.
@@ -43,14 +42,11 @@ public final class BackRef
 	 * Constructs the back reference with the client element and the element
 	 * reference property name.
 	 * 
-	 * @param obj
-	 *            client element
-	 * @param prop
-	 *            name of the property which refers to another element
+	 * @param obj  client element
+	 * @param prop name of the property which refers to another element
 	 */
 
-	public BackRef( DesignElement obj, String prop )
-	{
+	public BackRef(DesignElement obj, String prop) {
 		element = obj;
 		propName = prop;
 		struct = null;
@@ -60,15 +56,12 @@ public final class BackRef
 	 * Constructs the back reference with the client element and the element
 	 * reference property name.
 	 * 
-	 * @param obj
-	 *            client element
-	 * @param propName
-	 *            member reference
+	 * @param obj      client element
+	 * @param propName member reference
 	 * @param struct
 	 */
 
-	public BackRef( Structure struct, String propName )
-	{
+	public BackRef(Structure struct, String propName) {
 		this.struct = struct;
 		this.propName = propName;
 	}
@@ -79,12 +72,11 @@ public final class BackRef
 	 * @return the client element
 	 */
 
-	public DesignElement getElement( )
-	{
-		if ( element != null )
+	public DesignElement getElement() {
+		if (element != null)
 			return element;
 
-		return struct.getElement( );
+		return struct.getElement();
 	}
 
 	/**
@@ -93,8 +85,7 @@ public final class BackRef
 	 * @return the property name of the back reference
 	 */
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return this.propName;
 	}
 
@@ -104,8 +95,7 @@ public final class BackRef
 	 * @return structure
 	 */
 
-	public Structure getStructure( )
-	{
+	public Structure getStructure() {
 		return this.struct;
 	}
 }

@@ -25,9 +25,9 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * 
  * <PRE>
  * 
- * String REPORT_LOC = "file:/c:/temp/birtbug/report.rptdesign"; DesignEngine
- * designEngine = new DesignEngine(new DesignConfig()); SessionHandle session =
- * designEngine.newSessionHandle(ULocale.getDefault()); //this works using a URL
+ * String REPORT_LOC = "file:/c:/temp/birtbug/report.rptdesign";
+ * DesignEngine designEngine = new DesignEngine(new DesignConfig());
+ * SessionHandle session = designEngine.newSessionHandle(ULocale.getDefault()); // this works using a URL
  * string design = session.openDesign(REPORT_LOC);
  * 
  * </PRE>
@@ -50,51 +50,47 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * well.
  * </p>
  */
-public class Regression_152686 extends BaseTestCase
-{
+public class Regression_152686 extends BaseTestCase {
 
 	private final static String INPUT = "regression_152686.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyInputToFile ( INPUT_FOLDER + "/" + INPUT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyInputToFile(INPUT_FOLDER + "/" + INPUT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
-	 * Tests the save to give a file name like "file:/c:/test" -- containing
-	 * file schema.
+	 * Tests the save to give a file name like "file:/c:/test" -- containing file
+	 * schema.
 	 * 
 	 * @throws Exception
 	 */
 
-	public void test_regression_152686( ) throws Exception
-	{
-		copyFile( getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT, this.genOutputFile( INPUT ) );
+	public void test_regression_152686() throws Exception {
+		copyFile(getTempFolder() + "/" + INPUT_FOLDER + "/" + INPUT, this.genOutputFile(INPUT));
 
 		String fileName = "file" //$NON-NLS-1$
-				+ ":" + this.genOutputFile( INPUT ); //$NON-NLS-1$
+				+ ":" + this.genOutputFile(INPUT); //$NON-NLS-1$
 
-		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( null );
+		SessionHandle session = new DesignEngine(new DesignConfig()).newSessionHandle(null);
 
 		// did some changes and save the report.
 
-		ReportDesignHandle reportHandle = session.openDesign( fileName );
-		LabelHandle label = (LabelHandle) reportHandle.findElement( "label1" ); //$NON-NLS-1$
-		label.setText( "bingo" ); //$NON-NLS-1$
+		ReportDesignHandle reportHandle = session.openDesign(fileName);
+		LabelHandle label = (LabelHandle) reportHandle.findElement("label1"); //$NON-NLS-1$
+		label.setText("bingo"); //$NON-NLS-1$
 
-		reportHandle.save( );
+		reportHandle.save();
 
 		// make sure the change is saved correctly.
 
-		reportHandle = session.openDesign( this.genOutputFile( INPUT ) );
-		LabelHandle label2 = (LabelHandle) reportHandle.findElement( "label1" ); //$NON-NLS-1$
-		assertEquals( "bingo", label2.getText( ) ); //$NON-NLS-1$
+		reportHandle = session.openDesign(this.genOutputFile(INPUT));
+		LabelHandle label2 = (LabelHandle) reportHandle.findElement("label1"); //$NON-NLS-1$
+		assertEquals("bingo", label2.getText()); //$NON-NLS-1$
 	}
 }

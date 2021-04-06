@@ -33,29 +33,25 @@ import org.mozilla.javascript.Scriptable;
  * 
  */
 
-public class TopBottomDimensionFilterEvalHelper
-		extends
-			BaseDimensionFilterEvalHelper implements IJSTopBottomFilterHelper
-{
+public class TopBottomDimensionFilterEvalHelper extends BaseDimensionFilterEvalHelper
+		implements IJSTopBottomFilterHelper {
 	private double N;
 	private int filterType;
 	private boolean isTop;
 	private boolean isPercent;
-	
+
 	/**
 	 * @param parentScope
 	 * @param queryDefn
 	 * @param cubeFilter
 	 * @throws DataException
 	 */
-	public TopBottomDimensionFilterEvalHelper( IBaseQueryResults outResults, Scriptable parentScope,
-			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter, ScriptContext cx )
-			throws DataException
-	{
-		assert cubeFilter!=null;
-		initialize( outResults, parentScope, queryDefn, cubeFilter, cx );
-		populateN( cx );
-		popualteFilterType( );
+	public TopBottomDimensionFilterEvalHelper(IBaseQueryResults outResults, Scriptable parentScope,
+			ICubeQueryDefinition queryDefn, IFilterDefinition cubeFilter, ScriptContext cx) throws DataException {
+		assert cubeFilter != null;
+		initialize(outResults, parentScope, queryDefn, cubeFilter, cx);
+		populateN(cx);
+		popualteFilterType();
 		argumentCheck();
 	}
 
@@ -63,17 +59,13 @@ public class TopBottomDimensionFilterEvalHelper
 	 * 
 	 * @throws DataException
 	 */
-	private void argumentCheck( ) throws DataException
-	{
-		if ( isPercent )
-		{
-			if ( this.N < 0 || this.N > 100 )
-				throw new DataException( ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT );
-		}
-		else
-		{
-			if ( this.N < 0 )
-				throw new DataException( ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT );
+	private void argumentCheck() throws DataException {
+		if (isPercent) {
+			if (this.N < 0 || this.N > 100)
+				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_PERCENT_ARGUMENT);
+		} else {
+			if (this.N < 0)
+				throw new DataException(ResourceConstants.INVALID_TOP_BOTTOM_N_ARGUMENT);
 		}
 
 	}
@@ -83,116 +75,103 @@ public class TopBottomDimensionFilterEvalHelper
 	 * @param cx
 	 * @throws DataException
 	 */
-	private void populateN( ScriptContext cx ) throws DataException
-	{
-		Object o =  ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getOperand1( ),
-					cx.newContext( scope ),
-					ScriptExpression.defaultID,
-					0 );
-		this.N = Double.valueOf( o.toString( ) ).doubleValue( );
+	private void populateN(ScriptContext cx) throws DataException {
+		Object o = ScriptEvalUtil.evalExpr(((IConditionalExpression) expr).getOperand1(), cx.newContext(scope),
+				ScriptExpression.defaultID, 0);
+		this.N = Double.valueOf(o.toString()).doubleValue();
 	}
 
 	/**
 	 * 
 	 */
-	private void popualteFilterType( )
-	{
-		int type = ((IConditionalExpression)this.expr).getOperator( );
-		switch(type)
-		{
-			case IConditionalExpression.OP_TOP_N:
-				this.filterType = IJSTopBottomFilterHelper.TOP_N;
-				isTop = true;
-				isPercent = false;
-				break;
-			case IConditionalExpression.OP_TOP_PERCENT:
-				this.filterType = IJSTopBottomFilterHelper.TOP_PERCENT;
-				isTop = true;
-				isPercent = true;
-				break;
-			case IConditionalExpression.OP_BOTTOM_N:
-				this.filterType = IJSTopBottomFilterHelper.BOTTOM_N;
-				isTop = false;
-				isPercent = false;
-				break;
-			case IConditionalExpression.OP_BOTTOM_PERCENT:
-				this.filterType = IJSTopBottomFilterHelper.BOTTOM_PERCENT;
-				isTop = false;
-				isPercent = true;
-				break;
-			default:
-				assert false;
+	private void popualteFilterType() {
+		int type = ((IConditionalExpression) this.expr).getOperator();
+		switch (type) {
+		case IConditionalExpression.OP_TOP_N:
+			this.filterType = IJSTopBottomFilterHelper.TOP_N;
+			isTop = true;
+			isPercent = false;
+			break;
+		case IConditionalExpression.OP_TOP_PERCENT:
+			this.filterType = IJSTopBottomFilterHelper.TOP_PERCENT;
+			isTop = true;
+			isPercent = true;
+			break;
+		case IConditionalExpression.OP_BOTTOM_N:
+			this.filterType = IJSTopBottomFilterHelper.BOTTOM_N;
+			isTop = false;
+			isPercent = false;
+			break;
+		case IConditionalExpression.OP_BOTTOM_PERCENT:
+			this.filterType = IJSTopBottomFilterHelper.BOTTOM_PERCENT;
+			isTop = false;
+			isPercent = true;
+			break;
+		default:
+			assert false;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#evaluateFilterExpr(org.eclipse.birt.data.engine.olap.util.filter.IResultRow)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
+	 * evaluateFilterExpr(org.eclipse.birt.data.engine.olap.util.filter.IResultRow)
 	 */
-	public Object evaluateFilterExpr( IResultRow resultRow ) throws DataException
-	{
-		super.setData( resultRow );
+	public Object evaluateFilterExpr(IResultRow resultRow) throws DataException {
+		super.setData(resultRow);
 
-		try
-		{
-			Object result = ScriptEvalUtil.evalExpr( ( (IConditionalExpression) expr ).getExpression( ),
-					cx.newContext( scope ),
-					ScriptExpression.defaultID,
-					0 );
+		try {
+			Object result = ScriptEvalUtil.evalExpr(((IConditionalExpression) expr).getExpression(),
+					cx.newContext(scope), ScriptExpression.defaultID, 0);
 			return result;
-		}
-		catch ( IJSObjectPopulator.InMatchDimensionIndicator e )
-		{
-			throw new DataException( e.getMessage( ));
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+		} catch (IJSObjectPopulator.InMatchDimensionIndicator e) {
+			throw new DataException(e.getMessage());
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
 
-	public DimLevel getTargetLevel( ) throws DataException
-	{
-		Set set =  OlapExpressionCompiler.getReferencedDimLevel( this.expr, queryDefn.getBindings( ) );
-		if ( set.size( ) != 1 )
-		{
-			throw new DataException( ResourceConstants.REFERENCED_DIM_LEVEL_SET_ERROR );
+	public DimLevel getTargetLevel() throws DataException {
+		Set set = OlapExpressionCompiler.getReferencedDimLevel(this.expr, queryDefn.getBindings());
+		if (set.size() != 1) {
+			throw new DataException(ResourceConstants.REFERENCED_DIM_LEVEL_SET_ERROR);
 		}
-		DimLevel result = (DimLevel)set.iterator( ).next( );
+		DimLevel result = (DimLevel) set.iterator().next();
 		return result;
 	}
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#getFilterType()
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
+	 * getFilterType()
 	 */
-	public int getFilterType( )
-	{
+	public int getFilterType() {
 		return this.filterType;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#getN()
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#getN()
 	 */
-	public double getN( )
-	{
+	public double getN() {
 		return this.N;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#isQualifiedRow(org.eclipse.birt.data.engine.olap.util.filter.IResultRow)
+	 * 
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
+	 * isQualifiedRow(org.eclipse.birt.data.engine.olap.util.filter.IResultRow)
 	 */
-	public boolean isQualifiedRow( IResultRow resultRow ) throws DataException
-	{
-		if ( this.isAxisFilter )
-		{
-			for ( int i = 0; i < axisLevels.length; i++ )
-			{
-				DimLevel level = new DimLevel( axisLevels[i] );
-				if ( CompareUtil.compare( resultRow.getFieldValue( level.toString( ) ),
-						axisValues[i] ) != 0 )
-				{
+	public boolean isQualifiedRow(IResultRow resultRow) throws DataException {
+		if (this.isAxisFilter) {
+			for (int i = 0; i < axisLevels.length; i++) {
+				DimLevel level = new DimLevel(axisLevels[i]);
+				if (CompareUtil.compare(resultRow.getFieldValue(level.toString()), axisValues[i]) != 0) {
 					return false;
 				}
 			}
@@ -200,24 +179,23 @@ public class TopBottomDimensionFilterEvalHelper
 		return true;
 	}
 
-
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#isPercentFilter()
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
+	 * isPercentFilter()
 	 */
-	public boolean isPercent( )
-	{
+	public boolean isPercent() {
 		return isPercent;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#isTopFilter()
+	 * @see org.eclipse.birt.data.engine.olap.util.filter.IJSTopBottomFilterHelper#
+	 * isTopFilter()
 	 */
-	public boolean isTop( )
-	{
+	public boolean isTop() {
 		return isTop;
 	}
 }

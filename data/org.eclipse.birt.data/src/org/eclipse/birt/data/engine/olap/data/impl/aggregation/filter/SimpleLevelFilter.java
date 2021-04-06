@@ -20,36 +20,31 @@ import org.eclipse.birt.data.engine.olap.data.api.ISelection;
  * 
  */
 
-public class SimpleLevelFilter
-{
+public class SimpleLevelFilter {
 	private String dimensionName;
 	private String levelName;
 	private ISelection[] selections;
-	
-	private static Logger logger = Logger.getLogger( LevelFilter.class.getName( ) );
-	
+
+	private static Logger logger = Logger.getLogger(LevelFilter.class.getName());
+
 	/**
 	 * @param level
 	 * @param selections
 	 */
-	public SimpleLevelFilter(DimLevel level, ISelection[] selections )
-	{
-		Object[] params = {
-				level, selections
-		};
-		logger.entering( LevelFilter.class.getName( ), "LevelFilter", params );
-		this.dimensionName = level.getDimensionName( );
-		this.levelName = level.getLevelName( );
+	public SimpleLevelFilter(DimLevel level, ISelection[] selections) {
+		Object[] params = { level, selections };
+		logger.entering(LevelFilter.class.getName(), "LevelFilter", params);
+		this.dimensionName = level.getDimensionName();
+		this.levelName = level.getLevelName();
 		this.selections = selections;
-		logger.exiting( LevelFilter.class.getName( ), "LevelFilter" );
+		logger.exiting(LevelFilter.class.getName(), "LevelFilter");
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public String getDimensionName( )
-	{
+	public String getDimensionName() {
 		return dimensionName;
 	}
 
@@ -57,8 +52,7 @@ public class SimpleLevelFilter
 	 * 
 	 * @param dimensionName
 	 */
-	public void setDimensionName( String dimensionName )
-	{
+	public void setDimensionName(String dimensionName) {
 		this.dimensionName = dimensionName;
 	}
 
@@ -66,8 +60,7 @@ public class SimpleLevelFilter
 	 * 
 	 * @return
 	 */
-	public String getLevelName( )
-	{
+	public String getLevelName() {
 		return levelName;
 	}
 
@@ -75,8 +68,7 @@ public class SimpleLevelFilter
 	 * 
 	 * @param levelName
 	 */
-	public void setLevelName( String levelName )
-	{
+	public void setLevelName(String levelName) {
 		this.levelName = levelName;
 	}
 
@@ -84,8 +76,7 @@ public class SimpleLevelFilter
 	 * 
 	 * @return
 	 */
-	public ISelection[] getSelections( )
-	{
+	public ISelection[] getSelections() {
 		return selections;
 	}
 
@@ -93,10 +84,8 @@ public class SimpleLevelFilter
 	 * 
 	 * @param selections
 	 */
-	public void setSelections( ISelection[] selections )
-	{
+	public void setSelections(ISelection[] selections) {
 		this.selections = selections;
 	}
-	
-	
+
 }

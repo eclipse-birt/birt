@@ -26,100 +26,80 @@ import org.eclipse.birt.report.engine.internal.executor.doc.Fragment;
 import org.eclipse.birt.report.engine.internal.executor.doc.Segment;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 
-public class ReportletExecutorV4 extends AbstractReportExecutor
-{
+public class ReportletExecutorV4 extends AbstractReportExecutor {
 
 	private Fragment fragment;
 	private IReportItemExecutor bodyExecutor;
 
-	public ReportletExecutorV4( ExecutionContext context, long offset )
-			throws IOException, BirtException
-			
+	public ReportletExecutorV4(ExecutionContext context, long offset) throws IOException, BirtException
+
 	{
 
-		super( context );
-		fragment = createFragment( offset );
-		bodyExecutor = new ReportletBodyExecutor( manager, fragment,offset);
+		super(context);
+		fragment = createFragment(offset);
+		bodyExecutor = new ReportletBodyExecutor(manager, fragment, offset);
 	}
 
-	public void close( ) 
-	{
-		try
-		{
-			if ( bodyExecutor != null )
-			{
-				try
-				{
-					bodyExecutor.close( );
-				}
-				catch ( BirtException e )
-				{
+	public void close() {
+		try {
+			if (bodyExecutor != null) {
+				try {
+					bodyExecutor.close();
+				} catch (BirtException e) {
 				}
 			}
-		}
-		finally
-		{
+		} finally {
 			bodyExecutor = null;
-			super.close( );
+			super.close();
 		}
 	}
 
-	public IReportContent execute( )
-	{
+	public IReportContent execute() {
 		return reportContent;
 	}
 
-	public IReportItemExecutor getNextChild( ) throws BirtException
-	{
-		if ( bodyExecutor != null )
-		{
-			IReportItemExecutor executor = bodyExecutor.getNextChild( );
+	public IReportItemExecutor getNextChild() throws BirtException {
+		if (bodyExecutor != null) {
+			IReportItemExecutor executor = bodyExecutor.getNextChild();
 			bodyExecutor = null;
 			return executor;
 		}
 		return null;
 	}
 
-	public boolean hasNextChild( )
-	{
+	public boolean hasNextChild() {
 		return bodyExecutor != null;
 	}
 
-	protected Fragment createFragment( long offset ) throws IOException
-	{
-		Object[] leftEdge = createIndexes( offset );
+	protected Fragment createFragment(long offset) throws IOException {
+		Object[] leftEdge = createIndexes(offset);
 		Object[] rightEdge = new Object[leftEdge.length + 1];
-		System.arraycopy( leftEdge, 0, rightEdge, 0, leftEdge.length );
+		System.arraycopy(leftEdge, 0, rightEdge, 0, leftEdge.length);
 		rightEdge[leftEdge.length] = Segment.RIGHT_MOST_EDGE;
-		Fragment fragment = new Fragment( new InstanceIDComparator( ) );
-		fragment.addSection( leftEdge, rightEdge );
-		fragment.build( );
+		Fragment fragment = new Fragment(new InstanceIDComparator());
+		fragment.addSection(leftEdge, rightEdge);
+		fragment.build();
 		return fragment;
 	}
 
-	protected InstanceIndex[] createIndexes( long offset ) throws IOException
-	{
-		LinkedList parents = new LinkedList( );
-		IContent content = reader.loadContent( offset );
+	protected InstanceIndex[] createIndexes(long offset) throws IOException {
+		LinkedList parents = new LinkedList();
+		IContent content = reader.loadContent(offset);
 
-		while ( content != null )
-		{
-			InstanceID iid = content.getInstanceID( );
-			DocumentExtension docExt = (DocumentExtension) content
-					.getExtension( IContent.DOCUMENT_EXTENSION );
-			if ( docExt != null )
-			{
-				long index = docExt.getIndex( );
-				parents.addFirst( new InstanceIndex( iid, index ) );
+		while (content != null) {
+			InstanceID iid = content.getInstanceID();
+			DocumentExtension docExt = (DocumentExtension) content.getExtension(IContent.DOCUMENT_EXTENSION);
+			if (docExt != null) {
+				long index = docExt.getIndex();
+				parents.addFirst(new InstanceIndex(iid, index));
 			}
-			content = (IContent) content.getParent( );
+			content = (IContent) content.getParent();
 		}
-		InstanceIndex[] edges = new InstanceIndex[parents.size( )];
-		Iterator iter = parents.iterator( );
+		InstanceIndex[] edges = new InstanceIndex[parents.size()];
+		Iterator iter = parents.iterator();
 		int length = 0;
-		while ( iter.hasNext( ) )
-		{
-			InstanceIndex index = (InstanceIndex) iter.next( );
+		while (iter.hasNext()) {
+			InstanceIndex index = (InstanceIndex) iter.next();
 
 			edges[length++] = index;
 		}

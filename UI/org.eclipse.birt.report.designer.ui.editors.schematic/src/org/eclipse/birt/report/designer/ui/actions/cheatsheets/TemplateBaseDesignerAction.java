@@ -16,24 +16,23 @@ import org.eclipse.gef.ui.actions.ActionRegistry;
 import org.eclipse.jface.action.IAction;
 
 /**
- * Base class for all CheatSheet Actions that are registered in the designer and apply to 
- * a specific type of EditPart
+ * Base class for all CheatSheet Actions that are registered in the designer and
+ * apply to a specific type of EditPart
  * 
- * Cheat sheet actions are called by cheat sheets that are usually mapped to a predefined template
+ * Cheat sheet actions are called by cheat sheets that are usually mapped to a
+ * predefined template
  */
-public abstract class TemplateBaseDesignerAction extends TemplateBaseAction 
-{
+public abstract class TemplateBaseDesignerAction extends TemplateBaseAction {
 
-    /**
-     * @return the ID of the underlying action to run
-     */
-    protected abstract String getActionID();
- 
-    protected IAction getAction( ReportLayoutEditor reportDesigner)
-    {
-        // we get the action from the designer registry
-        ActionRegistry actionRegistry = (ActionRegistry)reportDesigner.getAdapter(ActionRegistry.class);
-        return actionRegistry.getAction(getActionID());
-    }
+	/**
+	 * @return the ID of the underlying action to run
+	 */
+	protected abstract String getActionID();
+
+	protected IAction getAction(ReportLayoutEditor reportDesigner) {
+		// we get the action from the designer registry
+		ActionRegistry actionRegistry = (ActionRegistry) reportDesigner.getAdapter(ActionRegistry.class);
+		return actionRegistry.getAction(getActionID());
+	}
 
 }

@@ -13,11 +13,6 @@ package org.eclipse.birt.data.engine.olap.api.query;
 
 import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
 
-
-public interface IBaseCubeQueryDefinition
-		extends
-			INamedObject,
-			IDataQueryDefinition
-{
+public interface IBaseCubeQueryDefinition extends INamedObject, IDataQueryDefinition {
 
 }

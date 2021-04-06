@@ -18,10 +18,7 @@ import junit.framework.TestCase;
 /**
  * 
  */
-public class MapTest extends TestCase
-{
-
-
+public class MapTest extends TestCase {
 
 	/**
 	 * Test add/getRule methods
@@ -30,26 +27,21 @@ public class MapTest extends TestCase
 	 * 
 	 * then get the rules one by one to test if they work correctly
 	 */
-	public void testAddRule( )
-	{
-		MapDesign map = new MapDesign( );
+	public void testAddRule() {
+		MapDesign map = new MapDesign();
 
-		MapRuleDesign[] rules = new MapRuleDesign[( new Random( ) )
-				.nextInt( 10 ) + 1];
+		MapRuleDesign[] rules = new MapRuleDesign[(new Random()).nextInt(10) + 1];
 
-		//Add
-		for ( int i = 0; i < rules.length; i++ )
-		{
-			rules[i] = new MapRuleDesign( );
-			map.addRule( rules[i] );
+		// Add
+		for (int i = 0; i < rules.length; i++) {
+			rules[i] = new MapRuleDesign();
+			map.addRule(rules[i]);
 		}
 
-		//Get
-		assertEquals( map.getRuleCount( ), rules.length );
-		for ( int i = 0; i < rules.length; i++ )
-		{
-			assertEquals( map.getRule( i ), rules[i] );
+		// Get
+		assertEquals(map.getRuleCount(), rules.length);
+		for (int i = 0; i < rules.length; i++) {
+			assertEquals(map.getRule(i), rules[i]);
 		}
 	}
 }
-

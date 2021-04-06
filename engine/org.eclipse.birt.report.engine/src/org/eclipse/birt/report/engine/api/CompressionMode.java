@@ -18,18 +18,16 @@ import java.util.zip.Deflater;
  */
 public enum CompressionMode {
 
-	BEST_COMPRESSION(Deflater.BEST_COMPRESSION), BEST_SPEED(Deflater.BEST_SPEED), NO_COMPRESSION(
-			Deflater.NO_COMPRESSION);
+	BEST_COMPRESSION(Deflater.BEST_COMPRESSION), BEST_SPEED(Deflater.BEST_SPEED),
+	NO_COMPRESSION(Deflater.NO_COMPRESSION);
 
 	private int value;
 
-	private CompressionMode( int value )
-	{
+	private CompressionMode(int value) {
 		this.value = value;
 	}
 
-	public int getValue( )
-	{
+	public int getValue() {
 		return value;
 	}
 }

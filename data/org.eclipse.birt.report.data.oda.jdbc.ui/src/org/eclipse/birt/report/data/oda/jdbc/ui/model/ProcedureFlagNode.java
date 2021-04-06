@@ -24,67 +24,52 @@ import org.eclipse.jface.resource.ImageRegistry;
 import org.eclipse.jface.resource.JFaceResources;
 import org.eclipse.swt.graphics.Image;
 
-
-public class ProcedureFlagNode extends ChildrenAllowedNode
-{
-	private static Logger logger = Logger.getLogger( ProcedureFlagNode.class.getName( ) );
-	private static String PROCEDURE_FLAG_ICON = ProcedureFlagNode.class.getName( ) + ".ProcedureFlagIcon";
-	static
-	{
-		ImageRegistry reg = JFaceResources.getImageRegistry( );
-		reg.put( PROCEDURE_FLAG_ICON,
-				ImageDescriptor.createFromFile( JdbcPlugin.class, "icons/table.gif" ) );//$NON-NLS-1$
+public class ProcedureFlagNode extends ChildrenAllowedNode {
+	private static Logger logger = Logger.getLogger(ProcedureFlagNode.class.getName());
+	private static String PROCEDURE_FLAG_ICON = ProcedureFlagNode.class.getName() + ".ProcedureFlagIcon";
+	static {
+		ImageRegistry reg = JFaceResources.getImageRegistry();
+		reg.put(PROCEDURE_FLAG_ICON, ImageDescriptor.createFromFile(JdbcPlugin.class, "icons/table.gif"));//$NON-NLS-1$
 	}
-	
+
 	private String schemaName;
-	
-	public ProcedureFlagNode( String schemaName )
-	{
+
+	public ProcedureFlagNode(String schemaName) {
 		this.schemaName = schemaName;
 	}
 
-	public String getDisplayName( String metadataBidiFormatStr )
-	{
+	public String getDisplayName(String metadataBidiFormatStr) {
 		return "STORED PROCEDURES";
 	}
 
-	public Image getImage( )
-	{
-		return JFaceResources.getImage( PROCEDURE_FLAG_ICON );
+	public Image getImage() {
+		return JFaceResources.getImage(PROCEDURE_FLAG_ICON);
 	}
 
 	/**
 	 * Just a flag node, can't be part of a SQL text
 	 */
-	public String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
-			boolean includeSchema, String metadataBidiFormatStr )
-	{
+	public String getQualifiedNameInSQL(boolean useIdentifierQuoteString, boolean includeSchema,
+			String metadataBidiFormatStr) {
 		return null;
 	}
 
 	@Override
-	protected IDBNode[] refetchChildren( FilterConfig fc )
-	{
-		ResultSet rs = JdbcMetaDataProvider.getInstance( )
-						.getProcedures( schemaName, fc.getNamePattern( ) );
-		List<ProcedureNode> procedures = new ArrayList<ProcedureNode>( );
-		if ( rs != null )
-		{
-			try
-			{
-				while ( rs.next( ) )
-				{
-					String procedureName = rs.getString( "PROCEDURE_NAME" );
-					ProcedureNode procedure = new ProcedureNode( schemaName, procedureName);
-					procedures.add( procedure );
+	protected IDBNode[] refetchChildren(FilterConfig fc) {
+		ResultSet rs = JdbcMetaDataProvider.getInstance().getProcedures(schemaName, fc.getNamePattern());
+		List<ProcedureNode> procedures = new ArrayList<ProcedureNode>();
+		if (rs != null) {
+			try {
+				while (rs.next()) {
+					String procedureName = rs.getString("PROCEDURE_NAME");
+					ProcedureNode procedure = new ProcedureNode(schemaName, procedureName);
+					procedures.add(procedure);
 				}
-			}
-			catch ( SQLException e )
-			{
-				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+			} catch (SQLException e) {
+				logger.log(Level.WARNING, e.getLocalizedMessage(), e);
 			}
 		}
-		return procedures.toArray( new ProcedureNode[0] );
+		return procedures.toArray(new ProcedureNode[0]);
 	}
 
 }

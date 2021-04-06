@@ -34,72 +34,66 @@ public class ResultSetItem implements IResultSetItem {
 	 */
 	private DesignElementHandle handle;
 	private Locale locale;
+
 	/*
 	 * prevent default construction.
 	 */
-	private ResultSetItem( )
-	{
-		
+	private ResultSetItem() {
+
 	}
-	
+
 	/**
 	 * construct result set meta data from result name and IResultMetaData
+	 * 
 	 * @param resultSetName
 	 * @param metaData
 	 */
-	public ResultSetItem( String resultSetName, IResultMetaData metaData )
-	{
+	public ResultSetItem(String resultSetName, IResultMetaData metaData) {
 		this.resultSetName = resultSetName;
 		resultSetMetaData = metaData;
 	}
-	
-	public ResultSetItem( String resultSetName, IResultMetaData metaData,
-			DesignElementHandle handle, Locale loc )
-	{
+
+	public ResultSetItem(String resultSetName, IResultMetaData metaData, DesignElementHandle handle, Locale loc) {
 		this.resultSetName = resultSetName;
 		resultSetMetaData = metaData;
 		this.handle = handle;
 		this.locale = loc;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultSetName()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultSetName()
 	 */
-	public String getResultSetName( )
-	{
+	public String getResultSetName() {
 		return resultSetName;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultMetaData()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.impl.IResultSetItem#getResultMetaData()
 	 */
-	public IResultMetaData getResultMetaData( )
-	{
+	public IResultMetaData getResultMetaData() {
 		return resultSetMetaData;
 	}
 
-	public String getResultSetDisplayName( )
-	{
-		if ( handle instanceof ReportElementHandle )
-		{
+	public String getResultSetDisplayName() {
+		if (handle instanceof ReportElementHandle) {
 			ReportElementHandle tmpHandle = (ReportElementHandle) handle;
-			if ( tmpHandle.getDisplayName( ) != null )
-			{
-				return ModuleUtil.getExternalizedValue( tmpHandle, tmpHandle
-						.getDisplayNameKey( ), tmpHandle.getDisplayName( ),
-						ULocale.forLocale( locale ) );
+			if (tmpHandle.getDisplayName() != null) {
+				return ModuleUtil.getExternalizedValue(tmpHandle, tmpHandle.getDisplayNameKey(),
+						tmpHandle.getDisplayName(), ULocale.forLocale(locale));
 			}
-		}
-		else if ( handle != null )
-		{
-			return ModuleUtil.getExternalizedValue( handle, handle.getName( ),
-					resultSetName, ULocale.forLocale( locale ) );
+		} else if (handle != null) {
+			return ModuleUtil.getExternalizedValue(handle, handle.getName(), resultSetName, ULocale.forLocale(locale));
 		}
 		return resultSetName;
 	}
-	
-	public DesignElementHandle getHandle( )
-	{
+
+	public DesignElementHandle getHandle() {
 		return handle;
 	}
 }

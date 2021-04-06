@@ -7,16 +7,16 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * Represents a the design of a report item in the scripting environment
  */
 
-public interface IReportItem extends IReportElement
-{
+public interface IReportItem extends IReportElement {
 	static ScriptConstants constants = new ScriptConstants();
+
 	/**
 	 * Gets the item's x (horizontal) position.
 	 * 
 	 * @return The item's x position.
 	 */
 
-	String getX( );
+	String getX();
 
 	/**
 	 * Gets the item's y (vertical) position.
@@ -24,115 +24,99 @@ public interface IReportItem extends IReportElement
 	 * @return The item's y position.
 	 */
 
-	String getY( );
+	String getY();
 
 	/**
-	 * Sets the item's x position using a dimension string with optional unit
-	 * suffix such as "10" or "10pt". If no suffix is provided, then the units
-	 * are assumed to be in the design's default units. Call this method to set
-	 * a string typed in by the user.
+	 * Sets the item's x position using a dimension string with optional unit suffix
+	 * such as "10" or "10pt". If no suffix is provided, then the units are assumed
+	 * to be in the design's default units. Call this method to set a string typed
+	 * in by the user.
 	 * 
-	 * @param dimension
-	 *            dimension string with optional unit suffix.
-	 * @throws SemanticException
-	 *             if the string is not valid
+	 * @param dimension dimension string with optional unit suffix.
+	 * @throws SemanticException if the string is not valid
 	 */
 
-	void setX( String dimension ) throws SemanticException;
+	void setX(String dimension) throws SemanticException;
 
 	/**
-	 * Sets the item's x position to a value in default units. The default unit
-	 * may be defined by the property in BIRT or the application unit defined in
-	 * the design session.
+	 * Sets the item's x position to a value in default units. The default unit may
+	 * be defined by the property in BIRT or the application unit defined in the
+	 * design session.
 	 * 
-	 * @param dimension
-	 *            the new value in application units.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param dimension the new value in application units.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	void setX( double dimension ) throws SemanticException;
+	void setX(double dimension) throws SemanticException;
 
 	/**
-	 * Sets the item's y position using a dimension string with optional unit
-	 * suffix such as "10" or "10pt". If no suffix is provided, then the units
-	 * are assumed to be in the design's default units. Call this method to set
-	 * a string typed in by the user.
+	 * Sets the item's y position using a dimension string with optional unit suffix
+	 * such as "10" or "10pt". If no suffix is provided, then the units are assumed
+	 * to be in the design's default units. Call this method to set a string typed
+	 * in by the user.
 	 * 
-	 * @param dimension
-	 *            dimension string with optional unit suffix.
-	 * @throws SemanticException
-	 *             if the string is not valid
+	 * @param dimension dimension string with optional unit suffix.
+	 * @throws SemanticException if the string is not valid
 	 */
 
-	void setY( String dimension ) throws SemanticException;
+	void setY(String dimension) throws SemanticException;
 
 	/**
-	 * Sets the item's y position to a value in default units. The default unit
-	 * may be defined by the property in BIRT or the application unit defined in
-	 * the design session.
+	 * Sets the item's y position to a value in default units. The default unit may
+	 * be defined by the property in BIRT or the application unit defined in the
+	 * design session.
 	 * 
-	 * @param dimension
-	 *            the new value in application units.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param dimension the new value in application units.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	void setY( double dimension ) throws SemanticException;
+	void setY(double dimension) throws SemanticException;
 
 	/**
 	 * Sets the item's height using a dimension string with optional unit suffix
-	 * such as "10" or "10pt". If no suffix is provided, then the units are
-	 * assumed to be in the design's default units. Call this method to set a
-	 * string typed in by the user.
+	 * such as "10" or "10pt". If no suffix is provided, then the units are assumed
+	 * to be in the design's default units. Call this method to set a string typed
+	 * in by the user.
 	 * 
-	 * @param dimension
-	 *            dimension string with optional unit suffix.
-	 * @throws SemanticException
-	 *             if the string is not valid
+	 * @param dimension dimension string with optional unit suffix.
+	 * @throws SemanticException if the string is not valid
 	 */
 
-	void setHeight( String dimension ) throws SemanticException;
+	void setHeight(String dimension) throws SemanticException;
 
 	/**
-	 * Sets the item's height to a value in default units. The default unit may
-	 * be defined by the property in BIRT or the application unit defined in the
-	 * design session.
+	 * Sets the item's height to a value in default units. The default unit may be
+	 * defined by the property in BIRT or the application unit defined in the design
+	 * session.
 	 * 
-	 * @param dimension
-	 *            the new value in application units.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param dimension the new value in application units.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	void setHeight( double dimension ) throws SemanticException;
+	void setHeight(double dimension) throws SemanticException;
 
 	/**
-	 * Sets the item's width using a dimension string with optional unit suffix
-	 * such as "10" or "10pt". If no suffix is provided, then the units are
-	 * assumed to be in the design's default units. Call this method to set a
-	 * string typed in by the user.
+	 * Sets the item's width using a dimension string with optional unit suffix such
+	 * as "10" or "10pt". If no suffix is provided, then the units are assumed to be
+	 * in the design's default units. Call this method to set a string typed in by
+	 * the user.
 	 * 
-	 * @param dimension
-	 *            dimension string with optional unit suffix.
-	 * @throws SemanticException
-	 *             if the string is not valid
+	 * @param dimension dimension string with optional unit suffix.
+	 * @throws SemanticException if the string is not valid
 	 */
 
-	void setWidth( String dimension ) throws SemanticException;
+	void setWidth(String dimension) throws SemanticException;
 
 	/**
-	 * Sets the item's width to a value in default units. The default unit may
-	 * be defined by the property in BIRT or the application unit defined in the
-	 * design session.
+	 * Sets the item's width to a value in default units. The default unit may be
+	 * defined by the property in BIRT or the application unit defined in the design
+	 * session.
 	 * 
-	 * @param dimension
-	 *            the new value in application units.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param dimension the new value in application units.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	void setWidth( double dimension ) throws SemanticException;
+	void setWidth(double dimension) throws SemanticException;
 
 	/**
 	 * Gets a the item's width.
@@ -140,64 +124,58 @@ public interface IReportItem extends IReportElement
 	 * @return a the item's width.
 	 */
 
-	String getWidth( );
+	String getWidth();
 
 	/**
 	 * Gets the item's height.
 	 * 
 	 * @return the item's height.
 	 */
-	String getHeight( );
+	String getHeight();
 
 	/**
-	 * Returns the bookmark of the report item. The bookmark value is evaluated
-	 * as an expression.
+	 * Returns the bookmark of the report item. The bookmark value is evaluated as
+	 * an expression.
 	 * 
 	 * @return the book mark as a string
 	 */
 
-	String getBookmark( );
+	String getBookmark();
 
 	/**
-	 * Sets the bookmark of the report item. The bookmark value is evaluated as
-	 * an expression. If you want the bookmark to be the string "bookmark", you
-	 * need to use setBookmark("\"bookmark\"");
+	 * Sets the bookmark of the report item. The bookmark value is evaluated as an
+	 * expression. If you want the bookmark to be the string "bookmark", you need to
+	 * use setBookmark("\"bookmark\"");
 	 * 
 	 * If bookmark is a JavaScript variable, use setBookmark("bookmark");
 	 * 
-	 * @param value
-	 *            the bookmark expression
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param value the bookmark expression
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	void setBookmark( String value ) throws SemanticException;
+	void setBookmark(String value) throws SemanticException;
 
 	/**
 	 * Sets a table of contents entry for this item. The TOC property defines an
-	 * expression that returns a string that is to appear in the Table of
-	 * Contents for this item or its container.
+	 * expression that returns a string that is to appear in the Table of Contents
+	 * for this item or its container.
 	 * 
-	 * @param expression
-	 *            the expression that returns a string
-	 * @throws SemanticException
-	 *             if the TOC property is locked by the property mask.
+	 * @param expression the expression that returns a string
+	 * @throws SemanticException if the TOC property is locked by the property mask.
 	 * 
 	 * @see #getTocExpression()
 	 */
 
-	void setTocExpression( String expression ) throws SemanticException;
+	void setTocExpression(String expression) throws SemanticException;
 
 	/**
-	 * Returns the expression evalueated as a table of contents entry for this
-	 * item.
+	 * Returns the expression evalueated as a table of contents entry for this item.
 	 * 
-	 * @return the expression evaluated as a table of contents entry for this
-	 *         item
+	 * @return the expression evaluated as a table of contents entry for this item
 	 * @see #setTocExpression(String)
 	 */
 
-	String getTocExpression( );
+	String getTocExpression();
 
 	/**
 	 * Returns array of all column bindings
@@ -205,7 +183,7 @@ public interface IReportItem extends IReportElement
 	 * @return all column bindings
 	 */
 
-	IDataBinding[] getDataBindings( );
+	IDataBinding[] getDataBindings();
 
 	/**
 	 * Returns column binding.
@@ -213,7 +191,7 @@ public interface IReportItem extends IReportElement
 	 * @param bindingName
 	 * @return column binding expression.
 	 */
-	String getDataBinding( String bindingName );
+	String getDataBinding(String bindingName);
 
 	/**
 	 * Removes special column binding
@@ -221,14 +199,14 @@ public interface IReportItem extends IReportElement
 	 * @param bindingName
 	 * @throws SemanticException
 	 */
-	void removeDataBinding( String bindingName ) throws SemanticException;
+	void removeDataBinding(String bindingName) throws SemanticException;
 
 	/**
 	 * Removes all column bindings
 	 * 
 	 * @throws SemanticException
 	 */
-	void removeDataBindings( ) throws SemanticException;
+	void removeDataBindings() throws SemanticException;
 
 	/**
 	 * Add ComputedColumn.name , expression of IDataBinding are required.
@@ -237,7 +215,7 @@ public interface IReportItem extends IReportElement
 	 * @throws SemanticException
 	 */
 
-	void addDataBinding( IDataBinding binding ) throws SemanticException;
+	void addDataBinding(IDataBinding binding) throws SemanticException;
 
 	/**
 	 * Gets all high light rules.
@@ -245,7 +223,7 @@ public interface IReportItem extends IReportElement
 	 * @return all high light rules
 	 */
 
-	IHighlightRule[] getHighlightRules( );
+	IHighlightRule[] getHighlightRules();
 
 	/**
 	 * Adds high light rule.
@@ -254,7 +232,7 @@ public interface IReportItem extends IReportElement
 	 * @throws SemanticException
 	 */
 
-	void addHighlightRule( IHighlightRule rule ) throws SemanticException;
+	void addHighlightRule(IHighlightRule rule) throws SemanticException;
 
 	/**
 	 * Removes all high light rules.
@@ -262,7 +240,7 @@ public interface IReportItem extends IReportElement
 	 * @throws SemanticException
 	 */
 
-	void removeHighlightRules( ) throws SemanticException;
+	void removeHighlightRules() throws SemanticException;
 
 	/**
 	 * Removes high light rule.
@@ -271,7 +249,7 @@ public interface IReportItem extends IReportElement
 	 * @throws SemanticException
 	 */
 
-	void removeHighlightRule( IHighlightRule rule ) throws SemanticException;
+	void removeHighlightRule(IHighlightRule rule) throws SemanticException;
 
 	/**
 	 * Removes all hide rules that matches formatType.
@@ -280,7 +258,7 @@ public interface IReportItem extends IReportElement
 	 * @exception SemanticException
 	 */
 
-	void removeHideRule( IHideRule rule ) throws SemanticException;
+	void removeHideRule(IHideRule rule) throws SemanticException;
 
 	/**
 	 * Removes all hide rules
@@ -288,7 +266,7 @@ public interface IReportItem extends IReportElement
 	 * @throws SemanticException
 	 */
 
-	void removeHideRules( ) throws SemanticException;
+	void removeHideRules() throws SemanticException;
 
 	/**
 	 * Returns array of hide rule expression
@@ -296,7 +274,7 @@ public interface IReportItem extends IReportElement
 	 * @return array of hide rule expression
 	 */
 
-	IHideRule[] getHideRules( );
+	IHideRule[] getHideRules();
 
 	/**
 	 * Add HideRule
@@ -305,21 +283,18 @@ public interface IReportItem extends IReportElement
 	 * @throws SemanticException
 	 */
 
-	void addHideRule( IHideRule rule ) throws SemanticException;
+	void addHideRule(IHideRule rule) throws SemanticException;
 
 	/**
-	 * Sets the view to be used. If the given element is not in the multiple
-	 * view, it will be added and set as the active view.
+	 * Sets the view to be used. If the given element is not in the multiple view,
+	 * it will be added and set as the active view.
 	 * 
-	 * @param viewElement
-	 *            the view element, must not be <code>this</code>. Can be
-	 *            <code>null</code>.
+	 * @param viewElement the view element, must not be <code>this</code>. Can be
+	 *                    <code>null</code>.
 	 * 
-	 * @throws SemanticException
-	 *             if the given element resides in the other elements.
+	 * @throws SemanticException if the given element resides in the other elements.
 	 */
 
-	public void setCurrentView( IDesignElement viewElement )
-			throws SemanticException;
+	public void setCurrentView(IDesignElement viewElement) throws SemanticException;
 
 }

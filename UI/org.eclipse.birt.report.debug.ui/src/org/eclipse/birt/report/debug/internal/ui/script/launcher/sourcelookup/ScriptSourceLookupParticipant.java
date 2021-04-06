@@ -20,22 +20,18 @@ import org.eclipse.debug.core.sourcelookup.AbstractSourceLookupParticipant;
 /**
  * ScriptSourceLookupParticipant
  */
-public class ScriptSourceLookupParticipant extends
-		AbstractSourceLookupParticipant
-{
+public class ScriptSourceLookupParticipant extends AbstractSourceLookupParticipant {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.core.sourcelookup.ISourceLookupParticipant#getSourceName(java.lang.Object)
+	 * @see
+	 * org.eclipse.debug.core.sourcelookup.ISourceLookupParticipant#getSourceName(
+	 * java.lang.Object)
 	 */
-	public String getSourceName( Object object ) throws CoreException
-	{
-		if ( object instanceof ScriptStackFrame )
-		{
-			return getFileName( (ScriptStackFrame) object )
-					+ File.separator
-					+ ( (ScriptStackFrame) object ).getId( );
+	public String getSourceName(Object object) throws CoreException {
+		if (object instanceof ScriptStackFrame) {
+			return getFileName((ScriptStackFrame) object) + File.separator + ((ScriptStackFrame) object).getId();
 		}
 		return null;
 	}
@@ -44,11 +40,10 @@ public class ScriptSourceLookupParticipant extends
 	 * @param frame
 	 * @return
 	 */
-	private String getFileName( ScriptStackFrame frame )
-	{
-		String name = frame.getFileName( );
-		int index = name.lastIndexOf( File.separator );
-		return name.substring( index + 1 );
+	private String getFileName(ScriptStackFrame frame) {
+		String name = frame.getFileName();
+		int index = name.lastIndexOf(File.separator);
+		return name.substring(index + 1);
 	}
 
 }

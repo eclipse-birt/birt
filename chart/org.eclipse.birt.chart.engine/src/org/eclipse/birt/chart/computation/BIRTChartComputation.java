@@ -21,95 +21,62 @@ import org.eclipse.birt.chart.plugin.ChartEnginePlugin;
  * 
  */
 
-public class BIRTChartComputation implements IChartComputation
-{
+public class BIRTChartComputation implements IChartComputation {
 
-	public double computeFontHeight( IDisplayServer xs, Label la )
-			throws ChartException
-	{
-		return Methods.computeFontHeight( xs, la );
+	public double computeFontHeight(IDisplayServer xs, Label la) throws ChartException {
+		return Methods.computeFontHeight(xs, la);
 	}
 
-	public ITextMetrics getTextMetrics( IDisplayServer xs, Label la,
-			double wrapping )
-	{
-		ITextMetrics itm = xs.getTextMetrics( la );
-		itm.reuse( la, wrapping );
+	public ITextMetrics getTextMetrics(IDisplayServer xs, Label la, double wrapping) {
+		ITextMetrics itm = xs.getTextMetrics(la);
+		itm.reuse(la, wrapping);
 		return itm;
 	}
 
-	public BoundingBox computeLabelSize( IDisplayServer xs, Label la,
-			double dWrapping, Double fontHeight ) throws ChartException
-	{
-		return Methods.computeLabelSize( xs, la, dWrapping, fontHeight );
+	public BoundingBox computeLabelSize(IDisplayServer xs, Label la, double dWrapping, Double fontHeight)
+			throws ChartException {
+		return Methods.computeLabelSize(xs, la, dWrapping, fontHeight);
 	}
 
-	public BoundingBox computeBox( IDisplayServer xs, int iLabelLocation,
-			Label la, double dX, double dY ) throws ChartException
-	{
-		try
-		{
-			return Methods.computeBox( xs, iLabelLocation, la, dX, dY );
-		}
-		catch ( IllegalArgumentException uiex )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.RENDERING,
-					uiex );
+	public BoundingBox computeBox(IDisplayServer xs, int iLabelLocation, Label la, double dX, double dY)
+			throws ChartException {
+		try {
+			return Methods.computeBox(xs, iLabelLocation, la, dX, dY);
+		} catch (IllegalArgumentException uiex) {
+			throw new ChartException(ChartEnginePlugin.ID, ChartException.RENDERING, uiex);
 		}
 	}
 
-	public RotatedRectangle computePolygon( IDisplayServer xs,
-			int iLabelLocation, Label la, double dX, double dY,
-			Double fontHeight ) throws ChartException
-	{
-		try
-		{
-			return Methods.computePolygon( xs,
-					iLabelLocation,
-					la,
-					dX,
-					dY,
-					fontHeight );
-		}
-		catch ( IllegalArgumentException uiex )
-		{
-			throw new ChartException( ChartEnginePlugin.ID,
-					ChartException.RENDERING,
-					uiex );
+	public RotatedRectangle computePolygon(IDisplayServer xs, int iLabelLocation, Label la, double dX, double dY,
+			Double fontHeight) throws ChartException {
+		try {
+			return Methods.computePolygon(xs, iLabelLocation, la, dX, dY, fontHeight);
+		} catch (IllegalArgumentException uiex) {
+			throw new ChartException(ChartEnginePlugin.ID, ChartException.RENDERING, uiex);
 		}
 	}
 
-	public double computeWidth( IDisplayServer xs, Label la )
-			throws ChartException
-	{
-		return Methods.computeWidth( xs, la );
+	public double computeWidth(IDisplayServer xs, Label la) throws ChartException {
+		return Methods.computeWidth(xs, la);
 	}
 
-	public double computeHeight( IDisplayServer xs, Label la )
-			throws ChartException
-	{
-		return Methods.computeHeight( xs, la );
+	public double computeHeight(IDisplayServer xs, Label la) throws ChartException {
+		return Methods.computeHeight(xs, la);
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 
 	}
 
-	public void applyWrapping( IDisplayServer xs, Label la, double dWrapping )
-			throws ChartException
-	{
-		ITextMetrics itm = xs.getTextMetrics( la );
-		itm.reuse( la, dWrapping );
-		itm.dispose( );
+	public void applyWrapping(IDisplayServer xs, Label la, double dWrapping) throws ChartException {
+		ITextMetrics itm = xs.getTextMetrics(la);
+		itm.reuse(la, dWrapping);
+		itm.dispose();
 	}
 
-	public void recycleTextMetrics( ITextMetrics itm )
-	{
-		if ( itm != null )
-		{
-			itm.dispose( );
+	public void recycleTextMetrics(ITextMetrics itm) {
+		if (itm != null) {
+			itm.dispose();
 		}
 	}
 

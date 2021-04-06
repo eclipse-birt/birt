@@ -13,24 +13,20 @@ package org.eclipse.birt.report.model.command;
 
 import org.eclipse.birt.report.model.core.Module;
 
-
 /**
  * Represents the command for adding and dropping library from report design.
  * For each operation, should start a new command instead of using the existing
  * command.
  */
 
-public class LibraryCommand extends LibraryCommandImp
-{
+public class LibraryCommand extends LibraryCommandImp {
 	/**
 	 * Construct the command with the report design.
 	 * 
-	 * @param module
-	 *            the report design
+	 * @param module the report design
 	 */
 
-	public LibraryCommand( Module module )
-	{
-		super( module );
+	public LibraryCommand(Module module) {
+		super(module);
 	}
 }

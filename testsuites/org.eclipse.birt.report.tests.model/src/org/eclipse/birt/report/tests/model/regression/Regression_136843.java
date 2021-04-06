@@ -26,26 +26,24 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_136843 extends BaseTestCase
-{
+public class Regression_136843 extends BaseTestCase {
 
 	private final static String TEMPLATE = "chart_listing.rptdesign"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( TEMPLATE , TEMPLATE );
-		
+		copyResource_INPUT(TEMPLATE, TEMPLATE);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_136843( ) throws DesignFileException
-	{
-		openDesign( TEMPLATE );
+	public void test_regression_136843() throws DesignFileException {
+		openDesign(TEMPLATE);
 	}
 }

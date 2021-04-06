@@ -13,8 +13,8 @@ package org.eclipse.birt.report.engine.api;
 
 /**
  * Defines an emitter configuration class for HTML output format
+ * 
  * @deprecated since 2.2, use HTMLRenderOption or RenderOption directly
  */
-public class HTMLEmitterConfig extends HTMLRenderOption
-{
+public class HTMLEmitterConfig extends HTMLRenderOption {
 }

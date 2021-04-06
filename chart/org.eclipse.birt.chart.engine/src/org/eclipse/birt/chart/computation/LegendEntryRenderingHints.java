@@ -14,37 +14,32 @@ package org.eclipse.birt.chart.computation;
 import org.eclipse.birt.chart.model.attribute.Fill;
 import org.eclipse.birt.chart.model.component.Label;
 
-public class LegendEntryRenderingHints
-{
+public class LegendEntryRenderingHints {
 	private Label la;
 	private int dataIndex;
 	private Fill fill;
 	private Label valueLa;
 
-	public LegendEntryRenderingHints( Label la, Label valueLa, int dataIndex, Fill fill )
-	{
+	public LegendEntryRenderingHints(Label la, Label valueLa, int dataIndex, Fill fill) {
 		this.la = la;
 		this.dataIndex = dataIndex;
 		this.fill = fill;
 		this.valueLa = valueLa;
 	}
 
-	public Label getLabel( )
-	{
+	public Label getLabel() {
 		return la;
 	}
 
-	public Label getValueLabel( )
-	{
+	public Label getValueLabel() {
 		return valueLa;
 	}
-	public int getDataIndex( )
-	{
+
+	public int getDataIndex() {
 		return dataIndex;
 	}
 
-	public Fill getFill( )
-	{
+	public Fill getFill() {
 		return fill;
 	}
 }

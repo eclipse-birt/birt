@@ -36,63 +36,42 @@ import org.eclipse.swt.custom.CTabItem;
  * 
  * @since 2.5
  */
-abstract public class BasePageGenerator extends AbstractPageGenerator
-{
+abstract public class BasePageGenerator extends AbstractPageGenerator {
 
 	/**
-	 * Creats the page content for each tab. Note this doesn't include the
-	 * default cateogry-styled tab, which is handled separately.
+	 * Creats the page content for each tab. Note this doesn't include the default
+	 * cateogry-styled tab, which is handled separately.
 	 * 
 	 * @param tabKey
 	 */
-	protected TabPage buildTabContent( String tabKey )
-	{
+	protected TabPage buildTabContent(String tabKey) {
 		TabPage page = null;
 
-		if ( tabKey.equals( BINDINGTITLE ) )
-		{
-			if ( isSupportAggregationBinding( ) )
-			{
-				page = new AggregateOnBindingPage( );
+		if (tabKey.equals(BINDINGTITLE)) {
+			if (isSupportAggregationBinding()) {
+				page = new AggregateOnBindingPage();
+			} else {
+				page = new BindingPage();
 			}
-			else
-			{
-				page = new BindingPage( );
-			}
-		}
-		else if ( tabKey.equals( SORTINGTITLE ) )
-		{
-			page = new FormPage( FormPropertyDescriptor.FULL_FUNCTION,
-					new SortingHandleProvider( ),
-					true,
-					true );
-		}
-		else if ( tabKey.equals( FILTERTITLE ) )
-		{
-			AbstractFilterHandleProvider filterProvider = (AbstractFilterHandleProvider) ElementAdapterManager.getAdapter( this,
-					AbstractFilterHandleProvider.class );
+		} else if (tabKey.equals(SORTINGTITLE)) {
+			page = new FormPage(FormPropertyDescriptor.FULL_FUNCTION, new SortingHandleProvider(), true, true);
+		} else if (tabKey.equals(FILTERTITLE)) {
+			AbstractFilterHandleProvider filterProvider = (AbstractFilterHandleProvider) ElementAdapterManager
+					.getAdapter(this, AbstractFilterHandleProvider.class);
 
-			if ( filterProvider == null )
-			{
-				filterProvider = new FilterHandleProvider( );
+			if (filterProvider == null) {
+				filterProvider = new FilterHandleProvider();
 			}
 
-			page = new FormPage( FormPropertyDescriptor.FULL_FUNCTION,
-					filterProvider,
-					true,
-					true );
-		}
-		else if ( tabKey.equals( HIGHLIGHTSTITLE ) )
-		{
-			page = new PreviewPage( true );
-			( (PreviewPage) page ).setPreview( new HighlightPropertyDescriptor( true ) );
-			( (PreviewPage) page ).setProvider( new HighlightDescriptorProvider( ) );
-		}
-		else if ( tabKey.equals( MAPTITLE ) )
-		{
-			page = new PreviewPage( true );
-			( (PreviewPage) page ).setPreview( new MapPropertyDescriptor( true ) );
-			( (PreviewPage) page ).setProvider( new MapDescriptorProvider( ) );
+			page = new FormPage(FormPropertyDescriptor.FULL_FUNCTION, filterProvider, true, true);
+		} else if (tabKey.equals(HIGHLIGHTSTITLE)) {
+			page = new PreviewPage(true);
+			((PreviewPage) page).setPreview(new HighlightPropertyDescriptor(true));
+			((PreviewPage) page).setProvider(new HighlightDescriptorProvider());
+		} else if (tabKey.equals(MAPTITLE)) {
+			page = new PreviewPage(true);
+			((PreviewPage) page).setPreview(new MapPropertyDescriptor(true));
+			((PreviewPage) page).setProvider(new MapDescriptorProvider());
 		}
 
 		return page;
@@ -103,26 +82,21 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 	 * 
 	 * @param item
 	 */
-	protected void buildItemContent( CTabItem item )
-	{
-		if ( itemMap.containsKey( item ) && itemMap.get( item ) == null )
-		{
-			String title = tabFolder.getSelection( ).getText( );
+	protected void buildItemContent(CTabItem item) {
+		if (itemMap.containsKey(item) && itemMap.get(item) == null) {
+			String title = tabFolder.getSelection().getText();
 
-			TabPage page = buildTabContent( title );
+			TabPage page = buildTabContent(title);
 
-			if ( page != null )
-			{
-				setPageInput( page );
-				refresh( tabFolder, page, true );
-				item.setControl( page.getControl( ) );
-				itemMap.put( item, page );
+			if (page != null) {
+				setPageInput(page);
+				refresh(tabFolder, page, true);
+				item.setControl(page.getControl());
+				itemMap.put(item, page);
 			}
-		}
-		else if ( itemMap.get( item ) != null )
-		{
-			setPageInput( itemMap.get( item ) );
-			refresh( tabFolder, itemMap.get( item ), false );
+		} else if (itemMap.get(item) != null) {
+			setPageInput(itemMap.get(item));
+			refresh(tabFolder, itemMap.get(item), false);
 		}
 	}
 
@@ -133,29 +107,26 @@ abstract public class BasePageGenerator extends AbstractPageGenerator
 	 * org.eclipse.birt.report.designer.ui.views.attributes.CategoryPageGenerator
 	 * #createTabItems(java.util.List)
 	 */
-	public void createTabItems( List input )
-	{
-		super.createTabItems( input );
+	public void createTabItems(List input) {
+		super.createTabItems(input);
 		this.input = input;
-		addSelectionListener( this );
-		createTabItems( );
-		if ( tabFolder.getSelection( ) != null )
-		{
-			buildItemContent( tabFolder.getSelection( ) );
+		addSelectionListener(this);
+		createTabItems();
+		if (tabFolder.getSelection() != null) {
+			buildItemContent(tabFolder.getSelection());
 		}
 	}
 
 	/**
-	 * @return Returns if the binding page should support aggregation when
-	 *         requested for creation
+	 * @return Returns if the binding page should support aggregation when requested
+	 *         for creation
 	 */
-	protected boolean isSupportAggregationBinding( )
-	{
+	protected boolean isSupportAggregationBinding() {
 		return false;
 	}
 
 	/**
 	 * The subclass should overwrite this to add additional tabs.
 	 */
-	abstract protected void createTabItems( );
+	abstract protected void createTabItems();
 }

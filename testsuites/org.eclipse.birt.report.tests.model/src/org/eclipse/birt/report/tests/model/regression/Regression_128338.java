@@ -35,60 +35,51 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_128338 extends BaseTestCase
-{
+public class Regression_128338 extends BaseTestCase {
 
 	private final static String INPUT = "Reg_128338.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_regression_128338( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
-		LabelHandle label = (LabelHandle) designHandle.findElement( "label" );//$NON-NLS-1$
-		TextItemHandle text = (TextItemHandle) designHandle
-				.findElement( "text" );//$NON-NLS-1$
+	public void test_regression_128338() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
+		LabelHandle label = (LabelHandle) designHandle.findElement("label");//$NON-NLS-1$
+		TextItemHandle text = (TextItemHandle) designHandle.findElement("text");//$NON-NLS-1$
 
 		// convert label to template report item, revert it to report item, and
 		// revert it back to template report item again
 
-		TemplateReportItemHandle templabel = (TemplateReportItemHandle) label
-				.createTemplateElement( "templabel" );//$NON-NLS-1$
+		TemplateReportItemHandle templabel = (TemplateReportItemHandle) label.createTemplateElement("templabel");//$NON-NLS-1$
 
-		templabel.transformToReportItem( label );
+		templabel.transformToReportItem(label);
 
-		LabelHandle label1 = (LabelHandle) designHandle.getBody( )
-				.getContents( ).get( 0 );
+		LabelHandle label1 = (LabelHandle) designHandle.getBody().getContents().get(0);
 		TemplateParameterDefinitionHandle def = (TemplateParameterDefinitionHandle) designHandle
-				.getSlot( ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT )
-				.get( 0 );
-		assertEquals( def.getName( ), label1.getProperty(
-				Label.REF_TEMPLATE_PARAMETER_PROP ).toString( ) );
+				.getSlot(ReportDesign.TEMPLATE_PARAMETER_DEFINITION_SLOT).get(0);
+		assertEquals(def.getName(), label1.getProperty(Label.REF_TEMPLATE_PARAMETER_PROP).toString());
 
-		designHandle.getCommandStack( ).undo( );
+		designHandle.getCommandStack().undo();
 
 		// convert text to template report item, revert it to report item, and
 		// revert it back to template report item again
 
-		TemplateReportItemHandle temptext = (TemplateReportItemHandle) text
-				.createTemplateElement( "temptext" );//$NON-NLS-1$
+		TemplateReportItemHandle temptext = (TemplateReportItemHandle) text.createTemplateElement("temptext");//$NON-NLS-1$
 
-		temptext.transformToReportItem( text );
+		temptext.transformToReportItem(text);
 
-		TextItemHandle text1 = (TextItemHandle) designHandle.getBody( )
-				.getContents( ).get( 1 );
-		assertTrue( text1.canTransformToTemplate( ) );
-		
+		TextItemHandle text1 = (TextItemHandle) designHandle.getBody().getContents().get(1);
+		assertTrue(text1.canTransformToTemplate());
+
 	}
 }

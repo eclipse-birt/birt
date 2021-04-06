@@ -22,66 +22,52 @@ import org.eclipse.birt.report.model.api.CellHandle;
 /**
  * Copy cell's contents action
  */
-public class CopyCellContentsAction extends AbstractViewAction
-{
+public class CopyCellContentsAction extends AbstractViewAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.command.copyCellContentsAction"; //$NON-NLS-1$
 
 	/**
 	 * Create a new copy action with given selection and default text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
+	 * @param selectedObject the selected object,which cannot be null
 	 * 
 	 */
-	public CopyCellContentsAction( Object selectedObject )
-	{
-		this( selectedObject,
-				Messages.getString( "CopyCellContentsAction.actionText" ) ); //$NON-NLS-1$
-		setId( ID );
+	public CopyCellContentsAction(Object selectedObject) {
+		this(selectedObject, Messages.getString("CopyCellContentsAction.actionText")); //$NON-NLS-1$
+		setId(ID);
 	}
 
 	/**
 	 * Create a new copy action with given selection and text
 	 * 
-	 * @param selectedObject
-	 *            the selected object,which cannot be null
-	 * @param text
-	 *            the text of the action
+	 * @param selectedObject the selected object,which cannot be null
+	 * @param text           the text of the action
 	 */
-	public CopyCellContentsAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public CopyCellContentsAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 	}
 
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Copy action >> Copy " + getSelection( ) ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Copy action >> Copy " + getSelection()); //$NON-NLS-1$
 		}
 
-		try
-		{
-			CommandUtils.executeCommand( CopyCellContentsHandler.ID );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+		try {
+			CommandUtils.executeCommand(CopyCellContentsHandler.ID);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
-	public boolean isEnabled( )
-	{
-		if ( canCopy( getSelection( ) ) )
-			return super.isEnabled( );
+	public boolean isEnabled() {
+		if (canCopy(getSelection()))
+			return super.isEnabled();
 		return false;
 	}
 
-	private boolean canCopy( Object selection )
-	{
-		if ( selection instanceof CellHandle )
-			return ( (CellHandle) selection ).getContent( ).getCount( ) > 0;
+	private boolean canCopy(Object selection) {
+		if (selection instanceof CellHandle)
+			return ((CellHandle) selection).getContent().getCount() > 0;
 		return false;
 	}
 

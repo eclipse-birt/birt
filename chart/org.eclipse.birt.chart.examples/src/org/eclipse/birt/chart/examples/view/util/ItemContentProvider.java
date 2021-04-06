@@ -28,62 +28,55 @@ import org.osgi.framework.Bundle;
 
 import com.ibm.icu.util.StringTokenizer;
 
-public class ItemContentProvider
-{
+public class ItemContentProvider {
 
 	/**
 	 * The only instance of ItemContentProvider
 	 */
 	private static ItemContentProvider content = null;
-	
-	/**
-	 * When the view is open, the descriptor file is read (only once)
-	 * and stored in a StringBuffer.
-	 */
-	private static StringBuffer dFile = new StringBuffer( "" ); //$NON-NLS-1$
-	
-	//Examples types for each category
-	private ArrayList<String> iTypes;	
 
-	//Category types
+	/**
+	 * When the view is open, the descriptor file is read (only once) and stored in
+	 * a StringBuffer.
+	 */
+	private static StringBuffer dFile = new StringBuffer(""); //$NON-NLS-1$
+
+	// Examples types for each category
+	private ArrayList<String> iTypes;
+
+	// Category types
 	private ArrayList<String> cTypes;
-	
-	//Chart model description for each example
+
+	// Chart model description for each example
 	private String description;
 
-	//Chart model class name for each example
+	// Chart model class name for each example
 	private String modelClassName;
 
-	//Chart model method name for each example
+	// Chart model method name for each example
 	private String methodName;
 
 	/**
-	 * All category types are stored in a string array 
+	 * All category types are stored in a string array
 	 */
-	private static final String[] categoryTypes = new String[]{
-			"SampleChartCategory.PrimitiveCharts", //$NON-NLS-1$
+	private static final String[] categoryTypes = new String[] { "SampleChartCategory.PrimitiveCharts", //$NON-NLS-1$
 			"SampleChartCategory.3DCharts", //$NON-NLS-1$
 			"SampleChartCategory.CombinationCharts", //$NON-NLS-1$
-			"SampleChartCategory.FormattedCharts", //$NON-NLS-1$ 
+			"SampleChartCategory.FormattedCharts", //$NON-NLS-1$
 			"SampleChartCategory.ScriptedCharts", //$NON-NLS-1$
 			"SampleChartCategory.DataOperations" //$NON-NLS-1$
 	};
-	
+
 	/**
 	 * Provide the unique ItemContentProvider instance
 	 */
-	public static ItemContentProvider instance( )
-	{
-		if ( content == null )
-		{
-			content = new ItemContentProvider( );
-			try
-			{
-				openDescriptorFile( );
-			}
-			catch ( IOException e )
-			{
-				e.printStackTrace( );
+	public static ItemContentProvider instance() {
+		if (content == null) {
+			content = new ItemContentProvider();
+			try {
+				openDescriptorFile();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		return content;
@@ -94,39 +87,29 @@ public class ItemContentProvider
 	 * 
 	 * @throws IOException
 	 */
-	private static void openDescriptorFile( ) throws IOException
-	{
-		Bundle bundle = Platform.getBundle( ChartExamplesPlugin.ID );
-		Path path = new Path( "/src/org/eclipse/birt/chart/examples/view/util/description.txt" ); //$NON-NLS-1$
-		URL fileURL = FileLocator.find( bundle, path, null );
+	private static void openDescriptorFile() throws IOException {
+		Bundle bundle = Platform.getBundle(ChartExamplesPlugin.ID);
+		Path path = new Path("/src/org/eclipse/birt/chart/examples/view/util/description.txt"); //$NON-NLS-1$
+		URL fileURL = FileLocator.find(bundle, path, null);
 
-		if ( fileURL != null )
-		{
-			InputStream file = fileURL.openStream( );
+		if (fileURL != null) {
+			InputStream file = fileURL.openStream();
 
 			BufferedReader reader = null;
-			try
-			{
-				reader = new BufferedReader( new InputStreamReader( new BufferedInputStream( file ) ) );
+			try {
+				reader = new BufferedReader(new InputStreamReader(new BufferedInputStream(file)));
 
-				while ( true )
-				{
-					String sTmp = reader.readLine( );
-					if ( sTmp == null )
-					{
+				while (true) {
+					String sTmp = reader.readLine();
+					if (sTmp == null) {
 						break;
-					}
-					else
-					{
-						dFile.append( sTmp.trim( ) );
+					} else {
+						dFile.append(sTmp.trim());
 					}
 				}
-			}
-			finally
-			{
-				if ( reader != null )
-				{
-					reader.close( );
+			} finally {
+				if (reader != null) {
+					reader.close();
 				}
 			}
 		}
@@ -137,30 +120,23 @@ public class ItemContentProvider
 	 * 
 	 * @param categoryName Category name
 	 */
-	private void parseItems( String categoryName )
-	{
-		String sTmp = dFile.toString( );
+	private void parseItems(String categoryName) {
+		String sTmp = dFile.toString();
 		String startCategory = categoryName + ">"; //$NON-NLS-1$
 		String endCategory = "/" + categoryName + ">"; //$NON-NLS-1$ //$NON-NLS-2$
-		StringTokenizer tokens = new StringTokenizer( sTmp, "<" ); //$NON-NLS-1$
+		StringTokenizer tokens = new StringTokenizer(sTmp, "<"); //$NON-NLS-1$
 		boolean bThisCategory = false;
-		iTypes = new ArrayList<String>( );
-		while ( tokens.hasMoreTokens( ) )
-		{
-			String token = tokens.nextToken( );
-			if ( startCategory.equals( token ) )
-			{
+		iTypes = new ArrayList<String>();
+		while (tokens.hasMoreTokens()) {
+			String token = tokens.nextToken();
+			if (startCategory.equals(token)) {
 				bThisCategory = true;
-			}
-			else if ( endCategory.equals( token ) )
-			{
+			} else if (endCategory.equals(token)) {
 				break;
+			} else if (bThisCategory) {
+				String sKey = token.substring(0, token.indexOf(">")); //$NON-NLS-1$
+				iTypes.add(sKey);
 			}
-			else if ( bThisCategory )
-			{
-				String sKey = token.substring( 0, token.indexOf( ">" ) ); //$NON-NLS-1$
-				iTypes.add( sKey );
-			}			
 		}
 	}
 
@@ -169,9 +145,8 @@ public class ItemContentProvider
 	 * 
 	 * @param itemName Item name
 	 */
-	private void parseDescription( String itemName )
-	{
-		description = Messages.getDescription( itemName );
+	private void parseDescription(String itemName) {
+		description = Messages.getDescription(itemName);
 	}
 
 	/**
@@ -179,17 +154,14 @@ public class ItemContentProvider
 	 * 
 	 * @param itemName Item name
 	 */
-	private void parseClassName( String itemName )
-	{
+	private void parseClassName(String itemName) {
 		modelClassName = itemName;
-		
-		if ( modelClassName != null )
-		{
-			int idStart = modelClassName.indexOf( '.' );
-			
-			if ( idStart > 0 )
-			{
-				modelClassName = modelClassName.substring( idStart + 1 );
+
+		if (modelClassName != null) {
+			int idStart = modelClassName.indexOf('.');
+
+			if (idStart > 0) {
+				modelClassName = modelClassName.substring(idStart + 1);
 			}
 		}
 	}
@@ -199,29 +171,24 @@ public class ItemContentProvider
 	 * 
 	 * @param className Class name
 	 */
-	private void parseMethodName( String className )
-	{
-		if ( className != null )
-		{
-			StringBuffer sb = new StringBuffer( );
-			sb.append( "create" ); //$NON-NLS-1$
-			sb.append( className );
-			methodName = sb.toString( );
+	private void parseMethodName(String className) {
+		if (className != null) {
+			StringBuffer sb = new StringBuffer();
+			sb.append("create"); //$NON-NLS-1$
+			sb.append(className);
+			methodName = sb.toString();
 		}
 	}
-	
-	
+
 	/**
 	 * Retrieve the category names from the String array.
 	 * 
 	 * @return Category names list
 	 */
-	public ArrayList<String> getCategoryTypes( )
-	{
-		cTypes = new ArrayList<String>( );
-		for ( int iC = 0; iC < categoryTypes.length; iC++ )
-		{
-			cTypes.add( categoryTypes[iC] );
+	public ArrayList<String> getCategoryTypes() {
+		cTypes = new ArrayList<String>();
+		for (int iC = 0; iC < categoryTypes.length; iC++) {
+			cTypes.add(categoryTypes[iC]);
 		}
 		return cTypes;
 	}
@@ -231,18 +198,16 @@ public class ItemContentProvider
 	 * 
 	 * @return Example names list
 	 */
-	public ArrayList<String> getItemTypes( String categoryName )
-	{
-		parseItems( categoryName );
+	public ArrayList<String> getItemTypes(String categoryName) {
+		parseItems(categoryName);
 		return iTypes;
 	}
-	
+
 	/**
 	 * @return Default description (If no example is selected)
 	 */
-	public String getDefaultDescription( )
-	{
-		return Messages.getDescription( "DefaultDescription" );//$NON-NLS-1$
+	public String getDefaultDescription() {
+		return Messages.getDescription("DefaultDescription");//$NON-NLS-1$
 	}
 
 	/**
@@ -250,15 +215,11 @@ public class ItemContentProvider
 	 * 
 	 * @return Description
 	 */
-	public String getDescription( String itemName )
-	{
-		parseDescription( itemName );
-		if ( description == null )
-		{
-			return getDefaultDescription( );
-		}
-		else
-		{
+	public String getDescription(String itemName) {
+		parseDescription(itemName);
+		if (description == null) {
+			return getDefaultDescription();
+		} else {
 			return description;
 		}
 	}
@@ -268,9 +229,8 @@ public class ItemContentProvider
 	 * 
 	 * @return Example class name
 	 */
-	public String getClassName( String itemName )
-	{
-		parseClassName( itemName );
+	public String getClassName(String itemName) {
+		parseClassName(itemName);
 		return modelClassName;
 	}
 
@@ -279,9 +239,8 @@ public class ItemContentProvider
 	 * 
 	 * @return Chart generation method name
 	 */
-	public String getMethodName( String className )
-	{
-		parseMethodName( className );
+	public String getMethodName(String className) {
+		parseMethodName(className);
 		return methodName;
 	}
 

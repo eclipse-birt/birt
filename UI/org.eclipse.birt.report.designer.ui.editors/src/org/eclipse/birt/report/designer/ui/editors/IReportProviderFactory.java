@@ -19,13 +19,13 @@ import org.eclipse.ui.IEditorInput;
  * Client implements this interface to provide factory to create IReportProvider
  * for editor input.
  */
-public interface IReportProviderFactory
-{
+public interface IReportProviderFactory {
 
 	/**
 	 * Get the IReportProvider for editor input.
+	 * 
 	 * @param input
 	 * @return
 	 */
-	IReportProvider getProvider( IEditorInput input );
+	IReportProvider getProvider(IEditorInput input);
 }

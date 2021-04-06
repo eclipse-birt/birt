@@ -30,8 +30,7 @@ import org.eclipse.birt.data.engine.olap.query.view.BirtEdgeView;
  * 
  *
  */
-public class EdgeAxis implements IEdgeAxis
-{
+public class EdgeAxis implements IEdgeAxis {
 
 	private DimensionAxis[] dimensionAxis;
 	private IAggregationResultSet rs;
@@ -46,10 +45,8 @@ public class EdgeAxis implements IEdgeAxis
 	 * @param isCalculatedMember
 	 * @throws IOException
 	 */
-	public EdgeAxis( IAggregationResultSet resultSet, BirtEdgeView view,
-			boolean isCalculatedMember ) throws IOException
-	{
-		this( resultSet, view, null, isCalculatedMember );
+	public EdgeAxis(IAggregationResultSet resultSet, BirtEdgeView view, boolean isCalculatedMember) throws IOException {
+		this(resultSet, view, null, isCalculatedMember);
 	}
 
 	/**
@@ -60,23 +57,20 @@ public class EdgeAxis implements IEdgeAxis
 	 * @param isMirrored
 	 * @throws IOException
 	 */
-	public EdgeAxis( IAggregationResultSet resultSet, BirtEdgeView view,
-			List sortList, boolean isCalculatedMember ) throws IOException
-	{
+	public EdgeAxis(IAggregationResultSet resultSet, BirtEdgeView view, List sortList, boolean isCalculatedMember)
+			throws IOException {
 		this.rs = resultSet;
 		this.isCalculatedMember = isCalculatedMember;
-		
-		populateDimensionAxis( resultSet, view );
-		service = new RowDataAccessorService( dimensionAxis,
-				view );
-		this.dataAccessor = new RowDataAccessor( service, rs );
 
-		for ( int i = 0; i < this.dimensionAxis.length; i++ )
-		{
-			this.dimensionAxis[i].setEdgeInfo( dataAccessor );
+		populateDimensionAxis(resultSet, view);
+		service = new RowDataAccessorService(dimensionAxis, view);
+		this.dataAccessor = new RowDataAccessor(service, rs);
+
+		for (int i = 0; i < this.dimensionAxis.length; i++) {
+			this.dimensionAxis[i].setEdgeInfo(dataAccessor);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param parent
@@ -86,16 +80,12 @@ public class EdgeAxis implements IEdgeAxis
 	 * @param startingLevelIndex
 	 * @throws IOException
 	 */
-	public EdgeAxis( IRowDataAccessor parent, BirtEdgeView view,
-			List sortList, boolean isPage, int startingLevelIndex ) throws IOException
-	{
-		this( parent.getAggregationResultSet( ), view, sortList, isPage );
-		this.dataAccessor = new SubRowDataAccessor( parent.getRowDataAccessorService( ),
-				parent,
-				startingLevelIndex );
-		for ( int i = 0; i < this.dimensionAxis.length; i++ )
-		{
-			this.dimensionAxis[i].setEdgeInfo( dataAccessor );
+	public EdgeAxis(IRowDataAccessor parent, BirtEdgeView view, List sortList, boolean isPage, int startingLevelIndex)
+			throws IOException {
+		this(parent.getAggregationResultSet(), view, sortList, isPage);
+		this.dataAccessor = new SubRowDataAccessor(parent.getRowDataAccessorService(), parent, startingLevelIndex);
+		for (int i = 0; i < this.dimensionAxis.length; i++) {
+			this.dimensionAxis[i].setEdgeInfo(dataAccessor);
 		}
 	}
 
@@ -107,72 +97,56 @@ public class EdgeAxis implements IEdgeAxis
 	 * @throws OLAPException
 	 * @throws IOException
 	 */
-	private void populateDimensionAxis( IAggregationResultSet rs,
-			BirtEdgeView view ) throws IOException
-	{
-		
-		List dimensionAxisList = new ArrayList( );
-		int index = -1, levelIndex = -1;
-		if ( !isCalculatedMember )
-		{
-			levelIndex = index = 0;
-			for ( int i = 0; i < view.getDimensionViews( ).size( ); i++ )
-			{
-				BirtDimensionView dv = (BirtDimensionView) ( view.getDimensionViews( ).get( i ) );
-				Iterator levelIter = dv.getMemberSelection( ).iterator( );
+	private void populateDimensionAxis(IAggregationResultSet rs, BirtEdgeView view) throws IOException {
 
-				while ( levelIter.hasNext( ) )
-				{
-					ILevelDefinition level = (ILevelDefinition) levelIter.next( );
-					DimensionAxis axis = new DimensionAxis( this,
-							rs,
-							index,
-							levelIndex );
-					axis.setLevelDefinition( level );
+		List dimensionAxisList = new ArrayList();
+		int index = -1, levelIndex = -1;
+		if (!isCalculatedMember) {
+			levelIndex = index = 0;
+			for (int i = 0; i < view.getDimensionViews().size(); i++) {
+				BirtDimensionView dv = (BirtDimensionView) (view.getDimensionViews().get(i));
+				Iterator levelIter = dv.getMemberSelection().iterator();
+
+				while (levelIter.hasNext()) {
+					ILevelDefinition level = (ILevelDefinition) levelIter.next();
+					DimensionAxis axis = new DimensionAxis(this, rs, index, levelIndex);
+					axis.setLevelDefinition(level);
 					index++;
 					levelIndex++;
-					dimensionAxisList.add( axis );
+					dimensionAxisList.add(axis);
 				}
 			}
+		} else if (isCalculatedMember) {
+			DimensionAxis axis = new DimensionAxis(this, rs, index, 0);
+			dimensionAxisList.add(axis);
 		}
-		else if ( isCalculatedMember )
-		{
-			DimensionAxis axis = new DimensionAxis( this, rs, index, 0 );
-			dimensionAxisList.add( axis );
-		}
-		this.dimensionAxis = new DimensionAxis[dimensionAxisList.size( )];
-		for ( int i = 0; i < dimensionAxisList.size( ); i++ )
-		{
-			this.dimensionAxis[i] = (DimensionAxis) dimensionAxisList.get( i );
+		this.dimensionAxis = new DimensionAxis[dimensionAxisList.size()];
+		for (int i = 0; i < dimensionAxisList.size(); i++) {
+			this.dimensionAxis[i] = (DimensionAxis) dimensionAxisList.get(i);
 		}
 	}
-	
+
 	/**
-	 * PopulateEdgeInfo operation should be done before move up/down along the
-	 * edge cursor.
+	 * PopulateEdgeInfo operation should be done before move up/down along the edge
+	 * cursor.
 	 * 
 	 * @throws OLAPException
 	 * @throws IOException
 	 */
-	public void populateEdgeInfo( boolean isPage ) throws OLAPException
-	{
-		if ( this.dataAccessor != null )
-			try
-			{
-				this.dataAccessor.initialize( isPage );
-			}
-			catch ( IOException e )
-			{
-				throw new OLAPException( e.getLocalizedMessage( ) );
+	public void populateEdgeInfo(boolean isPage) throws OLAPException {
+		if (this.dataAccessor != null)
+			try {
+				this.dataAccessor.initialize(isPage);
+			} catch (IOException e) {
+				throw new OLAPException(e.getLocalizedMessage());
 			}
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public IRowDataAccessor getRowDataAccessor( )
-	{
+	public IRowDataAccessor getRowDataAccessor() {
 		return this.dataAccessor;
 	}
 
@@ -181,17 +155,15 @@ public class EdgeAxis implements IEdgeAxis
 	 * @param index
 	 * @return
 	 */
-	public DimensionAxis getDimensionAxis( int index )
-	{
+	public DimensionAxis getDimensionAxis(int index) {
 		return dimensionAxis[index];
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public DimensionAxis[] getAllDimensionAxis( )
-	{
+	public DimensionAxis[] getAllDimensionAxis() {
 		return this.dimensionAxis;
 	}
 
@@ -199,8 +171,7 @@ public class EdgeAxis implements IEdgeAxis
 	 * 
 	 * @return
 	 */
-	public IAggregationResultSet getQueryResultSet( )
-	{
+	public IAggregationResultSet getQueryResultSet() {
 		return rs;
 	}
 }

@@ -30,66 +30,53 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * every where.
  */
 
-public class CopyForPastePolicy extends CopyPolicy
-{
+public class CopyForPastePolicy extends CopyPolicy {
 
 	/**
 	 * Private constructor.
 	 */
 
-	protected CopyForPastePolicy( )
-	{
+	protected CopyForPastePolicy() {
 	}
 
-	private final static CopyForPastePolicy instance = new CopyForPastePolicy( );
+	private final static CopyForPastePolicy instance = new CopyForPastePolicy();
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.elements.strategy.CopyStrategy#execute(
+	 * @see org.eclipse.birt.report.model.elements.strategy.CopyStrategy#execute(
 	 * org.eclipse.birt.report.model.core.DesignElement,
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public void execute( DesignElement source, DesignElement destination )
-	{
-		if ( destination.getExtendsName( ) == null
-				&& !destination.isVirtualElement( ) )
-		{
-			clearDisplayName( destination );
+	public void execute(DesignElement source, DesignElement destination) {
+		if (destination.getExtendsName() == null && !destination.isVirtualElement()) {
+			clearDisplayName(destination);
 			return;
 		}
 
-		destination.setExtendsName( null );
-		destination.setBaseId( DesignElement.NO_BASE_ID );
+		destination.setExtendsName(null);
+		destination.setBaseId(DesignElement.NO_BASE_ID);
 
 		// copy user property definitions first, otherwise definition will
 		// not be found when copying property values
 
 		Iterator iter = null;
 		DesignElement current = null;
-		if ( !source.isVirtualElement( ) )
-		{
-			current = source.getExtendsElement( );
-			while ( current != null )
-			{
-				if ( current.hasUserProperties( ) )
-				{
-					iter = current.getLocalUserProperties( ).iterator( );
-					while ( iter.hasNext( ) )
-					{
-						UserPropertyDefn uDefn = (UserPropertyDefn) iter.next( );
-						if ( destination.getLocalUserPropertyDefn( uDefn
-								.getName( ) ) != null )
+		if (!source.isVirtualElement()) {
+			current = source.getExtendsElement();
+			while (current != null) {
+				if (current.hasUserProperties()) {
+					iter = current.getLocalUserProperties().iterator();
+					while (iter.hasNext()) {
+						UserPropertyDefn uDefn = (UserPropertyDefn) iter.next();
+						if (destination.getLocalUserPropertyDefn(uDefn.getName()) != null)
 							continue;
-						destination
-								.addUserPropertyDefn( (UserPropertyDefn) uDefn
-										.copy( ) );
+						destination.addUserPropertyDefn((UserPropertyDefn) uDefn.copy());
 					}
 				}
 
-				current = current.getExtendsElement( );
+				current = current.getExtendsElement();
 			}
 		}
 
@@ -97,115 +84,89 @@ public class CopyForPastePolicy extends CopyPolicy
 		// to the design tree, we will check the id and re-allocate a unique
 		// name for it. This is the same issue as the name does.
 
-		iter = source.getPropertyDefns( ).iterator( );
-		Module module = source.getRoot( );
-		while ( iter.hasNext( ) )
-		{
-			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next( );
-			if ( !propDefn.canInherit( ) && !propDefn.isStyleProperty( ) )
+		iter = source.getPropertyDefns().iterator();
+		Module module = source.getRoot();
+		while (iter.hasNext()) {
+			ElementPropertyDefn propDefn = (ElementPropertyDefn) iter.next();
+			if (!propDefn.canInherit() && !propDefn.isStyleProperty())
 				continue;
 
-			String propName = propDefn.getName( );
+			String propName = propDefn.getName();
 
 			// Style property and extends property will be removed.
 			// The properties inherited from style or parent will be
 			// flatten to new element.
 
-			if ( IStyledElementModel.STYLE_PROP.equals( propName )
-					|| IDesignElementModel.EXTENDS_PROP.equals( propName )
-					|| IDesignElementModel.USER_PROPERTIES_PROP
-							.equals( propName ) )
+			if (IStyledElementModel.STYLE_PROP.equals(propName) || IDesignElementModel.EXTENDS_PROP.equals(propName)
+					|| IDesignElementModel.USER_PROPERTIES_PROP.equals(propName))
 				continue;
 
-			if ( propDefn.isEncryptable( ) )
-			{
-				if ( source.getLocalEncryptionID( propDefn ) == null
-						&& source.getLocalProperty( module, propDefn ) != null )
-				{
+			if (propDefn.isEncryptable()) {
+				if (source.getLocalEncryptionID(propDefn) == null
+						&& source.getLocalProperty(module, propDefn) != null) {
 					// if destination has local value and no local encryption,
 					// then set encryption for this encryption maybe inherits
 					// from
 					// parent
 
-					destination.setEncryptionHelper( propDefn, source
-							.getEncryptionID( propDefn ) );
+					destination.setEncryptionHelper(propDefn, source.getEncryptionID(propDefn));
 
 					continue;
 				}
 			}
 
-			Object tmpValue = source.getLocalProperty( module, propDefn );
-			if ( tmpValue != null )
+			Object tmpValue = source.getLocalProperty(module, propDefn);
+			if (tmpValue != null)
 				continue;
 
-			current = source.isVirtualElement( )
-					? source.getVirtualParent( )
-					: source.getExtendsElement( );
+			current = source.isVirtualElement() ? source.getVirtualParent() : source.getExtendsElement();
 
-			while ( current != null )
-			{
+			while (current != null) {
 
-				Module tmpRoot = current.getRoot( );
+				Module tmpRoot = current.getRoot();
 
-				Object value = current.getLocalProperty( tmpRoot, propDefn );
-				if ( value != null )
-				{
-					Object copyValue = ModelUtil.copyValue( propDefn, value,
-							this );
+				Object value = current.getLocalProperty(tmpRoot, propDefn);
+				if (value != null) {
+					Object copyValue = ModelUtil.copyValue(propDefn, value, this);
 
-					if ( tmpRoot != module
-							&& copyValue instanceof ReferenceValue )
-					{
+					if (tmpRoot != module && copyValue instanceof ReferenceValue) {
 						assert tmpRoot instanceof Library;
-						( (ReferenceValue) copyValue )
-								.setLibraryNamespace( ( (Library) tmpRoot )
-										.getNamespace( ) );
+						((ReferenceValue) copyValue).setLibraryNamespace(((Library) tmpRoot).getNamespace());
 					}
 
 					// if this local property has encryption id, then set it
-					String encryptionID = current.getEncryptionID( propDefn );
-					if ( encryptionID != null )
-					{
-						destination
-								.setEncryptionHelper( propDefn, encryptionID );
-						destination.setProperty( propDefn, EncryptionUtil
-								.encrypt( propDefn, encryptionID,
-										copyValue ) );
-					}
-					else
-					{
-						destination.setProperty( propDefn, copyValue );
+					String encryptionID = current.getEncryptionID(propDefn);
+					if (encryptionID != null) {
+						destination.setEncryptionHelper(propDefn, encryptionID);
+						destination.setProperty(propDefn, EncryptionUtil.encrypt(propDefn, encryptionID, copyValue));
+					} else {
+						destination.setProperty(propDefn, copyValue);
 					}
 					break;
 				}
 
-				current = current.isVirtualElement( ) ? current
-						.getVirtualParent( ) : current.getExtendsElement( );
+				current = current.isVirtualElement() ? current.getVirtualParent() : current.getExtendsElement();
 			}
 		}
 
-		clearDisplayName( destination );
+		clearDisplayName(destination);
 	}
 
 	/**
 	 * Auxiliary function helps to clear display name and display name id.
 	 * 
-	 * @param e
-	 *            the design element need to clear display name information.
+	 * @param e the design element need to clear display name information.
 	 */
 
-	protected void clearDisplayName( DesignElement e )
-	{
+	protected void clearDisplayName(DesignElement e) {
 		// clear text-property of displayName
-		if ( e.getLocalProperty( null, IDesignElementModel.DISPLAY_NAME_PROP ) != null )
-			e.setProperty( IDesignElementModel.DISPLAY_NAME_PROP, null );
+		if (e.getLocalProperty(null, IDesignElementModel.DISPLAY_NAME_PROP) != null)
+			e.setProperty(IDesignElementModel.DISPLAY_NAME_PROP, null);
 
 		// clear text-property of displayNameID
 
-		if ( e
-				.getLocalProperty( null,
-						IDesignElementModel.DISPLAY_NAME_ID_PROP ) != null )
-			e.setProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP, null );
+		if (e.getLocalProperty(null, IDesignElementModel.DISPLAY_NAME_ID_PROP) != null)
+			e.setProperty(IDesignElementModel.DISPLAY_NAME_ID_PROP, null);
 	}
 
 	/**
@@ -214,8 +175,7 @@ public class CopyForPastePolicy extends CopyPolicy
 	 * @return the instance of this class
 	 */
 
-	public static CopyForPastePolicy getInstance( )
-	{
+	public static CopyForPastePolicy getInstance() {
 		return instance;
 	}
 

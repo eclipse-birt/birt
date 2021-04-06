@@ -15,26 +15,25 @@ package org.eclipse.birt.data.engine.olap.api.query;
  * This interface is to define the mirror on edge definition
  *
  */
-public interface IMirroredDefinition
-{
+public interface IMirroredDefinition {
 
 	/**
 	 * get the mirror start level definition
 	 * 
 	 * @return
 	 */
-	public ILevelDefinition getMirrorStartingLevel( );
+	public ILevelDefinition getMirrorStartingLevel();
 
 	/**
-	 * whether to break the hierarchy when show the empty row, the default value
-	 * is 'false'
+	 * whether to break the hierarchy when show the empty row, the default value is
+	 * 'false'
 	 * 
 	 * @return
 	 */
-	public boolean isBreakHierarchy( );
+	public boolean isBreakHierarchy();
 
-    /**
-     * Clone itself.
-     */
-    public IMirroredDefinition clone( );
+	/**
+	 * Clone itself.
+	 */
+	public IMirroredDefinition clone();
 }

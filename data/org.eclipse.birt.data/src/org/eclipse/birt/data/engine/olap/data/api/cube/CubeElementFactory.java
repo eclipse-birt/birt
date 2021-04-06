@@ -17,8 +17,7 @@ import org.eclipse.birt.data.engine.olap.data.impl.dimension.LevelDefinition;
  * 
  */
 
-public class CubeElementFactory
-{
+public class CubeElementFactory {
 	/**
 	 * 
 	 * @param name
@@ -26,9 +25,8 @@ public class CubeElementFactory
 	 * @param attributeColumns
 	 * @return
 	 */
-	public static ILevelDefn createLevelDefinition( String name, String[] keyColumns, String[] attributeColumns )
-	{
-		return new LevelDefinition( name, keyColumns, attributeColumns );
+	public static ILevelDefn createLevelDefinition(String name, String[] keyColumns, String[] attributeColumns) {
+		return new LevelDefinition(name, keyColumns, attributeColumns);
 	}
-	
+
 }

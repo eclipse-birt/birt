@@ -20,13 +20,10 @@ import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 
-public class TextAndButtonSection extends Section
-{
+public class TextAndButtonSection extends Section {
 
-	public TextAndButtonSection( String labelText, Composite parent,
-			boolean isFormStyle )
-	{
-		super( labelText, parent, isFormStyle );
+	public TextAndButtonSection(String labelText, Composite parent, boolean isFormStyle) {
+		super(labelText, parent, isFormStyle);
 	}
 
 	protected int width = -1;
@@ -35,129 +32,103 @@ public class TextAndButtonSection extends Section
 
 	protected TextPropertyDescriptor textField;
 
-	public void createSection( )
-	{
-		if ( selectList == null )
-			selectList = new ArrayList( );
-		getLabelControl( parent );
-		getTextControl( parent );
-		getButtonControl( parent );
-		getGridPlaceholder( parent );
+	public void createSection() {
+		if (selectList == null)
+			selectList = new ArrayList();
+		getLabelControl(parent);
+		getTextControl(parent);
+		getButtonControl(parent);
+		getGridPlaceholder(parent);
 	}
 
-	public void layout( )
-	{
-		GridData gd = (GridData) textField.getControl( ).getLayoutData( );
-		if ( getLayoutNum( ) > 0 )
-			gd.horizontalSpan = getLayoutNum( ) - 2 - placeholder;
+	public void layout() {
+		GridData gd = (GridData) textField.getControl().getLayoutData();
+		if (getLayoutNum() > 0)
+			gd.horizontalSpan = getLayoutNum() - 2 - placeholder;
 		else
-			gd.horizontalSpan = ( (GridLayout) parent.getLayout( ) ).numColumns
-					- 2
-					- placeholder;
-		if ( width > -1 )
-		{
+			gd.horizontalSpan = ((GridLayout) parent.getLayout()).numColumns - 2 - placeholder;
+		if (width > -1) {
 			gd.widthHint = width;
 			gd.grabExcessHorizontalSpace = false;
-		}
-		else
+		} else
 			gd.grabExcessHorizontalSpace = fillText;
 
-		gd = (GridData) button.getLayoutData( );
+		gd = (GridData) button.getLayoutData();
 
-		if ( buttonWidth > -1 )
-		{
-			if ( !isComputeSize )
-				gd.widthHint = Math.max( button.computeSize( -1, -1 ).x,
-						buttonWidth );
+		if (buttonWidth > -1) {
+			if (!isComputeSize)
+				gd.widthHint = Math.max(button.computeSize(-1, -1).x, buttonWidth);
 			else
-				gd.widthHint = button.computeSize( -1, -1 ).x;
+				gd.widthHint = button.computeSize(-1, -1).x;
 		}
 	}
 
-	public TextPropertyDescriptor getTextControl( )
-	{
+	public TextPropertyDescriptor getTextControl() {
 		return textField;
 	}
 
-	protected TextPropertyDescriptor getTextControl( Composite parent )
-	{
-		if ( textField == null )
-		{
-			textField = DescriptorToolkit.createTextPropertyDescriptor( true );
-			if ( getProvider( ) != null )
-				textField.setDescriptorProvider( getProvider( ) );
-			textField.createControl( parent );
-			textField.getControl( ).setLayoutData( new GridData( ) );
-			textField.getControl( ).addDisposeListener( new DisposeListener( ) {
+	protected TextPropertyDescriptor getTextControl(Composite parent) {
+		if (textField == null) {
+			textField = DescriptorToolkit.createTextPropertyDescriptor(true);
+			if (getProvider() != null)
+				textField.setDescriptorProvider(getProvider());
+			textField.createControl(parent);
+			textField.getControl().setLayoutData(new GridData());
+			textField.getControl().addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				public void widgetDisposed(DisposeEvent event) {
 					textField = null;
 				}
-			} );
-		}
-		else
-		{
-			checkParent( textField.getControl( ), parent );
+			});
+		} else {
+			checkParent(textField.getControl(), parent);
 		}
 		return textField;
 	}
 
 	protected Button button;
 
-	public Button getButtonControl( )
-	{
+	public Button getButtonControl() {
 		return button;
 	}
 
-	protected Button getButtonControl( Composite parent )
-	{
-		if ( button == null )
-		{
-			button = FormWidgetFactory.getInstance( ).createButton( parent,
-					SWT.PUSH,
-					isFormStyle );
-			button.setFont( parent.getFont( ) );
+	protected Button getButtonControl(Composite parent) {
+		if (button == null) {
+			button = FormWidgetFactory.getInstance().createButton(parent, SWT.PUSH, isFormStyle);
+			button.setFont(parent.getFont());
 
-			button.setLayoutData( new GridData( ) );
-			String text = getButtonText( );
-			if ( text != null )
-			{
-				button.setText( text );
+			button.setLayoutData(new GridData());
+			String text = getButtonText();
+			if (text != null) {
+				button.setText(text);
 			}
 
-			text = getButtonTooltipText( );
-			if ( text != null )
-			{
-				button.setToolTipText( text );
+			text = getButtonTooltipText();
+			if (text != null) {
+				button.setToolTipText(text);
 			}
 
-			button.addDisposeListener( new DisposeListener( ) {
+			button.addDisposeListener(new DisposeListener() {
 
-				public void widgetDisposed( DisposeEvent event )
-				{
+				public void widgetDisposed(DisposeEvent event) {
 					button = null;
 				}
-			} );
+			});
 
-			if ( !selectList.isEmpty( ) )
-				button.addSelectionListener( (SelectionListener) selectList.get( 0 ) );
-			else
-			{
-				SelectionListener listener = new SelectionAdapter( ) {
+			if (!selectList.isEmpty())
+				button.addSelectionListener((SelectionListener) selectList.get(0));
+			else {
+				SelectionListener listener = new SelectionAdapter() {
 
-					public void widgetSelected( SelectionEvent e )
-					{
-						onClickButton( );
+					public void widgetSelected(SelectionEvent e) {
+						onClickButton();
 					}
 				};
-				selectList.add( listener );
+				selectList.add(listener);
 			}
 
-		}
-		else
-		{
-			checkParent( button, parent );
+		} else {
+			checkParent(button, parent);
 		}
 		return button;
 	}
@@ -166,185 +137,156 @@ public class TextAndButtonSection extends Section
 
 	IDescriptorProvider provider;
 
-	public IDescriptorProvider getProvider( )
-	{
+	public IDescriptorProvider getProvider() {
 		return provider;
 	}
 
-	public void setProvider( IDescriptorProvider provider )
-	{
+	public void setProvider(IDescriptorProvider provider) {
 		this.provider = provider;
-		if ( textField != null )
-			textField.setDescriptorProvider( provider );
+		if (textField != null)
+			textField.setDescriptorProvider(provider);
 	}
 
-	protected List selectList = new ArrayList( );
+	protected List selectList = new ArrayList();
 
 	/**
 	 * if use this method , you couldn't use the onClickButton method.
 	 */
-	public void addSelectionListener( SelectionListener listener )
-	{
-		if ( !selectList.contains( listener ) )
-		{
-			if ( !selectList.isEmpty( ) )
-				removeSelectionListener( (SelectionListener) selectList.get( 0 ) );
-			selectList.add( listener );
-			if ( button != null )
-				button.addSelectionListener( listener );
+	public void addSelectionListener(SelectionListener listener) {
+		if (!selectList.contains(listener)) {
+			if (!selectList.isEmpty())
+				removeSelectionListener((SelectionListener) selectList.get(0));
+			selectList.add(listener);
+			if (button != null)
+				button.addSelectionListener(listener);
 		}
 	}
 
-	public void removeSelectionListener( SelectionListener listener )
-	{
-		if ( selectList.contains( listener ) )
-		{
-			selectList.remove( listener );
-			if ( button != null )
-				button.removeSelectionListener( listener );
+	public void removeSelectionListener(SelectionListener listener) {
+		if (selectList.contains(listener)) {
+			selectList.remove(listener);
+			if (button != null)
+				button.removeSelectionListener(listener);
 		}
 	}
 
-	protected void onClickButton( )
-	{
+	protected void onClickButton() {
 	};
 
-	public void forceFocus( )
-	{
-		textField.getControl( ).forceFocus( );
+	public void forceFocus() {
+		textField.getControl().forceFocus();
 	}
 
-	public void setInput( Object input )
-	{
-		textField.setInput( input );
+	public void setInput(Object input) {
+		textField.setInput(input);
 	}
 
-	public void load( )
-	{
-		if ( textField != null && !textField.getControl( ).isDisposed( ) )
-			textField.load( );
-		if ( button != null && !button.isDisposed( ) )
-			button.setEnabled( !isReadOnly( ) );
+	public void load() {
+		if (textField != null && !textField.getControl().isDisposed())
+			textField.load();
+		if (button != null && !button.isDisposed())
+			button.setEnabled(!isReadOnly());
 	}
 
 	protected int buttonWidth = 60;
 
-	public void setButtonWidth( int buttonWidth )
-	{
+	public void setButtonWidth(int buttonWidth) {
 		this.buttonWidth = buttonWidth;
-		if ( button != null )
-		{
-			GridData data = new GridData( );
-			data.widthHint = Math.max( button.computeSize( -1, -1 ).x,
-					buttonWidth );;
+		if (button != null) {
+			GridData data = new GridData();
+			data.widthHint = Math.max(button.computeSize(-1, -1).x, buttonWidth);
+			;
 			data.grabExcessHorizontalSpace = false;
-			button.setLayoutData( data );
+			button.setLayoutData(data);
 		}
 	}
 
 	protected boolean isComputeSize = false;
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
-	public int getButtonWidth( )
-	{
+	public int getButtonWidth() {
 		return buttonWidth;
 	}
 
 	private String oldValue;
 
-	public void setStringValue( String value )
-	{
-		if ( textField != null )
-		{
-			if ( value == null )
-			{
+	public void setStringValue(String value) {
+		if (textField != null) {
+			if (value == null) {
 				value = "";//$NON-NLS-1$
 			}
-			oldValue = textField.getText( );
-			if ( !oldValue.equals( value ) )
-			{
-				textField.setText( value );
+			oldValue = textField.getText();
+			if (!oldValue.equals(value)) {
+				textField.setText(value);
 			}
 		}
 	}
 
-	public boolean isFillText( )
-	{
+	public boolean isFillText() {
 		return fillText;
 	}
 
-	public void setFillText( boolean fillText )
-	{
+	public void setFillText(boolean fillText) {
 		this.fillText = fillText;
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		if ( displayLabel != null )
-			WidgetUtil.setExcludeGridData( displayLabel, isHidden );
-		if ( textField != null )
-			textField.setHidden( isHidden );
-		if ( button != null )
-			WidgetUtil.setExcludeGridData( button, isHidden );
-		if ( placeholderLabel != null )
-			WidgetUtil.setExcludeGridData( placeholderLabel, isHidden );
+	public void setHidden(boolean isHidden) {
+		if (displayLabel != null)
+			WidgetUtil.setExcludeGridData(displayLabel, isHidden);
+		if (textField != null)
+			textField.setHidden(isHidden);
+		if (button != null)
+			WidgetUtil.setExcludeGridData(button, isHidden);
+		if (placeholderLabel != null)
+			WidgetUtil.setExcludeGridData(placeholderLabel, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		if ( displayLabel != null )
-			displayLabel.setVisible( isVisible );
-		if ( textField != null )
-			textField.setVisible( isVisible );
-		if ( button != null )
-			button.setVisible( isVisible );
-		if ( placeholderLabel != null )
-			placeholderLabel.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		if (displayLabel != null)
+			displayLabel.setVisible(isVisible);
+		if (textField != null)
+			textField.setVisible(isVisible);
+		if (button != null)
+			button.setVisible(isVisible);
+		if (placeholderLabel != null)
+			placeholderLabel.setVisible(isVisible);
 	}
 
 	private String buttonTooltipText;
 
-	public void setButtonTooltipText( String string )
-	{
+	public void setButtonTooltipText(String string) {
 		this.buttonTooltipText = string;
-		if ( button != null )
-			button.setText( buttonTooltipText );
+		if (button != null)
+			button.setText(buttonTooltipText);
 
 	}
 
-	public String getButtonText( )
-	{
+	public String getButtonText() {
 		return buttonText;
 	}
 
-	public void setButtonText( String buttonText )
-	{
+	public void setButtonText(String buttonText) {
 		this.buttonText = buttonText;
-		if ( button != null )
-			button.setText( buttonText );
+		if (button != null)
+			button.setText(buttonText);
 	}
 
-	public String getButtonTooltipText( )
-	{
+	public String getButtonTooltipText() {
 		return buttonTooltipText;
 	}
 
-	public boolean buttonIsComputeSize( )
-	{
+	public boolean buttonIsComputeSize() {
 		return isComputeSize;
 	}
 
-	public void setButtonIsComputeSize( boolean isComputeSize )
-	{
+	public void setButtonIsComputeSize(boolean isComputeSize) {
 		this.isComputeSize = isComputeSize;
 	}
 

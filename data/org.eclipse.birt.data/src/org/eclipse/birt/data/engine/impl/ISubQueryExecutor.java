@@ -14,13 +14,15 @@ package org.eclipse.birt.data.engine.impl;
 import org.eclipse.birt.data.engine.core.DataException;
 
 /**
- * Interface for Sub Query Executor, which defines some behavior that only needed for subqueries.
+ * Interface for Sub Query Executor, which defines some behavior that only
+ * needed for subqueries.
  * 
  */
-public interface ISubQueryExecutor extends IQueryExecutor
-{
+public interface ISubQueryExecutor extends IQueryExecutor {
 	/**
-	 * Return the starting row index of the group instance in which the subquery is defined. 
+	 * Return the starting row index of the group instance in which the subquery is
+	 * defined.
+	 * 
 	 * @return
 	 * @throws DataException
 	 */

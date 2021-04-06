@@ -19,17 +19,16 @@ import java.util.Iterator;
  * constructor,
  */
 
-public interface IMethodInfo extends ILocalizableInfo
-{
+public interface IMethodInfo extends ILocalizableInfo {
 
 	/**
-	 * Returns the iterator of argument definition. Each one is a list that
-	 * contains <code>IArgumentInfoList</code>.
+	 * Returns the iterator of argument definition. Each one is a list that contains
+	 * <code>IArgumentInfoList</code>.
 	 * 
 	 * @return iterator of argument definition.
 	 */
 
-	public Iterator<IArgumentInfoList> argumentListIterator( );
+	public Iterator<IArgumentInfoList> argumentListIterator();
 
 	/**
 	 * Returns the script type for return.
@@ -37,7 +36,7 @@ public interface IMethodInfo extends ILocalizableInfo
 	 * @return the script type for return
 	 */
 
-	public String getReturnType( );
+	public String getReturnType();
 
 	/**
 	 * Returns the script type for return.
@@ -45,7 +44,7 @@ public interface IMethodInfo extends ILocalizableInfo
 	 * @return the script type for return
 	 */
 
-	public IClassInfo getClassReturnType( );
+	public IClassInfo getClassReturnType();
 
 	/**
 	 * Returns the resource key for tool tip.
@@ -53,7 +52,7 @@ public interface IMethodInfo extends ILocalizableInfo
 	 * @return the resource key for tool tip
 	 */
 
-	public String getToolTipKey( );
+	public String getToolTipKey();
 
 	/**
 	 * Returns the display string for the tool tip of this method.
@@ -62,7 +61,7 @@ public interface IMethodInfo extends ILocalizableInfo
 	 *         method.
 	 */
 
-	public String getToolTip( );
+	public String getToolTip();
 
 	/**
 	 * Returns whether this method is constructor.
@@ -70,7 +69,7 @@ public interface IMethodInfo extends ILocalizableInfo
 	 * @return true, if this method is constructor
 	 */
 
-	public boolean isConstructor( );
+	public boolean isConstructor();
 
 	/**
 	 * Returns whether this method is static.
@@ -78,7 +77,7 @@ public interface IMethodInfo extends ILocalizableInfo
 	 * @return true if this method is static
 	 */
 
-	public boolean isStatic( );
+	public boolean isStatic();
 
 	/**
 	 * Returns the method javadoc.
@@ -86,5 +85,5 @@ public interface IMethodInfo extends ILocalizableInfo
 	 * @return the javadoc
 	 */
 
-	public String getJavaDoc( );
+	public String getJavaDoc();
 }

@@ -27,30 +27,25 @@ import org.eclipse.swt.dnd.DragSourceEvent;
 /**
  * Supports dragging elements from data viewer.
  */
-public class ParameterDragListener extends DesignElementDragAdapter
-{
+public class ParameterDragListener extends DesignElementDragAdapter {
 
 	/**
 	 * Constructor
 	 * 
 	 * @param viewer
 	 */
-	public ParameterDragListener( StructuredViewer viewer )
-	{
-		super( viewer );
+	public ParameterDragListener(StructuredViewer viewer) {
+		super(viewer);
 	}
 
 	/**
 	 * @see DragSourceAdapter#dragSetData(DragSourceEvent)
 	 */
-	public void dragSetData( DragSourceEvent event )
-	{
-		IStructuredSelection selection = (IStructuredSelection) getViewer( )
-				.getSelection( );
-		Object[] objects = selection.toList( ).toArray( );
+	public void dragSetData(DragSourceEvent event) {
+		IStructuredSelection selection = (IStructuredSelection) getViewer().getSelection();
+		Object[] objects = selection.toList().toArray();
 
-		if ( TemplateTransfer.getInstance( ).isSupportedType( event.dataType ) )
-		{
+		if (TemplateTransfer.getInstance().isSupportedType(event.dataType)) {
 			event.data = objects;
 		}
 	}
@@ -58,13 +53,11 @@ public class ParameterDragListener extends DesignElementDragAdapter
 	/**
 	 * @see DesignElementDragAdapter#validateTransfer(Object)
 	 */
-	protected boolean validateTransfer( Object transfer )
-	{
-		return ( transfer instanceof ScalarParameterHandle && !( ( (ScalarParameterHandle) transfer )
-				.getContainer( ) instanceof CascadingParameterGroupHandle ) )
-				|| ( transfer instanceof ParameterGroupHandle && !( transfer instanceof CascadingParameterGroupHandle ) )
-				|| transfer instanceof DataSetItemModel
-				|| transfer instanceof ResultSetColumnHandle
+	protected boolean validateTransfer(Object transfer) {
+		return (transfer instanceof ScalarParameterHandle
+				&& !(((ScalarParameterHandle) transfer).getContainer() instanceof CascadingParameterGroupHandle))
+				|| (transfer instanceof ParameterGroupHandle && !(transfer instanceof CascadingParameterGroupHandle))
+				|| transfer instanceof DataSetItemModel || transfer instanceof ResultSetColumnHandle
 				|| transfer instanceof DataSetHandle;
 	}
 }

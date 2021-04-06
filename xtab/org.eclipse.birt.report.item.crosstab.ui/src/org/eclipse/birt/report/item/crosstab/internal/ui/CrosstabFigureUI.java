@@ -15,33 +15,27 @@ import org.eclipse.birt.report.designer.ui.extensions.IReportItemFigureProvider;
 import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.draw2d.IFigure;
 
-
 /**
  * 
  */
 
-public class CrosstabFigureUI implements IReportItemFigureProvider
-{
+public class CrosstabFigureUI implements IReportItemFigureProvider {
 
-	public CrosstabFigureUI( )
-	{
+	public CrosstabFigureUI() {
 		// TODO Auto-generated constructor stub
 	}
 
-	public IFigure createFigure( ExtendedItemHandle handle )
-	{
+	public IFigure createFigure(ExtendedItemHandle handle) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public void disposeFigure( ExtendedItemHandle handle, IFigure figure )
-	{
+	public void disposeFigure(ExtendedItemHandle handle, IFigure figure) {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void updateFigure( ExtendedItemHandle handle, IFigure figure )
-	{
+	public void updateFigure(ExtendedItemHandle handle, IFigure figure) {
 		// TODO Auto-generated method stub
 
 	}

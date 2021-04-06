@@ -20,23 +20,19 @@ import org.eclipse.birt.report.model.core.Module;
  * @see org.eclipse.birt.report.model.elements.olap.Level
  */
 
-public class OdaLevelHandle extends LevelHandle
-{
+public class OdaLevelHandle extends LevelHandle {
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public OdaLevelHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public OdaLevelHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 }

@@ -15,19 +15,17 @@ import org.eclipse.birt.data.engine.odi.IDataSetPopulator;
 import org.eclipse.birt.data.engine.odi.IResultIterator;
 import org.eclipse.birt.data.engine.odi.IResultObject;
 
-
 /**
  * An iterator that an user can iterate to get objects which are sequential and
  * matched for each other from another iterator.
  */
-public class MatchResultSet implements IDataSetPopulator
-{
+public class MatchResultSet implements IDataSetPopulator {
 	private IResultIterator resultIterator = null;
 	private Object[] matchValues = null;
 	private IJoinConditionMatcher jcm = null;
-	private boolean jcmLeft ;
+	private boolean jcmLeft;
 	private boolean isFirst;
-	
+
 	/**
 	 * 
 	 * @param resultIterator
@@ -35,36 +33,30 @@ public class MatchResultSet implements IDataSetPopulator
 	 * @param jcmLeft
 	 * @throws DataException
 	 */
-	MatchResultSet( IResultIterator resultIterator, IJoinConditionMatcher jcm,
-			boolean jcmLeft )throws DataException
-	{
+	MatchResultSet(IResultIterator resultIterator, IJoinConditionMatcher jcm, boolean jcmLeft) throws DataException {
 		this.resultIterator = resultIterator;
 		this.jcm = jcm;
 		this.jcmLeft = jcmLeft;
-		this.matchValues = jcm.getCompareValue( jcmLeft );
+		this.matchValues = jcm.getCompareValue(jcmLeft);
 		this.isFirst = true;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
-	public IResultObject next( ) throws DataException
-	{
-		if(!isFirst)
-		{
-			if ( !resultIterator.next( ) )
-			{
+	public IResultObject next() throws DataException {
+		if (!isFirst) {
+			if (!resultIterator.next()) {
 				return null;
 			}
-			if ( jcm.compare( matchValues, jcm.getCompareValue( jcmLeft ) ) != 0 )
-			{
+			if (jcm.compare(matchValues, jcm.getCompareValue(jcmLeft)) != 0) {
 				return null;
 			}
 		}
 		isFirst = false;
-		return resultIterator.getCurrentResult( );
+		return resultIterator.getCurrentResult();
 	}
-	
 
 }

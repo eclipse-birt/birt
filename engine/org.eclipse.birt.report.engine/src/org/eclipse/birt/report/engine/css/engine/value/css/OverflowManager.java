@@ -15,47 +15,36 @@ import org.eclipse.birt.report.engine.css.engine.value.StringMap;
 import org.eclipse.birt.report.engine.css.engine.value.Value;
 import org.eclipse.birt.report.engine.css.engine.value.birt.BIRTConstants;
 
-
 /**
  * 
  */
 
-public class OverflowManager extends IdentifierManager
-{
+public class OverflowManager extends IdentifierManager {
 
 	/**
 	 * The identifier values.
 	 */
-	protected final static StringMap values = new StringMap( );
-	static
-	{
-		values.put( CSSConstants.CSS_OVERFLOW_AUTO_VALUE,
-				CSSValueConstants.OVERFLOW_AUTO_VALUE );
-		values.put( CSSConstants.CSS_OVERFLOW_VISIBLE_VALUE,
-				CSSValueConstants.OVERFLOW_VISIBLE_VALUE );
-		values.put( CSSConstants.CSS_OVERFLOW_SCROLL_VALUE,
-				CSSValueConstants.OVERFLOW_SCROLL_VALUE );
-		values.put( CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE,
-				CSSValueConstants.OVERFLOW_HIDDEN_VALUE );
+	protected final static StringMap values = new StringMap();
+	static {
+		values.put(CSSConstants.CSS_OVERFLOW_AUTO_VALUE, CSSValueConstants.OVERFLOW_AUTO_VALUE);
+		values.put(CSSConstants.CSS_OVERFLOW_VISIBLE_VALUE, CSSValueConstants.OVERFLOW_VISIBLE_VALUE);
+		values.put(CSSConstants.CSS_OVERFLOW_SCROLL_VALUE, CSSValueConstants.OVERFLOW_SCROLL_VALUE);
+		values.put(CSSConstants.CSS_OVERFLOW_HIDDEN_VALUE, CSSValueConstants.OVERFLOW_HIDDEN_VALUE);
 	}
 
-	public StringMap getIdentifiers( )
-	{
+	public StringMap getIdentifiers() {
 		return values;
 	}
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return BIRTConstants.CSS_OVERFLOW_PROPERTY;
 	}
 
-	public boolean isInheritedProperty( )
-	{
+	public boolean isInheritedProperty() {
 		return false;
 	}
 
-	public Value getDefaultValue( )
-	{
+	public Value getDefaultValue() {
 		return CSSValueConstants.OVERFLOW_HIDDEN_VALUE;
 	}
 }

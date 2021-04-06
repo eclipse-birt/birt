@@ -19,18 +19,13 @@ import org.eclipse.core.runtime.IAdapterFactory;
  * Add ISampleReportEntry adaptable to ReportExamples
  * 
  */
-public class SampleReportsEntryAdapterFactory implements IAdapterFactory
-{
+public class SampleReportsEntryAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		return new IDESampleReportsEntry( );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		return new IDESampleReportsEntry();
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			ISampleReportEntry.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { ISampleReportEntry.class };
 	}
 }

@@ -31,40 +31,28 @@ import com.ibm.icu.util.ULocale;
  * <p>
  * <b>Test description:</b>
  * <p>
- * Use ParameterValidationUtil to validate the valid datetime. 
+ * Use ParameterValidationUtil to validate the valid datetime.
  * <p>
  */
-public class Regression_143089 extends BaseTestCase
-{
+public class Regression_143089 extends BaseTestCase {
 
 	/**
 	 * @throws ValidationValueException
 	 */
-	public void test_regression_143089( ) throws ValidationValueException
-	{
+	public void test_regression_143089() throws ValidationValueException {
 		// Test two kind of date format .
 
-		Object obj = ParameterValidationUtil.validate(
-				DesignChoiceConstants.PARAM_TYPE_DATETIME,
-				null,
-				"1/1/1999 4:50:10 am", ULocale.US ); //$NON-NLS-1$
-		assertNotNull( obj );
-		assertTrue( obj instanceof Date );
+		Object obj = ParameterValidationUtil.validate(DesignChoiceConstants.PARAM_TYPE_DATETIME, null,
+				"1/1/1999 4:50:10 am", ULocale.US); //$NON-NLS-1$
+		assertNotNull(obj);
+		assertTrue(obj instanceof Date);
 
-		try
-		{
-			ParameterValidationUtil.validate(
-					DesignChoiceConstants.PARAM_TYPE_DATETIME,
-					null,
-					"1999-2-27", ULocale.US ); //$NON-NLS-1$
-			fail( );
+		try {
+			ParameterValidationUtil.validate(DesignChoiceConstants.PARAM_TYPE_DATETIME, null, "1999-2-27", ULocale.US); //$NON-NLS-1$
+			fail();
 
-		}
-		catch ( ValidationValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-					e.getErrorCode( ) );
+		} catch (ValidationValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 	}
 }

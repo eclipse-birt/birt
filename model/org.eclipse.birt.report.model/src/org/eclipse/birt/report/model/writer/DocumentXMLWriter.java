@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.util.XMLWriter;
 /**
  * 
  */
-public class DocumentXMLWriter extends XMLWriter
-{
+public class DocumentXMLWriter extends XMLWriter {
 
 	/**
 	 * 
@@ -29,10 +28,8 @@ public class DocumentXMLWriter extends XMLWriter
 	 * @param signature
 	 * @throws IOException
 	 */
-	public DocumentXMLWriter( File outputFile, String signature )
-			throws IOException
-	{
-		super( outputFile, signature );
+	public DocumentXMLWriter(File outputFile, String signature) throws IOException {
+		super(outputFile, signature);
 		markLineNumber = false;
 	}
 
@@ -42,10 +39,8 @@ public class DocumentXMLWriter extends XMLWriter
 	 * @param signature
 	 * @throws IOException
 	 */
-	public DocumentXMLWriter( OutputStream os, String signature )
-			throws IOException
-	{
-		super( os, signature );
+	public DocumentXMLWriter(OutputStream os, String signature) throws IOException {
+		super(os, signature);
 		markLineNumber = false;
 	}
 
@@ -54,32 +49,29 @@ public class DocumentXMLWriter extends XMLWriter
 	 * 
 	 * @see org.eclipse.birt.report.model.util.XMLWriter#checkAttribute()
 	 */
-	protected void checkAttribute( )
-	{
+	protected void checkAttribute() {
 		// Write any conditional elements waiting for content. If we get
 		// here, we're about to write an attribute, so the elements do
 		// have content.
 
-		flushPendingElements( );
+		flushPendingElements();
 	}
 
-	
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.util.XMLWriter#doPrintLine()
 	 */
-	protected void doPrintLine( )
-	{
-		out.print( '\n' );
+	protected void doPrintLine() {
+		out.print('\n');
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.model.util.XMLWriter#printLine()
 	 */
-	protected void printLine( )
-	{
+	protected void printLine() {
 		// do nothing
 	}
 }

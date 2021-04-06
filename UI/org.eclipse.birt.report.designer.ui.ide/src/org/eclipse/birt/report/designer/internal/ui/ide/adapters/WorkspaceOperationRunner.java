@@ -25,8 +25,7 @@ import org.eclipse.ui.texteditor.ISchedulingRuleProvider;
 /**
  * 
  */
-public class WorkspaceOperationRunner implements IRunnableContext
-{
+public class WorkspaceOperationRunner implements IRunnableContext {
 	private IProgressMonitor fProgressMonitor;
 
 	public WorkspaceOperationRunner() {
@@ -38,36 +37,40 @@ public class WorkspaceOperationRunner implements IRunnableContext
 	 * @param progressMonitor the progress monitor to set
 	 */
 	public void setProgressMonitor(IProgressMonitor progressMonitor) {
-		fProgressMonitor= progressMonitor;
+		fProgressMonitor = progressMonitor;
 	}
 
 	/**
-	 * Returns the progress monitor. It there is no progress monitor the monitor\
-	 * is set to the <code>NullProgressMonitor</code>.
+	 * Returns the progress monitor. It there is no progress monitor the monitor\ is
+	 * set to the <code>NullProgressMonitor</code>.
 	 *
 	 * @return the progress monitor
 	 */
 	public IProgressMonitor getProgressMonitor() {
 		if (fProgressMonitor == null)
-			fProgressMonitor= new NullProgressMonitor();
+			fProgressMonitor = new NullProgressMonitor();
 		return fProgressMonitor;
 	}
 
 	/*
-	 * @see org.eclipse.jface.operation.IRunnableContext#run(boolean, boolean, org.eclipse.jface.operation.IRunnableWithProgress)
+	 * @see org.eclipse.jface.operation.IRunnableContext#run(boolean, boolean,
+	 * org.eclipse.jface.operation.IRunnableWithProgress)
 	 */
-	public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable) throws InvocationTargetException, InterruptedException {
+	public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable)
+			throws InvocationTargetException, InterruptedException {
 		if (runnable instanceof ISchedulingRuleProvider)
-			run(fork, cancelable, runnable, ((ISchedulingRuleProvider)runnable).getSchedulingRule());
+			run(fork, cancelable, runnable, ((ISchedulingRuleProvider) runnable).getSchedulingRule());
 		else
 			run(fork, cancelable, runnable, ResourcesPlugin.getWorkspace().getRoot());
 	}
 
 	/*
-	 * @see org.eclipse.jface.operation.IRunnableContext#run(boolean, boolean, org.eclipse.jface.operation.IRunnableWithProgress)
+	 * @see org.eclipse.jface.operation.IRunnableContext#run(boolean, boolean,
+	 * org.eclipse.jface.operation.IRunnableWithProgress)
 	 */
-	public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable, ISchedulingRule schedulingRule) throws InvocationTargetException, InterruptedException {
-		WorkspaceModifyDelegatingOperation operation= new WorkspaceModifyDelegatingOperation(runnable, schedulingRule);
+	public void run(boolean fork, boolean cancelable, IRunnableWithProgress runnable, ISchedulingRule schedulingRule)
+			throws InvocationTargetException, InterruptedException {
+		WorkspaceModifyDelegatingOperation operation = new WorkspaceModifyDelegatingOperation(runnable, schedulingRule);
 		operation.run(getProgressMonitor());
 	}
 }

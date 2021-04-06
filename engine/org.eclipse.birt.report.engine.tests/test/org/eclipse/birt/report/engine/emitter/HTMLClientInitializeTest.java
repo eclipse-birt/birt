@@ -31,63 +31,54 @@ import org.eclipse.birt.report.engine.api.ReportEngine;
  * 
  * 
  */
-public class HTMLClientInitializeTest extends TestCase
-{
+public class HTMLClientInitializeTest extends TestCase {
 
-	public void test( ) throws Exception
-	{
-		InputStream in = this.getClass( ).getResourceAsStream( "htmlClientInitializeTest.rptdesign" );
-		EngineConfig config = new EngineConfig( );
-		IReportEngine engine = new ReportEngine( config );
-		IReportRunnable report = engine.openReportDesign( in );
-		String clientInitialize = (String) report.getProperty( "clientInitialize" );
-		IRunAndRenderTask task = engine.createRunAndRenderTask( report );
+	public void test() throws Exception {
+		InputStream in = this.getClass().getResourceAsStream("htmlClientInitializeTest.rptdesign");
+		EngineConfig config = new EngineConfig();
+		IReportEngine engine = new ReportEngine(config);
+		IReportRunnable report = engine.openReportDesign(in);
+		String clientInitialize = (String) report.getProperty("clientInitialize");
+		IRunAndRenderTask task = engine.createRunAndRenderTask(report);
 		// create the render options
-		IRenderOption option = new HTMLRenderOption( );
-		option.setOutputFormat( "html" ); //$NON-NLS-1$
+		IRenderOption option = new HTMLRenderOption();
+		option.setOutputFormat("html"); //$NON-NLS-1$
 		String htmlFileName = "test/org/eclipse/birt/report/engine/emitter/htmlClientInitializeTest.html";
-		option.setOutputFileName( htmlFileName );
+		option.setOutputFileName(htmlFileName);
 		// set the render options
-		task.setRenderOption( option );
-		task.run( );
-		task.close( );
-		engine.shutdown( );
-		
-		String[] jsArray = clientInitialize.split( "\\n" );		
+		task.setRenderOption(option);
+		task.run();
+		task.close();
+		engine.shutdown();
+
+		String[] jsArray = clientInitialize.split("\\n");
 		BufferedReader br = null;
-		try
-		{
-			br = new BufferedReader( new FileReader( new File( htmlFileName ) ) );
+		try {
+			br = new BufferedReader(new FileReader(new File(htmlFileName)));
 			boolean isException = true;
-			String str = br.readLine( ).trim( );
+			String str = br.readLine().trim();
 			int i = 0;
 			int length = jsArray.length;
-			while ( str != null )
-			{
-				boolean same = jsArray[i].trim( ).equals( str.trim( ) );
-				if ( same )
-				{
-					if ( i == length - 1 )
-					{
+			while (str != null) {
+				boolean same = jsArray[i].trim().equals(str.trim());
+				if (same) {
+					if (i == length - 1) {
 						isException = false;
 						break;
 					}
-					i++;				
-				} 
-				str = br.readLine( );
+					i++;
+				}
+				str = br.readLine();
 			}
-			assertFalse(isException);			
-		}		
-		finally
-		{
-			in.close( );
-			br.close( );
-			File file = new File(htmlFileName);			
-			if ( file.exists( ) )
-			{
-				file.delete( );				
+			assertFalse(isException);
+		} finally {
+			in.close();
+			br.close();
+			File file = new File(htmlFileName);
+			if (file.exists()) {
+				file.delete();
 			}
-		
+
 		}
 	}
 }

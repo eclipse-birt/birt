@@ -20,44 +20,41 @@ import org.eclipse.birt.report.model.api.simpleapi.ISortElement;
 /**
  * ILevel
  */
-public interface ILevel
-{
+public interface ILevel {
 
-	String getName( );
+	String getName();
 
-	String getDimensionName( );
+	String getDimensionName();
 
-	List<IFilterConditionElement> getFilterConditions( );
+	List<IFilterConditionElement> getFilterConditions();
 
-	void removeAllFilterConditions( ) throws SemanticException;
+	void removeAllFilterConditions() throws SemanticException;
 
-	void addFilterCondition( IFilterConditionElement filter )
-			throws SemanticException;
+	void addFilterCondition(IFilterConditionElement filter) throws SemanticException;
 
-	void removeFilterCondition( IFilterConditionElement filter )
-			throws SemanticException;
+	void removeFilterCondition(IFilterConditionElement filter) throws SemanticException;
 
-	List<ISortElement> getSortConditions( );
+	List<ISortElement> getSortConditions();
 
-	void removeAllSortConditions( ) throws SemanticException;
+	void removeAllSortConditions() throws SemanticException;
 
-	void addSortCondition( ISortElement sort ) throws SemanticException;
+	void addSortCondition(ISortElement sort) throws SemanticException;
 
-	void removeSortCondition( ISortElement sort ) throws SemanticException;
+	void removeSortCondition(ISortElement sort) throws SemanticException;
 
-	String getPageBreakBefore( );
+	String getPageBreakBefore();
 
-	String getPageBreakAfter( );
+	String getPageBreakAfter();
 
-	String getPageBreakInside( );
+	String getPageBreakInside();
 
-	int getPageBreakInterval( );
+	int getPageBreakInterval();
 
-	void setPageBreakBefore( String value ) throws SemanticException;
+	void setPageBreakBefore(String value) throws SemanticException;
 
-	void setPageBreakAfter( String value ) throws SemanticException;
+	void setPageBreakAfter(String value) throws SemanticException;
 
-	void setPageBreakInside( String value ) throws SemanticException;
+	void setPageBreakInside(String value) throws SemanticException;
 
-	void setPageBreakInterval( int value ) throws SemanticException;
+	void setPageBreakInterval(int value) throws SemanticException;
 }

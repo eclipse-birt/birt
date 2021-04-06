@@ -12,13 +12,13 @@
 package org.eclipse.birt.chart.ui.swt.interfaces;
 
 /**
- * This class provides functions to validate if specified expression is valid or legal.
+ * This class provides functions to validate if specified expression is valid or
+ * legal.
  * 
  * @since 2.6.2
  */
 
-public interface IExpressionValidator
-{
+public interface IExpressionValidator {
 	/**
 	 * Checks if specified expression is a reserved string, not a valid expression.
 	 * 
@@ -26,7 +26,7 @@ public interface IExpressionValidator
 	 * @return
 	 */
 	public boolean isReservedString(String expression);
-	
+
 	/**
 	 * Checks if specified expression is valid.
 	 * 

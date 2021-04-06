@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.internal.ui.views;
  * The costants used by request
  */
 
-public interface IRequestConstants
-{
+public interface IRequestConstants {
 
 	String REQUEST_KEY_RESULT = "result"; //$NON-NLS-1$
 
@@ -41,7 +40,7 @@ public interface IRequestConstants
 	String REQUEST_TYPE_DELETE = "delete"; //$NON-NLS-1$
 
 	String REQUEST_KEY_INSERT_SLOT = "insert-slot"; //$NON-NLS-1$
-	
+
 	String REQUEST_KEY_INSERT_PROPERTY = "insert-property"; //$NON-NLS-1$
 
 	String REQUEST_KEY_INSERT_TYPE = "insert-type"; //$NON-NLS-1$

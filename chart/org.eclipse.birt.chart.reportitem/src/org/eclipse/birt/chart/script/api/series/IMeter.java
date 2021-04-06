@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 package org.eclipse.birt.chart.script.api.series;
 
 import org.eclipse.birt.chart.script.api.component.IValueSeries;
@@ -16,7 +16,6 @@ import org.eclipse.birt.chart.script.api.component.IValueSeries;
  * Represents Meter series of a Chart in the scripting environment
  */
 
-public interface IMeter extends IValueSeries
-{
+public interface IMeter extends IValueSeries {
 
 }

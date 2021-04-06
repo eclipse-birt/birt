@@ -14,9 +14,8 @@ package org.eclipse.birt.report.engine.content;
 /**
  * Provides the interface for the Band Content in List.
  * <p>
- * The interface <code>IListBandContent</code> indicates the bands in List.
- * List header, list footer and list detail are typically implementation.
+ * The interface <code>IListBandContent</code> indicates the bands in List. List
+ * header, list footer and list detail are typically implementation.
  */
-public interface IListBandContent extends IBandContent
-{
+public interface IListBandContent extends IBandContent {
 }

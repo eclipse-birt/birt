@@ -18,18 +18,16 @@ import junit.framework.TestSuite;
  * Tests cases in util package.
  */
 
-public class AllUtilTests
-{
+public class AllUtilTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( ParameterValueUtilTest.class );
+		test.addTestSuite(ParameterValueUtilTest.class);
 
 		// add all test classes here
 

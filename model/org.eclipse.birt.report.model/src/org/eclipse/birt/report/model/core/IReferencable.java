@@ -23,30 +23,26 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * 
  */
 
-public interface IReferencable
-{
+public interface IReferencable {
 
 	/**
 	 * Adds a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
-	 * @param client
-	 *            The client to add.
-	 * @param propName
-	 *            the property name.
+	 * @param client   The client to add.
+	 * @param propName the property name.
 	 */
 
-	public void addClient( DesignElement client, String propName );
+	public void addClient(DesignElement client, String propName);
 
 	/**
 	 * Drops a client. Should be called only from
 	 * {@link DesignElement#setProperty(ElementPropertyDefn, Object )}.
 	 * 
-	 * @param client
-	 *            The client to drop.
+	 * @param client The client to drop.
 	 */
 
-	public void dropClient( DesignElement client );
+	public void dropClient(DesignElement client);
 
 	/**
 	 * Returns the list of clients for this element.
@@ -54,7 +50,7 @@ public interface IReferencable
 	 * @return The list of clients.
 	 */
 
-	public List<BackRef> getClientList( );
+	public List<BackRef> getClientList();
 
 	/**
 	 * Checks if this referencable object is referenced by others.
@@ -63,5 +59,5 @@ public interface IReferencable
 	 * 
 	 */
 
-	public boolean hasReferences( );
+	public boolean hasReferences();
 }

@@ -20,26 +20,24 @@ import org.eclipse.core.commands.ExecutionException;
  * 
  */
 
-public class MergeHandler extends SelectionHandler
-{
+public class MergeHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Merge action >> Run ..." ); //$NON-NLS-1$
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Merge action >> Run ..."); //$NON-NLS-1$
 		}
-		TableEditPart part = getTableEditPart( );
-		if ( part != null && part.canMerge( ) )
-		{
-			part.merge( );
+		TableEditPart part = getTableEditPart();
+		if (part != null && part.canMerge()) {
+			part.merge();
 		}
 
 		return Boolean.TRUE;

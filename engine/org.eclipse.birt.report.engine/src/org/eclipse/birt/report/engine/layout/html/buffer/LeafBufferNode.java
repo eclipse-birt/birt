@@ -15,28 +15,21 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.emitter.IContentEmitter;
 
+public class LeafBufferNode extends AbstractNode implements INode {
 
-public class LeafBufferNode extends AbstractNode implements INode
-{
-
-	LeafBufferNode( IContent content, IContentEmitter emitter,
-			PageHintGenerator generator, boolean isVisible )
-	{
-		super( content, emitter, generator, isVisible );
+	LeafBufferNode(IContent content, IContentEmitter emitter, PageHintGenerator generator, boolean isVisible) {
+		super(content, emitter, generator, isVisible);
 	}
 
-	protected void flushChildren( )
-	{
-		
+	protected void flushChildren() {
+
 	}
 
-	public void flush( ) throws BirtException
-	{
-		if ( !isStarted )
-		{
-			start( );
+	public void flush() throws BirtException {
+		if (!isStarted) {
+			start();
 		}
-		end( );
+		end();
 	}
 
 }

@@ -21,28 +21,24 @@ import org.eclipse.birt.report.engine.ir.Report;
  * calls.
  * 
  */
-public class ContentFactory
-{
+public class ContentFactory {
 
 	/**
 	 * Creates the Report content object
 	 * 
-	 * @param design
-	 *            the Report
+	 * @param design the Report
 	 * @return the instance
 	 */
-	public static IReportContent createReportContent( Report design )
-	{
-		return new ReportContent( design );
+	public static IReportContent createReportContent(Report design) {
+		return new ReportContent(design);
 	}
-	
+
 	/**
 	 * create a report content.
 	 * 
 	 * @return the erport content.
 	 */
-	public static IReportContent createReportContent( )
-	{
-		return new ReportContent( );
+	public static IReportContent createReportContent() {
+		return new ReportContent();
 	}
 }

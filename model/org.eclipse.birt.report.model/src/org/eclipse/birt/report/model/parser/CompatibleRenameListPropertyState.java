@@ -13,8 +13,7 @@ package org.eclipse.birt.report.model.parser;
 
 import org.eclipse.birt.report.model.core.DesignElement;
 
-public class CompatibleRenameListPropertyState extends CompatibleListPropertyState
-{
+public class CompatibleRenameListPropertyState extends CompatibleListPropertyState {
 
 	/**
 	 * The obsolete property name.
@@ -23,24 +22,19 @@ public class CompatibleRenameListPropertyState extends CompatibleListPropertySta
 	private String obsoletePropName;
 
 	/**
-	 * Constructs a <code>CompatibleRenamedPropertyState</code> to parse an
-	 * obsolete property.
+	 * Constructs a <code>CompatibleRenamedPropertyState</code> to parse an obsolete
+	 * property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
-	 * @param obsoletePropName
-	 *            the name of the obsolete property.
+	 * @param theHandler       the parser handle
+	 * @param element          the element that holds the obsolete property
+	 * @param obsoletePropName the name of the obsolete property.
 	 */
 
-	public CompatibleRenameListPropertyState( ModuleParserHandler theHandler,
-			DesignElement element, String obsoletePropName )
-	{
-		super( theHandler, element );
+	public CompatibleRenameListPropertyState(ModuleParserHandler theHandler, DesignElement element,
+			String obsoletePropName) {
+		super(theHandler, element);
 		this.obsoletePropName = obsoletePropName;
 	}
-
 
 	/**
 	 * Returns the name of the obsolete property.
@@ -48,8 +42,7 @@ public class CompatibleRenameListPropertyState extends CompatibleListPropertySta
 	 * @return the name of the obsolete property
 	 */
 
-	protected String getObsoletePropName( )
-	{
+	protected String getObsoletePropName() {
 		return obsoletePropName;
 	}
 }

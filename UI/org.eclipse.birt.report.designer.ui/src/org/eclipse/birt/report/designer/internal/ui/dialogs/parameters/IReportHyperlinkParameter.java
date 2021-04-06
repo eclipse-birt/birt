@@ -16,8 +16,7 @@ import org.eclipse.birt.report.model.api.ParameterHandle;
 /**
  * IReportHyperlinkParameter
  */
-public interface IReportHyperlinkParameter extends IHyperlinkParameter
-{
+public interface IReportHyperlinkParameter extends IHyperlinkParameter {
 
-	ParameterHandle getParameterHandle( );
+	ParameterHandle getParameterHandle();
 }

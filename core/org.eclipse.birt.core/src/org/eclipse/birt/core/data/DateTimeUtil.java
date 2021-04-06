@@ -21,27 +21,26 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class DateTimeUtil
-{
+public class DateTimeUtil {
 	private ULocale locale;
 	private TimeZone timeZone;
-	public DateTimeUtil( ULocale locale, TimeZone timeZone )
-	{
-		this.locale = locale == null? ULocale.getDefault( ):locale;
-		this.timeZone = timeZone == null?TimeZone.getDefault( ):timeZone;
+
+	public DateTimeUtil(ULocale locale, TimeZone timeZone) {
+		this.locale = locale == null ? ULocale.getDefault() : locale;
+		this.timeZone = timeZone == null ? TimeZone.getDefault() : timeZone;
 	}
+
 	/**
 	 * 4-digit year number of date/time value d
 	 * 
 	 * @param d
 	 * @return
 	 */
-	public int year( Date d )
-	{
-		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+	public int year(Date d) {
+		if (d == null)
+			throw new java.lang.IllegalArgumentException("date value is null!");
 
-		return getCalendar( d ).get( Calendar.YEAR );
+		return getCalendar(d).get(Calendar.YEAR);
 	}
 
 	/**
@@ -50,32 +49,30 @@ public class DateTimeUtil
 	 * @param d
 	 * @return
 	 */
-	public int quarter( Date d )
-	{
-		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+	public int quarter(Date d) {
+		if (d == null)
+			throw new java.lang.IllegalArgumentException("date value is null!");
 
-		int month = getCalendar( d ).get( Calendar.MONTH );
-		switch ( month )
-		{
-			case Calendar.JANUARY :
-			case Calendar.FEBRUARY :
-			case Calendar.MARCH :
-				return 1;
-			case Calendar.APRIL :
-			case Calendar.MAY :
-			case Calendar.JUNE :
-				return 2;
-			case Calendar.JULY :
-			case Calendar.AUGUST :
-			case Calendar.SEPTEMBER :
-				return 3;
-			case Calendar.OCTOBER :
-			case Calendar.NOVEMBER :
-			case Calendar.DECEMBER :
-				return 4;
-			default :
-				return -1;
+		int month = getCalendar(d).get(Calendar.MONTH);
+		switch (month) {
+		case Calendar.JANUARY:
+		case Calendar.FEBRUARY:
+		case Calendar.MARCH:
+			return 1;
+		case Calendar.APRIL:
+		case Calendar.MAY:
+		case Calendar.JUNE:
+			return 2;
+		case Calendar.JULY:
+		case Calendar.AUGUST:
+		case Calendar.SEPTEMBER:
+			return 3;
+		case Calendar.OCTOBER:
+		case Calendar.NOVEMBER:
+		case Calendar.DECEMBER:
+			return 4;
+		default:
+			return -1;
 		}
 	}
 
@@ -85,12 +82,11 @@ public class DateTimeUtil
 	 * @param d
 	 * @return
 	 */
-	public  int month( Date d )
-	{
-		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+	public int month(Date d) {
+		if (d == null)
+			throw new java.lang.IllegalArgumentException("date value is null!");
 
-		return getCalendar( d ).get( Calendar.MONTH ) + 1;
+		return getCalendar(d).get(Calendar.MONTH) + 1;
 	}
 
 	/**
@@ -99,12 +95,11 @@ public class DateTimeUtil
 	 * @param d
 	 * @return
 	 */
-	public  String weekDay( Date d )
-	{
-		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+	public String weekDay(Date d) {
+		if (d == null)
+			throw new java.lang.IllegalArgumentException("date value is null!");
 
-		return String.valueOf( getCalendar( d ).get( Calendar.DAY_OF_WEEK ) );
+		return String.valueOf(getCalendar(d).get(Calendar.DAY_OF_WEEK));
 	}
 
 	/**
@@ -114,14 +109,12 @@ public class DateTimeUtil
 	 * @param d2
 	 * @return
 	 */
-	public int diffYear( Date d1, Date d2 )
-	{
-		if ( d1 == null || d2 == null )
-		{
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+	public int diffYear(Date d1, Date d2) {
+		if (d1 == null || d2 == null) {
+			throw new java.lang.IllegalArgumentException("date value is null!");
 		}
-		int startYear = year( d1 );
-		int endYear = year( d2 );
+		int startYear = year(d1);
+		int endYear = year(d2);
 
 		return endYear - startYear;
 	}
@@ -133,15 +126,13 @@ public class DateTimeUtil
 	 * @param d2
 	 * @return
 	 */
-	 public int diffMonth( Date d1, Date d2 )
-	{
-		if ( d1 == null || d2 == null )
-		{
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+	public int diffMonth(Date d1, Date d2) {
+		if (d1 == null || d2 == null) {
+			throw new java.lang.IllegalArgumentException("date value is null!");
 		}
 
-		int startMonth = year( d1 ) * 12 + month( d1 );
-		int endMonth = year( d2 ) * 12 + month( d2 );
+		int startMonth = year(d1) * 12 + month(d1);
+		int endMonth = year(d2) * 12 + month(d2);
 
 		return endMonth - startMonth;
 	}
@@ -153,15 +144,13 @@ public class DateTimeUtil
 	 * @param d2
 	 * @return
 	 */
-	 public int diffQuarter( Date d1, Date d2 )
-	{
-		if ( d1 == null || d2 == null )
-		{
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+	public int diffQuarter(Date d1, Date d2) {
+		if (d1 == null || d2 == null) {
+			throw new java.lang.IllegalArgumentException("date value is null!");
 		}
 
-		int startQuter = year( d1 ) * 4 + quarter( d1 );
-		int endQuter = year( d2 ) * 4 + quarter( d2 );
+		int startQuter = year(d1) * 4 + quarter(d1);
+		int endQuter = year(d2) * 4 + quarter(d2);
 
 		return endQuter - startQuter;
 	}
@@ -173,20 +162,17 @@ public class DateTimeUtil
 	 * @param d2
 	 * @return
 	 */
-	 public long diffWeek( Date d1, Date d2 )
-	{
-		Calendar calendar = getCalendarOfStartingTime( );
-		
-		Date baseDay = calendar.getTime( );
+	public long diffWeek(Date d1, Date d2) {
+		Calendar calendar = getCalendarOfStartingTime();
 
-		int diffDay = 1 - Integer.valueOf( weekDay( baseDay ) ).intValue( );
+		Date baseDay = calendar.getTime();
 
-		baseDay = addDay( baseDay, diffDay );
+		int diffDay = 1 - Integer.valueOf(weekDay(baseDay)).intValue();
 
-		return ( diffSecond( baseDay, d2 ) + 3000 * 60 * 60 * 24 * 7 )
-				/ ( 60 * 60 * 24 * 7 )
-				- ( diffSecond( baseDay, d1 ) + 3000 * 60 * 60 * 24 * 7 )
-				/ ( 60 * 60 * 24 * 7 );
+		baseDay = addDay(baseDay, diffDay);
+
+		return (diffSecond(baseDay, d2) + 3000 * 60 * 60 * 24 * 7) / (60 * 60 * 24 * 7)
+				- (diffSecond(baseDay, d1) + 3000 * 60 * 60 * 24 * 7) / (60 * 60 * 24 * 7);
 	}
 
 	/**
@@ -196,27 +182,22 @@ public class DateTimeUtil
 	 * @param d2
 	 * @return
 	 */
-	public long diffDay( Date d1, Date d2 )
-	{
-		Calendar calendar = getCalendarOfStartingTime( );
-		
-		return ( diffSecond( calendar.getTime( ), d2 ) + 3000
-				* 60 * 60 * 24 * 7 )
-				/ ( 60 * 60 * 24 )
-				- ( diffSecond( calendar.getTime( ), d1 ) + 3000
-						* 60 * 60 * 24 * 7 ) / ( 60 * 60 * 24 );
+	public long diffDay(Date d1, Date d2) {
+		Calendar calendar = getCalendarOfStartingTime();
+
+		return (diffSecond(calendar.getTime(), d2) + 3000 * 60 * 60 * 24 * 7) / (60 * 60 * 24)
+				- (diffSecond(calendar.getTime(), d1) + 3000 * 60 * 60 * 24 * 7) / (60 * 60 * 24);
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
 
-	private  Calendar getCalendarOfStartingTime( )
-	{
-		Calendar calendar = Calendar.getInstance( locale );		
-		calendar.setTimeZone( timeZone );
-		calendar.clear( );
+	private Calendar getCalendarOfStartingTime() {
+		Calendar calendar = Calendar.getInstance(locale);
+		calendar.setTimeZone(timeZone);
+		calendar.clear();
 		return calendar;
 	}
 
@@ -227,14 +208,10 @@ public class DateTimeUtil
 	 * @param d2
 	 * @return
 	 */
-	public long diffHour( Date d1, Date d2 )
-	{
-		Calendar calendar = getCalendarOfStartingTime( );
-		return ( diffSecond( calendar.getTime( ), d2 ) + 3000
-				* 60 * 60 * 24 * 7 )
-				/ ( 60 * 60 )
-				- ( diffSecond( calendar.getTime( ), d1 ) + 3000
-						* 60 * 60 * 24 * 7 ) / ( 60 * 60 );
+	public long diffHour(Date d1, Date d2) {
+		Calendar calendar = getCalendarOfStartingTime();
+		return (diffSecond(calendar.getTime(), d2) + 3000 * 60 * 60 * 24 * 7) / (60 * 60)
+				- (diffSecond(calendar.getTime(), d1) + 3000 * 60 * 60 * 24 * 7) / (60 * 60);
 	}
 
 	/**
@@ -244,15 +221,11 @@ public class DateTimeUtil
 	 * @param d2
 	 * @return
 	 */
-	public long diffMinute( Date d1, Date d2 )
-	{
-		Calendar calendar = getCalendarOfStartingTime( );
-		
-		return ( diffSecond( calendar.getTime( ), d2 ) + 3000
-				* 60 * 60 * 24 * 7 )
-				/ ( 60 )
-				- ( diffSecond( calendar.getTime( ), d1 ) + 3000
-						* 60 * 60 * 24 * 7 ) / ( 60 );
+	public long diffMinute(Date d1, Date d2) {
+		Calendar calendar = getCalendarOfStartingTime();
+
+		return (diffSecond(calendar.getTime(), d2) + 3000 * 60 * 60 * 24 * 7) / (60)
+				- (diffSecond(calendar.getTime(), d1) + 3000 * 60 * 60 * 24 * 7) / (60);
 	}
 
 	/**
@@ -262,20 +235,18 @@ public class DateTimeUtil
 	 * @param d2
 	 * @return
 	 */
-	public long diffSecond( Date d1, Date d2 )
-	{
-		if ( d1 == null || d2 == null )
-		{
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
+	public long diffSecond(Date d1, Date d2) {
+		if (d1 == null || d2 == null) {
+			throw new java.lang.IllegalArgumentException("date value is null!");
 		}
-		long diff = d2.getTime( ) - d1.getTime( );
-		
-		if( timeZone.inDaylightTime( d1 ) )
-			diff -= timeZone.getDSTSavings( );
-		if( timeZone.inDaylightTime( d2 ) )
-			diff += timeZone.getDSTSavings( );
+		long diff = d2.getTime() - d1.getTime();
 
-		return ( Long.valueOf( diff / 1000 ) ).longValue( );
+		if (timeZone.inDaylightTime(d1))
+			diff -= timeZone.getDSTSavings();
+		if (timeZone.inDaylightTime(d2))
+			diff += timeZone.getDSTSavings();
+
+		return (Long.valueOf(diff / 1000)).longValue();
 	}
 
 	/**
@@ -285,13 +256,12 @@ public class DateTimeUtil
 	 * @param num
 	 * @return
 	 */
-	public  Date addDay( Date date, int num )
-	{
-		Calendar startCal = getCalendar( date );
+	public Date addDay(Date date, int num) {
+		Calendar startCal = getCalendar(date);
 
-		startCal.add( Calendar.DATE, num );
+		startCal.add(Calendar.DATE, num);
 
-		return startCal.getTime( );
+		return startCal.getTime();
 	}
 
 	/**
@@ -299,20 +269,16 @@ public class DateTimeUtil
 	 * @param d
 	 * @return
 	 */
-	private  Calendar getCalendar( Date d )
-	{
-		if ( d == null )
-			throw new java.lang.IllegalArgumentException( "date value is null!" );
-		Calendar c = Calendar.getInstance( locale );
-		if( d instanceof java.sql.Date )
-		{
-			c.setTimeZone( TimeZone.getDefault( ) );
+	private Calendar getCalendar(Date d) {
+		if (d == null)
+			throw new java.lang.IllegalArgumentException("date value is null!");
+		Calendar c = Calendar.getInstance(locale);
+		if (d instanceof java.sql.Date) {
+			c.setTimeZone(TimeZone.getDefault());
+		} else {
+			c.setTimeZone(timeZone);
 		}
-		else
-		{
-			c.setTimeZone( timeZone );
-		}
-		c.setTime( d );
+		c.setTime(d);
 		return c;
 	}
 }

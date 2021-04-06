@@ -20,37 +20,30 @@ import org.eclipse.birt.report.model.util.AbstractParseState;
  * from the design version 3.2.16.
  */
 
-class CompatibleCDATATextPropertyState extends TextPropertyState
-{
+class CompatibleCDATATextPropertyState extends TextPropertyState {
 
 	/**
-	 * Constructs a <code>CompatibleIgnorePropertyState</code> to parse an
-	 * removed property.
+	 * Constructs a <code>CompatibleIgnorePropertyState</code> to parse an removed
+	 * property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
+	 * @param theHandler the parser handle
+	 * @param element    the element that holds the obsolete property
 	 * 
 	 */
 
-	public CompatibleCDATATextPropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleCDATATextPropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty
+	 * @see org.eclipse.birt.report.model.parser.AbstractPropertyState#doSetProperty
 	 * (org.eclipse.birt.report.model.metadata.PropertyDefn, java.lang.Object)
 	 */
 
-	protected void doSetProperty( PropertyDefn propDefn, Object valueToSet )
-	{
-		if ( valueToSet == null )
+	protected void doSetProperty(PropertyDefn propDefn, Object valueToSet) {
+		if (valueToSet == null)
 			return;
 
 		assert valueToSet instanceof String;
@@ -58,9 +51,9 @@ class CompatibleCDATATextPropertyState extends TextPropertyState
 		// Validate the value.
 
 		String newValue = (String) valueToSet;
-		newValue = deEscape( newValue );
+		newValue = deEscape(newValue);
 
-		super.doSetProperty( propDefn, newValue );
+		super.doSetProperty(propDefn, newValue);
 	}
 
 	/*
@@ -69,8 +62,7 @@ class CompatibleCDATATextPropertyState extends TextPropertyState
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#generalJumpTo()
 	 */
 
-	protected AbstractParseState generalJumpTo( )
-	{
+	protected AbstractParseState generalJumpTo() {
 		return null;
 	}
 
@@ -82,8 +74,7 @@ class CompatibleCDATATextPropertyState extends TextPropertyState
 	 * ()
 	 */
 
-	protected AbstractParseState versionConditionalJumpTo( )
-	{
+	protected AbstractParseState versionConditionalJumpTo() {
 		return null;
 	}
 

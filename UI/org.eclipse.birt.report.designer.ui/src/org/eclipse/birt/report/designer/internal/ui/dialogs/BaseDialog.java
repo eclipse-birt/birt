@@ -19,18 +19,14 @@ import org.eclipse.swt.widgets.Shell;
  * @deprecated use
  *             {@link org.eclipse.birt.report.designer.ui.dialogs.BaseDialog}
  */
-public abstract class BaseDialog extends
-		org.eclipse.birt.report.designer.ui.dialogs.BaseDialog
-{
+public abstract class BaseDialog extends org.eclipse.birt.report.designer.ui.dialogs.BaseDialog {
 
-	protected BaseDialog( String title )
-	{
-		super( title );
+	protected BaseDialog(String title) {
+		super(title);
 	}
 
-	protected BaseDialog( Shell parentShell, String title )
-	{
-		super( parentShell, title );
+	protected BaseDialog(Shell parentShell, String title) {
+		super(parentShell, title);
 	}
 
 }

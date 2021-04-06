@@ -40,128 +40,102 @@ import com.ibm.icu.util.StringTokenizer;
  * 
  * @deprecated
  */
-public class DebugStartupClass implements IStartup
-{
+public class DebugStartupClass implements IStartup {
 
 	private static final String WORKSPACE_CLASSPATH_KEY = "workspace.projectclasspath"; //$NON-NLS-1$
 
-	private static Logger logger = Logger.getLogger( DebugStartupClass.class.getName( ) );
+	private static Logger logger = Logger.getLogger(DebugStartupClass.class.getName());
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.ui.IStartup#earlyStartup()
 	 */
-	public void earlyStartup( )
-	{
-		WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder( );
+	public void earlyStartup() {
+		WorkspaceClassPathFinder finder = new WorkspaceClassPathFinder();
 		// Register a classpath finder class to the viewer
-		WorkspaceClasspathManager.registerClassPathFinder( finder );
+		WorkspaceClasspathManager.registerClassPathFinder(finder);
 
 		// Set the classpath property (used in Java scripting)
-		String projectClassPaths = finder.getClassPath( );
+		String projectClassPaths = finder.getClassPath();
 
 		// HashTable doesn't accept null value
-		if ( projectClassPaths == null )
-		{
+		if (projectClassPaths == null) {
 			projectClassPaths = ""; //$NON-NLS-1$
 		}
-		System.setProperty( WORKSPACE_CLASSPATH_KEY, projectClassPaths );
+		System.setProperty(WORKSPACE_CLASSPATH_KEY, projectClassPaths);
 
-		String value = System.getProperty( "user.projectname" ); //$NON-NLS-1$
-		if ( value == null || value.length( ) == 0 )
-		{
+		String value = System.getProperty("user.projectname"); //$NON-NLS-1$
+		if (value == null || value.length() == 0) {
 			return;
 		}
-		StringTokenizer token = new StringTokenizer( value, ";" ); //$NON-NLS-1$
-		while ( token.hasMoreTokens( ) )
-		{
-			String str = token.nextToken( );
-			try
-			{
-				//DebugUtil.importProject( str );
-			}
-			catch ( Exception e1 )
-			{
+		StringTokenizer token = new StringTokenizer(value, ";"); //$NON-NLS-1$
+		while (token.hasMoreTokens()) {
+			String str = token.nextToken();
+			try {
+				// DebugUtil.importProject( str );
+			} catch (Exception e1) {
 				// do nothing, the project has inport to the workspace1
-				logger.log( Level.SEVERE, e1.getMessage( ), e1 );
+				logger.log(Level.SEVERE, e1.getMessage(), e1);
 			}
 		}
-		Display.getDefault( ).asyncExec( new Runnable( ) {
+		Display.getDefault().asyncExec(new Runnable() {
 
-			public void run( )
-			{
+			public void run() {
 				int openCount = 0;
-				try
-				{
-					String value = System.getProperty( "user.openfiles" ); //$NON-NLS-1$
-					if ( value == null || value.length( ) == 0 )
-					{
+				try {
+					String value = System.getProperty("user.openfiles"); //$NON-NLS-1$
+					if (value == null || value.length() == 0) {
 						return;
 					}
-					StringTokenizer token = new StringTokenizer( value, ";" ); //$NON-NLS-1$
-					while ( token.hasMoreTokens( ) )
-					{
-						String str = token.nextToken( );
-						final IFile file = ResourcesPlugin.getWorkspace( )
-								.getRoot( )
-								.getFile( new Path( str ) );
+					StringTokenizer token = new StringTokenizer(value, ";"); //$NON-NLS-1$
+					while (token.hasMoreTokens()) {
+						String str = token.nextToken();
+						final IFile file = ResourcesPlugin.getWorkspace().getRoot().getFile(new Path(str));
 
-						IWorkbench workbench = PlatformUI.getWorkbench( );
-						IWorkbenchWindow window = workbench.getActiveWorkbenchWindow( );
-						IWorkbenchPage page = window.getActivePage( );
-						IDE.openEditor( page, file, true );
+						IWorkbench workbench = PlatformUI.getWorkbench();
+						IWorkbenchWindow window = workbench.getActiveWorkbenchWindow();
+						IWorkbenchPage page = window.getActivePage();
+						IDE.openEditor(page, file, true);
 						openCount++;
 					}
+				} catch (PartInitException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
-				catch ( PartInitException e )
-				{
-					logger.log( Level.SEVERE, e.getMessage( ), e );
-				}
-				if ( openCount == 1 )
-				{
-					FormEditor editor = getActiveReportEditor( );
-					editor.setActivePage( ReportPreviewFormPage.ID );
+				if (openCount == 1) {
+					FormEditor editor = getActiveReportEditor();
+					editor.setActivePage(ReportPreviewFormPage.ID);
 				}
 
 			}
 
-		} );
+		});
 
 	}
 
 	/**
-	 * Returns the current active report editor in current active page or
-	 * current active workbench.
+	 * Returns the current active report editor in current active page or current
+	 * active workbench.
 	 * 
 	 * @return
 	 */
-	public static FormEditor getActiveReportEditor( )
-	{
-		IWorkbenchWindow window = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( );
+	public static FormEditor getActiveReportEditor() {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 
-		if ( window != null )
-		{
+		if (window != null) {
 
-			IWorkbenchPage pg = window.getActivePage( );
+			IWorkbenchPage pg = window.getActivePage();
 
-			if ( pg != null )
-			{
-				IEditorPart editor = pg.getActiveEditor( );
+			if (pg != null) {
+				IEditorPart editor = pg.getActiveEditor();
 
-				if ( editor != null )
-				{
-					if ( editor instanceof ReportEditorProxy )
-					{
-						IEditorPart part = ( (ReportEditorProxy) editor ).getEditorPart( );
-						if ( part instanceof FormEditor )
-						{
+				if (editor != null) {
+					if (editor instanceof ReportEditorProxy) {
+						IEditorPart part = ((ReportEditorProxy) editor).getEditorPart();
+						if (part instanceof FormEditor) {
 							return (FormEditor) part;
 						}
-					}
-					else if ( editor instanceof FormEditor )
-					{
+					} else if (editor instanceof FormEditor) {
 						return (FormEditor) editor;
 					}
 				}

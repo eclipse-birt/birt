@@ -15,7 +15,6 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 
 /**
  */
-public interface IReportItemLabelProvider
-{
-    public String getLabel(ExtendedItemHandle handle );
+public interface IReportItemLabelProvider {
+	public String getLabel(ExtendedItemHandle handle);
 }

@@ -22,14 +22,15 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * Implements <code>IReportItemFactory</code> for testing
  */
 
-public class ReportItemFactoryImpl implements IReportItemFactory
-{
+public class ReportItemFactoryImpl implements IReportItemFactory {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.extension.IReportItemFactory#getFactoryStyles(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.api.extension.IReportItemFactory#
+	 * getFactoryStyles(java.lang.String)
 	 */
-	public IStyleDeclaration[] getFactoryStyles( String extensionName )
-	{
+	public IStyleDeclaration[] getFactoryStyles(String extensionName) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -38,38 +39,36 @@ public class ReportItemFactoryImpl implements IReportItemFactory
 	 * Messages for I18N
 	 */
 
-	static IMessages messages = new MessagesImpl( );
+	static IMessages messages = new MessagesImpl();
 
 	/**
 	 * Default constructor
 	 */
 
-	public ReportItemFactoryImpl( )
-	{
+	public ReportItemFactoryImpl() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.model.extension.IElementFactory#newElement(org.eclipse.birt.model.api.ReportDesignHandle)
+	 * @see
+	 * org.eclipse.birt.model.extension.IElementFactory#newElement(org.eclipse.birt.
+	 * model.api.ReportDesignHandle)
 	 */
 
-	public IReportItem newReportItem( DesignElementHandle item )
-	{
-		return new ReportItemImpl( this, item );
+	public IReportItem newReportItem(DesignElementHandle item) {
+		return new ReportItemImpl(this, item);
 	}
 
 	/**
 	 * Returns the localized message.
 	 * 
-	 * @param key
-	 *            the resource key
+	 * @param key the resource key
 	 * @return the localized message
 	 */
 
-	public static String getMessage( String key )
-	{
-		return messages.getMessage( key, ThreadResources.getLocale( ) );
+	public static String getMessage(String key) {
+		return messages.getMessage(key, ThreadResources.getLocale());
 	}
 
 	/*
@@ -78,8 +77,7 @@ public class ReportItemFactoryImpl implements IReportItemFactory
 	 * @see org.eclipse.birt.report.model.extension.IReportItemFactory#getMessages()
 	 */
 
-	public IMessages getMessages( )
-	{
+	public IMessages getMessages() {
 		return messages;
 	}
 }

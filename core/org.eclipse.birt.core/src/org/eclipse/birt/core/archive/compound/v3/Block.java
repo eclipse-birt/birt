@@ -22,23 +22,20 @@ import org.eclipse.birt.core.archive.cache.FileCacheManager;
  * and read is synchronized.
  * 
  */
-abstract public class Block extends Cacheable
-{
+abstract public class Block extends Cacheable {
 
 	final int blockId;
 
-	public Block( FileCacheManager caches, int blockId )
-	{
-		super( caches, Integer.valueOf( blockId ) );
+	public Block(FileCacheManager caches, int blockId) {
+		super(caches, Integer.valueOf(blockId));
 		this.blockId = blockId;
 	}
 
-	public int getBlockId( )
-	{
+	public int getBlockId() {
 		return blockId;
 	}
 
-	abstract public void refresh( ) throws IOException;
+	abstract public void refresh() throws IOException;
 
-	abstract public void flush( ) throws IOException;
+	abstract public void flush() throws IOException;
 }

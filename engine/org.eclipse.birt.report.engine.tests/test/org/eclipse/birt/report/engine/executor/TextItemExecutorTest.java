@@ -15,11 +15,9 @@ package org.eclipse.birt.report.engine.executor;
  * Test case for TextItemExecutor
  * 
  */
-public class TextItemExecutorTest extends ReportItemExecutorTestAbs
-{
+public class TextItemExecutorTest extends ReportItemExecutorTestAbs {
 
-	public void testText( ) throws Exception
-	{
-		compare( "text_test.xml", "text_test.txt" );
+	public void testText() throws Exception {
+		compare("text_test.xml", "text_test.txt");
 	}
 }

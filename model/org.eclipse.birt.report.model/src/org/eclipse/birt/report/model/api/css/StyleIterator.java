@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.core.StyleElement;
  * Iterates over the styles of an include style sheet.
  */
 
-public class StyleIterator implements Iterator
-{
+public class StyleIterator implements Iterator {
 
 	/**
 	 * The cached iterator.
@@ -40,31 +39,28 @@ public class StyleIterator implements Iterator
 	/**
 	 * Constructs a iterator to return the styles of the given style sheet.
 	 * 
-	 * @param styleSheet
-	 *            handle to the style sheet for which styles are included. Must
-	 *            not be <code>null</code>.
+	 * @param styleSheet handle to the style sheet for which styles are included.
+	 *                   Must not be <code>null</code>.
 	 */
 
-	public StyleIterator( CssStyleSheetHandle styleSheet )
-	{
+	public StyleIterator(CssStyleSheetHandle styleSheet) {
 		assert styleSheet != null;
 
-		this.module = styleSheet.getModule( );
+		this.module = styleSheet.getModule();
 		assert module != null;
 
-		iter = styleSheet.getStyleSheet( ).getStyles( ).iterator( );
+		iter = styleSheet.getStyleSheet().getStyles().iterator();
 	}
 
 	/**
-	 * Inherited method that is disabled in this iterator; the caller cannot
-	 * remove styles using this class.
+	 * Inherited method that is disabled in this iterator; the caller cannot remove
+	 * styles using this class.
 	 * 
 	 * @see java.util.Iterator#remove()
 	 */
 
-	public void remove( )
-	{
-		throw new IllegalOperationException( );
+	public void remove() {
+		throw new IllegalOperationException();
 	}
 
 	/**
@@ -74,11 +70,9 @@ public class StyleIterator implements Iterator
 	 * @see java.util.Iterator#hasNext()
 	 */
 
-	public boolean hasNext( )
-	{
-		if ( iter != null )
-		{
-			return iter.hasNext( );
+	public boolean hasNext() {
+		if (iter != null) {
+			return iter.hasNext();
 		}
 		return false;
 	}
@@ -92,12 +86,10 @@ public class StyleIterator implements Iterator
 	 * @see SharedStyleHandle
 	 */
 
-	public Object next( )
-	{
-		if ( iter != null )
-		{
-			StyleElement style = (StyleElement) iter.next( );
-			return style.getHandle( module );
+	public Object next() {
+		if (iter != null) {
+			StyleElement style = (StyleElement) iter.next();
+			return style.getHandle(module);
 		}
 		return null;
 	}

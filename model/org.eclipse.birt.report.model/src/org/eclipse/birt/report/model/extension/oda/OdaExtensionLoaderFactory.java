@@ -1,9 +1,7 @@
 
 package org.eclipse.birt.report.model.extension.oda;
 
-
-public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
-{
+public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory {
 
 	/**
 	 * the base factory used to return the real oda extension loader factory.
@@ -16,40 +14,28 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 	private static volatile OdaExtensionLoaderFactory instance = null;
 
 	/**
-	 * Initializes the factory to set the base factory whcih can return teh real
-	 * oda extension loader.
+	 * Initializes the factory to set the base factory whcih can return teh real oda
+	 * extension loader.
 	 * 
-	 * @param base
-	 *            the base oda extension loader factory.
+	 * @param base the base oda extension loader factory.
 	 */
-	public synchronized static void initeFactory(
-			IOdaExtensionLoaderFactory base )
-	{
-		if ( baseFactory != null )
+	public synchronized static void initeFactory(IOdaExtensionLoaderFactory base) {
+		if (baseFactory != null)
 			return;
 
 		baseFactory = base;
 	}
 
-	public static IOdaExtensionLoaderFactory getFactory( )
-	{
-		if ( baseFactory != null )
-		{
+	public static IOdaExtensionLoaderFactory getFactory() {
+		if (baseFactory != null) {
 			return baseFactory;
 		}
-		synchronized ( OdaExtensionLoaderFactory.class )
-		{
-			if ( baseFactory == null )
-			{
-				try
-				{
-					Class clazz = Class
-							.forName( "org.eclipse.birt.report.model.plugin.OdaBaseExtensionLoaderFactory" );
-					baseFactory = (IOdaExtensionLoaderFactory) clazz
-							.newInstance( );
-				}
-				catch ( Exception ex )
-				{
+		synchronized (OdaExtensionLoaderFactory.class) {
+			if (baseFactory == null) {
+				try {
+					Class clazz = Class.forName("org.eclipse.birt.report.model.plugin.OdaBaseExtensionLoaderFactory");
+					baseFactory = (IOdaExtensionLoaderFactory) clazz.newInstance();
+				} catch (Exception ex) {
 				}
 			}
 			return baseFactory;
@@ -61,17 +47,13 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 	 * 
 	 * @return oda extension loader factory.
 	 */
-	public static OdaExtensionLoaderFactory getInstance( )
-	{
-		if ( instance != null )
-		{
+	public static OdaExtensionLoaderFactory getInstance() {
+		if (instance != null) {
 			return instance;
 		}
-		synchronized ( OdaExtensionLoaderFactory.class )
-		{
-			if ( instance == null )
-			{
-				instance = new OdaExtensionLoaderFactory( );
+		synchronized (OdaExtensionLoaderFactory.class) {
+			if (instance == null) {
+				instance = new OdaExtensionLoaderFactory();
 			}
 			return instance;
 		}
@@ -80,21 +62,18 @@ public class OdaExtensionLoaderFactory implements IOdaExtensionLoaderFactory
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.oda.IOdaExtensionLoaderFactory
+	 * @see org.eclipse.birt.report.model.extension.oda.IOdaExtensionLoaderFactory
 	 * #createOdaExtensionLoader()
 	 */
-	public IOdaExtensionLoader createOdaExtensionLoader( )
-	{
-		return getFactory( ).createOdaExtensionLoader( );
+	public IOdaExtensionLoader createOdaExtensionLoader() {
+		return getFactory().createOdaExtensionLoader();
 	}
 
 	/**
-     * Singleton instance release method.
-     */
-    public static void releaseInstance()
-    {
-        baseFactory = null;
-        instance = null;
-    }
+	 * Singleton instance release method.
+	 */
+	public static void releaseInstance() {
+		baseFactory = null;
+		instance = null;
+	}
 }

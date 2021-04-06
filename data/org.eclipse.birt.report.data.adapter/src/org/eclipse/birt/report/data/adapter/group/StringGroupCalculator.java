@@ -17,38 +17,36 @@ import org.eclipse.birt.core.exception.BirtException;
  * This calculator is used to calculate a string group key basing group
  * interval.
  */
-class StringGroupCalculator extends GroupCalculator
-{
+class StringGroupCalculator extends GroupCalculator {
 
 	private int interval;
+
 	/**
 	 * 
 	 * @param intervalStart
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public StringGroupCalculator( Object intervalStart, double intervalRange )
-			throws BirtException
-	{
-		super( intervalStart, intervalRange );
-		interval = (int) ( Math.round( intervalRange ) );
+	public StringGroupCalculator(Object intervalStart, double intervalRange) throws BirtException {
+		super(intervalStart, intervalRange);
+		interval = (int) (Math.round(intervalRange));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.group.GroupCalculator#calculate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.group.GroupCalculator#calculate(java.lang.
+	 * Object)
 	 */
-	public Object calculate( Object value ) throws BirtException
-	{
-		if ( value == null || value.equals( "" ) )
-		{
+	public Object calculate(Object value) throws BirtException {
+		if (value == null || value.equals("")) {
 			return value;
 		}
-		
-		if( value.toString( ).length( ) <= interval )
+
+		if (value.toString().length() <= interval)
 			return value;
-		
-		return value.toString( ).substring( 0, interval );
+
+		return value.toString().substring(0, interval);
 	}
 }

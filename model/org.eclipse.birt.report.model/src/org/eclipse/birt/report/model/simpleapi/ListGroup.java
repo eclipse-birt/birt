@@ -13,12 +13,10 @@ package org.eclipse.birt.report.model.simpleapi;
 import org.eclipse.birt.report.model.api.ListGroupHandle;
 import org.eclipse.birt.report.model.api.simpleapi.IListGroup;
 
-public class ListGroup extends Group implements IListGroup
-{
+public class ListGroup extends Group implements IListGroup {
 
-	public ListGroup( ListGroupHandle group )
-	{
-		super( group );
+	public ListGroup(ListGroupHandle group) {
+		super(group);
 	}
 
 }

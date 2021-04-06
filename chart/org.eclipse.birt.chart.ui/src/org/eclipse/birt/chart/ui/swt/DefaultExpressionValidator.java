@@ -13,29 +13,31 @@ package org.eclipse.birt.chart.ui.swt;
 
 import org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator;
 
-
 /**
  * The default implementation, don't do any validation.
  * 
  * @since 2.6.2
  */
 
-public class DefaultExpressionValidator implements IExpressionValidator
-{
+public class DefaultExpressionValidator implements IExpressionValidator {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator#isReservedString(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator#
+	 * isReservedString(java.lang.String)
 	 */
-	public boolean isReservedString( String expression )
-	{
+	public boolean isReservedString(String expression) {
 		return false;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator#isValidExpression(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IExpressionValidator#
+	 * isValidExpression(java.lang.String)
 	 */
-	public boolean isValidExpression( String expression )
-	{
+	public boolean isValidExpression(String expression) {
 		return true;
 	}
 

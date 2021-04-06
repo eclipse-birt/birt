@@ -20,8 +20,7 @@ import org.eclipse.birt.chart.model.attribute.Position;
 /**
  * A rendering event type for rendering Image object.
  */
-public class ImageRenderEvent extends PrimitiveRenderEvent
-{
+public class ImageRenderEvent extends PrimitiveRenderEvent {
 
 	private static final long serialVersionUID = -5467310111862210812L;
 
@@ -40,104 +39,91 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	/**
 	 * The constructor.
 	 */
-	public ImageRenderEvent( Object oSource )
-	{
-		super( oSource );
+	public ImageRenderEvent(Object oSource) {
+		super(oSource);
 	}
 
 	/**
 	 * Sets the location of the image.
 	 */
-	public void setLocation( Location loc )
-	{
+	public void setLocation(Location loc) {
 		this.loc = loc;
 	}
 
 	/**
 	 * Sets the content of the image.
 	 */
-	public void setImage( Image img )
-	{
+	public void setImage(Image img) {
 		this.img = img;
 	}
 
 	/**
 	 * Sets the position of the image.
 	 */
-	public void setPosition( Position pos )
-	{
+	public void setPosition(Position pos) {
 		this.pos = pos;
 	}
 
 	/**
 	 * @return Returns the location of the image.
 	 */
-	public Location getLocation( )
-	{
+	public Location getLocation() {
 		return loc;
 	}
 
 	/**
 	 * @return Returns the content of the image.
 	 */
-	public Image getImage( )
-	{
+	public Image getImage() {
 		return img;
 	}
 
 	/**
 	 * @return Returns the position of the image.
 	 */
-	public Position getPosition( )
-	{
+	public Position getPosition() {
 		return pos;
 	}
 
 	/**
 	 * Sets the width hint of the image.
 	 */
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
 	/**
 	 * Sets the height hint of the image.
 	 */
-	public void setHeight( int height )
-	{
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
 	/**
 	 * @return Returns the width hint of the image.
 	 */
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
 	/**
 	 * @return Returns the height hint of the image.
 	 */
-	public int getHeight( )
-	{
+	public int getHeight() {
 		return height;
 	}
 
 	/**
 	 * Sets if stretch the image.
 	 */
-	public void setStretch( boolean val )
-	{
+	public void setStretch(boolean val) {
 		this.stretch = val;
 	}
 
 	/**
 	 * @return Returns if stretch the image.
 	 */
-	public boolean isStretch( )
-	{
+	public boolean isStretch() {
 		return stretch;
 	}
 
@@ -146,24 +132,21 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#copy()
 	 */
-	public PrimitiveRenderEvent copy( ) throws ChartException
-	{
-		ImageRenderEvent ire = new ImageRenderEvent( source );
+	public PrimitiveRenderEvent copy() throws ChartException {
+		ImageRenderEvent ire = new ImageRenderEvent(source);
 
-		if ( loc != null )
-		{
-			ire.setLocation( loc.copyInstance( ) );
+		if (loc != null) {
+			ire.setLocation(loc.copyInstance());
 		}
 
-		if ( img != null )
-		{
-			ire.setImage( goFactory.copyOf( img ) );
+		if (img != null) {
+			ire.setImage(goFactory.copyOf(img));
 		}
 
-		ire.setPosition( pos );
-		ire.setWidth( width );
-		ire.setHeight( height );
-		ire.setStretch( stretch );
+		ire.setPosition(pos);
+		ire.setWidth(width);
+		ire.setHeight(height);
+		ire.setStretch(stretch);
 
 		return ire;
 	}
@@ -171,21 +154,23 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 * @see
+	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#fill(org.eclipse.birt.chart
+	 * .device.IDeviceRenderer)
 	 */
-	public void fill( IDeviceRenderer idr ) throws ChartException
-	{
-		draw( idr );
+	public void fill(IDeviceRenderer idr) throws ChartException {
+		draw(idr);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart.device.IDeviceRenderer)
+	 * @see
+	 * org.eclipse.birt.chart.event.PrimitiveRenderEvent#draw(org.eclipse.birt.chart
+	 * .device.IDeviceRenderer)
 	 */
-	public void draw( IDeviceRenderer idr ) throws ChartException
-	{
-		idr.drawImage( this );
+	public void draw(IDeviceRenderer idr) throws ChartException {
+		idr.drawImage(this);
 	}
 
 	/*
@@ -193,8 +178,7 @@ public class ImageRenderEvent extends PrimitiveRenderEvent
 	 * 
 	 * @see org.eclipse.birt.chart.event.ChartEvent#reset()
 	 */
-	public void reset( )
-	{
+	public void reset() {
 		this.loc = null;
 		this.pos = null;
 	}

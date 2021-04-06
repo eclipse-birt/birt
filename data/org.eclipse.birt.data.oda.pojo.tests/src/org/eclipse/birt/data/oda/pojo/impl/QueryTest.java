@@ -20,10 +20,8 @@ import org.eclipse.birt.data.oda.pojo.util.PojoQueryWriter;
 import org.eclipse.datatools.connectivity.oda.IParameterMetaData;
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-
 import org.junit.Test;
 import static org.junit.Assert.*;
-
 
 /**
  * 
@@ -33,19 +31,16 @@ public class QueryTest {
 
 	@SuppressWarnings("nls")
 	@Test
-    public void testGetParameterMetaData( ) throws OdaException
-	{
-		PojoQuery pq = PojoQueryCreator.createWithParameters( );
-		Query q = new Query( null );
-		q.prepare( PojoQueryWriter.write( pq ) );
-		IParameterMetaData pmd = q.getParameterMetaData( );
-		assertEquals( 2, pmd.getParameterCount( ) );
-		assertEquals( "id", pmd.getParameterName( 1 ) );
-		assertEquals( "sex", pmd.getParameterName( 2 ) );
-		assertEquals( Driver.getNativeDataTypeCode( Constants.ODA_TYPE_Integer ), 
-				pmd.getParameterType( 1 ) );
-		assertEquals( Driver.getNativeDataTypeCode( Constants.ODA_TYPE_Boolean ), 
-				pmd.getParameterType( 2 ) );
+	public void testGetParameterMetaData() throws OdaException {
+		PojoQuery pq = PojoQueryCreator.createWithParameters();
+		Query q = new Query(null);
+		q.prepare(PojoQueryWriter.write(pq));
+		IParameterMetaData pmd = q.getParameterMetaData();
+		assertEquals(2, pmd.getParameterCount());
+		assertEquals("id", pmd.getParameterName(1));
+		assertEquals("sex", pmd.getParameterName(2));
+		assertEquals(Driver.getNativeDataTypeCode(Constants.ODA_TYPE_Integer), pmd.getParameterType(1));
+		assertEquals(Driver.getNativeDataTypeCode(Constants.ODA_TYPE_Boolean), pmd.getParameterType(2));
 
 	}
 

@@ -25,8 +25,7 @@ import org.eclipse.datatools.connectivity.oda.design.ParameterDefinition;
  * 
  */
 
-class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter
-{
+class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter {
 
 	/**
 	 * The data set handle.
@@ -47,9 +46,7 @@ class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter
 	 * @param setDesign
 	 */
 
-	DynamicFilterParameterAdapter( OdaDataSetHandle setHandle,
-			DataSetDesign setDesign )
-	{
+	DynamicFilterParameterAdapter(OdaDataSetHandle setHandle, DataSetDesign setDesign) {
 		this.setHandle = setHandle;
 		this.setDesign = setDesign;
 	}
@@ -62,12 +59,9 @@ class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter
 	 * @param dynamicParamHandle
 	 */
 
-	protected void updateODADynamicFilter( ParameterDefinition paramDefn,
-			FilterExpressionType defaultType,
-			DynamicFilterParameterHandle dynamicParamHandle )
-	{
-		updateParameterDefinitionFromReportParam( paramDefn,
-				dynamicParamHandle, setDesign );
+	protected void updateODADynamicFilter(ParameterDefinition paramDefn, FilterExpressionType defaultType,
+			DynamicFilterParameterHandle dynamicParamHandle) {
+		updateParameterDefinitionFromReportParam(paramDefn, dynamicParamHandle, setDesign);
 	}
 
 	/**
@@ -79,13 +73,9 @@ class DynamicFilterParameterAdapter extends AbstractReportParameterAdapter
 	 * @throws SemanticException
 	 */
 
-	protected void updateROMDynamicFilterParameter(
-			DynamicFilter dynamicFilter,
-			DynamicFilterParameterHandle dynamicFilterParamHandle )
-			throws SemanticException
-	{
-		updateAbstractScalarParameter( dynamicFilterParamHandle,
-				dynamicFilter.exprParamDefn.getDynamicInputParameter( ), null,
-				setHandle );
+	protected void updateROMDynamicFilterParameter(DynamicFilter dynamicFilter,
+			DynamicFilterParameterHandle dynamicFilterParamHandle) throws SemanticException {
+		updateAbstractScalarParameter(dynamicFilterParamHandle, dynamicFilter.exprParamDefn.getDynamicInputParameter(),
+				null, setHandle);
 	}
 }

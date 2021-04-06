@@ -19,8 +19,7 @@ import org.eclipse.gef.commands.Command;
  * Sets the Library editor current editor handle
  * 
  */
-public class SetCurrentEditModelCommand extends Command
-{
+public class SetCurrentEditModelCommand extends Command {
 
 	private Object currentModel;
 	private String type = ""; //$NON-NLS-1$
@@ -28,18 +27,16 @@ public class SetCurrentEditModelCommand extends Command
 	/**
 	 * @param model
 	 */
-	public SetCurrentEditModelCommand( Object model )
-	{
-		this( model, LibraryHandleAdapter.CURRENTMODEL );
+	public SetCurrentEditModelCommand(Object model) {
+		this(model, LibraryHandleAdapter.CURRENTMODEL);
 	}
 
 	/**
 	 * @param model
 	 */
-	public SetCurrentEditModelCommand( Object model, String type )
-	{
+	public SetCurrentEditModelCommand(Object model, String type) {
 		this.currentModel = model;
-		setType( type );
+		setType(type);
 	}
 
 	/*
@@ -48,26 +45,21 @@ public class SetCurrentEditModelCommand extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		HandleAdapterFactory.getInstance( )
-				.getLibraryHandleAdapter( )
-				.setCurrentEditorModel( currentModel, getType( ) );
+	public void execute() {
+		HandleAdapterFactory.getInstance().getLibraryHandleAdapter().setCurrentEditorModel(currentModel, getType());
 	}
 
 	/**
 	 * @return
 	 */
-	public String getType( )
-	{
+	public String getType() {
 		return type;
 	}
 
 	/**
 	 * @param type
 	 */
-	public void setType( String type )
-	{
+	public void setType(String type) {
 		this.type = type;
 	}
 }

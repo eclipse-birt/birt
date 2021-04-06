@@ -16,10 +16,9 @@ package org.eclipse.birt.report.model.elements.interfaces;
  *
  */
 
-public interface IOdaOlapElementModel
-{
+public interface IOdaOlapElementModel {
 	/**
-	 * Name of the property that identifies the extension. 
+	 * Name of the property that identifies the extension.
 	 */
 
 	public static final String NATIVE_NAME_PROP = "nativeName"; //$NON-NLS-1$

@@ -24,8 +24,7 @@ import org.eclipse.birt.report.engine.api.IGetParameterDefinitionTask;
  * 
  */
 
-public class ParameterNodeFactory
-{
+public class ParameterNodeFactory {
 
 	/**
 	 * Builds parameter tree.
@@ -34,35 +33,29 @@ public class ParameterNodeFactory
 	 * @return parameter tree.
 	 */
 
-	public static IParameterNode buildParamTree(
-			IGetParameterDefinitionTask task )
-	{
-		ParameterFactory factory = new ParameterFactory( task );
-		List children = factory.getRootChildren( );
+	public static IParameterNode buildParamTree(IGetParameterDefinitionTask task) {
+		ParameterFactory factory = new ParameterFactory(task);
+		List children = factory.getRootChildren();
 
-		CompositeParameterNode rootNode = new CompositeParameterNode( );
+		CompositeParameterNode rootNode = new CompositeParameterNode();
 
-		Iterator iterator = children.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			Object obj = iterator.next( );
+		Iterator iterator = children.iterator();
+		while (iterator.hasNext()) {
+			Object obj = iterator.next();
 
-			if ( obj instanceof IParameter )
-			{
+			if (obj instanceof IParameter) {
 				IParameter param = (IParameter) obj;
-				LeafParameterNode leaf = new LeafParameterNode( param );
-				rootNode.add( leaf );
+				LeafParameterNode leaf = new LeafParameterNode(param);
+				rootNode.add(leaf);
 
-			}
-			else if ( obj instanceof IParameterGroup )
-			{
+			} else if (obj instanceof IParameterGroup) {
 				IParameterGroup parameterGroup = (IParameterGroup) obj;
-				CompositeParameterNode node = new CompositeParameterNode( );
+				CompositeParameterNode node = new CompositeParameterNode();
 
-				List childList = parameterGroup.getChildren( );
-				rootNode.add( node );
+				List childList = parameterGroup.getChildren();
+				rootNode.add(node);
 
-				buildParamGroup( node, childList );
+				buildParamGroup(node, childList);
 			}
 
 		}
@@ -75,17 +68,15 @@ public class ParameterNodeFactory
 	 * @param node
 	 * @param childList
 	 */
-	private static void buildParamGroup( CompositeParameterNode node, List childList )
-	{
+	private static void buildParamGroup(CompositeParameterNode node, List childList) {
 		assert node != null;
 		assert childList != null;
 
-		Iterator iterator = childList.iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			IParameter param = (IParameter) iterator.next( );
-			LeafParameterNode leaf = new LeafParameterNode( param );
-			node.add( leaf );
+		Iterator iterator = childList.iterator();
+		while (iterator.hasNext()) {
+			IParameter param = (IParameter) iterator.next();
+			LeafParameterNode leaf = new LeafParameterNode(param);
+			node.add(leaf);
 		}
 	}
 

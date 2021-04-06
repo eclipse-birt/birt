@@ -10,8 +10,7 @@ import org.osgi.framework.BundleContext;
 /**
  * The main plugin class to be used in the desktop.
  */
-public class ChartReportItemUIActivator extends AbstractUIPlugin
-{
+public class ChartReportItemUIActivator extends AbstractUIPlugin {
 
 	/** Plugin ID */
 	public static final String ID = "org.eclipse.birt.chart.reportitem.ui"; //$NON-NLS-1$
@@ -27,34 +26,27 @@ public class ChartReportItemUIActivator extends AbstractUIPlugin
 	/**
 	 * The constructor.
 	 */
-	public ChartReportItemUIActivator( )
-	{
+	public ChartReportItemUIActivator() {
 		plugin = this;
 	}
 
 	/**
 	 * This method is called upon plug-in activation
 	 */
-	public void start( BundleContext context ) throws Exception
-	{
-		super.start( context );
+	public void start(BundleContext context) throws Exception {
+		super.start(context);
 
-		initReportItemUIFactory( this );
+		initReportItemUIFactory(this);
 
-		PreferenceFactory.getInstance( )
-				.getPreferences( this )
-				.setDefault( PREFERENCE_ENALBE_LIVE, true );
-		PreferenceFactory.getInstance( )
-				.getPreferences( this )
-				.setDefault( PREFERENCE_MAX_ROW, MAX_ROW_DEFAULT );
+		PreferenceFactory.getInstance().getPreferences(this).setDefault(PREFERENCE_ENALBE_LIVE, true);
+		PreferenceFactory.getInstance().getPreferences(this).setDefault(PREFERENCE_MAX_ROW, MAX_ROW_DEFAULT);
 	}
 
 	/**
 	 * This method is called when the plug-in is stopped
 	 */
-	public void stop( BundleContext context ) throws Exception
-	{
-		super.stop( context );
+	public void stop(BundleContext context) throws Exception {
+		super.stop(context);
 		plugin = null;
 	}
 
@@ -63,33 +55,26 @@ public class ChartReportItemUIActivator extends AbstractUIPlugin
 	 * 
 	 * @return the shared instance.
 	 */
-	public static ChartReportItemUIActivator getDefault( )
-	{
+	public static ChartReportItemUIActivator getDefault() {
 		return plugin;
 	}
 
 	/**
-	 * Returns an image descriptor for the image file at the given plug-in
-	 * relative path.
+	 * Returns an image descriptor for the image file at the given plug-in relative
+	 * path.
 	 * 
-	 * @param path
-	 *            the path
+	 * @param path the path
 	 * @return the image descriptor
 	 */
-	public static ImageDescriptor getImageDescriptor( String path )
-	{
-		return AbstractUIPlugin.imageDescriptorFromPlugin( "org.eclipse.birt.chart.reportitem.ui", //$NON-NLS-1$
-				path );
+	public static ImageDescriptor getImageDescriptor(String path) {
+		return AbstractUIPlugin.imageDescriptorFromPlugin("org.eclipse.birt.chart.reportitem.ui", //$NON-NLS-1$
+				path);
 	}
 
-	private static void initReportItemUIFactory(
-			ChartReportItemUIActivator plugin )
-	{
-		ChartReportItemUIFactory factory = ChartUtil.getAdapter( plugin,
-				ChartReportItemUIFactory.class );
-		if ( factory != null )
-		{
-			ChartReportItemUIFactory.initInstance( factory );
+	private static void initReportItemUIFactory(ChartReportItemUIActivator plugin) {
+		ChartReportItemUIFactory factory = ChartUtil.getAdapter(plugin, ChartReportItemUIFactory.class);
+		if (factory != null) {
+			ChartReportItemUIFactory.initInstance(factory);
 		}
 	}
 }

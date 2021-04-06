@@ -21,46 +21,41 @@ import com.ibm.icu.util.ULocale;
 /**
  * Implementation of ResourceHandle in DtE project
  */
-public class AdapterResourceHandle extends ResourceHandle
-{
+public class AdapterResourceHandle extends ResourceHandle {
 	private static AdapterResourceHandle resourceHandle;
 	private static Map localeResourceHandleMap;
-	
+
 	/**
 	 * @param locale
 	 */
-	public AdapterResourceHandle( ULocale locale )
-	{
-		super( locale );
+	public AdapterResourceHandle(ULocale locale) {
+		super(locale);
 	}
-	
+
 	/**
 	 * @return the DataResourceHandle with default ULocale
 	 */
-	public synchronized static AdapterResourceHandle getInstance( )
-	{
-		if ( resourceHandle == null )
-			resourceHandle = getInstance( ULocale.getDefault( ) );
+	public synchronized static AdapterResourceHandle getInstance() {
+		if (resourceHandle == null)
+			resourceHandle = getInstance(ULocale.getDefault());
 
 		return resourceHandle;
 	}
-	
+
 	/**
 	 * @return the DataResourceHandle with default ULocale
 	 */
-	public synchronized static AdapterResourceHandle getInstance( ULocale locale )
-	{
-		if ( localeResourceHandleMap == null )
-			localeResourceHandleMap = new HashMap( );
+	public synchronized static AdapterResourceHandle getInstance(ULocale locale) {
+		if (localeResourceHandleMap == null)
+			localeResourceHandleMap = new HashMap();
 
-		AdapterResourceHandle ret = (AdapterResourceHandle) localeResourceHandleMap.get( locale );
+		AdapterResourceHandle ret = (AdapterResourceHandle) localeResourceHandleMap.get(locale);
 
-		if ( ret == null )
-		{
-			ret = new AdapterResourceHandle( locale );
-			localeResourceHandleMap.put( locale, ret );
+		if (ret == null) {
+			ret = new AdapterResourceHandle(locale);
+			localeResourceHandleMap.put(locale, ret);
 		}
 		return ret;
 	}
-	
+
 }

@@ -18,35 +18,21 @@ import org.eclipse.birt.report.model.api.elements.DesignChoiceConstants;
 /**
  * Converts the input text on paramter dialog to the value of chosen data type
  */
-public class DataTypeConvertUtil
-{
+public class DataTypeConvertUtil {
 
-	public static Object convert( Object value, String type )
-			throws BirtException
-	{
-		if ( DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals( type ) )
-		{
-			return DataTypeUtil.toBoolean( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DATETIME.equals( type ) )
-		{
-			return DataTypeUtil.toDate( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals( type ) )
-		{
-			return DataTypeUtil.toBigDecimal( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_FLOAT.equals( type ) )
-		{
-			return DataTypeUtil.toDouble( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_STRING.equals( type ) )
-		{
-			return DataTypeUtil.toString( value );
-		}
-		else if ( DesignChoiceConstants.PARAM_TYPE_INTEGER.equals( type ) )
-		{
-			return DataTypeUtil.toInteger( value );
+	public static Object convert(Object value, String type) throws BirtException {
+		if (DesignChoiceConstants.PARAM_TYPE_BOOLEAN.equals(type)) {
+			return DataTypeUtil.toBoolean(value);
+		} else if (DesignChoiceConstants.PARAM_TYPE_DATETIME.equals(type)) {
+			return DataTypeUtil.toDate(value);
+		} else if (DesignChoiceConstants.PARAM_TYPE_DECIMAL.equals(type)) {
+			return DataTypeUtil.toBigDecimal(value);
+		} else if (DesignChoiceConstants.PARAM_TYPE_FLOAT.equals(type)) {
+			return DataTypeUtil.toDouble(value);
+		} else if (DesignChoiceConstants.PARAM_TYPE_STRING.equals(type)) {
+			return DataTypeUtil.toString(value);
+		} else if (DesignChoiceConstants.PARAM_TYPE_INTEGER.equals(type)) {
+			return DataTypeUtil.toInteger(value);
 		}
 		return value;
 	}

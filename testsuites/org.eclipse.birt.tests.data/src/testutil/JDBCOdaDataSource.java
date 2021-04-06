@@ -35,8 +35,7 @@ public class JDBCOdaDataSource {
 	 * @param password
 	 * @throws BirtException
 	 */
-	JDBCOdaDataSource(String url, String driverClass, String user,
-			String password) throws BirtException {
+	JDBCOdaDataSource(String url, String driverClass, String user, String password) throws BirtException {
 		jdbDataSource = new OdaDataSourceDesign("Test Data Source");
 		jdbDataSource.setExtensionID(DATA_SOURCE_TYPE);
 		jdbDataSource.addPublicProperty("odaURL", url);

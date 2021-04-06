@@ -18,33 +18,25 @@ import org.eclipse.birt.chart.script.api.series.data.IDifferenceData;
  * 
  */
 
-public class DifferenceDataImpl extends SeriesDataImpl
-		implements
-			IDifferenceData
-{
+public class DifferenceDataImpl extends SeriesDataImpl implements IDifferenceData {
 
-	public DifferenceDataImpl( SeriesDefinition sd )
-	{
-		super( sd );
+	public DifferenceDataImpl(SeriesDefinition sd) {
+		super(sd);
 	}
 
-	public String getHighExpr( )
-	{
-		return getExprByIndex( 0 );
+	public String getHighExpr() {
+		return getExprByIndex(0);
 	}
 
-	public String getLowExpr( )
-	{
-		return getExprByIndex( 1 );
+	public String getLowExpr() {
+		return getExprByIndex(1);
 	}
 
-	public void setHighExpr( String expr )
-	{
-		setExprsByIndex( 0, expr );
+	public void setHighExpr(String expr) {
+		setExprsByIndex(0, expr);
 	}
 
-	public void setLowExpr( String expr )
-	{
-		setExprsByIndex( 1, expr );
+	public void setLowExpr(String expr) {
+		setExprsByIndex(1, expr);
 	}
 }

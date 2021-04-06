@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for SimpleDataSet to define the constants.
  */
-public interface ISimpleDataSetModel
-{
+public interface ISimpleDataSetModel {
 	/**
 	 * Name of the data source property.
 	 */
@@ -53,18 +52,19 @@ public interface ISimpleDataSetModel
 	public static final String ON_FETCH_METHOD = "onFetch"; //$NON-NLS-1$
 
 	/**
-	 * The property name of the data set parameter binding elements that bind
-	 * data set input parameters to expressions.
+	 * The property name of the data set parameter binding elements that bind data
+	 * set input parameters to expressions.
 	 */
 
 	public static final String PARAM_BINDINGS_PROP = "paramBindings"; //$NON-NLS-1$
 
 	/**
 	 * The property name of cached row count.
+	 * 
 	 * @deprecated
 	 */
 	public static final String CACHED_ROW_COUNT_PROP = "cachedRowCount"; //$NON-NLS-1$
-	
+
 	/**
 	 * The property name of data set row limit.
 	 */

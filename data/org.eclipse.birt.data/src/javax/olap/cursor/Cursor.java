@@ -4,13 +4,12 @@
 
 package javax.olap.cursor;
 
-public interface Cursor extends javax.olap.query.querycoremodel.NamedObject
-{
+public interface Cursor extends javax.olap.query.querycoremodel.NamedObject {
 
-	public java.lang.Object clone( );
+	public java.lang.Object clone();
 
-	public boolean equals( java.lang.Object arg0 );
+	public boolean equals(java.lang.Object arg0);
 
-	public int hashCode( );
+	public int hashCode();
 
 }

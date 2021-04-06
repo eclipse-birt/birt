@@ -15,12 +15,9 @@ import org.eclipse.birt.report.engine.emitter.IEmitterServices;
 import org.eclipse.birt.report.engine.layout.emitter.PageDeviceRender;
 import org.eclipse.birt.report.engine.layout.emitter.PageEmitter;
 
-public class PPTXEmitter extends PageEmitter
-{
+public class PPTXEmitter extends PageEmitter {
 
-	public PageDeviceRender createRender( IEmitterServices service )
-			throws EngineException
-	{
-		return new PPTXRender( service );
+	public PageDeviceRender createRender(IEmitterServices service) throws EngineException {
+		return new PPTXRender(service);
 	}
 }

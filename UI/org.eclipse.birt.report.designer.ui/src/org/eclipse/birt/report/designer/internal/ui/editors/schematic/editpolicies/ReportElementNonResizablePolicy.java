@@ -23,28 +23,21 @@ import org.eclipse.gef.tools.SelectEditPartTracker;
 /**
  * ReportElementNonResizablePolicy
  */
-public class ReportElementNonResizablePolicy extends NonResizableEditPolicy
-{
+public class ReportElementNonResizablePolicy extends NonResizableEditPolicy {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.NonResizableEditPolicy#createSelectionHandles()
+	 * @see
+	 * org.eclipse.gef.editpolicies.NonResizableEditPolicy#createSelectionHandles()
 	 */
-	protected List createSelectionHandles( )
-	{
-		List list = new ArrayList( );
-		if ( isDragAllowed( ) )
-		{
-			ReportNonResizableHandleKit.addHandles( (GraphicalEditPart) getHost( ),
-					list );
-		}
-		else
-		{
-			ReportNonResizableHandleKit.addHandles( (GraphicalEditPart) getHost( ),
-					list,
-					new SelectEditPartTracker( getHost( ) ),
-					SharedCursors.ARROW );
+	protected List createSelectionHandles() {
+		List list = new ArrayList();
+		if (isDragAllowed()) {
+			ReportNonResizableHandleKit.addHandles((GraphicalEditPart) getHost(), list);
+		} else {
+			ReportNonResizableHandleKit.addHandles((GraphicalEditPart) getHost(), list,
+					new SelectEditPartTracker(getHost()), SharedCursors.ARROW);
 		}
 		return list;
 	}

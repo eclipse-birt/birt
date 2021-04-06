@@ -23,9 +23,7 @@ import org.eclipse.birt.report.model.api.ModuleUtil;
 import org.eclipse.birt.report.model.elements.interfaces.IDataSourceModel;
 import org.mozilla.javascript.Scriptable;
 
-public class DataSourceScriptExecutor extends DtEScriptExecutor implements
-		IBaseDataSourceEventHandler
-{
+public class DataSourceScriptExecutor extends DtEScriptExecutor implements IBaseDataSourceEventHandler {
 
 	protected DataSourceHandle dataSourceHandle;
 
@@ -35,156 +33,117 @@ public class DataSourceScriptExecutor extends DtEScriptExecutor implements
 	private boolean useBeforeOpenEventHandler = false;
 	private boolean useAfterOpenEventHandler = false;
 	private boolean useAfterCloseEventHandler = false;
-	
-	private final String beforeOpenMethodID, beforeCloseMethodID,
-			afterOpenMethodID, afterCloseMethodID, className;
+
+	private final String beforeOpenMethodID, beforeCloseMethodID, afterOpenMethodID, afterCloseMethodID, className;
 
 	private boolean flag = false;
-	public DataSourceScriptExecutor( DataSourceHandle dataSourceHandle,
-			ExecutionContext context ) throws BirtException
-	{
-		super( context );
+
+	public DataSourceScriptExecutor(DataSourceHandle dataSourceHandle, ExecutionContext context) throws BirtException {
+		super(context);
 		this.dataSourceHandle = dataSourceHandle;
-		className = dataSourceHandle.getEventHandlerClass( );
-		this.useBeforeOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getBeforeOpen( ) );
-		this.useBeforeCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getBeforeClose( ) );
-		this.useAfterOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getAfterOpen( ) );
-		this.useAfterCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSourceHandle.getAfterClose( ) );
-		
-		beforeOpenMethodID = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IDataSourceModel.BEFORE_OPEN_METHOD ) );
-		beforeCloseMethodID = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IDataSourceModel.BEFORE_CLOSE_METHOD ) );
-		afterOpenMethodID = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IDataSourceModel.AFTER_OPEN_METHOD ) );
-		afterCloseMethodID = ModuleUtil.getScriptUID( dataSourceHandle.getPropertyHandle( IDataSourceModel.AFTER_CLOSE_METHOD ) );
+		className = dataSourceHandle.getEventHandlerClass();
+		this.useBeforeOpenEventHandler = ScriptTextUtil.isNullOrComments(dataSourceHandle.getBeforeOpen());
+		this.useBeforeCloseEventHandler = ScriptTextUtil.isNullOrComments(dataSourceHandle.getBeforeClose());
+		this.useAfterOpenEventHandler = ScriptTextUtil.isNullOrComments(dataSourceHandle.getAfterOpen());
+		this.useAfterCloseEventHandler = ScriptTextUtil.isNullOrComments(dataSourceHandle.getAfterClose());
+
+		beforeOpenMethodID = ModuleUtil
+				.getScriptUID(dataSourceHandle.getPropertyHandle(IDataSourceModel.BEFORE_OPEN_METHOD));
+		beforeCloseMethodID = ModuleUtil
+				.getScriptUID(dataSourceHandle.getPropertyHandle(IDataSourceModel.BEFORE_CLOSE_METHOD));
+		afterOpenMethodID = ModuleUtil
+				.getScriptUID(dataSourceHandle.getPropertyHandle(IDataSourceModel.AFTER_OPEN_METHOD));
+		afterCloseMethodID = ModuleUtil
+				.getScriptUID(dataSourceHandle.getPropertyHandle(IDataSourceModel.AFTER_CLOSE_METHOD));
 	}
 
-	protected void initEventHandler( )
-	{
-		if ( className != null && !flag )
-		{
-			try
-			{
-				eventHandler = (IDataSourceEventHandler) getInstance( className,
-						context );
+	protected void initEventHandler() {
+		if (className != null && !flag) {
+			try {
+				eventHandler = (IDataSourceEventHandler) getInstance(className, context);
 				flag = true;
-			}
-			catch ( ClassCastException e )
-			{
-				addClassCastException( context,
-						e,
-						dataSourceHandle,
-						IScriptedDataSetEventHandler.class );
-			}
-			catch ( EngineException e )
-			{
-				addException( context, e, dataSourceHandle );
+			} catch (ClassCastException e) {
+				addClassCastException(context, e, dataSourceHandle, IScriptedDataSetEventHandler.class);
+			} catch (EngineException e) {
+				addException(context, e, dataSourceHandle);
 			}
 		}
 	}
 
-	public void handleBeforeOpen( IDataSourceInstanceHandle dataSource )
-	{
-		initEventHandler( );
-		if ( reportContext == null )
+	public void handleBeforeOpen(IDataSourceInstanceHandle dataSource) {
+		initEventHandler();
+		if (reportContext == null)
 			return;
-		try
-		{
-			if ( !this.useBeforeOpenEventHandler )
-			{
-				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
-						dataSource.getName( ),
-						BEFORE_OPEN,
-						dataSourceHandle.getBeforeOpen( ),
-						beforeOpenMethodID );
-				if ( status.didRun( ) )
+		try {
+			if (!this.useBeforeOpenEventHandler) {
+				ScriptStatus status = handleJS(dataSource.getScriptScope(), dataSource.getName(), BEFORE_OPEN,
+						dataSourceHandle.getBeforeOpen(), beforeOpenMethodID);
+				if (status.didRun())
 					return;
 			}
-			if ( eventHandler != null )
-				eventHandler.beforeOpen( new DataSourceInstance( dataSource ),
-						reportContext );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+			if (eventHandler != null)
+				eventHandler.beforeOpen(new DataSourceInstance(dataSource), reportContext);
+		} catch (Exception e) {
+			addException(context, e);
 		}
 	}
 
-	public void handleBeforeClose( IDataSourceInstanceHandle dataSource )
-	{
-		initEventHandler( );
-		if ( reportContext == null )
+	public void handleBeforeClose(IDataSourceInstanceHandle dataSource) {
+		initEventHandler();
+		if (reportContext == null)
 			return;
-		try
-		{
-			if ( !this.useBeforeCloseEventHandler )
-			{
-				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
-						dataSource.getName( ),
-						BEFORE_CLOSE,
-						dataSourceHandle.getBeforeClose( ), beforeCloseMethodID );
-				if ( status.didRun( ) )
+		try {
+			if (!this.useBeforeCloseEventHandler) {
+				ScriptStatus status = handleJS(dataSource.getScriptScope(), dataSource.getName(), BEFORE_CLOSE,
+						dataSourceHandle.getBeforeClose(), beforeCloseMethodID);
+				if (status.didRun())
 					return;
 			}
-			if ( eventHandler != null )
-				eventHandler.beforeClose( new DataSourceInstance( dataSource ),
-						reportContext );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+			if (eventHandler != null)
+				eventHandler.beforeClose(new DataSourceInstance(dataSource), reportContext);
+		} catch (Exception e) {
+			addException(context, e);
 		}
 	}
 
-	public void handleAfterOpen( IDataSourceInstanceHandle dataSource )
-	{
-		initEventHandler( );
-		if ( reportContext == null )
+	public void handleAfterOpen(IDataSourceInstanceHandle dataSource) {
+		initEventHandler();
+		if (reportContext == null)
 			return;
-		try
-		{
-			if ( !this.useAfterOpenEventHandler )
-			{
-				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
-						dataSource.getName( ),
-						AFTER_OPEN,
-						dataSourceHandle.getAfterOpen( ), afterOpenMethodID );
-				if ( status.didRun( ) )
+		try {
+			if (!this.useAfterOpenEventHandler) {
+				ScriptStatus status = handleJS(dataSource.getScriptScope(), dataSource.getName(), AFTER_OPEN,
+						dataSourceHandle.getAfterOpen(), afterOpenMethodID);
+				if (status.didRun())
 					return;
 			}
-			if ( eventHandler != null )
-				eventHandler.afterOpen( new DataSourceInstance( dataSource ),
-						reportContext );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+			if (eventHandler != null)
+				eventHandler.afterOpen(new DataSourceInstance(dataSource), reportContext);
+		} catch (Exception e) {
+			addException(context, e);
 		}
 	}
 
-	public void handleAfterClose( IDataSourceInstanceHandle dataSource )
-	{
-		initEventHandler( );
-		if ( reportContext == null )
+	public void handleAfterClose(IDataSourceInstanceHandle dataSource) {
+		initEventHandler();
+		if (reportContext == null)
 			return;
-		try
-		{
-			if ( !this.useAfterCloseEventHandler )
-			{
-				ScriptStatus status = handleJS( dataSource.getScriptScope( ),
-						dataSource.getName( ),
-						AFTER_CLOSE,
-						dataSourceHandle.getAfterClose( ), afterCloseMethodID );
-				if ( status.didRun( ) )
+		try {
+			if (!this.useAfterCloseEventHandler) {
+				ScriptStatus status = handleJS(dataSource.getScriptScope(), dataSource.getName(), AFTER_CLOSE,
+						dataSourceHandle.getAfterClose(), afterCloseMethodID);
+				if (status.didRun())
 					return;
 			}
-			if ( eventHandler != null )
-				eventHandler.afterClose( reportContext );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+			if (eventHandler != null)
+				eventHandler.afterClose(reportContext);
+		} catch (Exception e) {
+			addException(context, e);
 		}
 	}
 
-	protected ScriptStatus handleJS( Scriptable scope, String name,
-			String method, String script, String id )
-	{
-		return handleJS( scope, DATA_SOURCE, name, method, script, id );
+	protected ScriptStatus handleJS(Scriptable scope, String name, String method, String script, String id) {
+		return handleJS(scope, DATA_SOURCE, name, method, script, id);
 	}
 
 }

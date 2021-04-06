@@ -24,19 +24,17 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Edit biding action
  */
-public class EditBindingAction extends InsertRowAction
-{
+public class EditBindingAction extends InsertRowAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.action.editBinding"; //$NON-NLS-1$
 
 	/**
 	 * @param part
 	 */
-	public EditBindingAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( Messages.getString( "DesignerActionBarContributor.menu.element.editDataBinding" ) ); //$NON-NLS-1$
+	public EditBindingAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(Messages.getString("DesignerActionBarContributor.menu.element.editDataBinding")); //$NON-NLS-1$
 	}
 
 	/*
@@ -44,34 +42,25 @@ public class EditBindingAction extends InsertRowAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		return moduleHandle != null
-				&& ( !moduleHandle.getVisibleDataSets( ).isEmpty( ) || ( getSelectedElement( ) != null && getSelectedElement( ).getDataSet( ) != null ) );
+	protected boolean calculateEnabled() {
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
+		return moduleHandle != null && (!moduleHandle.getVisibleDataSets().isEmpty()
+				|| (getSelectedElement() != null && getSelectedElement().getDataSet() != null));
 	}
 
-	private ReportItemHandle getSelectedElement( )
-	{
-		if ( getTableEditPart( ) != null
-				&& getTableEditPart( ).getModel( ) instanceof ReportItemHandle )
-		{
-			return (ReportItemHandle) getTableEditPart( ).getModel( );
+	private ReportItemHandle getSelectedElement() {
+		if (getTableEditPart() != null && getTableEditPart().getModel() instanceof ReportItemHandle) {
+			return (ReportItemHandle) getTableEditPart().getModel();
 
 		}
-		
-		if ( getTableMultipleEditPart( ) != null
-				&& getTableMultipleEditPart().getModel( ) instanceof ReportItemHandle )
-		{
-			return (ReportItemHandle) getTableMultipleEditPart( ).getModel( );
+
+		if (getTableMultipleEditPart() != null && getTableMultipleEditPart().getModel() instanceof ReportItemHandle) {
+			return (ReportItemHandle) getTableMultipleEditPart().getModel();
 
 		}
-			
-		if ( getListEditPart( ) != null
-				&& getListEditPart( ).getModel( ) instanceof ReportItemHandle )
-		{
-			return (ReportItemHandle) getListEditPart( ).getModel( );
+
+		if (getListEditPart() != null && getListEditPart().getModel() instanceof ReportItemHandle) {
+			return (ReportItemHandle) getListEditPart().getModel();
 
 		}
 
@@ -83,20 +72,15 @@ public class EditBindingAction extends InsertRowAction
 	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Edit binding action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Edit binding action >> Run ..."); //$NON-NLS-1$
 		}
 
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editBindingCommand",null ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.editBindingCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 }

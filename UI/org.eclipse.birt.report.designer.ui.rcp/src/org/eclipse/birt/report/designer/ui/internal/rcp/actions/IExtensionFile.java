@@ -11,19 +11,21 @@
 
 package org.eclipse.birt.report.designer.ui.internal.rcp.actions;
 
-
 /**
  * Support RCP open and create a new type file.
  */
 
-public interface IExtensionFile
-{
-	/**Gets the new action
+public interface IExtensionFile {
+	/**
+	 * Gets the new action
+	 * 
 	 * @return
 	 */
 	INewExtensionFileWorkbenchAction getNewAction();
-	
-	/**Gets the file extension
+
+	/**
+	 * Gets the file extension
+	 * 
 	 * @return
 	 */
 	String getFileExtension();

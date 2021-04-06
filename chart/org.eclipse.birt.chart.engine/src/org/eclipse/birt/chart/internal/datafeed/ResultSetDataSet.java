@@ -23,8 +23,7 @@ import org.eclipse.birt.chart.datafeed.IResultSetDataSet;
  * is provided to a custom data set processor that is capable of converting the
  * resultset subset content into the expected chart dataset format.
  */
-public class ResultSetDataSet implements IResultSetDataSet
-{
+public class ResultSetDataSet implements IResultSetDataSet {
 
 	/**
 	 * Indexes of the columns extracted from the parent resultset
@@ -67,17 +66,15 @@ public class ResultSetDataSet implements IResultSetDataSet
 	protected final int listDataType;
 
 	/**
-	 * The constructor that creates an instance of a resultset subset by
-	 * extracting appropriate columns and a row range from a resultset
+	 * The constructor that creates an instance of a resultset subset by extracting
+	 * appropriate columns and a row range from a resultset
 	 * 
 	 * @param liResultSet
 	 * @param iColumnIndex
 	 * @param lStartRow
 	 * @param lEndRow
 	 */
-	public ResultSetDataSet( ResultSetWrapper rsw, int[] iaColumnIndexes,
-			long lStartRow, long lEndRow )
-	{
+	public ResultSetDataSet(ResultSetWrapper rsw, int[] iaColumnIndexes, long lStartRow, long lEndRow) {
 		this.rsw = rsw;
 		this.lst = null;
 		this.iColumnCount = iaColumnIndexes.length;
@@ -89,7 +86,7 @@ public class ResultSetDataSet implements IResultSetDataSet
 		this.listMode = false;
 		this.listDataType = IConstants.UNDEFINED;
 
-		this.reset( );
+		this.reset();
 	}
 
 	/**
@@ -97,22 +94,19 @@ public class ResultSetDataSet implements IResultSetDataSet
 	 * 
 	 * @param lst
 	 */
-	public ResultSetDataSet( List<?> lst, int dataType )
-	{
+	public ResultSetDataSet(List<?> lst, int dataType) {
 		this.rsw = null;
 		this.lst = lst;
 		this.iColumnCount = 1;
-		this.iaColumnIndexes = new int[]{
-			0
-		};
+		this.iaColumnIndexes = new int[] { 0 };
 		this.lStartRow = 0;
-		this.lEndRow = lst.size( );
+		this.lEndRow = lst.size();
 		this.oaTuple = new Object[iColumnCount];
 
 		this.listMode = true;
 		this.listDataType = dataType;
-		
-		this.reset( );
+
+		this.reset();
 	}
 
 	/*
@@ -120,9 +114,8 @@ public class ResultSetDataSet implements IResultSetDataSet
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#hasNext()
 	 */
-	public boolean hasNext( )
-	{
-		return ( lRow < lEndRow );
+	public boolean hasNext() {
+		return (lRow < lEndRow);
 	}
 
 	/*
@@ -130,26 +123,19 @@ public class ResultSetDataSet implements IResultSetDataSet
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#next()
 	 */
-	public Object[] next( )
-	{
+	public Object[] next() {
 		lRow++;
-		if ( lRow > lEndRow )
-		{
+		if (lRow > lEndRow) {
 			return null;
 		}
 
-		if ( listMode )
-		{
-			oaTuple[0] = it.next( );
-		}
-		else
-		{
-			final Object[] oaResultSet = (Object[]) it.next( );
-			for ( int i = 0; i < iColumnCount; i++ )
-			{
-				if ( iaColumnIndexes[i] != -1 )
-				{
-					//ignore the column if the column index is -1.
+		if (listMode) {
+			oaTuple[0] = it.next();
+		} else {
+			final Object[] oaResultSet = (Object[]) it.next();
+			for (int i = 0; i < iColumnCount; i++) {
+				if (iaColumnIndexes[i] != -1) {
+					// ignore the column if the column index is -1.
 					oaTuple[i] = oaResultSet[iaColumnIndexes[i]];
 				}
 			}
@@ -162,41 +148,34 @@ public class ResultSetDataSet implements IResultSetDataSet
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#getDataType()
 	 */
-	public int getDataType( )
-	{
-		if ( listMode )
-		{
+	public int getDataType() {
+		if (listMode) {
 			return listDataType;
 		}
 
-		if ( iaColumnIndexes.length >= 1 )
-		{
-			return rsw.getColumnDataType( iaColumnIndexes[0] );
+		if (iaColumnIndexes.length >= 1) {
+			return rsw.getColumnDataType(iaColumnIndexes[0]);
 		}
 		return IConstants.UNDEFINED;
 	}
-	
-	public int getDataType( int columnIndex )
-	{
-		if ( listMode )
-		{
+
+	public int getDataType(int columnIndex) {
+		if (listMode) {
 			return listDataType;
 		}
 
-		if ( columnIndex < iaColumnIndexes.length )
-		{
-			return rsw.getColumnDataType( iaColumnIndexes[columnIndex] );
+		if (columnIndex < iaColumnIndexes.length) {
+			return rsw.getColumnDataType(iaColumnIndexes[columnIndex]);
 		}
 		return IConstants.UNDEFINED;
-	} 
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#getColumnCount()
 	 */
-	public int getColumnCount( )
-	{
+	public int getColumnCount() {
 		return iColumnCount;
 	}
 
@@ -205,30 +184,23 @@ public class ResultSetDataSet implements IResultSetDataSet
 	 * 
 	 * @see org.eclipse.birt.chart.datafeed.IResultSetDataSet#getSize()
 	 */
-	public long getSize( )
-	{
+	public long getSize() {
 		return lEndRow - lStartRow;
 	}
 
-	public void reset( )
-	{
+	public void reset() {
 		this.lRow = 0;
-		if ( this.rsw != null )
-		{
-			this.it = rsw.iterator( );
+		if (this.rsw != null) {
+			this.it = rsw.iterator();
 			// SCROLL TO START ROW
-			if ( lRow < lStartRow )
-			{
-				while ( lRow < lStartRow )
-				{
+			if (lRow < lStartRow) {
+				while (lRow < lStartRow) {
 					lRow++;
-					it.next( );
+					it.next();
 				}
 			}
-		}
-		else
-		{
-			this.it = lst.iterator( );
+		} else {
+			this.it = lst.iterator();
 		}
 	}
 }

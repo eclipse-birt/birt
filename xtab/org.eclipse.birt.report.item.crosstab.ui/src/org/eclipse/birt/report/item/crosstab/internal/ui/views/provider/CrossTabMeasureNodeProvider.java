@@ -27,74 +27,55 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 
-public class CrossTabMeasureNodeProvider extends DefaultNodeProvider
-{
+public class CrossTabMeasureNodeProvider extends DefaultNodeProvider {
 
-	public Object[] getChildren( Object model )
-	{
+	public Object[] getChildren(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
-		return new Object[]{
-				new CrosstabPropertyHandleWrapper( element.getPropertyHandle( IMeasureViewConstants.HEADER_PROP ) ),
-				new CrosstabPropertyHandleWrapper( element.getPropertyHandle( IMeasureViewConstants.DETAIL_PROP ) ),
-				new CrosstabPropertyHandleWrapper( element.getPropertyHandle( IMeasureViewConstants.AGGREGATIONS_PROP ) )
-		};
+		return new Object[] {
+				new CrosstabPropertyHandleWrapper(element.getPropertyHandle(IMeasureViewConstants.HEADER_PROP)),
+				new CrosstabPropertyHandleWrapper(element.getPropertyHandle(IMeasureViewConstants.DETAIL_PROP)),
+				new CrosstabPropertyHandleWrapper(element.getPropertyHandle(IMeasureViewConstants.AGGREGATIONS_PROP)) };
 
 	}
 
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// do nothing
 
 	}
 
-	public Object getParent( Object model )
-	{
+	public Object getParent(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
-		try
-		{
-			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem( );
-			if ( measure.getContainer( ) != null )
-			{
-				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) measure.getContainer( );
-				return new CrosstabPropertyHandleWrapper( crossTab.getModelHandle( )
-						.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP ) );
+		try {
+			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem();
+			if (measure.getContainer() != null) {
+				CrosstabReportItemHandle crossTab = (CrosstabReportItemHandle) measure.getContainer();
+				return new CrosstabPropertyHandleWrapper(
+						crossTab.getModelHandle().getPropertyHandle(ICrosstabReportItemConstants.MEASURES_PROP));
 			}
-		}
-		catch ( ExtendedElementException e )
-		{
+		} catch (ExtendedElementException e) {
 		}
 
 		return null;
 	}
 
-	public boolean hasChildren( Object model )
-	{
-		return getChildren( model ).length != 0;
+	public boolean hasChildren(Object model) {
+		return getChildren(model).length != 0;
 	}
 
-	public String getNodeDisplayName( Object model )
-	{
+	public String getNodeDisplayName(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
-		try
-		{
-			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem( );
-			return Messages.getString( "CrossTabMeasureNodeProvider.Detail" ) + measure.getCubeMeasureName( ); //$NON-NLS-1$
+		try {
+			MeasureViewHandle measure = (MeasureViewHandle) element.getReportItem();
+			return Messages.getString("CrossTabMeasureNodeProvider.Detail") + measure.getCubeMeasureName(); //$NON-NLS-1$
+		} catch (ExtendedElementException e) {
 		}
-		catch ( ExtendedElementException e )
-		{
-		}
-		return super.getNodeDisplayName( model );
+		return super.getNodeDisplayName(model);
 	}
 
-	public Image getNodeIcon( Object element )
-	{
-		if ( element instanceof DesignElementHandle
-				&& ( (DesignElementHandle) element ).getSemanticErrors( )
-						.size( ) > 0 )
-		{
-			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+	public Image getNodeIcon(Object element) {
+		if (element instanceof DesignElementHandle && ((DesignElementHandle) element).getSemanticErrors().size() > 0) {
+			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
 		}
-		return CrosstabUIHelper.getImage( CrosstabUIHelper.DETAIL_IMAGE );
+		return CrosstabUIHelper.getImage(CrosstabUIHelper.DETAIL_IMAGE);
 	}
 }

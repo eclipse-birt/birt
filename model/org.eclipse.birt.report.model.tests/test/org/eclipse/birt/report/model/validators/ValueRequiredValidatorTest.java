@@ -22,42 +22,34 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * Tests <code>ValueRequiredValidator</code>.
  */
 
-public class ValueRequiredValidatorTest extends ValidatorTestCase
-{
+public class ValueRequiredValidatorTest extends ValidatorTestCase {
 
-	MyListener listener = new MyListener( );
+	MyListener listener = new MyListener();
 
 	/**
 	 * Tests <code>ValueRequiredValidator</code>.
 	 * 
-	 * @throws Exception
-	 *             if any exception
+	 * @throws Exception if any exception
 	 */
 
-	public void testTriggers( ) throws Exception
-	{
-		createDesign( );
-		MetaDataDictionary.getInstance( ).setUseValidationTrigger( true );
-		
-		OdaDataSetHandle dataSetHandle = designHandle.getElementFactory( )
-				.newOdaDataSet( "dataset1" ); //$NON-NLS-1$
-		designHandle.addValidationListener( listener );
-		designHandle.getDataSets( ).add( dataSetHandle );
-		assertTrue( listener.hasError( dataSetHandle, ValueRequiredValidator
-				.getInstance( ).getName( ), SimpleDataSet.DATA_SOURCE_PROP,
-				PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+	public void testTriggers() throws Exception {
+		createDesign();
+		MetaDataDictionary.getInstance().setUseValidationTrigger(true);
 
-		OdaDataSourceHandle dataSourceHandle = designHandle.getElementFactory( )
-				.newOdaDataSource( "dataSource1" ); //$NON-NLS-1$
-		designHandle.getDataSources( ).add( dataSourceHandle );
-		dataSetHandle.setDataSource( dataSourceHandle.getName( ) );
-		assertFalse( listener.hasError( dataSetHandle, ValueRequiredValidator
-				.getInstance( ).getName( ),SimpleDataSet.DATA_SOURCE_PROP,
-				PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		OdaDataSetHandle dataSetHandle = designHandle.getElementFactory().newOdaDataSet("dataset1"); //$NON-NLS-1$
+		designHandle.addValidationListener(listener);
+		designHandle.getDataSets().add(dataSetHandle);
+		assertTrue(listener.hasError(dataSetHandle, ValueRequiredValidator.getInstance().getName(),
+				SimpleDataSet.DATA_SOURCE_PROP, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED));
 
-		dataSetHandle.setDataSource( null );
-		assertTrue( listener.hasError( dataSetHandle, ValueRequiredValidator
-				.getInstance( ).getName( ),SimpleDataSet.DATA_SOURCE_PROP,
-				PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		OdaDataSourceHandle dataSourceHandle = designHandle.getElementFactory().newOdaDataSource("dataSource1"); //$NON-NLS-1$
+		designHandle.getDataSources().add(dataSourceHandle);
+		dataSetHandle.setDataSource(dataSourceHandle.getName());
+		assertFalse(listener.hasError(dataSetHandle, ValueRequiredValidator.getInstance().getName(),
+				SimpleDataSet.DATA_SOURCE_PROP, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED));
+
+		dataSetHandle.setDataSource(null);
+		assertTrue(listener.hasError(dataSetHandle, ValueRequiredValidator.getInstance().getName(),
+				SimpleDataSet.DATA_SOURCE_PROP, PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED));
 	}
 }

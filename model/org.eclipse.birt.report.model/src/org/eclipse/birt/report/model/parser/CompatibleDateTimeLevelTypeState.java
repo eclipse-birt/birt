@@ -21,8 +21,7 @@ import org.xml.sax.SAXException;
  * 
  */
 
-public class CompatibleDateTimeLevelTypeState extends CompatiblePropertyState
-{
+public class CompatibleDateTimeLevelTypeState extends CompatiblePropertyState {
 
 	/**
 	 * Constructor
@@ -31,10 +30,8 @@ public class CompatibleDateTimeLevelTypeState extends CompatiblePropertyState
 	 * @param element
 	 */
 
-	public CompatibleDateTimeLevelTypeState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	public CompatibleDateTimeLevelTypeState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/**
@@ -43,19 +40,17 @@ public class CompatibleDateTimeLevelTypeState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		if ( "week".equals( value ) ) //$NON-NLS-1$
+		if ("week".equals(value)) //$NON-NLS-1$
 		{
 			value = DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_WEEK_OF_YEAR;
-		}
-		else if ( "day".equals( value ) )//$NON-NLS-1$
+		} else if ("day".equals(value))//$NON-NLS-1$
 		{
 			value = DesignChoiceConstants.DATE_TIME_LEVEL_TYPE_DAY_OF_YEAR;
 		}
 
-		setProperty( name, value );
+		setProperty(name, value);
 	}
 }

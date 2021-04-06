@@ -15,8 +15,7 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public class BookmarkContent implements Cloneable
-{
+public class BookmarkContent implements Cloneable {
 
 	private final static int ENDING = 0;
 
@@ -28,121 +27,98 @@ public class BookmarkContent implements Cloneable
 	private long elementId = -1;
 	private long pageNumber = -1;
 
-	public BookmarkContent( )
-	{
+	public BookmarkContent() {
 
 	}
 
-	public BookmarkContent( String bookmark, long elementId )
-	{
+	public BookmarkContent(String bookmark, long elementId) {
 		this.bookmark = bookmark;
 		this.elementId = elementId;
 	}
 
-	public String getBookmark( )
-	{
+	public String getBookmark() {
 		return bookmark;
 	}
 
-	public long getElementId( )
-	{
+	public long getElementId() {
 		return elementId;
 	}
 
-	public void setBookmark( String value )
-	{
+	public void setBookmark(String value) {
 		this.bookmark = value;
 	}
 
-	public void setElementId( int elementId )
-	{
+	public void setElementId(int elementId) {
 		this.elementId = elementId;
 	}
 
-	public long getPageNumber( )
-	{
+	public long getPageNumber() {
 		return pageNumber;
 	}
 
-	public void setPageNumber( long number )
-	{
+	public void setPageNumber(long number) {
 		pageNumber = number;
 	}
 
 	/**
 	 * suggest to use copy()
 	 */
-	public Object clone( )
-	{
-		try
-		{
-			return super.clone( );
-		}
-		catch ( CloneNotSupportedException ex )
-		{
+	public Object clone() {
+		try {
+			return super.clone();
+		} catch (CloneNotSupportedException ex) {
 			// impossible
 		}
 		return null;
 	}
 
 	/**
-	 * It's suggested to use copy() instead of new an object if the new object
-	 * keeps the same bookmark value
+	 * It's suggested to use copy() instead of new an object if the new object keeps
+	 * the same bookmark value
 	 * 
 	 * @return
 	 */
-	public BookmarkContent copy( )
-	{
+	public BookmarkContent copy() {
 		Object obj = null;
-		try
-		{
-			obj = super.clone( );
-		}
-		catch ( CloneNotSupportedException ex )
-		{
+		try {
+			obj = super.clone();
+		} catch (CloneNotSupportedException ex) {
 			// impossible
 		}
 		return (BookmarkContent) obj;
 	}
 
-	public void writeStream( DataOutput out ) throws IOException
-	{
-		if ( bookmark != null )
-		{
-			out.writeInt( BOOKMARK );
-			out.writeUTF( bookmark );
+	public void writeStream(DataOutput out) throws IOException {
+		if (bookmark != null) {
+			out.writeInt(BOOKMARK);
+			out.writeUTF(bookmark);
 		}
-		if ( elementId != -1 )
-		{
-			out.writeInt( ELEMENT_ID );
-			out.writeLong( elementId );
+		if (elementId != -1) {
+			out.writeInt(ELEMENT_ID);
+			out.writeLong(elementId);
 		}
-		if ( pageNumber != -1 )
-		{
-			out.writeInt( PAGE_NUMBER );
-			out.writeLong( pageNumber );
+		if (pageNumber != -1) {
+			out.writeInt(PAGE_NUMBER);
+			out.writeLong(pageNumber);
 		}
-		out.writeInt( ENDING ); // ending mark or empty mark
+		out.writeInt(ENDING); // ending mark or empty mark
 	}
 
-	public void readStream( DataInput in ) throws IOException
-	{
-		int type = in.readInt( );
-		while ( type != ENDING )
-		{
-			switch ( type )
-			{
-				case BOOKMARK :
-					bookmark = in.readUTF( );
-					break;
-				case ELEMENT_ID :
-					elementId = in.readLong( );
-					break;
-				case PAGE_NUMBER :
-					pageNumber = in.readLong( );
-					break;
+	public void readStream(DataInput in) throws IOException {
+		int type = in.readInt();
+		while (type != ENDING) {
+			switch (type) {
+			case BOOKMARK:
+				bookmark = in.readUTF();
+				break;
+			case ELEMENT_ID:
+				elementId = in.readLong();
+				break;
+			case PAGE_NUMBER:
+				pageNumber = in.readLong();
+				break;
 			}
-			type = in.readInt( );
+			type = in.readInt();
 		}
 	}
 }

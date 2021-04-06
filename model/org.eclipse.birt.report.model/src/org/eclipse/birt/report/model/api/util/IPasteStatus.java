@@ -21,18 +21,17 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * and CopyUtil#canPaste(IElementCopy,
  * org.eclipse.birt.report.model.api.DesignElementHandle, String)}.
  */
-public interface IPasteStatus
-{
+public interface IPasteStatus {
 
 	/**
 	 * 
 	 * @return
 	 */
-	boolean canPaste( );
+	boolean canPaste();
 
 	/**
 	 * 
 	 * @return
 	 */
-	List<SemanticException> getErrors( );
+	List<SemanticException> getErrors();
 }

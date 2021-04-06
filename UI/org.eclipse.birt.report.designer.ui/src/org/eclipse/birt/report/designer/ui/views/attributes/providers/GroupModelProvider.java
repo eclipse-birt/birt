@@ -32,19 +32,15 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
 import org.eclipse.birt.report.model.api.elements.structures.ResultSetColumn;
 import org.eclipse.birt.report.model.api.metadata.IElementPropertyDefn;
 
-
 /**
  * Group data processor
  */
-public class GroupModelProvider
-{
+public class GroupModelProvider {
 
 	/**
 	 * Column widths.
 	 */
-	private static int[] columnWidth = new int[]{
-			250, 250
-	};
+	private static int[] columnWidth = new int[] { 250, 250 };
 
 	/**
 	 * Constant, represents empty String array.
@@ -54,35 +50,28 @@ public class GroupModelProvider
 	/**
 	 * Gets the display names of the given property keys.
 	 * 
-	 * @param keys
-	 *            Property keys
+	 * @param keys Property keys
 	 * @return String array contains display names
 	 */
-	public String[] getColumnNames( String[] keys )
-	{
+	public String[] getColumnNames(String[] keys) {
 		assert keys != null;
 		String[] columnNames = new String[keys.length];
 
-		for ( int i = 0; i < keys.length; i++ )
-		{
-			columnNames[i] = getDisplayName( ReportDesignConstants.TABLE_GROUP_ELEMENT,
-					keys[i] );
+		for (int i = 0; i < keys.length; i++) {
+			columnNames[i] = getDisplayName(ReportDesignConstants.TABLE_GROUP_ELEMENT, keys[i]);
 		}
 		return columnNames;
 	}
-	
-	private String getDisplayName( String elementName, String property)
-	{
+
+	private String getDisplayName(String elementName, String property) {
 		String name = null;
-		IElementPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
-				.getElement( elementName )
-				.getProperty( property );
-		if ( propertyDefn != null )
-		{
-			name = Messages.getString( propertyDefn.getDisplayNameID( ) );
+		IElementPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary().getElement(elementName)
+				.getProperty(property);
+		if (propertyDefn != null) {
+			name = Messages.getString(propertyDefn.getDisplayNameID());
 		}
 
-		if ( name == null )
+		if (name == null)
 			return ""; //$NON-NLS-1$
 		return name;
 	}
@@ -90,74 +79,63 @@ public class GroupModelProvider
 	/**
 	 * Gets all elements of the given input.
 	 * 
-	 * @param input
-	 *            The input object.
+	 * @param input The input object.
 	 * @return Groups array. Return null if the list if empty.
 	 */
-	public Object[] getElements( List input )
-	{
-		if(input.isEmpty())
-		{
+	public Object[] getElements(List input) {
+		if (input.isEmpty()) {
 			return null;
 		}
-		Object obj = input.get( 0 );
-		if ( !( obj instanceof ListingHandle ) )
+		Object obj = input.get(0);
+		if (!(obj instanceof ListingHandle))
 			return EMPTY;
 
 		ListingHandle element = (ListingHandle) obj;
-		SlotHandle slot = element.getGroups( );
+		SlotHandle slot = element.getGroups();
 
-		Iterator iterator = slot.iterator( );
-		if ( iterator == null )
+		Iterator iterator = slot.iterator();
+		if (iterator == null)
 			return EMPTY;
-		List list = new ArrayList( );
-		while ( iterator.hasNext( ) )
-			list.add( iterator.next( ) );
-		return list.toArray( );
+		List list = new ArrayList();
+		while (iterator.hasNext())
+			list.add(iterator.next());
+		return list.toArray();
 	}
 
 	/**
 	 * Gets property display name of a given element.
 	 * 
-	 * @param element
-	 *            Group object
-	 * @param key
-	 *            Property key
+	 * @param element Group object
+	 * @param key     Property key
 	 * @return The property display name
 	 */
-	public String getText( Object element, String key )
-	{
+	public String getText(Object element, String key) {
 
 		GroupHandle handle = (GroupHandle) element;
 
-		if ( key.equals( GroupHandle.GROUP_NAME_PROP ) )
-		{
-			if ( handle.getName( ) == null )
+		if (key.equals(GroupHandle.GROUP_NAME_PROP)) {
+			if (handle.getName() == null)
 				return ""; //$NON-NLS-1$
-			return handle.getName( );
+			return handle.getName();
 		}
 
-		if ( handle.getKeyExpr( ) == null )
+		if (handle.getKeyExpr() == null)
 			return ""; //$NON-NLS-1$
-		return handle.getKeyExpr( );
+		return handle.getKeyExpr();
 	}
 
 	/**
 	 * Saves new property value to filter
 	 * 
-	 * @param element
-	 *            Group object
-	 * @param key
-	 *            Property key
-	 * @param newValue
-	 *            new value
+	 * @param element  Group object
+	 * @param key      Property key
+	 * @param newValue new value
 	 * @return True for success, False for failure
 	 */
-	public boolean setStringValue( Object item, Object element, String key,
-			String newValue ) throws NameException, SemanticException
-	{
+	public boolean setStringValue(Object item, Object element, String key, String newValue)
+			throws NameException, SemanticException {
 		GroupHandle handle = (GroupHandle) element;
-		handle.setKeyExpr( newValue );
+		handle.setKeyExpr(newValue);
 
 		return true;
 
@@ -166,64 +144,52 @@ public class GroupModelProvider
 	/**
 	 * Gets the choice set of one property
 	 * 
-	 * @param item
-	 *            ReportItem object
-	 * @param key
-	 *            Property key
+	 * @param item ReportItem object
+	 * @param key  Property key
 	 * @return Choice set
 	 */
-	public String[] getChoiceSet( Object item, String key )
-	{
-		if ( !( item instanceof ReportItemHandle ) )
-		{
+	public String[] getChoiceSet(Object item, String key) {
+		if (!(item instanceof ReportItemHandle)) {
 			return EMPTY;
 		}
-		return getDataSetColumns( (ReportItemHandle) item );
+		return getDataSetColumns((ReportItemHandle) item);
 	}
 
 	/**
 	 * Gets all columns in a dataSet.
 	 * 
-	 * @param handle
-	 *            ReportItem object
+	 * @param handle ReportItem object
 	 * @return Columns array.
 	 */
-	private String[] getDataSetColumns( ReportItemHandle handle )
-	{
-		DataSetHandle dataSet = handle.getDataSet( );
-		if ( dataSet == null )
+	private String[] getDataSetColumns(ReportItemHandle handle) {
+		DataSetHandle dataSet = handle.getDataSet();
+		if (dataSet == null)
 			return EMPTY;
-		Iterator iterator = dataSet.resultSetHintsIterator( );
-		if ( iterator == null )
+		Iterator iterator = dataSet.resultSetHintsIterator();
+		if (iterator == null)
 			return EMPTY;
-		ArrayList columns = new ArrayList( );
-		while ( iterator.hasNext( ) )
-		{
-			ResultSetColumn resultSetColumn = (ResultSetColumn) iterator.next( );
-			columns.add( resultSetColumn.getColumnName( ) );
+		ArrayList columns = new ArrayList();
+		while (iterator.hasNext()) {
+			ResultSetColumn resultSetColumn = (ResultSetColumn) iterator.next();
+			columns.add(resultSetColumn.getColumnName());
 		}
-		return (String[]) columns.toArray( new String[0] );
+		return (String[]) columns.toArray(new String[0]);
 	}
 
 	/**
 	 * Moves one item from a position to another.
 	 * 
-	 * @param item
-	 *            DesignElement object
-	 * @param oldPos
-	 *            The item's old position
-	 * @param newPos
-	 *            The item's current position
+	 * @param item   DesignElement object
+	 * @param oldPos The item's old position
+	 * @param newPos The item's current position
 	 * @return True if success, otherwise false.
 	 */
-	public boolean moveItem( Object item, int oldPos, int newPos )
-			throws SemanticException
-	{
+	public boolean moveItem(Object item, int oldPos, int newPos) throws SemanticException {
 		DesignElementHandle element = (DesignElementHandle) item;
 
-		SlotHandle slotHandle = element.getSlot( ListingHandle.GROUP_SLOT );
-		DesignElementHandle group = slotHandle.get( oldPos );
-		slotHandle.shift( group, newPos );
+		SlotHandle slotHandle = element.getSlot(ListingHandle.GROUP_SLOT);
+		DesignElementHandle group = slotHandle.get(oldPos);
+		slotHandle.shift(group, newPos);
 
 		return true;
 	}
@@ -231,17 +197,14 @@ public class GroupModelProvider
 	/**
 	 * Deletes an item.
 	 * 
-	 * @param item
-	 *            DesignElement object
-	 * @param pos
-	 *            The item's current position
+	 * @param item DesignElement object
+	 * @param pos  The item's current position
 	 * @return True if success, otherwise false.
 	 * @throws SemanticException
 	 */
-	public boolean deleteItem( Object item, int pos ) throws SemanticException
-	{
+	public boolean deleteItem(Object item, int pos) throws SemanticException {
 		DesignElementHandle element = (DesignElementHandle) item;
-		element.getSlot( ListingHandle.GROUP_SLOT ).drop( pos );
+		element.getSlot(ListingHandle.GROUP_SLOT).drop(pos);
 
 		return true;
 	}
@@ -249,24 +212,16 @@ public class GroupModelProvider
 	/**
 	 * Add an item.
 	 * 
-	 * @param item
-	 *            DesignElement object
-	 * @param newGroup
-	 *            The new group to be added
-	 * @param pos
-	 *            The item's current position
+	 * @param item     DesignElement object
+	 * @param newGroup The new group to be added
+	 * @param pos      The item's current position
 	 * @return True if success, otherwise false.
-	 * @throws ContentException,
-	 *             NameException
+	 * @throws ContentException, NameException
 	 */
-	public boolean addItem( Object item, Object newGroup, int pos )
-			throws ContentException, NameException
-	{
+	public boolean addItem(Object item, Object newGroup, int pos) throws ContentException, NameException {
 		DesignElementHandle element = (DesignElementHandle) item;
-		if ( newGroup instanceof GroupHandle )
-		{
-			element.getSlot( ListingHandle.GROUP_SLOT )
-					.add( (GroupHandle) newGroup, pos );
+		if (newGroup instanceof GroupHandle) {
+			element.getSlot(ListingHandle.GROUP_SLOT).add((GroupHandle) newGroup, pos);
 			return true;
 		}
 		return false;
@@ -275,24 +230,24 @@ public class GroupModelProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnWidths()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnWidths()
 	 */
-	public int[] getColumnWidths( )
-	{
+	public int[] getColumnWidths() {
 		return columnWidth;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.
+	 * NotificationEvent)
 	 */
-	public boolean needRefreshed( NotificationEvent event )
-	{
-		if ( event instanceof PropertyEvent )
-		{
-			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-			if ( GroupHandle.KEY_EXPR_PROP.equals( propertyName ) )
+	public boolean needRefreshed(NotificationEvent event) {
+		if (event instanceof PropertyEvent) {
+			String propertyName = ((PropertyEvent) event).getPropertyName();
+			if (GroupHandle.KEY_EXPR_PROP.equals(propertyName))
 				return true;
 		}
 		return false;

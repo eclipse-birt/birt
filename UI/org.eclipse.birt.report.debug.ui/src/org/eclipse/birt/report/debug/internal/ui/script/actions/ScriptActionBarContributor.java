@@ -16,8 +16,6 @@ import org.eclipse.ui.texteditor.BasicTextEditorActionContributor;
 /**
  * ScriptActionBarContributor
  */
-public class ScriptActionBarContributor extends
-		BasicTextEditorActionContributor
-{
+public class ScriptActionBarContributor extends BasicTextEditorActionContributor {
 
 }

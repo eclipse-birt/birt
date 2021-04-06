@@ -13,9 +13,7 @@ package org.eclipse.birt.report.engine.layout;
 
 import org.eclipse.birt.core.exception.BirtException;
 
-
-public interface ILayoutManager
-{
+public interface ILayoutManager {
 
 	/**
 	 * Do layout for this layout manager.
@@ -23,11 +21,11 @@ public interface ILayoutManager
 	 * @return true if page-break occurs, return false if end without page-break
 	 * @throws BirtException
 	 */
-	boolean layout( ) throws BirtException;
-	
+	boolean layout() throws BirtException;
+
 	boolean isFinished();
 
-	void cancel( ) throws BirtException;
+	void cancel() throws BirtException;
 
-	void close( ) throws BirtException;
+	void close() throws BirtException;
 }

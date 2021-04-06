@@ -11,19 +11,15 @@
 
 package org.eclipse.birt.report.model.core.namespace;
 
-
 /**
  * Represents the factory to produce module name space according to different
  * name space ID.
  */
 
-public class NameContextFactory extends NameContextFactoryImpl
-{
+public class NameContextFactory extends NameContextFactoryImpl {
 
-	private NameContextFactory( )
-	{
+	private NameContextFactory() {
 		// Doesn't allow instantiation.
 	}
-
 
 }

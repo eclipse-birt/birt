@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.validators.ValidationExecutor;
  * 
  */
 
-public class ValidationRecordTask extends RecordTask
-{
+public class ValidationRecordTask extends RecordTask {
 
 	/**
 	 * The executor for validation. It can collect the validators and perform
@@ -31,33 +30,27 @@ public class ValidationRecordTask extends RecordTask
 	private ValidationExecutor validationExecutor = null;
 
 	/**
-	 * Constructs a <code>ValidationInterceptorTask</code> with the given
-	 * module.
+	 * Constructs a <code>ValidationInterceptorTask</code> with the given module.
 	 * 
-	 * @param module
-	 *            the report module
+	 * @param module the report module
 	 */
 
-	public ValidationRecordTask( Module module )
-	{
-		super( module );
-		validationExecutor = new ValidationExecutor( module );
+	public ValidationRecordTask(Module module) {
+		super(module);
+		validationExecutor = new ValidationExecutor(module);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.activity.RecordTask#doTask(org.eclipse.
+	 * @see org.eclipse.birt.report.model.activity.RecordTask#doTask(org.eclipse.
 	 * birt.report.model.activity.ActivityRecord, java.util.Stack)
 	 */
-	public void doTask( ActivityRecord record, Stack<CompoundRecord> transStack )
-	{
+	public void doTask(ActivityRecord record, Stack<CompoundRecord> transStack) {
 		assert validationExecutor != null;
 
-		if ( MetaDataDictionary.getInstance( ).useValidationTrigger( ) )
-		{
-			validationExecutor.perform( record.getValidators( ), true );
+		if (MetaDataDictionary.getInstance().useValidationTrigger()) {
+			validationExecutor.perform(record.getValidators(), true);
 		}
 	}
 }

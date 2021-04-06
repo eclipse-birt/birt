@@ -39,46 +39,44 @@ import org.eclipse.swt.widgets.Shell;
 /**
  * Simple implementation of IUIServiceProvider for integration.
  */
-public class SimpleUIServiceProviderImpl implements IUIServiceProvider
-{
+public class SimpleUIServiceProviderImpl implements IUIServiceProvider {
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.ui/integrate" ); //$NON-NLS-1$
-	
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.ui/integrate"); //$NON-NLS-1$
+
 	private IFormatSpecifierHandler formatSpecifierHandler;
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.
+	 * String)
 	 */
-	public String invoke( String sExpression, Object oContext, String sTitle )
-	{
-		logger.log( ILogger.WARNING,
-				Messages.getString( "SimpleUIServiceProviderImpl.Warn.Placeholder" ) ); //$NON-NLS-1$
+	public String invoke(String sExpression, Object oContext, String sTitle) {
+		logger.log(ILogger.WARNING, Messages.getString("SimpleUIServiceProviderImpl.Warn.Placeholder")); //$NON-NLS-1$
 		return sExpression;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(java.lang.
+	 * String)
 	 */
-	public String invoke( String sExpression, Object oContext, String sTitle,
-			boolean isChartProvider )
-	{
-		logger.log( ILogger.WARNING,
-				Messages.getString( "SimpleUIServiceProviderImpl.Warn.Placeholder" ) ); //$NON-NLS-1$
+	public String invoke(String sExpression, Object oContext, String sTitle, boolean isChartProvider) {
+		logger.log(ILogger.WARNING, Messages.getString("SimpleUIServiceProviderImpl.Warn.Placeholder")); //$NON-NLS-1$
 		return sExpression;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#validate(org.eclipse.birt.chart.model.Chart,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#validate(org.
+	 * eclipse.birt.chart.model.Chart, java.lang.Object)
 	 */
-	public String[] validate( Chart chartModel, Object oContext )
-	{
+	public String[] validate(Chart chartModel, Object oContext) {
 		return null;
 	}
 
@@ -87,23 +85,21 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 	 * 
 	 * @return List containing available keys for externalized content
 	 */
-	public List getRegisteredKeys( )
-	{
-		List list = new Vector( );
-		list.add( "SampleKey" ); //$NON-NLS-1$
+	public List getRegisteredKeys() {
+		List list = new Vector();
+		list.add("SampleKey"); //$NON-NLS-1$
 		return list;
 	}
 
 	/**
-	 * Fetches the value for the externalized resource identified by the
-	 * specified key
+	 * Fetches the value for the externalized resource identified by the specified
+	 * key
 	 * 
-	 * @return String that represents the value for the specified resource in
-	 *         the current locale
+	 * @return String that represents the value for the specified resource in the
+	 *         current locale
 	 */
-	public String getValue( String sKey )
-	{
-		if ( sKey.equals( "SampleKey" ) ) //$NON-NLS-1$
+	public String getValue(String sKey) {
+		if (sKey.equals("SampleKey")) //$NON-NLS-1$
 		{
 			return "Sample Value"; //$NON-NLS-1$
 		}
@@ -113,12 +109,11 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getConvertedValue(double,
-	 *      java.lang.String, java.lang.String)
+	 * @see
+	 * org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getConvertedValue
+	 * (double, java.lang.String, java.lang.String)
 	 */
-	public double getConvertedValue( double dOriginalValue, String sFromUnits,
-			String sToUnits )
-	{
+	public double getConvertedValue(double dOriginalValue, String sFromUnits, String sToUnits) {
 		return dOriginalValue;
 	}
 
@@ -126,156 +121,124 @@ public class SimpleUIServiceProviderImpl implements IUIServiceProvider
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#invoke(int,
-	 *      java.lang.String, java.lang.Object, java.lang.String)
+	 * java.lang.String, java.lang.Object, java.lang.String)
 	 */
-	public String invoke( int command, String value, Object context,
-			String sTitle ) throws ChartException
-	{
-		switch ( command )
-		{
-			case COMMAND_HYPERLINK :
-			case COMMAND_HYPERLINK_DATAPOINTS :
-				Shell shell = new Shell( Display.getDefault( ), SWT.DIALOG_TRIM
-						| SWT.RESIZE | SWT.APPLICATION_MODAL );
-				ChartUIUtil.bindHelp( shell,
-						ChartHelpContextIds.DIALOG_EDIT_URL );
-				SimpleHyperlinkBuilder hb = new SimpleHyperlinkBuilder( shell );
-				try
-				{
-					hb.setInputString( value );
-					if ( sTitle != null )
-					{
-						hb.setTitle( hb.getTitle( ) + " - " + sTitle ); //$NON-NLS-1$
-					}
-					if ( hb.open( ) == Window.OK )
-					{
-						value = hb.getResultString( );
-					}
+	public String invoke(int command, String value, Object context, String sTitle) throws ChartException {
+		switch (command) {
+		case COMMAND_HYPERLINK:
+		case COMMAND_HYPERLINK_DATAPOINTS:
+			Shell shell = new Shell(Display.getDefault(), SWT.DIALOG_TRIM | SWT.RESIZE | SWT.APPLICATION_MODAL);
+			ChartUIUtil.bindHelp(shell, ChartHelpContextIds.DIALOG_EDIT_URL);
+			SimpleHyperlinkBuilder hb = new SimpleHyperlinkBuilder(shell);
+			try {
+				hb.setInputString(value);
+				if (sTitle != null) {
+					hb.setTitle(hb.getTitle() + " - " + sTitle); //$NON-NLS-1$
 				}
-				catch ( Exception e )
-				{
-					throw new ChartException( ChartUIPlugin.ID,
-							ChartException.UNDEFINED_VALUE,
-							e );
+				if (hb.open() == Window.OK) {
+					value = hb.getResultString();
 				}
-				break;
+			} catch (Exception e) {
+				throw new ChartException(ChartUIPlugin.ID, ChartException.UNDEFINED_VALUE, e);
+			}
+			break;
 		}
 		return value;
 	}
 
-	public boolean isInvokingSupported( )
-	{
+	public boolean isInvokingSupported() {
 		return true;
 	}
 
-	public boolean isEclipseModeSupported( )
-	{
+	public boolean isEclipseModeSupported() {
 		return false;
 	}
 
-	public Object invoke( Command command, Object... inData )
-			throws ChartException
-	{
+	public Object invoke(Command command, Object... inData) throws ChartException {
 
 		Object outData = null;
-		switch ( command )
-		{
-			case EXPRESS_BUTTON_CREATE :
-				final Control control = (Control) inData[1];
-				new Label( (Composite) inData[0], SWT.NONE );
-				IExpressionButton ceb = new IExpressionButton( ) {
+		switch (command) {
+		case EXPRESS_BUTTON_CREATE:
+			final Control control = (Control) inData[1];
+			new Label((Composite) inData[0], SWT.NONE);
+			IExpressionButton ceb = new IExpressionButton() {
 
-					public void setExpression( String expr )
-					{
-						if ( expr != null )
-						{
-							ChartUIUtil.setText( control, expr );
-						}
+				public void setExpression(String expr) {
+					if (expr != null) {
+						ChartUIUtil.setText(control, expr);
 					}
+				}
 
-					public void setEnabled( boolean bEnabled )
-					{
-						control.setEnabled( bEnabled );
-					}
+				public void setEnabled(boolean bEnabled) {
+					control.setEnabled(bEnabled);
+				}
 
-					public boolean isEnabled( )
-					{
-						return control.isEnabled( );
-					}
+				public boolean isEnabled() {
+					return control.isEnabled();
+				}
 
-					public String getExpression( )
-					{
-						return ChartUIUtil.getText( control );
-					}
+				public String getExpression() {
+					return ChartUIUtil.getText(control);
+				}
 
-					public String getDisplayExpression( )
-					{
-						return getExpression( );
-					}
+				public String getDisplayExpression() {
+					return getExpression();
+				}
 
-					public void addListener( Listener listener )
-					{
-						// not implemented
-					}
+				public void addListener(Listener listener) {
+					// not implemented
+				}
 
-					public void setAccessor( EAttributeAccessor<String> accessor )
-					{
-						// not implemented
-					}
+				public void setAccessor(EAttributeAccessor<String> accessor) {
+					// not implemented
+				}
 
-					public String getExpressionType( )
-					{
-						return null;
-					}
+				public String getExpressionType() {
+					return null;
+				}
 
-					public boolean isCube( )
-					{
-						return false;
-					}
+				public boolean isCube() {
+					return false;
+				}
 
-					public void setBindingName( String bindingName,
-							boolean bNotifyEvents )
-					{
-						// not implemented
-					}
+				public void setBindingName(String bindingName, boolean bNotifyEvents) {
+					// not implemented
+				}
 
-					public void setExpression( String expr,
-							boolean bNotifyEvents )
-					{
-						// not implemented
-					}
+				public void setExpression(String expr, boolean bNotifyEvents) {
+					// not implemented
+				}
 
-					public void setAssitField( IAssistField assistField )
-					{
-						// not implemented
-					}
+				public void setAssitField(IAssistField assistField) {
+					// not implemented
+				}
 
-					public void setPredefinedQuery( Object[] predefinedQuery )
-					{
-						// not implemented
-					}
-				};
-				outData = ceb;
-				break;
+				public void setPredefinedQuery(Object[] predefinedQuery) {
+					// not implemented
+				}
+			};
+			outData = ceb;
+			break;
 		}
 		return outData;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#getFormatSpecifierHandler()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.chart.ui.swt.interfaces.IUIServiceProvider#
+	 * getFormatSpecifierHandler()
 	 */
-	public IFormatSpecifierHandler getFormatSpecifierHandler( )
-	{
+	public IFormatSpecifierHandler getFormatSpecifierHandler() {
 		return this.formatSpecifierHandler;
 	}
-	
+
 	/**
 	 * Sets format specifier handler object.
 	 * 
 	 * @param handler
 	 */
-	public void setFormatSpecifierHandler(IFormatSpecifierHandler handler )
-	{
+	public void setFormatSpecifierHandler(IFormatSpecifierHandler handler) {
 		formatSpecifierHandler = handler;
 	}
 }

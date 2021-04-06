@@ -19,36 +19,31 @@ import org.eclipse.birt.report.engine.api.script.instance.IDataSetInstance;
 /**
  * Script event handler interface for a data set
  */
-public interface IDataSetEventHandler
-{
+public interface IDataSetEventHandler {
 
 	/**
 	 * Handle the beforeOpen event
 	 */
-	void beforeOpen( IDataSetInstance dataSet, IReportContext reportContext )
-			throws ScriptException;
+	void beforeOpen(IDataSetInstance dataSet, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the afterOpen event
 	 */
-	void afterOpen( IDataSetInstance dataSet, IReportContext reportContext )
-			throws ScriptException;
+	void afterOpen(IDataSetInstance dataSet, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the onFetch event
 	 */
-	void onFetch( IDataSetInstance dataSet, IDataSetRow row,
-			IReportContext reportContext ) throws ScriptException;
+	void onFetch(IDataSetInstance dataSet, IDataSetRow row, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the beforeClose event
 	 */
-	void beforeClose( IDataSetInstance dataSet, IReportContext reportContext )
-			throws ScriptException;
+	void beforeClose(IDataSetInstance dataSet, IReportContext reportContext) throws ScriptException;
 
 	/**
 	 * Handle the afterClose event
 	 */
-	void afterClose( IReportContext reportContext ) throws ScriptException;
+	void afterClose(IReportContext reportContext) throws ScriptException;
 
 }

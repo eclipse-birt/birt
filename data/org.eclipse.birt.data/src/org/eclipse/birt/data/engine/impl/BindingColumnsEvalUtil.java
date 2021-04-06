@@ -43,9 +43,8 @@ import org.mozilla.javascript.Scriptable;
  * original binding columns, the binding expression is also the same as that of
  * the original one.
  */
-public class BindingColumnsEvalUtil
-{
-	// 
+public class BindingColumnsEvalUtil {
+	//
 	private IResultIterator odiResult;
 	private Scriptable scope;
 	private RDSaveHelper saveHelper;
@@ -57,128 +56,104 @@ public class BindingColumnsEvalUtil
 	public final static int MANUAL_BINDING = 1;
 	public final static int AUTO_BINDING = 2;
 
-	private static Logger logger = Logger.getLogger( BindingColumnsEvalUtil.class.getName( ) );
+	private static Logger logger = Logger.getLogger(BindingColumnsEvalUtil.class.getName());
 
 	/**
 	 * @param ri
 	 * @param scope
 	 * @param saveUtil
 	 * @param serviceForResultSet
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	BindingColumnsEvalUtil( IResultIterator ri, Scriptable scope,ScriptContext cx,
-			RDSaveHelper saveUtil, List manualBindingExprs, Map autoBindingExprs ) throws DataException
-	{
-		Object[] params = {
-				ri, scope, saveUtil, manualBindingExprs, autoBindingExprs
-		};
-		logger.entering( BindingColumnsEvalUtil.class.getName( ),
-				"BindingColumnsEvalUtil",
-				params );
-		
+	BindingColumnsEvalUtil(IResultIterator ri, Scriptable scope, ScriptContext cx, RDSaveHelper saveUtil,
+			List manualBindingExprs, Map autoBindingExprs) throws DataException {
+		Object[] params = { ri, scope, saveUtil, manualBindingExprs, autoBindingExprs };
+		logger.entering(BindingColumnsEvalUtil.class.getName(), "BindingColumnsEvalUtil", params);
+
 		this.odiResult = ri;
 		this.scope = scope;
 		this.saveHelper = saveUtil;
 		this.cx = cx;
-		
-		this.initBindingColumns( manualBindingExprs, autoBindingExprs );
-		logger.exiting( BindingColumnsEvalUtil.class.getName( ),
-				"BindingColumnsEvalUtil" );
+
+		this.initBindingColumns(manualBindingExprs, autoBindingExprs);
+		logger.exiting(BindingColumnsEvalUtil.class.getName(), "BindingColumnsEvalUtil");
 	}
 
 	/**
 	 * @param serviceForResultSet
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	private void initBindingColumns( List manualBindingExprs,
-			Map autoBindingExprs ) throws DataException
-	{
+	private void initBindingColumns(List manualBindingExprs, Map autoBindingExprs) throws DataException {
 		// put the expressions of array into a list
-		int size = manualBindingExprs.size( );
+		int size = manualBindingExprs.size();
 		GroupBindingColumn[] groupBindingColumns = new GroupBindingColumn[size];
-		Iterator itr = manualBindingExprs.iterator( );
-		while ( itr.hasNext( ) )
-		{
-			GroupBindingColumn temp = (GroupBindingColumn) itr.next( );
-			groupBindingColumns[temp.getGroupLevel( )] = temp;
+		Iterator itr = manualBindingExprs.iterator();
+		while (itr.hasNext()) {
+			GroupBindingColumn temp = (GroupBindingColumn) itr.next();
+			groupBindingColumns[temp.getGroupLevel()] = temp;
 		}
 
-		allManualBindingExprs = new HashMap<String, BindingColumn>( );
-		for ( int i = 0; i < size; i++ )
-		{
-			List groupBindingExprs = new ArrayList( );
-			itr = groupBindingColumns[i].getColumnNames( ).iterator( );
-			while ( itr.hasNext( ) )
-			{
-				String exprName = (String) itr.next( );
-				IBaseExpression baseExpr = groupBindingColumns[i].getExpression( exprName );
-				allManualBindingExprs.put( exprName, new BindingColumn( exprName,
-						baseExpr,
-						groupBindingColumns[i].getBinding( exprName )
-								.getAggrFunction( ) != null,
-						groupBindingColumns[i].getBinding( exprName )
-								.getDataType( ) ) );
+		allManualBindingExprs = new HashMap<String, BindingColumn>();
+		for (int i = 0; i < size; i++) {
+			List groupBindingExprs = new ArrayList();
+			itr = groupBindingColumns[i].getColumnNames().iterator();
+			while (itr.hasNext()) {
+				String exprName = (String) itr.next();
+				IBaseExpression baseExpr = groupBindingColumns[i].getExpression(exprName);
+				allManualBindingExprs.put(exprName,
+						new BindingColumn(exprName, baseExpr,
+								groupBindingColumns[i].getBinding(exprName).getAggrFunction() != null,
+								groupBindingColumns[i].getBinding(exprName).getDataType()));
 			}
 		}
-		
+
 		// put the auto binding expressions into a list
-		allAutoBindingExprs = new ArrayList( );
-		itr = autoBindingExprs.entrySet( ).iterator( );
-		while ( itr.hasNext( ) )
-		{
-			Map.Entry entry = (Entry) itr.next( );
-			String exprName = (String) entry.getKey( );
-			IBaseExpression baseExpr = (IBaseExpression) entry.getValue( );
-			
-			allAutoBindingExprs.add( new BindingColumn( exprName, baseExpr, false, baseExpr.getDataType( ) ) );
+		allAutoBindingExprs = new ArrayList();
+		itr = autoBindingExprs.entrySet().iterator();
+		while (itr.hasNext()) {
+			Map.Entry entry = (Entry) itr.next();
+			String exprName = (String) entry.getKey();
+			IBaseExpression baseExpr = (IBaseExpression) entry.getValue();
+
+			allAutoBindingExprs.add(new BindingColumn(exprName, baseExpr, false, baseExpr.getDataType()));
 		}
 	}
 
 	/**
 	 * @return
-	 * @throws DataException
-	 *             save error
+	 * @throws DataException save error
 	 */
-	void getColumnsValue( Map valueMap, boolean includeAggregation ) throws DataException
-	{
-		Iterator itr = this.allAutoBindingExprs.iterator( );
-		while ( itr.hasNext( ) )
-		{                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
-			BindingColumn bindingColumn = (BindingColumn) itr.next( );
-			if( valueMap.containsKey( bindingColumn.columnName ) )
+	void getColumnsValue(Map valueMap, boolean includeAggregation) throws DataException {
+		Iterator itr = this.allAutoBindingExprs.iterator();
+		while (itr.hasNext()) {
+			BindingColumn bindingColumn = (BindingColumn) itr.next();
+			if (valueMap.containsKey(bindingColumn.columnName))
 				continue;
-			Object exprValue = evaluateValue( bindingColumn, AUTO_BINDING );
-			if ( valueMap.get( bindingColumn.columnName ) == null )
-				valueMap.put( bindingColumn.columnName, exprValue );
-		}
-		
-		for ( BindingColumn bindingColumn: allManualBindingExprs.values( ) )
-		{
-			if ( valueMap.containsKey( bindingColumn.columnName ) )
-				continue;
-			if( bindingColumn.isAggregation && !includeAggregation )
-				continue;
-			Object exprValue = evaluateValue( bindingColumn, MANUAL_BINDING );
-		
-			valueMap.put( bindingColumn.columnName, exprValue );
+			Object exprValue = evaluateValue(bindingColumn, AUTO_BINDING);
+			if (valueMap.get(bindingColumn.columnName) == null)
+				valueMap.put(bindingColumn.columnName, exprValue);
 		}
 
-		if ( ExprMetaUtil.isBasedOnRD( this.odiResult.getResultClass( ) )
-				&& !saveHelper.isSummaryQuery( ) )
-		{
-			if ( this.odiResult.getCurrentResult( ) != null )
-			{
-				valueMap.put( ExprMetaUtil.POS_NAME,
-						this.odiResult.getCurrentResult( )
-								.getFieldValue( ExprMetaUtil.POS_NAME ) );
-			}
-			else
-			{
+		for (BindingColumn bindingColumn : allManualBindingExprs.values()) {
+			if (valueMap.containsKey(bindingColumn.columnName))
+				continue;
+			if (bindingColumn.isAggregation && !includeAggregation)
+				continue;
+			Object exprValue = evaluateValue(bindingColumn, MANUAL_BINDING);
+
+			valueMap.put(bindingColumn.columnName, exprValue);
+		}
+
+		if (ExprMetaUtil.isBasedOnRD(this.odiResult.getResultClass()) && !saveHelper.isSummaryQuery()) {
+			if (this.odiResult.getCurrentResult() != null) {
+				valueMap.put(ExprMetaUtil.POS_NAME,
+						this.odiResult.getCurrentResult().getFieldValue(ExprMetaUtil.POS_NAME));
+			} else {
 				// For dummy query case.
-				valueMap.put( ExprMetaUtil.POS_NAME, 0 );
+				valueMap.put(ExprMetaUtil.POS_NAME, 0);
 			}
 		}
-		saveHelper.doSaveExpr( valueMap );
+		saveHelper.doSaveExpr(valueMap);
 	}
 
 	/**
@@ -187,38 +162,26 @@ public class BindingColumnsEvalUtil
 	 * @param valueMap
 	 * @throws DataException
 	 */
-	private Object evaluateValue( BindingColumn bindingColumn, int exprType )
-			throws DataException
-	{
+	private Object evaluateValue(BindingColumn bindingColumn, int exprType) throws DataException {
 		Object exprValue = null;
-		try
-		{
-			if ( exprType == MANUAL_BINDING )
-			{
-				if ( bindingColumn.isAggregation )
-					exprValue = this.odiResult.getAggrValue( bindingColumn.columnName );
+		try {
+			if (exprType == MANUAL_BINDING) {
+				if (bindingColumn.isAggregation)
+					exprValue = this.odiResult.getAggrValue(bindingColumn.columnName);
 				else
-					exprValue = ExprEvaluateUtil.evaluateExpression( bindingColumn.baseExpr,
-							odiResult,
-							scope,
-							cx );
-			}
-			else
-				exprValue = ExprEvaluateUtil.evaluateRawExpression( bindingColumn.baseExpr,
-						scope,
-						cx );
+					exprValue = ExprEvaluateUtil.evaluateExpression(bindingColumn.baseExpr, odiResult, scope, cx);
+			} else
+				exprValue = ExprEvaluateUtil.evaluateRawExpression(bindingColumn.baseExpr, scope, cx);
 
-			if ( exprValue != null && !( exprValue instanceof Exception ) )
-				exprValue = DataTypeUtil.convert( JavascriptEvalUtil.convertJavascriptValue( exprValue ),
-						bindingColumn.type );
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+			if (exprValue != null && !(exprValue instanceof Exception))
+				exprValue = DataTypeUtil.convert(JavascriptEvalUtil.convertJavascriptValue(exprValue),
+						bindingColumn.type);
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 		return exprValue;
 	}
-	
+
 	/**
 	 * Evaluate the specified binding column in MANUAL_BINDING mode.
 	 * 
@@ -227,15 +190,12 @@ public class BindingColumnsEvalUtil
 	 * @param valueMap
 	 * @throws DataException
 	 */
-	Object evaluateValue( String bindingName ) throws DataException
-	{
-		BindingColumn binding = this.getBindingFromManualBinding( bindingName );
-		if( binding == null )
-			throw new DataException( ResourceConstants.INVALID_BOUND_COLUMN_NAME,
-				bindingName );
-		
-		return this.evaluateValue( binding,
-				MANUAL_BINDING );
+	Object evaluateValue(String bindingName) throws DataException {
+		BindingColumn binding = this.getBindingFromManualBinding(bindingName);
+		if (binding == null)
+			throw new DataException(ResourceConstants.INVALID_BOUND_COLUMN_NAME, bindingName);
+
+		return this.evaluateValue(binding, MANUAL_BINDING);
 	}
 
 	/**
@@ -243,18 +203,14 @@ public class BindingColumnsEvalUtil
 	 * 
 	 * @param name
 	 * @return
-	 * @throws DataException
-	 *             there is no BindingColumn in manualBindingExprs
+	 * @throws DataException there is no BindingColumn in manualBindingExprs
 	 */
-	private BindingColumn getBindingFromManualBinding( String name )
-			throws DataException
-	{
-		return this.allManualBindingExprs.get( name );
+	private BindingColumn getBindingFromManualBinding(String name) throws DataException {
+		return this.allManualBindingExprs.get(name);
 	}
 
-	boolean isValidBindingName( String name ) throws DataException
-	{
-		return this.getBindingFromManualBinding( name )!= null;
+	boolean isValidBindingName(String name) throws DataException {
+		return this.getBindingFromManualBinding(name) != null;
 	}
-	
+
 }

@@ -14,8 +14,7 @@ package org.eclipse.birt.report.designer.ui.views;
 /**
  * IReportResourceChangeListener
  */
-public interface IReportResourceChangeListener
-{
+public interface IReportResourceChangeListener {
 
-	void resourceChanged( IReportResourceChangeEvent event );
+	void resourceChanged(IReportResourceChangeEvent event);
 }

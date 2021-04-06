@@ -19,13 +19,13 @@ import org.eclipse.swt.graphics.Image;
  * Abstract class for the ITemplateFile
  */
 
-public abstract class AbstractTemplateFile implements ITemplateFile
-{
-	/* (non-Javadoc)
+public abstract class AbstractTemplateFile implements ITemplateFile {
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.templates.ITemplateEntry#getImage()
 	 */
-	public Image getImage( )
-	{
-		return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_TEMPLATE_FILE );
+	public Image getImage() {
+		return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_TEMPLATE_FILE);
 	}
 }

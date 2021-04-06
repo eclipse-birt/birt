@@ -31,54 +31,47 @@ import org.eclipse.ui.PlatformUI;
  * 
  * 
  */
-public class GroupProvider extends DefaultNodeProvider
-{
+public class GroupProvider extends DefaultNodeProvider {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#createMenu(java.lang.Object,
-	 *      org.eclipse.jface.action.IMenuManager)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.views.INodeProvider#createMenu(
+	 * java.lang.Object, org.eclipse.jface.action.IMenuManager)
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		EditAction editAction = new EditAction( object,
-				Messages.getString( "GroupProvider.action.text" ) ); //$NON-NLS-1$
-		if ( DEUtil.getDataSetList( (DesignElementHandle) object ).isEmpty( ) )
-		{
-			editAction.setEnabled( false );
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		EditAction editAction = new EditAction(object, Messages.getString("GroupProvider.action.text")); //$NON-NLS-1$
+		if (DEUtil.getDataSetList((DesignElementHandle) object).isEmpty()) {
+			editAction.setEnabled(false);
 		}
-		menu.add( editAction );
-		super.createContextMenu( sourceViewer, object, menu );
+		menu.add(editAction);
+		super.createContextMenu(sourceViewer, object, menu);
 	}
 
 	/**
 	 * Gets the children element of the given model using visitor.
 	 * 
-	 * @param model
-	 *            the model
+	 * @param model the model
 	 */
-	public Object[] getChildren( Object model )
-	{
-		ArrayList list = new ArrayList( );
+	public Object[] getChildren(Object model) {
+		ArrayList list = new ArrayList();
 		GroupHandle grpHandle = (GroupHandle) model;
-		list.add(  grpHandle.getHeader( )  );
-		list.add(  grpHandle.getFooter( ) );
-		return list.toArray( );
+		list.add(grpHandle.getHeader());
+		list.add(grpHandle.getFooter());
+		return list.toArray();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#performEdit(org.eclipse.birt.model.api.ReportElementHandle)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.DefaultNodeProvider#
+	 * performEdit(org.eclipse.birt.model.api.ReportElementHandle)
 	 */
-	protected boolean performEdit( ReportElementHandle handle )
-	{
-		GroupDialog dialog = new GroupDialog( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), GroupDialog.GROUP_DLG_TITLE_EDIT );
-		dialog.setInput( handle );
-		return ( dialog.open( ) == Dialog.OK );
+	protected boolean performEdit(ReportElementHandle handle) {
+		GroupDialog dialog = new GroupDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				GroupDialog.GROUP_DLG_TITLE_EDIT);
+		dialog.setInput(handle);
+		return (dialog.open() == Dialog.OK);
 	}
 }

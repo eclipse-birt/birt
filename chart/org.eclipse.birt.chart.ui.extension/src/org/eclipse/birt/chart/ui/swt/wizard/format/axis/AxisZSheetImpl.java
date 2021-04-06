@@ -27,25 +27,21 @@ public class AxisZSheetImpl extends AbstractAxisSubtask
 
 {
 
-	protected Axis getAxisForProcessing( )
-	{
-		return ChartUIUtil.getAxisZForProcessing( (ChartWithAxes) getChart( ) );
+	protected Axis getAxisForProcessing() {
+		return ChartUIUtil.getAxisZForProcessing((ChartWithAxes) getChart());
 	}
 
-	protected int getAxisAngleType( )
-	{
+	protected int getAxisAngleType() {
 		return AngleType.Z;
 	}
 
-	public void createControl( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.SUBTASK_ZAXIS );
-		super.createControl( parent );
+	public void createControl(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.SUBTASK_ZAXIS);
+		super.createControl(parent);
 	}
 
 	@Override
-	protected Axis getDefaultValueAxis( )
-	{
-		return DefaultValueProvider.defAncillaryAxis( );
+	protected Axis getDefaultValueAxis() {
+		return DefaultValueProvider.defAncillaryAxis();
 	}
 }

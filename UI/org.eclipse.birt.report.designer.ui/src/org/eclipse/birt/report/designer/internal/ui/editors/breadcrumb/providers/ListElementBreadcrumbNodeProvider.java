@@ -18,24 +18,18 @@ import org.eclipse.gef.EditPart;
  * 
  */
 
-public class ListElementBreadcrumbNodeProvider extends
-		DefaultBreadcrumbNodeProvider
-{
+public class ListElementBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
-	public Object getRealModel( Object element )
-	{
+	public Object getRealModel(Object element) {
 		EditPart editpart = null;
-		if ( !( element instanceof EditPart ) )
-		{
-			editpart = getEditPart( element );
-		}
-		else
+		if (!(element instanceof EditPart)) {
+			editpart = getEditPart(element);
+		} else
 			editpart = (EditPart) element;
 
-		if ( editpart != null && editpart.getModel( ) instanceof ListBandProxy )
-		{
-			ListBandProxy proxy = (ListBandProxy) editpart.getModel( );
-			return proxy.getSlotHandle( );
+		if (editpart != null && editpart.getModel() instanceof ListBandProxy) {
+			ListBandProxy proxy = (ListBandProxy) editpart.getModel();
+			return proxy.getSlotHandle();
 		}
 		return element;
 	}

@@ -19,64 +19,60 @@ import org.eclipse.birt.report.engine.ir.DimensionType;
 /**
  * A class representing the runtime state of a detail row
  */
-public class RowInstance extends ReportElementInstance implements IRowInstance
-{
+public class RowInstance extends ReportElementInstance implements IRowInstance {
 
 	private IRowContent row;
 
-	public RowInstance( IRowContent row, ExecutionContext context,
-			RunningState runningState )
-	{
-		super( row, context, runningState );
+	public RowInstance(IRowContent row, ExecutionContext context, RunningState runningState) {
+		super(row, context, runningState);
 		this.row = row;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IRowInstance#getBookmarkValue()
+	 * @see org.eclipse.birt.report.engine.api.script.instance.IRowInstance#
+	 * getBookmarkValue()
 	 */
-	public String getBookmarkValue( )
-	{
-		return row.getBookmark( );
+	public String getBookmarkValue() {
+		return row.getBookmark();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IRowInstance#setBookmark(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.IRowInstance#setBookmark(
+	 * java.lang.String)
 	 */
-	public void setBookmark( String bookmark )
-	{
-		row.setBookmark( bookmark );
+	public void setBookmark(String bookmark) {
+		row.setBookmark(bookmark);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IRowInstance#getHeight()
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.IRowInstance#getHeight()
 	 */
-	public String getHeight( )
-	{
-		if ( row.getHeight( ) != null )
-			return row.getHeight( ).toString( );
+	public String getHeight() {
+		if (row.getHeight() != null)
+			return row.getHeight().toString();
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.script.instance.IRowInstance#setHeight(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.IRowInstance#setHeight(
+	 * java.lang.String)
 	 */
-	public void setHeight( String height )
-	{
-		row.setHeight( DimensionType.parserUnit( height ) );
+	public void setHeight(String height) {
+		row.setHeight(DimensionType.parserUnit(height));
 	}
 
 	/*
-	public IRowData getRowData( )
-	{
-		return data;
-	}
-	*/
+	 * public IRowData getRowData( ) { return data; }
+	 */
 }

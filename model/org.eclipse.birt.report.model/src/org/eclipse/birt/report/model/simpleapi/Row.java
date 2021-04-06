@@ -20,12 +20,10 @@ import org.eclipse.birt.report.model.api.simpleapi.IHighlightRule;
 import org.eclipse.birt.report.model.api.simpleapi.IRow;
 import org.eclipse.birt.report.model.elements.interfaces.ITableRowModel;
 
-public class Row extends DesignElement implements IRow
-{
+public class Row extends DesignElement implements IRow {
 
-	public Row( RowHandle handle )
-	{
-		super( handle );
+	public Row(RowHandle handle) {
+		super(handle);
 	}
 
 	/*
@@ -34,10 +32,9 @@ public class Row extends DesignElement implements IRow
 	 * @see org.eclipse.birt.report.engine.api.script.element.IRow#getHeight()
 	 */
 
-	public String getHeight( )
-	{
-		DimensionHandle height = ( (RowHandle) handle ).getHeight( );
-		return ( height == null ? null : height.getStringValue( ) );
+	public String getHeight() {
+		DimensionHandle height = ((RowHandle) handle).getHeight();
+		return (height == null ? null : height.getStringValue());
 	}
 
 	/*
@@ -46,22 +43,19 @@ public class Row extends DesignElement implements IRow
 	 * @see org.eclipse.birt.report.engine.api.script.element.IRow#getBookmark()
 	 */
 
-	public String getBookmark( )
-	{
-		return ( (RowHandle) handle ).getBookmark( );
+	public String getBookmark() {
+		return ((RowHandle) handle).getBookmark();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IRow#setBookmark(java
+	 * @see org.eclipse.birt.report.engine.api.script.element.IRow#setBookmark(java
 	 * .lang.String)
 	 */
 
-	public void setBookmark( String value ) throws SemanticException
-	{
-		setProperty( ITableRowModel.BOOKMARK_PROP, value );
+	public void setBookmark(String value) throws SemanticException {
+		setProperty(ITableRowModel.BOOKMARK_PROP, value);
 	}
 
 	/*
@@ -72,25 +66,20 @@ public class Row extends DesignElement implements IRow
 	 * (org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
 	 */
 
-	public void addHighlightRule( IHighlightRule rule )
-			throws SemanticException
-	{
-		if ( rule == null )
+	public void addHighlightRule(IHighlightRule rule) throws SemanticException {
+		if (rule == null)
 			return;
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			HighlightRuleMethodUtil.addHighlightRule( handle, rule );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			HighlightRuleMethodUtil.addHighlightRule(handle, rule);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -100,9 +89,8 @@ public class Row extends DesignElement implements IRow
 	 * getHighlightRules()
 	 */
 
-	public IHighlightRule[] getHighlightRules( )
-	{
-		return HighlightRuleMethodUtil.getHighlightRules( handle );
+	public IHighlightRule[] getHighlightRules() {
+		return HighlightRuleMethodUtil.getHighlightRules(handle);
 	}
 
 	/*
@@ -112,22 +100,18 @@ public class Row extends DesignElement implements IRow
 	 * removeHighlightRules()
 	 */
 
-	public void removeHighlightRules( ) throws SemanticException
-	{
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+	public void removeHighlightRules() throws SemanticException {
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			HighlightRuleMethodUtil.removeHighlightRules( handle );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			HighlightRuleMethodUtil.removeHighlightRules(handle);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
@@ -138,122 +122,99 @@ public class Row extends DesignElement implements IRow
 	 * (org.eclipse.birt.report.engine.api.script.element.IHighlightRule)
 	 */
 
-	public void removeHighlightRule( IHighlightRule rule )
-			throws SemanticException
-	{
-		if ( rule == null )
+	public void removeHighlightRule(IHighlightRule rule) throws SemanticException {
+		if (rule == null)
 			return;
 
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			HighlightRuleMethodUtil.removeHighlightRule( handle, rule );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			HighlightRuleMethodUtil.removeHighlightRule(handle, rule);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * addHideRule(org.eclipse.birt.report.engine.api.script.element.IHideRule)
 	 */
-	public void addHideRule( IHideRule rule ) throws SemanticException
-	{
-		if ( rule == null )
+	public void addHideRule(IHideRule rule) throws SemanticException {
+		if (rule == null)
 			return;
 
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			HideRuleMethodUtil.addHideRule( handle, rule );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			HideRuleMethodUtil.addHideRule(handle, rule);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * getHideRules()
 	 */
 
-	public IHideRule[] getHideRules( )
-	{
-		return HideRuleMethodUtil.getHideRules( handle );
+	public IHideRule[] getHideRules() {
+		return HideRuleMethodUtil.getHideRules(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
-	 * removeHideRule
-	 * (org.eclipse.birt.report.engine.api.script.element.IHideRule)
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * removeHideRule (org.eclipse.birt.report.engine.api.script.element.IHideRule)
 	 */
 
-	public void removeHideRule( IHideRule rule ) throws SemanticException
-	{
-		if ( rule == null )
+	public void removeHideRule(IHideRule rule) throws SemanticException {
+		if (rule == null)
 			return;
 
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			HideRuleMethodUtil.removeHideRule( handle, rule );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			HideRuleMethodUtil.removeHideRule(handle, rule);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
+	 * @see org.eclipse.birt.report.engine.api.script.element.IHideRuleStructure#
 	 * removeHideRules()
 	 */
 
-	public void removeHideRules( ) throws SemanticException
-	{
-		ActivityStack cmdStack = handle.getModule( ).getActivityStack( );
+	public void removeHideRules() throws SemanticException {
+		ActivityStack cmdStack = handle.getModule().getActivityStack();
 
-		cmdStack.startNonUndoableTrans( null );
-		try
-		{
-			HideRuleMethodUtil.removeHideRules( handle );
-		}
-		catch ( SemanticException e )
-		{
-			cmdStack.rollback( );
+		cmdStack.startNonUndoableTrans(null);
+		try {
+			HideRuleMethodUtil.removeHideRules(handle);
+		} catch (SemanticException e) {
+			cmdStack.rollback();
 			throw e;
 		}
 
-		cmdStack.commit( );
+		cmdStack.commit();
 	}
 }

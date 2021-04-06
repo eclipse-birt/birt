@@ -41,9 +41,8 @@ import com.ibm.icu.util.ULocale;
  * @since 2.5
  */
 
-public abstract class AbstractScriptHandler<T> extends ScriptableObject
-{
-	
+public abstract class AbstractScriptHandler<T> extends ScriptableObject {
+
 	public static final String BEFORE_DATA_SET_FILLED = "beforeDataSetFilled"; //$NON-NLS-1$
 
 	public static final String AFTER_DATA_SET_FILLED = "afterDataSetFilled"; //$NON-NLS-1$
@@ -55,7 +54,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	public static final String BEFORE_RENDERING = "beforeRendering"; //$NON-NLS-1$
 
 	public static final String AFTER_RENDERING = "afterRendering"; //$NON-NLS-1$
-	
+
 	/**
 	 * Comment for <code>serialVersionUID</code>
 	 */
@@ -87,39 +86,33 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	 * The constructor.
 	 * 
 	 */
-	public AbstractScriptHandler( )
-	{
-		final Context cx = Context.enter( );
-		try
-		{
+	public AbstractScriptHandler() {
+		final Context cx = Context.enter();
+		try {
 			// scope = cx.initStandardObjects();
-			scope = new ImporterTopLevel( cx );
-		}
-		finally
-		{
-			Context.exit( );
+			scope = new ImporterTopLevel(cx);
+		} finally {
+			Context.exit();
 		}
 	}
-	
+
 	abstract protected ILogger getLogger();
-	
+
 	abstract protected Map<String, Method> getJavaFunctionMap();
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
-	public final String getClassName( )
-	{
-		return getClass( ).getName( );
+	public final String getClassName() {
+		return getClass().getName();
 	}
 
 	/**
 	 * @return returns the scope of current JavaScript context.
 	 */
-	public final Scriptable getScope( )
-	{
+	public final Scriptable getScope() {
 		return scope;
 	}
 
@@ -128,8 +121,7 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	 *             now. This is kept for backward compatibility only.
 	 * @param lcl
 	 */
-	public final void setLocale( ULocale lcl )
-	{
+	public final void setLocale(ULocale lcl) {
 		this.lcl = lcl;
 	}
 
@@ -139,31 +131,25 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	 * 
 	 * @param value
 	 */
-	public final void setScriptClassLoader( IScriptClassLoader value )
-	{
+	public final void setScriptClassLoader(IScriptClassLoader value) {
 		iscl = value;
 	}
 
 	/**
 	 * Initialize the JavaScript context using given parent scope.
 	 * 
-	 * @param scPrototype
-	 *            Parent scope object. If it's null, use default scope.
+	 * @param scPrototype Parent scope object. If it's null, use default scope.
 	 */
-	public final void init( Scriptable scPrototype ) throws ChartException
-	{
-		final Context cx = Context.enter( );
-		try
-		{
-			if ( scPrototype == null ) // NO PROTOTYPE
+	public final void init(Scriptable scPrototype) throws ChartException {
+		final Context cx = Context.enter();
+		try {
+			if (scPrototype == null) // NO PROTOTYPE
 			{
 				// scope = cx.initStandardObjects();
-				scope = new ImporterTopLevel( cx );
-			}
-			else
-			{
-				scope = cx.newObject( scPrototype );
-				scope.setPrototype( scPrototype );
+				scope = new ImporterTopLevel(cx);
+			} else {
+				scope = cx.newObject(scPrototype);
+				scope.setPrototype(scPrototype);
 				// !don't reset the parent scope here.
 				// scope.setParentScope( null );
 			}
@@ -176,121 +162,88 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 			// !deprecated, remove this later, use logger from script context
 			// instead.
 			// ADD LOGGING CAPABILITIES TO JAVASCRIPT ACCESS
-			final Object oConsole = Context.javaToJS( getLogger( ), scope );
-			scope.put( "logger", scope, oConsole ); //$NON-NLS-1$
-		}
-		catch ( RhinoException jsx )
-		{
-			throw convertException( jsx );
-		}
-		finally
-		{
-			Context.exit( );
+			final Object oConsole = Context.javaToJS(getLogger(), scope);
+			scope.put("logger", scope, oConsole); //$NON-NLS-1$
+		} catch (RhinoException jsx) {
+			throw convertException(jsx);
+		} finally {
+			Context.exit();
 		}
 	}
 
 	/**
 	 * Registers an existing scriptable object into current JavaScript context.
 	 * 
-	 * @param so
-	 *            The existing scriptable object to be registered
-	 * @param sVarName
-	 *            The name of the javascript variable associated with the new
-	 *            scriptable object that will be added to the scope
+	 * @param so       The existing scriptable object to be registered
+	 * @param sVarName The name of the javascript variable associated with the new
+	 *                 scriptable object that will be added to the scope
 	 * @throws ChartException
 	 */
-	public final void registerExistingScriptableObject( ScriptableObject so,
-			String sVarName ) throws ChartException
-	{
-		try
-		{
-			ScriptableObject.defineClass( scope, so.getClass( ) );
-		}
-		catch ( Exception ex )
-		{
-			throw convertException( ex );
+	public final void registerExistingScriptableObject(ScriptableObject so, String sVarName) throws ChartException {
+		try {
+			ScriptableObject.defineClass(scope, so.getClass());
+		} catch (Exception ex) {
+			throw convertException(ex);
 		}
 
-		final Context cx = Context.enter( );
+		final Context cx = Context.enter();
 		Scriptable soNew = null;
-		try
-		{
-			soNew = cx.newObject( scope, so.getClassName( ), null );
+		try {
+			soNew = cx.newObject(scope, so.getClassName(), null);
+		} catch (RhinoException ex) {
+			throw convertException(ex);
+		} finally {
+			Context.exit();
 		}
-		catch ( RhinoException ex )
-		{
-			throw convertException( ex );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-		so.setPrototype( soNew.getPrototype( ) );
-		so.setParentScope( soNew.getParentScope( ) );
-		scope.put( sVarName, scope, so );
+		so.setPrototype(soNew.getPrototype());
+		so.setParentScope(soNew.getParentScope());
+		scope.put(sVarName, scope, so);
 	}
 
 	/**
 	 * Registers a new scriptable object into current JavaScript context.
 	 * 
-	 * @param clsScriptable
-	 *            The class representing the new scriptable object to be
-	 *            registered
-	 * @param sVarName
-	 *            The name of the javascript variable associated with the new
-	 *            scriptable object that will be added to the scope
+	 * @param clsScriptable The class representing the new scriptable object to be
+	 *                      registered
+	 * @param sVarName      The name of the javascript variable associated with the
+	 *                      new scriptable object that will be added to the scope
 	 * @throws ChartException
 	 */
-	public final void registerNewScriptableObject(
-			Class<? extends Scriptable> clsScriptable, String sVarName )
-			throws ChartException
-	{
-		try
-		{
-			ScriptableObject.defineClass( scope, clsScriptable );
-		}
-		catch ( Exception ex )
-		{
-			throw convertException( ex );
+	public final void registerNewScriptableObject(Class<? extends Scriptable> clsScriptable, String sVarName)
+			throws ChartException {
+		try {
+			ScriptableObject.defineClass(scope, clsScriptable);
+		} catch (Exception ex) {
+			throw convertException(ex);
 		}
 
-		final Context cx = Context.enter( );
+		final Context cx = Context.enter();
 		Scriptable soNew = null;
-		try
-		{
-			soNew = cx.newObject( scope, clsScriptable.getName( ), null );
+		try {
+			soNew = cx.newObject(scope, clsScriptable.getName(), null);
+		} catch (RuntimeException ex) {
+			throw convertException(ex);
+		} finally {
+			Context.exit();
 		}
-		catch ( RuntimeException ex )
-		{
-			throw convertException( ex );
-		}
-		finally
-		{
-			Context.exit( );
-		}
-		scope.put( sVarName, scope, soNew );
+		scope.put(sVarName, scope, soNew);
 	}
 
 	/**
-	 * Registers a new variable to current JavaScript context. If the name
-	 * already exists, it'll be overwritten.
+	 * Registers a new variable to current JavaScript context. If the name already
+	 * exists, it'll be overwritten.
 	 * 
 	 * @param sVarName
 	 * @throws ChartException
 	 */
-	public final void registerVariable( String sVarName, Object var )
-			throws ChartException
-	{
-		Context.enter( );
+	public final void registerVariable(String sVarName, Object var) throws ChartException {
+		Context.enter();
 
-		try
-		{
-			final Object oConsole = Context.javaToJS( var, scope );
-			scope.put( sVarName, scope, oConsole );
-		}
-		finally
-		{
-			Context.exit( );
+		try {
+			final Object oConsole = Context.javaToJS(var, scope);
+			scope.put(sVarName, scope, oConsole);
+		} finally {
+			Context.exit();
 		}
 	}
 
@@ -300,124 +253,94 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	 * @param sVarName
 	 * @throws ChartException
 	 */
-	public final void unregisterVariable( String sVarName )
-			throws ChartException
-	{
-		scope.delete( sVarName );
+	public final void unregisterVariable(String sVarName) throws ChartException {
+		scope.delete(sVarName);
 	}
 
 	/**
 	 * Finds the JavaScript funtion by given name.
 	 * 
-	 * @param sFunctionName
-	 *            The name of the function to be searched for
-	 * @return An instance of the function being searched for or null if it
-	 *         isn't found
+	 * @param sFunctionName The name of the function to be searched for
+	 * @return An instance of the function being searched for or null if it isn't
+	 *         found
 	 */
-	private final Function getJavascriptFunction( String sFunctionName )
-	{
+	private final Function getJavascriptFunction(String sFunctionName) {
 		// TODO: CACHE PREVIOUSLY CREATED FUNCTION REFERENCES IN A HASHTABLE?
 
 		// use names cache for quick validation to improve performance
-		if ( javaScriptFunctionNamesCache == null
-				|| javaScriptFunctionNamesCache.indexOf( sFunctionName ) < 0 )
-		{
+		if (javaScriptFunctionNamesCache == null || javaScriptFunctionNamesCache.indexOf(sFunctionName) < 0) {
 			return null;
 		}
 
-		Context.enter( );
-		try
-		{
-			final Object oFunction = scope.get( sFunctionName, scope );
-			if ( oFunction != Scriptable.NOT_FOUND
-					&& oFunction instanceof Function )
-			{
+		Context.enter();
+		try {
+			final Object oFunction = scope.get(sFunctionName, scope);
+			if (oFunction != Scriptable.NOT_FOUND && oFunction instanceof Function) {
 				return (Function) oFunction;
 			}
 			return null;
-		}
-		finally
-		{
-			Context.exit( );
+		} finally {
+			Context.exit();
 		}
 	}
 
 	/**
 	 * Call JavaScript functions with an argument array.
 	 * 
-	 * @param f
-	 *            The function to be executed
-	 * @param oaArgs
-	 *            The Java object arguments passed to the function being
-	 *            executed
+	 * @param f      The function to be executed
+	 * @param oaArgs The Java object arguments passed to the function being executed
 	 */
-	private final Object callJavaScriptFunction( Function f, Object[] oaArgs )
-			throws ChartException
+	private final Object callJavaScriptFunction(Function f, Object[] oaArgs) throws ChartException
 
 	{
-		final Context cx = Context.enter( );
+		final Context cx = Context.enter();
 		Object oReturnValue = null;
 		// #229402
-		ClassLoader oldLoader = cx.getApplicationClassLoader( );
-		ClassLoader appLader = SecurityUtil.getClassLoader( AbstractScriptHandler.this.getClass( ) );
-		cx.setApplicationClassLoader( appLader );
+		ClassLoader oldLoader = cx.getApplicationClassLoader();
+		ClassLoader appLader = SecurityUtil.getClassLoader(AbstractScriptHandler.this.getClass());
+		cx.setApplicationClassLoader(appLader);
 
 		// Initialize BIRT functions, register them into current script context.
-		new CoreJavaScriptInitializer( ).initialize( cx, scope );
+		new CoreJavaScriptInitializer().initialize(cx, scope);
 
-		try
-		{
-			oReturnValue = f.call( cx, scope, scope, oaArgs );
-		}
-		catch ( RhinoException ex )
-		{
-			throw convertException( ex );
-		}
-		finally
-		{
-			cx.setApplicationClassLoader( oldLoader );
-			Context.exit( );
+		try {
+			oReturnValue = f.call(cx, scope, scope, oaArgs);
+		} catch (RhinoException ex) {
+			throw convertException(ex);
+		} finally {
+			cx.setApplicationClassLoader(oldLoader);
+			Context.exit();
 		}
 		return oReturnValue;
 	}
 
-	private final boolean isJavaFuntion( String name )
-	{
-		return getJavaFunctionMap( ).get( name ) != null;
+	private final boolean isJavaFuntion(String name) {
+		return getJavaFunctionMap().get(name) != null;
 	}
 
-	private final Object callJavaFunction( String name, Object[] oaArgs )
-	{
-		if ( javahandler == null )
-		{
+	private final Object callJavaFunction(String name, Object[] oaArgs) {
+		if (javahandler == null) {
 			return null;
 		}
 
 		Object[] tmpArgs = new Object[3];
-		if ( oaArgs.length > 0 )
-		{
+		if (oaArgs.length > 0) {
 			tmpArgs[0] = oaArgs[0];
 		}
-		if ( oaArgs.length > 1 )
-		{
+		if (oaArgs.length > 1) {
 			tmpArgs[1] = oaArgs[1];
 		}
-		if ( oaArgs.length > 2 )
-		{
+		if (oaArgs.length > 2) {
 			tmpArgs[2] = oaArgs[2];
 		}
 
-		if ( !callRegularJavaFunction( name, tmpArgs ) )
-		{
+		if (!callRegularJavaFunction(name, tmpArgs)) {
 			// Use reflect to call other methods
-			Method mtd = getJavaFunctionMap( ).get( name );
-			try
-			{
-				return SecurityUtil.invokeMethod( mtd, javahandler, oaArgs );
-			}
-			catch ( Exception e )
-			{
-				getLogger( ).log( e );
+			Method mtd = getJavaFunctionMap().get(name);
+			try {
+				return SecurityUtil.invokeMethod(mtd, javahandler, oaArgs);
+			} catch (Exception e) {
+				getLogger().log(e);
 			}
 		}
 
@@ -425,16 +348,14 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	}
 
 	/**
-	 * This method calls actual regular java function, returns true if the
-	 * specified function is registered and called, else returns false.Sub-class
-	 * will override this method to implement own process.
+	 * This method calls actual regular java function, returns true if the specified
+	 * function is registered and called, else returns false.Sub-class will override
+	 * this method to implement own process.
 	 * 
 	 * @param functionName
 	 * @param arguments
 	 */
-	protected boolean callRegularJavaFunction( String functionName,
-			Object[] arguments )
-	{
+	protected boolean callRegularJavaFunction(String functionName, Object[] arguments) {
 		// use regular interface call instead of reflection to gain performance.
 		return false;
 	}
@@ -446,33 +367,24 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	 * @param sFunction
 	 * @param oArg1
 	 */
-	public static final Object callFunction( AbstractScriptHandler<?> sh,
-			String sFunction, Object oArg1 ) throws ChartException
-	{
-		if ( sh == null )
-		{
+	public static final Object callFunction(AbstractScriptHandler<?> sh, String sFunction, Object oArg1)
+			throws ChartException {
+		if (sh == null) {
 			return null;
 		}
 
-		if ( sh.javahandler != null && sh.isJavaFuntion( sFunction ) )
-		{
+		if (sh.javahandler != null && sh.isJavaFuntion(sFunction)) {
 			sh.ONE_ELEMENT_ARRAY[0] = oArg1;
-			return sh.callJavaFunction( sFunction, sh.ONE_ELEMENT_ARRAY );
-		}
-		else
-		{
-			final Function f = sh.getJavascriptFunction( sFunction );
-			if ( f != null )
-			{
+			return sh.callJavaFunction(sFunction, sh.ONE_ELEMENT_ARRAY);
+		} else {
+			final Function f = sh.getJavascriptFunction(sFunction);
+			if (f != null) {
 				sh.ONE_ELEMENT_ARRAY[0] = oArg1;
 				Object oReturnValue = null;
-				oReturnValue = sh.callJavaScriptFunction( f,
-						sh.ONE_ELEMENT_ARRAY );
+				oReturnValue = sh.callJavaScriptFunction(f, sh.ONE_ELEMENT_ARRAY);
 
 				return oReturnValue;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
 		}
@@ -486,36 +398,26 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	 * @param oArg1
 	 * @param oArg2
 	 */
-	public static final Object callFunction( AbstractScriptHandler<?> sh,
-			String sFunction, Object oArg1, Object oArg2 )
-			throws ChartException
-	{
-		if ( sh == null )
-		{
+	public static final Object callFunction(AbstractScriptHandler<?> sh, String sFunction, Object oArg1, Object oArg2)
+			throws ChartException {
+		if (sh == null) {
 			return null;
 		}
 
-		if ( sh.javahandler != null && sh.isJavaFuntion( sFunction ) )
-		{
+		if (sh.javahandler != null && sh.isJavaFuntion(sFunction)) {
 			sh.TWO_ELEMENT_ARRAY[0] = oArg1;
 			sh.TWO_ELEMENT_ARRAY[1] = oArg2;
-			return sh.callJavaFunction( sFunction, sh.TWO_ELEMENT_ARRAY );
-		}
-		else
-		{
-			final Function f = sh.getJavascriptFunction( sFunction );
-			if ( f != null )
-			{
+			return sh.callJavaFunction(sFunction, sh.TWO_ELEMENT_ARRAY);
+		} else {
+			final Function f = sh.getJavascriptFunction(sFunction);
+			if (f != null) {
 				sh.TWO_ELEMENT_ARRAY[0] = oArg1;
 				sh.TWO_ELEMENT_ARRAY[1] = oArg2;
 				Object oReturnValue = null;
-				oReturnValue = sh.callJavaScriptFunction( f,
-						sh.TWO_ELEMENT_ARRAY );
+				oReturnValue = sh.callJavaScriptFunction(f, sh.TWO_ELEMENT_ARRAY);
 
 				return oReturnValue;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
 		}
@@ -530,38 +432,28 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	 * @param oArg2
 	 * @param oArg3
 	 */
-	public static final Object callFunction( AbstractScriptHandler<?> sh,
-			String sFunction, Object oArg1, Object oArg2, Object oArg3 )
-			throws ChartException
-	{
-		if ( sh == null )
-		{
+	public static final Object callFunction(AbstractScriptHandler<?> sh, String sFunction, Object oArg1, Object oArg2,
+			Object oArg3) throws ChartException {
+		if (sh == null) {
 			return null;
 		}
 
-		if ( sh.javahandler != null && sh.isJavaFuntion( sFunction ) )
-		{
+		if (sh.javahandler != null && sh.isJavaFuntion(sFunction)) {
 			sh.THREE_ELEMENT_ARRAY[0] = oArg1;
 			sh.THREE_ELEMENT_ARRAY[1] = oArg2;
 			sh.THREE_ELEMENT_ARRAY[2] = oArg3;
-			return sh.callJavaFunction( sFunction, sh.THREE_ELEMENT_ARRAY );
-		}
-		else
-		{
-			final Function f = sh.getJavascriptFunction( sFunction );
-			if ( f != null )
-			{
+			return sh.callJavaFunction(sFunction, sh.THREE_ELEMENT_ARRAY);
+		} else {
+			final Function f = sh.getJavascriptFunction(sFunction);
+			if (f != null) {
 				sh.THREE_ELEMENT_ARRAY[0] = oArg1;
 				sh.THREE_ELEMENT_ARRAY[1] = oArg2;
 				sh.THREE_ELEMENT_ARRAY[2] = oArg3;
 				Object oReturnValue = null;
-				oReturnValue = sh.callJavaScriptFunction( f,
-						sh.THREE_ELEMENT_ARRAY );
+				oReturnValue = sh.callJavaScriptFunction(f, sh.THREE_ELEMENT_ARRAY);
 
 				return oReturnValue;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
 		}
@@ -572,149 +464,99 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	 * 
 	 * @param sScriptContent
 	 */
-	public final Object evaluate( String sScriptContent ) throws ChartException
-	{
-		final Context cx = Context.enter( );
-		try
-		{
-			return cx.evaluateString( scope, sScriptContent, "<cmd>", 1, null ); //$NON-NLS-1$
-		}
-		catch ( RhinoException jsx )
-		{
-			throw convertException( jsx );
-		}
-		finally
-		{
-			Context.exit( );
+	public final Object evaluate(String sScriptContent) throws ChartException {
+		final Context cx = Context.enter();
+		try {
+			return cx.evaluateString(scope, sScriptContent, "<cmd>", 1, null); //$NON-NLS-1$
+		} catch (RhinoException jsx) {
+			throw convertException(jsx);
+		} finally {
+			Context.exit();
 		}
 	}
 
 	/**
 	 * Register the script content for current script handler.
 	 * 
-	 * @param sScriptContent
-	 *            This is either the JavaSciprt code content or a full class
-	 *            name which has implemented
-	 *            <code>IChartItemScriptHandler</code>
+	 * @param sScriptContent This is either the JavaSciprt code content or a full
+	 *                       class name which has implemented
+	 *                       <code>IChartItemScriptHandler</code>
 	 */
 	@SuppressWarnings("unchecked")
-	public final void register( String sScriptName, String sScriptContent )
-			throws ChartException
-	{
-		try
-		{
-			getLogger( ).log( ILogger.INFORMATION,
-					Messages.getString( "Info.try.load.java.handler" ) ); //$NON-NLS-1$
+	public final void register(String sScriptName, String sScriptContent) throws ChartException {
+		try {
+			getLogger().log(ILogger.INFORMATION, Messages.getString("Info.try.load.java.handler")); //$NON-NLS-1$
 
 			Class<?> handlerClass = null;
 
-			try
-			{
-				handlerClass = Class.forName( sScriptContent );
-			}
-			catch ( ClassNotFoundException ex )
-			{
-				if ( iscl != null )
-				{
-					handlerClass = iscl.loadClass( sScriptContent,
-							SecurityUtil.getClassLoader( AbstractScriptHandler.this.getClass( ) ) );
-				}
-				else
-				{
+			try {
+				handlerClass = Class.forName(sScriptContent);
+			} catch (ClassNotFoundException ex) {
+				if (iscl != null) {
+					handlerClass = iscl.loadClass(sScriptContent,
+							SecurityUtil.getClassLoader(AbstractScriptHandler.this.getClass()));
+				} else {
 					throw ex;
 				}
 
 			}
-			
-			
-			if ( getEventHandlerClass().isAssignableFrom( handlerClass ) )
-			{
-				try
-				{
-					javahandler = (T) SecurityUtil.newClassInstance( handlerClass );
-				}
-				catch ( InstantiationException e )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							BirtException.ERROR,
-							e );
-				}
-				catch ( IllegalAccessException e )
-				{
-					throw new ChartException( ChartEnginePlugin.ID,
-							BirtException.ERROR,
-							e );
+
+			if (getEventHandlerClass().isAssignableFrom(handlerClass)) {
+				try {
+					javahandler = (T) SecurityUtil.newClassInstance(handlerClass);
+				} catch (InstantiationException e) {
+					throw new ChartException(ChartEnginePlugin.ID, BirtException.ERROR, e);
+				} catch (IllegalAccessException e) {
+					throw new ChartException(ChartEnginePlugin.ID, BirtException.ERROR, e);
 				}
 
-				getLogger( ).log( ILogger.INFORMATION,
-						Messages.getString( "Info.java.handler.loaded", //$NON-NLS-1$
-								handlerClass,
-								ULocale.getDefault( ) ) );
+				getLogger().log(ILogger.INFORMATION, Messages.getString("Info.java.handler.loaded", //$NON-NLS-1$
+						handlerClass, ULocale.getDefault()));
+			} else {
+				getLogger().log(ILogger.WARNING, Messages.getString("Info.invalid.java.handler", //$NON-NLS-1$
+						handlerClass, ULocale.getDefault()));
 			}
-			else
-			{
-				getLogger( ).log( ILogger.WARNING,
-						Messages.getString( "Info.invalid.java.handler", //$NON-NLS-1$
-								handlerClass,
-								ULocale.getDefault( ) ) );
-			}
-		}
-		catch ( ClassNotFoundException e )
-		{
+		} catch (ClassNotFoundException e) {
 			// Not a Java class name, so this must be JavaScript code
 			javahandler = null;
 
-			getLogger( ).log( ILogger.INFORMATION,
-					Messages.getString( "Info.try.register.javascript.content" ) ); //$NON-NLS-1$
+			getLogger().log(ILogger.INFORMATION, Messages.getString("Info.try.register.javascript.content")); //$NON-NLS-1$
 
-			final Context cx = Context.enter( );
-			try
-			{
-				cx.evaluateString( scope,
-						sScriptContent,
-						sScriptName == null ? "<cmd>" : sScriptName, 1, null ); //$NON-NLS-1$
+			final Context cx = Context.enter();
+			try {
+				cx.evaluateString(scope, sScriptContent, sScriptName == null ? "<cmd>" : sScriptName, 1, null); //$NON-NLS-1$
 
-				getLogger( ).log( ILogger.INFORMATION,
-						Messages.getString( "Info.javascript.content.registered" ) ); //$NON-NLS-1$
+				getLogger().log(ILogger.INFORMATION, Messages.getString("Info.javascript.content.registered")); //$NON-NLS-1$
 
 				// prepare function name cache.
-				Object[] objs = scope.getIds( );
+				Object[] objs = scope.getIds();
 
-				if ( objs != null )
-				{
-					javaScriptFunctionNamesCache = new ArrayList<String>( );
-					for ( int i = 0; i < objs.length; i++ )
-					{
-						javaScriptFunctionNamesCache.add( String.valueOf( objs[i] ) );
+				if (objs != null) {
+					javaScriptFunctionNamesCache = new ArrayList<String>();
+					for (int i = 0; i < objs.length; i++) {
+						javaScriptFunctionNamesCache.add(String.valueOf(objs[i]));
 					}
-				}
-				else
-				{
+				} else {
 					javaScriptFunctionNamesCache = null;
 				}
 
-			}
-			catch ( RhinoException jsx )
-			{
-				throw convertException( jsx );
-			}
-			finally
-			{
-				Context.exit( );
+			} catch (RhinoException jsx) {
+				throw convertException(jsx);
+			} finally {
+				Context.exit();
 			}
 		}
 
 	}
 
-	protected abstract Class getEventHandlerClass( );
+	protected abstract Class getEventHandlerClass();
 
 	/**
 	 * Sets the context object of current script handler.
 	 * 
 	 * @param csc
 	 */
-	public void setScriptContext( IScriptContext csc )
-	{
+	public void setScriptContext(IScriptContext csc) {
 		this.csc = csc;
 
 	}
@@ -725,34 +567,23 @@ public abstract class AbstractScriptHandler<T> extends ScriptableObject
 	 * @param ex
 	 * @return
 	 */
-	protected ChartException convertException( Exception ex )
-	{
-		if ( ex instanceof RhinoException )
-		{
+	protected ChartException convertException(Exception ex) {
+		if (ex instanceof RhinoException) {
 			RhinoException e = (RhinoException) ex;
-			String lineSource = e.lineSource( );
-			String details = e.details( );
-			String lineNumber = String.valueOf( e.lineNumber( ) );
-			if ( lineSource == null )
+			String lineSource = e.lineSource();
+			String details = e.details();
+			String lineNumber = String.valueOf(e.lineNumber());
+			if (lineSource == null)
 				lineSource = "";//$NON-NLS-1$
-			return new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					"exception.javascript.error", //$NON-NLS-1$
-					new Object[]{
-							details, lineNumber, lineSource
-					},
-					Messages.getResourceBundle( csc.getULocale( ) ),
-					e );
+			return new ChartException(ChartEnginePlugin.ID, ChartException.SCRIPT, "exception.javascript.error", //$NON-NLS-1$
+					new Object[] { details, lineNumber, lineSource }, Messages.getResourceBundle(csc.getULocale()), e);
 		}
 		/*
 		 * TODO convert those exceptions too else if ( ex instanceof
-		 * IllegalAccessException ) {} else if ( ex instanceof
-		 * InstantiationException ) {} else if ( ex instanceof
-		 * InvocationTargetException ) { }
+		 * IllegalAccessException ) {} else if ( ex instanceof InstantiationException )
+		 * {} else if ( ex instanceof InvocationTargetException ) { }
 		 */
 		else
-			return new ChartException( ChartEnginePlugin.ID,
-					ChartException.SCRIPT,
-					ex );
+			return new ChartException(ChartEnginePlugin.ID, ChartException.SCRIPT, ex);
 	}
 }

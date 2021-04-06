@@ -23,33 +23,30 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * 
  */
 
-public interface IProgressiveAggregationHelper
-{
+public interface IProgressiveAggregationHelper {
 
-	public abstract void onRow( int startingGroupLevel, int endingGroupLevel,
-			IResultObject ro, int currentRowIndex ) throws DataException;
-
-	public abstract void close( ) throws DataException;
-
-	public abstract Object getLatestAggrValue( String name )
+	public abstract void onRow(int startingGroupLevel, int endingGroupLevel, IResultObject ro, int currentRowIndex)
 			throws DataException;
+
+	public abstract void close() throws DataException;
+
+	public abstract Object getLatestAggrValue(String name) throws DataException;
 
 	/**
 	 * Get the aggregate value
+	 * 
 	 * @param aggrIndex
 	 * @return
 	 * @throws DataException
 	 */
-	public abstract Object getAggrValue( String name, IResultIterator ri )
-			throws DataException;
+	public abstract Object getAggrValue(String name, IResultIterator ri) throws DataException;
 
-	public abstract List getAggrValues( String name ) throws DataException;
+	public abstract List getAggrValues(String name) throws DataException;
 
-	public abstract boolean hasAggr( String name ) throws DataException;
+	public abstract boolean hasAggr(String name) throws DataException;
 
-	public abstract Set<String> getAggrNames( ) throws DataException;
+	public abstract Set<String> getAggrNames() throws DataException;
 
-	public abstract IAggrInfo getAggrInfo( String aggrName )
-			throws DataException;
+	public abstract IAggrInfo getAggrInfo(String aggrName) throws DataException;
 
 }

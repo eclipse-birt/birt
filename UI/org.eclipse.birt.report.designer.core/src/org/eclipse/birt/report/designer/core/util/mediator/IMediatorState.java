@@ -20,20 +20,19 @@ import java.util.List;
  *             {@link org.eclipse.birt.report.designer.core.mediator.IMediatorState}
  *             instead.
  */
-public interface IMediatorState
-{
+public interface IMediatorState {
 
 	/**
 	 * Gets the selection objects
 	 * 
 	 * @return
 	 */
-	List getSelectionObject( );
+	List getSelectionObject();
 
 	/**
 	 * Gets the source, the return value may be a interface in the future
 	 * 
 	 * @return
 	 */
-	Object getSource( );
+	Object getSource();
 }

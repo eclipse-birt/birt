@@ -17,9 +17,9 @@ import org.eclipse.birt.report.model.core.Structure;
 /**
  * Represents a representation to a structure. This class is the reference
  * property value. It can represent either a <em>resolved</em> or
- * <em>unresolved</em> value. A resolved value is one in which we've used a
- * name to look up the actual structure. An unresolved reference is one that has
- * a name, but has not been resolved to a structure.
+ * <em>unresolved</em> value. A resolved value is one in which we've used a name
+ * to look up the actual structure. An unresolved reference is one that has a
+ * name, but has not been resolved to a structure.
  * <p>
  * The class holds either a name or a pointer to the target structure, never
  * both. By dropping the name for resolved elements, we avoid the need to fix up
@@ -37,51 +37,43 @@ import org.eclipse.birt.report.model.core.Structure;
  * 
  */
 
-public class StructRefValue extends ReferenceValue
-{
+public class StructRefValue extends ReferenceValue {
 
 	/**
 	 * Constructor of an unresolved reference.
 	 * 
-	 * @param namespace
-	 *            the library name space
-	 * @param theName
-	 *            the unresolved name
+	 * @param namespace the library name space
+	 * @param theName   the unresolved name
 	 */
 
-	public StructRefValue( String namespace, String theName )
-	{
-		super( namespace, theName );
+	public StructRefValue(String namespace, String theName) {
+		super(namespace, theName);
 	}
 
 	/**
 	 * Constructor of a resolved reference.
 	 * 
-	 * @param namespace
-	 *            the library name space
-	 * @param structure
-	 *            the resolved structure
+	 * @param namespace the library name space
+	 * @param structure the resolved structure
 	 */
 
-	public StructRefValue( String namespace, Structure structure )
-	{
-		super( namespace, structure );
+	public StructRefValue(String namespace, Structure structure) {
+		super(namespace, structure);
 	}
 
 	/**
-	 * Gets the reference name. The name is either the unresolved name, or the
-	 * name of the resolved element.
+	 * Gets the reference name. The name is either the unresolved name, or the name
+	 * of the resolved element.
 	 * 
-	 * @return the name of the referenced element, or null if this reference is
-	 *         not set
+	 * @return the name of the referenced element, or null if this reference is not
+	 *         set
 	 */
 
-	public String getName( )
-	{
-		if ( name != null )
+	public String getName() {
+		if (name != null)
 			return name;
-		if ( resolved != null )
-			return ( (Structure) resolved ).getReferencableProperty( );
+		if (resolved != null)
+			return ((Structure) resolved).getReferencableProperty();
 		assert false;
 		return null;
 	}
@@ -89,36 +81,32 @@ public class StructRefValue extends ReferenceValue
 	/**
 	 * Returns the referenced structure, if the structure is resolved.
 	 * 
-	 * @return the referenced structure, or null if this reference is not set,
-	 *         or is unresolved
+	 * @return the referenced structure, or null if this reference is not set, or is
+	 *         unresolved
 	 */
 
-	public Structure getStructure( )
-	{
+	public Structure getStructure() {
 		return (Structure) resolved;
 	}
 
 	/**
-	 * Returns the target structure as a referenceable structure. This form is
-	 * used when caching references.
+	 * Returns the target structure as a referenceable structure. This form is used
+	 * when caching references.
 	 * 
 	 * @return the target structure as a referencable structure
 	 */
 
-	public ReferencableStructure getTargetStructure( )
-	{
+	public ReferencableStructure getTargetStructure() {
 		return (ReferencableStructure) resolved;
 	}
 
 	/**
 	 * Sets the resolved structure.
 	 * 
-	 * @param structure
-	 *            the resolved structure
+	 * @param structure the resolved structure
 	 */
 
-	public void resolve( Object structure )
-	{
+	public void resolve(Object structure) {
 		assert structure instanceof Structure;
 		name = null;
 		resolved = structure;
@@ -130,9 +118,8 @@ public class StructRefValue extends ReferenceValue
 	 * @see java.lang.Object#clone()
 	 */
 
-	public Object copy( )
-	{
-		return new StructRefValue( getLibraryNamespace( ), getName( ) );
+	public Object copy() {
+		return new StructRefValue(getLibraryNamespace(), getName());
 	}
 
 }

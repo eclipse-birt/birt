@@ -30,25 +30,23 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * ,'scriptLibsIterator' 'shiftScriptLib' method.
  * </p>
  */
-public class Regression_152830 extends BaseTestCase
-{
+public class Regression_152830 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 */
-	public void test_regression_152830( ) throws SemanticException
-	{
-		ReportDesignHandle designHandle = this.createDesign( );
+	public void test_regression_152830() throws SemanticException {
+		ReportDesignHandle designHandle = this.createDesign();
 
-		ScriptLib lib = StructureFactory.createScriptLib( );
-		lib.setName( "xcers.jar" ); //$NON-NLS-1$
-		designHandle.addScriptLib( lib );
+		ScriptLib lib = StructureFactory.createScriptLib();
+		lib.setName("xcers.jar"); //$NON-NLS-1$
+		designHandle.addScriptLib(lib);
 
-		Iterator iter = designHandle.scriptLibsIterator( );
-		assertEquals( "xcers.jar", ( (ScriptLibHandle) iter.next( ) ).getName( ) ); //$NON-NLS-1$
+		Iterator iter = designHandle.scriptLibsIterator();
+		assertEquals("xcers.jar", ((ScriptLibHandle) iter.next()).getName()); //$NON-NLS-1$
 
-		designHandle.dropScriptLib( lib );
-		assertFalse( designHandle.scriptLibsIterator( ).hasNext( ) );
+		designHandle.dropScriptLib(lib);
+		assertFalse(designHandle.scriptLibsIterator().hasNext());
 
 	}
 }

@@ -45,14 +45,11 @@ import org.eclipse.ui.dialogs.SelectionStatusDialog;
  */
 public class DimensionBuilderDialog extends SelectionStatusDialog {
 
-	private static String TITLE = Messages
-			.getString("DimensionBuilderDialog.Title"); //$NON-NLS-1$
+	private static String TITLE = Messages.getString("DimensionBuilderDialog.Title"); //$NON-NLS-1$
 
-	private static String LABEL_MEASURE = Messages
-			.getString("DimensionBuilderDialog.LabelMeasure"); //$NON-NLS-1$
+	private static String LABEL_MEASURE = Messages.getString("DimensionBuilderDialog.LabelMeasure"); //$NON-NLS-1$
 
-	private static String LABEL_UNIT = Messages
-			.getString("DimensionBuilderDialog.LabelUnit"); //$NON-NLS-1$
+	private static String LABEL_UNIT = Messages.getString("DimensionBuilderDialog.LabelUnit"); //$NON-NLS-1$
 
 	private Button[] units = new Button[] {};
 
@@ -65,12 +62,13 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 	private String unitName;
 
 	private int unitIndex = 0;
+
 	/**
 	 * @param parent
 	 */
 	public DimensionBuilderDialog(Shell parent) {
 		super(parent);
-		setHelpAvailable( false );
+		setHelpAvailable(false);
 		this.setTitle(TITLE);
 	}
 
@@ -81,8 +79,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 	 */
 	protected void computeResult() {
 		try {
-			measureData = StringUtil.parseInput(measure.getText(),
-					ThreadResources.getLocale());
+			measureData = StringUtil.parseInput(measure.getText(), ThreadResources.getLocale());
 		} catch (PropertyValueException e) {
 		}
 	}
@@ -94,8 +91,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
+	protected Control createDialogArea(Composite parent) {
 		Composite composite = (Composite) super.createDialogArea(parent);
 
 		GridLayout gridLayout = new GridLayout();
@@ -106,14 +102,13 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 
 		createUnitGroup(composite);
 
-		if ( getUnitName( ) == null )
-		{
-			setUnitName( units[0].getData( ).toString( ) );
-			units[0].setSelection( true );
+		if (getUnitName() == null) {
+			setUnitName(units[0].getData().toString());
+			units[0].setSelection(true);
 		}
-		measure.setFocus( );
+		measure.setFocus();
 
-		UIUtil.bindHelp( parent, IHelpContextIds.DIMENSION_BUILDER_DIALOG_DIALOG );
+		UIUtil.bindHelp(parent, IHelpContextIds.DIMENSION_BUILDER_DIALOG_DIALOG);
 
 		return composite;
 	}
@@ -129,24 +124,25 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 		gridData.horizontalSpan = 2;
 		measure.setLayoutData(gridData);
 		measure.setFont(composite.getFont());
-		if ( measureData != null && !measureData.equals( "" ) ) //$NON-NLS-1$
+		if (measureData != null && !measureData.equals("")) //$NON-NLS-1$
 		{
-			measure.setText( NumberUtil.double2LocaleNum( ( (Double) measureData ).doubleValue( ) ) );
+			measure.setText(NumberUtil.double2LocaleNum(((Double) measureData).doubleValue()));
 		}
-		measure.addVerifyListener(new VerifyListener(){
+		measure.addVerifyListener(new VerifyListener() {
 
 			public void verifyText(VerifyEvent e) {
 				// TODO Auto-generated method stub
 				boolean doit = false;
-				
-				char eChar = e.character;System.out.print(eChar + 0);
+
+				char eChar = e.character;
+				System.out.print(eChar + 0);
 				String validChars = "0123456789,.\b"; //$NON-NLS-1$
-				if(e.keyCode == SWT.DEL || validChars.indexOf(eChar) >= 0)
-				{					
+				if (e.keyCode == SWT.DEL || validChars.indexOf(eChar) >= 0) {
 					doit = true;
 				}
 				e.doit = doit;
-			}});
+			}
+		});
 
 	}
 
@@ -160,8 +156,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 		gridData.horizontalSpan = 2;
 		unitLabel.setLayoutData(gridData);
 
-		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary()
-				.getChoiceSet(DesignChoiceConstants.CHOICE_UNITS);
+		IChoiceSet choiceSet = DesignEngine.getMetaDataDictionary().getChoiceSet(DesignChoiceConstants.CHOICE_UNITS);
 		units = new Button[unitNames.length];
 		for (int i = 0; i < units.length; i++) {
 			units[i] = new Button(composite, SWT.RADIO);
@@ -191,22 +186,19 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 				}
 			});
 		}
-		unitLabel.addTraverseListener( new TraverseListener( ) {
+		unitLabel.addTraverseListener(new TraverseListener() {
 
-			public void keyTraversed( TraverseEvent e )
-			{
-				if ( e.detail == SWT.TRAVERSE_MNEMONIC && e.doit )
-				{
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_MNEMONIC && e.doit) {
 					e.detail = SWT.TRAVERSE_NONE;
-					units[unitIndex].setFocus( );
+					units[unitIndex].setFocus();
 				}
 			}
-		} );
+		});
 	}
 
 	/**
-	 * @param measureData
-	 *            The measureData to set.
+	 * @param measureData The measureData to set.
 	 */
 	public void setMeasureData(Object measureData) {
 		if (measureData != null) {
@@ -215,8 +207,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 	}
 
 	/**
-	 * @param unitNames
-	 *            The unitNames to set.
+	 * @param unitNames The unitNames to set.
 	 */
 	public void setUnitNames(String[] unitNames) {
 		this.unitNames = unitNames;
@@ -230,8 +221,7 @@ public class DimensionBuilderDialog extends SelectionStatusDialog {
 	}
 
 	/**
-	 * @param the
-	 *            unit name
+	 * @param the unit name
 	 */
 	public void setUnitName(String unitName) {
 		this.unitName = unitName;

@@ -22,48 +22,36 @@ import com.ibm.icu.util.ULocale;
  * This calculator is used to calculate a month group key basing group interval.
  */
 
-class MonthGroupCalculator extends DateGroupCalculator
-{
+class MonthGroupCalculator extends DateGroupCalculator {
 
-
-
-	public MonthGroupCalculator( Object intervalStart, double intervalRange,
-			ULocale locale, TimeZone timeZone ) throws BirtException
-	{
-		super( intervalStart, intervalRange, locale, timeZone );
+	public MonthGroupCalculator(Object intervalStart, double intervalRange, ULocale locale, TimeZone timeZone)
+			throws BirtException {
+		super(intervalStart, intervalRange, locale, timeZone);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.group.DateGroupCalculator#calculate(java.
+	 * lang.Object)
 	 */
-	public Object calculate( Object value ) throws BirtException
-	{
-		if ( value == null )
-		{
-			return new Double( -1 );
+	public Object calculate(Object value) throws BirtException {
+		if (value == null) {
+			return new Double(-1);
 		}
 
-		Date target = getDate( value );
-		
-		if ( intervalStart == null )
-		{
-			return new Double( Math.floor( (double)this.dateTimeUtil.diffMonth( defaultStart,
-					target )
-					/(double) getDateIntervalRange( ) ) );
-		}
-		else
-		{
-			if ( this.dateTimeUtil.diffMonth( (Date) intervalStart, target ) < 0 )
-			{
-				return new Double( -1 );
-			}
-			else
-			{
-				return new Double( Math.floor( (double) this.dateTimeUtil.diffMonth( (Date) intervalStart,
-						target )
-						/ (double) getDateIntervalRange( ) ) );
+		Date target = getDate(value);
+
+		if (intervalStart == null) {
+			return new Double(Math.floor(
+					(double) this.dateTimeUtil.diffMonth(defaultStart, target) / (double) getDateIntervalRange()));
+		} else {
+			if (this.dateTimeUtil.diffMonth((Date) intervalStart, target) < 0) {
+				return new Double(-1);
+			} else {
+				return new Double(Math.floor((double) this.dateTimeUtil.diffMonth((Date) intervalStart, target)
+						/ (double) getDateIntervalRange()));
 			}
 		}
 	}

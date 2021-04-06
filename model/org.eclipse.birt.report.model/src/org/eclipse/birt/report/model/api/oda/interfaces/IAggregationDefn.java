@@ -62,8 +62,7 @@ public interface IAggregationDefn {
 	/**
 	 * Identify if this aggregation implementation can ignore duplicated values.
 	 * 
-	 * @return true if this aggregation can ignore duplicated values, else
-	 *         false.
+	 * @return true if this aggregation can ignore duplicated values, else false.
 	 */
 	public boolean canIgnoreDuplicateValues();
 

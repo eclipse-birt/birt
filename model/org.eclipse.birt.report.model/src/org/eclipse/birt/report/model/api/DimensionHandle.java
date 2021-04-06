@@ -60,73 +60,60 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
  */
 
-public class DimensionHandle extends ComplexValueHandle
-{
+public class DimensionHandle extends ComplexValueHandle {
 
 	/**
-	 * Constructs a dimension handle for a member of a structure. This member
-	 * must be a dimension type.
+	 * Constructs a dimension handle for a member of a structure. This member must
+	 * be a dimension type.
 	 * 
-	 * @param element
-	 *            the design element handle
-	 * @param context
-	 *            the context for the member property
+	 * @param element the design element handle
+	 * @param context the context for the member property
 	 */
 
-	public DimensionHandle( DesignElementHandle element,
-			StructureContext context )
-	{
-		super( element, context );
-		assert context.getPropDefn( ).getType( ) instanceof DimensionPropertyType;
+	public DimensionHandle(DesignElementHandle element, StructureContext context) {
+		super(element, context);
+		assert context.getPropDefn().getType() instanceof DimensionPropertyType;
 	}
 
 	/**
-	 * Constructs a dimension handle for a member of a structure. This member
-	 * must be a dimension type.
+	 * Constructs a dimension handle for a member of a structure. This member must
+	 * be a dimension type.
 	 * 
-	 * @param element
-	 *            the design element handle
-	 * @param context
-	 *            the context for the member property
+	 * @param element the design element handle
+	 * @param context the context for the member property
 	 * @deprecated
 	 */
 
-	public DimensionHandle( DesignElementHandle element, MemberRef context )
-	{
-		super( element, context );
-		assert context.getPropDefn( ).getType( ) instanceof DimensionPropertyType;
+	public DimensionHandle(DesignElementHandle element, MemberRef context) {
+		super(element, context);
+		assert context.getPropDefn().getType() instanceof DimensionPropertyType;
 	}
 
 	/**
-	 * Constructs a dimension handle for a element property. This property must
-	 * be a dimension type.
+	 * Constructs a dimension handle for a element property. This property must be a
+	 * dimension type.
 	 * 
-	 * @param element
-	 *            handle to the element that defined the property.
-	 * @param thePropDefn
-	 *            definition of the dimension property.
+	 * @param element     handle to the element that defined the property.
+	 * @param thePropDefn definition of the dimension property.
 	 */
 
-	public DimensionHandle( DesignElementHandle element,
-			ElementPropertyDefn thePropDefn )
-	{
-		super( element, thePropDefn );
-		assert thePropDefn.getType( ) instanceof DimensionPropertyType;
+	public DimensionHandle(DesignElementHandle element, ElementPropertyDefn thePropDefn) {
+		super(element, thePropDefn);
+		assert thePropDefn.getType() instanceof DimensionPropertyType;
 	}
 
 	/**
-	 * Determines if the dimension is given by a standard format or by a
-	 * pre-defined constant.
+	 * Determines if the dimension is given by a standard format or by a pre-defined
+	 * constant.
 	 * 
 	 * @return <code>true</code> if the dimension is given by an pre-defined
-	 *         constant <code>false</code> if the dimension is given by a
-	 *         standard dimension.
+	 *         constant <code>false</code> if the dimension is given by a standard
+	 *         dimension.
 	 */
 
-	public boolean isKeyword( )
-	{
-		IChoiceSet choiceSet = propDefn.getChoices( );
-		if ( choiceSet != null && choiceSet.contains( getStringValue( ) ) )
+	public boolean isKeyword() {
+		IChoiceSet choiceSet = propDefn.getChoices();
+		if (choiceSet != null && choiceSet.contains(getStringValue()))
 			return true;
 
 		return false;
@@ -136,21 +123,19 @@ public class DimensionHandle extends ComplexValueHandle
 	 * Returns the numeric measure part of the dimension. For example, if the
 	 * dimension value is "2.3cm", the measure is 2.3.
 	 * 
-	 * @return the numeric measure of the dimension, return <code>0.0</code> if
-	 *         the dimension from an choice.
+	 * @return the numeric measure of the dimension, return <code>0.0</code> if the
+	 *         dimension from an choice.
 	 */
 
-	public double getMeasure( )
-	{
-		if ( isKeyword( ) )
-		{
+	public double getMeasure() {
+		if (isKeyword()) {
 			// Map a pre-defined choice to a zero value.
 			return 0.0;
 		}
 
-		DimensionValue value = (DimensionValue) getValue( );
-		if ( value != null )
-			return value.getMeasure( );
+		DimensionValue value = (DimensionValue) getValue();
+		if (value != null)
+			return value.getMeasure();
 
 		return 0.0;
 	}
@@ -162,51 +147,45 @@ public class DimensionHandle extends ComplexValueHandle
 	 * @return an array of allowed unit suffixes. Each suffix is a string.
 	 */
 
-	public IChoice[] getAllowedUnits( )
-	{
-		if ( memberContext == null )
-			return propDefn.getAllowedUnits( ).getChoices( );
+	public IChoice[] getAllowedUnits() {
+		if (memberContext == null)
+			return propDefn.getAllowedUnits().getChoices();
 
-		return memberContext.getPropDefn( ).getAllowedUnits( ).getChoices( );
+		return memberContext.getPropDefn().getAllowedUnits().getChoices();
 	}
 
 	/**
-	 * Returns the code for the units portion of the dimension. For example, if
-	 * the dimension value is "2.3cm", then the unit is "cm".
+	 * Returns the code for the units portion of the dimension. For example, if the
+	 * dimension value is "2.3cm", then the unit is "cm".
 	 * 
 	 * @return the units portion of the dimension. Return
 	 *         <code>DimensionValue.DEFAULT_UNIT</code> if the dimension is a
 	 *         predefined constant.
 	 */
 
-	public String getUnits( )
-	{
-		if ( isKeyword( ) )
-		{
+	public String getUnits() {
+		if (isKeyword()) {
 			return DimensionValue.DEFAULT_UNIT;
 		}
 
-		DimensionValue value = (DimensionValue) getValue( );
+		DimensionValue value = (DimensionValue) getValue();
 
-		if ( value != null )
-			return value.getUnits( );
+		if (value != null)
+			return value.getUnits();
 		return null;
 	}
 
 	/**
 	 * Sets the value of a dimension in default units. The default unit may be
-	 * defined by the property in BIRT or the application unit defined in the
-	 * design session.
+	 * defined by the property in BIRT or the application unit defined in the design
+	 * session.
 	 * 
-	 * @param value
-	 *            the new value in application units.
-	 * @throws SemanticException
-	 *             if the property is locked
+	 * @param value the new value in application units.
+	 * @throws SemanticException if the property is locked
 	 */
 
-	public void setAbsolute( double value ) throws SemanticException
-	{
-		setValue( new Double( value ) );
+	public void setAbsolute(double value) throws SemanticException {
+		setValue(new Double(value));
 	}
 
 	/**
@@ -220,17 +199,16 @@ public class DimensionHandle extends ComplexValueHandle
 	 * <li>UNITS_PX
 	 * </ul>
 	 * 
-	 * This method tries to get the absolute value for absolute font size
-	 * constants with {@link IAbsoluteFontSizeValueProvider}. Only the value of
-	 * CSS property of the element which is not style is handled here.
-	 * <code>null</code> is returned if this dimension is not CSS style
-	 * property.
+	 * This method tries to get the absolute value for absolute font size constants
+	 * with {@link IAbsoluteFontSizeValueProvider}. Only the value of CSS property
+	 * of the element which is not style is handled here. <code>null</code> is
+	 * returned if this dimension is not CSS style property.
 	 * 
 	 * <p>
 	 * CSS 2.1 specification has the following statements:
 	 * <p>
-	 * Child elements do not inherit the relative values specified for their
-	 * parent; they inherit the computed values.
+	 * Child elements do not inherit the relative values specified for their parent;
+	 * they inherit the computed values.
 	 * <p>
 	 * Example(s):
 	 * <p>
@@ -242,66 +220,51 @@ public class DimensionHandle extends ComplexValueHandle
 	 * h1 { font-size: 15px }
 	 * <p>
 	 * 
-	 * So when computing the value of text-indent, with this method, the value
-	 * of font-size is retrieved from body, instead of h1.
+	 * So when computing the value of text-indent, with this method, the value of
+	 * font-size is retrieved from body, instead of h1.
 	 * 
 	 * @return the absolute dimension value.
 	 */
 
-	public DimensionValue getAbsoluteValue( )
-	{
+	public DimensionValue getAbsoluteValue() {
 		// The original value, which might be relative, absolute or predefined
 		// choice.
 
-		Object value = getValue( );
+		Object value = getValue();
 
-		if ( value instanceof String )
-		{
+		if (value instanceof String) {
 			// Only font size has string constant, which are relative or
 			// absolute font size constants.
 
-			if ( IStyleModel.FONT_SIZE_PROP.equals( getDefn( ).getName( ) ) )
-			{
-				FontSizeValueHandler fontSizeValueHandle = new FontSizeValueHandler(
-						this );
-				return fontSizeValueHandle
-						.convertFontSizeConstant( (String) value );
+			if (IStyleModel.FONT_SIZE_PROP.equals(getDefn().getName())) {
+				FontSizeValueHandler fontSizeValueHandle = new FontSizeValueHandler(this);
+				return fontSizeValueHandle.convertFontSizeConstant((String) value);
 			}
-		}
-		else
-		{
+		} else {
 			assert value instanceof DimensionValue || value == null;
 
 			DimensionValue dimensionValue = (DimensionValue) value;
 
 			// If the value is absolute value.
 
-			if ( dimensionValue != null
-					&& CSSLengthValueHandler.isAbsoluteUnit( dimensionValue
-							.getUnits( ) ) )
+			if (dimensionValue != null && CSSLengthValueHandler.isAbsoluteUnit(dimensionValue.getUnits()))
 				return dimensionValue;
 
 			// Only the relative value of CSS property in the non-style
 			// element is handled here.
 
-			if ( !propDefn.isStyleProperty( ) || getElement( ).isStyle( ) )
+			if (!propDefn.isStyleProperty() || getElement().isStyle())
 				return null;
 
 			// Font size has its specific algorithm for getting absolute value.
 
-			if ( IStyleModel.FONT_SIZE_PROP.equalsIgnoreCase( getPropertyDefn( )
-					.getName( ) ) )
-			{
-				FontSizeValueHandler fontSizeValueHandler = new FontSizeValueHandler(
-						this );
-				return fontSizeValueHandler
-						.getAbsoluteValueForFontSize( dimensionValue );
+			if (IStyleModel.FONT_SIZE_PROP.equalsIgnoreCase(getPropertyDefn().getName())) {
+				FontSizeValueHandler fontSizeValueHandler = new FontSizeValueHandler(this);
+				return fontSizeValueHandler.getAbsoluteValueForFontSize(dimensionValue);
 			}
 
-			ComputedValueHandler computedValueHandle = new ComputedValueHandler(
-					this );
-			return computedValueHandle
-					.getAbsoluteValueForLength( dimensionValue );
+			ComputedValueHandler computedValueHandle = new ComputedValueHandler(this);
+			return computedValueHandle.getAbsoluteValueForLength(dimensionValue);
 		}
 
 		assert false;
@@ -314,21 +277,19 @@ public class DimensionHandle extends ComplexValueHandle
 	 * @return the default unit
 	 */
 
-	public String getDefaultUnit( )
-	{
-		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn( );
-		if ( defn.getTypeCode( ) == IPropertyType.DIMENSION_TYPE )
-		{
-			String unit = defn.getDefaultUnit( );
-			if ( !StringUtil.isBlank( unit ) )
+	public String getDefaultUnit() {
+		ElementPropertyDefn defn = (ElementPropertyDefn) getPropertyDefn();
+		if (defn.getTypeCode() == IPropertyType.DIMENSION_TYPE) {
+			String unit = defn.getDefaultUnit();
+			if (!StringUtil.isBlank(unit))
 				return unit;
 
-			unit = getModule( ).getUnits( );
-			if ( !StringUtil.isBlank( unit ) )
+			unit = getModule().getUnits();
+			if (!StringUtil.isBlank(unit))
 				return unit;
 
-			if ( getModule( ).getSession( ) != null )
-				return getModule( ).getSession( ).getUnits( );
+			if (getModule().getSession() != null)
+				return getModule().getSession().getUnits();
 		}
 		return DimensionValue.DEFAULT_UNIT;
 	}

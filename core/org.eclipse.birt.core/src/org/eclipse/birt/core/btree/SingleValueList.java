@@ -15,86 +15,70 @@ import java.io.DataInput;
 import java.io.DataOutput;
 import java.io.IOException;
 
-public class SingleValueList<K, V> implements BTreeValues<V>
-{
+public class SingleValueList<K, V> implements BTreeValues<V> {
 
 	private BTree<K, V> btree;
 	private SingleValue value;
 
-	SingleValueList( BTree<K, V> btree )
-	{
+	SingleValueList(BTree<K, V> btree) {
 		this.btree = btree;
 	}
 
-	SingleValueList( BTree<K, V> btree, BTreeValue<V> v )
-	{
+	SingleValueList(BTree<K, V> btree, BTreeValue<V> v) {
 		this.btree = btree;
-		this.value = new SingleValue( v );
+		this.value = new SingleValue(v);
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		return SINGLE_VALUES;
 	}
 
-	public void read( DataInput in ) throws IOException
-	{
-		BTreeValue<V> v = btree.readValue( in );
-		value = new SingleValue( v );
+	public void read(DataInput in) throws IOException {
+		BTreeValue<V> v = btree.readValue(in);
+		value = new SingleValue(v);
 	}
 
-	public void write( DataOutput out ) throws IOException
-	{
-		btree.writeValue( out, value.getValue( ) );
+	public void write(DataOutput out) throws IOException {
+		btree.writeValue(out, value.getValue());
 	}
 
-	public int getValueCount( )
-	{
+	public int getValueCount() {
 		return 1;
 	}
 
-	public int getValueSize( )
-	{
-		return btree.getValueSize( value.getValue( ) );
+	public int getValueSize() {
+		return btree.getValueSize(value.getValue());
 	}
 
-	public Value<V> getFirstValue( )
-	{
+	public Value<V> getFirstValue() {
 		return value;
 	}
 
-	public Value<V> getLastValue( )
-	{
+	public Value<V> getLastValue() {
 		return value;
 	}
 
-	public Value<V> append( BTreeValue<V> value )
-	{
-		throw new java.lang.UnsupportedOperationException( "append" );
+	public Value<V> append(BTreeValue<V> value) {
+		throw new java.lang.UnsupportedOperationException("append");
 	}
 
-	private class SingleValue implements Value<V>
-	{
+	private class SingleValue implements Value<V> {
 
 		BTreeValue<V> value;
 
-		SingleValue( BTreeValue<V> value )
-		{
+		SingleValue(BTreeValue<V> value) {
 			this.value = value;
 		}
 
-		public Value<V> getNext( ) throws IOException
-		{
+		public Value<V> getNext() throws IOException {
 			return null;
 		}
 
-		public Value<V> getPrev( ) throws IOException
-		{
+		public Value<V> getPrev() throws IOException {
 			return null;
 		}
 
-		public BTreeValue<V> getValue( )
-		{
+		public BTreeValue<V> getValue() {
 			return value;
 		}
 

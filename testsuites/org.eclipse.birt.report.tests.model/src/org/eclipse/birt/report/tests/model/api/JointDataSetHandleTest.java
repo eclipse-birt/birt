@@ -28,7 +28,8 @@ import com.ibm.icu.util.ULocale;
 /**
  * TestCases for JointDataSetHandle.
  * <p>
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
+ * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * 
  * <tr>
@@ -88,21 +89,18 @@ public class JointDataSetHandleTest extends BaseTestCase {
 		// heterogeneous data sets
 		jointds1.addDataSet("ds1");
 		jointds1.addDataSet("ds2");
-		assertEquals(2, jointds1.getListProperty(JointDataSet.DATA_SETS_PROP)
-				.size());
+		assertEquals(2, jointds1.getListProperty(JointDataSet.DATA_SETS_PROP).size());
 
 		// homogeneous data sets
 		JointDataSetHandle jointds2 = designHandle.findJointDataSet("jointds2");
 		jointds2.addDataSet("ds1");
 		jointds2.addDataSet("ds2");
-		assertEquals(2, jointds2.getListProperty(JointDataSet.DATA_SETS_PROP)
-				.size());
+		assertEquals(2, jointds2.getListProperty(JointDataSet.DATA_SETS_PROP).size());
 
 		// self-join
 		JointDataSetHandle jointds3 = designHandle.findJointDataSet("jointds3");
 		jointds3.addDataSet("ds1");
-		assertEquals(1, jointds3.getListProperty(JointDataSet.DATA_SETS_PROP)
-				.size());
+		assertEquals(1, jointds3.getListProperty(JointDataSet.DATA_SETS_PROP).size());
 
 	}
 
@@ -112,18 +110,13 @@ public class JointDataSetHandleTest extends BaseTestCase {
 	 * @throws SemanticException
 	 * @throws DesignFileException
 	 */
-	public void testJointCondition() throws SemanticException,
-			DesignFileException {
+	public void testJointCondition() throws SemanticException, DesignFileException {
 		openDesign(filename);
-		JointDataSetHandle jointds = designHandle
-				.findJointDataSet("JointDataSet");
+		JointDataSetHandle jointds = designHandle.findJointDataSet("JointDataSet");
 		Iterator joinConditionsIterator = jointds.joinConditionsIterator();
-		JoinConditionHandle joinConditionHandle = (JoinConditionHandle) joinConditionsIterator
-				.next();
-		joinConditionHandle
-				.setJoinType(DesignChoiceConstants.JOIN_TYPE_LEFT_OUT);
-		assertEquals(DesignChoiceConstants.JOIN_TYPE_LEFT_OUT,
-				joinConditionHandle.getJoinType());
+		JoinConditionHandle joinConditionHandle = (JoinConditionHandle) joinConditionsIterator.next();
+		joinConditionHandle.setJoinType(DesignChoiceConstants.JOIN_TYPE_LEFT_OUT);
+		assertEquals(DesignChoiceConstants.JOIN_TYPE_LEFT_OUT, joinConditionHandle.getJoinType());
 
 		String operator = DesignChoiceConstants.JOIN_OPERATOR_EQALS;
 		joinConditionHandle.setOperator(operator);
@@ -157,22 +150,17 @@ public class JointDataSetHandleTest extends BaseTestCase {
 		JointDataSetHandle jointds = designHandle.findJointDataSet("jointds");
 		DataSetHandle ds1 = designHandle.findDataSet("ds1");
 		DataSetHandle ds2 = designHandle.findDataSet("ds2");
-		DataSetParameterHandle param1 = (DataSetParameterHandle) ds1
-				.parametersIterator().next();
-		DataSetParameterHandle param2 = (DataSetParameterHandle) ds2
-				.parametersIterator().next();
+		DataSetParameterHandle param1 = (DataSetParameterHandle) ds1.parametersIterator().next();
+		DataSetParameterHandle param2 = (DataSetParameterHandle) ds2.parametersIterator().next();
 
 		jointds.addDataSet("ds1");
 		jointds.addDataSet("ds2");
-		assertFalse(jointds.paramBindingsIterator().hasNext()); //$NON-NLS-1$
+		assertFalse(jointds.paramBindingsIterator().hasNext()); // $NON-NLS-1$
 
-		List list = jointds.getElement().getListProperty(design,
-				JointDataSet.DATA_SETS_PROP);
+		List list = jointds.getElement().getListProperty(design, JointDataSet.DATA_SETS_PROP);
 
-		assertSame(design.findDataSet("ds1"), ((ElementRefValue) list.get(0))
-				.getElement());
-		assertSame(design.findDataSet("ds2"), ((ElementRefValue) list.get(1))
-				.getElement());
+		assertSame(design.findDataSet("ds1"), ((ElementRefValue) list.get(0)).getElement());
+		assertSame(design.findDataSet("ds2"), ((ElementRefValue) list.get(1)).getElement());
 
 		assertEquals("param1", param1.getName());
 		assertEquals("param1", param2.getName());
@@ -198,13 +186,11 @@ public class JointDataSetHandleTest extends BaseTestCase {
 		filter.setValue2("b");
 
 		assertEquals("row[\"abc\"]", filter.getExpr());
-		assertEquals(DesignChoiceConstants.FILTER_OPERATOR_BETWEEN, filter
-				.getOperator());
+		assertEquals(DesignChoiceConstants.FILTER_OPERATOR_BETWEEN, filter.getOperator());
 		assertEquals("a", filter.getValue1());
 		assertEquals("b", filter.getValue2());
 
-		PropertyHandle prophandle = (PropertyHandle) jointds
-				.getPropertyHandle(JointDataSetHandle.FILTER_PROP);
+		PropertyHandle prophandle = (PropertyHandle) jointds.getPropertyHandle(JointDataSetHandle.FILTER_PROP);
 		prophandle.addItem(filter);
 	}
 

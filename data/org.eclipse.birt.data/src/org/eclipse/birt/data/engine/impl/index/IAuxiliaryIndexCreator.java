@@ -20,13 +20,11 @@ import org.mozilla.javascript.Scriptable;
  * 
  */
 
-public interface IAuxiliaryIndexCreator
-{
+public interface IAuxiliaryIndexCreator {
 
-	public void close( ) throws DataException;
+	public void close() throws DataException;
 
-	public void save( IResultObject result, int rowId ) throws DataException;
+	public void save(IResultObject result, int rowId) throws DataException;
 
-	public void initialize( IResultClass resultClass, Scriptable jsRow )
-			throws DataException;
+	public void initialize(IResultClass resultClass, Scriptable jsRow) throws DataException;
 }

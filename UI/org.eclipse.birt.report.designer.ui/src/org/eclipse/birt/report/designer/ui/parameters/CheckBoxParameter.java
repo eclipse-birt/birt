@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
  * 
  */
 
-public class CheckBoxParameter extends ScalarParameter
-{
+public class CheckBoxParameter extends ScalarParameter {
 
 	/**
 	 * Constructor
@@ -32,20 +31,17 @@ public class CheckBoxParameter extends ScalarParameter
 	 * @param engineTask
 	 */
 
-	public CheckBoxParameter( ScalarParameterHandle handle,
-			IEngineTask engineTask )
-	{
-		super( handle, engineTask );
+	public CheckBoxParameter(ScalarParameterHandle handle, IEngineTask engineTask) {
+		super(handle, engineTask);
 	}
 
 	/**
 	 * Gets Text parameter value list. contain and only contain one value.
 	 */
 
-	public List getValueList( )
-	{
-		List values = new ArrayList( );
-		values.add( getDefaultValue( ) );
+	public List getValueList() {
+		List values = new ArrayList();
+		values.add(getDefaultValue());
 		return values;
 	}
 

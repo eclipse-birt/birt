@@ -62,13 +62,11 @@ import org.eclipse.swt.widgets.Label;
  * 
  * @deprecated
  */
-public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
-		ILaunchConfigurationTab,
-		IReportLauncherSettings
-{
+public class ReportAdvancedLauncherTab extends AbstractLauncherTab
+		implements ILaunchConfigurationTab, IReportLauncherSettings {
 
-	protected static final Logger logger = Logger.getLogger( ReportAdvancedLauncherTab.class.getName( ) );
-	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$	
+	protected static final Logger logger = Logger.getLogger(ReportAdvancedLauncherTab.class.getName());
+	private static final String REPORTPROJECTKID = "org.eclipse.birt.report.designer.ui.reportprojectnature"; //$NON-NLS-1$
 	private Label fUseListRadio;
 	private CheckboxTreeViewer fPluginTreeViewer;
 	private Label fVisibleLabel;
@@ -85,143 +83,110 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	private Button fSelectAllButton;
 	private Button fDeselectButton;
 
-	class PluginContentProvider implements
-			ITreeContentProvider
-	{
+	class PluginContentProvider implements ITreeContentProvider {
 
-		PluginContentProvider( )
-		{
-			super( );
+		PluginContentProvider() {
+			super();
 		}
 
-		public boolean hasChildren( Object parent )
-		{
-			return !( parent instanceof IProject );
+		public boolean hasChildren(Object parent) {
+			return !(parent instanceof IProject);
 		}
 
-		public Object[] getChildren( Object parent )
-		{
-			try
-			{
-				if ( parent == fWorkspacePlugins[0] )
+		public Object[] getChildren(Object parent) {
+			try {
+				if (parent == fWorkspacePlugins[0])
 					return fWorkspaceBIRTModels;
-				else if ( parent == fWorkspacePlugins[1] )
+				else if (parent == fWorkspacePlugins[1])
 					return fWorkspaceJavaModels;
-				else if ( parent instanceof IProject
-						&& ( (IProject) parent ).hasNature( REPORTPROJECTKID ) )
-				{
-					List retValue = getReportDesignFileFromProject( (IProject) parent );
-					return (Object[]) retValue.toArray( new Object[retValue.size( )] );
+				else if (parent instanceof IProject && ((IProject) parent).hasNature(REPORTPROJECTKID)) {
+					List retValue = getReportDesignFileFromProject((IProject) parent);
+					return (Object[]) retValue.toArray(new Object[retValue.size()]);
 
 				}
-			}
-			catch ( CoreException e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
+			} catch (CoreException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 
 			return new Object[0];
 		}
 
-		public Object getParent( Object child )
-		{
+		public Object getParent(Object child) {
 			return null;
 		}
 
-		public Object[] getElements( Object input )
-		{
+		public Object[] getElements(Object input) {
 			// return ( new Object[]{fWorkspacePlugins} );
 			return fWorkspacePlugins;
 		}
 
 		@Override
-		public void dispose()
-		{
+		public void dispose() {
 		}
 
 		@Override
-		public void inputChanged(Viewer arg0, Object arg1, Object arg2)
-		{
+		public void inputChanged(Viewer arg0, Object arg1, Object arg2) {
 		}
 
 	}
 
-	private List getReportDesignFileFromProject( IProject project )
-	{
-		List retValue = new ArrayList( );
-		try
-		{
-			IResource[] resources = project.members( );
-			if ( resources != null && resources.length > 0 )
-			{
-				List extesionNameList = ReportPlugin.getDefault( )
-						.getReportExtensionNameList( );
-				for ( int i = 0; i < resources.length; i++ )
-				{
+	private List getReportDesignFileFromProject(IProject project) {
+		List retValue = new ArrayList();
+		try {
+			IResource[] resources = project.members();
+			if (resources != null && resources.length > 0) {
+				List extesionNameList = ReportPlugin.getDefault().getReportExtensionNameList();
+				for (int i = 0; i < resources.length; i++) {
 					IResource resource = resources[i];
 					// System.out.println(resource.getFullPath(
 					// ).toPortableString( ));
-					if ( extesionNameList.contains( resource.getFileExtension( ) ) )
-					{
-						retValue.add( resource );
+					if (extesionNameList.contains(resource.getFileExtension())) {
+						retValue.add(resource);
 					}
 				}
 			}
-		}
-		catch ( CoreException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+		} catch (CoreException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 		return retValue;
 	}
 
-	public ReportAdvancedLauncherTab( )
-	{
-		this( true );
+	public ReportAdvancedLauncherTab() {
+		this(true);
 	}
 
 	/**
 	 * @param showFeatures
 	 */
-	public ReportAdvancedLauncherTab( boolean showFeatures )
-	{
+	public ReportAdvancedLauncherTab(boolean showFeatures) {
 		fNumExternalChecked = 0;
 		fNumWorkspaceChecked = 0;
 		fShowFeatures = showFeatures;
-		PDEPlugin.getDefault( ).getLabelProvider( ).connect( this );
-		fImage = PDEPluginImages.DESC_REQ_PLUGINS_OBJ.createImage( );
-		fWorkspaceBIRTModels = getInterestProject( REPORTPROJECTKID );
-		fWorkspaceJavaModels = getInterestProject( JavaCore.NATURE_ID );
+		PDEPlugin.getDefault().getLabelProvider().connect(this);
+		fImage = PDEPluginImages.DESC_REQ_PLUGINS_OBJ.createImage();
+		fWorkspaceBIRTModels = getInterestProject(REPORTPROJECTKID);
+		fWorkspaceJavaModels = getInterestProject(JavaCore.NATURE_ID);
 	}
 
-	private IProject[] getInterestProject( String type )
-	{
-		List retValue = new ArrayList( );
-		IProject[] allProjects = ResourcesPlugin.getWorkspace( )
-				.getRoot( )
-				.getProjects( );
-		if ( allProjects == null )
-		{
-			return new IProject[]{};
+	private IProject[] getInterestProject(String type) {
+		List retValue = new ArrayList();
+		IProject[] allProjects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		if (allProjects == null) {
+			return new IProject[] {};
 		}
 		int len = allProjects.length;
-		for ( int i = 0; i < len; i++ )
-		{
+		for (int i = 0; i < len; i++) {
 			IProject project = allProjects[i];
-			try
-			{
-				if ( project.hasNature( type ) )
-				{
-					retValue.add( project );
+			try {
+				if (project.hasNature(type)) {
+					retValue.add(project);
 				}
-			}
-			catch ( CoreException e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
+			} catch (CoreException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 		}
-		IProject[] temp = new IProject[retValue.size( )];
-		temp = (IProject[]) retValue.toArray( temp );
+		IProject[] temp = new IProject[retValue.size()];
+		temp = (IProject[]) retValue.toArray(temp);
 		return temp;
 	}
 
@@ -230,37 +195,35 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	 * 
 	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#dispose()
 	 */
-	public void dispose( )
-	{
-		PDEPlugin.getDefault( ).getLabelProvider( ).disconnect( this );
-		fImage.dispose( );
-		super.dispose( );
+	public void dispose() {
+		PDEPlugin.getDefault().getLabelProvider().disconnect(this);
+		fImage.dispose();
+		super.dispose();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.debug.ui.ILaunchConfigurationTab#createControl(org.eclipse.swt.
+	 * widgets.Composite)
 	 */
-	public void createControl( Composite parent )
-	{
-		Composite composite = new Composite( parent, 0 );
-		composite.setLayout( new GridLayout( ) );
-		fUseListRadio = new Label( composite, 16 );
-		fUseListRadio.setText( Messages.getString( "ReportAdvancedLauncherTab.UseListRadioText" ) ); //$NON-NLS-1$
-		createPluginList( composite );
-		hookListeners( );
-		setControl( composite );
-		Dialog.applyDialogFont( composite );
-		UIUtil.bindHelp( composite,
-				"org.eclipse.pde.doc.user.launcher_advanced" ); //$NON-NLS-1$
+	public void createControl(Composite parent) {
+		Composite composite = new Composite(parent, 0);
+		composite.setLayout(new GridLayout());
+		fUseListRadio = new Label(composite, 16);
+		fUseListRadio.setText(Messages.getString("ReportAdvancedLauncherTab.UseListRadioText")); //$NON-NLS-1$
+		createPluginList(composite);
+		hookListeners();
+		setControl(composite);
+		Dialog.applyDialogFont(composite);
+		UIUtil.bindHelp(composite, "org.eclipse.pde.doc.user.launcher_advanced"); //$NON-NLS-1$
 	}
 
 	/**
 	 * 
 	 */
-	private void hookListeners( )
-	{
+	private void hookListeners() {
 //		SelectionAdapter adapter = new SelectionAdapter( ) {
 //
 //			public void widgetSelected( SelectionEvent e )
@@ -269,234 +232,190 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 //			}
 //		};
 
-		fDefaultsButton.addSelectionListener( new SelectionAdapter( ) {
+		fDefaultsButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				computeInitialCheckState( );
-				updateStatus( );
+			public void widgetSelected(SelectionEvent e) {
+				computeInitialCheckState();
+				updateStatus();
 			}
-		} );
+		});
 
-		fSelectAllButton.addSelectionListener( new SelectionAdapter( ) {
+		fSelectAllButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				toggleGroups( true );
-				updateStatus( );
+			public void widgetSelected(SelectionEvent e) {
+				toggleGroups(true);
+				updateStatus();
 			}
-		} );
+		});
 
-		fDeselectButton.addSelectionListener( new SelectionAdapter( ) {
+		fDeselectButton.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				toggleGroups( false );
-				updateStatus( );
+			public void widgetSelected(SelectionEvent e) {
+				toggleGroups(false);
+				updateStatus();
 			}
-		} );
+		});
 
 	}
 
 	/**
 	 * @param select
 	 */
-	protected void toggleGroups( boolean select )
-	{
-		for ( int i = 0; i < fWorkspacePlugins.length; i++ )
-		{
-			handleGroupStateChanged( fWorkspacePlugins[i], select );
+	protected void toggleGroups(boolean select) {
+		for (int i = 0; i < fWorkspacePlugins.length; i++) {
+			handleGroupStateChanged(fWorkspacePlugins[i], select);
 		}
 
 	}
 
-	private void useDefaultChanged( )
-	{
-		adjustCustomControlEnableState( true );
-		updateStatus( );
+	private void useDefaultChanged() {
+		adjustCustomControlEnableState(true);
+		updateStatus();
 	}
 
 	/**
 	 * @param enable
 	 */
-	private void adjustCustomControlEnableState( boolean enable )
-	{
-		fVisibleLabel.setVisible( enable );
-		fPluginTreeViewer.getTree( ).setVisible( enable );
-		fDefaultsButton.setVisible( enable );
-		fSelectAllButton.setVisible( enable );
-		fDeselectButton.setVisible( enable );
+	private void adjustCustomControlEnableState(boolean enable) {
+		fVisibleLabel.setVisible(enable);
+		fPluginTreeViewer.getTree().setVisible(enable);
+		fDefaultsButton.setVisible(enable);
+		fSelectAllButton.setVisible(enable);
+		fDeselectButton.setVisible(enable);
 	}
 
 	/**
 	 * @param parent
 	 */
-	private void createPluginList( Composite parent )
-	{
-		Composite composite = new Composite( parent, 0 );
-		GridLayout layout = new GridLayout( );
+	private void createPluginList(Composite parent) {
+		Composite composite = new Composite(parent, 0);
+		GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		composite.setLayout( layout );
-		composite.setLayoutData( new GridData( 1808 ) );
-		fVisibleLabel = new Label( composite, 0 );
-		GridData gd = new GridData( );
+		composite.setLayout(layout);
+		composite.setLayoutData(new GridData(1808));
+		fVisibleLabel = new Label(composite, 0);
+		GridData gd = new GridData();
 		gd.horizontalSpan = 2;
-		fVisibleLabel.setLayoutData( gd );
-		fVisibleLabel.setText( Messages.getString( "ReportAdvancedLauncherTab.VisibleLabelText" ) ); //$NON-NLS-1$
-		createPluginViewer( composite );
-		createButtonContainer( composite );
+		fVisibleLabel.setLayoutData(gd);
+		fVisibleLabel.setText(Messages.getString("ReportAdvancedLauncherTab.VisibleLabelText")); //$NON-NLS-1$
+		createPluginViewer(composite);
+		createButtonContainer(composite);
 	}
 
-	private void computeSubset( )
-	{
-		Object checked[] = fPluginTreeViewer.getCheckedElements( );
-		TreeMap map = new TreeMap( );
-		for ( int i = 0; i < checked.length; i++ )
-			if ( checked[i] instanceof IProject )
-			{
+	private void computeSubset() {
+		Object checked[] = fPluginTreeViewer.getCheckedElements();
+		TreeMap map = new TreeMap();
+		for (int i = 0; i < checked.length; i++)
+			if (checked[i] instanceof IProject) {
 				IProject model = (IProject) checked[i];
-				addPluginAndDependencies( model, map );
+				addPluginAndDependencies(model, map);
 			}
 
-		checked = map.values( ).toArray( );
-		fPluginTreeViewer.setCheckedElements( map.values( ).toArray( ) );
+		checked = map.values().toArray();
+		fPluginTreeViewer.setCheckedElements(map.values().toArray());
 		fNumExternalChecked = 0;
 		fNumWorkspaceBIRTChecked = 0;
 		fNumWorkspaceJavaChecked = 0;
 		fNumWorkspaceChecked = 0;
-		for ( int i = 0; i < checked.length; i++ )
-			if ( checked[i] instanceof WorkspacePluginModelBase )
-			{
-				if ( checked[i] instanceof IProject )
-				{
-					try
-					{
-						if ( ( (IProject) checked[i] ).hasNature( REPORTPROJECTKID ) )
-						{
+		for (int i = 0; i < checked.length; i++)
+			if (checked[i] instanceof WorkspacePluginModelBase) {
+				if (checked[i] instanceof IProject) {
+					try {
+						if (((IProject) checked[i]).hasNature(REPORTPROJECTKID)) {
 							fNumWorkspaceBIRTChecked++;
-						}
-						else if ( ( (IProject) checked[i] ).hasNature( JavaCore.NATURE_ID ) )
-						{
+						} else if (((IProject) checked[i]).hasNature(JavaCore.NATURE_ID)) {
 							fNumWorkspaceJavaChecked++;
 						}
-					}
-					catch ( CoreException e )
-					{
-						logger.log( Level.SEVERE, e.getMessage( ), e );
+					} catch (CoreException e) {
+						logger.log(Level.SEVERE, e.getMessage(), e);
 					}
 
 				}
-			}
-			else
-			{
+			} else {
 				fNumExternalChecked++;
 			}
 
-		fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
-				+ fNumWorkspaceJavaChecked;
-		adjustGroupState( );
+		fNumWorkspaceChecked = fNumWorkspaceBIRTChecked + fNumWorkspaceJavaChecked;
+		adjustGroupState();
 	}
 
-	private void addPluginAndDependencies( IProject model, TreeMap map )
-	{
-		if ( model == null )
+	private void addPluginAndDependencies(IProject model, TreeMap map) {
+		if (model == null)
 			return;
-		String id = model.getName( );
-		if ( map.containsKey( id ) )
-		{
+		String id = model.getName();
+		if (map.containsKey(id)) {
 			return;
-		}
-		else
-		{
-			map.put( id, model );
+		} else {
+			map.put(id, model);
 			return;
 		}
 	}
 
-	private void adjustGroupState( )
-	{
+	private void adjustGroupState() {
 
 		int size = fWorkspaceBIRTModels.length;
-		for ( int i = 0; i < size; i++ )
-		{
+		for (int i = 0; i < size; i++) {
 			IProject project = fWorkspaceBIRTModels[i];
-			List list = getReportDesignFileFromProject( project );
-			int len = list.size( );
+			List list = getReportDesignFileFromProject(project);
+			int len = list.size();
 			int ori = 0;
-			for ( int j = 0; j < len; j++ )
-			{
-				Object obj = list.get( j );
-				if ( fPluginTreeViewer.getChecked( obj ) )
-				{
+			for (int j = 0; j < len; j++) {
+				Object obj = list.get(j);
+				if (fPluginTreeViewer.getChecked(obj)) {
 					ori++;
 				}
 			}
-			if ( ori > 0 )
-			{
-				if ( !fPluginTreeViewer.getChecked( project ) )
-				{
+			if (ori > 0) {
+				if (!fPluginTreeViewer.getChecked(project)) {
 					fNumWorkspaceBIRTChecked++;
-					fPluginTreeViewer.setChecked( project, true );
+					fPluginTreeViewer.setChecked(project, true);
 				}
 			}
-			fPluginTreeViewer.setGrayed( project, ori > 0 && ori < len );
+			fPluginTreeViewer.setGrayed(project, ori > 0 && ori < len);
 		}
-		fPluginTreeViewer.setChecked( fWorkspacePlugins[0],
-				fNumWorkspaceBIRTChecked > 0 );
+		fPluginTreeViewer.setChecked(fWorkspacePlugins[0], fNumWorkspaceBIRTChecked > 0);
 
-		fPluginTreeViewer.setChecked( fWorkspacePlugins[1],
-				fNumWorkspaceJavaChecked > 0 );
+		fPluginTreeViewer.setChecked(fWorkspacePlugins[1], fNumWorkspaceJavaChecked > 0);
 
-		fPluginTreeViewer.setGrayed( fWorkspacePlugins[0],
-				fNumWorkspaceBIRTChecked > 0
-						&& fNumWorkspaceBIRTChecked < fWorkspaceBIRTModels.length );
+		fPluginTreeViewer.setGrayed(fWorkspacePlugins[0],
+				fNumWorkspaceBIRTChecked > 0 && fNumWorkspaceBIRTChecked < fWorkspaceBIRTModels.length);
 
-		fPluginTreeViewer.setGrayed( fWorkspacePlugins[1],
-				fNumWorkspaceJavaChecked > 0
-						&& fNumWorkspaceJavaChecked < fWorkspaceJavaModels.length );
+		fPluginTreeViewer.setGrayed(fWorkspacePlugins[1],
+				fNumWorkspaceJavaChecked > 0 && fNumWorkspaceJavaChecked < fWorkspaceJavaModels.length);
 
 	}
 
 	/**
 	 * @param composite
 	 */
-	private void createPluginViewer( Composite composite )
-	{
-		fPluginTreeViewer = new CheckboxTreeViewer( composite, 2048 );
-		fPluginTreeViewer.setContentProvider( new PluginContentProvider( ) );
-		fPluginTreeViewer.setLabelProvider( new PDELabelProvider( ) {
+	private void createPluginViewer(Composite composite) {
+		fPluginTreeViewer = new CheckboxTreeViewer(composite, 2048);
+		fPluginTreeViewer.setContentProvider(new PluginContentProvider());
+		fPluginTreeViewer.setLabelProvider(new PDELabelProvider() {
 
-			public String getText( Object obj )
-			{
-				if ( obj instanceof IProject )
-				{
-					return ( (IProject) obj ).getName( );
+			public String getText(Object obj) {
+				if (obj instanceof IProject) {
+					return ((IProject) obj).getName();
 				}
-				if ( obj instanceof IResource )
-				{
-					return ( (IResource) obj ).getName( );
+				if (obj instanceof IResource) {
+					return ((IResource) obj).getName();
 				}
-				return super.getText( obj );
+				return super.getText(obj);
 			}
-		} );
-		fPluginTreeViewer.setAutoExpandLevel( 2 );
-		fPluginTreeViewer.addCheckStateListener( new ICheckStateListener( ) {
+		});
+		fPluginTreeViewer.setAutoExpandLevel(2);
+		fPluginTreeViewer.addCheckStateListener(new ICheckStateListener() {
 
-			public void checkStateChanged( final CheckStateChangedEvent event )
-			{
-				Object element = event.getElement( );
-				if ( element instanceof IPluginModelBase )
-				{
-					handleCheckStateChanged( (IPluginModelBase) element,
-							event.getChecked( ) );
+			public void checkStateChanged(final CheckStateChangedEvent event) {
+				Object element = event.getElement();
+				if (element instanceof IPluginModelBase) {
+					handleCheckStateChanged((IPluginModelBase) element, event.getChecked());
+				} else {
+					handleGroupStateChanged(element, event.getChecked());
 				}
-				else
-				{
-					handleGroupStateChanged( element, event.getChecked( ) );
-				}
-				updateLaunchConfigurationDialog( );
+				updateLaunchConfigurationDialog();
 			}
-		} );
+		});
 		// fPluginTreeViewer.setSorter( new ListUtil.PluginSorter( ) {
 		//
 		// public int category( Object obj )
@@ -510,136 +429,104 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 		// return 0;
 		// }
 		// } );
-		fPluginTreeViewer.setComparator( new ListUtil.PluginComparator( ) {
+		fPluginTreeViewer.setComparator(new ListUtil.PluginComparator() {
 
-			public int category( Object obj )
-			{
-				for ( int i = 0; i < fWorkspacePlugins.length; i++ )
-				{
+			public int category(Object obj) {
+				for (int i = 0; i < fWorkspacePlugins.length; i++) {
 
-					if ( obj == fWorkspacePlugins[i] )
+					if (obj == fWorkspacePlugins[i])
 						return -1;
 				}
 				return 0;
 			}
-		} );
-		fPluginTreeViewer.getTree( ).setLayoutData( new GridData( 1808 ) );
-		Image pluginsImage = PDEPlugin.getDefault( )
-				.getLabelProvider( )
-				.get( PDEPluginImages.DESC_REQ_PLUGINS_OBJ );
+		});
+		fPluginTreeViewer.getTree().setLayoutData(new GridData(1808));
+		Image pluginsImage = PDEPlugin.getDefault().getLabelProvider().get(PDEPluginImages.DESC_REQ_PLUGINS_OBJ);
 
-		fWorkspacePlugins = new NamedElement[]{
-				new NamedElement( Messages.getString( "ReportAdvancedLauncherTab.WorkspaceReportProjects" ),
-						pluginsImage ),
-				new NamedElement( Messages.getString( "ReportClasspathLaucnTab.WorkspaceJavaProjects" ),
-						pluginsImage )
-		};
+		fWorkspacePlugins = new NamedElement[] {
+				new NamedElement(Messages.getString("ReportAdvancedLauncherTab.WorkspaceReportProjects"), pluginsImage),
+				new NamedElement(Messages.getString("ReportClasspathLaucnTab.WorkspaceJavaProjects"), pluginsImage) };
 	}
 
 	/**
 	 * @param parent
 	 */
-	private void createButtonContainer( Composite parent )
-	{
-		Composite composite = new Composite( parent, 0 );
-		GridLayout layout = new GridLayout( );
+	private void createButtonContainer(Composite parent) {
+		Composite composite = new Composite(parent, 0);
+		GridLayout layout = new GridLayout();
 		layout.marginHeight = layout.marginWidth = 0;
-		composite.setLayout( layout );
-		composite.setLayoutData( new GridData( 1040 ) );
-		fSelectAllButton = new Button( composite, 8 );
-		fSelectAllButton.setText( Messages.getString( "ReportAdvancedLauncherTab.SelectAllButtonText" ) ); //$NON-NLS-1$
-		fSelectAllButton.setLayoutData( new GridData( 770 ) );
-		SWTUtil.setButtonDimensionHint( fSelectAllButton );
-		fDeselectButton = new Button( composite, 8 );
-		fDeselectButton.setText( Messages.getString( "ReportAdvancedLauncherTab.DeselectButtonText" ) ); //$NON-NLS-1$
-		fDeselectButton.setLayoutData( new GridData( 768 ) );
-		SWTUtil.setButtonDimensionHint( fDeselectButton );
-		fDefaultsButton = new Button( composite, 8 );
-		fDefaultsButton.setText( Messages.getString( "ReportAdvancedLauncherTab.DefaultsButtonText" ) ); //$NON-NLS-1$
-		fDefaultsButton.setLayoutData( new GridData( 768 ) );
-		SWTUtil.setButtonDimensionHint( fDefaultsButton );
+		composite.setLayout(layout);
+		composite.setLayoutData(new GridData(1040));
+		fSelectAllButton = new Button(composite, 8);
+		fSelectAllButton.setText(Messages.getString("ReportAdvancedLauncherTab.SelectAllButtonText")); //$NON-NLS-1$
+		fSelectAllButton.setLayoutData(new GridData(770));
+		SWTUtil.setButtonDimensionHint(fSelectAllButton);
+		fDeselectButton = new Button(composite, 8);
+		fDeselectButton.setText(Messages.getString("ReportAdvancedLauncherTab.DeselectButtonText")); //$NON-NLS-1$
+		fDeselectButton.setLayoutData(new GridData(768));
+		SWTUtil.setButtonDimensionHint(fDeselectButton);
+		fDefaultsButton = new Button(composite, 8);
+		fDefaultsButton.setText(Messages.getString("ReportAdvancedLauncherTab.DefaultsButtonText")); //$NON-NLS-1$
+		fDefaultsButton.setLayoutData(new GridData(768));
+		SWTUtil.setButtonDimensionHint(fDefaultsButton);
 	}
 
-	private void initWorkspacePluginsState( ILaunchConfiguration config )
-			throws CoreException
-	{
+	private void initWorkspacePluginsState(ILaunchConfiguration config) throws CoreException {
 		fNumWorkspaceBIRTChecked = fWorkspaceBIRTModels.length;
 		fNumWorkspaceJavaChecked = fWorkspaceJavaModels.length;
 
-		for ( int i = 0; i < fWorkspacePlugins.length; i++ )
-		{
-			fPluginTreeViewer.setSubtreeChecked( fWorkspacePlugins[i], true );
+		for (int i = 0; i < fWorkspacePlugins.length; i++) {
+			fPluginTreeViewer.setSubtreeChecked(fWorkspacePlugins[i], true);
 		}
 
-		TreeSet deselected = ReportLauncherUtils.parseDeselectedWSIds( config );
-		for ( int i = 0; i < fWorkspaceBIRTModels.length; i++ )
-		{
-			if ( !deselected.contains( fWorkspaceBIRTModels[i].getName( ) ) )
-			{
-				if ( fPluginTreeViewer.setChecked( fWorkspaceBIRTModels[i],
-						false ) )
-				{
+		TreeSet deselected = ReportLauncherUtils.parseDeselectedWSIds(config);
+		for (int i = 0; i < fWorkspaceBIRTModels.length; i++) {
+			if (!deselected.contains(fWorkspaceBIRTModels[i].getName())) {
+				if (fPluginTreeViewer.setChecked(fWorkspaceBIRTModels[i], false)) {
 					fNumWorkspaceBIRTChecked--;
 				}
 			}
 		}
 
-		for ( int i = 0; i < fWorkspaceJavaModels.length; i++ )
-		{
-			if ( !deselected.contains( fWorkspaceJavaModels[i].getName( ) ) )
-			{
-				if ( fPluginTreeViewer.setChecked( fWorkspaceJavaModels[i],
-						false ) )
-				{
+		for (int i = 0; i < fWorkspaceJavaModels.length; i++) {
+			if (!deselected.contains(fWorkspaceJavaModels[i].getName())) {
+				if (fPluginTreeViewer.setChecked(fWorkspaceJavaModels[i], false)) {
 					fNumWorkspaceJavaChecked--;
 				}
 			}
 		}
 
-		fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
-				+ fNumWorkspaceJavaChecked;
-		int[] checked = new int[]{
-				fNumWorkspaceBIRTChecked, fNumWorkspaceJavaChecked
-		};
-		int[] length = new int[]{
-				fWorkspaceBIRTModels.length, fWorkspaceJavaModels.length
-		};
-		for ( int i = 0; i < fWorkspacePlugins.length; i++ )
-		{
-			if ( checked[i] == 0 )
-			{
-				fPluginTreeViewer.setChecked( fWorkspacePlugins[i], false );
+		fNumWorkspaceChecked = fNumWorkspaceBIRTChecked + fNumWorkspaceJavaChecked;
+		int[] checked = new int[] { fNumWorkspaceBIRTChecked, fNumWorkspaceJavaChecked };
+		int[] length = new int[] { fWorkspaceBIRTModels.length, fWorkspaceJavaModels.length };
+		for (int i = 0; i < fWorkspacePlugins.length; i++) {
+			if (checked[i] == 0) {
+				fPluginTreeViewer.setChecked(fWorkspacePlugins[i], false);
 			}
-			fPluginTreeViewer.setGrayed( fWorkspacePlugins[i], checked[i] > 0
-					&& checked[i] < length[i] );
+			fPluginTreeViewer.setGrayed(fWorkspacePlugins[i], checked[i] > 0 && checked[i] < length[i]);
 		}
 
 		int size = fWorkspaceBIRTModels.length;
-		deselected = ReportLauncherUtils.parseDeselectedOpenFileNames( config );
-		for ( int i = 0; i < size; i++ )
-		{
+		deselected = ReportLauncherUtils.parseDeselectedOpenFileNames(config);
+		for (int i = 0; i < size; i++) {
 			IProject project = fWorkspaceBIRTModels[i];
-			List list = getReportDesignFileFromProject( project );
-			int len = list.size( );
+			List list = getReportDesignFileFromProject(project);
+			int len = list.size();
 			int ori = len;
-			for ( int j = 0; j < len; j++ )
-			{
-				IResource resource = (IResource) list.get( j );
-				String path = resource.getFullPath( ).toString( );
-				if ( !deselected.contains( path ) )
-				{
-					if ( fPluginTreeViewer.setChecked( resource, false ) )
-					{
+			for (int j = 0; j < len; j++) {
+				IResource resource = (IResource) list.get(j);
+				String path = resource.getFullPath().toString();
+				if (!deselected.contains(path)) {
+					if (fPluginTreeViewer.setChecked(resource, false)) {
 						ori--;
 					}
 				}
 
 			}
-			if ( ori > 0 )
-			{
-				fPluginTreeViewer.setChecked( project, true );
+			if (ori > 0) {
+				fPluginTreeViewer.setChecked(project, true);
 			}
-			fPluginTreeViewer.setGrayed( project, ori > 0 && ori < len );
+			fPluginTreeViewer.setGrayed(project, ori > 0 && ori < len);
 		}
 	}
 
@@ -647,74 +534,64 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	 * @param config
 	 * @throws CoreException
 	 */
-	private void initExternalPluginsState( ILaunchConfiguration config )
-			throws CoreException
-	{
+	private void initExternalPluginsState(ILaunchConfiguration config) throws CoreException {
 		fNumExternalChecked = 0;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#initializeFrom(org.eclipse.debug.core.ILaunchConfiguration)
+	 * @see
+	 * org.eclipse.debug.ui.ILaunchConfigurationTab#initializeFrom(org.eclipse.debug
+	 * .core.ILaunchConfiguration)
 	 */
-	public void initializeFrom( ILaunchConfiguration config )
-	{
-		try
-		{
-			if ( fPluginTreeViewer.getInput( ) == null )
-			{
-				fPluginTreeViewer.setUseHashlookup( true );
-				fPluginTreeViewer.setInput( PDEPlugin.getDefault( ) );
-				fPluginTreeViewer.reveal( fWorkspacePlugins );
+	public void initializeFrom(ILaunchConfiguration config) {
+		try {
+			if (fPluginTreeViewer.getInput() == null) {
+				fPluginTreeViewer.setUseHashlookup(true);
+				fPluginTreeViewer.setInput(PDEPlugin.getDefault());
+				fPluginTreeViewer.reveal(fWorkspacePlugins);
 			}
-			initWorkspacePluginsState( config );
-			initExternalPluginsState( config );
+			initWorkspacePluginsState(config);
+			initExternalPluginsState(config);
+		} catch (CoreException e) {
+			PDEPlugin.logException(e);
 		}
-		catch ( CoreException e )
-		{
-			PDEPlugin.logException( e );
-		}
-		adjustCustomControlEnableState( true );
-		updateStatus( );
+		adjustCustomControlEnableState(true);
+		updateStatus();
 	}
 
-	private void computeInitialCheckState( )
-	{
-		TreeSet wtable = new TreeSet( );
+	private void computeInitialCheckState() {
+		TreeSet wtable = new TreeSet();
 		fNumWorkspaceChecked = 0;
 		fNumExternalChecked = 0;
 
 		fNumWorkspaceBIRTChecked = 0;
 		fNumWorkspaceJavaChecked = 0;
 
-		for ( int i = 0; i < fWorkspaceBIRTModels.length; i++ )
-		{
+		for (int i = 0; i < fWorkspaceBIRTModels.length; i++) {
 			IProject model = fWorkspaceBIRTModels[i];
 			fNumWorkspaceBIRTChecked++;
-			String id = model.getName( );
-			if ( id != null )
-				wtable.add( model.getName( ) );
+			String id = model.getName();
+			if (id != null)
+				wtable.add(model.getName());
 		}
 
-		for ( int i = 0; i < fWorkspaceJavaModels.length; i++ )
-		{
+		for (int i = 0; i < fWorkspaceJavaModels.length; i++) {
 			IProject model = fWorkspaceJavaModels[i];
 			fNumWorkspaceJavaChecked++;
-			String id = model.getName( );
-			if ( id != null )
-				wtable.add( model.getName( ) );
+			String id = model.getName();
+			if (id != null)
+				wtable.add(model.getName());
 		}
 
-		fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
-				+ fNumWorkspaceJavaChecked;
+		fNumWorkspaceChecked = fNumWorkspaceBIRTChecked + fNumWorkspaceJavaChecked;
 
-		for ( int i = 0; i < fWorkspacePlugins.length; i++ )
-		{
-			fPluginTreeViewer.setSubtreeChecked( fWorkspacePlugins[i], true );
+		for (int i = 0; i < fWorkspacePlugins.length; i++) {
+			fPluginTreeViewer.setSubtreeChecked(fWorkspacePlugins[i], true);
 		}
 
-		adjustGroupState( );
+		adjustGroupState();
 	}
 
 	/**
@@ -722,216 +599,167 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	 * @param checked
 	 */
 	// should update later
-	private void handleCheckStateChanged( IPluginModelBase model,
-			boolean checked )
-	{
-		if ( model.getUnderlyingResource( ) == null )
-		{
-			if ( checked )
-			{
+	private void handleCheckStateChanged(IPluginModelBase model, boolean checked) {
+		if (model.getUnderlyingResource() == null) {
+			if (checked) {
 				fNumExternalChecked += 1;
-			}
-			else
-			{
+			} else {
 				fNumExternalChecked -= 1;
 			}
-		}
-		else
-		{
-			if ( model instanceof IProject )
-			{
-				try
-				{
-					if ( ( (IProject) model ).hasNature( REPORTPROJECTKID ) )
-					{
+		} else {
+			if (model instanceof IProject) {
+				try {
+					if (((IProject) model).hasNature(REPORTPROJECTKID)) {
 						fNumWorkspaceBIRTChecked += checked ? 1 : -1;
-					}
-					else if ( ( (IProject) model ).hasNature( JavaCore.NATURE_ID ) )
-					{
+					} else if (((IProject) model).hasNature(JavaCore.NATURE_ID)) {
 						fNumWorkspaceJavaChecked += checked ? 1 : -1;
 					}
-				}
-				catch ( CoreException e )
-				{
-					logger.log( Level.SEVERE, e.getMessage( ), e );
+				} catch (CoreException e) {
+					logger.log(Level.SEVERE, e.getMessage(), e);
 				}
 
-				fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
-						+ fNumWorkspaceJavaChecked;
+				fNumWorkspaceChecked = fNumWorkspaceBIRTChecked + fNumWorkspaceJavaChecked;
 
 			}
 		}
-		adjustGroupState( );
+		adjustGroupState();
 	}
 
 	/**
 	 * @param group
 	 * @param checked
 	 */
-	private void handleGroupStateChanged( Object group, boolean checked )
-	{
-		fPluginTreeViewer.setSubtreeChecked( group, checked );
-		fPluginTreeViewer.setGrayed( group, false );
-		if ( group == fWorkspacePlugins[0] )
-		{
-			fNumWorkspaceBIRTChecked = checked ? fWorkspaceBIRTModels.length
-					: 0;
+	private void handleGroupStateChanged(Object group, boolean checked) {
+		fPluginTreeViewer.setSubtreeChecked(group, checked);
+		fPluginTreeViewer.setGrayed(group, false);
+		if (group == fWorkspacePlugins[0]) {
+			fNumWorkspaceBIRTChecked = checked ? fWorkspaceBIRTModels.length : 0;
 
 		}
-		if ( group == fWorkspacePlugins[1] )
-		{
-			fNumWorkspaceJavaChecked = checked ? fWorkspaceJavaModels.length
-					: 0;
+		if (group == fWorkspacePlugins[1]) {
+			fNumWorkspaceJavaChecked = checked ? fWorkspaceJavaModels.length : 0;
 		}
-		if ( group instanceof IProject )
-		{
-			try
-			{
-				if ( ( (IProject) group ).hasNature( REPORTPROJECTKID ) )
-				{
+		if (group instanceof IProject) {
+			try {
+				if (((IProject) group).hasNature(REPORTPROJECTKID)) {
 					fNumWorkspaceBIRTChecked += checked ? 1 : -1;
-				}
-				else if ( ( (IProject) group ).hasNature( JavaCore.NATURE_ID ) )
-				{
+				} else if (((IProject) group).hasNature(JavaCore.NATURE_ID)) {
 					fNumWorkspaceJavaChecked += checked ? 1 : -1;
 				}
-			}
-			catch ( CoreException e )
-			{
-				logger.log( Level.SEVERE, e.getMessage( ), e );
+			} catch (CoreException e) {
+				logger.log(Level.SEVERE, e.getMessage(), e);
 			}
 
-			fNumWorkspaceChecked = fNumWorkspaceBIRTChecked
-					+ fNumWorkspaceJavaChecked;
+			fNumWorkspaceChecked = fNumWorkspaceBIRTChecked + fNumWorkspaceJavaChecked;
 
 		}
-		adjustGroupState( );
+		adjustGroupState();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#setDefaults(org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)
+	 * @see
+	 * org.eclipse.debug.ui.ILaunchConfigurationTab#setDefaults(org.eclipse.debug.
+	 * core.ILaunchConfigurationWorkingCopy)
 	 */
-	public void setDefaults( ILaunchConfigurationWorkingCopy config )
-	{
-		if ( fShowFeatures )
-		{
-			config.setAttribute( "default", true ); //$NON-NLS-1$
-			config.setAttribute( "usefeatures", false ); //$NON-NLS-1$
-		}
-		else
-		{
-			config.setAttribute( "default", true ); //$NON-NLS-1$
+	public void setDefaults(ILaunchConfigurationWorkingCopy config) {
+		if (fShowFeatures) {
+			config.setAttribute("default", true); //$NON-NLS-1$
+			config.setAttribute("usefeatures", false); //$NON-NLS-1$
+		} else {
+			config.setAttribute("default", true); //$NON-NLS-1$
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#performApply(org.eclipse.debug.core.ILaunchConfigurationWorkingCopy)
+	 * @see
+	 * org.eclipse.debug.ui.ILaunchConfigurationTab#performApply(org.eclipse.debug.
+	 * core.ILaunchConfigurationWorkingCopy)
 	 */
 	// here should be updated later
-	public void performApply( ILaunchConfigurationWorkingCopy config )
-	{
-		StringBuffer wbuf = new StringBuffer( );
+	public void performApply(ILaunchConfigurationWorkingCopy config) {
+		StringBuffer wbuf = new StringBuffer();
 		int size = fWorkspaceBIRTModels.length;
 
-		for ( int i = 0; i < size; i++ )
-		{
+		for (int i = 0; i < size; i++) {
 			IProject model = fWorkspaceBIRTModels[i];
-			String path = model.getLocation( ).toOSString( );
-			if ( fPluginTreeViewer.getChecked( model ) )
-				wbuf.append( PROPERTYSEPARATOR + path );
+			String path = model.getLocation().toOSString();
+			if (fPluginTreeViewer.getChecked(model))
+				wbuf.append(PROPERTYSEPARATOR + path);
 
 		}
 
-		for ( int i = 0; i < fWorkspaceJavaModels.length; i++ )
-		{
+		for (int i = 0; i < fWorkspaceJavaModels.length; i++) {
 			IProject model = fWorkspaceJavaModels[i];
-			String path = model.getLocation( ).toOSString( );
-			if ( fPluginTreeViewer.getChecked( model ) )
-				wbuf.append( PROPERTYSEPARATOR + path );
+			String path = model.getLocation().toOSString();
+			if (fPluginTreeViewer.getChecked(model))
+				wbuf.append(PROPERTYSEPARATOR + path);
 
 		}
-		config.setAttribute( IMPORTPROJECT, wbuf.toString( ) );
+		config.setAttribute(IMPORTPROJECT, wbuf.toString());
 
-		wbuf = new StringBuffer( );
-		for ( int i = 0; i < size; i++ )
-		{
+		wbuf = new StringBuffer();
+		for (int i = 0; i < size; i++) {
 			IProject project = fWorkspaceBIRTModels[i];
-			List list = getReportDesignFileFromProject( project );
-			for ( int j = 0; j < list.size( ); j++ )
-			{
-				IResource resource = (IResource) list.get( j );
-				String path = resource.getFullPath( ).toString( );
-				if ( fPluginTreeViewer.getChecked( resource ) )
-				{
-					wbuf.append( PROPERTYSEPARATOR + path );
+			List list = getReportDesignFileFromProject(project);
+			for (int j = 0; j < list.size(); j++) {
+				IResource resource = (IResource) list.get(j);
+				String path = resource.getFullPath().toString();
+				if (fPluginTreeViewer.getChecked(resource)) {
+					wbuf.append(PROPERTYSEPARATOR + path);
 				}
 			}
 		}
 
-		config.setAttribute( OPENFILENAMES, wbuf.toString( ) );
-		config.setAttribute( "clearws", true ); //$NON-NLS-1$
+		config.setAttribute(OPENFILENAMES, wbuf.toString());
+		config.setAttribute("clearws", true); //$NON-NLS-1$
 
-		config.setAttribute( "askclear", false ); //$NON-NLS-1$
-		config.setAttribute( "location0", WORKESPACENAME ); //$NON-NLS-1$
+		config.setAttribute("askclear", false); //$NON-NLS-1$
+		config.setAttribute("location0", WORKESPACENAME); //$NON-NLS-1$
 
 	}
 
-	private void updateStatus( )
-	{
-		updateStatus( validate( ) );
+	private void updateStatus() {
+		updateStatus(validate());
 	}
 
-	private IStatus validate( )
-	{
-		return createStatus( 0, "" ); //$NON-NLS-1$
+	private IStatus validate() {
+		return createStatus(0, ""); //$NON-NLS-1$
 	}
 
-	protected void updateStatus( IStatus status )
-	{
-		applyToStatusLine( status );
+	protected void updateStatus(IStatus status) {
+		applyToStatusLine(status);
 	}
 
 	/**
 	 * Applies the status to a dialog page
 	 */
-	public void applyToStatusLine( IStatus status )
-	{
+	public void applyToStatusLine(IStatus status) {
 		String errorMessage = null;
 		String warningMessage = null;
-		String statusMessage = status.getMessage( );
-		if ( statusMessage.length( ) > 0 )
-		{
-			if ( status.matches( IStatus.ERROR ) )
-			{
+		String statusMessage = status.getMessage();
+		if (statusMessage.length() > 0) {
+			if (status.matches(IStatus.ERROR)) {
 				errorMessage = statusMessage;
-			}
-			else if ( !status.isOK( ) )
-			{
+			} else if (!status.isOK()) {
 				warningMessage = statusMessage;
 			}
 		}
 
-		setErrorMessage( errorMessage );
-		setMessage( warningMessage );
-		updateLaunchConfigurationDialog( );
+		setErrorMessage(errorMessage);
+		setMessage(warningMessage);
+		updateLaunchConfigurationDialog();
 	}
 
-	public static IStatus getMoreSevere( IStatus s1, IStatus s2 )
-	{
-		return ( s1.getSeverity( ) >= s2.getSeverity( ) ) ? s1 : s2;
+	public static IStatus getMoreSevere(IStatus s1, IStatus s2) {
+		return (s1.getSeverity() >= s2.getSeverity()) ? s1 : s2;
 	}
 
-	public static IStatus createStatus( int severity, String message )
-	{
-		return new Status( severity,
-				PDEPlugin.getPluginId( ),
-				severity,
-				message,
-				null );
+	public static IStatus createStatus(int severity, String message) {
+		return new Status(severity, PDEPlugin.getPluginId(), severity, message, null);
 	}
 
 	/*
@@ -939,9 +767,8 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	 * 
 	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#getName()
 	 */
-	public String getName( )
-	{
-		return Messages.getString( "ReportAdvancedLauncherTab.Name" ); //$NON-NLS-1$
+	public String getName() {
+		return Messages.getString("ReportAdvancedLauncherTab.Name"); //$NON-NLS-1$
 	}
 
 	/*
@@ -949,12 +776,10 @@ public class ReportAdvancedLauncherTab extends AbstractLauncherTab implements
 	 * 
 	 * @see org.eclipse.debug.ui.ILaunchConfigurationTab#getImage()
 	 */
-	public Image getImage( )
-	{
+	public Image getImage() {
 		return fImage;
 	}
 
-	public void validateTab( )
-	{
+	public void validateTab() {
 	}
 }

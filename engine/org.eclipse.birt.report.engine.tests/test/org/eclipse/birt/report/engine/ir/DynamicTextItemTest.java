@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
  * 
  */
-public class DynamicTextItemTest extends ReportItemTestCase
-{
-	public DynamicTextItemTest( )
-	{
-		super( new DynamicTextItemDesign( ) );
+public class DynamicTextItemTest extends ReportItemTestCase {
+	public DynamicTextItemTest() {
+		super(new DynamicTextItemDesign());
 	}
 
 	/**
@@ -30,20 +27,18 @@ public class DynamicTextItemTest extends ReportItemTestCase
 	 * then get the expression and check the text type to test if they work
 	 * correctly
 	 */
-	public void testExpression( )
-	{
-		DynamicTextItemDesign multi = new DynamicTextItemDesign( );
-		Expression exp = Expression.newScript( "content" );
+	public void testExpression() {
+		DynamicTextItemDesign multi = new DynamicTextItemDesign();
+		Expression exp = Expression.newScript("content");
 		String type = "auto";
 
-		//Set
-		multi.setContent( exp );
+		// Set
+		multi.setContent(exp);
 		multi.setContentType(type);
 
-		//Get
-		assertEquals( multi.getContent(), exp);
-		assertEquals( multi.getContentType( ), type );
+		// Get
+		assertEquals(multi.getContent(), exp);
+		assertEquals(multi.getContentType(), type);
 	}
-
 
 }

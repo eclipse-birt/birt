@@ -20,12 +20,10 @@ import org.eclipse.birt.chart.script.api.series.IArea;
  * 
  */
 
-public class AreaImpl extends StackableSeriesImpl implements IArea
-{
+public class AreaImpl extends StackableSeriesImpl implements IArea {
 
-	public AreaImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public AreaImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof AreaSeries;
 	}
 

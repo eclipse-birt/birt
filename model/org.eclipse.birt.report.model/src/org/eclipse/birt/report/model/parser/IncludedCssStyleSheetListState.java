@@ -30,38 +30,30 @@ import org.xml.sax.SAXException;
  * Parses the simple structure list for "includedCssStyleSheet" property.
  */
 
-public class IncludedCssStyleSheetListState extends ListPropertyState
-{
+public class IncludedCssStyleSheetListState extends ListPropertyState {
 
-	IncludedCssStyleSheetListState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	IncludedCssStyleSheetListState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
-	public AbstractParseState startElement( String tagName )
-	{
-		if ( tagName.equalsIgnoreCase( DesignSchemaConstants.STRUCTURE_TAG ) )
-			return new IncludedCssStructureState( handler, element, propDefn );
+	public AbstractParseState startElement(String tagName) {
+		if (tagName.equalsIgnoreCase(DesignSchemaConstants.STRUCTURE_TAG))
+			return new IncludedCssStructureState(handler, element, propDefn);
 
-		return super.startElement( tagName );
+		return super.startElement(tagName);
 	}
 
-	static class IncludedCssStructureState extends CompatibleStructureState
-	{
+	static class IncludedCssStructureState extends CompatibleStructureState {
 
-		IncludedCssStructureState( ModuleParserHandler theHandler,
-				DesignElement element, PropertyDefn propDefn )
-		{
-			super( theHandler, element, propDefn );
-			lineNumber = handler.getCurrentLineNo( );
+		IncludedCssStructureState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn) {
+			super(theHandler, element, propDefn);
+			lineNumber = handler.getCurrentLineNo();
 		}
 
 		/*
@@ -70,72 +62,59 @@ public class IncludedCssStyleSheetListState extends ListPropertyState
 		 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 		 */
 
-		public void end( ) throws SAXException
-		{
-			super.end( );
+		public void end() throws SAXException {
+			super.end();
 
 			IncludedCssStyleSheet includeCss = (IncludedCssStyleSheet) struct;
 
-			String fileName = includeCss.getFileName( );
-			String externalCssURI = includeCss.getExternalCssURI( );
-			boolean useExternalCss = includeCss.isUseExternalCss( );
+			String fileName = includeCss.getFileName();
+			String externalCssURI = includeCss.getExternalCssURI();
+			boolean useExternalCss = includeCss.isUseExternalCss();
 			// handle compatibility (No useExternalCss property in design)
-			if ( externalCssURI != null && !useExternalCss )
-			{
-				includeCss.setUseExternalCss( true );
+			if (externalCssURI != null && !useExternalCss) {
+				includeCss.setUseExternalCss(true);
 				useExternalCss = true;
 			}
-			
-			if ( !( element instanceof ICssStyleSheetOperation ) )
+
+			if (!(element instanceof ICssStyleSheetOperation))
 				return;
-			
-			URL url= null;
+
+			URL url = null;
 			ICssStyleSheetOperation sheetOperation = (ICssStyleSheetOperation) element;
-			if ( fileName != null )
-			{
-				url = handler.module.findResource( fileName,
-						IResourceLocator.CASCADING_STYLE_SHEET );
+			if (fileName != null) {
+				url = handler.module.findResource(fileName, IResourceLocator.CASCADING_STYLE_SHEET);
 			}
-			
-			CssStyleSheet sheet = CssStyleSheetAdapter
-					.getCssStyleSheetByProperties( handler.module, sheetOperation
-							.getCsses( ), url, externalCssURI, useExternalCss );
 
-			if ( sheet != null )
-			{
-				CssException ex = new CssException( handler.module,
-						new String[]{fileName},
-						CssException.DESIGN_EXCEPTION_DUPLICATE_CSS );
-				handler.getErrorHandler( ).semanticWarning( ex );
+			CssStyleSheet sheet = CssStyleSheetAdapter.getCssStyleSheetByProperties(handler.module,
+					sheetOperation.getCsses(), url, externalCssURI, useExternalCss);
+
+			if (sheet != null) {
+				CssException ex = new CssException(handler.module, new String[] { fileName },
+						CssException.DESIGN_EXCEPTION_DUPLICATE_CSS);
+				handler.getErrorHandler().semanticWarning(ex);
 				return;
 			}
 
-			if ( fileName != null )
-			{
-				try
-				{
-					sheet = handler.module.loadCss( element, url, fileName );
-					sheet.setExternalCssURI( externalCssURI );
-					sheet.setUseExternalCss( useExternalCss );
-					sheetOperation.addCss( sheet );
+			if (fileName != null) {
+				try {
+					sheet = handler.module.loadCss(element, url, fileName);
+					sheet.setExternalCssURI(externalCssURI);
+					sheet.setUseExternalCss(useExternalCss);
+					sheetOperation.addCss(sheet);
 				}
 
-				catch ( StyleSheetException e )
-				{
-					CssException ex = ModelUtil
-							.convertSheetExceptionToCssException(
-									handler.module, includeCss, fileName, e );
-					handler.getErrorHandler( ).semanticWarning( ex );
+				catch (StyleSheetException e) {
+					CssException ex = ModelUtil.convertSheetExceptionToCssException(handler.module, includeCss,
+							fileName, e);
+					handler.getErrorHandler().semanticWarning(ex);
 				}
-			}
-			else
-			{
-				sheet = new CssStyleSheet( );
-				sheet.setExternalCssURI( externalCssURI );
-				sheet.setUseExternalCss( useExternalCss );
-				sheet.setContainer( handler.module );
-				sheetOperation.addCss( sheet );
-				
+			} else {
+				sheet = new CssStyleSheet();
+				sheet.setExternalCssURI(externalCssURI);
+				sheet.setUseExternalCss(useExternalCss);
+				sheet.setContainer(handler.module);
+				sheetOperation.addCss(sheet);
+
 			}
 		}
 	}

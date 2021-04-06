@@ -23,193 +23,151 @@ import org.eclipse.birt.report.engine.content.ITextContent;
  * 
  */
 
-public class UnsupportedImageInstance implements IImageInstance
-{
+public class UnsupportedImageInstance implements IImageInstance {
 
 	private ITextContent content;
 
-	public UnsupportedImageInstance( ITextContent content )
-	{
+	public UnsupportedImageInstance(ITextContent content) {
 		this.content = content;
 	}
 
-	public String getHyperlink( )
-	{
+	public String getHyperlink() {
 		return null;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return null;
 	}
 
-	public void setName( String name )
-	{
+	public void setName(String name) {
 	}
 
-	public String getHelpText( )
-	{
+	public String getHelpText() {
 		return null;
 	}
 
-	public void setHelpText( String helpText )
-	{
+	public void setHelpText(String helpText) {
 	}
 
-	public IScriptStyle getStyle( )
-	{
+	public IScriptStyle getStyle() {
 		return null;
 	}
 
-	public String getHorizontalPosition( )
-	{
+	public String getHorizontalPosition() {
 		return null;
 	}
 
-	public void setHorizontalPosition( String position )
-	{
+	public void setHorizontalPosition(String position) {
 	}
 
-	public String getVerticalPosition( )
-	{
+	public String getVerticalPosition() {
 		return null;
 	}
 
-	public void setVerticalPosition( String position )
-	{
+	public void setVerticalPosition(String position) {
 	}
 
-	public String getWidth( )
-	{
+	public String getWidth() {
 		return null;
 	}
 
-	public void setWidth( String width )
-	{
+	public void setWidth(String width) {
 	}
 
-	public String getHeight( )
-	{
+	public String getHeight() {
 		return null;
 	}
 
-	public void setHeight( String height )
-	{
+	public void setHeight(String height) {
 	}
 
-	public Object getNamedExpressionValue( String name )
-	{
+	public Object getNamedExpressionValue(String name) {
 		return null;
 	}
 
-	public Object getUserPropertyValue( String name )
-	{
+	public Object getUserPropertyValue(String name) {
 		return null;
 	}
 
-	public void setUserPropertyValue( String name, Object value )
-			throws ScriptException
-	{
+	public void setUserPropertyValue(String name, Object value) throws ScriptException {
 	}
 
-	public IReportElementInstance getParent( ) throws ScriptException
-	{
+	public IReportElementInstance getParent() throws ScriptException {
 		return null;
 	}
 
-	public IRowData getRowData( ) throws ScriptException
-	{
+	public IRowData getRowData() throws ScriptException {
 		return null;
 	}
 
-	public String getAltText( )
-	{
-		return content.getText( );
+	public String getAltText() {
+		return content.getText();
 	}
 
-	public void setAltText( String altText )
-	{
+	public void setAltText(String altText) {
 	}
 
-	public String getAltTextKey( )
-	{
+	public String getAltTextKey() {
 		return null;
 	}
 
-	public void setAltTextKey( String altTextKey )
-	{
+	public void setAltTextKey(String altTextKey) {
 	}
 
-	public String getURI( )
-	{
+	public String getURI() {
 		return null;
 	}
 
-	public void setURI( String uri )
-	{
+	public void setURI(String uri) {
 	}
 
-	public int getImageSource( )
-	{
+	public int getImageSource() {
 		return 0;
 	}
 
-	public String getImageName( )
-	{
+	public String getImageName() {
 		return null;
 	}
 
-	public void setImageName( String imageName )
-	{
+	public void setImageName(String imageName) {
 	}
 
-	public byte[] getData( )
-	{
+	public byte[] getData() {
 		return null;
 	}
 
-	public void setData( byte[] data )
-	{
+	public void setData(byte[] data) {
 	}
 
-	public String getMimeType( )
-	{
+	public String getMimeType() {
 		return null;
 	}
 
-	public void setMimeType( String type )
-	{
+	public void setMimeType(String type) {
 	}
 
-	public void setURL( String url )
-	{
+	public void setURL(String url) {
 	}
 
-	public String getURL( )
-	{
+	public String getURL() {
 		return null;
 	}
 
-	public void setFile( String file )
-	{
+	public void setFile(String file) {
 	}
 
-	public String getFile( )
-	{
+	public String getFile() {
 		return null;
 	}
 
-	public IActionInstance createAction( )
-	{
+	public IActionInstance createAction() {
 		return null;
 	}
 
-	public IActionInstance getAction( )
-	{
+	public IActionInstance getAction() {
 		return null;
 	}
 
-	public void setAction( IActionInstance actionInstance )
-	{
+	public void setAction(IActionInstance actionInstance) {
 	}
 }

@@ -12,16 +12,15 @@ package org.eclipse.birt.report.engine.layout.area;
 
 import java.util.Iterator;
 
-public interface IContainerArea extends IArea
-{
+public interface IContainerArea extends IArea {
 	Iterator getChildren();
-	
+
 	int getChildrenCount();
-	
+
 	public void addChild(IArea area);
-	
-	public boolean needClip( );
-	
-	public void setNeedClip( boolean needClip );
-	
+
+	public boolean needClip();
+
+	public void setNeedClip(boolean needClip);
+
 }

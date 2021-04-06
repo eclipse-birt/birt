@@ -19,7 +19,8 @@ import com.ibm.icu.util.ULocale;
  * Test for ResourceHandle. The message files are named like
  * "Messages.properties", "Messages_xx.properties".
  * 
- * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: * collapse" bordercolor="#111111">
+ * <table border="1" cellpadding="2" cellspacing="2" style="border-collapse: *
+ * collapse" bordercolor="#111111">
  * <th width="20%">Method</th>
  * <th width="40%">Test Case</th>
  * <th width="40%">Expected</th>
@@ -41,39 +42,34 @@ import com.ibm.icu.util.ULocale;
  * </table>
  * 
  */
-public class ResourceHandleTest extends BaseTestCase
-{
+public class ResourceHandleTest extends BaseTestCase {
 
 	/*
 	 * @see TestCase#setUp()
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 	}
 
 	/**
 	 * Test getMessage(). Get a localized name from the corresponding resource
 	 * bundle.
 	 */
-	public void testGetMessage( )
-	{
-		String msg = ModelMessages.getMessage( "Choices.colors.maroon", //$NON-NLS-1$
-				ULocale.ENGLISH );
-		assertEquals( "Maroon", msg ); //$NON-NLS-1$
+	public void testGetMessage() {
+		String msg = ModelMessages.getMessage("Choices.colors.maroon", //$NON-NLS-1$
+				ULocale.ENGLISH);
+		assertEquals("Maroon", msg); //$NON-NLS-1$
 
-		msg = ModelMessages.getMessage( "Element.ReportDesign", //$NON-NLS-1$
-				ULocale.ENGLISH );
-		assertEquals( "Report Design", msg ); //$NON-NLS-1$
+		msg = ModelMessages.getMessage("Element.ReportDesign", //$NON-NLS-1$
+				ULocale.ENGLISH);
+		assertEquals("Report Design", msg); //$NON-NLS-1$
 	}
 
 	/**
 	 * Test getMessage() with parameters.
 	 */
-	public void testGetMessageWithParameters( )
-	{
-		String msg = ModelMessages.getMessage( "Error.Msg001", new String[]{
-				"Element", "NameSpace"} );
-		assertEquals( "Element not found in NameSpace.", msg ); //$NON-NLS-1$
+	public void testGetMessageWithParameters() {
+		String msg = ModelMessages.getMessage("Error.Msg001", new String[] { "Element", "NameSpace" });
+		assertEquals("Element not found in NameSpace.", msg); //$NON-NLS-1$
 	}
 }

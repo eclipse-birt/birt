@@ -12,10 +12,10 @@
 package org.eclipse.birt.data.engine.api;
 
 /**
- * Signature interface which indicates whether certain element is eligible for cache.
+ * Signature interface which indicates whether certain element is eligible for
+ * cache.
  */
 
-public interface ICacheable
-{
+public interface ICacheable {
 
 }

@@ -28,9 +28,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IScriptDataSetModel;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
-		implements IScriptDataSetEventHandler
-{
+public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor implements IScriptDataSetEventHandler {
 
 	private static final String OPEN = "OPEN";
 
@@ -41,177 +39,137 @@ public class ScriptDataSetScriptExecutor extends DataSetScriptExecutor
 	private static final String DESCRIBE = "DESCRIBE";
 
 	private IScriptedDataSetEventHandler scriptedEventHandler;
-	
+
 	private boolean useOpenEventHandler = false;
 	private boolean useFetchEventHandler = false;
 	private boolean useCloseEventHandler = false;
 	private boolean useDescribeEventHandler = false;
-	
+
 	private String fetchScript = null;
-	private HashMap<IDataSetInstanceHandle, Scriptable> sharedScopes = new HashMap<IDataSetInstanceHandle,Scriptable>();
-	
+	private HashMap<IDataSetInstanceHandle, Scriptable> sharedScopes = new HashMap<IDataSetInstanceHandle, Scriptable>();
+
 	private final String openMethodID, closeMethodID, fetchMethodID, describeMethodID;
-	
-	public ScriptDataSetScriptExecutor( ScriptDataSetHandle dataSetHandle,
-			ExecutionContext context ) throws BirtException
-	{
-		super( dataSetHandle, context );
-		//Fetch script will be acquire multiple times. Cache it locally.
-		//for other script, as they will only be used only, it is not necessary to keep the local cache.
-		this.fetchScript = dataSetHandle.getFetch( );
-		useOpenEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getOpen( ) );
-		useFetchEventHandler = ScriptTextUtil.isNullOrComments ( dataSetHandle.getFetch( ) );
-		useCloseEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getClose( ) );
-		useDescribeEventHandler = ScriptTextUtil.isNullOrComments( dataSetHandle.getDescribe( ) );
-		 
-		openMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( IScriptDataSetModel.OPEN_METHOD ) );
-		closeMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( IScriptDataSetModel.CLOSE_METHOD ) );
-		fetchMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( IScriptDataSetModel.FETCH_METHOD ) );
-		describeMethodID = ModuleUtil.getScriptUID( dataSetHandle.getPropertyHandle( IScriptDataSetModel.DESCRIBE_METHOD ) );
+
+	public ScriptDataSetScriptExecutor(ScriptDataSetHandle dataSetHandle, ExecutionContext context)
+			throws BirtException {
+		super(dataSetHandle, context);
+		// Fetch script will be acquire multiple times. Cache it locally.
+		// for other script, as they will only be used only, it is not necessary to keep
+		// the local cache.
+		this.fetchScript = dataSetHandle.getFetch();
+		useOpenEventHandler = ScriptTextUtil.isNullOrComments(dataSetHandle.getOpen());
+		useFetchEventHandler = ScriptTextUtil.isNullOrComments(dataSetHandle.getFetch());
+		useCloseEventHandler = ScriptTextUtil.isNullOrComments(dataSetHandle.getClose());
+		useDescribeEventHandler = ScriptTextUtil.isNullOrComments(dataSetHandle.getDescribe());
+
+		openMethodID = ModuleUtil.getScriptUID(dataSetHandle.getPropertyHandle(IScriptDataSetModel.OPEN_METHOD));
+		closeMethodID = ModuleUtil.getScriptUID(dataSetHandle.getPropertyHandle(IScriptDataSetModel.CLOSE_METHOD));
+		fetchMethodID = ModuleUtil.getScriptUID(dataSetHandle.getPropertyHandle(IScriptDataSetModel.FETCH_METHOD));
+		describeMethodID = ModuleUtil
+				.getScriptUID(dataSetHandle.getPropertyHandle(IScriptDataSetModel.DESCRIBE_METHOD));
 
 	}
 
-	protected void initEventHandler(  )
-	{
-		super.initEventHandler(  );
-		if ( eventHandler != null )
-		{
-			try
-			{
-				scriptedEventHandler = ( IScriptedDataSetEventHandler ) eventHandler;
-			} catch ( ClassCastException e )
-			{
-				addClassCastException( context, e, dataSetHandle,
-						IScriptedDataSetEventHandler.class );
+	protected void initEventHandler() {
+		super.initEventHandler();
+		if (eventHandler != null) {
+			try {
+				scriptedEventHandler = (IScriptedDataSetEventHandler) eventHandler;
+			} catch (ClassCastException e) {
+				addClassCastException(context, e, dataSetHandle, IScriptedDataSetEventHandler.class);
 			}
 		}
 	}
 
-	public void handleOpen( IDataSetInstanceHandle dataSet )
-			throws BirtException
-	{
-		initEventHandler(  );
-		try
-		{
-			if ( !this.useOpenEventHandler )
-			{
-				ScriptStatus status = handleJS( getScriptScope( dataSet ),
-						dataSet.getName( ),
-						OPEN,
-						( (ScriptDataSetHandle) dataSetHandle ).getOpen( ), openMethodID );
-				if ( status.didRun( ) )
+	public void handleOpen(IDataSetInstanceHandle dataSet) throws BirtException {
+		initEventHandler();
+		try {
+			if (!this.useOpenEventHandler) {
+				ScriptStatus status = handleJS(getScriptScope(dataSet), dataSet.getName(), OPEN,
+						((ScriptDataSetHandle) dataSetHandle).getOpen(), openMethodID);
+				if (status.didRun())
 					return;
 			}
-			if ( scriptedEventHandler != null )
-				scriptedEventHandler.open( new DataSetInstance( dataSet ) );
-		} catch ( Exception e )
-		{
-			addException( context, e );
-		}
-	}
-	
-	public void handleClose( IDataSetInstanceHandle dataSet )
-	{
-		initEventHandler(  );
-		try
-		{
-			if ( !this.useCloseEventHandler )
-			{
-				ScriptStatus status = handleJS( getScriptScope( dataSet ),
-						dataSet.getName( ),
-						CLOSE,
-						( (ScriptDataSetHandle) dataSetHandle ).getClose( ),
-						closeMethodID );
-				if ( status.didRun( ) )
-					return;
-			}
-			if ( scriptedEventHandler != null )
-				scriptedEventHandler.close( new DataSetInstance( dataSet ) );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+			if (scriptedEventHandler != null)
+				scriptedEventHandler.open(new DataSetInstance(dataSet));
+		} catch (Exception e) {
+			addException(context, e);
 		}
 	}
 
-	public boolean handleFetch( IDataSetInstanceHandle dataSet, IDataRow row )
-	{
-		initEventHandler(  );
-		try
-		{
-			if ( !useFetchEventHandler )
-			{
-				ScriptStatus status = handleJS( getScriptScope( dataSet ),
-						dataSet.getName( ),
-						FETCH,
-						this.fetchScript, fetchMethodID );
-				if ( status.didRun( ) )
-				{
-					Object result = status.result( );
-					if ( result instanceof Boolean )
-						return ( (Boolean) result ).booleanValue( );
+	public void handleClose(IDataSetInstanceHandle dataSet) {
+		initEventHandler();
+		try {
+			if (!this.useCloseEventHandler) {
+				ScriptStatus status = handleJS(getScriptScope(dataSet), dataSet.getName(), CLOSE,
+						((ScriptDataSetHandle) dataSetHandle).getClose(), closeMethodID);
+				if (status.didRun())
+					return;
+			}
+			if (scriptedEventHandler != null)
+				scriptedEventHandler.close(new DataSetInstance(dataSet));
+		} catch (Exception e) {
+			addException(context, e);
+		}
+	}
+
+	public boolean handleFetch(IDataSetInstanceHandle dataSet, IDataRow row) {
+		initEventHandler();
+		try {
+			if (!useFetchEventHandler) {
+				ScriptStatus status = handleJS(getScriptScope(dataSet), dataSet.getName(), FETCH, this.fetchScript,
+						fetchMethodID);
+				if (status.didRun()) {
+					Object result = status.result();
+					if (result instanceof Boolean)
+						return ((Boolean) result).booleanValue();
 					else
-						throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
-								new Object[]{
-										"Fetch", result
-								} );
+						throw new DataException(ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
+								new Object[] { "Fetch", result });
 				}
 			}
-			if ( scriptedEventHandler != null )
-				return scriptedEventHandler.fetch(
-						new DataSetInstance( dataSet ),
-						new UpdatableDataSetRow( row ) );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+			if (scriptedEventHandler != null)
+				return scriptedEventHandler.fetch(new DataSetInstance(dataSet), new UpdatableDataSetRow(row));
+		} catch (Exception e) {
+			addException(context, e);
 		}
 		return false;
 	}
 
-	public boolean handleDescribe( IDataSetInstanceHandle dataSet,
-			IScriptDataSetMetaDataDefinition metaData ) throws BirtException
-	{
-		initEventHandler(  );
-		try
-		{
-			if ( !this.useDescribeEventHandler )
-			{
-				ScriptStatus status = handleJS( getScriptScope( dataSet ),
-						dataSet.getName( ),
-						DESCRIBE,
-						( (ScriptDataSetHandle) dataSetHandle ).getDescribe( ), describeMethodID );
-				if ( status.didRun( ) )
-				{
-					Object result = status.result( );
-					if ( result instanceof Boolean )
-						return ( (Boolean) result ).booleanValue( );
+	public boolean handleDescribe(IDataSetInstanceHandle dataSet, IScriptDataSetMetaDataDefinition metaData)
+			throws BirtException {
+		initEventHandler();
+		try {
+			if (!this.useDescribeEventHandler) {
+				ScriptStatus status = handleJS(getScriptScope(dataSet), dataSet.getName(), DESCRIBE,
+						((ScriptDataSetHandle) dataSetHandle).getDescribe(), describeMethodID);
+				if (status.didRun()) {
+					Object result = status.result();
+					if (result instanceof Boolean)
+						return ((Boolean) result).booleanValue();
 					else
-						throw new DataException( ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
-								new Object[]{
-										"Describe", result
-								} );
+						throw new DataException(ResourceConstants.EXPECT_BOOLEAN_RETURN_TYPE,
+								new Object[] { "Describe", result });
 				}
 			}
-			if ( scriptedEventHandler != null )
-				return scriptedEventHandler.describe( new DataSetInstance(
-						dataSet ), new ScriptedDataSetMetaData( metaData ) );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+			if (scriptedEventHandler != null)
+				return scriptedEventHandler.describe(new DataSetInstance(dataSet),
+						new ScriptedDataSetMetaData(metaData));
+		} catch (Exception e) {
+			addException(context, e);
 		}
 		return false;
 	}
-	
-	private Scriptable getScriptScope( IDataSetInstanceHandle dataSet ) throws DataException
-	{
-		Scriptable result = this.sharedScopes.get( dataSet );
-		if( result!= null )
+
+	private Scriptable getScriptScope(IDataSetInstanceHandle dataSet) throws DataException {
+		Scriptable result = this.sharedScopes.get(dataSet);
+		if (result != null)
 			return result;
-		
-		result = (Scriptable) Context.javaToJS( new DataSetInstance( dataSet ),
-				this.scope);
-		result.setParentScope( this.scope );
-		result.setPrototype( dataSet.getScriptScope( ) );
-		this.sharedScopes.put( dataSet, result );
+
+		result = (Scriptable) Context.javaToJS(new DataSetInstance(dataSet), this.scope);
+		result.setParentScope(this.scope);
+		result.setPrototype(dataSet.getScriptScope());
+		this.sharedScopes.put(dataSet, result);
 		return result;
 	}
 

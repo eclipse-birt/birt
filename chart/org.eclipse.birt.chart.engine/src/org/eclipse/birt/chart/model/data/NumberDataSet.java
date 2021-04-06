@@ -12,13 +12,13 @@
 package org.eclipse.birt.chart.model.data;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Number Data Set</b></em>'. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Number
+ * Data Set</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
  * 
- * 			This type holds the numeric data associated with a series.
- * 			
+ * This type holds the numeric data associated with a series.
+ * 
  * <!-- end-model-doc -->
  *
  *
@@ -26,12 +26,11 @@ package org.eclipse.birt.chart.model.data;
  * @model extendedMetaData="name='NumberDataSet' kind='elementOnly'"
  * @generated
  */
-public interface NumberDataSet extends DataSet
-{
+public interface NumberDataSet extends DataSet {
 
 	/**
 	 * @generated
 	 */
-	NumberDataSet copyInstance( );
+	NumberDataSet copyInstance();
 
 } // NumberDataSet

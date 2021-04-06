@@ -21,25 +21,19 @@ import org.eclipse.core.runtime.IAdapterFactory;
  * 
  */
 
-public class CubeGeneratorFactory implements IAdapterFactory
-{
+public class CubeGeneratorFactory implements IAdapterFactory {
 
-	protected static Logger logger = Logger.getLogger( CubeGeneratorFactory.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(CubeGeneratorFactory.class.getName());
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( !( adaptableObject instanceof TabularCubeHandle ) )
-		{
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (!(adaptableObject instanceof TabularCubeHandle)) {
 			return null;
 		}
-		return new CubePageGenerator( );
+		return new CubePageGenerator();
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IPageGenerator.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IPageGenerator.class };
 	}
 
 }

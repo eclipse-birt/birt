@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.olap.MeasureHandle;
 /**
  * Add the measure handle to the cross tab through the virtual editpart.
  */
-public class CreateMeasureViewCommand extends AbstractCrosstabCommand
-{
+public class CreateMeasureViewCommand extends AbstractCrosstabCommand {
 
 	private CrosstabHandleAdapter handleAdpter;
 	private MeasureHandle measureHandle;
@@ -31,22 +30,21 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 	/**
 	 * Trans name
 	 */
-	//private static final String NAME = "Create MeasureViewHandle";
-	private static final String NAME = Messages.getString( "CreateMeasureViewCommand.TransName" );//$NON-NLS-1$
+	// private static final String NAME = "Create MeasureViewHandle";
+	private static final String NAME = Messages.getString("CreateMeasureViewCommand.TransName");//$NON-NLS-1$
+
 	/**
 	 * Constructor
 	 * 
 	 * @param handleAdpter
 	 * @param measureHandle
 	 */
-	public CreateMeasureViewCommand( CrosstabHandleAdapter handleAdpter,
-			MeasureHandle measureHandle )
-	{
-		super( measureHandle );
+	public CreateMeasureViewCommand(CrosstabHandleAdapter handleAdpter, MeasureHandle measureHandle) {
+		super(measureHandle);
 		this.handleAdpter = handleAdpter;
 		this.measureHandle = measureHandle;
-		
-		setLabel( NAME );
+
+		setLabel(NAME);
 	}
 
 	/*
@@ -54,8 +52,7 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
+	public boolean canExecute() {
 		return true;
 	}
 
@@ -64,18 +61,15 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		transStart( NAME );
-		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( );
+	public void execute() {
+		transStart(NAME);
+		CrosstabReportItemHandle reportHandle = (CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle();
 
-		try
-		{
-			if ( reportHandle.getCube( ) == null )
-			{
-				reportHandle.setCube( CrosstabAdaptUtil.getCubeHandle( measureHandle ) );
+		try {
+			if (reportHandle.getCube() == null) {
+				reportHandle.setCube(CrosstabAdaptUtil.getCubeHandle(measureHandle));
 			}
-			CrosstabAdaptUtil.addMeasureHandle( reportHandle, measureHandle, 0 );
+			CrosstabAdaptUtil.addMeasureHandle(reportHandle, measureHandle, 0);
 //			MeasureViewHandle measureViewHandle = reportHandle.insertMeasure( measureHandle,
 //					0 );
 //			measureViewHandle.addHeader( );
@@ -95,13 +89,11 @@ public class CreateMeasureViewCommand extends AbstractCrosstabCommand
 //			labelHandle.setText( measureHandle.getName( ) );
 //
 //			measureViewHandle.getHeader( ).addContent( labelHandle );
-		}
-		catch ( SemanticException e )
-		{
-			rollBack( );
-			ExceptionUtil.handle( e );
+		} catch (SemanticException e) {
+			rollBack();
+			ExceptionUtil.handle(e);
 			return;
 		}
-		transEnd( );
+		transEnd();
 	}
 }

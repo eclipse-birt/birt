@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.i18n.ThreadResources;
  * Represents the definition of extension slot.
  */
 
-public class ExtensionSlotDefn extends SlotDefn
-{
+public class ExtensionSlotDefn extends SlotDefn {
 
 	/**
 	 * Implementation for the localization of message.
@@ -38,29 +37,24 @@ public class ExtensionSlotDefn extends SlotDefn
 	/**
 	 * Constructs the extension slot definition with <code>IMessages</code>.
 	 * 
-	 * @param messages
-	 *            the message interface to do the I18n work for extension
+	 * @param messages the message interface to do the I18n work for extension
 	 */
 
-	public ExtensionSlotDefn( IMessages messages )
-	{
+	public ExtensionSlotDefn(IMessages messages) {
 		this.messages = messages;
 	}
 
 	/**
 	 * @return the defaultDisplayName
 	 */
-	public String getDefaultDisplayName( )
-	{
+	public String getDefaultDisplayName() {
 		return defaultDisplayName;
 	}
 
 	/**
-	 * @param defaultDisplayName
-	 *            the defaultDisplayName to set
+	 * @param defaultDisplayName the defaultDisplayName to set
 	 */
-	public void setDefaultDisplayName( String defaultDisplayName )
-	{
+	public void setDefaultDisplayName(String defaultDisplayName) {
 		this.defaultDisplayName = defaultDisplayName;
 	}
 
@@ -70,20 +64,17 @@ public class ExtensionSlotDefn extends SlotDefn
 	 * @see org.eclipse.birt.report.model.metadata.SlotDefn#getDisplayName()
 	 */
 
-	public String getDisplayName( )
-	{
-		if ( displayNameID != null && messages != null )
-		{
-			String displayName = messages.getMessage( displayNameID,
-					ThreadResources.getLocale( ) );
-			if ( !StringUtil.isBlank( displayName ) )
+	public String getDisplayName() {
+		if (displayNameID != null && messages != null) {
+			String displayName = messages.getMessage(displayNameID, ThreadResources.getLocale());
+			if (!StringUtil.isBlank(displayName))
 				return displayName;
 		}
 
-		if ( defaultDisplayName != null )
+		if (defaultDisplayName != null)
 			return defaultDisplayName;
 
-		return getName( );
+		return getName();
 	}
 
 	/*
@@ -92,27 +83,25 @@ public class ExtensionSlotDefn extends SlotDefn
 	 * @see org.eclipse.birt.report.model.metadata.SlotDefn#build()
 	 */
 
-	protected void build( ) throws MetaDataException
-	{
-		if ( contentTypes.isEmpty( ) )
-			throw new MetaDataException( new String[]{this.name},
-					MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_TYPE );
+	protected void build() throws MetaDataException {
+		if (contentTypes.isEmpty())
+			throw new MetaDataException(new String[] { this.name },
+					MetaDataException.DESIGN_EXCEPTION_MISSING_SLOT_TYPE);
 
 		// Translate the type names into element types.
 
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		contentElements.clear( );
-		Iterator<String> iter = contentTypes.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			String name = iter.next( );
-			IElementDefn type = dd.getElement( name );
-			if ( type == null )
-				type = dd.getExtension( name );
-			if ( type == null )
-				throw new MetaDataException( new String[]{name, this.name},
-						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE );
-			contentElements.add( type );
+		MetaDataDictionary dd = MetaDataDictionary.getInstance();
+		contentElements.clear();
+		Iterator<String> iter = contentTypes.iterator();
+		while (iter.hasNext()) {
+			String name = iter.next();
+			IElementDefn type = dd.getElement(name);
+			if (type == null)
+				type = dd.getExtension(name);
+			if (type == null)
+				throw new MetaDataException(new String[] { name, this.name },
+						MetaDataException.DESIGN_EXCEPTION_INVALID_SLOT_TYPE);
+			contentElements.add(type);
 		}
 	}
 }

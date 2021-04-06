@@ -21,9 +21,7 @@ import org.eclipse.debug.core.model.IDebugTarget;
 /**
  * All elemet super class.
  */
-public abstract class ScriptDebugElement extends PlatformObject implements
-		IDebugElement
-{
+public abstract class ScriptDebugElement extends PlatformObject implements IDebugElement {
 
 	/**
 	 * Debug target
@@ -35,8 +33,7 @@ public abstract class ScriptDebugElement extends PlatformObject implements
 	 * 
 	 * @param target
 	 */
-	public ScriptDebugElement( ScriptDebugTarget target )
-	{
+	public ScriptDebugElement(ScriptDebugTarget target) {
 		this.target = target;
 	}
 
@@ -45,8 +42,7 @@ public abstract class ScriptDebugElement extends PlatformObject implements
 	 * 
 	 * @see org.eclipse.debug.core.model.IDebugElement#getDebugTarget()
 	 */
-	public IDebugTarget getDebugTarget( )
-	{
+	public IDebugTarget getDebugTarget() {
 		return target;
 	}
 
@@ -55,9 +51,8 @@ public abstract class ScriptDebugElement extends PlatformObject implements
 	 * 
 	 * @see org.eclipse.debug.core.model.IDebugElement#getLaunch()
 	 */
-	public ILaunch getLaunch( )
-	{
-		return target.getLaunch( );
+	public ILaunch getLaunch() {
+		return target.getLaunch();
 	}
 
 	/*
@@ -65,8 +60,7 @@ public abstract class ScriptDebugElement extends PlatformObject implements
 	 * 
 	 * @see org.eclipse.debug.core.model.IDebugElement#getModelIdentifier()
 	 */
-	public String getModelIdentifier( )
-	{
+	public String getModelIdentifier() {
 		return IScriptConstants.SCRIPT_DEBUG_MODEL;
 	}
 
@@ -75,73 +69,59 @@ public abstract class ScriptDebugElement extends PlatformObject implements
 	 * 
 	 * @see org.eclipse.core.runtime.PlatformObject#getAdapter(java.lang.Class)
 	 */
-	public Object getAdapter( Class adapter )
-	{
-		if ( adapter == IDebugElement.class || adapter==ScriptDebugElement.class)
-		{
+	public Object getAdapter(Class adapter) {
+		if (adapter == IDebugElement.class || adapter == ScriptDebugElement.class) {
 			return this;
+		} else if (adapter == IDebugTarget.class) {
+			return getDebugTarget();
 		}
-		else if ( adapter == IDebugTarget.class )
-		{
-			return getDebugTarget( );
-		}
-		return super.getAdapter( adapter );
+		return super.getAdapter(adapter);
 	}
 
 	/**
 	 * Fires a debug event
 	 * 
-	 * @param event
-	 *            the event to be fired
+	 * @param event the event to be fired
 	 */
-	protected void fireEvent( DebugEvent event )
-	{
-		DebugPlugin.getDefault( ).fireDebugEventSet( new DebugEvent[]{
-			event
-		} );
+	protected void fireEvent(DebugEvent event) {
+		DebugPlugin.getDefault().fireDebugEventSet(new DebugEvent[] { event });
 	}
 
 	/**
 	 * Fires a <code>CREATE</code> event for this element.
 	 */
-	protected void fireCreationEvent( )
-	{
-		fireEvent( new DebugEvent( this, DebugEvent.CREATE ) );
+	protected void fireCreationEvent() {
+		fireEvent(new DebugEvent(this, DebugEvent.CREATE));
 	}
 
 	/**
-	 * Fires a <code>RESUME</code> event for this element with the given
-	 * detail.
+	 * Fires a <code>RESUME</code> event for this element with the given detail.
 	 * 
-	 * @param detail
-	 *            event detail code
+	 * @param detail event detail code
 	 */
-	public void fireResumeEvent( int detail )
-	{
-		fireEvent( new DebugEvent( this, DebugEvent.RESUME, detail ) );
+	public void fireResumeEvent(int detail) {
+		fireEvent(new DebugEvent(this, DebugEvent.RESUME, detail));
 	}
 
 	/**
-	 * Fires a <code>SUSPEND</code> event for this element with the given
-	 * detail.
+	 * Fires a <code>SUSPEND</code> event for this element with the given detail.
 	 * 
-	 * @param detail
-	 *            event detail code
+	 * @param detail event detail code
 	 */
-	public void fireSuspendEvent( int detail )
-	{
-		fireEvent( new DebugEvent( this, DebugEvent.SUSPEND, detail ) );
+	public void fireSuspendEvent(int detail) {
+		fireEvent(new DebugEvent(this, DebugEvent.SUSPEND, detail));
 	}
 
 	/**
 	 * Fires a <code>TERMINATE</code> event for this element.
 	 */
-	protected void fireTerminateEvent( )
-	{
-		fireEvent( new DebugEvent( this, DebugEvent.TERMINATE ) );
+	protected void fireTerminateEvent() {
+		fireEvent(new DebugEvent(this, DebugEvent.TERMINATE));
 	}
-	
-	/**Gets the displayname
+
+	/**
+	 * Gets the displayname
+	 * 
 	 * @return
 	 */
 	public abstract String getDisplayName();

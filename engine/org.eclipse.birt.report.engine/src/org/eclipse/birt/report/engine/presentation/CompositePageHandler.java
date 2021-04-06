@@ -17,29 +17,23 @@ import java.util.Iterator;
 import org.eclipse.birt.report.engine.api.IPageHandler;
 import org.eclipse.birt.report.engine.api.IReportDocumentInfo;
 
-public class CompositePageHandler implements IPageHandler
-{
+public class CompositePageHandler implements IPageHandler {
 
-	ArrayList handlers = new ArrayList( );
+	ArrayList handlers = new ArrayList();
 
-	public void addHandler( IPageHandler handler )
-	{
-		handlers.add( handler );
+	public void addHandler(IPageHandler handler) {
+		handlers.add(handler);
 	}
 
-	public void removeHandler( IPageHandler handler )
-	{
-		handlers.remove( handler );
+	public void removeHandler(IPageHandler handler) {
+		handlers.remove(handler);
 	}
 
-	public void onPage( int pageNumber, boolean checkpoint,
-			IReportDocumentInfo doc )
-	{
-		Iterator iter = handlers.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			IPageHandler handler = (IPageHandler) iter.next( );
-			handler.onPage( pageNumber, checkpoint, doc );
+	public void onPage(int pageNumber, boolean checkpoint, IReportDocumentInfo doc) {
+		Iterator iter = handlers.iterator();
+		while (iter.hasNext()) {
+			IPageHandler handler = (IPageHandler) iter.next();
+			handler.onPage(pageNumber, checkpoint, doc);
 		}
 
 	}

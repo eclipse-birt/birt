@@ -26,11 +26,9 @@ import org.eclipse.birt.report.engine.api.IRenderTask;
  * 
  */
 
-public class CommentsTest extends HTMLReportEmitterTestCase
-{
+public class CommentsTest extends HTMLReportEmitterTestCase {
 
-	public String getWorkSpace( )
-	{
+	public String getWorkSpace() {
 		// TODO Auto-generated method stub
 		return "./commentsTest";
 	}
@@ -40,36 +38,35 @@ public class CommentsTest extends HTMLReportEmitterTestCase
 	 * @throws EngineException
 	 * @throws IOException
 	 */
-	public void testScriptOutput( ) throws EngineException, IOException
-	{
-		//the default cell to place the group icon is the first cell.
+	public void testScriptOutput() throws EngineException, IOException {
+		// the default cell to place the group icon is the first cell.
 		String designFile = "org/eclipse/birt/report/engine/emitter/html/comments.xml";
-		HTMLRenderOption options = new HTMLRenderOption( );
+		HTMLRenderOption options = new HTMLRenderOption();
 
-		ByteArrayOutputStream output = new ByteArrayOutputStream( );
-		List instanceIDs = new ArrayList( );
-		options.setInstanceIDs( instanceIDs );
-		options.setOutputStream( output );
-		options.setEnableMetadata( true );
-		IRenderTask task = createRenderTask( designFile );
-		task.setRenderOption( options );
-		task.render( );
-		task.close( );
-		String content = new String( output.toByteArray( ) );
-		output.close( );
-		
-		content = content.replaceAll( "\n", "\"\n\"+\\\\n" );
+		ByteArrayOutputStream output = new ByteArrayOutputStream();
+		List instanceIDs = new ArrayList();
+		options.setInstanceIDs(instanceIDs);
+		options.setOutputStream(output);
+		options.setEnableMetadata(true);
+		IRenderTask task = createRenderTask(designFile);
+		task.setRenderOption(options);
+		task.render();
+		task.close();
+		String content = new String(output.toByteArray());
+		output.close();
+
+		content = content.replaceAll("\n", "\"\n\"+\\\\n");
 		String regex = "<!--comments1-->";
-		Matcher matcher = Pattern.compile( regex ).matcher( content );
-		assertEquals( true, matcher.find( ) );
-		
+		Matcher matcher = Pattern.compile(regex).matcher(content);
+		assertEquals(true, matcher.find());
+
 		regex = "<!--comments2-->";
-		matcher = Pattern.compile( regex ).matcher( content );
-		assertEquals( true, matcher.find( ) );
-		
+		matcher = Pattern.compile(regex).matcher(content);
+		assertEquals(true, matcher.find());
+
 		regex = "<!--comments3-->";
-		matcher = Pattern.compile( regex ).matcher( content );
-		assertEquals( true, matcher.find( ) );
+		matcher = Pattern.compile(regex).matcher(content);
+		assertEquals(true, matcher.find());
 	}
 
 }

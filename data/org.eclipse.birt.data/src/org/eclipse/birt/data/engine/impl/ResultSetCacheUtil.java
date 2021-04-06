@@ -16,42 +16,35 @@ import java.io.File;
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 
 /**
- * The util class which is used to provide utilities for Result Set Cache feature.
+ * The util class which is used to provide utilities for Result Set Cache
+ * feature.
  * 
  */
 
-class ResultSetCacheUtil
-{
+class ResultSetCacheUtil {
 	private static final String CACHED_FILE_PREFIX = "cachedResultIterator";
-	
+
 	/**
 	 * Return the Meta file
-	 *  
+	 * 
 	 * @return
 	 */
-	static File getMetaFile( String tempDir, String id )
-	{
-		File tmpDir = new File( tempDir );
-		if (!FileSecurity.fileExist( tmpDir ) || !FileSecurity.fileIsDirectory( tmpDir ))
-		{
-			FileSecurity.fileExist( tmpDir );
+	static File getMetaFile(String tempDir, String id) {
+		File tmpDir = new File(tempDir);
+		if (!FileSecurity.fileExist(tmpDir) || !FileSecurity.fileIsDirectory(tmpDir)) {
+			FileSecurity.fileExist(tmpDir);
 		}
-		File file = new File( tempDir
-				+ CACHED_FILE_PREFIX
-				+ id+"meta");
+		File file = new File(tempDir + CACHED_FILE_PREFIX + id + "meta");
 		return file;
 	}
-	
+
 	/**
-	 *  Return the data file
-	 *  
+	 * Return the data file
+	 * 
 	 * @return
 	 */
-	static File getDataFile( String tempDir, String id )
-	{
-		File file = new File( tempDir
-				+ CACHED_FILE_PREFIX
-				+ id+"data");
+	static File getDataFile(String tempDir, String id) {
+		File file = new File(tempDir + CACHED_FILE_PREFIX + id + "data");
 		return file;
 	}
 }

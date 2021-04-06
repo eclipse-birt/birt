@@ -24,37 +24,31 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 
-public class DeleteStyleMenuAction extends MenuUpdateAction
-{
+public class DeleteStyleMenuAction extends MenuUpdateAction {
 
 	public static final String ID = "delete style menu"; //$NON-NLS-1$
 
 	/**
 	 * @param part
 	 */
-	public DeleteStyleMenuAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
+	public DeleteStyleMenuAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction#getItems()
+	 * @see org.eclipse.birt.report.designer.ui.actions.MenuUpdateAction#getItems()
 	 */
-	protected List getItems( )
-	{
-		ArrayList actionList = new ArrayList( );
-		Iterator iterator = DEUtil.getStyles( false );
-		if ( iterator != null )
-		{
-			while ( iterator.hasNext( ) )
-			{
-				SharedStyleHandle handle = (SharedStyleHandle) iterator.next( );
-				DeleteStyleAction action = new DeleteStyleAction( handle );
-				actionList.add( action );
+	protected List getItems() {
+		ArrayList actionList = new ArrayList();
+		Iterator iterator = DEUtil.getStyles(false);
+		if (iterator != null) {
+			while (iterator.hasNext()) {
+				SharedStyleHandle handle = (SharedStyleHandle) iterator.next();
+				DeleteStyleAction action = new DeleteStyleAction(handle);
+				actionList.add(action);
 			}
 		}
 		return actionList;

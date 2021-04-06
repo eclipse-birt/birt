@@ -14,12 +14,11 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface master page Line element to store the constants.
  */
-public interface IMasterPageModel
-{
+public interface IMasterPageModel {
 
 	/**
-	 * Name of the page type property. This gives a name to the page size such
-	 * as A4 or US Letter.
+	 * Name of the page type property. This gives a name to the page size such as A4
+	 * or US Letter.
 	 */
 
 	public static final String TYPE_PROP = "type"; //$NON-NLS-1$
@@ -31,8 +30,8 @@ public interface IMasterPageModel
 
 	public static final String ORIENTATION_PROP = "orientation"; //$NON-NLS-1$
 	/**
-	 * The name of the custom height property set when using a custom-sized
-	 * page. Ignored for standard-sized pages.
+	 * The name of the custom height property set when using a custom-sized page.
+	 * Ignored for standard-sized pages.
 	 */
 
 	public static final String HEIGHT_PROP = "height"; //$NON-NLS-1$
@@ -59,8 +58,8 @@ public interface IMasterPageModel
 	public static final String RIGHT_MARGIN_PROP = "rightMargin"; //$NON-NLS-1$
 
 	/**
-	 * Name of the dimension property that gives the amount of space between the
-	 * top of the page and the page content.
+	 * Name of the dimension property that gives the amount of space between the top
+	 * of the page and the page content.
 	 */
 
 	public static final String TOP_MARGIN_PROP = "topMargin"; //$NON-NLS-1$
@@ -171,17 +170,16 @@ public interface IMasterPageModel
 	 * Name of the method on page end.
 	 */
 	public static final String ON_PAGE_END_METHOD = "onPageEnd"; //$NON-NLS-1$
-	
+
 	/**
-	 * Name of the property that gives the number of columns to appear on the
-	 * page.
+	 * Name of the property that gives the number of columns to appear on the page.
 	 */
 
 	public static final String COLUMNS_PROP = "columns"; //$NON-NLS-1$
 
 	/**
-	 * Name of the dimension property that gives the spacing between columns of
-	 * a multi-column page.
+	 * Name of the dimension property that gives the spacing between columns of a
+	 * multi-column page.
 	 */
 
 	public static final String COLUMN_SPACING_PROP = "columnSpacing"; //$NON-NLS-1$

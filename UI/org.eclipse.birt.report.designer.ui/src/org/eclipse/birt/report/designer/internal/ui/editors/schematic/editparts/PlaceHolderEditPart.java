@@ -50,49 +50,41 @@ import org.eclipse.jface.viewers.TextCellEditor;
 import org.eclipse.swt.graphics.Font;
 import org.eclipse.swt.graphics.Image;
 
-public class PlaceHolderEditPart extends ReportElementEditPart
-{
+public class PlaceHolderEditPart extends ReportElementEditPart {
 
 	private DesignElementHandle copiedHandle;
 
-	public PlaceHolderEditPart( Object model )
-	{
-		super( model );
+	public PlaceHolderEditPart(Object model) {
+		super(model);
 	}
 
-	protected void createEditPolicies( )
-	{
-		installEditPolicy( EditPolicy.COMPONENT_ROLE,
-				new ReportComponentEditPolicy( ) );
-		installEditPolicy( EditPolicy.DIRECT_EDIT_ROLE,
-				new LabelDirectEditPolicy( ) );
+	protected void createEditPolicies() {
+		installEditPolicy(EditPolicy.COMPONENT_ROLE, new ReportComponentEditPolicy());
+		installEditPolicy(EditPolicy.DIRECT_EDIT_ROLE, new LabelDirectEditPolicy());
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
-		StyleHandle style = ( (DesignElementHandle) getDefaultHandle( ) )
-				.getPrivateStyle( );
+	public void refreshFigure() {
+		StyleHandle style = ((DesignElementHandle) getDefaultHandle()).getPrivateStyle();
 
-		//TODO:fixed the bug 191874
-		//( (LabelFigure) getFigure( ) ).setFont( getFont( ) ); 
-		( (LabelFigure) getFigure( ) ).setImage( getImage( ) );
-		( (LabelFigure) getFigure( ) ).setAlignment( PositionConstants.WEST );
-		( (LabelFigure) getFigure( ) ).setDirection( getTextDirection( getDefaultHandle( )) ); // bidi_hcg
-		( (LabelFigure) getFigure( ) ).setText( getTemplateModel( )
-				.getDisplayDescription( ) );
-		( (LabelFigure) getFigure( ) )
-				.setTextAlign( DesignChoiceConstants.TEXT_ALIGN_CENTER );
-		( (LabelFigure) getFigure( ) )
-				.setForegroundColor( ReportColorConstants.ShadowLineColor );
-		( (LabelFigure) getFigure( ) ).setDisplay( style.getDisplay( ) );
+		// TODO:fixed the bug 191874
+		// ( (LabelFigure) getFigure( ) ).setFont( getFont( ) );
+		((LabelFigure) getFigure()).setImage(getImage());
+		((LabelFigure) getFigure()).setAlignment(PositionConstants.WEST);
+		((LabelFigure) getFigure()).setDirection(getTextDirection(getDefaultHandle())); // bidi_hcg
+		((LabelFigure) getFigure()).setText(getTemplateModel().getDisplayDescription());
+		((LabelFigure) getFigure()).setTextAlign(DesignChoiceConstants.TEXT_ALIGN_CENTER);
+		((LabelFigure) getFigure()).setForegroundColor(ReportColorConstants.ShadowLineColor);
+		((LabelFigure) getFigure()).setDisplay(style.getDisplay());
 
-		getFigure( ).setBorder( new LineBorder( 1 ) );
+		getFigure().setBorder(new LineBorder(1));
 	}
 
 	/**
@@ -100,119 +92,81 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 	 * 
 	 * @return The current font family
 	 */
-	protected Font getFont( )
-	{
-		return getFont( (ReportItemHandle) getDefaultHandle( ) );
+	protected Font getFont() {
+		return getFont((ReportItemHandle) getDefaultHandle());
 	}
 
-	private Image getImage( )
-	{
-		if ( getDefaultHandle( ) instanceof LabelHandle )
-		{
-			return ReportPlatformUIImages
-					.getImage( IReportGraphicConstants.ICON_ELEMENT_LABEL );
+	private Image getImage() {
+		if (getDefaultHandle() instanceof LabelHandle) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_LABEL);
 		}
-		if ( getDefaultHandle( ) instanceof TextItemHandle )
-		{
-			return ReportPlatformUIImages
-					.getImage( IReportGraphicConstants.ICON_ELEMENT_TEXT );
+		if (getDefaultHandle() instanceof TextItemHandle) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_TEXT);
 		}
-		if ( getDefaultHandle( ) instanceof DataItemHandle )
-		{
-			return ReportPlatformUIImages
-					.getImage( IReportGraphicConstants.ICON_ELEMENT_DATA );
+		if (getDefaultHandle() instanceof DataItemHandle) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_DATA);
 		}
-		if ( getDefaultHandle( ) instanceof TextDataHandle )
-		{
-			return ReportPlatformUIImages
-					.getImage( IReportGraphicConstants.ICON_ELEMENT_TEXTDATA );
+		if (getDefaultHandle() instanceof TextDataHandle) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_TEXTDATA);
 		}
-		if ( getDefaultHandle( ) instanceof ImageHandle )
-		{
-			return ReportPlatformUIImages
-					.getImage( IReportGraphicConstants.ICON_ELEMENT_IMAGE );
+		if (getDefaultHandle() instanceof ImageHandle) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_IMAGE);
 		}
-		if ( getDefaultHandle( ) instanceof TableHandle )
-		{
-			return ReportPlatformUIImages
-					.getImage( IReportGraphicConstants.ICON_ELEMENT_TABLE );
+		if (getDefaultHandle() instanceof TableHandle) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_TABLE);
 		}
-		if ( getDefaultHandle( ) instanceof GridHandle )
-		{
-			return ReportPlatformUIImages
-					.getImage( IReportGraphicConstants.ICON_ELEMENT_GRID );
+		if (getDefaultHandle() instanceof GridHandle) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_GRID);
 		}
-		if ( getDefaultHandle( ) instanceof ListHandle )
-		{
-			return ReportPlatformUIImages
-					.getImage( IReportGraphicConstants.ICON_ELEMENT_LIST );
+		if (getDefaultHandle() instanceof ListHandle) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ELEMENT_LIST);
 		}
-		if ( getDefaultHandle( ) instanceof ExtendedItemHandle )
-		{
-			return ReportPlatformUIImages.getImage( getDefaultHandle( ) );
+		if (getDefaultHandle() instanceof ExtendedItemHandle) {
+			return ReportPlatformUIImages.getImage(getDefaultHandle());
 		}
 
 		return null;
 	}
 
-	protected IFigure createFigure( )
-	{
-		LabelFigure label = new LabelFigure( );
+	protected IFigure createFigure() {
+		LabelFigure label = new LabelFigure();
 		return label;
 	}
 
 	/**
 	 * Perform director edit on label
 	 */
-	public void performDirectEdit( )
-	{
-		if ( getModel( ) instanceof TemplateElementHandle )
-		{
+	public void performDirectEdit() {
+		if (getModel() instanceof TemplateElementHandle) {
 			Object builder = null;
-			TemplateElementHandle handle = getTemplateModel( );
-			copiedHandle = handle.copyDefaultElement( ).getHandle(
-					handle.getModule( ) );
+			TemplateElementHandle handle = getTemplateModel();
+			copiedHandle = handle.copyDefaultElement().getHandle(handle.getModule());
 
-			getCommandStack( )
-					.startTrans(
-							Messages
-									.getString( "PlaceHolderEditPart.Trans.TransferToElement" ) );//$NON-NLS-1$
+			getCommandStack().startTrans(Messages.getString("PlaceHolderEditPart.Trans.TransferToElement"));//$NON-NLS-1$
 
-			if ( handle.getDefaultElement( ) instanceof LabelHandle )
-			{
+			if (handle.getDefaultElement() instanceof LabelHandle) {
 
-				builder = new LabelEditManager( this, TextCellEditor.class,
-						new LabelCellEditorLocator( (Figure) getFigure( ) ) );
-				( (LabelEditManager) builder ).setModel( (Object) copiedHandle );
+				builder = new LabelEditManager(this, TextCellEditor.class,
+						new LabelCellEditorLocator((Figure) getFigure()));
+				((LabelEditManager) builder).setModel((Object) copiedHandle);
 
-				( (LabelEditManager) builder ).show( );
-			}
-			else
-			{
-				if(! (copiedHandle instanceof DataItemHandle))
-				{					
-					builder = ElementBuilderFactory.getInstance( ).createBuilder(
-						copiedHandle );
+				((LabelEditManager) builder).show();
+			} else {
+				if (!(copiedHandle instanceof DataItemHandle)) {
+					builder = ElementBuilderFactory.getInstance().createBuilder(copiedHandle);
 				}
-				if ( builder == null )
-				{
-					performTransfer( );
-					getCommandStack( ).commit( );
+				if (builder == null) {
+					performTransfer();
+					getCommandStack().commit();
 					return;
 				}
 
-				if ( ( (Dialog) builder ).open( ) == Dialog.OK )
-				{
-					if ( builder instanceof ExpressionBuilder )
-					{
-						try
-						{
+				if (((Dialog) builder).open() == Dialog.OK) {
+					if (builder instanceof ExpressionBuilder) {
+						try {
 
-							if ( copiedHandle instanceof TextDataHandle )
-							{
-								( (TextDataHandle) copiedHandle )
-										.setValueExpr( ( (ExpressionBuilder) builder )
-												.getResult( ) );
+							if (copiedHandle instanceof TextDataHandle) {
+								((TextDataHandle) copiedHandle).setValueExpr(((ExpressionBuilder) builder).getResult());
 
 							}
 //							if ( copiedHandle instanceof DataItemHandle )
@@ -221,95 +175,74 @@ public class PlaceHolderEditPart extends ReportElementEditPart
 //										.setValueExpr( ( (ExpressionBuilder) builder )
 //												.getResult( ) );
 //							}
-						}
-						catch ( SemanticException e )
-						{
-							getCommandStack( ).rollback( );
+						} catch (SemanticException e) {
+							getCommandStack().rollback();
 							return;
 						}
 
 					}
-					performTransfer( );
-					getCommandStack( ).commit( );
+					performTransfer();
+					getCommandStack().commit();
 					return;
-				}
-				else
-				{
-					getCommandStack( ).rollback( );
+				} else {
+					getCommandStack().rollback();
 					return;
 				}
 			}
 		}
 	}
 
-	private CommandStack getCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	private CommandStack getCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	public Object getCopiedModel( )
-	{
+	public Object getCopiedModel() {
 		return copiedHandle;
 	}
 
-	public void performTransfer( )
-	{
-		if ( getModel( ) instanceof TemplateElementHandle )
-		{
-			try
-			{
-				( (TemplateReportItemHandle) getModel( ) )
-						.transformToReportItem( (ReportItemHandle) copiedHandle );
-				
+	public void performTransfer() {
+		if (getModel() instanceof TemplateElementHandle) {
+			try {
+				((TemplateReportItemHandle) getModel()).transformToReportItem((ReportItemHandle) copiedHandle);
+
 //				ProviderFactory.createProvider( copiedHandle )
 //				.performRequest( copiedHandle,
 //						new Request( IRequestConstants.REQUST_REVERT_TO_REPORTITEM ) );
-			}
-			catch ( SemanticException e )
-			{
-				SessionHandleAdapter.getInstance( ).getCommandStack( )
-						.rollbackAll( );
-			}
-			catch ( Exception e )
-			{
-				SessionHandleAdapter.getInstance( ).getCommandStack( )
-				.rollbackAll( );
-			}
-			finally
-			{
+			} catch (SemanticException e) {
+				SessionHandleAdapter.getInstance().getCommandStack().rollbackAll();
+			} catch (Exception e) {
+				SessionHandleAdapter.getInstance().getCommandStack().rollbackAll();
+			} finally {
 				copiedHandle = null;
 			}
 		}
 	}
 
-	public void perfrormLabelEdit( boolean changed )
-	{
-		if ( changed )
-		{
-			performTransfer( );
-			getCommandStack( ).commit( );
-		}
-		else
-		{
-			getCommandStack( ).rollbackAll( );
+	public void perfrormLabelEdit(boolean changed) {
+		if (changed) {
+			performTransfer();
+			getCommandStack().commit();
+		} else {
+			getCommandStack().rollbackAll();
 		}
 	}
 
-	private DesignElementHandle getDefaultHandle( )
-	{
-		return getTemplateModel( ).getDefaultElement( );
+	private DesignElementHandle getDefaultHandle() {
+		return getTemplateModel().getDefaultElement();
 	}
 
-	private TemplateElementHandle getTemplateModel( )
-	{
-		return (TemplateElementHandle) getModel( );
+	private TemplateElementHandle getTemplateModel() {
+		return (TemplateElementHandle) getModel();
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#getResizePolice(org.eclipse.gef.EditPolicy)
 	 */
-	public EditPolicy getResizePolice(EditPolicy parentPolice)
-	{
-		return new ReportElementNonResizablePolicy( );
+	public EditPolicy getResizePolice(EditPolicy parentPolice) {
+		return new ReportElementNonResizablePolicy();
 	}
 }

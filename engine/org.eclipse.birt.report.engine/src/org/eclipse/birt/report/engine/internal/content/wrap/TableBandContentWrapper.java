@@ -21,41 +21,34 @@ import org.eclipse.birt.report.engine.content.ITableBandContent;
  * table body
  * 
  */
-public class TableBandContentWrapper extends AbstractContentWrapper
-		implements
-			ITableBandContent
-{
+public class TableBandContentWrapper extends AbstractContentWrapper implements ITableBandContent {
 	ITableBandContent bandContent;
-	public TableBandContentWrapper( ITableBandContent content )
-	{
-		super( content );
+
+	public TableBandContentWrapper(ITableBandContent content) {
+		super(content);
 		bandContent = content;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.ReportElementContent#accept(org.eclipse.birt.report.engine.content.ReportContentVisitor)
+	 * @see org.eclipse.birt.report.engine.content.ReportElementContent#accept(org.
+	 * eclipse.birt.report.engine.content.ReportContentVisitor)
 	 */
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitTableBand( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitTableBand(this, value);
 	}
 
-	public int getBandType( )
-	{
-		return bandContent.getBandType( );
+	public int getBandType() {
+		return bandContent.getBandType();
 	}
 
-	public void setBandType( int bandType )
-	{
-		bandContent.setBandType( bandType );
+	public void setBandType(int bandType) {
+		bandContent.setBandType(bandType);
 	}
 
-	public String getGroupID( )
-	{
-		return bandContent.getGroupID( );
+	public String getGroupID() {
+		return bandContent.getGroupID();
 	}
 
 }

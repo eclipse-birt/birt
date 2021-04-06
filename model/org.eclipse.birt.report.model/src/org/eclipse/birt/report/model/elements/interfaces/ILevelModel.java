@@ -15,20 +15,18 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for Level element to store the constants on it.
  */
 
-public interface ILevelModel
-{
+public interface ILevelModel {
 
 	/**
-	 * Name of the property that list of attributes defined for this level
-	 * element. Each attribute inside is a string which refer to a dataset
-	 * column name.
+	 * Name of the property that list of attributes defined for this level element.
+	 * Each attribute inside is a string which refer to a dataset column name.
 	 */
 
 	String ATTRIBUTES_PROP = "attributes"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that is used to create static group based on the
-	 * rules define in this property.
+	 * Name of the property that is used to create static group based on the rules
+	 * define in this property.
 	 */
 	String STATIC_VALUES_PROP = "staticValues"; //$NON-NLS-1$
 
@@ -48,8 +46,8 @@ public interface ILevelModel
 	String INTERVAL_PROP = "interval"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates whether this level is static, dynamic
-	 * or mirrored.
+	 * Name of the property that indicates whether this level is static, dynamic or
+	 * mirrored.
 	 */
 	String LEVEL_TYPE_PROP = "levelType"; //$NON-NLS-1$
 
@@ -82,31 +80,30 @@ public interface ILevelModel
 
 	/**
 	 * Name of the property that defines the expression to calculate ACL for the
-	 * level. This expression is evaluated once during the generation of the
-	 * cube.
+	 * level. This expression is evaluated once during the generation of the cube.
 	 */
 	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that defines the expression to calculate ACL for
-	 * each member of the level. This expression is evaluated once for each
-	 * level member during the generation of the cube, and has access to the
-	 * full content of the level member (e.g., its value, attributes, etc.)
+	 * Name of the property that defines the expression to calculate ACL for each
+	 * member of the level. This expression is evaluated once for each level member
+	 * during the generation of the cube, and has access to the full content of the
+	 * level member (e.g., its value, attributes, etc.)
 	 */
 	String MEMBER_ACL_EXPRESSION_PROP = "memberACLExpression"; //$NON-NLS-1$
 
 	/**
-	 * Name of the action property, which defines what action can be performed
-	 * when clicking the level.
+	 * Name of the action property, which defines what action can be performed when
+	 * clicking the level.
 	 */
 
 	String ACTION_PROP = "action"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the format property, which saves the format of the level.
 	 */
 	String FORMAT_PROP = "format"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the alignment property.
 	 */

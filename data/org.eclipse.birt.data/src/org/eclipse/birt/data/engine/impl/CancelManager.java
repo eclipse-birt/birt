@@ -19,63 +19,53 @@ import java.util.TimerTask;
  * 
  */
 
-public class CancelManager extends TimerTask
-{
+public class CancelManager extends TimerTask {
 	//
 	private List<ICancellable> cancellableList;
 
 	/**
 	 * Constructor
 	 */
-	public CancelManager( )
-	{
+	public CancelManager() {
 		cancellableList = new ArrayList<ICancellable>();
 	}
-	
+
 	/**
 	 * 
 	 * @param cancellable
 	 */
-	public void register( ICancellable cancellable )
-	{
-		synchronized( cancellableList )
-		{
-			cancellableList.add( cancellable );
+	public void register(ICancellable cancellable) {
+		synchronized (cancellableList) {
+			cancellableList.add(cancellable);
 		}
 	}
-	
+
 	/**
 	 * 
 	 * @param cancellable
 	 */
-	public void deregister( ICancellable cancellable )
-	{
-		synchronized ( cancellableList )
-		{
-			cancellableList.remove( cancellable );
+	public void deregister(ICancellable cancellable) {
+		synchronized (cancellableList) {
+			cancellableList.remove(cancellable);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Runnable#run()
 	 */
-	public void run( )
-	{
-		doCancel( );
+	public void run() {
+		doCancel();
 	}
-	
-	public void doCancel( )
-	{
-		synchronized ( cancellableList )
-		{
-			List<ICancellable> cancellableLists = new ArrayList<ICancellable>( cancellableList );
-			for ( ICancellable cancellable : cancellableLists )
-			{
-				if ( cancellable.doCancel( ) )
-					cancellable.cancel( );
+
+	public void doCancel() {
+		synchronized (cancellableList) {
+			List<ICancellable> cancellableLists = new ArrayList<ICancellable>(cancellableList);
+			for (ICancellable cancellable : cancellableLists) {
+				if (cancellable.doCancel())
+					cancellable.cancel();
 			}
 		}
 	}
 }
-

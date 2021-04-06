@@ -17,26 +17,19 @@ import org.eclipse.core.runtime.IAdapterFactory;
 /**
  * ReportHyperlinkParameterProviderFactory
  */
-public class ReportHyperlinkParameterProviderFactory implements IAdapterFactory
-{
+public class ReportHyperlinkParameterProviderFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( IHyperlinkParameterProvider.class.equals( adapterType ) )
-		{
-			if ( adaptableObject instanceof ReportDesignHandle )
-			{
-				return new ReportHyperlinkParameterProvider( (ReportDesignHandle) adaptableObject );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (IHyperlinkParameterProvider.class.equals(adapterType)) {
+			if (adaptableObject instanceof ReportDesignHandle) {
+				return new ReportHyperlinkParameterProvider((ReportDesignHandle) adaptableObject);
 			}
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IHyperlinkParameterProvider.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IHyperlinkParameterProvider.class };
 	}
 
 }

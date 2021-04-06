@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * Defines constants for TabularLevel.
  */
 
-public interface ITabularLevelModel
-{
+public interface ITabularLevelModel {
 
 	/**
 	 * Name of the property that refers a column name in the dataset.

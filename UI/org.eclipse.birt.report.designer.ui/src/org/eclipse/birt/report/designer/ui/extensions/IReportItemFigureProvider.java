@@ -22,36 +22,34 @@ import org.eclipse.draw2d.IFigure;
  * shown in the Quick Edit View and a builder when a new element is created.
  */
 
-public interface IReportItemFigureProvider
-{
+public interface IReportItemFigureProvider {
 
 	/**
 	 * Gets the figure to be rendered for the extended element in the
 	 * designer.Cannot return null.
 	 * 
-	 * @param handle
-	 *            the handle of the element
+	 * @param handle the handle of the element
 	 * 
 	 * @return Returns the figure
 	 */
-	public IFigure createFigure( ExtendedItemHandle handle );
+	public IFigure createFigure(ExtendedItemHandle handle);
 
 	/**
-	 * Updates the figure based on the handle properties. The figure passed is
-	 * the same as the one returned by getFigure. This function should make sure
-	 * to update all necessary properties of the figure using the relevant
-	 * information in the handle. It should not invalidate the figure, or try to
-	 * access its parent layout manager.
+	 * Updates the figure based on the handle properties. The figure passed is the
+	 * same as the one returned by getFigure. This function should make sure to
+	 * update all necessary properties of the figure using the relevant information
+	 * in the handle. It should not invalidate the figure, or try to access its
+	 * parent layout manager.
 	 */
-	public void updateFigure( ExtendedItemHandle handle, IFigure figure );
-	
+	public void updateFigure(ExtendedItemHandle handle, IFigure figure);
+
 	/**
 	 * Frees resources when the item is no longer part of the editor. Implementors
 	 * are responsible to dispose any resource allocated for the figure
+	 * 
 	 * @param handle the handle of the element
 	 * @param figure the figure
 	 */
-	public void disposeFigure( ExtendedItemHandle handle, IFigure figure );
-
+	public void disposeFigure(ExtendedItemHandle handle, IFigure figure);
 
 }

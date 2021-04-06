@@ -19,8 +19,7 @@ import org.xml.sax.Attributes;
 /**
  * Parses a data group element state.
  */
-public class DataGroupState extends ReportElementState
-{
+public class DataGroupState extends ReportElementState {
 
 	/**
 	 * The element being created.
@@ -32,18 +31,13 @@ public class DataGroupState extends ReportElementState
 	 * Constructs data group element state with the design parser handler, the
 	 * container element and the container property name of the report element.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public DataGroupState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
-	{
-		super( handler, theContainer, prop );
+	public DataGroupState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
@@ -52,23 +46,20 @@ public class DataGroupState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new DataGroup( );
-		initSimpleElement( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new DataGroup();
+		initSimpleElement(attrs);
 	}
 
 }

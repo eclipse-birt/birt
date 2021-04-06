@@ -23,33 +23,25 @@ import org.eclipse.jface.action.IMenuManager;
  * 
  */
 
-public class ImageMenuAdapterFactory implements IAdapterFactory
-{
+public class ImageMenuAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( final Object adaptableObject, Class adapterType )
-	{
-		if ( ( adaptableObject instanceof ImageHandle )
-				&& adapterType == IMenuListener.class )
-		{
+	public Object getAdapter(final Object adaptableObject, Class adapterType) {
+		if ((adaptableObject instanceof ImageHandle) && adapterType == IMenuListener.class) {
 
-			return new ISchematicMenuListener( ) {
+			return new ISchematicMenuListener() {
 
-				public void menuAboutToShow( IMenuManager manager )
-				{
-					manager.appendToGroup( GEFActionConstants.GROUP_EDIT,
-							new ReloadImageAction( adaptableObject ) );
+				public void menuAboutToShow(IMenuManager manager) {
+					manager.appendToGroup(GEFActionConstants.GROUP_EDIT, new ReloadImageAction(adaptableObject));
 				}
 
-				public void setActionRegistry( ActionRegistry actionRegistry )
-				{
+				public void setActionRegistry(ActionRegistry actionRegistry) {
 				}
 			};
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
+	public Class[] getAdapterList() {
 		return null;
 	}
 

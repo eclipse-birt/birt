@@ -13,12 +13,11 @@ package org.eclipse.birt.report;
 
 import org.eclipse.birt.report.engine.api.HTMLRenderOption;
 
-public interface IBirtConstants
-{
+public interface IBirtConstants {
 
 	// Oprand Name Value pair: Names
 	public static final String OPRAND_PAGENO = "__page"; //$NON-NLS-1$
-	public static final String OPRAND_BOOKMARK = "__bookmark"; //$NON-NLS-1$	
+	public static final String OPRAND_BOOKMARK = "__bookmark"; //$NON-NLS-1$
 	public static final String OPRAND_SVG = "__svg"; //$NON-NLS-1$
 	public static final String OPRAND_TASKID = "__taskid"; //$NON-NLS-1$
 	public static final String OPRAND_ISTOC = "__istoc"; //$NON-NLS-1$
@@ -103,10 +102,10 @@ public interface IBirtConstants
 
 	// Attribute Bean
 	public static final String ATTRIBUTE_BEAN = "attributeBean"; //$NON-NLS-1$
-	
+
 	// BIRT viewing sessions
 	public static final String ATTRIBUTE_VIEWING_SESSION_MANAGER = "viewingSessionManager"; //$NON-NLS-1$
-	
+
 	public static final String SESSION_ID_DATE_FORMAT = "yyyyMMdd_HHmmss_SSS"; //$NON-NLS-1$
 
 	// If Cascade parameter
@@ -116,7 +115,7 @@ public interface IBirtConstants
 	public static final String PROP_TYPE = "type"; //$NON-NLS-1$
 
 	// Property -- value expression
-	public static final String PROP_EXPR = "expr"; //$NON-NLS-1$	
+	public static final String PROP_EXPR = "expr"; //$NON-NLS-1$
 
 	// Task Map
 	public static final String TASK_MAP = "tasks"; //$NON-NLS-1$
@@ -127,7 +126,7 @@ public interface IBirtConstants
 	public static final String DEFAULT_IMAGE_FOLDER = "report/images"; //$NON-NLS-1$
 	public static final String DEFAULT_LOGS_FOLDER = "logs"; //$NON-NLS-1$
 	public static final String DEFAULT_LOGS_LEVEL = "WARNING"; //$NON-NLS-1$
-	public static final String DEFAULT_SCRIPTLIB_FOLDER = "scriptlib"; //$NON-NLS-1$	
+	public static final String DEFAULT_SCRIPTLIB_FOLDER = "scriptlib"; //$NON-NLS-1$
 
 	// Open type
 	public static final String OPEN_TYPE_INLINE = "inline"; //$NON-NLS-1$
@@ -165,19 +164,19 @@ public interface IBirtConstants
 	 * Default encoding for http request
 	 */
 	public static final String DEFAULT_ENCODE = "UTF-8"; //$NON-NLS-1$
-	
+
 	/**
 	 * Page overflow mode when render report as PDF/PS
 	 */
 	public static final int PAGE_OVERFLOW_AUTO = 0;
 	public static final int PAGE_OVERFLOW_ACTUAL = 1;
 	public static final int PAGE_OVERFLOW_FITTOPAGE = 2;
-	
+
 	public static final String DOC_PROPERTY_RTL = "docRtl";
 	/**
 	 * Suffix of report document.
 	 */
 	public static final String SUFFIX_REPORT_DOCUMENT = ".rptdocument"; //$NON-NLS-1$
-	
+
 	public static final String SERVLET_PATH = "BirtViewerServletPath";
 }

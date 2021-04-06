@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.api;
 
@@ -17,14 +17,12 @@ import java.util.List;
 
 /**
  * An sorted iterator over the elements in a slot. Each call to
- * <code>getNext( )</code> returns a handle of type
- * {@link DesignElementHandle}. The elements in the list are sorted on the
- * display name of the element.
+ * <code>getNext( )</code> returns a handle of type {@link DesignElementHandle}.
+ * The elements in the list are sorted on the display name of the element.
  * 
  */
 
-public class SortedSlotIterator implements Iterator
-{
+public class SortedSlotIterator implements Iterator {
 
 	/**
 	 * Handle to the slot over which to iterate.
@@ -47,34 +45,30 @@ public class SortedSlotIterator implements Iterator
 	/**
 	 * Constructs a sorted slot iterator with the given slot handle.
 	 * 
-	 * @param handle
-	 *            handle to the slot over which to iterate
+	 * @param handle handle to the slot over which to iterate
 	 */
 
-	public SortedSlotIterator( SlotHandle handle )
-	{
+	public SortedSlotIterator(SlotHandle handle) {
 		slotHandle = handle;
 		posn = 0;
 
-		sort( );
+		sort();
 	}
 
 	/**
 	 * Sorts the element in this slot according to the display label of each
 	 * element.
-	 *  
+	 * 
 	 */
-	
-	private void sort( )
-	{
-		list = new ArrayList( );
-		Iterator it = slotHandle.iterator( );
-		while ( it.hasNext( ) )
-		{
-			list.add( it.next( ) );
+
+	private void sort() {
+		list = new ArrayList();
+		Iterator it = slotHandle.iterator();
+		while (it.hasNext()) {
+			list.add(it.next());
 		}
 
-		DesignElementHandle.doSort( list );
+		DesignElementHandle.doSort(list);
 
 	}
 
@@ -82,17 +76,15 @@ public class SortedSlotIterator implements Iterator
 	 * Removes the element at the current iterator position.
 	 */
 	// Implementation of iterator.remove( )
-	
-	public void remove( )
-	{
-		//Not support
+
+	public void remove() {
+		// Not support
 	}
 
 	// Implementation of iterator.hasNext( )
 
-	public boolean hasNext( )
-	{
-		return posn < slotHandle.getCount( );
+	public boolean hasNext() {
+		return posn < slotHandle.getCount();
 	}
 
 	/**
@@ -101,12 +93,11 @@ public class SortedSlotIterator implements Iterator
 	 * 
 	 * @return a handle to the next content element.
 	 */
-	
+
 	// Implementation of iterator.next( )
-	
-	public Object next( )
-	{
-		return list.get( posn++ );
+
+	public Object next() {
+		return list.get(posn++);
 	}
 
 }

@@ -40,19 +40,17 @@ import com.ibm.icu.util.ULocale;
  * @see ThreadResources
  */
 
-class ResourceHandle
-{
+class ResourceHandle {
 
 	protected final static ResourceHandle defaultBundle;
 
-	static
-	{
-		defaultBundle = new ResourceHandle( );
+	static {
+		defaultBundle = new ResourceHandle();
 	}
 
 	/**
-	 * The actual resource bundle. The implementation assumes that Java will use
-	 * a PropertyResourceBundle to access our files.
+	 * The actual resource bundle. The implementation assumes that Java will use a
+	 * PropertyResourceBundle to access our files.
 	 */
 
 	protected PropertyResourceBundle resources;
@@ -66,60 +64,51 @@ class ResourceHandle
 	/**
 	 * Constructor.
 	 * 
-	 * @param locale
-	 *            the user's locale. If null, the default locale for the JVM
-	 *            will be used.
+	 * @param locale the user's locale. If null, the default locale for the JVM will
+	 *               be used.
 	 */
 
-	ResourceHandle( )
-	{
-		ULocale emptyLocale = new ULocale( "", "" );
+	ResourceHandle() {
+		ULocale emptyLocale = new ULocale("", "");
 		String bundleName = BUNDLE_NAME;
 
-		List<String> resourceFiles = ResourceHelper.getHelper( bundleName )
-				.getMessageFilenames( emptyLocale );
+		List<String> resourceFiles = ResourceHelper.getHelper(bundleName).getMessageFilenames(emptyLocale);
 
-		URL fileURL = ResourceHandle.class.getResource( resourceFiles.get( 0 ) );
+		URL fileURL = ResourceHandle.class.getResource(resourceFiles.get(0));
 		assert fileURL != null;
 
-		resources = CachedBundles.populateBundle( fileURL );
+		resources = CachedBundles.populateBundle(fileURL);
 		assert resources != null;
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param locale
-	 *            the user's locale. If null, the default locale for the JVM
-	 *            will be used.
+	 * @param locale the user's locale. If null, the default locale for the JVM will
+	 *               be used.
 	 */
 
-	ResourceHandle( ULocale locale )
-	{
+	ResourceHandle(ULocale locale) {
 		String bundleName = BUNDLE_NAME;
-		if ( locale == null )
-			locale = ULocale.getDefault( );
+		if (locale == null)
+			locale = ULocale.getDefault();
 
-		List<String> resourceFiles = ResourceHelper.getHelper( bundleName )
-				.getMessageFilenames( locale, false );
+		List<String> resourceFiles = ResourceHelper.getHelper(bundleName).getMessageFilenames(locale, false);
 
-		for ( int i = 0; i < resourceFiles.size( ); i++ )
-		{
-			String tmpFileName = resourceFiles.get( i );
-			URL fileURL = ResourceHandle.class.getResource( tmpFileName );
-			if ( fileURL == null )
+		for (int i = 0; i < resourceFiles.size(); i++) {
+			String tmpFileName = resourceFiles.get(i);
+			URL fileURL = ResourceHandle.class.getResource(tmpFileName);
+			if (fileURL == null)
 				continue;
 
-			PropertyResourceBundle tmpBundle = CachedBundles
-					.populateBundle( fileURL );
-			if ( tmpBundle != null )
-			{
+			PropertyResourceBundle tmpBundle = CachedBundles.populateBundle(fileURL);
+			if (tmpBundle != null) {
 				resources = tmpBundle;
 				break;
 			}
 		}
 
-		if ( resources == null )
+		if (resources == null)
 			resources = defaultBundle.resources;
 	}
 
@@ -127,44 +116,36 @@ class ResourceHandle
 	 * Get a message given the message key. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
 	 * 
-	 * @param key
-	 *            the message key
+	 * @param key the message key
 	 * @return the localized message for that key and the locale set in the
 	 *         constructor. Returns the key itself if the message was not found.
 	 * @see ResourceBundle#getString(String )
 	 */
 
-	public String getMessage( String key )
-	{
-		if ( key == null )
+	public String getMessage(String key) {
+		if (key == null)
 			return null;
-		
+
 		String retMsg = null;
-		try
-		{
-			retMsg = resources.getString( key );
-		}
-		catch ( MissingResourceException e )
-		{
+		try {
+			retMsg = resources.getString(key);
+		} catch (MissingResourceException e) {
 			retMsg = null;
 		}
-		
-		if (retMsg != null )
+
+		if (retMsg != null)
 			return retMsg;
-		
-		try
-		{
-			retMsg = defaultBundle.resources.getString( key );
-		}
-		catch ( MissingResourceException e )
-		{
+
+		try {
+			retMsg = defaultBundle.resources.getString(key);
+		} catch (MissingResourceException e) {
 
 			// It is a programming error to refer to a missing
 			// message.
 			assert false : key + " not found in resource bundle"; //$NON-NLS-1$
 			return key;
 		}
-		
+
 		return retMsg;
 	}
 
@@ -172,19 +153,16 @@ class ResourceHandle
 	 * Get a message that has placeholders. An assertion will be raised if the
 	 * message key does not exist in the resource bundle.
 	 * 
-	 * @param key
-	 *            the message key
-	 * @param arguments
-	 *            the set of arguments to be plugged into the message
+	 * @param key       the message key
+	 * @param arguments the set of arguments to be plugged into the message
 	 * @return the localized message for that key and the locale set in the
 	 *         constructor. Returns the key itself if the message was not found.
 	 * @see ResourceBundle#getString(String )
 	 * @see MessageFormat#format(String, Object[] )
 	 */
 
-	public String getMessage( String key, Object[] arguments )
-	{
-		String message = getMessage( key );
-		return MessageFormat.format( message, arguments );
+	public String getMessage(String key, Object[] arguments) {
+		String message = getMessage(key);
+		return MessageFormat.format(message, arguments);
 	}
 }

@@ -22,8 +22,7 @@ import javax.servlet.WriteListener;
  * UnitTest
  * 
  */
-public class ServletOutputStreamSimulator extends ServletOutputStream
-{
+public class ServletOutputStreamSimulator extends ServletOutputStream {
 	/**
 	 * Servlet Output Stream
 	 */
@@ -33,8 +32,7 @@ public class ServletOutputStreamSimulator extends ServletOutputStream
 	 * Constructor
 	 *
 	 */
-	public ServletOutputStreamSimulator( )
-	{
+	public ServletOutputStreamSimulator() {
 		this.out = System.out;
 	}
 
@@ -43,8 +41,7 @@ public class ServletOutputStreamSimulator extends ServletOutputStream
 	 * 
 	 * @param out
 	 */
-	public ServletOutputStreamSimulator( OutputStream out )
-	{
+	public ServletOutputStreamSimulator(OutputStream out) {
 		this.out = out;
 	}
 
@@ -53,22 +50,19 @@ public class ServletOutputStreamSimulator extends ServletOutputStream
 	 * 
 	 * @see java.io.OutputStream#write(int)
 	 */
-	public void write( int b ) throws IOException
-	{
-		out.write( b );
+	public void write(int b) throws IOException {
+		out.write(b);
 	}
 
-    @Override
-    public boolean isReady( )
-    {
-        // TODO Auto-generated method stub
-        return false;
-    }
+	@Override
+	public boolean isReady() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
-    @Override
-    public void setWriteListener( WriteListener arg0 )
-    {
-        // TODO Auto-generated method stub
-        
-    }
+	@Override
+	public void setWriteListener(WriteListener arg0) {
+		// TODO Auto-generated method stub
+
+	}
 }

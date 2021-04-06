@@ -14,18 +14,15 @@ package org.eclipse.birt.report.debug.internal.core.vm;
 /**
  * VMException
  */
-public class VMException extends Exception
-{
+public class VMException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 
-	public VMException( String message )
-	{
-		super( message );
+	public VMException(String message) {
+		super(message);
 	}
 
-	public VMException( Throwable t )
-	{
-		super( t );
+	public VMException(Throwable t) {
+		super(t);
 	}
 }

@@ -26,21 +26,17 @@ import org.eclipse.birt.report.model.metadata.MetaDataDictionary;
  * 
  */
 
-public class EncryptionCommand extends AbstractElementCommand
-{
+public class EncryptionCommand extends AbstractElementCommand {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param obj
-	 *            the element to modify.
+	 * @param module the module
+	 * @param obj    the element to modify.
 	 */
 
-	public EncryptionCommand( Module module, DesignElement obj )
-	{
-		super( module, obj );
+	public EncryptionCommand(Module module, DesignElement obj) {
+		super(module, obj);
 	}
 
 	/**
@@ -49,13 +45,11 @@ public class EncryptionCommand extends AbstractElementCommand
 	 * @param encryptionID
 	 * @throws SemanticException
 	 */
-	public void setEncryption( String propName, String encryptionID )
-			throws SemanticException
-	{
-		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
-		if ( propDefn == null )
-			throw new PropertyNameException( element, propName );
-		setEncryption( propDefn, encryptionID );
+	public void setEncryption(String propName, String encryptionID) throws SemanticException {
+		ElementPropertyDefn propDefn = element.getPropertyDefn(propName);
+		if (propDefn == null)
+			throw new PropertyNameException(element, propName);
+		setEncryption(propDefn, encryptionID);
 	}
 
 	/**
@@ -64,36 +58,27 @@ public class EncryptionCommand extends AbstractElementCommand
 	 * @param encryptionID
 	 * @throws SemanticException
 	 */
-	public void setEncryption( ElementPropertyDefn propDefn, String encryptionID )
-			throws SemanticException
-	{
+	public void setEncryption(ElementPropertyDefn propDefn, String encryptionID) throws SemanticException {
 		assert propDefn != null;
 		// if property is not encryptable, then throw exception
-		if ( !propDefn.isEncryptable( ) )
-			throw new EncryptionException(
-					element,
-					EncryptionException.DESIGN_EXCEPTION_INVALID_ENCRYPTABLE_PROPERTY,
-					new String[]{element.getIdentifier( ), propDefn.getName( )} );
+		if (!propDefn.isEncryptable())
+			throw new EncryptionException(element, EncryptionException.DESIGN_EXCEPTION_INVALID_ENCRYPTABLE_PROPERTY,
+					new String[] { element.getIdentifier(), propDefn.getName() });
 
-		encryptionID = StringUtil.trimString( encryptionID );
+		encryptionID = StringUtil.trimString(encryptionID);
 		// if encryption is not found, throw exception
-		if ( encryptionID != null
-				&& MetaDataDictionary.getInstance( ).getEncryptionHelper(
-						encryptionID ) == null )
-			throw new EncryptionException( element,
-					EncryptionException.DESIGN_EXCEPTION_INVALID_ENCRYPTION,
-					new String[]{encryptionID} );
+		if (encryptionID != null && MetaDataDictionary.getInstance().getEncryptionHelper(encryptionID) == null)
+			throw new EncryptionException(element, EncryptionException.DESIGN_EXCEPTION_INVALID_ENCRYPTION,
+					new String[] { encryptionID });
 
 		// if old local encryption and new encryption is equal, then do nothing
-		String oldEncryption = element.getLocalEncryptionID( propDefn );
-		if ( ( encryptionID == null && oldEncryption == null )
-				|| ( encryptionID != null && encryptionID
-						.equals( oldEncryption ) ) )
+		String oldEncryption = element.getLocalEncryptionID(propDefn);
+		if ((encryptionID == null && oldEncryption == null)
+				|| (encryptionID != null && encryptionID.equals(oldEncryption)))
 			return;
 
-		EncryptionRecord record = new EncryptionRecord( module, element,
-				propDefn, encryptionID );
+		EncryptionRecord record = new EncryptionRecord(module, element, propDefn, encryptionID);
 
-		getActivityStack( ).execute( record );
+		getActivityStack().execute(record);
 	}
 }

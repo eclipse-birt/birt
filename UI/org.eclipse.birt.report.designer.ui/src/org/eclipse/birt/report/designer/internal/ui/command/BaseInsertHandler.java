@@ -45,159 +45,126 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-public class BaseInsertHandler extends SelectionHandler
-{
+public class BaseInsertHandler extends SelectionHandler {
 	private String insertType;
 
 	protected SlotHandle slotHandle;
 
 	private Object model;
-	
-	protected static final String STACK_MSG_INSERT_ELEMENT = Messages.getString( "BaseInsertMenuAction.stackMsg.insertElement" ); //$NON-NLS-1$
 
-	
+	protected static final String STACK_MSG_INSERT_ELEMENT = Messages
+			.getString("BaseInsertMenuAction.stackMsg.insertElement"); //$NON-NLS-1$
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
-		
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Insert action >> Run ..." ); //$NON-NLS-1$
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
+
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Insert action >> Run ..."); //$NON-NLS-1$
 		}
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( STACK_MSG_INSERT_ELEMENT );
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(STACK_MSG_INSERT_ELEMENT);
 
 		boolean retValue = initializeVariable(event);
-		if(retValue == false)
-		{
+		if (retValue == false) {
 			return Boolean.FALSE;
 		}
-		
-		try
-		{
-			final Request req = insertElement( );
-			if ( req != null )
-			{
-				stack.commit( );
-				selectElement( req.getExtendedData( )
-						.get( IRequestConstants.REQUEST_KEY_RESULT ), true );
+
+		try {
+			final Request req = insertElement();
+			if (req != null) {
+				stack.commit();
+				selectElement(req.getExtendedData().get(IRequestConstants.REQUEST_KEY_RESULT), true);
 				return Boolean.TRUE;
 			}
+		} catch (Exception e) {
+			ExceptionHandler.handle(e);
 		}
-		catch ( Exception e )
-		{
-			ExceptionHandler.handle( e );
-		}
-		stack.rollback( );
-		
+		stack.rollback();
+
 		return Boolean.FALSE;
 	}
-	
-	protected boolean initializeVariable(ExecutionEvent event)
-	{
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.BASE_INSERT_TYPE_NAME );
-		if(obj == null || (obj instanceof String))
-		{
-			insertType = (String)obj;
+
+	protected boolean initializeVariable(ExecutionEvent event) {
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
+		Object obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.BASE_INSERT_TYPE_NAME);
+		if (obj == null || (obj instanceof String)) {
+			insertType = (String) obj;
 		}
-		if(insertType == null)
-		{
-			return false;
-		}	
-		
-		obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.BASE_INSERT_SLOT_HANDLE_NAME );
-		if(obj == null || (obj instanceof SlotHandle))
-		{
-			slotHandle = (SlotHandle)obj;
-		}
-		if(slotHandle == null)
-		{
+		if (insertType == null) {
 			return false;
 		}
-		
-		obj = UIUtil.getVariableFromContext( context,ICommandParameterNameContants.BASE_INSERT_MODEL_NAME );
-		if(obj == null)
-		{
+
+		obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.BASE_INSERT_SLOT_HANDLE_NAME);
+		if (obj == null || (obj instanceof SlotHandle)) {
+			slotHandle = (SlotHandle) obj;
+		}
+		if (slotHandle == null) {
+			return false;
+		}
+
+		obj = UIUtil.getVariableFromContext(context, ICommandParameterNameContants.BASE_INSERT_MODEL_NAME);
+		if (obj == null) {
 			return false;
 		}
 		model = obj;
-		
+
 		return true;
 	}
-	
-	protected Request insertElement( ) throws Exception
-	{
-		Request request = new Request( IRequestConstants.REQUEST_TYPE_INSERT );
-		Map extendsData = new HashMap( );
-		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle );
 
-		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_TYPE, insertType );
+	protected Request insertElement() throws Exception {
+		Request request = new Request(IRequestConstants.REQUEST_TYPE_INSERT);
+		Map extendsData = new HashMap();
+		extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_SLOT, slotHandle);
 
-		extendsData.put( IRequestConstants.REQUEST_KEY_INSERT_POSITION,
-				InsertAction.BELOW );
+		extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_TYPE, insertType);
 
-		request.setExtendedData( extendsData );
+		extendsData.put(IRequestConstants.REQUEST_KEY_INSERT_POSITION, InsertAction.BELOW);
 
-		if ( ProviderFactory.createProvider( slotHandle.getElementHandle( ) )
-				.performRequest( model, request ) )
-		{
+		request.setExtendedData(extendsData);
+
+		if (ProviderFactory.createProvider(slotHandle.getElementHandle()).performRequest(model, request)) {
 			return request;
 		}
 		return null;
 	}
 
-	protected void selectElement( final Object element, final boolean edit )
-	{
-		Display.getCurrent( ).asyncExec( new Runnable( ) {
+	protected void selectElement(final Object element, final boolean edit) {
+		Display.getCurrent().asyncExec(new Runnable() {
 
-			public void run( )
-			{
-				if ( element instanceof ReportItemHandle )
-				{
-					IWorkbenchPart part = PlatformUI.getWorkbench( )
-							.getActiveWorkbenchWindow( )
-							.getPartService( )
-							.getActivePart( );
+			public void run() {
+				if (element instanceof ReportItemHandle) {
+					IWorkbenchPart part = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getPartService()
+							.getActivePart();
 					IEditorPart epart = null;
-					if ( part instanceof AbstractMultiPageEditor )
-					{
-						epart = ( (AbstractMultiPageEditor) part ).getActivePageInstance( );
-					}
-					else if ( part instanceof IReportEditor )
-					{
-						IEditorPart activeEditor = ( (IReportEditor) part ).getEditorPart( );
-						if ( activeEditor instanceof AbstractMultiPageEditor )
-						{
-							epart = ( (AbstractMultiPageEditor) activeEditor ).getActivePageInstance( );
+					if (part instanceof AbstractMultiPageEditor) {
+						epart = ((AbstractMultiPageEditor) part).getActivePageInstance();
+					} else if (part instanceof IReportEditor) {
+						IEditorPart activeEditor = ((IReportEditor) part).getEditorPart();
+						if (activeEditor instanceof AbstractMultiPageEditor) {
+							epart = ((AbstractMultiPageEditor) activeEditor).getActivePageInstance();
 						}
 					}
 
-					if ( epart instanceof GraphicalEditorWithFlyoutPalette )
-					{
-						GraphicalViewer viewer = ( (GraphicalEditorWithFlyoutPalette) epart ).getGraphicalViewer( );
-						Object cpart = viewer.getEditPartRegistry( )
-								.get( element );
+					if (epart instanceof GraphicalEditorWithFlyoutPalette) {
+						GraphicalViewer viewer = ((GraphicalEditorWithFlyoutPalette) epart).getGraphicalViewer();
+						Object cpart = viewer.getEditPartRegistry().get(element);
 
-						if ( cpart instanceof EditPart )
-						{
-							viewer.flush( );
-							viewer.select( (EditPart) cpart );
+						if (cpart instanceof EditPart) {
+							viewer.flush();
+							viewer.select((EditPart) cpart);
 						}
 
-						if ( edit && cpart instanceof LabelEditPart )
-						{
-							( (LabelEditPart) cpart ).performDirectEdit( );
-						}
-						else if ( edit && cpart instanceof ImageEditPart )
-						{
-							( (ImageEditPart) cpart ).performDirectEdit( );
+						if (edit && cpart instanceof LabelEditPart) {
+							((LabelEditPart) cpart).performDirectEdit();
+						} else if (edit && cpart instanceof ImageEditPart) {
+							((ImageEditPart) cpart).performDirectEdit();
 						}
 						// fix bugzilla#145284
 						// TODO check extension setting here to decide if popup
@@ -210,7 +177,7 @@ public class BaseInsertHandler extends SelectionHandler
 					}
 				}
 			}
-		} );
+		});
 	}
-	
+
 }

@@ -27,64 +27,52 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  * 
  */
 
-public class RevertToReportItemAction extends AbstractElementAction
-{
+public class RevertToReportItemAction extends AbstractElementAction {
 
-	private static final String DEFAULT_TEXT = Messages.getString( "RevertToReportItemAction.text" ); //$NON-NLS-1$	
+	private static final String DEFAULT_TEXT = Messages.getString("RevertToReportItemAction.text"); //$NON-NLS-1$
 
 	/**
 	 * @param selectedObject
 	 */
-	public RevertToReportItemAction( Object selectedObject )
-	{
-		super( selectedObject, DEFAULT_TEXT );
+	public RevertToReportItemAction(Object selectedObject) {
+		super(selectedObject, DEFAULT_TEXT);
 	}
 
 	/**
 	 * @param selectedObject
 	 * @param text
 	 */
-	public RevertToReportItemAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public RevertToReportItemAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		if ( getSelectedElement( ) == null )
-		{
+	protected boolean doAction() throws Exception {
+		if (getSelectedElement() == null) {
 			return false;
 		}
-		if ( getSelectedElement( ).isTemplateParameterValue( ) )
-		{
+		if (getSelectedElement().isTemplateParameterValue()) {
 			DesignElementHandle handle;
-			if ( getSelectedElement( ) instanceof TemplateReportItemHandle )
-			{
-				TemplateReportItemHandle template = (TemplateReportItemHandle)getSelectedElement( );
-				handle = template.copyDefaultElement( )
-						.getHandle( SessionHandleAdapter.getInstance( )
-								.getReportDesignHandle( )
-								.getModule( ) );
-				try
-				{
-					template.transformToReportItem( (ReportItemHandle) handle );
-				}
-				catch ( SemanticException e )
-				{
-					ExceptionHandler.handle( e );
+			if (getSelectedElement() instanceof TemplateReportItemHandle) {
+				TemplateReportItemHandle template = (TemplateReportItemHandle) getSelectedElement();
+				handle = template.copyDefaultElement()
+						.getHandle(SessionHandleAdapter.getInstance().getReportDesignHandle().getModule());
+				try {
+					template.transformToReportItem((ReportItemHandle) handle);
+				} catch (SemanticException e) {
+					ExceptionHandler.handle(e);
 					return false;
 				}
-			}else{
-				handle = (DesignElementHandle)getSelectedElement( );
+			} else {
+				handle = (DesignElementHandle) getSelectedElement();
 			}
-			return ProviderFactory.createProvider( getSelectedElement( ) )
-					.performRequest( handle,
-							new Request( IRequestConstants.REQUST_REVERT_TO_REPORTITEM ) );
+			return ProviderFactory.createProvider(getSelectedElement()).performRequest(handle,
+					new Request(IRequestConstants.REQUST_REVERT_TO_REPORTITEM));
 		}
 		return false;
 	}
@@ -92,36 +80,27 @@ public class RevertToReportItemAction extends AbstractElementAction
 	/**
 	 * @return the model of selected GUI object.
 	 */
-	private DesignElementHandle getSelectedElement( )
-	{
-		Object obj = super.getSelection( );
-		if ( obj instanceof IStructuredSelection )
-		{
+	private DesignElementHandle getSelectedElement() {
+		Object obj = super.getSelection();
+		if (obj instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection) obj;
-			if ( selection.size( ) != 1 )
-			{// multiple selection
+			if (selection.size() != 1) {// multiple selection
 				return null;
 			}
-			obj = selection.getFirstElement( );
+			obj = selection.getFirstElement();
 		}
-		if ( obj instanceof TemplateReportItemHandle )
-		{
+		if (obj instanceof TemplateReportItemHandle) {
 			return (TemplateReportItemHandle) obj;
-		}
-		else if ( obj instanceof DesignElementHandle )
-		{
+		} else if (obj instanceof DesignElementHandle) {
 			return (DesignElementHandle) obj;
 		}
 		return null;
 	}
 
-	public boolean isEnabled( )
-	{
-		if ( getSelectedElement( ) == null )
-		{
+	public boolean isEnabled() {
+		if (getSelectedElement() == null) {
 			return false;
 		}
-		return super.isEnabled( )
-				&& ( getSelectedElement( ).isTemplateParameterValue( ) );
+		return super.isEnabled() && (getSelectedElement().isTemplateParameterValue());
 	}
 }

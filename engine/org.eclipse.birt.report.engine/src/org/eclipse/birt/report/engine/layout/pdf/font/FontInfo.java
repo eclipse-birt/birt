@@ -17,8 +17,7 @@ import org.eclipse.birt.report.engine.layout.PDFConstants;
 import com.lowagie.text.Font;
 import com.lowagie.text.pdf.BaseFont;
 
-public class FontInfo
-{
+public class FontInfo {
 	private BaseFont bf;
 
 	private float fontSize;
@@ -36,38 +35,32 @@ public class FontInfo
 	private float linethroughPosition;
 	private float overlinePosition;
 
-	public FontInfo( BaseFont bf, float fontSize, int fontStyle, int fontWeight,
-			boolean simulation )
-	{
+	public FontInfo(BaseFont bf, float fontSize, int fontStyle, int fontWeight, boolean simulation) {
 		this.bf = bf;
 		this.fontStyle = fontStyle;
 		this.simulation = simulation;
 		this.fontSize = fontSize;
 		this.fontWeight = fontWeight;
-		setupFontSize( );
+		setupFontSize();
 	}
 
-	public FontInfo( FontInfo fontInfo )
-	{
+	public FontInfo(FontInfo fontInfo) {
 		this.bf = fontInfo.bf;
 		this.fontStyle = fontInfo.fontStyle;
 		this.simulation = fontInfo.simulation;
 		this.fontSize = fontInfo.fontSize;
 		this.fontWeight = fontInfo.fontWeight;
-		setupFontSize( );
+		setupFontSize();
 	}
 
-	public void setFontSize( float fontSize )
-	{
+	public void setFontSize(float fontSize) {
 		this.fontSize = fontSize;
-		setupFontSize( );
+		setupFontSize();
 	}
 
-	protected void setupFontSize( )
-	{
+	protected void setupFontSize() {
 
-		if ( bf == null )
-		{
+		if (bf == null) {
 			lineWidth = 1;
 			fontHeight = fontSize;
 			baselinePosition = fontSize;
@@ -77,139 +70,109 @@ public class FontInfo
 			return;
 		}
 
-		float ascent = bf.getFontDescriptor( BaseFont.AWT_ASCENT, fontSize );
-		float descent = bf.getFontDescriptor( BaseFont.AWT_DESCENT, fontSize );
-		if ( BaseFont.FONT_TYPE_T1 == bf.getFontType( ) )
-		{
+		float ascent = bf.getFontDescriptor(BaseFont.AWT_ASCENT, fontSize);
+		float descent = bf.getFontDescriptor(BaseFont.AWT_DESCENT, fontSize);
+		if (BaseFont.FONT_TYPE_T1 == bf.getFontType()) {
 			// uses the FontBBox for Type1 font, refer to the implementation
 			// of free type API
-			ascent = bf.getFontDescriptor( BaseFont.BBOXURY, fontSize );
-			descent = bf.getFontDescriptor( BaseFont.BBOXLLY, fontSize );
+			ascent = bf.getFontDescriptor(BaseFont.BBOXURY, fontSize);
+			descent = bf.getFontDescriptor(BaseFont.BBOXLLY, fontSize);
 		}
-		if ( descent > 0 )
-		{
+		if (descent > 0) {
 			// In some cases, the Type1 font (perhaps loading from PFM?) return
 			// positive descent
 			descent = -descent;
 		}
-		float baseline = bf.getFontDescriptor( BaseFont.UNDERLINE_POSITION,
-				fontSize );
-		float baseline_thickness = bf.getFontDescriptor(
-				BaseFont.UNDERLINE_THICKNESS, fontSize );
-		float strike = bf.getFontDescriptor( BaseFont.STRIKETHROUGH_POSITION,
-				fontSize );
-		float strike_thickness = bf.getFontDescriptor(
-				BaseFont.STRIKETHROUGH_THICKNESS, fontSize );
+		float baseline = bf.getFontDescriptor(BaseFont.UNDERLINE_POSITION, fontSize);
+		float baseline_thickness = bf.getFontDescriptor(BaseFont.UNDERLINE_THICKNESS, fontSize);
+		float strike = bf.getFontDescriptor(BaseFont.STRIKETHROUGH_POSITION, fontSize);
+		float strike_thickness = bf.getFontDescriptor(BaseFont.STRIKETHROUGH_THICKNESS, fontSize);
 
 		lineWidth = baseline_thickness;
-		if ( lineWidth == 0 )
-		{
+		if (lineWidth == 0) {
 			lineWidth = strike_thickness;
-			if ( lineWidth == 0 )
-			{
+			if (lineWidth == 0) {
 				lineWidth = fontSize / 20;
 			}
 		}
 		fontHeight = ascent - descent;
-		//TODO: the -lineWidth/2 should be move to the draw function
+		// TODO: the -lineWidth/2 should be move to the draw function
 		baselinePosition = ascent - lineWidth / 2;
 		underlinePosition = ascent - baseline - lineWidth / 2;
-		if ( strike == 0 )
-		{
+		if (strike == 0) {
 			linethroughPosition = fontHeight / 2 - lineWidth / 2;
-		}
-		else
-		{
+		} else {
 			linethroughPosition = ascent - strike - lineWidth / 2;
 		}
-		//TODO: overline is not same with the HTML, we need change it in future.
+		// TODO: overline is not same with the HTML, we need change it in future.
 		overlinePosition = 0;
 	}
 
-	public void setSimulation( boolean simulation )
-	{
+	public void setSimulation(boolean simulation) {
 		this.simulation = simulation;
 	}
 
-	public BaseFont getBaseFont( )
-	{
+	public BaseFont getBaseFont() {
 		return this.bf;
 	}
 
-	public float getFontSize( )
-	{
+	public float getFontSize() {
 		return this.fontSize;
 	}
 
-	public int getFontStyle( )
-	{
+	public int getFontStyle() {
 		return this.fontStyle;
 	}
 
-	public int getFontWeight( )
-	{
+	public int getFontWeight() {
 		return this.fontWeight;
 	}
 
-	public boolean getSimulation( )
-	{
+	public boolean getSimulation() {
 		return this.simulation;
 	}
 
-	public float getLineWidth( )
-	{
+	public float getLineWidth() {
 		return this.lineWidth;
 	}
 
-	public int getOverlinePosition( )
-	{
-		return (int) ( overlinePosition * PDFConstants.LAYOUT_TO_PDF_RATIO );
+	public int getOverlinePosition() {
+		return (int) (overlinePosition * PDFConstants.LAYOUT_TO_PDF_RATIO);
 	}
 
-	public int getUnderlinePosition( )
-	{
-		return (int) ( underlinePosition * PDFConstants.LAYOUT_TO_PDF_RATIO );
+	public int getUnderlinePosition() {
+		return (int) (underlinePosition * PDFConstants.LAYOUT_TO_PDF_RATIO);
 	}
 
-	public int getLineThroughPosition( )
-	{
-		return (int) ( linethroughPosition * PDFConstants.LAYOUT_TO_PDF_RATIO );
+	public int getLineThroughPosition() {
+		return (int) (linethroughPosition * PDFConstants.LAYOUT_TO_PDF_RATIO);
 	}
 
-	public int getBaseline( )
-	{
-		return (int) ( baselinePosition * PDFConstants.LAYOUT_TO_PDF_RATIO );
+	public int getBaseline() {
+		return (int) (baselinePosition * PDFConstants.LAYOUT_TO_PDF_RATIO);
 	}
 
 	/**
 	 * Gets the width of the specified word.
 	 * 
-	 * @param word
-	 *            the word
+	 * @param word the word
 	 * @return the points of the width
 	 */
-	public float getWordWidth( String word )
-	{
-		if ( word == null )
-		{
+	public float getWordWidth(String word) {
+		if (word == null) {
 			return 0;
 		}
-		if ( bf == null )
-		{
-			return word.length( ) * ( fontSize / 2 );
+		if (bf == null) {
+			return word.length() * (fontSize / 2);
 		}
 
-		return bf.getWidthPoint( word, fontSize );
+		return bf.getWidthPoint(word, fontSize);
 	}
-	
-	public int getItalicAdjust( )
-	{
+
+	public int getItalicAdjust() {
 		// get width for text with simulated italic font.
-		if ( simulation && ( Font.ITALIC == fontStyle
-				|| Font.BOLDITALIC == fontStyle ) )
-		{
-			return (int) ( fontHeight
-					* EmitterUtil.getItalicHorizontalCoefficient( ) );
+		if (simulation && (Font.ITALIC == fontStyle || Font.BOLDITALIC == fontStyle)) {
+			return (int) (fontHeight * EmitterUtil.getItalicHorizontalCoefficient());
 		}
 		return 0;
 	}
@@ -219,15 +182,13 @@ public class FontInfo
 	 * 
 	 * @return the height of the font, it equals ascent+|descent|+leading
 	 */
-	public float getWordHeight( )
-	{
+	public float getWordHeight() {
 		return fontHeight;
 	}
 
-	public String getFontName( )
-	{
+	public String getFontName() {
 		assert bf != null;
-		String[][] familyFontNames = bf.getFamilyFontName( );
+		String[][] familyFontNames = bf.getFamilyFontName();
 		String[] family = familyFontNames[familyFontNames.length - 1];
 		return family[family.length - 1];
 	}

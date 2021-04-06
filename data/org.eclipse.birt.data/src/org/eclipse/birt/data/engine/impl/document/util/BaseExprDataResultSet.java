@@ -25,98 +25,91 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * Abstract class to generate result set from the expression data from report
  * document.
  */
-abstract class BaseExprDataResultSet implements IExprDataResultSet
-{
+abstract class BaseExprDataResultSet implements IExprDataResultSet {
 	private int rowIndex;;
 	private IResultClass rsMeta;
 	protected int rowCount;
-	
-	private ExprMetaInfo[] exprMetas;	
+
+	private ExprMetaInfo[] exprMetas;
 	private IExprDataReader exprDataReader;
-	
+
 	/**
 	 * @param inExprMetas
-	 * @throws DataException 
+	 * @throws DataException
 	 */
-	void init( ExprMetaInfo[] inExprMetas, IExprDataReader exprDataReader ) throws DataException
-	{
-		this.exprMetas = ExprMetaUtil.buildExprDataMetaInfo( inExprMetas );
-		this.rsMeta = ExprMetaUtil.buildExprDataResultClass( exprMetas );
+	void init(ExprMetaInfo[] inExprMetas, IExprDataReader exprDataReader) throws DataException {
+		this.exprMetas = ExprMetaUtil.buildExprDataMetaInfo(inExprMetas);
+		this.rsMeta = ExprMetaUtil.buildExprDataResultClass(exprMetas);
 		this.exprDataReader = exprDataReader;
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#getResultClass()
+	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#
+	 * getResultClass()
 	 */
-	public IResultClass getResultClass( )
-	{
+	public IResultClass getResultClass() {
 		return this.rsMeta;
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#getCount()
+	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#
+	 * getCount()
 	 */
-	public int getCount( ) throws DataException
-	{
+	public int getCount() throws DataException {
 		return this.rowCount;
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.odi.IDataSetPopulator#next()
 	 */
-	public IResultObject next( ) throws DataException
-	{
-		if ( rowIndex == rowCount )
+	public IResultObject next() throws DataException {
+		if (rowIndex == rowCount)
 			return null;
 
-		IResultObject roObject = fetch( );
+		IResultObject roObject = fetch();
 		rowIndex++;
 		return roObject;
 	}
+
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#fetch()
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#fetch()
 	 */
-	public IResultObject fetch( ) throws DataException
-	{
-		exprDataReader.next( );
-		
+	public IResultObject fetch() throws DataException {
+		exprDataReader.next();
+
 		int exprFieldCount = exprMetas.length;
 		Object[] rowData = new Object[exprFieldCount];
-		
-		int destIndex = exprDataReader.getRowId( );
-		Map map = exprDataReader.getRowValue( );
-		Iterator it = map.entrySet( ).iterator( );
-		while ( it.hasNext( ) )
-		{
-			Map.Entry entry = (Entry) it.next( );
-			String exprName = (String) entry.getKey( );
-			Object exprValue = entry.getValue( );
-			for ( int j = 0; j < exprFieldCount; j++ )
-			{
-				if ( exprName != null
-						&& exprName.equals( exprMetas[j].getName( ) ) )
-				{
+
+		int destIndex = exprDataReader.getRowId();
+		Map map = exprDataReader.getRowValue();
+		Iterator it = map.entrySet().iterator();
+		while (it.hasNext()) {
+			Map.Entry entry = (Entry) it.next();
+			String exprName = (String) entry.getKey();
+			Object exprValue = entry.getValue();
+			for (int j = 0; j < exprFieldCount; j++) {
+				if (exprName != null && exprName.equals(exprMetas[j].getName())) {
 					rowData[j] = exprValue;
 					break;
 				}
 			}
 		}
 
-		rowData[exprFieldCount - 1] = Integer.valueOf( destIndex );
+		rowData[exprFieldCount - 1] = Integer.valueOf(destIndex);
 
-		return new ResultObject( rsMeta, rowData );
+		return new ResultObject(rsMeta, rowData);
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.document.util.IExprDataResultSet#close()
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.document.util.IExprDataResultSet#close()
 	 */
-	public void close( )
-	{
-		if ( exprDataReader != null )
-		{
-			exprDataReader.close( );
+	public void close() {
+		if (exprDataReader != null) {
+			exprDataReader.close();
 			exprDataReader = null;
 		}
 	}
-	
+
 }

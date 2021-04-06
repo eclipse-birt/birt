@@ -35,8 +35,7 @@ import org.xml.sax.SAXException;
  * the element or the member of the structure.
  */
 
-public class EncryptedPropertyState extends PropertyState
-{
+public class EncryptedPropertyState extends PropertyState {
 
 	/**
 	 * 
@@ -48,10 +47,8 @@ public class EncryptedPropertyState extends PropertyState
 	 * @param theHandler
 	 * @param element
 	 */
-	EncryptedPropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
-		super( theHandler, element );
+	EncryptedPropertyState(ModuleParserHandler theHandler, DesignElement element) {
+		super(theHandler, element);
 	}
 
 	/**
@@ -61,10 +58,9 @@ public class EncryptedPropertyState extends PropertyState
 	 * @param propDefn
 	 * @param struct
 	 */
-	EncryptedPropertyState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element );
+	EncryptedPropertyState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct) {
+		super(theHandler, element);
 
 		this.propDefn = propDefn;
 		this.struct = struct;
@@ -76,11 +72,9 @@ public class EncryptedPropertyState extends PropertyState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		super.parseAttrs( attrs );
-		encryptionID = attrs
-				.getValue( DesignSchemaConstants.ENCRYPTION_ID_ATTRIB );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		super.parseAttrs(attrs);
+		encryptionID = attrs.getValue(DesignSchemaConstants.ENCRYPTION_ID_ATTRIB);
 	}
 
 	/*
@@ -88,121 +82,92 @@ public class EncryptedPropertyState extends PropertyState
 	 * 
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	public void end() throws SAXException {
+		String value = text.toString();
 
 		PropertyDefn propDefn = null;
-		if ( struct != null )
-		{
-			StructureDefn structDefn = (StructureDefn) struct.getDefn( );
+		if (struct != null) {
+			StructureDefn structDefn = (StructureDefn) struct.getDefn();
 			assert structDefn != null;
 
-			propDefn = (StructPropertyDefn) structDefn.getMember( name );
-		}
-		else
-		{
-			propDefn = element.getPropertyDefn( name );
+			propDefn = (StructPropertyDefn) structDefn.getMember(name);
+		} else {
+			propDefn = element.getPropertyDefn(name);
 		}
 
-		if ( propDefn == null )
-		{
-			DesignParserException e = new DesignParserException(
-					new String[]{name},
-					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
-			RecoverableError.dealUndefinedProperty( handler, e );
+		if (propDefn == null) {
+			DesignParserException e = new DesignParserException(new String[] { name },
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY);
+			RecoverableError.dealUndefinedProperty(handler, e);
 
 			valid = false;
 			return;
 		}
 
-		if ( !EncryptionUtil.canEncrypt( propDefn ) )
-		{
-			DesignParserException e = new DesignParserException(
-					new String[]{propDefn.getName( )},
-					DesignParserException.DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE );
-			handler.getErrorHandler( ).semanticError( e );
+		if (!EncryptionUtil.canEncrypt(propDefn)) {
+			DesignParserException e = new DesignParserException(new String[] { propDefn.getName() },
+					DesignParserException.DESIGN_EXCEPTION_PROPERTY_IS_NOT_ENCRYPTABLE);
+			handler.getErrorHandler().semanticError(e);
 			valid = false;
 			return;
 		}
 
-		String valueToSet = StringUtil.trimString( value );
-		if ( null == valueToSet )
+		String valueToSet = StringUtil.trimString(value);
+		if (null == valueToSet)
 			return;
 
 		// do some backward-compatibility
-		if ( handler.versionNumber < VersionUtil.VERSION_3_2_15 )
-		{
+		if (handler.versionNumber < VersionUtil.VERSION_3_2_15) {
 			IEncryptionHelper helper = null;
 			String encryption = null;
-			if ( struct != null )
-				helper = SimpleEncryptionHelper.getInstance( );
-			else
-			{
-				encryption = encryptionID == null
-						? SimpleEncryptionHelper.ENCRYPTION_ID
-						: encryptionID;
-				helper = MetaDataDictionary.getInstance( ).getEncryptionHelper(
-						encryption );
+			if (struct != null)
+				helper = SimpleEncryptionHelper.getInstance();
+			else {
+				encryption = encryptionID == null ? SimpleEncryptionHelper.ENCRYPTION_ID : encryptionID;
+				helper = MetaDataDictionary.getInstance().getEncryptionHelper(encryption);
 			}
-			if ( helper != SimpleEncryptionHelper.getInstance( ) )
-			{
-				valueToSet = SimpleEncryptionHelper.getInstance( ).decrypt(
-						valueToSet );
-				valueToSet = helper == null ? valueToSet : helper
-						.encrypt( valueToSet );
+			if (helper != SimpleEncryptionHelper.getInstance()) {
+				valueToSet = SimpleEncryptionHelper.getInstance().decrypt(valueToSet);
+				valueToSet = helper == null ? valueToSet : helper.encrypt(valueToSet);
 
 				// set encryption id
-				if ( struct == null )
-					element.setEncryptionHelper(
-							(ElementPropertyDefn) propDefn, encryption );
-			}
-			else
-			{
-				if ( struct == null )
-					element.setEncryptionHelper(
-							(ElementPropertyDefn) propDefn, encryption );
+				if (struct == null)
+					element.setEncryptionHelper((ElementPropertyDefn) propDefn, encryption);
+			} else {
+				if (struct == null)
+					element.setEncryptionHelper((ElementPropertyDefn) propDefn, encryption);
 			}
 		}
 
-		if ( struct != null )
-		{
+		if (struct != null) {
 			// do some special for property binding value
-			if ( struct instanceof PropertyBinding )
-			{
+			if (struct instanceof PropertyBinding) {
 				PropertyBinding propBinding = (PropertyBinding) struct;
-				propBinding.setEncryption( encryptionID );
+				propBinding.setEncryption(encryptionID);
 			}
-			doSetMember( struct, propDefn.getName( ),
-					(StructPropertyDefn) propDefn, convertToExpression(
-							propDefn, valueToSet ) );
+			doSetMember(struct, propDefn.getName(), (StructPropertyDefn) propDefn,
+					convertToExpression(propDefn, valueToSet));
 			return;
 		}
 
 		// set encryption id
-		if ( encryptionID != null )
-		{
-			element.setEncryptionHelper( name, encryptionID );
+		if (encryptionID != null) {
+			element.setEncryptionHelper(name, encryptionID);
 		}
-		doSetProperty( propDefn, convertToExpression( propDefn, valueToSet ) );
+		doSetProperty(propDefn, convertToExpression(propDefn, valueToSet));
 	}
 
 	/**
-	 * Converts input value to expression. If the property type is expression
-	 * and the exprType is not null, the String value will be converted to
-	 * Expression.
+	 * Converts input value to expression. If the property type is expression and
+	 * the exprType is not null, the String value will be converted to Expression.
 	 * 
-	 * @param defn
-	 *            property definition.
-	 * @param valueToSet
-	 *            the value.
+	 * @param defn       property definition.
+	 * @param valueToSet the value.
 	 * @return the converted object.
 	 */
-	private Object convertToExpression( PropertyDefn defn, String valueToSet )
-	{
-		if ( defn.allowExpression( ) )
-		{
-			return new Expression( valueToSet, ExpressionType.CONSTANT );
+	private Object convertToExpression(PropertyDefn defn, String valueToSet) {
+		if (defn.allowExpression()) {
+			return new Expression(valueToSet, ExpressionType.CONSTANT);
 		}
 		return valueToSet;
 	}

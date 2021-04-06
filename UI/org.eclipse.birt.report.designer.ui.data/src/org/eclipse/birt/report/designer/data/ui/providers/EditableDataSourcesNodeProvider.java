@@ -20,24 +20,19 @@ import org.eclipse.jface.viewers.TreeViewer;
 /**
  * Deals with data sources node
  */
-public class EditableDataSourcesNodeProvider extends DataSourcesNodeProvider
-{
+public class EditableDataSourcesNodeProvider extends DataSourcesNodeProvider {
 
 	/**
 	 * Creates the context menu for the given object. Gets the action from the
 	 * actionRegistry and adds them to the given menu.
 	 * 
-	 * @param menu
-	 *            the menu
-	 * @param object
-	 *            the object
+	 * @param menu   the menu
+	 * @param object the object
 	 */
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
-		menu.add( new NewDataSourceAction( Messages.getString( "datasource.action.new" ) ) ); //$NON-NLS-1$
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
+		menu.add(new NewDataSourceAction(Messages.getString("datasource.action.new"))); //$NON-NLS-1$
 
-		super.createContextMenu( sourceViewer, object, menu );
+		super.createContextMenu(sourceViewer, object, menu);
 	}
 
 }

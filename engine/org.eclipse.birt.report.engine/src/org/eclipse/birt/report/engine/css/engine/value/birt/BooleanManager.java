@@ -21,13 +21,12 @@ public class BooleanManager extends IdentifierManager {
 		values.put(BIRTConstants.BIRT_TRUE_VALUE, BIRTValueConstants.TRUE_VALUE);
 		values.put(BIRTConstants.BIRT_FALSE_VALUE, BIRTValueConstants.FALSE_VALUE);
 	}
-	
+
 	protected String propertyName;
 	protected boolean inherit;
 	protected boolean defaultValue;
-	
-	public BooleanManager(String propertyName, boolean inherit, boolean defaultValue)
-	{
+
+	public BooleanManager(String propertyName, boolean inherit, boolean defaultValue) {
 		this.propertyName = propertyName;
 		this.inherit = inherit;
 		this.defaultValue = defaultValue;
@@ -45,6 +44,7 @@ public class BooleanManager extends IdentifierManager {
 	public boolean isInheritedProperty() {
 		return inherit;
 	}
+
 	public Value getDefaultValue() {
 		return defaultValue ? BIRTValueConstants.TRUE_VALUE : BIRTValueConstants.FALSE_VALUE;
 	}

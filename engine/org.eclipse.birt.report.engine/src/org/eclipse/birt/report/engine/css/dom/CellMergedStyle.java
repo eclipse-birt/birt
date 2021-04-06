@@ -32,8 +32,7 @@ import org.w3c.dom.css.CSSValue;
  * outputed in the cell.
  * 
  */
-public class CellMergedStyle extends AbstractStyle
-{
+public class CellMergedStyle extends AbstractStyle {
 	IStyle cellStyle;
 	IStyle rowStyle;
 	IStyle columnStyle;
@@ -43,23 +42,19 @@ public class CellMergedStyle extends AbstractStyle
 	 *
 	 * @param cell the cell.
 	 */
-	public CellMergedStyle( ICellContent cell )
-	{
-		super( cell.getCSSEngine( ) );
-		this.cellStyle = cell.getStyle( );
-		IElement parent = cell.getParent( );
-		if ( parent instanceof IRowContent )
-		{
+	public CellMergedStyle(ICellContent cell) {
+		super(cell.getCSSEngine());
+		this.cellStyle = cell.getStyle();
+		IElement parent = cell.getParent();
+		if (parent instanceof IRowContent) {
 			IRowContent row = (IRowContent) parent;
-			rowStyle = row.getStyle( );
-			ITableContent table = row.getTable( );
-			if ( table != null )
-			{
-				int columnId = cell.getColumn( );
-				if ( columnId >= 0 && columnId < table.getColumnCount( ) )
-				{
-					IColumn column = table.getColumn( columnId );
-					columnStyle = column.getStyle( );
+			rowStyle = row.getStyle();
+			ITableContent table = row.getTable();
+			if (table != null) {
+				int columnId = cell.getColumn();
+				if (columnId >= 0 && columnId < table.getColumnCount()) {
+					IColumn column = table.getColumn(columnId);
+					columnStyle = column.getStyle();
 				}
 			}
 		}
@@ -71,7 +66,7 @@ public class CellMergedStyle extends AbstractStyle
 	 * 
 	 * <li>the property has been defined in the cell style, return null.
 	 * 
-	 * <li> property which has been defined in the column but not defined in the
+	 * <li>property which has been defined in the column but not defined in the
 	 * cell.
 	 * <li>if it is not inheritable attributes
 	 * <ul>
@@ -86,56 +81,41 @@ public class CellMergedStyle extends AbstractStyle
 	 * </ul>
 	 * </ul>
 	 */
-	public CSSValue getProperty( int index )
-	{
-		if ( cellStyle != null && cellStyle.getProperty( index ) != null )
-		{
+	public CSSValue getProperty(int index) {
+		if (cellStyle != null && cellStyle.getProperty(index) != null) {
 			return null;
 		}
-		
-		if ( columnStyle == null )
-		{
+
+		if (columnStyle == null) {
 			return null;
 		}
-		
-		CSSValue value = columnStyle.getProperty( index );
-		if ( value == null )
-		{
+
+		CSSValue value = columnStyle.getProperty(index);
+		if (value == null) {
 			return null;
 		}
 		// value != null
-		if ( !engine.isInheritedProperty( index ) )
-		{
-			if ( isBackgroundProperties( index ) )
-			{
-				if ( rowStyle != null )
-				{
-					CSSValue rowValue = rowStyle.getProperty( index );
-					if ( rowValue != null )
-					{
+		if (!engine.isInheritedProperty(index)) {
+			if (isBackgroundProperties(index)) {
+				if (rowStyle != null) {
+					CSSValue rowValue = rowStyle.getProperty(index);
+					if (rowValue != null) {
 						return null;
 					}
 				}
 			}
-			if ( index == STYLE_VERTICAL_ALIGN )
-			{
-				if ( rowStyle != null )
-				{
-					CSSValue rowValue = rowStyle.getProperty( index );
-					if ( rowValue != null )
-					{
+			if (index == STYLE_VERTICAL_ALIGN) {
+				if (rowStyle != null) {
+					CSSValue rowValue = rowStyle.getProperty(index);
+					if (rowValue != null) {
 						return null;
 					}
 				}
 			}
-		}
-		else
-		{
-			if ( rowStyle != null )
-			{
-				CSSValue rowValue = rowStyle.getProperty( index );
-				if ( rowValue != null )
-				{
+		} else {
+			if (rowStyle != null) {
+				CSSValue rowValue = rowStyle.getProperty(index);
+				if (rowValue != null) {
 					return null;
 				}
 			}
@@ -144,34 +124,25 @@ public class CellMergedStyle extends AbstractStyle
 		return value;
 	}
 
-	public boolean isEmpty( )
-	{
-		if ( cellStyle != null && !cellStyle.isEmpty( ) )
-		{
+	public boolean isEmpty() {
+		if (cellStyle != null && !cellStyle.isEmpty()) {
 			return false;
 		}
-		if ( rowStyle != null && !rowStyle.isEmpty( ) )
-		{
+		if (rowStyle != null && !rowStyle.isEmpty()) {
 			return false;
 		}
-		if ( columnStyle != null && !columnStyle.isEmpty( ) )
-		{
+		if (columnStyle != null && !columnStyle.isEmpty()) {
 			return false;
 		}
 		return true;
 	}
 
-	public void setProperty( int index, CSSValue value )
-	{
+	public void setProperty(int index, CSSValue value) {
 	}
 
-	private boolean isBackgroundProperties( int index )
-	{
-		if (StyleConstants.STYLE_BACKGROUND_COLOR==index 
-				||StyleConstants.STYLE_BACKGROUND_ATTACHMENT==index
-				||StyleConstants.STYLE_BACKGROUND_IMAGE==index
-				||StyleConstants.STYLE_BACKGROUND_REPEAT==index)
-		{
+	private boolean isBackgroundProperties(int index) {
+		if (StyleConstants.STYLE_BACKGROUND_COLOR == index || StyleConstants.STYLE_BACKGROUND_ATTACHMENT == index
+				|| StyleConstants.STYLE_BACKGROUND_IMAGE == index || StyleConstants.STYLE_BACKGROUND_REPEAT == index) {
 			return true;
 		}
 		return false;

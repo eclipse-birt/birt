@@ -18,22 +18,18 @@ import org.eclipse.birt.report.model.core.Module;
  * This class represents a measure element.
  */
 
-public class TabularMeasureHandle extends MeasureHandle
-{
+public class TabularMeasureHandle extends MeasureHandle {
 
 	/**
-	 * Constructs a handle for the given design and design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * Constructs a handle for the given design and design element. The application
+	 * generally does not create handles directly. Instead, it uses one of the
+	 * navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public TabularMeasureHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public TabularMeasureHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 }

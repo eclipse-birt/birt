@@ -30,66 +30,52 @@ import org.eclipse.gef.commands.Command;
  * 
  */
 
-public class SetPropertyCommand extends Command
-{
-	private static Logger logger = Logger.getLogger( SetPropertyCommand.class.getName( ) );
-	
+public class SetPropertyCommand extends Command {
+	private static Logger logger = Logger.getLogger(SetPropertyCommand.class.getName());
+
 	private Object model;
 
 	private Map extendsData;
 
-	public SetPropertyCommand( Object model, Map extendsData )
-	{
+	public SetPropertyCommand(Object model, Map extendsData) {
 		this.model = model;
 		this.extendsData = extendsData;
 	}
 
 	/**
-	 * Executes the Command. This method should not be called if the Command is
-	 * not executable.
+	 * Executes the Command. This method should not be called if the Command is not
+	 * executable.
 	 */
 
-	public void execute( )
-	{
-		if ( DesignerConstants.TRACING_COMMANDS )
-		{
-			System.out.println( "SetPropertyCommand >> Starts ..." ); //$NON-NLS-1$
+	public void execute() {
+		if (DesignerConstants.TRACING_COMMANDS) {
+			System.out.println("SetPropertyCommand >> Starts ..."); //$NON-NLS-1$
 		}
-		try
-		{
+		try {
 			DesignElementHandle handle = (DesignElementHandle) model;
-			List elementProperties = handle.getDefn( ).getProperties( );
+			List elementProperties = handle.getDefn().getProperties();
 
-			for ( Iterator it = elementProperties.iterator( ); it.hasNext( ); )
-			{
-				String key = ( (IElementPropertyDefn) it.next( ) ).getName( );
+			for (Iterator it = elementProperties.iterator(); it.hasNext();) {
+				String key = ((IElementPropertyDefn) it.next()).getName();
 				Object value = null;
-				if ( ( value = extendsData.get( DEUtil.getGUIPropertyKey( key ) ) ) != null )
-				{
-					if ( DesignerConstants.TRACING_COMMANDS )
-					{
-						System.out.println( "SetPropertyCommand >>  Target: " //$NON-NLS-1$
-								+ DEUtil.getDisplayLabel( handle )
-								+ ",Property: " //$NON-NLS-1$
-								+ key
-								+ ",Value: " //$NON-NLS-1$
-								+ value );
+				if ((value = extendsData.get(DEUtil.getGUIPropertyKey(key))) != null) {
+					if (DesignerConstants.TRACING_COMMANDS) {
+						System.out.println("SetPropertyCommand >>  Target: " //$NON-NLS-1$
+								+ DEUtil.getDisplayLabel(handle) + ",Property: " //$NON-NLS-1$
+								+ key + ",Value: " //$NON-NLS-1$
+								+ value);
 					}
-					handle.setProperty( key, value );
+					handle.setProperty(key, value);
 				}
 			}
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "SetPropertyCommand >> Finished" ); //$NON-NLS-1$
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("SetPropertyCommand >> Finished"); //$NON-NLS-1$
 			}
-		}
-		catch ( SemanticException e )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "SetPropertyCommand >> Failed" ); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("SetPropertyCommand >> Failed"); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE,e.getMessage( ), e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 }

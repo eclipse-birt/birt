@@ -14,12 +14,14 @@ package org.eclipse.birt.chart.model.data;
 import org.eclipse.birt.chart.model.IChartObject;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Element</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object
+ * '<em><b>Element</b></em>'. <!-- end-user-doc -->
  *
  * <!-- begin-model-doc -->
  * 
- * 			This type defines a single element of data to be plotted in a chart. A data element can hold a scalar or a multi-dimensional value.
- * 			
+ * This type defines a single element of data to be plotted in a chart. A data
+ * element can hold a scalar or a multi-dimensional value.
+ * 
  * <!-- end-model-doc -->
  *
  *
@@ -28,12 +30,11 @@ import org.eclipse.birt.chart.model.IChartObject;
  * @extends IChartObject
  * @generated
  */
-public interface DataElement extends IChartObject
-{
+public interface DataElement extends IChartObject {
 
 	/**
 	 * @generated
 	 */
-	DataElement copyInstance( );
+	DataElement copyInstance();
 
 } // DataElement

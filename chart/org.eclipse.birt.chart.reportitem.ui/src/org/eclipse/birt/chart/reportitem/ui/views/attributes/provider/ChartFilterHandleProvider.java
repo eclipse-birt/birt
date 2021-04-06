@@ -19,50 +19,43 @@ import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IF
 import org.eclipse.birt.report.designer.util.DEUtil;
 import org.eclipse.birt.report.model.api.ReportItemHandle;
 
-
 /**
  * Chart filter handle provider.
  * 
  * @since 2.3
  */
-public class ChartFilterHandleProvider extends ChartFilterProviderDelegate
-{
+public class ChartFilterHandleProvider extends ChartFilterProviderDelegate {
 
-	public ChartFilterHandleProvider( AbstractFilterHandleProvider baseProvider )
-	{
-		super( baseProvider );
+	public ChartFilterHandleProvider(AbstractFilterHandleProvider baseProvider) {
+		super(baseProvider);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.CrosstabFilterHandleProvider#getConcreteFilterProvider()
+	 * @see org.eclipse.birt.report.item.crosstab.ui.views.attributes.provider.
+	 * CrosstabFilterHandleProvider#getConcreteFilterProvider()
 	 */
-	public IFormProvider getConcreteFilterProvider( )
-	{
-		if ( input == null ) {
+	public IFormProvider getConcreteFilterProvider() {
+		if (input == null) {
 			return this;
 		}
 
-		return ChartFilterProviderDelegate.createFilterProvider( input,
-				getInput( ) );
+		return ChartFilterProviderDelegate.createFilterProvider(input, getInput());
 	}
 
 	@Override
-	public boolean isEditable( )
-	{
-		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+	public boolean isEditable() {
+		if (((ReportItemHandle) DEUtil.getInputFirstElement(super.input))
+				.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
 			return false;
 		Object handle = null;
-		if ( input instanceof List<?> )
-		{
-			handle = ( (List<?>) input ).get( 0 );
-		}
-		else
-		{
+		if (input instanceof List<?>) {
+			handle = ((List<?>) input).get(0);
+		} else {
 			handle = input;
 		}
 		ReportItemHandle rih = (ReportItemHandle) handle;
-		return !ChartItemUtil.isChartInheritGroups( rih );
+		return !ChartItemUtil.isChartInheritGroups(rih);
 	}
 }

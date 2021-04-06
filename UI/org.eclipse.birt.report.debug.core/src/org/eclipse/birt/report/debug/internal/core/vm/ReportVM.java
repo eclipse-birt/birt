@@ -24,8 +24,7 @@ import org.mozilla.javascript.debug.Debugger;
 /**
  * ReportVM
  */
-public class ReportVM implements VMConstants
-{
+public class ReportVM implements VMConstants {
 
 	private List vmListeners;
 
@@ -53,123 +52,104 @@ public class ReportVM implements VMConstants
 
 	private ContextFactory.Listener factoryListener;
 
-	public ReportVM( )
-	{
-		vmListeners = new ArrayList( );
-		bpListeners = new ArrayList( );
-		deferredBreakPoints = new LinkedList( );
-		monitor = new Object( );
+	public ReportVM() {
+		vmListeners = new ArrayList();
+		bpListeners = new ArrayList();
+		deferredBreakPoints = new LinkedList();
+		monitor = new Object();
 	}
 
-	public void attach( Context cx )
-	{
-		attach( cx, false );
+	public void attach(Context cx) {
+		attach(cx, false);
 	}
 
-	public void attach( Context cx, boolean startSuspended )
-	{
+	public void attach(Context cx, boolean startSuspended) {
 		isStartSuspended = startSuspended;
 
-		jsDebugger = new JsDebugger( this );
+		jsDebugger = new JsDebugger(this);
 
 		isAttached = true;
 
-		factoryListener = new ContextFactory.Listener( ) {
+		factoryListener = new ContextFactory.Listener() {
 
-			public void contextCreated( Context cx )
-			{
-				JsContextData cxData = new JsContextData( );
+			public void contextCreated(Context cx) {
+				JsContextData cxData = new JsContextData();
 
-				cx.setDebugger( jsDebugger, cxData );
-				cx.setGeneratingDebug( true );
-				cx.setOptimizationLevel( -1 );
+				cx.setDebugger(jsDebugger, cxData);
+				cx.setGeneratingDebug(true);
+				cx.setOptimizationLevel(-1);
 			}
 
-			public void contextReleased( Context cx )
-			{
-				cx.setDebugger( null, null );
+			public void contextReleased(Context cx) {
+				cx.setDebugger(null, null);
 			}
 
 		};
 
 		// cx.getFactory( ).addListener( factoryListener );
 
-		if ( cx.getDebugger( ) == null )
-		{
-			JsContextData cxData = new JsContextData( );
+		if (cx.getDebugger() == null) {
+			JsContextData cxData = new JsContextData();
 
-			cx.setDebugger( jsDebugger, cxData );
-			cx.setGeneratingDebug( true );
-			cx.setOptimizationLevel( -1 );
+			cx.setDebugger(jsDebugger, cxData);
+			cx.setGeneratingDebug(true);
+			cx.setOptimizationLevel(-1);
 
-			addDeferredBreakPoints( );
+			addDeferredBreakPoints();
 		}
 
-		if ( startSuspended )
-		{
+		if (startSuspended) {
 			currentVMState = VM_SUSPEND;
 
-			Object cxData = cx.getDebuggerContextData( );
+			Object cxData = cx.getDebuggerContextData();
 
-			if ( cxData instanceof JsContextData )
-			{
-				( (JsContextData) cxData ).setBreakOnStart( true );
+			if (cxData instanceof JsContextData) {
+				((JsContextData) cxData).setBreakOnStart(true);
 			}
-		}
-		else
-		{
+		} else {
 			currentVMState = VM_STARTED;
-			dispatchEvent( VM_STARTED, null );
+			dispatchEvent(VM_STARTED, null);
 		}
 	}
 
-	public void detach( Context cx )
-	{
-		if ( !isTerminated( ) )
-		{
-			terminate( );
+	public void detach(Context cx) {
+		if (!isTerminated()) {
+			terminate();
 		}
 
-		Debugger dbg = cx.getDebugger( );
+		Debugger dbg = cx.getDebugger();
 
-		if ( dbg instanceof JsDebugger )
-		{
-			cx.setDebugger( null, null );
+		if (dbg instanceof JsDebugger) {
+			cx.setDebugger(null, null);
 		}
 
 		isAttached = false;
 
-		if ( jsDebugger != null )
-		{
-			jsDebugger.dispose( );
+		if (jsDebugger != null) {
+			jsDebugger.dispose();
 			jsDebugger = null;
 		}
 
-		if ( factoryListener != null )
-		{
-			cx.getFactory( ).removeListener( factoryListener );
+		if (factoryListener != null) {
+			cx.getFactory().removeListener(factoryListener);
 			factoryListener = null;
 		}
 	}
 
-	public void dispose( Context cx )
-	{
-		detach( cx );
+	public void dispose(Context cx) {
+		detach(cx);
 
-		vmListeners.clear( );
-		bpListeners.clear( );
-		deferredBreakPoints.clear( );
+		vmListeners.clear();
+		bpListeners.clear();
+		deferredBreakPoints.clear();
 	}
 
-	public VMStackFrame[] getStackFrames( )
-	{
-		if ( isSuspended( ) && currentContextData != null )
-		{
-			VMStackFrame[] frames = new VMStackFrame[currentContextData.frameCount( )];
+	public VMStackFrame[] getStackFrames() {
+		if (isSuspended() && currentContextData != null) {
+			VMStackFrame[] frames = new VMStackFrame[currentContextData.frameCount()];
 
-			for ( int i = 0; i < frames.length; i++ )
-			{
-				frames[i] = currentContextData.getFrame( i );
+			for (int i = 0; i < frames.length; i++) {
+				frames[i] = currentContextData.getFrame(i);
 			}
 
 			return frames;
@@ -178,51 +158,37 @@ public class ReportVM implements VMConstants
 		return NO_FRAMES;
 	}
 
-	public VMStackFrame getStackFrame( int index )
-	{
-		if ( index < 0 || !isSuspended( ) )
-		{
+	public VMStackFrame getStackFrame(int index) {
+		if (index < 0 || !isSuspended()) {
 			return null;
 		}
-		if ( currentContextData != null
-				&& index < currentContextData.frameCount( ) )
-		{
-			return currentContextData.getFrame( index );
+		if (currentContextData != null && index < currentContextData.frameCount()) {
+			return currentContextData.getFrame(index);
 		}
 
 		return null;
 	}
 
-	public VMValue evaluate( String expression )
-	{
-		if ( isSuspended( )
-				&& expression != null
-				&& currentContextData != null
-				&& currentContextData.getCurrentFrame( ) != null )
-		{
-			synchronized ( monitor )
-			{
+	public VMValue evaluate(String expression) {
+		if (isSuspended() && expression != null && currentContextData != null
+				&& currentContextData.getCurrentFrame() != null) {
+			synchronized (monitor) {
 				evalRequest = expression;
-				monitor.notify( );
+				monitor.notify();
 
-				do
-				{
-					try
-					{
-						monitor.wait( );
-					}
-					catch ( InterruptedException exc )
-					{
-						Thread.currentThread( ).interrupt( );
+				do {
+					try {
+						monitor.wait();
+					} catch (InterruptedException exc) {
+						Thread.currentThread().interrupt();
 						return null;
 					}
 
-					if ( isTerminated( ) )
-					{
+					if (isTerminated()) {
 						break;
 					}
 
-				} while ( evalRequest != null );
+				} while (evalRequest != null);
 
 				return (VMValue) evalResult;
 			}
@@ -230,73 +196,54 @@ public class ReportVM implements VMConstants
 		return null;
 	}
 
-	public VMVariable[] getVariables( )
-	{
-		if ( isSuspended( ) && currentContextData != null )
-		{
-			VMStackFrame frame = currentContextData.getCurrentFrame( );
+	public VMVariable[] getVariables() {
+		if (isSuspended() && currentContextData != null) {
+			VMStackFrame frame = currentContextData.getCurrentFrame();
 
-			if ( frame != null )
-			{
-				return frame.getVariables( );
+			if (frame != null) {
+				return frame.getVariables();
 			}
 		}
 		return NO_VARS;
 	}
 
-	int currentState( )
-	{
+	int currentState() {
 		return currentVMState;
 	}
 
-	void interrupt( VMContextData contextData, int interruptState )
-	{
-		synchronized ( monitor )
-		{
-			try
-			{
+	void interrupt(VMContextData contextData, int interruptState) {
+		synchronized (monitor) {
+			try {
 				suspended = true;
 				currentVMState = interruptState;
 				evalRequest = null;
 
-				if ( isStartSuspended )
-				{
+				if (isStartSuspended) {
 					// This is the first started suspended event
 					isStartSuspended = false;
-					dispatchEvent( VM_STARTED, contextData );
-				}
-				else
-				{
-					dispatchEvent( currentVMState, contextData );
+					dispatchEvent(VM_STARTED, contextData);
+				} else {
+					dispatchEvent(currentVMState, contextData);
 				}
 
-				while ( true )
-				{
-					try
-					{
-						monitor.wait( );
-					}
-					catch ( InterruptedException exc )
-					{
-						Thread.currentThread( ).interrupt( );
+				while (true) {
+					try {
+						monitor.wait();
+					} catch (InterruptedException exc) {
+						Thread.currentThread().interrupt();
 						return;
 					}
 
-					if ( evalRequest != null )
-					{
+					if (evalRequest != null) {
 						evalResult = null;
 
 						// TODO ensure current contextData
 
-						try
-						{
-							evalResult = contextData.getCurrentFrame( )
-									.evaluate( evalRequest );
-						}
-						finally
-						{
+						try {
+							evalResult = contextData.getCurrentFrame().evaluate(evalRequest);
+						} finally {
 							evalRequest = null;
-							monitor.notify( );
+							monitor.notify();
 						}
 
 						continue;
@@ -304,36 +251,31 @@ public class ReportVM implements VMConstants
 
 					break;
 				}
-			}
-			finally
-			{
+			} finally {
 				suspended = false;
 			}
 
-			if ( isTerminated( ) )
-			{
+			if (isTerminated()) {
 				return;
 			}
 		}
 
-		dispatchEvent( VM_RESUMED, contextData );
+		dispatchEvent(VM_RESUMED, contextData);
 
 		// TODO extract public interface to access step info
 
-		switch ( currentVMState )
-		{
-			case VM_STEP_OVER :
-				( (JsContextData) contextData ).breakNextLine( contextData.frameCount( ) );
-				break;
-			case VM_STEP_INTO :
-				( (JsContextData) contextData ).breakNextLine( -1 );
-				break;
-			case VM_STEP_OUT :
-				if ( contextData.frameCount( ) > 1 )
-				{
-					( (JsContextData) contextData ).breakNextLine( contextData.frameCount( ) - 1 );
-				}
-				break;
+		switch (currentVMState) {
+		case VM_STEP_OVER:
+			((JsContextData) contextData).breakNextLine(contextData.frameCount());
+			break;
+		case VM_STEP_INTO:
+			((JsContextData) contextData).breakNextLine(-1);
+			break;
+		case VM_STEP_OUT:
+			if (contextData.frameCount() > 1) {
+				((JsContextData) contextData).breakNextLine(contextData.frameCount() - 1);
+			}
+			break;
 		}
 
 		// synchronized ( monitor )
@@ -342,204 +284,155 @@ public class ReportVM implements VMConstants
 		// }
 	}
 
-	public void suspend( )
-	{
-		synchronized ( monitor )
-		{
+	public void suspend() {
+		synchronized (monitor) {
 			currentVMState = VM_SUSPEND;
 		}
 	}
 
-	public void resume( )
-	{
-		synchronized ( monitor )
-		{
+	public void resume() {
+		synchronized (monitor) {
 			currentVMState = VM_RESUME;
-			monitor.notifyAll( );
+			monitor.notifyAll();
 		}
 	}
 
-	public void resume( VMBreakPoint bp, boolean forceBreak )
-	{
+	public void resume(VMBreakPoint bp, boolean forceBreak) {
 
 	}
 
-	public void step( )
-	{
-		synchronized ( monitor )
-		{
+	public void step() {
+		synchronized (monitor) {
 			currentVMState = VM_STEP_OVER;
-			monitor.notifyAll( );
+			monitor.notifyAll();
 		}
 	}
 
-	public void stepInto( )
-	{
-		synchronized ( monitor )
-		{
+	public void stepInto() {
+		synchronized (monitor) {
 			currentVMState = VM_STEP_INTO;
-			monitor.notifyAll( );
+			monitor.notifyAll();
 		}
 	}
 
-	public void stepOut( )
-	{
-		synchronized ( monitor )
-		{
+	public void stepOut() {
+		synchronized (monitor) {
 			currentVMState = VM_STEP_OUT;
-			monitor.notifyAll( );
+			monitor.notifyAll();
 		}
 	}
 
-	public void terminate( )
-	{
-		synchronized ( monitor )
-		{
+	public void terminate() {
+		synchronized (monitor) {
 			currentVMState = VM_TERMINATED;
-			monitor.notifyAll( );
+			monitor.notifyAll();
 
-			dispatchEvent( VM_TERMINATED, null );
+			dispatchEvent(VM_TERMINATED, null);
 		}
 	}
 
-	public boolean isSuspended( )
-	{
-		return suspended && ( currentVMState != VM_TERMINATED );
+	public boolean isSuspended() {
+		return suspended && (currentVMState != VM_TERMINATED);
 	}
 
-	public boolean isTerminated( )
-	{
+	public boolean isTerminated() {
 		return currentVMState == VM_TERMINATED;
 	}
 
-	public void addVMListener( VMListener listener )
-	{
-		if ( !vmListeners.contains( listener ) )
-		{
-			vmListeners.add( listener );
+	public void addVMListener(VMListener listener) {
+		if (!vmListeners.contains(listener)) {
+			vmListeners.add(listener);
 		}
 	}
 
-	public void removeVMListener( VMListener listener )
-	{
-		vmListeners.remove( listener );
+	public void removeVMListener(VMListener listener) {
+		vmListeners.remove(listener);
 	}
 
-	public void addBreakPointListener( VMBreakPointListener listener )
-	{
-		if ( !bpListeners.contains( listener ) )
-		{
-			bpListeners.add( listener );
+	public void addBreakPointListener(VMBreakPointListener listener) {
+		if (!bpListeners.contains(listener)) {
+			bpListeners.add(listener);
 		}
 	}
 
-	public void removeBreakPointListener( VMBreakPointListener listener )
-	{
-		bpListeners.remove( listener );
+	public void removeBreakPointListener(VMBreakPointListener listener) {
+		bpListeners.remove(listener);
 	}
 
-	public void addBreakPoint( VMBreakPoint bp )
-	{
-		if ( isAttached )
-		{
-			notifyBreakPointChange( bp, ADD );
-		}
-		else if ( !deferredBreakPoints.contains( bp ) )
-		{
-			deferredBreakPoints.add( bp );
+	public void addBreakPoint(VMBreakPoint bp) {
+		if (isAttached) {
+			notifyBreakPointChange(bp, ADD);
+		} else if (!deferredBreakPoints.contains(bp)) {
+			deferredBreakPoints.add(bp);
 		}
 	}
 
-	public void removeBreakPoint( VMBreakPoint bp )
-	{
-		if ( isAttached )
-		{
-			notifyBreakPointChange( bp, REMOVE );
-		}
-		else if ( deferredBreakPoints.contains( bp ) )
-		{
-			deferredBreakPoints.remove( bp );
+	public void removeBreakPoint(VMBreakPoint bp) {
+		if (isAttached) {
+			notifyBreakPointChange(bp, REMOVE);
+		} else if (deferredBreakPoints.contains(bp)) {
+			deferredBreakPoints.remove(bp);
 		}
 	}
 
-	public void modifyBreakPoint( VMBreakPoint bp )
-	{
-		if ( isAttached )
-		{
-			notifyBreakPointChange( bp, CHANGE );
-		}
-		else if ( deferredBreakPoints.contains( bp ) )
-		{
+	public void modifyBreakPoint(VMBreakPoint bp) {
+		if (isAttached) {
+			notifyBreakPointChange(bp, CHANGE);
+		} else if (deferredBreakPoints.contains(bp)) {
 			// TODO
 		}
 	}
 
-	public void clearBreakPoints( )
-	{
-		if ( isAttached )
-		{
-			notifyBreakPointChange( null, CLEAR );
-		}
-		else
-		{
-			deferredBreakPoints.clear( );
+	public void clearBreakPoints() {
+		if (isAttached) {
+			notifyBreakPointChange(null, CLEAR);
+		} else {
+			deferredBreakPoints.clear();
 		}
 	}
 
-	private void addDeferredBreakPoints( )
-	{
-		for ( int i = 0; i < deferredBreakPoints.size( ); i++ )
-		{
-			notifyBreakPointChange( (VMBreakPoint) deferredBreakPoints.get( i ),
-					ADD );
+	private void addDeferredBreakPoints() {
+		for (int i = 0; i < deferredBreakPoints.size(); i++) {
+			notifyBreakPointChange((VMBreakPoint) deferredBreakPoints.get(i), ADD);
 		}
 
-		deferredBreakPoints.clear( );
+		deferredBreakPoints.clear();
 	}
 
-	private void notifyBreakPointChange( VMBreakPoint bp, int command )
-	{
-		switch ( command )
-		{
-			case ADD :
-				for ( int i = 0; i < bpListeners.size( ); i++ )
-				{
-					VMBreakPointListener bpListener = (VMBreakPointListener) bpListeners.get( i );
-					bpListener.breakPointAdded( bp );
-				}
-				break;
-			case REMOVE :
-				for ( int i = 0; i < bpListeners.size( ); i++ )
-				{
-					VMBreakPointListener bpListener = (VMBreakPointListener) bpListeners.get( i );
-					bpListener.breakPointRemoved( bp );
-				}
-				break;
-			case CHANGE :
-				for ( int i = 0; i < bpListeners.size( ); i++ )
-				{
-					VMBreakPointListener bpListener = (VMBreakPointListener) bpListeners.get( i );
-					bpListener.breakPointChanged( bp );
-				}
-				break;
-			case CLEAR :
-				for ( int i = 0; i < bpListeners.size( ); i++ )
-				{
-					VMBreakPointListener bpListener = (VMBreakPointListener) bpListeners.get( i );
-					bpListener.breakPointCleared( );
-				}
-				break;
+	private void notifyBreakPointChange(VMBreakPoint bp, int command) {
+		switch (command) {
+		case ADD:
+			for (int i = 0; i < bpListeners.size(); i++) {
+				VMBreakPointListener bpListener = (VMBreakPointListener) bpListeners.get(i);
+				bpListener.breakPointAdded(bp);
+			}
+			break;
+		case REMOVE:
+			for (int i = 0; i < bpListeners.size(); i++) {
+				VMBreakPointListener bpListener = (VMBreakPointListener) bpListeners.get(i);
+				bpListener.breakPointRemoved(bp);
+			}
+			break;
+		case CHANGE:
+			for (int i = 0; i < bpListeners.size(); i++) {
+				VMBreakPointListener bpListener = (VMBreakPointListener) bpListeners.get(i);
+				bpListener.breakPointChanged(bp);
+			}
+			break;
+		case CLEAR:
+			for (int i = 0; i < bpListeners.size(); i++) {
+				VMBreakPointListener bpListener = (VMBreakPointListener) bpListeners.get(i);
+				bpListener.breakPointCleared();
+			}
+			break;
 		}
 	}
 
-	private void dispatchEvent( int event, VMContextData contextData )
-	{
+	private void dispatchEvent(int event, VMContextData contextData) {
 		currentContextData = contextData;
 
-		for ( int i = 0; i < vmListeners.size( ); i++ )
-		{
-			( (VMListener) vmListeners.get( i ) ).handleEvent( event,
-					contextData );
+		for (int i = 0; i < vmListeners.size(); i++) {
+			((VMListener) vmListeners.get(i)).handleEvent(event, contextData);
 		}
 	}
 

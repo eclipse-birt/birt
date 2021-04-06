@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * 
  */
-public interface IFilterConditionElementModel
-{
+public interface IFilterConditionElementModel {
 
 	/**
 	 * Name of the filter operator property.
@@ -54,15 +53,14 @@ public interface IFilterConditionElementModel
 	String MEMBER_PROP = "member"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates whether this filter is optional or
-	 * not.
+	 * Name of the property that indicates whether this filter is optional or not.
 	 */
 
 	String IS_OPTIONAL_PROP = "isOptional"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates the extension name defined to map to
-	 * a BIRT filter operator.
+	 * Name of the property that indicates the extension name defined to map to a
+	 * BIRT filter operator.
 	 */
 
 	String EXTENSION_NAME_PROP = "extensionName"; //$NON-NLS-1$
@@ -75,22 +73,22 @@ public interface IFilterConditionElementModel
 	String EXTENSION_EXPR_ID_PROP = "extensionExprId"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates if the current filter condition will
-	 * be pushed down to the database.
+	 * Name of the property that indicates if the current filter condition will be
+	 * pushed down to the database.
 	 */
 
 	String PUSH_DOWN_PROP = "pushDown"; //$NON-NLS-1$
-	
+
 	/**
-	 * Name of the property that indicates if the current filter condition need
-	 * to update aggregation.
+	 * Name of the property that indicates if the current filter condition need to
+	 * update aggregation.
 	 */
 
 	String UPDATE_AGGREGATION_PROP = "updateAggregation"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates the name of the dynamic filter
-	 * parameter to reference.
+	 * Name of the property that indicates the name of the dynamic filter parameter
+	 * to reference.
 	 */
 
 	String DYNAMIC_FILTER_PARAMETER_PROP = "dynamicFilterParameter";//$NON-NLS-1$

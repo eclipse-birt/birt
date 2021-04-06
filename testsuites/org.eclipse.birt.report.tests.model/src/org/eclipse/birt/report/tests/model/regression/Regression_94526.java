@@ -32,30 +32,26 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * 
  * </p>
  */
-public class Regression_94526 extends BaseTestCase
-{
+public class Regression_94526 extends BaseTestCase {
 
 	private final static String INPUT = "regression_94526.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
-		copyResource_INPUT( INPUT, INPUT );
+		copyResource_INPUT(INPUT, INPUT);
 		System.out.println(INPUT);
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_94526( ) throws DesignFileException
-	{
-		openDesign( INPUT );
+
+	public void test_regression_94526() throws DesignFileException {
+		openDesign(INPUT);
 
 		// TODO: under review
 	}

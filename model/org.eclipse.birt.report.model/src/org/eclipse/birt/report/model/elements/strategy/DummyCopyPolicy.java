@@ -19,28 +19,27 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * every where.
  */
 
-public class DummyCopyPolicy  extends CopyPolicy
-{
+public class DummyCopyPolicy extends CopyPolicy {
 
 	/**
 	 * Private constructor.
 	 */
 
-	private DummyCopyPolicy( )
-	{
+	private DummyCopyPolicy() {
 	}
 
-	private final static DummyCopyPolicy instance = new DummyCopyPolicy( );
+	private final static DummyCopyPolicy instance = new DummyCopyPolicy();
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.elements.strategy.CopyStrategy#execute(org.eclipse.birt.report.model.core.DesignElement,
-	 *      org.eclipse.birt.report.model.core.DesignElement)
+	 * @see
+	 * org.eclipse.birt.report.model.elements.strategy.CopyStrategy#execute(org.
+	 * eclipse.birt.report.model.core.DesignElement,
+	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public void execute( DesignElement source, DesignElement destination )
-	{
+	public void execute(DesignElement source, DesignElement destination) {
 		return;
 	}
 
@@ -50,8 +49,7 @@ public class DummyCopyPolicy  extends CopyPolicy
 	 * @return the instance of this class
 	 */
 
-	public static DummyCopyPolicy getInstance( )
-	{
+	public static DummyCopyPolicy getInstance() {
 		return instance;
 	}
 

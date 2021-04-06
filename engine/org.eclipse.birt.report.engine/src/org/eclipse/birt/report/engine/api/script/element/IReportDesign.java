@@ -18,8 +18,7 @@ import org.eclipse.birt.report.engine.api.script.ScriptException;
  * 
  */
 
-public interface IReportDesign extends IDesignElement
-{
+public interface IReportDesign extends IDesignElement {
 
 	/**
 	 * method to get data set design by name
@@ -27,7 +26,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return data set
 	 */
-	IDataSet getDataSet( String name );
+	IDataSet getDataSet(String name);
 
 	/**
 	 * method to get data source design by name
@@ -35,7 +34,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return data source
 	 */
-	IDataSource getDataSource( String name );
+	IDataSource getDataSource(String name);
 
 	/**
 	 * generic method to get report item by name
@@ -43,7 +42,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return report element
 	 */
-	IReportElement getReportElement( String name );
+	IReportElement getReportElement(String name);
 
 	/**
 	 * Generic method to get report item by id.
@@ -51,7 +50,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param id
 	 * @return report element
 	 */
-	IReportElement getReportElementByID( long id );
+	IReportElement getReportElementByID(long id);
 
 	/**
 	 * method to get a label item by name
@@ -60,7 +59,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return label
 	 */
 
-	ILabel getLabel( String name );
+	ILabel getLabel(String name);
 
 	/**
 	 * method to get a master page by name
@@ -69,7 +68,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return master page
 	 */
 
-	IMasterPage getMasterPage( String name );
+	IMasterPage getMasterPage(String name);
 
 	/**
 	 * method to get a grid item by name
@@ -77,7 +76,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return grid
 	 */
-	IGrid getGrid( String name );
+	IGrid getGrid(String name);
 
 	/**
 	 * mathod to get a Image item by name
@@ -85,7 +84,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return iamge
 	 */
-	IImage getImage( String name );
+	IImage getImage(String name);
 
 	/**
 	 * method to get a list item by name
@@ -93,7 +92,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return list
 	 */
-	IList getList( String name );
+	IList getList(String name);
 
 	/**
 	 * method to get a table item by name
@@ -101,7 +100,7 @@ public interface IReportDesign extends IDesignElement
 	 * @param name
 	 * @return table
 	 */
-	ITable getTable( String name );
+	ITable getTable(String name);
 
 	/**
 	 * method to get a dynamic text data item by name.
@@ -110,19 +109,17 @@ public interface IReportDesign extends IDesignElement
 	 * @return text data
 	 */
 
-	IDynamicText getDynamicText( String name );
+	IDynamicText getDynamicText(String name);
 
 	/**
 	 * Sets the resource key of the display name.
 	 * 
-	 * @param displayNameKey
-	 *            the resource key of the display name
-	 * @throws ScriptException
-	 *             if the display name resource-key property is locked or not
-	 *             defined on this element.
+	 * @param displayNameKey the resource key of the display name
+	 * @throws ScriptException if the display name resource-key property is locked
+	 *                         or not defined on this element.
 	 */
 
-	void setDisplayNameKey( String displayNameKey ) throws ScriptException;
+	void setDisplayNameKey(String displayNameKey) throws ScriptException;
 
 	/**
 	 * Gets the resource key of the display name.
@@ -130,19 +127,17 @@ public interface IReportDesign extends IDesignElement
 	 * @return the resource key of the display name
 	 */
 
-	String getDisplayNameKey( );
+	String getDisplayNameKey();
 
 	/**
 	 * Sets the display name.
 	 * 
-	 * @param displayName
-	 *            the display name
-	 * @throws ScriptException
-	 *             if the display name property is locked or not defined on this
-	 *             element.
+	 * @param displayName the display name
+	 * @throws ScriptException if the display name property is locked or not defined
+	 *                         on this element.
 	 */
 
-	void setDisplayName( String displayName ) throws ScriptException;
+	void setDisplayName(String displayName) throws ScriptException;
 
 	/**
 	 * Gets the display name.
@@ -150,14 +145,14 @@ public interface IReportDesign extends IDesignElement
 	 * @return the display name
 	 */
 
-	String getDisplayName( );
+	String getDisplayName();
 
 	/**
 	 * Gets the theme for this report design.
 	 * 
 	 * @return
 	 */
-	String getTheme( );
+	String getTheme();
 
 	/**
 	 * Sets the theme for this report design.
@@ -165,15 +160,15 @@ public interface IReportDesign extends IDesignElement
 	 * @param theme
 	 * @throws ScriptException
 	 */
-	void setTheme( String theme ) throws ScriptException;
-	
+	void setTheme(String theme) throws ScriptException;
+
 	/**
 	 * Create <code>IHideRule</code> instance
 	 * 
 	 * @return IHideRule
 	 */
 
-	IHideRule createHideRule( );
+	IHideRule createHideRule();
 
 	/**
 	 * Create <code>IFilterCondition</code>
@@ -181,7 +176,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return instance
 	 */
 
-	IFilterCondition createFilterCondition( );
+	IFilterCondition createFilterCondition();
 
 	/**
 	 * Create <code>IDataBinding</code>
@@ -189,7 +184,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return instance
 	 */
 
-	IDataBinding createDataBinding( );
+	IDataBinding createDataBinding();
 
 	/**
 	 * Create <code>IHighLightRule</code>
@@ -197,7 +192,7 @@ public interface IReportDesign extends IDesignElement
 	 * @return instance
 	 */
 
-	IHighlightRule createHighLightRule( );
+	IHighlightRule createHighLightRule();
 
 	/**
 	 * Create <code>ISortCondition</code>
@@ -205,18 +200,16 @@ public interface IReportDesign extends IDesignElement
 	 * @return instance
 	 */
 
-	ISortCondition createSortCondition( );
-	
+	ISortCondition createSortCondition();
+
 	/**
 	 * Creates the action structure.
 	 * 
-	 * @param action
-	 *            the structure handle
-	 * @param handle
-	 *            the element handle that holds the action structure
+	 * @param action the structure handle
+	 * @param handle the element handle that holds the action structure
 	 * @return the action
 	 */
 
-	 IAction createAction( );
+	IAction createAction();
 
 }

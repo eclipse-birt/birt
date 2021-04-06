@@ -23,19 +23,16 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * member type besides name, display name ID and tool tip ID.
  */
 
-public class MemberInfo implements IMemberInfo
-{
+public class MemberInfo implements IMemberInfo {
 
 	private final Field field;
 
-	protected MemberInfo( Field field )
-	{
+	protected MemberInfo(Field field) {
 		this.field = field;
 	}
 
-	public String getDataType( )
-	{
-		return field.getType( ).getName( );
+	public String getDataType() {
+		return field.getType().getName();
 	}
 
 	/**
@@ -44,21 +41,18 @@ public class MemberInfo implements IMemberInfo
 	 * @return <code>true</code> if this member is true.
 	 */
 
-	public boolean isStatic( )
-	{
-		return Modifier.isStatic( field.getModifiers( ) );
+	public boolean isStatic() {
+		return Modifier.isStatic(field.getModifiers());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
-	 * ()
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName ()
 	 */
 
-	public String getToolTip( )
-	{
+	public String getToolTip() {
 		return StringUtil.EMPTY_STRING;
 	}
 
@@ -66,12 +60,10 @@ public class MemberInfo implements IMemberInfo
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey
-	 * ()
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getToolTipKey ()
 	 */
 
-	public String getToolTipKey( )
-	{
+	public String getToolTipKey() {
 		return StringUtil.EMPTY_STRING;
 	}
 
@@ -79,12 +71,10 @@ public class MemberInfo implements IMemberInfo
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName
-	 * ()
+	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getDisplayName ()
 	 */
 
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return StringUtil.EMPTY_STRING;
 	}
 
@@ -96,31 +86,26 @@ public class MemberInfo implements IMemberInfo
 	 * ()
 	 */
 
-	public String getDisplayNameKey( )
-	{
+	public String getDisplayNameKey() {
 		return StringUtil.EMPTY_STRING;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
+	 * @see org.eclipse.birt.report.model.api.metadata.ILocalizableInfo#getName()
 	 */
 
-	public String getName( )
-	{
-		return field.getName( );
+	public String getName() {
+		return field.getName();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IMemberInfo#getClassType()
+	 * @see org.eclipse.birt.report.model.api.metadata.IMemberInfo#getClassType()
 	 */
-	public IClassInfo getClassType( )
-	{
+	public IClassInfo getClassType() {
 		return null;
 	}
 }

@@ -10,13 +10,10 @@
 
 package org.eclipse.birt.data.engine.api;
 
-
-
 /**
- *	General interface for Query definition. 
+ * General interface for Query definition.
  *
  */
-public interface IDataQueryDefinition extends INamedObject
-{
-	
+public interface IDataQueryDefinition extends INamedObject {
+
 }

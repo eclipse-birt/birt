@@ -11,59 +11,48 @@
 
 package org.eclipse.birt.report.engine.content;
 
-public class Dimension
-{
+public class Dimension {
 
 	private int width = -1;
 
 	private int height = -1;
 
-	public Dimension( )
-	{
+	public Dimension() {
 
 	}
 
-	public Dimension( int width, int height )
-	{
+	public Dimension(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
 
-	public void setDimension( int width, int height )
-	{
+	public void setDimension(int width, int height) {
 		this.width = width;
 		this.height = height;
 	}
 
-	public int getHeight( )
-	{
+	public int getHeight() {
 		return this.height;
 	}
 
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return this.width;
 	}
 
-	public boolean isSet( )
-	{
-		return ( width != -1 ) && ( height != -1 );
+	public boolean isSet() {
+		return (width != -1) && (height != -1);
 	}
 
-	public void unSet( )
-	{
+	public void unSet() {
 		width = -1;
 		height = -1;
 	}
 
-	public static Dimension scale( Dimension origin, double ratio )
-	{
-		return new Dimension( (int) ( origin.getWidth( ) * ratio ),
-				(int) ( origin.getHeight( ) * ratio ) );
+	public static Dimension scale(Dimension origin, double ratio) {
+		return new Dimension((int) (origin.getWidth() * ratio), (int) (origin.getHeight() * ratio));
 	}
 
-	public double getRatio( )
-	{
-		return ( (double) width ) / ( (double) height );
+	public double getRatio() {
+		return ((double) width) / ((double) height);
 	}
 }

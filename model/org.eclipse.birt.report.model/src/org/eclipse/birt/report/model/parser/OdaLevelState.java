@@ -22,8 +22,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class OdaLevelState extends LevelState
-{
+public class OdaLevelState extends LevelState {
 
 	/**
 	 * The level being created.
@@ -32,21 +31,16 @@ public class OdaLevelState extends LevelState
 	protected Level element = null;
 
 	/**
-	 * Constructs level state with the design parser handler, the container
-	 * element and the container property name of the report element.
+	 * Constructs level state with the design parser handler, the container element
+	 * and the container property name of the report element.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public OdaLevelState( ModuleParserHandler handler, DesignElement theContainer,
-			String prop )
-	{
-		super( handler, theContainer, prop );
+	public OdaLevelState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
@@ -55,20 +49,20 @@ public class OdaLevelState extends LevelState
 	 * @see org.eclipse.birt.report.model.parser.ReportElementState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new OdaLevel( );
-		initElement( attrs, true );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new OdaLevel();
+		initElement(attrs, true);
 	}
 }

@@ -15,35 +15,34 @@ package org.eclipse.birt.report.designer.util;
  * Provide html style layout algorighm
  */
 
-public interface ITableLayoutCalculator
-{
+public interface ITableLayoutCalculator {
 
 	/**
 	 * Calculate column width
 	 * 
 	 * @return array of colum width
 	 */
-	public float[] getFloatColWidth( ) throws NumberFormatException;
+	public float[] getFloatColWidth() throws NumberFormatException;
 
 	/**
 	 * Calculate column width
 	 * 
 	 * @return array of colum width
 	 */
-	public int[] getIntColWidth( );
+	public int[] getIntColWidth();
 
 	/**
 	 * Calculate row height
 	 * 
 	 * @return array of row height
 	 */
-	public float[] getFloatRowHeight( ) throws NumberFormatException;
+	public float[] getFloatRowHeight() throws NumberFormatException;
 
 	/**
 	 * Calculate row height
 	 * 
 	 * @return array of row height
 	 */
-	public float[] getIntRowHeight( );
+	public float[] getIntRowHeight();
 
 }

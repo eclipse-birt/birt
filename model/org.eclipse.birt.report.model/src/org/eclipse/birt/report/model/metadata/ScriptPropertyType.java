@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.core.Module;
  * scripting engine.
  */
 
-public class ScriptPropertyType extends TextualPropertyType
-{
+public class ScriptPropertyType extends TextualPropertyType {
 
 	/**
 	 * Display name key.
@@ -32,9 +31,8 @@ public class ScriptPropertyType extends TextualPropertyType
 	 * Constructor.
 	 */
 
-	public ScriptPropertyType( )
-	{
-		super( DISPLAY_NAME_KEY );
+	public ScriptPropertyType() {
+		super(DISPLAY_NAME_KEY);
 	}
 
 	/*
@@ -42,8 +40,7 @@ public class ScriptPropertyType extends TextualPropertyType
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getTypeCode()
 	 */
-	public int getTypeCode( )
-	{
+	public int getTypeCode() {
 		return SCRIPT_TYPE;
 	}
 
@@ -52,21 +49,18 @@ public class ScriptPropertyType extends TextualPropertyType
 	 * 
 	 * @see org.eclipse.birt.report.model.metadata.PropertyType#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return SCRIPT_TYPE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
+	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
 	 * .lang.Object)
 	 */
 
-	public String toString( Module module, PropertyDefn defn, Object value )
-	{
+	public String toString(Module module, PropertyDefn defn, Object value) {
 		return (String) value;
 	}
 

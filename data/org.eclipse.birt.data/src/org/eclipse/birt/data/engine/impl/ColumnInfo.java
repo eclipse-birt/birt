@@ -13,34 +13,27 @@ package org.eclipse.birt.data.engine.impl;
 import java.util.logging.Logger;
 
 /**
- * Simple wrapper of colum information, including column index and column
- * name.
+ * Simple wrapper of colum information, including column index and column name.
  */
-public class ColumnInfo
-{
+public class ColumnInfo {
 	private int columnIndex;
 	private String columnName;
-	private static Logger logger = Logger.getLogger( ColumnInfo.class.getName( ) );
+	private static Logger logger = Logger.getLogger(ColumnInfo.class.getName());
 
-	ColumnInfo( int columnIndex, String columnName )
-	{
-		Object[] params = {
-				Integer.valueOf( columnIndex ), columnName
-		};
-		logger.entering( ColumnInfo.class.getName( ), "ColumnInfo", params );
-		
+	ColumnInfo(int columnIndex, String columnName) {
+		Object[] params = { Integer.valueOf(columnIndex), columnName };
+		logger.entering(ColumnInfo.class.getName(), "ColumnInfo", params);
+
 		this.columnIndex = columnIndex;
 		this.columnName = columnName;
-		logger.exiting( ColumnInfo.class.getName( ), "ColumnInfo" );
+		logger.exiting(ColumnInfo.class.getName(), "ColumnInfo");
 	}
 
-	public int getColumnIndex( )
-	{
+	public int getColumnIndex() {
 		return columnIndex;
 	}
 
-	public String getColumnName( )
-	{
+	public String getColumnName() {
 		return columnName;
 	}
 

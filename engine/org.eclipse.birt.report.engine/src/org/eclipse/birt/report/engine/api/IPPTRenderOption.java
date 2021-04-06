@@ -1,8 +1,7 @@
 
 package org.eclipse.birt.report.engine.api;
 
-public interface IPPTRenderOption extends IRenderOption
-{
+public interface IPPTRenderOption extends IRenderOption {
 
 	/**
 	 * The option for PPT emitter when exports to office 2010 and 2013.

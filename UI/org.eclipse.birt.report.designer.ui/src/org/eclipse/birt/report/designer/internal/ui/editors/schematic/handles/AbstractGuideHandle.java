@@ -25,52 +25,44 @@ import org.eclipse.gef.handles.AbstractHandle;
  * The class is the all ReportelemenEditPart base class.
  * 
  */
-public abstract class AbstractGuideHandle extends AbstractHandle implements
-		MouseMotionListener
-{
+public abstract class AbstractGuideHandle extends AbstractHandle implements MouseMotionListener {
 
 	private boolean isInGuideHandle = false;
 	private boolean canDeleteGuide = true;
 
-	public AbstractGuideHandle( GraphicalEditPart owner, Locator loc )
-	{
-		super( owner, loc );
-		addMouseMotionListener( this );
-		getLocator( ).relocate( this );
+	public AbstractGuideHandle(GraphicalEditPart owner, Locator loc) {
+		super(owner, loc);
+		addMouseMotionListener(this);
+		getLocator().relocate(this);
 
 	}
 
-	public void mouseEntered( MouseEvent me )
-	{
+	public void mouseEntered(MouseEvent me) {
 		// System.out.println( "handle enter" );
 		isInGuideHandle = true;
-		getGuideFeedBackHost( ).addGuideFeedBack( );
+		getGuideFeedBackHost().addGuideFeedBack();
 	}
 
-	public void mouseExited( MouseEvent me )
-	{
-		// System.out.println( "handle  exit" );
+	public void mouseExited(MouseEvent me) {
+		// System.out.println( "handle exit" );
 		isInGuideHandle = false;
-		getGuideFeedBackHost( ).delayRemoveGuideFeedBack( );
+		getGuideFeedBackHost().delayRemoveGuideFeedBack();
 	}
 
-	public void mouseHover( MouseEvent me )
-	{
+	public void mouseHover(MouseEvent me) {
 		// System.out.println( "handle hover" );
 		isInGuideHandle = true;
-		getGuideFeedBackHost( ).addGuideFeedBack( );
+		getGuideFeedBackHost().addGuideFeedBack();
 	}
 
-	public void mouseMoved( MouseEvent me )
-	{
+	public void mouseMoved(MouseEvent me) {
 		// System.out.println( "handle move" );
 		isInGuideHandle = true;
 
 		// addGuideFeedBack();
 	}
 
-	public void mouseDragged( MouseEvent me )
-	{
+	public void mouseDragged(MouseEvent me) {
 
 	}
 
@@ -79,18 +71,15 @@ public abstract class AbstractGuideHandle extends AbstractHandle implements
 	 * 
 	 * @see org.eclipse.gef.handles.AbstractHandle#createDragTracker()
 	 */
-	protected DragTracker createDragTracker( )
-	{
-		return new ReportElementDragTracker( getOwner( ) );
+	protected DragTracker createDragTracker() {
+		return new ReportElementDragTracker(getOwner());
 	}
 
-	protected IGuideFeedBackHost getGuideFeedBackHost( )
-	{
-		return (IGuideFeedBackHost) getOwner( );
+	protected IGuideFeedBackHost getGuideFeedBackHost() {
+		return (IGuideFeedBackHost) getOwner();
 	}
 
-	public boolean isInGuideHandle( )
-	{
+	public boolean isInGuideHandle() {
 		return isInGuideHandle;
 	}
 
@@ -100,25 +89,21 @@ public abstract class AbstractGuideHandle extends AbstractHandle implements
 	 * @see org.eclipse.draw2d.Figure#findFigureAt(int, int,
 	 * org.eclipse.draw2d.TreeSearch)
 	 */
-	public IFigure findFigureAt( int x, int y, TreeSearch search )
-	{
-		return super.findFigureAt( x, y, search );
+	public IFigure findFigureAt(int x, int y, TreeSearch search) {
+		return super.findFigureAt(x, y, search);
 	}
 
 	/**
 	 * @return Returns the canDeleteGuide.
 	 */
-	public boolean isCanDeleteGuide( )
-	{
+	public boolean isCanDeleteGuide() {
 		return canDeleteGuide;
 	}
 
 	/**
-	 * @param canDeleteGuide
-	 *            The canDeleteGuide to set.
+	 * @param canDeleteGuide The canDeleteGuide to set.
 	 */
-	public void setCanDeleteGuide( boolean canDeleteGuide )
-	{
+	public void setCanDeleteGuide(boolean canDeleteGuide) {
 		this.canDeleteGuide = canDeleteGuide;
 	}
 }

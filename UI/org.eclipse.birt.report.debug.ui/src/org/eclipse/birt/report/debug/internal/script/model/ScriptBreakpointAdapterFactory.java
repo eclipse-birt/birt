@@ -19,33 +19,31 @@ import org.eclipse.debug.ui.actions.IToggleBreakpointsTarget;
 /**
  * ScriptBreakpointAdapterFactory
  */
-public class ScriptBreakpointAdapterFactory implements IAdapterFactory
-{
+public class ScriptBreakpointAdapterFactory implements IAdapterFactory {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapter(java.lang.Object, java.lang.Class)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapter(java.lang.Object,
+	 * java.lang.Class)
 	 */
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
 		if (adapterType == IRunToLineTarget.class) {
-			
+
 			return new ScriptRunToLineAdapter();
-		}
-		else if (adapterType == IToggleBreakpointsTarget.class)
-		{
-			return new ScriptLineBreakpointAdapter( );
+		} else if (adapterType == IToggleBreakpointsTarget.class) {
+			return new ScriptLineBreakpointAdapter();
 		}
 		return null;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.core.runtime.IAdapterFactory#getAdapterList()
 	 */
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			IToggleBreakpointsTarget.class, IRunToLineTarget.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { IToggleBreakpointsTarget.class, IRunToLineTarget.class };
 	}
 
 }

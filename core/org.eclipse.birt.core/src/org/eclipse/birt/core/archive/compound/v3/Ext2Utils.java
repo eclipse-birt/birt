@@ -11,33 +11,28 @@
 
 package org.eclipse.birt.core.archive.compound.v3;
 
-public class Ext2Utils
-{
+public class Ext2Utils {
 
-	public final static String getBlockId( String fileName, int nodeId,
-			int blockId )
-	{
-		StringBuilder sb = new StringBuilder( );
-		sb.append( fileName );
-		sb.append( nodeId );
-		sb.append( blockId );
-		return sb.toString( );
+	public final static String getBlockId(String fileName, int nodeId, int blockId) {
+		StringBuilder sb = new StringBuilder();
+		sb.append(fileName);
+		sb.append(nodeId);
+		sb.append(blockId);
+		return sb.toString();
 	}
 
-	public final static void integerToBytes( int v, byte[] b, int off )
-	{
+	public final static void integerToBytes(int v, byte[] b, int off) {
 		assert b.length - off >= 4;
-		b[off++] = (byte) ( ( v >>> 24 ) & 0xFF );
-		b[off++] = (byte) ( ( v >>> 16 ) & 0xFF );
-		b[off++] = (byte) ( ( v >>> 8 ) & 0xFF );
-		b[off] = (byte) ( ( v >>> 0 ) & 0xFF );
+		b[off++] = (byte) ((v >>> 24) & 0xFF);
+		b[off++] = (byte) ((v >>> 16) & 0xFF);
+		b[off++] = (byte) ((v >>> 8) & 0xFF);
+		b[off] = (byte) ((v >>> 0) & 0xFF);
 	}
 
-	public final static int bytesToInteger( byte[] b, int off )
-	{
+	public final static int bytesToInteger(byte[] b, int off) {
 		assert b.length - off >= 4;
-		return ( ( b[off++] & 0xFF ) << 24 ) + ( ( b[off++] & 0xFF ) << 16 )
-				+ ( ( b[off++] & 0xFF ) << 8 ) + ( ( b[off] & 0xFF ) << 0 );
+		return ((b[off++] & 0xFF) << 24) + ((b[off++] & 0xFF) << 16) + ((b[off++] & 0xFF) << 8)
+				+ ((b[off] & 0xFF) << 0);
 	}
 
 }

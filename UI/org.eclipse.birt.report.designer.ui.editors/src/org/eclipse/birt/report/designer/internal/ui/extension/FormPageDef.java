@@ -23,8 +23,7 @@ import org.eclipse.ui.IEditorActionBarContributor;
 /**
  * FormPageDef
  */
-public class FormPageDef implements IExtensionConstants
-{
+public class FormPageDef implements IExtensionConstants {
 
 	private IConfigurationElement element;
 
@@ -38,52 +37,42 @@ public class FormPageDef implements IExtensionConstants
 	public IAction pageAction;
 	public int priority;
 
-	FormPageDef( IConfigurationElement element )
-	{
+	FormPageDef(IConfigurationElement element) {
 		this.element = element;
-		id = loadStringAttribute( element, ATTRIBUTE_ID );
-		displayName = loadStringAttribute( element, ATTRIBUTE_DISPLAY_NAME );
-		pageClass = loadStringAttribute( element, ATTRIBUTE_CLASS );
-		visible = loadBooleanAttribute( element, ATTRIBUTE_VISIBLE );
-		relative = loadStringAttribute( element, ATTRIBUTE_RELATIVE );
-		position = loadPosition( element, ATTRIBUTE_POSITION );
-		this.priority = loadPriority( element, ATTRIBUTE_PRIORITY );
+		id = loadStringAttribute(element, ATTRIBUTE_ID);
+		displayName = loadStringAttribute(element, ATTRIBUTE_DISPLAY_NAME);
+		pageClass = loadStringAttribute(element, ATTRIBUTE_CLASS);
+		visible = loadBooleanAttribute(element, ATTRIBUTE_VISIBLE);
+		relative = loadStringAttribute(element, ATTRIBUTE_RELATIVE);
+		position = loadPosition(element, ATTRIBUTE_POSITION);
+		this.priority = loadPriority(element, ATTRIBUTE_PRIORITY);
 
-		if ( loadStringAttribute( element, ATTRIBUTE_PAGE_ACTION ) != null )
-		{
-			pageAction = (IAction) loadClass( element, ATTRIBUTE_PAGE_ACTION );
+		if (loadStringAttribute(element, ATTRIBUTE_PAGE_ACTION) != null) {
+			pageAction = (IAction) loadClass(element, ATTRIBUTE_PAGE_ACTION);
 		}
-		if ( pageAction == null )
-		{
-			pageAction = new PageSetAction( displayName, id );
+		if (pageAction == null) {
+			pageAction = new PageSetAction(displayName, id);
 		}
 	}
 
-	private int loadPriority( IConfigurationElement element,
-			String attributeName )
-	{
-		String attribute = element.getAttribute( attributeName );
-		if ( "normal".equals( attribute ) ) { //$NON-NLS-1$
+	private int loadPriority(IConfigurationElement element, String attributeName) {
+		String attribute = element.getAttribute(attributeName);
+		if ("normal".equals(attribute)) { //$NON-NLS-1$
 			return 1;
-		}
-		else if ( "high".equals( attribute ) ) { //$NON-NLS-1$
+		} else if ("high".equals(attribute)) { //$NON-NLS-1$
 			return 2;
-		}
-		else if ( "low".equals( attribute ) ) { //$NON-NLS-1$
+		} else if ("low".equals(attribute)) { //$NON-NLS-1$
 			return 0;
 		}
 		return 1;
 	}
 
-	private int loadPosition( IConfigurationElement element,
-			String attributeName )
-	{
-		String attribute = element.getAttribute( attributeName );
-		if ( "left".equals( attribute ) ) //$NON-NLS-1$
+	private int loadPosition(IConfigurationElement element, String attributeName) {
+		String attribute = element.getAttribute(attributeName);
+		if ("left".equals(attribute)) //$NON-NLS-1$
 		{
 			return 0;
-		}
-		else if ( "right".equals( attribute ) ) //$NON-NLS-1$
+		} else if ("right".equals(attribute)) //$NON-NLS-1$
 		{
 			return 1;
 		}
@@ -91,56 +80,41 @@ public class FormPageDef implements IExtensionConstants
 		return 1;
 	}
 
-	private String loadStringAttribute( IConfigurationElement element,
-			String attributeName )
-	{
-		return element.getAttribute( attributeName );
+	private String loadStringAttribute(IConfigurationElement element, String attributeName) {
+		return element.getAttribute(attributeName);
 	}
 
-	private boolean loadBooleanAttribute( IConfigurationElement element,
-			String attributeName )
-	{
-		String value = element.getAttribute( attributeName );
-		if ( value != null )
-		{
-			return Boolean.valueOf( value ).booleanValue( );
+	private boolean loadBooleanAttribute(IConfigurationElement element, String attributeName) {
+		String value = element.getAttribute(attributeName);
+		if (value != null) {
+			return Boolean.valueOf(value).booleanValue();
 		}
 		return true;
 	}
 
-	private Object loadClass( IConfigurationElement element,
-			String attributeName )
-	{
+	private Object loadClass(IConfigurationElement element, String attributeName) {
 		Object clazz = null;
-		try
-		{
-			if ( element.getAttribute( attributeName ) != null )
-			{
-				clazz = element.createExecutableExtension( attributeName );
+		try {
+			if (element.getAttribute(attributeName) != null) {
+				clazz = element.createExecutableExtension(attributeName);
 			}
-		}
-		catch ( CoreException e )
-		{
-			ExceptionUtil.handle( e );
+		} catch (CoreException e) {
+			ExceptionUtil.handle(e);
 		}
 		return clazz;
 	}
 
-	public IReportEditorPage createPage( )
-	{
-		Object def = loadClass( element, ATTRIBUTE_CLASS );
-		if ( def instanceof IReportEditorPage )
-		{
+	public IReportEditorPage createPage() {
+		Object def = loadClass(element, ATTRIBUTE_CLASS);
+		if (def instanceof IReportEditorPage) {
 			return (IReportEditorPage) def;
 		}
 		return null;
 	}
-	
-	public IEditorActionBarContributor createActionBarContributor( )
-	{
-		Object def = loadClass( element, ATTRIBUTE_ACTION_BAR_CONTRIBUTOR );
-		if ( def instanceof IEditorActionBarContributor )
-		{
+
+	public IEditorActionBarContributor createActionBarContributor() {
+		Object def = loadClass(element, ATTRIBUTE_ACTION_BAR_CONTRIBUTOR);
+		if (def instanceof IEditorActionBarContributor) {
 			return (IEditorActionBarContributor) def;
 		}
 		return null;

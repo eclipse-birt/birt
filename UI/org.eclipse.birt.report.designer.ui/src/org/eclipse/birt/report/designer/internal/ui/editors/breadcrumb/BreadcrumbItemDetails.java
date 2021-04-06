@@ -39,8 +39,7 @@ import org.eclipse.swt.widgets.Shell;
  * 
  * @since 2.6.2
  */
-class BreadcrumbItemDetails
-{
+class BreadcrumbItemDetails {
 
 	private final Label fElementImage;
 	private final Label fElementText;
@@ -53,33 +52,25 @@ class BreadcrumbItemDetails
 	private boolean fSelected;
 	private boolean fHasFocus;
 
-	public BreadcrumbItemDetails( BreadcrumbItem parent,
-			Composite parentContainer )
-	{
+	public BreadcrumbItemDetails(BreadcrumbItem parent, Composite parentContainer) {
 		fParent = parent;
 		fTextVisible = true;
 
-		fDetailComposite = new Composite( parentContainer, SWT.NONE );
-		fDetailComposite.setLayoutData( new GridData( SWT.BEGINNING,
-				SWT.CENTER,
-				false,
-				false ) );
-		GridLayout layout = new GridLayout( 2, false );
+		fDetailComposite = new Composite(parentContainer, SWT.NONE);
+		fDetailComposite.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.horizontalSpacing = 0;
-		fDetailComposite.setLayout( layout );
-		addElementListener( fDetailComposite );
+		fDetailComposite.setLayout(layout);
+		addElementListener(fDetailComposite);
 
-		fImageComposite = new Composite( fDetailComposite, SWT.NONE );
-		fImageComposite.setLayoutData( new GridData( SWT.BEGINNING,
-				SWT.CENTER,
-				false,
-				false ) );
-		layout = new GridLayout( 1, false );
+		fImageComposite = new Composite(fDetailComposite, SWT.NONE);
+		fImageComposite.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		layout = new GridLayout(1, false);
 		layout.marginHeight = 1;
 		layout.marginWidth = 2;
-		fImageComposite.setLayout( layout );
+		fImageComposite.setLayout(layout);
 		// fImageComposite.addPaintListener( new PaintListener( ) {
 		//
 		// public void paintControl( PaintEvent e )
@@ -90,65 +81,51 @@ class BreadcrumbItemDetails
 		// }
 		// }
 		// } );
-		installFocusComposite( fImageComposite );
-		addElementListener( fImageComposite );
+		installFocusComposite(fImageComposite);
+		addElementListener(fImageComposite);
 
-		fElementImage = new Label( fImageComposite, SWT.NONE );
-		GridData layoutData = new GridData( SWT.BEGINNING,
-				SWT.CENTER,
-				false,
-				false );
-		fElementImage.setLayoutData( layoutData );
-		addElementListener( fElementImage );
+		fElementImage = new Label(fImageComposite, SWT.NONE);
+		GridData layoutData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
+		fElementImage.setLayoutData(layoutData);
+		addElementListener(fElementImage);
 
-		fTextComposite = new Composite( fDetailComposite, SWT.NONE );
-		fTextComposite.setLayoutData( new GridData( SWT.BEGINNING,
-				SWT.CENTER,
-				false,
-				false ) );
-		layout = new GridLayout( 1, false );
+		fTextComposite = new Composite(fDetailComposite, SWT.NONE);
+		fTextComposite.setLayoutData(new GridData(SWT.BEGINNING, SWT.CENTER, false, false));
+		layout = new GridLayout(1, false);
 		layout.marginHeight = 2;
 		layout.marginWidth = 2;
-		fTextComposite.setLayout( layout );
-		addElementListener( fTextComposite );
-		fTextComposite.addPaintListener( new PaintListener( ) {
+		fTextComposite.setLayout(layout);
+		addElementListener(fTextComposite);
+		fTextComposite.addPaintListener(new PaintListener() {
 
-			public void paintControl( PaintEvent e )
-			{
-				if ( fHasFocus && isTextVisible( ) )
-				{
-					e.gc.drawFocus( e.x, e.y, e.width, e.height );
+			public void paintControl(PaintEvent e) {
+				if (fHasFocus && isTextVisible()) {
+					e.gc.drawFocus(e.x, e.y, e.width, e.height);
 				}
 			}
-		} );
-		installFocusComposite( fTextComposite );
-		addElementListener( fTextComposite );
+		});
+		installFocusComposite(fTextComposite);
+		addElementListener(fTextComposite);
 
-		fElementText = new Label( fTextComposite, SWT.NONE );
-		layoutData = new GridData( SWT.BEGINNING, SWT.CENTER, false, false );
-		fElementText.setLayoutData( layoutData );
-		addElementListener( fElementText );
+		fElementText = new Label(fTextComposite, SWT.NONE);
+		layoutData = new GridData(SWT.BEGINNING, SWT.CENTER, false, false);
+		fElementText.setLayoutData(layoutData);
+		addElementListener(fElementText);
 
-		fTextComposite.getAccessible( )
-				.addAccessibleListener( new AccessibleAdapter( ) {
+		fTextComposite.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-					public void getName( AccessibleEvent e )
-					{
-						e.result = fElementText.getText( );
-					}
-				} );
-		fImageComposite.getAccessible( )
-				.addAccessibleListener( new AccessibleAdapter( ) {
+			public void getName(AccessibleEvent e) {
+				e.result = fElementText.getText();
+			}
+		});
+		fImageComposite.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-					public void getName( AccessibleEvent e )
-					{
-						e.result = fElementText.getText( );
-					}
-				} );
+			public void getName(AccessibleEvent e) {
+				e.result = fElementText.getText();
+			}
+		});
 
-		fDetailComposite.setTabList( new Control[]{
-			fTextComposite
-		} );
+		fDetailComposite.setTabList(new Control[] { fTextComposite });
 	}
 
 	// /**
@@ -164,55 +141,43 @@ class BreadcrumbItemDetails
 	/**
 	 * Sets the tool tip to the given text.
 	 * 
-	 * @param text
-	 *            the tool tip
+	 * @param text the tool tip
 	 */
-	public void setToolTip( String text )
-	{
-		if ( isTextVisible( ) )
-		{
-			fElementText.getParent( ).setToolTipText( text );
-			fElementText.setToolTipText( text );
-			fElementImage.setToolTipText( text );
-		}
-		else
-		{
-			fElementText.getParent( ).setToolTipText( null );
-			fElementText.setToolTipText( null );
+	public void setToolTip(String text) {
+		if (isTextVisible()) {
+			fElementText.getParent().setToolTipText(text);
+			fElementText.setToolTipText(text);
+			fElementImage.setToolTipText(text);
+		} else {
+			fElementText.getParent().setToolTipText(null);
+			fElementText.setToolTipText(null);
 
-			fElementImage.setToolTipText( text );
+			fElementImage.setToolTipText(text);
 		}
 	}
 
 	/**
 	 * Sets the image to the given image.
 	 * 
-	 * @param image
-	 *            the image to use
+	 * @param image the image to use
 	 */
-	public void setImage( Image image )
-	{
-		if ( image != fElementImage.getImage( ) )
-		{
-			fElementImage.setImage( image );
+	public void setImage(Image image) {
+		if (image != fElementImage.getImage()) {
+			fElementImage.setImage(image);
 		}
 	}
 
 	/**
 	 * Sets the text to the given text.
 	 * 
-	 * @param text
-	 *            the text to use
+	 * @param text the text to use
 	 */
-	public void setText( String text )
-	{
-		if ( text == null )
-		{
+	public void setText(String text) {
+		if (text == null) {
 			text = ""; //$NON-NLS-1$
 		}
-		if ( !text.equals( fElementText.getText( ) ) )
-		{
-			fElementText.setText( text );
+		if (!text.equals(fElementText.getText())) {
+			fElementText.setText(text);
 		}
 	}
 
@@ -221,41 +186,32 @@ class BreadcrumbItemDetails
 	 * 
 	 * @return current width of this element
 	 */
-	public int getWidth( )
-	{
+	public int getWidth() {
 		int result = 2;
 
-		if ( fElementImage.getImage( ) != null )
-			result += fElementImage.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		if (fElementImage.getImage() != null)
+			result += fElementImage.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
 
-		if ( fTextVisible && fElementText.getText( ).length( ) > 0 )
-			result += fElementText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).x;
+		if (fTextVisible && fElementText.getText().length() > 0)
+			result += fElementText.computeSize(SWT.DEFAULT, SWT.DEFAULT).x;
 
 		return result;
 	}
 
-	public void setTextVisible( boolean enabled )
-	{
-		if ( fTextVisible == enabled )
+	public void setTextVisible(boolean enabled) {
+		if (fTextVisible == enabled)
 			return;
 
 		fTextVisible = enabled;
 
-		GridData data = (GridData) fTextComposite.getLayoutData( );
+		GridData data = (GridData) fTextComposite.getLayoutData();
 		data.exclude = !enabled;
-		fTextComposite.setVisible( enabled );
+		fTextComposite.setVisible(enabled);
 
-		if ( fTextVisible )
-		{
-			fDetailComposite.setTabList( new Control[]{
-				fTextComposite
-			} );
-		}
-		else
-		{
-			fDetailComposite.setTabList( new Control[]{
-				fImageComposite
-			} );
+		if (fTextVisible) {
+			fDetailComposite.setTabList(new Control[] { fTextComposite });
+		} else {
+			fDetailComposite.setTabList(new Control[] { fImageComposite });
 		}
 
 		// if ( fHasFocus )
@@ -269,44 +225,40 @@ class BreadcrumbItemDetails
 		// fImageComposite.setFocus( );
 		// }
 		// }
-		updateSelection( );
+		updateSelection();
 	}
 
 	/**
 	 * Tells whether this item shows a text or only an image.
 	 * 
-	 * @return <code>true</code> if it shows a text and an image, false if it
-	 *         only shows the image
+	 * @return <code>true</code> if it shows a text and an image, false if it only
+	 *         shows the image
 	 */
-	public boolean isTextVisible( )
-	{
+	public boolean isTextVisible() {
 		return fTextVisible;
 	}
 
 	/**
 	 * Sets whether details should be shown.
 	 * 
-	 * @param visible
-	 *            <code>true</code> if details should be shown
+	 * @param visible <code>true</code> if details should be shown
 	 */
-	public void setVisible( boolean visible )
-	{
-		fDetailComposite.setVisible( visible );
+	public void setVisible(boolean visible) {
+		fDetailComposite.setVisible(visible);
 
-		GridData data = (GridData) fDetailComposite.getLayoutData( );
+		GridData data = (GridData) fDetailComposite.getLayoutData();
 		data.exclude = !visible;
 	}
 
-	public void setSelected( boolean selected )
-	{
-		if ( selected == fSelected )
+	public void setSelected(boolean selected) {
+		if (selected == fSelected)
 			return;
 
 		fSelected = selected;
 		// if ( !fSelected )
 		// fHasFocus = false;
 
-		updateSelection( );
+		updateSelection();
 	}
 
 	// public void setFocus( boolean enabled )
@@ -329,171 +281,134 @@ class BreadcrumbItemDetails
 	// updateSelection( );
 	// }
 
-	private void updateSelection( )
-	{
+	private void updateSelection() {
 		Color background;
 		Color foreground;
 
-		if ( fSelected && fHasFocus )
-		{
-			background = Display.getDefault( )
-					.getSystemColor( SWT.COLOR_LIST_SELECTION );
-			foreground = Display.getDefault( )
-					.getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT );
-		}
-		else
-		{
+		if (fSelected && fHasFocus) {
+			background = Display.getDefault().getSystemColor(SWT.COLOR_LIST_SELECTION);
+			foreground = Display.getDefault().getSystemColor(SWT.COLOR_LIST_SELECTION_TEXT);
+		} else {
 			foreground = null;
 			background = null;
 		}
 
-		if ( isTextVisible( ) )
-		{
-			fTextComposite.setBackground( background );
-			fElementText.setBackground( background );
-			fElementText.setForeground( foreground );
+		if (isTextVisible()) {
+			fTextComposite.setBackground(background);
+			fElementText.setBackground(background);
+			fElementText.setForeground(foreground);
 
-			fImageComposite.setBackground( null );
-			fElementImage.setBackground( null );
-		}
-		else
-		{
-			fImageComposite.setBackground( background );
-			fElementImage.setBackground( background );
+			fImageComposite.setBackground(null);
+			fElementImage.setBackground(null);
+		} else {
+			fImageComposite.setBackground(background);
+			fElementImage.setBackground(background);
 
-			fTextComposite.setBackground( null );
-			fElementText.setBackground( null );
-			fElementText.setForeground( null );
+			fTextComposite.setBackground(null);
+			fElementText.setBackground(null);
+			fElementText.setForeground(null);
 		}
 
-		fTextComposite.redraw( );
-		fImageComposite.redraw( );
+		fTextComposite.redraw();
+		fImageComposite.redraw();
 	}
 
 	/**
 	 * Install focus and key listeners to the given composite.
 	 * 
-	 * @param composite
-	 *            the composite which may get focus
+	 * @param composite the composite which may get focus
 	 */
-	private void installFocusComposite( Composite composite )
-	{
-		composite.addTraverseListener( new TraverseListener( ) {
+	private void installFocusComposite(Composite composite) {
+		composite.addTraverseListener(new TraverseListener() {
 
-			public void keyTraversed( TraverseEvent e )
-			{
-				if ( e.detail == SWT.TRAVERSE_TAB_NEXT
-						|| e.detail == SWT.TRAVERSE_TAB_PREVIOUS )
-				{
-					int index = fParent.getViewer( ).getIndexOfItem( fParent );
-					if ( e.detail == SWT.TRAVERSE_TAB_NEXT )
-					{
+			public void keyTraversed(TraverseEvent e) {
+				if (e.detail == SWT.TRAVERSE_TAB_NEXT || e.detail == SWT.TRAVERSE_TAB_PREVIOUS) {
+					int index = fParent.getViewer().getIndexOfItem(fParent);
+					if (e.detail == SWT.TRAVERSE_TAB_NEXT) {
 						index++;
-					}
-					else
-					{
+					} else {
 						index--;
 					}
 
-					if ( index > 0
-							&& index < fParent.getViewer( ).getItemCount( ) )
-					{
-						fParent.getViewer( ).selectItem( fParent.getViewer( )
-								.getItem( index ) );
+					if (index > 0 && index < fParent.getViewer().getItemCount()) {
+						fParent.getViewer().selectItem(fParent.getViewer().getItem(index));
 					}
 
 					e.doit = true;
 				}
 			}
-		} );
-		composite.addKeyListener( new KeyListener( ) {
+		});
+		composite.addKeyListener(new KeyListener() {
 
-			public void keyPressed( KeyEvent e )
-			{
-				BreadcrumbViewer viewer = fParent.getViewer( );
+			public void keyPressed(KeyEvent e) {
+				BreadcrumbViewer viewer = fParent.getViewer();
 
-				switch ( e.keyCode )
-				{
-					case SWT.ARROW_LEFT :
-						if ( fSelected )
-						{
-							viewer.doTraverse( false );
-							e.doit = false;
-						}
-						else
-						{
-							viewer.selectItem( fParent );
-						}
-						break;
-					case SWT.ARROW_RIGHT :
-						if ( fSelected )
-						{
-							viewer.doTraverse( true );
-							e.doit = false;
-						}
-						else
-						{
-							viewer.selectItem( fParent );
-						}
-						break;
-					case SWT.ARROW_DOWN :
-						if ( !fSelected )
-						{
-							viewer.selectItem( fParent );
-						}
-						openDropDown( );
+				switch (e.keyCode) {
+				case SWT.ARROW_LEFT:
+					if (fSelected) {
+						viewer.doTraverse(false);
 						e.doit = false;
-						break;
-					case SWT.KEYPAD_ADD :
-						if ( !fSelected )
-						{
-							viewer.selectItem( fParent );
-						}
-						openDropDown( );
+					} else {
+						viewer.selectItem(fParent);
+					}
+					break;
+				case SWT.ARROW_RIGHT:
+					if (fSelected) {
+						viewer.doTraverse(true);
 						e.doit = false;
-						break;
-					case SWT.CR :
-						if ( !fSelected )
-						{
-							viewer.selectItem( fParent );
+					} else {
+						viewer.selectItem(fParent);
+					}
+					break;
+				case SWT.ARROW_DOWN:
+					if (!fSelected) {
+						viewer.selectItem(fParent);
+					}
+					openDropDown();
+					e.doit = false;
+					break;
+				case SWT.KEYPAD_ADD:
+					if (!fSelected) {
+						viewer.selectItem(fParent);
+					}
+					openDropDown();
+					e.doit = false;
+					break;
+				case SWT.CR:
+					if (!fSelected) {
+						viewer.selectItem(fParent);
+					}
+					viewer.fireOpen();
+					break;
+				default:
+					if (e.character == ' ') {
+						if (!fSelected) {
+							viewer.selectItem(fParent);
 						}
-						viewer.fireOpen( );
-						break;
-					default :
-						if ( e.character == ' ' )
-						{
-							if ( !fSelected )
-							{
-								viewer.selectItem( fParent );
-							}
-							openDropDown( );
-							e.doit = false;
-						}
-						break;
+						openDropDown();
+						e.doit = false;
+					}
+					break;
 				}
 			}
 
-			private void openDropDown( )
-			{
-				BreadcrumbViewer viewer = fParent.getViewer( );
+			private void openDropDown() {
+				BreadcrumbViewer viewer = fParent.getViewer();
 
-				int index = viewer.getIndexOfItem( fParent );
-				BreadcrumbItem parent = fParent.getViewer( )
-						.getItem( index - 1 );
+				int index = viewer.getIndexOfItem(fParent);
+				BreadcrumbItem parent = fParent.getViewer().getItem(index - 1);
 
-				Shell shell = parent.getDropDownShell( );
-				if ( shell == null )
-				{
-					parent.openDropDownMenu( );
-					shell = parent.getDropDownShell( );
+				Shell shell = parent.getDropDownShell();
+				if (shell == null) {
+					parent.openDropDownMenu();
+					shell = parent.getDropDownShell();
 				}
-				shell.setFocus( );
+				shell.setFocus();
 			}
 
-			public void keyReleased( KeyEvent e )
-			{
+			public void keyReleased(KeyEvent e) {
 			}
-		} );
+		});
 
 		// composite.addFocusListener( new FocusListener( ) {
 		//
@@ -520,53 +435,46 @@ class BreadcrumbItemDetails
 	/**
 	 * Add mouse listeners to the given control.
 	 * 
-	 * @param control
-	 *            the control to which may be clicked
+	 * @param control the control to which may be clicked
 	 */
-	private void addElementListener( Control control )
-	{
-		control.addMouseListener( new MouseListener( ) {
+	private void addElementListener(Control control) {
+		control.addMouseListener(new MouseListener() {
 
-			public void mouseDoubleClick( MouseEvent e )
-			{
+			public void mouseDoubleClick(MouseEvent e) {
 				fHasFocus = false;
-				updateSelection( );
+				updateSelection();
 
-				BreadcrumbViewer viewer = fParent.getViewer( );
-				viewer.selectItem( fParent );
-				viewer.fireDoubleClick( );
+				BreadcrumbViewer viewer = fParent.getViewer();
+				viewer.selectItem(fParent);
+				viewer.fireDoubleClick();
 
 			}
 
-			public void mouseDown( MouseEvent e )
-			{
+			public void mouseDown(MouseEvent e) {
 				fHasFocus = true;
-				updateSelection( );
-				BreadcrumbViewer viewer = fParent.getViewer( );
-				viewer.selectItem( fParent );
-				viewer.fireOpen( );
+				updateSelection();
+				BreadcrumbViewer viewer = fParent.getViewer();
+				viewer.selectItem(fParent);
+				viewer.fireOpen();
 			}
 
-			public void mouseUp( MouseEvent e )
-			{
-				Display.getDefault( ).timerExec( 100, new Runnable( ) {
+			public void mouseUp(MouseEvent e) {
+				Display.getDefault().timerExec(100, new Runnable() {
 
-					public void run( )
-					{
+					public void run() {
 						fHasFocus = false;
-						updateSelection( );
+						updateSelection();
 					}
-				} );
+				});
 			}
-		} );
-		control.addMenuDetectListener( new MenuDetectListener( ) {
+		});
+		control.addMenuDetectListener(new MenuDetectListener() {
 
-			public void menuDetected( MenuDetectEvent e )
-			{
-				BreadcrumbViewer viewer = fParent.getViewer( );
-				viewer.selectItem( fParent );
-				fParent.getViewer( ).fireMenuDetect( e );
+			public void menuDetected(MenuDetectEvent e) {
+				BreadcrumbViewer viewer = fParent.getViewer();
+				viewer.selectItem(fParent);
+				fParent.getViewer().fireMenuDetect(e);
 			}
-		} );
+		});
 	}
 }

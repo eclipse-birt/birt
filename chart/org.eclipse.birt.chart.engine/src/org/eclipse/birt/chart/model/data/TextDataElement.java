@@ -12,8 +12,8 @@
 package org.eclipse.birt.chart.model.data;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Text Data Element</b></em>'. <!--
- * end-user-doc -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Text
+ * Data Element</b></em>'. <!-- end-user-doc -->
  * 
  * <!-- begin-model-doc -->
  * 
@@ -24,7 +24,8 @@ package org.eclipse.birt.chart.model.data;
  * <p>
  * The following features are supported:
  * <ul>
- * <li>{@link org.eclipse.birt.chart.model.data.TextDataElement#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.TextDataElement#getValue
+ * <em>Value</em>}</li>
  * </ul>
  * </p>
  * 
@@ -32,28 +33,28 @@ package org.eclipse.birt.chart.model.data;
  * @model
  * @generated
  */
-public interface TextDataElement extends DataElement
-{
+public interface TextDataElement extends DataElement {
 
-    /**
-     * Returns the value of the '<em><b>Value</b></em>' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
-     * <!-- begin-model-doc -->
-     * 
-     * Holds a single string value.
-     * 
-     * <!-- end-model-doc -->
-     * 
-     * @return the value of the '<em>Value</em>' attribute.
-     * @see #setValue(String)
-     * @see org.eclipse.birt.chart.model.data.DataPackage#getTextDataElement_Value()
-     * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String" required="true"
-     * @generated
-     */
-    String getValue();
+	/**
+	 * Returns the value of the '<em><b>Value</b></em>' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc --> <!-- begin-model-doc -->
+	 * 
+	 * Holds a single string value.
+	 * 
+	 * <!-- end-model-doc -->
+	 * 
+	 * @return the value of the '<em>Value</em>' attribute.
+	 * @see #setValue(String)
+	 * @see org.eclipse.birt.chart.model.data.DataPackage#getTextDataElement_Value()
+	 * @model unique="false" dataType="org.eclipse.emf.ecore.xml.type.String"
+	 *        required="true"
+	 * @generated
+	 */
+	String getValue();
 
 	/**
 	 * @generated
 	 */
-    void setValue(String value);
+	void setValue(String value);
 
 } // TextDataElement

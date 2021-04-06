@@ -16,18 +16,15 @@ package org.eclipse.birt.report.designer.internal.ui.views.dialogs.provider;
  * 
  * @deprecated
  */
-public class HighlightHandleProvider extends
-		org.eclipse.birt.report.designer.ui.views.attributes.providers.HighlightHandleProvider
-{
+public class HighlightHandleProvider
+		extends org.eclipse.birt.report.designer.ui.views.attributes.providers.HighlightHandleProvider {
 
-	public HighlightHandleProvider( )
-	{
-		super( );
+	public HighlightHandleProvider() {
+		super();
 	}
 
-	public HighlightHandleProvider( int expressionType )
-	{
-		super( expressionType );
+	public HighlightHandleProvider(int expressionType) {
+		super(expressionType);
 	}
 
 }

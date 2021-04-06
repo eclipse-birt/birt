@@ -23,61 +23,50 @@ import org.eclipse.birt.data.engine.impl.document.viewing.IDataSetResultSet;
  * valid, and then there is a new input stream of row information input stream
  * which will prvoide the valid index information.
  */
-public class ExprDataResultSet2 extends BaseExprDataResultSet
-{
+public class ExprDataResultSet2 extends BaseExprDataResultSet {
 	private RAInputStream rowIs;
-	private RAInputStream rowLenIs;	
+	private RAInputStream rowLenIs;
 	private RAInputStream rowInfoIs;
-	
+
 	/**
-	 * @param rowIs,
-	 *            the input stream for expression row
-	 * @param rowLenIs,
-	 *            the input stream for expression row length
-	 * @param rowInfoIs,
-	 *            the input stream for valid row index
-	 * @param inExprMetas,
-	 *            the expression meta data
-	 * @throws DataException 
+	 * @param rowIs,       the input stream for expression row
+	 * @param rowLenIs,    the input stream for expression row length
+	 * @param rowInfoIs,   the input stream for valid row index
+	 * @param inExprMetas, the expression meta data
+	 * @throws DataException
 	 */
-	public ExprDataResultSet2( String tempDir, RAInputStream rowIs, RAInputStream rowLenIs,
-			RAInputStream rowInfoIs, ExprMetaInfo[] inExprMetas, int version, IDataSetResultSet dataSetResultSet )
-			throws DataException
-	{
+	public ExprDataResultSet2(String tempDir, RAInputStream rowIs, RAInputStream rowLenIs, RAInputStream rowInfoIs,
+			ExprMetaInfo[] inExprMetas, int version, IDataSetResultSet dataSetResultSet) throws DataException {
 		this.rowIs = rowIs;
 		this.rowLenIs = rowLenIs;
 		this.rowInfoIs = rowInfoIs;
 
-		IExprDataReader exprDataReader = new ExprDataReader2( tempDir, rowIs, rowLenIs, rowInfoIs, version, dataSetResultSet );
-		this.rowCount = exprDataReader.getCount( );
-		
-		super.init( inExprMetas, exprDataReader );
+		IExprDataReader exprDataReader = new ExprDataReader2(tempDir, rowIs, rowLenIs, rowInfoIs, version,
+				dataSetResultSet);
+		this.rowCount = exprDataReader.getCount();
+
+		super.init(inExprMetas, exprDataReader);
 	}
-	
+
 	/*
-	 * @see org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#close()
+	 * @see
+	 * org.eclipse.birt.data.engine.impl.document.viewing.IExprDataResultSet#close()
 	 */
-	public void close( )
-	{
-		super.close( );
-		
-		try
-		{
-			if ( rowIs != null )
-			{
-				rowIs.close( );
-				rowLenIs.close( );
+	public void close() {
+		super.close();
+
+		try {
+			if (rowIs != null) {
+				rowIs.close();
+				rowLenIs.close();
 				rowIs = null;
 			}
-			if ( rowInfoIs != null )
-			{
-				rowInfoIs.close( );
+			if (rowInfoIs != null) {
+				rowInfoIs.close();
 			}
-		}
-		catch ( IOException e )
-		{
+		} catch (IOException e) {
 			// ignore
 		}
 	}
-	
+
 }

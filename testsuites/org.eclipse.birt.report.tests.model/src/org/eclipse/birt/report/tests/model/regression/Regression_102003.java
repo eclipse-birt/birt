@@ -43,53 +43,47 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * invalid data sets.
  * </p>
  */
-public class Regression_102003 extends BaseTestCase
-{
+public class Regression_102003 extends BaseTestCase {
 
 	private final static String INPUT = "regression_102003.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyResource_INPUT( INPUT , INPUT );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyResource_INPUT(INPUT, INPUT);
 
 	}
-	
-	
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_regression_102003( ) throws DesignFileException, SemanticException
-	{
-		openDesign( INPUT );
+	public void test_regression_102003() throws DesignFileException, SemanticException {
+		openDesign(INPUT);
 
 		// delete the data source
 
-		designHandle.findDataSource( "Data Source" ).drop( ); //$NON-NLS-1$
-		assertNull( designHandle.findDataSet( "Data Source" ) ); //$NON-NLS-1$
+		designHandle.findDataSource("Data Source").drop(); //$NON-NLS-1$
+		assertNull(designHandle.findDataSet("Data Source")); //$NON-NLS-1$
 
 		// copy and add the data set
 
-		DataSetHandle dsetHandle = designHandle.findDataSet( "Data Set" ); //$NON-NLS-1$
+		DataSetHandle dsetHandle = designHandle.findDataSet("Data Set"); //$NON-NLS-1$
 
-		assertEquals( "Data Source", dsetHandle.getDataSourceName( ) ); //$NON-NLS-1$
-		assertNull( dsetHandle.getDataSource( ) );
-		DataSetHandle copied = (DataSetHandle) dsetHandle.copy( ).getHandle(
-				design );
-		copied.setName( "Data Set1" ); //$NON-NLS-1$
+		assertEquals("Data Source", dsetHandle.getDataSourceName()); //$NON-NLS-1$
+		assertNull(dsetHandle.getDataSource());
+		DataSetHandle copied = (DataSetHandle) dsetHandle.copy().getHandle(design);
+		copied.setName("Data Set1"); //$NON-NLS-1$
 
-		designHandle.getDataSets( ).add( copied );
+		designHandle.getDataSets().add(copied);
 
 		// Delete the two invalid data sets.
 
-		designHandle.findDataSet( "Data Set" ).drop( ); //$NON-NLS-1$
-		designHandle.findDataSet( "Data Set1" ).drop( ); //$NON-NLS-1$
+		designHandle.findDataSet("Data Set").drop(); //$NON-NLS-1$
+		designHandle.findDataSet("Data Set1").drop(); //$NON-NLS-1$
 
-		assertNull( designHandle.findDataSet( "Data Set" ) ); //$NON-NLS-1$
-		assertNull( designHandle.findDataSet( "Data Set1" ) ); //$NON-NLS-1$
+		assertNull(designHandle.findDataSet("Data Set")); //$NON-NLS-1$
+		assertNull(designHandle.findDataSet("Data Set1")); //$NON-NLS-1$
 	}
 }

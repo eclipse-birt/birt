@@ -26,7 +26,7 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * 
  * <pre>
  *        &lt;image id=&quot;4&quot;&gt;
- *            &lt;property name=¡±source¡±&gt;file&lt;/property&gt;
+ *            &lt;property name=ï¿½ï¿½sourceï¿½ï¿½&gt;file&lt;/property&gt;
  *            &lt;expression name=&quot;uri&quot;&gt;&quot;pict 103.jpg&quot;&lt;/expression&gt;
  *         &lt;/image&gt;
  * </pre>
@@ -35,14 +35,14 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * 
  * <pre>
  *           &lt;image id=&quot;5&quot;&gt;
- *              &lt;property name=¡±source¡±&gt;url&lt;/property&gt;
+ *              &lt;property name=ï¿½ï¿½sourceï¿½ï¿½&gt;url&lt;/property&gt;
  *               &lt;expression
  *   name=&quot;uri&quot;&gt;&quot;http://www.google.com/intl/en/images/logo.gif&quot;&lt;/expression&gt;
  *   &lt;/image&gt;
  * </pre>
  * 
- * Unfortunately, the designer doesn¡¯t distinguish those two kinds of resources.
- * The created report design is:
+ * Unfortunately, the designer doesnï¿½ï¿½t distinguish those two kinds of
+ * resources. The created report design is:
  * 
  * <pre>
  *   &lt;image id=&quot;4&quot;&gt;
@@ -64,48 +64,43 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * <p>
  */
-public class Regression_149922 extends BaseTestCase
-{
+public class Regression_149922 extends BaseTestCase {
 
 	private final static String GOLDEN = "regression_149922.golden"; //$NON-NLS-1$
 	private final static String OUTPUT = "regression_149922.out"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyGoldenToFile ( GOLDEN_FOLDER + "/" + GOLDEN );
-		
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyGoldenToFile(GOLDEN_FOLDER + "/" + GOLDEN);
+
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * @throws Exception
 	 */
 
-	public void test_regression_149922( ) throws Exception
-	{
-		this.createDesign( );
-		ElementFactory factory = designHandle.getElementFactory( );
+	public void test_regression_149922() throws Exception {
+		this.createDesign();
+		ElementFactory factory = designHandle.getElementFactory();
 
-		ImageHandle image = factory.newImage( "img1" ); //$NON-NLS-1$
-		image.setTypeExpression( DesignChoiceConstants.IMAGE_REF_TYPE_FILE );
-		image.setFile( "\"images/pic1.jpg\"" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( image );
+		ImageHandle image = factory.newImage("img1"); //$NON-NLS-1$
+		image.setTypeExpression(DesignChoiceConstants.IMAGE_REF_TYPE_FILE);
+		image.setFile("\"images/pic1.jpg\""); //$NON-NLS-1$
+		designHandle.getBody().add(image);
 
-		ImageHandle image2 = factory.newImage( "img1" ); //$NON-NLS-1$
-		image2.setTypeExpression( DesignChoiceConstants.IMAGE_REF_TYPE_URL );
-		image2.setURL( "\"http://www.google.com/intl/en/images/logo.gif\"" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( image2 );
+		ImageHandle image2 = factory.newImage("img1"); //$NON-NLS-1$
+		image2.setTypeExpression(DesignChoiceConstants.IMAGE_REF_TYPE_URL);
+		image2.setURL("\"http://www.google.com/intl/en/images/logo.gif\""); //$NON-NLS-1$
+		designHandle.getBody().add(image2);
 
-		
-		String TempFile=this.genOutputFile(OUTPUT);
-		designHandle.saveAs( TempFile );
-		assertTrue( compareTextFile( GOLDEN, OUTPUT ) );
+		String TempFile = this.genOutputFile(OUTPUT);
+		designHandle.saveAs(TempFile);
+		assertTrue(compareTextFile(GOLDEN, OUTPUT));
 
 	}
 }

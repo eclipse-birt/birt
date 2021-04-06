@@ -23,24 +23,21 @@ import org.eclipse.birt.report.engine.content.impl.DrillThroughAction;
  * 
  */
 
-public class ActionInstance implements IActionInstance
-{
+public class ActionInstance implements IActionInstance {
 
 	IHyperlinkAction hyperlink;
 
-	ActionInstance( IHyperlinkAction hyperlink )
-	{
+	ActionInstance(IHyperlinkAction hyperlink) {
 		this.hyperlink = hyperlink;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getType()
 	 */
-	public int getType( )
-	{
-		return hyperlink.getType( );
+	public int getType() {
+		return hyperlink.getType();
 	}
 
 	/*
@@ -48,60 +45,50 @@ public class ActionInstance implements IActionInstance
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getBookmark()
 	 */
-	public String getBookmark( )
-	{
-		if ( getType( ) == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_BOOKMARK )
-		{
-			return hyperlink.getBookmark( );
+	public String getBookmark() {
+		if (getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_BOOKMARK) {
+			return hyperlink.getBookmark();
 		}
-		throw new RuntimeException( "The action type is not bookmark." );
+		throw new RuntimeException("The action type is not bookmark.");
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setBookmark( java.lang.String )
+	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setBookmark(
+	 * java.lang.String )
 	 */
-	public void setBookmark( String bookmark )
-	{
-		if ( bookmark != null && !bookmark.equals( "" ) )
-		{
-			hyperlink.setBookmark( bookmark );
+	public void setBookmark(String bookmark) {
+		if (bookmark != null && !bookmark.equals("")) {
+			hyperlink.setBookmark(bookmark);
+		} else {
+			throw new IllegalArgumentException("Bookmark can not be set to NULL or empty.");
 		}
-		else
-		{
-			throw new IllegalArgumentException( "Bookmark can not be set to NULL or empty." );
-		}
-	}	
+	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getHyperlink()
 	 */
-	public String getHyperlink( )
-	{
-		if ( getType( ) == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_HYPERLINK )
-		{
-			return hyperlink.getHyperlink( );
+	public String getHyperlink() {
+		if (getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_HYPERLINK) {
+			return hyperlink.getHyperlink();
 		}
-		throw new RuntimeException( "The action type is not hyperlink." );
+		throw new RuntimeException("The action type is not hyperlink.");
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setHyperlink( java.lang.String, java.lang.String )
+	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setHyperlink(
+	 * java.lang.String, java.lang.String )
 	 */
-	public void setHyperlink( String hyperlink, String target )
-	{
-		if ( hyperlink != null && !hyperlink.equals( "" ) )
-		{
-			this.hyperlink.setHyperlink( hyperlink, target );
-		}
-		else
-		{
-			throw new IllegalArgumentException( "Hyperlink can not be set to NULL or empty." );
+	public void setHyperlink(String hyperlink, String target) {
+		if (hyperlink != null && !hyperlink.equals("")) {
+			this.hyperlink.setHyperlink(hyperlink, target);
+		} else {
+			throw new IllegalArgumentException("Hyperlink can not be set to NULL or empty.");
 		}
 	}
 
@@ -110,118 +97,96 @@ public class ActionInstance implements IActionInstance
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getTargetWindow()
 	 */
-	public String getTargetWindow( )
-	{
-		if ( getType( ) == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_HYPERLINK 
-				|| getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_HYPERLINK )
-		{
-			return hyperlink.getTargetWindow( );
+	public String getTargetWindow() {
+		if (getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_HYPERLINK
+				|| getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_HYPERLINK) {
+			return hyperlink.getTargetWindow();
 		}
-		throw new RuntimeException( "The action type is not hyperlink or drillThrough." );
+		throw new RuntimeException("The action type is not hyperlink or drillThrough.");
 	}
 
 	IDrillThroughInstance drillThroughInstance;
-	
-	/**
-	 * @deprecated
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough()
-	 */
-	public IDrillThroughInstance createDrillThrough( String bookmark, boolean isBookmark,
-			String reportName, Map parameterBindings, Map searchCriteria,
-			String target, String format )
-	{
-		return createDrillThrough( bookmark, isBookmark, reportName, parameterBindings,
-				searchCriteria, target, format, null );
-	}	
-	
-	/**
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough()
-	 */
-	public IDrillThroughInstance createDrillThrough( String bookmark, boolean isBookmark,
-			String reportName, Map parameterBindings, Map searchCriteria,
-			String target, String format, String targetFileType )
-	{
-		IDrillThroughAction drillThrough = new DrillThroughAction( bookmark,
-				isBookmark, reportName, parameterBindings, searchCriteria,
-				target, format, targetFileType );
-		return new DrillThroughInstance( drillThrough );
-	}	
 
-	public IDrillThroughInstance createDrillThrough( )
-	{
-		IDrillThroughAction drillThrough = new DrillThroughAction( );
-		return new DrillThroughInstance( drillThrough ); 
+	/**
+	 * @deprecated (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough()
+	 */
+	public IDrillThroughInstance createDrillThrough(String bookmark, boolean isBookmark, String reportName,
+			Map parameterBindings, Map searchCriteria, String target, String format) {
+		return createDrillThrough(bookmark, isBookmark, reportName, parameterBindings, searchCriteria, target, format,
+				null);
 	}
-	
+
+	/**
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough()
+	 */
+	public IDrillThroughInstance createDrillThrough(String bookmark, boolean isBookmark, String reportName,
+			Map parameterBindings, Map searchCriteria, String target, String format, String targetFileType) {
+		IDrillThroughAction drillThrough = new DrillThroughAction(bookmark, isBookmark, reportName, parameterBindings,
+				searchCriteria, target, format, targetFileType);
+		return new DrillThroughInstance(drillThrough);
+	}
+
+	public IDrillThroughInstance createDrillThrough() {
+		IDrillThroughAction drillThrough = new DrillThroughAction();
+		return new DrillThroughInstance(drillThrough);
+	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getDrillThrough( )
+	 * @see org.eclipse.birt.report.engine.content.IActionInstance#getDrillThrough(
+	 * )
 	 */
-	public IDrillThroughInstance getDrillThrough( )
-	{
-		if ( getType( ) == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_DRILLTHROUGH )
-		{
-			IDrillThroughAction drillThrough = hyperlink.getDrillThrough( );
-			if ( drillThrough != null )
-			{
-				if ( drillThroughInstance == null )
-				{
-					drillThroughInstance = new DrillThroughInstance( drillThrough );
+	public IDrillThroughInstance getDrillThrough() {
+		if (getType() == org.eclipse.birt.report.engine.content.IHyperlinkAction.ACTION_DRILLTHROUGH) {
+			IDrillThroughAction drillThrough = hyperlink.getDrillThrough();
+			if (drillThrough != null) {
+				if (drillThroughInstance == null) {
+					drillThroughInstance = new DrillThroughInstance(drillThrough);
 				}
 			}
 			return drillThroughInstance;
 		}
-		throw new RuntimeException( "The action type is not drillThrough." );
+		throw new RuntimeException("The action type is not drillThrough.");
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough( )
+	 * @see org.eclipse.birt.report.engine.content.IActionInstance#setDrillThrough(
+	 * )
 	 */
-	public void setDrillThrough( IDrillThroughInstance drillThrough )
-	{
-		if ( drillThrough != null )
-		{
-			if ( drillThrough instanceof DrillThroughInstance )
-			{
-				hyperlink.setDrillThrough( ( (DrillThroughInstance)drillThrough ).getDrillThroughAction( ) );
+	public void setDrillThrough(IDrillThroughInstance drillThrough) {
+		if (drillThrough != null) {
+			if (drillThrough instanceof DrillThroughInstance) {
+				hyperlink.setDrillThrough(((DrillThroughInstance) drillThrough).getDrillThroughAction());
 				this.drillThroughInstance = drillThrough;
+			} else {
+				throw new IllegalArgumentException("IDrillThroughInstance is illegal.");
 			}
-			else
-			{
-				throw new IllegalArgumentException( "IDrillThroughInstance is illegal." );
-			}
-		}
-		else
-		{
-			throw new IllegalArgumentException( "IDrillThroughInstance can not be set to NULL." );
+		} else {
+			throw new IllegalArgumentException("IDrillThroughInstance can not be set to NULL.");
 		}
 	}
-	
-	
+
 	/**
 	 * @return this.hyperlink, HyperlinkAction
 	 */
-	IHyperlinkAction getHyperlinkAction( )
-	{
+	IHyperlinkAction getHyperlinkAction() {
 		return hyperlink;
 	}
-	
-	public void setTooltip(String tooltip)
-	{
-		hyperlink.setTooltip( tooltip );
+
+	public void setTooltip(String tooltip) {
+		hyperlink.setTooltip(tooltip);
 	}
-	
-	public String getTooltip( )
-	{
-		
-		return hyperlink.getTooltip( );
-		
+
+	public String getTooltip() {
+
+		return hyperlink.getTooltip();
+
 	}
 }

@@ -10,13 +10,12 @@
  *******************************************************************************/
 package org.eclipse.birt.report.viewer.utilities;
 
-/** 
+/**
  * A class used to get a workspace classpath
  * 
  * @deprecated
  */
-public class WorkspaceClasspathManager
-{
+public class WorkspaceClasspathManager {
 	// implementation instance
 	private static IWorkspaceClasspathFinder finder;
 
@@ -25,12 +24,11 @@ public class WorkspaceClasspathManager
 	 * 
 	 * @return
 	 */
-	public static String getClassPath( )
-	{
-		if ( finder == null )
+	public static String getClassPath() {
+		if (finder == null)
 			return null;
 
-		return finder.getClassPath( );
+		return finder.getClassPath();
 	}
 
 	/**
@@ -38,9 +36,7 @@ public class WorkspaceClasspathManager
 	 * 
 	 * @param pathfinder
 	 */
-	public static void registerClassPathFinder(
-			IWorkspaceClasspathFinder pathfinder )
-	{
+	public static void registerClassPathFinder(IWorkspaceClasspathFinder pathfinder) {
 		finder = pathfinder;
 	}
 }

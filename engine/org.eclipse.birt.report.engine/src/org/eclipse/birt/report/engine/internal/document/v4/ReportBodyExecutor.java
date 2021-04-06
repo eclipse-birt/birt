@@ -18,140 +18,105 @@ import org.eclipse.birt.report.engine.ir.Report;
 import org.eclipse.birt.report.engine.ir.ReportItemDesign;
 import org.eclipse.birt.report.engine.presentation.InstanceIndex;
 
-public class ReportBodyExecutor extends ContainerExecutor
-{
+public class ReportBodyExecutor extends ContainerExecutor {
 
 	private Report reportDesign;
 	private int nextItem;
 
-	ReportBodyExecutor( ExecutorManager manager, Fragment fragment )
-	{
-		super( manager, -1 );
-		this.reportDesign = context.getReport( );
-		this.reader = manager.getReportReader( );
+	ReportBodyExecutor(ExecutorManager manager, Fragment fragment) {
+		super(manager, -1);
+		this.reportDesign = context.getReport();
+		this.reader = manager.getReportReader();
 		this.nextItem = 0;
 		// if fragment is null, we starts from the first element, so set
 		// the next offset to 0, else use the one defined in the fragment.
-		if ( fragment == null )
-		{
-			if ( !reader.isEmpty( ) )
-			{
+		if (fragment == null) {
+			if (!reader.isEmpty()) {
 				nextOffset = reader.getRootOffset();
 			}
-		}
-		else
-		{
-			setFragment( fragment );
+		} else {
+			setFragment(fragment);
 			// the first nextOffset always start from 0 or fragment.leftEdge.
-			Object[][] sections = fragment.getSections( );
-			if ( sections != null && sections.length > 0 )
-			{
+			Object[][] sections = fragment.getSections();
+			if (sections != null && sections.length > 0) {
 				Object[] edges = sections[0];
-				if ( edges[0] == Segment.LEFT_MOST_EDGE )
-				{
-					if ( !reader.isEmpty( ) )
-					{
-						nextOffset = reader.getRootOffset( );
+				if (edges[0] == Segment.LEFT_MOST_EDGE) {
+					if (!reader.isEmpty()) {
+						nextOffset = reader.getRootOffset();
 					}
-				}
-				else
-				{
+				} else {
 					InstanceIndex leftEdge = (InstanceIndex) edges[0];
-					if ( leftEdge.getOffset( ) == -1 )
-					{
-						if ( !reader.isEmpty( ) )
-						{
-							nextOffset = reader.getRootOffset( );
+					if (leftEdge.getOffset() == -1) {
+						if (!reader.isEmpty()) {
+							nextOffset = reader.getRootOffset();
 						}
 					}
 				}
 			}
 		}
-		this.content = report.getRoot( );
-		initializeReportlet( );
+		this.content = report.getRoot();
+		initializeReportlet();
 	}
 
-	public void close( )
-	{
+	public void close() {
 
-		if ( reportlet != null )
-		{
-			try
-			{
-				reportlet.closeReportletQueries( );
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
+		if (reportlet != null) {
+			try {
+				reportlet.closeReportletQueries();
+			} catch (BirtException ex) {
+				context.addException(ex);
 			}
 			reportlet = null;
 		}
 		nextItem = 0;
-		super.close( );
+		super.close();
 	}
 
-	public IBaseResultSet[] getQueryResults( )
-	{
-		if ( reportlet != null )
-		{
-			return reportlet.getQueryResults( );
+	public IBaseResultSet[] getQueryResults() {
+		if (reportlet != null) {
+			return reportlet.getQueryResults();
 		}
-		return super.getQueryResults( );
+		return super.getQueryResults();
 	}
 
-	public IContent execute( )
-	{
-		if ( reportlet != null )
-		{
-			try
-			{
-				reportlet.openReportletQueries( );
-			}
-			catch ( BirtException ex )
-			{
-				context.addException( ex );
+	public IContent execute() {
+		if (reportlet != null) {
+			try {
+				reportlet.openReportletQueries();
+			} catch (BirtException ex) {
+				context.addException(ex);
 			}
 		}
 		return content;
 	}
 
-	protected InstanceID getInstanceID( )
-	{
+	protected InstanceID getInstanceID() {
 		return null;
 	}
 
-	protected ReportItemExecutor doCreateExecutor( long offset )
-			throws Exception
-	{
-		if ( reportlet != null )
-		{
-			return reportlet.createExecutor( offset );
+	protected ReportItemExecutor doCreateExecutor(long offset) throws Exception {
+		if (reportlet != null) {
+			return reportlet.createExecutor(offset);
 		}
-		int itemCount = reportDesign.getContentCount( );
-		if ( nextItem < itemCount )
-		{
-			ReportItemDesign itemDesign = reportDesign.getContent( nextItem );
+		int itemCount = reportDesign.getContentCount();
+		if (nextItem < itemCount) {
+			ReportItemDesign itemDesign = reportDesign.getContent(nextItem);
 			nextItem++;
-			return manager.createExecutor( this, itemDesign, offset );
+			return manager.createExecutor(this, itemDesign, offset);
 		}
 		return null;
 	}
 
-	protected void doSkipToExecutor( InstanceID id, long offset )
-			throws Exception
-	{
-		if ( reportlet != null )
-		{
-			reportlet.skipToExecutor( id, offset );
+	protected void doSkipToExecutor(InstanceID id, long offset) throws Exception {
+		if (reportlet != null) {
+			reportlet.skipToExecutor(id, offset);
 			return;
 		}
-		int itemCount = reportDesign.getContentCount( );
-		long designId = id.getComponentID( );
-		for ( int i = 0; i < itemCount; i++ )
-		{
-			ReportItemDesign itemDesign = reportDesign.getContent( i );
-			if ( designId == itemDesign.getID( ) )
-			{
+		int itemCount = reportDesign.getContentCount();
+		long designId = id.getComponentID();
+		for (int i = 0; i < itemCount; i++) {
+			ReportItemDesign itemDesign = reportDesign.getContent(i);
+			if (designId == itemDesign.getID()) {
 				nextItem = i;
 				return;
 			}
@@ -159,92 +124,69 @@ public class ReportBodyExecutor extends ContainerExecutor
 		nextItem = itemCount;
 	}
 
-	protected void doExecute( ) throws Exception
-	{
+	protected void doExecute() throws Exception {
 	}
 
 	ReportletBodyExecutor reportlet;
 
-	void initializeReportlet( )
-	{
-		if ( reportlet == null )
-		{
-			IReportDocument document = context.getReportDocument( );
+	void initializeReportlet() {
+		if (reportlet == null) {
+			IReportDocument document = context.getReportDocument();
 
-			if ( document instanceof IReportletDocument )
-			{
+			if (document instanceof IReportletDocument) {
 				IReportletDocument reportletDocument = (IReportletDocument) document;
-				try
-				{
-					if ( reportletDocument.isReporltetDocument( ) )
-					{
-						InstanceID iid = reportletDocument
-								.getReportletInstanceID( );
-						if ( iid != null )
-						{
-							long id = iid.getComponentID( );
-							if ( id != -1 )
-							{
-								reportlet = new ReportletBodyExecutor( context,
-										iid );
+				try {
+					if (reportletDocument.isReporltetDocument()) {
+						InstanceID iid = reportletDocument.getReportletInstanceID();
+						if (iid != null) {
+							long id = iid.getComponentID();
+							if (id != -1) {
+								reportlet = new ReportletBodyExecutor(context, iid);
 							}
 						}
 					}
-				}
-				catch ( IOException ex )
-				{
-					context.addException( new EngineException( ex
-							.getLocalizedMessage( ), ex ) );
+				} catch (IOException ex) {
+					context.addException(new EngineException(ex.getLocalizedMessage(), ex));
 				}
 			}
 		}
 	}
 
-	private class ReportletBodyExecutor
-	{
+	private class ReportletBodyExecutor {
 
 		boolean hasNext = true;
 		ReportItemDesign reportletDesign;
 		ReportletQuery reportletQuery;
 
-		ReportletBodyExecutor( ExecutionContext context, InstanceID iid )
-		{
-			long id = iid.getComponentID( );
-			reportletDesign = (ReportItemDesign) context.getReport( )
-					.getReportItemByID( id );
-			reportletQuery = new ReportletQuery( context, iid );
+		ReportletBodyExecutor(ExecutionContext context, InstanceID iid) {
+			long id = iid.getComponentID();
+			reportletDesign = (ReportItemDesign) context.getReport().getReportItemByID(id);
+			reportletQuery = new ReportletQuery(context, iid);
 		}
 
-		ReportItemExecutor createExecutor( long offset ) throws Exception
-		{
-			if ( hasNext )
-			{
+		ReportItemExecutor createExecutor(long offset) throws Exception {
+			if (hasNext) {
 				hasNext = false;
-				return manager.createExecutor( ReportBodyExecutor.this,
-						reportletDesign, offset );
+				return manager.createExecutor(ReportBodyExecutor.this, reportletDesign, offset);
 			}
 			return null;
 		}
 
-		void skipToExecutor( InstanceID id, long offset ) throws Exception
-		{
-			assert id.getComponentID( ) == reportletDesign.getID( );
+		void skipToExecutor(InstanceID id, long offset) throws Exception {
+			assert id.getComponentID() == reportletDesign.getID();
 		}
 
-		void openReportletQueries( ) throws BirtException
-		{
-			reportletQuery.openReportletQueries( );
+		void openReportletQueries() throws BirtException {
+			reportletQuery.openReportletQueries();
 		}
 
-		void closeReportletQueries( ) throws BirtException
-		{
+		void closeReportletQueries() throws BirtException {
 
-			reportletQuery.closeReportletQueries( );
+			reportletQuery.closeReportletQueries();
 		}
 
-		public IBaseResultSet[] getQueryResults( )
-		{
-			return reportletQuery.getQueryResults( );
+		public IBaseResultSet[] getQueryResults() {
+			return reportletQuery.getQueryResults();
 		}
 	}
 }

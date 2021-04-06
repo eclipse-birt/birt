@@ -17,8 +17,7 @@ import org.eclipse.emf.ecore.EObject;
  * Root interface of all chart's model objects.
  */
 
-public interface IChartObject extends EObject
-{
+public interface IChartObject extends EObject {
 
-	IChartObject copyInstance( );
+	IChartObject copyInstance();
 }

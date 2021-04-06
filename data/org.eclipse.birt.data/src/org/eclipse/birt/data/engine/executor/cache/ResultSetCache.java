@@ -30,30 +30,28 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * process such as data grouping without caring how data is cached and retrieved
  * from memory, disk file or other data source.
  */
-public interface ResultSetCache
-{
+public interface ResultSetCache {
 
 	/**
 	 * @return current result index, 0-based
 	 * @throws DataException
 	 */
-	public int getCurrentIndex( ) throws DataException;
+	public int getCurrentIndex() throws DataException;
 
 	/**
 	 * @return current result object
 	 * @throws DataException
 	 */
-	public IResultObject getCurrentResult( ) throws DataException;
+	public IResultObject getCurrentResult() throws DataException;
 
 	/**
-	 * Follows the convention of java.sql. The currRowIndex is initialized to
-	 * -1, and only after next is called once, the pointer will move to the real
-	 * data.
+	 * Follows the convention of java.sql. The currRowIndex is initialized to -1,
+	 * and only after next is called once, the pointer will move to the real data.
 	 * 
 	 * @return true, if the new current row is valid
 	 * @throws DataException
 	 */
-	public boolean next( ) throws DataException;
+	public boolean next() throws DataException;
 
 	/**
 	 * Move the cursor to the next result object, and then fetch its data
@@ -61,7 +59,7 @@ public interface ResultSetCache
 	 * @return next result object, null indicates beyond the end of result set
 	 * @throws DataException
 	 */
-	public IResultObject fetch( ) throws DataException;
+	public IResultObject fetch() throws DataException;
 
 	/**
 	 * Move row index to specified position. this function should be called with
@@ -71,41 +69,38 @@ public interface ResultSetCache
 	 * @param destIndex
 	 * @throws DataException
 	 */
-	public void moveTo( int destIndex ) throws DataException;
+	public void moveTo(int destIndex) throws DataException;
 
 	/**
 	 * @return count of result objects
 	 */
-	public int getCount( ) throws DataException;
+	public int getCount() throws DataException;
 
 	/**
 	 * Reset the current index to -1
 	 */
-	public void reset( ) throws DataException;
+	public void reset() throws DataException;
 
 	/**
 	 * Close result cache, and do clean up work here. As for DiskCache, the
-	 * temporary file will be deleted. So it is important to call this method
-	 * when this cache will not be used any more.
+	 * temporary file will be deleted. So it is important to call this method when
+	 * this cache will not be used any more.
 	 */
-	public void close( ) throws DataException;
-	
+	public void close() throws DataException;
+
 	/**
 	 * Serialize to an output stream
 	 * 
 	 * @param outputStream
-	 * @param auxiliaryIndexCreators 
+	 * @param auxiliaryIndexCreators
 	 */
-	public void doSave( DataOutputStream outputStream,
-			DataOutputStream lensStream, Map<String, StringTable> stringTable,
-			Map<String, IIndexSerializer> index,
-			List<IBinding> cacheRequestMapping, int version,
-			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators,
-			boolean saveRowId )
-			throws DataException;
-	
+	public void doSave(DataOutputStream outputStream, DataOutputStream lensStream, Map<String, StringTable> stringTable,
+			Map<String, IIndexSerializer> index, List<IBinding> cacheRequestMapping, int version,
+			List<IAuxiliaryIndexCreator> auxiliaryIndexCreators, boolean saveRowId) throws DataException;
+
 	/**
 	 * Add incremental rows to output stream
+	 * 
 	 * @param outputStream
 	 * @param rowLensStream
 	 * @param rowCount
@@ -114,16 +109,14 @@ public interface ResultSetCache
 	 * @param cacheRequestMap
 	 * @throws DataException
 	 */
-	public void incrementalUpdate( OutputStream outputStream,
-			OutputStream rowLensStream, int rowCount,
-			Map<String, StringTable> stringTable,
-			Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
-			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators )
-			throws DataException;
-	
+	public void incrementalUpdate(OutputStream outputStream, OutputStream rowLensStream, int rowCount,
+			Map<String, StringTable> stringTable, Map<String, IIndexSerializer> map, List<IBinding> cacheRequestMap,
+			int version, List<IAuxiliaryIndexCreator> auxiliaryIndexCreators) throws DataException;
+
 	/**
 	 * Set the result class of the current result set cache.
+	 * 
 	 * @throws DataException
 	 */
-	public void setResultClass( IResultClass rsMeta ) throws DataException;
+	public void setResultClass(IResultClass rsMeta) throws DataException;
 }

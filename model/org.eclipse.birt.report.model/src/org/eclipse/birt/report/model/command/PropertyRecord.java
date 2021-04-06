@@ -17,40 +17,29 @@ import org.eclipse.birt.report.model.metadata.ElementPropertyDefn;
  * that the property name is valid, that the new value is valid and so on.
  */
 
-public class PropertyRecord extends PropertyRecordImpl
-{
+public class PropertyRecord extends PropertyRecordImpl {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param propertyOwner
-	 *            the report element that has the property
-	 * @param name
-	 *            the name of the property to change
-	 * @param value
-	 *            the new value
+	 * @param propertyOwner the report element that has the property
+	 * @param name          the name of the property to change
+	 * @param value         the new value
 	 */
 
-	public PropertyRecord( DesignElement propertyOwner, String name,
-			Object value )
-	{
-		super( propertyOwner, name, value );
+	public PropertyRecord(DesignElement propertyOwner, String name, Object value) {
+		super(propertyOwner, name, value);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param propertyOwner
-	 *            the element that has the property to set
-	 * @param prop
-	 *            the definition of the property to set
-	 * @param value
-	 *            the new value
+	 * @param propertyOwner the element that has the property to set
+	 * @param prop          the definition of the property to set
+	 * @param value         the new value
 	 */
 
-	public PropertyRecord( DesignElement propertyOwner,
-			ElementPropertyDefn prop, Object value )
-	{
-		super( propertyOwner, prop, value );
+	public PropertyRecord(DesignElement propertyOwner, ElementPropertyDefn prop, Object value) {
+		super(propertyOwner, prop, value);
 	}
 }

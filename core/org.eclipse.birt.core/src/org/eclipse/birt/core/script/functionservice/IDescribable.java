@@ -12,16 +12,16 @@
 package org.eclipse.birt.core.script.functionservice;
 
 /**
- * This is an inner interface that defines common properties for APIs that needs UI awareness.
+ * This is an inner interface that defines common properties for APIs that needs
+ * UI awareness.
  */
 
-interface IDescribable
-{
+interface IDescribable {
 	/**
 	 * Get the description.
 	 * 
 	 * @return
 	 */
 	public String getDescription();
-	
+
 }

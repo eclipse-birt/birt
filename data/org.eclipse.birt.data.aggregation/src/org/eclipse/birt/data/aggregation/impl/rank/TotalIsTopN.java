@@ -19,59 +19,56 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * Implements the built-in Total.isTopN aggregation.
  */
-public class TotalIsTopN extends BaseTopBottomAggregation
-{
+public class TotalIsTopN extends BaseTopBottomAggregation {
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#getName()
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return IBuildInAggregation.TOTAL_TOP_N_FUNC;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggregation#newAccumulator()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggregation#newAccumulator()
 	 */
-	public Accumulator newAccumulator( )
-	{
-		return new MyAccumulator( );
+	public Accumulator newAccumulator() {
+		return new MyAccumulator();
 	}
 
-	private static class MyAccumulator extends NAccumulator
-	{
+	private static class MyAccumulator extends NAccumulator {
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see org.eclipse.birt.data.engine.aggregation.rank.NAccumulator#getNextIndex()
+		 * @see
+		 * org.eclipse.birt.data.engine.aggregation.rank.NAccumulator#getNextIndex()
 		 */
-		protected int getNextIndex( ) throws DataException
-		{
-			return RankAggregationUtil.getNextTopIndex( cachedValues );
+		protected int getNextIndex() throws DataException {
+			return RankAggregationUtil.getNextTopIndex(cachedValues);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDescription()
 	 */
-	public String getDescription( )
-	{
-		return Messages.getString( "TotalIsTopN.description" ); //$NON-NLS-1$
+	public String getDescription() {
+		return Messages.getString("TotalIsTopN.description"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
+	 * @see
+	 * org.eclipse.birt.data.engine.api.aggregation.IAggrFunction#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "TotalIsTopN.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("TotalIsTopN.displayName"); //$NON-NLS-1$
 	}
 }

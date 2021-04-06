@@ -25,8 +25,7 @@ import org.eclipse.birt.report.model.api.util.IPasteStatus;
  * and CopyUtil#canPaste(IElementCopy,
  * org.eclipse.birt.report.model.api.DesignElementHandle, String)}.
  */
-public class PasteStatus implements IPasteStatus
-{
+public class PasteStatus implements IPasteStatus {
 
 	protected boolean canPaste = false;
 	protected List<SemanticException> errors = null;
@@ -34,8 +33,7 @@ public class PasteStatus implements IPasteStatus
 	/**
 	 * Default constructor.
 	 */
-	public PasteStatus( )
-	{
+	public PasteStatus() {
 
 	}
 
@@ -43,8 +41,7 @@ public class PasteStatus implements IPasteStatus
 	 * 
 	 * @return
 	 */
-	public boolean canPaste( )
-	{
+	public boolean canPaste() {
 		return canPaste;
 	}
 
@@ -52,8 +49,7 @@ public class PasteStatus implements IPasteStatus
 	 * 
 	 * @param canPaste
 	 */
-	public void setPaste( boolean canPaste )
-	{
+	public void setPaste(boolean canPaste) {
 		this.canPaste = canPaste;
 	}
 
@@ -61,10 +57,9 @@ public class PasteStatus implements IPasteStatus
 	 * 
 	 * @return
 	 */
-	public List<SemanticException> getErrors( )
-	{
-		if ( errors == null )
-			return Collections.emptyList( );
+	public List<SemanticException> getErrors() {
+		if (errors == null)
+			return Collections.emptyList();
 		return errors;
 	}
 
@@ -72,8 +67,7 @@ public class PasteStatus implements IPasteStatus
 	 * 
 	 * @param errors
 	 */
-	public void setErrors( List<SemanticException> errors )
-	{
+	public void setErrors(List<SemanticException> errors) {
 		this.errors = errors;
 	}
 

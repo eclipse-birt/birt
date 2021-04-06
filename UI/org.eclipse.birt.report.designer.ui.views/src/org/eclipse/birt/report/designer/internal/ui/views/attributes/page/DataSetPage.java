@@ -23,50 +23,40 @@ import org.eclipse.birt.report.model.api.elements.ReportDesignConstants;
  * 
  */
 
-public class DataSetPage extends GeneralPage
-{
+public class DataSetPage extends GeneralPage {
 
-	protected void buildContent( )
-	{
-		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider( ReportItemHandle.NAME_PROP,
-				ReportDesignConstants.DATA_SET_ELEMENT );
-		TextSection nameSection = new TextSection( nameProvider.getDisplayName( ),
-				container,
-				true );
-		nameSection.setProvider( nameProvider );
-		nameSection.setGridPlaceholder( 4, true );
-		nameSection.setWidth( 500 );
-		addSection( PageSectionId.DATASET_NAME, nameSection );
+	protected void buildContent() {
+		TextPropertyDescriptorProvider nameProvider = new TextPropertyDescriptorProvider(ReportItemHandle.NAME_PROP,
+				ReportDesignConstants.DATA_SET_ELEMENT);
+		TextSection nameSection = new TextSection(nameProvider.getDisplayName(), container, true);
+		nameSection.setProvider(nameProvider);
+		nameSection.setGridPlaceholder(4, true);
+		nameSection.setWidth(500);
+		addSection(PageSectionId.DATASET_NAME, nameSection);
 
-		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider( );
-		TextSection elementIdSection = new TextSection( elementIdProvider.getDisplayName( ),
-				container,
-				true );
-		elementIdSection.setProvider( elementIdProvider );
-		elementIdSection.setWidth( 500 );
-		elementIdSection.setGridPlaceholder( 4, true );
-		addSection( PageSectionId.DATASET_ELEMENT_ID, elementIdSection );
+		ElementIdDescriptorProvider elementIdProvider = new ElementIdDescriptorProvider();
+		TextSection elementIdSection = new TextSection(elementIdProvider.getDisplayName(), container, true);
+		elementIdSection.setProvider(elementIdProvider);
+		elementIdSection.setWidth(500);
+		elementIdSection.setGridPlaceholder(4, true);
+		addSection(PageSectionId.DATASET_ELEMENT_ID, elementIdSection);
 
-		TextPropertyDescriptorProvider dataSetProvider = new TextPropertyDescriptorProvider( DataSetHandle.DATA_SOURCE_PROP,
-				ReportDesignConstants.DATA_SET_ELEMENT ) {
+		TextPropertyDescriptorProvider dataSetProvider = new TextPropertyDescriptorProvider(
+				DataSetHandle.DATA_SOURCE_PROP, ReportDesignConstants.DATA_SET_ELEMENT) {
 
-			public String getDisplayName( )
-			{
-				return Messages.getString( "DataSetPageGenerator.DataSourceName" ); //$NON-NLS-1$
+			public String getDisplayName() {
+				return Messages.getString("DataSetPageGenerator.DataSourceName"); //$NON-NLS-1$
 			}
 		};
-		TextSection dataSetSection = new TextSection( dataSetProvider.getDisplayName( ),
-				container,
-				true );
-		dataSetSection.setProvider( dataSetProvider );
-		dataSetSection.setGridPlaceholder( 4, true );
-		dataSetSection.setWidth( 500 );
-		addSection( PageSectionId.DATASET_DATASET, dataSetSection );
+		TextSection dataSetSection = new TextSection(dataSetProvider.getDisplayName(), container, true);
+		dataSetSection.setProvider(dataSetProvider);
+		dataSetSection.setGridPlaceholder(4, true);
+		dataSetSection.setWidth(500);
+		addSection(PageSectionId.DATASET_DATASET, dataSetSection);
 
 	}
 
-	public boolean canReset( )
-	{
+	public boolean canReset() {
 		return false;
 	}
 }

@@ -13,13 +13,10 @@ package org.eclipse.birt.report.engine.layout.area.impl;
 
 import org.eclipse.birt.report.engine.content.IContent;
 
+public class InlineBlockArea extends ContainerArea {
 
-public class InlineBlockArea extends ContainerArea
-{
-
-	InlineBlockArea( IContent content )
-	{
-		super( content );
+	InlineBlockArea(IContent content) {
+		super(content);
 	}
 
 }

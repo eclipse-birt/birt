@@ -30,9 +30,9 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
  * <dd>a column can be variable width or fixed width.</dd>
  * 
  * <dt><strong>Style </strong></dt>
- * <dd>a column can use the style defined for the grid as a whole, or can
- * define a separate style. The developer uses this to create a distinct border
- * around the column, use a different background color, etc.</dd>
+ * <dd>a column can use the style defined for the grid as a whole, or can define
+ * a separate style. The developer uses this to create a distinct border around
+ * the column, use a different background color, etc.</dd>
  * 
  * <dt><strong>Alignment </strong></dt>
  * <dd>how to align items with the column: left, center or right.</dd>
@@ -40,26 +40,24 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
  * 
  */
 
-public class TableColumn extends StyledElement implements ITableColumnModel
-{
+public class TableColumn extends StyledElement implements ITableColumnModel {
 
 	/**
 	 * Default Constructor.
 	 */
 
-	public TableColumn( )
-	{
+	public TableColumn() {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitColumn( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitColumn(this);
 	}
 
 	/*
@@ -68,36 +66,33 @@ public class TableColumn extends StyledElement implements ITableColumnModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.COLUMN_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.report.model.elements.ReportDesign)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#getHandle(org.eclipse.birt.
+	 * report.model.elements.ReportDesign)
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design of the column
+	 * @param module the report design of the column
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public ColumnHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new ColumnHandle( module, this );
+	public ColumnHandle handle(Module module) {
+		if (handle == null) {
+			handle = new ColumnHandle(module, this);
 		}
 		return (ColumnHandle) handle;
 	}

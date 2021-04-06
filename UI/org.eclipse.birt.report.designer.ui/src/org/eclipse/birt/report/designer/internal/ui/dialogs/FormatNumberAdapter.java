@@ -23,73 +23,55 @@ import com.ibm.icu.util.ULocale;
 /**
  * FormatNumberAdapter
  */
-public class FormatNumberAdapter extends FormatAdapter
-{
+public class FormatNumberAdapter extends FormatAdapter {
 
 	private static String[][] choiceArray = null;
 
 	private static String[] formatTypes = null;
 
-	static
-	{
-		IChoiceSet set = ChoiceSetFactory.getStructChoiceSet( NumberFormatValue.FORMAT_VALUE_STRUCT,
-				NumberFormatValue.CATEGORY_MEMBER );
-		IChoice[] choices = set.getChoices( );
-		if ( choices.length > 0 )
-		{
+	static {
+		IChoiceSet set = ChoiceSetFactory.getStructChoiceSet(NumberFormatValue.FORMAT_VALUE_STRUCT,
+				NumberFormatValue.CATEGORY_MEMBER);
+		IChoice[] choices = set.getChoices();
+		if (choices.length > 0) {
 			// excludes "standard".
 			choiceArray = new String[choices.length - 1][2];
-			for ( int i = 0, j = 0; i < choices.length; i++ )
-			{
-				if ( !choices[i].getName( )
-						.equals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD ) )
-				{
-					choiceArray[j][0] = choices[i].getDisplayName( );
-					choiceArray[j][1] = choices[i].getName( );
+			for (int i = 0, j = 0; i < choices.length; i++) {
+				if (!choices[i].getName().equals(DesignChoiceConstants.NUMBER_FORMAT_TYPE_STANDARD)) {
+					choiceArray[j][0] = choices[i].getDisplayName();
+					choiceArray[j][1] = choices[i].getName();
 					j++;
 				}
 			}
-		}
-		else
-		{
+		} else {
 			choiceArray = new String[0][0];
 		}
 
-		if ( choiceArray != null )
-		{
+		if (choiceArray != null) {
 			formatTypes = new String[choiceArray.length];
-			for ( int i = 0; i < choiceArray.length; i++ )
-			{
+			for (int i = 0; i < choiceArray.length; i++) {
 				formatTypes[i] = choiceArray[i][0];
 			}
-		}
-		else
-		{
+		} else {
 			formatTypes = new String[0];
 		}
 	}
 
 	@Override
-	public String[] getFormatTypes( ULocale locale )
-	{
+	public String[] getFormatTypes(ULocale locale) {
 		return formatTypes;
 	}
 
 	@Override
-	public String[][] initChoiceArray( )
-	{
+	public String[][] initChoiceArray() {
 		return choiceArray;
 	}
 
 	@Override
-	public int getIndexOfCategory( String name )
-	{
-		if ( choiceArray != null )
-		{
-			for ( int i = 0; i < choiceArray.length; i++ )
-			{
-				if ( choiceArray[i][1].equals( name ) )
-				{
+	public int getIndexOfCategory(String name) {
+		if (choiceArray != null) {
+			for (int i = 0; i < choiceArray.length; i++) {
+				if (choiceArray[i][1].equals(name)) {
 					return i;
 				}
 			}
@@ -98,14 +80,10 @@ public class FormatNumberAdapter extends FormatAdapter
 	}
 
 	@Override
-	public String getCategory4DisplayName( String displayName )
-	{
-		if ( choiceArray != null )
-		{
-			for ( int i = 0; i < choiceArray.length; i++ )
-			{
-				if ( choiceArray[i][0].equals( displayName ) )
-				{
+	public String getCategory4DisplayName(String displayName) {
+		if (choiceArray != null) {
+			for (int i = 0; i < choiceArray.length; i++) {
+				if (choiceArray[i][0].equals(displayName)) {
 					return choiceArray[i][1];
 				}
 			}
@@ -114,21 +92,17 @@ public class FormatNumberAdapter extends FormatAdapter
 	}
 
 	@Override
-	public String getDisplayName4Category( String category )
-	{
-		return ChoiceSetFactory.getStructDisplayName( NumberFormatValue.FORMAT_VALUE_STRUCT,
-				NumberFormatValue.CATEGORY_MEMBER,
-				category );
+	public String getDisplayName4Category(String category) {
+		return ChoiceSetFactory.getStructDisplayName(NumberFormatValue.FORMAT_VALUE_STRUCT,
+				NumberFormatValue.CATEGORY_MEMBER, category);
 
 	}
 
 	@Override
-	public String getPattern4DisplayName( String displayName, ULocale locale )
-	{
-		String category = ChoiceSetFactory.getStructPropValue( NumberFormatValue.FORMAT_VALUE_STRUCT,
-				NumberFormatValue.CATEGORY_MEMBER,
-				displayName );
+	public String getPattern4DisplayName(String displayName, ULocale locale) {
+		String category = ChoiceSetFactory.getStructPropValue(NumberFormatValue.FORMAT_VALUE_STRUCT,
+				NumberFormatValue.CATEGORY_MEMBER, displayName);
 
-		return FormatNumberPattern.getPatternForCategory( category, locale );
+		return FormatNumberPattern.getPatternForCategory(category, locale);
 	}
 }

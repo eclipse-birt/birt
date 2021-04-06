@@ -41,42 +41,32 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_143173 extends BaseTestCase
-{
+public class Regression_143173 extends BaseTestCase {
 
 	private String filename = "Regression_143173.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
 	 */
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( filename , filename );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(filename, filename);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
-	}
-	
-	public void test_regression_143173( ) throws DesignFileException
-	{
-		openDesign( filename );
 
-		libraryHandle = designHandle.getLibrary( "Lib" ); //$NON-NLS-1$
-		try
-		{
-			ElementExportUtil.exportDesign( designHandle, libraryHandle, true,
-					true );
-			fail( );
-		}
-		catch ( SemanticException e )
-		{
-			assertEquals(
-					LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY,
-					e.getErrorCode( ) );
+	public void tearDown() {
+		removeResource();
+	}
+
+	public void test_regression_143173() throws DesignFileException {
+		openDesign(filename);
+
+		libraryHandle = designHandle.getLibrary("Lib"); //$NON-NLS-1$
+		try {
+			ElementExportUtil.exportDesign(designHandle, libraryHandle, true, true);
+			fail();
+		} catch (SemanticException e) {
+			assertEquals(LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY, e.getErrorCode());
 		}
 	}
 }

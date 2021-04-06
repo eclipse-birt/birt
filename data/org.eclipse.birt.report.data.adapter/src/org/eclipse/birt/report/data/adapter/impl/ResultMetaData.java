@@ -23,8 +23,7 @@ import org.eclipse.birt.report.data.adapter.i18n.ResourceConstants;
 /**
  * This class implement IResultMetaData.
  */
-class ResultMetaData implements IResultMetaData
-{
+class ResultMetaData implements IResultMetaData {
 
 	private List columnDefinitions;
 
@@ -33,8 +32,7 @@ class ResultMetaData implements IResultMetaData
 	 * @param columnDefinitions
 	 * @throws BirtException
 	 */
-	ResultMetaData( List columnDefinitions ) throws BirtException
-	{
+	ResultMetaData(List columnDefinitions) throws BirtException {
 		assert columnDefinitions != null;
 
 		this.columnDefinitions = columnDefinitions;
@@ -42,74 +40,74 @@ class ResultMetaData implements IResultMetaData
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnCount()
 	 */
-	public int getColumnCount( )
-	{
-		return this.columnDefinitions.size( );
+	public int getColumnCount() {
+		return this.columnDefinitions.size();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnName(int)
 	 */
-	public String getColumnName( int index ) throws BirtException
-	{
-		return this.getIndexedColumnDefinition( index ).getColumnName( );
+	public String getColumnName(int index) throws BirtException {
+		return this.getIndexedColumnDefinition(index).getColumnName();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnAlias(int)
 	 */
-	public String getColumnAlias( int index ) throws BirtException
-	{
-		return this.getIndexedColumnDefinition( index ).getAlias( );
+	public String getColumnAlias(int index) throws BirtException {
+		return this.getIndexedColumnDefinition(index).getAlias();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnType(int)
 	 */
-	public int getColumnType( int index ) throws BirtException
-	{
-		return this.getIndexedColumnDefinition( index ).getDataType( );
+	public int getColumnType(int index) throws BirtException {
+		return this.getIndexedColumnDefinition(index).getDataType();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnTypeName(int)
 	 */
-	public String getColumnTypeName( int index ) throws BirtException
-	{
-		return DataType.getName( this.getIndexedColumnDefinition( index )
-				.getDataType( ) );
+	public String getColumnTypeName(int index) throws BirtException {
+		return DataType.getName(this.getIndexedColumnDefinition(index).getDataType());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnNativeTypeName(int)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.api.IResultMetaData#getColumnNativeTypeName(int)
 	 */
-	public String getColumnNativeTypeName( int index ) throws BirtException
-	{
+	public String getColumnNativeTypeName(int index) throws BirtException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#getColumnLabel(int)
 	 */
-	public String getColumnLabel( int index ) throws BirtException
-	{
+	public String getColumnLabel(int index) throws BirtException {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.api.IResultMetaData#isComputedColumn(int)
 	 */
-	public boolean isComputedColumn( int index ) throws BirtException
-	{
+	public boolean isComputedColumn(int index) throws BirtException {
 		return false;
 	}
 
@@ -119,12 +117,10 @@ class ResultMetaData implements IResultMetaData
 	 * @return
 	 * @throws AdapterException
 	 */
-	protected IColumnDefinition getIndexedColumnDefinition( int index )
-			throws AdapterException
-	{
-		if ( index < 1 || index > this.columnDefinitions.size( ) )
-			throw new AdapterException( ResourceConstants.INVALID_COLUMN_INDEX );
-		
-		return (IColumnDefinition) this.columnDefinitions.get( index - 1 );
+	protected IColumnDefinition getIndexedColumnDefinition(int index) throws AdapterException {
+		if (index < 1 || index > this.columnDefinitions.size())
+			throw new AdapterException(ResourceConstants.INVALID_COLUMN_INDEX);
+
+		return (IColumnDefinition) this.columnDefinitions.get(index - 1);
 	}
 }

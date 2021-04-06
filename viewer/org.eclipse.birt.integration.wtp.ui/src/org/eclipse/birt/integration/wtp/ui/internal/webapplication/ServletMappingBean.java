@@ -15,8 +15,7 @@ package org.eclipse.birt.integration.wtp.ui.internal.webapplication;
  * Bean defined for Servlet-Mapping object in web.xml
  * 
  */
-public class ServletMappingBean
-{
+public class ServletMappingBean {
 
 	/**
 	 * servlet name
@@ -31,8 +30,7 @@ public class ServletMappingBean
 	/**
 	 * default constructor
 	 */
-	public ServletMappingBean( )
-	{
+	public ServletMappingBean() {
 	}
 
 	/**
@@ -41,41 +39,36 @@ public class ServletMappingBean
 	 * @param name
 	 * @param uri
 	 */
-	public ServletMappingBean( String name, String uri )
-	{
+	public ServletMappingBean(String name, String uri) {
 		this.name = name;
 		this.uri = uri;
 	}
-	
+
 	/**
 	 * @return the name
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * @return the uri
 	 */
-	public String getUri( )
-	{
+	public String getUri() {
 		return uri;
 	}
-	
+
 	/**
 	 * @param uri the uri to set
 	 */
-	public void setUri( String uri )
-	{
+	public void setUri(String uri) {
 		this.uri = uri;
-	}	
+	}
 }

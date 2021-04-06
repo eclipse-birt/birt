@@ -25,43 +25,36 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 
-public class CopyFormatAction extends ContextSelectionAction
-{
+public class CopyFormatAction extends ContextSelectionAction {
 
-	private static class ElementFormatWrapper implements Listener
-	{
+	private static class ElementFormatWrapper implements Listener {
 
 		private DesignElementHandle element;
 
-		public ElementFormatWrapper( DesignElementHandle element )
-		{
+		public ElementFormatWrapper(DesignElementHandle element) {
 			this.element = element;
-			element.addListener( this );
+			element.addListener(this);
 		}
 
-		public DesignElementHandle getElement( )
-		{
-			if ( element != null && element.getContainer( ) != null )
+		public DesignElementHandle getElement() {
+			if (element != null && element.getContainer() != null)
 				return element;
 			return null;
 		}
 
-		public void dispose( )
-		{
-			if ( this.element != null )
-				this.element.removeListener( this );
+		public void dispose() {
+			if (this.element != null)
+				this.element.removeListener(this);
 			this.element = null;
 		}
 
-		public void elementChanged( DesignElementHandle focus,
-				NotificationEvent ev )
-		{
+		public void elementChanged(DesignElementHandle focus, NotificationEvent ev) {
 			this.element = null;
 		}
 	}
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.views.actions.CopyFormatAction"; //$NON-NLS-1$
-	public static final String ACTION_TEXT = Messages.getString( "CopyFormatAction.text" ); //$NON-NLS-1$
+	public static final String ACTION_TEXT = Messages.getString("CopyFormatAction.text"); //$NON-NLS-1$
 
 	public static ElementFormatWrapper publicElementFormat;
 	private static int instanceCount;
@@ -69,59 +62,48 @@ public class CopyFormatAction extends ContextSelectionAction
 	private ElementFormatWrapper elementFormat;
 	private boolean isDisposed;
 
-	public static DesignElementHandle getDesignElementHandle( )
-	{
-		return publicElementFormat == null ? null
-				: publicElementFormat.getElement( );
+	public static DesignElementHandle getDesignElementHandle() {
+		return publicElementFormat == null ? null : publicElementFormat.getElement();
 	}
 
-	public CopyFormatAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_TEXT );
-		setImageDescriptor( ReportPlatformUIImages.getImageDescriptor( IReportGraphicConstants.ICON_COPY_FORMAT ) );
+	public CopyFormatAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_TEXT);
+		setImageDescriptor(ReportPlatformUIImages.getImageDescriptor(IReportGraphicConstants.ICON_COPY_FORMAT));
 		instanceCount++;
 	}
 
-	public boolean calculateEnabled( )
-	{
-		if ( getSelectedObjects( ).size( ) == 1 )
-		{
-			Object object = getSelectedObjects( ).get( 0 );
-			if ( object instanceof ReportElementEditPart )
-			{
-				return ( (ReportElementEditPart) object ).getModel( ) instanceof DesignElementHandle;
+	public boolean calculateEnabled() {
+		if (getSelectedObjects().size() == 1) {
+			Object object = getSelectedObjects().get(0);
+			if (object instanceof ReportElementEditPart) {
+				return ((ReportElementEditPart) object).getModel() instanceof DesignElementHandle;
 			}
 		}
 		return false;
 	}
 
-	public void run( )
-	{
-		Object object = getSelectedObjects( ).get( 0 );
-		if ( object instanceof ReportElementEditPart )
-		{
-			if ( elementFormat != null )
-				elementFormat.dispose( );
-			if ( publicElementFormat != null )
-				publicElementFormat.dispose( );
-			elementFormat = new ElementFormatWrapper( (DesignElementHandle) ( (ReportElementEditPart) object ).getModel( ) );
+	public void run() {
+		Object object = getSelectedObjects().get(0);
+		if (object instanceof ReportElementEditPart) {
+			if (elementFormat != null)
+				elementFormat.dispose();
+			if (publicElementFormat != null)
+				publicElementFormat.dispose();
+			elementFormat = new ElementFormatWrapper((DesignElementHandle) ((ReportElementEditPart) object).getModel());
 			publicElementFormat = elementFormat;
 		}
 	}
 
-	public void dispose( )
-	{
-		super.dispose( );
-		if ( !isDisposed )
-		{
-			if ( elementFormat != null )
-				elementFormat.dispose( );
-			if ( instanceCount > 0 )
-			{
-				if ( instanceCount == 1 && publicElementFormat != null )
-					publicElementFormat.dispose( );
+	public void dispose() {
+		super.dispose();
+		if (!isDisposed) {
+			if (elementFormat != null)
+				elementFormat.dispose();
+			if (instanceCount > 0) {
+				if (instanceCount == 1 && publicElementFormat != null)
+					publicElementFormat.dispose();
 				instanceCount--;
 			}
 			isDisposed = true;

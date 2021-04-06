@@ -22,8 +22,7 @@ import org.eclipse.birt.report.designer.core.model.schematic.RowHandleAdapter;
  * @author Dazhen Gao
  * @version $Revision: #1 $ $Date: 2005/01/24 $
  */
-public class TableLayoutData
-{
+public class TableLayoutData {
 
 	/**
 	 * Keeps the layout data for cells when initilized from model.
@@ -31,8 +30,7 @@ public class TableLayoutData
 	 * @author Dazhen Gao
 	 * @version $Revision: #1 $ $Date: 2005/01/24 $
 	 */
-	public static class CellData
-	{
+	public static class CellData {
 
 		public int rowNumber;
 
@@ -51,8 +49,7 @@ public class TableLayoutData
 	 * @author Dazhen Gao
 	 * @version $Revision: #1 $ $Date: 2005/01/24 $
 	 */
-	public static class RowData
-	{
+	public static class RowData {
 
 		public int rowNumber;
 
@@ -79,8 +76,7 @@ public class TableLayoutData
 	 * @author Dazhen Gao
 	 * @version $Revision: #1 $ $Date: 2005/01/24 $
 	 */
-	public static class ColumnData
-	{
+	public static class ColumnData {
 
 		public int columnNumber;
 

@@ -16,23 +16,21 @@ import org.eclipse.birt.chart.model.attribute.ScriptValue;
 import com.ibm.icu.util.ULocale;
 
 /**
- * The interface defines method(s) to generate scripts for Action Value of chart model.
+ * The interface defines method(s) to generate scripts for Action Value of chart
+ * model.
  * 
  * @since 2.5.2
  */
 
-public interface IScriptMenuHelper
-{
+public interface IScriptMenuHelper {
 
 	/**
 	 * Returns scripts of 'Invoke Script' action.
 	 * 
-	 * @param index
-	 *            index of action.
-	 * @param sv
-	 *            script action.
+	 * @param index  index of action.
+	 * @param sv     script action.
 	 * @param locale
 	 * @return string script value js
 	 */
-	public String getScriptValueJS( int index, ScriptValue sv, ULocale locale );
+	public String getScriptValueJS(int index, ScriptValue sv, ULocale locale);
 }

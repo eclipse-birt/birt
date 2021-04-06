@@ -24,59 +24,45 @@ import org.eclipse.gef.EditPart;
  * 
  */
 
-public class CrosstabCellBreadcrumbNodeProvider extends
-		DefaultBreadcrumbNodeProvider
-{
+public class CrosstabCellBreadcrumbNodeProvider extends DefaultBreadcrumbNodeProvider {
 
-	public Object getRealModel( Object element )
-	{
+	public Object getRealModel(Object element) {
 		EditPart editpart = null;
-		if ( !( element instanceof EditPart ) )
-		{
-			editpart = getEditPart( element );
-		}
-		else
+		if (!(element instanceof EditPart)) {
+			editpart = getEditPart(element);
+		} else
 			editpart = (EditPart) element;
 
-		if ( editpart != null
-				&& editpart.getModel( ) instanceof BaseCrosstabAdapter )
-		{
-			if ( editpart.getModel( ) instanceof VirtualCrosstabCellAdapter )
-			{
+		if (editpart != null && editpart.getModel() instanceof BaseCrosstabAdapter) {
+			if (editpart.getModel() instanceof VirtualCrosstabCellAdapter) {
 				return element;
 			}
-			return ( (BaseCrosstabAdapter) editpart.getModel( ) ).getDesignElementHandle( );
+			return ((BaseCrosstabAdapter) editpart.getModel()).getDesignElementHandle();
 		}
 		return element;
 	}
 
-	public Object getParent( Object element )
-	{
-		Object model = getRealModel( element );
-		if ( model instanceof ExtendedItemHandle )
-			return getAvailableParent( model );
-		return super.getParent( element );
+	public Object getParent(Object element) {
+		Object model = getRealModel(element);
+		if (model instanceof ExtendedItemHandle)
+			return getAvailableParent(model);
+		return super.getParent(element);
 	}
 
-	private Object getAvailableParent( Object element )
-	{
+	private Object getAvailableParent(Object element) {
 		Object model = element;
-		while ( true )
-		{
-			INodeProvider provider = ProviderFactory.createProvider( model );
-			model = provider.getParent( model );
-			if ( model == null )
+		while (true) {
+			INodeProvider provider = ProviderFactory.createProvider(model);
+			model = provider.getParent(model);
+			if (model == null)
 				return null;
-			else if ( model instanceof ExtendedItemHandle
-					&& ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( ( (ExtendedItemHandle) model ).getExtensionName( ) ) )
-			{
+			else if (model instanceof ExtendedItemHandle && ICrosstabConstants.CROSSTAB_EXTENSION_NAME
+					.equals(((ExtendedItemHandle) model).getExtensionName())) {
 				return model;
 			}
-			Object parent = ProviderFactory.createProvider( model )
-					.getParent( model );
-			if ( parent instanceof ExtendedItemHandle
-					&& ICrosstabConstants.CROSSTAB_EXTENSION_NAME.equals( ( (ExtendedItemHandle) parent ).getExtensionName( ) ) )
-			{
+			Object parent = ProviderFactory.createProvider(model).getParent(model);
+			if (parent instanceof ExtendedItemHandle && ICrosstabConstants.CROSSTAB_EXTENSION_NAME
+					.equals(((ExtendedItemHandle) parent).getExtensionName())) {
 				return model;
 			}
 		}

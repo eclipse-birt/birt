@@ -25,19 +25,17 @@ import org.w3c.dom.css.CSSStyleSheet;
  * style sheet.
  */
 
-public class StyleRule implements CSSStyleRule, Serializable
-{
+public class StyleRule implements CSSStyleRule, Serializable {
 
 	/**
 	 * Document for <code>serialVersionUID</code>.
 	 */
 	private static final long serialVersionUID = 5350775872002094538L;
-	
+
 	private SelectorList selectors = null;
 	private CSSStyleDeclaration style = null;
 
-	public StyleRule( SelectorList selectors )
-	{
+	public StyleRule(SelectorList selectors) {
 		this.selectors = selectors;
 	}
 
@@ -47,9 +45,8 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * @see org.w3c.dom.css.CSSStyleRule#getSelectorText()
 	 */
 
-	public String getSelectorText( )
-	{
-		return selectors.toString( );
+	public String getSelectorText() {
+		return selectors.toString();
 	}
 
 	/*
@@ -57,8 +54,7 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * 
 	 * @see org.w3c.dom.css.CSSStyleRule#setSelectorText(java.lang.String)
 	 */
-	public void setSelectorText( String selectorText ) throws DOMException
-	{
+	public void setSelectorText(String selectorText) throws DOMException {
 
 	}
 
@@ -67,8 +63,7 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * 
 	 * @see org.w3c.dom.css.CSSStyleRule#getStyle()
 	 */
-	public CSSStyleDeclaration getStyle( )
-	{
+	public CSSStyleDeclaration getStyle() {
 		return this.style;
 	}
 
@@ -78,8 +73,7 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#getType()
 	 */
 
-	public short getType( )
-	{
+	public short getType() {
 		return STYLE_RULE;
 	}
 
@@ -89,9 +83,8 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#getCssText()
 	 */
 
-	public String getCssText( )
-	{
-		return getSelectorText( ) + " " + getStyle( ).toString( ); //$NON-NLS-1$
+	public String getCssText() {
+		return getSelectorText() + " " + getStyle().toString(); //$NON-NLS-1$
 	}
 
 	/*
@@ -100,8 +93,7 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#setCssText(java.lang.String)
 	 */
 
-	public void setCssText( String cssText ) throws DOMException
-	{
+	public void setCssText(String cssText) throws DOMException {
 
 	}
 
@@ -111,8 +103,7 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#getParentRule()
 	 */
 
-	public CSSRule getParentRule( )
-	{
+	public CSSRule getParentRule() {
 		return null;
 	}
 
@@ -122,20 +113,17 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#getParentStyleSheet()
 	 */
 
-	public CSSStyleSheet getParentStyleSheet( )
-	{
+	public CSSStyleSheet getParentStyleSheet() {
 		return null;
 	}
 
 	/**
 	 * Sets the style declaration of the rule.
 	 * 
-	 * @param style
-	 *            the style declaration to set
+	 * @param style the style declaration to set
 	 */
 
-	public void setStyle( StyleDeclaration style )
-	{
+	public void setStyle(StyleDeclaration style) {
 		this.style = style;
 	}
 
@@ -145,9 +133,8 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		return getCssText( );
+	public String toString() {
+		return getCssText();
 	}
 
 	/**
@@ -156,8 +143,7 @@ public class StyleRule implements CSSStyleRule, Serializable
 	 * @return the selector list of the style rule
 	 */
 
-	public SelectorList getSelectorList( )
-	{
+	public SelectorList getSelectorList() {
 		return this.selectors;
 	}
 }

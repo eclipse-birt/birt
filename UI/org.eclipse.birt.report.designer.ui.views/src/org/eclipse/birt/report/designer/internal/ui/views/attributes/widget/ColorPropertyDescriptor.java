@@ -27,90 +27,82 @@ import org.eclipse.swt.widgets.Listener;
 /**
  * ColorPropertyDescriptor manages Color choice control.
  */
-public class ColorPropertyDescriptor extends PropertyDescriptor implements
-		IPropertyDescriptor
-{
+public class ColorPropertyDescriptor extends PropertyDescriptor implements IPropertyDescriptor {
 
 	protected ColorBuilder builder;
 
 	/**
-	 * @param propertyProcessor
-	 *            the property handle
+	 * @param propertyProcessor the property handle
 	 */
 
-	public ColorPropertyDescriptor( boolean formStyle )
-	{
-		setFormStyle( formStyle );
+	public ColorPropertyDescriptor(boolean formStyle) {
+		setFormStyle(formStyle);
 	}
 
-	public void setInput( Object handle )
-	{
+	public void setInput(Object handle) {
 		this.input = handle;
-		getDescriptorProvider( ).setInput( input );
+		getDescriptorProvider().setInput(input);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#resetUIData()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#resetUIData()
 	 */
-	public void load( )
-	{
-		String strValue = getDescriptorProvider( ).load( ).toString( );
-		boolean stateFlag = ( ( strValue == null ) == builder.getEnabled( ) );
-		if ( stateFlag )
-			builder.setEnabled( strValue != null );
-		builder.setColorValue( strValue );
+	public void load() {
+		String strValue = getDescriptorProvider().load().toString();
+		boolean stateFlag = ((strValue == null) == builder.getEnabled());
+		if (stateFlag)
+			builder.setEnabled(strValue != null);
+		builder.setColorValue(strValue);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.PropertyDescriptor#getControl()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.widget.
+	 * PropertyDescriptor#getControl()
 	 */
-	public Control getControl( )
-	{
+	public Control getControl() {
 		return builder;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyDescriptor#
+	 * createControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createControl( Composite parent )
-	{
-		builder = new ColorBuilder( parent, SWT.NONE, isFormStyle( ) );
-		if ( getDescriptorProvider( ) instanceof ColorPropertyDescriptorProvider )
-			builder.setChoiceSet( ( (ColorPropertyDescriptorProvider) getDescriptorProvider( ) ).getElementChoiceSet( ) );
-		else if ( getDescriptorProvider( ) instanceof BorderColorDescriptorProvider )
-			builder.setChoiceSet( ( (BorderColorDescriptorProvider) getDescriptorProvider( ) ).getElementChoiceSet( ) );
+	public Control createControl(Composite parent) {
+		builder = new ColorBuilder(parent, SWT.NONE, isFormStyle());
+		if (getDescriptorProvider() instanceof ColorPropertyDescriptorProvider)
+			builder.setChoiceSet(((ColorPropertyDescriptorProvider) getDescriptorProvider()).getElementChoiceSet());
+		else if (getDescriptorProvider() instanceof BorderColorDescriptorProvider)
+			builder.setChoiceSet(((BorderColorDescriptorProvider) getDescriptorProvider()).getElementChoiceSet());
 
-		builder.addListener( SWT.Modify, new Listener( ) {
+		builder.addListener(SWT.Modify, new Listener() {
 
-			public void handleEvent( Event event )
-			{
-				handleColorBuilderModifyEvent( );
+			public void handleEvent(Event event) {
+				handleColorBuilderModifyEvent();
 			}
-		} );
-		if ( value != null )
-			builder.setColorValue( value );
+		});
+		if (value != null)
+			builder.setColorValue(value);
 		return builder;
 	}
 
 	private String value;
 
-	public void setColorValue( String value )
-	{
-		if ( builder != null )
-			builder.setColorValue( value );
+	public void setColorValue(String value) {
+		if (builder != null)
+			builder.setColorValue(value);
 		this.value = value;
 	}
 
-	public RGB getColorValue( )
-	{
-		if ( builder != null )
-			return builder.getRGB( );
+	public RGB getColorValue() {
+		if (builder != null)
+			return builder.getRGB();
 		else
 			return null;
 	}
@@ -118,55 +110,45 @@ public class ColorPropertyDescriptor extends PropertyDescriptor implements
 	/**
 	 * Processes the save action.
 	 */
-	protected void handleColorBuilderModifyEvent( )
-	{
-		int oldValue = ColorUtil.parseColor( getDescriptorProvider( ).load( )
-				.toString( ) );
-		ColorUtil.getRGBs( oldValue );
+	protected void handleColorBuilderModifyEvent() {
+		int oldValue = ColorUtil.parseColor(getDescriptorProvider().load().toString());
+		ColorUtil.getRGBs(oldValue);
 
-		RGB rgb = builder.getRGB( );
+		RGB rgb = builder.getRGB();
 
 		int colorValue = -1;
-		if ( rgb != null )
-			colorValue = ColorUtil.formRGB( rgb.red, rgb.green, rgb.blue );
+		if (rgb != null)
+			colorValue = ColorUtil.formRGB(rgb.red, rgb.green, rgb.blue);
 
-		if ( oldValue == colorValue )
-		{
-			String colorString = getDescriptorProvider( ).load( ).toString( );
-			builder.setColorValue( colorString );
+		if (oldValue == colorValue) {
+			String colorString = getDescriptorProvider().load().toString();
+			builder.setColorValue(colorString);
 			return;
 		}
 
-		String value = builder.getPredefinedColor( );
-		if ( value == null && rgb != null )
-			value = ColorUtil.format( colorValue, ColorUtil.INT_FORMAT );
-		try
-		{
-			save( value );
+		String value = builder.getPredefinedColor();
+		if (value == null && rgb != null)
+			value = ColorUtil.format(colorValue, ColorUtil.INT_FORMAT);
+		try {
+			save(value);
+		} catch (SemanticException e) {
+			WidgetUtil.processError(builder.getShell(), e);
 		}
-		catch ( SemanticException e )
-		{
-			WidgetUtil.processError( builder.getShell( ), e );
-		}
-		if ( rgb == null )
-		{
-			String colorString = getDescriptorProvider( ).load( ).toString( );
-			builder.setColorValue( colorString );
+		if (rgb == null) {
+			String colorString = getDescriptorProvider().load().toString();
+			builder.setColorValue(colorString);
 		}
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
-		descriptorProvider.save( value );
+	public void save(Object value) throws SemanticException {
+		descriptorProvider.save(value);
 	}
 
-	public void setHidden( boolean isHidden )
-	{
-		WidgetUtil.setExcludeGridData( builder, isHidden );
+	public void setHidden(boolean isHidden) {
+		WidgetUtil.setExcludeGridData(builder, isHidden);
 	}
 
-	public void setVisible( boolean isVisible )
-	{
-		builder.setVisible( isVisible );
+	public void setVisible(boolean isVisible) {
+		builder.setVisible(isVisible);
 	}
 }

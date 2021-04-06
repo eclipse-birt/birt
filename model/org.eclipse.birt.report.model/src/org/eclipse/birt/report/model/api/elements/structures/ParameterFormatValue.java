@@ -20,12 +20,10 @@ import org.eclipse.birt.report.model.api.StructureHandle;
  * 
  */
 
-public class ParameterFormatValue extends FormatValue
-{
+public class ParameterFormatValue extends FormatValue {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public static final String FORMAT_VALUE_STRUCT = "ParameterFormatValue"; //$NON-NLS-1$
@@ -36,38 +34,31 @@ public class ParameterFormatValue extends FormatValue
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return FORMAT_VALUE_STRUCT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
+	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.
 	 * report.model.api.SimpleValueHandle, int)
 	 */
 
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
 		assert false;
 		return null;
 	}
 
 	/**
-	 * Return an <code>FormatValueHandle</code> to deal with the parameter
-	 * format.
+	 * Return an <code>FormatValueHandle</code> to deal with the parameter format.
 	 * 
-	 * @param valueHandle
-	 *            the property or member handle
+	 * @param valueHandle the property or member handle
 	 * @return the structure handle
 	 * 
 	 */
 
-	public StructureHandle getHandle( SimpleValueHandle valueHandle )
-	{
-		return new FormatValueHandle( valueHandle.getElementHandle( ),
-				getContext( ) );
+	public StructureHandle getHandle(SimpleValueHandle valueHandle) {
+		return new FormatValueHandle(valueHandle.getElementHandle(), getContext());
 	}
 }

@@ -19,27 +19,24 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
  * Interface of operating css style sheet.
  * 
  */
-public interface ICssStyleSheetOperation
-{
+public interface ICssStyleSheetOperation {
 
 	/**
 	 * Drops the given css from css list.
 	 * 
-	 * @param css
-	 *            the css to drop
+	 * @param css the css to drop
 	 * @return the position of the css to drop
 	 */
 
-	public int dropCss( CssStyleSheet css );
+	public int dropCss(CssStyleSheet css);
 
 	/**
 	 * Adds the given css to css style sheets list.
 	 * 
-	 * @param css
-	 *            the css to insert
+	 * @param css the css to insert
 	 */
 
-	public void addCss( CssStyleSheet css );
+	public void addCss(CssStyleSheet css);
 
 	/**
 	 * Returns only csses this module includes directly.
@@ -47,7 +44,7 @@ public interface ICssStyleSheetOperation
 	 * @return list of csses. each item is <code>CssStyleSheet</code>
 	 */
 
-	public List<CssStyleSheet> getCsses( );
+	public List<CssStyleSheet> getCsses();
 
 	/**
 	 * Insert the given css to the given position
@@ -56,5 +53,5 @@ public interface ICssStyleSheetOperation
 	 * @param index
 	 */
 
-	public void insertCss( CssStyleSheet css, int index );
+	public void insertCss(CssStyleSheet css, int index);
 }

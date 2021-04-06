@@ -19,31 +19,22 @@ import org.eclipse.birt.report.engine.api.script.instance.ILabelInstance;
 /**
  * Default (empty) implementation of the ILabelEventHandler interface
  */
-public class LabelEventAdapter implements ILabelEventHandler
-{
+public class LabelEventAdapter implements ILabelEventHandler {
 
-	public void onPrepare( ILabel labelHandle, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPrepare(ILabel labelHandle, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onCreate( ILabelInstance label, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onCreate(ILabelInstance label, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onRender( ILabelInstance label, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onRender(ILabelInstance label, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onPageBreak( ILabelInstance label, IReportContext reportContext )
-			throws ScriptException
-	{
-		
+	public void onPageBreak(ILabelInstance label, IReportContext reportContext) throws ScriptException {
+
 	}
 
 }

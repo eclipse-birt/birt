@@ -17,50 +17,43 @@ import org.mozilla.javascript.Scriptable;
 /**
  * 
  */
-public class ExecutorHelper implements IExecutorHelper
-{
+public class ExecutorHelper implements IExecutorHelper {
 	//
 	private Scriptable scriptable;
 
 	//
 	private IExecutorHelper parent;
-	
-	private static Logger logger = Logger.getLogger( ExecutorHelper.class.getName( ) );
+
+	private static Logger logger = Logger.getLogger(ExecutorHelper.class.getName());
 
 	/**
 	 * @param scope
 	 */
-	public ExecutorHelper( IExecutorHelper parent )
-	{
-		logger.entering( ExecutorHelper.class.getName( ),
-				"ExecutorHelper",
-				parent );
+	public ExecutorHelper(IExecutorHelper parent) {
+		logger.entering(ExecutorHelper.class.getName(), "ExecutorHelper", parent);
 		this.parent = parent;
-		logger.exiting( ExecutorHelper.class.getName( ), "ExecutorHelper" );
+		logger.exiting(ExecutorHelper.class.getName(), "ExecutorHelper");
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getParent()
 	 */
-	public IExecutorHelper getParent( )
-	{
+	public IExecutorHelper getParent() {
 		return this.parent;
 	}
-	
+
 	/*
 	 * @see org.eclipse.birt.data.engine.impl.IExecutorHelper#getJSRowObject()
 	 */
-	public Scriptable getScriptable( )
-	{
+	public Scriptable getScriptable() {
 		return scriptable;
 	}
-	
+
 	/**
 	 * @param jsRowObject
 	 */
-	public void setScriptable( Scriptable scriptable )
-	{
-		this.scriptable = scriptable;		
+	public void setScriptable(Scriptable scriptable) {
+		this.scriptable = scriptable;
 	}
-	
+
 }

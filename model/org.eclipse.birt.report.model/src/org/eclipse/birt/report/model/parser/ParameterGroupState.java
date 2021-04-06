@@ -22,8 +22,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class ParameterGroupState extends ReportElementState
-{
+public class ParameterGroupState extends ReportElementState {
 
 	/**
 	 * The ParameterGroup instance.
@@ -34,14 +33,11 @@ public class ParameterGroupState extends ReportElementState
 	/**
 	 * Constructs the parameter group state with the design file parser handler.
 	 * 
-	 * @param handler
-	 *            the design parser handler.
-	 * @param slot
-	 *            the slot.
+	 * @param handler the design parser handler.
+	 * @param slot    the slot.
 	 */
-	public ParameterGroupState( ModuleParserHandler handler, int slot )
-	{
-		super( handler, handler.module, slot );
+	public ParameterGroupState(ModuleParserHandler handler, int slot) {
+		super(handler, handler.module, slot);
 	}
 
 	/*
@@ -50,40 +46,34 @@ public class ParameterGroupState extends ReportElementState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return paramGroup;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#startElement(java
 	 * .lang.String)
 	 */
 
-	public AbstractParseState startElement( String tagName )
-	{
-		int tagValue = tagName.toLowerCase( ).hashCode( );
-		if ( ParserSchemaConstants.PARAMETERS_TAG == tagValue )
-			return new ParametersState( handler, paramGroup,
-					ParameterGroup.PARAMETERS_SLOT );
+	public AbstractParseState startElement(String tagName) {
+		int tagValue = tagName.toLowerCase().hashCode();
+		if (ParserSchemaConstants.PARAMETERS_TAG == tagValue)
+			return new ParametersState(handler, paramGroup, ParameterGroup.PARAMETERS_SLOT);
 
-		return super.startElement( tagName );
+		return super.startElement(tagName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		paramGroup = new ParameterGroup( );
-		initElement( attrs, true );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		paramGroup = new ParameterGroup();
+		initElement(attrs, true);
 	}
 }

@@ -52,41 +52,33 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * </p>
  */
 
-public class Regression_134213 extends BaseTestCase
-{
+public class Regression_134213 extends BaseTestCase {
 
 	private final static String INPUT = "regression_134213.xml"; //$NON-NLS-1$
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
+	protected void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
 		// retrieve two input files from tests-model.jar file
-		copyResource_INPUT( INPUT , INPUT );
-		
+		copyResource_INPUT(INPUT, INPUT);
+
 	}
+
 	/**
 	 * @throws DesignFileException
 	 */
-	public void test_regression_134213( ) throws DesignFileException
-	{
-		openDesign( INPUT );
-		ScalarParameterHandle param1 = (ScalarParameterHandle) designHandle
-				.getParameters( ).get( 0 );
-		ScalarParameterHandle param2 = (ScalarParameterHandle) designHandle
-				.getParameters( ).get( 1 );
-		ScalarParameterHandle param3 = (ScalarParameterHandle) designHandle
-				.getParameters( ).get( 2 );
-		ScalarParameterHandle param4 = (ScalarParameterHandle) designHandle
-				.getParameters( ).get( 3 );
+	public void test_regression_134213() throws DesignFileException {
+		openDesign(INPUT);
+		ScalarParameterHandle param1 = (ScalarParameterHandle) designHandle.getParameters().get(0);
+		ScalarParameterHandle param2 = (ScalarParameterHandle) designHandle.getParameters().get(1);
+		ScalarParameterHandle param3 = (ScalarParameterHandle) designHandle.getParameters().get(2);
+		ScalarParameterHandle param4 = (ScalarParameterHandle) designHandle.getParameters().get(3);
 
-		assertEquals( "##,###.##", param1.getPattern( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM, param2
-				.getCategory( ) );
-		assertEquals( "@@.@@", param2.getPattern( ) ); //$NON-NLS-1$
-		assertEquals( DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY, param3
-				.getCategory( ) );
-		assertEquals( "abc:##:00", param4.getPattern( ) ); //$NON-NLS-1$
+		assertEquals("##,###.##", param1.getPattern()); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.STRING_FORMAT_TYPE_CUSTOM, param2.getCategory());
+		assertEquals("@@.@@", param2.getPattern()); //$NON-NLS-1$
+		assertEquals(DesignChoiceConstants.NUMBER_FORMAT_TYPE_CURRENCY, param3.getCategory());
+		assertEquals("abc:##:00", param4.getPattern()); //$NON-NLS-1$
 	}
 }

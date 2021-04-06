@@ -14,8 +14,7 @@ import org.eclipse.birt.report.model.api.GroupElementHandle;
 /**
  * Provide the vitual root of properties view.
  */
-public class PropertySheetRootElement
-{
+public class PropertySheetRootElement {
 
 	private GroupElementHandle model;
 	private String displayName;
@@ -23,11 +22,9 @@ public class PropertySheetRootElement
 	/**
 	 * Constructuor
 	 * 
-	 * @param model,
-	 *            selected element
+	 * @param model, selected element
 	 */
-	public PropertySheetRootElement( GroupElementHandle model )
-	{
+	public PropertySheetRootElement(GroupElementHandle model) {
 		this.model = model;
 	}
 
@@ -36,8 +33,7 @@ public class PropertySheetRootElement
 	 * 
 	 * @return model
 	 */
-	public GroupElementHandle getModel( )
-	{
+	public GroupElementHandle getModel() {
 		return model;
 	}
 
@@ -46,8 +42,7 @@ public class PropertySheetRootElement
 	 * 
 	 * @return display name of root element
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
@@ -56,36 +51,30 @@ public class PropertySheetRootElement
 	 * 
 	 * @param displayName
 	 */
-	public void setDisplayName( String displayName )
-	{
+	public void setDisplayName(String displayName) {
 		this.displayName = displayName;
 	}
 
-	public boolean equals( Object obj )
-	{
-		if ( obj == this )
+	public boolean equals(Object obj) {
+		if (obj == this)
 			return true;
-		if ( obj == null || !( obj instanceof PropertySheetRootElement ) )
+		if (obj == null || !(obj instanceof PropertySheetRootElement))
 			return false;
 		PropertySheetRootElement tmp = (PropertySheetRootElement) obj;
-		if ( tmp.getModel( ).getModuleHandle( ) == null
-				|| tmp.getDisplayName( ) == null )
+		if (tmp.getModel().getModuleHandle() == null || tmp.getDisplayName() == null)
 			return false;
-		if ( tmp.getModel( )
-				.getModuleHandle( )
-				.equals( model.getModuleHandle( ) )
-				&& tmp.getDisplayName( ).equals( displayName ) )
+		if (tmp.getModel().getModuleHandle().equals(model.getModuleHandle())
+				&& tmp.getDisplayName().equals(displayName))
 			return true;
 		return false;
 	}
 
-	public int hashCode( )
-	{
+	public int hashCode() {
 		int hashCode = 23;
-		if ( displayName != null )
-			hashCode += displayName.hashCode( ) * 7;
-		if ( model.getModuleHandle( ) != null )
-			hashCode += model.getModuleHandle( ).hashCode( ) * 13;
+		if (displayName != null)
+			hashCode += displayName.hashCode() * 7;
+		if (model.getModuleHandle() != null)
+			hashCode += model.getModuleHandle().hashCode() * 13;
 		return hashCode;
 	}
 

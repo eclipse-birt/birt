@@ -25,28 +25,24 @@ import org.eclipse.birt.report.model.elements.interfaces.IFreeFormModel;
  * 
  */
 
-public class FreeForm extends ReportItem implements IFreeFormModel
-{
+public class FreeForm extends ReportItem implements IFreeFormModel {
 	/**
 	 * Default constructor.
 	 */
 
-	public FreeForm( )
-	{
-		initSlots( );
+	public FreeForm() {
+		initSlots();
 	}
 
 	/**
 	 * Constructs the free form with optional name.
 	 * 
-	 * @param theName
-	 *            the free-form name
+	 * @param theName the free-form name
 	 */
 
-	public FreeForm( String theName )
-	{
-		super( theName );
-		initSlots( );
+	public FreeForm(String theName) {
+		super(theName);
+		initSlots();
 	}
 
 	/*
@@ -55,8 +51,7 @@ public class FreeForm extends ReportItem implements IFreeFormModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getSlot(int)
 	 */
 
-	public ContainerSlot getSlot( int slot )
-	{
+	public ContainerSlot getSlot(int slot) {
 		assert slot == REPORT_ITEMS_SLOT;
 		return slots[REPORT_ITEMS_SLOT];
 	}
@@ -64,12 +59,12 @@ public class FreeForm extends ReportItem implements IFreeFormModel
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitFreeForm( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitFreeForm(this);
 	}
 
 	/*
@@ -78,8 +73,7 @@ public class FreeForm extends ReportItem implements IFreeFormModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
 
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.FREE_FORM_ITEM;
 	}
 
@@ -89,25 +83,21 @@ public class FreeForm extends ReportItem implements IFreeFormModel
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getHandle()
 	 */
 
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the design for the free form.
+	 * @param module the design for the free form.
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public FreeFormHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new FreeFormHandle( module, this );
+	public FreeFormHandle handle(Module module) {
+		if (handle == null) {
+			handle = new FreeFormHandle(module, this);
 		}
 		return (FreeFormHandle) handle;
 	}

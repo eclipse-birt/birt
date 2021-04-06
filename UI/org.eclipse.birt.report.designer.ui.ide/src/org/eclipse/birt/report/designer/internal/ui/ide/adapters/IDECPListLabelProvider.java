@@ -31,127 +31,95 @@ import org.eclipse.ui.ide.IDE;
  * 
  */
 
-public class IDECPListLabelProvider extends LabelProvider
-{
+public class IDECPListLabelProvider extends LabelProvider {
 
 	private String fNewLabel, fClassLabel, fMissing;
-	private static final String[] fgArchiveExtensions= { "jar", "zip" }; //$NON-NLS-1$ //$NON-NLS-2$
-	public IDECPListLabelProvider( )
-	{
+	private static final String[] fgArchiveExtensions = { "jar", "zip" }; //$NON-NLS-1$ //$NON-NLS-2$
+
+	public IDECPListLabelProvider() {
 		fNewLabel = Messages.getString("IDECPListLabelProvider.new"); //$NON-NLS-1$
 		fClassLabel = Messages.getString("IDECPListLabelProvider.folder"); //$NON-NLS-1$
 		fMissing = Messages.getString("IDECPListLabelProvider.missing"); //$NON-NLS-1$
 	}
 
-	public String getText( Object element )
-	{
-		if ( element instanceof IDECPListElement )
-		{
-			return getCPListElementText( (IDECPListElement) element );
+	public String getText(Object element) {
+		if (element instanceof IDECPListElement) {
+			return getCPListElementText((IDECPListElement) element);
 		}
-		return super.getText( element );
+		return super.getText(element);
 	}
 
-	public String getCPListElementText( IDECPListElement cpentry )
-	{
-		IPath path = cpentry.getPath( );
-		switch ( cpentry.getEntryKind( ) )
-		{
-			case IClasspathEntry.CPE_LIBRARY :
-			{
-				IResource resource = cpentry.getResource( );
-				if ( resource instanceof IContainer )
-				{
-					StringBuffer buf = new StringBuffer( getPathLabel( path,
-							false ) );
-					buf.append( ' ' );
-					buf.append( fClassLabel );
-					if ( !resource.exists( ) )
-					{
-						buf.append( ' ' );
-						if ( cpentry.isMissing( ) )
-						{
-							buf.append( fMissing );
-						}
-						else
-						{
-							buf.append( fNewLabel );
-						}
+	public String getCPListElementText(IDECPListElement cpentry) {
+		IPath path = cpentry.getPath();
+		switch (cpentry.getEntryKind()) {
+		case IClasspathEntry.CPE_LIBRARY: {
+			IResource resource = cpentry.getResource();
+			if (resource instanceof IContainer) {
+				StringBuffer buf = new StringBuffer(getPathLabel(path, false));
+				buf.append(' ');
+				buf.append(fClassLabel);
+				if (!resource.exists()) {
+					buf.append(' ');
+					if (cpentry.isMissing()) {
+						buf.append(fMissing);
+					} else {
+						buf.append(fNewLabel);
 					}
-					return buf.toString( );
 				}
-				else
-				{
-					String label = getPathString( path, resource == null );
-					if ( cpentry.isMissing( ) )
-					{
-						label = label + ' ' + fMissing;
-					}
-					return label;
-				}
-			}
-			case IClasspathEntry.CPE_VARIABLE :
-			{
-				String label = getVariableString( path );
-				if ( cpentry.isMissing( ) )
-				{
+				return buf.toString();
+			} else {
+				String label = getPathString(path, resource == null);
+				if (cpentry.isMissing()) {
 					label = label + ' ' + fMissing;
 				}
 				return label;
 			}
-			case IClasspathEntry.CPE_PROJECT :
-				String label = path.lastSegment( );
-				if ( cpentry.isMissing( ) )
-				{
-					label = label + ' ' + fMissing;
-				}
-				return label;
-			case IClasspathEntry.CPE_SOURCE :
-			{
-				String pathLabel = getPathLabel( path, false );
-				StringBuffer buf = new StringBuffer( pathLabel );
+		}
+		case IClasspathEntry.CPE_VARIABLE: {
+			String label = getVariableString(path);
+			if (cpentry.isMissing()) {
+				label = label + ' ' + fMissing;
+			}
+			return label;
+		}
+		case IClasspathEntry.CPE_PROJECT:
+			String label = path.lastSegment();
+			if (cpentry.isMissing()) {
+				label = label + ' ' + fMissing;
+			}
+			return label;
+		case IClasspathEntry.CPE_SOURCE: {
+			String pathLabel = getPathLabel(path, false);
+			StringBuffer buf = new StringBuffer(pathLabel);
 
-				IResource resource = cpentry.getResource( );
-				if ( resource != null && !resource.exists( ) )
-				{
-					buf.append( ' ' );
-					if ( cpentry.isMissing( ) )
-					{
-						buf.append( fMissing );
-					}
-					else
-					{
-						buf.append( fNewLabel );
-					}
+			IResource resource = cpentry.getResource();
+			if (resource != null && !resource.exists()) {
+				buf.append(' ');
+				if (cpentry.isMissing()) {
+					buf.append(fMissing);
+				} else {
+					buf.append(fNewLabel);
 				}
-				else if ( cpentry.getOrginalPath( ) == null )
-				{
-					buf.append( ' ' );
-					buf.append( fNewLabel );
-				}
-				return buf.toString( );
+			} else if (cpentry.getOrginalPath() == null) {
+				buf.append(' ');
+				buf.append(fNewLabel);
 			}
-			default :
-				// pass
+			return buf.toString();
+		}
+		default:
+			// pass
 		}
 		return Messages.getString("IDECPListLabelProvider.unknown"); //$NON-NLS-1$
 	}
 
-	private String getPathString( IPath path, boolean isExternal )
-	{
-		if ( isArchivePath( path, true ) )
-		{
-			String appended = getPathLabel( path.removeLastSegments( 1 ),
-					isExternal );
-			String lastSegment = path.lastSegment( ) ;
-			return MessageFormat.format( "{0} - {1}", //$NON-NLS-1$
-					new String[]{
-							lastSegment, appended
-					} );
-		}
-		else
-		{
-			return getPathLabel( path, isExternal );
+	private String getPathString(IPath path, boolean isExternal) {
+		if (isArchivePath(path, true)) {
+			String appended = getPathLabel(path.removeLastSegments(1), isExternal);
+			String lastSegment = path.lastSegment();
+			return MessageFormat.format("{0} - {1}", //$NON-NLS-1$
+					new String[] { lastSegment, appended });
+		} else {
+			return getPathLabel(path, isExternal);
 		}
 	}
 
@@ -159,7 +127,7 @@ public class IDECPListLabelProvider extends LabelProvider
 		if (allowAllAchives)
 			return true;
 
-		String ext= path.getFileExtension();
+		String ext = path.getFileExtension();
 		if (ext != null && ext.length() != 0) {
 			return isArchiveFileExtension(ext);
 		}
@@ -167,67 +135,48 @@ public class IDECPListLabelProvider extends LabelProvider
 	}
 
 	public static boolean isArchiveFileExtension(String ext) {
-		for (int i= 0; i < fgArchiveExtensions.length; i++) {
+		for (int i = 0; i < fgArchiveExtensions.length; i++) {
 			if (ext.equalsIgnoreCase(fgArchiveExtensions[i])) {
 				return true;
 			}
 		}
 		return false;
 	}
-	private String getVariableString( IPath path )
-	{
-		String name = getPathLabel( path, false );
-		IPath entryPath = JavaCore.getClasspathVariable( path.segment( 0 ) );
-		if ( entryPath != null )
-		{
-			String appended = getPathLabel( entryPath.append( path.removeFirstSegments( 1 ) ),
-					true );
-			return MessageFormat.format( "{0} - {1}", //$NON-NLS-1$
-					new String[]{
-							name, appended
-					} );
-		}
-		else
-		{
+
+	private String getVariableString(IPath path) {
+		String name = getPathLabel(path, false);
+		IPath entryPath = JavaCore.getClasspathVariable(path.segment(0));
+		if (entryPath != null) {
+			String appended = getPathLabel(entryPath.append(path.removeFirstSegments(1)), true);
+			return MessageFormat.format("{0} - {1}", //$NON-NLS-1$
+					new String[] { name, appended });
+		} else {
 			return name;
 		}
 	}
 
-	private Image getCPListElementBaseImage( IDECPListElement cpentry )
-	{
-		switch ( cpentry.getEntryKind( ) )
-		{
-			case IClasspathEntry.CPE_LIBRARY :
-				IResource res = cpentry.getResource( );
-				if ( res == null )
-				{
-					if (isArchivePath( cpentry.getPath( ),
-							false ) )
-					{
-						return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_NODE_EXTJAR );
-					}
-					else
-					{
-						return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_NODE_EXTFOL );
-					}
+	private Image getCPListElementBaseImage(IDECPListElement cpentry) {
+		switch (cpentry.getEntryKind()) {
+		case IClasspathEntry.CPE_LIBRARY:
+			IResource res = cpentry.getResource();
+			if (res == null) {
+				if (isArchivePath(cpentry.getPath(), false)) {
+					return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_NODE_EXTJAR);
+				} else {
+					return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_NODE_EXTFOL);
 				}
-				else if ( res instanceof IFile )
-				{
-					return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_NODE_JAR );
-				}
-				else
-				{
-					return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_NODE_FOL );
-				}
-			case IClasspathEntry.CPE_PROJECT :
-				return ReportPlugin.getDefault( )
-						.getWorkbench( )
-						.getSharedImages( )
-						.getImage( IDE.SharedImages.IMG_OBJ_PROJECT );
-			case IClasspathEntry.CPE_VARIABLE :
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_NODE_VARIABLE );
-			default :
-				return null;
+			} else if (res instanceof IFile) {
+				return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_NODE_JAR);
+			} else {
+				return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_NODE_FOL);
+			}
+		case IClasspathEntry.CPE_PROJECT:
+			return ReportPlugin.getDefault().getWorkbench().getSharedImages()
+					.getImage(IDE.SharedImages.IMG_OBJ_PROJECT);
+		case IClasspathEntry.CPE_VARIABLE:
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_NODE_VARIABLE);
+		default:
+			return null;
 		}
 	}
 
@@ -236,25 +185,23 @@ public class IDECPListLabelProvider extends LabelProvider
 	 * 
 	 * @see org.eclipse.jface.viewers.LabelProvider#getImage(java.lang.Object)
 	 */
-	public Image getImage( Object element )
-	{
-		if ( element instanceof IDECPListElement )
-		{
+	public Image getImage(Object element) {
+		if (element instanceof IDECPListElement) {
 			IDECPListElement cpentry = (IDECPListElement) element;
-			Image image = getCPListElementBaseImage( cpentry );
+			Image image = getCPListElementBaseImage(cpentry);
 			return image;
 		}
 		return null;
 	}
-	
+
 	public static String getPathLabel(IPath path, boolean isOSPath) {
 		String label;
 		if (isOSPath) {
-			label= path.toOSString();
+			label = path.toOSString();
 		} else {
-			label= path.makeRelative().toString();
+			label = path.makeRelative().toString();
 		}
 		return label;
 	}
-	
+
 }

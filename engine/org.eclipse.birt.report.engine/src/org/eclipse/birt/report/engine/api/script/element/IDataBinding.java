@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.core.IStructure;
  * 
  */
 
-public interface IDataBinding
-{
+public interface IDataBinding {
 
 	/**
 	 * Returns the name of column binding.
@@ -28,17 +27,16 @@ public interface IDataBinding
 	 * @return name name of column binding.
 	 */
 
-	public String getName( );
+	public String getName();
 
 	/**
 	 * Sets the name of column binding.
 	 * 
-	 * @param name
-	 *            name of column binding.
+	 * @param name name of column binding.
 	 * @exception ScriptException
 	 */
 
-	public void setName( String name ) throws ScriptException;
+	public void setName(String name) throws ScriptException;
 
 	/**
 	 * Returns expression of column binding
@@ -46,33 +44,31 @@ public interface IDataBinding
 	 * @return expression of column binding
 	 */
 
-	public String getExpression( );
+	public String getExpression();
 
 	/**
 	 * Sets expression of column binding.
 	 * 
-	 * @param expression
-	 *            expression of column binding.
+	 * @param expression expression of column binding.
 	 * @exception ScriptException
 	 */
 
-	public void setExpression( String expression ) throws ScriptException;
+	public void setExpression(String expression) throws ScriptException;
 
 	/**
 	 * Gets the expression type of the column binding.
 	 * 
 	 * @return the expression type of the column binding.
 	 */
-	public String getExpressionType( );
+	public String getExpressionType();
 
 	/**
 	 * Sets the expression type of the column binding.
 	 * 
-	 * @param type
-	 *            the expression type of the column binding.
+	 * @param type the expression type of the column binding.
 	 * @throws ScriptException
 	 */
-	public void setExpressionType( String type ) throws ScriptException;
+	public void setExpressionType(String type) throws ScriptException;
 
 	/**
 	 * Returns data type of column binding.
@@ -91,7 +87,7 @@ public interface IDataBinding
 	 * @return data type of column binding
 	 */
 
-	public String getDataType( );
+	public String getDataType();
 
 	/**
 	 * Sets data type of column binding
@@ -100,7 +96,7 @@ public interface IDataBinding
 	 * @exception ScriptException
 	 */
 
-	public void setDataType( String dataType ) throws ScriptException;
+	public void setDataType(String dataType) throws ScriptException;
 
 	/**
 	 * Returns aggregateOn of column binding
@@ -108,17 +104,16 @@ public interface IDataBinding
 	 * @return aggregateOn of column binding
 	 */
 
-	public String getAggregateOn( );
+	public String getAggregateOn();
 
 	/**
 	 * Sets aggregateOn of column binding.
 	 * 
-	 * @param on
-	 *            aggregateOn of column binding.
+	 * @param on aggregateOn of column binding.
 	 * @exception ScriptException
 	 */
 
-	public void setAggregateOn( String on ) throws ScriptException;
+	public void setAggregateOn(String on) throws ScriptException;
 
 	/**
 	 * Returns structure.
@@ -126,5 +121,5 @@ public interface IDataBinding
 	 * @return structure
 	 */
 
-	public IStructure getStructure( );
+	public IStructure getStructure();
 }

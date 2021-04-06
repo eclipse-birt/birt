@@ -16,26 +16,25 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * Libraries Provider interface
+ * 
  * @deprecated
  */
 
-public interface ILibraryProvider
-{
+public interface ILibraryProvider {
 
 	/**
 	 * Returns associated libraries for the report.
 	 * 
 	 * @return
 	 */
-	public LibraryHandle[] getLibraries( );
+	public LibraryHandle[] getLibraries();
 
 	/**
-	 * Returns the display icon for the given library If it returns null, a
-	 * default icon will be used.
+	 * Returns the display icon for the given library If it returns null, a default
+	 * icon will be used.
 	 * 
-	 * @param handle
-	 *            the library handle
+	 * @param handle the library handle
 	 * @return the icon for the given library.
 	 */
-	public Image getDisplayIcon( LibraryHandle handle );
+	public Image getDisplayIcon(LibraryHandle handle);
 }

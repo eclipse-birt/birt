@@ -13,31 +13,25 @@ package org.eclipse.birt.report.data.adapter.group;
 
 import org.eclipse.birt.core.exception.BirtException;
 
-
 /**
  * This calculator is used to calculate a group key basing group interval.
  */
 
-abstract class GroupCalculator implements ICalculator
-{
+abstract class GroupCalculator implements ICalculator {
 	protected Object intervalStart;
 	protected double intervalRange;
-	
+
 	/**
 	 * 
 	 * @param intervalStart
 	 * @param intervalRange
 	 * @throws BirtException
 	 */
-	public GroupCalculator(Object intervalStart, double intervalRange) throws BirtException
-	{
+	public GroupCalculator(Object intervalStart, double intervalRange) throws BirtException {
 		this.intervalStart = intervalStart;
-		if ( intervalRange == 0 )
-		{
+		if (intervalRange == 0) {
 			this.intervalRange = 1;
-		}
-		else
-		{
+		} else {
 			this.intervalRange = intervalRange;
 		}
 	}

@@ -20,10 +20,5 @@ import org.eclipse.birt.report.model.parser.DesignSchemaConstants;
  * 
  */
 public class EngineIRConstants
-		implements
-			MetaDataConstants,
-			ReportDesignConstants,
-			DesignSchemaConstants,
-			DesignChoiceConstants
-{
+		implements MetaDataConstants, ReportDesignConstants, DesignSchemaConstants, DesignChoiceConstants {
 }

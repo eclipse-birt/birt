@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.data.engine.script;
 
 import java.util.Map;
@@ -26,96 +26,77 @@ import org.mozilla.javascript.ScriptableObject;
  * Implements the JavaScript DataSource[] array, obtained from
  * "report.dataSources"
  */
-public class JSDataSources extends ScriptableObject
-{
-	private Map			dataSources;
-	
-	private static Logger logger = Logger.getLogger( JSDataSources.class.getName( ) );
+public class JSDataSources extends ScriptableObject {
+	private Map dataSources;
+
+	private static Logger logger = Logger.getLogger(JSDataSources.class.getName());
 	private static final long serialVersionUID = -3214290672302098993L;
-	
+
 	/**
 	 * Constructor.
-	 * @param dataSourceMap A map of data source name (String) to DataSourceRuntime objects
+	 * 
+	 * @param dataSourceMap A map of data source name (String) to DataSourceRuntime
+	 *                      objects
 	 */
-	public JSDataSources( Map dataSourceMap )
-	{
-		logger.entering( JSDataSources.class.getName( ), "JSDataSources" );
+	public JSDataSources(Map dataSourceMap) {
+		logger.entering(JSDataSources.class.getName(), "JSDataSources");
 		assert dataSourceMap != null;
 		this.dataSources = dataSourceMap;
-		
+
 		// This object is not modifiable
 		sealObject();
 	}
-	
+
 	/**
 	 * @see org.mozilla.javascript.Scriptable#getClassName()
 	 */
-	public String getClassName()
-	{
+	public String getClassName() {
 		return "DataSources";
 	}
 
 	/**
-	 * @see org.mozilla.javascript.Scriptable#get(java.lang.String, org.mozilla.javascript.Scriptable)
+	 * @see org.mozilla.javascript.Scriptable#get(java.lang.String,
+	 *      org.mozilla.javascript.Scriptable)
 	 */
-	public Object get( String name, Scriptable start )
-	{
-		try
-		{
-			logger.entering( JSDataSources.class.getName( ), "get", name );
-			IJavascriptContext ds = (IJavascriptContext) dataSources.get( name );
-			if ( ds != null )
-			{
-				if ( logger.isLoggable( Level.FINER ) )
-					logger.exiting( JSDataSources.class.getName( ),
-							"get",
-							ds.getScriptScope( ) );
-				return ds.getScriptScope( );
+	public Object get(String name, Scriptable start) {
+		try {
+			logger.entering(JSDataSources.class.getName(), "get", name);
+			IJavascriptContext ds = (IJavascriptContext) dataSources.get(name);
+			if (ds != null) {
+				if (logger.isLoggable(Level.FINER))
+					logger.exiting(JSDataSources.class.getName(), "get", ds.getScriptScope());
+				return ds.getScriptScope();
+			} else {
+				if (logger.isLoggable(Level.FINER))
+					logger.exiting(JSDataSources.class.getName(), "get", super.get(name, start));
+				return super.get(name, start);
 			}
-			else
-			{
-				if ( logger.isLoggable( Level.FINER ) )
-					logger.exiting( JSDataSources.class.getName( ),
-							"get",
-							super.get( name, start ) );
-				return super.get( name, start );
-			}
-		}
-		catch ( DataException e )
-		{
-			throw new RuntimeException( e.getLocalizedMessage( ), e );
+		} catch (DataException e) {
+			throw new RuntimeException(e.getLocalizedMessage(), e);
 		}
 	}
 
 	/**
 	 * @see org.mozilla.javascript.Scriptable#getIds()
 	 */
-	public Object[] getIds()
-	{
+	public Object[] getIds() {
 		// Returns all data source names
-		return dataSources.keySet().toArray( new String[0] );
+		return dataSources.keySet().toArray(new String[0]);
 	}
-	
+
 	/**
-	 * @see org.mozilla.javascript.Scriptable#has(java.lang.String, org.mozilla.javascript.Scriptable)
+	 * @see org.mozilla.javascript.Scriptable#has(java.lang.String,
+	 *      org.mozilla.javascript.Scriptable)
 	 */
-	public boolean has(String name, Scriptable start)
-	{
-		logger.entering( JSDataSources.class.getName( ), "has", name );
-		if ( dataSources.containsKey( name ) )
-		{	
-			logger.exiting( JSDataSources.class.getName( ),
-					"has",
-					Boolean.valueOf( true ) );
+	public boolean has(String name, Scriptable start) {
+		logger.entering(JSDataSources.class.getName(), "has", name);
+		if (dataSources.containsKey(name)) {
+			logger.exiting(JSDataSources.class.getName(), "has", Boolean.valueOf(true));
 			return true;
-		}
-		else
-		{
-			if ( logger.isLoggable( Level.FINER ) )
-				logger.exiting( JSDataSources.class.getName( ),
-					"has",
-					Boolean.valueOf( super.has( name, start ) ) );
-			return super.has( name, start);
+		} else {
+			if (logger.isLoggable(Level.FINER))
+				logger.exiting(JSDataSources.class.getName(), "has", Boolean.valueOf(super.has(name, start)));
+			return super.has(name, start);
 		}
 	}
 }

@@ -23,30 +23,26 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * exception.
  * </p>
  */
-public class Regression_96054 extends BaseTestCase
-{
+public class Regression_96054 extends BaseTestCase {
 
 	private final static String INPUT = "regression_96054_customers.xml"; //$NON-NLS-1$
 
 	/**
 	 * @throws DesignFileException
 	 */
-	
-	public void setUp( ) throws Exception
-	{
+
+	public void setUp() throws Exception {
 		super.setUp();
-		copyResource_INPUT( INPUT, INPUT );
+		copyResource_INPUT(INPUT, INPUT);
 		System.out.println(INPUT);
 	}
 
-	public void tearDown( )
-	{
-		removeResource( );
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_96054( ) throws DesignFileException
-	{
-		openDesign( INPUT );
-		assertNotNull( designHandle );
+
+	public void test_regression_96054() throws DesignFileException {
+		openDesign(INPUT);
+		assertNotNull(designHandle);
 	}
 }

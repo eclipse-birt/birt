@@ -29,86 +29,65 @@ import org.eclipse.ui.PlatformUI;
 /**
  * ViewDocumentToolbarMenuAction
  */
-public class ViewDocumentToolbarMenuAction implements
-		IWorkbenchWindowActionDelegate
-{
+public class ViewDocumentToolbarMenuAction implements IWorkbenchWindowActionDelegate {
 
-	public void dispose( )
-	{
+	public void dispose() {
 	}
 
-	public void init( IWorkbenchWindow window )
-	{
+	public void init(IWorkbenchWindow window) {
 	}
 
-	public void run( IAction action )
-	{
-		gendoc( action );
+	public void run(IAction action) {
+		gendoc(action);
 	}
 
-	public void selectionChanged( IAction action, ISelection selection )
-	{
+	public void selectionChanged(IAction action, ISelection selection) {
 	}
 
-	private void gendoc( IAction action )
-	{
-		ReportDocumentEditor editor = getActiveReportEditor( false );
+	private void gendoc(IAction action) {
+		ReportDocumentEditor editor = getActiveReportEditor(false);
 		String url = null;
-		if ( editor != null )
-		{
-			url = editor.getFileName( );
+		if (editor != null) {
+			url = editor.getFileName();
 		}
-		if (url == null)
-		{
-			return ;
+		if (url == null) {
+			return;
 		}
-		Map options = new HashMap( );
-		options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
-		options.put( WebViewer.RESOURCE_FOLDER_KEY,
-				ReportPlugin.getDefault( )
-						.getResourceFolder( UIUtil.getCurrentProject( ) ) );
+		Map options = new HashMap();
+		options.put(WebViewer.FORMAT_KEY, WebViewer.HTML);
+		options.put(WebViewer.RESOURCE_FOLDER_KEY,
+				ReportPlugin.getDefault().getResourceFolder(UIUtil.getCurrentProject()));
 
-		WebViewer.display( url, options );
+		WebViewer.display(url, options);
 	}
-	
-	public ReportDocumentEditor getActiveReportEditor( boolean activePageOnly )
-	{
-		IWorkbenchWindow window = PlatformUI.getWorkbench( )
-				.getActiveWorkbenchWindow( );
 
-		if ( window != null )
-		{
-			if ( activePageOnly )
-			{
-				IWorkbenchPage pg = window.getActivePage( );
+	public ReportDocumentEditor getActiveReportEditor(boolean activePageOnly) {
+		IWorkbenchWindow window = PlatformUI.getWorkbench().getActiveWorkbenchWindow();
 
-				if ( pg != null )
-				{
-					IEditorPart editor = pg.getActiveEditor( );
+		if (window != null) {
+			if (activePageOnly) {
+				IWorkbenchPage pg = window.getActivePage();
 
-					if ( editor instanceof ReportDocumentEditor )
-					{
-						return (ReportDocumentEditor)editor;
+				if (pg != null) {
+					IEditorPart editor = pg.getActiveEditor();
+
+					if (editor instanceof ReportDocumentEditor) {
+						return (ReportDocumentEditor) editor;
 					}
 				}
-			}
-			else
-			{
-				IWorkbenchPage[] pgs = window.getPages( );
+			} else {
+				IWorkbenchPage[] pgs = window.getPages();
 
-				for ( int i = 0; i < pgs.length; i++ )
-				{
+				for (int i = 0; i < pgs.length; i++) {
 					IWorkbenchPage pg = pgs[i];
 
-					if ( pg != null )
-					{
-						IEditorPart editor = pg.getActiveEditor( );
+					if (pg != null) {
+						IEditorPart editor = pg.getActiveEditor();
 
-						if ( editor instanceof ReportDocumentEditor )
-						{
-							return (ReportDocumentEditor)editor;
+						if (editor instanceof ReportDocumentEditor) {
+							return (ReportDocumentEditor) editor;
 						}
-						
+
 					}
 				}
 			}

@@ -20,16 +20,17 @@ import org.eclipse.core.resources.IProject;
  * 
  */
 
-public class IDEIClassPathHelperProvider implements IClassPathHelperProvider
-{
+public class IDEIClassPathHelperProvider implements IClassPathHelperProvider {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.preferences.IClassPathHelperProvider#createBlock(org.eclipse.birt.report.designer.ui.preferences.IStatusChangeListener, org.eclipse.core.resources.IProject)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.preferences.
+	 * IClassPathHelperProvider#createBlock(org.eclipse.birt.report.designer.ui.
+	 * preferences.IStatusChangeListener, org.eclipse.core.resources.IProject)
 	 */
-	public OptionsConfigurationBlock createBlock(
-			IStatusChangeListener listener, IProject project )
-	{
-		return new IDEClassPathBlock( listener, project );
+	public OptionsConfigurationBlock createBlock(IStatusChangeListener listener, IProject project) {
+		return new IDEClassPathBlock(listener, project);
 	}
 
 }

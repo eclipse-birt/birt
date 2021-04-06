@@ -78,597 +78,497 @@ import org.eclipse.birt.chart.model.type.impl.PieSeriesImpl;
 import org.eclipse.birt.chart.model.type.impl.ScatterSeriesImpl;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-public class InteractivityCharts
-{
-	protected static final Chart createHSChart( )
-	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		cwaBar.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
-		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		cwaBar.getInteractivity( )
-				.setLegendBehavior( LegendBehaviorType.HIGHLIGHT_SERIE_LITERAL );
-		Plot p = cwaBar.getPlot( );
-		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
-				255,
-				225 ) );
-		cwaBar.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Click \"Items\" to Highlight Seires" ); //$NON-NLS-1$
-		cwaBar.setUnitSpacing( 20 );
+public class InteractivityCharts {
+	protected static final Chart createHSChart() {
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
+		cwaBar.setDimension(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL);
+		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		cwaBar.getInteractivity().setLegendBehavior(LegendBehaviorType.HIGHLIGHT_SERIE_LITERAL);
+		Plot p = cwaBar.getPlot();
+		p.getClientArea().setBackground(ColorDefinitionImpl.create(255, 255, 225));
+		cwaBar.getTitle().getLabel().getCaption().setValue("Click \"Items\" to Highlight Seires"); //$NON-NLS-1$
+		cwaBar.setUnitSpacing(20);
 
-		Legend lg = cwaBar.getLegend( );
-		LineAttributes lia = lg.getOutline( );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lia.setStyle( LineStyle.SOLID_LITERAL );
-		lg.getInsets( ).set( 10, 5, 0, 0 );
-		lg.getOutline( ).setVisible( false );
-		lg.setAnchor( Anchor.NORTH_LITERAL );
-		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+		Legend lg = cwaBar.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().set(10, 5, 0, 0);
+		lg.getOutline().setVisible(false);
+		lg.setAnchor(Anchor.NORTH_LITERAL);
+		lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
 
 		// X-Axis
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
 
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getTitle( ).setVisible( true );
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getTitle().setVisible(true);
 
 		// Y-Axis
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 90 );
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				25, 35, 15
-		} );
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] { "Item 1", "Item 2", "Item 3" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 25, 35, 15 });
 
 		// X-Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().shift(0);
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
 		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-		bs.setStacked( true );
-		bs.setDataSet( orthoValues );
-		bs.setRiser( RiserType.TUBE_LITERAL );
-		bs.setSeriesIdentifier( "Highlight" ); //$NON-NLS-1$
-		bs.getLabel( ).setVisible( true );
-		bs.setLabelPosition( Position.INSIDE_LITERAL );
-		bs.getTriggers( )
-				.add( TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
-						ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
-								SeriesValueImpl.create( String.valueOf( bs.getSeriesIdentifier( ) ) ) ) ) );
+		BarSeries bs = (BarSeries) BarSeriesImpl.create();
+		bs.setStacked(true);
+		bs.setDataSet(orthoValues);
+		bs.setRiser(RiserType.TUBE_LITERAL);
+		bs.setSeriesIdentifier("Highlight"); //$NON-NLS-1$
+		bs.getLabel().setVisible(true);
+		bs.setLabelPosition(Position.INSIDE_LITERAL);
+		bs.getTriggers().add(TriggerImpl.create(TriggerCondition.ONCLICK_LITERAL, ActionImpl.create(
+				ActionType.HIGHLIGHT_LITERAL, SeriesValueImpl.create(String.valueOf(bs.getSeriesIdentifier())))));
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeries( ).add( bs );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(bs);
 
-		Series bs2 = bs.copyInstance( );
-		bs2.setDataSet( NumberDataSetImpl.create( new double[]{
-				35, 30, 10
-		} ) );
-		sdY.getSeries( ).add( bs2 );
+		Series bs2 = bs.copyInstance();
+		bs2.setDataSet(NumberDataSetImpl.create(new double[] { 35, 30, 10 }));
+		sdY.getSeries().add(bs2);
 
-		Series bs3 = bs.copyInstance( );
-		bs3.setDataSet( NumberDataSetImpl.create( new double[]{
-				20, 10, 30
-		} ) );
-		sdY.getSeries( ).add( bs3 );
+		Series bs3 = bs.copyInstance();
+		bs3.setDataSet(NumberDataSetImpl.create(new double[] { 20, 10, 30 }));
+		sdY.getSeries().add(bs3);
 
 		return cwaBar;
 	}
 
-	protected static final Chart createSVGHSChart( )
-	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		cwaBar.setDimension( ChartDimension.TWO_DIMENSIONAL_LITERAL );
-		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		cwaBar.getInteractivity( )
-				.setLegendBehavior( LegendBehaviorType.HIGHLIGHT_SERIE_LITERAL );
-		Plot p = cwaBar.getPlot( );
-		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
-				255,
-				225 ) );
-		cwaBar.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Click \"Items\" to Highlight Seires" ); //$NON-NLS-1$
-		cwaBar.setUnitSpacing( 20 );
+	protected static final Chart createSVGHSChart() {
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
+		cwaBar.setDimension(ChartDimension.TWO_DIMENSIONAL_LITERAL);
+		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		cwaBar.getInteractivity().setLegendBehavior(LegendBehaviorType.HIGHLIGHT_SERIE_LITERAL);
+		Plot p = cwaBar.getPlot();
+		p.getClientArea().setBackground(ColorDefinitionImpl.create(255, 255, 225));
+		cwaBar.getTitle().getLabel().getCaption().setValue("Click \"Items\" to Highlight Seires"); //$NON-NLS-1$
+		cwaBar.setUnitSpacing(20);
 
-		Legend lg = cwaBar.getLegend( );
-		LineAttributes lia = lg.getOutline( );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lia.setStyle( LineStyle.SOLID_LITERAL );
-		lg.getInsets( ).set( 10, 5, 0, 0 );
-		lg.getOutline( ).setVisible( false );
-		lg.setAnchor( Anchor.NORTH_LITERAL );
-		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+		Legend lg = cwaBar.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().set(10, 5, 0, 0);
+		lg.getOutline().setVisible(false);
+		lg.setAnchor(Anchor.NORTH_LITERAL);
+		lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
 
 		// X-Axis
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
 
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getTitle( ).setVisible( true );
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getTitle().setVisible(true);
 
 		// Y-Axis
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 90 );
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				25, 35, 15
-		} );
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] { "Item 1", "Item 2", "Item 3" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 25, 35, 15 });
 
 		// X-Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().shift(0);
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
 		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-		bs.setStacked( true );
-		bs.setDataSet( orthoValues );
+		BarSeries bs = (BarSeries) BarSeriesImpl.create();
+		bs.setStacked(true);
+		bs.setDataSet(orthoValues);
 //		bs.setRiser( RiserType.TUBE_LITERAL );
-		bs.setSeriesIdentifier( "Highlight" ); //$NON-NLS-1$
-		bs.getLabel( ).setVisible( true );
-		bs.setLabelPosition( Position.INSIDE_LITERAL );
-		bs.getTriggers( )
-				.add( TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
-						ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
-								SeriesValueImpl.create( String.valueOf( bs.getSeriesIdentifier( ) ) ) ) ) );
+		bs.setSeriesIdentifier("Highlight"); //$NON-NLS-1$
+		bs.getLabel().setVisible(true);
+		bs.setLabelPosition(Position.INSIDE_LITERAL);
+		bs.getTriggers().add(TriggerImpl.create(TriggerCondition.ONCLICK_LITERAL, ActionImpl.create(
+				ActionType.HIGHLIGHT_LITERAL, SeriesValueImpl.create(String.valueOf(bs.getSeriesIdentifier())))));
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeries( ).add( bs );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(bs);
 
-		Series bs2 = bs.copyInstance( );
-		bs2.setDataSet( NumberDataSetImpl.create( new double[]{
-				35, 30, 10
-		} ) );
-		sdY.getSeries( ).add( bs2 );
+		Series bs2 = bs.copyInstance();
+		bs2.setDataSet(NumberDataSetImpl.create(new double[] { 35, 30, 10 }));
+		sdY.getSeries().add(bs2);
 
-		Series bs3 = bs.copyInstance( );
-		bs3.setDataSet( NumberDataSetImpl.create( new double[]{
-				20, 10, 30
-		} ) );
-		sdY.getSeries( ).add( bs3 );
+		Series bs3 = bs.copyInstance();
+		bs3.setDataSet(NumberDataSetImpl.create(new double[] { 20, 10, 30 }));
+		sdY.getSeries().add(bs3);
 
 		return cwaBar;
 	}
-	
-	protected static final Chart createSTChart( )
-	{
-		ChartWithAxes cwaScatter = ChartWithAxesImpl.create( );
+
+	protected static final Chart createSTChart() {
+		ChartWithAxes cwaScatter = ChartWithAxesImpl.create();
 
 		// Title
-		cwaScatter.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Mouse over the Data Points to Show Tooltips" ); //$NON-NLS-1$
-		cwaScatter.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
+		cwaScatter.getTitle().getLabel().getCaption().setValue("Mouse over the Data Points to Show Tooltips"); //$NON-NLS-1$
+		cwaScatter.getBlock().setBackground(ColorDefinitionImpl.WHITE());
 
 		// Plot
-		cwaScatter.getPlot( ).getClientArea( ).getOutline( ).setVisible( false );
-		cwaScatter.getPlot( )
-				.getClientArea( )
-				.setBackground( ColorDefinitionImpl.create( 255, 255, 225 ) );
+		cwaScatter.getPlot().getClientArea().getOutline().setVisible(false);
+		cwaScatter.getPlot().getClientArea().setBackground(ColorDefinitionImpl.create(255, 255, 225));
 
 		// X-Axis
-		Axis xAxisPrimary = ( (ChartWithAxesImpl) cwaScatter ).getPrimaryBaseAxes( )[0];
-		xAxisPrimary.getTitle( ).setVisible( false );
+		Axis xAxisPrimary = ((ChartWithAxesImpl) cwaScatter).getPrimaryBaseAxes()[0];
+		xAxisPrimary.getTitle().setVisible(false);
 
-		xAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getLabel( )
-				.getCaption( )
-				.setColor( ColorDefinitionImpl.GREEN( ).darker( ) );
+		xAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getLabel().getCaption().setColor(ColorDefinitionImpl.GREEN().darker());
 
-		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setStyle( LineStyle.DOTTED_LITERAL );
-		xAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setColor( ColorDefinitionImpl.GREY( ) );
-		xAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getMajorGrid().getLineAttributes().setStyle(LineStyle.DOTTED_LITERAL);
+		xAxisPrimary.getMajorGrid().getLineAttributes().setColor(ColorDefinitionImpl.GREY());
+		xAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
 
 		// Y-Axis
-		Axis yAxisPrimary = ( (ChartWithAxesImpl) cwaScatter ).getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getLabel( ).getCaption( ).setValue( "Price Axis" ); //$NON-NLS-1$
-		yAxisPrimary.getLabel( )
-				.getCaption( )
-				.setColor( ColorDefinitionImpl.BLUE( ) );
+		Axis yAxisPrimary = ((ChartWithAxesImpl) cwaScatter).getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getLabel().getCaption().setValue("Price Axis"); //$NON-NLS-1$
+		yAxisPrimary.getLabel().getCaption().setColor(ColorDefinitionImpl.BLUE());
 
-		yAxisPrimary.getTitle( ).setVisible( false );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
+		yAxisPrimary.getTitle().setVisible(false);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
 
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setStyle( LineStyle.DOTTED_LITERAL );
-		yAxisPrimary.getMajorGrid( )
-				.getLineAttributes( )
-				.setColor( ColorDefinitionImpl.GREY( ) );
-		yAxisPrimary.getMajorGrid( ).getLineAttributes( ).setVisible( true );
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.getMajorGrid().getLineAttributes().setStyle(LineStyle.DOTTED_LITERAL);
+		yAxisPrimary.getMajorGrid().getLineAttributes().setColor(ColorDefinitionImpl.GREY());
+		yAxisPrimary.getMajorGrid().getLineAttributes().setVisible(true);
 
 		// Data Set
-		NumberDataSet dsNumericValues1 = NumberDataSetImpl.create( new double[]{
-				-46.55, 25.32, 84.46, 125.95, 38.65, -54.32, 30
-		} );
-		NumberDataSet dsNumericValues2 = NumberDataSetImpl.create( new double[]{
-				125.99, 352.95, -201.95, 299.95, -95.95, 65.95, 58.95
-		} );
+		NumberDataSet dsNumericValues1 = NumberDataSetImpl
+				.create(new double[] { -46.55, 25.32, 84.46, 125.95, 38.65, -54.32, 30 });
+		NumberDataSet dsNumericValues2 = NumberDataSetImpl
+				.create(new double[] { 125.99, 352.95, -201.95, 299.95, -95.95, 65.95, 58.95 });
 
 		// X-Series
-		Series seBase = SeriesImpl.create( );
-		seBase.setDataSet( dsNumericValues1 );
+		Series seBase = SeriesImpl.create();
+		seBase.setDataSet(dsNumericValues1);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getQuery( ).setDefinition( "" ); //$NON-NLS-1$
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seBase );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getQuery().setDefinition(""); //$NON-NLS-1$
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seBase);
 
 		// Y-Series
-		ScatterSeries ss = (ScatterSeries) ScatterSeriesImpl.create( );
-		ss.setSeriesIdentifier( "Unit Price" ); //$NON-NLS-1$
-		for ( int i = 0; i < ss.getMarkers( ).size( ); i++ )
-		{
-			ss.getMarkers( ).get( i ).setType( MarkerType.CIRCLE_LITERAL );
+		ScatterSeries ss = (ScatterSeries) ScatterSeriesImpl.create();
+		ss.setSeriesIdentifier("Unit Price"); //$NON-NLS-1$
+		for (int i = 0; i < ss.getMarkers().size(); i++) {
+			ss.getMarkers().get(i).setType(MarkerType.CIRCLE_LITERAL);
 		}
 
-		DataPoint dp = ss.getDataPoint( );
-		dp.getComponents( ).clear( );
-		dp.setPrefix( "(" ); //$NON-NLS-1$
-		dp.setSuffix( ")" ); //$NON-NLS-1$
-		dp.getComponents( )
-				.add( DataPointComponentImpl.create( DataPointComponentType.BASE_VALUE_LITERAL,
-						JavaNumberFormatSpecifierImpl.create( "0.00" ) ) ); //$NON-NLS-1$
-		dp.getComponents( )
-				.add( DataPointComponentImpl.create( DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
-						JavaNumberFormatSpecifierImpl.create( "0.00" ) ) ); //$NON-NLS-1$
+		DataPoint dp = ss.getDataPoint();
+		dp.getComponents().clear();
+		dp.setPrefix("("); //$NON-NLS-1$
+		dp.setSuffix(")"); //$NON-NLS-1$
+		dp.getComponents().add(DataPointComponentImpl.create(DataPointComponentType.BASE_VALUE_LITERAL,
+				JavaNumberFormatSpecifierImpl.create("0.00"))); //$NON-NLS-1$
+		dp.getComponents().add(DataPointComponentImpl.create(DataPointComponentType.ORTHOGONAL_VALUE_LITERAL,
+				JavaNumberFormatSpecifierImpl.create("0.00"))); //$NON-NLS-1$
 
-		ss.getLabel( ).getCaption( ).setColor( ColorDefinitionImpl.RED( ) );
-		ss.getLabel( ).setBackground( ColorDefinitionImpl.CYAN( ) );
-		ss.getLabel( ).setVisible( true );
-		ss.setDataSet( dsNumericValues2 );
-		ss.getTriggers( )
-				.add( TriggerImpl.create( TriggerCondition.ONMOUSEOVER_LITERAL,
-						ActionImpl.create( ActionType.SHOW_TOOLTIP_LITERAL,
-								TooltipValueImpl.create( 500, null ) ) ) );
+		ss.getLabel().getCaption().setColor(ColorDefinitionImpl.RED());
+		ss.getLabel().setBackground(ColorDefinitionImpl.CYAN());
+		ss.getLabel().setVisible(true);
+		ss.setDataSet(dsNumericValues2);
+		ss.getTriggers().add(TriggerImpl.create(TriggerCondition.ONMOUSEOVER_LITERAL,
+				ActionImpl.create(ActionType.SHOW_TOOLTIP_LITERAL, TooltipValueImpl.create(500, null))));
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeriesPalette( ).update( ColorDefinitionImpl.BLACK( ) );
-		sdY.getSeries( ).add( ss );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeriesPalette().update(ColorDefinitionImpl.BLACK());
+		sdY.getSeries().add(ss);
 
 		return cwaScatter;
 	}
 
-	protected static final Chart createTVChart( )
-	{
-		ChartWithAxes cwaLine = ChartWithAxesImpl.create( );
-		cwaLine.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		Plot p = cwaLine.getPlot( );
-		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
-				255,
-				225 ) );
-		cwaLine.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Click \"Line Series\" to Toggle Visibility" ); //$NON-NLS-1$
-		cwaLine.setUnitSpacing( 20 );
+	protected static final Chart createTVChart() {
+		ChartWithAxes cwaLine = ChartWithAxesImpl.create();
+		cwaLine.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = cwaLine.getPlot();
+		p.getClientArea().setBackground(ColorDefinitionImpl.create(255, 255, 225));
+		cwaLine.getTitle().getLabel().getCaption().setValue("Click \"Line Series\" to Toggle Visibility"); //$NON-NLS-1$
+		cwaLine.setUnitSpacing(20);
 
-		Legend lg = cwaLine.getLegend( );
-		LineAttributes lia = lg.getOutline( );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lia.setStyle( LineStyle.SOLID_LITERAL );
-		lg.getInsets( ).set( 10, 5, 0, 0 );
-		lg.getOutline( ).setVisible( false );
-		lg.setAnchor( Anchor.NORTH_LITERAL );
-		lg.getTriggers( )
-				.add( TriggerImpl.create( TriggerCondition.ONMOUSEDOWN_LITERAL,
-						ActionImpl.create( ActionType.TOGGLE_VISIBILITY_LITERAL,
-								SeriesValueImpl.create( "not-used" ) ) ) ); //$NON-NLS-1$
+		Legend lg = cwaLine.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().set(10, 5, 0, 0);
+		lg.getOutline().setVisible(false);
+		lg.setAnchor(Anchor.NORTH_LITERAL);
+		lg.getTriggers().add(TriggerImpl.create(TriggerCondition.ONMOUSEDOWN_LITERAL,
+				ActionImpl.create(ActionType.TOGGLE_VISIBILITY_LITERAL, SeriesValueImpl.create("not-used")))); //$NON-NLS-1$
 
-		Axis xAxisPrimary = cwaLine.getPrimaryBaseAxes( )[0];
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getTitle( ).setVisible( false );
+		Axis xAxisPrimary = cwaLine.getPrimaryBaseAxes()[0];
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getTitle().setVisible(false);
 
-		Axis yAxisPrimary = cwaLine.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.getTitle( ).setVisible( false );
+		Axis yAxisPrimary = cwaLine.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.getTitle().setVisible(false);
 
-		Vector<String> vs = new Vector<String>( );
-		vs.add( "one" ); //$NON-NLS-1$
-		vs.add( "two" ); //$NON-NLS-1$
-		vs.add( "three" ); //$NON-NLS-1$
+		Vector<String> vs = new Vector<String>();
+		vs.add("one"); //$NON-NLS-1$
+		vs.add("two"); //$NON-NLS-1$
+		vs.add("three"); //$NON-NLS-1$
 
-		ArrayList<Double> vn1 = new ArrayList<Double>( );
-		vn1.add( new Double( 25 ) );
-		vn1.add( new Double( 35 ) );
-		vn1.add( new Double( -45 ) );
+		ArrayList<Double> vn1 = new ArrayList<Double>();
+		vn1.add(new Double(25));
+		vn1.add(new Double(35));
+		vn1.add(new Double(-45));
 
-		TextDataSet categoryValues = TextDataSetImpl.create( vs );
-		NumberDataSet orthoValues1 = NumberDataSetImpl.create( vn1 );
+		TextDataSet categoryValues = TextDataSetImpl.create(vs);
+		NumberDataSet orthoValues1 = NumberDataSetImpl.create(vn1);
 
 		// CREATE THE CATEGORY SERIES
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
 		// CREATE THE PRIMARY DATASET
-		LineSeries ls = (LineSeries) LineSeriesImpl.create( );
-		ls.setStacked( true );
-		ls.setSeriesIdentifier( "Line Series" ); //$NON-NLS-1$
-		ls.setDataSet( orthoValues1 );
-		ls.getLineAttributes( ).setColor( ColorDefinitionImpl.CREAM( ) );		
-		
-		for ( int i = 0; i < ls.getMarkers( ).size( ); i++ )
-		{
-			ls.getMarkers( )
-					.get( i )
-					.setType( MarkerType.FOUR_DIAMONDS_LITERAL );
-			ls.getMarkers( ).get( i ).setSize( 8 );
+		LineSeries ls = (LineSeries) LineSeriesImpl.create();
+		ls.setStacked(true);
+		ls.setSeriesIdentifier("Line Series"); //$NON-NLS-1$
+		ls.setDataSet(orthoValues1);
+		ls.getLineAttributes().setColor(ColorDefinitionImpl.CREAM());
+
+		for (int i = 0; i < ls.getMarkers().size(); i++) {
+			ls.getMarkers().get(i).setType(MarkerType.FOUR_DIAMONDS_LITERAL);
+			ls.getMarkers().get(i).setSize(8);
 		}
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 ); // SET THE COLOR IN THE PALETTE
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().shift(0); // SET THE COLOR IN THE PALETTE
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		sdY.getSeriesPalette( ).shift( -1 ); // SET THE COLOR IN THE PALETTE
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		sdY.getSeriesPalette().shift(-1); // SET THE COLOR IN THE PALETTE
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
 
-		sdX.getSeries( ).add( seCategory );
-		sdY.getSeries( ).add( ls );
-		
-		Series ls2 = EcoreUtil.copy( ls );
-		ls2.setDataSet( NumberDataSetImpl.create( vn1 ) );
-		sdY.getSeries( ).add( ls2 );
-		
-		Series ls3 = EcoreUtil.copy( ls );
-		ls3.setDataSet( NumberDataSetImpl.create( vn1 ) );
-		sdY.getSeries( ).add( ls3 );
+		sdX.getSeries().add(seCategory);
+		sdY.getSeries().add(ls);
+
+		Series ls2 = EcoreUtil.copy(ls);
+		ls2.setDataSet(NumberDataSetImpl.create(vn1));
+		sdY.getSeries().add(ls2);
+
+		Series ls3 = EcoreUtil.copy(ls);
+		ls3.setDataSet(NumberDataSetImpl.create(vn1));
+		sdY.getSeries().add(ls3);
 
 		return cwaLine;
 	}
 
-	protected static final Chart createURChart( )
-	{
-		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
+	protected static final Chart createURChart() {
+		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
 
 		// Plot
-		cwoaPie.setSeriesThickness( 25 );
-		cwoaPie.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		Plot p = cwoaPie.getPlot( );
-		p.getClientArea( ).setBackground( null );
-		p.getClientArea( ).getOutline( ).setVisible( true );
-		p.getOutline( ).setVisible( true );
+		cwoaPie.setSeriesThickness(25);
+		cwoaPie.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = cwoaPie.getPlot();
+		p.getClientArea().setBackground(null);
+		p.getClientArea().getOutline().setVisible(true);
+		p.getOutline().setVisible(true);
 
 		// Legend
-		Legend lg = cwoaPie.getLegend( );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lg.setBackground( null );
-		lg.getOutline( ).setVisible( true );
+		Legend lg = cwoaPie.getLegend();
+		lg.getText().getFont().setSize(16);
+		lg.setBackground(null);
+		lg.getOutline().setVisible(true);
 
 		// Title
-		cwoaPie.getTitle( ).getLabel( ).getCaption( ).setValue( "Click Pie slice to Redirect URL" ); //$NON-NLS-1$
-		cwoaPie.getTitle( ).getOutline( ).setVisible( true );
+		cwoaPie.getTitle().getLabel().getCaption().setValue("Click Pie slice to Redirect URL"); //$NON-NLS-1$
+		cwoaPie.getTitle().getOutline().setVisible(true);
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"New York", "Boston", "Chicago", "San Francisco", "Dallas" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-		} );
-		NumberDataSet seriesOneValues = NumberDataSetImpl.create( new double[]{
-				54.65, 21, 75.95, 91.28, 37.43
-		} );
+		TextDataSet categoryValues = TextDataSetImpl
+				.create(new String[] { "New York", "Boston", "Chicago", "San Francisco", "Dallas" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				});
+		NumberDataSet seriesOneValues = NumberDataSetImpl.create(new double[] { 54.65, 21, 75.95, 91.28, 37.43 });
 
 		// Base Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sd = SeriesDefinitionImpl.create( );
-		cwoaPie.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).shift( 0 );
-		sd.getSeries( ).add( seCategory );
+		SeriesDefinition sd = SeriesDefinitionImpl.create();
+		cwoaPie.getSeriesDefinitions().add(sd);
+		sd.getSeriesPalette().shift(0);
+		sd.getSeries().add(seCategory);
 
 		// Orthogonal Series
-		PieSeries sePie = (PieSeries) PieSeriesImpl.create( );
-		sePie.setDataSet( seriesOneValues );
-		sePie.setSeriesIdentifier( "Cities" ); //$NON-NLS-1$
+		PieSeries sePie = (PieSeries) PieSeriesImpl.create();
+		sePie.setDataSet(seriesOneValues);
+		sePie.setSeriesIdentifier("Cities"); //$NON-NLS-1$
 
-		Trigger triger = TriggerImpl.create( TriggerCondition.ONMOUSEDOWN_LITERAL,
-				ActionImpl.create( ActionType.URL_REDIRECT_LITERAL,
-						URLValueImpl.create( "http://www.actuate.com", //$NON-NLS-1$
-								null, null, null, null ) ) );
-		sePie.getTriggers( ).add( triger );
+		Trigger triger = TriggerImpl.create(TriggerCondition.ONMOUSEDOWN_LITERAL,
+				ActionImpl.create(ActionType.URL_REDIRECT_LITERAL, URLValueImpl.create("http://www.actuate.com", //$NON-NLS-1$
+						null, null, null, null)));
+		sePie.getTriggers().add(triger);
 
-		SeriesDefinition sdCity = SeriesDefinitionImpl.create( );
-		sdCity.getQuery( ).setDefinition( "Census.City" ); //$NON-NLS-1$
-		sd.getSeriesDefinitions( ).add( sdCity );
-		sdCity.getSeries( ).add( sePie );
+		SeriesDefinition sdCity = SeriesDefinitionImpl.create();
+		sdCity.getQuery().setDefinition("Census.City"); //$NON-NLS-1$
+		sd.getSeriesDefinitions().add(sdCity);
+		sdCity.getSeries().add(sePie);
 
 		return cwoaPie;
 	}
-	
-	protected static final Chart createCBChart( )
-	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		cwaBar.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Click \"Items\" to Call Back" ); //$NON-NLS-1$
-		cwaBar.setUnitSpacing( 20 );
 
-		Legend lg = cwaBar.getLegend( );
-		LineAttributes lia = lg.getOutline( );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lia.setStyle( LineStyle.SOLID_LITERAL );
-		lg.getInsets( ).set( 10, 5, 0, 0 );
-		lg.getOutline( ).setVisible( false );
-		lg.setAnchor( Anchor.NORTH_LITERAL );
-		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+	protected static final Chart createCBChart() {
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
+		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		cwaBar.getTitle().getLabel().getCaption().setValue("Click \"Items\" to Call Back"); //$NON-NLS-1$
+		cwaBar.setUnitSpacing(20);
+
+		Legend lg = cwaBar.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().set(10, 5, 0, 0);
+		lg.getOutline().setVisible(false);
+		lg.setAnchor(Anchor.NORTH_LITERAL);
+		lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
 
 		// X-Axis
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
 
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getTitle( ).setVisible( true );
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getTitle().setVisible(true);
 
 		// Y-Axis
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 90 );
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				25, 35, 15
-		} );
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] { "Item 1", "Item 2", "Item 3" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 25, 35, 15 });
 
 		// X-Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().shift(0);
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
 		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-		bs.setDataSet( orthoValues );
-		bs.setRiserOutline( null );
-		bs.setSeriesIdentifier( "Callback" ); //$NON-NLS-1$
-		bs.getLabel( ).setVisible( true );
-		bs.setLabelPosition( Position.INSIDE_LITERAL );
-		bs.getTriggers( )
-				.add( TriggerImpl.create( TriggerCondition.ONCLICK_LITERAL,
-						ActionImpl.create( ActionType.CALL_BACK_LITERAL,
-								CallBackValueImpl.create( String.valueOf( bs.getSeriesIdentifier( ) ) ) ) ) );
+		BarSeries bs = (BarSeries) BarSeriesImpl.create();
+		bs.setDataSet(orthoValues);
+		bs.setRiserOutline(null);
+		bs.setSeriesIdentifier("Callback"); //$NON-NLS-1$
+		bs.getLabel().setVisible(true);
+		bs.setLabelPosition(Position.INSIDE_LITERAL);
+		bs.getTriggers().add(TriggerImpl.create(TriggerCondition.ONCLICK_LITERAL, ActionImpl.create(
+				ActionType.CALL_BACK_LITERAL, CallBackValueImpl.create(String.valueOf(bs.getSeriesIdentifier())))));
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeries( ).add( bs );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(bs);
 
 		return cwaBar;
 	}
 
-	protected static final Chart createRCChart( )
-	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
-		cwaBar.setDimension( ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL );
-		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		cwaBar.getInteractivity( )
-				.setLegendBehavior( LegendBehaviorType.HIGHLIGHT_SERIE_LITERAL );
-		Plot p = cwaBar.getPlot( );
-		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
-				255,
-				225 ) );
-		cwaBar.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( "Right Click \"Items\" to Highlight Seires" ); //$NON-NLS-1$
-		cwaBar.setUnitSpacing( 20 );
+	protected static final Chart createRCChart() {
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
+		cwaBar.setDimension(ChartDimension.TWO_DIMENSIONAL_WITH_DEPTH_LITERAL);
+		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		cwaBar.getInteractivity().setLegendBehavior(LegendBehaviorType.HIGHLIGHT_SERIE_LITERAL);
+		Plot p = cwaBar.getPlot();
+		p.getClientArea().setBackground(ColorDefinitionImpl.create(255, 255, 225));
+		cwaBar.getTitle().getLabel().getCaption().setValue("Right Click \"Items\" to Highlight Seires"); //$NON-NLS-1$
+		cwaBar.setUnitSpacing(20);
 
-		Legend lg = cwaBar.getLegend( );
-		LineAttributes lia = lg.getOutline( );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lia.setStyle( LineStyle.SOLID_LITERAL );
-		lg.getInsets( ).set( 10, 5, 0, 0 );
-		lg.getOutline( ).setVisible( false );
-		lg.setAnchor( Anchor.NORTH_LITERAL );
-		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+		Legend lg = cwaBar.getLegend();
+		LineAttributes lia = lg.getOutline();
+		lg.getText().getFont().setSize(16);
+		lia.setStyle(LineStyle.SOLID_LITERAL);
+		lg.getInsets().set(10, 5, 0, 0);
+		lg.getOutline().setVisible(false);
+		lg.setAnchor(Anchor.NORTH_LITERAL);
+		lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
 
 		// X-Axis
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
 
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getTitle( ).setVisible( true );
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getTitle().setVisible(true);
 
 		// Y-Axis
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 90 );
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				25, 35, 15
-		} );
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] { "Item 1", "Item 2", "Item 3" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 25, 35, 15 });
 
 		// X-Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().shift(0);
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
 		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-		bs.setStacked( true );
-		bs.setDataSet( orthoValues );
-		bs.setRiser( RiserType.TUBE_LITERAL );
-		bs.setSeriesIdentifier( "Highlight" ); //$NON-NLS-1$
-		bs.getLabel( ).setVisible( true );
-		bs.setLabelPosition( Position.INSIDE_LITERAL );
-		bs.getTriggers( )
-				.add( TriggerImpl.create( TriggerCondition.ONRIGHTCLICK_LITERAL,
-						ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
-								SeriesValueImpl.create( String.valueOf( bs.getSeriesIdentifier( ) ) ) ) ) );
-		lg.getTriggers( )
-				.add( TriggerImpl.create( TriggerCondition.ONRIGHTCLICK_LITERAL,
-						ActionImpl.create( ActionType.HIGHLIGHT_LITERAL,
-								SeriesValueImpl.create( String.valueOf( bs.getSeriesIdentifier( ) ) ) ) ) );
+		BarSeries bs = (BarSeries) BarSeriesImpl.create();
+		bs.setStacked(true);
+		bs.setDataSet(orthoValues);
+		bs.setRiser(RiserType.TUBE_LITERAL);
+		bs.setSeriesIdentifier("Highlight"); //$NON-NLS-1$
+		bs.getLabel().setVisible(true);
+		bs.setLabelPosition(Position.INSIDE_LITERAL);
+		bs.getTriggers().add(TriggerImpl.create(TriggerCondition.ONRIGHTCLICK_LITERAL, ActionImpl.create(
+				ActionType.HIGHLIGHT_LITERAL, SeriesValueImpl.create(String.valueOf(bs.getSeriesIdentifier())))));
+		lg.getTriggers().add(TriggerImpl.create(TriggerCondition.ONRIGHTCLICK_LITERAL, ActionImpl.create(
+				ActionType.HIGHLIGHT_LITERAL, SeriesValueImpl.create(String.valueOf(bs.getSeriesIdentifier())))));
 
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeries( ).add( bs );
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(bs);
 
-		Series bs2 =  EcoreUtil.copy( bs );
-		bs2.setDataSet( NumberDataSetImpl.create( new double[]{
-				35, 30, 10
-		} ) );
-		sdY.getSeries( ).add( bs2 );
+		Series bs2 = EcoreUtil.copy(bs);
+		bs2.setDataSet(NumberDataSetImpl.create(new double[] { 35, 30, 10 }));
+		sdY.getSeries().add(bs2);
 
-		Series bs3 =  EcoreUtil.copy( bs );
-		bs3.setDataSet( NumberDataSetImpl.create( new double[]{
-				20, 10, 30
-		} ) );
-		sdY.getSeries( ).add( bs3 );
+		Series bs3 = EcoreUtil.copy(bs);
+		bs3.setDataSet(NumberDataSetImpl.create(new double[] { 20, 10, 30 }));
+		sdY.getSeries().add(bs3);
 
 		return cwaBar;
 	}
@@ -676,131 +576,126 @@ public class InteractivityCharts
 	/**
 	 * Creates a simple bar chart model and set cursors.
 	 * 
-	 * @return An instance of the simulated runtime chart model (containing
-	 *         filled datasets)
+	 * @return An instance of the simulated runtime chart model (containing filled
+	 *         datasets)
 	 */
-	public static final Chart createBarChartWithCursorExample( )
-	{
-		ChartWithAxes cwaBar = ChartWithAxesImpl.create( );
+	public static final Chart createBarChartWithCursorExample() {
+		ChartWithAxes cwaBar = ChartWithAxesImpl.create();
 
 		// Plot
-		cwaBar.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		cwaBar.getBlock( ).getOutline( ).setVisible( true );
-		Plot p = cwaBar.getPlot( );
-		p.getClientArea( ).setBackground( ColorDefinitionImpl.create( 255,
-				255,
-				225 ) );
-		p.getOutline( ).setVisible( false );
+		cwaBar.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		cwaBar.getBlock().getOutline().setVisible(true);
+		Plot p = cwaBar.getPlot();
+		p.getClientArea().setBackground(ColorDefinitionImpl.create(255, 255, 225));
+		p.getOutline().setVisible(false);
 
 		// Title
-		cwaBar.getTitle( ).getLabel( ).getCaption( ).setValue( "Bar Chart" ); //$NON-NLS-1$
-		
+		cwaBar.getTitle().getLabel().getCaption().setValue("Bar Chart"); //$NON-NLS-1$
+
 		// Add triggers and cursor to title.
-		Trigger t = DataFactory.eINSTANCE.createTrigger( );
-		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
-		t.setAction( DataFactory.eINSTANCE.createAction( ) );
-		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
-		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
-		((TooltipValue)t.getAction( ).getValue( )).setText( "Chart Title, Cursor: Move." );//$NON-NLS-1$
-		cwaBar.getTitle( ).getTriggers( ).add( t );
+		Trigger t = DataFactory.eINSTANCE.createTrigger();
+		t.setCondition(TriggerCondition.ONMOUSEOVER_LITERAL);
+		t.setAction(DataFactory.eINSTANCE.createAction());
+		t.getAction().setType(ActionType.SHOW_TOOLTIP_LITERAL);
+		t.getAction().setValue(AttributeFactory.eINSTANCE.createTooltipValue());
+		((TooltipValue) t.getAction().getValue()).setText("Chart Title, Cursor: Move.");//$NON-NLS-1$
+		cwaBar.getTitle().getTriggers().add(t);
 		Cursor c = AttributeFactory.eINSTANCE.createCursor();
-		c.setType( CursorType.MOVE );
-		cwaBar.getTitle( ).setCursor( c );
+		c.setType(CursorType.MOVE);
+		cwaBar.getTitle().setCursor(c);
 
 		// Legend
-		Legend lg = cwaBar.getLegend( );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lg.setItemType( LegendItemType.CATEGORIES_LITERAL );
+		Legend lg = cwaBar.getLegend();
+		lg.getText().getFont().setSize(16);
+		lg.setItemType(LegendItemType.CATEGORIES_LITERAL);
 
 		// Add triggers and cursor to Legend.
-		t = DataFactory.eINSTANCE.createTrigger( );
-		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
-		t.setAction( DataFactory.eINSTANCE.createAction( ) );
-		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
-		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
-		((TooltipValue)t.getAction( ).getValue( )).setText( "Chart Legend, Cursor: Crosshair." );//$NON-NLS-1$
-		lg.getTriggers( ).add( t );
+		t = DataFactory.eINSTANCE.createTrigger();
+		t.setCondition(TriggerCondition.ONMOUSEOVER_LITERAL);
+		t.setAction(DataFactory.eINSTANCE.createAction());
+		t.getAction().setType(ActionType.SHOW_TOOLTIP_LITERAL);
+		t.getAction().setValue(AttributeFactory.eINSTANCE.createTooltipValue());
+		((TooltipValue) t.getAction().getValue()).setText("Chart Legend, Cursor: Crosshair.");//$NON-NLS-1$
+		lg.getTriggers().add(t);
 		c = AttributeFactory.eINSTANCE.createCursor();
-		c.setType( CursorType.CROSSHAIR );
-		lg.setCursor( c );
-		
+		c.setType(CursorType.CROSSHAIR);
+		lg.setCursor(c);
+
 		// X-Axis
-		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes( )[0];
-		
-		xAxisPrimary.setType( AxisType.TEXT_LITERAL );
-		xAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.BELOW_LITERAL );
-		xAxisPrimary.getOrigin( ).setType( IntersectionType.VALUE_LITERAL );
-		xAxisPrimary.getTitle( ).setVisible( true );
-		
+		Axis xAxisPrimary = cwaBar.getPrimaryBaseAxes()[0];
+
+		xAxisPrimary.setType(AxisType.TEXT_LITERAL);
+		xAxisPrimary.getMajorGrid().setTickStyle(TickStyle.BELOW_LITERAL);
+		xAxisPrimary.getOrigin().setType(IntersectionType.VALUE_LITERAL);
+		xAxisPrimary.getTitle().setVisible(true);
+
 		// Add triggers and cursor to X axis.
-		t = DataFactory.eINSTANCE.createTrigger( );
-		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
-		t.setAction( DataFactory.eINSTANCE.createAction( ) );
-		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
-		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
-		((TooltipValue)t.getAction( ).getValue( )).setText( "X axis, Cursor: Wait." );//$NON-NLS-1$
-		xAxisPrimary.getTriggers( ).add( t );
+		t = DataFactory.eINSTANCE.createTrigger();
+		t.setCondition(TriggerCondition.ONMOUSEOVER_LITERAL);
+		t.setAction(DataFactory.eINSTANCE.createAction());
+		t.getAction().setType(ActionType.SHOW_TOOLTIP_LITERAL);
+		t.getAction().setValue(AttributeFactory.eINSTANCE.createTooltipValue());
+		((TooltipValue) t.getAction().getValue()).setText("X axis, Cursor: Wait.");//$NON-NLS-1$
+		xAxisPrimary.getTriggers().add(t);
 		c = AttributeFactory.eINSTANCE.createCursor();
-		c.setType( CursorType.WAIT );
-		xAxisPrimary.setCursor( c );
+		c.setType(CursorType.WAIT);
+		xAxisPrimary.setCursor(c);
 
 		// Y-Axis
-		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis( xAxisPrimary );
-		yAxisPrimary.getMajorGrid( ).setTickStyle( TickStyle.LEFT_LITERAL );
-		yAxisPrimary.setType( AxisType.LINEAR_LITERAL );
-		yAxisPrimary.getLabel( ).getCaption( ).getFont( ).setRotation( 90 );
+		Axis yAxisPrimary = cwaBar.getPrimaryOrthogonalAxis(xAxisPrimary);
+		yAxisPrimary.getMajorGrid().setTickStyle(TickStyle.LEFT_LITERAL);
+		yAxisPrimary.setType(AxisType.LINEAR_LITERAL);
+		yAxisPrimary.getLabel().getCaption().getFont().setRotation(90);
 
 		// Add triggers and cursor to Y axis.
-		t = DataFactory.eINSTANCE.createTrigger( );
-		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
-		t.setAction( DataFactory.eINSTANCE.createAction( ) );
-		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
-		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
-		((TooltipValue)t.getAction( ).getValue( )).setText( "Y axis, Cursor: Text." );//$NON-NLS-1$
-		yAxisPrimary.getTriggers( ).add( t );
+		t = DataFactory.eINSTANCE.createTrigger();
+		t.setCondition(TriggerCondition.ONMOUSEOVER_LITERAL);
+		t.setAction(DataFactory.eINSTANCE.createAction());
+		t.getAction().setType(ActionType.SHOW_TOOLTIP_LITERAL);
+		t.getAction().setValue(AttributeFactory.eINSTANCE.createTooltipValue());
+		((TooltipValue) t.getAction().getValue()).setText("Y axis, Cursor: Text.");//$NON-NLS-1$
+		yAxisPrimary.getTriggers().add(t);
 		c = AttributeFactory.eINSTANCE.createCursor();
-		c.setType( CursorType.TEXT );
-		yAxisPrimary.setCursor( c );
-		
+		c.setType(CursorType.TEXT);
+		yAxisPrimary.setCursor(c);
+
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"Item 1", "Item 2", "Item 3"} ); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
-		NumberDataSet orthoValues = NumberDataSetImpl.create( new double[]{
-				25, 35, 15
-		} );
+		TextDataSet categoryValues = TextDataSetImpl.create(new String[] { "Item 1", "Item 2", "Item 3" }); //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
+		NumberDataSet orthoValues = NumberDataSetImpl.create(new double[] { 25, 35, 15 });
 
 		// X-Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sdX = SeriesDefinitionImpl.create( );
-		sdX.getSeriesPalette( ).shift( 0 );
-		xAxisPrimary.getSeriesDefinitions( ).add( sdX );
-		sdX.getSeries( ).add( seCategory );
+		SeriesDefinition sdX = SeriesDefinitionImpl.create();
+		sdX.getSeriesPalette().shift(0);
+		xAxisPrimary.getSeriesDefinitions().add(sdX);
+		sdX.getSeries().add(seCategory);
 
 		// Y-Series
-		BarSeries bs = (BarSeries) BarSeriesImpl.create( );
-		bs.setDataSet( orthoValues );
-		bs.setRiserOutline( null );
-		bs.getLabel( ).setVisible( true );
-		bs.setLabelPosition( Position.INSIDE_LITERAL );
-		
+		BarSeries bs = (BarSeries) BarSeriesImpl.create();
+		bs.setDataSet(orthoValues);
+		bs.setRiserOutline(null);
+		bs.getLabel().setVisible(true);
+		bs.setLabelPosition(Position.INSIDE_LITERAL);
+
 		// Add trigger and cursor to value series.
-		t = DataFactory.eINSTANCE.createTrigger( );
-		t.setCondition( TriggerCondition.ONMOUSEOVER_LITERAL );
-		t.setAction( DataFactory.eINSTANCE.createAction( ) );
-		t.getAction( ).setType( ActionType.SHOW_TOOLTIP_LITERAL );
-		t.getAction( ).setValue( AttributeFactory.eINSTANCE.createTooltipValue( ) );
-		((TooltipValue)t.getAction( ).getValue( )).setText( "Y Series Values, Custom cursor, embedded image cursor." );//$NON-NLS-1$
-		bs.getTriggers( ).add( t );
+		t = DataFactory.eINSTANCE.createTrigger();
+		t.setCondition(TriggerCondition.ONMOUSEOVER_LITERAL);
+		t.setAction(DataFactory.eINSTANCE.createAction());
+		t.getAction().setType(ActionType.SHOW_TOOLTIP_LITERAL);
+		t.getAction().setValue(AttributeFactory.eINSTANCE.createTooltipValue());
+		((TooltipValue) t.getAction().getValue()).setText("Y Series Values, Custom cursor, embedded image cursor.");//$NON-NLS-1$
+		bs.getTriggers().add(t);
 		c = AttributeFactory.eINSTANCE.createCursor();
-		c.setType( CursorType.CUSTOM );
-		c.getImage( ).add( EmbeddedImageImpl.create( "Crosshair.gif", "R0lGODlhCAAIALMAAGbNM2bMM2XJM2XGM2TDMmTBM2K2MmKxM2CtM16gMl6cMl2XMl2WMl2VMv///wAAACH5BAEAAA4ALAAAAAAIAAgAAAQc0MkQpHWhXEmQDcBwKM2yAIKRMOZiLczmsLJpRQA7" ) );//$NON-NLS-1$ //$NON-NLS-2$
-		bs.setCursor( c );
-		
-		SeriesDefinition sdY = SeriesDefinitionImpl.create( );
-		yAxisPrimary.getSeriesDefinitions( ).add( sdY );
-		sdY.getSeries( ).add( bs );
+		c.setType(CursorType.CUSTOM);
+		c.getImage().add(EmbeddedImageImpl.create("Crosshair.gif", //$NON-NLS-1$
+				"R0lGODlhCAAIALMAAGbNM2bMM2XJM2XGM2TDMmTBM2K2MmKxM2CtM16gMl6cMl2XMl2WMl2VMv///wAAACH5BAEAAA4ALAAAAAAIAAgAAAQc0MkQpHWhXEmQDcBwKM2yAIKRMOZiLczmsLJpRQA7"));//$NON-NLS-1$
+		bs.setCursor(c);
+
+		SeriesDefinition sdY = SeriesDefinitionImpl.create();
+		yAxisPrimary.getSeriesDefinitions().add(sdY);
+		sdY.getSeries().add(bs);
 
 		return cwaBar;
 	}
@@ -810,82 +705,78 @@ public class InteractivityCharts
 	 * 
 	 * @return chart model
 	 */
-	public static Chart createMultiURChart( )
-	{
-		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create( );
+	public static Chart createMultiURChart() {
+		ChartWithoutAxes cwoaPie = ChartWithoutAxesImpl.create();
 
 		// Plot
-		cwoaPie.setSeriesThickness( 25 );
-		cwoaPie.getBlock( ).setBackground( ColorDefinitionImpl.WHITE( ) );
-		Plot p = cwoaPie.getPlot( );
-		p.getClientArea( ).setBackground( null );
-		p.getClientArea( ).getOutline( ).setVisible( true );
-		p.getOutline( ).setVisible( true );
+		cwoaPie.setSeriesThickness(25);
+		cwoaPie.getBlock().setBackground(ColorDefinitionImpl.WHITE());
+		Plot p = cwoaPie.getPlot();
+		p.getClientArea().setBackground(null);
+		p.getClientArea().getOutline().setVisible(true);
+		p.getOutline().setVisible(true);
 
 		// Legend
-		Legend lg = cwoaPie.getLegend( );
-		lg.getText( ).getFont( ).setSize( 16 );
-		lg.setBackground( null );
-		lg.getOutline( ).setVisible( true );
+		Legend lg = cwoaPie.getLegend();
+		lg.getText().getFont().setSize(16);
+		lg.setBackground(null);
+		lg.getOutline().setVisible(true);
 
 		// Title
-		cwoaPie.getTitle( ).getLabel( ).getCaption( ).setValue( "Click Pie slice to Redirect URL" ); //$NON-NLS-1$
-		cwoaPie.getTitle( ).getOutline( ).setVisible( true );
+		cwoaPie.getTitle().getLabel().getCaption().setValue("Click Pie slice to Redirect URL"); //$NON-NLS-1$
+		cwoaPie.getTitle().getOutline().setVisible(true);
 
 		// Data Set
-		TextDataSet categoryValues = TextDataSetImpl.create( new String[]{
-				"New York", "Boston", "Chicago", "San Francisco", "Dallas" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
-		} );
-		NumberDataSet seriesOneValues = NumberDataSetImpl.create( new double[]{
-				54.65, 21, 75.95, 91.28, 37.43
-		} );
+		TextDataSet categoryValues = TextDataSetImpl
+				.create(new String[] { "New York", "Boston", "Chicago", "San Francisco", "Dallas" //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$ //$NON-NLS-4$ //$NON-NLS-5$
+				});
+		NumberDataSet seriesOneValues = NumberDataSetImpl.create(new double[] { 54.65, 21, 75.95, 91.28, 37.43 });
 
 		// Base Series
-		Series seCategory = SeriesImpl.create( );
-		seCategory.setDataSet( categoryValues );
+		Series seCategory = SeriesImpl.create();
+		seCategory.setDataSet(categoryValues);
 
-		SeriesDefinition sd = SeriesDefinitionImpl.create( );
-		cwoaPie.getSeriesDefinitions( ).add( sd );
-		sd.getSeriesPalette( ).shift( 0 );
-		sd.getSeries( ).add( seCategory );
+		SeriesDefinition sd = SeriesDefinitionImpl.create();
+		cwoaPie.getSeriesDefinitions().add(sd);
+		sd.getSeriesPalette().shift(0);
+		sd.getSeries().add(seCategory);
 
 		// Orthogonal Series
-		PieSeries sePie = (PieSeries) PieSeriesImpl.create( );
-		sePie.setDataSet( seriesOneValues );
-		sePie.setSeriesIdentifier( "Cities" ); //$NON-NLS-1$
+		PieSeries sePie = (PieSeries) PieSeriesImpl.create();
+		sePie.setDataSet(seriesOneValues);
+		sePie.setSeriesIdentifier("Cities"); //$NON-NLS-1$
 
-		MultiURLValues muv = MultiURLValuesImpl.create( );
-		
-		URLValue uv = URLValueImpl.create( "http://www.actuate.com", //$NON-NLS-1$
-				null, null, null, null );
-		Label l = LabelImpl.create( );
-		l.setCaption( TextImpl.create( "www.actuate.com" ) );//$NON-NLS-1$
-		uv.setLabel( l );
-		muv.getURLValues( ).add( uv );
-		
-		uv = URLValueImpl.create( "http://www.birt-exchange.com", //$NON-NLS-1$
-				null, null, null, null );
-		l = LabelImpl.create( );
-		l.setCaption( TextImpl.create( "www.birt-exchange.com" ) );//$NON-NLS-1$
-		uv.setLabel( l );
-		muv.getURLValues( ).add( uv );
-		
-		uv = URLValueImpl.create( "http://www.eclipse.org", //$NON-NLS-1$
-				null, null, null, null );
-		l = LabelImpl.create( );
-		l.setCaption( TextImpl.create( "www.eclipse.org" ) );//$NON-NLS-1$
-		uv.setLabel( l );
-		muv.getURLValues( ).add( uv );
-		
-		Trigger triger = TriggerImpl.create( TriggerCondition.ONMOUSEDOWN_LITERAL,
-				ActionImpl.create( ActionType.URL_REDIRECT_LITERAL,
-						 muv ) );
-		sePie.getTriggers( ).add( triger );
+		MultiURLValues muv = MultiURLValuesImpl.create();
 
-		SeriesDefinition sdCity = SeriesDefinitionImpl.create( );
-		sdCity.getQuery( ).setDefinition( "Census.City" ); //$NON-NLS-1$
-		sd.getSeriesDefinitions( ).add( sdCity );
-		sdCity.getSeries( ).add( sePie );
+		URLValue uv = URLValueImpl.create("http://www.actuate.com", //$NON-NLS-1$
+				null, null, null, null);
+		Label l = LabelImpl.create();
+		l.setCaption(TextImpl.create("www.actuate.com"));//$NON-NLS-1$
+		uv.setLabel(l);
+		muv.getURLValues().add(uv);
+
+		uv = URLValueImpl.create("http://www.birt-exchange.com", //$NON-NLS-1$
+				null, null, null, null);
+		l = LabelImpl.create();
+		l.setCaption(TextImpl.create("www.birt-exchange.com"));//$NON-NLS-1$
+		uv.setLabel(l);
+		muv.getURLValues().add(uv);
+
+		uv = URLValueImpl.create("http://www.eclipse.org", //$NON-NLS-1$
+				null, null, null, null);
+		l = LabelImpl.create();
+		l.setCaption(TextImpl.create("www.eclipse.org"));//$NON-NLS-1$
+		uv.setLabel(l);
+		muv.getURLValues().add(uv);
+
+		Trigger triger = TriggerImpl.create(TriggerCondition.ONMOUSEDOWN_LITERAL,
+				ActionImpl.create(ActionType.URL_REDIRECT_LITERAL, muv));
+		sePie.getTriggers().add(triger);
+
+		SeriesDefinition sdCity = SeriesDefinitionImpl.create();
+		sdCity.getQuery().setDefinition("Census.City"); //$NON-NLS-1$
+		sd.getSeriesDefinitions().add(sdCity);
+		sdCity.getSeries().add(sePie);
 
 		return cwoaPie;
 	}

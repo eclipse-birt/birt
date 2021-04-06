@@ -21,55 +21,46 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * The HyperLink attribute page of DE element.
  */
-public class HyperLinkPage extends AttributePage
-{
+public class HyperLinkPage extends AttributePage {
 
 	private TextAndButtonSection hyperLinkSection;
 	private HyperLinkDescriptorProvider hyperLinkProvider;
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 3 ,15) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(3, 15));
 
-		hyperLinkProvider = new HyperLinkDescriptorProvider( );
-		hyperLinkSection = new TextAndButtonSection( hyperLinkProvider.getDisplayName( ),
-				container,
-				true );
-		hyperLinkSection.setProvider( hyperLinkProvider );
-		hyperLinkSection.addSelectionListener( new SelectionAdapter( ) {
+		hyperLinkProvider = new HyperLinkDescriptorProvider();
+		hyperLinkSection = new TextAndButtonSection(hyperLinkProvider.getDisplayName(), container, true);
+		hyperLinkSection.setProvider(hyperLinkProvider);
+		hyperLinkSection.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( hyperLinkProvider.hyperLinkSelected( ) )
-					hyperLinkSection.load( );
+			public void widgetSelected(SelectionEvent e) {
+				if (hyperLinkProvider.hyperLinkSelected())
+					hyperLinkSection.load();
 			}
 
-		} );
-		hyperLinkSection.setWidth( 300 );
-		hyperLinkSection.setButtonText( Messages.getString( "HyperLinkPage.Button.Text" ) ); //$NON-NLS-1$
-		hyperLinkSection.setButtonTooltipText( Messages
-				.getString("HyperLinkPage.toolTipText.Button") ); //$NON-NLS-1$
-		hyperLinkSection.setButtonIsComputeSize( true );
-		addSection( PageSectionId.HYPERLINK_HYPERLINK, hyperLinkSection );
+		});
+		hyperLinkSection.setWidth(300);
+		hyperLinkSection.setButtonText(Messages.getString("HyperLinkPage.Button.Text")); //$NON-NLS-1$
+		hyperLinkSection.setButtonTooltipText(Messages.getString("HyperLinkPage.toolTipText.Button")); //$NON-NLS-1$
+		hyperLinkSection.setButtonIsComputeSize(true);
+		addSection(PageSectionId.HYPERLINK_HYPERLINK, hyperLinkSection);
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.AttributePage#refresh()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * AttributePage#refresh()
 	 */
-	public void refresh( )
-	{
-		super.refresh( );
-		if ( hyperLinkSection != null &&
-				hyperLinkSection.getButtonControl( ) != null )
-		{
-			hyperLinkSection.getButtonControl( )
-					.setEnabled( hyperLinkProvider.isEnable( ) );
+	public void refresh() {
+		super.refresh();
+		if (hyperLinkSection != null && hyperLinkSection.getButtonControl() != null) {
+			hyperLinkSection.getButtonControl().setEnabled(hyperLinkProvider.isEnable());
 		}
 	}
 }

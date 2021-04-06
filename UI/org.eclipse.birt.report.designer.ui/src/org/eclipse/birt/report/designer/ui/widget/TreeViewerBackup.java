@@ -20,69 +20,66 @@ import org.eclipse.jface.viewers.TreePath;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.osgi.service.environment.Constants;
 
+public class TreeViewerBackup implements ITreeViewerBackup {
 
-public class TreeViewerBackup implements ITreeViewerBackup
-{
+	protected List leafList = new ArrayList();
 
-	protected List leafList = new ArrayList( );
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.editors.PageViewerBackup#restoreBackup(org.eclipse.jface.viewers.TreeViewer)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.editors.PageViewerBackup#restoreBackup(
+	 * org.eclipse.jface.viewers.TreeViewer)
 	 */
-	public void restoreBackup( TreeViewer treeviewer )
-	{
-		for ( int i = 0; i < leafList.size( ); i++ )
-		{
-			treeviewer.expandToLevel( leafList.get( i ), 1 );
+	public void restoreBackup(TreeViewer treeviewer) {
+		for (int i = 0; i < leafList.size(); i++) {
+			treeviewer.expandToLevel(leafList.get(i), 1);
 		}
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.editors.PageViewerBackup#dispose()
 	 */
-	public void dispose( )
-	{
-		leafList.clear( );
+	public void dispose() {
+		leafList.clear();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.ui.editors.PageViewerBackup#updateCollapsedBackup(org.eclipse.jface.viewers.TreeViewer, java.lang.Object)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.editors.PageViewerBackup#
+	 * updateCollapsedBackup(org.eclipse.jface.viewers.TreeViewer, java.lang.Object)
 	 */
-	public void updateCollapsedStatus( TreeViewer treeViewer, Object data )
-	{
-		if(!Constants.OS_MACOSX.equalsIgnoreCase( Platform.getOS( ) )){//collapse all sub nodes if not in MacOS
-			treeViewer.collapseToLevel( data, TreeViewer.ALL_LEVELS );
+	public void updateCollapsedStatus(TreeViewer treeViewer, Object data) {
+		if (!Constants.OS_MACOSX.equalsIgnoreCase(Platform.getOS())) {// collapse all sub nodes if not in MacOS
+			treeViewer.collapseToLevel(data, TreeViewer.ALL_LEVELS);
 		}
-		updateStatus( treeViewer );
+		updateStatus(treeViewer);
 	}
-	
-	public void updateStatus( TreeViewer treeViewer )
-	{
-		TreePath[] treepaths = treeViewer.getExpandedTreePaths( );
-		List list = Arrays.asList( treepaths );
-		leafList.clear( );
-		leafList.addAll( list );
-		for ( int i = 0; i < leafList.size( ); i++ )
-		{
-			TreePath path = ( (TreePath) leafList.get( i ) ).getParentPath( );
-			if ( path == null )
-			{
-				leafList.remove( i );
+
+	public void updateStatus(TreeViewer treeViewer) {
+		TreePath[] treepaths = treeViewer.getExpandedTreePaths();
+		List list = Arrays.asList(treepaths);
+		leafList.clear();
+		leafList.addAll(list);
+		for (int i = 0; i < leafList.size(); i++) {
+			TreePath path = ((TreePath) leafList.get(i)).getParentPath();
+			if (path == null) {
+				leafList.remove(i);
 				i--;
 			}
-			if ( leafList.contains( path ) )
-			{
-				leafList.remove( path );
+			if (leafList.contains(path)) {
+				leafList.remove(path);
 				i--;
 			}
 		}
 	}
 
-	
-	public void updateExpandedStatus( TreeViewer treeViewer, Object data )
-	{
-		treeViewer.expandToLevel( data, 1 );
-		updateStatus( treeViewer );
+	public void updateExpandedStatus(TreeViewer treeViewer, Object data) {
+		treeViewer.expandToLevel(data, 1);
+		updateStatus(treeViewer);
 	}
 
 }

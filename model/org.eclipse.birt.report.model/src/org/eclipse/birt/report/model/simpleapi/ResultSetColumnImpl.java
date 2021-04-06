@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IResultSetColumn;
  * 
  */
 
-public class ResultSetColumnImpl extends Structure implements IResultSetColumn
-{
+public class ResultSetColumnImpl extends Structure implements IResultSetColumn {
 
 	/**
 	 * ResultSetColumn instance.
@@ -35,10 +34,9 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn
 	 * 
 	 */
 
-	public ResultSetColumnImpl( )
-	{
-		super( null );
-		this.column = createResultSetColumn( );
+	public ResultSetColumnImpl() {
+		super(null);
+		this.column = createResultSetColumn();
 	}
 
 	/**
@@ -47,18 +45,14 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn
 	 * @param columnHandle
 	 */
 
-	public ResultSetColumnImpl( ResultSetColumnHandle columnHandle )
-	{
-		super( columnHandle );
+	public ResultSetColumnImpl(ResultSetColumnHandle columnHandle) {
+		super(columnHandle);
 
-		if ( columnHandle == null )
-		{
-			this.column = createResultSetColumn( );
-		}
-		else
-		{
+		if (columnHandle == null) {
+			this.column = createResultSetColumn();
+		} else {
 			structureHandle = columnHandle;
-			this.column = (ResultSetColumn) columnHandle.getStructure( );
+			this.column = (ResultSetColumn) columnHandle.getStructure();
 		}
 	}
 
@@ -68,9 +62,8 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn
 	 * @return instance
 	 */
 
-	private ResultSetColumn createResultSetColumn( )
-	{
-		ResultSetColumn c = new ResultSetColumn( );
+	private ResultSetColumn createResultSetColumn() {
+		ResultSetColumn c = new ResultSetColumn();
 		return c;
 	}
 
@@ -81,22 +74,19 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn
 	 * getColumnDataType()
 	 */
 
-	public String getColumnDataType( )
-	{
-		return column.getDataType( );
+	public String getColumnDataType() {
+		return column.getDataType();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getName
-	 * ()
+	 * org.eclipse.birt.report.engine.api.script.element.IResultSetColumn#getName ()
 	 */
 
-	public String getName( )
-	{
-		return column.getColumnName( );
+	public String getName() {
+		return column.getColumnName();
 	}
 
 	/*
@@ -106,9 +96,8 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn
 	 * getNativeDataType()
 	 */
 
-	public Integer getNativeDataType( )
-	{
-		return column.getNativeDataType( );
+	public Integer getNativeDataType() {
+		return column.getNativeDataType();
 	}
 
 	/*
@@ -118,9 +107,8 @@ public class ResultSetColumnImpl extends Structure implements IResultSetColumn
 	 * getPosition()
 	 */
 
-	public Integer getPosition( )
-	{
-		return column.getPosition( );
+	public Integer getPosition() {
+		return column.getPosition();
 	}
 
 }

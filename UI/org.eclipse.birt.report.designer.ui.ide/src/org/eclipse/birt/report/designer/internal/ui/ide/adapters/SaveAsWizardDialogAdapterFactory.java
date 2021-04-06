@@ -25,25 +25,21 @@ import org.eclipse.ui.IFileEditorInput;
  * 
  */
 
-public class SaveAsWizardDialogAdapterFactory implements IAdapterFactory
-{
+public class SaveAsWizardDialogAdapterFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if(adaptableObject instanceof IEditorPart){
-			IEditorPart part = (IEditorPart)adaptableObject;
-			ModuleHandle handle = SessionHandleAdapter.getInstance( ).creatReportDesign( );
-			return new SaveReportAsWizardDialog( UIUtil.getDefaultShell( ),
-					new SaveReportAsWizard( handle,
-							( (IFileEditorInput) part.getEditorInput( ) ).getFile( ) ) );
-			
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adaptableObject instanceof IEditorPart) {
+			IEditorPart part = (IEditorPart) adaptableObject;
+			ModuleHandle handle = SessionHandleAdapter.getInstance().creatReportDesign();
+			return new SaveReportAsWizardDialog(UIUtil.getDefaultShell(),
+					new SaveReportAsWizard(handle, ((IFileEditorInput) part.getEditorInput()).getFile()));
+
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{WizardDialog.class};
+	public Class[] getAdapterList() {
+		return new Class[] { WizardDialog.class };
 	}
 
 }

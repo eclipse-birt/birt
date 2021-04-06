@@ -18,34 +18,34 @@ import org.w3c.dom.css.CSSValue;
  *
  */
 public interface CSSContext {
-    
-    /**
-     * Returns the Value corresponding to the given system color.
-     */
-    CSSValue getSystemColor(String ident);
 
-    /**
-     * Returns the value corresponding to the default font-family.
-     */
-    CSSValue getDefaultFontFamily();
+	/**
+	 * Returns the Value corresponding to the given system color.
+	 */
+	CSSValue getSystemColor(String ident);
 
-    /**
-     * Returns a lighter font-weight.
-     */
-    float getLighterFontWeight(float f);
+	/**
+	 * Returns the value corresponding to the default font-family.
+	 */
+	CSSValue getDefaultFontFamily();
 
-    /**
-     * Returns a bolder font-weight.
-     */
-    float getBolderFontWeight(float f);
+	/**
+	 * Returns a lighter font-weight.
+	 */
+	float getLighterFontWeight(float f);
 
-    /**
-     * Returns the size of a px CSS unit in millimeters.
-     */
-    float getPixelUnitToMillimeter();
+	/**
+	 * Returns a bolder font-weight.
+	 */
+	float getBolderFontWeight(float f);
 
-    /**
-     * Returns the medium font size.
-     */
-    float getMediumFontSize();
+	/**
+	 * Returns the size of a px CSS unit in millimeters.
+	 */
+	float getPixelUnitToMillimeter();
+
+	/**
+	 * Returns the medium font size.
+	 */
+	float getMediumFontSize();
 }

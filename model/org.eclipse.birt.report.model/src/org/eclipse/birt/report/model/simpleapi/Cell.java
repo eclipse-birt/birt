@@ -16,24 +16,21 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.simpleapi.ICell;
 import org.eclipse.birt.report.model.elements.interfaces.ICellModel;
 
-public class Cell extends DesignElement implements ICell
-{
+public class Cell extends DesignElement implements ICell {
 
-	public Cell( CellHandle handle )
-	{
-		super( handle );
+	public Cell(CellHandle handle) {
+		super(handle);
 	}
 
 	/**
-	 * Returns the cell's column span. This is the number of table or grid
-	 * columns occupied by this cell.
+	 * Returns the cell's column span. This is the number of table or grid columns
+	 * occupied by this cell.
 	 * 
 	 * @return the column span
 	 */
 
-	public int getColumnSpan( )
-	{
-		return ( (CellHandle) handle ).getColumnSpan( );
+	public int getColumnSpan() {
+		return ((CellHandle) handle).getColumnSpan();
 	}
 
 	/**
@@ -43,23 +40,21 @@ public class Cell extends DesignElement implements ICell
 	 * @return the row span
 	 */
 
-	public int getRowSpan( )
-	{
-		return ( (CellHandle) handle ).getRowSpan( );
+	public int getRowSpan() {
+		return ((CellHandle) handle).getRowSpan();
 	}
 
 	/**
-	 * Returns the cell's drop property. This is how the cell should expand to
-	 * fill the entire table or group. This property is valid only for cells
-	 * within a table; but not for cells within a grid.
+	 * Returns the cell's drop property. This is how the cell should expand to fill
+	 * the entire table or group. This property is valid only for cells within a
+	 * table; but not for cells within a grid.
 	 * 
 	 * @return the string value of the drop property
 	 * @see #setDrop(String)
 	 */
 
-	public String getDrop( )
-	{
-		return ( (CellHandle) handle ).getDrop( );
+	public String getDrop() {
+		return ((CellHandle) handle).getDrop();
 	}
 
 	/**
@@ -74,22 +69,19 @@ public class Cell extends DesignElement implements ICell
 	 * 
 	 * <p>
 	 * 
-	 * Note that This property is valid only for cells within a table; but not
-	 * for cells within a grid.
+	 * Note that This property is valid only for cells within a table; but not for
+	 * cells within a grid.
 	 * 
-	 * @param drop
-	 *            the string value of the drop property
+	 * @param drop the string value of the drop property
 	 * 
-	 * @throws SemanticException
-	 *             if the property is locked or the input value is not one of
-	 *             the above.
+	 * @throws SemanticException if the property is locked or the input value is not
+	 *                           one of the above.
 	 * 
 	 * @see #getDrop()
 	 */
 
-	public void setDrop( String drop ) throws SemanticException
-	{
-		setProperty( ICellModel.DROP_PROP, drop );
+	public void setDrop(String drop) throws SemanticException {
+		setProperty(ICellModel.DROP_PROP, drop);
 
 	}
 
@@ -100,25 +92,21 @@ public class Cell extends DesignElement implements ICell
 	 * @return the column index, starting from 1.
 	 */
 
-	public int getColumn( )
-	{
-		return ( (CellHandle) handle ).getColumn( );
+	public int getColumn() {
+		return ((CellHandle) handle).getColumn();
 	}
 
 	/**
-	 * Sets the cell's column property. The input value gives the column in
-	 * which the cell starts. Columns are numbered from 1.
+	 * Sets the cell's column property. The input value gives the column in which
+	 * the cell starts. Columns are numbered from 1.
 	 * 
-	 * @param column
-	 *            the column index, starting from 1.
+	 * @param column the column index, starting from 1.
 	 * 
-	 * @throws SemanticException
-	 *             if this property is locked.
+	 * @throws SemanticException if this property is locked.
 	 */
 
-	public void setColumn( int column ) throws SemanticException
-	{
-		setProperty( ICellModel.COLUMN_PROP, Integer.valueOf( column ) );
+	public void setColumn(int column) throws SemanticException {
+		setProperty(ICellModel.COLUMN_PROP, Integer.valueOf(column));
 
 	}
 
@@ -128,9 +116,8 @@ public class Cell extends DesignElement implements ICell
 	 * @return the cell's height
 	 */
 
-	public String getHeight( )
-	{
-		return ( (CellHandle) handle ).getHeight( ).getStringValue( );
+	public String getHeight() {
+		return ((CellHandle) handle).getHeight().getStringValue();
 	}
 
 	/**
@@ -139,22 +126,19 @@ public class Cell extends DesignElement implements ICell
 	 * @return the cell's width
 	 */
 
-	public String getWidth( )
-	{
-		return ( (CellHandle) handle ).getWidth( ).getStringValue( );
+	public String getWidth() {
+		return ((CellHandle) handle).getWidth().getStringValue();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalNumber
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalNumber
 	 * ()
 	 */
-	public int getAntidiagonalNumber( )
-	{
+	public int getAntidiagonalNumber() {
 
-		return ( (CellHandle) handle ).getAntidiagonalNumber( );
+		return ((CellHandle) handle).getAntidiagonalNumber();
 	}
 
 	/*
@@ -163,62 +147,50 @@ public class Cell extends DesignElement implements ICell
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalStyle()
 	 */
-	public String getAntidiagonalStyle( )
-	{
+	public String getAntidiagonalStyle() {
 
-		return ( (CellHandle) handle ).getAntidiagonalStyle( );
+		return ((CellHandle) handle).getAntidiagonalStyle();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalNumber()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalNumber()
 	 */
-	public int getDiagonalNumber( )
-	{
+	public int getDiagonalNumber() {
 
-		return ( (CellHandle) handle ).getDiagonalNumber( );
+		return ((CellHandle) handle).getDiagonalNumber();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalStyle()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalStyle()
 	 */
-	public String getDiagonalStyle( )
-	{
+	public String getDiagonalStyle() {
 
-		return ( (CellHandle) handle ).getDiagonalStyle( );
+		return ((CellHandle) handle).getDiagonalStyle();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalNumber
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalNumber
 	 * (int)
 	 */
-	public void setAntidiagonalNumber( int antidiagonalNumber )
-			throws SemanticException
-	{
-		setProperty( ICellModel.ANTIDIAGONAL_NUMBER_PROP, Integer
-				.valueOf( antidiagonalNumber ) );
+	public void setAntidiagonalNumber(int antidiagonalNumber) throws SemanticException {
+		setProperty(ICellModel.ANTIDIAGONAL_NUMBER_PROP, Integer.valueOf(antidiagonalNumber));
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalStyle
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalStyle
 	 * (java.lang.String)
 	 */
-	public void setAntidiagonalStyle( String antidiagonalStyle )
-			throws SemanticException
-	{
-		setProperty( ICellModel.ANTIDIAGONAL_STYLE_PROP, antidiagonalStyle );
+	public void setAntidiagonalStyle(String antidiagonalStyle) throws SemanticException {
+		setProperty(ICellModel.ANTIDIAGONAL_STYLE_PROP, antidiagonalStyle);
 
 	}
 
@@ -228,24 +200,19 @@ public class Cell extends DesignElement implements ICell
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalNumber(int)
 	 */
-	public void setDiagonalNumber( int diagonalNumber )
-			throws SemanticException
-	{
-		setProperty( ICellModel.DIAGONAL_NUMBER_PROP, Integer
-				.valueOf( diagonalNumber ) );
+	public void setDiagonalNumber(int diagonalNumber) throws SemanticException {
+		setProperty(ICellModel.DIAGONAL_NUMBER_PROP, Integer.valueOf(diagonalNumber));
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalStyle(java
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalStyle(java
 	 * .lang.String)
 	 */
-	public void setDiagonalStyle( String lineStyle ) throws SemanticException
-	{
-		setProperty( ICellModel.DIAGONAL_STYLE_PROP, lineStyle );
+	public void setDiagonalStyle(String lineStyle) throws SemanticException {
+		setProperty(ICellModel.DIAGONAL_STYLE_PROP, lineStyle);
 
 	}
 
@@ -256,10 +223,8 @@ public class Cell extends DesignElement implements ICell
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getAntidiagonalThickness
 	 * ()
 	 */
-	public String getAntidiagonalThickness( )
-	{
-		return ( (CellHandle) handle ).getAntidiagonalThickness( )
-				.getStringValue( );
+	public String getAntidiagonalThickness() {
+		return ((CellHandle) handle).getAntidiagonalThickness().getStringValue();
 
 	}
 
@@ -269,9 +234,8 @@ public class Cell extends DesignElement implements ICell
 	 * @see
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#getDiagonalThickness()
 	 */
-	public String getDiagonalThickness( )
-	{
-		return ( (CellHandle) handle ).getDiagonalThickness( ).getStringValue( );
+	public String getDiagonalThickness() {
+		return ((CellHandle) handle).getDiagonalThickness().getStringValue();
 	}
 
 	/*
@@ -281,23 +245,18 @@ public class Cell extends DesignElement implements ICell
 	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setAntidiagonalThickness
 	 * (java.lang.String)
 	 */
-	public void setAntidiagonalThickness( String thickness )
-			throws SemanticException
-	{
-		setProperty( ICellModel.ANTIDIAGONAL_THICKNESS_PROP, thickness );
+	public void setAntidiagonalThickness(String thickness) throws SemanticException {
+		setProperty(ICellModel.ANTIDIAGONAL_THICKNESS_PROP, thickness);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalThickness
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IStyle#setDiagonalThickness
 	 * (java.lang.String)
 	 */
-	public void setDiagonalThickness( String thickness )
-			throws SemanticException
-	{
-		setProperty( ICellModel.DIAGONAL_THICKNESS_PROP, thickness );
+	public void setDiagonalThickness(String thickness) throws SemanticException {
+		setProperty(ICellModel.DIAGONAL_THICKNESS_PROP, thickness);
 
 	}
 }

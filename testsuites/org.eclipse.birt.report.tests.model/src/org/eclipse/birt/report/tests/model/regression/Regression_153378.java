@@ -42,35 +42,31 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Check the display text for label
  * 
  */
-public class Regression_153378 extends BaseTestCase
-{
+public class Regression_153378 extends BaseTestCase {
 
 	private String filename = "Regression_153378.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( filename , filename );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(filename, filename);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_regression_153378( ) throws DesignFileException,
-			SemanticException
-	{
-		openDesign( filename );
-		LabelHandle label = (LabelHandle) designHandle.findElement( "label" ); //$NON-NLS-1$
-		assertEquals( "aaa", label.getDisplayText( ) ); //$NON-NLS-1$
+	public void test_regression_153378() throws DesignFileException, SemanticException {
+		openDesign(filename);
+		LabelHandle label = (LabelHandle) designHandle.findElement("label"); //$NON-NLS-1$
+		assertEquals("aaa", label.getDisplayText()); //$NON-NLS-1$
 
-		label.setTextKey( "k1" ); //$NON-NLS-1$
-		assertEquals( "actuate", label.getDisplayText( ) ); //$NON-NLS-1$
+		label.setTextKey("k1"); //$NON-NLS-1$
+		assertEquals("actuate", label.getDisplayText()); //$NON-NLS-1$
 
 	}
 }

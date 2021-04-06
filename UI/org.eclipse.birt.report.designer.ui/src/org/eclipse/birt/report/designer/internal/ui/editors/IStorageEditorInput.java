@@ -19,9 +19,9 @@ import org.eclipse.ui.IEditorInput;
  * Interface for a <code>IStorage</code> input to an editor.
  * <p>
  * Clients implementing this editor input interface should override
- * <code>Object.equals(Object)</code> to answer true for two inputs that are
- * the same. The <code>IWorbenchPage.openEditor</code> APIs are dependent on
- * this to find an editor with the same input.
+ * <code>Object.equals(Object)</code> to answer true for two inputs that are the
+ * same. The <code>IWorbenchPage.openEditor</code> APIs are dependent on this to
+ * find an editor with the same input.
  * </p>
  * <p>
  * Clients should implement this interface to declare new types of
@@ -39,16 +39,14 @@ import org.eclipse.ui.IEditorInput;
  * </p>
  */
 
-public interface IStorageEditorInput extends IEditorInput
-{
+public interface IStorageEditorInput extends IEditorInput {
 
 	/**
 	 * Returns the underlying IStorage object.
 	 * 
 	 * @return an IStorage object.
-	 * @exception CoreException
-	 *                if this method fails
+	 * @exception CoreException if this method fails
 	 */
-	public IStorage getStorage( ) throws CoreException;
+	public IStorage getStorage() throws CoreException;
 
 }

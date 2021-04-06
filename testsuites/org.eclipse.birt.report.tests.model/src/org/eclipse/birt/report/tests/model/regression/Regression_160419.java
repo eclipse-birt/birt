@@ -37,28 +37,24 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  */
 
-public class Regression_160419 extends BaseTestCase
-{
+public class Regression_160419 extends BaseTestCase {
 
 	public final static String REPORT = "regression_160419.xml";
 
-	public void test_regression_160419( ) throws Exception
-	{
+	public void test_regression_160419() throws Exception {
 		// open the report design
-		openDesign( REPORT );
-		OdaDataSetHandle dataset = (OdaDataSetHandle) designHandle
-				.findDataSet( "Data Set" );
-		Iterator parameters = dataset.parametersIterator( );
+		openDesign(REPORT);
+		OdaDataSetHandle dataset = (OdaDataSetHandle) designHandle.findDataSet("Data Set");
+		Iterator parameters = dataset.parametersIterator();
 		// find the parameters
-		OdaDataSetParameterHandle parameter = (OdaDataSetParameterHandle) parameters
-				.next( );
-		
-		assertNotNull( parameter );
-		parameter.setDefaultValue( "\"A%\"" );
-		
-		// bind to the report parameter
-		parameter.setParamName( "p1" );
+		OdaDataSetParameterHandle parameter = (OdaDataSetParameterHandle) parameters.next();
 
-		assertEquals( "\"A%\"", parameter.getDefaultValue( ) );
+		assertNotNull(parameter);
+		parameter.setDefaultValue("\"A%\"");
+
+		// bind to the report parameter
+		parameter.setParamName("p1");
+
+		assertEquals("\"A%\"", parameter.getDefaultValue());
 	}
 }

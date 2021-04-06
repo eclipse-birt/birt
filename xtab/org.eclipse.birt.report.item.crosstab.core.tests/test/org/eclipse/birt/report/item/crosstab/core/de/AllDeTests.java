@@ -19,20 +19,18 @@ import junit.framework.TestSuite;
  * 
  */
 
-public class AllDeTests
-{
+public class AllDeTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( CrosstabItemFactoryTest.class );
-		test.addTestSuite( CrosstabViewHandleTest.class );
-		test.addTestSuite( MeasureViewHandleTest.class );
+		test.addTestSuite(CrosstabItemFactoryTest.class);
+		test.addTestSuite(CrosstabViewHandleTest.class);
+		test.addTestSuite(MeasureViewHandleTest.class);
 
 		// add all test classes here
 

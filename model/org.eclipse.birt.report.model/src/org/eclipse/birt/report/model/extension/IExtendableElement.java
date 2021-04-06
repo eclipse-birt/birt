@@ -17,8 +17,7 @@ import org.eclipse.birt.report.model.metadata.ExtensionElementDefn;
  * Defines the interface for extendable element.
  */
 
-public interface IExtendableElement
-{
+public interface IExtendableElement {
 	/**
 	 * Returns the extension element definition which contains all property
 	 * definition from extension and Model.
@@ -26,6 +25,6 @@ public interface IExtendableElement
 	 * @return extension element definition
 	 */
 
-	public ExtensionElementDefn getExtDefn( );
+	public ExtensionElementDefn getExtDefn();
 
 }

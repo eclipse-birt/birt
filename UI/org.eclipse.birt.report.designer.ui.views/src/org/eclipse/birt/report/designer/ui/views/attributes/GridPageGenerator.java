@@ -15,19 +15,16 @@ package org.eclipse.birt.report.designer.ui.views.attributes;
  * Instances of ColumnPageGenerator take change of creating attribute page
  * correspond to TableColumn element.
  */
-public class GridPageGenerator extends BasePageGenerator
-{
+public class GridPageGenerator extends BasePageGenerator {
 
-	protected boolean isSupportAggregationBinding( )
-	{
+	protected boolean isSupportAggregationBinding() {
 		return true;
 	}
 
-	protected void createTabItems( )
-	{
-		createTabItem( BINDINGTITLE, ATTRIBUTESTITLE );
-		createTabItem( MAPTITLE, BINDINGTITLE );
-		createTabItem( HIGHLIGHTSTITLE, MAPTITLE );
+	protected void createTabItems() {
+		createTabItem(BINDINGTITLE, ATTRIBUTESTITLE);
+		createTabItem(MAPTITLE, BINDINGTITLE);
+		createTabItem(HIGHLIGHTSTITLE, MAPTITLE);
 	}
 
 }

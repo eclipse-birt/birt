@@ -39,40 +39,28 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.ExtensionManifest;
 import org.eclipse.datatools.connectivity.oda.util.manifest.ManifestExplorer;
 
 /**
- * Used to 
- * 		create table
- * 		create stored procedure
- * 		insert data into table
- * 		drop table
- * 		drop stored procedure
- * Property: 
- * 		DTETest.driver
- * 		DTETest.url
- * 		DTETest.database
- * 		DTETest.user
- * 		DTETest.password
+ * Used to create table create stored procedure insert data into table drop
+ * table drop stored procedure Property: DTETest.driver DTETest.url
+ * DTETest.database DTETest.user DTETest.password
  * 
- * 		DTETest.otherDB (whether derby is not used)
+ * DTETest.otherDB (whether derby is not used)
  */
-public class JDBCDataSourceUtil
-{
+public class JDBCDataSourceUtil {
 	private Connection conn;
 	private PreparedStatement prepStmt;
-	private List tableNameList = new ArrayList( );
-	private List procedureNameList = new ArrayList( );
+	private List tableNameList = new ArrayList();
+	private List procedureNameList = new ArrayList();
 
 	/**
 	 * Constructor
 	 * 
 	 * @throws Exception
 	 */
-	JDBCDataSourceUtil( ) throws Exception
-	{
-		conn = createDBConnection( );
+	JDBCDataSourceUtil() throws Exception {
+		conn = createDBConnection();
 
-		System.out.println( "Test against JDBC database: url="
-				+ getURL( ) + " user=" + getUser( ) + " driverClass="
-				+ getDriverClassName( ) );
+		System.out.println("Test against JDBC database: url=" + getURL() + " user=" + getUser() + " driverClass="
+				+ getDriverClassName());
 	}
 
 	/**
@@ -83,17 +71,13 @@ public class JDBCDataSourceUtil
 	 * @param dropTable
 	 * @throws SQLException
 	 */
-	public void createTable( String tableName, String createSql,
-			boolean dropTable ) throws SQLException
-	{
-		if ( tableName != null )
-		{
-			if ( dropTable == true )
-			{
-				dropTable( tableName );
+	public void createTable(String tableName, String createSql, boolean dropTable) throws SQLException {
+		if (tableName != null) {
+			if (dropTable == true) {
+				dropTable(tableName);
 			}
-			statementExecute( createSql );
-			tableNameList.add( tableName );
+			statementExecute(createSql);
+			tableNameList.add(tableName);
 		}
 	}
 
@@ -105,17 +89,13 @@ public class JDBCDataSourceUtil
 	 * @param dropProc
 	 * @throws SQLException
 	 */
-	public void createStoredProcedure( String proName, String createSql,
-			boolean dropProc ) throws SQLException
-	{
-		if ( proName != null )
-		{
-			if ( dropProc == true )
-			{
-				dropStoredProcedure( proName );
+	public void createStoredProcedure(String proName, String createSql, boolean dropProc) throws SQLException {
+		if (proName != null) {
+			if (dropProc == true) {
+				dropStoredProcedure(proName);
 			}
-			statementExecute( createSql );
-			procedureNameList.add( proName );
+			statementExecute(createSql);
+			procedureNameList.add(proName);
 		}
 	}
 
@@ -127,48 +107,39 @@ public class JDBCDataSourceUtil
 	 * @throws SQLException
 	 * @throws IOException
 	 */
-	public void populateTable( String testTableName, InputStream testTableDataFile )
-			throws SQLException, IOException
-	{
-		InputStreamReader inputFile = new InputStreamReader( testTableDataFile );
-		BufferedReader lineReader = new BufferedReader( inputFile );
-		//skip first two lines which store metadata information
-		lineReader.readLine( );
-		String metaData = lineReader.readLine( );
+	public void populateTable(String testTableName, InputStream testTableDataFile) throws SQLException, IOException {
+		InputStreamReader inputFile = new InputStreamReader(testTableDataFile);
+		BufferedReader lineReader = new BufferedReader(inputFile);
+		// skip first two lines which store metadata information
+		lineReader.readLine();
+		String metaData = lineReader.readLine();
 		String str;
 
-		while ( ( str = lineReader.readLine( ) ) != null )
-		{
+		while ((str = lineReader.readLine()) != null) {
 			// skip comment line
-			if ( str.charAt( 0 ) == '#' )
+			if (str.charAt(0) == '#')
 				continue;
-			String sql = "insert into "
-					+ testTableName + " values(" + str + ")";
+			String sql = "insert into " + testTableName + " values(" + str + ")";
 
 			// blob support in sql statement
 			boolean isBlob = false;
-			String[] dataType = metaData.split( "," );
-			for ( int i = 0; i < dataType.length; i++ )
-			{
-				dataType[i] = dataType[i].trim( );
-				if ( dataType[i].toUpperCase( ).equals( "BLOB" ) )
-				{
+			String[] dataType = metaData.split(",");
+			for (int i = 0; i < dataType.length; i++) {
+				dataType[i] = dataType[i].trim();
+				if (dataType[i].toUpperCase().equals("BLOB")) {
 					isBlob = true;
 					break;
 				}
 			}
 
-			if ( isBlob == false )
-			{
-				statementExecute( sql );
-			}
-			else
-			{
-				Object[] ob = getPreparedData( testTableName, dataType, str );
-				statementExecute( (String) ob[0], (Object[]) ob[1] );
+			if (isBlob == false) {
+				statementExecute(sql);
+			} else {
+				Object[] ob = getPreparedData(testTableName, dataType, str);
+				statementExecute((String) ob[0], (Object[]) ob[1]);
 			}
 		}
-		
+
 		lineReader.close();
 		inputFile.close();
 		testTableDataFile.close();
@@ -179,64 +150,46 @@ public class JDBCDataSourceUtil
 	 * 
 	 * @return Object[], sql statement and data object array
 	 */
-	private Object[] getPreparedData( String testTableName, String[] dataType,
-			String dataStr )
-	{
+	private Object[] getPreparedData(String testTableName, String[] dataType, String dataStr) {
 		String replaceStr = "";
-		for ( int i = 0; i < dataType.length; i++ )
-		{
+		for (int i = 0; i < dataType.length; i++) {
 			replaceStr += "?";
-			if ( i < dataType.length - 1 )
+			if (i < dataType.length - 1)
 				replaceStr += ",";
 		}
-		String insertSql = "insert into "
-				+ testTableName + " values(" + replaceStr + ")";
+		String insertSql = "insert into " + testTableName + " values(" + replaceStr + ")";
 		Object[] value = new Object[dataType.length];
 
-		String[] data = dataStr.split( "," );
-		for ( int i = 0; i < dataType.length; i++ )
-		{
-			data[i] = data[i].trim( );
-			
-			if ( dataType[i].toUpperCase( ).equals( "INT" ) )
-			{
-				value[i] = Integer.valueOf( data[i] );
-			}
-			else if ( dataType[i].toUpperCase( ).equals( "CLOB" ) )
-			{
+		String[] data = dataStr.split(",");
+		for (int i = 0; i < dataType.length; i++) {
+			data[i] = data[i].trim();
+
+			if (dataType[i].toUpperCase().equals("INT")) {
+				value[i] = Integer.valueOf(data[i]);
+			} else if (dataType[i].toUpperCase().equals("CLOB")) {
 				value[i] = data[i];
-			}
-			else if ( dataType[i].toUpperCase( ).equals( "BLOB" ) )
-			{
-				value[i] = data[i].toString( ).getBytes( );
-			}
-			else
-			{
-				throw new IllegalArgumentException( "" );
+			} else if (dataType[i].toUpperCase().equals("BLOB")) {
+				value[i] = data[i].toString().getBytes();
+			} else {
+				throw new IllegalArgumentException("");
 			}
 		}
 
-		return new Object[]{
-				insertSql, value
-		};
+		return new Object[] { insertSql, value };
 	}
-	
+
 	/**
 	 * Drop test table
 	 * 
 	 * @param tableName
 	 * @throws SQLException
 	 */
-	public void dropTable( String tableName )
-	{
+	public void dropTable(String tableName) {
 		String sql = "drop table " + tableName;
-		try
-		{
-			statementExecute( sql );
-			tableNameList.remove( tableName );
-		}
-		catch ( SQLException e )
-		{
+		try {
+			statementExecute(sql);
+			tableNameList.remove(tableName);
+		} catch (SQLException e) {
 			// Assume table does not exist
 		}
 	}
@@ -247,16 +200,12 @@ public class JDBCDataSourceUtil
 	 * @param proName
 	 * @throws SQLException
 	 */
-	public void dropStoredProcedure( String proName )
-	{
+	public void dropStoredProcedure(String proName) {
 		String sql = "drop procedure " + proName;
-		try
-		{
-			statementExecute( sql );
-			procedureNameList.remove( proName );
-		}
-		catch ( SQLException e )
-		{
+		try {
+			statementExecute(sql);
+			procedureNameList.remove(proName);
+		} catch (SQLException e) {
 			// Assume table does not exist
 		}
 	}
@@ -267,10 +216,9 @@ public class JDBCDataSourceUtil
 	 * @param exeStr
 	 * @throws SQLException
 	 */
-	private void statementExecute( String exeStr ) throws SQLException
-	{
-		prepStmt = conn.prepareStatement( exeStr );
-		prepStmt.execute( );
+	private void statementExecute(String exeStr) throws SQLException {
+		prepStmt = conn.prepareStatement(exeStr);
+		prepStmt.execute();
 	}
 
 	/**
@@ -279,34 +227,23 @@ public class JDBCDataSourceUtil
 	 * @param exeStr
 	 * @throws SQLException
 	 */
-	private void statementExecute( String exeStr, Object[] value )
-			throws SQLException
-	{
-		prepStmt = conn.prepareStatement( exeStr );
-		
-		for ( int i = 0; i < value.length; i++ )
-		{
+	private void statementExecute(String exeStr, Object[] value) throws SQLException {
+		prepStmt = conn.prepareStatement(exeStr);
+
+		for (int i = 0; i < value.length; i++) {
 			int pos = i + 1;
-			if ( value[i] instanceof Integer )
-			{
-				prepStmt.setInt( pos, ( (Integer) value[i] ).intValue( ) );
-			}
-			else if ( value[i] instanceof String )
-			{
-				prepStmt.setString( pos, (String) value[i] );
-			}
-			else if ( value[i] instanceof byte[] )
-			{
-				prepStmt.setBytes( pos, (byte[]) value[i] );
-			}
-			else
-			{
-				throw new IllegalArgumentException( "not support data type"
-						+ value[i].getClass( ).getName( ) );
+			if (value[i] instanceof Integer) {
+				prepStmt.setInt(pos, ((Integer) value[i]).intValue());
+			} else if (value[i] instanceof String) {
+				prepStmt.setString(pos, (String) value[i]);
+			} else if (value[i] instanceof byte[]) {
+				prepStmt.setBytes(pos, (byte[]) value[i]);
+			} else {
+				throw new IllegalArgumentException("not support data type" + value[i].getClass().getName());
 			}
 		}
-		
-		prepStmt.execute( );
+
+		prepStmt.execute();
 	}
 
 	/**
@@ -315,24 +252,18 @@ public class JDBCDataSourceUtil
 	 * @param droptable
 	 * @throws SQLException
 	 */
-	public void close( boolean droptable ) throws SQLException
-	{
-		if ( conn != null )
-		{
-			if ( prepStmt != null )
-			{
-				if ( droptable == true )
-				{
-					for ( int i = 0; i < tableNameList.size( ); i++ )
-					{
-						prepStmt = conn.prepareStatement( "drop table "
-								+ tableNameList.get( i ) );
-						prepStmt.executeUpdate( );
+	public void close(boolean droptable) throws SQLException {
+		if (conn != null) {
+			if (prepStmt != null) {
+				if (droptable == true) {
+					for (int i = 0; i < tableNameList.size(); i++) {
+						prepStmt = conn.prepareStatement("drop table " + tableNameList.get(i));
+						prepStmt.executeUpdate();
 					}
 				}
-				prepStmt.close( );
+				prepStmt.close();
 			}
-			conn.close( );
+			conn.close();
 		}
 	}
 
@@ -342,45 +273,42 @@ public class JDBCDataSourceUtil
 	 * @return
 	 * @throws Exception
 	 */
-	private Connection createDBConnection( ) throws Exception
-	{
-		if ( getURL( ).startsWith( "jdbc:derby" ) )
-			return createDerbyConnection( );
+	private Connection createDBConnection() throws Exception {
+		if (getURL().startsWith("jdbc:derby"))
+			return createDerbyConnection();
 
-		loadJdbcDrivers( );
-		
-		java.util.Properties props = new java.util.Properties( );
-		props.put( "user", getUser( ) );
-		props.put( "password", getPassword( ) );		
-		return DriverManager.getConnection( getURL( ), props );
+		loadJdbcDrivers();
+
+		java.util.Properties props = new java.util.Properties();
+		props.put("user", getUser());
+		props.put("password", getPassword());
+		return DriverManager.getConnection(getURL(), props);
 	}
-	
+
 	/**
 	 * Create derby db connection
 	 * 
 	 * @return
 	 * @throws Exception
 	 */
-	private Connection createDerbyConnection( ) throws Exception
-	{
-		Class.forName( getDriverClassName( ) );
-		
-		String nsURL = getURL( ) + ";create=true";		
-		java.util.Properties props = new java.util.Properties( );
-		props.put( "user", getUser( ) );
-		props.put( "password", getPassword( ) );	
-		return DriverManager.getConnection( nsURL, props );
+	private Connection createDerbyConnection() throws Exception {
+		Class.forName(getDriverClassName());
+
+		String nsURL = getURL() + ";create=true";
+		java.util.Properties props = new java.util.Properties();
+		props.put("user", getUser());
+		props.put("password", getPassword());
+		return DriverManager.getConnection(nsURL, props);
 	}
-	
+
 	/**
 	 * Return driver class name for test table
 	 * 
 	 * @return
 	 */
-	static String getDriverClassName( )
-	{
-		String clsName = System.getProperty( "DTETest.driver" );
-		if ( clsName == null )
+	static String getDriverClassName() {
+		String clsName = System.getProperty("DTETest.driver");
+		if (clsName == null)
 			clsName = "org.apache.derby.jdbc.EmbeddedDriver";
 		return clsName;
 	}
@@ -390,38 +318,33 @@ public class JDBCDataSourceUtil
 	 * 
 	 * @return
 	 */
-	public static String getURL( )
-	{
-		String url = System.getProperty( "DTETest.url" );
-		if ( url != null )
+	public static String getURL() {
+		String url = System.getProperty("DTETest.url");
+		if (url != null)
 			return url;
 		else
-			return "jdbc:derby:" + System.getProperty("java.io.tmpdir")+File.separator+ "DTETest";
+			return "jdbc:derby:" + System.getProperty("java.io.tmpdir") + File.separator + "DTETest";
 	}
-	
+
 	/**
 	 * Return database name for test table
 	 * 
 	 * @return
 	 */
-/*	private static String getDatabase( )
-	{
-		String database = System.getProperty( "DTETest.database" );
-		if ( database != null )
-			return database;
-		else
-			return System.getProperty("java.io.temp")+File.pathSeparator+ "DTETest";
-	}*/
-	
+	/*
+	 * private static String getDatabase( ) { String database = System.getProperty(
+	 * "DTETest.database" ); if ( database != null ) return database; else return
+	 * System.getProperty("java.io.temp")+File.pathSeparator+ "DTETest"; }
+	 */
+
 	/**
 	 * Return user for test table
 	 * 
 	 * @return
 	 */
-	static String getUser( )
-	{
-		String user = System.getProperty( "DTETest.user" );
-		if ( user != null )
+	static String getUser() {
+		String user = System.getProperty("DTETest.user");
+		if (user != null)
 			return user;
 		else
 			return "user";
@@ -432,10 +355,9 @@ public class JDBCDataSourceUtil
 	 * 
 	 * @return
 	 */
-	static String getPassword( )
-	{
-		String pwd = System.getProperty( "DTETest.password" );
-		if ( pwd != null )
+	static String getPassword() {
+		String pwd = System.getProperty("DTETest.password");
+		if (pwd != null)
 			return pwd;
 		else
 			return "password";
@@ -446,78 +368,59 @@ public class JDBCDataSourceUtil
 	 * 
 	 * @throws Exception
 	 */
-	private void loadJdbcDrivers() throws Exception
-	{
-		try
-		{
-			if ( "true".equals( System.getProperty( "DTETest.otherDB" ) ) )
-			{
-				File driverHomeDir = getDriverHomeDir( );
-				URL[] urlList = getDriverFileURLs( driverHomeDir );
-				URLClassLoader urlClassLoader = new URLClassLoader( urlList,
-						this.getClass( ).getClassLoader( ) );
-				Class c = urlClassLoader.loadClass( getDriverClassName( ) );
-				DriverExt driverExt = new DriverExt( (Driver) c.newInstance( ) );
-				DriverManager.registerDriver( driverExt );
+	private void loadJdbcDrivers() throws Exception {
+		try {
+			if ("true".equals(System.getProperty("DTETest.otherDB"))) {
+				File driverHomeDir = getDriverHomeDir();
+				URL[] urlList = getDriverFileURLs(driverHomeDir);
+				URLClassLoader urlClassLoader = new URLClassLoader(urlList, this.getClass().getClassLoader());
+				Class c = urlClassLoader.loadClass(getDriverClassName());
+				DriverExt driverExt = new DriverExt((Driver) c.newInstance());
+				DriverManager.registerDriver(driverExt);
+			} else {
+				Class.forName(getDriverClassName());
 			}
-			else
-			{
-				Class.forName( getDriverClassName( ) );
-			}
-		}
-		catch ( ClassNotFoundException e )
-		{
-			System.out.println( "Due to licence issue, Driver lib for "
-					+ getDriverClassName( ) + " can not be " );
-			System.out.println( "checked into Eclipse CVS. Please manually download this driver lib and put it " );
-			System.out.println( "into test\\plugins\\org.eclipse.birt.report.data.oda.jdbc\\drivers directory." );
+		} catch (ClassNotFoundException e) {
+			System.out.println("Due to licence issue, Driver lib for " + getDriverClassName() + " can not be ");
+			System.out.println("checked into Eclipse CVS. Please manually download this driver lib and put it ");
+			System.out.println("into test\\plugins\\org.eclipse.birt.report.data.oda.jdbc\\drivers directory.");
 			throw e;
-		}		
+		}
 	}
-	
+
 	/**
 	 * Gets driver home dir
 	 */
-	private File getDriverHomeDir( ) throws OdaException, IOException
-	{
+	private File getDriverHomeDir() throws OdaException, IOException {
 		File driverHomeDir = null;
-		ExtensionManifest extMF = ManifestExplorer.getInstance( )
-				.getExtensionManifest( "org.eclipse.birt.report.data.oda.jdbc" );
-		if ( extMF != null )
-		{
-			URL url = extMF.getRuntimeInterface( ).getLibraryLocation( );
-			try
-			{
-				URI uri = new URI( url.toString( ) );
-				driverHomeDir = new File( uri.getPath( ), "drivers" );
-			}
-			catch ( URISyntaxException e )
-			{
-				driverHomeDir = new File( url.getFile( ), "drivers" );
+		ExtensionManifest extMF = ManifestExplorer.getInstance()
+				.getExtensionManifest("org.eclipse.birt.report.data.oda.jdbc");
+		if (extMF != null) {
+			URL url = extMF.getRuntimeInterface().getLibraryLocation();
+			try {
+				URI uri = new URI(url.toString());
+				driverHomeDir = new File(uri.getPath(), "drivers");
+			} catch (URISyntaxException e) {
+				driverHomeDir = new File(url.getFile(), "drivers");
 			}
 		}
 		return driverHomeDir;
 	}
-	
+
 	/**
 	 * Gets URL array of driver files
 	 */
-	private URL[] getDriverFileURLs( File driverHomeDir )
-			throws MalformedURLException
-	{
-		String files[] = driverHomeDir.list( new FilenameFilter( ) {
+	private URL[] getDriverFileURLs(File driverHomeDir) throws MalformedURLException {
+		String files[] = driverHomeDir.list(new FilenameFilter() {
 
-			public boolean accept( File dir, String name )
-			{
-				return isDriverFile( name );
+			public boolean accept(File dir, String name) {
+				return isDriverFile(name);
 			}
-		} );
+		});
 
 		URL[] urls = new URL[files.length];
-		for ( int i = 0; i < files.length; i++ )
-		{
-			urls[i] = new URL( "file", null, ( new File( driverHomeDir,
-					files[i] ) ).getAbsolutePath( ) );
+		for (int i = 0; i < files.length; i++) {
+			urls[i] = new URL("file", null, (new File(driverHomeDir, files[i])).getAbsolutePath());
 		}
 		return urls;
 	}
@@ -525,59 +428,48 @@ public class JDBCDataSourceUtil
 	/**
 	 * Checks whether the file is a jar file
 	 */
-	private boolean isDriverFile( String fileName )
-	{
-		String lcName = fileName.toLowerCase( );
-		return lcName.endsWith( ".jar" ) || lcName.endsWith( ".zip" );
+	private boolean isDriverFile(String fileName) {
+		String lcName = fileName.toLowerCase();
+		return lcName.endsWith(".jar") || lcName.endsWith(".zip");
 	}
 
 	/**
 	 * Support dynamically load JDBC drivers.
 	 */
-	private class DriverExt implements Driver
-	{
+	private class DriverExt implements Driver {
 		private Driver driver;
 
-		DriverExt( Driver d )
-		{
+		DriverExt(Driver d) {
 			this.driver = d;
 		}
 
-		public boolean acceptsURL( String u ) throws SQLException
-		{
-			return this.driver.acceptsURL( u );
+		public boolean acceptsURL(String u) throws SQLException {
+			return this.driver.acceptsURL(u);
 		}
 
-		public Connection connect( String u, Properties p ) throws SQLException
-		{
-			return this.driver.connect( u, p );
+		public Connection connect(String u, Properties p) throws SQLException {
+			return this.driver.connect(u, p);
 		}
 
-		public int getMajorVersion( )
-		{
-			return this.driver.getMajorVersion( );
+		public int getMajorVersion() {
+			return this.driver.getMajorVersion();
 		}
 
-		public int getMinorVersion( )
-		{
-			return this.driver.getMinorVersion( );
+		public int getMinorVersion() {
+			return this.driver.getMinorVersion();
 		}
 
-		public DriverPropertyInfo[] getPropertyInfo( String u, Properties p )
-				throws SQLException
-		{
-			return this.driver.getPropertyInfo( u, p );
+		public DriverPropertyInfo[] getPropertyInfo(String u, Properties p) throws SQLException {
+			return this.driver.getPropertyInfo(u, p);
 		}
 
-		public boolean jdbcCompliant( )
-		{
-			return this.driver.jdbcCompliant( );
+		public boolean jdbcCompliant() {
+			return this.driver.jdbcCompliant();
 		}
-		
-		public Logger getParentLogger( ) throws SQLFeatureNotSupportedException
-		{
-			throw new SQLFeatureNotSupportedException( );
+
+		public Logger getParentLogger() throws SQLFeatureNotSupportedException {
+			throw new SQLFeatureNotSupportedException();
 		}
 	}
-	
+
 }

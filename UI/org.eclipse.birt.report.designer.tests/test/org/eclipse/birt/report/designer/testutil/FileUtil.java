@@ -27,67 +27,55 @@ import org.eclipse.core.runtime.CoreException;
  * Utility for creating test project and file Based on Eclipse UI Test Utility
  * 
  * 
- *  
+ * 
  */
-public class FileUtil
-{
+public class FileUtil {
 
 	/**
 	 * Creates a new project.
 	 * 
-	 * @param name
-	 *            the project name
+	 * @param name the project name
 	 */
-	public static IProject createProject( String name ) throws CoreException
-	{
-		IWorkspace ws = ResourcesPlugin.getWorkspace( );
-		IWorkspaceRoot root = ws.getRoot( );
-		IProject proj = root.getProject( name );
-		if ( !proj.exists( ) )
-			proj.create( null );
-		if ( !proj.isOpen( ) )
-			proj.open( null );
+	public static IProject createProject(String name) throws CoreException {
+		IWorkspace ws = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root = ws.getRoot();
+		IProject proj = root.getProject(name);
+		if (!proj.exists())
+			proj.create(null);
+		if (!proj.isOpen())
+			proj.open(null);
 		return proj;
 	}
 
 	/**
 	 * Deletes a project.
 	 * 
-	 * @param proj
-	 *            the project
+	 * @param proj the project
 	 */
-	public static void deleteProject( IProject proj ) throws CoreException
-	{
-		proj.delete( true, null );
+	public static void deleteProject(IProject proj) throws CoreException {
+		proj.delete(true, null);
 	}
 
 	/**
 	 * Creates a new file in a project.
 	 * 
-	 * @param name
-	 *            the new file name
-	 * @param proj
-	 *            the existing project
+	 * @param name the new file name
+	 * @param proj the existing project
 	 * @return the new file
 	 * @throws CoreException,FileNotFoundException
 	 */
-	public static IFile createFile( String name, IProject proj )
-			throws CoreException
+	public static IFile createFile(String name, IProject proj) throws CoreException
 
 	{
-		IFile file = proj.getFile( name );
-		if ( !file.exists( ) )
-		{
+		IFile file = proj.getFile(name);
+		if (!file.exists()) {
 
-			InputStream in = getNewStream( );
-			file.create( in, true, null );
-			try
-			{
-				in.close( );
-			}
-			catch ( IOException e )
-			{
-				e.printStackTrace( );
+			InputStream in = getNewStream();
+			file.create(in, true, null);
+			try {
+				in.close();
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		return file;
@@ -96,9 +84,7 @@ public class FileUtil
 	/**
 	 * Return a new file as a InputStream
 	 */
-	public static InputStream getNewStream( )
-	{
-		return BaseTestCase.class.getResourceAsStream( ITestConstants.TEST_DESIGN_FILE );
+	public static InputStream getNewStream() {
+		return BaseTestCase.class.getResourceAsStream(ITestConstants.TEST_DESIGN_FILE);
 	}
 }
-

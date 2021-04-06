@@ -28,32 +28,27 @@ import org.eclipse.birt.report.model.parser.treebuild.IContentHandler;
  * 
  */
 
-public class OdaDummyProvider implements ODAProvider, IContentHandler
-{
+public class OdaDummyProvider implements ODAProvider, IContentHandler {
 
 	private ContentTree contentTree = null;
 
 	/**
 	 * The default constructor.
 	 * 
-	 * @param extensionID
-	 *            the extension id
+	 * @param extensionID the extension id
 	 */
 
-	public OdaDummyProvider( String extensionID )
-	{
-		initializeContentTree( );
+	public OdaDummyProvider(String extensionID) {
+		initializeContentTree();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#checkExtends(
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#checkExtends(
 	 * org.eclipse.birt.report.model.core.DesignElement)
 	 */
-	public void checkExtends( DesignElement parent ) throws ExtendsException
-	{
+	public void checkExtends(DesignElement parent) throws ExtendsException {
 
 	}
 
@@ -62,44 +57,37 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	 * 
 	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#getExtDefn()
 	 */
-	public ExtensionElementDefn getExtDefn( )
-	{
+	public ExtensionElementDefn getExtDefn() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#getPropertyDefn
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#getPropertyDefn
 	 * (java.lang.String)
 	 */
-	public IPropertyDefn getPropertyDefn( String propName )
-	{
+	public IPropertyDefn getPropertyDefn(String propName) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#getPropertyDefns
+	 * @see org.eclipse.birt.report.model.extension.oda.ODAProvider#getPropertyDefns
 	 * ()
 	 */
-	public List<IElementPropertyDefn> getPropertyDefns( )
-	{
-		return Collections.emptyList( );
+	public List<IElementPropertyDefn> getPropertyDefns() {
+		return Collections.emptyList();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID
-	 * ()
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#isValidExtensionID ()
 	 */
-	public boolean isValidExtensionID( )
-	{
+	public boolean isValidExtensionID() {
 		return false;
 	}
 
@@ -107,23 +95,19 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#convertExtensionID
-	 * ()
+	 * org.eclipse.birt.report.model.extension.oda.ODAProvider#convertExtensionID ()
 	 */
-	public String convertExtensionID( )
-	{
+	public String convertExtensionID() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
+	 * @see org.eclipse.birt.report.model.parser.treebuild.IContentHandler#getTree()
 	 */
 
-	public ContentTree getContentTree( )
-	{
+	public ContentTree getContentTree() {
 		return this.contentTree;
 	}
 
@@ -131,9 +115,8 @@ public class OdaDummyProvider implements ODAProvider, IContentHandler
 	 * Initializes the content tree.
 	 */
 
-	private void initializeContentTree( )
-	{
-		if ( contentTree == null )
-			contentTree = new ContentTree( );
+	private void initializeContentTree() {
+		if (contentTree == null)
+			contentTree = new ContentTree();
 	}
 }

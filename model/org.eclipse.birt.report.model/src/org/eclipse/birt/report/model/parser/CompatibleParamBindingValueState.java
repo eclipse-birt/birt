@@ -26,26 +26,20 @@ import org.xml.sax.SAXException;
  * Parse the value of ParamBinding in BIRT 2.1M5 to BIRT 2.1 RC0.
  */
 
-public class CompatibleParamBindingValueState
-		extends
-			CompatibleMiscExpressionState
-{
+public class CompatibleParamBindingValueState extends CompatibleMiscExpressionState {
 
 	/**
 	 * Constructs a compatible state.
 	 * 
-	 * @param theHandler
-	 *            the handler to parse the design file.
-	 * @param element
-	 *            the data item
+	 * @param theHandler the handler to parse the design file.
+	 * @param element    the data item
 	 * @param propDefn
 	 * @param struct
 	 */
 
-	CompatibleParamBindingValueState( ModuleParserHandler theHandler,
-			DesignElement element, PropertyDefn propDefn, IStructure struct )
-	{
-		super( theHandler, element, propDefn, struct );
+	CompatibleParamBindingValueState(ModuleParserHandler theHandler, DesignElement element, PropertyDefn propDefn,
+			IStructure struct) {
+		super(theHandler, element, propDefn, struct);
 	}
 
 	/*
@@ -54,39 +48,33 @@ public class CompatibleParamBindingValueState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		if ( value == null )
+		if (value == null)
 			return;
 
 		// keep the expression as same.
 
-		doEnd( value, true );
+		doEnd(value, true);
 
-		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_0 )
+		if (handler.versionNumber >= VersionUtil.VERSION_3_2_0)
 			return;
 
 		List newExprs = null;
 
-		try
-		{
-			newExprs = ExpressionUtil.extractColumnExpressions( value );
-		}
-		catch ( BirtException e )
-		{
+		try {
+			newExprs = ExpressionUtil.extractColumnExpressions(value);
+		} catch (BirtException e) {
 			// do nothing
 		}
 
-		if ( newExprs == null || newExprs.isEmpty( ) )
-		{
+		if (newExprs == null || newExprs.isEmpty()) {
 			return;
 		}
 
-		DesignElement target = BoundDataColumnUtil
-				.findTargetElementOfParamBinding( element, handler.getModule( ) );
+		DesignElement target = BoundDataColumnUtil.findTargetElementOfParamBinding(element, handler.getModule());
 
-		addBoundColumnsToTarget( target, newExprs );
+		addBoundColumnsToTarget(target, newExprs);
 	}
 }

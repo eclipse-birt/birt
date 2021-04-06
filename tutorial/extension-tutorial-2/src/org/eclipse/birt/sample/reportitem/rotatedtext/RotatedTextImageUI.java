@@ -21,37 +21,27 @@ import org.eclipse.swt.graphics.Image;
 /**
  * RotatedTextImageUI
  */
-public class RotatedTextImageUI implements IReportItemImageProvider
-{
+public class RotatedTextImageUI implements IReportItemImageProvider {
 
-	public void disposeImage( ExtendedItemHandle handle, Image image )
-	{
-		if ( image != null && !image.isDisposed( ) )
-		{
-			image.dispose( );
+	public void disposeImage(ExtendedItemHandle handle, Image image) {
+		if (image != null && !image.isDisposed()) {
+			image.dispose();
 		}
 
 	}
 
-	public Image getImage( ExtendedItemHandle handle )
-	{
-		try
-		{
-			IReportItem item = handle.getReportItem( );
+	public Image getImage(ExtendedItemHandle handle) {
+		try {
+			IReportItem item = handle.getReportItem();
 
-			if ( item instanceof RotatedTextItem )
-			{
-				int angle = ( (RotatedTextItem) item ).getRotationAngle( );
-				String text = ( (RotatedTextItem) item ).getText( );
+			if (item instanceof RotatedTextItem) {
+				int angle = ((RotatedTextItem) item).getRotationAngle();
+				String text = ((RotatedTextItem) item).getText();
 
-				return SwtGraphicsUtil.createRotatedTextImage( text,
-						angle,
-						null );
+				return SwtGraphicsUtil.createRotatedTextImage(text, angle, null);
 			}
-		}
-		catch ( ExtendedElementException e )
-		{
-			e.printStackTrace( );
+		} catch (ExtendedElementException e) {
+			e.printStackTrace();
 		}
 		return null;
 	}

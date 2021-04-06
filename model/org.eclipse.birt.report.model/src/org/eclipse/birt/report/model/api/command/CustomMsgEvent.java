@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.api.command;
 
@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.elements.Translation;
  * 
  */
 
-public class CustomMsgEvent extends NotificationEvent
-{
+public class CustomMsgEvent extends NotificationEvent {
 
 	/**
 	 * The translation was added.
@@ -49,8 +48,7 @@ public class CustomMsgEvent extends NotificationEvent
 	private Translation translation = null;
 
 	/**
-	 * The type of change. One of {@link #ADD},{@link #DROP}, or
-	 * {@link #CHANGE}.
+	 * The type of change. One of {@link #ADD},{@link #DROP}, or {@link #CHANGE}.
 	 */
 
 	private int action;
@@ -59,18 +57,13 @@ public class CustomMsgEvent extends NotificationEvent
 	 * Constructs the event with the user-defined message and the action causing
 	 * this event.
 	 * 
-	 * @param design
-	 *            the report design
-	 * @param translation
-	 *            the user-defined message
-	 * @param theAction
-	 *            the action causing this event.
+	 * @param design      the report design
+	 * @param translation the user-defined message
+	 * @param theAction   the action causing this event.
 	 */
 
-	public CustomMsgEvent( ReportDesign design, Translation translation,
-			int theAction )
-	{
-		super( design );
+	public CustomMsgEvent(ReportDesign design, Translation translation, int theAction) {
+		super(design);
 		this.translation = translation;
 		this.action = theAction;
 	}
@@ -78,22 +71,22 @@ public class CustomMsgEvent extends NotificationEvent
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return CUSTOM_MSG_EVENT;
 	}
 
 	/**
-	 * Returns the action causing this event. One of {@link #ADD},
-	 * {@link #DROP}, or {@link #CHANGE}.
+	 * Returns the action causing this event. One of {@link #ADD}, {@link #DROP}, or
+	 * {@link #CHANGE}.
 	 * 
 	 * @return the action causing this event.
 	 */
 
-	public int getAction( )
-	{
+	public int getAction() {
 		return action;
 	}
 
@@ -103,8 +96,7 @@ public class CustomMsgEvent extends NotificationEvent
 	 * @return the user-defined message that changes.
 	 */
 
-	public Translation getTranslation( )
-	{
+	public Translation getTranslation() {
 		return translation;
 	}
 }

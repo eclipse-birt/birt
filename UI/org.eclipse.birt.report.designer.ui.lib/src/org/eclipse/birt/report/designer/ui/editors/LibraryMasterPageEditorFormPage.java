@@ -22,48 +22,41 @@ import org.eclipse.gef.GraphicalViewer;
  * 
  */
 
-public class LibraryMasterPageEditorFormPage extends ReportMasterPageEditorFormPage
-{
-	protected EditPartFactory getEditPartFactory( )
-	{
+public class LibraryMasterPageEditorFormPage extends ReportMasterPageEditorFormPage {
+	protected EditPartFactory getEditPartFactory() {
 		return new LibraryMasterPageGraphicalPartFactory();
 	}
-	
-	public boolean onBroughtToTop( IReportEditorPage prePage )
-	{
-		if ( getEditorInput( ) != prePage.getEditorInput( ) )
-		{
-			setInput( prePage.getEditorInput( ) );
+
+	public boolean onBroughtToTop(IReportEditorPage prePage) {
+		if (getEditorInput() != prePage.getEditorInput()) {
+			setInput(prePage.getEditorInput());
 		}
 
-		ModuleHandle newModel = getProvider( ).queryReportModuleHandle( );
+		ModuleHandle newModel = getProvider().queryReportModuleHandle();
 		boolean reload = false;
-		if (getStaleType( ) == IPageStaleType.MODEL_RELOAD)
-		{
-			setModel( null );
-			doSave( null );
+		if (getStaleType() == IPageStaleType.MODEL_RELOAD) {
+			setModel(null);
+			doSave(null);
 			reload = true;
 		}
-		if ( (newModel != null && getModel( ) != newModel) || reload )
-		{
-			ModuleHandle oldModel = getModel( );
+		if ((newModel != null && getModel() != newModel) || reload) {
+			ModuleHandle oldModel = getModel();
 
-			getProvider( ).connect( newModel );
-			setModel( newModel );
+			getProvider().connect(newModel);
+			setModel(newModel);
 
-			rebuildReportDesign( oldModel );
-			if ( getModel( ) != null )
-			{
-				setViewContentsAsMasterPage( );
-				markPageStale( IPageStaleType.NONE );
+			rebuildReportDesign(oldModel);
+			if (getModel() != null) {
+				setViewContentsAsMasterPage();
+				markPageStale(IPageStaleType.NONE);
 			}
-			updateStackActions( );
+			updateStackActions();
 
 		}
-		//reselect the selection
-		GraphicalViewer view = getGraphicalViewer( );
+		// reselect the selection
+		GraphicalViewer view = getGraphicalViewer();
 
-		UIUtil.resetViewSelection( view, true );
+		UIUtil.resetViewSelection(view, true);
 		return true;
 	}
 }

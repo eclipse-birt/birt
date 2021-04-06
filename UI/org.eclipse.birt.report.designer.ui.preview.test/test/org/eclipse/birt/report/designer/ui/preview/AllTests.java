@@ -19,8 +19,7 @@ import junit.framework.TestSuite;
  * 
  */
 
-public class AllTests extends TestCase
-{
+public class AllTests extends TestCase {
 
 	/**
 	 * All cases.
@@ -28,9 +27,8 @@ public class AllTests extends TestCase
 	 * @throws Exception
 	 */
 
-	public void test( ) throws Exception
-	{
-		TestSuite suite = new TestSuite( );
-		suite.addTestSuite( AllParameterTests.class );
+	public void test() throws Exception {
+		TestSuite suite = new TestSuite();
+		suite.addTestSuite(AllParameterTests.class);
 	}
 }

@@ -33,25 +33,20 @@ import com.ibm.icu.util.ULocale;
  * </p>
  */
 
-public class Regression_137159 extends BaseTestCase
-{
+public class Regression_137159 extends BaseTestCase {
 
 	/**
 	 * 
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_137159( ) throws SemanticException
-	{
-		SessionHandle session = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		designHandle = session.createDesign( );
-		ElementFactory factory = designHandle.getElementFactory( );
-		CascadingParameterGroupHandle group = factory
-				.newCascadingParameterGroup( "group" ); //$NON-NLS-1$
-		group.setProperty( CascadingParameterGroup.PROMPT_TEXT_PROP,
-				"prompttext" ); //$NON-NLS-1$
-		assertEquals( "prompttext", group.getPromptText( ) ); //$NON-NLS-1$
+	public void test_regression_137159() throws SemanticException {
+		SessionHandle session = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		designHandle = session.createDesign();
+		ElementFactory factory = designHandle.getElementFactory();
+		CascadingParameterGroupHandle group = factory.newCascadingParameterGroup("group"); //$NON-NLS-1$
+		group.setProperty(CascadingParameterGroup.PROMPT_TEXT_PROP, "prompttext"); //$NON-NLS-1$
+		assertEquals("prompttext", group.getPromptText()); //$NON-NLS-1$
 
 	}
 }

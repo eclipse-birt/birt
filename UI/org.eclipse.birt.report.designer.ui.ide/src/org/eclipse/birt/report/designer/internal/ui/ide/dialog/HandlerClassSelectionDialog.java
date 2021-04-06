@@ -23,30 +23,31 @@ import org.eclipse.ui.dialogs.TwoPaneElementSelector;
  * 
  */
 
-public class HandlerClassSelectionDialog extends TwoPaneElementSelector
-{
+public class HandlerClassSelectionDialog extends TwoPaneElementSelector {
 	private IType[] fTypes;
-	
+
 	private static class PackageRenderer extends JavaElementLabelProvider {
 		public PackageRenderer() {
-			super(JavaElementLabelProvider.SHOW_PARAMETERS | JavaElementLabelProvider.SHOW_POST_QUALIFIED | JavaElementLabelProvider.SHOW_ROOT);	
+			super(JavaElementLabelProvider.SHOW_PARAMETERS | JavaElementLabelProvider.SHOW_POST_QUALIFIED
+					| JavaElementLabelProvider.SHOW_ROOT);
 		}
 
 		public Image getImage(Object element) {
-			return super.getImage(((IType)element).getPackageFragment());
+			return super.getImage(((IType) element).getPackageFragment());
 		}
-		
+
 		public String getText(Object element) {
-			return super.getText(((IType)element).getPackageFragment());
+			return super.getText(((IType) element).getPackageFragment());
 		}
 	}
-	
-	
+
 	public HandlerClassSelectionDialog(Shell shell, IType[] types) {
-		super(shell, new JavaElementLabelProvider(JavaElementLabelProvider.SHOW_BASICS | JavaElementLabelProvider.SHOW_OVERLAY_ICONS), 
+		super(shell,
+				new JavaElementLabelProvider(
+						JavaElementLabelProvider.SHOW_BASICS | JavaElementLabelProvider.SHOW_OVERLAY_ICONS),
 				new PackageRenderer());
-		setHelpAvailable( false );
-		fTypes= types;
+		setHelpAvailable(false);
+		fTypes = types;
 	}
 
 	/**
@@ -55,7 +56,7 @@ public class HandlerClassSelectionDialog extends TwoPaneElementSelector
 	protected void configureShell(Shell newShell) {
 		super.configureShell(newShell);
 //		PlatformUI.getWorkbench().getHelpSystem().setHelp(newShell, IJavaHelpContextIds.MAINTYPE_SELECTION_DIALOG);
-		UIUtil.bindHelp( newShell,IHelpContextIds.HANDLER_CLASS_SELECTION_DIALOG);
+		UIUtil.bindHelp(newShell, IHelpContextIds.HANDLER_CLASS_SELECTION_DIALOG);
 	}
 
 	/*
@@ -65,9 +66,9 @@ public class HandlerClassSelectionDialog extends TwoPaneElementSelector
 		if (fTypes == null) {
 			return CANCEL;
 		}
-		
+
 		setElements(fTypes);
 		return super.open();
-	}	
-	
+	}
+
 }

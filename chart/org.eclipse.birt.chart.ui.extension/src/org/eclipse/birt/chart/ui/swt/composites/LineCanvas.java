@@ -27,8 +27,7 @@ import org.eclipse.swt.widgets.Composite;
  * @author Actuate Corporation
  * 
  */
-public class LineCanvas extends Canvas implements PaintListener, FocusListener
-{
+public class LineCanvas extends Canvas implements PaintListener, FocusListener {
 
 	protected int iLineStyle = SWT.LINE_SOLID;
 
@@ -36,103 +35,82 @@ public class LineCanvas extends Canvas implements PaintListener, FocusListener
 
 	protected boolean isFocusIn = false;
 
-	public LineCanvas( Composite parent, int iStyle, int iLineStyle,
-			int iLineWidth )
-	{
-		super( parent, iStyle );
+	public LineCanvas(Composite parent, int iStyle, int iLineStyle, int iLineWidth) {
+		super(parent, iStyle);
 		this.iLineStyle = iLineStyle;
 		this.iLineWidth = iLineWidth;
-		this.addPaintListener( this );
-		this.addFocusListener( this );
+		this.addPaintListener(this);
+		this.addFocusListener(this);
 	}
 
-	public int getLineStyle( )
-	{
+	public int getLineStyle() {
 		return this.iLineStyle;
 	}
 
-	public void setLineStyle( int iLineStyle )
-	{
+	public void setLineStyle(int iLineStyle) {
 		this.iLineStyle = iLineStyle;
 	}
 
-	public int getLineWidth( )
-	{
+	public int getLineWidth() {
 		return this.iLineWidth;
 	}
 
-	public void setLineWidth( int iLineWidth )
-	{
+	public void setLineWidth(int iLineWidth) {
 		this.iLineWidth = iLineWidth;
 	}
 
-	public void paintControl( PaintEvent pe )
-	{
-		if ( isEnabled( ) && isFocusControl( ) )
-		{
+	public void paintControl(PaintEvent pe) {
+		if (isEnabled() && isFocusControl()) {
 			isFocusIn = true;
 		}
 
 		Color cForeground = null;
 		Color cBackground = null;
-		if ( this.isEnabled( ) )
-		{
-			cForeground = getDisplay( ).getSystemColor( SWT.COLOR_LIST_FOREGROUND );
-			cBackground = getDisplay( ).getSystemColor( SWT.COLOR_LIST_BACKGROUND );
-		}
-		else
-		{
-			cForeground = getDisplay( ).getSystemColor( SWT.COLOR_DARK_GRAY );
-			cBackground = getDisplay( ).getSystemColor( SWT.COLOR_WIDGET_BACKGROUND );
+		if (this.isEnabled()) {
+			cForeground = getDisplay().getSystemColor(SWT.COLOR_LIST_FOREGROUND);
+			cBackground = getDisplay().getSystemColor(SWT.COLOR_LIST_BACKGROUND);
+		} else {
+			cForeground = getDisplay().getSystemColor(SWT.COLOR_DARK_GRAY);
+			cBackground = getDisplay().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND);
 		}
 
 		GC gc = pe.gc;
-		if ( isFocusIn )
-		{
-			gc.setBackground( getDisplay( ).getSystemColor( SWT.COLOR_LIST_SELECTION ) );
-			gc.setForeground( getDisplay( ).getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT ) );
-		}
-		else
-		{
-			gc.setBackground( cBackground );
-			gc.setForeground( cForeground );
+		if (isFocusIn) {
+			gc.setBackground(getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION));
+			gc.setForeground(getDisplay().getSystemColor(SWT.COLOR_LIST_SELECTION_TEXT));
+		} else {
+			gc.setBackground(cBackground);
+			gc.setForeground(cForeground);
 		}
 
-		gc.fillRectangle( 0, 0, this.getSize( ).x, this.getSize( ).y );
-		gc.setLineStyle( iLineStyle );
-		gc.setLineWidth( iLineWidth );
-		gc.drawLine( 10,
-				this.getSize( ).y / 2,
-				this.getSize( ).x - 10,
-				this.getSize( ).y / 2 );
+		gc.fillRectangle(0, 0, this.getSize().x, this.getSize().y);
+		gc.setLineStyle(iLineStyle);
+		gc.setLineWidth(iLineWidth);
+		gc.drawLine(10, this.getSize().y / 2, this.getSize().x - 10, this.getSize().y / 2);
 
 	}
 
-	public void setEnabled( boolean bState )
-	{
-		super.setEnabled( bState );
-		redraw( );
+	public void setEnabled(boolean bState) {
+		super.setEnabled(bState);
+		redraw();
 	}
 
-	public void focusGained( FocusEvent e )
-	{
+	public void focusGained(FocusEvent e) {
 		isFocusIn = true;
 
 	}
 
-	public void focusLost( FocusEvent e )
-	{
+	public void focusLost(FocusEvent e) {
 		isFocusIn = false;
 	}
 
-	public Point computeSize( int wHint, int hHint, boolean changed )
-	{
-		Point size = new Point( 100, 20 );
-		if ( wHint != SWT.DEFAULT )
+	public Point computeSize(int wHint, int hHint, boolean changed) {
+		Point size = new Point(100, 20);
+		if (wHint != SWT.DEFAULT)
 			size.x = wHint;
-		if ( hHint != SWT.DEFAULT )
+		if (hHint != SWT.DEFAULT)
 			size.y = hHint;
-		Rectangle trim = computeTrim( 0, 0, size.x, size.y );
-		return new Point( trim.width, trim.height );
+		Rectangle trim = computeTrim(0, 0, size.x, size.y);
+		return new Point(trim.width, trim.height);
 	}
 }

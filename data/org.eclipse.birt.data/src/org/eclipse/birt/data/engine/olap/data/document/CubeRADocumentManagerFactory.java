@@ -14,10 +14,9 @@ import org.eclipse.birt.data.engine.core.DataException;
  * 
  */
 
-public class CubeRADocumentManagerFactory
-{
-	public static IDocumentManager createRADocumentManager( String cubeName, IDocArchiveReader reader ) throws DataException, IOException
-	{
-		return DocumentManagerFactory.createRADocumentManager( reader );
+public class CubeRADocumentManagerFactory {
+	public static IDocumentManager createRADocumentManager(String cubeName, IDocArchiveReader reader)
+			throws DataException, IOException {
+		return DocumentManagerFactory.createRADocumentManager(reader);
 	}
 }

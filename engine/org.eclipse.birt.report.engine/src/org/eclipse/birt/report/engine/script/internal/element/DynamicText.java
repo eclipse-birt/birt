@@ -15,78 +15,67 @@ import org.eclipse.birt.report.engine.api.script.element.IDynamicText;
 import org.eclipse.birt.report.model.api.TextDataHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class DynamicText extends ReportItem implements IDynamicText
-{
+public class DynamicText extends ReportItem implements IDynamicText {
 
-    public DynamicText( TextDataHandle textData )
-    {
-        super( textData );
-    }
-    
-    public DynamicText( org.eclipse.birt.report.model.api.simpleapi.IDynamicText dynamicTextImpl )
-    {
-        super( dynamicTextImpl );
-    }
+	public DynamicText(TextDataHandle textData) {
+		super(textData);
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.ITextData#getValueExpr()
-     */
+	public DynamicText(org.eclipse.birt.report.model.api.simpleapi.IDynamicText dynamicTextImpl) {
+		super(dynamicTextImpl);
+	}
 
-    public String getValueExpr()
-    {
-        return ( (org.eclipse.birt.report.model.api.simpleapi.IDynamicText) designElementImpl )
-                .getValueExpr();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextData#getValueExpr()
+	 */
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.ITextData#setValueExpr(java.lang.String)
-     */
+	public String getValueExpr() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.IDynamicText) designElementImpl).getValueExpr();
+	}
 
-    public void setValueExpr( String expr ) throws ScriptException
-    {
-        try
-        {
-            ( (org.eclipse.birt.report.model.api.simpleapi.IDynamicText) designElementImpl )
-                    .setValueExpr( expr );
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextData#setValueExpr(java
+	 * .lang.String)
+	 */
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.ITextData#getContentType()
-     */
+	public void setValueExpr(String expr) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IDynamicText) designElementImpl).setValueExpr(expr);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
 
-    public String getContentType()
-    {
-        return ( (org.eclipse.birt.report.model.api.simpleapi.IDynamicText) designElementImpl )
-                .getContentType();
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextData#getContentType()
+	 */
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.engine.api.script.element.ITextData#setContentType(java.lang.String)
-     */
+	public String getContentType() {
+		return ((org.eclipse.birt.report.model.api.simpleapi.IDynamicText) designElementImpl).getContentType();
+	}
 
-    public void setContentType( String contentType ) throws ScriptException
-    {
-        try
-        {
-            ( (org.eclipse.birt.report.model.api.simpleapi.IDynamicText) designElementImpl )
-                    .setContentType( contentType );
-        }
-        catch( SemanticException e )
-        {
-            throw new ScriptException( e.getLocalizedMessage() );
-        }
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.element.ITextData#setContentType(
+	 * java.lang.String)
+	 */
+
+	public void setContentType(String contentType) throws ScriptException {
+		try {
+			((org.eclipse.birt.report.model.api.simpleapi.IDynamicText) designElementImpl).setContentType(contentType);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
+		}
+	}
 }

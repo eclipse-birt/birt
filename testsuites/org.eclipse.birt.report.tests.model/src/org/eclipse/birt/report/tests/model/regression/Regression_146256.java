@@ -26,45 +26,41 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Test the resource locator given a jar protocal with an image file.
  * <p>
  */
-public class Regression_146256 extends BaseTestCase
-{
+public class Regression_146256 extends BaseTestCase {
 
 	/**
 	 * Tests the 'findFile' method of DefaultSearchFileAlgorithm.
 	 * 
-	 * @throws Exception
-	 *             if the test fails.
+	 * @throws Exception if the test fails.
 	 */
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( "testRead.jar" , "testRead.jar" );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( "testRead.jar" , "testRead.jar" );
 
-		copyInputToFile ( INPUT_FOLDER + "/" + "testRead.jar" );
+		copyInputToFile(INPUT_FOLDER + "/" + "testRead.jar");
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
-	public void test_regression_146256( ) throws Exception
-	{
 
-		ResourceLocatorImpl rl = new ResourceLocatorImpl( );
-		//String resource = "jar:file:" + this.getFullQualifiedClassName( ) + "/" + INPUT_FOLDER + "/" + "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
-		String resource = "jar:file:" + getTempFolder() + "/" + INPUT_FOLDER + "/" + "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
-		
-		
-		URL url = rl.findResource( null, resource, IResourceLocator.IMAGE );
-		assertNotNull( url );
+	public void test_regression_146256() throws Exception {
 
-		URLConnection jarConnection = url.openConnection( );
-		jarConnection.connect( );
+		ResourceLocatorImpl rl = new ResourceLocatorImpl();
+		// String resource = "jar:file:" + this.getFullQualifiedClassName( ) + "/" +
+		// INPUT_FOLDER + "/" + "testRead.jar!/test/testRead.rptdesign"; //$NON-NLS-1$
+		String resource = "jar:file:" + getTempFolder() + "/" + INPUT_FOLDER + "/" //$NON-NLS-1$
+				+ "testRead.jar!/test/testRead.rptdesign";
 
-		InputStream inputStream = jarConnection.getInputStream( );
-		assertNotNull( inputStream );
+		URL url = rl.findResource(null, resource, IResourceLocator.IMAGE);
+		assertNotNull(url);
+
+		URLConnection jarConnection = url.openConnection();
+		jarConnection.connect();
+
+		InputStream inputStream = jarConnection.getInputStream();
+		assertNotNull(inputStream);
 	}
 }

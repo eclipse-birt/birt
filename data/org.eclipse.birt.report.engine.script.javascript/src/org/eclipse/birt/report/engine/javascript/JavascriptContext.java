@@ -24,14 +24,12 @@ import org.eclipse.birt.report.engine.executor.ScriptablePageVariables;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-public class JavascriptContext implements IScriptContext
-{
+public class JavascriptContext implements IScriptContext {
 
 	/**
 	 * for logging
 	 */
-	protected static Logger logger = Logger.getLogger( JavascriptContext.class
-			.getName( ) );
+	protected static Logger logger = Logger.getLogger(JavascriptContext.class.getName());
 
 	/**
 	 * The JavaScript scope used for script execution
@@ -39,60 +37,46 @@ public class JavascriptContext implements IScriptContext
 	protected Scriptable scope;
 
 	private ScriptContext scriptContext;
-	
-	public JavascriptContext( ScriptContext scriptContext, Scriptable scope )
-	{
-		if ( scope == null )
-		{
-			throw new IllegalArgumentException( "Scope can not be null." );
+
+	public JavascriptContext(ScriptContext scriptContext, Scriptable scope) {
+		if (scope == null) {
+			throw new IllegalArgumentException("Scope can not be null.");
 		}
 		this.scope = scope;
 		this.scriptContext = scriptContext;
 	}
 
 	/**
-	 * @param name
-	 *            the name of a property
-	 * @param value
-	 *            the value of a property
+	 * @param name  the name of a property
+	 * @param value the value of a property
 	 */
-	public void setAttribute( String name, Object value )
-	{
+	public void setAttribute(String name, Object value) {
 		value = wrap(scope, name, value);
-		Object jsValue = Context.javaToJS( value, scope );
-		scope.put( name, scope, jsValue );
+		Object jsValue = Context.javaToJS(value, scope);
+		scope.put(name, scope, jsValue);
 	}
 
-	public void removeAttribute( String name )
-	{
-		scope.delete( name );
+	public void removeAttribute(String name) {
+		scope.delete(name);
 	}
 
-	public Scriptable getScope( )
-	{
+	public Scriptable getScope() {
 		return scope;
 	}
 
-	private Object wrap( Scriptable scope, String name, Object value )
-	{
-		if ( scriptContext.getParent( ) != null )
-		{
+	private Object wrap(Scriptable scope, String name, Object value) {
+		if (scriptContext.getParent() != null) {
 			return value;
 		}
-		if ( ExpressionUtil.PARAMETER_INDICATOR.equals( name ) && value instanceof HashMap<?, ?> )
-		{
-			return new ScriptableParameters( (Map<String, Object>) value, scope );
-		}
-		else if ( ExpressionUtil.VARIABLE_INDICATOR.equals( name ) )
-		{
-			return new ScriptablePageVariables(
-					(Map<String, PageVariable>) value, scope );
+		if (ExpressionUtil.PARAMETER_INDICATOR.equals(name) && value instanceof HashMap<?, ?>) {
+			return new ScriptableParameters((Map<String, Object>) value, scope);
+		} else if (ExpressionUtil.VARIABLE_INDICATOR.equals(name)) {
+			return new ScriptablePageVariables((Map<String, PageVariable>) value, scope);
 		}
 		return value;
 	}
 
-	private Object javaToJs( Object value, Scriptable scope )
-	{
-		return Context.javaToJS( value, scope );
+	private Object javaToJs(Object value, Scriptable scope) {
+		return Context.javaToJS(value, scope);
 	}
 }

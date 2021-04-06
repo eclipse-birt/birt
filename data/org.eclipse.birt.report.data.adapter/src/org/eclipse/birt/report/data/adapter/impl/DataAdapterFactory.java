@@ -18,16 +18,15 @@ import org.eclipse.birt.report.data.adapter.api.IDataAdapterFactory;
 /**
  * 
  */
-public class DataAdapterFactory implements IDataAdapterFactory
-{
+public class DataAdapterFactory implements IDataAdapterFactory {
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.api.IDataAdaptorFactory#createSession(org.eclipse.birt.report.data.adaptor.api.DataSessionContext)
+	 * @see
+	 * org.eclipse.birt.report.data.adaptor.api.IDataAdaptorFactory#createSession(
+	 * org.eclipse.birt.report.data.adaptor.api.DataSessionContext)
 	 */
-	public DataRequestSession createSession( DataSessionContext context )
-			throws BirtException
-	{
-		return new DataRequestSessionImpl( context );
+	public DataRequestSession createSession(DataSessionContext context) throws BirtException {
+		return new DataRequestSessionImpl(context);
 	}
 
 }

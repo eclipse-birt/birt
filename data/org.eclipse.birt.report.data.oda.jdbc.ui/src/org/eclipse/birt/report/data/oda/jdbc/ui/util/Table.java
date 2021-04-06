@@ -22,8 +22,7 @@ import java.util.ArrayList;
  * @version $Revision: 1.2 $ $Date: 2007/01/05 07:24:54 $
  */
 
-public class Table implements Serializable
-{
+public class Table implements Serializable {
 
 	/**
 	 * serial version id
@@ -37,43 +36,36 @@ public class Table implements Serializable
 	/**
 	 *  
 	 */
-	public Table( Schema schema )
-	{
-		super( );
+	public Table(Schema schema) {
+		super();
 		this.schema = schema;
 	}
 
 	/**
 	 * @return Returns the name.
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            The name to set.
+	 * @param name The name to set.
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return Returns the type.
 	 */
-	public String getType( )
-	{
+	public String getType() {
 		return type;
 	}
 
 	/**
-	 * @param type
-	 *            The type to set.
+	 * @param type The type to set.
 	 */
-	public void setType( String type )
-	{
+	public void setType(String type) {
 		this.type = type;
 	}
 
@@ -81,31 +73,22 @@ public class Table implements Serializable
 	 * @return Returns the columns.
 	 * @throws SQLException
 	 */
-	public ArrayList getColumns( ) throws SQLException
-	{
-		if ( columns == null )
-		{
-			retrieveColumns( );
+	public ArrayList getColumns() throws SQLException {
+		if (columns == null) {
+			retrieveColumns();
 		}
 		return columns;
 	}
 
-	private synchronized void retrieveColumns( ) throws SQLException
-	{
-		if ( columns == null )
-		{
-			columns = new ArrayList( );
-			ResultSet resultSet = schema.getMetaData( )
-					.getMetaData( )
-					.getColumns( schema.getMetaData( ).getCatalogname( ),
-							schema.getName( ),
-							getName( ),
-							null );
-			while ( resultSet.next( ) )
-			{
-				Column column = new Column( );
-				column.setName( resultSet.getString( "COLUMN_NAME" ) );//$NON-NLS-1$
-				columns.add( column );
+	private synchronized void retrieveColumns() throws SQLException {
+		if (columns == null) {
+			columns = new ArrayList();
+			ResultSet resultSet = schema.getMetaData().getMetaData().getColumns(schema.getMetaData().getCatalogname(),
+					schema.getName(), getName(), null);
+			while (resultSet.next()) {
+				Column column = new Column();
+				column.setName(resultSet.getString("COLUMN_NAME"));//$NON-NLS-1$
+				columns.add(column);
 			}
 		}
 	}
@@ -115,9 +98,8 @@ public class Table implements Serializable
 	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-	protected void finalize( ) throws Throwable
-	{
-		columns.clear( );
-		super.finalize( );
+	protected void finalize() throws Throwable {
+		columns.clear();
+		super.finalize();
 	}
 }

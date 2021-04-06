@@ -109,8 +109,7 @@ import org.eclipse.birt.report.model.util.ElementStructureUtil;
  * @see SlotHandle
  */
 
-class ElementFactoryImpl
-{
+class ElementFactoryImpl {
 
 	/**
 	 * The module.
@@ -121,109 +120,93 @@ class ElementFactoryImpl
 	/**
 	 * Constructs a element factory with the given module.
 	 * 
-	 * @param module
-	 *            the module
+	 * @param module the module
 	 */
 
-	public ElementFactoryImpl( Module module )
-	{
+	public ElementFactoryImpl(Module module) {
 		this.module = module;
 	}
 
 	/**
 	 * Creates a design element specified by the element type name. Element type
-	 * names are defined in rom.def or extension elements. They are managed by
-	 * the meta-data system.
+	 * names are defined in rom.def or extension elements. They are managed by the
+	 * meta-data system.
 	 * 
-	 * @param elementTypeName
-	 *            the element type name
-	 * @param name
-	 *            the optional element name
+	 * @param elementTypeName the element type name
+	 * @param name            the optional element name
 	 * 
-	 * @return design element, <code>null</code> returned if the element
-	 *         definition name is not a valid element type name.
+	 * @return design element, <code>null</code> returned if the element definition
+	 *         name is not a valid element type name.
 	 */
 
-	public DesignElementHandle newElement( String elementTypeName, String name )
-	{
+	public DesignElementHandle newElement(String elementTypeName, String name) {
 
-		return ElementFactoryUtil.newElement( module, elementTypeName, name,
-				true );
+		return ElementFactoryUtil.newElement(module, elementTypeName, name, true);
 	}
 
 	/**
 	 * Creates a new free-form item.
 	 * 
-	 * @param name
-	 *            the optional free-form name. Can be <code>null</code>.
+	 * @param name the optional free-form name. Can be <code>null</code>.
 	 * @return a handle to the free-form
 	 */
 
-	public FreeFormHandle newFreeForm( String name )
-	{
-		FreeForm element = new FreeForm( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public FreeFormHandle newFreeForm(String name) {
+		FreeForm element = new FreeForm(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new data item.
 	 * 
-	 * @param name
-	 *            the optional data item name. Can be <code>null</code>.
+	 * @param name the optional data item name. Can be <code>null</code>.
 	 * @return a handle to the data item
 	 */
 
-	public DataItemHandle newDataItem( String name )
-	{
-		DataItem element = new DataItem( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public DataItemHandle newDataItem(String name) {
+		DataItem element = new DataItem(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new label item.
 	 * 
-	 * @param name
-	 *            the optional label name. Can be <code>null</code>.
+	 * @param name the optional label name. Can be <code>null</code>.
 	 * @return a handle to the label
 	 */
 
-	public LabelHandle newLabel( String name )
-	{
-		Label element = new Label( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public LabelHandle newLabel(String name) {
+		Label element = new Label(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new specialfield item.
 	 * 
-	 * @param name
-	 *            the optional data item name. Can be <code>null</code>.
+	 * @param name the optional data item name. Can be <code>null</code>.
 	 * @return a handle to the data item
 	 */
 
-	public AutoTextHandle newAutoText( String name )
-	{
-		AutoText element = new AutoText( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public AutoTextHandle newAutoText(String name) {
+		AutoText element = new AutoText(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new image item.
 	 * 
-	 * @param name
-	 *            the optional image name. Can be <code>null</code>.
+	 * @param name the optional image name. Can be <code>null</code>.
 	 * @return a handle to the image
 	 */
 
-	public ImageHandle newImage( String name )
-	{
-		ImageItem element = new ImageItem( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ImageHandle newImage(String name) {
+		ImageItem element = new ImageItem(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
@@ -232,271 +215,233 @@ class ElementFactoryImpl
 	 * @return a handle to the list group
 	 */
 
-	public ListGroupHandle newListGroup( )
-	{
-		ListGroup element = new ListGroup( );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ListGroupHandle newListGroup() {
+		ListGroup element = new ListGroup();
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new list item.
 	 * 
-	 * @param name
-	 *            the optional list name. Can be <code>null</code>.
+	 * @param name the optional list name. Can be <code>null</code>.
 	 * @return a handle to the list
 	 */
 
-	public ListHandle newList( String name )
-	{
-		ListItem element = new ListItem( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ListHandle newList(String name) {
+		ListItem element = new ListItem(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new graphic master page element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the required graphic master page name
+	 * @param name the required graphic master page name
 	 * @return a handle to the graphic master page
 	 */
 
-	public GraphicMasterPageHandle newGraphicMasterPage( String name )
-	{
-		GraphicMasterPage element = new GraphicMasterPage( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public GraphicMasterPageHandle newGraphicMasterPage(String name) {
+		GraphicMasterPage element = new GraphicMasterPage(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new simple master page element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the requirement simple master page name
+	 * @param name the requirement simple master page name
 	 * @return a handle to the simple master page.
 	 */
 
-	public SimpleMasterPageHandle newSimpleMasterPage( String name )
-	{
-		SimpleMasterPage element = new SimpleMasterPage( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public SimpleMasterPageHandle newSimpleMasterPage(String name) {
+		SimpleMasterPage element = new SimpleMasterPage(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new parameter group element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the optional parameter group name. Can be <code>null</code>.
+	 * @param name the optional parameter group name. Can be <code>null</code>.
 	 * @return a handle to the parameter group
 	 */
 
-	public ParameterGroupHandle newParameterGroup( String name )
-	{
-		ParameterGroup element = new ParameterGroup( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ParameterGroupHandle newParameterGroup(String name) {
+		ParameterGroup element = new ParameterGroup(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new parameter group element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the optional parameter group name. Can be <code>null</code>.
+	 * @param name the optional parameter group name. Can be <code>null</code>.
 	 * @return a handle to the parameter group
 	 */
 
-	public CascadingParameterGroupHandle newCascadingParameterGroup( String name )
-	{
-		CascadingParameterGroup element = new CascadingParameterGroup( name );
-		module.makeUniqueName( element );
-		return (CascadingParameterGroupHandle) element.handle( module );
+	public CascadingParameterGroupHandle newCascadingParameterGroup(String name) {
+		CascadingParameterGroup element = new CascadingParameterGroup(name);
+		module.makeUniqueName(element);
+		return (CascadingParameterGroupHandle) element.handle(module);
 	}
 
 	/**
 	 * Creates a new scalar parameter element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the required scalar parameter name
+	 * @param name the required scalar parameter name
 	 * @return a handle to the scalar parameter
 	 */
 
-	public ScalarParameterHandle newScalarParameter( String name )
-	{
-		ScalarParameter element = new ScalarParameter( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ScalarParameterHandle newScalarParameter(String name) {
+		ScalarParameter element = new ScalarParameter(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new dynamic filter parameter element. The name is required. If
-	 * the <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new dynamic filter parameter element. The name is required. If the
+	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the required dynamic filter parameter name
+	 * @param name the required dynamic filter parameter name
 	 * @return a handle to the dynamic filter parameter
 	 */
-	public DynamicFilterParameterHandle newDynamicFilterParameter( String name )
-	{
-		DynamicFilterParameter element = new DynamicFilterParameter( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public DynamicFilterParameterHandle newDynamicFilterParameter(String name) {
+		DynamicFilterParameter element = new DynamicFilterParameter(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new style element. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new style element. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the required style name
+	 * @param name the required style name
 	 * @return a handle to the style
 	 */
 
-	public SharedStyleHandle newStyle( String name )
-	{
-		Style element = new Style( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public SharedStyleHandle newStyle(String name) {
+		Style element = new Style(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
-		/**
-	 * Creates a new style element, and the style element is supposed to be
-	 * adding to some theme in Library. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	/**
+	 * Creates a new style element, and the style element is supposed to be adding
+	 * to some theme in Library. The name is required. If the <code>name</code> is
+	 * null, we will make a unique name for it.
 	 * 
-	 * @param theme
-	 *            the theme to add the style
-	 * @param name
-	 *            the required style name
+	 * @param theme the theme to add the style
+	 * @param name  the required style name
 	 * @return a handle to the style
 	 */
 
-	public SharedStyleHandle newStyle( AbstractThemeHandle theme, String name )
-	{
-		Style element = new Style( name );
-		( (AbstractTheme) theme.getElement( ) ).makeUniqueName( element );
-		return element.handle( module );
+	public SharedStyleHandle newStyle(AbstractThemeHandle theme, String name) {
+		Style element = new Style(name);
+		((AbstractTheme) theme.getElement()).makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new text item.
 	 * 
-	 * @param name
-	 *            the optional text item name. Can be <code>null</code>.
+	 * @param name the optional text item name. Can be <code>null</code>.
 	 * @return a handle to the text item
 	 */
 
-	public TextItemHandle newTextItem( String name )
-	{
-		TextItem element = new TextItem( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public TextItemHandle newTextItem(String name) {
+		TextItem element = new TextItem(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new table item.
 	 * 
-	 * @param name
-	 *            the optional table item name. Can be <code>null</code>.
+	 * @param name the optional table item name. Can be <code>null</code>.
 	 * @return a handle to the table item
 	 */
 
-	public TableHandle newTableItem( String name )
-	{
-		TableItem element = new TableItem( name );
-		module.makeUniqueName( element );
-		element.refreshRenderModel( module );
-		return element.handle( module );
+	public TableHandle newTableItem(String name) {
+		TableItem element = new TableItem(name);
+		module.makeUniqueName(element);
+		element.refreshRenderModel(module);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new table item with the given name and given column number. The
-	 * table will have one row for each band(header, footer, detail). Each row
-	 * in band will be filled with cells, number of cells is equal to the
-	 * specified column number.
+	 * table will have one row for each band(header, footer, detail). Each row in
+	 * band will be filled with cells, number of cells is equal to the specified
+	 * column number.
 	 * <p>
 	 * It has the same effect by calling:
 	 * <code>newTableItem( name, columnNum, 1, 1, 1 )</code>.
 	 * 
-	 * @param name
-	 *            the optional table item name
-	 * @param columnNum
-	 *            column number of the table, if it is less than 0, then column
-	 *            won't be defined for the table at this stage.
+	 * @param name      the optional table item name
+	 * @param columnNum column number of the table, if it is less than 0, then
+	 *                  column won't be defined for the table at this stage.
 	 * @return A handle to the table item.
 	 * @see #newTableItem(String, int, int, int, int)
 	 */
 
-	public TableHandle newTableItem( String name, int columnNum )
-	{
-		return newTableItem( name, columnNum, 1, 1, 1 );
+	public TableHandle newTableItem(String name, int columnNum) {
+		return newTableItem(name, columnNum, 1, 1, 1);
 	}
 
 	/**
 	 * Creates a new table item with the given name and given column number. The
-	 * table will have given number of rows for each band(header, footer,
-	 * detail). Each row in band will be filled with cells, number of cells is
-	 * equal to the specified column number.
+	 * table will have given number of rows for each band(header, footer, detail).
+	 * Each row in band will be filled with cells, number of cells is equal to the
+	 * specified column number.
 	 * 
-	 * @param name
-	 *            the optional table item name
-	 * @param columnNum
-	 *            column number of the table, if it is less than 0, then column
-	 *            won't be defined for the table at this stage.
-	 * @param headerRow
-	 *            number of rows that will be added for header band. If it is
-	 *            less than 0, none row will be added to header band.
-	 * @param detailRow
-	 *            number of rows that will be added for detail band. If it is
-	 *            less than 0, none row will be added to detail band.
-	 * @param footerRow
-	 *            number of rows that will be added for footer band. If it is
-	 *            less than 0, none row will be added to footer band.
+	 * @param name      the optional table item name
+	 * @param columnNum column number of the table, if it is less than 0, then
+	 *                  column won't be defined for the table at this stage.
+	 * @param headerRow number of rows that will be added for header band. If it is
+	 *                  less than 0, none row will be added to header band.
+	 * @param detailRow number of rows that will be added for detail band. If it is
+	 *                  less than 0, none row will be added to detail band.
+	 * @param footerRow number of rows that will be added for footer band. If it is
+	 *                  less than 0, none row will be added to footer band.
 	 * @return A handle to the table item.
 	 */
 
-	public TableHandle newTableItem( String name, int columnNum, int headerRow,
-			int detailRow, int footerRow )
-	{
-		TableHandle tableHandle = newTableItem( name );
-		TableItem table = (TableItem) tableHandle.getElement( );
+	public TableHandle newTableItem(String name, int columnNum, int headerRow, int detailRow, int footerRow) {
+		TableHandle tableHandle = newTableItem(name);
+		TableItem table = (TableItem) tableHandle.getElement();
 
 		columnNum = columnNum >= 0 ? columnNum : 0;
 		headerRow = headerRow >= 0 ? headerRow : 0;
 		footerRow = footerRow >= 0 ? footerRow : 0;
 		detailRow = detailRow >= 0 ? detailRow : 0;
 
-		for ( int i = 0; i < columnNum; i++ )
-		{
-			TableColumn column = new TableColumn( );
-			table.add( column, ITableItemModel.COLUMN_SLOT );
+		for (int i = 0; i < columnNum; i++) {
+			TableColumn column = new TableColumn();
+			table.add(column, ITableItemModel.COLUMN_SLOT);
 		}
 
-		for ( int i = 0; i < headerRow; i++ )
-		{
-			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			table.add( row, IListingElementModel.HEADER_SLOT );
+		for (int i = 0; i < headerRow; i++) {
+			TableRow row = (TableRow) newTableRow(columnNum).getElement();
+			table.add(row, IListingElementModel.HEADER_SLOT);
 		}
 
-		for ( int i = 0; i < footerRow; i++ )
-		{
-			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			table.add( row, IListingElementModel.FOOTER_SLOT );
+		for (int i = 0; i < footerRow; i++) {
+			TableRow row = (TableRow) newTableRow(columnNum).getElement();
+			table.add(row, IListingElementModel.FOOTER_SLOT);
 		}
 
-		for ( int i = 0; i < detailRow; i++ )
-		{
-			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			table.add( row, IListingElementModel.DETAIL_SLOT );
+		for (int i = 0; i < detailRow; i++) {
+			TableRow row = (TableRow) newTableRow(columnNum).getElement();
+			table.add(row, IListingElementModel.DETAIL_SLOT);
 		}
 
-		table.refreshRenderModel( module );
+		table.refreshRenderModel(module);
 		return tableHandle;
 	}
 
@@ -506,11 +451,10 @@ class ElementFactoryImpl
 	 * @return a handle to the table group
 	 */
 
-	public TableGroupHandle newTableGroup( )
-	{
-		TableGroup element = new TableGroup( );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public TableGroupHandle newTableGroup() {
+		TableGroup element = new TableGroup();
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
@@ -519,11 +463,10 @@ class ElementFactoryImpl
 	 * @return a handle to the column
 	 */
 
-	public ColumnHandle newTableColumn( )
-	{
-		TableColumn element = new TableColumn( );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ColumnHandle newTableColumn() {
+		TableColumn element = new TableColumn();
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
@@ -532,33 +475,29 @@ class ElementFactoryImpl
 	 * @return a handle to the row
 	 */
 
-	public RowHandle newTableRow( )
-	{
-		TableRow element = new TableRow( );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public RowHandle newTableRow() {
+		TableRow element = new TableRow();
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new table row, filled the row with the given number of cells.
 	 * 
-	 * @param cellNum
-	 *            Number of cells to be added to the row.
+	 * @param cellNum Number of cells to be added to the row.
 	 * 
 	 * @return a new table row.
 	 */
 
-	public RowHandle newTableRow( int cellNum )
-	{
-		RowHandle rowHandle = newTableRow( );
-		TableRow row = (TableRow) rowHandle.getElement( );
+	public RowHandle newTableRow(int cellNum) {
+		RowHandle rowHandle = newTableRow();
+		TableRow row = (TableRow) rowHandle.getElement();
 
 		// fill the row with cells.
 
-		for ( int j = 0; j < cellNum; j++ )
-		{
-			Cell cell = new Cell( );
-			row.add( cell, ITableRowModel.CONTENT_SLOT );
+		for (int j = 0; j < cellNum; j++) {
+			Cell cell = new Cell();
+			row.add(cell, ITableRowModel.CONTENT_SLOT);
 		}
 
 		return rowHandle;
@@ -570,61 +509,52 @@ class ElementFactoryImpl
 	 * @return a handle to the cell
 	 */
 
-	public CellHandle newCell( )
-	{
-		Cell element = new Cell( );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public CellHandle newCell() {
+		Cell element = new Cell();
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new grid item.
 	 * 
-	 * @param name
-	 *            the optional grid item name. Can be <code>null</code>.
+	 * @param name the optional grid item name. Can be <code>null</code>.
 	 * @return a handle to the grid item
 	 */
 
-	public GridHandle newGridItem( String name )
-	{
-		GridItem element = new GridItem( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public GridHandle newGridItem(String name) {
+		GridItem element = new GridItem(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new grid item with pre-defined columns and rows.
 	 * 
-	 * @param name
-	 *            the optional grid item name.
-	 * @param columnNum
-	 *            column number of the grid. If it is less than 0, none column
-	 *            will be added.
-	 * @param rowNum
-	 *            row number of the grid. If it is less than 0, none row will be
-	 *            added.
+	 * @param name      the optional grid item name.
+	 * @param columnNum column number of the grid. If it is less than 0, none column
+	 *                  will be added.
+	 * @param rowNum    row number of the grid. If it is less than 0, none row will
+	 *                  be added.
 	 * 
 	 * @return a handle to the grid item
 	 */
 
-	public GridHandle newGridItem( String name, int columnNum, int rowNum )
-	{
-		GridHandle gridHandle = newGridItem( name );
-		GridItem grid = (GridItem) gridHandle.getElement( );
+	public GridHandle newGridItem(String name, int columnNum, int rowNum) {
+		GridHandle gridHandle = newGridItem(name);
+		GridItem grid = (GridItem) gridHandle.getElement();
 
 		columnNum = columnNum >= 0 ? columnNum : 0;
 		rowNum = rowNum >= 0 ? rowNum : 0;
 
-		for ( int i = 0; i < columnNum; i++ )
-		{
-			TableColumn column = new TableColumn( );
-			grid.add( column, IGridItemModel.COLUMN_SLOT );
+		for (int i = 0; i < columnNum; i++) {
+			TableColumn column = new TableColumn();
+			grid.add(column, IGridItemModel.COLUMN_SLOT);
 		}
 
-		for ( int i = 0; i < rowNum; i++ )
-		{
-			TableRow row = (TableRow) newTableRow( columnNum ).getElement( );
-			grid.add( row, IGridItemModel.ROW_SLOT );
+		for (int i = 0; i < rowNum; i++) {
+			TableRow row = (TableRow) newTableRow(columnNum).getElement();
+			grid.add(row, IGridItemModel.ROW_SLOT);
 		}
 
 		return gridHandle;
@@ -633,67 +563,56 @@ class ElementFactoryImpl
 	/**
 	 * Creates a new line item.
 	 * 
-	 * @param name
-	 *            the optional line item name. Can be <code>null</code>.
+	 * @param name the optional line item name. Can be <code>null</code>.
 	 * @return a handle to the line item
 	 */
 
-	public LineHandle newLineItem( String name )
-	{
-		LineItem element = new LineItem( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public LineHandle newLineItem(String name) {
+		LineItem element = new LineItem(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new rectangle.
 	 * 
-	 * @param name
-	 *            the optional rectangle name. Can be <code>null</code>.
+	 * @param name the optional rectangle name. Can be <code>null</code>.
 	 * @return a handle to rectangle
 	 */
 
-	public RectangleHandle newRectangle( String name )
-	{
-		RectangleItem element = new RectangleItem( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public RectangleHandle newRectangle(String name) {
+		RectangleItem element = new RectangleItem(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new multi line data item.
 	 * 
-	 * @param name
-	 *            the optional multi line data name. Can be <code>null</code>.
+	 * @param name the optional multi line data name. Can be <code>null</code>.
 	 * @return a handle to multi line data item
 	 */
 
-	public TextDataHandle newTextData( String name )
-	{
-		TextDataItem element = new TextDataItem( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public TextDataHandle newTextData(String name) {
+		TextDataItem element = new TextDataItem(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new extended item.
 	 * 
-	 * @param name
-	 *            the optional extended item name. Can be <code>null</code>.
-	 * @param extensionName
-	 *            the required extension name
-	 * @return a handle to extended item, return <code>null</code> if the
-	 *         definition with the given extension name is not found
+	 * @param name          the optional extended item name. Can be
+	 *                      <code>null</code>.
+	 * @param extensionName the required extension name
+	 * @return a handle to extended item, return <code>null</code> if the definition
+	 *         with the given extension name is not found
 	 */
 
-	public ExtendedItemHandle newExtendedItem( String name, String extensionName )
-	{
-		try
-		{
-			return newExtendedItem( name, extensionName, null );
-		}
-		catch ( ExtendsException e )
-		{
+	public ExtendedItemHandle newExtendedItem(String name, String extensionName) {
+		try {
+			return newExtendedItem(name, extensionName, null);
+		} catch (ExtendsException e) {
 			assert false;
 			return null;
 		}
@@ -702,54 +621,43 @@ class ElementFactoryImpl
 	/**
 	 * Creates a new extended item which extends from a given parent.
 	 * 
-	 * @param name
-	 *            the optional extended item name. Can be <code>null</code>.
-	 * @param extensionName
-	 *            the required extension name
-	 * @param parent
-	 *            a given parent element.
-	 * @return a handle to extended item, return <code>null</code> if the
-	 *         definition with the given extension name is not found
+	 * @param name          the optional extended item name. Can be
+	 *                      <code>null</code>.
+	 * @param extensionName the required extension name
+	 * @param parent        a given parent element.
+	 * @return a handle to extended item, return <code>null</code> if the definition
+	 *         with the given extension name is not found
 	 * @throws ExtendsException
 	 */
 
-	private ExtendedItemHandle newExtendedItem( String name,
-			String extensionName, ExtendedItemHandle parent )
-			throws ExtendsException
-	{
-		MetaDataDictionary dd = MetaDataDictionary.getInstance( );
-		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd
-				.getExtension( extensionName );
-		if ( extDefn == null )
+	private ExtendedItemHandle newExtendedItem(String name, String extensionName, ExtendedItemHandle parent)
+			throws ExtendsException {
+		MetaDataDictionary dd = MetaDataDictionary.getInstance();
+		ExtensionElementDefn extDefn = (ExtensionElementDefn) dd.getExtension(extensionName);
+		if (extDefn == null)
 			return null;
 
-		if ( parent != null )
-			assert ( (ExtendedItem) parent.getElement( ) ).getExtDefn( ) == extDefn;
+		if (parent != null)
+			assert ((ExtendedItem) parent.getElement()).getExtDefn() == extDefn;
 
-		if ( !( extDefn instanceof PeerExtensionElementDefn ) )
-			throw new IllegalOperationException(
-					"Only report item extension can be created through this method." ); //$NON-NLS-1$
+		if (!(extDefn instanceof PeerExtensionElementDefn))
+			throw new IllegalOperationException("Only report item extension can be created through this method."); //$NON-NLS-1$
 
-		ExtendedItem element = new ExtendedItem( name );
+		ExtendedItem element = new ExtendedItem(name);
 
 		// init provider.
 
-		element.setProperty( IExtendedItemModel.EXTENSION_NAME_PROP,
-				extensionName );
+		element.setProperty(IExtendedItemModel.EXTENSION_NAME_PROP, extensionName);
 
-		if ( parent != null )
-		{
-			element.getHandle( module ).setExtends( parent );
+		if (parent != null) {
+			element.getHandle(module).setExtends(parent);
 		}
 
-		module.makeUniqueName( element );
-		ExtendedItemHandle handle = element.handle( module );
-		try
-		{
-			handle.loadExtendedElement( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		module.makeUniqueName(element);
+		ExtendedItemHandle handle = element.handle(module);
+		try {
+			handle.loadExtendedElement();
+		} catch (ExtendedElementException e) {
 			// It's impossible to fail when deserializing.
 
 			assert false;
@@ -760,233 +668,189 @@ class ElementFactoryImpl
 	/**
 	 * Creates a new script data source.
 	 * 
-	 * @param name
-	 *            the required script data source name.
+	 * @param name the required script data source name.
 	 * @return a handle to script data source
 	 */
 
-	public ScriptDataSourceHandle newScriptDataSource( String name )
-	{
-		ScriptDataSource element = new ScriptDataSource( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ScriptDataSourceHandle newScriptDataSource(String name) {
+		ScriptDataSource element = new ScriptDataSource(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new script data set. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new script data set. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the required script data set name.
+	 * @param name the required script data set name.
 	 * @return a handle to script data set
 	 */
 
-	public ScriptDataSetHandle newScriptDataSet( String name )
-	{
-		ScriptDataSet element = new ScriptDataSet( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ScriptDataSetHandle newScriptDataSet(String name) {
+		ScriptDataSet element = new ScriptDataSet(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new oda data source. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new oda data source. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the required oda data source name.
+	 * @param name the required oda data source name.
 	 * @return a handle to oda data source
 	 * @deprecated see
 	 *             <code>newOdaDataSource( String name, String extensionID )</code>
 	 */
 
-	public OdaDataSourceHandle newOdaDataSource( String name )
-	{
-		OdaDataSource element = new OdaDataSource( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public OdaDataSourceHandle newOdaDataSource(String name) {
+		OdaDataSource element = new OdaDataSource(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new oda data source. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.The
-	 * <code>extensionID</code> is used to find the extension definition.If the
-	 * extension ID is not given, the oda data source will be created without
-	 * extension. If the unknown extension ID is given, <code>null</code> will
-	 * be returned.
+	 * Creates a new oda data source. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.The <code>extensionID</code> is
+	 * used to find the extension definition.If the extension ID is not given, the
+	 * oda data source will be created without extension. If the unknown extension
+	 * ID is given, <code>null</code> will be returned.
 	 * 
-	 * @param name
-	 *            the required oda data source name.
-	 * @param extensionID
-	 *            the extension ID
+	 * @param name        the required oda data source name.
+	 * @param extensionID the extension ID
 	 * @return a handle to oda data source
 	 */
 
-	public OdaDataSourceHandle newOdaDataSource( String name, String extensionID )
-	{
-		OdaDataSource element = new OdaDataSource( name );
-		if ( extensionID != null )
-		{
-			if ( ODAProviderFactory.getInstance( ).createODAProvider( element,
-					extensionID ) == null )
+	public OdaDataSourceHandle newOdaDataSource(String name, String extensionID) {
+		OdaDataSource element = new OdaDataSource(name);
+		if (extensionID != null) {
+			if (ODAProviderFactory.getInstance().createODAProvider(element, extensionID) == null)
 				return null;
-			if ( !ODAProviderFactory.getInstance( ).createODAProvider( element,
-					extensionID ).isValidExtensionID( ) )
+			if (!ODAProviderFactory.getInstance().createODAProvider(element, extensionID).isValidExtensionID())
 				return null;
 		}
 
-		module.makeUniqueName( element );
-		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
-				extensionID );
+		module.makeUniqueName(element);
+		element.setProperty(IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID);
 
-		return element.handle( module );
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new oda data set. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new oda data set. The name is required. If the <code>name</code> is
+	 * null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the required oda data set name.
+	 * @param name the required oda data set name.
 	 * @return a handle to oda data set
-	 * @deprecated see
-	 *             <code>newOdaDataSet( String name, String extensionID )</code>
+	 * @deprecated see <code>newOdaDataSet( String name, String extensionID )</code>
 	 */
 
-	public OdaDataSetHandle newOdaDataSet( String name )
-	{
-		OdaDataSet element = new OdaDataSet( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public OdaDataSetHandle newOdaDataSet(String name) {
+		OdaDataSet element = new OdaDataSet(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new joint data set. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new joint data set. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the required joint data set name.
+	 * @param name the required joint data set name.
 	 * @return a handle to joint data set
 	 */
 
-	public JointDataSetHandle newJointDataSet( String name )
-	{
-		JointDataSet element = new JointDataSet( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public JointDataSetHandle newJointDataSet(String name) {
+		JointDataSet element = new JointDataSet(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new oda data set. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it. The
-	 * <code>extensionID</code> is used to find the extension definition.If the
-	 * extension ID is not given, the oda data source will be created without
-	 * extension. If the unknown extension ID is given, <code>null</code> will
-	 * be returned.
+	 * Creates a new oda data set. The name is required. If the <code>name</code> is
+	 * null, we will make a unique name for it. The <code>extensionID</code> is used
+	 * to find the extension definition.If the extension ID is not given, the oda
+	 * data source will be created without extension. If the unknown extension ID is
+	 * given, <code>null</code> will be returned.
 	 * 
-	 * @param name
-	 *            the required oda data set name.
-	 * @param extensionID
-	 *            the extension ID
+	 * @param name        the required oda data set name.
+	 * @param extensionID the extension ID
 	 * @return a handle to oda data set
 	 */
 
-	public OdaDataSetHandle newOdaDataSet( String name, String extensionID )
-	{
-		OdaDataSet element = new OdaDataSet( name );
-		if ( extensionID != null )
-		{
-			if ( ODAProviderFactory.getInstance( ).createODAProvider( element,
-					extensionID ) == null )
+	public OdaDataSetHandle newOdaDataSet(String name, String extensionID) {
+		OdaDataSet element = new OdaDataSet(name);
+		if (extensionID != null) {
+			if (ODAProviderFactory.getInstance().createODAProvider(element, extensionID) == null)
 				return null;
-			if ( !ODAProviderFactory.getInstance( ).createODAProvider( element,
-					extensionID ).isValidExtensionID( ) )
+			if (!ODAProviderFactory.getInstance().createODAProvider(element, extensionID).isValidExtensionID())
 				return null;
 		}
 
-		module.makeUniqueName( element );
-		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
-				extensionID );
+		module.makeUniqueName(element);
+		element.setProperty(IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID);
 
-		return element.handle( module );
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new derived data set. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the required derived data set name.
+	 * @param name the required derived data set name.
 	 * @return a handle to derived data set
 	 */
 
-	public DerivedDataSetHandle newDerivedDataSet( String name,
-			String extensionID )
-	{
-		DerivedDataSet element = new DerivedDataSet( name );
-		module.makeUniqueName( element );
-		element.setProperty( IOdaExtendableElementModel.EXTENSION_ID_PROP,
-				extensionID );
-		return element.handle( module );
+	public DerivedDataSetHandle newDerivedDataSet(String name, String extensionID) {
+		DerivedDataSet element = new DerivedDataSet(name);
+		module.makeUniqueName(element);
+		element.setProperty(IOdaExtendableElementModel.EXTENSION_ID_PROP, extensionID);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates one new element based on the given element. The new element will
 	 * extends the given one. The element must be extendable.
 	 * 
-	 * @param baseElement
-	 *            the base element.
-	 * @param name
-	 *            the optional new element name
+	 * @param baseElement the base element.
+	 * @param name        the optional new element name
 	 * @return the handle to the new element.
-	 * @throws ExtendsException
-	 *             if the the base element is in a library that is not included
-	 *             in this module, or if the "extends" relationship is illegal
+	 * @throws ExtendsException if the the base element is in a library that is not
+	 *                          included in this module, or if the "extends"
+	 *                          relationship is illegal
 	 */
 
-	public DesignElementHandle newElementFrom( DesignElementHandle baseElement,
-			String name ) throws ExtendsException
-	{
-		if ( baseElement == null )
+	public DesignElementHandle newElementFrom(DesignElementHandle baseElement, String name) throws ExtendsException {
+		if (baseElement == null)
 			return null;
 
 		// if the base element is in the module, just generate a child element
 
-		if ( baseElement.getRoot( ).getElement( ) == module )
-			return createElementFrom( name, baseElement );
+		if (baseElement.getRoot().getElement() == module)
+			return createElementFrom(name, baseElement);
 
 		// the base element is not in the module, check whether the root module
 		// of the base element is included
 
-		Module root = (Module) baseElement.getRoot( ).getElement( );
-		if ( root instanceof Library )
-		{
+		Module root = (Module) baseElement.getRoot().getElement();
+		if (root instanceof Library) {
 			// the library with the location path is never included
 
-			Library lib = module.getLibraryByLocation( root.getLocation( ) );
-			if ( lib == null )
-			{
-				throw new InvalidParentException(
-						null,
-						baseElement.getElement( ),
-						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_INCLUDE );
+			Library lib = module.getLibraryByLocation(root.getLocation());
+			if (lib == null) {
+				throw new InvalidParentException(null, baseElement.getElement(),
+						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_INCLUDE);
 			}
 
-			DesignElement base = lib.getElementByID( baseElement.getID( ) );
+			DesignElement base = lib.getElementByID(baseElement.getID());
 
 			// if the element with the name is not found or the element type
 			// is inconsistent, throw an exception
 
-			if ( base == null
-					|| base.getDefn( ) != baseElement.getElement( ).getDefn( ) )
-			{
-				throw new InvalidParentException(
-						null,
-						baseElement.getName( ),
-						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND );
+			if (base == null || base.getDefn() != baseElement.getElement().getDefn()) {
+				throw new InvalidParentException(null, baseElement.getName(),
+						InvalidParentException.DESIGN_EXCEPTION_PARENT_NOT_FOUND);
 			}
 
-			DesignElementHandle newHandle = createElementFrom( name, base
-					.getHandle( lib ) );
+			DesignElementHandle newHandle = createElementFrom(name, base.getHandle(lib));
 
 			return newHandle;
 		}
@@ -1001,226 +865,187 @@ class ElementFactoryImpl
 	 * Creates one new element based on the given element. The new element will
 	 * extends the given one. The element must be extendable.
 	 * 
-	 * @param name
-	 *            the optional new element name
-	 * @param baseElement
-	 *            the base element
+	 * @param name        the optional new element name
+	 * @param baseElement the base element
 	 * @return the handle to the new element.
-	 * @throws ExtendsException
-	 *             if the "extends" relationship is illegal
+	 * @throws ExtendsException if the "extends" relationship is illegal
 	 */
 
-	protected DesignElementHandle createElementFrom( String name,
-			DesignElementHandle baseElement ) throws ExtendsException
-	{
+	protected DesignElementHandle createElementFrom(String name, DesignElementHandle baseElement)
+			throws ExtendsException {
 		DesignElementHandle childElement = null;
 
-		if ( baseElement instanceof ExtendedItemHandle )
-		{
-			String extensionName = baseElement
-					.getStringProperty( IExtendedItemModel.EXTENSION_NAME_PROP );
-			childElement = newExtendedItem( name, extensionName,
-					(ExtendedItemHandle) baseElement );
-			ElementStructureUtil.refreshStructureFromParent( module,
-					childElement.getElement( ) );
-		}
-		else
-		{
-			childElement = newElement( baseElement.getElement( )
-					.getElementName( ), name );
+		if (baseElement instanceof ExtendedItemHandle) {
+			String extensionName = baseElement.getStringProperty(IExtendedItemModel.EXTENSION_NAME_PROP);
+			childElement = newExtendedItem(name, extensionName, (ExtendedItemHandle) baseElement);
+			ElementStructureUtil.refreshStructureFromParent(module, childElement.getElement());
+		} else {
+			childElement = newElement(baseElement.getElement().getElementName(), name);
 
 			// for the special oda cases, the extension id must be set before
 			// setExtends
 
 			String extensionProperty = null;
-			if ( childElement.getElement( ) instanceof IOdaExtendableElementModel )
-			{
+			if (childElement.getElement() instanceof IOdaExtendableElementModel) {
 				extensionProperty = IOdaExtendableElementModel.EXTENSION_ID_PROP;
 
-			}
-			else if ( childElement.getElement( ) instanceof IDerivedExtendableElementModel )
-			{
+			} else if (childElement.getElement() instanceof IDerivedExtendableElementModel) {
 				extensionProperty = IDerivedExtendableElementModel.EXTENSION_ID_PROP;
 			}
 
-			if ( extensionProperty != null )
-			{
-				String extensionId = (String) baseElement
-						.getProperty( extensionProperty );
-				childElement.getElement( ).setProperty( extensionProperty,
-						extensionId );
+			if (extensionProperty != null) {
+				String extensionId = (String) baseElement.getProperty(extensionProperty);
+				childElement.getElement().setProperty(extensionProperty, extensionId);
 			}
 
-			childElement.setExtends( baseElement );
-			ElementStructureUtil.refreshStructureFromParent( module,
-					childElement.getElement( ) );
+			childElement.setExtends(baseElement);
+			ElementStructureUtil.refreshStructureFromParent(module, childElement.getElement());
 		}
-		module.rename( childElement.getElement( ) );
+		module.rename(childElement.getElement());
 
 		// check extends
-		childElement.getElement( ).checkExtends( baseElement.getElement( ) );
+		childElement.getElement().checkExtends(baseElement.getElement());
 
 		return childElement;
 	}
 
 	/**
-	 * Creates a new theme element. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new theme element. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the theme item name.
+	 * @param name the theme item name.
 	 * @return a handle to the theme item
 	 */
 
-	public ThemeHandle newTheme( String name )
-	{
-		Theme element = new Theme( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ThemeHandle newTheme(String name) {
+		Theme element = new Theme(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new report item theme element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the report item theme name.
+	 * @param name the report item theme name.
 	 * @return a handle to the theme item
 	 */
 
-	public ReportItemThemeHandle newReportItemTheme( String name )
-	{
-		ReportItemTheme element = new ReportItemTheme( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public ReportItemThemeHandle newReportItemTheme(String name) {
+		ReportItemTheme element = new ReportItemTheme(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new cube element. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new cube element. The name is required. If the <code>name</code> is
+	 * null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the cube element name.
+	 * @param name the cube element name.
 	 * @return a handle to the cube element
 	 */
 
-	public TabularCubeHandle newTabularCube( String name )
-	{
-		TabularCube element = new TabularCube( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public TabularCubeHandle newTabularCube(String name) {
+		TabularCube element = new TabularCube(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new dimension element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the dimension name
+	 * @param name the dimension name
 	 * @return a handle to the dimension element
 	 */
 
-	public TabularDimensionHandle newTabularDimension( String name )
-	{
-		TabularDimension element = new TabularDimension( name );
-		module.makeUniqueName( element );
+	public TabularDimensionHandle newTabularDimension(String name) {
+		TabularDimension element = new TabularDimension(name);
+		module.makeUniqueName(element);
 
 		// add a hierarchy element to the dimension
-		TabularHierarchy hierarchy = new TabularHierarchy( );
-		element.add( module, hierarchy, IDimensionModel.HIERARCHIES_PROP );
-		module.makeUniqueName( hierarchy );
+		TabularHierarchy hierarchy = new TabularHierarchy();
+		element.add(module, hierarchy, IDimensionModel.HIERARCHIES_PROP);
+		module.makeUniqueName(hierarchy);
 		// set default hierarchy
-		element.setDefaultHierarchy( hierarchy );
-		return element.handle( module );
+		element.setDefaultHierarchy(hierarchy);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new hierarchy element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            hierarchy name
+	 * @param name hierarchy name
 	 * @return a handle to the hierarchy element
 	 */
 
-	public TabularHierarchyHandle newTabularHierarchy( String name )
-	{
-		TabularHierarchy element = new TabularHierarchy( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public TabularHierarchyHandle newTabularHierarchy(String name) {
+		TabularHierarchy element = new TabularHierarchy(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new level element. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new level element. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the level name
+	 * @param name the level name
 	 * @return a handle to the level element
 	 * @deprecated replaced by
 	 *             {@link #newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
 	 */
 
-	public TabularLevelHandle newTabularLevel( String name )
-	{
-		TabularLevel element = new TabularLevel( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public TabularLevelHandle newTabularLevel(String name) {
+		TabularLevel element = new TabularLevel(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 
 	}
 
 	/**
-	 * Creates a new level element within the given dimension handle. The name
-	 * is required. If the <code>name</code> is null, we will make a unique name
-	 * with the given dimension scope for it.
+	 * Creates a new level element within the given dimension handle. The name is
+	 * required. If the <code>name</code> is null, we will make a unique name with
+	 * the given dimension scope for it.
 	 * 
-	 * @param dimensionHandle
-	 *            the dimension handle where the level will be inserted
+	 * @param dimensionHandle the dimension handle where the level will be inserted
 	 * 
-	 * @param name
-	 *            the level name
+	 * @param name            the level name
 	 * @return a handle to the level element
 	 */
 
-	public TabularLevelHandle newTabularLevel(
-			org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
-			String name )
-	{
-		TabularLevel element = new TabularLevel( name );
-		if ( dimensionHandle != null )
-			( (Dimension) dimensionHandle.getElement( ) )
-					.makeUniqueName( element );
-		return element.handle( module );
+	public TabularLevelHandle newTabularLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
+			String name) {
+		TabularLevel element = new TabularLevel(name);
+		if (dimensionHandle != null)
+			((Dimension) dimensionHandle.getElement()).makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new measure element. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new measure element. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the measure name
+	 * @param name the measure name
 	 * @return a handle to the measure element
 	 */
 
-	public TabularMeasureHandle newTabularMeasure( String name )
-	{
-		TabularMeasure element = new TabularMeasure( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public TabularMeasureHandle newTabularMeasure(String name) {
+		TabularMeasure element = new TabularMeasure(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new measure group.
 	 * 
-	 * @param name
-	 *            the optional measure group name.
+	 * @param name the optional measure group name.
 	 * @return the measure group element
 	 */
-	public TabularMeasureGroupHandle newTabularMeasureGroup( String name )
-	{
-		TabularMeasureGroup element = new TabularMeasureGroup( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public TabularMeasureGroupHandle newTabularMeasureGroup(String name) {
+		TabularMeasureGroup element = new TabularMeasureGroup(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
@@ -1231,10 +1056,9 @@ class ElementFactoryImpl
 	 * @deprecated
 	 */
 
-	public AccessControlHandle newAccessControl( )
-	{
-		AccessControl element = new AccessControl( );
-		return element.handle( module );
+	public AccessControlHandle newAccessControl() {
+		AccessControl element = new AccessControl();
+		return element.handle(module);
 	}
 
 	/**
@@ -1245,132 +1069,114 @@ class ElementFactoryImpl
 	 * @deprecated
 	 */
 
-	public ValueAccessControlHandle newValueAccessControl( )
-	{
-		AccessControl element = new ValueAccessControl( );
-		return (ValueAccessControlHandle) element.handle( module );
+	public ValueAccessControlHandle newValueAccessControl() {
+		AccessControl element = new ValueAccessControl();
+		return (ValueAccessControlHandle) element.handle(module);
 	}
 
 	/**
-	 * Creates a new cube element. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new cube element. The name is required. If the <code>name</code> is
+	 * null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the cube element name.
+	 * @param name the cube element name.
 	 * @return a handle to the cube element
 	 */
 
-	public OdaCubeHandle newOdaCube( String name )
-	{
-		OdaCube element = new OdaCube( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public OdaCubeHandle newOdaCube(String name) {
+		OdaCube element = new OdaCube(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new dimension element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the dimension name
+	 * @param name the dimension name
 	 * @return a handle to the dimension element
 	 */
 
-	public OdaDimensionHandle newOdaDimension( String name )
-	{
+	public OdaDimensionHandle newOdaDimension(String name) {
 		// add a hierarchy element to the dimension
-		OdaDimension element = new OdaDimension( name );
-		module.makeUniqueName( element );
-		OdaHierarchy hierarchy = new OdaHierarchy( );
-		element.add( module, hierarchy, IDimensionModel.HIERARCHIES_PROP );
-		module.makeUniqueName( hierarchy );
-		return element.handle( module );
+		OdaDimension element = new OdaDimension(name);
+		module.makeUniqueName(element);
+		OdaHierarchy hierarchy = new OdaHierarchy();
+		element.add(module, hierarchy, IDimensionModel.HIERARCHIES_PROP);
+		module.makeUniqueName(hierarchy);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new hierarchy element. The name is required. If the
 	 * <code>name</code> is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            hierarchy name
+	 * @param name hierarchy name
 	 * @return a handle to the hierarchy element
 	 */
 
-	public OdaHierarchyHandle newOdaHierarchy( String name )
-	{
-		OdaHierarchy element = new OdaHierarchy( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public OdaHierarchyHandle newOdaHierarchy(String name) {
+		OdaHierarchy element = new OdaHierarchy(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new level element. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new level element. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the level name
+	 * @param name the level name
 	 * @return a handle to the level element
 	 * @deprecated replaced by
 	 *             {@link #newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle, String)}
 	 */
 
-	public OdaLevelHandle newOdaLevel( String name )
-	{
-		OdaLevel element = new OdaLevel( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public OdaLevelHandle newOdaLevel(String name) {
+		OdaLevel element = new OdaLevel(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 
 	}
 
 	/**
-	 * Creates a new oda level handle. The name is required. If given name is
-	 * null, we will make a unique name within the dimension scope for it.
+	 * Creates a new oda level handle. The name is required. If given name is null,
+	 * we will make a unique name within the dimension scope for it.
 	 * 
-	 * @param dimensionHandle
-	 *            the dimension handle where the level will be inserted
-	 * @param name
-	 *            the level name
+	 * @param dimensionHandle the dimension handle where the level will be inserted
+	 * @param name            the level name
 	 * @return a handle to the level element
 	 */
-	public OdaLevelHandle newOdaLevel(
-			org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
-			String name )
-	{
-		OdaLevel element = new OdaLevel( name );
-		if ( dimensionHandle != null )
-			( (Dimension) dimensionHandle.getElement( ) )
-					.makeUniqueName( element );
-		return element.handle( module );
+	public OdaLevelHandle newOdaLevel(org.eclipse.birt.report.model.api.olap.DimensionHandle dimensionHandle,
+			String name) {
+		OdaLevel element = new OdaLevel(name);
+		if (dimensionHandle != null)
+			((Dimension) dimensionHandle.getElement()).makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
-	 * Creates a new measure element. The name is required. If the
-	 * <code>name</code> is null, we will make a unique name for it.
+	 * Creates a new measure element. The name is required. If the <code>name</code>
+	 * is null, we will make a unique name for it.
 	 * 
-	 * @param name
-	 *            the measure name
+	 * @param name the measure name
 	 * @return a handle to the measure element
 	 */
 
-	public OdaMeasureHandle newOdaMeasure( String name )
-	{
-		OdaMeasure element = new OdaMeasure( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public OdaMeasureHandle newOdaMeasure(String name) {
+		OdaMeasure element = new OdaMeasure(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
 	 * Creates a new measure group.
 	 * 
-	 * @param name
-	 *            the optional measure group name.
+	 * @param name the optional measure group name.
 	 * @return the measure group element
 	 */
-	public OdaMeasureGroupHandle newOdaMeasureGroup( String name )
-	{
-		OdaMeasureGroup element = new OdaMeasureGroup( name );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public OdaMeasureGroupHandle newOdaMeasureGroup(String name) {
+		OdaMeasureGroup element = new OdaMeasureGroup(name);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
@@ -1378,10 +1184,9 @@ class ElementFactoryImpl
 	 * 
 	 * @return a handle to the member value
 	 */
-	public MemberValueHandle newMemberValue( )
-	{
-		MemberValue element = new MemberValue( );
-		return element.handle( module );
+	public MemberValueHandle newMemberValue() {
+		MemberValue element = new MemberValue();
+		return element.handle(module);
 	}
 
 	/**
@@ -1389,10 +1194,9 @@ class ElementFactoryImpl
 	 * 
 	 * @return a handle to the sort element
 	 */
-	public SortElementHandle newSortElement( )
-	{
-		SortElement element = new SortElement( );
-		return element.handle( module );
+	public SortElementHandle newSortElement() {
+		SortElement element = new SortElement();
+		return element.handle(module);
 	}
 
 	/**
@@ -1400,10 +1204,9 @@ class ElementFactoryImpl
 	 * 
 	 * @return a handle to the filter condition element
 	 */
-	public FilterConditionElementHandle newFilterConditionElement( )
-	{
-		FilterConditionElement element = new FilterConditionElement( );
-		return element.handle( module );
+	public FilterConditionElementHandle newFilterConditionElement() {
+		FilterConditionElement element = new FilterConditionElement();
+		return element.handle(module);
 	}
 
 	/**
@@ -1412,10 +1215,9 @@ class ElementFactoryImpl
 	 * @return a handle to the multiple view element
 	 */
 
-	public MultiViewsHandle newMultiView( )
-	{
-		MultiViews element = new MultiViews( );
-		return (MultiViewsHandle) element.getHandle( module );
+	public MultiViewsHandle newMultiView() {
+		MultiViews element = new MultiViews();
+		return (MultiViewsHandle) element.getHandle(module);
 	}
 
 	/**
@@ -1425,23 +1227,20 @@ class ElementFactoryImpl
 	 * @deprecated replaced by newVariableElement( String variableName )
 	 */
 
-	public VariableElementHandle newVariableElement( )
-	{
-		return newVariableElement( null );
+	public VariableElementHandle newVariableElement() {
+		return newVariableElement(null);
 	}
 
 	/**
 	 * Creates a variable element and set the variable name.
 	 * 
-	 * @param variableName
-	 *            the variable name.
+	 * @param variableName the variable name.
 	 * @return the variable element handle.
 	 */
-	public VariableElementHandle newVariableElement( String variableName )
-	{
-		VariableElement element = new VariableElement( variableName );
-		module.makeUniqueName( element );
-		return element.handle( module );
+	public VariableElementHandle newVariableElement(String variableName) {
+		VariableElement element = new VariableElement(variableName);
+		module.makeUniqueName(element);
+		return element.handle(module);
 	}
 
 	/**
@@ -1449,10 +1248,9 @@ class ElementFactoryImpl
 	 * 
 	 * @return the generated data group element
 	 */
-	public DataGroupHandle newDataGroup( )
-	{
-		DataGroup element = new DataGroup( );
-		return element.handle( module );
+	public DataGroupHandle newDataGroup() {
+		DataGroup element = new DataGroup();
+		return element.handle(module);
 	}
 
 }

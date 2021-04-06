@@ -77,8 +77,7 @@ import org.xml.sax.Attributes;
  * parsed by the inherited classes.
  */
 
-public class AbstractPropertyState extends AbstractParseState
-{
+public class AbstractPropertyState extends AbstractParseState {
 
 	/**
 	 * The design file parser handler.
@@ -127,19 +126,14 @@ public class AbstractPropertyState extends AbstractParseState
 	protected boolean isEmpty = false;
 
 	/**
-	 * Constructs the design parse state with the design file parser handler.
-	 * This constructor is used when this property to parse is a property of one
-	 * element.
+	 * Constructs the design parse state with the design file parser handler. This
+	 * constructor is used when this property to parse is a property of one element.
 	 * 
-	 * @param theHandler
-	 *            the design file parser handler
-	 * @param element
-	 *            the element which holds this property
+	 * @param theHandler the design file parser handler
+	 * @param element    the element which holds this property
 	 */
 
-	public AbstractPropertyState( ModuleParserHandler theHandler,
-			DesignElement element )
-	{
+	public AbstractPropertyState(ModuleParserHandler theHandler, DesignElement element) {
 		handler = theHandler;
 		this.element = element;
 	}
@@ -147,31 +141,26 @@ public class AbstractPropertyState extends AbstractParseState
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
 		// library = attrs.getValue( DesignSchemaConstants.LIBRARY_ATTRIB );
 		//
-		name = attrs.getValue( DesignSchemaConstants.NAME_ATTRIB );
-		if ( StringUtil.isBlank( name ) )
-		{
-			DesignParserException e = new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED );
-			handler.getErrorHandler( ).semanticError( e );
+		name = attrs.getValue(DesignSchemaConstants.NAME_ATTRIB);
+		if (StringUtil.isBlank(name)) {
+			DesignParserException e = new DesignParserException(DesignParserException.DESIGN_EXCEPTION_NAME_REQUIRED);
+			handler.getErrorHandler().semanticError(e);
 			valid = false;
 			return;
 		}
 
-		nameValue = name.toLowerCase( ).hashCode( );
+		nameValue = name.toLowerCase().hashCode();
 
-		isEmpty = Boolean.parseBoolean( attrs
-				.getValue( DesignSchemaConstants.IS_EMPTY_ATTRIB ) );
+		isEmpty = Boolean.parseBoolean(attrs.getValue(DesignSchemaConstants.IS_EMPTY_ATTRIB));
 
-		super.parseAttrs( attrs );
+		super.parseAttrs(attrs);
 	}
 
 	/*
@@ -180,40 +169,30 @@ public class AbstractPropertyState extends AbstractParseState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#getHandler()
 	 */
 
-	public XMLParserHandler getHandler( )
-	{
+	public XMLParserHandler getHandler() {
 		return handler;
 	}
 
 	/**
 	 * Sets the member of a structure.
 	 * 
-	 * @param struct
-	 *            the structure that contains the member to set
-	 * @param propName
-	 *            the property in which the structure appears
-	 * @param member
-	 *            the structure member name
-	 * @param value
-	 *            the value parsed from the XML file
+	 * @param struct   the structure that contains the member to set
+	 * @param propName the property in which the structure appears
+	 * @param member   the structure member name
+	 * @param value    the value parsed from the XML file
 	 */
 
-	void setMember( IStructure struct, String propName, String member,
-			Object value )
-	{
+	void setMember(IStructure struct, String propName, String member, Object value) {
 		// Ensure that the member is defined.
 
-		StructureDefn structDefn = (StructureDefn) struct.getDefn( );
+		StructureDefn structDefn = (StructureDefn) struct.getDefn();
 		assert structDefn != null;
 
-		StructPropertyDefn memberDefn = (StructPropertyDefn) structDefn
-				.getMember( member );
-		if ( memberDefn == null )
-		{
-			DesignParserException e = new DesignParserException(
-					new String[]{member},
-					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
-			RecoverableError.dealUndefinedProperty( handler, e );
+		StructPropertyDefn memberDefn = (StructPropertyDefn) structDefn.getMember(member);
+		if (memberDefn == null) {
+			DesignParserException e = new DesignParserException(new String[] { member },
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY);
+			RecoverableError.dealUndefinedProperty(handler, e);
 
 			valid = false;
 			return;
@@ -221,86 +200,66 @@ public class AbstractPropertyState extends AbstractParseState
 
 		Object valueToSet = value;
 
-		if ( memberDefn.isEncryptable( ) )
-		{
-			if ( handler.versionNumber < VersionUtil.VERSION_3_2_15 )
-			{
-				IEncryptionHelper helper = SimpleEncryptionHelper.getInstance( );
-				if ( helper != SimpleEncryptionHelper.getInstance( ) )
-				{
-					valueToSet = SimpleEncryptionHelper.getInstance( ).decrypt(
-							(String) valueToSet );
-					valueToSet = helper.encrypt( (String) valueToSet );
+		if (memberDefn.isEncryptable()) {
+			if (handler.versionNumber < VersionUtil.VERSION_3_2_15) {
+				IEncryptionHelper helper = SimpleEncryptionHelper.getInstance();
+				if (helper != SimpleEncryptionHelper.getInstance()) {
+					valueToSet = SimpleEncryptionHelper.getInstance().decrypt((String) valueToSet);
+					valueToSet = helper.encrypt((String) valueToSet);
 				}
 
 			}
 		}
 
-		doSetMember( struct, propName, memberDefn, valueToSet );
+		doSetMember(struct, propName, memberDefn, valueToSet);
 	}
 
-	protected void doSetMember( IStructure struct, String propName,
-			StructPropertyDefn memberDefn, Object valueToSet )
-	{
+	protected void doSetMember(IStructure struct, String propName, StructPropertyDefn memberDefn, Object valueToSet) {
 		// Validate the value.
 
-		try
-		{
-			Object propValue = memberDefn.validateXml( handler.getModule( ),
-					element, valueToSet );
-			struct.setProperty( memberDefn, propValue );
-		}
-		catch ( PropertyValueException ex )
-		{
-			ex.setElement( element );
-			ex.setPropertyName( propName + "." + memberDefn.getName( ) ); //$NON-NLS-1$
-			handleMemberValueException( ex, memberDefn );
+		try {
+			Object propValue = memberDefn.validateXml(handler.getModule(), element, valueToSet);
+			struct.setProperty(memberDefn, propValue);
+		} catch (PropertyValueException ex) {
+			ex.setElement(element);
+			ex.setPropertyName(propName + "." + memberDefn.getName()); //$NON-NLS-1$
+			handleMemberValueException(ex, memberDefn);
 			valid = false;
 		}
 	}
 
 	/**
-	 * Sets the value of a property with a string parsed from the XML file.
-	 * Performs any required semantic checks.
+	 * Sets the value of a property with a string parsed from the XML file. Performs
+	 * any required semantic checks.
 	 * 
-	 * @param propName
-	 *            property name
-	 * @param value
-	 *            value string from the XML file
+	 * @param propName property name
+	 * @param value    value string from the XML file
 	 */
 
-	protected void setProperty( String propName, Object value )
-	{
+	protected void setProperty(String propName, Object value) {
 		assert propName != null;
 
-		if ( propName.equalsIgnoreCase( IDesignElementModel.NAME_PROP )
-				|| propName.equalsIgnoreCase( IDesignElementModel.EXTENDS_PROP ) )
-		{
+		if (propName.equalsIgnoreCase(IDesignElementModel.NAME_PROP)
+				|| propName.equalsIgnoreCase(IDesignElementModel.EXTENDS_PROP)) {
 			DesignParserException e = new DesignParserException(
-					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX );
-			handler.getErrorHandler( ).semanticError( e );
+					DesignParserException.DESIGN_EXCEPTION_INVALID_PROPERTY_SYNTAX);
+			handler.getErrorHandler().semanticError(e);
 			valid = false;
 			return;
 		}
 
 		// Avoid overridden properties that may cause structure change.
 
-		if ( element.isVirtualElement( ) )
-		{
-			if ( element instanceof Cell )
-			{
-				if ( ICellModel.COL_SPAN_PROP.equalsIgnoreCase( propName )
-						|| ICellModel.ROW_SPAN_PROP.equalsIgnoreCase( propName )
-						|| ICellModel.DROP_PROP.equalsIgnoreCase( propName )
-						|| ICellModel.COLUMN_PROP.equalsIgnoreCase( propName ) )
-				{
-					PropertyValueException e = new PropertyValueException(
-							element,
-							propName,
-							value,
-							PropertyValueException.DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN );
+		if (element.isVirtualElement()) {
+			if (element instanceof Cell) {
+				if (ICellModel.COL_SPAN_PROP.equalsIgnoreCase(propName)
+						|| ICellModel.ROW_SPAN_PROP.equalsIgnoreCase(propName)
+						|| ICellModel.DROP_PROP.equalsIgnoreCase(propName)
+						|| ICellModel.COLUMN_PROP.equalsIgnoreCase(propName)) {
+					PropertyValueException e = new PropertyValueException(element, propName, value,
+							PropertyValueException.DESIGN_EXCEPTION_PROPERTY_CHANGE_FORBIDDEN);
 
-					handler.getErrorHandler( ).semanticWarning( e );
+					handler.getErrorHandler().semanticWarning(e);
 					valid = false;
 					return;
 				}
@@ -310,241 +269,172 @@ public class AbstractPropertyState extends AbstractParseState
 		// The property definition is not found, including user
 		// properties.
 
-		ElementPropertyDefn propDefn = element.getPropertyDefn( propName );
-		if ( propDefn == null )
-		{
+		ElementPropertyDefn propDefn = element.getPropertyDefn(propName);
+		if (propDefn == null) {
 			// if element is extensible, then pass this value to the extension
-			if ( element instanceof ExtendedItem )
-			{
-				( (ExtendedItem) element ).getExtensibilityProvider( )
-						.handleUndefinedProperty( propName, value );
+			if (element instanceof ExtendedItem) {
+				((ExtendedItem) element).getExtensibilityProvider().handleUndefinedProperty(propName, value);
 				return;
 			}
-			DesignParserException e = new DesignParserException(
-					new String[]{propName},
-					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY );
-			RecoverableError.dealUndefinedProperty( handler, e );
+			DesignParserException e = new DesignParserException(new String[] { propName },
+					DesignParserException.DESIGN_EXCEPTION_UNDEFINED_PROPERTY);
+			RecoverableError.dealUndefinedProperty(handler, e);
 			valid = false;
 			return;
 		}
 
 		Object valueToSet = value;
 
-		if ( propDefn.isEncryptable( ) )
-		{
-			if ( handler.versionNumber < VersionUtil.VERSION_3_2_15 )
-			{
-				IEncryptionHelper helper = SimpleEncryptionHelper.getInstance( );
-				if ( handler.versionNumber == VersionUtil.VERSION_0 )
-				{
-					valueToSet = helper.encrypt( (String) valueToSet );
+		if (propDefn.isEncryptable()) {
+			if (handler.versionNumber < VersionUtil.VERSION_3_2_15) {
+				IEncryptionHelper helper = SimpleEncryptionHelper.getInstance();
+				if (handler.versionNumber == VersionUtil.VERSION_0) {
+					valueToSet = helper.encrypt((String) valueToSet);
+				} else if (helper != SimpleEncryptionHelper.getInstance()) {
+					valueToSet = SimpleEncryptionHelper.getInstance().decrypt((String) valueToSet);
+					valueToSet = helper == null ? valueToSet : helper.encrypt((String) valueToSet);
 				}
-				else if ( helper != SimpleEncryptionHelper.getInstance( ) )
-				{
-					valueToSet = SimpleEncryptionHelper.getInstance( ).decrypt(
-							(String) valueToSet );
-					valueToSet = helper == null ? valueToSet : helper
-							.encrypt( (String) valueToSet );
-				}
-				element.setEncryptionHelper( propDefn,
-						SimpleEncryptionHelper.ENCRYPTION_ID );
+				element.setEncryptionHelper(propDefn, SimpleEncryptionHelper.ENCRYPTION_ID);
 
 			}
 		}
-		doSetProperty( propDefn, valueToSet );
+		doSetProperty(propDefn, valueToSet);
 	}
 
-	protected void doSetProperty( PropertyDefn propDefn, Object valueToSet )
-	{
+	protected void doSetProperty(PropertyDefn propDefn, Object valueToSet) {
 		// Validate the value.
 
-		try
-		{
-			Object propValue = propDefn.validateXml( handler.getModule( ),
-					element, valueToSet );
-			element.setProperty( propDefn, propValue );
-		}
-		catch ( PropertyValueException ex )
-		{
+		try {
+			Object propValue = propDefn.validateXml(handler.getModule(), element, valueToSet);
+			element.setProperty(propDefn, propValue);
+		} catch (PropertyValueException ex) {
 			// if this property is extensible and value is invalid, then pass
 			// this value to the extension to do some work, maybe compatibility,
 			// maybe still invalid and fire a warning, maybe something else
-			if ( element instanceof ExtendedItem && propDefn.isExtended( ) )
-			{
-				( (ExtendedItem) element ).getExtensibilityProvider( )
-						.handleInvalidPropertyValue( propDefn.getName( ),
-								valueToSet );
+			if (element instanceof ExtendedItem && propDefn.isExtended()) {
+				((ExtendedItem) element).getExtensibilityProvider().handleInvalidPropertyValue(propDefn.getName(),
+						valueToSet);
 				return;
 			}
-			ex.setElement( element );
-			ex.setPropertyName( propDefn.getName( ) );
-			handlePropertyValueException( ex );
+			ex.setElement(element);
+			ex.setPropertyName(propDefn.getName());
+			handlePropertyValueException(ex);
 			valid = false;
 		}
 	}
 
 	/**
-	 * Process the property value exception if the value of a property is
-	 * invalid.
+	 * Process the property value exception if the value of a property is invalid.
 	 * 
-	 * @param e
-	 *            the property value exception
+	 * @param e the property value exception
 	 */
 
-	protected void handlePropertyValueException( PropertyValueException e )
-	{
-		String propName = e.getPropertyName( );
+	protected void handlePropertyValueException(PropertyValueException e) {
+		String propName = e.getPropertyName();
 
-		if ( isRecoverableError( e.getInvalidValue( ), e.getErrorCode( ), e
-				.getElement( ).getPropertyDefn( propName ) ) )
-			RecoverableError.dealInvalidPropertyValue( handler, e );
+		if (isRecoverableError(e.getInvalidValue(), e.getErrorCode(), e.getElement().getPropertyDefn(propName)))
+			RecoverableError.dealInvalidPropertyValue(handler, e);
 		else
-			handler.getErrorHandler( ).semanticError( e );
+			handler.getErrorHandler().semanticError(e);
 	}
 
 	/**
 	 * Process the property value exception if the value of a member is invalid.
 	 * 
-	 * @param e
-	 *            the property value exception
-	 * @param memberDefn
-	 *            the member definition
+	 * @param e          the property value exception
+	 * @param memberDefn the member definition
 	 */
 
-	private void handleMemberValueException( PropertyValueException e,
-			StructPropertyDefn memberDefn )
-	{
-		if ( isRecoverableError( e.getInvalidValue( ), e.getErrorCode( ),
-				memberDefn ) )
-			RecoverableError.dealInvalidMemberValue( handler, e, struct,
-					memberDefn );
+	private void handleMemberValueException(PropertyValueException e, StructPropertyDefn memberDefn) {
+		if (isRecoverableError(e.getInvalidValue(), e.getErrorCode(), memberDefn))
+			RecoverableError.dealInvalidMemberValue(handler, e, struct, memberDefn);
 		else
-			handler.getErrorHandler( ).semanticError( e );
+			handler.getErrorHandler().semanticError(e);
 	}
 
 	/**
-	 * Checks whether the given exception is an error that the parser can
-	 * recover.
+	 * Checks whether the given exception is an error that the parser can recover.
 	 * 
 	 * @param invalidValue
-	 * @param errorCode
-	 *            the error code of the property value exception
-	 * @param propDefn
-	 *            the definition of the exception. Can be an element property
-	 *            definition or a member definition.
+	 * @param errorCode    the error code of the property value exception
+	 * @param propDefn     the definition of the exception. Can be an element
+	 *                     property definition or a member definition.
 	 * @return return <code>true</code> if it is a recoverable error, otherwise
 	 *         <code>false</code>.
 	 */
 
-	private boolean isRecoverableError( Object invalidValue, String errorCode,
-			IPropertyDefn propDefn )
-	{
+	private boolean isRecoverableError(Object invalidValue, String errorCode, IPropertyDefn propDefn) {
 
-		if ( PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE
-				.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE
-						.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED
-						.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED
-						.equalsIgnoreCase( errorCode ) )
+		if (PropertyValueException.DESIGN_EXCEPTION_NEGATIVE_VALUE.equalsIgnoreCase(errorCode)
+				|| PropertyValueException.DESIGN_EXCEPTION_NON_POSITIVE_VALUE.equalsIgnoreCase(errorCode)
+				|| PropertyValueException.DESIGN_EXCEPTION_UNIT_NOT_ALLOWED.equalsIgnoreCase(errorCode)
+				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_ALLOWED.equalsIgnoreCase(errorCode))
 			return true;
 
-		if ( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE
-				.equals( errorCode )
-				&& ( this.struct != null && struct instanceof HideRule && HideRule.FORMAT_MEMBER
-						.equals( propDefn.getName( ) ) ) )
-		{
+		if (PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE.equals(errorCode) && (this.struct != null
+				&& struct instanceof HideRule && HideRule.FORMAT_MEMBER.equals(propDefn.getName()))) {
 			return true;
 		}
 
 		// choice 'any' is removed from column-data-type since 3.2.17(design
 		// file version)/2.3.2(birt release version)
-		if ( PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
-				.equalsIgnoreCase( errorCode ) )
-		{
-			IChoiceSet columnDataTypeSet = propDefn.getChoices( );
-			if ( columnDataTypeSet != null
-					&& DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE
-							.equalsIgnoreCase( columnDataTypeSet.getName( ) ) )
-			{
-				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_ANY
-						.equals( invalidValue ) )
+		if (PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND.equalsIgnoreCase(errorCode)) {
+			IChoiceSet columnDataTypeSet = propDefn.getChoices();
+			if (columnDataTypeSet != null
+					&& DesignChoiceConstants.CHOICE_COLUMN_DATA_TYPE.equalsIgnoreCase(columnDataTypeSet.getName())) {
+				if (DesignChoiceConstants.COLUMN_DATA_TYPE_ANY.equals(invalidValue))
 					return true;
 			}
 		}
 
-		if ( PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE
-				.equalsIgnoreCase( errorCode )
-				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND
-						.equalsIgnoreCase( errorCode ) )
-		{
-			if ( element instanceof TextDataItem
-					&& ITextDataItemModel.CONTENT_TYPE_PROP
-							.equalsIgnoreCase( propDefn.getName( ) ) )
+		if (PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE.equalsIgnoreCase(errorCode)
+				|| PropertyValueException.DESIGN_EXCEPTION_CHOICE_NOT_FOUND.equalsIgnoreCase(errorCode)) {
+			if (element instanceof TextDataItem
+					&& ITextDataItemModel.CONTENT_TYPE_PROP.equalsIgnoreCase(propDefn.getName()))
 				return true;
 
-			if ( element instanceof AbstractScalarParameter
-					&& IAbstractScalarParameterModel.DATA_TYPE_PROP
-							.equalsIgnoreCase( propDefn.getName( ) ) )
+			if (element instanceof AbstractScalarParameter
+					&& IAbstractScalarParameterModel.DATA_TYPE_PROP.equalsIgnoreCase(propDefn.getName()))
 				return true;
 
-			if ( IStyleModel.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase( propDefn
-					.getName( ) )
-					|| IStyleModel.PAGE_BREAK_BEFORE_PROP
-							.equalsIgnoreCase( propDefn.getName( ) )
-					|| IStyleModel.PAGE_BREAK_INSIDE_PROP
-							.equalsIgnoreCase( propDefn.getName( ) ) )
+			if (IStyleModel.PAGE_BREAK_AFTER_PROP.equalsIgnoreCase(propDefn.getName())
+					|| IStyleModel.PAGE_BREAK_BEFORE_PROP.equalsIgnoreCase(propDefn.getName())
+					|| IStyleModel.PAGE_BREAK_INSIDE_PROP.equalsIgnoreCase(propDefn.getName()))
 				return true;
 
-			ObjectDefn objDefn = ( (PropertyDefn) propDefn ).definedBy( );
-			if ( objDefn instanceof StructureDefn )
-			{
+			ObjectDefn objDefn = ((PropertyDefn) propDefn).definedBy();
+			if (objDefn instanceof StructureDefn) {
 				// DateTimeFormatValue.CATEGORY_MEMBER
 				// NumberFormatValue.CATEGORY_MEMBER
 				// StringFormatValue.CATEGORY_MEMBER
 				// DateFormatValue.CATEGORY_MEMBER
 				// TimeFormatValue.CATEGORY_MEMBER
 
-				String structureName = objDefn.getName( );
-				if ( DateTimeFormatValue.FORMAT_VALUE_STRUCT
-						.equals( structureName )
-						|| NumberFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName )
-						|| StringFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName )
-						|| TimeFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName )
-						|| DateFormatValue.FORMAT_VALUE_STRUCT
-								.equals( structureName ) )
-				{
-					if ( FormatValue.CATEGORY_MEMBER.equalsIgnoreCase( propDefn
-							.getName( ) ) )
+				String structureName = objDefn.getName();
+				if (DateTimeFormatValue.FORMAT_VALUE_STRUCT.equals(structureName)
+						|| NumberFormatValue.FORMAT_VALUE_STRUCT.equals(structureName)
+						|| StringFormatValue.FORMAT_VALUE_STRUCT.equals(structureName)
+						|| TimeFormatValue.FORMAT_VALUE_STRUCT.equals(structureName)
+						|| DateFormatValue.FORMAT_VALUE_STRUCT.equals(structureName)) {
+					if (FormatValue.CATEGORY_MEMBER.equalsIgnoreCase(propDefn.getName()))
 						return true;
 				}
 
-				if ( ( DataSetParameter.STRUCT_NAME
-						.equalsIgnoreCase( structureName ) && DataSetParameter.DATA_TYPE_MEMBER
-						.equalsIgnoreCase( propDefn.getName( ) ) )
-						|| ( OdaDataSetParameter.STRUCT_NAME
-								.equalsIgnoreCase( structureName ) && OdaDataSetParameter.DATA_TYPE_MEMBER
-								.equalsIgnoreCase( propDefn.getName( ) ) ) )
-				{
+				if ((DataSetParameter.STRUCT_NAME.equalsIgnoreCase(structureName)
+						&& DataSetParameter.DATA_TYPE_MEMBER.equalsIgnoreCase(propDefn.getName()))
+						|| (OdaDataSetParameter.STRUCT_NAME.equalsIgnoreCase(structureName)
+								&& OdaDataSetParameter.DATA_TYPE_MEMBER.equalsIgnoreCase(propDefn.getName()))) {
 					return true;
 				}
 
 				// MapRule.OPERATOR_MEMBER
 				// HighlightRule.OPERATOR_MEMBER
 
-				if ( MapRule.STRUCTURE_NAME.equals( objDefn.getName( ) )
-						|| HighlightRule.STRUCTURE_NAME.equals( objDefn
-								.getName( ) ) )
-				{
-					if ( StyleRule.OPERATOR_MEMBER.equals( propDefn.getName( ) )
-							|| StyleRule.OPERATOR_MEMBER.equals( propDefn
-									.getName( ) ) )
-					{
-						return "any".equalsIgnoreCase( invalidValue.toString( ) ); //$NON-NLS-1$
+				if (MapRule.STRUCTURE_NAME.equals(objDefn.getName())
+						|| HighlightRule.STRUCTURE_NAME.equals(objDefn.getName())) {
+					if (StyleRule.OPERATOR_MEMBER.equals(propDefn.getName())
+							|| StyleRule.OPERATOR_MEMBER.equals(propDefn.getName())) {
+						return "any".equalsIgnoreCase(invalidValue.toString()); //$NON-NLS-1$
 					}
 				}
 			}
@@ -554,21 +444,19 @@ public class AbstractPropertyState extends AbstractParseState
 	}
 
 	/**
-	 * Sets the value of the attribute "name". This method is used when the
-	 * specific state is defined. When the generic state jumps to the specific
-	 * one, the <code>parseAttrs</code> will not be called. So the value of the
-	 * attribute "name" should be set by the generic state.
+	 * Sets the value of the attribute "name". This method is used when the specific
+	 * state is defined. When the generic state jumps to the specific one, the
+	 * <code>parseAttrs</code> will not be called. So the value of the attribute
+	 * "name" should be set by the generic state.
 	 * 
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
 
-	protected void setName( String name )
-	{
+	protected void setName(String name) {
 		this.name = name;
 
-		if ( this.name != null )
-			nameValue = this.name.toLowerCase( ).hashCode( );
+		if (this.name != null)
+			nameValue = this.name.toLowerCase().hashCode();
 	}
 
 	/*
@@ -577,31 +465,29 @@ public class AbstractPropertyState extends AbstractParseState
 	 * @see org.eclipse.birt.report.model.util.AbstractParseState#jumpTo()
 	 */
 
-	public final AbstractParseState jumpTo( )
-	{
+	public final AbstractParseState jumpTo() {
 		// If this state can not be parsed properly, any states in it are
 		// ignored.
 
-		if ( !valid )
-			return new AnyElementState( handler );
+		if (!valid)
+			return new AnyElementState(handler);
 
 		AbstractParseState state = null;
 
 		// general jump to
-		state = generalJumpTo( );
-		if ( state != null )
+		state = generalJumpTo();
+		if (state != null)
 			return state;
 
 		// version conditional jump to
-		if ( !handler.isCurrentVersion )
-		{
-			state = versionConditionalJumpTo( );
-			if ( state != null )
+		if (!handler.isCurrentVersion) {
+			state = versionConditionalJumpTo();
+			if (state != null)
 				return state;
 		}
 
 		// super jump to
-		return super.jumpTo( );
+		return super.jumpTo();
 	}
 
 	/**
@@ -610,8 +496,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 * @return the other state.
 	 */
 
-	protected AbstractParseState versionConditionalJumpTo( )
-	{
+	protected AbstractParseState versionConditionalJumpTo() {
 		return null;
 	}
 
@@ -622,8 +507,7 @@ public class AbstractPropertyState extends AbstractParseState
 	 * @return the other state.
 	 */
 
-	protected AbstractParseState generalJumpTo( )
-	{
+	protected AbstractParseState generalJumpTo() {
 		return null;
 	}
 
@@ -638,31 +522,27 @@ public class AbstractPropertyState extends AbstractParseState
 	 * @param value
 	 * @return the escaped string
 	 */
-	protected String deEscape( String value )
-	{
-		if ( value == null )
+	protected String deEscape(String value) {
+		if (value == null)
 			return null;
 
-		String retValue = value.replaceAll( "]]&gt;", "]]>" ); //$NON-NLS-1$ //$NON-NLS-2$
-		retValue = retValue.replaceAll( "&amp;", "&" ); //$NON-NLS-1$ //$NON-NLS-2$
+		String retValue = value.replaceAll("]]&gt;", "]]>"); //$NON-NLS-1$ //$NON-NLS-2$
+		retValue = retValue.replaceAll("&amp;", "&"); //$NON-NLS-1$ //$NON-NLS-2$
 
 		return retValue;
 	}
 
 	/**
-	 * Checks if the list property is element property and can be inherited or
-	 * it is a style property.
+	 * Checks if the list property is element property and can be inherited or it is
+	 * a style property.
 	 * 
-	 * @return <true> if the list property is element property and can be
-	 *         inherited or it is a style property, else return <false>.
+	 * @return <true> if the list property is element property and can be inherited
+	 *         or it is a style property, else return <false>.
 	 */
-	protected boolean supportIsEmpty( )
-	{
-		if ( isEmpty && struct == null )
-		{
-			ElementPropertyDefn defn = element.getPropertyDefn( name );
-			if ( defn != null && ModelUtil.canInherit( defn ) )
-			{
+	protected boolean supportIsEmpty() {
+		if (isEmpty && struct == null) {
+			ElementPropertyDefn defn = element.getPropertyDefn(name);
+			if (defn != null && ModelUtil.canInherit(defn)) {
 				return true;
 			}
 		}

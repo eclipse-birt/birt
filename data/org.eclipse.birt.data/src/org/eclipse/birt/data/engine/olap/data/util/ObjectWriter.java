@@ -13,46 +13,40 @@ package org.eclipse.birt.data.engine.olap.data.util;
 
 import java.io.IOException;
 
-
 /**
  * 
  */
 
-public class ObjectWriter implements IObjectWriter
-{
+public class ObjectWriter implements IObjectWriter {
 	private IObjectWriter writer = null;
 	private int dataType = DataType.UNKNOWN_TYPE;
-	
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.util.IObjectWriter#write(org.eclipse.birt.data.engine.olap.data.util.BufferedRandomAccessFile, java.lang.Object)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.data.util.IObjectWriter#write(org.eclipse.
+	 * birt.data.engine.olap.data.util.BufferedRandomAccessFile, java.lang.Object)
 	 */
-	public void write( BufferedRandomAccessFile file, Object obj )
-			throws IOException
-	{
-		if ( obj == null )
-		{
-			file.write( 0 );
-		}
-		else
-		{
-			file.write( 1 );
-			if( writer == null )
-			{
-				dataType = DataType.getDataType( obj.getClass( ) );
-				writer = IOUtil.getRandomWriter( dataType );
+	public void write(BufferedRandomAccessFile file, Object obj) throws IOException {
+		if (obj == null) {
+			file.write(0);
+		} else {
+			file.write(1);
+			if (writer == null) {
+				dataType = DataType.getDataType(obj.getClass());
+				writer = IOUtil.getRandomWriter(dataType);
 			}
-			writer.write( file, obj );
+			writer.write(file, obj);
 		}
 
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 */
-	public int getDataType( )
-	{
+	public int getDataType() {
 		return dataType;
 	}
 

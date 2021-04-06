@@ -16,12 +16,10 @@ import org.eclipse.datatools.enablement.oda.xml.util.MappedTables;
 
 /**
  * This class implement IResultSet class
+ * 
  * @deprecated Please use DTP xml driver
  */
-public class ResultSet
-		extends
-			org.eclipse.datatools.enablement.oda.xml.impl.ResultSet
-{
+public class ResultSet extends org.eclipse.datatools.enablement.oda.xml.impl.ResultSet {
 	/**
 	 * 
 	 * @param is
@@ -30,8 +28,8 @@ public class ResultSet
 	 * @param maxRows
 	 * @throws OdaException
 	 */
-	public ResultSet( org.eclipse.datatools.enablement.oda.xml.impl.Connection conn, MappedTables mt, String tableName, int maxRows ) throws OdaException
-	{
-		super( conn, mt, tableName, maxRows );
+	public ResultSet(org.eclipse.datatools.enablement.oda.xml.impl.Connection conn, MappedTables mt, String tableName,
+			int maxRows) throws OdaException {
+		super(conn, mt, tableName, maxRows);
 	}
 }

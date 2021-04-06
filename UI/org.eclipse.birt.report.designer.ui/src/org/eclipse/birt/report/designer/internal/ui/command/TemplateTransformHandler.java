@@ -18,17 +18,17 @@ import org.eclipse.core.commands.ExecutionException;
  * 
  */
 
-public class TemplateTransformHandler extends SelectionHandler
-{
+public class TemplateTransformHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 
 		return Boolean.TRUE;
 	}

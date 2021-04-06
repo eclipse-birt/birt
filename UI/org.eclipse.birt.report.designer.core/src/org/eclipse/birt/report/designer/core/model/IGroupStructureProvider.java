@@ -19,15 +19,14 @@ import org.eclipse.birt.report.model.api.GroupHandle;
 /**
  * IGroupStructureProvider
  */
-public interface IGroupStructureProvider
-{
+public interface IGroupStructureProvider {
 
 	/**
-	 * @return Returns the groups structure associated with given element, if
-	 *         the original group info is not <code>GroupHandle</code>, it's
-	 *         desired to be converted to the <code>GroupHandle</code> structure
-	 *         without a container. Only the info on <code>GroupHandle</code>
-	 *         itself will be used.
+	 * @return Returns the groups structure associated with given element, if the
+	 *         original group info is not <code>GroupHandle</code>, it's desired to
+	 *         be converted to the <code>GroupHandle</code> structure without a
+	 *         container. Only the info on <code>GroupHandle</code> itself will be
+	 *         used.
 	 */
-	List<GroupHandle> getGroups( DesignElementHandle handle );
+	List<GroupHandle> getGroups(DesignElementHandle handle);
 }

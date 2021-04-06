@@ -24,22 +24,21 @@ import org.eclipse.swt.widgets.Composite;
 /**
  * A wizard page to choose how to create the report.
  */
-public class WizardChoicePage extends WizardPage
-{
+public class WizardChoicePage extends WizardPage {
 
-	private static final String MESSAGE_CHOOSE_CUSTOM = Messages.getString( "WizardChoicePage.radio.createFromCustom" ); //$NON-NLS-1$
-	private static final String MESSAGE_CHOOSE_TEMPLATE = Messages.getString( "WizardChoicePage.radio.createFromTemplate" ); //$NON-NLS-1$
-	private static final String MESSAGE_CHOOSE_BLANK = Messages.getString( "WizardChoicePage.radio.createBlank" ); //$NON-NLS-1$
+	private static final String MESSAGE_CHOOSE_CUSTOM = Messages.getString("WizardChoicePage.radio.createFromCustom"); //$NON-NLS-1$
+	private static final String MESSAGE_CHOOSE_TEMPLATE = Messages
+			.getString("WizardChoicePage.radio.createFromTemplate"); //$NON-NLS-1$
+	private static final String MESSAGE_CHOOSE_BLANK = Messages.getString("WizardChoicePage.radio.createBlank"); //$NON-NLS-1$
 
 	private Button customChoice;
 	private Button predefChoice;
 	private Button blankChoice;
 
-	private SelectionListener listener = new SelectionAdapter( ) {
+	private SelectionListener listener = new SelectionAdapter() {
 
-		public void widgetSelected( SelectionEvent e )
-		{
-			getContainer( ).updateButtons( );
+		public void widgetSelected(SelectionEvent e) {
+			getContainer().updateButtons();
 		}
 	};
 
@@ -48,57 +47,55 @@ public class WizardChoicePage extends WizardPage
 	 * 
 	 * @param pageName
 	 */
-	public WizardChoicePage( String pageName )
-	{
-		super( pageName );
+	public WizardChoicePage(String pageName) {
+		super(pageName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.jface.dialogs.IDialogPage#createControl(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	public void createControl( Composite parent )
-	{
-		Composite composite = new Composite( parent, SWT.NONE );
-		GridLayout gridLayout = new GridLayout( );
+	public void createControl(Composite parent) {
+		Composite composite = new Composite(parent, SWT.NONE);
+		GridLayout gridLayout = new GridLayout();
 		gridLayout.numColumns = 1;
 		gridLayout.marginHeight = 10;
 		gridLayout.marginWidth = 10;
 		gridLayout.horizontalSpacing = 10;
 		gridLayout.verticalSpacing = 10;
-		composite.setLayout( gridLayout );
+		composite.setLayout(gridLayout);
 
-		predefChoice = new Button( composite, SWT.RADIO );
-		predefChoice.setText( MESSAGE_CHOOSE_TEMPLATE );
-		predefChoice.addSelectionListener( listener );
+		predefChoice = new Button(composite, SWT.RADIO);
+		predefChoice.setText(MESSAGE_CHOOSE_TEMPLATE);
+		predefChoice.addSelectionListener(listener);
 
-		customChoice = new Button( composite, SWT.RADIO );
-		customChoice.setText( MESSAGE_CHOOSE_CUSTOM );
-		customChoice.addSelectionListener( listener );
+		customChoice = new Button(composite, SWT.RADIO);
+		customChoice.setText(MESSAGE_CHOOSE_CUSTOM);
+		customChoice.addSelectionListener(listener);
 
-		blankChoice = new Button( composite, SWT.RADIO );
-		blankChoice.setText( MESSAGE_CHOOSE_BLANK );
-		blankChoice.addSelectionListener( listener );
+		blankChoice = new Button(composite, SWT.RADIO);
+		blankChoice.setText(MESSAGE_CHOOSE_BLANK);
+		blankChoice.addSelectionListener(listener);
 
-		predefChoice.setSelection( true );
-		setControl( composite );
+		predefChoice.setSelection(true);
+		setControl(composite);
 	}
 
 	/**
 	 * Returns if current selection is custom.
 	 */
-	public boolean isCustom( )
-	{
-		return customChoice.getSelection( );
+	public boolean isCustom() {
+		return customChoice.getSelection();
 	}
 
 	/**
 	 * Returns if current selection is blank.
 	 */
-	public boolean isBlank( )
-	{
-		return blankChoice.getSelection( );
+	public boolean isBlank() {
+		return blankChoice.getSelection();
 	}
 
 }

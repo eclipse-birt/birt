@@ -19,31 +19,22 @@ import org.eclipse.birt.report.engine.api.script.instance.IListInstance;
 /**
  * Default (empty) implementation of the IListEventHandler interface
  */
-public class ListEventAdapter implements IListEventHandler
-{
+public class ListEventAdapter implements IListEventHandler {
 
-	public void onPrepare( IList listHandle, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onPrepare(IList listHandle, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onCreate( IListInstance list, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onCreate(IListInstance list, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onRender( IListInstance list, IReportContext reportContext )
-			throws ScriptException
-	{
+	public void onRender(IListInstance list, IReportContext reportContext) throws ScriptException {
 
 	}
 
-	public void onPageBreak( IListInstance list, IReportContext reportContext )
-			throws ScriptException
-	{
-		
+	public void onPageBreak(IListInstance list, IReportContext reportContext) throws ScriptException {
+
 	}
 
 }

@@ -19,32 +19,29 @@ import java.util.EventObject;
  * 
  * @see EventObjectCache
  */
-public abstract class ChartEvent extends EventObject
-{
+public abstract class ChartEvent extends EventObject {
 
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * The constructor.
 	 */
-	public ChartEvent( Object source )
-	{
-		super( source );
+	public ChartEvent(Object source) {
+		super(source);
 	}
 
 	/**
 	 * Resets the inner state of current event. This must be implemented if the
 	 * object is cached and reused.
 	 */
-	public abstract void reset( );
+	public abstract void reset();
 
 	/**
 	 * Sets the source object of current event.
 	 * 
 	 * @param oSource
 	 */
-	public void setSourceObject( Object oSource )
-	{
+	public void setSourceObject(Object oSource) {
 		super.source = oSource;
 	}
 

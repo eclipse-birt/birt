@@ -18,23 +18,18 @@ import org.eclipse.core.runtime.IAdapterFactory;
  * 
  */
 
-public class LibraryProviderAdapterFactory implements IAdapterFactory
-{
+public class LibraryProviderAdapterFactory implements IAdapterFactory {
 
 	private ILibraryProvider provider;
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( provider == null )
-			provider = new LibraryProvider( );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (provider == null)
+			provider = new LibraryProvider();
 		return provider;
 	}
 
-	public Class[] getAdapterList( )
-	{
-		return new Class[]{
-			ILibraryProvider.class
-		};
+	public Class[] getAdapterList() {
+		return new Class[] { ILibraryProvider.class };
 	}
 
 }

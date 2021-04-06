@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for Hierarchy element to store the constants on it.
  */
 
-public interface IHierarchyModel
-{
+public interface IHierarchyModel {
 	/**
 	 * Name of the property that defines a list of filter conditions.
 	 */
@@ -27,7 +26,7 @@ public interface IHierarchyModel
 	 */
 
 	static final String LEVELS_PROP = "levels"; //$NON-NLS-1$
-	
+
 	/**
 	 * Name of the property that specifies a list of privilige of users.
 	 */

@@ -15,8 +15,7 @@ import org.eclipse.birt.report.engine.layout.pdf.ISplitter;
 
 import com.ibm.icu.text.Bidi;
 
-public class BidiSplitter implements ISplitter
-{
+public class BidiSplitter implements ISplitter {
 
 	private char[] chunkText = null;
 
@@ -27,27 +26,21 @@ public class BidiSplitter implements ISplitter
 	private int beginIndex = 0;
 	private int endIndex = 0;
 
-	public BidiSplitter( Chunk inputChunk )
-	{
-		this.chunkText = inputChunk.getText( ).toCharArray( );
-		this.baseLevel = inputChunk.getBaseLevel( );
-		this.bidi = createBidi( inputChunk.getText( ), baseLevel );
+	public BidiSplitter(Chunk inputChunk) {
+		this.chunkText = inputChunk.getText().toCharArray();
+		this.baseLevel = inputChunk.getBaseLevel();
+		this.bidi = createBidi(inputChunk.getText(), baseLevel);
 	}
 
-	private Bidi createBidi( String text, int baseLevel )
-	{
-		return new Bidi( text, baseLevel );
+	private Bidi createBidi(String text, int baseLevel) {
+		return new Bidi(text, baseLevel);
 	}
 
-	private Chunk buildChunk( )
-	{
-		if ( currentRun < bidi.getRunCount( ) )
-		{
-			endIndex = bidi.getRunLimit( currentRun );
-			String text = new String( chunkText, beginIndex, endIndex
-					- beginIndex );
-			Chunk c = new Chunk( text, beginIndex, baseLevel, bidi
-					.getRunLevel( currentRun ) );
+	private Chunk buildChunk() {
+		if (currentRun < bidi.getRunCount()) {
+			endIndex = bidi.getRunLimit(currentRun);
+			String text = new String(chunkText, beginIndex, endIndex - beginIndex);
+			Chunk c = new Chunk(text, beginIndex, baseLevel, bidi.getRunLevel(currentRun));
 			beginIndex = endIndex;
 			currentRun++;
 			return c;
@@ -55,14 +48,12 @@ public class BidiSplitter implements ISplitter
 		return null;
 	}
 
-	public boolean hasMore( )
-	{
-		return currentRun < bidi.getRunCount( );
+	public boolean hasMore() {
+		return currentRun < bidi.getRunCount();
 	}
 
-	public Chunk getNext( )
-	{
-		return buildChunk( );
+	public Chunk getNext() {
+		return buildChunk();
 	}
 
 }

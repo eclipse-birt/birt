@@ -18,74 +18,62 @@ import org.eclipse.birt.report.designer.core.mediator.IMediatorState;
 /**
  * MediatorStateImpl
  */
-public class MediatorStateImpl implements IMediatorState, Cloneable
-{
+public class MediatorStateImpl implements IMediatorState, Cloneable {
 
 	private String type;
 	private Object data;
 	private Object source;
 	private Map<?, ?> extras;
 
-	MediatorStateImpl( )
-	{
+	MediatorStateImpl() {
 
 	}
 
 	@Override
-	protected Object clone( ) throws CloneNotSupportedException
-	{
-		MediatorStateImpl state = new MediatorStateImpl( );
+	protected Object clone() throws CloneNotSupportedException {
+		MediatorStateImpl state = new MediatorStateImpl();
 		state.type = type;
 		state.data = data;
 		state.extras = extras;
 		return state;
 	}
 
-	public String getType( )
-	{
+	public String getType() {
 		return type;
 	}
 
-	public Object getData( )
-	{
+	public Object getData() {
 		return data;
 	}
 
-	public Object getSource( )
-	{
+	public Object getSource() {
 		return source;
 	}
 
-	public Map<?, ?> getExtras( )
-	{
+	public Map<?, ?> getExtras() {
 		return extras;
 	}
 
-	void copyFrom( IMediatorState state )
-	{
-		this.type = state.getType( );
-		this.data = state.getData( );
-		this.source = state.getSource( );
-		this.extras = state.getExtras( );
+	void copyFrom(IMediatorState state) {
+		this.type = state.getType();
+		this.data = state.getData();
+		this.source = state.getSource();
+		this.extras = state.getExtras();
 	}
 
-	void setType( String type )
-	{
+	void setType(String type) {
 		this.type = type;
 	}
 
-	void setData( Object data )
-	{
+	void setData(Object data) {
 		this.data = data;
 	}
 
-	void setSource( Object source )
-	{
+	void setSource(Object source) {
 		this.source = source;
 	}
 
-	void setExtras( Map<?, ?> extras )
-	{
+	void setExtras(Map<?, ?> extras) {
 		this.extras = extras;
 	}
 }

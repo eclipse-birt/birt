@@ -31,22 +31,18 @@ import com.ibm.icu.util.ULocale;
  * Set the intervalRange to String type
  * <p>
  */
-public class Regression_161174 extends BaseTestCase
-{
+public class Regression_161174 extends BaseTestCase {
 
-	public void test_regression_161174( ) throws Exception
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_161174() throws Exception {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		TableGroupHandle groupHandle = designHandle
-				.getElementFactory( )
-				.newTableGroup( );
-		groupHandle.setName( "group" );//$NON-NLS-1$
-		groupHandle.setKeyExpr( "row[\"date\"]" );//$NON-NLS-1$
-		groupHandle.setIntervalRange( "123.45" );
+		TableGroupHandle groupHandle = designHandle.getElementFactory().newTableGroup();
+		groupHandle.setName("group");//$NON-NLS-1$
+		groupHandle.setKeyExpr("row[\"date\"]");//$NON-NLS-1$
+		groupHandle.setIntervalRange("123.45");
 
-		assertEquals( "123.45" , groupHandle.getStringProperty( GroupElement.INTERVAL_RANGE_PROP ) );
+		assertEquals("123.45", groupHandle.getStringProperty(GroupElement.INTERVAL_RANGE_PROP));
 	}
 }

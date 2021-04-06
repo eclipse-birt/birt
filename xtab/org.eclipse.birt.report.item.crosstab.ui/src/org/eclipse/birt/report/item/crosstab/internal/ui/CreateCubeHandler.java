@@ -16,16 +16,13 @@ import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
 import org.eclipse.core.commands.ExecutionException;
 
-
 /**
  * 
  */
 
-public class CreateCubeHandler extends AbstractHandler
-{
+public class CreateCubeHandler extends AbstractHandler {
 
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
+	public Object execute(ExecutionEvent event) throws ExecutionException {
 		new NewCubeAction().run();
 		return null;
 	}

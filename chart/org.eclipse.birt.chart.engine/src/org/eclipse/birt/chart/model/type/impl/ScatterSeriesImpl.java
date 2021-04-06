@@ -29,25 +29,24 @@ import org.eclipse.emf.ecore.EClass;
  *
  * @generated
  */
-public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
-{
+public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries {
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected ScatterSeriesImpl( )
-	{
-		super( );
+	protected ScatterSeriesImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return TypePackage.Literals.SCATTER_SERIES;
 	}
 
@@ -56,18 +55,17 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#canBeStacked()
 	 */
-	public final boolean canBeStacked( )
-	{
+	public final boolean canBeStacked() {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.component.Series#canParticipateInCombination()
+	 * @see
+	 * org.eclipse.birt.chart.model.component.Series#canParticipateInCombination()
 	 */
-	public final boolean canParticipateInCombination( )
-	{
+	public final boolean canParticipateInCombination() {
 		return false;
 	}
 
@@ -76,10 +74,9 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 * 
 	 * @return
 	 */
-	public static Series create( )
-	{
-		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries( );
-		( (ScatterSeriesImpl) ss ).initialize( );
+	public static Series create() {
+		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries();
+		((ScatterSeriesImpl) ss).initialize();
 		return ss;
 	}
 
@@ -88,22 +85,20 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 * 
 	 * Note: Manually written
 	 */
-	protected void initialize( )
-	{
-		super.initialize( );
-		getLineAttributes( ).setVisible( false );
-		getMarkers( ).get( 0 ).setType( MarkerType.CROSSHAIR_LITERAL );
+	protected void initialize() {
+		super.initialize();
+		getLineAttributes().setVisible(false);
+		getMarkers().get(0).setType(MarkerType.CROSSHAIR_LITERAL);
 	}
-	
+
 	/**
 	 * A convenience method to create an initialized 'Series' instance
 	 * 
 	 * @return
 	 */
-	public static Series createDefault( )
-	{
-		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries( );
-		( (ScatterSeriesImpl) ss ).initDefault( );
+	public static Series createDefault() {
+		final ScatterSeries ss = TypeFactory.eINSTANCE.createScatterSeries();
+		((ScatterSeriesImpl) ss).initDefault();
 		return ss;
 	}
 
@@ -112,18 +107,12 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 * 
 	 * Note: Manually written
 	 */
-	protected void initDefault( )
-	{
-		super.initDefault( );
-		try
-		{
-			ChartElementUtil.setDefaultValue( getLineAttributes( ),
-					"visible", false ); //$NON-NLS-1$
-			ChartElementUtil.setDefaultValue( getMarkers( ).get( 0 ),
-					"type", MarkerType.CROSSHAIR_LITERAL ); //$NON-NLS-1$
-		}
-		catch ( ChartException e )
-		{
+	protected void initDefault() {
+		super.initDefault();
+		try {
+			ChartElementUtil.setDefaultValue(getLineAttributes(), "visible", false); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue(getMarkers().get(0), "type", MarkerType.CROSSHAIR_LITERAL); //$NON-NLS-1$
+		} catch (ChartException e) {
 			// Do nothing.
 		}
 	}
@@ -133,28 +122,25 @@ public class ScatterSeriesImpl extends LineSeriesImpl implements ScatterSeries
 	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "ScatterSeriesImpl.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("ScatterSeriesImpl.displayName"); //$NON-NLS-1$
 	}
 
 	/**
 	 * @generated
 	 */
-	public ScatterSeries copyInstance( )
-	{
-		ScatterSeriesImpl dest = new ScatterSeriesImpl( );
-		dest.set( this );
+	public ScatterSeries copyInstance() {
+		ScatterSeriesImpl dest = new ScatterSeriesImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( ScatterSeries src )
-	{
+	protected void set(ScatterSeries src) {
 
-		super.set( src );
+		super.set(src);
 
 	}
 

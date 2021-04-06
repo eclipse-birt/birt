@@ -14,19 +14,18 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for Label element to store the constants.
  */
-public interface ILabelModel
-{
+public interface ILabelModel {
 
 	/**
-	 * Name of the text property. This property contains the non-localized text
-	 * for the label.
+	 * Name of the text property. This property contains the non-localized text for
+	 * the label.
 	 */
 
 	public static final String TEXT_PROP = "text"; //$NON-NLS-1$
 
 	/**
-	 * Name of the message ID property. This property contains the message ID
-	 * used to localize the text of the label.
+	 * Name of the message ID property. This property contains the message ID used
+	 * to localize the text of the label.
 	 */
 
 	public static final String TEXT_ID_PROP = "textID"; //$NON-NLS-1$

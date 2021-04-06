@@ -32,18 +32,18 @@ public class OutputFileNotStreamTest extends ReportRunner {
 		InputStream inputStream = runAndRenderReportFileNotStream("NumberFormats.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
-			
+
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-			assertEquals( "Number Formats Test Report", workbook.getSheetAt(0).getSheetName());
-			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+			assertEquals("Number Formats Test Report", workbook.getSheetAt(0).getSheetName());
+
 			Sheet sheet = workbook.getSheetAt(0);
 			assertEquals(22, this.firstNullRow(sheet));
 		} finally {
 			inputStream.close();
 		}
-		
+
 	}
 }

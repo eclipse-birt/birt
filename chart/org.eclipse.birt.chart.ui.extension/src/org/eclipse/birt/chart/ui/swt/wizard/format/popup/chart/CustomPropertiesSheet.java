@@ -25,34 +25,29 @@ import org.eclipse.swt.widgets.Composite;
  * CustomPropertiesSheet
  */
 
-public class CustomPropertiesSheet extends AbstractPopupSheet
-{
+public class CustomPropertiesSheet extends AbstractPopupSheet {
 
-	public CustomPropertiesSheet( String title, ChartWizardContext context )
-	{
-		super( title, context, false );
+	public CustomPropertiesSheet(String title, ChartWizardContext context) {
+		super(title, context, false);
 	}
 
-	protected Composite getComponent( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_CHART_CUSTOM );
-		
-		Composite cmpContent = new Composite( parent, SWT.NONE );
+	protected Composite getComponent(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_CHART_CUSTOM);
+
+		Composite cmpContent = new Composite(parent, SWT.NONE);
 		{
-			GridLayout glContent = new GridLayout( );
+			GridLayout glContent = new GridLayout();
 			glContent.marginHeight = 7;
 			glContent.marginWidth = 7;
-			cmpContent.setLayout( glContent );
+			cmpContent.setLayout(glContent);
 		}
 
-		Composite cmpExtenedComposite = new ExtendedPropertyEditorComposite( cmpContent,
-				SWT.NONE,
-				getChart( ).getExtendedProperties( ),
-				getContext( ) );
+		Composite cmpExtenedComposite = new ExtendedPropertyEditorComposite(cmpContent, SWT.NONE,
+				getChart().getExtendedProperties(), getContext());
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData();
 			gd.heightHint = 300;
-			cmpExtenedComposite.setLayoutData( gd );
+			cmpExtenedComposite.setLayoutData(gd);
 		}
 
 		return cmpContent;

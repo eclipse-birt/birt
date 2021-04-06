@@ -14,14 +14,12 @@ package org.eclipse.birt.report.debug.internal.core.vm.js;
 /**
  * JsTransientLineBreakPoint
  */
-public class JsTransientLineBreakPoint extends JsLineBreakPoint
-{
+public class JsTransientLineBreakPoint extends JsLineBreakPoint {
 
 	private static final long serialVersionUID = 1L;
 
-	public JsTransientLineBreakPoint( String name, int lineNo )
-	{
-		super( name, lineNo );
+	public JsTransientLineBreakPoint(String name, int lineNo) {
+		super(name, lineNo);
 	}
 
 }

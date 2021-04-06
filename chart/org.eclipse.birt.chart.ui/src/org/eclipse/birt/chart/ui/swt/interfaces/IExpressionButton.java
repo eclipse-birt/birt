@@ -18,67 +18,60 @@ import org.eclipse.swt.widgets.Listener;
  * A utility class to display Expression builder and button
  */
 
-public interface IExpressionButton
-{
+public interface IExpressionButton {
 
 	/**
 	 * Returns the expression that's saved in model
 	 * 
 	 * @return the expression that's saved in model
 	 */
-	String getExpression( );
+	String getExpression();
 
 	/**
-	 * Sets the expression to a binding expression created with the given
-	 * binding name and the current expression type.
+	 * Sets the expression to a binding expression created with the given binding
+	 * name and the current expression type.
 	 * 
-	 * @param bindingName
-	 *            the binding name
-	 * @param bNotifyEvents
-	 *            indicates whether the listeners needed to notified.
+	 * @param bindingName   the binding name
+	 * @param bNotifyEvents indicates whether the listeners needed to notified.
 	 */
-	void setBindingName( String bindingName, boolean bNotifyEvents );
+	void setBindingName(String bindingName, boolean bNotifyEvents);
 
 	/**
 	 * Sets the expression that's saved in model, no notifications will be sent.
 	 * 
-	 * @param expr
-	 *            the expression that's saved in model
+	 * @param expr the expression that's saved in model
 	 */
-	void setExpression( String expr );
+	void setExpression(String expr);
 
 	/**
 	 * Sets the expression that's saved in model
 	 * 
-	 * @param expr
-	 *            the expression that's saved in model
-	 * @param bNotifyEvents
-	 *            indicates whether the listeners needed to notified.
+	 * @param expr          the expression that's saved in model
+	 * @param bNotifyEvents indicates whether the listeners needed to notified.
 	 */
-	void setExpression( String expr, boolean bNotifyEvents );
+	void setExpression(String expr, boolean bNotifyEvents);
 
 	/**
-	 * Returns the display string in expression builder. This may be different
-	 * from the value saved in model.
+	 * Returns the display string in expression builder. This may be different from
+	 * the value saved in model.
 	 * 
 	 * @return the display string in expression builder
 	 */
-	public String getDisplayExpression( );
+	public String getDisplayExpression();
 
 	/**
 	 * Sets the enabled state
 	 * 
-	 * @param bEnabled
-	 *            enabled state
+	 * @param bEnabled enabled state
 	 */
-	void setEnabled( boolean bEnabled );
+	void setEnabled(boolean bEnabled);
 
 	/**
 	 * Returns the enabled state
 	 * 
 	 * @return the enabled state
 	 */
-	boolean isEnabled( );
+	boolean isEnabled();
 
 	/**
 	 * Adds a listener, which will be notified with a SWT.Mofigy event if the
@@ -86,41 +79,40 @@ public interface IExpressionButton
 	 * 
 	 * @param listener
 	 */
-	void addListener( Listener listener );
+	void addListener(Listener listener);
 
 	/**
-	 * Sets the accessor, with which the expression will be load from and save
-	 * to.
+	 * Sets the accessor, with which the expression will be load from and save to.
 	 * 
 	 * @param accessor
 	 */
-	void setAccessor( EAttributeAccessor<String> accessor );
+	void setAccessor(EAttributeAccessor<String> accessor);
 
 	/**
 	 * Returns the type of the expression.
 	 * 
 	 * @return The the type of the expression.
 	 */
-	String getExpressionType( );
+	String getExpressionType();
 
 	/**
 	 * Returns whether the chart is using a cube.
 	 * 
 	 * @return Whether the chart is using a cube.
 	 */
-	boolean isCube( );
+	boolean isCube();
 
 	/**
 	 * Set the AssistField.
 	 * 
 	 * @param assistField
 	 */
-	void setAssitField( IAssistField assistField );
+	void setAssitField(IAssistField assistField);
 
 	/**
 	 * 
 	 * @param predefinedQuery
 	 */
-	void setPredefinedQuery( Object[] predefinedQuery );
+	void setPredefinedQuery(Object[] predefinedQuery);
 
 }

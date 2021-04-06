@@ -20,26 +20,19 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
  * on given property.
  */
 
-public class ChoiceSetFactory
-{
+public class ChoiceSetFactory {
 
 	/**
 	 * Gets the collection that given structure property value can selected from
 	 * them.
 	 * 
-	 * @param elementName
-	 *            The name of the element.
-	 * @param property
-	 *            DE Property key.
+	 * @param elementName The name of the element.
+	 * @param property    DE Property key.
 	 * @return The ChoiceSet instance contains all the allowed values.
 	 */
-	public static IChoiceSet getStructChoiceSet( String structName,
-			String property )
-	{
-		IPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary( )
-				.getStructure( structName )
-				.findProperty( property );
-		return propertyDefn.getChoices( );
+	public static IChoiceSet getStructChoiceSet(String structName, String property) {
+		IPropertyDefn propertyDefn = DEUtil.getMetaDataDictionary().getStructure(structName).findProperty(property);
+		return propertyDefn.getChoices();
 	}
 
 }

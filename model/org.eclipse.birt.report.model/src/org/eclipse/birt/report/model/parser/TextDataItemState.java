@@ -21,8 +21,7 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class TextDataItemState extends ReportItemState
-{
+public class TextDataItemState extends ReportItemState {
 
 	/**
 	 * The multi-line data item being created.
@@ -34,50 +33,38 @@ public class TextDataItemState extends ReportItemState
 	 * Constructs the multi-line data state with the design parser handler, the
 	 * container element and the container slot of the multi-line data.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public TextDataItemState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public TextDataItemState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/**
-	 * Constructs text data item state with the design parser handler, the
-	 * container element and the container property name of the report element.
+	 * Constructs text data item state with the design parser handler, the container
+	 * element and the container property name of the report element.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param prop
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param prop         the slot in which this element appears
 	 */
 
-	public TextDataItemState( ModuleParserHandler handler,
-			DesignElement theContainer, String prop )
-	{
-		super( handler, theContainer, prop );
+	public TextDataItemState(ModuleParserHandler handler, DesignElement theContainer, String prop) {
+		super(handler, theContainer, prop);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new TextDataItem( );
-		initElement( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new TextDataItem();
+		initElement(attrs);
 	}
 
 	/*
@@ -86,8 +73,7 @@ public class TextDataItemState extends ReportItemState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 

@@ -15,30 +15,24 @@ import org.eclipse.birt.report.engine.api.IReportDocument;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.ViewFilter;
 
-public class VisiblePageFilter implements ViewFilter
-{
+public class VisiblePageFilter implements ViewFilter {
 
 	IReportDocument document;
 	LogicalPageSequence visiblePages;
 
-	public VisiblePageFilter( IReportDocument document,
-			LogicalPageSequence visiblePages )
-	{
+	public VisiblePageFilter(IReportDocument document, LogicalPageSequence visiblePages) {
 		this.document = document;
 		this.visiblePages = visiblePages;
 	}
 
-	public boolean isVisible( ITreeNode node )
-	{
-		String id = node.getNodeId( );
-		if ( id == null || "/".equals( id ) )
-		{
+	public boolean isVisible(ITreeNode node) {
+		String id = node.getNodeId();
+		if (id == null || "/".equals(id)) {
 			return true;
 		}
-		String bookmark = node.getBookmark( );
-		long physicalPageNumber = document.getPageNumber( bookmark );
-		long pageNumber = visiblePages
-				.getLogicalPageNumber( physicalPageNumber );
+		String bookmark = node.getBookmark();
+		long physicalPageNumber = document.getPageNumber(bookmark);
+		long pageNumber = visiblePages.getLogicalPageNumber(physicalPageNumber);
 
 		return pageNumber != -1;
 	}

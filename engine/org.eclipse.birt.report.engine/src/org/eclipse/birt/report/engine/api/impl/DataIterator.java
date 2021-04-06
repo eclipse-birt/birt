@@ -23,10 +23,9 @@ import org.eclipse.birt.report.engine.api.IExtractionResults;
 import org.eclipse.birt.report.engine.api.IResultMetaData;
 import org.eclipse.birt.report.engine.i18n.MessageConstants;
 
-public class DataIterator implements IDataIterator
-{
+public class DataIterator implements IDataIterator {
 
-	protected static Logger logger = Logger.getLogger( DataIterator.class.getName( ) );
+	protected static Logger logger = Logger.getLogger(DataIterator.class.getName());
 
 	protected IExtractionResults results;
 	protected IResultIterator iterator;
@@ -34,105 +33,80 @@ public class DataIterator implements IDataIterator
 	protected int maxRows;
 	protected int rowCount;
 	private boolean beforeFirstRow = true;
-	
+
 	private boolean invalidStartRow = false;
 
-	DataIterator( IExtractionResults results, IResultIterator iterator,
-			int startRow, int maxRows ) throws BirtException
-	{
+	DataIterator(IExtractionResults results, IResultIterator iterator, int startRow, int maxRows) throws BirtException {
 		this.results = results;
 		this.iterator = iterator;
 		this.startRow = startRow;
 		this.maxRows = maxRows;
 		this.rowCount = 0;
 		beforeFirstRow = true;
-		if ( iterator instanceof IPreloadedResultIterator )
-		{
+		if (iterator instanceof IPreloadedResultIterator) {
 			// Predefine max row numbers and starting row index to save
 			// execution time. Report engine may still limits the size but it's
 			// fine to leave as it is.
-			( (IPreloadedResultIterator) iterator ).setMaxRows( maxRows );
-			( (IPreloadedResultIterator) iterator ).setStartingRow( startRow );
+			((IPreloadedResultIterator) iterator).setMaxRows(maxRows);
+			((IPreloadedResultIterator) iterator).setStartingRow(startRow);
 		}
-		if ( startRow > 0 )
-		{
-			try
-			{
-				iterator.moveTo( startRow - 1 );
-			}
-			catch ( BirtException e )
-			{
-				logger.log( Level.WARNING,
-						"The specified startRow value is out of range of the result set!",
-						e );
+		if (startRow > 0) {
+			try {
+				iterator.moveTo(startRow - 1);
+			} catch (BirtException e) {
+				logger.log(Level.WARNING, "The specified startRow value is out of range of the result set!", e);
 				invalidStartRow = true;
 			}
 		}
 	}
 
-	public IExtractionResults getQueryResults( )
-	{
+	public IExtractionResults getQueryResults() {
 		return results;
 	}
 
-	public IResultMetaData getResultMetaData( ) throws BirtException
-	{
-		return results.getResultMetaData( );
+	public IResultMetaData getResultMetaData() throws BirtException {
+		return results.getResultMetaData();
 	}
 
-	public boolean next( ) throws BirtException
-	{
-		if ( beforeFirstRow )
-		{
+	public boolean next() throws BirtException {
+		if (beforeFirstRow) {
 			beforeFirstRow = false;
 		}
 		rowCount++;
-		if ( invalidStartRow || maxRows >= 0 && rowCount > maxRows )
-		{
+		if (invalidStartRow || maxRows >= 0 && rowCount > maxRows) {
 			return false;
 		}
-		return iterator.next( );
+		return iterator.next();
 	}
 
-	public Object getValue( String columnName ) throws BirtException
-	{
-		if ( beforeFirstRow )
-		{
+	public Object getValue(String columnName) throws BirtException {
+		if (beforeFirstRow) {
 			throw new EngineException(MessageConstants.RESULTSET_ITERATOR_ERROR);
 		}
-		return iterator.getValue( columnName );
+		return iterator.getValue(columnName);
 	}
 
-	public Object getValue( int index ) throws BirtException
-	{
-		if ( beforeFirstRow )
-		{
-			throw new EngineException(
-					MessageConstants.RESULTSET_ITERATOR_ERROR );
+	public Object getValue(int index) throws BirtException {
+		if (beforeFirstRow) {
+			throw new EngineException(MessageConstants.RESULTSET_ITERATOR_ERROR);
 		}
-		IResultMetaData metaData = getResultMetaData( );
-		String columnName = metaData.getColumnName( index );
-		return iterator.getValue( columnName );
+		IResultMetaData metaData = getResultMetaData();
+		String columnName = metaData.getColumnName(index);
+		return iterator.getValue(columnName);
 	}
 
-	public void close( )
-	{
-		try
-		{
-			iterator.close( );
-		}
-		catch ( BirtException ex )
-		{
+	public void close() {
+		try {
+			iterator.close();
+		} catch (BirtException ex) {
 		}
 	}
-	
-	public boolean isEmpty( ) throws BirtException
-	{
-		return iterator.isEmpty( );
+
+	public boolean isEmpty() throws BirtException {
+		return iterator.isEmpty();
 	}
-	
-	public IResultIterator getResultIterator( )
-	{
+
+	public IResultIterator getResultIterator() {
 		return this.iterator;
 	}
 }

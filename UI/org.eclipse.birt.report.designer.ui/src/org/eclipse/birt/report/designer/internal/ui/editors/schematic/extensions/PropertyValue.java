@@ -18,59 +18,58 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
 
 /**
  */
-public class PropertyValue implements IPropertyValue
-{
-    private String stringValue;
+public class PropertyValue implements IPropertyValue {
+	private String stringValue;
 
-    public PropertyValue( final String stringValue )
-    {
-        this.stringValue = stringValue;
-    }
+	public PropertyValue(final String stringValue) {
+		this.stringValue = stringValue;
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyValue#getStringValue()
-     */
-    public String getStringValue( )
-    {
-        return stringValue;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.extensions.IPropertyValue#getStringValue(
+	 * )
+	 */
+	public String getStringValue() {
+		return stringValue;
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyValue#getUnit()
-     */
-    public String getUnit( )
-    {
-    	if ( stringValue == null || stringValue.equals( "" ) ) //$NON-NLS-1$
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyValue#getUnit()
+	 */
+	public String getUnit() {
+		if (stringValue == null || stringValue.equals("")) //$NON-NLS-1$
 			return stringValue;
-		try
-		{
-			DimensionValue dimensionValue = DimensionValue.parse( stringValue );
-			return dimensionValue.getUnits( );
-		}
-		catch ( PropertyValueException e )
-		{
-			ExceptionHandler.handle( e );
+		try {
+			DimensionValue dimensionValue = DimensionValue.parse(stringValue);
+			return dimensionValue.getUnits();
+		} catch (PropertyValueException e) {
+			ExceptionHandler.handle(e);
 		}
 		return ""; //$NON-NLS-1$
-    }
+	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.birt.report.designer.ui.extensions.IPropertyValue#getMeasureValue()
-     */
-    public String getMeasureValue( )
-    {
-        if ( stringValue == null || stringValue.equals( "" ) ) //$NON-NLS-1$
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.ui.extensions.IPropertyValue#getMeasureValue
+	 * ()
+	 */
+	public String getMeasureValue() {
+		if (stringValue == null || stringValue.equals("")) //$NON-NLS-1$
 			return stringValue;
-		try
-		{
-			DimensionValue dimensionValue = DimensionValue.parse( stringValue );
-			return Double.toString( dimensionValue.getMeasure( ) );
-		}
-		catch ( PropertyValueException e )
-		{
-			ExceptionHandler.handle( e );
+		try {
+			DimensionValue dimensionValue = DimensionValue.parse(stringValue);
+			return Double.toString(dimensionValue.getMeasure());
+		} catch (PropertyValueException e) {
+			ExceptionHandler.handle(e);
 		}
 		return ""; //$NON-NLS-1$
-    }
+	}
 
 }

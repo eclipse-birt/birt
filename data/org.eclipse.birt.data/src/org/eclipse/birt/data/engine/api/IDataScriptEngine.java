@@ -19,9 +19,10 @@ import org.mozilla.javascript.Scriptable;
  * 
  */
 
-public interface IDataScriptEngine
-{
+public interface IDataScriptEngine {
 	public static final String ENGINE_NAME = "javascript";
-	public Context getJSContext( ScriptContext context );
-	public Scriptable getJSScope( ScriptContext context );
+
+	public Context getJSContext(ScriptContext context);
+
+	public Scriptable getJSScope(ScriptContext context);
 }

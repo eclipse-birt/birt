@@ -18,28 +18,23 @@ import org.eclipse.birt.report.designer.ui.ContextMenuProvider;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.action.IMenuManager;
 
-public class SampleContextMenuProvider extends ContextMenuProvider
-{
+public class SampleContextMenuProvider extends ContextMenuProvider {
 
-	public SampleContextMenuProvider( ReportExamplesView view )
-	{
-		super( view.instance.getTreeViewer( ) );
+	public SampleContextMenuProvider(ReportExamplesView view) {
+		super(view.instance.getTreeViewer());
 	}
 
-	public void buildContextMenu( IMenuManager menu )
-	{
-		menu.removeAll( );
-		for ( int i = 0; i < actionList.size( ); i++ )
-		{
-			menu.add( actionList.get( i ) );
+	public void buildContextMenu(IMenuManager menu) {
+		menu.removeAll();
+		for (int i = 0; i < actionList.size(); i++) {
+			menu.add(actionList.get(i));
 		}
 	}
 
-	private List<IAction> actionList = new ArrayList<IAction>( );
+	private List<IAction> actionList = new ArrayList<IAction>();
 
-	public void addAction( IAction action )
-	{
-		actionList.add( action );
+	public void addAction(IAction action) {
+		actionList.add(action);
 	}
 
 }

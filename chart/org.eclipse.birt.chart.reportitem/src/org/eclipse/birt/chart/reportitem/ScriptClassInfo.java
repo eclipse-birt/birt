@@ -16,19 +16,15 @@ import java.lang.reflect.Method;
 import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 import org.eclipse.birt.report.model.api.scripts.ClassInfo;
 
+public class ScriptClassInfo extends ClassInfo {
 
-public class ScriptClassInfo extends ClassInfo
-{
-
-	public ScriptClassInfo( Class clazz )
-	{
-		super( clazz );
+	public ScriptClassInfo(Class clazz) {
+		super(clazz);
 	}
 
-	protected IMethodInfo createMethodInfo( Method classMethod )
-	{
-		ScriptMethodInfo info = new ScriptMethodInfo( classMethod );
-		if ( !info.isDeprecated() )
+	protected IMethodInfo createMethodInfo(Method classMethod) {
+		ScriptMethodInfo info = new ScriptMethodInfo(classMethod);
+		if (!info.isDeprecated())
 			return info;
 		else
 			return null;

@@ -28,73 +28,60 @@ import org.eclipse.birt.data.engine.i18n.ResourceConstants;
 import org.eclipse.birt.data.engine.odi.IQuery;
 import org.eclipse.birt.data.engine.odi.IResultClass;
 
+public class DataSetDesignHelper {
 
-public class DataSetDesignHelper
-{
+	protected static Logger logger = Logger.getLogger(DataSetDesignHelper.class.getName());
 
-	protected static Logger logger = Logger.getLogger( DataSetDesignHelper.class.getName( ) );
-
-	public static void vailidateDataSetDesign( IBaseDataSetDesign design,
-			Map dataSources ) throws DataException
-	{
-		if ( !( design instanceof IJointDataSetDesign ) )
-		{
+	public static void vailidateDataSetDesign(IBaseDataSetDesign design, Map dataSources) throws DataException {
+		if (!(design instanceof IJointDataSetDesign)) {
 			// Sanity check: a data set must have a data source with the proper
 			// type, and the data source must have be defined
-			String dataSourceName = design.getDataSourceName( );
-			BaseDataSourceDesign dsource = (BaseDataSourceDesign) dataSources.get( dataSourceName );
-			if ( dsource == null )
-			{
-				DataException e = new DataException( ResourceConstants.UNDEFINED_DATA_SOURCE,
-						dataSourceName );
-				logger.logp( Level.WARNING,
-						DataEngineImpl.class.getName( ),
-						"defineDataSet",
-						"Data source {" + dataSourceName + "} is not defined",
-						e );
+			String dataSourceName = design.getDataSourceName();
+			BaseDataSourceDesign dsource = (BaseDataSourceDesign) dataSources.get(dataSourceName);
+			if (dsource == null) {
+				DataException e = new DataException(ResourceConstants.UNDEFINED_DATA_SOURCE, dataSourceName);
+				logger.logp(Level.WARNING, DataEngineImpl.class.getName(), "defineDataSet",
+						"Data source {" + dataSourceName + "} is not defined", e);
 				throw e;
 			}
 		}
 	}
-	
-	public static  DataSetRuntime createExtenalInstance( IBaseDataSetDesign dataSetDefn,
-			IQueryExecutor queryExecutor, DataEngineSession session )
-	{
+
+	public static DataSetRuntime createExtenalInstance(IBaseDataSetDesign dataSetDefn, IQueryExecutor queryExecutor,
+			DataEngineSession session) {
 		return null;
 	}
-	
-	public static IPreparedQuery createPreparedQueryInstance( IBaseDataSetDesign des, DataEngineImpl dataEngine,
-			IQueryDefinition queryDefn, Map appContext ) throws DataException
-	{
+
+	public static IPreparedQuery createPreparedQueryInstance(IBaseDataSetDesign des, DataEngineImpl dataEngine,
+			IQueryDefinition queryDefn, Map appContext) throws DataException {
 		return null;
 	}
-	
-	public static IBaseDataSetDesign createAdapter( IBaseDataSetDesign dataSetDesign )
-	{
+
+	public static IBaseDataSetDesign createAdapter(IBaseDataSetDesign dataSetDesign) {
 		return null;
 	}
-	
-	public static IResultMetaData getResultMetaData( IBaseQueryDefinition baseQueryDefn, IQuery odiQuery ) throws DataException
-	{
+
+	public static IResultMetaData getResultMetaData(IBaseQueryDefinition baseQueryDefn, IQuery odiQuery)
+			throws DataException {
 		return null;
 	}
-	
-	public static IResultClass getResultClass( IQuery odiQuery )
-	{
+
+	public static IResultClass getResultClass(IQuery odiQuery) {
 		return null;
 	}
-	
-	public static void populateDataSetNames( IBaseDataSetDesign design, DataEngineImpl engine, List names ) throws DataException
-	{
-		if( design == null )
+
+	public static void populateDataSetNames(IBaseDataSetDesign design, DataEngineImpl engine, List names)
+			throws DataException {
+		if (design == null)
 			return;
-		names.add( design.getName( ) );
-		if( design instanceof IJointDataSetDesign )
-		{
-			IJointDataSetDesign jointDesign = ( IJointDataSetDesign )design;
-			
-			populateDataSetNames( engine.getDataSetDesign( jointDesign.getLeftDataSetDesignQulifiedName( ) ), engine, names );
-			populateDataSetNames( engine.getDataSetDesign( jointDesign.getRightDataSetDesignQulifiedName( ) ), engine, names );
+		names.add(design.getName());
+		if (design instanceof IJointDataSetDesign) {
+			IJointDataSetDesign jointDesign = (IJointDataSetDesign) design;
+
+			populateDataSetNames(engine.getDataSetDesign(jointDesign.getLeftDataSetDesignQulifiedName()), engine,
+					names);
+			populateDataSetNames(engine.getDataSetDesign(jointDesign.getRightDataSetDesignQulifiedName()), engine,
+					names);
 		}
 	}
 }

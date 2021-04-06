@@ -23,18 +23,15 @@ import org.eclipse.birt.chart.script.internal.series.data.BubbleDataImpl;
  * 
  */
 
-public class BubbleImpl extends ValueSeriesImpl implements IBubble
-{
+public class BubbleImpl extends ValueSeriesImpl implements IBubble {
 
-	public BubbleImpl( SeriesDefinition sd, Chart cm )
-	{
-		super( sd, cm );
+	public BubbleImpl(SeriesDefinition sd, Chart cm) {
+		super(sd, cm);
 		assert series instanceof BubbleSeries;
 	}
 
-	public ISeriesData getDataExpr( )
-	{
-		return new BubbleDataImpl( sd );
+	public ISeriesData getDataExpr() {
+		return new BubbleDataImpl(sd);
 	}
 
 }

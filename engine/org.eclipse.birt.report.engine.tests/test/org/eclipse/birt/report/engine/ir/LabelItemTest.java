@@ -15,12 +15,10 @@ package org.eclipse.birt.report.engine.ir;
  * Label test
  * 
  */
-public class LabelItemTest extends ReportItemTestCase
-{
+public class LabelItemTest extends ReportItemTestCase {
 
-	public LabelItemTest( )
-	{
-		super( new LabelItemDesign( ) );
+	public LabelItemTest() {
+		super(new LabelItemDesign());
 	}
 
 	/**
@@ -30,22 +28,21 @@ public class LabelItemTest extends ReportItemTestCase
 	 * 
 	 * then get the values one by one to test if they work correctly
 	 */
-	public void testAccessor( )
-	{
+	public void testAccessor() {
 
-		LabelItemDesign label = new LabelItemDesign( );
-		ActionDesign action = new ActionDesign( );
+		LabelItemDesign label = new LabelItemDesign();
+		ActionDesign action = new ActionDesign();
 
-		//Set
-		label.setAction( action );
+		// Set
+		label.setAction(action);
 		String key = "TestKey";
 		String text = "TestText";
-		label.setText( key, text );
+		label.setText(key, text);
 
-		//Get
-		assertEquals( label.getAction( ), action );
-		assertEquals( label.getText( ), text );
-		assertEquals( label.getTextKey( ), key );
+		// Get
+		assertEquals(label.getAction(), action);
+		assertEquals(label.getText(), text);
+		assertEquals(label.getTextKey(), key);
 	}
 
 }

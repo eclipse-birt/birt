@@ -17,28 +17,22 @@ import org.eclipse.birt.report.engine.content.IContent;
  * MultiLine Item Executor
  * 
  */
-public class DynamicTextItemExecutor extends ReportItemExecutor
-{
+public class DynamicTextItemExecutor extends ReportItemExecutor {
 
-	DynamicTextItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.DYNAMICTEXTITEM );
+	DynamicTextItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.DYNAMICTEXTITEM);
 	}
 
-	protected void doExecute( ) throws Exception
-	{
-		executeQuery( );
+	protected void doExecute() throws Exception {
+		executeQuery();
 	}
 
-	public void close( )
-	{
-		closeQuery( );
-		super.close( );
+	public void close() {
+		closeQuery();
+		super.close();
 	}
 
-	protected IContent doCreateContent( )
-	{
-		throw new IllegalStateException(
-				"can not re-generate content for MultiLineItem" );
+	protected IContent doCreateContent() {
+		throw new IllegalStateException("can not re-generate content for MultiLineItem");
 	}
 }

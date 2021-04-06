@@ -16,14 +16,13 @@ import org.eclipse.birt.report.model.api.simpleapi.IReportElement;
 /**
  * ICrosstabCell
  */
-public interface ICrosstabCell extends IReportElement
-{
+public interface ICrosstabCell extends IReportElement {
 
 	String TYPE_HEADER = "header"; //$NON-NLS-1$
 
 	String TYPE_AGGREGATION = "aggregation"; //$NON-NLS-1$
 
-	long getCellID( );
+	long getCellID();
 
-	String getCellType( );
+	String getCellType();
 }

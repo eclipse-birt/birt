@@ -14,16 +14,15 @@ package org.eclipse.birt.report.designer.data.ui.util;
  * The constants used in data UI
  * 
  */
-public class DataUIConstants
-{
+public class DataUIConstants {
 	public static final String DATA_SOURCE_SCRIPT = "script"; //$NON-NLS-1$
 
 	public static final String DATA_SET_SCRIPT = "ScriptSelectDataSet"; //$NON-NLS-1$
-	
+
 	public static final String EXPR_TYPE = "exprType";//$NON-NLS-1$
-	
+
 	public static final String EXPR_BUTTON = "exprButton";//$NON-NLS-1$
-	
+
 	public static final String CASSANDRA_DATA_SOURCE_VALUE = "me.prettyprint.hector";//$NON-NLS-1$
 	public static final String SCRIPT_TYPE = "script_type"; //$NON-NLS-1$
 	public static final String CASSANDRA_DATA_SOURCE_SCRIPT = "Cassandra"; //$NON-NLS-1$

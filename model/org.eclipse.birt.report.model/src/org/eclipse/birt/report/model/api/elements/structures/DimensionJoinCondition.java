@@ -21,12 +21,10 @@ import org.eclipse.birt.report.model.core.PropertyStructure;
  * two keys for the cube and hierarchy join, one is from cube and another is
  * from hierarchy.
  */
-public class DimensionJoinCondition extends PropertyStructure
-{
+public class DimensionJoinCondition extends PropertyStructure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public final static String DIMENSION_JOIN_CONDITION_STRUCT = "DimensionJoinCondition"; //$NON-NLS-1$
@@ -43,20 +41,19 @@ public class DimensionJoinCondition extends PropertyStructure
 	public final static String HIERARCHY_KEY_MEMBER = "hierarchyKey"; //$NON-NLS-1$
 
 	/**
-	 * Name of the member that specifies the level name of this condition
-	 * relates.
+	 * Name of the member that specifies the level name of this condition relates.
 	 */
 	public final static String LEVEL_MEMBER = "level"; //$NON-NLS-1$
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
+	 * model.api.SimpleValueHandle, int)
 	 */
-	protected StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new DimensionJoinConditionHandle( valueHandle, index );
+	protected StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new DimensionJoinConditionHandle(valueHandle, index);
 	}
 
 	/*
@@ -64,20 +61,17 @@ public class DimensionJoinCondition extends PropertyStructure
 	 * 
 	 * @see org.eclipse.birt.report.model.api.core.IStructure#getStructName()
 	 */
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return DIMENSION_JOIN_CONDITION_STRUCT;
 	}
 
 	/**
 	 * Sets the cube key.
 	 * 
-	 * @param cubeKey
-	 *            the key to set
+	 * @param cubeKey the key to set
 	 */
-	public void setCubeKey( String cubeKey )
-	{
-		setProperty( CUBE_KEY_MEMBER, cubeKey );
+	public void setCubeKey(String cubeKey) {
+		setProperty(CUBE_KEY_MEMBER, cubeKey);
 	}
 
 	/**
@@ -85,20 +79,17 @@ public class DimensionJoinCondition extends PropertyStructure
 	 * 
 	 * @return the cube key in this join condition
 	 */
-	public String getCubeKey( )
-	{
-		return (String) getProperty( null, CUBE_KEY_MEMBER );
+	public String getCubeKey() {
+		return (String) getProperty(null, CUBE_KEY_MEMBER);
 	}
 
 	/**
 	 * Sets the hierarchy key.
 	 * 
-	 * @param hierarchyKey
-	 *            the key to set
+	 * @param hierarchyKey the key to set
 	 */
-	public void setHierarchyKey( String hierarchyKey )
-	{
-		setProperty( HIERARCHY_KEY_MEMBER, hierarchyKey );
+	public void setHierarchyKey(String hierarchyKey) {
+		setProperty(HIERARCHY_KEY_MEMBER, hierarchyKey);
 	}
 
 	/**
@@ -106,8 +97,7 @@ public class DimensionJoinCondition extends PropertyStructure
 	 * 
 	 * @return the hierarchy key in this join condition
 	 */
-	public String getHierarchyKey( )
-	{
-		return (String) getProperty( null, HIERARCHY_KEY_MEMBER );
+	public String getHierarchyKey() {
+		return (String) getProperty(null, HIERARCHY_KEY_MEMBER);
 	}
 }

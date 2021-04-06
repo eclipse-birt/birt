@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.api.metadata.IMethodInfo;
 /**
  * ChartPropertyMethodInfo
  */
-public final class ChartPropertyMethodInfo implements IMethodInfo
-{
+public final class ChartPropertyMethodInfo implements IMethodInfo {
 
 	private String name;
 	private String displayName;
@@ -30,10 +29,8 @@ public final class ChartPropertyMethodInfo implements IMethodInfo
 	private boolean isConstructor;
 	private boolean isStatic;
 
-	public ChartPropertyMethodInfo( String name, String displayName,
-			String displayNameKey, String tooltip, String tooltipKey,
-			boolean isConstructor, boolean isStatic )
-	{
+	public ChartPropertyMethodInfo(String name, String displayName, String displayNameKey, String tooltip,
+			String tooltipKey, boolean isConstructor, boolean isStatic) {
 		this.name = name;
 		this.displayName = displayName;
 		this.displayNameKey = displayNameKey;
@@ -43,58 +40,47 @@ public final class ChartPropertyMethodInfo implements IMethodInfo
 		this.isStatic = isStatic;
 	}
 
-	public Iterator argumentListIterator( )
-	{
+	public Iterator argumentListIterator() {
 		return null;
 	}
 
-	public IClassInfo getClassReturnType( )
-	{
+	public IClassInfo getClassReturnType() {
 		return null;
 	}
 
-	public String getJavaDoc( )
-	{
+	public String getJavaDoc() {
 		return null;
 	}
 
-	public String getReturnType( )
-	{
+	public String getReturnType() {
 		return null;
 	}
 
-	public String getToolTip( )
-	{
+	public String getToolTip() {
 		return tooltip;
 	}
 
-	public String getToolTipKey( )
-	{
+	public String getToolTipKey() {
 		return tooltipKey;
 	}
 
-	public boolean isConstructor( )
-	{
+	public boolean isConstructor() {
 		return isConstructor;
 	}
 
-	public boolean isStatic( )
-	{
+	public boolean isStatic() {
 		return isStatic;
 	}
 
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
-	public String getDisplayNameKey( )
-	{
+	public String getDisplayNameKey() {
 		return displayNameKey;
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 

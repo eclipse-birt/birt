@@ -44,41 +44,36 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Can delete extended label with user property
  */
-public class Regression_154828 extends BaseTestCase
-{
+public class Regression_154828 extends BaseTestCase {
 
 	private String filename = "Regression_154828.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		//copyResource_INPUT( filename , filename );
-		copyInputToFile ( INPUT_FOLDER + "/" + filename );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		// copyResource_INPUT( filename , filename );
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * @throws DesignFileException
 	 * @throws SemanticException
 	 */
-	public void test_regression_154828( ) throws DesignFileException, SemanticException
-	{
-		openDesign( filename );
-		libraryHandle = designHandle.getLibrary( "lib" ); //$NON-NLS-1$
-		LabelHandle label = (LabelHandle) libraryHandle.findElement( "label" ); //$NON-NLS-1$
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle newlabel = (LabelHandle) factory.newElementFrom( label,
-				"newlabel" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( newlabel );
+	public void test_regression_154828() throws DesignFileException, SemanticException {
+		openDesign(filename);
+		libraryHandle = designHandle.getLibrary("lib"); //$NON-NLS-1$
+		LabelHandle label = (LabelHandle) libraryHandle.findElement("label"); //$NON-NLS-1$
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle newlabel = (LabelHandle) factory.newElementFrom(label, "newlabel"); //$NON-NLS-1$
+		designHandle.getBody().add(newlabel);
 
-		assertTrue( newlabel.canDrop( ) );
-		designHandle.getBody( ).drop( newlabel );
-		assertEquals( 0, designHandle.getBody( ).getContents( ).size( ) );
+		assertTrue(newlabel.canDrop());
+		designHandle.getBody().drop(newlabel);
+		assertEquals(0, designHandle.getBody().getContents().size());
 
 	}
 }

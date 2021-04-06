@@ -20,54 +20,44 @@ import org.eclipse.birt.chart.script.api.data.ISeriesGrouping;
  * 
  */
 
-public class SeriesGroupingImpl implements ISeriesGrouping
-{
+public class SeriesGroupingImpl implements ISeriesGrouping {
 
 	private SeriesGrouping grouping;
 
-	public SeriesGroupingImpl( SeriesGrouping grouping )
-	{
+	public SeriesGroupingImpl(SeriesGrouping grouping) {
 		this.grouping = grouping;
 	}
 
-	public double getGroupInterval( )
-	{
-		return grouping.getGroupingInterval( );
+	public double getGroupInterval() {
+		return grouping.getGroupingInterval();
 	}
 
-	public String getGroupType( )
-	{
-		return grouping.getGroupType( ).getName( );
+	public String getGroupType() {
+		return grouping.getGroupType().getName();
 	}
 
-	public String getGroupUnit( )
-	{
-		return grouping.getGroupingUnit( ).getName( );
+	public String getGroupUnit() {
+		return grouping.getGroupingUnit().getName();
 	}
 
-	public boolean isEnabled( )
-	{
-		return grouping.isEnabled( );
+	public boolean isEnabled() {
+		return grouping.isEnabled();
 	}
 
-	public void setEnabled( boolean value )
-	{
-		grouping.setEnabled( value );
+	public void setEnabled(boolean value) {
+		grouping.setEnabled(value);
 	}
 
-	public void setGroupInterval( double value )
-	{
-		grouping.setGroupingInterval( value );
+	public void setGroupInterval(double value) {
+		grouping.setGroupingInterval(value);
 	}
 
-	public void setGroupType( String type )
-	{
-		grouping.setGroupType( DataType.getByName( type ) );
+	public void setGroupType(String type) {
+		grouping.setGroupType(DataType.getByName(type));
 	}
 
-	public void setGroupUnit( String unit )
-	{
-		grouping.setGroupingUnit( GroupingUnitType.getByName( unit ) );
+	public void setGroupUnit(String unit) {
+		grouping.setGroupingUnit(GroupingUnitType.getByName(unit));
 	}
 
 }

@@ -23,8 +23,7 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
  * 
  *
  */
-public interface IDataSetInterceptor
-{
+public interface IDataSetInterceptor {
 	/**
 	 * 
 	 * @param dsource
@@ -35,16 +34,14 @@ public interface IDataSetInterceptor
 	 * @param session
 	 * @throws BirtException
 	 */
-	void preDefineDataSet( IBaseDataSourceDesign dsource,
-			IBaseDataSetDesign dset, IDataQueryDefinition query,
-			IDataQueryDefinition[] registedQueries,
-			DataSessionContext dContext, String tempDir,
-			IDataSetInterceptorContext interceptorContext )
-			throws BirtException;
+	void preDefineDataSet(IBaseDataSourceDesign dsource, IBaseDataSetDesign dset, IDataQueryDefinition query,
+			IDataQueryDefinition[] registedQueries, DataSessionContext dContext, String tempDir,
+			IDataSetInterceptorContext interceptorContext) throws BirtException;
 
 	/**
 	 * release resources
+	 * 
 	 * @throws BirtException
 	 */
-	void close( ) throws BirtException;
+	void close() throws BirtException;
 }

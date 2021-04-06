@@ -18,21 +18,20 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public interface IBreadcrumbNodeProvider
-{
+public interface IBreadcrumbNodeProvider {
 
-	Object getParent( Object element );
+	Object getParent(Object element);
 
-	Object[] getChildren( Object element );
+	Object[] getChildren(Object element);
 
-	boolean hasChildren( Object element );
+	boolean hasChildren(Object element);
 
-	Image getImage( Object element );
+	Image getImage(Object element);
 
-	String getText( Object element );
+	String getText(Object element);
 
-	String getTooltipText( Object element );
+	String getTooltipText(Object element);
 
-	void createContextMenu( Object element, IMenuManager menu );
+	void createContextMenu(Object element, IMenuManager menu);
 
 }

@@ -9,9 +9,8 @@ public class ROMResultColumnHelper {
 	private ColumnHintHandle oldColumnHint;
 	private ColumnDefinition newColumnDefn;
 	private boolean setup;
-	
-	public ROMResultColumnHelper( ColumnDefinition newColumnDefn )
-	{
+
+	public ROMResultColumnHelper(ColumnDefinition newColumnDefn) {
 		this.newColumnDefn = newColumnDefn;
 		this.oldColumn = null;
 		this.oldColumnHint = null;
@@ -21,11 +20,11 @@ public class ROMResultColumnHelper {
 	public OdaResultSetColumnHandle getOldColumn() {
 		return oldColumn;
 	}
-	
+
 	public ColumnHintHandle getOldColumnHint() {
 		return oldColumnHint;
 	}
-	
+
 	public ColumnDefinition getNewColumnDefn() {
 		return newColumnDefn;
 	}

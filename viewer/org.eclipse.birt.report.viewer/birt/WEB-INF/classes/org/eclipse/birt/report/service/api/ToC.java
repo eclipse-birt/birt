@@ -17,8 +17,7 @@ import java.util.List;
  * Representation of a TOC
  * 
  */
-public class ToC
-{
+public class ToC {
 
 	/**
 	 * Children list
@@ -53,8 +52,7 @@ public class ToC
 	 * @param bookmark
 	 * @param style
 	 */
-	public ToC( String id, String displayName, String bookmark, String style )
-	{
+	public ToC(String id, String displayName, String bookmark, String style) {
 		this.id = id;
 		this.displayName = displayName;
 		this.bookmark = bookmark;
@@ -64,8 +62,7 @@ public class ToC
 	/**
 	 * @return the children list
 	 */
-	public List getChildren( )
-	{
+	public List getChildren() {
 		return children;
 	}
 
@@ -74,40 +71,35 @@ public class ToC
 	 * 
 	 * @param children
 	 */
-	public void setChildren( List children )
-	{
+	public void setChildren(List children) {
 		this.children = children;
 	}
 
 	/**
 	 * @return the id
 	 */
-	public String getID( )
-	{
+	public String getID() {
 		return id;
 	}
 
 	/**
 	 * @return the display name
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
 	/**
 	 * @return the bookmark
 	 */
-	public String getBookmark( )
-	{
+	public String getBookmark() {
 		return bookmark;
 	}
 
 	/**
 	 * @return the style
 	 */
-	public String getStyle( )
-	{
+	public String getStyle() {
 		return style;
 	}
 }

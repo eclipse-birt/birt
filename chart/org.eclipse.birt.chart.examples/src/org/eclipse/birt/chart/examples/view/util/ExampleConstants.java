@@ -15,8 +15,7 @@ package org.eclipse.birt.chart.examples.view.util;
  * 
  */
 
-public class ExampleConstants
-{
+public class ExampleConstants {
 
 	public static final String IMAGE_ENABLE_EXPORT = "icons/etool16/export.gif"; //$NON-NLS-1$
 	public static final String IMAGE_DISABLE_EXPORT = "icons/dtool16/export.gif"; //$NON-NLS-1$

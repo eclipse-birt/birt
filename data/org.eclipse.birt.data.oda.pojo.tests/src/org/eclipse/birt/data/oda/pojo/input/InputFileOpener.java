@@ -20,20 +20,17 @@ import java.io.Reader;
  * 
  */
 
-public class InputFileOpener
-{
+public class InputFileOpener {
 	public static final String SIMPLE_QUERY_FILE = "pojoQuery.simple.xml"; //$NON-NLS-1$
-	
-	private InputFileOpener( )
-	{
-		
+
+	private InputFileOpener() {
+
 	}
-	
-	public static InputStream openFile( String fileName )
-	{
-		return InputFileOpener.class.getResourceAsStream( fileName );
+
+	public static InputStream openFile(String fileName) {
+		return InputFileOpener.class.getResourceAsStream(fileName);
 	}
-	
+
 	/**
 	 * Read all data from a InputStream and save it in a String
 	 * 
@@ -41,20 +38,18 @@ public class InputFileOpener
 	 * @return
 	 * @throws IOException
 	 */
-	public static String fromInputStream( InputStream in ) throws IOException
-	{
+	public static String fromInputStream(InputStream in) throws IOException {
 		assert in != null;
-		StringBuffer sb = new StringBuffer( );
+		StringBuffer sb = new StringBuffer();
 		char[] buf = new char[1024];
-		Reader reader = new BufferedReader( new InputStreamReader( in ) );
-		int len = reader.read( buf );
-		while ( len != -1 )
-		{
-			sb.append( buf, 0, len );
-			len = reader.read( buf );
+		Reader reader = new BufferedReader(new InputStreamReader(in));
+		int len = reader.read(buf);
+		while (len != -1) {
+			sb.append(buf, 0, len);
+			len = reader.read(buf);
 		}
-		reader.close( );
+		reader.close();
 
-		return sb.toString( );
+		return sb.toString();
 	}
 }

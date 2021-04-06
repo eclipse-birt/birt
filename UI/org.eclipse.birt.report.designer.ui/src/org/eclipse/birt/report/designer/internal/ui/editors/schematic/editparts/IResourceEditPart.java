@@ -14,10 +14,9 @@ package org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts
 /**
  * 
  */
-public interface IResourceEditPart
-{
+public interface IResourceEditPart {
 	/**
-	 *When the resource change, fresh the editpart. 
+	 * When the resource change, fresh the editpart.
 	 */
 	public void refreshResource();
 }

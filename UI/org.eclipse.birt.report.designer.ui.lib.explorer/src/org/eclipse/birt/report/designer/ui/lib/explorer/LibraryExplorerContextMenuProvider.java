@@ -64,8 +64,7 @@ import org.eclipse.ui.part.IPageSite;
  * 
  * 
  */
-public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
-{
+public class LibraryExplorerContextMenuProvider extends ContextMenuProvider {
 
 	// Defines actions
 	private final IAction filterAction;
@@ -87,84 +86,74 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	/**
 	 * constructor
 	 * 
-	 * @param page
-	 *            the viewer
-	 * @param registry
-	 *            the registry
+	 * @param page     the viewer
+	 * @param registry the registry
 	 */
-	public LibraryExplorerContextMenuProvider( LibraryExplorerTreeViewPage page )
-	{
-		super( page.getTreeViewer( ) );
+	public LibraryExplorerContextMenuProvider(LibraryExplorerTreeViewPage page) {
+		super(page.getTreeViewer());
 		this.page = page;
 
-		clipboard = new Clipboard( page.getSite( ).getShell( ).getDisplay( ) );
+		clipboard = new Clipboard(page.getSite().getShell().getDisplay());
 
-		filterAction = new FilterResourceAction( page );
-		refreshExplorerAction = new RefreshResourceExplorerAction( page );
-		useCSSAction = new UseCSSAction( page );
-		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction( page.getTreeViewer( ) );
-		deleteResourceAction = new DeleteResourceAction( page );
-		addResourceAction = new AddResourceAction( page );
-		renameResourceAction = new RenameResourceAction( page );
-		newFolderAction = new NewFolderAction( page );
-		moveResourceAction = new MoveResourceAction( page );
-		newLibraryAction = new NewLibraryAction( page );
-		copyResourceAction = new CopyResourceAction( page, clipboard );
-		pasteResourceAction = new PasteResourceAction( page, clipboard );
+		filterAction = new FilterResourceAction(page);
+		refreshExplorerAction = new RefreshResourceExplorerAction(page);
+		useCSSAction = new UseCSSAction(page);
+		useLibraryAction = new AddSelectedLibToCurrentReportDesignAction(page.getTreeViewer());
+		deleteResourceAction = new DeleteResourceAction(page);
+		addResourceAction = new AddResourceAction(page);
+		renameResourceAction = new RenameResourceAction(page);
+		newFolderAction = new NewFolderAction(page);
+		moveResourceAction = new MoveResourceAction(page);
+		newLibraryAction = new NewLibraryAction(page);
+		copyResourceAction = new CopyResourceAction(page, clipboard);
+		pasteResourceAction = new PasteResourceAction(page, clipboard);
 
-		handleGlobalAction( );
-		page.addSelectionChangedListener( new ISelectionChangedListener( ) {
+		handleGlobalAction();
+		page.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see
-			 * org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
+			 * @see org.eclipse.jface.viewers.ISelectionChangedListener#selectionChanged
 			 * (org.eclipse.jface.viewers.SelectionChangedEvent)
 			 */
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				resetActionStatus( );
-				updateActionBars( );
+			public void selectionChanged(SelectionChangedEvent event) {
+				resetActionStatus();
+				updateActionBars();
 			}
-		} );
+		});
 	}
 
 	/**
 	 * Handles all global actions
 	 */
-	private void handleGlobalAction( )
-	{
-		IPageSite pageSite = page == null ? null : page.getSite( );
-		IActionBars actionBars = pageSite == null ? null
-				: pageSite.getActionBars( );
+	private void handleGlobalAction() {
+		IPageSite pageSite = page == null ? null : page.getSite();
+		IActionBars actionBars = pageSite == null ? null : pageSite.getActionBars();
 
-		if ( actionBars != null )
-		{
-			String copyID = ActionFactory.COPY.getId( );
-			String pasteID = ActionFactory.PASTE.getId( );
-			String deleteID = ActionFactory.DELETE.getId( );
-			String moveID = ActionFactory.MOVE.getId( );
-			String renameID = ActionFactory.RENAME.getId( );
-			String refreshID = ActionFactory.REFRESH.getId( );
+		if (actionBars != null) {
+			String copyID = ActionFactory.COPY.getId();
+			String pasteID = ActionFactory.PASTE.getId();
+			String deleteID = ActionFactory.DELETE.getId();
+			String moveID = ActionFactory.MOVE.getId();
+			String renameID = ActionFactory.RENAME.getId();
+			String refreshID = ActionFactory.REFRESH.getId();
 
-			actionBars.setGlobalActionHandler( copyID, copyResourceAction );
-			actionBars.setGlobalActionHandler( pasteID, pasteResourceAction );
-			actionBars.setGlobalActionHandler( deleteID, deleteResourceAction );
-			actionBars.setGlobalActionHandler( moveID, moveResourceAction );
-			actionBars.setGlobalActionHandler( renameID, renameResourceAction );
-			actionBars.setGlobalActionHandler( refreshID, refreshExplorerAction );
+			actionBars.setGlobalActionHandler(copyID, copyResourceAction);
+			actionBars.setGlobalActionHandler(pasteID, pasteResourceAction);
+			actionBars.setGlobalActionHandler(deleteID, deleteResourceAction);
+			actionBars.setGlobalActionHandler(moveID, moveResourceAction);
+			actionBars.setGlobalActionHandler(renameID, renameResourceAction);
+			actionBars.setGlobalActionHandler(refreshID, refreshExplorerAction);
 
-			IMenuManager menuManager = actionBars.getMenuManager( );
-			IToolBarManager toolBarManager = actionBars.getToolBarManager( );
+			IMenuManager menuManager = actionBars.getMenuManager();
+			IToolBarManager toolBarManager = actionBars.getToolBarManager();
 
-			if ( menuManager != null )
-			{
-				menuManager.add( filterAction );
+			if (menuManager != null) {
+				menuManager.add(filterAction);
 			}
-			if ( toolBarManager != null )
-			{
-				toolBarManager.add( refreshExplorerAction );
+			if (toolBarManager != null) {
+				toolBarManager.add(refreshExplorerAction);
 			}
 		}
 	}
@@ -172,224 +161,176 @@ public class LibraryExplorerContextMenuProvider extends ContextMenuProvider
 	/**
 	 * Updates the action bars for this page site.
 	 */
-	private void updateActionBars( )
-	{
-		IPageSite site = page == null ? null : page.getSite( );
-		IActionBars actionBars = site == null ? null : site.getActionBars( );
+	private void updateActionBars() {
+		IPageSite site = page == null ? null : page.getSite();
+		IActionBars actionBars = site == null ? null : site.getActionBars();
 
-		if ( actionBars != null )
-		{
-			actionBars.updateActionBars( );
+		if (actionBars != null) {
+			actionBars.updateActionBars();
 		}
 	}
 
 	@Override
-	public void dispose( )
-	{
-		if ( clipboard != null )
-		{
-			clipboard.dispose( );
+	public void dispose() {
+		if (clipboard != null) {
+			clipboard.dispose();
 			clipboard = null;
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
 	/**
-	 * Builds the context menu. Single selection menu and multiple selection
-	 * menu are created while selecting just single element or multiple elements
+	 * Builds the context menu. Single selection menu and multiple selection menu
+	 * are created while selecting just single element or multiple elements
 	 * 
 	 * 
-	 * @param menu
-	 *            the menu
+	 * @param menu the menu
 	 */
-	public void buildContextMenu( IMenuManager menu )
-	{
-		if ( Policy.TRACING_MENU_SHOW )
-		{
-			System.out.println( "Menu(for Views) >> Shows for library" ); //$NON-NLS-1$
+	public void buildContextMenu(IMenuManager menu) {
+		if (Policy.TRACING_MENU_SHOW) {
+			System.out.println("Menu(for Views) >> Shows for library"); //$NON-NLS-1$
 		}
 
-		resetActionStatus( );
+		resetActionStatus();
 
-		menu.removeAll( );
-		menu.add( new Separator( IWorkbenchActionConstants.MB_ADDITIONS ) );
-		menu.add( new Separator( ) );
+		menu.removeAll();
+		menu.add(new Separator(IWorkbenchActionConstants.MB_ADDITIONS));
+		menu.add(new Separator());
 
-		IStructuredSelection selection = (IStructuredSelection) page.getSelection( );
-		IMenuManager newMenuGroup = new MenuManager( Messages.getString( "NewResource.MenuGroup.Text" ) ); //$NON-NLS-1$
+		IStructuredSelection selection = (IStructuredSelection) page.getSelection();
+		IMenuManager newMenuGroup = new MenuManager(Messages.getString("NewResource.MenuGroup.Text")); //$NON-NLS-1$
 
-		newMenuGroup.add( newFolderAction );
-		newMenuGroup.add( newLibraryAction );
+		newMenuGroup.add(newFolderAction);
+		newMenuGroup.add(newLibraryAction);
 
-		if ( selection != null && selection.getFirstElement( ) != null )
-		{
-			Object selected = selection.getFirstElement( );
+		if (selection != null && selection.getFirstElement() != null) {
+			Object selected = selection.getFirstElement();
 
-			if ( selected instanceof ReportResourceEntry )
-			{
-				selected = ( (ReportResourceEntry) selected ).getReportElement( );
+			if (selected instanceof ReportResourceEntry) {
+				selected = ((ReportResourceEntry) selected).getReportElement();
 			}
 
-			if ( selected instanceof ResourceEntryWrapper )
-			{
-				int type = ( (ResourceEntryWrapper) selected ).getType( );
+			if (selected instanceof ResourceEntryWrapper) {
+				int type = ((ResourceEntryWrapper) selected).getType();
 
-				if ( type == ResourceEntryWrapper.LIBRARY )
-				{
-					menu.add( useLibraryAction );
-				}
-				else if ( type == ResourceEntryWrapper.CSS_STYLE_SHEET )
-				{
-					menu.add( useCSSAction );
+				if (type == ResourceEntryWrapper.LIBRARY) {
+					menu.add(useLibraryAction);
+				} else if (type == ResourceEntryWrapper.CSS_STYLE_SHEET) {
+					menu.add(useCSSAction);
 				}
 
-				if ( ( (ResourceEntryWrapper) selected ).getParent( ) instanceof PathResourceEntry )
-				{
-					menu.add( new Separator( ) );
-					menu.add( newMenuGroup );
-					menu.add( addResourceAction );
+				if (((ResourceEntryWrapper) selected).getParent() instanceof PathResourceEntry) {
+					menu.add(new Separator());
+					menu.add(newMenuGroup);
+					menu.add(addResourceAction);
 				}
 
-				menu.add( new Separator( ) );
-				menu.add( copyResourceAction );
+				menu.add(new Separator());
+				menu.add(copyResourceAction);
 
-				if ( ( (ResourceEntryWrapper) selected ).getParent( ) instanceof PathResourceEntry )
-				{
-					menu.add( pasteResourceAction );
-					menu.add( deleteResourceAction );
-					menu.add( moveResourceAction );
-					menu.add( renameResourceAction );
-					menu.add( new Separator( ) );
+				if (((ResourceEntryWrapper) selected).getParent() instanceof PathResourceEntry) {
+					menu.add(pasteResourceAction);
+					menu.add(deleteResourceAction);
+					menu.add(moveResourceAction);
+					menu.add(renameResourceAction);
+					menu.add(new Separator());
 				}
-			}
-			else if ( selected instanceof LibraryHandle )
-			{
-				menu.add( useLibraryAction );
-				menu.add( new Separator( ) );
-			}
-			else if ( selected instanceof CssStyleSheetHandle )
-			{
-				menu.add( useCSSAction );
-				menu.add( new Separator( ) );
-			}
-			else if ( selected instanceof PathResourceEntry )
-			{
-				menu.add( newMenuGroup );
-				menu.add( addResourceAction );
-				menu.add( new Separator( ) );
-				menu.add( copyResourceAction );
-				menu.add( pasteResourceAction );
-				menu.add( deleteResourceAction );
-				menu.add( moveResourceAction );
-				menu.add( renameResourceAction );
-				menu.add( new Separator( ) );
-			}
-			else if ( selected instanceof FragmentResourceEntry )
-			{
-				if ( copyResourceAction.isEnabled( ) )
-				{
-					menu.add( copyResourceAction );
-					menu.add( new Separator( ) );
+			} else if (selected instanceof LibraryHandle) {
+				menu.add(useLibraryAction);
+				menu.add(new Separator());
+			} else if (selected instanceof CssStyleSheetHandle) {
+				menu.add(useCSSAction);
+				menu.add(new Separator());
+			} else if (selected instanceof PathResourceEntry) {
+				menu.add(newMenuGroup);
+				menu.add(addResourceAction);
+				menu.add(new Separator());
+				menu.add(copyResourceAction);
+				menu.add(pasteResourceAction);
+				menu.add(deleteResourceAction);
+				menu.add(moveResourceAction);
+				menu.add(renameResourceAction);
+				menu.add(new Separator());
+			} else if (selected instanceof FragmentResourceEntry) {
+				if (copyResourceAction.isEnabled()) {
+					menu.add(copyResourceAction);
+					menu.add(new Separator());
 				}
 			}
 
-			if ( canAddtoReport( selected ) )
-			{
-				if ( selection.size( ) == 1 )
-				{
-					AddElementtoReport addElementAction = new AddElementtoReport( (StructuredViewer) getViewer( ) );
-					addElementAction.setSelectedElement( selected );
-					menu.add( addElementAction );
-					menu.add( new Separator( ) );
+			if (canAddtoReport(selected)) {
+				if (selection.size() == 1) {
+					AddElementtoReport addElementAction = new AddElementtoReport((StructuredViewer) getViewer());
+					addElementAction.setSelectedElement(selected);
+					menu.add(addElementAction);
+					menu.add(new Separator());
 				}
-			}
-			else if ( isTheme( selected ) )
-			{
-				if ( selection.size( ) == 1 )
-				{
-					ApplyThemeAction applyThemeAction = new ApplyThemeAction( );
-					applyThemeAction.setSelectedTheme( selected );
-					menu.add( applyThemeAction );
-					menu.add( new Separator( ) );
+			} else if (isTheme(selected)) {
+				if (selection.size() == 1) {
+					ApplyThemeAction applyThemeAction = new ApplyThemeAction();
+					applyThemeAction.setSelectedTheme(selected);
+					menu.add(applyThemeAction);
+					menu.add(new Separator());
 				}
 
 			}
-			menu.add( new Separator( ) );
-			menu.add( refreshExplorerAction );
-		}
-		else
-		{
-			menu.add( addResourceAction );
-			menu.add( new Separator( ) );
-			menu.add( refreshExplorerAction );
+			menu.add(new Separator());
+			menu.add(refreshExplorerAction);
+		} else {
+			menu.add(addResourceAction);
+			menu.add(new Separator());
+			menu.add(refreshExplorerAction);
 		}
 	}
 
 	/**
 	 * Resets all action status.
 	 */
-	private void resetActionStatus( )
-	{
+	private void resetActionStatus() {
 		// Resets actions status.
-		filterAction.setEnabled( isEnabled( ) );
-		refreshExplorerAction.setEnabled( refreshExplorerAction.isEnabled( ) );
-		useCSSAction.setEnabled( useCSSAction.isEnabled( ) );
-		useLibraryAction.setEnabled( useLibraryAction.isEnabled( ) );
-		deleteResourceAction.setEnabled( deleteResourceAction.isEnabled( ) );
-		addResourceAction.setEnabled( addResourceAction.isEnabled( ) );
-		renameResourceAction.setEnabled( renameResourceAction.isEnabled( ) );
-		newFolderAction.setEnabled( newFolderAction.isEnabled( ) );
-		moveResourceAction.setEnabled( moveResourceAction.isEnabled( ) );
-		newLibraryAction.setEnabled( newLibraryAction.isEnabled( ) );
-		copyResourceAction.setEnabled( copyResourceAction.isEnabled( ) );
-		pasteResourceAction.setEnabled( pasteResourceAction.isEnabled( ) );
+		filterAction.setEnabled(isEnabled());
+		refreshExplorerAction.setEnabled(refreshExplorerAction.isEnabled());
+		useCSSAction.setEnabled(useCSSAction.isEnabled());
+		useLibraryAction.setEnabled(useLibraryAction.isEnabled());
+		deleteResourceAction.setEnabled(deleteResourceAction.isEnabled());
+		addResourceAction.setEnabled(addResourceAction.isEnabled());
+		renameResourceAction.setEnabled(renameResourceAction.isEnabled());
+		newFolderAction.setEnabled(newFolderAction.isEnabled());
+		moveResourceAction.setEnabled(moveResourceAction.isEnabled());
+		newLibraryAction.setEnabled(newLibraryAction.isEnabled());
+		copyResourceAction.setEnabled(copyResourceAction.isEnabled());
+		pasteResourceAction.setEnabled(pasteResourceAction.isEnabled());
 	}
 
-	protected boolean isTheme( Object transfer )
-	{
-		if ( transfer instanceof ReportResourceEntry )
-		{
-			transfer = ( (ReportResourceEntry) transfer ).getReportElement( );
+	protected boolean isTheme(Object transfer) {
+		if (transfer instanceof ReportResourceEntry) {
+			transfer = ((ReportResourceEntry) transfer).getReportElement();
 		}
 
-		if ( transfer instanceof ThemeHandle )
-		{
+		if (transfer instanceof ThemeHandle) {
 			return true;
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
 
-	protected boolean canAddtoReport( Object transfer )
-	{
-		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( ).getReportDesignHandle( );
-		if (!(moduleHandle instanceof ReportDesignHandle || moduleHandle instanceof LibraryHandle))
-		{
+	protected boolean canAddtoReport(Object transfer) {
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
+		if (!(moduleHandle instanceof ReportDesignHandle || moduleHandle instanceof LibraryHandle)) {
 			return false;
 		}
-		if ( transfer instanceof ReportResourceEntry )
-			transfer = ( (ReportResourceEntry) transfer ).getReportElement( );
-		if ( transfer instanceof ReportElementHandle
-				|| transfer instanceof EmbeddedImageHandle )
-		{
-			if ( transfer instanceof ScalarParameterHandle
-					&& ( (ScalarParameterHandle) transfer ).getContainer( ) instanceof CascadingParameterGroupHandle )
-			{
+		if (transfer instanceof ReportResourceEntry)
+			transfer = ((ReportResourceEntry) transfer).getReportElement();
+		if (transfer instanceof ReportElementHandle || transfer instanceof EmbeddedImageHandle) {
+			if (transfer instanceof ScalarParameterHandle
+					&& ((ScalarParameterHandle) transfer).getContainer() instanceof CascadingParameterGroupHandle) {
 				return false;
-			}
-			else if ( transfer instanceof StyleHandle
-					&& ( (StyleHandle) transfer ).getContainer( ) instanceof ThemeHandle )
-			{
+			} else if (transfer instanceof StyleHandle
+					&& ((StyleHandle) transfer).getContainer() instanceof ThemeHandle) {
 				return false;
-			}
-			else if ( transfer instanceof ThemeHandle )
-			{
+			} else if (transfer instanceof ThemeHandle) {
 				return false;
-			}
-			else
-			{
+			} else {
 				return true;
 			}
 		}

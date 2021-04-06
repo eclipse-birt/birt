@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-
 /**
  * Master Page
  * 
  */
-abstract public class MasterPageDesign extends StyledElementDesign
-{
+abstract public class MasterPageDesign extends StyledElementDesign {
 
 	/**
 	 * Page Type, such as A4, USLetter, USLegal
@@ -61,8 +59,7 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	/**
 	 * default constuctor use A4, 5mm margin.
 	 */
-	public MasterPageDesign( )
-	{
+	public MasterPageDesign() {
 	}
 
 	/**
@@ -70,18 +67,12 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 * 
 	 * margin must be described in absoluted units.
 	 * 
-	 * @param top
-	 *            top margin
-	 * @param left
-	 *            left margin
-	 * @param bottom
-	 *            bottom margin
-	 * @param right
-	 *            right margin
+	 * @param top    top margin
+	 * @param left   left margin
+	 * @param bottom bottom margin
+	 * @param right  right margin
 	 */
-	public void setMargin( DimensionType top, DimensionType left,
-			DimensionType bottom, DimensionType right )
-	{
+	public void setMargin(DimensionType top, DimensionType left, DimensionType bottom, DimensionType right) {
 		this.topMargin = top;
 		this.leftMargin = left;
 		this.bottomMargin = bottom;
@@ -93,8 +84,7 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 * 
 	 * @return left margin(mm)
 	 */
-	public DimensionType getLeftMargin( )
-	{
+	public DimensionType getLeftMargin() {
 		return this.leftMargin;
 	}
 
@@ -103,8 +93,7 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 * 
 	 * @return right margin(mm)
 	 */
-	public DimensionType getRightMargin( )
-	{
+	public DimensionType getRightMargin() {
 		return this.rightMargin;
 	}
 
@@ -113,8 +102,7 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 * 
 	 * @return top margin in mm
 	 */
-	public DimensionType getTopMargin( )
-	{
+	public DimensionType getTopMargin() {
 		return this.topMargin;
 	}
 
@@ -123,8 +111,7 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 * 
 	 * @return bottom margin
 	 */
-	public DimensionType getBottomMargin( )
-	{
+	public DimensionType getBottomMargin() {
 		return this.bottomMargin;
 	}
 
@@ -133,19 +120,17 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 * 
 	 * @return page type.
 	 */
-	public String getPageType( )
-	{
+	public String getPageType() {
 		return this.pageType;
 	}
 
 	/**
-	 * set the page type. if page type is not custom type, set the width&height
-	 * to the corresponse value.
+	 * set the page type. if page type is not custom type, set the width&height to
+	 * the corresponse value.
 	 * 
 	 * @param pageType
 	 */
-	public void setPageType( String pageType )
-	{
+	public void setPageType(String pageType) {
 		this.pageType = pageType;
 		return;
 	}
@@ -153,13 +138,10 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	/**
 	 * set the page size
 	 * 
-	 * @param width
-	 *            width of the page(mm)
-	 * @param height
-	 *            height of the page(mm)
+	 * @param width  width of the page(mm)
+	 * @param height height of the page(mm)
 	 */
-	public void setPageSize( DimensionType width, DimensionType height )
-	{
+	public void setPageSize(DimensionType width, DimensionType height) {
 		this.pageWidth = width;
 		this.pageHeight = height;
 	}
@@ -169,8 +151,7 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 * 
 	 * @return page width in mm
 	 */
-	public DimensionType getPageWidth( )
-	{
+	public DimensionType getPageWidth() {
 		return this.pageWidth;
 	}
 
@@ -179,55 +160,45 @@ abstract public class MasterPageDesign extends StyledElementDesign
 	 * 
 	 * @return page height in mm
 	 */
-	public DimensionType getPageHeight( )
-	{
+	public DimensionType getPageHeight() {
 		return this.pageHeight;
 	}
 
 	/**
 	 * @return Returns the orientation.
 	 */
-	public String getOrientation( )
-	{
+	public String getOrientation() {
 		return orientation;
 	}
 
 	/**
-	 * @param orientation
-	 *            The orientation to set.
+	 * @param orientation The orientation to set.
 	 */
-	public void setOrientation( String orientation )
-	{
+	public void setOrientation(String orientation) {
 		this.orientation = orientation;
 	}
 
-	public String getBodyStyleName( )
-	{
+	public String getBodyStyleName() {
 		return bodyStyleName;
 	}
 
-	public void setBodyStyleName( String bodyStyleName )
-	{
+	public void setBodyStyleName(String bodyStyleName) {
 		this.bodyStyleName = bodyStyleName;
 	}
 
-	public Expression getOnPageStart( )
-	{
+	public Expression getOnPageStart() {
 		return onPageStart;
 	}
 
-	public void setOnPageStart( Expression onPageStart )
-	{
+	public void setOnPageStart(Expression onPageStart) {
 		this.onPageStart = onPageStart;
 	}
 
-	public Expression getOnPageEnd( )
-	{
+	public Expression getOnPageEnd() {
 		return onPageEnd;
 	}
 
-	public void setOnPageEnd( Expression onPageEnd )
-	{
+	public void setOnPageEnd(Expression onPageEnd) {
 		this.onPageEnd = onPageEnd;
 	}
 }

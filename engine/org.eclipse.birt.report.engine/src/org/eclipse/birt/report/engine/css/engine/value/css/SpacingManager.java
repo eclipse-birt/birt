@@ -22,77 +22,60 @@ import org.w3c.dom.DOMException;
 import org.w3c.dom.css.CSSPrimitiveValue;
 import org.w3c.dom.css.CSSValue;
 
-public class SpacingManager extends AbstractLengthManager
-{
+public class SpacingManager extends AbstractLengthManager {
 
 	/**
 	 * The identifier values.
 	 */
-	protected final static StringMap values = new StringMap( );
-	static
-	{
-		values.put( CSSConstants.CSS_NORMAL_VALUE,
-				CSSValueConstants.NORMAL_VALUE );
+	protected final static StringMap values = new StringMap();
+	static {
+		values.put(CSSConstants.CSS_NORMAL_VALUE, CSSValueConstants.NORMAL_VALUE);
 	}
 
 	String propertyName;
 
-	public SpacingManager( String propertyName )
-	{
+	public SpacingManager(String propertyName) {
 		this.propertyName = propertyName;
 	}
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return propertyName;
 	}
 
-	public boolean isInheritedProperty( )
-	{
+	public boolean isInheritedProperty() {
 		return true;
 	}
 
-	public Value getDefaultValue( )
-	{
+	public Value getDefaultValue() {
 		return CSSValueConstants.NORMAL_VALUE;
 	}
 
-	public Value createValue( LexicalUnit lu, CSSEngine engine )
-			throws DOMException
-	{
-		switch ( lu.getLexicalUnitType( ) )
-		{
-			case LexicalUnit.SAC_IDENT :
-				String s = lu.getStringValue( ).toLowerCase( ).intern( );
-				Object v = values.get( s );
-				if ( v == null )
-				{
-					throw createInvalidIdentifierDOMException( lu
-							.getStringValue( ) );
-				}
-				return (Value) v;
-			case LexicalUnit.SAC_PERCENTAGE :
-				throw createInvalidLexicalUnitDOMException( lu
-						.getLexicalUnitType( ) );
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
+		switch (lu.getLexicalUnitType()) {
+		case LexicalUnit.SAC_IDENT:
+			String s = lu.getStringValue().toLowerCase().intern();
+			Object v = values.get(s);
+			if (v == null) {
+				throw createInvalidIdentifierDOMException(lu.getStringValue());
+			}
+			return (Value) v;
+		case LexicalUnit.SAC_PERCENTAGE:
+			throw createInvalidLexicalUnitDOMException(lu.getLexicalUnitType());
 		}
-		return super.createValue( lu, engine );
+		return super.createValue(lu, engine);
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	public Value computeValue( CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value )
-	{
-		if ( value.getCssValueType( ) == CSSValue.CSS_PRIMITIVE_VALUE )
-		{
-			if ( value.getPrimitiveType( ) == CSSPrimitiveValue.CSS_IDENT )
-			{
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
+		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
+			if (value.getPrimitiveType() == CSSPrimitiveValue.CSS_IDENT) {
 				return CSSValueConstants.NUMBER_0;
 			}
 		}
-		return super.computeValue( elt, engine, idx, value );
+		return super.computeValue(elt, engine, idx, value);
 	}
 
 }

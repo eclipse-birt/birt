@@ -15,10 +15,9 @@ package org.eclipse.birt.chart.computation;
  * 
  */
 
-public interface IChartComputationFactory
-{
+public interface IChartComputationFactory {
 
-	IGObjectFactory createGObjectFactory( );
+	IGObjectFactory createGObjectFactory();
 
-	IChartComputation createChartComputation( );
+	IChartComputation createChartComputation();
 }

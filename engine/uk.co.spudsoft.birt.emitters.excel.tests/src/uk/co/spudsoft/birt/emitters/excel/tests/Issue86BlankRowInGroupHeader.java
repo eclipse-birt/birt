@@ -25,7 +25,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class Issue86BlankRowInGroupHeader extends ReportRunner {
-	
+
 	@Test
 	public void testIssue86BlankRowInGroupHeader() throws BirtException, IOException {
 
@@ -35,15 +35,14 @@ public class Issue86BlankRowInGroupHeader extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 123, this.firstNullRow(sheet));
+			assertEquals(123, this.firstNullRow(sheet));
 		} finally {
 			inputStream.close();
 		}
 	}
-	
 
 }

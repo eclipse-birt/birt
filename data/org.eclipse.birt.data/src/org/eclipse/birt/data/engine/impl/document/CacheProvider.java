@@ -15,26 +15,26 @@ import org.eclipse.birt.data.engine.core.DataException;
 /**
  * This GroupUtil class do only know the information service of CacheProvider.
  */
-public interface CacheProvider
-{
+public interface CacheProvider {
 
 	/**
 	 * @return total row count
 	 */
-	public int getCount( );
+	public int getCount();
 
 	/**
 	 * @return current result index
 	 */
-	public int getCurrentIndex( );
+	public int getCurrentIndex();
 
 	/**
 	 * Move current result cursor to a specified index
+	 * 
 	 * @param destIndex
 	 * @throws DataException
 	 */
-	public void moveTo( int destIndex ) throws DataException;
-	
-	public boolean next( ) throws DataException;
+	public void moveTo(int destIndex) throws DataException;
+
+	public boolean next() throws DataException;
 
 }

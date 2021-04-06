@@ -23,8 +23,7 @@ import org.eclipse.birt.report.model.api.simpleapi.SimpleElementFactory;
  * Implements of DataBinding.
  */
 
-public class DataBindingImpl implements IDataBinding
-{
+public class DataBindingImpl implements IDataBinding {
 
 	private org.eclipse.birt.report.model.api.simpleapi.IDataBinding dataBindingImpl;
 
@@ -34,10 +33,8 @@ public class DataBindingImpl implements IDataBinding
 	 * @param columnHandle
 	 */
 
-	public DataBindingImpl( )
-	{
-		dataBindingImpl = SimpleElementFactory.getInstance( )
-				.createDataBinding( );
+	public DataBindingImpl() {
+		dataBindingImpl = SimpleElementFactory.getInstance().createDataBinding();
 	}
 
 	/**
@@ -46,10 +43,8 @@ public class DataBindingImpl implements IDataBinding
 	 * @param columnHandle
 	 */
 
-	public DataBindingImpl( ComputedColumnHandle columnHandle )
-	{
-		dataBindingImpl = SimpleElementFactory.getInstance( )
-				.createDataBinding( columnHandle );
+	public DataBindingImpl(ComputedColumnHandle columnHandle) {
+		dataBindingImpl = SimpleElementFactory.getInstance().createDataBinding(columnHandle);
 	}
 
 	/**
@@ -58,115 +53,85 @@ public class DataBindingImpl implements IDataBinding
 	 * @param column
 	 */
 
-	public DataBindingImpl( ComputedColumn column )
-	{
-		dataBindingImpl = SimpleElementFactory.getInstance( )
-				.createDataBinding( column );
+	public DataBindingImpl(ComputedColumn column) {
+		dataBindingImpl = SimpleElementFactory.getInstance().createDataBinding(column);
 	}
 
-	public DataBindingImpl(
-			org.eclipse.birt.report.model.api.simpleapi.IDataBinding columnBindingImpl )
-	{
+	public DataBindingImpl(org.eclipse.birt.report.model.api.simpleapi.IDataBinding columnBindingImpl) {
 		dataBindingImpl = columnBindingImpl;
 	}
 
-	public String getAggregateOn( )
-	{
-		return dataBindingImpl.getAggregateOn( );
+	public String getAggregateOn() {
+		return dataBindingImpl.getAggregateOn();
 	}
 
-	public String getDataType( )
-	{
-		return dataBindingImpl.getDataType( );
+	public String getDataType() {
+		return dataBindingImpl.getDataType();
 	}
 
-	public String getExpression( )
-	{
-		return dataBindingImpl.getExpression( );
+	public String getExpression() {
+		return dataBindingImpl.getExpression();
 	}
 
-	public String getExpressionType( )
-	{
-		return dataBindingImpl.getExpressionType( );
+	public String getExpressionType() {
+		return dataBindingImpl.getExpressionType();
 	}
 
-	public void setExpressionType( String type ) throws ScriptException
-	{
-		try
-		{
-			dataBindingImpl.setExpressionType( type );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setExpressionType(String type) throws ScriptException {
+		try {
+			dataBindingImpl.setExpressionType(type);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
-	public String getName( )
-	{
-		return dataBindingImpl.getName( );
+	public String getName() {
+		return dataBindingImpl.getName();
 	}
 
-	public void setAggregateOn( String on ) throws ScriptException
-	{
-		try
-		{
-			dataBindingImpl.setAggregateOn( on );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setAggregateOn(String on) throws ScriptException {
+		try {
+			dataBindingImpl.setAggregateOn(on);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}
 
-	public void setDataType( String dataType ) throws ScriptException
-	{
-		try
-		{
-			dataBindingImpl.setDataType( dataType );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+	public void setDataType(String dataType) throws ScriptException {
+		try {
+			dataBindingImpl.setDataType(dataType);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 	}
 
-	public void setExpression( String expression ) throws ScriptException
-	{
+	public void setExpression(String expression) throws ScriptException {
 
 		// expression is required.
 
-		try
-		{
-			dataBindingImpl.setExpression( expression );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+		try {
+			dataBindingImpl.setExpression(expression);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}
 
-	public void setName( String name ) throws ScriptException
-	{
+	public void setName(String name) throws ScriptException {
 		// name is required.
 
-		try
-		{
+		try {
 
-			dataBindingImpl.setName( name );
-		}
-		catch ( SemanticException e )
-		{
-			throw new ScriptException( e.getLocalizedMessage( ) );
+			dataBindingImpl.setName(name);
+		} catch (SemanticException e) {
+			throw new ScriptException(e.getLocalizedMessage());
 		}
 
 	}
 
-	public IStructure getStructure( )
-	{
-		return dataBindingImpl.getStructure( );
+	public IStructure getStructure() {
+		return dataBindingImpl.getStructure();
 	}
 
 }

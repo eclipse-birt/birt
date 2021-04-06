@@ -56,10 +56,7 @@ import org.eclipse.birt.report.model.util.UnusedBoundColumnsMgr;
  * @see ParameterHandle
  */
 
-public class ScalarParameterHandle extends AbstractScalarParameterHandle
-		implements
-			IScalarParameterModel
-{
+public class ScalarParameterHandle extends AbstractScalarParameterHandle implements IScalarParameterModel {
 
 	/**
 	 * Constructs a handle for the ScalarParamter with the given design and the
@@ -67,84 +64,70 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * Instead, it uses one of the navigation methods available on other element
 	 * handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public ScalarParameterHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public ScalarParameterHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
-	 * Returns the first default value of the parameter. The default value can
-	 * be an expression, but cannot reference any other parameters. The default
-	 * value of this parameter can be a list. This method returns the first
-	 * value if exists.
+	 * Returns the first default value of the parameter. The default value can be an
+	 * expression, but cannot reference any other parameters. The default value of
+	 * this parameter can be a list. This method returns the first value if exists.
 	 * 
 	 * @return the default value
 	 * @deprecated since 2.5 replaced by {@link #getDefaultValueList()}
 	 */
 
-	public String getDefaultValue( )
-	{
-		List<Expression> valueList = getDefaultValueList( );
-		if ( valueList == null || valueList.isEmpty( ) )
+	public String getDefaultValue() {
+		List<Expression> valueList = getDefaultValueList();
+		if (valueList == null || valueList.isEmpty())
 			return null;
 
-		PropertyType tmpType = MetaDataDictionary.getInstance( )
-				.getPropertyType( IPropertyType.EXPRESSION_TYPE );
-		PropertyDefn tmpPropDefn = (PropertyDefn) getPropertyDefn( DEFAULT_VALUE_PROP );
+		PropertyType tmpType = MetaDataDictionary.getInstance().getPropertyType(IPropertyType.EXPRESSION_TYPE);
+		PropertyDefn tmpPropDefn = (PropertyDefn) getPropertyDefn(DEFAULT_VALUE_PROP);
 
-		return tmpType.toString( getModule( ), tmpPropDefn, valueList.get( 0 ) );
+		return tmpType.toString(getModule(), tmpPropDefn, valueList.get(0));
 	}
 
 	/**
 	 * Sets the default value of the parameter. The default value can be an
 	 * expression, but cannot reference any other parameters.
 	 * 
-	 * @param defaultValue
-	 *            the default value for the parameter
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param defaultValue the default value for the parameter
+	 * @throws SemanticException if the property is locked.
 	 * @deprecated since 2.5 replaced by {@link #setDefaultValueList(List)}
 	 */
 
-	public void setDefaultValue( String defaultValue ) throws SemanticException
-	{
-		setProperty( DEFAULT_VALUE_PROP, defaultValue );
+	public void setDefaultValue(String defaultValue) throws SemanticException {
+		setProperty(DEFAULT_VALUE_PROP, defaultValue);
 	}
 
 	/**
-	 * Tests whether hides the user's entry by displaying asterisks. Often used
-	 * for passwords.
+	 * Tests whether hides the user's entry by displaying asterisks. Often used for
+	 * passwords.
 	 * 
 	 * @return <code>true</code> if hides the user's entry by asterisks,
 	 *         <code>false</code> if shows characters as usual.
 	 */
 
-	public boolean isConcealValue( )
-	{
-		return getBooleanProperty( CONCEAL_VALUE_PROP );
+	public boolean isConcealValue() {
+		return getBooleanProperty(CONCEAL_VALUE_PROP);
 	}
 
 	/**
 	 * Sets the attribute that's hides the user's entry by displaying asterisks.
 	 * Often used for passwords.
 	 * 
-	 * @param concealValue
-	 *            <code>true</code> if hides the user's entry by asterisks,
-	 *            <code>false</code> if shows characters as usual.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param concealValue <code>true</code> if hides the user's entry by asterisks,
+	 *                     <code>false</code> if shows characters as usual.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setConcealValue( boolean concealValue )
-			throws SemanticException
-	{
-		setBooleanProperty( CONCEAL_VALUE_PROP, concealValue );
+	public void setConcealValue(boolean concealValue) throws SemanticException {
+		setBooleanProperty(CONCEAL_VALUE_PROP, concealValue);
 	}
 
 	/**
@@ -156,27 +139,24 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * @deprecated by {@link #isRequired()}
 	 */
 
-	public boolean allowNull( )
-	{
-		return !getBooleanProperty( IS_REQUIRED_PROP );
+	public boolean allowNull() {
+		return !getBooleanProperty(IS_REQUIRED_PROP);
 	}
 
 	/**
 	 * Sets the flag that indicates whether the value of the parameter can be
 	 * <code>null</code>.
 	 * 
-	 * @param allowNull
-	 *            <code>true</code> if the value can be <code>null</code>,
-	 *            <code>false</code> if the value can not be <code>null</code>.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param allowNull <code>true</code> if the value can be <code>null</code>,
+	 *                  <code>false</code> if the value can not be
+	 *                  <code>null</code>.
+	 * @throws SemanticException if the property is locked.
 	 * 
 	 * @deprecated by {@link #setIsRequired(boolean)}
 	 */
 
-	public void setAllowNull( boolean allowNull ) throws SemanticException
-	{
-		setBooleanProperty( ALLOW_NULL_PROP, allowNull );
+	public void setAllowNull(boolean allowNull) throws SemanticException {
+		setBooleanProperty(ALLOW_NULL_PROP, allowNull);
 	}
 
 	/**
@@ -188,45 +168,40 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * @deprecated by {@link #isRequired()}
 	 */
 
-	public boolean allowBlank( )
-	{
-		String dataType = getStringProperty( DATA_TYPE_PROP );
-		if ( DesignChoiceConstants.PARAM_TYPE_STRING
-				.equalsIgnoreCase( dataType ) )
-			return !getBooleanProperty( IS_REQUIRED_PROP );
+	public boolean allowBlank() {
+		String dataType = getStringProperty(DATA_TYPE_PROP);
+		if (DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase(dataType))
+			return !getBooleanProperty(IS_REQUIRED_PROP);
 
 		return false;
 	}
 
 	/**
-	 * Sets the flag that indicates whether the string value of the parameter
-	 * can be <code>null</code>.
+	 * Sets the flag that indicates whether the string value of the parameter can be
+	 * <code>null</code>.
 	 * 
-	 * @param allowBlank
-	 *            <code>true</code> if the value can be <code>null</code>,
-	 *            <code>false</code> if the value can not be <code>null</code>.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param allowBlank <code>true</code> if the value can be <code>null</code>,
+	 *                   <code>false</code> if the value can not be
+	 *                   <code>null</code>.
+	 * @throws SemanticException if the property is locked.
 	 * 
 	 * @deprecated by {@link #setIsRequired(boolean)}
 	 */
 
-	public void setAllowBlank( boolean allowBlank ) throws SemanticException
-	{
-		setBooleanProperty( ALLOW_BLANK_PROP, allowBlank );
+	public void setAllowBlank(boolean allowBlank) throws SemanticException {
+		setBooleanProperty(ALLOW_BLANK_PROP, allowBlank);
 	}
 
 	/**
-	 * Returns the format instructions for the parameter value. The format is
-	 * used by the UI to display the value.
+	 * Returns the format instructions for the parameter value. The format is used
+	 * by the UI to display the value.
 	 * 
 	 * @return the format for the parameter value
 	 * @deprecated replaced by getPattern and getCategory.
 	 */
 
-	public String getFormat( )
-	{
-		return getPattern( );
+	public String getFormat() {
+		return getPattern();
 	}
 
 	/**
@@ -236,112 +211,93 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * @return the pattern of format for the parameter value
 	 */
 
-	public String getPattern( )
-	{
-		Object value = getProperty( FORMAT_PROP );
-		if ( value == null )
+	public String getPattern() {
+		Object value = getProperty(FORMAT_PROP);
+		if (value == null)
 			return null;
 
 		assert value instanceof ParameterFormatValue;
 
-		return ( (ParameterFormatValue) value ).getPattern( );
+		return ((ParameterFormatValue) value).getPattern();
 	}
 
 	/**
-	 * Returns the category for the parameter format. The format is used by the
-	 * UI to display the value.
+	 * Returns the category for the parameter format. The format is used by the UI
+	 * to display the value.
 	 * 
 	 * @return the category for the parameter format
 	 */
 
-	public String getCategory( )
-	{
-		Object value = getProperty( FORMAT_PROP );
-		if ( value == null )
+	public String getCategory() {
+		Object value = getProperty(FORMAT_PROP);
+		if (value == null)
 			return null;
 
 		assert value instanceof ParameterFormatValue;
 
-		return ( (ParameterFormatValue) value ).getCategory( );
+		return ((ParameterFormatValue) value).getCategory();
 	}
 
 	/**
-	 * Sets the format instructions for the parameter value. The format is used
-	 * by the UI to display the value.
+	 * Sets the format instructions for the parameter value. The format is used by
+	 * the UI to display the value.
 	 * 
-	 * @param format
-	 *            the format for the parameter value
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param format the format for the parameter value
+	 * @throws SemanticException if the property is locked.
 	 * @deprecated replaced by setPattern and setCategory.
 	 */
 
-	public void setFormat( String format ) throws SemanticException
-	{
-		setPattern( format );
+	public void setFormat(String format) throws SemanticException {
+		setPattern(format);
 	}
 
 	/**
-	 * Sets the pattern of format instructions for the parameter value. The
-	 * format is used by the UI to display the value.
+	 * Sets the pattern of format instructions for the parameter value. The format
+	 * is used by the UI to display the value.
 	 * 
-	 * @param pattern
-	 *            the format for the parameter value
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param pattern the format for the parameter value
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setPattern( String pattern ) throws SemanticException
-	{
+	public void setPattern(String pattern) throws SemanticException {
 
-		Object value = element.getLocalProperty( module, FORMAT_PROP );
+		Object value = element.getLocalProperty(module, FORMAT_PROP);
 
-		if ( value == null )
-		{
-			FormatValue formatValueToSet = new ParameterFormatValue( );
-			formatValueToSet.setPattern( pattern );
-			setProperty( FORMAT_PROP, formatValueToSet );
-		}
-		else
-		{
-			PropertyHandle propHandle = getPropertyHandle( FORMAT_PROP );
+		if (value == null) {
+			FormatValue formatValueToSet = new ParameterFormatValue();
+			formatValueToSet.setPattern(pattern);
+			setProperty(FORMAT_PROP, formatValueToSet);
+		} else {
+			PropertyHandle propHandle = getPropertyHandle(FORMAT_PROP);
 			FormatValue formatValueToSet = (FormatValue) value;
-			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
-					.getHandle( propHandle );
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle(propHandle);
 
-			formatHandle.setPattern( pattern );
+			formatHandle.setPattern(pattern);
 		}
 	}
 
 	/**
-	 * Sets the category for the parameter format. The format is used by the UI
-	 * to display the value.
+	 * Sets the category for the parameter format. The format is used by the UI to
+	 * display the value.
 	 * 
-	 * @param category
-	 *            the category for the format
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param category the category for the format
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setCategory( String category ) throws SemanticException
-	{
+	public void setCategory(String category) throws SemanticException {
 
-		Object value = element.getLocalProperty( module, FORMAT_PROP );
+		Object value = element.getLocalProperty(module, FORMAT_PROP);
 
-		if ( value == null )
-		{
-			FormatValue formatValueToSet = new ParameterFormatValue( );
-			formatValueToSet.setCategory( category );
-			setProperty( FORMAT_PROP, formatValueToSet );
-		}
-		else
-		{
-			PropertyHandle propHandle = getPropertyHandle( FORMAT_PROP );
+		if (value == null) {
+			FormatValue formatValueToSet = new ParameterFormatValue();
+			formatValueToSet.setCategory(category);
+			setProperty(FORMAT_PROP, formatValueToSet);
+		} else {
+			PropertyHandle propHandle = getPropertyHandle(FORMAT_PROP);
 			FormatValue formatValueToSet = (FormatValue) value;
-			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet
-					.getHandle( propHandle );
+			FormatValueHandle formatHandle = (FormatValueHandle) formatValueToSet.getHandle(propHandle);
 
-			formatHandle.setCategory( category );
+			formatHandle.setCategory(category);
 		}
 	}
 
@@ -352,11 +308,9 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * <ul>
 	 * <li>PARAM_CONTROL_TEXT_BOX
 	 * <li>PARAM_CONTROL_LIST_BOX
-	 * <li>
-	 * PARAM_CONTROL_COMBOBOX
+	 * <li>PARAM_CONTROL_COMBOBOX
 	 * <li>PARAM_CONTROL_RADIO_BUTTON
-	 * <li>
-	 * PARAM_CONTROL_CHECK_BOX
+	 * <li>PARAM_CONTROL_CHECK_BOX
 	 * <li>PARAM_CONTROL_AUTO_SUGGEST
 	 * </ul>
 	 * 
@@ -365,9 +319,8 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	public String getControlType( )
-	{
-		return getStringProperty( IAbstractScalarParameterModel.CONTROL_TYPE_PROP );
+	public String getControlType() {
+		return getStringProperty(IAbstractScalarParameterModel.CONTROL_TYPE_PROP);
 	}
 
 	/**
@@ -377,44 +330,36 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * 
 	 */
 
-	public int getListlimit( )
-	{
+	public int getListlimit() {
 		// if the parameter control type is auto-suggest, the list limit should
 		// return 0.
-		if ( DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST
-				.equals( getControlType( ) ) )
+		if (DesignChoiceConstants.PARAM_CONTROL_AUTO_SUGGEST.equals(getControlType()))
 			return 0;
-		return getIntProperty( LIST_LIMIT_PROP );
+		return getIntProperty(LIST_LIMIT_PROP);
 	}
 
 	/**
-	 * Sets the control type for this parameter. Control types are one of
-	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * Sets the control type for this parameter. Control types are one of constants
+	 * defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
 	 * <li>PARAM_CONTROL_TEXT_BOX
 	 * <li>PARAM_CONTROL_LIST_BOX
-	 * <li>
-	 * PARAM_CONTROL_COMBOBOX
+	 * <li>PARAM_CONTROL_COMBOBOX
 	 * <li>PARAM_CONTROL_RADIO_BUTTON
-	 * <li>
-	 * PARAM_CONTROL_CHECK_BOX
+	 * <li>PARAM_CONTROL_CHECK_BOX
 	 * <li>PARAM_CONTROL_AUTO_SUGGEST
 	 * </ul>
 	 * 
-	 * @param controlType
-	 *            the control type for the UI to display the parameter
+	 * @param controlType the control type for the UI to display the parameter
 	 * 
-	 * @throws SemanticException
-	 *             if the input type is not one of above choices.
+	 * @throws SemanticException if the input type is not one of above choices.
 	 * @see #getDataType()
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	public void setControlType( String controlType ) throws SemanticException
-	{
-		setStringProperty( IAbstractScalarParameterModel.CONTROL_TYPE_PROP,
-				controlType );
+	public void setControlType(String controlType) throws SemanticException {
+		setStringProperty(IAbstractScalarParameterModel.CONTROL_TYPE_PROP, controlType);
 	}
 
 	/**
@@ -434,14 +379,13 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	public String getAlignment( )
-	{
-		return getStringProperty( ALIGNMENT_PROP );
+	public String getAlignment() {
+		return getStringProperty(ALIGNMENT_PROP);
 	}
 
 	/**
-	 * Sets the alignment for this parameter. Alignments can be one of the
-	 * constants defined in <code>DesignChoiceConstants</code>:
+	 * Sets the alignment for this parameter. Alignments can be one of the constants
+	 * defined in <code>DesignChoiceConstants</code>:
 	 * 
 	 * <ul>
 	 * <li><code>SCALAR_PARAM_ALIGN_AUTO</code>
@@ -451,46 +395,39 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * <li><code>SCALAR_PARAM_ALIGN_RIGHT</code>
 	 * </ul>
 	 * 
-	 * @param align
-	 *            the alignment for the UI to display the parameter
+	 * @param align the alignment for the UI to display the parameter
 	 * 
-	 * @throws SemanticException
-	 *             if the input type is not one of above choices.
+	 * @throws SemanticException if the input type is not one of above choices.
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	public void setAlignment( String align ) throws SemanticException
-	{
-		setStringProperty( ALIGNMENT_PROP, align );
+	public void setAlignment(String align) throws SemanticException {
+		setStringProperty(ALIGNMENT_PROP, align);
 	}
 
 	/**
 	 * Tests whether the value must match one of values in the selection list.
 	 * 
 	 * 
-	 * @return <code>true</code> if the value must match one of values in the
-	 *         list, otherwise <code>false</code>.
+	 * @return <code>true</code> if the value must match one of values in the list,
+	 *         otherwise <code>false</code>.
 	 */
 
-	public boolean isMustMatch( )
-	{
-		return getBooleanProperty( MUCH_MATCH_PROP );
+	public boolean isMustMatch() {
+		return getBooleanProperty(MUCH_MATCH_PROP);
 	}
 
 	/**
-	 * Sets the flag indicates that whether the value must match one of values
-	 * in the selection list.
+	 * Sets the flag indicates that whether the value must match one of values in
+	 * the selection list.
 	 * 
-	 * @param mustMatch
-	 *            <code>true</code> if the value must match one of values in the
-	 *            list, otherwise <code>false</code>.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param mustMatch <code>true</code> if the value must match one of values in
+	 *                  the list, otherwise <code>false</code>.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setMustMatch( boolean mustMatch ) throws SemanticException
-	{
-		setBooleanProperty( MUCH_MATCH_PROP, mustMatch );
+	public void setMustMatch(boolean mustMatch) throws SemanticException {
+		setBooleanProperty(MUCH_MATCH_PROP, mustMatch);
 	}
 
 	/**
@@ -501,93 +438,81 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 *         <code>false</code>.
 	 */
 
-	public boolean isFixedOrder( )
-	{
-		return getBooleanProperty( FIXED_ORDER_PROP );
+	public boolean isFixedOrder() {
+		return getBooleanProperty(FIXED_ORDER_PROP);
 	}
 
 	/**
-	 * Sets the flag indicates that whether to display values in the order
-	 * defined in the list.
+	 * Sets the flag indicates that whether to display values in the order defined
+	 * in the list.
 	 * 
-	 * @param fixedOrder
-	 *            <code>true</code> if to display values in the order, otherwise
-	 *            <code>false</code>.
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param fixedOrder <code>true</code> if to display values in the order,
+	 *                   otherwise <code>false</code>.
+	 * @throws SemanticException if the property is locked.
 	 */
 
-	public void setFixedOrder( boolean fixedOrder ) throws SemanticException
-	{
-		setBooleanProperty( FIXED_ORDER_PROP, fixedOrder );
+	public void setFixedOrder(boolean fixedOrder) throws SemanticException {
+		setBooleanProperty(FIXED_ORDER_PROP, fixedOrder);
 	}
 
 	/**
-	 * Returns the name of the query column that returns values for the choice
-	 * of the dynamic list for this parameter.
+	 * Returns the name of the query column that returns values for the choice of
+	 * the dynamic list for this parameter.
 	 * 
 	 * @return the the name of the query column
 	 * 
 	 * @deprecated Replaced by the method {@link #getValueExpr()}
 	 */
 
-	public String getValueColumn( )
-	{
-		return getValueExpr( );
+	public String getValueColumn() {
+		return getValueExpr();
 	}
 
 	/**
-	 * Sets the name of the query column that returns values for the choice of
-	 * the dynamic list for this parameter.
+	 * Sets the name of the query column that returns values for the choice of the
+	 * dynamic list for this parameter.
 	 * 
-	 * @param valueColumn
-	 *            the name of the query column
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param valueColumn the name of the query column
+	 * @throws SemanticException if the property is locked.
 	 * 
 	 * @deprecated Replaced by the method {@link #setValueExpr(String)}
 	 */
 
-	public void setValueColumn( String valueColumn ) throws SemanticException
-	{
-		setValueExpr( valueColumn );
+	public void setValueColumn(String valueColumn) throws SemanticException {
+		setValueExpr(valueColumn);
 	}
 
 	/**
-	 * Returns the name of the query column that returns the prompt for the
-	 * choice of the dynamic list for this parameter.
+	 * Returns the name of the query column that returns the prompt for the choice
+	 * of the dynamic list for this parameter.
 	 * 
 	 * @return the the name of the query column
 	 * 
 	 * @deprecated Replaced by the method {@link #getLabelExpr()}
 	 */
 
-	public String getLabelColumn( )
-	{
-		return getLabelExpr( );
+	public String getLabelColumn() {
+		return getLabelExpr();
 	}
 
 	/**
-	 * Sets the name of the query column that returns the prompt for the choice
-	 * of the dynamic list for this parameter.
+	 * Sets the name of the query column that returns the prompt for the choice of
+	 * the dynamic list for this parameter.
 	 * 
-	 * @param labelColumn
-	 *            the name of the query column
-	 * @throws SemanticException
-	 *             if the property is locked.
+	 * @param labelColumn the name of the query column
+	 * @throws SemanticException if the property is locked.
 	 * 
 	 * @deprecated Replaced by the method {@link #setLabelExpr(String)}
 	 */
 
-	public void setLabelColumn( String labelColumn ) throws SemanticException
-	{
-		setLabelExpr( labelColumn );
+	public void setLabelColumn(String labelColumn) throws SemanticException {
+		setLabelExpr(labelColumn);
 	}
 
 	/**
 	 * Returns the data type for this parameter. The data type controls how the
-	 * requester formats, parses and validates the parameter. Types are defined
-	 * in <code>DesignChoiceConstants</code> can be one of the followings:
+	 * requester formats, parses and validates the parameter. Types are defined in
+	 * <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
 	 * <li><code>PARAM_TYPE_STRING</code>
@@ -608,15 +533,14 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * @deprecated Replaced by the method {@link #getDataType()}
 	 */
 
-	public String getType( )
-	{
-		return getDataType( );
+	public String getType() {
+		return getDataType();
 	}
 
 	/**
 	 * Sets the data type for this parameter. The data type controls how the
-	 * Requester formats, parses and validates the parameter. Types are defined
-	 * in <code>DesignChoiceConstants</code> can be one of the followings:
+	 * Requester formats, parses and validates the parameter. Types are defined in
+	 * <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
 	 * <li><code>PARAM_TYPE_STRING</code>
@@ -629,33 +553,29 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * <li><code>PARAM_TYPE_BOOLEAN</code>
 	 * </ul>
 	 * 
-	 * @param type
-	 *            the type for the parameter
+	 * @param type the type for the parameter
 	 * 
-	 * @throws SemanticException
-	 *             if the input type is not one of above choices.
+	 * @throws SemanticException if the input type is not one of above choices.
 	 * @see #getType()
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 * 
 	 * @deprecated Replaced by the method {@link #setDataType(String)}
 	 */
 
-	public void setType( String type ) throws SemanticException
-	{
-		setDataType( type );
+	public void setType(String type) throws SemanticException {
+		setDataType(type);
 	}
 
 	/**
-	 * Returns the bound columns that binds the data set columns. The item in
-	 * the iterator is the corresponding <code>ComputedColumnHandle</code>.
+	 * Returns the bound columns that binds the data set columns. The item in the
+	 * iterator is the corresponding <code>ComputedColumnHandle</code>.
 	 * 
 	 * @return a list containing the bound columns.
 	 */
 
-	public Iterator columnBindingsIterator( )
-	{
-		PropertyHandle propHandle = getPropertyHandle( BOUND_DATA_COLUMNS_PROP );
-		return propHandle.iterator( );
+	public Iterator columnBindingsIterator() {
+		PropertyHandle propHandle = getPropertyHandle(BOUND_DATA_COLUMNS_PROP);
+		return propHandle.iterator();
 	}
 
 	/**
@@ -664,140 +584,111 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * @return a handle to deal with the bound data column.
 	 */
 
-	public PropertyHandle getColumnBindings( )
-	{
-		return getPropertyHandle( BOUND_DATA_COLUMNS_PROP );
+	public PropertyHandle getColumnBindings() {
+		return getPropertyHandle(BOUND_DATA_COLUMNS_PROP);
 	}
 
 	/**
 	 * Adds a bound column to the list.
 	 * 
-	 * @param addColumn
-	 *            the bound column to add
-	 * @param inForce
-	 *            <code>true</code> the column is added to the list regardless
-	 *            of duplicate expression. <code>false</code> do not add the
-	 *            column if the expression already exist
-	 * @param column
-	 *            the bound column
-	 * @return the newly created <code>ComputedColumnHandle</code> or the
-	 *         existed <code>ComputedColumnHandle</code> in the list
-	 * @throws SemanticException
-	 *             if expression is not duplicate but the name duplicates the
-	 *             existing bound column. Or, if the both name/expression are
-	 *             duplicate, but <code>inForce</code> is <code>true</code>.
+	 * @param addColumn the bound column to add
+	 * @param inForce   <code>true</code> the column is added to the list regardless
+	 *                  of duplicate expression. <code>false</code> do not add the
+	 *                  column if the expression already exist
+	 * @param column    the bound column
+	 * @return the newly created <code>ComputedColumnHandle</code> or the existed
+	 *         <code>ComputedColumnHandle</code> in the list
+	 * @throws SemanticException if expression is not duplicate but the name
+	 *                           duplicates the existing bound column. Or, if the
+	 *                           both name/expression are duplicate, but
+	 *                           <code>inForce</code> is <code>true</code>.
 	 */
 
-	public ComputedColumnHandle addColumnBinding( ComputedColumn addColumn,
-			boolean inForce ) throws SemanticException
-	{
-		if ( addColumn == null )
+	public ComputedColumnHandle addColumnBinding(ComputedColumn addColumn, boolean inForce) throws SemanticException {
+		if (addColumn == null)
 			return null;
 
-		List columns = (List) getProperty( BOUND_DATA_COLUMNS_PROP );
-		if ( columns == null )
-			return (ComputedColumnHandle) getPropertyHandle(
-					BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
-		ComputedColumn column = BoundDataColumnUtil.getColumn( columns,
-				addColumn );
-		if ( column != null && !inForce )
-		{
-			return (ComputedColumnHandle) column.handle(
-					getPropertyHandle( BOUND_DATA_COLUMNS_PROP ), columns
-							.indexOf( column ) );
+		List columns = (List) getProperty(BOUND_DATA_COLUMNS_PROP);
+		if (columns == null)
+			return (ComputedColumnHandle) getPropertyHandle(BOUND_DATA_COLUMNS_PROP).addItem(addColumn);
+		ComputedColumn column = BoundDataColumnUtil.getColumn(columns, addColumn);
+		if (column != null && !inForce) {
+			return (ComputedColumnHandle) column.handle(getPropertyHandle(BOUND_DATA_COLUMNS_PROP),
+					columns.indexOf(column));
 		}
-		return (ComputedColumnHandle) getPropertyHandle(
-				BOUND_DATA_COLUMNS_PROP ).addItem( addColumn );
+		return (ComputedColumnHandle) getPropertyHandle(BOUND_DATA_COLUMNS_PROP).addItem(addColumn);
 	}
 
 	/**
 	 * Removed unused bound columns from the parameter. Bound columns of nested
 	 * elements will not be removed.
 	 * 
-	 * @throws SemanticException
-	 *             if bound column property is locked.
+	 * @throws SemanticException if bound column property is locked.
 	 */
 
-	public void removedUnusedColumnBindings( ) throws SemanticException
-	{
-		UnusedBoundColumnsMgr.removedUnusedBoundColumns( this );
+	public void removedUnusedColumnBindings() throws SemanticException {
+		UnusedBoundColumnsMgr.removedUnusedBoundColumns(this);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#setProperty(java
 	 * .lang.String, java.lang.Object)
 	 */
 
-	public void setProperty( String propName, Object value )
-			throws SemanticException
-	{
-		if ( ALLOW_BLANK_PROP.equalsIgnoreCase( propName )
-				|| ALLOW_NULL_PROP.equalsIgnoreCase( propName ) )
-		{
+	public void setProperty(String propName, Object value) throws SemanticException {
+		if (ALLOW_BLANK_PROP.equalsIgnoreCase(propName) || ALLOW_NULL_PROP.equalsIgnoreCase(propName)) {
 			Boolean newValue = (Boolean) value;
-			if ( newValue != null )
-			{
-				newValue = Boolean
-						.valueOf( !( (Boolean) value ).booleanValue( ) );
+			if (newValue != null) {
+				newValue = Boolean.valueOf(!((Boolean) value).booleanValue());
 			}
 
 			// allowBlank only applies to string type.
 
-			if ( ALLOW_BLANK_PROP.equalsIgnoreCase( propName ) )
-			{
-				String dataType = super.getStringProperty( DATA_TYPE_PROP );
-				if ( DesignChoiceConstants.PARAM_TYPE_STRING
-						.equalsIgnoreCase( dataType ) )
-					super.setProperty( IS_REQUIRED_PROP, newValue );
+			if (ALLOW_BLANK_PROP.equalsIgnoreCase(propName)) {
+				String dataType = super.getStringProperty(DATA_TYPE_PROP);
+				if (DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase(dataType))
+					super.setProperty(IS_REQUIRED_PROP, newValue);
 
 				return;
 			}
 
-			super.setProperty( IS_REQUIRED_PROP, newValue );
+			super.setProperty(IS_REQUIRED_PROP, newValue);
 
 			return;
 		}
 
-		super.setProperty( propName, value );
+		super.setProperty(propName, value);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.DesignElementHandle#getProperty(java
+	 * @see org.eclipse.birt.report.model.api.DesignElementHandle#getProperty(java
 	 * .lang.String)
 	 */
 
-	public Object getProperty( String propName )
-	{
-		if ( ALLOW_BLANK_PROP.equalsIgnoreCase( propName ) )
-		{
+	public Object getProperty(String propName) {
+		if (ALLOW_BLANK_PROP.equalsIgnoreCase(propName)) {
 			Boolean retValue = null;
-			String dataType = super.getStringProperty( DATA_TYPE_PROP );
-			if ( DesignChoiceConstants.PARAM_TYPE_STRING
-					.equalsIgnoreCase( dataType ) )
-				retValue = Boolean
-						.valueOf( !getBooleanProperty( IS_REQUIRED_PROP ) );
+			String dataType = super.getStringProperty(DATA_TYPE_PROP);
+			if (DesignChoiceConstants.PARAM_TYPE_STRING.equalsIgnoreCase(dataType))
+				retValue = Boolean.valueOf(!getBooleanProperty(IS_REQUIRED_PROP));
 			else
 				retValue = Boolean.FALSE;
 
 			return retValue;
-		}
-		else if ( ALLOW_NULL_PROP.equalsIgnoreCase( propName ) )
-		{
-			return Boolean.valueOf( !getBooleanProperty( IS_REQUIRED_PROP ) );
+		} else if (ALLOW_NULL_PROP.equalsIgnoreCase(propName)) {
+			return Boolean.valueOf(!getBooleanProperty(IS_REQUIRED_PROP));
 		}
 
-		return super.getProperty( propName );
+		return super.getProperty(propName);
 	}
 
 	/**
-	 * Returns the parameter type for this scalar parameter. Types are defined
-	 * in <code>DesignChoiceConstants</code> can be one of the followings:
+	 * Returns the parameter type for this scalar parameter. Types are defined in
+	 * <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
 	 * <li><code>SCALAR_PARAM_TYPE_SIMPLE</code>
@@ -813,9 +704,8 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	public String getParamType( )
-	{
-		return getStringProperty( PARAM_TYPE_PROP );
+	public String getParamType() {
+		return getStringProperty(PARAM_TYPE_PROP);
 	}
 
 	/**
@@ -830,18 +720,15 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * </code>
 	 * </ul>
 	 * 
-	 * @param type
-	 *            the type for the parameter
+	 * @param type the type for the parameter
 	 * 
-	 * @throws SemanticException
-	 *             if the input type is not one of above choices.
+	 * @throws SemanticException if the input type is not one of above choices.
 	 * @see #getParamType()
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	public void setParamType( String type ) throws SemanticException
-	{
-		setStringProperty( PARAM_TYPE_PROP, type );
+	public void setParamType(String type) throws SemanticException {
+		setStringProperty(PARAM_TYPE_PROP, type);
 	}
 
 	/**
@@ -851,23 +738,19 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * @return the threshold number.
 	 */
 
-	public int getAutoSuggestThreshold( )
-	{
-		return getIntProperty( AUTO_SUGGEST_THRESHOLD_PROP );
+	public int getAutoSuggestThreshold() {
+		return getIntProperty(AUTO_SUGGEST_THRESHOLD_PROP);
 	}
 
 	/**
-	 * Sets the maximal number of of entries a report parameter pick list can
-	 * have.
+	 * Sets the maximal number of of entries a report parameter pick list can have.
 	 * 
-	 * @param number
-	 *            the threshold number.
+	 * @param number the threshold number.
 	 * @throws SemanticException
 	 */
 
-	public void setAutoSuggestThreshold( int number ) throws SemanticException
-	{
-		setIntProperty( AUTO_SUGGEST_THRESHOLD_PROP, number );
+	public void setAutoSuggestThreshold(int number) throws SemanticException {
+		setIntProperty(AUTO_SUGGEST_THRESHOLD_PROP, number);
 	}
 
 	/**
@@ -875,23 +758,19 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * 
 	 * @return the method content of <code>getDefaultValueList</code>
 	 */
-	public String getDefaultValueListMethod( )
-	{
-		return getStringProperty( GET_DEFAULT_VALUE_LIST_PROP );
+	public String getDefaultValueListMethod() {
+		return getStringProperty(GET_DEFAULT_VALUE_LIST_PROP);
 	}
 
 	/**
 	 * Sets the method content of <code>getDefaultValueList</code>.
 	 * 
-	 * @param getDefaultValueListMethod
-	 *            the method content of <code>getDefaultValueList</code> to set
+	 * @param getDefaultValueListMethod the method content of
+	 *                                  <code>getDefaultValueList</code> to set
 	 * @throws SemanticException
 	 */
-	public void setDefaultValueListMethod( String getDefaultValueListMethod )
-			throws SemanticException
-	{
-		setStringProperty( GET_DEFAULT_VALUE_LIST_PROP,
-				getDefaultValueListMethod );
+	public void setDefaultValueListMethod(String getDefaultValueListMethod) throws SemanticException {
+		setStringProperty(GET_DEFAULT_VALUE_LIST_PROP, getDefaultValueListMethod);
 	}
 
 	/**
@@ -899,24 +778,19 @@ public class ScalarParameterHandle extends AbstractScalarParameterHandle
 	 * 
 	 * @return the method content of <code>getSelectionValueList</code>
 	 */
-	public String getSelectionValueListMethod( )
-	{
-		return getStringProperty( GET_SELECTION_VALUE_LIST_PROP );
+	public String getSelectionValueListMethod() {
+		return getStringProperty(GET_SELECTION_VALUE_LIST_PROP);
 	}
 
 	/**
 	 * Sets the method content of <code>getSelectionValueList</code>.
 	 * 
-	 * @param getSelectionValueListMethod
-	 *            the method content of <code>getSelectionValueList</code> to
-	 *            set
+	 * @param getSelectionValueListMethod the method content of
+	 *                                    <code>getSelectionValueList</code> to set
 	 * @throws SemanticException
 	 */
-	public void setSelectionValueListMethod( String getSelectionValueListMethod )
-			throws SemanticException
-	{
-		setStringProperty( GET_SELECTION_VALUE_LIST_PROP,
-				getSelectionValueListMethod );
+	public void setSelectionValueListMethod(String getSelectionValueListMethod) throws SemanticException {
+		setStringProperty(GET_SELECTION_VALUE_LIST_PROP, getSelectionValueListMethod);
 	}
 
 }

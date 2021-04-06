@@ -17,8 +17,7 @@ import org.eclipse.core.runtime.Plugin;
  * Plugin class for Chart Device SVG Extension
  */
 
-public class ChartDeviceSVGPlugin extends Plugin
-{
+public class ChartDeviceSVGPlugin extends Plugin {
 	/**
 	 * Plugin ID.
 	 */

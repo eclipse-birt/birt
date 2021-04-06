@@ -13,14 +13,12 @@ package org.eclipse.birt.core.script;
 
 import java.util.HashMap;
 
-
 /**
  *
  * 
  */
 
-public class BirtHashMap extends HashMap
-{
+public class BirtHashMap extends HashMap {
 
 	/**
 	 * 

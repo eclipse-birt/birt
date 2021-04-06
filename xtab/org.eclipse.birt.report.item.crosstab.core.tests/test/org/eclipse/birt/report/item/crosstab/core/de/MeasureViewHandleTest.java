@@ -18,49 +18,41 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 import org.eclipse.birt.report.model.api.FilterConditionElementHandle;
 
 /**
- *  Test <code>MeasureViewHandle</code>
+ * Test <code>MeasureViewHandle</code>
  *
  */
 
-public class MeasureViewHandleTest extends BaseTestCase
-{
+public class MeasureViewHandleTest extends BaseTestCase {
 	/**
 	 * Tests filter property.
 	 * 
 	 * @throws Exception
 	 */
-	
-	public void testFilters( ) throws Exception
-	{
-		openDesign( "MeasureViewHandleTest.xml" ); //$NON-NLS-1$
-		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle
-				.getElementByID( 72l );
-		MeasureViewHandle measure = (MeasureViewHandle) extendedItem
-				.getReportItem( );
-		Iterator iterator = measure.filtersIterator( );
-		FilterConditionElementHandle filter = (FilterConditionElementHandle) iterator
-				.next( );
 
-		assertEquals( "data[\"EMPLOYEENUMBER\"]", filter.getExpr( ).trim( ) );//$NON-NLS-1$
+	public void testFilters() throws Exception {
+		openDesign("MeasureViewHandleTest.xml"); //$NON-NLS-1$
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) designHandle.getElementByID(72l);
+		MeasureViewHandle measure = (MeasureViewHandle) extendedItem.getReportItem();
+		Iterator iterator = measure.filtersIterator();
+		FilterConditionElementHandle filter = (FilterConditionElementHandle) iterator.next();
 
-		FilterConditionElementHandle newFilter = designHandle
-				.getElementFactory( ).newFilterConditionElement( );
-		newFilter.setExpr( "expr" ); //$NON-NLS-1$
-		newFilter.setOperator( "gt" );//$NON-NLS-1$
-		newFilter.setValue1( "100" );//$NON-NLS-1$
+		assertEquals("data[\"EMPLOYEENUMBER\"]", filter.getExpr().trim());//$NON-NLS-1$
 
-		extendedItem.getPropertyHandle( MeasureViewHandle.FILTER_PROP ).add(
-				newFilter );
-		iterator = measure.filtersIterator( );
+		FilterConditionElementHandle newFilter = designHandle.getElementFactory().newFilterConditionElement();
+		newFilter.setExpr("expr"); //$NON-NLS-1$
+		newFilter.setOperator("gt");//$NON-NLS-1$
+		newFilter.setValue1("100");//$NON-NLS-1$
 
-		FilterConditionElementHandle temp = (FilterConditionElementHandle) iterator
-				.next( );
-		assertEquals( "data[\"EMPLOYEENUMBER\"]", temp.getExpr( ).trim( ) );//$NON-NLS-1$
+		extendedItem.getPropertyHandle(MeasureViewHandle.FILTER_PROP).add(newFilter);
+		iterator = measure.filtersIterator();
 
-		temp = (FilterConditionElementHandle) iterator.next( );
-		assertEquals( "expr", temp.getExpr( ).trim( ) );//$NON-NLS-1$
-		
-		save( designHandle.getModuleHandle( ) );
-		compareFile( "MeasureViewHandleTest_golden.xml" );//$NON-NLS-1$
+		FilterConditionElementHandle temp = (FilterConditionElementHandle) iterator.next();
+		assertEquals("data[\"EMPLOYEENUMBER\"]", temp.getExpr().trim());//$NON-NLS-1$
+
+		temp = (FilterConditionElementHandle) iterator.next();
+		assertEquals("expr", temp.getExpr().trim());//$NON-NLS-1$
+
+		save(designHandle.getModuleHandle());
+		compareFile("MeasureViewHandleTest_golden.xml");//$NON-NLS-1$
 	}
 }

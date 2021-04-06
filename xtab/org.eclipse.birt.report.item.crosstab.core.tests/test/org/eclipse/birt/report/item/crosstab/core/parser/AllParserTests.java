@@ -18,24 +18,22 @@ import junit.framework.TestSuite;
  * All tests in parser package.
  * 
  */
-public class AllParserTests
-{
+public class AllParserTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( AggregationCellParseTest.class );
-		test.addTestSuite( CrosstabCellParseTest.class );
-		test.addTestSuite( CrosstabParseTest.class );
-		test.addTestSuite( CrosstabViewParseTest.class );
-		test.addTestSuite( DimensionViewParseTest.class );
-		test.addTestSuite( LevelViewParseTest.class );
-		test.addTestSuite( MeasureViewParseTest.class );
+		test.addTestSuite(AggregationCellParseTest.class);
+		test.addTestSuite(CrosstabCellParseTest.class);
+		test.addTestSuite(CrosstabParseTest.class);
+		test.addTestSuite(CrosstabViewParseTest.class);
+		test.addTestSuite(DimensionViewParseTest.class);
+		test.addTestSuite(LevelViewParseTest.class);
+		test.addTestSuite(MeasureViewParseTest.class);
 
 		// add all test classes here
 

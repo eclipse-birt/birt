@@ -41,8 +41,7 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public class AddComputedMeasureAction extends AbstractCrosstabAction
-{
+public class AddComputedMeasureAction extends AbstractCrosstabAction {
 	private static final double DEFAULT_COLUMN_WIDTH = 1.0;
 	private MeasureViewHandle measureViewHandle;
 	private CrosstabReportItemHandle reportHandle;
@@ -53,108 +52,94 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 	 * Trans name
 	 */
 	// private static final String NAME = "Add measure handle";
-	private static final String NAME = Messages.getString( "AddComputedMesureHandleAction.DisplayName" );//$NON-NLS-1$
-	private static final String ACTION_MSG_MERGE = Messages.getString( "AddComputedMesureHandleAction.TransName" );//$NON-NLS-1$
-	
-	public AddComputedMeasureAction( DesignElementHandle handle )
-	{
-		super( handle );
-		setId( ID );
-		setText( NAME );
-		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle( handle );
-		setHandle( extendedHandle );
-		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( extendedHandle );
-		reportHandle = measureViewHandle.getCrosstab( );
+	private static final String NAME = Messages.getString("AddComputedMesureHandleAction.DisplayName");//$NON-NLS-1$
+	private static final String ACTION_MSG_MERGE = Messages.getString("AddComputedMesureHandleAction.TransName");//$NON-NLS-1$
 
-		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.ADD_DERIVED_MEASURE );
-		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
+	public AddComputedMeasureAction(DesignElementHandle handle) {
+		super(handle);
+		setId(ID);
+		setText(NAME);
+		ExtendedItemHandle extendedHandle = CrosstabAdaptUtil.getExtendedItemHandle(handle);
+		setHandle(extendedHandle);
+		measureViewHandle = CrosstabAdaptUtil.getMeasureViewHandle(extendedHandle);
+		reportHandle = measureViewHandle.getCrosstab();
+
+		Image image = CrosstabUIHelper.getImage(CrosstabUIHelper.ADD_DERIVED_MEASURE);
+		setImageDescriptor(ImageDescriptor.createFromImage(image));
 	}
-	
-	public AddComputedMeasureAction( CrosstabReportItemHandle  crosstab )
-	{
-		super( crosstab.getModelHandle( ) );
 
-		setId( ID );
-		setText( NAME );
-		
+	public AddComputedMeasureAction(CrosstabReportItemHandle crosstab) {
+		super(crosstab.getModelHandle());
+
+		setId(ID);
+		setText(NAME);
+
 		this.reportHandle = crosstab;
-		Image image = CrosstabUIHelper.getImage( CrosstabUIHelper.ADD_DERIVED_MEASURE );
-		setImageDescriptor( ImageDescriptor.createFromImage( image ) );
+		Image image = CrosstabUIHelper.getImage(CrosstabUIHelper.ADD_DERIVED_MEASURE);
+		setImageDescriptor(ImageDescriptor.createFromImage(image));
 	}
-	
-	public boolean isEnabled( )
-	{
-		CubeHandle cubeHandle = reportHandle.getCube( );
-		if (cubeHandle == null)
-		{
+
+	public boolean isEnabled() {
+		CubeHandle cubeHandle = reportHandle.getCube();
+		if (cubeHandle == null) {
 			return false;
 		}
-		return !DEUtil.isReferenceElement( reportHandle.getCrosstabHandle( ) );
+		return !DEUtil.isReferenceElement(reportHandle.getCrosstabHandle());
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		transStar( NAME );
-		
-		AddComputedSummaryDialog computedSummaryDialog = new AddComputedSummaryDialog(UIUtil.getDefaultShell( ), reportHandle);
-		if(computedSummaryDialog.open( ) == Dialog.OK)
-		{
+	public void run() {
+		transStar(NAME);
+
+		AddComputedSummaryDialog computedSummaryDialog = new AddComputedSummaryDialog(UIUtil.getDefaultShell(),
+				reportHandle);
+		if (computedSummaryDialog.open() == Dialog.OK) {
 			// do adding operation
-			String measureName = computedSummaryDialog.getName( );
-			Expression expression = computedSummaryDialog.getExpression( );
-			String dataType = computedSummaryDialog.getDataType( );
-			
-			int index = caleIndex( );
-			
-			try
-			{
-				ComputedMeasureViewHandle computedMeasure = reportHandle.insertComputedMeasure( measureName, index );
-				computedMeasure.addHeader( );
+			String measureName = computedSummaryDialog.getName();
+			Expression expression = computedSummaryDialog.getExpression();
+			String dataType = computedSummaryDialog.getDataType();
+
+			int index = caleIndex();
+
+			try {
+				ComputedMeasureViewHandle computedMeasure = reportHandle.insertComputedMeasure(measureName, index);
+				computedMeasure.addHeader();
 
 //				LabelHandle labelHandle = DesignElementFactory.getInstance( )
 //						.newLabel( null );
 //				labelHandle.setText( measureName );
 //				computedMeasure.getHeader( ).addContent( labelHandle );
-				
-				ExtendedItemHandle crosstabModelHandle = (ExtendedItemHandle) reportHandle.getModelHandle( );
-				ComputedColumn bindingColumn = StructureFactory.newComputedColumn( crosstabModelHandle,
-						measureName );				
-				ComputedColumnHandle bindingHandle = crosstabModelHandle.addColumnBinding( bindingColumn,
-						false );
-				bindingHandle.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
-						expression );
-				bindingHandle.setDataType( dataType );
-				
-				DataItemHandle dataHandle = DesignElementFactory.getInstance( )
-				.newDataItem( measureName );
-				CrosstabAdaptUtil.formatDataItem( computedMeasure.getCubeMeasure( ), dataHandle );
-				dataHandle.setResultSetColumn( bindingHandle.getName( ) );
-		
-				AggregationCellHandle cell = computedMeasure.getCell( );
-				
-				//There must a set a value to the column
-				if (ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL.equals( reportHandle.getMeasureDirection( ) ))
-				{
-					CrosstabCellHandle cellHandle = computedMeasure.getHeader( );
-					if (cellHandle == null)
-					{
+
+				ExtendedItemHandle crosstabModelHandle = (ExtendedItemHandle) reportHandle.getModelHandle();
+				ComputedColumn bindingColumn = StructureFactory.newComputedColumn(crosstabModelHandle, measureName);
+				ComputedColumnHandle bindingHandle = crosstabModelHandle.addColumnBinding(bindingColumn, false);
+				bindingHandle.setExpressionProperty(ComputedColumn.EXPRESSION_MEMBER, expression);
+				bindingHandle.setDataType(dataType);
+
+				DataItemHandle dataHandle = DesignElementFactory.getInstance().newDataItem(measureName);
+				CrosstabAdaptUtil.formatDataItem(computedMeasure.getCubeMeasure(), dataHandle);
+				dataHandle.setResultSetColumn(bindingHandle.getName());
+
+				AggregationCellHandle cell = computedMeasure.getCell();
+
+				// There must a set a value to the column
+				if (ICrosstabConstants.MEASURE_DIRECTION_HORIZONTAL.equals(reportHandle.getMeasureDirection())) {
+					CrosstabCellHandle cellHandle = computedMeasure.getHeader();
+					if (cellHandle == null) {
 						cellHandle = cell;
 					}
-					String defaultUnit = reportHandle.getModelHandle( ).getModuleHandle( ).getDefaultUnits( );
+					String defaultUnit = reportHandle.getModelHandle().getModuleHandle().getDefaultUnits();
 //					DimensionValue dimensionValue = DimensionUtil.convertTo( DEFAULT_COLUMN_WIDTH, DesignChoiceConstants.UNITS_IN, defaultUnit );
 //					reportHandle.setColumnWidth( cellHandle,
 //							dimensionValue );
 				}
-				cell.addContent( dataHandle );
+				cell.addContent(dataHandle);
 
-			}
-			catch ( SemanticException e )
-			{
+			} catch (SemanticException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 				rollBack();
@@ -162,16 +147,12 @@ public class AddComputedMeasureAction extends AbstractCrosstabAction
 		}
 		transEnd();
 	}
-	
-	private int caleIndex()
-	{
-		if (measureViewHandle != null)
-		{
-			return reportHandle.getAllMeasures().indexOf( measureViewHandle ) + 1;
-		}
-		else
-		{
-			return reportHandle.getAllMeasures().size( );
+
+	private int caleIndex() {
+		if (measureViewHandle != null) {
+			return reportHandle.getAllMeasures().indexOf(measureViewHandle) + 1;
+		} else {
+			return reportHandle.getAllMeasures().size();
 		}
 	}
 

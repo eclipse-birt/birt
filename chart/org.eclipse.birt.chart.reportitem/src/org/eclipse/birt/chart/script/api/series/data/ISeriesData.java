@@ -15,7 +15,6 @@ package org.eclipse.birt.chart.script.api.series.data;
  * Represents the data contained in the Series.
  */
 
-public interface ISeriesData
-{
+public interface ISeriesData {
 
 }

@@ -22,8 +22,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * StockEntry
  */
-public final class StockEntry implements IDataPointEntry
-{
+public final class StockEntry implements IDataPointEntry {
 
 	private double dOpen;
 
@@ -40,8 +39,7 @@ public final class StockEntry implements IDataPointEntry
 	 * @param dHigh
 	 * @param dClose
 	 */
-	public StockEntry( double dOpen, double dLow, double dHigh, double dClose )
-	{
+	public StockEntry(double dOpen, double dLow, double dHigh, double dClose) {
 		this.dOpen = dOpen;
 		this.dLow = dLow;
 		this.dHigh = dHigh;
@@ -52,16 +50,14 @@ public final class StockEntry implements IDataPointEntry
 	 * 
 	 * @param oaFourComponents
 	 */
-	public StockEntry( Object[] oaFourComponents )
-	{
+	public StockEntry(Object[] oaFourComponents) {
 		assert oaFourComponents.length == 4;
-		this.dHigh = ( oaFourComponents[0] instanceof Number ) ? ( (Number) oaFourComponents[0] ).doubleValue( )
+		this.dHigh = (oaFourComponents[0] instanceof Number) ? ((Number) oaFourComponents[0]).doubleValue()
 				: Double.NaN;
-		this.dLow = ( oaFourComponents[1] instanceof Number ) ? ( (Number) oaFourComponents[1] ).doubleValue( )
+		this.dLow = (oaFourComponents[1] instanceof Number) ? ((Number) oaFourComponents[1]).doubleValue() : Double.NaN;
+		this.dOpen = (oaFourComponents[2] instanceof Number) ? ((Number) oaFourComponents[2]).doubleValue()
 				: Double.NaN;
-		this.dOpen = ( oaFourComponents[2] instanceof Number ) ? ( (Number) oaFourComponents[2] ).doubleValue( )
-				: Double.NaN;
-		this.dClose = ( oaFourComponents[3] instanceof Number ) ? ( (Number) oaFourComponents[3] ).doubleValue( )
+		this.dClose = (oaFourComponents[3] instanceof Number) ? ((Number) oaFourComponents[3]).doubleValue()
 				: Double.NaN;
 	}
 
@@ -70,154 +66,109 @@ public final class StockEntry implements IDataPointEntry
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
-		return getFormattedString( null, ULocale.getDefault( ) );
+	public String toString() {
+		return getFormattedString(null, ULocale.getDefault());
 	}
 
 	/**
 	 * @return Returns the close.
 	 */
-	public final double getClose( )
-	{
+	public final double getClose() {
 		return dClose;
 	}
 
 	/**
-	 * @param close
-	 *            The close to set.
+	 * @param close The close to set.
 	 */
-	public final void setClose( double close )
-	{
+	public final void setClose(double close) {
 		this.dClose = close;
 	}
 
 	/**
 	 * @return Returns the high.
 	 */
-	public final double getHigh( )
-	{
+	public final double getHigh() {
 		return dHigh;
 	}
 
 	/**
-	 * @param high
-	 *            The high to set.
+	 * @param high The high to set.
 	 */
-	public final void setHigh( double high )
-	{
+	public final void setHigh(double high) {
 		this.dHigh = high;
 	}
 
 	/**
 	 * @return Returns the low.
 	 */
-	public final double getLow( )
-	{
+	public final double getLow() {
 		return dLow;
 	}
 
 	/**
-	 * @param low
-	 *            The low to set.
+	 * @param low The low to set.
 	 */
-	public final void setLow( double low )
-	{
+	public final void setLow(double low) {
 		this.dLow = low;
 	}
 
 	/**
 	 * @return Returns the open.
 	 */
-	public final double getOpen( )
-	{
+	public final double getOpen() {
 		return dOpen;
 	}
 
 	/**
-	 * @param open
-	 *            The open to set.
+	 * @param open The open to set.
 	 */
-	public final void setOpen( double open )
-	{
+	public final void setOpen(double open) {
 		this.dOpen = open;
 	}
 
-	public String getFormattedString( String type, FormatSpecifier formatter,
-			ULocale locale )
-	{
+	public String getFormattedString(String type, FormatSpecifier formatter, ULocale locale) {
 		String str = null;
-		try
-		{
+		try {
 			double dValue = Double.NaN;
-			if ( StockDataPointDefinition.TYPE_HIGH.equals( type ) )
-			{
+			if (StockDataPointDefinition.TYPE_HIGH.equals(type)) {
 				dValue = dHigh;
-			}
-			else if ( StockDataPointDefinition.TYPE_LOW.equals( type ) )
-			{
+			} else if (StockDataPointDefinition.TYPE_LOW.equals(type)) {
 				dValue = dLow;
-			}
-			else if ( StockDataPointDefinition.TYPE_OPEN.equals( type ) )
-			{
+			} else if (StockDataPointDefinition.TYPE_OPEN.equals(type)) {
 				dValue = dOpen;
-			}
-			else if ( StockDataPointDefinition.TYPE_CLOSE.equals( type ) )
-			{
+			} else if (StockDataPointDefinition.TYPE_CLOSE.equals(type)) {
 				dValue = dClose;
-			}
-			else
-			{
+			} else {
 				return null;
 			}
 
-			if ( formatter == null )
-			{
-				str = Double.toString( dValue );
-			}
-			else
-			{
-				str = ValueFormatter.format( new Double( dValue ),
-						formatter,
-						locale,
-						null );
+			if (formatter == null) {
+				str = Double.toString(dValue);
+			} else {
+				str = ValueFormatter.format(new Double(dValue), formatter, locale, null);
 			}
 
-		}
-		catch ( ChartException e )
-		{
-			Logger.getLogger( "org.eclipse.birt.chart.engine/exception" ) //$NON-NLS-1$
-					.log( e );
+		} catch (ChartException e) {
+			Logger.getLogger("org.eclipse.birt.chart.engine/exception") //$NON-NLS-1$
+					.log(e);
 		}
 		return str;
 	}
 
-	public String getFormattedString( FormatSpecifier formatter, ULocale locale )
-	{
-		StringBuilder sb = new StringBuilder( );
-		sb.append( 'H' );
-		sb.append( getFormattedString( StockDataPointDefinition.TYPE_HIGH,
-				formatter,
-				locale ) );
-		sb.append( " L" ); //$NON-NLS-1$
-		sb.append( getFormattedString( StockDataPointDefinition.TYPE_LOW,
-				formatter,
-				locale ) );
-		sb.append( " O" ); //$NON-NLS-1$
-		sb.append( getFormattedString( StockDataPointDefinition.TYPE_OPEN,
-				formatter,
-				locale ) );
-		sb.append( " C" ); //$NON-NLS-1$
-		sb.append( getFormattedString( StockDataPointDefinition.TYPE_CLOSE,
-				formatter,
-				locale ) );
-		return sb.toString( );
+	public String getFormattedString(FormatSpecifier formatter, ULocale locale) {
+		StringBuilder sb = new StringBuilder();
+		sb.append('H');
+		sb.append(getFormattedString(StockDataPointDefinition.TYPE_HIGH, formatter, locale));
+		sb.append(" L"); //$NON-NLS-1$
+		sb.append(getFormattedString(StockDataPointDefinition.TYPE_LOW, formatter, locale));
+		sb.append(" O"); //$NON-NLS-1$
+		sb.append(getFormattedString(StockDataPointDefinition.TYPE_OPEN, formatter, locale));
+		sb.append(" C"); //$NON-NLS-1$
+		sb.append(getFormattedString(StockDataPointDefinition.TYPE_CLOSE, formatter, locale));
+		return sb.toString();
 	}
 
-	public boolean isValid( )
-	{
-		return ( !( Double.isNaN( dHigh )
-				|| Double.isNaN( dLow )
-				|| Double.isNaN( dClose ) || Double.isNaN( dOpen ) ) );
+	public boolean isValid() {
+		return (!(Double.isNaN(dHigh) || Double.isNaN(dLow) || Double.isNaN(dClose) || Double.isNaN(dOpen)));
 	}
 }

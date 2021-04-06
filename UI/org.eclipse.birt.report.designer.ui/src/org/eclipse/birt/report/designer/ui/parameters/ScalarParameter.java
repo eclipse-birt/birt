@@ -31,8 +31,7 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
  * 
  */
 
-public abstract class ScalarParameter implements IParameter
-{
+public abstract class ScalarParameter implements IParameter {
 
 	/**
 	 * Parameter Group
@@ -56,17 +55,14 @@ public abstract class ScalarParameter implements IParameter
 	/**
 	 * Constructor
 	 * 
-	 * @param handle
-	 *            scalar parameter handle.
-	 * @param engineTask
-	 *            engine task.
+	 * @param handle     scalar parameter handle.
+	 * @param engineTask engine task.
 	 */
 
-	public ScalarParameter( ScalarParameterHandle handle, IEngineTask engineTask )
-	{
+	public ScalarParameter(ScalarParameterHandle handle, IEngineTask engineTask) {
 		this.handle = handle;
 		this.engineTask = engineTask;
-		taskContext = engineTask.getAppContext( );
+		taskContext = engineTask.getAppContext();
 	}
 
 	/**
@@ -74,15 +70,14 @@ public abstract class ScalarParameter implements IParameter
 	 * 
 	 * @return value list.
 	 */
-	public abstract List getValueList( );
+	public abstract List getValueList();
 
 	/**
 	 * Gets selection value.
 	 * 
 	 * @return selection value.
 	 */
-	public Object getSelectionValue( )
-	{
+	public Object getSelectionValue() {
 		return selectionValue;
 	}
 
@@ -91,146 +86,113 @@ public abstract class ScalarParameter implements IParameter
 	 * 
 	 * @param value
 	 */
-	public void setSelectionValue( Object value )
-	{
+	public void setSelectionValue(Object value) {
 		selectionValue = value;
 	}
 
 	/**
 	 * Sets parameter group
 	 */
-	public void setParentGroup( IParameterGroup group )
-	{
+	public void setParentGroup(IParameterGroup group) {
 		this.group = group;
 	}
 
 	/**
 	 * Gets parameter group
 	 */
-	public IParameterGroup getParentGroup( )
-	{
+	public IParameterGroup getParentGroup() {
 		return group;
 	}
 
-	public Object getDefaultObject()
-	{
+	public Object getDefaultObject() {
 		return oriDefaultValue;
 	}
-	
-	public IGetParameterDefinitionTask createParameterDefinitionTask()
-	{
+
+	public IGetParameterDefinitionTask createParameterDefinitionTask() {
 		IGetParameterDefinitionTask task = null;
-		if (engineTask != null)
-		{
-			task = engineTask.getEngine( )
-				.createGetParameterDefinitionTask( engineTask.getReportRunnable( ) );
+		if (engineTask != null) {
+			task = engineTask.getEngine().createGetParameterDefinitionTask(engineTask.getReportRunnable());
 		}
-		if (taskContext != null)
-		{
-		
-			Map context = new HashMap( );
-			Iterator itor = taskContext.keySet( ).iterator( );
-			while(itor.hasNext( ))
-			{
-				Object obj = itor.next( );
-				context.put( obj, taskContext.get( obj ) );
+		if (taskContext != null) {
+
+			Map context = new HashMap();
+			Iterator itor = taskContext.keySet().iterator();
+			while (itor.hasNext()) {
+				Object obj = itor.next();
+				context.put(obj, taskContext.get(obj));
 			}
 			// TODO replace with DtE constant
-			context.put( "com.actuate.birt.data.linkeddatamodel.LinkedDataModelDataModeSize",
-					ReportPlugin.getDefault( ).getPluginPreferences( ).getString( ReportPlugin.DATA_MODEL_MEMORY_LIMIT_PREFERENCE ) );
-			task.setAppContext( context );
-			
+			context.put("com.actuate.birt.data.linkeddatamodel.LinkedDataModelDataModeSize", ReportPlugin.getDefault()
+					.getPluginPreferences().getString(ReportPlugin.DATA_MODEL_MEMORY_LIMIT_PREFERENCE));
+			task.setAppContext(context);
+
 		}
 		return task;
 	}
+
 	/**
 	 * Gets default value.
 	 * 
 	 * @return default value
 	 */
 
-	public String getDefaultValue( )
-	{
-		IGetParameterDefinitionTask task = createParameterDefinitionTask( );
-		try
-		{
-			Object obj = task.getDefaultValue( handle.getName( ) );
-			if (obj == null)
-			{
+	public String getDefaultValue() {
+		IGetParameterDefinitionTask task = createParameterDefinitionTask();
+		try {
+			Object obj = task.getDefaultValue(handle.getName());
+			if (obj == null) {
 				return null;
 			}
-			if (obj instanceof Object[] )
-			{
-				Object[] objs = (Object[])obj;
-				if (objs.length > 0)
-				{
+			if (obj instanceof Object[]) {
+				Object[] objs = (Object[]) obj;
+				if (objs.length > 0) {
 					oriDefaultValue = objs[0];
-					return objs[0] != null ? objs[0].toString( ) : null;
-				}
-				else
-				{
+					return objs[0] != null ? objs[0].toString() : null;
+				} else {
 					return null;
 				}
 			}
 			oriDefaultValue = obj;
-			if (obj instanceof Date)
-			{
-				try
-				{
-					return DataTypeUtil.toString( obj );
-				}
-				catch ( BirtException e )
-				{
-					//return toString
+			if (obj instanceof Date) {
+				try {
+					return DataTypeUtil.toString(obj);
+				} catch (BirtException e) {
+					// return toString
 				}
 			}
-			return obj.toString( );
-		}
-		finally
-		{
-			if ( task != null )
+			return obj.toString();
+		} finally {
+			if (task != null)
 				task.close();
 		}
 	}
-	
-	public List getDefaultValues( )
-	{
-		IGetParameterDefinitionTask task = createParameterDefinitionTask( );
 
-		try
-		{
-			Object obj =  task.getDefaultValue( handle.getName( ) );
+	public List getDefaultValues() {
+		IGetParameterDefinitionTask task = createParameterDefinitionTask();
+
+		try {
+			Object obj = task.getDefaultValue(handle.getName());
 			List retValue = new ArrayList();
-			if (obj == null)
-			{
+			if (obj == null) {
 				return retValue;
 			}
-			if (obj instanceof Object[])
-			{
-				Object[] objs = (Object[])obj;
-				for (int i=0; i<objs.length; i++)
-				{
-					retValue.add( objs[i] );
+			if (obj instanceof Object[]) {
+				Object[] objs = (Object[]) obj;
+				for (int i = 0; i < objs.length; i++) {
+					retValue.add(objs[i]);
 				}
-			}
-			else if (obj instanceof Collection)
-			{
-				Collection collection = (Collection)obj;
-				Iterator itor = collection.iterator( );
-				while(itor.hasNext( ))
-				{
-					retValue.add( itor.next( ) );
+			} else if (obj instanceof Collection) {
+				Collection collection = (Collection) obj;
+				Iterator itor = collection.iterator();
+				while (itor.hasNext()) {
+					retValue.add(itor.next());
 				}
-			}
-			else
-			{
-				retValue.add( obj );
+			} else {
+				retValue.add(obj);
 			}
 			return retValue;
-		}
-		finally
-		{
-			if ( task != null )
+		} finally {
+			if (task != null)
 				task.close();
 		}
 	}
@@ -241,28 +203,23 @@ public abstract class ScalarParameter implements IParameter
 	 * @return parameter handle.
 	 */
 
-	public ScalarParameterHandle getHandle( )
-	{
+	public ScalarParameterHandle getHandle() {
 		return handle;
 	}
 
-	public String format( String input ) throws BirtException
-	{
-		return ParameterUtil.format( handle, input );
+	public String format(String input) throws BirtException {
+		return ParameterUtil.format(handle, input);
 	}
 
-	public Object converToDataType( Object value ) throws BirtException
-	{
-		if ( value instanceof Object[] )
-		{
+	public Object converToDataType(Object value) throws BirtException {
+		if (value instanceof Object[]) {
 			Object[] values = (Object[]) value;
 			Object[] rtValues = new Object[values.length];
-			for ( int i = 0; i < values.length; i++ )
-				rtValues[i] = ParameterUtil.convert( values[i],
-						handle.getDataType( ) );
+			for (int i = 0; i < values.length; i++)
+				rtValues[i] = ParameterUtil.convert(values[i], handle.getDataType());
 			return rtValues;
 		}
-		return ParameterUtil.convert( value, handle.getDataType( ) );
+		return ParameterUtil.convert(value, handle.getDataType());
 	}
 
 	/**
@@ -270,9 +227,8 @@ public abstract class ScalarParameter implements IParameter
 	 * 
 	 * @return
 	 */
-	public boolean isRequired( )
-	{
-		return handle.isRequired( );
+	public boolean isRequired() {
+		return handle.isRequired();
 	}
 
 }

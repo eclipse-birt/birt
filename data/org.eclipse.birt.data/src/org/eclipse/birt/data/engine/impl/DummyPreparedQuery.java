@@ -27,8 +27,7 @@ import org.eclipse.birt.data.engine.core.DataException;
 import org.eclipse.birt.data.engine.impl.document.QueryResults;
 import org.mozilla.javascript.Scriptable;
 
-public class DummyPreparedQuery implements IPreparedQuery
-{
+public class DummyPreparedQuery implements IPreparedQuery {
 
 	/**
 	 * Used for Result Set Sharing.
@@ -46,12 +45,10 @@ public class DummyPreparedQuery implements IPreparedQuery
 	 * @param queryDefn
 	 * @param session
 	 */
-	public DummyPreparedQuery( IQueryDefinition queryDefn,
-			DataEngineSession session, Map appContext )
-	{
+	public DummyPreparedQuery(IQueryDefinition queryDefn, DataEngineSession session, Map appContext) {
 		this.queryDefn = queryDefn;
 		this.session = session;
-		this.tempDir = session.getTempDir( );
+		this.tempDir = session.getTempDir();
 		this.appContext = appContext;
 	}
 
@@ -62,11 +59,9 @@ public class DummyPreparedQuery implements IPreparedQuery
 	 * @param context
 	 * @param targetGroups
 	 */
-	public DummyPreparedQuery( IQueryDefinition queryDefn,
-			DataEngineSession session, DataEngineContext context,
-			List<IGroupInstanceInfo> targetGroups )
-	{
-		this( queryDefn, session, new HashMap( ) );
+	public DummyPreparedQuery(IQueryDefinition queryDefn, DataEngineSession session, DataEngineContext context,
+			List<IGroupInstanceInfo> targetGroups) {
+		this(queryDefn, session, new HashMap());
 		this.context = context;
 		this.targetGroups = targetGroups;
 	}
@@ -77,39 +72,30 @@ public class DummyPreparedQuery implements IPreparedQuery
 	 * @seeorg.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.mozilla.
 	 * javascript.Scriptable)
 	 */
-	public IQueryResults execute( Scriptable queryScope ) throws BirtException
-	{
-		return this.execute( null, queryScope );
+	public IQueryResults execute(Scriptable queryScope) throws BirtException {
+		return this.execute(null, queryScope);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt
+	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#execute(org.eclipse.birt
 	 * .data.engine.api.IQueryResults, org.mozilla.javascript.Scriptable)
 	 */
-	public IQueryResults execute( IQueryResults outerResults,
-			Scriptable queryScope ) throws BirtException
-	{
-		try
-		{
-			return this.execute( (IBaseQueryResults) outerResults, queryScope );
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+	public IQueryResults execute(IQueryResults outerResults, Scriptable queryScope) throws BirtException {
+		try {
+			return this.execute((IBaseQueryResults) outerResults, queryScope);
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
+	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getParameterMetaData()
 	 */
-	public Collection getParameterMetaData( ) throws BirtException
-	{
+	public Collection getParameterMetaData() throws BirtException {
 		return null;
 	}
 
@@ -118,32 +104,20 @@ public class DummyPreparedQuery implements IPreparedQuery
 	 * 
 	 * @see org.eclipse.birt.data.engine.api.IPreparedQuery#getReportQueryDefn()
 	 */
-	public IQueryDefinition getReportQueryDefn( )
-	{
+	public IQueryDefinition getReportQueryDefn() {
 		return this.queryDefn;
 	}
 
-	public IQueryResults execute( IBaseQueryResults outerResults,
-			Scriptable scope ) throws DataException
-	{
-		try
-		{
-			if ( context == null )
-				return new CachedQueryResults( session,
-						this.queryDefn.getQueryResultsID( ),
-						this,
-						this.appContext );
+	public IQueryResults execute(IBaseQueryResults outerResults, Scriptable scope) throws DataException {
+		try {
+			if (context == null)
+				return new CachedQueryResults(session, this.queryDefn.getQueryResultsID(), this, this.appContext);
 
 			else
-				return new QueryResults( this.tempDir,
-						this.context,
-						this.queryDefn.getQueryResultsID( ),
-						outerResults,
-						this.targetGroups );
-		}
-		catch ( BirtException e )
-		{
-			throw DataException.wrap( e );
+				return new QueryResults(this.tempDir, this.context, this.queryDefn.getQueryResultsID(), outerResults,
+						this.targetGroups);
+		} catch (BirtException e) {
+			throw DataException.wrap(e);
 		}
 	}
 }

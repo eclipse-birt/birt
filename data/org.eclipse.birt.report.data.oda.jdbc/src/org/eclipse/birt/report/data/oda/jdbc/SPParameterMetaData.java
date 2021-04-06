@@ -20,127 +20,115 @@ import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
 
 /**
  * 
- * This class implements the org.eclipse.datatools.connectivity.IParameterMetaData
- * interface.
- *  
+ * This class implements the
+ * org.eclipse.datatools.connectivity.IParameterMetaData interface.
+ * 
  */
- 
-public class SPParameterMetaData implements IParameterMetaData
-{
+
+public class SPParameterMetaData implements IParameterMetaData {
 
 	/** JDBC ParameterMetaData instance */
 	private Object[] paramMetadataArray;
 
-	private static Logger logger = Logger.getLogger( SPParameterMetaData.class.getName( ) );	
+	private static Logger logger = Logger.getLogger(SPParameterMetaData.class.getName());
 
 	/**
 	 * assertNotNull(Object o)
 	 * 
-	 * @param o
-	 *            the object that need to be tested null or not. if null, throw
-	 *            exception
+	 * @param o the object that need to be tested null or not. if null, throw
+	 *          exception
 	 */
-	private void assertNotNull( Object o ) throws OdaException
-	{
-		if ( o == null )
-		{
-			throw new JDBCException( ResourceConstants.DRIVER_NO_PARAMETERMETADATA,
-					ResourceConstants.ERROR_NO_PARAMETERMETADATA );
+	private void assertNotNull(Object o) throws OdaException {
+		if (o == null) {
+			throw new JDBCException(ResourceConstants.DRIVER_NO_PARAMETERMETADATA,
+					ResourceConstants.ERROR_NO_PARAMETERMETADATA);
 
 		}
 	}
 
 	/**
 	 * 
-	 * Constructor ParameterMetaData(java.sql.ParameterMetaData paraMeta) use
-	 * JDBC's ParameterMetaData to construct it.
-	 *  
+	 * Constructor ParameterMetaData(java.sql.ParameterMetaData paraMeta) use JDBC's
+	 * ParameterMetaData to construct it.
+	 * 
 	 */
-	public SPParameterMetaData( List paraMetadataList )
-			throws OdaException
-	{
-		assertNotNull( paraMetadataList );
-		this.paramMetadataArray = paraMetadataList.toArray( );
+	public SPParameterMetaData(List paraMetadataList) throws OdaException {
+		assertNotNull(paraMetadataList);
+		this.paramMetadataArray = paraMetadataList.toArray();
 	}
 
 	/*
 	 * 
-	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getParameterCount()
+	 * @see
+	 * org.eclipse.datatools.connectivity.IParameterMetaData#getParameterCount()
 	 */
-	public int getParameterCount( ) throws OdaException
-	{
-		logger.logp( java.util.logging.Level.FINEST,
-				SPParameterMetaData.class.getName( ),
-				"getParameterCount",
-				"SPParameterMetaData.getParameterCount( )" );
-		assertNotNull( paramMetadataArray );
+	public int getParameterCount() throws OdaException {
+		logger.logp(java.util.logging.Level.FINEST, SPParameterMetaData.class.getName(), "getParameterCount",
+				"SPParameterMetaData.getParameterCount( )");
+		assertNotNull(paramMetadataArray);
 		return paramMetadataArray.length;
 	}
 
 	/*
 	 * 
-	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getParameterMode(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.IParameterMetaData#getParameterMode(int)
 	 */
-	public int getParameterMode( int param ) throws OdaException
-	{
-		logger.logp( java.util.logging.Level.FINEST,
-				SPParameterMetaData.class.getName( ),
-				"getParameterMode",
-				"SPParameterMetaData.getParameterMode( )" );
-		assertNotNull( paramMetadataArray );
+	public int getParameterMode(int param) throws OdaException {
+		logger.logp(java.util.logging.Level.FINEST, SPParameterMetaData.class.getName(), "getParameterMode",
+				"SPParameterMetaData.getParameterMode( )");
+		assertNotNull(paramMetadataArray);
 		int result = IParameterMetaData.parameterModeUnknown;
 		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
-		if ( paramDefn.getParamInOutType( ) == java.sql.ParameterMetaData.parameterModeIn )
+		if (paramDefn.getParamInOutType() == java.sql.ParameterMetaData.parameterModeIn)
 			result = IParameterMetaData.parameterModeIn;
-		else if ( paramDefn.getParamInOutType( ) == java.sql.ParameterMetaData.parameterModeOut )
+		else if (paramDefn.getParamInOutType() == java.sql.ParameterMetaData.parameterModeOut)
 			result = IParameterMetaData.parameterModeOut;
-		else if ( paramDefn.getParamInOutType( ) == java.sql.ParameterMetaData.parameterModeInOut )
+		else if (paramDefn.getParamInOutType() == java.sql.ParameterMetaData.parameterModeInOut)
 			result = IParameterMetaData.parameterModeInOut;
-		else if ( paramDefn.getParamInOutType( ) == 5 )
+		else if (paramDefn.getParamInOutType() == 5)
 			result = IParameterMetaData.parameterModeOut;
 		return result;
 	}
 
-    /* (non-Javadoc)
-     * @see org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(int)
-     */
-    public String getParameterName( int param ) throws OdaException
-	{
-		logger.logp( java.util.logging.Level.FINEST,
-				SPParameterMetaData.class.getName( ),
-				"getParameterName",
-				"SPParameterMetaData.getParameterName( )" );
-		assertNotNull( paramMetadataArray );
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.datatools.connectivity.oda.IParameterMetaData#getParameterName(
+	 * int)
+	 */
+	public String getParameterName(int param) throws OdaException {
+		logger.logp(java.util.logging.Level.FINEST, SPParameterMetaData.class.getName(), "getParameterName",
+				"SPParameterMetaData.getParameterName( )");
+		assertNotNull(paramMetadataArray);
 		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
-		return paramDefn.getParamName( );
+		return paramDefn.getParamName();
 	}
 
 	/*
 	 * 
-	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getParameterType(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.IParameterMetaData#getParameterType(int)
 	 */
-	public int getParameterType( int param ) throws OdaException
-	{
-		logger.logp( java.util.logging.Level.FINEST,
-				SPParameterMetaData.class.getName( ),
-				"getParameterType",
-				"SPParameterMetaData.getParameterType( )" );
-		assertNotNull( paramMetadataArray );
+	public int getParameterType(int param) throws OdaException {
+		logger.logp(java.util.logging.Level.FINEST, SPParameterMetaData.class.getName(), "getParameterType",
+				"SPParameterMetaData.getParameterType( )");
+		assertNotNull(paramMetadataArray);
 		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
-		return paramDefn.getParamType( );
+		return paramDefn.getParamType();
 	}
 
 	/*
 	 * 
-	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getParameterTypeName(int)
+	 * @see
+	 * org.eclipse.datatools.connectivity.IParameterMetaData#getParameterTypeName(
+	 * int)
 	 */
-	public String getParameterTypeName( int param ) throws OdaException
-	{
-		logger.logp( java.util.logging.Level.FINEST,
-				SPParameterMetaData.class.getName( ),
-				"getParameterTypeName",
-				"SPParameterMetaData.getParameterTypeName( )" );
-		assertNotNull( paramMetadataArray );
+	public String getParameterTypeName(int param) throws OdaException {
+		logger.logp(java.util.logging.Level.FINEST, SPParameterMetaData.class.getName(), "getParameterTypeName",
+				"SPParameterMetaData.getParameterTypeName( )");
+		assertNotNull(paramMetadataArray);
 		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
 		return paramDefn.getParamTypeName();
 	}
@@ -149,28 +137,22 @@ public class SPParameterMetaData implements IParameterMetaData
 	 * 
 	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getPrecision(int)
 	 */
-	public int getPrecision( int param ) throws OdaException
-	{
-		logger.logp( java.util.logging.Level.FINEST,
-				SPParameterMetaData.class.getName( ),
-				"getPrecision",
-				"SPParameterMetaData.getPrecision( )" );
-		assertNotNull( paramMetadataArray );
+	public int getPrecision(int param) throws OdaException {
+		logger.logp(java.util.logging.Level.FINEST, SPParameterMetaData.class.getName(), "getPrecision",
+				"SPParameterMetaData.getPrecision( )");
+		assertNotNull(paramMetadataArray);
 		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
-		return paramDefn.getPrecision( );
+		return paramDefn.getPrecision();
 	}
 
 	/*
 	 * 
 	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#getScale(int)
 	 */
-	public int getScale( int param ) throws OdaException
-	{
-		logger.logp( java.util.logging.Level.FINEST,
-				SPParameterMetaData.class.getName( ),
-				"getScale",
-				"SPParameterMetaData.getScale( )" );
-		assertNotNull( paramMetadataArray );
+	public int getScale(int param) throws OdaException {
+		logger.logp(java.util.logging.Level.FINEST, SPParameterMetaData.class.getName(), "getScale",
+				"SPParameterMetaData.getScale( )");
+		assertNotNull(paramMetadataArray);
 		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
 		return paramDefn.getScale();
 	}
@@ -179,19 +161,16 @@ public class SPParameterMetaData implements IParameterMetaData
 	 * 
 	 * @see org.eclipse.datatools.connectivity.IParameterMetaData#isNullable(int)
 	 */
-	public int isNullable( int param ) throws OdaException
-	{
-		logger.logp( java.util.logging.Level.FINEST,
-				SPParameterMetaData.class.getName( ),
-				"isNullable",
-				"SPParameterMetaData.isNullable( )" );
-		assertNotNull( paramMetadataArray );
+	public int isNullable(int param) throws OdaException {
+		logger.logp(java.util.logging.Level.FINEST, SPParameterMetaData.class.getName(), "isNullable",
+				"SPParameterMetaData.isNullable( )");
+		assertNotNull(paramMetadataArray);
 		int result = IParameterMetaData.parameterNullableUnknown;
 		ParameterDefn paramDefn = (ParameterDefn) paramMetadataArray[param - 1];
 
-		if ( paramDefn.getIsNullable( ) == java.sql.ParameterMetaData.parameterNullable )
+		if (paramDefn.getIsNullable() == java.sql.ParameterMetaData.parameterNullable)
 			result = IParameterMetaData.parameterNullable;
-		else if ( paramDefn.getIsNullable( ) == java.sql.ParameterMetaData.parameterNoNulls )
+		else if (paramDefn.getIsNullable() == java.sql.ParameterMetaData.parameterNoNulls)
 			result = IParameterMetaData.parameterNoNulls;
 		return result;
 	}

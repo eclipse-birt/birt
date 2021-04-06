@@ -20,19 +20,18 @@ import java.util.ArrayList;
  * 
  * 
  */
-public class SimpleMasterPageDesign extends MasterPageDesign
-{
-	
-	private static final DimensionType ONE_DIMENSION_VALUE = new DimensionType( 1, DimensionType.UNITS_CM );
+public class SimpleMasterPageDesign extends MasterPageDesign {
+
+	private static final DimensionType ONE_DIMENSION_VALUE = new DimensionType(1, DimensionType.UNITS_CM);
 
 	/**
 	 * page header content
 	 */
-	private ArrayList header = new ArrayList( );
+	private ArrayList header = new ArrayList();
 	/**
 	 * page footer content
 	 */
-	private ArrayList footer = new ArrayList( );
+	private ArrayList footer = new ArrayList();
 
 	/**
 	 * show page header on the first page
@@ -59,59 +58,49 @@ public class SimpleMasterPageDesign extends MasterPageDesign
 	/**
 	 * @return Returns the floatingFooter.
 	 */
-	public boolean isFloatingFooter( )
-	{
+	public boolean isFloatingFooter() {
 		return floatingFooter;
 	}
 
 	/**
-	 * @param floatingFooter
-	 *            The floatingFooter to set.
+	 * @param floatingFooter The floatingFooter to set.
 	 */
-	public void setFloatingFooter( boolean floatingFooter )
-	{
+	public void setFloatingFooter(boolean floatingFooter) {
 		this.floatingFooter = floatingFooter;
 	}
 
 	/**
 	 * @return Returns the showFooterOnLast.
 	 */
-	public boolean isShowFooterOnLast( )
-	{
+	public boolean isShowFooterOnLast() {
 		return showFooterOnLast;
 	}
 
 	/**
-	 * @param showFooterOnLast
-	 *            The showFooterOnLast to set.
+	 * @param showFooterOnLast The showFooterOnLast to set.
 	 */
-	public void setShowFooterOnLast( boolean showFooterOnLast )
-	{
+	public void setShowFooterOnLast(boolean showFooterOnLast) {
 		this.showFooterOnLast = showFooterOnLast;
 	}
 
 	/**
 	 * @return Returns the showHeaderOnFirst.
 	 */
-	public boolean isShowHeaderOnFirst( )
-	{
+	public boolean isShowHeaderOnFirst() {
 		return showHeaderOnFirst;
 	}
 
 	/**
-	 * @param showHeaderOnFirst
-	 *            The showHeaderOnFirst to set.
+	 * @param showHeaderOnFirst The showHeaderOnFirst to set.
 	 */
-	public void setShowHeaderOnFirst( boolean showHeaderOnFirst )
-	{
+	public void setShowHeaderOnFirst(boolean showHeaderOnFirst) {
 		this.showHeaderOnFirst = showHeaderOnFirst;
 	}
 
 	/**
 	 * @return Returns the footer.
 	 */
-	public ArrayList getFooters( )
-	{
+	public ArrayList getFooters() {
 		return footer;
 	}
 
@@ -120,41 +109,35 @@ public class SimpleMasterPageDesign extends MasterPageDesign
 	 * 
 	 * @return total items in the footer
 	 */
-	public int getFooterCount( )
-	{
-		return this.footer.size( );
+	public int getFooterCount() {
+		return this.footer.size();
 	}
 
 	/**
 	 * get the index item in the footer
 	 * 
-	 * @param index
-	 *            index of the item
+	 * @param index index of the item
 	 * @return item at the index
 	 */
-	public ReportItemDesign getFooter( int index )
-	{
-		assert index >= 0 && index < footer.size( );
-		return (ReportItemDesign) footer.get( index );
+	public ReportItemDesign getFooter(int index) {
+		assert index >= 0 && index < footer.size();
+		return (ReportItemDesign) footer.get(index);
 	}
 
 	/**
 	 * add an item into the footer
 	 * 
-	 * @param item
-	 *            item to be added
+	 * @param item item to be added
 	 */
 
-	public void addFooter( ReportItemDesign item )
-	{
-		this.footer.add( item );
+	public void addFooter(ReportItemDesign item) {
+		this.footer.add(item);
 	}
 
 	/**
 	 * @return Returns the header.
 	 */
-	public ArrayList getHeaders( )
-	{
+	public ArrayList getHeaders() {
 		return header;
 	}
 
@@ -163,68 +146,61 @@ public class SimpleMasterPageDesign extends MasterPageDesign
 	 * 
 	 * @return total items in the header band
 	 */
-	public int getHeaderCount( )
-	{
-		return this.header.size( );
+	public int getHeaderCount() {
+		return this.header.size();
 	}
 
 	/**
 	 * get the index item in the header
 	 * 
-	 * @param index
-	 *            index of the item
+	 * @param index index of the item
 	 * @return item at index.
 	 */
-	public ReportItemDesign getHeader( int index )
-	{
-		assert index >= 0 && index < header.size( );
-		return (ReportItemDesign) header.get( index );
+	public ReportItemDesign getHeader(int index) {
+		assert index >= 0 && index < header.size();
+		return (ReportItemDesign) header.get(index);
 	}
 
 	/**
 	 * add an item into the header band.
 	 * 
-	 * @param item
-	 *            item to be added
+	 * @param item item to be added
 	 */
-	public void addHeader( ReportItemDesign item )
-	{
-		this.header.add( item );
+	public void addHeader(ReportItemDesign item) {
+		this.header.add(item);
 	}
+
 	/**
 	 * @return Returns the footerHeight.
 	 */
-	public DimensionType getFooterHeight( )
-	{
-		if( footerHeight == null )
-		{
+	public DimensionType getFooterHeight() {
+		if (footerHeight == null) {
 			return ONE_DIMENSION_VALUE;
 		}
 		return footerHeight;
 	}
+
 	/**
 	 * @param footerHeight The footerHeight to set.
 	 */
-	public void setFooterHeight( DimensionType footerHeight )
-	{
+	public void setFooterHeight(DimensionType footerHeight) {
 		this.footerHeight = footerHeight;
 	}
+
 	/**
 	 * @return Returns the headerHeight.
 	 */
-	public DimensionType getHeaderHeight( )
-	{
-		if( headerHeight == null )
-		{
+	public DimensionType getHeaderHeight() {
+		if (headerHeight == null) {
 			return ONE_DIMENSION_VALUE;
 		}
 		return headerHeight;
 	}
+
 	/**
 	 * @param headerHeight The headerHeight to set.
 	 */
-	public void setHeaderHeight( DimensionType headerHeight )
-	{
+	public void setHeaderHeight(DimensionType headerHeight) {
 		this.headerHeight = headerHeight;
 	}
 }

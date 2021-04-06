@@ -24,8 +24,7 @@ import java.util.Iterator;
  * @version $Revision: 1.4 $ $Date: 2007/02/01 10:58:57 $
  */
 
-public class Schema implements Serializable
-{
+public class Schema implements Serializable {
 
 	/**
 	 * serial version id
@@ -34,14 +33,13 @@ public class Schema implements Serializable
 	private String name = null;
 	private ArrayList tables = null;
 	private ConnectionMetaData metaData = null;
-	private long timeout; //milliseconds;
+	private long timeout; // milliseconds;
 
 	/**
 	 *  
 	 */
-	Schema( ConnectionMetaData metaData, long timeout )
-	{
-		super( );
+	Schema(ConnectionMetaData metaData, long timeout) {
+		super();
 		this.metaData = metaData;
 		this.timeout = timeout;
 	}
@@ -49,17 +47,14 @@ public class Schema implements Serializable
 	/**
 	 * @return Returns the name.
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            The name to set.
+	 * @param name The name to set.
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
@@ -67,73 +62,52 @@ public class Schema implements Serializable
 	 * @return Returns the tables.
 	 * @throws SQLException
 	 */
-	public ArrayList getTables( ) throws SQLException
-	{
-		if ( tables == null )
-		{
-			Thread h = new Thread( )
-			{
+	public ArrayList getTables() throws SQLException {
+		if (tables == null) {
+			Thread h = new Thread() {
 				@Override
-				public void run( )
-				{
-					try
-					{
-						retrieveTables( );
-					}
-					catch ( SQLException e )
-					{
+				public void run() {
+					try {
+						retrieveTables();
+					} catch (SQLException e) {
 					}
 				}
 			};
-			h.start( );
-			try
-			{
-				h.join( timeout );
+			h.start();
+			try {
+				h.join(timeout);
+			} catch (InterruptedException e) {
 			}
-			catch ( InterruptedException e )
-			{
-			}
-			if ( tables == null )
-			{
-				tables = new ArrayList( );
+			if (tables == null) {
+				tables = new ArrayList();
 			}
 		}
 		return tables;
 	}
 
-	public Table getTable( String tableName ) throws SQLException
-	{
+	public Table getTable(String tableName) throws SQLException {
 		Table table = null;
-		Iterator iter = getTables( ).iterator( );
-		while ( iter.hasNext( ) )
-		{
-			table = (Table) iter.next( );
-			if ( tableName.equals( table.getName( ) ) )
-			{
+		Iterator iter = getTables().iterator();
+		while (iter.hasNext()) {
+			table = (Table) iter.next();
+			if (tableName.equals(table.getName())) {
 				return table;
 			}
 		}
 		return null;
 	}
 
-	private synchronized void retrieveTables( ) throws SQLException
-	{
-		if ( tables == null )
-		{
-			tables = new ArrayList( );
-			ResultSet resultset = metaData.getMetaData( )
-					.getTables( metaData.getCatalogname( ),
-							getName( ),
-							null,
-							null );
-			//Create table objects for each item
+	private synchronized void retrieveTables() throws SQLException {
+		if (tables == null) {
+			tables = new ArrayList();
+			ResultSet resultset = metaData.getMetaData().getTables(metaData.getCatalogname(), getName(), null, null);
+			// Create table objects for each item
 			Table table = null;
-			while ( resultset.next( ) )
-			{
-				table = new Table( this );
-				table.setName( resultset.getString( "TABLE_NAME" ) );//$NON-NLS-1$
-				table.setType( resultset.getString( "TABLE_TYPE" ) );//$NON-NLS-1$
-				tables.add( table );
+			while (resultset.next()) {
+				table = new Table(this);
+				table.setName(resultset.getString("TABLE_NAME"));//$NON-NLS-1$
+				table.setType(resultset.getString("TABLE_TYPE"));//$NON-NLS-1$
+				tables.add(table);
 			}
 		}
 	}
@@ -141,8 +115,7 @@ public class Schema implements Serializable
 	/**
 	 * @return Returns the metaData.
 	 */
-	ConnectionMetaData getMetaData( )
-	{
+	ConnectionMetaData getMetaData() {
 		return metaData;
 	}
 
@@ -151,9 +124,8 @@ public class Schema implements Serializable
 	 * 
 	 * @see java.lang.Object#finalize()
 	 */
-	protected void finalize( ) throws Throwable
-	{
-		tables.clear( );
-		super.finalize( );
+	protected void finalize() throws Throwable {
+		tables.clear();
+		super.finalize();
 	}
 }

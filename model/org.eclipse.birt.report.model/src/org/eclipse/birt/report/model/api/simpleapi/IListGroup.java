@@ -14,7 +14,6 @@ package org.eclipse.birt.report.model.api.simpleapi;
  * Script wrapper of ListGroupHandle
  *
  */
-public interface IListGroup extends IGroup
-{
+public interface IListGroup extends IGroup {
 
 }

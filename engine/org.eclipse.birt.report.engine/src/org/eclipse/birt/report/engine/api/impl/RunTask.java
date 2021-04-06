@@ -47,8 +47,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * A task for running a report design to get a report document
  */
-public class RunTask extends AbstractRunTask implements IRunTask
-{
+public class RunTask extends AbstractRunTask implements IRunTask {
 
 	private String documentName;
 	private IDocArchiveWriter archiveWriter;
@@ -57,16 +56,13 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	private IArchiveFile archive;
 
 	/**
-	 * @param engine
-	 *            the report engine
-	 * @param runnable
-	 *            the report runnable instance
+	 * @param engine   the report engine
+	 * @param runnable the report runnable instance
 	 */
-	public RunTask( ReportEngine engine, IReportRunnable runnable )
-	{
-		super( engine, runnable, IEngineTask.TASK_RUN );
-		executionContext.setFactoryMode( true );
-		executionContext.setPresentationMode( false );
+	public RunTask(ReportEngine engine, IReportRunnable runnable) {
+		super(engine, runnable, IEngineTask.TASK_RUN);
+		executionContext.setFactoryMode(true);
+		executionContext.setPresentationMode(false);
 	}
 
 	/*
@@ -74,126 +70,91 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	 * 
 	 * @see org.eclipse.birt.report.engine.api.IRunTask#run(java.lang.String)
 	 */
-	public void run( String reportDocName ) throws EngineException
-	{
-		try
-		{
-			switchToOsgiClassLoader( );
-			changeStatusToRunning( );
-			if ( reportDocName == null || reportDocName.length( ) == 0 )
-			{
-				throw new EngineException(
-						MessageConstants.REPORT_DOCNAME_NOT_SPECIFIED_ERROR ); //$NON-NLS-1$
+	public void run(String reportDocName) throws EngineException {
+		try {
+			switchToOsgiClassLoader();
+			changeStatusToRunning();
+			if (reportDocName == null || reportDocName.length() == 0) {
+				throw new EngineException(MessageConstants.REPORT_DOCNAME_NOT_SPECIFIED_ERROR); // $NON-NLS-1$
 			}
 			this.documentName = reportDocName;
-			doRun( );
-		}
-		finally
-		{
-			changeStatusToStopped( );
-			switchClassLoaderBack( );
+			doRun();
+		} finally {
+			changeStatusToStopped();
+			switchClassLoaderBack();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.api.IRunTask#run(org.eclipse.birt.core.archive.IDocumentArchive)
+	 * @see
+	 * org.eclipse.birt.report.engine.api.IRunTask#run(org.eclipse.birt.core.archive
+	 * .IDocumentArchive)
 	 */
-	public void run( IDocArchiveWriter archive ) throws EngineException
-	{
-		try
-		{
-			switchToOsgiClassLoader( );
-			changeStatusToRunning( );
-			if ( archive == null )
-			{
-				throw new EngineException(
-						MessageConstants.REPORT_ARCHIVE_ERROR ); //$NON-NLS-1$
+	public void run(IDocArchiveWriter archive) throws EngineException {
+		try {
+			switchToOsgiClassLoader();
+			changeStatusToRunning();
+			if (archive == null) {
+				throw new EngineException(MessageConstants.REPORT_ARCHIVE_ERROR); // $NON-NLS-1$
 			}
 			this.archiveWriter = archive;
-			doRun( );
-		}
-		finally
-		{
-			changeStatusToStopped( );
-			switchClassLoaderBack( );
+			doRun();
+		} finally {
+			changeStatusToStopped();
+			switchClassLoaderBack();
 		}
 	}
 
-	private void openArchive( ) throws IOException
-	{
-		if ( archive != null )
-		{
-			archiveWriter = new ArchiveWriter( archive );
+	private void openArchive() throws IOException {
+		if (archive != null) {
+			archiveWriter = new ArchiveWriter(archive);
 			return;
 		}
-		File file = new File( documentName );
-		if ( file.exists( ) )
-		{
-			if ( file.isDirectory( ) )
-			{
-				archiveWriter = new FolderArchiveWriter( documentName );
+		File file = new File(documentName);
+		if (file.exists()) {
+			if (file.isDirectory()) {
+				archiveWriter = new FolderArchiveWriter(documentName);
+			} else {
+				archiveWriter = new FileArchiveWriter(documentName);
 			}
-			else
-			{
-				archiveWriter = new FileArchiveWriter( documentName );
-			}
-		}
-		else
-		{
-			if ( documentName.endsWith( "\\" ) || documentName.endsWith( "/" ) )
-			{
-				archiveWriter = new FolderArchiveWriter( documentName );
-			}
-			else
-			{
-				archiveWriter = new FileArchiveWriter( documentName );
+		} else {
+			if (documentName.endsWith("\\") || documentName.endsWith("/")) {
+				archiveWriter = new FolderArchiveWriter(documentName);
+			} else {
+				archiveWriter = new FileArchiveWriter(documentName);
 			}
 		}
 	}
 
-	private void openReportDocument( ) throws EngineException
-	{
-		try
-		{
-			if ( archiveWriter == null )
-			{
-				openArchive( );
+	private void openReportDocument() throws EngineException {
+		try {
+			if (archiveWriter == null) {
+				openArchive();
 			}
-			String[] exts = executionContext.getEngineExtensions( );
-			writer = new ReportDocumentWriter( engine, archiveWriter, exts );
-			executionContext.setReportDocWriter( writer );
-			DocumentDataSource ds = executionContext.getDataSource( );
-			if ( ds != null)
-			{
-				//avoid the auto-generated bookmark will be changed at generation time
-				if ( ds.getInstanceID( ) != null )
-				{
-					executionContext
-							.setReportletBookmark( ds.getInstanceID( ).getComponentID( ), ds.getBookmark( ) );
+			String[] exts = executionContext.getEngineExtensions();
+			writer = new ReportDocumentWriter(engine, archiveWriter, exts);
+			executionContext.setReportDocWriter(writer);
+			DocumentDataSource ds = executionContext.getDataSource();
+			if (ds != null) {
+				// avoid the auto-generated bookmark will be changed at generation time
+				if (ds.getInstanceID() != null) {
+					executionContext.setReportletBookmark(ds.getInstanceID().getComponentID(), ds.getBookmark());
 				}
-				if( ds.isReportletDocument( ))
-				{
-					writer.saveReportletDocument( ds.getBookmark( ), ds
-							.getInstanceID( ) );
-				}
-				else
-				{
-					writer.removeReportletDoucment( );
+				if (ds.isReportletDocument()) {
+					writer.saveReportletDocument(ds.getBookmark(), ds.getInstanceID());
+				} else {
+					writer.removeReportletDoucment();
 				}
 			}
-		}
-		catch ( IOException ex )
-		{
-			throw new EngineException(
-					MessageConstants.REPORT_ARCHIVE_OPEN_ERROR, ex );
+		} catch (IOException ex) {
+			throw new EngineException(MessageConstants.REPORT_ARCHIVE_OPEN_ERROR, ex);
 		}
 	}
 
-	private void closeReportDocument( )
-	{
-		writer.close( );
+	private void closeReportDocument() {
+		writer.close();
 		writer = null;
 		archive = null;
 		archiveWriter = null;
@@ -203,214 +164,164 @@ public class RunTask extends AbstractRunTask implements IRunTask
 	/**
 	 * runs the report
 	 * 
-	 * @throws EngineException
-	 *             throws exception when there is a run error
+	 * @throws EngineException throws exception when there is a run error
 	 */
-	protected void doRun( ) throws EngineException
-	{	
-		if ( progressMonitor != null )
-		{
-			progressMonitor.onProgress( IProgressMonitor.START_TASK, TASK_RUN );
+	protected void doRun() throws EngineException {
+		if (progressMonitor != null) {
+			progressMonitor.onProgress(IProgressMonitor.START_TASK, TASK_RUN);
 		}
-		loadDataSource( );
-		loadScripts( );
-		doValidateParameters( );
-		initReportVariable( );
-		loadDesign( );
-		prepareDesign( );
-		//get design after prepare in case prepare create a new instance.
-		ReportDesignHandle design = executionContext.getReportDesign( );
-		if ( DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT
-				.equals( design.getLayoutPreference( ) ) )
-		{
-			executionContext.setFixedLayout( true );
-			setupRenderOption( );
-			updateRtLFlag( );
+		loadDataSource();
+		loadScripts();
+		doValidateParameters();
+		initReportVariable();
+		loadDesign();
+		prepareDesign();
+		// get design after prepare in case prepare create a new instance.
+		ReportDesignHandle design = executionContext.getReportDesign();
+		if (DesignChoiceConstants.REPORT_LAYOUT_PREFERENCE_FIXED_LAYOUT.equals(design.getLayoutPreference())) {
+			executionContext.setFixedLayout(true);
+			setupRenderOption();
+			updateRtLFlag();
 		}
-		startFactory( );
-		openReportDocument( );
-		ArrayList<String> errList = new ArrayList<String>( );
+		startFactory();
+		openReportDocument();
+		ArrayList<String> errList = new ArrayList<String>();
 		ReportRunnable newRunnable = null;
-		try
-		{
-			newRunnable = writer.saveDesign( executionContext
-					.getRunnable( ), executionContext.getOriginalRunnable( ) );
-			executionContext.updateRunnable( newRunnable );
-			writer.saveReportIR( executionContext.getReport( ) );
-			writer.saveParamters( inputValues );
+		try {
+			newRunnable = writer.saveDesign(executionContext.getRunnable(), executionContext.getOriginalRunnable());
+			executionContext.updateRunnable(newRunnable);
+			writer.saveReportIR(executionContext.getReport());
+			writer.saveParamters(inputValues);
 
-			executionContext.openDataEngine( );
+			executionContext.openDataEngine();
 
-			synchronized(this)
-			{
-				if (!executionContext.isCanceled( ))
-				{
-					documentBuilder = new ReportDocumentBuilder(
-							executionContext, writer );
+			synchronized (this) {
+				if (!executionContext.isCanceled()) {
+					documentBuilder = new ReportDocumentBuilder(executionContext, writer);
 				}
 			}
-			
-			if ( documentBuilder != null )
-			{
-				if ( pageHandler != null )
-				{
-					documentBuilder.setPageHandler( pageHandler );
+
+			if (documentBuilder != null) {
+				if (pageHandler != null) {
+					documentBuilder.setPageHandler(pageHandler);
 				}
 
-				IContentEmitter emitter = documentBuilder.getContentEmitter( );
-				IReportExecutor executor = new ReportExecutor( executionContext );
+				IContentEmitter emitter = documentBuilder.getContentEmitter();
+				IReportExecutor executor = new ReportExecutor(executionContext);
 				// prepare the extension executor
-				executor = createReportExtensionExecutor( executor );
-				executor = new ReportEmitterExecutor( executor, emitter );
-				executor = new SuppressDuplciateReportExecutor( executor );
-				if ( executionContext.isFixedLayout( ) )
-				{
-					executor = new LocalizedReportExecutor( executionContext,
-							executor );
-				}				
-				executionContext.setExecutor( executor );
-				
-				initializeContentEmitter( emitter );
-				documentBuilder.build( );
+				executor = createReportExtensionExecutor(executor);
+				executor = new ReportEmitterExecutor(executor, emitter);
+				executor = new SuppressDuplciateReportExecutor(executor);
+				if (executionContext.isFixedLayout()) {
+					executor = new LocalizedReportExecutor(executionContext, executor);
+				}
+				executionContext.setExecutor(executor);
+
+				initializeContentEmitter(emitter);
+				documentBuilder.build();
 			}
-						
-			executionContext.closeDataEngine( );
-		}
-		catch ( Throwable t )
-		{
-			errList.add( t.getLocalizedMessage( ) );
-			handleFatalExceptions( t );
-		}
-		finally
-		{
-			if ( newRunnable != null )
-			{
-				newRunnable.getReport( ).getModule( ).tidy( );
+
+			executionContext.closeDataEngine();
+		} catch (Throwable t) {
+			errList.add(t.getLocalizedMessage());
+			handleFatalExceptions(t);
+		} finally {
+			if (newRunnable != null) {
+				newRunnable.getReport().getModule().tidy();
 			}
-			
+
 			documentBuilder = null;
 			closeFactory();
 
-			List<Exception> list = (List<Exception>) executionContext
-			        .getAllErrors( );
-			if ( list != null )
-			{
-				for ( Exception ex : list )
-				{
-					errList.add( ex.getLocalizedMessage( ) );
+			List<Exception> list = (List<Exception>) executionContext.getAllErrors();
+			if (list != null) {
+				for (Exception ex : list) {
+					errList.add(ex.getLocalizedMessage());
 				}
 			}
-			if ( getStatus( ) == IEngineTask.STATUS_CANCELLED )
-			{
-				if ( cancelReason == null )
-				{
-					cancelReason = new EngineResourceHandle(
-							ULocale.forLocale( getLocale( ) ) )
-							.getMessage( MessageConstants.TASK_CANCEL );
+			if (getStatus() == IEngineTask.STATUS_CANCELLED) {
+				if (cancelReason == null) {
+					cancelReason = new EngineResourceHandle(ULocale.forLocale(getLocale()))
+							.getMessage(MessageConstants.TASK_CANCEL);
 				}
-				errList.add( cancelReason );
+				errList.add(cancelReason);
 			}
-			if ( !errList.isEmpty( ) )
-			{
+			if (!errList.isEmpty()) {
 				// status writer never throws out exception
-				RunStatusWriter statusWriter = new RunStatusWriter(
-						archiveWriter );
-				statusWriter.writeRunTaskStatus( errList );
-				statusWriter.close( );
-			}
-			else
-			{
-				//TODO: need clear all related stream at the beginning of generation task
-				if ( archiveWriter
-						.exists( ReportDocumentConstants.RUN_STATUS_STREAM ) )
-				{
-					archiveWriter
-							.dropStream( ReportDocumentConstants.RUN_STATUS_STREAM );
+				RunStatusWriter statusWriter = new RunStatusWriter(archiveWriter);
+				statusWriter.writeRunTaskStatus(errList);
+				statusWriter.close();
+			} else {
+				// TODO: need clear all related stream at the beginning of generation task
+				if (archiveWriter.exists(ReportDocumentConstants.RUN_STATUS_STREAM)) {
+					archiveWriter.dropStream(ReportDocumentConstants.RUN_STATUS_STREAM);
 				}
 			}
 
-			writer.savePersistentObjects( executionContext.getGlobalBeans( ) );
-			writer.finish( );
+			writer.savePersistentObjects(executionContext.getGlobalBeans());
+			writer.finish();
 
 			// notify that the document has been finished
-			if ( pageHandler != null && !executionContext.isCanceled( ) )
-			{
-				int totalPage = (int) executionContext.getTotalPage( );
-				IReportDocumentInfo docInfo = new ReportDocumentInfo(
-						executionContext, totalPage, true );
-				pageHandler.onPage( totalPage, true, docInfo );
+			if (pageHandler != null && !executionContext.isCanceled()) {
+				int totalPage = (int) executionContext.getTotalPage();
+				IReportDocumentInfo docInfo = new ReportDocumentInfo(executionContext, totalPage, true);
+				pageHandler.onPage(totalPage, true, docInfo);
 			}
-			if ( progressMonitor != null )
-			{
-				progressMonitor.onProgress( IProgressMonitor.END_TASK, TASK_RUN );
+			if (progressMonitor != null) {
+				progressMonitor.onProgress(IProgressMonitor.END_TASK, TASK_RUN);
 			}
 			closeReportDocument();
 		}
 	}
 
-	public void close( )
-	{
-		super.close( );
+	public void close() {
+		super.close();
 	}
 
 	/**
 	 * @deprecated
 	 */
-	public void run( FolderArchive fArchive ) throws EngineException
-	{
-		try
-		{
-			changeStatusToRunning( );
-			setDataSource( fArchive );
-			run( (IDocArchiveWriter) fArchive );
+	public void run(FolderArchive fArchive) throws EngineException {
+		try {
+			changeStatusToRunning();
+			setDataSource(fArchive);
+			run((IDocArchiveWriter) fArchive);
+		} finally {
+			changeStatusToStopped();
 		}
-		finally
-		{
-			changeStatusToStopped( );
-		}
-	}
-	
-	public void cancel( )
-	{
-		super.cancel( );
-		if ( documentBuilder != null )
-		{
-			documentBuilder.cancel( );
-		}
-	}
-	
-	public void setMaxRowsPerQuery( int maxRows )
-	{
-		executionContext.setMaxRowsPerQuery( maxRows );
-	}
-	
-	public void enableProgressiveViewing( boolean enabled )
-	{
-		executionContext.enableProgressiveViewing( enabled );
 	}
 
-	public void setReportDocument( IArchiveFile archive )
-	{
+	public void cancel() {
+		super.cancel();
+		if (documentBuilder != null) {
+			documentBuilder.cancel();
+		}
+	}
+
+	public void setMaxRowsPerQuery(int maxRows) {
+		executionContext.setMaxRowsPerQuery(maxRows);
+	}
+
+	public void enableProgressiveViewing(boolean enabled) {
+		executionContext.enableProgressiveViewing(enabled);
+	}
+
+	public void setReportDocument(IArchiveFile archive) {
 		this.archive = archive;
 	}
 
-	public void setReportDocument( String name )
-	{
+	public void setReportDocument(String name) {
 		documentName = name;
 	}
 
-	public void run( ) throws EngineException
-	{
-		try
-		{
-			switchToOsgiClassLoader( );
-			changeStatusToRunning( );
-			doRun( );
-		}
-		finally
-		{
-			changeStatusToStopped( );
-			switchClassLoaderBack( );
+	public void run() throws EngineException {
+		try {
+			switchToOsgiClassLoader();
+			changeStatusToRunning();
+			doRun();
+		} finally {
+			changeStatusToStopped();
+			switchClassLoaderBack();
 		}
 	}
 }

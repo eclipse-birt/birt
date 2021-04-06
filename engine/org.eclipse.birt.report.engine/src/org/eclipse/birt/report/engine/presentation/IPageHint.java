@@ -15,31 +15,30 @@ import java.util.Collection;
 
 import org.eclipse.birt.report.engine.executor.PageVariable;
 
-public interface IPageHint
-{
+public interface IPageHint {
 
 	/**
 	 * get the page number of this section
 	 * 
 	 * @return
 	 */
-	long getPageNumber( );
+	long getPageNumber();
 
 	/**
 	 * get the page offset from the page content stream.
 	 * 
 	 * @return
 	 */
-	long getOffset( );
+	long getOffset();
 
 	/**
 	 * get the sections contains in the content.
 	 * 
 	 * @return
 	 */
-	int getSectionCount( );
+	int getSectionCount();
 
-	PageSection getSection( int section );
+	PageSection getSection(int section);
 
 	/**
 	 * get the start offset of the section.
@@ -47,7 +46,7 @@ public interface IPageHint
 	 * @param section
 	 * @return
 	 */
-	long getSectionStart( int section );
+	long getSectionStart(int section);
 
 	/**
 	 * get the end offset of the section.
@@ -55,24 +54,24 @@ public interface IPageHint
 	 * @param section
 	 * @return
 	 */
-	long getSectionEnd( int section );
-	
-	void addUnresolvedRowHints(Collection hints);
-	
-	int getUnresolvedRowCount( );
+	long getSectionEnd(int section);
 
-	UnresolvedRowHint getUnresolvedRowHint( int index );
-	
+	void addUnresolvedRowHints(Collection hints);
+
+	int getUnresolvedRowCount();
+
+	UnresolvedRowHint getUnresolvedRowHint(int index);
+
 	String getMasterPage();
-	
+
 	int getTableColumnHintCount();
-	
+
 	void addTableColumnHint(TableColumnHint hint);
-	
+
 	TableColumnHint getTableColumnHint(int index);
-	
+
 	void addTableColumnHints(Collection hints);
 
-	Collection<PageVariable> getPageVariables( );
+	Collection<PageVariable> getPageVariables();
 
 }

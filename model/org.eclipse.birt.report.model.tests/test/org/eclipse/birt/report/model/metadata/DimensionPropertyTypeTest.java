@@ -31,15 +31,13 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class DimensionPropertyTypeTest extends PropertyTypeTestCase
-{
+public class DimensionPropertyTypeTest extends PropertyTypeTestCase {
 
 	/**
-	 * This fake class overrides <code>equals(Object)</code> method to compare
-	 * two <code>DimensionValue</code> objects.
+	 * This fake class overrides <code>equals(Object)</code> method to compare two
+	 * <code>DimensionValue</code> objects.
 	 */
-	class DimensionValueFake extends DimensionValue
-	{
+	class DimensionValueFake extends DimensionValue {
 
 		/**
 		 * Constructor.
@@ -47,9 +45,8 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 		 * @param theMeasure
 		 * @param theUnits
 		 */
-		public DimensionValueFake( double theMeasure, String theUnits )
-		{
-			super( theMeasure, theUnits );
+		public DimensionValueFake(double theMeasure, String theUnits) {
+			super(theMeasure, theUnits);
 		}
 
 		/*
@@ -58,14 +55,13 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 		 * @see java.lang.Object#equals(java.lang.Object)
 		 */
 		@Override
-		public boolean equals( Object obj )
-		{
-			return this.toString( ).equals( obj.toString( ) );
+		public boolean equals(Object obj) {
+			return this.toString().equals(obj.toString());
 		}
 	}
 
-	DimensionPropertyType type = new DimensionPropertyType( );
-	PropertyDefn propDefn = new PropertyDefnFake( );
+	DimensionPropertyType type = new DimensionPropertyType();
+	PropertyDefn propDefn = new PropertyDefnFake();
 
 	/*
 	 * (non-Javadoc)
@@ -73,10 +69,9 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Override
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		propDefn.setType( type );
+	protected void setUp() throws Exception {
+		super.setUp();
+		propDefn.setType(type);
 	}
 
 	/*
@@ -87,9 +82,8 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * ()
 	 */
 	@Override
-	public void testGetTypeCode( )
-	{
-		assertEquals( PropertyType.DIMENSION_TYPE, type.getTypeCode( ) );
+	public void testGetTypeCode() {
+		assertEquals(PropertyType.DIMENSION_TYPE, type.getTypeCode());
 	}
 
 	/*
@@ -99,9 +93,8 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
 	@Override
-	public void testGetName( )
-	{
-		assertEquals( PropertyType.DIMENSION_TYPE_NAME, type.getName( ) );
+	public void testGetName() {
+		assertEquals(PropertyType.DIMENSION_TYPE_NAME, type.getName());
 	}
 
 	/*
@@ -112,30 +105,25 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * ()
 	 */
 	@Override
-	public void testValidateValue( ) throws PropertyValueException
-	{
-		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
-		assertEquals( null, type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$
+	public void testValidateValue() throws PropertyValueException {
+		assertEquals(null, type.validateValue(design, null, propDefn, null));
+		assertEquals(null, type.validateValue(design, null, propDefn, "")); //$NON-NLS-1$
 
 		// String
 
-		DimensionValue value = (DimensionValue) type.validateValue( design,
-				null, propDefn, "1.0cm" ); //$NON-NLS-1$
-		assertEquals( "cm", value.getUnits( ) ); //$NON-NLS-1$
-		assertEquals( 1.0, value.getMeasure( ), 1 );
+		DimensionValue value = (DimensionValue) type.validateValue(design, null, propDefn, "1.0cm"); //$NON-NLS-1$
+		assertEquals("cm", value.getUnits()); //$NON-NLS-1$
+		assertEquals(1.0, value.getMeasure(), 1);
 
-		value = (DimensionValue) type.validateValue( design, null, propDefn,
-				"1.0  pt" ); //$NON-NLS-1$
-		assertEquals( "pt", value.getUnits( ) ); //$NON-NLS-1$
-		assertEquals( 1.0, value.getMeasure( ), 1 );
+		value = (DimensionValue) type.validateValue(design, null, propDefn, "1.0  pt"); //$NON-NLS-1$
+		assertEquals("pt", value.getUnits()); //$NON-NLS-1$
+		assertEquals(1.0, value.getMeasure(), 1);
 
 		// DimensionValue
 
-		DimensionValue input = new DimensionValue( 1.0d,
-				DesignChoiceConstants.UNITS_CM );
-		value = (DimensionValue) type.validateValue( design, null, propDefn,
-				input );
-		assertTrue( input == value );
+		DimensionValue input = new DimensionValue(1.0d, DesignChoiceConstants.UNITS_CM);
+		value = (DimensionValue) type.validateValue(design, null, propDefn, input);
+		assertTrue(input == value);
 
 	}
 
@@ -146,35 +134,24 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * testValidateInputString()
 	 */
 	@Override
-	public void testValidateInputString( ) throws PropertyValueException
-	{
-		DimensionValue value = (DimensionValue) type.validateInputString(
-				design, null, propDefn, "cm" ); //$NON-NLS-1$
-		assertEquals( null, value );
+	public void testValidateInputString() throws PropertyValueException {
+		DimensionValue value = (DimensionValue) type.validateInputString(design, null, propDefn, "cm"); //$NON-NLS-1$
+		assertEquals(null, value);
 
-		value = (DimensionValue) type.validateInputString( design, null,
-				propDefn, " cm " ); //$NON-NLS-1$
-		assertEquals( null, value );
+		value = (DimensionValue) type.validateInputString(design, null, propDefn, " cm "); //$NON-NLS-1$
+		assertEquals(null, value);
 
-		try
-		{
-			value = (DimensionValue) type.validateInputString( design, null,
-					propDefn, "acm" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
+		try {
+			value = (DimensionValue) type.validateInputString(design, null, propDefn, "acm"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
 			// pass
 		}
 
-		try
-		{
-			value = (DimensionValue) type.validateInputString( design, null,
-					propDefn, "/cm" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
+		try {
+			value = (DimensionValue) type.validateInputString(design, null, propDefn, "/cm"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
 			// pass
 		}
 	}
@@ -187,46 +164,40 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * ()
 	 */
 	@Override
-	public void testValidateXml( ) throws PropertyValueException
-	{
-		assertEquals( null, type.validateXml( design, null, propDefn, null ) );
-		assertEquals( null, type.validateXml( design, null, propDefn, "" ) ); //$NON-NLS-1$
+	public void testValidateXml() throws PropertyValueException {
+		assertEquals(null, type.validateXml(design, null, propDefn, null));
+		assertEquals(null, type.validateXml(design, null, propDefn, "")); //$NON-NLS-1$
 
-		DimensionValue value = (DimensionValue) type.validateXml( design, null,
-				propDefn, "1.0cm" ); //$NON-NLS-1$
-		assertEquals( "cm", value.getUnits( ) ); //$NON-NLS-1$
-		assertEquals( 1.0, value.getMeasure( ), 1 );
+		DimensionValue value = (DimensionValue) type.validateXml(design, null, propDefn, "1.0cm"); //$NON-NLS-1$
+		assertEquals("cm", value.getUnits()); //$NON-NLS-1$
+		assertEquals(1.0, value.getMeasure(), 1);
 
-		resetMetadata( );
+		resetMetadata();
 
-		createDesign( ULocale.GERMAN );
-		ElementFactory factory = new ElementFactory( designHandle.getModule( ) );
-		MasterPageHandle page = factory.newSimpleMasterPage( "Page1" ); //$NON-NLS-1$
-		assertEquals(
-				"0,25in", page.getDisplayProperty( MasterPageHandle.LEFT_MARGIN_PROP ) ); //$NON-NLS-1$
-		assertEquals(
-				"0.25in", page.getStringProperty( MasterPageHandle.LEFT_MARGIN_PROP ) ); //$NON-NLS-1$
+		createDesign(ULocale.GERMAN);
+		ElementFactory factory = new ElementFactory(designHandle.getModule());
+		MasterPageHandle page = factory.newSimpleMasterPage("Page1"); //$NON-NLS-1$
+		assertEquals("0,25in", page.getDisplayProperty(MasterPageHandle.LEFT_MARGIN_PROP)); //$NON-NLS-1$
+		assertEquals("0.25in", page.getStringProperty(MasterPageHandle.LEFT_MARGIN_PROP)); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
 	 * ()
 	 */
 
 	@Override
-	public void testToDouble( ) throws PropertyValueException
+	public void testToDouble() throws PropertyValueException
 
 	{
-		assertEquals( 0.0d, type.toDouble( design, null ), 1 );
+		assertEquals(0.0d, type.toDouble(design, null), 1);
 
-		design.getSession( ).setUnits( DesignChoiceConstants.UNITS_CM );
+		design.getSession().setUnits(DesignChoiceConstants.UNITS_CM);
 
 		// in = > cm
-		assertEquals( 2.54d, type.toDouble( design, new DimensionValue( 1.0d,
-				DesignChoiceConstants.UNITS_IN ) ), 2 );
+		assertEquals(2.54d, type.toDouble(design, new DimensionValue(1.0d, DesignChoiceConstants.UNITS_IN)), 2);
 
 	}
 
@@ -234,45 +205,35 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
-	 * ()
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger ()
 	 */
 	@Override
-	public void testToInteger( )
-	{
+	public void testToInteger() {
 		// Nothing to test
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
 	@Override
-	public void testToXml( )
-	{
-		assertEquals(
-				"2cm", type.toXml( design, propDefn, new DimensionValue( 2.0d, DesignChoiceConstants.UNITS_CM ) ) ); //$NON-NLS-1$
-		assertEquals(
-				"2mm", type.toXml( design, propDefn, new DimensionValue( 2.0d, DesignChoiceConstants.UNITS_MM ) ) ); //$NON-NLS-1$ 
+	public void testToXml() {
+		assertEquals("2cm", type.toXml(design, propDefn, new DimensionValue(2.0d, DesignChoiceConstants.UNITS_CM))); //$NON-NLS-1$
+		assertEquals("2mm", type.toXml(design, propDefn, new DimensionValue(2.0d, DesignChoiceConstants.UNITS_MM))); //$NON-NLS-1$
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
 	@Override
-	public void testToString( )
-	{
-		assertEquals(
-				"2cm", type.toString( design, propDefn, new DimensionValue( 2.0d, DesignChoiceConstants.UNITS_CM ) ) ); //$NON-NLS-1$
-		assertEquals(
-				"2mm", type.toString( design, propDefn, new DimensionValue( 2.0d, DesignChoiceConstants.UNITS_MM ) ) ); //$NON-NLS-1$
+	public void testToString() {
+		assertEquals("2cm", type.toString(design, propDefn, new DimensionValue(2.0d, DesignChoiceConstants.UNITS_CM))); //$NON-NLS-1$
+		assertEquals("2mm", type.toString(design, propDefn, new DimensionValue(2.0d, DesignChoiceConstants.UNITS_MM))); //$NON-NLS-1$
 	}
 
 	/*
@@ -282,358 +243,254 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * testToDisplayString()
 	 */
 	@Override
-	public void testToDisplayString( )
-	{
-		ThreadResources.setLocale( ULocale.ENGLISH );
-		assertEquals(
-				"1,234,567,890.123cm", type.toDisplayString( design, propDefn, new DimensionValue( 1234567890.123d, DesignChoiceConstants.UNITS_CM ) ) ); //$NON-NLS-1$
+	public void testToDisplayString() {
+		ThreadResources.setLocale(ULocale.ENGLISH);
+		assertEquals("1,234,567,890.123cm", type.toDisplayString(design, propDefn, //$NON-NLS-1$
+				new DimensionValue(1234567890.123d, DesignChoiceConstants.UNITS_CM)));
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
 	 * ()
 	 */
 
 	@Override
-	public void testToNumber( ) throws PropertyValueException
-	{
-		assertEquals( 0.0d, type.toNumber( design, null ).doubleValue( ), 1 );
-		design.getSession( ).setUnits( DesignChoiceConstants.UNITS_CM );
+	public void testToNumber() throws PropertyValueException {
+		assertEquals(0.0d, type.toNumber(design, null).doubleValue(), 1);
+		design.getSession().setUnits(DesignChoiceConstants.UNITS_CM);
 
 		// in = > cm
-		assertEquals( 2.54d, type.toNumber( design,
-				new DimensionValue( 1.0d, DesignChoiceConstants.UNITS_IN ) )
-				.doubleValue( ), 2 );
+		assertEquals(2.54d,
+				type.toNumber(design, new DimensionValue(1.0d, DesignChoiceConstants.UNITS_IN)).doubleValue(), 2);
 
 	}
 
 	/**
-	 * test the input value for dimension property. the locale used for test is
-	 * EN, which defines the decimal separator is "." .
+	 * test the input value for dimension property. the locale used for test is EN,
+	 * which defines the decimal separator is "." .
 	 * 
 	 * @throws SemanticException
 	 */
-	public void testValidateInputValueByEnglishULocale( )
-			throws SemanticException
-	{
+	public void testValidateInputValueByEnglishULocale() throws SemanticException {
 
 		createDesign(ULocale.ENGLISH);
 
-		TableHandle table = designHandle.getElementFactory( ).newTableItem(
-				"table", 3 ); //$NON-NLS-1$
-		RowHandle row = designHandle.getElementFactory( ).newTableRow( );
-		CellHandle cell = designHandle.getElementFactory( ).newCell( );
-		LabelHandle label = designHandle.getElementFactory( )
-				.newLabel( "label" ); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory().newTableItem("table", 3); //$NON-NLS-1$
+		RowHandle row = designHandle.getElementFactory().newTableRow();
+		CellHandle cell = designHandle.getElementFactory().newCell();
+		LabelHandle label = designHandle.getElementFactory().newLabel("label"); //$NON-NLS-1$
 
-		cell.addElement( label, 0 );
-		row.addElement( cell, 0 );
-		table.getHeader( ).add( row );
-		designHandle.getBody( ).add( table );
+		cell.addElement(label, 0);
+		row.addElement(cell, 0);
+		table.getHeader().add(row);
+		designHandle.getBody().add(table);
 
 		// the local is EN, so the decimal number pattern should be
 		// DOT_SEPARATOR
-		label.setProperty( Style.MARGIN_LEFT_PROP, "111,111.22pt" ); //$NON-NLS-1$
-		assertEquals(
-				"111111.22pt", label.getProperty( Style.MARGIN_LEFT_PROP ).toString( ) ); //$NON-NLS-1$
+		label.setProperty(Style.MARGIN_LEFT_PROP, "111,111.22pt"); //$NON-NLS-1$
+		assertEquals("111111.22pt", label.getProperty(Style.MARGIN_LEFT_PROP).toString()); //$NON-NLS-1$
 
 		// the kilobit after decimal separator will be ignored by Java
 		// NumberFormat.
-		label.setProperty( Style.MARGIN_LEFT_PROP, "111,111.22,555pt" ); //$NON-NLS-1$
-		assertEquals( "111111.22pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "111,111.22,555pt"); //$NON-NLS-1$
+		assertEquals("111111.22pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
-		label.setProperty( Style.MARGIN_LEFT_PROP, "111.22,555pt" ); //$NON-NLS-1$
-		assertEquals( "111.22pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "111.22,555pt"); //$NON-NLS-1$
+		assertEquals("111.22pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
-		label.setProperty( Style.MARGIN_LEFT_PROP, "111,2222,33.22,555pt" ); //$NON-NLS-1$
-		assertEquals( "111222233.22pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "111,2222,33.22,555pt"); //$NON-NLS-1$
+		assertEquals("111222233.22pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
-		label.setProperty( Style.MARGIN_LEFT_PROP, "1pt" ); //$NON-NLS-1$
-		assertEquals( "1pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "1pt"); //$NON-NLS-1$
+		assertEquals("1pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
-		label.setProperty( Style.MARGIN_LEFT_PROP, "1.1pt" ); //$NON-NLS-1$
-		assertEquals( "1.1pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "1.1pt"); //$NON-NLS-1$
+		assertEquals("1.1pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
 		// set dimension property with invalid unit
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "12kpt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "12kpt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
 		// set dimension value with invalid value
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "1:\":3,>}{)(*&^? pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "1:\":3,>}{)(*&^? pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 		// the dimension value contains more than one decimal separator
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "111,11.11.22pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "111,11.11.22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
 		// the dimension value contains separator followed by a kilobit
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "111,11,.22pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "111,11,.22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, ",11.22pt" ); //$NON-NLS-1$
-			fail( );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, ",11.22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
-		}
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, ",11,1.22pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, ",11,1.22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "1,.22pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "1,.22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "11..22pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "11..22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "11,,1.22pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "11,,1.22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "11,1.22,,pt" ); //$NON-NLS-1$
-			fail( );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "11,1.22,,pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
-		}
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "11,1.22,pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "11,1.22,pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "+1pt" ); //$NON-NLS-1$
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "+1pt"); //$NON-NLS-1$
 			assert false;
-		}
-		catch ( PropertyValueException e )
-		{
+		} catch (PropertyValueException e) {
 
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
 	}
 
 	/**
-	 * Test the validation mechanism for input value of dimension value. The
-	 * locale used for testing is German. So the decimal separator is ",".
+	 * Test the validation mechanism for input value of dimension value. The locale
+	 * used for testing is German. So the decimal separator is ",".
 	 * 
 	 * @throws SemanticException
 	 */
 
-	public void testValidateInputValueByGermanULocale( )
-			throws SemanticException
-	{
-		createDesign( ULocale.GERMANY );
+	public void testValidateInputValueByGermanULocale() throws SemanticException {
+		createDesign(ULocale.GERMANY);
 
-		TableHandle table = designHandle.getElementFactory( ).newTableItem(
-				"table", 3 ); //$NON-NLS-1$
-		RowHandle row = designHandle.getElementFactory( ).newTableRow( );
-		CellHandle cell = designHandle.getElementFactory( ).newCell( );
-		LabelHandle label = designHandle.getElementFactory( )
-				.newLabel( "label" ); //$NON-NLS-1$
+		TableHandle table = designHandle.getElementFactory().newTableItem("table", 3); //$NON-NLS-1$
+		RowHandle row = designHandle.getElementFactory().newTableRow();
+		CellHandle cell = designHandle.getElementFactory().newCell();
+		LabelHandle label = designHandle.getElementFactory().newLabel("label"); //$NON-NLS-1$
 
-		cell.addElement( label, 0 );
-		row.addElement( cell, 0 );
-		table.getHeader( ).add( row );
-		designHandle.getBody( ).add( table );
+		cell.addElement(label, 0);
+		row.addElement(cell, 0);
+		table.getHeader().add(row);
+		designHandle.getBody().add(table);
 
-		label.setProperty( Style.MARGIN_LEFT_PROP, "111.111,22pt" ); //$NON-NLS-1$
-		assertEquals(
-				"111111.22pt", label.getProperty( Style.MARGIN_LEFT_PROP ).toString( ) ); //$NON-NLS-1$
+		label.setProperty(Style.MARGIN_LEFT_PROP, "111.111,22pt"); //$NON-NLS-1$
+		assertEquals("111111.22pt", label.getProperty(Style.MARGIN_LEFT_PROP).toString()); //$NON-NLS-1$
 
 		// the kilobit after decimal separator will be ignored by Java
 		// NumberFormat.
-		label.setProperty( Style.MARGIN_LEFT_PROP, "111.111,22.555pt" ); //$NON-NLS-1$
-		assertEquals( "111111.22pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "111.111,22.555pt"); //$NON-NLS-1$
+		assertEquals("111111.22pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
-		label.setProperty( Style.MARGIN_LEFT_PROP, "111,22.555pt" ); //$NON-NLS-1$
-		assertEquals( "111.22pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "111,22.555pt"); //$NON-NLS-1$
+		assertEquals("111.22pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
-		label.setProperty( Style.MARGIN_LEFT_PROP, "111.2222.33,22.555pt" ); //$NON-NLS-1$
-		assertEquals( "111222233.22pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "111.2222.33,22.555pt"); //$NON-NLS-1$
+		assertEquals("111222233.22pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
-		label.setProperty( Style.MARGIN_LEFT_PROP, "1pt" ); //$NON-NLS-1$
-		assertEquals( "1pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "1pt"); //$NON-NLS-1$
+		assertEquals("1pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
-		label.setProperty( Style.MARGIN_LEFT_PROP, "1,1pt" ); //$NON-NLS-1$
-		assertEquals( "1.1pt", label.getProperty( //$NON-NLS-1$
-				Style.MARGIN_LEFT_PROP ).toString( ) );
+		label.setProperty(Style.MARGIN_LEFT_PROP, "1,1pt"); //$NON-NLS-1$
+		assertEquals("1.1pt", label.getProperty( //$NON-NLS-1$
+				Style.MARGIN_LEFT_PROP).toString());
 
 		// set dimension property with invalid unit
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "12kpt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "12kpt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
 		// set dimension value with invalid value
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "1:\":3,>}{)(*&^? pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "1:\":3,>}{)(*&^? pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 		// the dimension value contains more than one decimal separator
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "111.11,11,22pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "111.11,11,22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
 		// the dimension value contains separator followed by a kilobit
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "111.11.,22pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "111.11.,22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, ".11,22pt" ); //$NON-NLS-1$
-			fail( );
-		}
-		catch ( PropertyValueException e )
-		{
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, ".11,22pt"); //$NON-NLS-1$
+			fail();
+		} catch (PropertyValueException e) {
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 
-		try
-		{
-			label.setProperty( Style.MARGIN_LEFT_PROP, "+1pt" ); //$NON-NLS-1$
+		try {
+			label.setProperty(Style.MARGIN_LEFT_PROP, "+1pt"); //$NON-NLS-1$
 			assert false;
-		}
-		catch ( PropertyValueException e )
-		{
+		} catch (PropertyValueException e) {
 
-			assertEquals(
-					PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e
-							.getErrorCode( ) );
+			assertEquals(PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, e.getErrorCode());
 		}
 	}
 
@@ -641,13 +498,11 @@ public class DimensionPropertyTypeTest extends PropertyTypeTestCase
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
-	 * ()
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean ()
 	 */
 
 	@Override
-	public void testToBoolean( )
-	{
+	public void testToBoolean() {
 		// Nothing to test
 	}
 

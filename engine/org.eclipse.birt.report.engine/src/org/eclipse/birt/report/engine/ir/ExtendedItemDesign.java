@@ -14,29 +14,29 @@ package org.eclipse.birt.report.engine.ir;
 import java.util.ArrayList;
 import java.util.List;
 
-
 /**
- * Extended Item. 
+ * Extended Item.
  * 
  */
-public class ExtendedItemDesign extends ReportItemDesign
-{
-	
+public class ExtendedItemDesign extends ReportItemDesign {
+
 	/**
 	 * children of this extended item.
 	 */
-	protected List children = new ArrayList( ); 
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.report.engine.ir.ReportItemVisitor)
+	protected List children = new ArrayList();
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.ir.ReportItemDesign#accept(org.eclipse.birt.
+	 * report.engine.ir.ReportItemVisitor)
 	 */
-	public Object accept( IReportItemVisitor visitor , Object value)
-	{
-		return visitor.visitExtendedItem( this, value);
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitExtendedItem(this, value);
 	}
-	
-	public List getChildren( )
-	{
+
+	public List getChildren() {
 		return children;
 	}
 }

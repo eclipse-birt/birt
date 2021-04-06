@@ -11,15 +11,12 @@
 
 package org.eclipse.birt.report.tests.model.regression;
 
-
 import org.eclipse.birt.report.model.adapter.oda.ModelOdaAdapter;
 import org.eclipse.birt.report.model.api.DataSourceHandle;
 import org.eclipse.birt.report.model.api.OdaDataSetHandle;
 import org.eclipse.birt.report.model.api.OdaDataSourceHandle;
 import org.eclipse.birt.report.tests.model.BaseTestCase;
 import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
-
-
 
 /**
  * <b>Bug Description:</b>
@@ -45,60 +42,54 @@ import org.eclipse.datatools.connectivity.oda.design.DataSetDesign;
  * Follow the steps in bug description, make sure data set has no local
  * properties
  */
-public class Regression_153233 extends BaseTestCase
-{
+public class Regression_153233 extends BaseTestCase {
 
 	private String filename = "Regression_153233.xml"; //$NON-NLS-1$
 	private String libname = "Regression_153233_lib.xml"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		
-		copyInputToFile (INPUT_FOLDER+"/"+filename);
-		copyInputToFile (INPUT_FOLDER+"/"+libname);
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+
+		copyInputToFile(INPUT_FOLDER + "/" + filename);
+		copyInputToFile(INPUT_FOLDER + "/" + libname);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
+
 	/**
 	 * @throws Exception
 	 */
-	public void test_regression_153233( ) throws Exception
-	{
-		openDesign( filename );
-		designHandle.includeLibrary( libname, "lib" ); //$NON-NLS-1$
-		DataSourceHandle parent = designHandle
-				.getLibrary( "lib" ).findDataSource( "Data Source" ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertNotNull( parent );
-		ModelOdaAdapter adapter = new ModelOdaAdapter( );
+	public void test_regression_153233() throws Exception {
+		openDesign(filename);
+		designHandle.includeLibrary(libname, "lib"); //$NON-NLS-1$
+		DataSourceHandle parent = designHandle.getLibrary("lib").findDataSource("Data Source"); //$NON-NLS-1$ //$NON-NLS-2$
+		assertNotNull(parent);
+		ModelOdaAdapter adapter = new ModelOdaAdapter();
 
-		OdaDataSourceHandle dataSource = (OdaDataSourceHandle) designHandle
-				.getElementFactory( ).newElementFrom( parent, "testSource" ); //$NON-NLS-1$ 
-		designHandle.getDataSources( ).add( dataSource );
-		assertEquals( designHandle, dataSource.getRoot( ) );
+		OdaDataSourceHandle dataSource = (OdaDataSourceHandle) designHandle.getElementFactory().newElementFrom(parent,
+				"testSource"); //$NON-NLS-1$
+		designHandle.getDataSources().add(dataSource);
+		assertEquals(designHandle, dataSource.getRoot());
 
-		adapter.createDataSourceDesign( dataSource );
+		adapter.createDataSourceDesign(dataSource);
 
-		OdaDataSetHandle dataSet = designHandle
-				.getElementFactory( )
-				.newOdaDataSet(
-						"testDataSet", "org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet" ); //$NON-NLS-1$ //$NON-NLS-2$
-		dataSet.setDataSource( "testSource" ); //$NON-NLS-1$
-		designHandle.getDataSets( ).add( dataSet );
-		assertEquals( designHandle, dataSet.getRoot( ) );
+		OdaDataSetHandle dataSet = designHandle.getElementFactory().newOdaDataSet("testDataSet", //$NON-NLS-1$
+				"org.eclipse.birt.report.data.oda.jdbc.JdbcSelectDataSet"); //$NON-NLS-1$
+		dataSet.setDataSource("testSource"); //$NON-NLS-1$
+		designHandle.getDataSets().add(dataSet);
+		assertEquals(designHandle, dataSet.getRoot());
 
-		DataSetDesign dataSetDesign = adapter.createDataSetDesign( dataSet );
-		dataSetDesign.setQueryText( "new query text" ); //$NON-NLS-1$
+		DataSetDesign dataSetDesign = adapter.createDataSetDesign(dataSet);
+		dataSetDesign.setQueryText("new query text"); //$NON-NLS-1$
 
 		// update data set handle
 
-		adapter.updateDataSetHandle( dataSetDesign, dataSet, false );
+		adapter.updateDataSetHandle(dataSetDesign, dataSet, false);
 
-		assertFalse( dataSource.hasLocalProperties( ) );
+		assertFalse(dataSource.hasLocalProperties());
 
 	}
 }

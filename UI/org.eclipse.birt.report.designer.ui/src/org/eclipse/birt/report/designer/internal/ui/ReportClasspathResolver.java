@@ -21,18 +21,15 @@ import org.eclipse.birt.report.designer.ui.preferences.PreferenceFactory;
 /**
  * ReportClasspathResolver
  */
-public class ReportClasspathResolver implements IReportClasspathResolver
-{
+public class ReportClasspathResolver implements IReportClasspathResolver {
 
-	public String[] resolveClasspath( Object adaptable )
-	{
-		String value = PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ) )
-				.getString( ReportPlugin.CLASSPATH_PREFERENCE );
-		
-		List<String> strs = ClassPathBlock.getEntries( value );
-		
-		return strs.toArray( new String[strs.size( )] );
+	public String[] resolveClasspath(Object adaptable) {
+		String value = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault())
+				.getString(ReportPlugin.CLASSPATH_PREFERENCE);
+
+		List<String> strs = ClassPathBlock.getEntries(value);
+
+		return strs.toArray(new String[strs.size()]);
 	}
 
 }

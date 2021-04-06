@@ -22,33 +22,30 @@ import org.eclipse.swt.widgets.Composite;
  * Attribute page for data item expression property.
  */
 
-public class ExpressionPage extends AttributePage
-{
+public class ExpressionPage extends AttributePage {
 
-	public void buildUI( Composite parent  )
-	{
-		super.buildUI( parent );
-		container.setLayout( WidgetUtil.createGridLayout( 1 ,15) );
+	public void buildUI(Composite parent) {
+		super.buildUI(parent);
+		container.setLayout(WidgetUtil.createGridLayout(1, 15));
 
 		// Defines provider.
 
-		IDescriptorProvider expressionProvider = new ExpressionPropertyDescriptorProvider( TextDataHandle.VALUE_EXPR_PROP,
-				ReportDesignConstants.TEXT_DATA_ITEM );
+		IDescriptorProvider expressionProvider = new ExpressionPropertyDescriptorProvider(
+				TextDataHandle.VALUE_EXPR_PROP, ReportDesignConstants.TEXT_DATA_ITEM);
 
 		// Defines section.
 
-		ExpressionSection expressionSection = new ExpressionSection( expressionProvider.getDisplayName( ),
-				container,
-				true );
+		ExpressionSection expressionSection = new ExpressionSection(expressionProvider.getDisplayName(), container,
+				true);
 
-		expressionSection.setProvider( expressionProvider );
-		expressionSection.setWidth( 500 );
+		expressionSection.setProvider(expressionProvider);
+		expressionSection.setWidth(500);
 
 		// Adds section into this page.
 
-		addSection( PageSectionId.EXPRESSION_VALUE_EXPR, expressionSection ); //$NON-NLS-1$
+		addSection(PageSectionId.EXPRESSION_VALUE_EXPR, expressionSection); // $NON-NLS-1$
 
-		createSections( );
-		layoutSections( );
+		createSections();
+		layoutSections();
 	}
 }

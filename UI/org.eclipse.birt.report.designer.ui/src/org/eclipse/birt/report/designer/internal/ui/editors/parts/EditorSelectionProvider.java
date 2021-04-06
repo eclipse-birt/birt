@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.designer.internal.ui.editors.parts;
 
-
 /**
  * Selection provider for editor.
  * <P>
@@ -19,10 +18,9 @@ package org.eclipse.birt.report.designer.internal.ui.editors.parts;
  * to GraphicalEditor. Future definition may vary.
  */
 
-public interface EditorSelectionProvider
-{
+public interface EditorSelectionProvider {
 	/**
 	 * Updates current editor actions.
 	 */
-	void updateStackActions( );
+	void updateStackActions();
 }

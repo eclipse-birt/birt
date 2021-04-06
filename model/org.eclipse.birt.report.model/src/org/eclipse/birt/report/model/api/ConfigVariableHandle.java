@@ -20,22 +20,18 @@ import org.eclipse.birt.report.model.api.elements.structures.ConfigVariable;
  * other BIRT-specific values.
  */
 
-public class ConfigVariableHandle extends StructureHandle
-{
+public class ConfigVariableHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of configuration variable.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for configuration variable list of one
-	 *            property
-	 * @param index
-	 *            the position of this configuration variable in the list
+	 * @param valueHandle the value handle for configuration variable list of one
+	 *                    property
+	 * @param index       the position of this configuration variable in the list
 	 */
 
-	public ConfigVariableHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public ConfigVariableHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -44,21 +40,18 @@ public class ConfigVariableHandle extends StructureHandle
 	 * @return the variable name
 	 */
 
-	public String getName( )
-	{
-		return getStringProperty( ConfigVariable.NAME_MEMBER );
+	public String getName() {
+		return getStringProperty(ConfigVariable.NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the variable name.
 	 * 
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
 
-	public void setName( String name )
-	{
-		setPropertySilently( ConfigVariable.NAME_MEMBER, name );
+	public void setName(String name) {
+		setPropertySilently(ConfigVariable.NAME_MEMBER, name);
 	}
 
 	/**
@@ -67,20 +60,17 @@ public class ConfigVariableHandle extends StructureHandle
 	 * @return the variable value
 	 */
 
-	public String getValue( )
-	{
-		return getStringProperty( ConfigVariable.VALUE_MEMBER );
+	public String getValue() {
+		return getStringProperty(ConfigVariable.VALUE_MEMBER);
 	}
 
 	/**
 	 * Sets the variable value.
 	 * 
-	 * @param value
-	 *            the value to set
+	 * @param value the value to set
 	 */
 
-	public void setValue( String value )
-	{
-		setPropertySilently( ConfigVariable.VALUE_MEMBER, value );
+	public void setValue(String value) {
+		setPropertySilently(ConfigVariable.VALUE_MEMBER, value);
 	}
 }

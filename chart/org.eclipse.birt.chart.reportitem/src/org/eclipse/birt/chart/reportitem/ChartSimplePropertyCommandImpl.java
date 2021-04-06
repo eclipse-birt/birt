@@ -18,8 +18,7 @@ import org.eclipse.birt.report.model.api.extension.IElementCommand;
 /**
  * ChartSimplePropertyCommandImpl
  */
-public class ChartSimplePropertyCommandImpl implements IElementCommand
-{
+public class ChartSimplePropertyCommandImpl implements IElementCommand {
 
 	private ChartReportItemImpl item;
 	private Object oldValue;
@@ -33,10 +32,8 @@ public class ChartSimplePropertyCommandImpl implements IElementCommand
 	 * @param impl
 	 * 
 	 */
-	public ChartSimplePropertyCommandImpl( DesignElementHandle handle,
-			ChartReportItemImpl impl, String propName, Object newValue,
-			Object oldValue )
-	{
+	public ChartSimplePropertyCommandImpl(DesignElementHandle handle, ChartReportItemImpl impl, String propName,
+			Object newValue, Object oldValue) {
 		this.handle = handle;
 		this.item = impl;
 		this.propertyName = propName;
@@ -44,59 +41,68 @@ public class ChartSimplePropertyCommandImpl implements IElementCommand
 		this.newValue = newValue;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#execute()
 	 */
-	public void execute( )
-	{
-		item.basicSetProperty( propertyName, newValue );
+	public void execute() {
+		item.basicSetProperty(propertyName, newValue);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#undo()
 	 */
-	public void undo( )
-	{
-		item.basicSetProperty( propertyName, oldValue );
+	public void undo() {
+		item.basicSetProperty(propertyName, oldValue);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#redo()
 	 */
-	public void redo( )
-	{
-		item.basicSetProperty( propertyName, newValue );
+	public void redo() {
+		item.basicSetProperty(propertyName, newValue);
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#canUndo()
 	 */
-	public boolean canUndo( )
-	{
+	public boolean canUndo() {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#canRedo()
 	 */
-	public boolean canRedo( )
-	{
+	public boolean canRedo() {
 		return true;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getLabel()
 	 */
-	public String getLabel( )
-	{
-		return Messages.getString( "ChartElementCommandImpl.setProperty." + propertyName ); //$NON-NLS-1$
+	public String getLabel() {
+		return Messages.getString("ChartElementCommandImpl.setProperty." + propertyName); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.api.extension.IElementCommand#getElementHandle(
+	 * )
 	 */
-	public DesignElementHandle getElementHandle( )
-	{
+	public DesignElementHandle getElementHandle() {
 		return handle;
 	}
 

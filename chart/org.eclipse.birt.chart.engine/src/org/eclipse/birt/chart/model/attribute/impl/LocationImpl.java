@@ -24,15 +24,16 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX <em>X</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY <em>Y</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getX
+ * <em>X</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.attribute.impl.LocationImpl#getY
+ * <em>Y</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class LocationImpl extends EObjectImpl implements Location
-{
+public class LocationImpl extends EObjectImpl implements Location {
 
 	/**
 	 * The default value of the '{@link #getX() <em>X</em>}' attribute. <!--
@@ -55,9 +56,9 @@ public class LocationImpl extends EObjectImpl implements Location
 	protected double x = X_EDEFAULT;
 
 	/**
-	 * This is true if the X attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This is true if the X attribute has been set. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -84,9 +85,9 @@ public class LocationImpl extends EObjectImpl implements Location
 	protected double y = Y_EDEFAULT;
 
 	/**
-	 * This is true if the Y attribute has been set.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * This is true if the Y attribute has been set. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -94,230 +95,208 @@ public class LocationImpl extends EObjectImpl implements Location
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected LocationImpl( )
-	{
-		super( );
+	protected LocationImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return AttributePackage.Literals.LOCATION;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public double getX( )
-	{
+	public double getX() {
 		return x;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setX( double newX )
-	{
+	public void setX(double newX) {
 		double oldX = x;
 		x = newX;
 		boolean oldXESet = xESet;
 		xESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.LOCATION__X,
-					oldX,
-					x,
-					!oldXESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LOCATION__X, oldX, x, !oldXESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetX( )
-	{
+	public void unsetX() {
 		double oldX = x;
 		boolean oldXESet = xESet;
 		x = X_EDEFAULT;
 		xESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					AttributePackage.LOCATION__X,
-					oldX,
-					X_EDEFAULT,
-					oldXESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION__X, oldX, X_EDEFAULT,
+					oldXESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetX( )
-	{
+	public boolean isSetX() {
 		return xESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public double getY( )
-	{
+	public double getY() {
 		return y;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setY( double newY )
-	{
+	public void setY(double newY) {
 		double oldY = y;
 		y = newY;
 		boolean oldYESet = yESet;
 		yESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					AttributePackage.LOCATION__Y,
-					oldY,
-					y,
-					!oldYESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, AttributePackage.LOCATION__Y, oldY, y, !oldYESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetY( )
-	{
+	public void unsetY() {
 		double oldY = y;
 		boolean oldYESet = yESet;
 		y = Y_EDEFAULT;
 		yESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					AttributePackage.LOCATION__Y,
-					oldY,
-					Y_EDEFAULT,
-					oldYESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, AttributePackage.LOCATION__Y, oldY, Y_EDEFAULT,
+					oldYESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetY( )
-	{
+	public boolean isSetY() {
 		return yESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.LOCATION__X :
-				return getX( );
-			case AttributePackage.LOCATION__Y :
-				return getY( );
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case AttributePackage.LOCATION__X:
+			return getX();
+		case AttributePackage.LOCATION__Y:
+			return getY();
 		}
-		return super.eGet( featureID, resolve, coreType );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.LOCATION__X :
-				setX( (Double) newValue );
-				return;
-			case AttributePackage.LOCATION__Y :
-				setY( (Double) newValue );
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case AttributePackage.LOCATION__X:
+			setX((Double) newValue);
+			return;
+		case AttributePackage.LOCATION__Y:
+			setY((Double) newValue);
+			return;
 		}
-		super.eSet( featureID, newValue );
+		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.LOCATION__X :
-				unsetX( );
-				return;
-			case AttributePackage.LOCATION__Y :
-				unsetY( );
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case AttributePackage.LOCATION__X:
+			unsetX();
+			return;
+		case AttributePackage.LOCATION__Y:
+			unsetY();
+			return;
 		}
-		super.eUnset( featureID );
+		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case AttributePackage.LOCATION__X :
-				return isSetX( );
-			case AttributePackage.LOCATION__Y :
-				return isSetY( );
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case AttributePackage.LOCATION__X:
+			return isSetX();
+		case AttributePackage.LOCATION__Y:
+			return isSetY();
 		}
-		return super.eIsSet( featureID );
+		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (x: " ); //$NON-NLS-1$
-		if ( xESet )
-			result.append( x );
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (x: "); //$NON-NLS-1$
+		if (xESet)
+			result.append(x);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ", y: " ); //$NON-NLS-1$
-		if ( yESet )
-			result.append( y );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(", y: "); //$NON-NLS-1$
+		if (yESet)
+			result.append(y);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ')' );
-		return result.toString( );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
@@ -326,9 +305,8 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * @param dY
 	 * @return
 	 */
-	public static final Location create( double dX, double dY )
-	{
-		LocationImpl lo = new LocationImpl( );
+	public static final Location create(double dX, double dY) {
+		LocationImpl lo = new LocationImpl();
 		lo.x = dX;
 		lo.xESet = true;
 		lo.y = dY;
@@ -341,12 +319,10 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * @param ya
 	 * @return
 	 */
-	public static final Location[] create( double[] xa, double[] ya )
-	{
+	public static final Location[] create(double[] xa, double[] ya) {
 		Location[] loa = new Location[xa.length];
-		for ( int i = 0; i < loa.length; i++ )
-		{
-			loa[i] = create( xa[i], ya[i] );
+		for (int i = 0; i < loa.length; i++) {
+			loa[i] = create(xa[i], ya[i]);
 		}
 		return loa;
 	}
@@ -355,12 +331,10 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * @param loc
 	 * @return
 	 */
-	public static double[] getXArray( Location[] loc )
-	{
+	public static double[] getXArray(Location[] loc) {
 		double[] xa = new double[loc.length];
-		for ( int i = 0; i < loc.length; i++ )
-		{
-			xa[i] = loc[i].getX( );
+		for (int i = 0; i < loc.length; i++) {
+			xa[i] = loc[i].getX();
 		}
 		return xa;
 	}
@@ -369,12 +343,10 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * @param loc
 	 * @return
 	 */
-	public static double[] getYArray( Location[] loc )
-	{
+	public static double[] getYArray(Location[] loc) {
 		double[] ya = new double[loc.length];
-		for ( int i = 0; i < loc.length; i++ )
-		{
-			ya[i] = loc[i].getY( );
+		for (int i = 0; i < loc.length; i++) {
+			ya[i] = loc[i].getY();
 		}
 		return ya;
 	}
@@ -385,8 +357,7 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * 
 	 * @see org.eclipse.birt.chart.model.attribute.Location#set(double, double)
 	 */
-	public void set( double dX, double dY )
-	{
+	public void set(double dX, double dY) {
 		x = dX;
 		xESet = true;
 		y = dY;
@@ -397,12 +368,11 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.model.attribute.Location#translate(double,
-	 *      double)
+	 * double)
 	 */
-	public void translate( double dTranslateX, double dTranslateY )
-	{
-		setX( getX( ) + dTranslateX );
-		setY( getY( ) + dTranslateY );
+	public void translate(double dTranslateX, double dTranslateY) {
+		setX(getX() + dTranslateX);
+		setY(getY() + dTranslateY);
 	}
 
 	/*
@@ -410,28 +380,25 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * 
 	 * @see org.eclipse.birt.chart.model.attribute.Location#scale(double)
 	 */
-	public void scale( double dScale )
-	{
-		setX( getX( ) * dScale );
-		setY( getY( ) * dScale );
+	public void scale(double dScale) {
+		setX(getX() * dScale);
+		setY(getY() * dScale);
 	}
 
 	/**
 	 * A convenient method to get an instance copy. This is much faster than the
 	 * ECoreUtil.copy().
 	 */
-	public Location copyInstance( )
-	{
-		LocationImpl dest = new LocationImpl( );
-		dest.x = getX( );
-		dest.y = getY( );
+	public Location copyInstance() {
+		LocationImpl dest = new LocationImpl();
+		dest.x = getX();
+		dest.y = getY();
 		return dest;
 	}
 
-	protected void set( Location src )
-	{
-		x = src.getX( );
-		y = src.getY( );
+	protected void set(Location src) {
+		x = src.getX();
+		y = src.getY();
 	}
 
 	/*
@@ -440,15 +407,14 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * @see java.lang.Object#hashCode()
 	 */
 	@Override
-	public int hashCode( )
-	{
+	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		long temp;
-		temp = Double.doubleToLongBits( x );
-		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
-		temp = Double.doubleToLongBits( y );
-		result = prime * result + (int) ( temp ^ ( temp >>> 32 ) );
+		temp = Double.doubleToLongBits(x);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
+		temp = Double.doubleToLongBits(y);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		return result;
 	}
 
@@ -458,18 +424,17 @@ public class LocationImpl extends EObjectImpl implements Location
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 	@Override
-	public boolean equals( Object obj )
-	{
-		if ( this == obj )
+	public boolean equals(Object obj) {
+		if (this == obj)
 			return true;
-		if ( obj == null )
+		if (obj == null)
 			return false;
-		if ( getClass( ) != obj.getClass( ) )
+		if (getClass() != obj.getClass())
 			return false;
 		LocationImpl other = (LocationImpl) obj;
-		if ( Double.doubleToLongBits( x ) != Double.doubleToLongBits( other.x ) )
+		if (Double.doubleToLongBits(x) != Double.doubleToLongBits(other.x))
 			return false;
-		if ( Double.doubleToLongBits( y ) != Double.doubleToLongBits( other.y ) )
+		if (Double.doubleToLongBits(y) != Double.doubleToLongBits(other.y))
 			return false;
 		return true;
 	}

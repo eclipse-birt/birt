@@ -71,8 +71,7 @@ import org.eclipse.birt.report.model.validators.ValidationNode;
  * <th>Operation</th>
  * <th>From state</th>
  * <th>To state</th>
- * <th>Comment</th>
- * </thead>
+ * <th>Comment</th> </thead>
  * <tr>
  * <td><code>execute( )</code></td>
  * <td>Initial</td>
@@ -186,11 +185,7 @@ import org.eclipse.birt.report.model.validators.ValidationNode;
  * application operation.
  */
 
-public abstract class ActivityRecord
-		implements
-			IActivityRecord,
-			IValidatorProvider
-{
+public abstract class ActivityRecord implements IActivityRecord, IValidatorProvider {
 
 	// List of valid record states.
 
@@ -207,42 +202,42 @@ public abstract class ActivityRecord
 	public static final int DONE_STATE = 1;
 
 	/**
-	 * Indicates that the record has executed and been undone. The record could
-	 * have been redone and undo any number of times.
+	 * Indicates that the record has executed and been undone. The record could have
+	 * been redone and undo any number of times.
 	 */
 
 	public static final int UNDONE_STATE = 2;
 
 	/**
-	 * Indicates that the record has executed, been undone, and has been redone.
-	 * The (undo, redo) cycle could have been repeated any number of times.
+	 * Indicates that the record has executed, been undone, and has been redone. The
+	 * (undo, redo) cycle could have been repeated any number of times.
 	 */
 	public static final int REDONE_STATE = 3;
 
 	/**
-	 * Indicates that the record has been discarded. It is no longer a candidate
-	 * for undo or redo.
+	 * Indicates that the record has been discarded. It is no longer a candidate for
+	 * undo or redo.
 	 */
 
 	public static final int DISCARD_STATE = 4;
 
 	/**
-	 * Record state. Used to verify the record life-cycle, and to send the
-	 * correct notification events.
+	 * Record state. Used to verify the record life-cycle, and to send the correct
+	 * notification events.
 	 */
 
 	protected int state = INITIAL_STATE;
 
 	/**
-	 * Optional hint that the UI can include along with a notification event.
-	 * Sent only on the original execute operation.
+	 * Optional hint that the UI can include along with a notification event. Sent
+	 * only on the original execute operation.
 	 */
 
 	protected Object sender = null;
 
 	/**
-	 * Optional display label that the UI can display along with undo & redo
-	 * menu options.
+	 * Optional display label that the UI can display along with undo & redo menu
+	 * options.
 	 */
 
 	protected String label;
@@ -263,8 +258,7 @@ public abstract class ActivityRecord
 	 * Default constructor.
 	 */
 
-	public ActivityRecord( )
-	{
+	public ActivityRecord() {
 	}
 
 	/**
@@ -273,8 +267,7 @@ public abstract class ActivityRecord
 	 * that they may have cached.
 	 */
 
-	public void destroy( )
-	{
+	public void destroy() {
 	}
 
 	/**
@@ -283,49 +276,45 @@ public abstract class ActivityRecord
 	 * @return the label of this record
 	 */
 
-	public final String getLabel( )
-	{
+	public final String getLabel() {
 		return label;
 	}
 
 	/**
 	 * Sets the label of this record. This label should be localized.
 	 * 
-	 * @param text
-	 *            the label to set
+	 * @param text the label to set
 	 */
 
-	public final void setLabel( String text )
-	{
+	public final void setLabel(String text) {
 		label = text;
 	}
 
 	/**
-	 * Executes the record. Derived classes do the desired operation. All
-	 * semantic and other checks must have already been done; the record
-	 * operation must succeed.
+	 * Executes the record. Derived classes do the desired operation. All semantic
+	 * and other checks must have already been done; the record operation must
+	 * succeed.
 	 */
 
-	abstract public void execute( );
+	abstract public void execute();
 
 	/**
 	 * Undoes the record. Leaves the state of the model identical to what it was
-	 * before execute was called. Note that the operation must be designed so
-	 * that it succeeds if the model is in the correct state: the same state it
-	 * was in after execute( ) was called. (If the model is in any other state,
-	 * then a programming error has occurred.)
+	 * before execute was called. Note that the operation must be designed so that
+	 * it succeeds if the model is in the correct state: the same state it was in
+	 * after execute( ) was called. (If the model is in any other state, then a
+	 * programming error has occurred.)
 	 */
 
-	abstract public void undo( );
+	abstract public void undo();
 
 	/**
 	 * Redoes the record. Logically repeats the execute record. The state of the
-	 * model must be identical to that after undo( ) has executed. After the
-	 * call, the state of the model must be identical to that after execute( )
-	 * was called.
+	 * model must be identical to that after undo( ) has executed. After the call,
+	 * the state of the model must be identical to that after execute( ) was called.
 	 */
 
-	abstract public void redo( );
+	abstract public void redo();
 
 	/**
 	 * Tells if this record can be undone. All records should be undoable in the
@@ -335,8 +324,7 @@ public abstract class ActivityRecord
 	 * @return true if the record can be undone, false otherwise
 	 */
 
-	public boolean canUndo( )
-	{
+	public boolean canUndo() {
 		return true;
 	}
 
@@ -348,8 +336,7 @@ public abstract class ActivityRecord
 	 * @return true if redoable, false otherwise.
 	 */
 
-	public boolean canRedo( )
-	{
+	public boolean canRedo() {
 		return true;
 	}
 
@@ -367,28 +354,23 @@ public abstract class ActivityRecord
 	 * @return the record state.
 	 */
 
-	public int getState( )
-	{
+	public int getState() {
 		return state;
 	}
 
 	/**
-	 * Sets the record state. This method can be called only by the record
-	 * stack. The state transition must be legal.
+	 * Sets the record state. This method can be called only by the record stack.
+	 * The state transition must be legal.
 	 * 
-	 * @param newState
-	 *            the state to set
+	 * @param newState the state to set
 	 */
 
-	public void setState( int newState )
-	{
+	public void setState(int newState) {
 		// Verify that this is a legal state transition.
 
-		assert state == INITIAL_STATE && newState == DONE_STATE
-				|| state == DONE_STATE && newState == UNDONE_STATE
+		assert state == INITIAL_STATE && newState == DONE_STATE || state == DONE_STATE && newState == UNDONE_STATE
 				|| state == UNDONE_STATE && newState == REDONE_STATE
-				|| state == REDONE_STATE && newState == UNDONE_STATE
-				|| newState == DISCARD_STATE;
+				|| state == REDONE_STATE && newState == UNDONE_STATE || newState == DISCARD_STATE;
 		state = newState;
 	}
 
@@ -399,33 +381,28 @@ public abstract class ActivityRecord
 	 * @return the sender.
 	 */
 
-	public Object getSender( )
-	{
+	public Object getSender() {
 		return sender;
 	}
 
 	/**
-	 * Sets the optional UI hint to be sent with the execute notification for
-	 * this record.
+	 * Sets the optional UI hint to be sent with the execute notification for this
+	 * record.
 	 * 
-	 * @param obj
-	 *            the sender to set
+	 * @param obj the sender to set
 	 */
 
-	public void setSender( Object obj )
-	{
+	public void setSender(Object obj) {
 		sender = obj;
 	}
 
 	/**
 	 * Sets the transaction number for top-level commands.
 	 * 
-	 * @param n
-	 *            the transaction number to set
+	 * @param n the transaction number to set
 	 */
 
-	public void setTransNo( int n )
-	{
+	public void setTransNo(int n) {
 		transNo = n;
 	}
 
@@ -435,8 +412,7 @@ public abstract class ActivityRecord
 	 * @return the transaction number or 0 if this is not a top-level command
 	 */
 
-	public int getTransNo( )
-	{
+	public int getTransNo() {
 		return transNo;
 	}
 
@@ -447,33 +423,29 @@ public abstract class ActivityRecord
 	 * getValidators()
 	 */
 
-	public List<ValidationNode> getValidators( )
-	{
-		return Collections.emptyList( );
+	public List<ValidationNode> getValidators() {
+		return Collections.emptyList();
 	}
 
 	/**
-	 * Justifies whether the record is undoable or persistent when the
-	 * application calls <code>rollback</code> or <code>rollbackAll</code>.
+	 * Justifies whether the record is undoable or persistent when the application
+	 * calls <code>rollback</code> or <code>rollbackAll</code>.
 	 * 
 	 * @return true if the record is persistent, otherwise false
 	 */
 
-	public boolean isPersistent( )
-	{
+	public boolean isPersistent() {
 		return this.isPersistent;
 	}
 
 	/**
 	 * Sets the persistent status of the record.
 	 * 
-	 * @param isPersistent
-	 *            <code>true</code> if the record is persistent. Otherwise
-	 *            <code>false</code>.
+	 * @param isPersistent <code>true</code> if the record is persistent. Otherwise
+	 *                     <code>false</code>.
 	 */
 
-	public void setPersistent( boolean isPersistent )
-	{
+	public void setPersistent(boolean isPersistent) {
 		this.isPersistent = isPersistent;
 	}
 
@@ -483,7 +455,7 @@ public abstract class ActivityRecord
 	 * 
 	 */
 
-	abstract public void rollback( );
+	abstract public void rollback();
 
 	/**
 	 * Returns tasks that will be executed after the record and before sending
@@ -492,26 +464,22 @@ public abstract class ActivityRecord
 	 * @return a list containing tasks
 	 */
 
-	protected List<RecordTask> getPostTasks( )
-	{
-		return Collections.emptyList( );
+	protected List<RecordTask> getPostTasks() {
+		return Collections.emptyList();
 	}
 
 	/**
 	 * Performs tasks after the execution of the record.
 	 * 
-	 * @param transStack
-	 *            the transaction stack.
+	 * @param transStack the transaction stack.
 	 */
 
-	protected void performPostTasks( Stack<CompoundRecord> transStack )
-	{
-		List<RecordTask> tasks = getPostTasks( );
+	protected void performPostTasks(Stack<CompoundRecord> transStack) {
+		List<RecordTask> tasks = getPostTasks();
 
-		for ( int i = 0; i < tasks.size( ); i++ )
-		{
-			RecordTask subTask = tasks.get( i );
-			subTask.doTask( this, transStack );
+		for (int i = 0; i < tasks.size(); i++) {
+			RecordTask subTask = tasks.get(i);
+			subTask.doTask(this, transStack);
 		}
 	}
 }

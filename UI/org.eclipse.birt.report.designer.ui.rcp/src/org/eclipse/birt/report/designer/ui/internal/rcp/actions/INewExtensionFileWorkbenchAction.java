@@ -18,10 +18,11 @@ import org.eclipse.ui.actions.ActionFactory.IWorkbenchAction;
  * Workbench action and initialize the window
  */
 
-public interface INewExtensionFileWorkbenchAction extends IWorkbenchAction
-{
-	/**Initialize the window
+public interface INewExtensionFileWorkbenchAction extends IWorkbenchAction {
+	/**
+	 * Initialize the window
+	 * 
 	 * @param window
 	 */
-	void init( IWorkbenchWindow window );
+	void init(IWorkbenchWindow window);
 }

@@ -23,149 +23,105 @@ import org.eclipse.birt.report.engine.script.internal.instance.CellInstance;
 import org.eclipse.birt.report.engine.script.internal.instance.RunningState;
 import org.eclipse.birt.report.model.api.CellHandle;
 
-public class CellScriptExecutor extends ScriptExecutor
-{
+public class CellScriptExecutor extends ScriptExecutor {
 
-	public static void handleOnPrepare( CellHandle cellHandle,
-			ExecutionContext context )
-	{
-		try
-		{
-			ICell cell = new Cell( cellHandle );
-			ICellEventHandler eh = getEventHandler( cellHandle, context );
-			if ( eh != null )
-				eh.onPrepare( cell, context.getReportContext( ) );
-		} catch ( Exception e )
-		{
-			addException( context, e );
+	public static void handleOnPrepare(CellHandle cellHandle, ExecutionContext context) {
+		try {
+			ICell cell = new Cell(cellHandle);
+			ICellEventHandler eh = getEventHandler(cellHandle, context);
+			if (eh != null)
+				eh.onPrepare(cell, context.getReportContext());
+		} catch (Exception e) {
+			addException(context, e);
 		}
 	}
 
-	public static void handleOnCreate( ICellContent content,
-			ExecutionContext context, boolean fromGrid )
-	{
-		Object generateBy = content.getGenerateBy( );
-		if ( generateBy == null )
-		{
+	public static void handleOnCreate(ICellContent content, ExecutionContext context, boolean fromGrid) {
+		Object generateBy = content.getGenerateBy();
+		if (generateBy == null) {
 			return;
 		}
 		ReportItemDesign cellDesign = (ReportItemDesign) generateBy;
-		try
-		{
-			if ( !needOnCreate( cellDesign ) )
-			{
+		try {
+			if (!needOnCreate(cellDesign)) {
 				return;
 			}
-			ICellInstance cell = new CellInstance( content, context,
-					RunningState.CREATE, fromGrid );
-			if ( handleScript( cell, cellDesign.getOnCreate( ), context ).didRun( ) )
+			ICellInstance cell = new CellInstance(content, context, RunningState.CREATE, fromGrid);
+			if (handleScript(cell, cellDesign.getOnCreate(), context).didRun())
 				return;
-			ICellEventHandler eh = getEventHandler( cellDesign, context );
-			if ( eh != null )
-				eh.onCreate( cell, context.getReportContext( ) );
+			ICellEventHandler eh = getEventHandler(cellDesign, context);
+			if (eh != null)
+				eh.onCreate(cell, context.getReportContext());
 
-		} catch ( Exception e )
-		{
-			addException( context, e, cellDesign.getHandle( ) );
+		} catch (Exception e) {
+			addException(context, e, cellDesign.getHandle());
 		}
 	}
 
-	public static void handleOnRender( ICellContent content,
-			ExecutionContext context )
-	{
-		Object generateBy = content.getGenerateBy( );
-		if ( generateBy == null )
-		{
+	public static void handleOnRender(ICellContent content, ExecutionContext context) {
+		Object generateBy = content.getGenerateBy();
+		if (generateBy == null) {
 			return;
 		}
 		ReportItemDesign cellDesign = (ReportItemDesign) generateBy;
-		if ( !needOnRender( cellDesign ) )
-		{
+		if (!needOnRender(cellDesign)) {
 			return;
 		}
 
-		try
-		{
+		try {
 			// fromGrid doesn't matter here since row data is null
-			ICellInstance cell = new CellInstance( content, context,
-					RunningState.RENDER,
-					false );
-			if ( handleScript( cell, cellDesign.getOnRender( ), context ).didRun( ) )
+			ICellInstance cell = new CellInstance(content, context, RunningState.RENDER, false);
+			if (handleScript(cell, cellDesign.getOnRender(), context).didRun())
 				return;
-			ICellEventHandler eh = getEventHandler( cellDesign, context );
-			if ( eh != null )
-				eh.onRender( cell, context.getReportContext( ) );
-		} catch ( Exception e )
-		{
-			addException( context, e, cellDesign.getHandle( ) );
+			ICellEventHandler eh = getEventHandler(cellDesign, context);
+			if (eh != null)
+				eh.onRender(cell, context.getReportContext());
+		} catch (Exception e) {
+			addException(context, e, cellDesign.getHandle());
 		}
 	}
-	
-	public static void handleOnPageBreak( ICellContent content,
-			ExecutionContext context )
-	{
-		Object generateBy = content.getGenerateBy( );
-		if ( generateBy == null )
-		{
+
+	public static void handleOnPageBreak(ICellContent content, ExecutionContext context) {
+		Object generateBy = content.getGenerateBy();
+		if (generateBy == null) {
 			return;
 		}
 		ReportItemDesign cellDesign = (ReportItemDesign) generateBy;
-		if ( !needOnPageBreak( cellDesign, context ) )
-		{
+		if (!needOnPageBreak(cellDesign, context)) {
 			return;
 		}
-		
-		try
-		{
+
+		try {
 			// fromGrid doesn't matter here since row data is null
-			ICellInstance cell = new CellInstance( content, context,
-					RunningState.RENDER,
-					false );
-			if ( handleScript( cell, cellDesign.getOnPageBreak( ), context ).didRun( ) )
+			ICellInstance cell = new CellInstance(content, context, RunningState.RENDER, false);
+			if (handleScript(cell, cellDesign.getOnPageBreak(), context).didRun())
 				return;
-			ICellEventHandler eh = getEventHandler( cellDesign, context );
-			if ( eh != null )
-				eh.onPageBreak( cell, context.getReportContext( ) );
-		} catch ( Exception e )
-		{
-			addException( context, e, cellDesign.getHandle( ) );
+			ICellEventHandler eh = getEventHandler(cellDesign, context);
+			if (eh != null)
+				eh.onPageBreak(cell, context.getReportContext());
+		} catch (Exception e) {
+			addException(context, e, cellDesign.getHandle());
 		}
 	}
 
-	private static ICellEventHandler getEventHandler( ReportItemDesign design,
-			ExecutionContext context )
-	{
-		try
-		{
-			return (ICellEventHandler) getInstance( design, context );
-		}
-		catch ( ClassCastException e )
-		{
-			addClassCastException( context, e, design.getHandle( ),
-					ICellEventHandler.class );
-		}
-		catch ( EngineException e )
-		{
-			addException( context, e, design.getHandle( ) );
+	private static ICellEventHandler getEventHandler(ReportItemDesign design, ExecutionContext context) {
+		try {
+			return (ICellEventHandler) getInstance(design, context);
+		} catch (ClassCastException e) {
+			addClassCastException(context, e, design.getHandle(), ICellEventHandler.class);
+		} catch (EngineException e) {
+			addException(context, e, design.getHandle());
 		}
 		return null;
 	}
 
-	private static ICellEventHandler getEventHandler( CellHandle handle,
-			ExecutionContext context )
-	{
-		try
-		{
-			return (ICellEventHandler) getInstance( handle, context );
-		}
-		catch ( ClassCastException e )
-		{
-			addClassCastException( context, e, handle,
-					ICellEventHandler.class );
-		}
-		catch ( EngineException e )
-		{
-			addException( context, e, handle );
+	private static ICellEventHandler getEventHandler(CellHandle handle, ExecutionContext context) {
+		try {
+			return (ICellEventHandler) getInstance(handle, context);
+		} catch (ClassCastException e) {
+			addClassCastException(context, e, handle, ICellEventHandler.class);
+		} catch (EngineException e) {
+			addException(context, e, handle);
 		}
 		return null;
 	}

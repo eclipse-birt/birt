@@ -22,24 +22,24 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import com.ibm.icu.util.Calendar;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '
- * <em><b>Date Time Data Element</b></em>'. <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object ' <em><b>Date
+ * Time Data Element</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl#getValue <em>Value</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.data.impl.DateTimeDataElementImpl#getValue
+ * <em>Value</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class DateTimeDataElementImpl extends DataElementImpl implements
-		DateTimeDataElement
-{
+public class DateTimeDataElementImpl extends DataElementImpl implements DateTimeDataElement {
 
 	/**
-	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -47,8 +47,9 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 	protected static final long VALUE_EDEFAULT = 0L;
 
 	/**
-	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getValue() <em>Value</em>}' attribute. <!--
+	 * begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getValue()
 	 * @generated
 	 * @ordered
@@ -56,9 +57,9 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 	protected long value = VALUE_EDEFAULT;
 
 	/**
-	 * This is true if the Value attribute has been set.
-	 * <!-- begin-user-doc -->
+	 * This is true if the Value attribute has been set. <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -66,239 +67,215 @@ public class DateTimeDataElementImpl extends DataElementImpl implements
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected DateTimeDataElementImpl( )
-	{
-		super( );
+	protected DateTimeDataElementImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return DataPackage.Literals.DATE_TIME_DATA_ELEMENT;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public long getValue( )
-	{
+	public long getValue() {
 		return value;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setValue( long newValue )
-	{
+	public void setValue(long newValue) {
 		long oldValue = value;
 		value = newValue;
 		boolean oldValueESet = valueESet;
 		valueESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					DataPackage.DATE_TIME_DATA_ELEMENT__VALUE,
-					oldValue,
-					value,
-					!oldValueESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE, oldValue,
+					value, !oldValueESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetValue( )
-	{
+	public void unsetValue() {
 		long oldValue = value;
 		boolean oldValueESet = valueESet;
 		value = VALUE_EDEFAULT;
 		valueESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					DataPackage.DATE_TIME_DATA_ELEMENT__VALUE,
-					oldValue,
-					VALUE_EDEFAULT,
-					oldValueESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, DataPackage.DATE_TIME_DATA_ELEMENT__VALUE, oldValue,
+					VALUE_EDEFAULT, oldValueESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetValue( )
-	{
+	public boolean isSetValue() {
 		return valueESet;
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE :
-				return getValue( );
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE:
+			return getValue();
 		}
-		return super.eGet( featureID, resolve, coreType );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE :
-				setValue( (Long) newValue );
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE:
+			setValue((Long) newValue);
+			return;
 		}
-		super.eSet( featureID, newValue );
+		super.eSet(featureID, newValue);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE :
-				unsetValue( );
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE:
+			unsetValue();
+			return;
 		}
-		super.eUnset( featureID );
+		super.eUnset(featureID);
 	}
 
 	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE :
-				return isSetValue( );
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case DataPackage.DATE_TIME_DATA_ELEMENT__VALUE:
+			return isSetValue();
 		}
-		return super.eIsSet( featureID );
+		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 */
 	@Override
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
-		StringBuffer result = new StringBuffer( this.getClass( )
-				.getInterfaces( )[0].getSimpleName( ) );
-		result.append( " (value: " ); //$NON-NLS-1$
-		if ( valueESet )
-			result.append( value );
+		StringBuffer result = new StringBuffer(this.getClass().getInterfaces()[0].getSimpleName());
+		result.append(" (value: "); //$NON-NLS-1$
+		if (valueESet)
+			result.append(value);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ')' );
-		return result.toString( );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
-	 * A convenience method provided to return an initialized
-	 * DateTimeDataElement
+	 * A convenience method provided to return an initialized DateTimeDataElement
 	 * 
 	 * @param dtdeValue
 	 * @return
 	 */
-	public static final DateTimeDataElement create( Calendar caValue )
-	{
-		final DateTimeDataElement dtde = DataFactory.eINSTANCE.createDateTimeDataElement( );
-		dtde.setValue( caValue.getTime( ).getTime( ) );
+	public static final DateTimeDataElement create(Calendar caValue) {
+		final DateTimeDataElement dtde = DataFactory.eINSTANCE.createDateTimeDataElement();
+		dtde.setValue(caValue.getTime().getTime());
 		return dtde;
 	}
 
 	/**
-	 * A convenience method provided to return an initialized
-	 * DateTimeDataElement
+	 * A convenience method provided to return an initialized DateTimeDataElement
 	 * 
 	 * @param dtdeValue
 	 * @return
 	 */
-	public static final DateTimeDataElement create( long lValue )
-	{
-		final DateTimeDataElement dtde = DataFactory.eINSTANCE.createDateTimeDataElement( );
-		dtde.setValue( lValue );
+	public static final DateTimeDataElement create(long lValue) {
+		final DateTimeDataElement dtde = DataFactory.eINSTANCE.createDateTimeDataElement();
+		dtde.setValue(lValue);
 		return dtde;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.data.DateTimeDataElement#getValueAsCalendar()
+	 * @see
+	 * org.eclipse.birt.chart.model.data.DateTimeDataElement#getValueAsCalendar()
 	 */
-	public final Calendar getValueAsCalendar( )
-	{
-		final Calendar c = Calendar.getInstance( );
-		c.setTimeInMillis( value );
+	public final Calendar getValueAsCalendar() {
+		final Calendar c = Calendar.getInstance();
+		c.setTimeInMillis(value);
 		return c;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.model.data.DateTimeDataElement#getValueAsCDateTime()
+	 * @see
+	 * org.eclipse.birt.chart.model.data.DateTimeDataElement#getValueAsCDateTime()
 	 */
-	public final CDateTime getValueAsCDateTime( )
-	{
-		return new CDateTime( value );
+	public final CDateTime getValueAsCDateTime() {
+		return new CDateTime(value);
 	}
 
 	/**
 	 * @generated
 	 */
-	public DateTimeDataElement copyInstance( )
-	{
-		DateTimeDataElementImpl dest = new DateTimeDataElementImpl( );
-		dest.set( this );
+	public DateTimeDataElement copyInstance() {
+		DateTimeDataElementImpl dest = new DateTimeDataElementImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( DateTimeDataElement src )
-	{
+	protected void set(DateTimeDataElement src) {
 
-		super.set( src );
+		super.set(src);
 
 		// attributes
 
-		value = src.getValue( );
+		value = src.getValue();
 
-		valueESet = src.isSetValue( );
+		valueESet = src.isSetValue();
 
 	}
 
-} //DateTimeDataElementImpl
+} // DateTimeDataElementImpl

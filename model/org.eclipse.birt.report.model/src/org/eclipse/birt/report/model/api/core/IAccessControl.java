@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.model.api.core;
 
-
 /**
  * Represents the visibility level of a module.
  */
 
-public interface IAccessControl
-{
+public interface IAccessControl {
 	/**
 	 * Native resources.
 	 */

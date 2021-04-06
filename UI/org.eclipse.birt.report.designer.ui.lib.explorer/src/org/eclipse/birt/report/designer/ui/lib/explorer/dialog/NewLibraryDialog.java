@@ -44,69 +44,53 @@ import org.eclipse.ui.dialogs.ISelectionStatusValidator;
  * A dialog for moving reource in resource explorer. User can select a folder to
  * move reource.
  */
-public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
-{
+public class NewLibraryDialog extends ResourceFileFolderSelectionDialog {
 
 	private final File defaultLibrary;
 
 	private Text text;
 
-	private String ext = Messages.getString( "NewLibraryWizard.displayName.NewReportFileExtension" ).toLowerCase( ); //$NON-NLS-1$
+	private String ext = Messages.getString("NewLibraryWizard.displayName.NewReportFileExtension").toLowerCase(); //$NON-NLS-1$
 
-	private Status OKStatus = new Status( IStatus.OK,
-			ReportPlugin.REPORT_UI,
-			IStatus.OK,
-			"", //$NON-NLS-1$
-			null );
+	private Status OKStatus = new Status(IStatus.OK, ReportPlugin.REPORT_UI, IStatus.OK, "", //$NON-NLS-1$
+			null);
 
-	private Status ErrorStatus = new Status( IStatus.ERROR,
-			ReportPlugin.REPORT_UI,
-			IStatus.ERROR,
-			Messages.getString( "NewResourceFileDialog.ErrorMessage" ), //$NON-NLS-1$
-			null );
+	private Status ErrorStatus = new Status(IStatus.ERROR, ReportPlugin.REPORT_UI, IStatus.ERROR,
+			Messages.getString("NewResourceFileDialog.ErrorMessage"), //$NON-NLS-1$
+			null);
 
-	private Status ErrorStatusNoSelection = new Status( IStatus.ERROR,
-			ReportPlugin.REPORT_UI,
-			IStatus.ERROR,
-			Messages.getString( "" ), //$NON-NLS-1$
-			null );
+	private Status ErrorStatusNoSelection = new Status(IStatus.ERROR, ReportPlugin.REPORT_UI, IStatus.ERROR,
+			Messages.getString(""), //$NON-NLS-1$
+			null);
 
-	private Status ErrorStatusInvalid = new Status( IStatus.ERROR,
-			ReportPlugin.REPORT_UI,
-			IStatus.ERROR,
-			Messages.getString( "NewResourceFileDialog.ErrorMessageInvalid" ), //$NON-NLS-1$
-			null );
+	private Status ErrorStatusInvalid = new Status(IStatus.ERROR, ReportPlugin.REPORT_UI, IStatus.ERROR,
+			Messages.getString("NewResourceFileDialog.ErrorMessageInvalid"), //$NON-NLS-1$
+			null);
 
 	private String filename;
 
-	private class Validator implements ISelectionStatusValidator
-	{
+	private class Validator implements ISelectionStatusValidator {
 
 		/*
 		 * (non-Javadoc)
 		 * 
-		 * @see
-		 * org.eclipse.ui.dialogs.ISelectionStatusValidator#validate(java.lang
+		 * @see org.eclipse.ui.dialogs.ISelectionStatusValidator#validate(java.lang
 		 * .Object[])
 		 */
-		public IStatus validate( Object[] selection )
-		{
+		public IStatus validate(Object[] selection) {
 			int nSelected = selection.length;
 
-			if ( nSelected != 1 )
-			{
+			if (nSelected != 1) {
 				return ErrorStatusNoSelection;
 			}
 
-			String filename = getFileName( );
+			String filename = getFileName();
 
-			if ( filename == null || filename.equals( ext ) )
-			{
+			if (filename == null || filename.equals(ext)) {
 				return ErrorStatusInvalid;
 			}
 
-			if ( !filename.endsWith( ext ) )
-			{
+			if (!filename.endsWith(ext)) {
 				return ErrorStatus;
 			}
 
@@ -117,152 +101,124 @@ public class NewLibraryDialog extends ResourceFileFolderSelectionDialog
 	/**
 	 * Constructs a dialog for moving resource.
 	 */
-	public NewLibraryDialog( )
-	{
-		this( null );
+	public NewLibraryDialog() {
+		this(null);
 	}
 
-	public String getFileName( )
-	{
+	public String getFileName() {
 		return filename;
 		// return text.getText( ).trim( ).toLowerCase( );
 	}
 
-	public NewLibraryDialog( File defaultLibrary )
-	{
-		super( false, false, null );
+	public NewLibraryDialog(File defaultLibrary) {
+		super(false, false, null);
 		this.defaultLibrary = defaultLibrary;
-		setTitle( Messages.getString( "NewLibraryDialog.Title" ) ); //$NON-NLS-1$
-		setMessage( Messages.getString( "NewLibraryDialog.Message" ) ); //$NON-NLS-1$
-		setDoubleClickSelects( true );
-		setAllowMultiple( false );
-		setValidator( new Validator( ) );
-		setEmptyFolderShowStatus( IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER );
+		setTitle(Messages.getString("NewLibraryDialog.Title")); //$NON-NLS-1$
+		setMessage(Messages.getString("NewLibraryDialog.Message")); //$NON-NLS-1$
+		setDoubleClickSelects(true);
+		setAllowMultiple(false);
+		setValidator(new Validator());
+		setEmptyFolderShowStatus(IResourceContentProvider.ALWAYS_SHOW_EMPTYFOLDER);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
+	 * @see org.eclipse.ui.dialogs.ElementTreeSelectionDialog#createDialogArea(org
 	 * .eclipse.swt.widgets.Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
-	{
-		Composite rt = (Composite) super.createDialogArea( parent );
-		Composite pane = new Composite( rt, 0 );
-		Label lb = new Label( pane, 0 );
+	protected Control createDialogArea(Composite parent) {
+		Composite rt = (Composite) super.createDialogArea(parent);
+		Composite pane = new Composite(rt, 0);
+		Label lb = new Label(pane, 0);
 
-		text = new Text( pane, SWT.BORDER );
-		lb.setText( Messages.getString( "NewLibraryDialog.label.NewLibrary" ) ); //$NON-NLS-1$
-		rt.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		pane.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		pane.setLayout( new GridLayout( 2, false ) );
-		pane.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		text = new Text(pane, SWT.BORDER);
+		lb.setText(Messages.getString("NewLibraryDialog.label.NewLibrary")); //$NON-NLS-1$
+		rt.setLayoutData(new GridData(GridData.FILL_BOTH));
+		pane.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		pane.setLayout(new GridLayout(2, false));
+		pane.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		text.addModifyListener( new ModifyListener( ) {
+		text.addModifyListener(new ModifyListener() {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see
-			 * org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.
+			 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.
 			 * swt.events.ModifyEvent)
 			 */
-			public void modifyText( ModifyEvent e )
-			{
-				filename = text.getText( ).trim( ).toLowerCase( );
-				updateOKStatus( );
+			public void modifyText(ModifyEvent e) {
+				filename = text.getText().trim().toLowerCase();
+				updateOKStatus();
 			}
-		} );
+		});
 
-		if ( defaultLibrary != null )
-		{
-			selectPath( defaultLibrary.getParent( ) );
-			text.setText( defaultLibrary.getName( ) );
+		if (defaultLibrary != null) {
+			selectPath(defaultLibrary.getParent());
+			text.setText(defaultLibrary.getName());
 		}
-		text.selectAll( );
-		text.setFocus( );
-		UIUtil.bindHelp( parent, IHelpContextIds.NEW_LIBRARY_WIZARD_ID );
+		text.selectAll();
+		text.setFocus();
+		UIUtil.bindHelp(parent, IHelpContextIds.NEW_LIBRARY_WIZARD_ID);
 		return rt;
 	}
 
 	/**
 	 * Selects the specified path in the tree viewer.
 	 * 
-	 * @param path
-	 *            the path to select.
+	 * @param path the path to select.
 	 */
-	private void selectPath( String path )
-	{
-		String parent = new File( path ).getParent( );
-		List<String> folders = new ArrayList<String>( );
+	private void selectPath(String path) {
+		String parent = new File(path).getParent();
+		List<String> folders = new ArrayList<String>();
 
-		while ( parent != null )
-		{
-			folders.add( parent );
-			parent = new File( parent ).getParent( );
+		while (parent != null) {
+			folders.add(parent);
+			parent = new File(parent).getParent();
 		}
 
-		for ( int i = folders.size( ) - 1; i >= 0; i-- )
-		{
-			getTreeViewer( ).expandToLevel( folders.get( i ), 1 );
+		for (int i = folders.size() - 1; i >= 0; i--) {
+			getTreeViewer().expandToLevel(folders.get(i), 1);
 		}
-		setInitialSelection( path );
+		setInitialSelection(path);
 	}
 
 	@Override
-	public String getPath( )
-	{
-		Object[] selected = getResult( );
+	public String getPath() {
+		Object[] selected = getResult();
 
-		if ( selected != null
-				&& selected.length > 0
-				&& selected[0] instanceof ResourceEntry )
-		{
+		if (selected != null && selected.length > 0 && selected[0] instanceof ResourceEntry) {
 			ResourceEntry entry = (ResourceEntry) selected[0];
 
-			if ( entry == null )
-			{
+			if (entry == null) {
 				return null;
 			}
 
-			try
-			{
-				File path = ResourceAction.convertToFile( entry.getURL( ) );
-				String filename = getFileName( );
-				File file = new Path( path.getAbsolutePath( ) ).append( filename )
-						.toFile( );
+			try {
+				File path = ResourceAction.convertToFile(entry.getURL());
+				String filename = getFileName();
+				File file = new Path(path.getAbsolutePath()).append(filename).toFile();
 
-				return file.getAbsolutePath( );
-			}
-			catch ( IOException e )
-			{
-				ExceptionUtil.handle( e );
+				return file.getAbsolutePath();
+			} catch (IOException e) {
+				ExceptionUtil.handle(e);
 			}
 		}
 		return null;
 	}
 
 	@Override
-	protected void okPressed( )
-	{
-		String path = getPath( );
+	protected void okPressed() {
+		String path = getPath();
 
-		if ( path != null )
-		{
-			File file = new File( path );
-			if ( file.exists( )
-					&& !MessageDialog.openConfirm( UIUtil.getDefaultShell( ),
-							"Question",
-							Messages.getFormattedString( "NewResourceFileDialog.FileExists",
-									new String[]{
-										file.getName( )
-									} ) ) )
+		if (path != null) {
+			File file = new File(path);
+			if (file.exists() && !MessageDialog.openConfirm(UIUtil.getDefaultShell(), "Question",
+					Messages.getFormattedString("NewResourceFileDialog.FileExists", new String[] { file.getName() })))
 				return;
 		}
-		super.okPressed( );
+		super.okPressed();
 	}
 
 }

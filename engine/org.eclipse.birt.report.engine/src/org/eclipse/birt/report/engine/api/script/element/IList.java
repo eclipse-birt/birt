@@ -14,7 +14,6 @@ package org.eclipse.birt.report.engine.api.script.element;
 /**
  * Represents the design of a List in the scripting environment
  */
-public interface IList extends IListing
-{
+public interface IList extends IListing {
 
 }

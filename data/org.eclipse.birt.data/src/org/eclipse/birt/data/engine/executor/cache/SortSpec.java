@@ -17,79 +17,68 @@ import org.eclipse.birt.data.engine.expression.CompareHints;
  * A simple sort specification store class, which is used to generate
  * corresponding comparator.
  */
-public class SortSpec
-{
+public class SortSpec {
 	private int[] sortKeyIndexes;
 	private String[] sortKeyColumns;
 	private int[] sortAscending;
 	private CompareHints[] comparator;
 
-    public static final int SORT_DISABLE = IGroupDefinition.NO_SORT; 
-    public static final int SORT_ASC = IGroupDefinition.SORT_ASC; 
-    public static final int SORT_DESC = IGroupDefinition.SORT_DESC;
+	public static final int SORT_DISABLE = IGroupDefinition.NO_SORT;
+	public static final int SORT_ASC = IGroupDefinition.SORT_ASC;
+	public static final int SORT_DESC = IGroupDefinition.SORT_DESC;
+
 	/**
 	 * @param sortKeyIndexes
 	 * @param sortKeyColumns
 	 * @param sortAscending
 	 */
-	public SortSpec( int[] sortKeyIndexes, String[] sortKeyColumns,
-			int[] sortAscending, CompareHints[] comparator )
-	{
-		this.setSortKeyIndexes( sortKeyIndexes );
-		this.setSortKeyColumns( sortKeyColumns );
-		this.setSortAscending( sortAscending );
-		this.setComparator( comparator );
+	public SortSpec(int[] sortKeyIndexes, String[] sortKeyColumns, int[] sortAscending, CompareHints[] comparator) {
+		this.setSortKeyIndexes(sortKeyIndexes);
+		this.setSortKeyColumns(sortKeyColumns);
+		this.setSortAscending(sortAscending);
+		this.setComparator(comparator);
 	}
-	
+
 	/**
 	 * @return
 	 */
-	public int length( )
-	{
-		if ( getSortAscending() != null )
+	public int length() {
+		if (getSortAscending() != null)
 			return getSortAscending().length;
 		else
 			return 0;
 	}
 
-	void setComparator( CompareHints[] comparator )
-	{
+	void setComparator(CompareHints[] comparator) {
 		this.comparator = comparator;
 	}
 
-	CompareHints[] getComparator( )
-	{
+	CompareHints[] getComparator() {
 		return comparator;
 	}
 
-	void setSortAscending( int[] sortAscending )
-	{
+	void setSortAscending(int[] sortAscending) {
 		this.sortAscending = sortAscending;
 	}
 
-	int[] getSortAscending( )
-	{
+	int[] getSortAscending() {
 		return sortAscending;
 	}
 
-	void setSortKeyColumns( String[] sortKeyColumns )
-	{
+	void setSortKeyColumns(String[] sortKeyColumns) {
 		this.sortKeyColumns = sortKeyColumns;
 	}
 
-	String[] getSortKeyColumns( )
-	{
+	String[] getSortKeyColumns() {
 		return sortKeyColumns;
 	}
 
-	void setSortKeyIndexes( int[] sortKeyIndexes )
-	{
+	void setSortKeyIndexes(int[] sortKeyIndexes) {
 		this.sortKeyIndexes = sortKeyIndexes;
 	}
 
-	int[] getSortKeyIndexes( )
-	{
+	int[] getSortKeyIndexes() {
 		return sortKeyIndexes;
 	}
-	
+
 }

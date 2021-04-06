@@ -35,8 +35,8 @@ import org.eclipse.birt.report.presentation.aggregation.layout.RunFragment;
  * There are four servlet mappings defined for ViewerServlet in the web.xml.
  * <ul>
  * <li>Frameset - Displays the whole web viewer frameset. (Public)</li>
- * <li>Run - Runs the report and displays the output as a stand-alone HTML
- * page, or as a PDF document. (Public)</li>
+ * <li>Run - Runs the report and displays the output as a stand-alone HTML page,
+ * or as a PDF document. (Public)</li>
  * <li>Navigation - Displays the leftside navigation frame that contains the
  * report parameter page. (Internal)</li>
  * <li>Toolbar - Displays the toolbar above the report content. (Internal)</li>
@@ -60,7 +60,8 @@ import org.eclipse.birt.report.presentation.aggregation.layout.RunFragment;
  * </ul>
  * </ul>
  * <p>
- * Each URL parameter is described below. <table border=1>
+ * Each URL parameter is described below.
+ * <table border=1>
  * <tr>
  * <td><b>Parameter</b></td>
  * <td><b>Description</b></td>
@@ -100,8 +101,7 @@ import org.eclipse.birt.report.presentation.aggregation.layout.RunFragment;
  * </table>
  * <p>
  */
-public class ViewerServlet extends BirtSoapMessageDispatcherServlet
-{
+public class ViewerServlet extends BirtSoapMessageDispatcherServlet {
 
 	/**
 	 * TODO: what's this?
@@ -113,120 +113,91 @@ public class ViewerServlet extends BirtSoapMessageDispatcherServlet
 	 * 
 	 * @return
 	 */
-	protected void __init( ServletConfig config )
-	{
-		BirtReportServiceFactory.init( new BirtViewerReportService( config
-				.getServletContext( ) ) );
+	protected void __init(ServletConfig config) {
+		BirtReportServiceFactory.init(new BirtViewerReportService(config.getServletContext()));
 
 		// handle 'frameset' pattern
-		viewer = new FramesetFragment( );
-		viewer.buildComposite( );
-		viewer.setJSPRootPath( "/webcontent/birt" ); //$NON-NLS-1$
+		viewer = new FramesetFragment();
+		viewer.buildComposite();
+		viewer.setJSPRootPath("/webcontent/birt"); //$NON-NLS-1$
 
 		// handle 'run' pattern
-		run = new RunFragment( );
-		run.buildComposite( );
-		run.setJSPRootPath( "/webcontent/birt" ); //$NON-NLS-1$		
+		run = new RunFragment();
+		run.buildComposite();
+		run.setJSPRootPath("/webcontent/birt"); //$NON-NLS-1$
 	}
 
 	/**
 	 * Init context.
 	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @exception BirtException
 	 * @return IContext
 	 */
-	protected IContext __getContext( HttpServletRequest request,
-			HttpServletResponse response ) throws BirtException
-	{
-		BirtReportServiceFactory.getReportService( ).setContext(
-				getServletContext( ), null );
-		return new BirtContext( request, response );
+	protected IContext __getContext(HttpServletRequest request, HttpServletResponse response) throws BirtException {
+		BirtReportServiceFactory.getReportService().setContext(getServletContext(), null);
+		return new BirtContext(request, response);
 	}
 
 	/**
 	 * Local process http request with GET method.
 	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 * @return
 	 */
-	protected void __doGet( IContext context ) throws ServletException,
-			IOException, BirtException
-	{
+	protected void __doGet(IContext context) throws ServletException, IOException, BirtException {
 		IFragment activeFragment = null;
-		String servletPath = context.getRequest( ).getServletPath( );
-		if ( IBirtConstants.SERVLET_PATH_FRAMESET
-				.equalsIgnoreCase( servletPath ) )
-		{
+		String servletPath = context.getRequest().getServletPath();
+		if (IBirtConstants.SERVLET_PATH_FRAMESET.equalsIgnoreCase(servletPath)) {
 			activeFragment = viewer;
-		}
-		else if ( IBirtConstants.SERVLET_PATH_RUN
-				.equalsIgnoreCase( servletPath ) )
-		{
+		} else if (IBirtConstants.SERVLET_PATH_RUN.equalsIgnoreCase(servletPath)) {
 			activeFragment = run;
 		}
 
-		if ( activeFragment != null )
-			activeFragment.service( context.getRequest( ), context
-					.getResponse( ) );
+		if (activeFragment != null)
+			activeFragment.service(context.getRequest(), context.getResponse());
 	}
 
 	/**
-	 * Locale process http request with POST method. Four different servlet
-	 * paths are expected: "/frameset", "/navigation", "/toolbar", and "/run".
+	 * Locale process http request with POST method. Four different servlet paths
+	 * are expected: "/frameset", "/navigation", "/toolbar", and "/run".
 	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @exception ServletException
 	 * @exception IOException
 	 * @return
 	 */
-	protected void __doPost( IContext context ) throws ServletException,
-			IOException, BirtException
-	{
+	protected void __doPost(IContext context) throws ServletException, IOException, BirtException {
 	}
 
 	/**
 	 * Local authentication. Alwasy returns true.
 	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 * @param request  incoming http request
+	 * @param response http response
 	 * @return
 	 */
-	protected boolean __authenticate( HttpServletRequest request,
-			HttpServletResponse response )
-	{
+	protected boolean __authenticate(HttpServletRequest request, HttpServletResponse response) {
 		return true;
 	}
 
 	/**
 	 * Process exception for non soap request.
 	 * 
-	 * @param request
-	 *            incoming http request
-	 * @param response
-	 *            http response
+	 * @param request   incoming http request
+	 * @param response  http response
 	 * @param exception
 	 * @throws ServletException
 	 * @throws IOException
 	 */
-	protected void __handleNonSoapException( HttpServletRequest request,
-			HttpServletResponse response, Exception exception )
-			throws ServletException, IOException
-	{
-		exception.printStackTrace( );
-		BirtUtility.appendErrorMessage( response.getOutputStream( ), exception );
+	protected void __handleNonSoapException(HttpServletRequest request, HttpServletResponse response,
+			Exception exception) throws ServletException, IOException {
+		exception.printStackTrace();
+		BirtUtility.appendErrorMessage(response.getOutputStream(), exception);
 	}
 }

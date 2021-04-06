@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for style element to store the constants.
  */
-public interface IStyleModel
-{
+public interface IStyleModel {
 
 	// Property names: 58
 
@@ -88,8 +87,8 @@ public interface IStyleModel
 	 * Bidi text direction property
 	 */
 	public static final String TEXT_DIRECTION_PROP = "bidiTextDirection"; //$NON-NLS-1$
-	public static final String OVERFLOW_PROP = "overflow"; ; //$NON-NLS-1$
-	
-	public static final String HEIGHT_PROP = "height";  //$NON-NLS-1$
-	public static final String WIDTH_PROP = "width";  //$NON-NLS-1$
+	public static final String OVERFLOW_PROP = "overflow";; //$NON-NLS-1$
+
+	public static final String HEIGHT_PROP = "height"; //$NON-NLS-1$
+	public static final String WIDTH_PROP = "width"; //$NON-NLS-1$
 }

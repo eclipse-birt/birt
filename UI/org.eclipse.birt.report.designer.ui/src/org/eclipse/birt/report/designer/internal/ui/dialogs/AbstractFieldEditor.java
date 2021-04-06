@@ -19,8 +19,7 @@ import org.eclipse.swt.widgets.Display;
  * 
  */
 
-public abstract class AbstractFieldEditor extends FieldEditor
-{
+public abstract class AbstractFieldEditor extends FieldEditor {
 
 	/**
 	 * Indicates that no value change should fired when the field editor is not
@@ -36,13 +35,11 @@ public abstract class AbstractFieldEditor extends FieldEditor
 
 	private String displayValue = ""; //$NON-NLS-1$
 
-	public String getDisplayValue( )
-	{
+	public String getDisplayValue() {
 		return displayValue;
 	}
 
-	public void setDisplayValue( String displayValue )
-	{
+	public void setDisplayValue(String displayValue) {
 		this.displayValue = displayValue;
 	}
 
@@ -51,66 +48,54 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	/**
 	 * Creates a new abstract field editor.
 	 */
-	public AbstractFieldEditor( )
-	{
-		super( );
+	public AbstractFieldEditor() {
+		super();
 	}
 
 	/**
 	 * Creates a new abstract field editor.
 	 * 
-	 * @param name
-	 *            the name of the preference this field editor works on
-	 * @param labelText
-	 *            the label text of the field editor
-	 * @param parent
-	 *            the parent of the field editor's control
+	 * @param name      the name of the preference this field editor works on
+	 * @param labelText the label text of the field editor
+	 * @param parent    the parent of the field editor's control
 	 */
-	public AbstractFieldEditor( String name, String labelText, Composite parent )
-	{
-		super( name, labelText, parent );
+	public AbstractFieldEditor(String name, String labelText, Composite parent) {
+		super(name, labelText, parent);
 	}
 
 	/**
-	 * @param defaultUnit
-	 *            The defaultUnit to set.
+	 * @param defaultUnit The defaultUnit to set.
 	 */
-	public void setDefaultUnit( String defaultUnit )
-	{
+	public void setDefaultUnit(String defaultUnit) {
 		this.defaultUnit = defaultUnit;
 	}
 
 	/**
 	 * @return Returns the defaultUnit.
 	 */
-	public String getDefaultUnit( )
-	{
+	public String getDefaultUnit() {
 		return defaultUnit;
 	}
 
-	public void load( )
-	{
-		if ( getPreferenceStore( ) != null )
-		{
-			setPresentsDefaultValue( false );
+	public void load() {
+		if (getPreferenceStore() != null) {
+			setPresentsDefaultValue(false);
 
 			isLoaded = false;
-			doLoad( );
+			doLoad();
 			isLoaded = true;
 
-			refreshValidState( );
+			refreshValidState();
 		}
 	}
 
-	public void loadDefault( )
-	{
-		if ( getPreferenceStore( ) != null )
-		{
-			setPresentsDefaultValue( true );
+	public void loadDefault() {
+		if (getPreferenceStore() != null) {
+			setPresentsDefaultValue(true);
 
-			doLoadDefault( );
+			doLoadDefault();
 
-			refreshValidState( );
+			refreshValidState();
 		}
 	}
 
@@ -119,29 +104,22 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	 * 
 	 * @see org.eclipse.jface.preference.FieldEditor#doStore()
 	 */
-	protected void doStore( )
-	{
-		if ( isDirty( ) )
-		{
-			if ( propValue != null )
-			{
-				getPreferenceStore( ).setValue( getPreferenceName( ), propValue );
-			}
-			else
-			{
-				getPreferenceStore( ).setValue( getPreferenceName( ), null );
+	protected void doStore() {
+		if (isDirty()) {
+			if (propValue != null) {
+				getPreferenceStore().setValue(getPreferenceName(), propValue);
+			} else {
+				getPreferenceStore().setValue(getPreferenceName(), null);
 			}
 
 		}
 	}
 
-	public void store( )
-	{
-		if ( getPreferenceStore( ) == null )
-		{
+	public void store() {
+		if (getPreferenceStore() == null) {
 			return;
 		}
-		doStore( );
+		doStore();
 	}
 
 	/**
@@ -149,8 +127,7 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	 * 
 	 * @return Returns the old value.
 	 */
-	public String getOldValue( )
-	{
+	public String getOldValue() {
 		return oldValue;
 	}
 
@@ -159,40 +136,34 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	 * 
 	 * @return Returns the property value.
 	 */
-	public String getPropValue( )
-	{
+	public String getPropValue() {
 		return propValue;
 	}
 
 	/**
 	 * Sets old value of the field editor.
 	 * 
-	 * @param oldValue
-	 *            The oldValue to set.
+	 * @param oldValue The oldValue to set.
 	 */
-	protected void setOldValue( String oldValue )
-	{
+	protected void setOldValue(String oldValue) {
 		this.oldValue = oldValue;
 		this.propValue = oldValue;
 		this.displayValue = oldValue;
-		markDirty( false );
+		markDirty(false);
 	}
 
 	/**
 	 * Sets property value of the field editor.
 	 * 
-	 * @param newValue
-	 *            The newValue to set.
+	 * @param newValue The newValue to set.
 	 */
-	protected void setPropValue( String newValue )
-	{
+	protected void setPropValue(String newValue) {
 		this.oldValue = this.displayValue;
 		this.propValue = newValue;
 		this.displayValue = newValue;
 	}
 
-	protected void setDefaultValue( String newValue )
-	{
+	protected void setDefaultValue(String newValue) {
 		this.oldValue = this.displayValue;
 		this.propValue = null;
 		this.displayValue = newValue;
@@ -202,30 +173,24 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	 * Gets string value of the field editor.
 	 * 
 	 */
-	protected abstract String getStringValue( );
+	protected abstract String getStringValue();
 
 	/**
 	 * Performs value changes.
 	 * 
-	 * @param name
-	 *            value name to changed.
+	 * @param name value name to changed.
 	 */
-	protected void valueChanged( String name )
-	{
-		if ( !isLoaded )
-		{
+	protected void valueChanged(String name) {
+		if (!isLoaded) {
 			return;
 		}
-		String curValue = getPropValue( );
-		String newValue = getStringValue( );
-		setPresentsDefaultValue( false );
-		if ( curValue != null
-				&& !curValue.equals( newValue )
-				|| ( curValue == null && newValue != null ) )
-		{
-			fireValueChanged( name, curValue, newValue );
-			setPropValue( newValue );
-			markDirty( true );
+		String curValue = getPropValue();
+		String newValue = getStringValue();
+		setPresentsDefaultValue(false);
+		if (curValue != null && !curValue.equals(newValue) || (curValue == null && newValue != null)) {
+			fireValueChanged(name, curValue, newValue);
+			setPropValue(newValue);
+			markDirty(true);
 		}
 	}
 
@@ -234,34 +199,26 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	/**
 	 * Marks the field editor is dirty.
 	 */
-	protected void markDirty( boolean value )
-	{
+	protected void markDirty(boolean value) {
 		isDirty = value;
-		if ( this.getPage( ) instanceof BaseStylePreferencePage )
-		{
-			if ( refresh )
+		if (this.getPage() instanceof BaseStylePreferencePage) {
+			if (refresh)
 				return;
-			else
-			{
+			else {
 				refresh = true;
-				Display.getDefault( ).asyncExec( new Runnable( ) {
+				Display.getDefault().asyncExec(new Runnable() {
 
-					public void run( )
-					{
-						if ( (BaseStylePreferencePage) getPage( ) == null )
+					public void run() {
+						if ((BaseStylePreferencePage) getPage() == null)
 							return;
-						else if ( ( (BaseStylePreferencePage) getPage( ) ).getBuilder( ) == null
-								|| ( (BaseStylePreferencePage) getPage( ) ).getBuilder( )
-										.getShell( ) == null
-								|| ( (BaseStylePreferencePage) getPage( ) ).getBuilder( )
-										.getShell( )
-										.isDisposed( ) )
+						else if (((BaseStylePreferencePage) getPage()).getBuilder() == null
+								|| ((BaseStylePreferencePage) getPage()).getBuilder().getShell() == null
+								|| ((BaseStylePreferencePage) getPage()).getBuilder().getShell().isDisposed())
 							return;
-						( (BaseStylePreferencePage) getPage( ) ).getBuilder( )
-								.refreshPagesStatus( );
+						((BaseStylePreferencePage) getPage()).getBuilder().refreshPagesStatus();
 						refresh = false;
 					}
-				} );
+				});
 			}
 		}
 	}
@@ -269,8 +226,7 @@ public abstract class AbstractFieldEditor extends FieldEditor
 	/**
 	 * Returns the dirty marker of the field editor.
 	 */
-	protected boolean isDirty( )
-	{
+	protected boolean isDirty() {
 		return isDirty;
 		// if ( oldValue.equals( propValue ) )
 		// {
@@ -279,25 +235,20 @@ public abstract class AbstractFieldEditor extends FieldEditor
 		// return true;
 	}
 
-	public boolean hasLocaleValue( )
-	{
-		if ( propValue == null )
+	public boolean hasLocaleValue() {
+		if (propValue == null)
 			return false;
-		else
-		{
-			if ( isDirty )
+		else {
+			if (isDirty)
 				return true;
-			else
-			{
-				if ( this.getPreferenceStore( ) instanceof StylePreferenceStore )
-				{
-					StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore( );
-					if ( store.hasLocalValue( getPreferenceName( ) ) )
+			else {
+				if (this.getPreferenceStore() instanceof StylePreferenceStore) {
+					StylePreferenceStore store = (StylePreferenceStore) this.getPreferenceStore();
+					if (store.hasLocalValue(getPreferenceName()))
 						return true;
 					else
 						return false;
-				}
-				else
+				} else
 					return true;
 			}
 		}

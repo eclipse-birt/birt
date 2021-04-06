@@ -35,24 +35,27 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
 /**
- * <!-- begin-user-doc --> An implementation of the model object '<em><b>Bubble Series</b></em>'.
- * <!-- end-user-doc -->
+ * <!-- begin-user-doc --> An implementation of the model object '<em><b>Bubble
+ * Series</b></em>'. <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
  * <ul>
- *   <li>{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl#getAccLineAttributes <em>Acc Line Attributes</em>}</li>
- *   <li>{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl#getAccOrientation <em>Acc Orientation</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl#getAccLineAttributes
+ * <em>Acc Line Attributes</em>}</li>
+ * <li>{@link org.eclipse.birt.chart.model.type.impl.BubbleSeriesImpl#getAccOrientation
+ * <em>Acc Orientation</em>}</li>
  * </ul>
  * </p>
  *
  * @generated
  */
-public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
-{
+public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries {
 
 	/**
-	 * The cached value of the '{@link #getAccLineAttributes() <em>Acc Line Attributes</em>}' containment reference.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAccLineAttributes() <em>Acc Line
+	 * Attributes</em>}' containment reference. <!-- begin-user-doc --> <!--
+	 * end-user-doc -->
+	 * 
 	 * @see #getAccLineAttributes()
 	 * @generated
 	 * @ordered
@@ -60,8 +63,9 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	protected LineAttributes accLineAttributes;
 
 	/**
-	 * The default value of the '{@link #getAccOrientation() <em>Acc Orientation</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The default value of the '{@link #getAccOrientation() <em>Acc
+	 * Orientation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getAccOrientation()
 	 * @generated
 	 * @ordered
@@ -69,8 +73,9 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	protected static final Orientation ACC_ORIENTATION_EDEFAULT = Orientation.HORIZONTAL_LITERAL;
 
 	/**
-	 * The cached value of the '{@link #getAccOrientation() <em>Acc Orientation</em>}' attribute.
-	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * The cached value of the '{@link #getAccOrientation() <em>Acc
+	 * Orientation</em>}' attribute. <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @see #getAccOrientation()
 	 * @generated
 	 * @ordered
@@ -88,252 +93,221 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	protected BubbleSeriesImpl( )
-	{
-		super( );
+	protected BubbleSeriesImpl() {
+		super();
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	protected EClass eStaticClass( )
-	{
+	protected EClass eStaticClass() {
 		return TypePackage.Literals.BUBBLE_SERIES;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public LineAttributes getAccLineAttributes( )
-	{
+	public LineAttributes getAccLineAttributes() {
 		return accLineAttributes;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public NotificationChain basicSetAccLineAttributes(
-			LineAttributes newAccLineAttributes, NotificationChain msgs )
-	{
+	public NotificationChain basicSetAccLineAttributes(LineAttributes newAccLineAttributes, NotificationChain msgs) {
 		LineAttributes oldAccLineAttributes = accLineAttributes;
 		accLineAttributes = newAccLineAttributes;
-		if ( eNotificationRequired( ) )
-		{
-			ENotificationImpl notification = new ENotificationImpl( this,
-					Notification.SET,
-					TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES,
-					oldAccLineAttributes,
-					newAccLineAttributes );
-			if ( msgs == null )
+		if (eNotificationRequired()) {
+			ENotificationImpl notification = new ENotificationImpl(this, Notification.SET,
+					TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES, oldAccLineAttributes, newAccLineAttributes);
+			if (msgs == null)
 				msgs = notification;
 			else
-				msgs.add( notification );
+				msgs.add(notification);
 		}
 		return msgs;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setAccLineAttributes( LineAttributes newAccLineAttributes )
-	{
-		if ( newAccLineAttributes != accLineAttributes )
-		{
+	public void setAccLineAttributes(LineAttributes newAccLineAttributes) {
+		if (newAccLineAttributes != accLineAttributes) {
 			NotificationChain msgs = null;
-			if ( accLineAttributes != null )
-				msgs = ( (InternalEObject) accLineAttributes ).eInverseRemove( this,
-						EOPPOSITE_FEATURE_BASE
-								- TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES,
-						null,
-						msgs );
-			if ( newAccLineAttributes != null )
-				msgs = ( (InternalEObject) newAccLineAttributes ).eInverseAdd( this,
-						EOPPOSITE_FEATURE_BASE
-								- TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES,
-						null,
-						msgs );
-			msgs = basicSetAccLineAttributes( newAccLineAttributes, msgs );
-			if ( msgs != null )
-				msgs.dispatch( );
-		}
-		else if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES,
-					newAccLineAttributes,
-					newAccLineAttributes ) );
+			if (accLineAttributes != null)
+				msgs = ((InternalEObject) accLineAttributes).eInverseRemove(this,
+						EOPPOSITE_FEATURE_BASE - TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES, null, msgs);
+			if (newAccLineAttributes != null)
+				msgs = ((InternalEObject) newAccLineAttributes).eInverseAdd(this,
+						EOPPOSITE_FEATURE_BASE - TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES, null, msgs);
+			msgs = basicSetAccLineAttributes(newAccLineAttributes, msgs);
+			if (msgs != null)
+				msgs.dispatch();
+		} else if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES,
+					newAccLineAttributes, newAccLineAttributes));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public Orientation getAccOrientation( )
-	{
+	public Orientation getAccOrientation() {
 		return accOrientation;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void setAccOrientation( Orientation newAccOrientation )
-	{
+	public void setAccOrientation(Orientation newAccOrientation) {
 		Orientation oldAccOrientation = accOrientation;
-		accOrientation = newAccOrientation == null ? ACC_ORIENTATION_EDEFAULT
-				: newAccOrientation;
+		accOrientation = newAccOrientation == null ? ACC_ORIENTATION_EDEFAULT : newAccOrientation;
 		boolean oldAccOrientationESet = accOrientationESet;
 		accOrientationESet = true;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.SET,
-					TypePackage.BUBBLE_SERIES__ACC_ORIENTATION,
-					oldAccOrientation,
-					accOrientation,
-					!oldAccOrientationESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, TypePackage.BUBBLE_SERIES__ACC_ORIENTATION,
+					oldAccOrientation, accOrientation, !oldAccOrientationESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public void unsetAccOrientation( )
-	{
+	public void unsetAccOrientation() {
 		Orientation oldAccOrientation = accOrientation;
 		boolean oldAccOrientationESet = accOrientationESet;
 		accOrientation = ACC_ORIENTATION_EDEFAULT;
 		accOrientationESet = false;
-		if ( eNotificationRequired( ) )
-			eNotify( new ENotificationImpl( this,
-					Notification.UNSET,
-					TypePackage.BUBBLE_SERIES__ACC_ORIENTATION,
-					oldAccOrientation,
-					ACC_ORIENTATION_EDEFAULT,
-					oldAccOrientationESet ) );
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.UNSET, TypePackage.BUBBLE_SERIES__ACC_ORIENTATION,
+					oldAccOrientation, ACC_ORIENTATION_EDEFAULT, oldAccOrientationESet));
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
-	public boolean isSetAccOrientation( )
-	{
+	public boolean isSetAccOrientation() {
 		return accOrientationESet;
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public NotificationChain eInverseRemove( InternalEObject otherEnd,
-			int featureID, NotificationChain msgs )
-	{
-		switch ( featureID )
-		{
-			case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES :
-				return basicSetAccLineAttributes( null, msgs );
+	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
+		switch (featureID) {
+		case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES:
+			return basicSetAccLineAttributes(null, msgs);
 		}
-		return super.eInverseRemove( otherEnd, featureID, msgs );
+		return super.eInverseRemove(otherEnd, featureID, msgs);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public Object eGet( int featureID, boolean resolve, boolean coreType )
-	{
-		switch ( featureID )
-		{
-			case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES :
-				return getAccLineAttributes( );
-			case TypePackage.BUBBLE_SERIES__ACC_ORIENTATION :
-				return getAccOrientation( );
+	public Object eGet(int featureID, boolean resolve, boolean coreType) {
+		switch (featureID) {
+		case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES:
+			return getAccLineAttributes();
+		case TypePackage.BUBBLE_SERIES__ACC_ORIENTATION:
+			return getAccOrientation();
 		}
-		return super.eGet( featureID, resolve, coreType );
+		return super.eGet(featureID, resolve, coreType);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eSet( int featureID, Object newValue )
-	{
-		switch ( featureID )
-		{
-			case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES :
-				setAccLineAttributes( (LineAttributes) newValue );
-				return;
-			case TypePackage.BUBBLE_SERIES__ACC_ORIENTATION :
-				setAccOrientation( (Orientation) newValue );
-				return;
+	public void eSet(int featureID, Object newValue) {
+		switch (featureID) {
+		case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES:
+			setAccLineAttributes((LineAttributes) newValue);
+			return;
+		case TypePackage.BUBBLE_SERIES__ACC_ORIENTATION:
+			setAccOrientation((Orientation) newValue);
+			return;
 		}
-		super.eSet( featureID, newValue );
+		super.eSet(featureID, newValue);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public void eUnset( int featureID )
-	{
-		switch ( featureID )
-		{
-			case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES :
-				setAccLineAttributes( (LineAttributes) null );
-				return;
-			case TypePackage.BUBBLE_SERIES__ACC_ORIENTATION :
-				unsetAccOrientation( );
-				return;
+	public void eUnset(int featureID) {
+		switch (featureID) {
+		case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES:
+			setAccLineAttributes((LineAttributes) null);
+			return;
+		case TypePackage.BUBBLE_SERIES__ACC_ORIENTATION:
+			unsetAccOrientation();
+			return;
 		}
-		super.eUnset( featureID );
+		super.eUnset(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public boolean eIsSet( int featureID )
-	{
-		switch ( featureID )
-		{
-			case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES :
-				return accLineAttributes != null;
-			case TypePackage.BUBBLE_SERIES__ACC_ORIENTATION :
-				return isSetAccOrientation( );
+	public boolean eIsSet(int featureID) {
+		switch (featureID) {
+		case TypePackage.BUBBLE_SERIES__ACC_LINE_ATTRIBUTES:
+			return accLineAttributes != null;
+		case TypePackage.BUBBLE_SERIES__ACC_ORIENTATION:
+			return isSetAccOrientation();
 		}
-		return super.eIsSet( featureID );
+		return super.eIsSet(featureID);
 	}
 
 	/**
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
+	 * 
 	 * @generated
 	 */
 	@Override
-	public String toString( )
-	{
-		if ( eIsProxy( ) )
-			return super.toString( );
+	public String toString() {
+		if (eIsProxy())
+			return super.toString();
 
-		StringBuffer result = new StringBuffer( super.toString( ) );
-		result.append( " (accOrientation: " ); //$NON-NLS-1$
-		if ( accOrientationESet )
-			result.append( accOrientation );
+		StringBuffer result = new StringBuffer(super.toString());
+		result.append(" (accOrientation: "); //$NON-NLS-1$
+		if (accOrientationESet)
+			result.append(accOrientation);
 		else
-			result.append( "<unset>" ); //$NON-NLS-1$
-		result.append( ')' );
-		return result.toString( );
+			result.append("<unset>"); //$NON-NLS-1$
+		result.append(')');
+		return result.toString();
 	}
 
 	/**
@@ -341,10 +315,9 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * 
 	 * @return series instance
 	 */
-	public static final Series create( )
-	{
-		final BubbleSeries bs = TypeFactory.eINSTANCE.createBubbleSeries( );
-		( (BubbleSeriesImpl) bs ).initialize( );
+	public static final Series create() {
+		final BubbleSeries bs = TypeFactory.eINSTANCE.createBubbleSeries();
+		((BubbleSeriesImpl) bs).initialize();
 		return bs;
 	}
 
@@ -353,20 +326,17 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * 
 	 * Note: Manually written
 	 */
-	protected final void initialize( )
-	{
-		super.initialize( );
+	protected final void initialize() {
+		super.initialize();
 
-		LineAttributes la = LineAttributesImpl.create( ColorDefinitionImpl.BLACK( ),
-				LineStyle.SOLID_LITERAL,
-				1 );
-		la.setVisible( false );
+		LineAttributes la = LineAttributesImpl.create(ColorDefinitionImpl.BLACK(), LineStyle.SOLID_LITERAL, 1);
+		la.setVisible(false);
 
-		setAccLineAttributes( la );
+		setAccLineAttributes(la);
 
-		Marker firstMarker = getMarkers( ).get( 0 );
-		firstMarker.setType( MarkerType.CIRCLE_LITERAL );
-		firstMarker.setVisible( true );
+		Marker firstMarker = getMarkers().get(0);
+		firstMarker.setType(MarkerType.CIRCLE_LITERAL);
+		firstMarker.setVisible(true);
 	}
 
 	/**
@@ -374,10 +344,9 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * 
 	 * @return series instance
 	 */
-	public static final Series createDefault( )
-	{
-		final BubbleSeries bs = TypeFactory.eINSTANCE.createBubbleSeries( );
-		( (BubbleSeriesImpl) bs ).initDefault( );
+	public static final Series createDefault() {
+		final BubbleSeries bs = TypeFactory.eINSTANCE.createBubbleSeries();
+		((BubbleSeriesImpl) bs).initDefault();
 		return bs;
 	}
 
@@ -386,92 +355,78 @@ public class BubbleSeriesImpl extends ScatterSeriesImpl implements BubbleSeries
 	 * 
 	 * Note: Manually written
 	 */
-	protected final void initDefault( )
-	{
-		super.initDefault( );
+	protected final void initDefault() {
+		super.initDefault();
 
-		LineAttributes la = LineAttributesImpl.createDefault( null,
-				LineStyle.SOLID_LITERAL,
-				1, false );
+		LineAttributes la = LineAttributesImpl.createDefault(null, LineStyle.SOLID_LITERAL, 1, false);
 
-		setAccLineAttributes( la );
+		setAccLineAttributes(la);
 
-		Marker firstMarker = getMarkers( ).get( 0 );
-		try
-		{
-			ChartElementUtil.setDefaultValue( firstMarker,
-					"type", MarkerType.CIRCLE_LITERAL ); //$NON-NLS-1$
-			ChartElementUtil.setDefaultValue( firstMarker, "visible", true ); //$NON-NLS-1$
-		}
-		catch ( ChartException e )
-		{
+		Marker firstMarker = getMarkers().get(0);
+		try {
+			ChartElementUtil.setDefaultValue(firstMarker, "type", MarkerType.CIRCLE_LITERAL); //$NON-NLS-1$
+			ChartElementUtil.setDefaultValue(firstMarker, "visible", true); //$NON-NLS-1$
+		} catch (ChartException e) {
 			// Do nothing.
 		}
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "BubbleSeriesImpl.displayName" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("BubbleSeriesImpl.displayName"); //$NON-NLS-1$
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.model.component.Series#isSingleCache()
 	 */
-	public boolean isSingleCache( )
-	{
+	public boolean isSingleCache() {
 		return true;
 	}
 
 	/**
 	 * @generated
 	 */
-	public BubbleSeries copyInstance( )
-	{
-		BubbleSeriesImpl dest = new BubbleSeriesImpl( );
-		dest.set( this );
+	public BubbleSeries copyInstance() {
+		BubbleSeriesImpl dest = new BubbleSeriesImpl();
+		dest.set(this);
 		return dest;
 	}
 
 	/**
 	 * @generated
 	 */
-	protected void set( BubbleSeries src )
-	{
+	protected void set(BubbleSeries src) {
 
-		super.set( src );
+		super.set(src);
 
 		// children
 
-		if ( src.getAccLineAttributes( ) != null )
-		{
-			setAccLineAttributes( src.getAccLineAttributes( ).copyInstance( ) );
+		if (src.getAccLineAttributes() != null) {
+			setAccLineAttributes(src.getAccLineAttributes().copyInstance());
 		}
 
 		// attributes
 
-		accOrientation = src.getAccOrientation( );
+		accOrientation = src.getAccOrientation();
 
-		accOrientationESet = src.isSetAccOrientation( );
+		accOrientationESet = src.isSetAccOrientation();
 
 	}
-	
+
 	@Override
-	public NameSet getLabelPositionScope( ChartDimension dimension )
-	{
+	public NameSet getLabelPositionScope(ChartDimension dimension) {
 		return LiteralHelper.notOutPositionSet;
 	}
-	
+
 	@Override
-	public int[] getDefinedDataDefinitionIndex( )
-	{
-		return new int[]{
-				0, 1
-		};
+	public int[] getDefinedDataDefinitionIndex() {
+		return new int[] { 0, 1 };
 	}
 
 } // BubbleSeriesImpl

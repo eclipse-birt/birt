@@ -23,31 +23,30 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 
-public class RevertToTemplatePartAction extends WrapperSelectionAction
-{
+public class RevertToTemplatePartAction extends WrapperSelectionAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.views.actions.RevertToTemplateAction"; //$NON-NLS-1$
-	private static final String DEFAULT_TEXT = Messages.getString( "RevertToTemplateAction.text" ); //$NON-NLS-1$	
+	private static final String DEFAULT_TEXT = Messages.getString("RevertToTemplateAction.text"); //$NON-NLS-1$
 
 	/**
 	 * @param part
 	 */
-	public RevertToTemplatePartAction( IWorkbenchPart part )
-	{
-		super( part );
+	public RevertToTemplatePartAction(IWorkbenchPart part) {
+		super(part);
 
-		setId( ID );
-		setText( DEFAULT_TEXT );
+		setId(ID);
+		setText(DEFAULT_TEXT);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.ISelection)
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.
+	 * WrapperSelectionAction#createActionHandler(org.eclipse.jface.viewers.
+	 * ISelection)
 	 */
-	protected IAction createActionHandler( ISelection model )
-	{
-		return new RevertToTemplateAction( model );
+	protected IAction createActionHandler(ISelection model) {
+		return new RevertToTemplateAction(model);
 	}
 
 	/**
@@ -55,9 +54,8 @@ public class RevertToTemplatePartAction extends WrapperSelectionAction
 	 * 
 	 * @return returns the stack
 	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	protected CommandStack getActiveCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
 }

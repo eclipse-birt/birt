@@ -31,7 +31,8 @@ public class XlsxRowCallBack implements RowCallBack {
 		xlsxRowData.add(valArray);
 	}
 
-	public XlsxRowCallBack() {}
+	public XlsxRowCallBack() {
+	}
 
 	public ArrayList<String> initArrayList(String[] strings) {
 		ArrayList<String> list = new ArrayList<String>();
@@ -49,23 +50,25 @@ public class XlsxRowCallBack implements RowCallBack {
 		return (initArrayList(xlsxRowData.get(rownum)));
 	}
 
-	// Need this function because there is no easy way of determining the number of columns in xlsx with SAX Parser.
+	// Need this function because there is no easy way of determining the number of
+	// columns in xlsx with SAX Parser.
 	// This function expands all the previous data rows with blanks.
-	public void columnExpansion(int newColumnCount){
-		for(int i=0;i<xlsxRowData.size();i++)
-		{
-			String[] currentRow =(String[])xlsxRowData.get(i);
-			if( currentRow.length < newColumnCount){
+	public void columnExpansion(int newColumnCount) {
+		for (int i = 0; i < xlsxRowData.size(); i++) {
+			String[] currentRow = (String[]) xlsxRowData.get(i);
+			if (currentRow.length < newColumnCount) {
 				String[] newRow = new String[newColumnCount];
-				//put in fake column names
-				if( i==0 ){
-					for (int j=0; j< newRow.length; j++){
-						newRow[j] = "column_"+j;
+				// put in fake column names
+				if (i == 0) {
+					for (int j = 0; j < newRow.length; j++) {
+						newRow[j] = "column_" + j;
 					}
-				}else{
-					for (int j=0; j< newRow.length; j++) newRow[j] = ExcelODAConstants.EMPTY_STRING;
+				} else {
+					for (int j = 0; j < newRow.length; j++)
+						newRow[j] = ExcelODAConstants.EMPTY_STRING;
 				}
-				for (int g=0; g< currentRow.length; g++) newRow[g] = currentRow[g];
+				for (int g = 0; g < currentRow.length; g++)
+					newRow[g] = currentRow[g];
 				xlsxRowData.remove(i);
 				xlsxRowData.add(i, newRow);
 			}

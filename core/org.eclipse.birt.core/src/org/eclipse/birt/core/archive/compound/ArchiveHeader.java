@@ -25,8 +25,7 @@ import org.eclipse.birt.core.util.IOUtil;
 /**
  * Contains the report archive file 's head information.
  */
-class ArchiveHeader implements ArchiveConstants
-{
+class ArchiveHeader implements ArchiveConstants {
 	protected static final int TAG_OFFSET = 0;
 	protected static final int VERSION_OFFSET = 8;
 	protected static final int STATUS_OFFSET = 16;
@@ -39,12 +38,12 @@ class ArchiveHeader implements ArchiveConstants
 	protected int fileStatus;
 
 	protected int blockSize;
-	
+
 	/**
-	 * the systemId of the archive file/view. 
+	 * the systemId of the archive file/view.
 	 */
 	protected String systemId;
-	
+
 	/**
 	 * the systemId of the parent of the current archive view.
 	 */
@@ -53,70 +52,56 @@ class ArchiveHeader implements ArchiveConstants
 	/**
 	 * Constructor
 	 * 
-	 * @param fs
-	 *            the corresponding compound file system
+	 * @param fs the corresponding compound file system
 	 */
-	ArchiveHeader( )
-	{
+	ArchiveHeader() {
 		this.fileStatus = 0;
 		this.blockSize = DEFAULT_BLOCK_SIZE;
 	}
-	
-	ArchiveHeader( int blockSize )
-	{
+
+	ArchiveHeader(int blockSize) {
 		this.fileStatus = 0;
 		this.blockSize = blockSize;
 	}
 
-	int getStatus( )
-	{
+	int getStatus() {
 		return fileStatus;
 	}
 
-	void setStatus( int status )
-	{
+	void setStatus(int status) {
 		this.fileStatus = status;
 	}
 
-	int getBlockSize( )
-	{
+	int getBlockSize() {
 		return this.blockSize;
 	}
 
-	static ArchiveHeader read( RandomAccessFile rf ) throws IOException
-	{
-		ArchiveHeader header = new ArchiveHeader( );
+	static ArchiveHeader read(RandomAccessFile rf) throws IOException {
+		ArchiveHeader header = new ArchiveHeader();
 
 		byte[] b = new byte[HEADER_LENGTH];
-		rf.seek( 0 );
-		rf.read( b );
-		DataInputStream in = new DataInputStream( new ByteArrayInputStream( b ) );
-		long magicTag = in.readLong( );
-		if ( magicTag != DOCUMENT_TAG )
-		{
+		rf.seek(0);
+		rf.read(b);
+		DataInputStream in = new DataInputStream(new ByteArrayInputStream(b));
+		long magicTag = in.readLong();
+		if (magicTag != DOCUMENT_TAG) {
 			throw new IOException(
-					CoreMessages.getFormattedString(
-							ResourceConstants.NOT_COMPOUND_FILE,
-							new Object[]{magicTag} ) );
+					CoreMessages.getFormattedString(ResourceConstants.NOT_COMPOUND_FILE, new Object[] { magicTag }));
 		}
-		long version = in.readLong( );
-		if ( version != DOCUMENT_VERSION_0 && version != DOCUMENT_VERSION_1 )
-		{
-			throw new IOException( CoreMessages.getFormattedString(
-					ResourceConstants.UNSUPPORTED_ARCHIVE_VERSION,
-					new Object[]{version} ) );
+		long version = in.readLong();
+		if (version != DOCUMENT_VERSION_0 && version != DOCUMENT_VERSION_1) {
+			throw new IOException(CoreMessages.getFormattedString(ResourceConstants.UNSUPPORTED_ARCHIVE_VERSION,
+					new Object[] { version }));
 		}
 
-		header.fileStatus = in.readInt( );
-		header.blockSize = in.readInt( );
-		if ( header.blockSize == 0 )
-		{
+		header.fileStatus = in.readInt();
+		header.blockSize = in.readInt();
+		if (header.blockSize == 0) {
 			header.blockSize = DEFAULT_BLOCK_SIZE;
 		}
-		if ( version == DOCUMENT_VERSION_1 )
-		{
-			header.systemId = IOUtil.readString( in );
-			header.dependId = IOUtil.readString( in );
+		if (version == DOCUMENT_VERSION_1) {
+			header.systemId = IOUtil.readString(in);
+			header.dependId = IOUtil.readString(in);
 		}
 		return header;
 	}
@@ -126,11 +111,10 @@ class ArchiveHeader implements ArchiveConstants
 	 * 
 	 * @throws IOException
 	 */
-	void refresh( ArchiveFileV2 af ) throws IOException
-	{
+	void refresh(ArchiveFileV2 af) throws IOException {
 		byte[] b = new byte[4];
-		af.read( 0, STATUS_OFFSET, b, 0, 4 );
-		fileStatus = IOUtil.bytesToInteger( b );
+		af.read(0, STATUS_OFFSET, b, 0, 4);
+		fileStatus = IOUtil.bytesToInteger(b);
 	}
 
 	/**
@@ -138,24 +122,21 @@ class ArchiveHeader implements ArchiveConstants
 	 * 
 	 * @throws IOException
 	 */
-	void flush( ArchiveFileV2 af ) throws IOException
-	{
-		ByteArrayOutputStream buffer = new ByteArrayOutputStream( );
-		DataOutputStream out = new DataOutputStream( buffer );
-		out.writeLong( DOCUMENT_TAG );
-		out.writeLong( DOCUMENT_VERSION_1 );
-		out.writeInt( fileStatus );
-		out.writeInt( blockSize );
-		IOUtil.writeString( out, af.systemId );
-		IOUtil.writeString( out, af.dependId );
+	void flush(ArchiveFileV2 af) throws IOException {
+		ByteArrayOutputStream buffer = new ByteArrayOutputStream();
+		DataOutputStream out = new DataOutputStream(buffer);
+		out.writeLong(DOCUMENT_TAG);
+		out.writeLong(DOCUMENT_VERSION_1);
+		out.writeInt(fileStatus);
+		out.writeInt(blockSize);
+		IOUtil.writeString(out, af.systemId);
+		IOUtil.writeString(out, af.dependId);
 
-		byte[] b = buffer.toByteArray( );
-		if ( b.length > DEFAULT_BLOCK_SIZE )
-		{
-			throw new IOException( CoreMessages.getFormattedString(
-					ResourceConstants.EXCEED_MAX_BLOCK_SIZE,
-					new Object[]{DEFAULT_BLOCK_SIZE} ) );
+		byte[] b = buffer.toByteArray();
+		if (b.length > DEFAULT_BLOCK_SIZE) {
+			throw new IOException(CoreMessages.getFormattedString(ResourceConstants.EXCEED_MAX_BLOCK_SIZE,
+					new Object[] { DEFAULT_BLOCK_SIZE }));
 		}
-		af.write( 0, 0, b, 0, b.length );
+		af.write(0, 0, b, 0, b.length);
 	}
 }

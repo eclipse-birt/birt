@@ -18,74 +18,60 @@ import org.eclipse.birt.report.model.api.extension.IFont;
  * 
  */
 
-public class FontImpl implements IFont
-{
+public class FontImpl implements IFont {
 
 	private FontDefinition fd = null;
 
-	public FontImpl( FontDefinition fd )
-	{
+	public FontImpl(FontDefinition fd) {
 		this.fd = fd;
 	}
 
-	public String getName( )
-	{
-		return fd.getName( );
+	public String getName() {
+		return fd.getName();
 	}
 
-	public float getSize( )
-	{
-		return fd.getSize( );
+	public float getSize() {
+		return fd.getSize();
 	}
 
-	public boolean isBold( )
-	{
-		return fd.isBold( );
+	public boolean isBold() {
+		return fd.isBold();
 	}
 
-	public boolean isItalic( )
-	{
-		return fd.isItalic( );
+	public boolean isItalic() {
+		return fd.isItalic();
 	}
 
-	public boolean isStrikeThrough( )
-	{
-		return fd.isStrikethrough( );
+	public boolean isStrikeThrough() {
+		return fd.isStrikethrough();
 	}
 
-	public boolean isUnderline( )
-	{
-		return fd.isUnderline( );
+	public boolean isUnderline() {
+		return fd.isUnderline();
 	}
 
-	public void setBold( boolean isBold )
-	{
-		fd.setBold( isBold );
+	public void setBold(boolean isBold) {
+		fd.setBold(isBold);
 	}
 
-	public void setItalic( boolean isItalic )
-	{
-		fd.setItalic( isItalic );
+	public void setItalic(boolean isItalic) {
+		fd.setItalic(isItalic);
 	}
 
-	public void setStrikeThrough( boolean isStrikeThrough )
-	{
-		fd.setStrikethrough( isStrikeThrough );
+	public void setStrikeThrough(boolean isStrikeThrough) {
+		fd.setStrikethrough(isStrikeThrough);
 	}
 
-	public void setUnderline( boolean isUnderline )
-	{
-		fd.setUnderline( isUnderline );
+	public void setUnderline(boolean isUnderline) {
+		fd.setUnderline(isUnderline);
 	}
 
-	public void setName( String name )
-	{
-		fd.setName( name );
+	public void setName(String name) {
+		fd.setName(name);
 	}
 
-	public void setSize( float size )
-	{
-		fd.setSize( size );
+	public void setSize(float size) {
+		fd.setSize(size);
 	}
 
 }

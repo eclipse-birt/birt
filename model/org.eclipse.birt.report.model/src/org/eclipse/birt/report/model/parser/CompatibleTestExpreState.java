@@ -52,7 +52,7 @@ import org.xml.sax.SAXException;
  *                    &lt;structure&gt;
  *                    &lt;property name=&quot;operator&quot;&gt;is-false&lt;/property&gt;                
  *                    &lt;/structure&gt;
- *                    &lt;/list-property&gt;  
+ *                    &lt;/list-property&gt;
  * </pre>
  * 
  * new design file:
@@ -95,41 +95,33 @@ import org.xml.sax.SAXException;
  * </pre>
  * 
  */
-public class CompatibleTestExpreState extends CompatibleMiscExpressionState
-{
+public class CompatibleTestExpreState extends CompatibleMiscExpressionState {
 
 	private String tempVeluekey = null;
 
 	/**
 	 * Constructs <code>CompatibleTestExpreState</code>.
 	 * 
-	 * @param theHandler
-	 *            the parser handler
-	 * @param element
-	 *            the current element
+	 * @param theHandler the parser handler
+	 * @param element    the current element
 	 * @param key
 	 */
 
-	public CompatibleTestExpreState( ModuleParserHandler theHandler,
-			DesignElement element, String key )
-	{
-		super( theHandler, element );
+	public CompatibleTestExpreState(ModuleParserHandler theHandler, DesignElement element, String key) {
+		super(theHandler, element);
 		tempVeluekey = key;
 	}
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
+	public void end() throws SAXException {
+		String value = text.toString();
 
-		if ( handler.versionNumber >= VersionUtil.VERSION_3_2_0 )
-		{
-			handler.tempValue.put( tempVeluekey, value );
+		if (handler.versionNumber >= VersionUtil.VERSION_3_2_0) {
+			handler.tempValue.put(tempVeluekey, value);
 			return;
 		}
-		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(
-				element, handler.module );
+		DesignElement target = BoundDataColumnUtil.findTargetOfBoundColumns(element, handler.module);
 
-		setupBoundDataColumns( target, value, true );
-		handler.tempValue.put( tempVeluekey, value );
+		setupBoundDataColumns(target, value, true);
+		handler.tempValue.put(tempVeluekey, value);
 	}
 }

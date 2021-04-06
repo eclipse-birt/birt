@@ -16,8 +16,7 @@ import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 /**
  * Factory to create the crosstab cell adapter
  */
-public interface ICrosstabCellAdapterFactory
-{
+public interface ICrosstabCellAdapterFactory {
 
 	// for the level handel to creat the cell handle adapter, maybe there are
 	// different cell adapter between
@@ -36,7 +35,7 @@ public interface ICrosstabCellAdapterFactory
 	// measure cell adapter
 	// share the one AbstractCrosstabItemHandle
 	public static final String CELL_MEASURE_HEADER = "measure_header";//$NON-NLS-1$
-	
+
 	public static final String CROSSTAB_HEADER = "crosstab_header";//$NON-NLS-1$
 
 	public static final String CELL_MEASURE = "cell_measure";//$NON-NLS-1$
@@ -57,7 +56,6 @@ public interface ICrosstabCellAdapterFactory
 	 * 
 	 * @return
 	 */
-	public CrosstabCellAdapter createCrosstabCellAdapter( String type,
-			CrosstabCellHandle handle, int rowNumber, int rowSpan,
-			int columnNumber, int columnSpan, boolean isConvert );
+	public CrosstabCellAdapter createCrosstabCellAdapter(String type, CrosstabCellHandle handle, int rowNumber,
+			int rowSpan, int columnNumber, int columnSpan, boolean isConvert);
 }

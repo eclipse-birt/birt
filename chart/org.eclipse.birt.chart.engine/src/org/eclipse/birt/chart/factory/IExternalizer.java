@@ -21,14 +21,12 @@ import com.ibm.icu.util.ULocale;
  * externalize the text with the properties file of the report design or the
  * library. Otherwise the user should implement it.
  */
-public interface IExternalizer
-{
+public interface IExternalizer {
 	/**
-	 * Defines a separator for a fully externalized message reference containing
-	 * a key on the LHS and a value on the RHS separated by the key separator.
+	 * Defines a separator for a fully externalized message reference containing a
+	 * key on the LHS and a value on the RHS separated by the key separator.
 	 */
 	public static final char KEY_SEPARATOR = '=';
 
-	String externalizedMessage( String sKey, String sDefaultValue,
-			ULocale locale );
+	String externalizedMessage(String sKey, String sDefaultValue, ULocale locale);
 }

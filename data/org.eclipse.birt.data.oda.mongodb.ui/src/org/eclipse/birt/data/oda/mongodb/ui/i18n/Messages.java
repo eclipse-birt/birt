@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.data.oda.mongodb.ui.i18n;
 
-
 import java.text.MessageFormat;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
@@ -20,32 +19,25 @@ import java.util.ResourceBundle;
  * 
  */
 
-public class Messages
-{
+public class Messages {
 
 	private static final String BUNDLE_NAME = "org.eclipse.birt.data.oda.mongodb.ui.i18n.messages"; //$NON-NLS-1$
-	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle( BUNDLE_NAME );
+	private static final ResourceBundle RESOURCE_BUNDLE = ResourceBundle.getBundle(BUNDLE_NAME);
 
-	private Messages( )
-	{
+	private Messages() {
 	}
 
-	public static String getString( String key )
-	{
+	public static String getString(String key) {
 		// TODO Auto-generated method stub
-		try
-		{
-			return RESOURCE_BUNDLE.getString( key );
-		}
-		catch ( MissingResourceException e )
-		{
+		try {
+			return RESOURCE_BUNDLE.getString(key);
+		} catch (MissingResourceException e) {
 			return '!' + key + '!';
 		}
 	}
 
-	public static String getFormattedString( String key, Object[] arguments )
-	{
-		return MessageFormat.format( getString( key ), arguments );
+	public static String getFormattedString(String key, Object[] arguments) {
+		return MessageFormat.format(getString(key), arguments);
 	}
 
 }

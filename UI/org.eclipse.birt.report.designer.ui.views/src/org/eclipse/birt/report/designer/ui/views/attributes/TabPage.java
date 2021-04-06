@@ -16,16 +16,13 @@ import org.eclipse.birt.report.designer.ui.extensions.IPropertyTabUI;
 /**
  * An attribute page Presents some attributes of a DE element.
  */
-public abstract class TabPage implements IPropertyTabUI
-{
+public abstract class TabPage implements IPropertyTabUI {
 
-	public void refresh( )
-	{
+	public void refresh() {
 	}
 
-	public String getTabDisplayName( )
-	{
+	public String getTabDisplayName() {
 		return null;
 	}
-	
+
 }

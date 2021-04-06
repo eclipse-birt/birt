@@ -48,35 +48,28 @@ import org.eclipse.swt.widgets.Table;
  * 
  */
 
-public class SubTotalProvider extends AbstractFormHandleProvider
-{
-	protected static final Logger logger = Logger.getLogger( SubTotalProvider.class.getName( ) );
+public class SubTotalProvider extends AbstractFormHandleProvider {
+	protected static final Logger logger = Logger.getLogger(SubTotalProvider.class.getName());
 
 	private CellEditor[] editors;
-	private String[] columnNames = new String[]{
-			Messages.getString( "CrosstabSubToatalProvider.Column.AggregateOn" ), //$NON-NLS-1$
-			Messages.getString( "CrosstabSubToatalProvider.Column.DataField" ), 
-	};
+	private String[] columnNames = new String[] { Messages.getString("CrosstabSubToatalProvider.Column.AggregateOn"), //$NON-NLS-1$
+			Messages.getString("CrosstabSubToatalProvider.Column.DataField"), };
 
-	private int[] columnWidths = new int[]{
-			160, 160, 200
-	};
+	private int[] columnWidths = new int[] { 160, 160, 200 };
 
 	private int axis;
 
-	public void setAxis( int axis )
-	{
+	public void setAxis(int axis) {
 		this.axis = axis;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#canModify(java.lang.Object,
-	 *      java.lang.String)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#canModify(java.lang.Object, java.lang.String)
 	 */
-	public boolean canModify( Object element, String property )
-	{
+	public boolean canModify(Object element, String property) {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -84,25 +77,20 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#doAddItem(int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#doAddItem(int)
 	 */
-	public boolean doAddItem( int pos ) throws Exception
-	{
+	public boolean doAddItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
-		try
-		{
-			reportHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) ( ( (List) input ) ).get( 0 ) ).getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			reportHandle = (CrosstabReportItemHandle) ((ExtendedItemHandle) (((List) input)).get(0)).getReportItem();
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle,
-				axis );
-		if ( subTotalDialog.open( ) == Dialog.CANCEL )
-		{
+		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog(reportHandle, axis);
+		if (subTotalDialog.open() == Dialog.CANCEL) {
 			return false;
 		}
 		return true;
@@ -111,82 +99,68 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#doDeleteItem(int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#doDeleteItem(int)
 	 */
-	public boolean doDeleteItem( int pos ) throws Exception
-	{
+	public boolean doDeleteItem(int pos) throws Exception {
 		// TODO Auto-generated method stub
-		SubTotalInfo subTotalInfo = (SubTotalInfo) getElements( input )[pos];
+		SubTotalInfo subTotalInfo = (SubTotalInfo) getElements(input)[pos];
 		LevelViewHandle levelViewHandle = subTotalInfo.level;
 //		MeasureViewHandle measureViewHandle = subTotalInfo.measure;
 		String measureName = subTotalInfo.measureName;
-		
-		ExtendedItemHandle extendedItem = (ExtendedItemHandle) ( ( (List) input ) ).get( 0 );
-		List tmpMeasures = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
-				.getContents( );
+
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) (((List) input)).get(0);
+		List tmpMeasures = extendedItem.getPropertyHandle(ICrosstabReportItemConstants.MEASURES_PROP).getContents();
 		int measureIndex = -1;
-		for ( int i = 0; i < tmpMeasures.size( ); i++ )
-		{
-			ExtendedItemHandle extHandle = (ExtendedItemHandle) tmpMeasures.get( i );
-			try
-			{
-				if ( ((MeasureViewHandle) extHandle.getReportItem( )).getCubeMeasureName( ).equals( measureName ) )
-				{
+		for (int i = 0; i < tmpMeasures.size(); i++) {
+			ExtendedItemHandle extHandle = (ExtendedItemHandle) tmpMeasures.get(i);
+			try {
+				if (((MeasureViewHandle) extHandle.getReportItem()).getCubeMeasureName().equals(measureName)) {
 					measureIndex = i;
 					break;
 				}
-			}
-			catch ( ExtendedElementException e1 )
-			{
+			} catch (ExtendedElementException e1) {
 				// TODO Auto-generated catch block
-				logger.log(Level.SEVERE, e1.getMessage(),e1);
+				logger.log(Level.SEVERE, e1.getMessage(), e1);
 			}
 		}
 
-		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement( this.input );
+		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement(this.input);
 		CrosstabReportItemHandle crossTab = null;
-		try
-		{
-			crossTab = (CrosstabReportItemHandle) extend.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			crossTab = (CrosstabReportItemHandle) extend.getReportItem();
+		} catch (ExtendedElementException e) {
+			ExceptionUtil.handle(e);
 			return false;
 		}
-		if ( crossTab == null )
+		if (crossTab == null)
 			return false;
 
-		if ( CrosstabUtil.isAggregationAffectAllMeasures( crossTab, axis ) )
-			levelViewHandle.removeSubTotal( );
+		if (CrosstabUtil.isAggregationAffectAllMeasures(crossTab, axis))
+			levelViewHandle.removeSubTotal();
 		else
-			levelViewHandle.removeSubTotal( measureIndex );
+			levelViewHandle.removeSubTotal(measureIndex);
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#doEditItem(int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#doEditItem(int)
 	 */
-	public boolean doEditItem( int pos )
-	{
+	public boolean doEditItem(int pos) {
 		// TODO Auto-generated method stub
 		CrosstabReportItemHandle reportHandle = null;
-		try
-		{
-			reportHandle = (CrosstabReportItemHandle) ( (ExtendedItemHandle) ( ( (List) input ) ).get( 0 ) ).getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			reportHandle = (CrosstabReportItemHandle) ((ExtendedItemHandle) (((List) input)).get(0)).getReportItem();
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog( reportHandle,
-				axis );
-		subTotalDialog.setInput( (SubTotalInfo) getElements( input )[pos] );
-		if ( subTotalDialog.open( ) == Dialog.CANCEL )
-		{
+		CrosstabSubTotalDialog subTotalDialog = new CrosstabSubTotalDialog(reportHandle, axis);
+		subTotalDialog.setInput((SubTotalInfo) getElements(input)[pos]);
+		if (subTotalDialog.open() == Dialog.CANCEL) {
 			return false;
 		}
 		return true;
@@ -195,11 +169,10 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#doMoveItem(int,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#doMoveItem(int, int)
 	 */
-	public boolean doMoveItem( int oldPos, int newPos ) throws Exception
-	{
+	public boolean doMoveItem(int oldPos, int newPos) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -207,10 +180,10 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getColumnNames()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#getColumnNames()
 	 */
-	public String[] getColumnNames( )
-	{
+	public String[] getColumnNames() {
 		// TODO Auto-generated method stub
 		return columnNames;
 	}
@@ -218,26 +191,24 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getColumnText(java.lang.Object,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#getColumnText(java.lang.Object, int)
 	 */
-	public String getColumnText( Object element, int columnIndex )
-	{
+	public String getColumnText(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		SubTotalInfo info = (SubTotalInfo) element;
-		switch ( columnIndex )
-		{
-			case 0 :
-				return info.level.getCubeLevelName( );
-			case 1 :
-				return info.measureName == null ? "" : info.measureName; //$NON-NLS-1$
+		switch (columnIndex) {
+		case 0:
+			return info.level.getCubeLevelName();
+		case 1:
+			return info.measureName == null ? "" : info.measureName; //$NON-NLS-1$
 
-			case 2 :
-				if ( info.function == null || info.function.trim( ).equals( "" ) ) //$NON-NLS-1$
-					info.function = getFunctionNames( )[0];
-				return getFunctionDisplayName( info.function );
-			default :
-				break;
+		case 2:
+			if (info.function == null || info.function.trim().equals("")) //$NON-NLS-1$
+				info.function = getFunctionNames()[0];
+			return getFunctionDisplayName(info.function);
+		default:
+			break;
 		}
 		return ""; //$NON-NLS-1$
 	}
@@ -245,10 +216,10 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getColumnWidths()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#getColumnWidths()
 	 */
-	public int[] getColumnWidths( )
-	{
+	public int[] getColumnWidths() {
 		// TODO Auto-generated method stub
 		return columnWidths;
 	}
@@ -256,17 +227,15 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getEditors(org.eclipse.swt.widgets.Table)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
-	public CellEditor[] getEditors( Table table )
-	{
+	public CellEditor[] getEditors(Table table) {
 		// TODO Auto-generated method stub
-		if ( editors == null )
-		{
+		if (editors == null) {
 			editors = new CellEditor[columnNames.length];
-			for ( int i = 0; i < columnNames.length; i++ )
-			{
-				editors[i] = new TextCellEditor( );
+			for (int i = 0; i < columnNames.length; i++) {
+				editors[i] = new TextCellEditor();
 			}
 		}
 		return editors;
@@ -275,80 +244,66 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getElements(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#getElements(java.lang.Object)
 	 */
-	public Object[] getElements( Object inputElement )
-	{
+	public Object[] getElements(Object inputElement) {
 		// TODO Auto-generated method stub
 		input = inputElement;
 		Object obj = null;
-		if ( inputElement instanceof List )
-		{
-			obj = ( (List) inputElement ).get( 0 );
-		}
-		else
-		{
+		if (inputElement instanceof List) {
+			obj = ((List) inputElement).get(0);
+		} else {
 			obj = inputElement;
 		}
 
-		List list = new ArrayList( );
-		if ( !( obj instanceof ExtendedItemHandle ) )
+		List list = new ArrayList();
+		if (!(obj instanceof ExtendedItemHandle))
 			return new Object[0];
 		ExtendedItemHandle element = (ExtendedItemHandle) obj;
 		CrosstabReportItemHandle crossTab = null;
-		try
-		{
-			crossTab = (CrosstabReportItemHandle) element.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
+		try {
+			crossTab = (CrosstabReportItemHandle) element.getReportItem();
+		} catch (ExtendedElementException e) {
 			// TODO Auto-generated catch block
-			logger.log(Level.SEVERE, e.getMessage(),e);
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		if ( crossTab == null )
-		{
+		if (crossTab == null) {
 			return new Object[0];
 		}
 
-		if ( crossTab.getCrosstabView( axis ) != null )
-		{
-			CrosstabViewHandle crosstabView = crossTab.getCrosstabView( axis );
-			list.addAll( getLevel( crosstabView ) );
+		if (crossTab.getCrosstabView(axis) != null) {
+			CrosstabViewHandle crosstabView = crossTab.getCrosstabView(axis);
+			list.addAll(getLevel(crosstabView));
 		}
 
-		return list.toArray( );
+		return list.toArray();
 	}
 
-	private List getLevel( CrosstabViewHandle crosstabViewHandle )
-	{
-		List list = new ArrayList( );
-		if ( crosstabViewHandle == null )
-		{
+	private List getLevel(CrosstabViewHandle crosstabViewHandle) {
+		List list = new ArrayList();
+		if (crosstabViewHandle == null) {
 			return list;
 		}
-		int dimensionCount = crosstabViewHandle.getDimensionCount( );
+		int dimensionCount = crosstabViewHandle.getDimensionCount();
 
-		for ( int i = 0; i < dimensionCount; i++ )
-		{
-			DimensionViewHandle dimension = crosstabViewHandle.getDimension( i );
-			int levelCount = dimension.getLevelCount( );
-			for ( int j = 0; j < levelCount; j++ )
-			{
-				LevelViewHandle levelHandle = dimension.getLevel( j );
-				List aggMeasures = levelHandle.getAggregationMeasures( );
-				for ( int k = 0; k < aggMeasures.size( ); k++ )
-				{
-					MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get( k );
-					if(measure instanceof ComputedMeasureViewHandle)
-					{
+		for (int i = 0; i < dimensionCount; i++) {
+			DimensionViewHandle dimension = crosstabViewHandle.getDimension(i);
+			int levelCount = dimension.getLevelCount();
+			for (int j = 0; j < levelCount; j++) {
+				LevelViewHandle levelHandle = dimension.getLevel(j);
+				List aggMeasures = levelHandle.getAggregationMeasures();
+				for (int k = 0; k < aggMeasures.size(); k++) {
+					MeasureViewHandle measure = (MeasureViewHandle) aggMeasures.get(k);
+					if (measure instanceof ComputedMeasureViewHandle) {
 						continue;
 					}
-					SubTotalInfo info = new SubTotalInfo( );
+					SubTotalInfo info = new SubTotalInfo();
 //					info.measure = measure;
-					info.measureName = measure.getCubeMeasureName( );
-					info.function = levelHandle.getAggregationFunction( measure );
+					info.measureName = measure.getCubeMeasureName();
+					info.function = levelHandle.getAggregationFunction(measure);
 					info.level = levelHandle;
-					list.add( info );
+					list.add(info);
 				}
 
 			}
@@ -359,41 +314,34 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/**
 	 * GrandTotalInfo
 	 */
-	public static class SubTotalInfo
-	{
+	public static class SubTotalInfo {
 
 		private LevelViewHandle level = null;
 //		private MeasureViewHandle measure = null;
 		private String measureName = "";
 		private String function = ""; //$NON-NLS-1$
 
-		public LevelViewHandle getLevel( )
-		{
+		public LevelViewHandle getLevel() {
 			return level;
 		}
 
-		public void setLevel( LevelViewHandle level )
-		{
+		public void setLevel(LevelViewHandle level) {
 			this.level = level;
 		}
 
-		public String getMeasureName()
-		{
+		public String getMeasureName() {
 			return measureName;
 		}
-		
-		public void setMeasureName(String name)
-		{
+
+		public void setMeasureName(String name) {
 			measureName = name;
 		}
-		
-		public String getFunction( )
-		{
+
+		public String getFunction() {
 			return function;
 		}
 
-		public void setFunction( String function )
-		{
+		public void setFunction(String function) {
 			this.function = function;
 		}
 	}
@@ -401,11 +349,10 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getImagePath(java.lang.Object,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#getImagePath(java.lang.Object, int)
 	 */
-	public Image getImage( Object element, int columnIndex )
-	{
+	public Image getImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -413,11 +360,10 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#getValue(java.lang.Object,
-	 *      java.lang.String)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#getValue(java.lang.Object, java.lang.String)
 	 */
-	public Object getValue( Object element, String property )
-	{
+	public Object getValue(Object element, String property) {
 		// TODO Auto-generated method stub
 		return null;
 	}
@@ -425,12 +371,10 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#modify(java.lang.Object,
-	 *      java.lang.String, java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#modify(java.lang.Object, java.lang.String, java.lang.Object)
 	 */
-	public boolean modify( Object data, String property, Object value )
-			throws Exception
-	{
+	public boolean modify(Object data, String property, Object value) throws Exception {
 		// TODO Auto-generated method stub
 		return false;
 	}
@@ -438,12 +382,12 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IFormProvider#needRefreshed(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IFormProvider#needRefreshed(org.eclipse.birt.report.model.api.activity.
+	 * NotificationEvent)
 	 */
-	public boolean needRefreshed( NotificationEvent event )
-	{
-		if ( event instanceof ContentEvent || event instanceof PropertyEvent )
-		{
+	public boolean needRefreshed(NotificationEvent event) {
+		if (event instanceof ContentEvent || event instanceof PropertyEvent) {
 			return true;
 		}
 		return false;
@@ -452,24 +396,22 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.IDescriptorProvider#getDisplayName()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * IDescriptorProvider#getDisplayName()
 	 */
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		// TODO Auto-generated method stub
-		return Messages.getString( "CrosstabPageGenerator.List.SubTotals" ); //$NON-NLS-1$
+		return Messages.getString("CrosstabPageGenerator.List.SubTotals"); //$NON-NLS-1$
 	}
 
-	public String[] getFunctionNames( )
-	{
-		IChoice[] choices = getFunctions( );
-		if ( choices == null )
+	public String[] getFunctionNames() {
+		IChoice[] choices = getFunctions();
+		if (choices == null)
 			return new String[0];
 
 		String[] displayNames = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			displayNames[i] = choices[i].getName( );
+		for (int i = 0; i < choices.length; i++) {
+			displayNames[i] = choices[i].getName();
 		}
 		return displayNames;
 	}
@@ -487,70 +429,55 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 //				.getChoiceSet( DesignChoiceConstants.CHOICE_MEASURE_FUNCTION )
 //				.getChoices( );
 //	}
-	public String getFunctionDisplayName( String name )
+	public String getFunctionDisplayName(String name)
 
 	{
-		return ChoiceSetFactory.getDisplayNameFromChoiceSet( name,
-				DEUtil.getMetaDataDictionary( )
-						.getElement( ReportDesignConstants.MEASURE_ELEMENT )
-						.getProperty( IMeasureModel.FUNCTION_PROP )
-						.getAllowedChoices( ) );
+		return ChoiceSetFactory.getDisplayNameFromChoiceSet(name,
+				DEUtil.getMetaDataDictionary().getElement(ReportDesignConstants.MEASURE_ELEMENT)
+						.getProperty(IMeasureModel.FUNCTION_PROP).getAllowedChoices());
 
 	}
 
-	private IChoice[] getFunctions( )
+	private IChoice[] getFunctions()
 
 	{
-		return DEUtil.getMetaDataDictionary( )
-				.getElement( ReportDesignConstants.MEASURE_ELEMENT )
-				.getProperty( IMeasureModel.FUNCTION_PROP )
-				.getAllowedChoices( )
-				.getChoices( );
+		return DEUtil.getMetaDataDictionary().getElement(ReportDesignConstants.MEASURE_ELEMENT)
+				.getProperty(IMeasureModel.FUNCTION_PROP).getAllowedChoices().getChoices();
 
 	}
 
-	public boolean isAddEnable (Object selectedObject)
-	{
+	public boolean isAddEnable(Object selectedObject) {
 		return isAddEnable();
 	}
-	
-	public boolean isAddEnable( )
-	{
-		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement( this.input );
+
+	public boolean isAddEnable() {
+		ExtendedItemHandle extend = (ExtendedItemHandle) DEUtil.getInputFirstElement(this.input);
 		CrosstabReportItemHandle crossTab = null;
-		try
-		{
-			crossTab = (CrosstabReportItemHandle) extend.getReportItem( );
-		}
-		catch ( ExtendedElementException e )
-		{
-			ExceptionUtil.handle( e );
+		try {
+			crossTab = (CrosstabReportItemHandle) extend.getReportItem();
+		} catch (ExtendedElementException e) {
+			ExceptionUtil.handle(e);
 			return false;
 		}
-		if ( crossTab == null )
+		if (crossTab == null)
 			return false;
-		CrosstabViewHandle crosstabView = crossTab.getCrosstabView( axis );
-		if ( ( getAllLevelCount( crossTab ) - 1 )
-				* getMeasureCount( crossTab )
-				- getLevel( crosstabView ).size( ) > 0 )
+		CrosstabViewHandle crosstabView = crossTab.getCrosstabView(axis);
+		if ((getAllLevelCount(crossTab) - 1) * getMeasureCount(crossTab) - getLevel(crosstabView).size() > 0)
 			return true;
 		else
 			return false;
 	}
 
-	private int getAllLevelCount( CrosstabReportItemHandle crosstab )
-	{
-		CrosstabViewHandle crosstabView = crosstab.getCrosstabView( axis );
-		if ( crosstabView == null )
+	private int getAllLevelCount(CrosstabReportItemHandle crosstab) {
+		CrosstabViewHandle crosstabView = crosstab.getCrosstabView(axis);
+		if (crosstabView == null)
 			return 0;
-		int dimCount = crosstabView.getDimensionCount( );
+		int dimCount = crosstabView.getDimensionCount();
 		int result = 0;
-		for ( int i = 0; i < dimCount; i++ )
-		{
-			DimensionViewHandle dimensionView = crosstabView.getDimension( i );
-			int levelCount = dimensionView.getLevelCount( );
-			for ( int j = 0; j < levelCount; j++ )
-			{
+		for (int i = 0; i < dimCount; i++) {
+			DimensionViewHandle dimensionView = crosstabView.getDimension(i);
+			int levelCount = dimensionView.getLevelCount();
+			for (int j = 0; j < levelCount; j++) {
 				result++;
 			}
 		}
@@ -558,12 +485,10 @@ public class SubTotalProvider extends AbstractFormHandleProvider
 	}
 
 	// return measureView count, excluding computed measure
-	private int getMeasureCount( CrosstabReportItemHandle crosstab )
-	{
-		ExtendedItemHandle extendedItem = (ExtendedItemHandle) crosstab.getModelHandle( );
-		int allCount = extendedItem.getPropertyHandle( ICrosstabReportItemConstants.MEASURES_PROP )
-				.getContentCount( );
-		int comoputecCount = crosstab.getComputedMeasures( ).size( );
+	private int getMeasureCount(CrosstabReportItemHandle crosstab) {
+		ExtendedItemHandle extendedItem = (ExtendedItemHandle) crosstab.getModelHandle();
+		int allCount = extendedItem.getPropertyHandle(ICrosstabReportItemConstants.MEASURES_PROP).getContentCount();
+		int comoputecCount = crosstab.getComputedMeasures().size();
 		return allCount - comoputecCount;
 	}
 

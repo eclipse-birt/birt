@@ -21,47 +21,40 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public class VirtualCrosstabCellNodeProvider extends DefaultNodeProvider
-{
+public class VirtualCrosstabCellNodeProvider extends DefaultNodeProvider {
 
-	public Object[] getChildren( Object model )
-	{
+	public Object[] getChildren(Object model) {
 		return new Object[0];
 	}
 
-	public Image getNodeIcon( Object model )
-	{
-		if ( model instanceof VirtualCrosstabCellAdapter )
-		{
+	public Image getNodeIcon(Object model) {
+		if (model instanceof VirtualCrosstabCellAdapter) {
 			VirtualCrosstabCellAdapter adapter = (VirtualCrosstabCellAdapter) model;
-			if ( adapter.getType( ) == VirtualCrosstabCellAdapter.ROW_TYPE )
-				return CrosstabUIHelper.getImage( CrosstabUIHelper.ROWS_AREA_IMAGE );
-			if ( adapter.getType( ) == VirtualCrosstabCellAdapter.COLUMN_TYPE )
-				return CrosstabUIHelper.getImage( CrosstabUIHelper.COLUMNS_AREA_IMAGE );
-			if ( adapter.getType( ) == VirtualCrosstabCellAdapter.MEASURE_TYPE )
-				return CrosstabUIHelper.getImage( CrosstabUIHelper.DETAIL_AREA_IMAGE );
+			if (adapter.getType() == VirtualCrosstabCellAdapter.ROW_TYPE)
+				return CrosstabUIHelper.getImage(CrosstabUIHelper.ROWS_AREA_IMAGE);
+			if (adapter.getType() == VirtualCrosstabCellAdapter.COLUMN_TYPE)
+				return CrosstabUIHelper.getImage(CrosstabUIHelper.COLUMNS_AREA_IMAGE);
+			if (adapter.getType() == VirtualCrosstabCellAdapter.MEASURE_TYPE)
+				return CrosstabUIHelper.getImage(CrosstabUIHelper.DETAIL_AREA_IMAGE);
 		}
-		return super.getNodeIcon( model );
+		return super.getNodeIcon(model);
 	}
 
-	public String getNodeDisplayName( Object model )
-	{
-		if ( model instanceof VirtualCrosstabCellAdapter )
-		{
+	public String getNodeDisplayName(Object model) {
+		if (model instanceof VirtualCrosstabCellAdapter) {
 			VirtualCrosstabCellAdapter adapter = (VirtualCrosstabCellAdapter) model;
-			if ( adapter.getType( ) == VirtualCrosstabCellAdapter.ROW_TYPE )
+			if (adapter.getType() == VirtualCrosstabCellAdapter.ROW_TYPE)
 				return Messages.getString("VirtualCrosstabCellNodeProvider.Display.RowArea"); //$NON-NLS-1$
-			if ( adapter.getType( ) == VirtualCrosstabCellAdapter.COLUMN_TYPE )
+			if (adapter.getType() == VirtualCrosstabCellAdapter.COLUMN_TYPE)
 				return Messages.getString("VirtualCrosstabCellNodeProvider.Display.ColumnArea"); //$NON-NLS-1$
-			if ( adapter.getType( ) == VirtualCrosstabCellAdapter.MEASURE_TYPE )
+			if (adapter.getType() == VirtualCrosstabCellAdapter.MEASURE_TYPE)
 				return Messages.getString("VirtualCrosstabCellNodeProvider.Display.DetailArea"); //$NON-NLS-1$
 			return Messages.getString("VirtualCrosstabCellNodeProvider.Display.UnknownArea"); //$NON-NLS-1$
 		}
-		return super.getNodeDisplayName( model );
+		return super.getNodeDisplayName(model);
 	}
 
-	public String getNodeTooltip( Object model )
-	{
-		return super.getNodeDisplayName( model );
+	public String getNodeTooltip(Object model) {
+		return super.getNodeDisplayName(model);
 	}
 }

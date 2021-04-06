@@ -10,12 +10,10 @@
  *******************************************************************************/
 package org.eclipse.birt.core.i18n;
 
-
 /**
  * Define resource key constants for need be localized resource.
  */
-public class ResourceConstants
-{
+public class ResourceConstants {
 	public final static String INVALID_EXPRESSION = "INVALID_EXPRSSION";
 
 	public final static String INVALID_TYPE = "INVALID_TYPE";

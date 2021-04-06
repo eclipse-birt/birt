@@ -26,48 +26,43 @@ import org.eclipse.ui.PlatformUI;
  * 
  * @version $Revision: 1.3 $ $Date: 2007/04/23 03:30:22 $
  */
-public class EditCubeLevelAction extends AbstractElementAction
-{
+public class EditCubeLevelAction extends AbstractElementAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.EditCubeLevelAction"; //$NON-NLS-1$
 
 	/**
 	 * @param selectedObject
 	 */
-	public EditCubeLevelAction( Object selectedObject )
-	{
-		super( selectedObject );
-		setId( ID );
+	public EditCubeLevelAction(Object selectedObject) {
+		super(selectedObject);
+		setId(ID);
 	}
 
 	/**
 	 * @param selectedObject
 	 * @param text
 	 */
-	public EditCubeLevelAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
-		setId( ID );
+	public EditCubeLevelAction(Object selectedObject, String text) {
+		super(selectedObject, text);
+		setId(ID);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#doAction()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#doAction()
 	 */
-	protected boolean doAction( ) throws Exception
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Edit Level action >> Runs ..." ); //$NON-NLS-1$
+	protected boolean doAction() throws Exception {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Edit Level action >> Runs ..."); //$NON-NLS-1$
 		}
-		TabularLevelHandle level = (TabularLevelHandle) getSelection( );
-		CubeBuilder dialog = new CubeBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), (TabularCubeHandle) level.getContainer( ).getContainer( ).getContainer( ) );
+		TabularLevelHandle level = (TabularLevelHandle) getSelection();
+		CubeBuilder dialog = new CubeBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(),
+				(TabularCubeHandle) level.getContainer().getContainer().getContainer());
 
-		dialog.showPage( CubeBuilder.GROUPPAGE );
-		return ( dialog.open( ) == IDialogConstants.OK_ID );
+		dialog.showPage(CubeBuilder.GROUPPAGE);
+		return (dialog.open() == IDialogConstants.OK_ID);
 	}
 
 	/*
@@ -75,18 +70,18 @@ public class EditCubeLevelAction extends AbstractElementAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return ( (LevelHandle) getSelection( ) ).canEdit( );
+	public boolean isEnabled() {
+		return ((LevelHandle) getSelection()).canEdit();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.AbstractElementAction#getTransactionLabel()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.actions.
+	 * AbstractElementAction#getTransactionLabel()
 	 */
-	protected String getTransactionLabel( )
-	{
-		return Messages.getFormattedString( "cube.level.edit", new String[]{( (LevelHandle) getSelection( ) ).getName( )} ); //$NON-NLS-1$
+	protected String getTransactionLabel() {
+		return Messages.getFormattedString("cube.level.edit", //$NON-NLS-1$
+				new String[] { ((LevelHandle) getSelection()).getName() });
 	}
 }

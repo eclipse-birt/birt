@@ -14,14 +14,11 @@ package org.eclipse.birt.report.designer.ui.cubebuilder.attributes;
 import org.eclipse.birt.report.designer.ui.views.attributes.AbstractPageGenerator;
 import org.eclipse.swt.widgets.Composite;
 
-public class CubePageGenerator extends AbstractPageGenerator
-{
+public class CubePageGenerator extends AbstractPageGenerator {
 
-	public void createControl( Composite parent, Object input )
-	{
-		setCategoryProvider( CubeCategoryProviderFactory.getInstance( )
-				.getCategoryProvider( input ) );
-		super.createControl( parent, input );
+	public void createControl(Composite parent, Object input) {
+		setCategoryProvider(CubeCategoryProviderFactory.getInstance().getCategoryProvider(input));
+		super.createControl(parent, input);
 	}
 
 }

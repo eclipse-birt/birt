@@ -21,58 +21,45 @@ import org.eclipse.birt.report.data.oda.i18n.ResourceConstants;
  * The Blob object implements interface IBlob
  */
 
-public class Clob implements IClob
-{
+public class Clob implements IClob {
 	/** the JDBC ResultSet object */
 	private java.sql.Clob clob;
-	
-	public Clob( java.sql.Clob clobObj ) throws OdaException
-	{
+
+	public Clob(java.sql.Clob clobObj) throws OdaException {
 		this.clob = clobObj;
 	}
-	
+
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IClob#getCharacterStream()
 	 */
-	public Reader getCharacterStream( ) throws OdaException
-	{
-		if ( clob == null )
+	public Reader getCharacterStream() throws OdaException {
+		if (clob == null)
 			return null;
-		try
-		{
-			return clob.getCharacterStream( );
-		}
-		catch ( SQLException e )
-		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_CLOB_VALUE,
-					e );
+		try {
+			return clob.getCharacterStream();
+		} catch (SQLException e) {
+			throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_CLOB_VALUE, e);
 		}
 	}
 
-    /* 
-     * @see org.eclipse.datatools.connectivity.oda.IClob#getSubString()
-     */
-	public String getSubString( long position, int length ) 
-		throws OdaException
-	{
-        // TODO - replace with call to underlying JDBC driver
-	    throw new UnsupportedOperationException();
+	/*
+	 * @see org.eclipse.datatools.connectivity.oda.IClob#getSubString()
+	 */
+	public String getSubString(long position, int length) throws OdaException {
+		// TODO - replace with call to underlying JDBC driver
+		throw new UnsupportedOperationException();
 	}
 
 	/*
 	 * @see org.eclipse.datatools.connectivity.oda.IClob#length()
 	 */
-	public long length( ) throws OdaException
-	{
-		if( clob == null ) return 0;
-		try
-		{
-			return clob.length( );
-		}
-		catch ( SQLException e )
-		{
-			throw new JDBCException( ResourceConstants.RESULTSET_CANNOT_GET_CLOB_VALUE,
-					e );
+	public long length() throws OdaException {
+		if (clob == null)
+			return 0;
+		try {
+			return clob.length();
+		} catch (SQLException e) {
+			throw new JDBCException(ResourceConstants.RESULTSET_CANNOT_GET_CLOB_VALUE, e);
 		}
 	}
 }

@@ -11,44 +11,36 @@
 
 package org.eclipse.birt.report.engine.ir;
 
-public class TemplateDesign extends ReportItemDesign
-{
+public class TemplateDesign extends ReportItemDesign {
 	String promptText;
 	String promptTextKey;
 	String allowedType;
 
-	public void setPromptText( String text )
-	{
+	public void setPromptText(String text) {
 		promptText = text;
 	}
 
-	public String getPromptText( )
-	{
+	public String getPromptText() {
 		return promptText;
 	}
-	
-	public String getPromptTextKey()
-	{
+
+	public String getPromptTextKey() {
 		return promptTextKey;
 	}
-	
-	public void setPromptTextKey(String key)
-	{
+
+	public void setPromptTextKey(String key) {
 		promptTextKey = key;
 	}
 
-	public Object accept( IReportItemVisitor visitor, Object value )
-	{
-		return visitor.visitTemplate( this, value );
+	public Object accept(IReportItemVisitor visitor, Object value) {
+		return visitor.visitTemplate(this, value);
 	}
-	
-	public void setAllowedType( String allowedType)
-	{
+
+	public void setAllowedType(String allowedType) {
 		this.allowedType = allowedType;
 	}
-	
-	public String getAllowedType( )
-	{
+
+	public String getAllowedType() {
 		return this.allowedType;
 	}
 }

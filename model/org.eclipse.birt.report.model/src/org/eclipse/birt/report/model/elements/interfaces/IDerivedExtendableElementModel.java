@@ -12,12 +12,12 @@
 package org.eclipse.birt.report.model.elements.interfaces;
 
 /**
- * Interface to define the constants for property names in extendabble derive elements.
+ * Interface to define the constants for property names in extendabble derive
+ * elements.
  * 
  */
 
-public interface IDerivedExtendableElementModel
-{
+public interface IDerivedExtendableElementModel {
 
 	/**
 	 * Name of the property that identifies the extension.

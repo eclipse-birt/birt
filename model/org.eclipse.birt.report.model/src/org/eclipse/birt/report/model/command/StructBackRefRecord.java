@@ -23,8 +23,7 @@ import org.eclipse.birt.report.model.metadata.StructRefValue;
  * @see org.eclipse.birt.report.model.core.ReferencableStructure
  */
 
-public class StructBackRefRecord extends BackRefRecord
-{
+public class StructBackRefRecord extends BackRefRecord {
 
 	/**
 	 * The structure is referred by <code>reference</code>.
@@ -35,22 +34,16 @@ public class StructBackRefRecord extends BackRefRecord
 	/**
 	 * Constructor.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param referred
-	 *            the structure to change.
-	 * @param reference
-	 *            the element that refers to a structure.
-	 * @param propName
-	 *            the property name. The type of the property must be
-	 *            <code>STRUCT_REF_TYPE</code>.
+	 * @param module    the module
+	 * @param referred  the structure to change.
+	 * @param reference the element that refers to a structure.
+	 * @param propName  the property name. The type of the property must be
+	 *                  <code>STRUCT_REF_TYPE</code>.
 	 */
 
-	public StructBackRefRecord( Module module,
-			ReferencableStructure referred, DesignElement reference,
-			String propName )
-	{
-		super( module, reference, propName );
+	public StructBackRefRecord(Module module, ReferencableStructure referred, DesignElement reference,
+			String propName) {
+		super(module, reference, propName);
 		this.referred = referred;
 
 		assert referred != null;
@@ -62,24 +55,19 @@ public class StructBackRefRecord extends BackRefRecord
 	 * @see org.eclipse.birt.report.model.activity.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
+	protected void perform(boolean undo) {
 		DesignElement tmpElement = (DesignElement) reference;
-		if ( undo )
-		{
-			ElementPropertyDefn propDefn = tmpElement.getPropertyDefn( propName );
+		if (undo) {
+			ElementPropertyDefn propDefn = tmpElement.getPropertyDefn(propName);
 
 			// To add client is done in resolving structure reference.
 
-			tmpElement.resolveStructReference( module, propDefn );
-		}
-		else
-		{
-			StructRefValue value = (StructRefValue) tmpElement.getLocalProperty(
-					module, propName );
-			value.unresolved( value.getName( ) );
+			tmpElement.resolveStructReference(module, propDefn);
+		} else {
+			StructRefValue value = (StructRefValue) tmpElement.getLocalProperty(module, propName);
+			value.unresolved(value.getName());
 
-			referred.dropClient( tmpElement );
+			referred.dropClient(tmpElement);
 		}
 	}
 
@@ -89,8 +77,7 @@ public class StructBackRefRecord extends BackRefRecord
 	 * @see org.eclipse.birt.report.model.activity.AbstractElementRecord#getTarget()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return module;
 	}
 

@@ -18,19 +18,17 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
  * 
  */
 
-interface ISaveUtil
-{
+interface ISaveUtil {
 
 	/**
 	 * @param resultObject
 	 * @throws DataException
 	 */
-	public abstract void saveObject( IResultObject resultObject )
-			throws DataException;
+	public abstract void saveObject(IResultObject resultObject) throws DataException;
 
 	/**
 	 * @throws DataException
 	 */
-	public abstract void close( ) throws DataException;
+	public abstract void close() throws DataException;
 
 }

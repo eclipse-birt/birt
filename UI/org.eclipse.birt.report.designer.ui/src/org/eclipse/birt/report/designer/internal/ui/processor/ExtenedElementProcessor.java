@@ -23,56 +23,51 @@ import org.eclipse.jface.window.Window;
  * 
  */
 
-public class ExtenedElementProcessor extends AbstractElementProcessor
-{
+public class ExtenedElementProcessor extends AbstractElementProcessor {
 
 	/**
 	 * Creates a new instance of this processor for extension elements
 	 * 
-	 * @param elementType
-	 *            the type of the extended element
+	 * @param elementType the type of the extended element
 	 */
-	ExtenedElementProcessor( String elementType )
-	{
-		super( elementType );
+	ExtenedElementProcessor(String elementType) {
+		super(elementType);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#createElement(java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#
+	 * createElement(java.lang.Object)
 	 */
-	public DesignElementHandle createElement( Object extendedData )
-	{
+	public DesignElementHandle createElement(Object extendedData) {
 		// ExtendedItemHandle handle = getElementFactory( ).newExtendedItem(
 		// getNewName( extendedData ),
 		// getElementType( ) );
-		ExtendedItemHandle handle = DesignElementFactory.getInstance( )
-				.newExtendedItem( getNewName( extendedData ), getElementType( ) );
+		ExtendedItemHandle handle = DesignElementFactory.getInstance().newExtendedItem(getNewName(extendedData),
+				getElementType());
 		return handle;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#editElement(org.eclipse.birt.report.model.api.DesignElementHandle)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.processor.IElementProcessor#
+	 * editElement(org.eclipse.birt.report.model.api.DesignElementHandle)
 	 */
-	public boolean editElement( DesignElementHandle handle )
-	{
-		if ( getBuilder( ) != null )
-		{
-			return getBuilder( ).open( (ExtendedItemHandle) handle ) == Window.OK;
+	public boolean editElement(DesignElementHandle handle) {
+		if (getBuilder() != null) {
+			return getBuilder().open((ExtendedItemHandle) handle) == Window.OK;
 		}
 		return true;
 	}
 
-	private IReportItemBuilderUI getBuilder( )
-	{
-		ExtendedElementUIPoint point = ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( getElementType( ) );
-		if ( point != null )
-		{
-			return point.getReportItemBuilderUI( );
+	private IReportItemBuilderUI getBuilder() {
+		ExtendedElementUIPoint point = ExtensionPointManager.getInstance().getExtendedElementPoint(getElementType());
+		if (point != null) {
+			return point.getReportItemBuilderUI();
 		}
 		return null;
 

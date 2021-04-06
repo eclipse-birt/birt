@@ -22,101 +22,80 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.ILabelContent;
 import org.eclipse.birt.report.engine.ir.LabelItemDesign;
 
-public class LabelContent extends TextContent implements ILabelContent
-{
+public class LabelContent extends TextContent implements ILabelContent {
 
 	protected String helpTextKey;
 	protected String labelText;
 	protected String labelTextKey;
-	
-	LabelContent(ILabelContent label)
-	{
+
+	LabelContent(ILabelContent label) {
 		super(label);
-		LabelContent originalLabel = (LabelContent)label;
+		LabelContent originalLabel = (LabelContent) label;
 		this.helpText = originalLabel.helpText;
 		this.labelTextKey = originalLabel.labelTextKey;
 		this.helpTextKey = originalLabel.helpTextKey;
 		this.labelText = originalLabel.labelText;
 	}
 
-	public int getContentType( )
-	{
+	public int getContentType() {
 		return LABEL_CONTENT;
 	}
 
-	LabelContent( ReportContent report )
-	{
-		super( report );
+	LabelContent(ReportContent report) {
+		super(report);
 	}
 
-	LabelContent( IContent content )
-	{
-		super( content );
+	LabelContent(IContent content) {
+		super(content);
 	}
 
-	public void setHelpText( String helpText )
-	{
+	public void setHelpText(String helpText) {
 		this.helpText = helpText;
 	}
 
-	public String getHelpText( )
-	{
-		if ( helpText == null )
-		{
-			if ( generateBy instanceof LabelItemDesign )
-			{
-				return ( (LabelItemDesign) generateBy ).getHelpText( );
+	public String getHelpText() {
+		if (helpText == null) {
+			if (generateBy instanceof LabelItemDesign) {
+				return ((LabelItemDesign) generateBy).getHelpText();
 			}
 		}
 		return helpText;
 	}
 
-	public void setHelpKey( String helpKey )
-	{
+	public void setHelpKey(String helpKey) {
 		this.helpTextKey = helpKey;
 	}
 
-	public String getHelpKey( )
-	{
-		if ( helpTextKey == null )
-		{
-			if ( generateBy instanceof LabelItemDesign )
-			{
-				return ( (LabelItemDesign) generateBy ).getHelpTextKey( );
+	public String getHelpKey() {
+		if (helpTextKey == null) {
+			if (generateBy instanceof LabelItemDesign) {
+				return ((LabelItemDesign) generateBy).getHelpTextKey();
 			}
 		}
 		return helpTextKey;
 	}
 
-	public void setLabelText( String labelText )
-	{
+	public void setLabelText(String labelText) {
 		this.labelText = labelText;
 	}
 
-	public String getLabelText( )
-	{
-		if ( labelText == null )
-		{
-			if ( generateBy instanceof LabelItemDesign )
-			{
-				return ( (LabelItemDesign) generateBy ).getText( );
+	public String getLabelText() {
+		if (labelText == null) {
+			if (generateBy instanceof LabelItemDesign) {
+				return ((LabelItemDesign) generateBy).getText();
 			}
 		}
 		return labelText;
 	}
 
-	public void setLabelKey( String labelKey )
-	{
+	public void setLabelKey(String labelKey) {
 		this.labelTextKey = labelKey;
 	}
 
-	public String getLabelKey( )
-	{
-		if ( labelTextKey == null )
-		{
-			if ( generateBy instanceof LabelItemDesign )
-			{
-				return ( (LabelItemDesign) generateBy ).getTextKey( );
+	public String getLabelKey() {
+		if (labelTextKey == null) {
+			if (generateBy instanceof LabelItemDesign) {
+				return ((LabelItemDesign) generateBy).getTextKey();
 			}
 		}
 		return labelTextKey;
@@ -125,74 +104,62 @@ public class LabelContent extends TextContent implements ILabelContent
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor)
+	 * @see org.eclipse.birt.report.engine.content.impl.AbstractContent#accept(org.
+	 * eclipse.birt.report.engine.content.IContentVisitor)
 	 */
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitLabel( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitLabel(this, value);
 	}
 
 	static final protected short FIELD_HELPTEXTKEY = 600;
 	static final protected short FIELD_LABELTEXT = 601;
 	static final protected short FIELD_LABELTEXTKEY = 602;
 
-	protected void writeFields( DataOutputStream out ) throws IOException
-	{
-		super.writeFields( out );
-		if ( helpTextKey != null )
-		{
-			IOUtil.writeShort( out, FIELD_HELPTEXTKEY );
-			IOUtil.writeString( out, helpTextKey );
+	protected void writeFields(DataOutputStream out) throws IOException {
+		super.writeFields(out);
+		if (helpTextKey != null) {
+			IOUtil.writeShort(out, FIELD_HELPTEXTKEY);
+			IOUtil.writeString(out, helpTextKey);
 		}
-		if ( labelText != null )
-		{
-			IOUtil.writeShort( out, FIELD_LABELTEXT );
-			IOUtil.writeString( out, labelText );
+		if (labelText != null) {
+			IOUtil.writeShort(out, FIELD_LABELTEXT);
+			IOUtil.writeString(out, labelText);
 		}
-		if ( labelTextKey != null )
-		{
-			IOUtil.writeShort( out, FIELD_LABELTEXTKEY );
-			IOUtil.writeString( out, labelTextKey );
+		if (labelTextKey != null) {
+			IOUtil.writeShort(out, FIELD_LABELTEXTKEY);
+			IOUtil.writeString(out, labelTextKey);
 		}
 	}
 
-	public boolean needSave( )
-	{
-		if ( helpTextKey != null )
-		{
+	public boolean needSave() {
+		if (helpTextKey != null) {
 			return true;
 		}
-		if ( labelText != null ||
+		if (labelText != null ||
 
-		labelTextKey != null )
-		{
+				labelTextKey != null) {
 			return true;
 		}
-		return super.needSave( );
+		return super.needSave();
 	}
 
-	protected void readField( int version, int filedId, DataInputStream in,
-			ClassLoader loader ) throws IOException
-	{
-		switch ( filedId )
-		{
-			case FIELD_HELPTEXTKEY :
-				helpTextKey = IOUtil.readString( in );
-				break;
-			case FIELD_LABELTEXT :
-				labelText = IOUtil.readString( in );
-				break;
-			case FIELD_LABELTEXTKEY :
-				labelTextKey = IOUtil.readString( in );
-				break;
-			default :
-				super.readField( version, filedId, in, loader );
+	protected void readField(int version, int filedId, DataInputStream in, ClassLoader loader) throws IOException {
+		switch (filedId) {
+		case FIELD_HELPTEXTKEY:
+			helpTextKey = IOUtil.readString(in);
+			break;
+		case FIELD_LABELTEXT:
+			labelText = IOUtil.readString(in);
+			break;
+		case FIELD_LABELTEXTKEY:
+			labelTextKey = IOUtil.readString(in);
+			break;
+		default:
+			super.readField(version, filedId, in, loader);
 		}
 	}
-	
-	protected IContent cloneContent()
-	{
+
+	protected IContent cloneContent() {
 		return new LabelContent(this);
 	}
 }

@@ -16,65 +16,70 @@ import org.eclipse.birt.report.engine.content.ITableContent;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 
 /**
- * A class representing the runtime state of a grid 
+ * A class representing the runtime state of a grid
  */
-public class GridInstance extends ReportItemInstance implements IGridInstance
-{
+public class GridInstance extends ReportItemInstance implements IGridInstance {
 
-	public GridInstance( ITableContent grid, ExecutionContext context,
-			RunningState runningState )
-	{
-		super( grid, context, runningState );
-	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#getCaption()
-	 */
-	public String getCaption( )
-	{
-		return ( ( ITableContent ) content ).getCaption( );
+	public GridInstance(ITableContent grid, ExecutionContext context, RunningState runningState) {
+		super(grid, context, runningState);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#setCaption(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.ITableInstance#getCaption(
+	 * )
 	 */
-	public void setCaption( String caption )
-	{
-		( ( ITableContent ) content ).setCaption( caption );
+	public String getCaption() {
+		return ((ITableContent) content).getCaption();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#getCaptionKey()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.ITableInstance#setCaption(
+	 * java.lang.String)
 	 */
-	public String getCaptionKey( )
-	{
-		return ( ( ITableContent ) content ).getCaptionKey( );
+	public void setCaption(String caption) {
+		((ITableContent) content).setCaption(caption);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#setCaptionKey(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#
+	 * getCaptionKey()
 	 */
-	public void setCaptionKey( String captionKey )
-	{
-		( ( ITableContent ) content ).setCaptionKey( captionKey );
+	public String getCaptionKey() {
+		return ((ITableContent) content).getCaptionKey();
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#
+	 * setCaptionKey(java.lang.String)
+	 */
+	public void setCaptionKey(String captionKey) {
+		((ITableContent) content).setCaptionKey(captionKey);
 	}
 
 	/**
 	 * Get the summary.
 	 * 
 	 */
-	public String getSummary( )
-	{
-		return ( (ITableContent)content ).getSummary( );
+	public String getSummary() {
+		return ((ITableContent) content).getSummary();
 	}
 
 	/**
 	 * Set the summary
 	 * 
 	 */
-	public void setSummary( String summary )
-	{
-		( ( ITableContent)content ).setSummary( summary );
+	public void setSummary(String summary) {
+		((ITableContent) content).setSummary(summary);
 	}
 
 }

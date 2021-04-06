@@ -14,17 +14,14 @@ import org.eclipse.birt.report.engine.content.IImageContent;
 import org.eclipse.birt.report.engine.layout.area.IAreaVisitor;
 import org.eclipse.birt.report.engine.layout.area.IImageArea;
 
-public class ImageArea extends AbstractArea implements IImageArea
-{
+public class ImageArea extends AbstractArea implements IImageArea {
 
-	ImageArea(IImageContent image)
-	{
+	ImageArea(IImageContent image) {
 		super(image);
 	}
 
-	public void accept(IAreaVisitor visitor)
-	{
+	public void accept(IAreaVisitor visitor) {
 		visitor.visitImage(this);
 	}
-	
+
 }

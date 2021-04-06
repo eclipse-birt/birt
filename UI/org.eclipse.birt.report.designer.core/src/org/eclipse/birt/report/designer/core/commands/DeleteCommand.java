@@ -48,180 +48,128 @@ import org.eclipse.jface.viewers.StructuredSelection;
  * 
  */
 
-public class DeleteCommand extends Command
-{
+public class DeleteCommand extends Command {
 
-	protected static final Logger logger = Logger.getLogger( DeleteCommand.class.getName( ) );
+	protected static final Logger logger = Logger.getLogger(DeleteCommand.class.getName());
 	private Object model = null;
 
-	private ArrayList embeddedImageList = new ArrayList( );
+	private ArrayList embeddedImageList = new ArrayList();
 
 	private boolean isClear = true;
 
 	/**
 	 * @return
 	 */
-	public boolean isClear( )
-	{
+	public boolean isClear() {
 		return isClear;
 	}
 
 	/**
 	 * @param isClear
 	 */
-	public void setClear( boolean isClear )
-	{
+	public void setClear(boolean isClear) {
 		this.isClear = isClear;
 	}
 
 	/**
 	 * Deletes the command
 	 * 
-	 * @param model
-	 *            the model
+	 * @param model the model
 	 */
 
-	public DeleteCommand( Object model )
-	{
+	public DeleteCommand(Object model) {
 		this.model = model;
 	}
 
 	/**
-	 * Executes the Command. This method should not be called if the Command is
-	 * not executable.
+	 * Executes the Command. This method should not be called if the Command is not
+	 * executable.
 	 */
 
-	public void execute( )
-	{
-		if ( DesignerConstants.TRACING_COMMANDS )
-		{
-			System.out.println( "DeleteCommand >> Starts ... " ); //$NON-NLS-1$
+	public void execute() {
+		if (DesignerConstants.TRACING_COMMANDS) {
+			System.out.println("DeleteCommand >> Starts ... "); //$NON-NLS-1$
 		}
-		try
-		{
-			dropSource( model );
-			if ( !embeddedImageList.isEmpty( ) )
-			{
-				for ( int i = 0; i < embeddedImageList.size( ); i++ )
-				{
-					IStructure item = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getStructure( );
-					String name = ( (EmbeddedImageHandle) embeddedImageList.get( i ) ).getName( );
-					SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
-							.getPropertyHandle( ReportDesignHandle.IMAGES_PROP )
-							.removeItem( item );
-					if ( DesignerConstants.TRACING_COMMANDS )
-					{
-						System.out.println( "DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
-								+ item.getStructName( ) );;
+		try {
+			dropSource(model);
+			if (!embeddedImageList.isEmpty()) {
+				for (int i = 0; i < embeddedImageList.size(); i++) {
+					IStructure item = ((EmbeddedImageHandle) embeddedImageList.get(i)).getStructure();
+					String name = ((EmbeddedImageHandle) embeddedImageList.get(i)).getName();
+					SessionHandleAdapter.getInstance().getReportDesignHandle()
+							.getPropertyHandle(ReportDesignHandle.IMAGES_PROP).removeItem(item);
+					if (DesignerConstants.TRACING_COMMANDS) {
+						System.out.println("DeleteCommand >> Dropping embedded image " //$NON-NLS-1$
+								+ item.getStructName());
+						;
 					}
 					// remove cached image
-					String key = ImageManager.getInstance( )
-							.generateKey( SessionHandleAdapter.getInstance( )
-									.getReportDesignHandle( ),
-									name );
-					ImageManager.getInstance( ).removeCachedImage( key );
+					String key = ImageManager.getInstance()
+							.generateKey(SessionHandleAdapter.getInstance().getReportDesignHandle(), name);
+					ImageManager.getInstance().removeCachedImage(key);
 				}
 			}
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "DeleteCommand >> Finished. " ); //$NON-NLS-1$
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("DeleteCommand >> Finished. "); //$NON-NLS-1$
 			}
-		}
-		catch ( SemanticException e )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "DeleteCommand >> Failed. " ); //$NON-NLS-1$
+		} catch (SemanticException e) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("DeleteCommand >> Failed. "); //$NON-NLS-1$
 			}
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 
-	protected void dropSource( Object source ) throws SemanticException
-	{
-		source = DNDUtil.unwrapToModel( source );
-		if ( source instanceof Object[] )
-		{
+	protected void dropSource(Object source) throws SemanticException {
+		source = DNDUtil.unwrapToModel(source);
+		if (source instanceof Object[]) {
 			Object[] array = (Object[]) source;
-			for ( int i = 0; i < array.length; i++ )
-			{
-				dropSource( array[i] );
+			for (int i = 0; i < array.length; i++) {
+				dropSource(array[i]);
 			}
-		}
-		else if ( source instanceof StructuredSelection )
-		{
-			dropSource( ( (StructuredSelection) source ).toArray( ) );
-		}
-		else if ( source instanceof DesignElementHandle )
-		{
-			dropSourceElementHandle( (DesignElementHandle) source );
-		}
-		else if ( source instanceof EmbeddedImageHandle )
-		{
-			dropEmbeddedImageHandle( (EmbeddedImageHandle) ( source ) );
-		}
-		else if ( source instanceof SlotHandle )
-		{
-			dropSourceSlotHandle( (SlotHandle) source );
-		}
-		else if ( source instanceof CssStyleSheetHandle )
-		{
-			dropCssStyleHandle( (CssStyleSheetHandle) source );
-		}
-		else if (source instanceof ScriptObjectNode)
-		{
-			((ScriptObjectNode)source).reset( );
+		} else if (source instanceof StructuredSelection) {
+			dropSource(((StructuredSelection) source).toArray());
+		} else if (source instanceof DesignElementHandle) {
+			dropSourceElementHandle((DesignElementHandle) source);
+		} else if (source instanceof EmbeddedImageHandle) {
+			dropEmbeddedImageHandle((EmbeddedImageHandle) (source));
+		} else if (source instanceof SlotHandle) {
+			dropSourceSlotHandle((SlotHandle) source);
+		} else if (source instanceof CssStyleSheetHandle) {
+			dropCssStyleHandle((CssStyleSheetHandle) source);
+		} else if (source instanceof ScriptObjectNode) {
+			((ScriptObjectNode) source).reset();
 		}
 	}
 
-	private void dropEmbeddedImageHandle( EmbeddedImageHandle embeddedImage )
-	{
-		embeddedImageList.add( embeddedImage );
+	private void dropEmbeddedImageHandle(EmbeddedImageHandle embeddedImage) {
+		embeddedImageList.add(embeddedImage);
 	}
 
-	protected void dropSourceElementHandle( DesignElementHandle handle )
-			throws SemanticException
-	{
-		if ( handle.getContainer( ) != null )
-		{
-			if ( DesignerConstants.TRACING_COMMANDS )
-			{
-				System.out.println( "DeleteCommand >> Dropping " //$NON-NLS-1$
-						+ DEUtil.getDisplayLabel( handle ) );
+	protected void dropSourceElementHandle(DesignElementHandle handle) throws SemanticException {
+		if (handle.getContainer() != null) {
+			if (DesignerConstants.TRACING_COMMANDS) {
+				System.out.println("DeleteCommand >> Dropping " //$NON-NLS-1$
+						+ DEUtil.getDisplayLabel(handle));
 			}
 			// if (isExtendedCell( handle ))
-			if ( handle instanceof ExtendedItemHandle
-					&& isExtendedCell( (ExtendedItemHandle) handle ) )
-			{
+			if (handle instanceof ExtendedItemHandle && isExtendedCell((ExtendedItemHandle) handle)) {
 				ExtendedItemHandle extendedHandle = (ExtendedItemHandle) handle;
-				List list = extendedHandle.getContents( DEUtil.getDefaultContentName( handle ) );
-				for ( int i = 0; i < list.size( ); i++ )
-				{
-					dropSourceElementHandle( (DesignElementHandle) list.get( i ) );
+				List list = extendedHandle.getContents(DEUtil.getDefaultContentName(handle));
+				for (int i = 0; i < list.size(); i++) {
+					dropSourceElementHandle((DesignElementHandle) list.get(i));
 				}
-			}
-			else if ( handle instanceof CellHandle )
-			{
-				dropSourceSlotHandle( ( (CellHandle) handle ).getContent( ) );
-			}
-			else if ( handle instanceof RowHandle )
-			{
-				new DeleteRowCommand( handle ).execute( );
-			}
-			else if ( handle instanceof ColumnHandle )
-			{
-				new DeleteColumnCommand( handle ).execute( );
-			}
-			else
-			{
-				if ( isClear( ) )
-				{
-					handle.dropAndClear( );
-				}
-				else
-				{
-					handle.drop( );
+			} else if (handle instanceof CellHandle) {
+				dropSourceSlotHandle(((CellHandle) handle).getContent());
+			} else if (handle instanceof RowHandle) {
+				new DeleteRowCommand(handle).execute();
+			} else if (handle instanceof ColumnHandle) {
+				new DeleteColumnCommand(handle).execute();
+			} else {
+				if (isClear()) {
+					handle.dropAndClear();
+				} else {
+					handle.drop();
 				}
 
 			}
@@ -230,52 +178,38 @@ public class DeleteCommand extends Command
 
 	// This is a temp method to fixed bug 190959.
 	// TODO Through the extened point to do it
-	private boolean isExtendedCell( ExtendedItemHandle handle )
-	{
-		return handle.getExtensionName( ).indexOf( "Cell" ) > -1;//$NON-NLS-1$
+	private boolean isExtendedCell(ExtendedItemHandle handle) {
+		return handle.getExtensionName().indexOf("Cell") > -1;//$NON-NLS-1$
 	}
 
-	protected void dropSourceSlotHandle( SlotHandle slot )
-			throws SemanticException
-	{
-		if ( DesignerConstants.TRACING_COMMANDS )
-		{
-			System.out.println( "DeleteCommand >> Dropping slot " //$NON-NLS-1$
-					+ slot.getSlotID( )
-					+ " of " //$NON-NLS-1$
-					+ DEUtil.getDisplayLabel( slot.getElementHandle( ) ) );
+	protected void dropSourceSlotHandle(SlotHandle slot) throws SemanticException {
+		if (DesignerConstants.TRACING_COMMANDS) {
+			System.out.println("DeleteCommand >> Dropping slot " //$NON-NLS-1$
+					+ slot.getSlotID() + " of " //$NON-NLS-1$
+					+ DEUtil.getDisplayLabel(slot.getElementHandle()));
 		}
-		List list = slot.getContents( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			dropSourceElementHandle( (DesignElementHandle) list.get( i ) );
+		List list = slot.getContents();
+		for (int i = 0; i < list.size(); i++) {
+			dropSourceElementHandle((DesignElementHandle) list.get(i));
 		}
 	}
 
-	protected void dropCssStyleHandle( CssStyleSheetHandle cssStyleHandle )
-			throws SemanticException
-	{
-		if ( DesignerConstants.TRACING_COMMANDS )
-		{
-			System.out.println( "DeleteCommand >> Dropping " //$NON-NLS-1$
-					+ DEUtil.getDisplayLabel( cssStyleHandle.getElementHandle( ) ) );
+	protected void dropCssStyleHandle(CssStyleSheetHandle cssStyleHandle) throws SemanticException {
+		if (DesignerConstants.TRACING_COMMANDS) {
+			System.out.println("DeleteCommand >> Dropping " //$NON-NLS-1$
+					+ DEUtil.getDisplayLabel(cssStyleHandle.getElementHandle()));
 		}
-		DesignElementHandle containerHandle = cssStyleHandle.getContainerHandle( );
+		DesignElementHandle containerHandle = cssStyleHandle.getContainerHandle();
 
-		if ( containerHandle instanceof ReportDesignHandle )
-		{
+		if (containerHandle instanceof ReportDesignHandle) {
 			ReportDesignHandle report = (ReportDesignHandle) containerHandle;
-			if ( report.canDropCssStyleSheet( cssStyleHandle ) )
-			{
-				report.dropCss( cssStyleHandle );
+			if (report.canDropCssStyleSheet(cssStyleHandle)) {
+				report.dropCss(cssStyleHandle);
 			}
-		}
-		else if ( containerHandle instanceof AbstractThemeHandle )
-		{
+		} else if (containerHandle instanceof AbstractThemeHandle) {
 			AbstractThemeHandle theme = (AbstractThemeHandle) containerHandle;
-			if ( theme.canDropCssStyleSheet( cssStyleHandle ) )
-			{
-				theme.dropCss( cssStyleHandle );
+			if (theme.canDropCssStyleSheet(cssStyleHandle)) {
+				theme.dropCss(cssStyleHandle);
 			}
 		}
 
@@ -286,149 +220,103 @@ public class DeleteCommand extends Command
 	 * 
 	 * @see org.eclipse.gef.commands.Command#canExecute()
 	 */
-	public boolean canExecute( )
-	{
-		return canDrop( model );
+	public boolean canExecute() {
+		return canDrop(model);
 	}
 
 	/**
-	 * Returns the object can be deleted. If the parent can be deleted, the
-	 * children will be skippedl
+	 * Returns the object can be deleted. If the parent can be deleted, the children
+	 * will be skippedl
 	 * 
-	 * @param source
-	 *            single or multiple objects
+	 * @param source single or multiple objects
 	 */
-	protected boolean canDrop( Object source )
-	{
-		if ( SessionHandleAdapter.getInstance( ).getReportDesignHandle( ) == null )
-		{
+	protected boolean canDrop(Object source) {
+		if (SessionHandleAdapter.getInstance().getReportDesignHandle() == null) {
 			return false;
 		}
-		if ( source == null )
-		{
+		if (source == null) {
 			return false;
 		}
-		if ( source instanceof List )
-		{
-			return canDrop( ( (List) source ).toArray( ) );
+		if (source instanceof List) {
+			return canDrop(((List) source).toArray());
 		}
-		if ( source instanceof StructuredSelection )
-		{
-			return canDrop( ( (StructuredSelection) source ).toArray( ) );
+		if (source instanceof StructuredSelection) {
+			return canDrop(((StructuredSelection) source).toArray());
 		}
-		if ( source instanceof Object[] )
-		{
+		if (source instanceof Object[]) {
 			Object[] array = (Object[]) source;
-			if ( array.length == 0 )
-			{
+			if (array.length == 0) {
 				return false;
 			}
 
 			// If the container can drop, the children will be skipped
-			for ( int i = 0; i < array.length; i++ )
-			{
-				if ( DNDUtil.checkContainerExists( array[i], array ) )
+			for (int i = 0; i < array.length; i++) {
+				if (DNDUtil.checkContainerExists(array[i], array))
 					continue;
 				// 267156 Can't delete all master pages
-				if ( array[i] instanceof MasterPageHandle )
-				{
-					int masterPageCount = SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( )
-							.getMasterPages( )
-							.getCount( );
-					for ( int j = 0; j < array.length; j++ )
-					{
-						if ( array[j] instanceof MasterPageHandle )
+				if (array[i] instanceof MasterPageHandle) {
+					int masterPageCount = SessionHandleAdapter.getInstance().getReportDesignHandle().getMasterPages()
+							.getCount();
+					for (int j = 0; j < array.length; j++) {
+						if (array[j] instanceof MasterPageHandle)
 							masterPageCount--;
 					}
-					if ( masterPageCount == 0 )
+					if (masterPageCount == 0)
 						return false;
 				}
-				if ( !canDrop( array[i] ) )
+				if (!canDrop(array[i]))
 					return false;
 			}
 			return true;
 		}
-		source = DNDUtil.unwrapToModel( source );
-		if ( source instanceof SlotHandle )
-		{
+		source = DNDUtil.unwrapToModel(source);
+		if (source instanceof SlotHandle) {
 			SlotHandle slot = (SlotHandle) source;
-			DesignElementHandle handle = slot.getElementHandle( );
-			return slot.getContents( ).size( ) > 0
-					&& handle != null
-					&& handle.canDrop( )
-					&& canDrop( slot.getContents( ) );
+			DesignElementHandle handle = slot.getElementHandle();
+			return slot.getContents().size() > 0 && handle != null && handle.canDrop() && canDrop(slot.getContents());
 		}
-		if ( source instanceof EmbeddedImageHandle )
-		{
+		if (source instanceof EmbeddedImageHandle) {
 			return true;
 		}
-		if ( source instanceof ExtendedItemHandle )
-		{
-			Object dropValidator = Platform.getAdapterManager( )
-					.getAdapter( source, IDropValidator.class );
-			if ( dropValidator instanceof IDropValidator
-					&& ( (IDropValidator) dropValidator ).accpetValidator( ) )
-			{
-				return ( (IDropValidator) dropValidator ).canDrop( );
+		if (source instanceof ExtendedItemHandle) {
+			Object dropValidator = Platform.getAdapterManager().getAdapter(source, IDropValidator.class);
+			if (dropValidator instanceof IDropValidator && ((IDropValidator) dropValidator).accpetValidator()) {
+				return ((IDropValidator) dropValidator).canDrop();
 			}
 		}
-		if ( source instanceof CellHandle )
-		{
+		if (source instanceof CellHandle) {
 			// CellHandle is subclass of ReportElementHandle
-			return ( (CellHandle) source ).getContent( ).getContents( ).size( ) > 0
-					&& ( (CellHandle) source ).canDrop( );
+			return ((CellHandle) source).getContent().getContents().size() > 0 && ((CellHandle) source).canDrop();
 		}
 
-		if ( source instanceof MasterPageHandle )
-		{
-			if ( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( )
-					.getMasterPages( )
-					.getCount( ) > 1 )
-			{
+		if (source instanceof MasterPageHandle) {
+			if (SessionHandleAdapter.getInstance().getReportDesignHandle().getMasterPages().getCount() > 1) {
 				return true;
 			}
 			return false;
-		}
-		else if ( source instanceof ModuleHandle )
-		{
+		} else if (source instanceof ModuleHandle) {
 			return false;
-		}
-		else if ( source instanceof DesignElementHandle )
-		{
-			return ( (DesignElementHandle) source ).canDrop( );
+		} else if (source instanceof DesignElementHandle) {
+			return ((DesignElementHandle) source).canDrop();
 
-		}
-		else if ( source instanceof LibraryHandle )
-		{
-			if ( ( (LibraryHandle) source ).getHostHandle( ) != null )
+		} else if (source instanceof LibraryHandle) {
+			if (((LibraryHandle) source).getHostHandle() != null)
 				return true;
 			else
 				return false;
-		}
-		else if ( source instanceof CssStyleSheetHandle )
-		{
-			DesignElementHandle elementHandle = ( (CssStyleSheetHandle) source ).getContainerHandle( );
-			if ( elementHandle instanceof ReportDesignHandle )
-			{
-				return ( (ReportDesignHandle) elementHandle ).canDropCssStyleSheet( (CssStyleSheetHandle) source );
-			}
-			else if ( elementHandle instanceof AbstractThemeHandle )
-			{
-				return ( (AbstractThemeHandle) elementHandle ).canDropCssStyleSheet( (CssStyleSheetHandle) source );
-			}
-			else
-			{
+		} else if (source instanceof CssStyleSheetHandle) {
+			DesignElementHandle elementHandle = ((CssStyleSheetHandle) source).getContainerHandle();
+			if (elementHandle instanceof ReportDesignHandle) {
+				return ((ReportDesignHandle) elementHandle).canDropCssStyleSheet((CssStyleSheetHandle) source);
+			} else if (elementHandle instanceof AbstractThemeHandle) {
+				return ((AbstractThemeHandle) elementHandle).canDropCssStyleSheet((CssStyleSheetHandle) source);
+			} else {
 				return false;
 			}
 
-		}
-		else if (source instanceof ScriptObjectNode)
-		{
+		} else if (source instanceof ScriptObjectNode) {
 			return true;
-		}
-		else
+		} else
 			return false;
 
 		// return (source instanceof ReportElementHandle

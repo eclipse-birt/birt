@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * other handles that provide detail about a report element.
  */
 
-public abstract class ElementDetailHandle
-{
+public abstract class ElementDetailHandle {
 
 	/**
 	 * The handle to the report element.
@@ -32,12 +31,10 @@ public abstract class ElementDetailHandle
 	/**
 	 * Constructs a detail handle given a handle to a report element.
 	 * 
-	 * @param element
-	 *            a handle to a report element
+	 * @param element a handle to a report element
 	 */
 
-	public ElementDetailHandle( DesignElementHandle element )
-	{
+	public ElementDetailHandle(DesignElementHandle element) {
 		elementHandle = element;
 	}
 
@@ -48,9 +45,8 @@ public abstract class ElementDetailHandle
 	 * @deprecated
 	 */
 
-	public ReportDesign getDesign( )
-	{
-		return elementHandle.getDesign( );
+	public ReportDesign getDesign() {
+		return elementHandle.getDesign();
 	}
 
 	/**
@@ -58,10 +54,9 @@ public abstract class ElementDetailHandle
 	 * 
 	 * @return the module
 	 */
-	
-	public Module getModule( )
-	{
-		return elementHandle.getModule( );
+
+	public Module getModule() {
+		return elementHandle.getModule();
 	}
 
 	/**
@@ -70,9 +65,8 @@ public abstract class ElementDetailHandle
 	 * @return the design element
 	 */
 
-	public DesignElement getElement( )
-	{
-		return elementHandle.getElement( );
+	public DesignElement getElement() {
+		return elementHandle.getElement();
 	}
 
 	/**
@@ -81,8 +75,7 @@ public abstract class ElementDetailHandle
 	 * @return handle to the design element
 	 */
 
-	public DesignElementHandle getElementHandle( )
-	{
+	public DesignElementHandle getElementHandle() {
 		return elementHandle;
 	}
 }

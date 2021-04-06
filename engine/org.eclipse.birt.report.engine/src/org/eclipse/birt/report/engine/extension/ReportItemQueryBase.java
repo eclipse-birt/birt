@@ -19,38 +19,42 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
 /**
  * Base implementation for report item query generation time interface
  */
-public class ReportItemQueryBase implements IReportItemQuery{
+public class ReportItemQueryBase implements IReportItemQuery {
 
 	protected ExtendedItemHandle modelHandle;
-	
+
 	protected IQueryContext context;
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject(org.eclipse.birt.report.model.api.ExtendedItemHandle)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemQuery#setModelObject(org.
+	 * eclipse.birt.report.model.api.ExtendedItemHandle)
 	 */
 	public void setModelObject(ExtendedItemHandle modelHandle) {
 		this.modelHandle = modelHandle;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.extension.IReportItemQuery#getReportQueries(org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.extension.IReportItemQuery#getReportQueries(
+	 * org.eclipse.birt.data.engine.api.IBaseQueryDefinition)
 	 */
 	public IBaseQueryDefinition[] getReportQueries(IBaseQueryDefinition parent) throws BirtException {
 		return null;
 	}
-	
-	public IDataQueryDefinition[] createReportQueries(
-			IDataQueryDefinition parent ) throws BirtException
-	{
-		if ( parent instanceof IBaseQueryDefinition )
-		{
-			return getReportQueries( (IBaseQueryDefinition) parent );
+
+	public IDataQueryDefinition[] createReportQueries(IDataQueryDefinition parent) throws BirtException {
+		if (parent instanceof IBaseQueryDefinition) {
+			return getReportQueries((IBaseQueryDefinition) parent);
 		}
-		return getReportQueries( null );
+		return getReportQueries(null);
 	}
 
-	public void setQueryContext( IQueryContext context )
-	{
+	public void setQueryContext(IQueryContext context) {
 		this.context = context;
 	}
 

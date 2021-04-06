@@ -13,19 +13,16 @@ package org.eclipse.birt.data.engine.impl;
 import org.eclipse.birt.data.engine.api.IBaseExpression;
 import org.eclipse.birt.data.engine.api.querydefn.ScriptExpression;
 
-public class PushedBreExpression extends ScriptExpression implements IPushedDownExpression
-{
-	
+public class PushedBreExpression extends ScriptExpression implements IPushedDownExpression {
+
 	private IBaseExpression originalBreScript;
 
-	public PushedBreExpression( String effectiveJavascriptScript, IBaseExpression originalScript )
-	{
-		super( effectiveJavascriptScript );
+	public PushedBreExpression(String effectiveJavascriptScript, IBaseExpression originalScript) {
+		super(effectiveJavascriptScript);
 		this.originalBreScript = originalScript;
 	}
 
-	public IBaseExpression getOriginalExpression( )
-	{
+	public IBaseExpression getOriginalExpression() {
 		return this.originalBreScript;
 	}
 

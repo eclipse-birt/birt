@@ -21,29 +21,20 @@ import org.eclipse.core.runtime.IAdapterFactory;
  * 
  */
 
-public class ChartBindingDialogFactory implements IAdapterFactory
-{
+public class ChartBindingDialogFactory implements IAdapterFactory {
 
-	public Object getAdapter( Object adaptableObject, Class adapterType )
-	{
-		if ( adapterType == IBindingDialogHelper.class
-				&& ChartItemUtil.isChartHandle( adaptableObject ) )
-		{
-			if ( ChartReportItemHelper.instance( )
-					.getBindingCubeHandle( (ExtendedItemHandle) adaptableObject ) != null )
-			{
-				return new ChartCubeBindingDialogHelper( );
-			}
-			else
-			{
-				return new ChartDataSetBindingDialogHelper( );
+	public Object getAdapter(Object adaptableObject, Class adapterType) {
+		if (adapterType == IBindingDialogHelper.class && ChartItemUtil.isChartHandle(adaptableObject)) {
+			if (ChartReportItemHelper.instance().getBindingCubeHandle((ExtendedItemHandle) adaptableObject) != null) {
+				return new ChartCubeBindingDialogHelper();
+			} else {
+				return new ChartDataSetBindingDialogHelper();
 			}
 		}
 		return null;
 	}
 
-	public Class[] getAdapterList( )
-	{
+	public Class[] getAdapterList() {
 		// TODO Auto-generated method stub
 		return null;
 	}

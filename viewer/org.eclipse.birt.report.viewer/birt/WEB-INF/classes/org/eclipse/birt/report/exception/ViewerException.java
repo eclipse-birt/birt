@@ -19,8 +19,7 @@ import org.eclipse.birt.report.resource.BirtResources;
  * top of BireException and provides resource bundle support
  */
 
-public class ViewerException extends BirtException
-{
+public class ViewerException extends BirtException {
 
 	/**
 	 * Serial Version ID
@@ -36,86 +35,64 @@ public class ViewerException extends BirtException
 	/**
 	 * Constructs a new viewer exception with the error code.
 	 * 
-	 * @param errCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user
+	 * @param errCode used to retrieve a piece of externalized message displayed to
+	 *                end user
 	 */
 
-	public ViewerException( String errCode )
-	{
-		super( PLUGIN_ID, errCode, BirtResources.getResourceHandle( )
-				.getUResourceBundle( ) );
+	public ViewerException(String errCode) {
+		super(PLUGIN_ID, errCode, BirtResources.getResourceHandle().getUResourceBundle());
 	}
 
 	/**
-	 * Constructs a new viewer exception with the error code and object
-	 * argument.
+	 * Constructs a new viewer exception with the error code and object argument.
 	 * 
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param arg0
-	 *            first argument used to format error messages
+	 * @param errorCode used to retrieve a piece of externalized message displayed
+	 *                  to end user.
+	 * @param arg0      first argument used to format error messages
 	 */
 
-	public ViewerException( String errorCode, Object arg0 )
-	{
-		super( PLUGIN_ID, errorCode, arg0, BirtResources.getResourceHandle( )
-				.getUResourceBundle( ) );
+	public ViewerException(String errorCode, Object arg0) {
+		super(PLUGIN_ID, errorCode, arg0, BirtResources.getResourceHandle().getUResourceBundle());
 	}
 
 	/**
-	 * Constructs a new viewer exception with the error code, object argument
-	 * and the nested exception .
+	 * Constructs a new viewer exception with the error code, object argument and
+	 * the nested exception .
 	 * 
-	 * @param errorCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user.
-	 * @param arg0
-	 *            first argument used to format error messages
-	 * @param cause
-	 *            the nested exception
+	 * @param errorCode used to retrieve a piece of externalized message displayed
+	 *                  to end user.
+	 * @param arg0      first argument used to format error messages
+	 * @param cause     the nested exception
 	 */
 
-	public ViewerException( String errorCode, Object arg0, Throwable cause )
-	{
-		super( PLUGIN_ID, errorCode, arg0, BirtResources.getResourceHandle( )
-				.getUResourceBundle( ), cause );
+	public ViewerException(String errorCode, Object arg0, Throwable cause) {
+		super(PLUGIN_ID, errorCode, arg0, BirtResources.getResourceHandle().getUResourceBundle(), cause);
 	}
 
 	/**
-	 * Constructs a new viewer exception with the error code, string arguments
-	 * used to format error messages.
+	 * Constructs a new viewer exception with the error code, string arguments used
+	 * to format error messages.
 	 * 
-	 * @param errCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user
-	 * @param args
-	 *            string arguments used to format error messages
+	 * @param errCode used to retrieve a piece of externalized message displayed to
+	 *                end user
+	 * @param args    string arguments used to format error messages
 	 */
 
-	public ViewerException( String errCode, String[] args )
-	{
-		super( PLUGIN_ID, errCode, args, BirtResources.getResourceHandle( )
-				.getUResourceBundle( ) );
+	public ViewerException(String errCode, String[] args) {
+		super(PLUGIN_ID, errCode, args, BirtResources.getResourceHandle().getUResourceBundle());
 	}
 
 	/**
-	 * Constructs a viewer exception with the error code, string arguments used
-	 * to format error messages and the nested exception.
+	 * Constructs a viewer exception with the error code, string arguments used to
+	 * format error messages and the nested exception.
 	 * 
-	 * @param errCode
-	 *            used to retrieve a piece of externalized message displayed to
-	 *            end user
-	 * @param args
-	 *            string arguments used to format error messages
-	 * @param cause
-	 *            the nested exception
+	 * @param errCode used to retrieve a piece of externalized message displayed to
+	 *                end user
+	 * @param args    string arguments used to format error messages
+	 * @param cause   the nested exception
 	 */
 
-	public ViewerException( String errCode, String[] args, Throwable cause )
-	{
-		super( PLUGIN_ID, errCode, args, BirtResources.getResourceHandle( )
-				.getUResourceBundle( ), cause );
+	public ViewerException(String errCode, String[] args, Throwable cause) {
+		super(PLUGIN_ID, errCode, args, BirtResources.getResourceHandle().getUResourceBundle(), cause);
 	}
 }

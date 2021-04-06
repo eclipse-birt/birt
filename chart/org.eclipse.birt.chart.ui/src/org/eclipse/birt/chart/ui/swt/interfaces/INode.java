@@ -13,16 +13,15 @@ import org.eclipse.swt.graphics.Image;
 
 /**
  * @author Actuate Corporation
- *  
+ * 
  */
-public interface INode
-{
+public interface INode {
 
-    public IHelpContent getHelp();
+	public IHelpContent getHelp();
 
-    public String getLabel();
+	public String getLabel();
 
-    public String getPath();
+	public String getPath();
 
-    public Image getIcon();
+	public Image getIcon();
 }

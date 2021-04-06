@@ -26,11 +26,9 @@ import org.w3c.dom.css.CSSValue;
  * abstract area which is the default implementation of <code>IArea</code>
  * 
  */
-public abstract class AbstractArea implements IArea
-{
+public abstract class AbstractArea implements IArea {
 
-	protected static Logger logger = Logger.getLogger( AbstractArea.class
-			.getName( ) );
+	protected static Logger logger = Logger.getLogger(AbstractArea.class.getName());
 	/**
 	 * x position of this area in parent area, calculated from border box.
 	 */
@@ -61,128 +59,108 @@ public abstract class AbstractArea implements IArea
 	protected transient CSSValue vAlign;
 
 	protected String bookmark = null;
-	
+
 	protected boolean ignoreReordering = false;
 
 	protected transient ContainerArea parent;
-	
+
 	protected transient boolean isDummy = false;
 
-	AbstractArea( AbstractArea area )
-	{
-		this.x = area.getX( );
-		this.y = area.getY( );
-		this.baseLine = area.getBaseLine( );
-		this.bookmark = area.getBookmark( );
-		this.action = area.getAction( );
-		this.scale = area.getScale( );
-		this.width = area.getWidth( );
-		this.height = area.getHeight( );
+	AbstractArea(AbstractArea area) {
+		this.x = area.getX();
+		this.y = area.getY();
+		this.baseLine = area.getBaseLine();
+		this.bookmark = area.getBookmark();
+		this.action = area.getAction();
+		this.scale = area.getScale();
+		this.width = area.getWidth();
+		this.height = area.getHeight();
 		this.isDummy = area.isDummy;
 	}
 
-	public ContainerArea getParent( )
-	{
+	public ContainerArea getParent() {
 		return parent;
 	}
 
-	public void setParent( ContainerArea parent )
-	{
+	public void setParent(ContainerArea parent) {
 		this.parent = parent;
 	}
 
-	public CSSValue getVerticalAlign( )
-	{
+	public CSSValue getVerticalAlign() {
 		return vAlign;
 	}
 
-	public void setVerticalAlign( CSSValue vAlign )
-	{
+	public void setVerticalAlign(CSSValue vAlign) {
 		this.vAlign = vAlign;
 	}
 
-	AbstractArea( )
-	{
+	AbstractArea() {
 
 	}
 
-	public String getBookmark( )
-	{
+	public String getBookmark() {
 		return bookmark;
 	}
 
-	public void setBookmark( String bookmark )
-	{
+	public void setBookmark(String bookmark) {
 		this.bookmark = bookmark;
 	}
 
-	public IHyperlinkAction getAction( )
-	{
+	public IHyperlinkAction getAction() {
 		return action;
 	}
 
-	public void setAction( IHyperlinkAction action )
-	{
+	public void setAction(IHyperlinkAction action) {
 		this.action = action;
 	}
 
-	public void setX( int x )
-	{
+	public void setX(int x) {
 		this.x = x;
 	}
 
-	public void setY( int y )
-	{
+	public void setY(int y) {
 		this.y = y;
 	}
 
 	protected IHyperlinkAction action = null;
 
-	public void setScale( float scale )
-	{
+	public void setScale(float scale) {
 		this.scale = scale;
 	}
 
-	public float getScale( )
-	{
+	public float getScale() {
 		return this.scale;
 	}
 
 	/**
 	 * get X position of this area
 	 */
-	public int getX( )
-	{
+	public int getX() {
 		return x;
 	}
 
 	/**
 	 * get Y position of this area
 	 */
-	public int getY( )
-	{
+	public int getY() {
 		return y;
 	}
 
-	public void setPosition( int x, int y )
-	{
+	public void setPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
 
-	public void setAllocatedPosition( int x, int y )
-	{
+	public void setAllocatedPosition(int x, int y) {
 		this.x = x;
 		this.y = y;
 	}
-	
-	public void setAllocatedY( int ay )
-	{
+
+	public void setAllocatedY(int ay) {
 		y = ay;
 	}
-	
-	public void setAllocatedX(int ax)
-	{
+
+	public void setAllocatedX(int ax) {
 		x = ax;
 	}
 
@@ -191,24 +169,21 @@ public abstract class AbstractArea implements IArea
 	 * 
 	 * @param width
 	 */
-	public void setWidth( int width )
-	{
+	public void setWidth(int width) {
 		this.width = width;
 	}
 
 	/**
 	 * set width of this area
 	 */
-	public int getWidth( )
-	{
+	public int getWidth() {
 		return width;
 	}
 
 	/**
 	 * get height of this area
 	 */
-	public int getHeight( )
-	{
+	public int getHeight() {
 		return height;
 	}
 
@@ -217,18 +192,15 @@ public abstract class AbstractArea implements IArea
 	 * 
 	 * @param height
 	 */
-	public void setHeight( int height )
-	{
+	public void setHeight(int height) {
 		this.height = height;
 	}
 
-	public int getAllocatedWidth( )
-	{
+	public int getAllocatedWidth() {
 		return width;
 	}
 
-	public int getAllocatedHeight( )
-	{
+	public int getAllocatedHeight() {
 		return height;
 	}
 
@@ -237,8 +209,7 @@ public abstract class AbstractArea implements IArea
 	 * 
 	 * @param baseLine
 	 */
-	public void setBaseLine( int baseLine )
-	{
+	public void setBaseLine(int baseLine) {
 		this.baseLine = baseLine;
 	}
 
@@ -247,119 +218,85 @@ public abstract class AbstractArea implements IArea
 	 * 
 	 * @return the baseline
 	 */
-	public int getBaseLine( )
-	{
-		if ( baseLine == 0 )
-		{
+	public int getBaseLine() {
+		if (baseLine == 0) {
 			return height;
-		}
-		else
-		{
+		} else {
 			return baseLine;
 		}
 
 	}
 
-	public abstract AbstractArea cloneArea( );
+	public abstract AbstractArea cloneArea();
 
-	public AbstractArea deepClone( )
-	{
-		return cloneArea( );
+	public AbstractArea deepClone() {
+		return cloneArea();
 	}
 
-	public int getAllocatedX( )
-	{
+	public int getAllocatedX() {
 		return x;
 	}
 
-	public int getAllocatedY( )
-	{
+	public int getAllocatedY() {
 		return y;
 	}
-	
-	public boolean isIgnoreReordering( )
-	{
+
+	public boolean isIgnoreReordering() {
 		return ignoreReordering;
 	}
-	
-	public void setIgnoreReordering( boolean ignoreReordering )
-	{
+
+	public void setIgnoreReordering(boolean ignoreReordering) {
 		this.ignoreReordering = ignoreReordering;
 	}
 
-	public static void debugPrint( IArea area )
-	{
-		if ( area instanceof IContainerArea )
-		{
-			System.out.print( area.getClass( ) + "||" );
-			System.out.println( "x:" + area.getX( ) + " y:" + area.getY( )
-					+ " width:" + area.getWidth( ) + " height:"
-					+ area.getHeight( ) );
-			for ( Iterator<IArea> i = ( (IContainerArea) area ).getChildren( ); i
-					.hasNext( ); )
-			{
-				IArea child = i.next( );
-				debugPrint( child );
+	public static void debugPrint(IArea area) {
+		if (area instanceof IContainerArea) {
+			System.out.print(area.getClass() + "||");
+			System.out.println("x:" + area.getX() + " y:" + area.getY() + " width:" + area.getWidth() + " height:"
+					+ area.getHeight());
+			for (Iterator<IArea> i = ((IContainerArea) area).getChildren(); i.hasNext();) {
+				IArea child = i.next();
+				debugPrint(child);
 			}
-		}
-		else
-		{
-			debugPrintVisual( area );
+		} else {
+			debugPrintVisual(area);
 		}
 	}
-	
-	public static void debugPrintVisual( IArea area )
-	{
-		if ( area instanceof ITextArea )
-		{
-			System.out.println( ( (ITextArea) area ).getText( ) );
-		}
-		else if ( area instanceof IImageArea )
-		{
-			System.out.println( "[image]" );
-		}
-		else if ( area instanceof ITemplateArea )
-		{
-			System.out.println( "[template]" );
+
+	public static void debugPrintVisual(IArea area) {
+		if (area instanceof ITextArea) {
+			System.out.println(((ITextArea) area).getText());
+		} else if (area instanceof IImageArea) {
+			System.out.println("[image]");
+		} else if (area instanceof ITemplateArea) {
+			System.out.println("[template]");
 		}
 	}
-	
-	public static void debugPrintWithComputedXY( IArea area )
-	{
-		debugPrint(area, 0, 0 );
+
+	public static void debugPrintWithComputedXY(IArea area) {
+		debugPrint(area, 0, 0);
 	}
-	
-	private static void debugPrint( IArea area, int x, int y )
-	{
-		if ( area instanceof IContainerArea )
-		{
-			System.out.print( area.getClass( ) + "||" );
-			if ( null != ( (ContainerArea) area ).getContent( ) )
-			{
-				System.out.print( ( (ContainerArea) area ).getContent( )
-						.getInstanceID( ) + "||" );
+
+	private static void debugPrint(IArea area, int x, int y) {
+		if (area instanceof IContainerArea) {
+			System.out.print(area.getClass() + "||");
+			if (null != ((ContainerArea) area).getContent()) {
+				System.out.print(((ContainerArea) area).getContent().getInstanceID() + "||");
 			}
-			if ( area instanceof CellArea)
-			{
-				System.out.print( "rowspan:" + ( (CellArea) area ).getRowSpan( ) + "||" );
+			if (area instanceof CellArea) {
+				System.out.print("rowspan:" + ((CellArea) area).getRowSpan() + "||");
 			}
-			x = x + area.getX( );
-			y = y + area.getY( );
-			System.out.println( "x:" + x + " y:" + y
-					+ " width:" + area.getWidth( ) + " height:"
-					+ area.getHeight( ) );
-			for ( Iterator<IArea> i = ( (IContainerArea) area ).getChildren( ); i
-					.hasNext( ); )
-			{
-				IArea child = i.next( );
-				debugPrint( child, x, y );
+			x = x + area.getX();
+			y = y + area.getY();
+			System.out.println("x:" + x + " y:" + y + " width:" + area.getWidth() + " height:" + area.getHeight());
+			for (Iterator<IArea> i = ((IContainerArea) area).getChildren(); i.hasNext();) {
+				IArea child = i.next();
+				debugPrint(child, x, y);
 			}
-			x = x - area.getX( );
-			y = x - area.getY( );
-		}
-		else
-		{
-			debugPrintVisual( area );
+			x = x - area.getX();
+			y = x - area.getY();
+		} else {
+			debugPrintVisual(area);
 		}
 	}
 

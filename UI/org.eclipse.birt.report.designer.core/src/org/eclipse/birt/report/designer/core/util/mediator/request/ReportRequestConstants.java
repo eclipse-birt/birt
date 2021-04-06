@@ -14,8 +14,7 @@ package org.eclipse.birt.report.designer.core.util.mediator.request;
 /**
  * ReportRequestConstants
  */
-public interface ReportRequestConstants
-{
+public interface ReportRequestConstants {
 
 	/**
 	 * Selection request <code>SELECTION</code>

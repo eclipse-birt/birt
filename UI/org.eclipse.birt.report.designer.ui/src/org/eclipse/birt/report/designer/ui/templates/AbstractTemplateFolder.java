@@ -19,13 +19,13 @@ import org.eclipse.ui.ISharedImages;
  * Abstract class for the ITemplateFolder
  */
 
-public abstract class AbstractTemplateFolder implements ITemplateFolder
-{
-	/* (non-Javadoc)
+public abstract class AbstractTemplateFolder implements ITemplateFolder {
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.designer.ui.templates.ITemplateEntry#getImage()
 	 */
-	public Image getImage( )
-	{
-		return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJ_FOLDER );
+	public Image getImage() {
+		return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJ_FOLDER);
 	}
 }

@@ -21,51 +21,52 @@ import org.eclipse.birt.report.model.adapter.oda.IReportParameterAdapter;
  * Factory pattern to create an instance of Design Engine
  */
 
-public class AdapterFactory implements IAdapterFactory
-{
+public class AdapterFactory implements IAdapterFactory {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IAdapterFactory#getModelOdaAdapter()
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.IAdapterFactory#getModelOdaAdapter(
+	 * )
 	 */
 
-	public IModelOdaAdapter createModelOdaAdapter( )
-	{
-		return new ModelOdaAdapter( );
+	public IModelOdaAdapter createModelOdaAdapter() {
+		return new ModelOdaAdapter();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IAdapterFactory#getODADesignFactory()
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.IAdapterFactory#getODADesignFactory
+	 * ()
 	 */
 
-	public IODADesignFactory getODADesignFactory( )
-	{
-		return new ODADesignFactory( );
+	public IODADesignFactory getODADesignFactory() {
+		return new ODADesignFactory();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IAdapterFactory#getODAFactory()
+	 * @see
+	 * org.eclipse.birt.report.model.adapter.oda.IAdapterFactory#getODAFactory()
 	 */
 
-	public IODAFactory getODAFactory( )
-	{
-		return new ODAFactory( );
+	public IODAFactory getODAFactory() {
+		return new ODAFactory();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.adapter.oda.IAdapterFactory#getReportParameterAdapter()
+	 * @see org.eclipse.birt.report.model.adapter.oda.IAdapterFactory#
+	 * getReportParameterAdapter()
 	 */
 
-	public IReportParameterAdapter createReportParameterAdapter( )
-	{
-		return new ReportParameterAdapter( );
+	public IReportParameterAdapter createReportParameterAdapter() {
+		return new ReportParameterAdapter();
 	}
 
 }

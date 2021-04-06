@@ -17,12 +17,11 @@ import java.util.Properties;
 
 import org.eclipse.datatools.connectivity.oda.OdaException;
 
-
-public interface IConnectionPoolManager
-{
+public interface IConnectionPoolManager {
 
 	/**
 	 * Get connection from IConnectionPoolManager.
+	 * 
 	 * @param driverClass
 	 * @param url
 	 * @param connectionProps
@@ -32,9 +31,8 @@ public interface IConnectionPoolManager
 	 * @throws SQLException
 	 * @throws OdaException
 	 */
-	java.sql.Connection getConnection( String driverClass, String url,
-			Properties connectionProps, Collection<String> driverClassPath,
-			Map appContext ) throws SQLException, OdaException;
-	
-	public void closeConnection( java.sql.Connection connection ) throws OdaException, SQLException;
+	java.sql.Connection getConnection(String driverClass, String url, Properties connectionProps,
+			Collection<String> driverClassPath, Map appContext) throws SQLException, OdaException;
+
+	public void closeConnection(java.sql.Connection connection) throws OdaException, SQLException;
 }

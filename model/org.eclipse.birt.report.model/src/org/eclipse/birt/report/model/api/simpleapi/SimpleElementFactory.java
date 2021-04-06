@@ -15,21 +15,18 @@ package org.eclipse.birt.report.model.api.simpleapi;
  * 
  */
 
-public class SimpleElementFactory
-{
+public class SimpleElementFactory {
 
 	private static ISimpleElementFactory factory;
 
 	/**
 	 * Sets the factory instance.
 	 * 
-	 * @param inFactory
-	 *            the factory instance
+	 * @param inFactory the factory instance
 	 */
 
-	public synchronized static void setInstance( ISimpleElementFactory inFactory )
-	{
-		if ( factory == null )
+	public synchronized static void setInstance(ISimpleElementFactory inFactory) {
+		if (factory == null)
 			factory = inFactory;
 	}
 
@@ -39,8 +36,7 @@ public class SimpleElementFactory
 	 * @return the factory
 	 */
 
-	public static ISimpleElementFactory getInstance( )
-	{
+	public static ISimpleElementFactory getInstance() {
 		return factory;
 	}
 

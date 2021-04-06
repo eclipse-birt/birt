@@ -13,22 +13,19 @@ package org.eclipse.birt.report.engine.api;
 
 import junit.framework.TestCase;
 
-public class DataSetIDTest extends TestCase
-{
+public class DataSetIDTest extends TestCase {
 
-	public void testParser( )
-	{
-		checkParse( "dataSet" );
+	public void testParser() {
+		checkParse("dataSet");
 
-		checkParse( "{dataSet}.0.group" );
+		checkParse("{dataSet}.0.group");
 
-		checkParse( "{{dataSet}.0.group}.0.group2" );
+		checkParse("{{dataSet}.0.group}.0.group2");
 	}
 
-	protected void checkParse( String value )
-	{
-		DataSetID id = DataSetID.parse( value );
-		assertEquals( value, id.toString( ) );
+	protected void checkParse(String value) {
+		DataSetID id = DataSetID.parse(value);
+		assertEquals(value, id.toString());
 	}
 
 }

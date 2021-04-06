@@ -18,18 +18,16 @@ import junit.framework.TestSuite;
  * Tests for config package
  */
 
-public class AllConfigTests
-{
+public class AllConfigTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( FileConfigVarManagerTest.class );
+		test.addTestSuite(FileConfigVarManagerTest.class);
 		// add all test classes here
 
 		return test;

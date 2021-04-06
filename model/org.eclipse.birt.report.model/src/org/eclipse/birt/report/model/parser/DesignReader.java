@@ -28,22 +28,20 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * with the design.
  */
 
-public final class DesignReader extends ModuleReader
-{
+public final class DesignReader extends ModuleReader {
 
 	/**
 	 * The one and only design reader.
 	 */
 
-	private static DesignReader instance = new DesignReader( );
+	private static DesignReader instance = new DesignReader();
 
 	/**
 	 * Default constructor.
 	 * 
 	 */
 
-	private DesignReader( )
-	{
+	private DesignReader() {
 		// Forbid to instance this class outside.
 	}
 
@@ -53,8 +51,7 @@ public final class DesignReader extends ModuleReader
 	 * @return the only instance of the design reader
 	 */
 
-	public static DesignReader getInstance( )
-	{
+	public static DesignReader getInstance() {
 		return instance;
 	}
 
@@ -62,84 +59,65 @@ public final class DesignReader extends ModuleReader
 	 * Parses an XML design file given an input stream. Creates and returns the
 	 * internal representation of the report design
 	 * 
-	 * @param session
-	 *            the session of the report
+	 * @param session     the session of the report
 	 * 
-	 * @param fileName
-	 *            the design file that the input stream is associated to.
-	 * @param inputStream
-	 *            the input stream that reads the design file
-	 * @param options
-	 *            the options set for this module
+	 * @param fileName    the design file that the input stream is associated to.
+	 * @param inputStream the input stream that reads the design file
+	 * @param options     the options set for this module
 	 * @return the internal representation of the design
-	 * @throws DesignFileException
-	 *             if the library file is not found or has syntax error. The
-	 *             syntax errors include that input stream is not well-formed
-	 *             xml, that there is unsupported tags and that there is
-	 *             run-time exception.
+	 * @throws DesignFileException if the library file is not found or has syntax
+	 *                             error. The syntax errors include that input
+	 *                             stream is not well-formed xml, that there is
+	 *                             unsupported tags and that there is run-time
+	 *                             exception.
 	 */
 
-	public ReportDesign read( DesignSessionImpl session, String fileName,
-			InputStream inputStream, ModuleOption options )
-			throws DesignFileException
-	{
-		DesignParserHandler handler = new DesignParserHandler( session,
-				fileName, options );
-		return (ReportDesign) readModule( handler, inputStream );
+	public ReportDesign read(DesignSessionImpl session, String fileName, InputStream inputStream, ModuleOption options)
+			throws DesignFileException {
+		DesignParserHandler handler = new DesignParserHandler(session, fileName, options);
+		return (ReportDesign) readModule(handler, inputStream);
 	}
 
 	/**
 	 * Parses an XML design file given an input stream. Creates and returns the
 	 * internal representation of the report design
 	 * 
-	 * @param session
-	 *            the session of the report
+	 * @param session     the session of the report
 	 * 
-	 * @param systemId
-	 *            the uri path for the design file
-	 * @param inputStream
-	 *            the input stream that reads the design file
-	 * @param options
-	 *            the options set for this module
-	 * @throws DesignFileException
-	 *             if the input stream is not well-formed xml, there is
-	 *             unsupported tags and there is run-time exception.
+	 * @param systemId    the uri path for the design file
+	 * @param inputStream the input stream that reads the design file
+	 * @param options     the options set for this module
+	 * @throws DesignFileException if the input stream is not well-formed xml, there
+	 *                             is unsupported tags and there is run-time
+	 *                             exception.
 	 * @return the internal representation of the design
 	 */
 
-	public ReportDesign read( DesignSessionImpl session, URL systemId,
-			InputStream inputStream, ModuleOption options )
-			throws DesignFileException
-	{
-		DesignParserHandler handler = new DesignParserHandler( session,
-				systemId, options );
-		return (ReportDesign) readModule( handler, inputStream );
+	public ReportDesign read(DesignSessionImpl session, URL systemId, InputStream inputStream, ModuleOption options)
+			throws DesignFileException {
+		DesignParserHandler handler = new DesignParserHandler(session, systemId, options);
+		return (ReportDesign) readModule(handler, inputStream);
 	}
 
 	/**
-	 * Parses an XML design file given a file name. Creates and returns the
-	 * internal representation of the report design
+	 * Parses an XML design file given a file name. Creates and returns the internal
+	 * representation of the report design
 	 * 
-	 * @param session
-	 *            the session of the report
-	 * @param fileName
-	 *            the design file to parse
-	 * @param options
-	 *            the options set for this module
+	 * @param session  the session of the report
+	 * @param fileName the design file to parse
+	 * @param options  the options set for this module
 	 * 
 	 * @return the internal representation of the design
-	 * @throws DesignFileException
-	 *             if the library file is not found or has syntax error. The
-	 *             syntax errors include that input stream is not well-formed
-	 *             xml, that there is unsupported tags and that there is
-	 *             run-time exception.
+	 * @throws DesignFileException if the library file is not found or has syntax
+	 *                             error. The syntax errors include that input
+	 *                             stream is not well-formed xml, that there is
+	 *                             unsupported tags and that there is run-time
+	 *                             exception.
 	 */
 
-	public ReportDesign read( DesignSessionImpl session, String fileName,
-			ModuleOption options ) throws DesignFileException
-	{
-		DesignParserHandler handler = new DesignParserHandler( session,
-				fileName, options );
-		return (ReportDesign) readModule( handler );
+	public ReportDesign read(DesignSessionImpl session, String fileName, ModuleOption options)
+			throws DesignFileException {
+		DesignParserHandler handler = new DesignParserHandler(session, fileName, options);
+		return (ReportDesign) readModule(handler);
 	}
 }

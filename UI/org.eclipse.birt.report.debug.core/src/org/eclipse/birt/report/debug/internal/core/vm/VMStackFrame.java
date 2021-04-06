@@ -14,14 +14,13 @@ package org.eclipse.birt.report.debug.internal.core.vm;
 /**
  * VMStackFrame
  */
-public interface VMStackFrame
-{
+public interface VMStackFrame {
 
-	String getName( );
+	String getName();
 
-	int getLineNumber( );
+	int getLineNumber();
 
-	VMValue evaluate( String expression );
+	VMValue evaluate(String expression);
 
-	VMVariable[] getVariables( );
+	VMVariable[] getVariables();
 }

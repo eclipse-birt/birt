@@ -18,18 +18,16 @@ import junit.framework.TestSuite;
  * Util package test
  */
 
-public class AllUtilTests
-{
+public class AllUtilTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( IOUtilTest.class );
+		test.addTestSuite(IOUtilTest.class);
 
 		// add all test classes here
 

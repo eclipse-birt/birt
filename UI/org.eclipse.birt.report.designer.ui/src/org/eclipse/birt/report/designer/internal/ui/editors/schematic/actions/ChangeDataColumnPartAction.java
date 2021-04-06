@@ -18,18 +18,16 @@ import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.ui.IWorkbenchPart;
 
-public class ChangeDataColumnPartAction extends WrapperSelectionAction
-{
+public class ChangeDataColumnPartAction extends WrapperSelectionAction {
 
-	private static final String DEFAULT_TEXT = Messages.getString( "ChangeDataColumnAction.text" ); //$NON-NLS-1$
-	
+	private static final String DEFAULT_TEXT = Messages.getString("ChangeDataColumnAction.text"); //$NON-NLS-1$
+
 	public static final String ID = "org.eclipse.birt.report.designer.ui.actions.ChangeDataColumnAction"; //$NON-NLS-1$
 
-	public ChangeDataColumnPartAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( DEFAULT_TEXT );
+	public ChangeDataColumnPartAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(DEFAULT_TEXT);
 	}
 
 	/**
@@ -37,14 +35,12 @@ public class ChangeDataColumnPartAction extends WrapperSelectionAction
 	 * 
 	 * @return returns the stack
 	 */
-	protected CommandStack getActiveCommandStack( )
-	{
-		return SessionHandleAdapter.getInstance( ).getCommandStack( );
+	protected CommandStack getActiveCommandStack() {
+		return SessionHandleAdapter.getInstance().getCommandStack();
 	}
 
-	protected IAction createActionHandler( ISelection model )
-	{
-		return new ChangeDataColumnAction( model );
+	protected IAction createActionHandler(ISelection model) {
+		return new ChangeDataColumnAction(model);
 	}
 
 }

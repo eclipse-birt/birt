@@ -29,37 +29,30 @@ import org.eclipse.birt.report.model.elements.interfaces.IGraphicMaterPageModel;
  * content area.
  */
 
-public class GraphicMasterPageHandle extends MasterPageHandle
-		implements
-			IGraphicMaterPageModel
-{
+public class GraphicMasterPageHandle extends MasterPageHandle implements IGraphicMaterPageModel {
 
 	/**
 	 * Constructs a handle with the given design and the design element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public GraphicMasterPageHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public GraphicMasterPageHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
-	 * Returns the slot handle for the content. The items in this slot appear on
-	 * the page itself, usually as headers, footers, margins, watermarks, etc.
+	 * Returns the slot handle for the content. The items in this slot appear on the
+	 * page itself, usually as headers, footers, margins, watermarks, etc.
 	 * 
 	 * @return a handle to the content slot
 	 * @see SlotHandle
 	 */
 
-	public SlotHandle getContent( )
-	{
-		return getSlot( CONTENT_SLOT );
+	public SlotHandle getContent() {
+		return getSlot(CONTENT_SLOT);
 	}
 }

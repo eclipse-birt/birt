@@ -11,24 +11,22 @@
 
 package org.eclipse.birt.report.designer.ui.editors;
 
-public interface IPageStaleType
-{
+public interface IPageStaleType {
 
 	/**
 	 * None stale type.
 	 */
 	int NONE = 0;
-	
+
 	/**
 	 * Model had change stale type.
 	 */
 	int MODEL_CHANGED = 1;
-	
+
 	/**
 	 * Code had change stale type.
 	 */
 	int CODE_CHANGED = 2;
-	
-	
+
 	int MODEL_RELOAD = 4;
 }

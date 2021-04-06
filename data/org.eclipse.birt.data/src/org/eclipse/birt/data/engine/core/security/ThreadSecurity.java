@@ -18,22 +18,19 @@ import java.security.PrivilegedAction;
  * 
  *
  */
-public class ThreadSecurity
-{
+public class ThreadSecurity {
 
 	/**
 	 * 
 	 * @param runnable
 	 * @return
 	 */
-	public static Thread createThread( final Runnable runnable )
-	{
-		return AccessController.doPrivileged( new PrivilegedAction<Thread>( ) {
+	public static Thread createThread(final Runnable runnable) {
+		return AccessController.doPrivileged(new PrivilegedAction<Thread>() {
 
-			public Thread run( )
-			{
-				return new Thread( runnable );
+			public Thread run() {
+				return new Thread(runnable);
 			}
-		} );
+		});
 	}
 }

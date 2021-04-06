@@ -1,6 +1,5 @@
 package org.eclipse.birt.build.framework;
 
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,8 +20,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
-public class Bundle
-{
+public class Bundle {
 
 	protected BundleFile bundleFile;
 
@@ -32,212 +30,159 @@ public class Bundle
 	protected Document description;
 	protected ArrayList<Bundle> fragments;
 
-	public Bundle( File file ) throws FrameworkException
-	{
-		try
-		{
-			if ( file.isDirectory( ) )
-			{
-				this.bundleFile = new FileBundleFile( this, file );
-			}
-			else
-			{
-				this.bundleFile = new ZipBundleFile( this, file );
+	public Bundle(File file) throws FrameworkException {
+		try {
+			if (file.isDirectory()) {
+				this.bundleFile = new FileBundleFile(this, file);
+			} else {
+				this.bundleFile = new ZipBundleFile(this, file);
 			}
 
-			loadBundle( );
-		}
-		catch ( Exception ex )
-		{
-			close( );
-			throw new FrameworkException( ex );
+			loadBundle();
+		} catch (Exception ex) {
+			close();
+			throw new FrameworkException(ex);
 		}
 	}
 
-	public void close( )
-	{
-		if ( bundleFile != null )
-		{
-			try
-			{
-				bundleFile.close( );
-			}
-			catch ( IOException ex )
-			{
+	public void close() {
+		if (bundleFile != null) {
+			try {
+				bundleFile.close();
+			} catch (IOException ex) {
 			}
 			bundleFile = null;
 		}
 	}
 
-	public BundleFile getBundleFile( )
-	{
+	public BundleFile getBundleFile() {
 		return bundleFile;
 	}
 
-	public List<Bundle> getFragments( )
-	{
-		if ( fragments == null || fragments.isEmpty( ) )
-		{
+	public List<Bundle> getFragments() {
+		if (fragments == null || fragments.isEmpty()) {
 			return null;
 		}
 		return fragments;
 	}
 
-	public void addFragment( Bundle bundle )
-	{
-		if ( isFragment( ) )
-		{
-			throw new UnsupportedOperationException(
-					"only host bundle can be attached with fragment" );
+	public void addFragment(Bundle bundle) {
+		if (isFragment()) {
+			throw new UnsupportedOperationException("only host bundle can be attached with fragment");
 		}
-		if ( !bundle.isFragment( ) )
-		{
-			throw new UnsupportedOperationException(
-					"only fragment can be attached to the host bundle" );
+		if (!bundle.isFragment()) {
+			throw new UnsupportedOperationException("only fragment can be attached to the host bundle");
 		}
-		if ( fragments == null )
-		{
-			fragments = new ArrayList<Bundle>( );
+		if (fragments == null) {
+			fragments = new ArrayList<Bundle>();
 		}
-		fragments.add( bundle );
+		fragments.add(bundle);
 	}
 
-	public boolean isFragment( )
-	{
+	public boolean isFragment() {
 		return fragment;
 	}
 
-	public String getHostID( )
-	{
+	public String getHostID() {
 		return hostID;
 	}
 
-	public String getBundleID( )
-	{
+	public String getBundleID() {
 		return bundleID;
 	}
 
-	public Document getDescription( )
-	{
+	public Document getDescription() {
 		return description;
 	}
 
-	protected void loadBundle( ) throws IOException,
-			ParserConfigurationException, SAXException
-	{
-		Manifest manifest = loadManifest( );
-		Attributes mainAttrs = manifest.getMainAttributes( );
+	protected void loadBundle() throws IOException, ParserConfigurationException, SAXException {
+		Manifest manifest = loadManifest();
+		Attributes mainAttrs = manifest.getMainAttributes();
 		// first get the properties
-		String propertyFile = mainAttrs.getValue( "Bundle-Localization" );
+		String propertyFile = mainAttrs.getValue("Bundle-Localization");
 		Properties properties = null;
-		if ( propertyFile != null )
-		{
-			properties = loadProperties( propertyFile + ".properties" );
+		if (propertyFile != null) {
+			properties = loadProperties(propertyFile + ".properties");
 		}
 		// get the bundle id
-		String symbolicName = mainAttrs.getValue( "Bundle-SymbolicName" );
-		if ( symbolicName != null )
-		{
-			bundleID = getSymbolicName( symbolicName );
+		String symbolicName = mainAttrs.getValue("Bundle-SymbolicName");
+		if (symbolicName != null) {
+			bundleID = getSymbolicName(symbolicName);
 		}
 		// get the fragment host
-		String patchFragment = mainAttrs.getValue( "Eclipse-PatchFragment" );
-		if ( "true".equals( patchFragment ) )
-		{
+		String patchFragment = mainAttrs.getValue("Eclipse-PatchFragment");
+		if ("true".equals(patchFragment)) {
 			fragment = true;
 		}
 
 		// get the fragment host
-		String fragmentHost = mainAttrs.getValue( "Fragment-Host" );
-		if ( fragmentHost != null )
-		{
-			hostID = getSymbolicName( fragmentHost );
+		String fragmentHost = mainAttrs.getValue("Fragment-Host");
+		if (fragmentHost != null) {
+			hostID = getSymbolicName(fragmentHost);
 		}
 
 		// load the fragment description
-		description = loadDescription( "plugin.xml" );
+		description = loadDescription("plugin.xml");
 
-		if ( description != null )
-		{
-			if ( properties != null )
-			{
-				localizeDocument( description, properties );
+		if (description != null) {
+			if (properties != null) {
+				localizeDocument(description, properties);
 			}
-			normalizeExtension( bundleID, description );
+			normalizeExtension(bundleID, description);
 		}
 	}
 
-	private String getSymbolicName( String symbolicName )
-	{
-		if ( symbolicName != null )
-		{
-			int charPos = symbolicName.indexOf( ";" );
-			if ( charPos != -1 )
-			{
-				return symbolicName.substring( 0, charPos );
+	private String getSymbolicName(String symbolicName) {
+		if (symbolicName != null) {
+			int charPos = symbolicName.indexOf(";");
+			if (charPos != -1) {
+				return symbolicName.substring(0, charPos);
 			}
 		}
 		return symbolicName;
 	}
 
-	private Manifest loadManifest( ) throws IOException
-	{
-		BundleEntry entry = bundleFile.getEntry( "/META-INF/MANIFEST.MF" );
-		if ( entry != null )
-		{
-			InputStream in = entry.getInputStream( );
-			if ( in != null )
-			{
-				try
-				{
-					Manifest manifest = new Manifest( in );
+	private Manifest loadManifest() throws IOException {
+		BundleEntry entry = bundleFile.getEntry("/META-INF/MANIFEST.MF");
+		if (entry != null) {
+			InputStream in = entry.getInputStream();
+			if (in != null) {
+				try {
+					Manifest manifest = new Manifest(in);
 					return manifest;
-				}
-				finally
-				{
-					in.close( );
+				} finally {
+					in.close();
 				}
 			}
 		}
 		return null;
 	}
 
-	private Properties loadProperties( String path ) throws IOException
-	{
-		BundleEntry entry = bundleFile.getEntry( path );
-		if ( entry != null )
-		{
-			InputStream in = entry.getInputStream( );
-			if ( in != null )
-			{
-				try
-				{
-					Properties properties = new Properties( );
-					properties.load( in );
+	private Properties loadProperties(String path) throws IOException {
+		BundleEntry entry = bundleFile.getEntry(path);
+		if (entry != null) {
+			InputStream in = entry.getInputStream();
+			if (in != null) {
+				try {
+					Properties properties = new Properties();
+					properties.load(in);
 					return properties;
-				}
-				finally
-				{
-					in.close( );
+				} finally {
+					in.close();
 				}
 			}
 		}
 		return null;
 	}
 
-	private Document loadDescription( String path ) throws IOException,
-			ParserConfigurationException, SAXException
-	{
-		BundleEntry entry = bundleFile.getEntry( path );
-		if ( entry != null )
-		{
-			InputStream in = entry.getInputStream( );
-			if ( in != null )
-			{
-				DocumentBuilderFactory factory = DocumentBuilderFactory
-						.newInstance( );
-				DocumentBuilder builder = factory.newDocumentBuilder( );
-				Document document = builder.parse( in, path );
+	private Document loadDescription(String path) throws IOException, ParserConfigurationException, SAXException {
+		BundleEntry entry = bundleFile.getEntry(path);
+		if (entry != null) {
+			InputStream in = entry.getInputStream();
+			if (in != null) {
+				DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+				DocumentBuilder builder = factory.newDocumentBuilder();
+				Document document = builder.parse(in, path);
 				return document;
 			}
 		}
@@ -245,32 +190,24 @@ public class Bundle
 
 	}
 
-	private void localizeDocument( Document document, Properties properties )
-	{
-		Element documentElement = document.getDocumentElement( );
-		localizeElement( documentElement, properties );
+	private void localizeDocument(Document document, Properties properties) {
+		Element documentElement = document.getDocumentElement();
+		localizeElement(documentElement, properties);
 	}
 
-	private void normalizeExtension( String bundleId, Document document )
-	{
-		Element documentElement = document.getDocumentElement( );
-		NodeList nodes = documentElement.getChildNodes( );
-		for ( int i = 0; i < nodes.getLength( ); i++ )
-		{
-			Node node = nodes.item( i );
-			if ( node.getNodeType( ) == Node.ELEMENT_NODE )
-			{
+	private void normalizeExtension(String bundleId, Document document) {
+		Element documentElement = document.getDocumentElement();
+		NodeList nodes = documentElement.getChildNodes();
+		for (int i = 0; i < nodes.getLength(); i++) {
+			Node node = nodes.item(i);
+			if (node.getNodeType() == Node.ELEMENT_NODE) {
 				Element element = (Element) node;
-				String name = element.getTagName( );
-				if ( "extension".equals( name )
-						|| "extension-point".equals( name ) )
-				{
-					String id = element.getAttribute( "id" );
-					if ( id != null && id.length( ) > 0
-							&& id.indexOf( '.' ) == -1 )
-					{
+				String name = element.getTagName();
+				if ("extension".equals(name) || "extension-point".equals(name)) {
+					String id = element.getAttribute("id");
+					if (id != null && id.length() > 0 && id.indexOf('.') == -1) {
 						id = bundleId + '.' + id;
-						element.setAttribute( "id", id );
+						element.setAttribute("id", id);
 					}
 
 				}
@@ -278,48 +215,37 @@ public class Bundle
 		}
 	}
 
-	private void localizeElement( Element element, Properties properties )
-	{
+	private void localizeElement(Element element, Properties properties) {
 		// localize the attributes
-		NamedNodeMap attributes = element.getAttributes( );
-		for ( int i = 0; i < attributes.getLength( ); i++ )
-		{
-			Node attribute = attributes.item( i );
-			if ( attribute.getNodeType( ) == Node.ATTRIBUTE_NODE )
-			{
-				String value = attribute.getNodeValue( );
-				if ( value != null )
-				{
-					String localizedValue = localize( value, properties );
-					if ( !value.equals( localizedValue ) )
-					{
-						attribute.setNodeValue( localizedValue );
+		NamedNodeMap attributes = element.getAttributes();
+		for (int i = 0; i < attributes.getLength(); i++) {
+			Node attribute = attributes.item(i);
+			if (attribute.getNodeType() == Node.ATTRIBUTE_NODE) {
+				String value = attribute.getNodeValue();
+				if (value != null) {
+					String localizedValue = localize(value, properties);
+					if (!value.equals(localizedValue)) {
+						attribute.setNodeValue(localizedValue);
 					}
 				}
 			}
 		}
 		// localize all the child element
-		NodeList children = element.getChildNodes( );
-		for ( int i = 0; i < children.getLength( ); i++ )
-		{
-			Node child = children.item( i );
-			if ( child.getNodeType( ) == Node.ELEMENT_NODE )
-			{
-				localizeElement( (Element) child, properties );
+		NodeList children = element.getChildNodes();
+		for (int i = 0; i < children.getLength(); i++) {
+			Node child = children.item(i);
+			if (child.getNodeType() == Node.ELEMENT_NODE) {
+				localizeElement((Element) child, properties);
 			}
 		}
 	}
 
-	private String localize( String value, Properties properties )
-	{
-		if ( value != null && value.length( ) > 1 )
-		{
-			if ( value.charAt( 0 ) == '%' )
-			{
-				String key = value.substring( 1 );
-				String localizedValue = properties.getProperty( key );
-				if ( localizedValue != null )
-				{
+	private String localize(String value, Properties properties) {
+		if (value != null && value.length() > 1) {
+			if (value.charAt(0) == '%') {
+				String key = value.substring(1);
+				String localizedValue = properties.getProperty(key);
+				if (localizedValue != null) {
 					return localizedValue;
 				}
 			}

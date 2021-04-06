@@ -24,31 +24,30 @@ import com.ibm.icu.util.ULocale;
  * @see 2.5
  */
 
-public interface IScriptContext extends Serializable
-{
+public interface IScriptContext extends Serializable {
 	/**
 	 * @return Returns the locale of current context.
 	 * @deprecated Use {@link #getULocale()} instead.
 	 */
-	public Locale getLocale( );
+	public Locale getLocale();
 
 	/**
 	 * @return Returns the locale of current context.
 	 * @since 2.1
 	 */
-	public ULocale getULocale( );
+	public ULocale getULocale();
 
 	/**
 	 * @return Returns the external context.
 	 */
-	public IExternalContext getExternalContext( );
+	public IExternalContext getExternalContext();
 
 	/**
 	 * @return Returns an ILogger instance, to allow logging from script.
 	 * @see org.eclipse.birt.chart.log.ILogger
 	 */
-	public ILogger getLogger( );
-	
+	public ILogger getLogger();
+
 	/**
 	 * Returns property value.
 	 * 
@@ -56,7 +55,7 @@ public interface IScriptContext extends Serializable
 	 * @return
 	 * @since 2.5
 	 */
-	public Object getProperty( Object key );
+	public Object getProperty(Object key);
 
 	/**
 	 * Saves property value.
@@ -65,5 +64,5 @@ public interface IScriptContext extends Serializable
 	 * @param value
 	 * @since 2.5
 	 */
-	public void setProperty( Object key, Object value );
+	public void setProperty(Object key, Object value);
 }

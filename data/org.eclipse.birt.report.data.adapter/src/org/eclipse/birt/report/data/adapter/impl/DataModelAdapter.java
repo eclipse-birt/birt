@@ -10,18 +10,15 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 package org.eclipse.birt.report.data.adapter.impl;
 
 import org.eclipse.birt.report.data.adapter.api.DataSessionContext;
 
+public class DataModelAdapter extends ModelAdapter {
 
-public class DataModelAdapter extends ModelAdapter
-{
-
-	public DataModelAdapter( DataSessionContext context )
-	{
-		super( context );
+	public DataModelAdapter(DataSessionContext context) {
+		super(context);
 	}
 
 }

@@ -18,34 +18,32 @@ import junit.framework.TestSuite;
  * Tests cases in command package.
  */
 
-public class AllCommandTests
-{
+public class AllCommandTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
 		// add all test classes here
-		test.addTestSuite( ContentCommandTest.class );
-		test.addTestSuite( ContentExceptionTest.class );
-		test.addTestSuite( CustomMsgCommandTest.class );
-		test.addTestSuite( CustomMsgExceptionTest.class );
-		test.addTestSuite( ExtendsCommandTest.class );
-		test.addTestSuite( ExtendsExceptionTest.class );
-		test.addTestSuite( NameCommandTest.class );
-		test.addTestSuite( NameExceptionTest.class );
-		test.addTestSuite( PropertyCommandTest.class );
-		test.addTestSuite( PropertyNameExceptionTest.class );
-		test.addTestSuite( StyleCommandTest.class );
-		test.addTestSuite( StyleExceptionTest.class );
-		test.addTestSuite( TemplateCommandTest.class );
-		test.addTestSuite( UserPropertyCommandTest.class );
-		test.addTestSuite( UserPropertyExceptionTest.class );
-		test.addTestSuite( CssCommandTest.class );
+		test.addTestSuite(ContentCommandTest.class);
+		test.addTestSuite(ContentExceptionTest.class);
+		test.addTestSuite(CustomMsgCommandTest.class);
+		test.addTestSuite(CustomMsgExceptionTest.class);
+		test.addTestSuite(ExtendsCommandTest.class);
+		test.addTestSuite(ExtendsExceptionTest.class);
+		test.addTestSuite(NameCommandTest.class);
+		test.addTestSuite(NameExceptionTest.class);
+		test.addTestSuite(PropertyCommandTest.class);
+		test.addTestSuite(PropertyNameExceptionTest.class);
+		test.addTestSuite(StyleCommandTest.class);
+		test.addTestSuite(StyleExceptionTest.class);
+		test.addTestSuite(TemplateCommandTest.class);
+		test.addTestSuite(UserPropertyCommandTest.class);
+		test.addTestSuite(UserPropertyExceptionTest.class);
+		test.addTestSuite(CssCommandTest.class);
 
 		return test;
 	}

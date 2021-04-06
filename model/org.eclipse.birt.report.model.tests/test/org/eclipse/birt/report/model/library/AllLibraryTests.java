@@ -18,32 +18,30 @@ import junit.framework.TestSuite;
  * Tests cases in extension package.
  */
 
-public class AllLibraryTests
-{
+public class AllLibraryTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
-		test.addTestSuite( DesignLoadLibraryTest.class );
-		test.addTestSuite( LibraryChangeChartDataSetTest.class );
-		test.addTestSuite( LibraryCommandTest.class );
-		test.addTestSuite( LibraryCompoundElementTest.class );
-		test.addTestSuite( LibraryHandleTest.class );
-		test.addTestSuite( LibraryJointDataSetTest.class );
-		test.addTestSuite( LibraryParseTest.class );
-		test.addTestSuite( LibraryStructureTest.class );
-		test.addTestSuite( LibraryThemeTest.class );
-		test.addTestSuite( LibraryWithPropertyBinding.class );
-		test.addTestSuite( LibraryWithTableTest.class );
-		test.addTestSuite( ReferenceValueUtilTest.class );
-		test.addTestSuite( ReloadLibraryTest.class );
-		test.addTestSuite( LibrarySharedResultSetTest.class );
-		test.addTestSuite( LibraryWithCubeTest.class );
+		test.addTestSuite(DesignLoadLibraryTest.class);
+		test.addTestSuite(LibraryChangeChartDataSetTest.class);
+		test.addTestSuite(LibraryCommandTest.class);
+		test.addTestSuite(LibraryCompoundElementTest.class);
+		test.addTestSuite(LibraryHandleTest.class);
+		test.addTestSuite(LibraryJointDataSetTest.class);
+		test.addTestSuite(LibraryParseTest.class);
+		test.addTestSuite(LibraryStructureTest.class);
+		test.addTestSuite(LibraryThemeTest.class);
+		test.addTestSuite(LibraryWithPropertyBinding.class);
+		test.addTestSuite(LibraryWithTableTest.class);
+		test.addTestSuite(ReferenceValueUtilTest.class);
+		test.addTestSuite(ReloadLibraryTest.class);
+		test.addTestSuite(LibrarySharedResultSetTest.class);
+		test.addTestSuite(LibraryWithCubeTest.class);
 
 		// add all test classes here
 

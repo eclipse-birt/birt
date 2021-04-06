@@ -21,22 +21,19 @@ import org.eclipse.birt.report.model.elements.ReportDesign;
  * Class under test for BaseTestCase
  */
 
-public class BaseTest extends BaseTestCase
-{
+public class BaseTest extends BaseTestCase {
 
-	public void testGetReportDesign( )
-	{
-		ReportDesign design = getReportDesign( );
-		assertNotNull( design );
-		assertEquals( ITestConstants.TEST_DESIGN_FILE, design.getFileName( ) );
+	public void testGetReportDesign() {
+		ReportDesign design = getReportDesign();
+		assertNotNull(design);
+		assertEquals(ITestConstants.TEST_DESIGN_FILE, design.getFileName());
 
 	}
 
-	public void testGetReportDesignHandle( )
-	{
-		ReportDesignHandle handle = getReportDesignHandle( );
-		assertNotNull( handle );
-		assertEquals( ITestConstants.TEST_DESIGN_FILE, handle.getFileName( ) );
+	public void testGetReportDesignHandle() {
+		ReportDesignHandle handle = getReportDesignHandle();
+		assertNotNull(handle);
+		assertEquals(ITestConstants.TEST_DESIGN_FILE, handle.getFileName());
 
 	}
 }

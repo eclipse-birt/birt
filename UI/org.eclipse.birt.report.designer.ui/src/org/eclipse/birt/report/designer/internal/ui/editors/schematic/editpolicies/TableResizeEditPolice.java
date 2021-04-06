@@ -29,47 +29,39 @@ import org.eclipse.gef.Request;
  * This is the resize policy to provide support for Table resize
  * 
  */
-public class TableResizeEditPolice extends ReportElementResizablePolicy implements
-		ISelectionHandlesEditPolicy
-{
+public class TableResizeEditPolice extends ReportElementResizablePolicy implements ISelectionHandlesEditPolicy {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#getTargetEditPart(org.eclipse.gef.Request)
+	 * @see org.eclipse.gef.editpolicies.SelectionEditPolicy#getTargetEditPart(org.
+	 * eclipse.gef.Request)
 	 */
-	public EditPart getTargetEditPart( Request request )
-	{
+	public EditPart getTargetEditPart(Request request) {
 		return null;
 	}
 
-	protected void addSelectionHandles( )
-	{
-		super.addSelectionHandles( );
-		if ( ( (ReportElementEditPart) getHost( ) ).isDelete( )
-				|| getHost( ).getSelected( ) != EditPart.SELECTED_PRIMARY )
-		{
+	protected void addSelectionHandles() {
+		super.addSelectionHandles();
+		if (((ReportElementEditPart) getHost()).isDelete() || getHost().getSelected() != EditPart.SELECTED_PRIMARY) {
 			return;
 		}
-		IFigure layer = getLayer( LayerConstants.HANDLE_LAYER );
-		ArrayList list = new ArrayList( );
-		TableHandleKit.addHandles( (TableEditPart) getHost( ), list );
-		for ( int i = 0; i < list.size( ); i++ )
-			layer.add( (IFigure) list.get( i ) );
-		handles.addAll( list );
+		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);
+		ArrayList list = new ArrayList();
+		TableHandleKit.addHandles((TableEditPart) getHost(), list);
+		for (int i = 0; i < list.size(); i++)
+			layer.add((IFigure) list.get(i));
+		handles.addAll(list);
 	}
 
-	protected void removeSelectionHandles( )
-	{
-		if ( handles == null )
+	protected void removeSelectionHandles() {
+		if (handles == null)
 			return;
-		IFigure layer = getLayer( LayerConstants.HANDLE_LAYER );
-		for ( int i = 0; i < handles.size( ); i++ )
-		{
-			Object figure = handles.get( i );
-			if ( figure instanceof IFigure )
-			{
-				layer.remove( (IFigure) figure );
+		IFigure layer = getLayer(LayerConstants.HANDLE_LAYER);
+		for (int i = 0; i < handles.size(); i++) {
+			Object figure = handles.get(i);
+			if (figure instanceof IFigure) {
+				layer.remove((IFigure) figure);
 			}
 
 		}
@@ -77,8 +69,7 @@ public class TableResizeEditPolice extends ReportElementResizablePolicy implemen
 	}
 
 	// Return the handles currently shown in the handle layer
-	public List getHandles( )
-	{
+	public List getHandles() {
 		return handles;
 	}
 
@@ -87,20 +78,15 @@ public class TableResizeEditPolice extends ReportElementResizablePolicy implemen
 	 * 
 	 * @see org.eclipse.gef.editpolicies.NonResizableEditPolicy#showFocus()
 	 */
-	protected void showFocus( )
-	{
+	protected void showFocus() {
 		// do nothing
 	}
 
-	protected List createSelectionHandles( )
-	{
-		List list = new ArrayList( );
-		ReportResizableHandleKit.addMoveHandle( (GraphicalEditPart) getHost( ),
-				list );
-		if ( ( this.getResizeDirections( ) & PositionConstants.SOUTH_EAST ) == PositionConstants.SOUTH_EAST )
-			ReportResizableHandleKit.addHandle( (GraphicalEditPart) getHost( ),
-					list,
-					PositionConstants.SOUTH_EAST );
+	protected List createSelectionHandles() {
+		List list = new ArrayList();
+		ReportResizableHandleKit.addMoveHandle((GraphicalEditPart) getHost(), list);
+		if ((this.getResizeDirections() & PositionConstants.SOUTH_EAST) == PositionConstants.SOUTH_EAST)
+			ReportResizableHandleKit.addHandle((GraphicalEditPart) getHost(), list, PositionConstants.SOUTH_EAST);
 
 		return list;
 	}

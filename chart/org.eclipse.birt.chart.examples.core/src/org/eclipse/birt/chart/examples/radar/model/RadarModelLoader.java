@@ -21,13 +21,13 @@ import org.eclipse.emf.ecore.EPackage;
  * @since 2.6
  */
 
-public class RadarModelLoader implements IExtChartModelLoader
-{
-	/* (non-Javadoc)
+public class RadarModelLoader implements IExtChartModelLoader {
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.chart.model.IExtChartModelLoader#getChartTypePackage()
 	 */
-	public EPackage getChartTypePackage( )
-	{
+	public EPackage getChartTypePackage() {
 		return RadarTypePackage.eINSTANCE;
 	}
 }

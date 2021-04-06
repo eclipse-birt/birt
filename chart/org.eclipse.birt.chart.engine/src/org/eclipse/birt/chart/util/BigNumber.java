@@ -18,11 +18,11 @@ import com.ibm.icu.math.BigDecimal;
  * store big decimal in data set.
  * <p>
  * In order to reuse current framework of chart engine to compute axes scale and
- * chart layout/rendering, each big decimal will be represented as [Big Decimal] =
- * [Double value] X [divisor], the BigNumber stores [Double Value] and [divisor]
- * and original big decimal value. All data sets in same axis will have same
- * [divisor], then the [Double value] of each value will be used to compute axis
- * scale and chart layout.
+ * chart layout/rendering, each big decimal will be represented as [Big Decimal]
+ * = [Double value] X [divisor], the BigNumber stores [Double Value] and
+ * [divisor] and original big decimal value. All data sets in same axis will
+ * have same [divisor], then the [Double value] of each value will be used to
+ * compute axis scale and chart layout.
  * <p>
  * But the formatter of axis label and data points still use big decimal as
  * standard reference.
@@ -30,8 +30,7 @@ import com.ibm.icu.math.BigDecimal;
  * @since 2.6
  */
 
-public class BigNumber extends Number implements Comparable
-{
+public class BigNumber extends Number implements Comparable {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>
@@ -49,8 +48,8 @@ public class BigNumber extends Number implements Comparable
 	private BigDecimal divisor;
 
 	/**
-	 * The double part which is used to compute axis scale and chart layout by
-	 * chart engine.
+	 * The double part which is used to compute axis scale and chart layout by chart
+	 * engine.
 	 */
 	private double doublePart;
 
@@ -59,19 +58,17 @@ public class BigNumber extends Number implements Comparable
 	 * 
 	 * @param value
 	 */
-	public BigNumber( String value )
-	{
-		this( new BigDecimal( value ) );
+	public BigNumber(String value) {
+		this(new BigDecimal(value));
 	}
 
 	/**
-	 *  Constructs a raw instance of BigNumber, which is not set divisor.
-	 *  
+	 * Constructs a raw instance of BigNumber, which is not set divisor.
+	 * 
 	 * @param value
 	 */
-	public BigNumber( BigDecimal value )
-	{
-		this( value, null );
+	public BigNumber(BigDecimal value) {
+		this(value, null);
 	}
 
 	/**
@@ -80,12 +77,10 @@ public class BigNumber extends Number implements Comparable
 	 * @param value
 	 * @param divisor
 	 */
-	public BigNumber( BigDecimal value, BigDecimal divisor )
-	{
+	public BigNumber(BigDecimal value, BigDecimal divisor) {
 		this.value = value;
-		if ( divisor != null )
-		{
-			setDivisor( divisor );
+		if (divisor != null) {
+			setDivisor(divisor);
 		}
 	}
 
@@ -94,13 +89,10 @@ public class BigNumber extends Number implements Comparable
 	 * 
 	 * @param divisor
 	 */
-	public void setDivisor( BigDecimal divisor )
-	{
+	public void setDivisor(BigDecimal divisor) {
 		this.divisor = divisor;
-		doublePart = value.divide( divisor, NumberUtil.DEFAULT_MATHCONTEXT )
-				.doubleValue( );
-		if ( Double.isNaN( doublePart ) || Double.isInfinite( doublePart ) )
-		{
+		doublePart = value.divide(divisor, NumberUtil.DEFAULT_MATHCONTEXT).doubleValue();
+		if (Double.isNaN(doublePart) || Double.isInfinite(doublePart)) {
 			doublePart = 0d;
 		}
 	}
@@ -110,8 +102,7 @@ public class BigNumber extends Number implements Comparable
 	 * 
 	 * @return
 	 */
-	public BigDecimal getValue( )
-	{
+	public BigDecimal getValue() {
 		return this.value;
 	}
 
@@ -120,8 +111,7 @@ public class BigNumber extends Number implements Comparable
 	 * 
 	 * @return
 	 */
-	public double getDouble( )
-	{
+	public double getDouble() {
 		return doublePart;
 	}
 
@@ -130,32 +120,27 @@ public class BigNumber extends Number implements Comparable
 	 * 
 	 * @return
 	 */
-	public BigDecimal getDivisor( )
-	{
+	public BigDecimal getDivisor() {
 		return divisor;
 	}
 
 	@Override
-	public int intValue( )
-	{
-		return value.intValue( );
+	public int intValue() {
+		return value.intValue();
 	}
 
 	@Override
-	public long longValue( )
-	{
-		return value.longValue( );
+	public long longValue() {
+		return value.longValue();
 	}
 
 	@Override
-	public float floatValue( )
-	{
-		return value.floatValue( );
+	public float floatValue() {
+		return value.floatValue();
 	}
 
 	@Override
-	public double doubleValue( )
-	{
+	public double doubleValue() {
 		return doublePart;
 	}
 
@@ -164,9 +149,8 @@ public class BigNumber extends Number implements Comparable
 	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo( Object o )
-	{
-		return value.compareTo( ( (BigNumber) o ).getValue( ) );
+	public int compareTo(Object o) {
+		return value.compareTo(((BigNumber) o).getValue());
 	}
 
 	/**
@@ -175,9 +159,8 @@ public class BigNumber extends Number implements Comparable
 	 * @param o
 	 * @return
 	 */
-	public BigNumber min( BigNumber o )
-	{
-		return compareTo( o ) > 0 ? o : this;
+	public BigNumber min(BigNumber o) {
+		return compareTo(o) > 0 ? o : this;
 	}
 
 	/**
@@ -186,9 +169,8 @@ public class BigNumber extends Number implements Comparable
 	 * @param o
 	 * @return
 	 */
-	public BigNumber max( BigNumber o )
-	{
-		return compareTo( o ) < 0 ? o : this;
+	public BigNumber max(BigNumber o) {
+		return compareTo(o) < 0 ? o : this;
 	}
 
 	/**
@@ -197,10 +179,8 @@ public class BigNumber extends Number implements Comparable
 	 * @param num
 	 * @return
 	 */
-	public BigNumber add( BigNumber num )
-	{
-		return new BigNumber( value.add( num.getValue( ),
-				NumberUtil.DEFAULT_MATHCONTEXT ), divisor );
+	public BigNumber add(BigNumber num) {
+		return new BigNumber(value.add(num.getValue(), NumberUtil.DEFAULT_MATHCONTEXT), divisor);
 	}
 
 	/**
@@ -209,17 +189,16 @@ public class BigNumber extends Number implements Comparable
 	 * @param num
 	 * @return
 	 */
-	public BigNumber subtract( BigNumber num )
-	{
-		return new BigNumber( value.subtract( num.getValue( ),
-				NumberUtil.DEFAULT_MATHCONTEXT ), divisor );
+	public BigNumber subtract(BigNumber num) {
+		return new BigNumber(value.subtract(num.getValue(), NumberUtil.DEFAULT_MATHCONTEXT), divisor);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
-		return value.toString( );
+	public String toString() {
+		return value.toString();
 	}
 }

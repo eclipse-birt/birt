@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.util.BaseTestCase;
  *
  */
 
-public class CompatibleIntervalStateTest extends BaseTestCase
-{
+public class CompatibleIntervalStateTest extends BaseTestCase {
 
 	/**
 	 * Test value of interval property in level element.
@@ -30,16 +29,14 @@ public class CompatibleIntervalStateTest extends BaseTestCase
 	 * @throws Exception
 	 */
 
-	public void testIntervalValue( ) throws Exception
-	{
-		openDesign( "CompatibleIntervalState.xml" ); //$NON-NLS-1$
-		CubeHandle cubeHandle = (CubeHandle) designHandle.findCube( "Customer Cube" );//$NON-NLS-1$
-		assertNotNull( cubeHandle );
-		
-		LevelHandle levelHandle = (LevelHandle) designHandle.findLevel( "Group1/OFFICECODE" );//$NON-NLS-1$
-		assertNotNull( levelHandle );
-		
-		assertEquals( DesignChoiceConstants.INTERVAL_TYPE_NONE, levelHandle
-				.getInterval( ) );
+	public void testIntervalValue() throws Exception {
+		openDesign("CompatibleIntervalState.xml"); //$NON-NLS-1$
+		CubeHandle cubeHandle = (CubeHandle) designHandle.findCube("Customer Cube");//$NON-NLS-1$
+		assertNotNull(cubeHandle);
+
+		LevelHandle levelHandle = (LevelHandle) designHandle.findLevel("Group1/OFFICECODE");//$NON-NLS-1$
+		assertNotNull(levelHandle);
+
+		assertEquals(DesignChoiceConstants.INTERVAL_TYPE_NONE, levelHandle.getInterval());
 	}
 }

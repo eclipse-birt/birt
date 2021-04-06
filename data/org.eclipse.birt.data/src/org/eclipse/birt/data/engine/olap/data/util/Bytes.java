@@ -15,75 +15,63 @@ package org.eclipse.birt.data.engine.olap.data.util;
  * 
  */
 
-public class Bytes implements Comparable
-{
+public class Bytes implements Comparable {
 	private byte[] b;
 
-	public Bytes( byte[] b )
-	{
+	public Bytes(byte[] b) {
 		this.b = b;
 	}
-	
+
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
-	public boolean equals( Object o )
-	{
+	public boolean equals(Object o) {
 		Bytes other = (Bytes) o;
-		if ( b.length != other.bytesValue( ).length )
-		{
+		if (b.length != other.bytesValue().length) {
 			return false;
 		}
-		for ( int i = 0; i < b.length; i++ )
-		{
-			if ( b[i] != other.bytesValue( )[i] )
-			{
+		for (int i = 0; i < b.length; i++) {
+			if (b[i] != other.bytesValue()[i]) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	/*
 	 * @see java.lang.Object#hashCode()
 	 */
-	public int hashCode( )
-	{
+	public int hashCode() {
 		int result = 17;
-		for ( int i = 0; i < b.length; i++ )
-		{
+		for (int i = 0; i < b.length; i++) {
 			result = 37 * result + b[i];
 		}
 		return result;
 	}
-		
+
 	/**
 	 * 
 	 * @return
 	 */
-	public byte[] bytesValue( )
-	{
+	public byte[] bytesValue() {
 		return b;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
 	 */
-	public int compareTo( Object o )
-	{
+	public int compareTo(Object o) {
 		Bytes other = (Bytes) o;
-		int minLength = Math.min( b.length, other.bytesValue( ).length );
-		
-		for ( int i = 0; i < minLength; i++ )
-		{
-			if ( b[i] > other.bytesValue( )[i] )
-			{
+		int minLength = Math.min(b.length, other.bytesValue().length);
+
+		for (int i = 0; i < minLength; i++) {
+			if (b[i] > other.bytesValue()[i]) {
 				return 1;
-			}
-			else if ( b[i] < other.bytesValue( )[i] )
-			{
+			} else if (b[i] < other.bytesValue()[i]) {
 				return -1;
 			}
 		}

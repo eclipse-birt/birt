@@ -28,95 +28,68 @@ import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.graphics.Image;
 import org.eclipse.ui.ISharedImages;
 
-public class CrossTabLevelNodeProvider extends DefaultNodeProvider
-{
+public class CrossTabLevelNodeProvider extends DefaultNodeProvider {
 
-	public Object[] getChildren( Object model )
-	{
+	public Object[] getChildren(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
-		try
-		{
-			LevelViewHandle levelView = (LevelViewHandle) element.getReportItem( );
-			if ( levelView != null )
-			{
-				if ( levelView.getAggregationHeader( ) != null
-						&& levelView.getAggregationHeader( ).getModelHandle( ) != null )
-					return new Object[]{
-							levelView.getAggregationHeader( ).getModelHandle( ),
-							levelView.getCell( ).getModelHandle( )
-					};
+		try {
+			LevelViewHandle levelView = (LevelViewHandle) element.getReportItem();
+			if (levelView != null) {
+				if (levelView.getAggregationHeader() != null
+						&& levelView.getAggregationHeader().getModelHandle() != null)
+					return new Object[] { levelView.getAggregationHeader().getModelHandle(),
+							levelView.getCell().getModelHandle() };
 				else
-					return new Object[]{
-						levelView.getCell( ).getModelHandle( )
-					};
+					return new Object[] { levelView.getCell().getModelHandle() };
 			}
 
-		}
-		catch ( ExtendedElementException e )
-		{
+		} catch (ExtendedElementException e) {
 		}
 		return new Object[0];
 	}
-	
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 		// do nothing
-		
+
 	}
 
-	public Object getParent( Object model )
-	{
+	public Object getParent(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
-		try
-		{
-			LevelViewHandle levelView = (LevelViewHandle) element.getReportItem( );
-			if ( levelView.getContainer( ) != null )
-			{
-				DimensionViewHandle dimension = (DimensionViewHandle) levelView.getContainer( );
-				if ( dimension.getContainer( ) != null )
-				{
-					return dimension.getContainer( ).getModelHandle( );
+		try {
+			LevelViewHandle levelView = (LevelViewHandle) element.getReportItem();
+			if (levelView.getContainer() != null) {
+				DimensionViewHandle dimension = (DimensionViewHandle) levelView.getContainer();
+				if (dimension.getContainer() != null) {
+					return dimension.getContainer().getModelHandle();
 				}
 			}
-		}
-		catch ( ExtendedElementException e )
-		{
+		} catch (ExtendedElementException e) {
 		}
 		return null;
 	}
 
-	public boolean hasChildren( Object model )
-	{
-		return getChildren( model ).length != 0;
+	public boolean hasChildren(Object model) {
+		return getChildren(model).length != 0;
 	}
 
-	public String getNodeDisplayName( Object model )
-	{
+	public String getNodeDisplayName(Object model) {
 		ExtendedItemHandle element = (ExtendedItemHandle) model;
-		try
-		{
-			LevelHandle level = ( (LevelViewHandle) element.getReportItem( ) ).getCubeLevel( );
+		try {
+			LevelHandle level = ((LevelViewHandle) element.getReportItem()).getCubeLevel();
 			String levelName = ""; //$NON-NLS-1$
-			if ( level != null )
-				levelName = level.getName( );
-			return Messages.getString( "CrossTabLevelNodeProvider.Level" ) + levelName; //$NON-NLS-1$
+			if (level != null)
+				levelName = level.getName();
+			return Messages.getString("CrossTabLevelNodeProvider.Level") + levelName; //$NON-NLS-1$
+		} catch (ExtendedElementException e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
-		catch ( ExtendedElementException e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
-		}
-		return super.getNodeDisplayName( model );
+		return super.getNodeDisplayName(model);
 	}
 
-	public Image getNodeIcon( Object element )
-	{
-		if ( element instanceof DesignElementHandle
-				&& ( (DesignElementHandle) element ).getSemanticErrors( )
-						.size( ) > 0 )
-		{
-			return ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK );
+	public Image getNodeIcon(Object element) {
+		if (element instanceof DesignElementHandle && ((DesignElementHandle) element).getSemanticErrors().size() > 0) {
+			return ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK);
 		}
-		return CrosstabUIHelper.getImage( CrosstabUIHelper.LEVEL_IMAGE );
+		return CrosstabUIHelper.getImage(CrosstabUIHelper.LEVEL_IMAGE);
 	}
 }

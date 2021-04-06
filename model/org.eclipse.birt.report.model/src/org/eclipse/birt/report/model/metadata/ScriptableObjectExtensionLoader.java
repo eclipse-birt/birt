@@ -22,8 +22,7 @@ import org.eclipse.birt.report.model.api.util.StringUtil;
  * The loader for scriptable object class info extensions.
  */
 
-public class ScriptableObjectExtensionLoader extends ExtensionLoader
-{
+public class ScriptableObjectExtensionLoader extends ExtensionLoader {
 
 	/**
 	 * The name of extension point.
@@ -39,78 +38,60 @@ public class ScriptableObjectExtensionLoader extends ExtensionLoader
 	 * Default constructor
 	 */
 
-	public ScriptableObjectExtensionLoader( )
-	{
-		super( EXTENSION_POINT );
+	public ScriptableObjectExtensionLoader() {
+		super(EXTENSION_POINT);
 	}
 
-	protected void loadExtension( IExtension extension )
-	{
-		IConfigurationElement[] configElements = extension
-				.getConfigurationElements( );
+	protected void loadExtension(IExtension extension) {
+		IConfigurationElement[] configElements = extension.getConfigurationElements();
 
-		ScriptableObjectElementLoader loader = new ScriptableObjectElementLoader( );
+		ScriptableObjectElementLoader loader = new ScriptableObjectElementLoader();
 
 		IConfigurationElement currentTag = configElements[0];
-		if ( ELEMENT_TAG.equals( currentTag.getName( ) ) )
-		{
-			loader.loadElement( currentTag );
+		if (ELEMENT_TAG.equals(currentTag.getName())) {
+			loader.loadElement(currentTag);
 		}
 
 	}
 
-	private class ScriptableObjectElementLoader extends ExtensionElementLoader
-	{
+	private class ScriptableObjectElementLoader extends ExtensionElementLoader {
 
 		/**
 		 * Loads the extension.
 		 * 
-		 * @param elementTag
-		 *            the element tag
+		 * @param elementTag the element tag
 		 */
 
-		public void loadElement( IConfigurationElement elementTag )
-		{
-			String extensionName = elementTag
-					.getAttribute( EXTENSION_NAME_ATTRIB );
-			String className = elementTag.getAttribute( CLASS_ATTRIB );
+		public void loadElement(IConfigurationElement elementTag) {
+			String extensionName = elementTag.getAttribute(EXTENSION_NAME_ATTRIB);
+			String className = elementTag.getAttribute(CLASS_ATTRIB);
 
-			if ( !checkRequiredAttribute( CLASS_ATTRIB, className ) )
+			if (!checkRequiredAttribute(CLASS_ATTRIB, className))
 				return;
 
-			try
-			{
+			try {
 				IScriptableObjectClassInfo factory = (IScriptableObjectClassInfo) elementTag
-						.createExecutableExtension( CLASS_ATTRIB );
+						.createExecutableExtension(CLASS_ATTRIB);
 
-				MetaDataDictionary metaData = MetaDataDictionary.getInstance( );
-				if ( StringUtil.isBlank( extensionName )
-						|| DEFAULT_ROM.equalsIgnoreCase( extensionName ) )
-				{
-					metaData.setScriptableFactory( factory );
+				MetaDataDictionary metaData = MetaDataDictionary.getInstance();
+				if (StringUtil.isBlank(extensionName) || DEFAULT_ROM.equalsIgnoreCase(extensionName)) {
+					metaData.setScriptableFactory(factory);
 					return;
 				}
 
-				IElementDefn elementDefn = metaData
-						.getExtension( extensionName );
-				if ( elementDefn == null
-						|| !( elementDefn instanceof PeerExtensionElementDefn ) )
-				{
-					handleError( new ExtensionException(
-							new String[]{extensionName},
-							ExtensionException.DESIGN_EXCEPTION_INVALID_ELEMENT_TYPE ) );
+				IElementDefn elementDefn = metaData.getExtension(extensionName);
+				if (elementDefn == null || !(elementDefn instanceof PeerExtensionElementDefn)) {
+					handleError(new ExtensionException(new String[] { extensionName },
+							ExtensionException.DESIGN_EXCEPTION_INVALID_ELEMENT_TYPE));
 					return;
 				}
 
 				PeerExtensionElementDefn peerDefn = (PeerExtensionElementDefn) elementDefn;
-				peerDefn.setScriptableFactory( factory );
+				peerDefn.setScriptableFactory(factory);
 
-			}
-			catch ( FrameworkException e )
-			{
-				handleError( new ExtensionException(
-						new String[]{className},
-						ExtensionException.DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE ) );
+			} catch (FrameworkException e) {
+				handleError(new ExtensionException(new String[] { className },
+						ExtensionException.DESIGN_EXCEPTION_FAILED_TO_CREATE_INSTANCE));
 				return;
 			}
 		}

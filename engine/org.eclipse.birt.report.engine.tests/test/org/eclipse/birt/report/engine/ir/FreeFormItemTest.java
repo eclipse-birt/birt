@@ -15,12 +15,10 @@ package org.eclipse.birt.report.engine.ir;
  * Container Object test
  * 
  */
-public class FreeFormItemTest extends ReportItemTestCase
-{
+public class FreeFormItemTest extends ReportItemTestCase {
 
-	public FreeFormItemTest( )
-	{
-		super( new FreeFormItemDesign( ) );
+	public FreeFormItemTest() {
+		super(new FreeFormItemDesign());
 	}
 
 	/**
@@ -30,24 +28,21 @@ public class FreeFormItemTest extends ReportItemTestCase
 	 * 
 	 * then get the items one by one to test if it works correctly
 	 */
-	public void testAddItem( )
-	{
-		FreeFormItemDesign form = new FreeFormItemDesign( );
-		ReportItemSet set = new ReportItemSet( );
+	public void testAddItem() {
+		FreeFormItemDesign form = new FreeFormItemDesign();
+		ReportItemSet set = new ReportItemSet();
 
-		//Add
-		for ( int i = 0; i < set.length; i++ )
-		{
-			form.addItem( set.getItem( i ) );
+		// Add
+		for (int i = 0; i < set.length; i++) {
+			form.addItem(set.getItem(i));
 		}
 
-		//Get
-		assertEquals( form.getItemCount( ), set.length );
-		for ( int i = 0; i < set.length; i++ )
-		{
-			assertEquals( form.getItem( i ), set.getItem( i ) );
+		// Get
+		assertEquals(form.getItemCount(), set.length);
+		for (int i = 0; i < set.length; i++) {
+			assertEquals(form.getItem(i), set.getItem(i));
 		}
-		assertEquals( form.getItems( ), set.getItems( ) );
+		assertEquals(form.getItems(), set.getItems());
 	}
 
 }

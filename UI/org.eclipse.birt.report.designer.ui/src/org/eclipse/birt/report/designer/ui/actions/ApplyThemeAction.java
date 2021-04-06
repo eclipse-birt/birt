@@ -20,62 +20,47 @@ import org.eclipse.birt.report.model.api.CommandStack;
 import org.eclipse.birt.report.model.api.ThemeHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 
-public class ApplyThemeAction extends DynamicItemAction
-{
+public class ApplyThemeAction extends DynamicItemAction {
 
 	private static final String ID = "ApplyTheme"; //$NON-NLS-1$
-	private static final String STACK_MSG_APPLY_STYLE = Messages
-			.getString( "ApplyThemeAction.stackMsg.applyStyle" );//$NON-NLS-1$
+	private static final String STACK_MSG_APPLY_STYLE = Messages.getString("ApplyThemeAction.stackMsg.applyStyle");//$NON-NLS-1$
 	private ThemeHandle handle;
 
-	public ApplyThemeAction( ThemeHandle theme )
-	{
+	public ApplyThemeAction(ThemeHandle theme) {
 		this.handle = theme;
-		setId( ID );
-		if ( handle == null )
-		{
-			setText( Messages.getString( Messages
-					.getString( "ApplyThemeAction.actionLabel.none" ) ) ); //$NON-NLS-1$
-		}
-		else
-		{
-			setText( DEUtil.getEscapedMenuItemText( DEUtil
-					.getDisplayLabel( handle ) ) );
+		setId(ID);
+		if (handle == null) {
+			setText(Messages.getString(Messages.getString("ApplyThemeAction.actionLabel.none"))); //$NON-NLS-1$
+		} else {
+			setText(DEUtil.getEscapedMenuItemText(DEUtil.getDisplayLabel(handle)));
 		}
 	}
 
 	/**
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Apply style rule action >> Run ..." ); //$NON-NLS-1$
+	public void run() {
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Apply style rule action >> Run ..."); //$NON-NLS-1$
 		}
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( STACK_MSG_APPLY_STYLE );
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(STACK_MSG_APPLY_STYLE);
 
-		try
-		{
-			SessionHandleAdapter.getInstance( ).getReportDesignHandle( )
-					.setTheme( handle );
-			stack.commit( );
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollbackAll( );
-			ExceptionHandler.handle( e );
+		try {
+			SessionHandleAdapter.getInstance().getReportDesignHandle().setTheme(handle);
+			stack.commit();
+		} catch (SemanticException e) {
+			stack.rollbackAll();
+			ExceptionHandler.handle(e);
 		}
 	}
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		return true;
 	}
 }

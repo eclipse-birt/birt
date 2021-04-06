@@ -15,8 +15,7 @@ package org.eclipse.birt.integration.wtp.ui.internal.wizards;
  * The constants used for Birt Project Wizard
  * 
  */
-public interface IBirtWizardConstants
-{
+public interface IBirtWizardConstants {
 
 	// image file path
 	public final static String BIRT_PROJECT_WIZBANNER = "icons/create_project_wizbanner.gif"; //$NON-NLS-1$
@@ -51,27 +50,27 @@ public interface IBirtWizardConstants
 	public final static String BIRT_CUBE_MEMORYSIZE_SETTING = "BIRT_VIEWER_CUBE_MEMORY_SIZE"; //$NON-NLS-1$
 	public final static String BIRT_LOG_LEVEL_SETTING = "BIRT_VIEWER_LOG_LEVEL"; //$NON-NLS-1$
 	public final static String BIRT_PRINT_SERVER_SETTING = "BIRT_VIEWER_PRINT_SERVERSIDE"; //$NON-NLS-1$
-	
+
 	// ReportPlugin class
 	public final static String REPORT_PLUGIN_ID = "org.eclipse.birt.report.designer.ui"; //$NON-NLS-1$
 	public final static String REPORT_PLUGIN_CLASS = "org.eclipse.birt.report.designer.ui.ReportPlugin"; //$NON-NLS-1$
-	
+
 	public final static String BLANK_STRING = ""; //$NON-NLS-1$
-	
+
 	// Extension Item
-	public final static String EXT_WEBAPP="webapp"; //$NON-NLS-1$
-	public final static String EXT_CONTEXT_PARAM="context-param"; //$NON-NLS-1$
-	public final static String EXT_FILTER="filter"; //$NON-NLS-1$
-	public final static String EXT_FILTER_MAPPING="filter-mapping"; //$NON-NLS-1$
-	public final static String EXT_LISTENER="listener"; //$NON-NLS-1$
-	public final static String EXT_SERVLET="servlet"; //$NON-NLS-1$
-	public final static String EXT_SERVLET_MAPPING="servlet-mapping";  //$NON-NLS-1$
-	public final static String EXT_TAGLIB="taglib";  //$NON-NLS-1$	
-	
-	public final static String EXT_CONFLICT="conflict"; //$NON-NLS-1$
-	public final static String EXT_FOLDER="folder"; //$NON-NLS-1$
-	public final static String EXT_FILE="file"; //$NON-NLS-1$
-	
+	public final static String EXT_WEBAPP = "webapp"; //$NON-NLS-1$
+	public final static String EXT_CONTEXT_PARAM = "context-param"; //$NON-NLS-1$
+	public final static String EXT_FILTER = "filter"; //$NON-NLS-1$
+	public final static String EXT_FILTER_MAPPING = "filter-mapping"; //$NON-NLS-1$
+	public final static String EXT_LISTENER = "listener"; //$NON-NLS-1$
+	public final static String EXT_SERVLET = "servlet"; //$NON-NLS-1$
+	public final static String EXT_SERVLET_MAPPING = "servlet-mapping"; //$NON-NLS-1$
+	public final static String EXT_TAGLIB = "taglib"; //$NON-NLS-1$
+
+	public final static String EXT_CONFLICT = "conflict"; //$NON-NLS-1$
+	public final static String EXT_FOLDER = "folder"; //$NON-NLS-1$
+	public final static String EXT_FILE = "file"; //$NON-NLS-1$
+
 	// Attribute for Extension Item
 	public final static String EXTATTR_DESCRIPTION = "description"; //$NON-NLS-1$
 }

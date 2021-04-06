@@ -28,25 +28,19 @@ import org.eclipse.birt.report.model.elements.interfaces.ITextItemModel;
  * @see org.eclipse.birt.report.model.elements.TextDataItem
  */
 
-public class TextDataHandle extends ReportItemHandle
-		implements
-			ITextDataItemModel
-{
+public class TextDataHandle extends ReportItemHandle implements ITextDataItemModel {
 
 	/**
-	 * Constructs the handle with the report design and the element it holds.
-	 * The application generally does not create handles directly. Instead, it
-	 * uses one of the navigation methods available on other element handles.
+	 * Constructs the handle with the report design and the element it holds. The
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public TextDataHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public TextDataHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
@@ -56,40 +50,36 @@ public class TextDataHandle extends ReportItemHandle
 	 * @return the value expression
 	 */
 
-	public String getValueExpr( )
-	{
-		return getStringProperty( ITextDataItemModel.VALUE_EXPR_PROP );
+	public String getValueExpr() {
+		return getStringProperty(ITextDataItemModel.VALUE_EXPR_PROP);
 	}
 
 	/**
 	 * Sets the expression that gives the text that this multi-line data item
 	 * displays.
 	 * 
-	 * @param expr
-	 *            the new expression for the value expression
-	 * @throws SemanticException
-	 *             if the expression contains errors, or the property is locked.
+	 * @param expr the new expression for the value expression
+	 * @throws SemanticException if the expression contains errors, or the property
+	 *                           is locked.
 	 */
 
-	public void setValueExpr( String expr ) throws SemanticException
-	{
-		setProperty( ITextDataItemModel.VALUE_EXPR_PROP, expr );
+	public void setValueExpr(String expr) throws SemanticException {
+		setProperty(ITextDataItemModel.VALUE_EXPR_PROP, expr);
 	}
 
 	/**
-	 * Returns the expression that that defines the type of text the multi-line
-	 * data item holds. The content type can be one of Auto (default); Plain:
-	 * Plain text; HTML: HTML format; RTF: Rich Text Format; Expression: an
-	 * expression that returns one of the above strings.
+	 * Returns the expression that that defines the type of text the multi-line data
+	 * item holds. The content type can be one of Auto (default); Plain: Plain text;
+	 * HTML: HTML format; RTF: Rich Text Format; Expression: an expression that
+	 * returns one of the above strings.
 	 * 
 	 * @return the expression for the text type
 	 * 
 	 * @deprecated by the method {@link #getContentType()}
 	 */
 
-	public String getContentTypeExpr( )
-	{
-		return getStringProperty( ITextDataItemModel.CONTENT_TYPE_PROP );
+	public String getContentTypeExpr() {
+		return getStringProperty(ITextDataItemModel.CONTENT_TYPE_PROP);
 	}
 
 	/**
@@ -98,40 +88,36 @@ public class TextDataHandle extends ReportItemHandle
 	 * HTML: HTML format; RTF: Rich Text Format; Expression: an expression that
 	 * returns one of the above strings.
 	 * 
-	 * @param expr
-	 *            the new expression for the text type
-	 * @throws SemanticException
-	 *             if the expression contains errors, or the property is locked.
+	 * @param expr the new expression for the text type
+	 * @throws SemanticException if the expression contains errors, or the property
+	 *                           is locked.
 	 * 
 	 * @deprecated by the method {@link #setContentType(String)}
 	 */
 
-	public void setContentTypeExpr( String expr ) throws SemanticException
-	{
-		setProperty( ITextDataItemModel.CONTENT_TYPE_PROP, expr );
+	public void setContentTypeExpr(String expr) throws SemanticException {
+		setProperty(ITextDataItemModel.CONTENT_TYPE_PROP, expr);
 	}
 
 	/**
-	 * Returns the expression that that defines the type of text the multi-line
-	 * data item holds. The content type can be one of:
+	 * Returns the expression that that defines the type of text the multi-line data
+	 * item holds. The content type can be one of:
 	 * 
 	 * <ul>
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO</code>
-	 * (default)
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>:
-	 * Plain text;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO</code> (default)
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>: Plain
+	 * text;
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_HTML</code>: HTML
 	 * format;
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>: Rich
-	 * Text format;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>: Rich Text
+	 * format;
 	 * </ul>
 	 * 
 	 * @return the text type
 	 */
 
-	public String getContentType( )
-	{
-		return getStringProperty( ITextDataItemModel.CONTENT_TYPE_PROP );
+	public String getContentType() {
+		return getStringProperty(ITextDataItemModel.CONTENT_TYPE_PROP);
 	}
 
 	/**
@@ -139,26 +125,22 @@ public class TextDataHandle extends ReportItemHandle
 	 * holds. The content type can be one of
 	 * 
 	 * <ul>
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO</code>
-	 * (default)
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>:
-	 * Plain text;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_AUTO</code> (default)
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_PLAIN</code>: Plain
+	 * text;
 	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_HTML</code>: HTML
 	 * format;
-	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>: Rich
-	 * Text format;
+	 * <li><code>DesignChoiceConstants.TEXT_DATA_CONTENT_TYPE_RTF</code>: Rich Text
+	 * format;
 	 * </ul>
 	 * 
-	 * @param contentType
-	 *            the new text type
-	 * @throws SemanticException
-	 *             if the property is locked or the <code>contentType</code> is
-	 *             not one of the above.
+	 * @param contentType the new text type
+	 * @throws SemanticException if the property is locked or the
+	 *                           <code>contentType</code> is not one of the above.
 	 */
 
-	public void setContentType( String contentType ) throws SemanticException
-	{
-		setProperty( ITextDataItemModel.CONTENT_TYPE_PROP, contentType );
+	public void setContentType(String contentType) throws SemanticException {
+		setProperty(ITextDataItemModel.CONTENT_TYPE_PROP, contentType);
 	}
 
 	/**
@@ -168,48 +150,41 @@ public class TextDataHandle extends ReportItemHandle
 	 * 
 	 * @return true if there is expression in the text content, otherwise false
 	 */
-	public boolean hasExpression( )
-	{
-		return getBooleanProperty( HAS_EXPRESSION_PROP );
+	public boolean hasExpression() {
+		return getBooleanProperty(HAS_EXPRESSION_PROP);
 	}
 
 	/**
-	 * Sets the status whether there is expression need to be evaluated in the
-	 * text content of this text data handle.
+	 * Sets the status whether there is expression need to be evaluated in the text
+	 * content of this text data handle.
 	 * 
-	 * @param hasExpression
-	 *            true if there is expression in the text content, otherwise
-	 *            false
+	 * @param hasExpression true if there is expression in the text content,
+	 *                      otherwise false
 	 * @throws SemanticException
 	 */
-	public void setHasExpression( boolean hasExpression )
-			throws SemanticException
-	{
-		setBooleanProperty( HAS_EXPRESSION_PROP, hasExpression );
+	public void setHasExpression(boolean hasExpression) throws SemanticException {
+		setBooleanProperty(HAS_EXPRESSION_PROP, hasExpression);
 	}
 
-    /**
-     * set if jTidy need to be used to validate the HTML content.
-     * 
-     * If jTidy is set to false, the HTML content is used directly without any
-     * validation. The user needs ensure the content is well formed.
-     * 
-     * @param useJTidy
-     *            true, use jTidy to validate the content.
-     * @throws SemanticException
-     */
-    public void setJTidy( boolean useJTidy ) throws SemanticException
-    {
-        setBooleanProperty( ITextItemModel.JTIDY_PROP, useJTidy );
-    }
+	/**
+	 * set if jTidy need to be used to validate the HTML content.
+	 * 
+	 * If jTidy is set to false, the HTML content is used directly without any
+	 * validation. The user needs ensure the content is well formed.
+	 * 
+	 * @param useJTidy true, use jTidy to validate the content.
+	 * @throws SemanticException
+	 */
+	public void setJTidy(boolean useJTidy) throws SemanticException {
+		setBooleanProperty(ITextItemModel.JTIDY_PROP, useJTidy);
+	}
 
-    /**
-     * return if jTIdy is used to validate the HTML content.
-     * 
-     * @return true, jTidy is used to validate the content.
-     */
-    public boolean isJTidy( )
-    {
-        return getBooleanProperty( ITextItemModel.JTIDY_PROP );
-    }
+	/**
+	 * return if jTIdy is used to validate the HTML content.
+	 * 
+	 * @return true, jTidy is used to validate the content.
+	 */
+	public boolean isJTidy() {
+		return getBooleanProperty(ITextItemModel.JTIDY_PROP);
+	}
 }

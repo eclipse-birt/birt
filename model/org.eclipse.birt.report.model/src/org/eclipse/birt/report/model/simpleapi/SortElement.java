@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.elements.interfaces.ISortElementModel;
  * 
  */
 
-public class SortElement extends DesignElement implements ISortElement
-{
+public class SortElement extends DesignElement implements ISortElement {
 
 	/**
 	 * Default constructor.
@@ -29,21 +28,18 @@ public class SortElement extends DesignElement implements ISortElement
 	 * @param handle
 	 */
 
-	public SortElement( SortElementHandle handle )
-	{
-		super( handle );
+	public SortElement(SortElementHandle handle) {
+		super(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.ISortElement#getDirection()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ISortElement#getDirection()
 	 */
 
-	public String getDirection( )
-	{
-		return ( (SortElementHandle) handle ).getDirection( );
+	public String getDirection() {
+		return ((SortElementHandle) handle).getDirection();
 	}
 
 	/*
@@ -51,35 +47,30 @@ public class SortElement extends DesignElement implements ISortElement
 	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.ISortElement#getKey()
 	 */
-	public String getKey( )
-	{
-		return ( (SortElementHandle) handle ).getKey( );
+	public String getKey() {
+		return ((SortElementHandle) handle).getKey();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.ISortElement#setDirection
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ISortElement#setDirection
 	 * (java.lang.String)
 	 */
 
-	public void setDirection( String direction ) throws SemanticException
-	{
-		setProperty( ISortElementModel.DIRECTION_PROP, direction );
+	public void setDirection(String direction) throws SemanticException {
+		setProperty(ISortElementModel.DIRECTION_PROP, direction);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.ISortElement#setKey(java.
+	 * @see org.eclipse.birt.report.model.api.simpleapi.ISortElement#setKey(java.
 	 * lang.String)
 	 */
 
-	public void setKey( String key ) throws SemanticException
-	{
-		setProperty( ISortElementModel.KEY_PROP, key );
+	public void setKey(String key) throws SemanticException {
+		setProperty(ISortElementModel.KEY_PROP, key);
 	}
 
 }

@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.internal.document;
 
-public interface IPageHintConstant
-{
+public interface IPageHintConstant {
 
 	/**
 	 * version used before 2.0
@@ -27,7 +26,7 @@ public interface IPageHintConstant
 	 * this is the version used by 2.1.3 and 2.2RC0 release.
 	 */
 	static final int VERSION_2 = 2;
-	
+
 	/**
 	 * this is the version used by 2.2RC2 release.
 	 */
@@ -36,17 +35,17 @@ public interface IPageHintConstant
 	 * this is the version used by 2.3M4 release.
 	 */
 	static final int VERSION_4 = 4;
-	
+
 	/**
 	 * this is the version used by 2.3M6 release.
 	 */
 	static final int VERSION_5 = 5;
-	
+
 	/**
 	 * this is the version used by fixed layout.
 	 */
 	static final int VERSION_FIXED_LAYOUT = 6;
-	
+
 	/**
 	 * used after 2.5.0RC1 release, add page variable support
 	 */

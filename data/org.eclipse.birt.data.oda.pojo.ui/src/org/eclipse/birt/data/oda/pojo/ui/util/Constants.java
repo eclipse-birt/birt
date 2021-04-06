@@ -15,10 +15,10 @@ package org.eclipse.birt.data.oda.pojo.ui.util;
  * 
  */
 
-public class Constants
-{
-	private Constants( ){}
-	
+public class Constants {
+	private Constants() {
+	}
+
 	public static final char METHOD_OR_FIELD_SEPARATOR = '#';
 	public static final char METHOD_PARAM_SEPARATOR = ',';
 	public static final char CONSTANT_PARAM_VALUE_QUOTE = '"';
@@ -26,6 +26,6 @@ public class Constants
 	public static final char PARAM_TYPE_SEPARATOR = ':';
 
 	public static final String RESOURCE_FILE_DIR = "ResourceFileDIR"; //$NON-NLS-1$
-	
+
 	public static final String DISPLAY_NONE_VALUE = "N/A"; //$NON-NLS-1$
 }

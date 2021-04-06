@@ -21,42 +21,38 @@ import org.eclipse.birt.report.model.elements.ElementVisitor;
  * This class represents a Hierarchy element. Hierarchy contains list of Level
  * elements. It also can define its own dataset which can join with the outer
  * dataset defined on the cube by the foreign key defined on dimension. Use the
- * {@link org.eclipse.birt.report.model.api.olap.HierarchyHandle}class to
- * change the properties.
+ * {@link org.eclipse.birt.report.model.api.olap.HierarchyHandle}class to change
+ * the properties.
  * 
  */
 
-public class OdaHierarchy extends Hierarchy
-{
+public class OdaHierarchy extends Hierarchy {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public OdaHierarchy( )
-	{
+	public OdaHierarchy() {
 	}
 
 	/**
 	 * Constructs the hierarchy with a name.
 	 * 
-	 * @param name
-	 *            name of the hierarchy element
+	 * @param name name of the hierarchy element
 	 */
 
-	public OdaHierarchy( String name )
-	{
-		super( name );
+	public OdaHierarchy(String name) {
+		super(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitOdaHierarchy( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitOdaHierarchy(this);
 	}
 
 	/*
@@ -64,38 +60,34 @@ public class OdaHierarchy extends Hierarchy
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.ODA_HIERARCHY_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the module of the hierarchy
+	 * @param module the module of the hierarchy
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public OdaHierarchyHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new OdaHierarchyHandle( module, this );
+	public OdaHierarchyHandle handle(Module module) {
+		if (handle == null) {
+			handle = new OdaHierarchyHandle(module, this);
 		}
 		return (OdaHierarchyHandle) handle;
 	}
-	
-	
+
 }

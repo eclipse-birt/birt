@@ -21,49 +21,39 @@ import org.eclipse.birt.data.engine.odi.IResultIterator;
  * of report document based on original data set or in the later time based on
  * result set.
  */
-public interface IRDSave
-{
-	
+public interface IRDSave {
+
 	/**
-	 * @param currIndex,
-	 *            index of current row
-	 * @param valueMap,
-	 *            expression value of current row
+	 * @param currIndex, index of current row
+	 * @param valueMap,  expression value of current row
 	 * @throws DataException
 	 */
-	public void saveExprValue( int currIndex, Map valueMap )
-			throws DataException;
+	public void saveExprValue(int currIndex, Map valueMap) throws DataException;
 
 	/**
 	 * Notify save needs to be finished
 	 * 
-	 * @param currIndex,
-	 *            index of current row
+	 * @param currIndex, index of current row
 	 * @throws DataException
 	 */
-	public void saveFinish( int currIndex ) throws DataException;
+	public void saveFinish(int currIndex) throws DataException;
 
 	/**
 	 * Save below information into report document: result class, group level
 	 * information and subquery information
 	 * 
-	 * @param odiResult,
-	 *            associated ODI result set
-	 * @param groupLevel,
-	 *            group level of current sub query
-	 * @param subQueryInfo,
-	 *            row index information of current sub querys
+	 * @param odiResult,    associated ODI result set
+	 * @param groupLevel,   group level of current sub query
+	 * @param subQueryInfo, row index information of current sub querys
 	 * @throws DataException
 	 */
-	public void saveResultIterator( IResultIterator odiResult, int groupLevel,
-			int[] subQueryInfo ) throws DataException;
-	
+	public void saveResultIterator(IResultIterator odiResult, int groupLevel, int[] subQueryInfo) throws DataException;
+
 	/**
 	 * Save QueryDefinition to report design.
 	 * 
 	 * @throws DataException
 	 */
-	public void saveStart( ) throws DataException;
-	
+	public void saveStart() throws DataException;
 
 }

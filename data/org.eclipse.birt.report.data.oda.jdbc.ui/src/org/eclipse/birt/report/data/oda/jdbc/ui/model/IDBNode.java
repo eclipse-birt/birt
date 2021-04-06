@@ -12,31 +12,27 @@ package org.eclipse.birt.report.data.oda.jdbc.ui.model;
 
 import org.eclipse.swt.graphics.Image;
 
-public interface IDBNode
-{
+public interface IDBNode {
 	/**
 	 * @return display name of node in the DB available items tree
 	 */
-	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
-	String getDisplayName( String metadataBidiFormatStr );
-	
+	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
+	// (if required)
+	String getDisplayName(String metadataBidiFormatStr);
 
 	/**
-	 * @param useIdentifierQuoteString: whether use identifier quote string when populating qualified name
+	 * @param useIdentifierQuoteString: whether use identifier quote string when
+	 *                                  populating qualified name
 	 * @return the full qualified name in a SQL text.
-	 *         <p>null if it can't be a part of SQL text.
+	 *         <p>
+	 *         null if it can't be a part of SQL text.
 	 */
-	//bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations (if required)
-	String getQualifiedNameInSQL( boolean useIdentifierQuoteString,
-			boolean includeSchema,
-			String metadataBidiFormatStr );
-	
+	// bidi_hcg: add metadataBidiFormatStr parameter to allow Bidi transformations
+	// (if required)
+	String getQualifiedNameInSQL(boolean useIdentifierQuoteString, boolean includeSchema, String metadataBidiFormatStr);
+
 	/**
 	 * @return image of node in the DB available items tree
 	 */
-	Image getImage( );
+	Image getImage();
 }
-
-
-
-

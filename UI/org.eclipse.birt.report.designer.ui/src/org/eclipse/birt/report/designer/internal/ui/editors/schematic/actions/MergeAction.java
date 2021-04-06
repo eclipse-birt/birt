@@ -20,10 +20,9 @@ import org.eclipse.ui.IWorkbenchPart;
 /**
  * Merges cells action
  */
-public class MergeAction extends ContextSelectionAction
-{
+public class MergeAction extends ContextSelectionAction {
 
-	private static final String ACTION_MSG_MERGE = Messages.getString( "MergeAction.actionMsg.merge" ); //$NON-NLS-1$
+	private static final String ACTION_MSG_MERGE = Messages.getString("MergeAction.actionMsg.merge"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.Merge"; //$NON-NLS-1$
@@ -31,14 +30,12 @@ public class MergeAction extends ContextSelectionAction
 	/**
 	 * Constructs new instance.
 	 * 
-	 * @param part
-	 *            current work bench part
+	 * @param part current work bench part
 	 */
-	public MergeAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( ACTION_MSG_MERGE );
+	public MergeAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(ACTION_MSG_MERGE);
 	}
 
 	/*
@@ -46,12 +43,9 @@ public class MergeAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.WorkbenchPartAction#calculateEnabled()
 	 */
-	protected boolean calculateEnabled( )
-	{
-		if ( getRowHandles( ).isEmpty( ) && getColumnHandles( ).isEmpty( ) )
-		{
-			return getTableEditPart( ) != null
-					&& getTableEditPart( ).canMerge( );
+	protected boolean calculateEnabled() {
+		if (getRowHandles().isEmpty() && getColumnHandles().isEmpty()) {
+			return getTableEditPart() != null && getTableEditPart().canMerge();
 		}
 		return false;
 	}
@@ -61,8 +55,7 @@ public class MergeAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.jface.action.IAction#run()
 	 */
-	public void run( )
-	{
+	public void run() {
 //		if ( Policy.TRACING_ACTIONS )
 //		{
 //			System.out.println( "Merge action >> Run ..." ); //$NON-NLS-1$
@@ -72,14 +65,11 @@ public class MergeAction extends ContextSelectionAction
 //		{
 //			part.merge( );
 //		}
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.mergeCommand", null ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.mergeCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 }

@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.ooxml.constants;
 
-public class ContentTypes
-{
+public class ContentTypes {
 
 	public static final String CORE = "application/vnd.openxmlformats-package.core-properties+xml";
 	public static final String PRESENTATIONML = "application/vnd.openxmlformats-officedocument.presentationml.presentation.main+xml";

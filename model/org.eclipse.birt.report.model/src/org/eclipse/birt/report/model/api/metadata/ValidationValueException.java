@@ -17,15 +17,14 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * Indicates an invalid validation value.
  */
 
-public class ValidationValueException extends PropertyValueException
-{
+public class ValidationValueException extends PropertyValueException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
 	 */
-	
+
 	private static final long serialVersionUID = -5090192631774412136L;
-	
+
 	/**
 	 * The name of the data type being validated.
 	 */
@@ -33,21 +32,16 @@ public class ValidationValueException extends PropertyValueException
 	protected String dataType = null;
 
 	/**
-	 * Constructs an exception given an invalid value, error code and the
-	 * property type constants.
+	 * Constructs an exception given an invalid value, error code and the property
+	 * type constants.
 	 * 
-	 * @param value
-	 *            The invalid value.
-	 * @param errCode
-	 *            description of the problem
-	 * @param dataType
-	 *            the parameter data type
+	 * @param value    The invalid value.
+	 * @param errCode  description of the problem
+	 * @param dataType the parameter data type
 	 */
 
-	public ValidationValueException( Object value, String errCode,
-			String dataType )
-	{
-		super( value, errCode );
+	public ValidationValueException(Object value, String errCode, String dataType) {
+		super(value, errCode);
 		this.invalidValue = value;
 		this.dataType = dataType;
 	}
@@ -58,18 +52,15 @@ public class ValidationValueException extends PropertyValueException
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
+	public String getLocalizedMessage() {
 		String value = ""; //$NON-NLS-1$
 
-		if ( invalidValue != null )
-			value = invalidValue.toString( ); 
+		if (invalidValue != null)
+			value = invalidValue.toString();
 
-		if ( sResourceKey == DESIGN_EXCEPTION_INVALID_VALUE )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{value,
-					this.dataType} );
+		if (sResourceKey == DESIGN_EXCEPTION_INVALID_VALUE) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { value, this.dataType });
 		}
-		return ModelMessages.getMessage( sResourceKey );
+		return ModelMessages.getMessage(sResourceKey);
 	}
 }

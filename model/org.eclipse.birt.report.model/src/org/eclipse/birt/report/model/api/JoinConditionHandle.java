@@ -72,34 +72,28 @@ import org.eclipse.birt.report.model.metadata.ElementRefValue;
  * 
  */
 
-public class JoinConditionHandle extends StructureHandle
-{
+public class JoinConditionHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of join condition.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for join condition list of one property
-	 * @param index
-	 *            the position of this join condition in the list
+	 * @param valueHandle the value handle for join condition list of one property
+	 * @param index       the position of this join condition in the list
 	 */
 
-	public JoinConditionHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public JoinConditionHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
 	 * Sets the join type value of this condition.
 	 * 
-	 * @param type
-	 *            the join type to set
+	 * @param type the join type to set
 	 * @throws SemanticException
 	 */
 
-	public void setJoinType( String type ) throws SemanticException
-	{
-		setProperty( JoinCondition.JOIN_TYPE_MEMBER, type );
+	public void setJoinType(String type) throws SemanticException {
+		setProperty(JoinCondition.JOIN_TYPE_MEMBER, type);
 	}
 
 	/**
@@ -108,22 +102,19 @@ public class JoinConditionHandle extends StructureHandle
 	 * @return the join type value
 	 */
 
-	public String getJoinType( )
-	{
-		return getStringProperty( JoinCondition.JOIN_TYPE_MEMBER );
+	public String getJoinType() {
+		return getStringProperty(JoinCondition.JOIN_TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the operator value of this condition.
 	 * 
-	 * @param operator
-	 *            the operator to set
+	 * @param operator the operator to set
 	 * @throws SemanticException
 	 */
 
-	public void setOperator( String operator ) throws SemanticException
-	{
-		setProperty( JoinCondition.JOIN_OPERATOR_MEMBER, operator );
+	public void setOperator(String operator) throws SemanticException {
+		setProperty(JoinCondition.JOIN_OPERATOR_MEMBER, operator);
 	}
 
 	/**
@@ -132,21 +123,18 @@ public class JoinConditionHandle extends StructureHandle
 	 * @return the operator value
 	 */
 
-	public String getOperator( )
-	{
-		return getStringProperty( JoinCondition.JOIN_OPERATOR_MEMBER );
+	public String getOperator() {
+		return getStringProperty(JoinCondition.JOIN_OPERATOR_MEMBER);
 	}
 
 	/**
 	 * Sets the left data set value of this condition.
 	 * 
-	 * @param leftDataset
-	 *            the left data set to set
+	 * @param leftDataset the left data set to set
 	 */
 
-	public void setLeftDataSet( String leftDataset )
-	{
-		setPropertySilently( JoinCondition.LEFT_DATASET_MEMBER, leftDataset );
+	public void setLeftDataSet(String leftDataset) {
+		setPropertySilently(JoinCondition.LEFT_DATASET_MEMBER, leftDataset);
 	}
 
 	/**
@@ -155,21 +143,18 @@ public class JoinConditionHandle extends StructureHandle
 	 * @return the left data set value
 	 */
 
-	public String getLeftDataSet( )
-	{
-		return getStringProperty( JoinCondition.LEFT_DATASET_MEMBER );
+	public String getLeftDataSet() {
+		return getStringProperty(JoinCondition.LEFT_DATASET_MEMBER);
 	}
 
 	/**
 	 * Sets the right data set value of this condition.
 	 * 
-	 * @param rightDataset
-	 *            the right data set to set
+	 * @param rightDataset the right data set to set
 	 */
 
-	public void setRightDataSet( String rightDataset )
-	{
-		setPropertySilently( JoinCondition.RIGHT_DATASET_MEMBER, rightDataset );
+	public void setRightDataSet(String rightDataset) {
+		setPropertySilently(JoinCondition.RIGHT_DATASET_MEMBER, rightDataset);
 	}
 
 	/**
@@ -178,22 +163,18 @@ public class JoinConditionHandle extends StructureHandle
 	 * @return the right data set value
 	 */
 
-	public String getRightDataSet( )
-	{
-		return getStringProperty( JoinCondition.RIGHT_DATASET_MEMBER );
+	public String getRightDataSet() {
+		return getStringProperty(JoinCondition.RIGHT_DATASET_MEMBER);
 	}
 
 	/**
 	 * Sets the left expression value of this condition.
 	 * 
-	 * @param leftExpression
-	 *            the left expression to set
+	 * @param leftExpression the left expression to set
 	 */
 
-	public void setLeftExpression( String leftExpression )
-	{
-		setPropertySilently( JoinCondition.LEFT_EXPRESSION_MEMBER,
-				leftExpression );
+	public void setLeftExpression(String leftExpression) {
+		setPropertySilently(JoinCondition.LEFT_EXPRESSION_MEMBER, leftExpression);
 	}
 
 	/**
@@ -202,22 +183,18 @@ public class JoinConditionHandle extends StructureHandle
 	 * @return the left expression value
 	 */
 
-	public String getLeftExpression( )
-	{
-		return getStringProperty( JoinCondition.LEFT_EXPRESSION_MEMBER );
+	public String getLeftExpression() {
+		return getStringProperty(JoinCondition.LEFT_EXPRESSION_MEMBER);
 	}
 
 	/**
 	 * Sets the right expression value of this condition.
 	 * 
-	 * @param rightExpression
-	 *            the right expression to set
+	 * @param rightExpression the right expression to set
 	 */
 
-	public void setRightExpression( String rightExpression )
-	{
-		setPropertySilently( JoinCondition.RIGHT_EXPRESSION_MEMBER,
-				rightExpression );
+	public void setRightExpression(String rightExpression) {
+		setPropertySilently(JoinCondition.RIGHT_EXPRESSION_MEMBER, rightExpression);
 	}
 
 	/**
@@ -226,81 +203,68 @@ public class JoinConditionHandle extends StructureHandle
 	 * @return the right expression value
 	 */
 
-	public String getRightExpression( )
-	{
-		return getStringProperty( JoinCondition.RIGHT_EXPRESSION_MEMBER );
+	public String getRightExpression() {
+		return getStringProperty(JoinCondition.RIGHT_EXPRESSION_MEMBER);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.StructureHandle#getProperty(java.lang
+	 * @see org.eclipse.birt.report.model.api.StructureHandle#getProperty(java.lang
 	 * .String)
 	 */
 
-	public Object getProperty( String memberName )
-	{
-		if ( !JoinCondition.LEFT_DATASET_MEMBER.equals( memberName )
-				&& !JoinCondition.RIGHT_DATASET_MEMBER.equals( memberName ) )
-			return super.getProperty( memberName );
+	public Object getProperty(String memberName) {
+		if (!JoinCondition.LEFT_DATASET_MEMBER.equals(memberName)
+				&& !JoinCondition.RIGHT_DATASET_MEMBER.equals(memberName))
+			return super.getProperty(memberName);
 
-		return getPrefixStringProperty( memberName );
+		return getPrefixStringProperty(memberName);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.StructureHandle#getStringProperty(java
+	 * @see org.eclipse.birt.report.model.api.StructureHandle#getStringProperty(java
 	 * .lang.String)
 	 */
 
-	protected String getStringProperty( String memberName )
-	{
-		return getPrefixStringProperty( memberName );
+	protected String getStringProperty(String memberName) {
+		return getPrefixStringProperty(memberName);
 	}
 
 	/**
 	 * Returns the property value where a library name space is required.
 	 * 
-	 * @param memberName
-	 *            the structure name
+	 * @param memberName the structure name
 	 * @return the property value. If this value is not defined in the current
 	 *         module, the library namespace is added.
 	 */
 
-	private String getPrefixStringProperty( String memberName )
-	{
-		if ( !JoinCondition.LEFT_DATASET_MEMBER.equalsIgnoreCase( memberName )
-				&& !JoinCondition.RIGHT_DATASET_MEMBER
-						.equalsIgnoreCase( memberName ) )
-			return super.getStringProperty( memberName );
+	private String getPrefixStringProperty(String memberName) {
+		if (!JoinCondition.LEFT_DATASET_MEMBER.equalsIgnoreCase(memberName)
+				&& !JoinCondition.RIGHT_DATASET_MEMBER.equalsIgnoreCase(memberName))
+			return super.getStringProperty(memberName);
 
-		String dataSetName = super.getStringProperty( memberName );
-		if ( StringUtil.isBlank( dataSetName ) )
+		String dataSetName = super.getStringProperty(memberName);
+		if (StringUtil.isBlank(dataSetName))
 			return dataSetName;
 
-		List dataSetRefs = elementHandle.getElement( ).getListProperty(
-				getModule( ), IJointDataSetModel.DATA_SETS_PROP );
-		if ( dataSetRefs == null || dataSetRefs.isEmpty( ) )
+		List dataSetRefs = elementHandle.getElement().getListProperty(getModule(), IJointDataSetModel.DATA_SETS_PROP);
+		if (dataSetRefs == null || dataSetRefs.isEmpty())
 			return dataSetName;
 
 		Module tmpRoot = null;
-		for ( int j = 0; j < dataSetRefs.size( ); j++ )
-		{
-			ElementRefValue tmpRefValue = (ElementRefValue) dataSetRefs.get( j );
-			if ( tmpRefValue.getName( ).equalsIgnoreCase( dataSetName )
-					&& tmpRefValue.getElement( ) != null )
-			{
-				tmpRoot = tmpRefValue.getElement( ).getRoot( );
+		for (int j = 0; j < dataSetRefs.size(); j++) {
+			ElementRefValue tmpRefValue = (ElementRefValue) dataSetRefs.get(j);
+			if (tmpRefValue.getName().equalsIgnoreCase(dataSetName) && tmpRefValue.getElement() != null) {
+				tmpRoot = tmpRefValue.getElement().getRoot();
 				break;
 			}
 		}
 
-		if ( tmpRoot instanceof Library )
-			return StringUtil.buildQualifiedReference( ( (Library) tmpRoot )
-					.getNamespace( ), dataSetName );
+		if (tmpRoot instanceof Library)
+			return StringUtil.buildQualifiedReference(((Library) tmpRoot).getNamespace(), dataSetName);
 
 		return dataSetName;
 	}

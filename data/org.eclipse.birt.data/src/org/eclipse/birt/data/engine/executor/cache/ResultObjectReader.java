@@ -22,8 +22,7 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * Used to read result object from input stream
  */
-public class ResultObjectReader
-{
+public class ResultObjectReader {
 	private ResultObjectUtil roUtil;
 	private InputStream intputStream;
 
@@ -37,20 +36,19 @@ public class ResultObjectReader
 	 * @param dataCount
 	 * @return
 	 */
-	static ResultObjectReader newInstance( IResultClass rsMetaData,
-			InputStream intputStream, int dataCount, DataEngineSession session )
-	{
+	static ResultObjectReader newInstance(IResultClass rsMetaData, InputStream intputStream, int dataCount,
+			DataEngineSession session) {
 		assert rsMetaData != null;
 		assert intputStream != null;
 		assert dataCount >= 0;
 
-		ResultObjectReader roReader = new ResultObjectReader( );
+		ResultObjectReader roReader = new ResultObjectReader();
 
 		roReader.intputStream = intputStream;
-		roReader.roUtil = ResultObjectUtil.newInstance( rsMetaData, session );
+		roReader.roUtil = ResultObjectUtil.newInstance(rsMetaData, session);
 		roReader.dataCount = dataCount;
 		roReader.curIndex = 0;
-		roReader.loader = session.getEngineContext( ).getClassLoader( );
+		roReader.loader = session.getEngineContext().getClassLoader();
 
 		return roReader;
 	}
@@ -58,26 +56,20 @@ public class ResultObjectReader
 	/**
 	 * Construction, private
 	 */
-	private ResultObjectReader( )
-	{
+	private ResultObjectReader() {
 	}
 
 	/**
 	 * @return fetched ResultObject
 	 * @throws IOException
 	 */
-	public IResultObject fetch( ) throws DataException
-	{
-		if ( curIndex < dataCount )
-		{
-			try
-			{
+	public IResultObject fetch() throws DataException {
+		if (curIndex < dataCount) {
+			try {
 				curIndex++;
-				return roUtil.readData( intputStream, this.loader, 1 )[0];
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( "loader error", e );
+				return roUtil.readData(intputStream, this.loader, 1)[0];
+			} catch (IOException e) {
+				throw new DataException("loader error", e);
 			}
 		}
 

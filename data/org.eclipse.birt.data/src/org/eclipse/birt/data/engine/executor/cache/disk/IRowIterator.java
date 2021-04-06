@@ -18,22 +18,22 @@ import org.eclipse.birt.data.engine.odi.IResultObject;
 /**
  * An iterator on result objects.
  */
-interface IRowIterator
-{
+interface IRowIterator {
 	/**
 	 * Moves iterator to the first object.
 	 *
 	 */
-	public void reset( ) throws DataException;
-	
+	public void reset() throws DataException;
+
 	/**
 	 * Returns the current object in the iteration
+	 * 
 	 * @throws IOException
 	 */
-	public IResultObject fetch( ) throws IOException, DataException;
-	
+	public IResultObject fetch() throws IOException, DataException;
+
 	/**
 	 * Closes the resource associated with this IRowIterator.
 	 */
-	public void close( ) throws DataException;
+	public void close() throws DataException;
 }

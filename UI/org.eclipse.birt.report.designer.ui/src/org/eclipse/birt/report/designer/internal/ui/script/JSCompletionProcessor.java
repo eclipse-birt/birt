@@ -32,8 +32,7 @@ import org.eclipse.swt.graphics.Image;
  * 
  */
 
-public class JSCompletionProcessor implements IContentAssistProcessor
-{
+public class JSCompletionProcessor implements IContentAssistProcessor {
 
 	/**
 	 * presentation wrapper class for expression script objects.
@@ -45,15 +44,12 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	protected String currentExpressionStr = ""; //$NON-NLS-1$
 	private JSExpression currentExpression;
 
-	public JSCompletionProcessor( JSSyntaxContext context )
-	{
-		super( );
+	public JSCompletionProcessor(JSSyntaxContext context) {
+		super();
 		this.context = context;
 	}
 
-	public ICompletionProposal[] computeCompletionProposals(
-			ITextViewer viewer, int offset )
-	{
+	public ICompletionProposal[] computeCompletionProposals(ITextViewer viewer, int offset) {
 		// System.out.println( editor.getModel( ) );
 		// try
 		// {
@@ -111,231 +107,162 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 		// {
 		// }
 		this.currentWord = null;
-		try
-		{
-			String expression = supposeCurrentExpression( viewer.getDocument( ),
-					viewer.getTopIndexStartOffset( ),
-					offset );
+		try {
+			String expression = supposeCurrentExpression(viewer.getDocument(), viewer.getTopIndexStartOffset(), offset);
 			// if ( currentExpression == null
 			// || !expression.equals( this.currentExpressionStr ) )
 			// {
 			// can not cache last expression, because context may be
 			// changed.
 			this.currentExpressionStr = expression;
-			this.currentExpression = createJSExpression( );
+			this.currentExpression = createJSExpression();
 			// }
-			return getCompletionProposals( currentExpression.getReturnType( ),
-					offset );
-		}
-		catch ( BadLocationException e )
-		{
+			return getCompletionProposals(currentExpression.getReturnType(), offset);
+		} catch (BadLocationException e) {
 			// ignore
 		}
 		return null;
 	}
 
-	protected JSExpression createJSExpression( )
-	{
-		return new JSExpression( context, currentExpressionStr );
+	protected JSExpression createJSExpression() {
+		return new JSExpression(context, currentExpressionStr);
 	}
 
 	/**
-	 * Get the JS expression in current position, split the last not complete
-	 * code fragment.
+	 * Get the JS expression in current position, split the last not complete code
+	 * fragment.
 	 * 
 	 * @param document
-	 * @param topOffset
-	 *            Document top offset.
-	 * @param offset
-	 *            Current offset.
+	 * @param topOffset Document top offset.
+	 * @param offset    Current offset.
 	 * @return
 	 * @throws BadLocationException
 	 */
-	private String supposeCurrentExpression( IDocument document, int topOffset,
-			int offset ) throws BadLocationException
-	{
-		if ( offset < 0 )
-		{
+	private String supposeCurrentExpression(IDocument document, int topOffset, int offset) throws BadLocationException {
+		if (offset < 0) {
 			offset = 0;
 		}
 
 		int startOffset = offset, endOffset = offset;
 		char currentChar;
 		int bracket = 0;
-		while ( startOffset > topOffset )
-		{
+		while (startOffset > topOffset) {
 			startOffset--;
-			currentChar = document.getChar( startOffset );
-			if ( currentWord == null && currentChar == '.' )
-			{
+			currentChar = document.getChar(startOffset);
+			if (currentWord == null && currentChar == '.') {
 				// if behind char is '.', ignore.
-				while ( ( currentChar = document.getChar( --startOffset ) ) == '.' );
+				while ((currentChar = document.getChar(--startOffset)) == '.')
+					;
 				// else reset start offset.
-				currentChar = document.getChar( ++startOffset );
-				currentWord = document.get( startOffset + 1, endOffset
-						- startOffset
-						- 1 );// ignore '.', because replacement don't have'.'
+				currentChar = document.getChar(++startOffset);
+				currentWord = document.get(startOffset + 1, endOffset - startOffset - 1);// ignore '.', because
+																							// replacement don't have'.'
 				endOffset = startOffset + 1;// inculde '.' for expression parse
 				// use
 			}
-			if ( currentChar == ')' || currentChar == ']' )
+			if (currentChar == ')' || currentChar == ']')
 				++bracket;
-			if ( currentChar == '(' || currentChar == '[' )
+			if (currentChar == '(' || currentChar == '[')
 				--bracket;
-			if ( bracket == 0
-					&& ( currentChar == '\n'
-							|| currentChar == ' '
-							|| currentChar == '='
-							|| currentChar == '+'
-							|| currentChar == '-'
-							|| currentChar == '*'
-							|| currentChar == '/'
-							|| currentChar == '<'
-							|| currentChar == '>'
-							|| currentChar == '&'
-							|| currentChar == '|' || currentChar == ';' ) )
-			{
+			if (bracket == 0 && (currentChar == '\n' || currentChar == ' ' || currentChar == '=' || currentChar == '+'
+					|| currentChar == '-' || currentChar == '*' || currentChar == '/' || currentChar == '<'
+					|| currentChar == '>' || currentChar == '&' || currentChar == '|' || currentChar == ';')) {
 				startOffset++;
 				break;
 			}
 		}
-		if ( currentWord == null )
-		{
-			return currentWord = document.get( startOffset, endOffset
-					- startOffset );
+		if (currentWord == null) {
+			return currentWord = document.get(startOffset, endOffset - startOffset);
 		}
-		return document.get( startOffset, endOffset - startOffset );
+		return document.get(startOffset, endOffset - startOffset);
 	}
 
-	private ICompletionProposal[] getCompletionProposals( Object meta,
-			int offset )
-	{
-		if ( meta instanceof JSObjectMetaData )
-		{
-			return getCompletionProposals( (JSObjectMetaData) meta, offset );
-		}
-		else if ( meta instanceof JSObjectMetaData[] )
-		{
-			return getCompletionProposals( (JSObjectMetaData[]) meta, offset );
+	private ICompletionProposal[] getCompletionProposals(Object meta, int offset) {
+		if (meta instanceof JSObjectMetaData) {
+			return getCompletionProposals((JSObjectMetaData) meta, offset);
+		} else if (meta instanceof JSObjectMetaData[]) {
+			return getCompletionProposals((JSObjectMetaData[]) meta, offset);
 		}
 		return null;
 	}
 
-	protected CompletionProposal[] getCompletionProposals(
-			JSObjectMetaData[] metas, int offset )
-	{
-		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>( );
-		int wordLength = currentWord == null ? 0 : currentWord.length( );
-		for ( int i = 0; i < metas.length; i++ )
-		{
-			if ( currentWord == null || currentWord.equals( "" ) //$NON-NLS-1$
-					|| metas[i].getName( )
-							.toLowerCase( )
-							.startsWith( currentWord.toLowerCase( ) ) )
-			{
-				proposals.add( new CompletionProposal( metas[i].getName( ),
-						offset - wordLength,
-						wordLength,
-						metas[i].getName( ).length( ),
-						null,
-						metas[i].getName( ),
-						null,
-						metas[i].getDescription( ) ) );
+	protected CompletionProposal[] getCompletionProposals(JSObjectMetaData[] metas, int offset) {
+		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>();
+		int wordLength = currentWord == null ? 0 : currentWord.length();
+		for (int i = 0; i < metas.length; i++) {
+			if (currentWord == null || currentWord.equals("") //$NON-NLS-1$
+					|| metas[i].getName().toLowerCase().startsWith(currentWord.toLowerCase())) {
+				proposals.add(new CompletionProposal(metas[i].getName(), offset - wordLength, wordLength,
+						metas[i].getName().length(), null, metas[i].getName(), null, metas[i].getDescription()));
 			}
 		}
-		return proposals.toArray( new CompletionProposal[proposals.size( )] );
+		return proposals.toArray(new CompletionProposal[proposals.size()]);
 	}
 
-	protected CompletionProposal[] getCompletionProposals(
-			JSObjectMetaData meta, int offset )
-	{
-		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>( );
-		int wordLength = currentWord == null ? 0 : currentWord.length( );
+	protected CompletionProposal[] getCompletionProposals(JSObjectMetaData meta, int offset) {
+		List<CompletionProposal> proposals = new ArrayList<CompletionProposal>();
+		int wordLength = currentWord == null ? 0 : currentWord.length();
 
-		JSField[] members = meta.getFields( );
-		if ( members != null )
-		{
-			for ( int i = 0; i < members.length; i++ )
-			{
-				if ( currentWord == null || currentWord.equals( "" ) //$NON-NLS-1$
-						|| members[i].getName( )
-								.toLowerCase( )
-								.startsWith( currentWord.toLowerCase( ) ) )
-				{
-					proposals.add( new CompletionProposal( members[i].getName( ),
-							offset - wordLength,
-							wordLength,
-							members[i].getName( ).length( ),
-							getMemberImage( members[i].getVisibility( ) ),
-							members[i].getDisplayText( ),
-							null,
-							members[i].getDescription( ) ) );
+		JSField[] members = meta.getFields();
+		if (members != null) {
+			for (int i = 0; i < members.length; i++) {
+				if (currentWord == null || currentWord.equals("") //$NON-NLS-1$
+						|| members[i].getName().toLowerCase().startsWith(currentWord.toLowerCase())) {
+					proposals.add(new CompletionProposal(members[i].getName(), offset - wordLength, wordLength,
+							members[i].getName().length(), getMemberImage(members[i].getVisibility()),
+							members[i].getDisplayText(), null, members[i].getDescription()));
 				}
 			}
 		}
 
-		JSMethod[] methods = meta.getMethods( );
-		if ( methods != null )
-		{
-			for ( int i = 0; i < methods.length; i++ )
-			{
-				if ( currentWord == null || currentWord.equals( "" ) //$NON-NLS-1$
-						|| methods[i].getName( )
-								.toLowerCase( )
-								.startsWith( currentWord.toLowerCase( ) ) )
-				{
-					JSObjectMetaData[] args = methods[i].getArguments( );
+		JSMethod[] methods = meta.getMethods();
+		if (methods != null) {
+			for (int i = 0; i < methods.length; i++) {
+				if (currentWord == null || currentWord.equals("") //$NON-NLS-1$
+						|| methods[i].getName().toLowerCase().startsWith(currentWord.toLowerCase())) {
+					JSObjectMetaData[] args = methods[i].getArguments();
 
 					boolean hasArg = args != null && args.length > 0;
 
-					proposals.add( new CompletionProposal( "." //$NON-NLS-1$
-							+ methods[i].getName( )
-							+ "()", //$NON-NLS-1$
-							offset - wordLength - 1,
-							wordLength + 1,
-							methods[i].getName( ).length( ) + ( hasArg ? 2 : 3 ),
-							getMethodImage( methods[i].getVisibility( ) ),
-							methods[i].getDisplayText( ),
-							null,
-							methods[i].getDescription( ) ) );
+					proposals.add(new CompletionProposal("." //$NON-NLS-1$
+							+ methods[i].getName() + "()", //$NON-NLS-1$
+							offset - wordLength - 1, wordLength + 1, methods[i].getName().length() + (hasArg ? 2 : 3),
+							getMethodImage(methods[i].getVisibility()), methods[i].getDisplayText(), null,
+							methods[i].getDescription()));
 				}
 			}
 		}
-		return proposals.toArray( new CompletionProposal[proposals.size( )] );
+		return proposals.toArray(new CompletionProposal[proposals.size()]);
 	}
 
-	protected Image getMemberImage( int visibility )
-	{
-		switch ( visibility )
-		{
-			case JSObjectMetaData.VISIBILITY_PUBLIC :
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
-			case JSObjectMetaData.VISIBILITY_PROTECTED :
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
-			case JSObjectMetaData.VISIBILITY_PRIVATE :
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_MEMBER );
-			case JSObjectMetaData.VISIBILITY_STATIC :
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
-			default :
-				break;
+	protected Image getMemberImage(int visibility) {
+		switch (visibility) {
+		case JSObjectMetaData.VISIBILITY_PUBLIC:
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_EXPRESSION_MEMBER);
+		case JSObjectMetaData.VISIBILITY_PROTECTED:
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_EXPRESSION_MEMBER);
+		case JSObjectMetaData.VISIBILITY_PRIVATE:
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_EXPRESSION_MEMBER);
+		case JSObjectMetaData.VISIBILITY_STATIC:
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER);
+		default:
+			break;
 		}
 		return null;
 	}
 
-	protected Image getMethodImage( int visibility )
-	{
-		switch ( visibility )
-		{
-			case JSObjectMetaData.VISIBILITY_PUBLIC :
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
-			case JSObjectMetaData.VISIBILITY_PROTECTED :
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
-			case JSObjectMetaData.VISIBILITY_PRIVATE :
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_METHOD );
-			case JSObjectMetaData.VISIBILITY_STATIC :
-				return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER );
-			default :
-				break;
+	protected Image getMethodImage(int visibility) {
+		switch (visibility) {
+		case JSObjectMetaData.VISIBILITY_PUBLIC:
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_EXPRESSION_METHOD);
+		case JSObjectMetaData.VISIBILITY_PROTECTED:
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_EXPRESSION_METHOD);
+		case JSObjectMetaData.VISIBILITY_PRIVATE:
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_EXPRESSION_METHOD);
+		case JSObjectMetaData.VISIBILITY_STATIC:
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_EXPRESSION_STATIC_MEMBER);
+		default:
+			break;
 		}
 		return null;
 	}
@@ -346,9 +273,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * computeContextInformation(org.eclipse.jface.text.ITextViewer, int)
 	 */
-	public IContextInformation[] computeContextInformation( ITextViewer viewer,
-			int offset )
-	{
+	public IContextInformation[] computeContextInformation(ITextViewer viewer, int offset) {
 		return null;
 	}
 
@@ -358,11 +283,8 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * getCompletionProposalAutoActivationCharacters()
 	 */
-	public char[] getCompletionProposalAutoActivationCharacters( )
-	{
-		return new char[]{
-				'.', '['
-		};
+	public char[] getCompletionProposalAutoActivationCharacters() {
+		return new char[] { '.', '[' };
 	}
 
 	/*
@@ -371,8 +293,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * getContextInformationAutoActivationCharacters()
 	 */
-	public char[] getContextInformationAutoActivationCharacters( )
-	{
+	public char[] getContextInformationAutoActivationCharacters() {
 		return null;
 	}
 
@@ -383,8 +304,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	 * org.eclipse.jface.text.contentassist.IContentAssistProcessor#getErrorMessage
 	 * ()
 	 */
-	public String getErrorMessage( )
-	{
+	public String getErrorMessage() {
 		return null;
 	}
 
@@ -394,8 +314,7 @@ public class JSCompletionProcessor implements IContentAssistProcessor
 	 * @see org.eclipse.jface.text.contentassist.IContentAssistProcessor#
 	 * getContextInformationValidator()
 	 */
-	public IContextInformationValidator getContextInformationValidator( )
-	{
+	public IContextInformationValidator getContextInformationValidator() {
 		return null;
 	}
 }

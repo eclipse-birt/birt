@@ -10,7 +10,7 @@
  *  Actuate Corporation  - initial API and implementation
  *  
  *************************************************************************
- */ 
+ */
 
 package org.eclipse.birt.report.engine.script.internal;
 
@@ -24,27 +24,20 @@ import org.eclipse.birt.report.engine.api.script.IScriptedDataSetMetaData;
 /**
  * Wrapper for data engine IScriptDataSetMetaDataDefinition
  */
-class ScriptedDataSetMetaData implements IScriptedDataSetMetaData
-{
-	protected static Logger log = Logger.getLogger( 
-			ScriptedDataSetMetaData.class.getName( ) );
-	
+class ScriptedDataSetMetaData implements IScriptedDataSetMetaData {
+	protected static Logger log = Logger.getLogger(ScriptedDataSetMetaData.class.getName());
+
 	private IScriptDataSetMetaDataDefinition dteMetaData;
 
-	ScriptedDataSetMetaData( IScriptDataSetMetaDataDefinition dteMetaData)
-	{
+	ScriptedDataSetMetaData(IScriptDataSetMetaDataDefinition dteMetaData) {
 		this.dteMetaData = dteMetaData;
 	}
 
-	public void addColumn(String name, Class dataType) 
-	{
-		try
-		{
-			dteMetaData.addColumn( name, dataType );
-		}
-		catch ( BirtException e )
-		{
-			log.log( Level.WARNING, e.getLocalizedMessage(), e);
+	public void addColumn(String name, Class dataType) {
+		try {
+			dteMetaData.addColumn(name, dataType);
+		} catch (BirtException e) {
+			log.log(Level.WARNING, e.getLocalizedMessage(), e);
 		}
 	}
 

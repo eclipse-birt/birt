@@ -17,13 +17,12 @@ import javax.swing.text.AttributeSet;
  * 
  */
 
-public interface RTFDocumentHandler
-{
+public interface RTFDocumentHandler {
 
-	void startElement( String name, AttributeSet attributeSet );
+	void startElement(String name, AttributeSet attributeSet);
 
-	void endElement( String name );
+	void endElement(String name);
 
-	void content( String content );
+	void content(String content);
 
 }

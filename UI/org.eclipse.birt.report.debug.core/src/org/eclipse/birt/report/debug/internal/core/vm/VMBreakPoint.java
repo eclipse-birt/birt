@@ -16,7 +16,6 @@ import java.io.Serializable;
 /**
  * VMBreakPoint
  */
-public interface VMBreakPoint extends Serializable
-{
+public interface VMBreakPoint extends Serializable {
 
 }

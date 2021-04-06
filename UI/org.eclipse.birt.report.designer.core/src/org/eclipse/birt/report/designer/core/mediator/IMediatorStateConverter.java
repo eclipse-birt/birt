@@ -15,8 +15,7 @@ package org.eclipse.birt.report.designer.core.mediator;
  * 
  */
 
-public interface IMediatorStateConverter
-{
+public interface IMediatorStateConverter {
 
-	IMediatorRequest convertStateToRequest( IMediatorState state );
+	IMediatorRequest convertStateToRequest(IMediatorState state);
 }

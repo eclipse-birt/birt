@@ -18,12 +18,7 @@ import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 import org.eclipse.birt.report.engine.content.impl.BookmarkContent;
 import org.eclipse.birt.report.engine.internal.index.IDocumentIndexWriter;
 
-public class DocumentIndexWriterV2
-		implements
-			IDocumentIndexWriter,
-			DocumentIndexV2Constants,
-			ReportDocumentConstants
-{
+public class DocumentIndexWriterV2 implements IDocumentIndexWriter, DocumentIndexV2Constants, ReportDocumentConstants {
 
 	IDocArchiveWriter archive;
 
@@ -31,73 +26,53 @@ public class DocumentIndexWriterV2
 	IndexWriter reportlets;
 	IndexWriter pageNumbers;
 
-	public DocumentIndexWriterV2( IDocArchiveWriter archive )
-			throws IOException
-	{
+	public DocumentIndexWriterV2(IDocArchiveWriter archive) throws IOException {
 		this.archive = archive;
 	}
 
-	public void close( ) throws IOException
-	{
-		if ( bookmarks != null )
-		{
-			bookmarks.close( );
+	public void close() throws IOException {
+		if (bookmarks != null) {
+			bookmarks.close();
 		}
-		if ( reportlets != null )
-		{
-			reportlets.close( );
+		if (reportlets != null) {
+			reportlets.close();
 			reportlets = null;
 		}
-		if ( pageNumbers != null )
-		{
-			pageNumbers.close( );
+		if (pageNumbers != null) {
+			pageNumbers.close();
 			pageNumbers = null;
 		}
 	}
 
-	public void setOffsetOfBookmark( String bookmark, long offset )
-			throws IOException
-	{
-		if ( bookmarks == null )
-		{
-			bookmarks = createIndexWriter( archive,
-					REPORTLET_BOOKMARK_INDEX_STREAM );
+	public void setOffsetOfBookmark(String bookmark, long offset) throws IOException {
+		if (bookmarks == null) {
+			bookmarks = createIndexWriter(archive, REPORTLET_BOOKMARK_INDEX_STREAM);
 		}
-		if ( bookmarks != null )
-		{
-			bookmarks.add( bookmark, offset );
+		if (bookmarks != null) {
+			bookmarks.add(bookmark, offset);
 		}
 	}
 
-	public void setOffsetOfInstance( String instanceId, long offset )
-			throws IOException
-	{
-		if ( reportlets == null )
-		{
-			reportlets = createIndexWriter( archive, REPORTLET_ID_INDEX_STREAM );
+	public void setOffsetOfInstance(String instanceId, long offset) throws IOException {
+		if (reportlets == null) {
+			reportlets = createIndexWriter(archive, REPORTLET_ID_INDEX_STREAM);
 		}
-		if ( reportlets != null )
-		{
-			reportlets.add( instanceId, offset );
+		if (reportlets != null) {
+			reportlets.add(instanceId, offset);
 		}
 	}
 
-	public void setBookmark( String bookmark, BookmarkContent content )
-			throws IOException
-	{
-		if ( pageNumbers == null )
-		{
-			pageNumbers = createIndexWriter( archive, BOOKMARK_STREAM );
+	public void setBookmark(String bookmark, BookmarkContent content) throws IOException {
+		if (pageNumbers == null) {
+			pageNumbers = createIndexWriter(archive, BOOKMARK_STREAM);
 		}
-		if ( pageNumbers != null )
-		{
-			pageNumbers.add( bookmark, content );
+		if (pageNumbers != null) {
+			pageNumbers.add(bookmark, content);
 		}
 	}
 
-	IndexWriter createIndexWriter( IDocArchiveWriter archive, String name )
-	{
-		return new IndexWriter( archive, name );
+	IndexWriter createIndexWriter(IDocArchiveWriter archive, String name) {
+		return new IndexWriter(archive, name);
 	}
 
 }

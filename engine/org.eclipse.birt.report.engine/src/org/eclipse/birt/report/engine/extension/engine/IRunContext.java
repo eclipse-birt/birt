@@ -14,10 +14,11 @@ package org.eclipse.birt.report.engine.extension.engine;
 import org.eclipse.birt.core.archive.IDocArchiveReader;
 import org.eclipse.birt.core.archive.IDocArchiveWriter;
 
-public interface IRunContext extends IEngineContext
-{
+public interface IRunContext extends IEngineContext {
 
-	IDocArchiveReader getDataSource( );
-	IDocArchiveWriter getWriter( );
-	boolean isProgressiveViewingEnable( );
+	IDocArchiveReader getDataSource();
+
+	IDocArchiveWriter getWriter();
+
+	boolean isProgressiveViewingEnable();
 }

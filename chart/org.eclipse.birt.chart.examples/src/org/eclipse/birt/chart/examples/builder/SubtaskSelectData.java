@@ -23,43 +23,36 @@ import org.eclipse.swt.widgets.Composite;
  * Subtask to wrap TaskSelectData
  */
 
-public class SubtaskSelectData extends SubtaskSheetImpl implements
-		ITaskChangeListener
-{
+public class SubtaskSelectData extends SubtaskSheetImpl implements ITaskChangeListener {
 
 	final private ITask task;
 
-	public SubtaskSelectData( )
-	{
-		task = new TaskSelectData( );
+	public SubtaskSelectData() {
+		task = new TaskSelectData();
 	}
 
 	@Override
-	public void createControl( Composite parent )
-	{
-		task.setContext( getContext( ) );
-		task.setUIProvider( getWizard( ) );
-		task.createControl( parent );
-		cmpContent = (Composite) task.getControl( );
+	public void createControl(Composite parent) {
+		task.setContext(getContext());
+		task.setUIProvider(getWizard());
+		task.createControl(parent);
+		cmpContent = (Composite) task.getControl();
 	}
 
 	@Override
-	public boolean isPreviewable( )
-	{
+	public boolean isPreviewable() {
 		// Has internal preview canvas
 		return true;
 	}
 
-	public void changeTask( Notification notification )
-	{
+	public void changeTask(Notification notification) {
 		// Preview by delegating notification from TaskFormatChart to
 		// TaskSelectData
-		( (ITaskChangeListener) task ).changeTask( notification );
-		
-		if ( notification.getNotifier( ) instanceof Axis )
-		{
+		((ITaskChangeListener) task).changeTask(notification);
+
+		if (notification.getNotifier() instanceof Axis) {
 			// Update tree if series or axes are updated
-			getParentTask( ).updateTree( );
+			getParentTask().updateTree();
 		}
 	}
 }

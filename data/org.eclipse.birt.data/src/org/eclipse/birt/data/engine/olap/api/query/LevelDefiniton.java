@@ -11,40 +11,36 @@
  *******************************************************************************/
 package org.eclipse.birt.data.engine.olap.api.query;
 
-
-
 /**
  * 
  */
 
-public class LevelDefiniton extends NamedObject implements ILevelDefinition
-{
+public class LevelDefiniton extends NamedObject implements ILevelDefinition {
 	private IHierarchyDefinition hierarchy;
-	
-	public LevelDefiniton( IHierarchyDefinition hier, String name )
-	{
+
+	public LevelDefiniton(IHierarchyDefinition hier, String name) {
 		super(name);
-		
-		assert hier!= null;
+
+		assert hier != null;
 		this.hierarchy = hier;
 	}
+
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition#getHierarchy()
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.api.query.ILevelDefinition#getHierarchy()
 	 */
-	public IHierarchyDefinition getHierarchy( )
-	{
+	public IHierarchyDefinition getHierarchy() {
 		return this.hierarchy;
 	}
 
-    /**
-     * Clone itself.
-     */
-    public ILevelDefinition clone( )
-    {
-        LevelDefiniton cloned = new LevelDefiniton( this.hierarchy.clone( ),
-                this.getName( ) );
+	/**
+	 * Clone itself.
+	 */
+	public ILevelDefinition clone() {
+		LevelDefiniton cloned = new LevelDefiniton(this.hierarchy.clone(), this.getName());
 
-        return cloned;
-    }
+		return cloned;
+	}
 }

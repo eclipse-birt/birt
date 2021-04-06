@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.writer.ModuleWriter;
  * 
  */
 
-public class ReportDesign extends ReportDesignImpl
-{
+public class ReportDesign extends ReportDesignImpl {
 
 	/**
 	 * Default constructor.
@@ -35,34 +34,29 @@ public class ReportDesign extends ReportDesignImpl
 	 * @deprecated
 	 */
 
-	public ReportDesign( )
-	{
-		super( null );
+	public ReportDesign() {
+		super(null);
 	}
 
 	/**
 	 * Constructs the report design with the session.
 	 * 
-	 * @param session
-	 *            the session that owns this design
+	 * @param session the session that owns this design
 	 */
 
-	public ReportDesign( DesignSessionImpl session )
-	{
-		super( session );
+	public ReportDesign(DesignSessionImpl session) {
+		super(session);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt
 	 * .report.model.elements.ElementVisitor)
 	 */
 
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitReportDesign( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitReportDesign(this);
 	}
 
 	/*
@@ -70,11 +64,9 @@ public class ReportDesign extends ReportDesignImpl
 	 * 
 	 * @see org.eclipse.birt.report.model.elements.ReportDesignImpl#handle()
 	 */
-	public ReportDesignHandle handle( )
-	{
-		if ( handle == null )
-		{
-			handle = new ReportDesignHandle( this );
+	public ReportDesignHandle handle() {
+		if (handle == null) {
+			handle = new ReportDesignHandle(this);
 		}
 		return (ReportDesignHandle) handle;
 	}
@@ -85,8 +77,7 @@ public class ReportDesign extends ReportDesignImpl
 	 * @see org.eclipse.birt.report.model.core.Module#getWriter()
 	 */
 
-	public ModuleWriter getWriter( )
-	{
-		return new DesignWriter( this );
+	public ModuleWriter getWriter() {
+		return new DesignWriter(this);
 	}
 }

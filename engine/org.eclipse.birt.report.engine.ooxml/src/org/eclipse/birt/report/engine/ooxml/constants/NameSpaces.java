@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.ooxml.constants;
 
-public class NameSpaces
-{
+public class NameSpaces {
 
 	public static final String CORE = "http://schemas.openxmlformats.org/package/2006/metadata/core-properties";
 	public static final String XSI = "http://www.w3.org/2001/XMLSchema-instance";

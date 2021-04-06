@@ -16,50 +16,41 @@ import org.eclipse.birt.report.engine.toc.ITOCWriter;
 import org.eclipse.birt.report.engine.toc.ITreeNode;
 import org.eclipse.birt.report.engine.toc.TOCEntry;
 
-public class MemTOCWriter implements ITOCWriter, ITOCConstants
-{
+public class MemTOCWriter implements ITOCWriter, ITOCConstants {
 
 	private MemTreeNode rootNode;
 
 	/**
-	 * @param tocTree
-	 *            the root for the TOC tree
+	 * @param tocTree the root for the TOC tree
 	 */
-	public MemTOCWriter( )
-	{
-		rootNode = new MemTreeNode( );
-		rootNode.setNodeId( "/" );
+	public MemTOCWriter() {
+		rootNode = new MemTreeNode();
+		rootNode.setNodeId("/");
 	}
 
-	public void close( )
-	{
+	public void close() {
 	}
 
-	public ITreeNode getTree( )
-	{
+	public ITreeNode getTree() {
 		return rootNode;
 	}
 
-	public void startTOCEntry( TOCEntry entry )
-	{
-		MemTreeNode treeNode = new MemTreeNode( entry );
-		entry.setTreeNode( treeNode );
-		MemTreeNode parentTreeNode = getParentTreeNode( entry );
-		parentTreeNode.addChild( treeNode );
+	public void startTOCEntry(TOCEntry entry) {
+		MemTreeNode treeNode = new MemTreeNode(entry);
+		entry.setTreeNode(treeNode);
+		MemTreeNode parentTreeNode = getParentTreeNode(entry);
+		parentTreeNode.addChild(treeNode);
 		return;
 	}
 
-	MemTreeNode getParentTreeNode( TOCEntry entry )
-	{
-		TOCEntry parent = entry.getParent( );
-		if ( parent != null )
-		{
-			return (MemTreeNode) parent.getTreeNode( );
+	MemTreeNode getParentTreeNode(TOCEntry entry) {
+		TOCEntry parent = entry.getParent();
+		if (parent != null) {
+			return (MemTreeNode) parent.getTreeNode();
 		}
 		return rootNode;
 	}
 
-	public void closeTOCEntry( TOCEntry entry )
-	{
+	public void closeTOCEntry(TOCEntry entry) {
 	}
 }

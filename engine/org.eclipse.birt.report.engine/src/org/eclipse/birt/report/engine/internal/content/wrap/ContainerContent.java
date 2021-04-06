@@ -15,18 +15,12 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.content.IContainerContent;
 import org.eclipse.birt.report.engine.content.IContentVisitor;
 
-public class ContainerContent extends AbstractContentWrapper
-		implements
-			IContainerContent
-{
-	public ContainerContent( IContainerContent container )
-	{
-		super( container );
+public class ContainerContent extends AbstractContentWrapper implements IContainerContent {
+	public ContainerContent(IContainerContent container) {
+		super(container);
 	}
 
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return visitor.visitContainer( this, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return visitor.visitContainer(this, value);
 	}
 }

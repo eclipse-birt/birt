@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for DataSet to store the constants.
  */
-public interface IDataSetModel
-{
+public interface IDataSetModel {
 
 	/**
 	 * The property name of the structures of the expected result set.
@@ -66,36 +65,36 @@ public interface IDataSetModel
 	public static final String ROW_FETCH_LIMIT_PROP = "rowFetchLimit"; //$NON-NLS-1$
 
 	/**
-	 * The property name of the sort hint. It is a property list contains sort
-	 * hints which supports row ordering.
+	 * The property name of the sort hint. It is a property list contains sort hints
+	 * which supports row ordering.
 	 */
 	public static final String SORT_HINTS_PROP = "sortHints"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that determines whether to do some cache for
-	 * data-engine when rendering the report.
+	 * Name of the property that determines whether to do some cache for data-engine
+	 * when rendering the report.
 	 */
 	String NEEDS_CACHE_PROP = "needsCache"; //$NON-NLS-1$
 
 	/**
 	 * Name of the property that defines the expression to calculate ACL for the
-	 * entire data set. This expression is evaluated once for each data set,
-	 * after the data set has been executed but before the first result set row
-	 * has been processed.
+	 * entire data set. This expression is evaluated once for each data set, after
+	 * the data set has been executed but before the first result set row has been
+	 * processed.
 	 */
 	String ACL_EXPRESSION_PROP = "ACLExpression"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that defines the expression to calculate ACL for
-	 * result set rows. This expression is evaluated once for each data set row
-	 * after it has been retrieved. The expression has access to all column
-	 * values of the current row.
+	 * Name of the property that defines the expression to calculate ACL for result
+	 * set rows. This expression is evaluated once for each data set row after it
+	 * has been retrieved. The expression has access to all column values of the
+	 * current row.
 	 */
 	String ROW_ACL_EXPRESSION_PROP = "rowACLExpression"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that indicates whether the data set is visible
-	 * outside of the data mart.
+	 * Name of the property that indicates whether the data set is visible outside
+	 * of the data mart.
 	 */
 	String IS_VISIBLE_PROP = "isVisible"; //$NON-NLS-1$
 
@@ -105,8 +104,8 @@ public interface IDataSetModel
 	String LOCALE_PROP = "locale"; //$NON-NLS-1$
 
 	/**
-	 * Name of the property that defines the ordering of null values. By
-	 * default, it is nulls lowest.
+	 * Name of the property that defines the ordering of null values. By default, it
+	 * is nulls lowest.
 	 */
 	String NULLS_ORDERING_PROP = "nullsOrdering"; //$NON-NLS-1$
 

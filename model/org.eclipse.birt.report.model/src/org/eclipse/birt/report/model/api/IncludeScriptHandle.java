@@ -23,24 +23,21 @@ import org.eclipse.birt.report.model.api.elements.structures.IncludeScript;
  * <dd>a include script structure in the report design has a required file name
  * to load the script.</dd>
  * </dl>
- *  
+ * 
  */
 
-public class IncludeScriptHandle extends StructureHandle
-{
+public class IncludeScriptHandle extends StructureHandle {
 
 	/**
 	 * Constructs the handle of the included script.
 	 * 
-	 * @param valueHandle
-	 *            the value handle for the included script list of one property
-	 * @param index
-	 *            the position of this included script in the list
+	 * @param valueHandle the value handle for the included script list of one
+	 *                    property
+	 * @param index       the position of this included script in the list
 	 */
 
-	public IncludeScriptHandle( SimpleValueHandle valueHandle, int index )
-	{
-		super( valueHandle, index );
+	public IncludeScriptHandle(SimpleValueHandle valueHandle, int index) {
+		super(valueHandle, index);
 	}
 
 	/**
@@ -49,21 +46,18 @@ public class IncludeScriptHandle extends StructureHandle
 	 * @return file name of the script
 	 */
 
-	public String getFileName( )
-	{
-        return getStringProperty( IncludeScript.FILE_NAME_MEMBER );
+	public String getFileName() {
+		return getStringProperty(IncludeScript.FILE_NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the file name of the script.
 	 * 
-	 * @param fileName
-	 *            the file name to set
+	 * @param fileName the file name to set
 	 */
 
-	public void setFileName( String fileName )
-	{
-        setPropertySilently( IncludeScript.FILE_NAME_MEMBER, fileName );
+	public void setFileName(String fileName) {
+		setPropertySilently(IncludeScript.FILE_NAME_MEMBER, fileName);
 	}
 
 }

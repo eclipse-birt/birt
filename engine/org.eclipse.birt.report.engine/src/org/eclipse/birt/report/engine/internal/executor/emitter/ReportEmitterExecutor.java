@@ -19,58 +19,45 @@ import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.executor.wrap.WrappedReportExecutor;
 import org.eclipse.birt.report.engine.util.FastPool;
 
-public class ReportEmitterExecutor extends WrappedReportExecutor
-{
+public class ReportEmitterExecutor extends WrappedReportExecutor {
 
 	IReportContent report;
 
 	IContentEmitter emitter;
 
-	private FastPool executors = new FastPool( );
+	private FastPool executors = new FastPool();
 
-	public ReportEmitterExecutor( IReportExecutor executor,
-			IContentEmitter emitter )
-	{
-		super( executor );
+	public ReportEmitterExecutor(IReportExecutor executor, IContentEmitter emitter) {
+		super(executor);
 		this.emitter = emitter;
 	}
 
-	protected void closeWrappedExecutor( IReportItemExecutor executor )
-	{
-		executors.add( executor );
+	protected void closeWrappedExecutor(IReportItemExecutor executor) {
+		executors.add(executor);
 	}
 
-	protected IReportItemExecutor createWrappedExecutor(
-			IReportItemExecutor executor )
-	{
+	protected IReportItemExecutor createWrappedExecutor(IReportItemExecutor executor) {
 		ReportItemEmitterExecutor emitterExecutor = null;
-		if ( executors.isEmpty( ) )
-		{
-			emitterExecutor = new ReportItemEmitterExecutor( this, executor );
-		}
-		else
-		{
-			emitterExecutor = (ReportItemEmitterExecutor) executors.remove( );
-			emitterExecutor.setExecutor( executor );
+		if (executors.isEmpty()) {
+			emitterExecutor = new ReportItemEmitterExecutor(this, executor);
+		} else {
+			emitterExecutor = (ReportItemEmitterExecutor) executors.remove();
+			emitterExecutor.setExecutor(executor);
 		}
 		return emitterExecutor;
 	}
 
-	public void close( )throws BirtException
-	{
-		if ( report != null )
-		{
-			emitter.end( report );
+	public void close() throws BirtException {
+		if (report != null) {
+			emitter.end(report);
 		}
-		super.close( );
+		super.close();
 	}
 
-	public IReportContent execute( ) throws BirtException
-	{
-		report = super.execute( );
-		if ( report != null )
-		{
-			emitter.start( report );
+	public IReportContent execute() throws BirtException {
+		report = super.execute();
+		if (report != null) {
+			emitter.start(report);
 		}
 		return report;
 	}

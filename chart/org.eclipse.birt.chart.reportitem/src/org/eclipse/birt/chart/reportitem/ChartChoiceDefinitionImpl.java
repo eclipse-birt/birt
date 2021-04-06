@@ -15,64 +15,60 @@ import org.eclipse.birt.report.model.api.extension.ChoiceDefinition;
 /**
  *  
  */
-public final class ChartChoiceDefinitionImpl extends ChoiceDefinition
-{
-    /**
-     *  
-     */
-    private final String sDisplayNameID;
+public final class ChartChoiceDefinitionImpl extends ChoiceDefinition {
+	/**
+	 *  
+	 */
+	private final String sDisplayNameID;
 
-    /**
-     *  
-     */
-    private final String sName;
+	/**
+	 *  
+	 */
+	private final String sName;
 
-    /**
-     *  
-     */
-    private final Object oValue;
+	/**
+	 *  
+	 */
+	private final Object oValue;
 
-    /**
-     * 
-     * @param sDisplayNameID
-     * @param sName
-     * @param oValue
-     */
-    ChartChoiceDefinitionImpl(String sDisplayNameID, String sName, Object oValue)
-    {
-        this.sDisplayNameID = sDisplayNameID;
-        this.sName = sName;
-        this.oValue = oValue;
-    }
+	/**
+	 * 
+	 * @param sDisplayNameID
+	 * @param sName
+	 * @param oValue
+	 */
+	ChartChoiceDefinitionImpl(String sDisplayNameID, String sName, Object oValue) {
+		this.sDisplayNameID = sDisplayNameID;
+		this.sName = sName;
+		this.oValue = oValue;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.model.extension.IChoiceDefinition#getDisplayNameID()
-     */
-    public String getDisplayNameID()
-    {
-        return sDisplayNameID;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.model.extension.IChoiceDefinition#getDisplayNameID()
+	 */
+	public String getDisplayNameID() {
+		return sDisplayNameID;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.model.extension.IChoiceDefinition#getName()
-     */
-    public String getName()
-    {
-        return sName;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.extension.IChoiceDefinition#getName()
+	 */
+	public String getName() {
+		return sName;
+	}
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.eclipse.birt.report.model.extension.IChoiceDefinition#getValue()
-     */
-    public Object getValue()
-    {
-        return oValue;
-    }
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.extension.IChoiceDefinition#getValue()
+	 */
+	public Object getValue() {
+		return oValue;
+	}
 
 }

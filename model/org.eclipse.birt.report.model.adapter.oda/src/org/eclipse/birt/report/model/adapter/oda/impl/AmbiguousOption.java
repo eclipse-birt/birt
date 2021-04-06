@@ -24,8 +24,7 @@ import org.eclipse.birt.report.model.adapter.oda.IAmbiguousResultSetNode;
  * 
  */
 
-class AmbiguousOption implements IAmbiguousOption
-{
+class AmbiguousOption implements IAmbiguousOption {
 
 	private List<IAmbiguousParameterNode> ambiguousParameters = null;
 	private List<IAmbiguousResultSetNode> ambiguousColumns = null;
@@ -33,8 +32,7 @@ class AmbiguousOption implements IAmbiguousOption
 	/**
 	 * Default constructor.
 	 */
-	AmbiguousOption( )
-	{
+	AmbiguousOption() {
 	}
 
 	/*
@@ -43,15 +41,13 @@ class AmbiguousOption implements IAmbiguousOption
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousOption#
 	 * getAmbiguousParameters()
 	 */
-	public List<IAmbiguousParameterNode> getAmbiguousParameters( )
-	{
-		if ( ambiguousParameters == null )
-			return Collections.emptyList( );
+	public List<IAmbiguousParameterNode> getAmbiguousParameters() {
+		if (ambiguousParameters == null)
+			return Collections.emptyList();
 		return ambiguousParameters;
 	}
 
-	void setAmbiguousParameters( List<IAmbiguousParameterNode> parameters )
-	{
+	void setAmbiguousParameters(List<IAmbiguousParameterNode> parameters) {
 		this.ambiguousParameters = parameters;
 	}
 
@@ -61,15 +57,13 @@ class AmbiguousOption implements IAmbiguousOption
 	 * @seeorg.eclipse.birt.report.model.adapter.oda.IAmbiguousOption#
 	 * getAmbiguousResultSets()
 	 */
-	public List<IAmbiguousResultSetNode> getAmbiguousResultSets( )
-	{
-		if ( ambiguousColumns == null )
-			return Collections.emptyList( );
+	public List<IAmbiguousResultSetNode> getAmbiguousResultSets() {
+		if (ambiguousColumns == null)
+			return Collections.emptyList();
 		return ambiguousColumns;
 	}
 
-	void setAmbiguousResultSets( List<IAmbiguousResultSetNode> resultSets )
-	{
+	void setAmbiguousResultSets(List<IAmbiguousResultSetNode> resultSets) {
 		this.ambiguousColumns = resultSets;
 	}
 

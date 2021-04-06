@@ -15,11 +15,10 @@ package org.eclipse.birt.report.engine.api;
  * lock used to lock the report document.
  *
  */
-public interface IReportDocumentLock
-{
+public interface IReportDocumentLock {
 
 	/**
 	 * release this lock
 	 */
-	void unlock( );
+	void unlock();
 }

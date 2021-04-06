@@ -24,58 +24,50 @@ import static org.junit.Assert.*;
 /**
  * SCR#78081: Sorting on Date time column doesn't take effect
  */
-public class SortTest extends APITestCase 
-{
-	
+public class SortTest extends APITestCase {
+
 	/*
 	 * @see org.eclipse.birt.data.engine.api.APITestCase#getDataSourceInfo()
 	 */
-	protected DataSourceInfo getDataSourceInfo( )
-	{
-		return new DataSourceInfo( ConfigText.getString( "Api.TestDataCalls.TableName" ),
-				ConfigText.getString( "Api.TestDataCalls.TableSQL" ),
-				"testSort.txt" );
+	protected DataSourceInfo getDataSourceInfo() {
+		return new DataSourceInfo(ConfigText.getString("Api.TestDataCalls.TableName"),
+				ConfigText.getString("Api.TestDataCalls.TableSQL"), "testSort.txt");
 	}
-	
+
 	/**
 	 * Test to check whether null value can be column data
 	 */
 	@Test
-    public void testDateTime( )
-	{
+	public void testDateTime() {
 		/** sort definition */
 		SortDefinition st = new SortDefinition();
 		st.setExpression("dataSetRow.CALLTIME");
-		
+
 		/** expression */
 		ScriptExpression expr = new ScriptExpression("dataSetRow.CALLTIME");
-		
+
 		/** query definition */
 		QueryDefinition qd = new QueryDefinition();
 		qd.setDataSetName(dataSet.getName());
 		qd.addSort(st);
-		
-		qd.addResultSetExpression("NAME", expr);
-		
-		try
-		{
-			IResultIterator ri = executeQuery( qd );
-			while ( ri.next( ) )
-			{
-				Object ob = ri.getValue( "NAME" );
-				if ( ob == null )
-					testPrintln( "null" );
-				else
-					testPrintln( ob.toString( ) );
-			}
-			ri.close( );
 
-			checkOutputFile( );
-		}
-		catch ( Exception e )
-		{
-			fail( e.getMessage( ) );
+		qd.addResultSetExpression("NAME", expr);
+
+		try {
+			IResultIterator ri = executeQuery(qd);
+			while (ri.next()) {
+				Object ob = ri.getValue("NAME");
+				if (ob == null)
+					testPrintln("null");
+				else
+					testPrintln(ob.toString());
+			}
+			ri.close();
+
+			checkOutputFile();
+		} catch (Exception e) {
+			fail(e.getMessage());
 		}
 	}
-	
+
 }

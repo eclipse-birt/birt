@@ -21,39 +21,34 @@ import org.eclipse.birt.report.model.elements.interfaces.IDataSetModel;
  * 
  */
 
-public abstract class DataSet extends ReferenceableElement
-		implements
-			IDataSetModel
-{
+public abstract class DataSet extends ReferenceableElement implements IDataSetModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public DataSet( )
-	{
+	public DataSet() {
 	}
 
 	/**
 	 * Constructs this data set by name.
 	 * 
-	 * @param name
-	 *            of the data set.
+	 * @param name of the data set.
 	 */
 
-	public DataSet( String name )
-	{
+	public DataSet(String name) {
 		this.name = name;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.ReferenceableElement#broadcastToClients(org.eclipse.birt.report.model.api.activity.NotificationEvent,
-	 *      org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.core.ReferenceableElement#broadcastToClients(
+	 * org.eclipse.birt.report.model.api.activity.NotificationEvent,
+	 * org.eclipse.birt.report.model.core.Module)
 	 */
 
-	protected void broadcastToClients( NotificationEvent ev, Module module )
-	{
+	protected void broadcastToClients(NotificationEvent ev, Module module) {
 	}
 }

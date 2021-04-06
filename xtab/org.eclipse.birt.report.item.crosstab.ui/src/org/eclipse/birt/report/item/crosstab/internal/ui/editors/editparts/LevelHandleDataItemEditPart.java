@@ -20,33 +20,40 @@ import org.eclipse.draw2d.StackLayout;
 /**
  * The date itenm in the level handle editpart.
  */
-public class LevelHandleDataItemEditPart extends DataEditPart
-{
+public class LevelHandleDataItemEditPart extends DataEditPart {
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param model
 	 */
-	public LevelHandleDataItemEditPart( Object model )
-	{
-		super( model );
+	public LevelHandleDataItemEditPart(Object model) {
+		super(model);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.DataEditPart#createFigure()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * DataEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		LabelFigure label = new LabelFigure( );
-		label.setLayoutManager( new StackLayout( ) );
+	protected IFigure createFigure() {
+		LabelFigure label = new LabelFigure();
+		label.setLayoutManager(new StackLayout());
 		return label;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshBackgroundColor(org.eclipse.birt.report.model.api.DesignElementHandle)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshBackgroundColor(org.eclipse.birt.report.model.
+	 * api.DesignElementHandle)
 	 */
-	protected void refreshBackgroundColor( DesignElementHandle handle )
-	{
-		super.refreshBackgroundColor( handle );
+	protected void refreshBackgroundColor(DesignElementHandle handle) {
+		super.refreshBackgroundColor(handle);
 
 //		Object obj = handle.getProperty( StyleHandle.BACKGROUND_COLOR_PROP );
 //

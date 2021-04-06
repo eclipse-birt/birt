@@ -30,38 +30,31 @@ import org.mozilla.javascript.ast.ScriptNode;
  * 
  */
 
-public class OlapExpressionCompiler
-{
+public class OlapExpressionCompiler {
 	/**
 	 * 
 	 * @param expr
 	 * @param objectName
 	 * @return
 	 */
-	public static Set<String> getReferencedMeasure( String expr )
-	{
-		if ( expr == null )
-			return Collections.emptySet( );
-		try
-		{
-			Set<String> result = new LinkedHashSet<String>( );
-			Context cx = Context.enter( );
-			CompilerEnvirons ce = new CompilerEnvirons( );
-			Parser p = new Parser( ce, cx.getErrorReporter( ) );
-			AstRoot tree = p.parse( expr, null, 0 );
-			IRFactory ir = new IRFactory( ce );
-			ScriptNode script = ir.transformTree( tree );
-			getScriptObjectName( script, "measure", result ); //$NON-NLS-1$
-			
+	public static Set<String> getReferencedMeasure(String expr) {
+		if (expr == null)
+			return Collections.emptySet();
+		try {
+			Set<String> result = new LinkedHashSet<String>();
+			Context cx = Context.enter();
+			CompilerEnvirons ce = new CompilerEnvirons();
+			Parser p = new Parser(ce, cx.getErrorReporter());
+			AstRoot tree = p.parse(expr, null, 0);
+			IRFactory ir = new IRFactory(ce);
+			ScriptNode script = ir.transformTree(tree);
+			getScriptObjectName(script, "measure", result); //$NON-NLS-1$
+
 			return result;
-		}
-		catch( Exception e )
-		{
-			return Collections.emptySet( );
-		}
-		finally
-		{
-			Context.exit( );
+		} catch (Exception e) {
+			return Collections.emptySet();
+		} finally {
+			Context.exit();
 		}
 	}
 
@@ -73,30 +66,23 @@ public class OlapExpressionCompiler
 	 * @return
 	 * @throws DataException
 	 */
-	public static Set<IDimLevel> getReferencedDimLevel( String expr )
-			throws CoreException
-	{
-		if ( expr == null  )
-			return new HashSet<IDimLevel>( );
-		try
-		{
-			Set<IDimLevel> result = new HashSet<IDimLevel>( );
-			Context cx = Context.enter( );
-			CompilerEnvirons ce = new CompilerEnvirons( );
-			Parser p = new Parser( ce, cx.getErrorReporter( ) );
-			AstRoot tree = p.parse( expr, null, 0 );
-			IRFactory ir = new IRFactory( ce );
-			ScriptNode script = ir.transformTree( tree );
-			populateDimLevels( null, script, result );
+	public static Set<IDimLevel> getReferencedDimLevel(String expr) throws CoreException {
+		if (expr == null)
+			return new HashSet<IDimLevel>();
+		try {
+			Set<IDimLevel> result = new HashSet<IDimLevel>();
+			Context cx = Context.enter();
+			CompilerEnvirons ce = new CompilerEnvirons();
+			Parser p = new Parser(ce, cx.getErrorReporter());
+			AstRoot tree = p.parse(expr, null, 0);
+			IRFactory ir = new IRFactory(ce);
+			ScriptNode script = ir.transformTree(tree);
+			populateDimLevels(null, script, result);
 			return result;
-		}
-		catch( Exception e )
-		{
-			return Collections.emptySet( );
-		}
-		finally
-		{
-			Context.exit( );
+		} catch (Exception e) {
+			return Collections.emptySet();
+		} finally {
+			Context.exit();
 		}
 	}
 
@@ -108,66 +94,44 @@ public class OlapExpressionCompiler
 	 * @param onlyFromDirectReferenceExpr
 	 * @throws DataException
 	 */
-	private static void populateDimLevels( Node grandpa, Node n, Set<IDimLevel> result )
-			throws CoreException
-	{
-		if ( n == null )
+	private static void populateDimLevels(Node grandpa, Node n, Set<IDimLevel> result) throws CoreException {
+		if (n == null)
 			return;
 
-		if ( n.getFirstChild( ) != null
-				&& ( n.getType( ) == Token.GETPROP || n.getType( ) == Token.GETELEM ) )
-		{
-			if ( n.getFirstChild( ).getFirstChild( ) != null
-					&& ( n.getFirstChild( ).getFirstChild( ).getType( ) == Token.GETPROP || n.getFirstChild( )
-							.getFirstChild( )
-							.getType( ) == Token.GETELEM ) )
-			{
-				Node dim = n.getFirstChild( ).getFirstChild( );
-				if ( "dimension".equals( dim.getFirstChild( ).getString( ) ) )
-				{
-					String dimName = dim.getLastChild( ).getString( );
-					String levelName = dim.getNext( ).getString( );
-					String attr = n.getLastChild( ).getString( );
+		if (n.getFirstChild() != null && (n.getType() == Token.GETPROP || n.getType() == Token.GETELEM)) {
+			if (n.getFirstChild().getFirstChild() != null
+					&& (n.getFirstChild().getFirstChild().getType() == Token.GETPROP
+							|| n.getFirstChild().getFirstChild().getType() == Token.GETELEM)) {
+				Node dim = n.getFirstChild().getFirstChild();
+				if ("dimension".equals(dim.getFirstChild().getString())) {
+					String dimName = dim.getLastChild().getString();
+					String levelName = dim.getNext().getString();
+					String attr = n.getLastChild().getString();
 
-					DimLevel dimLevel = new DimLevel( dimName, levelName, attr );
-					if ( !result.contains( dimLevel ) )
-						result.add( dimLevel );
+					DimLevel dimLevel = new DimLevel(dimName, levelName, attr);
+					if (!result.contains(dimLevel))
+						result.add(dimLevel);
 				}
-			}
-			else if ( n.getFirstChild( ) != null
-					&& n.getFirstChild( ).getType( ) == Token.NAME )
-			{
-				if ( "dimension".equals( n.getFirstChild( ).getString( ) ) )
-				{
-					if ( n.getLastChild( ) != null && n.getNext( ) != null )
-					{
-						String dimName = n.getLastChild( ).getString( );
-						String levelName = n.getNext( ).getString( );
+			} else if (n.getFirstChild() != null && n.getFirstChild().getType() == Token.NAME) {
+				if ("dimension".equals(n.getFirstChild().getString())) {
+					if (n.getLastChild() != null && n.getNext() != null) {
+						String dimName = n.getLastChild().getString();
+						String levelName = n.getNext().getString();
 						String attr = null;
-						if ( grandpa != null
-								&& grandpa.getNext( ) != null
-								&& grandpa.getNext( ).getType( ) == Token.STRING )
-						{
-							attr = grandpa.getNext( ).getString( );
+						if (grandpa != null && grandpa.getNext() != null
+								&& grandpa.getNext().getType() == Token.STRING) {
+							attr = grandpa.getNext().getString();
 						}
-						DimLevel dimLevel = new DimLevel( dimName,
-								levelName,
-								attr );
-						if ( !result.contains( dimLevel ) )
-							result.add( dimLevel );
+						DimLevel dimLevel = new DimLevel(dimName, levelName, attr);
+						if (!result.contains(dimLevel))
+							result.add(dimLevel);
 					}
 				}
 			}
 		}
-		populateDimLevels( grandpa,
-				n.getFirstChild( ),
-				result );
-		populateDimLevels( grandpa,
-				n.getNext( ),
-				result );
-		populateDimLevels( grandpa,
-				n.getLastChild( ),
-				result );
+		populateDimLevels(grandpa, n.getFirstChild(), result);
+		populateDimLevels(grandpa, n.getNext(), result);
+		populateDimLevels(grandpa, n.getLastChild(), result);
 	}
 
 	/**
@@ -176,26 +140,22 @@ public class OlapExpressionCompiler
 	 * @param objectName
 	 * @return
 	 */
-	private static void getScriptObjectName( Node n, String objectName, Set nameSet )
-	{
-		if ( n == null )
+	private static void getScriptObjectName(Node n, String objectName, Set nameSet) {
+		if (n == null)
 			return;
 		String result = null;
-		if ( n.getType( ) == Token.NAME )
-		{
-			if ( objectName.equals( n.getString( ) ) )
-			{
-				Node dimNameNode = n.getNext( );
-				if ( dimNameNode == null
-						|| dimNameNode.getType( ) != Token.STRING )
+		if (n.getType() == Token.NAME) {
+			if (objectName.equals(n.getString())) {
+				Node dimNameNode = n.getNext();
+				if (dimNameNode == null || dimNameNode.getType() != Token.STRING)
 					return;
 
-				nameSet.add( dimNameNode.getString( ) );
+				nameSet.add(dimNameNode.getString());
 			}
 		}
 
-		getScriptObjectName( n.getFirstChild( ), objectName, nameSet );
-		getScriptObjectName( n.getNext( ), objectName, nameSet );
-		getScriptObjectName( n.getLastChild( ), objectName, nameSet );
+		getScriptObjectName(n.getFirstChild(), objectName, nameSet);
+		getScriptObjectName(n.getNext(), objectName, nameSet);
+		getScriptObjectName(n.getLastChild(), objectName, nameSet);
 	}
 }

@@ -18,8 +18,7 @@ import org.eclipse.birt.report.item.crosstab.core.util.ICrosstabUpdateListener;
  * 
  * @deprecated use {@link ICrosstabUpdateListener} instead
  */
-public interface ICrosstabModelListener
-{
+public interface ICrosstabModelListener {
 
 	int MEASURE_HEADER = 1;
 	int MEASURE_DETAIL = 2;
@@ -30,7 +29,7 @@ public interface ICrosstabModelListener
 	 * @param type
 	 * @param model
 	 */
-	void onCreated( int type, Object model );
+	void onCreated(int type, Object model);
 
 	/**
 	 * Called whenever the given crosstab model need be validated.
@@ -38,5 +37,5 @@ public interface ICrosstabModelListener
 	 * @param type
 	 * @param model
 	 */
-	void onValidate( int type, Object model );
+	void onValidate(int type, Object model);
 }

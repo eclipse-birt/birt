@@ -24,8 +24,7 @@ import org.eclipse.birt.report.data.adapter.api.IRequestInfo;
  * 
  */
 
-public class ColumnValueIterator implements IColumnValueIterator
-{
+public class ColumnValueIterator implements IColumnValueIterator {
 	private IResultIterator resultIterator;
 	private String boundColumnName;
 	private IQueryResults queryResults;
@@ -33,96 +32,85 @@ public class ColumnValueIterator implements IColumnValueIterator
 	private Set visitedValues;
 	private int startRow;
 	private int maxRows = 10000;
+
 	/**
-	 * @throws BirtException 
+	 * @throws BirtException
 	 */
-	ColumnValueIterator( IQueryResults queryResults, String boundColumnName, IRequestInfo requestInfo ) throws BirtException
-	{
+	ColumnValueIterator(IQueryResults queryResults, String boundColumnName, IRequestInfo requestInfo)
+			throws BirtException {
 		this.queryResults = queryResults;
 		this.boundColumnName = boundColumnName;
 		this.visitedValues = new HashSet();
-		if ( requestInfo != null )
-		{
+		if (requestInfo != null) {
 			this.startRow = requestInfo.getStartRow();
 			this.maxRows = requestInfo.getMaxRow();
 		}
-		
+
 		this.moveTo(this.startRow);
 	}
-	
+
 	/**
 	 * 
 	 * @return
-	 * @throws BirtException 
+	 * @throws BirtException
 	 */
-	public boolean next( ) throws BirtException
-	{
-		if( this.visitedValues.size() > this.maxRows )
+	public boolean next() throws BirtException {
+		if (this.visitedValues.size() > this.maxRows)
 			return false;
-		if( resultIterator == null )
-		{
-			if( queryResults == null )
+		if (resultIterator == null) {
+			if (queryResults == null)
 				return false;
-			resultIterator = queryResults.getResultIterator( );
+			resultIterator = queryResults.getResultIterator();
 		}
-		if( resultIterator == null || !resultIterator.next( ) )
+		if (resultIterator == null || !resultIterator.next())
 			return false;
-		value = resultIterator.getValue( boundColumnName );
-		while( this.visitedValues.contains( value ))
-		{
+		value = resultIterator.getValue(boundColumnName);
+		while (this.visitedValues.contains(value)) {
 			boolean hasNext = resultIterator.next();
-			if( hasNext )
-			{
-				value = resultIterator.getValue( boundColumnName );
-			}
-			else
-			{
+			if (hasNext) {
+				value = resultIterator.getValue(boundColumnName);
+			} else {
 				return false;
 			}
 		}
-		this.visitedValues.add( value );
+		this.visitedValues.add(value);
 		return true;
 	}
-	
+
 	/**
 	 * 
 	 * @return
 	 * @throws BirtException
 	 */
-	public Object getValue() throws BirtException
-	{
+	public Object getValue() throws BirtException {
 		return value;
 	}
-	
+
 	/**
 	 * 
 	 * @throws BirtException
 	 */
-	public void close( ) throws BirtException
-	{
-		if( resultIterator != null )
-			resultIterator.close( );
-		if( queryResults != null )
-			queryResults.close( );
+	public void close() throws BirtException {
+		if (resultIterator != null)
+			resultIterator.close();
+		if (queryResults != null)
+			queryResults.close();
 	}
 
 	/**
 	 * 
 	 */
-	private void moveTo( int rowIndex ) throws BirtException
-	{
-		if( resultIterator == null )
-		{
-			if( queryResults == null )
+	private void moveTo(int rowIndex) throws BirtException {
+		if (resultIterator == null) {
+			if (queryResults == null)
 				return;
-			resultIterator = queryResults.getResultIterator( );
+			resultIterator = queryResults.getResultIterator();
 		}
-		if( resultIterator == null || resultIterator.isEmpty( ) )
-		{
+		if (resultIterator == null || resultIterator.isEmpty()) {
 			return;
 		}
-		resultIterator.moveTo( rowIndex );
-		value = resultIterator.getValue( boundColumnName );
+		resultIterator.moveTo(rowIndex);
+		value = resultIterator.getValue(boundColumnName);
 		this.visitedValues.add(value);
 	}
 }

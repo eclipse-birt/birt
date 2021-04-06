@@ -23,8 +23,7 @@ import org.eclipse.birt.report.engine.ir.MasterPageDesign;
 import org.eclipse.birt.report.engine.ir.SimpleMasterPageDesign;
 import org.eclipse.birt.report.engine.toc.TOCBuilder;
 
-public class MasterPageExecutor extends ReportItemExecutor
-{
+public class MasterPageExecutor extends ReportItemExecutor {
 
 	MasterPageDesign masterPage;
 	long pageNumber;
@@ -35,87 +34,70 @@ public class MasterPageExecutor extends ReportItemExecutor
 	static final int BODY_BAND = 1;
 	static final int FOOTER_BAND = 2;
 
-	public MasterPageExecutor( ExecutorManager manager, long pageNumber,
-			MasterPageDesign masterPage )
-	{
-		super( manager, -1 );
+	public MasterPageExecutor(ExecutorManager manager, long pageNumber, MasterPageDesign masterPage) {
+		super(manager, -1);
 		this.pageNumber = pageNumber;
 		this.masterPage = masterPage;
 		this.nextBand = HEADER_BAND;
 	}
 
-	public IContent execute( )
-	{
-		context.setPageNumber( pageNumber );
+	public IContent execute() {
+		context.setPageNumber(pageNumber);
 
 		// disable the tocBuilder
-		tocBuilder = context.getTOCBuilder( );
-		context.setTOCBuilder( null );
+		tocBuilder = context.getTOCBuilder();
+		context.setTOCBuilder(null);
 		rs = context.getResultSets();
-		context.setExecutingMasterPage( true );
+		context.setExecutingMasterPage(true);
 
-		IPageContent pageContent = report.createPageContent( );
-		pageContent.setPageNumber( pageNumber );
+		IPageContent pageContent = report.createPageContent();
+		pageContent.setPageNumber(pageNumber);
 
 		content = pageContent;
-		content.setGenerateBy( masterPage );
-		instanceId = new InstanceID( null, pageNumber, masterPage.getID( ),
-				null );
-		content.setInstanceID( instanceId );
+		content.setGenerateBy(masterPage);
+		instanceId = new InstanceID(null, pageNumber, masterPage.getID(), null);
+		content.setInstanceID(instanceId);
 		return content;
 	}
 
-	public void close( ) throws BirtException
-	{
-		context.setExecutingMasterPage( false );
+	public void close() throws BirtException {
+		context.setExecutingMasterPage(false);
 		// reenable the TOC
-		context.setTOCBuilder( tocBuilder );
+		context.setTOCBuilder(tocBuilder);
 		context.setResultSets(rs);
-		super.close( );
+		super.close();
 	}
 
-	public boolean hasNextChild( )
-	{
+	public boolean hasNextChild() {
 		return nextBand >= HEADER_BAND && nextBand <= FOOTER_BAND;
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		if ( hasNextChild( ) )
-		{
+	public IReportItemExecutor getNextChild() {
+		if (hasNextChild()) {
 			ArrayList band = null;
-			switch ( nextBand )
-			{
-				case HEADER_BAND :
-					if ( masterPage instanceof SimpleMasterPageDesign )
-					{
-						band = ( (SimpleMasterPageDesign) masterPage )
-								.getHeaders( );
-					}
-					else
-					{
-						band = new ArrayList( );
-					}
-					break;
-				case FOOTER_BAND :
-					if ( masterPage instanceof SimpleMasterPageDesign )
-					{
-						band = ( (SimpleMasterPageDesign) masterPage )
-								.getFooters( );
+			switch (nextBand) {
+			case HEADER_BAND:
+				if (masterPage instanceof SimpleMasterPageDesign) {
+					band = ((SimpleMasterPageDesign) masterPage).getHeaders();
+				} else {
+					band = new ArrayList();
+				}
+				break;
+			case FOOTER_BAND:
+				if (masterPage instanceof SimpleMasterPageDesign) {
+					band = ((SimpleMasterPageDesign) masterPage).getFooters();
 
-					}
-					else
-					{
-						band = new ArrayList( );
-					}
-					break;
-				case BODY_BAND :
-					band = new ArrayList( );
-					break;
+				} else {
+					band = new ArrayList();
+				}
+				break;
+			case BODY_BAND:
+				band = new ArrayList();
+				break;
 			}
 			nextBand++;
-			PageBandExecutor bandExecutor = new PageBandExecutor( this, band );
-			bandExecutor.setParent( this );
+			PageBandExecutor bandExecutor = new PageBandExecutor(this, band);
+			bandExecutor.setParent(this);
 			return bandExecutor;
 		}
 		return null;

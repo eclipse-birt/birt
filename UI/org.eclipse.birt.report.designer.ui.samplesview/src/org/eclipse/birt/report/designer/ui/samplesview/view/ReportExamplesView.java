@@ -24,8 +24,7 @@ import org.eclipse.swt.widgets.Menu;
 import org.eclipse.ui.IActionBars;
 import org.eclipse.ui.part.ViewPart;
 
-public class ReportExamplesView extends ViewPart
-{
+public class ReportExamplesView extends ViewPart {
 
 	ReportExamples instance = null;
 	private IOpenSampleReportAction importAction;
@@ -34,58 +33,49 @@ public class ReportExamplesView extends ViewPart
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.Composite)
+	 * @see
+	 * org.eclipse.ui.part.WorkbenchPart#createPartControl(org.eclipse.swt.widgets.
+	 * Composite)
 	 */
-	public void createPartControl( Composite parent )
-	{
-		instance = new ReportExamples( parent );
-		registerActions( );
-		createContextMenus( );
+	public void createPartControl(Composite parent) {
+		instance = new ReportExamples(parent);
+		registerActions();
+		createContextMenus();
 	}
 
-	private void createContextMenus( )
-	{
-		SampleContextMenuProvider menuManager = new SampleContextMenuProvider( ReportExamplesView.this );
-		if ( exportAction != null )
-			menuManager.addAction( exportAction );
-		if ( importAction != null )
-			menuManager.addAction( (Action) importAction );
-		Menu menu = menuManager.createContextMenu( instance.getTreeViewer( )
-				.getControl( ) );
-		instance.getTreeViewer( ).getControl( ).setMenu( menu );
+	private void createContextMenus() {
+		SampleContextMenuProvider menuManager = new SampleContextMenuProvider(ReportExamplesView.this);
+		if (exportAction != null)
+			menuManager.addAction(exportAction);
+		if (importAction != null)
+			menuManager.addAction((Action) importAction);
+		Menu menu = menuManager.createContextMenu(instance.getTreeViewer().getControl());
+		instance.getTreeViewer().getControl().setMenu(menu);
 	}
 
-	private void registerActions( )
-	{
-		final IActionBars actionBars = getViewSite( ).getActionBars( );
-		IToolBarManager toolbarManager = actionBars.getToolBarManager( );
-		exportAction = new ExportSampleReportAction( instance );
-		toolbarManager.add( exportAction );
-		toolbarManager.add( new Separator( ) );
+	private void registerActions() {
+		final IActionBars actionBars = getViewSite().getActionBars();
+		IToolBarManager toolbarManager = actionBars.getToolBarManager();
+		exportAction = new ExportSampleReportAction(instance);
+		toolbarManager.add(exportAction);
+		toolbarManager.add(new Separator());
 
 		Object adapter = null;
-		int status = Platform.getAdapterManager( ).queryAdapter( this,
-				IAction.class.getName( ) );
+		int status = Platform.getAdapterManager().queryAdapter(this, IAction.class.getName());
 
-		if ( status == IAdapterManager.LOADED )
-		{
-			adapter = Platform.getAdapterManager( ).getAdapter( this,
-					IAction.class );
-		}
-		else if ( status == IAdapterManager.NOT_LOADED )
-		{
+		if (status == IAdapterManager.LOADED) {
+			adapter = Platform.getAdapterManager().getAdapter(this, IAction.class);
+		} else if (status == IAdapterManager.NOT_LOADED) {
 			// Cause the plug-in loading first
-			adapter = Platform.getAdapterManager( ).loadAdapter( this,
-					IAction.class.getName( ) );
+			adapter = Platform.getAdapterManager().loadAdapter(this, IAction.class.getName());
 		}
-		if ( adapter != null )
-		{
-			importAction = ( (IOpenSampleReportAction) adapter );
-			importAction.setMainComposite( instance );
-			toolbarManager.add( (Action) importAction );
+		if (adapter != null) {
+			importAction = ((IOpenSampleReportAction) adapter);
+			importAction.setMainComposite(instance);
+			toolbarManager.add((Action) importAction);
 		}
 
-		actionBars.updateActionBars( );
+		actionBars.updateActionBars();
 	}
 
 	/*
@@ -93,18 +83,16 @@ public class ReportExamplesView extends ViewPart
 	 * 
 	 * @see org.eclipse.ui.part.WorkbenchPart#setFocus()
 	 */
-	public void setFocus( )
-	{
-		instance.setFocus( );
+	public void setFocus() {
+		instance.setFocus();
 	}
 
 	/**
 	 * Called when the View is to be disposed
 	 */
-	public void dispose( )
-	{
-		instance.dispose( );
+	public void dispose() {
+		instance.dispose();
 		instance = null;
-		super.dispose( );
+		super.dispose();
 	}
 }

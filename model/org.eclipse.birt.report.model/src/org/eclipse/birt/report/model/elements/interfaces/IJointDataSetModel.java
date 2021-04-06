@@ -16,19 +16,18 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * element.
  */
 
-public interface IJointDataSetModel
-{
+public interface IJointDataSetModel {
 
 	/**
-	 * Name of the source data sets property which gives all the source datasets
-	 * in this joint dataset.
+	 * Name of the source data sets property which gives all the source datasets in
+	 * this joint dataset.
 	 */
 
 	public static final String DATA_SETS_PROP = "dataSets"; //$NON-NLS-1$
 
 	/**
-	 * Name of the joint conditions property which gives all the join conditions
-	 * in this joint dataset.
+	 * Name of the joint conditions property which gives all the join conditions in
+	 * this joint dataset.
 	 */
 
 	public static final String JOIN_CONDITONS_PROP = "joinConditions"; //$NON-NLS-1$

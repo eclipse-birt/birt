@@ -12,13 +12,12 @@
 package org.eclipse.birt.report.model.adapter.oda;
 
 /**
- *Interface that gives out a pair of values that is ambiguous between data set
+ * Interface that gives out a pair of values that is ambiguous between data set
  * parameter handle and data set design. when converting data set design to data
  * set handle.
  */
 
-public interface IAmbiguousAttribute
-{
+public interface IAmbiguousAttribute {
 
 	/**
 	 * The ROM property names.
@@ -26,7 +25,7 @@ public interface IAmbiguousAttribute
 	 * @return
 	 */
 
-	public String getAttributeName( );
+	public String getAttributeName();
 
 	/**
 	 * The new values from ODA parameter definition.
@@ -34,7 +33,7 @@ public interface IAmbiguousAttribute
 	 * @return
 	 */
 
-	public Object getRevisedValue( );
+	public Object getRevisedValue();
 
 	/**
 	 * The previous value on the ROM data set parameter.
@@ -42,12 +41,12 @@ public interface IAmbiguousAttribute
 	 * @return
 	 */
 
-	public Object getPreviousValue( );
+	public Object getPreviousValue();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public boolean isLinkedReportParameterAttribute( );
+	public boolean isLinkedReportParameterAttribute();
 
 }

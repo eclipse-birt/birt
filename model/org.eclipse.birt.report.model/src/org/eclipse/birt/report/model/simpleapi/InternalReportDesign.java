@@ -45,8 +45,7 @@ import org.eclipse.birt.report.model.elements.interfaces.IDesignElementModel;
 /**
  * InternalReportDesign
  */
-class InternalReportDesign extends DesignElement implements IReportDesign
-{
+class InternalReportDesign extends DesignElement implements IReportDesign {
 
 	private ReportDesignHandle report;
 
@@ -56,9 +55,8 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 * @param report
 	 */
 
-	public InternalReportDesign( ReportDesignHandle report )
-	{
-		super( report );
+	public InternalReportDesign(ReportDesignHandle report) {
+		super(report);
 		this.report = report;
 	}
 
@@ -69,37 +67,31 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 * @return master page script instance
 	 */
 
-	public IMasterPage getMasterPage( String name )
-	{
-		MasterPageHandle masterPage = report.findMasterPage( name );
-		if ( masterPage == null )
+	public IMasterPage getMasterPage(String name) {
+		MasterPageHandle masterPage = report.findMasterPage(name);
+		if (masterPage == null)
 			return null;
-		return new MasterPage( masterPage );
+		return new MasterPage(masterPage);
 	}
 
-	public IDataSet getDataSet( String name )
-	{
-		DataSetHandle dataSet = report.findDataSet( name );
-		if ( dataSet == null )
+	public IDataSet getDataSet(String name) {
+		DataSetHandle dataSet = report.findDataSet(name);
+		if (dataSet == null)
 			return null;
-		return new DataSet( dataSet );
+		return new DataSet(dataSet);
 	}
 
-	public IDataSource getDataSource( String name )
-	{
-		DataSourceHandle dataSource = report.findDataSource( name );
-		if ( dataSource == null )
+	public IDataSource getDataSource(String name) {
+		DataSourceHandle dataSource = report.findDataSource(name);
+		if (dataSource == null)
 			return null;
-		return new DataSource( dataSource );
+		return new DataSource(dataSource);
 	}
 
-	public IReportElement getReportElement( String name )
-	{
-		DesignElementHandle element = report.findElement( name );
-		IDesignElement elementDesign = ElementUtil.getElement( element );
-		return ( elementDesign instanceof IReportElement
-				? (IReportElement) elementDesign
-				: null );
+	public IReportElement getReportElement(String name) {
+		DesignElementHandle element = report.findElement(name);
+		IDesignElement elementDesign = ElementUtil.getElement(element);
+		return (elementDesign instanceof IReportElement ? (IReportElement) elementDesign : null);
 	}
 
 	/*
@@ -108,99 +100,83 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IReportDesign#
 	 * getReportElementByID(long)
 	 */
-	public IReportElement getReportElementByID( long id )
-	{
-		DesignElementHandle element = report.getElementByID( id );
-		IDesignElement elementDesign = ElementUtil.getElement( element );
-		return ( elementDesign instanceof IReportElement
-				? (IReportElement) elementDesign
-				: null );
+	public IReportElement getReportElementByID(long id) {
+		DesignElementHandle element = report.getElementByID(id);
+		IDesignElement elementDesign = ElementUtil.getElement(element);
+		return (elementDesign instanceof IReportElement ? (IReportElement) elementDesign : null);
 	}
 
-	public IDataItem getDataItem( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IDataItem )
+	public IDataItem getDataItem(String name) {
+		IReportElement element = getReportElement(name);
+		if (element != null && element instanceof IDataItem)
 			return (IDataItem) element;
 		return null;
 	}
 
-	public IGrid getGrid( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IGrid )
+	public IGrid getGrid(String name) {
+		IReportElement element = getReportElement(name);
+		if (element != null && element instanceof IGrid)
 			return (IGrid) element;
 		return null;
 	}
 
-	public IImage getImage( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IImage )
+	public IImage getImage(String name) {
+		IReportElement element = getReportElement(name);
+		if (element != null && element instanceof IImage)
 			return (IImage) element;
 		return null;
 	}
 
-	public ILabel getLabel( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof ILabel )
+	public ILabel getLabel(String name) {
+		IReportElement element = getReportElement(name);
+		if (element != null && element instanceof ILabel)
 			return (ILabel) element;
 		return null;
 	}
 
-	public IList getList( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IList )
+	public IList getList(String name) {
+		IReportElement element = getReportElement(name);
+		if (element != null && element instanceof IList)
 			return (IList) element;
 		return null;
 	}
 
-	public ITable getTable( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof ITable )
+	public ITable getTable(String name) {
+		IReportElement element = getReportElement(name);
+		if (element != null && element instanceof ITable)
 			return (ITable) element;
 		return null;
 	}
 
-	public IDynamicText getDynamicText( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof IDynamicText )
+	public IDynamicText getDynamicText(String name) {
+		IReportElement element = getReportElement(name);
+		if (element != null && element instanceof IDynamicText)
 			return (IDynamicText) element;
 		return null;
 	}
 
-	public ITextItem getTextItem( String name )
-	{
-		IReportElement element = getReportElement( name );
-		if ( element != null && element instanceof ITextItem )
+	public ITextItem getTextItem(String name) {
+		IReportElement element = getReportElement(name);
+		if (element != null && element instanceof ITextItem)
 			return (ITextItem) element;
 		return null;
 	}
 
-	public void setDisplayNameKey( String displayNameKey )
-			throws SemanticException
-	{
-		setProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey );
+	public void setDisplayNameKey(String displayNameKey) throws SemanticException {
+		setProperty(IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey);
 	}
 
-	public String getDisplayNameKey( )
-	{
-		return report.getDisplayNameKey( );
+	public String getDisplayNameKey() {
+		return report.getDisplayNameKey();
 	}
 
-	public void setDisplayName( String displayName ) throws SemanticException
-	{
-		setProperty( IDesignElementModel.DISPLAY_NAME_PROP, displayName );
+	public void setDisplayName(String displayName) throws SemanticException {
+		setProperty(IDesignElementModel.DISPLAY_NAME_PROP, displayName);
 
 	}
 
-	public String getDisplayName( )
-	{
-		return report.getDisplayName( );
+	public String getDisplayName() {
+		return report.getDisplayName();
 	}
 
 	/*
@@ -209,22 +185,19 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#save()
 	 */
 
-	public void save( ) throws IOException
-	{
-		report.save( );
+	public void save() throws IOException {
+		report.save();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#saveAs(java
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#saveAs(java
 	 * .lang.String)
 	 */
 
-	public void saveAs( String newName ) throws IOException
-	{
-		report.saveAs( newName );
+	public void saveAs(String newName) throws IOException {
+		report.saveAs(newName);
 	}
 
 	/*
@@ -232,22 +205,19 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#getTheme()
 	 */
-	public String getTheme( )
-	{
-		return report.getStringProperty( IModuleModel.THEME_PROP );
+	public String getTheme() {
+		return report.getStringProperty(IModuleModel.THEME_PROP);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java
 	 * .lang.String)
 	 */
 
-	public void setTheme( String theme ) throws SemanticException
-	{
-		setProperty( IModuleModel.THEME_PROP, theme );
+	public void setTheme(String theme) throws SemanticException {
+		setProperty(IModuleModel.THEME_PROP, theme);
 	}
 
 	/*
@@ -256,21 +226,18 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IReportDesign#
 	 * createFilterCondition()
 	 */
-	public IFilterCondition createFilterCondition( )
-	{
-		return new FilterConditionImpl( );
+	public IFilterCondition createFilterCondition() {
+		return new FilterConditionImpl();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule
 	 * ()
 	 */
-	public IHideRule createHideRule( )
-	{
-		return new HideRuleImpl( );
+	public IHideRule createHideRule() {
+		return new HideRuleImpl();
 	}
 
 	/*
@@ -280,9 +247,8 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHighLightRule
 	 * ()
 	 */
-	public IHighlightRule createHighLightRule( )
-	{
-		return new HighlightRuleImpl( );
+	public IHighlightRule createHighLightRule() {
+		return new HighlightRuleImpl();
 	}
 
 	/*
@@ -292,20 +258,17 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createSortCondition
 	 * ()
 	 */
-	public ISortCondition createSortCondition( )
-	{
-		return new SortConditionImpl( );
+	public ISortCondition createSortCondition() {
+		return new SortConditionImpl();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
 	 */
-	public IAction createAction( )
-	{
-		return new ActionImpl( );
+	public IAction createAction() {
+		return new ActionImpl();
 	}
 
 	/*
@@ -315,8 +278,7 @@ class InternalReportDesign extends DesignElement implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createDataBinding
 	 * ()
 	 */
-	public IDataBinding createDataBinding( )
-	{
-		return new DataBindingImpl( );
+	public IDataBinding createDataBinding() {
+		return new DataBindingImpl();
 	}
 }

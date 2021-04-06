@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.extension.engine;
 
 import org.eclipse.birt.report.model.api.ReportElementHandle;
 
-public interface IPrepareExtension
-{
-	boolean needExtension( ReportElementHandle element );
+public interface IPrepareExtension {
+	boolean needExtension(ReportElementHandle element);
 }

@@ -13,10 +13,9 @@ package org.eclipse.birt.report.engine.toc;
 
 import java.io.IOException;
 
-public interface ITOCReader
-{
+public interface ITOCReader {
 
-	ITreeNode readTree( ) throws IOException;
+	ITreeNode readTree() throws IOException;
 
-	public void close( ) throws IOException;
+	public void close() throws IOException;
 }

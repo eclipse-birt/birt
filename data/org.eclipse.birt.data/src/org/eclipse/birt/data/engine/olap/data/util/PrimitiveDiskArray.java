@@ -18,65 +18,62 @@ import java.io.IOException;
  * when cache is not enough . It makes the reading/writing objects transparent.
  */
 
-public class PrimitiveDiskArray extends BaseDiskArray
-{
+public class PrimitiveDiskArray extends BaseDiskArray {
 
 	private IObjectWriter fieldWriter = null;
 	private IObjectReader fieldReader = null;
 
 	/**
-	 * @throws IOException 
+	 * @throws IOException
 	 * 
 	 * 
 	 */
-	public PrimitiveDiskArray( ) throws IOException
-	{
-		super( );
+	public PrimitiveDiskArray() throws IOException {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.util.BaseDiskArray#writeObject(java.lang.Object)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.olap.data.util.BaseDiskArray#writeObject(java.lang.
+	 * Object)
 	 */
-	protected void writeObject( Object object ) throws IOException
-	{
-		if ( object == null )
-		{
-			getRandomAccessFile( ).writeShort( NULL_VALUE );
+	protected void writeObject(Object object) throws IOException {
+		if (object == null) {
+			getRandomAccessFile().writeShort(NULL_VALUE);
 			return;
 		}
-		getRandomAccessFile( ).writeShort( NORMAL_VALUE );
-		if ( fieldWriter == null )
-		{
-			fieldWriter = IOUtil.getRandomWriter( DataType.getDataType( object.getClass( ) ) );
-			fieldReader = IOUtil.getRandomReader( DataType.getDataType( object.getClass( ) ) );
+		getRandomAccessFile().writeShort(NORMAL_VALUE);
+		if (fieldWriter == null) {
+			fieldWriter = IOUtil.getRandomWriter(DataType.getDataType(object.getClass()));
+			fieldReader = IOUtil.getRandomReader(DataType.getDataType(object.getClass()));
 		}
-		fieldWriter.write( getRandomAccessFile( ), object );
+		fieldWriter.write(getRandomAccessFile(), object);
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.util.BaseDiskArray#readObject()
 	 */
-	protected Object readObject( ) throws IOException
-	{
-		short fieldCount = getRandomAccessFile( ).readShort( );
-		if ( fieldCount == NULL_VALUE )
-		{
+	protected Object readObject() throws IOException {
+		short fieldCount = getRandomAccessFile().readShort();
+		if (fieldCount == NULL_VALUE) {
 			return null;
 		}
 
-		return fieldReader.read( getRandomAccessFile( ) );
+		return fieldReader.read(getRandomAccessFile());
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.olap.data.util.BaseDiskArray#clear()
 	 */
-	public void clear( ) throws IOException
-	{
+	public void clear() throws IOException {
 		fieldWriter = null;
 		fieldReader = null;
-		super.clear( );
+		super.clear();
 	}
 }

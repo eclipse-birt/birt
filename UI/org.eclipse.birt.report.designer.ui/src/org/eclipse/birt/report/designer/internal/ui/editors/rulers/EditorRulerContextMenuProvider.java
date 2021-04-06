@@ -31,38 +31,31 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  *  
  */
 
-public class EditorRulerContextMenuProvider extends ContextMenuProvider
-{
+public class EditorRulerContextMenuProvider extends ContextMenuProvider {
 
 	/**
 	 * @param viewer
 	 */
-	public EditorRulerContextMenuProvider( EditPartViewer viewer )
-	{
-		super( viewer );
+	public EditorRulerContextMenuProvider(EditPartViewer viewer) {
+		super(viewer);
 	}
 
-	public void buildContextMenu( IMenuManager menu )
-	{
-		GEFActionConstants.addStandardActionGroups( menu );
+	public void buildContextMenu(IMenuManager menu) {
+		GEFActionConstants.addStandardActionGroups(menu);
 		IChoiceSet choiceSet = null;
 
-		choiceSet = ChoiceSetFactory.getElementChoiceSet(
-				ReportDesignConstants.REPORT_DESIGN_ELEMENT,
-				ReportDesignHandle.UNITS_PROP );
-		
-		if (choiceSet == null )
-		{
-			return ;
+		choiceSet = ChoiceSetFactory.getElementChoiceSet(ReportDesignConstants.REPORT_DESIGN_ELEMENT,
+				ReportDesignHandle.UNITS_PROP);
+
+		if (choiceSet == null) {
+			return;
 		}
-		
+
 		int len = choiceSet.getChoices().length;
-		for (int i=0; i<len; i++)
-		{
+		for (int i = 0; i < len; i++) {
 			IChoice ch = choiceSet.getChoices()[i];
 			ChangeRulerUnitAction action = new ChangeRulerUnitAction(ch.getName(), ch.getDisplayName());
-			menu.appendToGroup( GEFActionConstants.GROUP_ADD,
-					action );
+			menu.appendToGroup(GEFActionConstants.GROUP_ADD, action);
 		}
 	}
 
@@ -71,9 +64,8 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider
 	 * 
 	 * @return The current selection
 	 */
-	protected ISelection getSelection( )
-	{
-		return getViewer( ).getSelection( );
+	protected ISelection getSelection() {
+		return getViewer().getSelection();
 	}
 
 	/**
@@ -81,10 +73,9 @@ public class EditorRulerContextMenuProvider extends ContextMenuProvider
 	 * 
 	 * @return A List containing the currently selected objects
 	 */
-	protected List getSelectedObjects( )
-	{
-		if ( !( getSelection( ) instanceof IStructuredSelection ) )
+	protected List getSelectedObjects() {
+		if (!(getSelection() instanceof IStructuredSelection))
 			return Collections.EMPTY_LIST;
-		return ( (IStructuredSelection) getSelection( ) ).toList( );
+		return ((IStructuredSelection) getSelection()).toList();
 	}
 }

@@ -19,19 +19,17 @@ import org.eclipse.swt.graphics.Color;
  *  
  */
 
-public class ColorManagerTest extends TestCase
-{
+public class ColorManagerTest extends TestCase {
 
 	/**
 	 * Test case for test getColor() method
 	 */
-	public final void testGetColor( )
-	{
-		Color color1 = ColorManager.getColor( 0 );
-		Color color2 = ColorManager.getColor( 0 );
-		assertTrue( color1 == color2 );
+	public final void testGetColor() {
+		Color color1 = ColorManager.getColor(0);
+		Color color2 = ColorManager.getColor(0);
+		assertTrue(color1 == color2);
 
-		color2 = ColorManager.getColor( 255 );
-		assertTrue( !color1.equals( color2 ) );
+		color2 = ColorManager.getColor(255);
+		assertTrue(!color1.equals(color2));
 	}
 }

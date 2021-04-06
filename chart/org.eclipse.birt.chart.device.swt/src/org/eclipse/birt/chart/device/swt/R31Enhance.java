@@ -27,37 +27,29 @@ import com.ibm.icu.util.ULocale;
 /**
  * R31Enhance
  */
-final class R31Enhance
-{
+final class R31Enhance {
 
 	private static final boolean R31_AVAILABLE;
 
-	private static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.device.extension/swt" ); //$NON-NLS-1$
+	private static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.device.extension/swt"); //$NON-NLS-1$
 
-	static
-	{
+	static {
 		// Check if the advanced graphics is present.
-		GC gc = new GC( Display.getDefault( ) );
-		gc.setAdvanced( true );
-		R31_AVAILABLE = gc.getAdvanced( );
-		gc.dispose( );
+		GC gc = new GC(Display.getDefault());
+		gc.setAdvanced(true);
+		R31_AVAILABLE = gc.getAdvanced();
+		gc.dispose();
 
-		if ( R31_AVAILABLE )
-		{
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "R31Enhance.info.advanced.enabled", //$NON-NLS-1$
-							ULocale.getDefault( ) ) );
-		}
-		else
-		{
-			logger.log( ILogger.INFORMATION,
-					Messages.getString( "R31Enhance.info.advanced.disabled", //$NON-NLS-1$
-							ULocale.getDefault( ) ) );
+		if (R31_AVAILABLE) {
+			logger.log(ILogger.INFORMATION, Messages.getString("R31Enhance.info.advanced.enabled", //$NON-NLS-1$
+					ULocale.getDefault()));
+		} else {
+			logger.log(ILogger.INFORMATION, Messages.getString("R31Enhance.info.advanced.disabled", //$NON-NLS-1$
+					ULocale.getDefault()));
 		}
 	}
 
-	private R31Enhance( )
-	{
+	private R31Enhance() {
 	}
 
 	/**
@@ -65,8 +57,7 @@ final class R31Enhance
 	 * 
 	 * @return
 	 */
-	public static boolean isR31Available( )
-	{
+	public static boolean isR31Available() {
 		return R31_AVAILABLE;
 	}
 
@@ -76,14 +67,12 @@ final class R31Enhance
 	 * @param gc
 	 * @param value
 	 */
-	static void setAdvanced( GC gc, boolean value, Region clipping )
-	{
-		if ( R31_AVAILABLE )
-		{
-			gc.setAdvanced( value );
+	static void setAdvanced(GC gc, boolean value, Region clipping) {
+		if (R31_AVAILABLE) {
+			gc.setAdvanced(value);
 
 			// setAdvanced will clean the clipping info, restore it here.
-			gc.setClipping( clipping );
+			gc.setClipping(clipping);
 		}
 	}
 
@@ -93,11 +82,9 @@ final class R31Enhance
 	 * @param gc
 	 * @param value
 	 */
-	static void setAlpha( GC gc, int value )
-	{
-		if ( R31_AVAILABLE )
-		{
-			gc.setAlpha( value );
+	static void setAlpha(GC gc, int value) {
+		if (R31_AVAILABLE) {
+			gc.setAlpha(value);
 		}
 	}
 
@@ -107,11 +94,9 @@ final class R31Enhance
 	 * @param gc
 	 * @param value
 	 */
-	static void setAntialias( GC gc, int value )
-	{
-		if ( R31_AVAILABLE )
-		{
-			gc.setAntialias( value );
+	static void setAntialias(GC gc, int value) {
+		if (R31_AVAILABLE) {
+			gc.setAntialias(value);
 		}
 	}
 
@@ -121,11 +106,9 @@ final class R31Enhance
 	 * @param gc
 	 * @param value
 	 */
-	static void setTextAntialias( GC gc, int value )
-	{
-		if ( R31_AVAILABLE )
-		{
-			gc.setTextAntialias( value );
+	static void setTextAntialias(GC gc, int value) {
+		if (R31_AVAILABLE) {
+			gc.setTextAntialias(value);
 		}
 	}
 
@@ -135,11 +118,9 @@ final class R31Enhance
 	 * @param param
 	 * @return
 	 */
-	static Object newTransform( Device param )
-	{
-		if ( R31_AVAILABLE )
-		{
-			return new Transform( param );
+	static Object newTransform(Device param) {
+		if (R31_AVAILABLE) {
+			return new Transform(param);
 		}
 
 		return null;
@@ -151,11 +132,9 @@ final class R31Enhance
 	 * @param gc
 	 * @param value
 	 */
-	static void setTransform( GC gc, Object value )
-	{
-		if ( R31_AVAILABLE )
-		{
-			gc.setTransform( (Transform) value );
+	static void setTransform(GC gc, Object value) {
+		if (R31_AVAILABLE) {
+			gc.setTransform((Transform) value);
 		}
 	}
 
@@ -167,11 +146,9 @@ final class R31Enhance
 	 * @param v1
 	 * @param v2
 	 */
-	static void translate( GC gc, Object transform, float v1, float v2 )
-	{
-		if ( R31_AVAILABLE )
-		{
-			( (Transform) transform ).translate( v1, v2 );
+	static void translate(GC gc, Object transform, float v1, float v2) {
+		if (R31_AVAILABLE) {
+			((Transform) transform).translate(v1, v2);
 		}
 	}
 
@@ -182,11 +159,9 @@ final class R31Enhance
 	 * @param transform
 	 * @param value
 	 */
-	static void rotate( GC gc, Object transform, float value )
-	{
-		if ( R31_AVAILABLE )
-		{
-			( (Transform) transform ).rotate( value );
+	static void rotate(GC gc, Object transform, float value) {
+		if (R31_AVAILABLE) {
+			((Transform) transform).rotate(value);
 		}
 	}
 
@@ -195,11 +170,9 @@ final class R31Enhance
 	 * 
 	 * @param transform
 	 */
-	static void disposeTransform( Object transform )
-	{
-		if ( R31_AVAILABLE )
-		{
-			( (Transform) transform ).dispose( );
+	static void disposeTransform(Object transform) {
+		if (R31_AVAILABLE) {
+			((Transform) transform).dispose();
 		}
 	}
 
@@ -210,17 +183,12 @@ final class R31Enhance
 	 * @param cd
 	 * @param useOpaque
 	 */
-	static void setAlpha( GC gc, ColorDefinition cd )
-	{
-		if ( R31_AVAILABLE )
-		{
-			if ( cd != null && cd.isSetTransparency( ) )
-			{
-				setAlpha( gc, cd.getTransparency( ) );
-			}
-			else
-			{
-				setAlpha( gc, 255 );
+	static void setAlpha(GC gc, ColorDefinition cd) {
+		if (R31_AVAILABLE) {
+			if (cd != null && cd.isSetTransparency()) {
+				setAlpha(gc, cd.getTransparency());
+			} else {
+				setAlpha(gc, 255);
 			}
 		}
 	}
@@ -232,17 +200,12 @@ final class R31Enhance
 	 * @param cd
 	 * @param useOpaque
 	 */
-	static void setAlpha( GC gc, Gradient g )
-	{
-		if ( R31_AVAILABLE )
-		{
-			if ( g != null && g.isSetTransparency( ) )
-			{
-				setAlpha( gc, g.getTransparency( ) );
-			}
-			else
-			{
-				setAlpha( gc, 255 );
+	static void setAlpha(GC gc, Gradient g) {
+		if (R31_AVAILABLE) {
+			if (g != null && g.isSetTransparency()) {
+				setAlpha(gc, g.getTransparency());
+			} else {
+				setAlpha(gc, 255);
 			}
 		}
 	}

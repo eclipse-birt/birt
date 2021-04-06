@@ -12,7 +12,6 @@ package org.eclipse.birt.chart.device.pdf.plugin;
 
 import org.eclipse.core.runtime.Plugin;
 
-
 /**
  * The activator class controls the plug-in life cycle
  */

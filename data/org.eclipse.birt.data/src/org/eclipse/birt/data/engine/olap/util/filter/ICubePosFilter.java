@@ -15,18 +15,17 @@ package org.eclipse.birt.data.engine.olap.util.filter;
  * 
  */
 
-public interface ICubePosFilter
-{
+public interface ICubePosFilter {
 	/**
 	 * 
 	 * @return
 	 */
 	public String[] getFilterDimensionNames();
-	
+
 	/**
 	 * 
 	 * @param dimensionPosition
 	 * @return
 	 */
-	public boolean getFilterResult( int[] dimensionPositions );
+	public boolean getFilterResult(int[] dimensionPositions);
 }

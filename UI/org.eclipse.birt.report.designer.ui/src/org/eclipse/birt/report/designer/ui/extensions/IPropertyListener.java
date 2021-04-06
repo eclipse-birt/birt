@@ -9,15 +9,16 @@
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
 package org.eclipse.birt.report.designer.ui.extensions;
+
 /**
  * Property Listener. Listens to property changes in the Property Editor Tabs UI
  */
-public interface IPropertyListener
-{
-    /**
-     * This is called when a property changes in the UI
-     * @param name the name of the property that has changed
-     * @param value the value of the property (must include the unit if any)
-     */
-    public void propertyChanged( String name, String value );
+public interface IPropertyListener {
+	/**
+	 * This is called when a property changes in the UI
+	 * 
+	 * @param name  the name of the property that has changed
+	 * @param value the value of the property (must include the unit if any)
+	 */
+	public void propertyChanged(String name, String value);
 }

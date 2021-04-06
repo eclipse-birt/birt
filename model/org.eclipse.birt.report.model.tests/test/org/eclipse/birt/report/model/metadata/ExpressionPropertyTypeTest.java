@@ -17,12 +17,11 @@ import org.eclipse.birt.report.model.api.metadata.PropertyValueException;
  * Test for ExpressionPropertyType.
  * 
  */
-public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
-{
+public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase {
 
-	ExpressionPropertyType type = new ExpressionPropertyType( );
+	ExpressionPropertyType type = new ExpressionPropertyType();
 
-	PropertyDefnFake propDefn = new PropertyDefnFake( );
+	PropertyDefnFake propDefn = new PropertyDefnFake();
 
 	/*
 	 * (non-Javadoc)
@@ -31,9 +30,8 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetTypeCode
 	 * ()
 	 */
-	public void testGetTypeCode( )
-	{
-		assertEquals( PropertyType.EXPRESSION_TYPE, type.getTypeCode( ) );
+	public void testGetTypeCode() {
+		assertEquals(PropertyType.EXPRESSION_TYPE, type.getTypeCode());
 	}
 
 	/*
@@ -42,9 +40,8 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * @see
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testGetName()
 	 */
-	public void testGetName( )
-	{
-		assertEquals( PropertyType.EXPRESSION_TYPE_NAME, type.getName( ) );
+	public void testGetName() {
+		assertEquals(PropertyType.EXPRESSION_TYPE_NAME, type.getName());
 	}
 
 	/*
@@ -54,15 +51,12 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateValue
 	 * ()
 	 */
-	public void testValidateValue( ) throws PropertyValueException
-	{
-		propDefn.setTrimOption( TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE );
-		assertEquals( null, type.validateValue( design, null, propDefn, null ) );
-		assertNull( type.validateValue( design, null, propDefn, "" ) ); //$NON-NLS-1$ 
-		assertEquals(
-				"abc", type.validateValue( design, null, propDefn, "abc" ).toString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		assertEquals(
-				"    abc ", type.validateValue( design, null, propDefn, "    abc " ).toString( ) ); //$NON-NLS-1$ //$NON-NLS-2$
+	public void testValidateValue() throws PropertyValueException {
+		propDefn.setTrimOption(TextualPropertyType.TRIM_EMPTY_TO_NULL_VALUE);
+		assertEquals(null, type.validateValue(design, null, propDefn, null));
+		assertNull(type.validateValue(design, null, propDefn, "")); //$NON-NLS-1$
+		assertEquals("abc", type.validateValue(design, null, propDefn, "abc").toString()); //$NON-NLS-1$ //$NON-NLS-2$
+		assertEquals("    abc ", type.validateValue(design, null, propDefn, "    abc ").toString()); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 
 	/*
@@ -71,8 +65,7 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testValidateInputString()
 	 */
-	public void testValidateInputString( ) throws PropertyValueException
-	{
+	public void testValidateInputString() throws PropertyValueException {
 		// already covered.
 	}
 
@@ -83,56 +76,47 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testValidateXml
 	 * ()
 	 */
-	public void testValidateXml( ) throws PropertyValueException
-	{
+	public void testValidateXml() throws PropertyValueException {
 		// already covered.
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToDouble
 	 * ()
 	 */
-	public void testToDouble( )
-	{
-		assertEquals( 0.0d, type.toDouble( design, "any-input" ), 1 ); //$NON-NLS-1$
+	public void testToDouble() {
+		assertEquals(0.0d, type.toDouble(design, "any-input"), 1); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger
-	 * ()
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToInteger ()
 	 */
-	public void testToInteger( )
-	{
-		assertEquals( 0, type.toInteger( design, "any-input" ) ); //$NON-NLS-1$
+	public void testToInteger() {
+		assertEquals(0, type.toInteger(design, "any-input")); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToXml()
 	 */
-	public void testToXml( )
-	{
-		assertEquals( "abc", type.toXml( design, propDefn, "abc" ) ); //$NON-NLS-1$//$NON-NLS-2$
+	public void testToXml() {
+		assertEquals("abc", type.toXml(design, propDefn, "abc")); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToString
 	 * ()
 	 */
-	public void testToString( )
-	{
-		assertEquals( "abc", type.toString( design, propDefn, "abc" ) ); //$NON-NLS-1$//$NON-NLS-2$
+	public void testToString() {
+		assertEquals("abc", type.toString(design, propDefn, "abc")); //$NON-NLS-1$//$NON-NLS-2$
 	}
 
 	/*
@@ -141,34 +125,28 @@ public class ExpressionPropertyTypeTest extends TextualPropertyTypeTestCase
 	 * @seeorg.eclipse.birt.report.model.metadata.PropertyTypeTestCase#
 	 * testToDisplayString()
 	 */
-	public void testToDisplayString( )
-	{
-		assertEquals( "abc", type.toDisplayString( design, propDefn, "abc" ) ); //$NON-NLS-1$//$NON-NLS-2$
+	public void testToDisplayString() {
+		assertEquals("abc", type.toDisplayString(design, propDefn, "abc")); //$NON-NLS-1$//$NON-NLS-2$
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
+	 * ()
+	 */
+	public void testToNumber() {
+		assertEquals(0.0d, type.toNumber(design, "any-input").doubleValue(), 1); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToNumber
-	 * ()
+	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean ()
 	 */
-	public void testToNumber( )
-	{
-		assertEquals( 0.0d,
-				type.toNumber( design, "any-input" ).doubleValue( ), 1 ); //$NON-NLS-1$
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.metadata.PropertyTypeTestCase#testToBoolean
-	 * ()
-	 */
-	public void testToBoolean( )
-	{
-		assertEquals( false, type.toBoolean( design, "any-input" ) ); //$NON-NLS-1$
+	public void testToBoolean() {
+		assertEquals(false, type.toBoolean(design, "any-input")); //$NON-NLS-1$
 	}
 
 }

@@ -14,8 +14,8 @@ package org.eclipse.birt.data.engine.olap.api.query;
  * 
  */
 
-public interface INamedObject
-{
+public interface INamedObject {
 	public String getName();
-	public void setName( String name );
+
+	public void setName(String name);
 }

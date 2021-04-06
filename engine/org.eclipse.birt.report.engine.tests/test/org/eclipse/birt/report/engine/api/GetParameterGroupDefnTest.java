@@ -20,8 +20,7 @@ import org.eclipse.birt.report.engine.api.IParameterDefnBase;
  * 
  */
 
-public class GetParameterGroupDefnTest extends EngineCase
-{
+public class GetParameterGroupDefnTest extends EngineCase {
 
 	protected IReportEngine engine = null;
 	protected IReportRunnable runnable = null;
@@ -31,76 +30,64 @@ public class GetParameterGroupDefnTest extends EngineCase
 	static final String REPORT_DESIGN_RESOURCE = "org/eclipse/birt/report/engine/api/GetParameterGroupDefnTest.rptdesign";
 	static final String REPORT_DESIGN = "GetParameterGroupDefnTest.rptdesign";
 
-	public void setUp( ) throws Exception
-	{
-		removeFile( REPORT_DESIGN );
-		copyResource( REPORT_DESIGN_RESOURCE, REPORT_DESIGN );
+	public void setUp() throws Exception {
+		removeFile(REPORT_DESIGN);
+		copyResource(REPORT_DESIGN_RESOURCE, REPORT_DESIGN);
 
-		engine = createReportEngine( );
-		runnable = engine.openReportDesign( REPORT_DESIGN );
-		paramGroupTask = engine.createGetParameterDefinitionTask( runnable );
+		engine = createReportEngine();
+		runnable = engine.openReportDesign(REPORT_DESIGN);
+		paramGroupTask = engine.createGetParameterDefinitionTask(runnable);
 	}
 
-	public void tearDown( )
-	{
+	public void tearDown() {
 		// shut down the engine.
-		if ( engine != null )
-		{
-			engine.shutdown( );
+		if (engine != null) {
+			engine.shutdown();
 		}
-		removeFile( REPORT_DESIGN );
+		removeFile(REPORT_DESIGN);
 	}
 
 	/*
 	 * get the parameter defined out of the parameter group
 	 */
-	public void testGetParameterOutofGroup( )
-	{
+	public void testGetParameterOutofGroup() {
 		IScalarParameterDefn paramDefn = (IScalarParameterDefn) paramGroupTask
-				.getParameterDefn( "paramStringOutofGroup" );
-		assert ( "outof".equals( paramDefn.getDefaultValue( ) ) );
+				.getParameterDefn("paramStringOutofGroup");
+		assert ("outof".equals(paramDefn.getDefaultValue()));
 	}
 
 	/*
 	 * Get the parameter group by name and test every parameters defined in this
 	 * group
 	 */
-	public void testGetGroupByName( )
-	{
+	public void testGetGroupByName() {
 		final String PARAM_GROUP_NAME = "paramGroup";
 		final String PARAM_GROUP_DISP_NAME = "paramGroupDispName";
 		final int PARAM_COUNT_IN_GROUP = 11;
-		IParameterGroupDefn paramGroupDefn = (IParameterGroupDefn) paramGroupTask
-				.getParameterDefn( "paramGroup" );
-		assertTrue( paramGroupDefn != null );
-		assertTrue( PARAM_GROUP_NAME.equals( paramGroupDefn.getName( ) ) );
-		assertTrue( PARAM_GROUP_DISP_NAME.equals( paramGroupDefn
-				.getDisplayName( ) ) );
-		ArrayList parameters = paramGroupDefn.getContents( );
-		assertTrue( PARAM_COUNT_IN_GROUP == parameters.size( ) );
+		IParameterGroupDefn paramGroupDefn = (IParameterGroupDefn) paramGroupTask.getParameterDefn("paramGroup");
+		assertTrue(paramGroupDefn != null);
+		assertTrue(PARAM_GROUP_NAME.equals(paramGroupDefn.getName()));
+		assertTrue(PARAM_GROUP_DISP_NAME.equals(paramGroupDefn.getDisplayName()));
+		ArrayList parameters = paramGroupDefn.getContents();
+		assertTrue(PARAM_COUNT_IN_GROUP == parameters.size());
 
 		IParameterDefnBase param = null;
-		final String[] goldenParamNames = new String[]{"paramString",
-				"paramInteger", "paramFloat", "paramDecimal", "paramDateTime",
-				"paramBoolean", "paramStringListBoxStatic",
-				"paramComboBoxStatic", "paramRadioButtonStatic",
-				"paramStringListBoxDynamic", "paramStringComboBoxDynamic"};
-		assertTrue( PARAM_COUNT_IN_GROUP == goldenParamNames.length );
-		for ( int size = parameters.size( ), index = 0; index < size; index++ )
-		{
-			param = (IParameterDefnBase) parameters.get( index );
-			assertTrue( goldenParamNames[index].equals( param.getName( ) ) );
+		final String[] goldenParamNames = new String[] { "paramString", "paramInteger", "paramFloat", "paramDecimal",
+				"paramDateTime", "paramBoolean", "paramStringListBoxStatic", "paramComboBoxStatic",
+				"paramRadioButtonStatic", "paramStringListBoxDynamic", "paramStringComboBoxDynamic" };
+		assertTrue(PARAM_COUNT_IN_GROUP == goldenParamNames.length);
+		for (int size = parameters.size(), index = 0; index < size; index++) {
+			param = (IParameterDefnBase) parameters.get(index);
+			assertTrue(goldenParamNames[index].equals(param.getName()));
 		}
 	}
-	
+
 	/*
-	 * Get the parameter by name
-	 * and this parameter is in some parameter group
+	 * Get the parameter by name and this parameter is in some parameter group
 	 */
-	public void testGetParameterDirectlyByName( )
-	{
+	public void testGetParameterDirectlyByName() {
 		final String PARAMETER_NAME = "paramString";
-		IParameterDefn paramDefn = (IParameterDefn)paramGroupTask.getParameterDefn( PARAMETER_NAME );
-		assertTrue( paramDefn != null );
+		IParameterDefn paramDefn = (IParameterDefn) paramGroupTask.getParameterDefn(PARAMETER_NAME);
+		assertTrue(paramDefn != null);
 	}
 }

@@ -26,7 +26,7 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.junit.Test;
 
 public class Issue24 extends ReportRunner {
-	
+
 	@Test
 	public void testExternalCss() throws BirtException, IOException {
 
@@ -36,31 +36,38 @@ public class Issue24 extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
 			Sheet sheet = workbook.getSheetAt(0);
-			assertEquals( 3, this.firstNullRow(sheet));
+			assertEquals(3, this.firstNullRow(sheet));
 
-			assertEquals( "FF206090",              ((XSSFColor)sheet.getRow(1).getCell(0).getCellStyle().getFillForegroundColorColor()).getARGBHex());
-			assertEquals( "FF206090",              ((XSSFColor)sheet.getRow(1).getCell(1).getCellStyle().getFillForegroundColorColor()).getARGBHex());
-			assertEquals( "FF206090",              ((XSSFColor)sheet.getRow(1).getCell(2).getCellStyle().getFillForegroundColorColor()).getARGBHex());
-			assertEquals( "FF206090",              ((XSSFColor)sheet.getRow(1).getCell(3).getCellStyle().getFillForegroundColorColor()).getARGBHex());
-			
-			assertEquals( "FF6495ED",              ((XSSFColor)sheet.getRow(2).getCell(0).getCellStyle().getFillForegroundColorColor()).getARGBHex());
-			assertEquals( "FF6495ED",              ((XSSFColor)sheet.getRow(2).getCell(1).getCellStyle().getFillForegroundColorColor()).getARGBHex());
-			assertEquals( "FF6495ED",              ((XSSFColor)sheet.getRow(2).getCell(2).getCellStyle().getFillForegroundColorColor()).getARGBHex());
-			assertEquals( "FF6495ED",              ((XSSFColor)sheet.getRow(2).getCell(3).getCellStyle().getFillForegroundColorColor()).getARGBHex());
+			assertEquals("FF206090",
+					((XSSFColor) sheet.getRow(1).getCell(0).getCellStyle().getFillForegroundColorColor()).getARGBHex());
+			assertEquals("FF206090",
+					((XSSFColor) sheet.getRow(1).getCell(1).getCellStyle().getFillForegroundColorColor()).getARGBHex());
+			assertEquals("FF206090",
+					((XSSFColor) sheet.getRow(1).getCell(2).getCellStyle().getFillForegroundColorColor()).getARGBHex());
+			assertEquals("FF206090",
+					((XSSFColor) sheet.getRow(1).getCell(3).getCellStyle().getFillForegroundColorColor()).getARGBHex());
 
-			assertEquals( "Customer",              sheet.getRow(1).getCell(0).getStringCellValue());
-			assertEquals( "Given Name",            sheet.getRow(1).getCell(1).getStringCellValue());
-			assertEquals( "Family Name",           sheet.getRow(1).getCell(2).getStringCellValue());
-			assertEquals( "Phone",                 sheet.getRow(1).getCell(3).getStringCellValue());
-		
+			assertEquals("FF6495ED",
+					((XSSFColor) sheet.getRow(2).getCell(0).getCellStyle().getFillForegroundColorColor()).getARGBHex());
+			assertEquals("FF6495ED",
+					((XSSFColor) sheet.getRow(2).getCell(1).getCellStyle().getFillForegroundColorColor()).getARGBHex());
+			assertEquals("FF6495ED",
+					((XSSFColor) sheet.getRow(2).getCell(2).getCellStyle().getFillForegroundColorColor()).getARGBHex());
+			assertEquals("FF6495ED",
+					((XSSFColor) sheet.getRow(2).getCell(3).getCellStyle().getFillForegroundColorColor()).getARGBHex());
+
+			assertEquals("Customer", sheet.getRow(1).getCell(0).getStringCellValue());
+			assertEquals("Given Name", sheet.getRow(1).getCell(1).getStringCellValue());
+			assertEquals("Family Name", sheet.getRow(1).getCell(2).getStringCellValue());
+			assertEquals("Phone", sheet.getRow(1).getCell(3).getStringCellValue());
+
 		} finally {
 			inputStream.close();
 		}
 	}
-	
 
 }

@@ -17,27 +17,22 @@ import org.eclipse.birt.report.engine.content.IContent;
  * the labelItem excutor
  * 
  */
-public class LabelItemExecutor extends ReportItemExecutor
-{
+public class LabelItemExecutor extends ReportItemExecutor {
 
-	public LabelItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.LABELITEM );
+	public LabelItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.LABELITEM);
 	}
 
-	protected IContent doCreateContent( )
-	{
-		return report.createLabelContent( );
+	protected IContent doCreateContent() {
+		return report.createLabelContent();
 	}
 
-	protected void doExecute( ) throws Exception
-	{
-		executeQuery( );
+	protected void doExecute() throws Exception {
+		executeQuery();
 	}
 
-	public void close( )
-	{
-		closeQuery( );
-		super.close( );
+	public void close() {
+		closeQuery();
+		super.close();
 	}
 }

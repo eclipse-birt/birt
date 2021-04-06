@@ -19,25 +19,20 @@ import org.eclipse.birt.chart.ui.swt.wizard.ChartWizardContext;
  * The class is responsible for computing and painting chart in chart builder.
  */
 
-public abstract class ChartPreviewPainterBase extends
-		PreviewPainterBase<ChartWizardContext>
-{
+public abstract class ChartPreviewPainterBase extends PreviewPainterBase<ChartWizardContext> {
 
-	protected ChartPreviewPainterBase( ChartWizardContext wizardContext )
-	{
-		super( wizardContext );
+	protected ChartPreviewPainterBase(ChartWizardContext wizardContext) {
+		super(wizardContext);
 	}
 
-	protected void doRenderModel( IChartObject object )
-	{
+	protected void doRenderModel(IChartObject object) {
 		Chart chart = (Chart) object;
 		// If not use live preview, use sample data to create runtime series
-		if ( !( isLivePreviewActive( ) && isLivePreviewEnabled( ) ) )
-		{
-			chart.createSampleRuntimeSeries( );
+		if (!(isLivePreviewActive() && isLivePreviewEnabled())) {
+			chart.createSampleRuntimeSeries();
 		}
 
-		super.doRenderModel( chart );
+		super.doRenderModel(chart);
 	}
 
 }

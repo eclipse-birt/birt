@@ -16,7 +16,6 @@ package org.eclipse.birt.report.model.parser;
  * 
  */
 
-public interface DesignSchemaConstants extends IDesignSchemaConstants
-{
+public interface DesignSchemaConstants extends IDesignSchemaConstants {
 
 }

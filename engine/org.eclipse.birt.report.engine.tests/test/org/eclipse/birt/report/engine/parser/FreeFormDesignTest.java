@@ -18,25 +18,22 @@ import org.eclipse.birt.report.engine.ir.FreeFormItemDesign;
  * TODO To change the template for this generated type comment go to Window -
  * Preferences - Java - Code Style - Code Templates
  */
-public class FreeFormDesignTest extends AbstractDesignTestCase
-{
+public class FreeFormDesignTest extends AbstractDesignTestCase {
 	protected FreeFormItemDesign freeItem;
 
-	public void setUp( ) throws Exception
-	{
+	public void setUp() throws Exception {
 		loadDesign("FreeFormItem_test.xml");
-		freeItem = (FreeFormItemDesign) report.getContent( 0 );
+		freeItem = (FreeFormItemDesign) report.getContent(0);
 		assertTrue(freeItem != null);
 	}
 
-	public void testFreeForm( )
-	{
-		assertEquals( 3, freeItem.getHeight( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 3, freeItem.getWidth( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 2, freeItem.getX( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( 3, freeItem.getY( ).getMeasure( ), Double.MIN_VALUE );
-		assertEquals( "myFreeForm", freeItem.getName( ) );
-		assertEquals( 1, freeItem.getItemCount( ) );
+	public void testFreeForm() {
+		assertEquals(3, freeItem.getHeight().getMeasure(), Double.MIN_VALUE);
+		assertEquals(3, freeItem.getWidth().getMeasure(), Double.MIN_VALUE);
+		assertEquals(2, freeItem.getX().getMeasure(), Double.MIN_VALUE);
+		assertEquals(3, freeItem.getY().getMeasure(), Double.MIN_VALUE);
+		assertEquals("myFreeForm", freeItem.getName());
+		assertEquals(1, freeItem.getItemCount());
 	}
 
 }

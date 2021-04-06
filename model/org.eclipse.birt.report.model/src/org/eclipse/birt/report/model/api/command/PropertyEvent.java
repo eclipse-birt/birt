@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * 
  */
 
-public class PropertyEvent extends NotificationEvent
-{
+public class PropertyEvent extends NotificationEvent {
 
 	/**
 	 * The name of the property that has changed.
@@ -33,15 +32,12 @@ public class PropertyEvent extends NotificationEvent
 	/**
 	 * Constructor.
 	 * 
-	 * @param target
-	 *            the target element.
-	 * @param propName
-	 *            the name of the changed property.
+	 * @param target   the target element.
+	 * @param propName the name of the changed property.
 	 */
 
-	public PropertyEvent( DesignElement target, String propName )
-	{
-		super( target );
+	public PropertyEvent(DesignElement target, String propName) {
+		super(target);
 		propertyName = propName;
 	}
 
@@ -52,48 +48,45 @@ public class PropertyEvent extends NotificationEvent
 	 * @return the property name.
 	 */
 
-	public String getPropertyName( )
-	{
+	public String getPropertyName() {
 		return propertyName;
 	}
 
 	/**
-	 * Sets the property name. Should be called only by the command that created
-	 * the event.
+	 * Sets the property name. Should be called only by the command that created the
+	 * event.
 	 * 
-	 * @param propName
-	 *            the propertyName to set.
+	 * @param propName the propertyName to set.
 	 */
 
-	public void setPropertyName( String propName )
-	{
+	public void setPropertyName(String propName) {
 		propertyName = propName;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType()
+	 * @see
+	 * org.eclipse.birt.report.model.design.activity.NotificationEvent#getEventType(
+	 * )
 	 */
-	public int getEventType( )
-	{
+	public int getEventType() {
 		return PROPERTY_EVENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.eclipse.birt.report.model.api.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.model.api.activity.NotificationEvent#isSame(org.
+	 * eclipse.birt.report.model.api.activity.NotificationEvent)
 	 */
-	public boolean isSame( NotificationEvent event )
-	{
-		if ( !super.isSame( event ) )
+	public boolean isSame(NotificationEvent event) {
+		if (!super.isSame(event))
 			return false;
 		PropertyEvent propEvent = (PropertyEvent) event;
-		if ( propertyName != null
-				&& !propertyName.equals( propEvent.getPropertyName( ) ) )
+		if (propertyName != null && !propertyName.equals(propEvent.getPropertyName()))
 			return false;
-		if ( propertyName == null && propEvent.getPropertyName( ) != null )
+		if (propertyName == null && propEvent.getPropertyName() != null)
 			return false;
 		return true;
 	}

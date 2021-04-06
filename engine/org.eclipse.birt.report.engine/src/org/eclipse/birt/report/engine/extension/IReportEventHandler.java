@@ -13,8 +13,7 @@ package org.eclipse.birt.report.engine.extension;
 
 import org.eclipse.birt.core.exception.BirtException;
 
-public interface IReportEventHandler
-{
+public interface IReportEventHandler {
 
-	public void handle( IReportEvent event ) throws BirtException;
+	public void handle(IReportEvent event) throws BirtException;
 }

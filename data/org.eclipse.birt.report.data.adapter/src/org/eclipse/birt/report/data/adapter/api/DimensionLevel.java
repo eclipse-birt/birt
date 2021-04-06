@@ -14,8 +14,7 @@ package org.eclipse.birt.report.data.adapter.api;
 import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 
 //
-public class DimensionLevel implements IDimensionLevel
-{
+public class DimensionLevel implements IDimensionLevel {
 
 	private String dimName;
 	private String lvlName;
@@ -26,8 +25,7 @@ public class DimensionLevel implements IDimensionLevel
 	 * @param dimName
 	 * @param levelName
 	 */
-	public DimensionLevel( String dimName, String levelName )
-	{
+	public DimensionLevel(String dimName, String levelName) {
 		this.dimName = dimName;
 		this.lvlName = levelName;
 	}
@@ -38,9 +36,8 @@ public class DimensionLevel implements IDimensionLevel
 	 * @param levelName
 	 * @param attrName
 	 */
-	public DimensionLevel( String dimName, String levelName, String attrName )
-	{
-		this( dimName, levelName );
+	public DimensionLevel(String dimName, String levelName, String attrName) {
+		this(dimName, levelName);
 		this.attrName = attrName;
 	}
 
@@ -48,37 +45,36 @@ public class DimensionLevel implements IDimensionLevel
 	 * 
 	 * @param dimLevel
 	 */
-	public DimensionLevel( DimLevel dimLevel )
-	{
-		this( dimLevel.getDimensionName( ),
-				dimLevel.getLevelName( ),
-				dimLevel.getAttrName( ) );
+	public DimensionLevel(DimLevel dimLevel) {
+		this(dimLevel.getDimensionName(), dimLevel.getLevelName(), dimLevel.getAttrName());
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getAttributeName()
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getAttributeName()
 	 */
-	public String getAttributeName( )
-	{
+	public String getAttributeName() {
 		return this.attrName;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getDimensionName()
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getDimensionName()
 	 */
-	public String getDimensionName( )
-	{
+	public String getDimensionName() {
 		return this.dimName;
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.IDimensionLevel#getLevelName()
 	 */
-	public String getLevelName( )
-	{
+	public String getLevelName() {
 		return this.lvlName;
 	}
 

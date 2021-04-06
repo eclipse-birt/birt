@@ -18,55 +18,39 @@ import org.eclipse.birt.report.designer.util.DEUtil;
 /**
  * This class is a representation of resource entry for embedded image.
  */
-public class EmbeddedImagesEntry extends ReportElementEntry
-{
+public class EmbeddedImagesEntry extends ReportElementEntry {
 
 	/**
 	 * Constructs a resource entry for the specified embedded image.
 	 * 
-	 * @param image
-	 *            the specified embedded image.
-	 * @param parent
-	 *            the parent entry.
+	 * @param image  the specified embedded image.
+	 * @param parent the parent entry.
 	 */
-	public EmbeddedImagesEntry( EmbeddedImageNode image, ResourceEntry parent )
-	{
-		super( image, parent );
+	public EmbeddedImagesEntry(EmbeddedImageNode image, ResourceEntry parent) {
+		super(image, parent);
 	}
 
 	@Override
-	public boolean equals( Object object )
-	{
-		if ( object == null || !object.getClass( ).equals( getClass( ) ) )
-		{
+	public boolean equals(Object object) {
+		if (object == null || !object.getClass().equals(getClass())) {
 			return false;
 		}
 
-		if ( object == this )
-		{
+		if (object == this) {
 			return true;
-		}
-		else
-		{
+		} else {
 			EmbeddedImagesEntry temp = (EmbeddedImagesEntry) object;
-			EmbeddedImageNode tempImage = temp.getReportElement( );
-			EmbeddedImageNode thisImage = getReportElement( );
+			EmbeddedImageNode tempImage = temp.getReportElement();
+			EmbeddedImageNode thisImage = getReportElement();
 
-			if ( tempImage == thisImage )
-			{
+			if (tempImage == thisImage) {
 				return true;
 			}
 
-			if ( tempImage != null
-					&& thisImage != null
-					&& tempImage.getReportDesignHandle( ).getID( ) == thisImage.getReportDesignHandle( )
-							.getID( )
-					&& DEUtil.isSameString( tempImage.getReportDesignHandle( )
-							.getModule( )
-							.getFileName( ), thisImage.getReportDesignHandle( )
-							.getModule( )
-							.getFileName( ) ) )
-			{
+			if (tempImage != null && thisImage != null
+					&& tempImage.getReportDesignHandle().getID() == thisImage.getReportDesignHandle().getID()
+					&& DEUtil.isSameString(tempImage.getReportDesignHandle().getModule().getFileName(),
+							thisImage.getReportDesignHandle().getModule().getFileName())) {
 				return true;
 			}
 		}
@@ -74,30 +58,22 @@ public class EmbeddedImagesEntry extends ReportElementEntry
 	}
 
 	@Override
-	public int hashCode( )
-	{
-		EmbeddedImageNode image = getReportElement( );
+	public int hashCode() {
+		EmbeddedImageNode image = getReportElement();
 
-		if ( image == null )
-		{
-			return super.hashCode( );
+		if (image == null) {
+			return super.hashCode();
 		}
 
-		String fileName = image.getReportDesignHandle( )
-				.getModule( )
-				.getFileName( );
+		String fileName = image.getReportDesignHandle().getModule().getFileName();
 
-		return (int) image.getReportDesignHandle( ).getID( )
-				* 7
-				+ ( fileName == null ? 0 : fileName.hashCode( ) );
+		return (int) image.getReportDesignHandle().getID() * 7 + (fileName == null ? 0 : fileName.hashCode());
 	}
 
 	@Override
-	public EmbeddedImageNode getReportElement( )
-	{
-		Object image = super.getReportElement( );
+	public EmbeddedImageNode getReportElement() {
+		Object image = super.getReportElement();
 
-		return image instanceof EmbeddedImageNode ? (EmbeddedImageNode) image
-				: null;
+		return image instanceof EmbeddedImageNode ? (EmbeddedImageNode) image : null;
 	}
 }

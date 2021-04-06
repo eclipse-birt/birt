@@ -14,21 +14,18 @@ import org.eclipse.birt.report.model.api.olap.CubeHandle;
 /**
  * ILinkedDataSetHelper
  */
-public interface ILinkedDataSetHelper
-{
+public interface ILinkedDataSetHelper {
 
-	List<String> getVisibleLinkedDataSets( );
+	List<String> getVisibleLinkedDataSets();
 
-	boolean setLinkedDataModel( ReportItemHandle handle, Object value );
+	boolean setLinkedDataModel(ReportItemHandle handle, Object value);
 
-	Iterator getResultSetIterator( String datasetName );
+	Iterator getResultSetIterator(String datasetName);
 
-	Map<String, List<ResultSetColumnHandle>> getGroupedResultSetColumns(
-			String datasetName );
+	Map<String, List<ResultSetColumnHandle>> getGroupedResultSetColumns(String datasetName);
 
-	List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(
-			ModuleHandle handle );
+	List<DataSetHandle> getVisibleLinkedDataSetsDataSetHandles(ModuleHandle handle);
 
-	List<CubeHandle> getVisibleLinkedDataSetsCubeHandles( ModuleHandle handle );
+	List<CubeHandle> getVisibleLinkedDataSetsCubeHandles(ModuleHandle handle);
 
 }

@@ -43,20 +43,18 @@ import com.ibm.icu.util.ULocale;
  * @see MetaLogManager
  */
 
-public final class DesignEngine implements IDesignEngine
-{
+public final class DesignEngine implements IDesignEngine {
 
 	/**
 	 * The logger for errors.
 	 */
 
-	protected final static Logger errorLogger = Logger
-			.getLogger( DesignEngine.class.getName( ) );
+	protected final static Logger errorLogger = Logger.getLogger(DesignEngine.class.getName());
 
 	/**
 	 * 
 	 */
-	
+
 	protected static IDesignEngineFactory cachedFactory;
 
 	/**
@@ -68,79 +66,64 @@ public final class DesignEngine implements IDesignEngine
 	/**
 	 * Constructs a DesignEngine with the given platform config.
 	 * 
-	 * @param config
-	 *            the platform config.
+	 * @param config the platform config.
 	 */
 
-	public DesignEngine( DesignConfig config )
-	{
-		try
-		{
-			Platform.startup( config );
-		}
-		catch ( BirtException e )
-		{
-			errorLogger.log( Level.SEVERE,
-					"Error occurs while start the platform", e ); //$NON-NLS-1$
+	public DesignEngine(DesignConfig config) {
+		try {
+			Platform.startup(config);
+		} catch (BirtException e) {
+			errorLogger.log(Level.SEVERE, "Error occurs while start the platform", e); //$NON-NLS-1$
 		}
 
-		if ( cachedFactory == null )
-		{
-			Object factory = Platform
-					.createFactoryObject( IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY );
-			if ( factory instanceof IDesignEngineFactory )
-			{
+		if (cachedFactory == null) {
+			Object factory = Platform.createFactoryObject(IDesignEngineFactory.EXTENSION_DESIGN_ENGINE_FACTORY);
+			if (factory instanceof IDesignEngineFactory) {
 				cachedFactory = (IDesignEngineFactory) factory;
 			}
 		}
 
-		if ( cachedFactory != null )
-			engine = cachedFactory.createDesignEngine( config );
+		if (cachedFactory != null)
+			engine = cachedFactory.createDesignEngine(config);
 
-		if ( engine == null )
-		{
-			errorLogger.log( Level.INFO, "Can not start the design engine." ); //$NON-NLS-1$
+		if (engine == null) {
+			errorLogger.log(Level.INFO, "Can not start the design engine."); //$NON-NLS-1$
 		}
 	}
 
 	/**
-	 * Creates a new design session handle. The application uses the handle to
-	 * open, create and manage designs. The session also represents the user and
-	 * maintains the user's locale information.
+	 * Creates a new design session handle. The application uses the handle to open,
+	 * create and manage designs. The session also represents the user and maintains
+	 * the user's locale information.
 	 * 
-	 * @param locale
-	 *            the user's locale. If <code>null</code>, uses the system
-	 *            locale.
+	 * @param locale the user's locale. If <code>null</code>, uses the system
+	 *               locale.
 	 * @return the design session handle
 	 * @see SessionHandle
 	 */
 
-	public SessionHandle newSessionHandle( ULocale locale )
-	{
-		return engine.newSessionHandle( locale );
+	public SessionHandle newSessionHandle(ULocale locale) {
+		return engine.newSessionHandle(locale);
 	}
 
 	/**
-	 * Creates a new design session handle. The application uses the handle to
-	 * open, create and manage designs. The session also represents the user and
-	 * maintains the user's locale information.
+	 * Creates a new design session handle. The application uses the handle to open,
+	 * create and manage designs. The session also represents the user and maintains
+	 * the user's locale information.
 	 * <p>
 	 * This method is not suggested to use. The user should use new
 	 * DesignEngine(config).newSessionHandle() to create the session.
 	 * 
-	 * @param locale
-	 *            the user's locale. If <code>null</code>, uses the system
-	 *            locale.
+	 * @param locale the user's locale. If <code>null</code>, uses the system
+	 *               locale.
 	 * @return the design session handle
 	 * @see SessionHandle
 	 * 
 	 * @deprecated
 	 */
 
-	public static SessionHandle newSession( ULocale locale )
-	{
-		return new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( locale );
+	public static SessionHandle newSession(ULocale locale) {
+		return new DesignEngine(new DesignConfig()).newSessionHandle(locale);
 	}
 
 	/**
@@ -149,9 +132,8 @@ public final class DesignEngine implements IDesignEngine
 	 * @return the meta-data of the design engine.
 	 */
 
-	public IMetaDataDictionary getMetaData( )
-	{
-		return engine.getMetaData( );
+	public IMetaDataDictionary getMetaData() {
+		return engine.getMetaData();
 	}
 
 	/**
@@ -165,67 +147,58 @@ public final class DesignEngine implements IDesignEngine
 	 * @deprecated
 	 */
 
-	public static IMetaDataDictionary getMetaDataDictionary( )
-	{
-		return new DesignEngine( new DesignConfig( ) ).getMetaData( );
+	public static IMetaDataDictionary getMetaDataDictionary() {
+		return new DesignEngine(new DesignConfig()).getMetaData();
 	}
 
 	/**
 	 * Registers a <code>IMetaLogger</code> to record initialization errors. The
-	 * logger will be notified of the errors during meta-data initialization.
-	 * The meta-data system will be initialized once (and only once). Loggers
-	 * should be registered before the first time a session is created so that
-	 * it can be notified of the logging actions.
+	 * logger will be notified of the errors during meta-data initialization. The
+	 * meta-data system will be initialized once (and only once). Loggers should be
+	 * registered before the first time a session is created so that it can be
+	 * notified of the logging actions.
 	 * 
-	 * @param newLogger
-	 *            the <code>MetaLogger</code> to be registered.
+	 * @param newLogger the <code>MetaLogger</code> to be registered.
 	 * 
 	 * @see #removeMetaLogger(IMetaLogger)
 	 */
 
-	public void registerMetaLogger( IMetaLogger newLogger )
-	{
-		engine.registerMetaLogger( newLogger );
+	public void registerMetaLogger(IMetaLogger newLogger) {
+		engine.registerMetaLogger(newLogger);
 	}
 
 	/**
-	 * Removes a <code>IMetaLogger</code>. This method will remove the logger
-	 * from the list and close the logger if it has already been registered. The
-	 * logger will no longer be notified of the errors during metadata
-	 * initialization. Returns <code>true</code> if this logger manager
-	 * contained the specified logger.
+	 * Removes a <code>IMetaLogger</code>. This method will remove the logger from
+	 * the list and close the logger if it has already been registered. The logger
+	 * will no longer be notified of the errors during metadata initialization.
+	 * Returns <code>true</code> if this logger manager contained the specified
+	 * logger.
 	 * 
-	 * @param logger
-	 *            the <code>MetaLogger</code> to be removed.
+	 * @param logger the <code>MetaLogger</code> to be removed.
 	 * @return <code>true</code> if this logger manager contained the specified
 	 *         logger.
 	 * 
 	 * @see #registerMetaLogger(IMetaLogger)
 	 */
 
-	public boolean removeMetaLogger( IMetaLogger logger )
-	{
-		return engine.removeMetaLogger( logger );
+	public boolean removeMetaLogger(IMetaLogger logger) {
+		return engine.removeMetaLogger(logger);
 	}
 
 	/**
 	 * Opens the report design.
 	 * 
-	 * @param fileName
-	 *            the report file name
-	 * @param ins
-	 *            the input stream. Can be <code>null</code>.
-	 * @param options
-	 *            options to control the way to open the design
+	 * @param fileName the report file name
+	 * @param ins      the input stream. Can be <code>null</code>.
+	 * @param options  options to control the way to open the design
 	 * @return the report design instance
-	 * @throws DesignFileException
-	 *             if the report file cannot be found or the file is invalid.
+	 * @throws DesignFileException if the report file cannot be found or the file is
+	 *                             invalid.
 	 */
 
-	public IReportDesign openDesign( String fileName, InputStream ins,
-			IModuleOption options ) throws DesignFileException
-	{
-		return engine.openDesign( fileName, ins, options );
+	public IReportDesign openDesign(String fileName, InputStream ins, IModuleOption options)
+			throws DesignFileException {
+		return engine.openDesign(fileName, ins, options);
 
 	}
 }

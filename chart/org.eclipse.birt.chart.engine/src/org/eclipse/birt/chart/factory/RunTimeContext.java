@@ -41,8 +41,7 @@ import com.ibm.icu.util.ULocale;
  * Encapsulates runtime information associated with each chart generation and
  * rendering session. It contains global objects that are defined per request.
  */
-public final class RunTimeContext implements Serializable
-{
+public final class RunTimeContext implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -110,40 +109,40 @@ public final class RunTimeContext implements Serializable
 	 * Specifies if right-left mode is enabled.
 	 */
 	private int iRightToLeft = -1;
-	//bidi_acgc added begin
+	// bidi_acgc added begin
 	/**
 	 * Specifies if the displayed text bidi reading order is Right To Left.
 	 */
 	private int iRightToLeftText = -1;
-	//bidi_acgc added end
+	// bidi_acgc added end
 	/**
 	 * Specified the shared context among multiple chart instances
 	 */
 	private transient SharedScaleContext sharedScale;
 
-	/** 
-     * The field indicates if current chart is sharing query with other module(table/crosstab...).
-     * @since 2.3
-     */
+	/**
+	 * The field indicates if current chart is sharing query with other
+	 * module(table/crosstab...).
+	 * 
+	 * @since 2.3
+	 */
 	private boolean isSharingQuery = false;
-	
-	
+
 	private transient IResourceFinder resourceFinder = null;
-	
+
 	private transient IExternalizer externalizer = null;
-	
+
 	private transient Chart defaultValueChart;
-	
+
 	private TimeZone timeZone = null;
-	
+
 	private boolean useNonHierarchyCategoryData = false;
-	
+
 	/**
 	 * A default zero-arg public constructor used for object creation.
 	 */
-	public RunTimeContext( )
-	{
-		stateStore = new HashMap<Object, Object>( 2 );
+	public RunTimeContext() {
+		stateStore = new HashMap<Object, Object>(2);
 	}
 
 	/**
@@ -152,9 +151,8 @@ public final class RunTimeContext implements Serializable
 	 * @param key
 	 * @param state
 	 */
-	public void putState( Object key, Object state )
-	{
-		stateStore.put( key, state );
+	public void putState(Object key, Object state) {
+		stateStore.put(key, state);
 	}
 
 	/**
@@ -163,9 +161,8 @@ public final class RunTimeContext implements Serializable
 	 * @param key
 	 * @return
 	 */
-	public Object getState( Object key )
-	{
-		return stateStore.get( key );
+	public Object getState(Object key) {
+		return stateStore.get(key);
 	}
 
 	/**
@@ -174,37 +171,29 @@ public final class RunTimeContext implements Serializable
 	 * @param key
 	 * @return
 	 */
-	public Object removeState( Object key )
-	{
-		return stateStore.remove( key );
+	public Object removeState(Object key) {
+		return stateStore.remove(key);
 	}
 
 	/**
 	 * Clears all the stored states.
 	 */
-	public void clearState( )
-	{
-		IChartComputation cComp = getState( StateKey.CHART_COMPUTATION_KEY );
+	public void clearState() {
+		IChartComputation cComp = getState(StateKey.CHART_COMPUTATION_KEY);
 
-		if ( cComp != null )
-		{
-			cComp.dispose( );
+		if (cComp != null) {
+			cComp.dispose();
 		}
 
-		for ( Iterator<Map.Entry<Object, Object>> iter = stateStore.entrySet( ).iterator( ); iter.hasNext( ); )
-		{
-			Map.Entry<Object, Object> entry = iter.next( );
-			Object key = entry.getKey( );
-			if ( key instanceof StateKey<?> )
-			{
-				if ( (( StateKey<?>) key ).needClear( ) )
-				{
-					iter.remove( );
+		for (Iterator<Map.Entry<Object, Object>> iter = stateStore.entrySet().iterator(); iter.hasNext();) {
+			Map.Entry<Object, Object> entry = iter.next();
+			Object key = entry.getKey();
+			if (key instanceof StateKey<?>) {
+				if (((StateKey<?>) key).needClear()) {
+					iter.remove();
 				}
-			}
-			else
-			{
-				iter.remove( );
+			} else {
+				iter.remove();
 			}
 		}
 	}
@@ -214,8 +203,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public boolean isScriptingEnabled( )
-	{
+	public boolean isScriptingEnabled() {
 		return enableScripting;
 	}
 
@@ -224,8 +212,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param value
 	 */
-	public void setScriptingEnabled( boolean value )
-	{
+	public void setScriptingEnabled(boolean value) {
 		enableScripting = value;
 	}
 
@@ -234,8 +221,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public IScriptClassLoader getScriptClassLoader( )
-	{
+	public IScriptClassLoader getScriptClassLoader() {
 		return iscl;
 	}
 
@@ -244,36 +230,30 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param value
 	 */
-	public void setScriptClassLoader( IScriptClassLoader value )
-	{
+	public void setScriptClassLoader(IScriptClassLoader value) {
 		iscl = value;
 	}
 
 	/**
-	 * Internally sets an instance of the structure definition listener for
-	 * device renderers that need a structure definition notification when
-	 * rendering primitives.
+	 * Internally sets an instance of the structure definition listener for device
+	 * renderers that need a structure definition notification when rendering
+	 * primitives.
 	 * 
-	 * @param isdl
-	 *            The structure definition listener associated with the runtime
-	 *            context.
+	 * @param isdl The structure definition listener associated with the runtime
+	 *             context.
 	 */
-	public void setStructureDefinitionListener(
-			IStructureDefinitionListener isdl )
-	{
+	public void setStructureDefinitionListener(IStructureDefinitionListener isdl) {
 		this.isdl = isdl;
 	}
 
 	/**
-	 * Returns an instance of the structure definition listner for device
-	 * renderers that need a structure definition notification when rendering
-	 * primitives.
+	 * Returns an instance of the structure definition listner for device renderers
+	 * that need a structure definition notification when rendering primitives.
 	 * 
 	 * @return The structure definition listener associated with the runtime
 	 *         context.
 	 */
-	public IStructureDefinitionListener getStructureDefinitionListener( )
-	{
+	public IStructureDefinitionListener getStructureDefinitionListener() {
 		return isdl;
 	}
 
@@ -282,8 +262,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param iar
 	 */
-	public void setActionRenderer( IActionRenderer iar )
-	{
+	public void setActionRenderer(IActionRenderer iar) {
 		this.iar = iar;
 	}
 
@@ -292,8 +271,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public IActionRenderer getActionRenderer( )
-	{
+	public IActionRenderer getActionRenderer() {
 		return this.iar;
 	}
 
@@ -302,8 +280,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param lilh
 	 */
-	public void setLegendLayoutHints( LegendLayoutHints lilh )
-	{
+	public void setLegendLayoutHints(LegendLayoutHints lilh) {
 		this.lilh = lilh;
 	}
 
@@ -312,8 +289,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public LegendLayoutHints getLegendLayoutHints( )
-	{
+	public LegendLayoutHints getLegendLayoutHints() {
 		return lilh;
 	}
 
@@ -322,8 +298,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param msr
 	 */
-	public void setSeriesRenderers( Map<Series, LegendItemRenderingHints> msr )
-	{
+	public void setSeriesRenderers(Map<Series, LegendItemRenderingHints> msr) {
 		this.seriesRenderers = msr;
 	}
 
@@ -332,34 +307,29 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public Map<Series, LegendItemRenderingHints> getSeriesRenderers( )
-	{
+	public Map<Series, LegendItemRenderingHints> getSeriesRenderers() {
 		return seriesRenderers;
 	}
 
 	/**
-	 * Notifies the structure definition listener of a change in the current
-	 * running structure that defines a group of primitives being rendered and
-	 * puts them into context with reference to the source object.
+	 * Notifies the structure definition listener of a change in the current running
+	 * structure that defines a group of primitives being rendered and puts them
+	 * into context with reference to the source object.
 	 * 
-	 * @param sEventName
-	 *            Defines the structure being defined along with the event type
-	 * @param oSource
-	 *            The source object on which the structure is being defined
+	 * @param sEventName Defines the structure being defined along with the event
+	 *                   type
+	 * @param oSource    The source object on which the structure is being defined
 	 * 
-	 * @return 'true' if the structure definition listener exists and was
-	 *         notified of the change or 'false' otherwise.
+	 * @return 'true' if the structure definition listener exists and was notified
+	 *         of the change or 'false' otherwise.
 	 */
-	public boolean notifyStructureChange( String sEventName, Object oSource )
-	{
-		if ( isdl == null )
-		{
+	public boolean notifyStructureChange(String sEventName, Object oSource) {
+		if (isdl == null) {
 			return false;
 		}
-		StructureChangeEvent scev = ( (EventObjectCache) isdl ).getEventObject( oSource,
-				StructureChangeEvent.class );
-		scev.setEventName( sEventName );
-		isdl.changeStructure( scev );
+		StructureChangeEvent scev = ((EventObjectCache) isdl).getEventObject(oSource, StructureChangeEvent.class);
+		scev.setEventName(sEventName);
+		isdl.changeStructure(scev);
 		return true;
 	}
 
@@ -369,22 +339,19 @@ public final class RunTimeContext implements Serializable
 	 * @return The locale associated with this runtime context.
 	 * @deprecated use {@link #getULocale()} instead.
 	 */
-	public Locale getLocale( )
-	{
-		return lcl == null ? null : lcl.toLocale( );
+	public Locale getLocale() {
+		return lcl == null ? null : lcl.toLocale();
 	}
 
 	/**
-	 * Sets the locale associated with this runtime context. This is usually
-	 * done when chart generation begins.
+	 * Sets the locale associated with this runtime context. This is usually done
+	 * when chart generation begins.
 	 * 
-	 * @param lcl
-	 *            The locale associated with the runtime context.
+	 * @param lcl The locale associated with the runtime context.
 	 * @deprecated use {@link #setULocale(ULocale)} instead.
 	 */
-	public void setLocale( Locale lcl )
-	{
-		this.lcl = ULocale.forLocale( lcl );
+	public void setLocale(Locale lcl) {
+		this.lcl = ULocale.forLocale(lcl);
 	}
 
 	/**
@@ -393,39 +360,35 @@ public final class RunTimeContext implements Serializable
 	 * @return The locale associated with this runtime context.
 	 * @since 2.1
 	 */
-	public ULocale getULocale( )
-	{
+	public ULocale getULocale() {
 		return lcl;
 	}
 
 	/**
-	 * Sets the locale associated with this runtime context. This is usually
-	 * done when chart generation begins.
+	 * Sets the locale associated with this runtime context. This is usually done
+	 * when chart generation begins.
 	 * 
-	 * @param lcl
-	 *            The locale associated with the runtime context.
+	 * @param lcl The locale associated with the runtime context.
 	 * @since 2.1
 	 */
-	public void setULocale( ULocale lcl )
-	{
+	public void setULocale(ULocale lcl) {
 		this.lcl = lcl;
 	}
 
 	/**
-	 * Returns if current context is in a right-left platform. e.g. Arabic,
-	 * Hebrew.
+	 * Returns if current context is in a right-left platform. e.g. Arabic, Hebrew.
 	 * 
 	 * @return
 	 */
-	public boolean isRightToLeft( )
-	{
-		// Report direction does no longer depend on Locale, and so the code below is commented out.
-		//bidi_acgc deleted start
-		/*if ( iRightToLeft == -1 )
-		{
-			iRightToLeft = ChartUtil.isRightToLeftLocale( lcl ) ? 1 : 0;
-		}*/
-		//bidi_acgc deleted end
+	public boolean isRightToLeft() {
+		// Report direction does no longer depend on Locale, and so the code below is
+		// commented out.
+		// bidi_acgc deleted start
+		/*
+		 * if ( iRightToLeft == -1 ) { iRightToLeft = ChartUtil.isRightToLeftLocale( lcl
+		 * ) ? 1 : 0; }
+		 */
+		// bidi_acgc deleted end
 		return iRightToLeft == 1;
 	}
 
@@ -434,20 +397,18 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param value
 	 */
-	public void setRightToLeft( boolean value )
-	{
+	public void setRightToLeft(boolean value) {
 		iRightToLeft = value ? 1 : 0;
 	}
 
 	/**
-	 * Returns an instance of the resource handle for which chart specific
-	 * messages are externalized.
+	 * Returns an instance of the resource handle for which chart specific messages
+	 * are externalized.
 	 * 
-	 * @return An instance of the resource handle for which chart specific
-	 *         messages are externalized.
+	 * @return An instance of the resource handle for which chart specific messages
+	 *         are externalized.
 	 */
-	public ResourceHandle getResourceHandle( )
-	{
+	public ResourceHandle getResourceHandle() {
 		return rh;
 	}
 
@@ -455,38 +416,33 @@ public final class RunTimeContext implements Serializable
 	 * Specifies a resource handle that facilitates retrieval of chart specific
 	 * externalized messages.
 	 * 
-	 * @param rh
-	 *            The resource handle.
+	 * @param rh The resource handle.
 	 */
-	public void setResourceHandle( ResourceHandle rh )
-	{
+	public void setResourceHandle(ResourceHandle rh) {
 		this.rh = rh;
 	}
 
 	/**
-	 * Returns an instance of a transient script handler associated with the
-	 * chart being generated. The script handler is capable of executing
-	 * callback scripts defined in the chart model.
+	 * Returns an instance of a transient script handler associated with the chart
+	 * being generated. The script handler is capable of executing callback scripts
+	 * defined in the chart model.
 	 * 
 	 * @return An instance of the script handler.
 	 */
 	@SuppressWarnings("unchecked")
-	public AbstractScriptHandler getScriptHandler( )
-	{
+	public AbstractScriptHandler getScriptHandler() {
 		return sh;
 	}
 
 	/**
 	 * Sets an instance of a transient script handler associated with the chart
-	 * being generated. The script handler is capable of executing callback
-	 * scripts defined in the chart model.
+	 * being generated. The script handler is capable of executing callback scripts
+	 * defined in the chart model.
 	 * 
-	 * @param sh
-	 *            An instance of the script handler.
+	 * @param sh An instance of the script handler.
 	 */
 	@SuppressWarnings("unchecked")
-	public void setScriptHandler( AbstractScriptHandler sh )
-	{
+	public void setScriptHandler(AbstractScriptHandler sh) {
 		this.sh = sh;
 	}
 
@@ -496,49 +452,41 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return An instance of the script context.
 	 */
-	public IScriptContext getScriptContext( )
-	{
+	public IScriptContext getScriptContext() {
 		return csc;
 	}
 
 	/**
-	 * Sets an instance of a chart script context associated with the chart
-	 * being generated.
+	 * Sets an instance of a chart script context associated with the chart being
+	 * generated.
 	 * 
-	 * @param csc
-	 *            An instance of the chart script context.
+	 * @param csc An instance of the chart script context.
 	 */
-	public void setScriptContext( IScriptContext csc )
-	{
+	public void setScriptContext(IScriptContext csc) {
 		this.csc = csc;
 	}
 
 	/**
-	 * Defines an externalized message lookup implementation per chart model
-	 * being executed.
+	 * Defines an externalized message lookup implementation per chart model being
+	 * executed.
 	 * 
-	 * @param iml
-	 *            The externalized message lookup implementation.
+	 * @param iml The externalized message lookup implementation.
 	 */
-	public void setMessageLookup( IMessageLookup iml )
-	{
+	public void setMessageLookup(IMessageLookup iml) {
 		this.iml = iml;
 	}
 
 	/**
-	 * A convenience method provided to lookup externalized messages associated
-	 * with a given message key.
+	 * A convenience method provided to lookup externalized messages associated with
+	 * a given message key.
 	 * 
-	 * @param sChartKey
-	 *            The key using which an externalized message is being looked
-	 *            up.
+	 * @param sChartKey The key using which an externalized message is being looked
+	 *                  up.
 	 * 
 	 * @return The externalized message associated with the specified key.
 	 */
-	public String externalizedMessage( String sChartKey )
-	{
-		if ( sChartKey == null )
-		{
+	public String externalizedMessage(String sChartKey) {
+		if (sChartKey == null) {
 			return ""; //$NON-NLS-1$
 		}
 		// The key can be either alone, or with its default value:
@@ -546,47 +494,35 @@ public final class RunTimeContext implements Serializable
 
 		/*
 		 * Possible cases: chartkey lookup badkey nolookup
-		 * ------------------------------------- a=b get(a) b b b get(b) b b =b
-		 * b - b
+		 * ------------------------------------- a=b get(a) b b b get(b) b b =b b - b
 		 */
 		String sKey = sChartKey;
 		String sDefaultValue = sChartKey;
-		final int iKeySeparator = sChartKey.indexOf( IExternalizer.KEY_SEPARATOR );
+		final int iKeySeparator = sChartKey.indexOf(IExternalizer.KEY_SEPARATOR);
 
-		if ( iKeySeparator != -1 )
-		{
+		if (iKeySeparator != -1) {
 			// VALUE ON RHS OF IMessageLookup.KEY_SEPARATOR
-			sDefaultValue = sChartKey.substring( iKeySeparator + 1 );
+			sDefaultValue = sChartKey.substring(iKeySeparator + 1);
 
 		}
 
-		if ( externalizer == null )
-		{
+		if (externalizer == null) {
 			// no lookup cases
 			return sDefaultValue;
-		}
-		else
-		{
+		} else {
 			// lookup cases
-			if ( iKeySeparator > 0 )
-			{
+			if (iKeySeparator > 0) {
 				// a=b case
-				sKey = sChartKey.substring( 0, iKeySeparator );
-			}
-			else if ( iKeySeparator == 0 )
-			{
+				sKey = sChartKey.substring(0, iKeySeparator);
+			} else if (iKeySeparator == 0) {
 				// =b case
 				return sDefaultValue;
-			}
-			else
-			{
+			} else {
 				// b case
 				sKey = sDefaultValue;
 			}
-			
-			return externalizer.externalizedMessage( sKey,
-					sDefaultValue,
-					this.getULocale( ) );
+
+			return externalizer.externalizedMessage(sKey, sDefaultValue, this.getULocale());
 		}
 
 	}
@@ -594,12 +530,10 @@ public final class RunTimeContext implements Serializable
 	/**
 	 * Sets the shared scale
 	 * 
-	 * @param scale
-	 *            shared scale context
+	 * @param scale shared scale context
 	 * @since 2.5
 	 */
-	public void setSharedScale( SharedScaleContext ssContext )
-	{
+	public void setSharedScale(SharedScaleContext ssContext) {
 		this.sharedScale = ssContext;
 	}
 
@@ -609,19 +543,15 @@ public final class RunTimeContext implements Serializable
 	 * @return the shared scale context
 	 * @since 2.5
 	 */
-	public SharedScaleContext getSharedScale( )
-	{
+	public SharedScaleContext getSharedScale() {
 		return this.sharedScale;
 	}
 
-	
-	public boolean isSharingQuery( )
-	{
+	public boolean isSharingQuery() {
 		return isSharingQuery;
 	}
-	
-	public void setSharingQuery( boolean isSharingQuery )
-	{
+
+	public void setSharingQuery(boolean isSharingQuery) {
 		this.isSharingQuery = isSharingQuery;
 	}
 
@@ -631,8 +561,7 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @return
 	 */
-	public boolean isRightToLeftText( )
-	{
+	public boolean isRightToLeftText() {
 		return iRightToLeftText == 1;
 	}
 
@@ -641,100 +570,85 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param value
 	 */
-	public void setRightToLeftText( boolean value )
-	{
+	public void setRightToLeftText(boolean value) {
 		iRightToLeftText = value ? 1 : 0;
 	}
 	// bidi_acgc added end
 
-	
 	/**
 	 * @return Returns the resourceFinder.
 	 */
-	public IResourceFinder getResourceFinder( )
-	{
+	public IResourceFinder getResourceFinder() {
 		return resourceFinder;
 	}
 
 	/**
-	 * @param resourceFinder
-	 *            The resourceFinder to set.
+	 * @param resourceFinder The resourceFinder to set.
 	 */
-	public void setResourceFinder( IResourceFinder resourceFinder )
-	{
+	public void setResourceFinder(IResourceFinder resourceFinder) {
 		this.resourceFinder = resourceFinder;
 	}
 
-	
 	/**
 	 * @return Returns the externalizer.
 	 */
-	public IExternalizer getExternalizer( )
-	{
+	public IExternalizer getExternalizer() {
 		return externalizer;
 	}
 
 	/**
-	 * @param externalizer
-	 *            The externalizer to set.
+	 * @param externalizer The externalizer to set.
 	 */
-	public void setExternalizer( IExternalizer externalizer )
-	{
+	public void setExternalizer(IExternalizer externalizer) {
 		this.externalizer = externalizer;
 	}
 
 	@SuppressWarnings("unchecked")
-	public <T> T getState( StateKey<T> key )
-	{
-		return (T) stateStore.get( key );
+	public <T> T getState(StateKey<T> key) {
+		return (T) stateStore.get(key);
 	}
 
-	public <T> void putState( StateKey<T> key, T value )
-	{
-		stateStore.put( key, value );
+	public <T> void putState(StateKey<T> key, T value) {
+		stateStore.put(key, value);
 	}
 
 	/**
 	 * Predifined static keys for states.
 	 */
-	public static class StateKey<T>
-	{
+	public static class StateKey<T> {
 		private boolean needClear = true;
-		
-		private StateKey(boolean needClear )
-		{
-			this.needClear  = needClear;
+
+		private StateKey(boolean needClear) {
+			this.needClear = needClear;
 		}
-		
+
 		/**
 		 * Check if the state should be clear itself after chart rendering.
 		 * 
 		 * @return
 		 */
-		public boolean needClear() 
-		{
+		public boolean needClear() {
 			return needClear;
 		}
-		
-		public static <T> StateKey<T> create( boolean needClear  )
-		{
-			return new StateKey<T>( needClear);
+
+		public static <T> StateKey<T> create(boolean needClear) {
+			return new StateKey<T>(needClear);
 		}
 
 		/**
 		 * Key to reference if the data of chart is empty.
 		 */
-		public final static StateKey<Boolean> DATA_EMPTY_KEY = StateKey.create( false );
+		public final static StateKey<Boolean> DATA_EMPTY_KEY = StateKey.create(false);
 
 		/**
 		 * Key to reference LabelLimiter lookup table.
 		 */
-		public final static StateKey<Map<Label, LabelLimiter>> LABEL_LIMITER_LOOKUP_KEY = StateKey.create( false );
+		public final static StateKey<Map<Label, LabelLimiter>> LABEL_LIMITER_LOOKUP_KEY = StateKey.create(false);
 
 		/**
 		 * Key to reference Chart Computation.
 		 */
-		public final static StateKey<IChartComputation> CHART_COMPUTATION_KEY = StateKey.create( false );
+		public final static StateKey<IChartComputation> CHART_COMPUTATION_KEY = StateKey.create(false);
 	}
 
 	/**
@@ -742,44 +656,38 @@ public final class RunTimeContext implements Serializable
 	 * 
 	 * @param cm
 	 */
-	public void setDefaultValueChart( Chart cm )
-	{
+	public void setDefaultValueChart(Chart cm) {
 		this.defaultValueChart = cm;
 	}
-	
+
 	/**
 	 * Returns instance of default value chart.
 	 * 
 	 * @return instance of default value chart.
 	 */
-	public Chart getDefaultValueChart( )
-	{
+	public Chart getDefaultValueChart() {
 		return this.defaultValueChart;
 	}
 
 	/**
 	 * @return Returns the timeZone.
 	 */
-	public TimeZone getTimeZone( )
-	{
+	public TimeZone getTimeZone() {
 		return timeZone;
 	}
 
 	/**
 	 * @param timeZone The timeZone to set.
 	 */
-	public void setTimeZone( TimeZone timeZone )
-	{
+	public void setTimeZone(TimeZone timeZone) {
 		this.timeZone = timeZone;
 	}
-	
-	public void enableNonHierarchyCategoryData( boolean enabled )
-	{
+
+	public void enableNonHierarchyCategoryData(boolean enabled) {
 		useNonHierarchyCategoryData = enabled;
 	}
-	
-	public boolean useNonHierarchyCategoryData( )
-	{
+
+	public boolean useNonHierarchyCategoryData() {
 		return useNonHierarchyCategoryData;
 	}
 }

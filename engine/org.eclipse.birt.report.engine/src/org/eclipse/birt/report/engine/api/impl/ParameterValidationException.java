@@ -18,18 +18,15 @@ import org.eclipse.birt.report.engine.api.EngineException;
  * need to handle. If there is any exception concerns to report parameter,
  * ParameterValidationException will be thrown out.
  */
-public class ParameterValidationException extends EngineException
-{
+public class ParameterValidationException extends EngineException {
 
 	private static final long serialVersionUID = 1L;
 
-	public ParameterValidationException( String errorCode, Object[] args )
-	{
-		super( errorCode, args );
+	public ParameterValidationException(String errorCode, Object[] args) {
+		super(errorCode, args);
 	}
-	
-	public ParameterValidationException( BirtException be )
-	{
-		super( be );
+
+	public ParameterValidationException(BirtException be) {
+		super(be);
 	}
 }

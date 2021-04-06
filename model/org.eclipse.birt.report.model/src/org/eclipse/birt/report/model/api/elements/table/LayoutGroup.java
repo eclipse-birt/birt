@@ -16,8 +16,7 @@ import org.eclipse.birt.report.model.api.TableGroupHandle;
  * The table group model for a <code>TableGroup</code> element.
  */
 
-public class LayoutGroup
-{
+public class LayoutGroup {
 
 	/**
 	 * The 1-based group level.
@@ -32,21 +31,18 @@ public class LayoutGroup
 	private LayoutTable table;
 
 	/**
-	 * Constructs a <code>LayoutGroup</code> with the given table and the
-	 * group level.
+	 * Constructs a <code>LayoutGroup</code> with the given table and the group
+	 * level.
 	 * 
-	 * @param table
-	 *            the layout table
-	 * @param groupLevel
-	 *            the level of the group
+	 * @param table      the layout table
+	 * @param groupLevel the level of the group
 	 */
 
-	protected LayoutGroup( LayoutTable table, int groupLevel )
-	{
+	protected LayoutGroup(LayoutTable table, int groupLevel) {
 		this.table = table;
 		this.groupLevel = groupLevel;
 
-		assert groupLevel <= table.getGroupCount( );
+		assert groupLevel <= table.getGroupCount();
 	}
 
 	/**
@@ -55,10 +51,9 @@ public class LayoutGroup
 	 * @return the corresponding handle of the table group
 	 */
 
-	public TableGroupHandle getGroup( )
-	{
-		SlotHandle slots = table.getTable( ).getGroups( );
-		return (TableGroupHandle) slots.get( groupLevel - 1 );
+	public TableGroupHandle getGroup() {
+		SlotHandle slots = table.getTable().getGroups();
+		return (TableGroupHandle) slots.get(groupLevel - 1);
 	}
 
 	/**
@@ -67,10 +62,9 @@ public class LayoutGroup
 	 * @return the layout slot of the HEADER_SLOT
 	 */
 
-	public LayoutSlot getLayoutSlotHeader( )
-	{
-		LayoutGroupBand groups = table.getGroupHeaders( );
-		return groups.getLayoutSlot( groupLevel );
+	public LayoutSlot getLayoutSlotHeader() {
+		LayoutGroupBand groups = table.getGroupHeaders();
+		return groups.getLayoutSlot(groupLevel);
 	}
 
 	/**
@@ -79,9 +73,8 @@ public class LayoutGroup
 	 * @return the layout slot of the HEADER_FOOTER
 	 */
 
-	public LayoutSlot getLayoutSlotFooter( )
-	{
-		LayoutGroupBand groups = table.getGroupFooters( );
-		return groups.getLayoutSlot( groupLevel );
+	public LayoutSlot getLayoutSlotFooter() {
+		LayoutGroupBand groups = table.getGroupFooters();
+		return groups.getLayoutSlot(groupLevel);
 	}
 }

@@ -26,8 +26,7 @@ import org.xml.sax.SAXException;
  * </ul>
  */
 
-class CompatibleParamAllowMumbleState extends CompatiblePropertyState
-{
+class CompatibleParamAllowMumbleState extends CompatiblePropertyState {
 
 	/**
 	 * The obsolete property name.
@@ -36,21 +35,17 @@ class CompatibleParamAllowMumbleState extends CompatiblePropertyState
 	private String obsoletePropName;
 
 	/**
-	 * Constructs a <code>CompatibleRenamedPropertyState</code> to parse an
-	 * obsolete property.
+	 * Constructs a <code>CompatibleRenamedPropertyState</code> to parse an obsolete
+	 * property.
 	 * 
-	 * @param theHandler
-	 *            the parser handle
-	 * @param element
-	 *            the element that holds the obsolete property
-	 * @param obsoletePropName
-	 *            the name of the obsolete property.
+	 * @param theHandler       the parser handle
+	 * @param element          the element that holds the obsolete property
+	 * @param obsoletePropName the name of the obsolete property.
 	 */
 
-	public CompatibleParamAllowMumbleState( ModuleParserHandler theHandler,
-			DesignElement element, String obsoletePropName )
-	{
-		super( theHandler, element );
+	public CompatibleParamAllowMumbleState(ModuleParserHandler theHandler, DesignElement element,
+			String obsoletePropName) {
+		super(theHandler, element);
 		this.obsoletePropName = obsoletePropName;
 	}
 
@@ -60,33 +55,31 @@ class CompatibleParamAllowMumbleState extends CompatiblePropertyState
 	 * @see org.eclipse.birt.report.model.parser.PropertyState#end()
 	 */
 
-	public void end( ) throws SAXException
-	{
-		String value = text.toString( );
-		if ( value.length( ) == 0 )
+	public void end() throws SAXException {
+		String value = text.toString();
+		if (value.length() == 0)
 			return;
 
 		Boolean blnValue = null;
 
-		if ( BooleanPropertyType.FALSE.equalsIgnoreCase( value ) )
+		if (BooleanPropertyType.FALSE.equalsIgnoreCase(value))
 			blnValue = Boolean.FALSE;
-		else if ( BooleanPropertyType.TRUE.equalsIgnoreCase( value ) )
+		else if (BooleanPropertyType.TRUE.equalsIgnoreCase(value))
 			blnValue = Boolean.TRUE;
 
 		// allowNull is in the position 0, allowBlank is in the position 1.
 
-		Boolean[] blnValues = (Boolean[]) handler.tempValue.get( element );
-		if ( blnValues == null )
-		{
+		Boolean[] blnValues = (Boolean[]) handler.tempValue.get(element);
+		if (blnValues == null) {
 			blnValues = new Boolean[2];
 			blnValues[0] = Boolean.FALSE;
 			blnValues[1] = Boolean.TRUE;
-			handler.tempValue.put( element, blnValues );
+			handler.tempValue.put(element, blnValues);
 		}
 
-		if ( "allowNull".equalsIgnoreCase( obsoletePropName ) ) //$NON-NLS-1$
+		if ("allowNull".equalsIgnoreCase(obsoletePropName)) //$NON-NLS-1$
 			blnValues[0] = blnValue;
-		else if ( "allowBlank".equalsIgnoreCase( obsoletePropName ) ) //$NON-NLS-1$
+		else if ("allowBlank".equalsIgnoreCase(obsoletePropName)) //$NON-NLS-1$
 			blnValues[1] = blnValue;
 		else
 			assert false;

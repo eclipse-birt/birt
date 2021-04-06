@@ -21,61 +21,46 @@ import org.eclipse.core.runtime.jobs.Job;
  * 
  */
 
-public abstract class AbstractJob extends Job
-{
+public abstract class AbstractJob extends Job {
 
 	private String designFile;
 
-	public AbstractJob( String name, String designFile )
-	{
-		super( name );
+	public AbstractJob(String name, String designFile) {
+		super(name);
 		this.designFile = designFile;
 	}
 
-	protected IStatus run( IProgressMonitor monitor )
-	{
+	protected IStatus run(IProgressMonitor monitor) {
 		IStatus returnValue = Status.OK_STATUS;
-		setPriority( Job.SHORT );
-		monitor.beginTask( getName( ), IProgressMonitor.UNKNOWN );
+		setPriority(Job.SHORT);
+		monitor.beginTask(getName(), IProgressMonitor.UNKNOWN);
 
-		if ( monitor.isCanceled( ) )
-		{
-			Job.getJobManager( ).cancel( this.designFile );
+		if (monitor.isCanceled()) {
+			Job.getJobManager().cancel(this.designFile);
 			return Status.CANCEL_STATUS;
 		}
 
-		try
-		{
-			work( monitor );
-		}
-		catch ( RuntimeException e )
-		{
-			returnValue = new Status( IStatus.ERROR,
-					StaticHTMLPrviewPlugin.PLUGIN_ID,
-					500,
-					e.getMessage( ),
-					e );
-			Job.getJobManager( ).cancel( this.designFile );
-		}
-		finally
-		{
-			monitor.done( );
+		try {
+			work(monitor);
+		} catch (RuntimeException e) {
+			returnValue = new Status(IStatus.ERROR, StaticHTMLPrviewPlugin.PLUGIN_ID, 500, e.getMessage(), e);
+			Job.getJobManager().cancel(this.designFile);
+		} finally {
+			monitor.done();
 		}
 
-		if ( monitor.isCanceled( ) )
-		{
-			Job.getJobManager( ).cancel( this.designFile );
+		if (monitor.isCanceled()) {
+			Job.getJobManager().cancel(this.designFile);
 			returnValue = Status.CANCEL_STATUS;
 		}
 		return returnValue;
 	}
 
-	public boolean belongsTo( Object family )
-	{
-		if ( family != null && family.equals( this.designFile ) )
+	public boolean belongsTo(Object family) {
+		if (family != null && family.equals(this.designFile))
 			return true;
-		return super.belongsTo( family );
+		return super.belongsTo(family);
 	}
 
-	public abstract void work( IProgressMonitor monitor );
+	public abstract void work(IProgressMonitor monitor);
 }

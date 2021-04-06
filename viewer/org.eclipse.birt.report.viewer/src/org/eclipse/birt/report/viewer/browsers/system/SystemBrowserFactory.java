@@ -20,14 +20,12 @@ import org.eclipse.osgi.service.environment.Constants;
  * The System browser factory is derived from Help's SystemBrowserFactory.
  * <p>
  */
-public class SystemBrowserFactory implements IBrowserFactory
-{
+public class SystemBrowserFactory implements IBrowserFactory {
 	/**
 	 * Constructor.
 	 */
-	public SystemBrowserFactory( )
-	{
-		super( );
+	public SystemBrowserFactory() {
+		super();
 	}
 
 	/**
@@ -35,9 +33,8 @@ public class SystemBrowserFactory implements IBrowserFactory
 	 * 
 	 * @return browser factory available or not
 	 */
-	public boolean isAvailable( )
-	{
-		return Constants.WS_WIN32.equalsIgnoreCase( Platform.getOS( ) );
+	public boolean isAvailable() {
+		return Constants.WS_WIN32.equalsIgnoreCase(Platform.getOS());
 	}
 
 	/**
@@ -45,8 +42,7 @@ public class SystemBrowserFactory implements IBrowserFactory
 	 * 
 	 * @return system browser instance
 	 */
-	public IBrowser createBrowser( )
-	{
-		return new SystemBrowserAdapter( );
+	public IBrowser createBrowser() {
+		return new SystemBrowserAdapter();
 	}
 }

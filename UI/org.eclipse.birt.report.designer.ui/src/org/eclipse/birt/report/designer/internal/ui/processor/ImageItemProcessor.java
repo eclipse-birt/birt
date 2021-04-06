@@ -22,21 +22,18 @@ import org.eclipse.jface.dialogs.Dialog;
  * The processor for image items
  */
 
-public class ImageItemProcessor extends AbstractElementProcessor
-{
+public class ImageItemProcessor extends AbstractElementProcessor {
 
 	/**
 	 * Constructor
 	 * 
 	 * Creates a new instance of the processor for image items
 	 */
-	ImageItemProcessor( )
-	{
-		super( ReportDesignConstants.IMAGE_ITEM );
+	ImageItemProcessor() {
+		super(ReportDesignConstants.IMAGE_ITEM);
 	}
 
-	public DesignElementHandle createElement( Object extendedData )
-	{
+	public DesignElementHandle createElement(Object extendedData) {
 //		ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ),
 //				ImageBuilder.DLG_TITLE_NEW );
 //		if ( dialog.open( ) == Dialog.OK )
@@ -44,15 +41,13 @@ public class ImageItemProcessor extends AbstractElementProcessor
 //			return (DesignElementHandle) dialog.getResult( );
 //		}
 //		return null;
-		
-		return DesignElementFactory.getInstance( ).newImage( null );
+
+		return DesignElementFactory.getInstance().newImage(null);
 	}
 
-	public boolean editElement( DesignElementHandle handle )
-	{
-		ImageBuilder dialog = new ImageBuilder( UIUtil.getDefaultShell( ),
-				ImageBuilder.DLG_TITLE_EDIT );
-		dialog.setInput( handle );
-		return ( dialog.open( ) == Dialog.OK );
+	public boolean editElement(DesignElementHandle handle) {
+		ImageBuilder dialog = new ImageBuilder(UIUtil.getDefaultShell(), ImageBuilder.DLG_TITLE_EDIT);
+		dialog.setInput(handle);
+		return (dialog.open() == Dialog.OK);
 	}
 }

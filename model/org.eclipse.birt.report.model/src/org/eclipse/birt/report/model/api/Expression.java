@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.util.ModelUtil;
  * @see ExpressionType
  */
 
-public class Expression
-{
+public class Expression {
 
 	private Object expr;
 
@@ -30,14 +29,11 @@ public class Expression
 	/**
 	 * Constructor
 	 * 
-	 * @param expr
-	 *            the value
-	 * @param type
-	 *            the type
+	 * @param expr the value
+	 * @param type the type
 	 */
 
-	public Expression( Object expr, String type )
-	{
+	public Expression(Object expr, String type) {
 		this.expr = expr;
 		this.type = type;
 	}
@@ -48,9 +44,8 @@ public class Expression
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		return expr == null ? null : expr.toString( );
+	public String toString() {
+		return expr == null ? null : expr.toString();
 	}
 
 	/**
@@ -60,9 +55,8 @@ public class Expression
 	 * @return the raw expression or the value in string
 	 */
 
-	public String getStringExpression( )
-	{
-		return expr == null ? null : expr.toString( );
+	public String getStringExpression() {
+		return expr == null ? null : expr.toString();
 	}
 
 	/**
@@ -72,24 +66,22 @@ public class Expression
 	 * @return the raw expression or the value
 	 */
 
-	public Object getExpression( )
-	{
+	public Object getExpression() {
 		return expr;
 	}
 
 	/**
 	 * Return the type of the expression. It can be one of defined in
-	 * <code>ExpressionType</code>. For the compatibility issue, in default, it
-	 * is <code>ExpressionType.JAVASCRIPT</code>.
+	 * <code>ExpressionType</code>. For the compatibility issue, in default, it is
+	 * <code>ExpressionType.JAVASCRIPT</code>.
 	 * 
 	 * @see ExpressionType
 	 * 
 	 * @return the type
 	 */
 
-	public String getType( )
-	{
-		if ( type == null )
+	public String getType() {
+		if (type == null)
 			return ExpressionType.JAVASCRIPT;
 
 		return type;
@@ -104,8 +96,7 @@ public class Expression
 	 * @return the type
 	 */
 
-	public String getUserDefinedType( )
-	{
+	public String getUserDefinedType() {
 		return type;
 	}
 
@@ -115,16 +106,15 @@ public class Expression
 	 * @see java.lang.Object#equals(java.lang.Object)
 	 */
 
-	public boolean equals( Object obj )
-	{
-		if ( !( obj instanceof Expression ) )
+	public boolean equals(Object obj) {
+		if (!(obj instanceof Expression))
 			return false;
 
 		Expression tmpExpr = (Expression) obj;
-		if ( !ModelUtil.isEquals( expr, tmpExpr.getExpression( ) ) )
+		if (!ModelUtil.isEquals(expr, tmpExpr.getExpression()))
 			return false;
 
-		if ( !ModelUtil.isEquals( type, tmpExpr.getUserDefinedType( ) ) )
+		if (!ModelUtil.isEquals(type, tmpExpr.getUserDefinedType()))
 			return false;
 
 		return true;

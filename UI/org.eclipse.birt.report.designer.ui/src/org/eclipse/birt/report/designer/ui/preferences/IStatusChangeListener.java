@@ -13,8 +13,7 @@ package org.eclipse.birt.report.designer.ui.preferences;
 
 import org.eclipse.core.runtime.IStatus;
 
-public interface IStatusChangeListener
-{
+public interface IStatusChangeListener {
 
-	void statusChanged( IStatus status );
+	void statusChanged(IStatus status);
 }

@@ -21,15 +21,11 @@ import org.eclipse.birt.report.data.adapter.api.IModelAdapter;
 import org.eclipse.birt.report.model.api.ExpressionType;
 import org.eclipse.birt.report.model.api.SortHintHandle;
 
-public class SortHintAdapter extends SortDefinition
-{
+public class SortHintAdapter extends SortDefinition {
 
-	public SortHintAdapter( IModelAdapter adapter, SortHintHandle sortHint )
-			throws AdapterException
-	{
-		IScriptExpression expr = adapter.adaptExpression( sortHint.getColumnName( ),
-				ExpressionType.JAVASCRIPT );
-		this.setExpression( expr );
-		this.setSortDirection( SortAdapter.sortDirectionFromModel( sortHint.getDirection( ) ) );
+	public SortHintAdapter(IModelAdapter adapter, SortHintHandle sortHint) throws AdapterException {
+		IScriptExpression expr = adapter.adaptExpression(sortHint.getColumnName(), ExpressionType.JAVASCRIPT);
+		this.setExpression(expr);
+		this.setSortDirection(SortAdapter.sortDirectionFromModel(sortHint.getDirection()));
 	}
 }

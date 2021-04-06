@@ -24,8 +24,7 @@ import org.eclipse.emf.ecore.EObject;
 /**
  * This class defines a structure source object for all chart events.
  */
-public class StructureSource
-{
+public class StructureSource {
 
 	private Object source;
 
@@ -36,9 +35,8 @@ public class StructureSource
 	 * 
 	 * @param source
 	 */
-	public StructureSource( Object source )
-	{
-		super( );
+	public StructureSource(Object source) {
+		super();
 
 		this.source = source;
 		this.type = StructureType.UNKNOWN;
@@ -49,9 +47,8 @@ public class StructureSource
 	 * 
 	 * @param source
 	 */
-	public StructureSource( Object source, StructureType type )
-	{
-		super( );
+	public StructureSource(Object source, StructureType type) {
+		super();
 
 		this.source = source;
 		this.type = type;
@@ -62,8 +59,7 @@ public class StructureSource
 	 * 
 	 * @return
 	 */
-	public Object getSource( )
-	{
+	public Object getSource() {
 		return source;
 	}
 
@@ -72,8 +68,7 @@ public class StructureSource
 	 * 
 	 * @return
 	 */
-	public StructureType getType( )
-	{
+	public StructureType getType() {
 		return type;
 	}
 
@@ -83,9 +78,8 @@ public class StructureSource
 	 * @param se
 	 * @return
 	 */
-	public static StructureSource createSeries( Series se )
-	{
-		return new StructureSource( se, StructureType.SERIES );
+	public static StructureSource createSeries(Series se) {
+		return new StructureSource(se, StructureType.SERIES);
 	}
 
 	/**
@@ -94,9 +88,8 @@ public class StructureSource
 	 * @param pt
 	 * @return
 	 */
-	public static StructureSource createPlot( Plot pt )
-	{
-		return new StructureSource( pt, StructureType.PLOT );
+	public static StructureSource createPlot(Plot pt) {
+		return new StructureSource(pt, StructureType.PLOT);
 	}
 
 	/**
@@ -105,9 +98,8 @@ public class StructureSource
 	 * @param pt
 	 * @return
 	 */
-	public static StructureSource createTitle( TitleBlock tb )
-	{
-		return new StructureSource( tb, StructureType.TITLE );
+	public static StructureSource createTitle(TitleBlock tb) {
+		return new StructureSource(tb, StructureType.TITLE);
 	}
 
 	/**
@@ -116,9 +108,8 @@ public class StructureSource
 	 * @param pt
 	 * @return
 	 */
-	public static StructureSource createChartBlock( Block block )
-	{
-		return new StructureSource( block, StructureType.CHART_BLOCK );
+	public static StructureSource createChartBlock(Block block) {
+		return new StructureSource(block, StructureType.CHART_BLOCK);
 	}
 
 	/**
@@ -127,9 +118,8 @@ public class StructureSource
 	 * @param o
 	 * @return
 	 */
-	public static StructureSource createUnknown( EObject o )
-	{
-		return new StructureSource( o, StructureType.UNKNOWN );
+	public static StructureSource createUnknown(EObject o) {
+		return new StructureSource(o, StructureType.UNKNOWN);
 	}
 
 	/**
@@ -138,9 +128,8 @@ public class StructureSource
 	 * @param ax
 	 * @return
 	 */
-	public static StructureSource createAxis( Axis ax )
-	{
-		return new StructureSource( ax, StructureType.AXIS );
+	public static StructureSource createAxis(Axis ax) {
+		return new StructureSource(ax, StructureType.AXIS);
 	}
 
 	/**
@@ -149,9 +138,8 @@ public class StructureSource
 	 * @param lg
 	 * @return
 	 */
-	public static StructureSource createLegend( Legend lg )
-	{
-		return new StructureSource( lg, StructureType.LEGEND );
+	public static StructureSource createLegend(Legend lg) {
+		return new StructureSource(lg, StructureType.LEGEND);
 	}
 
 	/**
@@ -160,9 +148,8 @@ public class StructureSource
 	 * @param ml
 	 * @return
 	 */
-	public static StructureSource createMarkerLine( MarkerLine ml )
-	{
-		return new StructureSource( ml, StructureType.MARKER_LINE );
+	public static StructureSource createMarkerLine(MarkerLine ml) {
+		return new StructureSource(ml, StructureType.MARKER_LINE);
 	}
 
 	/**
@@ -171,9 +158,8 @@ public class StructureSource
 	 * @param ml
 	 * @return
 	 */
-	public static StructureSource createMarkerRange( MarkerRange mr )
-	{
-		return new StructureSource( mr, StructureType.MARKER_RANGE );
+	public static StructureSource createMarkerRange(MarkerRange mr) {
+		return new StructureSource(mr, StructureType.MARKER_RANGE);
 	}
 
 }

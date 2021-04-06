@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.util.EncryptionUtil;
  * 
  */
 
-public class EncryptionRecord extends SimpleRecord
-{
+public class EncryptionRecord extends SimpleRecord {
 
 	/**
 	 * The element to change.
@@ -67,73 +66,59 @@ public class EncryptionRecord extends SimpleRecord
 	 * 
 	 * @param module
 	 * 
-	 * @param obj
-	 *            the element to change.
+	 * @param obj        the element to change.
 	 * @param propDefn
 	 * @param encryption
 	 */
 
-	public EncryptionRecord( Module module, DesignElement obj,
-			ElementPropertyDefn propDefn, String encryption )
-	{
+	public EncryptionRecord(Module module, DesignElement obj, ElementPropertyDefn propDefn, String encryption) {
 		element = obj;
 		prop = propDefn;
 		newEncryption = encryption;
-		oldEncryption = element.getLocalEncryptionID( propDefn );
+		oldEncryption = element.getLocalEncryptionID(propDefn);
 
 		// get value and local value
-		oldValue = element.getProperty( module, prop );
-		oldLocalValue = element.getLocalProperty( module, prop );
+		oldValue = element.getProperty(module, prop);
+		oldLocalValue = element.getLocalProperty(module, prop);
 
-		label = CommandLabelFactory.getCommandLabel(
-				MessageConstants.CHANGE_PROPERTY_ENCRYPTION_MESSAGE,
-				new String[]{propDefn.getDisplayName( )} );
+		label = CommandLabelFactory.getCommandLabel(MessageConstants.CHANGE_PROPERTY_ENCRYPTION_MESSAGE,
+				new String[] { propDefn.getDisplayName() });
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
+	 * @see org.eclipse.birt.report.model.design.core.SimpleRecord#perform(boolean)
 	 */
 
-	protected void perform( boolean undo )
-	{
+	protected void perform(boolean undo) {
 		String encryptionID = undo ? oldEncryption : newEncryption;
 
 		// if old value is null, it means the element and all its ancestor do
 		// not set value, so need do nothing about property value
-		if ( oldValue == null )
-		{
-			element.setEncryptionHelper( prop, encryptionID );
-		}
-		else
-		{
+		if (oldValue == null) {
+			element.setEncryptionHelper(prop, encryptionID);
+		} else {
 			// old value is not null
-			if ( oldLocalValue != null )
-			{
+			if (oldLocalValue != null) {
 				// if has local value, it must have encryption too.
-				if ( encryptionID == null )
-					encryptionID = element.getEncryptionID( prop );
+				if (encryptionID == null)
+					encryptionID = element.getEncryptionID(prop);
 
-				Object newValue = EncryptionUtil.encrypt( prop,
-						encryptionID, oldLocalValue );
-				element.setProperty( prop, newValue );
-				element.setEncryptionHelper( prop, encryptionID );
-			}
-			else
-			{
+				Object newValue = EncryptionUtil.encrypt(prop, encryptionID, oldLocalValue);
+				element.setProperty(prop, newValue);
+				element.setEncryptionHelper(prop, encryptionID);
+			} else {
 				// if not undo(do or redo) and want to set the local value, it
 				// must have encryption too.
-				if ( !undo && encryptionID == null )
-					encryptionID = element.getEncryptionID( prop );
+				if (!undo && encryptionID == null)
+					encryptionID = element.getEncryptionID(prop);
 
 				// if do then get value and encrypt it and set; if undo, then
 				// set null
-				Object newValue = undo ? null : EncryptionUtil.encrypt(
-						prop, encryptionID, oldValue );
-				element.setProperty( prop, newValue );
-				element.setEncryptionHelper( prop, encryptionID );
+				Object newValue = undo ? null : EncryptionUtil.encrypt(prop, encryptionID, oldValue);
+				element.setProperty(prop, newValue);
+				element.setEncryptionHelper(prop, encryptionID);
 			}
 
 		}
@@ -143,26 +128,22 @@ public class EncryptionRecord extends SimpleRecord
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget
-	 * ()
+	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getTarget ()
 	 */
 
-	public DesignElement getTarget( )
-	{
+	public DesignElement getTarget() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
+	 * @see org.eclipse.birt.report.model.design.core.AbstractElementRecord#getEvent
 	 * ()
 	 */
 
-	public NotificationEvent getEvent( )
-	{
-		return new EncryptionEvent( element, prop, oldEncryption, newEncryption );
+	public NotificationEvent getEvent() {
+		return new EncryptionEvent(element, prop, oldEncryption, newEncryption);
 	}
 
 }

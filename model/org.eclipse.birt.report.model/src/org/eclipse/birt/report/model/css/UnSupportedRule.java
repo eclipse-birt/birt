@@ -18,17 +18,16 @@ import org.w3c.dom.css.CSSUnknownRule;
 
 /**
  * Implements an unSupported rule by Model.
- *  
+ * 
  */
 
-public class UnSupportedRule implements CSSUnknownRule, Serializable
-{
+public class UnSupportedRule implements CSSUnknownRule, Serializable {
 
 	/**
 	 * Document for <code>serialVersionUID</code>.
 	 */
 	private static final long serialVersionUID = -1643330060195374902L;
-	
+
 	/**
 	 * The text of the rule.
 	 */
@@ -38,12 +37,10 @@ public class UnSupportedRule implements CSSUnknownRule, Serializable
 	/**
 	 * Constructs an unsupported rule with rule text.
 	 * 
-	 * @param text
-	 *            the rule text
+	 * @param text the rule text
 	 */
 
-	public UnSupportedRule( String text )
-	{
+	public UnSupportedRule(String text) {
 		this.text = text;
 	}
 
@@ -53,8 +50,7 @@ public class UnSupportedRule implements CSSUnknownRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#getType()
 	 */
 
-	public short getType( )
-	{
+	public short getType() {
 		return UNKNOWN_RULE;
 	}
 
@@ -64,8 +60,7 @@ public class UnSupportedRule implements CSSUnknownRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#getCssText()
 	 */
 
-	public String getCssText( )
-	{
+	public String getCssText() {
 		return text;
 	}
 
@@ -75,8 +70,7 @@ public class UnSupportedRule implements CSSUnknownRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#setCssText(java.lang.String)
 	 */
 
-	public void setCssText( String cssText ) throws DOMException
-	{
+	public void setCssText(String cssText) throws DOMException {
 
 	}
 
@@ -86,8 +80,7 @@ public class UnSupportedRule implements CSSUnknownRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#getParentRule()
 	 */
 
-	public CSSRule getParentRule( )
-	{
+	public CSSRule getParentRule() {
 		return null;
 	}
 
@@ -97,8 +90,7 @@ public class UnSupportedRule implements CSSUnknownRule, Serializable
 	 * @see org.w3c.dom.css.CSSRule#getParentStyleSheet()
 	 */
 
-	public CSSStyleSheet getParentStyleSheet( )
-	{
+	public CSSStyleSheet getParentStyleSheet() {
 		return null;
 	}
 
@@ -108,9 +100,8 @@ public class UnSupportedRule implements CSSUnknownRule, Serializable
 	 * @see java.lang.Object#toString()
 	 */
 
-	public String toString( )
-	{
-		return getCssText( );
+	public String toString() {
+		return getCssText();
 	}
 
 }

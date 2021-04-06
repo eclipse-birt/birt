@@ -28,82 +28,73 @@ import org.eclipse.swt.widgets.Label;
  * @author Roshan Ail
  * @version $Revision: 1.2 $ $Date: 2006/06/16 03:12:04 $
  */
-public abstract class AbstractCubePropertyPage extends AbstractPropertyPage
-{
+public abstract class AbstractCubePropertyPage extends AbstractPropertyPage {
 
 	private transient Label pageDescription = null;
 	private Composite composite;
 	private ScrolledComposite sComposite;
 
 	/**
-     * 
-     */
-	public AbstractCubePropertyPage( )
-	{
-		super( );
+	 * 
+	 */
+	public AbstractCubePropertyPage() {
+		super();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
+	 * @see org.eclipse.birt.report.designer.ui.dialogs.properties.IPropertyPage#
 	 * createPageControl(org.eclipse.swt.widgets.Composite)
 	 */
-	public Control createPageControl( Composite parent )
-	{
-		sComposite = new ScrolledComposite( parent, SWT.H_SCROLL
-				| SWT.V_SCROLL );
-		sComposite.setLayoutData( new GridData( GridData.FILL_BOTH ) );
-		sComposite.setExpandHorizontal( true );
-		sComposite.setExpandVertical( true );
-		sComposite.addControlListener( new ControlAdapter( ) {
+	public Control createPageControl(Composite parent) {
+		sComposite = new ScrolledComposite(parent, SWT.H_SCROLL | SWT.V_SCROLL);
+		sComposite.setLayoutData(new GridData(GridData.FILL_BOTH));
+		sComposite.setExpandHorizontal(true);
+		sComposite.setExpandVertical(true);
+		sComposite.addControlListener(new ControlAdapter() {
 
-			public void controlResized( ControlEvent e )
-			{
-				computeSize( );
+			public void controlResized(ControlEvent e) {
+				computeSize();
 			}
-		} );
-		
-		composite = new Composite( sComposite, SWT.NONE );
-		GridLayout layout = new GridLayout( );
+		});
+
+		composite = new Composite(sComposite, SWT.NONE);
+		GridLayout layout = new GridLayout();
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
-		composite.setLayout( layout );
-		if ( getPageDescription( ) != null )
-		{
-			pageDescription = new Label( composite, SWT.NONE );
-			pageDescription.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			pageDescription.setText( getPageDescription( ) );
-			pageDescription.setToolTipText( getPageDescription( ) );
+		composite.setLayout(layout);
+		if (getPageDescription() != null) {
+			pageDescription = new Label(composite, SWT.NONE);
+			pageDescription.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			pageDescription.setText(getPageDescription());
+			pageDescription.setToolTipText(getPageDescription());
 		}
-		GridData data = new GridData( GridData.FILL_BOTH );
-		Control control = createContents( composite );
-		control.setLayoutData( data );
+		GridData data = new GridData(GridData.FILL_BOTH);
+		Control control = createContents(composite);
+		control.setLayoutData(data);
 
-		sComposite.setContent( composite );
+		sComposite.setContent(composite);
 
 		return sComposite;
 	}
 
-	private void computeSize( )
-	{
-		sComposite.setMinSize( composite.computeSize( SWT.DEFAULT, SWT.DEFAULT ) );
-		composite.layout( );
+	private void computeSize() {
+		sComposite.setMinSize(composite.computeSize(SWT.DEFAULT, SWT.DEFAULT));
+		composite.layout();
 	}
-	
-	public abstract Control createContents( Composite parent );
+
+	public abstract Control createContents(Composite parent);
 
 	/**
 	 * This method returns the page description. It is displayed just below the
 	 * title. The default implementation returns null in which case it doesn't
-	 * display anything. Subclasses must reimplement this method and return a
-	 * string if they wish to display a short one line description.
+	 * display anything. Subclasses must reimplement this method and return a string
+	 * if they wish to display a short one line description.
 	 * 
 	 * @return The one line description.
 	 */
-	public String getPageDescription( )
-	{
+	public String getPageDescription() {
 		return null;
 	}
 }

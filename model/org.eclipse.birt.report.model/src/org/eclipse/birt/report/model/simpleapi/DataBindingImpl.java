@@ -25,8 +25,7 @@ import org.eclipse.birt.report.model.api.simpleapi.IDataBinding;
  * 
  */
 
-public class DataBindingImpl extends Structure implements IDataBinding
-{
+public class DataBindingImpl extends Structure implements IDataBinding {
 
 	private ComputedColumn column;
 
@@ -36,10 +35,9 @@ public class DataBindingImpl extends Structure implements IDataBinding
 	 * @param columnHandle
 	 */
 
-	public DataBindingImpl( )
-	{
-		super( null );
-		column = createComputedColumn( );
+	public DataBindingImpl() {
+		super(null);
+		column = createComputedColumn();
 	}
 
 	/**
@@ -48,18 +46,14 @@ public class DataBindingImpl extends Structure implements IDataBinding
 	 * @param columnHandle
 	 */
 
-	public DataBindingImpl( ComputedColumnHandle columnHandle )
-	{
-		super( columnHandle );
-		if ( columnHandle == null )
-		{
-			column = createComputedColumn( );
-		}
-		else
-		{
+	public DataBindingImpl(ComputedColumnHandle columnHandle) {
+		super(columnHandle);
+		if (columnHandle == null) {
+			column = createComputedColumn();
+		} else {
 			structureHandle = columnHandle;
 
-			column = (ComputedColumn) columnHandle.getStructure( );
+			column = (ComputedColumn) columnHandle.getStructure();
 		}
 	}
 
@@ -69,15 +63,11 @@ public class DataBindingImpl extends Structure implements IDataBinding
 	 * @param column
 	 */
 
-	public DataBindingImpl( ComputedColumn column )
-	{
-		super( null );
-		if ( column == null )
-		{
-			this.column = createComputedColumn( );
-		}
-		else
-		{
+	public DataBindingImpl(ComputedColumn column) {
+		super(null);
+		if (column == null) {
+			this.column = createComputedColumn();
+		} else {
 
 			this.column = column;
 		}
@@ -88,85 +78,70 @@ public class DataBindingImpl extends Structure implements IDataBinding
 	 * 
 	 * @return instance of <code>ComputedColumn</code>
 	 */
-	private ComputedColumn createComputedColumn( )
-	{
-		ComputedColumn c = new ComputedColumn( );
+	private ComputedColumn createComputedColumn() {
+		ComputedColumn c = new ComputedColumn();
 		return c;
 	}
 
-	public String getAggregateOn( )
-	{
-		return column.getAggregateOn( );
+	public String getAggregateOn() {
+		return column.getAggregateOn();
 	}
 
-	public String getDataType( )
-	{
-		return column.getDataType( );
+	public String getDataType() {
+		return column.getDataType();
 	}
 
-	public String getExpression( )
-	{
-		return column.getExpression( );
+	public String getExpression() {
+		return column.getExpression();
 	}
 
-	public String getName( )
-	{
-		return column.getName( );
+	public String getName() {
+		return column.getName();
 	}
 
-	public void setAggregateOn( String on ) throws SemanticException
-	{
-		if ( structureHandle != null )
-		{
-			ActivityStack cmdStack = structureHandle.getModule( )
-					.getActivityStack( );
+	public void setAggregateOn(String on) throws SemanticException {
+		if (structureHandle != null) {
+			ActivityStack cmdStack = structureHandle.getModule().getActivityStack();
 
-			cmdStack.startNonUndoableTrans( null );
-			( (ComputedColumnHandle) structureHandle ).setAggregateOn( on );
+			cmdStack.startNonUndoableTrans(null);
+			((ComputedColumnHandle) structureHandle).setAggregateOn(on);
 
-			cmdStack.commit( );
+			cmdStack.commit();
 			return;
 		}
-		column.setAggregateOn( on );
+		column.setAggregateOn(on);
 	}
 
-	public void setDataType( String dataType ) throws SemanticException
-	{
-		if ( structureHandle != null )
-		{
-			setProperty( ComputedColumn.DATA_TYPE_MEMBER, dataType );
+	public void setDataType(String dataType) throws SemanticException {
+		if (structureHandle != null) {
+			setProperty(ComputedColumn.DATA_TYPE_MEMBER, dataType);
 			return;
 		}
 
-		column.setDataType( dataType );
+		column.setDataType(dataType);
 	}
 
-	public void setExpression( String expression ) throws SemanticException
-	{
-		if ( structureHandle != null )
-		{
-			setProperty( ComputedColumn.EXPRESSION_MEMBER, expression );
+	public void setExpression(String expression) throws SemanticException {
+		if (structureHandle != null) {
+			setProperty(ComputedColumn.EXPRESSION_MEMBER, expression);
 			return;
 		}
 
 		// expression is required.
-		column.setExpression( expression );
+		column.setExpression(expression);
 	}
 
-	public void setName( String name ) throws SemanticException
-	{
-		if ( structureHandle != null )
-		{
-			setProperty( ComputedColumn.NAME_MEMBER, name );
+	public void setName(String name) throws SemanticException {
+		if (structureHandle != null) {
+			setProperty(ComputedColumn.NAME_MEMBER, name);
 			return;
 		}
 
 		// name is required.
-		column.setName( name );
+		column.setName(name);
 	}
 
-	public IStructure getStructure( )
-	{
+	public IStructure getStructure() {
 		return column;
 	}
 
@@ -174,17 +149,14 @@ public class DataBindingImpl extends Structure implements IDataBinding
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IDataBinding#getExpressionType
-	 * ()
+	 * org.eclipse.birt.report.model.api.simpleapi.IDataBinding#getExpressionType ()
 	 */
-	public String getExpressionType( )
-	{
-		Expression expression = column
-				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
-		if ( expression == null )
+	public String getExpressionType() {
+		Expression expression = column.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER);
+		if (expression == null)
 			return null;
 
-		return expression.getType( );
+		return expression.getType();
 
 	}
 
@@ -195,37 +167,28 @@ public class DataBindingImpl extends Structure implements IDataBinding
 	 * org.eclipse.birt.report.model.api.simpleapi.IDataBinding#setExpressionType
 	 * (java.lang.String)
 	 */
-	public void setExpressionType( String type ) throws SemanticException
-	{
-		if ( structureHandle != null )
-		{
-			ExpressionHandle handle = structureHandle
-					.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
-			if ( handle != null )
-			{
-				handle.setType( type );
-			}
-			else
-			{
-				Expression newExpression = new Expression( null, type );
-				structureHandle.setExpressionProperty(
-						ComputedColumn.EXPRESSION_MEMBER, newExpression );
+	public void setExpressionType(String type) throws SemanticException {
+		if (structureHandle != null) {
+			ExpressionHandle handle = structureHandle.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER);
+			if (handle != null) {
+				handle.setType(type);
+			} else {
+				Expression newExpression = new Expression(null, type);
+				structureHandle.setExpressionProperty(ComputedColumn.EXPRESSION_MEMBER, newExpression);
 			}
 
 			return;
 		}
 
-		Expression expression = column
-				.getExpressionProperty( ComputedColumn.EXPRESSION_MEMBER );
+		Expression expression = column.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER);
 
 		Expression newValue = null;
-		if ( expression != null )
-			newValue = new Expression( expression.getExpression( ), type );
-		else if ( type != null )
-			newValue = new Expression( null, type );
+		if (expression != null)
+			newValue = new Expression(expression.getExpression(), type);
+		else if (type != null)
+			newValue = new Expression(null, type);
 
-		column.setExpressionProperty( ComputedColumn.EXPRESSION_MEMBER,
-				newValue );
+		column.setExpressionProperty(ComputedColumn.EXPRESSION_MEMBER, newValue);
 	}
 
 }

@@ -41,12 +41,10 @@ import org.eclipse.birt.report.model.core.Structure;
  * 
  */
 
-public class LevelAttribute extends Structure
-{
+public class LevelAttribute extends Structure {
 
 	/**
-	 * Name of this structure. Matches the definition in the meta-data
-	 * dictionary.
+	 * Name of this structure. Matches the definition in the meta-data dictionary.
 	 */
 
 	public static final String STRUCTURE_NAME = "LevelAttribute"; //$NON-NLS-1$
@@ -86,22 +84,22 @@ public class LevelAttribute extends Structure
 	 * @see org.eclipse.birt.report.model.core.IStructure#getStructName()
 	 */
 
-	public String getStructName( )
-	{
+	public String getStructName() {
 		return STRUCTURE_NAME;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#getIntrinsicProperty(java.lang.
+	 * String)
 	 */
 
-	protected Object getIntrinsicProperty( String propName )
-	{
-		if ( NAME_MEMBER.equals( propName ) )
+	protected Object getIntrinsicProperty(String propName) {
+		if (NAME_MEMBER.equals(propName))
 			return name;
-		if ( DATA_TYPE_MEMBER.equals( propName ) )
+		if (DATA_TYPE_MEMBER.equals(propName))
 			return dataType;
 
 		assert false;
@@ -111,15 +109,15 @@ public class LevelAttribute extends Structure
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.String,
-	 *      java.lang.Object)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#setIntrinsicProperty(java.lang.
+	 * String, java.lang.Object)
 	 */
 
-	protected void setIntrinsicProperty( String propName, Object value )
-	{
-		if ( NAME_MEMBER.equals( propName ) )
+	protected void setIntrinsicProperty(String propName, Object value) {
+		if (NAME_MEMBER.equals(propName))
 			name = (String) value;
-		else if ( DATA_TYPE_MEMBER.equals( propName ) )
+		else if (DATA_TYPE_MEMBER.equals(propName))
 			dataType = (String) value;
 		else
 			assert false;
@@ -131,27 +129,24 @@ public class LevelAttribute extends Structure
 	 * @return the column name.
 	 */
 
-	public String getName( )
-	{
-		return (String) getProperty( null, NAME_MEMBER );
+	public String getName() {
+		return (String) getProperty(null, NAME_MEMBER);
 	}
 
 	/**
 	 * Sets the column name.
 	 * 
-	 * @param columnName
-	 *            the column name to set
+	 * @param columnName the column name to set
 	 */
 
-	public void setName( String columnName )
-	{
-		setProperty( NAME_MEMBER, columnName );
+	public void setName(String columnName) {
+		setProperty(NAME_MEMBER, columnName);
 	}
 
 	/**
 	 * Returns the data type of this column. The possible values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -166,15 +161,14 @@ public class LevelAttribute extends Structure
 	 * @return the data type of this column.
 	 */
 
-	public String getDataType( )
-	{
-		return (String) getProperty( null, DATA_TYPE_MEMBER );
+	public String getDataType() {
+		return (String) getProperty(null, DATA_TYPE_MEMBER);
 	}
 
 	/**
 	 * Sets the data type of this column. The allowed values are defined in
-	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants},
-	 * and they are:
+	 * {@link org.eclipse.birt.report.model.api.elements.DesignChoiceConstants}, and
+	 * they are:
 	 * <ul>
 	 * <li>COLUMN_DATA_TYPE_ANY
 	 * <li>COLUMN_DATA_TYPE_INTEGER
@@ -186,24 +180,22 @@ public class LevelAttribute extends Structure
 	 * <li>COLUMN_DATA_TYPE_TABLE
 	 * </ul>
 	 * 
-	 * @param dataType
-	 *            the data type to set
+	 * @param dataType the data type to set
 	 */
 
-	public void setDataType( String dataType )
-	{
-		setProperty( DATA_TYPE_MEMBER, dataType );
+	public void setDataType(String dataType) {
+		setProperty(DATA_TYPE_MEMBER, dataType);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.model.api.SimpleValueHandle,
-	 *      int)
+	 * @see
+	 * org.eclipse.birt.report.model.core.Structure#handle(org.eclipse.birt.report.
+	 * model.api.SimpleValueHandle, int)
 	 */
-	public StructureHandle handle( SimpleValueHandle valueHandle, int index )
-	{
-		return new LevelAttributeHandle( valueHandle, index );
+	public StructureHandle handle(SimpleValueHandle valueHandle, int index) {
+		return new LevelAttributeHandle(valueHandle, index);
 	}
 
 	/**
@@ -216,15 +208,12 @@ public class LevelAttribute extends Structure
 	 *      org.eclipse.birt.report.model.core.DesignElement)
 	 */
 
-	public List validate( Module module, DesignElement element )
-	{
-		List list = super.validate( module, element );
+	public List validate(Module module, DesignElement element) {
+		List list = super.validate(module, element);
 
-		if ( StringUtil.isBlank( name ) )
-		{
-			list.add( new PropertyValueException( element, getDefn( )
-					.getMember( NAME_MEMBER ), name,
-					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED ) );
+		if (StringUtil.isBlank(name)) {
+			list.add(new PropertyValueException(element, getDefn().getMember(NAME_MEMBER), name,
+					PropertyValueException.DESIGN_EXCEPTION_VALUE_REQUIRED));
 		}
 
 		return list;

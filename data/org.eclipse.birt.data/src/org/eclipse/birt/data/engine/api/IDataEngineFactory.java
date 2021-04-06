@@ -15,8 +15,7 @@ import org.eclipse.birt.core.exception.BirtException;
 /**
  * Factory class to create an instance of DataEngine
  */
-public interface IDataEngineFactory
-{
+public interface IDataEngineFactory {
 
 	/**
 	 * the extension point used to create the factory object.
@@ -28,10 +27,9 @@ public interface IDataEngineFactory
 	/**
 	 * create a new report engine object.
 	 * 
-	 * @param DataEngineContext
-	 *            context used to create the data engine.
+	 * @param DataEngineContext context used to create the data engine.
 	 * @return the data engine object
 	 */
-	DataEngine createDataEngine( DataEngineContext context ) throws BirtException;
+	DataEngine createDataEngine(DataEngineContext context) throws BirtException;
 
 }

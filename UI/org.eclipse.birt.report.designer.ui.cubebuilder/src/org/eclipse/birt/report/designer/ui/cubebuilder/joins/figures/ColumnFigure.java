@@ -24,56 +24,42 @@ import org.eclipse.swt.widgets.Display;
  * Set Wizard
  * 
  */
-public class ColumnFigure extends Figure
-{
+public class ColumnFigure extends Figure {
 
 	// on windows, only one fontdata in array, not true for X-font
-	private static final FontData fontData = Display.getCurrent( )
-			.getSystemFont( )
-			.getFontData( )[0];
+	private static final FontData fontData = Display.getCurrent().getSystemFont().getFontData()[0];
 
-	protected final Font selectedFont = FontManager.getFont( fontData.getName( ),
-			fontData.getHeight( ),
-			SWT.BOLD );
+	protected final Font selectedFont = FontManager.getFont(fontData.getName(), fontData.getHeight(), SWT.BOLD);
 
 	/**
 	 * Sets the background and foreground color when the Column is selected.
 	 */
-	public void setSelectedColors( )
-	{
-		this.setForegroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_SELECTION_TEXT ) );
-		this.setBackgroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_SELECTION ) );
+	public void setSelectedColors() {
+		this.setForegroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION_TEXT));
+		this.setBackgroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_SELECTION));
 	}
 
 	/**
 	 * Sets the background and foreground color when the Column is deselected.
 	 */
-	public void setDeselectedColors( )
-	{
-		this.setBackgroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_BACKGROUND ) );
-		this.setForegroundColor( Display.getCurrent( )
-				.getSystemColor( SWT.COLOR_LIST_FOREGROUND ) );
+	public void setDeselectedColors() {
+		this.setBackgroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_BACKGROUND));
+		this.setForegroundColor(Display.getCurrent().getSystemColor(SWT.COLOR_LIST_FOREGROUND));
 	}
 
 	/**
 	 * Sets the Font when the column is selected
 	 */
-	public void setSelectedFonts( )
-	{
-		( (IFigure) this.getChildren( ).get( 0 ) ).setFont( selectedFont );
-		repaint( );
+	public void setSelectedFonts() {
+		((IFigure) this.getChildren().get(0)).setFont(selectedFont);
+		repaint();
 	}
 
 	/**
 	 * Sets the Font when the Column is deselected
 	 */
-	public void setDeselectedFonts( )
-	{
-		( (IFigure) this.getChildren( ).get( 0 ) ).setFont( Display.getCurrent( )
-				.getSystemFont( ) );
-		repaint( );
+	public void setDeselectedFonts() {
+		((IFigure) this.getChildren().get(0)).setFont(Display.getCurrent().getSystemFont());
+		repaint();
 	}
 }

@@ -25,29 +25,25 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * Open the template file, make sure that no exception is throwed out.
  * <p>
  */
-public class Regression_159858 extends BaseTestCase
-{
+public class Regression_159858 extends BaseTestCase {
 
 	private final static String REPORT = "Invoice_template.rptdesign"; //$NON-NLS-1$
 
-	public void setUp( ) throws Exception
-	{
-		super.setUp( );
-		removeResource( );
-		copyResource_INPUT( REPORT , REPORT );
+	public void setUp() throws Exception {
+		super.setUp();
+		removeResource();
+		copyResource_INPUT(REPORT, REPORT);
 	}
-	
-	public void tearDown( )
-	{
-		removeResource( );
+
+	public void tearDown() {
+		removeResource();
 	}
-	
+
 	/**
 	 * @throws DesignFileException
 	 */
 
-	public void test_regression_159858( ) throws DesignFileException
-	{
-		openDesign( REPORT );
+	public void test_regression_159858() throws DesignFileException {
+		openDesign(REPORT);
 	}
 }

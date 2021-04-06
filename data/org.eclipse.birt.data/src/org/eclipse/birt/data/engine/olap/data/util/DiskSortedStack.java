@@ -18,36 +18,32 @@ import java.util.Comparator;
  * 
  */
 
-public class DiskSortedStack extends BaseDiskSortedStack
-{
+public class DiskSortedStack extends BaseDiskSortedStack {
 	private IStructureCreator creator = null;
 
-	public DiskSortedStack( int bufferSize, boolean isAscending,
-			boolean forceDistinct, IStructureCreator creator )
-	{
-		super( bufferSize, isAscending, forceDistinct, creator);
+	public DiskSortedStack(int bufferSize, boolean isAscending, boolean forceDistinct, IStructureCreator creator) {
+		super(bufferSize, isAscending, forceDistinct, creator);
 		this.creator = creator;
 	}
-	
-	public DiskSortedStack( int bufferSize, boolean forceDistinct,
-			Comparator comparator, IStructureCreator creator )
-	{
-		super( bufferSize, forceDistinct, comparator, creator );
+
+	public DiskSortedStack(int bufferSize, boolean forceDistinct, Comparator comparator, IStructureCreator creator) {
+		super(bufferSize, forceDistinct, comparator, creator);
 		this.creator = creator;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.olap.data.util.BaseDiskSortedStack#pushBufferToDisk(int, int)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.olap.data.util.BaseDiskSortedStack#pushBufferToDisk(
+	 * int, int)
 	 */
-	protected void saveToDisk( int fromIndex, int toIndex ) throws IOException
-	{
-		StructureDiskArray diskList = new StructureDiskArray( creator );
-		for ( int i = fromIndex; i <= toIndex; i++ )
-		{
-			diskList.add( buffer[i] );
+	protected void saveToDisk(int fromIndex, int toIndex) throws IOException {
+		StructureDiskArray diskList = new StructureDiskArray(creator);
+		for (int i = fromIndex; i <= toIndex; i++) {
+			diskList.add(buffer[i]);
 		}
-		segments.add( diskList );
+		segments.add(diskList);
 	}
 
 }

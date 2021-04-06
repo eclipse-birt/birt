@@ -35,91 +35,75 @@ import com.ibm.icu.util.ULocale;
  * 
  */
 
-public class TestColumnWalker extends TestCase implements ICrosstabConstants
-{
+public class TestColumnWalker extends TestCase implements ICrosstabConstants {
 
 	private IDesignEngine engine;
 	private ModuleHandle module;
 
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
-		ThreadResources.setLocale( ULocale.ENGLISH );
+	protected void setUp() throws Exception {
+		super.setUp();
+		ThreadResources.setLocale(ULocale.ENGLISH);
 
-		if ( engine == null )
-		{
-			engine = new DesignEngine( new DesignConfig( ) );
+		if (engine == null) {
+			engine = new DesignEngine(new DesignConfig());
 		}
 
-		SessionHandle sh = engine.newSessionHandle( ULocale.getDefault( ) );
-		ReportDesignHandle rdh = sh.createDesign( );
-		module = rdh.getModuleHandle( );
+		SessionHandle sh = engine.newSessionHandle(ULocale.getDefault());
+		ReportDesignHandle rdh = sh.createDesign();
+		module = rdh.getModuleHandle();
 	}
 
-	private void baseTestColumnWalker( CrosstabReportItemHandle handle )
-	{
-		try
-		{
-			ColumnWalker cw = new ColumnWalker( handle,
-					(EdgeCursor) createSimpleCubeCursor( ).getOrdinateEdge( )
-							.get( 0 ) );
-			
-			System.out.println( "Start:============================================" ); //$NON-NLS-1$
+	private void baseTestColumnWalker(CrosstabReportItemHandle handle) {
+		try {
+			ColumnWalker cw = new ColumnWalker(handle, (EdgeCursor) createSimpleCubeCursor().getOrdinateEdge().get(0));
 
-			while ( cw.hasNext( ) )
-			{
-				ColumnEvent ce = cw.next( );
+			System.out.println("Start:============================================"); //$NON-NLS-1$
 
-				System.out.println( ce );
+			while (cw.hasNext()) {
+				ColumnEvent ce = cw.next();
+
+				System.out.println(ce);
 			}
 
-			System.out.println( "End:=============================================" ); //$NON-NLS-1$
-		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( );
+			System.out.println("End:============================================="); //$NON-NLS-1$
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 
 	}
 
-	public void testColumnWalker1( )
-	{
-		baseTestColumnWalker( CrosstabSamples.createCrosstab1( module ) );
+	public void testColumnWalker1() {
+		baseTestColumnWalker(CrosstabSamples.createCrosstab1(module));
 	}
 
-	public void testColumnWalker2( )
-	{
-		baseTestColumnWalker( CrosstabSamples.createCrosstab2( module ) );
+	public void testColumnWalker2() {
+		baseTestColumnWalker(CrosstabSamples.createCrosstab2(module));
 	}
 
-	public void testColumnWalker3( )
-	{
-		baseTestColumnWalker( CrosstabSamples.createCrosstab3( module ) );
+	public void testColumnWalker3() {
+		baseTestColumnWalker(CrosstabSamples.createCrosstab3(module));
 	}
 
-	public void testColumnWalker4( )
-	{
-		baseTestColumnWalker( CrosstabSamples.createCrosstab4( module ) );
+	public void testColumnWalker4() {
+		baseTestColumnWalker(CrosstabSamples.createCrosstab4(module));
 	}
 
-	public void testColumnWalker5( )
-	{
-		baseTestColumnWalker( CrosstabSamples.createCrosstab5( module ) );
+	public void testColumnWalker5() {
+		baseTestColumnWalker(CrosstabSamples.createCrosstab5(module));
 	}
 
-	protected CubeCursor createSimpleCubeCursor( )
-	{
-		DummyDimensionCursor ddc1 = new DummyDimensionCursor( 2 );
-		DummyDimensionCursor ddc2 = new DummyDimensionCursor( 2 );
-		DummyDimensionCursor ddc3 = new DummyDimensionCursor( 2 );
+	protected CubeCursor createSimpleCubeCursor() {
+		DummyDimensionCursor ddc1 = new DummyDimensionCursor(2);
+		DummyDimensionCursor ddc2 = new DummyDimensionCursor(2);
+		DummyDimensionCursor ddc3 = new DummyDimensionCursor(2);
 
-		DummyEdgeCursor dec = new DummyEdgeCursor( 8 );
-		dec.addDimensionCursor( ddc1 );
-		dec.addDimensionCursor( ddc2 );
-		dec.addDimensionCursor( ddc3 );
+		DummyEdgeCursor dec = new DummyEdgeCursor(8);
+		dec.addDimensionCursor(ddc1);
+		dec.addDimensionCursor(ddc2);
+		dec.addDimensionCursor(ddc3);
 
-		DummyCubeCursor dcc = new DummyCubeCursor( );
-		dcc.addOrdinateEdgeCursor( dec );
+		DummyCubeCursor dcc = new DummyCubeCursor();
+		dcc.addOrdinateEdgeCursor(dec);
 
 		return dcc;
 	}

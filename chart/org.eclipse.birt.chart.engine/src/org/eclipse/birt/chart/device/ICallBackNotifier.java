@@ -18,18 +18,14 @@ import org.eclipse.birt.chart.model.attribute.CallBackValue;
  * interface, any listener who want to perform a callback must implement this
  * instead of the original IUpdateNotifer.
  */
-public interface ICallBackNotifier extends IUpdateNotifier
-{
+public interface ICallBackNotifier extends IUpdateNotifier {
 
 	/**
 	 * Invokes the callBack.
 	 * 
-	 * @param event
-	 *            CallBack event object.
-	 * @param source
-	 *            CallBack source object.
-	 * @param value
-	 *            CallBack value.
+	 * @param event  CallBack event object.
+	 * @param source CallBack source object.
+	 * @param value  CallBack value.
 	 */
-	void callback( Object event, Object source, CallBackValue value );
+	void callback(Object event, Object source, CallBackValue value);
 }

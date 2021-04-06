@@ -42,142 +42,98 @@ import org.eclipse.gef.requests.CreateRequest;
 /**
  * CreateCrosstabHandler
  */
-public class CreateCrosstabHandler extends AbstractHandler
-{
+public class CreateCrosstabHandler extends AbstractHandler {
 
 	// private static String itemName = "Crosstab";
 
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		CommandStack stack = SessionHandleAdapter.getInstance( )
-				.getCommandStack( );
-		stack.startTrans( Messages.getString( "InsertAction.text" ) ); //$NON-NLS-1$
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		CommandStack stack = SessionHandleAdapter.getInstance().getCommandStack();
+		stack.startTrans(Messages.getString("InsertAction.text")); //$NON-NLS-1$
 		ExtendedItemHandle handle = null;
 
-		try
-		{
-			String name = ReportPlugin.getDefault( )
-					.getCustomName( ICrosstabConstants.CROSSTAB_EXTENSION_NAME );
+		try {
+			String name = ReportPlugin.getDefault().getCustomName(ICrosstabConstants.CROSSTAB_EXTENSION_NAME);
 
-			handle = CrosstabExtendedItemFactory.createCrosstabReportItem( SessionHandleAdapter.getInstance( )
-					.getReportDesignHandle( ),
-					null,
-					name );
-		}
-		catch ( Exception e )
-		{
-			stack.rollback( );
+			handle = CrosstabExtendedItemFactory
+					.createCrosstabReportItem(SessionHandleAdapter.getInstance().getReportDesignHandle(), null, name);
+		} catch (Exception e) {
+			stack.rollback();
 
-			throw new ExecutionException( e.getLocalizedMessage( ), e );
+			throw new ExecutionException(e.getLocalizedMessage(), e);
 		}
 
 		EditPart targetEditPart = null;
 
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object object = UIUtil.getVariableFromContext( context, "targetEditPart" ); //$NON-NLS-1$
-		
-		if ( object instanceof EditPart )
-		{
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
+		Object object = UIUtil.getVariableFromContext(context, "targetEditPart"); //$NON-NLS-1$
+
+		if (object instanceof EditPart) {
 			targetEditPart = (EditPart) object;
+		} else {
+			targetEditPart = UIUtil.getCurrentEditPart();
 		}
-		else{
-			targetEditPart = UIUtil.getCurrentEditPart( );
-		}
 
-		Object parentModel = DNDUtil.unwrapToModel( targetEditPart.getModel( ) );
+		Object parentModel = DNDUtil.unwrapToModel(targetEditPart.getModel());
 
-		Object request = UIUtil.getVariableFromContext( context, "request" ); //$NON-NLS-1$
+		Object request = UIUtil.getVariableFromContext(context, "request"); //$NON-NLS-1$
 
-		if ( request instanceof CreateRequest )
-		{
-			((CreateRequest)request).getExtendedData( ).put( DesignerConstants.KEY_NEWOBJECT,
-					handle );
+		if (request instanceof CreateRequest) {
+			((CreateRequest) request).getExtendedData().put(DesignerConstants.KEY_NEWOBJECT, handle);
 
-			try
-			{
-				targetEditPart.getCommand( ((CreateRequest)request) ).execute( );
-				stack.commit( );
+			try {
+				targetEditPart.getCommand(((CreateRequest) request)).execute();
+				stack.commit();
+			} catch (Exception e) {
+				stack.rollback();
 			}
-			catch ( Exception e )
-			{
-				stack.rollback( );
-			}
-		}
-		else
-		{
-			Map map = new HashMap( );
-			map.put( DesignerConstants.KEY_NEWOBJECT, handle );
-			CreateCommand command = new CreateCommand( map );
+		} else {
+			Map map = new HashMap();
+			map.put(DesignerConstants.KEY_NEWOBJECT, handle);
+			CreateCommand command = new CreateCommand(map);
 
-			try
-			{
-				if ( parentModel instanceof DesignElementHandle )
-				{
+			try {
+				if (parentModel instanceof DesignElementHandle) {
 					DesignElementHandle parentHandle = (DesignElementHandle) parentModel;
-					if ( parentHandle.getDefn( ).isContainer( )
-							&& ( parentHandle.canContain( DEUtil.getDefaultSlotID( parentHandle ),
-									handle ) || parentHandle.canContain( DEUtil.getDefaultContentName( parentHandle ),
-									handle ) ) )
-					{
-						command.setParent( parentHandle );
-					}
-					else
-					{
-						if ( parentHandle.getContainerSlotHandle( ) != null )
-						{
-							command.setAfter( parentHandle.getContainerSlotHandle( )
-									.get( parentHandle.getIndex( ) + 1 ) );
-						}
-						else if ( parentHandle.getContainerPropertyHandle( ) != null )
-						{
-							command.setAfter( parentHandle.getContainerPropertyHandle( )
-									.get( parentHandle.getIndex( ) + 1 ) );
+					if (parentHandle.getDefn().isContainer()
+							&& (parentHandle.canContain(DEUtil.getDefaultSlotID(parentHandle), handle)
+									|| parentHandle.canContain(DEUtil.getDefaultContentName(parentHandle), handle))) {
+						command.setParent(parentHandle);
+					} else {
+						if (parentHandle.getContainerSlotHandle() != null) {
+							command.setAfter(parentHandle.getContainerSlotHandle().get(parentHandle.getIndex() + 1));
+						} else if (parentHandle.getContainerPropertyHandle() != null) {
+							command.setAfter(
+									parentHandle.getContainerPropertyHandle().get(parentHandle.getIndex() + 1));
 						}
 
-						DesignElementHandle container = parentHandle.getContainer( );
+						DesignElementHandle container = parentHandle.getContainer();
 
 						// special handling for list item, always use slothandle
 						// as parent
-						if ( container instanceof ListHandle )
-						{
-							command.setParent( parentHandle.getContainerSlotHandle( ) );
-						}
-						else
-						{
-							command.setParent( container );
+						if (container instanceof ListHandle) {
+							command.setParent(parentHandle.getContainerSlotHandle());
+						} else {
+							command.setParent(container);
 						}
 					}
+				} else if (parentModel instanceof SlotHandle) {
+					command.setParent(parentModel);
+				} else {
+					command.setParent(SessionHandleAdapter.getInstance().getReportDesignHandle());
 				}
-				else if ( parentModel instanceof SlotHandle )
-				{
-					command.setParent( parentModel );
-				}
-				else
-				{
-					command.setParent( SessionHandleAdapter.getInstance( )
-							.getReportDesignHandle( ) );
-				}
-				command.execute( );
-				stack.commit( );
-			}
-			catch ( Exception e )
-			{
-				stack.rollback( );
+				command.execute();
+				stack.commit();
+			} catch (Exception e) {
+				stack.rollback();
 			}
 		}
 
 		// if parent is library, select new object
-		if ( parentModel instanceof LibraryHandle )
-		{
-			try
-			{
-				HandleAdapterFactory.getInstance( )
-						.getLibraryHandleAdapter( )
-						.setCurrentEditorModel( handle,
-								LibraryHandleAdapter.CREATE_ELEMENT );
-			}
-			catch ( Exception e )
-			{
+		if (parentModel instanceof LibraryHandle) {
+			try {
+				HandleAdapterFactory.getInstance().getLibraryHandleAdapter().setCurrentEditorModel(handle,
+						LibraryHandleAdapter.CREATE_ELEMENT);
+			} catch (Exception e) {
 			}
 		}
 		return handle;

@@ -31,7 +31,7 @@ import uk.co.spudsoft.birt.emitters.excel.framework.Logger;
 public class FlattenedListHandler extends AbstractHandler {
 
 	private CellContentHandler contentHandler;
-	
+
 	public FlattenedListHandler(CellContentHandler contentHandler, Logger log, IHandler parent, IContent element) {
 		super(log, parent, element);
 		this.contentHandler = contentHandler;
@@ -92,6 +92,6 @@ public class FlattenedListHandler extends AbstractHandler {
 	@Override
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
 		contentHandler.emitImage(state, image);
-	}	
-	
+	}
+
 }

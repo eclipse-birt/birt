@@ -29,16 +29,14 @@ import org.eclipse.birt.chart.render.ISeriesRenderingHints;
  * PlotWithAxes and PlotWithoutAxes.
  */
 
-public abstract class PlotComputation
-{
+public abstract class PlotComputation {
 
-	protected final static ILogger logger = Logger.getLogger( "org.eclipse.birt.chart.engine/computation" ); //$NON-NLS-1$
+	protected final static ILogger logger = Logger.getLogger("org.eclipse.birt.chart.engine/computation"); //$NON-NLS-1$
 
-	protected final static IGObjectFactory goFactory = GObjectFactory.instance( );
+	protected final static IGObjectFactory goFactory = GObjectFactory.instance();
 
 	/**
-	 * An internal XServer implementation capable of obtaining text metrics,
-	 * etc.
+	 * An internal XServer implementation capable of obtaining text metrics, etc.
 	 */
 	protected final IDisplayServer ids;
 
@@ -55,8 +53,8 @@ public abstract class PlotComputation
 	protected final Chart cm;
 
 	/**
-	 * Insets maintained as pixels equivalent of the points value specified in
-	 * the model used here for fast computations
+	 * Insets maintained as pixels equivalent of the points value specified in the
+	 * model used here for fast computations
 	 */
 	protected Insets insCA = null;
 
@@ -65,31 +63,29 @@ public abstract class PlotComputation
 	 */
 	protected transient double dPointToPixel = 0;
 
-	public PlotComputation( IDisplayServer ids, RunTimeContext rtc, Chart cm )
-	{
+	public PlotComputation(IDisplayServer ids, RunTimeContext rtc, Chart cm) {
 		this.rtc = rtc;
-		this.cComp = rtc.getState( StateKey.CHART_COMPUTATION_KEY );
+		this.cComp = rtc.getState(StateKey.CHART_COMPUTATION_KEY);
 		this.ids = ids;
 		this.cm = cm;
-		dPointToPixel = ids.getDpiResolution( ) / 72d;
+		dPointToPixel = ids.getDpiResolution() / 72d;
 	}
 
 	/**
-	 * A computed plot area based on the block dimensions and the axis
-	 * attributes and label values (within axes)
+	 * A computed plot area based on the block dimensions and the axis attributes
+	 * and label values (within axes)
 	 */
-	protected Bounds boPlotBackground = goFactory.createBounds( 0, 0, 100, 100 );
+	protected Bounds boPlotBackground = goFactory.createBounds(0, 0, 100, 100);
 
 	/**
-	 * This method computes the entire chart within the given bounds. If the
-	 * dataset has changed but none of the axis attributes have changed, simply
-	 * re-compute without 'rebuilding axes'.
+	 * This method computes the entire chart within the given bounds. If the dataset
+	 * has changed but none of the axis attributes have changed, simply re-compute
+	 * without 'rebuilding axes'.
 	 * 
 	 * @param bo
 	 * 
 	 */
-	public abstract void compute( Bounds bo ) throws ChartException,
-			IllegalArgumentException;
+	public abstract void compute(Bounds bo) throws ChartException, IllegalArgumentException;
 
 	/**
 	 * @param sdOrthogonal
@@ -98,46 +94,40 @@ public abstract class PlotComputation
 	 * @throws ChartException
 	 * @throws IllegalArgumentException
 	 */
-	public abstract ISeriesRenderingHints getSeriesRenderingHints(
-			SeriesDefinition sdOrthogonal, Series seOrthogonal )
+	public abstract ISeriesRenderingHints getSeriesRenderingHints(SeriesDefinition sdOrthogonal, Series seOrthogonal)
 			throws ChartException, IllegalArgumentException;
 
 	/**
 	 * 
 	 * @return The plot bounds in pixels
 	 */
-	public final Bounds getPlotBounds( )
-	{
+	public final Bounds getPlotBounds() {
 		return boPlotBackground;
 	}
 
-	public Chart getModel( )
-	{
+	public Chart getModel() {
 		return cm;
 	}
 
-	public final Insets getPlotInsets( )
-	{
+	public final Insets getPlotInsets() {
 		return insCA;
 	}
 
-	public final RunTimeContext getRunTimeContext( )
-	{
+	public final RunTimeContext getRunTimeContext() {
 		return rtc;
 	}
 
-	public IChartComputation getChartComputation( )
-	{
+	public IChartComputation getChartComputation() {
 		return cComp;
 	}
-	
+
 	/**
 	 * Returns current rate for Point->Pixel.
+	 * 
 	 * @return
 	 * @since 2.5
 	 */
-	public double getPointToPixel( )
-	{
+	public double getPointToPixel() {
 		return dPointToPixel;
 	}
 }

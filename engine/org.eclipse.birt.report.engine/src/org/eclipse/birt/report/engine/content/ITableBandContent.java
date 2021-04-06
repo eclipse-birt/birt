@@ -16,6 +16,5 @@ package org.eclipse.birt.report.engine.content;
  * 
  * 
  */
-public interface ITableBandContent extends IBandContent
-{
+public interface ITableBandContent extends IBandContent {
 }

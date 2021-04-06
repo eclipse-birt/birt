@@ -30,26 +30,20 @@ import org.eclipse.birt.report.model.api.ExtendedItemHandle;
  * Factory class used to create instances.
  */
 
-public interface IChartReportItemFactory
-{
+public interface IChartReportItemFactory {
 
-	IActionRenderer createActionRenderer( DesignElementHandle eih,
-			IHTMLActionHandler handler, IDataRowExpressionEvaluator evaluator,
-			IReportContext context );
+	IActionRenderer createActionRenderer(DesignElementHandle eih, IHTMLActionHandler handler,
+			IDataRowExpressionEvaluator evaluator, IReportContext context);
 
-	IReportItemPresentation createReportItemPresentation(
-			IReportItemPresentationInfo info );
+	IReportItemPresentation createReportItemPresentation(IReportItemPresentationInfo info);
 
-	Serializer createSerializer( ExtendedItemHandle eih );
+	Serializer createSerializer(ExtendedItemHandle eih);
 
-	ChartCubeQueryHelper createCubeQueryHelper( ExtendedItemHandle handle,
-			Chart cm, IModelAdapter modelAdapter );
+	ChartCubeQueryHelper createCubeQueryHelper(ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter);
 
-	IGroupedDataRowExpressionEvaluator createCubeEvaluator( Chart cm,
-			ICubeResultSet set );
-	
-	IChartReportItem createChartReportItem(  ExtendedItemHandle eih );
+	IGroupedDataRowExpressionEvaluator createCubeEvaluator(Chart cm, ICubeResultSet set);
 
-	ChartBaseQueryHelper createQueryHelper( ExtendedItemHandle handle,
-			Chart cm, IModelAdapter modelAdapter );
+	IChartReportItem createChartReportItem(ExtendedItemHandle eih);
+
+	ChartBaseQueryHelper createQueryHelper(ExtendedItemHandle handle, Chart cm, IModelAdapter modelAdapter);
 }

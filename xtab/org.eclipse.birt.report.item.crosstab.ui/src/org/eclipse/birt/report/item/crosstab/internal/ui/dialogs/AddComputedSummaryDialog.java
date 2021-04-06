@@ -43,11 +43,10 @@ import org.eclipse.ui.ISharedImages;
  * 
  */
 
-public class AddComputedSummaryDialog extends BaseDialog
-{
+public class AddComputedSummaryDialog extends BaseDialog {
 
 	private CrosstabReportItemHandle crosstab = null;
-	private final static String TITLE = Messages.getString( "AddComputedSummaryDialog.Title" );
+	private final static String TITLE = Messages.getString("AddComputedSummaryDialog.Title");
 
 	private Text nameText, expressionText;
 	private Combo dataTypeCmb;
@@ -57,17 +56,14 @@ public class AddComputedSummaryDialog extends BaseDialog
 	private Expression expression;
 	private String dataType;
 
-	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary( )
-			.getStructure( ComputedColumn.COMPUTED_COLUMN_STRUCT )
-			.getMember( ComputedColumn.DATA_TYPE_MEMBER )
-			.getAllowedChoices( );
-	protected String[] dataTypes = ChoiceSetFactory.getDisplayNamefromChoiceSet( DATA_TYPE_CHOICE_SET );
-	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices( null );
+	protected static final IChoiceSet DATA_TYPE_CHOICE_SET = DEUtil.getMetaDataDictionary()
+			.getStructure(ComputedColumn.COMPUTED_COLUMN_STRUCT).getMember(ComputedColumn.DATA_TYPE_MEMBER)
+			.getAllowedChoices();
+	protected String[] dataTypes = ChoiceSetFactory.getDisplayNamefromChoiceSet(DATA_TYPE_CHOICE_SET);
+	protected static final IChoice[] DATA_TYPE_CHOICES = DATA_TYPE_CHOICE_SET.getChoices(null);
 
-	public AddComputedSummaryDialog( Shell parentShell,
-			CrosstabReportItemHandle crosstab )
-	{
-		super( parentShell, TITLE );
+	public AddComputedSummaryDialog(Shell parentShell, CrosstabReportItemHandle crosstab) {
+		super(parentShell, TITLE);
 		this.crosstab = crosstab;
 	}
 
@@ -78,171 +74,142 @@ public class AddComputedSummaryDialog extends BaseDialog
 	 * org.eclipse.jface.dialogs.Dialog#createDialogArea(org.eclipse.swt.widgets
 	 * .Composite)
 	 */
-	protected Control createDialogArea( Composite parent )
+	protected Control createDialogArea(Composite parent)
 
 	{
-		Composite parentComposite = (Composite) super.createDialogArea( parent );
+		Composite parentComposite = (Composite) super.createDialogArea(parent);
 
-		Composite composite = new Composite( parentComposite, SWT.NONE );
-		GridLayout layout = new GridLayout( 3, false );
-		GridData gridData = new GridData( GridData.FILL_HORIZONTAL );
-		composite.setLayoutData( gridData );
-		composite.setLayout( layout );
+		Composite composite = new Composite(parentComposite, SWT.NONE);
+		GridLayout layout = new GridLayout(3, false);
+		GridData gridData = new GridData(GridData.FILL_HORIZONTAL);
+		composite.setLayoutData(gridData);
+		composite.setLayout(layout);
 
-		Label nameLabel = new Label( composite, SWT.NONE );
-		nameLabel.setText( Messages.getString( "AddComputedSummaryDialog.Label.Name" ) );
+		Label nameLabel = new Label(composite, SWT.NONE);
+		nameLabel.setText(Messages.getString("AddComputedSummaryDialog.Label.Name"));
 
-		nameText = new Text( composite, SWT.BORDER );
-		gridData = new GridData( GridData.FILL_HORIZONTAL );
+		nameText = new Text(composite, SWT.BORDER);
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.widthHint = 200;
 		gridData.horizontalSpan = 2;
-		nameText.setLayoutData( gridData );
-		nameText.addModifyListener( modifyListener );
+		nameText.setLayoutData(gridData);
+		nameText.addModifyListener(modifyListener);
 
-		Label dataTypeLb = new Label( composite, SWT.NONE );
-		dataTypeLb.setText( Messages.getString( "AddComputedSummaryDialog.Label.DataType" ) );
+		Label dataTypeLb = new Label(composite, SWT.NONE);
+		dataTypeLb.setText(Messages.getString("AddComputedSummaryDialog.Label.DataType"));
 
-		dataTypeCmb = new Combo( composite, SWT.BORDER | SWT.READ_ONLY );
-		gridData = new GridData( GridData.FILL_HORIZONTAL );
+		dataTypeCmb = new Combo(composite, SWT.BORDER | SWT.READ_ONLY);
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
 		gridData.horizontalSpan = 2;
-		dataTypeCmb.setLayoutData( gridData );
-		dataTypeCmb.setVisibleItemCount( 30 );
-		Label expressionLabel = new Label( composite, SWT.NONE );
-		expressionLabel.setText( Messages.getString( "AddComputedSummaryDialog.Label.Expression" ) );
+		dataTypeCmb.setLayoutData(gridData);
+		dataTypeCmb.setVisibleItemCount(30);
+		Label expressionLabel = new Label(composite, SWT.NONE);
+		expressionLabel.setText(Messages.getString("AddComputedSummaryDialog.Label.Expression"));
 
-		expressionText = new Text( composite, SWT.BORDER | SWT.MULTI );
-		gridData = new GridData( GridData.FILL_HORIZONTAL );
-		gridData.heightHint = expressionText.computeSize( SWT.DEFAULT, SWT.DEFAULT ).y
-				- expressionText.getBorderWidth( )
-				* 2;
-		expressionText.setLayoutData( gridData );
-		expressionText.addModifyListener( modifyListener );
+		expressionText = new Text(composite, SWT.BORDER | SWT.MULTI);
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		gridData.heightHint = expressionText.computeSize(SWT.DEFAULT, SWT.DEFAULT).y
+				- expressionText.getBorderWidth() * 2;
+		expressionText.setLayoutData(gridData);
+		expressionText.addModifyListener(modifyListener);
 
-		ExpressionButtonUtil.createExpressionButton( composite,
-				expressionText,
-				new CrosstabComputedMeasureExpressionProvider( crosstab.getModelHandle( ) ),
-				crosstab.getModelHandle( ) );
+		ExpressionButtonUtil.createExpressionButton(composite, expressionText,
+				new CrosstabComputedMeasureExpressionProvider(crosstab.getModelHandle()), crosstab.getModelHandle());
 
-		Label seperator = new Label( parentComposite, SWT.SEPARATOR
-				| SWT.HORIZONTAL );
-		gridData = new GridData( GridData.FILL_HORIZONTAL );
-		seperator.setLayoutData( gridData );
+		Label seperator = new Label(parentComposite, SWT.SEPARATOR | SWT.HORIZONTAL);
+		gridData = new GridData(GridData.FILL_HORIZONTAL);
+		seperator.setLayoutData(gridData);
 
-		errorLabel = new CLabel( parentComposite, SWT.NONE );
-		errorLabel.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
+		errorLabel = new CLabel(parentComposite, SWT.NONE);
+		errorLabel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		UIUtil.bindHelp( parent, IHelpContextIds.ADD_COMPUTED_SUMMARY_DIALOG_ID );
+		UIUtil.bindHelp(parent, IHelpContextIds.ADD_COMPUTED_SUMMARY_DIALOG_ID);
 		return parentComposite;
 	}
 
-	protected Control createContents( Composite parent )
-	{
-		Control contents = super.createContents( parent );
-		initialize( );
-		validate( );
+	protected Control createContents(Composite parent) {
+		Control contents = super.createContents(parent);
+		initialize();
+		validate();
 		return contents;
 	}
 
-	protected void initialize( )
-	{
-		dataTypeCmb.setItems( dataTypes );
-		if ( dataTypeCmb.getItemCount( ) > 0 )
-		{
-			for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-			{
-				if ( DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals( DATA_TYPE_CHOICES[i].getValue( ) ) )
-				{
-					dataTypeCmb.select( i );
+	protected void initialize() {
+		dataTypeCmb.setItems(dataTypes);
+		if (dataTypeCmb.getItemCount() > 0) {
+			for (int i = 0; i < DATA_TYPE_CHOICES.length; i++) {
+				if (DesignChoiceConstants.COLUMN_DATA_TYPE_STRING.equals(DATA_TYPE_CHOICES[i].getValue())) {
+					dataTypeCmb.select(i);
 					return;
 				}
 			}
-			dataTypeCmb.select( 0 );
+			dataTypeCmb.select(0);
 		}
 	}
 
-	private ModifyListener modifyListener = new ModifyListener( ) {
+	private ModifyListener modifyListener = new ModifyListener() {
 
-		public void modifyText( ModifyEvent e )
-		{
+		public void modifyText(ModifyEvent e) {
 			// TODO Auto-generated method stub
-			validate( );
+			validate();
 		}
 	};
 
-	protected void validate( )
-	{
+	protected void validate() {
 		boolean ok = true;
 		final String EMPTY_STRING = "";
 		String errorMessage = EMPTY_STRING;
-		String name = nameText.getText( ).trim( );
-		String expression = expressionText.getText( ).trim( );
-		if ( name.length( ) == 0 )
-		{
-			errorMessage = Messages.getString( "AddComputedSummaryDialog.ErrMsg.Msg1" );
-		}
-		else if ( crosstab.getMeasure( name ) != null )
-		{
-			errorMessage = Messages.getString( "AddComputedSummaryDialog.ErrMsg.Msg2" );
-		}
-		else if ( expression.length( ) == 0 )
-		{
-			errorMessage = Messages.getString( "AddComputedSummaryDialog.ErrMsg.Msg3" );
+		String name = nameText.getText().trim();
+		String expression = expressionText.getText().trim();
+		if (name.length() == 0) {
+			errorMessage = Messages.getString("AddComputedSummaryDialog.ErrMsg.Msg1");
+		} else if (crosstab.getMeasure(name) != null) {
+			errorMessage = Messages.getString("AddComputedSummaryDialog.ErrMsg.Msg2");
+		} else if (expression.length() == 0) {
+			errorMessage = Messages.getString("AddComputedSummaryDialog.ErrMsg.Msg3");
 		}
 
-		if ( !errorMessage.equals( EMPTY_STRING ) )
-		{
+		if (!errorMessage.equals(EMPTY_STRING)) {
 			ok = false;
 		}
 
-		getOkButton( ).setEnabled( ok );
+		getOkButton().setEnabled(ok);
 
-		if ( ( errorLabel != null ) && ( !errorLabel.isDisposed( ) ) )
-		{
-			errorLabel.setText( errorMessage );
-			if ( ok )
-			{
-				errorLabel.setImage( null );
-			}
-			else
-			{
-				errorLabel.setImage( ReportPlatformUIImages.getImage( ISharedImages.IMG_OBJS_ERROR_TSK ) );
+		if ((errorLabel != null) && (!errorLabel.isDisposed())) {
+			errorLabel.setText(errorMessage);
+			if (ok) {
+				errorLabel.setImage(null);
+			} else {
+				errorLabel.setImage(ReportPlatformUIImages.getImage(ISharedImages.IMG_OBJS_ERROR_TSK));
 			}
 		}
 
 	}
 
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
-	public Expression getExpression( )
-	{
+	public Expression getExpression() {
 		return expression;
 	}
 
-	public String getDataType( )
-	{
+	public String getDataType() {
 		return dataType;
 	}
 
-	protected void okPressed( )
-	{
-		name = nameText.getText( ).trim( );
-		expression = new Expression( expressionText.getText( ),
-				(String) expressionText.getData( ExpressionButtonUtil.EXPR_TYPE ) );
-		dataType = getType( );
-		super.okPressed( );
+	protected void okPressed() {
+		name = nameText.getText().trim();
+		expression = new Expression(expressionText.getText(),
+				(String) expressionText.getData(ExpressionButtonUtil.EXPR_TYPE));
+		dataType = getType();
+		super.okPressed();
 	}
 
-	private String getType( )
-	{
-		for ( int i = 0; i < DATA_TYPE_CHOICES.length; i++ )
-		{
-			if ( DATA_TYPE_CHOICES[i].getDisplayName( )
-					.equals( dataTypeCmb.getText( ) ) )
-			{
-				return DATA_TYPE_CHOICES[i].getName( );
+	private String getType() {
+		for (int i = 0; i < DATA_TYPE_CHOICES.length; i++) {
+			if (DATA_TYPE_CHOICES[i].getDisplayName().equals(dataTypeCmb.getText())) {
+				return DATA_TYPE_CHOICES[i].getName();
 			}
 		}
 		return ""; //$NON-NLS-1$

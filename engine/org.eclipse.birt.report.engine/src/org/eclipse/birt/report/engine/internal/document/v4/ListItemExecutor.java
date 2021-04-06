@@ -17,41 +17,32 @@ import org.eclipse.birt.report.engine.content.IContent;
  * Defines execution logic for a List report item.
  * 
  */
-public class ListItemExecutor extends ListingElementExecutor
-{
+public class ListItemExecutor extends ListingElementExecutor {
 
 	/**
-	 * @param context
-	 *            execution context
-	 * @param visitor
-	 *            visitor object for driving the execution
+	 * @param context execution context
+	 * @param visitor visitor object for driving the execution
 	 */
-	protected ListItemExecutor( ExecutorManager manager )
-	{
-		super( manager, ExecutorManager.LISTITEM );
+	protected ListItemExecutor(ExecutorManager manager) {
+		super(manager, ExecutorManager.LISTITEM);
 	}
 
-	protected IContent doCreateContent( )
-	{
-		return report.createListContent( );
+	protected IContent doCreateContent() {
+		return report.createListContent();
 	}
 
-	protected void doExecute( ) throws Exception
-	{
-		executeQuery( );
-		
-		boolean showIfBlank = "true".equalsIgnoreCase( content.getStyle( )
-				.getShowIfBlank( ) );
-		if ( showIfBlank && rsetEmpty )
-		{
-			createQueryForShowIfBlank( );
+	protected void doExecute() throws Exception {
+		executeQuery();
+
+		boolean showIfBlank = "true".equalsIgnoreCase(content.getStyle().getShowIfBlank());
+		if (showIfBlank && rsetEmpty) {
+			createQueryForShowIfBlank();
 		}
 
 	}
 
-	public void close( )
-	{
-		closeQuery( );
-		super.close( );
+	public void close() {
+		closeQuery();
+		super.close();
 	}
 }

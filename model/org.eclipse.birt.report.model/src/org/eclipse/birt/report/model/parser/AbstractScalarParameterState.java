@@ -17,25 +17,19 @@ import org.eclipse.birt.report.model.core.DesignElement;
  * This class parses an abstract scalar parameter.
  * 
  */
-public abstract class AbstractScalarParameterState extends ParameterState
-{
+public abstract class AbstractScalarParameterState extends ParameterState {
 
 	/**
-	 * Constructs the AbstractScalarParameter state with the design parser
-	 * handler, the container element and the container slot of the parameter.
+	 * Constructs the AbstractScalarParameter state with the design parser handler,
+	 * the container element and the container slot of the parameter.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the container of this parameter
-	 * @param slot
-	 *            the slot ID of the slot where the parameter is stored.
+	 * @param handler      the design file parser handler
+	 * @param theContainer the container of this parameter
+	 * @param slot         the slot ID of the slot where the parameter is stored.
 	 */
 
-	public AbstractScalarParameterState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public AbstractScalarParameterState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 }

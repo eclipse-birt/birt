@@ -20,33 +20,27 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class CascadingParameterGroupState extends ParameterGroupState
-{
+public class CascadingParameterGroupState extends ParameterGroupState {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param slot
-	 *            the slot ID of the slot where the parameter is stored.
+	 * @param handler the design file parser handler
+	 * @param slot    the slot ID of the slot where the parameter is stored.
 	 */
-	public CascadingParameterGroupState( ModuleParserHandler handler, int slot )
-	{
-		super( handler, slot );
+	public CascadingParameterGroupState(ModuleParserHandler handler, int slot) {
+		super(handler, slot);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
+	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.
 	 * xml.sax.Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		paramGroup = new CascadingParameterGroup( );
-		initElement( attrs, true );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		paramGroup = new CascadingParameterGroup();
+		initElement(attrs, true);
 	}
 }

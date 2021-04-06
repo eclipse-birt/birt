@@ -22,69 +22,56 @@ import org.eclipse.swt.widgets.Composite;
  * @since 2.5
  */
 
-public class CComboAssistField extends AssistField
-{
+public class CComboAssistField extends AssistField {
 
 	/**
 	 * Constructor of the class.
 	 * 
-	 * @param ccombo
-	 *            the CCombo to be decorated.
-	 * @param composite
-	 *            The SWT composite within which the decoration should be
-	 *            rendered. The decoration will be clipped to this composite,
-	 *            but it may be rendered on a child of the composite. The
-	 *            decoration will not be visible if the specified composite or
-	 *            its child composites are not visible in the space relative to
-	 *            the control, where the decoration is to be rendered. If this
-	 *            value is null, then the decoration will be rendered on
-	 *            whichever composite (or composites) are located in the
-	 *            specified position.
+	 * @param ccombo    the CCombo to be decorated.
+	 * @param composite The SWT composite within which the decoration should be
+	 *                  rendered. The decoration will be clipped to this composite,
+	 *                  but it may be rendered on a child of the composite. The
+	 *                  decoration will not be visible if the specified composite or
+	 *                  its child composites are not visible in the space relative
+	 *                  to the control, where the decoration is to be rendered. If
+	 *                  this value is null, then the decoration will be rendered on
+	 *                  whichever composite (or composites) are located in the
+	 *                  specified position.
 	 */
-	public CComboAssistField( CCombo ccombo, Composite composite )
-	{
-		this( ccombo, composite, null );
+	public CComboAssistField(CCombo ccombo, Composite composite) {
+		this(ccombo, composite, null);
 	}
 
 	/**
-	 * @param ccombo
-	 *            the CCombo to be decorated.
-	 * @param composite
-	 *            The SWT composite within which the decoration should be
-	 *            rendered. The decoration will be clipped to this composite,
-	 *            but it may be rendered on a child of the composite. The
-	 *            decoration will not be visible if the specified composite or
-	 *            its child composites are not visible in the space relative to
-	 *            the control, where the decoration is to be rendered. If this
-	 *            value is null, then the decoration will be rendered on
-	 *            whichever composite (or composites) are located in the
-	 *            specified position.
-	 * @param values
-	 *            the available contents for CCombo.
+	 * @param ccombo    the CCombo to be decorated.
+	 * @param composite The SWT composite within which the decoration should be
+	 *                  rendered. The decoration will be clipped to this composite,
+	 *                  but it may be rendered on a child of the composite. The
+	 *                  decoration will not be visible if the specified composite or
+	 *                  its child composites are not visible in the space relative
+	 *                  to the control, where the decoration is to be rendered. If
+	 *                  this value is null, then the decoration will be rendered on
+	 *                  whichever composite (or composites) are located in the
+	 *                  specified position.
+	 * @param values    the available contents for CCombo.
 	 */
-	public CComboAssistField( CCombo ccombo, Composite composite,
-			String[] values )
-	{
-		super( ccombo, composite, new CComboContentAdapter( ), values );
+	public CComboAssistField(CCombo ccombo, Composite composite, String[] values) {
+		super(ccombo, composite, new CComboContentAdapter(), values);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#initModifyListener
+	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#initModifyListener
 	 * ()
 	 */
-	protected void initModifyListener( )
-	{
-		( (CCombo) control ).addModifyListener( new ModifyListener( ) {
+	protected void initModifyListener() {
+		((CCombo) control).addModifyListener(new ModifyListener() {
 
-			public void modifyText( ModifyEvent event )
-			{
-				FieldAssistHelper.getInstance( )
-						.handleFieldModify( CComboAssistField.this );
+			public void modifyText(ModifyEvent event) {
+				FieldAssistHelper.getInstance().handleFieldModify(CComboAssistField.this);
 			}
-		} );
+		});
 	}
 
 	/*
@@ -93,8 +80,7 @@ public class CComboAssistField extends AssistField
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#isValid()
 	 */
 	@Override
-	public boolean isValid( )
-	{
+	public boolean isValid() {
 		return true;
 	}
 
@@ -104,8 +90,7 @@ public class CComboAssistField extends AssistField
 	 * @see org.eclipse.birt.chart.ui.swt.fieldassist.AssistField#isWarning()
 	 */
 	@Override
-	public boolean isWarning( )
-	{
+	public boolean isWarning() {
 		return false;
 	}
 }

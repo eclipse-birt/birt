@@ -17,38 +17,39 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
 /**
  * 
  */
-public interface IJSFilterHelper
-{
+public interface IJSFilterHelper {
 
 	/**
 	 * get aggregation all levels.
+	 * 
 	 * @return
 	 */
-	public abstract DimLevel[] getAggrLevels( );
+	public abstract DimLevel[] getAggrLevels();
 
 	/**
 	 * get the dimension name.
+	 * 
 	 * @return
 	 */
-	public abstract String getDimensionName( );
+	public abstract String getDimensionName();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public abstract ICubeFilterDefinition getCubeFilterDefinition( );
+	public abstract ICubeFilterDefinition getCubeFilterDefinition();
 
 	/**
 	 * 
 	 * @return
 	 */
-	public abstract boolean isAggregationFilter( );
+	public abstract boolean isAggregationFilter();
 
 	/**
-	 * This method should be called before we finish the usage of this class so
-	 * that to deregister the "dimension" script object from the scope and deregister
-	 * the current scope from its parent.
+	 * This method should be called before we finish the usage of this class so that
+	 * to deregister the "dimension" script object from the scope and deregister the
+	 * current scope from its parent.
 	 */
-	public abstract void close( );
+	public abstract void close();
 
 }

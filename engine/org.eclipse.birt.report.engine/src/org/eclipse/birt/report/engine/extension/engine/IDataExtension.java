@@ -18,10 +18,9 @@ import org.eclipse.birt.data.engine.api.IDataQueryDefinition;
  * processing features. The user can modify the query dynamically. After the
  * processing, the query is executed by the data engine
  */
-public interface IDataExtension
-{
+public interface IDataExtension {
 
-	void prepareQuery( IDataQueryDefinition query );
+	void prepareQuery(IDataQueryDefinition query);
 
-	void close( );
+	void close();
 }

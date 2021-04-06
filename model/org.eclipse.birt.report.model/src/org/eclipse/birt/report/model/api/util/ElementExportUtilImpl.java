@@ -57,156 +57,119 @@ import org.eclipse.birt.report.model.util.LibraryUtil;
  * Any violation will throw <code>IllegalArgumentException</code>.
  */
 
-public class ElementExportUtilImpl
-{
+public class ElementExportUtilImpl {
 
 	/**
-	 * Exports the given element into one library file. If the library file is
-	 * not found, new library file will be created and saved as the given file
-	 * name.
+	 * Exports the given element into one library file. If the library file is not
+	 * found, new library file will be created and saved as the given file name.
 	 * 
-	 * @param elementToExport
-	 *            handle of the element to export.
-	 * @param libraryFileName
-	 *            file name of the target library
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overriden.
+	 * @param elementToExport handle of the element to export.
+	 * @param libraryFileName file name of the target library
+	 * @param canOverride     indicates whether the element with the same name in
+	 *                        target library will be overriden.
 	 * 
-	 * @throws DesignFileException
-	 *             if error encountered when open library file with the given
-	 *             file name.
-	 * @throws SemanticException
-	 *             if error encountered when element name is duplicate in the
-	 *             target library.
-	 * @throws IOException
-	 *             if error encountered when writing file.
-	 * @throws IllegalArgumentException
-	 *             if the element to export is not in design file, or the
-	 *             element doesn't has name.
+	 * @throws DesignFileException      if error encountered when open library file
+	 *                                  with the given file name.
+	 * @throws SemanticException        if error encountered when element name is
+	 *                                  duplicate in the target library.
+	 * @throws IOException              if error encountered when writing file.
+	 * @throws IllegalArgumentException if the element to export is not in design
+	 *                                  file, or the element doesn't has name.
 	 */
 
-	public static void exportElement( DesignElementHandle elementToExport,
-			String libraryFileName, boolean canOverride )
-			throws DesignFileException, SemanticException, IOException
-	{
+	public static void exportElement(DesignElementHandle elementToExport, String libraryFileName, boolean canOverride)
+			throws DesignFileException, SemanticException, IOException {
 
-		DesignSessionImpl session = elementToExport.getModule( ).getSession( );
-		LibraryHandle libraryHandle = openOrCreateLibrary( session,
-				libraryFileName );
+		DesignSessionImpl session = elementToExport.getModule().getSession();
+		LibraryHandle libraryHandle = openOrCreateLibrary(session, libraryFileName);
 		assert libraryHandle != null;
 
-		ElementExporter exporter = new ElementExporter( libraryHandle );
-		exporter.checkElementToExport( elementToExport, true );
+		ElementExporter exporter = new ElementExporter(libraryHandle);
+		exporter.checkElementToExport(elementToExport, true);
 
-		exportElement( elementToExport, libraryHandle, canOverride );
+		exportElement(elementToExport, libraryHandle, canOverride);
 
-		libraryHandle.save( );
-		libraryHandle.close( );
+		libraryHandle.save();
+		libraryHandle.close();
 	}
 
 	/**
-	 * Exports the given element list into one library file. If the library file
-	 * is not found, new library file will be created and saved as the given
-	 * file name.
+	 * Exports the given element list into one library file. If the library file is
+	 * not found, new library file will be created and saved as the given file name.
 	 * 
-	 * @param elementsToExport
-	 *            list of the element to export, each of which is the instance
-	 *            of <code>DesignElementHandle</code>.
-	 * @param libraryFileName
-	 *            file name of the target library
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overridden.
+	 * @param elementsToExport list of the element to export, each of which is the
+	 *                         instance of <code>DesignElementHandle</code>.
+	 * @param libraryFileName  file name of the target library
+	 * @param canOverride      indicates whether the element with the same name in
+	 *                         target library will be overridden.
 	 * 
-	 * @throws DesignFileException
-	 *             if error encountered when open library file with the given
-	 *             file name.
-	 * @throws SemanticException
-	 *             if error encountered when element name is duplicate in the
-	 *             target library.
-	 * @throws IOException
-	 *             if error encountered when writing file.
-	 * @throws IllegalArgumentException
-	 *             if the element to export is not in design file.
+	 * @throws DesignFileException      if error encountered when open library file
+	 *                                  with the given file name.
+	 * @throws SemanticException        if error encountered when element name is
+	 *                                  duplicate in the target library.
+	 * @throws IOException              if error encountered when writing file.
+	 * @throws IllegalArgumentException if the element to export is not in design
+	 *                                  file.
 	 */
 
-	public static void exportElements( List elementsToExport,
-			String libraryFileName, boolean canOverride )
-			throws DesignFileException, SemanticException, IOException
-	{
-		if ( elementsToExport == null || elementsToExport.isEmpty( ) )
+	public static void exportElements(List elementsToExport, String libraryFileName, boolean canOverride)
+			throws DesignFileException, SemanticException, IOException {
+		if (elementsToExport == null || elementsToExport.isEmpty())
 			return;
-		DesignSessionImpl session = ( (DesignElementHandle) elementsToExport
-				.get( 0 ) ).getModule( ).getSession( );
+		DesignSessionImpl session = ((DesignElementHandle) elementsToExport.get(0)).getModule().getSession();
 		assert session != null;
-		LibraryHandle libraryHandle = openOrCreateLibrary( session,
-				libraryFileName );
+		LibraryHandle libraryHandle = openOrCreateLibrary(session, libraryFileName);
 		assert libraryHandle != null;
 
-		ElementExporter exporter = new ElementExporter( libraryHandle );
+		ElementExporter exporter = new ElementExporter(libraryHandle);
 
 		// Check the elements to export
-		Iterator iter = elementsToExport.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			DesignElementHandle elementToExport = (DesignElementHandle) iter
-					.next( );
+		Iterator iter = elementsToExport.iterator();
+		while (iter.hasNext()) {
+			DesignElementHandle elementToExport = (DesignElementHandle) iter.next();
 
-			exporter.checkElementToExport( elementToExport, true );
+			exporter.checkElementToExport(elementToExport, true);
 		}
 
 		// Export all elements in the given list
 
-		iter = elementsToExport.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			DesignElementHandle elementToExport = (DesignElementHandle) iter
-					.next( );
+		iter = elementsToExport.iterator();
+		while (iter.hasNext()) {
+			DesignElementHandle elementToExport = (DesignElementHandle) iter.next();
 
-			exportElement( elementToExport, libraryHandle, canOverride );
+			exportElement(elementToExport, libraryHandle, canOverride);
 		}
 
-		libraryHandle.save( );
-		libraryHandle.close( );
+		libraryHandle.save();
+		libraryHandle.close();
 	}
 
 	/**
 	 * Exports the given element into one library.
 	 * 
-	 * @param elementToExport
-	 *            handle of the element to export.
-	 * @param targetLibraryHandle
-	 *            handle of target library
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overridden.
+	 * @param elementToExport     handle of the element to export.
+	 * @param targetLibraryHandle handle of target library
+	 * @param canOverride         indicates whether the element with the same name
+	 *                            in target library will be overridden.
 	 * 
-	 * @throws SemanticException
-	 *             if error encountered when element name is duplicate in the
-	 *             target library.
-	 * @throws IllegalArgumentException
-	 *             if the element to export is not in design file.
+	 * @throws SemanticException        if error encountered when element name is
+	 *                                  duplicate in the target library.
+	 * @throws IllegalArgumentException if the element to export is not in design
+	 *                                  file.
 	 */
 
-	public static void exportElement( DesignElementHandle elementToExport,
-			LibraryHandle targetLibraryHandle, boolean canOverride )
-			throws SemanticException
-	{
+	public static void exportElement(DesignElementHandle elementToExport, LibraryHandle targetLibraryHandle,
+			boolean canOverride) throws SemanticException {
 
-		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
-		exporter.checkElementToExport( elementToExport, true );
-		CommandStack stack = targetLibraryHandle.getCommandStack( );
-		try
-		{
-			stack.startTrans( CommandLabelFactory
-					.getCommandLabel( MessageConstants.EXPORT_ELEMENT_TO_LIBRARY ) );
-			exporter.exportElement( elementToExport, canOverride );
-			stack.commit( );
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
+		ElementExporter exporter = new ElementExporter(targetLibraryHandle);
+		exporter.checkElementToExport(elementToExport, true);
+		CommandStack stack = targetLibraryHandle.getCommandStack();
+		try {
+			stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.EXPORT_ELEMENT_TO_LIBRARY));
+			exporter.exportElement(elementToExport, canOverride);
+			stack.commit();
+		} catch (SemanticException e) {
+			stack.rollback();
 			throw e;
 		}
 	}
@@ -214,135 +177,108 @@ public class ElementExportUtilImpl
 	/**
 	 * Exports the given style into selected theme.
 	 * 
-	 * @param styleToExport
-	 *            the style to be exported.
-	 * @param themeHandle
-	 *            the theme handle.
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overriden.
+	 * @param styleToExport the style to be exported.
+	 * @param themeHandle   the theme handle.
+	 * @param canOverride   indicates whether the element with the same name in
+	 *                      target library will be overriden.
 	 * @throws SemanticException
 	 */
-	public static void exportStyle( StyleHandle styleToExport,
-			ThemeHandle themeHandle, boolean canOverride )
-			throws SemanticException
-	{
-		LibraryHandle libraryHandle = (LibraryHandle) themeHandle.getRoot( );
-		ElementExporter exporter = new ElementExporter( libraryHandle );
-		exporter.checkElementToExport( styleToExport, true );
-		exporter.exportStyle( styleToExport, themeHandle, canOverride );
+	public static void exportStyle(StyleHandle styleToExport, ThemeHandle themeHandle, boolean canOverride)
+			throws SemanticException {
+		LibraryHandle libraryHandle = (LibraryHandle) themeHandle.getRoot();
+		ElementExporter exporter = new ElementExporter(libraryHandle);
+		exporter.checkElementToExport(styleToExport, true);
+		exporter.exportStyle(styleToExport, themeHandle, canOverride);
 	}
 
 	/**
 	 * Exports the given structure into one library. The allowed structures are
 	 * <code>EmbeddedImage</code>,<code>CustomColor</code> and
-	 * <code>ConfigVariable</code>. If the library file is not found, new
-	 * library file will be created and saved as the given file name.
+	 * <code>ConfigVariable</code>. If the library file is not found, new library
+	 * file will be created and saved as the given file name.
 	 * 
-	 * @param structToExport
-	 *            handle of the structure to export.
-	 * @param libraryFileName
-	 *            file name of the target library
-	 * @param canOverride
-	 *            indicates whether the structure with the same name in target
-	 *            library will be overriden.
+	 * @param structToExport  handle of the structure to export.
+	 * @param libraryFileName file name of the target library
+	 * @param canOverride     indicates whether the structure with the same name in
+	 *                        target library will be overriden.
 	 * 
-	 * @throws DesignFileException
-	 *             if error encountered when open library file with the given
-	 *             file name.
-	 * @throws SemanticException
-	 *             if error encountered when adding new structure to library or
-	 *             value setting.
-	 * @throws IOException
-	 *             if error encountered when writing file.
-	 * @throws IllegalArgumentException
-	 *             if the element to export is not in design file.
+	 * @throws DesignFileException      if error encountered when open library file
+	 *                                  with the given file name.
+	 * @throws SemanticException        if error encountered when adding new
+	 *                                  structure to library or value setting.
+	 * @throws IOException              if error encountered when writing file.
+	 * @throws IllegalArgumentException if the element to export is not in design
+	 *                                  file.
 	 */
 
-	public static void exportStructure( StructureHandle structToExport,
-			String libraryFileName, boolean canOverride )
-			throws DesignFileException, SemanticException, IOException
-	{
-		ElementExporter.checkStructureToExport( structToExport, true );
-		DesignSessionImpl session = structToExport.getElementHandle( )
-				.getModule( ).getSession( );
-		LibraryHandle libraryHandle = openOrCreateLibrary( session,
-				libraryFileName );
+	public static void exportStructure(StructureHandle structToExport, String libraryFileName, boolean canOverride)
+			throws DesignFileException, SemanticException, IOException {
+		ElementExporter.checkStructureToExport(structToExport, true);
+		DesignSessionImpl session = structToExport.getElementHandle().getModule().getSession();
+		LibraryHandle libraryHandle = openOrCreateLibrary(session, libraryFileName);
 		assert libraryHandle != null;
 
-		exportStructure( structToExport, libraryHandle, canOverride );
+		exportStructure(structToExport, libraryHandle, canOverride);
 
-		libraryHandle.save( );
-		libraryHandle.close( );
+		libraryHandle.save();
+		libraryHandle.close();
 	}
 
 	/**
 	 * Exports the given structure into one library. The allowed structures are
 	 * <code>EmbeddedImage</code>,<code>CustomColor</code> and
-	 * <code>ConfigVariable</code>. If the library file is not found, new
-	 * library file will be created and saved as the given file name.
+	 * <code>ConfigVariable</code>. If the library file is not found, new library
+	 * file will be created and saved as the given file name.
 	 * 
-	 * @param structsToExport
-	 *            list of the structure to export, each of which is the instance
-	 *            of <code>StructureHandle</code>.
-	 * @param libraryFileName
-	 *            file name of the target library
-	 * @param canOverride
-	 *            indicates whether the structure with the same name in target
-	 *            library will be overridden.
+	 * @param structsToExport list of the structure to export, each of which is the
+	 *                        instance of <code>StructureHandle</code>.
+	 * @param libraryFileName file name of the target library
+	 * @param canOverride     indicates whether the structure with the same name in
+	 *                        target library will be overridden.
 	 * 
-	 * @throws DesignFileException
-	 *             if error encountered when open library file with the given
-	 *             file name.
-	 * @throws SemanticException
-	 *             if error encountered when adding new structure to library or
-	 *             value setting.
-	 * @throws IOException
-	 *             if error encountered when writing file.
-	 * @throws IllegalArgumentException
-	 *             if the element to export is not in design file.
+	 * @throws DesignFileException      if error encountered when open library file
+	 *                                  with the given file name.
+	 * @throws SemanticException        if error encountered when adding new
+	 *                                  structure to library or value setting.
+	 * @throws IOException              if error encountered when writing file.
+	 * @throws IllegalArgumentException if the element to export is not in design
+	 *                                  file.
 	 */
 
-	public static void exportStructures( List structsToExport,
-			String libraryFileName, boolean canOverride )
-			throws DesignFileException, SemanticException, IOException
-	{
+	public static void exportStructures(List structsToExport, String libraryFileName, boolean canOverride)
+			throws DesignFileException, SemanticException, IOException {
 		DesignSessionImpl session = null;
 
 		// Check the structs to export
 
-		Iterator iter = structsToExport.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			StructureHandle structToExport = (StructureHandle) iter.next( );
+		Iterator iter = structsToExport.iterator();
+		while (iter.hasNext()) {
+			StructureHandle structToExport = (StructureHandle) iter.next();
 
-			ElementExporter.checkStructureToExport( structToExport, true );
-			if ( session == null )
-				session = structToExport.getElementHandle( ).getModule( )
-						.getSession( );
+			ElementExporter.checkStructureToExport(structToExport, true);
+			if (session == null)
+				session = structToExport.getElementHandle().getModule().getSession();
 		}
 
 		// That means the list is empty.
 
-		if ( session == null )
+		if (session == null)
 			return;
 
-		LibraryHandle libraryHandle = openOrCreateLibrary( session,
-				libraryFileName );
+		LibraryHandle libraryHandle = openOrCreateLibrary(session, libraryFileName);
 		assert libraryHandle != null;
 
 		// Export all elements in the given list
 
-		iter = structsToExport.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			StructureHandle structToExport = (StructureHandle) iter.next( );
+		iter = structsToExport.iterator();
+		while (iter.hasNext()) {
+			StructureHandle structToExport = (StructureHandle) iter.next();
 
-			exportStructure( structToExport, libraryHandle, canOverride );
+			exportStructure(structToExport, libraryHandle, canOverride);
 		}
 
-		libraryHandle.save( );
-		libraryHandle.close( );
+		libraryHandle.save();
+		libraryHandle.close();
 	}
 
 	/**
@@ -350,169 +286,128 @@ public class ElementExportUtilImpl
 	 * <code>EmbeddedImage</code>,<code>CustomColor</code> and
 	 * <code>ConfigVariable</code>.
 	 * 
-	 * @param structToExport
-	 *            handle of the structure to export.
-	 * @param targetLibraryHandle
-	 *            handle of target library
-	 * @param canOverride
-	 *            indicates whether the structure with the same name in target
-	 *            library will be overriden.
+	 * @param structToExport      handle of the structure to export.
+	 * @param targetLibraryHandle handle of target library
+	 * @param canOverride         indicates whether the structure with the same name
+	 *                            in target library will be overriden.
 	 * 
-	 * @throws SemanticException
-	 *             if error encountered when adding new structure to library or
-	 *             value setting.
+	 * @throws SemanticException if error encountered when adding new structure to
+	 *                           library or value setting.
 	 */
 
-	public static void exportStructure( StructureHandle structToExport,
-			LibraryHandle targetLibraryHandle, boolean canOverride )
-			throws SemanticException
-	{
-		ElementExporter.checkStructureToExport( structToExport, true );
+	public static void exportStructure(StructureHandle structToExport, LibraryHandle targetLibraryHandle,
+			boolean canOverride) throws SemanticException {
+		ElementExporter.checkStructureToExport(structToExport, true);
 
-		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
+		ElementExporter exporter = new ElementExporter(targetLibraryHandle);
 
-		exporter.exportStructure( structToExport, canOverride );
+		exporter.exportStructure(structToExport, canOverride);
 	}
 
 	/**
-	 * Export the report design to a library file specified by the file name. If
-	 * the library file is not found, new library file will be created and saved
-	 * as the given name.
+	 * Export the report design to a library file specified by the file name. If the
+	 * library file is not found, new library file will be created and saved as the
+	 * given name.
 	 * 
-	 * @param designToExport
-	 *            the design which need to be exported
-	 * @param libraryFileName
-	 *            target library file name
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overriden.
-	 * @param genDefaultName
-	 *            if true, a default name will be generated if an element
-	 *            doesn't has a name. if false, an exception will be throwed
-	 *            indicate that the element to export must has a name
-	 * @throws DesignFileException
-	 *             if the library file has fatal errors which can not be opened.
-	 * @throws SemanticException
-	 *             if error encountered when element name is duplicated in the
-	 *             target library.
+	 * @param designToExport  the design which need to be exported
+	 * @param libraryFileName target library file name
+	 * @param canOverride     indicates whether the element with the same name in
+	 *                        target library will be overriden.
+	 * @param genDefaultName  if true, a default name will be generated if an
+	 *                        element doesn't has a name. if false, an exception
+	 *                        will be throwed indicate that the element to export
+	 *                        must has a name
+	 * @throws DesignFileException if the library file has fatal errors which can
+	 *                             not be opened.
+	 * @throws SemanticException   if error encountered when element name is
+	 *                             duplicated in the target library.
 	 * 
-	 * @throws IOException
-	 *             if error encountered when writing file.
+	 * @throws IOException         if error encountered when writing file.
 	 */
 
-	public static void exportDesign( ReportDesignHandle designToExport,
-			String libraryFileName, boolean canOverride, boolean genDefaultName )
-			throws DesignFileException, SemanticException, IOException
-	{
-		DesignSessionImpl session = designToExport.getModule( ).getSession( );
-		LibraryHandle libraryHandle = openOrCreateLibrary( session,
-				libraryFileName );
+	public static void exportDesign(ReportDesignHandle designToExport, String libraryFileName, boolean canOverride,
+			boolean genDefaultName) throws DesignFileException, SemanticException, IOException {
+		DesignSessionImpl session = designToExport.getModule().getSession();
+		LibraryHandle libraryHandle = openOrCreateLibrary(session, libraryFileName);
 		assert libraryHandle != null;
 
-		exportDesign( designToExport, libraryHandle, canOverride,
-				genDefaultName );
+		exportDesign(designToExport, libraryHandle, canOverride, genDefaultName);
 
 		// provides backward compatibility of bound columns during writing the
 		// design file.
-		String designVersion = designToExport.getVersion( );
-		String libVersion = libraryHandle.getVersion( );
-		if ( StringUtil.isBlank( libVersion ) )
-		{
-			libraryHandle.getModule( ).getVersionManager( ).setVersion(
-					designVersion );
+		String designVersion = designToExport.getVersion();
+		String libVersion = libraryHandle.getVersion();
+		if (StringUtil.isBlank(libVersion)) {
+			libraryHandle.getModule().getVersionManager().setVersion(designVersion);
 		}
-		libraryHandle.save( );
-		libraryHandle.close( );
+		libraryHandle.save();
+		libraryHandle.close();
 	}
 
 	/**
 	 * Exports one design to library.
 	 * 
-	 * @param designToExport
-	 *            handle of the report design to export
-	 * @param targetLibraryHandle
-	 *            handle of target library
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overridden.
-	 * @param genDefaultName
-	 *            if true, a default name will be generated if an element
-	 *            doesn't has a name. if false, an exception will be thrown
-	 *            indicate that the element to export must has a name
-	 * @throws SemanticException
-	 *             if error encountered when element name is duplicate in the
-	 *             target library.
+	 * @param designToExport      handle of the report design to export
+	 * @param targetLibraryHandle handle of target library
+	 * @param canOverride         indicates whether the element with the same name
+	 *                            in target library will be overridden.
+	 * @param genDefaultName      if true, a default name will be generated if an
+	 *                            element doesn't has a name. if false, an exception
+	 *                            will be thrown indicate that the element to export
+	 *                            must has a name
+	 * @throws SemanticException if error encountered when element name is duplicate
+	 *                           in the target library.
 	 */
 
-	public static void exportDesign( ReportDesignHandle designToExport,
-			LibraryHandle targetLibraryHandle, boolean canOverride,
-			boolean genDefaultName ) throws SemanticException
-	{
+	public static void exportDesign(ReportDesignHandle designToExport, LibraryHandle targetLibraryHandle,
+			boolean canOverride, boolean genDefaultName) throws SemanticException {
 
-		if ( LibraryUtil.hasLibrary( designToExport, targetLibraryHandle ) )
-		{
-			throw new SemanticException(
-					designToExport.getElement( ),
-					LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY );
+		if (LibraryUtil.hasLibrary(designToExport, targetLibraryHandle)) {
+			throw new SemanticException(designToExport.getElement(),
+					LibraryException.DESIGN_EXCEPTION_LIBRARY_INCLUDED_RECURSIVELY);
 		}
-		ElementExporter exporter = new ElementExporter( targetLibraryHandle );
-		CommandStack stack = targetLibraryHandle.getCommandStack( );
-		try
-		{
+		ElementExporter exporter = new ElementExporter(targetLibraryHandle);
+		CommandStack stack = targetLibraryHandle.getCommandStack();
+		try {
 
-			stack.startTrans( CommandLabelFactory
-					.getCommandLabel( MessageConstants.EXPORT_ELEMENT_TO_LIBRARY ) );
-			exporter.exportDesign( designToExport, canOverride, genDefaultName );
-			stack.commit( );
+			stack.startTrans(CommandLabelFactory.getCommandLabel(MessageConstants.EXPORT_ELEMENT_TO_LIBRARY));
+			exporter.exportDesign(designToExport, canOverride, genDefaultName);
+			stack.commit();
 
-		}
-		catch ( SemanticException e )
-		{
-			stack.rollback( );
+		} catch (SemanticException e) {
+			stack.rollback();
 			throw e;
 		}
 	}
 
 	/**
-	 * Opens the library with given library file name. If the library is not
-	 * found, create it.
+	 * Opens the library with given library file name. If the library is not found,
+	 * create it.
 	 * 
-	 * @param session
-	 *            the session
-	 * @param libraryFileName
-	 *            file name of the library to open
+	 * @param session         the session
+	 * @param libraryFileName file name of the library to open
 	 * @return the opened library handle
-	 * @throws DesignFileException
-	 *             if error encountered when open library file with the given
-	 *             file name.
+	 * @throws DesignFileException if error encountered when open library file with
+	 *                             the given file name.
 	 */
 
-	private static LibraryHandle openOrCreateLibrary(
-			DesignSessionImpl session, String libraryFileName )
-			throws DesignFileException
-	{
+	private static LibraryHandle openOrCreateLibrary(DesignSessionImpl session, String libraryFileName)
+			throws DesignFileException {
 
-		try
-		{
-			Library library = session.openLibrary( libraryFileName );
-			return library.handle( );
-		}
-		catch ( DesignFileException e )
-		{
-			if ( DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR == e
-					.getErrorCode( ) )
-			{
-				List errorList = e.getErrorList( );
+		try {
+			Library library = session.openLibrary(libraryFileName);
+			return library.handle();
+		} catch (DesignFileException e) {
+			if (DesignFileException.DESIGN_EXCEPTION_SYNTAX_ERROR == e.getErrorCode()) {
+				List errorList = e.getErrorList();
 
 				// FILE_NOT_FOUND error is always the first one.
 
-				ErrorDetail error = ( (ErrorDetail) errorList.get( 0 ) );
-				if ( DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND == error
-						.getErrorCode( ) )
-				{
-					Library library = session.createLibrary( );
-					LibraryHandle libraryHandle = library.handle( );
-					libraryHandle.setFileName( libraryFileName );
+				ErrorDetail error = ((ErrorDetail) errorList.get(0));
+				if (DesignParserException.DESIGN_EXCEPTION_FILE_NOT_FOUND == error.getErrorCode()) {
+					Library library = session.createLibrary();
+					LibraryHandle libraryHandle = library.handle();
+					libraryHandle.setFileName(libraryFileName);
 					return libraryHandle;
 				}
 			}
@@ -524,44 +419,33 @@ public class ElementExportUtilImpl
 	/**
 	 * Checks whether the given element can be exported into one library.
 	 * 
-	 * @param elementToExport
-	 *            handle of the element to export.
-	 * @param targetLibraryHandle
-	 *            handle of target library
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overridden.
+	 * @param elementToExport     handle of the element to export.
+	 * @param targetLibraryHandle handle of target library
+	 * @param canOverride         indicates whether the element with the same name
+	 *                            in target library will be overridden.
 	 * @return <code>true</code> if the element can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
 
-	public static boolean canExport( DesignElementHandle elementToExport,
-			LibraryHandle targetLibraryHandle, boolean canOverride )
-	{
-		if ( !canExport( elementToExport ) )
+	public static boolean canExport(DesignElementHandle elementToExport, LibraryHandle targetLibraryHandle,
+			boolean canOverride) {
+		if (!canExport(elementToExport))
 			return false;
 
-		if ( targetLibraryHandle == null )
+		if (targetLibraryHandle == null)
 			return false;
 
 		// check canExport in IReportItem for extended item
-		if ( elementToExport instanceof ExtendedItemHandle
-				&& !checkExportedExtendedItem( (ExtendedItemHandle) elementToExport ) )
-		{
+		if (elementToExport instanceof ExtendedItemHandle
+				&& !checkExportedExtendedItem((ExtendedItemHandle) elementToExport)) {
 			return false;
 		}
 
-		if ( elementToExport instanceof ReportItemHandle
-				|| elementToExport instanceof CubeHandle
-				|| elementToExport instanceof DataSourceHandle
-				|| elementToExport instanceof DataSetHandle
-				|| elementToExport instanceof ParameterHandle
-				|| elementToExport instanceof ParameterGroupHandle
-				|| elementToExport instanceof MasterPageHandle
-				|| elementToExport instanceof StyleHandle )
-		{
-			return checkExportElementByContext( elementToExport,
-					targetLibraryHandle, canOverride );
+		if (elementToExport instanceof ReportItemHandle || elementToExport instanceof CubeHandle
+				|| elementToExport instanceof DataSourceHandle || elementToExport instanceof DataSetHandle
+				|| elementToExport instanceof ParameterHandle || elementToExport instanceof ParameterGroupHandle
+				|| elementToExport instanceof MasterPageHandle || elementToExport instanceof StyleHandle) {
+			return checkExportElementByContext(elementToExport, targetLibraryHandle, canOverride);
 
 		}
 
@@ -569,36 +453,27 @@ public class ElementExportUtilImpl
 	}
 
 	/**
-	 * Checks if extendedItem and cube's content element has the same name as
-	 * the exported element and its content elements.
+	 * Checks if extendedItem and cube's content element has the same name as the
+	 * exported element and its content elements.
 	 * 
-	 * @param handle
-	 *            the element handle.
-	 * @param targetLibraryHandle
-	 *            the target library handle.
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overridden.
-	 * @return <true> if extendedItem and cube's content element has the same
-	 *         name as the exported element and its content elements, otherwise
-	 *         return <false>.
+	 * @param handle              the element handle.
+	 * @param targetLibraryHandle the target library handle.
+	 * @param canOverride         indicates whether the element with the same name
+	 *                            in target library will be overridden.
+	 * @return <true> if extendedItem and cube's content element has the same name
+	 *         as the exported element and its content elements, otherwise return
+	 *         <false>.
 	 */
-	protected final static boolean checkExportElementByContext(
-			DesignElementHandle handle, ModuleHandle targetLibraryHandle,
-			boolean canOverride )
-	{
-		if ( !checkExportableElementByContext( handle.getElement( ),
-				targetLibraryHandle, canOverride ) )
+	protected final static boolean checkExportElementByContext(DesignElementHandle handle,
+			ModuleHandle targetLibraryHandle, boolean canOverride) {
+		if (!checkExportableElementByContext(handle.getElement(), targetLibraryHandle, canOverride))
 			return false;
 
-		ContentIterator iter = new ContentIterator( handle.getModule( ), handle
-				.getElement( ) );
+		ContentIterator iter = new ContentIterator(handle.getModule(), handle.getElement());
 
-		while ( iter.hasNext( ) )
-		{
-			DesignElement element = iter.next( );
-			if ( !checkExportableElementByContext( element,
-					targetLibraryHandle, canOverride ) )
+		while (iter.hasNext()) {
+			DesignElement element = iter.next();
+			if (!checkExportableElementByContext(element, targetLibraryHandle, canOverride))
 				return false;
 		}
 
@@ -606,54 +481,44 @@ public class ElementExportUtilImpl
 	}
 
 	/**
-	 * Checks if extendedItem and cube's content element has the same name as
-	 * the exported element and its content elements.
+	 * Checks if extendedItem and cube's content element has the same name as the
+	 * exported element and its content elements.
 	 * 
-	 * @param element
-	 *            the design element.
-	 * @param targetLibraryHandle
-	 *            the target library handle.
-	 * @return <true> if extendedItem and cube's content element has the same
-	 *         name as the exported element and its content elements, otherwise
-	 *         return <false>.
+	 * @param element             the design element.
+	 * @param targetLibraryHandle the target library handle.
+	 * @return <true> if extendedItem and cube's content element has the same name
+	 *         as the exported element and its content elements, otherwise return
+	 *         <false>.
 	 */
-	private static boolean checkExportableElementByContext(
-			DesignElement element, ModuleHandle targetLibraryHandle,
-			boolean canOverride )
-	{
-		String name = element.getName( );
-		if ( name == null )
+	private static boolean checkExportableElementByContext(DesignElement element, ModuleHandle targetLibraryHandle,
+			boolean canOverride) {
+		String name = element.getName();
+		if (name == null)
 			return true;
 
 		// special handle about style exporting, for API compatibility for old
 		// method canExport did not provide the theme handle to export
-		if ( element instanceof StyleElement )
-		{
-			DesignElement style = targetLibraryHandle.getModule( ).findStyle(
-					name );
-			if ( style == null || canOverride )
+		if (element instanceof StyleElement) {
+			DesignElement style = targetLibraryHandle.getModule().findStyle(name);
+			if (style == null || canOverride)
 				return true;
 			return false;
 		}
 
-		NameExecutor executor = new NameExecutor(
-				targetLibraryHandle.getModule( ), element );
-		if (!executor.hasNamespace( )) 
-		{
+		NameExecutor executor = new NameExecutor(targetLibraryHandle.getModule(), element);
+		if (!executor.hasNamespace()) {
 			return true;
 		}
-		DesignElement duplicateElement = executor.getElement( name );
-		if ( duplicateElement == null )
+		DesignElement duplicateElement = executor.getElement(name);
+		if (duplicateElement == null)
 			return true;
 
-		DesignElement targetElement = ElementExporterImpl
-				.getDropTarget( duplicateElement );
-		if ( targetElement == null )
+		DesignElement targetElement = ElementExporterImpl.getDropTarget(duplicateElement);
+		if (targetElement == null)
 			return false;
 
-		if ( canOverride )
-		{
-			if ( ElementExporterImpl.canDropInContext( targetElement ) )
+		if (canOverride) {
+			if (ElementExporterImpl.canDropInContext(targetElement))
 				return true;
 			return false;
 		}
@@ -664,28 +529,23 @@ public class ElementExportUtilImpl
 	/**
 	 * Checks whether the given element can be exported into the selected theme.
 	 * 
-	 * @param styleHandle
-	 *            handle of the style.
-	 * @param themeHandle
-	 *            the theme handle.
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overridden.
+	 * @param styleHandle handle of the style.
+	 * @param themeHandle the theme handle.
+	 * @param canOverride indicates whether the element with the same name in target
+	 *                    library will be overridden.
 	 * @return <code>true</code> if the style can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
-	public static boolean canExport( StyleHandle styleHandle,
-			ThemeHandle themeHandle, boolean canOverride )
-	{
-		if ( themeHandle == null )
+	public static boolean canExport(StyleHandle styleHandle, ThemeHandle themeHandle, boolean canOverride) {
+		if (themeHandle == null)
 			return false;
-		if ( !canExport( styleHandle ) )
+		if (!canExport(styleHandle))
 			return false;
 
-		if ( canOverride )
+		if (canOverride)
 			return true;
 
-		return themeHandle.findStyle( styleHandle.getName( ) ) == null;
+		return themeHandle.findStyle(styleHandle.getName()) == null;
 	}
 
 	/**
@@ -693,71 +553,59 @@ public class ElementExportUtilImpl
 	 * Currently, only allows structures such as <code>EmbeddedImage</code>,
 	 * <code>CustomColor</code> and <code>ConfigVariable</code>.
 	 * 
-	 * @param structToExport
-	 *            the handle of the structure to export.
-	 * @param targetLibraryHandle
-	 *            the handle of target library
-	 * @param canOverride
-	 *            indicates whether the element with the same name in target
-	 *            library will be overridden.
+	 * @param structToExport      the handle of the structure to export.
+	 * @param targetLibraryHandle the handle of target library
+	 * @param canOverride         indicates whether the element with the same name
+	 *                            in target library will be overridden.
 	 * @return <code>true</code> if the element can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
 
-	public static boolean canExport( StructureHandle structToExport,
-			LibraryHandle targetLibraryHandle, boolean canOverride )
-	{
-		if ( !canExport( structToExport ) )
+	public static boolean canExport(StructureHandle structToExport, LibraryHandle targetLibraryHandle,
+			boolean canOverride) {
+		if (!canExport(structToExport))
 			return false;
 
-		if ( targetLibraryHandle == null )
+		if (targetLibraryHandle == null)
 			return false;
 
 		IPropertyDefn propDefn = null;
-		String structName = structToExport.getDefn( ).getName( );
-		if ( EmbeddedImage.EMBEDDED_IMAGE_STRUCT.equals( structName ) )
-			propDefn = targetLibraryHandle
-					.getPropertyDefn( IModuleModel.IMAGES_PROP );
-		else if ( CustomColor.CUSTOM_COLOR_STRUCT.equals( structName ) )
-			propDefn = targetLibraryHandle
-					.getPropertyDefn( IModuleModel.COLOR_PALETTE_PROP );
-		else if ( ConfigVariable.CONFIG_VAR_STRUCT.equals( structName ) )
-			propDefn = targetLibraryHandle
-					.getPropertyDefn( IModuleModel.CONFIG_VARS_PROP );
-		else
-		{
+		String structName = structToExport.getDefn().getName();
+		if (EmbeddedImage.EMBEDDED_IMAGE_STRUCT.equals(structName))
+			propDefn = targetLibraryHandle.getPropertyDefn(IModuleModel.IMAGES_PROP);
+		else if (CustomColor.CUSTOM_COLOR_STRUCT.equals(structName))
+			propDefn = targetLibraryHandle.getPropertyDefn(IModuleModel.COLOR_PALETTE_PROP);
+		else if (ConfigVariable.CONFIG_VAR_STRUCT.equals(structName))
+			propDefn = targetLibraryHandle.getPropertyDefn(IModuleModel.CONFIG_VARS_PROP);
+		else {
 			return false;
 		}
 
-		if ( canOverride )
+		if (canOverride)
 			return true;
 
-		List results = StructureListValidator.getInstance( ).validateForAdding(
-				targetLibraryHandle, propDefn,
-				targetLibraryHandle.getListProperty( propDefn.getName( ) ),
-				structToExport.getStructure( ) );
-		if ( results.isEmpty( ) )
+		List results = StructureListValidator.getInstance().validateForAdding(targetLibraryHandle, propDefn,
+				targetLibraryHandle.getListProperty(propDefn.getName()), structToExport.getStructure());
+		if (results.isEmpty())
 			return true;
 
 		return false;
 	}
 
 	/**
-	 * Checks whether the given element can be exported into one library.
-	 * Different from another <code>canExport</code>, this method only concerns
-	 * meta-data level. That is, based on element definition and regardless of
-	 * the design context.
+	 * Checks whether the given element can be exported into one library. Different
+	 * from another <code>canExport</code>, this method only concerns meta-data
+	 * level. That is, based on element definition and regardless of the design
+	 * context.
 	 * 
-	 * @param elementToExport
-	 *            handle of the element to export.
+	 * @param elementToExport handle of the element to export.
 	 * @return <code>true</code> if the element can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
 
-	public static boolean canExport( DesignElementHandle elementToExport )
-	{
+	public static boolean canExport(DesignElementHandle elementToExport) {
 
-		return canExport( elementToExport, true );
+		return canExport(elementToExport, true);
 	}
 
 	/**
@@ -766,92 +614,73 @@ public class ElementExportUtilImpl
 	 * <code>CustomColor</code> and <code>ConfigVariable</code>.
 	 * <p>
 	 * Different from another <code>canExport</code>, this method only concerns
-	 * meta-data level. That is, based on structure definition and regardless of
-	 * the design context.
+	 * meta-data level. That is, based on structure definition and regardless of the
+	 * design context.
 	 * 
-	 * @param structToExport
-	 *            the handle of the structure to export.
+	 * @param structToExport the handle of the structure to export.
 	 * @return <code>true</code> if the structure can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
 
-	public static boolean canExport( StructureHandle structToExport )
-	{
-		return canExport( structToExport, true );
+	public static boolean canExport(StructureHandle structToExport) {
+		return canExport(structToExport, true);
 	}
 
 	/**
-	 * Checks whether the given element can be exported into one library.
-	 * Different from another <code>canExport</code>, this method only concerns
-	 * meta-data level. That is, based on element definition and regardless of
-	 * the design context.
+	 * Checks whether the given element can be exported into one library. Different
+	 * from another <code>canExport</code>, this method only concerns meta-data
+	 * level. That is, based on element definition and regardless of the design
+	 * context.
 	 * 
-	 * @param elementToExport
-	 *            handle of the element to export
-	 * @param ignoreName
-	 *            true if not consider the name of the element when determines
-	 *            whether the element can be export or not, false if must
-	 *            consider the element name to determine
+	 * @param elementToExport handle of the element to export
+	 * @param ignoreName      true if not consider the name of the element when
+	 *                        determines whether the element can be export or not,
+	 *                        false if must consider the element name to determine
 	 * @return <code>true</code> if the element can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
 
-	public static boolean canExport( DesignElementHandle elementToExport,
-			boolean ignoreName )
-	{
-		if ( elementToExport == null )
+	public static boolean canExport(DesignElementHandle elementToExport, boolean ignoreName) {
+		if (elementToExport == null)
 			return false;
 
-		ElementExporter exporter = new ElementExporter( new LibraryHandle(
-				new Library( new DesignSession( null ) ) ) );
-		try
-		{
-			exporter.checkElementToExport( elementToExport, ignoreName );
-		}
-		catch ( IllegalArgumentException e )
-		{
+		ElementExporter exporter = new ElementExporter(new LibraryHandle(new Library(new DesignSession(null))));
+		try {
+			exporter.checkElementToExport(elementToExport, ignoreName);
+		} catch (IllegalArgumentException e) {
 			return false;
 		}
 
-		if ( elementToExport instanceof CubeHandle )
-		{
+		if (elementToExport instanceof CubeHandle) {
 			return true;
 		}
 
-		if ( elementToExport instanceof DataSourceHandle )
-		{
+		if (elementToExport instanceof DataSourceHandle) {
 			return true;
 		}
 
-		if ( elementToExport instanceof DataSetHandle )
-		{
+		if (elementToExport instanceof DataSetHandle) {
 			return true;
 		}
 
-		if ( elementToExport instanceof ParameterHandle
-				|| elementToExport instanceof ParameterGroupHandle )
-		{
+		if (elementToExport instanceof ParameterHandle || elementToExport instanceof ParameterGroupHandle) {
 			return true;
 		}
 
-		if ( elementToExport instanceof ExtendedItemHandle
-				&& !checkExportedExtendedItem( (ExtendedItemHandle) elementToExport ) )
-		{
+		if (elementToExport instanceof ExtendedItemHandle
+				&& !checkExportedExtendedItem((ExtendedItemHandle) elementToExport)) {
 			return false;
 		}
 
-		if ( elementToExport instanceof ReportItemHandle )
-		{
+		if (elementToExport instanceof ReportItemHandle) {
 			return true;
 		}
 
-		if ( elementToExport instanceof MasterPageHandle )
-		{
+		if (elementToExport instanceof MasterPageHandle) {
 			return true;
 		}
 
-		if ( elementToExport instanceof StyleHandle )
-		{
+		if (elementToExport instanceof StyleHandle) {
 			return true;
 		}
 
@@ -864,31 +693,24 @@ public class ElementExportUtilImpl
 	 * <code>CustomColor</code> and <code>ConfigVariable</code>.
 	 * <p>
 	 * Different from another <code>canExport</code>, this method only concerns
-	 * meta-data level. That is, based on structure definition and regardless of
-	 * the design context.
+	 * meta-data level. That is, based on structure definition and regardless of the
+	 * design context.
 	 * 
-	 * @param structToExport
-	 *            the handle of the structure to export
-	 * @param ignoreName
-	 *            true if not consider the key name of the structure when
-	 *            determines whether the structure can be export or not, false
-	 *            if must consider the name to determine
+	 * @param structToExport the handle of the structure to export
+	 * @param ignoreName     true if not consider the key name of the structure when
+	 *                       determines whether the structure can be export or not,
+	 *                       false if must consider the name to determine
 	 * @return <code>true</code> if the structure can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
 
-	public static boolean canExport( StructureHandle structToExport,
-			boolean ignoreName )
-	{
-		if ( structToExport == null )
+	public static boolean canExport(StructureHandle structToExport, boolean ignoreName) {
+		if (structToExport == null)
 			return false;
 
-		try
-		{
-			ElementExporter.checkStructureToExport( structToExport, ignoreName );
-		}
-		catch ( IllegalArgumentException e )
-		{
+		try {
+			ElementExporter.checkStructureToExport(structToExport, ignoreName);
+		} catch (IllegalArgumentException e) {
 			return false;
 		}
 
@@ -898,23 +720,17 @@ public class ElementExportUtilImpl
 	/**
 	 * Checks extended item can be exported or not.
 	 * 
-	 * @param elementToExport
-	 *            the extended item to export
+	 * @param elementToExport the extended item to export
 	 * @return <code>true</code> if the element can be exported successfully.
 	 *         Otherwise <code>false</code>.
 	 */
-	protected static boolean checkExportedExtendedItem(
-			ExtendedItemHandle elementToExport )
-	{
-		try
-		{
-			IReportItem item = elementToExport.getReportItem( );
+	protected static boolean checkExportedExtendedItem(ExtendedItemHandle elementToExport) {
+		try {
+			IReportItem item = elementToExport.getReportItem();
 
-			if ( item != null && !item.canExport( ) )
+			if (item != null && !item.canExport())
 				return false;
-		}
-		catch ( ExtendedElementException e )
-		{
+		} catch (ExtendedElementException e) {
 			return false;
 		}
 		return true;

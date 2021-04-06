@@ -24,35 +24,28 @@ import org.eclipse.birt.report.model.elements.interfaces.ITableColumnModel;
  * 
  */
 
-public final class ColumnHelper
-{
+public final class ColumnHelper {
 
 	/**
 	 * Figures out the column according to the index of the column.
 	 * 
-	 * @param module
-	 *            the report design
-	 * @param columnSlot
-	 *            the slot contains columns
-	 * @param columnIndex
-	 *            the 1-based column index
+	 * @param module      the report design
+	 * @param columnSlot  the slot contains columns
+	 * @param columnIndex the 1-based column index
 	 * 
 	 * @return the column at the specified position in the slot, or null if not
 	 *         found.
 	 */
 
-	public static TableColumn findColumn( Module module,
-			ContainerSlot columnSlot, int columnIndex )
-	{
+	public static TableColumn findColumn(Module module, ContainerSlot columnSlot, int columnIndex) {
 		assert columnIndex > 0;
 
-		for ( int i = 0, index = 0; i < columnSlot.getCount( ); i++ )
-		{
-			TableColumn column = (TableColumn) ( columnSlot.getContent( i ) );
+		for (int i = 0, index = 0; i < columnSlot.getCount(); i++) {
+			TableColumn column = (TableColumn) (columnSlot.getContent(i));
 
-			index += getColumnRepeat( module, column );
+			index += getColumnRepeat(module, column);
 
-			if ( index >= columnIndex )
+			if (index >= columnIndex)
 				return column;
 		}
 
@@ -63,54 +56,43 @@ public final class ColumnHelper
 	 * Gets tableColumns in the grid or table, if the column repeats it will be
 	 * recorded accordingly.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param columnSlot
-	 *            the column slot.
+	 * @param module     the module
+	 * @param columnSlot the column slot.
 	 * @return an array containing TableColumn.
 	 */
-	public static TableColumn[] getTableColumnArray( Module module,
-			ContainerSlot columnSlot )
-	{
-		int colNum = columnSlot.getCount( );
+	public static TableColumn[] getTableColumnArray(Module module, ContainerSlot columnSlot) {
+		int colNum = columnSlot.getCount();
 
-		List<TableColumn> tmpColumns = new ArrayList<TableColumn>( );
+		List<TableColumn> tmpColumns = new ArrayList<TableColumn>();
 
-		for ( int i = 0; i < colNum; i++ )
-		{
-			TableColumn tmpColumn = (TableColumn) columnSlot.getContent( i );
-			int repeat = getColumnRepeat( module, tmpColumn );
+		for (int i = 0; i < colNum; i++) {
+			TableColumn tmpColumn = (TableColumn) columnSlot.getContent(i);
+			int repeat = getColumnRepeat(module, tmpColumn);
 
-			for ( int j = 0; j < repeat; j++ )
-			{
-				tmpColumns.add( tmpColumn );
+			for (int j = 0; j < repeat; j++) {
+				tmpColumns.add(tmpColumn);
 			}
 		}
 
-		return tmpColumns.toArray( new TableColumn[0] );
+		return tmpColumns.toArray(new TableColumn[0]);
 	}
 
 	/**
 	 * Gets the column according to the column number.
 	 * 
-	 * @param columnArray
-	 *            the column array
-	 * @param columnNum
-	 *            the column number
+	 * @param columnArray the column array
+	 * @param columnNum   the column number
 	 * @return the table column.
 	 */
-	public static TableColumn getColumnInArray( TableColumn[] columnArray,
-			int columnNum )
-	{
-		if ( columnArray == null )
+	public static TableColumn getColumnInArray(TableColumn[] columnArray, int columnNum) {
+		if (columnArray == null)
 			return null;
 
 		// the column number start from 1, so it should be subtracted 1.
 		// if the column number found by cell is lager than the length of
 		// column, table has inconsistent column count so return null
 		int colIndex = columnNum - 1;
-		if ( colIndex < columnArray.length )
-		{
+		if (colIndex < columnArray.length) {
 			return columnArray[colIndex];
 		}
 		return null;
@@ -119,20 +101,16 @@ public final class ColumnHelper
 	/**
 	 * Gets the repeat times of the column.
 	 * 
-	 * @param module
-	 *            the module.
-	 * @param column
-	 *            the column.
+	 * @param module the module.
+	 * @param column the column.
 	 * @return the column length.
 	 */
-	private static int getColumnRepeat( Module module, TableColumn column )
-	{
-		int repeat = column.getIntProperty( module,
-				ITableColumnModel.REPEAT_PROP );
+	private static int getColumnRepeat(Module module, TableColumn column) {
+		int repeat = column.getIntProperty(module, ITableColumnModel.REPEAT_PROP);
 
 		// in default, repeat is one.
 
-		repeat = ( repeat <= 0 ) ? 1 : repeat;
+		repeat = (repeat <= 0) ? 1 : repeat;
 		return repeat;
 	}
 }

@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.report.engine.emitter.wpml;
 
-public class HyperlinkInfo
-{
+public class HyperlinkInfo {
 
 	private int type;
 
@@ -28,46 +27,38 @@ public class HyperlinkInfo
 
 	public static final int DRILL = 2;
 
-	public HyperlinkInfo( int type, String url, String toolTip )
-	{
-		this( type, url, null, toolTip );
+	public HyperlinkInfo(int type, String url, String toolTip) {
+		this(type, url, null, toolTip);
 	}
 
-	public HyperlinkInfo( int type, String url, String bookmark, String toolTip )
-	{
+	public HyperlinkInfo(int type, String url, String bookmark, String toolTip) {
 		this.type = type;
 		this.url = url;
 		this.bookmark = bookmark;
 		this.tooltip = toolTip;
 	}
 
-	public String getUrl( )
-	{
+	public String getUrl() {
 		return this.url;
 	}
 
-	public String getBookmark( )
-	{
+	public String getBookmark() {
 		return this.bookmark;
 	}
 
-	public String getTooltip( )
-	{
+	public String getTooltip() {
 		return this.tooltip;
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		return this.type;
 	}
 
-	public void setColor( String color )
-	{
+	public void setColor(String color) {
 		this.color = color;
 	}
 
-	public String getColor( )
-	{
+	public String getColor() {
 		return this.color;
 	}
 }

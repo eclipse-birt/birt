@@ -26,30 +26,27 @@ import org.eclipse.jface.text.rules.Token;
  * @version $Revision: 1.2 $ $Date: 2007/02/01 10:58:58 $
  */
 
-public class SQLPartitionScanner extends RuleBasedPartitionScanner
-{
+public class SQLPartitionScanner extends RuleBasedPartitionScanner {
 	public static final String COMMENT = "sql_comment"; //$NON-NLS-1$
-	
+
 	public static final String QUOTE_STRING = "sql_quote_string1";
-	
+
 	/**
 	 *  
 	 */
-	public SQLPartitionScanner( )
-	{
-		super( );
-		IToken sqlComment = new Token( COMMENT );
-		IToken sqlQuoteString = new Token( QUOTE_STRING );
+	public SQLPartitionScanner() {
+		super();
+		IToken sqlComment = new Token(COMMENT);
+		IToken sqlQuoteString = new Token(QUOTE_STRING);
 
-		
-		ArrayList rules = new ArrayList( );
-		rules.add( new MultiLineRule( "\"", "\"", sqlQuoteString, '\\' ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		rules.add( new MultiLineRule( "\'", "\'", sqlQuoteString, '\\' ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		rules.add( new EndOfLineRule( "//", sqlComment ) ); //$NON-NLS-1$
-		rules.add( new EndOfLineRule( "--", sqlComment ) ); //$NON-NLS-1$
-		rules.add( new MultiLineRule( "/*", "*/", sqlComment ) ); //$NON-NLS-1$ //$NON-NLS-2$
-		
-		setPredicateRules( (IPredicateRule[]) rules.toArray( new IPredicateRule[rules.size( )] ) );
+		ArrayList rules = new ArrayList();
+		rules.add(new MultiLineRule("\"", "\"", sqlQuoteString, '\\')); //$NON-NLS-1$ //$NON-NLS-2$
+		rules.add(new MultiLineRule("\'", "\'", sqlQuoteString, '\\')); //$NON-NLS-1$ //$NON-NLS-2$
+		rules.add(new EndOfLineRule("//", sqlComment)); //$NON-NLS-1$
+		rules.add(new EndOfLineRule("--", sqlComment)); //$NON-NLS-1$
+		rules.add(new MultiLineRule("/*", "*/", sqlComment)); //$NON-NLS-1$ //$NON-NLS-2$
+
+		setPredicateRules((IPredicateRule[]) rules.toArray(new IPredicateRule[rules.size()]));
 
 	}
 

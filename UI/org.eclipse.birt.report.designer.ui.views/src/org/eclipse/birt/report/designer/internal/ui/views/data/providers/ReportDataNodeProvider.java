@@ -27,37 +27,32 @@ import org.eclipse.jface.viewers.TreeViewer;
  * 
  * 
  */
-public class ReportDataNodeProvider extends ReportDesignNodeProvider
-{
+public class ReportDataNodeProvider extends ReportDesignNodeProvider {
 
 	/**
-	 * Gets the children of the given model. The default children element
-	 * include following: Body,Styles,MasterPage
+	 * Gets the children of the given model. The default children element include
+	 * following: Body,Styles,MasterPage
 	 * 
-	 * @param model
-	 *            the given report design
+	 * @param model the given report design
 	 * @return the result list that contains the model
 	 */
-	public Object[] getChildren( Object model )
-	{
+	public Object[] getChildren(Object model) {
 
 		// Report design may not be the current, use model to get.
-		ModuleHandle handle = ( (ReportDataHandle) model ).getModuleHandle( );
-		ArrayList list = new ArrayList( );
+		ModuleHandle handle = ((ReportDataHandle) model).getModuleHandle();
+		ArrayList list = new ArrayList();
 
-		list.add( handle.getDataSources( ) );
-		list.add( handle.getDataSets( ) );
-		list.add( handle.getCubes( ) );
-		list.add( handle.getParameters( ) );
-		if(handle instanceof ReportDesignHandle)
-			list.add( ((ReportDesignHandle)handle).getPropertyHandle( IReportDesignModel.PAGE_VARIABLES_PROP ) );
+		list.add(handle.getDataSources());
+		list.add(handle.getDataSets());
+		list.add(handle.getCubes());
+		list.add(handle.getParameters());
+		if (handle instanceof ReportDesignHandle)
+			list.add(((ReportDesignHandle) handle).getPropertyHandle(IReportDesignModel.PAGE_VARIABLES_PROP));
 
-		return list.toArray( );
+		return list.toArray();
 	}
 
-	public void createContextMenu( TreeViewer sourceViewer, Object object,
-			IMenuManager menu )
-	{
+	public void createContextMenu(TreeViewer sourceViewer, Object object, IMenuManager menu) {
 	}
 
 }

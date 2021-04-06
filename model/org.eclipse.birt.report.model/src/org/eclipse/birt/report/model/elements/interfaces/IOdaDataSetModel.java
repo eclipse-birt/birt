@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for oda data set element to store the constants.
  */
-public interface IOdaDataSetModel
-{
+public interface IOdaDataSetModel {
 
 	/**
 	 * The property name of the query statement.
@@ -44,8 +43,8 @@ public interface IOdaDataSetModel
 	public static final String PRIVATE_DRIVER_PROPERTIES_PROP = "privateDriverProperties"; //$NON-NLS-1$
 
 	/**
-	 * The property name of designer state. The property is used to save ODA
-	 * state persistently.
+	 * The property name of designer state. The property is used to save ODA state
+	 * persistently.
 	 */
 
 	public static final String DESIGNER_STATE_PROP = "designerState"; //$NON-NLS-1$

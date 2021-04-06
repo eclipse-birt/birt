@@ -13,24 +13,20 @@ package org.eclipse.birt.report.data.oda.jdbc.utils;
 
 import java.util.Properties;
 
-public class PropertyElement
-{
+public class PropertyElement {
 
 	private Properties properties;
 
-	public PropertyElement( )
-	{
-		properties = new Properties( );
+	public PropertyElement() {
+		properties = new Properties();
 	}
 
-	public String getAttribute( String name )
-	{
-		return properties.getProperty( name );
+	public String getAttribute(String name) {
+		return properties.getProperty(name);
 	}
 
-	public void setAttribute( String name, String value )
-	{
-		if ( value != null )
-			properties.put( name, value );
+	public void setAttribute(String name, String value) {
+		if (value != null)
+			properties.put(name, value);
 	}
 }

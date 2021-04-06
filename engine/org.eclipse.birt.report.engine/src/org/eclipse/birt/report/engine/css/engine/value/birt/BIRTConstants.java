@@ -18,15 +18,15 @@ import org.eclipse.birt.report.engine.css.engine.value.css.CSSConstants;
  */
 public interface BIRTConstants extends CSSConstants {
 
-    /////////////////////////////////////////////////////////////////////////
-    // BIRT attributes
-    /////////////////////////////////////////////////////////////////////////
+	/////////////////////////////////////////////////////////////////////////
+	// BIRT attributes
+	/////////////////////////////////////////////////////////////////////////
 	String BIRT_BACKGROUND_POSITION_X_PROPERTY = "background-position-x";
 	String BIRT_BACKGROUND_POSITION_Y_PROPERTY = "background-position-y";
 	String BIRT_CAN_SHRINK_PROPERTY = "can-shrink"; //$NON-NLS-1$
-	String BIRT_MASTER_PAGE_PROPERTY= "master-page"; //$NON-NLS-1$
+	String BIRT_MASTER_PAGE_PROPERTY = "master-page"; //$NON-NLS-1$
 	String BIRT_NUMBER_ALIGN_PROPERTY = "number-align";
-	String BIRT_SHOW_IF_BLANK_PROPERTY= "show-if-blank"; //$NON-NLS-1$
+	String BIRT_SHOW_IF_BLANK_PROPERTY = "show-if-blank"; //$NON-NLS-1$
 	String BIRT_TEXT_UNDERLINE_PROPERTY = "text-underline"; //$NON-NLS-1$
 	String BIRT_TEXT_OVERLINE_PROPERTY = "text-overline"; //$NON-NLS-1$
 	String BIRT_TEXT_LINETHROUGH_PROPERTY = "text-linethrough"; //$NON-NLS-1$
@@ -41,11 +41,11 @@ public interface BIRTConstants extends CSSConstants {
 	String BIRT_DATE_FORMAT_PROPERTY = "sql-date-format"; //$NON-NLS-1$
 	String BIRT_NUMBER_FORMAT_PROPERTY = "number-format"; //$NON-NLS-1$
 	String BIRT_STRING_FORMAT_PROPERTY = "string-format"; //$NON-NLS-1$
-	
-    /////////////////////////////////////////////////////////////////////////
-    // BIRT attribute value
-    /////////////////////////////////////////////////////////////////////////
-	
+
+	/////////////////////////////////////////////////////////////////////////
+	// BIRT attribute value
+	/////////////////////////////////////////////////////////////////////////
+
 	String BIRT_TRUE_VALUE = "true";
 	String BIRT_FALSE_VALUE = "false";
 	String BIRT_ALL_VALUE = "all";

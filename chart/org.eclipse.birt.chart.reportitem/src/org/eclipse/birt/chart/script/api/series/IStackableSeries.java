@@ -18,10 +18,9 @@ import org.eclipse.birt.chart.script.api.component.IValueSeries;
  * environment
  */
 
-public interface IStackableSeries extends IValueSeries
-{
+public interface IStackableSeries extends IValueSeries {
 
-	boolean isStacked( );
+	boolean isStacked();
 
-	void setStacked( boolean stacked );
+	void setStacked(boolean stacked);
 }

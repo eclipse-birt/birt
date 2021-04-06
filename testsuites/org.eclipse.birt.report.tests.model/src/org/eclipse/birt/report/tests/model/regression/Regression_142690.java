@@ -24,32 +24,29 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * Test different relative path
  */
-public class Regression_142690 extends BaseTestCase
-{
+public class Regression_142690 extends BaseTestCase {
 
 	/**
 	 * 
 	 */
-	public void test_regression_142690( )
-	{
+	public void test_regression_142690() {
 		// Same root
-		assertEquals( "../lib/lib1.rptlibrary", URIUtil.getRelativePath( //$NON-NLS-1$
+		assertEquals("../lib/lib1.rptlibrary", URIUtil.getRelativePath( //$NON-NLS-1$
 				"E:/birt/sampleReports/reportdesigns/", //$NON-NLS-1$
-				"/E:/birt/sampleReports/lib/lib1.rptlibrary" ) ); //$NON-NLS-1$
+				"/E:/birt/sampleReports/lib/lib1.rptlibrary")); //$NON-NLS-1$
 
 		// Different root
-		assertEquals( "E:/birt/sampleReports/lib/lib1.rptlibrary", URIUtil //$NON-NLS-1$
-				.getRelativePath( "D:/birt/sampleReports/reportdesigns/", //$NON-NLS-1$
-						"E:/birt/sampleReports/lib/lib1.rptlibrary" ) ); //$NON-NLS-1$
+		assertEquals("E:/birt/sampleReports/lib/lib1.rptlibrary", URIUtil //$NON-NLS-1$
+				.getRelativePath("D:/birt/sampleReports/reportdesigns/", //$NON-NLS-1$
+						"E:/birt/sampleReports/lib/lib1.rptlibrary")); //$NON-NLS-1$
 
 		// Sub folder
-		assertEquals( "lib/lib1.rptlibrary", URIUtil.getRelativePath( //$NON-NLS-1$
+		assertEquals("lib/lib1.rptlibrary", URIUtil.getRelativePath( //$NON-NLS-1$
 				"E://birt//sampleReports//reportdesigns//", //$NON-NLS-1$
-				"E://birt//sampleReports//reportdesigns//lib//lib1.rptlibrary" ) ); //$NON-NLS-1$
+				"E://birt//sampleReports//reportdesigns//lib//lib1.rptlibrary")); //$NON-NLS-1$
 
 		// Path with space
-		assertEquals(
-				"spaced directory name/aa/lib.xml", URIUtil.getRelativePath( //$NON-NLS-1$
-						"D://", "D://spaced directory name//aa//lib.xml" ) ); //$NON-NLS-1$//$NON-NLS-2$
+		assertEquals("spaced directory name/aa/lib.xml", URIUtil.getRelativePath( //$NON-NLS-1$
+				"D://", "D://spaced directory name//aa//lib.xml")); //$NON-NLS-1$//$NON-NLS-2$
 	}
 }

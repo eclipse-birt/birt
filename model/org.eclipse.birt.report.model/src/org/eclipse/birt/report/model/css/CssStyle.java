@@ -28,8 +28,7 @@ import org.eclipse.birt.report.model.elements.strategy.CopyPolicy;
  * 
  */
 
-public class CssStyle extends Style
-{
+public class CssStyle extends Style {
 
 	private CssStyleSheet sheet;
 
@@ -39,15 +38,11 @@ public class CssStyle extends Style
 	 * @param obj
 	 */
 
-	protected void setContainer( DesignElement obj )
-	{
-		if ( obj instanceof ReportDesign )
-		{
-			super.setContainer( obj, IReportDesignModel.CSSES_PROP );
-		}
-		else if ( obj instanceof Theme )
-		{
-			super.setContainer( obj, IAbstractThemeModel.CSSES_PROP );
+	protected void setContainer(DesignElement obj) {
+		if (obj instanceof ReportDesign) {
+			super.setContainer(obj, IReportDesignModel.CSSES_PROP);
+		} else if (obj instanceof Theme) {
+			super.setContainer(obj, IAbstractThemeModel.CSSES_PROP);
 		}
 	}
 
@@ -55,36 +50,30 @@ public class CssStyle extends Style
 	 * Default constructor.
 	 */
 
-	public CssStyle( )
-	{
+	public CssStyle() {
 	}
 
 	/**
 	 * Constructs the css style element with an optional name.
 	 * 
-	 * @param theName
-	 *            the optional name
+	 * @param theName the optional name
 	 */
 
-	public CssStyle( String theName )
-	{
-		super( theName );
+	public CssStyle(String theName) {
+		super(theName);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the report design of the style
+	 * @param module the report design of the style
 	 * 
 	 * @return an API handle for this element
 	 */
 
-	public SharedStyleHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new CssSharedStyleHandle( module, this, sheet );
+	public SharedStyleHandle handle(Module module) {
+		if (handle == null) {
+			handle = new CssSharedStyleHandle(module, this, sheet);
 		}
 		return (SharedStyleHandle) handle;
 	}
@@ -95,8 +84,7 @@ public class CssStyle extends Style
 	 * @return css style sheet.
 	 */
 
-	public CssStyleSheet getCssStyleSheet( )
-	{
+	public CssStyleSheet getCssStyleSheet() {
 		return sheet;
 	}
 
@@ -106,39 +94,39 @@ public class CssStyle extends Style
 	 * @param sheet
 	 */
 
-	public void setCssStyleSheet( CssStyleSheet sheet )
-	{
+	public void setCssStyleSheet(CssStyleSheet sheet) {
 		this.sheet = sheet;
-		setContainer( sheet.getContainer( ) );
+		setContainer(sheet.getContainer());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#canDrop(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#canDrop(org.eclipse.birt.
+	 * report.model.core.Module)
 	 */
 
-	public boolean canDrop( Module module )
-	{
+	public boolean canDrop(Module module) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#canEdit(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.core.DesignElement#canEdit(org.eclipse.birt.
+	 * report.model.core.Module)
 	 */
 
-	public boolean canEdit( Module module )
-	{
+	public boolean canEdit(Module module) {
 		return false;
 	}
-	
-	public Object doClone( CopyPolicy policy ) throws CloneNotSupportedException
-	{
-		CssStyle newStyle = (CssStyle) super.doClone( policy );
-		ReferenceableElementAdapter newAdapter = new ReferenceableElementAdapter( newStyle );
-		newAdapter.clearClients( );
+
+	public Object doClone(CopyPolicy policy) throws CloneNotSupportedException {
+		CssStyle newStyle = (CssStyle) super.doClone(policy);
+		ReferenceableElementAdapter newAdapter = new ReferenceableElementAdapter(newStyle);
+		newAdapter.clearClients();
 		newStyle.adapter = newAdapter;
 		return newStyle;
 	}

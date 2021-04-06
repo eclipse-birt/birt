@@ -19,76 +19,64 @@ import java.io.RandomAccessFile;
 
 import org.eclipse.birt.data.engine.core.security.FileSecurity;
 
-
 /**
  * 
  */
 
-public class SimpleRandomAccessObject implements IRandomAccessObject
-{
+public class SimpleRandomAccessObject implements IRandomAccessObject {
 	RandomAccessFile randomAccessFile = null;
-	
-	public SimpleRandomAccessObject( File file, String mode ) throws FileNotFoundException
-	{
-		this.randomAccessFile = FileSecurity.createRandomAccessFile( file, mode );
+
+	public SimpleRandomAccessObject(File file, String mode) throws FileNotFoundException {
+		this.randomAccessFile = FileSecurity.createRandomAccessFile(file, mode);
 	}
 
-	public void close( ) throws IOException
-	{
-		randomAccessFile.close( );
+	public void close() throws IOException {
+		randomAccessFile.close();
 	}
 
-	public FileDescriptor getFD( ) throws IOException
-	{
-		return randomAccessFile.getFD( );
+	public FileDescriptor getFD() throws IOException {
+		return randomAccessFile.getFD();
 	}
 
-	public long getFilePointer( ) throws IOException
-	{
-		return randomAccessFile.getFilePointer( );
+	public long getFilePointer() throws IOException {
+		return randomAccessFile.getFilePointer();
 	}
 
-	public long length( ) throws IOException
-	{
-		return randomAccessFile.length( );
+	public long length() throws IOException {
+		return randomAccessFile.length();
 	}
 
-	public int read( byte[] b, int off, int len ) throws IOException
-	{
-		return randomAccessFile.read( );
+	public int read(byte[] b, int off, int len) throws IOException {
+		return randomAccessFile.read();
 	}
 
-	public int read( byte[] b ) throws IOException
-	{
-		return randomAccessFile.read( b );
+	public int read(byte[] b) throws IOException {
+		return randomAccessFile.read(b);
 	}
 
-	public void seek( long pos ) throws IOException
-	{
-		randomAccessFile.seek( pos );
+	public void seek(long pos) throws IOException {
+		randomAccessFile.seek(pos);
 	}
 
-	public void setLength( long newLength ) throws IOException
-	{
-		randomAccessFile.setLength( newLength );
+	public void setLength(long newLength) throws IOException {
+		randomAccessFile.setLength(newLength);
 	}
 
-	public void write( byte[] b, int off, int len ) throws IOException
-	{
-		randomAccessFile.write( b, off, len );
+	public void write(byte[] b, int off, int len) throws IOException {
+		randomAccessFile.write(b, off, len);
 	}
 
-	public void flush( ) throws IOException
-	{
+	public void flush() throws IOException {
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#read()
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.data.document.IRandomAccessObject#read()
 	 */
-	public int read() throws IOException
-	{
-		return randomAccessFile.read( );
+	public int read() throws IOException {
+		return randomAccessFile.read();
 	}
 
 }

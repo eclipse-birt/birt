@@ -16,8 +16,7 @@ package org.eclipse.birt.report.model.metadata;
  * 
  */
 
-public class OverridePropertyInfo
-{
+public class OverridePropertyInfo {
 
 	private String allowedUnits = null;
 	private String allowedChoices = null;
@@ -30,8 +29,7 @@ public class OverridePropertyInfo
 	 * @return the allowed units
 	 */
 
-	public String getAllowedUnits( )
-	{
+	public String getAllowedUnits() {
 		return allowedUnits;
 	}
 
@@ -41,8 +39,7 @@ public class OverridePropertyInfo
 	 * @param allowedUnits
 	 */
 
-	public void setAllowedUnits( String allowedUnits )
-	{
+	public void setAllowedUnits(String allowedUnits) {
 		this.allowedUnits = allowedUnits;
 	}
 
@@ -52,8 +49,7 @@ public class OverridePropertyInfo
 	 * @return the allowed choices by the overridden definition
 	 */
 
-	public String getAllowedChoices( )
-	{
+	public String getAllowedChoices() {
 		return allowedChoices;
 	}
 
@@ -63,8 +59,7 @@ public class OverridePropertyInfo
 	 * @param allowedChoices
 	 */
 
-	void setAllowedChoices( String allowedChoices )
-	{
+	void setAllowedChoices(String allowedChoices) {
 		this.allowedChoices = allowedChoices;
 	}
 
@@ -72,18 +67,15 @@ public class OverridePropertyInfo
 	 * @return the enableExtraSearch
 	 */
 
-	public boolean useOwnSearch( )
-	{
+	public boolean useOwnSearch() {
 		return enableExtraSearch;
 	}
 
 	/**
-	 * @param enableExtraSearch
-	 *            the enableExtraSearch to set
+	 * @param enableExtraSearch the enableExtraSearch to set
 	 */
 
-	void setUseOwnSearch( boolean enableExtraSearch )
-	{
+	void setUseOwnSearch(boolean enableExtraSearch) {
 		this.enableExtraSearch = enableExtraSearch;
 	}
 

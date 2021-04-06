@@ -24,38 +24,34 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * 
  */
 
-public class ChangeMeasureOrderCommand extends AbstractCrosstabCommand
-{
-	//private static final String NAME = "Change the measue order";
-	private static final String NAME = Messages.getString( "ChangeMeasureOrderCommand.TransName" );//$NON-NLS-1$
+public class ChangeMeasureOrderCommand extends AbstractCrosstabCommand {
+	// private static final String NAME = "Change the measue order";
+	private static final String NAME = Messages.getString("ChangeMeasureOrderCommand.TransName");//$NON-NLS-1$
 	private Object after = null;
 
 	MeasureViewHandle parentVewHandle;
 	MeasureViewHandle childViewHandle;
-	
+
 	/**
 	 * @param parent
 	 * @param child
 	 * @param after
 	 */
-	public ChangeMeasureOrderCommand(DesignElementHandle parent, DesignElementHandle child, Object after)
-	{
-		super( child );
-		//this.parent = parent;
-		//this.child = child;
+	public ChangeMeasureOrderCommand(DesignElementHandle parent, DesignElementHandle child, Object after) {
+		super(child);
+		// this.parent = parent;
+		// this.child = child;
 		this.after = after;
-		
-		parentVewHandle = CrosstabAdaptUtil.getMeasureViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( parent ) );
-		
-		childViewHandle = CrosstabAdaptUtil.getMeasureViewHandle( CrosstabAdaptUtil.getExtendedItemHandle( child ) );
-		
-		setLabel( NAME );
+
+		parentVewHandle = CrosstabAdaptUtil.getMeasureViewHandle(CrosstabAdaptUtil.getExtendedItemHandle(parent));
+
+		childViewHandle = CrosstabAdaptUtil.getMeasureViewHandle(CrosstabAdaptUtil.getExtendedItemHandle(child));
+
+		setLabel(NAME);
 	}
-	
-	public boolean canExecute( )
-	{
-		return !DEUtil.isReferenceElement( childViewHandle.getCrosstab( )
-				.getCrosstabHandle( ) );
+
+	public boolean canExecute() {
+		return !DEUtil.isReferenceElement(childViewHandle.getCrosstab().getCrosstabHandle());
 	}
 
 	/*
@@ -63,46 +59,42 @@ public class ChangeMeasureOrderCommand extends AbstractCrosstabCommand
 	 * 
 	 * @see org.eclipse.gef.commands.Command#execute()
 	 */
-	public void execute( )
-	{
-		transStart( NAME );
-		CrosstabReportItemHandle reportHandle = childViewHandle.getCrosstab( );
+	public void execute() {
+		transStart(NAME);
+		CrosstabReportItemHandle reportHandle = childViewHandle.getCrosstab();
 
-		try
-		{
-			//reportHandle.removeDimension(childViewHandle.getAxisType( ), childViewHandle.getIndex( ) );
-			//CrosstabUtil.insertDimension( reportHandle, childViewHandle, parentVewHandle.getAxisType( ), findPosition( ), measureMap, funcMap );
-			reportHandle.pivotMeasure(  childViewHandle.getModelHandle( ).getIndex( ), findPosition( ) );
-		}
-		catch ( SemanticException e )
-		{
-			rollBack( );
-			ExceptionUtil.handle( e );
+		try {
+			// reportHandle.removeDimension(childViewHandle.getAxisType( ),
+			// childViewHandle.getIndex( ) );
+			// CrosstabUtil.insertDimension( reportHandle, childViewHandle,
+			// parentVewHandle.getAxisType( ), findPosition( ), measureMap, funcMap );
+			reportHandle.pivotMeasure(childViewHandle.getModelHandle().getIndex(), findPosition());
+		} catch (SemanticException e) {
+			rollBack();
+			ExceptionUtil.handle(e);
 			return;
 		}
-		transEnd( );
+		transEnd();
 	}
-	
-	private int findPosition()
-	{
-		//int base = handleAdpter.getCrosstabCellHandle( ).getCrosstabHandle( ).getIndex( );
-		//System.out.println(after);
-		int ori = childViewHandle.getModelHandle( ).getIndex( );
-		int base = parentVewHandle.getModelHandle( ).getIndex( );
+
+	private int findPosition() {
+		// int base = handleAdpter.getCrosstabCellHandle( ).getCrosstabHandle(
+		// ).getIndex( );
+		// System.out.println(after);
+		int ori = childViewHandle.getModelHandle().getIndex();
+		int base = parentVewHandle.getModelHandle().getIndex();
 		int value = 0;
-		if (ori < base)
-		{
+		if (ori < base) {
 			value = -1;
 		}
-		if (after instanceof  DesignElementHandle)
-		{
-			int index = ((DesignElementHandle)after).getIndex( );
-			if (index == 0)
-			{
+		if (after instanceof DesignElementHandle) {
+			int index = ((DesignElementHandle) after).getIndex();
+			if (index == 0) {
 				return base + value;
 			}
 		}
 		return base + 1 + value;
-		//return ((CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle( )).getDimensionCount( getType( ) );
+		// return ((CrosstabReportItemHandle) handleAdpter.getCrosstabItemHandle(
+		// )).getDimensionCount( getType( ) );
 	}
 }

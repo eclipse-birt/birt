@@ -11,7 +11,6 @@
 
 package org.eclipse.birt.report.model.api;
 
-
 /**
  * Applies logic customized to each type of report element. This is an
  * implementation of the classic visitor pattern. The application creates a
@@ -24,16 +23,14 @@ package org.eclipse.birt.report.model.api;
  * method.
  */
 
-public class DesignVisitor extends DesignVisitorImpl
-{
+public class DesignVisitor extends DesignVisitorImpl {
 	/**
 	 * Constructs a <code>DesignVisitor</code>, which is not related with the
 	 * specific report.
 	 */
 
-	public DesignVisitor( )
-	{
-		super( );
+	public DesignVisitor() {
+		super();
 	}
 
 }

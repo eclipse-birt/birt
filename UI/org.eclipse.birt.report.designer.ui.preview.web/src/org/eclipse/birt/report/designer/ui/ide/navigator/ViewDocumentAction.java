@@ -25,12 +25,9 @@ import org.eclipse.ui.IWorkbenchWindowActionDelegate;
 /**
  * The action to view report document in navigator view
  */
-public class ViewDocumentAction extends AbstractViewAction implements
-		IWorkbenchWindowActionDelegate
-{
+public class ViewDocumentAction extends AbstractViewAction implements IWorkbenchWindowActionDelegate {
 
-	protected boolean prePreview( )
-	{
+	protected boolean prePreview() {
 		PreviewUtil.clearSystemProperties();
 		return true;
 	}
@@ -38,44 +35,35 @@ public class ViewDocumentAction extends AbstractViewAction implements
 	/**
 	 * @see org.eclipse.ui.IActionDelegate#run(org.eclipse.jface.action.IAction)
 	 */
-	public void run( IAction action )
-	{
-		if ( !prePreview( ) )
-		{
+	public void run(IAction action) {
+		if (!prePreview()) {
 			return;
 		}
 
-		IFile file = getSelectedFile( );
-		if ( file != null )
-		{
+		IFile file = getSelectedFile();
+		if (file != null) {
 			// String url = MessageFormat.format( PATTERN, new Object[]{
 			// file.getLocation( ).toString( )
 			// } );
-			String url = file.getLocation( ).toString( );
-			Map options = new HashMap( );
-			options.put( WebViewer.FORMAT_KEY, WebViewer.HTML );
-			options.put( WebViewer.RESOURCE_FOLDER_KEY,
-					ReportPlugin.getDefault( )
-							.getResourceFolder( file.getProject( ) ) );
+			String url = file.getLocation().toString();
+			Map options = new HashMap();
+			options.put(WebViewer.FORMAT_KEY, WebViewer.HTML);
+			options.put(WebViewer.RESOURCE_FOLDER_KEY, ReportPlugin.getDefault().getResourceFolder(file.getProject()));
 
-			WebViewer.display( url, options );
-		}
-		else
-		{
-			action.setEnabled( false );
+			WebViewer.display(url, options);
+		} else {
+			action.setEnabled(false);
 		}
 	}
 
-	public void dispose( )
-	{
+	public void dispose() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
-	public void init( IWorkbenchWindow window )
-	{
+	public void init(IWorkbenchWindow window) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

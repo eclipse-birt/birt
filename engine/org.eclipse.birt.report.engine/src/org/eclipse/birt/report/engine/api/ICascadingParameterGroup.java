@@ -10,8 +10,6 @@
  *******************************************************************************/
 package org.eclipse.birt.report.engine.api;
 
-
-public interface ICascadingParameterGroup extends IParameterGroupDefn
-{
+public interface ICascadingParameterGroup extends IParameterGroupDefn {
 	String getDataSet();
 }

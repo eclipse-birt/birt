@@ -17,26 +17,27 @@ import org.eclipse.jface.viewers.StructuredSelection;
 /**
  * Corner Tracker
  */
-public class CornerTracker extends TableSelectionGuideTracker
-{
+public class CornerTracker extends TableSelectionGuideTracker {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param sourceEditPart
 	 */
-	public CornerTracker( TableEditPart sourceEditPart )
-	{
-		super( sourceEditPart, -1 );
+	public CornerTracker(TableEditPart sourceEditPart) {
+		super(sourceEditPart, -1);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.TableSelectionGuideTracker#select()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
+	 * TableSelectionGuideTracker#select()
 	 */
-	public void select( )
-	{
-		TableEditPart part = (TableEditPart) getSourceEditPart( );
-		List list = part.getChildren( );
-		part.getViewer( ).setSelection( new StructuredSelection( list ) );
+	public void select() {
+		TableEditPart part = (TableEditPart) getSourceEditPart();
+		List list = part.getChildren();
+		part.getViewer().setSelection(new StructuredSelection(list));
 
 	}
 }

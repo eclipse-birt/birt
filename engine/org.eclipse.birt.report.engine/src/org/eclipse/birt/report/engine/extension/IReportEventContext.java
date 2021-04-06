@@ -13,7 +13,6 @@ package org.eclipse.birt.report.engine.extension;
 
 import org.eclipse.birt.report.engine.api.script.IReportContext;
 
-public interface IReportEventContext extends IReportContext
-{
+public interface IReportEventContext extends IReportContext {
 
 }

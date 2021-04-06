@@ -18,20 +18,19 @@ import org.eclipse.birt.data.engine.olap.data.api.DimLevel;
  * 
  */
 
-public interface IJSTopBottomFilterHelper extends IJSFilterHelper
-{
+public interface IJSTopBottomFilterHelper extends IJSFilterHelper {
 	public static final int TOP_N = 1;
 	public static final int BOTTOM_N = 2;
 	public static final int TOP_PERCENT = 3;
 	public static final int BOTTOM_PERCENT = 4;
-	
+
 	/**
 	 * Return the filter type.
 	 * 
 	 * @return
 	 */
 	public int getFilterType();
-	
+
 	/**
 	 * Evaluate the filter expression.
 	 * 
@@ -39,42 +38,42 @@ public interface IJSTopBottomFilterHelper extends IJSFilterHelper
 	 * @return
 	 * @throws DataException
 	 */
-	public Object evaluateFilterExpr( IResultRow resultRow ) throws DataException;
-	
+	public Object evaluateFilterExpr(IResultRow resultRow) throws DataException;
+
 	/**
 	 * 
 	 * @param resultRow
 	 * @return
 	 * @throws DataException
 	 */
-	public boolean isQualifiedRow( IResultRow resultRow ) throws DataException;
-	
+	public boolean isQualifiedRow(IResultRow resultRow) throws DataException;
+
 	/**
 	 * 
 	 * @return
 	 */
 	public double getN();
-	
+
 	/**
 	 * 
 	 * @return
 	 * @throws DataException
 	 */
-	public DimLevel getTargetLevel( ) throws DataException;	
-	
-	
+	public DimLevel getTargetLevel() throws DataException;
+
 	/**
-	 * return true if filterType is TOP_N or TOP_PERCENT; 
-	 * otherwise return false.
+	 * return true if filterType is TOP_N or TOP_PERCENT; otherwise return false.
+	 * 
 	 * @return
 	 */
-	public boolean isTop( );
-	
+	public boolean isTop();
+
 	/**
-	 * return true if filterType is TOP_PERCENT or BOTTOM_PERCENT; 
-	 * otherwise return false
+	 * return true if filterType is TOP_PERCENT or BOTTOM_PERCENT; otherwise return
+	 * false
+	 * 
 	 * @return
 	 */
-	public boolean isPercent( );
-	
+	public boolean isPercent();
+
 }

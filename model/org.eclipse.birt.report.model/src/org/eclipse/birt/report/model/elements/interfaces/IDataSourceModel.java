@@ -14,8 +14,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
 /**
  * The interface for DataSource to store the constants.
  */
-public interface IDataSourceModel
-{
+public interface IDataSourceModel {
 
 	/**
 	 * The property name of the script called before opening this data source.

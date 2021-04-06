@@ -15,21 +15,20 @@ package org.eclipse.birt.data.engine.api;
  * 
  */
 
-public interface INamedObject
-{
+public interface INamedObject {
 
 	/**
 	 * set the name of current object.
 	 * 
 	 * @param name
 	 */
-	public void setName( String name );
+	public void setName(String name);
 
 	/**
 	 * get the name of current object.
 	 * 
 	 * @return
 	 */
-	public String getName( );
+	public String getName();
 
 }

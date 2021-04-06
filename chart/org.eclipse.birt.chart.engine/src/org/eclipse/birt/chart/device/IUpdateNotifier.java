@@ -19,36 +19,33 @@ import org.eclipse.birt.chart.model.Chart;
  * 
  * @see IDeviceRenderer
  */
-public interface IUpdateNotifier
-{
+public interface IUpdateNotifier {
 
 	/**
-	 * Requests the container to regenerate the chart using the design-time
-	 * model. It should call IGenerator.build() or refresh() and render()
+	 * Requests the container to regenerate the chart using the design-time model.
+	 * It should call IGenerator.build() or refresh() and render()
 	 */
-	void regenerateChart( );
+	void regenerateChart();
 
 	/**
-	 * Requests the container to repaint the last generated chart
-	 * This should call IGenerator.render(), but not build() nor refresh().
+	 * Requests the container to repaint the last generated chart This should call
+	 * IGenerator.render(), but not build() nor refresh().
 	 */
-	void repaintChart( );
+	void repaintChart();
 
 	/**
-	 * Returns an instance of the peer (component) used for device-specific
-	 * actions
+	 * Returns an instance of the peer (component) used for device-specific actions
 	 * 
-	 * @return An instance of the peer (component) used for device-specific
-	 *         actions
+	 * @return An instance of the peer (component) used for device-specific actions
 	 */
-	Object peerInstance( );
+	Object peerInstance();
 
 	/**
 	 * Returns an instance of the chart design-time model
 	 * 
 	 * @return An instance of the chart design-time model
 	 */
-	Chart getDesignTimeModel( );
+	Chart getDesignTimeModel();
 
 	/**
 	 * Returns an instance of the chart run-time model for the last generated
@@ -57,6 +54,6 @@ public interface IUpdateNotifier
 	 * @return An instance of the chart run-time model for the last generated
 	 *         instance
 	 */
-	Chart getRunTimeModel( );
+	Chart getRunTimeModel();
 
 }

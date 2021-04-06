@@ -18,14 +18,13 @@ import org.eclipse.birt.data.engine.core.DataException;
  * This interface defines the API for computed measure.
  */
 
-public interface IComputedMeasureDefinition extends IMeasureDefinition
-{
+public interface IComputedMeasureDefinition extends IMeasureDefinition {
 	/**
 	 * Return the expression of computed measure.
 	 * 
 	 * @return
 	 * @throws DataException
 	 */
-	public IBaseExpression getExpression( ) throws DataException;
+	public IBaseExpression getExpression() throws DataException;
 
 }

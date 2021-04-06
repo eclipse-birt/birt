@@ -10,13 +10,11 @@
  *******************************************************************************/
 package org.eclipse.birt.report.designer.internal.ui.views.attributes.widget;
 
-
 /**
  * @author Administrator
  *
  */
-public class TocSimpleComboPropertyDescriptor extends
-		SimpleComboPropertyDescriptor {
+public class TocSimpleComboPropertyDescriptor extends SimpleComboPropertyDescriptor {
 
 	public TocSimpleComboPropertyDescriptor(boolean formStyle) {
 		super(formStyle);

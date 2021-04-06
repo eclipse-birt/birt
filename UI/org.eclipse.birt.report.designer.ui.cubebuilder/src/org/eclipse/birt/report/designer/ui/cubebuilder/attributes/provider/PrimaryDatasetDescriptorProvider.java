@@ -8,7 +8,7 @@
  * Contributors:
  *  Actuate Corporation  - initial API and implementation
  *******************************************************************************/
- 
+
 package org.eclipse.birt.report.designer.ui.cubebuilder.attributes.provider;
 
 import org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractDescriptorProvider;
@@ -19,42 +19,34 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.olap.TabularCubeHandle;
 
-public class PrimaryDatasetDescriptorProvider extends
-		AbstractDescriptorProvider implements
-		ITextDescriptorProvider
-{
+public class PrimaryDatasetDescriptorProvider extends AbstractDescriptorProvider implements ITextDescriptorProvider {
 
-	public boolean isEditable( )
-	{
+	public boolean isEditable() {
 		return false;
 	}
 
-	public String getDisplayName( )
-	{
-		return Messages.getString( "PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("PrimaryDatasetDescriptorProvider.Display.Primary.Dataset.Name"); //$NON-NLS-1$
 	}
 
-	public Object load( )
-	{
-		if ( DEUtil.getInputSize( input ) != 1 )
+	public Object load() {
+		if (DEUtil.getInputSize(input) != 1)
 			return null;
-		DataSetHandle dataset = ( (TabularCubeHandle) DEUtil.getInputFirstElement( input ) ).getDataSet( );
-		if ( dataset != null )
-			return dataset.getName( );
+		DataSetHandle dataset = ((TabularCubeHandle) DEUtil.getInputFirstElement(input)).getDataSet();
+		if (dataset != null)
+			return dataset.getName();
 		else
 			return ""; //$NON-NLS-1$
 	}
 
-	public void save( Object value ) throws SemanticException
-	{
+	public void save(Object value) throws SemanticException {
 		// TODO Auto-generated method stub
 
 	}
 
 	private Object input;
 
-	public void setInput( Object input )
-	{
+	public void setInput(Object input) {
 		this.input = input;
 	}
 

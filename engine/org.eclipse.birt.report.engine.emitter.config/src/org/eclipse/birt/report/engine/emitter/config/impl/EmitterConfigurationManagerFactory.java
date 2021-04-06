@@ -17,11 +17,9 @@ import org.eclipse.birt.report.engine.emitter.config.IEmitterConfigurationManage
 /**
  * EmitterConfigurationManagerFactory
  */
-public class EmitterConfigurationManagerFactory implements
-		IEmitterConfigurationManagerFactory
-{
-	
-	private static EmitterConfigurationManager instance = new EmitterConfigurationManager( );
+public class EmitterConfigurationManagerFactory implements IEmitterConfigurationManagerFactory {
+
+	private static EmitterConfigurationManager instance = new EmitterConfigurationManager();
 
 	/*
 	 * (non-Javadoc)
@@ -29,8 +27,7 @@ public class EmitterConfigurationManagerFactory implements
 	 * @seeorg.eclipse.birt.report.engine.emitter.config.
 	 * IEmitterConfigurationManagerFactory#createManager()
 	 */
-	public IEmitterConfigurationManager createManager( )
-	{
+	public IEmitterConfigurationManager createManager() {
 		return instance;
 	}
 }

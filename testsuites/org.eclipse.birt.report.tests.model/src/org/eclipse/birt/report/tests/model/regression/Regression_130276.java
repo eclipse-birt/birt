@@ -32,8 +32,7 @@ import com.ibm.icu.util.ULocale;
  * </p>
  */
 
-public class Regression_130276 extends BaseTestCase
-{
+public class Regression_130276 extends BaseTestCase {
 
 	private ElementFactory factory = null;
 
@@ -42,21 +41,19 @@ public class Regression_130276 extends BaseTestCase
 	 * @throws SemanticException
 	 */
 
-	public void test_regression_130276( ) throws DesignFileException, SemanticException
-	{
-		sessionHandle = new DesignEngine( new DesignConfig( ) )
-				.newSessionHandle( ULocale.ENGLISH );
-		designHandle = sessionHandle.createDesign( );
-		factory = new ElementFactory( designHandle.getModule( ) );
+	public void test_regression_130276() throws DesignFileException, SemanticException {
+		sessionHandle = new DesignEngine(new DesignConfig()).newSessionHandle(ULocale.ENGLISH);
+		designHandle = sessionHandle.createDesign();
+		factory = new ElementFactory(designHandle.getModule());
 
-		TableHandle table = factory.newTableItem( "table" ); //$NON-NLS-1$
-		TableGroupHandle group = factory.newTableGroup( );
-		table.getGroups( ).add( group );
-		designHandle.getBody( ).add( table );
+		TableHandle table = factory.newTableItem("table"); //$NON-NLS-1$
+		TableGroupHandle group = factory.newTableGroup();
+		table.getGroups().add(group);
+		designHandle.getBody().add(table);
 
-		designHandle.findElement( "table" ).drop( ); //$NON-NLS-1$
-		designHandle.getCommandStack( ).undo( );
+		designHandle.findElement("table").drop(); //$NON-NLS-1$
+		designHandle.getCommandStack().undo();
 
-		assertNotNull( designHandle.findElement( "table" ) ); //$NON-NLS-1$
+		assertNotNull(designHandle.findElement("table")); //$NON-NLS-1$
 	}
 }

@@ -16,15 +16,12 @@ import org.eclipse.birt.data.engine.api.IBaseDataSourceDesign;
  * 
  */
 
-public class DataSourceDesignComparator
-{
-	public static boolean isEqualDataSourceDesign( IBaseDataSourceDesign dataSourceDesign,
-			IBaseDataSourceDesign dataSourceDesign2 )
-	{
-		if (!OSDataSourceDesignComparator.isEqualBaseDataSourceDesign( dataSourceDesign, dataSourceDesign2 ))
-		{
+public class DataSourceDesignComparator {
+	public static boolean isEqualDataSourceDesign(IBaseDataSourceDesign dataSourceDesign,
+			IBaseDataSourceDesign dataSourceDesign2) {
+		if (!OSDataSourceDesignComparator.isEqualBaseDataSourceDesign(dataSourceDesign, dataSourceDesign2)) {
 			return false;
 		}
-		return OSDataSourceDesignComparator.isEqualOSDataSourceDesign( dataSourceDesign, dataSourceDesign2 );
+		return OSDataSourceDesignComparator.isEqualOSDataSourceDesign(dataSourceDesign, dataSourceDesign2);
 	}
 }

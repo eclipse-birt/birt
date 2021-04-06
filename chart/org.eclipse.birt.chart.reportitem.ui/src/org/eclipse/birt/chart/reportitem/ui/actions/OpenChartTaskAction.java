@@ -28,8 +28,7 @@ import org.eclipse.swt.graphics.Image;
  * Action set to open chart task.
  */
 
-public class OpenChartTaskAction extends Action
-{
+public class OpenChartTaskAction extends Action {
 
 	private ExtendedItemHandle eih;
 
@@ -40,47 +39,38 @@ public class OpenChartTaskAction extends Action
 	 * @param handle
 	 * @param taskId
 	 * @param text
-	 * @param bBlankEnabled
-	 *            indicates the enabled status if chart is blank. True, always
-	 *            enabled; false, enabled only when not blank
+	 * @param bBlankEnabled indicates the enabled status if chart is blank. True,
+	 *                      always enabled; false, enabled only when not blank
 	 */
-	public OpenChartTaskAction( ExtendedItemHandle handle, String taskId,
-			String text, Image img, boolean bBlankEnabled )
-	{
-		super( text );
-		this.setImageDescriptor( ImageDescriptor.createFromImage( img ) );
+	public OpenChartTaskAction(ExtendedItemHandle handle, String taskId, String text, Image img,
+			boolean bBlankEnabled) {
+		super(text);
+		this.setImageDescriptor(ImageDescriptor.createFromImage(img));
 		this.eih = handle;
-		this.uiServiceProvider = new ChartReportItemBuilderProxy( taskId );
-		this.setEnabled( bBlankEnabled || !isBlankChart( ) );
+		this.uiServiceProvider = new ChartReportItemBuilderProxy(taskId);
+		this.setEnabled(bBlankEnabled || !isBlankChart());
 	}
 
-	public void run( )
-	{
-		uiServiceProvider.open( eih );
+	public void run() {
+		uiServiceProvider.open(eih);
 	}
 
-	protected boolean isBlankChart( )
-	{
+	protected boolean isBlankChart() {
 		IReportItem item = null;
-		try
-		{
-			item = eih.getReportItem( );
-			if ( item == null )
-			{
-				eih.loadExtendedElement( );
-				item = eih.getReportItem( );
+		try {
+			item = eih.getReportItem();
+			if (item == null) {
+				eih.loadExtendedElement();
+				item = eih.getReportItem();
 			}
-		}
-		catch ( ExtendedElementException exception )
-		{
-			WizardBase.displayException( exception );
+		} catch (ExtendedElementException exception) {
+			WizardBase.displayException(exception);
 		}
 
-		if ( item == null )
-		{
+		if (item == null) {
 			return true;
 		}
-		ChartReportItemImpl crii = ( (ChartReportItemImpl) item );
-		return (Chart) crii.getProperty( ChartReportItemConstants.PROPERTY_CHART ) == null;
+		ChartReportItemImpl crii = ((ChartReportItemImpl) item);
+		return (Chart) crii.getProperty(ChartReportItemConstants.PROPERTY_CHART) == null;
 	}
 }

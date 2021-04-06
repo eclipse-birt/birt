@@ -22,20 +22,20 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.junit.Test;
 
 public class Issue46RemoveBlankRowsUserProperties extends ReportRunner {
-	
+
 	@Test
 	public void testWithoutOption() throws Exception {
-		
+
 		debug = false;
 		InputStream inputStream = runAndRenderReport("BlankRows.rptdesign", "xlsx");
 		assertNotNull(inputStream);
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
-			assertEquals( 9, this.firstNullRow(workbook.getSheetAt(0)));			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
+			assertEquals(9, this.firstNullRow(workbook.getSheetAt(0)));
 		} finally {
 			inputStream.close();
 		}
@@ -43,7 +43,7 @@ public class Issue46RemoveBlankRowsUserProperties extends ReportRunner {
 
 	@Test
 	public void testWithOption() throws Exception {
-		
+
 		debug = false;
 		removeEmptyRows = false;
 		InputStream inputStream = runAndRenderReport("BlankRows.rptdesign", "xlsx");
@@ -52,10 +52,10 @@ public class Issue46RemoveBlankRowsUserProperties extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
-			assertEquals( 12, this.firstNullRow(workbook.getSheetAt(0)));			
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
+			assertEquals(12, this.firstNullRow(workbook.getSheetAt(0)));
 		} finally {
 			inputStream.close();
 		}
@@ -63,7 +63,7 @@ public class Issue46RemoveBlankRowsUserProperties extends ReportRunner {
 
 	@Test
 	public void testWithUserPropertyOnReport() throws Exception {
-		
+
 		debug = false;
 		structuredHeader = false;
 		InputStream inputStream = runAndRenderReport("BlankRowsDisabledAtReport.rptdesign", "xlsx");
@@ -71,10 +71,10 @@ public class Issue46RemoveBlankRowsUserProperties extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
-			assertEquals( 12, this.firstNullRow(workbook.getSheetAt(0)));
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
+			assertEquals(12, this.firstNullRow(workbook.getSheetAt(0)));
 		} finally {
 			inputStream.close();
 		}
@@ -82,7 +82,7 @@ public class Issue46RemoveBlankRowsUserProperties extends ReportRunner {
 
 	@Test
 	public void testWithUserPropertyOnTable() throws Exception {
-		
+
 		debug = false;
 		structuredHeader = false;
 		InputStream inputStream = runAndRenderReport("BlankRowsDisabledAtTable.rptdesign", "xlsx");
@@ -90,13 +90,13 @@ public class Issue46RemoveBlankRowsUserProperties extends ReportRunner {
 		try {
 			XSSFWorkbook workbook = new XSSFWorkbook(inputStream);
 			assertNotNull(workbook);
-			
-			assertEquals( 1, workbook.getNumberOfSheets() );
-	
-			assertEquals( 11, this.firstNullRow(workbook.getSheetAt(0)));
+
+			assertEquals(1, workbook.getNumberOfSheets());
+
+			assertEquals(11, this.firstNullRow(workbook.getSheetAt(0)));
 		} finally {
 			inputStream.close();
 		}
 	}
-	
+
 }

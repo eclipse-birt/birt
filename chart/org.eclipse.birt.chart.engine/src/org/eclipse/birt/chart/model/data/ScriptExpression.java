@@ -22,61 +22,57 @@ import org.eclipse.birt.chart.util.ChartExpressionUtil.ExpressionCodec;
 /*
  * This type represents expression
  */
-public class ScriptExpression
-{
+public class ScriptExpression {
 
 	private String type;
 	private String value;
 
-	public ScriptExpression( )
-	{
-		this( ExpressionCodec.JAVASCRIPT );
+	public ScriptExpression() {
+		this(ExpressionCodec.JAVASCRIPT);
 	}
 
-	public ScriptExpression( String type )
-	{
-		this( type, IConstants.EMPTY_STRING );
+	public ScriptExpression(String type) {
+		this(type, IConstants.EMPTY_STRING);
 	}
 
-	public ScriptExpression( String type, String value )
-	{
+	public ScriptExpression(String type, String value) {
 		this.type = type;
 		this.value = value;
 	}
 
 	/*
 	 * Get expression type
+	 * 
 	 * @return type the type of the expression.
 	 */
-	public String getType( )
-	{
+	public String getType() {
 		return type;
 	}
 
 	/*
 	 * Set expression type
+	 * 
 	 * @param type the type of the expression.
 	 */
-	public void setType( String type )
-	{
+	public void setType(String type) {
 		this.type = type;
 	}
 
 	/*
 	 * Get expression value
+	 * 
 	 * @return value value of the expression.
 	 */
-	public String getValue( )
-	{
+	public String getValue() {
 		return value;
 	}
 
 	/*
 	 * Set expression value
+	 * 
 	 * @param value value of the expression.
 	 */
-	public void setValue( String value )
-	{
+	public void setValue(String value) {
 		this.value = value;
 	}
 }

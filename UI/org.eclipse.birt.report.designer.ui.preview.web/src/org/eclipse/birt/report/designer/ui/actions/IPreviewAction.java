@@ -14,12 +14,11 @@ package org.eclipse.birt.report.designer.ui.actions;
 /**
  * IPreviewAction
  */
-public interface IPreviewAction
-{
+public interface IPreviewAction {
 
-	void run( );
+	void run();
 
-	Object getProperty( String key );
+	Object getProperty(String key);
 
-	void setProperty( String key, Object value );
+	void setProperty(String key, Object value);
 }

@@ -54,8 +54,7 @@ import org.eclipse.emf.common.util.EList;
  * 
  */
 
-public class ChartDefaultValueUtil extends ChartElementUtil
-{
+public class ChartDefaultValueUtil extends ChartElementUtil {
 
 	/**
 	 * Check if current chart use auto series palette.
@@ -63,26 +62,20 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	 * @param chart
 	 * @return true if series palette is not set.
 	 */
-	public static boolean isAutoSeriesPalette( Chart chart )
-	{
-		SeriesDefinition sd = ChartUtil.getCategorySeriesDefinition( chart );
-		return ( sd.getSeriesPalette( ).getEntries( ).size( ) == 0 );
+	public static boolean isAutoSeriesPalette(Chart chart) {
+		SeriesDefinition sd = ChartUtil.getCategorySeriesDefinition(chart);
+		return (sd.getSeriesPalette().getEntries().size() == 0);
 	}
-	
+
 	/**
 	 * Removes all series palettes.
 	 * 
 	 * @param chart
 	 */
-	public static void removeSerlesPalettes( Chart chart )
-	{
-		ChartUtil.getCategorySeriesDefinition( chart )
-				.getSeriesPalette( )
-				.getEntries( )
-				.clear( );
-		for ( SeriesDefinition sd : ChartUtil.getValueSeriesDefinitions( chart ) )
-		{
-			sd.getSeriesPalette( ).getEntries( ).clear( );
+	public static void removeSerlesPalettes(Chart chart) {
+		ChartUtil.getCategorySeriesDefinition(chart).getSeriesPalette().getEntries().clear();
+		for (SeriesDefinition sd : ChartUtil.getValueSeriesDefinitions(chart)) {
+			sd.getSeriesPalette().getEntries().clear();
 		}
 	}
 
@@ -91,356 +84,269 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	 * 
 	 * @param chart
 	 */
-	public static void updateSeriesPalettes( Chart chart )
-	{
-		updateSeriesPalettes( chart, null );
+	public static void updateSeriesPalettes(Chart chart) {
+		updateSeriesPalettes(chart, null);
 	}
-	
+
 	/**
 	 * Updates series palettes to default values.
 	 * 
 	 * @param chart
 	 * @param adapters
 	 */
-	public static void updateSeriesPalettes( Chart chart,
-			Collection<? extends Adapter> adapters )
-	{
+	public static void updateSeriesPalettes(Chart chart, Collection<? extends Adapter> adapters) {
 		// Set series palette for category series definition.
-		ChartUtil.getCategorySeriesDefinition( chart )
-				.setSeriesPalette( DefaultValueProvider.defSeriesDefinition( 0 )
-						.getSeriesPalette( )
-						.copyInstance( ) );
-		if ( adapters != null )
-		{
-			ChartUtil.getCategorySeriesDefinition( chart )
-					.getSeriesPalette( )
-					.eAdapters( )
-					.addAll( adapters );
+		ChartUtil.getCategorySeriesDefinition(chart)
+				.setSeriesPalette(DefaultValueProvider.defSeriesDefinition(0).getSeriesPalette().copyInstance());
+		if (adapters != null) {
+			ChartUtil.getCategorySeriesDefinition(chart).getSeriesPalette().eAdapters().addAll(adapters);
 		}
 		// Set series palettes for value series definitions.
-		if ( ChartUtil.hasMultipleYAxes( chart ) )
-		{
-			int axesNum = ChartUtil.getOrthogonalAxisNumber( chart );
-			for ( int i = 0; i < axesNum; i++ )
-			{
+		if (ChartUtil.hasMultipleYAxes(chart)) {
+			int axesNum = ChartUtil.getOrthogonalAxisNumber(chart);
+			for (int i = 0; i < axesNum; i++) {
 				int pos = i;
-				SeriesDefinition[] seriesDefns = ChartUtil.getOrthogonalSeriesDefinitions( chart,
-						i )
-						.toArray( new SeriesDefinition[]{} );
-				for ( int j = 0; j < seriesDefns.length; j++ )
-				{
+				SeriesDefinition[] seriesDefns = ChartUtil.getOrthogonalSeriesDefinitions(chart, i)
+						.toArray(new SeriesDefinition[] {});
+				for (int j = 0; j < seriesDefns.length; j++) {
 					pos += j;
-					seriesDefns[j].setSeriesPalette( DefaultValueProvider.defSeriesDefinition( pos )
-							.getSeriesPalette( )
-							.copyInstance( ) );
-					if ( adapters != null )
-					{
-						seriesDefns[j].getSeriesPalette( )
-								.eAdapters( )
-								.addAll( adapters );
+					seriesDefns[j].setSeriesPalette(
+							DefaultValueProvider.defSeriesDefinition(pos).getSeriesPalette().copyInstance());
+					if (adapters != null) {
+						seriesDefns[j].getSeriesPalette().eAdapters().addAll(adapters);
 					}
 				}
 			}
-		}
-		else
-		{
+		} else {
 			int i = 0;
-			for ( SeriesDefinition sd : ChartUtil.getValueSeriesDefinitions( chart ) )
-			{
-				sd.setSeriesPalette( DefaultValueProvider.defSeriesDefinition( i )
-						.getSeriesPalette( )
-						.copyInstance( ) );
-				if ( adapters != null )
-				{
-					sd.getSeriesPalette( ).eAdapters( ).addAll( adapters );
+			for (SeriesDefinition sd : ChartUtil.getValueSeriesDefinitions(chart)) {
+				sd.setSeriesPalette(DefaultValueProvider.defSeriesDefinition(i).getSeriesPalette().copyInstance());
+				if (adapters != null) {
+					sd.getSeriesPalette().eAdapters().addAll(adapters);
 				}
 				i++;
 			}
 		}
 	}
-	
+
 	/**
 	 * Returns default values of specified series object.
 	 * 
 	 * @param runtimeSeries specified series object.
 	 * @return series object with default value.
 	 */
-	public static Series getDefaultSeries( Series runtimeSeries )
-	{
-		if ( runtimeSeries instanceof BarSeries )
-		{
-			return DefaultValueProvider.defBarSeries( );
-		}
-		else if ( runtimeSeries instanceof BubbleSeries )
-		{
-			return DefaultValueProvider.defBubbleSeries( );
-		}
-		else if ( runtimeSeries instanceof ScatterSeries )
-		{
-			return DefaultValueProvider.defScatterSeries( );
-		}
-		else if ( runtimeSeries instanceof DifferenceSeries )
-		{
-			return DefaultValueProvider.defDifferenceSeries( );
-		}
-		else if ( runtimeSeries instanceof AreaSeries )
-		{
-			return DefaultValueProvider.defAreaSeries( );
-		}
-		else if ( runtimeSeries instanceof LineSeries )
-		{
-			return DefaultValueProvider.defLineSeries( );
-		}
-		else if( runtimeSeries instanceof GanttSeries )
-		{
-			return DefaultValueProvider.defGanttSeries( );
-		}
-		else if( runtimeSeries instanceof DialSeries )
-		{
-			return DefaultValueProvider.defDialSeries( );
-		}
-		else if( runtimeSeries instanceof PieSeries )
-		{
-			return DefaultValueProvider.defPieSeries( );
-		}
-		else if( runtimeSeries instanceof StockSeries )
-		{
-			return DefaultValueProvider.defStockSeries( );
-		}
-		else if ( ChartDynamicExtension.isExtended( runtimeSeries ) )
-		{
-			return (Series) new ChartExtensionValueUpdater( ).getDefault( ComponentPackage.eINSTANCE.getSeries( ),
+	public static Series getDefaultSeries(Series runtimeSeries) {
+		if (runtimeSeries instanceof BarSeries) {
+			return DefaultValueProvider.defBarSeries();
+		} else if (runtimeSeries instanceof BubbleSeries) {
+			return DefaultValueProvider.defBubbleSeries();
+		} else if (runtimeSeries instanceof ScatterSeries) {
+			return DefaultValueProvider.defScatterSeries();
+		} else if (runtimeSeries instanceof DifferenceSeries) {
+			return DefaultValueProvider.defDifferenceSeries();
+		} else if (runtimeSeries instanceof AreaSeries) {
+			return DefaultValueProvider.defAreaSeries();
+		} else if (runtimeSeries instanceof LineSeries) {
+			return DefaultValueProvider.defLineSeries();
+		} else if (runtimeSeries instanceof GanttSeries) {
+			return DefaultValueProvider.defGanttSeries();
+		} else if (runtimeSeries instanceof DialSeries) {
+			return DefaultValueProvider.defDialSeries();
+		} else if (runtimeSeries instanceof PieSeries) {
+			return DefaultValueProvider.defPieSeries();
+		} else if (runtimeSeries instanceof StockSeries) {
+			return DefaultValueProvider.defStockSeries();
+		} else if (ChartDynamicExtension.isExtended(runtimeSeries)) {
+			return (Series) new ChartExtensionValueUpdater().getDefault(ComponentPackage.eINSTANCE.getSeries(),
 					"series", //$NON-NLS-1$
-					runtimeSeries );
+					runtimeSeries);
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns default value chart instance according to specified chart instance.
 	 * 
 	 * @param cm
 	 * @return default value chart instance according to specified chart instance.
 	 */
-	public static Chart getDefaultValueChart( Chart cm )
-	{
+	public static Chart getDefaultValueChart(Chart cm) {
 		Chart instance = null;
-		if ( cm instanceof DialChart )
-		{
-			instance = DefaultValueProvider.defDialChart( );
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			instance = DefaultValueProvider.defChartWithoutAxes( );
-		}
-		else
-		{
-			instance = DefaultValueProvider.defChartWithAxes( );
+		if (cm instanceof DialChart) {
+			instance = DefaultValueProvider.defDialChart();
+		} else if (cm instanceof ChartWithoutAxes) {
+			instance = DefaultValueProvider.defChartWithoutAxes();
+		} else {
+			instance = DefaultValueProvider.defChartWithAxes();
 		}
 
 		return instance;
 	}
-	
+
 	/**
 	 * Returns default chart orientation according to specified chart instance.
 	 * 
 	 * @param cm
 	 * @return default orientation of chart according to specified chart instance.
 	 */
-	public static Orientation getDefaultOrientation( Chart cm )
-	{
-		Chart chart = getDefaultValueChart( cm );
-		if ( chart instanceof ChartWithAxes )
-		{
-			( (ChartWithAxes) chart ).getOrientation( );
+	public static Orientation getDefaultOrientation(Chart cm) {
+		Chart chart = getDefaultValueChart(cm);
+		if (chart instanceof ChartWithAxes) {
+			((ChartWithAxes) chart).getOrientation();
 		}
 		return null;
 	}
-	
+
 	/**
 	 * Returns default chart block according specified chart instance.
 	 * 
 	 * @param cm
 	 * @return default chart block according specified chart instance.
 	 */
-	public static Block getDefaultBlock( Chart cm )
-	{
-		return ChartDefaultValueUtil.getDefaultValueChart( cm ).getBlock( );
+	public static Block getDefaultBlock(Chart cm) {
+		return ChartDefaultValueUtil.getDefaultValueChart(cm).getBlock();
 	}
-	
+
 	/**
 	 * Returns default chart legend according specified chart instance.
 	 * 
 	 * @param cm
 	 * @return default chart legend according specified chart instance.
 	 */
-	public static Legend getDefaultLegend( Chart cm )
-	{
-		return ChartDefaultValueUtil.getDefaultValueChart( cm ).getLegend( );
+	public static Legend getDefaultLegend(Chart cm) {
+		return ChartDefaultValueUtil.getDefaultValueChart(cm).getLegend();
 	}
-	
+
 	/**
 	 * Returns default chart plot according specified chart instance.
 	 * 
 	 * @param cm
 	 * @return default chart plot according specified chart instance.
 	 */
-	public static Plot getDefaultPlot( Chart cm )
-	{
-		return ChartDefaultValueUtil.getDefaultValueChart( cm ).getPlot( );
+	public static Plot getDefaultPlot(Chart cm) {
+		return ChartDefaultValueUtil.getDefaultValueChart(cm).getPlot();
 	}
-	
+
 	/**
 	 * Returns default chart title block according to specified chart instance.
 	 * 
 	 * @param cm
 	 * @return default chart title block according to specified chart instance.
 	 */
-	public static TitleBlock getDefaultTitle( Chart cm )
-	{
-		return ChartDefaultValueUtil.getDefaultValueChart( cm ).getTitle( );
+	public static TitleBlock getDefaultTitle(Chart cm) {
+		return ChartDefaultValueUtil.getDefaultValueChart(cm).getTitle();
 	}
-	
+
 	/**
 	 * Creates instance of default value chart according to specified chart type.
 	 * 
 	 * @param cm
 	 * @return chart instance with default values.
 	 */
-	public static Chart createDefaultValueChartInstance(Chart cm )
-	{
-		Chart instance = getDefaultValueChart( cm ).copyInstance( );
-		
+	public static Chart createDefaultValueChartInstance(Chart cm) {
+		Chart instance = getDefaultValueChart(cm).copyInstance();
+
 		// Add all different series instances.
-		SeriesDefinition sd = ChartUtil.getOrthogonalSeriesDefinitions( instance,
-				0 )
-				.get( 0 );
-		List<Series> seriesList = sd.getSeries( );
-		seriesList.clear( );
-		if ( instance instanceof ChartWithAxes )
-		{
-			seriesList.add( DefaultValueProvider.defBarSeries( ).copyInstance( ) );
-			seriesList.add( DefaultValueProvider.defBubbleSeries( ).copyInstance( ) );
-			seriesList.add( DefaultValueProvider.defScatterSeries( ).copyInstance( ) );
-			seriesList.add( DefaultValueProvider.defDifferenceSeries( ).copyInstance( ) );
-			seriesList.add( DefaultValueProvider.defAreaSeries( ).copyInstance( ) );
-			seriesList.add( DefaultValueProvider.defLineSeries( ).copyInstance( ) );
-			seriesList.add( DefaultValueProvider.defGanttSeries( ).copyInstance( ) );
-			seriesList.add( DefaultValueProvider.defStockSeries( ).copyInstance( ) );
+		SeriesDefinition sd = ChartUtil.getOrthogonalSeriesDefinitions(instance, 0).get(0);
+		List<Series> seriesList = sd.getSeries();
+		seriesList.clear();
+		if (instance instanceof ChartWithAxes) {
+			seriesList.add(DefaultValueProvider.defBarSeries().copyInstance());
+			seriesList.add(DefaultValueProvider.defBubbleSeries().copyInstance());
+			seriesList.add(DefaultValueProvider.defScatterSeries().copyInstance());
+			seriesList.add(DefaultValueProvider.defDifferenceSeries().copyInstance());
+			seriesList.add(DefaultValueProvider.defAreaSeries().copyInstance());
+			seriesList.add(DefaultValueProvider.defLineSeries().copyInstance());
+			seriesList.add(DefaultValueProvider.defGanttSeries().copyInstance());
+			seriesList.add(DefaultValueProvider.defStockSeries().copyInstance());
+		} else {
+			seriesList.add(DefaultValueProvider.defDialSeries().copyInstance());
+			seriesList.add(DefaultValueProvider.defPieSeries().copyInstance());
 		}
-		else
-		{
-			seriesList.add( DefaultValueProvider.defDialSeries( ).copyInstance( ) );
-			seriesList.add( DefaultValueProvider.defPieSeries( ).copyInstance( ) );
-		}
-		
+
 		// Get remaining default series objects.
-		Set<String> seriesNameSet = new HashSet<String>( );
-		for ( Series s : seriesList )
-		{
-			seriesNameSet.add( s.getClass( ).getName( ) );
+		Set<String> seriesNameSet = new HashSet<String>();
+		for (Series s : seriesList) {
+			seriesNameSet.add(s.getClass().getName());
 		}
-		Set<Series> dtSeries = new HashSet<Series>( );
-		for ( SeriesDefinition sdef : ChartUtil.getAllOrthogonalSeriesDefinitions( cm ) )
-		{
-			for ( Series s: sdef.getSeries( ) )
-			{
-				dtSeries.add( s );
+		Set<Series> dtSeries = new HashSet<Series>();
+		for (SeriesDefinition sdef : ChartUtil.getAllOrthogonalSeriesDefinitions(cm)) {
+			for (Series s : sdef.getSeries()) {
+				dtSeries.add(s);
 			}
 		}
-		for ( Iterator<Series> iter = dtSeries.iterator( ); iter.hasNext( ); )
-		{
-			Series s = iter.next( );
-			if ( !seriesNameSet.contains( s.getClass( ).getName( ) ) )
-			{
-				seriesList.add( getDefaultSeries( s ) );
+		for (Iterator<Series> iter = dtSeries.iterator(); iter.hasNext();) {
+			Series s = iter.next();
+			if (!seriesNameSet.contains(s.getClass().getName())) {
+				seriesList.add(getDefaultSeries(s));
 			}
 		}
-		
+
 		// Set default chart title according to chart type.
-		instance.getTitle( )
-				.getLabel( )
-				.getCaption( )
-				.setValue( ChartUtil.getDefaultChartTitle( cm ) );
+		instance.getTitle().getLabel().getCaption().setValue(ChartUtil.getDefaultChartTitle(cm));
 
 		return instance;
 	}
-	
+
 	/**
 	 * 
 	 * Shifts the colors in palette with the offset.
 	 * 
-	 * @param offset
-	 *            moving offset to rotate the color. If the offset is zero or
-	 *            the absolute value is greater than the size of list, do
-	 *            nothing. Negative value means moving to the left side, and
-	 *            positive value is to the right side.
+	 * @param offset moving offset to rotate the color. If the offset is zero or the
+	 *               absolute value is greater than the size of list, do nothing.
+	 *               Negative value means moving to the left side, and positive
+	 *               value is to the right side.
 	 */
-	public static void shiftPaletteColors( Palette p, int offset )
-	{
-		if ( p.getEntries( ).size( ) == 0 )
-		{
-			p.shift( offset );
+	public static void shiftPaletteColors(Palette p, int offset) {
+		if (p.getEntries().size() == 0) {
+			p.shift(offset);
 			return;
 		}
 
-		final EList<Fill> el = p.getEntries( );
-		int size = el.size( );
-		
+		final EList<Fill> el = p.getEntries();
+		int size = el.size();
 
-		if ( offset == 0 || Math.abs( offset ) >= size )
-		{
+		if (offset == 0 || Math.abs(offset) >= size) {
 			// Do nothing
 			offset = 0;
 			return;
 		}
-		
-		List<Fill> colorList = new ArrayList<Fill>( );
-		colorList.addAll( el );
-		el.clear( );
-		if ( offset < 0 )
-		{
+
+		List<Fill> colorList = new ArrayList<Fill>();
+		colorList.addAll(el);
+		el.clear();
+		if (offset < 0) {
 			// Move to the left side
 			offset = -offset;
-		}
-		else if ( offset > 0 )
-		{
+		} else if (offset > 0) {
 			// Move to the right side
 			offset = size - offset;
 		}
 
-		for ( int i = offset; i < size; i++ )
-		{
-			el.add( ( colorList.get( i ) ) );
+		for (int i = offset; i < size; i++) {
+			el.add((colorList.get(i)));
 		}
-		for ( int i = 0; i < offset; i++ )
-		{
-			el.add( ( colorList.get( i ) ) );
+		for (int i = 0; i < offset; i++) {
+			el.add((colorList.get(i)));
 		}
 		return;
 	}
-	
+
 	/**
 	 * Returns default units value of chart.
 	 * 
 	 * @param cm reference chart model.
 	 * @return default units value of chart.
 	 */
-	public static String getDefaultUnits( Chart cm )
-	{
-		if ( cm instanceof ChartWithAxes )
-		{
-			return DefaultValueProvider.defChartWithAxes( ).getUnits( );
+	public static String getDefaultUnits(Chart cm) {
+		if (cm instanceof ChartWithAxes) {
+			return DefaultValueProvider.defChartWithAxes().getUnits();
+		} else if (cm instanceof DialChart) {
+			return DefaultValueProvider.defDialChart().getUnits();
+		} else if (cm instanceof ChartWithoutAxes) {
+			return DefaultValueProvider.defChartWithoutAxes().getUnits();
 		}
-		else if ( cm instanceof DialChart )
-		{
-			return DefaultValueProvider.defDialChart( ).getUnits( );
-		}
-		else if ( cm instanceof ChartWithoutAxes )
-		{
-			return DefaultValueProvider.defChartWithoutAxes( ).getUnits( );
-		}
-		
+
 		return null;
 	}
 
@@ -452,22 +358,17 @@ public class ChartDefaultValueUtil extends ChartElementUtil
 	 * @param eDefObj
 	 * @return default DataPointComponent of Percentile Value Literal
 	 */
-	public static DataPointComponent getPercentileDataPointDefObj(
-			DataPointComponent eObj, DataPointComponent eDefObj) {
+	public static DataPointComponent getPercentileDataPointDefObj(DataPointComponent eObj, DataPointComponent eDefObj) {
 		// Set default format for percentile value.
 		DataPointComponent eTmpDefObj = eDefObj;
-		if ( eObj != null
-				&& eObj.getType( ) == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL
-				&& ( eDefObj == null || eDefObj.getFormatSpecifier( ) == null ) )
-		{
-			if ( eDefObj == null ) 
-			{
-				eTmpDefObj = DataPointComponentImpl.create( DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,  DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
-			}
-			else if ( eDefObj.getFormatSpecifier( ) == null )
-			{
-				eTmpDefObj = eDefObj.copyInstance( );
-				eTmpDefObj.setFormatSpecifier( DefaultValueProvider.defPercentileValueFormatSpecifier( ) );
+		if (eObj != null && eObj.getType() == DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL
+				&& (eDefObj == null || eDefObj.getFormatSpecifier() == null)) {
+			if (eDefObj == null) {
+				eTmpDefObj = DataPointComponentImpl.create(DataPointComponentType.PERCENTILE_ORTHOGONAL_VALUE_LITERAL,
+						DefaultValueProvider.defPercentileValueFormatSpecifier());
+			} else if (eDefObj.getFormatSpecifier() == null) {
+				eTmpDefObj = eDefObj.copyInstance();
+				eTmpDefObj.setFormatSpecifier(DefaultValueProvider.defPercentileValueFormatSpecifier());
 			}
 		}
 		return eTmpDefObj;

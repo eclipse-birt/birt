@@ -45,25 +45,18 @@ import org.eclipse.swt.widgets.Table;
 /**
  * Filter FormHandleProvider, provides Filter sensitive data and processes.
  */
-public class FilterHandleProvider extends AbstractFilterHandleProvider
-{
+public class FilterHandleProvider extends AbstractFilterHandleProvider {
 
 	/**
 	 * Column properties.
 	 */
-	private String[] columnKeys = new String[]{
-			FilterCondition.EXPR_MEMBER,
-			FilterCondition.OPERATOR_MEMBER,
-			FilterCondition.VALUE1_MEMBER,
-			FilterCondition.VALUE2_MEMBER
-	};
+	private String[] columnKeys = new String[] { FilterCondition.EXPR_MEMBER, FilterCondition.OPERATOR_MEMBER,
+			FilterCondition.VALUE1_MEMBER, FilterCondition.VALUE2_MEMBER };
 
 	/**
 	 * Column widths.
 	 */
-	private static int[] columnWidth = new int[]{
-			200, 150, 200, 200
-	};
+	private static int[] columnWidth = new int[] { 200, 150, 200, 200 };
 
 	/**
 	 * The display name of columns.
@@ -75,41 +68,35 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 	 */
 	private CellEditor[] editors;
 
-	private List columnList = new ArrayList( );
+	private List columnList = new ArrayList();
 
-	public FilterHandleProvider( )
-	{
-		modelAdapter = new FilterModelProvider( );
+	public FilterHandleProvider() {
+		modelAdapter = new FilterModelProvider();
 	}
 
 	/**
 	 * Gets all dataSet columns
 	 * 
-	 * @param obj
-	 *            DesignElementHandle object.
+	 * @param obj DesignElementHandle object.
 	 */
-	private void getDataSetColumns( Object obj )
-	{
-		if ( obj instanceof DesignElementHandle )
-		{
-			columnList = new ArrayList( );
-			String[] columns = modelAdapter.getChoiceSet( obj,
-					FilterCondition.EXPR_MEMBER );
-			if ( columns != null )
-				columnList.addAll( Arrays.asList( columns ) );
+	private void getDataSetColumns(Object obj) {
+		if (obj instanceof DesignElementHandle) {
+			columnList = new ArrayList();
+			String[] columns = modelAdapter.getChoiceSet(obj, FilterCondition.EXPR_MEMBER);
+			if (columns != null)
+				columnList.addAll(Arrays.asList(columns));
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnNames()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnNames()
 	 */
-	public String[] getColumnNames( )
-	{
-		if ( columnNames == null )
-		{
-			columnNames = modelAdapter.getColumnNames( columnKeys );
+	public String[] getColumnNames() {
+		if (columnNames == null) {
+			columnNames = modelAdapter.getColumnNames(columnKeys);
 		}
 		return columnNames;
 	}
@@ -117,27 +104,26 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getTitle()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getTitle()
 	 */
-	public String getDisplayName( )
-	{
-		return Messages.getString( "FilterHandleProvider.Label.Filterby" ); //$NON-NLS-1$
+	public String getDisplayName() {
+		return Messages.getString("FilterHandleProvider.Label.Filterby"); //$NON-NLS-1$
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getEditors(org.eclipse.swt.widgets.Table)
 	 */
-	public CellEditor[] getEditors( final Table table )
-	{
-		if ( editors == null )
-		{
+	public CellEditor[] getEditors(final Table table) {
+		if (editors == null) {
 			editors = new CellEditor[columnKeys.length];
-			editors[0] = new TextCellEditor( table );
-			editors[1] = new TextCellEditor( table );
-			editors[2] = new TextCellEditor( table );
-			editors[3] = new TextCellEditor( table );
+			editors[0] = new TextCellEditor(table);
+			editors[1] = new TextCellEditor(table);
+			editors[2] = new TextCellEditor(table);
+			editors[3] = new TextCellEditor(table);
 		}
 
 		return editors;
@@ -146,58 +132,48 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doMoveItem(int,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doMoveItem(int, int)
 	 */
-	public boolean doMoveItem( int oldPos, int newPos )
-			throws PropertyValueException
-	{
-		return modelAdapter.moveItem( contentInput.get( 0 ), oldPos, newPos );
+	public boolean doMoveItem(int oldPos, int newPos) throws PropertyValueException {
+		return modelAdapter.moveItem(contentInput.get(0), oldPos, newPos);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doDeleteItem(int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doDeleteItem(int)
 	 */
-	public boolean doDeleteItem( int pos ) throws PropertyValueException
-	{
-		return modelAdapter.deleteItem( contentInput.get( 0 ), pos );
+	public boolean doDeleteItem(int pos) throws PropertyValueException {
+		return modelAdapter.deleteItem(contentInput.get(0), pos);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doAddItem(int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doAddItem(int)
 	 */
-	public boolean doAddItem( int pos ) throws SemanticException
-	{
+	public boolean doAddItem(int pos) throws SemanticException {
 		// return modelAdapter.doAddItem( input.get( 0 ), pos );
-		Object item = contentInput.get( 0 );
-		if ( item instanceof DesignElementHandle )
-		{
-			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_NEW, FilterConditionBuilder.DLG_MESSAGE_NEW );
-			dialog.setDesignHandle( (DesignElementHandle) item );
-			dialog.setInput( null );
-			dialog.setBindingParams( bindingParams );
-			if ( item instanceof ReportItemHandle )
-			{
-				dialog.setReportElement( (ReportItemHandle) item );
-			}
-			else if ( item instanceof GroupHandle )
-			{
-				dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
-			}
-			else if ( item instanceof DataGroupHandle )
-			{
-				if ( ( (DataGroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
-				{
-					dialog.setReportElement( (ReportItemHandle) ( (DataGroupHandle) item ).getContainer( ) );
+		Object item = contentInput.get(0);
+		if (item instanceof DesignElementHandle) {
+			FilterConditionBuilder dialog = new FilterConditionBuilder(UIUtil.getDefaultShell(),
+					FilterConditionBuilder.DLG_TITLE_NEW, FilterConditionBuilder.DLG_MESSAGE_NEW);
+			dialog.setDesignHandle((DesignElementHandle) item);
+			dialog.setInput(null);
+			dialog.setBindingParams(bindingParams);
+			if (item instanceof ReportItemHandle) {
+				dialog.setReportElement((ReportItemHandle) item);
+			} else if (item instanceof GroupHandle) {
+				dialog.setReportElement((ReportItemHandle) ((GroupHandle) item).getContainer());
+			} else if (item instanceof DataGroupHandle) {
+				if (((DataGroupHandle) item).getContainer() instanceof ReportItemHandle) {
+					dialog.setReportElement((ReportItemHandle) ((DataGroupHandle) item).getContainer());
 				}
 			}
-			if ( dialog.open( ) == Dialog.CANCEL )
-			{
+			if (dialog.open() == Dialog.CANCEL) {
 				return false;
 			}
 
@@ -208,44 +184,35 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#doEditItem(int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#doEditItem(int)
 	 */
-	public boolean doEditItem( int pos )
-	{
+	public boolean doEditItem(int pos) {
 
-		Object item = contentInput.get( 0 );
-		if ( item instanceof DesignElementHandle )
-		{
+		Object item = contentInput.get(0);
+		if (item instanceof DesignElementHandle) {
 			DesignElementHandle element = (DesignElementHandle) item;
-			PropertyHandle propertyHandle = element.getPropertyHandle( ListingHandle.FILTER_PROP );
-			FilterConditionHandle filterHandle = (FilterConditionHandle) ( propertyHandle.getAt( pos ) );
-			if ( filterHandle == null )
-			{
+			PropertyHandle propertyHandle = element.getPropertyHandle(ListingHandle.FILTER_PROP);
+			FilterConditionHandle filterHandle = (FilterConditionHandle) (propertyHandle.getAt(pos));
+			if (filterHandle == null) {
 				return false;
 			}
 
-			FilterConditionBuilder dialog = new FilterConditionBuilder( UIUtil.getDefaultShell( ),
-					FilterConditionBuilder.DLG_TITLE_EDIT,FilterConditionBuilder.DLG_MESSAGE_NEW );
-			dialog.setDesignHandle( (DesignElementHandle) item );
-			dialog.setInput( filterHandle );
-			dialog.setBindingParams( bindingParams );
-			if ( item instanceof ReportItemHandle )
-			{
-				dialog.setReportElement( (ReportItemHandle) item );
-			}
-			else if ( item instanceof GroupHandle )
-			{
-				dialog.setReportElement( (ReportItemHandle) ( (GroupHandle) item ).getContainer( ) );
-			}
-			else if ( item instanceof DataGroupHandle )
-			{
-				if ( ( (DataGroupHandle) item ).getContainer( ) instanceof ReportItemHandle )
-				{
-					dialog.setReportElement( (ReportItemHandle) ( (DataGroupHandle) item ).getContainer( ) );
+			FilterConditionBuilder dialog = new FilterConditionBuilder(UIUtil.getDefaultShell(),
+					FilterConditionBuilder.DLG_TITLE_EDIT, FilterConditionBuilder.DLG_MESSAGE_NEW);
+			dialog.setDesignHandle((DesignElementHandle) item);
+			dialog.setInput(filterHandle);
+			dialog.setBindingParams(bindingParams);
+			if (item instanceof ReportItemHandle) {
+				dialog.setReportElement((ReportItemHandle) item);
+			} else if (item instanceof GroupHandle) {
+				dialog.setReportElement((ReportItemHandle) ((GroupHandle) item).getContainer());
+			} else if (item instanceof DataGroupHandle) {
+				if (((DataGroupHandle) item).getContainer() instanceof ReportItemHandle) {
+					dialog.setReportElement((ReportItemHandle) ((DataGroupHandle) item).getContainer());
 				}
 			}
-			if ( dialog.open( ) == Dialog.CANCEL )
-			{
+			if (dialog.open() == Dialog.CANCEL) {
 				return false;
 			}
 
@@ -256,68 +223,61 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnText(java.lang.Object,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnText(java.lang.Object, int)
 	 */
-	public String getColumnText( Object element, int columnIndex )
-	{
+	public String getColumnText(Object element, int columnIndex) {
 		String key = columnKeys[columnIndex];
-		return modelAdapter.getText( element, key );
+		return modelAdapter.getText(element, key);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getImagePath(java.lang.Object,
-	 *      int)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getImagePath(java.lang.Object, int)
 	 */
-	public Image getImage( Object element, int columnIndex )
-	{
+	public Image getImage(Object element, int columnIndex) {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getElements(java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getElements(java.lang.Object)
 	 */
-	public Object[] getElements( Object inputElement )
-	{
-		if ( inputElement instanceof List )
-		{
+	public Object[] getElements(Object inputElement) {
+		if (inputElement instanceof List) {
 			contentInput = (List) inputElement;
+		} else {
+			contentInput = new ArrayList();
+			contentInput.add(inputElement);
 		}
-		else
-		{
-			contentInput = new ArrayList( );
-			contentInput.add( inputElement );
-		}
-		getDataSetColumns( contentInput.get( 0 ) );
-		Object[] elements = modelAdapter.getElements( contentInput );
+		getDataSetColumns(contentInput.get(0));
+		Object[] elements = modelAdapter.getElements(contentInput);
 		return elements;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#canModify(java.lang.Object,
-	 *      java.lang.String)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#canModify(java.lang.Object, java.lang.String)
 	 */
-	public boolean canModify( Object element, String property )
-	{
+	public boolean canModify(Object element, String property) {
 		return false;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getValue(java.lang.Object,
-	 *      java.lang.String)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getValue(java.lang.Object, java.lang.String)
 	 */
-	public Object getValue( Object element, String property )
-	{
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		String columnText = getColumnText( element, index );
+	public Object getValue(Object element, String property) {
+		int index = Arrays.asList(columnNames).indexOf(property);
+		String columnText = getColumnText(element, index);
 
 		return columnText;
 	}
@@ -325,12 +285,11 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#modify(java.lang.Object,
-	 *      java.lang.String, java.lang.Object)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#modify(java.lang.Object, java.lang.String,
+	 * java.lang.Object)
 	 */
-	public boolean modify( Object data, String property, Object value )
-			throws NameException, SemanticException
-	{
+	public boolean modify(Object data, String property, Object value) throws NameException, SemanticException {
 		// Clear the value of value2 when operator is not "between" or "not
 		// between"
 		// if ( property.equals( "Operator" ) )
@@ -350,31 +309,24 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 		// }
 		// }
 
-		int index = Arrays.asList( columnNames ).indexOf( property );
+		int index = Arrays.asList(columnNames).indexOf(property);
 		String key = columnKeys[index];
 
 		String strValue = ""; //$NON-NLS-1$
-		if ( value instanceof Integer )
-		{
-			int intValue = ( (Integer) value ).intValue( );
-			if ( intValue == -1 )
-			{
-				CCombo combo = (CCombo) editors[index].getControl( );
-				strValue = combo.getText( );
-			}
-			else
-			{
-				String[] choices = modelAdapter.getChoiceSet( contentInput.get( 0 ),
-						columnKeys[index] );
+		if (value instanceof Integer) {
+			int intValue = ((Integer) value).intValue();
+			if (intValue == -1) {
+				CCombo combo = (CCombo) editors[index].getControl();
+				strValue = combo.getText();
+			} else {
+				String[] choices = modelAdapter.getChoiceSet(contentInput.get(0), columnKeys[index]);
 				strValue = choices[intValue];
 			}
-		}
-		else
-		{
+		} else {
 			strValue = (String) value;
 		}
 
-		return modelAdapter.setStringValue( contentInput.get( 0 ), data, key, strValue );
+		return modelAdapter.setStringValue(contentInput.get(0), data, key, strValue);
 	}
 
 	// private void updateValueCellEditor( String exp )
@@ -398,64 +350,62 @@ public class FilterHandleProvider extends AbstractFilterHandleProvider
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#getColumnWidths()
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#getColumnWidths()
 	 */
-	public int[] getColumnWidths( )
-	{
+	public int[] getColumnWidths() {
 		return columnWidth;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.NotificationEvent)
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.page.
+	 * IFormHandleProvider#needRefreshed(org.eclipse.birt.model.activity.
+	 * NotificationEvent)
 	 */
-	public boolean needRefreshed( NotificationEvent event )
-	{
-		if ( event instanceof PropertyEvent )
-		{
-			String propertyName = ( (PropertyEvent) event ).getPropertyName( );
-			if ( ReportItemHandle.BOUND_DATA_COLUMNS_PROP.equals( propertyName ) )
-			{
-				getDataSetColumns( contentInput.get( 0 ) );
+	public boolean needRefreshed(NotificationEvent event) {
+		if (event instanceof PropertyEvent) {
+			String propertyName = ((PropertyEvent) event).getPropertyName();
+			if (ReportItemHandle.BOUND_DATA_COLUMNS_PROP.equals(propertyName)) {
+				getDataSetColumns(contentInput.get(0));
 			}
 			return true;
 		}
 		return false;
 	}
 
-	public void updateBindingParameters( )
-	{
+	public void updateBindingParameters() {
 		ParamBindingHandle[] bindingParams = null;
 
-		if ( DEUtil.getInputFirstElement( contentInput ) instanceof ReportItemHandle )
-		{
-			ReportItemHandle inputHandle = (ReportItemHandle) DEUtil.getInputFirstElement( contentInput );
-			List list = new ArrayList( );
-			for ( Iterator iterator = inputHandle.paramBindingsIterator( ); iterator.hasNext( ); )
-			{
-				ParamBindingHandle handle = (ParamBindingHandle) iterator.next( );
-				list.add( handle );
+		if (DEUtil.getInputFirstElement(contentInput) instanceof ReportItemHandle) {
+			ReportItemHandle inputHandle = (ReportItemHandle) DEUtil.getInputFirstElement(contentInput);
+			List list = new ArrayList();
+			for (Iterator iterator = inputHandle.paramBindingsIterator(); iterator.hasNext();) {
+				ParamBindingHandle handle = (ParamBindingHandle) iterator.next();
+				list.add(handle);
 			}
-			bindingParams = new ParamBindingHandle[list.size( )];
-			list.toArray( bindingParams );
+			bindingParams = new ParamBindingHandle[list.size()];
+			list.toArray(bindingParams);
 		}
-		setBindingParams( bindingParams );
+		setBindingParams(bindingParams);
 	}
-	
-	public boolean isEditable( )
-	{
-		if ( ( (ReportItemHandle) DEUtil.getInputFirstElement( super.input ) ).getDataBindingType( ) == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF )
+
+	public boolean isEditable() {
+		if (((ReportItemHandle) DEUtil.getInputFirstElement(super.input))
+				.getDataBindingType() == ReportItemHandle.DATABINDING_TYPE_REPORT_ITEM_REF)
 			return false;
 		else
 			return true;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.AbstractFilterHandleProvider#getConcreteFilterProvider()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.internal.ui.views.attributes.provider.
+	 * AbstractFilterHandleProvider#getConcreteFilterProvider()
 	 */
-	public IFormProvider getConcreteFilterProvider( )
-	{
+	public IFormProvider getConcreteFilterProvider() {
 		return this;
 	}
 }

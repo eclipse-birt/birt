@@ -18,21 +18,19 @@ import junit.framework.TestSuite;
  * Tests cases in css package.
  */
 
-public class AllCssTests
-{
+public class AllCssTests {
 
 	/**
 	 * @return the test
 	 */
 
-	public static Test suite( )
-	{
-		TestSuite test = new TestSuite( );
+	public static Test suite() {
+		TestSuite test = new TestSuite();
 
 		// add all test classes here
-		test.addTestSuite( CssParserTest.class );
-		test.addTestSuite( ImportCssTest.class );
-		test.addTestSuite( StyleSheetLoaderTest.class );
+		test.addTestSuite(CssParserTest.class);
+		test.addTestSuite(ImportCssTest.class);
+		test.addTestSuite(StyleSheetLoaderTest.class);
 
 		return test;
 	}

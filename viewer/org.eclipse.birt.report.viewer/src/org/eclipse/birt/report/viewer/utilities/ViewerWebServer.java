@@ -45,7 +45,7 @@ public class ViewerWebServer {
 		serverProps.put(OSGiServerConstants.JETTY_HOST, host);
 		serverProps.put(OSGiServerConstants.JETTY_PORT, port);
 		serverProps.put(OSGiServerConstants.MANAGED_JETTY_XML_CONFIG_URLS, getJettyConfigURLs());
-		
+
 		// register as an OSGi Service for Jetty to find
 		BundleContext context = ViewerPlugin.getDefault().getBundleContext();
 		serviceRegister = context.registerService(Server.class, server, serverProps);
@@ -63,45 +63,36 @@ public class ViewerWebServer {
 	 * 
 	 * @return
 	 */
-	private String getJettyConfigURLs( )
-	{
-		String[] configFiles = new String[]{
-				"/jettyhome/etc/jetty.xml", //$NON-NLS-1$
+	private String getJettyConfigURLs() {
+		String[] configFiles = new String[] { "/jettyhome/etc/jetty.xml", //$NON-NLS-1$
 				"/jettyhome/etc/jetty-selector.xml", //$NON-NLS-1$
 				"/jettyhome/etc/jetty-deployer.xml", //$NON-NLS-1$
 				"/jettyhome/etc/jetty-special.xml" //$NON-NLS-1$
 		};
 
-		Bundle bundle = ViewerPlugin.getDefault( ).getBundle( );
-		StringBuilder sb = new StringBuilder( );
-		for ( String configFile : configFiles )
-		{
+		Bundle bundle = ViewerPlugin.getDefault().getBundle();
+		StringBuilder sb = new StringBuilder();
+		for (String configFile : configFiles) {
 			String strURL = null;
-			try
-			{
-				URL url = bundle.getEntry( configFile );
-				if ( url != null )
-				{
+			try {
+				URL url = bundle.getEntry(configFile);
+				if (url != null) {
 					// Avoid invalid characters like white space in URI
-					strURL = FileLocator.toFileURL( url ).toExternalForm( );
-					strURL = strURL.replaceAll( " ", "%20" );  //$NON-NLS-1$//$NON-NLS-2$
+					strURL = FileLocator.toFileURL(url).toExternalForm();
+					strURL = strURL.replaceAll(" ", "%20"); //$NON-NLS-1$//$NON-NLS-2$
 				}
-			}
-			catch ( IOException ex )
-			{
+			} catch (IOException ex) {
 
 			}
-			if ( strURL != null )
-			{
-				sb.append( strURL );
-				sb.append( "," ); //$NON-NLS-1$
+			if (strURL != null) {
+				sb.append(strURL);
+				sb.append(","); //$NON-NLS-1$
 			}
-			
+
 		}
-		if ( sb.length( ) > 0 )
-		{
-			sb.setLength( sb.length( ) - 1 );
+		if (sb.length() > 0) {
+			sb.setLength(sb.length() - 1);
 		}
-		return sb.toString( );
+		return sb.toString();
 	}
 }

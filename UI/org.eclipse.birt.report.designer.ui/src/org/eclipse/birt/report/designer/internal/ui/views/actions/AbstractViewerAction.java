@@ -19,31 +19,25 @@ import org.eclipse.swt.widgets.TreeItem;
  * The super class of all the action attached with viewers
  */
 
-public abstract class AbstractViewerAction extends AbstractViewAction
-{
+public abstract class AbstractViewerAction extends AbstractViewAction {
 
 	/**
 	 * Creates an action on the specific viewer
 	 * 
-	 * @param sourceViewer
-	 *            the source viewer
+	 * @param sourceViewer the source viewer
 	 */
-	public AbstractViewerAction( TreeViewer sourceViewer )
-	{
-		super( sourceViewer );
+	public AbstractViewerAction(TreeViewer sourceViewer) {
+		super(sourceViewer);
 	}
 
 	/**
 	 * Creates an action on the specific viewer with given text
 	 * 
-	 * @param sourceViewer
-	 *            the source viewer
-	 * @param text
-	 *            the text for the action
+	 * @param sourceViewer the source viewer
+	 * @param text         the text for the action
 	 */
-	public AbstractViewerAction( TreeViewer sourceViewer, String text )
-	{
-		super( sourceViewer, text );
+	public AbstractViewerAction(TreeViewer sourceViewer, String text) {
+		super(sourceViewer, text);
 	}
 
 	/**
@@ -51,9 +45,8 @@ public abstract class AbstractViewerAction extends AbstractViewAction
 	 * 
 	 * @return Returns the source viewer
 	 */
-	public TreeViewer getSourceViewer( )
-	{
-		return (TreeViewer) getSelection( );
+	public TreeViewer getSourceViewer() {
+		return (TreeViewer) getSelection();
 	}
 
 	/**
@@ -61,9 +54,8 @@ public abstract class AbstractViewerAction extends AbstractViewAction
 	 * 
 	 * @return Returns the list of the selected objects
 	 */
-	public StructuredSelection getSelectedObjects( )
-	{
-		return (StructuredSelection) getSourceViewer( ).getSelection( );
+	public StructuredSelection getSelectedObjects() {
+		return (StructuredSelection) getSourceViewer().getSelection();
 	}
 
 	/**
@@ -71,8 +63,7 @@ public abstract class AbstractViewerAction extends AbstractViewAction
 	 * 
 	 * @return Returns selected tree items
 	 */
-	public TreeItem[] getSelectedItems( )
-	{
-		return getSourceViewer( ).getTree( ).getSelection( );
+	public TreeItem[] getSelectedItems() {
+		return getSourceViewer().getTree().getSelection();
 	}
 }

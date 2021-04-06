@@ -21,62 +21,51 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.extension.IReportItemExecutor;
 import org.eclipse.birt.report.engine.internal.document.DocumentExtension;
 
-public class ReportletReader extends AbstractReportReader
-{
+public class ReportletReader extends AbstractReportReader {
 
 	Fragment reportletFragment = null;
 	BodyReader bodyExecutor;
 
-	public ReportletReader( ExecutionContext context, long offset )
-		throws IOException, BirtException
-	{
-		super( context );
-		Fragment fragment = loadFragment( offset );
-		bodyExecutor = new BodyReader( this, fragment );
+	public ReportletReader(ExecutionContext context, long offset) throws IOException, BirtException {
+		super(context);
+		Fragment fragment = loadFragment(offset);
+		bodyExecutor = new BodyReader(this, fragment);
 	}
 
-	public IReportItemExecutor getNextChild( )
-	{
-		return bodyExecutor.getNextChild( );
+	public IReportItemExecutor getNextChild() {
+		return bodyExecutor.getNextChild();
 	}
 
-	public boolean hasNextChild( )
-	{
-		return bodyExecutor.hasNextChild( );
+	public boolean hasNextChild() {
+		return bodyExecutor.hasNextChild();
 	}
 
-	protected Fragment loadFragment( long offset ) throws IOException
-	{
-		Object[] leftEdge = createEdges( offset );
+	protected Fragment loadFragment(long offset) throws IOException {
+		Object[] leftEdge = createEdges(offset);
 		Object[] rightEdge = new Object[leftEdge.length + 1];
-		System.arraycopy( leftEdge, 0, rightEdge, 0, leftEdge.length );
+		System.arraycopy(leftEdge, 0, rightEdge, 0, leftEdge.length);
 		rightEdge[leftEdge.length] = Segment.RIGHT_MOST_EDGE;
-		Fragment fragment = new Fragment( new LongComparator( ) );
-		fragment.addSection( leftEdge, rightEdge );
-		fragment.build( );
+		Fragment fragment = new Fragment(new LongComparator());
+		fragment.addSection(leftEdge, rightEdge);
+		fragment.build();
 		return fragment;
 	}
 
-	protected Long[] createEdges( long offset ) throws IOException
-	{
-		LinkedList parents = new LinkedList( );
-		IContent content = reader.loadContent( offset );
-		while ( content != null )
-		{
-			DocumentExtension ext = (DocumentExtension) content
-					.getExtension( IContent.DOCUMENT_EXTENSION );
-			if ( ext != null )
-			{
-				parents.addFirst( new Long( ext.getIndex( ) ) );
+	protected Long[] createEdges(long offset) throws IOException {
+		LinkedList parents = new LinkedList();
+		IContent content = reader.loadContent(offset);
+		while (content != null) {
+			DocumentExtension ext = (DocumentExtension) content.getExtension(IContent.DOCUMENT_EXTENSION);
+			if (ext != null) {
+				parents.addFirst(new Long(ext.getIndex()));
 			}
-			content = (IContent) content.getParent( );
+			content = (IContent) content.getParent();
 		}
-		Long[] edges = new Long[parents.size( )];
-		Iterator iter = parents.iterator( );
+		Long[] edges = new Long[parents.size()];
+		Iterator iter = parents.iterator();
 		int length = 0;
-		while ( iter.hasNext( ) )
-		{
-			Long value = (Long) iter.next( );
+		while (iter.hasNext()) {
+			Long value = (Long) iter.next();
 			edges[length++] = value;
 		}
 		return edges;

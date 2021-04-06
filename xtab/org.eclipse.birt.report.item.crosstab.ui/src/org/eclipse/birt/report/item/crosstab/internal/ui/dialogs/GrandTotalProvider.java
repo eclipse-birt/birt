@@ -45,11 +45,8 @@ import org.eclipse.swt.graphics.Image;
 import org.eclipse.swt.widgets.Item;
 import org.eclipse.swt.widgets.Shell;
 
-public class GrandTotalProvider extends TotalProvider implements
-		ITableLabelProvider,
-		IStructuredContentProvider,
-		ICellModifier
-{
+public class GrandTotalProvider extends TotalProvider
+		implements ITableLabelProvider, IStructuredContentProvider, ICellModifier {
 
 	private int axis;
 	private CellEditor[] cellEditor;
@@ -63,308 +60,243 @@ public class GrandTotalProvider extends TotalProvider implements
 	private static String[] positionItems = null;
 	private static String[] positionValues = null;
 	private static IChoiceSet choiceSet;
-	static
-	{
-		choiceSet = ChoiceSetFactory.getElementChoiceSet( ICrosstabConstants.CROSSTAB_VIEW_EXTENSION_NAME,
-				ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP );
+	static {
+		choiceSet = ChoiceSetFactory.getElementChoiceSet(ICrosstabConstants.CROSSTAB_VIEW_EXTENSION_NAME,
+				ICrosstabViewConstants.GRAND_TOTAL_LOCATIION_PROP);
 
-		IChoice[] choices = choiceSet.getChoices( new AlphabeticallyComparator( ) );
+		IChoice[] choices = choiceSet.getChoices(new AlphabeticallyComparator());
 
 		positionItems = new String[choices.length];
 		positionValues = new String[choices.length];
-		for ( int i = 0; i < choices.length; i++ )
-		{
-			positionValues[i] = choices[i].getName( );
-			positionItems[i] = choices[i].getDisplayName( );
+		for (int i = 0; i < choices.length; i++) {
+			positionValues[i] = choices[i].getName();
+			positionItems[i] = choices[i].getDisplayName();
 		}
 
 	}
 
-	private void initializeItems( GrandTotalInfo grandTotalInfo )
-	{
-		List<String> viewNameList = new ArrayList<String>( );
-		List<String> itemList = new ArrayList<String>( );
+	private void initializeItems(GrandTotalInfo grandTotalInfo) {
+		List<String> viewNameList = new ArrayList<String>();
+		List<String> itemList = new ArrayList<String>();
 
-		AggregationCellHandle cell = getAggregationCell( grandTotalInfo );
-		if ( cell != null
-				&& cellProviderWrapper.getMatchProvider( cell ) == null )
-		{
-			itemList.add( "" );
-			viewNameList.add( "" ); //$NON-NLS-1$
+		AggregationCellHandle cell = getAggregationCell(grandTotalInfo);
+		if (cell != null && cellProviderWrapper.getMatchProvider(cell) == null) {
+			itemList.add("");
+			viewNameList.add(""); //$NON-NLS-1$
 		}
 
-		IAggregationCellViewProvider providers[] = cellProviderWrapper.getAllProviders( );
-		for ( int i = 0; i < providers.length; i++ )
-		{
+		IAggregationCellViewProvider providers[] = cellProviderWrapper.getAllProviders();
+		for (int i = 0; i < providers.length; i++) {
 			IAggregationCellViewProvider tmp = (IAggregationCellViewProvider) providers[i];
-			if ( tmp == null )
-			{
+			if (tmp == null) {
 				continue;
 			}
-			SwitchCellInfo info = new SwitchCellInfo( crosstab,
-					SwitchCellInfo.GRAND_TOTAL );
-			info.setGrandTotalInfo( grandTotalInfo, axis );
-			if ( !providers[i].canSwitch( info ) )
-			{
+			SwitchCellInfo info = new SwitchCellInfo(crosstab, SwitchCellInfo.GRAND_TOTAL);
+			info.setGrandTotalInfo(grandTotalInfo, axis);
+			if (!providers[i].canSwitch(info)) {
 				continue;
 			}
-			String displayName = tmp.getViewDisplayName( );
-			viewNameList.add( tmp.getViewName( ) );
-			itemList.add( Messages.getString( "GrandTotalProvider.ShowAs", //$NON-NLS-1$
-					new String[]{
-						displayName
-					} ) );
+			String displayName = tmp.getViewDisplayName();
+			viewNameList.add(tmp.getViewName());
+			itemList.add(Messages.getString("GrandTotalProvider.ShowAs", //$NON-NLS-1$
+					new String[] { displayName }));
 		}
-		comboItems = (String[]) itemList.toArray( new String[itemList.size( )] );
-		viewNames = (String[]) viewNameList.toArray( new String[viewNameList.size( )] );
+		comboItems = (String[]) itemList.toArray(new String[itemList.size()]);
+		viewNames = (String[]) viewNameList.toArray(new String[viewNameList.size()]);
 	}
 
-	public GrandTotalProvider( TableViewer viewer,
-			CrosstabReportItemHandle crosstab, int axis )
-	{
+	public GrandTotalProvider(TableViewer viewer, CrosstabReportItemHandle crosstab, int axis) {
 		this.viewer = viewer;
 		this.crosstab = crosstab;
 		this.axis = axis;
-		cellProviderWrapper = new AggregationCellProviderWrapper( crosstab );
+		cellProviderWrapper = new AggregationCellProviderWrapper(crosstab);
 		// initialization( );
 	}
 
-	public String[] getColumnNames( )
-	{
+	public String[] getColumnNames() {
 		return columnNames;
 	}
 
-	public CellEditor[] getCellEditors( )
-	{
-		if ( cellEditor != null )
-		{
+	public CellEditor[] getCellEditors() {
+		if (cellEditor != null) {
 			return cellEditor;
 		}
 
-		ComboBoxCellEditor comboCell = new ComboBoxCellEditor( viewer.getTable( ),
-				new String[0],
-				SWT.READ_ONLY );
-		ComboBoxCellEditor positionCell = new ComboBoxCellEditor( viewer.getTable( ),
-				positionItems,
-				SWT.READ_ONLY );
-		cellEditor = new CellEditor[]{
-				null, null, comboCell, positionCell
-		};
+		ComboBoxCellEditor comboCell = new ComboBoxCellEditor(viewer.getTable(), new String[0], SWT.READ_ONLY);
+		ComboBoxCellEditor positionCell = new ComboBoxCellEditor(viewer.getTable(), positionItems, SWT.READ_ONLY);
+		cellEditor = new CellEditor[] { null, null, comboCell, positionCell };
 		return cellEditor;
 	}
 
 	// private CellEditor[] editors;
-	private String[] columnNames = new String[]{
-			"", Messages.getString( "GrandTotalProvider.Column.AggregateOn" ),// Messages.getString("GrandTotalProvider.Column.Function")
+	private String[] columnNames = new String[] { "", Messages.getString("GrandTotalProvider.Column.AggregateOn"), // Messages.getString("GrandTotalProvider.Column.Function")
 			// //$NON-NLS-1$
 			// //$NON-NLS-2$
 			// //$NON-NLS-1$
 			// //$NON-NLS-2$
 			// //$NON-NLS-3$
-			Messages.getString( "GrandTotalProvider.Column.View" ), //$NON-NLS-1$
-			Messages.getString( "GrandTotalProvider.Column.Position" ) //$NON-NLS-1$
+			Messages.getString("GrandTotalProvider.Column.View"), //$NON-NLS-1$
+			Messages.getString("GrandTotalProvider.Column.Position") //$NON-NLS-1$
 	};
 
-	public Image getColumnImage( Object element, int columnIndex )
-	{
+	public Image getColumnImage(Object element, int columnIndex) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
-	public String getColumnText( Object element, int columnIndex )
-	{
+	public String getColumnText(Object element, int columnIndex) {
 		GrandTotalInfo info = (GrandTotalInfo) element;
-		switch ( columnIndex )
-		{
-			case 0 :
-				return ""; //$NON-NLS-1$
-			case 1 :
-				return info.getMeasureDisplayName( ) == null ? ""
-						: info.getMeasureDisplayName( );
-			case 2 :
-				initializeItems( info );
-				( (ComboBoxCellEditor) cellEditor[2] ).setItems( comboItems );
-				String expectedView = info.getExpectedView( );
-				if ( expectedView == null )
-				{
-					expectedView = "";
-				}
-				int index = Arrays.asList( viewNames ).indexOf( expectedView );
-				if ( index <= 0 )
-				{
-					index = 0;
-					info.setExpectedView( viewNames[index] );
-				}
-				return comboItems[index];
-			case 3 :
-				String position = info.getPosition( );
-				if ( position == null )
-				{
-					position = "";
-				}
-				int posIndex = Arrays.asList( positionValues )
-						.indexOf( position );
-				if ( posIndex < 0 )
-				{
-					info.setPosition( positionValues[0] );
-				}
-				return positionItems[posIndex];
-			default :
-				break;
+		switch (columnIndex) {
+		case 0:
+			return ""; //$NON-NLS-1$
+		case 1:
+			return info.getMeasureDisplayName() == null ? "" : info.getMeasureDisplayName();
+		case 2:
+			initializeItems(info);
+			((ComboBoxCellEditor) cellEditor[2]).setItems(comboItems);
+			String expectedView = info.getExpectedView();
+			if (expectedView == null) {
+				expectedView = "";
+			}
+			int index = Arrays.asList(viewNames).indexOf(expectedView);
+			if (index <= 0) {
+				index = 0;
+				info.setExpectedView(viewNames[index]);
+			}
+			return comboItems[index];
+		case 3:
+			String position = info.getPosition();
+			if (position == null) {
+				position = "";
+			}
+			int posIndex = Arrays.asList(positionValues).indexOf(position);
+			if (posIndex < 0) {
+				info.setPosition(positionValues[0]);
+			}
+			return positionItems[posIndex];
+		default:
+			break;
 		}
 		return ""; //$NON-NLS-1$
 	}
 
-	public Object[] getElements( Object inputElement )
-	{
-		if ( inputElement instanceof List )
-			return ( (List) inputElement ).toArray( );
-		return new Object[]{};
+	public Object[] getElements(Object inputElement) {
+		if (inputElement instanceof List)
+			return ((List) inputElement).toArray();
+		return new Object[] {};
 
 	}
 
-	public void inputChanged( Viewer viewer, Object oldInput, Object newInput )
-	{
+	public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 	}
 
-	public int[] columnWidths( )
-	{
-		Shell shell = new Shell( );
-		GC gc = new GC( shell );
-		int height = gc.stringExtent( "" ).y;
-		gc.dispose( );
-		shell.dispose( );
+	public int[] columnWidths() {
+		Shell shell = new Shell();
+		GC gc = new GC(shell);
+		int height = gc.stringExtent("").y;
+		gc.dispose();
+		shell.dispose();
 
-		return new int[]{
-				height + (int) ( ( ( (float) height ) / 12 ) * 8 ),
-				210,
-				120,
-				120
-		};
+		return new int[] { height + (int) ((((float) height) / 12) * 8), 210, 120, 120 };
 	}
 
-	public boolean canModify( Object element, String property )
-	{
+	public boolean canModify(Object element, String property) {
 		// TODO Auto-generated method stub
-		if ( Arrays.asList( columnNames ).indexOf( property ) == 2
-				|| Arrays.asList( columnNames ).indexOf( property ) == 3 )
-		{
-			if ( viewer instanceof CheckboxTableViewer )
-			{
-				return ( (CheckboxTableViewer) viewer ).getChecked( element );
-			}
-			else
-			{
+		if (Arrays.asList(columnNames).indexOf(property) == 2 || Arrays.asList(columnNames).indexOf(property) == 3) {
+			if (viewer instanceof CheckboxTableViewer) {
+				return ((CheckboxTableViewer) viewer).getChecked(element);
+			} else {
 				return true;
 			}
 
-		}
-		else
-		{
+		} else {
 			return false;
 		}
 	}
 
-	public Object getValue( Object element, String property )
-	{
+	public Object getValue(Object element, String property) {
 		// TODO Auto-generated method stub
-		if ( element instanceof Item )
-		{
-			element = ( (Item) element ).getData( );
+		if (element instanceof Item) {
+			element = ((Item) element).getData();
 		}
 		Object value = null;
 
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		switch ( index )
-		{
-			case 1 :
-				break;
-			case 2 :
-				initializeItems( (GrandTotalInfo) element );
-				( (ComboBoxCellEditor) cellEditor[2] ).setItems( comboItems );
-				String expectedView = ( (GrandTotalInfo) ( element ) ).getExpectedView( );
-				if ( expectedView == null || expectedView.length( ) == 0 )
-				{
-					return Integer.valueOf( 0 );
-				}
-				int sel = Arrays.asList( viewNames ).indexOf( expectedView );
-				value = sel <= 0 ? Integer.valueOf( 0 ) : Integer.valueOf( sel );
-				break;
-			case 3 :
-				String pos = ( (GrandTotalInfo) ( element ) ).getPosition( );
-				if ( pos == null || pos.length( ) == 0 )
-				{
-					return Integer.valueOf( 0 );
-				}
-				int posIndex = Arrays.asList( positionValues ).indexOf( pos );
-				value = posIndex <= 0 ? Integer.valueOf( 0 )
-						: Integer.valueOf( posIndex );
-				break;
-			default :
+		int index = Arrays.asList(columnNames).indexOf(property);
+		switch (index) {
+		case 1:
+			break;
+		case 2:
+			initializeItems((GrandTotalInfo) element);
+			((ComboBoxCellEditor) cellEditor[2]).setItems(comboItems);
+			String expectedView = ((GrandTotalInfo) (element)).getExpectedView();
+			if (expectedView == null || expectedView.length() == 0) {
+				return Integer.valueOf(0);
+			}
+			int sel = Arrays.asList(viewNames).indexOf(expectedView);
+			value = sel <= 0 ? Integer.valueOf(0) : Integer.valueOf(sel);
+			break;
+		case 3:
+			String pos = ((GrandTotalInfo) (element)).getPosition();
+			if (pos == null || pos.length() == 0) {
+				return Integer.valueOf(0);
+			}
+			int posIndex = Arrays.asList(positionValues).indexOf(pos);
+			value = posIndex <= 0 ? Integer.valueOf(0) : Integer.valueOf(posIndex);
+			break;
+		default:
 		}
 		return value;
 	}
 
-	public void modify( Object element, String property, Object value )
-	{
+	public void modify(Object element, String property, Object value) {
 		// TODO Auto-generated method stub
-		if ( element instanceof Item )
-		{
-			element = ( (Item) element ).getData( );
+		if (element instanceof Item) {
+			element = ((Item) element).getData();
 		}
 
-		int index = Arrays.asList( columnNames ).indexOf( property );
-		switch ( index )
-		{
-			case 0 :
-				break;
-			case 1 :
-				break;
-			case 2 :
-				int sel = ( (Integer) value ).intValue( );
-				if ( sel == 0 )
-				{
-					( (GrandTotalInfo) ( element ) ).setExpectedView( "" ); //$NON-NLS-1$
-				}
-				else
-				{
-					( (GrandTotalInfo) element ).setExpectedView( viewNames[sel] );
-				}
-				break;
-			case 3 :
-				int posIndex = ( (Integer) value ).intValue( );
-				( (GrandTotalInfo) element ).setPosition( positionValues[posIndex] );
-				break;
-			default :
+		int index = Arrays.asList(columnNames).indexOf(property);
+		switch (index) {
+		case 0:
+			break;
+		case 1:
+			break;
+		case 2:
+			int sel = ((Integer) value).intValue();
+			if (sel == 0) {
+				((GrandTotalInfo) (element)).setExpectedView(""); //$NON-NLS-1$
+			} else {
+				((GrandTotalInfo) element).setExpectedView(viewNames[sel]);
+			}
+			break;
+		case 3:
+			int posIndex = ((Integer) value).intValue();
+			((GrandTotalInfo) element).setPosition(positionValues[posIndex]);
+			break;
+		default:
 		}
-		viewer.refresh( );
+		viewer.refresh();
 	}
 
-	private AggregationCellHandle getAggregationCell(
-			GrandTotalInfo grandTotalInfo )
-	{
+	private AggregationCellHandle getAggregationCell(GrandTotalInfo grandTotalInfo) {
 		AggregationCellHandle cell = null;
 		// MeasureHandle measure = grandTotalInfo.getMeasure( );
 		// if(measure == null)
 		// {
 		// return cell;
 		// }
-		MeasureViewHandle measureView = crosstab.getMeasure( grandTotalInfo.getMeasureQualifiedName( ) );
-		if ( measureView == null )
-		{
+		MeasureViewHandle measureView = crosstab.getMeasure(grandTotalInfo.getMeasureQualifiedName());
+		if (measureView == null) {
 			return cell;
 		}
 
-		int counterAxisType = CrosstabUtil.getOppositeAxisType( axis );
-		DimensionViewHandle counterDimension = crosstab.getDimension( counterAxisType,
-				crosstab.getDimensionCount( counterAxisType ) - 1 );
+		int counterAxisType = CrosstabUtil.getOppositeAxisType(axis);
+		DimensionViewHandle counterDimension = crosstab.getDimension(counterAxisType,
+				crosstab.getDimensionCount(counterAxisType) - 1);
 		String counterDimensionName = null;
 		String counterLevelName = null;
-		if ( counterDimension != null )
-		{
-			counterDimensionName = counterDimension.getCubeDimensionName( );
-			counterLevelName = counterDimension.getLevel( counterDimension.getLevelCount( ) - 1 )
-					.getCubeLevelName( );
+		if (counterDimension != null) {
+			counterDimensionName = counterDimension.getCubeDimensionName();
+			counterLevelName = counterDimension.getLevel(counterDimension.getLevelCount() - 1).getCubeLevelName();
 		}
 
 		String rowDimension = null;
@@ -372,22 +304,16 @@ public class GrandTotalProvider extends TotalProvider implements
 		String colDimension = null;
 		String colLevel = null;
 
-		if ( axis == ICrosstabConstants.ROW_AXIS_TYPE )
-		{
+		if (axis == ICrosstabConstants.ROW_AXIS_TYPE) {
 			colDimension = counterDimensionName;
 			colLevel = counterLevelName;
 
-		}
-		else if ( axis == ICrosstabConstants.COLUMN_AXIS_TYPE )
-		{
+		} else if (axis == ICrosstabConstants.COLUMN_AXIS_TYPE) {
 			rowDimension = counterDimensionName;
 			rowLevel = counterLevelName;
 		}
 
-		cell = measureView.getAggregationCell( rowDimension,
-				rowLevel,
-				colDimension,
-				colLevel );
+		cell = measureView.getAggregationCell(rowDimension, rowLevel, colDimension, colLevel);
 
 		return cell;
 	}

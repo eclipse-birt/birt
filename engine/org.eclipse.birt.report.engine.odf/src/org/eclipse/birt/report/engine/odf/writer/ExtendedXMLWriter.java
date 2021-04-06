@@ -23,37 +23,30 @@ import org.eclipse.birt.report.engine.emitter.XMLWriter;
  * Extended XML Writer with additional features.
  *
  */
-public class ExtendedXMLWriter extends XMLWriter
-{
-	public void flush()
-	{
+public class ExtendedXMLWriter extends XMLWriter {
+	public void flush() {
 		super.flush();
 	}
-	
-	public Writer getWriter()
-	{
+
+	public Writer getWriter() {
 		return writer;
 	}
-	
-	public void write( InputStream input ) throws IOException
-	{
-		flush( );
-		Reader reader = new InputStreamReader( input, "UTF-8" );
+
+	public void write(InputStream input) throws IOException {
+		flush();
+		Reader reader = new InputStreamReader(input, "UTF-8");
 		char[] buffer = new char[1024];
-		
+
 		int count;
-		while ( ( count = reader.read( buffer ) ) > 0 )
-		{			
-			writer.write( buffer, 0, count );
+		while ((count = reader.read(buffer)) > 0) {
+			writer.write(buffer, 0, count);
 		}
-		writer.flush( );
+		writer.flush();
 	}
-	
-	public void attributes( Map<String, String> attributes )
-	{
-		for ( Map.Entry<String,String> entry : attributes.entrySet( ) )
-		{
-			attribute( entry.getKey( ), entry.getValue( ) );
+
+	public void attributes(Map<String, String> attributes) {
+		for (Map.Entry<String, String> entry : attributes.entrySet()) {
+			attribute(entry.getKey(), entry.getValue());
 		}
 	}
 }

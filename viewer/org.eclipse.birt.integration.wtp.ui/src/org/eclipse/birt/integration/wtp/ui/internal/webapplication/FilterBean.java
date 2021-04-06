@@ -15,8 +15,7 @@ package org.eclipse.birt.integration.wtp.ui.internal.webapplication;
  * Bean defined for Filter object in web.xml
  * 
  */
-public class FilterBean
-{
+public class FilterBean {
 
 	/**
 	 * Filter name
@@ -36,8 +35,7 @@ public class FilterBean
 	/**
 	 * default constructor
 	 */
-	public FilterBean( )
-	{
+	public FilterBean() {
 	}
 
 	/**
@@ -46,8 +44,7 @@ public class FilterBean
 	 * @param name
 	 * @param className
 	 */
-	public FilterBean( String name, String className )
-	{
+	public FilterBean(String name, String className) {
 		this.name = name;
 		this.className = className;
 	}
@@ -55,51 +52,42 @@ public class FilterBean
 	/**
 	 * @return the name
 	 */
-	public String getName( )
-	{
+	public String getName() {
 		return name;
 	}
 
 	/**
-	 * @param name
-	 *            the name to set
+	 * @param name the name to set
 	 */
-	public void setName( String name )
-	{
+	public void setName(String name) {
 		this.name = name;
 	}
 
 	/**
 	 * @return the className
 	 */
-	public String getClassName( )
-	{
+	public String getClassName() {
 		return className;
 	}
 
 	/**
-	 * @param className
-	 *            the className to set
+	 * @param className the className to set
 	 */
-	public void setClassName( String className )
-	{
+	public void setClassName(String className) {
 		this.className = className;
 	}
 
 	/**
 	 * @return the description
 	 */
-	public String getDescription( )
-	{
+	public String getDescription() {
 		return description;
 	}
 
 	/**
-	 * @param description
-	 *            the description to set
+	 * @param description the description to set
 	 */
-	public void setDescription( String description )
-	{
+	public void setDescription(String description) {
 		this.description = description;
 	}
 }

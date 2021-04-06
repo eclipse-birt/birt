@@ -22,8 +22,7 @@ import org.w3c.flute.parser.Parser;
  * @see CssParser
  */
 
-public class ParserFactory
-{
+public class ParserFactory {
 
 	/**
 	 * Creates a Flute parser for the CSS2 grammar.
@@ -31,22 +30,19 @@ public class ParserFactory
 	 * @return a flute parser for the CSS2 grammar
 	 */
 
-	static public Parser createCSS2Parser( )
-	{
-		return new Parser( );
+	static public Parser createCSS2Parser() {
+		return new Parser();
 	}
 
 	/**
 	 * Creates a parser for the short hand properties.
 	 * 
-	 * @param inputProperty
-	 *            the input short-hand property value to parse
+	 * @param inputProperty the input short-hand property value to parse
 	 * @return a parser for the short-hand properties
 	 */
 
-	static public PropertyParser createPropertyParser( String inputProperty )
-	{
-		return new PropertyParser( inputProperty );
+	static public PropertyParser createPropertyParser(String inputProperty) {
+		return new PropertyParser(inputProperty);
 	}
 
 	/**
@@ -55,9 +51,8 @@ public class ParserFactory
 	 * @return the instance of <code>CssErrorHandler</code>
 	 */
 
-	static public CssErrorHandler createErrorHandler( )
-	{
-		return new CssErrorHandler( );
+	static public CssErrorHandler createErrorHandler() {
+		return new CssErrorHandler();
 	}
 
 }

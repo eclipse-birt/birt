@@ -30,8 +30,7 @@ import org.eclipse.swt.graphics.Image;
  */
 public class ExpressionCellEditorProvider implements IExpressionCellEditorProvider {
 
-	private static final String CONSTANT = Messages
-			.getString("ExpressionButtonProvider.Constant"); //$NON-NLS-1$
+	private static final String CONSTANT = Messages.getString("ExpressionButtonProvider.Constant"); //$NON-NLS-1$
 
 	private ExpressionCellEditor input;
 
@@ -45,8 +44,7 @@ public class ExpressionCellEditorProvider implements IExpressionCellEditorProvid
 			types.add(ExpressionType.CONSTANT);
 		}
 
-		IExpressionSupport[] exts = ExpressionSupportManager
-				.getExpressionSupports();
+		IExpressionSupport[] exts = ExpressionSupportManager.getExpressionSupports();
 
 		if (exts != null) {
 			for (IExpressionSupport ex : exts) {
@@ -68,8 +66,7 @@ public class ExpressionCellEditorProvider implements IExpressionCellEditorProvid
 
 	public Image getImage(String exprType) {
 		if (ExpressionType.CONSTANT.equals(exprType)) {
-			return ReportPlatformUIImages
-					.getImage(IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT);
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT);
 		} else {
 			IExpressionSupport spt = supports.get(exprType);
 
@@ -100,24 +97,22 @@ public class ExpressionCellEditorProvider implements IExpressionCellEditorProvid
 
 	public void handleSelectionEvent(String exprType) {
 		IExpressionSupport spt = supports.get(exprType);
-		String sOldExpr = input.getExpression( );
+		String sOldExpr = input.getExpression();
 
 		if (spt != null) {
-			IExpressionBuilder builder = spt.createBuilder(input.getControl()
-					.getShell(), null);
+			IExpressionBuilder builder = spt.createBuilder(input.getControl().getShell(), null);
 
 			if (builder != null) {
 				input.openExpressionBuilder(builder, exprType);
 			}
 		}
 		if (ExpressionType.CONSTANT.equals(exprType)) {
-			input.openConstantEditor( exprType );
+			input.openConstantEditor(exprType);
 		}
-		input.notifyExpressionChangeEvent( sOldExpr, input.getExpression( ) );
+		input.notifyExpressionChangeEvent(sOldExpr, input.getExpression());
 	}
 
-	public IExpressionSupport getExpressionSupport( String exprType )
-	{
+	public IExpressionSupport getExpressionSupport(String exprType) {
 		return supports.get(exprType);
 	}
 

@@ -19,8 +19,7 @@ import java.util.Map;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.engine.api.script.instance.IScriptStyle;
 
-public class TOCStyle implements IScriptStyle, Serializable
-{
+public class TOCStyle implements IScriptStyle, Serializable {
 
 	/**
 	 * 
@@ -86,178 +85,157 @@ public class TOCStyle implements IScriptStyle, Serializable
 	public static final String NUMBER_LOCALE = "number-locale";
 	public static final String STRING_LOCALE = "string-locale";
 
-	private HashMap<String, String> properties = new HashMap<String, String>( );
+	private HashMap<String, String> properties = new HashMap<String, String>();
 
-	public String getBackgroundAttachement( )
-	{
-		return (String) properties.get( BACKGROUND_ATTACHMENT );
+	public String getBackgroundAttachement() {
+		return (String) properties.get(BACKGROUND_ATTACHMENT);
 	}
 
 	/**
 	 * Get the attachment type (either SCROLL or FIXED)
 	 */
-	public String getBackgroundAttachment( )
-	{
-		return (String) properties.get( BACKGROUND_ATTACHMENT );
+	public String getBackgroundAttachment() {
+		return (String) properties.get(BACKGROUND_ATTACHMENT);
 	}
 
 	/**
 	 * Get the background color
 	 */
-	public String getBackgroundColor( )
-	{
-		return (String) properties.get( BACKGROUND_COLOR );
+	public String getBackgroundColor() {
+		return (String) properties.get(BACKGROUND_COLOR);
 	}
 
 	/**
 	 * Get the background image URI
 	 */
-	public String getBackgroundImage( )
-	{
-		return (String) properties.get( BACKGROUND_IMAGE );
+	public String getBackgroundImage() {
+		return (String) properties.get(BACKGROUND_IMAGE);
 	}
 
 	/**
 	 * Get the X (horizontal) position of the background image
 	 * 
 	 */
-	public String getBackgroundPositionX( )
-	{
-		return (String) properties.get( BACKGROUND_POSITION_X );
+	public String getBackgroundPositionX() {
+		return (String) properties.get(BACKGROUND_POSITION_X);
 	}
 
 	/**
 	 * Get the Y (vertical) position of the background image
 	 * 
 	 */
-	public String getBackgroundPositionY( )
-	{
-		return (String) properties.get( BACKGROUND_POSITION_Y );
+	public String getBackgroundPositionY() {
+		return (String) properties.get(BACKGROUND_POSITION_Y);
 	}
 
 	/**
-	 * Get the background repeat type (valid types are REPEAT, REPEAT_X,
-	 * REPEAT_Y and NO_REPEAT)
+	 * Get the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
+	 * and NO_REPEAT)
 	 */
-	public String getBackgroundRepeat( )
-	{
-		return (String) properties.get( BACKGROUND_REPEAT );
+	public String getBackgroundRepeat() {
+		return (String) properties.get(BACKGROUND_REPEAT);
 	}
 
 	/**
 	 * Get the bottom border color
 	 */
-	public String getBorderBottomColor( )
-	{
-		return (String) properties.get( BORDER_BOTTOM_COLOR );
+	public String getBorderBottomColor() {
+		return (String) properties.get(BORDER_BOTTOM_COLOR);
 	}
 
 	/**
-	 * Get the bottom border style. Valid styles are NONE, SOLID, DOTTED,
-	 * DASHED, DOUBLE, GROVE, RIDGE, INSET and OUTSET.
+	 * Get the bottom border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
+	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public String getBorderBottomStyle( )
-	{
-		return (String) properties.get( BORDER_BOTTOM_STYLE );
+	public String getBorderBottomStyle() {
+		return (String) properties.get(BORDER_BOTTOM_STYLE);
 	}
 
 	/**
 	 * Get the bottom border width.
 	 */
-	public String getBorderBottomWidth( )
-	{
-		return (String) properties.get( BORDER_BOTTOM_WIDTH );
+	public String getBorderBottomWidth() {
+		return (String) properties.get(BORDER_BOTTOM_WIDTH);
 	}
 
 	/**
 	 * Get the left border color
 	 */
-	public String getBorderLeftColor( )
-	{
-		return (String) properties.get( BORDER_LEFT_COLOR );
+	public String getBorderLeftColor() {
+		return (String) properties.get(BORDER_LEFT_COLOR);
 	}
 
 	/**
 	 * Get the left border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public String getBorderLeftStyle( )
-	{
-		return (String) properties.get( BORDER_LEFT_STYLE );
+	public String getBorderLeftStyle() {
+		return (String) properties.get(BORDER_LEFT_STYLE);
 	}
 
 	/**
 	 * Get the left border width.
 	 */
-	public String getBorderLeftWidth( )
-	{
-		return (String) properties.get( BORDER_LEFT_WIDTH );
+	public String getBorderLeftWidth() {
+		return (String) properties.get(BORDER_LEFT_WIDTH);
 	}
 
 	/**
 	 * Get the right border color
 	 */
-	public String getBorderRightColor( )
-	{
-		return (String) properties.get( BORDER_RIGHT_COLOR );
+	public String getBorderRightColor() {
+		return (String) properties.get(BORDER_RIGHT_COLOR);
 	}
 
 	/**
 	 * Get the right border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public String getBorderRightStyle( )
-	{
-		return (String) properties.get( BORDER_RIGHT_STYLE );
+	public String getBorderRightStyle() {
+		return (String) properties.get(BORDER_RIGHT_STYLE);
 	}
 
 	/**
 	 * Get the right border width.
 	 */
-	public String getBorderRightWidth( )
-	{
-		return (String) properties.get( BORDER_RIGHT_WIDTH );
+	public String getBorderRightWidth() {
+		return (String) properties.get(BORDER_RIGHT_WIDTH);
 	}
 
 	/**
 	 * Get the top border color
 	 */
-	public String getBorderTopColor( )
-	{
-		return (String) properties.get( BORDER_TOP_COLOR );
+	public String getBorderTopColor() {
+		return (String) properties.get(BORDER_TOP_COLOR);
 	}
 
 	/**
 	 * Get the top border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public String getBorderTopStyle( )
-	{
-		return (String) properties.get( BORDER_TOP_STYLE );
+	public String getBorderTopStyle() {
+		return (String) properties.get(BORDER_TOP_STYLE);
 	}
 
 	/**
 	 * Get the top border width.
 	 */
-	public String getBorderTopWidth( )
-	{
-		return (String) properties.get( BORDER_TOP_WIDTH );
+	public String getBorderTopWidth() {
+		return (String) properties.get(BORDER_TOP_WIDTH);
 	}
 
 	/**
 	 * Can this element shrink?
 	 */
-	public String getCanShrink( )
-	{
-		return (String) properties.get( CAN_SHRINK );
+	public String getCanShrink() {
+		return (String) properties.get(CAN_SHRINK);
 	}
 
 	/**
 	 * Get the font color
 	 */
-	public String getColor( )
-	{
-		return (String) properties.get( COLOR );
+	public String getColor() {
+		return (String) properties.get(COLOR);
 	}
 
 	/**
@@ -265,123 +243,108 @@ public class TOCStyle implements IScriptStyle, Serializable
 	 * 
 	 * @return date format
 	 */
-	public String getDateFormat( )
-	{
-		return (String) properties.get( DATE_FORMAT );
+	public String getDateFormat() {
+		return (String) properties.get(DATE_FORMAT);
 	}
 
-	public String getDirection( )
-	{
-		return (String) properties.get( DIRECTION );
+	public String getDirection() {
+		return (String) properties.get(DIRECTION);
 	}
 
 	/**
 	 * Get the display type (valid types are BLOCK, INLINE and NONE)
 	 */
-	public String getDisplay( )
-	{
-		return (String) properties.get( DISPLAY );
+	public String getDisplay() {
+		return (String) properties.get(DISPLAY);
 	}
 
 	/**
 	 * Get the font family
 	 * 
 	 */
-	public String getFontFamily( )
-	{
-		return (String) properties.get( FONT_FAMILY );
+	public String getFontFamily() {
+		return (String) properties.get(FONT_FAMILY);
 	}
 
 	/**
 	 * Get the font size
 	 * 
 	 */
-	public String getFontSize( )
-	{
-		return (String) properties.get( FONT_SIZE );
+	public String getFontSize() {
+		return (String) properties.get(FONT_SIZE);
 	}
 
 	/**
 	 * Get the font style
 	 * 
 	 */
-	public String getFontStyle( )
-	{
-		return (String) properties.get( FONT_STYLE );
+	public String getFontStyle() {
+		return (String) properties.get(FONT_STYLE);
 	}
 
 	/**
 	 * Get the font variant
 	 * 
 	 */
-	public String getFontVariant( )
-	{
-		return (String) properties.get( FONT_VARIANT );
+	public String getFontVariant() {
+		return (String) properties.get(FONT_VARIANT);
 	}
 
 	/**
 	 * Get the font weight
 	 * 
 	 */
-	public String getFontWeight( )
-	{
-		return (String) properties.get( FONT_WEIGHT );
+	public String getFontWeight() {
+		return (String) properties.get(FONT_WEIGHT);
 	}
 
 	/**
 	 * Get the letter spacing
 	 */
-	public String getLetterSpacing( )
-	{
-		return (String) properties.get( LETTER_SPACING );
+	public String getLetterSpacing() {
+		return (String) properties.get(LETTER_SPACING);
 	}
 
 	/**
 	 * Get the line height
 	 */
-	public String getLineHeight( )
-	{
-		return (String) properties.get( LINE_HEIGHT );
+	public String getLineHeight() {
+		return (String) properties.get(LINE_HEIGHT);
 	}
 
 	/**
 	 * Get the bottom margin
 	 */
-	public String getMarginBottom( )
-	{
-		return (String) properties.get( MARGIN_BOTTOM );
+	public String getMarginBottom() {
+		return (String) properties.get(MARGIN_BOTTOM);
 	}
 
 	/**
 	 * Get the left margin
 	 */
-	public String getMarginLeft( )
-	{
-		return (String) properties.get( MARGIN_LEFT );
+	public String getMarginLeft() {
+		return (String) properties.get(MARGIN_LEFT);
 	}
 
 	/**
 	 * Get the right margin
 	 */
-	public String getMarginRight( )
-	{
-		return (String) properties.get( MARGIN_RIGHT );
+	public String getMarginRight() {
+		return (String) properties.get(MARGIN_RIGHT);
 	}
 
 	/**
 	 * Get the top margin
 	 */
-	public String getMarginTop( )
-	{
-		return (String) properties.get( MARGIN_TOP );
+	public String getMarginTop() {
+		return (String) properties.get(MARGIN_TOP);
 	}
 
 	/**
 	 * Get the master page
 	 */
-	public String getMasterPage( )
-	{
-		return (String) properties.get( MASTER_PAGE );
+	public String getMasterPage() {
+		return (String) properties.get(MASTER_PAGE);
 	}
 
 	/**
@@ -389,73 +352,64 @@ public class TOCStyle implements IScriptStyle, Serializable
 	 * 
 	 * @return the number format
 	 */
-	public String getNumberFormat( )
-	{
-		return (String) properties.get( NUMBER_FORMAT );
+	public String getNumberFormat() {
+		return (String) properties.get(NUMBER_FORMAT);
 	}
 
 	/**
 	 * Get the bottom padding.
 	 */
-	public String getPaddingBottom( )
-	{
-		return (String) properties.get( PADDING_BOTTOM );
+	public String getPaddingBottom() {
+		return (String) properties.get(PADDING_BOTTOM);
 	}
 
 	/**
 	 * Get the left padding.
 	 */
-	public String getPaddingLeft( )
-	{
-		return (String) properties.get( PADDING_LEFT );
+	public String getPaddingLeft() {
+		return (String) properties.get(PADDING_LEFT);
 	}
 
 	/**
 	 * Get the right padding.
 	 */
-	public String getPaddingRight( )
-	{
-		return (String) properties.get( PADDING_RIGHT );
+	public String getPaddingRight() {
+		return (String) properties.get(PADDING_RIGHT);
 	}
 
 	/**
 	 * Get the top padding.
 	 */
-	public String getPaddingTop( )
-	{
-		return (String) properties.get( PADDING_TOP );
+	public String getPaddingTop() {
+		return (String) properties.get(PADDING_TOP);
 	}
 
 	/**
 	 * Get the page break after.
 	 */
-	public String getPageBreakAfter( )
-	{
-		return (String) properties.get( PAGE_BREAK_AFTER );
+	public String getPageBreakAfter() {
+		return (String) properties.get(PAGE_BREAK_AFTER);
 	}
 
 	/**
 	 * Get the page break before.
 	 */
-	public String getPageBreakBefore( )
-	{
-		return (String) properties.get( PAGE_BREAK_BEFORE );
+	public String getPageBreakBefore() {
+		return (String) properties.get(PAGE_BREAK_BEFORE);
 	}
 
 	/**
 	 * Get the page break inside.
 	 */
-	public String getPageBreakInside( )
-	{
-		return (String) properties.get( PAGE_BREAK_INSIDE );
+	public String getPageBreakInside() {
+		return (String) properties.get(PAGE_BREAK_INSIDE);
 	}
 
 	/**
 	 * Show if blank?
 	 */
-	public String getShowIfBlank( )
-	{
-		return (String) properties.get( SHOW_IF_BLANK );
+	public String getShowIfBlank() {
+		return (String) properties.get(SHOW_IF_BLANK);
 	}
 
 	/**
@@ -463,68 +417,60 @@ public class TOCStyle implements IScriptStyle, Serializable
 	 * 
 	 * @return the string format
 	 */
-	public String getStringFormat( )
-	{
-		return (String) properties.get( STRING_FORMAT );
+	public String getStringFormat() {
+		return (String) properties.get(STRING_FORMAT);
 	}
 
 	/**
 	 * Get the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
-	public String getTextAlign( )
-	{
-		return (String) properties.get( TEXT_ALIGN );
+	public String getTextAlign() {
+		return (String) properties.get(TEXT_ALIGN);
 	}
 
 	/**
 	 * Get the text indent
 	 */
-	public String getTextIndent( )
-	{
-		return (String) properties.get( TEXT_INDENT );
+	public String getTextIndent() {
+		return (String) properties.get(TEXT_INDENT);
 	}
 
 	/**
 	 * Get the text line through
-	 */	
-	public String getTextLineThrough( )
-	{
-		return (String) properties.get( TEXT_LINE_THROUGH );
+	 */
+	public String getTextLineThrough() {
+		return (String) properties.get(TEXT_LINE_THROUGH);
 	}
 
 	/**
 	 * Get the text overline
 	 */
-	public String getTextOverline( )
-	{
-		return (String) properties.get( TEXT_OVERLINE );
+	public String getTextOverline() {
+		return (String) properties.get(TEXT_OVERLINE);
 	}
 
 	/**
-	 * Get the text transform. Valid return values are NONE, CAPITALIZE,
-	 * UPPERCASE and LOWERCASE.
+	 * Get the text transform. Valid return values are NONE, CAPITALIZE, UPPERCASE
+	 * and LOWERCASE.
 	 */
-	public String getTextTransform( )
-	{
-		return (String) properties.get( TEXT_TRANSFORM );
+	public String getTextTransform() {
+		return (String) properties.get(TEXT_TRANSFORM);
 	}
 
 	/**
 	 * Get the text underline
 	 */
-	public String getTextUnderline( )
-	{
-		return (String) properties.get( TEXT_UNDERLINE );
+	public String getTextUnderline() {
+		return (String) properties.get(TEXT_UNDERLINE);
 	}
 
 	/**
 	 * Get the vertical alignment. Valid return values are BASELINE, SUB, SUPER,
 	 * TOP, TEXT_TOP, MIDDLE, BOTTOM and TEXT_BOTTOM
 	 */
-	public String getVerticalAlign( )
-	{
-		return (String) properties.get( VERTICAL_ALIGN );
+	public String getVerticalAlign() {
+		return (String) properties.get(VERTICAL_ALIGN);
 	}
 
 	/**
@@ -541,198 +487,173 @@ public class TOCStyle implements IScriptStyle, Serializable
 	 * org.eclipse.birt.report.model.api.elements.DesignChoiceConstants.FORMAT_TYPE_POWERPOINT
 	 * 
 	 */
-	public String getVisibleFormat( )
-	{
-		return (String) properties.get( VISIBLE_FORMAT );
+	public String getVisibleFormat() {
+		return (String) properties.get(VISIBLE_FORMAT);
 	}
 
 	/**
 	 * Get the whitespace. Valid return values are NORMAL, PRE and NOWRAP
 	 */
-	public String getWhiteSpace( )
-	{
-		return (String) properties.get( WHITE_SPACE );
+	public String getWhiteSpace() {
+		return (String) properties.get(WHITE_SPACE);
 	}
 
 	/**
 	 * Get the word spacing
 	 */
-	public String getWordSpacing( )
-	{
-		return (String) properties.get( WORD_SPACING );
+	public String getWordSpacing() {
+		return (String) properties.get(WORD_SPACING);
 	}
 
-	
-	public void setBackgroundAttachement( String attachement )
-	{
-		setProperty( BACKGROUND_ATTACHMENT, attachement );
+	public void setBackgroundAttachement(String attachement) {
+		setProperty(BACKGROUND_ATTACHMENT, attachement);
 	}
 
 	/**
 	 * Set the attachment type (either SCROLL or FIXED)
 	 */
-	public void setBackgroundAttachment( String attachment )
-	{
-		setProperty( BACKGROUND_ATTACHMENT, attachment );
+	public void setBackgroundAttachment(String attachment) {
+		setProperty(BACKGROUND_ATTACHMENT, attachment);
 	}
 
 	/**
 	 * Set the background color
 	 */
-	public void setBackgroundColor( String color )
-	{
-		setProperty( BACKGROUND_COLOR, color );
+	public void setBackgroundColor(String color) {
+		setProperty(BACKGROUND_COLOR, color);
 	}
 
 	/**
 	 * Set the background image URI
 	 */
-	public void setBackgroundImage( String imageURI )
-	{
-		setProperty( BACKGROUND_IMAGE, imageURI );
+	public void setBackgroundImage(String imageURI) {
+		setProperty(BACKGROUND_IMAGE, imageURI);
 	}
 
 	/**
 	 * Set the X (horizontal) position of the background image
 	 * 
 	 */
-	public void setBackgroundPositionX( String x ) throws ScriptException
-	{
-		setProperty( BACKGROUND_POSITION_X, x );
+	public void setBackgroundPositionX(String x) throws ScriptException {
+		setProperty(BACKGROUND_POSITION_X, x);
 	}
 
 	/**
 	 * Set the Y (vertical) position of the background image
 	 * 
 	 */
-	public void setBackgroundPositionY( String y ) throws ScriptException
-	{
-		setProperty( BACKGROUND_POSITION_Y, y );
+	public void setBackgroundPositionY(String y) throws ScriptException {
+		setProperty(BACKGROUND_POSITION_Y, y);
 	}
 
 	/**
-	 * Set the background repeat type (valid types are REPEAT, REPEAT_X,
-	 * REPEAT_Y and NO_REPEAT)
+	 * Set the background repeat type (valid types are REPEAT, REPEAT_X, REPEAT_Y
+	 * and NO_REPEAT)
 	 */
-	public void setBackgroundRepeat( String repeat )
-	{
-		setProperty( BACKGROUND_REPEAT, repeat );
+	public void setBackgroundRepeat(String repeat) {
+		setProperty(BACKGROUND_REPEAT, repeat);
 	}
-	
+
 	/**
 	 * Set the bottom border color
 	 */
-	public void setBorderBottomColor( String color )
-	{
-		setProperty( BORDER_BOTTOM_COLOR, color );
+	public void setBorderBottomColor(String color) {
+		setProperty(BORDER_BOTTOM_COLOR, color);
 	}
 
 	/**
-	 * Set the bottom border style. Valid styles are NONE, SOLID, DOTTED,
-	 * DASHED, DOUBLE, GROVE, RIDGE, INSET and OUTSET.
+	 * Set the bottom border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
+	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public void setBorderBottomStyle( String borderstyle )
-	{
-		setProperty( BORDER_BOTTOM_STYLE, borderstyle );
+	public void setBorderBottomStyle(String borderstyle) {
+		setProperty(BORDER_BOTTOM_STYLE, borderstyle);
 	}
 
 	/**
 	 * Set the bottom border width.
 	 */
-	public void setBorderBottomWidth( String width )
-	{
-		setProperty( BORDER_BOTTOM_WIDTH, width );
+	public void setBorderBottomWidth(String width) {
+		setProperty(BORDER_BOTTOM_WIDTH, width);
 	}
 
 	/**
 	 * Set the left border color
 	 */
-	public void setBorderLeftColor( String color )
-	{
-		setProperty( BORDER_LEFT_COLOR, color );
+	public void setBorderLeftColor(String color) {
+		setProperty(BORDER_LEFT_COLOR, color);
 	}
 
 	/**
 	 * Set the left border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public void setBorderLeftStyle( String borderstyle )
-	{
-		setProperty( BORDER_LEFT_STYLE, borderstyle );
+	public void setBorderLeftStyle(String borderstyle) {
+		setProperty(BORDER_LEFT_STYLE, borderstyle);
 	}
 
 	/**
 	 * Set the left border width.
 	 */
-	public void setBorderLeftWidth( String width )
-	{
-		setProperty( BORDER_LEFT_WIDTH, width );
+	public void setBorderLeftWidth(String width) {
+		setProperty(BORDER_LEFT_WIDTH, width);
 	}
 
 	/**
 	 * Set the right border color
 	 */
-	public void setBorderRightColor( String color )
-	{
-		setProperty( BORDER_RIGHT_COLOR, color );
+	public void setBorderRightColor(String color) {
+		setProperty(BORDER_RIGHT_COLOR, color);
 	}
 
 	/**
 	 * Get the right border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public void setBorderRightStyle( String borderstyle )
-	{
-		setProperty( BORDER_RIGHT_STYLE, borderstyle );
+	public void setBorderRightStyle(String borderstyle) {
+		setProperty(BORDER_RIGHT_STYLE, borderstyle);
 	}
 
 	/**
 	 * Set the right border width.
 	 */
-	public void setBorderRightWidth( String width )
-	{
-		setProperty( BORDER_RIGHT_WIDTH, width );
+	public void setBorderRightWidth(String width) {
+		setProperty(BORDER_RIGHT_WIDTH, width);
 	}
 
 	/**
 	 * Set the top border color
 	 */
-	public void setBorderTopColor( String color )
-	{
-		setProperty( BORDER_TOP_COLOR, color );
+	public void setBorderTopColor(String color) {
+		setProperty(BORDER_TOP_COLOR, color);
 	}
 
 	/**
 	 * Get the top border style. Valid styles are NONE, SOLID, DOTTED, DASHED,
 	 * DOUBLE, GROVE, RIDGE, INSET and OUTSET.
 	 */
-	public void setBorderTopStyle( String borderstyle )
-	{
-		setProperty( BORDER_TOP_STYLE, borderstyle );
+	public void setBorderTopStyle(String borderstyle) {
+		setProperty(BORDER_TOP_STYLE, borderstyle);
 	}
 
 	/**
 	 * Set the top border width.
 	 */
-	public void setBorderTopWidth( String width )
-	{
-		setProperty( BORDER_TOP_WIDTH, width );
+	public void setBorderTopWidth(String width) {
+		setProperty(BORDER_TOP_WIDTH, width);
 	}
 
 	/**
 	 * Can this element shrink?
 	 */
-	public void setCanShrink( String canShrink )
-	{
-		setProperty( CAN_SHRINK, canShrink );
+	public void setCanShrink(String canShrink) {
+		setProperty(CAN_SHRINK, canShrink);
 	}
 
 	/**
 	 * Set the font color
 	 */
-	public void setColor( String color )
-	{
-		setProperty( COLOR, color );
+	public void setColor(String color) {
+		setProperty(COLOR, color);
 	}
 
 	/**
@@ -740,123 +661,108 @@ public class TOCStyle implements IScriptStyle, Serializable
 	 * 
 	 * @param dateTimeFormat
 	 */
-	public void setDateFormat( String dateTimeFormat )
-	{
-		setProperty( DATE_FORMAT, dateTimeFormat );
+	public void setDateFormat(String dateTimeFormat) {
+		setProperty(DATE_FORMAT, dateTimeFormat);
 	}
 
-	public void setDirection( String direction )
-	{
-		setProperty( DIRECTION, direction );
+	public void setDirection(String direction) {
+		setProperty(DIRECTION, direction);
 	}
 
 	/**
 	 * Set the display type (valid types are BLOCK, INLINE and NONE)
 	 */
-	public void setDisplay( String display )
-	{
-		setProperty( DISPLAY, display );
+	public void setDisplay(String display) {
+		setProperty(DISPLAY, display);
 	}
 
 	/**
 	 * Set the font family
 	 * 
 	 */
-	public void setFontFamily( String fontFamily )
-	{
-		setProperty( FONT_FAMILY, fontFamily );
+	public void setFontFamily(String fontFamily) {
+		setProperty(FONT_FAMILY, fontFamily);
 	}
 
 	/**
 	 * Set the font size
 	 * 
 	 */
-	public void setFontSize( String fontSize )
-	{
-		setProperty( FONT_SIZE, fontSize );
+	public void setFontSize(String fontSize) {
+		setProperty(FONT_SIZE, fontSize);
 	}
 
 	/**
 	 * Set the font style
 	 * 
 	 */
-	public void setFontStyle( String fontStyle )
-	{
-		setProperty( FONT_STYLE, fontStyle );
+	public void setFontStyle(String fontStyle) {
+		setProperty(FONT_STYLE, fontStyle);
 	}
 
 	/**
 	 * Set the font variant
 	 * 
 	 */
-	public void setFontVariant( String fontVariant )
-	{
-		setProperty( FONT_VARIANT, fontVariant );
+	public void setFontVariant(String fontVariant) {
+		setProperty(FONT_VARIANT, fontVariant);
 	}
 
 	/**
 	 * Set the font weight
 	 * 
 	 */
-	public void setFontWeight( String fontWeight )
-	{
-		setProperty( FONT_WEIGHT, fontWeight );
+	public void setFontWeight(String fontWeight) {
+		setProperty(FONT_WEIGHT, fontWeight);
 	}
 
 	/**
 	 * Set the letter spacing
 	 */
-	public void setLetterSpacing( String spacing )
-	{
-		setProperty( LETTER_SPACING, spacing );
+	public void setLetterSpacing(String spacing) {
+		setProperty(LETTER_SPACING, spacing);
 	}
 
 	/**
 	 * Set the line height
 	 */
-	public void setLineHeight( String lineHeight )
-	{
-		setProperty( LINE_HEIGHT, lineHeight );
+	public void setLineHeight(String lineHeight) {
+		setProperty(LINE_HEIGHT, lineHeight);
 	}
 
 	/**
 	 * Set the bottom margin
 	 */
-	public void setMarginBottom( String margin )
-	{
-		setProperty( MARGIN_BOTTOM, margin );
+	public void setMarginBottom(String margin) {
+		setProperty(MARGIN_BOTTOM, margin);
 	}
 
 	/**
 	 * Set the left margin
 	 */
-	public void setMarginLeft( String margin )
-	{
-		setProperty( MARGIN_LEFT, margin );
+	public void setMarginLeft(String margin) {
+		setProperty(MARGIN_LEFT, margin);
 	}
 
 	/**
 	 * Set the right margin
 	 */
-	public void setMarginRight( String margin )
-	{
-		setProperty( MARGIN_RIGHT, margin );
+	public void setMarginRight(String margin) {
+		setProperty(MARGIN_RIGHT, margin);
 	}
 
 	/**
 	 * Set the top margin
 	 */
-	public void setMarginTop( String margin )
-	{
-		setProperty( MARGIN_TOP, margin );
+	public void setMarginTop(String margin) {
+		setProperty(MARGIN_TOP, margin);
 	}
 
 	/**
 	 * Set the master page
 	 */
-	public void setMasterPage( String masterPage )
-	{
-		setProperty( MASTER_PAGE, masterPage );
+	public void setMasterPage(String masterPage) {
+		setProperty(MASTER_PAGE, masterPage);
 	}
 
 	/**
@@ -864,73 +770,64 @@ public class TOCStyle implements IScriptStyle, Serializable
 	 * 
 	 * @param numberFormat
 	 */
-	public void setNumberFormat( String numberFormat )
-	{
-		setProperty( NUMBER_FORMAT, numberFormat );
+	public void setNumberFormat(String numberFormat) {
+		setProperty(NUMBER_FORMAT, numberFormat);
 	}
 
 	/**
 	 * Set the bottom padding.
 	 */
-	public void setPaddingBottom( String padding )
-	{
-		setProperty( PADDING_BOTTOM, padding );
+	public void setPaddingBottom(String padding) {
+		setProperty(PADDING_BOTTOM, padding);
 	}
 
 	/**
 	 * Set the left padding.
 	 */
-	public void setPaddingLeft( String padding )
-	{
-		setProperty( PADDING_LEFT, padding );
+	public void setPaddingLeft(String padding) {
+		setProperty(PADDING_LEFT, padding);
 	}
 
 	/**
 	 * Set the right padding.
 	 */
-	public void setPaddingRight( String padding )
-	{
-		setProperty( PADDING_RIGHT, padding );
+	public void setPaddingRight(String padding) {
+		setProperty(PADDING_RIGHT, padding);
 	}
 
 	/**
 	 * Set the top padding.
 	 */
-	public void setPaddingTop( String padding )
-	{
-		setProperty( PADDING_TOP, padding );
+	public void setPaddingTop(String padding) {
+		setProperty(PADDING_TOP, padding);
 	}
 
 	/**
 	 * Set the page break after
 	 */
-	public void setPageBreakAfter( String pageBreak )
-	{
-		setProperty( PAGE_BREAK_AFTER, pageBreak );
+	public void setPageBreakAfter(String pageBreak) {
+		setProperty(PAGE_BREAK_AFTER, pageBreak);
 	}
 
 	/**
 	 * Set the page break before
 	 */
-	public void setPageBreakBefore( String pageBreak )
-	{
-		setProperty( PAGE_BREAK_BEFORE, pageBreak );
+	public void setPageBreakBefore(String pageBreak) {
+		setProperty(PAGE_BREAK_BEFORE, pageBreak);
 	}
 
 	/**
 	 * Set the page break inside
 	 */
-	public void setPageBreakInside( String pageBreak )
-	{
-		setProperty( PAGE_BREAK_INSIDE, pageBreak );
+	public void setPageBreakInside(String pageBreak) {
+		setProperty(PAGE_BREAK_INSIDE, pageBreak);
 	}
 
 	/**
 	 * Set show if blank
 	 */
-	public void setShowIfBlank( String showIfBlank )
-	{
-		setProperty( SHOW_IF_BLANK, showIfBlank );
+	public void setShowIfBlank(String showIfBlank) {
+		setProperty(SHOW_IF_BLANK, showIfBlank);
 	}
 
 	/**
@@ -938,68 +835,60 @@ public class TOCStyle implements IScriptStyle, Serializable
 	 * 
 	 * @param stringFormat
 	 */
-	public void setStringFormat( String stringFormat )
-	{
-		setProperty( STRING_FORMAT, stringFormat );
+	public void setStringFormat(String stringFormat) {
+		setProperty(STRING_FORMAT, stringFormat);
 	}
 
 	/**
 	 * Set the text alignment. Valid return types are LEFT, RIGHT, CENTER and
 	 * JUSTIFY.
 	 */
-	public void setTextAlign( String align )
-	{
-		setProperty( TEXT_ALIGN, align );
+	public void setTextAlign(String align) {
+		setProperty(TEXT_ALIGN, align);
 	}
 
 	/**
 	 * Set the text indent
 	 */
-	public void setTextIndent( String indent )
-	{
-		setProperty( TEXT_INDENT, indent );
+	public void setTextIndent(String indent) {
+		setProperty(TEXT_INDENT, indent);
 	}
 
 	/**
 	 * Set the text line through
 	 */
-	public void setTextLineThrough( String through ) throws ScriptException
-	{
-		setProperty( TEXT_LINE_THROUGH, through );
+	public void setTextLineThrough(String through) throws ScriptException {
+		setProperty(TEXT_LINE_THROUGH, through);
 	}
 
 	/**
 	 * Set the text overline
 	 */
-	public void setTextOverline( String overline ) throws ScriptException
-	{
-		setProperty( TEXT_OVERLINE, overline );
+	public void setTextOverline(String overline) throws ScriptException {
+		setProperty(TEXT_OVERLINE, overline);
 	}
 
 	/**
 	 * Set the text transform. Valid transform values are NONE, CAPITALIZE,
 	 * UPPERCASE and LOWERCASE.
 	 */
-	public void setTextTransform( String transform )
-	{
-		setProperty( TEXT_TRANSFORM, transform );
+	public void setTextTransform(String transform) {
+		setProperty(TEXT_TRANSFORM, transform);
 	}
 
 	/**
 	 * Set the text underline
 	 */
-	public void setTextUnderline( String underline ) throws ScriptException
-	{
-		setProperty( TEXT_UNDERLINE, underline );
+	public void setTextUnderline(String underline) throws ScriptException {
+		setProperty(TEXT_UNDERLINE, underline);
 	}
 
 	/**
 	 * Set the vertical alignment. Valid values are BASELINE, SUB, SUPER, TOP,
 	 * TEXT_TOP, MIDDLE, BOTTOM and TEXT_BOTTOM
 	 */
-	public void setVerticalAlign( String valign )
-	{
-		setProperty( VERTICAL_ALIGN, valign );
+	public void setVerticalAlign(String valign) {
+		setProperty(VERTICAL_ALIGN, valign);
 	}
 
 	/**
@@ -1018,93 +907,76 @@ public class TOCStyle implements IScriptStyle, Serializable
 	 * 
 	 * @param format
 	 */
-	public void setVisibleFormat( String format )
-	{
-		setProperty( VISIBLE_FORMAT, format );
+	public void setVisibleFormat(String format) {
+		setProperty(VISIBLE_FORMAT, format);
 	}
 
 	/**
 	 * Set the whitespace. Valid return values are NORMAL, PRE and NOWRAP
 	 */
-	public void setWhiteSpace( String whitespace )
-	{
-		setProperty( WHITE_SPACE, whitespace );
+	public void setWhiteSpace(String whitespace) {
+		setProperty(WHITE_SPACE, whitespace);
 	}
 
 	/**
 	 * Set the word spacing
 	 */
-	public void setWordSpacing( String wordspacing )
-	{
-		setProperty( WORD_SPACING, wordspacing );
+	public void setWordSpacing(String wordspacing) {
+		setProperty(WORD_SPACING, wordspacing);
 	}
 
-	public String getDateLocale( )
-	{
-		return (String) properties.get( DATE_LOCALE );
+	public String getDateLocale() {
+		return (String) properties.get(DATE_LOCALE);
 	}
 
-	public void setDateLocale( String locale )
-	{
-		setProperty( DATE_LOCALE, locale );
+	public void setDateLocale(String locale) {
+		setProperty(DATE_LOCALE, locale);
 	}
 
-	public String getNumberLocale( )
-	{
-		return (String) properties.get( NUMBER_LOCALE );
+	public String getNumberLocale() {
+		return (String) properties.get(NUMBER_LOCALE);
 	}
 
-	public void setNumberLocale( String locale )
-	{
-		setProperty( NUMBER_LOCALE, locale );
+	public void setNumberLocale(String locale) {
+		setProperty(NUMBER_LOCALE, locale);
 	}
 
-	public String getStringLocale( )
-	{
-		return (String) properties.get( STRING_LOCALE );
+	public String getStringLocale() {
+		return (String) properties.get(STRING_LOCALE);
 	}
 
-	public void setStringLocale( String locale )
-	{
-		setProperty( STRING_LOCALE, locale );
+	public void setStringLocale(String locale) {
+		setProperty(STRING_LOCALE, locale);
 	}
 
 	/**
 	 * Set property.
 	 */
-	public void setProperty( String name, String value )
-	{
-		if ( value != null )
-		{
-			properties.put( name, value );
-		}
-		else
-		{
-			properties.remove( name );
+	public void setProperty(String name, String value) {
+		if (value != null) {
+			properties.put(name, value);
+		} else {
+			properties.remove(name);
 		}
 	}
 
 	/**
 	 * Get property.
 	 */
-	public Map getProperties( )
-	{
+	public Map getProperties() {
 		return properties;
 	}
 
-	public String toString( )
-	{
-		StringBuilder sb = new StringBuilder( );
-		Iterator<Map.Entry<String, String>> iter = properties.entrySet( )
-				.iterator( );
-		while ( iter.hasNext( ) )
-		{
-			Map.Entry<String, String> entry = iter.next( );
-			sb.append( entry.getKey( ) );
-			sb.append( ":" );
-			sb.append( entry.getValue( ) );
-			sb.append( ";" );
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		Iterator<Map.Entry<String, String>> iter = properties.entrySet().iterator();
+		while (iter.hasNext()) {
+			Map.Entry<String, String> entry = iter.next();
+			sb.append(entry.getKey());
+			sb.append(":");
+			sb.append(entry.getValue());
+			sb.append(";");
 		}
-		return sb.toString( );
+		return sb.toString();
 	}
 }

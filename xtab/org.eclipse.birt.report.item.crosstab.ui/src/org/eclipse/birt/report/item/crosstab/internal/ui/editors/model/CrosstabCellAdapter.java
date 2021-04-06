@@ -26,8 +26,7 @@ import org.eclipse.birt.report.model.api.metadata.IPropertyDefn;
  * Ceosstab cell adapter
  */
 
-public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements IVirtualValidator
-{
+public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements IVirtualValidator {
 
 	int rowNumber;
 	int columnNumber;
@@ -40,19 +39,18 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @param handle
 	 */
-	public CrosstabCellAdapter( CrosstabCellHandle handle )
-	{
-		super( handle );
+	public CrosstabCellAdapter(CrosstabCellHandle handle) {
+		super(handle);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.BaseCrosstabAdapter#getModelList()
+	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.
+	 * BaseCrosstabAdapter#getModelList()
 	 */
-	public List getModelList( )
-	{
-		return getCrosstabCellHandle( ).getContents( );
+	public List getModelList() {
+		return getCrosstabCellHandle().getContents();
 	}
 
 	/**
@@ -60,8 +58,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @return
 	 */
-	public int getColumnNumber( )
-	{
+	public int getColumnNumber() {
 		return columnNumber;
 	}
 
@@ -70,8 +67,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @param columnNumber
 	 */
-	public void setColumnNumber( int columnNumber )
-	{
+	public void setColumnNumber(int columnNumber) {
 		this.columnNumber = columnNumber;
 	}
 
@@ -80,8 +76,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @return
 	 */
-	public int getColumnSpan( )
-	{
+	public int getColumnSpan() {
 		return columnSpan;
 	}
 
@@ -90,8 +85,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @param columnSpan
 	 */
-	public void setColumnSpan( int columnSpan )
-	{
+	public void setColumnSpan(int columnSpan) {
 		this.columnSpan = columnSpan;
 	}
 
@@ -100,8 +94,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @return
 	 */
-	public int getRowNumber( )
-	{
+	public int getRowNumber() {
 		return rowNumber;
 	}
 
@@ -110,8 +103,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @param rowNumber
 	 */
-	public void setRowNumber( int rowNumber )
-	{
+	public void setRowNumber(int rowNumber) {
 		this.rowNumber = rowNumber;
 	}
 
@@ -120,8 +112,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @return
 	 */
-	public int getRowSpan( )
-	{
+	public int getRowSpan() {
 		return rowSpan;
 	}
 
@@ -130,8 +121,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @param rowSpan
 	 */
-	public void setRowSpan( int rowSpan )
-	{
+	public void setRowSpan(int rowSpan) {
 		this.rowSpan = rowSpan;
 	}
 
@@ -140,9 +130,8 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @return
 	 */
-	public CrosstabCellHandle getCrosstabCellHandle( )
-	{
-		return (CrosstabCellHandle) getCrosstabItemHandle( );
+	public CrosstabCellHandle getCrosstabCellHandle() {
+		return (CrosstabCellHandle) getCrosstabItemHandle();
 	}
 
 	/*
@@ -150,16 +139,12 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @see java.lang.Object#toString()
 	 */
-	public String toString( )
-	{
+	public String toString() {
 		return "rownumber == " //$NON-NLS-1$
-				+ getRowNumber( )
-				+ " rowspan == " //$NON-NLS-1$
-				+ getRowSpan( )
-				+ " columnnumber=" //$NON-NLS-1$
-				+ getColumnNumber( )
-				+ " columnspan ==" //$NON-NLS-1$
-				+ getColumnSpan( );
+				+ getRowNumber() + " rowspan == " //$NON-NLS-1$
+				+ getRowSpan() + " columnnumber=" //$NON-NLS-1$
+				+ getColumnNumber() + " columnspan ==" //$NON-NLS-1$
+				+ getColumnSpan();
 	}
 
 	/**
@@ -167,8 +152,7 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @return
 	 */
-	public String getPositionType( )
-	{
+	public String getPositionType() {
 		return positionType;
 	}
 
@@ -177,122 +161,101 @@ public abstract class CrosstabCellAdapter extends BaseCrosstabAdapter implements
 	 * 
 	 * @param positionType
 	 */
-	public void setPositionType( String positionType )
-	{
+	public void setPositionType(String positionType) {
 		this.positionType = positionType;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.BaseCrosstabAdapter#copyToTarget(org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.BaseCrosstabAdapter)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.item.crosstab.internal.ui.editors.model.
+	 * BaseCrosstabAdapter#copyToTarget(org.eclipse.birt.report.item.crosstab.
+	 * internal.ui.editors.model.BaseCrosstabAdapter)
 	 */
-	public BaseCrosstabAdapter copyToTarget( BaseCrosstabAdapter crossAdapt )
-	{
-		if ( crossAdapt instanceof CrosstabCellAdapter )
-		{
+	public BaseCrosstabAdapter copyToTarget(BaseCrosstabAdapter crossAdapt) {
+		if (crossAdapt instanceof CrosstabCellAdapter) {
 			CrosstabCellAdapter copy = (CrosstabCellAdapter) crossAdapt;
-			copy.setColumnNumber( getColumnNumber( ) );
-			copy.setRowNumber( getRowNumber( ) );
-			copy.setColumnSpan( getColumnSpan( ) );
-			copy.setRowSpan( getRowSpan( ) );
-			copy.setPositionType( getPositionType( ) );
+			copy.setColumnNumber(getColumnNumber());
+			copy.setRowNumber(getRowNumber());
+			copy.setColumnSpan(getColumnSpan());
+			copy.setRowSpan(getRowSpan());
+			copy.setPositionType(getPositionType());
 		}
-		return super.copyToTarget( crossAdapt );
+		return super.copyToTarget(crossAdapt);
 	}
 
 	/**
 	 * @return
 	 */
-	public DataItemHandle getFirstDataItem( )
-	{
-		List list = getCrosstabCellHandle( ).getContents( );
-		for ( int i = 0; i < list.size( ); i++ )
-		{
-			if ( list.get( i ) instanceof DataItemHandle )
-			{
-				return (DataItemHandle) list.get( i );
+	public DataItemHandle getFirstDataItem() {
+		List list = getCrosstabCellHandle().getContents();
+		for (int i = 0; i < list.size(); i++) {
+			if (list.get(i) instanceof DataItemHandle) {
+				return (DataItemHandle) list.get(i);
 			}
 		}
 		return null;
 	}
-	
 
 	/**
 	 * @return
 	 */
-	public Object getFirstElement( )
-	{
-		List list = getCrosstabCellHandle( ).getContents( );
-		if (!list.isEmpty( ))
-		{
-			return list.get( 0 );
+	public Object getFirstElement() {
+		List list = getCrosstabCellHandle().getContents();
+		if (!list.isEmpty()) {
+			return list.get(0);
 		}
 		return null;
 	}
 
-	public PropertyHandle getPropertyHandle( )
-	{
-		if ( getCrosstabCellHandle( ) != null )
-		{
-			DesignElementHandle handle = getCrosstabCellHandle( ).getModelHandle( );
-			return handle.getPropertyHandle( getDefaultContentName( handle ) );
+	public PropertyHandle getPropertyHandle() {
+		if (getCrosstabCellHandle() != null) {
+			DesignElementHandle handle = getCrosstabCellHandle().getModelHandle();
+			return handle.getPropertyHandle(getDefaultContentName(handle));
 		}
 		return null;
 	}
 
-	public String getDefaultContentName( DesignElementHandle parent )
-	{
+	public String getDefaultContentName(DesignElementHandle parent) {
 
-		List propDefns = ( parent ).getDefn( )
-				.getContents( );
-		if ( !propDefns.isEmpty( ) )
-		{
-			return ( (IPropertyDefn) propDefns.get( 0 ) ).getName( );
+		List propDefns = (parent).getDefn().getContents();
+		if (!propDefns.isEmpty()) {
+			return ((IPropertyDefn) propDefns.get(0)).getName();
 		}
 
 		return ""; //$NON-NLS-1$
 	}
-	
-	public boolean handleValidate( Object obj )
-	{
-		if ( obj instanceof Object[] )
-		{
+
+	public boolean handleValidate(Object obj) {
+		if (obj instanceof Object[]) {
 			Object[] objects = (Object[]) obj;
 			int len = objects.length;
-			if ( len == 0 )
-			{
+			if (len == 0) {
 				return false;
 			}
-			if ( len == 1 )
-			{
-				return handleValidate( objects[0] );
-			}
-			else
-			{
-				if (isAllParameter( objects ))
-				{
+			if (len == 1) {
+				return handleValidate(objects[0]);
+			} else {
+				if (isAllParameter(objects)) {
 					return true;
 				}
 			}
 
 		}
-		
-		if ( obj instanceof ScalarParameterHandle || obj instanceof VariableElementHandle )
-		{
+
+		if (obj instanceof ScalarParameterHandle || obj instanceof VariableElementHandle) {
 			return true;
 		}
 		return false;
 	}
-	
-	private boolean isAllParameter(Object[] objs)
-	{
-		for (int i=0; i<objs.length; i++)
-		{
-			if (!(objs[i] instanceof ScalarParameterHandle))
-			{
+
+	private boolean isAllParameter(Object[] objs) {
+		for (int i = 0; i < objs.length; i++) {
+			if (!(objs[i] instanceof ScalarParameterHandle)) {
 				return false;
 			}
 		}
-		
+
 		return true;
 	}
 }

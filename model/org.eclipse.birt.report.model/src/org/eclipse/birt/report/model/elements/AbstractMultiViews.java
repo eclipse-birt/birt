@@ -18,16 +18,12 @@ import org.eclipse.birt.report.model.elements.interfaces.IMultiViewsModel;
  * 
  */
 
-public abstract class AbstractMultiViews extends DesignElement
-		implements
-			IMultiViewsModel
-{
+public abstract class AbstractMultiViews extends DesignElement implements IMultiViewsModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public AbstractMultiViews( )
-	{
+	public AbstractMultiViews() {
 	}
 }

@@ -31,18 +31,17 @@ import org.eclipse.birt.report.model.api.activity.SemanticException;
  * Adapter class to adapt model handle. This adapter provides convenience
  * methods to GUI requirement RowHandleAdapter responds to model RowHandle
  */
-public class RowHandleAdapter extends DesignElementHandleAdapter
-{
+public class RowHandleAdapter extends DesignElementHandleAdapter {
 
-	private static final String TABLE_GROUPFOOTER = Messages.getString( "RowHandleAdapter.table.groupFooter" ); //$NON-NLS-1$
+	private static final String TABLE_GROUPFOOTER = Messages.getString("RowHandleAdapter.table.groupFooter"); //$NON-NLS-1$
 
-	private static final String TABLE_GROUPHEADER = Messages.getString( "RowHandleAdapter.table.groupHeader" ); //$NON-NLS-1$
+	private static final String TABLE_GROUPHEADER = Messages.getString("RowHandleAdapter.table.groupHeader"); //$NON-NLS-1$
 
-	private static final String TABLE_DETAIL = Messages.getString( "RowHandleAdapter.table.detail" ); //$NON-NLS-1$
+	private static final String TABLE_DETAIL = Messages.getString("RowHandleAdapter.table.detail"); //$NON-NLS-1$
 
-	private static final String TABLE_FOOTER = Messages.getString( "RowHandleAdapter.table.footer" ); //$NON-NLS-1$
+	private static final String TABLE_FOOTER = Messages.getString("RowHandleAdapter.table.footer"); //$NON-NLS-1$
 
-	private static final String TABLE_HEADER = Messages.getString( "RowHandleAdapter.table.header" ); //$NON-NLS-1$
+	private static final String TABLE_HEADER = Messages.getString("RowHandleAdapter.table.header"); //$NON-NLS-1$
 
 	static final int DEFAULT_HEIGHT = 23;
 
@@ -51,26 +50,21 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	/**
 	 * Constructor
 	 * 
-	 * @param row
-	 * <code>RowHandle</code>
+	 * @param row <code>RowHandle</code>
 	 */
-	public RowHandleAdapter( RowHandle row )
-	{
-		this( row, null );
+	public RowHandleAdapter(RowHandle row) {
+		this(row, null);
 	}
 
 	/**
 	 * Constructor
 	 * 
-	 * @param row
-	 *  <code>RowHandle</code>
-	 * @param mark
-	 *  Helper mark
+	 * @param row  <code>RowHandle</code>
+	 * @param mark Helper mark
 	 * 
 	 */
-	public RowHandleAdapter( RowHandle row, IModelAdapterHelper mark )
-	{
-		super( row, mark );
+	public RowHandleAdapter(RowHandle row, IModelAdapterHelper mark) {
+		super(row, mark);
 	}
 
 	/**
@@ -78,13 +72,11 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return
 	 */
-	public int getHeight( )
-	{
-		DimensionHandle handle = getRowHandle( ).getHeight( );
+	public int getHeight() {
+		DimensionHandle handle = getRowHandle().getHeight();
 
-		int px = (int) DEUtil.convertoToPixel( handle );
-		if ( px <= 0 )
-		{
+		int px = (int) DEUtil.convertoToPixel(handle);
+		if (px <= 0) {
 			px = DEFAULT_HEIGHT;
 		}
 		return px;
@@ -95,11 +87,10 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return
 	 */
-	public boolean isCustomHeight( )
-	{
-		DimensionHandle handle = getRowHandle( ).getHeight( );
+	public boolean isCustomHeight() {
+		DimensionHandle handle = getRowHandle().getHeight();
 
-		return handle.getMeasure( ) > 0;
+		return handle.getMeasure() > 0;
 	}
 
 	/**
@@ -107,11 +98,9 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return
 	 */
-	public int getRowNumber( )
-	{
-		TableHandleAdapter adapter = HandleAdapterFactory.getInstance( )
-				.getTableHandleAdapter( getTableParent( ) );
-		return adapter.getRows( ).indexOf( getRowHandle( ) ) + 1;
+	public int getRowNumber() {
+		TableHandleAdapter adapter = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
+		return adapter.getRows().indexOf(getRowHandle()) + 1;
 	}
 
 	/**
@@ -119,21 +108,17 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return
 	 */
-	public int getMinHeight( )
-	{
+	public int getMinHeight() {
 		return DEFAULT_MINHEIGHT;
 	}
-
 
 	/**
 	 * Get RowHandle
 	 * 
-	 * @return
-	 *  <code>RowHanle</code>
+	 * @return <code>RowHanle</code>
 	 */
-	private RowHandle getRowHandle( )
-	{
-		return (RowHandle) getHandle( );
+	private RowHandle getRowHandle() {
+		return (RowHandle) getHandle();
 	}
 
 	/**
@@ -141,65 +126,53 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @return Children iterator
 	 */
-	public List getChildren( )
-	{
-		return getRowHandle( ).getCells( ).getContents( );
+	public List getChildren() {
+		return getRowHandle().getCells().getContents();
 	}
 
 	/**
 	 * @return display name
 	 */
-	public String getDisplayName( )
-	{
-		TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-				.getTableHandleAdapter( getTableParent( ) );
-		TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo( getHandle( ) );
-		return info.getRowDisplayName( );
+	public String getDisplayName() {
+		TableHandleAdapter adapt = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
+		TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo(getHandle());
+		return info.getRowDisplayName();
 	}
 
 	/**
 	 * @return type
 	 */
-	public String getType( )
-	{
-		TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-				.getTableHandleAdapter( getTableParent( ) );
-		TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo( getHandle( ) );
-		return info.getType( );
+	public String getType() {
+		TableHandleAdapter adapt = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
+		TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo(getHandle());
+		return info.getType();
 	}
 
 	/**
 	 * @return type string
 	 */
-	public String getTypeString( )
-	{
-		TableHandleAdapter adapt = HandleAdapterFactory.getInstance( )
-				.getTableHandleAdapter( getTableParent( ) );
-		TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo( getHandle( ) );
-		String tp = info.getType( );
+	public String getTypeString() {
+		TableHandleAdapter adapt = HandleAdapterFactory.getInstance().getTableHandleAdapter(getTableParent());
+		TableHandleAdapter.RowUIInfomation info = adapt.getRowInfo(getHandle());
+		String tp = info.getType();
 
-		if ( TableHandleAdapter.TABLE_HEADER.equals( tp ) )
-		{
+		if (TableHandleAdapter.TABLE_HEADER.equals(tp)) {
 			return TABLE_HEADER;
 		}
 
-		if ( TableHandleAdapter.TABLE_FOOTER.equals( tp ) )
-		{
+		if (TableHandleAdapter.TABLE_FOOTER.equals(tp)) {
 			return TABLE_FOOTER;
 		}
 
-		if ( TableHandleAdapter.TABLE_DETAIL.equals( tp ) )
-		{
+		if (TableHandleAdapter.TABLE_DETAIL.equals(tp)) {
 			return TABLE_DETAIL;
 		}
 
-		if ( TableHandleAdapter.TABLE_GROUP_HEADER.equals( tp ) )
-		{
+		if (TableHandleAdapter.TABLE_GROUP_HEADER.equals(tp)) {
 			return TABLE_GROUPHEADER;
 		}
 
-		if ( TableHandleAdapter.TABLE_GROUP_FOOTER.equals( tp ) )
-		{
+		if (TableHandleAdapter.TABLE_GROUP_FOOTER.equals(tp)) {
 			return TABLE_GROUPFOOTER;
 		}
 
@@ -209,8 +182,7 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	/**
 	 * @return parent slot id.
 	 */
-	public int getParentSlotId( )
-	{
+	public int getParentSlotId() {
 		return -1;
 	}
 
@@ -219,24 +191,19 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * 
 	 * @returnSemanticException
 	 */
-	public Object copy( ) throws SemanticException
-	{
-		SlotHandle slotHandle = getRowHandle( ).getContainerSlotHandle( );
+	public Object copy() throws SemanticException {
+		SlotHandle slotHandle = getRowHandle().getContainerSlotHandle();
 
-		RowHandle retValue = slotHandle.getElementHandle( )
-				.getElementFactory( )
-				.newTableRow( );
+		RowHandle retValue = slotHandle.getElementHandle().getElementFactory().newTableRow();
 
-		Iterator iter = getRowHandle( ).getPropertyIterator( );
-		while ( iter.hasNext( ) )
-		{
-			PropertyHandle handle = (PropertyHandle) iter.next( );
-			String key = handle.getDefn( ).getName( );
-			if ( handle.isLocal( ) )
-			{
+		Iterator iter = getRowHandle().getPropertyIterator();
+		while (iter.hasNext()) {
+			PropertyHandle handle = (PropertyHandle) iter.next();
+			String key = handle.getDefn().getName();
+			if (handle.isLocal()) {
 				// retValue.setProperty( key, getRowHandle( ).getProperty( key )
 				// );
-				getRowHandle( ).copyPropertyTo( key, retValue );
+				getRowHandle().copyPropertyTo(key, retValue);
 			}
 		}
 
@@ -246,12 +213,10 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	/**
 	 * @return parent of row
 	 */
-	public Object getTableParent( )
-	{
-		DesignElementHandle element = getRowHandle( ).getContainer( );
-		if ( element instanceof TableGroupHandle )
-		{
-			element = element.getContainer( );
+	public Object getTableParent() {
+		DesignElementHandle element = getRowHandle().getContainer();
+		if (element instanceof TableGroupHandle) {
+			element = element.getContainer();
 		}
 		return element;
 	}
@@ -262,17 +227,11 @@ public class RowHandleAdapter extends DesignElementHandleAdapter
 	 * @param rowHeight
 	 * @throws SemanticException
 	 */
-	public void setHeight( int rowHeight, String units )
-			throws SemanticException
-	{
-		MetricUtility.updateDimension( getRowHandle( ).getHeight( ),
-				rowHeight,
-				units );
+	public void setHeight(int rowHeight, String units) throws SemanticException {
+		MetricUtility.updateDimension(getRowHandle().getHeight(), rowHeight, units);
 	}
-	
-	public void setHeight( int rowHeight ) throws SemanticException
-	{
-		MetricUtility.updateDimension( getRowHandle( ).getHeight( ),
-				rowHeight );
+
+	public void setHeight(int rowHeight) throws SemanticException {
+		MetricUtility.updateDimension(getRowHandle().getHeight(), rowHeight);
 	}
 }

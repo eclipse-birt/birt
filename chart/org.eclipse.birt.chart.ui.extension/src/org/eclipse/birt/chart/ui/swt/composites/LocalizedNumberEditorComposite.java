@@ -50,11 +50,8 @@ import com.ibm.icu.text.NumberFormat;
 /**
  * LocalizedNumberEditorComposite
  */
-public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor implements
-		ModifyListener,
-		KeyListener,
-		FocusListener
-{
+public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor
+		implements ModifyListener, KeyListener, FocusListener {
 
 	public static final int TEXT_MODIFIED = TextEditorComposite.TEXT_MODIFIED;
 
@@ -90,55 +87,48 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor im
 	 * @param parent
 	 * @param iStyle
 	 */
-	public LocalizedNumberEditorComposite( Composite parent, int iStyle )
-	{
-		this( parent, iStyle, null );
+	public LocalizedNumberEditorComposite(Composite parent, int iStyle) {
+		this(parent, iStyle, null);
 	}
 
-	public LocalizedNumberEditorComposite( Composite parent, int iStyle,
-			String unit )
-	{
-		super( parent, SWT.NONE );
+	public LocalizedNumberEditorComposite(Composite parent, int iStyle, String unit) {
+		super(parent, SWT.NONE);
 		this.iStyle = iStyle;
 		this.sUnit = unit;
-		vModifyListeners = new Vector<ModifyListener>( );
-		vFractionListeners = new Vector<Listener>( );
-		this.setLayout( new FillLayout( ) );
+		vModifyListeners = new Vector<ModifyListener>();
+		vFractionListeners = new Vector<Listener>();
+		this.setLayout(new FillLayout());
 
-		numberFormat = ChartUIUtil.getDefaultNumberFormatInstance( );
+		numberFormat = ChartUIUtil.getDefaultNumberFormatInstance();
 
-		placeComponents( );
-		initAccessible( );
+		placeComponents();
+		initAccessible();
 	}
 
-	protected void placeComponents( )
-	{
-		GridLayout gl = new GridLayout( 1, false );
+	protected void placeComponents() {
+		GridLayout gl = new GridLayout(1, false);
 		gl.marginBottom = 0;
 		gl.marginHeight = 0;
 		gl.marginLeft = 0;
 		gl.marginRight = 0;
 		gl.marginTop = 0;
 		gl.marginWidth = 0;
-		this.setLayout( gl );
-		if ( sUnit != null )
-		{
+		this.setLayout(gl);
+		if (sUnit != null) {
 			gl.numColumns = 2;
 		}
-		txtValue = new Text( this, iStyle );
-		GridData gd = new GridData( GridData.FILL_HORIZONTAL );
-		txtValue.setLayoutData( gd );
-		txtValue.setToolTipText( Messages.getString( "TextEditorComposite.Tooltip.EnterDecimalOrFractionValue" ) ); //$NON-NLS-1$
-		txtValue.addModifyListener( this );
-		txtValue.addFocusListener( this );
-		txtValue.addKeyListener( this );
+		txtValue = new Text(this, iStyle);
+		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		txtValue.setLayoutData(gd);
+		txtValue.setToolTipText(Messages.getString("TextEditorComposite.Tooltip.EnterDecimalOrFractionValue")); //$NON-NLS-1$
+		txtValue.addModifyListener(this);
+		txtValue.addFocusListener(this);
+		txtValue.addKeyListener(this);
 
-		if ( sUnit != null )
-		{
-			this.lblUnit = new Label( this, SWT.NONE );
-			if ( lblUnit != null )
-			{
-				lblUnit.setText( sUnit );
+		if (sUnit != null) {
+			this.lblUnit = new Label(this, SWT.NONE);
+			if (lblUnit != null) {
+				lblUnit.setText(sUnit);
 			}
 		}
 	}
@@ -148,13 +138,11 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor im
 	 * 
 	 * @see org.eclipse.swt.widgets.Control#setEnabled(boolean)
 	 */
-	public void setEnabled( boolean bState )
-	{
+	public void setEnabled(boolean bState) {
 		bEnabled = bState;
-		txtValue.setEnabled( bState );
-		if ( lblUnit != null )
-		{
-			lblUnit.setEnabled( bState );
+		txtValue.setEnabled(bState);
+		if (lblUnit != null) {
+			lblUnit.setEnabled(bState);
 		}
 	}
 
@@ -163,110 +151,90 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor im
 	 * 
 	 * @see org.eclipse.swt.widgets.Control#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
+	public boolean isEnabled() {
 		return bEnabled;
 	}
 
-	public boolean isSetValue( )
-	{
+	public boolean isSetValue() {
 		return bValueIsSet;
 	}
 
-	public void unsetValue( )
-	{
+	public void unsetValue() {
 		bValueIsSet = false;
-		txtValue.setText( "" ); //$NON-NLS-1$
+		txtValue.setText(""); //$NON-NLS-1$
 	}
 
-	public void setValue( double value )
-	{
+	public void setValue(double value) {
 		bOriginalValueIsSet = true;
 		bValueIsSet = true;
 		dValue = value;
-		txtValue.setText( numberFormat.format( value ) );
+		txtValue.setText(numberFormat.format(value));
 	}
 
-	public double getValue( )
-	{
+	public double getValue() {
 		return dValue;
 	}
 
-	public void setToolTipText( String string )
-	{
-		txtValue.setToolTipText( string );
+	public void setToolTipText(String string) {
+		txtValue.setToolTipText(string);
 	}
 
-	public void addModifyListener( ModifyListener listener )
-	{
-		vModifyListeners.add( listener );
+	public void addModifyListener(ModifyListener listener) {
+		vModifyListeners.add(listener);
 	}
 
-	public void removeModifyListener( ModifyListener listener )
-	{
-		vModifyListeners.remove( listener );
+	public void removeModifyListener(ModifyListener listener) {
+		vModifyListeners.remove(listener);
 	}
 
-	public void addFractionListener( Listener listener )
-	{
-		vFractionListeners.add( listener );
+	public void addFractionListener(Listener listener) {
+		vFractionListeners.add(listener);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events
+	 * @see org.eclipse.swt.events.ModifyListener#modifyText(org.eclipse.swt.events
 	 * .ModifyEvent)
 	 */
-	public void modifyText( ModifyEvent e )
-	{
+	public void modifyText(ModifyEvent e) {
 		this.bTextModified = true;
-		fireEvent( true );
+		fireEvent(true);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events
+	 * @see org.eclipse.swt.events.FocusListener#focusGained(org.eclipse.swt.events
 	 * .FocusEvent)
 	 */
-	public void focusGained( FocusEvent e )
-	{
+	public void focusGained(FocusEvent e) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events
+	 * @see org.eclipse.swt.events.FocusListener#focusLost(org.eclipse.swt.events
 	 * .FocusEvent)
 	 */
-	public void focusLost( FocusEvent e )
-	{
-		if ( bTextModified )
-		{
+	public void focusLost(FocusEvent e) {
+		if (bTextModified) {
 			bTextModified = false;
-			fireEvent( );
+			fireEvent();
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.
+	 * @see org.eclipse.swt.events.KeyListener#keyPressed(org.eclipse.swt.events.
 	 * KeyEvent)
 	 */
-	public void keyPressed( KeyEvent e )
-	{
-		if ( e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR )
-		{
-			if ( bTextModified )
-			{
+	public void keyPressed(KeyEvent e) {
+		if (e.keyCode == SWT.CR || e.keyCode == SWT.KEYPAD_CR) {
+			if (bTextModified) {
 				bTextModified = false;
-				fireEvent( );
+				fireEvent();
 			}
 		}
 	}
@@ -274,205 +242,162 @@ public class LocalizedNumberEditorComposite extends AbstractChartNumberEditor im
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events
+	 * @see org.eclipse.swt.events.KeyListener#keyReleased(org.eclipse.swt.events
 	 * .KeyEvent)
 	 */
-	public void keyReleased( KeyEvent e )
-	{
+	public void keyReleased(KeyEvent e) {
 	}
 
-	private void handleFormatError( String value )
-	{
-		MessageBox mbox = new MessageBox( getShell( ), SWT.ICON_WARNING
-				| SWT.OK );
-		mbox.setText( Messages.getString( "LocalizedNumberEditorComposite.error.Title" ) ); //$NON-NLS-1$
-		mbox.setMessage( MessageFormat.format( Messages.getString( "LocalizedNumberEditorComposite.error.Message" ), //$NON-NLS-1$
-				new Object[]{
-					value
-				} ) );
-		mbox.open( );
+	private void handleFormatError(String value) {
+		MessageBox mbox = new MessageBox(getShell(), SWT.ICON_WARNING | SWT.OK);
+		mbox.setText(Messages.getString("LocalizedNumberEditorComposite.error.Title")); //$NON-NLS-1$
+		mbox.setMessage(MessageFormat.format(Messages.getString("LocalizedNumberEditorComposite.error.Message"), //$NON-NLS-1$
+				new Object[] { value }));
+		mbox.open();
 
-		if ( bOriginalValueIsSet )
-		{
-			txtValue.setText( String.valueOf( (int) dValue ) );
-		}
-		else
-		{
-			txtValue.setText( "" ); //$NON-NLS-1$
+		if (bOriginalValueIsSet) {
+			txtValue.setText(String.valueOf((int) dValue));
+		} else {
+			txtValue.setText(""); //$NON-NLS-1$
 		}
 	}
 
-	protected void fireEvent( )
-	{
-		fireEvent( false );
+	protected void fireEvent() {
+		fireEvent(false);
 	}
 
-	protected void fireEvent( boolean bByModifyText )
-	{
+	protected void fireEvent(boolean bByModifyText) {
 		boolean isFractionConverted = false;
 
-		String sText = txtValue.getText( );
+		String sText = txtValue.getText();
 
-		if ( sText == null || sText.trim( ).length( ) == 0 )
-		{
+		if (sText == null || sText.trim().length() == 0) {
 			bValueIsSet = false;
 			dValue = 0d;
-		}
-		else
-		{
-			int iDelimiter = sText.indexOf( '/' );
-			if ( iDelimiter < 0 )
-			{
-				iDelimiter = sText.indexOf( ':' );
+		} else {
+			int iDelimiter = sText.indexOf('/');
+			if (iDelimiter < 0) {
+				iDelimiter = sText.indexOf(':');
 			}
-			if ( iDelimiter > 0 )
-			{
+			if (iDelimiter > 0) {
 				// Handle the fraction conversion
 				isFractionConverted = true;
-				String numerator = sText.substring( 0, iDelimiter );
-				String denominator = sText.substring( iDelimiter + 1 );
-				try
-				{
-					Number nume = numberFormat.parse( numerator );
-					Number deno = numberFormat.parse( denominator );
-					dValue = nume.doubleValue( ) / deno.doubleValue( );
+				String numerator = sText.substring(0, iDelimiter);
+				String denominator = sText.substring(iDelimiter + 1);
+				try {
+					Number nume = numberFormat.parse(numerator);
+					Number deno = numberFormat.parse(denominator);
+					dValue = nume.doubleValue() / deno.doubleValue();
 					bValueIsSet = true;
-					sText = numberFormat.format( dValue );
+					sText = numberFormat.format(dValue);
 
-					if ( !bByModifyText )
-					{
-						this.txtValue.setText( sText );
+					if (!bByModifyText) {
+						this.txtValue.setText(sText);
+					}
+				} catch (ParseException e) {
+					if (!this.bTextModified) {
+						handleFormatError(sText);
 					}
 				}
-				catch ( ParseException e )
-				{
-					if ( !this.bTextModified )
-					{
-						handleFormatError( sText );
-					}
-				}
-			}
-			else
-			{
-				try
-				{
-					Number num = numberFormat.parse( sText );
-					dValue = num.doubleValue( );
+			} else {
+				try {
+					Number num = numberFormat.parse(sText);
+					dValue = num.doubleValue();
 					bValueIsSet = true;
-					sText = numberFormat.format( dValue );
-				}
-				catch ( ParseException e )
-				{
-					if ( !this.bTextModified )
-					{
-						handleFormatError( sText );
+					sText = numberFormat.format(dValue);
+				} catch (ParseException e) {
+					if (!this.bTextModified) {
+						handleFormatError(sText);
 					}
 				}
 			}
 		}
 
-		for ( int i = 0; i < vModifyListeners.size( ); i++ )
-		{
-			Event e = new Event( );
+		for (int i = 0; i < vModifyListeners.size(); i++) {
+			Event e = new Event();
 			e.data = bByModifyText ? Boolean.FALSE : Boolean.TRUE;
 			e.widget = this;
 			e.type = TEXT_MODIFIED;
-			vModifyListeners.get( i ).modifyText( new ModifyEvent( e ) );
+			vModifyListeners.get(i).modifyText(new ModifyEvent(e));
 		}
 
-		if ( isFractionConverted )
-		{
-			for ( int i = 0; i < vFractionListeners.size( ); i++ )
-			{
-				Event e = new Event( );
+		if (isFractionConverted) {
+			for (int i = 0; i < vFractionListeners.size(); i++) {
+				Event e = new Event();
 				e.data = sText;
 				e.widget = this;
 				e.type = TEXT_FRACTION_CONVERTED;
-				vFractionListeners.get( i ).handleEvent( e );
+				vFractionListeners.get(i).handleEvent(e);
 			}
 		}
 	}
 
-	void initAccessible( )
-	{
-		getAccessible( ).addAccessibleListener( new AccessibleAdapter( ) {
+	void initAccessible() {
+		getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-			public void getHelp( AccessibleEvent e )
-			{
-				e.result = getToolTipText( );
+			public void getHelp(AccessibleEvent e) {
+				e.result = getToolTipText();
 			}
-		} );
+		});
 
-		getAccessible( ).addAccessibleTextListener( new AccessibleTextAdapter( ) {
+		getAccessible().addAccessibleTextListener(new AccessibleTextAdapter() {
 
-			public void getCaretOffset( AccessibleTextEvent e )
-			{
-				e.offset = txtValue.getCaretPosition( );
+			public void getCaretOffset(AccessibleTextEvent e) {
+				e.offset = txtValue.getCaretPosition();
 			}
-		} );
+		});
 
-		getAccessible( ).addAccessibleControlListener( new AccessibleControlAdapter( ) {
+		getAccessible().addAccessibleControlListener(new AccessibleControlAdapter() {
 
-			public void getChildAtPoint( AccessibleControlEvent e )
-			{
-				Point testPoint = toControl( new Point( e.x, e.y ) );
-				if ( getBounds( ).contains( testPoint ) )
-				{
+			public void getChildAtPoint(AccessibleControlEvent e) {
+				Point testPoint = toControl(new Point(e.x, e.y));
+				if (getBounds().contains(testPoint)) {
 					e.childID = ACC.CHILDID_SELF;
 				}
 			}
 
-			public void getLocation( AccessibleControlEvent e )
-			{
-				Rectangle location = getBounds( );
-				Point pt = toDisplay( new Point( location.x, location.y ) );
+			public void getLocation(AccessibleControlEvent e) {
+				Rectangle location = getBounds();
+				Point pt = toDisplay(new Point(location.x, location.y));
 				e.x = pt.x;
 				e.y = pt.y;
 				e.width = location.width;
 				e.height = location.height;
 			}
 
-			public void getChildCount( AccessibleControlEvent e )
-			{
+			public void getChildCount(AccessibleControlEvent e) {
 				e.detail = 0;
 			}
 
-			public void getRole( AccessibleControlEvent e )
-			{
+			public void getRole(AccessibleControlEvent e) {
 				e.detail = ACC.ROLE_TEXT;
 			}
 
-			public void getState( AccessibleControlEvent e )
-			{
+			public void getState(AccessibleControlEvent e) {
 				e.detail = ACC.STATE_NORMAL;
 			}
 
-			public void getValue( AccessibleControlEvent e )
-			{
-				e.result = txtValue.getText( );
+			public void getValue(AccessibleControlEvent e) {
+				e.result = txtValue.getText();
 			}
-		} );
-		
+		});
+
 		// Set screen reader text.
-		ChartUIUtil.addScreenReaderAccessibility( this, txtValue );
+		ChartUIUtil.addScreenReaderAccessibility(this, txtValue);
 	}
 
-	public Text getTextControl( )
-	{
+	public Text getTextControl() {
 		return txtValue;
 	}
 
 	@Override
-	public void setEObjectParent( EObject eParent )
-	{
+	public void setEObjectParent(EObject eParent) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public Label getUnitLabel( )
-	{
+	public Label getUnitLabel() {
 		return lblUnit;
 	}
 }

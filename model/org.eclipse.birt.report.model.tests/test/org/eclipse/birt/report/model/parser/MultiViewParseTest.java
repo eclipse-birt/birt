@@ -23,8 +23,7 @@ import org.eclipse.birt.report.model.api.TableHandle;
  * Tests case for multiple view.
  */
 
-public class MultiViewParseTest extends ParserTestCase
-{
+public class MultiViewParseTest extends ParserTestCase {
 
 	private static final String INPUT_FILE = "MultiViewParseTest.xml"; //$NON-NLS-1$
 	private static final String GOLDEN_FILE = "MultiViewParseTest_golden.xml"; //$NON-NLS-1$
@@ -35,30 +34,26 @@ public class MultiViewParseTest extends ParserTestCase
 	 * @throws Exception
 	 */
 
-	public void testParser( ) throws Exception
-	{
-		openDesign( INPUT_FILE );
+	public void testParser() throws Exception {
+		openDesign(INPUT_FILE);
 
-		TableHandle table1 = (TableHandle) designHandle
-				.findElement( "MyTable1" ); //$NON-NLS-1$
-		MultiViewsHandle view1 = (MultiViewsHandle) table1
-				.getProperty( TableHandle.MULTI_VIEWS_PROP );
-		assertNotNull( view1 );
+		TableHandle table1 = (TableHandle) designHandle.findElement("MyTable1"); //$NON-NLS-1$
+		MultiViewsHandle view1 = (MultiViewsHandle) table1.getProperty(TableHandle.MULTI_VIEWS_PROP);
+		assertNotNull(view1);
 
-		List views = view1.getListProperty( MultiViewsHandle.VIEWS_PROP );
-		assertEquals( 2, views.size( ) );
+		List views = view1.getListProperty(MultiViewsHandle.VIEWS_PROP);
+		assertEquals(2, views.size());
 
-		ExtendedItemHandle box1 = (ExtendedItemHandle) views.get( 0 );
-		assertEquals( "firstDataSet", box1.getDataSet( ).getName( ) ); //$NON-NLS-1$
+		ExtendedItemHandle box1 = (ExtendedItemHandle) views.get(0);
+		assertEquals("firstDataSet", box1.getDataSet().getName()); //$NON-NLS-1$
 
 		// the data related properties are read only.
 
-		PropertyHandle prop = box1
-				.getPropertyHandle( ReportItemHandle.DATA_SET_PROP );
-		assertTrue( prop.isReadOnly( ) );
+		PropertyHandle prop = box1.getPropertyHandle(ReportItemHandle.DATA_SET_PROP);
+		assertTrue(prop.isReadOnly());
 
-		prop = box1.getPropertyHandle( ExtendedItemHandle.FILTER_PROP );
-		assertTrue( prop.isReadOnly( ) );
+		prop = box1.getPropertyHandle(ExtendedItemHandle.FILTER_PROP);
+		assertTrue(prop.isReadOnly());
 	}
 
 	/**
@@ -67,28 +62,24 @@ public class MultiViewParseTest extends ParserTestCase
 	 * @throws Exception
 	 */
 
-	public void testWriter( ) throws Exception
-	{
-		openDesign( INPUT_FILE );
+	public void testWriter() throws Exception {
+		openDesign(INPUT_FILE);
 
-		TableHandle table2 = designHandle.getElementFactory( ).newTableItem(
-				"table2", 3 ); //$NON-NLS-1$
-		designHandle.getBody( ).add( table2 );
-		table2.setDataSet( designHandle.findDataSet( "firstDataSet" ) ); //$NON-NLS-1$
+		TableHandle table2 = designHandle.getElementFactory().newTableItem("table2", 3); //$NON-NLS-1$
+		designHandle.getBody().add(table2);
+		table2.setDataSet(designHandle.findDataSet("firstDataSet")); //$NON-NLS-1$
 
-		MultiViewsHandle view2 = designHandle.getElementFactory( )
-				.newMultiView( );
-		table2.getPropertyHandle( TableHandle.MULTI_VIEWS_PROP ).add( view2 );
+		MultiViewsHandle view2 = designHandle.getElementFactory().newMultiView();
+		table2.getPropertyHandle(TableHandle.MULTI_VIEWS_PROP).add(view2);
 
-		ExtendedItemHandle box3 = designHandle.getElementFactory( )
-				.newExtendedItem( "box3", "TestingBox" ); //$NON-NLS-1$//$NON-NLS-2$
+		ExtendedItemHandle box3 = designHandle.getElementFactory().newExtendedItem("box3", "TestingBox"); //$NON-NLS-1$//$NON-NLS-2$
 
-		view2.add( MultiViewsHandle.VIEWS_PROP, box3 );
-		view2.setCurrentViewIndex( 0 );
-		
-		assertEquals( "firstDataSet", box3.getDataSet( ).getName( ) ); //$NON-NLS-1$
+		view2.add(MultiViewsHandle.VIEWS_PROP, box3);
+		view2.setCurrentViewIndex(0);
 
-		save( );
-		assertTrue( compareFile( GOLDEN_FILE ) );
+		assertEquals("firstDataSet", box3.getDataSet().getName()); //$NON-NLS-1$
+
+		save();
+		assertTrue(compareFile(GOLDEN_FILE));
 	}
 }

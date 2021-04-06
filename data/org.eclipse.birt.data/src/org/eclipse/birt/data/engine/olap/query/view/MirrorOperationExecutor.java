@@ -28,53 +28,40 @@ import org.eclipse.birt.data.engine.olap.data.impl.aggregation.SortedAggregation
  * Execute mirror operation on aggregate result set
  *
  */
-public class MirrorOperationExecutor
-{
+public class MirrorOperationExecutor {
 
-	public IAggregationResultSet[] execute( IAggregationResultSet[] rs,
-			BirtCubeView view, CubeQueryExecutorHelper cubeQueryExecutorHelper )
-			throws IOException, DataException
-	{
-		ICubeQueryDefinition query = view.getCubeQueryDefinition( );
-		IEdgeDefinition columnEdge = query.getEdge( ICubeQueryDefinition.COLUMN_EDGE );
-		IEdgeDefinition rowEdge = query.getEdge( ICubeQueryDefinition.ROW_EDGE );
+	public IAggregationResultSet[] execute(IAggregationResultSet[] rs, BirtCubeView view,
+			CubeQueryExecutorHelper cubeQueryExecutorHelper) throws IOException, DataException {
+		ICubeQueryDefinition query = view.getCubeQueryDefinition();
+		IEdgeDefinition columnEdge = query.getEdge(ICubeQueryDefinition.COLUMN_EDGE);
+		IEdgeDefinition rowEdge = query.getEdge(ICubeQueryDefinition.ROW_EDGE);
 		IMirroredDefinition columnMirror = null, rowMirror = null;
-		if ( columnEdge != null )
-			columnMirror = columnEdge.getMirroredDefinition( );
-		if ( rowEdge != null )
-			rowMirror = rowEdge.getMirroredDefinition( );
+		if (columnEdge != null)
+			columnMirror = columnEdge.getMirroredDefinition();
+		if (rowEdge != null)
+			rowMirror = rowEdge.getMirroredDefinition();
 
 		int index = 0;
-		if ( columnEdge != null )
-		{
-			if ( columnMirror != null )
-			{
-				rs[index] = new MirroredAggregationResultSet( rs[index],
-						new MirrorMetaInfo( columnMirror, columnEdge, view ),
-						cubeQueryExecutorHelper.getColumnSort( ) );
+		if (columnEdge != null) {
+			if (columnMirror != null) {
+				rs[index] = new MirroredAggregationResultSet(rs[index],
+						new MirrorMetaInfo(columnMirror, columnEdge, view), cubeQueryExecutorHelper.getColumnSort());
 			}
 			index++;
 		}
 
-		if ( rowMirror != null )
-		{
-			rs[index] = new MirroredAggregationResultSet( rs[index],
-					new MirrorMetaInfo( rowMirror, rowEdge, view ),
-					cubeQueryExecutorHelper.getRowSort( ) );
+		if (rowMirror != null) {
+			rs[index] = new MirroredAggregationResultSet(rs[index], new MirrorMetaInfo(rowMirror, rowEdge, view),
+					cubeQueryExecutorHelper.getRowSort());
 		}
-		
+
 		return rs;
 	}
 
-	
-	private IAggregationResultSet sortAggregationResultSet( IAggregationResultSet rs ) throws IOException
-	{
-		SortedAggregationRowArray sarr = new SortedAggregationRowArray( rs );
-		rs.close( );
-		return new AggregationResultSet( rs.getAggregationDefinition( ),
-				rs.getAllLevels( ),
-				sarr.getSortedRows( ),
-				rs.getKeyNames( ),
-				rs.getAttributeNames( ));
+	private IAggregationResultSet sortAggregationResultSet(IAggregationResultSet rs) throws IOException {
+		SortedAggregationRowArray sarr = new SortedAggregationRowArray(rs);
+		rs.close();
+		return new AggregationResultSet(rs.getAggregationDefinition(), rs.getAllLevels(), sarr.getSortedRows(),
+				rs.getKeyNames(), rs.getAttributeNames());
 	}
 }

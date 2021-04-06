@@ -11,25 +11,23 @@
 
 package org.eclipse.birt.report.designer.ui;
 
-
 /**
  * Interface used to find classpath based on projects or workspace
  * 
  * @deprecated the function of this class is replaced by
  *             {@link IReportClasspathResolver}
  */
-public interface IDatasetWorkspaceClasspathFinder
-{
+public interface IDatasetWorkspaceClasspathFinder {
 
 	/**
 	 * Get classpath based on the provided project names (separated by ;)
 	 * 
 	 */
-	String getClassPath( String projects );
+	String getClassPath(String projects);
 
 	/**
 	 * Get classpath based on projects in workspace
 	 * 
 	 */
-	String getClassPath( );
+	String getClassPath();
 }

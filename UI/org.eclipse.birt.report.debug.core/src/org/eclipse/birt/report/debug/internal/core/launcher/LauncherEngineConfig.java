@@ -22,42 +22,36 @@ import org.eclipse.birt.report.engine.api.RenderOption;
 /**
  * LauncherEngineConfig
  */
-public class LauncherEngineConfig extends EngineConfig
-{
+public class LauncherEngineConfig extends EngineConfig {
 
 	private static final String IMAGE_PATH = "image"; //$NON-NLS-1$
 
 	/**
 	 * constructor
 	 */
-	public LauncherEngineConfig( )
-	{
-		super( );
+	public LauncherEngineConfig() {
+		super();
 
-		HTMLRenderOption emitterConfig = (HTMLRenderOption) getEmitterConfigs( ).get( RenderOption.OUTPUT_FORMAT_HTML );
+		HTMLRenderOption emitterConfig = (HTMLRenderOption) getEmitterConfigs().get(RenderOption.OUTPUT_FORMAT_HTML);
 
-		if ( emitterConfig == null )
-		{
-			emitterConfig = new HTMLRenderOption( );
+		if (emitterConfig == null) {
+			emitterConfig = new HTMLRenderOption();
 		}
 
-		emitterConfig.setActionHandler( new HTMLActionHandler( ) {
+		emitterConfig.setActionHandler(new HTMLActionHandler() {
 
-			public String getURL( IAction actionDefn, Object context )
-			{
-				if ( actionDefn.getType( ) == IAction.ACTION_DRILLTHROUGH )
+			public String getURL(IAction actionDefn, Object context) {
+				if (actionDefn.getType() == IAction.ACTION_DRILLTHROUGH)
 					return "birt://" //$NON-NLS-1$
-							+ URLEncoder.encode( super.getURL( actionDefn,
-									context ) );
-				return super.getURL( actionDefn, context );
+							+ URLEncoder.encode(super.getURL(actionDefn, context));
+				return super.getURL(actionDefn, context);
 			}
 
-		} );
+		});
 
-		emitterConfig.setImageDirectory( IMAGE_PATH );
+		emitterConfig.setImageDirectory(IMAGE_PATH);
 
-		getEmitterConfigs( ).put( RenderOption.OUTPUT_FORMAT_HTML,
-				emitterConfig );
+		getEmitterConfigs().put(RenderOption.OUTPUT_FORMAT_HTML, emitterConfig);
 
 	}
 

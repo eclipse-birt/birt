@@ -15,52 +15,48 @@ package org.eclipse.birt.chart.script.api.series.data;
  * Represents the data contained in the Gantt Series
  */
 
-public interface IGanttData extends ISeriesData
-{
+public interface IGanttData extends ISeriesData {
 
 	/**
 	 * Gets the expression of Task name.
 	 * 
 	 * @return task name expression
 	 */
-	String getTaskNameExpr( );
+	String getTaskNameExpr();
 
 	/**
 	 * Gets the expression of Start date.
 	 * 
 	 * @return Start date expression
 	 */
-	String getStartExpr( );
+	String getStartExpr();
 
 	/**
 	 * Gets the expression of Finish date.
 	 * 
 	 * @return Finish date expression
 	 */
-	String getFinishExpr( );
+	String getFinishExpr();
 
 	/**
 	 * Sets the query expression of Task name.
 	 * 
-	 * @param task
-	 *            name expression
+	 * @param task name expression
 	 */
-	void setTaskNameExpr( String expr );
+	void setTaskNameExpr(String expr);
 
 	/**
 	 * Sets the query expression of Start date.
 	 * 
-	 * @param Start
-	 *            date expression
+	 * @param Start date expression
 	 */
-	void setStartExpr( String expr );
+	void setStartExpr(String expr);
 
 	/**
 	 * Sets the query expression of Finish date.
 	 * 
-	 * @param Finish
-	 *            date expression
+	 * @param Finish date expression
 	 */
-	void setFinishExpr( String expr );
+	void setFinishExpr(String expr);
 
 }

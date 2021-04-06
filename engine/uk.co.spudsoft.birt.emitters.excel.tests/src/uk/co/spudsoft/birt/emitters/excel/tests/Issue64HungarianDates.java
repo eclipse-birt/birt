@@ -27,11 +27,11 @@ public class Issue64HungarianDates extends ReportRunner {
 	@Test
 	public void testThreeTablesNoNastinessPdfCheck() throws BirtException, IOException {
 
-		InputStream inputStream = new FileInputStream( deriveFilepath( "formatted_date_office2010_hungarian.xls" ) );
+		InputStream inputStream = new FileInputStream(deriveFilepath("formatted_date_office2010_hungarian.xls"));
 		try {
 			HSSFWorkbook workbook = new HSSFWorkbook(inputStream);
 			Cell cell = workbook.getSheetAt(0).getRow(0).getCell(0);
-			System.out.println( "Data format string = " + cell.getCellStyle().getDataFormatString() );
+			System.out.println("Data format string = " + cell.getCellStyle().getDataFormatString());
 		} finally {
 			inputStream.close();
 		}

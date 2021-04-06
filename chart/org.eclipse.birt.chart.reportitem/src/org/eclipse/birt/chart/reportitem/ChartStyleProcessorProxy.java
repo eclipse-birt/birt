@@ -24,39 +24,36 @@ import com.ibm.icu.util.ULocale;
  * @since 2.6.2
  */
 
-public class ChartStyleProcessorProxy
-{
+public class ChartStyleProcessorProxy {
 	/** The chart's report item handle. */
 	protected DesignElementHandle handle;
 
 	private FormatInfo categoryFormat = null;
 
 	protected ChartValueUpdater chartValueUpdater;
-	
+
 	private ULocale uLocale;
-	
-	protected void setULocale( ULocale uLocale ) {
+
+	protected void setULocale(ULocale uLocale) {
 		this.uLocale = uLocale;
-		if( this.chartValueUpdater != null ){
-			this.chartValueUpdater.setULocale( uLocale );
+		if (this.chartValueUpdater != null) {
+			this.chartValueUpdater.setULocale(uLocale);
 		}
 	}
-	
+
 	/**
 	 * Constructor.
 	 */
-	public ChartStyleProcessorProxy()
-	{
-		chartValueUpdater = new ChartValueUpdater( );
+	public ChartStyleProcessorProxy() {
+		chartValueUpdater = new ChartValueUpdater();
 	}
-	
+
 	/**
 	 * Sets chart's report handle.
 	 * 
 	 * @param handle
 	 */
-	public void setHandle( DesignElementHandle handle )
-	{
+	public void setHandle(DesignElementHandle handle) {
 		this.handle = handle;
 	}
 
@@ -65,8 +62,7 @@ public class ChartStyleProcessorProxy
 	 * 
 	 * @param cm
 	 */
-	public void processDataSetStyle( Chart cm )
-	{
+	public void processDataSetStyle(Chart cm) {
 		// No code here, just return
 		return;
 	}
@@ -76,8 +72,7 @@ public class ChartStyleProcessorProxy
 	 * 
 	 * @param formatInfo
 	 */
-	protected void setCategoryFormat( FormatInfo formatInfo )
-	{
+	protected void setCategoryFormat(FormatInfo formatInfo) {
 		this.categoryFormat = formatInfo;
 	}
 
@@ -86,31 +81,27 @@ public class ChartStyleProcessorProxy
 	 * 
 	 * @return object of format info.
 	 */
-	public FormatInfo getCategoryFormat( )
-	{
+	public FormatInfo getCategoryFormat() {
 		return this.categoryFormat;
 	}
 
 	/**
 	 * The class stores format information.
 	 */
-	public static class FormatInfo
-	{
+	public static class FormatInfo {
 		public FormatValue formatValue = null;
 		public String dataType = null;
 	}
-	
+
 	/**
 	 * Updates chart values.
 	 * 
 	 * @param cm
-	 * @param formatDefault
-	 *            indicates if it force to use default values to update chart
-	 *            model.
+	 * @param formatDefault indicates if it force to use default values to update
+	 *                      chart model.
 	 */
-	public void updateChart( Chart cm, boolean forceDefault )
-	{
-		chartValueUpdater.update( cm, null );
+	public void updateChart(Chart cm, boolean forceDefault) {
+		chartValueUpdater.update(cm, null);
 	}
 
 	/**
@@ -118,18 +109,16 @@ public class ChartStyleProcessorProxy
 	 * 
 	 * @return true if it needs to inherit styles.
 	 */
-	public boolean needInheritingStyles( )
-	{
+	public boolean needInheritingStyles() {
 		return true;
 	}
-	
+
 	/**
 	 * Sets an instance of ChartValueUpdater.
 	 * 
 	 * @param valueUpdater
 	 */
-	public void setChartValueUpdater( ChartValueUpdater valueUpdater )
-	{
+	public void setChartValueUpdater(ChartValueUpdater valueUpdater) {
 		this.chartValueUpdater = valueUpdater;
 	}
 }

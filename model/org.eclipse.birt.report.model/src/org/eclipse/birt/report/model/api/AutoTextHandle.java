@@ -25,29 +25,25 @@ import org.eclipse.birt.report.model.elements.interfaces.IAutoTextModel;
  * </ul>
  */
 
-public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
-{
+public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel {
 
 	/**
 	 * Constructs a autotext handle with the given design and the element. The
-	 * application generally does not create handles directly. Instead, it uses
-	 * one of the navigation methods available on other element handles.
+	 * application generally does not create handles directly. Instead, it uses one
+	 * of the navigation methods available on other element handles.
 	 * 
-	 * @param module
-	 *            the module
-	 * @param element
-	 *            the model representation of the element
+	 * @param module  the module
+	 * @param element the model representation of the element
 	 */
 
-	public AutoTextHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public AutoTextHandle(Module module, DesignElement element) {
+		super(module, element);
 
 	}
 
 	/**
-	 * Returns the autotext type for this parameter. The autotext type counts
-	 * the page number or total page number. Types are defined in
+	 * Returns the autotext type for this parameter. The autotext type counts the
+	 * page number or total page number. Types are defined in
 	 * <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
@@ -64,14 +60,13 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	public String getAutoTextType( )
-	{
-		return getStringProperty( IAutoTextModel.AUTOTEXT_TYPE_PROP );
+	public String getAutoTextType() {
+		return getStringProperty(IAutoTextModel.AUTOTEXT_TYPE_PROP);
 	}
 
 	/**
-	 * Sets the autotext type for this parameter. The autotext type counts the
-	 * page number or total page number. Types are defined in
+	 * Sets the autotext type for this parameter. The autotext type counts the page
+	 * number or total page number. Types are defined in
 	 * <code>DesignChoiceConstants</code> can be one of the followings:
 	 * 
 	 * <ul>
@@ -82,18 +77,15 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	 * <li><code>AUTO_TEXT_PAGE_VARIABLE</code>
 	 * </ul>
 	 * 
-	 * @param type
-	 *            the type for the parameter
+	 * @param type the type for the parameter
 	 * 
-	 * @throws SemanticException
-	 *             if the input type is not one of above choices.
+	 * @throws SemanticException if the input type is not one of above choices.
 	 * @see #getAutoTextType()
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	public void setAutoTextType( String type ) throws SemanticException
-	{
-		setStringProperty( IAutoTextModel.AUTOTEXT_TYPE_PROP, type );
+	public void setAutoTextType(String type) throws SemanticException {
+		setStringProperty(IAutoTextModel.AUTOTEXT_TYPE_PROP, type);
 	}
 
 	/**
@@ -101,21 +93,18 @@ public class AutoTextHandle extends ReportItemHandle implements IAutoTextModel
 	 * 
 	 * @return the page variable property value.
 	 */
-	public String getPageVariable( )
-	{
-		return getStringProperty( PAGE_VARIABLE_PROP );
+	public String getPageVariable() {
+		return getStringProperty(PAGE_VARIABLE_PROP);
 	}
 
 	/**
 	 * Sets the page variable property value.
 	 * 
-	 * @param pageVariable
-	 *            page variable property value.
+	 * @param pageVariable page variable property value.
 	 * @throws SemanticException
 	 */
-	public void setPageVariable( String pageVariable ) throws SemanticException
-	{
-		setStringProperty( PAGE_VARIABLE_PROP, pageVariable );
+	public void setPageVariable(String pageVariable) throws SemanticException {
+		setStringProperty(PAGE_VARIABLE_PROP, pageVariable);
 	}
 
 }

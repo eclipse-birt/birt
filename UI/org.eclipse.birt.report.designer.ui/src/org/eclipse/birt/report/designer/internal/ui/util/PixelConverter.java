@@ -19,18 +19,14 @@ import org.eclipse.swt.widgets.Control;
  * 
  * @deprecated
  */
-public class PixelConverter extends
-		org.eclipse.birt.report.designer.ui.util.PixelConverter
-{
+public class PixelConverter extends org.eclipse.birt.report.designer.ui.util.PixelConverter {
 
-	public PixelConverter( Control control )
-	{
-		super( control );
+	public PixelConverter(Control control) {
+		super(control);
 	}
 
-	public PixelConverter( Font font )
-	{
-		super( font );
+	public PixelConverter(Font font) {
+		super(font);
 	}
 
 }

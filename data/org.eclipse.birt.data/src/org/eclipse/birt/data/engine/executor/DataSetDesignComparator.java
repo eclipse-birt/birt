@@ -16,15 +16,11 @@ import org.eclipse.birt.data.engine.api.IBaseDataSetDesign;
  * 
  */
 
-public class DataSetDesignComparator
-{
-	public static boolean isEqualDataSetDesign( IBaseDataSetDesign dataSetDesign,
-			IBaseDataSetDesign dataSetDesign2 )
-	{
-		if (!OSDataSetDesignComparator.isEqualBaseDataSetDesign( dataSetDesign, dataSetDesign2 ))
-		{
+public class DataSetDesignComparator {
+	public static boolean isEqualDataSetDesign(IBaseDataSetDesign dataSetDesign, IBaseDataSetDesign dataSetDesign2) {
+		if (!OSDataSetDesignComparator.isEqualBaseDataSetDesign(dataSetDesign, dataSetDesign2)) {
 			return false;
 		}
-		return OSDataSetDesignComparator.isEqualOSDataSetDesign( dataSetDesign, dataSetDesign2 );
+		return OSDataSetDesignComparator.isEqualOSDataSetDesign(dataSetDesign, dataSetDesign2);
 	}
 }

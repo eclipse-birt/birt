@@ -52,38 +52,34 @@ import com.ibm.icu.util.ULocale;
  * exception
  * <p>
  */
-public class Regression_101832 extends BaseTestCase
-{
+public class Regression_101832 extends BaseTestCase {
 
 	/**
 	 * @throws SemanticException
 	 */
-	public void test_regression_101832( ) throws SemanticException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
+	public void test_regression_101832() throws SemanticException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( label );
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
+		designHandle.getBody().add(label);
 
 		// add highlight
 
-		HighlightRule highlight = StructureFactory.createHighlightRule( );
-		highlight.setOperator( "between" ); //$NON-NLS-1$
-		highlight.setValue1( "1" );//$NON-NLS-1$
-		highlight.setValue2( "3" );//$NON-NLS-1$
+		HighlightRule highlight = StructureFactory.createHighlightRule();
+		highlight.setOperator("between"); //$NON-NLS-1$
+		highlight.setValue1("1");//$NON-NLS-1$
+		highlight.setValue2("3");//$NON-NLS-1$
 
-		label.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP ).addItem(
-				highlight );
+		label.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP).addItem(highlight);
 
 		// edit the highlight
 
-		HighlightRuleHandle handle = (HighlightRuleHandle) label
-				.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP )
-				.getAt( 0 );
-		handle.setOperator( DesignChoiceConstants.MAP_OPERATOR_EQ );
-		assertEquals( "eq", handle.getOperator( )); //$NON-NLS-1$
+		HighlightRuleHandle handle = (HighlightRuleHandle) label.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP)
+				.getAt(0);
+		handle.setOperator(DesignChoiceConstants.MAP_OPERATOR_EQ);
+		assertEquals("eq", handle.getOperator()); //$NON-NLS-1$
 	}
 }

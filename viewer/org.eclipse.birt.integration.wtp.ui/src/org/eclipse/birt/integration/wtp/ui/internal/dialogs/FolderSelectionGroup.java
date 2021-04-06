@@ -31,8 +31,7 @@ import org.eclipse.ui.PlatformUI;
  * <p>
  * This group contains: Lable, Text , Button
  */
-public class FolderSelectionGroup
-{
+public class FolderSelectionGroup {
 
 	/**
 	 * label of group
@@ -93,8 +92,7 @@ public class FolderSelectionGroup
 	 * Default Constructor
 	 * 
 	 */
-	public FolderSelectionGroup( )
-	{
+	public FolderSelectionGroup() {
 	}
 
 	/**
@@ -106,9 +104,8 @@ public class FolderSelectionGroup
 	 * @param dialogMessage
 	 * @param dialogFilterPath
 	 */
-	public FolderSelectionGroup( String labelText, String buttonText,
-			String dialogTitle, String dialogMessage, String dialogFilterPath )
-	{
+	public FolderSelectionGroup(String labelText, String buttonText, String dialogTitle, String dialogMessage,
+			String dialogFilterPath) {
 		this.labelText = labelText;
 		this.buttonText = buttonText;
 		this.dialogTitle = dialogTitle;
@@ -121,194 +118,167 @@ public class FolderSelectionGroup
 	 * 
 	 * @param parent
 	 */
-	public void create( Composite parent )
-	{
+	public void create(Composite parent) {
 		// get font
-		Font font = parent.getFont( );
+		Font font = parent.getFont();
 
 		// label control
-		Label label = new Label( parent, SWT.LEFT );
-		label.setFont( font );
-		label.setText( this.labelText );
+		Label label = new Label(parent, SWT.LEFT);
+		label.setFont(font);
+		label.setText(this.labelText);
 
-		Composite composite = new Composite( parent, SWT.NULL );
-		GridLayout layout = new GridLayout( );
+		Composite composite = new Composite(parent, SWT.NULL);
+		GridLayout layout = new GridLayout();
 		layout.marginWidth = 0;
 		layout.marginHeight = 0;
 		layout.numColumns = 2;
-		composite.setLayout( layout );
+		composite.setLayout(layout);
 
-		GridData data = new GridData( GridData.FILL_HORIZONTAL );
-		composite.setLayoutData( data );
+		GridData data = new GridData(GridData.FILL_HORIZONTAL);
+		composite.setLayoutData(data);
 
 		// text control
-		text = new Text( composite, SWT.BORDER );
-		text.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-		text.setFont( font );
-		text.setText( this.textValue );
-		text.addVerifyListener( new VerifyListener( ) {
+		text = new Text(composite, SWT.BORDER);
+		text.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+		text.setFont(font);
+		text.setText(this.textValue);
+		text.addVerifyListener(new VerifyListener() {
 
-			public void verifyText( VerifyEvent e )
-			{
-				e.doit = e.text.indexOf( DELIMITER ) < 0;
+			public void verifyText(VerifyEvent e) {
+				e.doit = e.text.indexOf(DELIMITER) < 0;
 			}
-		} );
+		});
 
 		// directory selection button
-		button = new Button( composite, SWT.PUSH );
-		button.setFont( font );
-		button.setText( this.buttonText );
-		button.addSelectionListener( new SelectionAdapter( ) {
+		button = new Button(composite, SWT.PUSH);
+		button.setFont(font);
+		button.setText(this.buttonText);
+		button.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent event )
-			{
-				dialog = new DirectoryDialog( PlatformUI.getWorkbench( )
-						.getDisplay( ).getActiveShell( ) );
+			public void widgetSelected(SelectionEvent event) {
+				dialog = new DirectoryDialog(PlatformUI.getWorkbench().getDisplay().getActiveShell());
 
-				dialog.setText( dialogTitle );
-				dialog.setMessage( dialogMessage );
-				dialog.setFilterPath( dialogFilterPath );
-				String folderName = dialog.open( );
-				if ( folderName == null )
-				{
+				dialog.setText(dialogTitle);
+				dialog.setMessage(dialogMessage);
+				dialog.setFilterPath(dialogFilterPath);
+				String folderName = dialog.open();
+				if (folderName == null) {
 					return;
 				}
-				text.setText( folderName );
+				text.setText(folderName);
 			}
-		} );
+		});
 	}
 
 	/**
 	 * @return the buttonText
 	 */
-	public String getButtonText( )
-	{
+	public String getButtonText() {
 		return buttonText;
 	}
 
 	/**
-	 * @param buttonText
-	 *            the buttonText to set
+	 * @param buttonText the buttonText to set
 	 */
-	public void setButtonText( String buttonText )
-	{
+	public void setButtonText(String buttonText) {
 		this.buttonText = buttonText;
 	}
 
 	/**
 	 * @return the dialogFilterPath
 	 */
-	public String getDialogFilterPath( )
-	{
+	public String getDialogFilterPath() {
 		return dialogFilterPath;
 	}
 
 	/**
-	 * @param dialogFilterPath
-	 *            the dialogFilterPath to set
+	 * @param dialogFilterPath the dialogFilterPath to set
 	 */
-	public void setDialogFilterPath( String dialogFilterPath )
-	{
+	public void setDialogFilterPath(String dialogFilterPath) {
 		this.dialogFilterPath = dialogFilterPath;
 	}
 
 	/**
 	 * @return the dialogMessage
 	 */
-	public String getDialogMessage( )
-	{
+	public String getDialogMessage() {
 		return dialogMessage;
 	}
 
 	/**
-	 * @param dialogMessage
-	 *            the dialogMessage to set
+	 * @param dialogMessage the dialogMessage to set
 	 */
-	public void setDialogMessage( String dialogMessage )
-	{
+	public void setDialogMessage(String dialogMessage) {
 		this.dialogMessage = dialogMessage;
 	}
 
 	/**
 	 * @return the dialogTitle
 	 */
-	public String getDialogTitle( )
-	{
+	public String getDialogTitle() {
 		return dialogTitle;
 	}
 
 	/**
-	 * @param dialogTitle
-	 *            the dialogTitle to set
+	 * @param dialogTitle the dialogTitle to set
 	 */
-	public void setDialogTitle( String dialogTitle )
-	{
+	public void setDialogTitle(String dialogTitle) {
 		this.dialogTitle = dialogTitle;
 	}
 
 	/**
 	 * @return the labelText
 	 */
-	public String getLabelText( )
-	{
+	public String getLabelText() {
 		return labelText;
 	}
 
 	/**
-	 * @param labelText
-	 *            the labelText to set
+	 * @param labelText the labelText to set
 	 */
-	public void setLabelText( String labelText )
-	{
+	public void setLabelText(String labelText) {
 		this.labelText = labelText;
 	}
 
 	/**
 	 * @return the button
 	 */
-	public Button getButton( )
-	{
+	public Button getButton() {
 		return button;
 	}
 
 	/**
 	 * @return the dialog
 	 */
-	public DirectoryDialog getDialog( )
-	{
+	public DirectoryDialog getDialog() {
 		return dialog;
 	}
 
 	/**
 	 * @return the label
 	 */
-	public Label getLabel( )
-	{
+	public Label getLabel() {
 		return label;
 	}
 
 	/**
 	 * @return the text
 	 */
-	public Text getText( )
-	{
+	public Text getText() {
 		return text;
 	}
 
 	/**
 	 * @return the textValue
 	 */
-	public String getTextValue( )
-	{
+	public String getTextValue() {
 		return textValue;
 	}
 
 	/**
-	 * @param textValue
-	 *            the textValue to set
+	 * @param textValue the textValue to set
 	 */
-	public void setTextValue( String textValue )
-	{
+	public void setTextValue(String textValue) {
 		this.textValue = textValue;
 	}
 }

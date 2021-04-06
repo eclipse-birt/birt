@@ -17,33 +17,26 @@ import org.eclipse.birt.report.model.api.ScalarParameterHandle;
 /**
  * ReportHyperlinkParameter
  */
-public class ReportHyperlinkParameter extends AbstractHyperlinkParameter implements
-		IReportHyperlinkParameter
-{
+public class ReportHyperlinkParameter extends AbstractHyperlinkParameter implements IReportHyperlinkParameter {
 
 	private ParameterHandle handle;
 
-	public ReportHyperlinkParameter( ParameterHandle handle )
-	{
+	public ReportHyperlinkParameter(ParameterHandle handle) {
 		this.handle = handle;
 	}
 
-	public String getName( )
-	{
-		return handle.getName( );
+	public String getName() {
+		return handle.getName();
 	}
 
-	public String getDataType( )
-	{
-		if ( handle instanceof ScalarParameterHandle )
-		{
-			return ( (ScalarParameterHandle) handle ).getDataType( );
+	public String getDataType() {
+		if (handle instanceof ScalarParameterHandle) {
+			return ((ScalarParameterHandle) handle).getDataType();
 		}
 		return null;
 	}
 
-	public ParameterHandle getParameterHandle( )
-	{
+	public ParameterHandle getParameterHandle() {
 		return handle;
 	}
 

@@ -31,369 +31,375 @@ import org.eclipse.birt.chart.model.layout.Block;
 import org.eclipse.birt.chart.render.ISeriesRenderer;
 
 /**
- * An adapter (empty implementation of IChartEventHandler) makes the
- * interface easier for the user. This is required to provide backward compatibility
- * when new methods are added to the interface in future versions.
+ * An adapter (empty implementation of IChartEventHandler) makes the interface
+ * easier for the user. This is required to provide backward compatibility when
+ * new methods are added to the interface in future versions.
  */
-public class ChartEventHandlerAdapter implements IChartEventHandler
-{
+public class ChartEventHandlerAdapter implements IChartEventHandler {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.script.IChartEventHandler#afterDrawLegendItem(org.eclipse.birt.chart.computation.LegendEntryRenderingHints, 
-	 * org.eclipse.birt.chart.model.attribute.Bounds, 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartEventHandler#afterDrawLegendItem(org.
+	 * eclipse.birt.chart.computation.LegendEntryRenderingHints,
+	 * org.eclipse.birt.chart.model.attribute.Bounds,
 	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawLegendItem( LegendEntryRenderingHints lerh, Bounds bo, IChartScriptContext icsc )
-	{
+	public void afterDrawLegendItem(LegendEntryRenderingHints lerh, Bounds bo, IChartScriptContext icsc) {
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.chart.script.IChartEventHandler#beforeDrawLegendItem(org.eclipse.birt.chart.computation.LegendEntryRenderingHints, 
-	 * org.eclipse.birt.chart.model.attribute.Bounds, 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartEventHandler#beforeDrawLegendItem(org.
+	 * eclipse.birt.chart.computation.LegendEntryRenderingHints,
+	 * org.eclipse.birt.chart.model.attribute.Bounds,
 	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawLegendItem( LegendEntryRenderingHints lerh, Bounds bo, IChartScriptContext icsc )
-	{
+	public void beforeDrawLegendItem(LegendEntryRenderingHints lerh, Bounds bo, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDataSetFilled(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.model.data.DataSet,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDataSetFilled(org.
+	 * eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.model.data.DataSet,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDataSetFilled( Series series, DataSet dataSet,
-			IChartScriptContext icsc )
-	{
+	public void afterDataSetFilled(Series series, DataSet dataSet, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDataSetFilled(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.datafeed.IDataSetProcessor,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDataSetFilled(org
+	 * .eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.datafeed.IDataSetProcessor,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDataSetFilled( Series series, IDataSetProcessor idsp,
-			IChartScriptContext icsc )
-	{
+	public void beforeDataSetFilled(Series series, IDataSetProcessor idsp, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawAxisLabel(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawAxisLabel(org
+	 * .eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawAxisLabel( Axis axis, Label label,
-			IChartScriptContext icsc )
-	{
+	public void beforeDrawAxisLabel(Axis axis, Label label, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawAxisTitle(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawAxisTitle(org
+	 * .eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawAxisTitle( Axis axis, Label label,
-			IChartScriptContext icsc )
-	{
+	public void beforeDrawAxisTitle(Axis axis, Label label, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawBlock(org.eclipse.birt.chart.model.layout.Block,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawBlock(org.
+	 * eclipse.birt.chart.model.layout.Block,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawBlock( Block block, IChartScriptContext icsc )
-	{
+	public void beforeDrawBlock(Block block, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawDataPoint(org.eclipse.birt.chart.computation.DataPointHints,
-	 *      org.eclipse.birt.chart.model.attribute.Fill,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawDataPoint(org
+	 * .eclipse.birt.chart.computation.DataPointHints,
+	 * org.eclipse.birt.chart.model.attribute.Fill,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawDataPoint( DataPointHints dph, Fill fill,
-			IChartScriptContext icsc )
-	{
+	public void beforeDrawDataPoint(DataPointHints dph, Fill fill, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawDataPointLabel(org.eclipse.birt.chart.computation.DataPointHints,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#
+	 * beforeDrawDataPointLabel(org.eclipse.birt.chart.computation.DataPointHints,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawDataPointLabel( DataPointHints dph, Label label,
-			IChartScriptContext icsc )
-	{
+	public void beforeDrawDataPointLabel(DataPointHints dph, Label label, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawFittingCurve(org.eclipse.birt.chart.model.component.CurveFitting,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawFittingCurve(
+	 * org.eclipse.birt.chart.model.component.CurveFitting,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawFittingCurve( CurveFitting cf,
-			IChartScriptContext icsc )
-	{
+	public void beforeDrawFittingCurve(CurveFitting cf, IChartScriptContext icsc) {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void beforeDrawLegendEntry( Label label, IChartScriptContext icsc )
-	{
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarker(org.eclipse.birt.chart.model.attribute.Marker,
-	 *      org.eclipse.birt.chart.computation.DataPointHints,
-	 *		org.eclipse.birt.chart.script.IChartScriptContext)
-	 */
-	public void beforeDrawMarker( Marker marker, DataPointHints dph, IChartScriptContext icsc )
-	{
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarker(org.eclipse.birt.chart.model.attribute.Marker,
-	 *      org.eclipse.birt.chart.computation.DataPointHints,
-	 *		org.eclipse.birt.chart.script.IChartScriptContext)
-	 */
-	public void afterDrawMarker( Marker marker, DataPointHints dph, IChartScriptContext icsc )
-	{
+	public void beforeDrawLegendEntry(Label label, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerLine(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.MarkerLine,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarker(org.
+	 * eclipse.birt.chart.model.attribute.Marker,
+	 * org.eclipse.birt.chart.computation.DataPointHints,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawMarkerLine( Axis axis, MarkerLine mLine,
-			IChartScriptContext icsc )
-	{
+	public void beforeDrawMarker(Marker marker, DataPointHints dph, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerRange(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.MarkerRange,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarker(org.
+	 * eclipse.birt.chart.model.attribute.Marker,
+	 * org.eclipse.birt.chart.computation.DataPointHints,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawMarkerRange( Axis axis, MarkerRange mRange,
-			IChartScriptContext icsc )
-	{
+	public void afterDrawMarker(Marker marker, DataPointHints dph, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawSeries(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.render.ISeriesRenderer,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerLine(
+	 * org.eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.MarkerLine,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawSeries( Series series, ISeriesRenderer isr,
-			IChartScriptContext icsc )
-	{ 
+	public void beforeDrawMarkerLine(Axis axis, MarkerLine mLine, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawSeriesTitle(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawMarkerRange(
+	 * org.eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.MarkerRange,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeDrawSeriesTitle( Series series, Label label,
-			IChartScriptContext icsc )
-	{
+	public void beforeDrawMarkerRange(Axis axis, MarkerRange mRange, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeGeneration(org.eclipse.birt.chart.model.Chart,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawSeries(org.
+	 * eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.render.ISeriesRenderer,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeGeneration( Chart cm, IChartScriptContext icsc )
-	{
+	public void beforeDrawSeries(Series series, ISeriesRenderer isr, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeRendering(org.eclipse.birt.chart.factory.GeneratedChartState,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeDrawSeriesTitle(
+	 * org.eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void beforeRendering( GeneratedChartState gcs,
-			IChartScriptContext icsc )
-	{
+	public void beforeDrawSeriesTitle(Series series, Label label, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterGeneration(org.eclipse.birt.chart.factory.GeneratedChartState,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeGeneration(org.
+	 * eclipse.birt.chart.model.Chart,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterGeneration( GeneratedChartState gcs,
-			IChartScriptContext icsc )
-	{
+	public void beforeGeneration(Chart cm, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterRendering(org.eclipse.birt.chart.factory.GeneratedChartState,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#beforeRendering(org.
+	 * eclipse.birt.chart.factory.GeneratedChartState,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterRendering( GeneratedChartState gcs,
-			IChartScriptContext icsc )
-	{
+	public void beforeRendering(GeneratedChartState gcs, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawBlock(org.eclipse.birt.chart.model.layout.Block,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterGeneration(org.
+	 * eclipse.birt.chart.factory.GeneratedChartState,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawBlock( Block block, IChartScriptContext icsc )
-	{
+	public void afterGeneration(GeneratedChartState gcs, IChartScriptContext icsc) {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterRendering(org.
+	 * eclipse.birt.chart.factory.GeneratedChartState,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
+	 */
+	public void afterRendering(GeneratedChartState gcs, IChartScriptContext icsc) {
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawBlock(org.
+	 * eclipse.birt.chart.model.layout.Block,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
+	 */
+	public void afterDrawBlock(Block block, IChartScriptContext icsc) {
 	}
 
 	@SuppressWarnings("deprecation")
-	public void afterDrawLegendEntry( Label label, IChartScriptContext icsc )
-	{
+	public void afterDrawLegendEntry(Label label, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawSeries(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.render.ISeriesRenderer,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawSeries(org.
+	 * eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.render.ISeriesRenderer,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawSeries( Series series, ISeriesRenderer isr,
-			IChartScriptContext icsc )
-	{
+	public void afterDrawSeries(Series series, ISeriesRenderer isr, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawSeriesTitle(org.eclipse.birt.chart.model.component.Series,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawSeriesTitle(
+	 * org.eclipse.birt.chart.model.component.Series,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawSeriesTitle( Series series, Label label,
-			IChartScriptContext icsc )
-	{
+	public void afterDrawSeriesTitle(Series series, Label label, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawMarkerLine(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.MarkerLine,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawMarkerLine(org
+	 * .eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.MarkerLine,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawMarkerLine( Axis axis, MarkerLine mLine,
-			IChartScriptContext icsc )
-	{
+	public void afterDrawMarkerLine(Axis axis, MarkerLine mLine, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawMarkerRange(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.MarkerRange,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawMarkerRange(
+	 * org.eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.MarkerRange,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawMarkerRange( Axis axis, MarkerRange mRange,
-			IChartScriptContext icsc )
-	{
+	public void afterDrawMarkerRange(Axis axis, MarkerRange mRange, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawDataPoint(org.eclipse.birt.chart.computation.DataPointHints,
-	 *      org.eclipse.birt.chart.model.attribute.Fill,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawDataPoint(org.
+	 * eclipse.birt.chart.computation.DataPointHints,
+	 * org.eclipse.birt.chart.model.attribute.Fill,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawDataPoint( DataPointHints dph, Fill fill,
-			IChartScriptContext icsc )
-	{
+	public void afterDrawDataPoint(DataPointHints dph, Fill fill, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawDataPointLabel(org.eclipse.birt.chart.computation.DataPointHints,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawDataPointLabel
+	 * (org.eclipse.birt.chart.computation.DataPointHints,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawDataPointLabel( DataPointHints dph, Label label,
-			IChartScriptContext icsc )
-	{
+	public void afterDrawDataPointLabel(DataPointHints dph, Label label, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawFittingCurve(org.eclipse.birt.chart.model.component.CurveFitting,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawFittingCurve(
+	 * org.eclipse.birt.chart.model.component.CurveFitting,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawFittingCurve( CurveFitting cf, IChartScriptContext icsc )
-	{
+	public void afterDrawFittingCurve(CurveFitting cf, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawAxisLabel(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawAxisLabel(org.
+	 * eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawAxisLabel( Axis axis, Label label,
-			IChartScriptContext icsc )
-	{
+	public void afterDrawAxisLabel(Axis axis, Label label, IChartScriptContext icsc) {
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawAxisTitle(org.eclipse.birt.chart.model.component.Axis,
-	 *      org.eclipse.birt.chart.model.component.Label,
-	 *      org.eclipse.birt.chart.script.IChartScriptContext)
+	 * @see
+	 * org.eclipse.birt.chart.script.IChartItemScriptHandler#afterDrawAxisTitle(org.
+	 * eclipse.birt.chart.model.component.Axis,
+	 * org.eclipse.birt.chart.model.component.Label,
+	 * org.eclipse.birt.chart.script.IChartScriptContext)
 	 */
-	public void afterDrawAxisTitle( Axis axis, Label label,
-			IChartScriptContext icsc )
-	{
+	public void afterDrawAxisTitle(Axis axis, Label label, IChartScriptContext icsc) {
 	}
 
-	public void afterComputations( Chart cm, PlotComputation oComputations )
-	{
+	public void afterComputations(Chart cm, PlotComputation oComputations) {
 	}
 
-	public void beforeComputations( Chart cm, PlotComputation oComputations )
-	{
+	public void beforeComputations(Chart cm, PlotComputation oComputations) {
 	}
 
 }

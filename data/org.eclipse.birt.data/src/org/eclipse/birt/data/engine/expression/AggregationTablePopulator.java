@@ -20,24 +20,22 @@ import org.eclipse.birt.data.engine.impl.aggregation.AggregateTable;
 /**
  * This class is used to populate an AggregationTable.
  */
-final class AggregationTablePopulator
-{
+final class AggregationTablePopulator {
 	/**
 	 * No instance
 	 */
-	private AggregationTablePopulator()
-	{		
-	}
-	
-	/**
-	 * close the context
-	 */
-	public static void close( )
-	{
+	private AggregationTablePopulator() {
 	}
 
 	/**
-	 * Populate the AggregateTable instance using given AggregateObject. 
+	 * close the context
+	 */
+	public static void close() {
+	}
+
+	/**
+	 * Populate the AggregateTable instance using given AggregateObject.
+	 * 
 	 * @param table
 	 * @param aggreObjList
 	 * @param groupLvl
@@ -45,21 +43,13 @@ final class AggregationTablePopulator
 	 * @return
 	 * @throws DataException
 	 */
-	public static int populateAggregationTable( AggregateTable table,
-			AggregateObject aggreObj, int groupLvl, int calculationLvl,
-			boolean aftergroup, boolean isDetailedRow, ScriptContext cx ) throws DataException
-	{
-		try
-		{
-			AggregateRegistry reg = table.getAggrRegistry( groupLvl,
-					calculationLvl,
-					isDetailedRow,
-					cx );
+	public static int populateAggregationTable(AggregateTable table, AggregateObject aggreObj, int groupLvl,
+			int calculationLvl, boolean aftergroup, boolean isDetailedRow, ScriptContext cx) throws DataException {
+		try {
+			AggregateRegistry reg = table.getAggrRegistry(groupLvl, calculationLvl, isDetailedRow, cx);
 
-			return reg.register( aggreObj.getAggregateExpr( ) );
-		}
-		catch ( DataException e )
-		{
+			return reg.register(aggreObj.getAggregateExpr());
+		} catch (DataException e) {
 			throw e;
 		}
 	}
@@ -70,8 +60,7 @@ final class AggregationTablePopulator
 	 * @param query
 	 * @return
 	 */
-	public static AggregateTable createAggregateTable( String tempDir, BaseQuery query )
-	{
-		return new AggregateTable( tempDir, query );
+	public static AggregateTable createAggregateTable(String tempDir, BaseQuery query) {
+		return new AggregateTable(tempDir, query);
 	}
 }

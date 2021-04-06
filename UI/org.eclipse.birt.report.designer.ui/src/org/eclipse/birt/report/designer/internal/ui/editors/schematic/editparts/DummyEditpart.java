@@ -19,18 +19,17 @@ import org.eclipse.draw2d.geometry.Dimension;
 /**
  * Dummy edit part to avoid null pointer error This will be the default editpart
  * the if there're no editpart is created by the BraphicalPartFactory.
- *  
+ * 
  */
-public class DummyEditpart extends ReportElementEditPart
-{
+public class DummyEditpart extends ReportElementEditPart {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param model
 	 */
-	public DummyEditpart( Object model )
-	{
-		super( model );
+	public DummyEditpart(Object model) {
+		super(model);
 	}
 
 	/*
@@ -38,11 +37,10 @@ public class DummyEditpart extends ReportElementEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractGraphicalEditPart#createFigure()
 	 */
-	protected IFigure createFigure( )
-	{
-		Figure figure = new Figure( );
-		figure.setMaximumSize( new Dimension( 0, 0 ) );
-		figure.setSize( 0, 0 );
+	protected IFigure createFigure() {
+		Figure figure = new Figure();
+		figure.setMaximumSize(new Dimension(0, 0));
+		figure.setSize(0, 0);
 		return figure;
 	}
 
@@ -51,38 +49,42 @@ public class DummyEditpart extends ReportElementEditPart
 	 * 
 	 * @see org.eclipse.gef.editparts.AbstractEditPart#createEditPolicies()
 	 */
-	protected void createEditPolicies( )
-	{
+	protected void createEditPolicies() {
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#elementChanged(org.eclipse.birt.model.api.DesignElementHandle,
-	 *      org.eclipse.birt.model.activity.NotificationEvent)
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#elementChanged(org.eclipse.birt.model.api.
+	 * DesignElementHandle, org.eclipse.birt.model.activity.NotificationEvent)
 	 */
-	public void elementChanged( DesignElementHandle arg0, NotificationEvent arg1 )
-	{
+	public void elementChanged(DesignElementHandle arg0, NotificationEvent arg1) {
 
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#refreshFigure()
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#refreshFigure()
 	 */
-	public void refreshFigure( )
-	{
+	public void refreshFigure() {
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.ReportElementEditPart#creatDesignElementHandleAdapter()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.editparts.
+	 * ReportElementEditPart#creatDesignElementHandleAdapter()
 	 */
-	public DesignElementHandleAdapter creatDesignElementHandleAdapter( )
-	{
+	public DesignElementHandleAdapter creatDesignElementHandleAdapter() {
 		return null;
-		//do nothing
+		// do nothing
 	}
 
 }

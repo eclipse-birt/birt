@@ -57,8 +57,7 @@ import com.ibm.icu.util.ULocale;
  * operator is "eq"
  * </p>
  */
-public class Regression_132786 extends BaseTestCase
-{
+public class Regression_132786 extends BaseTestCase {
 
 	private final static String OUTPUT = "regression_132786.xml"; //$NON-NLS-1$
 
@@ -67,53 +66,46 @@ public class Regression_132786 extends BaseTestCase
 	 * @throws IOException
 	 * @throws DesignFileException
 	 */
-	
-	protected void setUp() throws Exception
-	{
+
+	protected void setUp() throws Exception {
 		super.setUp();
 		removeResource();
-		
-		
-	}
-	public void test_regression_132786( ) throws SemanticException, IOException,
-			DesignFileException
-	{
-		DesignEngine engine = new DesignEngine( new DesignConfig( ) );
-		SessionHandle session = engine.newSessionHandle( ULocale.ENGLISH );
-		ReportDesignHandle designHandle = session.createDesign( );
 
-		ElementFactory factory = designHandle.getElementFactory( );
-		LabelHandle label = factory.newLabel( "label" ); //$NON-NLS-1$
-		designHandle.getBody( ).add( label );
+	}
+
+	public void test_regression_132786() throws SemanticException, IOException, DesignFileException {
+		DesignEngine engine = new DesignEngine(new DesignConfig());
+		SessionHandle session = engine.newSessionHandle(ULocale.ENGLISH);
+		ReportDesignHandle designHandle = session.createDesign();
+
+		ElementFactory factory = designHandle.getElementFactory();
+		LabelHandle label = factory.newLabel("label"); //$NON-NLS-1$
+		designHandle.getBody().add(label);
 
 		// add highlight
 
-		HighlightRule highlight = StructureFactory.createHighlightRule( );
-		highlight.setOperator( "between" ); //$NON-NLS-1$
-		highlight.setValue1( "1" );//$NON-NLS-1$
-		highlight.setValue2( "3" );//$NON-NLS-1$
+		HighlightRule highlight = StructureFactory.createHighlightRule();
+		highlight.setOperator("between"); //$NON-NLS-1$
+		highlight.setValue1("1");//$NON-NLS-1$
+		highlight.setValue2("3");//$NON-NLS-1$
 
-		label.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP ).addItem(
-				highlight );
+		label.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP).addItem(highlight);
 
 		// change the highlight
 
-		HighlightRuleHandle handle = (HighlightRuleHandle) label
-				.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP )
-				.getAt( 0 );
-		handle.setOperator( DesignChoiceConstants.MAP_OPERATOR_EQ );
+		HighlightRuleHandle handle = (HighlightRuleHandle) label.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP)
+				.getAt(0);
+		handle.setOperator(DesignChoiceConstants.MAP_OPERATOR_EQ);
 
 		// save the report and read it back.
 
-		designHandle.saveAs(OUTPUT);		
+		designHandle.saveAs(OUTPUT);
 		designHandle = session.openDesign(OUTPUT);
-		LabelHandle labelHandle = (LabelHandle) designHandle
-				.findElement( "label" );//$NON-NLS-1$
+		LabelHandle labelHandle = (LabelHandle) designHandle.findElement("label");//$NON-NLS-1$
 		HighlightRuleHandle highlightRuleHandle = (HighlightRuleHandle) labelHandle
-				.getPropertyHandle( StyleHandle.HIGHLIGHT_RULES_PROP )
-				.getAt( 0 );
-		assertNull( highlightRuleHandle.getValue2( ) );
-		assertEquals( "eq", highlightRuleHandle.getOperator( ) ); //$NON-NLS-1$
-		assertEquals( "1", highlightRuleHandle.getValue1( ) );//$NON-NLS-1$
+				.getPropertyHandle(StyleHandle.HIGHLIGHT_RULES_PROP).getAt(0);
+		assertNull(highlightRuleHandle.getValue2());
+		assertEquals("eq", highlightRuleHandle.getOperator()); //$NON-NLS-1$
+		assertEquals("1", highlightRuleHandle.getValue1());//$NON-NLS-1$
 	}
 }

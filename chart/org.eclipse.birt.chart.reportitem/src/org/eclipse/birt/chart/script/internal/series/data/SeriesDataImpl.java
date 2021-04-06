@@ -21,33 +21,27 @@ import org.eclipse.emf.common.util.EList;
  * 
  */
 
-public class SeriesDataImpl implements ISeriesData
-{
+public class SeriesDataImpl implements ISeriesData {
 
 	protected EList querys;
 	protected SeriesDefinition sd;
 
-	protected SeriesDataImpl( SeriesDefinition sd )
-	{
+	protected SeriesDataImpl(SeriesDefinition sd) {
 		this.sd = sd;
-		this.querys = sd.getDesignTimeSeries( ).getDataDefinition( );
+		this.querys = sd.getDesignTimeSeries().getDataDefinition();
 		assert querys != null;
 	}
 
-	protected String getExprByIndex( int index )
-	{
-		return querys.size( ) > index
-				? ( (Query) querys.get( index ) ).getDefinition( ) : null;
+	protected String getExprByIndex(int index) {
+		return querys.size() > index ? ((Query) querys.get(index)).getDefinition() : null;
 	}
 
-	protected void setExprsByIndex( int index, String expr )
-	{
-		while ( querys.size( ) < index + 1 )
-		{
-			Query query = QueryImpl.create( "" ); //$NON-NLS-1$
-			querys.add( query );
-			query.eAdapters( ).addAll( sd.eAdapters( ) );
+	protected void setExprsByIndex(int index, String expr) {
+		while (querys.size() < index + 1) {
+			Query query = QueryImpl.create(""); //$NON-NLS-1$
+			querys.add(query);
+			query.eAdapters().addAll(sd.eAdapters());
 		}
-		( (Query) querys.get( index ) ).setDefinition( expr );
+		((Query) querys.get(index)).setDefinition(expr);
 	}
 }

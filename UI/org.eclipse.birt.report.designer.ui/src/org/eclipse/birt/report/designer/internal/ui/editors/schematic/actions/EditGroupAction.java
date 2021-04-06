@@ -23,9 +23,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 
-public class EditGroupAction extends DynamicItemAction
-{
-
+public class EditGroupAction extends DynamicItemAction {
 
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.EditGroupAction"; //$NON-NLS-1$
 
@@ -35,19 +33,17 @@ public class EditGroupAction extends DynamicItemAction
 	/**
 	 * @param part
 	 */
-	public EditGroupAction( IWorkbenchPart part )
-	{
-		setId( ID );
+	public EditGroupAction(IWorkbenchPart part) {
+		setId(ID);
 	}
 
 	/**
 	 * @param part
 	 */
-	public EditGroupAction( IWorkbenchPart part, GroupHandle handle )
-	{
+	public EditGroupAction(IWorkbenchPart part, GroupHandle handle) {
 		this.handle = handle;
-		setId( ID );
-		setText( DEUtil.getEscapedMenuItemText( handle.getDisplayLabel( ) ) );
+		setId(ID);
+		setText(DEUtil.getEscapedMenuItemText(handle.getDisplayLabel()));
 	}
 
 	/*
@@ -55,10 +51,9 @@ public class EditGroupAction extends DynamicItemAction
 	 * 
 	 * @see org.eclipse.gef.ui.actions.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		return //!DEUtil.getDataSetList( handle ).isEmpty( );
-		handle.canEdit( );
+	public boolean isEnabled() {
+		return // !DEUtil.getDataSetList( handle ).isEmpty( );
+		handle.canEdit();
 	}
 
 	/*
@@ -66,20 +61,15 @@ public class EditGroupAction extends DynamicItemAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		
+	public void run() {
+
 		CommandUtils.setVariable(GROUP_HANDLE_NAME, handle);
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.editGroupCommand", null ); //$NON-NLS-1$
-		}
-		catch (Exception e )
-		{
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.editGroupCommand", null); //$NON-NLS-1$
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
-			logger.log( Level.SEVERE, e.getMessage( ),e );
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
-
 
 }

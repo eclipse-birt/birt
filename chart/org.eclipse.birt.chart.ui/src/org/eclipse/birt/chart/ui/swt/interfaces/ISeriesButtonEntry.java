@@ -16,14 +16,13 @@ package org.eclipse.birt.chart.ui.swt.interfaces;
  * series composite
  */
 
-public interface ISeriesButtonEntry
-{
+public interface ISeriesButtonEntry {
 
-	String getButtonId( );
+	String getButtonId();
 
-	String getPopupName( );
+	String getPopupName();
 
-	ITaskPopupSheet getPopupSheet( );
+	ITaskPopupSheet getPopupSheet();
 
-	boolean isEnabled( );
+	boolean isEnabled();
 }

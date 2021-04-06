@@ -1,34 +1,32 @@
 package org.eclipse.birt.report.engine.api.script.instance;
 
-
-public interface IReportItemInstance extends IReportElementInstance
-{
+public interface IReportItemInstance extends IReportElementInstance {
 
 	/**
 	 * Get the hyperlink
 	 * 
 	 * @return the hyperlink
 	 */
-	String getHyperlink( );
+	String getHyperlink();
 
 	/**
 	 * Get the name
 	 */
-	String getName( );
+	String getName();
 
 	/**
 	 * Set the name
 	 */
-	void setName( String name );
+	void setName(String name);
 
 	/**
 	 * Get the help text
 	 */
-	String getHelpText( );
+	String getHelpText();
 
 	/**
 	 * Set the help text
 	 */
-	void setHelpText( String helpText );
+	void setHelpText(String helpText);
 
 }

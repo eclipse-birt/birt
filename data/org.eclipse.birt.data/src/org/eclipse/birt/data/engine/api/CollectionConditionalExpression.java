@@ -17,32 +17,27 @@ import java.util.Collection;
 
 import org.eclipse.birt.data.engine.api.querydefn.BaseExpression;
 
-
-public class CollectionConditionalExpression extends BaseExpression implements ICollectionConditionalExpression
-{
+public class CollectionConditionalExpression extends BaseExpression implements ICollectionConditionalExpression {
 	private Collection<IScriptExpression> expr;
 	private Collection<Collection<IScriptExpression>> operand;
 	private int operator;
-	public CollectionConditionalExpression( Collection<IScriptExpression> expr, int operator,
-			Collection<Collection<IScriptExpression>> operand )
-	{
+
+	public CollectionConditionalExpression(Collection<IScriptExpression> expr, int operator,
+			Collection<Collection<IScriptExpression>> operand) {
 		this.expr = expr;
 		this.operand = operand;
 		this.operator = operator;
 	}
-	
-	public Collection<IScriptExpression> getExpr( )
-	{
+
+	public Collection<IScriptExpression> getExpr() {
 		return this.expr;
 	}
-	
-	public Collection<Collection<IScriptExpression>> getOperand( )
-	{
+
+	public Collection<Collection<IScriptExpression>> getOperand() {
 		return this.operand;
 	}
-	
-	public int getOperator( )
-	{
+
+	public int getOperator() {
 		return this.operator;
 	}
 }

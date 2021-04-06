@@ -45,11 +45,7 @@ import org.eclipse.swt.widgets.Listener;
  * DialLabelSheet
  */
 
-public class DialLabelSheet extends AbstractPopupSheet
-		implements
-			Listener,
-			SelectionListener
-{
+public class DialLabelSheet extends AbstractPopupSheet implements Listener, SelectionListener {
 
 	protected transient Composite cmpContent = null;
 
@@ -70,204 +66,164 @@ public class DialLabelSheet extends AbstractPopupSheet
 	 * 
 	 * @deprecated since 3.7
 	 */
-	public DialLabelSheet( String title, ChartWizardContext context,
-			SeriesDefinition seriesDefn )
-	{
-		super( title, context, true );
+	public DialLabelSheet(String title, ChartWizardContext context, SeriesDefinition seriesDefn) {
+		super(title, context, true);
 		this.seriesDefn = seriesDefn;
 	}
 
-	public DialLabelSheet( String title, ChartWizardContext context,
-			Series series )
-	{
-		super( title, context, true );
+	public DialLabelSheet(String title, ChartWizardContext context, Series series) {
+		super(title, context, true);
 		this.series = series;
 	}
-	
-	protected Composite getComponent( Composite parent )
-	{
-		ChartUIUtil.bindHelp( parent, ChartHelpContextIds.POPUP_DIAL_LABELS);
+
+	protected Composite getComponent(Composite parent) {
+		ChartUIUtil.bindHelp(parent, ChartHelpContextIds.POPUP_DIAL_LABELS);
 
 		// Layout for the content composite
-		GridLayout glContent = new GridLayout( 2, false );
+		GridLayout glContent = new GridLayout(2, false);
 		glContent.verticalSpacing = 0;
 		glContent.marginHeight = 7;
 		glContent.marginWidth = 7;
 
-		cmpContent = new Composite( parent, SWT.NONE );
-		cmpContent.setLayout( glContent );
+		cmpContent = new Composite(parent, SWT.NONE);
+		cmpContent.setLayout(glContent);
 
-
-		lacTitle = new LabelAttributesComposite( cmpContent,
-				SWT.NONE,
-				getContext( ),
-				getLabelAttributeContext( ),
-				null,
-				getSeriesForProcessing( ).getDial( ),
-				null,
-				"label", //$NON-NLS-1$
-				DefaultValueProvider.defDialSeries( ).getDial( ),
-				getChart( ).getUnits( ) );
-		GridData gdLACTitle = new GridData( GridData.FILL_HORIZONTAL );
+		lacTitle = new LabelAttributesComposite(cmpContent, SWT.NONE, getContext(), getLabelAttributeContext(), null,
+				getSeriesForProcessing().getDial(), null, "label", //$NON-NLS-1$
+				DefaultValueProvider.defDialSeries().getDial(), getChart().getUnits());
+		GridData gdLACTitle = new GridData(GridData.FILL_HORIZONTAL);
 		gdLACTitle.horizontalSpan = 2;
-		lacTitle.setLayoutData( gdLACTitle );
-		lacTitle.addListener( this );
-		lacTitle.setDefaultLabelValue( DefaultValueProvider.defDialSeries( ).getDial( ).getLabel( ) );
+		lacTitle.setLayoutData(gdLACTitle);
+		lacTitle.addListener(this);
+		lacTitle.setDefaultLabelValue(DefaultValueProvider.defDialSeries().getDial().getLabel());
 
-		Label label = new Label( cmpContent, SWT.NONE );
+		Label label = new Label(cmpContent, SWT.NONE);
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData();
 			gd.horizontalIndent = 10;
-			label.setLayoutData( gd );
-			label.setText( Messages.getString( "DialLabelSheet.Label.Format" ) ); //$NON-NLS-1$
+			label.setLayoutData(gd);
+			label.setText(Messages.getString("DialLabelSheet.Label.Format")); //$NON-NLS-1$
 		}
 
-		Composite cmpFormat = new Composite( cmpContent, SWT.BORDER );
+		Composite cmpFormat = new Composite(cmpContent, SWT.BORDER);
 		{
-			GridLayout layout = new GridLayout( 2, false );
+			GridLayout layout = new GridLayout(2, false);
 			layout.marginWidth = 0;
 			layout.marginHeight = 0;
 			layout.horizontalSpacing = 0;
-			cmpFormat.setLayout( layout );
-			cmpFormat.setLayoutData( new GridData( GridData.FILL_HORIZONTAL ) );
-			cmpFormat.setBackground( cmpFormat.getDisplay( )
-					.getSystemColor( SWT.COLOR_WHITE ) );
+			cmpFormat.setLayout(layout);
+			cmpFormat.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
+			cmpFormat.setBackground(cmpFormat.getDisplay().getSystemColor(SWT.COLOR_WHITE));
 		}
 
-		fsp = new FormatSpecifierPreview( cmpFormat, SWT.NONE, false );
+		fsp = new FormatSpecifierPreview(cmpFormat, SWT.NONE, false);
 		{
-			GridData gd = new GridData( );
+			GridData gd = new GridData();
 			gd.grabExcessHorizontalSpace = true;
 			gd.horizontalAlignment = SWT.CENTER;
-			fsp.setLayoutData( gd );
-			fsp.updatePreview( getSeriesForProcessing( ).getDial( )
-					.getFormatSpecifier( ) );
+			fsp.setLayoutData(gd);
+			fsp.updatePreview(getSeriesForProcessing().getDial().getFormatSpecifier());
 		}
 
-		btnFormatSpecifier = new Button( cmpFormat, SWT.PUSH );
+		btnFormatSpecifier = new Button(cmpFormat, SWT.PUSH);
 		{
-			GridData gd = new GridData( );
-			btnFormatSpecifier.setLayoutData( gd );
-			btnFormatSpecifier.setToolTipText( Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ) ); //$NON-NLS-1$
-			//			btnFormatSpecifier.setImage( UIHelper.getImage( "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
+			GridData gd = new GridData();
+			btnFormatSpecifier.setLayoutData(gd);
+			btnFormatSpecifier.setToolTipText(Messages.getString("BaseDataDefinitionComponent.Text.EditFormat")); //$NON-NLS-1$
+			// btnFormatSpecifier.setImage( UIHelper.getImage(
+			// "icons/obj16/formatbuilder.gif" ) ); //$NON-NLS-1$
 			// btnFormatSpecifier.getImage( )
 			// .setBackground( btnFormatSpecifier.getBackground( ) );
-			btnFormatSpecifier.setText( Messages.getString( "Format.Button.Lbl&" ) ); //$NON-NLS-1$
-			btnFormatSpecifier.addSelectionListener( this );
+			btnFormatSpecifier.setText(Messages.getString("Format.Button.Lbl&")); //$NON-NLS-1$
+			btnFormatSpecifier.addSelectionListener(this);
 		}
 
 		return cmpContent;
 	}
 
-	protected DialSeries getSeriesForProcessing( )
-	{
-		if ( series != null )
-		{
+	protected DialSeries getSeriesForProcessing() {
+		if (series != null) {
 			return (DialSeries) series;
 		}
-		return (DialSeries) seriesDefn.getDesignTimeSeries( );
+		return (DialSeries) seriesDefn.getDesignTimeSeries();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
+	 * @see
+	 * org.eclipse.swt.widgets.Listener#handleEvent(org.eclipse.swt.widgets.Event)
 	 */
-	public void handleEvent( Event event )
-	{
-		boolean isUnset = ( event.detail == ChartUIExtensionUtil.PROPERTY_UNSET );
-		if ( event.widget.equals( lacTitle ) )
-		{
-			switch ( event.type )
-			{
-				case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT :
-					ChartElementUtil.setEObjectAttribute( getLabel( ),
-							"visible", //$NON-NLS-1$
-							( (Boolean) event.data ).booleanValue( ),
-							isUnset );
-					break;
-				case LabelAttributesComposite.FONT_CHANGED_EVENT :
-					getLabel( ).getCaption( )
-							.setFont( (FontDefinition) ( (Object[]) event.data )[0] );
-					getLabel( ).getCaption( )
-							.setColor( (ColorDefinition) ( (Object[]) event.data )[1] );
-					break;
-				case LabelAttributesComposite.BACKGROUND_CHANGED_EVENT :
-					getLabel( ).setBackground( (Fill) event.data );
-					break;
-				case LabelAttributesComposite.SHADOW_CHANGED_EVENT :
-					getLabel( ).setShadowColor( (ColorDefinition) event.data );
-					break;
-				case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT :
-					ChartElementUtil.setEObjectAttribute( getLabel( ).getOutline( ),
-							"style", //$NON-NLS-1$
-							event.data,
-							isUnset );
-					break;
-				case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT :
-					ChartElementUtil.setEObjectAttribute( getLabel( ).getOutline( ),
-							"thickness", //$NON-NLS-1$
-							( (Integer) event.data ).intValue( ),
-							isUnset );
-					break;
-				case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT :
-					getLabel( ).getOutline( )
-							.setColor( (ColorDefinition) event.data );
-					break;
-				case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT :
-					ChartElementUtil.setEObjectAttribute( getLabel( ).getOutline( ),
-							"visible", //$NON-NLS-1$
-							( (Boolean) event.data ).booleanValue( ),
-							isUnset );
-					break;
-				case LabelAttributesComposite.INSETS_CHANGED_EVENT :
-					getLabel( ).setInsets( (Insets) event.data );
-					break;
+	public void handleEvent(Event event) {
+		boolean isUnset = (event.detail == ChartUIExtensionUtil.PROPERTY_UNSET);
+		if (event.widget.equals(lacTitle)) {
+			switch (event.type) {
+			case LabelAttributesComposite.VISIBILITY_CHANGED_EVENT:
+				ChartElementUtil.setEObjectAttribute(getLabel(), "visible", //$NON-NLS-1$
+						((Boolean) event.data).booleanValue(), isUnset);
+				break;
+			case LabelAttributesComposite.FONT_CHANGED_EVENT:
+				getLabel().getCaption().setFont((FontDefinition) ((Object[]) event.data)[0]);
+				getLabel().getCaption().setColor((ColorDefinition) ((Object[]) event.data)[1]);
+				break;
+			case LabelAttributesComposite.BACKGROUND_CHANGED_EVENT:
+				getLabel().setBackground((Fill) event.data);
+				break;
+			case LabelAttributesComposite.SHADOW_CHANGED_EVENT:
+				getLabel().setShadowColor((ColorDefinition) event.data);
+				break;
+			case LabelAttributesComposite.OUTLINE_STYLE_CHANGED_EVENT:
+				ChartElementUtil.setEObjectAttribute(getLabel().getOutline(), "style", //$NON-NLS-1$
+						event.data, isUnset);
+				break;
+			case LabelAttributesComposite.OUTLINE_WIDTH_CHANGED_EVENT:
+				ChartElementUtil.setEObjectAttribute(getLabel().getOutline(), "thickness", //$NON-NLS-1$
+						((Integer) event.data).intValue(), isUnset);
+				break;
+			case LabelAttributesComposite.OUTLINE_COLOR_CHANGED_EVENT:
+				getLabel().getOutline().setColor((ColorDefinition) event.data);
+				break;
+			case LabelAttributesComposite.OUTLINE_VISIBILITY_CHANGED_EVENT:
+				ChartElementUtil.setEObjectAttribute(getLabel().getOutline(), "visible", //$NON-NLS-1$
+						((Boolean) event.data).booleanValue(), isUnset);
+				break;
+			case LabelAttributesComposite.INSETS_CHANGED_EVENT:
+				getLabel().setInsets((Insets) event.data);
+				break;
 			}
 		}
 	}
 
-	private org.eclipse.birt.chart.model.component.Label getLabel( )
-	{
-		return getSeriesForProcessing( ).getDial( ).getLabel( );
+	private org.eclipse.birt.chart.model.component.Label getLabel() {
+		return getSeriesForProcessing().getDial().getLabel();
 	}
 
-	public void widgetSelected( SelectionEvent e )
-	{
-		if ( e.getSource( ).equals( btnFormatSpecifier ) )
-		{
-			handleFormatBtnSelected( );
+	public void widgetSelected(SelectionEvent e) {
+		if (e.getSource().equals(btnFormatSpecifier)) {
+			handleFormatBtnSelected();
 		}
 	}
 
-	protected void handleFormatBtnSelected( )
-	{
-		FormatSpecifier fs = getContext( ).getUIServiceProvider( )
-				.getFormatSpecifierHandler( )
-				.handleFormatSpecifier( cmpContent.getShell( ),
-						Messages.getString( "BaseDataDefinitionComponent.Text.EditFormat" ),//$NON-NLS-1$
-						null,
-						getSeriesForProcessing( ).getDial( )
-								.getFormatSpecifier( ),
-						getSeriesForProcessing( ).getDial( ),
-						"formatSpecifier", //$NON-NLS-1$
-						getContext( ) );
-		fsp.updatePreview( fs );
+	protected void handleFormatBtnSelected() {
+		FormatSpecifier fs = getContext().getUIServiceProvider().getFormatSpecifierHandler().handleFormatSpecifier(
+				cmpContent.getShell(), Messages.getString("BaseDataDefinitionComponent.Text.EditFormat"), //$NON-NLS-1$
+				null, getSeriesForProcessing().getDial().getFormatSpecifier(), getSeriesForProcessing().getDial(),
+				"formatSpecifier", //$NON-NLS-1$
+				getContext());
+		fsp.updatePreview(fs);
 	}
 
-	public void widgetDefaultSelected( SelectionEvent e )
-	{
+	public void widgetDefaultSelected(SelectionEvent e) {
 		// TODO Auto-generated method stub
 
 	}
 
-	protected LabelAttributesContext getLabelAttributeContext( )
-	{
-		LabelAttributesContext attributesContext = new LabelAttributesContext( );
+	protected LabelAttributesContext getLabelAttributeContext() {
+		LabelAttributesContext attributesContext = new LabelAttributesContext();
 		attributesContext.isPositionEnabled = false;
 		attributesContext.isFontAlignmentEnabled = false;
 		attributesContext.isVisibilityEnabled = false;
-		
+
 		return attributesContext;
 	}
 }

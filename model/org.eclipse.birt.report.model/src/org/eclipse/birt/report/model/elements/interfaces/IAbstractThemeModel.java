@@ -15,8 +15,7 @@ package org.eclipse.birt.report.model.elements.interfaces;
  * The interface for theme elements to store the constants.
  */
 
-public interface IAbstractThemeModel
-{
+public interface IAbstractThemeModel {
 
 	/**
 	 * Identifier of the slot that holds the cells in row.
@@ -33,7 +32,7 @@ public interface IAbstractThemeModel
 	/**
 	 * css file property
 	 */
-	
+
 	public static final String CSSES_PROP = "cssStyleSheets";//$NON-NLS-1$
 
 }

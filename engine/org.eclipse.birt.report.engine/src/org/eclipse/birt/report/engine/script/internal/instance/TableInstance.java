@@ -20,93 +20,99 @@ import org.eclipse.birt.report.engine.executor.ExecutionContext;
 /**
  * A class representing the runtime state of a table
  */
-public class TableInstance extends ReportItemInstance implements ITableInstance
-{
+public class TableInstance extends ReportItemInstance implements ITableInstance {
 
-	public TableInstance( ITableContent table, ExecutionContext context,
-			RunningState runningState )
-	{
-		super( table, context, runningState );
+	public TableInstance(ITableContent table, ExecutionContext context, RunningState runningState) {
+		super(table, context, runningState);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#getCaption()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.ITableInstance#getCaption(
+	 * )
 	 */
-	public String getCaption( )
-	{
-		return ( ( ITableContent ) content ).getCaption( );
+	public String getCaption() {
+		return ((ITableContent) content).getCaption();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#setCaption(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.api.script.instance.ITableInstance#setCaption(
+	 * java.lang.String)
 	 */
-	public void setCaption( String caption )
-	{
-		( ( ITableContent ) content ).setCaption( caption );
+	public void setCaption(String caption) {
+		((ITableContent) content).setCaption(caption);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#getCaptionKey()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#
+	 * getCaptionKey()
 	 */
-	public String getCaptionKey( )
-	{
-		return ( ( ITableContent ) content ).getCaptionKey( );
+	public String getCaptionKey() {
+		return ((ITableContent) content).getCaptionKey();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#setCaptionKey(java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#
+	 * setCaptionKey(java.lang.String)
 	 */
-	public void setCaptionKey( String captionKey )
-	{
-		( ( ITableContent ) content ).setCaptionKey( captionKey );
+	public void setCaptionKey(String captionKey) {
+		((ITableContent) content).setCaptionKey(captionKey);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#getRepeatHeader()
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#
+	 * getRepeatHeader()
 	 */
-	public boolean getRepeatHeader( )
-	{
-		return ( ( ITableContent ) content ).isHeaderRepeat( );
+	public boolean getRepeatHeader() {
+		return ((ITableContent) content).isHeaderRepeat();
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#setRepeatHeader(boolean)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.api.script.instance.ITableInstance#
+	 * setRepeatHeader(boolean)
 	 */
-	public void setRepeatHeader( boolean repeat )
-	{
-		( ( ITableContent ) content ).setHeaderRepeat( repeat );
+	public void setRepeatHeader(boolean repeat) {
+		((ITableContent) content).setHeaderRepeat(repeat);
 	}
-	
+
 	/**
 	 * Get the summary.
 	 * 
 	 */
-	public String getSummary( )
-	{
-		return ( (ITableContent)content ).getSummary( );
+	public String getSummary() {
+		return ((ITableContent) content).getSummary();
 	}
 
 	/**
 	 * Set the summary
 	 * 
 	 */
-	public void setSummary( String summary )
-	{
-		( ( ITableContent)content ).setSummary( summary );
+	public void setSummary(String summary) {
+		((ITableContent) content).setSummary(summary);
 	}
 
-	public int getColumnCount( )
-	{
-		return ( (ITableContent) content ).getColumnCount( );
+	public int getColumnCount() {
+		return ((ITableContent) content).getColumnCount();
 	}
 
-	public IColumnInstance getColumn( int index )
-	{
-		if ( index >= getColumnCount( ) || index < 0 )
-		{
-			throw new RuntimeException( "Invalid column index : " + index );
+	public IColumnInstance getColumn(int index) {
+		if (index >= getColumnCount() || index < 0) {
+			throw new RuntimeException("Invalid column index : " + index);
 		}
-		IColumn column = ( (ITableContent) content ).getColumn( index );
-		return new ColumnInstance( column, runningState );
+		IColumn column = ((ITableContent) content).getColumn(index);
+		return new ColumnInstance(column, runningState);
 	}
 }

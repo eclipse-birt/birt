@@ -15,22 +15,17 @@ import org.eclipse.birt.report.engine.api.EngineException;
 import org.eclipse.birt.report.engine.content.IContent;
 import org.eclipse.birt.report.engine.content.IReportContent;
 
-public class ContentProcessorAdapter implements IContentProcessor
-{
+public class ContentProcessorAdapter implements IContentProcessor {
 
-	public void end( IReportContent report ) throws EngineException
-	{
+	public void end(IReportContent report) throws EngineException {
 	}
 
-	public void endContent( IContent content ) throws EngineException
-	{
+	public void endContent(IContent content) throws EngineException {
 	}
 
-	public void start( IReportContent report ) throws EngineException
-	{
+	public void start(IReportContent report) throws EngineException {
 	}
 
-	public void startContent( IContent content ) throws EngineException
-	{
+	public void startContent(IContent content) throws EngineException {
 	}
 }

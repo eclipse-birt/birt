@@ -11,8 +11,7 @@
 
 package org.eclipse.birt.core.btree;
 
-public interface BTreeConstants
-{
+public interface BTreeConstants {
 
 	// HEX value of 'BTREE'
 	static final long MAGIC_TAG = 0x4254524545L;

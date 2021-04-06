@@ -12,19 +12,18 @@
 package org.eclipse.birt.report.designer.ui.extensions;
 
 /**
- * Interface for BIRT designer exception handler. The customize exception handler
- * should implement it and register.
+ * Interface for BIRT designer exception handler. The customize exception
+ * handler should implement it and register.
  * 
  * @see org.eclipse.birt.report.designer.ui.ExceptionHandlerRegistry
  */
-public interface IDesignerExceptionHandler
-{
+public interface IDesignerExceptionHandler {
 
 	/**
-	 * Method to handle exception on BIRT designer
-	 * It will always be called on the GUI thread.
+	 * Method to handle exception on BIRT designer It will always be called on the
+	 * GUI thread.
 	 * 
 	 * @param thrownException The exception thrown.
 	 */
-	public void handle( Throwable thrownException );
+	public void handle(Throwable thrownException);
 }

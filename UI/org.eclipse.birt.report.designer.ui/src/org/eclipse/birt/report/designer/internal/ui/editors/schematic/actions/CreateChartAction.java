@@ -29,10 +29,9 @@ import org.eclipse.ui.IWorkbenchPart;
  * 
  */
 
-public class CreateChartAction extends ContextSelectionAction
-{
+public class CreateChartAction extends ContextSelectionAction {
 
-	private static final String TEXT = Messages.getString( "CreateChartAction.text" ); //$NON-NLS-1$
+	private static final String TEXT = Messages.getString("CreateChartAction.text"); //$NON-NLS-1$
 
 	/** action ID */
 	public static final String ID = "org.eclipse.birt.report.designer.internal.ui.editors.schematic.actions.CreateChartAction"; //$NON-NLS-1$
@@ -40,41 +39,32 @@ public class CreateChartAction extends ContextSelectionAction
 	/**
 	 * @param part
 	 */
-	public CreateChartAction( IWorkbenchPart part )
-	{
-		super( part );
-		setId( ID );
-		setText( TEXT );
+	public CreateChartAction(IWorkbenchPart part) {
+		super(part);
+		setId(ID);
+		setText(TEXT);
 	}
 
-	protected boolean calculateEnabled( )
-	{
-		List selected = getSelectedObjects( );
+	protected boolean calculateEnabled() {
+		List selected = getSelectedObjects();
 
-		if ( selected.size( ) != 1 || !( selected.get( 0 ) instanceof EditPart ) )
-		{
+		if (selected.size() != 1 || !(selected.get(0) instanceof EditPart)) {
 			return false;
 		}
 
-		EditPart part = (EditPart) selected.get( 0 );
-		Object model = part.getModel( );
-		if ( !( model instanceof ReportItemHandle )
-				&& model instanceof IAdaptable )
-		{
-			model = ( (IAdaptable) model ).getAdapter( DesignElementHandle.class );
+		EditPart part = (EditPart) selected.get(0);
+		Object model = part.getModel();
+		if (!(model instanceof ReportItemHandle) && model instanceof IAdaptable) {
+			model = ((IAdaptable) model).getAdapter(DesignElementHandle.class);
 		}
-		if ( !( model instanceof ReportItemHandle )
-				|| DEUtil.isReferenceElement( (ReportItemHandle) model ) )
-		{
+		if (!(model instanceof ReportItemHandle) || DEUtil.isReferenceElement((ReportItemHandle) model)) {
 			return false;
 		}
-		Object[] objs = ElementAdapterManager.getAdapters( model,
-				IReportItemViewProvider.class );
-		if ( objs == null || objs.length > 1 )
-		{
+		Object[] objs = ElementAdapterManager.getAdapters(model, IReportItemViewProvider.class);
+		if (objs == null || objs.length > 1) {
 			return false;
 		}
-		if ( ( (ReportItemHandle) model ).getViews( ).size( ) != 0 || !( (ReportItemHandle) model ).canAddView( "Chart" ))//$NON-NLS-1$
+		if (((ReportItemHandle) model).getViews().size() != 0 || !((ReportItemHandle) model).canAddView("Chart"))//$NON-NLS-1$
 		{
 			return false;
 		}
@@ -86,16 +76,12 @@ public class CreateChartAction extends ContextSelectionAction
 	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		try
-		{
-			CommandUtils.executeCommand( "org.eclipse.birt.report.designer.ui.command.CreateChartViewCommand", //$NON-NLS-1$
-					null );
-		}
-		catch ( Exception e )
-		{
-			logger.log( Level.SEVERE, e.getMessage( ), e );
+	public void run() {
+		try {
+			CommandUtils.executeCommand("org.eclipse.birt.report.designer.ui.command.CreateChartViewCommand", //$NON-NLS-1$
+					null);
+		} catch (Exception e) {
+			logger.log(Level.SEVERE, e.getMessage(), e);
 		}
 	}
 }

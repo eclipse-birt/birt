@@ -19,17 +19,14 @@ import org.eclipse.birt.report.service.api.ParameterDefinition;
  * 
  * @see org.eclipse.birt.report.presentation.aggregation.BaseFragment
  */
-public class TextBoxParameterFragment extends ScalarParameterFragment
-{
+public class TextBoxParameterFragment extends ScalarParameterFragment {
 
 	/**
 	 * Protected constructor.
 	 * 
-	 * @param parameter
-	 *            parameter definition reference.
+	 * @param parameter parameter definition reference.
 	 */
-	public TextBoxParameterFragment( ParameterDefinition parameter )
-	{
-		super( parameter );
+	public TextBoxParameterFragment(ParameterDefinition parameter) {
+		super(parameter);
 	}
 }

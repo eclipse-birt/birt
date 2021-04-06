@@ -20,30 +20,26 @@ import org.eclipse.ui.texteditor.IDocumentProvider;
 /**
  * IReportProvider
  */
-public interface IReportProvider
-{
+public interface IReportProvider {
 
 	/**
-	 * Convert input element to ModuleHandle. This will trigger the actual
-	 * loading if necessary.
+	 * Convert input element to ModuleHandle. This will trigger the actual loading
+	 * if necessary.
 	 * 
-	 * @param element
-	 *            The input element
+	 * @param element The input element
 	 * @return
 	 */
-	ModuleHandle getReportModuleHandle( Object element );
+	ModuleHandle getReportModuleHandle(Object element);
 
 	/**
-	 * Convert input element to ModuleHandle. This will trigger the actual
-	 * loading if necessary.
+	 * Convert input element to ModuleHandle. This will trigger the actual loading
+	 * if necessary.
 	 * 
-	 * @param element
-	 *            The input element
-	 * @param reset
-	 *            Indicate if it enforces the loading.
+	 * @param element The input element
+	 * @param reset   Indicate if it enforces the loading.
 	 * @return
 	 */
-	ModuleHandle getReportModuleHandle( Object element, boolean reset );
+	ModuleHandle getReportModuleHandle(Object element, boolean reset);
 
 	/**
 	 * Retrieves the ModuelHandle associated with current provider if available.
@@ -51,44 +47,36 @@ public interface IReportProvider
 	 * 
 	 * @return
 	 */
-	ModuleHandle queryReportModuleHandle( );
+	ModuleHandle queryReportModuleHandle();
 
 	/**
 	 * Save moduleHandle to the orginal input.
 	 * 
 	 * @param moduleHandle
-	 * @param element
-	 *            input element.
+	 * @param element      input element.
 	 * @param monitor
 	 */
-	void saveReport( ModuleHandle moduleHandle, Object element,
-			IProgressMonitor monitor );
+	void saveReport(ModuleHandle moduleHandle, Object element, IProgressMonitor monitor);
 
 	/**
 	 * Saves moduleHandle to the current input.
 	 * 
-	 * @param moduleHandle
-	 *            The specified module handle which provides the common
-	 *            functionalities of report design and library.
-	 * @param element
-	 *            input element.
-	 * @param origReportPath
-	 *            The path of original report.
-	 * @param monitor
-	 *            the progress monitor to use to display progress and receive
-	 *            requests for cancelation.
+	 * @param moduleHandle   The specified module handle which provides the common
+	 *                       functionalities of report design and library.
+	 * @param element        input element.
+	 * @param origReportPath The path of original report.
+	 * @param monitor        the progress monitor to use to display progress and
+	 *                       receive requests for cancelation.
 	 */
-	void saveReport( ModuleHandle moduleHandle, Object element,
-			IPath origReportPath, IProgressMonitor monitor );
+	void saveReport(ModuleHandle moduleHandle, Object element, IPath origReportPath, IProgressMonitor monitor);
 
 	/**
 	 * Get document provider for report.
 	 * 
-	 * @param element
-	 *            input element.
+	 * @param element input element.
 	 * @return
 	 */
-	IDocumentProvider getReportDocumentProvider( Object element );
+	IDocumentProvider getReportDocumentProvider(Object element);
 
 	/**
 	 * Save as path provider utility methods.
@@ -96,7 +84,7 @@ public interface IReportProvider
 	 * @param element
 	 * @return
 	 */
-	IPath getSaveAsPath( Object element );
+	IPath getSaveAsPath(Object element);
 
 	/**
 	 * Create a new report editor input.
@@ -104,7 +92,7 @@ public interface IReportProvider
 	 * @param path
 	 * @return
 	 */
-	IEditorInput createNewEditorInput( IPath path );
+	IEditorInput createNewEditorInput(IPath path);
 
 	/**
 	 * Get editor input path.
@@ -112,8 +100,8 @@ public interface IReportProvider
 	 * @param input
 	 * @return
 	 */
-	IPath getInputPath( IEditorInput input );
+	IPath getInputPath(IEditorInput input);
 
-	void connect( ModuleHandle handle );
+	void connect(ModuleHandle handle);
 
 }

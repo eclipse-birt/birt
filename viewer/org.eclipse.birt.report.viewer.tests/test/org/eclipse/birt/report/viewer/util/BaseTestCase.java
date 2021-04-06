@@ -34,8 +34,7 @@ import junit.framework.TestCase;
  * <li>Mock a base HttpServletRequest object</li>
  * </ol>
  */
-public abstract class BaseTestCase extends TestCase
-{
+public abstract class BaseTestCase extends TestCase {
 
 	protected HttpServletRequestSimulator request;
 	protected HttpServletResponseSimulator response;
@@ -55,50 +54,38 @@ public abstract class BaseTestCase extends TestCase
 	/**
 	 * Init test environment
 	 */
-	protected void setUp( ) throws Exception
-	{
-		super.setUp( );
+	protected void setUp() throws Exception {
+		super.setUp();
 
-		root = new File( ROOT_FOLDER );
+		root = new File(ROOT_FOLDER);
 
 		// Initialize ServletContext Mocked Object
-		this.context = new ServletContextSimulator( );
-		context.setContextDir( root );
-		context.setInitParameter( ParameterAccessor.INIT_PARAM_LOCALE,
-				DEFAULT_LOCALE );
-		context.setInitParameter(
-				ParameterAccessor.INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY,
-				"false" ); //$NON-NLS-1$
-		context.setInitParameter(
-				ParameterAccessor.INIT_PARAM_OVERWRITE_DOCUMENT, "true" ); //$NON-NLS-1$
-		context
-				.setInitParameter( ParameterAccessor.INIT_PARAM_LOG_LEVEL,
-						"OFF" ); //$NON-NLS-1$
-		context.setInitParameter(
-				ParameterAccessor.INIT_PARAM_BIRT_RESOURCE_PATH, root
-						.getAbsolutePath( ) );
-		context.setInitParameter(
-				ParameterAccessor.INIT_PARAM_CONFIG_FILE,
-				(new File("../org.eclipse.birt.report.viewer/birt" + File.separator + IBirtConstants.DEFAULT_VIEWER_CONFIG_FILE)).getAbsolutePath( )				
-		);
-		
+		this.context = new ServletContextSimulator();
+		context.setContextDir(root);
+		context.setInitParameter(ParameterAccessor.INIT_PARAM_LOCALE, DEFAULT_LOCALE);
+		context.setInitParameter(ParameterAccessor.INIT_PARAM_WORKING_FOLDER_ACCESS_ONLY, "false"); //$NON-NLS-1$
+		context.setInitParameter(ParameterAccessor.INIT_PARAM_OVERWRITE_DOCUMENT, "true"); //$NON-NLS-1$
+		context.setInitParameter(ParameterAccessor.INIT_PARAM_LOG_LEVEL, "OFF"); //$NON-NLS-1$
+		context.setInitParameter(ParameterAccessor.INIT_PARAM_BIRT_RESOURCE_PATH, root.getAbsolutePath());
+		context.setInitParameter(ParameterAccessor.INIT_PARAM_CONFIG_FILE, (new File(
+				"../org.eclipse.birt.report.viewer/birt" + File.separator + IBirtConstants.DEFAULT_VIEWER_CONFIG_FILE))
+						.getAbsolutePath());
 
 		// Initialize HttpServletRequest Mocked Object
-		this.request = new HttpServletRequestSimulator( context );
+		this.request = new HttpServletRequestSimulator(context);
 		this.response = new HttpServletResponseSimulator();
-		this.session = new HttpSessionSimulator( context );
-		request.setSession( session );
+		this.session = new HttpSessionSimulator(context);
+		request.setSession(session);
 
 		// Initialize ParameterAccessor
-		ParameterAccessor.initParameters( context );
+		ParameterAccessor.initParameters(context);
 	}
 
 	/**
 	 * Handler after done test
 	 */
-	protected void tearDown( ) throws Exception
-	{
-		super.tearDown( );
+	protected void tearDown() throws Exception {
+		super.tearDown();
 	}
 
 	/**
@@ -106,31 +93,28 @@ public abstract class BaseTestCase extends TestCase
 	 * 
 	 * @return the path name where the test java source file locates.
 	 */
-	protected String getClassFolder( )
-	{
+	protected String getClassFolder() {
 		String pathBase = null;
 
-		ProtectionDomain domain = this.getClass( ).getProtectionDomain( );
-		if ( domain != null )
-		{
-			CodeSource source = domain.getCodeSource( );
-			if ( source != null )
-			{
-				URL url = source.getLocation( );
-				pathBase = url.getPath( );
+		ProtectionDomain domain = this.getClass().getProtectionDomain();
+		if (domain != null) {
+			CodeSource source = domain.getCodeSource();
+			if (source != null) {
+				URL url = source.getLocation();
+				pathBase = url.getPath();
 
-				if ( pathBase.endsWith( "bin/" ) ) //$NON-NLS-1$
-					pathBase = pathBase.substring( 0, pathBase.length( ) - 4 );
-				if ( pathBase.endsWith( "bin" ) ) //$NON-NLS-1$
-					pathBase = pathBase.substring( 0, pathBase.length( ) - 3 );
+				if (pathBase.endsWith("bin/")) //$NON-NLS-1$
+					pathBase = pathBase.substring(0, pathBase.length() - 4);
+				if (pathBase.endsWith("bin")) //$NON-NLS-1$
+					pathBase = pathBase.substring(0, pathBase.length() - 3);
 			}
 		}
 
 		pathBase = pathBase + TEST_FOLDER;
-		String className = this.getClass( ).getName( );
-		int lastDotIndex = className.lastIndexOf( "." ); //$NON-NLS-1$
-		className = className.substring( 0, lastDotIndex );
-		className = pathBase + className.replace( '.', '/' );
+		String className = this.getClass().getName();
+		int lastDotIndex = className.lastIndexOf("."); //$NON-NLS-1$
+		className = className.substring(0, lastDotIndex);
+		className = pathBase + className.replace('.', '/');
 
 		return className;
 	}

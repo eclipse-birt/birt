@@ -20,8 +20,7 @@ import com.ibm.icu.util.ULocale;
 /**
  * A default implementation for the chart logging framework
  */
-public final class DefaultLoggerImpl implements ILogger
-{
+public final class DefaultLoggerImpl implements ILogger {
 
 	/**
 	 * A singleton instance maintained internally.
@@ -31,21 +30,16 @@ public final class DefaultLoggerImpl implements ILogger
 	/**
 	 * The verbose level associated with logging messages.
 	 */
-	private int iVerboseLevel = ILogger.ERROR
-			| ILogger.WARNING
-			| ILogger.FATAL
-			| ILogger.INFORMATION;
+	private int iVerboseLevel = ILogger.ERROR | ILogger.WARNING | ILogger.FATAL | ILogger.INFORMATION;
 
 	/**
 	 * Returns a singleton instance of the logger.
 	 * 
 	 * @return A singleton instance of the logger.
 	 */
-	public synchronized static final ILogger instance( )
-	{
-		if ( dli == null )
-		{
-			dli = new DefaultLoggerImpl( );
+	public synchronized static final ILogger instance() {
+		if (dli == null) {
+			dli = new DefaultLoggerImpl();
 		}
 		return dli;
 	}
@@ -53,8 +47,7 @@ public final class DefaultLoggerImpl implements ILogger
 	/**
 	 * Cannot be instantiated externally
 	 */
-	private DefaultLoggerImpl( )
-	{
+	private DefaultLoggerImpl() {
 	}
 
 	/*
@@ -62,23 +55,19 @@ public final class DefaultLoggerImpl implements ILogger
 	 * 
 	 * @see org.eclipse.birt.chart.log.ILogger#setVerboseLevel(int)
 	 */
-	public final void setVerboseLevel( int iVerboseLevel )
-	{
+	public final void setVerboseLevel(int iVerboseLevel) {
 		this.iVerboseLevel = iVerboseLevel;
 	}
 
 	/**
-	 * @deprecated
-	 * Logs messages originating from scripts associated with a chart model.
+	 * @deprecated Logs messages originating from scripts associated with a chart
+	 *             model.
 	 * 
-	 * @param sMessage
-	 *            The informational message to be logged.
+	 * @param sMessage The informational message to be logged.
 	 */
-	public final void logFromScript( String sMessage )
-	{
-		if ( ( iVerboseLevel & ILogger.INFORMATION ) == ILogger.INFORMATION )
-		{
-			System.out.println( Messages.getString( "info.log.script", new Object[]{sMessage}, ULocale.getDefault( ) ) ); //$NON-NLS-1$
+	public final void logFromScript(String sMessage) {
+		if ((iVerboseLevel & ILogger.INFORMATION) == ILogger.INFORMATION) {
+			System.out.println(Messages.getString("info.log.script", new Object[] { sMessage }, ULocale.getDefault())); //$NON-NLS-1$
 		}
 	}
 
@@ -87,28 +76,16 @@ public final class DefaultLoggerImpl implements ILogger
 	 * 
 	 * @see org.eclipse.birt.chart.log.ILogger#log(int, java.lang.String)
 	 */
-	public void log( int iCode, String sMessage )
-	{
-		if ( iCode == ILogger.INFORMATION
-				&& ( iVerboseLevel & ILogger.INFORMATION ) == ILogger.INFORMATION )
-		{
-			System.out.println( Messages.getString( "info.log.info", new Object[]{sMessage}, ULocale.getDefault( ) ) ); //$NON-NLS-1$ 
-		}
-		else if ( iCode == ILogger.WARNING
-				&& ( iVerboseLevel & ILogger.WARNING ) == ILogger.WARNING )
-		{
-			System.out.println( Messages.getString( "info.log.warn", new Object[]{sMessage}, ULocale.getDefault( ) ) ); //$NON-NLS-1$
-		}
-		else if ( iCode == ILogger.ERROR
-				&& ( iVerboseLevel & ILogger.ERROR ) == ILogger.ERROR )
-		{
-			System.err.println( Messages.getString( "info.log.err", new Object[]{sMessage}, ULocale.getDefault( ) ) ); //$NON-NLS-1$
-		}
-		else if ( iCode == ILogger.FATAL
-				&& ( iVerboseLevel & ILogger.FATAL ) == ILogger.FATAL )
-		{
-			System.err.println( Messages.getString( "info.log.fatal", new Object[]{sMessage}, ULocale.getDefault( ) ) ); //$NON-NLS-1$
-			SecurityUtil.sysExit( 0 );
+	public void log(int iCode, String sMessage) {
+		if (iCode == ILogger.INFORMATION && (iVerboseLevel & ILogger.INFORMATION) == ILogger.INFORMATION) {
+			System.out.println(Messages.getString("info.log.info", new Object[] { sMessage }, ULocale.getDefault())); //$NON-NLS-1$
+		} else if (iCode == ILogger.WARNING && (iVerboseLevel & ILogger.WARNING) == ILogger.WARNING) {
+			System.out.println(Messages.getString("info.log.warn", new Object[] { sMessage }, ULocale.getDefault())); //$NON-NLS-1$
+		} else if (iCode == ILogger.ERROR && (iVerboseLevel & ILogger.ERROR) == ILogger.ERROR) {
+			System.err.println(Messages.getString("info.log.err", new Object[] { sMessage }, ULocale.getDefault())); //$NON-NLS-1$
+		} else if (iCode == ILogger.FATAL && (iVerboseLevel & ILogger.FATAL) == ILogger.FATAL) {
+			System.err.println(Messages.getString("info.log.fatal", new Object[] { sMessage }, ULocale.getDefault())); //$NON-NLS-1$
+			SecurityUtil.sysExit(0);
 		}
 	}
 
@@ -117,10 +94,9 @@ public final class DefaultLoggerImpl implements ILogger
 	 * 
 	 * @see org.eclipse.birt.chart.log.ILogger#log(int, java.lang.Exception)
 	 */
-	public void log( Exception ex )
-	{
-		System.err.println( Messages.getString( "info.log.err", new Object[]{ex.toString( )}, ULocale.getDefault( ) ) ); //$NON-NLS-1$
-		ex.printStackTrace( );
+	public void log(Exception ex) {
+		System.err.println(Messages.getString("info.log.err", new Object[] { ex.toString() }, ULocale.getDefault())); //$NON-NLS-1$
+		ex.printStackTrace();
 	}
 
 }

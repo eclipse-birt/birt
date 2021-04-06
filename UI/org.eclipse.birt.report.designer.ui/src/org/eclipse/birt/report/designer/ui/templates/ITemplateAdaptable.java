@@ -17,7 +17,6 @@ package org.eclipse.birt.report.designer.ui.templates;
  * 
  * @since 2.5.3
  */
-public interface ITemplateAdaptable
-{
+public interface ITemplateAdaptable {
 
 }

@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.css.CssStyleSheet;
  * 
  */
 
-public class CssSharedStyleHandle extends SharedStyleHandle
-{
+public class CssSharedStyleHandle extends SharedStyleHandle {
 
 	private CssStyleSheet cssSheet;
 
@@ -34,9 +33,8 @@ public class CssSharedStyleHandle extends SharedStyleHandle
 	 * 
 	 */
 
-	public CssSharedStyleHandle( Module module, DesignElement element )
-	{
-		super( module, element );
+	public CssSharedStyleHandle(Module module, DesignElement element) {
+		super(module, element);
 	}
 
 	/**
@@ -47,10 +45,8 @@ public class CssSharedStyleHandle extends SharedStyleHandle
 	 * @param cssSheet
 	 */
 
-	public CssSharedStyleHandle( Module module, DesignElement element,
-			CssStyleSheet cssSheet )
-	{
-		super( module, element );
+	public CssSharedStyleHandle(Module module, DesignElement element, CssStyleSheet cssSheet) {
+		super(module, element);
 		this.cssSheet = cssSheet;
 	}
 
@@ -62,8 +58,7 @@ public class CssSharedStyleHandle extends SharedStyleHandle
 	 * ()
 	 */
 
-	public SlotHandle getContainerSlotHandle( )
-	{
+	public SlotHandle getContainerSlotHandle() {
 		return null;
 	}
 
@@ -73,11 +68,10 @@ public class CssSharedStyleHandle extends SharedStyleHandle
 	 * @return the css style sheet handle.
 	 */
 
-	public CssStyleSheetHandle getCssStyleSheetHandle( )
-	{
-		if ( cssSheet == null )
+	public CssStyleSheetHandle getCssStyleSheetHandle() {
+		if (cssSheet == null)
 			return null;
-		return cssSheet.handle( module );
+		return cssSheet.handle(module);
 	}
 
 }

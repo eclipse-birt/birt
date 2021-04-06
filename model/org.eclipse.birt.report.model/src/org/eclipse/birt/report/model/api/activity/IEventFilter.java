@@ -19,18 +19,16 @@ import org.eclipse.birt.report.model.activity.RecordTask;
  * Class provides a event filter logic for a transaction.
  */
 
-public interface IEventFilter
-{
+public interface IEventFilter {
 
 	/**
-	 * Apply filter conditions to the chain of events. The notifications that
-	 * should be filtered is flagged as "filtered"
+	 * Apply filter conditions to the chain of events. The notifications that should
+	 * be filtered is flagged as "filtered"
 	 * 
-	 * @param events
-	 *            the event chain that is to be filtered.
-	 * @return Returns an event chain, the notifications that should be filtered
-	 *         is flagged as "filtered"
+	 * @param events the event chain that is to be filtered.
+	 * @return Returns an event chain, the notifications that should be filtered is
+	 *         flagged as "filtered"
 	 */
 
-	public List<RecordTask> filter( List<RecordTask> events );
+	public List<RecordTask> filter(List<RecordTask> events);
 }

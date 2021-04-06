@@ -14,13 +14,12 @@ package org.eclipse.birt.report.debug.internal.script.model;
 /**
  * IScriptConstants
  */
-public interface IScriptConstants
-{
+public interface IScriptConstants {
 	/**
 	 * Script debug ID.
 	 */
 	public static final String SCRIPT_DEBUG_MODEL = "org.eclipse.birt.report.debug.script.model"; //$NON-NLS-1$
-	
+
 	/**
 	 * Script debug program
 	 */

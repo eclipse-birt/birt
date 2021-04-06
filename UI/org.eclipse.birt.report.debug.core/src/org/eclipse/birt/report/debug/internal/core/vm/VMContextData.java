@@ -14,12 +14,11 @@ package org.eclipse.birt.report.debug.internal.core.vm;
 /**
  * VMContextData
  */
-public interface VMContextData
-{
+public interface VMContextData {
 
-	VMStackFrame getCurrentFrame( );
+	VMStackFrame getCurrentFrame();
 
-	VMStackFrame getFrame( int idx );
+	VMStackFrame getFrame(int idx);
 
-	int frameCount( );
+	int frameCount();
 }

@@ -56,8 +56,7 @@ public class VerticalAlignManager extends AbstractLengthManager {
 		return CSSValueConstants.BASELINE_VALUE;
 	}
 
-	public Value createValue(LexicalUnit lu, CSSEngine engine)
-			throws DOMException {
+	public Value createValue(LexicalUnit lu, CSSEngine engine) throws DOMException {
 		switch (lu.getLexicalUnitType()) {
 		case LexicalUnit.SAC_IDENT:
 			String s = lu.getStringValue().toLowerCase().intern();
@@ -71,11 +70,10 @@ public class VerticalAlignManager extends AbstractLengthManager {
 	}
 
 	/**
-	 * Implements {@link
-	 * ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
+	 * Implements
+	 * {@link ValueManager#computeValue(CSSStylableElement,String,CSSEngine,int,StyleMap,Value)}.
 	 */
-	public Value computeValue(CSSStylableElement elt, CSSEngine engine,
-			int idx, Value value) {
+	public Value computeValue(CSSStylableElement elt, CSSEngine engine, int idx, Value value) {
 		if (value.getCssValueType() == CSSValue.CSS_PRIMITIVE_VALUE) {
 			switch (value.getPrimitiveType()) {
 			case CSSPrimitiveValue.CSS_IDENT:
@@ -83,10 +81,9 @@ public class VerticalAlignManager extends AbstractLengthManager {
 			case CSSPrimitiveValue.CSS_PERCENTAGE:
 				float scale = value.getFloatValue();
 				float fs = 0;
-				IStyle cs =  elt.getComputedStyle();
+				IStyle cs = elt.getComputedStyle();
 				assert cs != null;
-				Value lineHeight = (Value) cs
-						.getProperty(IStyle.STYLE_LINE_HEIGHT);
+				Value lineHeight = (Value) cs.getProperty(IStyle.STYLE_LINE_HEIGHT);
 				assert lineHeight != null;
 				Value fontSize = (Value) cs.getProperty(IStyle.STYLE_FONT_SIZE);
 
@@ -97,8 +94,7 @@ public class VerticalAlignManager extends AbstractLengthManager {
 				} else {
 					fs = lineHeight.getFloatValue();
 				}
-					return new FloatValue( fontSize.getPrimitiveType( ), fs
-							* scale );
+				return new FloatValue(fontSize.getPrimitiveType(), fs * scale);
 			}
 		}
 		return super.computeValue(elt, engine, idx, value);

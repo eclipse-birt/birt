@@ -24,72 +24,67 @@ import org.eclipse.jface.viewers.IStructuredSelection;
  * Supprt to show the content of the selection.
  */
 
-public class ScriptEditAction extends AbstractViewAction
-{
+public class ScriptEditAction extends AbstractViewAction {
 
-	private static final Logger logger = Logger.getLogger( ScriptEditAction.class.getName( ) );
-	/**Constructor
+	private static final Logger logger = Logger.getLogger(ScriptEditAction.class.getName());
+
+	/**
+	 * Constructor
+	 * 
 	 * @param selectedObject
 	 */
-	public ScriptEditAction( Object selectedObject )
-	{
-		super( selectedObject );
+	public ScriptEditAction(Object selectedObject) {
+		super(selectedObject);
 	}
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param selectedObject
 	 * @param text
 	 */
-	public ScriptEditAction( Object selectedObject, String text )
-	{
-		super( selectedObject, text );
+	public ScriptEditAction(Object selectedObject, String text) {
+		super(selectedObject, text);
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.Action#isEnabled()
 	 */
-	public boolean isEnabled( )
-	{
-		if(getSelectionObject() !=null && getSelectionObject() instanceof DebugScriptObjectNode)
-		{
+	public boolean isEnabled() {
+		if (getSelectionObject() != null && getSelectionObject() instanceof DebugScriptObjectNode) {
 			return true;
 		}
 		return false;
 	}
-	
-	private Object getSelectionObject()
-	{
-		Object obj = super.getSelection( );
-		if ( obj instanceof IStructuredSelection )
-		{
+
+	private Object getSelectionObject() {
+		Object obj = super.getSelection();
+		if (obj instanceof IStructuredSelection) {
 			IStructuredSelection selection = (IStructuredSelection) obj;
-			if ( selection.size( ) != 1 )
-			{//multiple selection
+			if (selection.size() != 1) {// multiple selection
 				return null;
 			}
-			obj = selection.getFirstElement( );
+			obj = selection.getFirstElement();
 		}
 		return obj;
 	}
 
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.jface.action.Action#run()
 	 */
-	public void run( )
-	{
-		if ( getSelectionObject( ) == null)
-		{
+	public void run() {
+		if (getSelectionObject() == null) {
 			return;
 		}
-		try
-		{
-			ScriptProviderFactory.createProvider( getSelectionObject( ) )
-					.performRequest( getSelectionObject( ),
-							new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
-		}
-		catch ( Exception e )
-		{
-			logger.warning( e.getMessage( ) );
+		try {
+			ScriptProviderFactory.createProvider(getSelectionObject()).performRequest(getSelectionObject(),
+					new Request(IRequestConstants.REQUEST_TYPE_EDIT));
+		} catch (Exception e) {
+			logger.warning(e.getMessage());
 		}
 	}
 }

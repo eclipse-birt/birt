@@ -26,65 +26,50 @@ import org.eclipse.datatools.connectivity.oda.design.DataSourceDesign;
 import org.eclipse.datatools.connectivity.oda.design.ResourceIdentifiers;
 import org.eclipse.datatools.connectivity.oda.design.ui.designsession.DesignSessionUtil;
 
-
-public class OdaConnectionProvider
-{
+public class OdaConnectionProvider {
 	private DataSourceDesign dataSourceDesign;
 	private IConnection connection;
-	
-	OdaConnectionProvider( DataSourceDesign dataSourceDesign )
-	{
+
+	OdaConnectionProvider(DataSourceDesign dataSourceDesign) {
 		this.dataSourceDesign = dataSourceDesign;
 	}
-	
-	IConnection openConnection( ) throws OdaException
-	{
-		if ( connection != null )
-		{
+
+	IConnection openConnection() throws OdaException {
+		if (connection != null) {
 			return connection;
 		}
-		IDriver jdbcDriver = JDBCDriverManager.getInstance().getDriver( dataSourceDesign.getEffectiveOdaExtensionId( ) );
-		try 
-		{
-			connection = jdbcDriver.getConnection( dataSourceDesign.getEffectiveOdaExtensionId( ) );
-			
-			Map appContext = new HashMap( );
+		IDriver jdbcDriver = JDBCDriverManager.getInstance().getDriver(dataSourceDesign.getEffectiveOdaExtensionId());
+		try {
+			connection = jdbcDriver.getConnection(dataSourceDesign.getEffectiveOdaExtensionId());
+
+			Map appContext = new HashMap();
 			ResourceIdentifiers resourceIdentifiers = dataSourceDesign.getHostResourceIdentifiers();
-			if ( resourceIdentifiers != null )
-			{
-				appContext.put( org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
-						DesignSessionUtil.createRuntimeResourceIdentifiers( resourceIdentifiers ) );
-			}			
+			if (resourceIdentifiers != null) {
+				appContext.put(
+						org.eclipse.datatools.connectivity.oda.util.ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS,
+						DesignSessionUtil.createRuntimeResourceIdentifiers(resourceIdentifiers));
+			}
 			connection.setAppContext(appContext);
-			
-			Properties prop = DesignSessionUtil.getEffectiveDataSourceProperties( dataSourceDesign );
-			connection.open( prop );
-		}
-		catch ( OdaException e)
-		{
+
+			Properties prop = DesignSessionUtil.getEffectiveDataSourceProperties(dataSourceDesign);
+			connection.open(prop);
+		} catch (OdaException e) {
 			connection = null;
 			throw e;
 		}
 		return connection;
 	}
-	
-	void release( )
-	{
-		if ( connection != null )
-		{
-			try
-			{
-				connection.close( );
-			}
-			catch ( OdaException e )
-			{
-				
-			}
-			finally 
-			{
+
+	void release() {
+		if (connection != null) {
+			try {
+				connection.close();
+			} catch (OdaException e) {
+
+			} finally {
 				connection = null;
 			}
 		}
 	}
-	
+
 }

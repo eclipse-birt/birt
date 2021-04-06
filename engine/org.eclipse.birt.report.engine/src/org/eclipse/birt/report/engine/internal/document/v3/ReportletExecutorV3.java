@@ -17,13 +17,10 @@ import org.eclipse.birt.core.exception.BirtException;
 import org.eclipse.birt.report.engine.executor.ExecutionContext;
 import org.eclipse.birt.report.engine.internal.executor.doc.ReportletReader;
 
-public class ReportletExecutorV3 extends ReportletReader
-{
+public class ReportletExecutorV3 extends ReportletReader {
 
-	public ReportletExecutorV3( ExecutionContext context, long offset )
-			throws IOException, BirtException
-	{
-		super( context, offset );
+	public ReportletExecutorV3(ExecutionContext context, long offset) throws IOException, BirtException {
+		super(context, offset);
 	}
 
 }

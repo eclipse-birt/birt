@@ -17,31 +17,25 @@ import org.eclipse.birt.report.engine.emitter.ppt.PPTWriter;
 import org.eclipse.birt.report.engine.layout.emitter.IPage;
 import org.eclipse.birt.report.engine.layout.emitter.IPageDevice;
 
-public class PPTPageDevice implements IPageDevice
-{
+public class PPTPageDevice implements IPageDevice {
 
 	private PPTWriter writer;
 	private PPTPage currentPage;
 
-	public PPTPageDevice( OutputStream output, String title, String author,
-			String description, String subject )
-	{
-		writer = new PPTWriter( output );
-		writer.start( title, author, description, subject );
+	public PPTPageDevice(OutputStream output, String title, String author, String description, String subject) {
+		writer = new PPTWriter(output);
+		writer.start(title, author, description, subject);
 	}
 
-	public void close( ) throws Exception
-	{
-		writer.end( );
+	public void close() throws Exception {
+		writer.end();
 	}
 
-	public IPage newPage( int width, int height, Color backgroundColor )
-	{
-		if ( currentPage != null )
-		{
-			currentPage.dispose( );
+	public IPage newPage(int width, int height, Color backgroundColor) {
+		if (currentPage != null) {
+			currentPage.dispose();
 		}
-		currentPage = new PPTPage( width, height, backgroundColor, writer );
+		currentPage = new PPTPage(width, height, backgroundColor, writer);
 		return currentPage;
 	}
 }

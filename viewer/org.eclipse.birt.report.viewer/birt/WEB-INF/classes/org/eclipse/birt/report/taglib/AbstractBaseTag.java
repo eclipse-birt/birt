@@ -24,10 +24,7 @@ import org.eclipse.birt.report.taglib.component.ViewerField;
  * Abstract base tag. All BIRT tags should extend this base class.
  * 
  */
-public abstract class AbstractBaseTag extends TagSupport
-		implements
-			ITagConstants
-{
+public abstract class AbstractBaseTag extends TagSupport implements ITagConstants {
 
 	private static final long serialVersionUID = 1L;
 	/**
@@ -40,20 +37,19 @@ public abstract class AbstractBaseTag extends TagSupport
 	 * 
 	 * @throws Exception
 	 */
-	public abstract boolean __validate( ) throws Exception;
+	public abstract boolean __validate() throws Exception;
 
 	/**
 	 * Then entry to process tag
 	 * 
 	 * @throws Exception
 	 */
-	public abstract void __process( ) throws Exception;
+	public abstract void __process() throws Exception;
 
 	/**
 	 * Default constructor
 	 */
-	public AbstractBaseTag( )
-	{
+	public AbstractBaseTag() {
 	}
 
 	/**
@@ -61,13 +57,12 @@ public abstract class AbstractBaseTag extends TagSupport
 	 * 
 	 * @throws Exception
 	 */
-	public void __init( )
-	{
-		viewer = new ViewerField( );
+	public void __init() {
+		viewer = new ViewerField();
 
 		// initialize context root
-		HttpServletRequest req = (HttpServletRequest) pageContext.getRequest( );
-		viewer.setBaseURL( req.getContextPath( ) );
+		HttpServletRequest req = (HttpServletRequest) pageContext.getRequest();
+		viewer.setBaseURL(req.getContextPath());
 	}
 
 	/**
@@ -75,10 +70,9 @@ public abstract class AbstractBaseTag extends TagSupport
 	 * 
 	 * @see javax.servlet.jsp.tagext.TagSupport#setPageContext(javax.servlet.jsp.PageContext)
 	 */
-	public void setPageContext( PageContext context )
-	{
-		super.setPageContext( context );
-		this.__init( );
+	public void setPageContext(PageContext context) {
+		super.setPageContext(context);
+		this.__init();
 	}
 
 	/**
@@ -86,8 +80,7 @@ public abstract class AbstractBaseTag extends TagSupport
 	 * 
 	 * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
 	 */
-	public int doStartTag( ) throws JspException
-	{
+	public int doStartTag() throws JspException {
 		return EVAL_PAGE;
 	}
 
@@ -96,20 +89,15 @@ public abstract class AbstractBaseTag extends TagSupport
 	 * 
 	 * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
 	 */
-	public int doEndTag( ) throws JspException
-	{
-		try
-		{
-			if ( __validate( ) )
-			{
-				__beforeEndTag( );
-				__process( );
+	public int doEndTag() throws JspException {
+		try {
+			if (__validate()) {
+				__beforeEndTag();
+				__process();
 			}
 
-		}
-		catch ( Exception e )
-		{
-			__handleException( e );
+		} catch (Exception e) {
+			__handleException(e);
 		}
 		return EVAL_PAGE;
 	}
@@ -117,8 +105,7 @@ public abstract class AbstractBaseTag extends TagSupport
 	/**
 	 * Handle event before doEndTag
 	 */
-	protected void __beforeEndTag( )
-	{
+	protected void __beforeEndTag() {
 	}
 
 	/**
@@ -127,18 +114,14 @@ public abstract class AbstractBaseTag extends TagSupport
 	 * @param e
 	 * @throws JspException
 	 */
-	protected void __handleException( Exception e ) throws JspException
-	{
-		JspWriter writer = pageContext.getOut( );
-		try
-		{
-			writer.write( "<font color='red'>" ); //$NON-NLS-1$
-			writer.write( e.getMessage( ) );
-			writer.write( "</font>" ); //$NON-NLS-1$
-		}
-		catch ( IOException err )
-		{
-			throw new JspException( err );
+	protected void __handleException(Exception e) throws JspException {
+		JspWriter writer = pageContext.getOut();
+		try {
+			writer.write("<font color='red'>"); //$NON-NLS-1$
+			writer.write(e.getMessage());
+			writer.write("</font>"); //$NON-NLS-1$
+		} catch (IOException err) {
+			throw new JspException(err);
 		}
 	}
 }

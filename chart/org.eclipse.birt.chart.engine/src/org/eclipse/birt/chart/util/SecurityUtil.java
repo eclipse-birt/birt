@@ -52,11 +52,9 @@ import javax.xml.transform.TransformerFactoryConfigurationError;
  * Utility class to support application level security policy.
  */
 
-public class SecurityUtil
-{
+public class SecurityUtil {
 
-	private SecurityUtil( )
-	{
+	private SecurityUtil() {
 		// disable instantiation
 	}
 
@@ -67,17 +65,14 @@ public class SecurityUtil
 	 * @param args
 	 * @return
 	 */
-	public static String formatMessage( final String pattern,
-			final Object... args )
-	{
+	public static String formatMessage(final String pattern, final Object... args) {
 		String piTmp0 = null;
-		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+		piTmp0 = AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			public String run( )
-			{
-				return MessageFormat.format( pattern, args );
+			public String run() {
+				return MessageFormat.format(pattern, args);
 			}
-		} );
+		});
 
 		return piTmp0;
 	}
@@ -89,25 +84,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static FileInputStream newFileInputStream( final File file )
-			throws FileNotFoundException
-	{
+	public static FileInputStream newFileInputStream(final File file) throws FileNotFoundException {
 		FileInputStream piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<FileInputStream>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<FileInputStream>() {
 
-				public FileInputStream run( ) throws FileNotFoundException
-				{
-					return new FileInputStream( file );
+				public FileInputStream run() throws FileNotFoundException {
+					return new FileInputStream(file);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
 		}
@@ -122,25 +110,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static FileInputStream newFileInputStream( final String filename )
-			throws FileNotFoundException
-	{
+	public static FileInputStream newFileInputStream(final String filename) throws FileNotFoundException {
 		FileInputStream piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<FileInputStream>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<FileInputStream>() {
 
-				public FileInputStream run( ) throws FileNotFoundException
-				{
-					return new FileInputStream( filename );
+				public FileInputStream run() throws FileNotFoundException {
+					return new FileInputStream(filename);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
 		}
@@ -155,25 +136,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static FileOutputStream newFileOutputStream( final String filename )
-			throws FileNotFoundException
-	{
+	public static FileOutputStream newFileOutputStream(final String filename) throws FileNotFoundException {
 		FileOutputStream piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<FileOutputStream>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<FileOutputStream>() {
 
-				public FileOutputStream run( ) throws FileNotFoundException
-				{
-					return new FileOutputStream( filename );
+				public FileOutputStream run() throws FileNotFoundException {
+					return new FileOutputStream(filename);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
 		}
@@ -189,26 +163,19 @@ public class SecurityUtil
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public static InputStreamReader newInputStreamReader( final InputStream in,
-			final String charsetName ) throws UnsupportedEncodingException
-	{
+	public static InputStreamReader newInputStreamReader(final InputStream in, final String charsetName)
+			throws UnsupportedEncodingException {
 		InputStreamReader piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<InputStreamReader>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<InputStreamReader>() {
 
-				public InputStreamReader run( )
-						throws UnsupportedEncodingException
-				{
-					return new InputStreamReader( in, charsetName );
+				public InputStreamReader run() throws UnsupportedEncodingException {
+					return new InputStreamReader(in, charsetName);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof UnsupportedEncodingException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof UnsupportedEncodingException) {
 				throw (UnsupportedEncodingException) typedException;
 			}
 		}
@@ -223,25 +190,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static FileReader newFileReader( final String filename )
-			throws FileNotFoundException
-	{
+	public static FileReader newFileReader(final String filename) throws FileNotFoundException {
 		FileReader piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<FileReader>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<FileReader>() {
 
-				public FileReader run( ) throws FileNotFoundException
-				{
-					return new FileReader( filename );
+				public FileReader run() throws FileNotFoundException {
+					return new FileReader(filename);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
 		}
@@ -256,25 +216,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws FileNotFoundException
 	 */
-	public static FileReader newFileReader( final File file )
-			throws FileNotFoundException
-	{
+	public static FileReader newFileReader(final File file) throws FileNotFoundException {
 		FileReader piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<FileReader>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<FileReader>() {
 
-				public FileReader run( ) throws FileNotFoundException
-				{
-					return new FileReader( file );
+				public FileReader run() throws FileNotFoundException {
+					return new FileReader(file);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof FileNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof FileNotFoundException) {
 				throw (FileNotFoundException) typedException;
 			}
 		}
@@ -289,25 +242,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static FileWriter newFileWriter( final String filename )
-			throws IOException
-	{
+	public static FileWriter newFileWriter(final String filename) throws IOException {
 		FileWriter piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<FileWriter>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<FileWriter>() {
 
-				public FileWriter run( ) throws IOException
-				{
-					return new FileWriter( filename );
+				public FileWriter run() throws IOException {
+					return new FileWriter(filename);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
 		}
@@ -322,25 +268,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static FileWriter newFileWriter( final File file )
-			throws IOException
-	{
+	public static FileWriter newFileWriter(final File file) throws IOException {
 		FileWriter piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<FileWriter>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<FileWriter>() {
 
-				public FileWriter run( ) throws IOException
-				{
-					return new FileWriter( file );
+				public FileWriter run() throws IOException {
+					return new FileWriter(file);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
 		}
@@ -355,27 +294,19 @@ public class SecurityUtil
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public static OutputStreamWriter newOutputStreamWriter(
-			final OutputStream out, final String charsetName )
-			throws UnsupportedEncodingException
-	{
+	public static OutputStreamWriter newOutputStreamWriter(final OutputStream out, final String charsetName)
+			throws UnsupportedEncodingException {
 		OutputStreamWriter piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<OutputStreamWriter>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<OutputStreamWriter>() {
 
-				public OutputStreamWriter run( )
-						throws UnsupportedEncodingException
-				{
-					return new OutputStreamWriter( out, charsetName );
+				public OutputStreamWriter run() throws UnsupportedEncodingException {
+					return new OutputStreamWriter(out, charsetName);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof UnsupportedEncodingException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof UnsupportedEncodingException) {
 				throw (UnsupportedEncodingException) typedException;
 			}
 		}
@@ -391,29 +322,21 @@ public class SecurityUtil
 	 * @throws IOException
 	 * @throws ClassNotFoundException
 	 */
-	public static Object readObject( final ObjectInputStream ois )
-			throws IOException, ClassNotFoundException
-	{
+	public static Object readObject(final ObjectInputStream ois) throws IOException, ClassNotFoundException {
 		Object piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
 
-				public Object run( ) throws IOException, ClassNotFoundException
-				{
-					return ois.readObject( );
+				public Object run() throws IOException, ClassNotFoundException {
+					return ois.readObject();
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
-			if ( typedException instanceof ClassNotFoundException )
-			{
+			if (typedException instanceof ClassNotFoundException) {
 				throw (ClassNotFoundException) typedException;
 			}
 		}
@@ -428,25 +351,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static ObjectOutputStream newObjectOutputStream(
-			final OutputStream out ) throws IOException
-	{
+	public static ObjectOutputStream newObjectOutputStream(final OutputStream out) throws IOException {
 		ObjectOutputStream piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectOutputStream>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectOutputStream>() {
 
-				public ObjectOutputStream run( ) throws IOException
-				{
-					return new ObjectOutputStream( out );
+				public ObjectOutputStream run() throws IOException {
+					return new ObjectOutputStream(out);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
 		}
@@ -461,25 +377,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static ObjectInputStream newObjectInputStream( final InputStream is )
-			throws IOException
-	{
+	public static ObjectInputStream newObjectInputStream(final InputStream is) throws IOException {
 		ObjectInputStream piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<ObjectInputStream>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<ObjectInputStream>() {
 
-				public ObjectInputStream run( ) throws IOException
-				{
-					return new ObjectInputStream( is );
+				public ObjectInputStream run() throws IOException {
+					return new ObjectInputStream(is);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
 		}
@@ -494,25 +403,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static ImageOutputStream newImageOutputStream( final Object output )
-			throws IOException
-	{
+	public static ImageOutputStream newImageOutputStream(final Object output) throws IOException {
 		ImageOutputStream piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<ImageOutputStream>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<ImageOutputStream>() {
 
-				public ImageOutputStream run( ) throws IOException
-				{
-					return ImageIO.createImageOutputStream( output );
+				public ImageOutputStream run() throws IOException {
+					return ImageIO.createImageOutputStream(output);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
 		}
@@ -527,16 +429,14 @@ public class SecurityUtil
 	 * @param <V>
 	 * @return
 	 */
-	public static <K, V> Hashtable<K, V> newHashtable( )
-	{
+	public static <K, V> Hashtable<K, V> newHashtable() {
 		Hashtable<K, V> piTmp0 = null;
-		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<Hashtable<K, V>>( ) {
+		piTmp0 = AccessController.doPrivileged(new PrivilegedAction<Hashtable<K, V>>() {
 
-			public Hashtable<K, V> run( )
-			{
-				return new Hashtable<K, V>( );
+			public Hashtable<K, V> run() {
+				return new Hashtable<K, V>();
 			}
-		} );
+		});
 
 		return piTmp0;
 	}
@@ -547,16 +447,14 @@ public class SecurityUtil
 	 * @param cls
 	 * @return
 	 */
-	public static ClassLoader getClassLoader( final Class<?> cls )
-	{
+	public static ClassLoader getClassLoader(final Class<?> cls) {
 		ClassLoader piTmp0 = null;
-		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<ClassLoader>( ) {
+		piTmp0 = AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
 
-			public ClassLoader run( )
-			{
-				return cls.getClassLoader( );
+			public ClassLoader run() {
+				return cls.getClassLoader();
 			}
-		} );
+		});
 
 		return piTmp0;
 	}
@@ -568,17 +466,14 @@ public class SecurityUtil
 	 * @param parent
 	 * @return
 	 */
-	public static URLClassLoader newURLClassLoader( final URL[] urls,
-			final ClassLoader parent )
-	{
+	public static URLClassLoader newURLClassLoader(final URL[] urls, final ClassLoader parent) {
 		URLClassLoader piTmp0 = null;
-		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<URLClassLoader>( ) {
+		piTmp0 = AccessController.doPrivileged(new PrivilegedAction<URLClassLoader>() {
 
-			public URLClassLoader run( )
-			{
-				return new URLClassLoader( urls, parent );// $NON-SEC-2
+			public URLClassLoader run() {
+				return new URLClassLoader(urls, parent);// $NON-SEC-2
 			}
-		} );
+		});
 
 		return piTmp0;
 	}
@@ -592,10 +487,8 @@ public class SecurityUtil
 	 * @throws InstantiationException
 	 * @throws IllegalAccessException
 	 */
-	public static <T> T newClassInstance( Class<T> cls )
-			throws InstantiationException, IllegalAccessException
-	{
-		return cls.newInstance( );
+	public static <T> T newClassInstance(Class<T> cls) throws InstantiationException, IllegalAccessException {
+		return cls.newInstance();
 	}
 
 	/**
@@ -605,25 +498,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws ClassNotFoundException
 	 */
-	public static Class<?> loadClass( final ClassLoader loader,
-			final String name ) throws ClassNotFoundException
-	{
+	public static Class<?> loadClass(final ClassLoader loader, final String name) throws ClassNotFoundException {
 		Class<?> piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<Class<?>>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<Class<?>>() {
 
-				public Class<?> run( ) throws ClassNotFoundException
-				{
-					return loader.loadClass( name );
+				public Class<?> run() throws ClassNotFoundException {
+					return loader.loadClass(name);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof ClassNotFoundException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof ClassNotFoundException) {
 				throw (ClassNotFoundException) typedException;
 			}
 		}
@@ -636,25 +522,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws SecurityException
 	 */
-	public static Method[] getMethods( final Class<?> cls )
-			throws SecurityException
-	{
+	public static Method[] getMethods(final Class<?> cls) throws SecurityException {
 		Method[] piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<Method[]>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<Method[]>() {
 
-				public Method[] run( ) throws SecurityException
-				{
-					return cls.getMethods( );
+				public Method[] run() throws SecurityException {
+					return cls.getMethods();
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof SecurityException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof SecurityException) {
 				throw (SecurityException) typedException;
 			}
 		}
@@ -673,36 +552,25 @@ public class SecurityUtil
 	 * @throws IllegalArgumentException
 	 * @throws InvocationTargetException
 	 */
-	public static Object invokeMethod( final Method method,
-			final Object caller, final Object... args )
-			throws IllegalAccessException, IllegalArgumentException,
-			InvocationTargetException
-	{
+	public static Object invokeMethod(final Method method, final Object caller, final Object... args)
+			throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
 		Object piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<Object>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<Object>() {
 
-				public Object run( ) throws IllegalAccessException,
-						IllegalArgumentException, InvocationTargetException
-				{
-					return method.invoke( caller, args );
+				public Object run() throws IllegalAccessException, IllegalArgumentException, InvocationTargetException {
+					return method.invoke(caller, args);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IllegalAccessException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IllegalAccessException) {
 				throw (IllegalAccessException) typedException;
 			}
-			if ( typedException instanceof IllegalArgumentException )
-			{
+			if (typedException instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) typedException;
 			}
-			if ( typedException instanceof InvocationTargetException )
-			{
+			if (typedException instanceof InvocationTargetException) {
 				throw (InvocationTargetException) typedException;
 			}
 		}
@@ -720,31 +588,22 @@ public class SecurityUtil
 	 * @throws NoSuchMethodException
 	 * @throws SecurityException
 	 */
-	public static <T> Constructor<T> getConstructor( final Class<T> cls,
-			final Class<?>... parameterTypes ) throws NoSuchMethodException,
-			SecurityException
-	{
+	public static <T> Constructor<T> getConstructor(final Class<T> cls, final Class<?>... parameterTypes)
+			throws NoSuchMethodException, SecurityException {
 		Constructor<T> piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<Constructor<T>>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<Constructor<T>>() {
 
-				public Constructor<T> run( ) throws NoSuchMethodException,
-						SecurityException
-				{
-					return cls.getConstructor( parameterTypes );
+				public Constructor<T> run() throws NoSuchMethodException, SecurityException {
+					return cls.getConstructor(parameterTypes);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof NoSuchMethodException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof NoSuchMethodException) {
 				throw (NoSuchMethodException) typedException;
 			}
-			if ( typedException instanceof SecurityException )
-			{
+			if (typedException instanceof SecurityException) {
 				throw (SecurityException) typedException;
 			}
 		}
@@ -758,16 +617,14 @@ public class SecurityUtil
 	 * @param key
 	 * @return
 	 */
-	public static String getSysProp( final String key )
-	{
+	public static String getSysProp(final String key) {
 		String piTmp0 = null;
-		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+		piTmp0 = AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			public String run( )
-			{
-				return System.getProperty( key );
+			public String run() {
+				return System.getProperty(key);
 			}
-		} );
+		});
 
 		return piTmp0;
 	}
@@ -779,16 +636,14 @@ public class SecurityUtil
 	 * @param value
 	 * @return
 	 */
-	public static String setSysProp( final String key, final String value )
-	{
+	public static String setSysProp(final String key, final String value) {
 		String piTmp0 = null;
-		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+		piTmp0 = AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			public String run( )
-			{
-				return System.setProperty( key, value );
+			public String run() {
+				return System.setProperty(key, value);
 			}
-		} );
+		});
 
 		return piTmp0;
 	}
@@ -798,16 +653,14 @@ public class SecurityUtil
 	 * 
 	 * @param status
 	 */
-	public static void sysExit( final int status )
-	{
-		AccessController.doPrivileged( new PrivilegedAction<Object>( ) {
+	public static void sysExit(final int status) {
+		AccessController.doPrivileged(new PrivilegedAction<Object>() {
 
-			public Object run( )
-			{
-				System.exit( status );
+			public Object run() {
+				System.exit(status);
 				return null;
 			}
-		} );
+		});
 
 	}
 
@@ -818,24 +671,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws MalformedURLException
 	 */
-	public static URL newURL( final String spec ) throws MalformedURLException
-	{
+	public static URL newURL(final String spec) throws MalformedURLException {
 		URL piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<URL>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<URL>() {
 
-				public URL run( ) throws MalformedURLException
-				{
-					return new URL( spec );
+				public URL run() throws MalformedURLException {
+					return new URL(spec);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof MalformedURLException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof MalformedURLException) {
 				throw (MalformedURLException) typedException;
 			}
 		}
@@ -851,25 +698,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static Process execRuntimeCommand( final Runtime runtime,
-			final String command ) throws IOException
-	{
+	public static Process execRuntimeCommand(final Runtime runtime, final String command) throws IOException {
 		Process piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<Process>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<Process>() {
 
-				public Process run( ) throws IOException
-				{
-					return runtime.exec( command );
+				public Process run() throws IOException {
+					return runtime.exec(command);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
 		}
@@ -883,22 +723,17 @@ public class SecurityUtil
 	 * @return
 	 * @throws Exception
 	 */
-	public static TransformerFactory newTransformerFactory( ) throws Exception
-	{
-		return AccessController.doPrivileged( new PrivilegedExceptionAction<TransformerFactory>( ) {
+	public static TransformerFactory newTransformerFactory() throws Exception {
+		return AccessController.doPrivileged(new PrivilegedExceptionAction<TransformerFactory>() {
 
-			public TransformerFactory run( ) throws Exception
-			{
-				try
-				{
-					return TransformerFactory.newInstance( );
-				}
-				catch ( TransformerFactoryConfigurationError error )
-				{
-					throw error.getException( );
+			public TransformerFactory run() throws Exception {
+				try {
+					return TransformerFactory.newInstance();
+				} catch (TransformerFactoryConfigurationError error) {
+					throw error.getException();
 				}
 			}
-		} );
+		});
 	}
 
 	/**
@@ -906,17 +741,15 @@ public class SecurityUtil
 	 * 
 	 * @return
 	 */
-	public static DocumentBuilderFactory newDocumentBuilderFactory( )
-	{
+	public static DocumentBuilderFactory newDocumentBuilderFactory() {
 
 		DocumentBuilderFactory piTmp0 = null;
-		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<DocumentBuilderFactory>( ) {
+		piTmp0 = AccessController.doPrivileged(new PrivilegedAction<DocumentBuilderFactory>() {
 
-			public DocumentBuilderFactory run( )
-			{
-				return DocumentBuilderFactory.newInstance( );
+			public DocumentBuilderFactory run() {
+				return DocumentBuilderFactory.newInstance();
 			}
-		} );
+		});
 
 		return piTmp0;
 	}
@@ -926,24 +759,18 @@ public class SecurityUtil
 	 * 
 	 * @return
 	 */
-	public static URL toURL( final URI uri ) throws MalformedURLException
-	{
+	public static URL toURL(final URI uri) throws MalformedURLException {
 		URL piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<URL>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<URL>() {
 
-				public URL run( ) throws MalformedURLException
-				{
-					return uri.toURL( );
+				public URL run() throws MalformedURLException {
+					return uri.toURL();
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof MalformedURLException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof MalformedURLException) {
 				throw (MalformedURLException) typedException;
 			}
 		}
@@ -959,30 +786,20 @@ public class SecurityUtil
 	 * @throws NullPointerException
 	 * @throws IllegalArgumentException
 	 */
-	public static File newFile( final URI uri ) throws NullPointerException,
-			IllegalArgumentException
-	{
+	public static File newFile(final URI uri) throws NullPointerException, IllegalArgumentException {
 		File piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<File>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<File>() {
 
-				public File run( ) throws NullPointerException,
-						IllegalArgumentException
-				{
-					return new File( uri );
+				public File run() throws NullPointerException, IllegalArgumentException {
+					return new File(uri);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof NullPointerException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof NullPointerException) {
 				throw (NullPointerException) typedException;
-			}
-			else if ( typedException instanceof IllegalArgumentException )
-			{
+			} else if (typedException instanceof IllegalArgumentException) {
 				throw (IllegalArgumentException) typedException;
 			}
 		}
@@ -998,25 +815,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws UnsupportedEncodingException
 	 */
-	public static String urlEncode( final String s, final String enc )
-			throws UnsupportedEncodingException
-	{
+	public static String urlEncode(final String s, final String enc) throws UnsupportedEncodingException {
 		String piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<String>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<String>() {
 
-				public String run( ) throws UnsupportedEncodingException
-				{
-					return URLEncoder.encode( s, enc );
+				public String run() throws UnsupportedEncodingException {
+					return URLEncoder.encode(s, enc);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof UnsupportedEncodingException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof UnsupportedEncodingException) {
 				throw (UnsupportedEncodingException) typedException;
 			}
 		}
@@ -1031,17 +841,14 @@ public class SecurityUtil
 	 * @param autoFlush
 	 * @return
 	 */
-	public static PrintWriter newPrintWriter( final Writer out,
-			final boolean autoFlush )
-	{
+	public static PrintWriter newPrintWriter(final Writer out, final boolean autoFlush) {
 		PrintWriter piTmp0 = null;
-		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<PrintWriter>( ) {
+		piTmp0 = AccessController.doPrivileged(new PrivilegedAction<PrintWriter>() {
 
-			public PrintWriter run( )
-			{
-				return new PrintWriter( out, autoFlush );
+			public PrintWriter run() {
+				return new PrintWriter(out, autoFlush);
 			}
-		} );
+		});
 
 		return piTmp0;
 	}
@@ -1053,25 +860,18 @@ public class SecurityUtil
 	 * @return
 	 * @throws IOException
 	 */
-	public static ImageOutputStream createImageOutputStream( final Object output )
-			throws IOException
-	{
+	public static ImageOutputStream createImageOutputStream(final Object output) throws IOException {
 		ImageOutputStream piTmp0 = null;
-		try
-		{
-			piTmp0 = AccessController.doPrivileged( new PrivilegedExceptionAction<ImageOutputStream>( ) {
+		try {
+			piTmp0 = AccessController.doPrivileged(new PrivilegedExceptionAction<ImageOutputStream>() {
 
-				public ImageOutputStream run( ) throws IOException
-				{
-					return ImageIO.createImageOutputStream( output );
+				public ImageOutputStream run() throws IOException {
+					return ImageIO.createImageOutputStream(output);
 				}
-			} );
-		}
-		catch ( PrivilegedActionException e )
-		{
-			Exception typedException = e.getException( );
-			if ( typedException instanceof IOException )
-			{
+			});
+		} catch (PrivilegedActionException e) {
+			Exception typedException = e.getException();
+			if (typedException instanceof IOException) {
 				throw (IOException) typedException;
 			}
 		}
@@ -1085,16 +885,14 @@ public class SecurityUtil
 	 * @param name
 	 * @return the value
 	 */
-	public static String getSystemEnv( final String name )
-	{
+	public static String getSystemEnv(final String name) {
 		String piTmp0 = null;
-		piTmp0 = AccessController.doPrivileged( new PrivilegedAction<String>( ) {
+		piTmp0 = AccessController.doPrivileged(new PrivilegedAction<String>() {
 
-			public String run( )
-			{
-				return System.getenv( name );
+			public String run() {
+				return System.getenv(name);
 			}
-		} );
+		});
 
 		return piTmp0;
 	}

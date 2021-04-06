@@ -22,8 +22,7 @@ import org.mozilla.javascript.Scriptable;
  * 
  */
 
-public class DimensionJSObjectPopulator implements IJSObjectPopulator
-{
+public class DimensionJSObjectPopulator implements IJSObjectPopulator {
 	//
 	private DummyJSLevels dimObj;
 	private Scriptable scope;
@@ -36,9 +35,7 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator
 	 * @param dimensionName
 	 * @param levelNames
 	 */
-	public DimensionJSObjectPopulator( Scriptable scope, String dimensionName,
-			List levelNames )
-	{
+	public DimensionJSObjectPopulator(Scriptable scope, String dimensionName, List levelNames) {
 		this.scope = scope;
 		this.dimensionName = dimensionName;
 		this.levelNames = levelNames;
@@ -46,38 +43,37 @@ public class DimensionJSObjectPopulator implements IJSObjectPopulator
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#doInit()
 	 */
-	public void doInit( ) throws DataException
-	{
-		this.dimObj = new DummyJSLevels( dimensionName );
-		DummyJSDimensionObject dimObj = new DummyJSDimensionObject( this.dimObj,
-				levelNames );
+	public void doInit() throws DataException {
+		this.dimObj = new DummyJSLevels(dimensionName);
+		DummyJSDimensionObject dimObj = new DummyJSDimensionObject(this.dimObj, levelNames);
 
-		scope.put( ScriptConstants.DIMENSION_SCRIPTABLE,
-				scope,
-				new DummyJSDimensionAccessor( dimensionName, dimObj ) );
+		scope.put(ScriptConstants.DIMENSION_SCRIPTABLE, scope, new DummyJSDimensionAccessor(dimensionName, dimObj));
 
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#setData(java.lang.Object)
+	 * 
+	 * @see
+	 * org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#setData(java.lang.
+	 * Object)
 	 */
-	public void setData( Object resultRow )
-	{
+	public void setData(Object resultRow) {
 		assert resultRow instanceof IResultRow;
-		dimObj.setResultRow( ( IResultRow ) resultRow );
+		dimObj.setResultRow((IResultRow) resultRow);
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.data.engine.olap.util.IJSObjectPopulator#cleanUp()
 	 */
-	public void cleanUp( )
-	{
-		this.scope.delete( ScriptConstants.DIMENSION_SCRIPTABLE );
-		this.scope.setParentScope( null );
+	public void cleanUp() {
+		this.scope.delete(ScriptConstants.DIMENSION_SCRIPTABLE);
+		this.scope.setParentScope(null);
 	}
 
 }

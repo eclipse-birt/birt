@@ -28,8 +28,7 @@ import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 import org.eclipse.birt.report.utility.BirtUtility;
 
-public class BirtRunReportActionHandler extends AbstractBaseActionHandler
-{
+public class BirtRunReportActionHandler extends AbstractBaseActionHandler {
 
 	/**
 	 * Constructor.
@@ -37,10 +36,8 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 	 * @param context
 	 * @param operation
 	 */
-	public BirtRunReportActionHandler( IContext context, Operation operation,
-			GetUpdatedObjectsResponse response )
-	{
-		super( context, operation, response );
+	public BirtRunReportActionHandler(IContext context, Operation operation, GetUpdatedObjectsResponse response) {
+		super(context, operation, response);
 	}
 
 	/**
@@ -49,50 +46,43 @@ public class BirtRunReportActionHandler extends AbstractBaseActionHandler
 	 * @exception ReportServiceException
 	 * @return
 	 */
-	public void __execute( ) throws Exception
-	{
-		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean( );
+	public void __execute() throws Exception {
+		ViewerAttributeBean attrBean = (ViewerAttributeBean) context.getBean();
 		assert attrBean != null;
 
-		Map parameterMap = attrBean.getParameters( );
-		if ( parameterMap == null )
-			parameterMap = new HashMap( );
+		Map parameterMap = attrBean.getParameters();
+		if (parameterMap == null)
+			parameterMap = new HashMap();
 
-		Map displayTexts = attrBean.getDisplayTexts( );
-		if ( displayTexts == null )
-			displayTexts = new HashMap( );
+		Map displayTexts = attrBean.getDisplayTexts();
+		if (displayTexts == null)
+			displayTexts = new HashMap();
 
-		String docName = attrBean.getReportDocumentName( );
-		IViewerReportDesignHandle designHandle = attrBean
-				.getReportDesignHandle( context.getRequest( ) );
+		String docName = attrBean.getReportDocumentName();
+		IViewerReportDesignHandle designHandle = attrBean.getReportDesignHandle(context.getRequest());
 
-		InputOptions options = new InputOptions( );
-		options.setOption( InputOptions.OPT_REQUEST, context.getRequest( ) );
-		options.setOption( InputOptions.OPT_LOCALE, attrBean.getLocale( ) );
-		options.setOption( InputOptions.OPT_TIMEZONE, attrBean.getTimeZone( ) );
-		options.setOption( InputOptions.OPT_IS_DESIGNER, Boolean.valueOf( attrBean
-				.isDesigner( ) ) );
+		InputOptions options = new InputOptions();
+		options.setOption(InputOptions.OPT_REQUEST, context.getRequest());
+		options.setOption(InputOptions.OPT_LOCALE, attrBean.getLocale());
+		options.setOption(InputOptions.OPT_TIMEZONE, attrBean.getTimeZone());
+		options.setOption(InputOptions.OPT_IS_DESIGNER, Boolean.valueOf(attrBean.isDesigner()));
 
 		// handle operation
-		BirtUtility.handleOperation( operation, attrBean, parameterMap,
-				displayTexts );
+		BirtUtility.handleOperation(operation, attrBean, parameterMap, displayTexts);
 
 		List<Exception> errorList = new ArrayList<Exception>();
-		getReportService( ).runReport( designHandle, docName, options,
-				parameterMap, displayTexts, errorList );
-		if ( errorList != null && !errorList.isEmpty() ) 
-		{
+		getReportService().runReport(designHandle, docName, options, parameterMap, displayTexts, errorList);
+		if (errorList != null && !errorList.isEmpty()) {
 			// clear document file
-			File doc = new File( docName );
-			if ( doc != null )
-				doc.delete( );
-			
-			throw BirtUtility.makeAxisFault( "BirtRunReportActionHandler.__execute()", errorList ); //$NON-NLS-1$
+			File doc = new File(docName);
+			if (doc != null)
+				doc.delete();
+
+			throw BirtUtility.makeAxisFault("BirtRunReportActionHandler.__execute()", errorList); //$NON-NLS-1$
 		}
 	}
 
-	protected IViewerReportService getReportService( )
-	{
-		return BirtReportServiceFactory.getReportService( );
+	protected IViewerReportService getReportService() {
+		return BirtReportServiceFactory.getReportService();
 	}
 }

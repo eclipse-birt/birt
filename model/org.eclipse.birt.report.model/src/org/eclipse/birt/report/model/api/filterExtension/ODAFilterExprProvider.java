@@ -19,9 +19,8 @@ import org.eclipse.birt.report.model.api.filterExtension.interfaces.IFilterExprD
 /**
  * ODAFilterExprProvider
  */
-public class ODAFilterExprProvider implements IODAFilterExprProvider
-{
-	private static ODAFilterExprProvider provider = new ODAFilterExprProvider( );
+public class ODAFilterExprProvider implements IODAFilterExprProvider {
+	private static ODAFilterExprProvider provider = new ODAFilterExprProvider();
 
 	/**
 	 * Returns the singleton instance.
@@ -29,8 +28,7 @@ public class ODAFilterExprProvider implements IODAFilterExprProvider
 	 * @return the instance
 	 */
 
-	public static ODAFilterExprProvider getInstance( )
-	{
+	public static ODAFilterExprProvider getInstance() {
 		return provider;
 	}
 
@@ -41,10 +39,8 @@ public class ODAFilterExprProvider implements IODAFilterExprProvider
 	 * IODAFilterExprProvider#getMappedFilterExprDefinitions(java.lang.String,
 	 * java.lang.String)
 	 */
-	public List<IFilterExprDefinition> getMappedFilterExprDefinitions(
-			String dataSetExtId, String dataSourceExtId )
-	{
-		return Collections.emptyList( );
+	public List<IFilterExprDefinition> getMappedFilterExprDefinitions(String dataSetExtId, String dataSourceExtId) {
+		return Collections.emptyList();
 	}
 
 	/*
@@ -53,21 +49,17 @@ public class ODAFilterExprProvider implements IODAFilterExprProvider
 	 * @seeorg.eclipse.birt.report.model.api.filterExtension.interfaces.
 	 * IODAFilterExprProvider#supportExtensionFilters()
 	 */
-	public boolean supportOdaExtensionFilters( )
-	{
+	public boolean supportOdaExtensionFilters() {
 		return true;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.filterExtension.IODAFilterExprProvider
+	 * @see org.eclipse.birt.report.model.api.filterExtension.IODAFilterExprProvider
 	 * #supprtsODAFilterPushDown(java.lang.String, java.lang.String)
 	 */
-	public boolean supportODAFilterPushDown( String dataSourceExtId,
-			String dataSetExtId )
-	{
+	public boolean supportODAFilterPushDown(String dataSourceExtId, String dataSetExtId) {
 		return false;
 	}
 

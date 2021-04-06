@@ -14,20 +14,17 @@ package org.eclipse.birt.chart.ui.swt;
 import org.eclipse.birt.chart.model.attribute.Insets;
 import org.eclipse.swt.widgets.Composite;
 
-
 /**
  * AbstractChartInsets
  */
 
-public abstract class AbstractChartInsets extends Composite
-{
+public abstract class AbstractChartInsets extends Composite {
 
-	public AbstractChartInsets( Composite parent, int style )
-	{
-		super( parent, style );
+	public AbstractChartInsets(Composite parent, int style) {
+		super(parent, style);
 	}
 
-	abstract public void setInsets( Insets insets, String sUnits );
-	
-	abstract public void setDefaultInsets( Insets insets );
+	abstract public void setInsets(Insets insets, String sUnits);
+
+	abstract public void setDefaultInsets(Insets insets);
 }

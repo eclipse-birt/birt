@@ -53,8 +53,7 @@ import org.mozilla.javascript.WrappedException;
 /**
  * ReportDesign
  */
-public class ReportDesign extends ScriptableObject implements IReportDesign
-{
+public class ReportDesign extends ScriptableObject implements IReportDesign {
 
 	/**
 	 * 
@@ -75,10 +74,9 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * @param report
 	 */
 
-	public ReportDesign( ReportDesignHandle report )
-	{
-		this.report = new InternalReportDesign( report );
-		initFunctions( );
+	public ReportDesign(ReportDesignHandle report) {
+		this.report = new InternalReportDesign(report);
+		initFunctions();
 	}
 
 	/**
@@ -88,24 +86,20 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * @return master page script instance
 	 */
 
-	public IMasterPage getMasterPage( String name )
-	{
-		return report.getMasterPage( name );
+	public IMasterPage getMasterPage(String name) {
+		return report.getMasterPage(name);
 	}
 
-	public IDataSet getDataSet( String name )
-	{
-		return report.getDataSet( name );
+	public IDataSet getDataSet(String name) {
+		return report.getDataSet(name);
 	}
 
-	public IDataSource getDataSource( String name )
-	{
-		return report.getDataSource( name );
+	public IDataSource getDataSource(String name) {
+		return report.getDataSource(name);
 	}
 
-	public IReportElement getReportElement( String name )
-	{
-		return report.getReportElement( name );
+	public IReportElement getReportElement(String name) {
+		return report.getReportElement(name);
 	}
 
 	/*
@@ -114,72 +108,57 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IReportDesign#
 	 * getReportElementByID(long)
 	 */
-	public IReportElement getReportElementByID( long id )
-	{
-		return report.getReportElementByID( id );
+	public IReportElement getReportElementByID(long id) {
+		return report.getReportElementByID(id);
 	}
 
-	public IDataItem getDataItem( String name )
-	{
-		return report.getDataItem( name );
+	public IDataItem getDataItem(String name) {
+		return report.getDataItem(name);
 	}
 
-	public IGrid getGrid( String name )
-	{
-		return report.getGrid( name );
+	public IGrid getGrid(String name) {
+		return report.getGrid(name);
 	}
 
-	public IImage getImage( String name )
-	{
-		return report.getImage( name );
+	public IImage getImage(String name) {
+		return report.getImage(name);
 	}
 
-	public ILabel getLabel( String name )
-	{
-		return report.getLabel( name );
+	public ILabel getLabel(String name) {
+		return report.getLabel(name);
 	}
 
-	public IList getList( String name )
-	{
-		return report.getList( name );
+	public IList getList(String name) {
+		return report.getList(name);
 	}
 
-	public ITable getTable( String name )
-	{
-		return report.getTable( name );
+	public ITable getTable(String name) {
+		return report.getTable(name);
 	}
 
-	public IDynamicText getDynamicText( String name )
-	{
-		return report.getDynamicText( name );
+	public IDynamicText getDynamicText(String name) {
+		return report.getDynamicText(name);
 	}
 
-	public ITextItem getTextItem( String name )
-	{
-		return report.getTextItem( name );
+	public ITextItem getTextItem(String name) {
+		return report.getTextItem(name);
 	}
 
-	public void setDisplayNameKey( String displayNameKey )
-			throws SemanticException
-	{
-		report.setProperty( IDesignElementModel.DISPLAY_NAME_ID_PROP,
-				displayNameKey );
+	public void setDisplayNameKey(String displayNameKey) throws SemanticException {
+		report.setProperty(IDesignElementModel.DISPLAY_NAME_ID_PROP, displayNameKey);
 	}
 
-	public String getDisplayNameKey( )
-	{
-		return report.getDisplayNameKey( );
+	public String getDisplayNameKey() {
+		return report.getDisplayNameKey();
 	}
 
-	public void setDisplayName( String displayName ) throws SemanticException
-	{
-		report.setProperty( IDesignElementModel.DISPLAY_NAME_PROP, displayName );
+	public void setDisplayName(String displayName) throws SemanticException {
+		report.setProperty(IDesignElementModel.DISPLAY_NAME_PROP, displayName);
 
 	}
 
-	public String getDisplayName( )
-	{
-		return report.getDisplayName( );
+	public String getDisplayName() {
+		return report.getDisplayName();
 	}
 
 	/*
@@ -188,22 +167,19 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#save()
 	 */
 
-	public void save( ) throws IOException
-	{
-		report.save( );
+	public void save() throws IOException {
+		report.save();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#saveAs(java
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#saveAs(java
 	 * .lang.String)
 	 */
 
-	public void saveAs( String newName ) throws IOException
-	{
-		report.saveAs( newName );
+	public void saveAs(String newName) throws IOException {
+		report.saveAs(newName);
 	}
 
 	/*
@@ -211,33 +187,28 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * 
 	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#getTheme()
 	 */
-	public String getTheme( )
-	{
-		return report.getTheme( );
+	public String getTheme() {
+		return report.getTheme();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#setTheme(java
 	 * .lang.String)
 	 */
 
-	public void setTheme( String theme ) throws SemanticException
-	{
-		report.setProperty( IModuleModel.THEME_PROP, theme );
+	public void setTheme(String theme) throws SemanticException {
+		report.setProperty(IModuleModel.THEME_PROP, theme);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getParent()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getParent()
 	 */
-	public IDesignElement getParent( )
-	{
-		return report.getParent( );
+	public IDesignElement getParent() {
+		return report.getParent();
 	}
 
 	/*
@@ -247,9 +218,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getNamedExpression
 	 * (java.lang.String)
 	 */
-	public String getNamedExpression( String name )
-	{
-		return report.getNamedExpression( name );
+	public String getNamedExpression(String name) {
+		return report.getNamedExpression(name);
 	}
 
 	/*
@@ -259,31 +229,26 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getQualifiedName
 	 * ()
 	 */
-	public String getQualifiedName( )
-	{
-		return report.getQualifiedName( );
+	public String getQualifiedName() {
+		return report.getQualifiedName();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getReport()
 	 */
-	public IReportDesign getReport( )
-	{
+	public IReportDesign getReport() {
 		return report;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getStyle()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getStyle()
 	 */
-	public IStyle getStyle( )
-	{
-		return report.getStyle( );
+	public IStyle getStyle() {
+		return report.getStyle();
 	}
 
 	/*
@@ -293,9 +258,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#getUserProperty
 	 * (java.lang.String)
 	 */
-	public Object getUserProperty( String name )
-	{
-		return report.getUserProperty( name );
+	public Object getUserProperty(String name) {
+		return report.getUserProperty(name);
 	}
 
 	/*
@@ -305,10 +269,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#setNamedExpression
 	 * (java.lang.String, java.lang.String)
 	 */
-	public void setNamedExpression( String name, String exp )
-			throws SemanticException
-	{
-		report.setNamedExpression( name, exp );
+	public void setNamedExpression(String name, String exp) throws SemanticException {
+		report.setNamedExpression(name, exp);
 	}
 
 	/*
@@ -318,10 +280,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#setUserProperty
 	 * (java.lang.String, java.lang.Object, java.lang.String)
 	 */
-	public void setUserProperty( String name, Object value, String type )
-			throws SemanticException
-	{
-		report.setUserProperty( name, value, type );
+	public void setUserProperty(String name, Object value, String type) throws SemanticException {
+		report.setUserProperty(name, value, type);
 	}
 
 	/*
@@ -331,10 +291,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IDesignElement#setUserProperty
 	 * (java.lang.String, java.lang.String)
 	 */
-	public void setUserProperty( String name, String value )
-			throws SemanticException
-	{
-		report.setUserProperty( name, value );
+	public void setUserProperty(String name, String value) throws SemanticException {
+		report.setUserProperty(name, value);
 	}
 
 	/*
@@ -343,106 +301,79 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * @see org.mozilla.javascript.ScriptableObject#getClassName()
 	 */
 
-	public String getClassName( )
-	{
+	public String getClassName() {
 		return CLASS_NAME;
 	}
 
-	private void initFunctions( )
-	{
-		Method[] tmpMethods = this.getClass( ).getDeclaredMethods( );
-		HashMap<String, Method> methods = new LinkedHashMap<String, Method>( );
-		for ( int i = 0; i < tmpMethods.length; i++ )
-		{
+	private void initFunctions() {
+		Method[] tmpMethods = this.getClass().getDeclaredMethods();
+		HashMap<String, Method> methods = new LinkedHashMap<String, Method>();
+		for (int i = 0; i < tmpMethods.length; i++) {
 			Method tmpMethod = tmpMethods[i];
-			String methodName = tmpMethod.getName( );
+			String methodName = tmpMethod.getName();
 			// must handle special case with long parameter or polymiorphism
-			if ( "getReportElementByID".equals( methodName ) //$NON-NLS-1$
-					|| "setUserProperty".equals( methodName ) ) //$NON-NLS-1$
+			if ("getReportElementByID".equals(methodName) //$NON-NLS-1$
+					|| "setUserProperty".equals(methodName)) //$NON-NLS-1$
 				continue;
-			if ( ( tmpMethod.getModifiers( ) & Modifier.PUBLIC ) != 0 )
-				methods.put( methodName, tmpMethod );
+			if ((tmpMethod.getModifiers() & Modifier.PUBLIC) != 0)
+				methods.put(methodName, tmpMethod);
 		}
 
-		Context.enter( );
-		try
-		{
-			for ( final Entry<String, Method> entry : methods.entrySet( ) )
-			{
-				this.defineProperty( entry.getKey( ), new BaseFunction( ) {
+		Context.enter();
+		try {
+			for (final Entry<String, Method> entry : methods.entrySet()) {
+				this.defineProperty(entry.getKey(), new BaseFunction() {
 
 					private static final long serialVersionUID = 1L;
 
-					public Object call( Context cx, Scriptable scope,
-							Scriptable thisObj, Object[] args )
-					{
-						Object[] convertedArgs = JavascriptEvalUtil
-								.convertToJavaObjects( args );
-						try
-						{
-							Method method = entry.getValue( );
-							return method.invoke( ReportDesign.this,
-									convertedArgs );
-						}
-						catch ( Exception e )
-						{
-							throw new WrappedException( e );
+					public Object call(Context cx, Scriptable scope, Scriptable thisObj, Object[] args) {
+						Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects(args);
+						try {
+							Method method = entry.getValue();
+							return method.invoke(ReportDesign.this, convertedArgs);
+						} catch (Exception e) {
+							throw new WrappedException(e);
 						}
 					}
 
-				}, DONTENUM );
+				}, DONTENUM);
 			}
-		}
-		finally
-		{
-			Context.exit( );
+		} finally {
+			Context.exit();
 		}
 
-		this.defineProperty( "getReportElementByID", //$NON-NLS-1$
-				new Function_getReportElementByID( ), DONTENUM );
-		this.defineProperty( "setUserProperty", //$NON-NLS-1$
-				new Function_setUserProperty( ), DONTENUM );
+		this.defineProperty("getReportElementByID", //$NON-NLS-1$
+				new Function_getReportElementByID(), DONTENUM);
+		this.defineProperty("setUserProperty", //$NON-NLS-1$
+				new Function_setUserProperty(), DONTENUM);
 	}
 
-	private class Function_getReportElementByID extends BaseFunction
-	{
+	private class Function_getReportElementByID extends BaseFunction {
 
 		private static final long serialVersionUID = 1L;
 
-		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
-				java.lang.Object[] args )
-		{
-			Object[] convertedArgs = JavascriptEvalUtil
-					.convertToJavaObjects( args );
+		public Object call(Context cx, Scriptable scope, Scriptable thisObj, java.lang.Object[] args) {
+			Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects(args);
 
-			return report.getReportElementByID( (Integer) convertedArgs[0] );
+			return report.getReportElementByID((Integer) convertedArgs[0]);
 		}
 	}
 
-	private class Function_setUserProperty extends BaseFunction
-	{
+	private class Function_setUserProperty extends BaseFunction {
 
 		private static final long serialVersionUID = 1L;
 
-		public Object call( Context cx, Scriptable scope, Scriptable thisObj,
-				java.lang.Object[] args )
-		{
-			Object[] convertedArgs = JavascriptEvalUtil
-					.convertToJavaObjects( args );
+		public Object call(Context cx, Scriptable scope, Scriptable thisObj, java.lang.Object[] args) {
+			Object[] convertedArgs = JavascriptEvalUtil.convertToJavaObjects(args);
 
-			try
-			{
-				if ( convertedArgs.length == 2 )
-					report.setUserProperty( (String) convertedArgs[0],
-							(String) convertedArgs[1] );
-				else if ( convertedArgs.length == 3 )
-					report.setUserProperty( (String) convertedArgs[0],
-							convertedArgs[1], (String) convertedArgs[2] );
+			try {
+				if (convertedArgs.length == 2)
+					report.setUserProperty((String) convertedArgs[0], (String) convertedArgs[1]);
+				else if (convertedArgs.length == 3)
+					report.setUserProperty((String) convertedArgs[0], convertedArgs[1], (String) convertedArgs[2]);
 
-			}
-			catch ( SemanticException e )
-			{
-				throw new WrappedException( e );
+			} catch (SemanticException e) {
+				throw new WrappedException(e);
 			}
 
 			return null;
@@ -455,9 +386,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IDesignElement#
 	 * getUserPropertyExpression(java.lang.String)
 	 */
-	public Object getUserPropertyExpression( String name )
-	{
-		return report.getUserPropertyExpression( name );
+	public Object getUserPropertyExpression(String name) {
+		return report.getUserPropertyExpression(name);
 	}
 
 	/*
@@ -466,21 +396,18 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * @seeorg.eclipse.birt.report.model.api.simpleapi.IReportDesign#
 	 * createFilterCondition()
 	 */
-	public IFilterCondition createFilterCondition( )
-	{
-		return report.createFilterCondition( );
+	public IFilterCondition createFilterCondition() {
+		return report.createFilterCondition();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHideRule
 	 * ()
 	 */
-	public IHideRule createHideRule( )
-	{
-		return report.createHideRule( );
+	public IHideRule createHideRule() {
+		return report.createHideRule();
 	}
 
 	/*
@@ -490,9 +417,8 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createHighLightRule
 	 * ()
 	 */
-	public IHighlightRule createHighLightRule( )
-	{
-		return report.createHighLightRule( );
+	public IHighlightRule createHighLightRule() {
+		return report.createHighLightRule();
 	}
 
 	/*
@@ -502,20 +428,17 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createSortCondition
 	 * ()
 	 */
-	public ISortCondition createSortCondition( )
-	{
-		return report.createSortCondition( );
+	public ISortCondition createSortCondition() {
+		return report.createSortCondition();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
+	 * @see org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createAction()
 	 */
-	public IAction createAction( )
-	{
-		return report.createAction( );
+	public IAction createAction() {
+		return report.createAction();
 	}
 
 	/*
@@ -525,8 +448,7 @@ public class ReportDesign extends ScriptableObject implements IReportDesign
 	 * org.eclipse.birt.report.model.api.simpleapi.IReportDesign#createDataBinding
 	 * ()
 	 */
-	public IDataBinding createDataBinding( )
-	{
-		return report.createDataBinding( );
+	public IDataBinding createDataBinding() {
+		return report.createDataBinding();
 	}
 }

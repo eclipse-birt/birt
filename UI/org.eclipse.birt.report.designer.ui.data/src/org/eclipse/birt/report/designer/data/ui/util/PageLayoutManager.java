@@ -13,23 +13,18 @@ package org.eclipse.birt.report.designer.data.ui.util;
 
 import java.util.HashSet;
 
+public class PageLayoutManager {
 
-public class PageLayoutManager
-{
+	private static HashSet<String> registeredSet = new HashSet<String>();
 
-	private static HashSet<String> registeredSet = new HashSet<String>( );
-
-	public static void registerPage( String pageId )
-	{
-		if ( pageId != null )
-		{
-			registeredSet.add( pageId );
+	public static void registerPage(String pageId) {
+		if (pageId != null) {
+			registeredSet.add(pageId);
 		}
 	}
 
-	public static boolean isRegisteredPage( String pageId )
-	{
-		return pageId != null && registeredSet.contains( pageId );
+	public static boolean isRegisteredPage(String pageId) {
+		return pageId != null && registeredSet.contains(pageId);
 	}
 
 }

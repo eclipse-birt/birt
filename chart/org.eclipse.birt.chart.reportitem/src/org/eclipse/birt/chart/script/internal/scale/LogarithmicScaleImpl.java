@@ -18,14 +18,10 @@ import org.eclipse.birt.chart.script.api.scale.ILogarithmicScale;
  * 
  */
 
-public class LogarithmicScaleImpl extends LinearScaleImpl
-		implements
-			ILogarithmicScale
-{
+public class LogarithmicScaleImpl extends LinearScaleImpl implements ILogarithmicScale {
 
-	protected LogarithmicScaleImpl( Axis axis )
-	{
-		super( axis );
+	protected LogarithmicScaleImpl(Axis axis) {
+		super(axis);
 	}
 
 }

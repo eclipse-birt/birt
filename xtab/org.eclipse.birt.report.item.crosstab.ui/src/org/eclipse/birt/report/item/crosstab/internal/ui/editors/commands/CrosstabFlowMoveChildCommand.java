@@ -23,10 +23,10 @@ import org.eclipse.core.runtime.IAdaptable;
 /**
  * Drag the item in the same cross cell.
  */
-public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand
-{
+public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand {
 
-	private static final String TRANS_LABEL_MOVE_ELEMENT = Messages.getString( "FlowMoveChildCommand.transLabel.moveElement" ); //$NON-NLS-1$
+	private static final String TRANS_LABEL_MOVE_ELEMENT = Messages
+			.getString("FlowMoveChildCommand.transLabel.moveElement"); //$NON-NLS-1$
 
 	private Object child = null;
 
@@ -41,37 +41,29 @@ public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand
 	 * @param model
 	 * @param model2
 	 */
-	public CrosstabFlowMoveChildCommand( Object child, Object after,
-			Object container )
-	{
-		super((DesignElementHandle)child);
+	public CrosstabFlowMoveChildCommand(Object child, Object after, Object container) {
+		super((DesignElementHandle) child);
 		this.child = child;
 		this.after = after;
-		if ( container instanceof IAdaptable )
-		{
-			this.container = ( (IAdaptable) container ).getAdapter( DesignElementHandle.class );
-		}
-		else
-		{
+		if (container instanceof IAdaptable) {
+			this.container = ((IAdaptable) container).getAdapter(DesignElementHandle.class);
+		} else {
 			this.container = container;
 		}
-		
-		setLabel( TRANS_LABEL_MOVE_ELEMENT );
+
+		setLabel(TRANS_LABEL_MOVE_ELEMENT);
 	}
 
 	/**
-	 * Executes the Command. This method should not be called if the Command is
-	 * not executable.
+	 * Executes the Command. This method should not be called if the Command is not
+	 * executable.
 	 */
 
-	public void execute( )
-	{
-		if ( DesignerConstants.TRACING_COMMANDS )
-		{
-			System.out.println( "FlowMoveChildCommand >> Starts ... " ); //$NON-NLS-1$
+	public void execute() {
+		if (DesignerConstants.TRACING_COMMANDS) {
+			System.out.println("FlowMoveChildCommand >> Starts ... "); //$NON-NLS-1$
 		}
-		try
-		{
+		try {
 
 			DesignElementHandle containerHandle = null;
 
@@ -79,27 +71,21 @@ public class CrosstabFlowMoveChildCommand extends AbstractCrosstabCommand
 
 			// for real node that contains design element handle
 			containerHandle = (DesignElementHandle) container;
-			String contentProperty = DEUtil.getContentProperty( containerHandle, after );
-			pos = CrosstabAdaptUtil.findInsertPosition( containerHandle,
-					(DesignElementHandle) after );
+			String contentProperty = DEUtil.getContentProperty(containerHandle, after);
+			pos = CrosstabAdaptUtil.findInsertPosition(containerHandle, (DesignElementHandle) after);
 
 			DesignElementHandle handle = (DesignElementHandle) child;
 
-			
+			transStart(TRANS_LABEL_MOVE_ELEMENT);
 
-			transStart( TRANS_LABEL_MOVE_ELEMENT );
+			handle.moveTo(containerHandle, contentProperty);
 
-			
-			handle.moveTo( containerHandle, contentProperty );
-			
-			//containerHandle.getSlot( slotID ).shift( handle, pos );
-			containerHandle.shift( contentProperty, handle, pos );
-			transEnd( );
-		}
-		catch ( SemanticException e )
-		{
-			rollBack( );
-			ExceptionUtil.handle( e );
+			// containerHandle.getSlot( slotID ).shift( handle, pos );
+			containerHandle.shift(contentProperty, handle, pos);
+			transEnd();
+		} catch (SemanticException e) {
+			rollBack();
+			ExceptionUtil.handle(e);
 		}
 	}
 }

@@ -17,8 +17,7 @@ import org.eclipse.birt.report.context.IContext;
 import org.eclipse.birt.report.soapengine.api.GetUpdatedObjectsResponse;
 import org.eclipse.birt.report.soapengine.api.Operation;
 
-public interface IComponentProcessor
-{
+public interface IComponentProcessor {
 	/**
 	 * Processor entry point.
 	 * 
@@ -27,5 +26,5 @@ public interface IComponentProcessor
 	 * @param response
 	 * @throws RemoteException
 	 */
-	public void process( IContext context, Operation op, GetUpdatedObjectsResponse response ) throws RemoteException;
+	public void process(IContext context, Operation op, GetUpdatedObjectsResponse response) throws RemoteException;
 }

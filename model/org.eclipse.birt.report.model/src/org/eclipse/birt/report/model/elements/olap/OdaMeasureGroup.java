@@ -20,15 +20,13 @@ import org.eclipse.birt.report.model.elements.ElementVisitor;
 /**
  * Represents a group for list of Measure elements.
  */
-public class OdaMeasureGroup extends MeasureGroup
-{
+public class OdaMeasureGroup extends MeasureGroup {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public OdaMeasureGroup( )
-	{
+	public OdaMeasureGroup() {
 	}
 
 	/**
@@ -36,19 +34,18 @@ public class OdaMeasureGroup extends MeasureGroup
 	 * 
 	 * @param name
 	 */
-	public OdaMeasureGroup( String name )
-	{
-		super( name );
+	public OdaMeasureGroup(String name) {
+		super(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitOdaMeasureGroup( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitOdaMeasureGroup(this);
 	}
 
 	/*
@@ -56,35 +53,32 @@ public class OdaMeasureGroup extends MeasureGroup
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.ODA_MEASURE_GROUP_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the module of the cube
+	 * @param module the module of the cube
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public OdaMeasureGroupHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new OdaMeasureGroupHandle( module, this );
+	public OdaMeasureGroupHandle handle(Module module) {
+		if (handle == null) {
+			handle = new OdaMeasureGroupHandle(module, this);
 		}
 		return (OdaMeasureGroupHandle) handle;
 	}

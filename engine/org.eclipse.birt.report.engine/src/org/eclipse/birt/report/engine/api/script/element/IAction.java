@@ -14,14 +14,12 @@ package org.eclipse.birt.report.engine.api.script.element;
 import org.eclipse.birt.report.engine.api.script.ScriptException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 
-
 /**
  * Script wrapper of <code>ActionHandle</code>
  * 
  */
 
-public interface IAction
-{
+public interface IAction {
 
 	/**
 	 * Gets the identifier of the hyperlink if the link type is
@@ -30,7 +28,7 @@ public interface IAction
 	 * @return the URI link expression in a string
 	 */
 
-	public String getURI( );
+	public String getURI();
 
 	/**
 	 * Gets the name of the target browser window for the link. (Optional.) Used
@@ -39,7 +37,7 @@ public interface IAction
 	 * @return the window name
 	 */
 
-	public String getTargetWindow( );
+	public String getTargetWindow();
 
 	/**
 	 * Gets the link type of the action. The link type are defined in
@@ -57,7 +55,7 @@ public interface IAction
 	 * @see org.eclipse.birt.report.model.api.elements.DesignChoiceConstants
 	 */
 
-	public String getLinkType( );
+	public String getLinkType();
 
 	/**
 	 * Sets the link type of the action. The link type are defined in
@@ -70,32 +68,29 @@ public interface IAction
 	 * <li><code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>
 	 * </ul>
 	 * 
-	 * @param type
-	 *            type of the action.
-	 * @throws ScriptException
-	 *             if the <code>type</code> is not one of the above.
+	 * @param type type of the action.
+	 * @throws ScriptException if the <code>type</code> is not one of the above.
 	 */
 
-	public void setLinkType( String type ) throws ScriptException;
+	public void setLinkType(String type) throws ScriptException;
 
 	/**
-	 * Sets the format type of the action. The format type for action are
-	 * defined in DesignChoiceConstants and can be one of the following: *
+	 * Sets the format type of the action. The format type for action are defined in
+	 * DesignChoiceConstants and can be one of the following: *
 	 * <p>
 	 * <ul>
 	 * <li><code>ACTION_FORMAT_TYPE_HTML</code>
 	 * <li><code>ACTION_FORMAT_TYPE_PDF</code>
 	 * </ul>
 	 * 
-	 * @param type
-	 *            the type of the action
+	 * @param type the type of the action
 	 * @throws ScriptException
 	 */
-	public void setFormatType( String type ) throws ScriptException;
+	public void setFormatType(String type) throws ScriptException;
 
 	/**
-	 * Gets the format type of the action. The format type for action are
-	 * defined in DesignChoiceConstants and can be one of the following: *
+	 * Gets the format type of the action. The format type for action are defined in
+	 * DesignChoiceConstants and can be one of the following: *
 	 * <p>
 	 * <ul>
 	 * <li><code>ACTION_FORMAT_TYPE_HTML</code>
@@ -104,31 +99,27 @@ public interface IAction
 	 * 
 	 * @return the format type of the action
 	 */
-	public String getFormatType( );
+	public String getFormatType();
 
 	/**
 	 * Sets the target window of the action.
 	 * 
-	 * @param window
-	 *            the target window name
-	 * @throws ScriptException
-	 *             if this property is locked.
+	 * @param window the target window name
+	 * @throws ScriptException if this property is locked.
 	 */
 
-	public void setTargetWindow( String window ) throws ScriptException;
+	public void setTargetWindow(String window) throws ScriptException;
 
 	/**
 	 * 
 	 * Sets the hyperlink of this action. The link type will be changed to
 	 * <code>ACTION_LINK_TYPE_HYPERLINK</code>.
 	 * 
-	 * @param uri
-	 *            the hyperlink to set
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @param uri the hyperlink to set
+	 * @throws ScriptException if the property is locked.
 	 */
 
-	public void setURI( String uri ) throws ScriptException;
+	public void setURI(String uri) throws ScriptException;
 
 	/**
 	 * Gets the name of the target report document if the link type is
@@ -138,24 +129,21 @@ public interface IAction
 	 * @see #setReportName(String)
 	 */
 
-	public String getReportName( );
+	public String getReportName();
 
 	/**
 	 * Sets target report name for a drill-though link. The link type will be
-	 * changed to <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. The report name
-	 * can include relative or absolute names. If the suffix is omitted, it is
-	 * computed on the server by looking for a matching report. BIRT reports are
-	 * searched in the following order: 1) a BIRT report document or 2) a BIRT
-	 * report design.
+	 * changed to <code>ACTION_LINK_TYPE_DRILLTHROUGH</code>. The report name can
+	 * include relative or absolute names. If the suffix is omitted, it is computed
+	 * on the server by looking for a matching report. BIRT reports are searched in
+	 * the following order: 1) a BIRT report document or 2) a BIRT report design.
 	 * 
-	 * @param reportName
-	 *            the name of the target report
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @param reportName the name of the target report
+	 * @throws ScriptException if the property is locked.
 	 * @see #getReportName()
 	 */
 
-	public void setReportName( String reportName ) throws ScriptException;
+	public void setReportName(String reportName) throws ScriptException;
 
 	/**
 	 * Gets the bookmark link if the link type is
@@ -164,29 +152,26 @@ public interface IAction
 	 * @return the bookmark link
 	 */
 
-	public String getTargetBookmark( );
+	public String getTargetBookmark();
 
 	/**
-	 * Sets the target bookmark defined within this same report, or another
-	 * report for a drill-though link. Call {@link #setLinkType(String)}to do
-	 * the link type change, it can either be
-	 * <code>ACTION_LINK_TYPE_DRILLTHROUGH</code> or
+	 * Sets the target bookmark defined within this same report, or another report
+	 * for a drill-though link. Call {@link #setLinkType(String)}to do the link type
+	 * change, it can either be <code>ACTION_LINK_TYPE_DRILLTHROUGH</code> or
 	 * <code>ACTION_LINK_TYPE_BOOKMARK_LINK</code>.
 	 * 
 	 * 
-	 * @param bookmark
-	 *            the bookmark value.
-	 * @throws ScriptException
-	 *             if the property is locked.
+	 * @param bookmark the bookmark value.
+	 * @throws ScriptException if the property is locked.
 	 * @see #getTargetBookmark()
 	 */
 
-	public void setTargetBookmark( String bookmark ) throws ScriptException;
-	
+	public void setTargetBookmark(String bookmark) throws ScriptException;
+
 	/**
-	 * Returns the Model Structure instance. 
-	 * @return
-	 * 		structure instance.
+	 * Returns the Model Structure instance.
+	 * 
+	 * @return structure instance.
 	 */
 	public IStructure getStructure();
 }

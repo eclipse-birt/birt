@@ -13,8 +13,7 @@ package org.eclipse.birt.report.engine.toc;
 
 import org.eclipse.birt.report.engine.api.impl.ReportDocumentConstants;
 
-public interface ITOCConstants
-{
+public interface ITOCConstants {
 
 	final String TOC_STREAM = ReportDocumentConstants.TOC_STREAM;
 

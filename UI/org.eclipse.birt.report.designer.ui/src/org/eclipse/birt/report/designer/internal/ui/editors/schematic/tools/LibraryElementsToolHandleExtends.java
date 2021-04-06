@@ -47,273 +47,208 @@ import org.eclipse.core.runtime.Assert;
  * The tool handle extends used by elements in the library
  */
 
-public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends
-{
+public class LibraryElementsToolHandleExtends extends AbstractToolHandleExtends {
 
 	private DesignElementHandle elementHandle;
 
 	/**
 	 * Constructor. Creates a new extends for the given element.
 	 * 
-	 * @param elementHandle
-	 *            the handle of the element
+	 * @param elementHandle the handle of the element
 	 */
-	public LibraryElementsToolHandleExtends( DesignElementHandle elementHandle )
-	{
-		super( );
-		Assert.isLegal( elementHandle.getRoot( ) instanceof LibraryHandle );
+	public LibraryElementsToolHandleExtends(DesignElementHandle elementHandle) {
+		super();
+		Assert.isLegal(elementHandle.getRoot() instanceof LibraryHandle);
 		this.elementHandle = elementHandle;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * AbstractToolHandleExtends#preHandleMouseUp()
 	 */
-	public boolean preHandleMouseUp( )
-	{
-		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance( )
-				.getReportDesignHandle( );
-		LibraryHandle library = (LibraryHandle) elementHandle.getRoot( );
-		try
-		{
-			if ( UIUtil.includeLibrary( moduleHandle, library ) )
-			{
-				if ( elementHandle instanceof ThemeHandle )
-				{
-					ThemeHandle model = UIUtil.applyTheme( (ThemeHandle) elementHandle,
-							moduleHandle,
-							library );
-					if ( model != null )
-					{
-						setModel( elementHandle );
+	public boolean preHandleMouseUp() {
+		ModuleHandle moduleHandle = SessionHandleAdapter.getInstance().getReportDesignHandle();
+		LibraryHandle library = (LibraryHandle) elementHandle.getRoot();
+		try {
+			if (UIUtil.includeLibrary(moduleHandle, library)) {
+				if (elementHandle instanceof ThemeHandle) {
+					ThemeHandle model = UIUtil.applyTheme((ThemeHandle) elementHandle, moduleHandle, library);
+					if (model != null) {
+						setModel(elementHandle);
 					}
-				}
-				else
-				{
-					DesignElementHandle newHandle = moduleHandle.getElementFactory( )
-							.newElementFrom( elementHandle,
-									elementHandle.getName( ) );
-					setModel( newHandle );
+				} else {
+					DesignElementHandle newHandle = moduleHandle.getElementFactory().newElementFrom(elementHandle,
+							elementHandle.getName());
+					setModel(newHandle);
 				}
 			}
-		}
-		catch ( Exception e )
-		{
-			if ( e instanceof InvalidParentException
-					|| e instanceof WrongTypeException )
-			{
-				GUIException exception = GUIException.createGUIException( ReportPlugin.REPORT_UI,
-						e,
-						"Library.DND.messages.outofsync" );//$NON-NLS-1$
-				ExceptionHandler.handle( exception );
-			}
-			else
-			{
-				ExceptionHandler.handle( e );
+		} catch (Exception e) {
+			if (e instanceof InvalidParentException || e instanceof WrongTypeException) {
+				GUIException exception = GUIException.createGUIException(ReportPlugin.REPORT_UI, e,
+						"Library.DND.messages.outofsync");//$NON-NLS-1$
+				ExceptionHandler.handle(exception);
+			} else {
+				ExceptionHandler.handle(e);
 			}
 
 		}
-		getRequest( ).getExtendedData( )
-				.put( DesignerConstants.NEWOBJECT_FROM_LIBRARY, Boolean.TRUE );
-		return super.preHandleMouseUp( );
+		getRequest().getExtendedData().put(DesignerConstants.NEWOBJECT_FROM_LIBRARY, Boolean.TRUE);
+		return super.preHandleMouseUp();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
+	 * @see org.eclipse.birt.report.designer.internal.ui.editors.schematic.tools.
 	 * AbstractToolHandleExtends#preHandleMouseDown()
 	 */
-	public boolean preHandleMouseDown( )
-	{
+	public boolean preHandleMouseDown() {
 		return false;
 	}
-	
+
 	@Override
-	public boolean postHandleCreation( )
-	{
+	public boolean postHandleCreation() {
 		Object model = getModel();
 		boolean isMove = false;
-		if ( needProcessDataItem( model ) )
-		{
-			String prompt = ReportPlugin.getDefault( )
-					.getPreferenceStore( )
-					.getString( ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE );
+		if (needProcessDataItem(model)) {
+			String prompt = ReportPlugin.getDefault().getPreferenceStore()
+					.getString(ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE);
 
 			MessageDialogWithToggle dialog;
 
-			if ( MessageDialogWithToggle.ALWAYS.equals( prompt ) )
-			{
-				moveBindToHost( (DataItemHandle) model );
+			if (MessageDialogWithToggle.ALWAYS.equals(prompt)) {
+				moveBindToHost((DataItemHandle) model);
 				isMove = true;
-			}
-			else if ( ( prompt == null || MessageDialogWithToggle.PROMPT.equals( prompt ) )
-					&& ( ( dialog = MessageDialogWithToggle.openYesNoQuestion( UIUtil.getDefaultShell( ),
-							Messages.getString( "LibraryElementsToolHandleExtends_question" ), //$NON-NLS-1$
-							Messages.getString( "LibraryElementsToolHandleExtends_message" ), //$NON-NLS-1$
-							Messages.getString( "LibraryElementsToolHandleExtends_toggle" ), //$NON-NLS-1$
-							false,
-							ReportPlugin.getDefault( ).getPreferenceStore( ),
-							ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE ) ) != null ) )
-			{
-				if ( dialog.getReturnCode( ) == IDialogConstants.YES_ID )
-				{
-					moveBindToHost( (DataItemHandle) model );
+			} else if ((prompt == null || MessageDialogWithToggle.PROMPT.equals(prompt))
+					&& ((dialog = MessageDialogWithToggle.openYesNoQuestion(UIUtil.getDefaultShell(),
+							Messages.getString("LibraryElementsToolHandleExtends_question"), //$NON-NLS-1$
+							Messages.getString("LibraryElementsToolHandleExtends_message"), //$NON-NLS-1$
+							Messages.getString("LibraryElementsToolHandleExtends_toggle"), //$NON-NLS-1$
+							false, ReportPlugin.getDefault().getPreferenceStore(),
+							ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE)) != null)) {
+				if (dialog.getReturnCode() == IDialogConstants.YES_ID) {
+					moveBindToHost((DataItemHandle) model);
 					isMove = true;
 				}
 
-				if ( dialog.getToggleState( ) )
-				{
-					if ( dialog.getReturnCode( ) == IDialogConstants.YES_ID )
-					{
-						ReportPlugin.getDefault( )
-								.getPreferenceStore( )
-								.setValue( ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE,
-										MessageDialogWithToggle.ALWAYS );
-					}
-					else if ( dialog.getReturnCode( ) == IDialogConstants.NO_ID )
-					{
-						ReportPlugin.getDefault( )
-								.getPreferenceStore( )
-								.setValue( ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE,
-										MessageDialogWithToggle.NEVER );
+				if (dialog.getToggleState()) {
+					if (dialog.getReturnCode() == IDialogConstants.YES_ID) {
+						ReportPlugin.getDefault().getPreferenceStore().setValue(
+								ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE, MessageDialogWithToggle.ALWAYS);
+					} else if (dialog.getReturnCode() == IDialogConstants.NO_ID) {
+						ReportPlugin.getDefault().getPreferenceStore()
+								.setValue(ReportPlugin.LIBRARY_MOVE_BINDINGS_PREFERENCE, MessageDialogWithToggle.NEVER);
 					}
 				}
 			}
 		}
-		if (!isMove && model instanceof DataItemHandle)
-		{
-			DataItemHandle dataHandle = (DataItemHandle)model;
-			Iterator iter = dataHandle.columnBindingsIterator( );
-			String resultColumnName = dataHandle.getResultSetColumn( );
+		if (!isMove && model instanceof DataItemHandle) {
+			DataItemHandle dataHandle = (DataItemHandle) model;
+			Iterator iter = dataHandle.columnBindingsIterator();
+			String resultColumnName = dataHandle.getResultSetColumn();
 			ComputedColumnHandle activeBinding = null;
-			while(iter.hasNext( ))
-			{
-				ComputedColumnHandle computedColumnHandle = (ComputedColumnHandle)iter.next( );
-				if (computedColumnHandle.getName( ).equals( resultColumnName ))
-				{
-					Expression newExpression = (Expression) computedColumnHandle.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER ).getValue( );
-					if (newExpression == null || newExpression.getExpression( ) == null)
-					{
+			while (iter.hasNext()) {
+				ComputedColumnHandle computedColumnHandle = (ComputedColumnHandle) iter.next();
+				if (computedColumnHandle.getName().equals(resultColumnName)) {
+					Expression newExpression = (Expression) computedColumnHandle
+							.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER).getValue();
+					if (newExpression == null || newExpression.getExpression() == null) {
 						activeBinding = computedColumnHandle;
-					}
-					else if  (newExpression.getExpression( ) instanceof String && ((String)newExpression.getExpression( )).length( ) == 0)
-					{
-						activeBinding = computedColumnHandle;	
+					} else if (newExpression.getExpression() instanceof String
+							&& ((String) newExpression.getExpression()).length() == 0) {
+						activeBinding = computedColumnHandle;
 					}
 					break;
 				}
 			}
-			if (activeBinding != null)
-			{
-				DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
-				dialog.setNeedPrompt( false );
-				dialog.setInput( dataHandle, activeBinding );
+			if (activeBinding != null) {
+				DataColumnBindingDialog dialog = new DataColumnBindingDialog(false);
+				dialog.setNeedPrompt(false);
+				dialog.setInput(dataHandle, activeBinding);
 
-				if ( dialog.open( ) == Dialog.OK )
-				{
-					//do nothing now
+				if (dialog.open() == Dialog.OK) {
+					// do nothing now
 				}
 			}
 		}
-		return super.postHandleCreation( );
+		return super.postHandleCreation();
 	}
-	
-	private boolean needProcessDataItem(Object handle)
-	{
-		if (handle instanceof DataItemHandle)
-		{
-			DataItemHandle dataHandle = (DataItemHandle)handle;
-			if (dataHandle.getExtends( ) != null && dataHandle.getExtends( ).getContainer( ) instanceof LibraryHandle )
-			{
-				if (dataHandle.getDataSet( ) != null)
-				{
+
+	private boolean needProcessDataItem(Object handle) {
+		if (handle instanceof DataItemHandle) {
+			DataItemHandle dataHandle = (DataItemHandle) handle;
+			if (dataHandle.getExtends() != null && dataHandle.getExtends().getContainer() instanceof LibraryHandle) {
+				if (dataHandle.getDataSet() != null) {
 					return false;
 				}
-				if (DEUtil.getBindingHolder( dataHandle,true ) == null || DEUtil.getBindingHolder( dataHandle,true ) == dataHandle)
-				{
+				if (DEUtil.getBindingHolder(dataHandle, true) == null
+						|| DEUtil.getBindingHolder(dataHandle, true) == dataHandle) {
 					return false;
 				}
-				Iterator iter = dataHandle.columnBindingsIterator( );
-				if (!iter.hasNext( ))
-				{
+				Iterator iter = dataHandle.columnBindingsIterator();
+				if (!iter.hasNext()) {
 					return false;
 				}
 				return true;
 			}
-				
+
 		}
 		return false;
 	}
-	
-	private void moveBindToHost(DataItemHandle dataHandle)
-	{
-		ReportItemHandle hostHnadle = DEUtil.getBindingHolder( dataHandle, true );
-		Iterator iter = dataHandle.columnBindingsIterator( );
-		String resultColumnName = dataHandle.getResultSetColumn( );
+
+	private void moveBindToHost(DataItemHandle dataHandle) {
+		ReportItemHandle hostHnadle = DEUtil.getBindingHolder(dataHandle, true);
+		Iterator iter = dataHandle.columnBindingsIterator();
+		String resultColumnName = dataHandle.getResultSetColumn();
 		List<String> list = new ArrayList<String>();
 		ComputedColumnHandle activeBinding = null;
-		while(iter.hasNext( ))
-		{
-			ComputedColumnHandle computedColumnHandle = (ComputedColumnHandle)iter.next( );
-			String name = computedColumnHandle.getName( );
+		while (iter.hasNext()) {
+			ComputedColumnHandle computedColumnHandle = (ComputedColumnHandle) iter.next();
+			String name = computedColumnHandle.getName();
 			boolean isDataBinding = false;
-			if (name.equals( resultColumnName ))
-			{
+			if (name.equals(resultColumnName)) {
 				isDataBinding = true;
 			}
-			
-			ComputedColumn bindingColumn = (ComputedColumn)computedColumnHandle.getStructure( ).copy( );
-			
-			try
-			{
-				ComputedColumnHandle newComputedColumnHandle = ColumnBindingUtil.addColumnBinding( hostHnadle, bindingColumn );
-				if (isDataBinding && !newComputedColumnHandle.getName( ).equals( name ))
-				{
-					dataHandle.setResultSetColumn( newComputedColumnHandle.getName( ) );
+
+			ComputedColumn bindingColumn = (ComputedColumn) computedColumnHandle.getStructure().copy();
+
+			try {
+				ComputedColumnHandle newComputedColumnHandle = ColumnBindingUtil.addColumnBinding(hostHnadle,
+						bindingColumn);
+				if (isDataBinding && !newComputedColumnHandle.getName().equals(name)) {
+					dataHandle.setResultSetColumn(newComputedColumnHandle.getName());
 				}
-				if (isDataBinding)
-				{
-					Expression newExpression = (Expression) newComputedColumnHandle.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER ).getValue( );
-					if (newExpression == null || newExpression.getExpression( ) == null)
-					{
+				if (isDataBinding) {
+					Expression newExpression = (Expression) newComputedColumnHandle
+							.getExpressionProperty(ComputedColumn.EXPRESSION_MEMBER).getValue();
+					if (newExpression == null || newExpression.getExpression() == null) {
+						activeBinding = newComputedColumnHandle;
+					} else if (newExpression.getExpression() instanceof String
+							&& ((String) newExpression.getExpression()).length() == 0) {
 						activeBinding = newComputedColumnHandle;
 					}
-					else if  (newExpression.getExpression( ) instanceof String && ((String)newExpression.getExpression( )).length( ) == 0)
-					{
-						activeBinding = newComputedColumnHandle;	
-					}
 				}
+			} catch (SemanticException e) {
+				// do nothing nowDataColumnBindingDialog
 			}
-			catch ( SemanticException e )
-			{
-				//do nothing nowDataColumnBindingDialog
-			}
-			list.add( computedColumnHandle.getName( ) );
+			list.add(computedColumnHandle.getName());
 		}
-		
-		try
-		{
-			dataHandle.removedColumnBindings( list );
-			dataHandle.setProperty( IReportItemModel.BOUND_DATA_COLUMNS_PROP, new ArrayList( ) );
-		}
-		catch ( SemanticException e )
-		{
-			//do nothing now
-		}
-		if (activeBinding != null)
-		{
-			DataColumnBindingDialog dialog = new DataColumnBindingDialog( false );
-			dialog.setNeedPrompt( false );
-			dialog.setInput( hostHnadle, activeBinding );
 
-			if ( dialog.open( ) == Dialog.OK )
-			{
-				//do nothing now
+		try {
+			dataHandle.removedColumnBindings(list);
+			dataHandle.setProperty(IReportItemModel.BOUND_DATA_COLUMNS_PROP, new ArrayList());
+		} catch (SemanticException e) {
+			// do nothing now
+		}
+		if (activeBinding != null) {
+			DataColumnBindingDialog dialog = new DataColumnBindingDialog(false);
+			dialog.setNeedPrompt(false);
+			dialog.setInput(hostHnadle, activeBinding);
+
+			if (dialog.open() == Dialog.OK) {
+				// do nothing now
 			}
 		}
 	}

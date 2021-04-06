@@ -19,8 +19,7 @@ import org.eclipse.ui.IWorkbenchPart;
  * etc.
  */
 
-public class GeneralInsertMenuAction extends BaseInsertMenuAction
-{
+public class GeneralInsertMenuAction extends BaseInsertMenuAction {
 
 	/**
 	 * ID for insert Text action.
@@ -30,7 +29,7 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	/**
 	 * Display text for insert Text action.
 	 */
-	public static final String INSERT_TEXT_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.Text" ); //$NON-NLS-1$
+	public static final String INSERT_TEXT_DISPLAY_TEXT = Messages.getString("GeneralInsertMenuAction.text.Text"); //$NON-NLS-1$
 
 	/**
 	 * ID for insert Label action.
@@ -40,7 +39,7 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	/**
 	 * Display text for insert Label action.
 	 */
-	public static final String INSERT_LABEL_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.Label" ); //$NON-NLS-1$
+	public static final String INSERT_LABEL_DISPLAY_TEXT = Messages.getString("GeneralInsertMenuAction.text.Label"); //$NON-NLS-1$
 
 	/**
 	 * ID for insert Data action.
@@ -50,7 +49,7 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	/**
 	 * Display text for insert Data action.
 	 */
-	public static final String INSERT_DATA_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.Data" ); //$NON-NLS-1$
+	public static final String INSERT_DATA_DISPLAY_TEXT = Messages.getString("GeneralInsertMenuAction.text.Data"); //$NON-NLS-1$
 
 	/**
 	 * ID for insert Image action.
@@ -60,7 +59,7 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	/**
 	 * Display text for insert Image action.
 	 */
-	public static final String INSERT_IMAGE_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.Image" ); //$NON-NLS-1$
+	public static final String INSERT_IMAGE_DISPLAY_TEXT = Messages.getString("GeneralInsertMenuAction.text.Image"); //$NON-NLS-1$
 
 	/**
 	 * ID for insert Grid action.
@@ -70,7 +69,7 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	/**
 	 * Display text for insert Grid action.
 	 */
-	public static final String INSERT_GRID_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.Grid" ); //$NON-NLS-1$
+	public static final String INSERT_GRID_DISPLAY_TEXT = Messages.getString("GeneralInsertMenuAction.text.Grid"); //$NON-NLS-1$
 
 	/**
 	 * ID for insert List action.
@@ -80,7 +79,7 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	/**
 	 * Display text for insert List action.
 	 */
-	public static final String INSERT_LIST_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.List" ); //$NON-NLS-1$
+	public static final String INSERT_LIST_DISPLAY_TEXT = Messages.getString("GeneralInsertMenuAction.text.List"); //$NON-NLS-1$
 
 	/**
 	 * ID for insert Table action.
@@ -90,7 +89,7 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	/**
 	 * Display text for insert Table action.
 	 */
-	public static final String INSERT_TABLE_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.Table" ); //$NON-NLS-1$
+	public static final String INSERT_TABLE_DISPLAY_TEXT = Messages.getString("GeneralInsertMenuAction.text.Table"); //$NON-NLS-1$
 
 	/**
 	 * ID for insert Table action.
@@ -100,24 +99,20 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	/**
 	 * Display text for insert Table action.
 	 */
-	public static final String INSERT_DYNAMIC_TEXT_DISPLAY_TEXT = Messages.getString( "GeneralInsertMenuAction.text.DynamicText" ); //$NON-NLS-1$
+	public static final String INSERT_DYNAMIC_TEXT_DISPLAY_TEXT = Messages
+			.getString("GeneralInsertMenuAction.text.DynamicText"); //$NON-NLS-1$
 
-	
 	/**
 	 * The constructor.
 	 * 
-	 * @param part
-	 *            parent workbench part
-	 * @param ID
-	 *            action ID
-	 * @param type
-	 *            insert type
+	 * @param part parent workbench part
+	 * @param ID   action ID
+	 * @param type insert type
 	 */
-	public GeneralInsertMenuAction( IWorkbenchPart part, String ID, String type )
-	{
-		super( part, type );
+	public GeneralInsertMenuAction(IWorkbenchPart part, String ID, String type) {
+		super(part, type);
 
-		setId( ID );
+		setId(ID);
 	}
 
 	/**
@@ -128,12 +123,10 @@ public class GeneralInsertMenuAction extends BaseInsertMenuAction
 	 * @param type
 	 * @param label
 	 */
-	public GeneralInsertMenuAction( IWorkbenchPart part, String ID,
-			String type, String label )
-	{
-		this( part, ID, type );
+	public GeneralInsertMenuAction(IWorkbenchPart part, String ID, String type, String label) {
+		this(part, ID, type);
 
-		setText( label );
+		setText(label);
 	}
 
 }

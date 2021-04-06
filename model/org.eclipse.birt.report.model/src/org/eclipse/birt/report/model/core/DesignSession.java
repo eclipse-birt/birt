@@ -28,18 +28,15 @@ import com.ibm.icu.util.ULocale;
  * @see org.eclipse.birt.report.model.api.SessionHandle
  */
 
-public class DesignSession extends DesignSessionImpl
-{
+public class DesignSession extends DesignSessionImpl {
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param theLocale
-	 *            the user's locale. If null, use the system locale.
+	 * @param theLocale the user's locale. If null, use the system locale.
 	 */
 
-	public DesignSession( ULocale theLocale )
-	{
-		super( theLocale );
+	public DesignSession(ULocale theLocale) {
+		super(theLocale);
 	}
 }

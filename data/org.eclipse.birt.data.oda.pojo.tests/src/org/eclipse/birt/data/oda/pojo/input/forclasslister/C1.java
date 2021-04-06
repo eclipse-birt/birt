@@ -15,7 +15,6 @@ package org.eclipse.birt.data.oda.pojo.input.forclasslister;
  * 
  */
 
-public class C1
-{
+public class C1 {
 
 }

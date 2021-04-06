@@ -21,8 +21,7 @@ import org.eclipse.birt.report.model.core.Module;
  * 
  */
 
-public abstract class TextualPropertyType extends PropertyType
-{
+public abstract class TextualPropertyType extends PropertyType {
 
 	/**
 	 * The no trim value.
@@ -40,21 +39,19 @@ public abstract class TextualPropertyType extends PropertyType
 	static final int TRIM_SPACE_VALUE = 2;
 
 	/**
-	 * The value of the operation which will normalizes the empty string to an
-	 * null string.
+	 * The value of the operation which will normalizes the empty string to an null
+	 * string.
 	 */
 	static final int TRIM_EMPTY_TO_NULL_VALUE = 4;
 
 	/**
 	 * Constructor
 	 * 
-	 * @param displayNameID
-	 *            display name id of the property type.
+	 * @param displayNameID display name id of the property type.
 	 */
 
-	TextualPropertyType( String displayNameID )
-	{
-		super( displayNameID );
+	TextualPropertyType(String displayNameID) {
+		super(displayNameID);
 	}
 
 	/**
@@ -63,33 +60,26 @@ public abstract class TextualPropertyType extends PropertyType
 	 * @return the value as a string
 	 */
 
-	public Object validateValue( Module module, DesignElement element,
-			PropertyDefn defn, Object value ) throws PropertyValueException
-	{
-		if ( value == null )
+	public Object validateValue(Module module, DesignElement element, PropertyDefn defn, Object value)
+			throws PropertyValueException {
+		if (value == null)
 			return null;
-		if ( value instanceof String )
-		{
-			return trimString( (String) value, defn.getTrimOption( ) );
+		if (value instanceof String) {
+			return trimString((String) value, defn.getTrimOption());
 		}
-		throw new PropertyValueException( value,
-				PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE,
-				getTypeCode( ) );
+		throw new PropertyValueException(value, PropertyValueException.DESIGN_EXCEPTION_INVALID_VALUE, getTypeCode());
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
+	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#toString(java
 	 * .lang.Object)
 	 */
 
-	public String toString( Module module, PropertyDefn defn, Object value )
-	{
-		if ( value instanceof Expression )
-		{
-			return ( (Expression) value ).toString( );
+	public String toString(Module module, PropertyDefn defn, Object value) {
+		if (value instanceof Expression) {
+			return ((Expression) value).toString();
 		}
 		return (String) value;
 	}
@@ -97,22 +87,18 @@ public abstract class TextualPropertyType extends PropertyType
 	/**
 	 * Trims a string according to the trim option.
 	 * 
-	 * @param value
-	 *            the input value.
-	 * @param trimOption
-	 *            the trim option.
+	 * @param value      the input value.
+	 * @param trimOption the trim option.
 	 * @return the output value.
 	 */
-	protected String trimString( String value, int trimOption )
-	{
-		if ( value == null )
+	protected String trimString(String value, int trimOption) {
+		if (value == null)
 			return null;
 
-		if ( ( trimOption & TRIM_SPACE_VALUE ) != 0 )
-			value = value.trim( );
-		if ( ( trimOption & TRIM_EMPTY_TO_NULL_VALUE ) != 0 )
-		{
-			if ( value.length( ) == 0 )
+		if ((trimOption & TRIM_SPACE_VALUE) != 0)
+			value = value.trim();
+		if ((trimOption & TRIM_EMPTY_TO_NULL_VALUE) != 0) {
+			if (value.length() == 0)
 				value = null;
 		}
 		return value;

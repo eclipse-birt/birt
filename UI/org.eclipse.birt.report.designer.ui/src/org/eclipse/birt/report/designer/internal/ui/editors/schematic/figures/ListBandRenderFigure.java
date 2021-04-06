@@ -27,65 +27,59 @@ import org.eclipse.swt.SWT;
 
 /**
  * Presents list band figure for list band render
- *  
+ * 
  */
-public class ListBandRenderFigure extends Figure
-{
+public class ListBandRenderFigure extends Figure {
 
-	private static final Insets margin = new Insets( 5, 5, 4, 4 );
+	private static final Insets margin = new Insets(5, 5, 4, 4);
 
 	public static final int HEIGHT = 23;
 
-	public ListBandRenderFigure( )
-	{
-		setLayoutManager( new ReportFlowLayout( ) {
+	public ListBandRenderFigure() {
+		setLayoutManager(new ReportFlowLayout() {
 
 			/*
 			 * (non-Javadoc)
 			 * 
-			 * @see org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout#getChildSize(org.eclipse.draw2d.IFigure,
-			 *      int, int)
+			 * @see org.eclipse.birt.report.designer.internal.ui.layout.ReportFlowLayout#
+			 * getChildSize(org.eclipse.draw2d.IFigure, int, int)
 			 */
-			protected Dimension getChildSize( IFigure child, int wHint,
-					int hHint )
-			{
-				if ( child instanceof TableFigure )
-				{
-					IFigure grandFigure = getParent( ).getParent( );
+			protected Dimension getChildSize(IFigure child, int wHint, int hHint) {
+				if (child instanceof TableFigure) {
+					IFigure grandFigure = getParent().getParent();
 
-					if ( grandFigure instanceof ListFigure &&
-							( (ListFigure) grandFigure ).isDirty( ) )
-					{
-						int oldWidth = getBounds( ).width;
-						int oldHeight = getBounds( ).height;
-						int width = wHint + getInsets( ).getWidth( );
-						int height = hHint + getInsets( ).getHeight( );
+					if (grandFigure instanceof ListFigure && ((ListFigure) grandFigure).isDirty()) {
+						int oldWidth = getBounds().width;
+						int oldHeight = getBounds().height;
+						int width = wHint + getInsets().getWidth();
+						int height = hHint + getInsets().getHeight();
 
-						if ( width != oldWidth || height != oldHeight )
-						{
-							//if ( child instanceof TableFigure )
+						if (width != oldWidth || height != oldHeight) {
+							// if ( child instanceof TableFigure )
 							{
-								IFigure tablePane = ( (LayeredPane) ( (LayeredPane) ( (TableFigure) child ).getContents( ) ).getLayer( LayerConstants.PRINTABLE_LAYERS ) ).getLayer( LayerConstants.PRIMARY_LAYER );
-								LayoutManager layoutManager = tablePane.getLayoutManager( );
+								IFigure tablePane = ((LayeredPane) ((LayeredPane) ((TableFigure) child).getContents())
+										.getLayer(LayerConstants.PRINTABLE_LAYERS))
+												.getLayer(LayerConstants.PRIMARY_LAYER);
+								LayoutManager layoutManager = tablePane.getLayoutManager();
 
-								if ( layoutManager instanceof TableLayout && !(getParent().getParent().getParent() instanceof ListBandRenderFigure))
-								{
-									( (ListFigure) grandFigure ).markDirty( false );
-									( (TableLayout) layoutManager ).markDirty( );
-									getBounds( ).width = width;
-									getBounds( ).height = height;
-									tablePane.validate( );
-									getBounds( ).width = oldWidth;
-									getBounds( ).height = oldHeight;
+								if (layoutManager instanceof TableLayout
+										&& !(getParent().getParent().getParent() instanceof ListBandRenderFigure)) {
+									((ListFigure) grandFigure).markDirty(false);
+									((TableLayout) layoutManager).markDirty();
+									getBounds().width = width;
+									getBounds().height = height;
+									tablePane.validate();
+									getBounds().width = oldWidth;
+									getBounds().height = oldHeight;
 								}
 							}
 						}
 					}
 				}
-				return super.getChildSize( child, wHint, hHint );
+				return super.getChildSize(child, wHint, hHint);
 			}
-		} );
-		setBorder( new MarginBorder( margin ) );
+		});
+		setBorder(new MarginBorder(margin));
 	}
 
 	/*
@@ -93,11 +87,10 @@ public class ListBandRenderFigure extends Figure
 	 * 
 	 * @see org.eclipse.draw2d.Figure#paintFigure(org.eclipse.draw2d.Graphics)
 	 */
-	protected void paintFigure( Graphics graphics )
-	{
-		graphics.setForegroundColor( ReportColorConstants.ShadowLineColor );
-		graphics.setLineStyle( SWT.LINE_SOLID );
-		graphics.drawRectangle( getBounds( ).getCopy( ).shrink( 2, 2 ) );
+	protected void paintFigure(Graphics graphics) {
+		graphics.setForegroundColor(ReportColorConstants.ShadowLineColor);
+		graphics.setLineStyle(SWT.LINE_SOLID);
+		graphics.drawRectangle(getBounds().getCopy().shrink(2, 2));
 	}
 
 	/*
@@ -105,18 +98,15 @@ public class ListBandRenderFigure extends Figure
 	 * 
 	 * @see org.eclipse.draw2d.Figure#getPreferredSize(int, int)
 	 */
-	public Dimension getPreferredSize( int wHint, int hHint )
-	{
-		invalidateTree( );
+	public Dimension getPreferredSize(int wHint, int hHint) {
+		invalidateTree();
 
-		Dimension dim = super.getPreferredSize( wHint, hHint );
+		Dimension dim = super.getPreferredSize(wHint, hHint);
 
-		if ( dim.height < HEIGHT )
-		{
+		if (dim.height < HEIGHT) {
 			dim.height = HEIGHT;
 		}
-		if ( wHint > 0 && dim.width < wHint)
-		{
+		if (wHint > 0 && dim.width < wHint) {
 			dim.width = wHint;
 		}
 		return dim;
@@ -127,11 +117,9 @@ public class ListBandRenderFigure extends Figure
 	 * 
 	 * @see org.eclipse.draw2d.Figure#getMinimumSize(int, int)
 	 */
-	public Dimension getMinimumSize( int wHint, int hHint )
-	{
-		Dimension retValue = super.getMinimumSize( wHint, hHint );
-		if ( retValue.height < HEIGHT )
-		{
+	public Dimension getMinimumSize(int wHint, int hHint) {
+		Dimension retValue = super.getMinimumSize(wHint, hHint);
+		if (retValue.height < HEIGHT) {
 			retValue.height = HEIGHT;
 		}
 		return retValue;

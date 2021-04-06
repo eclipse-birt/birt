@@ -19,17 +19,13 @@ import org.eclipse.birt.report.model.elements.interfaces.IMeasureGroupModel;
 /**
  * Represents a group for list of Measure elements.
  */
-public abstract class MeasureGroup extends ReferenceableElement
-		implements
-			IMeasureGroupModel
-{
+public abstract class MeasureGroup extends ReferenceableElement implements IMeasureGroupModel {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public MeasureGroup( )
-	{
+	public MeasureGroup() {
 	}
 
 	/**
@@ -37,19 +33,18 @@ public abstract class MeasureGroup extends ReferenceableElement
 	 * 
 	 * @param name
 	 */
-	public MeasureGroup( String name )
-	{
-		super( name );
+	public MeasureGroup(String name) {
+		super(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitMeasureGroup( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitMeasureGroup(this);
 	}
 
 	/*
@@ -57,8 +52,7 @@ public abstract class MeasureGroup extends ReferenceableElement
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.MEASURE_GROUP_ELEMENT;
 	}
 }

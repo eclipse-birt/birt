@@ -6,34 +6,24 @@ import org.eclipse.birt.report.engine.content.IContentVisitor;
 import org.eclipse.birt.report.engine.content.IReportContent;
 import org.eclipse.birt.report.engine.content.ITableGroupContent;
 
-
-public class TableGroupContent extends GroupContent
-		implements
-			ITableGroupContent
-{
-	TableGroupContent(ITableGroupContent group)
-	{
+public class TableGroupContent extends GroupContent implements ITableGroupContent {
+	TableGroupContent(ITableGroupContent group) {
 		super(group);
 	}
-	
-	TableGroupContent(IReportContent report)
-	{
+
+	TableGroupContent(IReportContent report) {
 		super(report);
 	}
-	
-	public int getContentType( )
-	{
+
+	public int getContentType() {
 		return TABLE_GROUP_CONTENT;
 	}
-	
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
+
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
 		return visitor.visitTableGroup(this, value);
 	}
-	
-	protected IContent cloneContent()
-	{
+
+	protected IContent cloneContent() {
 		return new TableGroupContent(this);
 	}
 }

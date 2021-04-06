@@ -14,20 +14,18 @@ import junit.framework.TestCase;
 import org.eclipse.birt.chart.model.attribute.RiserType;
 
 public class RiserTypeTest extends TestCase {
-	
-	public void testConstant() 
-	{		
-		assertEquals( RiserType.RECTANGLE, RiserType.RECTANGLE_LITERAL.getValue() );
-		assertEquals( RiserType.TRIANGLE, RiserType.TRIANGLE_LITERAL.getValue() );		
+
+	public void testConstant() {
+		assertEquals(RiserType.RECTANGLE, RiserType.RECTANGLE_LITERAL.getValue());
+		assertEquals(RiserType.TRIANGLE, RiserType.TRIANGLE_LITERAL.getValue());
 	}
-	
-	public void testGet() 
-	{
-		assertEquals( RiserType.RECTANGLE_LITERAL, RiserType.get(RiserType.RECTANGLE) );
-		
-		assertEquals( RiserType.RECTANGLE_LITERAL, RiserType.get("Rectangle") ); //$NON-NLS-1$
-		assertEquals( RiserType.TRIANGLE_LITERAL, RiserType.get("Triangle") ); //$NON-NLS-1$
-		
-		assertNull( RiserType.get("No Match") ); //$NON-NLS-1$
+
+	public void testGet() {
+		assertEquals(RiserType.RECTANGLE_LITERAL, RiserType.get(RiserType.RECTANGLE));
+
+		assertEquals(RiserType.RECTANGLE_LITERAL, RiserType.get("Rectangle")); //$NON-NLS-1$
+		assertEquals(RiserType.TRIANGLE_LITERAL, RiserType.get("Triangle")); //$NON-NLS-1$
+
+		assertNull(RiserType.get("No Match")); //$NON-NLS-1$
 	}
 }

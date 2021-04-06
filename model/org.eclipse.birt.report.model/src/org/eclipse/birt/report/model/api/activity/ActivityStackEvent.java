@@ -19,8 +19,7 @@ import org.eclipse.birt.report.model.activity.ActivityStack;
  * 
  */
 
-public class ActivityStackEvent
-{
+public class ActivityStackEvent {
 
 	/**
 	 * One record is executed or one transaction is committed.
@@ -61,16 +60,12 @@ public class ActivityStackEvent
 	/**
 	 * Constructs with the stack that changes and the action causing this event.
 	 * 
-	 * @param theStack
-	 *            the stack that changes
-	 * @param theAction
-	 *            the action causing this event
+	 * @param theStack  the stack that changes
+	 * @param theAction the action causing this event
 	 */
 
-	public ActivityStackEvent( ActivityStack theStack, int theAction )
-	{
-		assert theAction == DONE || theAction == REDONE || theAction == UNDONE
-				|| theAction == ROLL_BACK;
+	public ActivityStackEvent(ActivityStack theStack, int theAction) {
+		assert theAction == DONE || theAction == REDONE || theAction == UNDONE || theAction == ROLL_BACK;
 
 		stack = theStack;
 		action = theAction;
@@ -88,8 +83,7 @@ public class ActivityStackEvent
 	 * @return the action which causes this event.
 	 */
 
-	public int getAction( )
-	{
+	public int getAction() {
 		return action;
 	}
 
@@ -99,8 +93,7 @@ public class ActivityStackEvent
 	 * @return the stack that changes
 	 */
 
-	public ActivityStack getStack( )
-	{
+	public ActivityStack getStack() {
 		return stack;
 	}
 }

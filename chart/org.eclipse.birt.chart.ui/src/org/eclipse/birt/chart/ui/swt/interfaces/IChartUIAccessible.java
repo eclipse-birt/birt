@@ -17,22 +17,19 @@ import org.eclipse.swt.widgets.Label;
  * This interface defines the methods to add accessibility to chart components.
  */
 
-public interface IChartUIAccessible
-{
+public interface IChartUIAccessible {
 
 	/**
 	 * add accessibility with the given Label's text.
 	 * 
-	 * @param label
-	 *            Label Object.
+	 * @param label Label Object.
 	 */
-	void bindAssociatedLabel( Label label );
+	void bindAssociatedLabel(Label label);
 
 	/**
 	 * add accessibility with the given name.
 	 * 
-	 * @param name
-	 *            String Object.
+	 * @param name String Object.
 	 */
-	void bindAssociatedName( String name );
+	void bindAssociatedName(String name);
 }

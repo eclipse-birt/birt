@@ -23,44 +23,38 @@ import org.eclipse.gef.Request;
  * 
  */
 
-public class EditHandler extends SelectionHandler
-{
+public class EditHandler extends SelectionHandler {
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
+	public Object execute(ExecutionEvent event) throws ExecutionException {
 
-		super.execute( event );
+		super.execute(event);
 
-		Object obj = getFirstSelectVariable( );
-		if ( ( obj == null ) || ( !( obj instanceof DesignElementHandle ) ) )
-		{
+		Object obj = getFirstSelectVariable();
+		if ((obj == null) || (!(obj instanceof DesignElementHandle))) {
 			return Boolean.FALSE;
 		}
 
 		DesignElementHandle elmentHandle = (DesignElementHandle) obj;
 
-		if ( elmentHandle == null )
-		{
+		if (elmentHandle == null) {
 			return Boolean.FALSE;
 		}
 
-		INodeProvider provider = ProviderFactory.createProvider( elmentHandle );
+		INodeProvider provider = ProviderFactory.createProvider(elmentHandle);
 		boolean retBoolean;
-		try
-		{
-			retBoolean = provider.performRequest( elmentHandle,
-					new Request( IRequestConstants.REQUEST_TYPE_EDIT ) );
-		}
-		catch ( Exception e )
-		{
+		try {
+			retBoolean = provider.performRequest(elmentHandle, new Request(IRequestConstants.REQUEST_TYPE_EDIT));
+		} catch (Exception e) {
 			retBoolean = false;
 		}
 
-		return Boolean.valueOf( retBoolean );
+		return Boolean.valueOf(retBoolean);
 	}
 }

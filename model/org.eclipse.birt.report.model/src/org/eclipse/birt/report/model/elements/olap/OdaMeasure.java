@@ -25,38 +25,34 @@ import org.eclipse.birt.report.model.elements.ElementVisitor;
  * 
  */
 
-public class OdaMeasure extends Measure
-{
+public class OdaMeasure extends Measure {
 
 	/**
 	 * Default constructor.
 	 */
 
-	public OdaMeasure( )
-	{
+	public OdaMeasure() {
 
 	}
 
 	/**
 	 * Constructs the measure element with a given name.
 	 * 
-	 * @param name
-	 *            the optional name of the measure element
+	 * @param name the optional name of the measure element
 	 */
 
-	public OdaMeasure( String name )
-	{
-		super( name );
+	public OdaMeasure(String name) {
+		super(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.report.model.elements.ElementVisitor)
+	 * @see org.eclipse.birt.report.model.core.DesignElement#apply(org.eclipse.birt.
+	 * report.model.elements.ElementVisitor)
 	 */
-	public void apply( ElementVisitor visitor )
-	{
-		visitor.visitOdaMeasure( this );
+	public void apply(ElementVisitor visitor) {
+		visitor.visitOdaMeasure(this);
 	}
 
 	/*
@@ -64,35 +60,32 @@ public class OdaMeasure extends Measure
 	 * 
 	 * @see org.eclipse.birt.report.model.core.DesignElement#getElementName()
 	 */
-	public String getElementName( )
-	{
+	public String getElementName() {
 		return ReportDesignConstants.ODA_MEASURE_ELEMENT;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.birt.report.model.core.Module)
+	 * @see
+	 * org.eclipse.birt.report.model.api.core.IDesignElement#getHandle(org.eclipse.
+	 * birt.report.model.core.Module)
 	 */
-	public DesignElementHandle getHandle( Module module )
-	{
-		return handle( module );
+	public DesignElementHandle getHandle(Module module) {
+		return handle(module);
 	}
 
 	/**
 	 * Returns an API handle for this element.
 	 * 
-	 * @param module
-	 *            the module of the measure
+	 * @param module the module of the measure
 	 * 
 	 * @return an API handle for this element.
 	 */
 
-	public OdaMeasureHandle handle( Module module )
-	{
-		if ( handle == null )
-		{
-			handle = new OdaMeasureHandle( module, this );
+	public OdaMeasureHandle handle(Module module) {
+		if (handle == null) {
+			handle = new OdaMeasureHandle(module, this);
 		}
 		return (OdaMeasureHandle) handle;
 	}

@@ -21,42 +21,42 @@ import org.eclipse.jface.text.source.ISourceViewer;
 /**
  * DebugScriptSourceViewerConfiguration
  */
-public class DebugScriptSourceViewerConfiguration extends
-		ScriptSourceViewerConfiguration
-{
+public class DebugScriptSourceViewerConfiguration extends ScriptSourceViewerConfiguration {
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param context
 	 */
-	public DebugScriptSourceViewerConfiguration( JSSyntaxContext context )
-	{
-		super( context );
+	public DebugScriptSourceViewerConfiguration(JSSyntaxContext context) {
+		super(context);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getTextHover(org.eclipse.jface.text.source.ISourceViewer, java.lang.String, int)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.jface.text.source.SourceViewerConfiguration#getTextHover(org.
+	 * eclipse.jface.text.source.ISourceViewer, java.lang.String, int)
 	 */
-	public ITextHover getTextHover( ISourceViewer sourceViewer,
-			String contentType, int stateMask )
-	{
+	public ITextHover getTextHover(ISourceViewer sourceViewer, String contentType, int stateMask) {
 
-		if ( !( JSPartitionScanner.JS_COMMENT.equals( contentType )
-				//|| JSPartitionScanner.JS_KEYWORD.equals( contentType ) 
-				|| JSPartitionScanner.JS_STRING.equals( contentType ) ) )
-		{
-			return new ScriptDebugHover( );
+		if (!(JSPartitionScanner.JS_COMMENT.equals(contentType)
+				// || JSPartitionScanner.JS_KEYWORD.equals( contentType )
+				|| JSPartitionScanner.JS_STRING.equals(contentType))) {
+			return new ScriptDebugHover();
 		}
-		return super.getTextHover( sourceViewer, contentType, stateMask );
+		return super.getTextHover(sourceViewer, contentType, stateMask);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#getConfiguredTextHoverStateMasks(org.eclipse.jface.text.source.ISourceViewer, java.lang.String)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.jface.text.source.SourceViewerConfiguration#
+	 * getConfiguredTextHoverStateMasks(org.eclipse.jface.text.source.ISourceViewer,
+	 * java.lang.String)
 	 */
-	public int[] getConfiguredTextHoverStateMasks( ISourceViewer sourceViewer,
-			String contentType )
-	{
-		return new int[]{
-			0
-		};
+	public int[] getConfiguredTextHoverStateMasks(ISourceViewer sourceViewer, String contentType) {
+		return new int[] { 0 };
 	}
 }

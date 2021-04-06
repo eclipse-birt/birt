@@ -33,18 +33,18 @@ public class TopLevelContentHandler extends CellContentHandler {
 	public TopLevelContentHandler(IContentEmitter emitter, Logger log, IHandler parent) {
 		super(emitter, log, parent, null);
 	}
-	
-	
+
 	@Override
 	public void emitText(HandlerState state, ITextContent text) throws BirtException {
-		log.debug( "Creating row ", state.rowNum, " for text" );
-		state.currentSheet.createRow( state.rowNum );
+		log.debug("Creating row ", state.rowNum, " for text");
+		state.currentSheet.createRow(state.rowNum);
 
-		emitContent(state, text, text.getText(), ( ! "inline".equals( getStyleProperty(text, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state, text, text.getText(),
+				(!"inline".equals(getStyleProperty(text, StyleConstants.STYLE_DISPLAY, "block"))));
 
-		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell( 0 );
+		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell(0);
 		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
-				
+
 		endCellContent(state, null, text, currentCell, null);
 
 		++state.rowNum;
@@ -53,14 +53,15 @@ public class TopLevelContentHandler extends CellContentHandler {
 
 	@Override
 	public void emitData(HandlerState state, IDataContent data) throws BirtException {
-		log.debug( "Creating row ", state.rowNum, " for data" );
-		state.currentSheet.createRow( state.rowNum );
+		log.debug("Creating row ", state.rowNum, " for data");
+		state.currentSheet.createRow(state.rowNum);
 
-		emitContent(state, data, data.getValue(), ( ! "inline".equals( getStyleProperty(data, StyleConstants.STYLE_DISPLAY, "block") ) ) );
+		emitContent(state, data, data.getValue(),
+				(!"inline".equals(getStyleProperty(data, StyleConstants.STYLE_DISPLAY, "block"))));
 
-		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell( 0 );
+		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell(0);
 		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
-				
+
 		endCellContent(state, null, data, currentCell, null);
 
 		++state.rowNum;
@@ -69,15 +70,16 @@ public class TopLevelContentHandler extends CellContentHandler {
 
 	@Override
 	public void emitLabel(HandlerState state, ILabelContent label) throws BirtException {
-		log.debug( "Creating row ", state.rowNum, " for label" );
-		state.currentSheet.createRow( state.rowNum );
+		log.debug("Creating row ", state.rowNum, " for label");
+		state.currentSheet.createRow(state.rowNum);
 
-		String labelText = ( label.getLabelText() != null ) ? label.getLabelText() : label.getText();
-		emitContent(state,label,labelText, ( ! "inline".equals( getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block") ) ));
+		String labelText = (label.getLabelText() != null) ? label.getLabelText() : label.getText();
+		emitContent(state, label, labelText,
+				(!"inline".equals(getStyleProperty(label, StyleConstants.STYLE_DISPLAY, "block"))));
 
-		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell( 0 );
+		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell(0);
 		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
-				
+
 		endCellContent(state, null, label, currentCell, null);
 
 		++state.rowNum;
@@ -86,32 +88,29 @@ public class TopLevelContentHandler extends CellContentHandler {
 
 	@Override
 	public void emitForeign(HandlerState state, IForeignContent foreign) throws BirtException {
-		
-		log.debug( "Handling foreign content of type ", foreign.getRawType() );
-		if ( IForeignContent.HTML_TYPE.equalsIgnoreCase( foreign.getRawType( ) ) )
-		{
-			HTML2Content.html2Content( foreign );
-			contentVisitor.visitChildren( foreign, null );			
+
+		log.debug("Handling foreign content of type ", foreign.getRawType());
+		if (IForeignContent.HTML_TYPE.equalsIgnoreCase(foreign.getRawType())) {
+			HTML2Content.html2Content(foreign);
+			contentVisitor.visitChildren(foreign, null);
 		}
-		
+
 		state.setHandler(parent);
 	}
 
 	@Override
 	public void emitImage(HandlerState state, IImageContent image) throws BirtException {
-		log.debug( "Creating row ", state.rowNum, " for image" );
-		state.currentSheet.createRow( state.rowNum );
+		log.debug("Creating row ", state.rowNum, " for image");
+		state.currentSheet.createRow(state.rowNum);
 
-		recordImage(state, new Coordinate( state.rowNum, 0 ), image, true);
-		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell( 0 );
+		recordImage(state, new Coordinate(state.rowNum, 0), image, true);
+		Cell currentCell = state.currentSheet.getRow(state.rowNum).createCell(0);
 		currentCell.setCellType(Cell.CELL_TYPE_BLANK);
-				
+
 		endCellContent(state, null, image, currentCell, null);
 
 		++state.rowNum;
 		state.setHandler(parent);
 	}
-	
 
-	
 }

@@ -20,32 +20,26 @@ import org.eclipse.birt.report.tests.model.BaseTestCase;
  * <p>
  * <b>Test Description:</b>
  * <ol>
- * <li>New a library with a data source, a data set, a dynamic report
- * parameter, a data binding to the data set.
+ * <li>New a library with a data source, a data set, a dynamic report parameter,
+ * a data binding to the data set.
  * <li>New a report use the library, and drag the data source, data set, report
  * parameter and the data from Library Explorer to Outline.
  * <li>Drag the parameter from Outline to Layout, save.
  * <li>Export the report to library.
  * </ol>
  */
-public class Regression_164273 extends BaseTestCase
-{
+public class Regression_164273 extends BaseTestCase {
 
 	private final static String REPORT = "regression_164273.xml";
 
-	public void test_regression_164273( ) throws Exception
-	{
-		openDesign( REPORT );
-		openLibrary( "Library_1.xml" );
+	public void test_regression_164273() throws Exception {
+		openDesign(REPORT);
+		openLibrary("Library_1.xml");
 
-		try
-		{
+		try {
 			// export with duplicate names.
-			ElementExportUtil
-					.exportDesign( designHandle, libraryHandle, true, true );
-		}
-		catch ( NameException e )
-		{
+			ElementExportUtil.exportDesign(designHandle, libraryHandle, true, true);
+		} catch (NameException e) {
 		}
 	}
 }

@@ -19,13 +19,11 @@ import org.eclipse.swt.widgets.Composite;
  * The i18n page for text
  */
 
-public class TextI18nPage extends I18nPage
-{
+public class TextI18nPage extends I18nPage {
 
-	public void buildUI( Composite parent  )
-	{
+	public void buildUI(Composite parent) {
 		elementName = ReportDesignConstants.TEXT_ITEM;
 		propertyName = TextItemHandle.CONTENT_RESOURCE_KEY_PROP;
-		super.buildUI( parent );
+		super.buildUI(parent);
 	}
 }

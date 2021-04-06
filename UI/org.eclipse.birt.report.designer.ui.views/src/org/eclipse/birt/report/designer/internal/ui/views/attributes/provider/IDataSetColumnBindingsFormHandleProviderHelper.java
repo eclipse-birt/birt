@@ -7,5 +7,5 @@ import org.eclipse.birt.report.model.api.DataSetHandle;
 public interface IDataSetColumnBindingsFormHandleProviderHelper {
 
 	public Iterator getResultSetIterator(DataSetHandle datasetHandle);
-	
+
 }

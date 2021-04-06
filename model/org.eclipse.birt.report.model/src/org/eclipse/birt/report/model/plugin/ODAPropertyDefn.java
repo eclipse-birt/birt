@@ -27,32 +27,28 @@ import org.eclipse.datatools.connectivity.oda.util.manifest.PropertyChoice;
 /**
  */
 
-public class ODAPropertyDefn extends SystemPropertyDefn
-{
+public class ODAPropertyDefn extends SystemPropertyDefn {
 
 	protected Property property = null;
-	
+
 	protected String displayName;
 
-	ODAPropertyDefn( Property property )
-	{
+	ODAPropertyDefn(Property property) {
 		assert property != null;
-		
+
 		this.property = property;
 
-		name = property.getName( );
-		
+		name = property.getName();
+
 		// Due to the limitation of ODA design interface, the display name
 		// contains mnemonic key hint "&".
 		// Strips out the '&' character.
-		displayName = property.getDisplayName( );
-		if ( displayName != null && displayName.indexOf( '&' ) != -1 )
-		{
-			displayName = property.getDisplayName( ).replace( "&", "" );
+		displayName = property.getDisplayName();
+		if (displayName != null && displayName.indexOf('&') != -1) {
+			displayName = property.getDisplayName().replace("&", "");
 		}
-		
-		type = MetaDataDictionary.getInstance( ).getPropertyType(
-				property.getType( ) );
+
+		type = MetaDataDictionary.getInstance().getPropertyType(property.getType());
 	}
 
 	/*
@@ -61,8 +57,7 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isList()
 	 */
 
-	public boolean isList( )
-	{
+	public boolean isList() {
 		return false;
 	}
 
@@ -71,9 +66,8 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * 
 	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getName()
 	 */
-	public String getName( )
-	{
-		return property.getName( );
+	public String getName() {
+		return property.getName();
 	}
 
 	/*
@@ -83,8 +77,7 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getDisplayName()
 	 */
 
-	public String getDisplayName( )
-	{
+	public String getDisplayName() {
 		return displayName;
 	}
 
@@ -92,37 +85,31 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getDisplayNameID
-	 * ()
+	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getDisplayNameID ()
 	 */
 
-	public String getDisplayNameID( )
-	{
+	public String getDisplayNameID() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getChoices()
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getChoices()
 	 */
 
-	public IChoiceSet getChoices( )
-	{
-		PropertyChoice[] propertyChoices = property.getChoices( );
+	public IChoiceSet getChoices() {
+		PropertyChoice[] propertyChoices = property.getChoices();
 
 		ChoiceSet choiceSet = null;
-		if ( propertyChoices != null && propertyChoices.length > 0 )
-		{
-			choiceSet = new ChoiceSet( );
+		if (propertyChoices != null && propertyChoices.length > 0) {
+			choiceSet = new ChoiceSet();
 			IChoice[] choices = new ODAChoice[propertyChoices.length];
-			for ( int i = 0; i < propertyChoices.length; i++ )
-			{
-				choices[i] = new ODAChoice( propertyChoices[i] );
+			for (int i = 0; i < propertyChoices.length; i++) {
+				choices[i] = new ODAChoice(propertyChoices[i]);
 
 			}
-			choiceSet.setChoices( choices );
+			choiceSet.setChoices(choices);
 		}
 
 		return choiceSet;
@@ -131,37 +118,30 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#hasChoices()
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#hasChoices()
 	 */
-	public boolean hasChoices( )
-	{
-		return property.getChoices( ) != null
-				&& property.getChoices( ).length > 0;
+	public boolean hasChoices() {
+		return property.getChoices() != null && property.getChoices().length > 0;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getStructDefn()
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getStructDefn()
 	 */
 
-	public IStructureDefn getStructDefn( )
-	{
+	public IStructureDefn getStructDefn() {
 		return null;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getDefault()
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getDefault()
 	 */
 
-	public Object getDefault( )
-	{
-		return property.getDefaultValue( );
+	public Object getDefault() {
+		return property.getDefaultValue();
 	}
 
 	/*
@@ -171,8 +151,7 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getTargetElementType
 	 * ()
 	 */
-	public IElementDefn getTargetElementType( )
-	{
+	public IElementDefn getTargetElementType() {
 		return null;
 	}
 
@@ -180,24 +159,20 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * (non-Javadoc)
 	 * 
 	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getAllowedChoices
-	 * ()
+	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#getAllowedChoices ()
 	 */
 
-	public IChoiceSet getAllowedChoices( )
-	{
-		return getChoices( );
+	public IChoiceSet getAllowedChoices() {
+		return getChoices();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isEncryptable()
+	 * @see org.eclipse.birt.report.model.api.metadata.IPropertyDefn#isEncryptable()
 	 */
-	public boolean isEncryptable( )
-	{
-		return property.isEncryptable( );
+	public boolean isEncryptable() {
+		return property.isEncryptable();
 	}
 
 	/*
@@ -206,8 +181,7 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * @see org.eclipse.birt.report.model.metadata.PropertyDefn#getValueType()
 	 */
 
-	public int getValueType( )
-	{
+	public int getValueType() {
 		return ODA_PROPERTY;
 	}
 
@@ -217,22 +191,17 @@ public class ODAPropertyDefn extends SystemPropertyDefn
 	 * @see org.eclipse.birt.report.model.metadata.ElementPropertyDefn#build()
 	 */
 
-	public void build( ) throws MetaDataException
-	{
-		PropertyType tmpType = MetaDataDictionary.getInstance( )
-				.getPropertyType( property.getType( ) );
-		if ( tmpType == null )
+	public void build() throws MetaDataException {
+		PropertyType tmpType = MetaDataDictionary.getInstance().getPropertyType(property.getType());
+		if (tmpType == null)
 			return;
 
-		if ( tmpType.getTypeCode( ) == IPropertyType.STRING_TYPE
-				&& !property.allowsEmptyValueAsNull( ) )
-		{
-			setType( MetaDataDictionary.getInstance( ).getPropertyType(
-					IPropertyType.LITERAL_STRING_TYPE ) );
+		if (tmpType.getTypeCode() == IPropertyType.STRING_TYPE && !property.allowsEmptyValueAsNull()) {
+			setType(MetaDataDictionary.getInstance().getPropertyType(IPropertyType.LITERAL_STRING_TYPE));
 		}
 
 		// to set the correct trim option, the super build must be done afterwards.
-		
-		super.build( );
+
+		super.build();
 	}
 }

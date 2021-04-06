@@ -12,8 +12,8 @@
 package org.eclipse.birt.chart.model.data;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Text Data Set</b></em>'. <!-- end-user-doc
- * -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Text
+ * Data Set</b></em>'. <!-- end-user-doc -->
  * 
  * <!-- begin-model-doc -->
  * 
@@ -26,12 +26,11 @@ package org.eclipse.birt.chart.model.data;
  * @model
  * @generated
  */
-public interface TextDataSet extends DataSet
-{
+public interface TextDataSet extends DataSet {
 
 	/**
 	 * @generated
 	 */
-	TextDataSet copyInstance( );
+	TextDataSet copyInstance();
 
 } // TextDataSet

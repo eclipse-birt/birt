@@ -19,8 +19,7 @@ import org.eclipse.swt.graphics.Image;
 /**
  * ResourceEntryWrapper
  */
-public class ResourceEntryWrapper implements ResourceEntry
-{
+public class ResourceEntryWrapper implements ResourceEntry {
 
 	public static final int LIBRARY = 0;
 	public static final int CSS_STYLE_SHEET = 1;
@@ -29,95 +28,75 @@ public class ResourceEntryWrapper implements ResourceEntry
 	private ResourceEntry proxy;
 	private int type;
 
-	public ResourceEntryWrapper( int type, ResourceEntry entry )
-	{
+	public ResourceEntryWrapper(int type, ResourceEntry entry) {
 		this.type = type;
 		proxy = entry;
 	}
 
-	public int getType( )
-	{
+	public int getType() {
 		return type;
 	}
 
-	public void dispose( )
-	{
-		proxy.dispose( );
+	public void dispose() {
+		proxy.dispose();
 	}
 
-	public ResourceEntry[] getChildren( )
-	{
-		return proxy.getChildren( );
+	public ResourceEntry[] getChildren() {
+		return proxy.getChildren();
 	}
 
-	public ResourceEntry[] getChildren( Filter filter )
-	{
-		return proxy.getChildren( filter );
+	public ResourceEntry[] getChildren(Filter filter) {
+		return proxy.getChildren(filter);
 	}
 
-	public String getDisplayName( )
-	{
-		return proxy.getDisplayName( );
+	public String getDisplayName() {
+		return proxy.getDisplayName();
 	}
 
-	public Image getImage( )
-	{
-		return proxy.getImage( );
+	public Image getImage() {
+		return proxy.getImage();
 	}
 
-	public String getName( )
-	{
-		return proxy.getName( );
+	public String getName() {
+		return proxy.getName();
 	}
 
-	public boolean hasChildren( )
-	{
-		return proxy.hasChildren( );
+	public boolean hasChildren() {
+		return proxy.hasChildren();
 	}
 
-	public ResourceEntry getParent( )
-	{
-		return proxy.getParent( );
+	public ResourceEntry getParent() {
+		return proxy.getParent();
 	}
 
-	public URL getURL( )
-	{
-		return proxy.getURL( );
+	public URL getURL() {
+		return proxy.getURL();
 	}
 
-	public boolean isFile( )
-	{
-		return proxy.isFile( );
+	public boolean isFile() {
+		return proxy.isFile();
 	}
 
-	public boolean isRoot( )
-	{
-		return proxy.isRoot( );
+	public boolean isRoot() {
+		return proxy.isRoot();
 	}
 
-	public Object getAdapter( Class adapter )
-	{
-		return proxy.getAdapter( adapter );
+	public Object getAdapter(Class adapter) {
+		return proxy.getAdapter(adapter);
 	}
 
 	@Override
-	public boolean equals( Object object )
-	{
-		if ( !( object instanceof ResourceEntryWrapper ) )
-		{
+	public boolean equals(Object object) {
+		if (!(object instanceof ResourceEntryWrapper)) {
 			return false;
 		}
 
-		if ( object == this )
-		{
+		if (object == this) {
 			return true;
-		}
-		else
-		{
+		} else {
 			ResourceEntryWrapper temp = (ResourceEntryWrapper) object;
 
-			if ( temp.proxy.equals( this.proxy ) && temp.type == this.type )
-			{
+			if (temp.proxy.equals(this.proxy) && temp.type == this.type) {
 				return true;
 			}
 		}
@@ -125,13 +104,11 @@ public class ResourceEntryWrapper implements ResourceEntry
 	}
 
 	@Override
-	public int hashCode( )
-	{
-		return proxy.hashCode( ) * 7 + type;
+	public int hashCode() {
+		return proxy.hashCode() * 7 + type;
 	}
 
-	public ResourceEntry getEntry( )
-	{
+	public ResourceEntry getEntry() {
 		return proxy;
 	}
 

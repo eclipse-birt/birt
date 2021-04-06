@@ -17,9 +17,8 @@ package org.eclipse.birt.core.data;
 /**
  * Defines static constants for BIRT data access.
  */
-public final class Constants
-{
-    public static final String ODA_PROP_CONFIGURATION_ID = "OdaPropertyConfigId"; //$NON-NLS-1$
-    public static final String ODA_PROP_CONFIG_KEY_SEPARATOR = "_"; //$NON-NLS-1$
+public final class Constants {
+	public static final String ODA_PROP_CONFIGURATION_ID = "OdaPropertyConfigId"; //$NON-NLS-1$
+	public static final String ODA_PROP_CONFIG_KEY_SEPARATOR = "_"; //$NON-NLS-1$
 
 }

@@ -14,34 +14,38 @@ package org.eclipse.birt.report.item.crosstab.internal.ui.editors.model;
 import org.eclipse.birt.report.item.crosstab.core.de.CrosstabCellHandle;
 
 /**
- * Measure header adapter.Maybe  several adapters share a CrosstabCellHandle.
+ * Measure header adapter.Maybe several adapters share a CrosstabCellHandle.
  */
 //This class is a specific cell handle adapter, some HeaderCellHandleAdapters 
 //maybe share a CrosstabCellHandle
-public class HeaderCrosstabCellHandleAdapter extends CrosstabCellAdapter
-{
+public class HeaderCrosstabCellHandleAdapter extends CrosstabCellAdapter {
 
-	/**Constructor
+	/**
+	 * Constructor
+	 * 
 	 * @param handle
 	 */
-	public HeaderCrosstabCellHandleAdapter( CrosstabCellHandle handle )
-	{
-		super( handle );
+	public HeaderCrosstabCellHandleAdapter(CrosstabCellHandle handle) {
+		super(handle);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.core.model.schematic.crosstab.BaseCrosstabAdapter#equals(java.lang.Object)
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.core.model.schematic.crosstab.
+	 * BaseCrosstabAdapter#equals(java.lang.Object)
 	 */
-	public boolean equals( Object obj )
-	{
-		return super.equals( obj );
+	public boolean equals(Object obj) {
+		return super.equals(obj);
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.core.model.schematic.crosstab.BaseCrosstabAdapter#hashCode()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.designer.core.model.schematic.crosstab.
+	 * BaseCrosstabAdapter#hashCode()
 	 */
-	public int hashCode( )
-	{
-		return super.hashCode( );
+	public int hashCode() {
+		return super.hashCode();
 	}
 }

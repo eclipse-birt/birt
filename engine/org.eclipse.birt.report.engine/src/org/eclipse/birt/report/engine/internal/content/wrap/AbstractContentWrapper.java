@@ -29,27 +29,21 @@ import org.eclipse.birt.report.engine.css.engine.CSSEngine;
 import org.eclipse.birt.report.engine.extension.IBaseResultSet;
 import org.eclipse.birt.report.engine.ir.DimensionType;
 
-abstract public class AbstractContentWrapper extends AbstractElement
-		implements
-			IContent
-{
+abstract public class AbstractContentWrapper extends AbstractElement implements IContent {
 	protected IContent content;
 
-	public AbstractContentWrapper( IContent content )
-	{
+	public AbstractContentWrapper(IContent content) {
 		this.content = content;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#accept(org.eclipse.birt.report.engine.content.IContentVisitor,
-	 *      java.lang.Object)
+	 * @see org.eclipse.birt.report.engine.content.IContent#accept(org.eclipse.birt.
+	 * report.engine.content.IContentVisitor, java.lang.Object)
 	 */
-	public Object accept( IContentVisitor visitor, Object value )
-			throws BirtException
-	{
-		return content.accept( visitor, value );
+	public Object accept(IContentVisitor visitor, Object value) throws BirtException {
+		return content.accept(visitor, value);
 	}
 
 	/*
@@ -57,19 +51,19 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getBookmark()
 	 */
-	public String getBookmark( )
-	{
-		return content.getBookmark( );
+	public String getBookmark() {
+		return content.getBookmark();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.css.engine.CSSStylableElement#getComputedStyle()
+	 * @see
+	 * org.eclipse.birt.report.engine.css.engine.CSSStylableElement#getComputedStyle
+	 * ()
 	 */
-	public IStyle getComputedStyle( )
-	{
-		return content.getComputedStyle( );
+	public IStyle getComputedStyle() {
+		return content.getComputedStyle();
 	}
 
 	/*
@@ -77,19 +71,18 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getContentType()
 	 */
-	public int getContentType( )
-	{
-		return content.getContentType( );
+	public int getContentType() {
+		return content.getContentType();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.css.engine.CSSStylableElement#getCSSEngine()
+	 * @see
+	 * org.eclipse.birt.report.engine.css.engine.CSSStylableElement#getCSSEngine()
 	 */
-	public CSSEngine getCSSEngine( )
-	{
-		return content.getCSSEngine( );
+	public CSSEngine getCSSEngine() {
+		return content.getCSSEngine();
 	}
 
 	/*
@@ -97,9 +90,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getGenerateBy()
 	 */
-	public Object getGenerateBy( )
-	{
-		return content.getGenerateBy( );
+	public Object getGenerateBy() {
+		return content.getGenerateBy();
 	}
 
 	/*
@@ -107,29 +99,26 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getHeight()
 	 */
-	public DimensionType getHeight( )
-	{
-		return content.getHeight( );
+	public DimensionType getHeight() {
+		return content.getHeight();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getAltText()
 	 */
-	public String getAltText( )
-	{
-		return content.getAltText( );
+	public String getAltText() {
+		return content.getAltText();
 	}
-	
+
 	/*
 	 * (non-Javadoc)
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getAltTextKey()
 	 */
-	public String getAltTextKey( )
-	{
-		return content.getAltTextKey( );
+	public String getAltTextKey() {
+		return content.getAltTextKey();
 	}
 
 	/*
@@ -137,9 +126,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getHelpText()
 	 */
-	public String getHelpText( )
-	{
-		return content.getHelpText( );
+	public String getHelpText() {
+		return content.getHelpText();
 	}
 
 	/*
@@ -147,9 +135,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getHyperlinkAction()
 	 */
-	public IHyperlinkAction getHyperlinkAction( )
-	{
-		return content.getHyperlinkAction( );
+	public IHyperlinkAction getHyperlinkAction() {
+		return content.getHyperlinkAction();
 	}
 
 	/*
@@ -157,9 +144,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getInlineStyle()
 	 */
-	public IStyle getInlineStyle( )
-	{
-		return content.getInlineStyle( );
+	public IStyle getInlineStyle() {
+		return content.getInlineStyle();
 	}
 
 	/*
@@ -167,9 +153,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getInstanceID()
 	 */
-	public InstanceID getInstanceID( )
-	{
-		return content.getInstanceID( );
+	public InstanceID getInstanceID() {
+		return content.getInstanceID();
 	}
 
 	/*
@@ -177,9 +162,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getName()
 	 */
-	public String getName( )
-	{
-		return content.getName( );
+	public String getName() {
+		return content.getName();
 	}
 
 	/*
@@ -187,9 +171,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IElement#getParent()
 	 */
-	public IElement getParent( )
-	{
-		return content.getParent( );
+	public IElement getParent() {
+		return content.getParent();
 	}
 
 	/*
@@ -197,9 +180,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getReportContent()
 	 */
-	public IReportContent getReportContent( )
-	{
-		return content.getReportContent( );
+	public IReportContent getReportContent() {
+		return content.getReportContent();
 	}
 
 	/*
@@ -207,9 +189,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.css.engine.CSSStylableElement#getStyle()
 	 */
-	public IStyle getStyle( )
-	{
-		return content.getStyle( );
+	public IStyle getStyle() {
+		return content.getStyle();
 	}
 
 	/*
@@ -217,9 +198,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getStyleClass()
 	 */
-	public String getStyleClass( )
-	{
-		return content.getStyleClass( );
+	public String getStyleClass() {
+		return content.getStyleClass();
 	}
 
 	/*
@@ -227,9 +207,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getTOC()
 	 */
-	public Object getTOC( )
-	{
-		return content.getTOC( );
+	public Object getTOC() {
+		return content.getTOC();
 	}
 
 	/*
@@ -237,9 +216,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getWidth()
 	 */
-	public DimensionType getWidth( )
-	{
-		return content.getWidth( );
+	public DimensionType getWidth() {
+		return content.getWidth();
 	}
 
 	/*
@@ -247,9 +225,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getX()
 	 */
-	public DimensionType getX( )
-	{
-		return content.getX( );
+	public DimensionType getX() {
+		return content.getX();
 	}
 
 	/*
@@ -257,160 +234,161 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#getY()
 	 */
-	public DimensionType getY( )
-	{
-		return content.getY( );
-	}
-	
-	public Object getExtension( int extension )
-	{
-		return content.getExtension( extension );
+	public DimensionType getY() {
+		return content.getY();
 	}
 
-	public void setExtension( int extension, Object value )
-	{
-		content.setExtension( extension, value );
+	public Object getExtension(int extension) {
+		return content.getExtension(extension);
+	}
+
+	public void setExtension(int extension, Object value) {
+		content.setExtension(extension, value);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#readContent(java.io.DataInputStream)
+	 * @see org.eclipse.birt.report.engine.content.IContent#readContent(java.io.
+	 * DataInputStream)
 	 */
-	public void readContent( DataInputStream in, ClassLoader loader )
-			throws IOException
-	{
-		throw new IOException( "Not supported" );
+	public void readContent(DataInputStream in, ClassLoader loader) throws IOException {
+		throw new IOException("Not supported");
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setBookmark(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setBookmark(java.lang.String)
 	 */
-	public void setBookmark( String bookmark )
-	{
-		content.setBookmark( bookmark );
+	public void setBookmark(String bookmark) {
+		content.setBookmark(bookmark);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setGenerateBy(java.lang.Object)
+	 * @see org.eclipse.birt.report.engine.content.IContent#setGenerateBy(java.lang.
+	 * Object)
 	 */
-	public void setGenerateBy( Object generateBy )
-	{
-		content.setGenerateBy( generateBy );
+	public void setGenerateBy(Object generateBy) {
+		content.setGenerateBy(generateBy);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setHeight(org.eclipse.birt.report.engine.ir.DimensionType)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setHeight(org.eclipse.birt.
+	 * report.engine.ir.DimensionType)
 	 */
-	public void setHeight( DimensionType height )
-	{
-		content.setHeight( height );
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setAltText(java.lang.String)
-	 */
-	public void setAltText( String alt )
-	{
-		content.setAltText( alt );
-	}
-	
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setAltTextKey(java.lang.String)
-	 */
-	public void setAltTextKey( String altKey )
-	{
-		content.setAltText( altKey );
+	public void setHeight(DimensionType height) {
+		content.setHeight(height);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setHelpText(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setAltText(java.lang.String)
 	 */
-	public void setHelpText( String help )
-	{
-		content.setHelpText( help );
+	public void setAltText(String alt) {
+		content.setAltText(alt);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setHyperlinkAction(org.eclipse.birt.report.engine.content.IHyperlinkAction)
+	 * @see org.eclipse.birt.report.engine.content.IContent#setAltTextKey(java.lang.
+	 * String)
 	 */
-	public void setHyperlinkAction( IHyperlinkAction hyperlink )
-	{
-		content.setHyperlinkAction( hyperlink );
+	public void setAltTextKey(String altKey) {
+		content.setAltText(altKey);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setInlineStyle(org.eclipse.birt.report.engine.content.IStyle)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setHelpText(java.lang.String)
 	 */
-	public void setInlineStyle( IStyle style )
-	{
-		content.setInlineStyle( style );
+	public void setHelpText(String help) {
+		content.setHelpText(help);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setInstanceID(org.eclipse.birt.report.engine.api.InstanceID)
+	 * @see org.eclipse.birt.report.engine.content.IContent#setHyperlinkAction(org.
+	 * eclipse.birt.report.engine.content.IHyperlinkAction)
 	 */
-	public void setInstanceID( InstanceID id )
-	{
-		content.setInstanceID( id );
+	public void setHyperlinkAction(IHyperlinkAction hyperlink) {
+		content.setHyperlinkAction(hyperlink);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setName(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setInlineStyle(org.eclipse.
+	 * birt.report.engine.content.IStyle)
 	 */
-	public void setName( String name )
-	{
-		content.setName( name );
+	public void setInlineStyle(IStyle style) {
+		content.setInlineStyle(style);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IElement#setParent(org.eclipse.birt.report.engine.content.IElement)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setInstanceID(org.eclipse.
+	 * birt.report.engine.api.InstanceID)
 	 */
-	public void setParent( IElement parent )
-	{
-		content.setParent( parent );
+	public void setInstanceID(InstanceID id) {
+		content.setInstanceID(id);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setReportContent(org.eclipse.birt.report.engine.content.IReportContent)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setName(java.lang.String)
 	 */
-	public void setReportContent( IReportContent report )
-	{
-		content.setReportContent( report );
+	public void setName(String name) {
+		content.setName(name);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setStyleClass(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IElement#setParent(org.eclipse.birt.
+	 * report.engine.content.IElement)
 	 */
-	public void setStyleClass( String styleClass )
-	{
-		content.setStyleClass( styleClass );
+	public void setParent(IElement parent) {
+		content.setParent(parent);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setReportContent(org.eclipse.
+	 * birt.report.engine.content.IReportContent)
+	 */
+	public void setReportContent(IReportContent report) {
+		content.setReportContent(report);
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.report.engine.content.IContent#setStyleClass(java.lang.
+	 * String)
+	 */
+	public void setStyleClass(String styleClass) {
+		content.setStyleClass(styleClass);
 	}
 
 	/*
@@ -418,58 +396,58 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#setTOC(java.lang.String)
 	 */
-	public void setTOC( Object toc )
-	{
-		content.setTOC( toc );
+	public void setTOC(Object toc) {
+		content.setTOC(toc);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setWidth(org.eclipse.birt.report.engine.ir.DimensionType)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setWidth(org.eclipse.birt.
+	 * report.engine.ir.DimensionType)
 	 */
-	public void setWidth( DimensionType width )
-	{
-		content.setWidth( width );
+	public void setWidth(DimensionType width) {
+		content.setWidth(width);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setX(org.eclipse.birt.report.engine.ir.DimensionType)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setX(org.eclipse.birt.report.
+	 * engine.ir.DimensionType)
 	 */
-	public void setX( DimensionType x )
-	{
-		content.setX( x );
+	public void setX(DimensionType x) {
+		content.setX(x);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#setY(org.eclipse.birt.report.engine.ir.DimensionType)
+	 * @see
+	 * org.eclipse.birt.report.engine.content.IContent#setY(org.eclipse.birt.report.
+	 * engine.ir.DimensionType)
 	 */
-	public void setY( DimensionType y )
-	{
-		content.setY( y );
+	public void setY(DimensionType y) {
+		content.setY(y);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.engine.content.IContent#writeContent(java.io.DataOutputStream)
+	 * @see org.eclipse.birt.report.engine.content.IContent#writeContent(java.io.
+	 * DataOutputStream)
 	 */
-	public void writeContent( DataOutputStream out ) throws IOException
-	{
-		throw new IOException( "not supported" );
+	public void writeContent(DataOutputStream out) throws IOException {
+		throw new IOException("not supported");
 	}
 
-	protected void throwUnsupportedException( )
-	{
-		throw new UnsupportedOperationException( "Unsupported Exception" );
+	protected void throwUnsupportedException() {
+		throw new UnsupportedOperationException("Unsupported Exception");
 	}
-	
-	public IContent cloneContent(boolean isDeep)
-	{
+
+	public IContent cloneContent(boolean isDeep) {
 		throw new UnsupportedOperationException();
 	}
 
@@ -478,9 +456,8 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#isOrientationRTL()
 	 */
-	public boolean isRTL( )
-	{
-		return content.isRTL( );
+	public boolean isRTL() {
+		return content.isRTL();
 	}
 
 	/*
@@ -488,68 +465,55 @@ abstract public class AbstractContentWrapper extends AbstractElement
 	 * 
 	 * @see org.eclipse.birt.report.engine.content.IContent#isTextDirectionRTL()
 	 */
-	public boolean isDirectionRTL( )
-	{
-		return content.isDirectionRTL( );
-	}
-	
-	public String getACL()
-	{
-		return content.getACL( );
-	}
-	
-	public void setACL( String acl )
-	{
-		throw new UnsupportedOperationException( "setACL" );
+	public boolean isDirectionRTL() {
+		return content.isDirectionRTL();
 	}
 
-	public IBaseResultSet getResultSet( )
-	{
-		return content.getResultSet( );
-	}
-	
-	public boolean isLastChild( )
-	{
-		return content.isLastChild( );
-	}
-	
-	public void setLastChild( boolean isLastChild )
-	{
-		content.setLastChild( isLastChild );
-	}
-	
-	public boolean hasChildren( )
-	{
-		return content.hasChildren( );
+	public String getACL() {
+		return content.getACL();
 	}
 
-	public void setHasChildren( boolean hasChildren )
-	{
-		content.setHasChildren( hasChildren );
+	public void setACL(String acl) {
+		throw new UnsupportedOperationException("setACL");
 	}
-	
-	public IContent getContent( )
-	{
+
+	public IBaseResultSet getResultSet() {
+		return content.getResultSet();
+	}
+
+	public boolean isLastChild() {
+		return content.isLastChild();
+	}
+
+	public void setLastChild(boolean isLastChild) {
+		content.setLastChild(isLastChild);
+	}
+
+	public boolean hasChildren() {
+		return content.hasChildren();
+	}
+
+	public void setHasChildren(boolean hasChildren) {
+		content.setHasChildren(hasChildren);
+	}
+
+	public IContent getContent() {
 		return content;
 	}
 
-	public Map<String, Object> getUserProperties( )
-	{
-		return content.getUserProperties( );
+	public Map<String, Object> getUserProperties() {
+		return content.getUserProperties();
 	}
 
-	public void setUserProperties( Map<String, Object> properties )
-	{
-		content.setUserProperties( properties );
+	public void setUserProperties(Map<String, Object> properties) {
+		content.setUserProperties(properties);
 	}
 
-	public Map<String, Object> getExtensions( )
-	{
-		return content.getExtensions( );
+	public Map<String, Object> getExtensions() {
+		return content.getExtensions();
 	}
 
-	public void setExtensions( Map<String, Object> properties )
-	{
-		content.setExtensions( properties );
+	public void setExtensions(Map<String, Object> properties) {
+		content.setExtensions(properties);
 	}
 }

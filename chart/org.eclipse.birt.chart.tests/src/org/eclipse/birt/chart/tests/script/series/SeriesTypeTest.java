@@ -22,34 +22,29 @@ import org.eclipse.birt.chart.tests.script.BaseChartTestCase;
  * 
  */
 
-public class SeriesTypeTest extends BaseChartTestCase
-{
+public class SeriesTypeTest extends BaseChartTestCase {
 
-	public void testStockSeries( )
-	{
+	public void testStockSeries() {
 		IChart ichart = null;
-		try
-		{
-			ichart = (IChart) getReportDesign( ).getReportElement( "Stock" );
+		try {
+			ichart = (IChart) getReportDesign().getReportElement("Stock");
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-		catch ( Exception e )
-		{
-			e.printStackTrace( );
-		}
-		assertTrue( ichart instanceof IChartWithAxes );
+		assertTrue(ichart instanceof IChartWithAxes);
 
-		IValueSeries series = ( (IChartWithAxes) ichart ).getValueSeries( )[0][0];
-		assertTrue( series instanceof IStock );
+		IValueSeries series = ((IChartWithAxes) ichart).getValueSeries()[0][0];
+		assertTrue(series instanceof IStock);
 
 		IStock stock = (IStock) series;
-		assertTrue( stock.getDataExpr( ) instanceof IStockData );
+		assertTrue(stock.getDataExpr() instanceof IStockData);
 
-		IStockData data = (IStockData) stock.getDataExpr( );
-		assertEquals( "row.__rownum/2+10", data.getHighExpr( ) );
-		assertEquals( "0", data.getLowExpr( ) );
+		IStockData data = (IStockData) stock.getDataExpr();
+		assertEquals("row.__rownum/2+10", data.getHighExpr());
+		assertEquals("0", data.getLowExpr());
 
-		data.setOpenExpr( "3" );
-		assertEquals( data.getOpenExpr( ), "3" );
+		data.setOpenExpr("3");
+		assertEquals(data.getOpenExpr(), "3");
 	}
 
 }

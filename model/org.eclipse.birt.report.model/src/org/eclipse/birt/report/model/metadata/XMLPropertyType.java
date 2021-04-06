@@ -16,8 +16,7 @@ package org.eclipse.birt.report.model.metadata;
  * 
  */
 
-public class XMLPropertyType extends TextualPropertyType
-{
+public class XMLPropertyType extends TextualPropertyType {
 
 	/**
 	 * Display name key.
@@ -29,32 +28,27 @@ public class XMLPropertyType extends TextualPropertyType
 	 * Constructor.
 	 */
 
-	public XMLPropertyType( )
-	{
-		super( DISPLAY_NAME_KEY );
+	public XMLPropertyType() {
+		super(DISPLAY_NAME_KEY);
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
+	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getTypeCode()
 	 */
 
-	public int getTypeCode( )
-	{
+	public int getTypeCode() {
 		return XML_TYPE;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see
-	 * org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
+	 * @see org.eclipse.birt.report.model.design.metadata.PropertyType#getXmlName()
 	 */
 
-	public String getName( )
-	{
+	public String getName() {
 		return XML_TYPE_NAME;
 	}
 

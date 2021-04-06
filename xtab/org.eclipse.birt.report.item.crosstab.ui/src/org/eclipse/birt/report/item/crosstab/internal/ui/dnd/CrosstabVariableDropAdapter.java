@@ -22,22 +22,21 @@ import org.eclipse.gef.EditPart;
  * 
  */
 
-public class CrosstabVariableDropAdapter extends VariableDropAdapter
-{
+public class CrosstabVariableDropAdapter extends VariableDropAdapter {
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#canDrop(java.lang.Object, java.lang.Object, int, org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.IDropAdapter#canDrop(java.
+	 * lang.Object, java.lang.Object, int,
+	 * org.eclipse.birt.report.designer.internal.ui.dnd.DNDLocation)
 	 */
-	public int canDrop( Object transfer, Object target, int operation,
-			DNDLocation location )
-	{
-		if ( transfer instanceof VariableElementHandle
-				&&  target instanceof EditPart )
-		{
+	public int canDrop(Object transfer, Object target, int operation, DNDLocation location) {
+		if (transfer instanceof VariableElementHandle && target instanceof EditPart) {
 			EditPart editPart = (EditPart) target;
-			if ( editPart.getModel( ) instanceof IVirtualValidator )
-			{
-				if ( ( (IVirtualValidator) editPart.getModel( ) ).handleValidate( transfer ) )
+			if (editPart.getModel() instanceof IVirtualValidator) {
+				if (((IVirtualValidator) editPart.getModel()).handleValidate(transfer))
 					return DNDService.LOGIC_TRUE;
 				else
 					return DNDService.LOGIC_FALSE;

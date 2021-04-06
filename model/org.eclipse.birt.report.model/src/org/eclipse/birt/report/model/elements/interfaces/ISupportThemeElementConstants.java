@@ -11,13 +11,11 @@
 
 package org.eclipse.birt.report.model.elements.interfaces;
 
-
 /**
  * The interface for elements that supports to set theme on it.
  */
 
-public interface ISupportThemeElementConstants
-{
+public interface ISupportThemeElementConstants {
 
 	/**
 	 * Name of the property that defines theme name applied for this element.

@@ -27,49 +27,37 @@ import org.eclipse.jface.window.Window;
  * Provides creation function for extended element
  * 
  */
-public class ExtendedElementToolExtends extends AbstractToolHandleExtends
-{
+public class ExtendedElementToolExtends extends AbstractToolHandleExtends {
 
 	private String extensionName;
 
 	/**
 	 * @param builder
 	 */
-	public ExtendedElementToolExtends( String extensionName )
-	{
-		super( );
+	public ExtendedElementToolExtends(String extensionName) {
+		super();
 		this.extensionName = extensionName;
 	}
 
-	public boolean postHandleCreation( )
-	{
+	public boolean postHandleCreation() {
 		// TODO check extension setting here to decide if popup the builder
-		IReportItemBuilderUI builder = getbuilder( );
-		if ( builder != null )
-		{
+		IReportItemBuilderUI builder = getbuilder();
+		if (builder != null) {
 			// Open the builder for new element
-			if ( builder.open( (ExtendedItemHandle) getModel( ) ) == Window.CANCEL )
-			{
+			if (builder.open((ExtendedItemHandle) getModel()) == Window.CANCEL) {
 				return false;
 			}
-		}
-		else
-		{
-			PaletteEntryExtension[] extensions = EditpartExtensionManager.getPaletteEntries( );
-			for ( int i = 0; i < extensions.length; i++ )
-			{
-				if ( extensions[i].getLabel( ).equals( this.extensionName ) )
-				{
-					try
-					{
-						CommandUtils.setVariable( "targetEditPart", //$NON-NLS-1$
-								getTargetEditPart( ) );
-						setModel( extensions[i].executeCreate( ) );
-						return super.preHandleMouseUp( );
-					}
-					catch ( Exception e )
-					{
-						ExceptionHandler.handle( e );
+		} else {
+			PaletteEntryExtension[] extensions = EditpartExtensionManager.getPaletteEntries();
+			for (int i = 0; i < extensions.length; i++) {
+				if (extensions[i].getLabel().equals(this.extensionName)) {
+					try {
+						CommandUtils.setVariable("targetEditPart", //$NON-NLS-1$
+								getTargetEditPart());
+						setModel(extensions[i].executeCreate());
+						return super.preHandleMouseUp();
+					} catch (Exception e) {
+						ExceptionHandler.handle(e);
 					}
 
 					return false;
@@ -77,29 +65,26 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 			}
 		}
 
-		return super.postHandleCreation( );
+		return super.postHandleCreation();
 	}
 
-	public boolean preHandleMouseUp( )
-	{
-		ExtendedItemHandle handle = DesignElementFactory.getInstance( )
-				.newExtendedItem( null, extensionName );
-		if ( handle == null )
-		{
+	public boolean preHandleMouseUp() {
+		ExtendedItemHandle handle = DesignElementFactory.getInstance().newExtendedItem(null, extensionName);
+		if (handle == null) {
 			return false;
 		}
-		setModel( handle );
-		return super.preHandleMouseUp( );
+		setModel(handle);
+		return super.preHandleMouseUp();
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.AbstractToolHandleExtends#preHandleMouseDown()
+	 * @see org.eclipse.birt.designer.internal.ui.editors.schematic.tools.
+	 * AbstractToolHandleExtends#preHandleMouseDown()
 	 */
 
-	public boolean preHandleMouseDown( )
-	{
+	public boolean preHandleMouseDown() {
 		return false;
 	}
 
@@ -108,13 +93,10 @@ public class ExtendedElementToolExtends extends AbstractToolHandleExtends
 	 * 
 	 * @return
 	 */
-	private IReportItemBuilderUI getbuilder( )
-	{
-		ExtendedElementUIPoint point = ExtensionPointManager.getInstance( )
-				.getExtendedElementPoint( extensionName );
-		if ( point != null )
-		{
-			return point.getReportItemBuilderUI( );
+	private IReportItemBuilderUI getbuilder() {
+		ExtendedElementUIPoint point = ExtensionPointManager.getInstance().getExtendedElementPoint(extensionName);
+		if (point != null) {
+			return point.getReportItemBuilderUI();
 		}
 		return null;
 	}

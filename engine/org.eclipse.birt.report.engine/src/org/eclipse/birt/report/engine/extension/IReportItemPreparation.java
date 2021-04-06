@@ -19,10 +19,9 @@ import org.eclipse.birt.core.exception.BirtException;
  * loop occurs.
  * 
  */
-public interface IReportItemPreparation
-{
+public interface IReportItemPreparation {
 
-	public void init( IReportItemPreparationInfo info );
+	public void init(IReportItemPreparationInfo info);
 
-	public void prepare( ) throws BirtException;
+	public void prepare() throws BirtException;
 }

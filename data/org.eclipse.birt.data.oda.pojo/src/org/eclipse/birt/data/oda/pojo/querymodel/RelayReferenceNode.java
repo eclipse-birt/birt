@@ -15,58 +15,50 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * A relay reference 
+ * A relay reference
  */
-public class RelayReferenceNode extends ReferenceNode
-{
+public class RelayReferenceNode extends ReferenceNode {
 
+	private List<ReferenceNode> children = new ArrayList<ReferenceNode>();
 
-	private List<ReferenceNode> children = new ArrayList<ReferenceNode>( );
-	
-	public RelayReferenceNode( RelayReferenceNode parent,
-			IMappingSource reference )
-	{
-		super( parent, reference );
+	public RelayReferenceNode(RelayReferenceNode parent, IMappingSource reference) {
+		super(parent, reference);
 	}
-	
-	public void addChild( ReferenceNode child )
-	{
+
+	public void addChild(ReferenceNode child) {
 		assert child != null;
-		children.add( child );
+		children.add(child);
 		child.parent = this;
 	}
-	
-	public ReferenceNode[] getChildren( )
-	{
-		return children.toArray( new ReferenceNode[0] );
+
+	public ReferenceNode[] getChildren() {
+		return children.toArray(new ReferenceNode[0]);
 	}
-	
-	public boolean isAAncestorFor( ReferenceNode node )
-	{
+
+	public boolean isAAncestorFor(ReferenceNode node) {
 		assert node != null;
-		RelayReferenceNode parent = node.getParent( );
-		while ( parent != null )
-		{
-			if ( parent == this )
-			{
+		RelayReferenceNode parent = node.getParent();
+		while (parent != null) {
+			if (parent == this) {
 				return true;
 			}
-			parent = parent.getParent( );
+			parent = parent.getParent();
 		}
 		return false;
 	}
-	
-	/* (non-Javadoc)
-	 * @see org.eclipse.birt.data.oda.pojo.querymodel.ReferenceNode#getColumnReferenceNodes()
+
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see org.eclipse.birt.data.oda.pojo.querymodel.ReferenceNode#
+	 * getColumnReferenceNodes()
 	 */
 	@Override
-	public ColumnReferenceNode[] getColumnReferenceNodes( )
-	{
-		List<ColumnReferenceNode> result = new ArrayList<ColumnReferenceNode>( );
-		for ( ReferenceNode rn : children )
-		{
-			result.addAll( Arrays.asList( rn.getColumnReferenceNodes( ) ) );
+	public ColumnReferenceNode[] getColumnReferenceNodes() {
+		List<ColumnReferenceNode> result = new ArrayList<ColumnReferenceNode>();
+		for (ReferenceNode rn : children) {
+			result.addAll(Arrays.asList(rn.getColumnReferenceNodes()));
 		}
-		return result.toArray( new ColumnReferenceNode[0] );
+		return result.toArray(new ColumnReferenceNode[0]);
 	}
 }

@@ -12,8 +12,8 @@
 package org.eclipse.birt.chart.model.type;
 
 /**
- * <!-- begin-user-doc --> A representation of the model object '<em><b>Scatter Series</b></em>'. <!-- end-user-doc
- * -->
+ * <!-- begin-user-doc --> A representation of the model object '<em><b>Scatter
+ * Series</b></em>'. <!-- end-user-doc -->
  * 
  * <!-- begin-model-doc -->
  * 
@@ -26,12 +26,11 @@ package org.eclipse.birt.chart.model.type;
  * @model
  * @generated
  */
-public interface ScatterSeries extends LineSeries
-{
+public interface ScatterSeries extends LineSeries {
 
 	/**
 	 * @generated
 	 */
-	ScatterSeries copyInstance( );
+	ScatterSeries copyInstance();
 
 } // ScatterSeries

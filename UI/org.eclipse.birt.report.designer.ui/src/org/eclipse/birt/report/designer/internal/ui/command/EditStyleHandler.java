@@ -24,40 +24,37 @@ import org.eclipse.ui.PlatformUI;
  * 
  */
 
-public class EditStyleHandler extends SelectionHandler
-{
+public class EditStyleHandler extends SelectionHandler {
 
 	SharedStyleHandle handle;
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.ExecutionEvent)
+	 * @see
+	 * org.eclipse.core.commands.AbstractHandler#execute(org.eclipse.core.commands.
+	 * ExecutionEvent)
 	 */
-	public Object execute( ExecutionEvent event ) throws ExecutionException
-	{
-		super.execute( event );
+	public Object execute(ExecutionEvent event) throws ExecutionException {
+		super.execute(event);
 
-		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext( );
-		Object obj = UIUtil.getVariableFromContext( context, ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME );
-		if ( obj != null && obj instanceof SharedStyleHandle )
-		{
+		IEvaluationContext context = (IEvaluationContext) event.getApplicationContext();
+		Object obj = UIUtil.getVariableFromContext(context,
+				ICommandParameterNameContants.EDIT_STYLE_SHARED_STYLE_HANDLE_NAME);
+		if (obj != null && obj instanceof SharedStyleHandle) {
 			handle = (SharedStyleHandle) obj;
 		}
 
-		if ( handle == null )
-		{
+		if (handle == null) {
 			return Boolean.FALSE;
 		}
 
-		if ( Policy.TRACING_ACTIONS )
-		{
-			System.out.println( "Edit style action >> Run ..." ); //$NON-NLS-1$
+		if (Policy.TRACING_ACTIONS) {
+			System.out.println("Edit style action >> Run ..."); //$NON-NLS-1$
 		}
-		StyleBuilder builder = new StyleBuilder( PlatformUI.getWorkbench( )
-				.getDisplay( )
-				.getActiveShell( ), handle, StyleBuilder.DLG_TITLE_EDIT );
-		builder.open( );
+		StyleBuilder builder = new StyleBuilder(PlatformUI.getWorkbench().getDisplay().getActiveShell(), handle,
+				StyleBuilder.DLG_TITLE_EDIT);
+		builder.open();
 
 		return Boolean.TRUE;
 	}

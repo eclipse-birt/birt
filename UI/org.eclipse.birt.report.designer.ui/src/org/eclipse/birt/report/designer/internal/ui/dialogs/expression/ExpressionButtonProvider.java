@@ -30,140 +30,106 @@ import org.eclipse.swt.graphics.Image;
 /**
  * ExpressionButtonProvider
  */
-public class ExpressionButtonProvider implements IExpressionButtonProvider
-{
+public class ExpressionButtonProvider implements IExpressionButtonProvider {
 
-	private static final String CONSTANT = Messages.getString( "ExpressionButtonProvider.Constant" ); //$NON-NLS-1$
+	private static final String CONSTANT = Messages.getString("ExpressionButtonProvider.Constant"); //$NON-NLS-1$
 
 	private ExpressionButton input;
 
-	private Map<String, IExpressionSupport> supports = new HashMap<String, IExpressionSupport>( );
+	private Map<String, IExpressionSupport> supports = new HashMap<String, IExpressionSupport>();
 	private String[] supportedTypes;
 	private boolean showLeafOnlyInThirdColumn = false;
 
-	public ExpressionButtonProvider( boolean allowConstant )
-	{
-		List<String> types = new ArrayList<String>( );
+	public ExpressionButtonProvider(boolean allowConstant) {
+		List<String> types = new ArrayList<String>();
 
-		if ( allowConstant )
-		{
-			types.add( ExpressionType.CONSTANT );
+		if (allowConstant) {
+			types.add(ExpressionType.CONSTANT);
 		}
 
-		IExpressionSupport[] exts = ExpressionSupportManager.getExpressionSupports( );
+		IExpressionSupport[] exts = ExpressionSupportManager.getExpressionSupports();
 
-		if ( exts != null )
-		{
-			for ( IExpressionSupport ex : exts )
-			{
-				types.add( ex.getName( ) );
-				supports.put( ex.getName( ), ex );
+		if (exts != null) {
+			for (IExpressionSupport ex : exts) {
+				types.add(ex.getName());
+				supports.put(ex.getName(), ex);
 			}
 		}
 
-		supportedTypes = types.toArray( new String[types.size( )] );
+		supportedTypes = types.toArray(new String[types.size()]);
 	}
 
-	public void setInput( ExpressionButton input )
-	{
+	public void setInput(ExpressionButton input) {
 		this.input = input;
 	}
 
-	public String[] getExpressionTypes( )
-	{
+	public String[] getExpressionTypes() {
 		return supportedTypes;
 	}
 
-	public Image getImage( String exprType )
-	{
-		if ( ExpressionType.CONSTANT.equals( exprType ) )
-		{
-			return ReportPlatformUIImages.getImage( IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT );
-		}
-		else
-		{
-			IExpressionSupport spt = supports.get( exprType );
+	public Image getImage(String exprType) {
+		if (ExpressionType.CONSTANT.equals(exprType)) {
+			return ReportPlatformUIImages.getImage(IReportGraphicConstants.ICON_ENABLE_EXPRESSION_CONSTANT);
+		} else {
+			IExpressionSupport spt = supports.get(exprType);
 
-			if ( spt != null )
-			{
-				return spt.getImage( );
+			if (spt != null) {
+				return spt.getImage();
 			}
 		}
 		return null;
 	}
 
-	public String getText( String exprType )
-	{
-		if ( ExpressionType.CONSTANT.equals( exprType ) )
-		{
+	public String getText(String exprType) {
+		if (ExpressionType.CONSTANT.equals(exprType)) {
 			return CONSTANT;
 		}
 
-		IExpressionSupport spt = supports.get( exprType );
+		IExpressionSupport spt = supports.get(exprType);
 
-		if ( spt != null )
-		{
-			return spt.getDisplayName( );
+		if (spt != null) {
+			return spt.getDisplayName();
 		}
 
 		return ""; //$NON-NLS-1$
 	}
 
-	public String getTooltipText( String exprType )
-	{
-		return getText( exprType );
+	public String getTooltipText(String exprType) {
+		return getText(exprType);
 	}
 
-	public void handleSelectionEvent( String exprType )
-	{
-		IExpressionSupport spt = supports.get( exprType );
-		String sOldExpr = input.getExpression( );
+	public void handleSelectionEvent(String exprType) {
+		IExpressionSupport spt = supports.get(exprType);
+		String sOldExpr = input.getExpression();
 
-		if ( spt != null )
-		{
+		if (spt != null) {
 			IExpressionBuilder builder = null;
-			if ( spt instanceof JSExpressionSupport )
-			{
-				builder = ( (JSExpressionSupport) spt ).createBuilder( input.getControl( )
-						.getShell( ),
-						null,
-						showLeafOnlyInThirdColumn );
+			if (spt instanceof JSExpressionSupport) {
+				builder = ((JSExpressionSupport) spt).createBuilder(input.getControl().getShell(), null,
+						showLeafOnlyInThirdColumn);
+			} else {
+				builder = spt.createBuilder(input.getControl().getShell(), null);
 			}
-			else
-			{
-				builder = spt.createBuilder( input.getControl( ).getShell( ), null );
-			}
-			if ( builder != null )
-			{
-				if ( Window.OK == input.openExpressionBuilder( builder,
-						exprType ) )
-				{
-					input.notifyExpressionChangeEvent( sOldExpr,
-							input.getExpression( ) );
+			if (builder != null) {
+				if (Window.OK == input.openExpressionBuilder(builder, exprType)) {
+					input.notifyExpressionChangeEvent(sOldExpr, input.getExpression());
 				}
+			} else {
+				input.setExpressionType(exprType);
+				input.notifyExpressionChangeEvent(sOldExpr, input.getExpression());
 			}
-			else
-			{
-				input.setExpressionType( exprType );
-				input.notifyExpressionChangeEvent( sOldExpr,
-						input.getExpression( ) );
-			}
-		}
-		else
-		{
-			input.setExpressionType( exprType );
-			input.notifyExpressionChangeEvent( sOldExpr, input.getExpression( ) );
+		} else {
+			input.setExpressionType(exprType);
+			input.notifyExpressionChangeEvent(sOldExpr, input.getExpression());
 		}
 
 	}
 
-	public IExpressionSupport getExpressionSupport( String exprType )
-	{
-		return supports.get( exprType );
+	public IExpressionSupport getExpressionSupport(String exprType) {
+		return supports.get(exprType);
 	}
 
-	public void setShowLeafOnlyInThirdColumn( boolean leafOnly )
-	{
+	public void setShowLeafOnlyInThirdColumn(boolean leafOnly) {
 		showLeafOnlyInThirdColumn = leafOnly;
 	}
 

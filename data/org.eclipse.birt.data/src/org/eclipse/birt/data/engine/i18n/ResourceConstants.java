@@ -16,21 +16,20 @@ package org.eclipse.birt.data.engine.i18n;
  */
 
 @SuppressWarnings("nls")
-public class ResourceConstants
-{
+public class ResourceConstants {
 	public final static String UNDEFINED_DATA_SOURCE = "data.engine.UndefinedDataSource";
 	public final static String UNDEFINED_DATA_SET = "data.engine.UndefinedDataSet";
 	public final static String UNSUPPORTED_DATASOURCE_TYPE = "data.engine.UnsupportedDataSourceType";
 	public final static String UNSUPPORTED_DATASET_TYPE = "data.engine.UnsupportedDataSetType";
-	public final static String UNSUPPORTED_GROUP_ON_BLOBAndCLOB ="data.engine.UnsupportedGroupOnClobAndBLOB";
-	public final static String UNSUPPORTED_SORT_ON_BLOBAndCLOB ="data.engine.UnsupportedSortOnClobAndBLOB";
-	public final static String UNSUPPORTED_DIRECT_NESTED_AGGREGATE="data.engine.UnsupportedDirectNestedAggregate";
-	public final static String UNSUPPORTED_INCRE_CACHE_MODE="data.cache.UnsupportedIncrementalCacheMode";
-	public final static String NOT_END_GROUP  = "data.engine.EndOfGroupOnly";
+	public final static String UNSUPPORTED_GROUP_ON_BLOBAndCLOB = "data.engine.UnsupportedGroupOnClobAndBLOB";
+	public final static String UNSUPPORTED_SORT_ON_BLOBAndCLOB = "data.engine.UnsupportedSortOnClobAndBLOB";
+	public final static String UNSUPPORTED_DIRECT_NESTED_AGGREGATE = "data.engine.UnsupportedDirectNestedAggregate";
+	public final static String UNSUPPORTED_INCRE_CACHE_MODE = "data.cache.UnsupportedIncrementalCacheMode";
+	public final static String NOT_END_GROUP = "data.engine.EndOfGroupOnly";
 	public final static String INVALID_AGGR = "data.engine.InvalidAggregation";
-	public final static String INVALID_AGGR_GROUP_LEVEL  = "data.engine.InvalidAggrGroup";
-	public final static String INVALID_AGGR_PARAMETER  = "data.engine.WrongNumAggrArgs";
-	public final static String INVALID_AGGR_GROUP_EXPRESSION ="data.engine.InvalidAggrGroupExpression";
+	public final static String INVALID_AGGR_GROUP_LEVEL = "data.engine.InvalidAggrGroup";
+	public final static String INVALID_AGGR_PARAMETER = "data.engine.WrongNumAggrArgs";
+	public final static String INVALID_AGGR_GROUP_EXPRESSION = "data.engine.InvalidAggrGroupExpression";
 	public final static String INVALID_NESTED_AGGR_GROUP = "data.engine.AggrParamGroupLevelInconsistent";
 	public final static String DUPLICATE_PROPERTY_NAME = "data.engine.DupPropertyName";
 	public final static String SUBQUERY_NOT_FOUND = "data.engine.NoSubQueryName";
@@ -79,19 +78,19 @@ public class ResourceConstants
 	public final static String BAD_GROUP_INTERVAL_TYPE_ROWID = "data.engine.group.interval.Rowid";
 	public final static String BAD_GROUP_INTERVAL_INVALID = "data.engine.group.interval.invalid";
 	public final static String BAD_GROUP_INTERVAL_RANGE = "data.engine.group.intervalRange.invalid";
-	public final static String UNSUPPORTED_FILTER_ON_GROUP="data.engine.NoSupportFilterOnGroup";
-	public final static String INVALID_TOP_BOTTOM_ARGUMENT="data.engine.InvalidTopBottomArgument";
-	public final static String INVALID_TOP_BOTTOM_N_ARGUMENT="data.engine.InvalidTopBottomNArgument";
-	public final static String INVALID_TOP_BOTTOM_PERCENT_ARGUMENT="data.engine.InvalidTopBottomPercentArgument";
+	public final static String UNSUPPORTED_FILTER_ON_GROUP = "data.engine.NoSupportFilterOnGroup";
+	public final static String INVALID_TOP_BOTTOM_ARGUMENT = "data.engine.InvalidTopBottomArgument";
+	public final static String INVALID_TOP_BOTTOM_N_ARGUMENT = "data.engine.InvalidTopBottomNArgument";
+	public final static String INVALID_TOP_BOTTOM_PERCENT_ARGUMENT = "data.engine.InvalidTopBottomPercentArgument";
 
 	public final static String UNSUPPORTTED_COND_OPERATOR = "data.engine.UnsupportedCondOp";
 	public final static String EXPRESSION_CANNOT_BE_NULL_OR_BLANK = "data.engine.EmptyExpression";
 	public final static String AGGREGATION_ARGUMENT_CANNOT_BE_BLANK = "data.engine.AggregationBinding.EmptyArgument";
 
-	public final static String INVALID_JOIN_TYPE="data.engine.InvalidJoinType";
-	public final static String INVALID_JOIN_OPERATOR="data.engine.InvalidJoinOperator";
-	public final static String NAMED_PARAMETER_NOT_FOUND  = "data.engine.BadDataSetParamName";
-	public final static String FAIL_COMPUTE_OUTPUT_PARAMETER_VALUE  = "data.engine.FailComputeOutputParameterValue";
+	public final static String INVALID_JOIN_TYPE = "data.engine.InvalidJoinType";
+	public final static String INVALID_JOIN_OPERATOR = "data.engine.InvalidJoinOperator";
+	public final static String NAMED_PARAMETER_NOT_FOUND = "data.engine.BadDataSetParamName";
+	public final static String FAIL_COMPUTE_OUTPUT_PARAMETER_VALUE = "data.engine.FailComputeOutputParameterValue";
 	public final static String Linked_REPORT_PARAM_ALLOW_MULTI_VALUES = "data.engine.LinkedReportParamAllowMultiValues";
 
 	// column binding
@@ -108,12 +107,12 @@ public class ResourceConstants
 	public final static String DUPLICATED_BINDING_NAME = "data.engine.DuplicatedBindingName";
 	public final static String INVALID_AGGR_LEVEL_IN_SUMMARY_QUERY = "data.engine.InvalidAggrLevelKeyInSummaryQuery";
 	// computed column value
-	public final static String EXPR_INVALID_COMPUTED_COLUMN= "data.engine.BadCompColExpr";
+	public final static String EXPR_INVALID_COMPUTED_COLUMN = "data.engine.BadCompColExpr";
 	public final static String COMPUTED_COLUMN_CYCLE = "data.engine.ComputedColumnCycle";
 
 	// Data Type of computed column is not correct
-	public final static String FAIL_RETRIEVE_VALUE_COMPUTED_COLUMN= "data.engine.CompCol.FailRetrieveValueComputedColumn";
-	public final static String WRONG_SYSTEM_COMPUTED_COLUMN= "data.engine.ScriptResult.WrongSystemComputedColumn";
+	public final static String FAIL_RETRIEVE_VALUE_COMPUTED_COLUMN = "data.engine.CompCol.FailRetrieveValueComputedColumn";
+	public final static String WRONG_SYSTEM_COMPUTED_COLUMN = "data.engine.ScriptResult.WrongSystemComputedColumn";
 
 	public final static String SORT_ON_AGGR = "data.engine.SortOnAggregation";
 
@@ -135,7 +134,7 @@ public class ResourceConstants
 	public final static String WRITE_TEMPFILE_ERROR = "data.engine.WriteTempError";
 	public final static String READ_TEMPFILE_ERROR = "data.engine.ReadTempError";
 
-	//resultiterator cache exception
+	// resultiterator cache exception
 	public final static String CREATE_CACHE_TEMPFILE_ERROR = "data.engine.CreateCacheTempError";
 	public final static String OPEN_CACHE_TEMPFILE_ERROR = "data.engine.OpenCacheTempError";
 	public final static String WRITE_CACHE_TEMPFILE_ERROR = "data.engine.WriteCacheTempError";
@@ -143,7 +142,6 @@ public class ResourceConstants
 	public final static String CLOSE_CACHE_TEMPFILE_ERROR = "data.engine.CloseCacheTempError";
 	public final static String FAIL_LOAD_COLUMN_VALUE = "data.engine.FailedLoadColumnValue";
 	public final static String FAIL_LOAD_CLASS = "data.engine.FailedLoadClass";
-
 
 	// data engine factory exception
 	public final static String LOAD_FACTORY_ERROR = "load.factory.error";
@@ -193,31 +191,30 @@ public class ResourceConstants
 	public static final String INCONSISTENT_AGGREGATION_ARGUMENT_DEFINITION = "data.engine.InconsistentAggregationArgumentDefinition";
 	public static final String INCORRECT_GROUP_KEY_VALUES = "data.engine.incorrectGroupKeyValues";
 	public static final String NO_EXPRESSION_PROCESSOR_AVAILABLE = "data.engine.NoExpressionProcessorAvailable";
-	public static final String INCONVERTIBLE_DATATYPE="data.engine.InconvertibleDatatype";
-	public static final String CONVERT_TO_DATATYPE_ERROR="data.engine.ConvertToDataTypeError";
-	public static final String NO_ROW_UPDATE="data.engine.NoRowUpdate";
-	public static final String BAD_DATA_TYPE= "data.engine.BadDataType";
+	public static final String INCONVERTIBLE_DATATYPE = "data.engine.InconvertibleDatatype";
+	public static final String CONVERT_TO_DATATYPE_ERROR = "data.engine.ConvertToDataTypeError";
+	public static final String NO_ROW_UPDATE = "data.engine.NoRowUpdate";
+	public static final String BAD_DATA_TYPE = "data.engine.BadDataType";
 	public static final String NOT_SERIALIZABLE_CLASS = "data.engine.NotSerializableClass";
-	public static final String BAD_DATA_EXPRESSION="data.engine.BadDataExpression";
+	public static final String BAD_DATA_EXPRESSION = "data.engine.BadDataExpression";
 	public static final String INVALID_AGGR_BINDING_EXPRESSION = "data.engine.aggregation.InvalidBindingExpression";
-	public static final String INVALID_EXPRESSION="data.engine.InvalidExpression";
+	public static final String INVALID_EXPRESSION = "data.engine.InvalidExpression";
 
-
-	public static final String CACHE_FUNCTION_WRONG_MODE="data.engine.cacheFunctionWrongMode";
-	public static final String INDEX_ARRAY_INVALID="data.engine.document.invalidIndexArray";
-	public static final String GROUP_ITEM_INCORRECT="data.engine.document.invalidGroupItem";
-	public static final String RESULTITERATOR_NOT_OPEN="data.engine.resultIteratorNotOpen";
-	public static final String RESULTITERATOR_CLOSED="data.engine.resultIteratorClosed";
-	public static final String INVALID_OUTPUT_PARAMETER_INDEX="data.engine.invalidOutputParameterIndex";
-	public static final String OUTPUT_PARAMETER_OUT_OF_BOUND="data.engine.outputParameterOutOfBound";
-	public static final String INVALID_OUTPUT_PARAMETER_NAME="data.engine.invalidOutputParameterName";
+	public static final String CACHE_FUNCTION_WRONG_MODE = "data.engine.cacheFunctionWrongMode";
+	public static final String INDEX_ARRAY_INVALID = "data.engine.document.invalidIndexArray";
+	public static final String GROUP_ITEM_INCORRECT = "data.engine.document.invalidGroupItem";
+	public static final String RESULTITERATOR_NOT_OPEN = "data.engine.resultIteratorNotOpen";
+	public static final String RESULTITERATOR_CLOSED = "data.engine.resultIteratorClosed";
+	public static final String INVALID_OUTPUT_PARAMETER_INDEX = "data.engine.invalidOutputParameterIndex";
+	public static final String OUTPUT_PARAMETER_OUT_OF_BOUND = "data.engine.outputParameterOutOfBound";
+	public static final String INVALID_OUTPUT_PARAMETER_NAME = "data.engine.invalidOutputParameterName";
 	public static final String NOT_SUPPORT_REPORT_ITEM_SUBQUERY = "data.engine.reportItem.SubQuery.Unsupported";
-	public static final String NOT_SUPPORT_IN_PRESENTATION="data.engine.document.notSupportInPresentation";
-	public static final String WRONG_STATUS="data.engine.wrongStatus";
-	public static final String WRONG_VERSION="data.engine.wrongVersion";
-	public static final String UNSUPPORT_OPERATION_EXCEPTION="data.engine.unsupportOperationException";
+	public static final String NOT_SUPPORT_IN_PRESENTATION = "data.engine.document.notSupportInPresentation";
+	public static final String WRONG_STATUS = "data.engine.wrongStatus";
+	public static final String WRONG_VERSION = "data.engine.wrongVersion";
+	public static final String UNSUPPORT_OPERATION_EXCEPTION = "data.engine.unsupportOperationException";
 	public static final String POSSIBLE_MIXED_DATA_TYPE_IN_COLUMN = "data.engine.possibleMixedDataTypeInColumn";
-	public static final String RESULT_CLASS_SAVE_ERROR="data.engine.resultClassSaveError";
+	public static final String RESULT_CLASS_SAVE_ERROR = "data.engine.resultClassSaveError";
 	public static final String INVALID_MEMORY_BUFFER_SIZE = "data.engine.invalidMemBufferSize";
 	public static final String DOCUMENT_ERROR_CANNOT_LOAD_STREAM = "data.engine.document.error.cannotLoadStream";
 	public static final String FAIL_TO_CREATE_TEMP_DIR = "data.engine.failToCreateTempDir";
@@ -246,8 +243,8 @@ public class ResourceConstants
 	public final static String INVALID_DATA_SET_TYPE = "odaconsumer.InvalidDataSetType";
 	public final static String PARAMETER_NAME_CANNOT_BE_EMPTY_OR_NULL = "odaconsumer.ParameterNameCannotBeEmptyOrNull";
 	public final static String PARAMETER_POSITION_CANNOT_BE_LESS_THAN_ONE = "odaconsumer.ParameterPositionIsOneBased";
-    public final static String CANNOT_GET_PARAMETER_NAME = "odaconsumer.CannotGetParameterNativeName";
-    public final static String CANNOT_GET_PARAMETER_TYPE = "odaconsumer.CannotGetParameterType";
+	public final static String CANNOT_GET_PARAMETER_NAME = "odaconsumer.CannotGetParameterNativeName";
+	public final static String CANNOT_GET_PARAMETER_TYPE = "odaconsumer.CannotGetParameterType";
 	public final static String CANNOT_GET_PARAMETER_TYPE_NAME = "odaconsumer.CannotGetParameterTypeName";
 	public final static String CANNOT_GET_PARAMETER_MODE = "odaconsumer.CannotGetParameterMode";
 	public final static String CANNOT_GET_PARAMETER_SCALE = "odaconsumer.CannotGetParameterScale";
@@ -264,7 +261,7 @@ public class ResourceConstants
 	public final static String COLUMN_NAME_OR_ALIAS_ALREADY_USED = "odaconsumer.ColumnNameOrAliasAlreadyUsed";
 	public final static String NAMED_RESULTSETS_UNSUPPORTED = "odaconsumer.NamedResultSetsUnsupported";
 	public final static String OUTPUT_PARAMETERS_UNSUPPORTED = "odaconsumer.OutputParameterUnsupported";
-    public final static String UNSUPPORTED_MULTIPLE_RESULTS = "odaconsumer.UnsupportedMultipleResultSets";
+	public final static String UNSUPPORTED_MULTIPLE_RESULTS = "odaconsumer.UnsupportedMultipleResultSets";
 	public final static String CANNOT_GET_CONNECTION_METADATA = "odaconsumer.CannotGetConnectionMetaData";
 	public final static String CANNOT_GET_MAX_CONNECTIONS = "odaconsumer.CannotGetMaxConnections";
 	public final static String CANNOT_GET_MAX_QUERIES = "odaconsumer.CannotGetMaxStatements";
@@ -286,7 +283,7 @@ public class ResourceConstants
 	public final static String CANNOT_EXECUTE_STATEMENT = "odaconsumer.CannotExecuteStatement";
 	public final static String CANNOT_GET_RESULTSET = "odaconsumer.CannotGetResultSet";
 	public final static String CANNOT_GET_NAMED_RESULTSET = "odaconsumer.CannotGetNamedResultSet";
-    public final static String CANNOT_GET_MORE_RESULTS = "odaconsumer.CannotGetMoreResults";
+	public final static String CANNOT_GET_MORE_RESULTS = "odaconsumer.CannotGetMoreResults";
 	public final static String CANNOT_FIND_OUT_PARAMETER = "odaconsumer.CannotFindOutParameter";
 	public final static String CANNOT_CLOSE_STATEMENT = "odaconsumer.CannotCloseStatement";
 	public final static String CANNOT_CANCEL_STATEMENT = "odaconsumer.CannotCancelStatement";
@@ -305,8 +302,8 @@ public class ResourceConstants
 	public final static String CANNOT_GET_TIMESTAMP_FROM_COLUMN = "odaconsumer.CannotGetTimestampFromColumn";
 	public final static String CANNOT_GET_CLOB_FROM_COLUMN = "odaconsumer.CannotGetClobFromColumn";
 	public final static String CANNOT_GET_BLOB_FROM_COLUMN = "odaconsumer.CannotGetBlobFromColumn";
-    public final static String CANNOT_GET_BOOLEAN_FROM_COLUMN = "odaconsumer.CannotGetBooleanFromColumn";
-    public final static String CANNOT_GET_OBJECT_FROM_COLUMN = "odaconsumer.CannotGetObjectFromColumn";
+	public final static String CANNOT_GET_BOOLEAN_FROM_COLUMN = "odaconsumer.CannotGetBooleanFromColumn";
+	public final static String CANNOT_GET_OBJECT_FROM_COLUMN = "odaconsumer.CannotGetObjectFromColumn";
 	public final static String CANNOT_GET_ROW_POSITION = "odaconsumer.CannotGetRowPosition";
 	public final static String CANNOT_CLOSE_RESULT_SET = "odaconsumer.CannotCloseResultSet";
 	public final static String CANNOT_GET_PARAMETER_COUNT = "odaconsumer.CannotGetParameterCount";
@@ -319,8 +316,8 @@ public class ResourceConstants
 	public final static String CANNOT_GET_TIMESTAMP_FROM_PARAMETER = "odaconsumer.CannotGetTimestampFromParameter";
 	public final static String CANNOT_GET_BLOB_FROM_PARAMETER = "odaconsumer.CannotGetBlobFromParameter";
 	public final static String CANNOT_GET_CLOB_FROM_PARAMETER = "odaconsumer.CannotGetClobFromParameter";
-    public final static String CANNOT_GET_BOOLEAN_FROM_PARAMETER = "odaconsumer.CannotGetBooleanFromParameter";
-    public final static String CANNOT_GET_OBJECT_FROM_PARAMETER = "odaconsumer.CannotGetObjectFromParameter";
+	public final static String CANNOT_GET_BOOLEAN_FROM_PARAMETER = "odaconsumer.CannotGetBooleanFromParameter";
+	public final static String CANNOT_GET_OBJECT_FROM_PARAMETER = "odaconsumer.CannotGetObjectFromParameter";
 	public final static String CANNOT_FIND_IN_PARAMETER = "odaconsumer.CannotFindInParameter";
 	public final static String CANNOT_SET_INT_PARAMETER = "odaconsumer.CannotSetIntParameter";
 	public final static String CANNOT_SET_DOUBLE_PARAMETER = "odaconsumer.CannotSetDoubleParameter";
@@ -329,9 +326,9 @@ public class ResourceConstants
 	public final static String CANNOT_SET_DATE_PARAMETER = "odaconsumer.CannotSetDateParameter";
 	public final static String CANNOT_SET_TIME_PARAMETER = "odaconsumer.CannotSetTimeParameter";
 	public final static String CANNOT_SET_TIMESTAMP_PARAMETER = "odaconsumer.CannotSetTimestampParameter";
-    public final static String CANNOT_SET_BOOLEAN_PARAMETER = "odaconsumer.CannotSetBooleanParameter";
-    public final static String CANNOT_SET_OBJECT_PARAMETER = "odaconsumer.CannotSetObjectParameter";
-    public final static String CANNOT_SET_NULL_PARAMETER = "odaconsumer.CannotSetNullParameter";
+	public final static String CANNOT_SET_BOOLEAN_PARAMETER = "odaconsumer.CannotSetBooleanParameter";
+	public final static String CANNOT_SET_OBJECT_PARAMETER = "odaconsumer.CannotSetObjectParameter";
+	public final static String CANNOT_SET_NULL_PARAMETER = "odaconsumer.CannotSetNullParameter";
 	public final static String CANNOT_CLEAR_IN_PARAMETERS = "odaconsumer.CannotClearInParameters";
 	public final static String UNRECOGNIZED_ODA_TYPE = "odaconsumer.UnrecognizedOdaType";
 	public final static String CANNOT_GET_COLUMN_NATIVE_TYPE_NAME = "odaconsumer.CannotGetColumnNativeDataTypeName";
@@ -339,12 +336,12 @@ public class ResourceConstants
 	public final static String CANNOT_LOAD_ODA_ADAPTER = "odaconsumer.CannotLoadOdaAdapter";
 	public final static String MUST_SPECIFY_COLUMN_NAME = "odaconsumer.MustSpecifyColumnName";
 	public final static String CANNOT_FIND_LOG_DIRECTORY = "odaconsumer.CannotFindLogDirectory";
-    public final static String PARAMETER_NAMES_INFO = "odaconsumer.ParameterNames";
-    public final static String INVALID_METHOD_ARGUMENT = "odaconsumer.InvalidArgument";
-    public final static String CANNOT_SET_CONN_LOCALE = "odaconsumer.CannotSetConnectionLocale";
-    public final static String CANNOT_CHECK_CONN_ISOPEN = "odaconsumer.CannotCheckOpenConnection";
+	public final static String PARAMETER_NAMES_INFO = "odaconsumer.ParameterNames";
+	public final static String INVALID_METHOD_ARGUMENT = "odaconsumer.InvalidArgument";
+	public final static String CANNOT_SET_CONN_LOCALE = "odaconsumer.CannotSetConnectionLocale";
+	public final static String CANNOT_CHECK_CONN_ISOPEN = "odaconsumer.CannotCheckOpenConnection";
 
-	//OLAP errors
+	// OLAP errors
 	public final static String OLAPDIR_CREATE_FAIL = "data.olap.OlapDirCreateFail";
 	public final static String OLAPFILE_CREATE_FAIL = "data.olap.OlapFileCreateFail";
 	public final static String OLAPFILE_NOT_FOUND = "data.olap.OlapFileNotFound";
@@ -410,14 +407,14 @@ public class ResourceConstants
 	public final static String UNSPECIFIED_BINDING_NAME = "data.olap.UnspecifiedBindingName";
 	public final static String NOT_NEST_AGGREGATION_BINDING = "data.olap.NotNestAggregationBinding";
 	public final static String INVALID_NEST_AGGREGATION_EXPRESSION = "data.olap.InvalidNestAggregationExpression";
-	public final static String INVALID_NEST_AGGREGATION_ON="data.olap.InvalidNestAggregationOn";
-	public final static String INVALID_AGGREGATION_FILTER_EXPRESSION="data.olap.InvalidAggregationFilterExpr";
+	public final static String INVALID_NEST_AGGREGATION_ON = "data.olap.InvalidNestAggregationOn";
+	public final static String INVALID_AGGREGATION_FILTER_EXPRESSION = "data.olap.InvalidAggregationFilterExpr";
 
-	public final static String RESULT_LENGTH_EXCEED_LIMIT="data.olap.ExceedIntegerLimit";
-	public final static String RESULT_LENGTH_EXCEED_COLUMN_LIMIT="data.olap.ExceedColumnLimit";
-	public final static String RESULT_LENGTH_EXCEED_ROW_LIMIT="data.olap.ExceedRowLimit";
-	
-	//derived dataSet
+	public final static String RESULT_LENGTH_EXCEED_LIMIT = "data.olap.ExceedIntegerLimit";
+	public final static String RESULT_LENGTH_EXCEED_COLUMN_LIMIT = "data.olap.ExceedColumnLimit";
+	public final static String RESULT_LENGTH_EXCEED_ROW_LIMIT = "data.olap.ExceedRowLimit";
+
+	// derived dataSet
 	public final static String COLUMN_NOT_EXIST = "data.derivedDataSet.columnNotExist";
 	public final static String UNION_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.UnionQueryTextParseError";
 	public final static String JOIN_QUERY_TEXT_PARSE_ERROR = "data.derivedDataSet.JoinQueryTextParseError";
@@ -427,13 +424,13 @@ public class ResourceConstants
 	public final static String CALCULATOR_NOT_EXIST = "data.derivedDataSet.calculatorNotExist";
 	public final static String INVALID_QUERY_TEXT = "data.derivedDataSet.invalidQueryText";
 
-	//data mart data source
-	public final static String FAIL_LOAD_DATAOBJECT_DATASET= "data.datamart.failLoadDataSet";
-	public final static String ORIGINAL_DATASET_NOT_EXIST= "data.datamart.originalDataSetNotExist";
-	public final static String INCREMENTAL_DATASET_HAS_ERROR_METADATA= "data.datamart.incrementalDatasetMetaDataError";
-    public final static String REGENERATE_BDO_COLLATION = "data.datamart.collation";
+	// data mart data source
+	public final static String FAIL_LOAD_DATAOBJECT_DATASET = "data.datamart.failLoadDataSet";
+	public final static String ORIGINAL_DATASET_NOT_EXIST = "data.datamart.originalDataSetNotExist";
+	public final static String INCREMENTAL_DATASET_HAS_ERROR_METADATA = "data.datamart.incrementalDatasetMetaDataError";
+	public final static String REGENERATE_BDO_COLLATION = "data.datamart.collation";
 	public final static String FAIL_PUSH_DOWM_FILTER = "data.filter.pushDownFail";
-	
-	public final static String  CANNOT_EXEC_QUERY_INVALEXPR_INVALCOLUMN= "data.query.exprReferInvalidColumn";
-	public final static String INVALID_BINDING="data.query.invalidColumnBinding";
+
+	public final static String CANNOT_EXEC_QUERY_INVALEXPR_INVALCOLUMN = "data.query.exprReferInvalidColumn";
+	public final static String INVALID_BINDING = "data.query.invalidColumnBinding";
 }

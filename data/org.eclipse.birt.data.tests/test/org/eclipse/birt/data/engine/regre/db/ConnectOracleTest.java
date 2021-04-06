@@ -19,28 +19,28 @@ import org.junit.Ignore;
  *  
  */
 @Ignore("Ignore tests that require manual setup")
-public class ConnectOracleTest extends ConnectionTest
-{
+public class ConnectOracleTest extends ConnectionTest {
 
 	/*
-	 *  (non-Javadoc)
+	 * (non-Javadoc)
+	 * 
 	 * @see junit.framework.TestCase#setUp()
 	 */
 	@Before
-    public void connectOracleSetUp() throws Exception
-	{
-		DriverClass = ConfigText.getString( "Regre.Oracle.DriverClass" );
-		URL = ConfigText.getString( "Regre.Oracle.URL" );
-		User = ConfigText.getString( "Regre.Oracle.User" );
-		Password = ConfigText.getString( "Regre.Oracle.Password" );
+	public void connectOracleSetUp() throws Exception {
+		DriverClass = ConfigText.getString("Regre.Oracle.DriverClass");
+		URL = ConfigText.getString("Regre.Oracle.URL");
+		User = ConfigText.getString("Regre.Oracle.User");
+		Password = ConfigText.getString("Regre.Oracle.Password");
 
 	}
-	
-	/* (non-Javadoc)
+
+	/*
+	 * (non-Javadoc)
+	 * 
 	 * @see testutil.BaseTestCase#getTestTableName()
 	 */
-	protected String getTestTableName( )
-	{
-		return "\"ROOT\".\""+ConfigText.getString( "Regre.ConnectTest.TableName" )+"\"";
+	protected String getTestTableName() {
+		return "\"ROOT\".\"" + ConfigText.getString("Regre.ConnectTest.TableName") + "\"";
 	}
 }

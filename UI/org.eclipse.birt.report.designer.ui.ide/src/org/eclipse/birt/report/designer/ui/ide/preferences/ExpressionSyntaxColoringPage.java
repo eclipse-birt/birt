@@ -90,9 +90,7 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
 
 import com.ibm.icu.text.Collator;
 
-public final class ExpressionSyntaxColoringPage extends
-		AbstractSyntaxColoringPage implements IWorkbenchPreferencePage
-{
+public final class ExpressionSyntaxColoringPage extends AbstractSyntaxColoringPage implements IWorkbenchPreferencePage {
 
 	private Button fBold;
 	private Label fForegroundLabel;
@@ -117,559 +115,464 @@ public final class ExpressionSyntaxColoringPage extends
 	private IPreferences preference;
 
 	// activate controls based on the given local color type
-	private void activate( String namedStyle )
-	{
+	private void activate(String namedStyle) {
 		Color foreground = fDefaultForeground;
 		Color background = fDefaultBackground;
-		if ( namedStyle == null )
-		{
-			fClearStyle.setEnabled( false );
-			fBold.setEnabled( false );
-			fItalic.setEnabled( false );
-			fStrike.setEnabled( false );
-			fUnderline.setEnabled( false );
-			fForegroundLabel.setEnabled( false );
-			fBackgroundLabel.setEnabled( false );
-			fForegroundColorEditor.setEnabled( false );
-			fBackgroundColorEditor.setEnabled( false );
-			fBold.setSelection( false );
-			fItalic.setSelection( false );
-			fStrike.setSelection( false );
-			fUnderline.setSelection( false );
-		}
-		else
-		{
-			TextAttribute attribute = getAttributeFor( namedStyle );
-			fClearStyle.setEnabled( true );
-			fBold.setEnabled( true );
-			fItalic.setEnabled( true );
-			fStrike.setEnabled( true );
-			fUnderline.setEnabled( true );
-			fForegroundLabel.setEnabled( true );
-			fBackgroundLabel.setEnabled( true );
-			fForegroundColorEditor.setEnabled( true );
-			fBackgroundColorEditor.setEnabled( true );
-			fBold.setSelection( ( attribute.getStyle( ) & SWT.BOLD ) != 0 );
-			fItalic.setSelection( ( attribute.getStyle( ) & SWT.ITALIC ) != 0 );
-			fStrike.setSelection( ( attribute.getStyle( ) & TextAttribute.STRIKETHROUGH ) != 0 );
-			fUnderline.setSelection( ( attribute.getStyle( ) & TextAttribute.UNDERLINE ) != 0 );
-			if ( attribute.getForeground( ) != null )
-			{
-				foreground = attribute.getForeground( );
+		if (namedStyle == null) {
+			fClearStyle.setEnabled(false);
+			fBold.setEnabled(false);
+			fItalic.setEnabled(false);
+			fStrike.setEnabled(false);
+			fUnderline.setEnabled(false);
+			fForegroundLabel.setEnabled(false);
+			fBackgroundLabel.setEnabled(false);
+			fForegroundColorEditor.setEnabled(false);
+			fBackgroundColorEditor.setEnabled(false);
+			fBold.setSelection(false);
+			fItalic.setSelection(false);
+			fStrike.setSelection(false);
+			fUnderline.setSelection(false);
+		} else {
+			TextAttribute attribute = getAttributeFor(namedStyle);
+			fClearStyle.setEnabled(true);
+			fBold.setEnabled(true);
+			fItalic.setEnabled(true);
+			fStrike.setEnabled(true);
+			fUnderline.setEnabled(true);
+			fForegroundLabel.setEnabled(true);
+			fBackgroundLabel.setEnabled(true);
+			fForegroundColorEditor.setEnabled(true);
+			fBackgroundColorEditor.setEnabled(true);
+			fBold.setSelection((attribute.getStyle() & SWT.BOLD) != 0);
+			fItalic.setSelection((attribute.getStyle() & SWT.ITALIC) != 0);
+			fStrike.setSelection((attribute.getStyle() & TextAttribute.STRIKETHROUGH) != 0);
+			fUnderline.setSelection((attribute.getStyle() & TextAttribute.UNDERLINE) != 0);
+			if (attribute.getForeground() != null) {
+				foreground = attribute.getForeground();
 			}
-			if ( attribute.getBackground( ) != null )
-			{
-				background = attribute.getBackground( );
+			if (attribute.getBackground() != null) {
+				background = attribute.getBackground();
 			}
 		}
 
-		fForegroundColorEditor.setColorValue( foreground.getRGB( ) );
-		fBackgroundColorEditor.setColorValue( background.getRGB( ) );
+		fForegroundColorEditor.setColorValue(foreground.getRGB());
+		fBackgroundColorEditor.setColorValue(background.getRGB());
 	}
 
 	/**
 	 * Color the text in the sample area according to the current preferences
 	 */
-	void applyStyles( )
-	{
-		if ( fText == null || fText.isDisposed( ) )
+	void applyStyles() {
+		if (fText == null || fText.isDisposed())
 			return;
 
-		try
-		{
-			ITypedRegion[] regions = TextUtilities.computePartitioning( fDocument,
-					IDocumentExtension3.DEFAULT_PARTITIONING,
-					0,
-					fDocument.getLength( ),
-					true );
-			if ( regions.length > 0 )
-			{
-				for ( int i = 0; i < regions.length; i++ )
-				{
+		try {
+			ITypedRegion[] regions = TextUtilities.computePartitioning(fDocument,
+					IDocumentExtension3.DEFAULT_PARTITIONING, 0, fDocument.getLength(), true);
+			if (regions.length > 0) {
+				for (int i = 0; i < regions.length; i++) {
 					ITypedRegion region = regions[i];
-					String namedStyle = (String) fContextToStyleMap.get( region.getType( ) );
-					if ( namedStyle == null )
+					String namedStyle = (String) fContextToStyleMap.get(region.getType());
+					if (namedStyle == null)
 						continue;
-					TextAttribute attribute = getAttributeFor( namedStyle );
-					if ( attribute == null )
+					TextAttribute attribute = getAttributeFor(namedStyle);
+					if (attribute == null)
 						continue;
-					int fontStyle = attribute.getStyle( )
-							& ( SWT.ITALIC | SWT.BOLD | SWT.NORMAL );
-					StyleRange style = new StyleRange( region.getOffset( ),
-							region.getLength( ),
-							attribute.getForeground( ),
-							attribute.getBackground( ),
-							fontStyle );
-					style.strikeout = ( attribute.getStyle( ) & TextAttribute.STRIKETHROUGH ) != 0;
-					style.underline = ( attribute.getStyle( ) & TextAttribute.UNDERLINE ) != 0;
-					style.font = attribute.getFont( );
-					fText.setStyleRange( style );
+					int fontStyle = attribute.getStyle() & (SWT.ITALIC | SWT.BOLD | SWT.NORMAL);
+					StyleRange style = new StyleRange(region.getOffset(), region.getLength(), attribute.getForeground(),
+							attribute.getBackground(), fontStyle);
+					style.strikeout = (attribute.getStyle() & TextAttribute.STRIKETHROUGH) != 0;
+					style.underline = (attribute.getStyle() & TextAttribute.UNDERLINE) != 0;
+					style.font = attribute.getFont();
+					fText.setStyleRange(style);
 				}
 			}
-		}
-		catch ( BadLocationException e )
-		{
-			ExceptionHandler.handle( e );
+		} catch (BadLocationException e) {
+			ExceptionHandler.handle(e);
 		}
 	}
 
-	Button createCheckbox( Composite parent, String label )
-	{
-		Button button = new Button( parent, SWT.CHECK );
-		button.setText( label );
-		button.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, false ) );
+	Button createCheckbox(Composite parent, String label) {
+		Button button = new Button(parent, SWT.CHECK);
+		button.setText(label);
+		button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false));
 		return button;
 	}
 
 	/**
 	 * Creates composite control and sets the default layout data.
 	 */
-	private Composite createComposite( Composite parent, int numColumns )
-	{
-		Composite composite = new Composite( parent, SWT.NULL );
+	private Composite createComposite(Composite parent, int numColumns) {
+		Composite composite = new Composite(parent, SWT.NULL);
 
 		// GridLayout
-		GridLayout layout = new GridLayout( );
+		GridLayout layout = new GridLayout();
 		layout.numColumns = numColumns;
 		layout.makeColumnsEqualWidth = false;
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
-		composite.setLayout( layout );
+		composite.setLayout(layout);
 
 		// GridData
-		GridData data = new GridData( SWT.FILL, SWT.FILL, true, false );
-		composite.setLayoutData( data );
+		GridData data = new GridData(SWT.FILL, SWT.FILL, true, false);
+		composite.setLayoutData(data);
 		return composite;
 	}
 
-	protected Control createContents( final Composite parent )
-	{
-		initializeDialogUnits( parent );
+	protected Control createContents(final Composite parent) {
+		initializeDialogUnits(parent);
 
-		fDefaultForeground = UIUtil.getEclipseEditorForeground( );
-		fDefaultBackground = UIUtil.getEclipseEditorBackground( );
-		Composite pageComponent = createComposite( parent, 2 );
-		UIUtil.bindHelp( getControl( ),
-						IHelpContextIds.PREFERENCE_BIRT_EXPRESSION_SYNTAX_COLOR_ID );
+		fDefaultForeground = UIUtil.getEclipseEditorForeground();
+		fDefaultBackground = UIUtil.getEclipseEditorBackground();
+		Composite pageComponent = createComposite(parent, 2);
+		UIUtil.bindHelp(getControl(), IHelpContextIds.PREFERENCE_BIRT_EXPRESSION_SYNTAX_COLOR_ID);
 
-		Link link = new Link( pageComponent, SWT.WRAP );
-		link.setText( Messages.getString("ExpressionSyntaxColoringPage.Link.ColorAndFont") ); //$NON-NLS-1$
-		link.addSelectionListener( new SelectionAdapter( ) {
+		Link link = new Link(pageComponent, SWT.WRAP);
+		link.setText(Messages.getString("ExpressionSyntaxColoringPage.Link.ColorAndFont")); //$NON-NLS-1$
+		link.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				PreferencesUtil.createPreferenceDialogOn( parent.getShell( ),
-						e.text,
-						null,
-						null );
+			public void widgetSelected(SelectionEvent e) {
+				PreferencesUtil.createPreferenceDialogOn(parent.getShell(), e.text, null, null);
 			}
-		} );
+		});
 
-		GridData linkData = new GridData( SWT.FILL,
-				SWT.BEGINNING,
-				true,
-				false,
-				2,
-				1 );
+		GridData linkData = new GridData(SWT.FILL, SWT.BEGINNING, true, false, 2, 1);
 		linkData.widthHint = 150; // only expand further if anyone else requires
 									// it
-		link.setLayoutData( linkData );
+		link.setLayoutData(linkData);
 
-		new Label( pageComponent, SWT.NONE ).setLayoutData( new GridData( ) );
-		new Label( pageComponent, SWT.NONE ).setLayoutData( new GridData( ) );
+		new Label(pageComponent, SWT.NONE).setLayoutData(new GridData());
+		new Label(pageComponent, SWT.NONE).setLayoutData(new GridData());
 
-		SashForm editor = new SashForm( pageComponent, SWT.VERTICAL );
-		GridData gridData2 = new GridData( SWT.FILL, SWT.FILL, true, true );
+		SashForm editor = new SashForm(pageComponent, SWT.VERTICAL);
+		GridData gridData2 = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData2.horizontalSpan = 2;
-		editor.setLayoutData( gridData2 );
-		SashForm top = new SashForm( editor, SWT.HORIZONTAL );
-		Composite styleEditor = createComposite( top, 1 );
-		( (GridLayout) styleEditor.getLayout( ) ).marginRight = 5;
-		( (GridLayout) styleEditor.getLayout( ) ).marginLeft = 0;
-		createLabel( styleEditor, Messages.getString("ExpressionSyntaxColoringPage.Label.SyntaxElement") ); //$NON-NLS-1$
-		fStylesViewer = createStylesViewer( styleEditor );
-		GridData gridData = new GridData( SWT.FILL, SWT.FILL, true, true );
+		editor.setLayoutData(gridData2);
+		SashForm top = new SashForm(editor, SWT.HORIZONTAL);
+		Composite styleEditor = createComposite(top, 1);
+		((GridLayout) styleEditor.getLayout()).marginRight = 5;
+		((GridLayout) styleEditor.getLayout()).marginLeft = 0;
+		createLabel(styleEditor, Messages.getString("ExpressionSyntaxColoringPage.Label.SyntaxElement")); //$NON-NLS-1$
+		fStylesViewer = createStylesViewer(styleEditor);
+		GridData gridData = new GridData(SWT.FILL, SWT.FILL, true, true);
 		gridData.horizontalIndent = 0;
-		Iterator iterator = fStyleToDescriptionMap.values( ).iterator( );
-		while ( iterator.hasNext( ) )
-		{
-			gridData.widthHint = Math.max( gridData.widthHint,
-					convertWidthInCharsToPixels( iterator.next( )
-							.toString( )
-							.length( ) ) );
+		Iterator iterator = fStyleToDescriptionMap.values().iterator();
+		while (iterator.hasNext()) {
+			gridData.widthHint = Math.max(gridData.widthHint,
+					convertWidthInCharsToPixels(iterator.next().toString().length()));
 		}
-		gridData.heightHint = convertHeightInCharsToPixels( 5 );
-		fStylesViewer.getControl( ).setLayoutData( gridData );
+		gridData.heightHint = convertHeightInCharsToPixels(5);
+		fStylesViewer.getControl().setLayoutData(gridData);
 
-		Composite editingComposite = createComposite( top, 1 );
-		( (GridLayout) styleEditor.getLayout( ) ).marginLeft = 5;
-		createLabel( editingComposite, "" ); //$NON-NLS-1$
-		Button enabler = createCheckbox( editingComposite,
-				Messages.getString("ExpressionSyntaxColoringPage.Button.Enable") ); //$NON-NLS-1$
-		enabler.setEnabled( false );
-		enabler.setSelection( true );
-		Composite editControls = createComposite( editingComposite, 2 );
-		( (GridLayout) editControls.getLayout( ) ).marginLeft = 20;
+		Composite editingComposite = createComposite(top, 1);
+		((GridLayout) styleEditor.getLayout()).marginLeft = 5;
+		createLabel(editingComposite, ""); //$NON-NLS-1$
+		Button enabler = createCheckbox(editingComposite,
+				Messages.getString("ExpressionSyntaxColoringPage.Button.Enable")); //$NON-NLS-1$
+		enabler.setEnabled(false);
+		enabler.setSelection(true);
+		Composite editControls = createComposite(editingComposite, 2);
+		((GridLayout) editControls.getLayout()).marginLeft = 20;
 
-		fForegroundLabel = createLabel( editControls,
-				Messages.getString("ExpressionSyntaxColoringPage.Label.Foreground") ); //$NON-NLS-1$
-		( (GridData) fForegroundLabel.getLayoutData( ) ).verticalAlignment = SWT.CENTER;
-		fForegroundLabel.setEnabled( false );
+		fForegroundLabel = createLabel(editControls,
+				Messages.getString("ExpressionSyntaxColoringPage.Label.Foreground")); //$NON-NLS-1$
+		((GridData) fForegroundLabel.getLayoutData()).verticalAlignment = SWT.CENTER;
+		fForegroundLabel.setEnabled(false);
 
-		fForegroundColorEditor = new ColorSelector( editControls );
-		Button fForegroundColor = fForegroundColorEditor.getButton( );
-		GridData gd = new GridData( SWT.BEGINNING, SWT.FILL, false, false );
-		fForegroundColor.setLayoutData( gd );
-		fForegroundColorEditor.setEnabled( false );
-		fForegroundColorEditor.getButton( )
-				.getAccessible( )
-				.addAccessibleListener( new AccessibleAdapter( ) {
+		fForegroundColorEditor = new ColorSelector(editControls);
+		Button fForegroundColor = fForegroundColorEditor.getButton();
+		GridData gd = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
+		fForegroundColor.setLayoutData(gd);
+		fForegroundColorEditor.setEnabled(false);
+		fForegroundColorEditor.getButton().getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-					public void getName( final AccessibleEvent e )
-					{
-						e.result = Messages.getString("ExpressionSyntaxColoringPage.Accessible.Name.Foreground"); //$NON-NLS-1$
-					}
-				} );
+			public void getName(final AccessibleEvent e) {
+				e.result = Messages.getString("ExpressionSyntaxColoringPage.Accessible.Name.Foreground"); //$NON-NLS-1$
+			}
+		});
 
-		fBackgroundLabel = createLabel( editControls,
-				Messages.getString("ExpressionSyntaxColoringPage.Label.Background") ); //$NON-NLS-1$
-		( (GridData) fBackgroundLabel.getLayoutData( ) ).verticalAlignment = SWT.CENTER;
-		fBackgroundLabel.setEnabled( false );
+		fBackgroundLabel = createLabel(editControls,
+				Messages.getString("ExpressionSyntaxColoringPage.Label.Background")); //$NON-NLS-1$
+		((GridData) fBackgroundLabel.getLayoutData()).verticalAlignment = SWT.CENTER;
+		fBackgroundLabel.setEnabled(false);
 
-		fBackgroundColorEditor = new ColorSelector( editControls );
-		Button fBackgroundColor = fBackgroundColorEditor.getButton( );
-		gd = new GridData( SWT.BEGINNING, SWT.FILL, false, false );
-		fBackgroundColor.setLayoutData( gd );
-		fBackgroundColorEditor.setEnabled( false );
-		fBackgroundColorEditor.getButton( )
-				.getAccessible( )
-				.addAccessibleListener( new AccessibleAdapter( ) {
+		fBackgroundColorEditor = new ColorSelector(editControls);
+		Button fBackgroundColor = fBackgroundColorEditor.getButton();
+		gd = new GridData(SWT.BEGINNING, SWT.FILL, false, false);
+		fBackgroundColor.setLayoutData(gd);
+		fBackgroundColorEditor.setEnabled(false);
+		fBackgroundColorEditor.getButton().getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-					public void getName( final AccessibleEvent e )
-					{
-						e.result = Messages.getString("ExpressionSyntaxColoringPage.Accessible.Name.Background"); //$NON-NLS-1$
-					}
-				} );
+			public void getName(final AccessibleEvent e) {
+				e.result = Messages.getString("ExpressionSyntaxColoringPage.Accessible.Name.Background"); //$NON-NLS-1$
+			}
+		});
 
-		fBold = createCheckbox( editControls,
-				Messages.getString("ExpressionSyntaxColoringPage.Button.Bold") ); //$NON-NLS-1$
-		fBold.setEnabled( false );
-		( (GridData) fBold.getLayoutData( ) ).horizontalSpan = 2;
-		fItalic = createCheckbox( editControls,
-				Messages.getString("ExpressionSyntaxColoringPage.Button.Italic") ); //$NON-NLS-1$
-		fItalic.setEnabled( false );
-		( (GridData) fItalic.getLayoutData( ) ).horizontalSpan = 2;
-		fStrike = createCheckbox( editControls,
-				Messages.getString("ExpressionSyntaxColoringPage.Button.Strikethrough") ); //$NON-NLS-1$
-		fStrike.setEnabled( false );
-		( (GridData) fStrike.getLayoutData( ) ).horizontalSpan = 2;
-		fUnderline = createCheckbox( editControls,
-				Messages.getString("ExpressionSyntaxColoringPage.Button.Underline") ); //$NON-NLS-1$
-		fUnderline.setEnabled( false );
-		( (GridData) fUnderline.getLayoutData( ) ).horizontalSpan = 2;
-		fClearStyle = new Button( editingComposite, SWT.PUSH );
-		fClearStyle.setText( Messages.getString("ExpressionSyntaxColoringPage.Button.Restore") );  //$NON-NLS-1$
-		fClearStyle.setLayoutData( new GridData( SWT.BEGINNING ) );
-		( (GridData) fClearStyle.getLayoutData( ) ).horizontalIndent = 20;
-		fClearStyle.setEnabled( false );
+		fBold = createCheckbox(editControls, Messages.getString("ExpressionSyntaxColoringPage.Button.Bold")); //$NON-NLS-1$
+		fBold.setEnabled(false);
+		((GridData) fBold.getLayoutData()).horizontalSpan = 2;
+		fItalic = createCheckbox(editControls, Messages.getString("ExpressionSyntaxColoringPage.Button.Italic")); //$NON-NLS-1$
+		fItalic.setEnabled(false);
+		((GridData) fItalic.getLayoutData()).horizontalSpan = 2;
+		fStrike = createCheckbox(editControls, Messages.getString("ExpressionSyntaxColoringPage.Button.Strikethrough")); //$NON-NLS-1$
+		fStrike.setEnabled(false);
+		((GridData) fStrike.getLayoutData()).horizontalSpan = 2;
+		fUnderline = createCheckbox(editControls, Messages.getString("ExpressionSyntaxColoringPage.Button.Underline")); //$NON-NLS-1$
+		fUnderline.setEnabled(false);
+		((GridData) fUnderline.getLayoutData()).horizontalSpan = 2;
+		fClearStyle = new Button(editingComposite, SWT.PUSH);
+		fClearStyle.setText(Messages.getString("ExpressionSyntaxColoringPage.Button.Restore")); //$NON-NLS-1$
+		fClearStyle.setLayoutData(new GridData(SWT.BEGINNING));
+		((GridData) fClearStyle.getLayoutData()).horizontalIndent = 20;
+		fClearStyle.setEnabled(false);
 
-		Composite sampleArea = createComposite( editor, 1 );
+		Composite sampleArea = createComposite(editor, 1);
 
-		( (GridLayout) sampleArea.getLayout( ) ).marginLeft = 5;
-		( (GridLayout) sampleArea.getLayout( ) ).marginTop = 5;
-		createLabel( sampleArea, Messages.getString("ExpressionSyntaxColoringPage.Label.SampleText") );  //$NON-NLS-1$
-		fPreviewViewer = new SourceViewer( sampleArea, null, SWT.BORDER
-				| SWT.LEFT_TO_RIGHT
-				| SWT.MULTI
-				| SWT.V_SCROLL
-				| SWT.H_SCROLL
-				| SWT.READ_ONLY );
-		fPreviewViewer.configure( new JSSourceViewerConfiguration( ) );
-		fText = fPreviewViewer.getTextWidget( );
-		GridData gridData3 = new GridData( SWT.FILL, SWT.FILL, true, true );
-		gridData3.widthHint = convertWidthInCharsToPixels( 20 );
-		gridData3.heightHint = convertHeightInCharsToPixels( 5 );
+		((GridLayout) sampleArea.getLayout()).marginLeft = 5;
+		((GridLayout) sampleArea.getLayout()).marginTop = 5;
+		createLabel(sampleArea, Messages.getString("ExpressionSyntaxColoringPage.Label.SampleText")); //$NON-NLS-1$
+		fPreviewViewer = new SourceViewer(sampleArea, null,
+				SWT.BORDER | SWT.LEFT_TO_RIGHT | SWT.MULTI | SWT.V_SCROLL | SWT.H_SCROLL | SWT.READ_ONLY);
+		fPreviewViewer.configure(new JSSourceViewerConfiguration());
+		fText = fPreviewViewer.getTextWidget();
+		GridData gridData3 = new GridData(SWT.FILL, SWT.FILL, true, true);
+		gridData3.widthHint = convertWidthInCharsToPixels(20);
+		gridData3.heightHint = convertHeightInCharsToPixels(5);
 		gridData3.horizontalSpan = 2;
-		fText.setLayoutData( gridData3 );
-		fText.setEditable( false );
-		fText.setFont(JFaceResources.getFont(JFaceResources.TEXT_FONT ));
-		fText.addKeyListener( getTextKeyListener( ) );
-		fText.addSelectionListener( getTextSelectionListener( ) );
-		fText.addMouseListener( getTextMouseListener( ) );
-		fText.addTraverseListener( getTraverseListener( ) );
-		setAccessible( fText, Messages.getString("ExpressionSyntaxColoringPage.Label.SampleText") ); //$NON-NLS-1$
+		fText.setLayoutData(gridData3);
+		fText.setEditable(false);
+		fText.setFont(JFaceResources.getFont(JFaceResources.TEXT_FONT));
+		fText.addKeyListener(getTextKeyListener());
+		fText.addSelectionListener(getTextSelectionListener());
+		fText.addMouseListener(getTextMouseListener());
+		fText.addTraverseListener(getTraverseListener());
+		setAccessible(fText, Messages.getString("ExpressionSyntaxColoringPage.Label.SampleText")); //$NON-NLS-1$
 
-		JSEditorInput editorInput = new JSEditorInput( loadPreviewContentFromFile( ) );
-		JSDocumentProvider documentProvider = new JSDocumentProvider( );
+		JSEditorInput editorInput = new JSEditorInput(loadPreviewContentFromFile());
+		JSDocumentProvider documentProvider = new JSDocumentProvider();
 
-		try
-		{
-			documentProvider.connect( editorInput );
-		}
-		catch ( CoreException e )
-		{
-			ExceptionHandler.handle( e );
+		try {
+			documentProvider.connect(editorInput);
+		} catch (CoreException e) {
+			ExceptionHandler.handle(e);
 		}
 
-		fDocument = documentProvider.getDocument( editorInput );
+		fDocument = documentProvider.getDocument(editorInput);
 
-		initializeSourcePreviewColors( fPreviewViewer );
+		initializeSourcePreviewColors(fPreviewViewer);
 
-		fPreviewViewer.setDocument( fDocument );
+		fPreviewViewer.setDocument(fDocument);
 
-		top.setWeights( new int[]{
-				1, 1
-		} );
-		editor.setWeights( new int[]{
-				1, 1
-		} );
+		top.setWeights(new int[] { 1, 1 });
+		editor.setWeights(new int[] { 1, 1 });
 
-		fStylesViewer.setInput( getStylePreferenceKeys( ) );
+		fStylesViewer.setInput(getStylePreferenceKeys());
 
-		applyStyles( );
+		applyStyles();
 
-		fStylesViewer.addSelectionChangedListener( new ISelectionChangedListener( ) {
+		fStylesViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
-			public void selectionChanged( SelectionChangedEvent event )
-			{
-				if ( !event.getSelection( ).isEmpty( ) )
-				{
-					Object o = ( (IStructuredSelection) event.getSelection( ) ).getFirstElement( );
-					String namedStyle = o.toString( );
-					activate( namedStyle );
-					if ( namedStyle == null )
+			public void selectionChanged(SelectionChangedEvent event) {
+				if (!event.getSelection().isEmpty()) {
+					Object o = ((IStructuredSelection) event.getSelection()).getFirstElement();
+					String namedStyle = o.toString();
+					activate(namedStyle);
+					if (namedStyle == null)
 						return;
 				}
 			}
-		} );
+		});
 
-		fForegroundColorEditor.addListener( new IPropertyChangeListener( ) {
+		fForegroundColorEditor.addListener(new IPropertyChangeListener() {
 
-			public void propertyChange( PropertyChangeEvent event )
-			{
-				if ( event.getProperty( )
-						.equals( ColorSelector.PROP_COLORCHANGE ) )
-				{
-					Object o = ( (IStructuredSelection) fStylesViewer.getSelection( ) ).getFirstElement( );
-					String namedStyle = o.toString( );
-					String prefString = getOverlayStore( ).getString( namedStyle );
-					String[] stylePrefs = ColorHelper.unpackStylePreferences( prefString );
-					if ( stylePrefs != null )
-					{
+			public void propertyChange(PropertyChangeEvent event) {
+				if (event.getProperty().equals(ColorSelector.PROP_COLORCHANGE)) {
+					Object o = ((IStructuredSelection) fStylesViewer.getSelection()).getFirstElement();
+					String namedStyle = o.toString();
+					String prefString = getOverlayStore().getString(namedStyle);
+					String[] stylePrefs = ColorHelper.unpackStylePreferences(prefString);
+					if (stylePrefs != null) {
 						String oldValue = stylePrefs[0];
 						// open color dialog to get new color
-						String newValue = ColorHelper.toRGBString( fForegroundColorEditor.getColorValue( ) );
+						String newValue = ColorHelper.toRGBString(fForegroundColorEditor.getColorValue());
 
-						if ( !newValue.equals( oldValue ) )
-						{
+						if (!newValue.equals(oldValue)) {
 							stylePrefs[0] = newValue;
-							String newPrefString = ColorHelper.packStylePreferences( stylePrefs );
-							getOverlayStore( ).setValue( namedStyle,
-									newPrefString );
-							applyStyles( );
-							fText.redraw( );
+							String newPrefString = ColorHelper.packStylePreferences(stylePrefs);
+							getOverlayStore().setValue(namedStyle, newPrefString);
+							applyStyles();
+							fText.redraw();
 						}
 					}
 				}
 			}
-		} );
+		});
 
-		fBackgroundColorEditor.addListener( new IPropertyChangeListener( ) {
+		fBackgroundColorEditor.addListener(new IPropertyChangeListener() {
 
-			public void propertyChange( PropertyChangeEvent event )
-			{
-				if ( event.getProperty( )
-						.equals( ColorSelector.PROP_COLORCHANGE ) )
-				{
-					Object o = ( (IStructuredSelection) fStylesViewer.getSelection( ) ).getFirstElement( );
-					String namedStyle = o.toString( );
-					String prefString = getOverlayStore( ).getString( namedStyle );
-					String[] stylePrefs = ColorHelper.unpackStylePreferences( prefString );
-					if ( stylePrefs != null )
-					{
+			public void propertyChange(PropertyChangeEvent event) {
+				if (event.getProperty().equals(ColorSelector.PROP_COLORCHANGE)) {
+					Object o = ((IStructuredSelection) fStylesViewer.getSelection()).getFirstElement();
+					String namedStyle = o.toString();
+					String prefString = getOverlayStore().getString(namedStyle);
+					String[] stylePrefs = ColorHelper.unpackStylePreferences(prefString);
+					if (stylePrefs != null) {
 						String oldValue = stylePrefs[1];
 						// open color dialog to get new color
-						String newValue = ColorHelper.toRGBString( fBackgroundColorEditor.getColorValue( ) );
+						String newValue = ColorHelper.toRGBString(fBackgroundColorEditor.getColorValue());
 
-						if ( !newValue.equals( oldValue ) )
-						{
+						if (!newValue.equals(oldValue)) {
 							stylePrefs[1] = newValue;
-							String newPrefString = ColorHelper.packStylePreferences( stylePrefs );
-							getOverlayStore( ).setValue( namedStyle,
-									newPrefString );
-							applyStyles( );
-							fText.redraw( );
-							activate( namedStyle );
+							String newPrefString = ColorHelper.packStylePreferences(stylePrefs);
+							getOverlayStore().setValue(namedStyle, newPrefString);
+							applyStyles();
+							fText.redraw();
+							activate(namedStyle);
 						}
 					}
 				}
 			}
-		} );
+		});
 
-		fBold.addSelectionListener( new SelectionAdapter( ) {
+		fBold.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				super.widgetSelected( e );
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
 				// get current (newly old) style
-				Object o = ( (IStructuredSelection) fStylesViewer.getSelection( ) ).getFirstElement( );
-				String namedStyle = o.toString( );
-				String prefString = getOverlayStore( ).getString( namedStyle );
-				String[] stylePrefs = ColorHelper.unpackStylePreferences( prefString );
-				if ( stylePrefs != null )
-				{
+				Object o = ((IStructuredSelection) fStylesViewer.getSelection()).getFirstElement();
+				String namedStyle = o.toString();
+				String prefString = getOverlayStore().getString(namedStyle);
+				String[] stylePrefs = ColorHelper.unpackStylePreferences(prefString);
+				if (stylePrefs != null) {
 					String oldValue = stylePrefs[2];
-					String newValue = String.valueOf( fBold.getSelection( ) );
-					if ( !newValue.equals( oldValue ) )
-					{
+					String newValue = String.valueOf(fBold.getSelection());
+					if (!newValue.equals(oldValue)) {
 						stylePrefs[2] = newValue;
-						String newPrefString = ColorHelper.packStylePreferences( stylePrefs );
-						getOverlayStore( ).setValue( namedStyle, newPrefString );
-						applyStyles( );
-						fText.redraw( );
+						String newPrefString = ColorHelper.packStylePreferences(stylePrefs);
+						getOverlayStore().setValue(namedStyle, newPrefString);
+						applyStyles();
+						fText.redraw();
 					}
 				}
 			}
-		} );
+		});
 
-		fItalic.addSelectionListener( new SelectionAdapter( ) {
+		fItalic.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				super.widgetSelected( e );
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
 				// get current (newly old) style
-				Object o = ( (IStructuredSelection) fStylesViewer.getSelection( ) ).getFirstElement( );
-				String namedStyle = o.toString( );
-				String prefString = getOverlayStore( ).getString( namedStyle );
-				String[] stylePrefs = ColorHelper.unpackStylePreferences( prefString );
-				if ( stylePrefs != null )
-				{
+				Object o = ((IStructuredSelection) fStylesViewer.getSelection()).getFirstElement();
+				String namedStyle = o.toString();
+				String prefString = getOverlayStore().getString(namedStyle);
+				String[] stylePrefs = ColorHelper.unpackStylePreferences(prefString);
+				if (stylePrefs != null) {
 					String oldValue = stylePrefs[3];
-					String newValue = String.valueOf( fItalic.getSelection( ) );
-					if ( !newValue.equals( oldValue ) )
-					{
+					String newValue = String.valueOf(fItalic.getSelection());
+					if (!newValue.equals(oldValue)) {
 						stylePrefs[3] = newValue;
-						String newPrefString = ColorHelper.packStylePreferences( stylePrefs );
-						getOverlayStore( ).setValue( namedStyle, newPrefString );
-						applyStyles( );
-						fText.redraw( );
+						String newPrefString = ColorHelper.packStylePreferences(stylePrefs);
+						getOverlayStore().setValue(namedStyle, newPrefString);
+						applyStyles();
+						fText.redraw();
 					}
 				}
 			}
-		} );
+		});
 
-		fStrike.addSelectionListener( new SelectionAdapter( ) {
+		fStrike.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				super.widgetSelected( e );
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
 				// get current (newly old) style
-				Object o = ( (IStructuredSelection) fStylesViewer.getSelection( ) ).getFirstElement( );
-				String namedStyle = o.toString( );
-				String prefString = getOverlayStore( ).getString( namedStyle );
-				String[] stylePrefs = ColorHelper.unpackStylePreferences( prefString );
-				if ( stylePrefs != null )
-				{
+				Object o = ((IStructuredSelection) fStylesViewer.getSelection()).getFirstElement();
+				String namedStyle = o.toString();
+				String prefString = getOverlayStore().getString(namedStyle);
+				String[] stylePrefs = ColorHelper.unpackStylePreferences(prefString);
+				if (stylePrefs != null) {
 					String oldValue = stylePrefs[4];
-					String newValue = String.valueOf( fStrike.getSelection( ) );
-					if ( !newValue.equals( oldValue ) )
-					{
+					String newValue = String.valueOf(fStrike.getSelection());
+					if (!newValue.equals(oldValue)) {
 						stylePrefs[4] = newValue;
-						String newPrefString = ColorHelper.packStylePreferences( stylePrefs );
-						getOverlayStore( ).setValue( namedStyle, newPrefString );
-						applyStyles( );
-						fText.redraw( );
+						String newPrefString = ColorHelper.packStylePreferences(stylePrefs);
+						getOverlayStore().setValue(namedStyle, newPrefString);
+						applyStyles();
+						fText.redraw();
 					}
 				}
 			}
-		} );
+		});
 
-		fUnderline.addSelectionListener( new SelectionAdapter( ) {
+		fUnderline.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				super.widgetSelected( e );
+			public void widgetSelected(SelectionEvent e) {
+				super.widgetSelected(e);
 				// get current (newly old) style
-				Object o = ( (IStructuredSelection) fStylesViewer.getSelection( ) ).getFirstElement( );
-				String namedStyle = o.toString( );
-				String prefString = getOverlayStore( ).getString( namedStyle );
-				String[] stylePrefs = ColorHelper.unpackStylePreferences( prefString );
-				if ( stylePrefs != null )
-				{
+				Object o = ((IStructuredSelection) fStylesViewer.getSelection()).getFirstElement();
+				String namedStyle = o.toString();
+				String prefString = getOverlayStore().getString(namedStyle);
+				String[] stylePrefs = ColorHelper.unpackStylePreferences(prefString);
+				if (stylePrefs != null) {
 					String oldValue = stylePrefs[5];
-					String newValue = String.valueOf( fUnderline.getSelection( ) );
-					if ( !newValue.equals( oldValue ) )
-					{
+					String newValue = String.valueOf(fUnderline.getSelection());
+					if (!newValue.equals(oldValue)) {
 						stylePrefs[5] = newValue;
-						String newPrefString = ColorHelper.packStylePreferences( stylePrefs );
-						getOverlayStore( ).setValue( namedStyle, newPrefString );
-						applyStyles( );
-						fText.redraw( );
+						String newPrefString = ColorHelper.packStylePreferences(stylePrefs);
+						getOverlayStore().setValue(namedStyle, newPrefString);
+						applyStyles();
+						fText.redraw();
 					}
 				}
 			}
-		} );
+		});
 
-		fClearStyle.addSelectionListener( new SelectionAdapter( ) {
+		fClearStyle.addSelectionListener(new SelectionAdapter() {
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				if ( fStylesViewer.getSelection( ).isEmpty( ) )
+			public void widgetSelected(SelectionEvent e) {
+				if (fStylesViewer.getSelection().isEmpty())
 					return;
-				String namedStyle = ( (IStructuredSelection) fStylesViewer.getSelection( ) ).getFirstElement( )
-						.toString( );
-				getOverlayStore( ).setToDefault( namedStyle );
-				applyStyles( );
-				fText.redraw( );
-				activate( namedStyle );
+				String namedStyle = ((IStructuredSelection) fStylesViewer.getSelection()).getFirstElement().toString();
+				getOverlayStore().setToDefault(namedStyle);
+				applyStyles();
+				fText.redraw();
+				activate(namedStyle);
 			}
-		} );
+		});
 
 		return pageComponent;
 	}
 
-	private String loadPreviewContentFromFile( )
-	{
+	private String loadPreviewContentFromFile() {
 		String line;
-		String separator = System.getProperty( "line.separator" ); //$NON-NLS-1$
-		StringBuffer buffer = new StringBuffer( 512 );
+		String separator = System.getProperty("line.separator"); //$NON-NLS-1$
+		StringBuffer buffer = new StringBuffer(512);
 		BufferedReader reader = null;
-		try
-		{
-			reader = new BufferedReader( new InputStreamReader( this.getClass( ).getResourceAsStream( "ColorSettingPreviewCode.txt" ) ) ); //$NON-NLS-1$
-			while ( ( line = reader.readLine( ) ) != null )
-			{
-				buffer.append( line );
-				buffer.append( separator );
+		try {
+			reader = new BufferedReader(
+					new InputStreamReader(this.getClass().getResourceAsStream("ColorSettingPreviewCode.txt"))); //$NON-NLS-1$
+			while ((line = reader.readLine()) != null) {
+				buffer.append(line);
+				buffer.append(separator);
 			}
-		}
-		catch ( IOException io )
-		{
+		} catch (IOException io) {
 
-		}
-		finally
-		{
-			if ( reader != null )
-			{
-				try
-				{
-					reader.close( );
-				}
-				catch ( IOException e )
-				{
+		} finally {
+			if (reader != null) {
+				try {
+					reader.close();
+				} catch (IOException e) {
 				}
 			}
 		}
-		return buffer.toString( );
+		return buffer.toString();
 	}
 
-	private Label createLabel( Composite parent, String text )
-	{
-		Label label = new Label( parent, SWT.WRAP );
-		label.setText( text );
-		GridData data = new GridData( SWT.FILL, SWT.FILL, false, false );
-		label.setLayoutData( data );
-		label.setBackground( parent.getBackground( ) );
+	private Label createLabel(Composite parent, String text) {
+		Label label = new Label(parent, SWT.WRAP);
+		label.setText(text);
+		GridData data = new GridData(SWT.FILL, SWT.FILL, false, false);
+		label.setLayoutData(data);
+		label.setBackground(parent.getBackground());
 		return label;
 	}
 
@@ -680,8 +583,7 @@ public final class ExpressionSyntaxColoringPage extends
 	 * org.eclipse.wst.sse.ui.internal.preferences.ui.AbstractSyntaxColoringPage
 	 * #getSourcePreview()
 	 */
-	protected ISourceViewer getSourcePreviewViewer( )
-	{
+	protected ISourceViewer getSourcePreviewViewer() {
 		return fPreviewViewer;
 	}
 
@@ -692,19 +594,16 @@ public final class ExpressionSyntaxColoringPage extends
 	/**
 	 * Set up all the style preference keys in the overlay store
 	 */
-	private OverlayKey[] createOverlayStoreKeys( )
-	{
-		List overlayKeys = new ArrayList( );
+	private OverlayKey[] createOverlayStoreKeys() {
+		List overlayKeys = new ArrayList();
 
-		Iterator i = getStylePreferenceKeys( ).iterator( );
-		while ( i.hasNext( ) )
-		{
-			overlayKeys.add( new OverlayPreferenceStore.OverlayKey( OverlayPreferenceStore.STRING,
-					(String) i.next( ) ) );
+		Iterator i = getStylePreferenceKeys().iterator();
+		while (i.hasNext()) {
+			overlayKeys.add(new OverlayPreferenceStore.OverlayKey(OverlayPreferenceStore.STRING, (String) i.next()));
 		}
 
-		OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys.size( )];
-		overlayKeys.toArray( keys );
+		OverlayPreferenceStore.OverlayKey[] keys = new OverlayPreferenceStore.OverlayKey[overlayKeys.size()];
+		overlayKeys.toArray(keys);
 		return keys;
 	}
 
@@ -715,357 +614,277 @@ public final class ExpressionSyntaxColoringPage extends
 	 * @param parent
 	 * @return
 	 */
-	private StructuredViewer createStylesViewer( Composite parent )
-	{
-		StructuredViewer stylesViewer = new ListViewer( parent, SWT.SINGLE
-				| SWT.V_SCROLL
-				| SWT.H_SCROLL
-				| SWT.BORDER );
-		stylesViewer.setComparator( new ViewerComparator( Collator.getInstance( ) ) );
-		stylesViewer.setLabelProvider( new LabelProvider( ) {
+	private StructuredViewer createStylesViewer(Composite parent) {
+		StructuredViewer stylesViewer = new ListViewer(parent, SWT.SINGLE | SWT.V_SCROLL | SWT.H_SCROLL | SWT.BORDER);
+		stylesViewer.setComparator(new ViewerComparator(Collator.getInstance()));
+		stylesViewer.setLabelProvider(new LabelProvider() {
 
-			public String getText( Object element )
-			{
-				Object description = fStyleToDescriptionMap.get( element );
-				if ( description != null )
-					return description.toString( );
-				return super.getText( element );
+			public String getText(Object element) {
+				Object description = fStyleToDescriptionMap.get(element);
+				if (description != null)
+					return description.toString();
+				return super.getText(element);
 			}
-		} );
-		stylesViewer.setContentProvider( new ITreeContentProvider( ) {
+		});
+		stylesViewer.setContentProvider(new ITreeContentProvider() {
 
-			public void dispose( )
-			{
+			public void dispose() {
 			}
 
-			public Object[] getChildren( Object parentElement )
-			{
-				return getStylePreferenceKeys( ).toArray( );
+			public Object[] getChildren(Object parentElement) {
+				return getStylePreferenceKeys().toArray();
 			}
 
-			public Object[] getElements( Object inputElement )
-			{
-				return getChildren( inputElement );
+			public Object[] getElements(Object inputElement) {
+				return getChildren(inputElement);
 			}
 
-			public Object getParent( Object element )
-			{
-				return getStylePreferenceKeys( );
+			public Object getParent(Object element) {
+				return getStylePreferenceKeys();
 			}
 
-			public boolean hasChildren( Object element )
-			{
+			public boolean hasChildren(Object element) {
 				return false;
 			}
 
-			public void inputChanged( Viewer viewer, Object oldInput,
-					Object newInput )
-			{
+			public void inputChanged(Viewer viewer, Object oldInput, Object newInput) {
 			}
-		} );
+		});
 		return stylesViewer;
 	}
 
-	public void dispose( )
-	{
-		if ( fOverlayStore != null )
-		{
-			fOverlayStore.stop( );
+	public void dispose() {
+		if (fOverlayStore != null) {
+			fOverlayStore.stop();
 		}
-		super.dispose( );
+		super.dispose();
 	}
 
-	private TextAttribute getAttributeFor( String namedStyle )
-	{
-		TextAttribute ta = new TextAttribute( fDefaultForeground,
-				fDefaultBackground,
-				SWT.NORMAL );
+	private TextAttribute getAttributeFor(String namedStyle) {
+		TextAttribute ta = new TextAttribute(fDefaultForeground, fDefaultBackground, SWT.NORMAL);
 
-		if ( namedStyle != null && fOverlayStore != null )
-		{
+		if (namedStyle != null && fOverlayStore != null) {
 			// note: "namedStyle" *is* the preference key
-			String prefString = getOverlayStore( ).getString( namedStyle );
-			String[] stylePrefs = ColorHelper.unpackStylePreferences( prefString );
-			if ( stylePrefs != null )
-			{
-				RGB foreground = ColorHelper.toRGB( stylePrefs[0] );
-				RGB background = ColorHelper.toRGB( stylePrefs[1] );
+			String prefString = getOverlayStore().getString(namedStyle);
+			String[] stylePrefs = ColorHelper.unpackStylePreferences(prefString);
+			if (stylePrefs != null) {
+				RGB foreground = ColorHelper.toRGB(stylePrefs[0]);
+				RGB background = ColorHelper.toRGB(stylePrefs[1]);
 
 				int fontModifier = SWT.NORMAL;
 
-				if ( stylePrefs.length > 2 )
-				{
-					boolean on = Boolean.valueOf( stylePrefs[2] )
-							.booleanValue( );
-					if ( on )
+				if (stylePrefs.length > 2) {
+					boolean on = Boolean.valueOf(stylePrefs[2]).booleanValue();
+					if (on)
 						fontModifier = fontModifier | SWT.BOLD;
 				}
-				if ( stylePrefs.length > 3 )
-				{
-					boolean on = Boolean.valueOf( stylePrefs[3] )
-							.booleanValue( );
-					if ( on )
+				if (stylePrefs.length > 3) {
+					boolean on = Boolean.valueOf(stylePrefs[3]).booleanValue();
+					if (on)
 						fontModifier = fontModifier | SWT.ITALIC;
 				}
-				if ( stylePrefs.length > 4 )
-				{
-					boolean on = Boolean.valueOf( stylePrefs[4] )
-							.booleanValue( );
-					if ( on )
-						fontModifier = fontModifier
-								| TextAttribute.STRIKETHROUGH;
+				if (stylePrefs.length > 4) {
+					boolean on = Boolean.valueOf(stylePrefs[4]).booleanValue();
+					if (on)
+						fontModifier = fontModifier | TextAttribute.STRIKETHROUGH;
 				}
-				if ( stylePrefs.length > 5 )
-				{
-					boolean on = Boolean.valueOf( stylePrefs[5] )
-							.booleanValue( );
-					if ( on )
+				if (stylePrefs.length > 5) {
+					boolean on = Boolean.valueOf(stylePrefs[5]).booleanValue();
+					if (on)
 						fontModifier = fontModifier | TextAttribute.UNDERLINE;
 				}
 
-				ta = new TextAttribute( ( foreground != null ) ? ColorManager.getColor( foreground )
-						: null,
-						( background != null ) ? ColorManager.getColor( background )
-								: null,
-						fontModifier );
+				ta = new TextAttribute((foreground != null) ? ColorManager.getColor(foreground) : null,
+						(background != null) ? ColorManager.getColor(background) : null, fontModifier);
 			}
 		}
 		return ta;
 	}
 
-	private String getNamedStyleAtOffset( int offset )
-	{
+	private String getNamedStyleAtOffset(int offset) {
 		// ensure the offset is clean
-		if ( offset >= fDocument.getLength( ) )
-			return getNamedStyleAtOffset( fDocument.getLength( ) - 1 );
-		else if ( offset < 0 )
-			return getNamedStyleAtOffset( 0 );
-		try
-		{
-			String regionContext = fDocument.getPartition( offset ).getType( );
+		if (offset >= fDocument.getLength())
+			return getNamedStyleAtOffset(fDocument.getLength() - 1);
+		else if (offset < 0)
+			return getNamedStyleAtOffset(0);
+		try {
+			String regionContext = fDocument.getPartition(offset).getType();
 
-			String namedStyle = (String) fContextToStyleMap.get( regionContext );
-			if ( namedStyle != null )
-			{
+			String namedStyle = (String) fContextToStyleMap.get(regionContext);
+			if (namedStyle != null) {
 				return namedStyle;
 			}
-		}
-		catch ( BadLocationException e )
-		{
+		} catch (BadLocationException e) {
 		}
 		return null;
 	}
 
-	private OverlayPreferenceStore getOverlayStore( )
-	{
+	private OverlayPreferenceStore getOverlayStore() {
 		return fOverlayStore;
 	}
 
-	private Collection getStylePreferenceKeys( )
-	{
-		if ( fStylePreferenceKeys == null )
-		{
-			List styles = new ArrayList( );
-			styles.add( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE );
-			styles.add( ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE );
-			styles.add( ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE );
-			styles.add( ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE );
+	private Collection getStylePreferenceKeys() {
+		if (fStylePreferenceKeys == null) {
+			List styles = new ArrayList();
+			styles.add(ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE);
+			styles.add(ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE);
+			styles.add(ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE);
+			styles.add(ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE);
 			fStylePreferenceKeys = styles;
 		}
 		return fStylePreferenceKeys;
 	}
 
-	private KeyListener getTextKeyListener( )
-	{
-		return new KeyListener( ) {
+	private KeyListener getTextKeyListener() {
+		return new KeyListener() {
 
-			public void keyPressed( KeyEvent e )
-			{
-				if ( e.widget instanceof StyledText )
-				{
-					int x = ( (StyledText) e.widget ).getCaretOffset( );
-					selectColorAtOffset( x );
+			public void keyPressed(KeyEvent e) {
+				if (e.widget instanceof StyledText) {
+					int x = ((StyledText) e.widget).getCaretOffset();
+					selectColorAtOffset(x);
 				}
 			}
 
-			public void keyReleased( KeyEvent e )
-			{
-				if ( e.widget instanceof StyledText )
-				{
-					int x = ( (StyledText) e.widget ).getCaretOffset( );
-					selectColorAtOffset( x );
+			public void keyReleased(KeyEvent e) {
+				if (e.widget instanceof StyledText) {
+					int x = ((StyledText) e.widget).getCaretOffset();
+					selectColorAtOffset(x);
 				}
 			}
 		};
 	}
 
-	private MouseListener getTextMouseListener( )
-	{
-		return new MouseListener( ) {
+	private MouseListener getTextMouseListener() {
+		return new MouseListener() {
 
-			public void mouseDoubleClick( MouseEvent e )
-			{
+			public void mouseDoubleClick(MouseEvent e) {
 			}
 
-			public void mouseDown( MouseEvent e )
-			{
+			public void mouseDown(MouseEvent e) {
 			}
 
-			public void mouseUp( MouseEvent e )
-			{
-				if ( e.widget instanceof StyledText )
-				{
-					int x = ( (StyledText) e.widget ).getCaretOffset( );
-					selectColorAtOffset( x );
+			public void mouseUp(MouseEvent e) {
+				if (e.widget instanceof StyledText) {
+					int x = ((StyledText) e.widget).getCaretOffset();
+					selectColorAtOffset(x);
 				}
 			}
 		};
 	}
 
-	private SelectionListener getTextSelectionListener( )
-	{
-		return new SelectionListener( ) {
+	private SelectionListener getTextSelectionListener() {
+		return new SelectionListener() {
 
-			public void widgetDefaultSelected( SelectionEvent e )
-			{
-				selectColorAtOffset( e.x );
-				if ( e.widget instanceof StyledText )
-				{
-					( (StyledText) e.widget ).setSelection( e.x );
+			public void widgetDefaultSelected(SelectionEvent e) {
+				selectColorAtOffset(e.x);
+				if (e.widget instanceof StyledText) {
+					((StyledText) e.widget).setSelection(e.x);
 				}
 			}
 
-			public void widgetSelected( SelectionEvent e )
-			{
-				selectColorAtOffset( e.x );
-				if ( e.widget instanceof StyledText )
-				{
-					( (StyledText) e.widget ).setSelection( e.x );
+			public void widgetSelected(SelectionEvent e) {
+				selectColorAtOffset(e.x);
+				if (e.widget instanceof StyledText) {
+					((StyledText) e.widget).setSelection(e.x);
 				}
 			}
 		};
 	}
 
-	private TraverseListener getTraverseListener( )
-	{
-		return new TraverseListener( ) {
+	private TraverseListener getTraverseListener() {
+		return new TraverseListener() {
 
 			/**
 			 * @see org.eclipse.swt.events.TraverseListener#keyTraversed(TraverseEvent)
 			 */
-			public void keyTraversed( TraverseEvent e )
-			{
-				if ( e.widget instanceof StyledText )
-				{
-					if ( ( e.detail == SWT.TRAVERSE_TAB_NEXT )
-							|| ( e.detail == SWT.TRAVERSE_TAB_PREVIOUS ) )
+			public void keyTraversed(TraverseEvent e) {
+				if (e.widget instanceof StyledText) {
+					if ((e.detail == SWT.TRAVERSE_TAB_NEXT) || (e.detail == SWT.TRAVERSE_TAB_PREVIOUS))
 						e.doit = true;
 				}
 			}
 		};
 	}
 
-	public void init( IWorkbench workbench )
-	{
-		setDescription( Messages.getString("ExpressionSyntaxColoringPage.Decscription") ); //$NON-NLS-1$
+	public void init(IWorkbench workbench) {
+		setDescription(Messages.getString("ExpressionSyntaxColoringPage.Decscription")); //$NON-NLS-1$
 
-		fStyleToDescriptionMap = new HashMap( );
-		fContextToStyleMap = new HashMap( );
+		fStyleToDescriptionMap = new HashMap();
+		fContextToStyleMap = new HashMap();
 
-		initStyleToDescriptionMap( );
-		initRegionContextToStyleMap( );
+		initStyleToDescriptionMap();
+		initRegionContextToStyleMap();
 
-		preference = PreferenceFactory.getInstance( )
-				.getPreferences( ReportPlugin.getDefault( ) );
-		fOverlayStore = new OverlayPreferenceStore( preference,
-				createOverlayStoreKeys( ) );
-		fOverlayStore.load( );
-		fOverlayStore.start( );
+		preference = PreferenceFactory.getInstance().getPreferences(ReportPlugin.getDefault());
+		fOverlayStore = new OverlayPreferenceStore(preference, createOverlayStoreKeys());
+		fOverlayStore.load();
+		fOverlayStore.start();
 	}
 
-	private void initRegionContextToStyleMap( )
-	{
-		fContextToStyleMap.put( IDocument.DEFAULT_CONTENT_TYPE,
-				ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE );
-		fContextToStyleMap.put( JSPartitionScanner.JS_COMMENT,
-				ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE );
-		fContextToStyleMap.put( JSPartitionScanner.JS_KEYWORD,
-				ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE );
-		fContextToStyleMap.put( JSPartitionScanner.JS_STRING,
-				ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE );
+	private void initRegionContextToStyleMap() {
+		fContextToStyleMap.put(IDocument.DEFAULT_CONTENT_TYPE, ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE);
+		fContextToStyleMap.put(JSPartitionScanner.JS_COMMENT, ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE);
+		fContextToStyleMap.put(JSPartitionScanner.JS_KEYWORD, ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE);
+		fContextToStyleMap.put(JSPartitionScanner.JS_STRING, ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE);
 
 	}
 
-	private void initStyleToDescriptionMap( )
-	{
-		fStyleToDescriptionMap.put( ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE,
-				Messages.getString("ExpressionSyntaxColoringPage.Element.Default") ); //$NON-NLS-1$
-		fStyleToDescriptionMap.put( ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE,
-				Messages.getString("ExpressionSyntaxColoringPage.Element.Comment") ); //$NON-NLS-1$
-		fStyleToDescriptionMap.put( ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE,
-				Messages.getString("ExpressionSyntaxColoringPage.Element.Keyword") ); //$NON-NLS-1$
-		fStyleToDescriptionMap.put( ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE,
-				Messages.getString("ExpressionSyntaxColoringPage.Element.String") ); //$NON-NLS-1$
+	private void initStyleToDescriptionMap() {
+		fStyleToDescriptionMap.put(ReportPlugin.EXPRESSION_CONTENT_COLOR_PREFERENCE,
+				Messages.getString("ExpressionSyntaxColoringPage.Element.Default")); //$NON-NLS-1$
+		fStyleToDescriptionMap.put(ReportPlugin.EXPRESSION_COMMENT_COLOR_PREFERENCE,
+				Messages.getString("ExpressionSyntaxColoringPage.Element.Comment")); //$NON-NLS-1$
+		fStyleToDescriptionMap.put(ReportPlugin.EXPRESSION_KEYWORD_COLOR_PREFERENCE,
+				Messages.getString("ExpressionSyntaxColoringPage.Element.Keyword")); //$NON-NLS-1$
+		fStyleToDescriptionMap.put(ReportPlugin.EXPRESSION_STRING_COLOR_PREFERENCE,
+				Messages.getString("ExpressionSyntaxColoringPage.Element.String")); //$NON-NLS-1$
 	}
 
-	protected void performDefaults( )
-	{
-		super.performDefaults( );
-		getOverlayStore( ).loadDefaults( );
-		applyStyles( );
-		fStylesViewer.setSelection( StructuredSelection.EMPTY );
-		activate( null );
-		fText.redraw( );
+	protected void performDefaults() {
+		super.performDefaults();
+		getOverlayStore().loadDefaults();
+		applyStyles();
+		fStylesViewer.setSelection(StructuredSelection.EMPTY);
+		activate(null);
+		fText.redraw();
 	}
 
-	public boolean performOk( )
-	{
-		getOverlayStore( ).propagate( );
-		if ( preference != null )
-		{
-			try
-			{
-				preference.save( );
-			}
-			catch ( IOException e )
-			{
-				ExceptionHandler.handle( e );
+	public boolean performOk() {
+		getOverlayStore().propagate();
+		if (preference != null) {
+			try {
+				preference.save();
+			} catch (IOException e) {
+				ExceptionHandler.handle(e);
 			}
 		}
 		return true;
 	}
 
-	private void selectColorAtOffset( int offset )
-	{
-		String namedStyle = getNamedStyleAtOffset( offset );
-		if ( namedStyle != null )
-		{
-			fStylesViewer.setSelection( new StructuredSelection( namedStyle ) );
-			fStylesViewer.reveal( namedStyle );
+	private void selectColorAtOffset(int offset) {
+		String namedStyle = getNamedStyleAtOffset(offset);
+		if (namedStyle != null) {
+			fStylesViewer.setSelection(new StructuredSelection(namedStyle));
+			fStylesViewer.reveal(namedStyle);
+		} else {
+			fStylesViewer.setSelection(StructuredSelection.EMPTY);
 		}
-		else
-		{
-			fStylesViewer.setSelection( StructuredSelection.EMPTY );
-		}
-		activate( namedStyle );
+		activate(namedStyle);
 	}
 
 	/**
 	 * Specifically set the reporting name of a control for accessibility
 	 */
-	private void setAccessible( Control control, String name )
-	{
-		if ( control == null )
+	private void setAccessible(Control control, String name) {
+		if (control == null)
 			return;
 		final String n = name;
-		control.getAccessible( )
-				.addAccessibleListener( new AccessibleAdapter( ) {
+		control.getAccessible().addAccessibleListener(new AccessibleAdapter() {
 
-					public void getName( AccessibleEvent e )
-					{
-						if ( e.childID == ACC.CHILDID_SELF )
-							e.result = n;
-					}
-				} );
+			public void getName(AccessibleEvent e) {
+				if (e.childID == ACC.CHILDID_SELF)
+					e.result = n;
+			}
+		});
 	}
 }

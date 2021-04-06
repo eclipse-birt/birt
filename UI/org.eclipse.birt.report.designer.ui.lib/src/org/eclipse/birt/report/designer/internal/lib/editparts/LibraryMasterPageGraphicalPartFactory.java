@@ -23,49 +23,38 @@ import org.eclipse.gef.EditPart;
  * 
  */
 
-public class LibraryMasterPageGraphicalPartFactory extends GraphicalPartFactory
-{
-	public EditPart createEditPart( EditPart context, Object model )
-	{
-		//default edit part
-		
+public class LibraryMasterPageGraphicalPartFactory extends GraphicalPartFactory {
+	public EditPart createEditPart(EditPart context, Object model) {
+		// default edit part
+
 		EditPart editPart = null;
-		if (model instanceof LibRootModel)
-		{
-			model = ((LibRootModel)model).getModel( );
-		}
-		else if ( model instanceof LibraryHandle )
-		{
-			//return new LibraryReportDesignEditPart( model );
-			editPart = new EmptyEditPart( model )
-			{
-				public void activate( )
-				{
+		if (model instanceof LibRootModel) {
+			model = ((LibRootModel) model).getModel();
+		} else if (model instanceof LibraryHandle) {
+			// return new LibraryReportDesignEditPart( model );
+			editPart = new EmptyEditPart(model) {
+				public void activate() {
 //					do nothing
 				}
-				public void deactivate( )
-				{
-					//do nothing
+
+				public void deactivate() {
+					// do nothing
 				}
 			};
-		}
-		else if ( model instanceof MasterPageHandle )
-		{
-			return new MasterPageEditPart( model );
+		} else if (model instanceof MasterPageHandle) {
+			return new MasterPageEditPart(model);
 		}
 
 //		if ( ignoreModel( model ) )
 //		{
 //			editPart = new EmptyEditPart( model );
 //		}
-		if ( editPart != null )
-		{
+		if (editPart != null) {
 			return editPart;
 		}
-		editPart = super.createEditPart( context, model );
-		if ( editPart == null || editPart instanceof DummyEditpart )
-		{
-			editPart = new EmptyEditPart( model );
+		editPart = super.createEditPart(context, model);
+		if (editPart == null || editPart instanceof DummyEditpart) {
+			editPart = new EmptyEditPart(model);
 		}
 		return editPart;
 	}

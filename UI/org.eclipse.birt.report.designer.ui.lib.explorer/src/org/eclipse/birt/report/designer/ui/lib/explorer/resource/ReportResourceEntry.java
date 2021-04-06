@@ -17,55 +17,45 @@ import java.util.List;
 
 import org.eclipse.birt.report.designer.internal.ui.resourcelocator.ResourceEntry;
 
-public abstract class ReportResourceEntry implements ResourceEntry
-{
+public abstract class ReportResourceEntry implements ResourceEntry {
 
-	public abstract Object getReportElement( );
+	public abstract Object getReportElement();
 
-	public void dispose( )
-	{
+	public void dispose() {
 
 	}
 
-	public boolean hasChildren( )
-	{
+	public boolean hasChildren() {
 		return false;
 	}
 
-	public ResourceEntry[] getChildren( )
-	{
+	public ResourceEntry[] getChildren() {
 		return new ResourceEntry[0];
 	}
 
-	public ResourceEntry[] getChildren( Filter filter )
-	{
-		ResourceEntry[] children = getChildren( );
-		List childrenFiltered = new ArrayList( );
-		for ( int i = 0; i < children.length; i++ )
-		{
-			if ( filter.accept( children[i] ) )
-				childrenFiltered.add( children[i] );
+	public ResourceEntry[] getChildren(Filter filter) {
+		ResourceEntry[] children = getChildren();
+		List childrenFiltered = new ArrayList();
+		for (int i = 0; i < children.length; i++) {
+			if (filter.accept(children[i]))
+				childrenFiltered.add(children[i]);
 		}
-		return (ResourceEntry[]) childrenFiltered.toArray( new ResourceEntry[childrenFiltered.size( )] );
+		return (ResourceEntry[]) childrenFiltered.toArray(new ResourceEntry[childrenFiltered.size()]);
 	}
 
-	public URL getURL( )
-	{
+	public URL getURL() {
 		return null;
 	}
 
-	public boolean isFile( )
-	{
+	public boolean isFile() {
 		return true;
 	}
 
-	public boolean isRoot( )
-	{
+	public boolean isRoot() {
 		return false;
 	}
 
-	public Object getAdapter( Class adapter )
-	{
+	public Object getAdapter(Class adapter) {
 		return null;
 	}
 

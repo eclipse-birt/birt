@@ -144,9 +144,8 @@ import org.mozilla.javascript.Scriptable;
 /**
  * Implementation of DataRequestSession
  */
-public class DataRequestSessionImpl extends DataRequestSession
-{
-	private static Logger logger = Logger.getLogger( DataRequestSessionImpl.class.getName( ) );
+public class DataRequestSessionImpl extends DataRequestSession {
+	private static Logger logger = Logger.getLogger(DataRequestSessionImpl.class.getName());
 	//
 	protected DataEngineImpl dataEngine;
 	protected IModelAdapter modelAdaptor;
@@ -155,26 +154,22 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 	protected Map<ReportElementHandle, QueryDefinition> cubeQueryMap = new HashMap<ReportElementHandle, QueryDefinition>();
 	protected Map<ReportElementHandle, List<ColumnMeta>> cubeMetaMap = new HashMap<ReportElementHandle, List<ColumnMeta>>();
-	//Used to avoid creating same dimension repeatedly when a dimension is shared by multiple cubes
+	// Used to avoid creating same dimension repeatedly when a dimension is shared
+	// by multiple cubes
 	protected Map<String, IDimension> createdDimensions;
 
 	protected CubeMaterializer cubeMaterializer;
 	protected IDataQueryDefinition[] registeredQueries;
 	protected IDataSetInterceptorContext interceptorContext;
 
-	protected CubeMaterializer getCubeMaterializer( int cacheSize ) throws BirtException
-	{
-		//Make sure only one instance, do not created until really needed
-		if ( cubeMaterializer == null )
-		{
-			try
-			{
-				cubeMaterializer = new CubeMaterializer( this.dataEngine,
-						String.valueOf( dataEngine.hashCode( )), cacheSize );
-			}
-			catch ( IOException e )
-			{
-				throw new DataException( e.getLocalizedMessage( ), e );
+	protected CubeMaterializer getCubeMaterializer(int cacheSize) throws BirtException {
+		// Make sure only one instance, do not created until really needed
+		if (cubeMaterializer == null) {
+			try {
+				cubeMaterializer = new CubeMaterializer(this.dataEngine, String.valueOf(dataEngine.hashCode()),
+						cacheSize);
+			} catch (IOException e) {
+				throw new DataException(e.getLocalizedMessage(), e);
 			}
 		}
 		return cubeMaterializer;
@@ -187,103 +182,84 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param context
 	 * @throws BirtException
 	 */
-	public DataRequestSessionImpl( DataSessionContext context )
-			throws BirtException
-	{
-		if ( context == null )
-			throw new AdapterException( ResourceConstants.CONEXT_NULL_ERROR );
+	public DataRequestSessionImpl(DataSessionContext context) throws BirtException {
+		if (context == null)
+			throw new AdapterException(ResourceConstants.CONEXT_NULL_ERROR);
 
-		dataEngine = createDataEngine( context.getDataEngineContext( ) );
-		modelAdaptor = new DataModelAdapter( context );
+		dataEngine = createDataEngine(context.getDataEngineContext());
+		modelAdaptor = new DataModelAdapter(context);
 
 		sessionContext = context;
-		cubeHandleMap = new HashMap( );
-		cubeMetaDataHandleMap = new HashMap( );
-		createdDimensions = new HashMap<String, IDimension>( );
-		interceptorContext = new DataSetInterceptorContext( );
-		if( sessionContext!= null )
-		{
+		cubeHandleMap = new HashMap();
+		cubeMetaDataHandleMap = new HashMap();
+		createdDimensions = new HashMap<String, IDimension>();
+		interceptorContext = new DataSetInterceptorContext();
+		if (sessionContext != null) {
 			this.setModuleHandleToAppContext();
 		}
-		DataSessionConfig.startup( this );
+		DataSessionConfig.startup(this);
 	}
-	
-	protected DataEngineImpl createDataEngine( DataEngineContext context ) throws BirtException
-	{
-		return (DataEngineImpl) DataEngine.newDataEngine( context );
+
+	protected DataEngineImpl createDataEngine(DataEngineContext context) throws BirtException {
+		return (DataEngineImpl) DataEngine.newDataEngine(context);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#defineDataSource(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign)
+	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#
+	 * defineDataSource(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign)
 	 */
-	public void defineDataSource( IBaseDataSourceDesign design )
-			throws BirtException
-	{
-		dataEngine.defineDataSource( design );
+	public void defineDataSource(IBaseDataSourceDesign design) throws BirtException {
+		dataEngine.defineDataSource(design);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#defineDataSet(org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
+	 * @see
+	 * org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#defineDataSet(
+	 * org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
 	 */
-	public void defineDataSet( IBaseDataSetDesign design ) throws BirtException
-	{
-		dataEngine.defineDataSet( design );
+	public void defineDataSet(IBaseDataSetDesign design) throws BirtException {
+		dataEngine.defineDataSet(design);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.api.DataRequestSession#getDataSetMetaData(java.lang.String,
-	 *      boolean)
+	 * @see org.eclipse.birt.report.data.adaptor.api.DataRequestSession#
+	 * getDataSetMetaData(java.lang.String, boolean)
 	 */
-	public IResultMetaData getDataSetMetaData( String dataSetName,
-			boolean useCache ) throws BirtException
-	{
-		return getDataSetMetaData( this.sessionContext.getModuleHandle( )
-				.findDataSet( dataSetName ), useCache );
+	public IResultMetaData getDataSetMetaData(String dataSetName, boolean useCache) throws BirtException {
+		return getDataSetMetaData(this.sessionContext.getModuleHandle().findDataSet(dataSetName), useCache);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.api.DataRequestSession#getDataSetMetaData(org.eclipse.birt.report.model.api.DataSetHandle,
-	 *      boolean)
+	 * @see org.eclipse.birt.report.data.adaptor.api.DataRequestSession#
+	 * getDataSetMetaData(org.eclipse.birt.report.model.api.DataSetHandle, boolean)
 	 */
-	public IResultMetaData getDataSetMetaData( DataSetHandle dataSetHandle,
-			boolean useCache ) throws BirtException
-	{
-		return new DataSetMetaDataHelper( this.dataEngine,
-				this.modelAdaptor,
-				this.sessionContext,
-				this ).getDataSetMetaData( dataSetHandle, useCache );
+	public IResultMetaData getDataSetMetaData(DataSetHandle dataSetHandle, boolean useCache) throws BirtException {
+		return new DataSetMetaDataHelper(this.dataEngine, this.modelAdaptor, this.sessionContext, this)
+				.getDataSetMetaData(dataSetHandle, useCache);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle,
-	 *      java.util.Iterator, java.util.Iterator, java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet
+	 * (org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator,
+	 * java.util.Iterator, java.lang.String)
 	 */
-	public Collection getColumnValueSet( DataSetHandle dataSet,
-			Iterator inputParamBindings, Iterator columnBindings,
-			String boundColumnName ) throws BirtException
-	{
-		return getColumnValueSet( dataSet,
-				inputParamBindings,
-				columnBindings,
-				boundColumnName,
-				null );
+	public Collection getColumnValueSet(DataSetHandle dataSet, Iterator inputParamBindings, Iterator columnBindings,
+			String boundColumnName) throws BirtException {
+		return getColumnValueSet(dataSet, inputParamBindings, columnBindings, boundColumnName, null);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueIterator(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.lang.String)
+	 * 
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#
+	 * getColumnValueIterator(org.eclipse.birt.report.model.api.DataSetHandle,
+	 * java.util.Iterator, java.util.Iterator, java.lang.String)
 	 */
-	public IColumnValueIterator getColumnValueIterator( DataSetHandle dataSet,
-			Iterator inputParamBindings, Iterator columnBindings,
-			String boundColumnName ) throws BirtException
-	{
-		return this.getColumnValueIterator( dataSet,
-				inputParamBindings,
-				columnBindings,
-				null,
-				boundColumnName,
-				true,
-				null );
+	public IColumnValueIterator getColumnValueIterator(DataSetHandle dataSet, Iterator inputParamBindings,
+			Iterator columnBindings, String boundColumnName) throws BirtException {
+		return this.getColumnValueIterator(dataSet, inputParamBindings, columnBindings, null, boundColumnName, true,
+				null);
 	}
 
 	/**
@@ -297,253 +273,219 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @return
 	 * @throws BirtException
 	 */
-	protected IColumnValueIterator getColumnValueIterator( DataSetHandle dataSet,
-			Iterator inputParamBindings, Iterator columnBindings,
-			Iterator groupDefn, String boundColumnName, boolean useDataSetFilter, IRequestInfo requestInfo )
-			throws BirtException
-	{
-		IQueryResults queryResults = getQueryResults( dataSet,
-				inputParamBindings,
-				columnBindings,
-				groupDefn,
-				boundColumnName, useDataSetFilter  );
-		return new ColumnValueIterator( queryResults,
-				boundColumnName,
-				requestInfo );
+	protected IColumnValueIterator getColumnValueIterator(DataSetHandle dataSet, Iterator inputParamBindings,
+			Iterator columnBindings, Iterator groupDefn, String boundColumnName, boolean useDataSetFilter,
+			IRequestInfo requestInfo) throws BirtException {
+		IQueryResults queryResults = getQueryResults(dataSet, inputParamBindings, columnBindings, groupDefn,
+				boundColumnName, useDataSetFilter);
+		return new ColumnValueIterator(queryResults, boundColumnName, requestInfo);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.lang.String, int, int)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet
+	 * (org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator,
+	 * java.util.Iterator, java.lang.String, int, int)
 	 */
-	public Collection getColumnValueSet( DataSetHandle dataSet,
-			Iterator inputParamBindings, Iterator columnBindings,
-			String boundColumnName, IRequestInfo requestInfo )
-			throws BirtException
-	{
-		IColumnValueIterator columnValueIterator = getColumnValueIterator( dataSet,
-				inputParamBindings,
-				columnBindings,
-				null,
-				boundColumnName,
-				true,
-				requestInfo );
+	public Collection getColumnValueSet(DataSetHandle dataSet, Iterator inputParamBindings, Iterator columnBindings,
+			String boundColumnName, IRequestInfo requestInfo) throws BirtException {
+		IColumnValueIterator columnValueIterator = getColumnValueIterator(dataSet, inputParamBindings, columnBindings,
+				null, boundColumnName, true, requestInfo);
 
-		ArrayList values = new ArrayList( );
+		ArrayList values = new ArrayList();
 
-		do
-		{
+		do {
 //			if ( columnValueIterator.getValue()!=null )
-				values.add( columnValueIterator.getValue( ) );
-		}while(  columnValueIterator.next( )  );
+			values.add(columnValueIterator.getValue());
+		} while (columnValueIterator.next());
 
-		columnValueIterator.close( );
+		columnValueIterator.close();
 
 		return values;
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.util.Iterator, java.lang.String, org.eclipse.birt.report.data.adapter.api.IRequestInfo)
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet
+	 * (org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator,
+	 * java.util.Iterator, java.util.Iterator, java.lang.String,
+	 * org.eclipse.birt.report.data.adapter.api.IRequestInfo)
 	 */
-	public Collection getColumnValueSet( DataSetHandle dataSet,
-			Iterator inputParamBindings, Iterator columnBindings,
-			Iterator groupDefns, String boundColumnName,
-			IRequestInfo requestInfo ) throws BirtException
-	{
-		IColumnValueIterator columnValueIterator = getColumnValueIterator( dataSet,
-				inputParamBindings,
-				columnBindings,
-				groupDefns,
-				boundColumnName,
-				true,
-				requestInfo );
+	public Collection getColumnValueSet(DataSetHandle dataSet, Iterator inputParamBindings, Iterator columnBindings,
+			Iterator groupDefns, String boundColumnName, IRequestInfo requestInfo) throws BirtException {
+		IColumnValueIterator columnValueIterator = getColumnValueIterator(dataSet, inputParamBindings, columnBindings,
+				groupDefns, boundColumnName, true, requestInfo);
 
-		ArrayList values = new ArrayList( );
+		ArrayList values = new ArrayList();
 
-		do
-		{
+		do {
 //			if ( columnValueIterator.getValue( ) != null )
-				values.add( columnValueIterator.getValue( ) );
-		} while ( columnValueIterator.next( ) );
+			values.add(columnValueIterator.getValue());
+		} while (columnValueIterator.next());
 
-		columnValueIterator.close( );
+		columnValueIterator.close();
 		return values;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet(org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator, java.util.Iterator, java.util.Iterator, java.lang.String, boolean, org.eclipse.birt.report.data.adapter.api.IRequestInfo)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.DataRequestSession#getColumnValueSet
+	 * (org.eclipse.birt.report.model.api.DataSetHandle, java.util.Iterator,
+	 * java.util.Iterator, java.util.Iterator, java.lang.String, boolean,
+	 * org.eclipse.birt.report.data.adapter.api.IRequestInfo)
 	 */
-	public Collection getColumnValueSet( DataSetHandle dataSet,
-			Iterator inputParamBindings, Iterator columnBindings,
-			Iterator groupDefns, String boundColumnName,
-			boolean useDataSetFilter, IRequestInfo requestInfo )
-			throws BirtException
-	{
-		IColumnValueIterator columnValueIterator = getColumnValueIterator( dataSet,
-				inputParamBindings,
-				columnBindings,
-				groupDefns,
-				boundColumnName, useDataSetFilter,
-				requestInfo );
+	public Collection getColumnValueSet(DataSetHandle dataSet, Iterator inputParamBindings, Iterator columnBindings,
+			Iterator groupDefns, String boundColumnName, boolean useDataSetFilter, IRequestInfo requestInfo)
+			throws BirtException {
+		IColumnValueIterator columnValueIterator = getColumnValueIterator(dataSet, inputParamBindings, columnBindings,
+				groupDefns, boundColumnName, useDataSetFilter, requestInfo);
 
-		ArrayList values = new ArrayList( );
+		ArrayList values = new ArrayList();
 
-		do
-		{
+		do {
 //			if ( columnValueIterator.getValue( ) != null )
-				values.add( columnValueIterator.getValue( ) );
-		} while ( columnValueIterator.next( ) );
+			values.add(columnValueIterator.getValue());
+		} while (columnValueIterator.next());
 
-		columnValueIterator.close( );
+		columnValueIterator.close();
 		return values;
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.api.DataRequestSession#refreshMetaData(org.eclipse.birt.report.model.api.DataSetHandle)
+	 * @see
+	 * org.eclipse.birt.report.data.adaptor.api.DataRequestSession#refreshMetaData(
+	 * org.eclipse.birt.report.model.api.DataSetHandle)
 	 */
-	public IResultMetaData refreshMetaData( DataSetHandle dataSetHandle )
-			throws BirtException
-	{
-		return new DataSetMetaDataHelper( this.dataEngine,
-				this.modelAdaptor,
-				this.sessionContext,
-				this ).refreshMetaData( dataSetHandle );
+	public IResultMetaData refreshMetaData(DataSetHandle dataSetHandle) throws BirtException {
+		return new DataSetMetaDataHelper(this.dataEngine, this.modelAdaptor, this.sessionContext, this)
+				.refreshMetaData(dataSetHandle);
 	}
 
 	/*
 	 *
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#refreshMetaData(org.eclipse.birt.report.model.api.DataSetHandle,
-	 *      boolean)
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.DataRequestSession#refreshMetaData(
+	 * org.eclipse.birt.report.model.api.DataSetHandle, boolean)
 	 */
-	public IResultMetaData refreshMetaData( DataSetHandle dataSetHandle,
-			boolean holdEvent ) throws BirtException
-	{
-		return new DataSetMetaDataHelper( this.dataEngine,
-				this.modelAdaptor,
-				this.sessionContext,
-				this ).refreshMetaData( dataSetHandle, holdEvent );
+	public IResultMetaData refreshMetaData(DataSetHandle dataSetHandle, boolean holdEvent) throws BirtException {
+		return new DataSetMetaDataHelper(this.dataEngine, this.modelAdaptor, this.sessionContext, this)
+				.refreshMetaData(dataSetHandle, holdEvent);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.api.DataRequestSession#executeQuery(org.eclipse.birt.data.engine.api.IQueryDefinition,
-	 *      java.util.Iterator, java.util.Iterator, java.util.Iterator)
+	 * @see
+	 * org.eclipse.birt.report.data.adaptor.api.DataRequestSession#executeQuery(org.
+	 * eclipse.birt.data.engine.api.IQueryDefinition, java.util.Iterator,
+	 * java.util.Iterator, java.util.Iterator)
 	 */
-	public IQueryResults executeQuery( IQueryDefinition queryDefn,
-			Iterator paramBindingIt, Iterator filterIt, Iterator bindingIt )
-			throws BirtException
-	{
-		return new QueryExecutionHelper( this.dataEngine,
-				this.modelAdaptor,
-				this.sessionContext,
-				this ).executeQuery( queryDefn,
-				paramBindingIt,
-				filterIt,
-				bindingIt,
-				this.sessionContext.getTopScope( ),
-				this.interceptorContext );
+	public IQueryResults executeQuery(IQueryDefinition queryDefn, Iterator paramBindingIt, Iterator filterIt,
+			Iterator bindingIt) throws BirtException {
+		return new QueryExecutionHelper(this.dataEngine, this.modelAdaptor, this.sessionContext, this).executeQuery(
+				queryDefn, paramBindingIt, filterIt, bindingIt, this.sessionContext.getTopScope(),
+				this.interceptorContext);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#getQueryResults(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#getQueryResults
+	 * (java.lang.String)
 	 */
-	public IQueryResults getQueryResults( String queryResultID )
-			throws BirtException
-	{
-		return dataEngine.getQueryResults( queryResultID );
+	public IQueryResults getQueryResults(String queryResultID) throws BirtException {
+		return dataEngine.getQueryResults(queryResultID);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#clearCache(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign,
-	 *      org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
+	 * @see
+	 * org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#clearCache(org.
+	 * eclipse.birt.data.engine.api.IBaseDataSourceDesign,
+	 * org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
 	 */
-	public void clearCache( IBaseDataSourceDesign dataSource,
-			IBaseDataSetDesign dataSet ) throws BirtException
-	{
-		dataEngine.clearCache( dataSource, dataSet );
+	public void clearCache(IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet) throws BirtException {
+		dataEngine.clearCache(dataSource, dataSet);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#clearCache(java.lang.String)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.DataRequestSession#clearCache(java.
+	 * lang.String)
 	 */
-	public void clearCache( String cacheID ) throws BirtException
-	{
-		dataEngine.clearCache( cacheID );
+	public void clearCache(String cacheID) throws BirtException {
+		dataEngine.clearCache(cacheID);
 	}
+
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition,
-	 *      java.util.Map)
+	 * @see
+	 * org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#prepare(org.
+	 * eclipse.birt.data.engine.api.IQueryDefinition, java.util.Map)
 	 */
-	public IPreparedQuery prepare( IQueryDefinition query, Map appContext )
-			throws BirtException
-	{
-		QueryAdapter.adaptQuery( query );
-		defineDataSourceDataSet( query );
-		if ( appContext == null )
+	public IPreparedQuery prepare(IQueryDefinition query, Map appContext) throws BirtException {
+		QueryAdapter.adaptQuery(query);
+		defineDataSourceDataSet(query);
+		if (appContext == null)
 			// Use session app context
-			appContext = sessionContext.getAppContext( );
-		setModuleHandleToAppContext( appContext );
+			appContext = sessionContext.getAppContext();
+		setModuleHandleToAppContext(appContext);
 
-		return dataEngine.prepare( query, appContext );
+		return dataEngine.prepare(query, appContext);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.api.IQueryDefinition)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.
+	 * eclipse.birt.data.engine.api.IQueryDefinition)
 	 */
-	public IPreparedQuery prepare( IQueryDefinition query )
-			throws BirtException
-	{
+	public IPreparedQuery prepare(IQueryDefinition query) throws BirtException {
 		// Use session app context
-		return prepare( query, null );
+		return prepare(query, null);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#closeDataSource(java.lang.String)
+	 * @see
+	 * org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#closeDataSource
+	 * (java.lang.String)
 	 */
-	public void closeDataSource( String dataSourceName ) throws BirtException
-	{
-		dataEngine.closeDataSource( dataSourceName );
+	public void closeDataSource(String dataSourceName) throws BirtException {
+		dataEngine.closeDataSource(dataSourceName);
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#getModelAdaptor()
+	 * @see
+	 * org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#getModelAdaptor
+	 * ()
 	 */
-	public IModelAdapter getModelAdaptor( )
-	{
+	public IModelAdapter getModelAdaptor() {
 		return modelAdaptor;
 	}
 
 	/*
 	 * @see org.eclipse.birt.report.data.adaptor.impl.IDataRequestSession#shutdown()
 	 */
-	public void shutdown( )
-	{
-		if ( cubeMaterializer != null )
-		{
-			try
-			{
-				cubeMaterializer.close( );
-			}
-			catch ( IOException e )
-			{
-				logger.log( Level.WARNING, e.getLocalizedMessage( ), e );
+	public void shutdown() {
+		if (cubeMaterializer != null) {
+			try {
+				cubeMaterializer.close();
+			} catch (IOException e) {
+				logger.log(Level.WARNING, e.getLocalizedMessage(), e);
 			}
 		}
-		if( interceptorContext != null )
-		{
-			interceptorContext.close( );
+		if (interceptorContext != null) {
+			interceptorContext.close();
 		}
-		DataSessionConfig.finalize( this );
-		if ( dataEngine != null )
-		{
-			dataEngine.shutdown( );
+		DataSessionConfig.finalize(this);
+		if (dataEngine != null) {
+			dataEngine.shutdown();
 			dataEngine = null;
 		}
 	}
 
 	/**
 	 * get the distinct value of query
+	 * 
 	 * @param dataSet
 	 * @param inputParamBindings
 	 * @param columnBindings
@@ -551,10 +493,8 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @return
 	 * @throws BirtException
 	 */
-	protected IQueryResults getQueryResults( DataSetHandle dataSet,
-			Iterator inputParamBindings, Iterator columnBindings,
-			Iterator groupDefns, String boundColumnName, boolean useDataSetFilter ) throws BirtException
-	{
+	protected IQueryResults getQueryResults(DataSetHandle dataSet, Iterator inputParamBindings, Iterator columnBindings,
+			Iterator groupDefns, String boundColumnName, boolean useDataSetFilter) throws BirtException {
 		assert dataSet != null;
 		// TODO: this is the inefficient implementation
 		// Need to enhance the implementation to verify that the column is bound
@@ -564,202 +504,153 @@ public class DataRequestSessionImpl extends DataRequestSession
 		// column so we can
 		// retrieve distinct values using the grouping feature
 		QueryDefinition query = null;
-		
-		if ( columnBindings == null || !columnBindings.hasNext( ) )
-		{
-			query = new QueryDefinition( true );
-			useDataSetFilter = false;
-		}
-		else
-		{
-			query = new QueryDefinition( );
-		}
-		query.setDataSetName( dataSet.getQualifiedName( ) );
 
-		if ( groupDefns != null )
-		{
-			while ( groupDefns.hasNext( ) )
-			{
-				GroupHandle groupHandle = (GroupHandle) groupDefns.next( );
-				query.addGroup( this.modelAdaptor.adaptGroup( groupHandle ) );
+		if (columnBindings == null || !columnBindings.hasNext()) {
+			query = new QueryDefinition(true);
+			useDataSetFilter = false;
+		} else {
+			query = new QueryDefinition();
+		}
+		query.setDataSetName(dataSet.getQualifiedName());
+
+		if (groupDefns != null) {
+			while (groupDefns.hasNext()) {
+				GroupHandle groupHandle = (GroupHandle) groupDefns.next();
+				query.addGroup(this.modelAdaptor.adaptGroup(groupHandle));
 			}
 		}
 
 //		ModuleHandle moduleHandle = sessionContext.getModuleHandle( );
 //		if ( moduleHandle == null )
 //			moduleHandle = dataSet.getModuleHandle( );
- 
-		DefineDataSourceSetUtil.defineDataSourceAndDataSet( dataSet,
-				this.dataEngine,
-				this.modelAdaptor,
-				new DataSetHandleProcessContext( dataSet,
-						true,
-						useDataSetFilter,
-						false ) );
-		
-		
-		QueryExecutionHelper execHelper = new QueryExecutionHelper( this.dataEngine,
-				this.modelAdaptor,
-				this.sessionContext,
-				this );
-		IQueryResults results = execHelper.executeQuery( query,
-				inputParamBindings,
-				null,
-				columnBindings,
-				useDataSetFilter,
-				false,
-				this.sessionContext.getTopScope(),
-				this.interceptorContext );
+
+		DefineDataSourceSetUtil.defineDataSourceAndDataSet(dataSet, this.dataEngine, this.modelAdaptor,
+				new DataSetHandleProcessContext(dataSet, true, useDataSetFilter, false));
+
+		QueryExecutionHelper execHelper = new QueryExecutionHelper(this.dataEngine, this.modelAdaptor,
+				this.sessionContext, this);
+		IQueryResults results = execHelper.executeQuery(query, inputParamBindings, null, columnBindings,
+				useDataSetFilter, false, this.sessionContext.getTopScope(), this.interceptorContext);
 		return results;
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#execute(org.eclipse.birt.data.engine.api.IBasePreparedQuery, org.eclipse.birt.data.engine.api.IBaseQueryResults, org.mozilla.javascript.Scriptable)
+	 * 
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#execute(org.
+	 * eclipse.birt.data.engine.api.IBasePreparedQuery,
+	 * org.eclipse.birt.data.engine.api.IBaseQueryResults,
+	 * org.mozilla.javascript.Scriptable)
 	 */
-	public IBaseQueryResults execute( IBasePreparedQuery query,
-			IBaseQueryResults outerResults, Scriptable scope )
-			throws AdapterException
-	{
-		try
-		{
-			if ( query instanceof IPreparedQuery )
-			{
-				return ( (IPreparedQuery) query ).execute( outerResults,
-						scope );
-			}
-			else if ( query instanceof IPreparedCubeQuery )
-			{
-				String queryName = ( (IPreparedCubeQuery) query ).getCubeQueryDefinition( )
-						.getName( );
-				if ( this.cubeHandleMap.get( queryName ) != null )
-				{
-					this.materializeCube( (CubeHandle) this.cubeHandleMap.get( queryName ),
-							this.sessionContext.getAppContext( ) );
-					this.cubeHandleMap.remove( queryName );
+	public IBaseQueryResults execute(IBasePreparedQuery query, IBaseQueryResults outerResults, Scriptable scope)
+			throws AdapterException {
+		try {
+			if (query instanceof IPreparedQuery) {
+				return ((IPreparedQuery) query).execute(outerResults, scope);
+			} else if (query instanceof IPreparedCubeQuery) {
+				String queryName = ((IPreparedCubeQuery) query).getCubeQueryDefinition().getName();
+				if (this.cubeHandleMap.get(queryName) != null) {
+					this.materializeCube((CubeHandle) this.cubeHandleMap.get(queryName),
+							this.sessionContext.getAppContext());
+					this.cubeHandleMap.remove(queryName);
 				}
 
-				return ( (IPreparedCubeQuery) query ).execute( outerResults, scope );
+				return ((IPreparedCubeQuery) query).execute(outerResults, scope);
 			}
 			return null;
-		}
-		catch ( BirtException e )
-		{
-			throw new AdapterException( ResourceConstants.EXCEPTION_ERROR, e );
+		} catch (BirtException e) {
+			throw new AdapterException(ResourceConstants.EXCEPTION_ERROR, e);
 		}
 	}
 
-	public IBaseQueryResults execute( IBasePreparedQuery query,
-			IBaseQueryResults outerResults, ScriptContext context )
-			throws AdapterException
-	{
-		try
-		{
-			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine( IDataScriptEngine.ENGINE_NAME );
-			Scriptable scope = engine.getJSScope( context );
-			if ( query instanceof IPreparedQuery )
-			{
-				return ( (IPreparedQuery) query ).execute( outerResults,
-						scope );
-			}
-			else if ( query instanceof IPreparedCubeQuery )
-			{
-				String queryName = ( (IPreparedCubeQuery) query ).getCubeQueryDefinition( )
-						.getName( );
-				if ( this.cubeHandleMap.get( queryName ) != null )
-				{
-					this.materializeCube( (CubeHandle) this.cubeHandleMap.get( queryName ),
-							this.sessionContext.getAppContext( ) );
-					this.cubeHandleMap.remove( queryName );
+	public IBaseQueryResults execute(IBasePreparedQuery query, IBaseQueryResults outerResults, ScriptContext context)
+			throws AdapterException {
+		try {
+			IDataScriptEngine engine = (IDataScriptEngine) context.getScriptEngine(IDataScriptEngine.ENGINE_NAME);
+			Scriptable scope = engine.getJSScope(context);
+			if (query instanceof IPreparedQuery) {
+				return ((IPreparedQuery) query).execute(outerResults, scope);
+			} else if (query instanceof IPreparedCubeQuery) {
+				String queryName = ((IPreparedCubeQuery) query).getCubeQueryDefinition().getName();
+				if (this.cubeHandleMap.get(queryName) != null) {
+					this.materializeCube((CubeHandle) this.cubeHandleMap.get(queryName),
+							this.sessionContext.getAppContext());
+					this.cubeHandleMap.remove(queryName);
 				}
 
-				return ( (IPreparedCubeQuery) query ).execute( outerResults, scope );
+				return ((IPreparedCubeQuery) query).execute(outerResults, scope);
 			}
 			return null;
-		}
-		catch ( BirtException e )
-		{
-			throw new AdapterException( ResourceConstants.EXCEPTION_ERROR, e );
+		} catch (BirtException e) {
+			throw new AdapterException(ResourceConstants.EXCEPTION_ERROR, e);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.api.IDataQueryDefinition)
+	 * 
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.
+	 * eclipse.birt.data.engine.api.IDataQueryDefinition)
 	 */
-	public IBasePreparedQuery prepare( IDataQueryDefinition query,
-			Map appContext ) throws AdapterException
-	{
-		try
-		{
-			setModuleHandleToAppContext( appContext );
+	public IBasePreparedQuery prepare(IDataQueryDefinition query, Map appContext) throws AdapterException {
+		try {
+			setModuleHandleToAppContext(appContext);
 
-			if ( query instanceof IQueryDefinition )
-				return prepare( (IQueryDefinition) query, appContext == null
-						? this.sessionContext.getAppContext( ) : appContext );
-			else if ( query instanceof ICubeQueryDefinition )
-				return prepare( (ICubeQueryDefinition) query,
-						appContext == null
-								? this.sessionContext.getAppContext( )
-								: appContext );
-			else if ( query instanceof ISubCubeQueryDefinition )
-				return prepare( (ISubCubeQueryDefinition) query,
-						appContext == null
-								? this.sessionContext.getAppContext( )
-								: appContext );
+			if (query instanceof IQueryDefinition)
+				return prepare((IQueryDefinition) query,
+						appContext == null ? this.sessionContext.getAppContext() : appContext);
+			else if (query instanceof ICubeQueryDefinition)
+				return prepare((ICubeQueryDefinition) query,
+						appContext == null ? this.sessionContext.getAppContext() : appContext);
+			else if (query instanceof ISubCubeQueryDefinition)
+				return prepare((ISubCubeQueryDefinition) query,
+						appContext == null ? this.sessionContext.getAppContext() : appContext);
 			else
 				return null;
-		}
-		catch ( BirtException e )
-		{
-			throw new AdapterException( ResourceConstants.EXCEPTION_ERROR, e );
+		} catch (BirtException e) {
+			throw new AdapterException(ResourceConstants.EXCEPTION_ERROR, e);
 		}
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#defineCube(org.eclipse.birt.report.model.api.olap.CubeHandle)
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.DataRequestSession#defineCube(org.
+	 * eclipse.birt.report.model.api.olap.CubeHandle)
 	 */
-	public void defineCube( CubeHandle cubeHandle ) throws BirtException
-	{
-		CubeHandleUtil.defineCube( dataEngine, cubeHandle, this.sessionContext.getAppContext( ) );
-		this.cubeMetaDataHandleMap.put( cubeHandle.getQualifiedName( ), cubeHandle );
+	public void defineCube(CubeHandle cubeHandle) throws BirtException {
+		CubeHandleUtil.defineCube(dataEngine, cubeHandle, this.sessionContext.getAppContext());
+		this.cubeMetaDataHandleMap.put(cubeHandle.getQualifiedName(), cubeHandle);
 
-		ICubeInterceptor cubeInterceptor = CubeInterceptorFinder.find( cubeHandle );
-		if ( cubeInterceptor != null )
-		{
-			cubeInterceptor.preDefineCube( this.sessionContext,
-					cubeHandle );
+		ICubeInterceptor cubeInterceptor = CubeInterceptorFinder.find(cubeHandle);
+		if (cubeInterceptor != null) {
+			cubeInterceptor.preDefineCube(this.sessionContext, cubeHandle);
 		}
 
-		if ( cubeInterceptor == null || cubeInterceptor.needDefineCube( ))
-		{
-			if( ! (cubeHandle instanceof TabularCubeHandle) )
+		if (cubeInterceptor == null || cubeInterceptor.needDefineCube()) {
+			if (!(cubeHandle instanceof TabularCubeHandle))
 				return;
-			Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle)cubeHandle);
-			Iterator itr = involvedDataSets.iterator( );
-			while (itr.hasNext( ))
-			{
-				DataSetHandle dsHandle = (DataSetHandle) itr.next( );
-				BaseDataSourceDesign baseDataSource = this.modelAdaptor.adaptDataSource( dsHandle.getDataSource( ) );
-				BaseDataSetDesign baseDataSet = this.modelAdaptor.adaptDataSet( dsHandle );
+			Set involvedDataSets = getInvolvedDataSets((TabularCubeHandle) cubeHandle);
+			Iterator itr = involvedDataSets.iterator();
+			while (itr.hasNext()) {
+				DataSetHandle dsHandle = (DataSetHandle) itr.next();
+				BaseDataSourceDesign baseDataSource = this.modelAdaptor.adaptDataSource(dsHandle.getDataSource());
+				BaseDataSetDesign baseDataSet = this.modelAdaptor.adaptDataSet(dsHandle);
 
-				//When the data set is joint data set, the data source does not exist.
-				if ( baseDataSource!= null && this.dataEngine.getDataSourceRuntime( baseDataSource.getName( ) ) == null )
-					this.defineDataSource( baseDataSource );
+				// When the data set is joint data set, the data source does not exist.
+				if (baseDataSource != null && this.dataEngine.getDataSourceRuntime(baseDataSource.getName()) == null)
+					this.defineDataSource(baseDataSource);
 
-				//If the data set has not been defined previously, define it.
-				if( this.dataEngine.getDataSetDesign(  baseDataSet.getName( ) ) == null )
-				{
-					DefineDataSourceSetUtil.defineDataSourceAndDataSet( dsHandle, this );
+				// If the data set has not been defined previously, define it.
+				if (this.dataEngine.getDataSetDesign(baseDataSet.getName()) == null) {
+					DefineDataSourceSetUtil.defineDataSourceAndDataSet(dsHandle, this);
 				}
 			}
 
-			if ( !cubeHandleMap.containsKey( cubeHandle.getQualifiedName( ) ) )
-			{
-				this.cubeHandleMap.put( cubeHandle.getQualifiedName( ), cubeHandle );
+			if (!cubeHandleMap.containsKey(cubeHandle.getQualifiedName())) {
+				this.cubeHandleMap.put(cubeHandle.getQualifiedName(), cubeHandle);
 			}
 
-			prepareForCubeGeneration( (TabularCubeHandle)cubeHandle );
+			prepareForCubeGeneration((TabularCubeHandle) cubeHandle);
 		}
 	}
 
@@ -770,81 +661,65 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param stopSign
 	 * @throws BirtException
 	 */
-	void materializeCube( CubeHandle cubeHandle, Map appContext ) throws BirtException
-	{
-		CubeMeasureUtil.validateDerivedMeasures( cubeHandle );
-		
-		int mode = this.sessionContext.getDataEngineContext( ).getMode( );
-		try
-		{
-			if ( appContext == null )
-				appContext = sessionContext.getAppContext( );
+	void materializeCube(CubeHandle cubeHandle, Map appContext) throws BirtException {
+		CubeMeasureUtil.validateDerivedMeasures(cubeHandle);
 
-			String memoryUsage =  (String)( appContext.get( DataEngine.MEMORY_USAGE ) );
-			MemoryUsageSetting.setMemoryUsage( memoryUsage );
+		int mode = this.sessionContext.getDataEngineContext().getMode();
+		try {
+			if (appContext == null)
+				appContext = sessionContext.getAppContext();
 
-			if ( mode == DataEngineContext.DIRECT_PRESENTATION )
-			{
+			String memoryUsage = (String) (appContext.get(DataEngine.MEMORY_USAGE));
+			MemoryUsageSetting.setMemoryUsage(memoryUsage);
+
+			if (mode == DataEngineContext.DIRECT_PRESENTATION) {
 				int size = 0;
-				if ( appContext != null )
-				{
-					Integer value = DataTypeUtil.toInteger( appContext.get( DataEngine.IN_MEMORY_CUBE_SIZE ) );
-					if ( value != null && value.intValue( ) > 0)
-					{
-						size = value.intValue( );
+				if (appContext != null) {
+					Integer value = DataTypeUtil.toInteger(appContext.get(DataEngine.IN_MEMORY_CUBE_SIZE));
+					if (value != null && value.intValue() > 0) {
+						size = value.intValue();
 					}
 				}
-				CubeMaterializer cm = getCubeMaterializer( size );
-				createCube( (TabularCubeHandle) cubeHandle,
-						cm,
-						appContext );
+				CubeMaterializer cm = getCubeMaterializer(size);
+				createCube((TabularCubeHandle) cubeHandle, cm, appContext);
+			} else if (mode == DataEngineContext.MODE_GENERATION) {
+				CubeMaterializer cm = getCubeMaterializer(0);
+				createCube((TabularCubeHandle) cubeHandle, cm, appContext);
+				cm.saveCubeToReportDocument(cubeHandle.getQualifiedName(), this.sessionContext.getDocumentWriter(),
+						this.dataEngine.getSession().getStopSign());
 			}
-			else if ( mode == DataEngineContext.MODE_GENERATION )
-			{
-				CubeMaterializer cm = getCubeMaterializer( 0 );
-				createCube(  (TabularCubeHandle)cubeHandle, cm, appContext );
-				cm.saveCubeToReportDocument( cubeHandle.getQualifiedName( ),
-						this.sessionContext.getDocumentWriter( ),
-						this.dataEngine.getSession( ).getStopSign( ) );
-			}
-		}
-		catch ( Exception e )
-		{
-			throw new DataException( ResourceConstants.EXCEPTION_ERROR, e);
+		} catch (Exception e) {
+			throw new DataException(ResourceConstants.EXCEPTION_ERROR, e);
 		}
 	}
 
 	// Appcontext entries that may be temporarily modified during createCube call
-	protected static final String[] APPCONTEXT_BACKUP_KEYS = {
-				DataEngine.MEMORY_DATA_SET_CACHE,
-				DataEngine.DATA_SET_CACHE_ROW_LIMIT };
-	
+	protected static final String[] APPCONTEXT_BACKUP_KEYS = { DataEngine.MEMORY_DATA_SET_CACHE,
+			DataEngine.DATA_SET_CACHE_ROW_LIMIT };
+
 	/**
-	 * Create a backup of app context values that may be changed during cube creation
+	 * Create a backup of app context values that may be changed during cube
+	 * creation
 	 */
-	protected Map<Object,Object> backupAppContextForCube(Map<Object,Object> originalAppContext) 
-	{
+	protected Map<Object, Object> backupAppContextForCube(Map<Object, Object> originalAppContext) {
 		Map<Object, Object> backup = new HashMap<Object, Object>();
-		for ( String key : APPCONTEXT_BACKUP_KEYS ) 
-		{
-			if ( originalAppContext.containsKey( key ))
-				backup.put( key, originalAppContext.get( key ) );
+		for (String key : APPCONTEXT_BACKUP_KEYS) {
+			if (originalAppContext.containsKey(key))
+				backup.put(key, originalAppContext.get(key));
 		}
 		return backup;
 	}
-	
+
 	/**
 	 * Restore appcontext value based on backup taken with backupAppContextForCube
 	 */
-	protected void restoreAppContext(Map<Object,Object> appContext, Map<Object,Object> backup)
-	{
-		for ( String key : APPCONTEXT_BACKUP_KEYS ) 
-		{
-			appContext.remove( key );
+	protected void restoreAppContext(Map<Object, Object> appContext, Map<Object, Object> backup) {
+		for (String key : APPCONTEXT_BACKUP_KEYS) {
+			appContext.remove(key);
 		}
-		appContext.putAll( backup );
+		appContext.putAll(backup);
 	}
-	
+
 	/**
 	 *
 	 * @param cubeHandle
@@ -856,284 +731,220 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 */
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected void createCube( TabularCubeHandle cubeHandle,
-			CubeMaterializer cubeMaterializer, Map appContext ) throws BirtException
-	{
-		SecurityListener sl = new SecurityListener( this );
-		sl.start( cubeHandle );
+	protected void createCube(TabularCubeHandle cubeHandle, CubeMaterializer cubeMaterializer, Map appContext)
+			throws BirtException {
+		SecurityListener sl = new SecurityListener(this);
+		sl.start(cubeHandle);
 
-		//Please note that we should always use original application context during query execution,
-		//rather than create a new one with same properties.Application Context is sometimes used as cross-query
-		//information carrier.
-		// Also make sure that the backup/restore steps don't alter appcontext values updated/added by 
+		// Please note that we should always use original application context during
+		// query execution,
+		// rather than create a new one with same properties.Application Context is
+		// sometimes used as cross-query
+		// information carrier.
+		// Also make sure that the backup/restore steps don't alter appcontext values
+		// updated/added by
 		// downstream components
-		if( appContext == null )
+		if (appContext == null)
 			appContext = new HashMap();
-		Map<Object,Object> backupAppContext = backupAppContextForCube(appContext);
+		Map<Object, Object> backupAppContext = backupAppContextForCube(appContext);
 
-		List measureNames = new ArrayList( );
-		Map calculatedMeasure = new HashMap( );
-		List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-		for ( int i = 0; i < measureGroups.size( ); i++ )
-		{
-			MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
-			List measures = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
-			for ( int j = 0; j < measures.size( ); j++ )
-			{
-				MeasureHandle measure = (MeasureHandle) measures.get( j );
-				if( !measure.isCalculated( ) )
-				{
-					measureNames.add( measure.getName( ) );				
-				}
-				else
-				{
-					calculatedMeasure.put( measure.getName( ), DataAdapterUtil.adaptModelDataType( measure.getDataType( ) ) );
+		List measureNames = new ArrayList();
+		Map calculatedMeasure = new HashMap();
+		List measureGroups = cubeHandle.getContents(CubeHandle.MEASURE_GROUPS_PROP);
+		for (int i = 0; i < measureGroups.size(); i++) {
+			MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get(i);
+			List measures = mgh.getContents(MeasureGroupHandle.MEASURES_PROP);
+			for (int j = 0; j < measures.size(); j++) {
+				MeasureHandle measure = (MeasureHandle) measures.get(j);
+				if (!measure.isCalculated()) {
+					measureNames.add(measure.getName());
+				} else {
+					calculatedMeasure.put(measure.getName(), DataAdapterUtil.adaptModelDataType(measure.getDataType()));
 				}
 			}
 		}
 
-		IDimension[] dimensions = populateDimensions( cubeMaterializer,
-				cubeHandle,
-				appContext,
-				sl );
+		IDimension[] dimensions = populateDimensions(cubeMaterializer, cubeHandle, appContext, sl);
 		String[][] factTableKey = new String[dimensions.length][];
 		String[][] dimensionKey = new String[dimensions.length][];
 		boolean fromJoin = false;
-		for ( int i = 0; i < dimensions.length; i++ )
-		{
-			DimensionHandle dim = (DimensionHandle) cubeHandle.getDimension( dimensions[i].getName( ) );
-			TabularHierarchyHandle hier = (TabularHierarchyHandle) dim.getDefaultHierarchy( );
-			DimensionJoinConditionHandle condition = getFacttableJointKey(cubeHandle,
-					hier);
-			if ( cubeHandle.getDataSet( ).equals( hier.getDataSet( ) ) || hier.getDataSet( ) == null
-					|| ( isDateTimeDimension( hier ) && existColumnName( hier, condition.getHierarchyKey( ) ) ) )
-			{
+		for (int i = 0; i < dimensions.length; i++) {
+			DimensionHandle dim = (DimensionHandle) cubeHandle.getDimension(dimensions[i].getName());
+			TabularHierarchyHandle hier = (TabularHierarchyHandle) dim.getDefaultHierarchy();
+			DimensionJoinConditionHandle condition = getFacttableJointKey(cubeHandle, hier);
+			if (cubeHandle.getDataSet().equals(hier.getDataSet()) || hier.getDataSet() == null
+					|| (isDateTimeDimension(hier) && existColumnName(hier, condition.getHierarchyKey()))) {
 
-				String[] keyNames = dimensions[i].getHierarchy().getLevels()[dimensions[i]
-						.getHierarchy().getLevels().length - 1].getKeyNames();
+				String[] keyNames = dimensions[i].getHierarchy()
+						.getLevels()[dimensions[i].getHierarchy().getLevels().length - 1].getKeyNames();
 				factTableKey[i] = new String[keyNames.length];
 				dimensionKey[i] = new String[keyNames.length];
-				for ( int j = 0; j<keyNames.length; j++)
-				{
-					factTableKey[i][j] =  dim.getName() + "/" + keyNames[j];
+				for (int j = 0; j < keyNames.length; j++) {
+					factTableKey[i][j] = dim.getName() + "/" + keyNames[j];
 					dimensionKey[i][j] = keyNames[j];
 				}
-			}
-			else
-			{
+			} else {
 				fromJoin = true;
-				Iterator it = cubeHandle.joinConditionsIterator( );
-				if ( !it.hasNext() )
-					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION,
-							new String[]{cubeHandle.getDataSet( ).getName( ), dim.getName(), cubeHandle.getName( )} );
+				Iterator it = cubeHandle.joinConditionsIterator();
+				if (!it.hasNext())
+					throw new AdapterException(ResourceConstants.MISSING_JOIN_CONDITION,
+							new String[] { cubeHandle.getDataSet().getName(), dim.getName(), cubeHandle.getName() });
 				boolean foundJoinCondition = false;
-				while ( it.hasNext( ) )
-				{
-					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
+				while (it.hasNext()) {
+					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next();
 
-					if ( dimCondHandle.getHierarchy( ).getName( ).equals( hier.getName( ) ) )
-					{
-						Iterator conditionIt = dimCondHandle.getJoinConditions( )
-								.iterator( );
-						List dimensionKeys = new ArrayList( );
-						List factTableKeys = new ArrayList( );
-						while ( conditionIt.hasNext( ) )
-						{
+					if (dimCondHandle.getHierarchy().getName().equals(hier.getName())) {
+						Iterator conditionIt = dimCondHandle.getJoinConditions().iterator();
+						List dimensionKeys = new ArrayList();
+						List factTableKeys = new ArrayList();
+						while (conditionIt.hasNext()) {
 							foundJoinCondition = true;
-							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
-							String levelName = joinCondition.getLevelName( );
-							if ( levelName != null
-									&& isAttribute( dimensions[i],
-											levelName,
-											joinCondition.getHierarchyKey( ) ) )
-							{
-								dimensionKeys.add( OlapExpressionUtil.getAttributeColumnName( getLevelName( dimensions[i],
-										levelName ),
-										joinCondition.getHierarchyKey( ) ) );
-							}
-							else
-							{
-								String existLevelName = getLevelName( hier, joinCondition.getHierarchyKey( ));
-								if ( existLevelName != null )
-								{
-									//joint hierarchy key is the key column name of one level
-									dimensionKeys.add( existLevelName );
-								}
-								else
-								{
-									dimensionKeys.add( getDummyLevelNameForJointHierarchyKey(joinCondition.getHierarchyKey( )) );
+							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt
+									.next();
+							String levelName = joinCondition.getLevelName();
+							if (levelName != null
+									&& isAttribute(dimensions[i], levelName, joinCondition.getHierarchyKey())) {
+								dimensionKeys.add(OlapExpressionUtil.getAttributeColumnName(
+										getLevelName(dimensions[i], levelName), joinCondition.getHierarchyKey()));
+							} else {
+								String existLevelName = getLevelName(hier, joinCondition.getHierarchyKey());
+								if (existLevelName != null) {
+									// joint hierarchy key is the key column name of one level
+									dimensionKeys.add(existLevelName);
+								} else {
+									dimensionKeys.add(
+											getDummyLevelNameForJointHierarchyKey(joinCondition.getHierarchyKey()));
 								}
 							}
-							factTableKeys.add( OlapExpressionUtil.getQualifiedLevelName( dimensions[i].getName( ),
-									joinCondition.getCubeKey( ) ) );
+							factTableKeys.add(OlapExpressionUtil.getQualifiedLevelName(dimensions[i].getName(),
+									joinCondition.getCubeKey()));
 						}
-						factTableKey[i] = new String[factTableKeys.size( )];
-						dimensionKey[i] = new String[dimensionKeys.size( )];
-						for( int j = 0; j < dimensionKeys.size( ); j++ )
-						{
-							factTableKey[i][j] = factTableKeys.get( j ).toString( );
-							dimensionKey[i][j] = dimensionKeys.get( j ).toString( );
+						factTableKey[i] = new String[factTableKeys.size()];
+						dimensionKey[i] = new String[dimensionKeys.size()];
+						for (int j = 0; j < dimensionKeys.size(); j++) {
+							factTableKey[i][j] = factTableKeys.get(j).toString();
+							dimensionKey[i][j] = dimensionKeys.get(j).toString();
 						}
 					}
 				}
 
-				if( !foundJoinCondition )
-					throw new AdapterException( ResourceConstants.MISSING_JOIN_CONDITION, dim.getName() );
+				if (!foundJoinCondition)
+					throw new AdapterException(ResourceConstants.MISSING_JOIN_CONDITION, dim.getName());
 			}
 		}
 		DataSetIterator dataForCube = null;
-		if ( cubeHandle.autoPrimaryKey( ) )
-		{
-			QueryDefinition qd = cubeQueryMap.get( cubeHandle );
-			//does not need aggregation to define measures in this case, clear all aggregations on measures
-			for ( Object measureName : measureNames )
-			{
-				IBinding b = (IBinding)qd.getBindings( ).get( measureName );
-				if ( b != null )
-				{
-					b.setAggrFunction( null );
-					if ( b.getAggregatOns( ) != null )
-					{
-						b.getAggregatOns( ).clear( );
+		if (cubeHandle.autoPrimaryKey()) {
+			QueryDefinition qd = cubeQueryMap.get(cubeHandle);
+			// does not need aggregation to define measures in this case, clear all
+			// aggregations on measures
+			for (Object measureName : measureNames) {
+				IBinding b = (IBinding) qd.getBindings().get(measureName);
+				if (b != null) {
+					b.setAggrFunction(null);
+					if (b.getAggregatOns() != null) {
+						b.getAggregatOns().clear();
 					}
 				}
 			}
-			if ( !fromJoin )
-			{
-				List<ColumnMeta> metas = cubeMetaMap.get( cubeHandle );
-				//append binding in fact table query for temp PK
-				IBinding tempPKBinding = new Binding( DataSetIterator.createLevelName(
-						getCubeTempPKDimensionName( cubeHandle ),
-						getCubeTempPKFieldName( cubeHandle )),
-					new ScriptExpression( "row.__rownum" ) ); //take rownum as the the primary key
-				qd.addBinding( tempPKBinding );
-				DataSetIterator.ColumnMeta cm = new DataSetIterator.ColumnMeta( tempPKBinding.getBindingName( ), null, DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-				cm.setDataType( DataType.INTEGER_TYPE );
-				metas.add( cm );
+			if (!fromJoin) {
+				List<ColumnMeta> metas = cubeMetaMap.get(cubeHandle);
+				// append binding in fact table query for temp PK
+				IBinding tempPKBinding = new Binding(DataSetIterator
+						.createLevelName(getCubeTempPKDimensionName(cubeHandle), getCubeTempPKFieldName(cubeHandle)),
+						new ScriptExpression("row.__rownum")); // take rownum as the the primary key
+				qd.addBinding(tempPKBinding);
+				DataSetIterator.ColumnMeta cm = new DataSetIterator.ColumnMeta(tempPKBinding.getBindingName(), null,
+						DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE);
+				cm.setDataType(DataType.INTEGER_TYPE);
+				metas.add(cm);
 
-				//append temp PK dimension
+				// append temp PK dimension
 				String countBindingName = "COUNT"; //$NON-NLS-1$
-				IBinding b = new Binding( countBindingName );
-				b.setAggrFunction( IBuildInAggregation.TOTAL_COUNT_FUNC );
-				QueryDefinition q = cubeQueryMap.get( cubeHandle );
-				q.addBinding( b );
-				dataForCube = new DataSetIterator( this,
-						cubeQueryMap.get( cubeHandle ),
-						cubeMetaMap.get( cubeHandle ),
-						appContext );
+				IBinding b = new Binding(countBindingName);
+				b.setAggrFunction(IBuildInAggregation.TOTAL_COUNT_FUNC);
+				QueryDefinition q = cubeQueryMap.get(cubeHandle);
+				q.addBinding(b);
+				dataForCube = new DataSetIterator(this, cubeQueryMap.get(cubeHandle), cubeMetaMap.get(cubeHandle),
+						appContext);
 				int rowCount = 0;
-				try
-				{
-					rowCount = dataForCube.getSummaryInt( countBindingName );
-				}
-				catch( BirtException e )
-				{
+				try {
+					rowCount = dataForCube.getSummaryInt(countBindingName);
+				} catch (BirtException e) {
 					rowCount = 1;
 				}
-				dimensions = appendArray( dimensions, populateTempPKDimension( cubeMaterializer, cubeHandle,
-						new DataSetIteratorForTempPK( rowCount ),
-						appContext ));
+				dimensions = appendArray(dimensions, populateTempPKDimension(cubeMaterializer, cubeHandle,
+						new DataSetIteratorForTempPK(rowCount), appContext));
 
-				//append fact table key for temp PK dimension
-				factTableKey = appendArray( factTableKey, new String[]{
-						DataSetIterator.createLevelName(
-								getCubeTempPKDimensionName( cubeHandle ),
-								getCubeTempPKFieldName( cubeHandle ))} );
+				// append fact table key for temp PK dimension
+				factTableKey = appendArray(factTableKey, new String[] { DataSetIterator
+						.createLevelName(getCubeTempPKDimensionName(cubeHandle), getCubeTempPKFieldName(cubeHandle)) });
 
-				//append dimension key for temp PK dimension
-				dimensionKey = appendArray( dimensionKey, new String[]{
-						getCubeTempPKFieldName( cubeHandle )});
+				// append dimension key for temp PK dimension
+				dimensionKey = appendArray(dimensionKey, new String[] { getCubeTempPKFieldName(cubeHandle) });
 			}
-			//If it is from join, just generate normal data iterator.
-			if( dataForCube == null )
-			{
-				dataForCube = new DataSetIterator( this,
-						cubeQueryMap.get( cubeHandle ),
-						cubeMetaMap.get( cubeHandle ),
-						appContext );
+			// If it is from join, just generate normal data iterator.
+			if (dataForCube == null) {
+				dataForCube = new DataSetIterator(this, cubeQueryMap.get(cubeHandle), cubeMetaMap.get(cubeHandle),
+						appContext);
 			}
 		}
 
-
-
-		try
-		{
+		try {
 			List<String> measureAggrFunctions = new ArrayList<String>();
 
-			if( dataForCube == null )
-			{
-				QueryDefinition query = cubeQueryMap.get( cubeHandle );
-				for ( Object measureName : measureNames )
-				{
-					IBinding b = (IBinding)query.getBindings( ).get( measureName );
-					assert b!= null && b.getAggrFunction( )!= null;
-					measureAggrFunctions.add( b.getAggrFunction( ) );
-					if ( IBuildInAggregation.TOTAL_COUNT_FUNC.equalsIgnoreCase( b.getAggrFunction( ) )
-							|| IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC.equalsIgnoreCase( b.getAggrFunction( ) ) )
-					{
-						if ( b.getExpression( ) == null )
-						{
+			if (dataForCube == null) {
+				QueryDefinition query = cubeQueryMap.get(cubeHandle);
+				for (Object measureName : measureNames) {
+					IBinding b = (IBinding) query.getBindings().get(measureName);
+					assert b != null && b.getAggrFunction() != null;
+					measureAggrFunctions.add(b.getAggrFunction());
+					if (IBuildInAggregation.TOTAL_COUNT_FUNC.equalsIgnoreCase(b.getAggrFunction())
+							|| IBuildInAggregation.TOTAL_COUNTDISTINCT_FUNC.equalsIgnoreCase(b.getAggrFunction())) {
+						if (b.getExpression() == null) {
 							// We set a dummy expression here for
 							// count/countdistinct aggregations.Because in data
 							// engine's table query execution we do not allow
 							// empty expression.
 							// This is a tricky.
-							b.setExpression( new ScriptExpression( "1" ) );
+							b.setExpression(new ScriptExpression("1"));
 						}
 					}
-					
-					if( b.getExpression( ) == null || ((ScriptExpression)b.getExpression( )).getText( ) == null )
-					{
-						throw new AdapterException( ResourceConstants.INVALID_MEASURE_EXPRESSION, measureName );
+
+					if (b.getExpression() == null || ((ScriptExpression) b.getExpression()).getText() == null) {
+						throw new AdapterException(ResourceConstants.INVALID_MEASURE_EXPRESSION, measureName);
 					}
 
-					b.setAggrFunction( null );
-					if ( b.getAggregatOns( ) != null )
-					{
-						b.getAggregatOns( ).clear( );
+					b.setAggrFunction(null);
+					if (b.getAggregatOns() != null) {
+						b.getAggregatOns().clear();
 					}
 				}
-				query.getGroups( ).clear( );
-				dataForCube = new DataSetIterator( this,
-						query,
-						cubeMetaMap.get( cubeHandle ),
-						appContext );
+				query.getGroups().clear();
+				dataForCube = new DataSetIterator(this, query, cubeMetaMap.get(cubeHandle), appContext);
 			}
-			cubeMaterializer.createCube( cubeHandle.getQualifiedName( ),
-					factTableKey,
-					dimensionKey,
-					dimensions,
-					dataForCube,
-					this.toStringArray( measureNames ),
-					calculatedMeasure,
-					this.toStringArray( measureAggrFunctions ),
-					computeMemoryBufferSize( appContext ),
-					dataEngine.getSession( ).getStopSign( ) );
-		}
-		catch ( Exception e )
-		{
-			throw new AdapterException( ResourceConstants.CUBE_MEASURE_CREATION_ERROR,
-					e );
-		}
-		finally
-		{
-			if( dataForCube!= null )
-				dataForCube.close( );
+			cubeMaterializer.createCube(cubeHandle.getQualifiedName(), factTableKey, dimensionKey, dimensions,
+					dataForCube, this.toStringArray(measureNames), calculatedMeasure,
+					this.toStringArray(measureAggrFunctions), computeMemoryBufferSize(appContext),
+					dataEngine.getSession().getStopSign());
+		} catch (Exception e) {
+			throw new AdapterException(ResourceConstants.CUBE_MEASURE_CREATION_ERROR, e);
+		} finally {
+			if (dataForCube != null)
+				dataForCube.close();
 		}
 
-		sl.end( );
+		sl.end();
 
-		restoreAppContext( appContext, backupAppContext );
+		restoreAppContext(appContext, backupAppContext);
 	}
 
-	public static long computeMemoryBufferSize( Map appContext )
-	{
-		//here a simple assumption, that 1M memory can accommodate 2000 rows
-		if ( appContext == null )
+	public static long computeMemoryBufferSize(Map appContext) {
+		// here a simple assumption, that 1M memory can accommodate 2000 rows
+		if (appContext == null)
 			return 0;
 
-		//The unit is 1M.
-		return populateMemBufferSize( appContext.get( DataEngine.MEMORY_BUFFER_SIZE )) * 1024 * 1024;
+		// The unit is 1M.
+		return populateMemBufferSize(appContext.get(DataEngine.MEMORY_BUFFER_SIZE)) * 1024 * 1024;
 	}
 
 	/**
@@ -1141,29 +952,23 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param propValue
 	 * @return
 	 */
-	protected static long populateMemBufferSize( Object propValue )
-	{
-		String targetBufferSize =  propValue == null
-				? "0" : propValue
-						.toString( );
+	protected static long populateMemBufferSize(Object propValue) {
+		String targetBufferSize = propValue == null ? "0" : propValue.toString();
 
 		long memoryCacheSize = 0;
 
-		if ( targetBufferSize != null )
-			memoryCacheSize = Long.parseLong( targetBufferSize );
+		if (targetBufferSize != null)
+			memoryCacheSize = Long.parseLong(targetBufferSize);
 
 		return memoryCacheSize;
 	}
 
-	protected String getLevelName( TabularHierarchyHandle hierhandle, String columnName )
-	{
-		List levels = hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
-		for ( int k = 0; k < levels.size( ); k++ )
-		{
-			TabularLevelHandle level = (TabularLevelHandle) levels.get( k );
-			if ( columnName.equals( level.getColumnName( ) ))
-			{
-				return level.getName( );
+	protected String getLevelName(TabularHierarchyHandle hierhandle, String columnName) {
+		List levels = hierhandle.getContents(TabularHierarchyHandle.LEVELS_PROP);
+		for (int k = 0; k < levels.size(); k++) {
+			TabularLevelHandle level = (TabularLevelHandle) levels.get(k);
+			if (columnName.equals(level.getColumnName())) {
+				return level.getName();
 			}
 		}
 		return null;
@@ -1174,121 +979,101 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param cubeHandle
 	 * @throws BirtException
 	 */
-	protected void prepareForCubeGeneration( CubeHandle cHandle )
-			throws BirtException
-	{
+	protected void prepareForCubeGeneration(CubeHandle cHandle) throws BirtException {
 		TabularCubeHandle cubeHandle = null;
-		if( cHandle instanceof TabularCubeHandle )
-		{
-			cubeHandle = (TabularCubeHandle)cHandle;
+		if (cHandle instanceof TabularCubeHandle) {
+			cubeHandle = (TabularCubeHandle) cHandle;
 		}
 		List<IQueryDefinition> queryDefns = new ArrayList<IQueryDefinition>();
 
 		List<ColumnMeta> metaList = new ArrayList<ColumnMeta>();
-		QueryDefinition query =  createQuery( this, cubeHandle, metaList );
-		if ( cubeHandle.autoPrimaryKey( ) )
-		{
-			//need no groups in query definition for generating fact table
-			//Instead we sort fact tables directly
-			query.setUsesDetails( true );
-			query.getGroups( ).clear( );
+		QueryDefinition query = createQuery(this, cubeHandle, metaList);
+		if (cubeHandle.autoPrimaryKey()) {
+			// need no groups in query definition for generating fact table
+			// Instead we sort fact tables directly
+			query.setUsesDetails(true);
+			query.getGroups().clear();
 		}
-		queryDefns.add( query );
-		cubeQueryMap.put( cubeHandle, query );
-		cubeMetaMap.put( cubeHandle, metaList );
+		queryDefns.add(query);
+		cubeQueryMap.put(cubeHandle, query);
+		cubeMetaMap.put(cubeHandle, metaList);
 
-		List<DimensionHandle> dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
-		for ( DimensionHandle dim:dimHandles )
-		{
-			List<TabularHierarchyHandle> hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
-			for ( TabularHierarchyHandle hier: hiers )
-			{
+		List<DimensionHandle> dimHandles = cubeHandle.getContents(CubeHandle.DIMENSIONS_PROP);
+		for (DimensionHandle dim : dimHandles) {
+			List<TabularHierarchyHandle> hiers = dim.getContents(DimensionHandle.HIERARCHIES_PROP);
+			for (TabularHierarchyHandle hier : hiers) {
 				String columnForDeepestLevel = null;
-				List levels = hier.getContents( TabularHierarchyHandle.LEVELS_PROP );
-				if ( levels.size( ) >= 1 )
-				{
-					TabularLevelHandle level = (TabularLevelHandle) levels.get( levels.size( ) -1 );
-					columnForDeepestLevel = level.getColumnName( );
+				List levels = hier.getContents(TabularHierarchyHandle.LEVELS_PROP);
+				if (levels.size() >= 1) {
+					TabularLevelHandle level = (TabularLevelHandle) levels.get(levels.size() - 1);
+					columnForDeepestLevel = level.getColumnName();
 				}
 				metaList = new ArrayList<ColumnMeta>();
-				query = createDimensionQuery( this, dim,
-						hier,
-						metaList,
-						String.valueOf( cubeHandle.getElement( ).getID( ) ) );
-				String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hier );
-				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
-				{
-					if ( !Arrays.deepEquals( jointHierarchyKeys, new String[]{ columnForDeepestLevel} ) )
-					{
-						for ( String key : jointHierarchyKeys )
-						{
-							//add bindings for dummy level based on joint hierarchy keys
-							String exprString = ExpressionUtil.createJSDataSetRowExpression( key );
-							query.addBinding( new Binding( getDummyLevelNameForJointHierarchyKey( key ), new ScriptExpression(exprString) ) );
-							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( getDummyLevelNameForJointHierarchyKey( key ),
-									null,
-									DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-							temp.setDataType( getColumnDataType( hier.getDataSet( ), key ) );
-							metaList.add( temp );
+				query = createDimensionQuery(this, dim, hier, metaList,
+						String.valueOf(cubeHandle.getElement().getID()));
+				String[] jointHierarchyKeys = getJointHierarchyKeys(cubeHandle, hier);
+				if (cubeHandle.autoPrimaryKey() && jointHierarchyKeys.length > 0) {
+					if (!Arrays.deepEquals(jointHierarchyKeys, new String[] { columnForDeepestLevel })) {
+						for (String key : jointHierarchyKeys) {
+							// add bindings for dummy level based on joint hierarchy keys
+							String exprString = ExpressionUtil.createJSDataSetRowExpression(key);
+							query.addBinding(new Binding(getDummyLevelNameForJointHierarchyKey(key),
+									new ScriptExpression(exprString)));
+							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta(
+									getDummyLevelNameForJointHierarchyKey(key), null,
+									DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE);
+							temp.setDataType(getColumnDataType(hier.getDataSet(), key));
+							metaList.add(temp);
 						}
 					}
 
-					//need no groups in query definition for generating dimension table
+					// need no groups in query definition for generating dimension table
 
-					query.setUsesDetails( true );
-					query.getGroups( ).clear( );
+					query.setUsesDetails(true);
+					query.getGroups().clear();
 				}
-				queryDefns.add( query );
-				cubeQueryMap.put( hier, query );
-				cubeMetaMap.put( hier, metaList );
+				queryDefns.add(query);
+				cubeQueryMap.put(hier, query);
+				cubeMetaMap.put(hier, metaList);
 			}
 		}
 
-		this.dataEngine.registerQueries( queryDefns.toArray( new IDataQueryDefinition[0] ) );
+		this.dataEngine.registerQueries(queryDefns.toArray(new IDataQueryDefinition[0]));
 	}
 
 	/**
 	 * Apply the filter to dimension query when there is start/end time setting.
+	 * 
 	 * @param dim
 	 * @param hier
 	 * @return
 	 * @throws BirtException
 	 */
-	protected FilterDefinition buildFilterForTimeDimension( DimensionHandle dim,
-			TabularHierarchyHandle hier ) throws BirtException
-	{
-		Date startTime = CubeHandleUtil.getStartTime( dim );
-		Date endTime = CubeHandleUtil.getEndTime( dim );
+	protected FilterDefinition buildFilterForTimeDimension(DimensionHandle dim, TabularHierarchyHandle hier)
+			throws BirtException {
+		Date startTime = CubeHandleUtil.getStartTime(dim);
+		Date endTime = CubeHandleUtil.getEndTime(dim);
 
-		if ( startTime == null && endTime == null )
-		{
+		if (startTime == null && endTime == null) {
 			return null;
 		}
-		List levels = hier.getContents( TabularHierarchyHandle.LEVELS_PROP );
-		TabularLevelHandle level = (TabularLevelHandle) levels.get( levels.size( ) - 1 );
+		List levels = hier.getContents(TabularHierarchyHandle.LEVELS_PROP);
+		TabularLevelHandle level = (TabularLevelHandle) levels.get(levels.size() - 1);
 		FilterDefinition filter = null;
-		String exprString = ExpressionUtil.createJSDataSetRowExpression( level.getColumnName( ) );
-		if ( startTime != null && endTime != null )
-		{
-			ConditionalExpression expr = new ConditionalExpression( exprString,
-					IConditionalExpression.OP_BETWEEN,
-					JavascriptEvalUtil.transformToJsExpression( DataTypeUtil.toLocaleNeutralString( startTime ) ),
-					JavascriptEvalUtil.transformToJsExpression( DataTypeUtil.toLocaleNeutralString( endTime ) ) );
-			filter = new FilterDefinition( expr );
-		}
-		else if ( startTime != null )
-		{
-			ConditionalExpression expr = new ConditionalExpression( exprString,
-					IConditionalExpression.OP_GE,
-					JavascriptEvalUtil.transformToJsExpression( DataTypeUtil.toLocaleNeutralString( startTime ) ) );
-			filter = new FilterDefinition( expr );
-		}
-		else if ( endTime != null )
-		{
-			ConditionalExpression expr = new ConditionalExpression( exprString,
-					IConditionalExpression.OP_LE,
-					JavascriptEvalUtil.transformToJsExpression( DataTypeUtil.toLocaleNeutralString( endTime ) ) );
-			filter = new FilterDefinition( expr );
+		String exprString = ExpressionUtil.createJSDataSetRowExpression(level.getColumnName());
+		if (startTime != null && endTime != null) {
+			ConditionalExpression expr = new ConditionalExpression(exprString, IConditionalExpression.OP_BETWEEN,
+					JavascriptEvalUtil.transformToJsExpression(DataTypeUtil.toLocaleNeutralString(startTime)),
+					JavascriptEvalUtil.transformToJsExpression(DataTypeUtil.toLocaleNeutralString(endTime)));
+			filter = new FilterDefinition(expr);
+		} else if (startTime != null) {
+			ConditionalExpression expr = new ConditionalExpression(exprString, IConditionalExpression.OP_GE,
+					JavascriptEvalUtil.transformToJsExpression(DataTypeUtil.toLocaleNeutralString(startTime)));
+			filter = new FilterDefinition(expr);
+		} else if (endTime != null) {
+			ConditionalExpression expr = new ConditionalExpression(exprString, IConditionalExpression.OP_LE,
+					JavascriptEvalUtil.transformToJsExpression(DataTypeUtil.toLocaleNeutralString(endTime)));
+			filter = new FilterDefinition(expr);
 		}
 
 		return filter;
@@ -1299,53 +1084,45 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param cubeHandle
 	 * @return
 	 */
-	protected List getDataSetsToCache( TabularCubeHandle cubeHandle )
-	{
-		List list = new ArrayList( );
-		if( cubeHandle.getDataSet( ) == null )
+	protected List getDataSetsToCache(TabularCubeHandle cubeHandle) {
+		List list = new ArrayList();
+		if (cubeHandle.getDataSet() == null)
 			return list;
-		list.add( cubeHandle.getDataSet( ) );
-		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
-		for( int i = 0; i < dimHandles.size( ); i++ )
-		{
-			DimensionHandle dimHandle = (DimensionHandle)dimHandles.get( i );
-			List hiers = dimHandle.getContents( DimensionHandle.HIERARCHIES_PROP );
-			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle)hiers.get( 0 );
-			if( hierHandle.getDataSet( )!= null )
-				list.add( hierHandle.getDataSet( ) );
+		list.add(cubeHandle.getDataSet());
+		List dimHandles = cubeHandle.getContents(CubeHandle.DIMENSIONS_PROP);
+		for (int i = 0; i < dimHandles.size(); i++) {
+			DimensionHandle dimHandle = (DimensionHandle) dimHandles.get(i);
+			List hiers = dimHandle.getContents(DimensionHandle.HIERARCHIES_PROP);
+			TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) hiers.get(0);
+			if (hierHandle.getDataSet() != null)
+				list.add(hierHandle.getDataSet());
 			else
-				list.add( cubeHandle.getDataSet( ) );
+				list.add(cubeHandle.getDataSet());
 		}
 		return list;
 	}
 
-	protected Set getInvolvedDataSets(TabularCubeHandle cubeHandle)
-	{
+	protected Set getInvolvedDataSets(TabularCubeHandle cubeHandle) {
 		return new HashSet(getDataSetsToCache(cubeHandle));
 	}
 
 	/**
 	 * whether this key name is attribute or not
+	 * 
 	 * @param dimensions
 	 * @param colName
 	 * @return
 	 */
-	protected boolean isAttribute( IDimension dimension, String levelName,
-			String colName )
-	{
-		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-		for ( int j = 0; j < levels.length; j++ )
-		{
-			if ( !levelName.equals( OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
-					levels[j].getName( ) ) ) )
+	protected boolean isAttribute(IDimension dimension, String levelName, String colName) {
+		ILevel[] levels = dimension.getHierarchy().getLevels();
+		for (int j = 0; j < levels.length; j++) {
+			if (!levelName.equals(OlapExpressionUtil.getQualifiedLevelName(dimension.getName(), levels[j].getName())))
 				continue;
-			String[] attributes = levels[j].getAttributeNames( );
-			if ( attributes == null )
+			String[] attributes = levels[j].getAttributeNames();
+			if (attributes == null)
 				continue;
-			for ( int k = 0; k < attributes.length; k++ )
-			{
-				if ( attributes[k].equals( OlapExpressionUtil.getAttributeColumnName( levels[j].getName( ),
-						colName ) ) )
+			for (int k = 0; k < attributes.length; k++) {
+				if (attributes[k].equals(OlapExpressionUtil.getAttributeColumnName(levels[j].getName(), colName)))
 					return true;
 			}
 		}
@@ -1360,15 +1137,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param targetName
 	 * @return
 	 */
-	protected String getLevelName( IDimension dimension, String targetName )
-	{
-		ILevel[] levels = dimension.getHierarchy( ).getLevels( );
-		for ( int j = 0; j < levels.length; j++ )
-		{
-			if ( targetName.equals( OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
-					levels[j].getName( ) ) ) )
-			{
-				return levels[j].getName( );
+	protected String getLevelName(IDimension dimension, String targetName) {
+		ILevel[] levels = dimension.getHierarchy().getLevels();
+		for (int j = 0; j < levels.length; j++) {
+			if (targetName.equals(OlapExpressionUtil.getQualifiedLevelName(dimension.getName(), levels[j].getName()))) {
+				return levels[j].getName();
 			}
 		}
 		return targetName;
@@ -1376,6 +1149,7 @@ public class DataRequestSessionImpl extends DataRequestSession
 
 	/**
 	 * Populate all dimensions.
+	 * 
 	 * @param cubeMaterializer
 	 * @param dimHandles
 	 * @param stopSign
@@ -1385,31 +1159,23 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws BirtException
 	 * @throws DataException
 	 */
-	protected IDimension[] populateDimensions( CubeMaterializer cubeMaterializer,
-			TabularCubeHandle cubeHandle, Map appContext,
-			SecurityListener sl ) throws AdapterException
-	{
-		List dimHandles = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
-		List result = new ArrayList( );
-		for ( int i = 0; i < dimHandles.size( ); i++ )
-		{
-			DimensionHandle dh = (DimensionHandle) dimHandles.get( i );
-			IDimension dim = createdDimensions.get( dh.getName( ) );
-			if ( dim == null )
-			{
-				dim = populateDimension( cubeMaterializer,
-						dh,
-						cubeHandle,
-						appContext, sl );
-				createdDimensions.put( dh.getName( ), dim );
+	protected IDimension[] populateDimensions(CubeMaterializer cubeMaterializer, TabularCubeHandle cubeHandle,
+			Map appContext, SecurityListener sl) throws AdapterException {
+		List dimHandles = cubeHandle.getContents(CubeHandle.DIMENSIONS_PROP);
+		List result = new ArrayList();
+		for (int i = 0; i < dimHandles.size(); i++) {
+			DimensionHandle dh = (DimensionHandle) dimHandles.get(i);
+			IDimension dim = createdDimensions.get(dh.getName());
+			if (dim == null) {
+				dim = populateDimension(cubeMaterializer, dh, cubeHandle, appContext, sl);
+				createdDimensions.put(dh.getName(), dim);
 			}
-			result.add( dim);
+			result.add(dim);
 		}
 
-		IDimension[] dimArray = new IDimension[dimHandles.size( )];
-		for ( int i = 0; i < result.size( ); i++ )
-		{
-			dimArray[i] = (IDimension) result.get( i );
+		IDimension[] dimArray = new IDimension[dimHandles.size()];
+		for (int i = 0; i < result.size(); i++) {
+			dimArray[i] = (IDimension) result.get(i);
 		}
 		return dimArray;
 	}
@@ -1426,207 +1192,145 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws BirtException
 	 * @throws DataException
 	 */
-	protected IDimension populateDimension( CubeMaterializer cubeMaterializer,
-			DimensionHandle dim, TabularCubeHandle cubeHandle, Map appContext,SecurityListener sl )
-			throws AdapterException
-	{
-		List hiers = dim.getContents( DimensionHandle.HIERARCHIES_PROP );
-		List iHiers = new ArrayList( );
-		for ( int j = 0; j < hiers.size( ); j++ )
-		{
-			TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) hiers.get( 0 );
-			List levels = hierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
+	protected IDimension populateDimension(CubeMaterializer cubeMaterializer, DimensionHandle dim,
+			TabularCubeHandle cubeHandle, Map appContext, SecurityListener sl) throws AdapterException {
+		List hiers = dim.getContents(DimensionHandle.HIERARCHIES_PROP);
+		List iHiers = new ArrayList();
+		for (int j = 0; j < hiers.size(); j++) {
+			TabularHierarchyHandle hierhandle = (TabularHierarchyHandle) hiers.get(0);
+			List levels = hierhandle.getContents(TabularHierarchyHandle.LEVELS_PROP);
 
-			List<ILevelDefn> levelInHier = new ArrayList<ILevelDefn>( );
-			List<String> leafLevelKeyColumn = new ArrayList<String>( );
-			Set<String> columnNamesForLevels = new HashSet<String>( );
-			for ( int k = 0; k < levels.size( ); k++ )
-			{
-				TabularLevelHandle level = (TabularLevelHandle) levels.get( k );
-				columnNamesForLevels.add(  level.getColumnName( ) );
-				List levelAttrs = new ArrayList( );
-				Iterator it = level.attributesIterator( );
-				while ( it.hasNext( ) )
-				{
-					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
-					levelAttrs.add( OlapExpressionUtil.getAttributeColumnName( level.getName( ),
-							levelAttr.getName( ) ) );
+			List<ILevelDefn> levelInHier = new ArrayList<ILevelDefn>();
+			List<String> leafLevelKeyColumn = new ArrayList<String>();
+			Set<String> columnNamesForLevels = new HashSet<String>();
+			for (int k = 0; k < levels.size(); k++) {
+				TabularLevelHandle level = (TabularLevelHandle) levels.get(k);
+				columnNamesForLevels.add(level.getColumnName());
+				List levelAttrs = new ArrayList();
+				Iterator it = level.attributesIterator();
+				while (it.hasNext()) {
+					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next();
+					levelAttrs.add(OlapExpressionUtil.getAttributeColumnName(level.getName(), levelAttr.getName()));
 				}
-				if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( ) )
-						&& level.getDisplayColumnName( ) != null )
-				{
-					levelAttrs.add( OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) );
+				if (DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals(level.getLevelType())
+						&& level.getDisplayColumnName() != null) {
+					levelAttrs.add(OlapExpressionUtil.getDisplayColumnName(level.getName()));
 				}
-				leafLevelKeyColumn.add(level.getName( ));
+				leafLevelKeyColumn.add(level.getName());
 
-				levelInHier.add(CubeElementFactory.createLevelDefinition( level.getName( ),
-						new String[]{
-							level.getName( )
-						},
-						this.toStringArray( levelAttrs ) ));
+				levelInHier.add(CubeElementFactory.createLevelDefinition(level.getName(),
+						new String[] { level.getName() }, this.toStringArray(levelAttrs)));
 			}
-			String[] jointHierarchyKeys = getJointHierarchyKeys( cubeHandle, hierhandle );
-			if ( !cubeHandle.autoPrimaryKey( ) )
-			{
-				for ( String jointKey : jointHierarchyKeys )
-				{
-					if ( !columnNamesForLevels.contains( jointKey ))
-					{
-						throw new AdapterException( ResourceConstants.CUBE_JOINT_COLUMN_NOT_IN_LEVELS,
-								new String[]{jointKey, dim.getName( )});
+			String[] jointHierarchyKeys = getJointHierarchyKeys(cubeHandle, hierhandle);
+			if (!cubeHandle.autoPrimaryKey()) {
+				for (String jointKey : jointHierarchyKeys) {
+					if (!columnNamesForLevels.contains(jointKey)) {
+						throw new AdapterException(ResourceConstants.CUBE_JOINT_COLUMN_NOT_IN_LEVELS,
+								new String[] { jointKey, dim.getName() });
 					}
 				}
 			}
-			//create leaf level
-			if ( levelInHier.size( ) >= 1 )
-			{
-				if ( cubeHandle.autoPrimaryKey( ) && jointHierarchyKeys.length > 0 )
-				{
-					if ( !Arrays.deepEquals( jointHierarchyKeys, new String[]{
-							((TabularLevelHandle)levels.get( levels.size( ) - 1 )).getColumnName( )
-						}))
-					{
-						//need to append joint keys as leaf level
-						levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
-								getDummyLevelNamesForJointHierarchyKeys( jointHierarchyKeys ),
-							    new String[0] ));
+			// create leaf level
+			if (levelInHier.size() >= 1) {
+				if (cubeHandle.autoPrimaryKey() && jointHierarchyKeys.length > 0) {
+					if (!Arrays.deepEquals(jointHierarchyKeys,
+							new String[] { ((TabularLevelHandle) levels.get(levels.size() - 1)).getColumnName() })) {
+						// need to append joint keys as leaf level
+						levelInHier.add(CubeElementFactory.createLevelDefinition("_${INTERNAL_INDEX}$_",
+								getDummyLevelNamesForJointHierarchyKeys(jointHierarchyKeys), new String[0]));
+					} else if (levelInHier.size() > 1 && isDateTimeDimension(hierhandle)) {
+						levelInHier.add(CubeElementFactory.createLevelDefinition("_${INTERNAL_INDEX}$_",
+								leafLevelKeyColumn.toArray(new String[0]), new String[0]));
 					}
-					else if ( levelInHier.size( ) > 1 && isDateTimeDimension(hierhandle) )
-					{
-						levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
-								leafLevelKeyColumn.toArray( new String[0] ),
-							    new String[0] ));
-					}
-				}
-				else if ( levelInHier.size( ) > 1 )
-				{
-					levelInHier.add( CubeElementFactory.createLevelDefinition( "_${INTERNAL_INDEX}$_",
-							leafLevelKeyColumn.toArray( new String[0] ),
-						    new String[0] ));
+				} else if (levelInHier.size() > 1) {
+					levelInHier.add(CubeElementFactory.createLevelDefinition("_${INTERNAL_INDEX}$_",
+							leafLevelKeyColumn.toArray(new String[0]), new String[0]));
 				}
 			}
 			Object originalMemCache = null;
 			Object originalRowLimit = null;
 			IDatasetIterator valueIt = null;
-			try
-			{
-				sl.process( dim );
-				if ( !( cubeHandle.getDataSet( )
-								.equals( hierhandle.getDataSet( ) ) || hierhandle.getDataSet( ) == null ))
-				{
-					//remove cache limit for dimension data set
-					originalMemCache = appContext.remove( DataEngine.MEMORY_DATA_SET_CACHE );
-					originalRowLimit = appContext.remove( DataEngine.DATA_SET_CACHE_ROW_LIMIT );
+			try {
+				sl.process(dim);
+				if (!(cubeHandle.getDataSet().equals(hierhandle.getDataSet()) || hierhandle.getDataSet() == null)) {
+					// remove cache limit for dimension data set
+					originalMemCache = appContext.remove(DataEngine.MEMORY_DATA_SET_CACHE);
+					originalRowLimit = appContext.remove(DataEngine.DATA_SET_CACHE_ROW_LIMIT);
 				}
-				
-				String[] timeType = getTimeLevelType( hierhandle );
-				for( int i = 0; i < timeType.length; i++ )
-				{
-					levelInHier.get( i ).setTimeType( timeType[i] );
-				}
-				valueIt = new DataSetIterator( this,
-						cubeQueryMap.get( hierhandle ),
-						cubeMetaMap.get( hierhandle ),
-						appContext );
-				( (DataSetIterator) valueIt ).initSecurityListenerAndDimension( dim.getName( ),
-						sl );
 
-				iHiers.add( cubeMaterializer.createHierarchy( dim.getName( ),
-						hierhandle.getName( ),
-						valueIt,
-						levelInHier.toArray( new ILevelDefn[0] ),
-						dataEngine.getSession( ).getStopSign( ) ) );
-			}
-			catch ( Exception e )
-			{
-				throw new AdapterException( ResourceConstants.CUBE_HIERARCHY_CREATION_ERROR,
-						e,
-						dim.getName( ) + "." + hierhandle.getName( ) );
-			}
-			finally
-			{
-				if( valueIt!= null )
-				{
-					try
-					{
-						valueIt.close( );
-					}
-					catch ( BirtException e )
-					{
+				String[] timeType = getTimeLevelType(hierhandle);
+				for (int i = 0; i < timeType.length; i++) {
+					levelInHier.get(i).setTimeType(timeType[i]);
+				}
+				valueIt = new DataSetIterator(this, cubeQueryMap.get(hierhandle), cubeMetaMap.get(hierhandle),
+						appContext);
+				((DataSetIterator) valueIt).initSecurityListenerAndDimension(dim.getName(), sl);
+
+				iHiers.add(cubeMaterializer.createHierarchy(dim.getName(), hierhandle.getName(), valueIt,
+						levelInHier.toArray(new ILevelDefn[0]), dataEngine.getSession().getStopSign()));
+			} catch (Exception e) {
+				throw new AdapterException(ResourceConstants.CUBE_HIERARCHY_CREATION_ERROR, e,
+						dim.getName() + "." + hierhandle.getName());
+			} finally {
+				if (valueIt != null) {
+					try {
+						valueIt.close();
+					} catch (BirtException e) {
 					}
 				}
-				if ( originalMemCache != null )
-				{
-					appContext.put( DataEngine.MEMORY_DATA_SET_CACHE, originalMemCache );
+				if (originalMemCache != null) {
+					appContext.put(DataEngine.MEMORY_DATA_SET_CACHE, originalMemCache);
 				}
-				if( originalRowLimit!= null )
-				{
-					appContext.put( DataEngine.DATA_SET_CACHE_ROW_LIMIT, originalRowLimit );
+				if (originalRowLimit != null) {
+					appContext.put(DataEngine.DATA_SET_CACHE_ROW_LIMIT, originalRowLimit);
 				}
 			}
 		}
 
-		try
-		{
-			return cubeMaterializer.createDimension( dim.getName( ),
-					(IHierarchy) iHiers.get( 0 ) );
-		}
-		catch ( Exception e )
-		{
-			throw new AdapterException( ResourceConstants.CUBE_DIMENSION_CREATION_ERROR,
-					e,
-					dim.getName( ) );
+		try {
+			return cubeMaterializer.createDimension(dim.getName(), (IHierarchy) iHiers.get(0));
+		} catch (Exception e) {
+			throw new AdapterException(ResourceConstants.CUBE_DIMENSION_CREATION_ERROR, e, dim.getName());
 		}
 	}
 
-	protected String[] getFieldName( TabularHierarchyHandle timeHierhandle )
-	{
-		List levels = timeHierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
-		String[] fieldName = new String[levels.size( )];
-		for ( int i = 0; i < levels.size( ); i++ )
-		{
-			TabularLevelHandle level = (TabularLevelHandle) levels.get( i );
-			fieldName[i] = level.getName( );
+	protected String[] getFieldName(TabularHierarchyHandle timeHierhandle) {
+		List levels = timeHierhandle.getContents(TabularHierarchyHandle.LEVELS_PROP);
+		String[] fieldName = new String[levels.size()];
+		for (int i = 0; i < levels.size(); i++) {
+			TabularLevelHandle level = (TabularLevelHandle) levels.get(i);
+			fieldName[i] = level.getName();
 		}
 		return fieldName;
 	}
 
-	protected String[] getTimeLevelType( TabularHierarchyHandle timeHierhandle )
-	{
-		List levels = timeHierhandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
-		String[] timeType = new String[levels.size( )];
-		for ( int i = 0; i < levels.size( ); i++ )
-		{
-			TabularLevelHandle level = (TabularLevelHandle) levels.get( i );
-			timeType[i] = level.getDateTimeLevelType( );
+	protected String[] getTimeLevelType(TabularHierarchyHandle timeHierhandle) {
+		List levels = timeHierhandle.getContents(TabularHierarchyHandle.LEVELS_PROP);
+		String[] timeType = new String[levels.size()];
+		for (int i = 0; i < levels.size(); i++) {
+			TabularLevelHandle level = (TabularLevelHandle) levels.get(i);
+			timeType[i] = level.getDateTimeLevelType();
 		}
 		return timeType;
 	}
 
-
-	protected String[] getJointHierarchyKeys( TabularCubeHandle cubeHandle, TabularHierarchyHandle hier )
-	{
-		List<String> hierarchyKeys = new ArrayList( );
-		if ( hier.getDataSet( ) != null && !hier.getDataSet( ).equals(cubeHandle.getDataSet( )))
-		{
-			Iterator it = cubeHandle.joinConditionsIterator( );
-			while ( it.hasNext( ) )
-			{
-				DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
-				if ( dimCondHandle.getHierarchy( ).getName( ).equals( hier.getName( ) ) )
-				{
-					Iterator conditionIt = dimCondHandle.getJoinConditions( )
-							.iterator( );
-					while ( conditionIt.hasNext( ) )
-					{
-						DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
-						String key = joinCondition.getHierarchyKey( );
-						hierarchyKeys.add( key );
+	protected String[] getJointHierarchyKeys(TabularCubeHandle cubeHandle, TabularHierarchyHandle hier) {
+		List<String> hierarchyKeys = new ArrayList();
+		if (hier.getDataSet() != null && !hier.getDataSet().equals(cubeHandle.getDataSet())) {
+			Iterator it = cubeHandle.joinConditionsIterator();
+			while (it.hasNext()) {
+				DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next();
+				if (dimCondHandle.getHierarchy().getName().equals(hier.getName())) {
+					Iterator conditionIt = dimCondHandle.getJoinConditions().iterator();
+					while (conditionIt.hasNext()) {
+						DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next();
+						String key = joinCondition.getHierarchyKey();
+						hierarchyKeys.add(key);
 					}
 				}
 			}
 		}
-		return hierarchyKeys.toArray( new String[0] );
+		return hierarchyKeys.toArray(new String[0]);
 	}
 
 	/**
@@ -1641,288 +1345,220 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws BirtException
 	 * @throws DataException
 	 */
-	protected IDimension populateTempPKDimension( CubeMaterializer cubeMaterializer,
-			TabularCubeHandle cubeHandle,DataSetIteratorForTempPK dataForTempPK, Map appContext )
-			throws AdapterException
-	{
+	protected IDimension populateTempPKDimension(CubeMaterializer cubeMaterializer, TabularCubeHandle cubeHandle,
+			DataSetIteratorForTempPK dataForTempPK, Map appContext) throws AdapterException {
 		QueryDefinition q = null;
-		ILevelDefn[] tempLevels = new ILevelDefn[]{ CubeElementFactory.createLevelDefinition( getCubeTempPKFieldName( cubeHandle ),
-				new String[]{ getCubeTempPKFieldName( cubeHandle )},
-				new String[]{}) };
-		IHierarchy h = null ;
-		try
-		{
-			h = cubeMaterializer.createHierarchy( getCubeTempPKDimensionName( cubeHandle ),
-					getCubeTempPKHierarchyName( cubeHandle ),
-						dataForTempPK,
-						tempLevels,
-					dataEngine.getSession( ).getStopSign( ) ) ;
+		ILevelDefn[] tempLevels = new ILevelDefn[] {
+				CubeElementFactory.createLevelDefinition(getCubeTempPKFieldName(cubeHandle),
+						new String[] { getCubeTempPKFieldName(cubeHandle) }, new String[] {}) };
+		IHierarchy h = null;
+		try {
+			h = cubeMaterializer.createHierarchy(getCubeTempPKDimensionName(cubeHandle),
+					getCubeTempPKHierarchyName(cubeHandle), dataForTempPK, tempLevels,
+					dataEngine.getSession().getStopSign());
+		} catch (Exception e) {
+			throw new AdapterException(ResourceConstants.CUBE_HIERARCHY_CREATION_ERROR, e,
+					getCubeTempPKDimensionName(cubeHandle) + "." + getCubeTempPKHierarchyName(cubeHandle));
 		}
-		catch ( Exception e )
-		{
-			throw new AdapterException( ResourceConstants.CUBE_HIERARCHY_CREATION_ERROR,
-					e,
-					getCubeTempPKDimensionName( cubeHandle ) + "." + getCubeTempPKHierarchyName( cubeHandle ) );
-		}
-		try
-		{
-			return cubeMaterializer.createDimension( getCubeTempPKDimensionName( cubeHandle ),
-					h );
-		}
-		catch ( Exception e )
-		{
-			throw new AdapterException( ResourceConstants.CUBE_DIMENSION_CREATION_ERROR,
-					e,
-					getCubeTempPKDimensionName( cubeHandle ));
+		try {
+			return cubeMaterializer.createDimension(getCubeTempPKDimensionName(cubeHandle), h);
+		} catch (Exception e) {
+			throw new AdapterException(ResourceConstants.CUBE_DIMENSION_CREATION_ERROR, e,
+					getCubeTempPKDimensionName(cubeHandle));
 		}
 	}
-
-
 
 	/**
 	 *
 	 * @param object
 	 * @return
 	 */
-	protected String[] toStringArray( List object )
-	{
-		if( object == null )
+	protected String[] toStringArray(List object) {
+		if (object == null)
 			return null;
-		String[] result = new String[object.size( )];
-		for( int i = 0; i < object.size( ); i ++ )
-		{
-			result[i] = object.get( i ).toString();
+		String[] result = new String[object.size()];
+		for (int i = 0; i < object.size(); i++) {
+			result[i] = object.get(i).toString();
 		}
 		return result;
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.
+	 * eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
 	 */
-	public IPreparedCubeQuery prepare( ICubeQueryDefinition query ) throws BirtException
-	{
-		return this.prepare( query, sessionContext.getAppContext( ) );
+	public IPreparedCubeQuery prepare(ICubeQueryDefinition query) throws BirtException {
+		return this.prepare(query, sessionContext.getAppContext());
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.
+	 * eclipse.birt.data.engine.olap.api.query.ICubeQueryDefinition)
 	 */
-	public IPreparedCubeQuery prepare( ICubeQueryDefinition query,
-			Map appContext ) throws BirtException
-	{
-		IBaseDataSetDesign design = dataEngine.getDataSetDesign( query.getName( ) );
-		if ( design != null )
-		{
-			final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find( design );
-			if ( dataSetInterceptor != null )
-			{
-				dataSetInterceptor.preDefineDataSet( dataEngine.getDataSourceDesign( design.getDataSourceName( ) ),
-						design,
-						query,
-						this.registeredQueries,
-						sessionContext,
-						dataEngine.getSession( ).getTempDir( ), this.interceptorContext );
+	public IPreparedCubeQuery prepare(ICubeQueryDefinition query, Map appContext) throws BirtException {
+		IBaseDataSetDesign design = dataEngine.getDataSetDesign(query.getName());
+		if (design != null) {
+			final IDataSetInterceptor dataSetInterceptor = DataSetInterceptorFinder.find(design);
+			if (dataSetInterceptor != null) {
+				dataSetInterceptor.preDefineDataSet(dataEngine.getDataSourceDesign(design.getDataSourceName()), design,
+						query, this.registeredQueries, sessionContext, dataEngine.getSession().getTempDir(),
+						this.interceptorContext);
 			}
+		} else {
+			// Null data set indicates that the query uses cube. Measure[]
+			// expression must have aggregateOn/aggregateFunc defined.
+			refactorCubeQueryDefinition(query);
 		}
-        else
-        {
-            // Null data set indicates that the query uses cube. Measure[]
-            // expression must have aggregateOn/aggregateFunc defined.
-            refactorCubeQueryDefinition( query );
-        }
-		populateMeasureDefinitionForCalculateMeasures( query );
-		setMeasureDataTypeForCubeQuery ( query );
-		QueryAdapter.adaptQuery( query );
-		
-		CubeHandle cubeHandle = null;
-		if ( this.cubeMetaDataHandleMap != null
-				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
-		{
-			cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
-		}
-		QueryValidator.validateTimeFunctionInCubeQuery( query, cubeHandle );
-		
-		dataEngine.getSession( ).getStopSign( ).start( );
-		setModuleHandleToAppContext( appContext );
+		populateMeasureDefinitionForCalculateMeasures(query);
+		setMeasureDataTypeForCubeQuery(query);
+		QueryAdapter.adaptQuery(query);
 
-		return this.dataEngine.prepare( query, appContext );
+		CubeHandle cubeHandle = null;
+		if (this.cubeMetaDataHandleMap != null && this.cubeMetaDataHandleMap.containsKey(query.getName())) {
+			cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get(query.getName());
+		}
+		QueryValidator.validateTimeFunctionInCubeQuery(query, cubeHandle);
+
+		dataEngine.getSession().getStopSign().start();
+		setModuleHandleToAppContext(appContext);
+
+		return this.dataEngine.prepare(query, appContext);
 	}
-	
-	protected void populateMeasureDefinitionForCalculateMeasures ( ICubeQueryDefinition query ) throws BirtException
-	{	
-		List calculatedMeasures = query.getDerivedMeasures( );
-		List measures = query.getMeasures( );
-		HashSet<String> measureNameList = new HashSet<String>( );
-		for ( int i = 0; i < measures.size( ); i++ )
-		{
-			measureNameList.add( ( (IMeasureDefinition) measures.get( i ) ).getName( ));
+
+	protected void populateMeasureDefinitionForCalculateMeasures(ICubeQueryDefinition query) throws BirtException {
+		List calculatedMeasures = query.getDerivedMeasures();
+		List measures = query.getMeasures();
+		HashSet<String> measureNameList = new HashSet<String>();
+		for (int i = 0; i < measures.size(); i++) {
+			measureNameList.add(((IMeasureDefinition) measures.get(i)).getName());
 		}
 		HashSet<String> derivedMeasureNameList = new HashSet<String>();
-		for ( int i = 0 ; i < calculatedMeasures.size( );i++)
-		{
-			derivedMeasureNameList.add( ( (IDerivedMeasureDefinition) calculatedMeasures.get( i ) ).getName( ) );
+		for (int i = 0; i < calculatedMeasures.size(); i++) {
+			derivedMeasureNameList.add(((IDerivedMeasureDefinition) calculatedMeasures.get(i)).getName());
 		}
-		
-		//populate all calculated measure in cube query.
-		if ( this.cubeMetaDataHandleMap != null
-				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
-		{
-			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
-			CubeMeasureUtil.validateDerivedMeasures( cubeHandle );
-			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-			for ( int i = 0; i < measureGroups.size( ); i++ )
-			{
-				MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
-				List measureGroup = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
-				for ( int j = 0; j < measureGroup.size( ); j++ )
-				{
-					MeasureHandle measure = (MeasureHandle) measureGroup.get( j );
-					if( measure.isCalculated( ) && !derivedMeasureNameList.contains( measure.getName( ) ) )
-					{
-						derivedMeasureNameList.add( measure.getName( ) );
-						query.createDerivedMeasure( measure.getName( ),
-								DataAdapterUtil.adaptModelDataType( measure.getDataType( ) ),
-								modelAdaptor.adaptExpression( (Expression) measure.getExpressionProperty( IMeasureModel.MEASURE_EXPRESSION_PROP )
-										.getValue( ),
-										ExpressionLocation.CUBE ));
+
+		// populate all calculated measure in cube query.
+		if (this.cubeMetaDataHandleMap != null && this.cubeMetaDataHandleMap.containsKey(query.getName())) {
+			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get(query.getName());
+			CubeMeasureUtil.validateDerivedMeasures(cubeHandle);
+			List measureGroups = cubeHandle.getContents(CubeHandle.MEASURE_GROUPS_PROP);
+			for (int i = 0; i < measureGroups.size(); i++) {
+				MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get(i);
+				List measureGroup = mgh.getContents(MeasureGroupHandle.MEASURES_PROP);
+				for (int j = 0; j < measureGroup.size(); j++) {
+					MeasureHandle measure = (MeasureHandle) measureGroup.get(j);
+					if (measure.isCalculated() && !derivedMeasureNameList.contains(measure.getName())) {
+						derivedMeasureNameList.add(measure.getName());
+						query.createDerivedMeasure(measure.getName(),
+								DataAdapterUtil.adaptModelDataType(measure.getDataType()),
+								modelAdaptor.adaptExpression((Expression) measure
+										.getExpressionProperty(IMeasureModel.MEASURE_EXPRESSION_PROP).getValue(),
+										ExpressionLocation.CUBE));
 					}
 				}
 			}
 		}
-		
-		validateBindings( query.getBindings( ), derivedMeasureNameList );
-		calculatedMeasures = query.getDerivedMeasures( );
-		if ( calculatedMeasures == null || calculatedMeasures.size( ) == 0)
+
+		validateBindings(query.getBindings(), derivedMeasureNameList);
+		calculatedMeasures = query.getDerivedMeasures();
+		if (calculatedMeasures == null || calculatedMeasures.size() == 0)
 			return;
-		
-		for ( int i = 0; i < calculatedMeasures.size( ); i++ )
-		{
-			IDerivedMeasureDefinition dmd = (IDerivedMeasureDefinition) calculatedMeasures.get( i );
-			List measureNames = ExpressionCompilerUtil.extractColumnExpression( dmd.getExpression( ),
-					ExpressionUtil.MEASURE_INDICATOR );
-			for ( int j = 0; j < measureNames.size( ); j++ )
-			{
-				if ( !measureNameList.contains( measureNames.get( j ).toString( ) )
-						&& !derivedMeasureNameList.contains( measureNames.get( j )
-								.toString( ) ) )
-				{
-					IMeasureDefinition md = query.createMeasure( measureNames.get( j ).toString( ) );
-					measureNameList.add( md.getName( ) );
-					if ( this.cubeMetaDataHandleMap != null
-							&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
-					{
-						CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
-						MeasureHandle measureHandle = cubeHandle.getMeasure( measureNames.get( j )
-								.toString( ) );
-						if ( measureHandle == null )
-							throw new DataException( AdapterResourceHandle.getInstance( )
-									.getMessage( ResourceConstants.CUBE_DERIVED_MEASURE_INVALID_REF,
-											new Object[]{
-													dmd.getName( ),
-													measureNames.get( j )
-											} ) );
-						md.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( measureHandle.getFunction( ) ) );
+
+		for (int i = 0; i < calculatedMeasures.size(); i++) {
+			IDerivedMeasureDefinition dmd = (IDerivedMeasureDefinition) calculatedMeasures.get(i);
+			List measureNames = ExpressionCompilerUtil.extractColumnExpression(dmd.getExpression(),
+					ExpressionUtil.MEASURE_INDICATOR);
+			for (int j = 0; j < measureNames.size(); j++) {
+				if (!measureNameList.contains(measureNames.get(j).toString())
+						&& !derivedMeasureNameList.contains(measureNames.get(j).toString())) {
+					IMeasureDefinition md = query.createMeasure(measureNames.get(j).toString());
+					measureNameList.add(md.getName());
+					if (this.cubeMetaDataHandleMap != null && this.cubeMetaDataHandleMap.containsKey(query.getName())) {
+						CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get(query.getName());
+						MeasureHandle measureHandle = cubeHandle.getMeasure(measureNames.get(j).toString());
+						if (measureHandle == null)
+							throw new DataException(AdapterResourceHandle.getInstance().getMessage(
+									ResourceConstants.CUBE_DERIVED_MEASURE_INVALID_REF,
+									new Object[] { dmd.getName(), measureNames.get(j) }));
+						md.setAggrFunction(DataAdapterUtil.adaptModelAggregationType(measureHandle.getFunction()));
 					}
 				}
 			}
 		}
 	}
-	
-	protected void validateBindings( List<IBinding> bindings,
-			Collection calculatedMeasures ) throws AdapterException
-	{
+
+	protected void validateBindings(List<IBinding> bindings, Collection calculatedMeasures) throws AdapterException {
 		// Not support aggregation filter reference calculated measures.
-		try
-		{
-			for ( IBinding b : bindings )
-			{
-				if ( b.getAggrFunction( ) == null || b.getFilter( ) == null )
+		try {
+			for (IBinding b : bindings) {
+				if (b.getAggrFunction() == null || b.getFilter() == null)
 					continue;
-				
-				List referencedMeasures = ExpressionCompilerUtil.extractColumnExpression( b.getFilter( ),
-						ExpressionUtil.MEASURE_INDICATOR );
-				for ( Object r : referencedMeasures )
-				{
-					if ( calculatedMeasures.contains( r.toString( ) ) )
-					{
-						throw new AdapterException( AdapterResourceHandle.getInstance( )
-								.getMessage( ResourceConstants.CUBE_AGGRFILTER_REFER_CALCULATEDMEASURE,
-										new Object[]{
-												b.getBindingName( ),
-												r.toString( )
-										} ) );
+
+				List referencedMeasures = ExpressionCompilerUtil.extractColumnExpression(b.getFilter(),
+						ExpressionUtil.MEASURE_INDICATOR);
+				for (Object r : referencedMeasures) {
+					if (calculatedMeasures.contains(r.toString())) {
+						throw new AdapterException(AdapterResourceHandle.getInstance().getMessage(
+								ResourceConstants.CUBE_AGGRFILTER_REFER_CALCULATEDMEASURE,
+								new Object[] { b.getBindingName(), r.toString() }));
 					}
 				}
 			}
-		}
-		catch ( DataException ex )
-		{
-			throw new AdapterException( ex.getMessage( ), ex );
+		} catch (DataException ex) {
+			throw new AdapterException(ex.getMessage(), ex);
 		}
 	}
-	
-	protected void setMeasureDataTypeForCubeQuery( ICubeQueryDefinition query )
-	{
-		List measures = query.getMeasures( );
 
-		if ( this.cubeMetaDataHandleMap != null
-				&& this.cubeMetaDataHandleMap.containsKey( query.getName( ) ) )
-		{
-			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get( query.getName( ) );
+	protected void setMeasureDataTypeForCubeQuery(ICubeQueryDefinition query) {
+		List measures = query.getMeasures();
 
-			for ( int i = 0; i < measures.size( ); i++ )
-			{
-				IMeasureDefinition measureDef = ( IMeasureDefinition ) measures.get( i );
-				MeasureHandle measureHandle = cubeHandle.getMeasure( measureDef.getName( ) );
-				if ( measureHandle != null )
-					measureDef.setDataType( DataAdapterUtil.adaptModelDataType( measureHandle.getDataType( ) ) );
-				//if cube is auto primary key, measure definition should ignore the aggregation function.
-				if( cubeHandle.getBooleanProperty( ITabularCubeModel.AUTO_KEY_PROP ) )
-				{
-					measureDef.setAggrFunction( null );
+		if (this.cubeMetaDataHandleMap != null && this.cubeMetaDataHandleMap.containsKey(query.getName())) {
+			CubeHandle cubeHandle = (CubeHandle) this.cubeMetaDataHandleMap.get(query.getName());
+
+			for (int i = 0; i < measures.size(); i++) {
+				IMeasureDefinition measureDef = (IMeasureDefinition) measures.get(i);
+				MeasureHandle measureHandle = cubeHandle.getMeasure(measureDef.getName());
+				if (measureHandle != null)
+					measureDef.setDataType(DataAdapterUtil.adaptModelDataType(measureHandle.getDataType()));
+				// if cube is auto primary key, measure definition should ignore the aggregation
+				// function.
+				if (cubeHandle.getBooleanProperty(ITabularCubeModel.AUTO_KEY_PROP)) {
+					measureDef.setAggrFunction(null);
 				}
 			}
 		}
 	}
 
-    /**
-     * Add aggFunc/aggOn for all measure[] expression.
-     *
-     * measure without aggFunc/aggOn is meaningless, so adding default
-     * aggFunc/aggOn to fix those kinds of bindings.
-     * 
-     * @param query
-     * @throws DataException
-     * @throws AdapterException
-     */
-    protected void refactorCubeQueryDefinition( ICubeQueryDefinition query )
-			throws DataException, AdapterException
-	{
-		List bindings = query.getBindings( );
-		List levelExprList = getAllAggrOns( query );
-		for ( int i = 0; i < bindings.size( ); i++ )
-		{
-			IBinding binding = (IBinding) bindings.get( i );
+	/**
+	 * Add aggFunc/aggOn for all measure[] expression.
+	 *
+	 * measure without aggFunc/aggOn is meaningless, so adding default aggFunc/aggOn
+	 * to fix those kinds of bindings.
+	 * 
+	 * @param query
+	 * @throws DataException
+	 * @throws AdapterException
+	 */
+	protected void refactorCubeQueryDefinition(ICubeQueryDefinition query) throws DataException, AdapterException {
+		List bindings = query.getBindings();
+		List levelExprList = getAllAggrOns(query);
+		for (int i = 0; i < bindings.size(); i++) {
+			IBinding binding = (IBinding) bindings.get(i);
 
-			String measureName = OlapExpressionUtil.getMeasure( binding.getExpression( ) );
-			if ( measureName != null )
-			{
-				if ( binding.getAggrFunction( ) == null )
-				{
-					String aggrFunc = getAggrFunction( query, measureName );
-					binding.setAggrFunction( aggrFunc );
-					if ( binding.getAggregatOns( ).size( ) == 0 )
-					{
-						for ( Iterator itr = levelExprList.iterator( ); itr.hasNext( ); )
-						{
-							binding.addAggregateOn( itr.next( ).toString( ) );
+			String measureName = OlapExpressionUtil.getMeasure(binding.getExpression());
+			if (measureName != null) {
+				if (binding.getAggrFunction() == null) {
+					String aggrFunc = getAggrFunction(query, measureName);
+					binding.setAggrFunction(aggrFunc);
+					if (binding.getAggregatOns().size() == 0) {
+						for (Iterator itr = levelExprList.iterator(); itr.hasNext();) {
+							binding.addAggregateOn(itr.next().toString());
 						}
 					}
 				}
 			}
 		}
 	}
-
 
 	/**
 	 *
@@ -1930,308 +1566,262 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param measureName
 	 * @return
 	 */
-	protected String getAggrFunction( ICubeQueryDefinition query,
-			String measureName )
-	{
-		for ( Iterator itr = query.getMeasures( ).iterator( ); itr.hasNext( ); )
-		{
-			IMeasureDefinition measure = (IMeasureDefinition) itr.next( );
-			if ( measure.getName( ).equals( measureName ) )
-			{
-				if ( measure.getAggrFunction( ) != null )
-					return measure.getAggrFunction( );
+	protected String getAggrFunction(ICubeQueryDefinition query, String measureName) {
+		for (Iterator itr = query.getMeasures().iterator(); itr.hasNext();) {
+			IMeasureDefinition measure = (IMeasureDefinition) itr.next();
+			if (measure.getName().equals(measureName)) {
+				if (measure.getAggrFunction() != null)
+					return measure.getAggrFunction();
 				break;
 			}
 		}
-		if ( this.cubeHandleMap != null
-				&& this.cubeHandleMap.containsKey( query.getName( ) ) )
-		{
-			CubeHandle cubeHandle = (CubeHandle) this.cubeHandleMap.get( query.getName( ) );
-			MeasureHandle measureHandle = cubeHandle.getMeasure( measureName );
-			try
-			{
-				return DataAdapterUtil.adaptModelAggregationType( measureHandle.getFunction( ) );
-			}
-			catch ( AdapterException e )
-			{
+		if (this.cubeHandleMap != null && this.cubeHandleMap.containsKey(query.getName())) {
+			CubeHandle cubeHandle = (CubeHandle) this.cubeHandleMap.get(query.getName());
+			MeasureHandle measureHandle = cubeHandle.getMeasure(measureName);
+			try {
+				return DataAdapterUtil.adaptModelAggregationType(measureHandle.getFunction());
+			} catch (AdapterException e) {
 			}
 		}
 		return "SUM";
 	}
 
-	protected List getAllAggrOns( ICubeQueryDefinition query )
-	{
-		List levels = CubeQueryDefinitionUtil.populateMeasureAggrOns( query );
+	protected List getAllAggrOns(ICubeQueryDefinition query) {
+		List levels = CubeQueryDefinitionUtil.populateMeasureAggrOns(query);
 		List levelExprs = new ArrayList();
-		for ( Iterator itr = levels.iterator( ); itr.hasNext( ); )
-		{
-			DimLevel level = (DimLevel) itr.next( );
-			levelExprs.add( ExpressionUtil.createJSDimensionExpression( level.getDimensionName( ),
-					level.getLevelName( ) ) );
+		for (Iterator itr = levels.iterator(); itr.hasNext();) {
+			DimLevel level = (DimLevel) itr.next();
+			levelExprs.add(ExpressionUtil.createJSDimensionExpression(level.getDimensionName(), level.getLevelName()));
 		}
 		return levelExprs;
 	}
 
 	/**
-	 * This method create a ResourceIdentifiers instance which is in turn being passed to appContext.
+	 * This method create a ResourceIdentifiers instance which is in turn being
+	 * passed to appContext.
 	 *
-	 * The consumer of appContext, especially those Oda drivers, can then use it for acquire Resource info.
+	 * The consumer of appContext, especially those Oda drivers, can then use it for
+	 * acquire Resource info.
 	 *
 	 * @param handle
 	 * @return
 	 */
-	protected static ResourceIdentifiers createResourceIdentifiers(
-			final ModuleHandle handle )
-	{
-		if ( handle == null )
+	protected static ResourceIdentifiers createResourceIdentifiers(final ModuleHandle handle) {
+		if (handle == null)
 			return null;
-		try
-		{
-			ResourceIdentifiers identifiers = new ResourceIdentifiers( );
-			if ( handle.getSystemId( ) != null )
-			{
-				identifiers.setDesignResourceBaseURI( handle.getSystemId( ).toURI( ) );
+		try {
+			ResourceIdentifiers identifiers = new ResourceIdentifiers();
+			if (handle.getSystemId() != null) {
+				identifiers.setDesignResourceBaseURI(handle.getSystemId().toURI());
 			}
-			if( handle.getResourceFolder( ) != null )
-			{
-				URI uri = AccessController.doPrivileged( new PrivilegedAction<URI>()
-				{
-				  public URI run()
-				  {
-				    return new File( handle.getModule( ).getSession( ).getResourceFolder( ) ).toURI( );
-				  }
+			if (handle.getResourceFolder() != null) {
+				URI uri = AccessController.doPrivileged(new PrivilegedAction<URI>() {
+					public URI run() {
+						return new File(handle.getModule().getSession().getResourceFolder()).toURI();
+					}
 				});
 
-				identifiers.setApplResourceBaseURI( uri );
+				identifiers.setApplResourceBaseURI(uri);
 			}
 			return identifiers;
-		}
-		catch ( URISyntaxException e )
-		{
+		} catch (URISyntaxException e) {
 			return null;
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getCachedDataSetMetaData(org.eclipse.birt.data.engine.api.IBaseDataSourceDesign, org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
+	 * 
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#
+	 * getCachedDataSetMetaData(org.eclipse.birt.data.engine.api.
+	 * IBaseDataSourceDesign, org.eclipse.birt.data.engine.api.IBaseDataSetDesign)
 	 */
-	public IResultMetaData getCachedDataSetMetaData(
-			IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet )
-			throws BirtException
-	{
-		return this.dataEngine.getCachedDataSetMetaData( dataSource, dataSet );
+	public IResultMetaData getCachedDataSetMetaData(IBaseDataSourceDesign dataSource, IBaseDataSetDesign dataSet)
+			throws BirtException {
+		return this.dataEngine.getCachedDataSetMetaData(dataSource, dataSet);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getCubeQueryUtil()
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.DataRequestSession#getCubeQueryUtil(
+	 * )
 	 */
-	public ICubeQueryUtil getCubeQueryUtil( )
-	{
-		return new CubeQueryUtil( this );
+	public ICubeQueryUtil getCubeQueryUtil() {
+		return new CubeQueryUtil(this);
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getAggregationFactory()
+	 * 
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#
+	 * getAggregationFactory()
 	 */
-	public AggregationManager getAggregationManager ( ) throws DataException
-	{
+	public AggregationManager getAggregationManager() throws DataException {
 		return AggregationManager.getInstance();
 	}
 
-	public Scriptable getScope( ) throws AdapterException
-	{
-		try
-		{
-			return this.sessionContext.getDataEngineContext( ).getJavaScriptScope( );
-		}
-		catch ( BirtException e )
-		{
-			throw new AdapterException( ResourceConstants.EXCEPTION_ERROR, e );
+	public Scriptable getScope() throws AdapterException {
+		try {
+			return this.sessionContext.getDataEngineContext().getJavaScriptScope();
+		} catch (BirtException e) {
+			throw new AdapterException(ResourceConstants.EXCEPTION_ERROR, e);
 		}
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#cancel()
 	 */
-	public void cancel( )
-	{
-		this.dataEngine.cancel( );
+	public void cancel() {
+		this.dataEngine.cancel();
 	}
 
 	/*
 	 * (non-Javadoc)
+	 * 
 	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#restart()
 	 */
-	public void restart( )
-	{
+	public void restart() {
 		this.dataEngine.restart();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#getQueryDefinitionCopyUtil()
+	 * 
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#
+	 * getQueryDefinitionCopyUtil()
 	 */
-	public IQueryDefinitionUtil getQueryDefinitionUtil( )
-	{
-		return new QueryDefinitionUtil( );
+	public IQueryDefinitionUtil getQueryDefinitionUtil() {
+		return new QueryDefinitionUtil();
 	}
 
 	/*
 	 * (non-Javadoc)
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepareQueries(java.util.List)
+	 * 
+	 * @see
+	 * org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepareQueries(
+	 * java.util.List)
 	 */
-	public void registerQueries(IDataQueryDefinition[] queryDefns ) throws AdapterException
-	{
-		try
-		{
-			this.dataEngine.registerQueries( queryDefns );
+	public void registerQueries(IDataQueryDefinition[] queryDefns) throws AdapterException {
+		try {
+			this.dataEngine.registerQueries(queryDefns);
 			this.registeredQueries = queryDefns;
-		}
-		catch ( DataException e )
-		{
-			throw new AdapterException( e.getLocalizedMessage( ), e );
+		} catch (DataException e) {
+			throw new AdapterException(e.getLocalizedMessage(), e);
 		}
 	}
 
 	/*
-	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition, java.util.Map)
+	 * @see org.eclipse.birt.report.data.adapter.api.DataRequestSession#prepare(org.
+	 * eclipse.birt.data.engine.olap.api.query.ISubCubeQueryDefinition,
+	 * java.util.Map)
 	 */
-	public IPreparedCubeQuery prepare( ISubCubeQueryDefinition query,
-			Map appContext ) throws BirtException
-	{
-		QueryAdapter.adaptQuery( query );
-		setModuleHandleToAppContext( appContext );
-		return this.dataEngine.prepare( query, appContext );
+	public IPreparedCubeQuery prepare(ISubCubeQueryDefinition query, Map appContext) throws BirtException {
+		QueryAdapter.adaptQuery(query);
+		setModuleHandleToAppContext(appContext);
+		return this.dataEngine.prepare(query, appContext);
 	}
 
 	/**
 	 * Set the module handle instance to appContext
 	 *
 	 */
-	protected void setModuleHandleToAppContext( )
-	{
-		if ( this.sessionContext.getAppContext( ) == null )
-		{
-			this.sessionContext.setAppContext( new HashMap( ) );
+	protected void setModuleHandleToAppContext() {
+		if (this.sessionContext.getAppContext() == null) {
+			this.sessionContext.setAppContext(new HashMap());
 		}
-		setModuleHandleToAppContext( this.sessionContext.getAppContext( ) );
+		setModuleHandleToAppContext(this.sessionContext.getAppContext());
 	}
 
-	protected void setModuleHandleToAppContext( Map appContext )
-	{
-		if ( appContext == null )
-		{
-			appContext = new HashMap( );
+	protected void setModuleHandleToAppContext(Map appContext) {
+		if (appContext == null) {
+			appContext = new HashMap();
 		}
 		String resouceIDs = ResourceIdentifiers.ODA_APP_CONTEXT_KEY_CONSUMER_RESOURCE_IDS;
-		if ( !appContext.containsKey( resouceIDs )
-				|| appContext.get( resouceIDs ) == null )
-		{
-			if ( this.sessionContext.getModuleHandle( ) != null )
-			{
-				appContext.put( resouceIDs,
-						createResourceIdentifiers( this.sessionContext.getModuleHandle( ) ) );
-			}
-			else if ( this.sessionContext.getAppContext( ) != null )
-			{
-				appContext.put( resouceIDs, this.sessionContext.getAppContext( )
-						.get( resouceIDs ) );
+		if (!appContext.containsKey(resouceIDs) || appContext.get(resouceIDs) == null) {
+			if (this.sessionContext.getModuleHandle() != null) {
+				appContext.put(resouceIDs, createResourceIdentifiers(this.sessionContext.getModuleHandle()));
+			} else if (this.sessionContext.getAppContext() != null) {
+				appContext.put(resouceIDs, this.sessionContext.getAppContext().get(resouceIDs));
 			}
 		}
 	}
 
-	protected void defineDataSourceDataSet( IQueryDefinition queryDefn ) throws BirtException
-	{
-		String dataSetName = queryDefn.getDataSetName( );
+	protected void defineDataSourceDataSet(IQueryDefinition queryDefn) throws BirtException {
+		String dataSetName = queryDefn.getDataSetName();
 
 		ModuleHandle module = sessionContext.getModuleHandle();
-		if ( module != null )
-		{
-			List l = module.getAllDataSets( );
+		if (module != null) {
+			List l = module.getAllDataSets();
 			DataSetHandle handle = null;
-			for ( int i = 0; i < l.size( ); i++ )
-			{
-				if ( ( (DataSetHandle) l.get( i ) ).getQualifiedName( ) != null
-						&& ( (DataSetHandle) l.get( i ) ).getQualifiedName( )
-								.equals( dataSetName ) )
-				{
-					handle = (DataSetHandle) l.get( i );
+			for (int i = 0; i < l.size(); i++) {
+				if (((DataSetHandle) l.get(i)).getQualifiedName() != null
+						&& ((DataSetHandle) l.get(i)).getQualifiedName().equals(dataSetName)) {
+					handle = (DataSetHandle) l.get(i);
 					break;
 				}
 			}
-			
-			QueryExecutionHelper.DataSetHandleProcessContext processContext = getDataSetProcessContext( handle );
-			
-			DefineDataSourceSetUtil.defineDataSourceAndDataSet( handle, dataEngine, this.modelAdaptor, processContext );
-			
-			DefineDataSourceSetUtil.prepareForTransientQuery( sessionContext,
-					dataEngine,
-					handle,
-					queryDefn,
-					this.registeredQueries,
-					this.interceptorContext );
+
+			QueryExecutionHelper.DataSetHandleProcessContext processContext = getDataSetProcessContext(handle);
+
+			DefineDataSourceSetUtil.defineDataSourceAndDataSet(handle, dataEngine, this.modelAdaptor, processContext);
+
+			DefineDataSourceSetUtil.prepareForTransientQuery(sessionContext, dataEngine, handle, queryDefn,
+					this.registeredQueries, this.interceptorContext);
 		}
 	}
 
-	private QueryExecutionHelper.DataSetHandleProcessContext getDataSetProcessContext(
-			DataSetHandle handle ) throws BirtException
-	{
+	private QueryExecutionHelper.DataSetHandleProcessContext getDataSetProcessContext(DataSetHandle handle)
+			throws BirtException {
 
 		QueryExecutionHelper.DataSetHandleProcessContext processContext = null;
-		if ( sessionContext != null
-				&& sessionContext.getDataEngineContext( )
-						.getFlowMode( ) == DataEngineFlowMode.PARAM_EVALUATION_FLOW )
-		{
+		if (sessionContext != null
+				&& sessionContext.getDataEngineContext().getFlowMode() == DataEngineFlowMode.PARAM_EVALUATION_FLOW) {
 			/**
-			 * In PARAM_EVALUATION_FLOW filters defined on Data Set shall be
-			 * ignored during query execution. To achieve above objective create
-			 * a subclass of QueryExecutionHelper.DataSetHandleProcessContext
-			 * that clears filters.
+			 * In PARAM_EVALUATION_FLOW filters defined on Data Set shall be ignored during
+			 * query execution. To achieve above objective create a subclass of
+			 * QueryExecutionHelper.DataSetHandleProcessContext that clears filters.
 			 */
-			processContext = new QueryExecutionHelper.DataSetHandleProcessContext(
-					handle, false, false, false ) {
+			processContext = new QueryExecutionHelper.DataSetHandleProcessContext(handle, false, false, false) {
 
-				public void process( IBaseDataSetDesign baseDataSetDesign,
-						DataSetHandle current )
-				{
-					if ( baseDataSetDesign.getFilters( ) != null ) {
-						List filters=baseDataSetDesign.getFilters( );
-						List tempFilters=new ArrayList();
+				public void process(IBaseDataSetDesign baseDataSetDesign, DataSetHandle current) {
+					if (baseDataSetDesign.getFilters() != null) {
+						List filters = baseDataSetDesign.getFilters();
+						List tempFilters = new ArrayList();
 						for (Object filter : filters) {
-							if(filter!=null && filter instanceof IFilterDefinition) {
-							IFilterDefinition definition=(IFilterDefinition)filter;
-							IBaseExpression iBaseExpression=definition.getExpression();
-							if(iBaseExpression instanceof ConditionalExpression) {
-							ConditionalExpression conditionalExpression=(ConditionalExpression) iBaseExpression;
-							if(conditionalExpression.getOperand1()!=null) {
-								if(conditionalExpression.getOperand1() instanceof ScriptExpression) {
-									ScriptExpression expression=(ScriptExpression) conditionalExpression.getOperand1();
-									if(expression.getText()!=null&&!expression.getText().contains("params")) {
-										tempFilters.add(filter);	
+							if (filter != null && filter instanceof IFilterDefinition) {
+								IFilterDefinition definition = (IFilterDefinition) filter;
+								IBaseExpression iBaseExpression = definition.getExpression();
+								if (iBaseExpression instanceof ConditionalExpression) {
+									ConditionalExpression conditionalExpression = (ConditionalExpression) iBaseExpression;
+									if (conditionalExpression.getOperand1() != null) {
+										if (conditionalExpression.getOperand1() instanceof ScriptExpression) {
+											ScriptExpression expression = (ScriptExpression) conditionalExpression
+													.getOperand1();
+											if (expression.getText() != null
+													&& !expression.getText().contains("params")) {
+												tempFilters.add(filter);
+											}
+										} else {
+											tempFilters.add(filter);
+										}
+
 									}
 								}
-								else {
-									tempFilters.add(filter);
-								}
-								
 							}
 						}
-							}
-						}
-						baseDataSetDesign.getFilters( ).clear( );
-						if(tempFilters.size()>0) {
-							baseDataSetDesign.getFilters( ).addAll(tempFilters);
+						baseDataSetDesign.getFilters().clear();
+						if (tempFilters.size() > 0) {
+							baseDataSetDesign.getFilters().addAll(tempFilters);
 							tempFilters.clear();
 						}
-						
+
 					}
-                }
-					
-				
+				}
+
 			};
 
 		}
@@ -2246,157 +1836,138 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param hierHandle
 	 * @throws BirtException
 	 */
-	protected void prepareLevels( QueryDefinition query,
-			TabularHierarchyHandle hierHandle, List metaList, String dimName, String levelColumnName, boolean addGroup )
-			throws BirtException
-	{
-		try
-		{
+	protected void prepareLevels(QueryDefinition query, TabularHierarchyHandle hierHandle, List metaList,
+			String dimName, String levelColumnName, boolean addGroup) throws BirtException {
+		try {
 			// Use same data set as cube fact table
-			List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
+			List levels = hierHandle.getContents(TabularHierarchyHandle.LEVELS_PROP);
 
-			for ( int j = 0; j < levels.size( ); j++ )
-			{
+			for (int j = 0; j < levels.size(); j++) {
 
-				TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
+				TabularLevelHandle level = (TabularLevelHandle) levels.get(j);
 
 				DataSetIterator.ColumnMeta temp = null;
-				String exprString = ExpressionUtil.createJSDataSetRowExpression( levelColumnName == null ? level.getColumnName( ):levelColumnName );
+				String exprString = ExpressionUtil.createJSDataSetRowExpression(
+						levelColumnName == null ? level.getColumnName() : levelColumnName);
 
-				int type = DataAdapterUtil.adaptModelDataType( level.getDataType( ) );
-				if ( type == DataType.UNKNOWN_TYPE || type == DataType.ANY_TYPE )
+				int type = DataAdapterUtil.adaptModelDataType(level.getDataType());
+				if (type == DataType.UNKNOWN_TYPE || type == DataType.ANY_TYPE)
 					type = DataType.STRING_TYPE;
-				if ( level.getDateTimeLevelType( ) != null )
-				{
-					temp = new DataSetIterator.ColumnMeta( DataSetIterator.createLevelName( dimName, level.getName( )),
-							new DataSetIterator.DataProcessorWrapper( GroupCalculatorFactory.getGroupCalculator( IGroupDefinition.NUMERIC_INTERVAL,
-									DataType.INTEGER_TYPE,
-									String.valueOf( DataSetIterator.getDefaultStartValue( level.getDateTimeLevelType( ),
-											level.getIntervalBase( ) ) ),
-									level.getIntervalRange( ), sessionContext.getDataEngineContext( ).getLocale( ),
-									sessionContext.getDataEngineContext( ).getTimeZone( )) ),
-							DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-					temp.setDataType( DataType.INTEGER_TYPE );
-					exprString = DataSetIterator.createDateTransformerExpr( level.getDateTimeLevelType( ), exprString );
-				}
-				else
-				{
+				if (level.getDateTimeLevelType() != null) {
+					temp = new DataSetIterator.ColumnMeta(DataSetIterator.createLevelName(dimName, level.getName()),
+							new DataSetIterator.DataProcessorWrapper(GroupCalculatorFactory.getGroupCalculator(
+									IGroupDefinition.NUMERIC_INTERVAL, DataType.INTEGER_TYPE,
+									String.valueOf(DataSetIterator.getDefaultStartValue(level.getDateTimeLevelType(),
+											level.getIntervalBase())),
+									level.getIntervalRange(), sessionContext.getDataEngineContext().getLocale(),
+									sessionContext.getDataEngineContext().getTimeZone())),
+							DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE);
+					temp.setDataType(DataType.INTEGER_TYPE);
+					exprString = DataSetIterator.createDateTransformerExpr(level.getDateTimeLevelType(), exprString);
+				} else {
 					IDataProcessor processor = null;
-					if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( ) ) )
-					{
-						int interval = GroupAdapter.intervalFromModel( level.getInterval( ) );
-						if ( interval != IGroupDefinition.NO_INTERVAL )
-							processor = new DataSetIterator.DataProcessorWrapper( GroupCalculatorFactory.getGroupCalculator( interval,
-									type,
-									level.getIntervalBase( ),
-									level.getIntervalRange( ),
-									sessionContext.getDataEngineContext( ).getLocale( ),
-									sessionContext.getDataEngineContext( ).getTimeZone( )) );
-					}
-					else if ( DesignChoiceConstants.LEVEL_TYPE_MIRRORED.equals( level.getLevelType( ) ) )
-					{
-						Iterator it = level.staticValuesIterator( );
-						List dispExpr = new ArrayList( );
-						List filterExpr = new ArrayList( );
-						while ( it.hasNext( ) )
-						{
-							RuleHandle o = (RuleHandle) it.next( );
-							dispExpr.add( o.getDisplayExpression( ) );
-							filterExpr.add( o.getRuleExpression( ) );
+					if (DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals(level.getLevelType())) {
+						int interval = GroupAdapter.intervalFromModel(level.getInterval());
+						if (interval != IGroupDefinition.NO_INTERVAL)
+							processor = new DataSetIterator.DataProcessorWrapper(
+									GroupCalculatorFactory.getGroupCalculator(interval, type, level.getIntervalBase(),
+											level.getIntervalRange(), sessionContext.getDataEngineContext().getLocale(),
+											sessionContext.getDataEngineContext().getTimeZone()));
+					} else if (DesignChoiceConstants.LEVEL_TYPE_MIRRORED.equals(level.getLevelType())) {
+						Iterator it = level.staticValuesIterator();
+						List dispExpr = new ArrayList();
+						List filterExpr = new ArrayList();
+						while (it.hasNext()) {
+							RuleHandle o = (RuleHandle) it.next();
+							dispExpr.add(o.getDisplayExpression());
+							filterExpr.add(o.getRuleExpression());
 
 						}
 
 						StringBuffer buf = new StringBuffer();
 
-						if( level.getDefaultValue() != null )
-						{
-							buf.append( "\"" );
-							buf.append( JavascriptEvalUtil.transformToJsConstants( level.getDefaultValue() ) );
-							buf.append( "\";" );
+						if (level.getDefaultValue() != null) {
+							buf.append("\"");
+							buf.append(JavascriptEvalUtil.transformToJsConstants(level.getDefaultValue()));
+							buf.append("\";");
 						}
-						for ( int i = 0; i < dispExpr.size( ); i++ )
-						{
+						for (int i = 0; i < dispExpr.size(); i++) {
 							String disp = "\""
-									+ JavascriptEvalUtil.transformToJsConstants( String.valueOf( dispExpr.get( i ) ) )
-									+ "\"";
-							String filter = String.valueOf( filterExpr.get( i ) );
-							buf.append( "if(" );
-							buf.append( filter );
-							buf.append( ")" );
-							buf.append( disp );
-							buf.append( ";" );
+									+ JavascriptEvalUtil.transformToJsConstants(String.valueOf(dispExpr.get(i))) + "\"";
+							String filter = String.valueOf(filterExpr.get(i));
+							buf.append("if(");
+							buf.append(filter);
+							buf.append(")");
+							buf.append(disp);
+							buf.append(";");
 						}
-						exprString = buf.toString( );
+						exprString = buf.toString();
 
 					}
-					temp = new DataSetIterator.ColumnMeta( DataSetIterator.createLevelName( dimName, level.getName( )),
-							processor,
-							DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-					temp.setDataType( type );
+					temp = new DataSetIterator.ColumnMeta(DataSetIterator.createLevelName(dimName, level.getName()),
+							processor, DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE);
+					temp.setDataType(type);
 				}
 
-				metaList.add( temp );
-				Iterator it = level.attributesIterator( );
-				while ( it.hasNext( ) )
-				{
-					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next( );
+				metaList.add(temp);
+				Iterator it = level.attributesIterator();
+				while (it.hasNext()) {
+					LevelAttributeHandle levelAttr = (LevelAttributeHandle) it.next();
 
 					IDataProcessor processor = null;
 					String bindingExpr = null;
-					if( level.getDateTimeLevelType( ) != null && DataSetIterator.DATE_TIME_ATTR_NAME.equals( levelAttr.getName()))
-					{
-						processor = new DataSetIterator.DateTimeAttributeProcessor( level.getDateTimeLevelType( ),
-								this.sessionContext.getDataEngineContext( )
-										.getLocale( ), sessionContext.getDataEngineContext( ).getTimeZone( ) );
-						bindingExpr = ExpressionUtil.createJSDataSetRowExpression( levelColumnName == null ? level.getColumnName( ):levelColumnName ) ;
-					}else
-					{
-						bindingExpr = ExpressionUtil.createJSDataSetRowExpression( levelAttr.getName() ) ;
+					if (level.getDateTimeLevelType() != null
+							&& DataSetIterator.DATE_TIME_ATTR_NAME.equals(levelAttr.getName())) {
+						processor = new DataSetIterator.DateTimeAttributeProcessor(level.getDateTimeLevelType(),
+								this.sessionContext.getDataEngineContext().getLocale(),
+								sessionContext.getDataEngineContext().getTimeZone());
+						bindingExpr = ExpressionUtil.createJSDataSetRowExpression(
+								levelColumnName == null ? level.getColumnName() : levelColumnName);
+					} else {
+						bindingExpr = ExpressionUtil.createJSDataSetRowExpression(levelAttr.getName());
 					}
-					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta( DataSetIterator.createLevelName( dimName, OlapExpressionUtil.getAttributeColumnName( level.getName( ),
-							levelAttr.getName( ) )),
-							processor,
-							DataSetIterator.ColumnMeta.UNKNOWN_TYPE );
+					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta(
+							DataSetIterator.createLevelName(dimName,
+									OlapExpressionUtil.getAttributeColumnName(level.getName(), levelAttr.getName())),
+							processor, DataSetIterator.ColumnMeta.UNKNOWN_TYPE);
 
-					meta.setDataType( DataAdapterUtil.adaptModelDataType( levelAttr.getDataType( ) ) );
-					metaList.add( meta );
+					meta.setDataType(DataAdapterUtil.adaptModelDataType(levelAttr.getDataType()));
+					metaList.add(meta);
 
-					query.addBinding( new Binding( meta.getName( ),
-							new ScriptExpression( bindingExpr ) ));
+					query.addBinding(new Binding(meta.getName(), new ScriptExpression(bindingExpr)));
 				}
 
-				//Only dynamical level can use display name.
-				if ( DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals( level.getLevelType( ) )
-						&& level.getDisplayColumnName( ) != null )
-				{
-					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta( DataSetIterator.createLevelName( dimName,
-							OlapExpressionUtil.getDisplayColumnName( level.getName( ) ) ),
-							null,
-							DataSetIterator.ColumnMeta.UNKNOWN_TYPE );
-					meta.setDataType( DataType.STRING_TYPE );
-					metaList.add( meta );
-					ExpressionHandle displayExprHandle = level.getExpressionProperty( ITabularLevelModel.DISPLAY_COLUMN_NAME_PROP );
-					if( displayExprHandle != null )
-					{
-						query.addBinding( new Binding( meta.getName( ),
-							modelAdaptor.adaptJSExpression( displayExprHandle.getStringExpression( ), displayExprHandle.getType( ) ) ) );
+				// Only dynamical level can use display name.
+				if (DesignChoiceConstants.LEVEL_TYPE_DYNAMIC.equals(level.getLevelType())
+						&& level.getDisplayColumnName() != null) {
+					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta(
+							DataSetIterator.createLevelName(dimName,
+									OlapExpressionUtil.getDisplayColumnName(level.getName())),
+							null, DataSetIterator.ColumnMeta.UNKNOWN_TYPE);
+					meta.setDataType(DataType.STRING_TYPE);
+					metaList.add(meta);
+					ExpressionHandle displayExprHandle = level
+							.getExpressionProperty(ITabularLevelModel.DISPLAY_COLUMN_NAME_PROP);
+					if (displayExprHandle != null) {
+						query.addBinding(new Binding(meta.getName(), modelAdaptor.adaptJSExpression(
+								displayExprHandle.getStringExpression(), displayExprHandle.getType())));
 					}
 				}
 
-				//Populate Security column
-				if( level.getMemberACLExpression( )!= null && level.getMemberACLExpression( ).getExpression( )!= null )
-				{
-					String aclExprName = DataSetIterator.createLevelACLName (level.getName( ));
-					IScriptExpression expr = modelAdaptor.adaptExpression( (Expression) level.getMemberACLExpression( ).getValue( ));
-					query.addBinding( new Binding( aclExprName, expr ) );
-					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta( aclExprName, null, DataSetIterator.ColumnMeta.UNKNOWN_TYPE );
-					metaList.add( meta );
+				// Populate Security column
+				if (level.getMemberACLExpression() != null && level.getMemberACLExpression().getExpression() != null) {
+					String aclExprName = DataSetIterator.createLevelACLName(level.getName());
+					IScriptExpression expr = modelAdaptor
+							.adaptExpression((Expression) level.getMemberACLExpression().getValue());
+					query.addBinding(new Binding(aclExprName, expr));
+					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta(aclExprName, null,
+							DataSetIterator.ColumnMeta.UNKNOWN_TYPE);
+					metaList.add(meta);
 				}
 
-				String levelName = DataSetIterator.createLevelName( dimName, level.getName( ));
-				query.addBinding( new Binding( levelName ,
-						new ScriptExpression( exprString, type )));
-				GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( ).size( )));
+				String levelName = DataSetIterator.createLevelName(dimName, level.getName());
+				query.addBinding(new Binding(levelName, new ScriptExpression(exprString, type)));
+				GroupDefinition gd = new GroupDefinition(String.valueOf(query.getGroups().size()));
 
 //				if ( ExpressionUtil.getColumnName( exprString ) != null )
 //				{
@@ -2406,29 +1977,25 @@ public class DataRequestSessionImpl extends DataRequestSession
 //				}
 //				else
 				{
-					gd.setKeyExpression( ExpressionUtil.createJSRowExpression( levelName ) );
+					gd.setKeyExpression(ExpressionUtil.createJSRowExpression(levelName));
 				}
 
-				if ( level.getLevelType( ) != null && level.getDateTimeLevelType( ) == null )
-				{
-					gd.setIntervalRange( level.getIntervalRange( ) );
-					gd.setIntervalStart( level.getIntervalBase( ) );
-					gd.setInterval( GroupAdapter.intervalFromModel( level.getInterval( ) ) );
+				if (level.getLevelType() != null && level.getDateTimeLevelType() == null) {
+					gd.setIntervalRange(level.getIntervalRange());
+					gd.setIntervalStart(level.getIntervalBase());
+					gd.setInterval(GroupAdapter.intervalFromModel(level.getInterval()));
 				}
-				if ( level.getDateTimeLevelType( ) != null )
-				{
-					gd.setIntervalRange( level.getIntervalRange( ) == 0 ? 1
-							: level.getIntervalRange( ) );
-					gd.setIntervalStart( String.valueOf( DataSetIterator.getDefaultStartValue( level.getDateTimeLevelType( ),level.getIntervalBase( ))) );
-					gd.setInterval( IGroupDefinition.NUMERIC_INTERVAL  );
+				if (level.getDateTimeLevelType() != null) {
+					gd.setIntervalRange(level.getIntervalRange() == 0 ? 1 : level.getIntervalRange());
+					gd.setIntervalStart(String.valueOf(DataSetIterator
+							.getDefaultStartValue(level.getDateTimeLevelType(), level.getIntervalBase())));
+					gd.setInterval(IGroupDefinition.NUMERIC_INTERVAL);
 				}
-				if( addGroup )
-					query.addGroup( gd );
+				if (addGroup)
+					query.addGroup(gd);
 			}
-		}
-		catch ( DataException e )
-		{
-			throw new AdapterException( e.getLocalizedMessage( ), e );
+		} catch (DataException e) {
+			throw new AdapterException(e.getLocalizedMessage(), e);
 		}
 	}
 
@@ -2440,48 +2007,40 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @throws DataException
 	 * @throws AdapterException
 	 */
-	protected void prepareMeasure( TabularCubeHandle cubeHandle,
-			QueryDefinition query, List metaList ) throws AdapterException
-	{
-		try
-		{
-			List measureGroups = cubeHandle.getContents( CubeHandle.MEASURE_GROUPS_PROP );
-			for ( int i = 0; i < measureGroups.size( ); i++ )
-			{
-				MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get( i );
-				List measures = mgh.getContents( MeasureGroupHandle.MEASURES_PROP );
-				for ( int j = 0; j < measures.size( ); j++ )
-				{
-					MeasureHandle measure = (MeasureHandle) measures.get( j );
-					if( measure.isCalculated( ) )
-					{
+	protected void prepareMeasure(TabularCubeHandle cubeHandle, QueryDefinition query, List metaList)
+			throws AdapterException {
+		try {
+			List measureGroups = cubeHandle.getContents(CubeHandle.MEASURE_GROUPS_PROP);
+			for (int i = 0; i < measureGroups.size(); i++) {
+				MeasureGroupHandle mgh = (MeasureGroupHandle) measureGroups.get(i);
+				List measures = mgh.getContents(MeasureGroupHandle.MEASURES_PROP);
+				for (int j = 0; j < measures.size(); j++) {
+					MeasureHandle measure = (MeasureHandle) measures.get(j);
+					if (measure.isCalculated()) {
 						continue;
 					}
-					String function = measure.getFunction( );
-					String exprText = measure.getMeasureExpression( );
-					ExpressionHandle measureExprHandle = measure.getExpressionProperty( IMeasureModel.MEASURE_EXPRESSION_PROP );
+					String function = measure.getFunction();
+					String exprText = measure.getMeasureExpression();
+					ExpressionHandle measureExprHandle = measure
+							.getExpressionProperty(IMeasureModel.MEASURE_EXPRESSION_PROP);
 					IScriptExpression expr = null;
-					if( exprText != null && measureExprHandle != null )
-					{
-						expr = modelAdaptor.adaptJSExpression( measureExprHandle.getStringExpression( ),
-									measureExprHandle.getType( ) );
+					if (exprText != null && measureExprHandle != null) {
+						expr = modelAdaptor.adaptJSExpression(measureExprHandle.getStringExpression(),
+								measureExprHandle.getType());
 					}
 
-					Binding binding = new Binding( measure.getName( ), expr );
-					binding.setAggrFunction( DataAdapterUtil.adaptModelAggregationType( function ) );
+					Binding binding = new Binding(measure.getName(), expr);
+					binding.setAggrFunction(DataAdapterUtil.adaptModelAggregationType(function));
 
-					query.addBinding( binding );
-					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta( measure.getName( ),
-							null,
-							DataSetIterator.ColumnMeta.MEASURE_TYPE );
-					meta.setDataType( DataAdapterUtil.adaptModelDataType( measure.getDataType( ) ) );
-					metaList.add( meta );
+					query.addBinding(binding);
+					DataSetIterator.ColumnMeta meta = new DataSetIterator.ColumnMeta(measure.getName(), null,
+							DataSetIterator.ColumnMeta.MEASURE_TYPE);
+					meta.setDataType(DataAdapterUtil.adaptModelDataType(measure.getDataType()));
+					metaList.add(meta);
 				}
 			}
-		}
-		catch ( DataException e )
-		{
-			throw new AdapterException( e.getLocalizedMessage( ), e );
+		} catch (DataException e) {
+			throw new AdapterException(e.getLocalizedMessage(), e);
 		}
 	}
 
@@ -2492,28 +2051,25 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param query
 	 * @throws AdapterException
 	 */
-	protected static void popualteFilter( DataRequestSession session,
-			Iterator filterIterator, QueryDefinition query ) throws AdapterException
-	{
-		while( filterIterator.hasNext( ) )
-		{
-			FilterConditionHandle filter = (FilterConditionHandle) filterIterator.next( );
-			query.addFilter( session.getModelAdaptor( ).adaptFilter( filter ) );
+	protected static void popualteFilter(DataRequestSession session, Iterator filterIterator, QueryDefinition query)
+			throws AdapterException {
+		while (filterIterator.hasNext()) {
+			FilterConditionHandle filter = (FilterConditionHandle) filterIterator.next();
+			query.addFilter(session.getModelAdaptor().adaptFilter(filter));
 		}
 	}
 
-	 protected boolean isDateTimeDimension( TabularHierarchyHandle hierHandle )
-	 {
-		 List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
+	protected boolean isDateTimeDimension(TabularHierarchyHandle hierHandle) {
+		List levels = hierHandle.getContents(TabularHierarchyHandle.LEVELS_PROP);
 
-		for ( int j = 0; j < levels.size( ); j++ )
-		{
-			TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
-			if ( level.getDateTimeLevelType( ) == null )
+		for (int j = 0; j < levels.size(); j++) {
+			TabularLevelHandle level = (TabularLevelHandle) levels.get(j);
+			if (level.getDateTimeLevelType() == null)
 				return false;
 		}
-		 return true;
-	 }
+		return true;
+	}
+
 	/**
 	 *
 	 * @param session
@@ -2522,121 +2078,98 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @return
 	 * @throws BirtException
 	 */
-	QueryDefinition createQuery(
-			DataRequestSessionImpl session, TabularCubeHandle cubeHandle,
-			List metaList ) throws BirtException
-	{
-		if( metaList == null )
+	QueryDefinition createQuery(DataRequestSessionImpl session, TabularCubeHandle cubeHandle, List metaList)
+			throws BirtException {
+		if (metaList == null)
 			metaList = new ArrayList();
-		QueryDefinition query = new CubeCreationQueryDefinition( );
-		//Ensure the query execution result would not be save to report document.
-		query.setAsTempQuery( );
+		QueryDefinition query = new CubeCreationQueryDefinition();
+		// Ensure the query execution result would not be save to report document.
+		query.setAsTempQuery();
 
-		query.setName( String.valueOf( cubeHandle.getElement( ).getID( )) );
-		if( cubeHandle.getDataSet( ) == null )
-			throw new AdapterException(AdapterResourceHandle.getInstance( )
-					.getMessage( ResourceConstants.CUBE_MISS_DATASET_ERROR ));
-		query.setDataSetName( cubeHandle.getDataSet( ).getQualifiedName( ) );
+		query.setName(String.valueOf(cubeHandle.getElement().getID()));
+		if (cubeHandle.getDataSet() == null)
+			throw new AdapterException(
+					AdapterResourceHandle.getInstance().getMessage(ResourceConstants.CUBE_MISS_DATASET_ERROR));
+		query.setDataSetName(cubeHandle.getDataSet().getQualifiedName());
 
-		List dimensions = cubeHandle.getContents( CubeHandle.DIMENSIONS_PROP );
+		List dimensions = cubeHandle.getContents(CubeHandle.DIMENSIONS_PROP);
 
-		if ( dimensions != null )
-		{
-			for ( int i = 0; i < dimensions.size( ); i++ )
-			{
-				DimensionHandle dimension = (DimensionHandle) dimensions.get( i );
-				List hiers = dimension.getContents( DimensionHandle.HIERARCHIES_PROP );
+		if (dimensions != null) {
+			for (int i = 0; i < dimensions.size(); i++) {
+				DimensionHandle dimension = (DimensionHandle) dimensions.get(i);
+				List hiers = dimension.getContents(DimensionHandle.HIERARCHIES_PROP);
 
-				//By now we only support one hierarchy per;
+				// By now we only support one hierarchy per;
 
-				TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) hiers.get( 0 );
+				TabularHierarchyHandle hierHandle = (TabularHierarchyHandle) hiers.get(0);
 
-				if ( hierHandle.getDataSet( ) == null
-						|| hierHandle.getDataSet( )
-								.getQualifiedName( )
-								.equals( cubeHandle.getDataSet( ).getQualifiedName( ) ) )
-				{
-					prepareLevels( query,
-							hierHandle,
-							metaList,
-							dimension.getName(), null, true );
+				if (hierHandle.getDataSet() == null || hierHandle.getDataSet().getQualifiedName()
+						.equals(cubeHandle.getDataSet().getQualifiedName())) {
+					prepareLevels(query, hierHandle, metaList, dimension.getName(), null, true);
 					continue;
 				}
-				DimensionJoinConditionHandle condition = getFacttableJointKey(cubeHandle,
-						hierHandle);
-				if( isDateTimeDimension( hierHandle ) && existColumnName( hierHandle, condition.getHierarchyKey( ) ) )
-				{
-					prepareLevels( query,
-							hierHandle,
-							metaList,
-							dimension.getName(), condition.getCubeKey( ), true );
+				DimensionJoinConditionHandle condition = getFacttableJointKey(cubeHandle, hierHandle);
+				if (isDateTimeDimension(hierHandle) && existColumnName(hierHandle, condition.getHierarchyKey())) {
+					prepareLevels(query, hierHandle, metaList, dimension.getName(), condition.getCubeKey(), true);
 					continue;
 				}
 
-				Iterator it = cubeHandle.joinConditionsIterator( );
-				while ( it.hasNext( ) )
-				{
-					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
-						if ( dimCondHandle.getHierarchy( ).getName( ).equals( hierHandle.getName( ) ) )
-					{
-						Iterator conditionIt = dimCondHandle.getJoinConditions( )
-								.iterator( );
-						while ( conditionIt.hasNext( ) )
-						{
-							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
-							String cubeKey = joinCondition.getCubeKey( );
-							String cubeKeyWithDimIdentifier = OlapExpressionUtil.getQualifiedLevelName( dimension.getName( ),
-									cubeKey );
-							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta( cubeKeyWithDimIdentifier,
-									null,
-									DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE );
-							temp.setDataType( getColumnDataType( cubeHandle.getDataSet( ), cubeKey ) );
-							metaList.add( temp );
-							query.addBinding( new Binding( cubeKeyWithDimIdentifier,
-									new ScriptExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) ) ) );
-							/*GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
-									.size( ) ) );
-								//dataSetRow["xxx"] evaluation faster than row["xxx"] since its value are just from data set result set rather than Rhino
-								gd.setKeyExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey ) );
-								query.addGroup( gd );*/
-							}
+				Iterator it = cubeHandle.joinConditionsIterator();
+				while (it.hasNext()) {
+					DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next();
+					if (dimCondHandle.getHierarchy().getName().equals(hierHandle.getName())) {
+						Iterator conditionIt = dimCondHandle.getJoinConditions().iterator();
+						while (conditionIt.hasNext()) {
+							DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt
+									.next();
+							String cubeKey = joinCondition.getCubeKey();
+							String cubeKeyWithDimIdentifier = OlapExpressionUtil
+									.getQualifiedLevelName(dimension.getName(), cubeKey);
+							DataSetIterator.ColumnMeta temp = new DataSetIterator.ColumnMeta(cubeKeyWithDimIdentifier,
+									null, DataSetIterator.ColumnMeta.LEVEL_KEY_TYPE);
+							temp.setDataType(getColumnDataType(cubeHandle.getDataSet(), cubeKey));
+							metaList.add(temp);
+							query.addBinding(new Binding(cubeKeyWithDimIdentifier,
+									new ScriptExpression(ExpressionUtil.createJSDataSetRowExpression(cubeKey))));
+							/*
+							 * GroupDefinition gd = new GroupDefinition( String.valueOf( query.getGroups( )
+							 * .size( ) ) ); //dataSetRow["xxx"] evaluation faster than row["xxx"] since its
+							 * value are just from data set result set rather than Rhino
+							 * gd.setKeyExpression( ExpressionUtil.createJSDataSetRowExpression( cubeKey )
+							 * ); query.addGroup( gd );
+							 */
 						}
 					}
+				}
 			}
 		}
 
-		session.prepareMeasure( cubeHandle, query, metaList );
-		DataRequestSessionImpl.popualteFilter( session, cubeHandle.filtersIterator( ), query );
+		session.prepareMeasure(cubeHandle, query, metaList);
+		DataRequestSessionImpl.popualteFilter(session, cubeHandle.filtersIterator(), query);
 		return query;
 	}
 
-	protected boolean existColumnName( TabularHierarchyHandle hierHandle, String name )
-	{
-		List levels = hierHandle.getContents( TabularHierarchyHandle.LEVELS_PROP );
+	protected boolean existColumnName(TabularHierarchyHandle hierHandle, String name) {
+		List levels = hierHandle.getContents(TabularHierarchyHandle.LEVELS_PROP);
 
-		for ( int j = 0; j < levels.size( ); j++ )
-		{
-			TabularLevelHandle level = (TabularLevelHandle) levels.get( j );
-			if ( level.getColumnName( ).equals( name ) )
+		for (int j = 0; j < levels.size(); j++) {
+			TabularLevelHandle level = (TabularLevelHandle) levels.get(j);
+			if (level.getColumnName().equals(name))
 				return true;
 		}
 		return false;
 	}
 
 	protected DimensionJoinConditionHandle getFacttableJointKey(TabularCubeHandle cubeHandle,
-			TabularHierarchyHandle hierHandle)
-	{
-		Iterator it = cubeHandle.joinConditionsIterator( );
-		while ( it.hasNext( ) )
-		{
-			DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next( );
+			TabularHierarchyHandle hierHandle) {
+		Iterator it = cubeHandle.joinConditionsIterator();
+		while (it.hasNext()) {
+			DimensionConditionHandle dimCondHandle = (DimensionConditionHandle) it.next();
 
-			if ( dimCondHandle.getHierarchy( ).getName( ).equals( hierHandle.getName( ) ) )
-			{
-				Iterator conditionIt = dimCondHandle.getJoinConditions( ).iterator( );
-				while ( conditionIt.hasNext( ) )
-				{
-					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next( );
+			if (dimCondHandle.getHierarchy().getName().equals(hierHandle.getName())) {
+				Iterator conditionIt = dimCondHandle.getJoinConditions().iterator();
+				while (conditionIt.hasNext()) {
+					DimensionJoinConditionHandle joinCondition = (DimensionJoinConditionHandle) conditionIt.next();
 					return joinCondition;
 				}
 			}
@@ -2652,18 +2185,16 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @return
 	 * @throws BirtException
 	 */
-	protected QueryDefinition createQueryForTempPKDimension(
-		TabularCubeHandle cubeHandle ) throws BirtException
-	{
-		QueryDefinition query = new QueryDefinition( );
-		//Ensure the query execution result would not be save to report document.
-		query.setAsTempQuery( );
+	protected QueryDefinition createQueryForTempPKDimension(TabularCubeHandle cubeHandle) throws BirtException {
+		QueryDefinition query = new QueryDefinition();
+		// Ensure the query execution result would not be save to report document.
+		query.setAsTempQuery();
 
-		query.setUsesDetails( false );
-		query.setDataSetName( cubeHandle.getDataSet( ).getQualifiedName( ) );
-		query.setIsSummaryQuery( true );
-		query.setName( String.valueOf( cubeHandle.getElement( ).getID( )));
-		DataRequestSessionImpl.popualteFilter( this, cubeHandle.filtersIterator( ), query );
+		query.setUsesDetails(false);
+		query.setDataSetName(cubeHandle.getDataSet().getQualifiedName());
+		query.setIsSummaryQuery(true);
+		query.setName(String.valueOf(cubeHandle.getElement().getID()));
+		DataRequestSessionImpl.popualteFilter(this, cubeHandle.filtersIterator(), query);
 		return query;
 	}
 
@@ -2672,22 +2203,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param handle
 	 * @return
 	 */
-	protected static String getDataSet( TabularHierarchyHandle handle )
-	{
-		if ( handle.getDataSet( ) != null )
-			return handle.getDataSet( ).getQualifiedName( );
-		else if ( handle.getProperty( ITabularCubeModel.DATA_SET_PROP ) != null )
-		{
-			return handle.getProperty( ITabularCubeModel.DATA_SET_PROP )
-					.toString( );
-		}
-		else
-		{
-			CubeHandle cubeHandle = acquireContainerCube( handle );
-			if ( cubeHandle != null )
-			{
-				return cubeHandle.getElementProperty( ITabularCubeModel.DATA_SET_PROP )
-						.getQualifiedName( );
+	protected static String getDataSet(TabularHierarchyHandle handle) {
+		if (handle.getDataSet() != null)
+			return handle.getDataSet().getQualifiedName();
+		else if (handle.getProperty(ITabularCubeModel.DATA_SET_PROP) != null) {
+			return handle.getProperty(ITabularCubeModel.DATA_SET_PROP).toString();
+		} else {
+			CubeHandle cubeHandle = acquireContainerCube(handle);
+			if (cubeHandle != null) {
+				return cubeHandle.getElementProperty(ITabularCubeModel.DATA_SET_PROP).getQualifiedName();
 			}
 		}
 		return null;
@@ -2698,11 +2222,9 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param hierHandle
 	 * @return
 	 */
-	protected static CubeHandle acquireContainerCube(
-			TabularHierarchyHandle hierHandle )
-	{
-		DesignElementHandle handle = hierHandle.getContainer( ).getContainer( );
-		if ( handle == null || !( handle instanceof CubeHandle ) )
+	protected static CubeHandle acquireContainerCube(TabularHierarchyHandle hierHandle) {
+		DesignElementHandle handle = hierHandle.getContainer().getContainer();
+		if (handle == null || !(handle instanceof CubeHandle))
 			return null;
 		return (CubeHandle) handle;
 	}
@@ -2712,17 +2234,15 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @param handle
 	 * @return
 	 */
-	protected static Iterator getFilterIterator( TabularHierarchyHandle handle )
-	{
-		if ( handle.getDataSet( )!= null )
-			return handle.filtersIterator( );
-		else
-		{
-			CubeHandle cubeHandle = DataRequestSessionImpl.acquireContainerCube( handle );
-			if( cubeHandle!= null )
-				return cubeHandle.filtersIterator( );
+	protected static Iterator getFilterIterator(TabularHierarchyHandle handle) {
+		if (handle.getDataSet() != null)
+			return handle.filtersIterator();
+		else {
+			CubeHandle cubeHandle = DataRequestSessionImpl.acquireContainerCube(handle);
+			if (cubeHandle != null)
+				return cubeHandle.filtersIterator();
 		}
-		return new ArrayList().iterator( );
+		return new ArrayList().iterator();
 	}
 
 	/**
@@ -2734,23 +2254,20 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @return
 	 * @throws BirtException
 	 */
-	QueryDefinition createQuery(
-			DataRequestSessionImpl session, TabularHierarchyHandle hierHandle,
-			List metaList, String cubeName ) throws BirtException
-	{
-		assert metaList!= null;
-		QueryDefinition query = new CubeCreationQueryDefinition( );
-		//Ensure the query execution result would not be save to report document.
-		query.setAsTempQuery( );
-		query.setUsesDetails( false );
+	QueryDefinition createQuery(DataRequestSessionImpl session, TabularHierarchyHandle hierHandle, List metaList,
+			String cubeName) throws BirtException {
+		assert metaList != null;
+		QueryDefinition query = new CubeCreationQueryDefinition();
+		// Ensure the query execution result would not be save to report document.
+		query.setAsTempQuery();
+		query.setUsesDetails(false);
 
-		query.setDataSetName( DataRequestSessionImpl.getDataSet ( hierHandle ) );
-		query.setName( cubeName );
+		query.setDataSetName(DataRequestSessionImpl.getDataSet(hierHandle));
+		query.setName(cubeName);
 
-		prepareLevels( query,
-				hierHandle, metaList, null, null, true );
+		prepareLevels(query, hierHandle, metaList, null, null, true);
 
-		DataRequestSessionImpl.popualteFilter( session, DataRequestSessionImpl.getFilterIterator( hierHandle ), query );
+		DataRequestSessionImpl.popualteFilter(session, DataRequestSessionImpl.getFilterIterator(hierHandle), query);
 		return query;
 	}
 
@@ -2764,13 +2281,11 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @return
 	 * @throws BirtException
 	 */
-	QueryDefinition createDimensionQuery(
-			DataRequestSessionImpl session, DimensionHandle dim, TabularHierarchyHandle hierHandle,
-			List metaList, String cubeName ) throws BirtException
-	{
-		return this.createDimensionQuery( session, dim, hierHandle, metaList, cubeName, null );
+	QueryDefinition createDimensionQuery(DataRequestSessionImpl session, DimensionHandle dim,
+			TabularHierarchyHandle hierHandle, List metaList, String cubeName) throws BirtException {
+		return this.createDimensionQuery(session, dim, hierHandle, metaList, cubeName, null);
 	}
-	
+
 	/**
 	 * Create a query definition for an Hierarchy.
 	 *
@@ -2780,124 +2295,101 @@ public class DataRequestSessionImpl extends DataRequestSession
 	 * @return
 	 * @throws BirtException
 	 */
-	QueryDefinition createDimensionQuery(
-			DataRequestSessionImpl session, DimensionHandle dim, TabularHierarchyHandle hierHandle,
-			List metaList, String cubeName, String levelColumnName ) throws BirtException
-	{
-		assert metaList!= null;
-		QueryDefinition query = new CubeCreationQueryDefinition( );
-		//Ensure the query execution result would not be save to report document.
-		query.setAsTempQuery( );
-		query.setDataSetName( DataRequestSessionImpl.getDataSet ( hierHandle ) );
-		query.setName( cubeName );
+	QueryDefinition createDimensionQuery(DataRequestSessionImpl session, DimensionHandle dim,
+			TabularHierarchyHandle hierHandle, List metaList, String cubeName, String levelColumnName)
+			throws BirtException {
+		assert metaList != null;
+		QueryDefinition query = new CubeCreationQueryDefinition();
+		// Ensure the query execution result would not be save to report document.
+		query.setAsTempQuery();
+		query.setDataSetName(DataRequestSessionImpl.getDataSet(hierHandle));
+		query.setName(cubeName);
 
-		prepareLevels( query,
-				hierHandle, metaList, null, levelColumnName, false );
+		prepareLevels(query, hierHandle, metaList, null, levelColumnName, false);
 
-		DataRequestSessionImpl.popualteFilter( session, DataRequestSessionImpl.getFilterIterator( hierHandle ), query );
-		
-		//if it is a time dimension
-		if ( CubeHandleUtil.isTimeDimension( dim ) )
-		{
+		DataRequestSessionImpl.popualteFilter(session, DataRequestSessionImpl.getFilterIterator(hierHandle), query);
+
+		// if it is a time dimension
+		if (CubeHandleUtil.isTimeDimension(dim)) {
 			FilterDefinition filter = null;
-			if( ( dim instanceof TabularDimensionHandle ) &&((TabularDimensionHandle) dim ).getSharedDimension( )!= null )
-			{
-				filter = buildFilterForTimeDimension( ((TabularDimensionHandle) dim ).getSharedDimension( ),
-						hierHandle );
+			if ((dim instanceof TabularDimensionHandle)
+					&& ((TabularDimensionHandle) dim).getSharedDimension() != null) {
+				filter = buildFilterForTimeDimension(((TabularDimensionHandle) dim).getSharedDimension(), hierHandle);
+			} else {
+				filter = buildFilterForTimeDimension(dim, hierHandle);
 			}
-			else
-			{
-				filter = buildFilterForTimeDimension( dim, hierHandle );
-			}
-			if ( filter != null )
-				query.addFilter( filter );
+			if (filter != null)
+				query.addFilter(filter);
 		}
 		return query;
 	}
+
 	@Override
-	public DataSessionContext getDataSessionContext( )
-	{
+	public DataSessionContext getDataSessionContext() {
 		return this.sessionContext;
 	}
 
-	protected static String getCubeTempPKDimensionName( TabularCubeHandle tch )
-	{
-		return "TEMP_PK_DIMENSION_" + tch.hashCode( );
+	protected static String getCubeTempPKDimensionName(TabularCubeHandle tch) {
+		return "TEMP_PK_DIMENSION_" + tch.hashCode();
 	}
 
-	protected static String getCubeTempPKHierarchyName( TabularCubeHandle tch )
-	{
-		return "TEMP_PK_HIERARCHY_" + tch.hashCode( );
+	protected static String getCubeTempPKHierarchyName(TabularCubeHandle tch) {
+		return "TEMP_PK_HIERARCHY_" + tch.hashCode();
 	}
 
-	protected static String getCubeTempPKFieldName( TabularCubeHandle tch )
-	{
-		return "TEMP_PK_" + tch.hashCode( );
+	protected static String getCubeTempPKFieldName(TabularCubeHandle tch) {
+		return "TEMP_PK_" + tch.hashCode();
 	}
 
-	protected static <T> T[] appendArray( T[] src, T v )
-	{
-		T[] result = (T[])java.lang.reflect.Array.
-			newInstance(src.getClass().getComponentType(), src.length + 1);
-		System.arraycopy( src, 0, result, 0, src.length );
+	protected static <T> T[] appendArray(T[] src, T v) {
+		T[] result = (T[]) java.lang.reflect.Array.newInstance(src.getClass().getComponentType(), src.length + 1);
+		System.arraycopy(src, 0, result, 0, src.length);
 		result[src.length] = v;
 		return result;
 	}
 
-	protected static int getColumnDataType( DataSetHandle dsh, String jointHierarchyKey )
-	{
-		CachedMetaDataHandle cmdh = dsh.getCachedMetaDataHandle( );
-		Iterator itr = cmdh.getResultSet( ).iterator( );
-		while ( itr.hasNext( ) )
-		{
-			ResultSetColumnHandle rsch = (ResultSetColumnHandle)itr.next( );
-			if ( rsch.getColumnName( ).equals( jointHierarchyKey ))
-			{
-				return org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType( rsch.getDataType( ) );
+	protected static int getColumnDataType(DataSetHandle dsh, String jointHierarchyKey) {
+		CachedMetaDataHandle cmdh = dsh.getCachedMetaDataHandle();
+		Iterator itr = cmdh.getResultSet().iterator();
+		while (itr.hasNext()) {
+			ResultSetColumnHandle rsch = (ResultSetColumnHandle) itr.next();
+			if (rsch.getColumnName().equals(jointHierarchyKey)) {
+				return org.eclipse.birt.report.data.adapter.api.DataAdapterUtil.adaptModelDataType(rsch.getDataType());
 			}
 		}
 		return DataType.STRING_TYPE;
 	}
 
-	protected String getDummyLevelNameForJointHierarchyKey( String hierarchyKey )
-	{
-		return hierarchyKey + "_Dummy" + this.hashCode( );
+	protected String getDummyLevelNameForJointHierarchyKey(String hierarchyKey) {
+		return hierarchyKey + "_Dummy" + this.hashCode();
 	}
 
-	protected String[] getDummyLevelNamesForJointHierarchyKeys( String[] hierarchyKeys )
-	{
+	protected String[] getDummyLevelNamesForJointHierarchyKeys(String[] hierarchyKeys) {
 		String[] result = new String[hierarchyKeys.length];
 		int i = 0;
-		for ( String key : hierarchyKeys )
-		{
-			result[i] = getDummyLevelNameForJointHierarchyKey( key );
+		for (String key : hierarchyKeys) {
+			result[i] = getDummyLevelNameForJointHierarchyKey(key);
 			i++;
 		}
 		return result;
 	}
 
-	public DataEngine getDataEngine( )
-	{
+	public DataEngine getDataEngine() {
 		return this.dataEngine;
 	}
 
 	@Override
-	public IBasePreparedQuery prepare(IDataQueryDefinition query)
-			throws AdapterException
-	{
-		return prepare( query, null );
+	public IBasePreparedQuery prepare(IDataQueryDefinition query) throws AdapterException {
+		return prepare(query, null);
 	}
 
 	@Override
-	public IPreparedCubeQuery prepare(ISubCubeQueryDefinition query)
-			throws BirtException
-	{
-		return prepare( query, null );
+	public IPreparedCubeQuery prepare(ISubCubeQueryDefinition query) throws BirtException {
+		return prepare(query, null);
 	}
 
 	@Override
-	public IFilterUtil getFilterUtil( ) throws BirtException
-	{
-		return new FilterUtil( );
+	public IFilterUtil getFilterUtil() throws BirtException {
+		return new FilterUtil();
 	}
 }

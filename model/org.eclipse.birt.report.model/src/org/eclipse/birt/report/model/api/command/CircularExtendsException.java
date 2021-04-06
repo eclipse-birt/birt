@@ -20,8 +20,7 @@ import org.eclipse.birt.report.model.i18n.ModelMessages;
  * an element.
  */
 
-public class CircularExtendsException extends ExtendsException
-{
+public class CircularExtendsException extends ExtendsException {
 
 	/**
 	 * Comment for <code>serialVersionUID</code>.
@@ -44,35 +43,25 @@ public class CircularExtendsException extends ExtendsException
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param name
-	 *            the value being set for the extends property.
-	 * @param errCode
-	 *            what went wrong.
+	 * @param obj     the element being changed.
+	 * @param name    the value being set for the extends property.
+	 * @param errCode what went wrong.
 	 */
 
-	public CircularExtendsException( DesignElement obj, String name,
-			String errCode )
-	{
-		super( obj, name, errCode );
+	public CircularExtendsException(DesignElement obj, String name, String errCode) {
+		super(obj, name, errCode);
 	}
 
 	/**
 	 * Constructor.
 	 * 
-	 * @param obj
-	 *            the element being changed.
-	 * @param parent
-	 *            the parent element.
-	 * @param errCode
-	 *            what went wrong.
+	 * @param obj     the element being changed.
+	 * @param parent  the parent element.
+	 * @param errCode what went wrong.
 	 */
 
-	public CircularExtendsException( DesignElement obj, DesignElement parent,
-			String errCode )
-	{
-		super( obj, parent, errCode );
+	public CircularExtendsException(DesignElement obj, DesignElement parent, String errCode) {
+		super(obj, parent, errCode);
 	}
 
 	/*
@@ -81,19 +70,14 @@ public class CircularExtendsException extends ExtendsException
 	 * @see java.lang.Throwable#getLocalizedMessage()
 	 */
 
-	public String getLocalizedMessage( )
-	{
-		if ( sResourceKey == DESIGN_EXCEPTION_CIRCULAR )
-		{
-			return ModelMessages.getMessage( sResourceKey, new String[]{
-					getElementName( parent ), getElementName( element )} );
-		}
-		else if ( sResourceKey == DESIGN_EXCEPTION_SELF_EXTEND )
-		{
-			return ModelMessages.getMessage( sResourceKey,
-					new String[]{getElementName( element )} );
+	public String getLocalizedMessage() {
+		if (sResourceKey == DESIGN_EXCEPTION_CIRCULAR) {
+			return ModelMessages.getMessage(sResourceKey,
+					new String[] { getElementName(parent), getElementName(element) });
+		} else if (sResourceKey == DESIGN_EXCEPTION_SELF_EXTEND) {
+			return ModelMessages.getMessage(sResourceKey, new String[] { getElementName(element) });
 		}
 
-		return super.getLocalizedMessage( );
+		return super.getLocalizedMessage();
 	}
 }

@@ -7,7 +7,7 @@
 *
 * Contributors:
 *  Actuate Corporation  - initial API and implementation
-*******************************************************************************/ 
+*******************************************************************************/
 
 package org.eclipse.birt.report.model.parser;
 
@@ -23,24 +23,18 @@ import org.xml.sax.Attributes;
  * 
  */
 
-public class ScriptDataSetState extends SimpleDataSetState
-{
+public class ScriptDataSetState extends SimpleDataSetState {
 	/**
-	 * Constructs the data set state with the design parser handler, the
-	 * container element and the container slot of the data set.
+	 * Constructs the data set state with the design parser handler, the container
+	 * element and the container slot of the data set.
 	 * 
-	 * @param handler
-	 *            the design file parser handler
-	 * @param theContainer
-	 *            the element that contains this one
-	 * @param slot
-	 *            the slot in which this element appears
+	 * @param handler      the design file parser handler
+	 * @param theContainer the element that contains this one
+	 * @param slot         the slot in which this element appears
 	 */
 
-	public ScriptDataSetState( ModuleParserHandler handler,
-			DesignElement theContainer, int slot )
-	{
-		super( handler, theContainer, slot );
+	public ScriptDataSetState(ModuleParserHandler handler, DesignElement theContainer, int slot) {
+		super(handler, theContainer, slot);
 	}
 
 	/*
@@ -49,20 +43,20 @@ public class ScriptDataSetState extends SimpleDataSetState
 	 * @see org.eclipse.birt.report.model.parser.DesignParseState#getElement()
 	 */
 
-	public DesignElement getElement( )
-	{
+	public DesignElement getElement() {
 		return element;
 	}
 
 	/*
 	 * (non-Javadoc)
 	 * 
-	 * @see org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.Attributes)
+	 * @see
+	 * org.eclipse.birt.report.model.util.AbstractParseState#parseAttrs(org.xml.sax.
+	 * Attributes)
 	 */
 
-	public void parseAttrs( Attributes attrs ) throws XMLParserException
-	{
-		element = new ScriptDataSet( );
-		super.parseAttrs( attrs );
+	public void parseAttrs(Attributes attrs) throws XMLParserException {
+		element = new ScriptDataSet();
+		super.parseAttrs(attrs);
 	}
 }

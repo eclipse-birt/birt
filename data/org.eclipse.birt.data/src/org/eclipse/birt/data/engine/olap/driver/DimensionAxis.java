@@ -26,8 +26,7 @@ import org.eclipse.birt.data.engine.olap.data.api.IAggregationResultSet;
  * methods to point to current position, and get the value at this position.
  * 
  */
-public class DimensionAxis
-{
+public class DimensionAxis {
 
 	private IResultSetMetaData metaData;
 	private IAggregationResultSet rs;
@@ -39,16 +38,14 @@ public class DimensionAxis
 	 * 
 	 * @param container
 	 * @param rs
-	 * @param dimAxisIndex 
+	 * @param dimAxisIndex
 	 * @param levelIndex
 	 * @param attrIndex
 	 */
-	public DimensionAxis( IEdgeAxis container, IAggregationResultSet rs,
-			int dimAxisIndex, int levelIndex )
-	{
-		this( container, rs, dimAxisIndex, levelIndex, false );
+	public DimensionAxis(IEdgeAxis container, IAggregationResultSet rs, int dimAxisIndex, int levelIndex) {
+		this(container, rs, dimAxisIndex, levelIndex, false);
 	}
-	
+
 	/**
 	 * 
 	 * @param container
@@ -57,13 +54,12 @@ public class DimensionAxis
 	 * @param levelIndex
 	 * @param attrIndex
 	 */
-	public DimensionAxis( IEdgeAxis container, IAggregationResultSet rs,
-			int dimAixsIndex, int levelIndex, boolean isMirrored )
-	{
-		this.metaData = new ResultSetMetadata( rs, levelIndex );
+	public DimensionAxis(IEdgeAxis container, IAggregationResultSet rs, int dimAixsIndex, int levelIndex,
+			boolean isMirrored) {
+		this.metaData = new ResultSetMetadata(rs, levelIndex);
 		this.rs = rs;
 		this.levelIndex = levelIndex;
-		this.accessor = container.getRowDataAccessor( );
+		this.accessor = container.getRowDataAccessor();
 		this.dimAxisIndex = dimAixsIndex;
 
 	}
@@ -72,28 +68,25 @@ public class DimensionAxis
 	 * 
 	 * @return
 	 */
-	public int getLevelIndex( )
-	{
+	public int getLevelIndex() {
 		return this.levelIndex;
 	}
-	
 
 	/**
 	 * 
 	 * @return
 	 */
-	public IRowDataAccessor getRowDataAccessor( )
-	{
+	public IRowDataAccessor getRowDataAccessor() {
 		return this.accessor;
 	}
 
 	/**
 	 * Get dimension's metadata
+	 * 
 	 * @return
 	 */
-	public RowDataMetaData getRowDataMetaData( )
-	{
-		return new RowDataMetaDataImpl( metaData );
+	public RowDataMetaData getRowDataMetaData() {
+		return new RowDataMetaDataImpl(metaData);
 	}
 
 	/**
@@ -102,21 +95,18 @@ public class DimensionAxis
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean next( ) throws OLAPException
-	{
-		return this.accessor.dim_next( dimAxisIndex );
+	public boolean next() throws OLAPException {
+		return this.accessor.dim_next(dimAxisIndex);
 	}
 
 	/**
-	 * Moves cursor to previous row. Return false if the previous row does not
-	 * exist
+	 * Moves cursor to previous row. Return false if the previous row does not exist
 	 * 
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean previous( ) throws OLAPException
-	{
-		return this.accessor.dim_previous( dimAxisIndex );
+	public boolean previous() throws OLAPException {
+		return this.accessor.dim_previous(dimAxisIndex);
 	}
 
 	/**
@@ -127,9 +117,8 @@ public class DimensionAxis
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean relative( int arg0 ) throws OLAPException
-	{
-		return this.accessor.dim_relative( arg0, dimAxisIndex );
+	public boolean relative(int arg0) throws OLAPException {
+		return this.accessor.dim_relative(arg0, dimAxisIndex);
 	}
 
 	/**
@@ -139,9 +128,8 @@ public class DimensionAxis
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean first( ) throws OLAPException
-	{
-		return this.accessor.dim_first( dimAxisIndex );
+	public boolean first() throws OLAPException {
+		return this.accessor.dim_first(dimAxisIndex);
 	}
 
 	/**
@@ -150,28 +138,16 @@ public class DimensionAxis
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean last( ) throws OLAPException
-	{
-		return this.accessor.dim_last( dimAxisIndex );
+	public boolean last() throws OLAPException {
+		return this.accessor.dim_last(dimAxisIndex);
 	}
 
 	/**
 	 * 
 	 * @return
 	 */
-	public boolean isBeforeFirst( )
-	{
-		return this.accessor.dim_isBeforeFirst( dimAxisIndex );
-	}
-
-	/**
-	 * 
-	 * @return
-	 * @throws OLAPException
-	 */
-	public boolean isAfterLast( ) throws OLAPException
-	{
-		return this.accessor.dim_isAfterLast( dimAxisIndex );
+	public boolean isBeforeFirst() {
+		return this.accessor.dim_isBeforeFirst(dimAxisIndex);
 	}
 
 	/**
@@ -179,9 +155,8 @@ public class DimensionAxis
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean isFirst( ) throws OLAPException
-	{
-		return this.accessor.dim_isFirst( dimAxisIndex );
+	public boolean isAfterLast() throws OLAPException {
+		return this.accessor.dim_isAfterLast(dimAxisIndex);
 	}
 
 	/**
@@ -189,9 +164,17 @@ public class DimensionAxis
 	 * @return
 	 * @throws OLAPException
 	 */
-	public boolean isLast( ) throws OLAPException
-	{
-		return this.accessor.dim_isLast( dimAxisIndex );
+	public boolean isFirst() throws OLAPException {
+		return this.accessor.dim_isFirst(dimAxisIndex);
+	}
+
+	/**
+	 * 
+	 * @return
+	 * @throws OLAPException
+	 */
+	public boolean isLast() throws OLAPException {
+		return this.accessor.dim_isLast(dimAxisIndex);
 	}
 
 	/**
@@ -199,20 +182,17 @@ public class DimensionAxis
 	 * 
 	 * @throws OLAPException
 	 */
-	public void afterLast( ) throws OLAPException
-	{
-		this.accessor.dim_afterLast( dimAxisIndex );
+	public void afterLast() throws OLAPException {
+		this.accessor.dim_afterLast(dimAxisIndex);
 	}
 
 	/**
-	 * Moves the cursor to the front of the result set, just before the first
-	 * row.
+	 * Moves the cursor to the front of the result set, just before the first row.
 	 * 
 	 * @throws OLAPException
 	 */
-	public void beforeFirst( ) throws OLAPException
-	{
-		this.accessor.dim_beforeFirst( dimAxisIndex );
+	public void beforeFirst() throws OLAPException {
+		this.accessor.dim_beforeFirst(dimAxisIndex);
 	}
 
 	/**
@@ -220,9 +200,8 @@ public class DimensionAxis
 	 * @param position
 	 * @throws OLAPException
 	 */
-	public void setPosition( long position ) throws OLAPException
-	{
-		this.accessor.dim_setPosition( dimAxisIndex, position );
+	public void setPosition(long position) throws OLAPException {
+		this.accessor.dim_setPosition(dimAxisIndex, position);
 	}
 
 	/**
@@ -231,25 +210,21 @@ public class DimensionAxis
 	 * @return the cursor in current position.
 	 * @throws OLAPException
 	 */
-	public long getPosition( ) throws OLAPException
-	{
-		return this.accessor.dim_getPosition( dimAxisIndex );
+	public long getPosition() throws OLAPException {
+		return this.accessor.dim_getPosition(dimAxisIndex);
 	}
 
 	/**
 	 * Closes the result set and releases all resources.
-	 * @throws OLAPException 
+	 * 
+	 * @throws OLAPException
 	 *
 	 */
-	public void close( ) throws OLAPException
-	{
-		try
-		{
-			this.rs.close( );
-		}
-		catch ( IOException e )
-		{
-			throw new OLAPException( e.getLocalizedMessage( ) );
+	public void close() throws OLAPException {
+		try {
+			this.rs.close();
+		} catch (IOException e) {
+			throw new OLAPException(e.getLocalizedMessage());
 		}
 	}
 
@@ -258,17 +233,16 @@ public class DimensionAxis
 	 * 
 	 * @return
 	 */
-	public long getExtend( )
-	{
-		return this.accessor.getExtend( dimAxisIndex );
+	public long getExtend() {
+		return this.accessor.getExtend(dimAxisIndex);
 	}
 
 	/**
 	 * Returns the type of the cursor.
+	 * 
 	 * @return
 	 */
-	public int getType( )
-	{
+	public int getType() {
 		return 0;
 	}
 
@@ -277,9 +251,8 @@ public class DimensionAxis
 	 * @return
 	 * @throws OLAPException
 	 */
-	public long getEdgeEnd( ) throws OLAPException
-	{
-		return this.accessor.getEdgeEnd( dimAxisIndex );
+	public long getEdgeEnd() throws OLAPException {
+		return this.accessor.getEdgeEnd(dimAxisIndex);
 	}
 
 	/**
@@ -287,9 +260,8 @@ public class DimensionAxis
 	 * @return
 	 * @throws OLAPException
 	 */
-	public long getEdgeStart( ) throws OLAPException
-	{
-		return this.accessor.getEdgeStart( dimAxisIndex );
+	public long getEdgeStart() throws OLAPException {
+		return this.accessor.getEdgeStart(dimAxisIndex);
 	}
 
 	/**
@@ -298,38 +270,33 @@ public class DimensionAxis
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Object getCurrentMember( int attr ) throws OLAPException
-	{
-		return this.accessor.dim_getCurrentMember( dimAxisIndex, attr );
+	public Object getCurrentMember(int attr) throws OLAPException {
+		return this.accessor.dim_getCurrentMember(dimAxisIndex, attr);
 	}
-	
+
 	/**
 	 * 
 	 * @param attrName
 	 * @return
 	 * @throws OLAPException
 	 */
-	public Object getCurrentMember( String attrName ) throws OLAPException
-	{
-		return this.accessor.dim_getCurrentMember( dimAxisIndex, attrName );
+	public Object getCurrentMember(String attrName) throws OLAPException {
+		return this.accessor.dim_getCurrentMember(dimAxisIndex, attrName);
 	}
-	
+
 	/**
 	 * 
 	 * @param edgeInfoUtil
 	 */
-	public void setEdgeInfo( IRowDataAccessor accessor )
-	{
+	public void setEdgeInfo(IRowDataAccessor accessor) {
 		this.accessor = accessor;
 	}
 
-	public void setLevelDefinition( ILevelDefinition level )
-	{
+	public void setLevelDefinition(ILevelDefinition level) {
 		this.levelDefintion = level;
 	}
-	
-	public ILevelDefinition getLevelDefinition( )
-	{
+
+	public ILevelDefinition getLevelDefinition() {
 		return this.levelDefintion;
 	}
 }

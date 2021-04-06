@@ -6,16 +6,15 @@ import org.eclipse.birt.core.script.functionservice.IScriptFunctionCategory;
 import org.mozilla.javascript.Context;
 import org.mozilla.javascript.Scriptable;
 
-public interface IFunctionProvider 
-{
+public interface IFunctionProvider {
 	/**
 	 * Return all the categories defined by extensions.
 	 * 
 	 * @return
 	 * @throws BirtException
 	 */
-	public IScriptFunctionCategory[] getCategories( )
-			throws BirtException;
+	public IScriptFunctionCategory[] getCategories() throws BirtException;
+
 	/**
 	 * Return the functions that defined in a category.
 	 * 
@@ -23,9 +22,8 @@ public interface IFunctionProvider
 	 * @return
 	 * @throws BirtException
 	 */
-	public IScriptFunction[] getFunctions( String categoryName )
-			throws BirtException;
-	
+	public IScriptFunction[] getFunctions(String categoryName) throws BirtException;
+
 	/**
 	 * Register script functions to scope.
 	 * 
@@ -33,6 +31,5 @@ public interface IFunctionProvider
 	 * @param scope
 	 * @throws BirtException
 	 */
-	public void registerScriptFunction( Context cx, Scriptable scope )
-			throws BirtException;
-}	
+	public void registerScriptFunction(Context cx, Scriptable scope) throws BirtException;
+}
