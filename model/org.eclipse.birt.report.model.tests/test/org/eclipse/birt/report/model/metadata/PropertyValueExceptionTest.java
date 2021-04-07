@@ -40,7 +40,7 @@ public class PropertyValueExceptionTest extends BaseTestCase
 
 		os = new ByteArrayOutputStream( );
 		writer = new PrintWriter( os ); 
-
+		resetMetadata();
 	}
 
 	/**
