@@ -21,16 +21,17 @@ import junit.framework.TestCase;
 public class DocArchiveLockManagerTest extends TestCase
 {
 
-    static final String LOCK_FILE_NAME = "./utest/lock.lck";
+    static final String LOCK_FILE_NAME = "lock.lck";
     static final int THREAD_COUNT = 20;
 
-    @Ignore("ignore multple thread test")
 	@Test
     public void testThread( )
     {
         TestTask task = new TestTask( );
         task.doTest( );
         assertTrue( task.errorThreads == 0 );
+		// FIXME: AF: I'm not sure that we can count on this since the result of
+		// File.delete was not checked in the DocArchiveLockManager
         assertTrue( !new File( LOCK_FILE_NAME ).exists( ) );
     }
 
