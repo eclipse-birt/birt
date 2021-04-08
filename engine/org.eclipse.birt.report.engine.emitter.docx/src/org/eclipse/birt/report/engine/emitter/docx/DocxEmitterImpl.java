@@ -40,19 +40,32 @@ public class DocxEmitterImpl extends AbstractEmitterImpl {
 		this.contentVisitor = contentVisitor;
 	}
 
-	public void initialize(IEmitterServices service) throws EngineException {
-		super.initialize(service);
-		String tempFileDir = service.getReportEngine().getConfig().getTempDir();
-		wordWriter = new DocxWriter(out, tempFileDir, getCompressionMode(service).getValue());
-		IRenderOption renderOption = service.getRenderOption();
-		Object value = renderOption.getOption(DocxRenderOption.OPTION_EMBED_HTML);
-		if (value instanceof Boolean) {
+	public void initialize( IEmitterServices service ) throws EngineException
+	{
+		super.initialize( service );
+		String tempFileDir = service.getReportEngine( ).getConfig( )
+				.getTempDir( );
+
+		IRenderOption renderOption = service.getRenderOption( );
+		Object value = renderOption.getOption( DocxRenderOption.OPTION_WORD_VERSION );
+		if (value instanceof Integer) {
+			setWordVersion((Integer)value);
+		} else {
+			setWordVersion(2016);
+		}
+		value = renderOption.getOption( DocxRenderOption.OPTION_EMBED_HTML );
+		if ( value instanceof Boolean )
+		{
 			this.embedHtml = (Boolean) value;
 		}
+
+		wordWriter = new DocxWriter( out, tempFileDir, getCompressionMode( service )
+				.getValue( ), getWordVersion() );
 	}
 
-	private CompressionMode getCompressionMode(IEmitterServices service) {
-		RenderOption renderOption = (RenderOption) service.getRenderOption();
+	private CompressionMode getCompressionMode( IEmitterServices service )
+	{
+		RenderOption renderOption = (RenderOption) service.getRenderOption( );
 		CompressionMode compressionMode = CompressionMode.BEST_COMPRESSION;
 		Object mode = renderOption.getOption(DocxRenderOption.OPTION_COMPRESSION_MODE);
 		if (mode instanceof CompressionMode) {

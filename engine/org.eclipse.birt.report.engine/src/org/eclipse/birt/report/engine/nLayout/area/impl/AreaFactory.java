@@ -122,38 +122,51 @@ public class AreaFactory {
 		nestCount--;
 	}
 
-	protected AbstractArea createNewArea(ContainerArea parent, LayoutContext context, IContent content) {
-		switch (content.getContentType()) {
-		case IContent.CELL_CONTENT:
-			return new CellArea(parent, context, content);
-		case IContent.CONTAINER_CONTENT:
-			if (PropertyUtil.isInlineElement(content)) {
-				return new InlineContainerArea(parent, context, content);
-			} else {
-				return new BlockContainerArea(parent, context, content);
-			}
-		case IContent.LIST_CONTENT:
-			if (PropertyUtil.isInlineElement(content)) {
-				return new ListArea(parent, context, content);
-			} else {
-				return new ListArea(parent, context, content);
-			}
-		case IContent.DATA_CONTENT:
-		case IContent.LABEL_CONTENT:
-		case IContent.TEXT_CONTENT:
-			break;
+	protected AbstractArea createNewArea( ContainerArea parent,
+			LayoutContext context, IContent content )
+	{
+		switch ( content.getContentType( ) )
+		{
+			case IContent.CELL_CONTENT :
+				return new CellArea( parent, context, content );
+			case IContent.CONTAINER_CONTENT :
+				if ( PropertyUtil.isInlineElement( content ) )
+				{
+					return new InlineContainerArea( parent, context, content );
+				}
+				else
+				{
+					return new BlockContainerArea( parent, context, content );
+				}
+			case IContent.LIST_CONTENT :
+				if ( PropertyUtil.isInlineElement( content ) )
+				{
+					return new ListArea( parent, context, content );
+				}
+				else
+				{
+					return new ListArea( parent, context, content );
+				}
+			case IContent.DATA_CONTENT :
+			case IContent.LABEL_CONTENT :
+			case IContent.TEXT_CONTENT :
+				break;
 
-		case IContent.FOREIGN_CONTENT:
-			ContainerArea area;
-			if (PropertyUtil.isInlineElement(content)) {
-				area = new InlineContainerArea(parent, context, content);
-			} else {
-				area = new BlockContainerArea(parent, context, content);
-			}
-			if (context.isFixedLayout() && context.getEngineTaskType() == IEngineTask.TASK_RUN) {
-				area.setPageBreakInside(IStyle.AVOID_VALUE);
-			}
-			return area;
+			case IContent.FOREIGN_CONTENT :
+				ContainerArea area;
+				if ( PropertyUtil.isInlineElement( content ) )
+				{
+					area = new InlineContainerArea( parent, context, content );
+				}
+				else
+				{
+					area = new BlockContainerArea( parent, context, content );
+				}
+				if ( context.isFixedLayout( ) )
+				{
+					area.setPageBreakInside( IStyle.AVOID_VALUE );
+				}
+				return area;
 
 		case IContent.IMAGE_CONTENT:
 			break;

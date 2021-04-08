@@ -11,6 +11,8 @@
 
 package org.eclipse.birt.report.model.api.metadata;
 
+import java.util.Objects;
+
 import org.eclipse.birt.report.model.api.activity.SemanticException;
 import org.eclipse.birt.report.model.api.core.IStructure;
 import org.eclipse.birt.report.model.core.DesignElement;
@@ -201,12 +203,10 @@ public class PropertyValueException extends SemanticException {
 		super(obj, errCode);
 		this.propertyName = propName;
 		this.invalidValue = value;
-
-		PropertyDefn propDefn = element.getPropertyDefn(propertyName);
-		assert propDefn != null;
-		this.propertyTypeName = propDefn.getType().getName();
-		this.propertyDisplayName = propDefn.getDisplayName();
-
+		PropertyDefn propDefn = element.getPropertyDefn( propertyName );
+		Objects.requireNonNull(propDefn, String.format("Unknown property %s for design object %s", propName, obj));
+		this.propertyTypeName = propDefn.getType( ).getName( );
+		this.propertyDisplayName = propDefn.getDisplayName( );
 	}
 
 	/**
