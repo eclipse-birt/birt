@@ -44,6 +44,13 @@ do
 			done
 		fi
 		cp -r $HOME/git/eclipse.platform.ui/bundles/org.eclipse.ui/.settings "$dir"
+		#use java 1.8 instead of java 11
+		# was 11
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.codegen.targetPlatform=1.8"
+		# was 11
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.compliance=1.8"
+		# was 11
+		addLine "$dir/.settings/org.eclipse.jdt.core.prefs" "org.eclipse.jdt.core.compiler.source=1.8"
 		#copy back previous settings
 		if [ -d "/tmp/previous-settings" ]
 		then
