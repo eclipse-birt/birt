@@ -43,13 +43,18 @@ public class DocxWriter implements IWordWriter {
 
 	private boolean showHeaderOnFirst;
 
-	public DocxWriter(OutputStream out, String tempFileDir, int compressionMode) {
-		pkg = Package.createInstance(out, tempFileDir, compressionMode);
-		pkg.setExtensionData(new ImageManager());
+	private int wordVersion;
+
+	public DocxWriter( OutputStream out, String tempFileDir, int compressionMode, int wordVersion )
+	{
+		pkg = Package.createInstance( out, tempFileDir, compressionMode );
+		pkg.setExtensionData( new ImageManager( ) );
+		this.wordVersion = wordVersion;
 	}
 
-	public void start(boolean rtl, String creator, String title, String description, String subject)
-			throws IOException {
+	public void start( boolean rtl, String creator, String title,
+			String description, String subject ) throws IOException
+	{
 		this.rtl = rtl;
 		writeCorePart(creator, title, description, subject);
 	}
@@ -102,10 +107,10 @@ public class DocxWriter implements IWordWriter {
 		String uri = "word/document.xml";
 		String type = ContentTypes.WORD_PROCESSINGML;
 		String relationshipType = RelationshipTypes.DOCUMENT;
-		IPart documentPart = pkg.getPart(uri, type, relationshipType);
-		document = new Document(documentPart, backgroundColor, backgroundImageUrl, backgroundHeight, backgroundWidth,
-				rtl);
-		document.start();
+		IPart documentPart = pkg.getPart( uri, type, relationshipType );
+		document = new Document( documentPart, backgroundColor,
+				backgroundImageUrl, backgroundHeight, backgroundWidth, rtl, wordVersion );
+		document.start( );
 		currentComponent = document;
 	}
 

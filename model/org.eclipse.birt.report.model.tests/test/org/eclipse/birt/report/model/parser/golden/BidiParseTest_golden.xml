@@ -62,7 +62,6 @@
         </text>
         <extended-item extensionName="RotatedText" name="testExtendedItem" id="252">
         	<property name="bidiTextDirection">rtl</property>
-            <property name="displayText">rtl direction RotatedText BEGIN</property>
         </extended-item>
         <text-data name="testTextData" id="253">
             <property name="backgroundColor">#804040</property>

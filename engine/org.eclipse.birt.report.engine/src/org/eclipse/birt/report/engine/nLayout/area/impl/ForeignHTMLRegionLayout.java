@@ -65,32 +65,28 @@ public class ForeignHTMLRegionLayout implements ILayout {
 
 	}
 
-	class ForeignHTMLRegionLayoutEngine extends LayoutEngine {
-		protected ContainerArea root;
+	class ForeignHTMLRegionLayoutEngine extends LayoutEngine
+	{
 
-		public ForeignHTMLRegionLayoutEngine(ContainerArea container, LayoutContext context) {
-			super(context);
+		public ForeignHTMLRegionLayoutEngine( ContainerArea container,
+				LayoutContext context )
+		{
+			super( context );
 			current = container;
-			root = container;
-			if (parent != null) {
-				current.setMaxAvaWidth(parent.getMaxAvaWidth());
+			if ( parent != null )
+			{
+				current.setMaxAvaWidth( parent.getMaxAvaWidth( ) );
 			}
 		}
 
-		public void layout(IContent content) throws BirtException {
-			current.initialize();
-			// if width is specified. set MAX width
-			if (current.specifiedWidth > 0) {
-				current.setMaxAvaWidth(current.specifiedWidth);
+		public void layout( IContent content ) throws BirtException
+		{
+			current.initialize( );
+			if ( current.getSpecifiedHeight( ) <= 0 )
+			{
+				visitChildren( content, this );
 			}
-			if (current.getSpecifiedHeight() <= 0) {
-				visitChildren(content, this);
-			}
-			while (current != root) {
-				current.close();
-				current = current.getParent();
-			}
-			current.close();
+			current.close( );
 		}
 	}
 

@@ -161,13 +161,19 @@ public class ColumnDragTracker extends TableDragGuideTracker {
 		int startWidth = 0;
 		int endWidth = 0;
 
-		startWidth = TableUtil.caleVisualWidth(part, startColumn);
-		endWidth = TableUtil.caleVisualWidth(part, endColumn);
-		try {
-			MetricUtility.updateDimension(((ColumnHandle) startColumn).getWidth(), startWidth + value);
+		startWidth = TableUtil.caleVisualWidth( part, startColumn );
+		endWidth = TableUtil.caleVisualWidth( part, endColumn );
+		try
+		{
+			MetricUtility.updateDimension(
+					( (ColumnHandle) startColumn ).getWidth( ),
+					startWidth + value );
 
-			if (!isCtrlDown() && start != end) {
-				MetricUtility.updateDimension(((ColumnHandle) startColumn).getWidth(), endWidth - value);
+			if ( !isCtrlDown( ) && start != end )
+			{
+				MetricUtility.updateDimension(
+						( (ColumnHandle) endColumn ).getWidth( ),
+						endWidth - value );
 			}
 		} catch (SemanticException e) {
 			ExceptionHandler.handle(e);

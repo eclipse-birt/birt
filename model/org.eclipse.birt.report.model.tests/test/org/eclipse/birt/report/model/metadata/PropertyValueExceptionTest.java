@@ -36,9 +36,9 @@ public class PropertyValueExceptionTest extends BaseTestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 
-		os = new ByteArrayOutputStream();
-		writer = new PrintWriter(os);
-
+		os = new ByteArrayOutputStream( );
+		writer = new PrintWriter( os ); 
+		resetMetadata();
 	}
 
 	/**

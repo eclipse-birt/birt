@@ -61,7 +61,6 @@
             <text-property name="content"><![CDATA[BEGIN Text ltr direction]]></text-property>
         </text>
         <extended-item extensionName="RotatedText" name="testExtendedItem" id="252">
-            <property name="displayText">rtl direction RotatedText BEGIN</property>
             <property name="bidiTextDirection">rtl</property>
         </extended-item>
         <text-data name="testTextData" id="253">
